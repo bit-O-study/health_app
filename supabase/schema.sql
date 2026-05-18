@@ -1,3 +1,17 @@
+-- Health Platform MVP Supabase schema.
+--
+-- Applied on 2026-05-18 with the Supabase connection pooler from the local
+-- development machine. This file is intentionally idempotent: it can be run
+-- again to recreate policies, upsert the Storage bucket configuration, and
+-- refresh the seeded exercise records without duplicating them.
+--
+-- Creates:
+-- - public.exercises
+-- - public.exercise_videos
+-- - public.video_comments
+-- - storage bucket: exercise-videos
+-- - public read policies plus anonymous insert policies for MVP testing
+
 create extension if not exists "pgcrypto";
 
 create table if not exists public.exercises (

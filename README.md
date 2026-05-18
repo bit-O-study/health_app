@@ -34,6 +34,14 @@ NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
 
 Supabase SQL Editor에서 `supabase/schema.sql` 내용을 실행합니다. 이 스키마는 운동 종목 테이블, 영상 테이블, 댓글 테이블, `exercise-videos` Storage bucket, MVP용 공개 읽기/익명 등록 정책을 생성합니다.
 
+### 적용 내역
+
+- 2026-05-18: `supabase/schema.sql`을 Supabase connection pooler로 적용했습니다.
+- 생성된 테이블: `exercises`, `exercise_videos`, `video_comments`
+- 생성된 Storage bucket: `exercise-videos`
+- 생성된 기본 데이터: `squat`, `deadlift`, `bench-press`
+- 검증: publishable key로 `exercises` 3건 조회, `exercise-videos` bucket 접근, `/exercises`, `/exercises/squat` 라우트 응답 확인
+
 ## 배포
 
 배포는 Vercel 기준입니다. Vercel 프로젝트 환경변수에 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`를 등록한 뒤 배포합니다.

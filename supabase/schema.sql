@@ -118,3 +118,5 @@ on conflict (slug) do update set
   equipment = excluded.equipment,
   target_muscles = excluded.target_muscles,
   cues = excluded.cues;
+
+notify pgrst, 'reload schema';

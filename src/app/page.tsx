@@ -1,4 +1,5 @@
-import { Dumbbell, MessageSquare, Upload } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Dumbbell, MessageSquare, Upload } from "lucide-react";
 
 export default function Home() {
   const mvpFeatures = [
@@ -37,6 +38,13 @@ export default function Home() {
               운동 종목별 자세 영상을 업로드하고, 익명 댓글로 피드백을 주고받는
               헬스 플랫폼 MVP 개발 환경입니다.
             </p>
+            <Link
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-700"
+              href="/exercises"
+            >
+              운동 리스트 보기
+              <ArrowRight aria-hidden="true" size={17} />
+            </Link>
           </div>
         </div>
 

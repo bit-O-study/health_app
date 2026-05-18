@@ -1,6 +1,6 @@
 # Health Platform
 
-Next.js 기반 헬스 플랫폼 MVP입니다. 초기 MVP는 운동 종목 리스트, 운동 상세 페이지, 자세 영상 업로드, 익명 댓글 피드백 기능을 목표로 합니다.
+Next.js 기반 헬스 플랫폼 MVP입니다. 초기 MVP는 운동 종목 리스트, 운동 상세 페이지, 자세 영상 업로드, 익명 댓글 피드백 기능을 제공합니다.
 
 ## 주요 기술 스택
 
@@ -27,24 +27,31 @@ pnpm dev
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
 ```
+
+## Supabase 스키마 적용
+
+Supabase SQL Editor에서 `supabase/schema.sql` 내용을 실행합니다. 이 스키마는 운동 종목 테이블, 영상 테이블, 댓글 테이블, `exercise-videos` Storage bucket, MVP용 공개 읽기/익명 등록 정책을 생성합니다.
 
 ## 배포
 
-배포는 Vercel 기준입니다. Vercel 프로젝트 환경변수에 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`를 등록한 뒤 배포합니다.
+배포는 Vercel 기준입니다. Vercel 프로젝트 환경변수에 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`를 등록한 뒤 배포합니다.
 
 ## 프로젝트 구조
 
 ```text
 src/
   app/
+    exercises/
   components/
   constants/
   features/
   lib/
   styles/
   types/
+supabase/
+  schema.sql
 ```
 
 ## 유용한 명령어

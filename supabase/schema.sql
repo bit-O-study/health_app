@@ -151,13 +151,26 @@ create table if not exists public.user_routines (
   variant_id text not null,
   custom_week jsonb,
   start_date date not null default current_date,
+  rest_date date,
+  override_date date,
+  override_block text,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
 
--- Idempotent migration for tables created before the custom-split feature.
+-- Idempotent migration for tables created before later features.
+-- `start_date` is the routine anchor (day 0). `rest_date` = the date the user
+-- converted "today" to rest; converting also bumps start_date +1 so the missed
+-- workout slides to the next day. `override_date`/`override_block` = a
+-- today-only focus swap (does NOT shift the routine).
 alter table public.user_routines
   add column if not exists custom_week jsonb;
+alter table public.user_routines
+  add column if not exists rest_date date;
+alter table public.user_routines
+  add column if not exists override_date date;
+alter table public.user_routines
+  add column if not exists override_block text;
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines

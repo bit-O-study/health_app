@@ -3,6 +3,7 @@ import "server-only";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   CUSTOM_VARIANT_ID,
+  isDayBlockId,
   isValidCustomWeek,
   isValidRoutine,
   type DayBlockId,
@@ -13,6 +14,12 @@ export type UserRoutine = {
   variantId: string;
   customWeek: DayBlockId[] | null;
   startDate: string;
+  /** 오늘 휴식 전환된 날짜(YYYY-MM-DD) 또는 null */
+  restDate: string | null;
+  /** "오늘만 변경"이 적용된 날짜(YYYY-MM-DD) 또는 null */
+  overrideDate: string | null;
+  /** 그날 덮어쓸 부위 블록 또는 null */
+  overrideBlock: DayBlockId | null;
   updatedAt: string;
 };
 
@@ -21,6 +28,9 @@ type UserRoutineRow = {
   variant_id: string;
   custom_week: unknown;
   start_date: string;
+  rest_date: string | null;
+  override_date: string | null;
+  override_block: unknown;
   updated_at: string;
 };
 
@@ -41,7 +51,9 @@ export async function getUserRoutine(): Promise<UserRoutine | null> {
 
   const { data, error } = await supabase
     .from("user_routines")
-    .select("splits, variant_id, custom_week, start_date, updated_at")
+    .select(
+      "splits, variant_id, custom_week, start_date, rest_date, override_date, override_block, updated_at",
+    )
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -60,11 +72,18 @@ export async function getUserRoutine(): Promise<UserRoutine | null> {
     return null;
   }
 
+  const overrideBlock = isDayBlockId(row.override_block)
+    ? row.override_block
+    : null;
+
   return {
     splits: row.splits,
     variantId: row.variant_id,
     customWeek,
     startDate: row.start_date,
+    restDate: row.rest_date ?? null,
+    overrideDate: overrideBlock ? (row.override_date ?? null) : null,
+    overrideBlock,
     updatedAt: row.updated_at,
   };
 }

@@ -365,7 +365,7 @@ export const DEFAULT_CUSTOM_WEEK: DayBlockId[] = [
   "rest",
 ];
 
-function isDayBlockId(value: unknown): value is DayBlockId {
+export function isDayBlockId(value: unknown): value is DayBlockId {
   return typeof value === "string" && value in DAY_BLOCKS;
 }
 
@@ -430,10 +430,46 @@ export function isValidRoutine(splits: number, variantId: string): boolean {
   return Boolean(preset?.variants.some((item) => item.id === variantId));
 }
 
-/**
- * JS Date(요일 0=일 ~ 6=토)를 주간 배열 인덱스(0=월 ~ 6=일)로 변환.
+/* ─── 기준일 기반 날짜 매핑 ──────────────────────────────────────────────────
+ * 루틴은 요일 고정이 아니라 startDate(기준일)부터 7일 주기로 순환한다.
+ * "오늘부터 다시 시작" = 기준일을 오늘로, "오늘 휴식 전환" = 기준일 +1일.
  */
-export function weekdayIndex(date: Date): number {
-  const day = date.getDay();
-  return day === 0 ? 6 : day - 1;
+
+/** 한국(Asia/Seoul) 기준 오늘 날짜를 YYYY-MM-DD 로 반환 */
+export function seoulYmd(now: Date = new Date()): string {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(now);
+}
+
+function ymdToEpochDay(ymd: string): number {
+  const [y, m, d] = ymd.split("-").map(Number);
+  return Math.floor(Date.UTC(y, m - 1, d) / 86_400_000);
+}
+
+/** anchor(YYYY-MM-DD) 대비 date 의 7일 주기 오프셋(0~6) */
+export function routineDayOffset(anchorYmd: string, dateYmd: string): number {
+  const diff = ymdToEpochDay(dateYmd) - ymdToEpochDay(anchorYmd);
+  return ((diff % 7) + 7) % 7;
+}
+
+/** YYYY-MM-DD 에 일수를 더한 YYYY-MM-DD */
+export function addDaysYmd(ymd: string, days: number): string {
+  const dt = new Date((ymdToEpochDay(ymd) + days) * 86_400_000);
+  const y = dt.getUTCFullYear();
+  const m = String(dt.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(dt.getUTCDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+/** YYYY-MM-DD → { weekday: "월"~"일", label: "5/19" } */
+export function ymdDisplay(ymd: string): { weekday: Weekday; label: string } {
+  const [y, m, d] = ymd.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  const jsDay = dt.getUTCDay(); // 0=일
+  const index = jsDay === 0 ? 6 : jsDay - 1; // 0=월
+  return { weekday: WEEKDAYS[index], label: `${m}/${d}` };
 }

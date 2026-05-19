@@ -4,10 +4,13 @@ import { revalidatePath } from "next/cache";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
+  addDaysYmd,
   CUSTOM_SPLITS,
   CUSTOM_VARIANT_ID,
+  isDayBlockId,
   isValidCustomWeek,
   isValidRoutine,
+  seoulYmd,
   type DayBlockId,
 } from "@/features/routine/data";
 
@@ -60,4 +63,85 @@ export async function saveRoutineAction(
   revalidatePath("/");
   revalidatePath("/settings/routine");
   return { ok: true };
+}
+
+/** 루틴 기준일을 오늘로 재설정 — 오늘이 루틴 1일차가 된다. */
+export async function restartRoutineFromTodayAction(): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase
+    .from("user_routines")
+    .update({
+      start_date: seoulYmd(),
+      rest_date: null,
+      override_date: null,
+      override_block: null,
+    })
+    .eq("user_id", user.id);
+
+  revalidatePath("/");
+}
+
+/**
+ * 오늘을 휴식으로 전환하고 루틴을 하루 미룬다.
+ * 기준일 +1일 → 오늘 예정이던 운동이 내일로 이동, 오늘은 휴식 표시.
+ */
+export async function convertTodayToRestAction(): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const { data } = await supabase
+    .from("user_routines")
+    .select("start_date")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (!data) return;
+
+  const today = seoulYmd();
+  await supabase
+    .from("user_routines")
+    .update({
+      start_date: addDaysYmd((data as { start_date: string }).start_date, 1),
+      rest_date: today,
+      override_date: null,
+      override_block: null,
+    })
+    .eq("user_id", user.id);
+
+  revalidatePath("/");
+}
+
+/**
+ * 오늘 하루만 다른 부위로 변경한다(루틴은 밀지 않음).
+ * override_date=오늘, override_block=선택 부위. 내일부터는 원래 루틴 유지.
+ */
+export async function setTodayFocusAction(
+  blockId: DayBlockId,
+): Promise<void> {
+  if (!isDayBlockId(blockId)) return;
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await supabase
+    .from("user_routines")
+    .update({
+      override_date: seoulYmd(),
+      override_block: blockId,
+      rest_date: null,
+    })
+    .eq("user_id", user.id);
+
+  revalidatePath("/");
 }

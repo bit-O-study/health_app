@@ -14,23 +14,19 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import {
+  addDaysYmd,
+  DAY_BLOCKS,
   resolveRoutine,
+  routineDayOffset,
+  seoulYmd,
   TONE_STYLES,
-  WEEKDAYS,
-  weekdayIndex,
+  ymdDisplay,
   type DayBlockId,
 } from "@/features/routine/data";
+import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 
 export const dynamic = "force-dynamic";
-
-/** 서버 시간대와 무관하게 한국 기준 오늘 요일 인덱스(0=월) */
-function seoulToday() {
-  const now = new Date();
-  const seoul = new Date(
-    now.toLocaleString("en-US", { timeZone: "Asia/Seoul" }),
-  );
-  return { date: seoul, index: weekdayIndex(seoul) };
-}
 
 function HeaderBar({
   isLoggedIn,
@@ -193,6 +189,10 @@ function TodayWorkout({
     splits: number;
     variantId: string;
     customWeek: DayBlockId[] | null;
+    startDate: string;
+    restDate: string | null;
+    overrideDate: string | null;
+    overrideBlock: DayBlockId | null;
   };
 }) {
   const { preset, variant } = resolveRoutine(
@@ -200,17 +200,24 @@ function TodayWorkout({
     routine.variantId,
     routine.customWeek,
   );
-  const { date, index } = seoulToday();
-  const today = variant.week[index];
-  const todayStyle = TONE_STYLES[today.tone];
-  const isRest = today.tone === "rest";
 
-  const dateLabel = new Intl.DateTimeFormat("ko-KR", {
-    month: "long",
-    day: "numeric",
-    weekday: "long",
-    timeZone: "Asia/Seoul",
-  }).format(date);
+  const todayYmd = seoulYmd();
+  const offset = routineDayOffset(routine.startDate, todayYmd);
+  const overriddenToday =
+    routine.overrideDate === todayYmd && routine.overrideBlock !== null;
+  const planToday = overriddenToday
+    ? DAY_BLOCKS[routine.overrideBlock!].day
+    : variant.week[offset];
+  const restedToday = routine.restDate === todayYmd;
+  const isRest = restedToday || planToday.tone === "rest";
+
+  const tone = isRest ? "rest" : planToday.tone;
+  const focusLabel = isRest ? "휴식" : planToday.focus;
+  const todayStyle = TONE_STYLES[tone];
+
+  const [, mm, dd] = todayYmd.split("-");
+  const { weekday } = ymdDisplay(todayYmd);
+  const dateLabel = `${Number(mm)}월 ${Number(dd)}일 (${weekday})`;
 
   return (
     <div className="space-y-8">
@@ -234,90 +241,87 @@ function TodayWorkout({
       </div>
 
       {/* 오늘 카드 */}
-      <section
-        className={cnCard(todayStyle.card)}
-      >
-        <div className="flex items-center gap-2">
-          {isRest ? (
-            <Moon aria-hidden="true" className="text-zinc-400" size={20} />
-          ) : (
-            <Dumbbell
-              aria-hidden="true"
-              className="text-zinc-600"
-              size={20}
-            />
-          )}
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${todayStyle.badge}`}
-          >
+      <section className={cnCard(todayStyle.card)}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            {isRest ? (
+              <Moon aria-hidden="true" className="text-zinc-400" size={20} />
+            ) : (
+              <Dumbbell
+                aria-hidden="true"
+                className="text-zinc-600"
+                size={20}
+              />
+            )}
             <span
-              className={`h-1.5 w-1.5 rounded-full ${todayStyle.dot}`}
-            />
-            {today.focus}
-          </span>
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${todayStyle.badge}`}
+            >
+              <span className={`h-1.5 w-1.5 rounded-full ${todayStyle.dot}`} />
+              {focusLabel}
+            </span>
+          </div>
+
+          <TodayAdjustMenu />
         </div>
 
         {isRest ? (
           <p className="mt-5 text-base leading-7 text-zinc-600">
-            오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요.
+            {restedToday
+              ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
+              : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
           </p>
         ) : (
-          <div className="mt-6 grid gap-6 sm:grid-cols-2">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                자극 부위
-              </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {today.muscles.map((m) => (
-                  <span
-                    key={m}
-                    className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700"
-                  >
-                    {m}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                추천 운동
-              </p>
-              <ul className="mt-2 space-y-1">
-                {today.examples.map((ex) => (
-                  <li
-                    key={ex}
-                    className="flex items-center gap-2 text-sm text-zinc-800"
-                  >
-                    <span className="text-zinc-400">·</span>
-                    {ex}
-                  </li>
-                ))}
-              </ul>
+          <div className="mt-6">
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              자극 부위
+            </p>
+            <div className="mt-2 flex flex-wrap gap-1.5">
+              {planToday.muscles.map((muscle) => (
+                <span
+                  key={muscle}
+                  className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700"
+                >
+                  {muscle}
+                </span>
+              ))}
             </div>
           </div>
         )}
       </section>
 
-      {/* 이번 주 한눈에 */}
+      {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
+      {!isRest ? <TodayExercises tone={planToday.tone} /> : null}
+
+      {/* 다가오는 7일 */}
       <section>
         <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500">
-          이번 주 루틴
+          다가오는 7일
         </h2>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-          {WEEKDAYS.map((weekday, i) => {
-            const day = variant.week[i];
-            const style = TONE_STYLES[day.tone];
-            const isToday = i === index;
+          {Array.from({ length: 7 }, (_, i) => {
+            const ymd = addDaysYmd(todayYmd, i);
+            const isToday = i === 0;
+            const dayPlan =
+              isToday && overriddenToday
+                ? DAY_BLOCKS[routine.overrideBlock!].day
+                : variant.week[routineDayOffset(routine.startDate, ymd)];
+            const cellRest =
+              (isToday && restedToday) || dayPlan.tone === "rest";
+            const style = TONE_STYLES[cellRest ? "rest" : dayPlan.tone];
+            const { weekday: wd, label } = ymdDisplay(ymd);
             return (
               <div
-                key={weekday}
+                key={ymd}
                 className={`rounded-lg border p-3 ${style.card} ${
                   isToday ? "ring-2 ring-emerald-500 ring-offset-1" : ""
                 }`}
               >
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-bold text-zinc-900">
-                    {weekday}
+                    {wd}{" "}
+                    <span className="text-xs font-normal text-zinc-500">
+                      {label}
+                    </span>
                   </span>
                   {isToday ? (
                     <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
@@ -328,10 +332,8 @@ function TodayWorkout({
                 <span
                   className={`mt-2 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold ${style.badge}`}
                 >
-                  <span
-                    className={`h-1 w-1 rounded-full ${style.dot}`}
-                  />
-                  {day.focus}
+                  <span className={`h-1 w-1 rounded-full ${style.dot}`} />
+                  {cellRest ? "휴식" : dayPlan.focus}
                 </span>
               </div>
             );

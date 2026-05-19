@@ -503,3 +503,19 @@ export function exercisesForFocus(tone: FocusTone): CatalogExercise[] {
   if (tone === "rest") return [];
   return FOCUS_EXERCISES[tone].map((id) => EXERCISES[id]);
 }
+
+/** 전체 운동(슬러그=운동 id) — 운동 종목 리스트용 */
+export const ALL_EXERCISES: CatalogExercise[] = Object.values(EXERCISES);
+
+/** 슬러그(=운동 id)로 카탈로그 운동 조회 */
+export function getCatalogExercise(
+  slug: string,
+): CatalogExercise | undefined {
+  return EXERCISES[slug];
+}
+
+export function isEquipmentId(value: unknown): value is EquipmentId {
+  return (
+    typeof value === "string" && value in EQUIPMENT_LABELS
+  );
+}

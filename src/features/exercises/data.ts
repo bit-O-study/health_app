@@ -72,19 +72,6 @@ function toVideo(row: VideoRow, comments: VideoComment[]): ExerciseVideo {
   };
 }
 
-export async function getExercises(): Promise<Exercise[]> {
-  const { data, error } = await supabase
-    .from("exercises")
-    .select("id, slug, name, summary, difficulty, equipment, target_muscles, cues, created_at")
-    .order("name", { ascending: true });
-
-  if (error || !data?.length) {
-    return FALLBACK_EXERCISES;
-  }
-
-  return (data as ExerciseRow[]).map(toExercise);
-}
-
 export async function getExerciseBySlug(slug: string): Promise<Exercise | null> {
   const { data, error } = await supabase
     .from("exercises")

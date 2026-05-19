@@ -1,18 +1,24 @@
 import Link from "next/link";
 import { ArrowRight, Dumbbell } from "lucide-react";
 
-import { getExercises } from "@/features/exercises/data";
+import {
+  ALL_EXERCISES,
+  EQUIPMENT_LABELS,
+} from "@/features/routine/exercise-catalog";
 
 export const dynamic = "force-dynamic";
 
-const difficultyLabels = {
-  beginner: "초급",
-  intermediate: "중급",
-  advanced: "고급",
-};
-
-export default async function ExercisesPage() {
-  const exercises = await getExercises();
+export default function ExercisesPage() {
+  // 운동 × 기구 조합을 각각의 종목으로 노출 (기구별로 운동법이 다름)
+  const items = ALL_EXERCISES.flatMap((ex) =>
+    ex.equipments.map((e) => ({
+      key: `${ex.id}-${e.equipment}`,
+      slug: ex.id,
+      equipment: e.equipment,
+      name: ex.name,
+      target: ex.target,
+    })),
+  );
 
   return (
     <main className="min-h-screen bg-zinc-50 px-6 py-10 text-zinc-950 sm:px-10">
@@ -26,8 +32,8 @@ export default async function ExercisesPage() {
               운동 종목 리스트
             </h1>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-600 sm:text-base">
-              운동별 상세 페이지에서 자세 영상을 올리고 익명 피드백을 받을 수
-              있습니다.
+              같은 운동이라도 기구에 따라 운동법이 다릅니다. 종목을 눌러 기구별
+              운동법과 자세 영상·피드백을 확인하세요.
             </p>
           </div>
           <Link
@@ -39,11 +45,11 @@ export default async function ExercisesPage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">
-          {exercises.map((exercise) => (
+          {items.map((item) => (
             <Link
               className="group rounded-lg border border-zinc-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 hover:shadow-md"
-              href={`/exercises/${exercise.slug}`}
-              key={exercise.id}
+              href={`/exercises/${item.slug}?eq=${item.equipment}`}
+              key={item.key}
             >
               <div className="flex h-11 w-11 items-center justify-center rounded-md bg-emerald-100 text-emerald-700">
                 <Dumbbell aria-hidden="true" size={23} />
@@ -51,17 +57,17 @@ export default async function ExercisesPage() {
               <div className="mt-5 space-y-3">
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="text-lg font-semibold text-zinc-950">
-                    {exercise.name}
+                    {item.name}
                   </h2>
                   <span className="rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700">
-                    {difficultyLabels[exercise.difficulty]}
+                    {EQUIPMENT_LABELS[item.equipment]}
                   </span>
                 </div>
                 <p className="text-sm leading-6 text-zinc-600">
-                  {exercise.summary}
+                  {item.target}
                 </p>
                 <div className="flex items-center gap-2 text-sm font-semibold text-emerald-700">
-                  상세 보기
+                  운동법 보기
                   <ArrowRight
                     aria-hidden="true"
                     className="transition group-hover:translate-x-1"

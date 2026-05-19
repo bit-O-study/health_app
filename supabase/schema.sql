@@ -133,4 +133,60 @@ on conflict (slug) do update set
   target_muscles = excluded.target_muscles,
   cues = excluded.cues;
 
+-- Per-user weekly routine selection.
+--
+-- One row per user (upsert on user_id). `splits` + `variant_id` reference the
+-- preset catalog in src/features/routine/data.ts. `start_date` records when the
+-- routine began; the home page maps the current date's weekday onto the
+-- variant's Mon~Sun plan. Protected by Supabase Auth (email/password) RLS so a
+-- user can only read/write their own routine.
+
+create table if not exists public.user_routines (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references auth.users(id) on delete cascade,
+  splits int not null check (splits between 1 and 6),
+  variant_id text not null,
+  start_date date not null default current_date,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+drop trigger if exists user_routines_set_updated_at on public.user_routines;
+create trigger user_routines_set_updated_at
+  before update on public.user_routines
+  for each row execute function public.set_updated_at();
+
+alter table public.user_routines enable row level security;
+
+drop policy if exists "Users can read own routine" on public.user_routines;
+create policy "Users can read own routine"
+  on public.user_routines for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own routine" on public.user_routines;
+create policy "Users can insert own routine"
+  on public.user_routines for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own routine" on public.user_routines;
+create policy "Users can update own routine"
+  on public.user_routines for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own routine" on public.user_routines;
+create policy "Users can delete own routine"
+  on public.user_routines for delete
+  using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

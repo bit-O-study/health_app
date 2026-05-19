@@ -1,20 +1,40 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { CalendarDays, Dumbbell, Moon } from "lucide-react";
+import { useMemo, useState, useTransition } from "react";
+import { CalendarDays, Check, Dumbbell, Loader2, Moon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
+  DEFAULT_SPLITS,
+  DEFAULT_VARIANT_ID,
   SPLIT_PRESETS,
   TONE_STYLES,
   WEEKDAYS,
   type RoutineVariant,
 } from "@/features/routine/data";
+import type { SaveRoutineResult } from "@/features/routine/actions";
 
-export function RoutinePlanner() {
-  // 기본값: 3분할 첫 번째 변형으로 미리 채워 보여줌
-  const [splits, setSplits] = useState(3);
-  const [variantId, setVariantId] = useState("cbl-3");
+type RoutinePlannerProps = {
+  initialSplits?: number;
+  initialVariantId?: string;
+  /** 제공되면 "이 루틴으로 저장" 버튼을 노출 */
+  saveAction?: (
+    splits: number,
+    variantId: string,
+  ) => Promise<SaveRoutineResult>;
+};
+
+export function RoutinePlanner({
+  initialSplits = DEFAULT_SPLITS,
+  initialVariantId = DEFAULT_VARIANT_ID,
+  saveAction,
+}: RoutinePlannerProps = {}) {
+  const [splits, setSplits] = useState(initialSplits);
+  const [variantId, setVariantId] = useState(initialVariantId);
+  const [isSaving, startSaving] = useTransition();
+  const [saveStatus, setSaveStatus] = useState<
+    { ok: boolean; message: string } | null
+  >(null);
 
   const preset =
     SPLIT_PRESETS.find((item) => item.splits === splits) ?? SPLIT_PRESETS[0];
@@ -40,6 +60,24 @@ export function RoutinePlanner() {
     if (!nextPreset) return;
     setSplits(nextSplits);
     setVariantId(nextPreset.variants[0].id);
+    setSaveStatus(null);
+  }
+
+  function handleSelectVariant(nextVariantId: string) {
+    setVariantId(nextVariantId);
+    setSaveStatus(null);
+  }
+
+  function handleSave() {
+    if (!saveAction) return;
+    startSaving(async () => {
+      const result = await saveAction(splits, variant.id);
+      setSaveStatus(
+        result.ok
+          ? { ok: true, message: "루틴을 저장했습니다. 메인에서 오늘 운동을 확인하세요." }
+          : { ok: false, message: result.error },
+      );
+    });
   }
 
   return (
@@ -100,7 +138,7 @@ export function RoutinePlanner() {
               <button
                 key={item.id}
                 type="button"
-                onClick={() => setVariantId(item.id)}
+                onClick={() => handleSelectVariant(item.id)}
                 className={cn(
                   "rounded-md border px-3 py-2 text-left text-sm font-semibold transition",
                   active
@@ -208,6 +246,41 @@ export function RoutinePlanner() {
           {preset.label} · {variant.name}
         </span>
       </div>
+
+      {saveAction ? (
+        <div className="mt-6 flex flex-col gap-3 border-t border-zinc-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-sm">
+            {saveStatus ? (
+              <p
+                className={cn(
+                  "font-medium",
+                  saveStatus.ok ? "text-emerald-700" : "text-red-600",
+                )}
+              >
+                {saveStatus.message}
+              </p>
+            ) : (
+              <p className="text-zinc-500">
+                이 루틴을 저장하면 메인 페이지에 오늘 날짜에 맞는 운동이
+                표시됩니다.
+              </p>
+            )}
+          </div>
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isSaving}
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
+          >
+            {isSaving ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={17} />
+            ) : (
+              <Check aria-hidden="true" size={17} />
+            )}
+            이 루틴으로 저장
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }

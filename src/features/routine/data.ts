@@ -307,3 +307,39 @@ export const SPLIT_PRESETS: SplitPreset[] = [
     ],
   },
 ];
+
+export const DEFAULT_SPLITS = 3;
+export const DEFAULT_VARIANT_ID = "cbl-3";
+
+export type ResolvedRoutine = {
+  preset: SplitPreset;
+  variant: RoutineVariant;
+};
+
+/** splits + variantId 를 프리셋/변형으로 해석. 잘못된 값이면 기본값으로 대체. */
+export function resolveRoutine(
+  splits: number,
+  variantId: string,
+): ResolvedRoutine {
+  const preset =
+    SPLIT_PRESETS.find((item) => item.splits === splits) ??
+    SPLIT_PRESETS.find((item) => item.splits === DEFAULT_SPLITS)!;
+  const variant =
+    preset.variants.find((item) => item.id === variantId) ??
+    preset.variants[0];
+  return { preset, variant };
+}
+
+/** splits + variantId 조합이 카탈로그에 존재하는지 검증 */
+export function isValidRoutine(splits: number, variantId: string): boolean {
+  const preset = SPLIT_PRESETS.find((item) => item.splits === splits);
+  return Boolean(preset?.variants.some((item) => item.id === variantId));
+}
+
+/**
+ * JS Date(요일 0=일 ~ 6=토)를 주간 배열 인덱스(0=월 ~ 6=일)로 변환.
+ */
+export function weekdayIndex(date: Date): number {
+  const day = date.getDay();
+  return day === 0 ? 6 : day - 1;
+}

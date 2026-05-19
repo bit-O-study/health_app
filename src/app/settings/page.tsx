@@ -12,7 +12,7 @@ export default async function SettingsPage() {
   const user = await getCurrentUser();
   const routine = await getUserRoutine();
   const resolved = routine
-    ? resolveRoutine(routine.splits, routine.variantId)
+    ? resolveRoutine(routine.splits, routine.variantId, routine.customWeek)
     : null;
 
   return (

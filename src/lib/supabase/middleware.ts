@@ -5,7 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 /** 보호 경로: 로그인하지 않으면 /login 으로 보냄 */
-const PROTECTED_PREFIXES = ["/settings"];
+const PROTECTED_PREFIXES = ["/settings", "/onboarding"];
 
 /**
  * 매 요청마다 access/refresh 토큰을 검증·갱신하고 쿠키에 다시 기록합니다.

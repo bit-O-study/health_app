@@ -63,7 +63,8 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
         return;
       }
 
-      router.replace(redirectTo);
+      // 신규 가입자는 항상 온보딩(성별·경력 → 추천 루틴)으로.
+      router.replace("/onboarding");
       router.refresh();
       return;
     }

@@ -311,16 +311,110 @@ export const SPLIT_PRESETS: SplitPreset[] = [
 export const DEFAULT_SPLITS = 3;
 export const DEFAULT_VARIANT_ID = "cbl-3";
 
+/* ─── 커스텀 분할 ───────────────────────────────────────────────────────────
+ * 사용자가 월~일 7일을 직접 부위 블록으로 채우는 모드.
+ * DB 에는 splits=0, variant_id="custom", custom_week=[블록 id ×7] 로 저장하고
+ * 서버는 아래 레지스트리의 id 만 신뢰해 DayPlan 을 복원한다(클라이언트가 보낸
+ * 부위/예시 텍스트는 신뢰하지 않음).
+ */
+
+export const CUSTOM_VARIANT_ID = "custom";
+export const CUSTOM_SPLITS = 0;
+
+export type DayBlockId =
+  | "rest"
+  | "fullbody"
+  | "upper"
+  | "lower"
+  | "chest"
+  | "back"
+  | "shoulder"
+  | "arm"
+  | "push"
+  | "pull"
+  | "core";
+
+/** 커스텀 빌더에서 고를 수 있는 하루 블록 (id → 라벨 + DayPlan) */
+export const DAY_BLOCKS: Record<
+  DayBlockId,
+  { label: string; day: DayPlan }
+> = {
+  rest: { label: "휴식", day: REST },
+  fullbody: { label: "전신", day: FULLBODY },
+  upper: { label: "상체", day: UPPER },
+  lower: { label: "하체", day: LEG },
+  chest: { label: "가슴", day: CHEST },
+  back: { label: "등", day: BACK },
+  shoulder: { label: "어깨", day: SHOULDER },
+  arm: { label: "팔", day: ARM },
+  push: { label: "밀기 (Push)", day: PUSH },
+  pull: { label: "당기기 (Pull)", day: PULL },
+  core: { label: "코어 + 유산소", day: CORE },
+};
+
+export const DAY_BLOCK_IDS = Object.keys(DAY_BLOCKS) as DayBlockId[];
+
+/** 비어 있을 때 시작점이 되는 기본 커스텀 주간 (PPL + 휴식) */
+export const DEFAULT_CUSTOM_WEEK: DayBlockId[] = [
+  "push",
+  "pull",
+  "lower",
+  "rest",
+  "push",
+  "pull",
+  "rest",
+];
+
+function isDayBlockId(value: unknown): value is DayBlockId {
+  return typeof value === "string" && value in DAY_BLOCKS;
+}
+
+/** 커스텀 주간이 길이 7 + 전부 유효한 블록 id 인지 검증 */
+export function isValidCustomWeek(week: unknown): week is DayBlockId[] {
+  return (
+    Array.isArray(week) && week.length === 7 && week.every(isDayBlockId)
+  );
+}
+
+/** 블록 id 배열을 카탈로그 변형과 동일한 형태로 복원 */
+export function buildCustomVariant(week: DayBlockId[]): RoutineVariant {
+  const trainingDays = week.filter((id) => id !== "rest").length;
+  return {
+    id: CUSTOM_VARIANT_ID,
+    name: "커스텀 분할",
+    description: `직접 구성한 주 ${trainingDays}회 루틴`,
+    week: week.map((id) => DAY_BLOCKS[id].day),
+  };
+}
+
+const CUSTOM_PRESET_BASE = {
+  splits: CUSTOM_SPLITS,
+  label: "커스텀",
+  tagline: "월~일 7일을 직접 부위별로 채우는 나만의 분할",
+};
+
 export type ResolvedRoutine = {
   preset: SplitPreset;
   variant: RoutineVariant;
 };
 
-/** splits + variantId 를 프리셋/변형으로 해석. 잘못된 값이면 기본값으로 대체. */
+/**
+ * splits + variantId 를 프리셋/변형으로 해석. 잘못된 값이면 기본값으로 대체.
+ * variantId 가 "custom" 이면 customWeek 로 합성 프리셋/변형을 만든다.
+ */
 export function resolveRoutine(
   splits: number,
   variantId: string,
+  customWeek?: DayBlockId[] | null,
 ): ResolvedRoutine {
+  if (variantId === CUSTOM_VARIANT_ID && isValidCustomWeek(customWeek)) {
+    const variant = buildCustomVariant(customWeek);
+    return {
+      preset: { ...CUSTOM_PRESET_BASE, variants: [variant] },
+      variant,
+    };
+  }
+
   const preset =
     SPLIT_PRESETS.find((item) => item.splits === splits) ??
     SPLIT_PRESETS.find((item) => item.splits === DEFAULT_SPLITS)!;

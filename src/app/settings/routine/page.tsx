@@ -32,6 +32,7 @@ export default async function RoutineSettingsPage() {
       <RoutinePlanner
         initialSplits={routine?.splits ?? DEFAULT_SPLITS}
         initialVariantId={routine?.variantId ?? DEFAULT_VARIANT_ID}
+        initialCustomWeek={routine?.customWeek ?? null}
         saveAction={saveRoutineAction}
       />
     </main>

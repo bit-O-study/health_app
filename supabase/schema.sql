@@ -140,16 +140,28 @@ on conflict (slug) do update set
 -- routine began; the home page maps the current date's weekday onto the
 -- variant's Mon~Sun plan. Protected by Supabase Auth (email/password) RLS so a
 -- user can only read/write their own routine.
+--
+-- Custom split: when `variant_id = 'custom'`, `splits = 0` and `custom_week`
+-- holds 7 block ids (Mon~Sun) from DAY_BLOCKS in src/features/routine/data.ts.
 
 create table if not exists public.user_routines (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null unique references auth.users(id) on delete cascade,
-  splits int not null check (splits between 1 and 6),
+  splits int not null check (splits between 0 and 6),
   variant_id text not null,
+  custom_week jsonb,
   start_date date not null default current_date,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+-- Idempotent migration for tables created before the custom-split feature.
+alter table public.user_routines
+  add column if not exists custom_week jsonb;
+alter table public.user_routines
+  drop constraint if exists user_routines_splits_check;
+alter table public.user_routines
+  add constraint user_routines_splits_check check (splits between 0 and 6);
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -188,5 +200,43 @@ drop policy if exists "Users can delete own routine" on public.user_routines;
 create policy "Users can delete own routine"
   on public.user_routines for delete
   using (auth.uid() = user_id);
+
+-- Onboarding profile.
+--
+-- One row per user (upsert on user_id), written right after sign-up. `gender`
+-- and `experience` drive the code-based routine recommendation in
+-- src/features/profile/data.ts. RLS so a user only reads/writes their own row.
+
+create table if not exists public.profiles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  gender text not null check (gender in ('male', 'female')),
+  experience text not null
+    check (experience in ('beginner', 'intermediate', 'advanced')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists profiles_set_updated_at on public.profiles;
+create trigger profiles_set_updated_at
+  before update on public.profiles
+  for each row execute function public.set_updated_at();
+
+alter table public.profiles enable row level security;
+
+drop policy if exists "Users can read own profile" on public.profiles;
+create policy "Users can read own profile"
+  on public.profiles for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own profile" on public.profiles;
+create policy "Users can insert own profile"
+  on public.profiles for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own profile" on public.profiles;
+create policy "Users can update own profile"
+  on public.profiles for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
 
 notify pgrst, 'reload schema';

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import {
   ArrowRight,
   CalendarDays,
@@ -10,12 +11,14 @@ import {
 } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
+import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import {
   resolveRoutine,
   TONE_STYLES,
   WEEKDAYS,
   weekdayIndex,
+  type DayBlockId,
 } from "@/features/routine/data";
 
 export const dynamic = "force-dynamic";
@@ -85,6 +88,15 @@ function HeaderBar({
 
 export default async function Home() {
   const user = await getCurrentUser();
+
+  // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
+  if (user) {
+    const profile = await getUserProfile();
+    if (!profile) {
+      redirect("/onboarding");
+    }
+  }
+
   const routine = user ? await getUserRoutine() : null;
 
   return (
@@ -177,11 +189,16 @@ function NoRoutinePrompt() {
 function TodayWorkout({
   routine,
 }: {
-  routine: { splits: number; variantId: string };
+  routine: {
+    splits: number;
+    variantId: string;
+    customWeek: DayBlockId[] | null;
+  };
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
     routine.variantId,
+    routine.customWeek,
   );
   const { date, index } = seoulToday();
   const today = variant.week[index];

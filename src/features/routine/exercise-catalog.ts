@@ -606,7 +606,7 @@ const EXERCISES: Record<string, CatalogExercise> = {
   },
 };
 
-type FocusKey = Exclude<FocusTone, "rest">;
+export type FocusKey = Exclude<FocusTone, "rest">;
 
 /** 부위 → 운동 id 목록 (남성 기본) */
 const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
@@ -635,6 +635,9 @@ const FOCUS_EXERCISES_FEMALE: Record<FocusKey, string[]> = {
   pull: ["lat-pulldown", "barbell-row", "face-pull"],
   core: ["glute-bridge", "plank", "hanging-leg-raise", "cable-crunch"],
 };
+
+/** 운동이 정의된 모든 부위(rest 제외) */
+export const ALL_FOCUSES = Object.keys(FOCUS_EXERCISES) as FocusKey[];
 
 /** 해당 부위(tone)의 운동 목록을 반환. rest 면 빈 배열. 성별로 분기. */
 export function exercisesForFocus(

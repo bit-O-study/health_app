@@ -4,11 +4,8 @@ import { ChevronLeft } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
-import {
-  DAY_BLOCKS,
-  resolveRoutine,
-  type FocusTone,
-} from "@/features/routine/data";
+import { DAY_BLOCKS } from "@/features/routine/data";
+import { ALL_FOCUSES } from "@/features/routine/exercise-catalog";
 import { getPlanForFocus } from "@/features/routine/plan";
 import { PlanEditor } from "@/features/routine/components/plan-editor";
 
@@ -23,23 +20,8 @@ export default async function PlanPage() {
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
 
-  const { variant } = resolveRoutine(
-    routine.splits,
-    routine.variantId,
-    routine.customWeek,
-  );
-
-  const seen = new Set<FocusTone>();
-  const focusTones = variant.week
-    .map((d) => d.tone)
-    .filter((t): t is Exclude<FocusTone, "rest"> => {
-      if (t === "rest" || seen.has(t)) return false;
-      seen.add(t);
-      return true;
-    });
-
   const focuses = await Promise.all(
-    focusTones.map(async (focus) => ({
+    ALL_FOCUSES.map(async (focus) => ({
       focus,
       label: DAY_BLOCKS[focus].label,
       items: await getPlanForFocus(focus),

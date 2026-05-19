@@ -4,9 +4,8 @@ import { revalidatePath } from "next/cache";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
-import { getUserRoutine } from "@/features/routine/data-access";
-import { resolveRoutine, type FocusTone } from "@/features/routine/data";
 import {
+  ALL_FOCUSES,
   exercisesForFocus,
   getCatalogExercise,
   isEquipmentId,
@@ -24,25 +23,10 @@ export type ManualPlanItem = {
   weightKg: number | null;
 };
 
-/** variant.week 에서 rest 를 뺀 고유 부위들 */
-function uniqueFocuses(week: { tone: FocusTone }[]): Exclude<
-  FocusTone,
-  "rest"
->[] {
-  const seen = new Set<FocusTone>();
-  const out: Exclude<FocusTone, "rest">[] = [];
-  for (const day of week) {
-    if (day.tone !== "rest" && !seen.has(day.tone)) {
-      seen.add(day.tone);
-      out.push(day.tone);
-    }
-  }
-  return out;
-}
-
 /**
- * 추천 운동들로 등록: 현재 루틴의 모든 부위에 대해
- * (성별·경력·체형) 기반 운동/세트/횟수/무게를 채워 넣는다(기존 등록은 대체).
+ * 추천 운동들로 등록: 모든 부위에 대해 (성별·경력·체형) 기반
+ * 운동/세트/횟수/무게를 채워 넣는다(기존 등록은 대체). 루틴이 무분할이거나
+ * "오늘만 다른 부위"로 바뀌어도 항상 해당 부위 계획이 존재하도록 전 부위 등록.
  */
 export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   const supabase = await createSupabaseServerClient();
@@ -51,18 +35,8 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   } = await supabase.auth.getUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const [profile, routine] = await Promise.all([
-    getUserProfile(),
-    getUserRoutine(),
-  ]);
+  const profile = await getUserProfile();
   if (!profile) return { ok: false, error: "프로필이 필요합니다." };
-  if (!routine) return { ok: false, error: "먼저 루틴을 설정하세요." };
-
-  const { variant } = resolveRoutine(
-    routine.splits,
-    routine.variantId,
-    routine.customWeek,
-  );
 
   const gender = profile.gender;
   const opts = {
@@ -72,7 +46,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
     weightKg: profile.weightKg ?? 65,
   };
 
-  const rows = uniqueFocuses(variant.week).flatMap((focus) =>
+  const rows = ALL_FOCUSES.flatMap((focus) =>
     exercisesForFocus(focus, gender).map((ex, index) => {
       const p = prescribe(ex.id, opts);
       return {

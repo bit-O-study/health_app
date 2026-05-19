@@ -252,4 +252,61 @@ create policy "Users can update own profile"
   using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
+-- Body metrics for personalized set/rep/weight prescription.
+-- body_type: 'lean' | 'average' | 'heavy' (validated in code).
+alter table public.profiles add column if not exists height_cm int;
+alter table public.profiles add column if not exists weight_kg numeric(5, 1);
+alter table public.profiles add column if not exists body_type text;
+
+-- Registered workout plan per user, grouped by focus (DayPlan tone).
+--
+-- "추천 운동들로 등록" fills this from the recommendation; "직접 등록" lets the
+-- user add rows manually. The home "오늘의 운동" reads the rows for today's
+-- focus. exercise_id/equipment reference src/features/routine/exercise-catalog.ts.
+
+create table if not exists public.routine_exercises (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  focus text not null,
+  position int not null default 0,
+  exercise_id text not null,
+  equipment text not null,
+  sets int not null default 3 check (sets between 1 and 20),
+  reps int not null default 10 check (reps between 1 and 100),
+  weight_kg numeric(5, 1),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists routine_exercises_user_focus_idx
+  on public.routine_exercises (user_id, focus, position);
+
+drop trigger if exists routine_exercises_set_updated_at on public.routine_exercises;
+create trigger routine_exercises_set_updated_at
+  before update on public.routine_exercises
+  for each row execute function public.set_updated_at();
+
+alter table public.routine_exercises enable row level security;
+
+drop policy if exists "Users can read own routine exercises" on public.routine_exercises;
+create policy "Users can read own routine exercises"
+  on public.routine_exercises for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own routine exercises" on public.routine_exercises;
+create policy "Users can insert own routine exercises"
+  on public.routine_exercises for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own routine exercises" on public.routine_exercises;
+create policy "Users can update own routine exercises"
+  on public.routine_exercises for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own routine exercises" on public.routine_exercises;
+create policy "Users can delete own routine exercises"
+  on public.routine_exercises for delete
+  using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

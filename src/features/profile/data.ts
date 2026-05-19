@@ -47,6 +47,28 @@ export function isExperienceLevel(value: unknown): value is ExperienceLevel {
   );
 }
 
+export type BodyType = "lean" | "average" | "heavy";
+
+export const BODY_TYPE_OPTIONS: {
+  id: BodyType;
+  label: string;
+  description: string;
+}[] = [
+  { id: "lean", label: "마른형", description: "체지방·근육량이 적은 편" },
+  { id: "average", label: "표준형", description: "보통 체형" },
+  { id: "heavy", label: "통통형", description: "체지방이 있는 편" },
+];
+
+export function isBodyType(value: unknown): value is BodyType {
+  return value === "lean" || value === "average" || value === "heavy";
+}
+
+export type BodyMetrics = {
+  heightCm: number;
+  weightKg: number;
+  bodyType: BodyType;
+};
+
 export type Recommendation = {
   splits: number;
   variantId: string;

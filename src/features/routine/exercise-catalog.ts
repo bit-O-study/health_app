@@ -482,10 +482,134 @@ const EXERCISES: Record<string, CatalogExercise> = {
       },
     ],
   },
+  "hip-thrust": {
+    id: "hip-thrust",
+    name: "힙 스러스트",
+    target: "둔근 · 햄스트링",
+    equipments: [
+      {
+        equipment: "barbell",
+        method: [
+          "견갑을 벤치에 걸치고 바를 골반에 패드와 함께 올리기",
+          "발로 바닥 밀며 엉덩이를 끝까지 들어 둔근 수축",
+          "정점에서 1초 정지 후 천천히 내리기",
+        ],
+      },
+      {
+        equipment: "machine",
+        method: [
+          "패드를 골반에 맞추고 발 위치 조절",
+          "둔근으로 밀어 끝까지 펴기",
+          "허리 과신전 없이 통제 복귀",
+        ],
+      },
+    ],
+  },
+  "glute-bridge": {
+    id: "glute-bridge",
+    name: "글루트 브릿지",
+    target: "둔근 · 코어",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "무릎 세워 눕고 발은 엉덩이 가까이",
+          "둔근 조여 엉덩이를 들어 일직선",
+          "정점에서 1초 정지 후 내리기",
+        ],
+      },
+      {
+        equipment: "barbell",
+        method: [
+          "바를 골반 위에 패드와 함께 올리기",
+          "둔근으로 밀어 골반 들기",
+          "허리 아닌 둔근으로 수축",
+        ],
+      },
+    ],
+  },
+  lunge: {
+    id: "lunge",
+    name: "런지",
+    target: "대퇴사두 · 둔근",
+    equipments: [
+      {
+        equipment: "dumbbell",
+        method: [
+          "덤벨을 양손에 들고 한 발 앞으로",
+          "뒤 무릎이 바닥 가까이 오도록 내리기",
+          "앞발로 밀어 시작 자세 복귀",
+        ],
+      },
+      {
+        equipment: "bodyweight",
+        method: [
+          "상체 세우고 한 발 앞으로 디디기",
+          "양 무릎 90도까지 내리기",
+          "앞꿈치로 밀어 균형 유지하며 복귀",
+        ],
+      },
+    ],
+  },
+  "bulgarian-split-squat": {
+    id: "bulgarian-split-squat",
+    name: "불가리안 스플릿 스쿼트",
+    target: "대퇴사두 · 둔근",
+    equipments: [
+      {
+        equipment: "dumbbell",
+        method: [
+          "뒷발을 벤치에 올리고 덤벨 들기",
+          "앞 허벅지가 평행이 되도록 내리기",
+          "앞발로 밀어 올리며 균형 유지",
+        ],
+      },
+      {
+        equipment: "bodyweight",
+        method: [
+          "뒷발 벤치에 올리고 상체 세우기",
+          "앞 무릎 방향 맞춰 깊게 내리기",
+          "앞꿈치로 밀어 복귀",
+        ],
+      },
+    ],
+  },
+  "cable-kickback": {
+    id: "cable-kickback",
+    name: "케이블 킥백",
+    target: "둔근",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "발목에 스트랩 걸고 살짝 숙이기",
+          "무릎 각 유지하며 다리를 뒤로 차기",
+          "둔근 수축 1초 후 통제 복귀",
+        ],
+      },
+    ],
+  },
+  "hip-abduction": {
+    id: "hip-abduction",
+    name: "힙 어브덕션",
+    target: "중둔근",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "패드에 무릎 바깥쪽을 대고 앉기",
+          "다리를 바깥으로 벌려 중둔근 수축",
+          "반동 없이 천천히 모으기",
+        ],
+      },
+    ],
+  },
 };
 
-/** 부위 → 운동 id 목록 (rest 제외) */
-const FOCUS_EXERCISES: Record<Exclude<FocusTone, "rest">, string[]> = {
+type FocusKey = Exclude<FocusTone, "rest">;
+
+/** 부위 → 운동 id 목록 (남성 기본) */
+const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
   fullbody: ["squat", "bench-press", "barbell-row"],
   upper: ["bench-press", "barbell-row", "ohp"],
   lower: ["squat", "rdl", "leg-press", "leg-curl"],
@@ -498,10 +622,139 @@ const FOCUS_EXERCISES: Record<Exclude<FocusTone, "rest">, string[]> = {
   core: ["plank", "hanging-leg-raise", "cable-crunch"],
 };
 
-/** 해당 부위(tone)의 운동 목록을 반환. rest 면 빈 배열. */
-export function exercisesForFocus(tone: FocusTone): CatalogExercise[] {
+/** 부위 → 운동 id 목록 (여성: 둔근·하체·코어 강조) */
+const FOCUS_EXERCISES_FEMALE: Record<FocusKey, string[]> = {
+  fullbody: ["squat", "hip-thrust", "barbell-row"],
+  upper: ["lat-pulldown", "chest-fly", "lateral-raise"],
+  lower: ["hip-thrust", "squat", "lunge", "bulgarian-split-squat", "leg-curl"],
+  chest: ["incline-press", "chest-fly", "dips"],
+  back: ["lat-pulldown", "barbell-row", "face-pull"],
+  shoulder: ["lateral-raise", "ohp", "face-pull"],
+  arm: ["biceps-curl", "triceps-pushdown", "hammer-curl"],
+  push: ["incline-press", "ohp", "chest-fly"],
+  pull: ["lat-pulldown", "barbell-row", "face-pull"],
+  core: ["glute-bridge", "plank", "hanging-leg-raise", "cable-crunch"],
+};
+
+/** 해당 부위(tone)의 운동 목록을 반환. rest 면 빈 배열. 성별로 분기. */
+export function exercisesForFocus(
+  tone: FocusTone,
+  gender: "male" | "female" = "male",
+): CatalogExercise[] {
   if (tone === "rest") return [];
-  return FOCUS_EXERCISES[tone].map((id) => EXERCISES[id]);
+  const ids =
+    gender === "female" ? FOCUS_EXERCISES_FEMALE[tone] : FOCUS_EXERCISES[tone];
+  return ids.map((id) => EXERCISES[id]);
+}
+
+/* ─── 처방(세트×횟수×무게) ──────────────────────────────────────────────── */
+
+export type LoadClass = "heavy" | "medium" | "light" | "bodyweight";
+
+const LOAD_CLASS: Record<string, LoadClass> = {
+  squat: "heavy",
+  deadlift: "heavy",
+  "bench-press": "heavy",
+  ohp: "heavy",
+  "leg-press": "heavy",
+  rdl: "heavy",
+  "hip-thrust": "heavy",
+  "incline-press": "heavy",
+  "barbell-row": "medium",
+  "lat-pulldown": "medium",
+  "chest-fly": "light",
+  "lateral-raise": "light",
+  "face-pull": "light",
+  "biceps-curl": "light",
+  "hammer-curl": "light",
+  "triceps-pushdown": "light",
+  "leg-curl": "light",
+  "cable-crunch": "light",
+  "cable-kickback": "light",
+  "hip-abduction": "light",
+  dips: "bodyweight",
+  "pull-up": "bodyweight",
+  plank: "bodyweight",
+  "hanging-leg-raise": "bodyweight",
+  lunge: "bodyweight",
+  "bulgarian-split-squat": "bodyweight",
+  "glute-bridge": "bodyweight",
+};
+
+export function loadClassOf(id: string): LoadClass {
+  return LOAD_CLASS[id] ?? "medium";
+}
+
+export type Prescription = {
+  sets: number;
+  reps: number;
+  /** 권장 무게(kg). 맨몸 운동이면 null */
+  weightKg: number | null;
+};
+
+const REPS: Record<
+  "beginner" | "intermediate" | "advanced",
+  { heavy: number; other: number }
+> = {
+  beginner: { heavy: 12, other: 15 },
+  intermediate: { heavy: 10, other: 12 },
+  advanced: { heavy: 6, other: 10 },
+};
+
+const SETS = { beginner: 3, intermediate: 4, advanced: 4 } as const;
+
+/** 체중 대비 기본 부하 비율(중급 남성 기준) */
+const LOAD_FRACTION: Record<LoadClass, number> = {
+  heavy: 0.6,
+  medium: 0.4,
+  light: 0.15,
+  bodyweight: 0,
+};
+
+/**
+ * 운동 + 체형/성별/경력 → 권장 세트·횟수·무게.
+ * 휴리스틱이며 시작점 제안용(이후 사용자가 직접 조정 가능).
+ */
+export function prescribe(
+  exerciseId: string,
+  opts: {
+    gender: "male" | "female";
+    experience: "beginner" | "intermediate" | "advanced";
+    bodyType: "lean" | "average" | "heavy";
+    weightKg: number;
+  },
+): Prescription {
+  const loadClass = loadClassOf(exerciseId);
+  const sets = SETS[opts.experience];
+  const reps =
+    loadClass === "heavy"
+      ? REPS[opts.experience].heavy
+      : REPS[opts.experience].other;
+
+  if (loadClass === "bodyweight") {
+    return { sets, reps, weightKg: null };
+  }
+
+  const expFactor =
+    opts.experience === "beginner"
+      ? 0.7
+      : opts.experience === "advanced"
+        ? 1.3
+        : 1;
+  const genderFactor = opts.gender === "female" ? 0.65 : 1;
+  const bodyFactor =
+    opts.bodyType === "lean" ? 0.9 : opts.bodyType === "heavy" ? 1.05 : 1;
+
+  const raw =
+    opts.weightKg *
+    LOAD_FRACTION[loadClass] *
+    expFactor *
+    genderFactor *
+    bodyFactor;
+
+  // 2.5kg 단위로 반올림, 최소 2.5kg
+  const weightKg = Math.max(2.5, Math.round(raw / 2.5) * 2.5);
+  return { sets, reps, weightKg };
 }
 
 /** 전체 운동(슬러그=운동 id) — 운동 종목 리스트용 */

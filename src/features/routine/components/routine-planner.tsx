@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { CalendarDays, Check, Dumbbell, Loader2, Moon, Pencil } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -31,6 +32,8 @@ type RoutinePlannerProps = {
     variantId: string,
     customWeek?: DayBlockId[] | null,
   ) => Promise<SaveRoutineResult>;
+  /** 저장 성공 시 이동할 경로 (예: 설정에서 저장 후 "/") */
+  redirectOnSuccess?: string;
 };
 
 export function RoutinePlanner({
@@ -38,7 +41,9 @@ export function RoutinePlanner({
   initialVariantId = DEFAULT_VARIANT_ID,
   initialCustomWeek = null,
   saveAction,
+  redirectOnSuccess,
 }: RoutinePlannerProps = {}) {
+  const router = useRouter();
   const [splits, setSplits] = useState(initialSplits);
   const [variantId, setVariantId] = useState(initialVariantId);
   const [customWeek, setCustomWeek] = useState<DayBlockId[]>(
@@ -108,6 +113,11 @@ export function RoutinePlanner({
       const result = isCustom
         ? await saveAction(CUSTOM_SPLITS, CUSTOM_VARIANT_ID, customWeek)
         : await saveAction(splits, variant.id, null);
+      if (result.ok && redirectOnSuccess) {
+        router.push(redirectOnSuccess);
+        router.refresh();
+        return;
+      }
       setSaveStatus(
         result.ok
           ? { ok: true, message: "루틴을 저장했습니다. 메인에서 오늘 운동을 확인하세요." }

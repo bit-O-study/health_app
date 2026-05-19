@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, Dumbbell, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 
 import type { FocusTone } from "@/features/routine/data";
 import {
@@ -7,8 +7,12 @@ import {
   getCatalogExercise,
 } from "@/features/routine/exercise-catalog";
 import { getPlanForFocus } from "@/features/routine/plan";
+import {
+  TodayPlanList,
+  type TodayPlanItem,
+} from "@/features/routine/components/today-plan-list";
 
-/** 메인 "오늘의 운동" — 등록된 운동 계획(세트×횟수×무게)을 표시 */
+/** 메인 "오늘의 운동" — 등록된 운동 계획(세트×횟수×무게, 드래그 정렬) */
 export async function TodayExercises({ tone }: { tone: FocusTone }) {
   const plan = await getPlanForFocus(tone);
 
@@ -29,6 +33,17 @@ export async function TodayExercises({ tone }: { tone: FocusTone }) {
     );
   }
 
+  const items: TodayPlanItem[] = plan.map((item) => ({
+    id: item.id,
+    exerciseId: item.exerciseId,
+    equipment: item.equipment,
+    name: getCatalogExercise(item.exerciseId)?.name ?? item.exerciseId,
+    equipmentLabel: EQUIPMENT_LABELS[item.equipment],
+    sets: item.sets,
+    reps: item.reps,
+    weightKg: item.weightKg,
+  }));
+
   return (
     <section>
       <div className="mb-3 flex items-center justify-between">
@@ -42,40 +57,10 @@ export async function TodayExercises({ tone }: { tone: FocusTone }) {
           편집
         </Link>
       </div>
-      <div className="space-y-2">
-        {plan.map((item) => {
-          const ex = getCatalogExercise(item.exerciseId);
-          const name = ex?.name ?? item.exerciseId;
-          return (
-            <Link
-              key={item.id}
-              href={`/exercises/${item.exerciseId}?eq=${item.equipment}`}
-              className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
-            >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
-                <Dumbbell aria-hidden="true" size={20} />
-              </span>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-base font-bold text-zinc-950">
-                  {name}
-                  <span className="ml-2 text-xs font-medium text-zinc-500">
-                    {EQUIPMENT_LABELS[item.equipment]}
-                  </span>
-                </h3>
-                <p className="mt-0.5 text-sm text-zinc-600">
-                  {item.sets}세트 × {item.reps}회
-                  {item.weightKg !== null ? ` · ${item.weightKg}kg` : " · 맨몸"}
-                </p>
-              </div>
-              <ChevronRight
-                aria-hidden="true"
-                className="shrink-0 text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
-                size={18}
-              />
-            </Link>
-          );
-        })}
-      </div>
+      <p className="mb-2 text-xs text-zinc-400">
+        드래그해서 순서를 바꿀 수 있어요
+      </p>
+      <TodayPlanList focus={tone} items={items} />
     </section>
   );
 }

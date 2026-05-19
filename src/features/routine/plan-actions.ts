@@ -104,6 +104,34 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
 }
 
 /**
+ * 특정 부위 등록 운동의 표시 순서를 변경한다(드래그 정렬).
+ * ids 는 새 순서의 routine_exercises.id 배열.
+ */
+export async function reorderPlanAction(
+  focus: string,
+  ids: string[],
+): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  await Promise.all(
+    ids.map((id, index) =>
+      supabase
+        .from("routine_exercises")
+        .update({ position: index })
+        .eq("user_id", user.id)
+        .eq("focus", focus)
+        .eq("id", id),
+    ),
+  );
+
+  revalidatePath("/");
+}
+
+/**
  * 직접 등록: 특정 부위의 운동 목록을 통째로 교체한다.
  */
 export async function saveManualPlanAction(

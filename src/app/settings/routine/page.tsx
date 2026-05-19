@@ -34,6 +34,7 @@ export default async function RoutineSettingsPage() {
         initialVariantId={routine?.variantId ?? DEFAULT_VARIANT_ID}
         initialCustomWeek={routine?.customWeek ?? null}
         saveAction={saveRoutineAction}
+        redirectOnSuccess="/"
       />
     </main>
   );

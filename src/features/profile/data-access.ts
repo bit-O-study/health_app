@@ -16,6 +16,8 @@ export type UserProfile = {
   heightCm: number | null;
   weightKg: number | null;
   bodyType: BodyType | null;
+  bodyFatPct: number | null;
+  muscleMassKg: number | null;
 };
 
 type ProfileRow = {
@@ -24,6 +26,8 @@ type ProfileRow = {
   height_cm: unknown;
   weight_kg: unknown;
   body_type: unknown;
+  body_fat_pct: unknown;
+  muscle_mass_kg: unknown;
 };
 
 /** 현재 로그인 사용자의 온보딩 프로필을 반환합니다. 없으면 null. */
@@ -40,7 +44,9 @@ export async function getUserProfile(): Promise<UserProfile | null> {
 
   const { data, error } = await supabase
     .from("profiles")
-    .select("gender, experience, height_cm, weight_kg, body_type")
+    .select(
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg",
+    )
     .eq("user_id", user.id)
     .maybeSingle();
 
@@ -54,11 +60,19 @@ export async function getUserProfile(): Promise<UserProfile | null> {
     return null;
   }
 
+  const n = (v: unknown): number | null => {
+    if (v === null || v === undefined || v === "") return null;
+    const x = Number(v);
+    return Number.isFinite(x) ? x : null;
+  };
+
   return {
     gender: row.gender,
     experience: row.experience,
-    heightCm: typeof row.height_cm === "number" ? row.height_cm : null,
-    weightKg: typeof row.weight_kg === "number" ? row.weight_kg : null,
+    heightCm: n(row.height_cm),
+    weightKg: n(row.weight_kg),
     bodyType: isBodyType(row.body_type) ? row.body_type : null,
+    bodyFatPct: n(row.body_fat_pct),
+    muscleMassKg: n(row.muscle_mass_kg),
   };
 }

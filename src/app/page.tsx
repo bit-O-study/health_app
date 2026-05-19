@@ -11,7 +11,11 @@ import {
 } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
-import { getUserProfile } from "@/features/profile/data-access";
+import {
+  getUserProfile,
+  type UserProfile,
+} from "@/features/profile/data-access";
+import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { getUserRoutine } from "@/features/routine/data-access";
 import {
   addDaysYmd,
@@ -86,11 +90,9 @@ export default async function Home() {
   const user = await getCurrentUser();
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
-  if (user) {
-    const profile = await getUserProfile();
-    if (!profile) {
-      redirect("/onboarding");
-    }
+  const profile = user ? await getUserProfile() : null;
+  if (user && !profile) {
+    redirect("/onboarding");
   }
 
   const routine = user ? await getUserRoutine() : null;
@@ -105,7 +107,7 @@ export default async function Home() {
         ) : !routine ? (
           <NoRoutinePrompt />
         ) : (
-          <TodayWorkout routine={routine} />
+          <TodayWorkout routine={routine} profile={profile} />
         )}
       </main>
 
@@ -184,6 +186,7 @@ function NoRoutinePrompt() {
 
 function TodayWorkout({
   routine,
+  profile,
 }: {
   routine: {
     splits: number;
@@ -194,6 +197,7 @@ function TodayWorkout({
     overrideDate: string | null;
     overrideBlock: DayBlockId | null;
   };
+  profile: UserProfile | null;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -231,13 +235,23 @@ function TodayWorkout({
             {dateLabel} · {preset.label} · {variant.name}
           </p>
         </div>
-        <Link
-          className="inline-flex h-10 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
-          href="/settings/routine"
-        >
-          루틴 변경
-          <ArrowRight aria-hidden="true" size={15} />
-        </Link>
+        <div className="flex items-center gap-2">
+          <BodyLogButton
+            current={{
+              weightKg: profile?.weightKg ?? null,
+              heightCm: profile?.heightCm ?? null,
+              bodyFatPct: profile?.bodyFatPct ?? null,
+              muscleMassKg: profile?.muscleMassKg ?? null,
+            }}
+          />
+          <Link
+            className="inline-flex h-10 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            href="/settings/routine"
+          >
+            루틴 변경
+            <ArrowRight aria-hidden="true" size={15} />
+          </Link>
+        </div>
       </div>
 
       {/* 오늘 카드 */}

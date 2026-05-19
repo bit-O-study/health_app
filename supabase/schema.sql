@@ -257,6 +257,8 @@ create policy "Users can update own profile"
 alter table public.profiles add column if not exists height_cm int;
 alter table public.profiles add column if not exists weight_kg numeric(5, 1);
 alter table public.profiles add column if not exists body_type text;
+alter table public.profiles add column if not exists body_fat_pct numeric(4, 1);
+alter table public.profiles add column if not exists muscle_mass_kg numeric(5, 1);
 
 -- Registered workout plan per user, grouped by focus (DayPlan tone).
 --
@@ -308,5 +310,40 @@ drop policy if exists "Users can delete own routine exercises" on public.routine
 create policy "Users can delete own routine exercises"
   on public.routine_exercises for delete
   using (auth.uid() = user_id);
+
+-- Weight log history (one row per weigh-in). The latest also mirrors into
+-- public.profiles.weight_kg. Drives the weight graph on /settings/profile.
+
+create table if not exists public.weight_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  weight_kg numeric(5, 1) check (weight_kg between 30 and 250),
+  height_cm int,
+  body_fat_pct numeric(4, 1),
+  muscle_mass_kg numeric(5, 1),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists weight_logs_user_idx
+  on public.weight_logs (user_id, created_at);
+
+-- Idempotent: original table had only a NOT NULL weight_kg.
+alter table public.weight_logs alter column weight_kg drop not null;
+alter table public.weight_logs add column if not exists height_cm int;
+alter table public.weight_logs add column if not exists body_fat_pct numeric(4, 1);
+alter table public.weight_logs
+  add column if not exists muscle_mass_kg numeric(5, 1);
+
+alter table public.weight_logs enable row level security;
+
+drop policy if exists "Users can read own weight logs" on public.weight_logs;
+create policy "Users can read own weight logs"
+  on public.weight_logs for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own weight logs" on public.weight_logs;
+create policy "Users can insert own weight logs"
+  on public.weight_logs for insert
+  with check (auth.uid() = user_id);
 
 notify pgrst, 'reload schema';

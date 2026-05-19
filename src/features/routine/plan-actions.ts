@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { seoulYmd } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
   ALL_FOCUSES,
@@ -158,4 +159,64 @@ export async function saveManualPlanAction(
 
   revalidatePath("/");
   return { ok: true };
+}
+
+/**
+ * "오늘만 루틴 변경 → 추천 운동으로": 오늘을 해당 부위로 바꾸고(override),
+ * 그 부위의 등록 운동을 체형 맞춤 추천으로 채워 넣는다.
+ */
+export async function applyTodayRecommendedAction(
+  focus: string,
+): Promise<void> {
+  const target = ALL_FOCUSES.find((f) => f === focus);
+  if (!target) return;
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const profile = await getUserProfile();
+  if (!profile) return;
+
+  await supabase
+    .from("user_routines")
+    .update({
+      override_date: seoulYmd(),
+      override_block: target,
+      rest_date: null,
+    })
+    .eq("user_id", user.id);
+
+  const opts = {
+    gender: profile.gender,
+    experience: profile.experience,
+    bodyType: profile.bodyType ?? ("average" as const),
+    weightKg: profile.weightKg ?? 65,
+  };
+  const rows = exercisesForFocus(target, profile.gender).map((ex, index) => {
+    const p = prescribe(ex.id, opts);
+    return {
+      user_id: user.id,
+      focus: target,
+      position: index,
+      exercise_id: ex.id,
+      equipment: ex.equipments[0].equipment,
+      sets: p.sets,
+      reps: p.reps,
+      weight_kg: p.weightKg,
+    };
+  });
+
+  await supabase
+    .from("routine_exercises")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("focus", target);
+  if (rows.length > 0) {
+    await supabase.from("routine_exercises").insert(rows);
+  }
+
+  revalidatePath("/");
 }

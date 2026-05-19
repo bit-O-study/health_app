@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, CalendarDays, ChevronLeft, LogOut } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  ChevronLeft,
+  Dumbbell,
+  LogOut,
+} from "lucide-react";
 
 import { signOut } from "@/features/auth/actions";
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -46,6 +52,28 @@ export default async function SettingsPage() {
               {resolved
                 ? `현재: ${resolved.preset.label} · ${resolved.variant.name}`
                 : "아직 설정한 루틴이 없습니다 — 분할을 골라 시작하세요."}
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        <Link
+          href="/plan"
+          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+            <Dumbbell aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950">
+              운동 등록
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600">
+              추천으로 한 번에 등록하거나 부위별로 직접 추가
             </p>
           </div>
           <ArrowRight

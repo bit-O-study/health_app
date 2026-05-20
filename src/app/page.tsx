@@ -275,7 +275,7 @@ function TodayWorkout({
             </span>
           </div>
 
-          <TodayAdjustMenu />
+          <TodayAdjustMenu isRestToday={restedToday} />
         </div>
 
         {isRest ? (

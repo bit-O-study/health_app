@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Loader2,
   Moon,
+  Play,
   RotateCcw,
   SlidersHorizontal,
   X,
@@ -21,13 +22,18 @@ import {
 import {
   convertTodayToRestAction,
   restartRoutineFromTodayAction,
+  undoTodayRestAction,
 } from "@/features/routine/actions";
 
 const FOCUS_CHOICES = DAY_BLOCK_IDS.filter(
   (id): id is DayBlockId => id !== "rest",
 );
 
-export function TodayAdjustMenu() {
+export function TodayAdjustMenu({
+  isRestToday = false,
+}: {
+  isRestToday?: boolean;
+}) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [picked, setPicked] = useState<Set<DayBlockId>>(new Set());
@@ -60,9 +66,14 @@ export function TodayAdjustMenu() {
   function applyAndGo() {
     if (picked.size === 0) return;
     const focuses = Array.from(picked).join(",");
-    setOpen(false);
-    setPicked(new Set());
-    router.push(`/plan/today?focus=${focuses}`);
+    start(async () => {
+      // 휴식 상태였다면 운동 상태로 전환한 뒤 편집 화면으로 이동
+      if (isRestToday) await undoTodayRestAction();
+      setOpen(false);
+      setPicked(new Set());
+      router.push(`/plan/today?focus=${focuses}`);
+      router.refresh();
+    });
   }
 
   return (
@@ -114,25 +125,46 @@ export function TodayAdjustMenu() {
               </button>
             </div>
 
-            {/* 휴식 전환 — 별도 단축 액션 */}
-            <button
-              type="button"
-              disabled={pending}
-              onClick={() => run(convertTodayToRestAction)}
-              className="mt-5 flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-left transition hover:border-zinc-300 hover:bg-zinc-100 disabled:opacity-60"
-            >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600">
-                <Moon aria-hidden="true" size={18} />
-              </span>
-              <span className="min-w-0">
-                <span className="block text-sm font-bold text-zinc-950">
-                  오늘 휴식 전환하기
+            {/* 휴식 전환 / 다시 운동하기 토글 */}
+            {isRestToday ? (
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() => run(undoTodayRestAction)}
+                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-100 disabled:opacity-60"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-200 text-emerald-700">
+                  <Play aria-hidden="true" size={18} />
                 </span>
-                <span className="block text-xs text-zinc-500">
-                  오늘 쉬고 루틴이 하루씩 미뤄집니다
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold text-zinc-950">
+                    다시 운동하기
+                  </span>
+                  <span className="block text-xs text-zinc-600">
+                    휴식을 해제하고 직전 운동 데이터를 다시 불러옵니다
+                  </span>
                 </span>
-              </span>
-            </button>
+              </button>
+            ) : (
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() => run(convertTodayToRestAction)}
+                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-left transition hover:border-zinc-300 hover:bg-zinc-100 disabled:opacity-60"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600">
+                  <Moon aria-hidden="true" size={18} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold text-zinc-950">
+                    오늘 휴식 전환하기
+                  </span>
+                  <span className="block text-xs text-zinc-500">
+                    오늘 쉬고 루틴이 하루씩 미뤄집니다
+                  </span>
+                </span>
+              </button>
+            )}
 
             <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
               오늘 바꿀 부위 선택 (여러 개)

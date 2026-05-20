@@ -124,6 +124,40 @@ export async function convertTodayToRestAction(): Promise<void> {
 }
 
 /**
+ * "다시 운동하기" — convertTodayToRest 의 반대.
+ * 오늘이 휴식 상태(rest_date == 오늘)인 경우에만:
+ *   start_date 를 -1 일 되돌리고 rest_date 를 null 로.
+ * 직전에 표시되던 운동 데이터가 다시 오늘로 돌아온다.
+ */
+export async function undoTodayRestAction(): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  const today = seoulYmd();
+  const { data } = await supabase
+    .from("user_routines")
+    .select("start_date, rest_date")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (!data) return;
+  const row = data as { start_date: string; rest_date: string | null };
+  if (row.rest_date !== today) return;
+
+  await supabase
+    .from("user_routines")
+    .update({
+      start_date: addDaysYmd(row.start_date, -1),
+      rest_date: null,
+    })
+    .eq("user_id", user.id);
+
+  revalidatePath("/");
+}
+
+/**
  * 오늘 하루만 다른 부위로 변경한다(루틴은 밀지 않음).
  * override_date=오늘, override_block=선택 부위. 내일부터는 원래 루틴 유지.
  */

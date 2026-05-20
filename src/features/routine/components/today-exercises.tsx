@@ -242,12 +242,28 @@ export async function TodayExercises({
               .filter(
                 (i) => !warmSkipSet.has(i.rowId) && !warmDoneSet.has(i.rowId),
               )
-              .map((i) => ({ rowId: i.rowId, itemId: i.itemId }))}
+              .map((i) => ({
+                rowId: i.rowId,
+                itemId: i.itemId,
+                snapshot: {
+                  durationMin: i.durationMin,
+                  speed: i.speed,
+                  incline: i.incline,
+                },
+              }))}
             cooldown={cool.items
               .filter(
                 (i) => !coolSkipSet.has(i.rowId) && !coolDoneSet.has(i.rowId),
               )
-              .map((i) => ({ rowId: i.rowId, itemId: i.itemId }))}
+              .map((i) => ({
+                rowId: i.rowId,
+                itemId: i.itemId,
+                snapshot: {
+                  durationMin: i.durationMin,
+                  speed: i.speed,
+                  incline: i.incline,
+                },
+              }))}
           />
         </div>
       </div>

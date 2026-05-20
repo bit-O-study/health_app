@@ -5,8 +5,13 @@ import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import type { CompletionSnapshot } from "@/features/routine/exercise-completion-actions";
+import type { CondSnapshot } from "@/features/routine/conditioning-completion-actions";
 
-export type CondMarkInput = { rowId: string; itemId: string };
+export type CondMarkInput = {
+  rowId: string;
+  itemId: string;
+  snapshot?: CondSnapshot;
+};
 
 export type PlanMarkInput = {
   rowId: string;
@@ -66,6 +71,9 @@ export async function markAllTodayCompleteAction(opts: {
       item_id: row.itemId,
       source_row_id: row.rowId,
       status: "done" as const,
+      duration_min: row.snapshot?.durationMin ?? null,
+      speed: row.snapshot?.speed ?? null,
+      incline: row.snapshot?.incline ?? null,
     }));
     await supabase.from("conditioning_completions").insert(inserts);
   }
@@ -73,4 +81,5 @@ export async function markAllTodayCompleteAction(opts: {
   revalidatePath("/");
   revalidatePath("/settings/score");
   revalidatePath("/settings/history");
+  revalidatePath(`/settings/history/${today}`);
 }

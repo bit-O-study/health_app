@@ -73,20 +73,32 @@ export default async function HistoryPage({
     for_date: string;
     focus: string | null;
   };
+  type CondRow = { for_date: string; kind: string };
 
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const exRes = user
-    ? await supabase
-        .from("exercise_completions")
-        .select("for_date, focus")
-        .eq("user_id", user.id)
-        .eq("status", "done")
-        .gte("for_date", monthStart)
-        .lte("for_date", monthEnd)
-    : { data: [] as CompRow[] };
+  const [exRes, condRes] = await Promise.all([
+    user
+      ? supabase
+          .from("exercise_completions")
+          .select("for_date, focus")
+          .eq("user_id", user.id)
+          .eq("status", "done")
+          .gte("for_date", monthStart)
+          .lte("for_date", monthEnd)
+      : Promise.resolve({ data: [] as CompRow[] }),
+    user
+      ? supabase
+          .from("conditioning_completions")
+          .select("for_date, kind")
+          .eq("user_id", user.id)
+          .eq("status", "done")
+          .gte("for_date", monthStart)
+          .lte("for_date", monthEnd)
+      : Promise.resolve({ data: [] as CondRow[] }),
+  ]);
 
   // 일자별 focus 카운트, 월별 focus 누적 카운트
   const dayFocusCounts = new Map<string, Map<string, number>>();
@@ -99,6 +111,12 @@ export default async function HistoryPage({
     const m = dayFocusCounts.get(r.for_date)!;
     m.set(focus, (m.get(focus) ?? 0) + 1);
     focusMonthCount.set(focus, (focusMonthCount.get(focus) ?? 0) + 1);
+  }
+
+  // 컨디셔닝 완료가 있는 날도 활동일로 표시
+  const condActiveDays = new Set<string>();
+  for (const r of (condRes.data ?? []) as CondRow[]) {
+    condActiveDays.add(r.for_date);
   }
 
   function dominantFocus(date: string): string | null {
@@ -178,9 +196,10 @@ export default async function HistoryPage({
               return <div key={`pad-${i}`} className="h-16" />;
             }
             const focus = dominantFocus(cell.ymd);
-            const label = focus ? blockLabel(focus) : "";
+            const hasCond = condActiveDays.has(cell.ymd);
+            const label = focus ? blockLabel(focus) : hasCond ? "활동" : "";
             const isToday = cell.ymd === todayYmd;
-            const hasActivity = focus !== null;
+            const hasActivity = focus !== null || hasCond;
             return (
               <Link
                 key={cell.ymd}

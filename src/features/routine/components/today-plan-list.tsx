@@ -290,8 +290,16 @@ export function TodayPlanList({
                   type="button"
                   aria-label="삭제"
                   title="이 운동을 삭제 — 기록·점수에서도 함께 제거"
-                  onClick={() => {
-                    if (confirm("이 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.")) {
+                  onPointerDown={(e) => e.stopPropagation()}
+                  onPointerMove={(e) => e.stopPropagation()}
+                  onPointerUp={(e) => e.stopPropagation()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (
+                      confirm(
+                        "이 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.",
+                      )
+                    ) {
                       remove(item.id);
                     }
                   }}

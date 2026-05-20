@@ -32,16 +32,6 @@ type ExRow = {
   reps: number | null;
   weight_kg: number | string | null;
   focus: string | null;
-  routine_exercises:
-    | {
-        focus: string;
-        sets: number;
-        reps: number;
-        weight_kg: number | string | null;
-        exercise_id: string;
-        equipment: string;
-      }[]
-    | null;
 };
 type CondRow = {
   kind: string;
@@ -85,7 +75,7 @@ export default async function HistoryDetailPage({
     supabase
       .from("exercise_completions")
       .select(
-        "exercise_id, equipment, sets, reps, weight_kg, focus, routine_exercises(focus, sets, reps, weight_kg, exercise_id, equipment)",
+        "exercise_id, equipment, sets, reps, weight_kg, focus",
       )
       .eq("user_id", user.id)
       .eq("for_date", date)
@@ -100,17 +90,15 @@ export default async function HistoryDetailPage({
 
   const mainItems = ((exRes.data ?? []) as ExRow[])
     .map((r) => {
-      // 스냅샷 우선, 없으면 routine_exercises 조인 fallback
-      const joined = r.routine_exercises?.[0];
-      const focus = r.focus ?? joined?.focus ?? null;
-      const exerciseId = r.exercise_id ?? joined?.exercise_id ?? null;
-      const equipment = r.equipment ?? joined?.equipment ?? null;
-      const sets = r.sets ?? joined?.sets ?? null;
-      const reps = r.reps ?? joined?.reps ?? null;
-      const weight = num(r.weight_kg) ?? num(joined?.weight_kg ?? null);
+      const focus = r.focus;
+      const exerciseId = r.exercise_id;
+      const equipment = r.equipment;
+      const sets = r.sets;
+      const reps = r.reps;
       if (!focus || !exerciseId || !equipment || sets === null || reps === null) {
         return null;
       }
+      const weight = num(r.weight_kg);
       const catalog = getCatalogExercise(exerciseId);
       const name = catalog?.name ?? exerciseId;
       const equipmentLabel =

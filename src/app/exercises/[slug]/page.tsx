@@ -1,35 +1,33 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, CheckCircle2, Target } from "lucide-react";
+import { ArrowLeft, Target } from "lucide-react";
 
 import { FeedbackSection } from "@/features/exercises/components/feedback-section";
 import { VideoUploadForm } from "@/features/exercises/components/video-upload-form";
+import { EquipmentMethod } from "@/features/exercises/components/equipment-method";
+import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import {
   getExerciseBySlug,
   getExerciseVideos,
 } from "@/features/exercises/data";
+import {
+  getCatalogExercise,
+  isEquipmentId,
+} from "@/features/routine/exercise-catalog";
 
 export const dynamic = "force-dynamic";
 
 type ExerciseDetailPageProps = {
-  params: Promise<{
-    slug: string;
-  }>;
-};
-
-const difficultyLabels = {
-  beginner: "초급",
-  intermediate: "중급",
-  advanced: "고급",
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ eq?: string }>;
 };
 
 export async function generateMetadata({
   params,
 }: ExerciseDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const exercise = await getExerciseBySlug(slug);
-
+  const exercise = getCatalogExercise(slug);
   return {
     title: exercise ? `${exercise.name} | Health Platform MVP` : "운동 상세",
   };
@@ -37,15 +35,23 @@ export async function generateMetadata({
 
 export default async function ExerciseDetailPage({
   params,
+  searchParams,
 }: ExerciseDetailPageProps) {
   const { slug } = await params;
-  const exercise = await getExerciseBySlug(slug);
+  const { eq } = await searchParams;
 
+  const exercise = getCatalogExercise(slug);
   if (!exercise) {
     notFound();
   }
 
-  const videos = await getExerciseVideos(exercise.id);
+  const initialEquipment = isEquipmentId(eq) ? eq : undefined;
+
+  // 영상/피드백은 Supabase 에 해당 종목 행이 있을 때만 제공
+  const supaExercise = await getExerciseBySlug(slug);
+  const videos = supaExercise
+    ? await getExerciseVideos(supaExercise.id)
+    : [];
 
   return (
     <main className="min-h-screen bg-zinc-50 px-6 py-10 text-zinc-950 sm:px-10">
@@ -56,72 +62,53 @@ export default async function ExerciseDetailPage({
             href="/exercises"
           >
             <ArrowLeft aria-hidden="true" size={16} />
-            운동 리스트
+            운동 종목 리스트
           </Link>
 
           <header className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
-                {difficultyLabels[exercise.difficulty]}
+            <div className="flex items-center gap-3">
+              <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                <ExerciseIcon id={exercise.id} size={36} />
               </span>
-              <span className="text-sm text-zinc-500">{exercise.equipment}</span>
+              <div>
+                <h1 className="text-3xl font-bold sm:text-4xl">
+                  {exercise.name}
+                </h1>
+                <p className="mt-1 text-sm text-zinc-500">{exercise.target}</p>
+              </div>
             </div>
-            <h1 className="mt-4 text-3xl font-bold sm:text-4xl">
-              {exercise.name}
-            </h1>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-zinc-600">
-              {exercise.summary}
-            </p>
           </header>
 
-          <FeedbackSection videos={videos} />
+          <EquipmentMethod
+            exercise={exercise}
+            initialEquipment={initialEquipment}
+          />
+
+          {supaExercise ? (
+            <FeedbackSection videos={videos} />
+          ) : (
+            <section className="rounded-lg border border-dashed border-zinc-300 bg-white p-6 text-sm leading-6 text-zinc-500">
+              이 종목은 자세 영상·피드백이 아직 준비되지 않았습니다. 기구별
+              운동법을 먼저 확인하세요.
+            </section>
+          )}
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-6 lg:self-start">
-          <VideoUploadForm exerciseId={exercise.id} />
+          {supaExercise ? (
+            <VideoUploadForm exerciseId={supaExercise.id} />
+          ) : null}
 
           <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
             <div className="flex items-center gap-2">
               <Target aria-hidden="true" className="text-orange-700" size={20} />
               <h2 className="text-lg font-semibold text-zinc-950">
-                주요 자극 부위
+                자극 부위
               </h2>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {exercise.targetMuscles.map((muscle) => (
-                <span
-                  className="rounded-full bg-zinc-100 px-3 py-1 text-sm font-medium text-zinc-700"
-                  key={muscle}
-                >
-                  {muscle}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
-            <div className="flex items-center gap-2">
-              <CheckCircle2
-                aria-hidden="true"
-                className="text-emerald-700"
-                size={20}
-              />
-              <h2 className="text-lg font-semibold text-zinc-950">
-                자세 체크 포인트
-              </h2>
-            </div>
-            <ul className="mt-4 space-y-3">
-              {exercise.cues.map((cue) => (
-                <li className="flex gap-2 text-sm leading-6 text-zinc-700" key={cue}>
-                  <CheckCircle2
-                    aria-hidden="true"
-                    className="mt-0.5 shrink-0 text-emerald-600"
-                    size={16}
-                  />
-                  {cue}
-                </li>
-              ))}
-            </ul>
+            <p className="mt-4 text-sm leading-6 text-zinc-700">
+              {exercise.target}
+            </p>
           </section>
         </aside>
       </section>

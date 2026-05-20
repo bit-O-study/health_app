@@ -3,105 +3,65 @@
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, ChevronRight, Dumbbell, GripVertical, X } from "lucide-react";
+import { Check, ChevronRight, Dumbbell, X } from "lucide-react";
 
-import { reorderPlanAction } from "@/features/routine/plan-actions";
-import { estimateStrengthKcal } from "@/features/routine/calories";
-import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
+import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import type { ConditioningKind } from "@/features/routine/conditioning-catalog";
+import type { CompletionStatus } from "@/features/routine/exercise-completions";
 
-export type TodayPlanItem = {
-  id: string;
-  exerciseId: string;
-  equipment: string;
+export type TodayConditioningItem = {
+  /** routine_conditioning 또는 daily_conditioning row id (key 용) */
+  rowId: string;
+  /** 카탈로그 item id (완료/휴식 키) */
+  itemId: string;
   name: string;
-  equipmentLabel: string;
-  sets: number;
-  reps: number;
-  weightKg: number | null;
+  detail: string;
+  kcal: number;
 };
 
-const SWIPE_THRESHOLD = 80; // px — 넘으면 토글
-const SWIPE_VISUAL_CAP = 120; // 시각적 최대 이동
+const SWIPE_THRESHOLD = 80;
+const SWIPE_VISUAL_CAP = 120;
 
-export function TodayPlanList({
-  focus,
+export function TodayConditioningList({
+  kind,
   items,
-  weightKg,
   doneIds,
   skippedIds,
+  iconTone,
 }: {
-  focus: string;
-  items: TodayPlanItem[];
-  weightKg: number | null;
+  kind: ConditioningKind;
+  items: TodayConditioningItem[];
   doneIds: string[];
   skippedIds: string[];
+  iconTone: "amber" | "sky";
 }) {
   const router = useRouter();
-  const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
   const [skipped, setSkipped] = useState<Set<string>>(new Set(skippedIds));
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
-
-  // 스와이프 상태 — onPointerUp 에서 정확한 dx 를 읽도록 ref + state 병행
   const [swipe, setSwipe] = useState<{ id: string; dx: number } | null>(null);
   const startRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const dxRef = useRef(0);
   const lockedRef = useRef<"none" | "horizontal" | "vertical">("none");
-
   const [, startTx] = useTransition();
-  const w = weightKg ?? 65;
 
-  function persistOrder(next: TodayPlanItem[]) {
-    startTx(async () => {
-      await reorderPlanAction(focus, next.map((i) => i.id));
-      router.refresh();
-    });
-  }
-
-  function setStatus(id: string, target: "done" | "skipped" | "clear") {
+  function setStatus(
+    itemId: string,
+    target: CompletionStatus | "clear",
+  ) {
     const nextDone = new Set(done);
     const nextSkipped = new Set(skipped);
-    nextDone.delete(id);
-    nextSkipped.delete(id);
-    if (target === "done") nextDone.add(id);
-    else if (target === "skipped") nextSkipped.add(id);
+    nextDone.delete(itemId);
+    nextSkipped.delete(itemId);
+    if (target === "done") nextDone.add(itemId);
+    else if (target === "skipped") nextSkipped.add(itemId);
     setDone(nextDone);
     setSkipped(nextSkipped);
     startTx(async () => {
-      await setExerciseStatusAction(id, target);
+      await setConditioningStatusAction(kind, itemId, target);
       router.refresh();
     });
   }
 
-  /* ── 네이티브 드래그(순서 변경) ─ 그립 핸들에서만 시작 ── */
-  function handleHandleDragStart(e: React.DragEvent, index: number) {
-    setDragIndex(index);
-    // 일부 브라우저는 dataTransfer 비어 있으면 드래그 안 됨
-    e.dataTransfer.effectAllowed = "move";
-    try {
-      e.dataTransfer.setData("text/plain", String(index));
-    } catch {
-      /* 일부 환경에서 무시 */
-    }
-  }
-  function handleDragOver(e: React.DragEvent) {
-    if (dragIndex === null) return;
-    e.preventDefault();
-  }
-  function handleDrop(targetIndex: number) {
-    if (dragIndex === null || dragIndex === targetIndex) {
-      setDragIndex(null);
-      return;
-    }
-    const next = [...order];
-    const [moved] = next.splice(dragIndex, 1);
-    next.splice(targetIndex, 0, moved);
-    setOrder(next);
-    setDragIndex(null);
-    persistOrder(next);
-  }
-
-  /* ── 좌/우 스와이프(완료/휴식 토글) ── */
   function onPointerDown(e: PointerEvent<HTMLDivElement>, id: string) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     startRef.current = { x: e.clientX, y: e.clientY };
@@ -133,15 +93,15 @@ export function TodayPlanList({
       setSwipe((p) => (p ? { ...p, dx: capped } : null));
     }
   }
-  function onPointerUp(e: PointerEvent<HTMLDivElement>, id: string) {
+  function onPointerUp(e: PointerEvent<HTMLDivElement>, itemId: string) {
     const dx = dxRef.current;
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
     if (dx > SWIPE_THRESHOLD) {
-      setStatus(id, done.has(id) ? "clear" : "done");
+      setStatus(itemId, done.has(itemId) ? "clear" : "done");
     } else if (dx < -SWIPE_THRESHOLD) {
-      setStatus(id, skipped.has(id) ? "clear" : "skipped");
+      setStatus(itemId, skipped.has(itemId) ? "clear" : "skipped");
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
@@ -155,27 +115,26 @@ export function TodayPlanList({
     lockedRef.current = "none";
   }
 
+  const iconBg =
+    iconTone === "amber"
+      ? "bg-amber-100 text-amber-700"
+      : "bg-sky-100 text-sky-700";
+
   return (
     <ul className="space-y-2">
-      {order.map((item, index) => {
-        const isDone = done.has(item.id);
-        const isSkipped = skipped.has(item.id);
-        const kcal = Math.round(
-          estimateStrengthKcal(w, item.exerciseId, item.sets),
-        );
-        const dx = swipe?.id === item.id ? swipe.dx : 0;
-        const isSwiping = swipe?.id === item.id && Math.abs(dx) > 4;
+      {items.map((item) => {
+        const isDone = done.has(item.itemId);
+        const isSkipped = skipped.has(item.itemId);
+        const dx = swipe?.id === item.rowId ? swipe.dx : 0;
+        const isSwiping = swipe?.id === item.rowId && Math.abs(dx) > 4;
         const passedRight = dx > SWIPE_THRESHOLD;
         const passedLeft = dx < -SWIPE_THRESHOLD;
 
         return (
           <li
-            key={item.id}
+            key={item.rowId}
             className="relative overflow-hidden rounded-xl"
-            onDragOver={handleDragOver}
-            onDrop={() => handleDrop(index)}
           >
-            {/* 왼쪽: 오른쪽으로 끌면 노출되는 "완료" 영역 */}
             <div
               className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
                 passedRight
@@ -186,7 +145,6 @@ export function TodayPlanList({
               <Check aria-hidden="true" size={18} />
               <span className="ml-2">{isDone ? "취소" : "완료"}</span>
             </div>
-            {/* 오른쪽: 왼쪽으로 끌면 노출되는 "휴식" 영역 */}
             <div
               className={`pointer-events-none absolute inset-y-0 right-0 flex w-1/2 items-center justify-end pr-5 text-sm font-bold transition-colors ${
                 passedLeft
@@ -198,54 +156,40 @@ export function TodayPlanList({
               <X aria-hidden="true" size={18} />
             </div>
 
-            {/* 전경 행 — 좌/우 스와이프 + 그립으로 순서 변경 */}
             <div
-              onPointerDown={(e) => onPointerDown(e, item.id)}
+              onPointerDown={(e) => onPointerDown(e, item.rowId)}
               onPointerMove={onPointerMove}
-              onPointerUp={(e) => onPointerUp(e, item.id)}
+              onPointerUp={(e) => onPointerUp(e, item.itemId)}
               onPointerCancel={onPointerCancel}
               style={{
                 transform: `translateX(${dx}px)`,
                 transition: isSwiping ? "none" : "transform 220ms ease-out",
                 touchAction: "pan-y",
               }}
-              className={`relative flex items-center gap-2 border bg-white p-4 shadow-sm ${
-                dragIndex === index
-                  ? "border-emerald-400 opacity-60"
-                  : isDone
-                    ? "border-emerald-300 bg-emerald-50"
-                    : isSkipped
-                      ? "border-zinc-300 bg-zinc-100"
-                      : "border-zinc-200"
+              className={`relative flex items-center gap-3 border bg-white p-4 shadow-sm ${
+                isDone
+                  ? "border-emerald-200 bg-emerald-50"
+                  : isSkipped
+                    ? "border-zinc-200 bg-zinc-100"
+                    : "border-zinc-200"
               }`}
             >
               <span
-                draggable
-                onDragStart={(e) => handleHandleDragStart(e, index)}
-                onDragEnd={() => setDragIndex(null)}
-                aria-hidden="true"
-                className="flex h-8 w-6 shrink-0 cursor-grab items-center justify-center text-zinc-400 active:cursor-grabbing"
-                title="잡고 위·아래로 순서 변경"
+                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconBg}`}
               >
-                <GripVertical size={18} />
-              </span>
-
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
                 <Dumbbell aria-hidden="true" size={20} />
               </span>
-
               <Link
-                href={`/exercises/${item.exerciseId}?eq=${item.equipment}`}
+                href={`/conditioning/${item.itemId}`}
                 draggable={false}
                 onDragStart={(e) => e.preventDefault()}
                 onClick={(e) => {
-                  // 스와이프 중이었다면 클릭으로 이동 막기
                   if (Math.abs(dx) > 4) e.preventDefault();
                 }}
                 className="group flex min-w-0 flex-1 items-center gap-2"
               >
                 <div className="min-w-0 flex-1">
-                  <h3
+                  <h4
                     className={`text-base font-bold ${
                       isDone
                         ? "text-zinc-500 line-through"
@@ -255,15 +199,9 @@ export function TodayPlanList({
                     }`}
                   >
                     {item.name}
-                    <span className="ml-2 text-xs font-medium text-zinc-500">
-                      {item.equipmentLabel}
-                    </span>
-                  </h3>
+                  </h4>
                   <p className="mt-0.5 text-sm text-zinc-600">
-                    {item.sets}세트 × {item.reps}회
-                    {item.weightKg !== null
-                      ? ` · ${item.weightKg}kg`
-                      : " · 맨몸"}
+                    {item.detail}
                     <span
                       className={`ml-2 text-xs ${
                         isSkipped
@@ -271,7 +209,7 @@ export function TodayPlanList({
                           : "text-orange-700"
                       }`}
                     >
-                      · 약 {kcal}kcal
+                      · 약 {item.kcal}kcal
                     </span>
                   </p>
                 </div>

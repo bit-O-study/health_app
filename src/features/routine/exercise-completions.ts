@@ -9,13 +9,29 @@ export type ExerciseCompletionRow = {
   exerciseRowId: string;
   status: CompletionStatus;
   focus: string | null;
+  sets: number | null;
+  reps: number | null;
+  weightKg: number | null;
 };
 
 type Row = {
   for_date: string;
   exercise_row_id: string;
   status: string;
-  routine_exercises: { focus: string }[] | null;
+  routine_exercises:
+    | {
+        focus: string;
+        sets: number;
+        reps: number;
+        weight_kg: number | string | null;
+      }[]
+    | null;
+};
+
+const num = (v: number | string | null | undefined): number | null => {
+  if (v === null || v === undefined || v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
 };
 
 function toStatus(s: string): CompletionStatus {
@@ -62,16 +78,24 @@ export async function getRecentExerciseCompletions(
 
   const { data, error } = await supabase
     .from("exercise_completions")
-    .select("for_date, exercise_row_id, status, routine_exercises(focus)")
+    .select(
+      "for_date, exercise_row_id, status, routine_exercises(focus, sets, reps, weight_kg)",
+    )
     .eq("user_id", user.id)
     .gte("for_date", fromStr)
     .order("for_date", { ascending: false });
 
   if (error || !data) return [];
-  return (data as Row[]).map((r) => ({
-    forDate: r.for_date,
-    exerciseRowId: r.exercise_row_id,
-    status: toStatus(r.status),
-    focus: r.routine_exercises?.[0]?.focus ?? null,
-  }));
+  return (data as Row[]).map((r) => {
+    const ex = r.routine_exercises?.[0] ?? null;
+    return {
+      forDate: r.for_date,
+      exerciseRowId: r.exercise_row_id,
+      status: toStatus(r.status),
+      focus: ex?.focus ?? null,
+      sets: ex?.sets ?? null,
+      reps: ex?.reps ?? null,
+      weightKg: num(ex?.weight_kg ?? null),
+    };
+  });
 }

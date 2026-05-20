@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChevronRight, Dumbbell, Flame, Plus, Wind, Zap } from "lucide-react";
+import { Flame, Plus, Wind, Zap } from "lucide-react";
 
 import { seoulYmd, type FocusTone } from "@/features/routine/data";
 import {
@@ -16,23 +16,28 @@ import {
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import {
   estimateConditioningKcal,
-  estimateTodayKcal,
+  estimateStrengthKcal,
 } from "@/features/routine/calories";
 import { getStatusMapToday } from "@/features/routine/exercise-completions";
+import { getConditioningStatusMapToday } from "@/features/routine/conditioning-completions";
 import {
   TodayPlanList,
   type TodayPlanItem,
 } from "@/features/routine/components/today-plan-list";
+import {
+  TodayConditioningList,
+  type TodayConditioningItem,
+} from "@/features/routine/components/today-conditioning-list";
 
 function formatDetail(row: ConditioningRow): string {
   const parts: string[] = [];
-  if (row.durationMin !== null) parts.push(`${row.durationMin}${PARAM_UNIT.duration}`);
+  if (row.durationMin !== null)
+    parts.push(`${row.durationMin}${PARAM_UNIT.duration}`);
   if (row.speed !== null) parts.push(`${row.speed}${PARAM_UNIT.speed}`);
   if (row.incline !== null) parts.push(`${row.incline}${PARAM_UNIT.incline}`);
   return parts.join(" · ");
 }
 
-/** 메인 "오늘의 운동" — 워밍업 + 본운동 + 마무리 + 칼로리 (행별 완료/스킵) */
 export async function TodayExercises({
   tone,
   weightKg,
@@ -41,11 +46,12 @@ export async function TodayExercises({
   weightKg: number | null;
 }) {
   const todayYmd = seoulYmd();
-  const [plan, defaults, daily, statusMap] = await Promise.all([
+  const [plan, defaults, daily, mainStatus, condStatus] = await Promise.all([
     getPlanForFocus(tone),
     getConditioningForFocus(tone),
     getDailyConditioning(todayYmd),
     getStatusMapToday(todayYmd),
+    getConditioningStatusMapToday(todayYmd),
   ]);
 
   const warmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
@@ -54,6 +60,9 @@ export async function TodayExercises({
   const isDailyWarmup = daily.warmup.length > 0;
   const isDailyCooldown = daily.cooldown.length > 0;
 
+  const w = weightKg ?? 65;
+
+  // Main 행 변환
   const items: TodayPlanItem[] = plan.map((item) => ({
     id: item.id,
     exerciseId: item.exerciseId,
@@ -64,34 +73,69 @@ export async function TodayExercises({
     reps: item.reps,
     weightKg: item.weightKg,
   }));
-
-  const doneIds = plan
-    .filter((p) => statusMap.get(p.id) === "done")
+  const mainDoneIds = plan
+    .filter((p) => mainStatus.get(p.id) === "done")
     .map((p) => p.id);
-  const skippedIds = plan
-    .filter((p) => statusMap.get(p.id) === "skipped")
+  const mainSkippedIds = plan
+    .filter((p) => mainStatus.get(p.id) === "skipped")
     .map((p) => p.id);
-  const skippedSet = new Set(skippedIds);
+  const mainSkipSet = new Set(mainSkippedIds);
+  const mainDoneSet = new Set(mainDoneIds);
 
-  // 스킵된 본운동은 예상 칼로리 합산에서 제외
-  const planForKcal = plan
-    .filter((p) => !skippedSet.has(p.id))
-    .map((p) => ({ exerciseId: p.exerciseId, sets: p.sets }));
+  // Conditioning 행 변환 (warmup/cooldown 공용 빌더)
+  function buildCondItems(
+    rows: ConditioningRow[],
+    kind: "warmup" | "cooldown",
+  ) {
+    const doneIds: string[] = [];
+    const skippedIds: string[] = [];
+    const items: TodayConditioningItem[] = rows.map((r) => {
+      const item = getConditioningItem(r.itemId);
+      const name = item?.name ?? r.itemId;
+      const detail = formatDetail(r) || "—";
+      const kcal = Math.round(
+        estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
+      );
+      const key = `${kind}:${r.itemId}` as const;
+      const st = condStatus.get(key);
+      if (st === "done") doneIds.push(r.itemId);
+      else if (st === "skipped") skippedIds.push(r.itemId);
+      return { rowId: r.id, itemId: r.itemId, name, detail, kcal };
+    });
+    return { items, doneIds, skippedIds };
+  }
+  const warm = buildCondItems(warmupRows, "warmup");
+  const cool = buildCondItems(cooldownRows, "cooldown");
+  const warmSkipSet = new Set(warm.skippedIds);
+  const coolSkipSet = new Set(cool.skippedIds);
+  const warmDoneSet = new Set(warm.doneIds);
+  const coolDoneSet = new Set(cool.doneIds);
 
-  const kcal = estimateTodayKcal({
-    weightKg,
-    plan: planForKcal,
-    warmup: warmupRows.map((r) => ({
-      itemId: r.itemId,
-      durationMin: r.durationMin,
-      speed: r.speed,
-    })),
-    cooldown: cooldownRows.map((r) => ({
-      itemId: r.itemId,
-      durationMin: r.durationMin,
-      speed: r.speed,
-    })),
-  });
+  // 칼로리 합산 — 스킵 제외
+  const totalWarm = warm.items
+    .filter((i) => !warmSkipSet.has(i.itemId))
+    .reduce((s, i) => s + i.kcal, 0);
+  const totalCool = cool.items
+    .filter((i) => !coolSkipSet.has(i.itemId))
+    .reduce((s, i) => s + i.kcal, 0);
+  const totalMain = plan
+    .filter((p) => !mainSkipSet.has(p.id))
+    .reduce((s, p) => s + estimateStrengthKcal(w, p.exerciseId, p.sets), 0);
+  const totalKcal = Math.round(totalWarm + totalMain + totalCool);
+
+  // 완료 칼로리 — done 만 합산
+  const doneWarm = warm.items
+    .filter((i) => warmDoneSet.has(i.itemId))
+    .reduce((s, i) => s + i.kcal, 0);
+  const doneCool = cool.items
+    .filter((i) => coolDoneSet.has(i.itemId))
+    .reduce((s, i) => s + i.kcal, 0);
+  const doneMain = plan
+    .filter((p) => mainDoneSet.has(p.id))
+    .reduce((s, p) => s + estimateStrengthKcal(w, p.exerciseId, p.sets), 0);
+  const completedKcal = Math.round(doneWarm + doneMain + doneCool);
+
+  const skipCount = mainSkipSet.size + warmSkipSet.size + coolSkipSet.size;
 
   return (
     <section className="space-y-5">
@@ -107,34 +151,48 @@ export async function TodayExercises({
         </Link>
       </div>
 
-      {/* 예상 소모 칼로리 (스킵 제외 반영) */}
-      <div className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
-          <Zap aria-hidden="true" size={20} />
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-            오늘 예상 소모 칼로리
-          </p>
-          <p className="text-2xl font-bold text-zinc-950">
-            {kcal.total}
-            <span className="ml-1 text-sm font-medium text-zinc-500">kcal</span>
-          </p>
-          <p className="mt-0.5 text-[11px] text-zinc-500">
-            워밍업 {kcal.warmup} · 본운동 {kcal.main} · 마무리 {kcal.cooldown}
-            {skippedSet.size > 0 ? ` · 스킵 ${skippedSet.size}개 제외` : ""}
-            {weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
-          </p>
+      {/* 칼로리 카드 — 예상 + 완료 */}
+      <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
+        <div className="flex items-center gap-3">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
+            <Zap aria-hidden="true" size={20} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              칼로리
+            </p>
+            <p className="text-2xl font-bold text-zinc-950">
+              <span className="text-emerald-700">{completedKcal}</span>
+              <span className="ml-1 text-sm font-medium text-zinc-500">
+                kcal 완료
+              </span>
+              <span className="mx-2 text-zinc-300">/</span>
+              <span>{totalKcal}</span>
+              <span className="ml-1 text-sm font-medium text-zinc-500">
+                kcal 예상
+              </span>
+            </p>
+            <p className="mt-0.5 text-[11px] text-zinc-500">
+              예상 — 워밍업 {Math.round(totalWarm)} · 본운동{" "}
+              {Math.round(totalMain)} · 마무리 {Math.round(totalCool)}
+              {skipCount > 0 ? ` · 스킵 ${skipCount}개 제외` : ""}
+              {weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
+            </p>
+          </div>
         </div>
       </div>
 
-      <ConditioningBlock
+      {/* 워밍업 */}
+      <ConditioningSection
         kind="warmup"
-        rows={warmupRows}
+        rowsCount={warmupRows.length}
         isDailyOverride={isDailyWarmup}
-        weightKg={weightKg}
+        items={warm.items}
+        doneIds={warm.doneIds}
+        skippedIds={warm.skippedIds}
       />
 
+      {/* 본운동 */}
       {plan.length === 0 ? (
         <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-6 text-center">
           <p className="text-sm leading-6 text-zinc-600">
@@ -151,38 +209,46 @@ export async function TodayExercises({
       ) : (
         <div>
           <p className="mb-2 text-xs text-zinc-400">
-            드래그해서 순서 변경 · ✓ 완료 · ✕ 오늘 안 함(다시 누르면 되살림)
+            → 오른쪽으로 끌면 완료 · ← 왼쪽으로 끌면 오늘 안 함(같은 방향으로
+            다시 끌면 원상복구) · 핸들 잡고 위·아래로 순서 변경
           </p>
           <TodayPlanList
             focus={tone}
             items={items}
             weightKg={weightKg}
-            doneIds={doneIds}
-            skippedIds={skippedIds}
+            doneIds={mainDoneIds}
+            skippedIds={mainSkippedIds}
           />
         </div>
       )}
 
-      <ConditioningBlock
+      {/* 마무리 */}
+      <ConditioningSection
         kind="cooldown"
-        rows={cooldownRows}
+        rowsCount={cooldownRows.length}
         isDailyOverride={isDailyCooldown}
-        weightKg={weightKg}
+        items={cool.items}
+        doneIds={cool.doneIds}
+        skippedIds={cool.skippedIds}
       />
     </section>
   );
 }
 
-function ConditioningBlock({
+function ConditioningSection({
   kind,
-  rows,
+  rowsCount,
   isDailyOverride,
-  weightKg,
+  items,
+  doneIds,
+  skippedIds,
 }: {
   kind: "warmup" | "cooldown";
-  rows: ConditioningRow[];
+  rowsCount: number;
   isDailyOverride: boolean;
-  weightKg: number | null;
+  items: TodayConditioningItem[];
+  doneIds: string[];
+  skippedIds: string[];
 }) {
   const isWarm = kind === "warmup";
   const HeaderIcon = isWarm ? Flame : Wind;
@@ -190,7 +256,6 @@ function ConditioningBlock({
   const headerBadge = isWarm
     ? "flex h-7 w-7 items-center justify-center rounded-md bg-amber-100 text-amber-700"
     : "flex h-7 w-7 items-center justify-center rounded-md bg-sky-100 text-sky-700";
-  const w = weightKg ?? 65;
 
   return (
     <section>
@@ -212,7 +277,7 @@ function ConditioningBlock({
         </Link>
       </div>
 
-      {rows.length === 0 ? (
+      {rowsCount === 0 ? (
         <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-4 text-center text-xs text-zinc-500">
           등록된 항목이 없습니다.{" "}
           <Link href="/plan" className="font-semibold text-emerald-700">
@@ -221,44 +286,13 @@ function ConditioningBlock({
           에서 추가하거나 “추천으로 채우기”를 사용하세요.
         </p>
       ) : (
-        <div className="space-y-2">
-          {rows.map((r, i) => {
-            const item = getConditioningItem(r.itemId);
-            const name = item?.name ?? r.itemId;
-            const detail = formatDetail(r);
-            const kcal = Math.round(
-              estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
-            );
-            const iconWrap = isWarm
-              ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700"
-              : "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-700";
-            return (
-              <Link
-                key={`${r.id}-${i}`}
-                href={`/conditioning/${r.itemId}`}
-                className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
-              >
-                <span className={iconWrap}>
-                  <Dumbbell aria-hidden="true" size={20} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <h4 className="text-base font-bold text-zinc-950">{name}</h4>
-                  <p className="mt-0.5 text-sm text-zinc-600">
-                    {detail || "—"}
-                    <span className="ml-2 text-xs text-orange-700">
-                      · 약 {kcal}kcal
-                    </span>
-                  </p>
-                </div>
-                <ChevronRight
-                  aria-hidden="true"
-                  className="shrink-0 text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
-                  size={18}
-                />
-              </Link>
-            );
-          })}
-        </div>
+        <TodayConditioningList
+          kind={kind}
+          items={items}
+          doneIds={doneIds}
+          skippedIds={skippedIds}
+          iconTone={isWarm ? "amber" : "sky"}
+        />
       )}
     </section>
   );

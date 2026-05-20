@@ -490,6 +490,44 @@ alter table public.exercise_completions drop constraint if exists exercise_compl
 alter table public.exercise_completions
   add constraint exercise_completions_status_check check (status in ('done', 'skipped'));
 
+-- Per-day done/skipped status for warmup/cooldown items (keyed by item_id).
+create table if not exists public.conditioning_completions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  kind text not null check (kind in ('warmup', 'cooldown')),
+  item_id text not null,
+  status text not null default 'done' check (status in ('done', 'skipped')),
+  created_at timestamptz not null default now(),
+  unique (user_id, for_date, kind, item_id)
+);
+
+create index if not exists conditioning_completions_user_date_idx
+  on public.conditioning_completions (user_id, for_date desc);
+
+alter table public.conditioning_completions enable row level security;
+
+drop policy if exists "Users can read own conditioning completions" on public.conditioning_completions;
+create policy "Users can read own conditioning completions"
+  on public.conditioning_completions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own conditioning completions" on public.conditioning_completions;
+create policy "Users can insert own conditioning completions"
+  on public.conditioning_completions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own conditioning completions" on public.conditioning_completions;
+create policy "Users can update own conditioning completions"
+  on public.conditioning_completions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own conditioning completions" on public.conditioning_completions;
+create policy "Users can delete own conditioning completions"
+  on public.conditioning_completions for delete
+  using (auth.uid() = user_id);
+
 create index if not exists exercise_completions_user_date_idx
   on public.exercise_completions (user_id, for_date desc);
 

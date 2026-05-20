@@ -1,21 +1,28 @@
 /**
- * 운동 점수 — 완료된 "운동 종목"별로 합산하고 오래된 기록일수록 가중치를 낮춘다.
- *   완료 1건 = 2점 × 0.5^(days_ago / HALF_LIFE)
- * HALF_LIFE 14일: 2주 안 하면 점수가 절반으로 줄어듦.
- * "오늘은 안 함(skipped)" 으로 처리된 건은 점수 합산에서 제외.
+ * 운동 점수 — 완료된 세트의 실제 운동량(세트×횟수×무게)을 누적, 오래된 기록은 가중치 ↓.
+ *   points = (sets × reps × weightKg) / VOLUME_PER_POINT × 0.5^(days_ago/14)
+ * 맨몸 운동은 사용자 체중으로 가중. "휴식(skipped)" 건은 호출자가 미리 제외.
  */
 
 import { seoulYmd } from "@/features/routine/data";
 
 const HALF_LIFE_DAYS = 14;
-const BASE_POINTS = 2;
+const VOLUME_PER_POINT = 200; // 200 kg·reps = 1점 (조절 가능)
 
 function ymdToEpochDay(ymd: string): number {
   const [y, m, d] = ymd.split("-").map(Number);
   return Math.floor(Date.UTC(y, m - 1, d) / 86_400_000);
 }
 
-export type DoneRecord = { forDate: string };
+export type DoneRecord = {
+  forDate: string;
+  /** 카탈로그상 운동 sets — 없으면 1로 가정 */
+  sets?: number | null;
+  /** 카탈로그상 운동 reps — 없으면 10으로 가정 */
+  reps?: number | null;
+  /** 운동 중량(kg). null/없으면 맨몸으로 보고 userWeightKg 사용 */
+  weightKg?: number | null;
+};
 
 export type ScoreSummary = {
   score: number;
@@ -24,11 +31,21 @@ export type ScoreSummary = {
   longestStreak: number;
   last7DayCount: number;
   lastCompletedYmd: string | null;
-  /** UI 게이지(0..100) 용 정규화 점수 */
   normalized: number;
 };
 
-export function computeScore(completions: DoneRecord[]): ScoreSummary {
+function pointsOf(r: DoneRecord, userWeightKg: number, age: number): number {
+  const sets = r.sets ?? 1;
+  const reps = r.reps ?? 10;
+  const w = r.weightKg ?? userWeightKg;
+  const volume = sets * reps * Math.max(0, w);
+  return (volume / VOLUME_PER_POINT) * Math.pow(0.5, age / HALF_LIFE_DAYS);
+}
+
+export function computeScore(
+  completions: DoneRecord[],
+  userWeightKg: number,
+): ScoreSummary {
   if (completions.length === 0) {
     return {
       score: 0,
@@ -43,13 +60,11 @@ export function computeScore(completions: DoneRecord[]): ScoreSummary {
 
   const todayEpoch = ymdToEpochDay(seoulYmd());
 
-  // 점수: 각 완료 건마다 시간 감쇠 적용해 합산
   const score = completions.reduce((sum, c) => {
     const age = Math.max(0, todayEpoch - ymdToEpochDay(c.forDate));
-    return sum + BASE_POINTS * Math.pow(0.5, age / HALF_LIFE_DAYS);
+    return sum + pointsOf(c, userWeightKg, age);
   }, 0);
 
-  // 연속/최장 일수는 "그 날 한 개라도 완료" 기준 (distinct days)
   const dateEpochs = new Set(completions.map((c) => ymdToEpochDay(c.forDate)));
 
   const last7DayCount = Array.from(dateEpochs).filter(
@@ -76,11 +91,10 @@ export function computeScore(completions: DoneRecord[]): ScoreSummary {
     }
   }
 
-  // 30일간 매일 5개 완료(= 150건 ≈ 300점)을 100%로 본다
-  const CAP = 300;
+  // 100% 기준 — 한 달간 매일 5운동, 1운동당 4×10×60kg = 2400 ≈ 12점, ×150건 ≈ 1800점
+  const CAP = 1800;
   const normalized = Math.min(100, Math.round((score / CAP) * 100));
 
-  // 가장 최근 완료 날짜 (입력은 desc로 옴)
   const sortedDesc = completions
     .map((c) => c.forDate)
     .sort((a, b) => (a < b ? 1 : -1));
@@ -96,3 +110,53 @@ export function computeScore(completions: DoneRecord[]): ScoreSummary {
     normalized,
   };
 }
+
+/**
+ * 부위 → 마네킹 region 매핑(다중 부위 동작은 여러 region 에 기여)
+ */
+export const FOCUS_TO_REGIONS: Record<
+  string,
+  ("chest" | "back" | "shoulder" | "arm" | "leg" | "core")[]
+> = {
+  chest: ["chest"],
+  back: ["back"],
+  shoulder: ["shoulder"],
+  arm: ["arm"],
+  lower: ["leg"],
+  core: ["core"],
+  push: ["chest", "shoulder", "arm"],
+  pull: ["back", "arm"],
+  fullbody: ["chest", "back", "leg", "shoulder", "core"],
+  upper: ["chest", "back", "shoulder", "arm"],
+};
+
+/**
+ * 부위별 누적 점수 → 부위 간 상대비율로 밸런스 상태 산출.
+ *   - 가장 강한 부위 대비 70%↑ : balanced
+ *   - 40~70%                 : low (부족)
+ *   - <40% (또는 0)          : under (심하게 부족 / 미운동)
+ */
+export type BalanceStatus = "balanced" | "low" | "under";
+
+export function balanceStatusFor(
+  regionPoints: number,
+  maxRegionPoints: number,
+): BalanceStatus {
+  if (maxRegionPoints <= 0) return "under";
+  const ratio = regionPoints / maxRegionPoints;
+  if (ratio >= 0.7) return "balanced";
+  if (ratio >= 0.4) return "low";
+  return "under";
+}
+
+export const BALANCE_COLOR: Record<BalanceStatus, string> = {
+  balanced: "#10b981", // emerald-500
+  low: "#f59e0b", // amber-500
+  under: "#f43f5e", // rose-500
+};
+
+export const BALANCE_LABEL: Record<BalanceStatus, string> = {
+  balanced: "균형",
+  low: "부족",
+  under: "심하게 부족",
+};

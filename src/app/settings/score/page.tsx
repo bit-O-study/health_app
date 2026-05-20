@@ -4,7 +4,14 @@ import { Activity, ChevronLeft, Flame, Trophy } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
 import { getRecentExerciseCompletions } from "@/features/routine/exercise-completions";
-import { computeScore } from "@/features/routine/score";
+import {
+  balanceStatusFor,
+  BALANCE_COLOR,
+  BALANCE_LABEL,
+  computeScore,
+  FOCUS_TO_REGIONS,
+  type BalanceStatus,
+} from "@/features/routine/score";
 import { seoulYmd } from "@/features/routine/data";
 import {
   Mannequin,
@@ -14,20 +21,14 @@ import {
 
 export const dynamic = "force-dynamic";
 
-const FOCUS_TO_REGIONS: Record<string, BodyRegion[]> = {
-  chest: ["chest"],
-  back: ["back"],
-  shoulder: ["shoulder"],
-  arm: ["arm"],
-  lower: ["leg"],
-  core: ["core"],
-  push: ["chest", "shoulder", "arm"],
-  pull: ["back", "arm"],
-  fullbody: ["chest", "back", "leg", "shoulder", "core"],
-  upper: ["chest", "back", "shoulder", "arm"],
-};
-
-const REGIONS: BodyRegion[] = ["chest", "back", "shoulder", "arm", "leg", "core"];
+const REGIONS: BodyRegion[] = [
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "leg",
+  "core",
+];
 
 function ymdToEpochDay(ymd: string): number {
   const [y, m, d] = ymd.split("-").map(Number);
@@ -38,12 +39,20 @@ export default async function ScorePage() {
   const profile = await getUserProfile();
   if (!profile) redirect("/onboarding");
 
+  const userWeight = profile.weightKg ?? 65;
   const completions = await getRecentExerciseCompletions(90);
   const done = completions.filter((c) => c.status === "done");
+  const s = computeScore(
+    done.map((c) => ({
+      forDate: c.forDate,
+      sets: c.sets,
+      reps: c.reps,
+      weightKg: c.weightKg,
+    })),
+    userWeight,
+  );
 
-  const s = computeScore(done);
-
-  // 부위별 가중 점수 계산
+  // 부위별 운동량 기반 누적 (volume × decay)
   const todayEpoch = ymdToEpochDay(seoulYmd());
   const regionPoints = Object.fromEntries(
     REGIONS.map((r) => [r, 0]),
@@ -52,17 +61,21 @@ export default async function ScorePage() {
     if (!c.focus) continue;
     const regs = FOCUS_TO_REGIONS[c.focus];
     if (!regs) continue;
+    const sets = c.sets ?? 1;
+    const reps = c.reps ?? 10;
+    const w = c.weightKg ?? userWeight;
+    const volume = sets * reps * Math.max(0, w);
     const age = Math.max(0, todayEpoch - ymdToEpochDay(c.forDate));
-    const pts = 2 * Math.pow(0.5, age / 14);
+    const pts = (volume / 200) * Math.pow(0.5, age / 14);
     for (const r of regs) regionPoints[r] += pts;
   }
-  const REGION_CAP = 30; // 부위별 0..100 정규화 기준
-  const regionNorm = Object.fromEntries(
-    REGIONS.map((r) => [
-      r,
-      Math.min(100, Math.round((regionPoints[r] / REGION_CAP) * 100)),
-    ]),
-  ) as Record<BodyRegion, number>;
+  const maxRegion = Math.max(...REGIONS.map((r) => regionPoints[r]));
+  const regionStatus = Object.fromEntries(
+    REGIONS.map((r) => [r, balanceStatusFor(regionPoints[r], maxRegion)]),
+  ) as Record<BodyRegion, BalanceStatus>;
+  const regionColors = Object.fromEntries(
+    REGIONS.map((r) => [r, BALANCE_COLOR[regionStatus[r]]]),
+  ) as Record<BodyRegion, string>;
 
   // 21일 미니 캘린더 — 그 날 한 개라도 완료
   const todayYmd = seoulYmd();
@@ -81,16 +94,13 @@ export default async function ScorePage() {
   const C = 110;
   const circ = 2 * Math.PI * R;
   const offset = circ * (1 - s.normalized / 100);
-  const grade =
-    s.normalized >= 80
-      ? { label: "최상", color: "text-emerald-700" }
-      : s.normalized >= 60
-        ? { label: "양호", color: "text-emerald-600" }
-        : s.normalized >= 40
-          ? { label: "보통", color: "text-amber-600" }
-          : s.normalized >= 20
-            ? { label: "주의", color: "text-orange-600" }
-            : { label: "낮음", color: "text-rose-600" };
+
+  // 밸런스 점수 — under 부위가 적을수록 좋음
+  const underCount = REGIONS.filter((r) => regionStatus[r] === "under").length;
+  const lowCount = REGIONS.filter((r) => regionStatus[r] === "low").length;
+  const balancedCount = REGIONS.filter(
+    (r) => regionStatus[r] === "balanced",
+  ).length;
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
@@ -105,8 +115,9 @@ export default async function ScorePage() {
       <div className="mt-6 mb-6 space-y-1">
         <h1 className="text-2xl font-bold text-zinc-950">내 운동 점수</h1>
         <p className="text-sm leading-6 text-zinc-600">
-          완료된 운동만 합산하고 오래된 기록일수록 가중치가 줄어듭니다(반감기
-          14일). 부위별 발달도는 아래 마네킹과 카드에서 확인하세요.
+          완료된 운동의 실제 운동량(세트×횟수×무게)을 누적합니다. 오래된
+          기록일수록 가중치가 줄고(반감기 14일), 아래 마네킹은 부위 간 균형이
+          깨진 곳을 보여줍니다.
         </p>
       </div>
 
@@ -140,19 +151,20 @@ export default async function ScorePage() {
           </svg>
 
           <div className="min-w-0 flex-1 space-y-1">
-            <p className={`text-sm font-bold uppercase tracking-wide ${grade.color}`}>
-              종합 등급 · {grade.label}
-            </p>
             <p className="text-sm leading-6 text-zinc-600">
-              완료 운동 가중합계: <strong>{s.score}점</strong>
+              운동량 가중합계: <strong>{s.score}점</strong>
             </p>
             <p className="text-xs text-zinc-500">
-              마지막 완료: {s.lastCompletedYmd ?? "—"} · 최근 7일 {s.last7DayCount}일 활동
+              마지막 완료: {s.lastCompletedYmd ?? "—"} · 최근 7일{" "}
+              {s.last7DayCount}일 활동
+            </p>
+            <p className="text-xs text-zinc-500">
+              체중 기준: <strong>{userWeight}kg</strong>
+              {profile.weightKg === null ? " (미입력 · 65kg 가정)" : ""}
             </p>
           </div>
         </div>
 
-        {/* 서브 지표 */}
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <MetricCard icon={<Flame size={18} />} label="연속" value={`${s.currentStreak}일`} tone="rose" />
           <MetricCard icon={<Trophy size={18} />} label="최장 연속" value={`${s.longestStreak}일`} tone="amber" />
@@ -160,7 +172,6 @@ export default async function ScorePage() {
           <MetricCard icon={<Activity size={18} />} label="총 완료" value={`${s.totalCount}건`} tone="indigo" />
         </div>
 
-        {/* 21일 미니 캘린더 */}
         <div className="mt-6">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
             최근 21일 활동
@@ -178,18 +189,27 @@ export default async function ScorePage() {
               </div>
             ))}
           </div>
-          <p className="mt-2 text-[11px] text-zinc-400">
-            초록 = 그 날 운동 완료 · 회색 = 미완료
-          </p>
         </div>
       </section>
 
-      {/* 부위별 발달도 (마네킹) */}
+      {/* 부위별 밸런스 마네킹 */}
       <section className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-base font-bold text-zinc-950">부위별 발달도</h2>
+        <h2 className="mb-1 text-base font-bold text-zinc-950">부위별 밸런스</h2>
+        <p className="mb-4 text-xs text-zinc-500">
+          가장 강한 부위 대비 비율 — <strong>균형 ≥70%</strong>,{" "}
+          <strong>부족 40~70%</strong>, <strong>심하게 부족 &lt;40%</strong>.
+          빨간 부위를 보강하면 균형이 잡힙니다.
+        </p>
 
         <div className="flex flex-col gap-6 md:flex-row">
-          <Mannequin scores={regionNorm} />
+          <div className="flex flex-col items-center gap-3">
+            <Mannequin colors={regionColors} />
+            <div className="flex items-center gap-3 text-[11px] text-zinc-600">
+              <Legend color={BALANCE_COLOR.balanced} label="균형" />
+              <Legend color={BALANCE_COLOR.low} label="부족" />
+              <Legend color={BALANCE_COLOR.under} label="심하게 부족" />
+            </div>
+          </div>
 
           <div className="grid flex-1 grid-cols-2 gap-2 self-start">
             {REGIONS.map((r) => (
@@ -197,19 +217,30 @@ export default async function ScorePage() {
                 key={r}
                 className="rounded-lg border border-zinc-200 bg-white p-3 shadow-sm"
               >
-                <p className="text-xs font-semibold text-zinc-500">
-                  {REGION_LABEL[r]}
-                </p>
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-semibold text-zinc-500">
+                    {REGION_LABEL[r]}
+                  </p>
+                  <span
+                    className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                    style={{ backgroundColor: BALANCE_COLOR[regionStatus[r]] }}
+                  >
+                    {BALANCE_LABEL[regionStatus[r]]}
+                  </span>
+                </div>
                 <p className="mt-1 text-xl font-bold text-zinc-950">
-                  {regionNorm[r]}
+                  {Math.round(regionPoints[r])}
                   <span className="ml-1 text-xs font-medium text-zinc-500">
-                    %
+                    점
                   </span>
                 </p>
                 <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-100">
                   <div
-                    className="h-full rounded-full bg-emerald-500"
-                    style={{ width: `${regionNorm[r]}%` }}
+                    className="h-full rounded-full"
+                    style={{
+                      width: `${maxRegion > 0 ? Math.round((regionPoints[r] / maxRegion) * 100) : 0}%`,
+                      backgroundColor: BALANCE_COLOR[regionStatus[r]],
+                    }}
                   />
                 </div>
               </div>
@@ -217,9 +248,9 @@ export default async function ScorePage() {
           </div>
         </div>
 
-        <p className="mt-4 text-[11px] text-zinc-400">
-          점수 계산: 완료 1회 = 2점에서 시작, <strong>0.5^(지난일수/14)</strong>
-          가중치로 감쇠한 합. 부위별 정규화 기준은 30점.
+        <p className="mt-4 text-sm font-semibold text-zinc-700">
+          밸런스 요약 — 균형 {balancedCount} · 부족 {lowCount} · 심하게 부족{" "}
+          {underCount}
         </p>
       </section>
     </main>
@@ -247,14 +278,24 @@ function MetricCard({
   return (
     <div className="rounded-lg border border-zinc-200 bg-white p-3 shadow-sm">
       <div className="flex items-center gap-2">
-        <span
-          className={`flex h-7 w-7 items-center justify-center rounded-md ${t.bg} ${t.text}`}
-        >
+        <span className={`flex h-7 w-7 items-center justify-center rounded-md ${t.bg} ${t.text}`}>
           {icon}
         </span>
         <p className="text-xs font-semibold text-zinc-500">{label}</p>
       </div>
       <p className="mt-1.5 text-xl font-bold text-zinc-950">{value}</p>
     </div>
+  );
+}
+
+function Legend({ color, label }: { color: string; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1">
+      <span
+        className="h-2.5 w-2.5 rounded"
+        style={{ backgroundColor: color }}
+      />
+      {label}
+    </span>
   );
 }

@@ -1,19 +1,21 @@
 /**
- * 운동 점수 계산 — 완료된 운동만 합산하고, 오래된 기록일수록 가중치를 낮춘다.
- *   완료 1건 = 10점 × 0.5^(days_ago / HALF_LIFE)
+ * 운동 점수 — 완료된 "운동 종목"별로 합산하고 오래된 기록일수록 가중치를 낮춘다.
+ *   완료 1건 = 2점 × 0.5^(days_ago / HALF_LIFE)
  * HALF_LIFE 14일: 2주 안 하면 점수가 절반으로 줄어듦.
+ * "오늘은 안 함(skipped)" 으로 처리된 건은 점수 합산에서 제외.
  */
 
 import { seoulYmd } from "@/features/routine/data";
-import type { CompletionRow } from "@/features/routine/completions";
 
 const HALF_LIFE_DAYS = 14;
-const BASE_POINTS = 10;
+const BASE_POINTS = 2;
 
 function ymdToEpochDay(ymd: string): number {
   const [y, m, d] = ymd.split("-").map(Number);
   return Math.floor(Date.UTC(y, m - 1, d) / 86_400_000);
 }
+
+export type DoneRecord = { forDate: string };
 
 export type ScoreSummary = {
   score: number;
@@ -26,7 +28,7 @@ export type ScoreSummary = {
   normalized: number;
 };
 
-export function computeScore(completions: CompletionRow[]): ScoreSummary {
+export function computeScore(completions: DoneRecord[]): ScoreSummary {
   if (completions.length === 0) {
     return {
       score: 0,
@@ -41,32 +43,30 @@ export function computeScore(completions: CompletionRow[]): ScoreSummary {
 
   const todayEpoch = ymdToEpochDay(seoulYmd());
 
-  // 점수: 시간 감쇠 합산
+  // 점수: 각 완료 건마다 시간 감쇠 적용해 합산
   const score = completions.reduce((sum, c) => {
     const age = Math.max(0, todayEpoch - ymdToEpochDay(c.forDate));
     return sum + BASE_POINTS * Math.pow(0.5, age / HALF_LIFE_DAYS);
   }, 0);
 
-  // 최근 7일 카운트
-  const last7DayCount = completions.filter(
-    (c) => todayEpoch - ymdToEpochDay(c.forDate) <= 6,
+  // 연속/최장 일수는 "그 날 한 개라도 완료" 기준 (distinct days)
+  const dateEpochs = new Set(completions.map((c) => ymdToEpochDay(c.forDate)));
+
+  const last7DayCount = Array.from(dateEpochs).filter(
+    (e) => todayEpoch - e <= 6,
   ).length;
 
-  // 연속 일수 — 가장 최근 날짜부터 거꾸로 매일 있는지
-  const dates = new Set(completions.map((c) => ymdToEpochDay(c.forDate)));
   let cursor = todayEpoch;
   let currentStreak = 0;
-  // 오늘 안 했어도 어제까지 이어졌으면 카운트되도록: 오늘이 없으면 어제부터 시작
-  if (!dates.has(cursor)) cursor -= 1;
-  while (dates.has(cursor)) {
+  if (!dateEpochs.has(cursor)) cursor -= 1;
+  while (dateEpochs.has(cursor)) {
     currentStreak += 1;
     cursor -= 1;
   }
 
-  // 최장 연속 일수
-  const sortedDays = Array.from(dates).sort((a, b) => a - b);
-  let longest = 1;
-  let run = 1;
+  const sortedDays = Array.from(dateEpochs).sort((a, b) => a - b);
+  let longest = sortedDays.length > 0 ? 1 : 0;
+  let run = sortedDays.length > 0 ? 1 : 0;
   for (let i = 1; i < sortedDays.length; i++) {
     if (sortedDays[i] === sortedDays[i - 1] + 1) {
       run += 1;
@@ -75,13 +75,16 @@ export function computeScore(completions: CompletionRow[]): ScoreSummary {
       run = 1;
     }
   }
-  if (sortedDays.length === 0) longest = 0;
 
-  // 0..100 정규화 — 30일 매일 완료 = 약 290점이 100% 기준
-  const CAP = 290;
+  // 30일간 매일 5개 완료(= 150건 ≈ 300점)을 100%로 본다
+  const CAP = 300;
   const normalized = Math.min(100, Math.round((score / CAP) * 100));
 
-  const lastCompletedYmd = completions[0]?.forDate ?? null; // already desc
+  // 가장 최근 완료 날짜 (입력은 desc로 옴)
+  const sortedDesc = completions
+    .map((c) => c.forDate)
+    .sort((a, b) => (a < b ? 1 : -1));
+  const lastCompletedYmd = sortedDesc[0] ?? null;
 
   return {
     score: Math.round(score),

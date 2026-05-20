@@ -87,11 +87,13 @@ export default async function TodayConditioningPage() {
 
       <div className="space-y-3">
         <ConditioningEditor
+          focus={todayTone}
           kind="warmup"
           initial={warmupInitial}
           dailyDate={todayYmd}
         />
         <ConditioningEditor
+          focus={todayTone}
           kind="cooldown"
           initial={cooldownInitial}
           dailyDate={todayYmd}

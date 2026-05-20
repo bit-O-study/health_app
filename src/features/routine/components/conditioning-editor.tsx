@@ -2,16 +2,18 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import {
   conditioningOptions,
+  defaultsFor,
   getConditioningItem,
   PARAM_LABEL,
   PARAM_UNIT,
   type ConditioningKind,
   type ConditioningParam,
 } from "@/features/routine/conditioning-catalog";
+import type { FocusTone } from "@/features/routine/data";
 import {
   saveConditioningAction,
   type ConditioningInput,
@@ -78,14 +80,18 @@ export function ConditioningEditor({
     ]);
   }
 
+  function rowsToInput(list: Row[]): ConditioningInput[] {
+    return list.map((r) => ({
+      itemId: r.itemId,
+      durationMin: r.duration.trim() === "" ? null : Number(r.duration),
+      speed: r.speed.trim() === "" ? null : Number(r.speed),
+      incline: r.incline.trim() === "" ? null : Number(r.incline),
+    }));
+  }
+
   function save() {
     start(async () => {
-      const items: ConditioningInput[] = rows.map((r) => ({
-        itemId: r.itemId,
-        durationMin: r.duration.trim() === "" ? null : Number(r.duration),
-        speed: r.speed.trim() === "" ? null : Number(r.speed),
-        incline: r.incline.trim() === "" ? null : Number(r.incline),
-      }));
+      const items = rowsToInput(rows);
       const res = dailyDate
         ? await saveDailyConditioningAction(dailyDate, kind, items)
         : await saveConditioningAction(focus ?? "", kind, items);
@@ -94,20 +100,60 @@ export function ConditioningEditor({
     });
   }
 
+  /** 부위 기본 추천으로 즉시 채우고 저장 */
+  function recommend() {
+    if (!focus) {
+      setMsg("부위 정보가 없어 추천할 수 없습니다.");
+      return;
+    }
+    const ids = defaultsFor(focus as FocusTone, kind);
+    const next: Row[] = ids.map((id) => {
+      const item = getConditioningItem(id);
+      return {
+        itemId: id,
+        duration: item?.defaultMin ? String(item.defaultMin) : "",
+        speed: item?.defaultSpeed ? String(item.defaultSpeed) : "",
+        incline: item?.defaultIncline ? String(item.defaultIncline) : "",
+      };
+    });
+    setRows(next);
+    start(async () => {
+      const items = rowsToInput(next);
+      const res = dailyDate
+        ? await saveDailyConditioningAction(dailyDate, kind, items)
+        : await saveConditioningAction(focus, kind, items);
+      setMsg(res.ok ? "추천으로 채워졌습니다" : res.error);
+      if (res.ok) router.refresh();
+    });
+  }
+
   return (
     <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3">
-      <div className="mb-2 flex items-center justify-between">
+      <div className="mb-2 flex items-center justify-between gap-2">
         <h4 className="text-sm font-bold text-zinc-800">
           {KIND_LABEL[kind]}
         </h4>
-        <button
-          type="button"
-          onClick={addRow}
-          className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
-        >
-          <Plus aria-hidden="true" size={13} />
-          추가
-        </button>
+        <div className="flex items-center gap-1.5">
+          {focus ? (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={recommend}
+              className="inline-flex h-7 items-center gap-1 rounded-md border border-emerald-300 bg-emerald-50 px-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60"
+            >
+              <Sparkles aria-hidden="true" size={13} />
+              추천으로 채우기
+            </button>
+          ) : null}
+          <button
+            type="button"
+            onClick={addRow}
+            className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+          >
+            <Plus aria-hidden="true" size={13} />
+            추가
+          </button>
+        </div>
       </div>
 
       {rows.length === 0 ? (

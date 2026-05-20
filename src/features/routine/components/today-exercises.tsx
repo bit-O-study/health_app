@@ -14,13 +14,15 @@ import {
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
 import type { ConditioningRow } from "@/features/routine/conditioning";
-import { estimateTodayKcal } from "@/features/routine/calories";
-import { isCompletedToday } from "@/features/routine/completions";
+import {
+  estimateConditioningKcal,
+  estimateTodayKcal,
+} from "@/features/routine/calories";
+import { getStatusMapToday } from "@/features/routine/exercise-completions";
 import {
   TodayPlanList,
   type TodayPlanItem,
 } from "@/features/routine/components/today-plan-list";
-import { MarkCompleteButton } from "@/features/routine/components/mark-complete-button";
 
 function formatDetail(row: ConditioningRow): string {
   const parts: string[] = [];
@@ -30,7 +32,7 @@ function formatDetail(row: ConditioningRow): string {
   return parts.join(" · ");
 }
 
-/** 메인 "오늘의 운동" — 워밍업 + 본운동 + 마무리 + 칼로리/완료 */
+/** 메인 "오늘의 운동" — 워밍업 + 본운동 + 마무리 + 칼로리 (행별 완료/스킵) */
 export async function TodayExercises({
   tone,
   weightKg,
@@ -39,11 +41,11 @@ export async function TodayExercises({
   weightKg: number | null;
 }) {
   const todayYmd = seoulYmd();
-  const [plan, defaults, daily, done] = await Promise.all([
+  const [plan, defaults, daily, statusMap] = await Promise.all([
     getPlanForFocus(tone),
     getConditioningForFocus(tone),
     getDailyConditioning(todayYmd),
-    isCompletedToday(todayYmd),
+    getStatusMapToday(todayYmd),
   ]);
 
   const warmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
@@ -63,9 +65,22 @@ export async function TodayExercises({
     weightKg: item.weightKg,
   }));
 
+  const doneIds = plan
+    .filter((p) => statusMap.get(p.id) === "done")
+    .map((p) => p.id);
+  const skippedIds = plan
+    .filter((p) => statusMap.get(p.id) === "skipped")
+    .map((p) => p.id);
+  const skippedSet = new Set(skippedIds);
+
+  // 스킵된 본운동은 예상 칼로리 합산에서 제외
+  const planForKcal = plan
+    .filter((p) => !skippedSet.has(p.id))
+    .map((p) => ({ exerciseId: p.exerciseId, sets: p.sets }));
+
   const kcal = estimateTodayKcal({
     weightKg,
-    plan: plan.map((p) => ({ exerciseId: p.exerciseId, sets: p.sets })),
+    plan: planForKcal,
     warmup: warmupRows.map((r) => ({
       itemId: r.itemId,
       durationMin: r.durationMin,
@@ -92,8 +107,8 @@ export async function TodayExercises({
         </Link>
       </div>
 
-      {/* 칼로리 + 완료 */}
-      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
+      {/* 예상 소모 칼로리 (스킵 제외 반영) */}
+      <div className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
           <Zap aria-hidden="true" size={20} />
         </span>
@@ -107,16 +122,17 @@ export async function TodayExercises({
           </p>
           <p className="mt-0.5 text-[11px] text-zinc-500">
             워밍업 {kcal.warmup} · 본운동 {kcal.main} · 마무리 {kcal.cooldown}
+            {skippedSet.size > 0 ? ` · 스킵 ${skippedSet.size}개 제외` : ""}
             {weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
           </p>
         </div>
-        <MarkCompleteButton focus={tone} calories={kcal.total} done={done} />
       </div>
 
       <ConditioningBlock
         kind="warmup"
         rows={warmupRows}
         isDailyOverride={isDailyWarmup}
+        weightKg={weightKg}
       />
 
       {plan.length === 0 ? (
@@ -135,9 +151,15 @@ export async function TodayExercises({
       ) : (
         <div>
           <p className="mb-2 text-xs text-zinc-400">
-            드래그해서 순서를 바꿀 수 있어요
+            드래그해서 순서 변경 · ✓ 완료 · ✕ 오늘 안 함(다시 누르면 되살림)
           </p>
-          <TodayPlanList focus={tone} items={items} />
+          <TodayPlanList
+            focus={tone}
+            items={items}
+            weightKg={weightKg}
+            doneIds={doneIds}
+            skippedIds={skippedIds}
+          />
         </div>
       )}
 
@@ -145,6 +167,7 @@ export async function TodayExercises({
         kind="cooldown"
         rows={cooldownRows}
         isDailyOverride={isDailyCooldown}
+        weightKg={weightKg}
       />
     </section>
   );
@@ -154,18 +177,20 @@ function ConditioningBlock({
   kind,
   rows,
   isDailyOverride,
+  weightKg,
 }: {
   kind: "warmup" | "cooldown";
   rows: ConditioningRow[];
   isDailyOverride: boolean;
+  weightKg: number | null;
 }) {
   const isWarm = kind === "warmup";
   const HeaderIcon = isWarm ? Flame : Wind;
   const label = isWarm ? "워밍업" : "마무리 운동";
-  const hint = isWarm ? "약 5분" : "약 3~5분";
   const headerBadge = isWarm
     ? "flex h-7 w-7 items-center justify-center rounded-md bg-amber-100 text-amber-700"
     : "flex h-7 w-7 items-center justify-center rounded-md bg-sky-100 text-sky-700";
+  const w = weightKg ?? 65;
 
   return (
     <section>
@@ -174,7 +199,6 @@ function ConditioningBlock({
           <HeaderIcon aria-hidden="true" size={15} />
         </span>
         <h3 className="text-sm font-bold text-zinc-950">{label}</h3>
-        <span className="text-xs text-zinc-500">{hint}</span>
         {isDailyOverride ? (
           <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
             오늘만
@@ -190,7 +214,11 @@ function ConditioningBlock({
 
       {rows.length === 0 ? (
         <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-4 text-center text-xs text-zinc-500">
-          등록된 항목이 없습니다. <Link href="/plan" className="font-semibold text-emerald-700">/plan</Link> 에서 추가하거나 “추천으로 등록”으로 채워주세요.
+          등록된 항목이 없습니다.{" "}
+          <Link href="/plan" className="font-semibold text-emerald-700">
+            /plan
+          </Link>{" "}
+          에서 추가하거나 “추천으로 채우기”를 사용하세요.
         </p>
       ) : (
         <div className="space-y-2">
@@ -198,6 +226,9 @@ function ConditioningBlock({
             const item = getConditioningItem(r.itemId);
             const name = item?.name ?? r.itemId;
             const detail = formatDetail(r);
+            const kcal = Math.round(
+              estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
+            );
             const iconWrap = isWarm
               ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700"
               : "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-700";
@@ -212,9 +243,12 @@ function ConditioningBlock({
                 </span>
                 <div className="min-w-0 flex-1">
                   <h4 className="text-base font-bold text-zinc-950">{name}</h4>
-                  {detail ? (
-                    <p className="mt-0.5 text-sm text-zinc-600">{detail}</p>
-                  ) : null}
+                  <p className="mt-0.5 text-sm text-zinc-600">
+                    {detail || "—"}
+                    <span className="ml-2 text-xs text-orange-700">
+                      · 약 {kcal}kcal
+                    </span>
+                  </p>
                 </div>
                 <ChevronRight
                   aria-hidden="true"

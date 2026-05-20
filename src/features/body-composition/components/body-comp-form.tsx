@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Sparkles, Upload } from "lucide-react";
 
@@ -10,14 +10,25 @@ import {
   saveBodyCompositionAction,
   type SaveBodyCompInput,
 } from "@/features/body-composition/actions";
-import {
-  extractBodyCompFromImageAction,
-  type OcrField,
-} from "@/features/body-composition/ocr";
+import { parseBodyCompText } from "@/features/body-composition/parse-body-comp";
 
 const BUCKET = "body-composition-images";
 
-type FieldKey = Exclude<keyof SaveBodyCompInput, "consented" | "measuredAt" | "imagePath">;
+/** Tesseract.js logger 의 영문 status 를 사용자용 한국어 문구로 */
+function translatePhase(s: string): string {
+  if (s.includes("loading tesseract core")) return "엔진 로딩";
+  if (s.includes("initializing tesseract")) return "엔진 초기화";
+  if (s.includes("loading language traineddata"))
+    return "한국어 데이터 다운로드";
+  if (s.includes("initializing api")) return "분석 준비";
+  if (s.includes("recognizing")) return "사진 분석 중";
+  return s;
+}
+
+type FieldKey = Exclude<
+  keyof SaveBodyCompInput,
+  "consented" | "measuredAt" | "imagePath"
+>;
 
 const SECTIONS: { label: string; fields: { key: FieldKey; label: string; unit: string }[] }[] = [
   {
@@ -61,11 +72,8 @@ function todayYmd(): string {
 
 export function BodyCompForm({
   hasExistingImage,
-  ocrEnabled,
 }: {
   hasExistingImage: boolean;
-  /** 서버에 ANTHROPIC_API_KEY 가 있으면 true — '자동 추출' 버튼 노출 */
-  ocrEnabled: boolean;
 }) {
   const router = useRouter();
   const [measuredAt, setMeasuredAt] = useState(todayYmd());
@@ -80,16 +88,22 @@ export function BodyCompForm({
   const [uploadErr, setUploadErr] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
-  const [ocrPending, startOcr] = useTransition();
+  // 클라이언트 OCR (tesseract.js) — 사진은 브라우저 안에서만 처리, 어디로도 안 나감
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [ocrRunning, setOcrRunning] = useState(false);
+  const [ocrProgress, setOcrProgress] = useState(0);
+  const [ocrPhase, setOcrPhase] = useState<string>("");
   const [ocrMsg, setOcrMsg] = useState<{ ok: boolean; text: string } | null>(
     null,
   );
+  const ocrAbortRef = useRef<{ cancel: () => void } | null>(null);
 
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploadErr(null);
     setUploading(true);
+    setImageFile(file); // OCR 용 원본 파일 보존
     try {
       const supabase = createSupabaseBrowserClient();
       const {
@@ -114,40 +128,66 @@ export function BodyCompForm({
     }
   }
 
-  function parse(k: FieldKey): number | null {
-    const s = values[k].trim();
-    return s === "" ? null : Number(s);
-  }
-
-  function runOcr() {
-    if (!imagePath) {
-      setOcrMsg({ ok: false, text: "먼저 사진을 업로드해 주세요." });
+  async function runOcr() {
+    if (!imageFile) {
+      setOcrMsg({ ok: false, text: "먼저 사진을 선택해 주세요." });
       return;
     }
     setOcrMsg(null);
-    startOcr(async () => {
-      const res = await extractBodyCompFromImageAction(imagePath);
-      if (!res.ok) {
-        setOcrMsg({ ok: false, text: res.error });
-        return;
-      }
-      // 추출된 필드만 폼에 채워넣기 (사용자가 검토 후 저장)
+    setOcrRunning(true);
+    setOcrProgress(0);
+    setOcrPhase("준비 중");
+    try {
+      // 무거우니까 클릭한 순간에만 로드 — 초기 번들 크기 영향 없음
+      const { createWorker } = await import("tesseract.js");
+      const worker = await createWorker(["kor", "eng"], 1, {
+        logger: (m: { status: string; progress?: number }) => {
+          if (typeof m.progress === "number") {
+            setOcrProgress(Math.round(m.progress * 100));
+          }
+          if (m.status) setOcrPhase(translatePhase(m.status));
+        },
+      });
+      ocrAbortRef.current = { cancel: () => worker.terminate() };
+      const { data } = await worker.recognize(imageFile);
+      await worker.terminate();
+      ocrAbortRef.current = null;
+
+      const parsed = parseBodyCompText(data.text);
       const filled: string[] = [];
       setValues((prev) => {
         const next = { ...prev };
-        for (const [k, v] of Object.entries(res.values)) {
+        for (const [k, v] of Object.entries(parsed)) {
           if (v === undefined) continue;
-          const key = k as OcrField;
-          next[key as unknown as FieldKey] = String(v);
-          filled.push(key);
+          next[k as FieldKey] = String(v);
+          filled.push(k);
         }
         return next;
       });
-      setOcrMsg({
-        ok: true,
-        text: `사진에서 ${filled.length}개 항목을 채웠습니다. 값을 확인하고 ‘체성분 저장’을 눌러주세요.`,
-      });
-    });
+      setOcrMsg(
+        filled.length > 0
+          ? {
+              ok: true,
+              text: `${filled.length}개 항목을 읽어 채웠습니다. 값을 확인하고 ‘체성분 저장’을 눌러주세요.`,
+            }
+          : {
+              ok: false,
+              text: "분석지에서 수치를 인식하지 못했습니다. 더 선명한 사진으로 다시 시도하거나 직접 입력해 주세요.",
+            },
+      );
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setOcrMsg({ ok: false, text: `OCR 실패: ${msg}` });
+    } finally {
+      setOcrRunning(false);
+      setOcrProgress(0);
+      setOcrPhase("");
+    }
+  }
+
+  function parse(k: FieldKey): number | null {
+    const s = values[k].trim();
+    return s === "" ? null : Number(s);
   }
 
   function submit() {
@@ -241,26 +281,13 @@ export function BodyCompForm({
 
       <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
         <h3 className="mb-2 text-sm font-bold text-zinc-950">
-          분석지 사진 {ocrEnabled ? "+ 자동 추출" : "(선택)"}
+          분석지 사진 + 자동 추출
         </h3>
         <p className="mb-3 text-xs leading-5 text-zinc-500">
-          {ocrEnabled ? (
-            <>
-              사진을 올리면 ‘사진에서 자동 추출’ 버튼이 활성화됩니다. AI 가 위
-              입력칸을 채워주고, 잘못 읽은 값은 직접 고치고 저장하면 돼요.
-              사진은 본인만 볼 수 있는 비공개 폴더에 저장됩니다. 최대 10MB ·
-              PNG/JPG/WEBP.
-            </>
-          ) : (
-            <>
-              본인만 볼 수 있게 비공개 저장됩니다(개인 폴더). 최대 10MB ·
-              PNG/JPG/WEBP.{" "}
-              <strong className="text-zinc-700">
-                ⚠ 사진만 올려서는 위 입력값이 자동으로 채워지지 않습니다 — 위
-                칸을 직접 채워주세요.
-              </strong>
-            </>
-          )}
+          사진을 선택한 다음 ‘사진에서 자동 추출’ 을 누르면 브라우저 안에서
+          글자를 읽어 위 입력칸을 채워줍니다 (외부 서버로 전송 안 됨, 무료).
+          잘못 읽은 값은 직접 고치고 ‘체성분 저장’ 을 누르면 돼요. 사진 자체는
+          본인만 볼 수 있는 비공개 폴더에 저장됩니다. 최대 10MB · PNG/JPG/WEBP.
         </p>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -285,22 +312,39 @@ export function BodyCompForm({
             />
           </label>
 
-          {ocrEnabled ? (
-            <button
-              type="button"
-              disabled={ocrPending || !imagePath}
-              onClick={runOcr}
-              className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
-            >
-              {ocrPending ? (
-                <Loader2 aria-hidden="true" className="animate-spin" size={15} />
-              ) : (
-                <Sparkles aria-hidden="true" size={15} />
-              )}
-              사진에서 자동 추출
-            </button>
-          ) : null}
+          <button
+            type="button"
+            disabled={ocrRunning || !imageFile}
+            onClick={runOcr}
+            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+          >
+            {ocrRunning ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+            ) : (
+              <Sparkles aria-hidden="true" size={15} />
+            )}
+            사진에서 자동 추출
+          </button>
         </div>
+
+        {ocrRunning ? (
+          <div className="mt-3 space-y-1">
+            <p className="text-xs text-zinc-600">
+              {ocrPhase}
+              {ocrProgress > 0 ? ` ${ocrProgress}%` : ""}
+            </p>
+            <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100">
+              <div
+                className="h-full rounded-full bg-emerald-500 transition-all"
+                style={{ width: `${ocrProgress}%` }}
+              />
+            </div>
+            <p className="text-[11px] text-zinc-400">
+              첫 실행은 한국어 인식 데이터(~10MB) 를 받아오느라 30초 정도
+              걸려요. 다음부터는 빠릅니다.
+            </p>
+          </div>
+        ) : null}
 
         {imagePath ? (
           <p className="mt-2 text-xs text-emerald-700">
@@ -335,13 +379,10 @@ export function BodyCompForm({
           <li>이용 목적: 부위별 밸런스 시각화 및 운동 루틴 추천에 한정</li>
           <li>보관: 본인 계정에 비공개로 저장(본인만 조회 가능), 언제든 삭제 가능</li>
           <li>제3자 제공·의학적 진단·치료 권유에 사용하지 않음</li>
-          {ocrEnabled ? (
-            <li>
-              ‘사진에서 자동 추출’ 버튼을 누르는 경우에만, 해당 사진이 외부
-              AI(Anthropic Claude) 로 일시 전송됩니다. 결과는 즉시 폼에 채워지고
-              외부 서비스에 영구 저장되지 않습니다.
-            </li>
-          ) : null}
+          <li>
+            ‘사진에서 자동 추출’ 은 브라우저 안에서만 처리되며 사진이 외부
+            서버로 전송되지 않습니다.
+          </li>
         </ul>
         <label className="mt-3 inline-flex items-center gap-2">
           <input

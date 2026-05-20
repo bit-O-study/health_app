@@ -191,7 +191,7 @@ function TodayWorkout({
   routine: {
     splits: number;
     variantId: string;
-    customWeek: DayBlockId[] | null;
+    customWeek: DayBlockId[][] | null;
     startDate: string;
     restDate: string | null;
     overrideDate: string | null;
@@ -218,6 +218,11 @@ function TodayWorkout({
   const tone = isRest ? "rest" : planToday.tone;
   const focusLabel = isRest ? "휴식" : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
+
+  // 멀티 부위 일자(예: 가슴 + 팔) — DayPlan.tones 가 있으면 그 모두를 본운동에 사용
+  const todayTones = isRest
+    ? []
+    : (planToday.tones ?? [planToday.tone]).filter((t) => t !== "rest");
 
   const [, mm, dd] = todayYmd.split("-");
   const { weekday } = ymdDisplay(todayYmd);
@@ -312,9 +317,9 @@ function TodayWorkout({
       </section>
 
       {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
-      {!isRest ? (
+      {!isRest && todayTones.length > 0 ? (
         <TodayExercises
-          tone={planToday.tone}
+          tones={todayTones as import("@/features/routine/exercise-catalog").FocusKey[]}
           weightKg={profile?.weightKg ?? null}
         />
       ) : null}

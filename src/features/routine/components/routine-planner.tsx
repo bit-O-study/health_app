@@ -2,10 +2,20 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { CalendarDays, Check, Dumbbell, Loader2, Moon, Pencil } from "lucide-react";
+import {
+  CalendarDays,
+  Check,
+  Dumbbell,
+  Loader2,
+  Moon,
+  Pencil,
+  Plus,
+  X,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
+  composeDayPlan,
   CUSTOM_SPLITS,
   CUSTOM_VARIANT_ID,
   DAY_BLOCKS,
@@ -13,6 +23,7 @@ import {
   DEFAULT_CUSTOM_WEEK,
   DEFAULT_SPLITS,
   DEFAULT_VARIANT_ID,
+  normalizeCustomWeek,
   SPLIT_PRESETS,
   TONE_STYLES,
   WEEKDAYS,
@@ -24,17 +35,32 @@ import type { SaveRoutineResult } from "@/features/routine/actions";
 type RoutinePlannerProps = {
   initialSplits?: number;
   initialVariantId?: string;
-  /** variantId 가 "custom" 일 때의 초기 주간(블록 id ×7) */
-  initialCustomWeek?: DayBlockId[] | null;
+  /** variantId 가 "custom" 일 때의 초기 주간 — 신/구 포맷 모두 허용 */
+  initialCustomWeek?: DayBlockId[][] | DayBlockId[] | null;
   /** 제공되면 "이 루틴으로 저장" 버튼을 노출 */
   saveAction?: (
     splits: number,
     variantId: string,
-    customWeek?: DayBlockId[] | null,
+    customWeek?: DayBlockId[][] | null,
   ) => Promise<SaveRoutineResult>;
   /** 저장 성공 시 이동할 경로 (예: 설정에서 저장 후 "/") */
   redirectOnSuccess?: string;
 };
+
+/** 사용자가 하루 안에 같이 묶을 만한 "체육관 근육 부위" 만 골라서 보여준다.
+ *  fullbody/upper/lower 같은 "세션 그룹"은 단일 부위와 섞으면 의미가 모호해
+ *  멀티 선택 시에는 제외. (단일 선택일 때는 그대로 유효) */
+const MUSCLE_ATOMS: DayBlockId[] = [
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "lower",
+  "core",
+  "push",
+  "pull",
+  "fullbody",
+];
 
 export function RoutinePlanner({
   initialSplits = DEFAULT_SPLITS,
@@ -46,10 +72,8 @@ export function RoutinePlanner({
   const router = useRouter();
   const [splits, setSplits] = useState(initialSplits);
   const [variantId, setVariantId] = useState(initialVariantId);
-  const [customWeek, setCustomWeek] = useState<DayBlockId[]>(
-    initialCustomWeek && initialCustomWeek.length === 7
-      ? initialCustomWeek
-      : DEFAULT_CUSTOM_WEEK,
+  const [customWeek, setCustomWeek] = useState<DayBlockId[][]>(
+    normalizeCustomWeek(initialCustomWeek) ?? DEFAULT_CUSTOM_WEEK,
   );
   const [isSaving, startSaving] = useTransition();
   const [saveStatus, setSaveStatus] = useState<
@@ -65,9 +89,9 @@ export function RoutinePlanner({
     preset.variants.find((item) => item.id === variantId) ??
     preset.variants[0];
 
-  /** 미리보기 주간: 커스텀이면 블록에서, 아니면 변형에서 */
+  /** 미리보기 주간: 커스텀이면 composeDayPlan, 아니면 변형에서 */
   const previewWeek = isCustom
-    ? customWeek.map((id) => DAY_BLOCKS[id].day)
+    ? customWeek.map(composeDayPlan)
     : variant.week;
 
   const trainingDays = previewWeek.filter(
@@ -98,11 +122,51 @@ export function RoutinePlanner({
     setSaveStatus(null);
   }
 
-  function handleChangeDay(index: number, blockId: DayBlockId) {
+  function setDayBlocks(index: number, blocks: DayBlockId[]) {
     setCustomWeek((prev) => {
       const next = [...prev];
-      next[index] = blockId;
+      next[index] = blocks.length === 0 ? ["rest"] : blocks;
       return next;
+    });
+    setSaveStatus(null);
+  }
+
+  function setDayPrimary(index: number, blockId: DayBlockId) {
+    // 첫 블록 교체. rest 선택하면 그 날은 휴식으로 단일화.
+    if (blockId === "rest") {
+      setDayBlocks(index, ["rest"]);
+      return;
+    }
+    setCustomWeek((prev) => {
+      const cur = prev[index].filter((b) => b !== "rest");
+      // 새 부위가 이미 있으면 그대로, 없으면 첫 자리에 교체
+      const next = cur.includes(blockId) ? cur : [blockId, ...cur.slice(1)];
+      const out = [...prev];
+      out[index] = next.length === 0 ? ["rest"] : next;
+      return out;
+    });
+    setSaveStatus(null);
+  }
+
+  function addDayBlock(index: number, blockId: DayBlockId) {
+    if (blockId === "rest") return;
+    setCustomWeek((prev) => {
+      const cur = prev[index].filter((b) => b !== "rest");
+      if (cur.includes(blockId)) return prev;
+      if (cur.length >= 3) return prev; // 한 날 최대 3 부위
+      const out = [...prev];
+      out[index] = [...cur, blockId];
+      return out;
+    });
+    setSaveStatus(null);
+  }
+
+  function removeDayBlock(index: number, blockId: DayBlockId) {
+    setCustomWeek((prev) => {
+      const next = prev[index].filter((b) => b !== blockId);
+      const out = [...prev];
+      out[index] = next.length === 0 ? ["rest"] : next;
+      return out;
     });
     setSaveStatus(null);
   }
@@ -191,43 +255,22 @@ export function RoutinePlanner({
       </div>
 
       {isCustom ? (
-        /* 커스텀 빌더 — 요일별 부위 지정 */
+        /* 커스텀 빌더 — 요일별 부위 (1개 이상) 지정. 멀티 부위 = "가슴 + 팔" 같은 묶음 */
         <div className="mt-5">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
-            요일별 부위 지정
+            요일별 부위 지정 — 한 날에 부위 여러 개 묶기 가능 (최대 3)
           </p>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-            {WEEKDAYS.map((weekday, index) => {
-              const blockId = customWeek[index];
-              const style = TONE_STYLES[DAY_BLOCKS[blockId].day.tone];
-              return (
-                <label
-                  key={weekday}
-                  className="flex items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2"
-                >
-                  <span className="w-6 text-sm font-bold text-zinc-900">
-                    {weekday}
-                  </span>
-                  <span
-                    className={cn("h-2 w-2 shrink-0 rounded-full", style.dot)}
-                  />
-                  <select
-                    aria-label={`${weekday}요일 부위`}
-                    value={blockId}
-                    onChange={(e) =>
-                      handleChangeDay(index, e.target.value as DayBlockId)
-                    }
-                    className="h-9 w-full rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-                  >
-                    {DAY_BLOCK_IDS.map((id) => (
-                      <option key={id} value={id}>
-                        {DAY_BLOCKS[id].label}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              );
-            })}
+          <div className="grid gap-2 sm:grid-cols-2">
+            {WEEKDAYS.map((weekday, index) => (
+              <DayBlockEditor
+                key={weekday}
+                weekday={weekday}
+                blocks={customWeek[index]}
+                onSetPrimary={(id) => setDayPrimary(index, id)}
+                onAdd={(id) => addDayBlock(index, id)}
+                onRemove={(id) => removeDayBlock(index, id)}
+              />
+            ))}
           </div>
         </div>
       ) : (
@@ -301,7 +344,7 @@ export function RoutinePlanner({
                 )}
               >
                 <span className={cn("h-1.5 w-1.5 rounded-full", style.dot)} />
-                {day.focus}
+                <span className="max-w-[120px] truncate">{day.focus}</span>
               </span>
 
               {isRest ? (
@@ -390,5 +433,129 @@ export function RoutinePlanner({
         </div>
       ) : null}
     </section>
+  );
+}
+
+/**
+ * 요일별 부위 편집 카드.
+ * - 첫 부위 → 셀렉트로 직접 변경 (rest 선택 시 그 날을 휴식으로 단일화)
+ * - 추가 부위는 칩 + ×, 옆에 "+ 부위 추가" 드롭다운으로 더하기
+ * - "한 날 최대 3 부위" 제약은 부모에서 처리
+ */
+function DayBlockEditor({
+  weekday,
+  blocks,
+  onSetPrimary,
+  onAdd,
+  onRemove,
+}: {
+  weekday: string;
+  blocks: DayBlockId[];
+  onSetPrimary: (id: DayBlockId) => void;
+  onAdd: (id: DayBlockId) => void;
+  onRemove: (id: DayBlockId) => void;
+}) {
+  const primary = blocks[0] ?? "rest";
+  const extras = blocks.slice(1).filter((b) => b !== "rest");
+  const isRest = primary === "rest";
+  const style = TONE_STYLES[DAY_BLOCKS[primary].day.tone];
+  // 이미 선택된 + rest + "세션 그룹" 일부 제외하고 추가 가능 목록
+  const addable = MUSCLE_ATOMS.filter((id) => !blocks.includes(id));
+
+  return (
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+      <div className="flex items-center gap-2">
+        <span className="w-6 text-sm font-bold text-zinc-900">{weekday}</span>
+        <span className={cn("h-2 w-2 shrink-0 rounded-full", style.dot)} />
+        <select
+          aria-label={`${weekday}요일 첫 부위`}
+          value={primary}
+          onChange={(e) => onSetPrimary(e.target.value as DayBlockId)}
+          className="h-9 min-w-0 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+        >
+          {DAY_BLOCK_IDS.map((id) => (
+            <option key={id} value={id}>
+              {DAY_BLOCKS[id].label}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {!isRest ? (
+        <div className="mt-2 flex flex-wrap items-center gap-1.5">
+          {extras.map((b) => (
+            <span
+              key={b}
+              className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800"
+            >
+              + {DAY_BLOCKS[b].label}
+              <button
+                type="button"
+                aria-label={`${DAY_BLOCKS[b].label} 제거`}
+                onClick={() => onRemove(b)}
+                className="ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-200"
+              >
+                <X aria-hidden="true" size={11} />
+              </button>
+            </span>
+          ))}
+
+          {blocks.filter((b) => b !== "rest").length < 3 &&
+          addable.length > 0 ? (
+            <AddBlockMenu addable={addable} onAdd={onAdd} />
+          ) : null}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+/** "+ 부위 추가" 작은 토글 드롭다운 */
+function AddBlockMenu({
+  addable,
+  onAdd,
+}: {
+  addable: DayBlockId[];
+  onAdd: (id: DayBlockId) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-0.5 rounded-full border border-dashed border-zinc-400 bg-white px-2 py-0.5 text-xs font-semibold text-zinc-600 transition hover:border-emerald-400 hover:text-emerald-700"
+      >
+        <Plus aria-hidden="true" size={11} />
+        부위 추가
+      </button>
+      {open ? (
+        <>
+          {/* 바깥 클릭 닫기 */}
+          <button
+            type="button"
+            aria-hidden
+            tabIndex={-1}
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 z-10 cursor-default"
+          />
+          <div className="absolute left-0 top-full z-20 mt-1 flex w-40 flex-col rounded-md border border-zinc-200 bg-white p-1 shadow-lg">
+            {addable.map((id) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => {
+                  onAdd(id);
+                  setOpen(false);
+                }}
+                className="rounded px-2 py-1.5 text-left text-xs font-medium text-zinc-700 transition hover:bg-emerald-50 hover:text-emerald-700"
+              >
+                {DAY_BLOCKS[id].label}
+              </button>
+            ))}
+          </div>
+        </>
+      ) : null}
+    </div>
   );
 }

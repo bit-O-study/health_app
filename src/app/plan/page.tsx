@@ -21,7 +21,8 @@ export default async function PlanPage() {
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
 
-  // 현재 선택된 루틴의 주간 계획에서 등장하는 부위만 (휴식 제외, 첫 등장 순)
+  // 현재 선택된 루틴의 주간 계획에서 등장하는 부위만 (휴식 제외, 첫 등장 순).
+  // 멀티 부위 일자는 DayPlan.tones 에 모든 부위가 들어있어 그것까지 모두 포함.
   const { variant } = resolveRoutine(
     routine.splits,
     routine.variantId,
@@ -30,11 +31,14 @@ export default async function PlanPage() {
   const seen = new Set<FocusKey>();
   const usedFocuses: FocusKey[] = [];
   for (const day of variant.week) {
-    if (day.tone === "rest") continue;
-    const f = day.tone as FocusKey;
-    if (seen.has(f)) continue;
-    seen.add(f);
-    usedFocuses.push(f);
+    const dayTones = day.tones ?? [day.tone];
+    for (const t of dayTones) {
+      if (t === "rest") continue;
+      const f = t as FocusKey;
+      if (seen.has(f)) continue;
+      seen.add(f);
+      usedFocuses.push(f);
+    }
   }
 
   const focuses = await Promise.all(

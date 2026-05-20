@@ -125,10 +125,13 @@ export function TodayPlanList({
     }
     if (lockedRef.current === "horizontal") {
       e.preventDefault();
-      const capped = Math.max(
+      let capped = Math.max(
         -SWIPE_VISUAL_CAP,
         Math.min(SWIPE_VISUAL_CAP, dx),
       );
+      // 완료 → 휴식 / 휴식 → 완료 직접 전환 차단 (먼저 취소 후 재시도)
+      if (done.has(swipe.id)) capped = Math.max(0, capped);
+      if (skipped.has(swipe.id)) capped = Math.min(0, capped);
       dxRef.current = capped;
       setSwipe((p) => (p ? { ...p, dx: capped } : null));
     }
@@ -138,10 +141,12 @@ export function TodayPlanList({
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
-    if (dx > SWIPE_THRESHOLD) {
-      setStatus(id, done.has(id) ? "clear" : "done");
-    } else if (dx < -SWIPE_THRESHOLD) {
-      setStatus(id, skipped.has(id) ? "clear" : "skipped");
+    const isDone = done.has(id);
+    const isSkipped = skipped.has(id);
+    if (dx > SWIPE_THRESHOLD && !isSkipped) {
+      setStatus(id, isDone ? "clear" : "done");
+    } else if (dx < -SWIPE_THRESHOLD && !isDone) {
+      setStatus(id, isSkipped ? "clear" : "skipped");
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
@@ -245,32 +250,28 @@ export function TodayPlanList({
                 className="group flex min-w-0 flex-1 items-center gap-2"
               >
                 <div className="min-w-0 flex-1">
-                  <h3
-                    className={`text-base font-bold ${
-                      isDone
-                        ? "text-zinc-500 line-through"
-                        : isSkipped
-                          ? "text-zinc-400 line-through"
-                          : "text-zinc-950"
-                    }`}
-                  >
+                  <h3 className="text-base font-bold text-zinc-950">
                     {item.name}
                     <span className="ml-2 text-xs font-medium text-zinc-500">
                       {item.equipmentLabel}
                     </span>
+                    {isDone ? (
+                      <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                        완료
+                      </span>
+                    ) : null}
+                    {isSkipped ? (
+                      <span className="ml-2 rounded-full bg-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-700">
+                        오늘 휴식
+                      </span>
+                    ) : null}
                   </h3>
                   <p className="mt-0.5 text-sm text-zinc-600">
                     {item.sets}세트 × {item.reps}회
                     {item.weightKg !== null
                       ? ` · ${item.weightKg}kg`
                       : " · 맨몸"}
-                    <span
-                      className={`ml-2 text-xs ${
-                        isSkipped
-                          ? "text-zinc-400 line-through"
-                          : "text-orange-700"
-                      }`}
-                    >
+                    <span className="ml-2 text-xs text-orange-700">
                       · 약 {kcal}kcal
                     </span>
                   </p>

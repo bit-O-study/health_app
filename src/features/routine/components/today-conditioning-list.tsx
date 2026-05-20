@@ -85,10 +85,17 @@ export function TodayConditioningList({
     }
     if (lockedRef.current === "horizontal") {
       e.preventDefault();
-      const capped = Math.max(
+      let capped = Math.max(
         -SWIPE_VISUAL_CAP,
         Math.min(SWIPE_VISUAL_CAP, dx),
       );
+      // swipe.id 는 rowId 인데 상태 키는 itemId (rowId 와 다를 수 있음)
+      // 현재 swiping 중인 row 의 itemId 를 찾아 상태 차단
+      const cur = items.find((i) => i.rowId === swipe.id);
+      if (cur) {
+        if (done.has(cur.itemId)) capped = Math.max(0, capped);
+        if (skipped.has(cur.itemId)) capped = Math.min(0, capped);
+      }
       dxRef.current = capped;
       setSwipe((p) => (p ? { ...p, dx: capped } : null));
     }
@@ -98,10 +105,12 @@ export function TodayConditioningList({
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
-    if (dx > SWIPE_THRESHOLD) {
-      setStatus(itemId, done.has(itemId) ? "clear" : "done");
-    } else if (dx < -SWIPE_THRESHOLD) {
-      setStatus(itemId, skipped.has(itemId) ? "clear" : "skipped");
+    const isDone = done.has(itemId);
+    const isSkipped = skipped.has(itemId);
+    if (dx > SWIPE_THRESHOLD && !isSkipped) {
+      setStatus(itemId, isDone ? "clear" : "done");
+    } else if (dx < -SWIPE_THRESHOLD && !isDone) {
+      setStatus(itemId, isSkipped ? "clear" : "skipped");
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
@@ -189,26 +198,22 @@ export function TodayConditioningList({
                 className="group flex min-w-0 flex-1 items-center gap-2"
               >
                 <div className="min-w-0 flex-1">
-                  <h4
-                    className={`text-base font-bold ${
-                      isDone
-                        ? "text-zinc-500 line-through"
-                        : isSkipped
-                          ? "text-zinc-400 line-through"
-                          : "text-zinc-950"
-                    }`}
-                  >
+                  <h4 className="text-base font-bold text-zinc-950">
                     {item.name}
+                    {isDone ? (
+                      <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                        완료
+                      </span>
+                    ) : null}
+                    {isSkipped ? (
+                      <span className="ml-2 rounded-full bg-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-700">
+                        오늘 휴식
+                      </span>
+                    ) : null}
                   </h4>
                   <p className="mt-0.5 text-sm text-zinc-600">
                     {item.detail}
-                    <span
-                      className={`ml-2 text-xs ${
-                        isSkipped
-                          ? "text-zinc-400 line-through"
-                          : "text-orange-700"
-                      }`}
-                    >
+                    <span className="ml-2 text-xs text-orange-700">
                       · 약 {item.kcal}kcal
                     </span>
                   </p>

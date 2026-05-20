@@ -31,6 +31,10 @@ import {
   type TodayConditioningItem,
 } from "@/features/routine/components/today-conditioning-list";
 import { MarkAllDoneButton } from "@/features/routine/components/mark-all-done-button";
+import {
+  TodayEditBar,
+  TodayEditScope,
+} from "@/features/routine/components/today-edit-scope";
 
 /** DB row 의 값이 비어 있으면 카탈로그 기본값(defaultMin/Speed/Incline)을 대신 사용 */
 function effectiveValues(row: ConditioningRow, item: ConditioningItem | undefined) {
@@ -57,11 +61,9 @@ function formatDetail(row: ConditioningRow, item: ConditioningItem | undefined):
 export async function TodayExercises({
   tone,
   weightKg,
-  editMode = false,
 }: {
   tone: FocusTone;
   weightKg: number | null;
-  editMode?: boolean;
 }) {
   const todayYmd = seoulYmd();
   const [defaultPlan, dailyPlan, defaults, daily, mainStatus, condStatus] =
@@ -180,28 +182,19 @@ export async function TodayExercises({
   const skipCount = mainSkipSet.size + warmSkipSet.size + coolSkipSet.size;
 
   return (
-    <section className="space-y-5">
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
-          오늘 할 운동
-          {usingDailyPlan ? (
-            <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-emerald-700">
-              오늘만 변경됨
-            </span>
-          ) : null}
-        </h2>
-        <Link
-          href={editMode ? "/" : "/?edit=1"}
-          className={`text-xs font-semibold transition ${
-            editMode
-              ? "text-zinc-700 hover:text-zinc-950"
-              : "text-rose-600 hover:text-rose-700"
-          }`}
-          scroll={false}
-        >
-          {editMode ? "정리 완료" : "정리 / 삭제"}
-        </Link>
-      </div>
+    <TodayEditScope>
+      <section className="space-y-5">
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+            오늘 할 운동
+            {usingDailyPlan ? (
+              <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-emerald-700">
+                오늘만 변경됨
+              </span>
+            ) : null}
+          </h2>
+          <TodayEditBar />
+        </div>
 
       {/* 칼로리 카드 — 예상 + 완료 + 전부 완료 */}
       <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
@@ -285,7 +278,6 @@ export async function TodayExercises({
         skippedIds={warm.skippedIds}
         focus={tone}
         dateYmd={todayYmd}
-        editMode={editMode}
       />
 
       {/* 본운동 */}
@@ -309,13 +301,12 @@ export async function TodayExercises({
             다시 끌면 원상복구) · 핸들 잡고 위·아래로 순서 변경
           </p>
           <TodayPlanList
-            key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}-${editMode}`}
+            key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}`}
             focus={tone}
             items={items}
             weightKg={weightKg}
             doneIds={mainDoneIds}
             skippedIds={mainSkippedIds}
-            editMode={editMode}
           />
         </div>
       )}
@@ -330,9 +321,9 @@ export async function TodayExercises({
         skippedIds={cool.skippedIds}
         focus={tone}
         dateYmd={todayYmd}
-        editMode={editMode}
       />
-    </section>
+      </section>
+    </TodayEditScope>
   );
 }
 
@@ -345,7 +336,6 @@ function ConditioningSection({
   skippedIds,
   focus,
   dateYmd,
-  editMode = false,
 }: {
   kind: "warmup" | "cooldown";
   rowsCount: number;
@@ -355,7 +345,6 @@ function ConditioningSection({
   skippedIds: string[];
   focus: string;
   dateYmd: string;
-  editMode?: boolean;
 }) {
   const isWarm = kind === "warmup";
   const HeaderIcon = isWarm ? Flame : Wind;
@@ -388,7 +377,7 @@ function ConditioningSection({
         </p>
       ) : (
         <TodayConditioningList
-          key={`${kind}-${items.map((i) => i.rowId).join("|")}-${doneIds.join(",")}-${skippedIds.join(",")}-${editMode}`}
+          key={`${kind}-${items.map((i) => i.rowId).join("|")}-${doneIds.join(",")}-${skippedIds.join(",")}`}
           kind={kind}
           items={items}
           doneIds={doneIds}
@@ -397,7 +386,6 @@ function ConditioningSection({
           source={isDailyOverride ? "daily" : "default"}
           focus={focus}
           dateYmd={dateYmd}
-          editMode={editMode}
         />
       )}
     </section>

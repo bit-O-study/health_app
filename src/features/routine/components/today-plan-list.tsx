@@ -3,19 +3,12 @@
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import {
-  Check,
-  ChevronRight,
-  Dumbbell,
-  GripVertical,
-  Trash2,
-  X,
-} from "lucide-react";
+import { Check, ChevronRight, Dumbbell, GripVertical, X } from "lucide-react";
 
 import { reorderPlanAction } from "@/features/routine/plan-actions";
 import { estimateStrengthKcal } from "@/features/routine/calories";
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
-import { deleteMainExerciseAction } from "@/features/routine/delete-actions";
+import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 
 export type TodayPlanItem = {
   id: string;
@@ -38,15 +31,15 @@ export function TodayPlanList({
   weightKg,
   doneIds,
   skippedIds,
-  editMode = false,
 }: {
   focus: string;
   items: TodayPlanItem[];
   weightKg: number | null;
   doneIds: string[];
   skippedIds: string[];
-  editMode?: boolean;
 }) {
+  const edit = useTodayEdit();
+  const editMode = edit.editMode;
   const router = useRouter();
   const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
@@ -188,24 +181,6 @@ export function TodayPlanList({
     lockedRef.current = "none";
   }
 
-  function remove(id: string) {
-    setOrder((prev) => prev.filter((o) => o.id !== id));
-    setDone((prev) => {
-      const n = new Set(prev);
-      n.delete(id);
-      return n;
-    });
-    setSkipped((prev) => {
-      const n = new Set(prev);
-      n.delete(id);
-      return n;
-    });
-    startTx(async () => {
-      await deleteMainExerciseAction(id);
-      router.refresh();
-    });
-  }
-
   return (
     <ul className="space-y-2">
       {order.map((item, index) => {
@@ -286,27 +261,17 @@ export function TodayPlanList({
               </span>
 
               {editMode ? (
-                <button
-                  type="button"
-                  aria-label="삭제"
-                  title="이 운동을 삭제 — 기록·점수에서도 함께 제거"
+                <input
+                  type="checkbox"
+                  aria-label="선택"
+                  checked={edit.selectedMain.has(item.id)}
                   onPointerDown={(e) => e.stopPropagation()}
                   onPointerMove={(e) => e.stopPropagation()}
                   onPointerUp={(e) => e.stopPropagation()}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (
-                      confirm(
-                        "이 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.",
-                      )
-                    ) {
-                      remove(item.id);
-                    }
-                  }}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-red-300 bg-red-50 text-red-700 transition hover:bg-red-100"
-                >
-                  <Trash2 aria-hidden="true" size={15} />
-                </button>
+                  onClick={(e) => e.stopPropagation()}
+                  onChange={() => edit.toggleMain(item.id)}
+                  className="h-5 w-5 shrink-0 accent-red-600"
+                />
               ) : null}
 
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">

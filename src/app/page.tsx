@@ -86,11 +86,7 @@ function HeaderBar({
   );
 }
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ edit?: string }>;
-}) {
+export default async function Home() {
   const user = await getCurrentUser();
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
@@ -98,9 +94,6 @@ export default async function Home({
   if (user && !profile) {
     redirect("/onboarding");
   }
-
-  const { edit } = await searchParams;
-  const editMode = edit === "1";
 
   const routine = user ? await getUserRoutine() : null;
 
@@ -114,7 +107,7 @@ export default async function Home({
         ) : !routine ? (
           <NoRoutinePrompt />
         ) : (
-          <TodayWorkout routine={routine} profile={profile} editMode={editMode} />
+          <TodayWorkout routine={routine} profile={profile} />
         )}
       </main>
 
@@ -194,7 +187,6 @@ function NoRoutinePrompt() {
 function TodayWorkout({
   routine,
   profile,
-  editMode,
 }: {
   routine: {
     splits: number;
@@ -206,7 +198,6 @@ function TodayWorkout({
     overrideBlock: DayBlockId | null;
   };
   profile: UserProfile | null;
-  editMode: boolean;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -323,7 +314,6 @@ function TodayWorkout({
         <TodayExercises
           tone={planToday.tone}
           weightKg={profile?.weightKg ?? null}
-          editMode={editMode}
         />
       ) : null}
 

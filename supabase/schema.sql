@@ -346,4 +346,47 @@ create policy "Users can insert own weight logs"
   on public.weight_logs for insert
   with check (auth.uid() = user_id);
 
+-- Per-user warmup/cooldown selection per focus (running/stairs/stretches).
+-- item_id references src/features/routine/conditioning-catalog.ts.
+-- speed/incline carry meaning per item (e.g., 런닝 km/h, 천국의 계단 단계).
+
+create table if not exists public.routine_conditioning (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  focus text not null,
+  kind text not null check (kind in ('warmup', 'cooldown')),
+  position int not null default 0,
+  item_id text not null,
+  duration_min int check (duration_min between 0 and 300),
+  speed numeric(5, 1),
+  incline numeric(4, 1),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists routine_conditioning_user_idx
+  on public.routine_conditioning (user_id, focus, kind, position);
+
+alter table public.routine_conditioning enable row level security;
+
+drop policy if exists "Users can read own conditioning" on public.routine_conditioning;
+create policy "Users can read own conditioning"
+  on public.routine_conditioning for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own conditioning" on public.routine_conditioning;
+create policy "Users can insert own conditioning"
+  on public.routine_conditioning for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own conditioning" on public.routine_conditioning;
+create policy "Users can update own conditioning"
+  on public.routine_conditioning for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own conditioning" on public.routine_conditioning;
+create policy "Users can delete own conditioning"
+  on public.routine_conditioning for delete
+  using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

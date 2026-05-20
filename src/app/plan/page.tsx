@@ -7,6 +7,7 @@ import { getUserRoutine } from "@/features/routine/data-access";
 import { DAY_BLOCKS } from "@/features/routine/data";
 import { ALL_FOCUSES } from "@/features/routine/exercise-catalog";
 import { getPlanForFocus } from "@/features/routine/plan";
+import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { PlanEditor } from "@/features/routine/components/plan-editor";
 
 export const dynamic = "force-dynamic";
@@ -21,11 +22,19 @@ export default async function PlanPage() {
   if (!routine) redirect("/settings/routine");
 
   const focuses = await Promise.all(
-    ALL_FOCUSES.map(async (focus) => ({
-      focus,
-      label: DAY_BLOCKS[focus].label,
-      items: await getPlanForFocus(focus),
-    })),
+    ALL_FOCUSES.map(async (focus) => {
+      const [items, conditioning] = await Promise.all([
+        getPlanForFocus(focus),
+        getConditioningForFocus(focus),
+      ]);
+      return {
+        focus,
+        label: DAY_BLOCKS[focus].label,
+        items,
+        warmup: conditioning.warmup,
+        cooldown: conditioning.cooldown,
+      };
+    }),
   );
 
   return (

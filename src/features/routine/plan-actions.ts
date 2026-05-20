@@ -13,6 +13,7 @@ import {
   prescribe,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
 
@@ -73,6 +74,9 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
     const ins = await supabase.from("routine_exercises").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };
   }
+
+  // 워밍업·마무리도 기본 추천으로 함께 채운다
+  await registerRecommendedConditioningAction();
 
   revalidatePath("/");
   return { ok: true };

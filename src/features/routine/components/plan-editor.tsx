@@ -16,11 +16,15 @@ import {
   registerRecommendedPlanAction,
   saveManualPlanAction,
 } from "@/features/routine/plan-actions";
+import type { ConditioningRow } from "@/features/routine/conditioning";
+import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
 
 type FocusData = {
   focus: FocusTone;
   label: string;
   items: PlanExercise[];
+  warmup: ConditioningRow[];
+  cooldown: ConditioningRow[];
 };
 
 type Row = {
@@ -288,6 +292,22 @@ export function PlanEditor({
               ) : null}
               이 부위 저장
             </button>
+
+            <div className="mt-5 space-y-3 border-t border-zinc-200 pt-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                워밍업 / 마무리
+              </p>
+              <ConditioningEditor
+                focus={f.focus}
+                kind="warmup"
+                initial={f.warmup}
+              />
+              <ConditioningEditor
+                focus={f.focus}
+                kind="cooldown"
+                initial={f.cooldown}
+              />
+            </div>
           </section>
         );
       })}

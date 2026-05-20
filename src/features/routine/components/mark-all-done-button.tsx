@@ -37,7 +37,7 @@ export function MarkAllDoneButton({
       disabled={pending || total === 0}
       onClick={run}
       title={total === 0 ? "완료 처리할 운동이 없습니다" : undefined}
-      className="inline-flex h-10 items-center gap-1.5 rounded-md border border-emerald-300 bg-emerald-50 px-3 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100 disabled:opacity-60"
+      className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-3 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100 disabled:opacity-60"
     >
       {pending ? (
         <Loader2 aria-hidden="true" className="animate-spin" size={14} />

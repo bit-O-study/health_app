@@ -285,7 +285,7 @@ export function PlanEditor({
               type="button"
               disabled={pending}
               onClick={() => saveFocus(f.focus)}
-              className="mt-4 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
+              className="mt-4 inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" className="animate-spin" size={15} />

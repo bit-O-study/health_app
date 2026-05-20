@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Upload } from "lucide-react";
+import { Loader2, Sparkles, Upload } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
@@ -10,6 +10,10 @@ import {
   saveBodyCompositionAction,
   type SaveBodyCompInput,
 } from "@/features/body-composition/actions";
+import {
+  extractBodyCompFromImageAction,
+  type OcrField,
+} from "@/features/body-composition/ocr";
 
 const BUCKET = "body-composition-images";
 
@@ -57,8 +61,11 @@ function todayYmd(): string {
 
 export function BodyCompForm({
   hasExistingImage,
+  ocrEnabled,
 }: {
   hasExistingImage: boolean;
+  /** 서버에 ANTHROPIC_API_KEY 가 있으면 true — '자동 추출' 버튼 노출 */
+  ocrEnabled: boolean;
 }) {
   const router = useRouter();
   const [measuredAt, setMeasuredAt] = useState(todayYmd());
@@ -73,6 +80,10 @@ export function BodyCompForm({
   const [uploadErr, setUploadErr] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [ocrPending, startOcr] = useTransition();
+  const [ocrMsg, setOcrMsg] = useState<{ ok: boolean; text: string } | null>(
+    null,
+  );
 
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -106,6 +117,37 @@ export function BodyCompForm({
   function parse(k: FieldKey): number | null {
     const s = values[k].trim();
     return s === "" ? null : Number(s);
+  }
+
+  function runOcr() {
+    if (!imagePath) {
+      setOcrMsg({ ok: false, text: "먼저 사진을 업로드해 주세요." });
+      return;
+    }
+    setOcrMsg(null);
+    startOcr(async () => {
+      const res = await extractBodyCompFromImageAction(imagePath);
+      if (!res.ok) {
+        setOcrMsg({ ok: false, text: res.error });
+        return;
+      }
+      // 추출된 필드만 폼에 채워넣기 (사용자가 검토 후 저장)
+      const filled: string[] = [];
+      setValues((prev) => {
+        const next = { ...prev };
+        for (const [k, v] of Object.entries(res.values)) {
+          if (v === undefined) continue;
+          const key = k as OcrField;
+          next[key as unknown as FieldKey] = String(v);
+          filled.push(key);
+        }
+        return next;
+      });
+      setOcrMsg({
+        ok: true,
+        text: `사진에서 ${filled.length}개 항목을 채웠습니다. 값을 확인하고 ‘체성분 저장’을 눌러주세요.`,
+      });
+    });
   }
 
   function submit() {
@@ -199,40 +241,88 @@ export function BodyCompForm({
 
       <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
         <h3 className="mb-2 text-sm font-bold text-zinc-950">
-          분석지 사진 (선택)
+          분석지 사진 {ocrEnabled ? "+ 자동 추출" : "(선택)"}
         </h3>
-        <p className="mb-3 text-xs text-zinc-500">
-          본인만 볼 수 있게 비공개 저장됩니다(개인 폴더). 최대 10MB · PNG/JPG/WEBP.
-        </p>
-        <label
-          className={cn(
-            "inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50",
-            uploading && "opacity-60",
-          )}
-        >
-          {uploading ? (
-            <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+        <p className="mb-3 text-xs leading-5 text-zinc-500">
+          {ocrEnabled ? (
+            <>
+              사진을 올리면 ‘사진에서 자동 추출’ 버튼이 활성화됩니다. AI 가 위
+              입력칸을 채워주고, 잘못 읽은 값은 직접 고치고 저장하면 돼요.
+              사진은 본인만 볼 수 있는 비공개 폴더에 저장됩니다. 최대 10MB ·
+              PNG/JPG/WEBP.
+            </>
           ) : (
-            <Upload aria-hidden="true" size={15} />
+            <>
+              본인만 볼 수 있게 비공개 저장됩니다(개인 폴더). 최대 10MB ·
+              PNG/JPG/WEBP.{" "}
+              <strong className="text-zinc-700">
+                ⚠ 사진만 올려서는 위 입력값이 자동으로 채워지지 않습니다 — 위
+                칸을 직접 채워주세요.
+              </strong>
+            </>
           )}
-          {uploading ? "업로드 중..." : "사진 선택"}
-          <input
-            type="file"
-            accept="image/png,image/jpeg,image/webp"
-            className="hidden"
-            disabled={uploading}
-            onChange={onFile}
-          />
-        </label>
+        </p>
+
+        <div className="flex flex-wrap items-center gap-2">
+          <label
+            className={cn(
+              "inline-flex h-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50",
+              uploading && "opacity-60",
+            )}
+          >
+            {uploading ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+            ) : (
+              <Upload aria-hidden="true" size={15} />
+            )}
+            {uploading ? "업로드 중..." : "사진 선택"}
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              className="hidden"
+              disabled={uploading}
+              onChange={onFile}
+            />
+          </label>
+
+          {ocrEnabled ? (
+            <button
+              type="button"
+              disabled={ocrPending || !imagePath}
+              onClick={runOcr}
+              className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+            >
+              {ocrPending ? (
+                <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+              ) : (
+                <Sparkles aria-hidden="true" size={15} />
+              )}
+              사진에서 자동 추출
+            </button>
+          ) : null}
+        </div>
+
         {imagePath ? (
           <p className="mt-2 text-xs text-emerald-700">
             업로드 완료 · {imagePath.split("/").pop()}
           </p>
         ) : hasExistingImage ? (
-          <p className="mt-2 text-xs text-zinc-500">이전 분석지 사진이 등록돼 있어요.</p>
+          <p className="mt-2 text-xs text-zinc-500">
+            이전 분석지 사진이 등록돼 있어요.
+          </p>
         ) : null}
         {uploadErr ? (
           <p className="mt-2 text-xs text-red-600">{uploadErr}</p>
+        ) : null}
+        {ocrMsg ? (
+          <p
+            className={cn(
+              "mt-2 text-xs",
+              ocrMsg.ok ? "text-emerald-700" : "text-red-600",
+            )}
+          >
+            {ocrMsg.text}
+          </p>
         ) : null}
       </section>
 
@@ -245,6 +335,13 @@ export function BodyCompForm({
           <li>이용 목적: 부위별 밸런스 시각화 및 운동 루틴 추천에 한정</li>
           <li>보관: 본인 계정에 비공개로 저장(본인만 조회 가능), 언제든 삭제 가능</li>
           <li>제3자 제공·의학적 진단·치료 권유에 사용하지 않음</li>
+          {ocrEnabled ? (
+            <li>
+              ‘사진에서 자동 추출’ 버튼을 누르는 경우에만, 해당 사진이 외부
+              AI(Anthropic Claude) 로 일시 전송됩니다. 결과는 즉시 폼에 채워지고
+              외부 서비스에 영구 저장되지 않습니다.
+            </li>
+          ) : null}
         </ul>
         <label className="mt-3 inline-flex items-center gap-2">
           <input

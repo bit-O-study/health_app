@@ -7,6 +7,7 @@ import {
   getCatalogExercise,
 } from "@/features/routine/exercise-catalog";
 import { getPlanForFocus } from "@/features/routine/plan";
+import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import {
@@ -61,13 +62,30 @@ export async function TodayExercises({
   weightKg: number | null;
 }) {
   const todayYmd = seoulYmd();
-  const [plan, defaults, daily, mainStatus, condStatus] = await Promise.all([
-    getPlanForFocus(tone),
-    getConditioningForFocus(tone),
-    getDailyConditioning(todayYmd),
-    getStatusMapToday(todayYmd),
-    getConditioningStatusMapToday(todayYmd),
-  ]);
+  const [defaultPlan, dailyPlan, defaults, daily, mainStatus, condStatus] =
+    await Promise.all([
+      getPlanForFocus(tone),
+      getDailyPlanForDate(todayYmd),
+      getConditioningForFocus(tone),
+      getDailyConditioning(todayYmd),
+      getStatusMapToday(todayYmd),
+      getConditioningStatusMapToday(todayYmd),
+    ]);
+
+  // daily_plan 이 하나라도 있으면 오늘 본운동은 daily_plan 으로 통째 대체
+  const usingDailyPlan = dailyPlan.length > 0;
+  const plan = usingDailyPlan
+    ? dailyPlan.map((d) => ({
+        id: d.id,
+        focus: d.focus,
+        position: d.position,
+        exerciseId: d.exerciseId,
+        equipment: d.equipment,
+        sets: d.sets,
+        reps: d.reps,
+        weightKg: d.weightKg,
+      }))
+    : defaultPlan;
 
   const warmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
   const cooldownRows =
@@ -151,15 +169,20 @@ export async function TodayExercises({
 
   return (
     <section className="space-y-5">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
           오늘 할 운동
+          {usingDailyPlan ? (
+            <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-emerald-700">
+              오늘만 변경됨
+            </span>
+          ) : null}
         </h2>
         <Link
           href="/plan"
           className="text-xs font-semibold text-emerald-700 transition hover:text-emerald-600"
         >
-          편집
+          기본 편집
         </Link>
       </div>
 
@@ -193,13 +216,17 @@ export async function TodayExercises({
           </div>
           <MarkAllDoneButton
             planRowIds={plan
-              .filter((p) => !mainSkipSet.has(p.id))
+              .filter((p) => !mainSkipSet.has(p.id) && !mainDoneSet.has(p.id))
               .map((p) => p.id)}
             warmup={warm.items
-              .filter((i) => !warmSkipSet.has(i.rowId))
+              .filter(
+                (i) => !warmSkipSet.has(i.rowId) && !warmDoneSet.has(i.rowId),
+              )
               .map((i) => ({ rowId: i.rowId, itemId: i.itemId }))}
             cooldown={cool.items
-              .filter((i) => !coolSkipSet.has(i.rowId))
+              .filter(
+                (i) => !coolSkipSet.has(i.rowId) && !coolDoneSet.has(i.rowId),
+              )
               .map((i) => ({ rowId: i.rowId, itemId: i.itemId }))}
           />
         </div>
@@ -238,6 +265,7 @@ export async function TodayExercises({
             다시 끌면 원상복구) · 핸들 잡고 위·아래로 순서 변경
           </p>
           <TodayPlanList
+            key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}`}
             focus={tone}
             items={items}
             weightKg={weightKg}
@@ -300,12 +328,6 @@ function ConditioningSection({
             오늘만
           </span>
         ) : null}
-        <Link
-          href="/plan/today"
-          className="ml-auto text-[11px] font-semibold text-emerald-700 hover:text-emerald-600"
-        >
-          오늘만 바꾸기
-        </Link>
       </div>
 
       {rowsCount === 0 ? (
@@ -318,6 +340,7 @@ function ConditioningSection({
         </p>
       ) : (
         <TodayConditioningList
+          key={`${kind}-${items.map((i) => i.rowId).join("|")}-${doneIds.join(",")}-${skippedIds.join(",")}`}
           kind={kind}
           items={items}
           doneIds={doneIds}

@@ -389,6 +389,42 @@ create policy "Users can delete own conditioning"
   on public.routine_conditioning for delete
   using (auth.uid() = user_id);
 
+-- Per-date main-exercise override (오늘만 본운동 변경).
+-- When present for today, home uses these rows instead of routine_exercises.
+create table if not exists public.daily_plan (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  focus text not null,
+  position int not null default 0,
+  exercise_id text not null,
+  equipment text not null,
+  sets int not null default 3 check (sets between 1 and 20),
+  reps int not null default 10 check (reps between 1 and 100),
+  weight_kg numeric(5, 1),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists daily_plan_user_date_idx
+  on public.daily_plan (user_id, for_date, focus, position);
+
+alter table public.daily_plan enable row level security;
+
+drop policy if exists "Users can read own daily plan" on public.daily_plan;
+create policy "Users can read own daily plan"
+  on public.daily_plan for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own daily plan" on public.daily_plan;
+create policy "Users can insert own daily plan"
+  on public.daily_plan for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own daily plan" on public.daily_plan;
+create policy "Users can delete own daily plan"
+  on public.daily_plan for delete
+  using (auth.uid() = user_id);
+
 -- Per-date warmup/cooldown override. When present for today, the home screen
 -- uses these instead of the per-focus default in routine_conditioning. Lets
 -- the user vary today's conditioning without changing the default.
@@ -489,6 +525,11 @@ alter table public.exercise_completions add column if not exists status text not
 alter table public.exercise_completions drop constraint if exists exercise_completions_status_check;
 alter table public.exercise_completions
   add constraint exercise_completions_status_check check (status in ('done', 'skipped'));
+
+-- exercise_row_id 는 routine_exercises.id 또는 daily_plan.id 를 모두 가리킬 수
+-- 있어야 하므로 외래키 제약을 제거하고 앱에서 처리한다.
+alter table public.exercise_completions
+  drop constraint if exists exercise_completions_exercise_row_id_fkey;
 
 -- Per-day done/skipped status for warmup/cooldown items.
 -- Keyed by source_row_id (routine_conditioning.id 또는 daily_conditioning.id)

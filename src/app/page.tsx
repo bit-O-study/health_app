@@ -39,7 +39,7 @@ function HeaderBar({
 }) {
   return (
     <header className="sticky top-0 z-20 border-b border-zinc-200/70 bg-zinc-50/80 backdrop-blur">
-      <nav className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-6 sm:px-10">
+      <nav className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-4 sm:px-10">
         <Link className="flex items-center gap-2" href="/">
           <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white">
             <Dumbbell aria-hidden="true" size={20} />
@@ -101,7 +101,7 @@ export default async function Home() {
     <div className="min-h-screen bg-zinc-50 text-zinc-950">
       <HeaderBar isLoggedIn={Boolean(user)} />
 
-      <main className="mx-auto w-full max-w-5xl px-6 py-12 sm:px-10">
+      <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-10 sm:py-12">
         {!user ? (
           <LoggedOutHero />
         ) : !routine ? (
@@ -191,7 +191,7 @@ function TodayWorkout({
   routine: {
     splits: number;
     variantId: string;
-    customWeek: DayBlockId[] | null;
+    customWeek: DayBlockId[][] | null;
     startDate: string;
     restDate: string | null;
     overrideDate: string | null;
@@ -219,23 +219,30 @@ function TodayWorkout({
   const focusLabel = isRest ? "휴식" : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
 
+  // 멀티 부위 일자(예: 가슴 + 팔) — DayPlan.tones 가 있으면 그 모두를 본운동에 사용
+  const todayTones = isRest
+    ? []
+    : (planToday.tones ?? [planToday.tone]).filter((t) => t !== "rest");
+
   const [, mm, dd] = todayYmd.split("-");
   const { weekday } = ymdDisplay(todayYmd);
   const dateLabel = `${Number(mm)}월 ${Number(dd)}일 (${weekday})`;
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-3">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 sm:text-sm">
             Today
           </p>
-          <h1 className="mt-1 text-3xl font-bold sm:text-4xl">오늘의 운동</h1>
-          <p className="mt-2 text-sm text-zinc-600">
+          <h1 className="mt-1 text-2xl font-bold sm:text-3xl lg:text-4xl">
+            오늘의 운동
+          </h1>
+          <p className="mt-1.5 text-xs text-zinc-600 sm:mt-2 sm:text-sm">
             {dateLabel} · {preset.label} · {variant.name}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <BodyLogButton
             current={{
               weightKg: profile?.weightKg ?? null,
@@ -245,13 +252,13 @@ function TodayWorkout({
             }}
           />
           <Link
-            className="inline-flex h-10 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 sm:flex-initial sm:px-4"
             href="/plan"
           >
             기본 편집
           </Link>
           <Link
-            className="inline-flex h-10 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 sm:flex-initial sm:px-4"
             href="/settings/routine"
           >
             루틴 변경
@@ -310,9 +317,9 @@ function TodayWorkout({
       </section>
 
       {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
-      {!isRest ? (
+      {!isRest && todayTones.length > 0 ? (
         <TodayExercises
-          tone={planToday.tone}
+          tones={todayTones as import("@/features/routine/exercise-catalog").FocusKey[]}
           weightKg={profile?.weightKg ?? null}
         />
       ) : null}

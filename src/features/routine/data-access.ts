@@ -4,15 +4,16 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 import {
   CUSTOM_VARIANT_ID,
   isDayBlockId,
-  isValidCustomWeek,
   isValidRoutine,
+  normalizeCustomWeek,
   type DayBlockId,
 } from "@/features/routine/data";
 
 export type UserRoutine = {
   splits: number;
   variantId: string;
-  customWeek: DayBlockId[] | null;
+  /** 멀티 부위 일자 지원 — 각 요일이 1개 이상의 블록 */
+  customWeek: DayBlockId[][] | null;
   startDate: string;
   /** 오늘 휴식 전환된 날짜(YYYY-MM-DD) 또는 null */
   restDate: string | null;
@@ -64,9 +65,8 @@ export async function getUserRoutine(): Promise<UserRoutine | null> {
   const row = data as UserRoutineRow;
 
   const isCustom = row.variant_id === CUSTOM_VARIANT_ID;
-  const customWeek = isCustom && isValidCustomWeek(row.custom_week)
-    ? row.custom_week
-    : null;
+  // 신규 [][] 포맷이든 구 [] 포맷이든 자동 정규화
+  const customWeek = isCustom ? normalizeCustomWeek(row.custom_week) : null;
 
   if (isCustom ? !customWeek : !isValidRoutine(row.splits, row.variant_id)) {
     return null;

@@ -58,10 +58,16 @@ export default async function TodayConditioningPage({
     const offset = routineDayOffset(routine.startDate, todayYmd);
     const overriddenToday =
       routine.overrideDate === todayYmd && routine.overrideBlock !== null;
-    const tone: FocusTone = overriddenToday
-      ? routine.overrideBlock!
-      : variant.week[offset].tone;
-    if (tone !== "rest") focuses = [tone];
+    if (overriddenToday) {
+      const tone = routine.overrideBlock!;
+      if (tone !== "rest") focuses = [tone];
+    } else {
+      // 멀티 부위 일자 — 모든 부위를 기본으로 채움
+      const dayPlan = variant.week[offset];
+      focuses = (dayPlan.tones ?? [dayPlan.tone]).filter(
+        (t): t is Exclude<FocusTone, "rest"> => t !== "rest",
+      );
+    }
   }
 
   const todayYmd = seoulYmd();

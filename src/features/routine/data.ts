@@ -16,9 +16,15 @@ export type FocusTone =
   | "rest";
 
 export type DayPlan = {
-  /** 카드에 표시되는 라벨 (예: "가슴", "휴식") */
+  /** 카드에 표시되는 라벨 (예: "가슴", "휴식", "가슴 + 팔") */
   focus: string;
   tone: FocusTone;
+  /**
+   * 멀티 부위 일자(예: 가슴+팔)면 모든 톤이 들어있다.
+   * 단일 부위면 [tone] 과 동일. rest 일이면 ["rest"].
+   * 본운동 페치·운동 등록 페이지 그룹핑은 이 값을 사용.
+   */
+  tones?: FocusTone[];
   /** 주요 자극 부위 */
   muscles: string[];
   /** 대표 운동 예시 */
@@ -354,36 +360,94 @@ export const DAY_BLOCKS: Record<
 
 export const DAY_BLOCK_IDS = Object.keys(DAY_BLOCKS) as DayBlockId[];
 
-/** 비어 있을 때 시작점이 되는 기본 커스텀 주간 (PPL + 휴식) */
-export const DEFAULT_CUSTOM_WEEK: DayBlockId[] = [
-  "push",
-  "pull",
-  "lower",
-  "rest",
-  "push",
-  "pull",
-  "rest",
+/**
+ * 비어 있을 때 시작점이 되는 기본 커스텀 주간 (PPL + 휴식).
+ * 각 요일은 블록 배열(1개 이상) — 멀티 부위 일자 지원.
+ */
+export const DEFAULT_CUSTOM_WEEK: DayBlockId[][] = [
+  ["push"],
+  ["pull"],
+  ["lower"],
+  ["rest"],
+  ["push"],
+  ["pull"],
+  ["rest"],
 ];
 
 export function isDayBlockId(value: unknown): value is DayBlockId {
   return typeof value === "string" && value in DAY_BLOCKS;
 }
 
-/** 커스텀 주간이 길이 7 + 전부 유효한 블록 id 인지 검증 */
-export function isValidCustomWeek(week: unknown): week is DayBlockId[] {
-  return (
-    Array.isArray(week) && week.length === 7 && week.every(isDayBlockId)
-  );
+/**
+ * 저장된 raw 를 신규 포맷 `DayBlockId[][]` 로 정규화.
+ * 기존 단일 부위 포맷 `DayBlockId[]` 도 자동 래핑한다.
+ * 길이가 7 이 아니거나 형식이 잘못됐으면 null.
+ */
+export function normalizeCustomWeek(raw: unknown): DayBlockId[][] | null {
+  if (!Array.isArray(raw) || raw.length !== 7) return null;
+  const out: DayBlockId[][] = [];
+  for (const item of raw) {
+    if (Array.isArray(item)) {
+      // 신규 포맷: 배열 안 모두 유효한 블록 id
+      const blocks = item.filter(isDayBlockId);
+      if (blocks.length === 0) return null;
+      out.push(blocks);
+    } else if (isDayBlockId(item)) {
+      // 구 포맷: 단일 문자열 → [그 블록]
+      out.push([item]);
+    } else {
+      return null;
+    }
+  }
+  return out;
 }
 
-/** 블록 id 배열을 카탈로그 변형과 동일한 형태로 복원 */
-export function buildCustomVariant(week: DayBlockId[]): RoutineVariant {
-  const trainingDays = week.filter((id) => id !== "rest").length;
+/** 커스텀 주간이 신/구 포맷 중 하나로 유효한지 검증 */
+export function isValidCustomWeek(week: unknown): week is DayBlockId[][] {
+  return normalizeCustomWeek(week) !== null;
+}
+
+/**
+ * 하루의 블록들을 하나의 DayPlan 으로 합친다.
+ * - 전부 rest 이거나 비어있음 → rest 일
+ * - 단일 부위 → 해당 블록의 DayPlan 그대로
+ * - 멀티 부위 → focus 라벨 "A + B", tone 은 첫 부위(색상용),
+ *   tones 는 모든 톤, muscles·examples 는 중복 제거 합집합
+ */
+export function composeDayPlan(blocks: DayBlockId[]): DayPlan {
+  const nonRest = blocks.filter((b) => b !== "rest");
+  if (nonRest.length === 0) return DAY_BLOCKS.rest.day;
+  if (nonRest.length === 1) {
+    const d = DAY_BLOCKS[nonRest[0]].day;
+    return { ...d, tones: [d.tone] };
+  }
+  const days = nonRest.map((b) => DAY_BLOCKS[b].day);
+  const tones = days.map((d) => d.tone);
+  const focus = nonRest.map((b) => DAY_BLOCKS[b].label).join(" + ");
+  const muscles = Array.from(new Set(days.flatMap((d) => d.muscles)));
+  const examples = Array.from(new Set(days.flatMap((d) => d.examples))).slice(
+    0,
+    4,
+  );
+  return {
+    focus,
+    tone: tones[0],
+    tones,
+    muscles,
+    examples,
+  };
+}
+
+/** 블록 id 2차원 배열을 카탈로그 변형 형태로 복원 */
+export function buildCustomVariant(week: DayBlockId[][]): RoutineVariant {
+  const trainingDays = week.filter((blocks) =>
+    blocks.some((b) => b !== "rest"),
+  ).length;
   return {
     id: CUSTOM_VARIANT_ID,
     name: "커스텀 분할",
     description: `직접 구성한 주 ${trainingDays}회 루틴`,
-    week: week.map((id) => DAY_BLOCKS[id].day),
+    week: week.map(composeDayPlan),
   };
 }
 
@@ -405,14 +469,17 @@ export type ResolvedRoutine = {
 export function resolveRoutine(
   splits: number,
   variantId: string,
-  customWeek?: DayBlockId[] | null,
+  customWeek?: DayBlockId[][] | DayBlockId[] | null,
 ): ResolvedRoutine {
-  if (variantId === CUSTOM_VARIANT_ID && isValidCustomWeek(customWeek)) {
-    const variant = buildCustomVariant(customWeek);
-    return {
-      preset: { ...CUSTOM_PRESET_BASE, variants: [variant] },
-      variant,
-    };
+  if (variantId === CUSTOM_VARIANT_ID) {
+    const normalized = normalizeCustomWeek(customWeek);
+    if (normalized) {
+      const variant = buildCustomVariant(normalized);
+      return {
+        preset: { ...CUSTOM_PRESET_BASE, variants: [variant] },
+        variant,
+      };
+    }
   }
 
   const preset =

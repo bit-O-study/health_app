@@ -189,7 +189,7 @@ export function ConditioningEditor({
                     };
                     update(next);
                   }}
-                  className="h-8 min-w-[8rem] flex-1 rounded border border-zinc-300 bg-white px-2 text-sm"
+                  className="h-8 min-w-[8rem] flex-1 basis-full rounded border border-zinc-300 bg-white px-2 text-sm sm:basis-auto"
                 >
                   {options.map((o) => (
                     <option key={o.id} value={o.id}>

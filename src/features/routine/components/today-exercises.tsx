@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Flame, Plus, Wind, Zap } from "lucide-react";
 
-import { seoulYmd, type FocusTone } from "@/features/routine/data";
+import { seoulYmd } from "@/features/routine/data";
 import {
   EQUIPMENT_LABELS,
   getCatalogExercise,
+  type FocusKey,
 } from "@/features/routine/exercise-catalog";
 import { getPlanForFocus } from "@/features/routine/plan";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
@@ -59,27 +60,37 @@ function formatDetail(row: ConditioningRow, item: ConditioningItem | undefined):
 }
 
 export async function TodayExercises({
-  tone,
+  tones,
   weightKg,
 }: {
-  tone: FocusTone;
+  /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
+  tones: FocusKey[];
   weightKg: number | null;
 }) {
   const todayYmd = seoulYmd();
-  const [defaultPlan, dailyPlan, defaults, daily, mainStatus, condStatus] =
+  const primaryTone = tones[0];
+  const [defaultPlansPerTone, dailyPlan, defaults, daily, mainStatus, condStatus] =
     await Promise.all([
-      getPlanForFocus(tone),
+      Promise.all(tones.map((t) => getPlanForFocus(t))),
       getDailyPlanForDate(todayYmd),
-      getConditioningForFocus(tone),
+      getConditioningForFocus(primaryTone),
       getDailyConditioning(todayYmd),
       getStatusMapToday(todayYmd),
       getConditioningStatusMapToday(todayYmd),
     ]);
 
-  // daily_plan 이 하나라도 있으면 오늘 본운동은 daily_plan 으로 통째 대체
-  const usingDailyPlan = dailyPlan.length > 0;
-  const plan = usingDailyPlan
-    ? dailyPlan.map((d) => ({
+  // 본운동: 부위별로 daily_plan override 있으면 그것, 없으면 기본 plan
+  // 멀티 부위 일자에서도 부위마다 독립적으로 판단하여 합친다.
+  const dailyByFocus = new Map<string, typeof dailyPlan>();
+  for (const row of dailyPlan) {
+    const arr = dailyByFocus.get(row.focus) ?? [];
+    arr.push(row);
+    dailyByFocus.set(row.focus, arr);
+  }
+  const plan = tones.flatMap((t, idx) => {
+    const overrides = dailyByFocus.get(t);
+    if (overrides && overrides.length > 0) {
+      return overrides.map((d) => ({
         id: d.id,
         focus: d.focus,
         position: d.position,
@@ -88,8 +99,11 @@ export async function TodayExercises({
         sets: d.sets,
         reps: d.reps,
         weightKg: d.weightKg,
-      }))
-    : defaultPlan;
+      }));
+    }
+    return defaultPlansPerTone[idx];
+  });
+  const usingDailyPlan = tones.some((t) => dailyByFocus.has(t));
 
   const warmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
   const cooldownRows =
@@ -206,14 +220,14 @@ export async function TodayExercises({
             <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
               칼로리
             </p>
-            <p className="text-2xl font-bold text-zinc-950">
+            <p className="flex flex-wrap items-baseline gap-x-1 text-xl font-bold text-zinc-950 sm:text-2xl">
               <span className="text-emerald-700">{completedKcal}</span>
-              <span className="ml-1 text-sm font-medium text-zinc-500">
+              <span className="text-xs font-medium text-zinc-500 sm:text-sm">
                 kcal 완료
               </span>
-              <span className="mx-2 text-zinc-300">/</span>
+              <span className="text-zinc-300">/</span>
               <span>{totalKcal}</span>
-              <span className="ml-1 text-sm font-medium text-zinc-500">
+              <span className="text-xs font-medium text-zinc-500 sm:text-sm">
                 kcal 예상
               </span>
             </p>
@@ -276,7 +290,7 @@ export async function TodayExercises({
         items={warm.items}
         doneIds={warm.doneIds}
         skippedIds={warm.skippedIds}
-        focus={tone}
+        focus={primaryTone}
         dateYmd={todayYmd}
       />
 
@@ -302,7 +316,7 @@ export async function TodayExercises({
           </p>
           <TodayPlanList
             key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}`}
-            focus={tone}
+            focus={primaryTone}
             items={items}
             weightKg={weightKg}
             doneIds={mainDoneIds}
@@ -319,7 +333,7 @@ export async function TodayExercises({
         items={cool.items}
         doneIds={cool.doneIds}
         skippedIds={cool.skippedIds}
-        focus={tone}
+        focus={primaryTone}
         dateYmd={todayYmd}
       />
       </section>

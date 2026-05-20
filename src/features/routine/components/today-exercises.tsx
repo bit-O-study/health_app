@@ -206,14 +206,14 @@ export async function TodayExercises({
             <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
               칼로리
             </p>
-            <p className="text-2xl font-bold text-zinc-950">
+            <p className="flex flex-wrap items-baseline gap-x-1 text-xl font-bold text-zinc-950 sm:text-2xl">
               <span className="text-emerald-700">{completedKcal}</span>
-              <span className="ml-1 text-sm font-medium text-zinc-500">
+              <span className="text-xs font-medium text-zinc-500 sm:text-sm">
                 kcal 완료
               </span>
-              <span className="mx-2 text-zinc-300">/</span>
+              <span className="text-zinc-300">/</span>
               <span>{totalKcal}</span>
-              <span className="ml-1 text-sm font-medium text-zinc-500">
+              <span className="text-xs font-medium text-zinc-500 sm:text-sm">
                 kcal 예상
               </span>
             </p>

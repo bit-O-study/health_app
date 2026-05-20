@@ -67,7 +67,7 @@ export function BodyLogForm({
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {FIELDS.map((f) => (
           <label key={f.key} className="space-y-1">
             <span className="text-xs font-semibold text-zinc-700">

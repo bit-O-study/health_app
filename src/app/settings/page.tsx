@@ -43,7 +43,7 @@ export default async function SettingsPage() {
       <div className="mt-8 space-y-4">
         <Link
           href="/settings/routine"
-          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
             <CalendarDays aria-hidden="true" size={22} />
@@ -67,7 +67,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/plan"
-          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
             <Dumbbell aria-hidden="true" size={22} />
@@ -89,7 +89,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/profile"
-          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
             <Scale aria-hidden="true" size={22} />
@@ -111,7 +111,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/body-composition"
-          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
             <ClipboardList aria-hidden="true" size={22} />
@@ -133,7 +133,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/history"
-          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
             <CalendarRange aria-hidden="true" size={22} />
@@ -155,7 +155,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/score"
-          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
             <Trophy aria-hidden="true" size={22} />

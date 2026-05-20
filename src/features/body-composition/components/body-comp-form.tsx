@@ -176,7 +176,7 @@ export function BodyCompForm({
           className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm"
         >
           <h3 className="mb-3 text-sm font-bold text-zinc-950">{sec.label}</h3>
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {sec.fields.map((f) => (
               <label key={f.key} className="space-y-1">
                 <span className="text-xs font-semibold text-zinc-700">

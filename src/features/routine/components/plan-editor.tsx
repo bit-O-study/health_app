@@ -191,7 +191,7 @@ export function PlanEditor({
                           };
                           update(f.focus, next);
                         }}
-                        className="h-9 min-w-[8rem] flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800"
+                        className="h-9 min-w-[8rem] flex-1 basis-full rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 sm:basis-auto"
                       >
                         {options.map((o) => (
                           <option key={o.id} value={o.id}>

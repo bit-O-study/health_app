@@ -128,7 +128,7 @@ export function OnboardingFlow() {
                     type="button"
                     onClick={() => setGender(option.id)}
                     className={cn(
-                      "rounded-xl border-2 px-5 py-8 text-lg font-bold transition",
+                      "rounded-xl border-2 px-4 py-6 text-base font-bold transition sm:px-5 sm:py-8 sm:text-lg",
                       active
                         ? option.id === "female"
                           ? "border-pink-400 bg-pink-100 text-pink-700"

@@ -4,29 +4,28 @@ import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { CheckCheck, Loader2 } from "lucide-react";
 
-import { markAllTodayCompleteAction } from "@/features/routine/mark-all-actions";
+import {
+  markAllTodayCompleteAction,
+  type CondMarkInput,
+} from "@/features/routine/mark-all-actions";
 
 export function MarkAllDoneButton({
   planRowIds,
-  warmupItemIds,
-  cooldownItemIds,
+  warmup,
+  cooldown,
 }: {
   planRowIds: string[];
-  warmupItemIds: string[];
-  cooldownItemIds: string[];
+  warmup: CondMarkInput[];
+  cooldown: CondMarkInput[];
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
-  const total = planRowIds.length + warmupItemIds.length + cooldownItemIds.length;
+  const total = planRowIds.length + warmup.length + cooldown.length;
 
   function run() {
     if (total === 0) return;
     start(async () => {
-      await markAllTodayCompleteAction({
-        planRowIds,
-        warmupItemIds,
-        cooldownItemIds,
-      });
+      await markAllTodayCompleteAction({ planRowIds, warmup, cooldown });
       router.refresh();
     });
   }

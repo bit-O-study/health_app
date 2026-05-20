@@ -490,17 +490,28 @@ alter table public.exercise_completions drop constraint if exists exercise_compl
 alter table public.exercise_completions
   add constraint exercise_completions_status_check check (status in ('done', 'skipped'));
 
--- Per-day done/skipped status for warmup/cooldown items (keyed by item_id).
+-- Per-day done/skipped status for warmup/cooldown items.
+-- Keyed by source_row_id (routine_conditioning.id 또는 daily_conditioning.id)
+-- 동일 item 이 두 번 들어 있어도 행별로 독립 추적 가능.
 create table if not exists public.conditioning_completions (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   for_date date not null,
   kind text not null check (kind in ('warmup', 'cooldown')),
   item_id text not null,
+  source_row_id uuid,
   status text not null default 'done' check (status in ('done', 'skipped')),
-  created_at timestamptz not null default now(),
-  unique (user_id, for_date, kind, item_id)
+  created_at timestamptz not null default now()
 );
+
+-- 마이그레이션: 옛 (item_id) 유니크 제거 후, (source_row_id) 기반 유니크
+alter table public.conditioning_completions
+  add column if not exists source_row_id uuid;
+alter table public.conditioning_completions
+  drop constraint if exists conditioning_completions_user_id_for_date_kind_item_id_key;
+create unique index if not exists conditioning_completions_by_source_row_idx
+  on public.conditioning_completions (user_id, for_date, kind, source_row_id)
+  where source_row_id is not null;
 
 create index if not exists conditioning_completions_user_date_idx
   on public.conditioning_completions (user_id, for_date desc);

@@ -97,11 +97,8 @@ export async function TodayExercises({
   const mainSkipSet = new Set(mainSkippedIds);
   const mainDoneSet = new Set(mainDoneIds);
 
-  // Conditioning 행 변환 (warmup/cooldown 공용 빌더)
-  function buildCondItems(
-    rows: ConditioningRow[],
-    kind: "warmup" | "cooldown",
-  ) {
+  // Conditioning 행 변환 (warmup/cooldown 공용 빌더) — rowId 기준
+  function buildCondItems(rows: ConditioningRow[]) {
     const doneIds: string[] = [];
     const skippedIds: string[] = [];
     const items: TodayConditioningItem[] = rows.map((r) => {
@@ -112,16 +109,15 @@ export async function TodayExercises({
       const kcal = Math.round(
         estimateConditioningKcal(w, r.itemId, eff.duration, eff.speed),
       );
-      const key = `${kind}:${r.itemId}` as const;
-      const st = condStatus.get(key);
-      if (st === "done") doneIds.push(r.itemId);
-      else if (st === "skipped") skippedIds.push(r.itemId);
+      const st = condStatus.get(r.id);
+      if (st === "done") doneIds.push(r.id);
+      else if (st === "skipped") skippedIds.push(r.id);
       return { rowId: r.id, itemId: r.itemId, name, detail, kcal };
     });
     return { items, doneIds, skippedIds };
   }
-  const warm = buildCondItems(warmupRows, "warmup");
-  const cool = buildCondItems(cooldownRows, "cooldown");
+  const warm = buildCondItems(warmupRows);
+  const cool = buildCondItems(cooldownRows);
   const warmSkipSet = new Set(warm.skippedIds);
   const coolSkipSet = new Set(cool.skippedIds);
   const warmDoneSet = new Set(warm.doneIds);
@@ -129,10 +125,10 @@ export async function TodayExercises({
 
   // 칼로리 합산 — 스킵 제외
   const totalWarm = warm.items
-    .filter((i) => !warmSkipSet.has(i.itemId))
+    .filter((i) => !warmSkipSet.has(i.rowId))
     .reduce((s, i) => s + i.kcal, 0);
   const totalCool = cool.items
-    .filter((i) => !coolSkipSet.has(i.itemId))
+    .filter((i) => !coolSkipSet.has(i.rowId))
     .reduce((s, i) => s + i.kcal, 0);
   const totalMain = plan
     .filter((p) => !mainSkipSet.has(p.id))
@@ -141,10 +137,10 @@ export async function TodayExercises({
 
   // 완료 칼로리 — done 만 합산
   const doneWarm = warm.items
-    .filter((i) => warmDoneSet.has(i.itemId))
+    .filter((i) => warmDoneSet.has(i.rowId))
     .reduce((s, i) => s + i.kcal, 0);
   const doneCool = cool.items
-    .filter((i) => coolDoneSet.has(i.itemId))
+    .filter((i) => coolDoneSet.has(i.rowId))
     .reduce((s, i) => s + i.kcal, 0);
   const doneMain = plan
     .filter((p) => mainDoneSet.has(p.id))
@@ -199,12 +195,12 @@ export async function TodayExercises({
             planRowIds={plan
               .filter((p) => !mainSkipSet.has(p.id))
               .map((p) => p.id)}
-            warmupItemIds={warm.items
-              .filter((i) => !warmSkipSet.has(i.itemId))
-              .map((i) => i.itemId)}
-            cooldownItemIds={cool.items
-              .filter((i) => !coolSkipSet.has(i.itemId))
-              .map((i) => i.itemId)}
+            warmup={warm.items
+              .filter((i) => !warmSkipSet.has(i.rowId))
+              .map((i) => ({ rowId: i.rowId, itemId: i.itemId }))}
+            cooldown={cool.items
+              .filter((i) => !coolSkipSet.has(i.rowId))
+              .map((i) => ({ rowId: i.rowId, itemId: i.itemId }))}
           />
         </div>
       </div>

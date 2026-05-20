@@ -4,7 +4,13 @@ import { ChevronLeft, ChevronRight as ChevronRightIcon } from "lucide-react";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
-import { seoulYmd } from "@/features/routine/data";
+import {
+  DAY_BLOCKS,
+  isDayBlockId,
+  seoulYmd,
+  type DayBlockId,
+  type FocusTone,
+} from "@/features/routine/data";
 
 export const dynamic = "force-dynamic";
 
@@ -35,16 +41,15 @@ function shiftMonth(year: number, month0: number, delta: number) {
   return { year: d.getUTCFullYear(), month0: d.getUTCMonth() };
 }
 function jsDayToMonStart(jsDay: number): number {
-  // JS: 0=일~6=토 → 월=0..일=6
   return jsDay === 0 ? 6 : jsDay - 1;
 }
 
-function colorForCount(n: number): string {
-  if (n <= 0) return "bg-zinc-100 text-zinc-400";
-  if (n < 3) return "bg-emerald-200 text-emerald-800";
-  if (n < 6) return "bg-emerald-400 text-white";
-  if (n < 9) return "bg-emerald-600 text-white";
-  return "bg-emerald-800 text-white";
+function isFocusKey(s: string): s is Exclude<FocusTone, "rest"> {
+  return s !== "rest" && s in DAY_BLOCKS;
+}
+
+function blockLabel(focus: string): string {
+  return isDayBlockId(focus) ? DAY_BLOCKS[focus as DayBlockId].label : focus;
 }
 
 export default async function HistoryPage({
@@ -64,39 +69,49 @@ export default async function HistoryPage({
   const next = shiftMonth(year, month0, +1);
   const todayYmd = seoulYmd();
 
-  // 해당 월의 완료 기록 수집
+  type CompRow = {
+    for_date: string;
+    routine_exercises: { focus: string }[] | null;
+  };
+
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const exerciseRes = user
+  const exRes = user
     ? await supabase
         .from("exercise_completions")
-        .select("for_date")
+        .select("for_date, routine_exercises(focus)")
         .eq("user_id", user.id)
         .eq("status", "done")
         .gte("for_date", monthStart)
         .lte("for_date", monthEnd)
-    : { data: [] as { for_date: string }[] };
-  const condRes = user
-    ? await supabase
-        .from("conditioning_completions")
-        .select("for_date")
-        .eq("user_id", user.id)
-        .eq("status", "done")
-        .gte("for_date", monthStart)
-        .lte("for_date", monthEnd)
-    : { data: [] as { for_date: string }[] };
+    : { data: [] as CompRow[] };
 
-  const dayCounts = new Map<string, number>();
-  for (const r of (exerciseRes.data ?? []) as { for_date: string }[]) {
-    dayCounts.set(r.for_date, (dayCounts.get(r.for_date) ?? 0) + 1);
-  }
-  for (const r of (condRes.data ?? []) as { for_date: string }[]) {
-    dayCounts.set(r.for_date, (dayCounts.get(r.for_date) ?? 0) + 1);
+  // 일자별 focus 카운트, 월별 focus 누적 카운트
+  const dayFocusCounts = new Map<string, Map<string, number>>();
+  const focusMonthCount = new Map<string, number>();
+  for (const r of (exRes.data ?? []) as CompRow[]) {
+    const focus = r.routine_exercises?.[0]?.focus ?? null;
+    if (!focus || !isFocusKey(focus)) continue;
+    if (!dayFocusCounts.has(r.for_date))
+      dayFocusCounts.set(r.for_date, new Map());
+    const m = dayFocusCounts.get(r.for_date)!;
+    m.set(focus, (m.get(focus) ?? 0) + 1);
+    focusMonthCount.set(focus, (focusMonthCount.get(focus) ?? 0) + 1);
   }
 
-  // 캘린더 셀 생성: 월 시작 요일까지 빈칸 + 일자 + 끝 요일까지 빈칸
+  function dominantFocus(date: string): string | null {
+    const m = dayFocusCounts.get(date);
+    if (!m || m.size === 0) return null;
+    let best: { focus: string; n: number } | null = null;
+    for (const [f, n] of m.entries()) {
+      if (!best || n > best.n) best = { focus: f, n };
+    }
+    return best?.focus ?? null;
+  }
+
+  // 캘린더 셀
   const dim = daysInMonth(year, month0);
   const firstJsDay = new Date(Date.UTC(year, month0, 1)).getUTCDay();
   const lead = jsDayToMonStart(firstJsDay);
@@ -107,12 +122,9 @@ export default async function HistoryPage({
   for (let d = 1; d <= dim; d++) cells.push({ ymd: ymd(year, month0 + 1, d), day: d });
   for (let i = 0; i < trail; i++) cells.push(null);
 
-  const activeDays = Array.from(dayCounts.keys()).filter(
-    (k) => (dayCounts.get(k) ?? 0) > 0,
-  ).length;
-  const totalCompletions = Array.from(dayCounts.values()).reduce(
-    (s, n) => s + n,
-    0,
+  // 부위별 통계 (가슴/등/하체/...)
+  const focusStats = Array.from(focusMonthCount.entries()).sort(
+    (a, b) => b[1] - a[1],
   );
 
   return (
@@ -128,8 +140,8 @@ export default async function HistoryPage({
       <div className="mt-6 mb-6 space-y-1">
         <h1 className="text-2xl font-bold text-zinc-950">운동 기록</h1>
         <p className="text-sm leading-6 text-zinc-600">
-          <strong>완료 처리한 운동만</strong> 집계합니다(휴식 처리·미완료
-          제외). 칸 색이 진할수록 그 날 많이 완료했어요.
+          <strong>완료 처리한 운동만</strong> 표시합니다. 날짜를 누르면 그
+          날의 완료 운동·총 칼로리 상세를 볼 수 있어요.
         </p>
       </div>
 
@@ -163,67 +175,58 @@ export default async function HistoryPage({
           ))}
           {cells.map((cell, i) => {
             if (cell === null) {
-              return <div key={`pad-${i}`} className="h-12" />;
+              return <div key={`pad-${i}`} className="h-16" />;
             }
-            const count = dayCounts.get(cell.ymd) ?? 0;
+            const focus = dominantFocus(cell.ymd);
+            const label = focus ? blockLabel(focus) : "";
             const isToday = cell.ymd === todayYmd;
+            const hasActivity = focus !== null;
             return (
-              <div
+              <Link
                 key={cell.ymd}
-                title={`${cell.ymd} · 완료 ${count}건`}
-                className={`flex h-12 flex-col items-center justify-center rounded-md text-xs font-semibold ${colorForCount(count)} ${
-                  isToday ? "ring-2 ring-emerald-600 ring-offset-1" : ""
-                }`}
+                href={`/settings/history/${cell.ymd}`}
+                title={`${cell.ymd} 상세 보기`}
+                className={`flex h-16 flex-col items-center justify-center rounded-md text-xs font-semibold transition ${
+                  hasActivity
+                    ? "bg-emerald-100 text-emerald-800 hover:bg-emerald-200"
+                    : "bg-zinc-100 text-zinc-400 hover:bg-zinc-200"
+                } ${isToday ? "ring-2 ring-emerald-600 ring-offset-1" : ""}`}
               >
                 <span>{cell.day}</span>
-                {count > 0 ? (
-                  <span className="text-[10px] font-normal opacity-90">
-                    {count}건
-                  </span>
+                {label ? (
+                  <span className="mt-0.5 text-[10px] font-bold">{label}</span>
                 ) : null}
-              </div>
+              </Link>
             );
           })}
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3">
-          <Stat label="월 활동일" value={`${activeDays}일`} />
-          <Stat label="월 누적 완료" value={`${totalCompletions}건`} />
-          <Stat label="월 일수" value={`${dim}일`} />
-        </div>
-
-        <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-zinc-500">
-          <span className="inline-flex items-center gap-1">
-            <span className="h-3 w-3 rounded bg-zinc-100" />
-            없음
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <span className="h-3 w-3 rounded bg-emerald-200" />
-            1~2건
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <span className="h-3 w-3 rounded bg-emerald-400" />
-            3~5건
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <span className="h-3 w-3 rounded bg-emerald-600" />
-            6~8건
-          </span>
-          <span className="inline-flex items-center gap-1">
-            <span className="h-3 w-3 rounded bg-emerald-800" />
-            9건 이상
-          </span>
+        {/* 부위별 통계 */}
+        <div className="mt-5">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            이 달 부위별 완료
+          </p>
+          {focusStats.length === 0 ? (
+            <p className="text-sm text-zinc-500">
+              아직 이 달 완료된 운동이 없습니다.
+            </p>
+          ) : (
+            <div className="flex flex-wrap gap-2">
+              {focusStats.map(([focus, count]) => (
+                <span
+                  key={focus}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-800"
+                >
+                  {blockLabel(focus)}
+                  <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[11px] font-bold text-white">
+                    {count}회
+                  </span>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </main>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-3 shadow-sm">
-      <p className="text-xs font-semibold text-zinc-500">{label}</p>
-      <p className="mt-1 text-xl font-bold text-zinc-950">{value}</p>
-    </div>
   );
 }

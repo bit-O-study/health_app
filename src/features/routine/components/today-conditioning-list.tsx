@@ -52,17 +52,21 @@ export function TodayConditioningList({
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [, startTx] = useTransition();
 
-  function setStatus(itemId: string, target: CompletionStatus | "clear") {
+  function setStatus(
+    rowId: string,
+    itemId: string,
+    target: CompletionStatus | "clear",
+  ) {
     const nextDone = new Set(done);
     const nextSkipped = new Set(skipped);
-    nextDone.delete(itemId);
-    nextSkipped.delete(itemId);
-    if (target === "done") nextDone.add(itemId);
-    else if (target === "skipped") nextSkipped.add(itemId);
+    nextDone.delete(rowId);
+    nextSkipped.delete(rowId);
+    if (target === "done") nextDone.add(rowId);
+    else if (target === "skipped") nextSkipped.add(rowId);
     setDone(nextDone);
     setSkipped(nextSkipped);
     startTx(async () => {
-      await setConditioningStatusAction(kind, itemId, target);
+      await setConditioningStatusAction(kind, rowId, itemId, target);
       router.refresh();
     });
   }
@@ -133,26 +137,27 @@ export function TodayConditioningList({
         -SWIPE_VISUAL_CAP,
         Math.min(SWIPE_VISUAL_CAP, dx),
       );
-      const cur = order.find((i) => i.rowId === swipe.id);
-      if (cur) {
-        if (done.has(cur.itemId)) capped = Math.max(0, capped);
-        if (skipped.has(cur.itemId)) capped = Math.min(0, capped);
-      }
+      if (done.has(swipe.id)) capped = Math.max(0, capped);
+      if (skipped.has(swipe.id)) capped = Math.min(0, capped);
       dxRef.current = capped;
       setSwipe((p) => (p ? { ...p, dx: capped } : null));
     }
   }
-  function onPointerUp(e: PointerEvent<HTMLDivElement>, itemId: string) {
+  function onPointerUp(
+    e: PointerEvent<HTMLDivElement>,
+    rowId: string,
+    itemId: string,
+  ) {
     const dx = dxRef.current;
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
-    const isDone = done.has(itemId);
-    const isSkipped = skipped.has(itemId);
+    const isDone = done.has(rowId);
+    const isSkipped = skipped.has(rowId);
     if (dx > SWIPE_THRESHOLD && !isSkipped) {
-      setStatus(itemId, isDone ? "clear" : "done");
+      setStatus(rowId, itemId, isDone ? "clear" : "done");
     } else if (dx < -SWIPE_THRESHOLD && !isDone) {
-      setStatus(itemId, isSkipped ? "clear" : "skipped");
+      setStatus(rowId, itemId, isSkipped ? "clear" : "skipped");
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
@@ -174,8 +179,8 @@ export function TodayConditioningList({
   return (
     <ul className="space-y-2">
       {order.map((item, index) => {
-        const isDone = done.has(item.itemId);
-        const isSkipped = skipped.has(item.itemId);
+        const isDone = done.has(item.rowId);
+        const isSkipped = skipped.has(item.rowId);
         const dx = swipe?.id === item.rowId ? swipe.dx : 0;
         const isSwiping = swipe?.id === item.rowId && Math.abs(dx) > 4;
         const passedRight = dx > SWIPE_THRESHOLD;
@@ -212,7 +217,7 @@ export function TodayConditioningList({
             <div
               onPointerDown={(e) => onPointerDown(e, item.rowId)}
               onPointerMove={onPointerMove}
-              onPointerUp={(e) => onPointerUp(e, item.itemId)}
+              onPointerUp={(e) => onPointerUp(e, item.rowId, item.itemId)}
               onPointerCancel={onPointerCancel}
               style={{
                 transform: `translateX(${dx}px)`,

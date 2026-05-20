@@ -2,6 +2,7 @@ import Link from "next/link";
 import {
   ArrowRight,
   CalendarDays,
+  CalendarRange,
   ChevronLeft,
   ClipboardList,
   Dumbbell,
@@ -121,6 +122,28 @@ export default async function SettingsPage() {
             </h2>
             <p className="mt-0.5 truncate text-sm text-zinc-600">
               분석지 수치·사진 등록 → 밸런스·추천 루틴에 반영
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        <Link
+          href="/settings/history"
+          className="group flex items-center gap-4 rounded-xl border border-zinc-200 bg-white p-5 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+            <CalendarRange aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950">
+              운동 기록 (캘린더)
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600">
+              월별 완료 활동 — 일자별 색상 강도로 확인
             </p>
           </div>
           <ArrowRight

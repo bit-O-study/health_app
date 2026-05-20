@@ -29,6 +29,7 @@ import {
   TodayConditioningList,
   type TodayConditioningItem,
 } from "@/features/routine/components/today-conditioning-list";
+import { MarkAllDoneButton } from "@/features/routine/components/mark-all-done-button";
 
 /** DB row 의 값이 비어 있으면 카탈로그 기본값(defaultMin/Speed/Incline)을 대신 사용 */
 function effectiveValues(row: ConditioningRow, item: ConditioningItem | undefined) {
@@ -166,7 +167,7 @@ export async function TodayExercises({
         </Link>
       </div>
 
-      {/* 칼로리 카드 — 예상 + 완료 */}
+      {/* 칼로리 카드 — 예상 + 완료 + 전부 완료 */}
       <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
@@ -194,6 +195,17 @@ export async function TodayExercises({
               {weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
             </p>
           </div>
+          <MarkAllDoneButton
+            planRowIds={plan
+              .filter((p) => !mainSkipSet.has(p.id))
+              .map((p) => p.id)}
+            warmupItemIds={warm.items
+              .filter((i) => !warmSkipSet.has(i.itemId))
+              .map((i) => i.itemId)}
+            cooldownItemIds={cool.items
+              .filter((i) => !coolSkipSet.has(i.itemId))
+              .map((i) => i.itemId)}
+          />
         </div>
       </div>
 

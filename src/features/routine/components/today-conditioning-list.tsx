@@ -3,10 +3,18 @@
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, ChevronRight, Dumbbell, GripVertical, X } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  Dumbbell,
+  GripVertical,
+  Trash2,
+  X,
+} from "lucide-react";
 
 import { reorderConditioningAction } from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { deleteConditioningRowAction } from "@/features/routine/delete-actions";
 import type { ConditioningKind } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 
@@ -33,6 +41,7 @@ export function TodayConditioningList({
   source,
   focus,
   dateYmd,
+  editMode = false,
 }: {
   kind: ConditioningKind;
   items: TodayConditioningItem[];
@@ -43,6 +52,7 @@ export function TodayConditioningList({
   source: "daily" | "default";
   focus?: string;
   dateYmd?: string;
+  editMode?: boolean;
 }) {
   const router = useRouter();
   const [order, setOrder] = useState(items);
@@ -187,6 +197,24 @@ export function TodayConditioningList({
     lockedRef.current = "none";
   }
 
+  function remove(rowId: string) {
+    setOrder((prev) => prev.filter((i) => i.rowId !== rowId));
+    setDone((prev) => {
+      const n = new Set(prev);
+      n.delete(rowId);
+      return n;
+    });
+    setSkipped((prev) => {
+      const n = new Set(prev);
+      n.delete(rowId);
+      return n;
+    });
+    startTx(async () => {
+      await deleteConditioningRowAction(rowId);
+      router.refresh();
+    });
+  }
+
   const iconBg =
     iconTone === "amber"
       ? "bg-amber-100 text-amber-700"
@@ -209,26 +237,30 @@ export function TodayConditioningList({
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(index)}
           >
-            <div
-              className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
-                passedRight
-                  ? "bg-emerald-600 text-white"
-                  : "bg-emerald-100 text-emerald-700"
-              }`}
-            >
-              <Check aria-hidden="true" size={18} />
-              <span className="ml-2">{isDone ? "취소" : "완료"}</span>
-            </div>
-            <div
-              className={`pointer-events-none absolute inset-y-0 right-0 flex w-1/2 items-center justify-end pr-5 text-sm font-bold transition-colors ${
-                passedLeft
-                  ? "bg-zinc-600 text-white"
-                  : "bg-zinc-200 text-zinc-700"
-              }`}
-            >
-              <span className="mr-2">{isSkipped ? "취소" : "휴식"}</span>
-              <X aria-hidden="true" size={18} />
-            </div>
+            {dragIndex === index ? null : (
+              <>
+                <div
+                  className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
+                    passedRight
+                      ? "bg-emerald-600 text-white"
+                      : "bg-emerald-100 text-emerald-700"
+                  }`}
+                >
+                  <Check aria-hidden="true" size={18} />
+                  <span className="ml-2">{isDone ? "취소" : "완료"}</span>
+                </div>
+                <div
+                  className={`pointer-events-none absolute inset-y-0 right-0 flex w-1/2 items-center justify-end pr-5 text-sm font-bold transition-colors ${
+                    passedLeft
+                      ? "bg-zinc-600 text-white"
+                      : "bg-zinc-200 text-zinc-700"
+                  }`}
+                >
+                  <span className="mr-2">{isSkipped ? "취소" : "휴식"}</span>
+                  <X aria-hidden="true" size={18} />
+                </div>
+              </>
+            )}
 
             <div
               onPointerDown={(e) => onPointerDown(e, item.rowId)}
@@ -260,6 +292,22 @@ export function TodayConditioningList({
               >
                 <GripVertical size={18} />
               </span>
+
+              {editMode ? (
+                <button
+                  type="button"
+                  aria-label="삭제"
+                  title="이 운동을 삭제 — 기록·점수에서도 함께 제거"
+                  onClick={() => {
+                    if (confirm("이 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.")) {
+                      remove(item.rowId);
+                    }
+                  }}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-red-300 bg-red-50 text-red-700 transition hover:bg-red-100"
+                >
+                  <Trash2 aria-hidden="true" size={15} />
+                </button>
+              ) : null}
 
               <span
                 className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconBg}`}

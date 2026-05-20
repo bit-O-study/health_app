@@ -3,11 +3,19 @@
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, ChevronRight, Dumbbell, GripVertical, X } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  Dumbbell,
+  GripVertical,
+  Trash2,
+  X,
+} from "lucide-react";
 
 import { reorderPlanAction } from "@/features/routine/plan-actions";
 import { estimateStrengthKcal } from "@/features/routine/calories";
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
+import { deleteMainExerciseAction } from "@/features/routine/delete-actions";
 
 export type TodayPlanItem = {
   id: string;
@@ -30,12 +38,14 @@ export function TodayPlanList({
   weightKg,
   doneIds,
   skippedIds,
+  editMode = false,
 }: {
   focus: string;
   items: TodayPlanItem[];
   weightKg: number | null;
   doneIds: string[];
   skippedIds: string[];
+  editMode?: boolean;
 }) {
   const router = useRouter();
   const [order, setOrder] = useState(items);
@@ -178,6 +188,24 @@ export function TodayPlanList({
     lockedRef.current = "none";
   }
 
+  function remove(id: string) {
+    setOrder((prev) => prev.filter((o) => o.id !== id));
+    setDone((prev) => {
+      const n = new Set(prev);
+      n.delete(id);
+      return n;
+    });
+    setSkipped((prev) => {
+      const n = new Set(prev);
+      n.delete(id);
+      return n;
+    });
+    startTx(async () => {
+      await deleteMainExerciseAction(id);
+      router.refresh();
+    });
+  }
+
   return (
     <ul className="space-y-2">
       {order.map((item, index) => {
@@ -198,28 +226,32 @@ export function TodayPlanList({
             onDragOver={handleDragOver}
             onDrop={() => handleDrop(index)}
           >
-            {/* 왼쪽: 오른쪽으로 끌면 노출되는 "완료" 영역 */}
-            <div
-              className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
-                passedRight
-                  ? "bg-emerald-600 text-white"
-                  : "bg-emerald-100 text-emerald-700"
-              }`}
-            >
-              <Check aria-hidden="true" size={18} />
-              <span className="ml-2">{isDone ? "취소" : "완료"}</span>
-            </div>
-            {/* 오른쪽: 왼쪽으로 끌면 노출되는 "휴식" 영역 */}
-            <div
-              className={`pointer-events-none absolute inset-y-0 right-0 flex w-1/2 items-center justify-end pr-5 text-sm font-bold transition-colors ${
-                passedLeft
-                  ? "bg-zinc-600 text-white"
-                  : "bg-zinc-200 text-zinc-700"
-              }`}
-            >
-              <span className="mr-2">{isSkipped ? "취소" : "휴식"}</span>
-              <X aria-hidden="true" size={18} />
-            </div>
+            {dragIndex === index ? null : (
+              <>
+                {/* 왼쪽: 오른쪽으로 끌면 노출되는 "완료" 영역 */}
+                <div
+                  className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
+                    passedRight
+                      ? "bg-emerald-600 text-white"
+                      : "bg-emerald-100 text-emerald-700"
+                  }`}
+                >
+                  <Check aria-hidden="true" size={18} />
+                  <span className="ml-2">{isDone ? "취소" : "완료"}</span>
+                </div>
+                {/* 오른쪽: 왼쪽으로 끌면 노출되는 "휴식" 영역 */}
+                <div
+                  className={`pointer-events-none absolute inset-y-0 right-0 flex w-1/2 items-center justify-end pr-5 text-sm font-bold transition-colors ${
+                    passedLeft
+                      ? "bg-zinc-600 text-white"
+                      : "bg-zinc-200 text-zinc-700"
+                  }`}
+                >
+                  <span className="mr-2">{isSkipped ? "취소" : "휴식"}</span>
+                  <X aria-hidden="true" size={18} />
+                </div>
+              </>
+            )}
 
             {/* 전경 행 — 좌/우 스와이프 + 그립으로 순서 변경 */}
             <div
@@ -252,6 +284,22 @@ export function TodayPlanList({
               >
                 <GripVertical size={18} />
               </span>
+
+              {editMode ? (
+                <button
+                  type="button"
+                  aria-label="삭제"
+                  title="이 운동을 삭제 — 기록·점수에서도 함께 제거"
+                  onClick={() => {
+                    if (confirm("이 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.")) {
+                      remove(item.id);
+                    }
+                  }}
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-red-300 bg-red-50 text-red-700 transition hover:bg-red-100"
+                >
+                  <Trash2 aria-hidden="true" size={15} />
+                </button>
+              ) : null}
 
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
                 <Dumbbell aria-hidden="true" size={20} />

@@ -57,9 +57,11 @@ function formatDetail(row: ConditioningRow, item: ConditioningItem | undefined):
 export async function TodayExercises({
   tone,
   weightKg,
+  editMode = false,
 }: {
   tone: FocusTone;
   weightKg: number | null;
+  editMode?: boolean;
 }) {
   const todayYmd = seoulYmd();
   const [defaultPlan, dailyPlan, defaults, daily, mainStatus, condStatus] =
@@ -189,10 +191,15 @@ export async function TodayExercises({
           ) : null}
         </h2>
         <Link
-          href="/plan"
-          className="text-xs font-semibold text-emerald-700 transition hover:text-emerald-600"
+          href={editMode ? "/" : "/?edit=1"}
+          className={`text-xs font-semibold transition ${
+            editMode
+              ? "text-zinc-700 hover:text-zinc-950"
+              : "text-rose-600 hover:text-rose-700"
+          }`}
+          scroll={false}
         >
-          기본 편집
+          {editMode ? "정리 완료" : "정리 / 삭제"}
         </Link>
       </div>
 
@@ -278,6 +285,7 @@ export async function TodayExercises({
         skippedIds={warm.skippedIds}
         focus={tone}
         dateYmd={todayYmd}
+        editMode={editMode}
       />
 
       {/* 본운동 */}
@@ -301,12 +309,13 @@ export async function TodayExercises({
             다시 끌면 원상복구) · 핸들 잡고 위·아래로 순서 변경
           </p>
           <TodayPlanList
-            key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}`}
+            key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}-${editMode}`}
             focus={tone}
             items={items}
             weightKg={weightKg}
             doneIds={mainDoneIds}
             skippedIds={mainSkippedIds}
+            editMode={editMode}
           />
         </div>
       )}
@@ -321,6 +330,7 @@ export async function TodayExercises({
         skippedIds={cool.skippedIds}
         focus={tone}
         dateYmd={todayYmd}
+        editMode={editMode}
       />
     </section>
   );
@@ -335,6 +345,7 @@ function ConditioningSection({
   skippedIds,
   focus,
   dateYmd,
+  editMode = false,
 }: {
   kind: "warmup" | "cooldown";
   rowsCount: number;
@@ -344,6 +355,7 @@ function ConditioningSection({
   skippedIds: string[];
   focus: string;
   dateYmd: string;
+  editMode?: boolean;
 }) {
   const isWarm = kind === "warmup";
   const HeaderIcon = isWarm ? Flame : Wind;
@@ -376,7 +388,7 @@ function ConditioningSection({
         </p>
       ) : (
         <TodayConditioningList
-          key={`${kind}-${items.map((i) => i.rowId).join("|")}-${doneIds.join(",")}-${skippedIds.join(",")}`}
+          key={`${kind}-${items.map((i) => i.rowId).join("|")}-${doneIds.join(",")}-${skippedIds.join(",")}-${editMode}`}
           kind={kind}
           items={items}
           doneIds={doneIds}
@@ -385,6 +397,7 @@ function ConditioningSection({
           source={isDailyOverride ? "daily" : "default"}
           focus={focus}
           dateYmd={dateYmd}
+          editMode={editMode}
         />
       )}
     </section>

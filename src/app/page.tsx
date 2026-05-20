@@ -86,7 +86,11 @@ function HeaderBar({
   );
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ edit?: string }>;
+}) {
   const user = await getCurrentUser();
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
@@ -94,6 +98,9 @@ export default async function Home() {
   if (user && !profile) {
     redirect("/onboarding");
   }
+
+  const { edit } = await searchParams;
+  const editMode = edit === "1";
 
   const routine = user ? await getUserRoutine() : null;
 
@@ -107,7 +114,7 @@ export default async function Home() {
         ) : !routine ? (
           <NoRoutinePrompt />
         ) : (
-          <TodayWorkout routine={routine} profile={profile} />
+          <TodayWorkout routine={routine} profile={profile} editMode={editMode} />
         )}
       </main>
 
@@ -187,6 +194,7 @@ function NoRoutinePrompt() {
 function TodayWorkout({
   routine,
   profile,
+  editMode,
 }: {
   routine: {
     splits: number;
@@ -198,6 +206,7 @@ function TodayWorkout({
     overrideBlock: DayBlockId | null;
   };
   profile: UserProfile | null;
+  editMode: boolean;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -244,6 +253,12 @@ function TodayWorkout({
               muscleMassKg: profile?.muscleMassKg ?? null,
             }}
           />
+          <Link
+            className="inline-flex h-10 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            href="/plan"
+          >
+            기본 편집
+          </Link>
           <Link
             className="inline-flex h-10 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
             href="/settings/routine"
@@ -305,7 +320,11 @@ function TodayWorkout({
 
       {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
       {!isRest ? (
-        <TodayExercises tone={planToday.tone} weightKg={profile?.weightKg ?? null} />
+        <TodayExercises
+          tone={planToday.tone}
+          weightKg={profile?.weightKg ?? null}
+          editMode={editMode}
+        />
       ) : null}
 
       {/* 다가오는 7일 */}

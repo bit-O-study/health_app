@@ -4,7 +4,6 @@ import { ChevronLeft } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
 import { getLatestBodyComposition } from "@/features/body-composition/data-access";
-import { isOcrEnabled } from "@/features/body-composition/ocr";
 import { BodyCompForm } from "@/features/body-composition/components/body-comp-form";
 
 export const dynamic = "force-dynamic";
@@ -13,10 +12,7 @@ export default async function BodyCompositionPage() {
   const profile = await getUserProfile();
   if (!profile) redirect("/onboarding");
 
-  const [latest, ocrEnabled] = await Promise.all([
-    getLatestBodyComposition(),
-    isOcrEnabled(),
-  ]);
+  const latest = await getLatestBodyComposition();
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
@@ -49,10 +45,7 @@ export default async function BodyCompositionPage() {
         )}
       </div>
 
-      <BodyCompForm
-        hasExistingImage={Boolean(latest?.imagePath)}
-        ocrEnabled={ocrEnabled}
-      />
+      <BodyCompForm hasExistingImage={Boolean(latest?.imagePath)} />
     </main>
   );
 }

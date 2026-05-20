@@ -2,14 +2,31 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
+import { RecommendRoutineCard } from "@/features/routine/components/recommend-card";
 import { saveRoutineAction } from "@/features/routine/actions";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { DEFAULT_SPLITS, DEFAULT_VARIANT_ID } from "@/features/routine/data";
+import { getUserProfile } from "@/features/profile/data-access";
+import { getLatestBodyComposition } from "@/features/body-composition/data-access";
+import {
+  recommendByBodyComp,
+  recommendByProfile,
+} from "@/features/body-composition/data";
 
 export const dynamic = "force-dynamic";
 
 export default async function RoutineSettingsPage() {
-  const routine = await getUserRoutine();
+  const [routine, profile, bodyComp] = await Promise.all([
+    getUserRoutine(),
+    getUserProfile(),
+    getLatestBodyComposition(),
+  ]);
+
+  const recommendation = bodyComp
+    ? recommendByBodyComp(bodyComp)
+    : profile
+      ? recommendByProfile(profile.gender, profile.experience)
+      : null;
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-10 sm:px-8">
@@ -24,10 +41,16 @@ export default async function RoutineSettingsPage() {
       <div className="mt-6 mb-6 space-y-1">
         <h1 className="text-2xl font-bold text-zinc-950">루틴 설정</h1>
         <p className="text-sm leading-6 text-zinc-600">
-          몇 분할로 운동할지와 나누는 방식을 고른 뒤 저장하세요. 저장한 루틴은
-          메인 페이지에서 오늘 날짜에 맞는 운동으로 안내됩니다.
+          체성분이 등록돼 있으면 약한 부위를 보강하는 추천 루틴이 위에 뜹니다.
+          아래에서 분할/변형을 직접 고르거나 커스텀으로 만들 수도 있어요.
         </p>
       </div>
+
+      {recommendation ? (
+        <div className="mb-6">
+          <RecommendRoutineCard recommendation={recommendation} />
+        </div>
+      ) : null}
 
       <RoutinePlanner
         initialSplits={routine?.splits ?? DEFAULT_SPLITS}

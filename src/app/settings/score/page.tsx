@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Activity, ChevronLeft, Flame, Trophy } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
+import { getLatestBodyComposition } from "@/features/body-composition/data-access";
+import { regionScoresFromBodyComp } from "@/features/body-composition/data";
 import { getRecentExerciseCompletions } from "@/features/routine/exercise-completions";
 import {
   balanceStatusFor,
@@ -40,6 +42,7 @@ export default async function ScorePage() {
   if (!profile) redirect("/onboarding");
 
   const userWeight = profile.weightKg ?? 65;
+  const bodyComp = await getLatestBodyComposition();
   const completions = await getRecentExerciseCompletions(90);
   const done = completions.filter((c) => c.status === "done");
   const s = computeScore(
@@ -52,22 +55,31 @@ export default async function ScorePage() {
     userWeight,
   );
 
-  // 부위별 운동량 기반 누적 (volume × decay)
+  // 부위별 누적 — 체성분 등록돼 있으면 그걸 우선 사용, 없으면 운동량 기반
   const todayEpoch = ymdToEpochDay(seoulYmd());
-  const regionPoints = Object.fromEntries(
-    REGIONS.map((r) => [r, 0]),
-  ) as Record<BodyRegion, number>;
-  for (const c of done) {
-    if (!c.focus) continue;
-    const regs = FOCUS_TO_REGIONS[c.focus];
-    if (!regs) continue;
-    const sets = c.sets ?? 1;
-    const reps = c.reps ?? 10;
-    const w = c.weightKg ?? userWeight;
-    const volume = sets * reps * Math.max(0, w);
-    const age = Math.max(0, todayEpoch - ymdToEpochDay(c.forDate));
-    const pts = (volume / 200) * Math.pow(0.5, age / 14);
-    for (const r of regs) regionPoints[r] += pts;
+  let regionPoints: Record<BodyRegion, number>;
+  let balanceSource: "body" | "training";
+  if (bodyComp) {
+    regionPoints = regionScoresFromBodyComp(bodyComp);
+    balanceSource = "body";
+  } else {
+    regionPoints = Object.fromEntries(REGIONS.map((r) => [r, 0])) as Record<
+      BodyRegion,
+      number
+    >;
+    for (const c of done) {
+      if (!c.focus) continue;
+      const regs = FOCUS_TO_REGIONS[c.focus];
+      if (!regs) continue;
+      const sets = c.sets ?? 1;
+      const reps = c.reps ?? 10;
+      const w = c.weightKg ?? userWeight;
+      const volume = sets * reps * Math.max(0, w);
+      const age = Math.max(0, todayEpoch - ymdToEpochDay(c.forDate));
+      const pts = (volume / 200) * Math.pow(0.5, age / 14);
+      for (const r of regs) regionPoints[r] += pts;
+    }
+    balanceSource = "training";
   }
   const maxRegion = Math.max(...REGIONS.map((r) => regionPoints[r]));
   const regionStatus = Object.fromEntries(
@@ -194,11 +206,36 @@ export default async function ScorePage() {
 
       {/* 부위별 밸런스 마네킹 */}
       <section className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-1 text-base font-bold text-zinc-950">부위별 밸런스</h2>
+        <div className="mb-1 flex items-center gap-2">
+          <h2 className="text-base font-bold text-zinc-950">부위별 밸런스</h2>
+          <span
+            className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+              balanceSource === "body"
+                ? "bg-emerald-100 text-emerald-700"
+                : "bg-zinc-100 text-zinc-600"
+            }`}
+          >
+            {balanceSource === "body" ? "체성분 기반" : "운동량 기반"}
+          </span>
+        </div>
         <p className="mb-4 text-xs text-zinc-500">
           가장 강한 부위 대비 비율 — <strong>균형 ≥70%</strong>,{" "}
           <strong>부족 40~70%</strong>, <strong>심하게 부족 &lt;40%</strong>.
-          빨간 부위를 보강하면 균형이 잡힙니다.
+          {balanceSource === "body" ? (
+            <>
+              {" "}체성분 분석지 등록값을 사용 중입니다.
+              <Link href="/settings/body-composition" className="ml-1 font-semibold text-emerald-700">
+                갱신
+              </Link>
+            </>
+          ) : (
+            <>
+              {" "}체성분이 없어 운동 기록 기반으로 추정합니다.
+              <Link href="/settings/body-composition" className="ml-1 font-semibold text-emerald-700">
+                체성분 등록
+              </Link>
+            </>
+          )}
         </p>
 
         <div className="flex flex-col gap-6 md:flex-row">

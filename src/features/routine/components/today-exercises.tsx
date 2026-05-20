@@ -205,6 +205,8 @@ export async function TodayExercises({
         items={warm.items}
         doneIds={warm.doneIds}
         skippedIds={warm.skippedIds}
+        focus={tone}
+        dateYmd={todayYmd}
       />
 
       {/* 본운동 */}
@@ -245,6 +247,8 @@ export async function TodayExercises({
         items={cool.items}
         doneIds={cool.doneIds}
         skippedIds={cool.skippedIds}
+        focus={tone}
+        dateYmd={todayYmd}
       />
     </section>
   );
@@ -257,6 +261,8 @@ function ConditioningSection({
   items,
   doneIds,
   skippedIds,
+  focus,
+  dateYmd,
 }: {
   kind: "warmup" | "cooldown";
   rowsCount: number;
@@ -264,6 +270,8 @@ function ConditioningSection({
   items: TodayConditioningItem[];
   doneIds: string[];
   skippedIds: string[];
+  focus: string;
+  dateYmd: string;
 }) {
   const isWarm = kind === "warmup";
   const HeaderIcon = isWarm ? Flame : Wind;
@@ -307,6 +315,9 @@ function ConditioningSection({
           doneIds={doneIds}
           skippedIds={skippedIds}
           iconTone={isWarm ? "amber" : "sky"}
+          source={isDailyOverride ? "daily" : "default"}
+          focus={focus}
+          dateYmd={dateYmd}
         />
       )}
     </section>

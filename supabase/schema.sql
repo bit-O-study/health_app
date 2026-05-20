@@ -548,4 +548,89 @@ create policy "Users can delete own exercise completions"
   on public.exercise_completions for delete
   using (auth.uid() = user_id);
 
+-- Body composition snapshots (체성분 분석지 등록).
+-- 민감정보(건강) 수집에 대한 별도 동의(consent_at)를 행마다 기록한다.
+-- image_path 는 storage 버킷 body-composition-images 안의 private 경로.
+
+create table if not exists public.body_compositions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  measured_at date not null default current_date,
+  weight_kg numeric(5, 1),
+  skeletal_muscle_kg numeric(5, 1),
+  body_fat_kg numeric(5, 1),
+  body_fat_pct numeric(4, 1),
+  muscle_right_arm numeric(4, 1),
+  muscle_left_arm numeric(4, 1),
+  muscle_trunk numeric(4, 1),
+  muscle_right_leg numeric(4, 1),
+  muscle_left_leg numeric(4, 1),
+  fat_right_arm numeric(4, 1),
+  fat_left_arm numeric(4, 1),
+  fat_trunk numeric(4, 1),
+  fat_right_leg numeric(4, 1),
+  fat_left_leg numeric(4, 1),
+  image_path text,
+  consent_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists body_compositions_user_idx
+  on public.body_compositions (user_id, measured_at desc);
+
+alter table public.body_compositions enable row level security;
+
+drop policy if exists "Users can read own body composition" on public.body_compositions;
+create policy "Users can read own body composition"
+  on public.body_compositions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own body composition" on public.body_compositions;
+create policy "Users can insert own body composition"
+  on public.body_compositions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own body composition" on public.body_compositions;
+create policy "Users can delete own body composition"
+  on public.body_compositions for delete
+  using (auth.uid() = user_id);
+
+-- Storage bucket — private, 사용자 자신의 폴더(<userId>/...) 에만 접근.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'body-composition-images',
+  'body-composition-images',
+  false,
+  10485760,
+  array['image/png', 'image/jpeg', 'image/webp']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Users read own body comp images" on storage.objects;
+create policy "Users read own body comp images"
+  on storage.objects for select
+  using (
+    bucket_id = 'body-composition-images'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists "Users upload own body comp images" on storage.objects;
+create policy "Users upload own body comp images"
+  on storage.objects for insert
+  with check (
+    bucket_id = 'body-composition-images'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists "Users delete own body comp images" on storage.objects;
+create policy "Users delete own body comp images"
+  on storage.objects for delete
+  using (
+    bucket_id = 'body-composition-images'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
 notify pgrst, 'reload schema';

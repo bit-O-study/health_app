@@ -121,3 +121,49 @@ export async function registerRecommendedConditioningAction(): Promise<void> {
   revalidatePath("/");
   revalidatePath("/plan");
 }
+
+/** 워밍업/마무리 순서 변경 — 보이는 소스(기본/오늘만)에 따라 해당 테이블의 position 갱신 */
+export async function reorderConditioningAction(opts: {
+  source: "daily" | "default";
+  kind: string;
+  focus?: string;
+  dateYmd?: string;
+  ids: string[];
+}): Promise<void> {
+  if (!isConditioningKind(opts.kind)) return;
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return;
+
+  if (opts.source === "daily") {
+    if (!opts.dateYmd) return;
+    await Promise.all(
+      opts.ids.map((id, index) =>
+        supabase
+          .from("daily_conditioning")
+          .update({ position: index })
+          .eq("user_id", user.id)
+          .eq("for_date", opts.dateYmd!)
+          .eq("kind", opts.kind)
+          .eq("id", id),
+      ),
+    );
+  } else {
+    if (!opts.focus) return;
+    await Promise.all(
+      opts.ids.map((id, index) =>
+        supabase
+          .from("routine_conditioning")
+          .update({ position: index })
+          .eq("user_id", user.id)
+          .eq("focus", opts.focus!)
+          .eq("kind", opts.kind)
+          .eq("id", id),
+      ),
+    );
+  }
+
+  revalidatePath("/");
+}

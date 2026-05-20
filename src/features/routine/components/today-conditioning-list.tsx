@@ -3,16 +3,15 @@
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, ChevronRight, Dumbbell, X } from "lucide-react";
+import { Check, ChevronRight, Dumbbell, GripVertical, X } from "lucide-react";
 
+import { reorderConditioningAction } from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import type { ConditioningKind } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 
 export type TodayConditioningItem = {
-  /** routine_conditioning 또는 daily_conditioning row id (key 용) */
   rowId: string;
-  /** 카탈로그 item id (완료/휴식 키) */
   itemId: string;
   name: string;
   detail: string;
@@ -28,26 +27,32 @@ export function TodayConditioningList({
   doneIds,
   skippedIds,
   iconTone,
+  source,
+  focus,
+  dateYmd,
 }: {
   kind: ConditioningKind;
   items: TodayConditioningItem[];
   doneIds: string[];
   skippedIds: string[];
   iconTone: "amber" | "sky";
+  /** 현재 보이는 데이터 소스 — 정렬 시 어느 테이블에 저장할지 결정 */
+  source: "daily" | "default";
+  focus?: string;
+  dateYmd?: string;
 }) {
   const router = useRouter();
+  const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
   const [skipped, setSkipped] = useState<Set<string>>(new Set(skippedIds));
   const [swipe, setSwipe] = useState<{ id: string; dx: number } | null>(null);
   const startRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const dxRef = useRef(0);
   const lockedRef = useRef<"none" | "horizontal" | "vertical">("none");
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [, startTx] = useTransition();
 
-  function setStatus(
-    itemId: string,
-    target: CompletionStatus | "clear",
-  ) {
+  function setStatus(itemId: string, target: CompletionStatus | "clear") {
     const nextDone = new Set(done);
     const nextSkipped = new Set(skipped);
     nextDone.delete(itemId);
@@ -60,6 +65,45 @@ export function TodayConditioningList({
       await setConditioningStatusAction(kind, itemId, target);
       router.refresh();
     });
+  }
+
+  function persistOrder(next: TodayConditioningItem[]) {
+    startTx(async () => {
+      await reorderConditioningAction({
+        source,
+        kind,
+        focus,
+        dateYmd,
+        ids: next.map((i) => i.rowId),
+      });
+      router.refresh();
+    });
+  }
+
+  function handleHandleDragStart(e: React.DragEvent, index: number) {
+    setDragIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+    try {
+      e.dataTransfer.setData("text/plain", String(index));
+    } catch {
+      /* noop */
+    }
+  }
+  function handleDragOver(e: React.DragEvent) {
+    if (dragIndex === null) return;
+    e.preventDefault();
+  }
+  function handleDrop(targetIndex: number) {
+    if (dragIndex === null || dragIndex === targetIndex) {
+      setDragIndex(null);
+      return;
+    }
+    const next = [...order];
+    const [moved] = next.splice(dragIndex, 1);
+    next.splice(targetIndex, 0, moved);
+    setOrder(next);
+    setDragIndex(null);
+    persistOrder(next);
   }
 
   function onPointerDown(e: PointerEvent<HTMLDivElement>, id: string) {
@@ -89,9 +133,7 @@ export function TodayConditioningList({
         -SWIPE_VISUAL_CAP,
         Math.min(SWIPE_VISUAL_CAP, dx),
       );
-      // swipe.id 는 rowId 인데 상태 키는 itemId (rowId 와 다를 수 있음)
-      // 현재 swiping 중인 row 의 itemId 를 찾아 상태 차단
-      const cur = items.find((i) => i.rowId === swipe.id);
+      const cur = order.find((i) => i.rowId === swipe.id);
       if (cur) {
         if (done.has(cur.itemId)) capped = Math.max(0, capped);
         if (skipped.has(cur.itemId)) capped = Math.min(0, capped);
@@ -131,7 +173,7 @@ export function TodayConditioningList({
 
   return (
     <ul className="space-y-2">
-      {items.map((item) => {
+      {order.map((item, index) => {
         const isDone = done.has(item.itemId);
         const isSkipped = skipped.has(item.itemId);
         const dx = swipe?.id === item.rowId ? swipe.dx : 0;
@@ -143,6 +185,8 @@ export function TodayConditioningList({
           <li
             key={item.rowId}
             className="relative overflow-hidden rounded-xl"
+            onDragOver={handleDragOver}
+            onDrop={() => handleDrop(index)}
           >
             <div
               className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
@@ -176,13 +220,26 @@ export function TodayConditioningList({
                 touchAction: "pan-y",
               }}
               className={`relative flex items-center gap-3 border bg-white p-4 shadow-sm ${
-                isDone
-                  ? "border-emerald-200 bg-emerald-50"
-                  : isSkipped
-                    ? "border-zinc-200 bg-zinc-100"
-                    : "border-zinc-200"
+                dragIndex === index
+                  ? "border-emerald-400 opacity-60"
+                  : isDone
+                    ? "border-emerald-300 bg-emerald-50"
+                    : isSkipped
+                      ? "border-zinc-300 bg-zinc-100"
+                      : "border-zinc-200"
               }`}
             >
+              <span
+                draggable
+                onDragStart={(e) => handleHandleDragStart(e, index)}
+                onDragEnd={() => setDragIndex(null)}
+                aria-hidden="true"
+                className="flex h-8 w-6 shrink-0 cursor-grab items-center justify-center text-zinc-400 active:cursor-grabbing"
+                title="잡고 위·아래로 순서 변경"
+              >
+                <GripVertical size={18} />
+              </span>
+
               <span
                 className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconBg}`}
               >

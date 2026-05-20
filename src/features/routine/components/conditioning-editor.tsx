@@ -16,6 +16,7 @@ import {
   saveConditioningAction,
   type ConditioningInput,
 } from "@/features/routine/conditioning-actions";
+import { saveDailyConditioningAction } from "@/features/routine/daily-conditioning-actions";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 
 type Row = {
@@ -43,10 +44,14 @@ export function ConditioningEditor({
   focus,
   kind,
   initial,
+  dailyDate,
 }: {
-  focus: string;
+  /** 기본값 편집 모드일 때의 부위. dailyDate 가 있으면 사용하지 않음 */
+  focus?: string;
   kind: ConditioningKind;
   initial: ConditioningRow[];
+  /** 지정되면 해당 날짜의 오늘만 오버라이드로 저장 */
+  dailyDate?: string;
 }) {
   const router = useRouter();
   const options = conditioningOptions(kind);
@@ -81,7 +86,9 @@ export function ConditioningEditor({
         speed: r.speed.trim() === "" ? null : Number(r.speed),
         incline: r.incline.trim() === "" ? null : Number(r.incline),
       }));
-      const res = await saveConditioningAction(focus, kind, items);
+      const res = dailyDate
+        ? await saveDailyConditioningAction(dailyDate, kind, items)
+        : await saveConditioningAction(focus ?? "", kind, items);
       setMsg(res.ok ? "저장됨" : res.error);
       if (res.ok) router.refresh();
     });

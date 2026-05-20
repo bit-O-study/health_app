@@ -304,7 +304,9 @@ function TodayWorkout({
       </section>
 
       {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
-      {!isRest ? <TodayExercises tone={planToday.tone} /> : null}
+      {!isRest ? (
+        <TodayExercises tone={planToday.tone} weightKg={profile?.weightKg ?? null} />
+      ) : null}
 
       {/* 다가오는 7일 */}
       <section>

@@ -46,12 +46,16 @@ export async function saveRoutineAction(
     return { ok: false, error: "로그인이 필요합니다." };
   }
 
+  // 루틴을 바꾸면 오늘만 변경/휴식 오버라이드는 의미가 없어지므로 함께 클리어.
   const { error } = await supabase.from("user_routines").upsert(
     {
       user_id: user.id,
       splits: isCustom ? CUSTOM_SPLITS : splits,
       variant_id: variantId,
       custom_week: isCustom ? customWeek : null,
+      rest_date: null,
+      override_date: null,
+      override_block: null,
     },
     { onConflict: "user_id" },
   );

@@ -1,24 +1,27 @@
 import Link from "next/link";
-import { Flame, Plus, Wind } from "lucide-react";
+import { ChevronRight, Dumbbell, Flame, Plus, Wind, Zap } from "lucide-react";
 
-import type { FocusTone } from "@/features/routine/data";
+import { seoulYmd, type FocusTone } from "@/features/routine/data";
 import {
   EQUIPMENT_LABELS,
   getCatalogExercise,
 } from "@/features/routine/exercise-catalog";
 import { getPlanForFocus } from "@/features/routine/plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
+import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import {
   getConditioningItem,
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
 import type { ConditioningRow } from "@/features/routine/conditioning";
+import { estimateTodayKcal } from "@/features/routine/calories";
+import { isCompletedToday } from "@/features/routine/completions";
 import {
   TodayPlanList,
   type TodayPlanItem,
 } from "@/features/routine/components/today-plan-list";
+import { MarkCompleteButton } from "@/features/routine/components/mark-complete-button";
 
-/** ConditioningRow → "5분 · 8km/h · 1%" 같은 디테일 문자열 */
 function formatDetail(row: ConditioningRow): string {
   const parts: string[] = [];
   if (row.durationMin !== null) parts.push(`${row.durationMin}${PARAM_UNIT.duration}`);
@@ -27,12 +30,27 @@ function formatDetail(row: ConditioningRow): string {
   return parts.join(" · ");
 }
 
-/** 메인 "오늘의 운동" — 워밍업 + 본운동(등록 계획) + 마무리 */
-export async function TodayExercises({ tone }: { tone: FocusTone }) {
-  const [plan, conditioning] = await Promise.all([
+/** 메인 "오늘의 운동" — 워밍업 + 본운동 + 마무리 + 칼로리/완료 */
+export async function TodayExercises({
+  tone,
+  weightKg,
+}: {
+  tone: FocusTone;
+  weightKg: number | null;
+}) {
+  const todayYmd = seoulYmd();
+  const [plan, defaults, daily, done] = await Promise.all([
     getPlanForFocus(tone),
     getConditioningForFocus(tone),
+    getDailyConditioning(todayYmd),
+    isCompletedToday(todayYmd),
   ]);
+
+  const warmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
+  const cooldownRows =
+    daily.cooldown.length > 0 ? daily.cooldown : defaults.cooldown;
+  const isDailyWarmup = daily.warmup.length > 0;
+  const isDailyCooldown = daily.cooldown.length > 0;
 
   const items: TodayPlanItem[] = plan.map((item) => ({
     id: item.id,
@@ -44,6 +62,21 @@ export async function TodayExercises({ tone }: { tone: FocusTone }) {
     reps: item.reps,
     weightKg: item.weightKg,
   }));
+
+  const kcal = estimateTodayKcal({
+    weightKg,
+    plan: plan.map((p) => ({ exerciseId: p.exerciseId, sets: p.sets })),
+    warmup: warmupRows.map((r) => ({
+      itemId: r.itemId,
+      durationMin: r.durationMin,
+      speed: r.speed,
+    })),
+    cooldown: cooldownRows.map((r) => ({
+      itemId: r.itemId,
+      durationMin: r.durationMin,
+      speed: r.speed,
+    })),
+  });
 
   return (
     <section className="space-y-5">
@@ -59,7 +92,32 @@ export async function TodayExercises({ tone }: { tone: FocusTone }) {
         </Link>
       </div>
 
-      <ConditioningBlock kind="warmup" rows={conditioning.warmup} />
+      {/* 칼로리 + 완료 */}
+      <div className="flex flex-wrap items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
+          <Zap aria-hidden="true" size={20} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            오늘 예상 소모 칼로리
+          </p>
+          <p className="text-2xl font-bold text-zinc-950">
+            {kcal.total}
+            <span className="ml-1 text-sm font-medium text-zinc-500">kcal</span>
+          </p>
+          <p className="mt-0.5 text-[11px] text-zinc-500">
+            워밍업 {kcal.warmup} · 본운동 {kcal.main} · 마무리 {kcal.cooldown}
+            {weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
+          </p>
+        </div>
+        <MarkCompleteButton focus={tone} calories={kcal.total} done={done} />
+      </div>
+
+      <ConditioningBlock
+        kind="warmup"
+        rows={warmupRows}
+        isDailyOverride={isDailyWarmup}
+      />
 
       {plan.length === 0 ? (
         <div className="rounded-xl border border-dashed border-zinc-300 bg-white p-6 text-center">
@@ -83,7 +141,11 @@ export async function TodayExercises({ tone }: { tone: FocusTone }) {
         </div>
       )}
 
-      <ConditioningBlock kind="cooldown" rows={conditioning.cooldown} />
+      <ConditioningBlock
+        kind="cooldown"
+        rows={cooldownRows}
+        isDailyOverride={isDailyCooldown}
+      />
     </section>
   );
 }
@@ -91,60 +153,79 @@ export async function TodayExercises({ tone }: { tone: FocusTone }) {
 function ConditioningBlock({
   kind,
   rows,
+  isDailyOverride,
 }: {
   kind: "warmup" | "cooldown";
   rows: ConditioningRow[];
+  isDailyOverride: boolean;
 }) {
   const isWarm = kind === "warmup";
-  const Icon = isWarm ? Flame : Wind;
+  const HeaderIcon = isWarm ? Flame : Wind;
   const label = isWarm ? "워밍업" : "마무리 운동";
   const hint = isWarm ? "약 5분" : "약 3~5분";
-  const containerCls = isWarm
-    ? "rounded-xl border border-amber-200 bg-amber-50/60 p-4"
-    : "rounded-xl border border-sky-200 bg-sky-50/60 p-4";
-  const badgeCls = isWarm
+  const headerBadge = isWarm
     ? "flex h-7 w-7 items-center justify-center rounded-md bg-amber-100 text-amber-700"
     : "flex h-7 w-7 items-center justify-center rounded-md bg-sky-100 text-sky-700";
 
   return (
-    <div className={containerCls}>
+    <section>
       <div className="mb-2 flex items-center gap-2">
-        <span className={badgeCls}>
-          <Icon aria-hidden="true" size={15} />
+        <span className={headerBadge}>
+          <HeaderIcon aria-hidden="true" size={15} />
         </span>
         <h3 className="text-sm font-bold text-zinc-950">{label}</h3>
         <span className="text-xs text-zinc-500">{hint}</span>
+        {isDailyOverride ? (
+          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+            오늘만
+          </span>
+        ) : null}
         <Link
-          href="/plan"
+          href="/plan/today"
           className="ml-auto text-[11px] font-semibold text-emerald-700 hover:text-emerald-600"
         >
-          편집
+          오늘만 바꾸기
         </Link>
       </div>
+
       {rows.length === 0 ? (
-        <p className="text-xs text-zinc-500">
-          등록된 항목이 없습니다. /plan 에서 추가하거나 추천 등록으로 채워주세요.
+        <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-4 text-center text-xs text-zinc-500">
+          등록된 항목이 없습니다. <Link href="/plan" className="font-semibold text-emerald-700">/plan</Link> 에서 추가하거나 “추천으로 등록”으로 채워주세요.
         </p>
       ) : (
-        <ul className="space-y-1.5">
-          {rows.map((r) => {
+        <div className="space-y-2">
+          {rows.map((r, i) => {
             const item = getConditioningItem(r.itemId);
             const name = item?.name ?? r.itemId;
             const detail = formatDetail(r);
+            const iconWrap = isWarm
+              ? "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-700"
+              : "flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-700";
             return (
-              <li
-                key={r.id}
-                className="flex items-baseline justify-between gap-3 text-sm"
+              <Link
+                key={`${r.id}-${i}`}
+                href={`/conditioning/${r.itemId}`}
+                className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md"
               >
-                <span className="font-medium text-zinc-800">· {name}</span>
-                {detail ? (
-                  <span className="text-xs text-zinc-500">{detail}</span>
-                ) : null}
-              </li>
+                <span className={iconWrap}>
+                  <Dumbbell aria-hidden="true" size={20} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <h4 className="text-base font-bold text-zinc-950">{name}</h4>
+                  {detail ? (
+                    <p className="mt-0.5 text-sm text-zinc-600">{detail}</p>
+                  ) : null}
+                </div>
+                <ChevronRight
+                  aria-hidden="true"
+                  className="shrink-0 text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
+                  size={18}
+                />
+              </Link>
             );
           })}
-        </ul>
+        </div>
       )}
-    </div>
+    </section>
   );
 }

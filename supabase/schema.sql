@@ -389,4 +389,86 @@ create policy "Users can delete own conditioning"
   on public.routine_conditioning for delete
   using (auth.uid() = user_id);
 
+-- Per-date warmup/cooldown override. When present for today, the home screen
+-- uses these instead of the per-focus default in routine_conditioning. Lets
+-- the user vary today's conditioning without changing the default.
+
+create table if not exists public.daily_conditioning (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  kind text not null check (kind in ('warmup', 'cooldown')),
+  position int not null default 0,
+  item_id text not null,
+  duration_min int check (duration_min between 0 and 300),
+  speed numeric(5, 1),
+  incline numeric(4, 1),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists daily_conditioning_user_date_idx
+  on public.daily_conditioning (user_id, for_date, kind, position);
+
+alter table public.daily_conditioning enable row level security;
+
+drop policy if exists "Users can read own daily conditioning" on public.daily_conditioning;
+create policy "Users can read own daily conditioning"
+  on public.daily_conditioning for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own daily conditioning" on public.daily_conditioning;
+create policy "Users can insert own daily conditioning"
+  on public.daily_conditioning for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own daily conditioning" on public.daily_conditioning;
+create policy "Users can update own daily conditioning"
+  on public.daily_conditioning for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own daily conditioning" on public.daily_conditioning;
+create policy "Users can delete own daily conditioning"
+  on public.daily_conditioning for delete
+  using (auth.uid() = user_id);
+
+-- Workout completions (one row per user per date). Used to score 운동 점수
+-- with time decay on /settings/score.
+
+create table if not exists public.workout_completions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  focus text not null,
+  calories int,
+  created_at timestamptz not null default now(),
+  unique (user_id, for_date)
+);
+
+create index if not exists workout_completions_user_date_idx
+  on public.workout_completions (user_id, for_date desc);
+
+alter table public.workout_completions enable row level security;
+
+drop policy if exists "Users can read own completions" on public.workout_completions;
+create policy "Users can read own completions"
+  on public.workout_completions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own completions" on public.workout_completions;
+create policy "Users can insert own completions"
+  on public.workout_completions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own completions" on public.workout_completions;
+create policy "Users can update own completions"
+  on public.workout_completions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own completions" on public.workout_completions;
+create policy "Users can delete own completions"
+  on public.workout_completions for delete
+  using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

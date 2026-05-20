@@ -137,7 +137,7 @@ export function TodayAdjustMenu({
                   <Play aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-sm font-bold text-zinc-950">
+                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950">
                     다시 운동하기
                   </span>
                   <span className="block text-xs text-zinc-600">
@@ -156,7 +156,7 @@ export function TodayAdjustMenu({
                   <Moon aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-sm font-bold text-zinc-950">
+                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950">
                     오늘 휴식 전환하기
                   </span>
                   <span className="block text-xs text-zinc-500">

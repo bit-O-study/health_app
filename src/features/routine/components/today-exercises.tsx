@@ -198,11 +198,11 @@ export async function TodayExercises({
   return (
     <TodayEditScope>
       <section className="space-y-5">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
             오늘 할 운동
             {usingDailyPlan ? (
-              <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-emerald-700">
+              <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold normal-case tracking-normal text-emerald-700">
                 오늘만 변경됨
               </span>
             ) : null}

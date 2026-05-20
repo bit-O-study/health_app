@@ -296,12 +296,12 @@ export function TodayPlanList({
                       {item.equipmentLabel}
                     </span>
                     {isDone ? (
-                      <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
+                      <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
                         완료
                       </span>
                     ) : null}
                     {isSkipped ? (
-                      <span className="ml-2 rounded-full bg-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-700">
+                      <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-700">
                         오늘 휴식
                       </span>
                     ) : null}

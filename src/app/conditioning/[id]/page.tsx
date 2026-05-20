@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ListChecks, Target } from "lucide-react";
 
 import {
   getConditioningItem,
@@ -42,15 +42,55 @@ export default async function ConditioningDetailPage({ params }: Props) {
 
         <header className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
           <div className="flex items-center gap-3">
-            <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
               <ConditioningIcon id={item.id} size={36} />
             </span>
-            <div>
-              <h1 className="text-3xl font-bold sm:text-4xl">{item.name}</h1>
+            <div className="min-w-0">
+              <h1 className="text-2xl font-bold sm:text-3xl">{item.name}</h1>
               <p className="mt-1 text-sm text-zinc-500">{kindLabel}</p>
             </div>
           </div>
+          {item.target ? (
+            <p className="mt-4 text-sm leading-6 text-zinc-700">
+              <Target
+                aria-hidden="true"
+                className="mr-1 inline-block text-orange-600"
+                size={14}
+              />
+              {item.target}
+            </p>
+          ) : null}
         </header>
+
+        {item.method && item.method.length > 0 ? (
+          <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
+            <div className="mb-3 flex items-center gap-2">
+              <ListChecks
+                aria-hidden="true"
+                className="text-emerald-700"
+                size={18}
+              />
+              <h2 className="text-base font-bold text-zinc-950">동작 방법</h2>
+            </div>
+            <ol className="space-y-3">
+              {item.method.map((step, i) => (
+                <li key={i} className="flex gap-3">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-xs font-bold text-emerald-700">
+                    {i + 1}
+                  </span>
+                  <span className="flex-1 text-sm leading-6 text-zinc-700">
+                    {step}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : (
+          <section className="rounded-xl border border-dashed border-zinc-300 bg-white p-6 text-sm leading-6 text-zinc-500">
+            이 항목의 자세한 운동법은 준비 중입니다. 본인 페이스에 맞춰 동작
+            폼을 우선시하세요.
+          </section>
+        )}
 
         {item.params && item.params.length > 0 ? (
           <section className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
@@ -66,23 +106,27 @@ export default async function ConditioningDetailPage({ params }: Props) {
                   <span className="font-medium text-zinc-800">
                     {PARAM_LABEL[p]}
                   </span>
-                  <span className="text-xs text-zinc-500">
+                  <span className="whitespace-nowrap text-xs text-zinc-500">
                     단위: {PARAM_UNIT[p]}
                   </span>
                 </li>
               ))}
             </ul>
             <p className="mt-3 text-xs text-zinc-500">
-              /plan 에서 부위별 기본값을, /plan/today 에서 오늘만 설정을 변경할
-              수 있습니다.
+              <Link href="/plan" className="font-semibold text-emerald-700">
+                /plan
+              </Link>{" "}
+              에서 부위별 기본값을,{" "}
+              <Link
+                href="/plan/today"
+                className="font-semibold text-emerald-700"
+              >
+                /plan/today
+              </Link>{" "}
+              에서 오늘만 설정을 변경할 수 있습니다.
             </p>
           </section>
         ) : null}
-
-        <section className="rounded-xl border border-dashed border-zinc-300 bg-white p-6 text-sm leading-6 text-zinc-500">
-          이 항목의 자세한 운동법/시범 영상은 준비 중입니다. 본인 페이스에
-          맞춰 동작 폼을 우선시하세요.
-        </section>
       </section>
     </main>
   );

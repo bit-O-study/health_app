@@ -3,12 +3,13 @@
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, ChevronRight, Dumbbell, GripVertical, X } from "lucide-react";
+import { Check, ChevronRight, GripVertical, X } from "lucide-react";
 
 import { reorderPlanAction } from "@/features/routine/plan-actions";
 import { estimateStrengthKcal } from "@/features/routine/calories";
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
+import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 
 export type TodayPlanItem = {
   id: string;
@@ -275,7 +276,7 @@ export function TodayPlanList({
               ) : null}
 
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
-                <Dumbbell aria-hidden="true" size={20} />
+                <ExerciseIcon id={item.exerciseId} size={22} />
               </span>
 
               <Link

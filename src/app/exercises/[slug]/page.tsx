@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Dumbbell, Target } from "lucide-react";
+import { ArrowLeft, Target } from "lucide-react";
 
 import { FeedbackSection } from "@/features/exercises/components/feedback-section";
 import { VideoUploadForm } from "@/features/exercises/components/video-upload-form";
 import { EquipmentMethod } from "@/features/exercises/components/equipment-method";
+import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import {
   getExerciseBySlug,
   getExerciseVideos,
@@ -66,8 +67,8 @@ export default async function ExerciseDetailPage({
 
           <header className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
-                <Dumbbell aria-hidden="true" size={26} />
+              <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                <ExerciseIcon id={exercise.id} size={36} />
               </span>
               <div>
                 <h1 className="text-3xl font-bold sm:text-4xl">

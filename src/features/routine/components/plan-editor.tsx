@@ -149,12 +149,12 @@ export function PlanEditor({
             key={f.focus}
             className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="text-base font-bold text-zinc-950">{f.label}</h3>
               <button
                 type="button"
                 onClick={() => addRow(f.focus)}
-                className="inline-flex h-8 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+                className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
               >
                 <Plus aria-hidden="true" size={14} />
                 운동 추가

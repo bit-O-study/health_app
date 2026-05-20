@@ -129,17 +129,17 @@ export function ConditioningEditor({
 
   return (
     <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3">
-      <div className="mb-2 flex items-center justify-between gap-2">
+      <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <h4 className="text-sm font-bold text-zinc-800">
           {KIND_LABEL[kind]}
         </h4>
-        <div className="flex items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5">
           {focus ? (
             <button
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-7 items-center gap-1 rounded-md border border-emerald-300 bg-emerald-50 px-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60"
+              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60"
             >
               <Sparkles aria-hidden="true" size={13} />
               추천으로 채우기

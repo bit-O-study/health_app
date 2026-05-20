@@ -198,7 +198,7 @@ export async function TodayExercises({
   return (
     <TodayEditScope>
       <section className="space-y-5">
-        <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
             오늘 할 운동
             {usingDailyPlan ? (

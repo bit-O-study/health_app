@@ -12,6 +12,7 @@ import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import {
   getConditioningItem,
   PARAM_UNIT,
+  type ConditioningItem,
 } from "@/features/routine/conditioning-catalog";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import {
@@ -29,12 +30,25 @@ import {
   type TodayConditioningItem,
 } from "@/features/routine/components/today-conditioning-list";
 
-function formatDetail(row: ConditioningRow): string {
+/** DB row 의 값이 비어 있으면 카탈로그 기본값(defaultMin/Speed/Incline)을 대신 사용 */
+function effectiveValues(row: ConditioningRow, item: ConditioningItem | undefined) {
+  return {
+    duration: row.durationMin ?? item?.defaultMin ?? null,
+    speed: row.speed ?? item?.defaultSpeed ?? null,
+    incline: row.incline ?? item?.defaultIncline ?? null,
+  };
+}
+
+function formatDetail(row: ConditioningRow, item: ConditioningItem | undefined): string {
+  const v = effectiveValues(row, item);
+  const params = item?.params ?? [];
   const parts: string[] = [];
-  if (row.durationMin !== null)
-    parts.push(`${row.durationMin}${PARAM_UNIT.duration}`);
-  if (row.speed !== null) parts.push(`${row.speed}${PARAM_UNIT.speed}`);
-  if (row.incline !== null) parts.push(`${row.incline}${PARAM_UNIT.incline}`);
+  if (v.duration !== null && params.includes("duration"))
+    parts.push(`${v.duration}${PARAM_UNIT.duration}`);
+  if (v.speed !== null && params.includes("speed"))
+    parts.push(`${v.speed}${PARAM_UNIT.speed}`);
+  if (v.incline !== null && params.includes("incline"))
+    parts.push(`${v.incline}${PARAM_UNIT.incline}`);
   return parts.join(" · ");
 }
 
@@ -92,9 +106,10 @@ export async function TodayExercises({
     const items: TodayConditioningItem[] = rows.map((r) => {
       const item = getConditioningItem(r.itemId);
       const name = item?.name ?? r.itemId;
-      const detail = formatDetail(r) || "—";
+      const detail = formatDetail(r, item) || "—";
+      const eff = effectiveValues(r, item);
       const kcal = Math.round(
-        estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
+        estimateConditioningKcal(w, r.itemId, eff.duration, eff.speed),
       );
       const key = `${kind}:${r.itemId}` as const;
       const st = condStatus.get(key);

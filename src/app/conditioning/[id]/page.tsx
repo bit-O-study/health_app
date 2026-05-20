@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Dumbbell } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import {
   getConditioningItem,
   PARAM_LABEL,
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
+import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
 
 export const dynamic = "force-dynamic";
 
@@ -41,8 +42,8 @@ export default async function ConditioningDetailPage({ params }: Props) {
 
         <header className="rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
           <div className="flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
-              <Dumbbell aria-hidden="true" size={26} />
+            <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+              <ConditioningIcon id={item.id} size={36} />
             </span>
             <div>
               <h1 className="text-3xl font-bold sm:text-4xl">{item.name}</h1>

@@ -3,11 +3,12 @@
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, ChevronRight, Dumbbell, GripVertical, X } from "lucide-react";
+import { Check, ChevronRight, GripVertical, X } from "lucide-react";
 
 import { reorderConditioningAction } from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
+import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
 import type { ConditioningKind } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 
@@ -285,7 +286,7 @@ export function TodayConditioningList({
               <span
                 className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconBg}`}
               >
-                <Dumbbell aria-hidden="true" size={20} />
+                <ConditioningIcon id={item.itemId} size={22} />
               </span>
               <Link
                 href={`/conditioning/${item.itemId}`}

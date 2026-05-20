@@ -4,8 +4,8 @@ import { ChevronLeft } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
-import { DAY_BLOCKS } from "@/features/routine/data";
-import { ALL_FOCUSES } from "@/features/routine/exercise-catalog";
+import { DAY_BLOCKS, resolveRoutine } from "@/features/routine/data";
+import type { FocusKey } from "@/features/routine/exercise-catalog";
 import { getPlanForFocus } from "@/features/routine/plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { PlanEditor } from "@/features/routine/components/plan-editor";
@@ -21,8 +21,24 @@ export default async function PlanPage() {
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
 
+  // 현재 선택된 루틴의 주간 계획에서 등장하는 부위만 (휴식 제외, 첫 등장 순)
+  const { variant } = resolveRoutine(
+    routine.splits,
+    routine.variantId,
+    routine.customWeek,
+  );
+  const seen = new Set<FocusKey>();
+  const usedFocuses: FocusKey[] = [];
+  for (const day of variant.week) {
+    if (day.tone === "rest") continue;
+    const f = day.tone as FocusKey;
+    if (seen.has(f)) continue;
+    seen.add(f);
+    usedFocuses.push(f);
+  }
+
   const focuses = await Promise.all(
-    ALL_FOCUSES.map(async (focus) => {
+    usedFocuses.map(async (focus) => {
       const [items, conditioning] = await Promise.all([
         getPlanForFocus(focus),
         getConditioningForFocus(focus),

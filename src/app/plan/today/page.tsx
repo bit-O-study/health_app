@@ -70,42 +70,45 @@ export default async function TodayConditioningPage({
   const dateLabel = `${Number(mm)}월 ${Number(dd)}일 (${weekday})`;
 
   const dailyAll = await getDailyPlanForDate(todayYmd);
-
-  const sections = await Promise.all(
-    focuses
-      .filter((f): f is Exclude<FocusTone, "rest"> => f !== "rest")
-      .map(async (focus) => {
-        const [defaults, daily] = await Promise.all([
-          getConditioningForFocus(focus),
-          getDailyConditioning(todayYmd),
-        ]);
-        const dailyMain = dailyAll.filter((r) => r.focus === focus);
-        const initialMain =
-          dailyMain.length > 0
-            ? dailyMain
-            : (await getPlanForFocus(focus)).map((p) => ({
-                id: p.id,
-                focus: p.focus,
-                position: p.position,
-                exerciseId: p.exerciseId,
-                equipment: p.equipment,
-                sets: p.sets,
-                reps: p.reps,
-                weightKg: p.weightKg,
-              }));
-        const warmupInitial =
-          daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
-        const cooldownInitial =
-          daily.cooldown.length > 0 ? daily.cooldown : defaults.cooldown;
-        return {
-          focus,
-          label: DAY_BLOCKS[focus].label,
-          initialMain,
-          warmupInitial,
-          cooldownInitial,
-        };
-      }),
+  const validFocuses = focuses.filter(
+    (f): f is Exclude<FocusTone, "rest"> => f !== "rest",
   );
+
+  // 부위별 본운동 섹션
+  const mainSections = await Promise.all(
+    validFocuses.map(async (focus) => {
+      const dailyMain = dailyAll.filter((r) => r.focus === focus);
+      const initialMain =
+        dailyMain.length > 0
+          ? dailyMain
+          : (await getPlanForFocus(focus)).map((p) => ({
+              id: p.id,
+              focus: p.focus,
+              position: p.position,
+              exerciseId: p.exerciseId,
+              equipment: p.equipment,
+              sets: p.sets,
+              reps: p.reps,
+              weightKg: p.weightKg,
+            }));
+      return {
+        focus,
+        label: DAY_BLOCKS[focus].label,
+        initialMain,
+      };
+    }),
+  );
+
+  // 워밍업/마무리는 하루 1세트(첫 선택 부위 기준 기본값) — 중복 노출 방지
+  const primaryFocus = validFocuses[0];
+  const daily = await getDailyConditioning(todayYmd);
+  const condDefaults = primaryFocus
+    ? await getConditioningForFocus(primaryFocus)
+    : { warmup: [], cooldown: [] };
+  const warmupInitial =
+    daily.warmup.length > 0 ? daily.warmup : condDefaults.warmup;
+  const cooldownInitial =
+    daily.cooldown.length > 0 ? daily.cooldown : condDefaults.cooldown;
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
@@ -124,8 +127,8 @@ export default async function TodayConditioningPage({
         <p className="text-sm leading-6 text-zinc-600">
           {dateLabel} · 선택 부위 ·{" "}
           <strong>
-            {sections.length > 0
-              ? sections.map((s) => s.label).join(", ")
+            {mainSections.length > 0
+              ? mainSections.map((s) => s.label).join(", ")
               : "선택 없음"}
           </strong>
           . 저장한 내용은 <strong>오늘만</strong> 반영되고 내일부터는 기본
@@ -137,36 +140,45 @@ export default async function TodayConditioningPage({
         </p>
       </div>
 
-      {sections.length === 0 ? (
+      {mainSections.length === 0 ? (
         <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-6 text-center text-sm text-zinc-500">
           편집할 부위가 없습니다. 메인 화면 “오늘만 운동 바꾸기” 팝업에서
           부위를 선택해 주세요.
         </p>
       ) : (
-        <div className="space-y-8">
-          {sections.map((s) => (
-            <div key={s.focus} className="space-y-3">
-              <DailyMainEditor
-                focus={s.focus}
-                label={s.label}
-                gender={profile.gender}
-                dateYmd={todayYmd}
-                initial={s.initialMain}
-              />
-              <ConditioningEditor
-                focus={s.focus}
-                kind="warmup"
-                initial={s.warmupInitial}
-                dailyDate={todayYmd}
-              />
-              <ConditioningEditor
-                focus={s.focus}
-                kind="cooldown"
-                initial={s.cooldownInitial}
-                dailyDate={todayYmd}
-              />
-            </div>
+        <div className="space-y-6">
+          {/* 부위별 본운동 */}
+          {mainSections.map((s) => (
+            <DailyMainEditor
+              key={s.focus}
+              focus={s.focus}
+              label={s.label}
+              gender={profile.gender}
+              experience={profile.experience}
+              bodyType={profile.bodyType}
+              weightKg={profile.weightKg}
+              dateYmd={todayYmd}
+              initial={s.initialMain}
+            />
           ))}
+
+          {/* 워밍업/마무리는 하루 1세트 */}
+          {primaryFocus ? (
+            <>
+              <ConditioningEditor
+                focus={primaryFocus}
+                kind="warmup"
+                initial={warmupInitial}
+                dailyDate={todayYmd}
+              />
+              <ConditioningEditor
+                focus={primaryFocus}
+                kind="cooldown"
+                initial={cooldownInitial}
+                dailyDate={todayYmd}
+              />
+            </>
+          ) : null}
         </div>
       )}
 

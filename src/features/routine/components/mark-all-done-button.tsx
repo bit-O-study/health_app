@@ -7,25 +7,26 @@ import { CheckCheck, Loader2 } from "lucide-react";
 import {
   markAllTodayCompleteAction,
   type CondMarkInput,
+  type PlanMarkInput,
 } from "@/features/routine/mark-all-actions";
 
 export function MarkAllDoneButton({
-  planRowIds,
+  planRows,
   warmup,
   cooldown,
 }: {
-  planRowIds: string[];
+  planRows: PlanMarkInput[];
   warmup: CondMarkInput[];
   cooldown: CondMarkInput[];
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
-  const total = planRowIds.length + warmup.length + cooldown.length;
+  const total = planRows.length + warmup.length + cooldown.length;
 
   function run() {
     if (total === 0) return;
     start(async () => {
-      await markAllTodayCompleteAction({ planRowIds, warmup, cooldown });
+      await markAllTodayCompleteAction({ planRows, warmup, cooldown });
       router.refresh();
     });
   }

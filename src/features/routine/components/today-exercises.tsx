@@ -105,6 +105,7 @@ export async function TodayExercises({
     sets: item.sets,
     reps: item.reps,
     weightKg: item.weightKg,
+    focus: item.focus,
   }));
   const mainDoneIds = plan
     .filter((p) => mainStatus.get(p.id) === "done")
@@ -130,7 +131,16 @@ export async function TodayExercises({
       const st = condStatus.get(r.id);
       if (st === "done") doneIds.push(r.id);
       else if (st === "skipped") skippedIds.push(r.id);
-      return { rowId: r.id, itemId: r.itemId, name, detail, kcal };
+      return {
+        rowId: r.id,
+        itemId: r.itemId,
+        name,
+        detail,
+        kcal,
+        durationMin: eff.duration,
+        speed: eff.speed,
+        incline: eff.incline,
+      };
     });
     return { items, doneIds, skippedIds };
   }
@@ -215,9 +225,19 @@ export async function TodayExercises({
             </p>
           </div>
           <MarkAllDoneButton
-            planRowIds={plan
+            planRows={plan
               .filter((p) => !mainSkipSet.has(p.id) && !mainDoneSet.has(p.id))
-              .map((p) => p.id)}
+              .map((p) => ({
+                rowId: p.id,
+                snapshot: {
+                  exerciseId: p.exerciseId,
+                  equipment: p.equipment,
+                  sets: p.sets,
+                  reps: p.reps,
+                  weightKg: p.weightKg,
+                  focus: p.focus,
+                },
+              }))}
             warmup={warm.items
               .filter(
                 (i) => !warmSkipSet.has(i.rowId) && !warmDoneSet.has(i.rowId),

@@ -71,6 +71,7 @@ export default async function HistoryPage({
 
   type CompRow = {
     for_date: string;
+    focus: string | null;
     routine_exercises: { focus: string }[] | null;
   };
 
@@ -81,7 +82,7 @@ export default async function HistoryPage({
   const exRes = user
     ? await supabase
         .from("exercise_completions")
-        .select("for_date, routine_exercises(focus)")
+        .select("for_date, focus, routine_exercises(focus)")
         .eq("user_id", user.id)
         .eq("status", "done")
         .gte("for_date", monthStart)
@@ -92,7 +93,7 @@ export default async function HistoryPage({
   const dayFocusCounts = new Map<string, Map<string, number>>();
   const focusMonthCount = new Map<string, number>();
   for (const r of (exRes.data ?? []) as CompRow[]) {
-    const focus = r.routine_exercises?.[0]?.focus ?? null;
+    const focus = r.focus ?? r.routine_exercises?.[0]?.focus ?? null;
     if (!focus || !isFocusKey(focus)) continue;
     if (!dayFocusCounts.has(r.for_date))
       dayFocusCounts.set(r.for_date, new Map());

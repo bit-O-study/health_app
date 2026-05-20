@@ -531,6 +531,14 @@ alter table public.exercise_completions
 alter table public.exercise_completions
   drop constraint if exists exercise_completions_exercise_row_id_fkey;
 
+-- 완료 시점 스냅샷 (계획이 바뀌어도 기록 손실 없이 표시 가능)
+alter table public.exercise_completions add column if not exists exercise_id text;
+alter table public.exercise_completions add column if not exists equipment text;
+alter table public.exercise_completions add column if not exists sets int;
+alter table public.exercise_completions add column if not exists reps int;
+alter table public.exercise_completions add column if not exists weight_kg numeric(5, 1);
+alter table public.exercise_completions add column if not exists focus text;
+
 -- Per-day done/skipped status for warmup/cooldown items.
 -- Keyed by source_row_id (routine_conditioning.id 또는 daily_conditioning.id)
 -- 동일 item 이 두 번 들어 있어도 행별로 독립 추적 가능.
@@ -548,6 +556,13 @@ create table if not exists public.conditioning_completions (
 -- 마이그레이션: 옛 (item_id) 유니크 제거 후, (source_row_id) 기반 유니크
 alter table public.conditioning_completions
   add column if not exists source_row_id uuid;
+-- 완료 시점 스냅샷 (시간/속도/경사)
+alter table public.conditioning_completions
+  add column if not exists duration_min int;
+alter table public.conditioning_completions
+  add column if not exists speed numeric(5, 1);
+alter table public.conditioning_completions
+  add column if not exists incline numeric(4, 1);
 alter table public.conditioning_completions
   drop constraint if exists conditioning_completions_user_id_for_date_kind_item_id_key;
 create unique index if not exists conditioning_completions_by_source_row_idx

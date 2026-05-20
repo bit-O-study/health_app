@@ -18,6 +18,7 @@ export type TodayPlanItem = {
   sets: number;
   reps: number;
   weightKg: number | null;
+  focus: string;
 };
 
 const SWIPE_THRESHOLD = 80; // px — 넘으면 토글
@@ -58,7 +59,11 @@ export function TodayPlanList({
     });
   }
 
-  function setStatus(id: string, target: "done" | "skipped" | "clear") {
+  function setStatus(
+    id: string,
+    target: "done" | "skipped" | "clear",
+  ) {
+    const item = order.find((o) => o.id === id);
     const nextDone = new Set(done);
     const nextSkipped = new Set(skipped);
     nextDone.delete(id);
@@ -68,7 +73,20 @@ export function TodayPlanList({
     setDone(nextDone);
     setSkipped(nextSkipped);
     startTx(async () => {
-      await setExerciseStatusAction(id, target);
+      await setExerciseStatusAction(
+        id,
+        target,
+        target === "clear" || !item
+          ? undefined
+          : {
+              exerciseId: item.exerciseId,
+              equipment: item.equipment,
+              sets: item.sets,
+              reps: item.reps,
+              weightKg: item.weightKg,
+              focus: item.focus,
+            },
+      );
       router.refresh();
     });
   }

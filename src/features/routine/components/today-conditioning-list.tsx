@@ -16,6 +16,9 @@ export type TodayConditioningItem = {
   name: string;
   detail: string;
   kcal: number;
+  durationMin: number | null;
+  speed: number | null;
+  incline: number | null;
 };
 
 const SWIPE_THRESHOLD = 80;
@@ -57,6 +60,7 @@ export function TodayConditioningList({
     itemId: string,
     target: CompletionStatus | "clear",
   ) {
+    const item = order.find((o) => o.rowId === rowId);
     const nextDone = new Set(done);
     const nextSkipped = new Set(skipped);
     nextDone.delete(rowId);
@@ -66,7 +70,19 @@ export function TodayConditioningList({
     setDone(nextDone);
     setSkipped(nextSkipped);
     startTx(async () => {
-      await setConditioningStatusAction(kind, rowId, itemId, target);
+      await setConditioningStatusAction(
+        kind,
+        rowId,
+        itemId,
+        target,
+        target === "clear" || !item
+          ? undefined
+          : {
+              durationMin: item.durationMin,
+              speed: item.speed,
+              incline: item.incline,
+            },
+      );
       router.refresh();
     });
   }

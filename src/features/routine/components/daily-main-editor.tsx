@@ -2,13 +2,14 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import type { FocusTone } from "@/features/routine/data";
 import {
   EQUIPMENT_LABELS,
   exercisesForFocus,
   getCatalogExercise,
+  prescribe,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import {
@@ -16,6 +17,10 @@ import {
   type DailyPlanItem,
 } from "@/features/routine/daily-plan-actions";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
+import type {
+  BodyType,
+  ExperienceLevel,
+} from "@/features/profile/data";
 
 type Row = {
   exerciseId: string;
@@ -39,12 +44,18 @@ export function DailyMainEditor({
   focus,
   label,
   gender,
+  experience,
+  bodyType,
+  weightKg,
   dateYmd,
   initial,
 }: {
   focus: FocusTone;
   label: string;
   gender: "male" | "female";
+  experience: ExperienceLevel;
+  bodyType: BodyType | null;
+  weightKg: number | null;
   dateYmd: string;
   initial: DailyPlanRow[];
 }) {
@@ -74,33 +85,75 @@ export function DailyMainEditor({
     ]);
   }
 
+  function rowsToItems(list: Row[]): DailyPlanItem[] {
+    return list.map((r) => ({
+      exerciseId: r.exerciseId,
+      equipment: r.equipment,
+      sets: r.sets,
+      reps: r.reps,
+      weightKg: r.weight.trim() === "" ? null : Number(r.weight),
+    }));
+  }
+
   function save() {
     start(async () => {
-      const items: DailyPlanItem[] = rows.map((r) => ({
-        exerciseId: r.exerciseId,
-        equipment: r.equipment,
-        sets: r.sets,
-        reps: r.reps,
-        weightKg: r.weight.trim() === "" ? null : Number(r.weight),
-      }));
+      const items = rowsToItems(rows);
       const res = await saveDailyPlanAction(dateYmd, focus, items);
       setMsg(res.ok ? `‘${label}’ 저장됨` : res.error);
       if (res.ok) router.refresh();
     });
   }
 
+  /** 체형·성별·경력 기반 추천으로 즉시 채우고 저장 */
+  function recommend() {
+    const opts = {
+      gender,
+      experience,
+      bodyType: bodyType ?? ("average" as const),
+      weightKg: weightKg ?? 65,
+    };
+    const next: Row[] = options.map((ex) => {
+      const p = prescribe(ex.id, opts);
+      return {
+        exerciseId: ex.id,
+        equipment: ex.equipments[0].equipment,
+        sets: p.sets,
+        reps: p.reps,
+        weight: p.weightKg === null ? "" : String(p.weightKg),
+      };
+    });
+    setRows(next);
+    start(async () => {
+      const items = rowsToItems(next);
+      const res = await saveDailyPlanAction(dateYmd, focus, items);
+      setMsg(res.ok ? `‘${label}’ 추천으로 채워짐` : res.error);
+      if (res.ok) router.refresh();
+    });
+  }
+
   return (
     <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-base font-bold text-zinc-950">{label} · 본운동</h3>
-        <button
-          type="button"
-          onClick={addRow}
-          className="inline-flex h-8 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
-        >
-          <Plus aria-hidden="true" size={14} />
-          운동 추가
-        </button>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            disabled={pending}
+            onClick={recommend}
+            className="inline-flex h-8 items-center gap-1 rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60"
+          >
+            <Sparkles aria-hidden="true" size={14} />
+            추천으로 채우기
+          </button>
+          <button
+            type="button"
+            onClick={addRow}
+            className="inline-flex h-8 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+          >
+            <Plus aria-hidden="true" size={14} />
+            운동 추가
+          </button>
+        </div>
       </div>
 
       {rows.length === 0 ? (

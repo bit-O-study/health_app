@@ -4,15 +4,17 @@ import { revalidatePath } from "next/cache";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
+import type { CompletionSnapshot } from "@/features/routine/exercise-completion-actions";
 
 export type CondMarkInput = { rowId: string; itemId: string };
 
-/**
- * 오늘 본운동/워밍업/마무리를 한 번에 완료 처리.
- * 호출자가 휴식 처리되지 않은 항목만 추려 보내야 함.
- */
+export type PlanMarkInput = {
+  rowId: string;
+  snapshot: CompletionSnapshot;
+};
+
 export async function markAllTodayCompleteAction(opts: {
-  planRowIds: string[];
+  planRows: PlanMarkInput[];
   warmup: CondMarkInput[];
   cooldown: CondMarkInput[];
 }): Promise<void> {
@@ -24,19 +26,24 @@ export async function markAllTodayCompleteAction(opts: {
 
   const today = seoulYmd();
 
-  if (opts.planRowIds.length > 0) {
-    const rows = opts.planRowIds.map((id) => ({
+  if (opts.planRows.length > 0) {
+    const rows = opts.planRows.map((p) => ({
       user_id: user.id,
       for_date: today,
-      exercise_row_id: id,
+      exercise_row_id: p.rowId,
       status: "done" as const,
+      exercise_id: p.snapshot.exerciseId,
+      equipment: p.snapshot.equipment,
+      sets: p.snapshot.sets,
+      reps: p.snapshot.reps,
+      weight_kg: p.snapshot.weightKg,
+      focus: p.snapshot.focus,
     }));
     await supabase
       .from("exercise_completions")
       .upsert(rows, { onConflict: "user_id,for_date,exercise_row_id" });
   }
 
-  // 워밍업/마무리: source_row_id 단위로 기존 기록 제거 후 done insert
   const condEntries: { kind: "warmup" | "cooldown"; row: CondMarkInput }[] = [
     ...opts.warmup.map((row) => ({ kind: "warmup" as const, row })),
     ...opts.cooldown.map((row) => ({ kind: "cooldown" as const, row })),

@@ -23,9 +23,11 @@ export type OcrField =
   | "fatRightLeg"
   | "fatLeftLeg";
 
-/** "12.3" / "12,3" / "12 . 3" 같은 표기 모두 number 로 */
-function toNumber(raw: string): number | null {
+/** "12.3" / "12,3" / "12 . 3" 같은 표기 모두 number 로. undefined 안전. */
+function toNumber(raw: string | undefined): number | null {
+  if (raw == null) return null;
   const s = raw.replace(/[,\s]/g, ".").replace(/[^\d.]/g, "");
+  if (s === "") return null;
   const n = Number(s);
   return Number.isFinite(n) ? n : null;
 }
@@ -33,20 +35,25 @@ function toNumber(raw: string): number | null {
 /**
  * "키워드 ... 숫자[kg|%]" 패턴.
  * 같은 줄 안에서 키워드 뒤 첫 번째 숫자를 가져옴.
+ *
+ * ⚠ 키워드 정규식이 `/A|B|C/` 처럼 alternation 만 갖고 있을 때 그대로 이어붙이면
+ * `|` 우선순위가 낮아 숫자 그룹이 마지막 분기에만 붙어 m.groups.num 이 undefined.
+ * 그래서 키워드 전체를 `(?:...)` 비캡처 그룹으로 한 번 감싼다. 숫자는 named
+ * group `(?<num>...)` 로 받아 ordinal index 의존도 제거.
  */
 function findByKeyword(
   text: string,
   keywords: RegExp,
   opts: { unit?: "kg" | "%"; range?: [number, number] } = {},
 ): number | null {
-  // 키워드부터 줄 끝(또는 \n)까지의 첫 숫자를 캡처
   const re = new RegExp(
-    keywords.source + String.raw`[^\d\n]{0,30}(\d{1,3}(?:[.,]\d{1,2})?)`,
+    `(?:${keywords.source})` +
+      String.raw`[^\d\n]{0,30}(?<num>\d{1,3}(?:[.,]\d{1,2})?)`,
     "i",
   );
   const m = text.match(re);
-  if (!m) return null;
-  const n = toNumber(m[1]);
+  const raw = m?.groups?.num;
+  const n = toNumber(raw);
   if (n === null) return null;
   if (opts.range && (n < opts.range[0] || n > opts.range[1])) return null;
   return n;

@@ -17,6 +17,7 @@ import {
 } from "@/features/profile/data-access";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { getUserRoutine } from "@/features/routine/data-access";
+import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import {
   addDaysYmd,
   DAY_BLOCKS,
@@ -26,7 +27,9 @@ import {
   TONE_STYLES,
   ymdDisplay,
   type DayBlockId,
+  type FocusTone,
 } from "@/features/routine/data";
+import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 
@@ -184,7 +187,7 @@ function NoRoutinePrompt() {
   );
 }
 
-function TodayWorkout({
+async function TodayWorkout({
   routine,
   profile,
 }: {
@@ -215,14 +218,33 @@ function TodayWorkout({
   const restedToday = routine.restDate === todayYmd;
   const isRest = restedToday || planToday.tone === "rest";
 
-  const tone = isRest ? "rest" : planToday.tone;
-  const focusLabel = isRest ? "휴식" : planToday.focus;
-  const todayStyle = TONE_STYLES[tone];
+  // "오늘만 변경" 으로 저장된 daily_plan 행들의 부위 — 있으면 그것이 오늘의
+  // 실제 부위. (routine.overrideBlock 보다 우선, 다중 부위도 지원)
+  const dailyPlan = isRest ? [] : await getDailyPlanForDate(todayYmd);
+  const dailyFocuses = Array.from(
+    new Set(dailyPlan.map((r) => r.focus).filter((f) => isDayBlockId(f))),
+  ) as DayBlockId[];
+  const hasDailyOverride = dailyFocuses.length > 0;
 
-  // 멀티 부위 일자(예: 가슴 + 팔) — DayPlan.tones 가 있으면 그 모두를 본운동에 사용
-  const todayTones = isRest
+  // 기본 부위 (route 기준) — daily override 가 없을 때 fallback
+  const routineTones = isRest
     ? []
-    : (planToday.tones ?? [planToday.tone]).filter((t) => t !== "rest");
+    : ((planToday.tones ?? [planToday.tone]).filter(
+        (t) => t !== "rest",
+      ) as Exclude<FocusTone, "rest">[]);
+
+  // 실제 오늘 부위 — daily_plan 부위가 routine 을 덮어쓴다
+  const todayTones: Exclude<FocusTone, "rest">[] = hasDailyOverride
+    ? (dailyFocuses.filter((f) => f !== "rest") as Exclude<FocusTone, "rest">[])
+    : routineTones;
+
+  const tone = isRest ? "rest" : todayTones[0] ?? planToday.tone;
+  const focusLabel = isRest
+    ? "휴식"
+    : hasDailyOverride
+      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" + ")
+      : planToday.focus;
+  const todayStyle = TONE_STYLES[tone];
 
   const [, mm, dd] = todayYmd.split("-");
   const { weekday } = ymdDisplay(todayYmd);
@@ -303,7 +325,16 @@ function TodayWorkout({
               자극 부위
             </p>
             <div className="mt-2 flex flex-wrap gap-1.5">
-              {planToday.muscles.map((muscle) => (
+              {(hasDailyOverride
+                ? Array.from(
+                    new Set(
+                      dailyFocuses.flatMap(
+                        (f) => DAY_BLOCKS[f].day.muscles,
+                      ),
+                    ),
+                  )
+                : planToday.muscles
+              ).map((muscle) => (
                 <span
                   key={muscle}
                   className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700"

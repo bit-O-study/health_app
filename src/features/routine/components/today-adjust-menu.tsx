@@ -24,6 +24,8 @@ import {
   restartRoutineFromTodayAction,
   undoTodayRestAction,
 } from "@/features/routine/actions";
+import { clearDailyPlanForDateAction } from "@/features/routine/daily-plan-actions";
+import { seoulYmd } from "@/features/routine/data";
 
 const FOCUS_CHOICES = DAY_BLOCK_IDS.filter(
   (id): id is DayBlockId => id !== "rest",
@@ -69,6 +71,8 @@ export function TodayAdjustMenu({
     start(async () => {
       // 휴식 상태였다면 운동 상태로 전환한 뒤 편집 화면으로 이동
       if (isRestToday) await undoTodayRestAction();
+      // "오늘만 변경" 은 누적이 아니라 대체 — 기존 daily_plan 을 먼저 비운다
+      await clearDailyPlanForDateAction(seoulYmd());
       setOpen(false);
       setPicked(new Set());
       router.push(`/plan/today?focus=${focuses}`);

@@ -10,9 +10,16 @@ import {
   isDayBlockId,
   isValidRoutine,
   normalizeCustomWeek,
+  resolveRoutine,
   seoulYmd,
   type DayBlockId,
 } from "@/features/routine/data";
+import {
+  exercisesForFocus,
+  prescribe,
+  type FocusKey,
+} from "@/features/routine/exercise-catalog";
+import { getUserProfile } from "@/features/profile/data-access";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
@@ -68,9 +75,98 @@ export async function saveRoutineAction(
     return { ok: false, error: error.message };
   }
 
+  // 새 루틴으로 바꾸면 오늘 / 미래의 "오늘만 변경" 오버라이드도 모두 무효화해야 한다.
+  // (그렇지 않으면 이전 daily_plan 이 새 루틴의 오늘 부위를 가려서 변경이 안 보임)
+  const today = seoulYmd();
+  await Promise.all([
+    supabase
+      .from("daily_plan")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+    supabase
+      .from("daily_conditioning")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+  ]);
+
+  // 새 루틴이 쓰는 부위 중 routine_exercises 에 행이 하나도 없는 부위는
+  // 추천 운동으로 자동 채워준다. 기존 부위 (이미 행이 있는) 는 사용자
+  // 커스터마이즈를 유지하기 위해 건드리지 않음.
+  await fillMissingFocusesAction(user.id, splits, variantId, normalized);
+
   revalidatePath("/");
   revalidatePath("/settings/routine");
+  revalidatePath("/plan");
+  revalidatePath("/plan/today");
   return { ok: true };
+}
+
+/**
+ * 새 루틴의 부위 중 등록된 운동이 없는 부위에만 추천 운동을 자동 등록.
+ * 기존에 운동이 있는 부위는 건드리지 않음 (사용자 커스터마이즈 보존).
+ */
+async function fillMissingFocusesAction(
+  userId: string,
+  splits: number,
+  variantId: string,
+  customWeek: DayBlockId[][] | null,
+): Promise<void> {
+  const profile = await getUserProfile();
+  if (!profile) return;
+
+  // 새 루틴이 쓰는 부위 set
+  const { variant } = resolveRoutine(splits, variantId, customWeek);
+  const usedFocuses = new Set<FocusKey>();
+  for (const day of variant.week) {
+    const tones = day.tones ?? [day.tone];
+    for (const t of tones) {
+      if (t !== "rest") usedFocuses.add(t as FocusKey);
+    }
+  }
+  if (usedFocuses.size === 0) return;
+
+  const supabase = await createSupabaseServerClient();
+  // 기존 행의 focus set 조회
+  const { data: existing } = await supabase
+    .from("routine_exercises")
+    .select("focus")
+    .eq("user_id", userId);
+  const existingFocuses = new Set(
+    (existing ?? []).map((r: { focus: string }) => r.focus),
+  );
+
+  // 비어 있는 부위만 추천으로 채움
+  const missingFocuses = [...usedFocuses].filter(
+    (f) => !existingFocuses.has(f),
+  );
+  if (missingFocuses.length === 0) return;
+
+  const opts = {
+    gender: profile.gender,
+    experience: profile.experience,
+    bodyType: profile.bodyType ?? ("average" as const),
+    weightKg: profile.weightKg ?? 65,
+  };
+  const rows = missingFocuses.flatMap((focus) =>
+    exercisesForFocus(focus, profile.gender).map((ex, index) => {
+      const p = prescribe(ex.id, opts);
+      return {
+        user_id: userId,
+        focus,
+        position: index,
+        exercise_id: ex.id,
+        equipment: ex.equipments[0].equipment,
+        sets: p.sets,
+        reps: p.reps,
+        weight_kg: p.weightKg,
+      };
+    }),
+  );
+  if (rows.length > 0) {
+    await supabase.from("routine_exercises").insert(rows);
+  }
 }
 
 /** 루틴 기준일을 오늘로 재설정 — 오늘이 루틴 1일차가 된다. */

@@ -26,6 +26,35 @@ function isValidYmd(s: string): boolean {
 }
 
 /**
+ * 그 날짜의 모든 daily_plan 오버라이드를 비운다 (= 오늘만 변경 초기화).
+ * "오늘만 운동 바꾸기" 모달에서 새 부위 선택 시 호출해, 이전 누적분이 합쳐
+ * 보이는 문제를 막는다. 완료 기록(exercise_completions) 은 건드리지 않음.
+ */
+export async function clearDailyPlanForDateAction(
+  dateYmd: string,
+): Promise<SaveDailyPlanResult> {
+  if (!isValidYmd(dateYmd)) {
+    return { ok: false, error: "날짜가 올바르지 않습니다." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { error } = await supabase
+    .from("daily_plan")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("for_date", dateYmd);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/");
+  revalidatePath("/plan/today");
+  return { ok: true };
+}
+
+/**
  * 특정 날짜·부위의 본운동 오버라이드를 통째로 교체한다.
  * 비어 있는 items 로 호출하면 그 (날짜, 부위) 오버라이드만 삭제(기본으로 복귀).
  * 완료 기록(exercise_completions)은 건드리지 않아 이미 완료한 운동은 남는다.

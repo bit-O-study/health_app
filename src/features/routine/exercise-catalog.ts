@@ -1474,6 +1474,522 @@ const EXERCISES: Record<string, CatalogExercise> = {
       },
     ],
   },
+
+  /* ─── 가슴 추가 2차 ─────────────────────────────────────────────────── */
+  "smith-bench-press": {
+    id: "smith-bench-press",
+    name: "스미스 벤치프레스",
+    target: "대흉근",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "수직 레일이라 궤적 고정 — 초보·보강 운동에 적합",
+          "바를 가슴 중앙으로 내리고 어깨가 떨어지지 않게",
+          "끝까지 밀되 팔꿈치 완전 잠금 직전까지",
+        ],
+      },
+    ],
+  },
+  "machine-chest-press": {
+    id: "machine-chest-press",
+    name: "머신 체스트 프레스",
+    target: "대흉근 · 삼두",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "시트 조절로 손잡이가 가슴 중앙 높이",
+          "견갑 모은 채 끝까지 밀고 천천히 복귀",
+          "어깨가 앞으로 말리지 않게 가슴으로 밀기",
+        ],
+      },
+    ],
+  },
+  "incline-cable-fly": {
+    id: "incline-cable-fly",
+    name: "인클라인 케이블 플라이",
+    target: "상부 대흉근",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "인클라인 벤치 30~45도, 양쪽 낮은 도르래에 D-그립",
+          "팔꿈치 각 유지하며 가슴 위에서 모으기",
+          "정점에서 1초 수축 후 천천히 복귀",
+        ],
+      },
+    ],
+  },
+  "dumbbell-pullover": {
+    id: "dumbbell-pullover",
+    name: "덤벨 풀오버",
+    target: "대흉근 · 광배",
+    equipments: [
+      {
+        equipment: "dumbbell",
+        method: [
+          "벤치에 어깨만 가로로 걸치고 덤벨 양손에",
+          "팔꿈치 살짝 굽힌 채 머리 뒤로 호 그리며 늘리기",
+          "광배·가슴으로 끌어올려 가슴 위까지",
+        ],
+      },
+    ],
+  },
+
+  /* ─── 등 추가 2차 ───────────────────────────────────────────────────── */
+  "pendlay-row": {
+    id: "pendlay-row",
+    name: "펜들레이 로우",
+    target: "광배 · 능형근 · 승모",
+    equipments: [
+      {
+        equipment: "barbell",
+        method: [
+          "상체 거의 수평까지 숙이고 등 완전히 펴기",
+          "매 반복마다 바를 바닥에 내려놓고 출발",
+          "배꼽 쪽으로 폭발적으로 당겨 견갑 모으기",
+        ],
+      },
+    ],
+  },
+  "meadows-row": {
+    id: "meadows-row",
+    name: "메도우스 로우",
+    target: "광배 · 후면 삼각근",
+    equipments: [
+      {
+        equipment: "barbell",
+        method: [
+          "랜드마인(코너 고정) 바 끝에 핸들 또는 그립 부착",
+          "한 쪽 발 앞으로 디뎌 옆으로 서서 한 손으로 잡기",
+          "팔꿈치 뒤로 빼며 골반까지, 광배 수축 후 통제 복귀",
+        ],
+      },
+    ],
+  },
+  "reverse-pec-deck": {
+    id: "reverse-pec-deck",
+    name: "리버스 펙덱",
+    target: "후면 삼각근 · 능형근",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "펙덱 머신을 뒤집어 사용 — 가슴 패드에 밀착해 앉기",
+          "팔을 뒤로 호를 그리며 견갑 모으기",
+          "어깨가 으쓱하지 않게, 정점 1초 정지",
+        ],
+      },
+    ],
+  },
+  "inverted-row": {
+    id: "inverted-row",
+    name: "인버티드 로우",
+    target: "광배 · 능형근",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "낮은 바(스미스/링) 아래 누워 어깨너비로 잡기",
+          "몸 일직선 유지하며 가슴이 바에 닿게 당기기",
+          "통제하며 천천히 내리기 — 발 위치로 난이도 조절",
+        ],
+      },
+    ],
+  },
+  "wide-grip-pull-up": {
+    id: "wide-grip-pull-up",
+    name: "와이드 그립 풀업",
+    target: "광배 (외측)",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "어깨너비보다 훨씬 넓게 오버그립",
+          "견갑 하강 후 가슴 들고 위로",
+          "팔꿈치를 옆구리로 끌어내리는 느낌 — 광배 폭 강조",
+        ],
+      },
+    ],
+  },
+
+  /* ─── 어깨 추가 2차 ─────────────────────────────────────────────────── */
+  "cable-lateral-raise": {
+    id: "cable-lateral-raise",
+    name: "케이블 사이드 레터럴",
+    target: "측면 삼각근",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "낮은 도르래를 몸 뒤·옆에 두고 반대편 손잡이 잡기",
+          "팔꿈치 살짝 굽힌 채 어깨 높이까지 옆으로",
+          "장력 유지하며 천천히 복귀",
+        ],
+      },
+    ],
+  },
+  "machine-shoulder-press": {
+    id: "machine-shoulder-press",
+    name: "머신 숄더 프레스",
+    target: "삼각근",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "시트 조절로 손잡이가 어깨 높이",
+          "끝까지 밀고 천천히 복귀 — 팔꿈치 잠금 피하기",
+          "허리는 등받이에 밀착, 코어 단단히",
+        ],
+      },
+    ],
+  },
+  "machine-rear-delt-fly": {
+    id: "machine-rear-delt-fly",
+    name: "머신 리어 델트 플라이",
+    target: "후면 삼각근",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "가슴 패드에 밀착, 손잡이를 뒤로 호 그리며 모으기",
+          "정점에서 1초 수축, 어깨 으쓱 금지",
+          "통제하며 복귀 — 가동범위 끝까지",
+        ],
+      },
+    ],
+  },
+
+  /* ─── 팔 추가 2차 ───────────────────────────────────────────────────── */
+  "drag-curl": {
+    id: "drag-curl",
+    name: "드래그 컬",
+    target: "이두 (장두 강조)",
+    equipments: [
+      {
+        equipment: "barbell",
+        method: [
+          "EZ바를 잡고 팔꿈치를 몸 뒤로 보내며 컬",
+          "바가 몸을 따라 위로 끌리듯 올라옴 (이름의 유래)",
+          "이두 수축 강조, 견갑 으쓱 금지",
+        ],
+      },
+    ],
+  },
+  "zottman-curl": {
+    id: "zottman-curl",
+    name: "조트만 컬",
+    target: "이두 · 전완",
+    equipments: [
+      {
+        equipment: "dumbbell",
+        method: [
+          "언더그립으로 컬 올리기 (이두 자극)",
+          "정점에서 손목을 회내전(오버그립)으로 돌리기",
+          "오버그립으로 천천히 내리기 (전완 자극)",
+        ],
+      },
+    ],
+  },
+  "cable-rope-hammer-curl": {
+    id: "cable-rope-hammer-curl",
+    name: "케이블 로프 해머컬",
+    target: "이두 · 전완",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "낮은 도르래에 로프 부착, 중립 그립으로 양손",
+          "팔꿈치 고정한 채 가슴까지 컬",
+          "정점에서 로프 양끝을 밖으로 살짝 벌리며 수축",
+        ],
+      },
+    ],
+  },
+  "triceps-kickback": {
+    id: "triceps-kickback",
+    name: "트라이셉스 킥백",
+    target: "삼두",
+    equipments: [
+      {
+        equipment: "dumbbell",
+        method: [
+          "상체 숙이고 한 손·한 무릎 벤치 지지",
+          "팔꿈치를 옆구리에 고정한 채 뒤로 펴기",
+          "정점에서 1초 수축, 통제하며 복귀",
+        ],
+      },
+      {
+        equipment: "cable",
+        method: [
+          "낮은 도르래, 상체 숙이기",
+          "팔꿈치 고정 후 케이블을 뒤로 펴기",
+          "장력 유지하며 복귀",
+        ],
+      },
+    ],
+  },
+  "diamond-pushup": {
+    id: "diamond-pushup",
+    name: "다이아몬드 푸시업",
+    target: "삼두 · 내측 대흉근",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "양손 엄지·검지 다이아몬드 모양으로 가슴 아래에",
+          "팔꿈치를 옆구리에 가깝게 유지하며 내리기",
+          "삼두로 밀어 올리되 어깨 으쓱 금지",
+        ],
+      },
+    ],
+  },
+
+  /* ─── 하체 추가 2차 ─────────────────────────────────────────────────── */
+  "stiff-leg-deadlift": {
+    id: "stiff-leg-deadlift",
+    name: "스티프 레그 데드리프트",
+    target: "햄스트링 · 둔근",
+    equipments: [
+      {
+        equipment: "barbell",
+        method: [
+          "무릎 거의 펴고(아주 살짝만 굽힘) 시작",
+          "엉덩이 뒤로 보내며 바를 다리 따라 내리기",
+          "햄스트링 늘림 느끼고 둔근으로 세우기",
+        ],
+      },
+    ],
+  },
+  "pistol-squat": {
+    id: "pistol-squat",
+    name: "피스톨 스쿼트",
+    target: "대퇴사두 · 둔근 · 코어",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "한 발 앞으로 길게 뻗고 다른 발로 균형",
+          "엉덩이 뒤로 보내며 깊게 앉기 — 뻗은 다리 바닥에 닿지 않게",
+          "발 전체로 밀어 올라오기 — 너무 어려우면 박스 위에서 연습",
+        ],
+      },
+    ],
+  },
+  "sissy-squat": {
+    id: "sissy-squat",
+    name: "시시 스쿼트",
+    target: "대퇴사두 (특히 직근)",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "발끝 위로 일어선 채 무릎을 앞으로 굽혀 상체 뒤로",
+          "고관절은 펴고 무릎만 굽힘 — 대퇴직근 강조",
+          "발 앞꿈치로 밀어 일어남, 무릎 통증 시 즉시 중단",
+        ],
+      },
+    ],
+  },
+  "cossack-squat": {
+    id: "cossack-squat",
+    name: "코삭 스쿼트",
+    target: "내전근 · 대퇴 · 고관절 가동성",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "다리를 어깨보다 훨씬 넓게 벌리고 발끝 살짝 바깥",
+          "한 쪽으로 체중 옮기며 그쪽 무릎 깊게 굽히고 반대 다리는 곧게",
+          "통제하며 반대쪽으로 — 좌우 번갈아",
+        ],
+      },
+    ],
+  },
+  "box-squat": {
+    id: "box-squat",
+    name: "박스 스쿼트",
+    target: "대퇴사두 · 둔근 (깊이 통제)",
+    equipments: [
+      {
+        equipment: "barbell",
+        method: [
+          "박스/벤치 앞에 서서 바를 승모근 위에",
+          "엉덩이 뒤로 보내며 박스에 살짝 앉기 (체중 다 싣지 않기)",
+          "발 전체로 폭발적으로 일어서기 — 일정 깊이 보장",
+        ],
+      },
+    ],
+  },
+  "belt-squat": {
+    id: "belt-squat",
+    name: "벨트 스쿼트",
+    target: "대퇴사두 · 둔근 (허리 부담 적음)",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "벨트를 허리에 차고 무게를 매단 채 플랫폼 위에 서기",
+          "스쿼트 하듯 평행까지 앉기 — 등은 곧게",
+          "발 전체로 밀어 올라옴 — 척추 부담 없이 다리 자극",
+        ],
+      },
+    ],
+  },
+  "single-leg-leg-press": {
+    id: "single-leg-leg-press",
+    name: "싱글 레그프레스",
+    target: "대퇴사두 · 둔근 (좌우 균형 보강)",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "한 발만 발판 중앙에 두고 다른 발은 옆에",
+          "허리 시트에서 떨어지지 않게 깊이 조절",
+          "발 전체로 밀고 좌우 번갈아 — 약한 쪽 더 신경",
+        ],
+      },
+    ],
+  },
+  "curtsy-lunge": {
+    id: "curtsy-lunge",
+    name: "커트시 런지",
+    target: "중둔근 · 대퇴",
+    equipments: [
+      {
+        equipment: "dumbbell",
+        method: [
+          "한 발 대각선 뒤로 디뎌 마치 인사하듯",
+          "앞 무릎 90도, 뒷 다리는 발끝으로 바닥 가까이",
+          "앞발로 밀어 일어나 좌우 번갈아",
+        ],
+      },
+      {
+        equipment: "bodyweight",
+        method: [
+          "양손 골반, 한 발 대각선 뒤로",
+          "엉덩이 옆쪽 자극하며 깊게 내리기",
+          "앞발로 밀어 복귀",
+        ],
+      },
+    ],
+  },
+  "sumo-squat": {
+    id: "sumo-squat",
+    name: "스모 스쿼트",
+    target: "내전근 · 둔근 · 대퇴",
+    equipments: [
+      {
+        equipment: "dumbbell",
+        method: [
+          "다리를 어깨너비보다 훨씬 넓게, 발끝 45도 바깥",
+          "덤벨 한 개를 양손으로 사이에 들고 평행까지 앉기",
+          "발 전체로 밀어 일어서기 — 내전근 수축 강조",
+        ],
+      },
+      {
+        equipment: "bodyweight",
+        method: [
+          "동일한 와이드 스탠스",
+          "엉덩이 뒤로 보내며 깊게 앉기",
+          "발 전체로 일어남",
+        ],
+      },
+    ],
+  },
+  "donkey-calf-raise": {
+    id: "donkey-calf-raise",
+    name: "동키 카프 레이즈",
+    target: "비복근",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "벤치/박스에 양손 짚고 상체 90도 숙이기",
+          "발 앞꿈치만 발판에 두고 발끝으로 끝까지",
+          "발뒤꿈치 깊게 내려 스트레치 — 동작 천천히",
+        ],
+      },
+    ],
+  },
+
+  /* ─── 코어 추가 2차 ─────────────────────────────────────────────────── */
+  "reverse-crunch": {
+    id: "reverse-crunch",
+    name: "리버스 크런치",
+    target: "하복부",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "누워서 무릎 굽히고 발 들어 올림",
+          "하복부로 골반을 말아 무릎을 가슴으로",
+          "통제하며 천천히 내리기 — 반동 금지",
+        ],
+      },
+    ],
+  },
+  "v-up": {
+    id: "v-up",
+    name: "브이업",
+    target: "복근 전체",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "누워서 팔·다리 길게 뻗기",
+          "복근으로 동시에 상체·다리를 들어 손이 발끝에 닿게",
+          "통제하며 시작 자세로 — 허리 통증 시 무릎 살짝 굽힘",
+        ],
+      },
+    ],
+  },
+  "hollow-hold": {
+    id: "hollow-hold",
+    name: "할로우 홀드",
+    target: "복근·코어 안정성",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "누워서 허리를 바닥에 밀착(complete tuck)",
+          "팔·다리를 일직선으로 살짝 들어 바나나 자세",
+          "20~40초 호흡하며 유지 — 허리 떠오르지 않게",
+        ],
+      },
+    ],
+  },
+  "toes-to-bar": {
+    id: "toes-to-bar",
+    name: "토스 투 바",
+    target: "복근 · 광배",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "풀업 바에 매달려 견갑 살짝 하강",
+          "발끝이 바에 닿을 때까지 복부로 다리 들기",
+          "통제하며 내리기 — 반동 줄이고 복부 사용",
+        ],
+      },
+    ],
+  },
+  "bicycle-crunch": {
+    id: "bicycle-crunch",
+    name: "바이시클 크런치",
+    target: "복사근 · 복근",
+    equipments: [
+      {
+        equipment: "bodyweight",
+        method: [
+          "누워서 손은 머리 옆, 무릎 굽혀 들기",
+          "오른 팔꿈치와 왼 무릎이 만나게 회전, 반대편 다리는 곧게",
+          "교대로 자전거 페달 차듯 — 천천히 통제",
+        ],
+      },
+    ],
+  },
 };
 
 export type FocusKey = Exclude<FocusTone, "rest">;
@@ -1524,7 +2040,9 @@ const FOCUS_EXERCISES_FEMALE: Record<FocusKey, string[]> = {
 /** 운동이 정의된 모든 부위(rest 제외) */
 export const ALL_FOCUSES = Object.keys(FOCUS_EXERCISES) as FocusKey[];
 
-/** 해당 부위(tone)의 운동 목록을 반환. rest 면 빈 배열. 성별로 분기. */
+/** 해당 부위(tone)의 운동 목록을 반환. rest 면 빈 배열. 성별로 분기.
+ *  ⚠ 이 함수는 "추천으로 채우기" 용 큐레이션된 짧은 목록 — 자동 채우기 전용.
+ *  사용자가 직접 운동을 고르는 드롭다운에는 `allExercisesForFocus` 사용. */
 export function exercisesForFocus(
   tone: FocusTone,
   gender: "male" | "female" = "male",
@@ -1533,6 +2051,34 @@ export function exercisesForFocus(
   const ids =
     gender === "female" ? FOCUS_EXERCISES_FEMALE[tone] : FOCUS_EXERCISES[tone];
   return ids.map((id) => EXERCISES[id]);
+}
+
+/** 분할(focus tone) → 후보 신체 부위 집합.
+ *  fullbody/upper/push/pull 처럼 합성 focus 도 모두 적절한 body part 로 펼친다. */
+const FOCUS_TO_BODY_PARTS: Record<FocusKey, BodyPart[]> = {
+  fullbody: ["chest", "back", "shoulder", "arm", "lower", "core"],
+  upper: ["chest", "back", "shoulder", "arm"],
+  lower: ["lower"],
+  chest: ["chest"],
+  back: ["back"],
+  shoulder: ["shoulder"],
+  arm: ["arm"],
+  push: ["chest", "shoulder", "arm"], // 가슴·어깨·삼두
+  pull: ["back", "arm"], // 등·이두
+  core: ["core"],
+};
+
+/**
+ * 부위(tone) 의 후보 신체부위에 매핑된 **모든 카탈로그 운동** 을 반환.
+ * 운동 등록 / 오늘만 변경 페이지의 운동 선택 드롭다운에 사용.
+ * 짧게 큐레이션된 추천 목록(exercisesForFocus) 과 달리 카탈로그 전체에서 매핑.
+ */
+export function allExercisesForFocus(tone: FocusTone): CatalogExercise[] {
+  if (tone === "rest") return [];
+  const parts = FOCUS_TO_BODY_PARTS[tone as FocusKey];
+  if (!parts) return [];
+  const grouped = groupedByBodyPart();
+  return parts.flatMap((p) => grouped[p]);
 }
 
 /* ─── 처방(세트×횟수×무게) ──────────────────────────────────────────────── */
@@ -1620,6 +2166,39 @@ const LOAD_CLASS: Record<string, LoadClass> = {
   "mountain-climber": "bodyweight",
   "wood-chopper": "light",
   "pallof-press": "light",
+  // ── 2차 추가
+  "smith-bench-press": "heavy",
+  "machine-chest-press": "medium",
+  "incline-cable-fly": "light",
+  "dumbbell-pullover": "medium",
+  "pendlay-row": "heavy",
+  "meadows-row": "medium",
+  "reverse-pec-deck": "light",
+  "inverted-row": "bodyweight",
+  "wide-grip-pull-up": "bodyweight",
+  "cable-lateral-raise": "light",
+  "machine-shoulder-press": "medium",
+  "machine-rear-delt-fly": "light",
+  "drag-curl": "medium",
+  "zottman-curl": "light",
+  "cable-rope-hammer-curl": "light",
+  "triceps-kickback": "light",
+  "diamond-pushup": "bodyweight",
+  "stiff-leg-deadlift": "heavy",
+  "pistol-squat": "bodyweight",
+  "sissy-squat": "bodyweight",
+  "cossack-squat": "bodyweight",
+  "box-squat": "heavy",
+  "belt-squat": "heavy",
+  "single-leg-leg-press": "medium",
+  "curtsy-lunge": "light",
+  "sumo-squat": "medium",
+  "donkey-calf-raise": "bodyweight",
+  "reverse-crunch": "bodyweight",
+  "v-up": "bodyweight",
+  "hollow-hold": "bodyweight",
+  "toes-to-bar": "bodyweight",
+  "bicycle-crunch": "bodyweight",
 };
 
 export function loadClassOf(id: string): LoadClass {
@@ -1806,6 +2385,39 @@ const PRIMARY_BODY_PART: Record<string, BodyPart> = {
   "mountain-climber": "core",
   "wood-chopper": "core",
   "pallof-press": "core",
+  // ── 2차 추가 매핑
+  "smith-bench-press": "chest",
+  "machine-chest-press": "chest",
+  "incline-cable-fly": "chest",
+  "dumbbell-pullover": "chest",
+  "pendlay-row": "back",
+  "meadows-row": "back",
+  "reverse-pec-deck": "back",
+  "inverted-row": "back",
+  "wide-grip-pull-up": "back",
+  "cable-lateral-raise": "shoulder",
+  "machine-shoulder-press": "shoulder",
+  "machine-rear-delt-fly": "shoulder",
+  "drag-curl": "arm",
+  "zottman-curl": "arm",
+  "cable-rope-hammer-curl": "arm",
+  "triceps-kickback": "arm",
+  "diamond-pushup": "arm",
+  "stiff-leg-deadlift": "lower",
+  "pistol-squat": "lower",
+  "sissy-squat": "lower",
+  "cossack-squat": "lower",
+  "box-squat": "lower",
+  "belt-squat": "lower",
+  "single-leg-leg-press": "lower",
+  "curtsy-lunge": "lower",
+  "sumo-squat": "lower",
+  "donkey-calf-raise": "lower",
+  "reverse-crunch": "core",
+  "v-up": "core",
+  "hollow-hold": "core",
+  "toes-to-bar": "core",
+  "bicycle-crunch": "core",
 };
 
 export function primaryBodyPart(id: string): BodyPart {

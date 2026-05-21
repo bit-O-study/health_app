@@ -83,13 +83,24 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
 }
 
 /**
- * 특정 부위 등록 운동의 표시 순서를 변경한다(드래그 정렬).
- * ids 는 새 순서의 routine_exercises.id 배열.
+ * 표시 순서 변경(드래그 정렬).
+ *
+ * ids 는 새 순서로 정렬된 행 id 배열로, 기본 등록 행(`routine_exercises`)
+ * 이거나 오늘만 오버라이드 행(`daily_plan`) 일 수 있다.
+ * 두 테이블 모두 UUID 라 충돌이 없어 양쪽에 update 를 시도하고,
+ * 매칭되지 않는 쪽은 자연스럽게 no-op 으로 끝난다.
+ *
+ * 이전 버전은 routine_exercises 만 업데이트해서 "오늘만 변경" 으로 만들어진
+ * daily_plan 행들은 순서 저장이 silently 실패했음 → 새로고침하면 순서가
+ * 되돌아갔고, 그 와중에 완료/휴식 처리하면 다른 행이 마킹된 것처럼 보였음.
+ *
+ * `focus` 인자는 호환을 위해 유지하지만 ID 매칭만으로 충분해 필터로 쓰지 않는다.
  */
 export async function reorderPlanAction(
-  focus: string,
+  _focus: string,
   ids: string[],
 ): Promise<void> {
+  if (ids.length === 0) return;
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -97,14 +108,18 @@ export async function reorderPlanAction(
   if (!user) return;
 
   await Promise.all(
-    ids.map((id, index) =>
+    ids.flatMap((id, index) => [
       supabase
         .from("routine_exercises")
         .update({ position: index })
         .eq("user_id", user.id)
-        .eq("focus", focus)
         .eq("id", id),
-    ),
+      supabase
+        .from("daily_plan")
+        .update({ position: index })
+        .eq("user_id", user.id)
+        .eq("id", id),
+    ]),
   );
 
   revalidatePath("/");

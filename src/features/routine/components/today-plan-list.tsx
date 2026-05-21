@@ -30,7 +30,7 @@ const SWIPE_THRESHOLD = 80; // px — 넘으면 토글
 const SWIPE_VISUAL_CAP = 120; // 시각적 최대 이동
 
 /** 길게 누른 시간 (ms) — 이만큼 누르면 행 본체에서도 드래그 모드로 진입 */
-const LONG_PRESS_MS = 350;
+const LONG_PRESS_MS = 280;
 /** 길게 누르는 동안 이만큼 움직이면 long-press 취소 — 스크롤/스와이프로 인식 */
 const LONG_PRESS_MOVE_TOLERANCE = 6;
 
@@ -376,18 +376,22 @@ export function TodayPlanList({
               </>
             )}
 
-            {/* 전경 행 — 좌/우 스와이프 + 그립으로 순서 변경 */}
+            {/* 전경 행 — 좌/우 스와이프 + 꾹 누름으로 순서 변경 + 짧은 탭으로 상세 이동 */}
             <div
               onPointerDown={(e) => onPointerDown(e, item.id)}
               onPointerMove={onPointerMove}
               onPointerUp={(e) => onPointerUp(e, item.id)}
               onPointerCancel={onPointerCancel}
+              onContextMenu={(e) => e.preventDefault()}
               style={{
                 transform: `translateX(${dx}px)`,
                 transition: isSwiping ? "none" : "transform 220ms ease-out",
                 touchAction: "pan-y",
+                WebkitTouchCallout: "none",
+                WebkitUserSelect: "none",
+                userSelect: "none",
               }}
-              className={`relative flex items-center gap-2 border bg-white p-4 shadow-sm ${
+              className={`relative flex select-none items-center gap-2 border bg-white p-4 shadow-sm ${
                 isDragging
                   ? "border-emerald-500 ring-2 ring-emerald-300/70"
                   : isDone
@@ -432,6 +436,9 @@ export function TodayPlanList({
 
               <Link
                 href={`/exercises/${item.exerciseId}?eq=${item.equipment}`}
+                draggable={false}
+                onDragStart={(e) => e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => {
                   // 스와이프 중이거나 방금 드래그가 끝났다면 클릭 이동 막기
                   if (Math.abs(dx) > 4 || justDraggedRef.current) {

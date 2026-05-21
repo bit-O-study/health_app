@@ -26,7 +26,7 @@ export type TodayConditioningItem = {
 const SWIPE_THRESHOLD = 80;
 const SWIPE_VISUAL_CAP = 120;
 const ROW_HEIGHT_PX = 80;
-const LONG_PRESS_MS = 350;
+const LONG_PRESS_MS = 280;
 const LONG_PRESS_MOVE_TOLERANCE = 6;
 
 export function TodayConditioningList({
@@ -362,12 +362,16 @@ export function TodayConditioningList({
               onPointerMove={onPointerMove}
               onPointerUp={(e) => onPointerUp(e, item.rowId, item.itemId)}
               onPointerCancel={onPointerCancel}
+              onContextMenu={(e) => e.preventDefault()}
               style={{
                 transform: `translateX(${dx}px)`,
                 transition: isSwiping ? "none" : "transform 220ms ease-out",
                 touchAction: "pan-y",
+                WebkitTouchCallout: "none",
+                WebkitUserSelect: "none",
+                userSelect: "none",
               }}
-              className={`relative flex items-center gap-3 border bg-white p-4 shadow-sm ${
+              className={`relative flex select-none items-center gap-3 border bg-white p-4 shadow-sm ${
                 isDragging
                   ? "border-emerald-500 ring-2 ring-emerald-300/70"
                   : isDone
@@ -413,6 +417,9 @@ export function TodayConditioningList({
               </span>
               <Link
                 href={`/conditioning/${item.itemId}`}
+                draggable={false}
+                onDragStart={(e) => e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => {
                   if (Math.abs(dx) > 4 || justDraggedRef.current) {
                     e.preventDefault();

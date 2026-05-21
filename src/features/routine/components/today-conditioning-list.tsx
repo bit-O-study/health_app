@@ -25,6 +25,7 @@ export type TodayConditioningItem = {
 
 const SWIPE_THRESHOLD = 80;
 const SWIPE_VISUAL_CAP = 120;
+const ROW_HEIGHT_PX = 80;
 
 export function TodayConditioningList({
   kind,
@@ -56,7 +57,24 @@ export function TodayConditioningList({
   const startRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const dxRef = useRef(0);
   const lockedRef = useRef<"none" | "horizontal" | "vertical">("none");
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  // 포인터 기반 드래그 (오늘운동 본운동과 동일 패턴)
+  const [drag, setDrag] = useState<{
+    index: number;
+    dy: number;
+    pointerId: number;
+  } | null>(null);
+  const dragStartYRef = useRef(0);
+  const dragIndex = drag?.index ?? null;
+  const newIndex =
+    drag !== null
+      ? Math.max(
+          0,
+          Math.min(
+            order.length - 1,
+            drag.index + Math.round(drag.dy / ROW_HEIGHT_PX),
+          ),
+        )
+      : null;
   const [, startTx] = useTransition();
 
   function setStatus(
@@ -104,30 +122,45 @@ export function TodayConditioningList({
     });
   }
 
-  function handleHandleDragStart(e: React.DragEvent, index: number) {
-    setDragIndex(index);
-    e.dataTransfer.effectAllowed = "move";
+  function onGripPointerDown(e: PointerEvent<HTMLSpanElement>, index: number) {
+    e.stopPropagation();
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragStartYRef.current = e.clientY;
+    setDrag({ index, dy: 0, pointerId: e.pointerId });
+    e.currentTarget.setPointerCapture(e.pointerId);
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      try {
+        navigator.vibrate(15);
+      } catch {
+        /* noop */
+      }
+    }
+  }
+  function onGripPointerMove(e: PointerEvent<HTMLSpanElement>) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    e.stopPropagation();
+    e.preventDefault();
+    const dy = e.clientY - dragStartYRef.current;
+    setDrag((prev) => (prev ? { ...prev, dy } : null));
+  }
+  function onGripPointerUp(e: PointerEvent<HTMLSpanElement>) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    e.stopPropagation();
+    const target = newIndex;
+    const source = drag.index;
+    setDrag(null);
+    if (target !== null && target !== source) {
+      const next = [...order];
+      const [moved] = next.splice(source, 1);
+      next.splice(target, 0, moved);
+      setOrder(next);
+      persistOrder(next);
+    }
     try {
-      e.dataTransfer.setData("text/plain", String(index));
+      e.currentTarget.releasePointerCapture(e.pointerId);
     } catch {
       /* noop */
     }
-  }
-  function handleDragOver(e: React.DragEvent) {
-    if (dragIndex === null) return;
-    e.preventDefault();
-  }
-  function handleDrop(targetIndex: number) {
-    if (dragIndex === null || dragIndex === targetIndex) {
-      setDragIndex(null);
-      return;
-    }
-    const next = [...order];
-    const [moved] = next.splice(dragIndex, 1);
-    next.splice(targetIndex, 0, moved);
-    setOrder(next);
-    setDragIndex(null);
-    persistOrder(next);
   }
 
   function onPointerDown(e: PointerEvent<HTMLDivElement>, id: string) {
@@ -206,14 +239,33 @@ export function TodayConditioningList({
         const passedRight = dx > SWIPE_THRESHOLD;
         const passedLeft = dx < -SWIPE_THRESHOLD;
 
+        const isDragging = dragIndex === index;
+        let liftOtherY = 0;
+        if (drag !== null && newIndex !== null && !isDragging) {
+          if (drag.index < index && index <= newIndex) liftOtherY = -ROW_HEIGHT_PX;
+          else if (drag.index > index && index >= newIndex) liftOtherY = ROW_HEIGHT_PX;
+        }
+        const liftStyle = isDragging
+          ? {
+              transform: `translate3d(0, ${drag!.dy}px, 0) scale(1.04)`,
+              boxShadow:
+                "0 18px 36px rgba(0,0,0,0.18), 0 4px 10px rgba(0,0,0,0.08)",
+              zIndex: 30,
+              transition: "none",
+              opacity: 0.97,
+            }
+          : {
+              transform: `translateY(${liftOtherY}px)`,
+              transition: "transform 200ms ease",
+            };
+
         return (
           <li
             key={item.rowId}
             className="relative overflow-hidden rounded-xl"
-            onDragOver={handleDragOver}
-            onDrop={() => handleDrop(index)}
+            style={liftStyle}
           >
-            {dragIndex === index ? null : (
+            {isDragging ? null : (
               <>
                 <div
                   className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
@@ -249,8 +301,8 @@ export function TodayConditioningList({
                 touchAction: "pan-y",
               }}
               className={`relative flex items-center gap-3 border bg-white p-4 shadow-sm ${
-                dragIndex === index
-                  ? "border-emerald-400 opacity-60"
+                isDragging
+                  ? "border-emerald-500 ring-2 ring-emerald-300/70"
                   : isDone
                     ? "border-emerald-300 bg-emerald-50"
                     : isSkipped
@@ -259,14 +311,18 @@ export function TodayConditioningList({
               }`}
             >
               <span
-                draggable
-                onDragStart={(e) => handleHandleDragStart(e, index)}
-                onDragEnd={() => setDragIndex(null)}
+                onPointerDown={(e) => onGripPointerDown(e, index)}
+                onPointerMove={onGripPointerMove}
+                onPointerUp={onGripPointerUp}
+                onPointerCancel={onGripPointerUp}
                 aria-hidden="true"
-                className="flex h-8 w-6 shrink-0 cursor-grab items-center justify-center text-zinc-400 active:cursor-grabbing"
+                className={`flex h-10 w-8 shrink-0 cursor-grab items-center justify-center transition-colors ${
+                  isDragging ? "text-emerald-600" : "text-zinc-400"
+                } active:cursor-grabbing`}
+                style={{ touchAction: "none" }}
                 title="잡고 위·아래로 순서 변경"
               >
-                <GripVertical size={18} />
+                <GripVertical size={20} />
               </span>
 
               {editMode ? (
@@ -290,8 +346,6 @@ export function TodayConditioningList({
               </span>
               <Link
                 href={`/conditioning/${item.itemId}`}
-                draggable={false}
-                onDragStart={(e) => e.preventDefault()}
                 onClick={(e) => {
                   if (Math.abs(dx) > 4) e.preventDefault();
                 }}

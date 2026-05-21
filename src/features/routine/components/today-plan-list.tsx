@@ -11,6 +11,9 @@ import { setExerciseStatusAction } from "@/features/routine/exercise-completion-
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 
+/** 한 행 평균 높이 (px) — 위·아래 이동 시 슬롯 계산용 */
+const ROW_HEIGHT_PX = 80;
+
 export type TodayPlanItem = {
   id: string;
   exerciseId: string;
@@ -45,7 +48,28 @@ export function TodayPlanList({
   const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
   const [skipped, setSkipped] = useState<Set<string>>(new Set(skippedIds));
-  const [dragIndex, setDragIndex] = useState<number | null>(null);
+
+  // 포인터 기반 드래그 (그립 핸들에서 시작 — 마우스/터치 공통).
+  // index: 잡힌 원래 위치, dy: 시작점에서 현재까지의 수직 이동(px),
+  // pointerId: setPointerCapture 한 포인터 식별자
+  const [drag, setDrag] = useState<{
+    index: number;
+    dy: number;
+    pointerId: number;
+  } | null>(null);
+  const dragStartYRef = useRef(0);
+  const dragIndex = drag?.index ?? null;
+  // 현재 dy 기준 새 위치 (다른 행이 비켜줄 자리 계산용)
+  const newIndex =
+    drag !== null
+      ? Math.max(
+          0,
+          Math.min(
+            order.length - 1,
+            drag.index + Math.round(drag.dy / ROW_HEIGHT_PX),
+          ),
+        )
+      : null;
 
   // 스와이프 상태 — onPointerUp 에서 정확한 dx 를 읽도록 ref + state 병행
   const [swipe, setSwipe] = useState<{ id: string; dx: number } | null>(null);
@@ -95,32 +119,50 @@ export function TodayPlanList({
     });
   }
 
-  /* ── 네이티브 드래그(순서 변경) ─ 그립 핸들에서만 시작 ── */
-  function handleHandleDragStart(e: React.DragEvent, index: number) {
-    setDragIndex(index);
-    // 일부 브라우저는 dataTransfer 비어 있으면 드래그 안 됨
-    e.dataTransfer.effectAllowed = "move";
-    try {
-      e.dataTransfer.setData("text/plain", String(index));
-    } catch {
-      /* 일부 환경에서 무시 */
+  /* ── 포인터 기반 드래그 (그립 핸들에서 시작) ─
+   *  마우스·터치 통합. 행이 손가락 따라 들려서 움직이고, 다른 행은 자리를 비켜준다.
+   *  네이티브 HTML5 drag 대비 모바일 체감이 훨씬 좋음. */
+  function onGripPointerDown(e: PointerEvent<HTMLSpanElement>, index: number) {
+    // 행 본체의 스와이프 핸들러까지 전달되지 않게 차단
+    e.stopPropagation();
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    dragStartYRef.current = e.clientY;
+    setDrag({ index, dy: 0, pointerId: e.pointerId });
+    e.currentTarget.setPointerCapture(e.pointerId);
+    // 햅틱 (지원 기기만 — 무시되더라도 안전)
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      try {
+        navigator.vibrate(15);
+      } catch {
+        /* noop */
+      }
     }
   }
-  function handleDragOver(e: React.DragEvent) {
-    if (dragIndex === null) return;
+  function onGripPointerMove(e: PointerEvent<HTMLSpanElement>) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    e.stopPropagation();
     e.preventDefault();
+    const dy = e.clientY - dragStartYRef.current;
+    setDrag((prev) => (prev ? { ...prev, dy } : null));
   }
-  function handleDrop(targetIndex: number) {
-    if (dragIndex === null || dragIndex === targetIndex) {
-      setDragIndex(null);
-      return;
+  function onGripPointerUp(e: PointerEvent<HTMLSpanElement>) {
+    if (!drag || e.pointerId !== drag.pointerId) return;
+    e.stopPropagation();
+    const target = newIndex; // useState 의 최신 값과 동기화
+    const source = drag.index;
+    setDrag(null);
+    if (target !== null && target !== source) {
+      const next = [...order];
+      const [moved] = next.splice(source, 1);
+      next.splice(target, 0, moved);
+      setOrder(next);
+      persistOrder(next);
     }
-    const next = [...order];
-    const [moved] = next.splice(dragIndex, 1);
-    next.splice(targetIndex, 0, moved);
-    setOrder(next);
-    setDragIndex(null);
-    persistOrder(next);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
   }
 
   /* ── 좌/우 스와이프(완료/휴식 토글) ── */
@@ -195,14 +237,35 @@ export function TodayPlanList({
         const passedRight = dx > SWIPE_THRESHOLD;
         const passedLeft = dx < -SWIPE_THRESHOLD;
 
+        // 이 행이 드래그 중인지 / 잡힌 행이 다른 행 자리에 들어와 비켜줘야 하는지
+        const isDragging = dragIndex === index;
+        // 다른 행이 자리를 비켜줄 거리 (드래그 행이 위 아래로 이동했을 때)
+        let liftOtherY = 0;
+        if (drag !== null && newIndex !== null && !isDragging) {
+          if (drag.index < index && index <= newIndex) liftOtherY = -ROW_HEIGHT_PX;
+          else if (drag.index > index && index >= newIndex) liftOtherY = ROW_HEIGHT_PX;
+        }
+        const liftStyle = isDragging
+          ? {
+              transform: `translate3d(0, ${drag!.dy}px, 0) scale(1.04)`,
+              boxShadow:
+                "0 18px 36px rgba(0,0,0,0.18), 0 4px 10px rgba(0,0,0,0.08)",
+              zIndex: 30,
+              transition: "none",
+              opacity: 0.97,
+            }
+          : {
+              transform: `translateY(${liftOtherY}px)`,
+              transition: "transform 200ms ease",
+            };
+
         return (
           <li
             key={item.id}
             className="relative overflow-hidden rounded-xl"
-            onDragOver={handleDragOver}
-            onDrop={() => handleDrop(index)}
+            style={liftStyle}
           >
-            {dragIndex === index ? null : (
+            {isDragging ? null : (
               <>
                 {/* 왼쪽: 오른쪽으로 끌면 노출되는 "완료" 영역 */}
                 <div
@@ -241,8 +304,8 @@ export function TodayPlanList({
                 touchAction: "pan-y",
               }}
               className={`relative flex items-center gap-2 border bg-white p-4 shadow-sm ${
-                dragIndex === index
-                  ? "border-emerald-400 opacity-60"
+                isDragging
+                  ? "border-emerald-500 ring-2 ring-emerald-300/70"
                   : isDone
                     ? "border-emerald-300 bg-emerald-50"
                     : isSkipped
@@ -251,14 +314,18 @@ export function TodayPlanList({
               }`}
             >
               <span
-                draggable
-                onDragStart={(e) => handleHandleDragStart(e, index)}
-                onDragEnd={() => setDragIndex(null)}
+                onPointerDown={(e) => onGripPointerDown(e, index)}
+                onPointerMove={onGripPointerMove}
+                onPointerUp={onGripPointerUp}
+                onPointerCancel={onGripPointerUp}
                 aria-hidden="true"
-                className="flex h-8 w-6 shrink-0 cursor-grab items-center justify-center text-zinc-400 active:cursor-grabbing"
+                className={`flex h-10 w-8 shrink-0 cursor-grab touch-none items-center justify-center transition-colors ${
+                  isDragging ? "text-emerald-600" : "text-zinc-400"
+                } active:cursor-grabbing`}
+                style={{ touchAction: "none" }}
                 title="잡고 위·아래로 순서 변경"
               >
-                <GripVertical size={18} />
+                <GripVertical size={20} />
               </span>
 
               {editMode ? (
@@ -281,8 +348,6 @@ export function TodayPlanList({
 
               <Link
                 href={`/exercises/${item.exerciseId}?eq=${item.equipment}`}
-                draggable={false}
-                onDragStart={(e) => e.preventDefault()}
                 onClick={(e) => {
                   // 스와이프 중이었다면 클릭으로 이동 막기
                   if (Math.abs(dx) > 4) e.preventDefault();

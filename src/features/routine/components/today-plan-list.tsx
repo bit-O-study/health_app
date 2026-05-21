@@ -2,7 +2,6 @@
 
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Check, ChevronRight, GripVertical, X } from "lucide-react";
 
 import { reorderPlanAction } from "@/features/routine/plan-actions";
@@ -284,6 +283,7 @@ export function TodayPlanList({
       return;
     }
     const dx = dxRef.current;
+    const wasLocked = lockedRef.current;
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
@@ -293,6 +293,17 @@ export function TodayPlanList({
       setStatus(id, isDone ? "clear" : "done");
     } else if (dx < -SWIPE_THRESHOLD && !isDone) {
       setStatus(id, isSkipped ? "clear" : "skipped");
+    } else if (
+      wasLocked === "none" &&
+      Math.abs(dx) < 8 &&
+      !justDraggedRef.current &&
+      !editMode
+    ) {
+      // 깨끗한 탭 → 운동 상세로 (편집 모드일 땐 체크박스 토글이 의도이므로 이동 안 함)
+      const item = order.find((o) => o.id === id);
+      if (item) {
+        router.push(`/exercises/${item.exerciseId}?eq=${item.equipment}`);
+      }
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
@@ -434,19 +445,10 @@ export function TodayPlanList({
                 <ExerciseIcon id={item.exerciseId} size={22} />
               </span>
 
-              <Link
-                href={`/exercises/${item.exerciseId}?eq=${item.equipment}`}
-                draggable={false}
-                onDragStart={(e) => e.preventDefault()}
-                onContextMenu={(e) => e.preventDefault()}
-                onClick={(e) => {
-                  // 스와이프 중이거나 방금 드래그가 끝났다면 클릭 이동 막기
-                  if (Math.abs(dx) > 4 || justDraggedRef.current) {
-                    e.preventDefault();
-                  }
-                }}
-                className="group flex min-w-0 flex-1 items-center gap-2"
-              >
+              {/* Link 대신 div — anchor 네이티브 드래그/콘텍스트 메뉴가
+                  long-press 인식을 가로채는 걸 막기 위함. 탭이 끝나면
+                  onPointerUp 에서 router.push 로 직접 이동. */}
+              <div className="group flex min-w-0 flex-1 items-center gap-2">
                 <div className="min-w-0 flex-1">
                   <h3 className="text-base font-bold text-zinc-950">
                     {item.name}
@@ -479,7 +481,7 @@ export function TodayPlanList({
                   className="shrink-0 text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
                   size={18}
                 />
-              </Link>
+              </div>
             </div>
           </li>
         );

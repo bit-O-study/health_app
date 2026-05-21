@@ -2,7 +2,6 @@
 
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { Check, ChevronRight, GripVertical, X } from "lucide-react";
 
 import { reorderConditioningAction } from "@/features/routine/conditioning-actions";
@@ -267,6 +266,7 @@ export function TodayConditioningList({
       return;
     }
     const dx = dxRef.current;
+    const wasLocked = lockedRef.current;
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
@@ -276,6 +276,13 @@ export function TodayConditioningList({
       setStatus(rowId, itemId, isDone ? "clear" : "done");
     } else if (dx < -SWIPE_THRESHOLD && !isDone) {
       setStatus(rowId, itemId, isSkipped ? "clear" : "skipped");
+    } else if (
+      wasLocked === "none" &&
+      Math.abs(dx) < 8 &&
+      !justDraggedRef.current &&
+      !editMode
+    ) {
+      router.push(`/conditioning/${itemId}`);
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);
@@ -415,18 +422,7 @@ export function TodayConditioningList({
               >
                 <ConditioningIcon id={item.itemId} size={22} />
               </span>
-              <Link
-                href={`/conditioning/${item.itemId}`}
-                draggable={false}
-                onDragStart={(e) => e.preventDefault()}
-                onContextMenu={(e) => e.preventDefault()}
-                onClick={(e) => {
-                  if (Math.abs(dx) > 4 || justDraggedRef.current) {
-                    e.preventDefault();
-                  }
-                }}
-                className="group flex min-w-0 flex-1 items-center gap-2"
-              >
+              <div className="group flex min-w-0 flex-1 items-center gap-2">
                 <div className="min-w-0 flex-1">
                   <h4 className="text-base font-bold text-zinc-950">
                     {item.name}
@@ -453,7 +449,7 @@ export function TodayConditioningList({
                   className="shrink-0 text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
                   size={18}
                 />
-              </Link>
+              </div>
             </div>
           </li>
         );

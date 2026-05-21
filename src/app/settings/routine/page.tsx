@@ -57,7 +57,8 @@ export default async function RoutineSettingsPage() {
         initialVariantId={routine?.variantId ?? DEFAULT_VARIANT_ID}
         initialCustomWeek={routine?.customWeek ?? null}
         saveAction={saveRoutineAction}
-        redirectOnSuccess="/"
+        /* 저장 후 운동 등록 페이지로 — 추천으로 한 번에 채우기 vs 내가 직접 고르기 선택 */
+        redirectOnSuccess="/plan"
       />
     </main>
   );

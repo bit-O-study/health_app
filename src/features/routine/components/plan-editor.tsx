@@ -7,8 +7,8 @@ import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 import type { FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
 import {
+  allExercisesForFocus,
   EQUIPMENT_LABELS,
-  exercisesForFocus,
   getCatalogExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
@@ -46,12 +46,12 @@ function toRow(item: PlanExercise): Row {
 }
 
 export function PlanEditor({
-  gender,
   focuses,
 }: {
-  gender: "male" | "female";
   focuses: FocusData[];
 }) {
+  // gender 는 더 이상 필요 없음 — 드롭다운은 카탈로그 전체에서 부위 매핑,
+  // 추천 자동 채우기는 서버 액션에서 profile 직접 사용
   const router = useRouter();
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
@@ -65,7 +65,7 @@ export function PlanEditor({
   }
 
   function addRow(focus: FocusTone) {
-    const options = exercisesForFocus(focus, gender);
+    const options = allExercisesForFocus(focus);
     const first = options[0];
     if (!first) return;
     update(focus, [
@@ -143,7 +143,7 @@ export function PlanEditor({
 
       {focuses.map((f) => {
         const rows = plans[f.focus] ?? [];
-        const options = exercisesForFocus(f.focus, gender);
+        const options = allExercisesForFocus(f.focus);
         return (
           <section
             key={f.focus}

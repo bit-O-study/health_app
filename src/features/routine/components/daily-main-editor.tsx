@@ -6,6 +6,7 @@ import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import type { FocusTone } from "@/features/routine/data";
 import {
+  allExercisesForFocus,
   EQUIPMENT_LABELS,
   exercisesForFocus,
   getCatalogExercise,
@@ -60,7 +61,10 @@ export function DailyMainEditor({
   initial: DailyPlanRow[];
 }) {
   const router = useRouter();
-  const options = exercisesForFocus(focus, gender);
+  // 드롭다운에는 부위에 매핑된 카탈로그 전체 (gender 무관 — 본인이 직접 선택)
+  const options = allExercisesForFocus(focus);
+  // 추천 자동 채우기에는 성별 큐레이션 짧은 목록
+  const recommendedOptions = exercisesForFocus(focus, gender);
   const [rows, setRows] = useState<Row[]>(initial.map(toRow));
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
@@ -112,7 +116,8 @@ export function DailyMainEditor({
       bodyType: bodyType ?? ("average" as const),
       weightKg: weightKg ?? 65,
     };
-    const next: Row[] = options.map((ex) => {
+    // 추천으로 채울 때는 부위별 큐레이션된 짧은 목록 사용 (드롭다운 전체 ≠ 추천)
+    const next: Row[] = recommendedOptions.map((ex) => {
       const p = prescribe(ex.id, opts);
       return {
         exerciseId: ex.id,

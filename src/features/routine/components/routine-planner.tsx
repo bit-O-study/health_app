@@ -412,8 +412,8 @@ export function RoutinePlanner({
               </p>
             ) : (
               <p className="text-zinc-500">
-                이 루틴을 저장하면 메인 페이지에 오늘 날짜에 맞는 운동이
-                표시됩니다.
+                저장하면 다음 단계에서 <strong>추천 운동으로 한 번에 채우기</strong>
+                와 <strong>직접 등록</strong> 중 선택할 수 있습니다.
               </p>
             )}
           </div>

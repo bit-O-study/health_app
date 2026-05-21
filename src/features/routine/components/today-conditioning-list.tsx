@@ -26,6 +26,8 @@ export type TodayConditioningItem = {
 const SWIPE_THRESHOLD = 80;
 const SWIPE_VISUAL_CAP = 120;
 const ROW_HEIGHT_PX = 80;
+const LONG_PRESS_MS = 350;
+const LONG_PRESS_MOVE_TOLERANCE = 6;
 
 export function TodayConditioningList({
   kind,
@@ -57,6 +59,15 @@ export function TodayConditioningList({
   const startRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const dxRef = useRef(0);
   const lockedRef = useRef<"none" | "horizontal" | "vertical">("none");
+  // long-press → 드래그 진입 (행 본체 어디서나)
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const justDraggedRef = useRef(false);
+  function clearLongPress() {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  }
   // 포인터 기반 드래그 (오늘운동 본운동과 동일 패턴)
   const [drag, setDrag] = useState<{
     index: number;
@@ -170,8 +181,39 @@ export function TodayConditioningList({
     lockedRef.current = "none";
     setSwipe({ id, dx: 0 });
     e.currentTarget.setPointerCapture(e.pointerId);
+    clearLongPress();
+    const pointerId = e.pointerId;
+    const index = order.findIndex((o) => o.rowId === id);
+    if (index < 0) return;
+    longPressTimerRef.current = setTimeout(() => {
+      longPressTimerRef.current = null;
+      setSwipe(null);
+      dxRef.current = 0;
+      lockedRef.current = "none";
+      setDrag({ index, dy: 0, pointerId });
+      if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+        try {
+          navigator.vibrate(20);
+        } catch {
+          /* noop */
+        }
+      }
+    }, LONG_PRESS_MS);
   }
   function onPointerMove(e: PointerEvent<HTMLDivElement>) {
+    if (drag && e.pointerId === drag.pointerId) {
+      e.preventDefault();
+      const dy = e.clientY - startRef.current.y;
+      setDrag((prev) => (prev ? { ...prev, dy } : null));
+      return;
+    }
+    if (longPressTimerRef.current) {
+      const md = Math.hypot(
+        e.clientX - startRef.current.x,
+        e.clientY - startRef.current.y,
+      );
+      if (md > LONG_PRESS_MOVE_TOLERANCE) clearLongPress();
+    }
     if (!swipe) return;
     const dx = e.clientX - startRef.current.x;
     const dy = e.clientY - startRef.current.y;
@@ -201,6 +243,29 @@ export function TodayConditioningList({
     rowId: string,
     itemId: string,
   ) {
+    clearLongPress();
+    if (drag && e.pointerId === drag.pointerId) {
+      const source = drag.index;
+      const target = newIndex;
+      setDrag(null);
+      if (target !== null && target !== source) {
+        const next = [...order];
+        const [moved] = next.splice(source, 1);
+        next.splice(target, 0, moved);
+        setOrder(next);
+        persistOrder(next);
+      }
+      justDraggedRef.current = true;
+      setTimeout(() => {
+        justDraggedRef.current = false;
+      }, 250);
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+      return;
+    }
     const dx = dxRef.current;
     setSwipe(null);
     dxRef.current = 0;
@@ -219,9 +284,11 @@ export function TodayConditioningList({
     }
   }
   function onPointerCancel() {
+    clearLongPress();
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
+    if (drag) setDrag(null);
   }
 
   const iconBg =
@@ -347,7 +414,9 @@ export function TodayConditioningList({
               <Link
                 href={`/conditioning/${item.itemId}`}
                 onClick={(e) => {
-                  if (Math.abs(dx) > 4) e.preventDefault();
+                  if (Math.abs(dx) > 4 || justDraggedRef.current) {
+                    e.preventDefault();
+                  }
                 }}
                 className="group flex min-w-0 flex-1 items-center gap-2"
               >

@@ -29,6 +29,11 @@ export type TodayPlanItem = {
 const SWIPE_THRESHOLD = 80; // px — 넘으면 토글
 const SWIPE_VISUAL_CAP = 120; // 시각적 최대 이동
 
+/** 길게 누른 시간 (ms) — 이만큼 누르면 행 본체에서도 드래그 모드로 진입 */
+const LONG_PRESS_MS = 350;
+/** 길게 누르는 동안 이만큼 움직이면 long-press 취소 — 스크롤/스와이프로 인식 */
+const LONG_PRESS_MOVE_TOLERANCE = 6;
+
 export function TodayPlanList({
   focus,
   items,
@@ -76,6 +81,17 @@ export function TodayPlanList({
   const startRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const dxRef = useRef(0);
   const lockedRef = useRef<"none" | "horizontal" | "vertical">("none");
+  // 행 본체에서 long-press 타이머. 시간이 지나면 드래그 모드로 진입.
+  const longPressTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 드래그 직후 자동으로 발생할 수 있는 click 이 Link 로 흘러가지 않게 차단하는 플래그
+  const justDraggedRef = useRef(false);
+
+  function clearLongPress() {
+    if (longPressTimerRef.current) {
+      clearTimeout(longPressTimerRef.current);
+      longPressTimerRef.current = null;
+    }
+  }
 
   const [, startTx] = useTransition();
   const w = weightKg ?? 65;
@@ -165,7 +181,12 @@ export function TodayPlanList({
     }
   }
 
-  /* ── 좌/우 스와이프(완료/휴식 토글) ── */
+  /* ── 행 본체 포인터 핸들러 ─────────────────────────────────────────
+   *  3 가지 동작을 하나의 포인터 시퀀스로 분기:
+   *  1) 꾹 누름(>=350ms, 거의 안 움직임) → 드래그 모드 진입, 위·아래로 순서 변경
+   *  2) 가로 스와이프 → 완료/휴식 토글
+   *  3) 짧은 탭 → Link 클릭 → 운동 상세로 이동
+   */
   function onPointerDown(e: PointerEvent<HTMLDivElement>, id: string) {
     if (e.pointerType === "mouse" && e.button !== 0) return;
     startRef.current = { x: e.clientX, y: e.clientY };
@@ -173,8 +194,44 @@ export function TodayPlanList({
     lockedRef.current = "none";
     setSwipe({ id, dx: 0 });
     e.currentTarget.setPointerCapture(e.pointerId);
+    // long-press 타이머 시작 — 약간만 움직여도 onPointerMove 에서 취소됨
+    clearLongPress();
+    const pointerId = e.pointerId;
+    const index = order.findIndex((o) => o.id === id);
+    if (index < 0) return;
+    longPressTimerRef.current = setTimeout(() => {
+      longPressTimerRef.current = null;
+      // 드래그 모드 진입 — 진행 중이던 스와이프 상태는 모두 무효화
+      setSwipe(null);
+      dxRef.current = 0;
+      lockedRef.current = "none";
+      setDrag({ index, dy: 0, pointerId });
+      if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+        try {
+          navigator.vibrate(20);
+        } catch {
+          /* noop */
+        }
+      }
+    }, LONG_PRESS_MS);
   }
   function onPointerMove(e: PointerEvent<HTMLDivElement>) {
+    // 1) 드래그 모드면 행을 손가락에 붙여 이동
+    if (drag && e.pointerId === drag.pointerId) {
+      e.preventDefault();
+      const dy = e.clientY - startRef.current.y;
+      setDrag((prev) => (prev ? { ...prev, dy } : null));
+      return;
+    }
+    // 2) long-press 대기 중인데 충분히 움직였으면 long-press 취소
+    if (longPressTimerRef.current) {
+      const md = Math.hypot(
+        e.clientX - startRef.current.x,
+        e.clientY - startRef.current.y,
+      );
+      if (md > LONG_PRESS_MOVE_TOLERANCE) clearLongPress();
+    }
+    // 3) 평소대로 스와이프 처리
     if (!swipe) return;
     const dx = e.clientX - startRef.current.x;
     const dy = e.clientY - startRef.current.y;
@@ -201,6 +258,31 @@ export function TodayPlanList({
     }
   }
   function onPointerUp(e: PointerEvent<HTMLDivElement>, id: string) {
+    clearLongPress();
+    // 드래그 모드였으면 reorder 처리 + 직후 click 차단
+    if (drag && e.pointerId === drag.pointerId) {
+      const source = drag.index;
+      const target = newIndex;
+      setDrag(null);
+      if (target !== null && target !== source) {
+        const next = [...order];
+        const [moved] = next.splice(source, 1);
+        next.splice(target, 0, moved);
+        setOrder(next);
+        persistOrder(next);
+      }
+      // 손 떼자마자 발생할 수 있는 click(Link 이동) 차단
+      justDraggedRef.current = true;
+      setTimeout(() => {
+        justDraggedRef.current = false;
+      }, 250);
+      try {
+        e.currentTarget.releasePointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+      return;
+    }
     const dx = dxRef.current;
     setSwipe(null);
     dxRef.current = 0;
@@ -219,9 +301,11 @@ export function TodayPlanList({
     }
   }
   function onPointerCancel() {
+    clearLongPress();
     setSwipe(null);
     dxRef.current = 0;
     lockedRef.current = "none";
+    if (drag) setDrag(null);
   }
 
   return (
@@ -349,8 +433,10 @@ export function TodayPlanList({
               <Link
                 href={`/exercises/${item.exerciseId}?eq=${item.equipment}`}
                 onClick={(e) => {
-                  // 스와이프 중이었다면 클릭으로 이동 막기
-                  if (Math.abs(dx) > 4) e.preventDefault();
+                  // 스와이프 중이거나 방금 드래그가 끝났다면 클릭 이동 막기
+                  if (Math.abs(dx) > 4 || justDraggedRef.current) {
+                    e.preventDefault();
+                  }
                 }}
                 className="group flex min-w-0 flex-1 items-center gap-2"
               >

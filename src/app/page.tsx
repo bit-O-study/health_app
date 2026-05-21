@@ -364,10 +364,13 @@ async function TodayWorkout({
           {Array.from({ length: 7 }, (_, i) => {
             const ymd = addDaysYmd(todayYmd, i);
             const isToday = i === 0;
-            const dayPlan =
-              isToday && overriddenToday
-                ? DAY_BLOCKS[routine.overrideBlock!].day
-                : variant.week[routineDayOffset(routine.startDate, ymd)];
+            // 오늘 셀은 daily_plan 오버라이드 우선 → routine.overrideBlock → 정기 루틴 순
+            const dayPlan: { tone: FocusTone; focus: string } =
+              isToday && hasDailyOverride
+                ? { tone, focus: focusLabel }
+                : isToday && overriddenToday
+                  ? DAY_BLOCKS[routine.overrideBlock!].day
+                  : variant.week[routineDayOffset(routine.startDate, ymd)];
             const cellRest =
               (isToday && restedToday) || dayPlan.tone === "rest";
             const style = TONE_STYLES[cellRest ? "rest" : dayPlan.tone];
@@ -396,7 +399,9 @@ async function TodayWorkout({
                   className={`mt-2 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold ${style.badge}`}
                 >
                   <span className={`h-1 w-1 rounded-full ${style.dot}`} />
-                  {cellRest ? "휴식" : dayPlan.focus}
+                  <span className="truncate max-w-[100px]">
+                    {cellRest ? "휴식" : dayPlan.focus}
+                  </span>
                 </span>
               </div>
             );

@@ -38,11 +38,19 @@ export async function createSupabaseServerClient() {
   });
 }
 
-/** 현재 로그인 사용자(없으면 null)를 반환합니다. */
+/**
+ * 현재 로그인 사용자(없으면 null)를 반환합니다.
+ * 리프레시 토큰이 손상되었거나 사라진 stale 쿠키일 때 throw 가 페이지로 새지
+ * 않도록 잡아내고 null 을 반환 — 로그인 안 한 상태로 처리.
+ */
 export async function getCurrentUser() {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+  try {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
+  } catch {
+    return null;
+  }
 }

@@ -32,9 +32,21 @@ export async function updateSession(request: NextRequest) {
   });
 
   // getUser() 호출이 만료된 access 토큰을 refresh 토큰으로 갱신합니다.
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // 리프레시 토큰 자체가 사라졌거나(Refresh Token Not Found) 손상된 경우
+  // throw 가 페이지까지 올라가지 않도록 잡아내고 세션을 정리한다.
+  let user = null;
+  try {
+    const res = await supabase.auth.getUser();
+    user = res.data.user ?? null;
+  } catch {
+    // 쿠키가 stale — signOut 으로 깨끗이 비우고 비로그인 처리
+    try {
+      await supabase.auth.signOut();
+    } catch {
+      /* signOut 도 실패할 수 있음 — 무시 */
+    }
+    user = null;
+  }
 
   const { pathname } = request.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some(

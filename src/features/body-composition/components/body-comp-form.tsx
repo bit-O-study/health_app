@@ -176,8 +176,17 @@ export function BodyCompForm({
             },
       );
     } catch (err) {
+      // 정확한 원인 파악을 위해 콘솔에 풀 스택 + 사용자에겐 메시지/원인 노출
+      console.error("[ocr] failed", err);
       const msg = err instanceof Error ? err.message : String(err);
-      setOcrMsg({ ok: false, text: `OCR 실패: ${msg}` });
+      const cause =
+        err instanceof Error && err.cause
+          ? ` (원인: ${err.cause instanceof Error ? err.cause.message : String(err.cause)})`
+          : "";
+      setOcrMsg({
+        ok: false,
+        text: `OCR 실패: ${msg}${cause}. 인터넷 연결 확인 후 다시 시도하거나 직접 입력해 주세요.`,
+      });
     } finally {
       setOcrRunning(false);
       setOcrProgress(0);

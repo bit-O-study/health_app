@@ -15,6 +15,10 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(self.clients.claim());
 });
 
-self.addEventListener("fetch", () => {
-  // 네트워크 fetch 그대로 통과 (no-op handler — 인스톨 기준 충족)
+self.addEventListener("fetch", (event) => {
+  // 같은 출처(자기 사이트) 요청은 그냥 통과 (no respondWith).
+  // 외부 출처(tesseract.js CDN 의 WASM·언어 데이터 등)는 SW 가 손 안 대게
+  // 즉시 return — 브라우저 기본 fetch 가 100% 그대로 동작.
+  const url = new URL(event.request.url);
+  if (url.origin !== self.location.origin) return;
 });

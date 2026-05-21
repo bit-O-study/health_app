@@ -75,6 +75,22 @@ export async function saveRoutineAction(
     return { ok: false, error: error.message };
   }
 
+  // 새 루틴으로 바꾸면 오늘 / 미래의 "오늘만 변경" 오버라이드도 모두 무효화해야 한다.
+  // (그렇지 않으면 이전 daily_plan 이 새 루틴의 오늘 부위를 가려서 변경이 안 보임)
+  const today = seoulYmd();
+  await Promise.all([
+    supabase
+      .from("daily_plan")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+    supabase
+      .from("daily_conditioning")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+  ]);
+
   // 새 루틴이 쓰는 부위 중 routine_exercises 에 행이 하나도 없는 부위는
   // 추천 운동으로 자동 채워준다. 기존 부위 (이미 행이 있는) 는 사용자
   // 커스터마이즈를 유지하기 위해 건드리지 않음.
@@ -82,6 +98,8 @@ export async function saveRoutineAction(
 
   revalidatePath("/");
   revalidatePath("/settings/routine");
+  revalidatePath("/plan");
+  revalidatePath("/plan/today");
   return { ok: true };
 }
 

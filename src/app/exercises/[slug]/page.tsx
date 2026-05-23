@@ -59,10 +59,10 @@ export default async function ExerciseDetailPage({
         <div className="space-y-6">
           <Link
             className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 transition hover:text-zinc-950"
-            href="/exercises"
+            href="/"
           >
             <ArrowLeft aria-hidden="true" size={16} />
-            운동 종목 리스트
+            홈으로
           </Link>
 
           <header className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">

@@ -18,14 +18,10 @@ type Row = {
   for_date: string;
   exercise_row_id: string;
   status: string;
-  routine_exercises:
-    | {
-        focus: string;
-        sets: number;
-        reps: number;
-        weight_kg: number | string | null;
-      }[]
-    | null;
+  focus: string | null;
+  sets: number | null;
+  reps: number | null;
+  weight_kg: number | string | null;
 };
 
 const num = (v: number | string | null | undefined): number | null => {
@@ -76,26 +72,24 @@ export async function getRecentExerciseCompletions(
   from.setUTCDate(from.getUTCDate() - days);
   const fromStr = from.toISOString().slice(0, 10);
 
+  // exercise_completions 자체에 저장된 snapshot (focus/sets/reps/weight_kg) 을 직접 사용.
+  // routine_exercises 와의 FK 가 제거돼 있어 PostgREST 자동 join 이 불안정하고,
+  // daily_plan 으로 등록된 운동의 완료 행은 routine_exercises 에 매칭되지 않아 점수 누락이 발생했음.
   const { data, error } = await supabase
     .from("exercise_completions")
-    .select(
-      "for_date, exercise_row_id, status, routine_exercises(focus, sets, reps, weight_kg)",
-    )
+    .select("for_date, exercise_row_id, status, focus, sets, reps, weight_kg")
     .eq("user_id", user.id)
     .gte("for_date", fromStr)
     .order("for_date", { ascending: false });
 
   if (error || !data) return [];
-  return (data as Row[]).map((r) => {
-    const ex = r.routine_exercises?.[0] ?? null;
-    return {
-      forDate: r.for_date,
-      exerciseRowId: r.exercise_row_id,
-      status: toStatus(r.status),
-      focus: ex?.focus ?? null,
-      sets: ex?.sets ?? null,
-      reps: ex?.reps ?? null,
-      weightKg: num(ex?.weight_kg ?? null),
-    };
-  });
+  return (data as Row[]).map((r) => ({
+    forDate: r.for_date,
+    exerciseRowId: r.exercise_row_id,
+    status: toStatus(r.status),
+    focus: r.focus ?? null,
+    sets: r.sets ?? null,
+    reps: r.reps ?? null,
+    weightKg: num(r.weight_kg ?? null),
+  }));
 }

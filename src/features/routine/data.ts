@@ -169,14 +169,14 @@ const LEG: DayPlan = {
 };
 
 const PUSH: DayPlan = {
-  focus: "밀기 (Push)",
+  focus: "밀기",
   tone: "push",
   muscles: ["가슴", "어깨", "삼두"],
   examples: ["벤치프레스", "오버헤드프레스", "딥스"],
 };
 
 const PULL: DayPlan = {
-  focus: "당기기 (Pull)",
+  focus: "당기기",
   tone: "pull",
   muscles: ["등", "이두", "후면 삼각근"],
   examples: ["데드리프트", "바벨로우", "랫풀다운"],
@@ -353,8 +353,8 @@ export const DAY_BLOCKS: Record<
   back: { label: "등", day: BACK },
   shoulder: { label: "어깨", day: SHOULDER },
   arm: { label: "팔", day: ARM },
-  push: { label: "밀기 (Push)", day: PUSH },
-  pull: { label: "당기기 (Pull)", day: PULL },
+  push: { label: "밀기", day: PUSH },
+  pull: { label: "당기기", day: PULL },
   core: { label: "코어 + 유산소", day: CORE },
 };
 

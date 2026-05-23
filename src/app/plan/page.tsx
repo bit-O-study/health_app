@@ -75,7 +75,13 @@ export default async function PlanPage() {
         </p>
       </div>
 
-      <PlanEditor focuses={focuses} />
+      <PlanEditor
+        focuses={focuses}
+        gender={profile.gender}
+        experience={profile.experience}
+        bodyType={profile.bodyType}
+        weightKg={profile.weightKg}
+      />
     </main>
   );
 }

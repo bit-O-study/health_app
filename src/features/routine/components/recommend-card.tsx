@@ -21,6 +21,7 @@ export function RecommendRoutineCard({
         recommendation.splits,
         recommendation.variantId,
         null,
+        "recommend",
       );
       if (res.ok) {
         router.push("/");

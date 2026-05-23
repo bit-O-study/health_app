@@ -1,0 +1,246 @@
+"use client";
+
+import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { GripVertical, Loader2 } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import {
+  composeDayPlan,
+  TONE_STYLES,
+  type DayBlockId,
+} from "@/features/routine/data";
+import { reorderUpcomingSevenDaysAction } from "@/features/routine/actions";
+
+type DayCell = {
+  ymd: string;
+  weekday: string;
+  label: string;
+  isToday: boolean;
+};
+
+export function UpcomingSevenDaysGrid({
+  initialBlocks,
+  cells,
+}: {
+  initialBlocks: DayBlockId[][];
+  cells: DayCell[];
+}) {
+  const router = useRouter();
+  const [blocks, setBlocks] = useState<DayBlockId[][]>(initialBlocks);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  /** 드래그 시작 지점부터 현재까지의 이동량 — 잡힌 카드가 마우스/손가락을 따라간다 */
+  const [delta, setDelta] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const dragStartRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const pointerIdRef = useRef<number | null>(null);
+
+  const [pending, start] = useTransition();
+  const [err, setErr] = useState<string | null>(null);
+
+  function indexFromPoint(clientX: number, clientY: number): number | null {
+    const el = document.elementFromPoint(clientX, clientY) as HTMLElement | null;
+    if (!el) return null;
+    const card = el.closest("[data-day-index]") as HTMLElement | null;
+    if (!card) return null;
+    const idx = Number(card.dataset.dayIndex);
+    if (Number.isNaN(idx)) return null;
+    return idx;
+  }
+
+  function tryVibrate(ms: number) {
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      try {
+        navigator.vibrate(ms);
+      } catch {
+        /* noop */
+      }
+    }
+  }
+
+  function onPointerDown(index: number, e: React.PointerEvent<HTMLDivElement>) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    pointerIdRef.current = e.pointerId;
+    dragStartRef.current = { x: e.clientX, y: e.clientY };
+    setDelta({ x: 0, y: 0 });
+    setDraggedIndex(index);
+    setHoverIndex(index);
+    setErr(null);
+    tryVibrate(15);
+  }
+
+  function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (draggedIndex === null || e.pointerId !== pointerIdRef.current) return;
+    e.preventDefault();
+    const dx = e.clientX - dragStartRef.current.x;
+    const dy = e.clientY - dragStartRef.current.y;
+    setDelta({ x: dx, y: dy });
+    const idx = indexFromPoint(e.clientX, e.clientY);
+    if (idx !== null) setHoverIndex(idx);
+  }
+
+  function onPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (draggedIndex === null || e.pointerId !== pointerIdRef.current) return;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
+    pointerIdRef.current = null;
+    const from = draggedIndex;
+    const to = hoverIndex;
+    const snapshot = blocks;
+
+    setDraggedIndex(null);
+    setHoverIndex(null);
+    setDelta({ x: 0, y: 0 });
+
+    if (to === null || from === to) return;
+
+    const next = [...snapshot];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    setBlocks(next);
+    tryVibrate(10);
+
+    start(async () => {
+      const res = await reorderUpcomingSevenDaysAction(next);
+      if (res.ok) {
+        router.refresh();
+      } else {
+        setErr(res.error);
+        setBlocks(snapshot);
+      }
+    });
+  }
+
+  function onPointerCancel(e: React.PointerEvent<HTMLDivElement>) {
+    if (draggedIndex === null) return;
+    if (e.pointerId !== pointerIdRef.current) return;
+    pointerIdRef.current = null;
+    setDraggedIndex(null);
+    setHoverIndex(null);
+    setDelta({ x: 0, y: 0 });
+  }
+
+  return (
+    <section>
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+          다가오는 7일 · 드래그로 순서 변경
+        </h2>
+        {pending ? (
+          <span className="inline-flex items-center gap-1 text-xs text-zinc-500">
+            <Loader2 aria-hidden="true" className="animate-spin" size={13} />
+            저장 중
+          </span>
+        ) : null}
+      </div>
+
+      <div className="relative grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+        {blocks.map((dayBlocks, i) => {
+          const cell = cells[i];
+          const dayPlan = composeDayPlan(dayBlocks);
+          const isRest = dayPlan.tone === "rest";
+          const style = TONE_STYLES[dayPlan.tone];
+          const isDragged = draggedIndex === i;
+          const isHoverTarget =
+            hoverIndex === i && draggedIndex !== null && draggedIndex !== i;
+
+          // 잡힌 카드: 손가락 따라 들려서 이동. 비켜줄 카드: 살짝 줄어듦.
+          // pointerEvents: "none" — 드래그 카드를 elementFromPoint 의 hit-test 에서 제외해서
+          //   그 아래에 있는 진짜 드롭 타겟이 hoverIndex 로 잡히게 함.
+          //   (setPointerCapture 가 잡혀 있어 onPointerMove/Up 은 그대로 들어옴)
+          const liftStyle: React.CSSProperties = isDragged
+            ? {
+                transform: `translate3d(${delta.x}px, ${delta.y}px, 0) scale(1.06)`,
+                boxShadow:
+                  "0 18px 36px rgba(0,0,0,0.18), 0 4px 10px rgba(0,0,0,0.08)",
+                zIndex: 30,
+                opacity: 0.96,
+                transition: "none",
+                touchAction: "none",
+                pointerEvents: "none",
+              }
+            : isHoverTarget
+              ? {
+                  transform: "scale(0.94)",
+                  transition: "transform 180ms ease",
+                  touchAction: "none",
+                }
+              : {
+                  transform: "scale(1)",
+                  transition: "transform 180ms ease",
+                  touchAction: "none",
+                };
+
+          return (
+            <div
+              key={cell.ymd}
+              data-day-index={i}
+              onPointerDown={(e) => onPointerDown(i, e)}
+              onPointerMove={onPointerMove}
+              onPointerUp={onPointerUp}
+              onPointerCancel={onPointerCancel}
+              onContextMenu={(e) => e.preventDefault()}
+              style={liftStyle}
+              className={cn(
+                "relative cursor-grab select-none rounded-lg border p-3 active:cursor-grabbing",
+                style.card,
+                cell.isToday ? "ring-2 ring-emerald-500 ring-offset-1" : "",
+                isDragged
+                  ? "border-emerald-500 ring-2 ring-emerald-300/70"
+                  : "",
+                isHoverTarget
+                  ? "border-emerald-400 ring-2 ring-emerald-400/60"
+                  : "",
+              )}
+            >
+              <div className="flex items-center justify-between gap-1">
+                <span className="flex min-w-0 items-center gap-1 text-sm font-bold text-zinc-900">
+                  <GripVertical
+                    aria-hidden="true"
+                    className={cn(
+                      "shrink-0 transition-colors",
+                      isDragged ? "text-emerald-600" : "text-zinc-400",
+                    )}
+                    size={13}
+                  />
+                  <span className="truncate">
+                    {cell.weekday}{" "}
+                    <span className="text-xs font-normal text-zinc-500">
+                      {cell.label}
+                    </span>
+                  </span>
+                </span>
+                {cell.isToday ? (
+                  <span className="shrink-0 rounded-full bg-emerald-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                    오늘
+                  </span>
+                ) : null}
+              </div>
+              <span
+                className={cn(
+                  "mt-2 inline-flex min-w-0 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold",
+                  style.badge,
+                )}
+              >
+                <span
+                  className={cn("h-1 w-1 shrink-0 rounded-full", style.dot)}
+                />
+                <span className="truncate">
+                  {isRest ? "휴식" : dayPlan.focus}
+                </span>
+              </span>
+            </div>
+          );
+        })}
+      </div>
+
+      {err ? (
+        <p className="mt-2 text-xs font-medium text-red-600">{err}</p>
+      ) : null}
+    </section>
+  );
+}

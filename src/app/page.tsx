@@ -32,6 +32,7 @@ import {
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
+import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
 
 export const dynamic = "force-dynamic";
 
@@ -355,59 +356,26 @@ async function TodayWorkout({
         />
       ) : null}
 
-      {/* 다가오는 7일 */}
-      <section>
-        <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500">
-          다가오는 7일
-        </h2>
-        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
-          {Array.from({ length: 7 }, (_, i) => {
-            const ymd = addDaysYmd(todayYmd, i);
-            const isToday = i === 0;
-            // 오늘 셀은 daily_plan 오버라이드 우선 → routine.overrideBlock → 정기 루틴 순
-            const dayPlan: { tone: FocusTone; focus: string } =
-              isToday && hasDailyOverride
-                ? { tone, focus: focusLabel }
-                : isToday && overriddenToday
-                  ? DAY_BLOCKS[routine.overrideBlock!].day
-                  : variant.week[routineDayOffset(routine.startDate, ymd)];
-            const cellRest =
-              (isToday && restedToday) || dayPlan.tone === "rest";
-            const style = TONE_STYLES[cellRest ? "rest" : dayPlan.tone];
-            const { weekday: wd, label } = ymdDisplay(ymd);
-            return (
-              <div
-                key={ymd}
-                className={`rounded-lg border p-3 ${style.card} ${
-                  isToday ? "ring-2 ring-emerald-500 ring-offset-1" : ""
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-bold text-zinc-900">
-                    {wd}{" "}
-                    <span className="text-xs font-normal text-zinc-500">
-                      {label}
-                    </span>
-                  </span>
-                  {isToday ? (
-                    <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
-                      오늘
-                    </span>
-                  ) : null}
-                </div>
-                <span
-                  className={`mt-2 inline-flex w-fit items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold ${style.badge}`}
-                >
-                  <span className={`h-1 w-1 rounded-full ${style.dot}`} />
-                  <span className="truncate max-w-[100px]">
-                    {cellRest ? "휴식" : dayPlan.focus}
-                  </span>
-                </span>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
+      <UpcomingSevenDaysGrid
+        initialBlocks={Array.from({ length: 7 }, (_, i) => {
+          const ymd = addDaysYmd(todayYmd, i);
+          const isToday = i === 0;
+          if (isToday) {
+            if (restedToday) return ["rest"] as DayBlockId[];
+            if (hasDailyOverride) return dailyFocuses as DayBlockId[];
+            if (overriddenToday) return [routine.overrideBlock!];
+          }
+          const dp = variant.week[routineDayOffset(routine.startDate, ymd)];
+          const tones = (dp.tones ?? [dp.tone]) as DayBlockId[];
+          return tones;
+        })}
+        cells={Array.from({ length: 7 }, (_, i) => {
+          const ymd = addDaysYmd(todayYmd, i);
+          const { weekday: wd, label } = ymdDisplay(ymd);
+          return { ymd, weekday: wd, label, isToday: i === 0 };
+        })}
+      />
     </div>
   );
 }

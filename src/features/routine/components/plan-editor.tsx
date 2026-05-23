@@ -9,7 +9,9 @@ import type { PlanExercise } from "@/features/routine/plan";
 import {
   allExercisesForFocus,
   EQUIPMENT_LABELS,
+  exercisesForFocus,
   getCatalogExercise,
+  prescribe,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import {
@@ -18,6 +20,10 @@ import {
 } from "@/features/routine/plan-actions";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
+import type {
+  BodyType,
+  ExperienceLevel,
+} from "@/features/profile/data";
 
 type FocusData = {
   focus: FocusTone;
@@ -47,11 +53,17 @@ function toRow(item: PlanExercise): Row {
 
 export function PlanEditor({
   focuses,
+  gender,
+  experience,
+  bodyType,
+  weightKg,
 }: {
   focuses: FocusData[];
+  gender: "male" | "female";
+  experience: ExperienceLevel;
+  bodyType: BodyType | null;
+  weightKg: number | null;
 }) {
-  // gender 는 더 이상 필요 없음 — 드롭다운은 카탈로그 전체에서 부위 매핑,
-  // 추천 자동 채우기는 서버 액션에서 profile 직접 사용
   const router = useRouter();
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
@@ -90,6 +102,27 @@ export function PlanEditor({
         setStatus(res.error);
       }
     });
+  }
+
+  /** 한 부위만 추천 운동으로 행을 갈아끼움 — 저장은 아래 "이 부위 저장" 버튼이 담당 */
+  function recommendFocus(focus: FocusTone) {
+    const opts = {
+      gender,
+      experience,
+      bodyType: bodyType ?? ("average" as const),
+      weightKg: weightKg ?? 65,
+    };
+    const next: Row[] = exercisesForFocus(focus, gender).map((ex) => {
+      const p = prescribe(ex.id, opts);
+      return {
+        exerciseId: ex.id,
+        equipment: ex.equipments[0].equipment,
+        sets: p.sets,
+        reps: p.reps,
+        weight: p.weightKg === null ? "" : String(p.weightKg),
+      };
+    });
+    update(focus, next);
   }
 
   function saveFocus(focus: string) {
@@ -151,14 +184,24 @@ export function PlanEditor({
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h3 className="text-base font-bold text-zinc-950">{f.label}</h3>
-              <button
-                type="button"
-                onClick={() => addRow(f.focus)}
-                className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
-              >
-                <Plus aria-hidden="true" size={14} />
-                운동 추가
-              </button>
+              <div className="flex flex-wrap items-center gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => recommendFocus(f.focus)}
+                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100"
+                >
+                  <Sparkles aria-hidden="true" size={14} />
+                  추천으로 채우기
+                </button>
+                <button
+                  type="button"
+                  onClick={() => addRow(f.focus)}
+                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+                >
+                  <Plus aria-hidden="true" size={14} />
+                  운동 추가
+                </button>
+              </div>
             </div>
 
             {rows.length === 0 ? (
@@ -285,12 +328,12 @@ export function PlanEditor({
               type="button"
               disabled={pending}
               onClick={() => saveFocus(f.focus)}
-              className="mt-4 inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
+               className="mt-4 inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" className="animate-spin" size={15} />
               ) : null}
-              이 부위 저장
+              저장
             </button>
 
             <div className="mt-5 space-y-3 border-t border-zinc-200 pt-4">

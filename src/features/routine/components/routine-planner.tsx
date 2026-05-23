@@ -30,7 +30,10 @@ import {
   type DayBlockId,
   type RoutineVariant,
 } from "@/features/routine/data";
-import type { SaveRoutineResult } from "@/features/routine/actions";
+import type {
+  RoutineFillMode,
+  SaveRoutineResult,
+} from "@/features/routine/actions";
 
 type RoutinePlannerProps = {
   initialSplits?: number;
@@ -42,8 +45,9 @@ type RoutinePlannerProps = {
     splits: number,
     variantId: string,
     customWeek?: DayBlockId[][] | null,
+    fillMode?: RoutineFillMode,
   ) => Promise<SaveRoutineResult>;
-  /** 저장 성공 시 이동할 경로 (예: 설정에서 저장 후 "/") */
+  /** 저장 성공 시 이동할 경로 — 추천 채우기는 메인("/"), 직접 등록은 이 경로(보통 "/plan") */
   redirectOnSuccess?: string;
 };
 
@@ -79,6 +83,8 @@ export function RoutinePlanner({
   const [saveStatus, setSaveStatus] = useState<
     { ok: boolean; message: string } | null
   >(null);
+  /** 저장 시 본운동/워밍업/마무리 자동 채우기 방식 — 기본은 추천 */
+  const [fillMode, setFillMode] = useState<RoutineFillMode>("recommend");
 
   const isCustom = variantId === CUSTOM_VARIANT_ID;
 
@@ -175,12 +181,16 @@ export function RoutinePlanner({
     if (!saveAction) return;
     startSaving(async () => {
       const result = isCustom
-        ? await saveAction(CUSTOM_SPLITS, CUSTOM_VARIANT_ID, customWeek)
-        : await saveAction(splits, variant.id, null);
-      if (result.ok && redirectOnSuccess) {
-        router.push(redirectOnSuccess);
-        router.refresh();
-        return;
+        ? await saveAction(CUSTOM_SPLITS, CUSTOM_VARIANT_ID, customWeek, fillMode)
+        : await saveAction(splits, variant.id, null, fillMode);
+      if (result.ok) {
+        // 추천 채우기 = 운동까지 완비 → 메인으로. 직접 등록 = /plan 으로 이동해 직접 채우기.
+        const target = fillMode === "recommend" ? "/" : redirectOnSuccess;
+        if (target) {
+          router.push(target);
+          router.refresh();
+          return;
+        }
       }
       setSaveStatus(
         result.ok
@@ -223,7 +233,7 @@ export function RoutinePlanner({
                 type="button"
                 onClick={() => handleSelectSplit(item.splits)}
                 className={cn(
-                  "rounded-full border px-4 py-2 text-sm font-semibold transition",
+                  "whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
                   active
                     ? "border-emerald-600 bg-emerald-600 text-white"
                     : "border-zinc-300 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50",
@@ -237,7 +247,7 @@ export function RoutinePlanner({
             type="button"
             onClick={handleSelectCustom}
             className={cn(
-              "inline-flex items-center gap-1.5 rounded-full border px-4 py-2 text-sm font-semibold transition",
+              "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
               isCustom
                 ? "border-emerald-600 bg-emerald-600 text-white"
                 : "border-dashed border-zinc-400 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50",
@@ -288,7 +298,7 @@ export function RoutinePlanner({
                   type="button"
                   onClick={() => handleSelectVariant(item.id)}
                   className={cn(
-                    "rounded-md border px-3 py-2 text-left text-sm font-semibold transition",
+                    "whitespace-nowrap rounded-md border px-3 py-2 text-left text-sm font-semibold transition",
                     active
                       ? "border-emerald-600 bg-emerald-50 text-emerald-800"
                       : "border-zinc-300 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50",
@@ -399,37 +409,98 @@ export function RoutinePlanner({
       </div>
 
       {saveAction ? (
-        <div className="mt-6 flex flex-col gap-3 border-t border-zinc-200 pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-sm">
-            {saveStatus ? (
-              <p
+         <div className="mt-6 flex flex-col gap-4 border-t border-zinc-200 pt-5">
+          <fieldset>
+            <legend className="text-sm font-semibold text-zinc-800">
+              운동 채우기 방식
+            </legend>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+              <label
                 className={cn(
-                  "font-medium",
-                  saveStatus.ok ? "text-emerald-700" : "text-red-600",
+                  "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
+                  fillMode === "recommend"
+                    ? "border-emerald-600 bg-emerald-50"
+                    : "border-zinc-300 bg-white hover:border-emerald-300",
                 )}
               >
-                {saveStatus.message}
-              </p>
-            ) : (
-              <p className="text-zinc-500">
-                저장하면 다음 단계에서 <strong>추천 운동으로 한 번에 채우기</strong>
-                와 <strong>직접 등록</strong> 중 선택할 수 있습니다.
-              </p>
-            )}
+                <input
+                  type="radio"
+                  name="fillMode"
+                  value="recommend"
+                  checked={fillMode === "recommend"}
+                  onChange={() => setFillMode("recommend")}
+                  className="mt-0.5 accent-emerald-600"
+                />
+                <span className="min-w-0">
+                  <span className="block font-semibold text-zinc-900">
+                    추천으로 채우기
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-5 text-zinc-600">
+                    체형·성별·경력에 맞춘 본운동과 워밍업/마무리까지 한 번에 채웁니다.
+                  </span>
+                </span>
+              </label>
+              <label
+                className={cn(
+                  "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
+                  fillMode === "manual"
+                    ? "border-emerald-600 bg-emerald-50"
+                    : "border-zinc-300 bg-white hover:border-emerald-300",
+                )}
+              >
+                <input
+                  type="radio"
+                  name="fillMode"
+                  value="manual"
+                  checked={fillMode === "manual"}
+                  onChange={() => setFillMode("manual")}
+                  className="mt-0.5 accent-emerald-600"
+                />
+                <span className="min-w-0">
+                  <span className="block font-semibold text-zinc-900">
+                    직접 등록할게요
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-5 text-zinc-600">
+                    아무것도 자동으로 채우지 않습니다. 운동 등록 화면에서 직접 골라 넣습니다.
+                  </span>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="text-sm">
+              {saveStatus ? (
+                <p
+                  className={cn(
+                    "font-medium",
+                    saveStatus.ok ? "text-emerald-700" : "text-red-600",
+                  )}
+                >
+                  {saveStatus.message}
+                </p>
+              ) : (
+                <p className="text-zinc-500">
+                  {fillMode === "recommend"
+                    ? "저장 후 메인 화면에서 오늘 운동을 확인하세요."
+                    : "저장 후 운동 등록 화면에서 부위별로 직접 채워 넣으세요."}
+                </p>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={isSaving}
+              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
+            >
+              {isSaving ? (
+                <Loader2 aria-hidden="true" className="animate-spin" size={17} />
+              ) : (
+                <Check aria-hidden="true" size={17} />
+              )}
+              저장
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={isSaving}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
-          >
-            {isSaving ? (
-              <Loader2 aria-hidden="true" className="animate-spin" size={17} />
-            ) : (
-              <Check aria-hidden="true" size={17} />
-            )}
-            이 루틴으로 저장
-          </button>
         </div>
       ) : null}
     </section>

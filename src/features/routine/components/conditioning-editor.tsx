@@ -100,7 +100,7 @@ export function ConditioningEditor({
     });
   }
 
-  /** 부위 기본 추천으로 즉시 채우고 저장 */
+  /** 부위 기본 추천으로 행을 채움 — 저장은 아래 "저장" 버튼이 담당 */
   function recommend() {
     if (!focus) {
       setMsg("부위 정보가 없어 추천할 수 없습니다.");
@@ -116,15 +116,7 @@ export function ConditioningEditor({
         incline: item?.defaultIncline ? String(item.defaultIncline) : "",
       };
     });
-    setRows(next);
-    start(async () => {
-      const items = rowsToInput(next);
-      const res = dailyDate
-        ? await saveDailyConditioningAction(dailyDate, kind, items)
-        : await saveConditioningAction(focus, kind, items);
-      setMsg(res.ok ? "추천으로 채워졌습니다" : res.error);
-      if (res.ok) router.refresh();
-    });
+    update(next);
   }
 
   return (
@@ -254,7 +246,7 @@ export function ConditioningEditor({
           type="button"
           disabled={pending}
           onClick={save}
-          className="inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-zinc-900 px-3 text-xs font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
+          className="inline-flex h-8 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-zinc-900 px-3 text-xs font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={13} />

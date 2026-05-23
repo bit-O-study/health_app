@@ -108,7 +108,7 @@ export function DailyMainEditor({
     });
   }
 
-  /** 체형·성별·경력 기반 추천으로 즉시 채우고 저장 */
+  /** 체형·성별·경력 기반 추천으로 행을 채움 — 저장은 아래 "오늘 본운동 저장" 버튼이 담당 */
   function recommend() {
     const opts = {
       gender,
@@ -127,13 +127,7 @@ export function DailyMainEditor({
         weight: p.weightKg === null ? "" : String(p.weightKg),
       };
     });
-    setRows(next);
-    start(async () => {
-      const items = rowsToItems(next);
-      const res = await saveDailyPlanAction(dateYmd, focus, items);
-      setMsg(res.ok ? `‘${label}’ 추천으로 채워짐` : res.error);
-      if (res.ok) router.refresh();
-    });
+    update(next);
   }
 
   return (
@@ -274,12 +268,12 @@ export function DailyMainEditor({
           type="button"
           disabled={pending}
           onClick={save}
-          className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
+          className="inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
           ) : null}
-          오늘 본운동 저장
+          저장
         </button>
         {msg ? (
           <span className="text-xs font-medium text-zinc-600">{msg}</span>

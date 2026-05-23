@@ -20,8 +20,12 @@ import {
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
 import { getUserProfile } from "@/features/profile/data-access";
+import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
+
+/** 루틴 저장 시 본운동/워밍업/마무리 자동 채우기 방식 */
+export type RoutineFillMode = "recommend" | "manual";
 
 /**
  * 현재 사용자의 루틴을 저장(없으면 생성, 있으면 갱신)합니다.
@@ -34,6 +38,12 @@ export async function saveRoutineAction(
   splits: number,
   variantId: string,
   customWeek?: DayBlockId[][] | DayBlockId[] | null,
+  /**
+   * 운동/워밍업/마무리 자동 채우기 방식.
+   * - "recommend": 비어 있는 부위는 추천 운동으로, 워밍업/마무리는 기본 추천으로 일괄 채움.
+   * - "manual" (기본): 자동으로 아무것도 채우지 않음. 사용자가 /plan 에서 직접 등록.
+   */
+  fillMode: RoutineFillMode = "manual",
 ): Promise<SaveRoutineResult> {
   const isCustom = variantId === CUSTOM_VARIANT_ID;
 
@@ -91,10 +101,11 @@ export async function saveRoutineAction(
       .gte("for_date", today),
   ]);
 
-  // 새 루틴이 쓰는 부위 중 routine_exercises 에 행이 하나도 없는 부위는
-  // 추천 운동으로 자동 채워준다. 기존 부위 (이미 행이 있는) 는 사용자
-  // 커스터마이즈를 유지하기 위해 건드리지 않음.
-  await fillMissingFocusesAction(user.id, splits, variantId, normalized);
+  // "추천으로 채우기" 선택 시에만 자동 채우기 실행. "직접 등록"이면 건드리지 않음.
+  if (fillMode === "recommend") {
+    await fillMissingFocusesAction(user.id, splits, variantId, normalized);
+    await registerRecommendedConditioningAction();
+  }
 
   revalidatePath("/");
   revalidatePath("/settings/routine");
@@ -167,6 +178,71 @@ async function fillMissingFocusesAction(
   if (rows.length > 0) {
     await supabase.from("routine_exercises").insert(rows);
   }
+}
+
+/**
+ * "다가오는 7일" 카드를 드래그로 재배열한 결과를 그대로 루틴으로 저장.
+ * - splits/variantId 를 커스텀으로 전환하고 customWeek = 전달된 7일치 부위 배열
+ * - start_date 를 오늘로 재설정 → 변경된 첫째 칸이 곧 "오늘"이 됨
+ * - 오늘 이후의 daily_plan / daily_conditioning 오버라이드는 새 루틴과 맞지 않을 수 있어 정리
+ */
+export async function reorderUpcomingSevenDaysAction(
+  blocks: DayBlockId[][],
+): Promise<SaveRoutineResult> {
+  if (!Array.isArray(blocks) || blocks.length !== 7) {
+    return { ok: false, error: "7일치 데이터가 필요합니다." };
+  }
+  for (const day of blocks) {
+    if (!Array.isArray(day) || day.length === 0) {
+      return { ok: false, error: "각 일자에 최소 1개 부위가 필요합니다." };
+    }
+    for (const b of day) {
+      if (!isDayBlockId(b)) {
+        return { ok: false, error: "부위 값이 올바르지 않습니다." };
+      }
+    }
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const today = seoulYmd();
+
+  const { error } = await supabase.from("user_routines").upsert(
+    {
+      user_id: user.id,
+      splits: CUSTOM_SPLITS,
+      variant_id: CUSTOM_VARIANT_ID,
+      custom_week: blocks,
+      start_date: today,
+      rest_date: null,
+      override_date: null,
+      override_block: null,
+    },
+    { onConflict: "user_id" },
+  );
+  if (error) return { ok: false, error: error.message };
+
+  await Promise.all([
+    supabase
+      .from("daily_plan")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+    supabase
+      .from("daily_conditioning")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+  ]);
+
+  revalidatePath("/");
+  revalidatePath("/settings/routine");
+  revalidatePath("/plan");
+  return { ok: true };
 }
 
 /** 루틴 기준일을 오늘로 재설정 — 오늘이 루틴 1일차가 된다. */

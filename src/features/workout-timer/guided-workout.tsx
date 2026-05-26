@@ -6,7 +6,13 @@ import { Check, ChevronRight, X } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { primaryBodyPart } from "@/features/routine/exercise-catalog";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
+import {
+  GuidedBody,
+  CONDITIONING_TO_BODY,
+  type BodyHighlight,
+} from "@/features/workout-timer/guided-body";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
 
@@ -154,7 +160,7 @@ export function GuidedOverlay({
       {/* 본문 — 스크롤 가능 */}
       <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-4">
         <KindBadge kind={item.kind} />
-        <IconCircle kind={item.kind} item={item} />
+        <BodyOrIcon item={item} />
         <h2 className="mt-4 text-center text-2xl font-bold text-white sm:text-3xl">
           {item.name}
         </h2>
@@ -239,6 +245,29 @@ function IconCircle({
       )}
     </div>
   );
+}
+
+/** 운동 종목에 자극 부위가 매핑돼 있으면 펄스 마네킹, 없으면 종목 아이콘. */
+function BodyOrIcon({ item }: { item: GuidedItem }) {
+  const active = activeBodyFor(item);
+  if (active) {
+    return (
+      <div className="flex items-center justify-center">
+        <GuidedBody active={active} />
+      </div>
+    );
+  }
+  return <IconCircle kind={item.kind} item={item} />;
+}
+
+function activeBodyFor(item: GuidedItem): BodyHighlight | null {
+  if (item.kind === "main") {
+    const part = primaryBodyPart(item.exerciseId);
+    // exercise-catalog 의 BodyPart 와 GuidedBody 의 BodyHighlight 매핑
+    // (lower → leg, 나머지는 동일)
+    return part === "lower" ? "leg" : (part as BodyHighlight);
+  }
+  return CONDITIONING_TO_BODY[item.itemId] ?? null;
 }
 
 /**

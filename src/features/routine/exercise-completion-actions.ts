@@ -2,7 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 
@@ -26,9 +29,7 @@ export async function setExerciseStatusAction(
 ): Promise<void> {
   if (!exerciseRowId) return;
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   const today = seoulYmd();
@@ -62,8 +63,7 @@ export async function setExerciseStatusAction(
     );
   }
 
+  // 모든 페이지가 force-dynamic 이라 /settings/* 까지 revalidate 할 필요 없음 — 그쪽 페이지 진입 시 자동으로 fresh fetch.
+  // 홈만 무효화하고 클라이언트는 router.refresh() 없이 로컬 state 로 즉시 반영(스와이프 체감 지연 제거).
   revalidatePath("/");
-  revalidatePath("/settings/score");
-  revalidatePath("/settings/history");
-  revalidatePath(`/settings/history/${today}`);
 }

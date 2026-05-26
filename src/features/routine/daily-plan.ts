@@ -1,6 +1,11 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cache } from "react";
+
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import {
   isEquipmentId,
   type EquipmentId,
@@ -34,33 +39,36 @@ const num = (v: number | string | null): number | null => {
   return Number.isFinite(n) ? n : null;
 };
 
-/** 특정 날짜의 본운동 오버라이드(부위순·position순). 없으면 빈 배열. */
-export async function getDailyPlanForDate(
-  dateYmd: string,
-): Promise<DailyPlanRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return [];
+/**
+ * 특정 날짜의 본운동 오버라이드(부위순·position순). 없으면 빈 배열.
+ * React.cache 로 한 요청 내 같은 날짜에 대한 중복 호출은 1회로 dedup.
+ */
+export const getDailyPlanForDate = cache(
+  async (dateYmd: string): Promise<DailyPlanRow[]> => {
+    const user = await getCurrentUser();
+    if (!user) return [];
+    const supabase = await createSupabaseServerClient();
 
-  const { data, error } = await supabase
-    .from("daily_plan")
-    .select("id, focus, position, exercise_id, equipment, sets, reps, weight_kg")
-    .eq("user_id", user.id)
-    .eq("for_date", dateYmd)
-    .order("focus", { ascending: true })
-    .order("position", { ascending: true });
+    const { data, error } = await supabase
+      .from("daily_plan")
+      .select(
+        "id, focus, position, exercise_id, equipment, sets, reps, weight_kg",
+      )
+      .eq("user_id", user.id)
+      .eq("for_date", dateYmd)
+      .order("focus", { ascending: true })
+      .order("position", { ascending: true });
 
-  if (error || !data) return [];
-  return (data as Row[]).map((r) => ({
-    id: r.id,
-    focus: r.focus,
-    position: r.position,
-    exerciseId: r.exercise_id,
-    equipment: isEquipmentId(r.equipment) ? r.equipment : "barbell",
-    sets: r.sets,
-    reps: r.reps,
-    weightKg: num(r.weight_kg),
-  }));
-}
+    if (error || !data) return [];
+    return (data as Row[]).map((r) => ({
+      id: r.id,
+      focus: r.focus,
+      position: r.position,
+      exerciseId: r.exercise_id,
+      equipment: isEquipmentId(r.equipment) ? r.equipment : "barbell",
+      sets: r.sets,
+      reps: r.reps,
+      weightKg: num(r.weight_kg),
+    }));
+  },
+);

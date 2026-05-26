@@ -1,6 +1,9 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 
 function toStatus(s: string): CompletionStatus {
@@ -11,11 +14,9 @@ function toStatus(s: string): CompletionStatus {
 export async function getConditioningStatusMapToday(
   todayYmd: string,
 ): Promise<Map<string, CompletionStatus>> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return new Map();
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("conditioning_completions")

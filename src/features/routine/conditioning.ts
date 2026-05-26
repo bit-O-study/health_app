@@ -1,6 +1,9 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import type { ConditioningKind } from "@/features/routine/conditioning-catalog";
 
 export type ConditioningRow = {
@@ -48,11 +51,9 @@ function toRow(r: Row): ConditioningRow {
 export async function getConditioningForFocus(
   focus: string,
 ): Promise<{ warmup: ConditioningRow[]; cooldown: ConditioningRow[] }> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return { warmup: [], cooldown: [] };
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("routine_conditioning")

@@ -2,7 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import {
   getCatalogExercise,
   isEquipmentId,
@@ -17,9 +20,7 @@ export type DailyPlanItem = {
   weightKg: number | null;
 };
 
-export type SaveDailyPlanResult =
-  | { ok: true }
-  | { ok: false; error: string };
+export type SaveDailyPlanResult = { ok: true } | { ok: false; error: string };
 
 function isValidYmd(s: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(s);
@@ -27,7 +28,7 @@ function isValidYmd(s: string): boolean {
 
 /**
  * 그 날짜의 모든 daily_plan 오버라이드를 비운다 (= 오늘만 변경 초기화).
- * "오늘만 운동 바꾸기" 모달에서 새 부위 선택 시 호출해, 이전 누적분이 합쳐
+ *"오늘만 운동 바꾸기" 모달에서 새 부위 선택 시 호출해, 이전 누적분이 합쳐
  * 보이는 문제를 막는다. 완료 기록(exercise_completions) 은 건드리지 않음.
  */
 export async function clearDailyPlanForDateAction(
@@ -37,9 +38,7 @@ export async function clearDailyPlanForDateAction(
     return { ok: false, error: "날짜가 올바르지 않습니다." };
   }
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
   const { error } = await supabase
@@ -84,9 +83,7 @@ export async function saveDailyPlanAction(
   }
 
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
   const del = await supabase

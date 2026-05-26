@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
+import { ThemeScript } from "@/features/theme/theme-script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${geistSans.variable} ${geistMono.variable}`}>
+    <html
+      lang="ko"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        {/* 페인트 전에 .dark 를 미리 붙여 라이트→다크 깜빡임 방지 */}
+        <ThemeScript />
+      </head>
       <body className="min-h-full flex flex-col">
         {children}
         <PWARegister />

@@ -89,7 +89,7 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 bg-white p-7 shadow-sm">
+    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
       <div className="mb-6 grid grid-cols-2 gap-1 rounded-lg bg-zinc-100 p-1">
         {(["login", "signup"] as const).map((m) => (
           <button
@@ -99,8 +99,8 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
             className={cn(
               "rounded-md py-2 text-sm font-semibold transition",
               mode === m
-                ? "bg-white text-zinc-950 shadow-sm"
-                : "text-zinc-500 hover:text-zinc-800",
+                ? "bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-sm"
+                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200",
             )}
           >
             {m === "login" ? "로그인" : "회원가입"}
@@ -111,7 +111,7 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
           <label
-            className="text-sm font-semibold text-zinc-700"
+            className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
             htmlFor="email"
           >
             이메일
@@ -120,7 +120,7 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
             id="email"
             type="email"
             autoComplete="email"
-            className="h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -128,7 +128,7 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
         </div>
         <div className="space-y-1.5">
           <label
-            className="text-sm font-semibold text-zinc-700"
+            className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
             htmlFor="password"
           >
             비밀번호
@@ -139,7 +139,7 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
             autoComplete={
               mode === "login" ? "current-password" : "new-password"
             }
-            className="h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
             placeholder="6자 이상"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -147,12 +147,12 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
         </div>
 
         {error ? (
-          <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <p className="rounded-md bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-400">
             {error}
           </p>
         ) : null}
         {notice ? (
-          <p className="rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+          <p className="rounded-md bg-emerald-50 dark:bg-emerald-950/40 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-400">
             {notice}
           </p>
         ) : null}
@@ -173,9 +173,9 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
         </button>
       </form>
 
-      <p className="mt-4 text-center text-xs leading-5 text-zinc-500">
-        이메일·비밀번호 자체 로그인만 지원합니다. 세션은 access·refresh
-        토큰으로 안전하게 유지됩니다.
+      <p className="mt-4 text-center text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+        이메일·비밀번호 자체 로그인만 지원합니다. 세션은 access·refresh 토큰으로
+        안전하게 유지됩니다.
       </p>
     </div>
   );

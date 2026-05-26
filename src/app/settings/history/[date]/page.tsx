@@ -17,7 +17,11 @@ import {
   getConditioningItem,
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
-import { DAY_BLOCKS, isDayBlockId, type DayBlockId } from "@/features/routine/data";
+import {
+  DAY_BLOCKS,
+  isDayBlockId,
+  type DayBlockId,
+} from "@/features/routine/data";
 
 export const dynamic = "force-dynamic";
 
@@ -74,9 +78,7 @@ export default async function HistoryDetailPage({
   const [exRes, condRes] = await Promise.all([
     supabase
       .from("exercise_completions")
-      .select(
-        "exercise_id, equipment, sets, reps, weight_kg, focus",
-      )
+      .select("exercise_id, equipment, sets, reps, weight_kg, focus")
       .eq("user_id", user.id)
       .eq("for_date", date)
       .eq("status", "done"),
@@ -95,7 +97,13 @@ export default async function HistoryDetailPage({
       const equipment = r.equipment;
       const sets = r.sets;
       const reps = r.reps;
-      if (!focus || !exerciseId || !equipment || sets === null || reps === null) {
+      if (
+        !focus ||
+        !exerciseId ||
+        !equipment ||
+        sets === null ||
+        reps === null
+      ) {
         return null;
       }
       const weight = num(r.weight_kg);
@@ -104,7 +112,15 @@ export default async function HistoryDetailPage({
       const equipmentLabel =
         EQUIPMENT_LABELS[equipment as EquipmentId] ?? equipment;
       const kcal = Math.round(estimateStrengthKcal(weightKg, exerciseId, sets));
-      return { focus, name, equipmentLabel, sets, reps, weightKg: weight, kcal };
+      return {
+        focus,
+        name,
+        equipmentLabel,
+        sets,
+        reps,
+        weightKg: weight,
+        kcal,
+      };
     })
     .filter((x): x is NonNullable<typeof x> => x !== null);
 
@@ -121,8 +137,10 @@ export default async function HistoryDetailPage({
     if (dur !== null) parts.push(`${dur}${PARAM_UNIT.duration}`);
     if (spd !== null) parts.push(`${spd}${PARAM_UNIT.speed}`);
     if (inc !== null) parts.push(`${inc}${PARAM_UNIT.incline}`);
-    const detail = parts.join(" · ") || "—";
-    const kcal = Math.round(estimateConditioningKcal(weightKg, r.item_id, dur, spd));
+    const detail = parts.join(" ·") || "—";
+    const kcal = Math.round(
+      estimateConditioningKcal(weightKg, r.item_id, dur, spd),
+    );
     const entry = { name, detail, kcal };
     if (r.kind === "cooldown") cooldownItems.push(entry);
     else warmupItems.push(entry);
@@ -157,7 +175,7 @@ export default async function HistoryDetailPage({
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
       <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800"
+        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
         href={`/settings/history?month=${monthOf(date)}`}
       >
         <ChevronLeft aria-hidden="true" size={16} />
@@ -165,28 +183,31 @@ export default async function HistoryDetailPage({
       </Link>
 
       <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950">{dateLabel}</h1>
-        <p className="text-sm leading-6 text-zinc-600">
+        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
+          {dateLabel}
+        </h1>
+        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           이 날 완료 처리한 운동만 표시합니다. 완료 취소하면 이 페이지에서도
           제거됩니다.
         </p>
       </div>
 
-      <section className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 text-orange-700">
+      <section className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-400">
           <Zap aria-hidden="true" size={20} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
             이 날 총 소모 칼로리
           </p>
-          <p className="text-2xl font-bold text-zinc-950">
+          <p className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
             {totalKcal}
-            <span className="ml-1 text-sm font-medium text-zinc-500">kcal</span>
+            <span className="ml-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+              kcal
+            </span>
           </p>
-          <p className="mt-0.5 text-[11px] text-zinc-500">
-            완료 {totalDone}건
-            {focusLabel ? ` · 대표 부위 ${focusLabel}` : ""}
+          <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+            완료 {totalDone}건{focusLabel ? ` · 대표 부위 ${focusLabel}` : ""}
             {profile.weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
           </p>
         </div>
@@ -200,25 +221,25 @@ export default async function HistoryDetailPage({
             {mainItems.map((it, i) => (
               <li
                 key={i}
-                className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-white p-3"
+                className="flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
                   <Dumbbell aria-hidden="true" size={18} />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-bold text-zinc-950">
+                  <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     {it.name}
-                    <span className="ml-2 text-xs font-medium text-zinc-500">
+                    <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
                       {it.equipmentLabel}
                     </span>
-                    <span className="ml-2 text-[10px] font-bold text-emerald-700">
+                    <span className="ml-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
                       {blockLabel(it.focus)}
                     </span>
                   </p>
-                  <p className="mt-0.5 text-xs text-zinc-600">
+                  <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
                     {it.sets}세트 × {it.reps}회
                     {it.weightKg !== null ? ` · ${it.weightKg}kg` : " · 맨몸"}
-                    <span className="ml-2 text-orange-700">
+                    <span className="ml-2 text-orange-700 dark:text-orange-400">
                       · 약 {it.kcal}kcal
                     </span>
                   </p>
@@ -233,7 +254,10 @@ export default async function HistoryDetailPage({
         {warmupItems.length === 0 ? (
           <Empty text="완료된 워밍업이 없습니다." />
         ) : (
-          <CondList items={warmupItems} bg="bg-amber-100 text-amber-700" />
+          <CondList
+            items={warmupItems}
+            bg="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
+          />
         )}
       </Section>
 
@@ -241,7 +265,10 @@ export default async function HistoryDetailPage({
         {cooldownItems.length === 0 ? (
           <Empty text="완료된 마무리가 없습니다." />
         ) : (
-          <CondList items={cooldownItems} bg="bg-sky-100 text-sky-700" />
+          <CondList
+            items={cooldownItems}
+            bg="bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400"
+          />
         )}
       </Section>
     </main>
@@ -261,17 +288,21 @@ function Section({
 }) {
   const badge =
     tone === "emerald"
-      ? "bg-emerald-100 text-emerald-700"
+      ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
       : tone === "amber"
-        ? "bg-amber-100 text-amber-700"
-        : "bg-sky-100 text-sky-700";
+        ? "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
+        : "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400";
   return (
     <section className="mb-5">
       <div className="mb-2 flex items-center gap-2">
-        <span className={`flex h-7 w-7 items-center justify-center rounded-md ${badge}`}>
+        <span
+          className={`flex h-7 w-7 items-center justify-center rounded-md ${badge}`}
+        >
           {icon}
         </span>
-        <h2 className="text-sm font-bold text-zinc-950">{title}</h2>
+        <h2 className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+          {title}
+        </h2>
       </div>
       {children}
     </section>
@@ -280,7 +311,7 @@ function Section({
 
 function Empty({ text }: { text: string }) {
   return (
-    <p className="rounded-lg border border-dashed border-zinc-300 bg-white p-3 text-xs text-zinc-500">
+    <p className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-3 text-xs text-zinc-500 dark:text-zinc-400">
       {text}
     </p>
   );
@@ -298,7 +329,7 @@ function CondList({
       {items.map((it, i) => (
         <li
           key={i}
-          className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-white p-3"
+          className="flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3"
         >
           <span
             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${bg}`}
@@ -306,10 +337,14 @@ function CondList({
             <Dumbbell aria-hidden="true" size={18} />
           </span>
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold text-zinc-950">{it.name}</p>
-            <p className="mt-0.5 text-xs text-zinc-600">
+            <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+              {it.name}
+            </p>
+            <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
               {it.detail}
-              <span className="ml-2 text-orange-700">· 약 {it.kcal}kcal</span>
+              <span className="ml-2 text-orange-700 dark:text-orange-400">
+                · 약 {it.kcal}kcal
+              </span>
             </p>
           </div>
         </li>

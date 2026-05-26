@@ -1,6 +1,11 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cache } from "react";
+
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import {
   isBodyType,
   isExperienceLevel,
@@ -30,17 +35,16 @@ type ProfileRow = {
   muscle_mass_kg: unknown;
 };
 
-/** 현재 로그인 사용자의 온보딩 프로필을 반환합니다. 없으면 null. */
-export async function getUserProfile(): Promise<UserProfile | null> {
+/**
+ * 현재 로그인 사용자의 온보딩 프로필을 반환합니다. 없으면 null.
+ *
+ * React.cache 로 한 요청 내 단 1회만 쿼리. 여러 server component 에서
+ * 동시에 불러도 DB 콜은 1번.
+ */
+export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
+  const user = await getCurrentUser();
+  if (!user) return null;
   const supabase = await createSupabaseServerClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return null;
-  }
 
   const { data, error } = await supabase
     .from("profiles")
@@ -75,4 +79,4 @@ export async function getUserProfile(): Promise<UserProfile | null> {
     bodyFatPct: n(row.body_fat_pct),
     muscleMassKg: n(row.muscle_mass_kg),
   };
-}
+});

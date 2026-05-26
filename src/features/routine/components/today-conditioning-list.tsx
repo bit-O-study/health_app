@@ -2,13 +2,31 @@
 
 import { useRef, useState, useTransition, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
-import { Check, ChevronRight, GripVertical, X } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  GripVertical,
+  Loader2,
+  Pencil,
+  Plus,
+  X,
+} from "lucide-react";
 
-import { reorderConditioningAction } from "@/features/routine/conditioning-actions";
+import {
+  addConditioningToTodayAction,
+  reorderConditioningAction,
+  updateConditioningRowAction,
+} from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
-import type { ConditioningKind } from "@/features/routine/conditioning-catalog";
+import {
+  conditioningOptions,
+  getConditioningItem,
+  PARAM_UNIT,
+  type ConditioningItem,
+  type ConditioningKind,
+} from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 
 export type TodayConditioningItem = {
@@ -54,6 +72,8 @@ export function TodayConditioningList({
   const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
   const [skipped, setSkipped] = useState<Set<string>>(new Set(skippedIds));
+  // 인라인 수정 중인 row id (편집 모드 + 연필 버튼 클릭 시)
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [swipe, setSwipe] = useState<{ id: string; dx: number } | null>(null);
   const startRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const dxRef = useRef(0);
@@ -115,11 +135,12 @@ export function TodayConditioningList({
               incline: item.incline,
             },
       );
-      router.refresh();
+      // router.refresh() 생략 — done/skipped 로컬 state 가 행 표시를 즉시 갱신.
     });
   }
 
   function persistOrder(next: TodayConditioningItem[]) {
+    // 로컬 order 가 이미 갱신됨 + 서버 액션 revalidate 생략 → router.refresh() 불필요
     startTx(async () => {
       await reorderConditioningAction({
         source,
@@ -128,7 +149,6 @@ export function TodayConditioningList({
         dateYmd,
         ids: next.map((i) => i.rowId),
       });
-      router.refresh();
     });
   }
 
@@ -227,10 +247,7 @@ export function TodayConditioningList({
     }
     if (lockedRef.current === "horizontal") {
       e.preventDefault();
-      let capped = Math.max(
-        -SWIPE_VISUAL_CAP,
-        Math.min(SWIPE_VISUAL_CAP, dx),
-      );
+      let capped = Math.max(-SWIPE_VISUAL_CAP, Math.min(SWIPE_VISUAL_CAP, dx));
       if (done.has(swipe.id)) capped = Math.max(0, capped);
       if (skipped.has(swipe.id)) capped = Math.min(0, capped);
       dxRef.current = capped;
@@ -300,8 +317,8 @@ export function TodayConditioningList({
 
   const iconBg =
     iconTone === "amber"
-      ? "bg-amber-100 text-amber-700"
-      : "bg-sky-100 text-sky-700";
+      ? "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
+      : "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400";
 
   return (
     <ul className="space-y-2">
@@ -316,8 +333,10 @@ export function TodayConditioningList({
         const isDragging = dragIndex === index;
         let liftOtherY = 0;
         if (drag !== null && newIndex !== null && !isDragging) {
-          if (drag.index < index && index <= newIndex) liftOtherY = -ROW_HEIGHT_PX;
-          else if (drag.index > index && index >= newIndex) liftOtherY = ROW_HEIGHT_PX;
+          if (drag.index < index && index <= newIndex)
+            liftOtherY = -ROW_HEIGHT_PX;
+          else if (drag.index > index && index >= newIndex)
+            liftOtherY = ROW_HEIGHT_PX;
         }
         const liftStyle = isDragging
           ? {
@@ -333,19 +352,21 @@ export function TodayConditioningList({
               transition: "transform 200ms ease",
             };
 
+        const inlineEditing = editMode && editingId === item.rowId;
+
         return (
           <li
             key={item.rowId}
             className="relative overflow-hidden rounded-xl"
             style={liftStyle}
           >
-            {isDragging ? null : (
+            {isDragging || inlineEditing ? null : (
               <>
                 <div
                   className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
                     passedRight
                       ? "bg-emerald-600 text-white"
-                      : "bg-emerald-100 text-emerald-700"
+                      : "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
                   }`}
                 >
                   <Check aria-hidden="true" size={18} />
@@ -355,7 +376,7 @@ export function TodayConditioningList({
                   className={`pointer-events-none absolute inset-y-0 right-0 flex w-1/2 items-center justify-end pr-5 text-sm font-bold transition-colors ${
                     passedLeft
                       ? "bg-zinc-600 text-white"
-                      : "bg-zinc-200 text-zinc-700"
+                      : "bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300"
                   }`}
                 >
                   <span className="mr-2">{isSkipped ? "취소" : "휴식"}</span>
@@ -365,45 +386,57 @@ export function TodayConditioningList({
             )}
 
             <div
-              onPointerDown={(e) => onPointerDown(e, item.rowId)}
-              onPointerMove={onPointerMove}
-              onPointerUp={(e) => onPointerUp(e, item.rowId, item.itemId)}
-              onPointerCancel={onPointerCancel}
+              onPointerDown={
+                inlineEditing ? undefined : (e) => onPointerDown(e, item.rowId)
+              }
+              onPointerMove={inlineEditing ? undefined : onPointerMove}
+              onPointerUp={
+                inlineEditing
+                  ? undefined
+                  : (e) => onPointerUp(e, item.rowId, item.itemId)
+              }
+              onPointerCancel={inlineEditing ? undefined : onPointerCancel}
               onContextMenu={(e) => e.preventDefault()}
               style={{
-                transform: `translateX(${dx}px)`,
+                transform: inlineEditing ? "none" : `translateX(${dx}px)`,
                 transition: isSwiping ? "none" : "transform 220ms ease-out",
-                touchAction: "pan-y",
+                touchAction: inlineEditing ? "auto" : "pan-y",
                 WebkitTouchCallout: "none",
-                WebkitUserSelect: "none",
-                userSelect: "none",
+                WebkitUserSelect: inlineEditing ? "auto" : "none",
+                userSelect: inlineEditing ? "auto" : "none",
               }}
-              className={`relative flex select-none items-center gap-3 border bg-white p-4 shadow-sm ${
+              className={`relative flex select-none items-center gap-3 border bg-white dark:bg-zinc-800 p-4 shadow-sm ${
                 isDragging
                   ? "border-emerald-500 ring-2 ring-emerald-300/70"
-                  : isDone
-                    ? "border-emerald-300 bg-emerald-50"
-                    : isSkipped
-                      ? "border-zinc-300 bg-zinc-100"
-                      : "border-zinc-200"
+                  : inlineEditing
+                    ? "border-emerald-400 ring-1 ring-emerald-200"
+                    : isDone
+                      ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40"
+                      : isSkipped
+                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100"
+                        : "border-zinc-200 dark:border-zinc-700"
               }`}
             >
-              <span
-                onPointerDown={(e) => onGripPointerDown(e, index)}
-                onPointerMove={onGripPointerMove}
-                onPointerUp={onGripPointerUp}
-                onPointerCancel={onGripPointerUp}
-                aria-hidden="true"
-                className={`flex h-10 w-8 shrink-0 cursor-grab items-center justify-center transition-colors ${
-                  isDragging ? "text-emerald-600" : "text-zinc-400"
-                } active:cursor-grabbing`}
-                style={{ touchAction: "none" }}
-                title="잡고 위·아래로 순서 변경"
-              >
-                <GripVertical size={20} />
-              </span>
+              {inlineEditing ? null : (
+                <span
+                  onPointerDown={(e) => onGripPointerDown(e, index)}
+                  onPointerMove={onGripPointerMove}
+                  onPointerUp={onGripPointerUp}
+                  onPointerCancel={onGripPointerUp}
+                  aria-hidden="true"
+                  className={`flex h-10 w-8 shrink-0 cursor-grab items-center justify-center transition-colors ${
+                    isDragging
+                      ? "text-emerald-600"
+                      : "text-zinc-400 dark:text-zinc-500"
+                  }active:cursor-grabbing`}
+                  style={{ touchAction: "none" }}
+                  title="잡고 위·아래로 순서 변경"
+                >
+                  <GripVertical size={20} />
+                </span>
+              )}
 
-              {editMode ? (
+              {editMode && !inlineEditing ? (
                 <input
                   type="checkbox"
                   aria-label="선택"
@@ -422,38 +455,356 @@ export function TodayConditioningList({
               >
                 <ConditioningIcon id={item.itemId} size={22} />
               </span>
-              <div className="group flex min-w-0 flex-1 items-center gap-2">
-                <div className="min-w-0 flex-1">
-                  <h4 className="text-base font-bold text-zinc-950">
-                    {item.name}
-                    {isDone ? (
-                      <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
-                        완료
-                      </span>
-                    ) : null}
-                    {isSkipped ? (
-                      <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 px-2 py-0.5 text-[10px] font-bold text-zinc-700">
-                        오늘 휴식
-                      </span>
-                    ) : null}
-                  </h4>
-                  <p className="mt-0.5 text-sm text-zinc-600">
-                    {item.detail}
-                    <span className="ml-2 text-xs text-orange-700">
-                      · 약 {item.kcal}kcal
-                    </span>
-                  </p>
-                </div>
-                <ChevronRight
-                  aria-hidden="true"
-                  className="shrink-0 text-zinc-400 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
-                  size={18}
+              {inlineEditing ? (
+                <ConditioningEditForm
+                  item={item}
+                  onCancel={() => setEditingId(null)}
+                  onSaved={(next) => {
+                    setOrder((prev) =>
+                      prev.map((p) =>
+                        p.rowId === item.rowId ? { ...p, ...next } : p,
+                      ),
+                    );
+                    setEditingId(null);
+                    // router.refresh() 생략 — 로컬에 새 detail/kcal 반영.
+                  }}
                 />
-              </div>
+              ) : (
+                <div className="group flex min-w-0 flex-1 items-center gap-2">
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+                      {item.name}
+                      {isDone ? (
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                          완료
+                        </span>
+                      ) : null}
+                      {isSkipped ? (
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[10px] font-bold text-zinc-700 dark:text-zinc-300">
+                          오늘 휴식
+                        </span>
+                      ) : null}
+                    </h4>
+                    <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
+                      {item.detail}
+                      <span className="ml-2 text-xs text-orange-700 dark:text-orange-400">
+                        · 약 {item.kcal}kcal
+                      </span>
+                    </p>
+                  </div>
+                  {editMode ? (
+                    <button
+                      type="button"
+                      aria-label="수정"
+                      title="수정"
+                      onPointerDown={(e) => e.stopPropagation()}
+                      onPointerMove={(e) => e.stopPropagation()}
+                      onPointerUp={(e) => e.stopPropagation()}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingId(item.rowId);
+                      }}
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+                    >
+                      <Pencil aria-hidden="true" size={16} />
+                    </button>
+                  ) : (
+                    <ChevronRight
+                      aria-hidden="true"
+                      className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
+                      size={18}
+                    />
+                  )}
+                </div>
+              )}
             </div>
           </li>
         );
       })}
+      {editMode && focus ? (
+        <li className="relative">
+          <AddConditioningSlot
+            kind={kind}
+            focus={focus}
+            onAdded={() => startTx(() => router.refresh())}
+          />
+        </li>
+      ) : null}
     </ul>
+  );
+}
+
+/** 워밍업/마무리 1행의 시간·속도·경사 인라인 수정 폼. 아이템이 지원하는 params 만 표시. */
+function ConditioningEditForm({
+  item,
+  onCancel,
+  onSaved,
+}: {
+  item: TodayConditioningItem;
+  onCancel: () => void;
+  onSaved: (next: {
+    durationMin: number | null;
+    speed: number | null;
+    incline: number | null;
+    detail: string;
+  }) => void;
+}) {
+  const catalog = getConditioningItem(item.itemId);
+  const params = catalog?.params ?? [];
+  const [duration, setDuration] = useState<string>(
+    item.durationMin === null ? "" : String(item.durationMin),
+  );
+  const [speed, setSpeed] = useState<string>(
+    item.speed === null ? "" : String(item.speed),
+  );
+  const [incline, setIncline] = useState<string>(
+    item.incline === null ? "" : String(item.incline),
+  );
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  function parse(s: string): number | null {
+    if (s.trim() === "") return null;
+    const n = Number(s);
+    return Number.isFinite(n) ? n : null;
+  }
+
+  function save() {
+    const dur = params.includes("duration") ? parse(duration) : null;
+    const spd = params.includes("speed") ? parse(speed) : null;
+    const inc = params.includes("incline") ? parse(incline) : null;
+    function ok(v: number | null, max: number): boolean {
+      return v === null || (Number.isFinite(v) && v >= 0 && v <= max);
+    }
+    if (!ok(dur, 600) || !ok(spd, 200) || !ok(inc, 100)) {
+      setError("값 범위를 확인해 주세요 (시간 0~600, 속도 0~200, 경사 0~100)");
+      return;
+    }
+    start(async () => {
+      const res = await updateConditioningRowAction(item.rowId, {
+        durationMin: dur,
+        speed: spd,
+        incline: inc,
+      });
+      if (res.ok) {
+        setError(null);
+        const detail = buildDetail(catalog, dur, spd, inc);
+        onSaved({ durationMin: dur, speed: spd, incline: inc, detail });
+      } else {
+        setError(res.error);
+      }
+    });
+  }
+
+  return (
+    <div className="flex min-w-0 flex-1 flex-col gap-2">
+      <div className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+        {item.name}
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5">
+        {params.includes("duration") ? (
+          <>
+            <input
+              aria-label="시간(분)"
+              type="number"
+              inputMode="numeric"
+              value={duration}
+              onChange={(e) => {
+                setDuration(e.target.value);
+                setError(null);
+              }}
+              disabled={pending}
+              className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+            />
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              {PARAM_UNIT.duration}
+            </span>
+          </>
+        ) : null}
+        {params.includes("speed") ? (
+          <>
+            <input
+              aria-label="속도"
+              type="number"
+              inputMode="decimal"
+              value={speed}
+              onChange={(e) => {
+                setSpeed(e.target.value);
+                setError(null);
+              }}
+              disabled={pending}
+              className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+            />
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              {PARAM_UNIT.speed}
+            </span>
+          </>
+        ) : null}
+        {params.includes("incline") ? (
+          <>
+            <input
+              aria-label="경사"
+              type="number"
+              inputMode="decimal"
+              value={incline}
+              onChange={(e) => {
+                setIncline(e.target.value);
+                setError(null);
+              }}
+              disabled={pending}
+              className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+            />
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              {PARAM_UNIT.incline}
+            </span>
+          </>
+        ) : null}
+        <button
+          type="button"
+          onClick={save}
+          disabled={pending}
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+        >
+          {pending ? (
+            <Loader2 aria-hidden="true" className="animate-spin" size={14} />
+          ) : (
+            <Check aria-hidden="true" size={14} />
+          )}
+          저장
+        </button>
+        <button
+          type="button"
+          onClick={onCancel}
+          disabled={pending}
+          className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+        >
+          취소
+        </button>
+      </div>
+      {error ? (
+        <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function buildDetail(
+  item: ConditioningItem | undefined,
+  duration: number | null,
+  speed: number | null,
+  incline: number | null,
+): string {
+  const params = item?.params ?? [];
+  const parts: string[] = [];
+  if (duration !== null && params.includes("duration"))
+    parts.push(`${duration}${PARAM_UNIT.duration}`);
+  if (speed !== null && params.includes("speed"))
+    parts.push(`${speed}${PARAM_UNIT.speed}`);
+  if (incline !== null && params.includes("incline"))
+    parts.push(`${incline}${PARAM_UNIT.incline}`);
+  return parts.join(" ·") || "—";
+}
+
+/** 편집 모드 하단의"워밍업/마무리에 추가" 점선 박스. 종목 선택 → 즉시 추가. */
+function AddConditioningSlot({
+  kind,
+  focus,
+  onAdded,
+}: {
+  kind: ConditioningKind;
+  focus: string;
+  onAdded: () => void;
+}) {
+  const options = conditioningOptions(kind);
+  const [open, setOpen] = useState(false);
+  const [itemId, setItemId] = useState<string>(options[0]?.id ?? "");
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  function submit() {
+    if (!itemId) return;
+    start(async () => {
+      const res = await addConditioningToTodayAction(focus, kind, itemId);
+      if (res.ok) {
+        setOpen(false);
+        setError(null);
+        onAdded();
+      } else {
+        setError(res.error);
+      }
+    });
+  }
+
+  const label = kind === "warmup" ? "워밍업" : "마무리";
+
+  if (!open) {
+    return (
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 py-4 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+      >
+        <Plus aria-hidden="true" size={16} />
+        {label} 항목 추가
+      </button>
+    );
+  }
+
+  return (
+    <div className="rounded-xl border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <select
+          aria-label="항목"
+          value={itemId}
+          onChange={(e) => {
+            setItemId(e.target.value);
+            setError(null);
+          }}
+          disabled={pending || options.length === 0}
+          className="h-9 min-w-[10rem] flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
+        >
+          {options.map((o) => (
+            <option key={o.id} value={o.id}>
+              {o.name}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          onClick={submit}
+          disabled={pending || !itemId}
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+        >
+          {pending ? (
+            <Loader2 aria-hidden="true" className="animate-spin" size={14} />
+          ) : (
+            <Plus aria-hidden="true" size={14} />
+          )}
+          추가
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setOpen(false);
+            setError(null);
+          }}
+          disabled={pending}
+          className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+        >
+          취소
+        </button>
+      </div>
+      <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+        시간·속도·경사는 카탈로그 기본값으로 자동 설정됩니다. 추가 후 수정에서
+        조절하세요.
+      </p>
+      {error ? (
+        <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+          {error}
+        </p>
+      ) : null}
+    </div>
   );
 }

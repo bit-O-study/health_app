@@ -1,6 +1,11 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { cache } from "react";
+
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import {
   CUSTOM_VARIANT_ID,
   isDayBlockId,
@@ -17,7 +22,7 @@ export type UserRoutine = {
   startDate: string;
   /** 오늘 휴식 전환된 날짜(YYYY-MM-DD) 또는 null */
   restDate: string | null;
-  /** "오늘만 변경"이 적용된 날짜(YYYY-MM-DD) 또는 null */
+  /**"오늘만 변경"이 적용된 날짜(YYYY-MM-DD) 또는 null */
   overrideDate: string | null;
   /** 그날 덮어쓸 부위 블록 또는 null */
   overrideBlock: DayBlockId | null;
@@ -38,17 +43,13 @@ type UserRoutineRow = {
 /**
  * 현재 로그인 사용자의 저장된 루틴을 반환합니다.
  * 미로그인·미설정이거나 카탈로그에 없는 조합이면 null.
+ *
+ * React.cache 로 한 요청 내 단 1회만 쿼리.
  */
-export async function getUserRoutine(): Promise<UserRoutine | null> {
+export const getUserRoutine = cache(async (): Promise<UserRoutine | null> => {
+  const user = await getCurrentUser();
+  if (!user) return null;
   const supabase = await createSupabaseServerClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (!user) {
-    return null;
-  }
 
   const { data, error } = await supabase
     .from("user_routines")
@@ -86,4 +87,4 @@ export async function getUserRoutine(): Promise<UserRoutine | null> {
     overrideBlock,
     updatedAt: row.updated_at,
   };
-}
+});

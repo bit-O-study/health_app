@@ -70,7 +70,7 @@ export function BodyLogForm({
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {FIELDS.map((f) => (
           <label key={f.key} className="space-y-1">
-            <span className="text-xs font-semibold text-zinc-700">
+            <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
               {f.label} ({f.unit})
             </span>
             <input
@@ -81,7 +81,7 @@ export function BodyLogForm({
               onChange={(e) =>
                 setVals((p) => ({ ...p, [f.key]: e.target.value }))
               }
-              className="h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+              className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
             />
           </label>
         ))}
@@ -89,7 +89,9 @@ export function BodyLogForm({
 
       {withBodyType ? (
         <div className="mt-4">
-          <p className="mb-2 text-xs font-semibold text-zinc-700">체형</p>
+          <p className="mb-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+            체형
+          </p>
           <div className="grid grid-cols-3 gap-2">
             {BODY_TYPE_OPTIONS.map((o) => {
               const active = type === o.id;
@@ -101,8 +103,8 @@ export function BodyLogForm({
                   className={cn(
                     "rounded-lg border-2 px-3 py-2 text-sm font-semibold transition",
                     active
-                      ? "border-emerald-500 bg-emerald-50 text-emerald-800"
-                      : "border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300",
+                      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
+                      : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-500",
                   )}
                 >
                   {o.label}
@@ -113,7 +115,7 @@ export function BodyLogForm({
         </div>
       ) : null}
 
-      <p className="mt-2 text-xs text-zinc-500">
+      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
         입력한 항목만 기록됩니다. 체형 정보와 추천에 바로 반영돼요.
       </p>
       <div className="mt-3 flex items-center gap-3">
@@ -131,7 +133,9 @@ export function BodyLogForm({
         {msg ? (
           <span
             className={`text-sm font-medium ${
-              msg.ok ? "text-emerald-700" : "text-red-600"
+              msg.ok
+                ? "text-emerald-700 dark:text-emerald-400"
+                : "text-red-600 dark:text-red-400"
             }`}
           >
             {msg.text}

@@ -1,6 +1,9 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 
 export type CompletionStatus = "done" | "skipped";
 
@@ -38,11 +41,9 @@ function toStatus(s: string): CompletionStatus {
 export async function getStatusMapToday(
   todayYmd: string,
 ): Promise<Map<string, CompletionStatus>> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return new Map();
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("exercise_completions")
@@ -62,11 +63,9 @@ export async function getStatusMapToday(
 export async function getRecentExerciseCompletions(
   days = 90,
 ): Promise<ExerciseCompletionRow[]> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return [];
+  const supabase = await createSupabaseServerClient();
 
   const from = new Date();
   from.setUTCDate(from.getUTCDate() - days);

@@ -83,7 +83,7 @@ export function OnboardingFlow() {
     <div
       className={cn(
         "min-h-screen transition-colors",
-        isFemale ? "bg-pink-50" : "bg-zinc-50",
+        isFemale ? "bg-pink-50" : "bg-zinc-50 dark:bg-zinc-900",
       )}
     >
       <div className="mx-auto w-full max-w-3xl px-6 py-12 sm:px-10">
@@ -103,7 +103,7 @@ export function OnboardingFlow() {
                 key={s}
                 className={cn(
                   "h-1.5 flex-1 rounded-full transition-colors",
-                  reached ? "bg-emerald-600" : "bg-zinc-200",
+                  reached ? "bg-emerald-600" : "bg-zinc-200 dark:bg-zinc-700",
                 )}
               />
             );
@@ -112,10 +112,10 @@ export function OnboardingFlow() {
 
         {step === "gender" ? (
           <section className="mt-10">
-            <h1 className="text-2xl font-bold text-zinc-950 sm:text-3xl">
+            <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-3xl">
               성별을 알려주세요
             </h1>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               경력과 함께 추천 루틴을 잡는 데 사용됩니다.
             </p>
 
@@ -132,8 +132,8 @@ export function OnboardingFlow() {
                       active
                         ? option.id === "female"
                           ? "border-pink-400 bg-pink-100 text-pink-700"
-                          : "border-emerald-500 bg-emerald-50 text-emerald-800"
-                        : "border-zinc-200 bg-white text-zinc-700 hover:border-zinc-300",
+                          : "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
+                        : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-500",
                     )}
                   >
                     {option.label}
@@ -156,10 +156,10 @@ export function OnboardingFlow() {
 
         {step === "experience" ? (
           <section className="mt-10">
-            <h1 className="text-2xl font-bold text-zinc-950 sm:text-3xl">
+            <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-3xl">
               운동 경력은 어느 정도인가요?
             </h1>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               난이도에 맞춰 분할 루틴을 추천해 드립니다.
             </p>
 
@@ -174,14 +174,14 @@ export function OnboardingFlow() {
                     className={cn(
                       "flex w-full flex-col gap-1 rounded-xl border-2 px-5 py-4 text-left transition",
                       active
-                        ? "border-emerald-500 bg-emerald-50"
-                        : "border-zinc-200 bg-white hover:border-zinc-300",
+                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+                        : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-500",
                     )}
                   >
-                    <span className="text-base font-bold text-zinc-950">
+                    <span className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                       {option.label}
                     </span>
-                    <span className="text-sm text-zinc-600">
+                    <span className="text-sm text-zinc-600 dark:text-zinc-400">
                       {option.description}
                     </span>
                   </button>
@@ -193,7 +193,7 @@ export function OnboardingFlow() {
               <button
                 type="button"
                 onClick={() => setStep("gender")}
-                className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 bg-white px-5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100"
+                className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
               >
                 이전
               </button>
@@ -212,16 +212,16 @@ export function OnboardingFlow() {
 
         {step === "body" ? (
           <section className="mt-10">
-            <h1 className="text-2xl font-bold text-zinc-950 sm:text-3xl">
+            <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-3xl">
               체형 정보를 입력해 주세요
             </h1>
-            <p className="mt-2 text-sm leading-6 text-zinc-600">
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               키·몸무게·체형에 맞춰 운동별 세트·횟수·무게를 추천합니다.
             </p>
 
             <div className="mt-6 grid grid-cols-2 gap-3">
               <label className="space-y-1.5">
-                <span className="text-sm font-semibold text-zinc-700">
+                <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                   키 (cm)
                 </span>
                 <input
@@ -230,11 +230,11 @@ export function OnboardingFlow() {
                   value={heightCm}
                   onChange={(e) => setHeightCm(e.target.value)}
                   placeholder="170"
-                  className="h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
                 />
               </label>
               <label className="space-y-1.5">
-                <span className="text-sm font-semibold text-zinc-700">
+                <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
                   몸무게 (kg)
                 </span>
                 <input
@@ -243,12 +243,12 @@ export function OnboardingFlow() {
                   value={weightKg}
                   onChange={(e) => setWeightKg(e.target.value)}
                   placeholder="65"
-                  className="h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
                 />
               </label>
             </div>
 
-            <p className="mt-5 mb-2 text-sm font-semibold text-zinc-700">
+            <p className="mt-5 mb-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
               체형
             </p>
             <div className="space-y-3">
@@ -262,14 +262,14 @@ export function OnboardingFlow() {
                     className={cn(
                       "flex w-full flex-col gap-1 rounded-xl border-2 px-5 py-4 text-left transition",
                       active
-                        ? "border-emerald-500 bg-emerald-50"
-                        : "border-zinc-200 bg-white hover:border-zinc-300",
+                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+                        : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-500",
                     )}
                   >
-                    <span className="text-base font-bold text-zinc-950">
+                    <span className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                       {option.label}
                     </span>
-                    <span className="text-sm text-zinc-600">
+                    <span className="text-sm text-zinc-600 dark:text-zinc-400">
                       {option.description}
                     </span>
                   </button>
@@ -281,7 +281,7 @@ export function OnboardingFlow() {
               <button
                 type="button"
                 onClick={() => setStep("experience")}
-                className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 bg-white px-5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100"
+                className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
               >
                 이전
               </button>
@@ -300,18 +300,18 @@ export function OnboardingFlow() {
 
         {step === "recommend" && recommendation ? (
           <section className="mt-10 space-y-6">
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-6">
+            <div className="rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-6">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
                 <Sparkles aria-hidden="true" size={13} />
                 추천 루틴
               </span>
-              <h1 className="mt-3 text-2xl font-bold text-zinc-950">
+              <h1 className="mt-3 text-2xl font-bold text-zinc-950 dark:text-zinc-100">
                 {recommendation.headline}
               </h1>
-              <p className="mt-2 text-sm leading-6 text-zinc-700">
+              <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                 {recommendation.reason}
               </p>
-              <p className="mt-3 text-xs text-emerald-700">
+              <p className="mt-3 text-xs text-emerald-700 dark:text-emerald-400">
                 마음에 안 들면 아래에서 분할을 바꾸거나 커스텀으로 직접 짤 수
                 있어요.
               </p>
@@ -326,7 +326,7 @@ export function OnboardingFlow() {
             <button
               type="button"
               onClick={() => setStep("experience")}
-              className="inline-flex h-11 items-center justify-center rounded-md border border-zinc-300 bg-white px-5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100"
+              className="inline-flex h-11 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
             >
               경력 다시 선택
             </button>

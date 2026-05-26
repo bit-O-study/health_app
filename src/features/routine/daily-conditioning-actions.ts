@@ -2,7 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import {
   getConditioningItem,
   isConditioningKind,
@@ -38,9 +41,7 @@ export async function saveDailyConditioningAction(
   }
 
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
   const del = await supabase
@@ -78,9 +79,7 @@ export async function resetDailyConditioningAction(
 ): Promise<void> {
   if (!isValidYmd(dateYmd) || !isConditioningKind(kind)) return;
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   await supabase

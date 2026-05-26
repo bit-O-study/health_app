@@ -72,15 +72,21 @@ function toVideo(row: VideoRow, comments: VideoComment[]): ExerciseVideo {
   };
 }
 
-export async function getExerciseBySlug(slug: string): Promise<Exercise | null> {
+export async function getExerciseBySlug(
+  slug: string,
+): Promise<Exercise | null> {
   const { data, error } = await supabase
     .from("exercises")
-    .select("id, slug, name, summary, difficulty, equipment, target_muscles, cues, created_at")
+    .select(
+      "id, slug, name, summary, difficulty, equipment, target_muscles, cues, created_at",
+    )
     .eq("slug", slug)
     .maybeSingle();
 
   if (error || !data) {
-    return FALLBACK_EXERCISES.find((exercise) => exercise.slug === slug) ?? null;
+    return (
+      FALLBACK_EXERCISES.find((exercise) => exercise.slug === slug) ?? null
+    );
   }
 
   return toExercise(data as ExerciseRow);

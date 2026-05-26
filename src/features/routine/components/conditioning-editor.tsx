@@ -100,7 +100,7 @@ export function ConditioningEditor({
     });
   }
 
-  /** 부위 기본 추천으로 행을 채움 — 저장은 아래 "저장" 버튼이 담당 */
+  /** 부위 기본 추천으로 행을 채움 — 저장은 아래"저장" 버튼이 담당 */
   function recommend() {
     if (!focus) {
       setMsg("부위 정보가 없어 추천할 수 없습니다.");
@@ -120,9 +120,9 @@ export function ConditioningEditor({
   }
 
   return (
-    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+    <div className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-3">
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-        <h4 className="text-sm font-bold text-zinc-800">
+        <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-200">
           {KIND_LABEL[kind]}
         </h4>
         <div className="flex flex-wrap items-center gap-1.5">
@@ -131,7 +131,7 @@ export function ConditioningEditor({
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60"
+              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
             >
               <Sparkles aria-hidden="true" size={13} />
               추천으로 채우기
@@ -140,7 +140,7 @@ export function ConditioningEditor({
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
           >
             <Plus aria-hidden="true" size={13} />
             추가
@@ -149,7 +149,9 @@ export function ConditioningEditor({
       </div>
 
       {rows.length === 0 ? (
-        <p className="text-xs text-zinc-500">등록된 항목이 없습니다.</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          등록된 항목이 없습니다.
+        </p>
       ) : (
         <div className="space-y-1.5">
           {rows.map((row, idx) => {
@@ -158,7 +160,7 @@ export function ConditioningEditor({
             return (
               <div
                 key={idx}
-                className="flex flex-wrap items-center gap-1.5 rounded-md border border-zinc-200 bg-white p-2"
+                className="flex flex-wrap items-center gap-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2"
               >
                 <select
                   aria-label="항목"
@@ -181,7 +183,7 @@ export function ConditioningEditor({
                     };
                     update(next);
                   }}
-                  className="h-8 min-w-[8rem] flex-1 basis-full rounded border border-zinc-300 bg-white px-2 text-sm sm:basis-auto"
+                  className="h-8 min-w-[8rem] flex-1 basis-full rounded border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm sm:basis-auto"
                 >
                   {options.map((o) => (
                     <option key={o.id} value={o.id}>
@@ -217,9 +219,9 @@ export function ConditioningEditor({
                         update(next);
                       }}
                       placeholder={PARAM_LABEL[p]}
-                      className="h-8 w-16 rounded border border-zinc-300 bg-white px-2 text-center text-sm"
+                      className="h-8 w-16 rounded border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                     />
-                    <span className="text-xs text-zinc-500">
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
                       {PARAM_UNIT[p]}
                     </span>
                   </span>
@@ -228,10 +230,8 @@ export function ConditioningEditor({
                 <button
                   type="button"
                   aria-label="삭제"
-                  onClick={() =>
-                    update(rows.filter((_, i) => i !== idx))
-                  }
-                  className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600"
+                  onClick={() => update(rows.filter((_, i) => i !== idx))}
+                  className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>
@@ -254,7 +254,9 @@ export function ConditioningEditor({
           저장
         </button>
         {msg ? (
-          <span className="text-xs font-medium text-zinc-600">{msg}</span>
+          <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+            {msg}
+          </span>
         ) : null}
       </div>
     </div>

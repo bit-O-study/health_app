@@ -20,10 +20,7 @@ import {
 } from "@/features/routine/plan-actions";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
-import type {
-  BodyType,
-  ExperienceLevel,
-} from "@/features/profile/data";
+import type { BodyType, ExperienceLevel } from "@/features/profile/data";
 
 type FocusData = {
   focus: FocusTone;
@@ -104,7 +101,7 @@ export function PlanEditor({
     });
   }
 
-  /** 한 부위만 추천 운동으로 행을 갈아끼움 — 저장은 아래 "이 부위 저장" 버튼이 담당 */
+  /** 한 부위만 추천 운동으로 행을 갈아끼움 — 저장은 아래"이 부위 저장" 버튼이 담당 */
   function recommendFocus(focus: FocusTone) {
     const opts = {
       gender,
@@ -142,12 +139,12 @@ export function PlanEditor({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-base font-bold text-zinc-950">
+          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
             추천 운동들로 등록
           </h2>
-          <p className="mt-0.5 text-sm text-zinc-600">
+          <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
             체형·성별·경력에 맞춰 모든 부위를 자동으로 채웁니다.
           </p>
         </div>
@@ -167,12 +164,14 @@ export function PlanEditor({
       </div>
 
       {status ? (
-        <p className="rounded-md bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-700">
+        <p className="rounded-md bg-zinc-100 px-3 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
           {status}
         </p>
       ) : null}
 
-      <p className="text-sm font-semibold text-zinc-700">또는 직접 등록</p>
+      <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+        또는 직접 등록
+      </p>
 
       {focuses.map((f) => {
         const rows = plans[f.focus] ?? [];
@@ -180,15 +179,17 @@ export function PlanEditor({
         return (
           <section
             key={f.focus}
-            className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm"
+            className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-base font-bold text-zinc-950">{f.label}</h3>
+              <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+                {f.label}
+              </h3>
               <div className="flex flex-wrap items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => recommendFocus(f.focus)}
-                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100"
+                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
                 >
                   <Sparkles aria-hidden="true" size={14} />
                   추천으로 채우기
@@ -196,7 +197,7 @@ export function PlanEditor({
                 <button
                   type="button"
                   onClick={() => addRow(f.focus)}
-                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
                 >
                   <Plus aria-hidden="true" size={14} />
                   운동 추가
@@ -205,19 +206,18 @@ export function PlanEditor({
             </div>
 
             {rows.length === 0 ? (
-              <p className="mt-3 text-sm text-zinc-500">
+              <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
                 등록된 운동이 없습니다. “운동 추가”로 직접 넣거나 위에서 추천
                 등록을 사용하세요.
               </p>
             ) : (
               <div className="mt-4 space-y-2">
                 {rows.map((row, idx) => {
-                  const ex =
-                    getCatalogExercise(row.exerciseId) ?? options[0];
+                  const ex = getCatalogExercise(row.exerciseId) ?? options[0];
                   return (
                     <div
                       key={idx}
-                      className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5"
+                      className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
                     >
                       <select
                         aria-label="운동"
@@ -229,12 +229,11 @@ export function PlanEditor({
                             ...row,
                             exerciseId: e.target.value,
                             equipment:
-                              nextEx?.equipments[0].equipment ??
-                              row.equipment,
+                              nextEx?.equipments[0].equipment ?? row.equipment,
                           };
                           update(f.focus, next);
                         }}
-                        className="h-9 min-w-[8rem] flex-1 basis-full rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 sm:basis-auto"
+                        className="h-9 min-w-[8rem] flex-1 basis-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 sm:basis-auto"
                       >
                         {options.map((o) => (
                           <option key={o.id} value={o.id}>
@@ -254,7 +253,7 @@ export function PlanEditor({
                           };
                           update(f.focus, next);
                         }}
-                        className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800"
+                        className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
                       >
                         {ex.equipments.map((eq) => (
                           <option key={eq.equipment} value={eq.equipment}>
@@ -275,9 +274,11 @@ export function PlanEditor({
                           };
                           update(f.focus, next);
                         }}
-                        className="h-9 w-14 rounded-md border border-zinc-300 bg-white px-2 text-center text-sm"
+                        className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                       />
-                      <span className="text-xs text-zinc-500">세트</span>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        세트
+                      </span>
                       <input
                         aria-label="횟수"
                         type="number"
@@ -290,9 +291,11 @@ export function PlanEditor({
                           };
                           update(f.focus, next);
                         }}
-                        className="h-9 w-14 rounded-md border border-zinc-300 bg-white px-2 text-center text-sm"
+                        className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                       />
-                      <span className="text-xs text-zinc-500">회</span>
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        회
+                      </span>
                       <input
                         aria-label="무게(kg)"
                         type="number"
@@ -303,7 +306,7 @@ export function PlanEditor({
                           next[idx] = { ...row, weight: e.target.value };
                           update(f.focus, next);
                         }}
-                        className="h-9 w-16 rounded-md border border-zinc-300 bg-white px-2 text-center text-sm"
+                        className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                       />
                       <button
                         type="button"
@@ -314,7 +317,7 @@ export function PlanEditor({
                             rows.filter((_, i) => i !== idx),
                           )
                         }
-                        className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600"
+                        className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
                       >
                         <Trash2 aria-hidden="true" size={16} />
                       </button>
@@ -328,16 +331,20 @@ export function PlanEditor({
               type="button"
               disabled={pending}
               onClick={() => saveFocus(f.focus)}
-               className="mt-4 inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
+              className="mt-4 inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
             >
               {pending ? (
-                <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+                <Loader2
+                  aria-hidden="true"
+                  className="animate-spin"
+                  size={15}
+                />
               ) : null}
               저장
             </button>
 
-            <div className="mt-5 space-y-3 border-t border-zinc-200 pt-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            <div className="mt-5 space-y-3 border-t border-zinc-200 dark:border-zinc-700 pt-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                 워밍업 / 마무리
               </p>
               <ConditioningEditor

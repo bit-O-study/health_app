@@ -2,7 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import type { CompletionSnapshot } from "@/features/routine/exercise-completion-actions";
 import type { CondSnapshot } from "@/features/routine/conditioning-completion-actions";
@@ -24,9 +27,7 @@ export async function markAllTodayCompleteAction(opts: {
   cooldown: CondMarkInput[];
 }): Promise<void> {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   const today = seoulYmd();

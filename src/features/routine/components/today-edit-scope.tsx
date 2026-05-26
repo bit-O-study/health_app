@@ -118,7 +118,7 @@ export function TodayEditBar() {
       <button
         type="button"
         onClick={() => ctx.setEditMode(true)}
-        className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 transition hover:text-emerald-600"
+        className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:text-emerald-600 dark:hover:text-emerald-300"
       >
         <Pencil aria-hidden="true" size={13} />
         편집하기
@@ -132,7 +132,7 @@ export function TodayEditBar() {
         type="button"
         disabled={pending || count === 0}
         onClick={onDelete}
-        className="inline-flex h-7 items-center gap-1 rounded-md border border-red-300 bg-red-50 px-2 text-xs font-semibold text-red-700 transition hover:bg-red-100 disabled:opacity-50"
+        className="inline-flex h-7 items-center gap-1 rounded-md border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/40 px-2 text-xs font-semibold text-red-700 dark:text-red-400 transition hover:bg-red-100 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={13} />
@@ -145,7 +145,7 @@ export function TodayEditBar() {
         type="button"
         disabled={pending}
         onClick={onCancel}
-        className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50"
+        className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50"
       >
         <X aria-hidden="true" size={13} />
         취소

@@ -1,10 +1,13 @@
 /**
  * 칼로리(kcal) 추정 — 체중 × MET × 시간 기반의 단순 근사값.
- *   kcal/min = (MET × 3.5 × kg) / 200
+ * kcal/min = (MET × 3.5 × kg) / 200
  * 정확한 측정값이 아닌 가이드용 수치.
  */
 
-import { loadClassOf, type LoadClass } from "@/features/routine/exercise-catalog";
+import {
+  loadClassOf,
+  type LoadClass,
+} from "@/features/routine/exercise-catalog";
 
 const STRENGTH_MET: Record<LoadClass, number> = {
   heavy: 6.0,
@@ -39,10 +42,7 @@ function runningMet(speed: number): number {
   return 13.5;
 }
 
-function metForConditioning(
-  itemId: string,
-  speed: number | null,
-): number {
+function metForConditioning(itemId: string, speed: number | null): number {
   if (itemId === "running" && speed && speed > 0) return runningMet(speed);
   return CONDITIONING_MET[itemId] ?? STRETCH_MET;
 }
@@ -82,12 +82,21 @@ export type CalorieBreakdown = {
 export function estimateTodayKcal(args: {
   weightKg: number | null;
   plan: { exerciseId: string; sets: number }[];
-  warmup: { itemId: string; durationMin: number | null; speed: number | null }[];
-  cooldown: { itemId: string; durationMin: number | null; speed: number | null }[];
+  warmup: {
+    itemId: string;
+    durationMin: number | null;
+    speed: number | null;
+  }[];
+  cooldown: {
+    itemId: string;
+    durationMin: number | null;
+    speed: number | null;
+  }[];
 }): CalorieBreakdown {
   const w = args.weightKg ?? 65; // 체형 미입력 시 기본값
   const warmup = args.warmup.reduce(
-    (sum, r) => sum + estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
+    (sum, r) =>
+      sum + estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
     0,
   );
   const main = args.plan.reduce(
@@ -95,7 +104,8 @@ export function estimateTodayKcal(args: {
     0,
   );
   const cooldown = args.cooldown.reduce(
-    (sum, r) => sum + estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
+    (sum, r) =>
+      sum + estimateConditioningKcal(w, r.itemId, r.durationMin, r.speed),
     0,
   );
   const round = (n: number) => Math.round(n);

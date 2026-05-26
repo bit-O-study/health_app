@@ -2,22 +2,20 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
-import { seoulYmd } from "@/features/routine/data";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 
 /**
  * 본운동 행 삭제. rowId 는 routine_exercises.id 또는 daily_plan.id 일 수 있어
  * 양쪽 테이블 모두에서 시도하고, 해당 행의 완료 기록(exercise_completions)도 제거.
  * (기록·점수에서도 함께 사라짐)
  */
-export async function deleteMainExerciseAction(
-  rowId: string,
-): Promise<void> {
+export async function deleteMainExerciseAction(rowId: string): Promise<void> {
   if (!rowId) return;
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   await Promise.all([
@@ -26,11 +24,7 @@ export async function deleteMainExerciseAction(
       .delete()
       .eq("user_id", user.id)
       .eq("id", rowId),
-    supabase
-      .from("daily_plan")
-      .delete()
-      .eq("user_id", user.id)
-      .eq("id", rowId),
+    supabase.from("daily_plan").delete().eq("user_id", user.id).eq("id", rowId),
     supabase
       .from("exercise_completions")
       .delete()
@@ -38,13 +32,8 @@ export async function deleteMainExerciseAction(
       .eq("exercise_row_id", rowId),
   ]);
 
-  const today = seoulYmd();
+  // /settings/*, /plan* 는 모두 force-dynamic → 진입 시 fresh — 홈만 무효화
   revalidatePath("/");
-  revalidatePath("/settings/score");
-  revalidatePath("/settings/history");
-  revalidatePath(`/settings/history/${today}`);
-  revalidatePath("/plan");
-  revalidatePath("/plan/today");
 }
 
 /**
@@ -56,9 +45,7 @@ export async function deleteConditioningRowAction(
 ): Promise<void> {
   if (!rowId) return;
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   await Promise.all([
@@ -79,11 +66,5 @@ export async function deleteConditioningRowAction(
       .eq("source_row_id", rowId),
   ]);
 
-  const today = seoulYmd();
   revalidatePath("/");
-  revalidatePath("/settings/score");
-  revalidatePath("/settings/history");
-  revalidatePath(`/settings/history/${today}`);
-  revalidatePath("/plan");
-  revalidatePath("/plan/today");
 }

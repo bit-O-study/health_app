@@ -1,6 +1,9 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import type { ConditioningKind } from "@/features/routine/conditioning-catalog";
 
@@ -25,15 +28,15 @@ const num = (v: number | string | null): number | null => {
 export async function getDailyConditioning(
   dateYmd: string,
 ): Promise<{ warmup: ConditioningRow[]; cooldown: ConditioningRow[] }> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return { warmup: [], cooldown: [] };
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("daily_conditioning")
-    .select("id, for_date, kind, position, item_id, duration_min, speed, incline")
+    .select(
+      "id, for_date, kind, position, item_id, duration_min, speed, incline",
+    )
     .eq("user_id", user.id)
     .eq("for_date", dateYmd)
     .order("kind", { ascending: true })
@@ -63,11 +66,9 @@ export async function hasDailyOverride(
   dateYmd: string,
   kind: ConditioningKind,
 ): Promise<boolean> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return false;
+  const supabase = await createSupabaseServerClient();
 
   const { count } = await supabase
     .from("daily_conditioning")

@@ -71,7 +71,7 @@ export function TodayAdjustMenu({
     start(async () => {
       // 휴식 상태였다면 운동 상태로 전환한 뒤 편집 화면으로 이동
       if (isRestToday) await undoTodayRestAction();
-      // "오늘만 변경" 은 누적이 아니라 대체 — 기존 daily_plan 을 먼저 비운다
+      //"오늘만 변경" 은 누적이 아니라 대체 — 기존 daily_plan 을 먼저 비운다
       await clearDailyPlanForDateAction(seoulYmd());
       setOpen(false);
       setPicked(new Set());
@@ -86,7 +86,7 @@ export function TodayAdjustMenu({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-3 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+          className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
         >
           <SlidersHorizontal aria-hidden="true" size={14} />
           오늘만 운동 바꾸기
@@ -95,7 +95,7 @@ export function TodayAdjustMenu({
           type="button"
           disabled={pending}
           onClick={() => run(restartRoutineFromTodayAction)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-3 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -112,18 +112,18 @@ export function TodayAdjustMenu({
           onClick={close}
         >
           <div
-            className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
+            className="w-full max-w-md rounded-2xl bg-white dark:bg-zinc-800 p-6 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-zinc-950">
+              <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
                 오늘만 운동 바꾸기
               </h2>
               <button
                 type="button"
                 aria-label="닫기"
                 onClick={close}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-800"
+                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -135,16 +135,16 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => run(undoTodayRestAction)}
-                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-100 disabled:opacity-60"
+                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 px-4 py-3 text-left transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-200 text-emerald-700">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-200 text-emerald-700 dark:text-emerald-400">
                   <Play aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
-                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950">
+                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     다시 운동하기
                   </span>
-                  <span className="block text-xs text-zinc-600">
+                  <span className="block text-xs text-zinc-600 dark:text-zinc-400">
                     휴식을 해제하고 직전 운동 데이터를 다시 불러옵니다
                   </span>
                 </span>
@@ -154,23 +154,23 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => run(convertTodayToRestAction)}
-                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-left transition hover:border-zinc-300 hover:bg-zinc-100 disabled:opacity-60"
+                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 px-4 py-3 text-left transition hover:border-zinc-300 dark:hover:border-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700 disabled:opacity-60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 text-zinc-600">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400">
                   <Moon aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
-                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950">
+                  <span className="block whitespace-nowrap text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     오늘 휴식 전환하기
                   </span>
-                  <span className="block text-xs text-zinc-500">
+                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
                     오늘 쉬고 루틴이 하루씩 미뤄집니다
                   </span>
                 </span>
               </button>
             )}
 
-            <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
+            <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               오늘 바꿀 부위 선택 (여러 개)
             </p>
             <div className="grid grid-cols-2 gap-2">
@@ -186,17 +186,20 @@ export function TodayAdjustMenu({
                     className={cn(
                       "flex items-center gap-2 rounded-lg border px-3 py-2.5 text-left text-sm font-semibold transition",
                       active
-                        ? "border-emerald-500 bg-emerald-50 text-emerald-800"
-                        : "border-zinc-200 bg-white text-zinc-800 hover:border-emerald-300 hover:bg-emerald-50",
+                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
+                        : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
                     )}
                   >
                     <span
                       className={cn("h-4 w-4 shrink-0 rounded border", {
                         "border-emerald-600 bg-emerald-600": active,
-                        "border-zinc-300 bg-white": !active,
+                        "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800":
+                          !active,
                       })}
                     />
-                    <span className={cn("h-2 w-2 shrink-0 rounded-full", style.dot)} />
+                    <span
+                      className={cn("h-2 w-2 shrink-0 rounded-full", style.dot)}
+                    />
                     {DAY_BLOCKS[id].label}
                   </button>
                 );
@@ -213,14 +216,18 @@ export function TodayAdjustMenu({
               <ArrowRight aria-hidden="true" size={15} />
             </button>
 
-            <p className="mt-3 text-[11px] text-zinc-500">
+            <p className="mt-3 text-[11px] text-zinc-500 dark:text-zinc-400">
               선택한 부위만 보여주는 편집 화면으로 이동합니다. 저장하면 오늘
               운동 목록에 바로 반영되고, 이미 완료한 운동은 그대로 남습니다.
             </p>
 
             {pending ? (
-              <p className="mt-3 flex items-center justify-center gap-2 text-sm text-zinc-500">
-                <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+              <p className="mt-3 flex items-center justify-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                <Loader2
+                  aria-hidden="true"
+                  className="animate-spin"
+                  size={15}
+                />
                 적용 중…
               </p>
             ) : null}

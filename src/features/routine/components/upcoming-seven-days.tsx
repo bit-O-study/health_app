@@ -39,7 +39,10 @@ export function UpcomingSevenDaysGrid({
   const [err, setErr] = useState<string | null>(null);
 
   function indexFromPoint(clientX: number, clientY: number): number | null {
-    const el = document.elementFromPoint(clientX, clientY) as HTMLElement | null;
+    const el = document.elementFromPoint(
+      clientX,
+      clientY,
+    ) as HTMLElement | null;
     if (!el) return null;
     const card = el.closest("[data-day-index]") as HTMLElement | null;
     if (!card) return null;
@@ -127,11 +130,11 @@ export function UpcomingSevenDaysGrid({
   return (
     <section>
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
           다가오는 7일 · 드래그로 순서 변경
         </h2>
         {pending ? (
-          <span className="inline-flex items-center gap-1 text-xs text-zinc-500">
+          <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
             <Loader2 aria-hidden="true" className="animate-spin" size={13} />
             저장 중
           </span>
@@ -149,9 +152,9 @@ export function UpcomingSevenDaysGrid({
             hoverIndex === i && draggedIndex !== null && draggedIndex !== i;
 
           // 잡힌 카드: 손가락 따라 들려서 이동. 비켜줄 카드: 살짝 줄어듦.
-          // pointerEvents: "none" — 드래그 카드를 elementFromPoint 의 hit-test 에서 제외해서
-          //   그 아래에 있는 진짜 드롭 타겟이 hoverIndex 로 잡히게 함.
-          //   (setPointerCapture 가 잡혀 있어 onPointerMove/Up 은 그대로 들어옴)
+          // pointerEvents:"none" — 드래그 카드를 elementFromPoint 의 hit-test 에서 제외해서
+          // 그 아래에 있는 진짜 드롭 타겟이 hoverIndex 로 잡히게 함.
+          // (setPointerCapture 가 잡혀 있어 onPointerMove/Up 은 그대로 들어옴)
           const liftStyle: React.CSSProperties = isDragged
             ? {
                 transform: `translate3d(${delta.x}px, ${delta.y}px, 0) scale(1.06)`,
@@ -198,18 +201,20 @@ export function UpcomingSevenDaysGrid({
               )}
             >
               <div className="flex items-center justify-between gap-1">
-                <span className="flex min-w-0 items-center gap-1 text-sm font-bold text-zinc-900">
+                <span className="flex min-w-0 items-center gap-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">
                   <GripVertical
                     aria-hidden="true"
                     className={cn(
                       "shrink-0 transition-colors",
-                      isDragged ? "text-emerald-600" : "text-zinc-400",
+                      isDragged
+                        ? "text-emerald-600"
+                        : "text-zinc-400 dark:text-zinc-500",
                     )}
                     size={13}
                   />
                   <span className="truncate">
-                    {cell.weekday}{" "}
-                    <span className="text-xs font-normal text-zinc-500">
+                    {cell.weekday}
+                    <span className="ml-1.5 text-xs font-normal text-zinc-500 dark:text-zinc-400">
                       {cell.label}
                     </span>
                   </span>
@@ -239,7 +244,9 @@ export function UpcomingSevenDaysGrid({
       </div>
 
       {err ? (
-        <p className="mt-2 text-xs font-medium text-red-600">{err}</p>
+        <p className="mt-2 text-xs font-medium text-red-600 dark:text-red-400">
+          {err}
+        </p>
       ) : null}
     </section>
   );

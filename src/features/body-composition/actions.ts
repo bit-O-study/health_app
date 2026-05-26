@@ -69,11 +69,11 @@ export async function saveBodyCompositionAction(
   if (checks.some((c) => c.bad)) {
     return { ok: false, error: "입력값 범위를 확인해 주세요." };
   }
-  if (
-    checks.every((c) => c.v === null) &&
-    !input.imagePath
-  ) {
-    return { ok: false, error: "한 가지 이상 입력하거나 사진을 첨부해 주세요." };
+  if (checks.every((c) => c.v === null) && !input.imagePath) {
+    return {
+      ok: false,
+      error: "한 가지 이상 입력하거나 사진을 첨부해 주세요.",
+    };
   }
 
   const supabase = await createSupabaseServerClient();

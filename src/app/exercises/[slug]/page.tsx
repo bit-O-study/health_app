@@ -49,32 +49,32 @@ export default async function ExerciseDetailPage({
 
   // 영상/피드백은 Supabase 에 해당 종목 행이 있을 때만 제공
   const supaExercise = await getExerciseBySlug(slug);
-  const videos = supaExercise
-    ? await getExerciseVideos(supaExercise.id)
-    : [];
+  const videos = supaExercise ? await getExerciseVideos(supaExercise.id) : [];
 
   return (
-    <main className="min-h-screen bg-zinc-50 px-6 py-10 text-zinc-950 sm:px-10">
+    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-900 px-6 py-10 text-zinc-950 dark:text-zinc-100 sm:px-10">
       <section className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-6">
           <Link
-            className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 transition hover:text-zinc-950"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100"
             href="/"
           >
             <ArrowLeft aria-hidden="true" size={16} />
             홈으로
           </Link>
 
-          <header className="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm">
+          <header className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+              <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
                 <ExerciseIcon id={exercise.id} size={36} />
               </span>
               <div>
                 <h1 className="text-3xl font-bold sm:text-4xl">
                   {exercise.name}
                 </h1>
-                <p className="mt-1 text-sm text-zinc-500">{exercise.target}</p>
+                <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  {exercise.target}
+                </p>
               </div>
             </div>
           </header>
@@ -87,7 +87,7 @@ export default async function ExerciseDetailPage({
           {supaExercise ? (
             <FeedbackSection videos={videos} />
           ) : (
-            <section className="rounded-lg border border-dashed border-zinc-300 bg-white p-6 text-sm leading-6 text-zinc-500">
+            <section className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-6 text-sm leading-6 text-zinc-500 dark:text-zinc-400">
               이 종목은 자세 영상·피드백이 아직 준비되지 않았습니다. 기구별
               운동법을 먼저 확인하세요.
             </section>
@@ -99,14 +99,18 @@ export default async function ExerciseDetailPage({
             <VideoUploadForm exerciseId={supaExercise.id} />
           ) : null}
 
-          <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm">
+          <section className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
             <div className="flex items-center gap-2">
-              <Target aria-hidden="true" className="text-orange-700" size={20} />
-              <h2 className="text-lg font-semibold text-zinc-950">
+              <Target
+                aria-hidden="true"
+                className="text-orange-700 dark:text-orange-400"
+                size={20}
+              />
+              <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
                 자극 부위
               </h2>
             </div>
-            <p className="mt-4 text-sm leading-6 text-zinc-700">
+            <p className="mt-4 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
               {exercise.target}
             </p>
           </section>

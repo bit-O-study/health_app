@@ -117,7 +117,7 @@ export default async function ScorePage() {
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
       <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800"
+        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
         href="/settings"
       >
         <ChevronLeft aria-hidden="true" size={16} />
@@ -125,15 +125,17 @@ export default async function ScorePage() {
       </Link>
 
       <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950">내 운동 점수</h1>
-        <p className="text-sm leading-6 text-zinc-600">
+        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
+          내 운동 점수
+        </h1>
+        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           완료된 운동의 실제 운동량(세트×횟수×무게)을 누적합니다. 오래된
           기록일수록 가중치가 줄고(반감기 14일), 아래 마네킹은 부위 간 균형이
           깨진 곳을 보여줍니다.
         </p>
       </div>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
         <div className="flex flex-col items-center gap-6 sm:flex-row">
           <svg
             viewBox={`0 0 ${W} ${W}`}
@@ -141,7 +143,14 @@ export default async function ScorePage() {
             role="img"
             aria-label="운동 점수 게이지"
           >
-            <circle cx={C} cy={C} r={R} fill="none" stroke="#e4e4e7" strokeWidth={14} />
+            <circle
+              cx={C}
+              cy={C}
+              r={R}
+              fill="none"
+              stroke="#e4e4e7"
+              strokeWidth={14}
+            />
             <circle
               cx={C}
               cy={C}
@@ -154,23 +163,36 @@ export default async function ScorePage() {
               strokeDashoffset={offset}
               transform={`rotate(-90 ${C} ${C})`}
             />
-            <text x={C} y={C - 6} textAnchor="middle" fontSize={42} fontWeight={700} fill="#18181b">
+            <text
+              x={C}
+              y={C - 6}
+              textAnchor="middle"
+              fontSize={42}
+              fontWeight={700}
+              fill="#18181b"
+            >
               {s.score}
             </text>
-            <text x={C} y={C + 22} textAnchor="middle" fontSize={12} fill="#71717a">
+            <text
+              x={C}
+              y={C + 22}
+              textAnchor="middle"
+              fontSize={12}
+              fill="#71717a"
+            >
               점 · {s.normalized}%
             </text>
           </svg>
 
           <div className="min-w-0 flex-1 space-y-1">
-            <p className="text-sm leading-6 text-zinc-600">
+            <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
               운동량 가중합계: <strong>{s.score}점</strong>
             </p>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
               마지막 완료: {s.lastCompletedYmd ?? "—"} · 최근 7일{" "}
               {s.last7DayCount}일 활동
             </p>
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
               체중 기준: <strong>{userWeight}kg</strong>
               {profile.weightKg === null ? " (미입력 · 65kg 가정)" : ""}
             </p>
@@ -178,14 +200,34 @@ export default async function ScorePage() {
         </div>
 
         <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <MetricCard icon={<Flame size={18} />} label="연속" value={`${s.currentStreak}일`} tone="rose" />
-          <MetricCard icon={<Trophy size={18} />} label="최장 연속" value={`${s.longestStreak}일`} tone="amber" />
-          <MetricCard icon={<Activity size={18} />} label="최근 7일" value={`${s.last7DayCount}일`} tone="emerald" />
-          <MetricCard icon={<Activity size={18} />} label="총 완료" value={`${s.totalCount}건`} tone="indigo" />
+          <MetricCard
+            icon={<Flame size={18} />}
+            label="연속"
+            value={`${s.currentStreak}일`}
+            tone="rose"
+          />
+          <MetricCard
+            icon={<Trophy size={18} />}
+            label="최장 연속"
+            value={`${s.longestStreak}일`}
+            tone="amber"
+          />
+          <MetricCard
+            icon={<Activity size={18} />}
+            label="최근 7일"
+            value={`${s.last7DayCount}일`}
+            tone="emerald"
+          />
+          <MetricCard
+            icon={<Activity size={18} />}
+            label="총 완료"
+            value={`${s.totalCount}건`}
+            tone="indigo"
+          />
         </div>
 
         <div className="mt-6">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
             최근 21일 활동
           </p>
           <div className="grid grid-cols-7 gap-1.5">
@@ -194,7 +236,9 @@ export default async function ScorePage() {
                 key={cell.ymd}
                 title={cell.ymd}
                 className={`flex h-9 items-center justify-center rounded-md text-[11px] font-semibold ${
-                  cell.done ? "bg-emerald-600 text-white" : "bg-zinc-100 text-zinc-400"
+                  cell.done
+                    ? "bg-emerald-600 text-white"
+                    : "bg-zinc-100 text-zinc-400 dark:text-zinc-500"
                 }`}
               >
                 {cell.day}
@@ -205,33 +249,41 @@ export default async function ScorePage() {
       </section>
 
       {/* 부위별 밸런스 마네킹 */}
-      <section className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+      <section className="mt-6 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
         <div className="mb-1 flex items-center gap-2">
-          <h2 className="text-base font-bold text-zinc-950">부위별 밸런스</h2>
+          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+            부위별 밸런스
+          </h2>
           <span
             className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
               balanceSource === "body"
-                ? "bg-emerald-100 text-emerald-700"
-                : "bg-zinc-100 text-zinc-600"
+                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
+                : "bg-zinc-100 text-zinc-600 dark:text-zinc-400"
             }`}
           >
             {balanceSource === "body" ? "체성분 기반" : "운동량 기반"}
           </span>
         </div>
-        <p className="mb-4 text-xs text-zinc-500">
+        <p className="mb-4 text-xs text-zinc-500 dark:text-zinc-400">
           가장 강한 부위 대비 비율 — <strong>균형 ≥70%</strong>,{" "}
           <strong>부족 40~70%</strong>, <strong>심하게 부족 &lt;40%</strong>.
           {balanceSource === "body" ? (
             <>
               {" "}체성분 분석지 등록값을 사용 중입니다.
-              <Link href="/settings/body-composition" className="ml-1 font-semibold text-emerald-700">
+              <Link
+                href="/settings/body-composition"
+                className="ml-1 font-semibold text-emerald-700 dark:text-emerald-400"
+              >
                 갱신
               </Link>
             </>
           ) : (
             <>
               {" "}체성분이 없어 운동 기록 기반으로 추정합니다.
-              <Link href="/settings/body-composition" className="ml-1 font-semibold text-emerald-700">
+              <Link
+                href="/settings/body-composition"
+                className="ml-1 font-semibold text-emerald-700 dark:text-emerald-400"
+              >
                 체성분 등록
               </Link>
             </>
@@ -241,7 +293,7 @@ export default async function ScorePage() {
         <div className="flex flex-col gap-6 md:flex-row">
           <div className="flex flex-col items-center gap-3">
             <Mannequin colors={regionColors} />
-            <div className="flex items-center gap-3 text-[11px] text-zinc-600">
+            <div className="flex items-center gap-3 text-[11px] text-zinc-600 dark:text-zinc-400">
               <Legend color={BALANCE_COLOR.balanced} label="균형" />
               <Legend color={BALANCE_COLOR.low} label="부족" />
               <Legend color={BALANCE_COLOR.under} label="심하게 부족" />
@@ -252,10 +304,10 @@ export default async function ScorePage() {
             {REGIONS.map((r) => (
               <div
                 key={r}
-                className="rounded-lg border border-zinc-200 bg-white p-3 shadow-sm"
+                className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3 shadow-sm"
               >
                 <div className="flex items-center justify-between gap-2">
-                  <p className="text-xs font-semibold text-zinc-500">
+                  <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
                     {REGION_LABEL[r]}
                   </p>
                   <span
@@ -265,9 +317,9 @@ export default async function ScorePage() {
                     {BALANCE_LABEL[regionStatus[r]]}
                   </span>
                 </div>
-                <p className="mt-1 text-xl font-bold text-zinc-950">
+                <p className="mt-1 text-xl font-bold text-zinc-950 dark:text-zinc-100">
                   {Math.round(regionPoints[r])}
-                  <span className="ml-1 text-xs font-medium text-zinc-500">
+                  <span className="ml-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
                     점
                   </span>
                 </p>
@@ -285,7 +337,7 @@ export default async function ScorePage() {
           </div>
         </div>
 
-        <p className="mt-4 text-sm font-semibold text-zinc-700">
+        <p className="mt-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
           밸런스 요약 — 균형 {balancedCount} · 부족 {lowCount} · 심하게 부족{" "}
           {underCount}
         </p>
@@ -307,20 +359,32 @@ function MetricCard({
 }) {
   const tones = {
     rose: { bg: "bg-rose-100", text: "text-rose-700" },
-    amber: { bg: "bg-amber-100", text: "text-amber-700" },
-    emerald: { bg: "bg-emerald-100", text: "text-emerald-700" },
+    amber: {
+      bg: "bg-amber-100 dark:bg-amber-900/40",
+      text: "text-amber-700 dark:text-amber-400",
+    },
+    emerald: {
+      bg: "bg-emerald-100 dark:bg-emerald-900/40",
+      text: "text-emerald-700 dark:text-emerald-400",
+    },
     indigo: { bg: "bg-indigo-100", text: "text-indigo-700" },
   } as const;
   const t = tones[tone];
   return (
-    <div className="rounded-lg border border-zinc-200 bg-white p-3 shadow-sm">
+    <div className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3 shadow-sm">
       <div className="flex items-center gap-2">
-        <span className={`flex h-7 w-7 items-center justify-center rounded-md ${t.bg} ${t.text}`}>
+        <span
+          className={`flex h-7 w-7 items-center justify-center rounded-md ${t.bg} ${t.text}`}
+        >
           {icon}
         </span>
-        <p className="text-xs font-semibold text-zinc-500">{label}</p>
+        <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          {label}
+        </p>
       </div>
-      <p className="mt-1.5 text-xl font-bold text-zinc-950">{value}</p>
+      <p className="mt-1.5 text-xl font-bold text-zinc-950 dark:text-zinc-100">
+        {value}
+      </p>
     </div>
   );
 }

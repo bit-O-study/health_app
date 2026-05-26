@@ -18,10 +18,7 @@ import {
   type DailyPlanItem,
 } from "@/features/routine/daily-plan-actions";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
-import type {
-  BodyType,
-  ExperienceLevel,
-} from "@/features/profile/data";
+import type { BodyType, ExperienceLevel } from "@/features/profile/data";
 
 type Row = {
   exerciseId: string;
@@ -108,7 +105,7 @@ export function DailyMainEditor({
     });
   }
 
-  /** 체형·성별·경력 기반 추천으로 행을 채움 — 저장은 아래 "오늘 본운동 저장" 버튼이 담당 */
+  /** 체형·성별·경력 기반 추천으로 행을 채움 — 저장은 아래"오늘 본운동 저장" 버튼이 담당 */
   function recommend() {
     const opts = {
       gender,
@@ -131,15 +128,17 @@ export function DailyMainEditor({
   }
 
   return (
-    <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm">
+    <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base font-bold text-zinc-950">{label} · 본운동</h3>
+        <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+          {label} · 본운동
+        </h3>
         <div className="flex flex-wrap items-center gap-1.5">
           <button
             type="button"
             disabled={pending}
             onClick={recommend}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60"
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
           >
             <Sparkles aria-hidden="true" size={14} />
             추천으로 채우기
@@ -147,7 +146,7 @@ export function DailyMainEditor({
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
           >
             <Plus aria-hidden="true" size={14} />
             운동 추가
@@ -156,7 +155,7 @@ export function DailyMainEditor({
       </div>
 
       {rows.length === 0 ? (
-        <p className="mt-3 text-sm text-zinc-500">
+        <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
           등록된 운동이 없습니다. “운동 추가”로 직접 넣으세요.
         </p>
       ) : (
@@ -166,7 +165,7 @@ export function DailyMainEditor({
             return (
               <div
                 key={idx}
-                className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5"
+                className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
               >
                 <select
                   aria-label="운동"
@@ -182,7 +181,7 @@ export function DailyMainEditor({
                     };
                     update(next);
                   }}
-                  className="h-9 min-w-[8rem] flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800"
+                  className="h-9 min-w-[8rem] flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
                 >
                   {options.map((o) => (
                     <option key={o.id} value={o.id}>
@@ -202,7 +201,7 @@ export function DailyMainEditor({
                     };
                     update(next);
                   }}
-                  className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800"
+                  className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
                 >
                   {ex.equipments.map((eq) => (
                     <option key={eq.equipment} value={eq.equipment}>
@@ -220,9 +219,11 @@ export function DailyMainEditor({
                     next[idx] = { ...row, sets: Number(e.target.value) };
                     update(next);
                   }}
-                  className="h-9 w-14 rounded-md border border-zinc-300 bg-white px-2 text-center text-sm"
+                  className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                 />
-                <span className="text-xs text-zinc-500">세트</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  세트
+                </span>
                 <input
                   aria-label="횟수"
                   type="number"
@@ -232,9 +233,11 @@ export function DailyMainEditor({
                     next[idx] = { ...row, reps: Number(e.target.value) };
                     update(next);
                   }}
-                  className="h-9 w-14 rounded-md border border-zinc-300 bg-white px-2 text-center text-sm"
+                  className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                 />
-                <span className="text-xs text-zinc-500">회</span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  회
+                </span>
                 <input
                   aria-label="무게(kg)"
                   type="number"
@@ -245,15 +248,13 @@ export function DailyMainEditor({
                     next[idx] = { ...row, weight: e.target.value };
                     update(next);
                   }}
-                  className="h-9 w-16 rounded-md border border-zinc-300 bg-white px-2 text-center text-sm"
+                  className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                 />
                 <button
                   type="button"
                   aria-label="삭제"
-                  onClick={() =>
-                    update(rows.filter((_, i) => i !== idx))
-                  }
-                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600"
+                  onClick={() => update(rows.filter((_, i) => i !== idx))}
+                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
                 >
                   <Trash2 aria-hidden="true" size={16} />
                 </button>
@@ -276,7 +277,9 @@ export function DailyMainEditor({
           저장
         </button>
         {msg ? (
-          <span className="text-xs font-medium text-zinc-600">{msg}</span>
+          <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+            {msg}
+          </span>
         ) : null}
       </div>
     </section>

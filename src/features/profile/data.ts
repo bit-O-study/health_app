@@ -41,9 +41,7 @@ export function isGender(value: unknown): value is Gender {
 
 export function isExperienceLevel(value: unknown): value is ExperienceLevel {
   return (
-    value === "beginner" ||
-    value === "intermediate" ||
-    value === "advanced"
+    value === "beginner" || value === "intermediate" || value === "advanced"
   );
 }
 

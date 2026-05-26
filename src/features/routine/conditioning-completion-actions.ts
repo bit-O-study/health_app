@@ -2,7 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import { isConditioningKind } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
@@ -27,9 +30,7 @@ export async function setConditioningStatusAction(
   if (!isConditioningKind(kind) || !sourceRowId || !itemId) return;
 
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   const today = seoulYmd();
@@ -56,8 +57,6 @@ export async function setConditioningStatusAction(
     });
   }
 
+  // /settings/* 는 force-dynamic 이라 진입 시 자동 fresh — 여기서 따로 revalidate 하지 않음.
   revalidatePath("/");
-  revalidatePath("/settings/history");
-  revalidatePath(`/settings/history/${today}`);
-  revalidatePath("/settings/score");
 }

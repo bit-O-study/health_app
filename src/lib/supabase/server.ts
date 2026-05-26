@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { cookies } from "next/headers";
 import { createServerClient } from "@supabase/ssr";
 
@@ -15,8 +16,11 @@ if (!supabaseKey) {
 /**
  * 서버 컴포넌트 / 서버 액션 / 라우트 핸들러용 Supabase 클라이언트.
  * 쿠키에 저장된 access/refresh 토큰으로 사용자 세션을 복원합니다.
+ *
+ * React.cache 로 같은 요청 내에서는 한 번만 생성 — 페이지 한 번 렌더에서
+ * 여러 helper 가 각자 호출해도 클라이언트 객체를 재사용하고, 쿠키 조회도 1회.
  */
-export async function createSupabaseServerClient() {
+export const createSupabaseServerClient = cache(async () => {
   const cookieStore = await cookies();
 
   return createServerClient(supabaseUrl!, supabaseKey!, {
@@ -36,14 +40,17 @@ export async function createSupabaseServerClient() {
       },
     },
   });
-}
+});
 
 /**
  * 현재 로그인 사용자(없으면 null)를 반환합니다.
  * 리프레시 토큰이 손상되었거나 사라진 stale 쿠키일 때 throw 가 페이지로 새지
  * 않도록 잡아내고 null 을 반환 — 로그인 안 한 상태로 처리.
+ *
+ * React.cache 로 한 요청 내 단 1회만 Supabase Auth API 를 호출.
+ * 페이지 렌더 시 6~10개 helper 가 각자 auth.getUser() 했던 비용을 한 번으로 줄임.
  */
-export async function getCurrentUser() {
+export const getCurrentUser = cache(async () => {
   const supabase = await createSupabaseServerClient();
   try {
     const {
@@ -53,4 +60,4 @@ export async function getCurrentUser() {
   } catch {
     return null;
   }
-}
+});

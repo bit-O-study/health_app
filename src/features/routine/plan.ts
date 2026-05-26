@@ -1,6 +1,9 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import {
   isEquipmentId,
   type EquipmentId,
@@ -42,18 +45,16 @@ function toPlanExercise(row: PlanRow): PlanExercise {
 }
 
 /** 현재 사용자의 특정 부위 등록 운동(순서대로). 없으면 빈 배열. */
-export async function getPlanForFocus(
-  focus: string,
-): Promise<PlanExercise[]> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export async function getPlanForFocus(focus: string): Promise<PlanExercise[]> {
+  const user = await getCurrentUser();
   if (!user) return [];
+  const supabase = await createSupabaseServerClient();
 
   const { data, error } = await supabase
     .from("routine_exercises")
-    .select("id, focus, position, exercise_id, equipment, sets, reps, weight_kg")
+    .select(
+      "id, focus, position, exercise_id, equipment, sets, reps, weight_kg",
+    )
     .eq("user_id", user.id)
     .eq("focus", focus)
     .order("position", { ascending: true });
@@ -64,11 +65,9 @@ export async function getPlanForFocus(
 
 /** 등록 운동이 하나라도 있는지 (등록 완료 여부 판단용) */
 export async function hasAnyPlan(): Promise<boolean> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return false;
+  const supabase = await createSupabaseServerClient();
 
   const { count, error } = await supabase
     .from("routine_exercises")

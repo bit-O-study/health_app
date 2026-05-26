@@ -2,7 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import {
   addDaysYmd,
   CUSTOM_SPLITS,
@@ -29,9 +32,9 @@ export type RoutineFillMode = "recommend" | "manual";
 
 /**
  * 현재 사용자의 루틴을 저장(없으면 생성, 있으면 갱신)합니다.
- * variantId 가 "custom" 이면 customWeek(블록 id 배열 ×7)를 함께 저장합니다.
- * 멀티 부위 일자 지원: customWeek 는 `DayBlockId[][]` (각 요일에 1개 이상 블록).
- * 구 포맷 `DayBlockId[]` 도 받아 자동 정규화.
+ * variantId 가"custom" 이면 customWeek(블록 id 배열 ×7)를 함께 저장합니다.
+ * 멀티 부위 일자 지원: customWeek 는`DayBlockId[][]` (각 요일에 1개 이상 블록).
+ * 구 포맷`DayBlockId[]` 도 받아 자동 정규화.
  * start_date 는 최초 생성 시에만 기록되고 변경 시 유지됩니다.
  */
 export async function saveRoutineAction(
@@ -40,8 +43,8 @@ export async function saveRoutineAction(
   customWeek?: DayBlockId[][] | DayBlockId[] | null,
   /**
    * 운동/워밍업/마무리 자동 채우기 방식.
-   * - "recommend": 비어 있는 부위는 추천 운동으로, 워밍업/마무리는 기본 추천으로 일괄 채움.
-   * - "manual" (기본): 자동으로 아무것도 채우지 않음. 사용자가 /plan 에서 직접 등록.
+   * -"recommend": 비어 있는 부위는 추천 운동으로, 워밍업/마무리는 기본 추천으로 일괄 채움.
+   * -"manual" (기본): 자동으로 아무것도 채우지 않음. 사용자가 /plan 에서 직접 등록.
    */
   fillMode: RoutineFillMode = "manual",
 ): Promise<SaveRoutineResult> {
@@ -59,9 +62,7 @@ export async function saveRoutineAction(
 
   const supabase = await createSupabaseServerClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     return { ok: false, error: "로그인이 필요합니다." };
@@ -85,7 +86,7 @@ export async function saveRoutineAction(
     return { ok: false, error: error.message };
   }
 
-  // 새 루틴으로 바꾸면 오늘 / 미래의 "오늘만 변경" 오버라이드도 모두 무효화해야 한다.
+  // 새 루틴으로 바꾸면 오늘 / 미래의"오늘만 변경" 오버라이드도 모두 무효화해야 한다.
   // (그렇지 않으면 이전 daily_plan 이 새 루틴의 오늘 부위를 가려서 변경이 안 보임)
   const today = seoulYmd();
   await Promise.all([
@@ -101,7 +102,7 @@ export async function saveRoutineAction(
       .gte("for_date", today),
   ]);
 
-  // "추천으로 채우기" 선택 시에만 자동 채우기 실행. "직접 등록"이면 건드리지 않음.
+  //"추천으로 채우기" 선택 시에만 자동 채우기 실행."직접 등록"이면 건드리지 않음.
   if (fillMode === "recommend") {
     await fillMissingFocusesAction(user.id, splits, variantId, normalized);
     await registerRecommendedConditioningAction();
@@ -181,9 +182,9 @@ async function fillMissingFocusesAction(
 }
 
 /**
- * "다가오는 7일" 카드를 드래그로 재배열한 결과를 그대로 루틴으로 저장.
+ *"다가오는 7일" 카드를 드래그로 재배열한 결과를 그대로 루틴으로 저장.
  * - splits/variantId 를 커스텀으로 전환하고 customWeek = 전달된 7일치 부위 배열
- * - start_date 를 오늘로 재설정 → 변경된 첫째 칸이 곧 "오늘"이 됨
+ * - start_date 를 오늘로 재설정 → 변경된 첫째 칸이 곧"오늘"이 됨
  * - 오늘 이후의 daily_plan / daily_conditioning 오버라이드는 새 루틴과 맞지 않을 수 있어 정리
  */
 export async function reorderUpcomingSevenDaysAction(
@@ -204,9 +205,7 @@ export async function reorderUpcomingSevenDaysAction(
   }
 
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
   const today = seoulYmd();
@@ -248,9 +247,7 @@ export async function reorderUpcomingSevenDaysAction(
 /** 루틴 기준일을 오늘로 재설정 — 오늘이 루틴 1일차가 된다. */
 export async function restartRoutineFromTodayAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   await supabase
@@ -272,9 +269,7 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
  */
 export async function convertTodayToRestAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   const { data } = await supabase
@@ -300,16 +295,14 @@ export async function convertTodayToRestAction(): Promise<void> {
 }
 
 /**
- * "다시 운동하기" — convertTodayToRest 의 반대.
+ *"다시 운동하기" — convertTodayToRest 의 반대.
  * 오늘이 휴식 상태(rest_date == 오늘)인 경우에만:
- *   start_date 를 -1 일 되돌리고 rest_date 를 null 로.
+ * start_date 를 -1 일 되돌리고 rest_date 를 null 로.
  * 직전에 표시되던 운동 데이터가 다시 오늘로 돌아온다.
  */
 export async function undoTodayRestAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   const today = seoulYmd();
@@ -337,15 +330,11 @@ export async function undoTodayRestAction(): Promise<void> {
  * 오늘 하루만 다른 부위로 변경한다(루틴은 밀지 않음).
  * override_date=오늘, override_block=선택 부위. 내일부터는 원래 루틴 유지.
  */
-export async function setTodayFocusAction(
-  blockId: DayBlockId,
-): Promise<void> {
+export async function setTodayFocusAction(blockId: DayBlockId): Promise<void> {
   if (!isDayBlockId(blockId)) return;
 
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
   if (!user) return;
 
   await supabase

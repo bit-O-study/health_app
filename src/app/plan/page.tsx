@@ -60,7 +60,7 @@ export default async function PlanPage() {
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
       <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800"
+        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
         href="/"
       >
         <ChevronLeft aria-hidden="true" size={16} />
@@ -68,8 +68,10 @@ export default async function PlanPage() {
       </Link>
 
       <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950">운동 등록</h1>
-        <p className="text-sm leading-6 text-zinc-600">
+        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
+          운동 등록
+        </h1>
+        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           체형·성별·경력에 맞춘 추천으로 한 번에 등록하거나, 부위별로 직접
           운동을 추가하세요. 메인 “오늘의 운동”에 등록한 운동이 표시됩니다.
         </p>

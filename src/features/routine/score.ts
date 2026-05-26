@@ -1,7 +1,7 @@
 /**
  * 운동 점수 — 완료된 세트의 실제 운동량(세트×횟수×무게)을 누적, 오래된 기록은 가중치 ↓.
- *   points = (sets × reps × weightKg) / VOLUME_PER_POINT × 0.5^(days_ago/14)
- * 맨몸 운동은 사용자 체중으로 가중. "휴식(skipped)" 건은 호출자가 미리 제외.
+ * points = (sets × reps × weightKg) / VOLUME_PER_POINT × 0.5^(days_ago/14)
+ * 맨몸 운동은 사용자 체중으로 가중."휴식(skipped)" 건은 호출자가 미리 제외.
  */
 
 import { seoulYmd } from "@/features/routine/data";
@@ -132,9 +132,9 @@ export const FOCUS_TO_REGIONS: Record<
 
 /**
  * 부위별 누적 점수 → 부위 간 상대비율로 밸런스 상태 산출.
- *   - 가장 강한 부위 대비 70%↑ : balanced
- *   - 40~70%                 : low (부족)
- *   - <40% (또는 0)          : under (심하게 부족 / 미운동)
+ * - 가장 강한 부위 대비 70%↑ : balanced
+ * - 40~70% : low (부족)
+ * - <40% (또는 0) : under (심하게 부족 / 미운동)
  */
 export type BalanceStatus = "balanced" | "low" | "under";
 

@@ -82,33 +82,35 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm"
+      className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
     >
       <div className="space-y-1">
-        <h2 className="text-lg font-semibold text-zinc-950">자세 영상 업로드</h2>
-        <p className="text-sm leading-6 text-zinc-600">
+        <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
+          자세 영상 업로드
+        </h2>
+        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           MP4, MOV, WebM 형식의 운동 영상을 올려 피드백을 받을 수 있습니다.
         </p>
       </div>
 
       <div className="mt-5 grid gap-4">
-        <label className="grid gap-2 text-sm font-medium text-zinc-800">
+        <label className="grid gap-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
           영상 제목
           <input
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            className="h-11 rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-11 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
             placeholder="예: 스쿼트 측면 자세"
             type="text"
           />
         </label>
 
-        <label className="grid gap-2 text-sm font-medium text-zinc-800">
+        <label className="grid gap-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
           영상 파일
           <input
             ref={fileInputRef}
             accept="video/mp4,video/quicktime,video/webm"
-            className="block w-full rounded-md border border-dashed border-zinc-300 bg-zinc-50 px-3 py-3 text-sm text-zinc-700 file:mr-4 file:rounded-md file:border-0 file:bg-zinc-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white"
+            className="block w-full rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 px-3 py-3 text-sm text-zinc-700 dark:text-zinc-300 file:mr-4 file:rounded-md file:border-0 file:bg-zinc-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white"
             type="file"
           />
         </label>
@@ -127,7 +129,9 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
           )}
           업로드
         </button>
-        {status ? <p className="text-sm text-zinc-600">{status}</p> : null}
+        {status ? (
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p>
+        ) : null}
       </div>
     </form>
   );

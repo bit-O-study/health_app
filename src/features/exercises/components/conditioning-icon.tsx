@@ -7,7 +7,10 @@ import type { ReactNode, SVGProps } from "react";
  * 32x32 viewBox · strokeWidth 1.6 · currentColor.
  */
 
-export type ConditioningIconProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
+export type ConditioningIconProps = Omit<
+  SVGProps<SVGSVGElement>,
+  "children"
+> & {
   size?: number;
 };
 

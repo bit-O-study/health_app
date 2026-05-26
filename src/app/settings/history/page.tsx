@@ -137,7 +137,8 @@ export default async function HistoryPage({
   const trail = (7 - (total % 7)) % 7;
   const cells: ({ ymd: string; day: number } | null)[] = [];
   for (let i = 0; i < lead; i++) cells.push(null);
-  for (let d = 1; d <= dim; d++) cells.push({ ymd: ymd(year, month0 + 1, d), day: d });
+  for (let d = 1; d <= dim; d++)
+    cells.push({ ymd: ymd(year, month0 + 1, d), day: d });
   for (let i = 0; i < trail; i++) cells.push(null);
 
   // 부위별 통계 (가슴/등/하체/...)
@@ -148,7 +149,7 @@ export default async function HistoryPage({
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
       <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800"
+        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
         href="/settings"
       >
         <ChevronLeft aria-hidden="true" size={16} />
@@ -156,26 +157,30 @@ export default async function HistoryPage({
       </Link>
 
       <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950">운동 기록</h1>
-        <p className="text-sm leading-6 text-zinc-600">
-          <strong>완료 처리한 운동만</strong> 표시합니다. 날짜를 누르면 그
-          날의 완료 운동·총 칼로리 상세를 볼 수 있어요.
+        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
+          운동 기록
+        </h1>
+        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          <strong>완료 처리한 운동만</strong> 표시합니다. 날짜를 누르면 그 날의
+          완료 운동·총 칼로리 상세를 볼 수 있어요.
         </p>
       </div>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <Link
             href={`/settings/history?month=${prev.year}-${pad(prev.month0 + 1)}`}
-            className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+            className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800"
           >
             <ChevronLeft aria-hidden="true" size={15} />
             이전
           </Link>
-          <h2 className="text-lg font-bold text-zinc-950">{monthLabel}</h2>
+          <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
+            {monthLabel}
+          </h2>
           <Link
             href={`/settings/history?month=${next.year}-${pad(next.month0 + 1)}`}
-            className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 hover:bg-zinc-50"
+            className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800"
           >
             다음
             <ChevronRightIcon aria-hidden="true" size={15} />
@@ -186,7 +191,7 @@ export default async function HistoryPage({
           {WEEKDAYS.map((w) => (
             <div
               key={w}
-              className="py-1 text-center text-[11px] font-semibold text-zinc-500"
+              className="py-1 text-center text-[11px] font-semibold text-zinc-500 dark:text-zinc-400"
             >
               {w}
             </div>
@@ -207,8 +212,8 @@ export default async function HistoryPage({
                 title={`${cell.ymd} 상세 보기`}
                 className={`flex h-16 flex-col items-center justify-center rounded-md text-xs font-semibold transition ${
                   hasActivity
-                    ? "bg-emerald-100 text-emerald-800 hover:bg-emerald-200"
-                    : "bg-zinc-100 text-zinc-400 hover:bg-zinc-200"
+                    ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-200"
+                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 hover:bg-zinc-200"
                 } ${isToday ? "ring-2 ring-emerald-600 ring-offset-1" : ""}`}
               >
                 <span>{cell.day}</span>
@@ -222,11 +227,11 @@ export default async function HistoryPage({
 
         {/* 부위별 통계 */}
         <div className="mt-5">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
             이 달 부위별 완료
           </p>
           {focusStats.length === 0 ? (
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
               아직 이 달 완료된 운동이 없습니다.
             </p>
           ) : (
@@ -234,7 +239,7 @@ export default async function HistoryPage({
               {focusStats.map(([focus, count]) => (
                 <span
                   key={focus}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-emerald-800"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-sm font-semibold text-emerald-800 dark:text-emerald-300"
                 >
                   {blockLabel(focus)}
                   <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[11px] font-bold text-white">

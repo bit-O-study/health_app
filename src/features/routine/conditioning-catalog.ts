@@ -202,8 +202,8 @@ const ITEMS: Record<string, ConditioningItem> = {
     defaultMin: 1,
     target: "어깨 가동성·후면 견갑 안정성",
     method: [
-      "벽에 등·엉덩이·뒤통수 밀착, 팔꿈치 90도로 \"W\" 자세",
-      "팔등을 벽에 닿게 유지하며 \"Y\" 자세로 천천히 올리기",
+      '벽에 등·엉덩이·뒤통수 밀착, 팔꿈치 90도로 "W" 자세',
+      '팔등을 벽에 닿게 유지하며 "Y" 자세로 천천히 올리기',
       "다시 W 로 — 어깨가 으쓱하지 않게 통제",
     ],
   },
@@ -486,7 +486,9 @@ const ITEMS: Record<string, ConditioningItem> = {
 
 const ALL = Object.values(ITEMS);
 
-export function conditioningOptions(kind: ConditioningKind): ConditioningItem[] {
+export function conditioningOptions(
+  kind: ConditioningKind,
+): ConditioningItem[] {
   return ALL.filter((i) => i.kinds.includes(kind));
 }
 
@@ -519,17 +521,18 @@ const COOLDOWN_DEFAULTS: Record<FocusKey, string[]> = {
   shoulder: ["shoulder-cross-stretch", "sleeper-stretch", "neck-stretch"],
   arm: ["triceps-overhead-stretch", "biceps-door-stretch", "wrist-stretch"],
   lower: ["hamstring-stretch", "pigeon-pose", "calf-stretch"],
-  push: ["chest-door-stretch", "triceps-overhead-stretch", "shoulder-cross-stretch"],
+  push: [
+    "chest-door-stretch",
+    "triceps-overhead-stretch",
+    "shoulder-cross-stretch",
+  ],
   pull: ["child-pose", "lat-stretch", "hamstring-stretch"],
   fullbody: ["hamstring-stretch", "chest-door-stretch", "child-pose"],
   upper: ["chest-door-stretch", "shoulder-cross-stretch", "child-pose"],
   core: ["child-pose", "cobra-stretch", "cat-cow"],
 };
 
-export function defaultsFor(
-  tone: FocusTone,
-  kind: ConditioningKind,
-): string[] {
+export function defaultsFor(tone: FocusTone, kind: ConditioningKind): string[] {
   if (tone === "rest") return [];
   return (kind === "warmup" ? WARMUP_DEFAULTS : COOLDOWN_DEFAULTS)[tone];
 }

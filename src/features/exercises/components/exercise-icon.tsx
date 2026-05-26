@@ -5,7 +5,7 @@ import type { ReactNode, SVGProps } from "react";
  *
  * lucide 의 일반 Dumbbell 대신 운동 동작·기구 모양이 드러나는 미니멀 라인 아트로
  * 한 운동에 하나씩 만든다. 32x32 viewBox / strokeWidth 1.6 / currentColor 통일.
- * 사이즈는 prop 으로 자유 조절, 색은 부모의 `text-…` 로 제어.
+ * 사이즈는 prop 으로 자유 조절, 색은 부모의`text-…` 로 제어.
  */
 
 export type ExerciseIconProps = Omit<SVGProps<SVGSVGElement>, "children"> & {
@@ -38,7 +38,17 @@ function Svg({
 /* ─── 헬퍼: 자주 쓰는 모티브 ─────────────────────────────────────────── */
 
 /** 양 끝에 원판 달린 바벨 (수평) */
-function HBar({ y, x1 = 8, x2 = 24, plate = 2.4 }: { y: number; x1?: number; x2?: number; plate?: number }) {
+function HBar({
+  y,
+  x1 = 8,
+  x2 = 24,
+  plate = 2.4,
+}: {
+  y: number;
+  x1?: number;
+  x2?: number;
+  plate?: number;
+}) {
   return (
     <>
       <line x1={x1} y1={y} x2={x2} y2={y} />

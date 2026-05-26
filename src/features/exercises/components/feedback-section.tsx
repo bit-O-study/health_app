@@ -14,16 +14,16 @@ type FeedbackSectionProps = {
 export function FeedbackSection({ videos }: FeedbackSectionProps) {
   if (!videos.length) {
     return (
-      <section className="rounded-lg border border-dashed border-zinc-300 bg-white p-6 text-center">
+      <section className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-6 text-center">
         <MessageSquare
           aria-hidden="true"
-          className="mx-auto text-zinc-400"
+          className="mx-auto text-zinc-400 dark:text-zinc-500"
           size={28}
         />
-        <h2 className="mt-3 text-lg font-semibold text-zinc-950">
+        <h2 className="mt-3 text-lg font-semibold text-zinc-950 dark:text-zinc-100">
           아직 업로드된 영상이 없습니다
         </h2>
-        <p className="mt-2 text-sm text-zinc-600">
+        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
           첫 자세 영상을 업로드하면 익명 피드백을 받을 수 있습니다.
         </p>
       </section>
@@ -34,7 +34,7 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
     <section className="space-y-5">
       {videos.map((video) => (
         <article
-          className="overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-sm"
+          className="overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 shadow-sm"
           key={video.id}
         >
           <div className="bg-zinc-950">
@@ -48,10 +48,10 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
 
           <div className="space-y-5 p-5">
             <div>
-              <h2 className="text-lg font-semibold text-zinc-950">
+              <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
                 {video.title}
               </h2>
-              <p className="mt-1 text-sm text-zinc-500">
+              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
                 {new Intl.DateTimeFormat("ko-KR", {
                   dateStyle: "medium",
                   timeStyle: "short",
@@ -62,18 +62,18 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
             <CommentForm videoId={video.id} />
 
             <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-zinc-800">
+              <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
                 익명 피드백 {video.comments.length}개
               </h3>
               {video.comments.length ? (
                 <div className="space-y-3">
                   {video.comments.map((comment) => (
                     <div
-                      className="rounded-md bg-zinc-50 p-4"
+                      className="rounded-md bg-zinc-50 dark:bg-zinc-900 p-4"
                       key={comment.id}
                     >
-                      <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                        <span className="font-semibold text-zinc-800">
+                      <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="font-semibold text-zinc-800 dark:text-zinc-200">
                           {comment.nickname}
                         </span>
                         <span>
@@ -83,14 +83,14 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
                           }).format(new Date(comment.createdAt))}
                         </span>
                       </div>
-                      <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-zinc-700">
+                      <p className="mt-2 whitespace-pre-wrap text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                         {comment.body}
                       </p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="rounded-md bg-zinc-50 p-4 text-sm text-zinc-600">
+                <p className="rounded-md bg-zinc-50 dark:bg-zinc-900 p-4 text-sm text-zinc-600 dark:text-zinc-400">
                   아직 피드백이 없습니다.
                 </p>
               )}
@@ -143,14 +143,14 @@ function CommentForm({ videoId }: { videoId: string }) {
     <form className="grid gap-3" onSubmit={handleSubmit}>
       <div className="grid gap-3 sm:grid-cols-[180px_1fr]">
         <input
-          className="h-11 rounded-md border border-zinc-300 bg-white px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-11 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
           onChange={(event) => setNickname(event.target.value)}
           placeholder="닉네임(선택)"
           type="text"
           value={nickname}
         />
         <textarea
-          className="min-h-24 resize-y rounded-md border border-zinc-300 bg-white px-3 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="min-h-24 resize-y rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
           onChange={(event) => setBody(event.target.value)}
           placeholder="자세 피드백을 남겨주세요."
           value={body}
@@ -165,7 +165,9 @@ function CommentForm({ videoId }: { videoId: string }) {
           <Send aria-hidden="true" size={16} />
           댓글 등록
         </button>
-        {status ? <p className="text-sm text-zinc-600">{status}</p> : null}
+        {status ? (
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p>
+        ) : null}
       </div>
     </form>
   );

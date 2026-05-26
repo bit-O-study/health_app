@@ -36,11 +36,7 @@ import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-se
 
 export const dynamic = "force-dynamic";
 
-function HeaderBar({
-  isLoggedIn,
-}: {
-  isLoggedIn: boolean;
-}) {
+function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <header className="sticky top-0 z-20 border-b border-zinc-200/70 bg-zinc-50/80 backdrop-blur">
       <nav className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-4 sm:px-10">
@@ -53,7 +49,7 @@ function HeaderBar({
 
         <div className="flex items-center gap-2">
           <Link
-            className="hidden h-9 items-center rounded-md px-3 text-sm font-semibold text-zinc-600 transition hover:text-zinc-950 sm:inline-flex"
+            className="hidden h-9 items-center rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100 sm:inline-flex"
             href="/exercises"
           >
             운동 리스트
@@ -69,7 +65,7 @@ function HeaderBar({
               </Link>
               <Link
                 aria-label="설정"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-300 bg-white text-zinc-600 transition hover:text-zinc-950"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100"
                 href="/settings"
               >
                 <Settings aria-hidden="true" size={17} />
@@ -102,7 +98,7 @@ export default async function Home() {
   const routine = user ? await getUserRoutine() : null;
 
   return (
-    <div className="min-h-screen bg-zinc-50 text-zinc-950">
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100">
       <HeaderBar isLoggedIn={Boolean(user)} />
 
       <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-10 sm:py-12">
@@ -115,9 +111,9 @@ export default async function Home() {
         )}
       </main>
 
-      <footer className="border-t border-zinc-200 bg-white">
+      <footer className="border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-8 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-          <span className="font-semibold text-zinc-700">
+          <span className="font-semibold text-zinc-700 dark:text-zinc-300">
             HELTCH · Health Platform MVP
           </span>
           <span>오늘의 운동 · 루틴 설정 · 익명 피드백</span>
@@ -130,7 +126,7 @@ export default async function Home() {
 function LoggedOutHero() {
   return (
     <section className="flex flex-col items-start gap-6 py-10">
-      <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+      <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
         <Sparkles aria-hidden="true" size={14} />
         Personalized workout
       </span>
@@ -139,7 +135,7 @@ function LoggedOutHero() {
         <br />
         루틴이 매일 알려줍니다.
       </h1>
-      <p className="max-w-xl text-base leading-7 text-zinc-600 sm:text-lg">
+      <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400 sm:text-lg">
         로그인하고 분할 루틴을 한 번만 설정하면, 메인 화면이 매일 그날 날짜에
         맞는 운동을 자동으로 안내합니다.
       </p>
@@ -152,7 +148,7 @@ function LoggedOutHero() {
           <ArrowRight aria-hidden="true" size={17} />
         </Link>
         <Link
-          className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 bg-white px-5 text-sm font-semibold text-zinc-800 transition hover:border-zinc-400 hover:bg-zinc-100"
+          className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700"
           href="/exercises"
         >
           운동 리스트 둘러보기
@@ -164,15 +160,15 @@ function LoggedOutHero() {
 
 function NoRoutinePrompt() {
   return (
-    <section className="flex flex-col items-center gap-5 rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center">
-      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700">
+    <section className="flex flex-col items-center gap-5 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-6 py-16 text-center">
+      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
         <CalendarDays aria-hidden="true" size={28} />
       </span>
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold text-zinc-950">
+        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
           아직 설정한 루틴이 없습니다
         </h1>
-        <p className="max-w-md text-sm leading-6 text-zinc-600">
+        <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           몇 분할로 운동할지 한 번만 골라 두면, 매일 이 화면에서 오늘 해야 할
           운동을 바로 확인할 수 있습니다.
         </p>
@@ -219,7 +215,7 @@ async function TodayWorkout({
   const restedToday = routine.restDate === todayYmd;
   const isRest = restedToday || planToday.tone === "rest";
 
-  // "오늘만 변경" 으로 저장된 daily_plan 행들의 부위 — 있으면 그것이 오늘의
+  //"오늘만 변경" 으로 저장된 daily_plan 행들의 부위 — 있으면 그것이 오늘의
   // 실제 부위. (routine.overrideBlock 보다 우선, 다중 부위도 지원)
   const dailyPlan = isRest ? [] : await getDailyPlanForDate(todayYmd);
   const dailyFocuses = Array.from(
@@ -239,11 +235,11 @@ async function TodayWorkout({
     ? (dailyFocuses.filter((f) => f !== "rest") as Exclude<FocusTone, "rest">[])
     : routineTones;
 
-  const tone = isRest ? "rest" : todayTones[0] ?? planToday.tone;
+  const tone = isRest ? "rest" : (todayTones[0] ?? planToday.tone);
   const focusLabel = isRest
     ? "휴식"
     : hasDailyOverride
-      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" + ")
+      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
       : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
 
@@ -255,13 +251,13 @@ async function TodayWorkout({
     <div className="space-y-6 sm:space-y-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 sm:text-sm">
+          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 sm:text-sm">
             Today
           </p>
           <h1 className="mt-1 text-2xl font-bold sm:text-3xl lg:text-4xl">
             오늘의 운동
           </h1>
-          <p className="mt-1.5 text-xs text-zinc-600 sm:mt-2 sm:text-sm">
+          <p className="mt-1.5 text-xs text-zinc-600 dark:text-zinc-400 sm:mt-2 sm:text-sm">
             {dateLabel} · {preset.label} · {variant.name}
           </p>
         </div>
@@ -275,13 +271,13 @@ async function TodayWorkout({
             }}
           />
           <Link
-            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 sm:flex-initial sm:px-4"
+            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
             href="/plan"
           >
             기본 편집
           </Link>
           <Link
-            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 sm:flex-initial sm:px-4"
+            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
             href="/settings/routine"
           >
             루틴 변경
@@ -295,11 +291,15 @@ async function TodayWorkout({
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             {isRest ? (
-              <Moon aria-hidden="true" className="text-zinc-400" size={20} />
+              <Moon
+                aria-hidden="true"
+                className="text-zinc-400 dark:text-zinc-500"
+                size={20}
+              />
             ) : (
               <Dumbbell
                 aria-hidden="true"
-                className="text-zinc-600"
+                className="text-zinc-600 dark:text-zinc-400"
                 size={20}
               />
             )}
@@ -315,30 +315,28 @@ async function TodayWorkout({
         </div>
 
         {isRest ? (
-          <p className="mt-5 text-base leading-7 text-zinc-600">
+          <p className="mt-5 text-base leading-7 text-zinc-600 dark:text-zinc-400">
             {restedToday
               ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
           </p>
         ) : (
           <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               자극 부위
             </p>
             <div className="mt-2 flex flex-wrap gap-1.5">
               {(hasDailyOverride
                 ? Array.from(
                     new Set(
-                      dailyFocuses.flatMap(
-                        (f) => DAY_BLOCKS[f].day.muscles,
-                      ),
+                      dailyFocuses.flatMap((f) => DAY_BLOCKS[f].day.muscles),
                     ),
                   )
                 : planToday.muscles
               ).map((muscle) => (
                 <span
                   key={muscle}
-                  className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700"
+                  className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300"
                 >
                   {muscle}
                 </span>
@@ -351,7 +349,9 @@ async function TodayWorkout({
       {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
       {!isRest && todayTones.length > 0 ? (
         <TodayExercises
-          tones={todayTones as import("@/features/routine/exercise-catalog").FocusKey[]}
+          tones={
+            todayTones as import("@/features/routine/exercise-catalog").FocusKey[]
+          }
           weightKg={profile?.weightKg ?? null}
         />
       ) : null}

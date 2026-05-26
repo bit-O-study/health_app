@@ -2,7 +2,7 @@
  * 루틴 표시용 운동 카탈로그 (코드 기반).
  *
  * 부위(FocusTone) → 대표 운동 → 운동별 기구 변형 → 기구별 운동법 단계.
- * 메인 "오늘의 운동"에서 운동마다 기구를 고르면 해당 기구 운동법을 보여준다.
+ * 메인"오늘의 운동"에서 운동마다 기구를 고르면 해당 기구 운동법을 보여준다.
  */
 
 import type { FocusTone } from "@/features/routine/data";
@@ -1092,11 +1092,7 @@ const EXERCISES: Record<string, CatalogExercise> = {
       },
       {
         equipment: "dumbbell",
-        method: [
-          "오버그립 덤벨 양손",
-          "팔꿈치 고정 후 컬",
-          "전완 자극에 집중",
-        ],
+        method: ["오버그립 덤벨 양손", "팔꿈치 고정 후 컬", "전완 자극에 집중"],
       },
     ],
   },
@@ -1998,11 +1994,37 @@ export type FocusKey = Exclude<FocusTone, "rest">;
 const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
   fullbody: ["squat", "bench-press", "barbell-row"],
   upper: ["bench-press", "barbell-row", "ohp"],
-  lower: ["squat", "rdl", "leg-press", "leg-curl", "leg-extension", "standing-calf-raise"],
+  lower: [
+    "squat",
+    "rdl",
+    "leg-press",
+    "leg-curl",
+    "leg-extension",
+    "standing-calf-raise",
+  ],
   chest: ["bench-press", "incline-press", "chest-fly", "dips", "push-up"],
-  back: ["deadlift", "barbell-row", "lat-pulldown", "pull-up", "seated-cable-row", "shrug"],
-  shoulder: ["ohp", "lateral-raise", "face-pull", "rear-delt-fly", "front-raise"],
-  arm: ["biceps-curl", "hammer-curl", "triceps-pushdown", "ez-bar-curl", "skull-crusher"],
+  back: [
+    "deadlift",
+    "barbell-row",
+    "lat-pulldown",
+    "pull-up",
+    "seated-cable-row",
+    "shrug",
+  ],
+  shoulder: [
+    "ohp",
+    "lateral-raise",
+    "face-pull",
+    "rear-delt-fly",
+    "front-raise",
+  ],
+  arm: [
+    "biceps-curl",
+    "hammer-curl",
+    "triceps-pushdown",
+    "ez-bar-curl",
+    "skull-crusher",
+  ],
   push: ["bench-press", "ohp", "dips", "skull-crusher"],
   pull: ["deadlift", "barbell-row", "lat-pulldown", "seated-cable-row"],
   core: ["plank", "hanging-leg-raise", "cable-crunch", "side-plank", "sit-up"],
@@ -2041,8 +2063,8 @@ const FOCUS_EXERCISES_FEMALE: Record<FocusKey, string[]> = {
 export const ALL_FOCUSES = Object.keys(FOCUS_EXERCISES) as FocusKey[];
 
 /** 해당 부위(tone)의 운동 목록을 반환. rest 면 빈 배열. 성별로 분기.
- *  ⚠ 이 함수는 "추천으로 채우기" 용 큐레이션된 짧은 목록 — 자동 채우기 전용.
- *  사용자가 직접 운동을 고르는 드롭다운에는 `allExercisesForFocus` 사용. */
+ * ⚠ 이 함수는"추천으로 채우기" 용 큐레이션된 짧은 목록 — 자동 채우기 전용.
+ * 사용자가 직접 운동을 고르는 드롭다운에는`allExercisesForFocus` 사용. */
 export function exercisesForFocus(
   tone: FocusTone,
   gender: "male" | "female" = "male",
@@ -2054,7 +2076,7 @@ export function exercisesForFocus(
 }
 
 /** 분할(focus tone) → 후보 신체 부위 집합.
- *  fullbody/upper/push/pull 처럼 합성 focus 도 모두 적절한 body part 로 펼친다. */
+ * fullbody/upper/push/pull 처럼 합성 focus 도 모두 적절한 body part 로 펼친다. */
 const FOCUS_TO_BODY_PARTS: Record<FocusKey, BodyPart[]> = {
   fullbody: ["chest", "back", "shoulder", "arm", "lower", "core"],
   upper: ["chest", "back", "shoulder", "arm"],
@@ -2441,14 +2463,10 @@ export function groupedByBodyPart(): Record<BodyPart, CatalogExercise[]> {
 }
 
 /** 슬러그(=운동 id)로 카탈로그 운동 조회 */
-export function getCatalogExercise(
-  slug: string,
-): CatalogExercise | undefined {
+export function getCatalogExercise(slug: string): CatalogExercise | undefined {
   return EXERCISES[slug];
 }
 
 export function isEquipmentId(value: unknown): value is EquipmentId {
-  return (
-    typeof value === "string" && value in EQUIPMENT_LABELS
-  );
+  return typeof value === "string" && value in EQUIPMENT_LABELS;
 }

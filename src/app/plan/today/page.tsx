@@ -45,7 +45,9 @@ export default async function TodayConditioningPage({
       .map((s) => s.trim())
       .filter(
         (s): s is Exclude<FocusTone, "rest"> =>
-          s !== "rest" && isDayBlockId(s) && ALL_FOCUSES.includes(s as Exclude<FocusTone, "rest">),
+          s !== "rest" &&
+          isDayBlockId(s) &&
+          ALL_FOCUSES.includes(s as Exclude<FocusTone, "rest">),
       );
   }
   if (focuses.length === 0) {
@@ -119,7 +121,7 @@ export default async function TodayConditioningPage({
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
       <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800"
+        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
         href="/"
       >
         <ChevronLeft aria-hidden="true" size={16} />
@@ -127,29 +129,29 @@ export default async function TodayConditioningPage({
       </Link>
 
       <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950">
+        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
           오늘만 운동 바꾸기
         </h1>
-        <p className="text-sm leading-6 text-zinc-600">
+        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           {dateLabel} · 선택 부위 ·{" "}
           <strong>
             {mainSections.length > 0
-              ? mainSections.map((s) => s.label).join(", ")
+              ? mainSections.map((s) => s.label).join(",")
               : "선택 없음"}
           </strong>
           . 저장한 내용은 <strong>오늘만</strong> 반영되고 내일부터는 기본
           루틴으로 돌아갑니다. 이미 완료 처리한 운동은 그대로 남습니다.
         </p>
-        <p className="text-xs text-zinc-500">
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
           본운동 / 워밍업 / 마무리를 항목 비우고 저장하면 그 부위의 오늘
           오버라이드가 제거됩니다.
         </p>
       </div>
 
       {mainSections.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-6 text-center text-sm text-zinc-500">
-          편집할 부위가 없습니다. 메인 화면 “오늘만 운동 바꾸기” 팝업에서
-          부위를 선택해 주세요.
+        <p className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          편집할 부위가 없습니다. 메인 화면 “오늘만 운동 바꾸기” 팝업에서 부위를
+          선택해 주세요.
         </p>
       ) : (
         <div className="space-y-6">
@@ -188,11 +190,15 @@ export default async function TodayConditioningPage({
         </div>
       )}
 
-      <div className="mt-6 text-sm text-zinc-500">
+      <div className="mt-6 text-sm text-zinc-500 dark:text-zinc-400">
         기본 루틴을 수정하려면{" "}
-        <Link href="/plan" className="font-semibold text-emerald-700 hover:text-emerald-600">
+        <Link
+          href="/plan"
+          className="font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300"
+        >
           /plan
-        </Link>{" "}
+        </Link>
+        {" "}
         에서 부위별 설정을 바꾸세요.
       </div>
     </main>

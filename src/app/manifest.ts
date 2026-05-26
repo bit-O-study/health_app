@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 /**
  * PWA 매니페스트.
- * Next.js 가 이 파일을 자동으로 `/manifest.webmanifest` 로 서빙하고
- * 루트 layout 에 `<link rel="manifest">` 를 자동 주입한다.
+ * Next.js 가 이 파일을 자동으로`/manifest.webmanifest` 로 서빙하고
+ * 루트 layout 에`<link rel="manifest">` 를 자동 주입한다.
  *
  * PWABuilder/TWA(Android) 인스톨 기준에 맞춰
  * - name, short_name, start_url, display

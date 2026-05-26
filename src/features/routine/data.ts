@@ -16,7 +16,7 @@ export type FocusTone =
   | "rest";
 
 export type DayPlan = {
-  /** 카드에 표시되는 라벨 (예: "가슴", "휴식", "가슴 + 팔") */
+  /** 카드에 표시되는 라벨 (예:"가슴","휴식","가슴 + 팔") */
   focus: string;
   tone: FocusTone;
   /**
@@ -52,65 +52,76 @@ export const TONE_STYLES: Record<
   { card: string; badge: string; dot: string }
 > = {
   fullbody: {
-    card: "border-violet-200 bg-violet-50",
-    badge: "bg-violet-100 text-violet-700",
+    card: "border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-950/40",
+    badge:
+      "bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300",
     dot: "bg-violet-500",
   },
   upper: {
-    card: "border-sky-200 bg-sky-50",
-    badge: "bg-sky-100 text-sky-700",
+    card: "border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/40",
+    badge: "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300",
     dot: "bg-sky-500",
   },
   lower: {
-    card: "border-amber-200 bg-amber-50",
-    badge: "bg-amber-100 text-amber-700",
+    card: "border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40",
+    badge:
+      "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300",
     dot: "bg-amber-500",
   },
   chest: {
-    card: "border-rose-200 bg-rose-50",
-    badge: "bg-rose-100 text-rose-700",
+    card: "border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40",
+    badge: "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300",
     dot: "bg-rose-500",
   },
   back: {
-    card: "border-emerald-200 bg-emerald-50",
-    badge: "bg-emerald-100 text-emerald-700",
+    card: "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40",
+    badge:
+      "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300",
     dot: "bg-emerald-500",
   },
   shoulder: {
-    card: "border-cyan-200 bg-cyan-50",
-    badge: "bg-cyan-100 text-cyan-700",
+    card: "border-cyan-200 dark:border-cyan-800 bg-cyan-50 dark:bg-cyan-950/40",
+    badge: "bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300",
     dot: "bg-cyan-500",
   },
   arm: {
-    card: "border-fuchsia-200 bg-fuchsia-50",
-    badge: "bg-fuchsia-100 text-fuchsia-700",
+    card: "border-fuchsia-200 dark:border-fuchsia-800 bg-fuchsia-50 dark:bg-fuchsia-950/40",
+    badge:
+      "bg-fuchsia-100 dark:bg-fuchsia-900/40 text-fuchsia-700 dark:text-fuchsia-300",
     dot: "bg-fuchsia-500",
   },
   push: {
-    card: "border-rose-200 bg-rose-50",
-    badge: "bg-rose-100 text-rose-700",
+    card: "border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40",
+    badge: "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300",
     dot: "bg-rose-500",
   },
   pull: {
-    card: "border-emerald-200 bg-emerald-50",
-    badge: "bg-emerald-100 text-emerald-700",
+    card: "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40",
+    badge:
+      "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300",
     dot: "bg-emerald-500",
   },
   core: {
-    card: "border-indigo-200 bg-indigo-50",
-    badge: "bg-indigo-100 text-indigo-700",
+    card: "border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/40",
+    badge:
+      "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300",
     dot: "bg-indigo-500",
   },
   rest: {
-    card: "border-zinc-200 bg-zinc-50",
-    badge: "bg-zinc-100 text-zinc-500",
+    card: "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900",
+    badge: "bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400",
     dot: "bg-zinc-300",
   },
 };
 
 /* 재사용 가능한 부위 블록 */
 
-const REST: DayPlan = { focus: "휴식", tone: "rest", muscles: [], examples: [] };
+const REST: DayPlan = {
+  focus: "휴식",
+  tone: "rest",
+  muscles: [],
+  examples: [],
+};
 
 const FULLBODY: DayPlan = {
   focus: "전신",
@@ -341,10 +352,7 @@ export type DayBlockId =
   | "core";
 
 /** 커스텀 빌더에서 고를 수 있는 하루 블록 (id → 라벨 + DayPlan) */
-export const DAY_BLOCKS: Record<
-  DayBlockId,
-  { label: string; day: DayPlan }
-> = {
+export const DAY_BLOCKS: Record<DayBlockId, { label: string; day: DayPlan }> = {
   rest: { label: "휴식", day: REST },
   fullbody: { label: "전신", day: FULLBODY },
   upper: { label: "상체", day: UPPER },
@@ -379,8 +387,8 @@ export function isDayBlockId(value: unknown): value is DayBlockId {
 }
 
 /**
- * 저장된 raw 를 신규 포맷 `DayBlockId[][]` 로 정규화.
- * 기존 단일 부위 포맷 `DayBlockId[]` 도 자동 래핑한다.
+ * 저장된 raw 를 신규 포맷`DayBlockId[][]` 로 정규화.
+ * 기존 단일 부위 포맷`DayBlockId[]` 도 자동 래핑한다.
  * 길이가 7 이 아니거나 형식이 잘못됐으면 null.
  */
 export function normalizeCustomWeek(raw: unknown): DayBlockId[][] | null {
@@ -411,8 +419,8 @@ export function isValidCustomWeek(week: unknown): week is DayBlockId[][] {
  * 하루의 블록들을 하나의 DayPlan 으로 합친다.
  * - 전부 rest 이거나 비어있음 → rest 일
  * - 단일 부위 → 해당 블록의 DayPlan 그대로
- * - 멀티 부위 → focus 라벨 "A + B", tone 은 첫 부위(색상용),
- *   tones 는 모든 톤, muscles·examples 는 중복 제거 합집합
+ * - 멀티 부위 → focus 라벨"A + B", tone 은 첫 부위(색상용),
+ * tones 는 모든 톤, muscles·examples 는 중복 제거 합집합
  */
 export function composeDayPlan(blocks: DayBlockId[]): DayPlan {
   const nonRest = blocks.filter((b) => b !== "rest");
@@ -423,7 +431,7 @@ export function composeDayPlan(blocks: DayBlockId[]): DayPlan {
   }
   const days = nonRest.map((b) => DAY_BLOCKS[b].day);
   const tones = days.map((d) => d.tone);
-  const focus = nonRest.map((b) => DAY_BLOCKS[b].label).join(" + ");
+  const focus = nonRest.map((b) => DAY_BLOCKS[b].label).join(" +");
   const muscles = Array.from(new Set(days.flatMap((d) => d.muscles)));
   const examples = Array.from(new Set(days.flatMap((d) => d.examples))).slice(
     0,
@@ -464,7 +472,7 @@ export type ResolvedRoutine = {
 
 /**
  * splits + variantId 를 프리셋/변형으로 해석. 잘못된 값이면 기본값으로 대체.
- * variantId 가 "custom" 이면 customWeek 로 합성 프리셋/변형을 만든다.
+ * variantId 가"custom" 이면 customWeek 로 합성 프리셋/변형을 만든다.
  */
 export function resolveRoutine(
   splits: number,
@@ -486,8 +494,7 @@ export function resolveRoutine(
     SPLIT_PRESETS.find((item) => item.splits === splits) ??
     SPLIT_PRESETS.find((item) => item.splits === DEFAULT_SPLITS)!;
   const variant =
-    preset.variants.find((item) => item.id === variantId) ??
-    preset.variants[0];
+    preset.variants.find((item) => item.id === variantId) ?? preset.variants[0];
   return { preset, variant };
 }
 
@@ -499,7 +506,7 @@ export function isValidRoutine(splits: number, variantId: string): boolean {
 
 /* ─── 기준일 기반 날짜 매핑 ──────────────────────────────────────────────────
  * 루틴은 요일 고정이 아니라 startDate(기준일)부터 7일 주기로 순환한다.
- * "오늘부터 다시 시작" = 기준일을 오늘로, "오늘 휴식 전환" = 기준일 +1일.
+ *"오늘부터 다시 시작" = 기준일을 오늘로,"오늘 휴식 전환" = 기준일 +1일.
  */
 
 /** 한국(Asia/Seoul) 기준 오늘 날짜를 YYYY-MM-DD 로 반환 */
@@ -532,7 +539,7 @@ export function addDaysYmd(ymd: string, days: number): string {
   return `${y}-${m}-${d}`;
 }
 
-/** YYYY-MM-DD → { weekday: "월"~"일", label: "5/19" } */
+/** YYYY-MM-DD → { weekday:"월"~"일", label:"5/19"} */
 export function ymdDisplay(ymd: string): { weekday: Weekday; label: string } {
   const [y, m, d] = ymd.split("-").map(Number);
   const dt = new Date(Date.UTC(y, m - 1, d));

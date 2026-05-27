@@ -92,20 +92,22 @@ export function ConfirmDialog({
               </h3>
             ) : null}
             <p
-              className={`text-sm leading-6 text-zinc-700 dark:text-zinc-300 ${title ? "mt-1" : ""}`}
+              className={`whitespace-pre-line text-sm leading-6 text-zinc-700 dark:text-zinc-300 ${title ? "mt-1" : ""}`}
             >
               {message}
             </p>
           </div>
         </div>
         <div className="mt-5 flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
-          >
-            {cancelLabel}
-          </button>
+          {cancelLabel ? (
+            <button
+              type="button"
+              onClick={onCancel}
+              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+            >
+              {cancelLabel}
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={onConfirm}

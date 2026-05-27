@@ -9,23 +9,19 @@ import {
   fallbackPointsForBodyPart,
   type CautionPoint,
 } from "@/features/workout-timer/exercise-cautions";
-import {
-  motionCategoryFor,
-  MotionFigure,
-} from "@/features/workout-timer/exercise-motion";
+import { motionCategoryFor } from "@/features/workout-timer/exercise-motion";
+import { ExerciseFlipbook } from "@/features/workout-timer/exercise-flipbook";
 import {
   cycleDurationMs,
-  musclesFor,
   phasesFor,
   type ExercisePhase,
-  type MuscleLabel,
 } from "@/features/workout-timer/exercise-phases";
 
 /**
- * 운동 가이드 — 근육TV 스타일.
- * - 상단: 단계 카드 (준비 → 내리기 → 정점 → 올리기) 가 동작 사이클과 동기로 순환
- * - 중단: 인체 일러스트 + 활성 근육 콜아웃 라벨 (좌·우에 명칭) + 조심 마커
- * - 하단: 현재 강조된 조심 포인트의 주의사항
+ * 운동 가이드 — 측면뷰 플립북 스타일.
+ * 상단: 단계 카드 (준비 → 내리기 → 정점 → 올리기) 가 사이클과 동기
+ * 중단: 측면뷰 플랫 컬러 일러스트 (3 프레임 페이드) + 모션 화살표
+ * 하단: 조심 포인트 — amber 카드 한 줄로
  */
 export function ExerciseDemo({
   exerciseId,
@@ -35,14 +31,11 @@ export function ExerciseDemo({
   name: string;
 }) {
   const phases = phasesFor(exerciseId);
-  const muscles = musclesFor(exerciseId);
   const points = pointsFor(exerciseId);
   const category = motionCategoryFor(exerciseId);
   const cycleMs = cycleDurationMs(exerciseId);
 
-  // 단계 — 사이클 동안 phases 개수 만큼 순환 (animation 과 sync)
   const [phaseIdx, setPhaseIdx] = useState(0);
-  // 조심 마커 — 그보다 약간 느린 페이스 (사이클 1회당 1개씩)
   const [cautionIdx, setCautionIdx] = useState(0);
 
   useEffect(() => {
@@ -72,39 +65,31 @@ export function ExerciseDemo({
 
   return (
     <div className="flex w-full flex-col items-center gap-3">
-      {/* 단계 카드 — 현재 동작 안내 */}
-      {phase ? <PhaseCard phase={phase} index={phaseIdx} total={phases.length} /> : null}
+      {/* 단계 카드 */}
+      {phase ? (
+        <PhaseCard phase={phase} index={phaseIdx} total={phases.length} />
+      ) : null}
 
-      {/* 인체 일러스트 + 근육 라벨 + 조심 마커 — 가로로 충분히 넓게 */}
+      {/* 측면뷰 플립북 일러스트 */}
       <div
-        className="relative mx-auto"
-        style={{ width: "min(100%, 22rem)", aspectRatio: "100 / 160" }}
+        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-700 bg-gradient-to-b from-zinc-800 to-zinc-900 p-3"
+        style={
+          {
+            ["--cycle" as string]: `${cycleMs}ms`,
+            aspectRatio: "1 / 1",
+          } as React.CSSProperties
+        }
       >
-        {/* 일러스트 (figure) */}
-        <div
-          className="absolute"
-          style={{ left: "30%", right: "30%", top: 0, bottom: 0 }}
-        >
-          <MotionFigure category={category} />
-        </div>
-        {/* 근육 콜아웃 (figure 좌·우 영역 활용) */}
-        <MuscleCallouts muscles={muscles} />
-        {/* 조심 마커 — figure 영역(중앙 40%) 위에 비례 위치 */}
-        {points.map((p, i) => (
-          <CautionMarker
-            key={`${name}-${i}`}
-            point={p}
-            isActive={i === cautionIdx}
-          />
-        ))}
+        <ExerciseFlipbook category={category} />
       </div>
 
-      {/* 하단 조심 카드 */}
+      {/* 조심 카드 */}
       {points.length > 0 ? (
         <CautionTipCard
           tip={cautionTip}
           index={cautionIdx}
           total={points.length}
+          key={`${name}-${cautionIdx}`}
         />
       ) : null}
     </div>
@@ -118,7 +103,6 @@ function pointsFor(exerciseId: string): CautionPoint[] {
   return fallbackPointsForBodyPart(part);
 }
 
-/** 단계 안내 카드 — 큰 글씨로 현재 phase 표시. fade in 애니메이션. */
 function PhaseCard({
   phase,
   index,
@@ -138,7 +122,7 @@ function PhaseCard({
         <span className="text-[10px] font-bold uppercase tracking-wider">
           단계 {index + 1} / {total}
         </span>
-        <span className="ml-1 inline-flex items-center gap-1 text-[10px] text-emerald-200/70">
+        <span className="ml-1 inline-flex items-center gap-1">
           {Array.from({ length: total }).map((_, i) => (
             <span
               key={i}
@@ -165,96 +149,6 @@ function PhaseCard({
   );
 }
 
-/**
- * 근육 라벨 콜아웃 — figure 양옆에 텍스트 배치 + 가는 라인으로 근육 위치 가리킴.
- * 부모 컨테이너의 좌측 30% / 우측 30% 영역을 텍스트 공간으로 사용.
- */
-function MuscleCallouts({ muscles }: { muscles: MuscleLabel[] }) {
-  if (muscles.length === 0) return null;
-  return (
-    <svg
-      className="pointer-events-none absolute inset-0"
-      viewBox="0 0 100 160"
-      preserveAspectRatio="none"
-    >
-      {muscles.map((m, i) => {
-        // figure 는 viewBox 의 30~70% 영역 (좌우 30% 는 텍스트용)
-        const muscleX = 30 + (m.x * 40) / 100; // figure 영역 내 % → 전체 viewBox %
-        const muscleY = m.y;
-        // 텍스트 위치 — 좌(0~28%) 또는 우(72~100%)
-        const tx = m.align === "left" ? 26 : 74;
-        const ty = m.textY;
-        return (
-          <g key={i}>
-            {/* 콜아웃 라인 */}
-            <line
-              x1={tx}
-              y1={ty}
-              x2={muscleX}
-              y2={muscleY}
-              stroke="#34d399"
-              strokeWidth="0.4"
-              strokeDasharray="1 1"
-              opacity="0.7"
-            />
-            {/* 라벨 끝 dot — 근육 위치 */}
-            <circle cx={muscleX} cy={muscleY} r="1.2" fill="#34d399" />
-            {/* 텍스트 — figure 측면 */}
-            <text
-              x={tx}
-              y={ty + 0.5}
-              fontSize="3.6"
-              fontWeight="700"
-              fill="#6ee7b7"
-              textAnchor={m.align === "left" ? "end" : "start"}
-              dominantBaseline="middle"
-            >
-              {m.label}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
-
-/**
- * 조심 포인트 마커 — figure 영역(부모의 30~70%) 안에 비례 위치.
- */
-function CautionMarker({
-  point,
-  isActive,
-}: {
-  point: CautionPoint;
-  isActive: boolean;
-}) {
-  // figure 는 부모의 30~70% 영역 → x 변환: 부모 % = 30 + figure % * 0.4
-  const parentX = 30 + (point.x * 40) / 100;
-  return (
-    <div
-      className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
-      style={{ left: `${parentX}%`, top: `${point.y}%` }}
-    >
-      <div
-        className={`flex items-center justify-center rounded-full border-2 transition-all duration-500 ${
-          isActive
-            ? "h-7 w-7 border-amber-300 bg-amber-500 text-white shadow-[0_0_20px_rgba(245,158,11,0.7)]"
-            : "h-4 w-4 border-amber-400/60 bg-amber-500/40 text-amber-100"
-        } ${isActive ? "animate-[pulseMarker_1.2s_ease-in-out_infinite]" : ""}`}
-      >
-        <AlertTriangle aria-hidden="true" size={isActive ? 12 : 8} />
-      </div>
-      <style>{`
-        @keyframes pulseMarker {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.2); }
-        }
-      `}</style>
-    </div>
-  );
-}
-
-/** 활성 마커의 tip 카드 (조심 사항). */
 function CautionTipCard({
   tip,
   index,
@@ -265,10 +159,7 @@ function CautionTipCard({
   total: number;
 }) {
   return (
-    <div
-      key={tip}
-      className="w-full max-w-md rounded-2xl border border-amber-400/40 bg-amber-500/10 px-4 py-2.5"
-    >
+    <div className="w-full max-w-md rounded-2xl border border-amber-400/40 bg-amber-500/10 px-4 py-2.5">
       <div className="flex items-center gap-2 text-amber-300">
         <AlertTriangle aria-hidden="true" size={12} />
         <span className="text-[10px] font-bold uppercase tracking-wide">

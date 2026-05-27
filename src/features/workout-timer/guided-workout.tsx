@@ -118,13 +118,21 @@ export function GuidedOverlay({
     advance();
   }
 
-  // ESC 로 닫기
+  // 닫기 — 완료/넘기기 누르기 전엔 confirm 으로 우발적 종료 방지.
+  function requestClose() {
+    if (confirm("운동을 중단할까요? 완료하지 않은 운동은 다음에 다시 보입니다.")) {
+      onClose();
+    }
+  }
+
+  // ESC 로 닫기 — 동일하게 confirm 거침
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") requestClose();
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClose]);
 
   if (!item) return null;
@@ -145,7 +153,7 @@ export function GuidedOverlay({
         <button
           type="button"
           aria-label="닫기"
-          onClick={onClose}
+          onClick={requestClose}
           className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
         >
           <X aria-hidden="true" size={18} />

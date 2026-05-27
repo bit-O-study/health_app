@@ -6,14 +6,8 @@ import { Check, ChevronRight, X } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
-import { primaryBodyPart } from "@/features/routine/exercise-catalog";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
-import {
-  GuidedBody,
-  CONDITIONING_TO_BODY,
-  type BodyHighlight,
-} from "@/features/workout-timer/guided-body";
-import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
+import { ExerciseDemo } from "@/features/workout-timer/exercise-demo";
 import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
@@ -160,7 +154,7 @@ export function GuidedOverlay({
       {/* 본문 — 스크롤 가능 */}
       <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-4">
         <KindBadge kind={item.kind} />
-        <BodyOrIcon item={item} />
+        <ItemVisual item={item} />
         <h2 className="mt-4 text-center text-2xl font-bold text-white sm:text-3xl">
           {item.name}
         </h2>
@@ -220,54 +214,25 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
   );
 }
 
-function IconCircle({
-  kind,
-  item,
-}: {
-  kind: GuidedItem["kind"];
-  item: GuidedItem;
-}) {
+/**
+ * 본운동: 조심 포인트 마커가 펄스하는 실루엣 + 주의사항 카드 (ExerciseDemo).
+ * 워밍업·마무리: 동그란 종목 아이콘 — 비교적 단순한 동작이라 강조 마커 불필요.
+ */
+function ItemVisual({ item }: { item: GuidedItem }) {
+  if (item.kind === "main") {
+    return <ExerciseDemo exerciseId={item.exerciseId} name={item.name} />;
+  }
   const ring =
-    kind === "warmup"
+    item.kind === "warmup"
       ? "bg-amber-500/15 text-amber-300"
-      : kind === "cooldown"
-        ? "bg-sky-500/15 text-sky-300"
-        : "bg-emerald-500/15 text-emerald-300";
-
+      : "bg-sky-500/15 text-sky-300";
   return (
     <div
       className={`flex h-24 w-24 items-center justify-center rounded-3xl ${ring}`}
     >
-      {item.kind === "main" ? (
-        <ExerciseIcon id={item.exerciseId} size={56} />
-      ) : (
-        <ConditioningIcon id={item.itemId} size={56} />
-      )}
+      <ConditioningIcon id={item.itemId} size={56} />
     </div>
   );
-}
-
-/** 운동 종목에 자극 부위가 매핑돼 있으면 펄스 마네킹, 없으면 종목 아이콘. */
-function BodyOrIcon({ item }: { item: GuidedItem }) {
-  const active = activeBodyFor(item);
-  if (active) {
-    return (
-      <div className="flex items-center justify-center">
-        <GuidedBody active={active} />
-      </div>
-    );
-  }
-  return <IconCircle kind={item.kind} item={item} />;
-}
-
-function activeBodyFor(item: GuidedItem): BodyHighlight | null {
-  if (item.kind === "main") {
-    const part = primaryBodyPart(item.exerciseId);
-    // exercise-catalog 의 BodyPart 와 GuidedBody 의 BodyHighlight 매핑
-    // (lower → leg, 나머지는 동일)
-    return part === "lower" ? "leg" : (part as BodyHighlight);
-  }
-  return CONDITIONING_TO_BODY[item.itemId] ?? null;
 }
 
 /**

@@ -15,6 +15,7 @@ import {
   getCatalogExercise,
   isEquipmentId,
 } from "@/features/routine/exercise-catalog";
+import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -28,8 +29,26 @@ export async function generateMetadata({
 }: ExerciseDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
   const exercise = getCatalogExercise(slug);
+  if (!exercise) {
+    return {
+      title: "운동 상세",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const description = `${exercise.name} 운동의 자극 부위, 기구별 자세 방법, 루틴 등록 전 확인할 핵심 포인트를 확인하세요.`;
+
   return {
-    title: exercise ? `${exercise.name} | Health Platform MVP` : "운동 상세",
+    title: `${exercise.name} 자세와 운동법`,
+    description,
+    alternates: {
+      canonical: absoluteUrl(`/exercises/${exercise.id}`),
+    },
+    openGraph: {
+      title: `${exercise.name} 자세와 운동법 | HELTCH`,
+      description,
+      url: absoluteUrl(`/exercises/${exercise.id}`),
+    },
   };
 }
 

@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
 import { ThemeScript } from "@/features/theme/theme-script";
+import { absoluteUrl, siteConfig } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,12 +17,26 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: { default: "HELTCH", template: "%s | HELTCH" },
-  description: "오늘 뭐 해야 할지 매일 알려주는 헬스 루틴 앱",
-  applicationName: "HELTCH",
+  metadataBase: new URL(siteConfig.url),
+  title: { default: siteConfig.title, template: "%s | HELTCH" },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: absoluteUrl("/"),
+    siteName: siteConfig.name,
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+  },
   appleWebApp: {
     capable: true,
-    title: "HELTCH",
+    title: siteConfig.name,
     statusBarStyle: "default",
   },
   formatDetection: { telephone: false },

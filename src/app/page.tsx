@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -33,8 +34,22 @@ import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
+import { absoluteUrl, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: siteConfig.title,
+  description: siteConfig.description,
+  alternates: {
+    canonical: absoluteUrl("/"),
+  },
+  openGraph: {
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: absoluteUrl("/"),
+  },
+};
 
 function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (

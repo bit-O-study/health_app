@@ -38,6 +38,7 @@ import {
 } from "@/features/routine/components/today-edit-scope";
 import { WorkoutSessionTimer } from "@/features/workout-timer/workout-session-timer";
 import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
+import type { GuidedItem } from "@/features/workout-timer/guided-workout";
 
 /** DB row 의 값이 비어 있으면 카탈로그 기본값(defaultMin/Speed/Incline)을 대신 사용 */
 function effectiveValues(
@@ -209,6 +210,60 @@ export async function TodayExercises({
 
   const skipCount = mainSkipSet.size + warmSkipSet.size + coolSkipSet.size;
 
+  // 가이드 운동 큐 — 아직 완료/스킵 안 한 항목만, 워밍업 → 본운동 → 마무리 순서.
+  const queueItems: GuidedItem[] = [];
+  for (const wi of warm.items) {
+    if (warmDoneSet.has(wi.rowId) || warmSkipSet.has(wi.rowId)) continue;
+    const ci = getConditioningItem(wi.itemId);
+    queueItems.push({
+      kind: "warmup",
+      rowId: wi.rowId,
+      itemId: wi.itemId,
+      name: wi.name,
+      subtitle: wi.detail,
+      method: ci?.method ?? [],
+      durationMin: wi.durationMin,
+      speed: wi.speed,
+      incline: wi.incline,
+    });
+  }
+  for (const p of plan) {
+    if (mainDoneSet.has(p.id) || mainSkipSet.has(p.id)) continue;
+    const ex = getCatalogExercise(p.exerciseId);
+    const eq = ex?.equipments.find((e) => e.equipment === p.equipment);
+    const subtitle = `${EQUIPMENT_LABELS[p.equipment]} · ${p.sets}세트 × ${p.reps}회${
+      p.weightKg !== null ? ` · ${p.weightKg}kg` : " · 맨몸"
+    }`;
+    queueItems.push({
+      kind: "main",
+      rowId: p.id,
+      exerciseId: p.exerciseId,
+      equipment: p.equipment,
+      focus: p.focus,
+      name: ex?.name ?? p.exerciseId,
+      subtitle,
+      method: eq?.method ?? [],
+      sets: p.sets,
+      reps: p.reps,
+      weightKg: p.weightKg,
+    });
+  }
+  for (const ci2 of cool.items) {
+    if (coolDoneSet.has(ci2.rowId) || coolSkipSet.has(ci2.rowId)) continue;
+    const cat = getConditioningItem(ci2.itemId);
+    queueItems.push({
+      kind: "cooldown",
+      rowId: ci2.rowId,
+      itemId: ci2.itemId,
+      name: ci2.name,
+      subtitle: ci2.detail,
+      method: cat?.method ?? [],
+      durationMin: ci2.durationMin,
+      speed: ci2.speed,
+      incline: ci2.incline,
+    });
+  }
+
   return (
     <TodayEditScope>
       <RestTimerProvider>
@@ -223,7 +278,7 @@ export async function TodayExercises({
               ) : null}
             </h2>
             <div className="flex items-center gap-2">
-              <WorkoutSessionTimer />
+              <WorkoutSessionTimer queueItems={queueItems} />
               <TodayEditBar />
             </div>
         </div>

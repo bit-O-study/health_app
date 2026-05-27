@@ -10,7 +10,10 @@
  * - 3프레임 페이드 cycle
  */
 
-import type { MotionCategory } from "@/features/workout-timer/exercise-motion";
+import type {
+  ConditioningMotion,
+  MotionCategory,
+} from "@/features/workout-timer/exercise-motion";
 
 const SKIN = "#e7e5e4";
 const SHIRT = "#fb923c";
@@ -29,7 +32,15 @@ const ARROW = "#34d399"; // emerald-400 — 모션 방향
 const MUSCLE = "#ef4444"; // red-500 — 자극 부위
 const CAUTION = "#facc15"; // yellow-400 — 조심
 
-export function ExerciseFlipbook({ category }: { category: MotionCategory }) {
+/** 본운동(MotionCategory) 또는 워밍업·마무리(ConditioningMotion) 통합 일러스트 컨테이너. */
+export function ExerciseFlipbook({
+  category,
+  conditioning,
+}: {
+  category?: MotionCategory;
+  /** 워밍업/마무리일 때는 이 값으로 컨디셔닝 모션 선택 */
+  conditioning?: ConditioningMotion;
+}) {
   return (
     <svg
       viewBox="0 0 200 200"
@@ -86,7 +97,11 @@ export function ExerciseFlipbook({ category }: { category: MotionCategory }) {
       {/* 바닥선 */}
       <line x1="0" y1="185" x2="200" y2="185" stroke={FLOOR} strokeWidth="2" />
 
-      <CategoryScene category={category} />
+      {conditioning ? (
+        <ConditioningScene motion={conditioning} />
+      ) : (
+        <CategoryScene category={category ?? "static"} />
+      )}
     </svg>
   );
 }
@@ -101,6 +116,18 @@ function CategoryScene({ category }: { category: MotionCategory }) {
   if (category === "extension") return <ExtensionScene />;
   if (category === "raise") return <LateralRaiseScene />;
   return <PlankScene />;
+}
+
+function ConditioningScene({ motion }: { motion: ConditioningMotion }) {
+  if (motion === "run") return <RunScene />;
+  if (motion === "step") return <StepScene />;
+  if (motion === "cycle") return <CycleScene />;
+  if (motion === "armCircle") return <ArmCircleScene />;
+  if (motion === "spineFlow") return <SpineFlowScene />;
+  if (motion === "bridge") return <BridgeScene />;
+  if (motion === "hang") return <HangScene />;
+  if (motion === "squatWarm") return <SquatWarmScene />;
+  return <StretchScene />;
 }
 
 /* ─── 공통 시각적 마커 ─────────────────────────────────────── */
@@ -657,6 +684,308 @@ function PlankScene() {
       <CautionMark cx={105} cy={115} />
       <CautionMark cx={105} cy={150} />
       {/* 화살표 — "엉덩이 일직선 유지" 라는 의미 (양방향 X 가까이) */}
+    </g>
+  );
+}
+
+/* ─── 워밍업·마무리 씬 ───────────────────────────────────── */
+
+/** RUN — 러닝/걷기/줄넘기. 다리 교차 + 살짝 통통 튐. */
+function RunScene() {
+  const Body = (legL: number, legR: number, armL: number, armR: number, bobY: number) => (
+    <g transform={`translate(0, ${bobY})`}>
+      <StickHead cx={100} cy={50} r={9} />
+      <rect x="91" y="60" width="18" height="50" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+      <rect x="88" y="108" width="24" height="12" fill={PANTS} stroke={STROKE} strokeWidth={STROKE_W} />
+      {/* 다리 — 각도 다르게 */}
+      <line x1="95" y1="120" x2={95 - legL} y2="170" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="105" y1="120" x2={105 + legR} y2="170" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <ellipse cx={95 - legL} cy="174" rx="8" ry="3.5" fill={SHOE} />
+      <ellipse cx={105 + legR} cy="174" rx="8" ry="3.5" fill={SHOE} />
+      {/* 팔 — 다리 반대로 */}
+      <line x1="92" y1="68" x2={92 - armL} y2="110" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      <line x1="108" y1="68" x2={108 + armR} y2="110" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+    </g>
+  );
+
+  return (
+    <g>
+      <g className="frame-1">{Body(15, 15, 10, 10, 0)}</g>
+      <g className="frame-2">{Body(0, 0, 0, 0, -3)}</g>
+      <g className="frame-3">{Body(-15, -15, -10, -10, 0)}</g>
+      {/* 모션 화살표 — 다리가 교차됨 */}
+      <DirArrow x1={50} y1={170} x2={50} y2={130} />
+      {/* 자극: 종아리·심박 — 다리 글로우 */}
+      <MuscleGlow cx={100} cy={150} rx={20} ry={20} />
+    </g>
+  );
+}
+
+/** STEP — 한 다리씩 올림 (계단/스텝). */
+function StepScene() {
+  const Body = (kneeL: number, kneeR: number) => (
+    <g>
+      <StickHead cx={100} cy={50} r={9} />
+      <rect x="91" y="60" width="18" height="50" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+      <rect x="88" y="108" width="24" height="12" fill={PANTS} stroke={STROKE} strokeWidth={STROKE_W} />
+      <line x1="95" y1="120" x2="93" y2={120 + kneeL} stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="93" y1={120 + kneeL} x2="93" y2="170" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="108" y1="120" x2="107" y2={120 + kneeR} stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="107" y1={120 + kneeR} x2="107" y2="170" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <ellipse cx="93" cy="174" rx="8" ry="3.5" fill={SHOE} />
+      <ellipse cx="107" cy="174" rx="8" ry="3.5" fill={SHOE} />
+      <line x1="92" y1="68" x2="88" y2="110" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      <line x1="108" y1="68" x2="112" y2="110" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+    </g>
+  );
+  return (
+    <g>
+      <g className="frame-1">{Body(50, 30)}</g>
+      <g className="frame-2">{Body(40, 40)}</g>
+      <g className="frame-3">{Body(30, 50)}</g>
+      <DirArrow x1={150} y1={150} x2={150} y2={120} />
+      <MuscleGlow cx={100} cy={145} rx={18} ry={20} />
+    </g>
+  );
+}
+
+/** CYCLE — 자전거/로잉. 페달이 도는 원형 + 팔다리. */
+function CycleScene() {
+  return (
+    <g>
+      {/* 안장 */}
+      <rect x="85" y="105" width="30" height="8" rx="2" fill={SHOE} />
+      {/* 사람 — 페달 위 */}
+      <StickHead cx={95} cy={70} r={9} />
+      <line x1="95" y1="80" x2="100" y2="105" stroke={SHIRT} strokeWidth="14" strokeLinecap="round" />
+      {/* 팔 — 핸들 잡음 */}
+      <line x1="92" y1="86" x2="65" y2="100" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      {/* 핸들 */}
+      <rect x="55" y="96" width="14" height="3" rx="1" fill={EQUIP} />
+      {/* 페달 — 원 안에 다리 */}
+      <circle cx="115" cy="155" r="22" fill="none" stroke={EQUIP} strokeWidth="2" />
+      <circle cx="115" cy="155" r="3" fill={EQUIP} />
+      {/* 다리 — 프레임마다 회전 */}
+      <g className="frame-1">
+        <line x1="100" y1="113" x2="135" y2="145" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="135" y1="145" x2="135" y2="160" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="100" y1="113" x2="95" y2="155" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="95" y1="155" x2="105" y2="170" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+      </g>
+      <g className="frame-2">
+        <line x1="100" y1="113" x2="115" y2="135" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="115" y1="135" x2="115" y2="175" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="100" y1="113" x2="115" y2="170" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+      </g>
+      <g className="frame-3">
+        <line x1="100" y1="113" x2="95" y2="155" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="95" y1="155" x2="135" y2="160" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="100" y1="113" x2="135" y2="145" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+      </g>
+      {/* 자극: 대퇴 */}
+      <MuscleGlow cx={115} cy={155} rx={26} ry={26} />
+    </g>
+  );
+}
+
+/** ARM CIRCLE — 어깨 회전. 팔이 큰 원을 그림. */
+function ArmCircleScene() {
+  const Arms = (angleL: number, angleR: number) => {
+    const shX1 = 95;
+    const shX2 = 105;
+    const shY = 70;
+    const len = 35;
+    const handX1 = shX1 + len * Math.cos((angleL * Math.PI) / 180);
+    const handY1 = shY + len * Math.sin((angleL * Math.PI) / 180);
+    const handX2 = shX2 + len * Math.cos((angleR * Math.PI) / 180);
+    const handY2 = shY + len * Math.sin((angleR * Math.PI) / 180);
+    return (
+      <g>
+        <line x1={shX1} y1={shY} x2={handX1} y2={handY1} stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+        <line x1={shX2} y1={shY} x2={handX2} y2={handY2} stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      </g>
+    );
+  };
+  return (
+    <g>
+      <line x1="92" y1="125" x2="90" y2="175" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="108" y1="125" x2="108" y2="175" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <ellipse cx="90" cy="178" rx="9" ry="4" fill={SHOE} />
+      <ellipse cx="108" cy="178" rx="9" ry="4" fill={SHOE} />
+      <rect x="88" y="113" width="24" height="12" fill={PANTS} stroke={STROKE} strokeWidth={STROKE_W} />
+      <rect x="91" y="65" width="18" height="50" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+      <StickHead cx={100} cy={55} r={9} />
+      <g className="frame-1">{Arms(-90, -90)}</g>
+      <g className="frame-2">{Arms(0, 180)}</g>
+      <g className="frame-3">{Arms(90, 90)}</g>
+      {/* 원형 가이드 (점선) */}
+      <circle cx={95} cy={70} r={35} fill="none" stroke={ARROW} strokeWidth="0.6" strokeDasharray="2 2" opacity="0.5" />
+      <circle cx={105} cy={70} r={35} fill="none" stroke={ARROW} strokeWidth="0.6" strokeDasharray="2 2" opacity="0.5" />
+      <MuscleGlow cx={100} cy={70} rx={22} ry={12} />
+    </g>
+  );
+}
+
+/** SPINE FLOW — 캣카우/코브라. 척추 위·아래 굴곡. */
+function SpineFlowScene() {
+  const Body = (curve: number) => (
+    <g>
+      {/* 네 발 자세 옆모습 */}
+      {/* 손목 */}
+      <line x1="55" y1="155" x2="55" y2="130" stroke={SKIN} strokeWidth="6" strokeLinecap="round" />
+      {/* 어깨 → 척추 → 골반 (curve 가 0=평평, 양수=위로 굽음, 음수=아래로) */}
+      <path
+        d={`M 55 ${130} Q 100 ${130 - curve} 145 ${130}`}
+        fill="none"
+        stroke={SHIRT}
+        strokeWidth="14"
+        strokeLinecap="round"
+      />
+      <StickHead cx={45} cy={120} r={8} />
+      {/* 무릎 */}
+      <line x1="145" y1="130" x2="145" y2="155" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <ellipse cx="55" cy="158" rx="6" ry="3" fill={SHOE} />
+      <ellipse cx="145" cy="158" rx="8" ry="3" fill={SHOE} />
+    </g>
+  );
+  return (
+    <g>
+      <g className="frame-1">{Body(20)}</g>
+      <g className="frame-2">{Body(0)}</g>
+      <g className="frame-3">{Body(-20)}</g>
+      {/* 양방향 화살표 — 척추 굴곡 */}
+      <MotionArrow x={100} y1={95} y2={145} />
+      <MuscleGlow cx={100} cy={130} rx={36} ry={10} />
+    </g>
+  );
+}
+
+/** BRIDGE — 글루트 브릿지. 엉덩이가 위로 들림. */
+function BridgeScene() {
+  const Body = (hipY: number) => (
+    <g>
+      {/* 어깨·머리 — 바닥 */}
+      <StickHead cx={50} cy={155} r={8} />
+      {/* 토르소 — 어깨에서 골반까지 (curve) */}
+      <path
+        d={`M 58 155 Q 90 ${hipY - 8} 110 ${hipY}`}
+        fill="none"
+        stroke={SHIRT}
+        strokeWidth="14"
+        strokeLinecap="round"
+      />
+      {/* 다리 */}
+      <line x1="110" y1={hipY} x2="135" y2="170" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="135" y1="170" x2="155" y2="170" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <ellipse cx="155" cy="173" rx="8" ry="3" fill={SHOE} />
+    </g>
+  );
+  return (
+    <g>
+      <g className="frame-1">{Body(165)}</g>
+      <g className="frame-2">{Body(140)}</g>
+      <g className="frame-3">{Body(120)}</g>
+      <MotionArrow x={160} y1={120} y2={165} />
+      {/* 자극: 둔근 */}
+      <MuscleGlow cx={110} cy={135} rx={18} ry={14} />
+    </g>
+  );
+}
+
+/** HANG — 데드행. 매달림. */
+function HangScene() {
+  return (
+    <g>
+      {/* 바 */}
+      <line x1="60" y1="30" x2="140" y2="30" stroke={EQUIP} strokeWidth="4" strokeLinecap="round" />
+      <line x1="80" y1="0" x2="80" y2="30" stroke={EQUIP} strokeWidth="3" />
+      <line x1="120" y1="0" x2="120" y2="30" stroke={EQUIP} strokeWidth="3" />
+      {/* 사람 — 매달림 (정적, 미세 호흡) */}
+      <g className="frame-1">
+        <StickHead cx={100} cy={75} r={9} />
+        <rect x="91" y="83" width="18" height="40" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+        <rect x="88" y="120" width="24" height="10" fill={PANTS} stroke={STROKE} strokeWidth={STROKE_W} />
+        <line x1="95" y1="130" x2="93" y2="170" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="105" y1="130" x2="107" y2="170" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="92" y1="83" x2="82" y2="30" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+        <line x1="108" y1="83" x2="118" y2="30" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      </g>
+      <g className="frame-2" opacity="0.7">
+        <StickHead cx={100} cy={73} r={9} />
+        <rect x="91" y="81" width="18" height="40" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+        <rect x="88" y="118" width="24" height="10" fill={PANTS} stroke={STROKE} strokeWidth={STROKE_W} />
+        <line x1="95" y1="128" x2="93" y2="168" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="105" y1="128" x2="107" y2="168" stroke={PANTS} strokeWidth="8" strokeLinecap="round" />
+        <line x1="92" y1="81" x2="82" y2="30" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+        <line x1="108" y1="81" x2="118" y2="30" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      </g>
+      <GripRing cx={82} cy={30} r={6} />
+      <GripRing cx={118} cy={30} r={6} />
+      {/* 자극: 광배 + 악력 */}
+      <MuscleGlow cx={100} cy={95} rx={18} ry={20} />
+    </g>
+  );
+}
+
+/** SQUAT WARM — 보디웨이트 스쿼트/런지 워밍업 (가벼운 squat motion). */
+function SquatWarmScene() {
+  const Body = (knee: number, hipY: number, headY: number) => (
+    <g>
+      <StickHead cx={100} cy={headY} r={9} />
+      <rect x="91" y={headY + 10} width="18" height={hipY - headY - 10} fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+      <rect x="88" y={hipY} width="24" height="12" fill={PANTS} stroke={STROKE} strokeWidth={STROKE_W} />
+      <line x1="95" y1={hipY + 12} x2="92" y2={knee} stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="108" y1={hipY + 12} x2="108" y2={knee} stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="92" y1={knee} x2="90" y2="180" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="108" y1={knee} x2="108" y2="180" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <ellipse cx="90" cy="183" rx="9" ry="4" fill={SHOE} />
+      <ellipse cx="108" cy="183" rx="9" ry="4" fill={SHOE} />
+      {/* 팔 — 앞으로 (균형용) */}
+      <line x1="91" y1={headY + 14} x2="65" y2={headY + 20} stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      <line x1="109" y1={headY + 14} x2="135" y2={headY + 20} stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+    </g>
+  );
+  return (
+    <g>
+      <g className="frame-1">{Body(145, 100, 50)}</g>
+      <g className="frame-2">{Body(135, 115, 65)}</g>
+      <g className="frame-3">{Body(130, 130, 80)}</g>
+      <MotionArrow x={165} y1={80} y2={150} />
+      <MuscleGlow cx={100} cy={145} rx={22} ry={22} />
+    </g>
+  );
+}
+
+/** STRETCH — 정적 스트레칭. 서서 한 자세 + 호흡 펄스. */
+function StretchScene() {
+  // 가운데 자세: 한 팔 위로, 옆으로 살짝 기울임 (광배/측면 스트레칭 느낌)
+  return (
+    <g>
+      <line x1="92" y1="125" x2="90" y2="180" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <line x1="108" y1="125" x2="108" y2="180" stroke={PANTS} strokeWidth="9" strokeLinecap="round" />
+      <ellipse cx="90" cy="183" rx="9" ry="4" fill={SHOE} />
+      <ellipse cx="108" cy="183" rx="9" ry="4" fill={SHOE} />
+      <rect x="88" y="113" width="24" height="12" fill={PANTS} stroke={STROKE} strokeWidth={STROKE_W} />
+      {/* 토르소 — 살짝 기울임 (프레임마다) */}
+      <g className="frame-1">
+        <rect x="91" y="65" width="18" height="50" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+        <StickHead cx={100} cy={55} r={9} />
+        <line x1="92" y1="68" x2="105" y2="25" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+        <line x1="108" y1="68" x2="80" y2="105" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      </g>
+      <g className="frame-2">
+        <path d="M 91 65 L 109 65 L 115 115 L 91 115 Z" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+        <StickHead cx={105} cy={55} r={9} />
+        <line x1="97" y1="68" x2="115" y2="20" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+        <line x1="113" y1="68" x2="85" y2="100" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      </g>
+      <g className="frame-3">
+        <path d="M 91 65 L 109 65 L 120 115 L 95 115 Z" fill={SHIRT} stroke={STROKE} strokeWidth={STROKE_W} />
+        <StickHead cx={110} cy={55} r={9} />
+        <line x1="102" y1="68" x2="125" y2="18" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+        <line x1="118" y1="68" x2="90" y2="98" stroke={SHIRT} strokeWidth="6" strokeLinecap="round" />
+      </g>
+      <MuscleGlow cx={105} cy={85} rx={20} ry={20} />
     </g>
   );
 }

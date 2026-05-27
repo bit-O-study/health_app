@@ -8,7 +8,8 @@ import { setExerciseStatusAction } from "@/features/routine/exercise-completion-
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import { ExerciseDemo } from "@/features/workout-timer/exercise-demo";
-import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
+import { ExerciseFlipbook } from "@/features/workout-timer/exercise-flipbook";
+import { conditioningMotionFor } from "@/features/workout-timer/exercise-motion";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
 export type GuidedItem =
@@ -215,22 +216,27 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
 }
 
 /**
- * 본운동: 조심 포인트 마커가 펄스하는 실루엣 + 주의사항 카드 (ExerciseDemo).
- * 워밍업·마무리: 동그란 종목 아이콘 — 비교적 단순한 동작이라 강조 마커 불필요.
+ * 본운동·워밍업·마무리 모두 일러스트 컨테이너 사용.
+ * - main: ExerciseDemo (시각 코칭 오버레이 포함)
+ * - warmup/cooldown: ExerciseFlipbook 의 컨디셔닝 모션 일러스트
  */
 function ItemVisual({ item }: { item: GuidedItem }) {
   if (item.kind === "main") {
     return <ExerciseDemo exerciseId={item.exerciseId} name={item.name} />;
   }
-  const ring =
-    item.kind === "warmup"
-      ? "bg-amber-500/15 text-amber-300"
-      : "bg-sky-500/15 text-sky-300";
+  // 워밍업·마무리도 일러스트 — 컨디셔닝 모션 매핑 사용
+  const conditioning = conditioningMotionFor(item.itemId);
   return (
     <div
-      className={`flex h-24 w-24 items-center justify-center rounded-3xl ${ring}`}
+      className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-700 bg-gradient-to-b from-zinc-800 to-zinc-900 p-4"
+      style={
+        {
+          ["--cycle" as string]: `2200ms`,
+          aspectRatio: "1 / 1",
+        } as React.CSSProperties
+      }
     >
-      <ConditioningIcon id={item.itemId} size={56} />
+      <ExerciseFlipbook conditioning={conditioning} />
     </div>
   );
 }

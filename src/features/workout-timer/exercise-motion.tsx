@@ -136,3 +136,60 @@ const CATEGORY_MAP: Record<string, MotionCategory> = {
 export function motionCategoryFor(exerciseId: string): MotionCategory {
   return CATEGORY_MAP[exerciseId] ?? "static";
 }
+
+/* ─── 워밍업·마무리 카테고리 ──────────────────────────────────── */
+
+/** 컨디셔닝(워밍업/마무리) 모션 카테고리 */
+export type ConditioningMotion =
+  | "run" // 러닝/걷기/줄넘기 — 다리 교차
+  | "step" // 스텝/계단 — 한 다리씩
+  | "cycle" // 자전거/로잉 — 페달 회전
+  | "armCircle" // 어깨 회전/팔 돌리기
+  | "spineFlow" // 캣카우/코브라 — 척추 굴곡
+  | "stretch" // 정적 스트레칭 (서서/앉아) — 호흡 펄스
+  | "bridge" // 글루트 브릿지/엉덩이 들기
+  | "hang" // 데드행/매달림
+  | "squatWarm"; // 보디웨이트 스쿼트/런지 워밍업
+
+const CONDITIONING_MAP: Record<string, ConditioningMotion> = {
+  // 유산소
+  running: "run",
+  walking: "run",
+  "jump-rope": "run",
+  "jumping-jack": "run",
+  "stair-master": "step",
+  cycling: "cycle",
+  rowing: "cycle",
+  elliptical: "cycle",
+  // 모빌리티
+  "shoulder-circle": "armCircle",
+  "band-pull-apart": "armCircle",
+  "wall-slide": "armCircle",
+  "wrist-circle": "armCircle",
+  "cat-cow": "spineFlow",
+  "cobra-stretch": "spineFlow",
+  "child-pose": "spineFlow",
+  "hip-circle": "spineFlow",
+  "dynamic-lunge": "squatWarm",
+  "bw-squat": "squatWarm",
+  "push-up-warm": "squatWarm",
+  "glute-bridge-warm": "bridge",
+  "dead-hang": "hang",
+  "dead-bug": "stretch",
+  // 정적 스트레칭
+  "chest-door-stretch": "stretch",
+  "shoulder-cross-stretch": "stretch",
+  "lat-stretch": "stretch",
+  "sleeper-stretch": "stretch",
+  "triceps-overhead-stretch": "stretch",
+  "biceps-door-stretch": "stretch",
+  "wrist-stretch": "stretch",
+  "hamstring-stretch": "stretch",
+  "pigeon-pose": "stretch",
+  "calf-stretch": "stretch",
+  "neck-stretch": "stretch",
+};
+
+export function conditioningMotionFor(itemId: string): ConditioningMotion {
+  return CONDITIONING_MAP[itemId] ?? "stretch";
+}

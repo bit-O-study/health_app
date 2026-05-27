@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Check, ChevronRight, X } from "lucide-react";
 
@@ -53,9 +53,21 @@ export function GuidedOverlay({
   const rest = useRestTimer();
   const [index, setIndex] = useState(0);
   const [pending, startTx] = useTransition();
+  const workingRef = useRef(false);
+  const [working, setWorking] = useState(false);
+  const dirtyRef = useRef(false);
 
-  const item = items[index];
-  const total = items.length;
+  /**
+   * ⚠ 중요: items 를 시작 시점에 스냅샷으로 잡아둠. 서버 액션의 revalidatePath('/')
+   * 가 Next.js 자동 RSC 재요청을 유발 → items prop 이 새로 와서 이미 처리한 항목이
+   * 배열에서 빠짐 → 우리 index 가 다음 항목을 가리키는데 prop 의 같은 인덱스는
+   * 그 다음 항목이라 한 칸 더 건너뛰는 버그. 세션 동안은 lazy init useState 의
+   * 초기값(고정 배열) 만 사용. items prop 의 변화는 무시.
+   */
+  const [sessionItems] = useState(items);
+
+  const item = sessionItems[index];
+  const total = sessionItems.length;
   const isLast = index >= total - 1;
 
   function advance() {
@@ -68,60 +80,85 @@ export function GuidedOverlay({
     setIndex((i) => i + 1);
   }
 
-  function complete() {
-    if (!item) return;
-    if (item.kind === "main") {
-      void setExerciseStatusAction(item.rowId, "done", {
-        exerciseId: item.exerciseId,
-        equipment: item.equipment,
-        sets: item.sets,
-        reps: item.reps,
-        weightKg: item.weightKg,
-        focus: item.focus,
-      });
-      // 자동 휴식 — 무게 있으면 90초, 맨몸이면 60초
-      rest.trigger(item.weightKg !== null && item.weightKg > 0 ? 90 : 60);
-    } else {
-      void setConditioningStatusAction(item.kind, item.rowId, item.itemId, "done", {
-        durationMin: item.durationMin,
-        speed: item.speed,
-        incline: item.incline,
-      });
-    }
-    advance();
-  }
-
-  function skip() {
-    if (!item) return;
-    if (item.kind === "main") {
-      void setExerciseStatusAction(item.rowId, "skipped", {
-        exerciseId: item.exerciseId,
-        equipment: item.equipment,
-        sets: item.sets,
-        reps: item.reps,
-        weightKg: item.weightKg,
-        focus: item.focus,
-      });
-    } else {
-      void setConditioningStatusAction(
-        item.kind,
-        item.rowId,
-        item.itemId,
-        "skipped",
-        {
+  async function complete() {
+    if (workingRef.current || !item) return;
+    workingRef.current = true;
+    setWorking(true);
+    try {
+      if (item.kind === "main") {
+        await setExerciseStatusAction(item.rowId, "done", {
+          exerciseId: item.exerciseId,
+          equipment: item.equipment,
+          sets: item.sets,
+          reps: item.reps,
+          weightKg: item.weightKg,
+          focus: item.focus,
+        });
+        // 자동 휴식 — 무게 있으면 90초, 맨몸이면 60초
+        rest.trigger(item.weightKg !== null && item.weightKg > 0 ? 90 : 60);
+      } else {
+        await setConditioningStatusAction(item.kind, item.rowId, item.itemId, "done", {
           durationMin: item.durationMin,
           speed: item.speed,
           incline: item.incline,
-        },
-      );
+        });
+      }
+      dirtyRef.current = true;
+      advance();
+    } catch (e) {
+      console.error("[guided] complete failed", e);
+    } finally {
+      workingRef.current = false;
+      setWorking(false);
     }
-    advance();
+  }
+
+  async function skip() {
+    if (workingRef.current || !item) return;
+    workingRef.current = true;
+    setWorking(true);
+    try {
+      if (item.kind === "main") {
+        await setExerciseStatusAction(item.rowId, "skipped", {
+          exerciseId: item.exerciseId,
+          equipment: item.equipment,
+          sets: item.sets,
+          reps: item.reps,
+          weightKg: item.weightKg,
+          focus: item.focus,
+        });
+      } else {
+        await setConditioningStatusAction(
+          item.kind,
+          item.rowId,
+          item.itemId,
+          "skipped",
+          {
+            durationMin: item.durationMin,
+            speed: item.speed,
+            incline: item.incline,
+          },
+        );
+      }
+      dirtyRef.current = true;
+      advance();
+    } catch (e) {
+      console.error("[guided] skip failed", e);
+    } finally {
+      workingRef.current = false;
+      setWorking(false);
+    }
   }
 
   // 닫기 — 완료/넘기기 누르기 전엔 confirm 으로 우발적 종료 방지.
+  // dirty 상태(한 번이라도 처리한 경우) 면 닫으면서 router.refresh 도 함께 트리거 —
+  // 그래야 메인 화면의 완료/휴식 표시가 즉시 동기화됨.
   function requestClose() {
     if (confirm("운동을 중단할까요? 완료하지 않은 운동은 다음에 다시 보입니다.")) {
       onClose();
+      if (dirtyRef.current) {
+        startTx(() => router.refresh());
+      }
     }
   }
 
@@ -185,7 +222,7 @@ export function GuidedOverlay({
         <button
           type="button"
           onClick={skip}
-          disabled={pending}
+          disabled={pending || working}
           className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 text-base font-bold text-zinc-200 transition hover:bg-white/10 disabled:opacity-50"
         >
           <ChevronRight aria-hidden="true" size={20} />
@@ -194,7 +231,7 @@ export function GuidedOverlay({
         <button
           type="button"
           onClick={complete}
-          disabled={pending}
+          disabled={pending || working}
           className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-base font-bold text-white shadow-lg transition hover:bg-emerald-500 disabled:opacity-50"
         >
           <Check aria-hidden="true" size={20} />

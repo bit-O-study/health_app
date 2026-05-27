@@ -20,9 +20,9 @@ export function ExerciseDemo({
 
   return (
     <div className="flex w-full flex-col items-center gap-2">
-      {/* 측면뷰 일러스트 — 모든 시각 마커가 이 안에 들어있음 */}
+      {/* 측면뷰 일러스트 — 라이트/다크 듀얼 */}
       <div
-        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-700 bg-gradient-to-b from-zinc-800 to-zinc-900 p-4"
+        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-gradient-to-b from-white to-zinc-100 dark:from-zinc-800 dark:to-zinc-900 p-4"
         style={
           {
             ["--cycle" as string]: `${cycleMs}ms`,
@@ -33,7 +33,7 @@ export function ExerciseDemo({
         <ExerciseFlipbook category={category} />
       </div>
 
-      {/* 범례 — 마커 색이 뭘 의미하는지 작게 (텍스트 최소화) */}
+      {/* 범례 — 마커 색이 뭘 의미하는지 작게 */}
       <Legend />
     </div>
   );
@@ -41,7 +41,7 @@ export function ExerciseDemo({
 
 function Legend() {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] text-zinc-400">
+    <div className="flex flex-wrap items-center justify-center gap-3 text-[10px] text-zinc-500 dark:text-zinc-400">
       <LegendItem color="#10b981" label="잡는 위치" shape="ring" />
       <LegendItem color="#34d399" label="동작 방향" shape="arrow" />
       <LegendItem color="#ef4444" label="자극 부위" shape="glow" />

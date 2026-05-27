@@ -160,13 +160,13 @@ export function GuidedOverlay({
   if (!item) return null;
 
   return (
-    <div className="fixed inset-0 z-40 flex flex-col bg-zinc-900 dark:bg-black">
+    <div className="fixed inset-0 z-40 flex flex-col bg-zinc-50 dark:bg-zinc-950">
       {/* 상단 바 — 진행률 + 닫기 */}
       <div className="flex items-center justify-between px-4 pb-2 pt-[max(env(safe-area-inset-top),1rem)]">
-        <span className="font-mono text-sm font-bold tabular-nums text-white">
+        <span className="font-mono text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
           {index + 1} / {total}
         </span>
-        <div className="mx-3 h-1 flex-1 overflow-hidden rounded-full bg-white/10">
+        <div className="mx-3 h-1 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
           <div
             className="h-full bg-emerald-500 transition-all duration-300"
             style={{ width: `${((index + 1) / total) * 100}%` }}
@@ -176,7 +176,7 @@ export function GuidedOverlay({
           type="button"
           aria-label="닫기"
           onClick={requestClose}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 transition hover:bg-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
         >
           <X aria-hidden="true" size={18} />
         </button>
@@ -186,29 +186,29 @@ export function GuidedOverlay({
       <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-4">
         <KindBadge kind={item.kind} />
         <ItemVisual item={item} />
-        <h2 className="mt-4 text-center text-2xl font-bold text-white sm:text-3xl">
+        <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
           {item.name}
         </h2>
-        <p className="mt-1.5 text-center text-sm text-zinc-300">
+        <p className="mt-1.5 text-center text-sm text-zinc-600 dark:text-zinc-300">
           {item.subtitle}
         </p>
 
         {item.method.length > 0 ? (
           <MethodSteps steps={item.method} />
         ) : (
-          <p className="mt-8 text-center text-sm text-zinc-400">
+          <p className="mt-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
             운동 방법 안내가 없습니다.
           </p>
         )}
       </div>
 
       {/* 하단 버튼 */}
-      <div className="grid grid-cols-2 gap-2 border-t border-white/10 bg-zinc-950/80 p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
+      <div className="grid grid-cols-2 gap-2 border-t border-zinc-200 bg-white/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
         <button
           type="button"
           onClick={skip}
           disabled={pending || working}
-          className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/5 text-base font-bold text-zinc-200 transition hover:bg-white/10 disabled:opacity-50"
+          className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white text-base font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
         >
           <ChevronRight aria-hidden="true" size={20} />
           넘기기
@@ -232,10 +232,10 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
     kind === "warmup" ? "워밍업" : kind === "cooldown" ? "마무리" : "본운동";
   const tone =
     kind === "warmup"
-      ? "bg-amber-500/20 text-amber-300"
+      ? "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
       : kind === "cooldown"
-        ? "bg-sky-500/20 text-sky-300"
-        : "bg-emerald-500/20 text-emerald-300";
+        ? "bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300"
+        : "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300";
   return (
     <span
       className={`mb-3 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${tone}`}
@@ -258,7 +258,7 @@ function ItemVisual({ item }: { item: GuidedItem }) {
   const conditioning = conditioningMotionFor(item.itemId);
   return (
     <div
-      className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-700 bg-gradient-to-b from-zinc-800 to-zinc-900 p-4"
+      className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-gradient-to-b from-white to-zinc-100 dark:from-zinc-800 dark:to-zinc-900 p-4"
       style={
         {
           ["--cycle" as string]: `2200ms`,
@@ -298,8 +298,8 @@ function MethodSteps({ steps }: { steps: string[] }) {
             key={i}
             className={`flex gap-3 rounded-2xl border px-4 py-3 transition-all duration-500 ${
               isActive
-                ? "border-emerald-400 bg-emerald-500/10 text-white shadow-lg shadow-emerald-500/10"
-                : "border-white/10 bg-white/[0.03] text-zinc-400 opacity-70"
+                ? "border-emerald-400 bg-emerald-50 text-emerald-900 shadow-lg shadow-emerald-500/10 dark:bg-emerald-500/10 dark:text-white"
+                : "border-zinc-200 bg-zinc-50 text-zinc-500 opacity-80 dark:border-white/10 dark:bg-white/[0.03] dark:text-zinc-400"
             }`}
             style={{
               transform: isActive ? "scale(1.02)" : "scale(1)",
@@ -309,7 +309,7 @@ function MethodSteps({ steps }: { steps: string[] }) {
               className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
                 isActive
                   ? "bg-emerald-500 text-white"
-                  : "bg-white/10 text-zinc-400"
+                  : "bg-zinc-200 text-zinc-500 dark:bg-white/10 dark:text-zinc-400"
               }`}
             >
               {i + 1}

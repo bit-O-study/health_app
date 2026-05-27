@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ListChecks, Pause, Play, Square, Timer } from "lucide-react";
 
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import {
   elapsedMs,
   formatElapsed,
@@ -29,6 +30,7 @@ export function WorkoutSessionTimer({
 }) {
   const [state, setState] = useState<TimerState | null>(null);
   const [guided, setGuided] = useState(false);
+  const [stopAsk, setStopAsk] = useState(false);
   // tick — 매초 리렌더 (1초 단위 갱신)
   const [, setTick] = useState(0);
 
@@ -77,9 +79,12 @@ export function WorkoutSessionTimer({
     setState(s);
   }
   function stop() {
-    if (!confirm("운동을 종료할까요? 현재 시간은 사라집니다.")) return;
+    setStopAsk(true);
+  }
+  function confirmStop() {
     writeTimer(null);
     setState(null);
+    setStopAsk(false);
   }
 
   if (!state) {
@@ -155,6 +160,15 @@ export function WorkoutSessionTimer({
         </button>
       </div>
       {overlay}
+      <ConfirmDialog
+        open={stopAsk}
+        title="운동 종료"
+        message="운동을 종료할까요? 현재 시간은 사라집니다."
+        confirmLabel="종료"
+        tone="danger"
+        onConfirm={confirmStop}
+        onCancel={() => setStopAsk(false)}
+      />
     </>
   );
 }

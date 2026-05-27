@@ -10,6 +10,7 @@ import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import { ExerciseDemo } from "@/features/workout-timer/exercise-demo";
 import { ExerciseFlipbook } from "@/features/workout-timer/exercise-flipbook";
 import { conditioningMotionFor } from "@/features/workout-timer/exercise-motion";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
 export type GuidedItem =
@@ -56,6 +57,7 @@ export function GuidedOverlay({
   const workingRef = useRef(false);
   const [working, setWorking] = useState(false);
   const dirtyRef = useRef(false);
+  const [closeAsk, setCloseAsk] = useState(false);
 
   /**
    * ⚠ 중요: items 를 시작 시점에 스냅샷으로 잡아둠. 서버 액션의 revalidatePath('/')
@@ -136,14 +138,14 @@ export function GuidedOverlay({
   }
 
   // 닫기 — 완료/넘기기 누르기 전엔 confirm 으로 우발적 종료 방지.
-  // dirty 상태(한 번이라도 처리한 경우) 면 닫으면서 router.refresh 도 함께 트리거 —
-  // 그래야 메인 화면의 완료/휴식 표시가 즉시 동기화됨.
   function requestClose() {
-    if (confirm("운동을 중단할까요? 완료하지 않은 운동은 다음에 다시 보입니다.")) {
-      onClose();
-      if (dirtyRef.current) {
-        startTx(() => router.refresh());
-      }
+    setCloseAsk(true);
+  }
+  function confirmClose() {
+    onClose();
+    setCloseAsk(false);
+    if (dirtyRef.current) {
+      startTx(() => router.refresh());
     }
   }
 
@@ -154,7 +156,6 @@ export function GuidedOverlay({
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onClose]);
 
   if (!item) return null;
@@ -223,6 +224,15 @@ export function GuidedOverlay({
           {isLast ? "완료하고 종료" : "완료"}
         </button>
       </div>
+      <ConfirmDialog
+        open={closeAsk}
+        title="운동 중단"
+        message="운동을 중단할까요? 완료하지 않은 운동은 다음에 다시 보입니다."
+        confirmLabel="중단"
+        tone="danger"
+        onConfirm={confirmClose}
+        onCancel={() => setCloseAsk(false)}
+      />
     </div>
   );
 }

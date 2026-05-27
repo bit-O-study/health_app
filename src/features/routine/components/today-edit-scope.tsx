@@ -14,6 +14,7 @@ import {
   deleteConditioningRowAction,
   deleteMainExerciseAction,
 } from "@/features/routine/delete-actions";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 type Ctx = {
   editMode: boolean;
@@ -82,17 +83,15 @@ export function TodayEditBar() {
   const router = useRouter();
   const ctx = useTodayEdit();
   const [pending, start] = useTransition();
+  const [askDelete, setAskDelete] = useState(false);
   const count = ctx.selectedMain.size + ctx.selectedCond.size;
 
   function onDelete() {
     if (count === 0) return;
-    if (
-      !confirm(
-        `선택한 ${count}개 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.`,
-      )
-    ) {
-      return;
-    }
+    setAskDelete(true);
+  }
+  function confirmDelete() {
+    setAskDelete(false);
     start(async () => {
       await Promise.all([
         ...Array.from(ctx.selectedMain).map((id) =>
@@ -150,6 +149,15 @@ export function TodayEditBar() {
         <X aria-hidden="true" size={13} />
         취소
       </button>
+      <ConfirmDialog
+        open={askDelete}
+        title="운동 삭제"
+        message={`선택한 ${count}개 운동을 삭제할까요? 기록·점수에서도 함께 사라집니다.`}
+        confirmLabel="삭제"
+        tone="danger"
+        onConfirm={confirmDelete}
+        onCancel={() => setAskDelete(false)}
+      />
     </div>
   );
 }

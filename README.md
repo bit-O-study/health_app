@@ -28,6 +28,7 @@ pnpm dev
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
 ## Supabase 스키마 적용
@@ -44,7 +45,7 @@ Supabase SQL Editor에서 `supabase/schema.sql` 내용을 실행합니다. 이 �
 
 ## 배포
 
-배포는 Vercel 기준입니다. Vercel 프로젝트 환경변수에 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`를 등록한 뒤 배포합니다.
+배포는 Vercel 기준입니다. Vercel 프로젝트 환경변수에 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `NEXT_PUBLIC_SITE_URL`을 등록한 뒤 배포합니다.
 
 ## 프로젝트 구조
 

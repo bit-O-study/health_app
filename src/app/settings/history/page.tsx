@@ -11,6 +11,17 @@ import {
   type DayBlockId,
   type FocusTone,
 } from "@/features/routine/data";
+import { getWorkoutDurationsRange } from "@/features/workout-timer/workout-sessions";
+
+/** 초 → "m분" 또는 "h시간 m분" 짧은 표기 */
+function shortDuration(sec: number): string {
+  if (sec < 60) return `${sec}초`;
+  const m = Math.floor(sec / 60);
+  if (m < 60) return `${m}분`;
+  const h = Math.floor(m / 60);
+  const rem = m % 60;
+  return rem === 0 ? `${h}시간` : `${h}시간 ${rem}분`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -79,7 +90,7 @@ export default async function HistoryPage({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const [exRes, condRes] = await Promise.all([
+  const [exRes, condRes, durationMap] = await Promise.all([
     user
       ? supabase
           .from("exercise_completions")
@@ -98,6 +109,7 @@ export default async function HistoryPage({
           .gte("for_date", monthStart)
           .lte("for_date", monthEnd)
       : Promise.resolve({ data: [] as CondRow[] }),
+    getWorkoutDurationsRange(monthStart, monthEnd),
   ]);
 
   // 일자별 focus 카운트, 월별 focus 누적 카운트
@@ -204,12 +216,13 @@ export default async function HistoryPage({
             const hasCond = condActiveDays.has(cell.ymd);
             const label = focus ? blockLabel(focus) : hasCond ? "활동" : "";
             const isToday = cell.ymd === todayYmd;
-            const hasActivity = focus !== null || hasCond;
+            const durSec = durationMap.get(cell.ymd) ?? 0;
+            const hasActivity = focus !== null || hasCond || durSec > 0;
             return (
               <Link
                 key={cell.ymd}
                 href={`/settings/history/${cell.ymd}`}
-                title={`${cell.ymd} 상세 보기`}
+                title={`${cell.ymd} 상세 보기${durSec > 0 ? ` · ${shortDuration(durSec)}` : ""}`}
                 className={`flex h-16 flex-col items-center justify-center rounded-md text-xs font-semibold transition ${
                   hasActivity
                     ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-200"
@@ -219,6 +232,11 @@ export default async function HistoryPage({
                 <span>{cell.day}</span>
                 {label ? (
                   <span className="mt-0.5 text-[10px] font-bold">{label}</span>
+                ) : null}
+                {durSec > 0 ? (
+                  <span className="mt-0.5 text-[9px] font-bold text-emerald-700 dark:text-emerald-400">
+                    {shortDuration(durSec)}
+                  </span>
                 ) : null}
               </Link>
             );

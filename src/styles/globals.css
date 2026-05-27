@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Tailwind v4 — class 기반 dark 모드. `<html>` 또는 그 자손에 .dark 가 붙으면 dark: 변형 활성화. */
+/* Tailwind v4 — class 기반 dark 모드. <html> 또는 그 자손에 .dark 가 붙으면 dark: 변형 활성화. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -9,8 +9,8 @@
 }
 
 .dark {
-  --background: #18181b; /* zinc-900 — 너무 어둡지 않게 한 단계 밝게 */
-  --foreground: #f4f4f5; /* zinc-100 */
+  --background: #18181b;
+  --foreground: #f4f4f5;
   color-scheme: dark;
 }
 

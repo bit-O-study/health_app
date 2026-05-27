@@ -63,22 +63,29 @@ export function ExerciseFlipbook({
           <feGaussianBlur stdDeviation="2" />
         </filter>
         <style>{`
-          /* 3 frames flipbook */
-          .frame-1 { animation: f1 var(--cycle,2400ms) infinite cubic-bezier(0.45,0,0.55,1); }
-          .frame-2 { animation: f2 var(--cycle,2400ms) infinite cubic-bezier(0.45,0,0.55,1); }
-          .frame-3 { animation: f3 var(--cycle,2400ms) infinite cubic-bezier(0.45,0,0.55,1); }
+          /*
+           * 3 프레임 플립북 — 각 프레임은 사이클의 1/3 씩 깨끗하게 보이고
+           * 사이엔 ~10% 짧은 크로스페이드. 핵심:
+           * - 각 프레임의 opacity 곡선은 단일 봉우리 (이전엔 f2 가 2 봉우리라 깜빡 보임)
+           * - 각 순간의 합 ≈ 1 (이전엔 합이 < 1 또는 > 1 이 돼서 이중 잔상)
+           */
+          .frame-1 { animation: f1 var(--cycle,2400ms) linear infinite; }
+          .frame-2 { animation: f2 var(--cycle,2400ms) linear infinite; }
+          .frame-3 { animation: f3 var(--cycle,2400ms) linear infinite; }
           @keyframes f1 {
-            0%, 100% { opacity: 1; }
-            20%, 80% { opacity: 0; }
+            0%, 28% { opacity: 1; }
+            38%, 95% { opacity: 0; }
+            100% { opacity: 1; }
           }
           @keyframes f2 {
-            0%, 100% { opacity: 0; }
-            25%, 75% { opacity: 1; }
-            50%      { opacity: 0; }
+            0%, 28% { opacity: 0; }
+            38%, 61% { opacity: 1; }
+            71%, 100% { opacity: 0; }
           }
           @keyframes f3 {
-            0%, 30%, 70%, 100% { opacity: 0; }
-            45%, 55%           { opacity: 1; }
+            0%, 61% { opacity: 0; }
+            71%, 95% { opacity: 1; }
+            100% { opacity: 0; }
           }
 
           /* 코칭 마커 펄스 */

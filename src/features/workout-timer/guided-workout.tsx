@@ -175,7 +175,7 @@ export function GuidedOverlay({
   if (!item) return null;
 
   return (
-    <div className="fixed inset-0 z-40 flex flex-col bg-zinc-900/95 backdrop-blur-sm dark:bg-black/95">
+    <div className="fixed inset-0 z-40 flex flex-col bg-zinc-900 dark:bg-black">
       {/* 상단 바 — 진행률 + 닫기 */}
       <div className="flex items-center justify-between px-4 pb-2 pt-[max(env(safe-area-inset-top),1rem)]">
         <span className="font-mono text-sm font-bold tabular-nums text-white">

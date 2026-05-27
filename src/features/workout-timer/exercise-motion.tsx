@@ -322,58 +322,73 @@ export function MotionFigure({ category }: { category: MotionCategory }) {
   );
 }
 
-/** 공통 인체 베이스 + 근육 정의선 */
+/** 공통 인체 베이스 — 머리·목·어깨·토르소·골반을 하나의 흐름으로. */
 function BodyBase() {
   return (
     <g>
-      {/* 머리 */}
-      <circle cx="50" cy="14" r="8.5" fill="url(#headG)" />
-      {/* 머리 하이라이트 — 좌상단 광원 */}
-      <ellipse cx="46" cy="11" rx="2.5" ry="2" fill="#9ca3af" opacity="0.4" />
-      {/* 목 */}
-      <path d="M46 21 L54 21 L52 27 L48 27 Z" fill="url(#bodyG)" />
-      {/* 트라페즈 + 어깨선 */}
+      {/* 머리 — 약간 세로로 긴 타원 (실제 두상 비율) */}
+      <ellipse cx="50" cy="14" rx="7" ry="9" fill="url(#headG)" />
+      {/* 머리카락 — 상단 어두운 캡 */}
       <path
-        d="M28 32 Q50 24 72 32 L67 41 Q50 36 33 41 Z"
+        d="M43 10 Q43 6 50 6 Q57 6 57 10 Q57 14 50 13 Q43 14 43 10 Z"
+        fill="#18181b"
+      />
+      {/* 머리카락 옆선 — 살짝 귀 위까지 */}
+      <path d="M43 11 Q42 14 44 16" fill="none" stroke="#18181b" strokeWidth="0.6" />
+      <path d="M57 11 Q58 14 56 16" fill="none" stroke="#18181b" strokeWidth="0.6" />
+      {/* 머리 광원 하이라이트 */}
+      <ellipse cx="46" cy="12" rx="2" ry="2.2" fill="#9ca3af" opacity="0.35" />
+      {/* 턱 음영 — 살짝 어두운 라인 */}
+      <path d="M44 18 Q50 22 56 18" stroke="#1a1a1f" strokeWidth="0.5" fill="none" opacity="0.4" />
+
+      {/* 목 — 사다리꼴 부드럽게 */}
+      <path d="M46 21 Q46 25 47 28 L53 28 Q54 25 54 21 Z" fill="url(#bodyG)" />
+      {/* 쇄골 그림자 라인 */}
+      <path d="M40 33 Q50 30 60 33" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.5" />
+
+      {/* 트라페즈 + 어깨 캡 — 둥글게 부풀린 라인 (델토이드 살짝 보임) */}
+      <path
+        d="M28 33 Q34 27 42 28 Q50 27 58 28 Q66 27 72 33 Q70 38 67 42 Q60 38 50 38 Q40 38 33 42 Q30 38 28 33 Z"
         fill="url(#bodyG)"
       />
-      {/* 토르소 — V 테이퍼 */}
+
+      {/* 토르소 — V 테이퍼 (어깨 넓고 허리 좁게), 곡선 흘러내림 */}
       <path
-        d="M33 40 Q34 50 36 75 L64 75 Q66 50 67 40 Z"
+        d="M33 40 Q32 50 35 65 Q36 72 38 78 L62 78 Q64 72 65 65 Q68 50 67 40 Q60 38 50 38 Q40 38 33 40 Z"
         fill="url(#bodyG)"
       />
-      {/* 근육 정의선 — 가슴 분리 */}
+
+      {/* 가슴 분리 (중심선) */}
+      <path d="M50 40 Q50 52 50 60" stroke="#1a1a1f" strokeWidth="0.5" fill="none" opacity="0.7" />
+      {/* 흉근 좌·우 곡선 */}
+      <path d="M38 48 Q44 54 50 54" stroke="#1a1a1f" strokeWidth="0.5" fill="none" opacity="0.6" />
+      <path d="M50 54 Q56 54 62 48" stroke="#1a1a1f" strokeWidth="0.5" fill="none" opacity="0.6" />
+      {/* 복근 가로 분할 (세 줄) */}
+      <path d="M44 60 L56 60" stroke="#1a1a1f" strokeWidth="0.35" opacity="0.45" />
+      <path d="M44 66 L56 66" stroke="#1a1a1f" strokeWidth="0.35" opacity="0.45" />
+      <path d="M44 72 L56 72" stroke="#1a1a1f" strokeWidth="0.35" opacity="0.4" />
+      {/* 복근 세로 분할 */}
+      <path d="M50 56 L50 76" stroke="#1a1a1f" strokeWidth="0.3" opacity="0.4" />
+      {/* 옆구리 V 자 라인 (오블리크) */}
+      <path d="M37 68 Q42 75 48 78" stroke="#1a1a1f" strokeWidth="0.35" fill="none" opacity="0.4" />
+      <path d="M63 68 Q58 75 52 78" stroke="#1a1a1f" strokeWidth="0.35" fill="none" opacity="0.4" />
+      {/* 토르소 우측 라이팅 하이라이트 */}
       <path
-        d="M50 40 Q50 50 50 60"
-        stroke="#1a1a1f"
-        strokeWidth="0.5"
-        fill="none"
-        opacity="0.7"
-      />
-      {/* 흉근 라인 */}
-      <path
-        d="M37 50 Q50 54 63 50"
-        stroke="#1a1a1f"
-        strokeWidth="0.5"
-        fill="none"
-        opacity="0.55"
-      />
-      {/* 복근 분할 */}
-      <path d="M44 62 L56 62" stroke="#1a1a1f" strokeWidth="0.4" opacity="0.45" />
-      <path d="M44 68 L56 68" stroke="#1a1a1f" strokeWidth="0.4" opacity="0.45" />
-      {/* 토르소 우측 하이라이트 (라이팅) */}
-      <path
-        d="M63 42 Q65 55 64 73"
-        stroke="#6b7280"
+        d="M63 42 Q65 55 64 75"
+        stroke="#7c7c84"
         strokeWidth="0.5"
         opacity="0.4"
         fill="none"
       />
-      {/* 골반 */}
+
+      {/* 골반 — 살짝 둥글게, 양옆이 좁아지지 않음 */}
       <path
-        d="M36 75 Q34 80 36 92 L64 92 Q66 80 64 75 Z"
+        d="M38 78 Q34 84 36 94 Q42 96 50 96 Q58 96 64 94 Q66 84 62 78 Z"
         fill="url(#bodyG)"
       />
+      {/* 골반 V 라인 — 옆구리 아래 */}
+      <path d="M40 84 Q45 90 50 92" stroke="#1a1a1f" strokeWidth="0.35" fill="none" opacity="0.4" />
+      <path d="M60 84 Q55 90 50 92" stroke="#1a1a1f" strokeWidth="0.35" fill="none" opacity="0.4" />
     </g>
   );
 }
@@ -395,36 +410,65 @@ function CategoryOverlay({ category }: { category: MotionCategory }) {
 function Legs() {
   return (
     <g>
-      {/* 허벅지 — V 곡선 */}
+      {/* 좌 허벅지 — 둔근→대퇴 곡선, 안쪽이 더 가는 자연 V */}
       <path
-        d="M37 92 Q34 110 40 132 L46 132 Q47 110 46 92 Z"
+        d="M38 95 Q35 105 36 118 Q37 126 41 130 L46 130 Q48 122 47 110 Q47 100 46 95 Z"
         fill="url(#limbG)"
       />
+      {/* 우 허벅지 */}
       <path
-        d="M54 92 Q53 110 54 132 L60 132 Q66 110 63 92 Z"
+        d="M54 95 Q53 100 53 110 Q52 122 54 130 L59 130 Q63 126 64 118 Q65 105 62 95 Z"
         fill="url(#limbG)"
       />
-      {/* 대퇴 정의선 */}
+      {/* 대퇴 정의선 — 직근 곡선 */}
+      <path d="M42 102 Q40 116 43 128" stroke="#1a1a1f" strokeWidth="0.4" opacity="0.55" fill="none" />
+      <path d="M58 102 Q60 116 57 128" stroke="#1a1a1f" strokeWidth="0.4" opacity="0.55" fill="none" />
+      {/* 대퇴 측면 하이라이트 */}
+      <path d="M46 100 Q47 115 46 128" stroke="#7c7c84" strokeWidth="0.4" opacity="0.35" fill="none" />
+      <path d="M54 100 Q53 115 54 128" stroke="#7c7c84" strokeWidth="0.4" opacity="0.35" fill="none" />
+
+      {/* 무릎 — 둥글게 그늘 */}
+      <ellipse cx="43.5" cy="131" rx="3.2" ry="2.4" fill="#1a1a1f" opacity="0.4" />
+      <ellipse cx="56.5" cy="131" rx="3.2" ry="2.4" fill="#1a1a1f" opacity="0.4" />
+
+      {/* 좌 종아리 — 비복근 살짝 부풀림 */}
       <path
-        d="M42 100 Q40 116 43 130"
-        stroke="#1a1a1f"
-        strokeWidth="0.4"
-        opacity="0.5"
-        fill="none"
+        d="M40 132 Q37 140 38 148 Q39 152 42 152 L46 152 Q47 148 47 143 Q47 138 46 132 Z"
+        fill="url(#bodyG)"
+      />
+      {/* 우 종아리 */}
+      <path
+        d="M54 132 Q53 138 53 143 Q53 148 54 152 L58 152 Q61 152 62 148 Q63 140 60 132 Z"
+        fill="url(#bodyG)"
+      />
+      {/* 종아리 정의선 */}
+      <path d="M41 138 Q40 145 42 150" stroke="#1a1a1f" strokeWidth="0.35" opacity="0.45" fill="none" />
+      <path d="M59 138 Q60 145 58 150" stroke="#1a1a1f" strokeWidth="0.35" opacity="0.45" fill="none" />
+
+      {/* 발/신발 — 옆에서 살짝 보이는 슈즈 */}
+      <path
+        d="M37 152 Q34 152 33 154 Q33 156 38 156 L48 156 Q48 153 46 152 Z"
+        fill="#1f1f23"
       />
       <path
-        d="M58 100 Q60 116 57 130"
-        stroke="#1a1a1f"
-        strokeWidth="0.4"
-        opacity="0.5"
-        fill="none"
+        d="M52 152 Q52 153 52 156 L62 156 Q67 156 67 154 Q66 152 63 152 Z"
+        fill="#1f1f23"
       />
-      {/* 무릎 음영 */}
-      <ellipse cx="43" cy="131" rx="3" ry="2" fill="#1a1a1f" opacity="0.4" />
-      <ellipse cx="57" cy="131" rx="3" ry="2" fill="#1a1a1f" opacity="0.4" />
-      {/* 종아리 */}
-      <path d="M40 132 Q38 145 41 154 L46 154 Q47 145 46 132 Z" fill="url(#bodyG)" />
-      <path d="M54 132 Q53 145 54 154 L59 154 Q62 145 60 132 Z" fill="url(#bodyG)" />
+      {/* 신발 sole — 밝은 띠 */}
+      <rect x="33" y="155.4" width="15" height="0.8" fill="#a1a1aa" opacity="0.5" />
+      <rect x="52" y="155.4" width="15" height="0.8" fill="#a1a1aa" opacity="0.5" />
+    </g>
+  );
+}
+
+/** 손/주먹 — 사지 끝에 붙이는 작은 원형 디테일 */
+function Hand({ cx, cy }: { cx: number; cy: number }) {
+  return (
+    <g>
+      {/* 손등/주먹 */}
+      <ellipse cx={cx} cy={cy} rx="2.6" ry="3" fill="url(#limbG)" />
+      {/* 손 그늘 */}
+      <ellipse cx={cx + 0.6} cy={cy + 1} rx="1.2" ry="1.4" fill="#1a1a1f" opacity="0.35" />
     </g>
   );
 }
@@ -435,26 +479,31 @@ function PressOverlay() {
   return (
     <g>
       <Legs />
-      {/* 가슴 글로우 (블러 처리) */}
+      {/* 가슴 글로우 */}
       <g filter="url(#softGlow)">
         <ellipse cx="50" cy="48" rx="13" ry="9" fill="url(#muscleG)" className="m-glow" />
       </g>
       {/* 모션 트레일 (위팔 잔상) */}
       <g filter="url(#trail)" className="m-press-trail">
-        <path d="M32 24 Q30 32 32 42 L38 42 Q40 32 38 24 Z" fill="#10b981" opacity="0.4" />
-        <path d="M62 24 Q60 32 62 42 L68 42 Q70 32 68 24 Z" fill="#10b981" opacity="0.4" />
+        <path d="M32 26 Q27 34 32 42 L38 42 Q40 32 38 26 Z" fill="#10b981" opacity="0.35" />
+        <path d="M62 26 Q60 32 62 42 L68 42 Q73 34 68 26 Z" fill="#10b981" opacity="0.35" />
       </g>
-      {/* 양팔 */}
+      {/* 양팔 — 위팔(이두 곡선) + 전완(테이퍼) + 주먹 */}
       <g className="m-press">
-        {/* 위팔 (이두 곡선 양감) */}
-        <path d="M32 24 Q28 32 32 42 L38 42 Q40 32 38 24 Z" fill="url(#limbG)" />
-        <path d="M62 24 Q60 32 62 42 L68 42 Q72 32 68 24 Z" fill="url(#limbG)" />
+        {/* 좌 위팔 — 어깨에서 살짝 바깥쪽으로 부풀고 다시 좁아짐 (이두 양감) */}
+        <path d="M30 25 Q26 32 30 42 L38 42 Q39 32 37 25 Q34 24 30 25 Z" fill="url(#limbG)" />
+        {/* 우 위팔 */}
+        <path d="M63 25 Q61 32 62 42 L70 42 Q74 32 70 25 Q66 24 63 25 Z" fill="url(#limbG)" />
         {/* 이두 정의선 */}
-        <path d="M34 32 Q33 36 35 40" stroke="#1a1a1f" strokeWidth="0.3" fill="none" opacity="0.4" />
-        <path d="M66 32 Q67 36 65 40" stroke="#1a1a1f" strokeWidth="0.3" fill="none" opacity="0.4" />
-        {/* 전완 */}
-        <path d="M32 12 Q31 18 32 24 L38 24 Q39 18 38 12 Z" fill="url(#bodyG)" />
-        <path d="M62 12 Q61 18 62 24 L68 24 Q69 18 68 12 Z" fill="url(#bodyG)" />
+        <path d="M32 32 Q30 36 33 40" stroke="#1a1a1f" strokeWidth="0.35" fill="none" opacity="0.5" />
+        <path d="M68 32 Q70 36 67 40" stroke="#1a1a1f" strokeWidth="0.35" fill="none" opacity="0.5" />
+        {/* 좌 전완 — 손목으로 갈수록 좁아짐 */}
+        <path d="M31 12 Q30 18 32 25 L37 25 Q38 18 37 12 Q34 11 31 12 Z" fill="url(#bodyG)" />
+        {/* 우 전완 */}
+        <path d="M63 12 Q62 18 63 25 L68 25 Q70 18 69 12 Q66 11 63 12 Z" fill="url(#bodyG)" />
+        {/* 주먹 — 바를 잡음 */}
+        <Hand cx={34} cy={11} />
+        <Hand cx={66} cy={11} />
       </g>
       {/* 바벨 */}
       <g className="m-press-bar">
@@ -481,22 +530,25 @@ function RowOverlay() {
   return (
     <g>
       <Legs />
-      {/* 광배 글로우 (좌·우 측면) */}
+      {/* 광배 글로우 */}
       <g filter="url(#softGlow)">
         <ellipse cx="35" cy="55" rx="6" ry="10" fill="url(#muscleG)" className="m-glow" />
         <ellipse cx="65" cy="55" rx="6" ry="10" fill="url(#muscleG)" className="m-glow" />
       </g>
-      {/* 위팔 */}
-      <path d="M22 38 Q19 55 22 70 L30 70 Q33 55 30 38 Z" fill="url(#limbG)" />
-      <path d="M70 38 Q67 55 70 70 L78 70 Q81 55 78 38 Z" fill="url(#limbG)" />
-      {/* 전완 + 덤벨 (당김 모션) */}
+      {/* 좌 위팔 — 이두 곡선 */}
+      <path d="M22 38 Q19 50 21 60 Q22 66 24 70 L30 70 Q33 60 32 50 Q31 42 28 38 Z" fill="url(#limbG)" />
+      {/* 우 위팔 */}
+      <path d="M70 38 Q72 42 71 50 Q70 60 70 70 L76 70 Q79 66 80 60 Q82 50 78 38 Z" fill="url(#limbG)" />
+      {/* 좌 전완 + 손 + 덤벨 — 당김 모션 */}
       <g className="m-row-fa">
-        <path d="M22 70 Q21 85 22 92 L30 92 Q31 85 30 70 Z" fill="url(#bodyG)" />
-        <Dumbbell cx={26} cy={92} small />
+        <path d="M23 70 Q21 85 23 92 L30 92 Q31 85 30 70 Z" fill="url(#bodyG)" />
+        <Hand cx={26.5} cy={92.5} />
+        <Dumbbell cx={26.5} cy={92.5} small />
       </g>
       <g className="m-row-fa">
-        <path d="M70 70 Q69 85 70 92 L78 92 Q79 85 78 70 Z" fill="url(#bodyG)" />
-        <Dumbbell cx={74} cy={92} small />
+        <path d="M70 70 Q70 85 70 92 L77 92 Q79 85 77 70 Z" fill="url(#bodyG)" />
+        <Hand cx={73.5} cy={92.5} />
+        <Dumbbell cx={73.5} cy={92.5} small />
       </g>
     </g>
   );
@@ -512,18 +564,20 @@ function PulldownOverlay() {
           <ellipse cx="36" cy="55" rx="6" ry="10" fill="url(#muscleG)" className="m-glow" />
           <ellipse cx="64" cy="55" rx="6" ry="10" fill="url(#muscleG)" className="m-glow" />
         </g>
-        {/* 위팔 — 위로 뻗음 */}
-        <path d="M30 24 Q26 32 32 42 L38 42 Q42 32 38 24 Z" fill="url(#limbG)" />
-        <path d="M62 24 Q58 32 68 42 L72 42 Q74 32 70 24 Z" fill="url(#limbG)" />
-        {/* 전완 위로 */}
-        <path d="M30 10 Q29 18 32 24 L38 24 Q39 18 38 10 Z" fill="url(#bodyG)" />
-        <path d="M62 10 Q61 18 68 24 L72 24 Q71 18 70 10 Z" fill="url(#bodyG)" />
+        {/* 좌 위팔 — 위로 뻗음, 살짝 V 자 */}
+        <path d="M30 22 Q26 32 31 42 L38 42 Q42 32 38 22 Q34 21 30 22 Z" fill="url(#limbG)" />
+        <path d="M62 22 Q58 32 62 42 L69 42 Q74 32 70 22 Q66 21 62 22 Z" fill="url(#limbG)" />
+        {/* 좌 전완 위로 */}
+        <path d="M30 10 Q29 16 31 22 L38 22 Q39 16 38 10 Q34 9 30 10 Z" fill="url(#bodyG)" />
+        <path d="M62 10 Q61 16 62 22 L69 22 Q71 16 70 10 Q66 9 62 10 Z" fill="url(#bodyG)" />
+        {/* 주먹 — 바 잡음 */}
+        <Hand cx={34} cy={9} />
+        <Hand cx={66} cy={9} />
       </g>
-      {/* 풀다운 바 (고정) */}
-      <rect x="16" y="6" width="68" height="2.2" rx="1" fill="url(#barG)" />
-      <rect x="18" y="6.2" width="64" height="0.4" fill="#fafafa" opacity="0.6" />
-      {/* 케이블 */}
-      <line x1="50" y1="0" x2="50" y2="6" stroke="#71717a" strokeWidth="0.8" />
+      {/* 풀다운 바 */}
+      <rect x="16" y="5" width="68" height="2.2" rx="1" fill="url(#barG)" />
+      <rect x="18" y="5.2" width="64" height="0.4" fill="#fafafa" opacity="0.6" />
+      <line x1="50" y1="0" x2="50" y2="5" stroke="#71717a" strokeWidth="0.8" />
     </g>
   );
 }
@@ -534,15 +588,17 @@ function SquatOverlay() {
       {/* 바벨 — 어깨에 얹힘 */}
       <rect x="20" y="29" width="60" height="2.2" rx="1" fill="url(#barG)" />
       <rect x="22" y="29.2" width="56" height="0.4" fill="#fafafa" opacity="0.6" />
-      <ellipse cx="22" cy="30" rx="4.5" ry="6.5" fill="url(#plateG)" />
-      <ellipse cx="20" cy="27.5" rx="1.3" ry="2" fill="#fda4af" opacity="0.7" />
-      <ellipse cx="78" cy="30" rx="4.5" ry="6.5" fill="url(#plateG)" />
-      <ellipse cx="76" cy="27.5" rx="1.3" ry="2" fill="#fda4af" opacity="0.7" />
-      {/* 양팔 — 바 잡음 */}
-      <path d="M22 34 Q19 50 22 64 L30 64 Q33 50 30 34 Z" fill="url(#limbG)" />
-      <path d="M70 34 Q67 50 70 64 L78 64 Q81 50 78 34 Z" fill="url(#limbG)" />
-      <path d="M22 64 Q21 75 22 78 L30 78 Q31 75 30 64 Z" fill="url(#bodyG)" />
-      <path d="M70 64 Q69 75 70 78 L78 78 Q79 75 78 64 Z" fill="url(#bodyG)" />
+      <ellipse cx="22" cy="30" rx="4.8" ry="7" fill="url(#plateG)" />
+      <ellipse cx="20" cy="27" rx="1.3" ry="2.2" fill="#fda4af" opacity="0.7" />
+      <ellipse cx="78" cy="30" rx="4.8" ry="7" fill="url(#plateG)" />
+      <ellipse cx="76" cy="27" rx="1.3" ry="2.2" fill="#fda4af" opacity="0.7" />
+      {/* 좌 위팔 + 전완 + 주먹 — 바 잡음 */}
+      <path d="M22 34 Q18 48 21 60 Q22 64 24 64 L30 64 Q32 60 32 50 Q33 38 28 34 Z" fill="url(#limbG)" />
+      <path d="M70 34 Q72 38 73 50 Q72 60 70 64 L76 64 Q78 64 79 60 Q82 48 78 34 Z" fill="url(#limbG)" />
+      <path d="M23 64 Q21 75 23 78 L30 78 Q31 75 30 64 Z" fill="url(#bodyG)" />
+      <path d="M70 64 Q70 75 70 78 L77 78 Q79 75 77 64 Z" fill="url(#bodyG)" />
+      <Hand cx={26.5} cy={32} />
+      <Hand cx={73.5} cy={32} />
       {/* 대퇴 글로우 */}
       <g filter="url(#softGlow)">
         <ellipse cx="41" cy="108" rx="6" ry="14" fill="url(#muscleG)" className="m-glow" />
@@ -557,31 +613,38 @@ function HingeOverlay() {
   return (
     <g>
       <Legs />
-      {/* 햄스트링 글로우 (다리 뒤편) */}
+      {/* 햄스트링 글로우 */}
       <g filter="url(#softGlow)">
         <ellipse cx="41" cy="120" rx="5" ry="12" fill="url(#muscleG)" className="m-glow" />
         <ellipse cx="59" cy="120" rx="5" ry="12" fill="url(#muscleG)" className="m-glow" />
       </g>
       {/* 상체 + 팔이 함께 숙임 */}
       <g className="m-hinge">
+        {/* 토르소 (회전 버전) */}
         <path
           d="M33 40 Q34 50 36 75 L64 75 Q66 50 67 40 Z"
           fill="url(#bodyG)"
         />
-        {/* 척추 정의선 */}
+        {/* 척추 + 라티시무스 라인 */}
         <path d="M50 40 L50 75" stroke="#1a1a1f" strokeWidth="0.5" opacity="0.5" />
-        {/* 위팔 + 전완 */}
-        <path d="M28 40 Q24 60 28 78 L36 78 Q40 60 36 40 Z" fill="url(#limbG)" />
-        <path d="M64 40 Q60 60 64 78 L72 78 Q76 60 72 40 Z" fill="url(#limbG)" />
-        <path d="M28 78 Q26 90 28 96 L36 96 Q38 90 36 78 Z" fill="url(#bodyG)" />
-        <path d="M64 78 Q62 90 64 96 L72 96 Q74 90 72 78 Z" fill="url(#bodyG)" />
+        <path d="M37 50 Q40 60 38 72" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.45" />
+        <path d="M63 50 Q60 60 62 72" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.45" />
+        {/* 좌 위팔 (덤벨 잡는 자세) */}
+        <path d="M28 40 Q24 56 26 76 Q27 78 30 78 L36 78 Q38 76 38 60 Q39 48 35 40 Z" fill="url(#limbG)" />
+        <path d="M62 40 Q61 48 62 60 Q62 76 64 78 L70 78 Q73 78 74 76 Q76 56 72 40 Z" fill="url(#limbG)" />
+        {/* 전완 */}
+        <path d="M27 78 Q26 90 28 96 L36 96 Q38 90 36 78 Z" fill="url(#bodyG)" />
+        <path d="M64 78 Q62 90 64 96 L72 96 Q74 90 73 78 Z" fill="url(#bodyG)" />
+        {/* 주먹 */}
+        <Hand cx={32} cy={96.5} />
+        <Hand cx={68} cy={96.5} />
         {/* 바벨 */}
         <rect x="20" y="95" width="60" height="2.5" rx="1" fill="url(#barG)" />
         <rect x="22" y="95.2" width="56" height="0.4" fill="#fafafa" opacity="0.6" />
-        <ellipse cx="22" cy="96" rx="4.5" ry="6.5" fill="url(#plateG)" />
-        <ellipse cx="20" cy="93.5" rx="1.3" ry="2" fill="#fda4af" opacity="0.7" />
-        <ellipse cx="78" cy="96" rx="4.5" ry="6.5" fill="url(#plateG)" />
-        <ellipse cx="76" cy="93.5" rx="1.3" ry="2" fill="#fda4af" opacity="0.7" />
+        <ellipse cx="22" cy="96.2" rx="4.8" ry="7" fill="url(#plateG)" />
+        <ellipse cx="20" cy="93.5" rx="1.3" ry="2.2" fill="#fda4af" opacity="0.7" />
+        <ellipse cx="78" cy="96.2" rx="4.8" ry="7" fill="url(#plateG)" />
+        <ellipse cx="76" cy="93.5" rx="1.3" ry="2.2" fill="#fda4af" opacity="0.7" />
       </g>
     </g>
   );
@@ -591,25 +654,27 @@ function CurlOverlay() {
   return (
     <g>
       <Legs />
-      {/* 위팔 (고정) */}
-      <path d="M22 38 Q19 55 22 70 L30 70 Q33 55 30 38 Z" fill="url(#limbG)" />
-      <path d="M70 38 Q67 55 70 70 L78 70 Q81 55 78 38 Z" fill="url(#limbG)" />
+      {/* 위팔 — 둥근 이두 부풀음 */}
+      <path d="M22 38 Q18 50 21 60 Q22 66 24 70 L30 70 Q32 60 32 50 Q31 42 28 38 Z" fill="url(#limbG)" />
+      <path d="M70 38 Q72 42 71 50 Q70 60 70 70 L76 70 Q79 66 80 60 Q82 50 78 38 Z" fill="url(#limbG)" />
       {/* 이두 정의선 */}
-      <path d="M25 48 Q24 58 27 67" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.55" />
-      <path d="M75 48 Q76 58 73 67" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.55" />
+      <path d="M24 48 Q22 58 25 67" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.6" />
+      <path d="M76 48 Q78 58 75 67" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.6" />
       {/* 이두 글로우 */}
       <g filter="url(#softGlow)">
-        <ellipse cx="26" cy="55" rx="4.5" ry="9" fill="url(#muscleG)" className="m-glow-fast" />
-        <ellipse cx="74" cy="55" rx="4.5" ry="9" fill="url(#muscleG)" className="m-glow-fast" />
+        <ellipse cx="26" cy="55" rx="5" ry="9" fill="url(#muscleG)" className="m-glow-fast" />
+        <ellipse cx="74" cy="55" rx="5" ry="9" fill="url(#muscleG)" className="m-glow-fast" />
       </g>
-      {/* 전완 + 덤벨 (회전) */}
+      {/* 전완 + 손 + 덤벨 (팔꿈치 기준 회전) */}
       <g className="m-curl-l">
-        <path d="M22 70 Q21 85 22 92 L30 92 Q31 85 30 70 Z" fill="url(#bodyG)" />
-        <Dumbbell cx={26} cy={92} small />
+        <path d="M23 70 Q22 84 23 92 L30 92 Q31 84 30 70 Z" fill="url(#bodyG)" />
+        <Hand cx={26.5} cy={92.5} />
+        <Dumbbell cx={26.5} cy={92.5} small />
       </g>
       <g className="m-curl-r">
-        <path d="M70 70 Q69 85 70 92 L78 92 Q79 85 78 70 Z" fill="url(#bodyG)" />
-        <Dumbbell cx={74} cy={92} small />
+        <path d="M70 70 Q70 84 70 92 L77 92 Q78 84 77 70 Z" fill="url(#bodyG)" />
+        <Hand cx={73.5} cy={92.5} />
+        <Dumbbell cx={73.5} cy={92.5} small />
       </g>
     </g>
   );
@@ -619,10 +684,10 @@ function ExtensionOverlay() {
   return (
     <g>
       <Legs />
-      {/* 위팔 (고정, 살짝 올림) */}
-      <path d="M22 38 Q19 55 22 70 L30 70 Q33 55 30 38 Z" fill="url(#limbG)" />
-      <path d="M70 38 Q67 55 70 70 L78 70 Q81 55 78 38 Z" fill="url(#limbG)" />
-      {/* 삼두 글로우 (위팔 아래쪽) */}
+      {/* 위팔 — 이두 곡선 */}
+      <path d="M22 38 Q18 50 21 60 Q22 66 24 70 L30 70 Q32 60 32 50 Q31 42 28 38 Z" fill="url(#limbG)" />
+      <path d="M70 38 Q72 42 71 50 Q70 60 70 70 L76 70 Q79 66 80 60 Q82 50 78 38 Z" fill="url(#limbG)" />
+      {/* 삼두 글로우 (뒤편) */}
       <g filter="url(#softGlow)">
         <ellipse cx="30" cy="58" rx="4" ry="8" fill="url(#muscleG)" className="m-glow-fast" />
         <ellipse cx="70" cy="58" rx="4" ry="8" fill="url(#muscleG)" className="m-glow-fast" />
@@ -630,16 +695,19 @@ function ExtensionOverlay() {
       {/* 삼두 정의선 */}
       <path d="M29 50 Q31 60 29 68" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.55" />
       <path d="M71 50 Q69 60 71 68" stroke="#1a1a1f" strokeWidth="0.4" fill="none" opacity="0.55" />
-      {/* 전완 (회전 — 펴짐) */}
+      {/* 전완 + 손 (회전) */}
       <g className="m-ext-l">
-        <path d="M22 70 Q21 85 22 92 L30 92 Q31 85 30 70 Z" fill="url(#bodyG)" />
+        <path d="M23 70 Q22 84 23 92 L30 92 Q31 84 30 70 Z" fill="url(#bodyG)" />
+        <Hand cx={26.5} cy={92.5} />
       </g>
       <g className="m-ext-r">
-        <path d="M70 70 Q69 85 70 92 L78 92 Q79 85 78 70 Z" fill="url(#bodyG)" />
+        <path d="M70 70 Q70 84 70 92 L77 92 Q78 84 77 70 Z" fill="url(#bodyG)" />
+        <Hand cx={73.5} cy={92.5} />
       </g>
-      {/* 케이블 — 천장에서 */}
+      {/* 케이블 — 천장에서 + 풀리 */}
       <line x1="50" y1="0" x2="50" y2="22" stroke="#71717a" strokeWidth="0.7" />
-      <circle cx="50" cy="22" r="1.6" fill="#71717a" />
+      <circle cx="50" cy="22" r="1.8" fill="#71717a" />
+      <circle cx="50" cy="22" r="0.8" fill="#1f1f23" />
     </g>
   );
 }
@@ -653,17 +721,19 @@ function RaiseOverlay() {
         <ellipse cx="30" cy="36" rx="7" ry="6" fill="url(#muscleG)" className="m-glow" />
         <ellipse cx="70" cy="36" rx="7" ry="6" fill="url(#muscleG)" className="m-glow" />
       </g>
-      {/* 왼팔 — 어깨 우측 끝 기준 회전 */}
+      {/* 왼팔 — 어깨에서 회전 */}
       <g className="m-raise-l">
-        <path d="M22 34 Q19 50 22 70 L30 70 Q33 50 30 34 Z" fill="url(#limbG)" />
-        <path d="M22 70 Q21 85 22 92 L30 92 Q31 85 30 70 Z" fill="url(#bodyG)" />
-        <Dumbbell cx={26} cy={92} small />
+        <path d="M22 34 Q18 48 21 60 Q22 66 24 70 L30 70 Q32 60 32 50 Q33 38 28 34 Z" fill="url(#limbG)" />
+        <path d="M23 70 Q22 84 23 92 L30 92 Q31 84 30 70 Z" fill="url(#bodyG)" />
+        <Hand cx={26.5} cy={92.5} />
+        <Dumbbell cx={26.5} cy={92.5} small />
       </g>
       {/* 오른팔 */}
       <g className="m-raise-r">
-        <path d="M70 34 Q67 50 70 70 L78 70 Q81 50 78 34 Z" fill="url(#limbG)" />
-        <path d="M70 70 Q69 85 70 92 L78 92 Q79 85 78 70 Z" fill="url(#bodyG)" />
-        <Dumbbell cx={74} cy={92} small />
+        <path d="M70 34 Q72 38 73 50 Q72 60 70 70 L76 70 Q79 66 80 60 Q82 48 78 34 Z" fill="url(#limbG)" />
+        <path d="M70 70 Q70 84 70 92 L77 92 Q78 84 77 70 Z" fill="url(#bodyG)" />
+        <Hand cx={73.5} cy={92.5} />
+        <Dumbbell cx={73.5} cy={92.5} small />
       </g>
     </g>
   );
@@ -673,11 +743,13 @@ function StaticOverlay() {
   return (
     <g className="m-breathe">
       <Legs />
-      {/* 팔 — 자연 자세 */}
-      <path d="M22 34 Q19 55 22 75 L30 75 Q33 55 30 34 Z" fill="url(#limbG)" />
-      <path d="M70 34 Q67 55 70 75 L78 75 Q81 55 78 34 Z" fill="url(#limbG)" />
-      <path d="M22 75 Q21 88 22 94 L30 94 Q31 88 30 75 Z" fill="url(#bodyG)" />
-      <path d="M70 75 Q69 88 70 94 L78 94 Q79 88 78 75 Z" fill="url(#bodyG)" />
+      {/* 팔 — 자연 자세 + 손 */}
+      <path d="M22 34 Q18 50 21 60 Q22 70 24 75 L30 75 Q32 65 32 50 Q33 38 28 34 Z" fill="url(#limbG)" />
+      <path d="M70 34 Q72 38 73 50 Q72 65 70 75 L76 75 Q79 70 80 60 Q82 50 78 34 Z" fill="url(#limbG)" />
+      <path d="M23 75 Q22 88 23 94 L30 94 Q31 88 30 75 Z" fill="url(#bodyG)" />
+      <path d="M70 75 Q70 88 70 94 L77 94 Q78 88 77 75 Z" fill="url(#bodyG)" />
+      <Hand cx={26.5} cy={94.5} />
+      <Hand cx={73.5} cy={94.5} />
       {/* 코어 글로우 */}
       <g filter="url(#softGlow)">
         <ellipse cx="50" cy="62" rx="11" ry="10" fill="url(#muscleG)" className="m-glow-slow" />

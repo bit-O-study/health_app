@@ -9,6 +9,10 @@ import {
   fallbackPointsForBodyPart,
   type CautionPoint,
 } from "@/features/workout-timer/exercise-cautions";
+import {
+  motionCategoryFor,
+  MotionFigure,
+} from "@/features/workout-timer/exercise-motion";
 
 /**
  * 본운동 데모 — 운동별 "조심해야 할 부위" 펄스 마커 + 주의사항 카드 순환.
@@ -42,10 +46,12 @@ export function ExerciseDemo({
 
   const activeTip = points[active]?.tip ?? "";
 
+  const category = motionCategoryFor(exerciseId);
+
   return (
     <div className="flex w-full max-w-sm flex-col items-center">
       <div className="relative h-56 w-40 sm:h-64 sm:w-44">
-        <SilhouetteFigure />
+        <MotionFigure category={category} />
         {points.map((p, i) => (
           <CautionMarker
             key={`${name}-${i}`}
@@ -65,44 +71,6 @@ function pointsFor(exerciseId: string): CautionPoint[] {
   // 운동 카탈로그에서 1차 부위 → fallback 마커
   const part = primaryBodyPart(exerciseId);
   return fallbackPointsForBodyPart(part);
-}
-
-/** 운동 캔버스로 쓰는 정면 인체 실루엣. 단순·중성색 — 마네킹과 다른 톤. */
-function SilhouetteFigure() {
-  return (
-    <svg
-      viewBox="0 0 100 160"
-      className="h-full w-full"
-      role="img"
-      aria-label="인체 실루엣"
-      fill="#27272a"
-      stroke="#3f3f46"
-      strokeWidth="0.8"
-    >
-      {/* 머리 */}
-      <circle cx="50" cy="14" r="10" />
-      {/* 목 */}
-      <rect x="46" y="22" width="8" height="6" />
-      {/* 어깨선 — 등쪽 윤곽 살리기 위해 둥근 사다리꼴 */}
-      <path d="M30 32 Q50 26 70 32 L66 42 Q50 38 34 42 Z" />
-      {/* 상체 */}
-      <rect x="34" y="40" width="32" height="36" rx="3" />
-      {/* 팔 */}
-      <rect x="22" y="34" width="8" height="40" rx="4" />
-      <rect x="70" y="34" width="8" height="40" rx="4" />
-      {/* 전완 */}
-      <rect x="22" y="72" width="8" height="22" rx="4" fill="#1f1f23" />
-      <rect x="70" y="72" width="8" height="22" rx="4" fill="#1f1f23" />
-      {/* 골반 */}
-      <rect x="36" y="76" width="28" height="14" rx="3" />
-      {/* 허벅지 */}
-      <rect x="36" y="90" width="12" height="40" rx="3" />
-      <rect x="52" y="90" width="12" height="40" rx="3" />
-      {/* 종아리 */}
-      <rect x="36" y="130" width="12" height="22" rx="3" fill="#1f1f23" />
-      <rect x="52" y="130" width="12" height="22" rx="3" fill="#1f1f23" />
-    </svg>
-  );
 }
 
 /**

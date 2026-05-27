@@ -80,74 +80,59 @@ export function GuidedOverlay({
     setIndex((i) => i + 1);
   }
 
-  async function complete() {
+  /**
+   * 완료·넘기기 — 낙관적 업데이트.
+   * 서버 응답을 기다리지 않고 advance + 휴식 타이머 즉시 트리거.
+   * 액션은 background 로 fire — 실패 시 콘솔에 로그.
+   * 더블 탭은 workingRef 로 300ms 차단.
+   */
+  function dispatch(status: "done" | "skipped") {
     if (workingRef.current || !item) return;
     workingRef.current = true;
     setWorking(true);
-    try {
-      if (item.kind === "main") {
-        await setExerciseStatusAction(item.rowId, "done", {
-          exerciseId: item.exerciseId,
-          equipment: item.equipment,
-          sets: item.sets,
-          reps: item.reps,
-          weightKg: item.weightKg,
-          focus: item.focus,
-        });
-        // 자동 휴식 — 무게 있으면 90초, 맨몸이면 60초
-        rest.trigger(item.weightKg !== null && item.weightKg > 0 ? 90 : 60);
-      } else {
-        await setConditioningStatusAction(item.kind, item.rowId, item.itemId, "done", {
-          durationMin: item.durationMin,
-          speed: item.speed,
-          incline: item.incline,
-        });
-      }
-      dirtyRef.current = true;
-      advance();
-    } catch (e) {
-      console.error("[guided] complete failed", e);
-    } finally {
+
+    const captured = item; // advance 직전에 캡쳐
+    const isMain = captured.kind === "main";
+
+    // 1) 서버 액션은 background — await 없음
+    if (isMain) {
+      setExerciseStatusAction(captured.rowId, status, {
+        exerciseId: captured.exerciseId,
+        equipment: captured.equipment,
+        sets: captured.sets,
+        reps: captured.reps,
+        weightKg: captured.weightKg,
+        focus: captured.focus,
+      }).catch((e) => console.error("[guided] action failed", e));
+    } else {
+      setConditioningStatusAction(captured.kind, captured.rowId, captured.itemId, status, {
+        durationMin: captured.durationMin,
+        speed: captured.speed,
+        incline: captured.incline,
+      }).catch((e) => console.error("[guided] action failed", e));
+    }
+
+    // 2) 완료 면 휴식 타이머 즉시
+    if (status === "done" && isMain) {
+      rest.trigger(captured.weightKg !== null && captured.weightKg > 0 ? 90 : 60);
+    }
+
+    // 3) UI 즉시 advance
+    dirtyRef.current = true;
+    advance();
+
+    // 4) 더블 탭 가드 짧게 — 300ms 후 다시 활성화
+    window.setTimeout(() => {
       workingRef.current = false;
       setWorking(false);
-    }
+    }, 300);
   }
 
-  async function skip() {
-    if (workingRef.current || !item) return;
-    workingRef.current = true;
-    setWorking(true);
-    try {
-      if (item.kind === "main") {
-        await setExerciseStatusAction(item.rowId, "skipped", {
-          exerciseId: item.exerciseId,
-          equipment: item.equipment,
-          sets: item.sets,
-          reps: item.reps,
-          weightKg: item.weightKg,
-          focus: item.focus,
-        });
-      } else {
-        await setConditioningStatusAction(
-          item.kind,
-          item.rowId,
-          item.itemId,
-          "skipped",
-          {
-            durationMin: item.durationMin,
-            speed: item.speed,
-            incline: item.incline,
-          },
-        );
-      }
-      dirtyRef.current = true;
-      advance();
-    } catch (e) {
-      console.error("[guided] skip failed", e);
-    } finally {
-      workingRef.current = false;
-      setWorking(false);
-    }
+  function complete() {
+    dispatch("done");
+  }
+  function skip() {
+    dispatch("skipped");
   }
 
   // 닫기 — 완료/넘기기 누르기 전엔 confirm 으로 우발적 종료 방지.

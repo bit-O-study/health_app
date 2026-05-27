@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertTriangle, Play } from "lucide-react";
+import {
+  AlertTriangle,
+  Hand,
+  Lightbulb,
+  Play,
+  Target,
+} from "lucide-react";
 
 import { primaryBodyPart } from "@/features/routine/exercise-catalog";
 import {
@@ -16,16 +22,19 @@ import {
   phasesFor,
   type ExercisePhase,
 } from "@/features/workout-timer/exercise-phases";
+import { guideFor } from "@/features/workout-timer/exercise-guides";
 
 /**
- * 운동 가이드 — 측면뷰 플립북 스타일.
- * 상단: 단계 카드 (준비 → 내리기 → 정점 → 올리기) 가 사이클과 동기
- * 중단: 측면뷰 플랫 컬러 일러스트 (3 프레임 페이드) + 모션 화살표
- * 하단: 조심 포인트 — amber 카드 한 줄로
+ * 초보자용 종합 코칭 패널.
+ * 섹션:
+ * 1. 측면뷰 일러스트 + 현재 단계 안내 (애니메이션 동기)
+ * 2. 🤚 그립·세팅 (어디 어떻게 잡는가)
+ * 3. 🎯 자극이 와야 할 부위 (펌핑 느낌 설명)
+ * 4. ⚠ 조심 포인트 (강조 마커 + 순환 텍스트)
+ * 5. 💡 초보 팁
  */
 export function ExerciseDemo({
   exerciseId,
-  name,
 }: {
   exerciseId: string;
   name: string;
@@ -34,6 +43,7 @@ export function ExerciseDemo({
   const points = pointsFor(exerciseId);
   const category = motionCategoryFor(exerciseId);
   const cycleMs = cycleDurationMs(exerciseId);
+  const guide = guideFor(exerciseId);
 
   const [phaseIdx, setPhaseIdx] = useState(0);
   const [cautionIdx, setCautionIdx] = useState(0);
@@ -58,39 +68,101 @@ export function ExerciseDemo({
     return () => window.clearInterval(id);
   }, [points, cycleMs]);
 
-  if (points.length === 0 && phases.length === 0) return null;
+  if (!guide && points.length === 0 && phases.length === 0) return null;
 
   const phase = phases[phaseIdx];
   const cautionTip = points[cautionIdx]?.tip ?? "";
 
   return (
-    <div className="flex w-full flex-col items-center gap-3">
-      {/* 단계 카드 */}
-      {phase ? (
-        <PhaseCard phase={phase} index={phaseIdx} total={phases.length} />
-      ) : null}
-
-      {/* 측면뷰 플립북 일러스트 */}
-      <div
-        className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-700 bg-gradient-to-b from-zinc-800 to-zinc-900 p-3"
-        style={
-          {
-            ["--cycle" as string]: `${cycleMs}ms`,
-            aspectRatio: "1 / 1",
-          } as React.CSSProperties
-        }
-      >
-        <ExerciseFlipbook category={category} />
+    <div className="flex w-full flex-col gap-3">
+      {/* 일러스트 + 단계 카드 */}
+      <div className="flex flex-col items-center gap-3">
+        {phase ? (
+          <PhaseCard phase={phase} index={phaseIdx} total={phases.length} />
+        ) : null}
+        <div
+          className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-700 bg-gradient-to-b from-zinc-800 to-zinc-900 p-3"
+          style={
+            {
+              ["--cycle" as string]: `${cycleMs}ms`,
+              aspectRatio: "1 / 1",
+            } as React.CSSProperties
+          }
+        >
+          <ExerciseFlipbook category={category} />
+        </div>
       </div>
 
-      {/* 조심 카드 */}
+      {/* 그립·세팅 */}
+      {guide ? (
+        <Section
+          icon={<Hand aria-hidden="true" size={14} />}
+          label="그립 · 세팅"
+          tone="zinc"
+        >
+          <p className="text-sm leading-6 text-zinc-200">{guide.setup}</p>
+        </Section>
+      ) : null}
+
+      {/* 자극 부위 */}
+      {guide && guide.targets.length > 0 ? (
+        <Section
+          icon={<Target aria-hidden="true" size={14} />}
+          label="자극이 와야 할 부위"
+          tone="emerald"
+        >
+          <ul className="space-y-2">
+            {guide.targets.map((t, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm leading-6">
+                <span className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-400" />
+                <div>
+                  <strong className="text-emerald-200">{t.name}</strong>
+                  <span className="text-zinc-300"> — {t.feel}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
+
+      {/* 조심 — 강조 텍스트 + 마커는 일러스트 옆에 있어야 하지만 여기선 텍스트만 */}
       {points.length > 0 ? (
-        <CautionTipCard
-          tip={cautionTip}
-          index={cautionIdx}
-          total={points.length}
-          key={`${name}-${cautionIdx}`}
-        />
+        <Section
+          icon={<AlertTriangle aria-hidden="true" size={14} />}
+          label={`조심 (${cautionIdx + 1}/${points.length} 순환)`}
+          tone="amber"
+        >
+          <p
+            key={cautionTip}
+            className="animate-[fadeUp_350ms_ease-out] text-sm leading-6 text-amber-50"
+          >
+            {cautionTip}
+          </p>
+          <style>{`
+            @keyframes fadeUp { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+          `}</style>
+        </Section>
+      ) : null}
+
+      {/* 초보 팁 */}
+      {guide && guide.beginnerTips.length > 0 ? (
+        <Section
+          icon={<Lightbulb aria-hidden="true" size={14} />}
+          label="초보 팁"
+          tone="sky"
+        >
+          <ul className="space-y-1.5">
+            {guide.beginnerTips.map((t, i) => (
+              <li
+                key={i}
+                className="flex items-start gap-2 text-sm leading-6 text-zinc-200"
+              >
+                <span className="mt-1.5 inline-block h-1 w-1 shrink-0 rounded-full bg-sky-400" />
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </Section>
       ) : null}
     </div>
   );
@@ -103,6 +175,40 @@ function pointsFor(exerciseId: string): CautionPoint[] {
   return fallbackPointsForBodyPart(part);
 }
 
+/** 섹션 카드 — 톤(컬러) 별 보더·배경. */
+function Section({
+  icon,
+  label,
+  tone,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  tone: "zinc" | "emerald" | "amber" | "sky";
+  children: React.ReactNode;
+}) {
+  const tones = {
+    zinc: "border-zinc-700 bg-zinc-800/40 text-zinc-300",
+    emerald: "border-emerald-400/40 bg-emerald-500/10 text-emerald-300",
+    amber: "border-amber-400/40 bg-amber-500/10 text-amber-300",
+    sky: "border-sky-400/40 bg-sky-500/10 text-sky-300",
+  };
+  return (
+    <div
+      className={`w-full max-w-md rounded-2xl border px-4 py-3 ${tones[tone]}`}
+    >
+      <div className="mb-1.5 flex items-center gap-1.5">
+        {icon}
+        <span className="text-[11px] font-bold uppercase tracking-wider">
+          {label}
+        </span>
+      </div>
+      {children}
+    </div>
+  );
+}
+
+/** 동작 단계 카드 — 일러스트 위에 큰 글씨로. */
 function PhaseCard({
   phase,
   index,
@@ -114,7 +220,7 @@ function PhaseCard({
 }) {
   return (
     <div
-      className="w-full max-w-md rounded-2xl border border-emerald-400/40 bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 px-4 py-3"
+      className="w-full max-w-md rounded-2xl border border-emerald-400/50 bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 px-4 py-3"
       key={`${index}-${phase.name}`}
     >
       <div className="flex items-center gap-2 text-emerald-300">
@@ -140,35 +246,8 @@ function PhaseCard({
         {phase.instruction}
       </p>
       <style>{`
-        @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes fadeUp { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: translateY(0); } }
       `}</style>
-    </div>
-  );
-}
-
-function CautionTipCard({
-  tip,
-  index,
-  total,
-}: {
-  tip: string;
-  index: number;
-  total: number;
-}) {
-  return (
-    <div className="w-full max-w-md rounded-2xl border border-amber-400/40 bg-amber-500/10 px-4 py-2.5">
-      <div className="flex items-center gap-2 text-amber-300">
-        <AlertTriangle aria-hidden="true" size={12} />
-        <span className="text-[10px] font-bold uppercase tracking-wide">
-          조심 {index + 1} / {total}
-        </span>
-      </div>
-      <p className="mt-0.5 animate-[fadeUp_350ms_ease-out] text-sm leading-6 text-amber-50/95">
-        {tip}
-      </p>
     </div>
   );
 }

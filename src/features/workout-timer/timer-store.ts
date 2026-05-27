@@ -3,6 +3,9 @@
 /**
  * 운동 세션 타이머 영속 저장소. 시작/일시정지 시각만 보관하고 UI 가 매초 elapsed 를 계산.
  * 새로고침해도 진행 중인 타이머가 유지된다.
+ *
+ * forDate 는 세션이 시작된 날짜(서울 기준 YYYY-MM-DD). 자정 롤오버 감지·
+ * 누적 시간 DB 반영에 사용된다.
  */
 
 const TIMER_KEY = "heltch.workout.timer";
@@ -14,6 +17,8 @@ export type TimerState = {
   pausedAt: number | null;
   /** 이전 구간들에서 누적된 ms */
   accumulated: number;
+  /** 세션이 속한 날짜 YYYY-MM-DD (서울). 자정 넘으면 변경됨. */
+  forDate: string;
 };
 
 export function readTimer(): TimerState | null {
@@ -21,13 +26,14 @@ export function readTimer(): TimerState | null {
   try {
     const raw = localStorage.getItem(TIMER_KEY);
     if (!raw) return null;
-    const v = JSON.parse(raw) as TimerState;
+    const v = JSON.parse(raw) as Partial<TimerState>;
     if (
       typeof v?.startedAt === "number" &&
       typeof v?.accumulated === "number" &&
-      (v.pausedAt === null || typeof v.pausedAt === "number")
+      (v.pausedAt === null || typeof v.pausedAt === "number") &&
+      typeof v?.forDate === "string"
     ) {
-      return v;
+      return v as TimerState;
     }
     return null;
   } catch {
@@ -60,4 +66,15 @@ export function formatElapsed(ms: number): string {
   const h = Math.floor(totalSec / 3600);
   const pad = (n: number) => String(n).padStart(2, "0");
   return h > 0 ? `${h}:${pad(m)}:${pad(s)}` : `${pad(m)}:${pad(s)}`;
+}
+
+/** 서울 기준 오늘 YYYY-MM-DD */
+export function seoulTodayYmd(): string {
+  const fmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Seoul",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  return fmt.format(new Date());
 }

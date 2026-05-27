@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Pause, Play, Square, Timer } from "lucide-react";
+import { ListChecks, Pause, Play, Square, Timer } from "lucide-react";
 
 import {
   elapsedMs,
@@ -10,15 +10,25 @@ import {
   writeTimer,
   type TimerState,
 } from "@/features/workout-timer/timer-store";
+import {
+  GuidedOverlay,
+  type GuidedItem,
+} from "@/features/workout-timer/guided-workout";
 
 /**
- * "오늘 할 운동" 상단의 세션 스톱워치.
- * - 미시작 상태: "운동 시작" 버튼만 표시
- * - 실행/일시정지: 경과 시간 + 일시정지·재개·종료 버튼
+ * "오늘 할 운동" 상단의 세션 스톱워치 + 가이드 모드 트리거.
+ * - 미시작 상태: "운동 시작" 버튼만 표시 — 클릭 시 타이머 시작 + (큐 있으면) 가이드 오버레이 자동 오픈
+ * - 실행/일시정지: 경과 시간 + 일시정지·재개·종료 + 가이드 다시 열기 버튼
  * - 새로고침해도 localStorage 의 시작시각으로 복원
  */
-export function WorkoutSessionTimer() {
+export function WorkoutSessionTimer({
+  queueItems = [],
+}: {
+  /** 가이드 큐 — 완료/스킵되지 않은 워밍업→본운동→마무리 순서. 비어 있으면 가이드 미사용. */
+  queueItems?: GuidedItem[];
+}) {
   const [state, setState] = useState<TimerState | null>(null);
+  const [guided, setGuided] = useState(false);
   // tick — 매초 리렌더 (1초 단위 갱신)
   const [, setTick] = useState(0);
 
@@ -42,6 +52,8 @@ export function WorkoutSessionTimer() {
     };
     writeTimer(s);
     setState(s);
+    // 큐에 운동이 있으면 가이드 오버레이 자동 오픈 (휴식일이면 그냥 타이머만)
+    if (queueItems.length > 0) setGuided(true);
   }
   function pause() {
     if (!state || state.pausedAt !== null) return;
@@ -83,46 +95,66 @@ export function WorkoutSessionTimer() {
     );
   }
 
+  // 진행 중인 가이드 오버레이
+  const overlay =
+    guided && queueItems.length > 0 ? (
+      <GuidedOverlay items={queueItems} onClose={() => setGuided(false)} />
+    ) : null;
+
   const running = state.pausedAt === null;
   const time = formatElapsed(elapsedMs(state));
 
   return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1.5 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/40">
-      <Timer
-        aria-hidden="true"
-        size={16}
-        className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
-      />
-      <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
-        {time}
-      </span>
-      {running ? (
+    <>
+      <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1.5 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/40">
+        <Timer
+          aria-hidden="true"
+          size={16}
+          className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
+        />
+        <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
+          {time}
+        </span>
+        {queueItems.length > 0 && !guided ? (
+          <button
+            type="button"
+            aria-label="가이드 다시 열기"
+            title="가이드 다시 열기"
+            onClick={() => setGuided(true)}
+            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+          >
+            <ListChecks aria-hidden="true" size={14} />
+          </button>
+        ) : null}
+        {running ? (
+          <button
+            type="button"
+            aria-label="일시정지"
+            onClick={pause}
+            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+          >
+            <Pause aria-hidden="true" size={14} />
+          </button>
+        ) : (
+          <button
+            type="button"
+            aria-label="재개"
+            onClick={resume}
+            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+          >
+            <Play aria-hidden="true" size={14} />
+          </button>
+        )}
         <button
           type="button"
-          aria-label="일시정지"
-          onClick={pause}
-          className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+          aria-label="종료"
+          onClick={stop}
+          className="flex h-7 w-7 items-center justify-center rounded-full text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
         >
-          <Pause aria-hidden="true" size={14} />
+          <Square aria-hidden="true" size={13} />
         </button>
-      ) : (
-        <button
-          type="button"
-          aria-label="재개"
-          onClick={resume}
-          className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-        >
-          <Play aria-hidden="true" size={14} />
-        </button>
-      )}
-      <button
-        type="button"
-        aria-label="종료"
-        onClick={stop}
-        className="flex h-7 w-7 items-center justify-center rounded-full text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
-      >
-        <Square aria-hidden="true" size={13} />
-      </button>
-    </div>
+      </div>
+      {overlay}
+    </>
   );
 }

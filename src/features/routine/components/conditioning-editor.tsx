@@ -246,7 +246,7 @@ export function ConditioningEditor({
           type="button"
           disabled={pending}
           onClick={save}
-          className="inline-flex h-8 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-zinc-900 px-3 text-xs font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60"
+          className="inline-flex h-8 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-3 text-xs font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={13} />

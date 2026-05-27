@@ -158,7 +158,7 @@ function CommentForm({ videoId }: { videoId: string }) {
       </div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:cursor-not-allowed disabled:bg-zinc-400"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-zinc-900 dark:bg-zinc-100 px-4 text-sm font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:cursor-not-allowed disabled:bg-zinc-400"
           disabled={isSubmitting}
           type="submit"
         >

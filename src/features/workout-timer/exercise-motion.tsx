@@ -117,6 +117,20 @@ const CATEGORY_MAP: Record<string, MotionCategory> = {
   "mountain-climber": "static",
   "wood-chopper": "static",
   "pallof-press": "static",
+  "bicycle-crunch": "static",
+  "hollow-hold": "static",
+  "reverse-crunch": "static",
+  "toes-to-bar": "static",
+  "v-up": "static",
+  // 누락된 squat 계열
+  "belt-squat": "squat",
+  "box-squat": "squat",
+  "cossack-squat": "squat",
+  "curtsy-lunge": "squat",
+  "sumo-squat": "squat",
+  "sissy-squat": "squat",
+  "single-leg-leg-press": "squat",
+  "donkey-calf-raise": "squat",
 };
 
 export function motionCategoryFor(exerciseId: string): MotionCategory {

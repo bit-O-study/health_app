@@ -1,9 +1,19 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { ChevronLeft, Dumbbell, Flame, Wind, Zap } from "lucide-react";
+import { ChevronLeft, Dumbbell, Flame, Timer, Wind, Zap } from "lucide-react";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
+import { getWorkoutDurationFor } from "@/features/workout-timer/workout-sessions";
+
+function shortDuration(sec: number): string {
+  if (sec < 60) return `${sec}초`;
+  const m = Math.floor(sec / 60);
+  if (m < 60) return `${m}분`;
+  const h = Math.floor(m / 60);
+  const rem = m % 60;
+  return rem === 0 ? `${h}시간` : `${h}시간 ${rem}분`;
+}
 import {
   EQUIPMENT_LABELS,
   getCatalogExercise,
@@ -75,7 +85,7 @@ export default async function HistoryDetailPage({
   } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const [exRes, condRes] = await Promise.all([
+  const [exRes, condRes, workoutDurationSec] = await Promise.all([
     supabase
       .from("exercise_completions")
       .select("exercise_id, equipment, sets, reps, weight_kg, focus")
@@ -88,6 +98,7 @@ export default async function HistoryDetailPage({
       .eq("user_id", user.id)
       .eq("for_date", date)
       .eq("status", "done"),
+    getWorkoutDurationFor(date),
   ]);
 
   const mainItems = ((exRes.data ?? []) as ExRow[])
@@ -212,6 +223,25 @@ export default async function HistoryDetailPage({
           </p>
         </div>
       </section>
+
+      {workoutDurationSec > 0 ? (
+        <section className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+            <Timer aria-hidden="true" size={20} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              이 날 총 운동 시간
+            </p>
+            <p className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
+              {shortDuration(workoutDurationSec)}
+            </p>
+            <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+              스톱워치 기준 누적 시간
+            </p>
+          </div>
+        </section>
+      ) : null}
 
       <Section title="본운동" icon={<Dumbbell size={15} />} tone="emerald">
         {mainItems.length === 0 ? (

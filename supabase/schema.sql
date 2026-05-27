@@ -700,4 +700,35 @@ create policy "Users delete own body comp images"
     and (storage.foldername(name))[1] = auth.uid()::text
   );
 
+-- ────────────────────────────────────────────────────────────────
+-- 일자별 누적 운동 시간. 운동시작 → 정지/일시정지/저장 사이 경과 시간을 누적.
+-- 같은 날 여러 세션 가능(오전+저녁 등) → 같은 (user, for_date) 행에 누적.
+create table if not exists public.workout_sessions (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  duration_sec integer not null default 0 check (duration_sec >= 0),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+
+create index if not exists workout_sessions_date_idx
+  on public.workout_sessions (user_id, for_date desc);
+
+alter table public.workout_sessions enable row level security;
+
+drop policy if exists "Users read own workout sessions" on public.workout_sessions;
+create policy "Users read own workout sessions"
+  on public.workout_sessions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users insert own workout sessions" on public.workout_sessions;
+create policy "Users insert own workout sessions"
+  on public.workout_sessions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users update own workout sessions" on public.workout_sessions;
+create policy "Users update own workout sessions"
+  on public.workout_sessions for update
+  using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

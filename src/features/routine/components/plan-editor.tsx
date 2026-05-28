@@ -21,6 +21,10 @@ import {
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
+import {
+  isEquipmentAvailable,
+  toGymEquipmentSet,
+} from "@/features/gym/gym-equipment-mapping";
 
 type FocusData = {
   focus: FocusTone;
@@ -54,14 +58,18 @@ export function PlanEditor({
   experience,
   bodyType,
   weightKg,
+  gymEquipment = null,
 }: {
   focuses: FocusData[];
   gender: "male" | "female";
   experience: ExperienceLevel;
   bodyType: BodyType | null;
   weightKg: number | null;
+  /** 내 헬스장 기구 ID 배열. null = 미설정(필터링 안 함) */
+  gymEquipment?: readonly string[] | null;
 }) {
   const router = useRouter();
+  const gymSet = toGymEquipmentSet(gymEquipment);
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
   const [plans, setPlans] = useState<Record<string, Row[]>>(() =>
@@ -73,6 +81,16 @@ export function PlanEditor({
     setStatus(null);
   }
 
+  /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째 */
+  function pickDefaultEquipment(ex: {
+    equipments: { equipment: EquipmentId }[];
+  }): EquipmentId {
+    const available = ex.equipments.find((eq) =>
+      isEquipmentAvailable(eq.equipment, gymSet),
+    );
+    return available?.equipment ?? ex.equipments[0].equipment;
+  }
+
   function addRow(focus: FocusTone) {
     const options = allExercisesForFocus(focus);
     const first = options[0];
@@ -81,7 +99,7 @@ export function PlanEditor({
       ...(plans[focus] ?? []),
       {
         exerciseId: first.id,
-        equipment: first.equipments[0].equipment,
+        equipment: pickDefaultEquipment(first),
         sets: 3,
         reps: 10,
         weight: "",
@@ -113,7 +131,7 @@ export function PlanEditor({
       const p = prescribe(ex.id, opts);
       return {
         exerciseId: ex.id,
-        equipment: ex.equipments[0].equipment,
+        equipment: pickDefaultEquipment(ex),
         sets: p.sets,
         reps: p.reps,
         weight: p.weightKg === null ? "" : String(p.weightKg),
@@ -228,8 +246,9 @@ export function PlanEditor({
                           next[idx] = {
                             ...row,
                             exerciseId: e.target.value,
-                            equipment:
-                              nextEx?.equipments[0].equipment ?? row.equipment,
+                            equipment: nextEx
+                              ? pickDefaultEquipment(nextEx)
+                              : row.equipment,
                           };
                           update(f.focus, next);
                         }}
@@ -255,11 +274,15 @@ export function PlanEditor({
                         }}
                         className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
                       >
-                        {ex.equipments.map((eq) => (
-                          <option key={eq.equipment} value={eq.equipment}>
-                            {EQUIPMENT_LABELS[eq.equipment]}
-                          </option>
-                        ))}
+                        {ex.equipments.map((eq) => {
+                          const ok = isEquipmentAvailable(eq.equipment, gymSet);
+                          return (
+                            <option key={eq.equipment} value={eq.equipment}>
+                              {EQUIPMENT_LABELS[eq.equipment]}
+                              {ok ? "" : " (헬스장에 없음)"}
+                            </option>
+                          );
+                        })}
                       </select>
 
                       <input

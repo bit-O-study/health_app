@@ -160,7 +160,7 @@ export function OnboardingFlow() {
               운동 경력은 어느 정도인가요?
             </h1>
             <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              난이도에 맞춰 분할 루틴을 추천해 드립니다.
+              난이도에 맞춰 주당 운동 일수 루틴을 추천해 드립니다.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -312,7 +312,7 @@ export function OnboardingFlow() {
                 {recommendation.reason}
               </p>
               <p className="mt-3 text-xs text-emerald-700 dark:text-emerald-400">
-                마음에 안 들면 아래에서 분할을 바꾸거나 커스텀으로 직접 짤 수
+                마음에 안 들면 아래에서 루틴을 바꾸거나 커스텀으로 직접 짤 수
                 있어요.
               </p>
             </div>

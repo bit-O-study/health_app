@@ -63,7 +63,7 @@ export default async function SettingsPage() {
             <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
               {resolved
                 ? `현재: ${resolved.preset.label} · ${resolved.variant.name}`
-                : "아직 설정한 루틴이 없습니다 — 분할을 골라 시작하세요."}
+                : "아직 설정한 루틴이 없습니다 — 루틴을 골라 시작하세요."}
             </p>
           </div>
           <ArrowRight

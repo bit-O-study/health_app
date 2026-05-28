@@ -8,6 +8,61 @@ import {
 } from "@/lib/supabase/server";
 import { ALL_GYM_EQUIPMENT_IDS } from "@/features/gym/gym-equipment-catalog";
 
+export type GymSearchHit = {
+  id: string;
+  name: string;
+  address: string | null;
+  equipmentCount: number;
+};
+
+/** 이름·주소로 헬스장 검색 — 신규 등록 시 중복 방지용 typeahead */
+export async function searchGymsAction(
+  query: string,
+): Promise<GymSearchHit[]> {
+  const q = query.trim();
+  if (q.length < 2) return [];
+  const supabase = await createSupabaseServerClient();
+  // ilike 로 부분 일치 검색 — 이름 또는 주소
+  const escaped = q.replace(/[%_]/g, (m) => `\\${m}`);
+  const pattern = `%${escaped}%`;
+  const { data } = await supabase
+    .from("gyms")
+    .select("id, name, address, equipment_ids")
+    .or(`name.ilike.${pattern},address.ilike.${pattern}`)
+    .limit(8);
+  return ((data ?? []) as {
+    id: string;
+    name: string;
+    address: string | null;
+    equipment_ids: string[] | null;
+  }[]).map((r) => ({
+    id: r.id,
+    name: r.name,
+    address: r.address,
+    equipmentCount: (r.equipment_ids ?? []).length,
+  }));
+}
+
+/**
+ * 다른 사용자가 등록한 헬스장을 내 프로필에 연결.
+ * gym 자체는 수정하지 않음 (RLS 가 등록자만 update 허용).
+ */
+export async function linkExistingGymAction(
+  gymId: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("profiles")
+    .update({ gym_id: gymId, updated_at: new Date().toISOString() })
+    .eq("user_id", user.id);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/settings");
+  revalidatePath("/settings/gym");
+  return { ok: true };
+}
+
 export type UpsertGymInput = {
   /** 수정이면 기존 id, 새로 등록이면 null */
   id: string | null;

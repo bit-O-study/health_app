@@ -1,14 +1,19 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Save } from "lucide-react";
+import { Building2, Check, Link2, Save } from "lucide-react";
 
 import {
   GYM_EQUIPMENT_GROUPS,
   DEFAULT_KOREAN_GYM_EQUIPMENT,
 } from "@/features/gym/gym-equipment-catalog";
-import { upsertGymAction } from "@/features/gym/gym-actions";
+import {
+  linkExistingGymAction,
+  searchGymsAction,
+  upsertGymAction,
+  type GymSearchHit,
+} from "@/features/gym/gym-actions";
 
 export type GymFormInitial = {
   id: string | null;
@@ -35,6 +40,34 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
   );
   const [err, setErr] = useState<string | null>(null);
   const [pending, startTx] = useTransition();
+
+  // 이름 입력 시 기존 헬스장 검색 (debounced, 신규 등록일 때만)
+  const [hits, setHits] = useState<GymSearchHit[]>([]);
+  const isNew = initial?.id === null || initial === null;
+  useEffect(() => {
+    if (!isNew) return;
+    const q = name.trim();
+    if (q.length < 2) {
+      setHits([]);
+      return;
+    }
+    const id = window.setTimeout(() => {
+      void searchGymsAction(q).then(setHits);
+    }, 250);
+    return () => window.clearTimeout(id);
+  }, [name, isNew]);
+
+  function pickExisting(hit: GymSearchHit) {
+    startTx(async () => {
+      const res = await linkExistingGymAction(hit.id);
+      if (!res.ok) {
+        setErr(res.error);
+        return;
+      }
+      router.push("/settings");
+      router.refresh();
+    });
+  }
 
   function toggle(id: string) {
     setEquipment((prev) => {
@@ -96,6 +129,48 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
             className="mt-1 block w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-950 dark:text-zinc-100 focus:border-emerald-500 focus:outline-none"
           />
         </label>
+
+        {isNew && hits.length > 0 ? (
+          <div className="mt-4 rounded-lg border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 p-3">
+            <p className="mb-2 text-xs font-semibold text-emerald-800 dark:text-emerald-300">
+              이미 등록된 헬스장이 있어요. 기존 정보 사용하기:
+            </p>
+            <ul className="space-y-1.5">
+              {hits.map((hit) => (
+                <li key={hit.id}>
+                  <button
+                    type="button"
+                    onClick={() => pickExisting(hit)}
+                    disabled={pending}
+                    className="flex w-full items-center gap-3 rounded-md border border-emerald-300 dark:border-emerald-700 bg-white dark:bg-zinc-900 px-3 py-2 text-left transition hover:bg-emerald-50 dark:hover:bg-emerald-900/30 disabled:opacity-50"
+                  >
+                    <Building2
+                      aria-hidden="true"
+                      size={16}
+                      className="shrink-0 text-emerald-700 dark:text-emerald-400"
+                    />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">
+                        {hit.name}
+                      </p>
+                      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+                        {hit.address ?? "주소 미입력"} · 기구 {hit.equipmentCount}종
+                      </p>
+                    </div>
+                    <Link2
+                      aria-hidden="true"
+                      size={14}
+                      className="shrink-0 text-emerald-700 dark:text-emerald-400"
+                    />
+                  </button>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+              내 헬스장이 없으면 그대로 아래 정보로 새로 등록하세요.
+            </p>
+          </div>
+        ) : null}
       </section>
 
       <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">

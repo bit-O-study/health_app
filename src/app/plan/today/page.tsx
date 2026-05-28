@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
+import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import {
   DAY_BLOCKS,
@@ -28,12 +29,14 @@ export default async function TodayConditioningPage({
 }: {
   searchParams: Promise<{ focus?: string }>;
 }) {
-  const [profile, routine] = await Promise.all([
+  const [profile, routine, gym] = await Promise.all([
     getUserProfile(),
     getUserRoutine(),
+    getCurrentGym(),
   ]);
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
+  const gymEquipment = gym?.equipmentIds ?? null;
 
   const { focus: focusParam } = await searchParams;
 
@@ -167,6 +170,7 @@ export default async function TodayConditioningPage({
               weightKg={profile.weightKg}
               dateYmd={todayYmd}
               initial={s.initialMain}
+              gymEquipment={gymEquipment}
             />
           ))}
 

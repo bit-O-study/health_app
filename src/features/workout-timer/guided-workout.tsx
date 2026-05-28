@@ -46,9 +46,12 @@ export type GuidedItem =
 export function GuidedOverlay({
   items,
   onClose,
+  onAllComplete,
 }: {
   items: GuidedItem[];
   onClose: () => void;
+  /** 마지막 항목까지 완료/넘기기 처리되면 호출. 부모가 운동시간 저장 등 후처리. */
+  onAllComplete?: () => void;
 }) {
   const router = useRouter();
   const rest = useRestTimer();
@@ -75,7 +78,9 @@ export function GuidedOverlay({
   function advance() {
     if (isLast) {
       onClose();
-      // 모든 운동이 끝났으니 화면 합계도 새로 가져오기
+      // 모든 항목 종료 — 부모(타이머)가 운동시간 저장 처리
+      onAllComplete?.();
+      // 화면 합계도 새로 가져오기
       startTx(() => router.refresh());
       return;
     }

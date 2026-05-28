@@ -102,15 +102,18 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
 }
 
 export default async function Home() {
-  const user = await getCurrentUser();
+  // 병렬 페치 — getUserProfile/getUserRoutine 도 내부에서 getCurrentUser 호출하지만
+  // React.cache 로 한 요청 내 DB 콜은 1회만 발생. 직렬 await 보다 ~100ms 빠름.
+  const [user, profile, routine] = await Promise.all([
+    getCurrentUser(),
+    getUserProfile(),
+    getUserRoutine(),
+  ]);
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
-  const profile = user ? await getUserProfile() : null;
   if (user && !profile) {
     redirect("/onboarding");
   }
-
-  const routine = user ? await getUserRoutine() : null;
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100">
@@ -151,8 +154,8 @@ function LoggedOutHero() {
         루틴이 매일 알려줍니다.
       </h1>
       <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400 sm:text-lg">
-        로그인하고 분할 루틴을 한 번만 설정하면, 메인 화면이 매일 그날 날짜에
-        맞는 운동을 자동으로 안내합니다.
+        로그인하고 루틴을 한 번만 설정하면, 메인 화면이 매일 그날 날짜에 맞는
+        운동을 자동으로 안내합니다.
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <Link
@@ -184,7 +187,7 @@ function NoRoutinePrompt() {
           아직 설정한 루틴이 없습니다
         </h1>
         <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          몇 분할로 운동할지 한 번만 골라 두면, 매일 이 화면에서 오늘 해야 할
+          주당 몇 일 운동할지 한 번만 골라 두면, 매일 이 화면에서 오늘 해야 할
           운동을 바로 확인할 수 있습니다.
         </p>
       </div>
@@ -254,7 +257,7 @@ async function TodayWorkout({
   const focusLabel = isRest
     ? "휴식"
     : hasDailyOverride
-      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
+      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" + ")
       : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
 

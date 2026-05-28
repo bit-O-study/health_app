@@ -2,12 +2,17 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Dumbbell, Sparkles } from "lucide-react";
+import { ArrowRight, Building2, Check, Dumbbell, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { saveRoutineAction } from "@/features/routine/actions";
 import { saveProfileAction } from "@/features/profile/actions";
+import { upsertGymAction } from "@/features/gym/gym-actions";
+import {
+  DEFAULT_KOREAN_GYM_EQUIPMENT,
+  GYM_EQUIPMENT_GROUPS,
+} from "@/features/gym/gym-equipment-catalog";
 import {
   BODY_TYPE_OPTIONS,
   EXPERIENCE_OPTIONS,
@@ -18,9 +23,9 @@ import {
   type Gender,
 } from "@/features/profile/data";
 
-type Step = "gender" | "experience" | "body" | "recommend";
+type Step = "gender" | "experience" | "body" | "gym" | "recommend";
 
-const STEP_ORDER: Step[] = ["gender", "experience", "body", "recommend"];
+const STEP_ORDER: Step[] = ["gender", "experience", "body", "gym", "recommend"];
 
 export function OnboardingFlow() {
   const router = useRouter();
@@ -30,6 +35,21 @@ export function OnboardingFlow() {
   const [heightCm, setHeightCm] = useState("");
   const [weightKg, setWeightKg] = useState("");
   const [bodyType, setBodyType] = useState<BodyType | null>(null);
+  // 헬스장 — 선택사항. 비워두면 저장 안 함.
+  const [gymName, setGymName] = useState("");
+  const [gymAddress, setGymAddress] = useState("");
+  const [gymEquipment, setGymEquipment] = useState<Set<string>>(
+    () => new Set(DEFAULT_KOREAN_GYM_EQUIPMENT as readonly string[]),
+  );
+
+  function toggleEquipment(id: string) {
+    setGymEquipment((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   const isFemale = gender === "female";
 
@@ -62,6 +82,17 @@ export function OnboardingFlow() {
     });
     if (!profileResult.ok) {
       return profileResult;
+    }
+
+    // 헬스장 정보 입력했으면 저장 — 실패해도 루틴 저장은 계속 (선택사항이라)
+    const trimmedGymName = gymName.trim();
+    if (trimmedGymName.length > 0) {
+      await upsertGymAction({
+        id: null,
+        name: trimmedGymName,
+        address: gymAddress,
+        equipmentIds: Array.from(gymEquipment),
+      });
     }
 
     const routineResult = await saveRoutineAction(
@@ -160,7 +191,7 @@ export function OnboardingFlow() {
               운동 경력은 어느 정도인가요?
             </h1>
             <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              난이도에 맞춰 분할 루틴을 추천해 드립니다.
+              난이도에 맞춰 주당 운동 일수 루틴을 추천해 드립니다.
             </p>
 
             <div className="mt-6 space-y-3">
@@ -288,8 +319,125 @@ export function OnboardingFlow() {
               <button
                 type="button"
                 disabled={!bodyValid}
-                onClick={() => setStep("recommend")}
+                onClick={() => setStep("gym")}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+              >
+                다음
+                <ArrowRight aria-hidden="true" size={17} />
+              </button>
+            </div>
+          </section>
+        ) : null}
+
+        {step === "gym" ? (
+          <section className="mt-10">
+            <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+              <Building2 aria-hidden="true" size={18} />
+              <span className="text-xs font-semibold uppercase tracking-wide">
+                Optional
+              </span>
+            </div>
+            <h1 className="mt-1 text-2xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-3xl">
+              헬스장 정보 (선택)
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+              헬스장 이름·주소와 보유 기구를 등록해두면 추후 루틴 추천에
+              반영됩니다. 나중에 설정에서 입력해도 됩니다.
+            </p>
+
+            <div className="mt-6 space-y-3">
+              <label className="block">
+                <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                  헬스장 이름
+                </span>
+                <input
+                  type="text"
+                  value={gymName}
+                  onChange={(e) => setGymName(e.target.value)}
+                  placeholder="예: 강남 OO 헬스"
+                  maxLength={100}
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                />
+              </label>
+              <label className="block">
+                <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                  주소
+                </span>
+                <input
+                  type="text"
+                  value={gymAddress}
+                  onChange={(e) => setGymAddress(e.target.value)}
+                  placeholder="예: 서울 강남구 ..."
+                  maxLength={200}
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                />
+              </label>
+            </div>
+
+            <div className="mt-6">
+              <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                보유 기구
+              </p>
+              <p className="mt-0.5 mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+                평균 한국 헬스장 기준 자주 보이는 기구가 미리 체크돼 있어요.
+                없는 것만 체크 해제해주세요.
+              </p>
+              <div className="space-y-3">
+                {GYM_EQUIPMENT_GROUPS.map((group) => (
+                  <div key={group.label}>
+                    <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                      {group.label}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {group.items.map((it) => {
+                        const on = gymEquipment.has(it.id);
+                        return (
+                          <button
+                            key={it.id}
+                            type="button"
+                            onClick={() => toggleEquipment(it.id)}
+                            aria-pressed={on}
+                            className={cn(
+                              "inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
+                              on
+                                ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200"
+                                : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-400",
+                            )}
+                          >
+                            {on ? <Check aria-hidden="true" size={12} /> : null}
+                            {it.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-8 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setStep("body")}
+                className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+              >
+                이전
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  // 건너뛰기 = 이름 비우고 다음 단계로
+                  setGymName("");
+                  setStep("recommend");
+                }}
+                className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-500 dark:text-zinc-400 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+              >
+                건너뛰기
+              </button>
+              <button
+                type="button"
+                onClick={() => setStep("recommend")}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
               >
                 추천 루틴 보기
                 <ArrowRight aria-hidden="true" size={17} />
@@ -312,7 +460,7 @@ export function OnboardingFlow() {
                 {recommendation.reason}
               </p>
               <p className="mt-3 text-xs text-emerald-700 dark:text-emerald-400">
-                마음에 안 들면 아래에서 분할을 바꾸거나 커스텀으로 직접 짤 수
+                마음에 안 들면 아래에서 루틴을 바꾸거나 커스텀으로 직접 짤 수
                 있어요.
               </p>
             </div>
@@ -323,13 +471,22 @@ export function OnboardingFlow() {
               saveAction={handleSaveRoutine}
             />
 
-            <button
-              type="button"
-              onClick={() => setStep("experience")}
-              className="inline-flex h-11 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
-            >
-              경력 다시 선택
-            </button>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setStep("experience")}
+                className="inline-flex h-11 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+              >
+                경력 다시 선택
+              </button>
+              <button
+                type="button"
+                onClick={() => setStep("gym")}
+                className="inline-flex h-11 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+              >
+                헬스장 다시 입력
+              </button>
+            </div>
           </section>
         ) : null}
       </div>

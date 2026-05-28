@@ -26,3 +26,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* 모바일 저사양 디바이스 / 사용자 설정으로 동작 줄이기 켰을 때 SVG 키프레임 일괄 정지.
+   guided-workout 의 운동 일러스트가 CPU 를 잡아먹는 문제 완화. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

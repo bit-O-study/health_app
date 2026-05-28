@@ -731,4 +731,42 @@ create policy "Users update own workout sessions"
   on public.workout_sessions for update
   using (auth.uid() = user_id);
 
+-- ────────────────────────────────────────────────────────────────
+-- 헬스장 마스터 (크라우드소싱 시드).
+-- 같은 헬스장이라도 일단은 행 중복 허용 — 사용자가 자기 정보만 관리.
+-- 추후 크라우드소싱으로 확장 시 dedup 로직 추가.
+create table if not exists public.gyms (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  address text,
+  equipment_ids text[] not null default '{}',
+  created_by uuid references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists gyms_name_idx on public.gyms (lower(name));
+
+alter table public.gyms enable row level security;
+
+-- 헬스장은 공개 정보 — 누구나 읽음 (나중에 다른 사용자가 같은 헬스장 찾을 수 있게)
+drop policy if exists "Anyone reads gyms" on public.gyms;
+create policy "Anyone reads gyms"
+  on public.gyms for select using (true);
+
+drop policy if exists "Authenticated insert gyms" on public.gyms;
+create policy "Authenticated insert gyms"
+  on public.gyms for insert
+  with check (auth.uid() is not null);
+
+-- 본인이 등록한 헬스장만 수정 가능
+drop policy if exists "Creator updates gym" on public.gyms;
+create policy "Creator updates gym"
+  on public.gyms for update
+  using (auth.uid() = created_by);
+
+-- 사용자 프로필에 현재 헬스장 연결
+alter table public.profiles
+  add column if not exists gym_id uuid references public.gyms(id) on delete set null;
+
 notify pgrst, 'reload schema';

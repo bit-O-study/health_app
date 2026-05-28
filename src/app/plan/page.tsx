@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
+import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { DAY_BLOCKS, resolveRoutine } from "@/features/routine/data";
 import type { FocusKey } from "@/features/routine/exercise-catalog";
@@ -13,13 +14,15 @@ import { PlanEditor } from "@/features/routine/components/plan-editor";
 export const dynamic = "force-dynamic";
 
 export default async function PlanPage() {
-  const [profile, routine] = await Promise.all([
+  const [profile, routine, gym] = await Promise.all([
     getUserProfile(),
     getUserRoutine(),
+    getCurrentGym(),
   ]);
 
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
+  const gymEquipment = gym?.equipmentIds ?? null;
 
   // 현재 선택된 루틴의 주간 계획에서 등장하는 부위만 (휴식 제외, 첫 등장 순).
   // 멀티 부위 일자는 DayPlan.tones 에 모든 부위가 들어있어 그것까지 모두 포함.
@@ -83,6 +86,7 @@ export default async function PlanPage() {
         experience={profile.experience}
         bodyType={profile.bodyType}
         weightKg={profile.weightKg}
+        gymEquipment={gymEquipment}
       />
     </main>
   );

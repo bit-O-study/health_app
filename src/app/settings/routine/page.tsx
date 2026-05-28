@@ -44,7 +44,7 @@ export default async function RoutineSettingsPage() {
         </h1>
         <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           체성분이 등록돼 있으면 약한 부위를 보강하는 추천 루틴이 위에 뜹니다.
-          아래에서 분할/변형을 직접 고르거나 커스텀으로 만들 수도 있어요.
+          아래에서 루틴/변형을 직접 고르거나 커스텀으로 만들 수도 있어요.
         </p>
       </div>
 

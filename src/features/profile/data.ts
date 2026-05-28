@@ -87,9 +87,9 @@ export function recommendRoutine(
 ): Recommendation {
   if (experience === "beginner") {
     return {
-      splits: 1,
+      splits: 3,
       variantId: "fullbody-3",
-      headline: "무분할 전신 · 주 3회",
+      headline: "3일 루틴 · 전신 ×3",
       reason:
         "입문 단계에선 한 번에 전신을 자극하고 회복일을 넉넉히 두는 편이 동작 습득과 부상 예방에 가장 효율적입니다.",
     };
@@ -99,9 +99,9 @@ export function recommendRoutine(
     return {
       splits: 3,
       variantId: "cbl-3",
-      headline: "3분할 가슴·등·하체 · 주 3회",
+      headline: "3일 루틴 · 가슴/등/하체",
       reason:
-        "어느 정도 적응된 단계에선 부위별 회복을 확보하면서 볼륨을 늘리기 좋은 클래식 3분할이 무난합니다.",
+        "어느 정도 적응된 단계에선 부위별 회복을 확보하면서 볼륨을 늘리기 좋은 클래식 3일 루틴이 무난합니다.",
     };
   }
 
@@ -110,17 +110,17 @@ export function recommendRoutine(
     return {
       splits: 5,
       variantId: "bro-5-alt",
-      headline: "5분할 (하체 우선 배치) · 주 5회",
+      headline: "5일 루틴 · 하체 우선 배치",
       reason:
-        "고급 단계에선 부위별 집중도가 높은 5분할이 적합합니다. 하체 비중을 앞쪽에 배치한 변형으로 추천합니다.",
+        "고급 단계에선 부위별 집중도가 높은 5일 루틴이 적합합니다. 하체 비중을 앞쪽에 배치한 변형으로 추천합니다.",
     };
   }
 
   return {
     splits: 5,
     variantId: "bro-5",
-    headline: "5분할 브로 스플릿 · 주 5회",
+    headline: "5일 루틴 · 가슴/등/어깨/팔/하체",
     reason:
-      "고급 단계에선 한 부위에 집중하는 5분할로 부위별 볼륨을 극대화하는 구성이 적합합니다.",
+      "고급 단계에선 한 부위에 집중하는 5일 루틴으로 부위별 볼륨을 극대화하는 구성이 적합합니다.",
   };
 }

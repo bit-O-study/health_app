@@ -2,6 +2,21 @@ export const WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"] as con
 
 export type Weekday = (typeof WEEKDAYS)[number];
 
+/**
+ * 루틴 슬롯 표시 라벨. 루틴은 anchor 기준 7일 주기라 실제 요일이 아니라
+ * "주기 N일차" 개념. UI 에서 월/화/수 대신 1일/2일/3일 로 표시.
+ */
+export const DAY_LABELS = [
+  "1일",
+  "2일",
+  "3일",
+  "4일",
+  "5일",
+  "6일",
+  "7일",
+] as const;
+export type DayLabel = (typeof DAY_LABELS)[number];
+
 export type FocusTone =
   | "fullbody"
   | "upper"
@@ -214,63 +229,47 @@ const CORE: DayPlan = {
   examples: ["플랭크", "행잉 레그레이즈", "러닝"],
 };
 
+/**
+ * 루틴 프리셋 — '주당 운동 일수' 기준으로 분류.
+ * 1일·2일 루틴은 사용 빈도가 낮아 커스텀에서만 만들 수 있게 했다.
+ */
 export const SPLIT_PRESETS: SplitPreset[] = [
   {
-    splits: 1,
-    label: "무분할",
-    tagline: "전신을 한 번에 — 입문/시간 부족할 때",
+    splits: 3,
+    label: "3일 루틴",
+    tagline: "주 3회 — 회복일이 충분한 입문/유지 루틴",
     variants: [
       {
+        id: "cbl-3",
+        name: "가슴 · 등 · 하체",
+        description: "부위별 회복을 넉넉히 두는 클래식 3일 루틴",
+        week: [CHEST, REST, BACK, REST, LEG, REST, REST],
+      },
+      {
         id: "fullbody-3",
-        name: "전신 (주 3회)",
+        name: "전신 ×3",
         description: "하루에 전신을 모두 자극, 회복일을 충분히 확보",
         week: [FULLBODY, REST, FULLBODY, REST, FULLBODY, REST, REST],
       },
     ],
   },
   {
-    splits: 2,
-    label: "2분할",
-    tagline: "상·하체 또는 밀기·당기기로 둘로 나누기",
+    splits: 4,
+    label: "4일 루틴",
+    tagline: "주 4회 — 부위 집중과 회복의 균형",
     variants: [
       {
         id: "upper-lower",
-        name: "상체 / 하체",
-        description: "가장 무난한 2분할, 주 4회",
+        name: "상체 · 하체",
+        description: "가장 무난한 4일 루틴",
         week: [UPPER, LOWER, REST, UPPER, LOWER, REST, REST],
       },
       {
         id: "push-pull",
-        name: "밀기 / 당기기",
+        name: "밀기 · 당기기",
         description: "미는 동작과 당기는 동작으로 구분",
         week: [PUSH, PULL, REST, PUSH, PULL, REST, REST],
       },
-    ],
-  },
-  {
-    splits: 3,
-    label: "3분할",
-    tagline: "가슴·등·하체 / PPL 등으로 셋으로 나누기",
-    variants: [
-      {
-        id: "cbl-3",
-        name: "가슴 · 등 · 하체 (주 3회)",
-        description: "부위별 회복을 넉넉히 두는 클래식 3분할",
-        week: [CHEST, REST, BACK, REST, LEG, REST, REST],
-      },
-      {
-        id: "ppl-6",
-        name: "Push · Pull · Legs (주 6회)",
-        description: "PPL을 주 2사이클, 일요일 휴식",
-        week: [PUSH, PULL, LEG, PUSH, PULL, LEG, REST],
-      },
-    ],
-  },
-  {
-    splits: 4,
-    label: "4분할",
-    tagline: "가슴·등·어깨·하체로 더 세밀하게",
-    variants: [
       {
         id: "cbsl-4",
         name: "가슴 · 등 · 어깨 · 하체",
@@ -280,20 +279,20 @@ export const SPLIT_PRESETS: SplitPreset[] = [
       {
         id: "ct-bb-4",
         name: "가슴+삼두 · 등+이두 · 어깨 · 하체",
-        description: "관절 움직임이 비슷한 부위를 묶은 4분할",
+        description: "관절 움직임이 비슷한 부위를 묶은 4일 루틴",
         week: [CHEST_TRI, BACK_BI, SHOULDER, LEG, REST, REST, REST],
       },
     ],
   },
   {
     splits: 5,
-    label: "5분할",
-    tagline: "부위별로 하루씩 — 보디빌딩 스타일",
+    label: "5일 루틴",
+    tagline: "주 5회 — 부위별로 하루씩 보디빌딩 스타일",
     variants: [
       {
         id: "bro-5",
         name: "가슴 · 등 · 어깨 · 팔 · 하체",
-        description: "한 부위에 집중하는 브로 스플릿, 주 5회",
+        description: "한 부위에 집중하는 브로 스플릿",
         week: [CHEST, BACK, SHOULDER, ARM, LEG, REST, REST],
       },
       {
@@ -306,20 +305,39 @@ export const SPLIT_PRESETS: SplitPreset[] = [
   },
   {
     splits: 6,
-    label: "6분할",
-    tagline: "거의 매일 운동하는 고볼륨 루틴",
+    label: "6일 루틴",
+    tagline: "주 6회 — 거의 매일 운동하는 고볼륨",
     variants: [
       {
-        id: "ppl-x2",
+        id: "ppl-6",
         name: "Push · Pull · Legs ×2",
-        description: "PPL 2사이클, 일요일만 휴식",
+        description: "PPL을 주 2사이클, 7일차 휴식",
         week: [PUSH, PULL, LEG, PUSH, PULL, LEG, REST],
       },
       {
         id: "six-part",
         name: "가슴·등·어깨·팔·하체·코어",
-        description: "부위를 잘게 쪼갠 주 6회 루틴",
+        description: "부위를 잘게 쪼갠 6일 루틴",
         week: [CHEST, BACK, SHOULDER, ARM, LEG, CORE, REST],
+      },
+    ],
+  },
+  {
+    splits: 7,
+    label: "7일 루틴",
+    tagline: "매일 운동 — 회복일 없이 부위 로테이션",
+    variants: [
+      {
+        id: "ppl-arnold-7",
+        name: "Push · Pull · Legs · 상체 · 하체 · 코어 · 유산소",
+        description: "PPL 위주로 매일, 마지막 날 컨디셔닝 중심",
+        week: [PUSH, PULL, LEG, UPPER, LOWER, CORE, FULLBODY],
+      },
+      {
+        id: "seven-part",
+        name: "가슴·등·어깨·팔·하체·코어·유산소",
+        description: "부위별 1일 + 마지막 날 컨디셔닝",
+        week: [CHEST, BACK, SHOULDER, ARM, LEG, CORE, FULLBODY],
       },
     ],
   },
@@ -327,6 +345,21 @@ export const SPLIT_PRESETS: SplitPreset[] = [
 
 export const DEFAULT_SPLITS = 3;
 export const DEFAULT_VARIANT_ID = "cbl-3";
+
+/** 과거 데이터 호환용 — 옛 splits 값(1,2)을 새 splits 로 매핑 */
+const LEGACY_VARIANT_TO_SPLITS: Record<string, number> = {
+  "fullbody-3": 3,
+  "upper-lower": 4,
+  "push-pull": 4,
+  "cbl-3": 3,
+  "ppl-6": 6,
+  "ppl-x2": 6,
+  "cbsl-4": 4,
+  "ct-bb-4": 4,
+  "bro-5": 5,
+  "bro-5-alt": 5,
+  "six-part": 6,
+};
 
 /* ─── 커스텀 분할 ───────────────────────────────────────────────────────────
  * 사용자가 월~일 7일을 직접 부위 블록으로 채우는 모드.
@@ -453,8 +486,8 @@ export function buildCustomVariant(week: DayBlockId[][]): RoutineVariant {
   ).length;
   return {
     id: CUSTOM_VARIANT_ID,
-    name: "커스텀 분할",
-    description: `직접 구성한 주 ${trainingDays}회 루틴`,
+    name: "커스텀 루틴",
+    description: `직접 구성한 ${trainingDays}일 루틴`,
     week: week.map(composeDayPlan),
   };
 }
@@ -462,8 +495,20 @@ export function buildCustomVariant(week: DayBlockId[][]): RoutineVariant {
 const CUSTOM_PRESET_BASE = {
   splits: CUSTOM_SPLITS,
   label: "커스텀",
-  tagline: "월~일 7일을 직접 부위별로 채우는 나만의 분할",
+  tagline: "7일 주기를 직접 부위별로 채우는 나만의 루틴 (1일·2일 루틴도 여기서)",
 };
+
+/** variantId 로 어느 preset 에 속하는지 역추적. ppl-x2 같은 옛 id 도 매핑. */
+function findPresetByVariantId(variantId: string): SplitPreset | null {
+  for (const p of SPLIT_PRESETS) {
+    if (p.variants.some((v) => v.id === variantId)) return p;
+  }
+  const legacySplits = LEGACY_VARIANT_TO_SPLITS[variantId];
+  if (legacySplits !== undefined) {
+    return SPLIT_PRESETS.find((p) => p.splits === legacySplits) ?? null;
+  }
+  return null;
+}
 
 export type ResolvedRoutine = {
   preset: SplitPreset;
@@ -490,18 +535,28 @@ export function resolveRoutine(
     }
   }
 
+  // 1순위: variantId 로 정확히 매칭 — splits 값이 옛날 의미였어도 OK
+  const byVariant = findPresetByVariantId(variantId);
+  if (byVariant) {
+    const variant = byVariant.variants.find((v) => v.id === variantId);
+    if (variant) return { preset: byVariant, variant };
+  }
+
+  // 2순위: splits 매칭 → 첫 variant
+  // 3순위: 기본값
   const preset =
     SPLIT_PRESETS.find((item) => item.splits === splits) ??
     SPLIT_PRESETS.find((item) => item.splits === DEFAULT_SPLITS)!;
-  const variant =
-    preset.variants.find((item) => item.id === variantId) ?? preset.variants[0];
-  return { preset, variant };
+  return { preset, variant: preset.variants[0] };
 }
 
-/** splits + variantId 조합이 카탈로그에 존재하는지 검증 */
+/**
+ * 카탈로그에 존재하는 routine 인지 검증. variantId 기준 (splits 는 무시) —
+ * 옛 splits 값(1,2) 으로 저장된 데이터도 호환.
+ */
 export function isValidRoutine(splits: number, variantId: string): boolean {
-  const preset = SPLIT_PRESETS.find((item) => item.splits === splits);
-  return Boolean(preset?.variants.some((item) => item.id === variantId));
+  void splits;
+  return findPresetByVariantId(variantId) !== null;
 }
 
 /* ─── 기준일 기반 날짜 매핑 ──────────────────────────────────────────────────

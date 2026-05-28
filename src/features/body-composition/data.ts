@@ -64,7 +64,7 @@ export function recommendByBodyComp(c: BodyComp): RoutineRecommendation {
     return {
       splits: 3,
       variantId: "cbl-3",
-      headline: "3분할 가슴·등·하체",
+      headline: "3일 루틴 · 가슴/등/하체",
       reason: "체성분 수치가 부족해 기본 추천을 제공합니다.",
       source: "body",
     };
@@ -76,39 +76,39 @@ export function recommendByBodyComp(c: BodyComp): RoutineRecommendation {
       return {
         splits: 3,
         variantId: "cbl-3",
-        headline: "3분할 가슴·등·하체",
-        reason: "하체가 상대적으로 약합니다. 하체 데이가 포함된 3분할 추천.",
+        headline: "3일 루틴 · 가슴/등/하체",
+        reason: "하체가 상대적으로 약합니다. 하체 데이가 포함된 루틴 추천.",
         source: "body",
       };
     case "arm":
       return {
         splits: 5,
         variantId: "bro-5",
-        headline: "5분할 브로 스플릿",
-        reason: "팔이 상대적으로 약합니다. 부위별 5분할로 팔 볼륨을 늘리세요.",
+        headline: "5일 루틴 · 브로 스플릿",
+        reason: "팔이 상대적으로 약합니다. 부위별 5일 루틴으로 팔 볼륨을 늘리세요.",
         source: "body",
       };
     case "shoulder":
       return {
         splits: 4,
         variantId: "cbsl-4",
-        headline: "4분할 가슴·등·어깨·하체",
-        reason: "어깨가 상대적으로 약합니다. 어깨를 단독으로 두는 4분할.",
+        headline: "4일 루틴 · 가슴/등/어깨/하체",
+        reason: "어깨가 상대적으로 약합니다. 어깨를 단독으로 두는 4일 루틴.",
         source: "body",
       };
     case "chest":
       return {
-        splits: 3,
+        splits: 6,
         variantId: "ppl-6",
-        headline: "Push·Pull·Legs 주 6회",
+        headline: "6일 루틴 · Push/Pull/Legs ×2",
         reason: "가슴이 상대적으로 약합니다. Push 빈도를 늘리는 PPL.",
         source: "body",
       };
     case "back":
       return {
-        splits: 3,
+        splits: 6,
         variantId: "ppl-6",
-        headline: "Push·Pull·Legs 주 6회",
+        headline: "6일 루틴 · Push/Pull/Legs ×2",
         reason: "등이 상대적으로 약합니다. Pull 빈도를 늘리는 PPL.",
         source: "body",
       };
@@ -116,8 +116,8 @@ export function recommendByBodyComp(c: BodyComp): RoutineRecommendation {
       return {
         splits: 6,
         variantId: "six-part",
-        headline: "6분할 (코어 포함)",
-        reason: "코어가 상대적으로 약합니다. 코어 데이를 포함한 6분할.",
+        headline: "6일 루틴 · 코어 포함",
+        reason: "코어가 상대적으로 약합니다. 코어 데이를 포함한 6일 루틴.",
         source: "body",
       };
   }

@@ -8,6 +8,11 @@ import {
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
+import { getCurrentGym } from "@/features/gym/gym-data-access";
+import {
+  isEquipmentAvailable,
+  toGymEquipmentSet,
+} from "@/features/gym/gym-equipment-mapping";
 import {
   ALL_FOCUSES,
   exercisesForFocus,
@@ -17,6 +22,17 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
+
+/** 운동의 기구 옵션 중 헬스장에 있는 첫 번째. 없으면 첫 번째. */
+function pickEquipment(
+  ex: { equipments: { equipment: EquipmentId }[] },
+  gymSet: ReadonlySet<string> | null,
+): EquipmentId {
+  const ok = ex.equipments.find((eq) =>
+    isEquipmentAvailable(eq.equipment, gymSet),
+  );
+  return ok?.equipment ?? ex.equipments[0].equipment;
+}
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
 
@@ -38,8 +54,9 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const profile = await getUserProfile();
+  const [profile, gym] = await Promise.all([getUserProfile(), getCurrentGym()]);
   if (!profile) return { ok: false, error: "프로필이 필요합니다." };
+  const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
 
   const gender = profile.gender;
   const opts = {
@@ -57,7 +74,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
         focus,
         position: index,
         exercise_id: ex.id,
-        equipment: ex.equipments[0].equipment,
+        equipment: pickEquipment(ex, gymSet),
         sets: p.sets,
         reps: p.reps,
         weight_kg: p.weightKg,
@@ -339,8 +356,9 @@ export async function applyTodayRecommendedAction(
   const user = await getCurrentUser();
   if (!user) return;
 
-  const profile = await getUserProfile();
+  const [profile, gym] = await Promise.all([getUserProfile(), getCurrentGym()]);
   if (!profile) return;
+  const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
 
   await supabase
     .from("user_routines")
@@ -364,7 +382,7 @@ export async function applyTodayRecommendedAction(
       focus: target,
       position: index,
       exercise_id: ex.id,
-      equipment: ex.equipments[0].equipment,
+      equipment: pickEquipment(ex, gymSet),
       sets: p.sets,
       reps: p.reps,
       weight_kg: p.weightKg,

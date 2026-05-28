@@ -19,6 +19,10 @@ import {
 } from "@/features/routine/daily-plan-actions";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
+import {
+  isEquipmentAvailable,
+  toGymEquipmentSet,
+} from "@/features/gym/gym-equipment-mapping";
 
 type Row = {
   exerciseId: string;
@@ -47,6 +51,7 @@ export function DailyMainEditor({
   weightKg,
   dateYmd,
   initial,
+  gymEquipment = null,
 }: {
   focus: FocusTone;
   label: string;
@@ -56,8 +61,11 @@ export function DailyMainEditor({
   weightKg: number | null;
   dateYmd: string;
   initial: DailyPlanRow[];
+  /** 내 헬스장 기구 ID 배열. null = 미설정(필터링 안 함) */
+  gymEquipment?: readonly string[] | null;
 }) {
   const router = useRouter();
+  const gymSet = toGymEquipmentSet(gymEquipment);
   // 드롭다운에는 부위에 매핑된 카탈로그 전체 (gender 무관 — 본인이 직접 선택)
   const options = allExercisesForFocus(focus);
   // 추천 자동 채우기에는 성별 큐레이션 짧은 목록
@@ -71,6 +79,14 @@ export function DailyMainEditor({
     setMsg(null);
   }
 
+  /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째를 기본값으로. 없으면 첫 번째 */
+  function pickDefaultEquipment(ex: { equipments: { equipment: EquipmentId }[] }): EquipmentId {
+    const available = ex.equipments.find((eq) =>
+      isEquipmentAvailable(eq.equipment, gymSet),
+    );
+    return available?.equipment ?? ex.equipments[0].equipment;
+  }
+
   function addRow() {
     const first = options[0];
     if (!first) return;
@@ -78,7 +94,7 @@ export function DailyMainEditor({
       ...rows,
       {
         exerciseId: first.id,
-        equipment: first.equipments[0].equipment,
+        equipment: pickDefaultEquipment(first),
         sets: 3,
         reps: 10,
         weight: "",
@@ -118,7 +134,7 @@ export function DailyMainEditor({
       const p = prescribe(ex.id, opts);
       return {
         exerciseId: ex.id,
-        equipment: ex.equipments[0].equipment,
+        equipment: pickDefaultEquipment(ex),
         sets: p.sets,
         reps: p.reps,
         weight: p.weightKg === null ? "" : String(p.weightKg),
@@ -176,8 +192,9 @@ export function DailyMainEditor({
                     next[idx] = {
                       ...row,
                       exerciseId: e.target.value,
-                      equipment:
-                        nextEx?.equipments[0].equipment ?? row.equipment,
+                      equipment: nextEx
+                        ? pickDefaultEquipment(nextEx)
+                        : row.equipment,
                     };
                     update(next);
                   }}
@@ -203,11 +220,15 @@ export function DailyMainEditor({
                   }}
                   className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
                 >
-                  {ex.equipments.map((eq) => (
-                    <option key={eq.equipment} value={eq.equipment}>
-                      {EQUIPMENT_LABELS[eq.equipment]}
-                    </option>
-                  ))}
+                  {ex.equipments.map((eq) => {
+                    const ok = isEquipmentAvailable(eq.equipment, gymSet);
+                    return (
+                      <option key={eq.equipment} value={eq.equipment}>
+                        {EQUIPMENT_LABELS[eq.equipment]}
+                        {ok ? "" : " (헬스장에 없음)"}
+                      </option>
+                    );
+                  })}
                 </select>
 
                 <input

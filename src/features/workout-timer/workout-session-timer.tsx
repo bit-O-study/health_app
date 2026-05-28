@@ -179,6 +179,20 @@ export function WorkoutSessionTimer({
     setState(null);
   }
 
+  /**
+   * 가이드 오버레이가 마지막 항목까지 모두 처리됐을 때 호출.
+   * 운동이 끝났으니 누적 시간을 저장하고 타이머 reset.
+   * 사용자가 명시적 정지 안 눌러도 자동으로 캘린더 반영.
+   */
+  async function handleGuidedAllComplete() {
+    if (!state) return;
+    const sec = Math.floor(elapsedMs(state) / 1000);
+    const ok = await saveDuration(state.forDate, sec);
+    if (!ok) return;
+    writeTimer(null);
+    setState(null);
+  }
+
   if (!state) {
     return (
       <button
@@ -194,7 +208,11 @@ export function WorkoutSessionTimer({
 
   const overlay =
     guided && queueItems.length > 0 ? (
-      <GuidedOverlay items={queueItems} onClose={() => setGuided(false)} />
+      <GuidedOverlay
+        items={queueItems}
+        onClose={() => setGuided(false)}
+        onAllComplete={handleGuidedAllComplete}
+      />
     ) : null;
 
   const running = state.pausedAt === null;

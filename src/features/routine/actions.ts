@@ -54,7 +54,7 @@ export async function saveRoutineAction(
   if (isCustom) {
     normalized = normalizeCustomWeek(customWeek);
     if (!normalized) {
-      return { ok: false, error: "커스텀 분할 구성이 올바르지 않습니다." };
+      return { ok: false, error: "커스텀 루틴 구성이 올바르지 않습니다." };
     }
   } else if (!isValidRoutine(splits, variantId)) {
     return { ok: false, error: "선택한 루틴이 올바르지 않습니다." };

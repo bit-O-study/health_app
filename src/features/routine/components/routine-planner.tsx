@@ -20,13 +20,13 @@ import {
   CUSTOM_VARIANT_ID,
   DAY_BLOCKS,
   DAY_BLOCK_IDS,
+  DAY_LABELS,
   DEFAULT_CUSTOM_WEEK,
   DEFAULT_SPLITS,
   DEFAULT_VARIANT_ID,
   normalizeCustomWeek,
   SPLIT_PRESETS,
   TONE_STYLES,
-  WEEKDAYS,
   type DayBlockId,
   type RoutineVariant,
 } from "@/features/routine/data";
@@ -215,16 +215,16 @@ export function RoutinePlanner({
           나의 루틴
         </h2>
         <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          몇 분할로 운동할지 고르면 월~일 일주일 계획이 자동으로 채워집니다.
-          원하는 구성이 없으면 <strong>커스텀</strong>으로 요일마다 부위를 직접
-          정할 수 있어요.
+          주당 운동 일수를 고르면 7일 주기 계획이 자동으로 채워집니다. 1·2일
+          루틴이나 원하는 구성이 없으면 <strong>커스텀</strong>으로 직접 정할 수
+          있어요.
         </p>
       </div>
 
-      {/* 분할 수 선택 */}
+      {/* 루틴 선택 */}
       <div className="mt-6">
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-          분할 선택
+          루틴 선택
         </p>
         <div className="flex flex-wrap gap-2">
           {SPLIT_PRESETS.map((item) => {
@@ -261,22 +261,22 @@ export function RoutinePlanner({
         </div>
         <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
           {isCustom
-            ? "월~일 7일을 직접 부위별로 채우는 나만의 분할"
+            ? "7일 주기를 직접 부위별로 채우는 나만의 루틴"
             : preset.tagline}
         </p>
       </div>
 
       {isCustom ? (
-        /* 커스텀 빌더 — 요일별 부위 (1개 이상) 지정. 멀티 부위 ="가슴 + 팔" 같은 묶음 */
+        /* 커스텀 빌더 — 주기 일자별 부위 (1개 이상) 지정. 멀티 부위 = "가슴 + 팔" 같은 묶음 */
         <div className="mt-5">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-            요일별 부위 지정 — 한 날에 부위 여러 개 묶기 가능 (최대 3)
+            일자별 부위 지정 — 한 날에 부위 여러 개 묶기 가능 (최대 3)
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
-            {WEEKDAYS.map((weekday, index) => (
+            {DAY_LABELS.map((dayLabel, index) => (
               <DayBlockEditor
-                key={weekday}
-                weekday={weekday}
+                key={dayLabel}
+                weekday={dayLabel}
                 blocks={customWeek[index]}
                 onSetPrimary={(id) => setDayPrimary(index, id)}
                 onAdd={(id) => addDayBlock(index, id)}
@@ -317,21 +317,21 @@ export function RoutinePlanner({
         </div>
       )}
 
-      {/* 주간 그리드 (프리셋·커스텀 공통 미리보기) */}
+      {/* 주기 그리드 (프리셋·커스텀 공통 미리보기) */}
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
-        {WEEKDAYS.map((weekday, index) => {
+        {DAY_LABELS.map((dayLabel, index) => {
           const day = previewWeek[index];
           const style = TONE_STYLES[day.tone];
           const isRest = day.tone === "rest";
 
           return (
             <div
-              key={weekday}
+              key={dayLabel}
               className={cn("flex flex-col rounded-lg border p-3", style.card)}
             >
               <div className="flex items-center justify-between">
                 <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                  {weekday}
+                  {dayLabel}
                 </span>
                 {isRest ? (
                   <Moon
@@ -411,7 +411,7 @@ export function RoutinePlanner({
         </span>
         <span className="text-zinc-400 dark:text-zinc-500">
           {isCustom
-            ? "커스텀 · 커스텀 분할"
+            ? "커스텀 루틴"
             : `${preset.label} · ${variant.name}`}
         </span>
       </div>

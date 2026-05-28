@@ -464,7 +464,7 @@ export function composeDayPlan(blocks: DayBlockId[]): DayPlan {
   }
   const days = nonRest.map((b) => DAY_BLOCKS[b].day);
   const tones = days.map((d) => d.tone);
-  const focus = nonRest.map((b) => DAY_BLOCKS[b].label).join(" +");
+  const focus = nonRest.map((b) => DAY_BLOCKS[b].label).join(" + ");
   const muscles = Array.from(new Set(days.flatMap((d) => d.muscles)));
   const examples = Array.from(new Set(days.flatMap((d) => d.examples))).slice(
     0,

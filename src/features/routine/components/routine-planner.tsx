@@ -350,12 +350,17 @@ export function RoutinePlanner({
 
               <span
                 className={cn(
-                  "mt-2 inline-flex w-fit items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
+                  "mt-2 inline-flex max-w-full items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
                   style.badge,
                 )}
               >
-                <span className={cn("h-1.5 w-1.5 rounded-full", style.dot)} />
-                <span className="max-w-[120px] truncate">{day.focus}</span>
+                <span
+                  className={cn(
+                    "h-1.5 w-1.5 shrink-0 rounded-full",
+                    style.dot,
+                  )}
+                />
+                <span className="min-w-0 truncate">{day.focus}</span>
               </span>
 
               {isRest ? (
@@ -368,8 +373,8 @@ export function RoutinePlanner({
                     <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                       자극 부위
                     </p>
-                    <p className="mt-0.5 text-xs leading-5 text-zinc-700 dark:text-zinc-300">
-                      {day.muscles.join(",")}
+                    <p className="mt-0.5 break-keep text-xs leading-5 text-zinc-700 dark:text-zinc-300">
+                      {day.muscles.join(", ")}
                     </p>
                   </div>
                   <div>
@@ -380,7 +385,7 @@ export function RoutinePlanner({
                       {day.examples.map((example) => (
                         <li
                           key={example}
-                          className="text-xs leading-5 text-zinc-700 dark:text-zinc-300"
+                          className="break-keep text-xs leading-5 text-zinc-700 dark:text-zinc-300"
                         >
                           · {example}
                         </li>

@@ -242,7 +242,7 @@ async function TodayWorkout({
   const focusLabel = isRest
     ? "휴식"
     : hasDailyOverride
-      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
+      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" + ")
       : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
 

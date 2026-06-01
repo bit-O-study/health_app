@@ -163,6 +163,12 @@ export function GuidedOverlay({
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
+  // 오버레이가 떠 있는 동안 휴식 알약을 하단 버튼 바 위로 올려, 알약이 완료/넘기기 탭을 가리지 않게 한다.
+  useEffect(() => {
+    rest.setLifted(true);
+    return () => rest.setLifted(false);
+  }, [rest]);
+
   if (!item) return null;
 
   return (

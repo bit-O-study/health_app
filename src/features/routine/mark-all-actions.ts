@@ -44,6 +44,7 @@ export async function markAllTodayCompleteAction(opts: {
       reps: p.snapshot.reps,
       weight_kg: p.snapshot.weightKg,
       focus: p.snapshot.focus,
+      set_details: p.snapshot.setDetails ?? null,
     }));
     await supabase
       .from("exercise_completions")

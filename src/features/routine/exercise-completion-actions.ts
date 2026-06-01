@@ -8,6 +8,7 @@ import {
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
+import type { SetDetail } from "@/features/routine/set-details";
 
 export type CompletionSnapshot = {
   exerciseId: string;
@@ -16,6 +17,8 @@ export type CompletionSnapshot = {
   reps: number;
   weightKg: number | null;
   focus: string;
+  /** 세트별 무게·횟수 스냅샷. null = 균일. */
+  setDetails?: SetDetail[] | null;
 };
 
 /**
@@ -56,6 +59,7 @@ export async function setExerciseStatusAction(
               reps: snapshot.reps,
               weight_kg: snapshot.weightKg,
               focus: snapshot.focus,
+              set_details: snapshot.setDetails ?? null,
             }
           : {}),
       },

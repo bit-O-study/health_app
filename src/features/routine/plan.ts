@@ -8,6 +8,10 @@ import {
   isEquipmentId,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  parseSetDetails,
+  type SetDetail,
+} from "@/features/routine/set-details";
 
 export type PlanExercise = {
   id: string;
@@ -18,6 +22,8 @@ export type PlanExercise = {
   sets: number;
   reps: number;
   weightKg: number | null;
+  /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
+  setDetails: SetDetail[] | null;
 };
 
 type PlanRow = {
@@ -29,6 +35,7 @@ type PlanRow = {
   sets: number;
   reps: number;
   weight_kg: number | null;
+  set_details?: unknown;
 };
 
 function toPlanExercise(row: PlanRow): PlanExercise {
@@ -41,6 +48,7 @@ function toPlanExercise(row: PlanRow): PlanExercise {
     sets: row.sets,
     reps: row.reps,
     weightKg: typeof row.weight_kg === "number" ? row.weight_kg : null,
+    setDetails: parseSetDetails(row.set_details),
   };
 }
 
@@ -50,11 +58,10 @@ export async function getPlanForFocus(focus: string): Promise<PlanExercise[]> {
   if (!user) return [];
   const supabase = await createSupabaseServerClient();
 
+  // select("*") — set_details 컬럼이 마이그레이션 전이어도 쿼리가 깨지지 않게.
   const { data, error } = await supabase
     .from("routine_exercises")
-    .select(
-      "id, focus, position, exercise_id, equipment, sets, reps, weight_kg",
-    )
+    .select("*")
     .eq("user_id", user.id)
     .eq("focus", focus)
     .order("position", { ascending: true });

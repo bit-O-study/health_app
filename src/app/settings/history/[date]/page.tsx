@@ -28,6 +28,10 @@ import {
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
 import {
+  parseSetDetails,
+  summarizeSetDetails,
+} from "@/features/routine/set-details";
+import {
   DAY_BLOCKS,
   isDayBlockId,
   type DayBlockId,
@@ -46,6 +50,7 @@ type ExRow = {
   reps: number | null;
   weight_kg: number | string | null;
   focus: string | null;
+  set_details?: unknown;
 };
 type CondRow = {
   kind: string;
@@ -88,7 +93,7 @@ export default async function HistoryDetailPage({
   const [exRes, condRes, workoutDurationSec] = await Promise.all([
     supabase
       .from("exercise_completions")
-      .select("exercise_id, equipment, sets, reps, weight_kg, focus")
+      .select("*")
       .eq("user_id", user.id)
       .eq("for_date", date)
       .eq("status", "done"),
@@ -130,6 +135,7 @@ export default async function HistoryDetailPage({
         sets,
         reps,
         weightKg: weight,
+        setDetails: parseSetDetails(r.set_details),
         kcal,
       };
     })
@@ -267,8 +273,11 @@ export default async function HistoryDetailPage({
                     </span>
                   </p>
                   <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
-                    {it.sets}세트 × {it.reps}회
-                    {it.weightKg !== null ? ` · ${it.weightKg}kg` : " · 맨몸"}
+                    {it.setDetails && it.setDetails.length > 0
+                      ? `${it.setDetails.length}세트 · ${summarizeSetDetails(it.setDetails)}`
+                      : `${it.sets}세트 × ${it.reps}회${
+                          it.weightKg !== null ? ` · ${it.weightKg}kg` : " · 맨몸"
+                        }`}
                     <span className="ml-2 text-orange-700 dark:text-orange-400">
                       · 약 {it.kcal}kcal
                     </span>

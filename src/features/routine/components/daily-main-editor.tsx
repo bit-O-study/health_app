@@ -1,8 +1,10 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+
+import { ConfirmDialog } from "@/components/confirm-dialog";
 
 import type { FocusTone } from "@/features/routine/data";
 import {
@@ -18,6 +20,8 @@ import {
   type DailyPlanItem,
 } from "@/features/routine/daily-plan-actions";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
+import type { SetDetail } from "@/features/routine/set-details";
+import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
 import {
   isEquipmentAvailable,
@@ -30,6 +34,7 @@ type Row = {
   sets: number;
   reps: number;
   weight: string;
+  setDetails: SetDetail[] | null;
 };
 
 function toRow(item: DailyPlanRow): Row {
@@ -39,6 +44,7 @@ function toRow(item: DailyPlanRow): Row {
     sets: item.sets,
     reps: item.reps,
     weight: item.weightKg === null ? "" : String(item.weightKg),
+    setDetails: item.setDetails,
   };
 }
 
@@ -73,9 +79,24 @@ export function DailyMainEditor({
   const [rows, setRows] = useState<Row[]>(initial.map(toRow));
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
+  // 저장 안 된 편집 여부 — 페이지 이탈 경고용
+  const [dirty, setDirty] = useState(false);
+  // "추천으로 채우기" 덮어쓰기 확인 모달
+  const [confirmRecommend, setConfirmRecommend] = useState(false);
+
+  // 저장하지 않은 편집이 있는 채로 탭을 닫거나 새로고침하면 브라우저 기본 경고.
+  useEffect(() => {
+    if (!dirty) return;
+    function onBeforeUnload(e: BeforeUnloadEvent) {
+      e.preventDefault();
+    }
+    window.addEventListener("beforeunload", onBeforeUnload);
+    return () => window.removeEventListener("beforeunload", onBeforeUnload);
+  }, [dirty]);
 
   function update(next: Row[]) {
     setRows(next);
+    setDirty(true);
     setMsg(null);
   }
 
@@ -98,6 +119,7 @@ export function DailyMainEditor({
         sets: 3,
         reps: 10,
         weight: "",
+        setDetails: null,
       },
     ]);
   }
@@ -109,6 +131,7 @@ export function DailyMainEditor({
       sets: r.sets,
       reps: r.reps,
       weightKg: r.weight.trim() === "" ? null : Number(r.weight),
+      setDetails: r.setDetails,
     }));
   }
 
@@ -117,12 +140,21 @@ export function DailyMainEditor({
       const items = rowsToItems(rows);
       const res = await saveDailyPlanAction(dateYmd, focus, items);
       setMsg(res.ok ? `‘${label}’ 저장됨` : res.error);
-      if (res.ok) router.refresh();
+       if (res.ok) {
+        setDirty(false);
+        router.refresh();
+      }
     });
   }
 
-  /** 체형·성별·경력 기반 추천으로 행을 채움 — 저장은 아래"오늘 본운동 저장" 버튼이 담당 */
+  // 편집 중인 행이 있으면 덮어쓰기 전에 확인, 비어 있으면 바로 채움
   function recommend() {
+    if (rows.length > 0) setConfirmRecommend(true);
+    else doRecommend();
+  }
+
+  /** 체형·성별·경력 기반 추천으로 행을 채움 — 저장은 아래"오늘 본운동 저장" 버튼이 담당 */
+  function doRecommend() {
     const opts = {
       gender,
       experience,
@@ -138,6 +170,7 @@ export function DailyMainEditor({
         sets: p.sets,
         reps: p.reps,
         weight: p.weightKg === null ? "" : String(p.weightKg),
+        setDetails: null,
       };
     });
     update(next);
@@ -231,45 +264,21 @@ export function DailyMainEditor({
                   })}
                 </select>
 
-                <input
-                  aria-label="세트"
-                  type="number"
-                  value={row.sets}
-                  onChange={(e) => {
+                <SetDetailsEditor
+                  sets={row.sets}
+                  reps={row.reps}
+                  weight={row.weight}
+                  setDetails={row.setDetails}
+                  onUniformChange={(patch) => {
                     const next = [...rows];
-                    next[idx] = { ...row, sets: Number(e.target.value) };
+                    next[idx] = { ...row, ...patch };
                     update(next);
                   }}
-                  className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-                />
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                  세트
-                </span>
-                <input
-                  aria-label="횟수"
-                  type="number"
-                  value={row.reps}
-                  onChange={(e) => {
+                  onSetDetailsChange={(sd) => {
                     const next = [...rows];
-                    next[idx] = { ...row, reps: Number(e.target.value) };
+                    next[idx] = { ...row, setDetails: sd };
                     update(next);
                   }}
-                  className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-                />
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                  회
-                </span>
-                <input
-                  aria-label="무게(kg)"
-                  type="number"
-                  value={row.weight}
-                  placeholder="kg"
-                  onChange={(e) => {
-                    const next = [...rows];
-                    next[idx] = { ...row, weight: e.target.value };
-                    update(next);
-                  }}
-                  className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
                 />
                 <button
                   type="button"
@@ -303,6 +312,19 @@ export function DailyMainEditor({
           </span>
         ) : null}
       </div>
+
+      <ConfirmDialog
+        open={confirmRecommend}
+        tone="danger"
+        title="추천 운동으로 교체할까요?"
+        message="지금 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"
+        confirmLabel="교체하기"
+        onConfirm={() => {
+          doRecommend();
+          setConfirmRecommend(false);
+        }}
+        onCancel={() => setConfirmRecommend(false)}
+      />
     </section>
   );
 }

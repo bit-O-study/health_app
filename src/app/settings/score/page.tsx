@@ -238,7 +238,7 @@ export default async function ScorePage() {
                 className={`flex h-9 items-center justify-center rounded-md text-[11px] font-semibold ${
                   cell.done
                     ? "bg-emerald-600 text-white"
-                    : "bg-zinc-100 text-zinc-400 dark:text-zinc-500"
+                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500"
                 }`}
               >
                 {cell.day}
@@ -258,7 +258,7 @@ export default async function ScorePage() {
             className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
               balanceSource === "body"
                 ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
-                : "bg-zinc-100 text-zinc-600 dark:text-zinc-400"
+                : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
             }`}
           >
             {balanceSource === "body" ? "체성분 기반" : "운동량 기반"}
@@ -323,7 +323,7 @@ export default async function ScorePage() {
                     점
                   </span>
                 </p>
-                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-100">
+                <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
                   <div
                     className="h-full rounded-full"
                     style={{

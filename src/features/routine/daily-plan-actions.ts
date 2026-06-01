@@ -11,6 +11,11 @@ import {
   isEquipmentId,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  isValidSetDetails,
+  toRowFields,
+  type SetDetail,
+} from "@/features/routine/set-details";
 
 export type DailyPlanItem = {
   exerciseId: string;
@@ -18,6 +23,8 @@ export type DailyPlanItem = {
   sets: number;
   reps: number;
   weightKg: number | null;
+  /** 세트별 무게·횟수. 있으면 sets/reps/weightKg 대신 사용. */
+  setDetails?: SetDetail[] | null;
 };
 
 export type SaveDailyPlanResult = { ok: true } | { ok: false; error: string };
@@ -70,7 +77,11 @@ export async function saveDailyPlanAction(
     if (!getCatalogExercise(it.exerciseId) || !isEquipmentId(it.equipment)) {
       return { ok: false, error: "운동/기구 값이 올바르지 않습니다." };
     }
-    if (
+    if (it.setDetails && it.setDetails.length > 0) {
+      if (!isValidSetDetails(it.setDetails)) {
+        return { ok: false, error: "세트별 무게/횟수 값이 올바르지 않습니다." };
+      }
+    } else if (
       !Number.isInteger(it.sets) ||
       it.sets < 1 ||
       it.sets > 20 ||
@@ -102,9 +113,7 @@ export async function saveDailyPlanAction(
       position: index,
       exercise_id: it.exerciseId,
       equipment: it.equipment,
-      sets: it.sets,
-      reps: it.reps,
-      weight_kg: it.weightKg,
+      ...toRowFields(it),
     }));
     const ins = await supabase.from("daily_plan").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };

@@ -280,6 +280,10 @@ create table if not exists public.routine_exercises (
   updated_at timestamptz not null default now()
 );
 
+-- 세트별 무게·횟수(드롭세트·피라미드). null = 균일(sets×reps@weight_kg). 하위호환.
+-- 형식: [{"weightKg": 15, "reps": 12}, {"weightKg": 20, "reps": 10}, ...]
+alter table public.routine_exercises add column if not exists set_details jsonb;
+
 create index if not exists routine_exercises_user_focus_idx
   on public.routine_exercises (user_id, focus, position);
 
@@ -404,6 +408,9 @@ create table if not exists public.daily_plan (
   weight_kg numeric(5, 1),
   created_at timestamptz not null default now()
 );
+
+-- 세트별 무게·횟수 오버라이드 (routine_exercises.set_details 와 동일 형식)
+alter table public.daily_plan add column if not exists set_details jsonb;
 
 create index if not exists daily_plan_user_date_idx
   on public.daily_plan (user_id, for_date, focus, position);
@@ -538,6 +545,8 @@ alter table public.exercise_completions add column if not exists sets int;
 alter table public.exercise_completions add column if not exists reps int;
 alter table public.exercise_completions add column if not exists weight_kg numeric(5, 1);
 alter table public.exercise_completions add column if not exists focus text;
+-- 완료 시점 세트별 무게·횟수 스냅샷 (set_details, null = 균일)
+alter table public.exercise_completions add column if not exists set_details jsonb;
 
 -- Per-day done/skipped status for warmup/cooldown items.
 -- Keyed by source_row_id (routine_conditioning.id 또는 daily_conditioning.id)

@@ -413,7 +413,7 @@ export function TodayConditioningList({
                     : isDone
                       ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40"
                       : isSkipped
-                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100"
+                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-800/60"
                         : "border-zinc-200 dark:border-zinc-700"
               }`}
             >

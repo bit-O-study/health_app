@@ -21,6 +21,11 @@ import {
   prescribe,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  isValidSetDetails,
+  toRowFields,
+  type SetDetail,
+} from "@/features/routine/set-details";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 
 /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째. 없으면 첫 번째. */
@@ -42,6 +47,8 @@ export type ManualPlanItem = {
   sets: number;
   reps: number;
   weightKg: number | null;
+  /** 세트별 무게·횟수. 있으면 sets/reps/weightKg 대신 이걸 사용. */
+  setDetails?: SetDetail[] | null;
 };
 
 /**
@@ -157,7 +164,11 @@ export async function saveManualPlanAction(
     if (!getCatalogExercise(it.exerciseId) || !isEquipmentId(it.equipment)) {
       return { ok: false, error: "운동/기구 값이 올바르지 않습니다." };
     }
-    if (
+    if (it.setDetails && it.setDetails.length > 0) {
+      if (!isValidSetDetails(it.setDetails)) {
+        return { ok: false, error: "세트별 무게/횟수 값이 올바르지 않습니다." };
+      }
+    } else if (
       !Number.isInteger(it.sets) ||
       it.sets < 1 ||
       it.sets > 20 ||
@@ -183,9 +194,7 @@ export async function saveManualPlanAction(
       position: index,
       exercise_id: it.exerciseId,
       equipment: it.equipment,
-      sets: it.sets,
-      reps: it.reps,
-      weight_kg: it.weightKg,
+      ...toRowFields(it),
     }));
     const ins = await supabase.from("routine_exercises").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };
@@ -202,37 +211,46 @@ export async function saveManualPlanAction(
  */
 export async function updateExerciseAction(
   rowId: string,
-  values: { sets: number; reps: number; weightKg: number | null },
+  values: {
+    sets: number;
+    reps: number;
+    weightKg: number | null;
+    /** 세트별 무게·횟수. 있으면 sets/reps/weightKg 대신 사용, null/생략이면 균일로 되돌림. */
+    setDetails?: SetDetail[] | null;
+  },
 ): Promise<SavePlanResult> {
   if (!rowId) return { ok: false, error: "행을 찾을 수 없습니다." };
-  if (
-    !Number.isInteger(values.sets) ||
-    values.sets < 1 ||
-    values.sets > 20 ||
-    !Number.isInteger(values.reps) ||
-    values.reps < 1 ||
-    values.reps > 100
-  ) {
-    return { ok: false, error: "세트/횟수 값이 올바르지 않습니다." };
-  }
-  if (
-    values.weightKg !== null &&
-    (!Number.isFinite(values.weightKg) ||
-      values.weightKg < 0 ||
-      values.weightKg > 1000)
-  ) {
-    return { ok: false, error: "무게 값이 올바르지 않습니다." };
+  const hasSetDetails = !!values.setDetails && values.setDetails.length > 0;
+  if (hasSetDetails) {
+    if (!isValidSetDetails(values.setDetails!)) {
+      return { ok: false, error: "세트별 무게/횟수 값이 올바르지 않습니다." };
+    }
+  } else {
+    if (
+      !Number.isInteger(values.sets) ||
+      values.sets < 1 ||
+      values.sets > 20 ||
+      !Number.isInteger(values.reps) ||
+      values.reps < 1 ||
+      values.reps > 100
+    ) {
+      return { ok: false, error: "세트/횟수 값이 올바르지 않습니다." };
+    }
+    if (
+      values.weightKg !== null &&
+      (!Number.isFinite(values.weightKg) ||
+        values.weightKg < 0 ||
+        values.weightKg > 1000)
+    ) {
+      return { ok: false, error: "무게 값이 올바르지 않습니다." };
+    }
   }
 
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const update = {
-    sets: values.sets,
-    reps: values.reps,
-    weight_kg: values.weightKg,
-  };
+  const update = toRowFields(values);
   await Promise.all([
     supabase
       .from("routine_exercises")

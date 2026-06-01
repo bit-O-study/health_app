@@ -21,9 +21,14 @@ type RestState = {
 type Ctx = {
   /** seconds 만큼 휴식 타이머 시작 (이미 진행 중이면 덮어쓰기) */
   trigger: (seconds: number) => void;
+  /**
+   * 하단 액션 바(예: 가이드 오버레이의 완료/넘기기 버튼)가 떠 있는 동안 true.
+   * true 면 휴식 알약을 그 위로 띄워서 버튼 탭을 가리지 않게 한다.
+   */
+  setLifted: (lifted: boolean) => void;
 };
 
-const RestCtx = createContext<Ctx>({ trigger: () => {} });
+const RestCtx = createContext<Ctx>({ trigger: () => {}, setLifted: () => {} });
 
 /**
  * 휴식 타이머 컨텍스트 + 하단 오버레이.
@@ -32,18 +37,20 @@ const RestCtx = createContext<Ctx>({ trigger: () => {} });
  */
 export function RestTimerProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<RestState | null>(null);
+  // 하단 버튼 바가 떠 있으면 알약을 그 위로 — 탭 가림 방지
+  const [lifted, setLiftedState] = useState(false);
   // 0.25s 마다 렌더 — 잔여 시간 표시 부드럽게
   const [, setTick] = useState(0);
   const audioCtxRef = useRef<AudioContext | null>(null);
-  const beepedRef = useRef(false);
 
   const trigger = useCallback((seconds: number) => {
-    beepedRef.current = false;
     setState({
       endsAt: Date.now() + seconds * 1000,
       totalSec: seconds,
     });
   }, []);
+
+  const setLifted = useCallback((v: boolean) => setLiftedState(v), []);
 
   // tick
   useEffect(() => {
@@ -52,19 +59,21 @@ export function RestTimerProvider({ children }: { children: ReactNode }) {
     return () => window.clearInterval(id);
   }, [state]);
 
-  // 종료 처리 — 잔여 0 도달 시 비프 + 진동
+  // 잔여 0 도달 여부 — 시계 기반 파생값. tick 마다 재계산되어 false→true 로 한 번 전환된다.
+  // eslint-disable-next-line react-hooks/purity
+  const ended = state !== null && state.endsAt - Date.now() <= 0;
+
+  // 종료 처리 — ended 가 true 로 전환될 때 한 번만 비프 + 진동 + 자동 닫기 예약.
+  // ⚠ deps 에 [ended] 를 둬야 함: deps 가 없으면 매 렌더(250ms tick)마다 effect 가
+  // 재실행되며 직전 렌더의 cleanup 이 close 타이머를 clearTimeout 해버려 영원히 안 닫힘.
   useEffect(() => {
-    if (!state) return;
-    const remaining = state.endsAt - Date.now();
-    if (remaining <= 0 && !beepedRef.current) {
-      beepedRef.current = true;
-      playBeep(audioCtxRef);
-      tryVibrate([180, 80, 180]);
-      // 알약은 1.5초 더 보여주고 자동 닫기 (사용자가 끝났음을 인지)
-      const closeId = window.setTimeout(() => setState(null), 1500);
-      return () => window.clearTimeout(closeId);
-    }
-  });
+    if (!ended) return;
+    playBeep(audioCtxRef);
+    tryVibrate([180, 80, 180]);
+    // 알약은 1.5초 더 보여주고 자동 닫기 (사용자가 끝났음을 인지)
+    const closeId = window.setTimeout(() => setState(null), 1500);
+    return () => window.clearTimeout(closeId);
+  }, [ended]);
 
   function skip() {
     setState(null);
@@ -75,7 +84,6 @@ export function RestTimerProvider({ children }: { children: ReactNode }) {
       endsAt: state.endsAt + extra * 1000,
       totalSec: state.totalSec + extra,
     });
-    beepedRef.current = false;
   }
 
   // 잔여 시간은 매 tick 마다 Date.now() 로 재계산 — purity 룰은 무시 (시계 기반 UI 의도된 패턴).
@@ -83,12 +91,13 @@ export function RestTimerProvider({ children }: { children: ReactNode }) {
   const remainingMs = state ? Math.max(0, state.endsAt - Date.now()) : 0;
 
   return (
-    <RestCtx.Provider value={{ trigger }}>
+    <RestCtx.Provider value={{ trigger, setLifted }}>
       {children}
       {state ? (
         <RestOverlay
           remainingMs={remainingMs}
           totalSec={state.totalSec}
+          lifted={lifted}
           onSkip={skip}
           onAdd={addSec}
         />
@@ -104,11 +113,14 @@ export function useRestTimer(): Ctx {
 function RestOverlay({
   remainingMs,
   totalSec,
+  lifted,
   onSkip,
   onAdd,
 }: {
   remainingMs: number;
   totalSec: number;
+  /** 하단 버튼 바 위로 띄울지 — 가이드 오버레이가 떠 있을 때 true */
+  lifted: boolean;
   onSkip: () => void;
   onAdd: (extra: number) => void;
 }) {
@@ -120,7 +132,15 @@ function RestOverlay({
   );
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-4 z-50 flex justify-center px-4">
+    <div
+      className="pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4"
+      style={{
+        // 가이드 오버레이의 하단 완료/넘기기 버튼 바(≈4.5rem + 안전영역) 위로 띄워서 탭을 가리지 않게.
+        bottom: lifted
+          ? "calc(env(safe-area-inset-bottom, 0px) + 5.5rem)"
+          : "1rem",
+      }}
+    >
       <div
         className={`pointer-events-auto relative flex items-center gap-3 overflow-hidden rounded-full px-4 py-2.5 shadow-lg ${
           done

@@ -30,6 +30,10 @@ import {
   type EquipmentId,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
+import {
+  summarizeSetDetails,
+  type SetDetail,
+} from "@/features/routine/set-details";
 
 /** 한 행 평균 높이 (px) — 위·아래 이동 시 슬롯 계산용 */
 const ROW_HEIGHT_PX = 80;
@@ -43,6 +47,8 @@ export type TodayPlanItem = {
   sets: number;
   reps: number;
   weightKg: number | null;
+  /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
+  setDetails: SetDetail[] | null;
   focus: string;
 };
 
@@ -163,6 +169,7 @@ export function TodayPlanList({
               sets: item.sets,
               reps: item.reps,
               weightKg: item.weightKg,
+              setDetails: item.setDetails,
               focus: item.focus,
             },
       );
@@ -453,7 +460,7 @@ export function TodayPlanList({
                     : isDone
                       ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40"
                       : isSkipped
-                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100"
+                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-800/60"
                         : "border-zinc-200 dark:border-zinc-700"
               }`}
             >
@@ -531,10 +538,13 @@ export function TodayPlanList({
                       ) : null}
                     </h3>
                     <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-                      {item.sets}세트 × {item.reps}회
-                      {item.weightKg !== null
-                        ? ` · ${item.weightKg}kg`
-                        : " · 맨몸"}
+                      {item.setDetails && item.setDetails.length > 0
+                        ? `${item.setDetails.length}세트 · ${summarizeSetDetails(item.setDetails)}`
+                        : `${item.sets}세트 × ${item.reps}회${
+                            item.weightKg !== null
+                              ? ` · ${item.weightKg}kg`
+                              : " · 맨몸"
+                          }`}
                       <span className="ml-2 text-xs text-orange-700 dark:text-orange-400">
                         · 약 {kcal}kcal
                       </span>
@@ -579,7 +589,8 @@ export function TodayPlanList({
 }
 
 /** 편집 모드에서 행 우측 연필 버튼 → 인라인 수정 폼.
- * 세트·횟수·무게만 수정. 운동·기구 변경은 삭제 후 다시 추가로 처리. */
+ * 세트·횟수·무게 수정 + "세트별 다르게"(드롭세트·피라미드) 토글.
+ * 운동·기구 변경은 삭제 후 다시 추가로 처리. */
 function ExerciseEditForm({
   item,
   onCancel,
@@ -591,6 +602,7 @@ function ExerciseEditForm({
     sets: number;
     reps: number;
     weightKg: number | null;
+    setDetails: SetDetail[] | null;
   }) => void;
 }) {
   const [sets, setSets] = useState<string>(String(item.sets));
@@ -598,10 +610,96 @@ function ExerciseEditForm({
   const [weight, setWeight] = useState<string>(
     item.weightKg === null ? "" : String(item.weightKg),
   );
+  // 세트별 모드 on/off + 세트별 입력값(문자열 보관 → 빈칸=맨몸 허용)
+  const [perSet, setPerSet] = useState<boolean>(
+    !!item.setDetails && item.setDetails.length > 0,
+  );
+  const [detailRows, setDetailRows] = useState<
+    { weight: string; reps: string }[]
+  >(() =>
+    item.setDetails && item.setDetails.length > 0
+      ? item.setDetails.map((s) => ({
+          weight: s.weightKg === null ? "" : String(s.weightKg),
+          reps: String(s.reps),
+        }))
+      : [{ weight: weight, reps: reps }],
+  );
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
+  // 균일 → 세트별 전환 시 현재 세트 수만큼 균일값으로 채워 시작
+  function enablePerSet() {
+    const s = Math.min(20, Math.max(1, Number(sets) || 1));
+    setDetailRows(Array.from({ length: s }, () => ({ weight, reps })));
+    setPerSet(true);
+    setError(null);
+  }
+  function disablePerSet() {
+    setPerSet(false);
+    setError(null);
+  }
+  function addDetail() {
+    setDetailRows((prev) => {
+      const last = prev[prev.length - 1];
+      return prev.length >= 20
+        ? prev
+        : [...prev, last ? { ...last } : { weight: "", reps: "10" }];
+    });
+    setError(null);
+  }
+  function removeDetail(i: number) {
+    setDetailRows((prev) => prev.filter((_, idx) => idx !== i));
+    setError(null);
+  }
+  function patchDetail(i: number, key: "weight" | "reps", val: string) {
+    setDetailRows((prev) =>
+      prev.map((row, idx) => (idx === i ? { ...row, [key]: val } : row)),
+    );
+    setError(null);
+  }
+
   function save() {
+    if (perSet) {
+      if (detailRows.length < 1 || detailRows.length > 20) {
+        setError("세트는 1~20개로 입력하세요.");
+        return;
+      }
+      const parsed: SetDetail[] = [];
+      for (const row of detailRows) {
+        const r = Number(row.reps);
+        if (!Number.isInteger(r) || r < 1 || r > 100) {
+          setError("각 세트 횟수는 1~100 으로 입력하세요.");
+          return;
+        }
+        const w = row.weight.trim() === "" ? null : Number(row.weight);
+        if (w !== null && (!Number.isFinite(w) || w < 0 || w > 1000)) {
+          setError("무게는 0~1000 사이로 입력하세요.");
+          return;
+        }
+        parsed.push({ weightKg: w, reps: r });
+      }
+      start(async () => {
+        const res = await updateExerciseAction(item.id, {
+          sets: parsed.length,
+          reps: parsed[0].reps,
+          weightKg: parsed[0].weightKg,
+          setDetails: parsed,
+        });
+        if (res.ok) {
+          setError(null);
+          onSaved({
+            sets: parsed.length,
+            reps: parsed[0].reps,
+            weightKg: parsed[0].weightKg,
+            setDetails: parsed,
+          });
+        } else {
+          setError(res.error);
+        }
+      });
+      return;
+    }
+
     const s = Number(sets);
     const r = Number(reps);
     if (
@@ -625,67 +723,144 @@ function ExerciseEditForm({
         sets: s,
         reps: r,
         weightKg: w,
+        setDetails: null,
       });
       if (res.ok) {
         setError(null);
-        onSaved({ sets: s, reps: r, weightKg: w });
+        onSaved({ sets: s, reps: r, weightKg: w, setDetails: null });
       } else {
         setError(res.error);
       }
     });
   }
 
+  const inputCls =
+    "h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
+
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-2">
-      <div className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-        {item.name}
-        <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-          {item.equipmentLabel}
-        </span>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+          {item.name}
+          <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            {item.equipmentLabel}
+          </span>
+        </div>
+        <button
+          type="button"
+          onClick={perSet ? disablePerSet : enablePerSet}
+          disabled={pending}
+          className={`inline-flex h-7 items-center rounded-md border px-2 text-[11px] font-semibold transition ${
+            perSet
+              ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
+              : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
+          }`}
+        >
+          세트별 다르게
+        </button>
       </div>
+
+      {perSet ? (
+        <div className="flex flex-col gap-1.5">
+          {detailRows.map((row, i) => (
+            <div key={i} className="flex items-center gap-1.5">
+              <span className="w-9 shrink-0 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                {i + 1}세트
+              </span>
+              <input
+                aria-label={`${i + 1}세트 무게(kg)`}
+                type="number"
+                inputMode="decimal"
+                placeholder="kg"
+                value={row.weight}
+                onChange={(e) => patchDetail(i, "weight", e.target.value)}
+                disabled={pending}
+                className={inputCls}
+              />
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                kg ×
+              </span>
+              <input
+                aria-label={`${i + 1}세트 횟수`}
+                type="number"
+                inputMode="numeric"
+                value={row.reps}
+                onChange={(e) => patchDetail(i, "reps", e.target.value)}
+                disabled={pending}
+                className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+              />
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                회
+              </span>
+              <button
+                type="button"
+                aria-label="세트 삭제"
+                onClick={() => removeDetail(i)}
+                disabled={pending || detailRows.length <= 1}
+                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
+              >
+                <X aria-hidden="true" size={15} />
+              </button>
+            </div>
+          ))}
+          <button
+            type="button"
+            onClick={addDetail}
+            disabled={pending || detailRows.length >= 20}
+            className="inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400 disabled:opacity-50"
+          >
+            <Plus aria-hidden="true" size={13} />
+            세트 추가
+          </button>
+        </div>
+      ) : (
+        <div className="flex flex-wrap items-center gap-1.5">
+          <input
+            aria-label="세트"
+            type="number"
+            inputMode="numeric"
+            value={sets}
+            onChange={(e) => {
+              setSets(e.target.value);
+              setError(null);
+            }}
+            disabled={pending}
+            className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+          />
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
+          <input
+            aria-label="횟수"
+            type="number"
+            inputMode="numeric"
+            value={reps}
+            onChange={(e) => {
+              setReps(e.target.value);
+              setError(null);
+            }}
+            disabled={pending}
+            className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+          />
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
+          <input
+            aria-label="무게(kg)"
+            type="number"
+            inputMode="decimal"
+            placeholder="kg"
+            value={weight}
+            onChange={(e) => {
+              setWeight(e.target.value);
+              setError(null);
+            }}
+            disabled={pending}
+            className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+          />
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            kg (빈칸=맨몸)
+          </span>
+        </div>
+      )}
+
       <div className="flex flex-wrap items-center gap-1.5">
-        <input
-          aria-label="세트"
-          type="number"
-          inputMode="numeric"
-          value={sets}
-          onChange={(e) => {
-            setSets(e.target.value);
-            setError(null);
-          }}
-          disabled={pending}
-          className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-        />
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
-        <input
-          aria-label="횟수"
-          type="number"
-          inputMode="numeric"
-          value={reps}
-          onChange={(e) => {
-            setReps(e.target.value);
-            setError(null);
-          }}
-          disabled={pending}
-          className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-        />
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
-        <input
-          aria-label="무게(kg)"
-          type="number"
-          inputMode="decimal"
-          placeholder="kg"
-          value={weight}
-          onChange={(e) => {
-            setWeight(e.target.value);
-            setError(null);
-          }}
-          disabled={pending}
-          className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-        />
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">
-          kg (빈칸=맨몸)
-        </span>
         <button
           type="button"
           onClick={save}

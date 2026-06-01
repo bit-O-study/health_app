@@ -10,6 +10,10 @@ import {
   isEquipmentId,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  parseSetDetails,
+  type SetDetail,
+} from "@/features/routine/set-details";
 
 export type DailyPlanRow = {
   id: string;
@@ -20,6 +24,8 @@ export type DailyPlanRow = {
   sets: number;
   reps: number;
   weightKg: number | null;
+  /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
+  setDetails: SetDetail[] | null;
 };
 
 type Row = {
@@ -31,6 +37,7 @@ type Row = {
   sets: number;
   reps: number;
   weight_kg: number | string | null;
+  set_details?: unknown;
 };
 
 const num = (v: number | string | null): number | null => {
@@ -49,11 +56,10 @@ export const getDailyPlanForDate = cache(
     if (!user) return [];
     const supabase = await createSupabaseServerClient();
 
+    // select("*") — set_details 컬럼이 마이그레이션 전이어도 쿼리가 깨지지 않게.
     const { data, error } = await supabase
       .from("daily_plan")
-      .select(
-        "id, focus, position, exercise_id, equipment, sets, reps, weight_kg",
-      )
+      .select("*")
       .eq("user_id", user.id)
       .eq("for_date", dateYmd)
       .order("focus", { ascending: true })
@@ -69,6 +75,7 @@ export const getDailyPlanForDate = cache(
       sets: r.sets,
       reps: r.reps,
       weightKg: num(r.weight_kg),
+      setDetails: parseSetDetails(r.set_details),
     }));
   },
 );

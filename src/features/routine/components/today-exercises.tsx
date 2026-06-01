@@ -22,6 +22,7 @@ import {
   estimateStrengthKcal,
 } from "@/features/routine/calories";
 import { getStatusMapToday } from "@/features/routine/exercise-completions";
+import { summarizeSetDetails } from "@/features/routine/set-details";
 import { getConditioningStatusMapToday } from "@/features/routine/conditioning-completions";
 import {
   TodayPlanList,
@@ -114,6 +115,7 @@ export async function TodayExercises({
         sets: d.sets,
         reps: d.reps,
         weightKg: d.weightKg,
+        setDetails: d.setDetails,
       }));
     }
     return defaultPlansPerTone[idx];
@@ -138,6 +140,7 @@ export async function TodayExercises({
     sets: item.sets,
     reps: item.reps,
     weightKg: item.weightKg,
+    setDetails: item.setDetails,
     focus: item.focus,
   }));
   const mainDoneIds = plan
@@ -231,9 +234,12 @@ export async function TodayExercises({
     if (mainDoneSet.has(p.id) || mainSkipSet.has(p.id)) continue;
     const ex = getCatalogExercise(p.exerciseId);
     const eq = ex?.equipments.find((e) => e.equipment === p.equipment);
-    const subtitle = `${EQUIPMENT_LABELS[p.equipment]} · ${p.sets}세트 × ${p.reps}회${
-      p.weightKg !== null ? ` · ${p.weightKg}kg` : " · 맨몸"
-    }`;
+    const subtitle =
+      p.setDetails && p.setDetails.length > 0
+        ? `${EQUIPMENT_LABELS[p.equipment]} · ${summarizeSetDetails(p.setDetails)}`
+        : `${EQUIPMENT_LABELS[p.equipment]} · ${p.sets}세트 × ${p.reps}회${
+            p.weightKg !== null ? ` · ${p.weightKg}kg` : " · 맨몸"
+          }`;
     queueItems.push({
       kind: "main",
       rowId: p.id,
@@ -324,6 +330,7 @@ export async function TodayExercises({
                     sets: p.sets,
                     reps: p.reps,
                     weightKg: p.weightKg,
+                    setDetails: p.setDetails,
                     focus: p.focus,
                   },
                 }))}

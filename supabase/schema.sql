@@ -174,7 +174,7 @@ alter table public.user_routines
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines
-  add constraint user_routines_splits_check check (splits between 0 and 6);
+  add constraint user_routines_splits_check check (splits between 0 and 7);
 
 create or replace function public.set_updated_at()
 returns trigger

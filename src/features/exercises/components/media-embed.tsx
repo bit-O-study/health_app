@@ -1,3 +1,8 @@
+"use client";
+
+import { useState } from "react";
+import { Volume2 } from "lucide-react";
+
 import type { MediaKind } from "@/features/exercises/exercise-media";
 
 type Embed = { provider: "youtube" | "vimeo"; id: string };
@@ -30,33 +35,50 @@ function parseEmbed(url: string): Embed | null {
 }
 
 /**
- * embed iframe src 구성.
- * - autoPlay=true: 운동 차례가 되면 자동 재생. 브라우저 정책상 자동재생은 음소거 필수.
- * - 유튜브: nocookie 도메인 + rel=0(관련영상 X)·modestbranding·playsinline 으로
- *   유튜브로 이동/이탈을 최대한 줄이고 앱 내 인라인 재생.
+ * embed iframe src.
+ * - autoPlay(가이드 운동 차례): 음소거 자동재생 + 무한 반복 + 컨트롤/브랜딩 최대한 숨김
+ *   (controls=0, fs=0, iv_load_policy=3 → 정지·전체화면·관련영상·주석 안 보이게).
+ *   유튜브 자동재생은 정책상 음소거 필수 → sound=true(사용자 탭)면 mute=0 으로 소리 켬.
+ * - 비 autoPlay(상세 페이지 등): 기본 컨트롤 유지해 사용자가 직접 재생.
  */
-function embedSrc(e: Embed, autoPlay: boolean): string {
+function embedSrc(e: Embed, autoPlay: boolean, sound: boolean): string {
   if (e.provider === "youtube") {
     const p = new URLSearchParams({
       rel: "0",
       modestbranding: "1",
       playsinline: "1",
-      // 운동 차례엔 음소거 자동재생 + 무한 반복(유튜브는 단일영상 반복에 playlist=id 필요).
-      ...(autoPlay ? { autoplay: "1", mute: "1", loop: "1", playlist: e.id } : {}),
+      iv_load_policy: "3",
     });
+    if (autoPlay) {
+      p.set("autoplay", "1");
+      p.set("mute", sound ? "0" : "1");
+      p.set("loop", "1");
+      p.set("playlist", e.id);
+      p.set("controls", "0");
+      p.set("fs", "0");
+      p.set("disablekb", "1");
+    }
     return `https://www.youtube-nocookie.com/embed/${e.id}?${p.toString()}`;
   }
-  // vimeo
+  // vimeo — title/byline/portrait 숨겨 깔끔하게
   const p = new URLSearchParams({
     playsinline: "1",
-    ...(autoPlay ? { autoplay: "1", muted: "1", loop: "1" } : {}),
+    title: "0",
+    byline: "0",
+    portrait: "0",
   });
+  if (autoPlay) {
+    p.set("autoplay", "1");
+    p.set("muted", sound ? "0" : "1");
+    p.set("loop", "1");
+    p.set("controls", "0");
+  }
   return `https://player.vimeo.com/video/${e.id}?${p.toString()}`;
 }
 
 /**
  * 운동 미디어 표시. 유튜브/Vimeo 는 iframe, 직접 mp4 는 video, gif/이미지는 img.
- * autoPlay 면(가이드 = 운동 차례) 음소거 자동 재생.
+ * 가이드(autoPlay)에서는 음소거 자동재생·무한반복하고, "소리 켜기" 탭으로 소리를 켤 수 있다.
  */
 export function MediaEmbed({
   url,
@@ -67,22 +89,33 @@ export function MediaEmbed({
   url: string;
   kind: MediaKind;
   className?: string;
-  /** 운동 차례가 되면 자동 재생(음소거). 가이드 오버레이에서 사용. */
   autoPlay?: boolean;
 }) {
+  const [sound, setSound] = useState(false);
   const embed = parseEmbed(url);
-  const base = `w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
+  const base = `relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
 
   if (embed) {
     return (
       <div className={base} style={{ aspectRatio: "16 / 9" }}>
         <iframe
-          src={embedSrc(embed, autoPlay)}
+          // sound 토글 시 src 가 바뀌며 사용자 제스처로 음소거 해제 재생됨
+          key={sound ? "on" : "off"}
+          src={embedSrc(embed, autoPlay, sound)}
           title="운동 시범 영상"
           className="h-full w-full"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
         />
+        {autoPlay && !sound ? (
+          <button
+            type="button"
+            onClick={() => setSound(true)}
+            className="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur transition hover:bg-black/75"
+          >
+            <Volume2 aria-hidden="true" size={14} />
+            소리 켜기
+          </button>
+        ) : null}
       </div>
     );
   }
@@ -92,13 +125,23 @@ export function MediaEmbed({
       <div className={base}>
         <video
           src={url}
-          controls
+          controls={!autoPlay}
           playsInline
           autoPlay={autoPlay}
-          muted={autoPlay}
+          muted={autoPlay && !sound}
           loop={autoPlay}
           className="h-auto w-full"
         />
+        {autoPlay && !sound ? (
+          <button
+            type="button"
+            onClick={() => setSound(true)}
+            className="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur transition hover:bg-black/75"
+          >
+            <Volume2 aria-hidden="true" size={14} />
+            소리 켜기
+          </button>
+        ) : null}
       </div>
     );
   }
@@ -106,7 +149,6 @@ export function MediaEmbed({
   // gif / image
   return (
     <div className={base}>
-      {/* 외부 URL — next/image 최적화 대신 일반 img (도메인 설정 불필요) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={url} alt="운동 시범 움짤" className="h-auto w-full object-contain" />
     </div>

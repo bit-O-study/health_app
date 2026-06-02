@@ -92,7 +92,7 @@ export function RoutinePresets({
             setError(null);
           }}
           disabled={pending}
-          className="h-10 flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm text-zinc-800 dark:text-zinc-200"
+          className="h-10 min-w-0 flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm text-zinc-800 dark:text-zinc-200"
         />
         <button
           type="button"

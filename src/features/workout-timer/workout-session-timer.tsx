@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 import { ListChecks, Pause, Play, Save, Timer } from "lucide-react";
+
+import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
@@ -43,6 +45,20 @@ export function WorkoutSessionTimer({
   queueItems?: GuidedItem[];
 }) {
   const router = useRouter();
+  const orderScope = useTodayOrder();
+  // 드래그로 본운동 순서를 바꿨으면(공유 컨텍스트의 mainOrder) 가이드 큐의 main 항목을
+  // 그 순서로 재정렬한다. warmup/cooldown 은 위치 고정(워밍업 → 본운동 → 마무리).
+  // mainOrder 가 null(정렬 안 함)이면 서버가 내려준 prop 순서를 그대로 쓴다.
+  const mainOrder = orderScope?.mainOrder ?? null;
+  const queue = useMemo(() => {
+    if (!mainOrder) return queueItems;
+    const rank = new Map(mainOrder.map((id, i) => [id, i]));
+    const mains = queueItems
+      .filter((q) => q.kind === "main")
+      .sort((a, b) => (rank.get(a.rowId) ?? 0) - (rank.get(b.rowId) ?? 0));
+    let mi = 0;
+    return queueItems.map((q) => (q.kind === "main" ? mains[mi++] : q));
+  }, [queueItems, mainOrder]);
   const [state, setState] = useState<TimerState | null>(null);
   const [guided, setGuided] = useState(false);
   const [saveAsk, setSaveAsk] = useState(false);
@@ -142,7 +158,7 @@ export function WorkoutSessionTimer({
     };
     writeTimer(s);
     setState(s);
-    if (queueItems.length > 0) setGuided(true);
+    if (queue.length > 0) setGuided(true);
   }
   function pause() {
     if (!state || state.pausedAt !== null) return;
@@ -215,9 +231,9 @@ export function WorkoutSessionTimer({
   }
 
   const overlay =
-    guided && queueItems.length > 0 ? (
+    guided && queue.length > 0 ? (
       <GuidedOverlay
-        items={queueItems}
+        items={queue}
         onClose={() => setGuided(false)}
         onAllComplete={handleGuidedAllComplete}
       />
@@ -237,7 +253,7 @@ export function WorkoutSessionTimer({
         <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
           {time}
         </span>
-        {queueItems.length > 0 && !guided ? (
+        {queue.length > 0 && !guided ? (
           <button
             type="button"
             aria-label="가이드 다시 열기"

@@ -9,6 +9,7 @@ import {
 import { seoulYmd } from "@/features/routine/data";
 import { isConditioningKind } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
+import type { StatusActionResult } from "@/features/routine/completion-result";
 
 export type CondSnapshot = {
   durationMin: number | null;
@@ -26,25 +27,26 @@ export async function setConditioningStatusAction(
   itemId: string,
   status: CompletionStatus | "clear",
   snapshot?: CondSnapshot,
-): Promise<void> {
-  if (!isConditioningKind(kind) || !sourceRowId || !itemId) return;
+): Promise<StatusActionResult> {
+  if (!isConditioningKind(kind) || !sourceRowId || !itemId) return { ok: true };
 
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
-  if (!user) return;
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
   const today = seoulYmd();
 
   // 같은 행에 대한 기존 기록을 먼저 제거(= 취소 시 기록에서도 삭제)
-  await supabase
+  const del = await supabase
     .from("conditioning_completions")
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", today)
     .eq("source_row_id", sourceRowId);
+  if (del.error) return { ok: false, error: del.error.message };
 
   if (status !== "clear") {
-    await supabase.from("conditioning_completions").insert({
+    const { error } = await supabase.from("conditioning_completions").insert({
       user_id: user.id,
       for_date: today,
       kind,
@@ -55,8 +57,12 @@ export async function setConditioningStatusAction(
       speed: snapshot?.speed ?? null,
       incline: snapshot?.incline ?? null,
     });
+    if (error) return { ok: false, error: error.message };
   }
 
-  // /settings/* 는 force-dynamic 이라 진입 시 자동 fresh — 여기서 따로 revalidate 하지 않음.
+  // 홈 + 점수·기록 페이지 무효화 (클라이언트 Router Cache stale 방지).
   revalidatePath("/");
+  revalidatePath("/settings/score");
+  revalidatePath("/settings/history");
+  return { ok: true };
 }

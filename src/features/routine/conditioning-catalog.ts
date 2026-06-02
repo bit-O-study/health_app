@@ -486,6 +486,8 @@ const ITEMS: Record<string, ConditioningItem> = {
 
 const ALL = Object.values(ITEMS);
 
+export const ALL_CONDITIONING_ITEMS: ConditioningItem[] = ALL;
+
 export function conditioningOptions(
   kind: ConditioningKind,
 ): ConditioningItem[] {

@@ -9,6 +9,7 @@ import {
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
 import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
+import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -17,7 +18,32 @@ type Props = { params: Promise<{ id: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const item = getConditioningItem(id);
-  return { title: item ? `${item.name} | Health Platform MVP` : "운동 상세" };
+  if (!item) {
+    return {
+      title: "컨디셔닝 상세",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const kindLabel = item.kinds
+    .map((k) => (k === "warmup" ? "워밍업" : "마무리"))
+    .join(" · ");
+  const description =
+    item.target ??
+    `${item.name} ${kindLabel} 동작 방법과 루틴 적용 포인트를 확인하세요.`;
+
+  return {
+    title: `${item.name} ${kindLabel}`,
+    description,
+    alternates: {
+      canonical: absoluteUrl(`/conditioning/${item.id}`),
+    },
+    openGraph: {
+      title: `${item.name} ${kindLabel} | HELTCH`,
+      description,
+      url: absoluteUrl(`/conditioning/${item.id}`),
+    },
+  };
 }
 
 export default async function ConditioningDetailPage({ params }: Props) {

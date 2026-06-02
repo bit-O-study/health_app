@@ -1,17 +1,16 @@
 import { ImageResponse } from "next/og";
 
-/** PWA 매니페스트가 참조하는 512x512 PNG (any). */
+/** PWA 512x512 PNG (any). */
 export const dynamic = "force-static";
 
 export const contentType = "image/png";
 
 export async function GET() {
   return new ImageResponse(
-    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, #fb923c 0%, #f97316 55%, #f43f5e 100%)" }}>
-      <svg width="320" height="320" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.6" strokeLinecap="round">
-        <circle cx="8.5" cy="9.5" r="1.15" fill="white" stroke="none" />
-        <circle cx="15.5" cy="9.5" r="1.15" fill="white" stroke="none" />
-        <path d="M6.5 14.3c1.4 2 3.3 3 5.5 3s4.1-1 5.5-3" />
+    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(135deg, #f472b6 0%, #ec4899 52%, #c026d3 100%)" }}>
+      <svg width="340" height="340" viewBox="0 0 24 24" fill="none">
+        <path d="M2.6 13h3.3l1.5-4.2c.3-.85 1.45-.72 1.62.12l2.18 7.3 1.8-5.2c.27-.78 1.34-.74 1.55.06L17.1 13h1.7" stroke="white" strokeWidth="2.7" strokeLinecap="round" strokeLinejoin="round" />
+        <circle cx="20.9" cy="13" r="1.5" fill="white" />
       </svg>
     </div>,
     { width: 512, height: 512 },

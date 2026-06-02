@@ -141,16 +141,19 @@ export function TodayPlanList({
   const w = weightKg ?? 65;
 
   function persistOrder(next: TodayPlanItem[]) {
-    // 가이드 큐(WorkoutSessionTimer)도 같은 순서로 시작하도록 공유 컨텍스트에 새 순서를 올린다.
-    // 서버를 다시 그리지 않으므로(perf) timer 의 stale 한 prop 순서를 이걸로 덮어쓴다.
+    // 1) 즉시 반영: 가이드 큐(WorkoutSessionTimer)가 같은 순서로 시작하도록 공유
+    //    컨텍스트에 새 순서를 올린다. 로컬 order 도 이미 갱신돼 화면은 바로 바뀐다.
     orderScope?.setMainOrder(next.map((i) => i.id));
-    // fire-and-forget — 로컬 order 가 이미 갱신됐고 서버 액션도 revalidate 를 생략하므로
-    // router.refresh() 호출은 불필요. 드래그 직후 RSC 재요청 없어 체감 지연 제거.
+    // 2) 확실한 동기화(안전망): DB 저장 후 router.refresh() 로 서버를 다시 그려
+    //    가이드 큐의 queueItems(서버 계산값)도 새 순서로 맞춘다. 컨텍스트가 어떤
+    //    이유로 전달되지 않아도 운동 시작 순서가 항상 바뀐 순서를 따르게 한다.
+    //    (로컬 state 로 화면은 이미 즉시 갱신됐으므로 체감 지연은 없다.)
     startTx(async () => {
       await reorderPlanAction(
         focus,
         next.map((i) => i.id),
       );
+      router.refresh();
     });
   }
 

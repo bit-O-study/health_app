@@ -48,7 +48,7 @@ export async function generateMetadata({
       canonical: absoluteUrl(`/exercises/${exercise.id}`),
     },
     openGraph: {
-      title: `${exercise.name} 자세와 운동법 | 헬포유`,
+      title: `${exercise.name} 자세와 운동법 | 데일리핏`,
       description,
       url: absoluteUrl(`/exercises/${exercise.id}`),
     },

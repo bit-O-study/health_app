@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 
 /** 서비스명. 한 곳에서 관리. */
-export const BRAND_NAME = "헬포유";
+export const BRAND_NAME = "데일리핏";
 
 /**
- * 헬포유 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + 활동 심박 마크.
+ * 데일리핏 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + 활동 심박 마크.
  * (친근한 for you) 광택 하이라이트와 인셋 링으로 입체감. size 로 어디서든 재사용.
  */
 export function LogoMark({
@@ -49,7 +49,7 @@ export function LogoMark({
   );
 }
 
-/** 로고 마크 + 워드마크(헬포유). */
+/** 로고 마크 + 워드마크(데일리핏). */
 export function Logo({
   size = 36,
   className,

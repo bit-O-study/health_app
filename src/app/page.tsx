@@ -16,6 +16,7 @@ import {
   getUserProfile,
   type UserProfile,
 } from "@/features/profile/data-access";
+import { Logo } from "@/features/brand/logo";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
@@ -55,11 +56,8 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <header className="sticky top-0 z-20 border-b border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur">
       <nav className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-4 sm:px-10">
-        <Link className="flex items-center gap-2" href="/">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white">
-            <Dumbbell aria-hidden="true" size={20} />
-          </span>
-          <span className="text-base font-bold tracking-tight">HELTCH</span>
+        <Link className="flex items-center" href="/">
+          <Logo size={36} />
         </Link>
 
         <div className="flex items-center gap-2">

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -16,7 +16,6 @@ import {
   getUserProfile,
   type UserProfile,
 } from "@/features/profile/data-access";
-import { Logo } from "@/features/brand/logo";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
@@ -54,10 +53,13 @@ export const metadata: Metadata = {
 
 function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-zinc-200/70 dark:border-zinc-800/70 bg-zinc-50/80 dark:bg-zinc-900/80 backdrop-blur">
+    <header className="sticky top-0 z-20 border-b border-zinc-200/70 bg-zinc-50/80 backdrop-blur">
       <nav className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-4 sm:px-10">
-        <Link className="flex items-center" href="/">
-          <Logo size={36} />
+        <Link className="flex items-center gap-2" href="/routine">
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white">
+            <Dumbbell aria-hidden="true" size={20} />
+          </span>
+          <span className="text-base font-bold tracking-tight">HELTCH</span>
         </Link>
 
         <div className="flex items-center gap-2">
@@ -67,17 +69,11 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
           >
             운동 리스트
           </Link>
-          <Link
-            className="hidden h-9 items-center rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100 sm:inline-flex"
-            href="/powerlifting"
-          >
-            파워리프팅
-          </Link>
           {isLoggedIn ? (
             <>
               <Link
                 className="inline-flex h-9 items-center gap-1.5 rounded-md bg-emerald-600 px-3.5 text-sm font-semibold text-white transition hover:bg-emerald-500"
-                href="/settings/routine?from=home"
+                href="/settings/routine"
               >
                 <Sparkles aria-hidden="true" size={15} />
                 추천 루틴
@@ -92,7 +88,7 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
             </>
           ) : (
             <Link
-              className="inline-flex h-9 items-center gap-1.5 rounded-md bg-zinc-900 dark:bg-zinc-100 px-3.5 text-sm font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white"
+              className="inline-flex h-9 items-center gap-1.5 rounded-md bg-zinc-900 px-3.5 text-sm font-semibold text-white transition hover:bg-zinc-700"
               href="/login"
             >
               <LogIn aria-hidden="true" size={15} />
@@ -106,18 +102,15 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
 }
 
 export default async function Home() {
-  // 병렬 페치 — getUserProfile/getUserRoutine 도 내부에서 getCurrentUser 호출하지만
-  // React.cache 로 한 요청 내 DB 콜은 1회만 발생. 직렬 await 보다 ~100ms 빠름.
-  const [user, profile, routine] = await Promise.all([
-    getCurrentUser(),
-    getUserProfile(),
-    getUserRoutine(),
-  ]);
+  const user = await getCurrentUser();
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
+  const profile = user ? await getUserProfile() : null;
   if (user && !profile) {
     redirect("/onboarding");
   }
+
+  const routine = user ? await getUserRoutine() : null;
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100">
@@ -136,7 +129,7 @@ export default async function Home() {
       <footer className="border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-8 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-10">
           <span className="font-semibold text-zinc-700 dark:text-zinc-300">
-            헬쑤 · Health Platform MVP
+            HELTCH · Health Platform MVP
           </span>
           <span>오늘의 운동 · 루틴 설정 · 익명 피드백</span>
         </div>
@@ -158,8 +151,8 @@ function LoggedOutHero() {
         루틴이 매일 알려줍니다.
       </h1>
       <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400 sm:text-lg">
-        로그인하고 루틴을 한 번만 설정하면, 메인 화면이 매일 그날 날짜에 맞는
-        운동을 자동으로 안내합니다.
+        로그인하고 분할 루틴을 한 번만 설정하면, 메인 화면이 매일 그날 날짜에
+        맞는 운동을 자동으로 안내합니다.
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <Link
@@ -191,13 +184,13 @@ function NoRoutinePrompt() {
           아직 설정한 루틴이 없습니다
         </h1>
         <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          주당 몇 일 운동할지 한 번만 골라 두면, 매일 이 화면에서 오늘 해야 할
+          몇 분할로 운동할지 한 번만 골라 두면, 매일 이 화면에서 오늘 해야 할
           운동을 바로 확인할 수 있습니다.
         </p>
       </div>
       <Link
         className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
-        href="/settings/routine?from=home"
+        href="/settings/routine"
       >
         <Sparkles aria-hidden="true" size={17} />
         추천 루틴에서 시작하기
@@ -261,7 +254,7 @@ async function TodayWorkout({
   const focusLabel = isRest
     ? "휴식"
     : hasDailyOverride
-      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" + ")
+      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
       : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
 
@@ -300,7 +293,7 @@ async function TodayWorkout({
           </Link>
           <Link
             className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
-            href="/settings/routine?from=home"
+            href="/settings/routine"
           >
             루틴 변경
             <ArrowRight aria-hidden="true" size={15} />
@@ -358,7 +351,7 @@ async function TodayWorkout({
               ).map((muscle) => (
                 <span
                   key={muscle}
-                  className="rounded-full bg-white/70 dark:bg-white/10 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-200"
+                  className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300"
                 >
                   {muscle}
                 </span>

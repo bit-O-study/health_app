@@ -46,19 +46,35 @@ export function WorkoutSessionTimer({
 }) {
   const router = useRouter();
   const orderScope = useTodayOrder();
-  // 드래그로 본운동 순서를 바꿨으면(공유 컨텍스트의 mainOrder) 가이드 큐의 main 항목을
-  // 그 순서로 재정렬한다. warmup/cooldown 은 위치 고정(워밍업 → 본운동 → 마무리).
-  // mainOrder 가 null(정렬 안 함)이면 서버가 내려준 prop 순서를 그대로 쓴다.
-  const mainOrder = orderScope?.mainOrder ?? null;
+  // 드래그로 순서를 바꿨으면(공유 컨텍스트) 가이드 큐의 해당 종류 항목들을 그 순서로
+  // 재정렬한다. 워밍업 → 본운동 → 마무리 블록 위치는 그대로 두고, 각 블록 안에서만
+  // 정렬한다. 해당 종류 order 가 null(정렬 안 함)이면 서버가 내려준 순서를 쓴다.
+  const mainOrder = orderScope?.order.main ?? null;
+  const warmupOrder = orderScope?.order.warmup ?? null;
+  const cooldownOrder = orderScope?.order.cooldown ?? null;
   const queue = useMemo(() => {
-    if (!mainOrder) return queueItems;
-    const rank = new Map(mainOrder.map((id, i) => [id, i]));
-    const mains = queueItems
-      .filter((q) => q.kind === "main")
-      .sort((a, b) => (rank.get(a.rowId) ?? 0) - (rank.get(b.rowId) ?? 0));
-    let mi = 0;
-    return queueItems.map((q) => (q.kind === "main" ? mains[mi++] : q));
-  }, [queueItems, mainOrder]);
+    const result = [...queueItems];
+    const byKind: { kind: GuidedItem["kind"]; ord: string[] | null }[] = [
+      { kind: "warmup", ord: warmupOrder },
+      { kind: "main", ord: mainOrder },
+      { kind: "cooldown", ord: cooldownOrder },
+    ];
+    for (const { kind, ord } of byKind) {
+      if (!ord) continue;
+      const rank = new Map(ord.map((id, i) => [id, i]));
+      const idxs: number[] = [];
+      queueItems.forEach((q, i) => {
+        if (q.kind === kind) idxs.push(i);
+      });
+      const sorted = idxs
+        .map((i) => queueItems[i])
+        .sort((a, b) => (rank.get(a.rowId) ?? 0) - (rank.get(b.rowId) ?? 0));
+      idxs.forEach((i, j) => {
+        result[i] = sorted[j];
+      });
+    }
+    return result;
+  }, [queueItems, mainOrder, warmupOrder, cooldownOrder]);
   const [state, setState] = useState<TimerState | null>(null);
   const [guided, setGuided] = useState(false);
   const [saveAsk, setSaveAsk] = useState(false);

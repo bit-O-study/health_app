@@ -23,6 +23,10 @@ export type UserProfile = {
   bodyType: BodyType | null;
   bodyFatPct: number | null;
   muscleMassKg: number | null;
+  /** 이름(성명) — 선택 입력 */
+  name: string | null;
+  /** 전화번호 — 선택 입력 */
+  phone: string | null;
 };
 
 type ProfileRow = {
@@ -33,6 +37,8 @@ type ProfileRow = {
   body_type: unknown;
   body_fat_pct: unknown;
   muscle_mass_kg: unknown;
+  name: unknown;
+  phone: unknown;
 };
 
 /**
@@ -49,7 +55,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg",
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -78,5 +84,8 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     bodyType: isBodyType(row.body_type) ? row.body_type : null,
     bodyFatPct: n(row.body_fat_pct),
     muscleMassKg: n(row.muscle_mass_kg),
+    name: typeof row.name === "string" && row.name.trim() !== "" ? row.name : null,
+    phone:
+      typeof row.phone === "string" && row.phone.trim() !== "" ? row.phone : null,
   };
 });

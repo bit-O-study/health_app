@@ -18,6 +18,7 @@ type LiftKey = "bench" | "squat" | "deadlift" | "press";
 type Week = 1 | 2 | 3 | 4;
 type Tab = "home" | "routine" | "history" | "settings";
 type Program = "531" | "5x5";
+type OneRepMaxInputs = Record<LiftKey, string>;
 type MainSet = {
   index: number;
   percent: number;
@@ -27,10 +28,12 @@ type MainSet = {
 };
 
 type AppSettings = {
+  oneRepMax: Record<LiftKey, number | null>;
   trainingMax: Record<LiftKey, number>;
   week: Week;
   todayPart: BodyPart;
   program: Program;
+  setupComplete: boolean;
 };
 
 type WorkoutRecord = {
@@ -48,6 +51,12 @@ const STORAGE_SETTINGS = "powerlifting.settings.v1";
 const STORAGE_RECORDS = "powerlifting.records.v1";
 
 const defaultSettings: AppSettings = {
+  oneRepMax: {
+    bench: null,
+    squat: null,
+    deadlift: null,
+    press: null,
+  },
   trainingMax: {
     bench: 80,
     squat: 120,
@@ -57,6 +66,7 @@ const defaultSettings: AppSettings = {
   week: 1,
   todayPart: "가슴",
   program: "5x5",
+  setupComplete: false,
 };
 
 const routines: Record<
@@ -134,9 +144,11 @@ const liftLabels: Record<LiftKey, string> = {
   deadlift: "데드리프트",
   press: "오버헤드프레스",
 };
+const liftOrder = Object.keys(liftLabels) as LiftKey[];
+const emptyBarTrainingMax = 20;
 
-function roundToPlate(weight: number) {
-  return Math.round(weight / 2.5) * 2.5;
+function roundToLoadableWeight(weight: number) {
+  return Math.round(weight / 5) * 5;
 }
 
 function formatKg(weight: number) {
@@ -151,6 +163,83 @@ function todayLabel() {
   }).format(new Date());
 }
 
+function getRecommendedProgram(oneRepMax: OneRepMaxInputs): Program {
+  return liftOrder.some((lift) => Number(oneRepMax[lift]) > 0) ? "531" : "5x5";
+}
+
+function buildTrainingMax(oneRepMax: OneRepMaxInputs) {
+  return liftOrder.reduce(
+    (trainingMax, lift) => ({
+      ...trainingMax,
+      [lift]: Number(oneRepMax[lift]) > 0
+        ? roundToLoadableWeight(Number(oneRepMax[lift]) * 0.9)
+        : emptyBarTrainingMax,
+    }),
+    {} as Record<LiftKey, number>,
+  );
+}
+
+function buildOneRepMax(oneRepMax: OneRepMaxInputs) {
+  return liftOrder.reduce(
+    (maxes, lift) => ({
+      ...maxes,
+      [lift]: Number(oneRepMax[lift]) > 0 ? Number(oneRepMax[lift]) : null,
+    }),
+    {} as Record<LiftKey, number | null>,
+  );
+}
+
+function normalizeSettings(settings: AppSettings) {
+  if (!settings.setupComplete) return settings;
+
+  const inferredOneRepMax = liftOrder.reduce(
+    (maxes, lift) => {
+      const savedOneRepMax = settings.oneRepMax[lift];
+      const savedTrainingMax = settings.trainingMax[lift];
+
+      return {
+        ...maxes,
+        [lift]: savedOneRepMax
+          ?? (savedTrainingMax > emptyBarTrainingMax
+            ? roundToLoadableWeight(savedTrainingMax / 0.9)
+            : null),
+      };
+    },
+    {} as Record<LiftKey, number | null>,
+  );
+  const hasOneRepMax = liftOrder.some((lift) => inferredOneRepMax[lift]);
+
+  return {
+    ...settings,
+    oneRepMax: inferredOneRepMax,
+    trainingMax: liftOrder.reduce(
+      (trainingMax, lift) => ({
+        ...trainingMax,
+        [lift]: inferredOneRepMax[lift]
+          ? roundToLoadableWeight(inferredOneRepMax[lift] * 0.9)
+          : emptyBarTrainingMax,
+      }),
+      {} as Record<LiftKey, number>,
+    ),
+    program: hasOneRepMax ? "531" : settings.program,
+  };
+}
+
+function formatTrainingMaxFormula(oneRepMax: number | null, trainingMax: number) {
+  if (oneRepMax) {
+    const rawTrainingMax = oneRepMax * 0.9;
+    const formula = `TM = 1RM ${formatKg(oneRepMax)} x 90% = ${formatKg(rawTrainingMax)}`;
+
+    return rawTrainingMax === trainingMax
+      ? formula
+      : `${formula} -> ${formatKg(trainingMax)}`;
+  }
+  if (trainingMax !== emptyBarTrainingMax) {
+    return `TM ${formatKg(trainingMax)} · 1RM을 입력하면 공식 표시`;
+  }
+  return "TM = 빈봉 시작 기준";
+}
+
 export function PowerliftingApp() {
   const [activeTab, setActiveTab] = useState<Tab>("home");
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
@@ -163,7 +252,7 @@ export function PowerliftingApp() {
       const savedRecords = window.localStorage.getItem(STORAGE_RECORDS);
 
       if (savedSettings) {
-        setSettings({ ...defaultSettings, ...JSON.parse(savedSettings) });
+        setSettings(normalizeSettings({ ...defaultSettings, ...JSON.parse(savedSettings) }));
       }
       if (savedRecords) {
         setRecords(JSON.parse(savedRecords));
@@ -193,11 +282,22 @@ export function PowerliftingApp() {
     return scheme.map((set, index) => ({
       ...set,
       index: index + 1,
-      weight: roundToPlate((tm * set.percent) / 100),
+      weight: roundToLoadableWeight((tm * set.percent) / 100),
       highlight: index === scheme.length - 1,
     }));
   }, [settings.program, settings.trainingMax, settings.week, todayRoutine.lift]);
   const topSet = mainSets[mainSets.length - 1];
+
+  function completeSetup(oneRepMax: OneRepMaxInputs, program: Program) {
+    setSettings({
+      ...settings,
+      oneRepMax: buildOneRepMax(oneRepMax),
+      trainingMax: buildTrainingMax(oneRepMax),
+      program,
+      week: 1,
+      setupComplete: true,
+    });
+  }
 
   function completeWorkout() {
     const record: WorkoutRecord = {
@@ -227,7 +327,9 @@ export function PowerliftingApp() {
         </header>
 
         <div className="mt-5 flex-1">
-          {activeTab === "home" ? (
+          {!settings.setupComplete ? (
+            <SetupPanel onComplete={completeSetup} />
+          ) : activeTab === "home" ? (
             <HomePanel
               settings={settings}
               routine={todayRoutine}
@@ -256,6 +358,100 @@ export function PowerliftingApp() {
   );
 }
 
+function SetupPanel({
+  onComplete,
+}: {
+  onComplete: (oneRepMax: OneRepMaxInputs, program: Program) => void;
+}) {
+  const [oneRepMax, setOneRepMax] = useState<OneRepMaxInputs>({
+    bench: "",
+    squat: "",
+    deadlift: "",
+    press: "",
+  });
+  const recommendedProgram = getRecommendedProgram(oneRepMax);
+  const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
+  const activeProgram = selectedProgram ?? recommendedProgram;
+
+  function setLiftMax(lift: LiftKey, value: string) {
+    setOneRepMax((current) => ({ ...current, [lift]: value }));
+    setSelectedProgram(null);
+  }
+
+  return (
+    <div className="space-y-4">
+      <section className="rounded-lg border border-emerald-400/30 bg-emerald-400/10 p-5">
+        <p className="text-sm font-semibold text-emerald-200">리프팅 모드 시작</p>
+        <h2 className="mt-1 text-2xl font-black">1RM을 먼저 입력하세요</h2>
+        <p className="mt-3 text-sm leading-6 text-emerald-50/80">
+          모르면 비워두세요. 비워둔 종목은 빈봉부터 시작하도록 계산합니다.
+        </p>
+      </section>
+
+      <section className="space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+        {liftOrder.map((lift) => (
+          <div key={lift} className="space-y-1.5">
+            <label className="grid grid-cols-[1fr_104px] items-center gap-3 text-sm font-semibold">
+              {liftLabels[lift]}
+              <input
+                type="number"
+                inputMode="decimal"
+                min="0"
+                step="2.5"
+                value={oneRepMax[lift]}
+                placeholder="모름"
+                onChange={(event) => setLiftMax(lift, event.target.value)}
+                className="h-11 rounded-md border border-zinc-700 bg-zinc-950 px-3 text-right font-bold text-zinc-100 placeholder:text-zinc-600"
+              />
+            </label>
+            <p className="text-xs font-semibold text-zinc-500">
+              {formatTrainingMaxFormula(
+                Number(oneRepMax[lift]) > 0 ? Number(oneRepMax[lift]) : null,
+                buildTrainingMax(oneRepMax)[lift],
+              )}
+            </p>
+          </div>
+        ))}
+      </section>
+
+      <section className="grid gap-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+        <div>
+          <p className="text-sm font-bold text-emerald-300">추천 프로그램</p>
+          <p className="mt-1 text-sm text-zinc-400">
+            {recommendedProgram === "531"
+              ? "입력한 1RM 기준으로 5/3/1 Training Max를 잡겠습니다."
+              : "아직 1RM이 없어 5x5 빈봉 시작을 추천합니다."}
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          {(Object.keys(programLabels) as Program[]).map((program) => (
+            <button
+              key={program}
+              type="button"
+              onClick={() => setSelectedProgram(program)}
+              className={`h-11 rounded-md text-sm font-black ${
+                activeProgram === program
+                  ? "bg-emerald-400 text-zinc-950"
+                  : "bg-zinc-950 text-zinc-300"
+              }`}
+            >
+              {programLabels[program]}
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <button
+        type="button"
+        onClick={() => onComplete(oneRepMax, activeProgram)}
+        className="flex h-14 w-full items-center justify-center rounded-lg bg-emerald-400 text-base font-black text-zinc-950 transition hover:bg-emerald-300"
+      >
+        추천 중량으로 시작
+      </button>
+    </div>
+  );
+}
+
 function HomePanel({
   settings,
   routine,
@@ -269,6 +465,8 @@ function HomePanel({
   topSet: MainSet;
   onComplete: () => void;
 }) {
+  const currentOneRepMax = settings.oneRepMax[routine.lift];
+
   return (
     <div className="space-y-4">
       <section className="rounded-lg border border-emerald-400/30 bg-emerald-400/10 p-5">
@@ -285,6 +483,12 @@ function HomePanel({
           {routine.liftName}
           {settings.program === "531" ? ` · Week ${settings.week}` : ""}
         </p>
+        <p className="mt-1 text-sm font-semibold text-emerald-100/80">
+          TM {formatKg(settings.trainingMax[routine.lift])}
+        </p>
+        <p className="mt-2 text-xs leading-5 text-emerald-50/70">
+          {formatTrainingMaxFormula(currentOneRepMax, settings.trainingMax[routine.lift])}
+        </p>
       </section>
 
       <section className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
@@ -292,7 +496,7 @@ function HomePanel({
           <h3 className="text-base font-bold">
             {programLabels[settings.program]} 메인 세트
           </h3>
-          <span className="text-xs font-semibold text-zinc-400">2.5kg 반올림</span>
+          <span className="text-xs font-semibold text-zinc-400">5kg 단위 반올림</span>
         </div>
         <div className="space-y-2">
           {sets.map((set) => (
@@ -418,12 +622,20 @@ function SettingsPanel({
   settings: AppSettings;
   onChange: (settings: AppSettings) => void;
 }) {
-  function setTrainingMax(lift: LiftKey, value: string) {
+  function setOneRepMax(lift: LiftKey, value: string) {
+    const oneRepMax = Number(value) > 0 ? Number(value) : null;
+
     onChange({
       ...settings,
+      oneRepMax: {
+        ...settings.oneRepMax,
+        [lift]: oneRepMax,
+      },
       trainingMax: {
         ...settings.trainingMax,
-        [lift]: Number(value),
+        [lift]: oneRepMax
+          ? roundToLoadableWeight(oneRepMax * 0.9)
+          : emptyBarTrainingMax,
       },
     });
   }
@@ -458,21 +670,27 @@ function SettingsPanel({
       <section className="space-y-3 rounded-lg border border-zinc-800 bg-zinc-900 p-4">
         <div className="flex items-center gap-2 text-sm font-bold text-emerald-300">
           <SlidersHorizontal aria-hidden="true" size={17} />
-          Training Max
+          1RM / Training Max
         </div>
         {(Object.keys(settings.trainingMax) as LiftKey[]).map((lift) => (
-          <label key={lift} className="grid grid-cols-[1fr_96px] items-center gap-3 text-sm font-semibold">
-            {liftLabels[lift]}
-            <input
-              type="number"
-              inputMode="decimal"
-              min="0"
-              step="2.5"
-              value={settings.trainingMax[lift]}
-              onChange={(event) => setTrainingMax(lift, event.target.value)}
-              className="h-11 rounded-md border border-zinc-700 bg-zinc-950 px-3 text-right font-bold text-zinc-100"
-            />
-          </label>
+          <div key={lift} className="space-y-1.5">
+            <label className="grid grid-cols-[1fr_96px] items-center gap-3 text-sm font-semibold">
+              {liftLabels[lift]}
+              <input
+                type="number"
+                inputMode="decimal"
+                min="0"
+                step="2.5"
+                value={settings.oneRepMax[lift] ?? ""}
+                placeholder="모름"
+                onChange={(event) => setOneRepMax(lift, event.target.value)}
+                className="h-11 rounded-md border border-zinc-700 bg-zinc-950 px-3 text-right font-bold text-zinc-100 placeholder:text-zinc-600"
+              />
+            </label>
+            <p className="text-xs font-semibold text-zinc-500">
+              {formatTrainingMaxFormula(settings.oneRepMax[lift], settings.trainingMax[lift])}
+            </p>
+          </div>
         ))}
       </section>
 

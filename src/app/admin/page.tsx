@@ -39,7 +39,7 @@ export default async function AdminHomePage() {
             관리자
           </h1>
           <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-            데일리핏 운영 관리 콘솔
+            헬쑤 운영 관리 콘솔
           </p>
         </div>
         <form action={signOut}>

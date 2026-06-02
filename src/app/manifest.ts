@@ -13,8 +13,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "데일리핏",
-    short_name: "데일리핏",
+    name: "헬쑤",
+    short_name: "헬쑤",
     description: "오늘 뭐 해야 할지 매일 알려주는 헬스 루틴 앱",
     lang: "ko",
     start_url: "/",

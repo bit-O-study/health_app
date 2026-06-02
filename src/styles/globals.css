@@ -43,26 +43,19 @@ body {
   }
 }
 
-/* ── 브랜드 스플래시 / 로고 애니메이션 ───────────────────────────────── */
-@keyframes heltch-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-9px); }
-}
+/* ── 브랜드 진입 스플래시 — 작은 로고가 잠깐 보였다가 빠르게 사라짐 ─────── */
 @keyframes heltch-fade-up {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
-/* 진입 스플래시: 잠깐 보였다가 자동으로 사라짐(JS 없이도 동작). */
+/* JS 없이도 자동으로 사라지게(opacity+visibility). 빠르고 은은하게. */
 @keyframes heltch-splash-out {
-  0%, 55% { opacity: 1; visibility: visible; }
+  0%, 50% { opacity: 1; visibility: visible; }
   100% { opacity: 0; visibility: hidden; }
 }
 .app-splash {
-  animation: heltch-splash-out 1.3s ease-in forwards;
+  animation: heltch-splash-out 0.85s ease-in forwards;
 }
 .app-splash-inner {
-  animation: heltch-fade-up 0.55s ease-out both;
-}
-.app-splash-float {
-  animation: heltch-float 2.6s ease-in-out infinite;
+  animation: heltch-fade-up 0.4s ease-out both;
 }

@@ -41,14 +41,15 @@ function embedSrc(e: Embed, autoPlay: boolean): string {
       rel: "0",
       modestbranding: "1",
       playsinline: "1",
-      ...(autoPlay ? { autoplay: "1", mute: "1" } : {}),
+      // 운동 차례엔 음소거 자동재생 + 무한 반복(유튜브는 단일영상 반복에 playlist=id 필요).
+      ...(autoPlay ? { autoplay: "1", mute: "1", loop: "1", playlist: e.id } : {}),
     });
     return `https://www.youtube-nocookie.com/embed/${e.id}?${p.toString()}`;
   }
   // vimeo
   const p = new URLSearchParams({
     playsinline: "1",
-    ...(autoPlay ? { autoplay: "1", muted: "1" } : {}),
+    ...(autoPlay ? { autoplay: "1", muted: "1", loop: "1" } : {}),
   });
   return `https://player.vimeo.com/video/${e.id}?${p.toString()}`;
 }

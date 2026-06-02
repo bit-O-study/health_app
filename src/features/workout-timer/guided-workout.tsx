@@ -387,7 +387,8 @@ function ItemVisual({ item }: { item: GuidedItem }) {
     if (item.media) {
       return (
         <div className="w-full max-w-md">
-          <MediaEmbed url={item.media.url} kind={item.media.kind} />
+          {/* 운동 차례가 되면 자동 재생(음소거). 버튼 안 눌러도 실행됨. */}
+          <MediaEmbed url={item.media.url} kind={item.media.kind} autoPlay />
         </div>
       );
     }

@@ -1,8 +1,14 @@
+"use client";
+
+import { useRef } from "react";
+
 import type { MediaKind } from "@/features/exercises/exercise-media";
 
 type Embed = { provider: "youtube" | "vimeo"; id: string };
 
-/** 유튜브/Vimeo watch·short URL → provider+id. 아니면 null. */
+/** 가이드(운동 차례) 시범 영상 재생 배속 — 자세 보기 좋게 슬로우. */
+const GUIDE_RATE = 0.5;
+
 function parseEmbed(url: string): Embed | null {
   try {
     const u = new URL(url);
@@ -30,10 +36,10 @@ function parseEmbed(url: string): Embed | null {
 }
 
 /**
- * embed iframe src 구성.
- * - autoPlay=true: 운동 차례가 되면 자동 재생. 브라우저 정책상 자동재생은 음소거 필수.
- * - 유튜브: nocookie 도메인 + rel=0(관련영상 X)·modestbranding·playsinline 으로
- *   유튜브로 이동/이탈을 최대한 줄이고 앱 내 인라인 재생.
+ * embed iframe src.
+ * - autoPlay(가이드): 자동재생(정책상 음소거로 시작) + 무한반복 + 컨트롤/브랜딩 숨김 + jsapi.
+ *   로드 후 JS 로 음소거 해제 + 0.5배속 적용(운동 시작 클릭의 사용자 제스처 활용).
+ * - 비 autoPlay(상세): 기본 컨트롤 유지.
  */
 function embedSrc(e: Embed, autoPlay: boolean): string {
   if (e.provider === "youtube") {
@@ -41,21 +47,60 @@ function embedSrc(e: Embed, autoPlay: boolean): string {
       rel: "0",
       modestbranding: "1",
       playsinline: "1",
-      ...(autoPlay ? { autoplay: "1", mute: "1" } : {}),
+      iv_load_policy: "3",
     });
+    if (autoPlay) {
+      p.set("autoplay", "1");
+      p.set("mute", "1"); // 시작은 음소거(자동재생 정책) → 로드 후 unMute
+      p.set("loop", "1");
+      p.set("playlist", e.id);
+      p.set("controls", "0");
+      p.set("fs", "0");
+      p.set("disablekb", "1");
+      p.set("enablejsapi", "1");
+    }
     return `https://www.youtube-nocookie.com/embed/${e.id}?${p.toString()}`;
   }
-  // vimeo
   const p = new URLSearchParams({
     playsinline: "1",
-    ...(autoPlay ? { autoplay: "1", muted: "1" } : {}),
+    title: "0",
+    byline: "0",
+    portrait: "0",
   });
+  if (autoPlay) {
+    p.set("autoplay", "1");
+    p.set("muted", "1");
+    p.set("loop", "1");
+    p.set("controls", "0");
+  }
   return `https://player.vimeo.com/video/${e.id}?${p.toString()}`;
 }
 
+/** iframe 플레이어에 음소거 해제 + 배속 명령(유튜브/Vimeo IFrame API). */
+function tuneIframe(iframe: HTMLIFrameElement | null, provider: "youtube" | "vimeo") {
+  const win = iframe?.contentWindow;
+  if (!win) return;
+  if (provider === "youtube") {
+    const cmds: [string, unknown[]][] = [
+      ["unMute", []],
+      ["setVolume", [100]],
+      ["setPlaybackRate", [GUIDE_RATE]],
+      ["playVideo", []],
+    ];
+    for (const [func, args] of cmds) {
+      win.postMessage(JSON.stringify({ event: "command", func, args }), "*");
+    }
+  } else {
+    const target = "https://player.vimeo.com";
+    win.postMessage(JSON.stringify({ method: "setVolume", value: 1 }), target);
+    win.postMessage(JSON.stringify({ method: "setPlaybackRate", value: GUIDE_RATE }), target);
+  }
+}
+
 /**
- * 운동 미디어 표시. 유튜브/Vimeo 는 iframe, 직접 mp4 는 video, gif/이미지는 img.
- * autoPlay 면(가이드 = 운동 차례) 음소거 자동 재생.
+ * 운동 미디어. 유튜브/Vimeo 는 iframe, 직접 mp4 는 video, gif/이미지는 img.
+ * 가이드(autoPlay)에서는 자동재생·무한반복·0.5배속·소리 ON, 위를 오버레이로 덮어
+ * 유튜브 컨트롤이 안 뜨게 한다.
  */
 export function MediaEmbed({
   url,
@@ -66,22 +111,35 @@ export function MediaEmbed({
   url: string;
   kind: MediaKind;
   className?: string;
-  /** 운동 차례가 되면 자동 재생(음소거). 가이드 오버레이에서 사용. */
   autoPlay?: boolean;
 }) {
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const embed = parseEmbed(url);
-  const base = `w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
+  const base = `relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
+
+  // iframe 플레이어 준비 타이밍이 불확실 → 로드 후 여러 번 음소거해제+배속 전송.
+  function onIframeLoad() {
+    if (!autoPlay || !embed) return;
+    [150, 600, 1300, 2500].forEach((t) =>
+      setTimeout(() => tuneIframe(iframeRef.current, embed.provider), t),
+    );
+  }
 
   if (embed) {
     return (
       <div className={base} style={{ aspectRatio: "16 / 9" }}>
         <iframe
+          ref={iframeRef}
           src={embedSrc(embed, autoPlay)}
           title="운동 시범 영상"
           className="h-full w-full"
+          onLoad={onIframeLoad}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
         />
+        {autoPlay ? (
+          // 클릭/호버 차단 — 유튜브 컨트롤·관련영상·정지 오버레이가 안 뜨게.
+          <div className="absolute inset-0" aria-hidden="true" />
+        ) : null}
       </div>
     );
   }
@@ -91,11 +149,18 @@ export function MediaEmbed({
       <div className={base}>
         <video
           src={url}
-          controls
+          controls={!autoPlay}
           playsInline
           autoPlay={autoPlay}
           muted={autoPlay}
           loop={autoPlay}
+          onLoadedMetadata={(e) => {
+            if (autoPlay) e.currentTarget.playbackRate = GUIDE_RATE;
+          }}
+          onPlay={(e) => {
+            // 재생 시작 후 음소거 해제(운동 시작 클릭의 사용자 활성화로 허용됨).
+            if (autoPlay) e.currentTarget.muted = false;
+          }}
           className="h-auto w-full"
         />
       </div>
@@ -105,7 +170,6 @@ export function MediaEmbed({
   // gif / image
   return (
     <div className={base}>
-      {/* 외부 URL — next/image 최적화 대신 일반 img (도메인 설정 불필요) */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={url} alt="운동 시범 움짤" className="h-auto w-full object-contain" />
     </div>

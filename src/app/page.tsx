@@ -130,7 +130,7 @@ export default async function Home() {
       <footer className="border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-8 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-10">
           <span className="font-semibold text-zinc-700 dark:text-zinc-300">
-            HELTCH · Health Platform MVP
+            헬쑤 · Health Platform MVP
           </span>
           <span>오늘의 운동 · 루틴 설정 · 익명 피드백</span>
         </div>

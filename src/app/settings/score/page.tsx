@@ -38,12 +38,15 @@ function ymdToEpochDay(ymd: string): number {
 }
 
 export default async function ScorePage() {
-  const profile = await getUserProfile();
+  // 독립 쿼리 병렬화 — profile 만 redirect 판단에 필요하고 나머지는 의존성 없음.
+  const [profile, bodyComp, completions] = await Promise.all([
+    getUserProfile(),
+    getLatestBodyComposition(),
+    getRecentExerciseCompletions(90),
+  ]);
   if (!profile) redirect("/onboarding");
 
   const userWeight = profile.weightKg ?? 65;
-  const bodyComp = await getLatestBodyComposition();
-  const completions = await getRecentExerciseCompletions(90);
   const done = completions.filter((c) => c.status === "done");
   const s = computeScore(
     done.map((c) => ({

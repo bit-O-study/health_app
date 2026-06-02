@@ -28,6 +28,18 @@ type ExerciseSnapshot = {
   memo: string | null;
 };
 
+/** routine_conditioning 의 DB 행 형태(스냅샷용). */
+type ConditioningSnapshot = {
+  focus: string;
+  kind: string;
+  position: number;
+  item_id: string;
+  duration_min: number | null;
+  speed: number | null;
+  incline: number | null;
+  memo: string | null;
+};
+
 /** 현재 루틴(설정 + 등록 운동 전체)을 이름 붙여 프리셋으로 저장. */
 export async function saveRoutinePresetAction(
   name: string,
@@ -40,21 +52,28 @@ export async function saveRoutinePresetAction(
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const [{ data: routine }, { data: rows }] = await Promise.all([
-    supabase
-      .from("user_routines")
-      .select("splits, variant_id, custom_week")
-      .eq("user_id", user.id)
-      .maybeSingle(),
-    supabase
-      .from("routine_exercises")
-      .select(
-        "focus, position, exercise_id, equipment, sets, reps, weight_kg, set_details, memo",
-      )
-      .eq("user_id", user.id)
-      .order("focus", { ascending: true })
-      .order("position", { ascending: true }),
-  ]);
+  const [{ data: routine }, { data: rows }, { data: condRows }] =
+    await Promise.all([
+      supabase
+        .from("user_routines")
+        .select("splits, variant_id, custom_week")
+        .eq("user_id", user.id)
+        .maybeSingle(),
+      supabase
+        .from("routine_exercises")
+        .select(
+          "focus, position, exercise_id, equipment, sets, reps, weight_kg, set_details, memo",
+        )
+        .eq("user_id", user.id)
+        .order("focus", { ascending: true })
+        .order("position", { ascending: true }),
+      supabase
+        .from("routine_conditioning")
+        .select(
+          "focus, kind, position, item_id, duration_min, speed, incline, memo",
+        )
+        .eq("user_id", user.id),
+    ]);
 
   if (!routine) {
     return { ok: false, error: "저장할 루틴이 없습니다." };
@@ -72,6 +91,7 @@ export async function saveRoutinePresetAction(
     variant_id: r.variant_id,
     custom_week: r.custom_week ?? null,
     exercises: (rows ?? []) as ExerciseSnapshot[],
+    conditioning: (condRows ?? []) as ConditioningSnapshot[],
   });
   if (error) return { ok: false, error: error.message };
 
@@ -90,7 +110,7 @@ export async function loadRoutinePresetAction(
 
   const { data, error } = await supabase
     .from("routine_presets")
-    .select("splits, variant_id, custom_week, exercises")
+    .select("splits, variant_id, custom_week, exercises, conditioning")
     .eq("user_id", user.id)
     .eq("id", presetId)
     .maybeSingle();
@@ -101,6 +121,7 @@ export async function loadRoutinePresetAction(
     variant_id: string;
     custom_week: unknown;
     exercises: unknown;
+    conditioning: unknown;
   };
 
   const isCustom = p.variant_id === CUSTOM_VARIANT_ID;
@@ -151,6 +172,34 @@ export async function loadRoutinePresetAction(
     }));
     const ins = await supabase.from("routine_exercises").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };
+  }
+
+  // 2-b) 워밍업/마무리(컨디셔닝)도 전체 교체
+  const delCond = await supabase
+    .from("routine_conditioning")
+    .delete()
+    .eq("user_id", user.id);
+  if (delCond.error) return { ok: false, error: delCond.error.message };
+
+  const condSnap = Array.isArray(p.conditioning)
+    ? (p.conditioning as ConditioningSnapshot[])
+    : [];
+  if (condSnap.length > 0) {
+    const condInsert = condSnap.map((c) => ({
+      user_id: user.id,
+      focus: c.focus,
+      kind: c.kind,
+      position: c.position,
+      item_id: c.item_id,
+      duration_min: c.duration_min ?? null,
+      speed: c.speed ?? null,
+      incline: c.incline ?? null,
+      memo: c.memo ?? null,
+    }));
+    const insCond = await supabase
+      .from("routine_conditioning")
+      .insert(condInsert);
+    if (insCond.error) return { ok: false, error: insCond.error.message };
   }
 
   // 3) 미래 오버라이드 정리 (새 루틴과 안 맞을 수 있음)

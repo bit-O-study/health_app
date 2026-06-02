@@ -106,15 +106,23 @@ export function MediaEmbed({
           className="h-full w-full"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         />
-        {autoPlay && !sound ? (
-          <button
-            type="button"
-            onClick={() => setSound(true)}
-            className="absolute bottom-2 right-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur transition hover:bg-black/75"
-          >
-            <Volume2 aria-hidden="true" size={14} />
-            소리 켜기
-          </button>
+        {autoPlay ? (
+          <>
+            {/* 클릭/호버 차단 오버레이 — 유튜브 컨트롤(정지·전영상·더보기·로고)·
+                관련영상·제목 오버레이가 뜨지 않게 영상 위를 덮는다. 영상은 계속
+                자동재생·무한반복되고, 사용자 상호작용만 막는다. */}
+            <div className="absolute inset-0" aria-hidden="true" />
+            {!sound ? (
+              <button
+                type="button"
+                onClick={() => setSound(true)}
+                className="absolute bottom-2 right-2 z-10 inline-flex items-center gap-1 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur transition hover:bg-black/75"
+              >
+                <Volume2 aria-hidden="true" size={14} />
+                소리 켜기
+              </button>
+            ) : null}
+          </>
         ) : null}
       </div>
     );

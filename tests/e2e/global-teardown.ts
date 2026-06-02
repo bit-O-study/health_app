@@ -38,10 +38,10 @@ export default async function globalTeardown() {
   try {
     await client.connect();
     const where = TEST_EMAIL_PREFIXES.map((_, i) => `email like $${i + 1}`).join(" or ");
-    const res = await client.query(
-      `delete from auth.users where ${where}`,
-      TEST_EMAIL_PREFIXES.map((p) => `${p}%`),
-    );
+    const params = TEST_EMAIL_PREFIXES.map((p) => `${p}%`);
+    // admins 는 auth.users 에 FK 가 없어 cascade 안 됨 — 테스트 관리자 이메일 별도 정리.
+    await client.query(`delete from public.admins where ${where}`, params).catch(() => {});
+    const res = await client.query(`delete from auth.users where ${where}`, params);
     console.log(`[teardown] deleted ${res.rowCount} test account(s) + cascaded data`);
   } catch (e) {
     console.warn("[teardown] cleanup failed:", e instanceof Error ? e.message : e);

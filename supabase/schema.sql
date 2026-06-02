@@ -911,17 +911,27 @@ create policy "admin writes exercise media" on public.exercise_media for all
 alter table public.profiles add column if not exists name text;
 alter table public.profiles add column if not exists phone text;
 
+-- 회원 정지/영구정지 (관리자). suspended_until = 기간정지 만료시각(지나면 자동 해제),
+-- banned_at = 영구정지 시각(수동 해제 전까지), ban_reason = 사유.
+alter table public.profiles add column if not exists suspended_until timestamptz;
+alter table public.profiles add column if not exists banned_at timestamptz;
+alter table public.profiles add column if not exists ban_reason text;
+
 -- 관리자 전용 회원 목록 — 이메일은 auth.users 소관이라 SECURITY DEFINER 로 join.
 -- 내부 is_admin() 게이트로 비관리자는 0행. authenticated 만 execute.
+-- 반환 타입에 정지/차단 컬럼을 추가하므로 기존 함수를 drop 후 재생성한다.
+drop function if exists public.admin_members();
 create or replace function public.admin_members()
 returns table(
   user_id uuid, email text, name text, phone text,
   gender text, experience text, height_cm int,
-  weight_kg numeric, created_at timestamptz
+  weight_kg numeric, created_at timestamptz,
+  suspended_until timestamptz, banned_at timestamptz, ban_reason text
 )
 language sql security definer stable set search_path = public, auth as $$
   select p.user_id, u.email::text, p.name, p.phone, p.gender, p.experience,
-         p.height_cm, p.weight_kg, p.created_at
+         p.height_cm, p.weight_kg, p.created_at,
+         p.suspended_until, p.banned_at, p.ban_reason
   from public.profiles p
   join auth.users u on u.id = p.user_id
   where public.is_admin()
@@ -929,5 +939,28 @@ language sql security definer stable set search_path = public, auth as $$
 $$;
 revoke all on function public.admin_members() from public, anon;
 grant execute on function public.admin_members() to authenticated;
+
+-- 관리자 전용: 특정 회원의 정지/차단 값 설정 (profiles 의 본인-only UPDATE RLS 우회).
+-- 내부 is_admin() 게이트로 비관리자는 예외 발생.
+create or replace function public.admin_set_user_ban(
+  p_user_id uuid,
+  p_suspended_until timestamptz,
+  p_banned_at timestamptz,
+  p_reason text
+) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'forbidden: admin only';
+  end if;
+  update public.profiles
+    set suspended_until = p_suspended_until,
+        banned_at = p_banned_at,
+        ban_reason = p_reason
+    where user_id = p_user_id;
+end;
+$$;
+revoke all on function public.admin_set_user_ban(uuid, timestamptz, timestamptz, text) from public, anon;
+grant execute on function public.admin_set_user_ban(uuid, timestamptz, timestamptz, text) to authenticated;
 
 notify pgrst, 'reload schema';

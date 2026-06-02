@@ -1,15 +1,11 @@
 import { ImageResponse } from "next/og";
 
-/**
- * iOS"홈 화면에 추가" 용 아이콘.
- * Next.js 가 자동으로`<link rel="apple-touch-icon">` 주입 +`/apple-icon` 서빙.
- */
+// 브라우저 탭 파비콘 — 로고 마크와 동일한 그라데이션 덤벨.
 export const dynamic = "force-static";
-
-export const size = { width: 180, height: 180 };
+export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
-export default function AppleIcon() {
+export default function Icon() {
   return new ImageResponse(
     <div
       style={{
@@ -18,10 +14,11 @@ export default function AppleIcon() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        borderRadius: 8,
         background: "linear-gradient(135deg, #34d399 0%, #059669 55%, #0d9488 100%)",
       }}
     >
-      <svg width="118" height="118" viewBox="0 0 24 24" fill="white">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
         <rect x="7" y="10.6" width="10" height="2.8" rx="1.4" />
         <rect x="2.3" y="6.9" width="3.3" height="10.2" rx="1.5" />
         <rect x="18.4" y="6.9" width="3.3" height="10.2" rx="1.5" />

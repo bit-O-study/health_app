@@ -47,6 +47,11 @@ export type MemberRow = {
   heightCm: number | null;
   weightKg: number | null;
   createdAt: string;
+  /** 기간정지 만료시각(ISO). null = 기간정지 아님. */
+  suspendedUntil: string | null;
+  /** 영구정지 시각(ISO). null = 영구정지 아님. */
+  bannedAt: string | null;
+  banReason: string | null;
 };
 
 /**
@@ -68,6 +73,9 @@ export async function getMembers(): Promise<MemberRow[]> {
       height_cm: number | null;
       weight_kg: number | string | null;
       created_at: string;
+      suspended_until: string | null;
+      banned_at: string | null;
+      ban_reason: string | null;
     }[]
   ).map((r) => ({
     userId: r.user_id,
@@ -80,5 +88,8 @@ export async function getMembers(): Promise<MemberRow[]> {
     weightKg:
       r.weight_kg === null || r.weight_kg === "" ? null : Number(r.weight_kg),
     createdAt: r.created_at,
+    suspendedUntil: r.suspended_until,
+    bannedAt: r.banned_at,
+    banReason: r.ban_reason,
   }));
 }

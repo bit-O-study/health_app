@@ -180,6 +180,20 @@ export async function saveManualPlanAction(
     }
   }
 
+  // 기존 메모를 운동별로 보존 — 이 액션은 부위 운동을 통째로 지우고 다시 넣기 때문에
+  // 기존 행의 memo 를 exercise_id 기준으로 모아 뒀다가 같은 운동에 다시 붙인다.
+  const { data: prev } = await supabase
+    .from("routine_exercises")
+    .select("exercise_id, memo")
+    .eq("user_id", user.id)
+    .eq("focus", focus);
+  const memoByExercise = new Map<string, string>();
+  for (const r of (prev ?? []) as { exercise_id: string; memo?: unknown }[]) {
+    if (typeof r.memo === "string" && r.memo.trim() !== "") {
+      memoByExercise.set(r.exercise_id, r.memo);
+    }
+  }
+
   const del = await supabase
     .from("routine_exercises")
     .delete()
@@ -195,6 +209,7 @@ export async function saveManualPlanAction(
       exercise_id: it.exerciseId,
       equipment: it.equipment,
       ...toRowFields(it),
+      memo: memoByExercise.get(it.exerciseId) ?? null,
     }));
     const ins = await supabase.from("routine_exercises").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };
@@ -217,6 +232,8 @@ export async function updateExerciseAction(
     weightKg: number | null;
     /** 세트별 무게·횟수. 있으면 sets/reps/weightKg 대신 사용, null/생략이면 균일로 되돌림. */
     setDetails?: SetDetail[] | null;
+    /** 개인 메모. 생략하면 메모는 건드리지 않음. */
+    memo?: string | null;
   },
 ): Promise<SavePlanResult> {
   if (!rowId) return { ok: false, error: "행을 찾을 수 없습니다." };
@@ -251,15 +268,27 @@ export async function updateExerciseAction(
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
   const update = toRowFields(values);
+  // memo 는 plan 테이블에만 (exercise_completions 엔 memo 컬럼 없음).
+  // 생략(undefined)이면 메모 미변경, 빈 문자열이면 null 로 지움.
+  const planUpdate =
+    values.memo === undefined
+      ? update
+      : {
+          ...update,
+          memo:
+            typeof values.memo === "string" && values.memo.trim() !== ""
+              ? values.memo.trim().slice(0, 1000)
+              : null,
+        };
   await Promise.all([
     supabase
       .from("routine_exercises")
-      .update(update)
+      .update(planUpdate)
       .eq("user_id", user.id)
       .eq("id", rowId),
     supabase
       .from("daily_plan")
-      .update(update)
+      .update(planUpdate)
       .eq("user_id", user.id)
       .eq("id", rowId),
     // 이미 done/skip 처리된 기록의 snapshot 도 함께 갱신 — 기록·점수가 옛값으로 남지 않게.
@@ -271,6 +300,42 @@ export async function updateExerciseAction(
   ]);
 
   // 클라이언트가 로컬 state 로 즉시 반영. revalidate 생략 — 인라인 저장이 즉시 끝난 느낌으로.
+  return { ok: true };
+}
+
+/**
+ * 메모만 빠르게 저장 — 메인 화면의 메모 버튼에서 사용. rowId 는 routine_exercises
+ * 또는 daily_plan 의 id. 빈 문자열이면 메모 제거(null).
+ */
+export async function updateExerciseMemoAction(
+  rowId: string,
+  memo: string | null,
+): Promise<SavePlanResult> {
+  if (!rowId) return { ok: false, error: "행을 찾을 수 없습니다." };
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const value =
+    typeof memo === "string" && memo.trim() !== ""
+      ? memo.trim().slice(0, 1000)
+      : null;
+
+  const [re, dp] = await Promise.all([
+    supabase
+      .from("routine_exercises")
+      .update({ memo: value })
+      .eq("user_id", user.id)
+      .eq("id", rowId),
+    supabase
+      .from("daily_plan")
+      .update({ memo: value })
+      .eq("user_id", user.id)
+      .eq("id", rowId),
+  ]);
+  if (re.error && dp.error) {
+    return { ok: false, error: re.error.message };
+  }
   return { ok: true };
 }
 

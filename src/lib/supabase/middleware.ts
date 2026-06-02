@@ -5,7 +5,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 /** 보호 경로: 로그인하지 않으면 /login 으로 보냄 */
-const PROTECTED_PREFIXES = ["/settings", "/onboarding", "/plan"];
+const PROTECTED_PREFIXES = ["/settings", "/onboarding", "/plan", "/admin"];
 
 /**
  * 매 요청마다 access/refresh 토큰을 검증·갱신하고 쿠키에 다시 기록합니다.
@@ -32,16 +32,23 @@ export async function updateSession(request: NextRequest) {
   });
 
   // getUser() 호출이 만료된 access 토큰을 refresh 토큰으로 갱신합니다.
-  // 리프레시 토큰 자체가 사라졌거나(Refresh Token Not Found) 손상된 경우
-  // throw 가 페이지까지 올라가지 않도록 잡아내고 세션을 정리한다.
+  // 리프레시 토큰이 사라졌거나(Refresh Token Not Found) 손상되면 stale 쿠키를
+  // 정리해 비로그인 처리한다. ⚠ getUser() 는 인증 실패 시 throw 가 아니라
+  // { error } 를 반환하므로 try/catch 만으로는 안 잡힌다 — error 도 함께 검사해
+  // 로컬 signOut 으로 쿠키를 비워야 매 요청 반복되던 에러 로그가 멈춘다(self-heal).
   let user = null;
+  let authErrored = false;
   try {
     const res = await supabase.auth.getUser();
     user = res.data.user ?? null;
+    authErrored = !!res.error;
   } catch {
-    // 쿠키가 stale — signOut 으로 깨끗이 비우고 비로그인 처리
+    authErrored = true;
+  }
+  if (!user && authErrored) {
     try {
-      await supabase.auth.signOut();
+      // scope: 'local' — 네트워크 호출 없이 stale 쿠키만 즉시 제거.
+      await supabase.auth.signOut({ scope: "local" });
     } catch {
       /* signOut 도 실패할 수 있음 — 무시 */
     }
@@ -58,6 +65,38 @@ export async function updateSession(request: NextRequest) {
     redirectUrl.pathname = "/login";
     redirectUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(redirectUrl);
+  }
+
+  // 관리자 분리 — 관리자는 /admin 만, 일반 사용자는 /admin 차단.
+  // 프리페치 요청(링크 호버 등)에선 admins DB 조회를 생략해 매 요청 부하를 줄인다.
+  // 실제 네비게이션 때 판정·리다이렉트하면 충분하다.
+  const isPrefetch =
+    request.headers.get("next-router-prefetch") === "1" ||
+    request.headers.get("purpose") === "prefetch";
+  if (user && !isPrefetch) {
+    const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
+    let isAdmin = false;
+    try {
+      // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.
+      const { data } = await supabase.from("admins").select("email").limit(1);
+      isAdmin = (data?.length ?? 0) > 0;
+    } catch {
+      isAdmin = false;
+    }
+    if (isAdmin && !isAdminPath) {
+      // 관리자가 일반 화면 접근 → 관리자 홈으로
+      const url = request.nextUrl.clone();
+      url.pathname = "/admin";
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
+    if (!isAdmin && isAdminPath) {
+      // 일반 사용자가 관리자 화면 접근 → 메인으로
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      url.search = "";
+      return NextResponse.redirect(url);
+    }
   }
 
   return response;

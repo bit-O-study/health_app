@@ -9,6 +9,7 @@ import {
   Loader2,
   Pencil,
   Plus,
+  StickyNote,
   X,
 } from "lucide-react";
 
@@ -16,6 +17,7 @@ import {
   addExerciseToTodayAction,
   reorderPlanAction,
   updateExerciseAction,
+  updateExerciseMemoAction,
 } from "@/features/routine/plan-actions";
 import { estimateStrengthKcal } from "@/features/routine/calories";
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
@@ -25,6 +27,9 @@ import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import { DAY_BLOCKS, type FocusTone } from "@/features/routine/data";
 import {
   allExercisesForFocus,
+  BODY_PART_LABEL,
+  BODY_PART_TONE,
+  bodyPartsFor,
   EQUIPMENT_LABELS,
   getCatalogExercise,
   type EquipmentId,
@@ -50,6 +55,8 @@ export type TodayPlanItem = {
   /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
   setDetails: SetDetail[] | null;
   focus: string;
+  /** 개인 메모. null = 없음. */
+  memo: string | null;
 };
 
 const SWIPE_THRESHOLD = 80; // px — 넘으면 토글
@@ -108,6 +115,8 @@ export function TodayPlanList({
 
   // 인라인 수정 중인 row id (편집 모드 + 연필 버튼 클릭 시) — 한 번에 1개만
   const [editingId, setEditingId] = useState<string | null>(null);
+  // 메모 다이얼로그 대상 (메인 메모 버튼 클릭 시)
+  const [memoTarget, setMemoTarget] = useState<TodayPlanItem | null>(null);
 
   // 스와이프 상태 — onPointerUp 에서 정확한 dx 를 읽도록 ref + state 병행
   const [swipe, setSwipe] = useState<{ id: string; dx: number } | null>(null);
@@ -173,8 +182,9 @@ export function TodayPlanList({
               focus: item.focus,
             },
       );
-      // router.refresh() 생략 — done/skipped Set 이 로컬에서 이미 갱신돼 행 색·뱃지가 즉시 반영.
-      // 상단"완료 kcal" 합계는 다음 네비게이션 시 새로고침된다 (trade-off: 약간의 stale vs 스와이프 즉시 응답).
+      // 행 색·뱃지는 로컬 done/skipped Set 으로 이미 즉시 반영됨. 추가로 router.refresh()
+      // 로 상단"완료 kcal" 카드(서버 계산값)도 갱신 — 같은 화면에 있어 stale 이 바로 보이므로.
+      router.refresh();
     });
   }
 
@@ -361,6 +371,7 @@ export function TodayPlanList({
   }
 
   return (
+    <>
     <ul className="space-y-2">
       {order.map((item, index) => {
         const isDone = done.has(item.id);
@@ -405,7 +416,10 @@ export function TodayPlanList({
             className="relative overflow-hidden rounded-xl"
             style={liftStyle}
           >
-            {isDragging || inlineEditing ? null : (
+            {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더.
+                항상 렌더하면 완료(emerald-950/40)·휴식(zinc-800/60) 행의 반투명
+                배경 뒤로 "완료"/"취소" 글씨가 비쳐 보인다. */}
+            {swipe?.id !== item.id || isDragging || inlineEditing ? null : (
               <>
                 {/* 왼쪽: 오른쪽으로 끌면 노출되는"완료" 영역 */}
                 <div
@@ -458,9 +472,9 @@ export function TodayPlanList({
                   : inlineEditing
                     ? "border-emerald-400 ring-1 ring-emerald-200"
                     : isDone
-                      ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40"
+                      ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950"
                       : isSkipped
-                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-800/60"
+                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-900"
                         : "border-zinc-200 dark:border-zinc-700"
               }`}
             >
@@ -497,9 +511,11 @@ export function TodayPlanList({
                 />
               ) : null}
 
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-                <ExerciseIcon id={item.exerciseId} size={22} />
-              </span>
+              {inlineEditing ? null : (
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+                  <ExerciseIcon id={item.exerciseId} size={22} />
+                </span>
+              )}
 
               {inlineEditing ? (
                 <ExerciseEditForm
@@ -523,6 +539,14 @@ export function TodayPlanList({
                   <div className="min-w-0 flex-1">
                     <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                       {item.name}
+                      {bodyPartsFor(item.exerciseId).map((p) => (
+                        <span
+                          key={p}
+                          className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold ${BODY_PART_TONE[p]}`}
+                        >
+                          {BODY_PART_LABEL[p]}
+                        </span>
+                      ))}
                       <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
                         {item.equipmentLabel}
                       </span>
@@ -549,6 +573,16 @@ export function TodayPlanList({
                         · 약 {kcal}kcal
                       </span>
                     </p>
+                    {item.memo ? (
+                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                        <StickyNote
+                          aria-hidden="true"
+                          size={12}
+                          className="mt-0.5 shrink-0 text-amber-500"
+                        />
+                        <span className="whitespace-pre-wrap">{item.memo}</span>
+                      </p>
+                    ) : null}
                   </div>
                   {editMode ? (
                     <button
@@ -567,11 +601,34 @@ export function TodayPlanList({
                       <Pencil aria-hidden="true" size={16} />
                     </button>
                   ) : (
-                    <ChevronRight
-                      aria-hidden="true"
-                      className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
-                      size={18}
-                    />
+                    <>
+                      {/* 메모 버튼 — 메인에서 바로 메모 작성/수정. 스와이프·탭 이동과
+                          충돌하지 않도록 포인터 이벤트 전파 차단. */}
+                      <button
+                        type="button"
+                        aria-label={item.memo ? "메모 수정" : "메모 추가"}
+                        title={item.memo ? "메모 수정" : "메모 추가"}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onPointerMove={(e) => e.stopPropagation()}
+                        onPointerUp={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setMemoTarget(item);
+                        }}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition ${
+                          item.memo
+                            ? "text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30"
+                            : "text-zinc-400 dark:text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                        }`}
+                      >
+                        <StickyNote aria-hidden="true" size={16} />
+                      </button>
+                      <ChevronRight
+                        aria-hidden="true"
+                        className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
+                        size={18}
+                      />
+                    </>
                   )}
                 </div>
               )}
@@ -585,6 +642,108 @@ export function TodayPlanList({
         </li>
       ) : null}
     </ul>
+    {memoTarget ? (
+      <MemoDialog
+        item={memoTarget}
+        onClose={() => setMemoTarget(null)}
+        onSaved={(memo) => {
+          setOrder((prev) =>
+            prev.map((p) => (p.id === memoTarget.id ? { ...p, memo } : p)),
+          );
+          setMemoTarget(null);
+        }}
+      />
+    ) : null}
+    </>
+  );
+}
+
+/** 메인 화면 메모 버튼 → 간단 메모 편집 다이얼로그. */
+function MemoDialog({
+  item,
+  onClose,
+  onSaved,
+}: {
+  item: TodayPlanItem;
+  onClose: () => void;
+  onSaved: (memo: string | null) => void;
+}) {
+  const [memo, setMemo] = useState<string>(item.memo ?? "");
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  function save() {
+    const value = memo.trim() === "" ? null : memo.trim();
+    start(async () => {
+      const res = await updateExerciseMemoAction(item.id, value);
+      if (res.ok) onSaved(value);
+      else setError(res.error);
+    });
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl bg-white dark:bg-zinc-800 p-5 shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mb-3 flex items-center gap-2">
+          <StickyNote
+            aria-hidden="true"
+            className="text-amber-500"
+            size={18}
+          />
+          <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+            {item.name} 메모
+          </h3>
+        </div>
+        <textarea
+          aria-label="메모"
+          value={memo}
+          maxLength={1000}
+          rows={4}
+          autoFocus
+          placeholder="예: 어깨 내리고 견갑 고정, 마지막 세트 천천히"
+          onChange={(e) => {
+            setMemo(e.target.value);
+            setError(null);
+          }}
+          disabled={pending}
+          className="w-full resize-y rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
+        />
+        {error ? (
+          <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+            {error}
+          </p>
+        ) : null}
+        <div className="mt-3 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={pending}
+            className="inline-flex h-10 items-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
+          >
+            취소
+          </button>
+          <button
+            type="button"
+            onClick={save}
+            disabled={pending}
+            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          >
+            {pending ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+            ) : (
+              <Check aria-hidden="true" size={15} />
+            )}
+            저장
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -777,7 +936,7 @@ function ExerciseEditForm({
                 disabled={pending}
                 className={inputCls}
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="whitespace-nowrap text-xs text-zinc-500 dark:text-zinc-400">
                 kg ×
               </span>
               <input

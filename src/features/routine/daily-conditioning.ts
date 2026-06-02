@@ -16,6 +16,7 @@ type Row = {
   duration_min: number | null;
   speed: number | string | null;
   incline: number | string | null;
+  memo?: unknown;
 };
 
 const num = (v: number | string | null): number | null => {
@@ -35,7 +36,7 @@ export async function getDailyConditioning(
   const { data, error } = await supabase
     .from("daily_conditioning")
     .select(
-      "id, for_date, kind, position, item_id, duration_min, speed, incline",
+      "id, for_date, kind, position, item_id, duration_min, speed, incline, memo",
     )
     .eq("user_id", user.id)
     .eq("for_date", dateYmd)
@@ -53,6 +54,7 @@ export async function getDailyConditioning(
     durationMin: r.duration_min,
     speed: num(r.speed),
     incline: num(r.incline),
+    memo: typeof r.memo === "string" && r.memo.trim() !== "" ? r.memo : null,
   }));
 
   return {

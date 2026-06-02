@@ -12,6 +12,7 @@ import {
   parseSetDetails,
   type SetDetail,
 } from "@/features/routine/set-details";
+import { seoulYmd } from "@/features/routine/data";
 
 export type PlanExercise = {
   id: string;
@@ -24,6 +25,8 @@ export type PlanExercise = {
   weightKg: number | null;
   /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
   setDetails: SetDetail[] | null;
+  /** 개인 메모 (자세 주의점 등). null = 없음. */
+  memo: string | null;
 };
 
 type PlanRow = {
@@ -36,6 +39,7 @@ type PlanRow = {
   reps: number;
   weight_kg: number | null;
   set_details?: unknown;
+  memo?: unknown;
 };
 
 function toPlanExercise(row: PlanRow): PlanExercise {
@@ -49,6 +53,7 @@ function toPlanExercise(row: PlanRow): PlanExercise {
     reps: row.reps,
     weightKg: typeof row.weight_kg === "number" ? row.weight_kg : null,
     setDetails: parseSetDetails(row.set_details),
+    memo: typeof row.memo === "string" && row.memo.trim() !== "" ? row.memo : null,
   };
 }
 
@@ -68,6 +73,46 @@ export async function getPlanForFocus(focus: string): Promise<PlanExercise[]> {
 
   if (error || !data) return [];
   return (data as PlanRow[]).map(toPlanExercise);
+}
+
+/**
+ * 특정 운동에 대한 사용자의 개인 메모. 오늘 "오늘만 변경" 오버라이드(daily_plan)에
+ * 메모가 있으면 그걸 우선하고, 없으면 기본 루틴(routine_exercises)의 메모를 사용.
+ */
+export async function getMemoForExercise(
+  exerciseId: string,
+): Promise<string | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const supabase = await createSupabaseServerClient();
+
+  const pick = (rows: { memo?: unknown }[] | null): string | null => {
+    const m = rows?.[0]?.memo;
+    return typeof m === "string" && m.trim() !== "" ? m : null;
+  };
+
+  // 1) 오늘 daily_plan 오버라이드 메모 우선
+  const today = seoulYmd();
+  const daily = await supabase
+    .from("daily_plan")
+    .select("memo")
+    .eq("user_id", user.id)
+    .eq("for_date", today)
+    .eq("exercise_id", exerciseId)
+    .not("memo", "is", null)
+    .limit(1);
+  const dailyMemo = pick(daily.data as { memo?: unknown }[] | null);
+  if (dailyMemo) return dailyMemo;
+
+  // 2) 기본 루틴 메모
+  const { data } = await supabase
+    .from("routine_exercises")
+    .select("memo")
+    .eq("user_id", user.id)
+    .eq("exercise_id", exerciseId)
+    .not("memo", "is", null)
+    .limit(1);
+  return pick(data as { memo?: unknown }[] | null);
 }
 
 /** 등록 운동이 하나라도 있는지 (등록 완료 여부 판단용) */

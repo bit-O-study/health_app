@@ -10,6 +10,9 @@ import type { FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
 import {
   allExercisesForFocus,
+  BODY_PART_LABEL,
+  BODY_PART_TONE,
+  bodyPartsFor,
   EQUIPMENT_LABELS,
   exercisesForFocus,
   getCatalogExercise,
@@ -278,6 +281,16 @@ export function PlanEditor({
                       key={idx}
                       className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
                     >
+                      <span className="flex shrink-0 flex-wrap gap-1">
+                        {bodyPartsFor(row.exerciseId).map((p) => (
+                          <span
+                            key={p}
+                            className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold ${BODY_PART_TONE[p]}`}
+                          >
+                            {BODY_PART_LABEL[p]}
+                          </span>
+                        ))}
+                      </span>
                       <select
                         aria-label="운동"
                         value={row.exerciseId}

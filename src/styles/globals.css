@@ -25,6 +25,10 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* 한국어 줄바꿈: 음절 단위로 끊지 말고(=한 글자씩 줄바꿈 방지) 어절(공백) 단위로.
+     단, 한 어절이 칸보다 길면 그때만 분해해 오버플로 방지. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 /* 모바일 저사양 디바이스 / 사용자 설정으로 동작 줄이기 켰을 때 SVG 키프레임 일괄 정지.

@@ -9,6 +9,7 @@ import {
 import { seoulYmd } from "@/features/routine/data";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import type { SetDetail } from "@/features/routine/set-details";
+import type { StatusActionResult } from "@/features/routine/completion-result";
 
 export type CompletionSnapshot = {
   exerciseId: string;
@@ -29,23 +30,26 @@ export async function setExerciseStatusAction(
   exerciseRowId: string,
   status: CompletionStatus | "clear",
   snapshot?: CompletionSnapshot,
-): Promise<void> {
-  if (!exerciseRowId) return;
+): Promise<StatusActionResult> {
+  if (!exerciseRowId) return { ok: true };
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
-  if (!user) return;
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
   const today = seoulYmd();
 
+  // supabase 클라이언트는 에러를 throw 하지 않고 { error } 로 돌려준다.
+  // 이전엔 이를 무시해 RLS/스키마 실패가 조용히 묻혔다 — 반드시 확인해 반환한다.
   if (status === "clear") {
-    await supabase
+    const { error } = await supabase
       .from("exercise_completions")
       .delete()
       .eq("user_id", user.id)
       .eq("for_date", today)
       .eq("exercise_row_id", exerciseRowId);
+    if (error) return { ok: false, error: error.message };
   } else {
-    await supabase.from("exercise_completions").upsert(
+    const { error } = await supabase.from("exercise_completions").upsert(
       {
         user_id: user.id,
         for_date: today,
@@ -65,9 +69,13 @@ export async function setExerciseStatusAction(
       },
       { onConflict: "user_id,for_date,exercise_row_id" },
     );
+    if (error) return { ok: false, error: error.message };
   }
 
-  // 모든 페이지가 force-dynamic 이라 /settings/* 까지 revalidate 할 필요 없음 — 그쪽 페이지 진입 시 자동으로 fresh fetch.
-  // 홈만 무효화하고 클라이언트는 router.refresh() 없이 로컬 state 로 즉시 반영(스와이프 체감 지연 제거).
+  // 홈 + 점수·기록 페이지 무효화. force-dynamic 이라도 클라이언트 Router Cache 때문에
+  // 소프트 네비게이션 시 stale 이 보일 수 있어, 완료 기록이 반영되는 화면들을 명시 무효화.
   revalidatePath("/");
+  revalidatePath("/settings/score");
+  revalidatePath("/settings/history");
+  return { ok: true };
 }

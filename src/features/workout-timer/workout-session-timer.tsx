@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { ListChecks, Pause, Play, Save, Timer } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -14,10 +15,17 @@ import {
   writeTimer,
   type TimerState,
 } from "@/features/workout-timer/timer-store";
-import {
-  GuidedOverlay,
-  type GuidedItem,
-} from "@/features/workout-timer/guided-workout";
+import type { GuidedItem } from "@/features/workout-timer/guided-workout";
+
+// 가이드 오버레이(일러스트/플립북 등 ~1.5k줄)는 "운동 시작" 탭 전까지 필요 없으므로
+// 동적 로드해 홈 화면 초기 번들에서 제외한다.
+const GuidedOverlay = dynamic(
+  () =>
+    import("@/features/workout-timer/guided-workout").then(
+      (m) => m.GuidedOverlay,
+    ),
+  { ssr: false },
+);
 
 /**
  * "오늘 할 운동" 상단 세션 스톱워치 + 가이드 트리거.

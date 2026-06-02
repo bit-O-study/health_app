@@ -13,8 +13,8 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "HELTCH",
-    short_name: "HELTCH",
+    name: "헬쑤",
+    short_name: "헬쑤",
     description: "오늘 뭐 해야 할지 매일 알려주는 헬스 루틴 앱",
     lang: "ko",
     start_url: "/",
@@ -22,7 +22,7 @@ export default function manifest(): MetadataRoute.Manifest {
     display: "standalone",
     orientation: "portrait",
     background_color: "#fafafa",
-    theme_color: "#059669",
+    theme_color: "#4f46e5",
     icons: [
       {
         src: "/icon-192.png",

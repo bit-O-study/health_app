@@ -1,8 +1,11 @@
 import { cn } from "@/lib/utils";
 
+/** 서비스명. 한 곳에서 관리. */
+export const BRAND_NAME = "헬쑤";
+
 /**
- * HELTCH 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + 화이트 덤벨 글리프.
- * 광택 하이라이트와 링으로 입체감을 준다. size 로 어디서든 재사용.
+ * 헬쑤 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + D 모노그램 마크.
+ * (친근한 for you) 광택 하이라이트와 인셋 링으로 입체감. size 로 어디서든 재사용.
  */
 export function LogoMark({
   size = 40,
@@ -14,7 +17,7 @@ export function LogoMark({
   return (
     <span
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-emerald-400 via-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-500/30 ring-1 ring-inset ring-white/25",
+        "relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-blue-400 via-indigo-600 to-cyan-600 text-white shadow-lg shadow-indigo-500/40 ring-1 ring-inset ring-white/25",
         className,
       )}
       style={{ width: size, height: size, borderRadius: size * 0.28 }}
@@ -24,28 +27,33 @@ export function LogoMark({
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent"
       />
+      {/* D 모노그램(네거티브 스페이스) + 상승 화살표 — Daily */}
       <svg
-        width={size * 0.62}
-        height={size * 0.62}
+        width={size * 0.58}
+        height={size * 0.58}
         viewBox="0 0 24 24"
-        fill="currentColor"
         aria-hidden="true"
         className="relative drop-shadow-sm"
       >
-        {/* 바 */}
-        <rect x="7" y="10.6" width="10" height="2.8" rx="1.4" />
-        {/* 바깥 플레이트 */}
-        <rect x="2.3" y="6.9" width="3.3" height="10.2" rx="1.5" />
-        <rect x="18.4" y="6.9" width="3.3" height="10.2" rx="1.5" />
-        {/* 안쪽 플레이트 */}
-        <rect x="5.7" y="8.8" width="2.5" height="6.4" rx="1.2" />
-        <rect x="15.8" y="8.8" width="2.5" height="6.4" rx="1.2" />
+        <path
+          fill="white"
+          fillRule="evenodd"
+          d="M5.8 3.8h5.4a8.2 8.2 0 0 1 0 16.4H5.8Zm3.1 3v10.4h2.3a5.2 5.2 0 0 0 0-10.4Z"
+        />
+        <path
+          d="M9.7 14.2l2-2.6 2 2.6"
+          fill="none"
+          stroke="white"
+          strokeWidth="1.7"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
       </svg>
     </span>
   );
 }
 
-/** 로고 마크 + HELTCH 워드마크. */
+/** 로고 마크 + 워드마크(헬쑤). */
 export function Logo({
   size = 36,
   className,
@@ -64,7 +72,7 @@ export function Logo({
           wordClassName,
         )}
       >
-        HELTCH
+        {BRAND_NAME}
       </span>
     </span>
   );

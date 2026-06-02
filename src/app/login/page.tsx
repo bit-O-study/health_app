@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "로그인",
-  description: "HELTCH에 로그인하고 내 운동 루틴을 이어가세요.",
+  description: "헬쑤에 로그인하고 내 운동 루틴을 이어가세요.",
   robots: {
     index: false,
     follow: false,

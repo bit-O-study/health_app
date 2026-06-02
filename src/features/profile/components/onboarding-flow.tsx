@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Building2, Check, Dumbbell, Sparkles } from "lucide-react";
+import { ArrowRight, Building2, Check, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { Logo } from "@/features/brand/logo";
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { saveRoutineAction } from "@/features/routine/actions";
 import { saveProfileAction } from "@/features/profile/actions";
@@ -118,11 +119,8 @@ export function OnboardingFlow() {
       )}
     >
       <div className="mx-auto w-full max-w-3xl px-6 py-12 sm:px-10">
-        <div className="flex items-center gap-2">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white">
-            <Dumbbell aria-hidden="true" size={20} />
-          </span>
-          <span className="text-base font-bold tracking-tight">HELTCH</span>
+        <div className="flex items-center">
+          <Logo size={36} />
         </div>
 
         {/* 진행 표시 */}

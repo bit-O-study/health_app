@@ -21,7 +21,7 @@ export function AppSplash() {
 
   return (
     <div
-      className="app-splash fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-b from-pink-50 via-white to-fuchsia-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-fuchsia-950"
+      className="app-splash fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-cyan-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-indigo-950"
       aria-hidden="true"
     >
       <div className="app-splash-inner">

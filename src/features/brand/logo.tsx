@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 export const BRAND_NAME = "데일리핏";
 
 /**
- * 데일리핏 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + 활동 심박 마크.
+ * 데일리핏 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + D 모노그램 마크.
  * (친근한 for you) 광택 하이라이트와 인셋 링으로 입체감. size 로 어디서든 재사용.
  */
 export function LogoMark({
@@ -17,7 +17,7 @@ export function LogoMark({
   return (
     <span
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-pink-400 via-pink-500 to-fuchsia-600 text-white shadow-lg shadow-pink-500/30 ring-1 ring-inset ring-white/25",
+        "relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-blue-400 via-indigo-600 to-cyan-600 text-white shadow-lg shadow-indigo-500/40 ring-1 ring-inset ring-white/25",
         className,
       )}
       style={{ width: size, height: size, borderRadius: size * 0.28 }}
@@ -27,23 +27,27 @@ export function LogoMark({
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent"
       />
-      {/* 활동 심박 — 정교한 ECG 곡선 + 펄스 포인트 */}
+      {/* D 모노그램(네거티브 스페이스) + 상승 화살표 — Daily */}
       <svg
-        width={size * 0.7}
-        height={size * 0.7}
+        width={size * 0.58}
+        height={size * 0.58}
         viewBox="0 0 24 24"
-        fill="none"
         aria-hidden="true"
         className="relative drop-shadow-sm"
       >
         <path
-          d="M2.6 13h3.3l1.5-4.2c.3-.85 1.45-.72 1.62.12l2.18 7.3 1.8-5.2c.27-.78 1.34-.74 1.55.06L17.1 13h1.7"
+          fill="white"
+          fillRule="evenodd"
+          d="M5.8 3.8h5.4a8.2 8.2 0 0 1 0 16.4H5.8Zm3.1 3v10.4h2.3a5.2 5.2 0 0 0 0-10.4Z"
+        />
+        <path
+          d="M9.7 14.2l2-2.6 2 2.6"
+          fill="none"
           stroke="white"
-          strokeWidth="2.7"
+          strokeWidth="1.7"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <circle cx="20.9" cy="13" r="1.5" fill="white" />
       </svg>
     </span>
   );

@@ -143,7 +143,7 @@ export function TodayPlanList({
   function persistOrder(next: TodayPlanItem[]) {
     // 1) 즉시 반영: 가이드 큐(WorkoutSessionTimer)가 같은 순서로 시작하도록 공유
     //    컨텍스트에 새 순서를 올린다. 로컬 order 도 이미 갱신돼 화면은 바로 바뀐다.
-    orderScope?.setMainOrder(next.map((i) => i.id));
+    orderScope?.setOrder("main", next.map((i) => i.id));
     // 2) 확실한 동기화(안전망): DB 저장 후 router.refresh() 로 서버를 다시 그려
     //    가이드 큐의 queueItems(서버 계산값)도 새 순서로 맞춘다. 컨텍스트가 어떤
     //    이유로 전달되지 않아도 운동 시작 순서가 항상 바뀐 순서를 따르게 한다.

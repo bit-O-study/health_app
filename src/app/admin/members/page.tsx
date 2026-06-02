@@ -3,8 +3,16 @@ import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
 import { getMembers, isAdminUser } from "@/features/admin/admin";
+import { banStateOf, BAN_STATE_LABEL } from "@/features/admin/ban";
+import { MemberBanControls } from "@/features/admin/components/member-ban-controls";
 
 export const dynamic = "force-dynamic";
+
+function suspendedUntilLabel(iso: string): string {
+  const d = new Date(iso);
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `~${d.getFullYear()}.${p(d.getMonth() + 1)}.${p(d.getDate())}`;
+}
 
 const GENDER_LABEL: Record<string, string> = { male: "남", female: "여" };
 const EXP_LABEL: Record<string, string> = {
@@ -50,21 +58,46 @@ export default async function AdminMembersPage() {
                 <th className="px-3 py-2">키</th>
                 <th className="px-3 py-2">체중</th>
                 <th className="px-3 py-2">가입일</th>
+                <th className="px-3 py-2">상태</th>
+                <th className="px-3 py-2">관리</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-              {members.map((m) => (
-                <tr key={m.userId} className="text-zinc-800 dark:text-zinc-200">
-                  <td className="px-3 py-2">{m.name ?? "-"}</td>
-                  <td className="px-3 py-2">{m.email ?? "-"}</td>
-                  <td className="px-3 py-2">{m.phone ?? "-"}</td>
-                  <td className="px-3 py-2">{m.gender ? GENDER_LABEL[m.gender] ?? m.gender : "-"}</td>
-                  <td className="px-3 py-2">{m.experience ? EXP_LABEL[m.experience] ?? m.experience : "-"}</td>
-                  <td className="px-3 py-2">{m.heightCm ? `${m.heightCm}cm` : "-"}</td>
-                  <td className="px-3 py-2">{m.weightKg !== null ? `${m.weightKg}kg` : "-"}</td>
-                  <td className="px-3 py-2 text-zinc-500">{m.createdAt.slice(0, 10)}</td>
-                </tr>
-              ))}
+              {members.map((m) => {
+                const state = banStateOf({
+                  suspendedUntil: m.suspendedUntil,
+                  bannedAt: m.bannedAt,
+                });
+                const badge =
+                  state === "banned"
+                    ? "bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400"
+                    : state === "suspended"
+                      ? "bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400"
+                      : "bg-zinc-100 dark:bg-zinc-800 text-zinc-500";
+                return (
+                  <tr key={m.userId} className="text-zinc-800 dark:text-zinc-200">
+                    <td className="px-3 py-2">{m.name ?? "-"}</td>
+                    <td className="px-3 py-2">{m.email ?? "-"}</td>
+                    <td className="px-3 py-2">{m.phone ?? "-"}</td>
+                    <td className="px-3 py-2">{m.gender ? GENDER_LABEL[m.gender] ?? m.gender : "-"}</td>
+                    <td className="px-3 py-2">{m.experience ? EXP_LABEL[m.experience] ?? m.experience : "-"}</td>
+                    <td className="px-3 py-2">{m.heightCm ? `${m.heightCm}cm` : "-"}</td>
+                    <td className="px-3 py-2">{m.weightKg !== null ? `${m.weightKg}kg` : "-"}</td>
+                    <td className="px-3 py-2 text-zinc-500">{m.createdAt.slice(0, 10)}</td>
+                    <td className="whitespace-nowrap px-3 py-2">
+                      <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${badge}`}>
+                        {BAN_STATE_LABEL[state]}
+                        {state === "suspended" && m.suspendedUntil
+                          ? ` ${suspendedUntilLabel(m.suspendedUntil)}`
+                          : ""}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2">
+                      <MemberBanControls userId={m.userId} state={state} />
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

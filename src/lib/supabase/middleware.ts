@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
+import { isBlocked } from "@/features/admin/ban";
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
@@ -74,6 +76,39 @@ export async function updateSession(request: NextRequest) {
     request.headers.get("next-router-prefetch") === "1" ||
     request.headers.get("purpose") === "prefetch";
   if (user && !isPrefetch) {
+    // 정지/영구정지 차단 — 본인 프로필 상태 확인(RLS: 본인 행 읽기 허용).
+    // 차단 상태면 안내 페이지(/suspended)로만 보낸다. 정지 안 된 사용자가
+    // /suspended 에 있으면 메인으로 되돌린다.
+    const onSuspended = pathname === "/suspended";
+    try {
+      const { data: prof } = await supabase
+        .from("profiles")
+        .select("suspended_until, banned_at")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      const blocked = prof
+        ? isBlocked({
+            suspendedUntil: (prof as { suspended_until: string | null })
+              .suspended_until,
+            bannedAt: (prof as { banned_at: string | null }).banned_at,
+          })
+        : false;
+      if (blocked && !onSuspended) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/suspended";
+        url.search = "";
+        return NextResponse.redirect(url);
+      }
+      if (!blocked && onSuspended) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/";
+        url.search = "";
+        return NextResponse.redirect(url);
+      }
+    } catch {
+      /* 조회 실패 시 차단하지 않음(정상 사용자 막지 않기) */
+    }
+
     const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
     let isAdmin = false;
     try {

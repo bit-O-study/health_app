@@ -132,6 +132,12 @@ const fiveByFiveScheme = Array.from({ length: 5 }, () => ({
   reps: "5",
 }));
 
+const warmupScheme = [
+  { percent: 40, reps: "5" },
+  { percent: 50, reps: "5" },
+  { percent: 60, reps: "3" },
+];
+
 const programLabels: Record<Program, string> = {
   "5x5": "5x5",
   "531": "5/3/1",
@@ -286,6 +292,16 @@ export function PowerliftingApp() {
       highlight: index === scheme.length - 1,
     }));
   }, [settings.program, settings.trainingMax, settings.week, todayRoutine.lift]);
+  const warmupSets = useMemo(() => {
+    const tm = settings.trainingMax[todayRoutine.lift];
+
+    return warmupScheme.map((set, index) => ({
+      ...set,
+      index: index + 1,
+      weight: roundToLoadableWeight((tm * set.percent) / 100),
+      highlight: false,
+    }));
+  }, [settings.trainingMax, todayRoutine.lift]);
   const topSet = mainSets[mainSets.length - 1];
 
   function completeSetup(oneRepMax: OneRepMaxInputs, program: Program) {
@@ -333,6 +349,7 @@ export function PowerliftingApp() {
             <HomePanel
               settings={settings}
               routine={todayRoutine}
+              warmupSets={warmupSets}
               sets={mainSets}
               topSet={topSet}
               onComplete={completeWorkout}
@@ -455,12 +472,14 @@ function SetupPanel({
 function HomePanel({
   settings,
   routine,
+  warmupSets,
   sets,
   topSet,
   onComplete,
 }: {
   settings: AppSettings;
   routine: (typeof routines)[BodyPart];
+  warmupSets: MainSet[];
   sets: MainSet[];
   topSet: MainSet;
   onComplete: () => void;
@@ -490,6 +509,12 @@ function HomePanel({
           {formatTrainingMaxFormula(currentOneRepMax, settings.trainingMax[routine.lift])}
         </p>
       </section>
+
+      <SetList
+        title="워밍업 세트"
+        subtitle="TM 기준 40/50/60%"
+        sets={warmupSets}
+      />
 
       <section className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
         <div className="mb-3 flex items-center justify-between">
@@ -537,6 +562,39 @@ function HomePanel({
         운동 완료
       </button>
     </div>
+  );
+}
+
+function SetList({
+  title,
+  subtitle,
+  sets,
+}: {
+  title: string;
+  subtitle: string;
+  sets: MainSet[];
+}) {
+  return (
+    <section className="rounded-lg border border-zinc-800 bg-zinc-900 p-4">
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h3 className="text-base font-bold">{title}</h3>
+        <span className="text-xs font-semibold text-zinc-400">{subtitle}</span>
+      </div>
+      <div className="space-y-2">
+        {sets.map((set) => (
+          <div
+            key={`${title}-${set.index}-${set.percent}-${set.reps}`}
+            className="grid grid-cols-[auto_1fr_auto] items-center gap-3 rounded-md bg-zinc-800 p-3"
+          >
+            <span className="text-sm font-black">W{set.index}</span>
+            <span className="text-sm font-semibold">
+              {set.percent}% x {set.reps}
+            </span>
+            <span className="text-xl font-black">{formatKg(set.weight)}</span>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 

@@ -46,61 +46,61 @@ export default async function AdminMembersPage() {
           회원이 없습니다.
         </p>
       ) : (
-        <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-700">
-          <table className="w-full text-sm">
-            <thead className="bg-zinc-50 dark:bg-zinc-900 text-left text-xs font-semibold uppercase text-zinc-500">
-              <tr>
-                <th className="px-3 py-2">이름</th>
-                <th className="px-3 py-2">이메일</th>
-                <th className="px-3 py-2">전화번호</th>
-                <th className="px-3 py-2">성별</th>
-                <th className="px-3 py-2">경력</th>
-                <th className="px-3 py-2">키</th>
-                <th className="px-3 py-2">체중</th>
-                <th className="px-3 py-2">가입일</th>
-                <th className="px-3 py-2">상태</th>
-                <th className="px-3 py-2">관리</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-              {members.map((m) => {
-                const state = banStateOf({
-                  suspendedUntil: m.suspendedUntil,
-                  bannedAt: m.bannedAt,
-                });
-                const badge =
-                  state === "banned"
-                    ? "bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400"
-                    : state === "suspended"
-                      ? "bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400"
-                      : "bg-zinc-100 dark:bg-zinc-800 text-zinc-500";
-                return (
-                  <tr key={m.userId} className="text-zinc-800 dark:text-zinc-200">
-                    <td className="px-3 py-2">{m.name ?? "-"}</td>
-                    <td className="px-3 py-2">{m.email ?? "-"}</td>
-                    <td className="px-3 py-2">{m.phone ?? "-"}</td>
-                    <td className="px-3 py-2">{m.gender ? GENDER_LABEL[m.gender] ?? m.gender : "-"}</td>
-                    <td className="px-3 py-2">{m.experience ? EXP_LABEL[m.experience] ?? m.experience : "-"}</td>
-                    <td className="px-3 py-2">{m.heightCm ? `${m.heightCm}cm` : "-"}</td>
-                    <td className="px-3 py-2">{m.weightKg !== null ? `${m.weightKg}kg` : "-"}</td>
-                    <td className="px-3 py-2 text-zinc-500">{m.createdAt.slice(0, 10)}</td>
-                    <td className="whitespace-nowrap px-3 py-2">
-                      <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${badge}`}>
-                        {BAN_STATE_LABEL[state]}
-                        {state === "suspended" && m.suspendedUntil
-                          ? ` ${suspendedUntilLabel(m.suspendedUntil)}`
-                          : ""}
-                      </span>
-                    </td>
-                    <td className="px-3 py-2">
-                      <MemberBanControls userId={m.userId} state={state} />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+        <ul className="space-y-3">
+          {members.map((m) => {
+            const state = banStateOf({
+              suspendedUntil: m.suspendedUntil,
+              bannedAt: m.bannedAt,
+            });
+            const badge =
+              state === "banned"
+                ? "bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400"
+                : state === "suspended"
+                  ? "bg-amber-100 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400"
+                  : "bg-zinc-100 dark:bg-zinc-800 text-zinc-500";
+            const meta = [
+              m.gender ? GENDER_LABEL[m.gender] ?? m.gender : null,
+              m.experience ? EXP_LABEL[m.experience] ?? m.experience : null,
+              m.heightCm ? `${m.heightCm}cm` : null,
+              m.weightKg !== null ? `${m.weightKg}kg` : null,
+              m.phone ?? null,
+            ].filter(Boolean);
+            return (
+              <li
+                key={m.userId}
+                className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <p className="truncate font-bold text-zinc-950 dark:text-zinc-100">
+                      {m.name ?? "이름 미입력"}
+                    </p>
+                    <p className="truncate text-xs text-zinc-500">{m.email ?? "-"}</p>
+                  </div>
+                  <span
+                    className={`shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold ${badge}`}
+                  >
+                    {BAN_STATE_LABEL[state]}
+                    {state === "suspended" && m.suspendedUntil
+                      ? ` ${suspendedUntilLabel(m.suspendedUntil)}`
+                      : ""}
+                  </span>
+                </div>
+                <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                  {meta.join(" · ") || "정보 없음"} · 가입 {m.createdAt.slice(0, 10)}
+                </p>
+                {m.banReason ? (
+                  <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                    사유: {m.banReason}
+                  </p>
+                ) : null}
+                <div className="mt-3 border-t border-zinc-100 dark:border-zinc-700/60 pt-3">
+                  <MemberBanControls userId={m.userId} state={state} />
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </main>
   );

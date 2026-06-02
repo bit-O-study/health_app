@@ -27,16 +27,21 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
 
   // 관리자 → 회원정보, 대상 행에서 영구정지
   await apage.goto("/admin/members", { waitUntil: "networkidle" });
-  const row = apage.locator("tr", { hasText: targetEmail });
+  await apage.screenshot({ path: "test-results/admin-members.png", fullPage: true });
+  const row = apage.locator("li", { hasText: targetEmail });
   await expect(row).toBeVisible();
+  // 정지 사유 입력 후 영구정지
+  await row.getByPlaceholder("정지 사유 (선택)").fill("E2E 영구정지 사유");
   await row.getByRole("button", { name: "영구정지" }).click();
   await apage.getByRole("button", { name: "영구 정지" }).click(); // 확인 다이얼로그
   await expect(row.getByRole("button", { name: "해제" })).toBeVisible({ timeout: 10_000 });
 
-  // 대상 회원은 이제 차단 → /suspended 로
+  // 대상 회원은 이제 차단 → /suspended 로 + 사유 표시
   await tpage.goto("/", { waitUntil: "networkidle" });
   await expect(tpage).toHaveURL(/\/suspended$/);
   await expect(tpage.getByRole("heading", { name: /영구 정지/ })).toBeVisible();
+  await expect(tpage.getByText("E2E 영구정지 사유")).toBeVisible();
+  await tpage.screenshot({ path: "test-results/suspended-final.png", fullPage: true });
 
   // 관리자 해제
   await row.getByRole("button", { name: "해제" }).click();

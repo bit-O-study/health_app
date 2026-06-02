@@ -24,21 +24,34 @@ export function MemberBanControls({
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [askBan, setAskBan] = useState(false);
+  const [reason, setReason] = useState("");
 
   function run(fn: () => Promise<AdminActionResult>) {
     setError(null);
     start(async () => {
       const res = await fn();
-      if (res.ok) router.refresh();
-      else setError(res.error);
+      if (res.ok) {
+        setReason("");
+        router.refresh();
+      } else setError(res.error);
     });
   }
 
+  const r = () => reason.trim() || undefined;
   const btn =
     "inline-flex h-7 items-center gap-1 rounded-md border px-2 text-xs font-semibold transition disabled:opacity-50";
 
   return (
     <div className="flex flex-col gap-1">
+      <input
+        type="text"
+        value={reason}
+        maxLength={200}
+        placeholder="정지 사유 (선택)"
+        onChange={(e) => setReason(e.target.value)}
+        disabled={pending}
+        className="h-7 w-44 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-xs text-zinc-800 dark:text-zinc-200"
+      />
       <div className="flex flex-wrap items-center gap-1">
         {pending ? (
           <Loader2 aria-hidden="true" size={13} className="animate-spin text-zinc-400" />
@@ -46,7 +59,7 @@ export function MemberBanControls({
         <button
           type="button"
           disabled={pending}
-          onClick={() => run(() => suspendUserAction(userId, 7))}
+          onClick={() => run(() => suspendUserAction(userId, 7, r()))}
           className={`${btn} border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 hover:bg-amber-100`}
         >
           <Clock aria-hidden="true" size={12} />
@@ -55,7 +68,7 @@ export function MemberBanControls({
         <button
           type="button"
           disabled={pending}
-          onClick={() => run(() => suspendUserAction(userId, 30))}
+          onClick={() => run(() => suspendUserAction(userId, 30, r()))}
           className={`${btn} border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 hover:bg-amber-100`}
         >
           <Clock aria-hidden="true" size={12} />
@@ -96,7 +109,7 @@ export function MemberBanControls({
         tone="danger"
         onConfirm={() => {
           setAskBan(false);
-          run(() => banUserAction(userId));
+          run(() => banUserAction(userId, r()));
         }}
         onCancel={() => setAskBan(false)}
       />

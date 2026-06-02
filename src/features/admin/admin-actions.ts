@@ -54,3 +54,55 @@ export async function removeAdminAction(
   revalidatePath("/admin/settings");
   return { ok: true };
 }
+
+/** 정지/차단 값을 admin_set_user_ban RPC 로 설정(관리자 게이트는 DB 함수 내부). */
+async function setUserBan(
+  userId: string,
+  suspendedUntil: string | null,
+  bannedAt: string | null,
+  reason: string | null,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  if (!userId) return { ok: false, error: "회원이 올바르지 않습니다." };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc("admin_set_user_ban", {
+    p_user_id: userId,
+    p_suspended_until: suspendedUntil,
+    p_banned_at: bannedAt,
+    p_reason: reason,
+  });
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/admin/members");
+  return { ok: true };
+}
+
+/** 기간 정지 — days 일 후 자동 해제. 영구정지는 해제(같이 정지로 전환). */
+export async function suspendUserAction(
+  userId: string,
+  days: number,
+  reason?: string,
+): Promise<AdminActionResult> {
+  if (!Number.isFinite(days) || days <= 0 || days > 3650) {
+    return { ok: false, error: "정지 기간(일)이 올바르지 않습니다." };
+  }
+  const until = new Date(Date.now() + days * 86_400_000).toISOString();
+  return setUserBan(userId, until, null, reason?.trim() || null);
+}
+
+/** 영구정지 — 수동 해제 전까지 차단. */
+export async function banUserAction(
+  userId: string,
+  reason?: string,
+): Promise<AdminActionResult> {
+  const now = new Date().toISOString();
+  return setUserBan(userId, null, now, reason?.trim() || null);
+}
+
+/** 정지/영구정지 해제 — 모두 null 로 초기화. */
+export async function unbanUserAction(
+  userId: string,
+): Promise<AdminActionResult> {
+  return setUserBan(userId, null, null, null);
+}

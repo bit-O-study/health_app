@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Dumbbell } from "lucide-react";
 
+import { Logo } from "@/features/brand/logo";
 import { AuthForm } from "@/features/auth/components/auth-form";
 import { getCurrentUser } from "@/lib/supabase/server";
 
@@ -33,13 +33,8 @@ export default async function LoginPage({
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-zinc-50 dark:bg-zinc-900 px-6 py-12">
-      <Link className="flex items-center gap-2" href="/">
-        <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-600 text-white">
-          <Dumbbell aria-hidden="true" size={22} />
-        </span>
-        <span className="text-lg font-bold tracking-tight text-zinc-950 dark:text-zinc-100">
-          HELTCH
-        </span>
+      <Link className="flex items-center" href="/">
+        <Logo size={44} wordClassName="text-lg" />
       </Link>
 
       <div className="flex flex-col items-center gap-2 text-center">

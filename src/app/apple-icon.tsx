@@ -1,9 +1,6 @@
 import { ImageResponse } from "next/og";
 
-/**
- * iOS"홈 화면에 추가" 용 아이콘.
- * Next.js 가 자동으로`<link rel="apple-touch-icon">` 주입 +`/apple-icon` 서빙.
- */
+/** iOS "홈 화면에 추가" 용 아이콘. */
 export const dynamic = "force-static";
 
 export const size = { width: 180, height: 180 };
@@ -22,11 +19,9 @@ export default function AppleIcon() {
       }}
     >
       <svg width="118" height="118" viewBox="0 0 24 24" fill="white">
-        <rect x="7" y="10.6" width="10" height="2.8" rx="1.4" />
-        <rect x="2.3" y="6.9" width="3.3" height="10.2" rx="1.5" />
-        <rect x="18.4" y="6.9" width="3.3" height="10.2" rx="1.5" />
-        <rect x="5.7" y="8.8" width="2.5" height="6.4" rx="1.2" />
-        <rect x="15.8" y="8.8" width="2.5" height="6.4" rx="1.2" />
+        <rect x="5.2" y="4.6" width="3.2" height="14.8" rx="1.6" />
+        <rect x="15.6" y="4.6" width="3.2" height="14.8" rx="1.6" />
+        <rect x="7" y="10.4" width="10" height="3.2" rx="1.6" />
       </svg>
     </div>,
     size,

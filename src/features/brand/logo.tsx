@@ -1,8 +1,11 @@
 import { cn } from "@/lib/utils";
 
+/** 서비스명. 한 곳에서 관리. */
+export const BRAND_NAME = "헬포유";
+
 /**
- * HELTCH 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + 화이트 덤벨 글리프.
- * 광택 하이라이트와 링으로 입체감을 준다. size 로 어디서든 재사용.
+ * 헬포유 로고 마크 — 에메랄드 그라데이션 스퀘어클 배지 + 화이트 'H' 글자 마크.
+ * (Help for you / Health) 광택 하이라이트와 인셋 링으로 입체감. size 로 어디서든 재사용.
  */
 export function LogoMark({
   size = 40,
@@ -24,28 +27,24 @@ export function LogoMark({
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent"
       />
+      {/* 'H' 글자 마크 (기하학적, 라운드 터미널) */}
       <svg
-        width={size * 0.62}
-        height={size * 0.62}
+        width={size * 0.6}
+        height={size * 0.6}
         viewBox="0 0 24 24"
         fill="currentColor"
         aria-hidden="true"
         className="relative drop-shadow-sm"
       >
-        {/* 바 */}
-        <rect x="7" y="10.6" width="10" height="2.8" rx="1.4" />
-        {/* 바깥 플레이트 */}
-        <rect x="2.3" y="6.9" width="3.3" height="10.2" rx="1.5" />
-        <rect x="18.4" y="6.9" width="3.3" height="10.2" rx="1.5" />
-        {/* 안쪽 플레이트 */}
-        <rect x="5.7" y="8.8" width="2.5" height="6.4" rx="1.2" />
-        <rect x="15.8" y="8.8" width="2.5" height="6.4" rx="1.2" />
+        <rect x="5.2" y="4.6" width="3.2" height="14.8" rx="1.6" />
+        <rect x="15.6" y="4.6" width="3.2" height="14.8" rx="1.6" />
+        <rect x="7" y="10.4" width="10" height="3.2" rx="1.6" />
       </svg>
     </span>
   );
 }
 
-/** 로고 마크 + HELTCH 워드마크. */
+/** 로고 마크 + 워드마크(헬포유). */
 export function Logo({
   size = 36,
   className,
@@ -64,7 +63,7 @@ export function Logo({
           wordClassName,
         )}
       >
-        HELTCH
+        {BRAND_NAME}
       </span>
     </span>
   );

@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: { default: siteConfig.title, template: "%s | HELTCH" },
+  title: { default: siteConfig.title, template: "%s | 헬포유" },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   openGraph: {

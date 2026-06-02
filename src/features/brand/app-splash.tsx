@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { LogoMark } from "@/features/brand/logo";
+import { BRAND_NAME, LogoMark } from "@/features/brand/logo";
 
 /**
  * 앱 진입 스플래시 — 앱을 처음 열거나 새로고침/PWA 실행 시 잠깐 보였다가 사라진다.
@@ -34,7 +34,7 @@ export function AppSplash() {
         </div>
         <div className="text-center">
           <h1 className="text-3xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-50">
-            HELTCH
+            {BRAND_NAME}
           </h1>
           <p className="mt-1.5 text-sm text-zinc-500 dark:text-zinc-400">
             오늘 뭐 해야 하지? 루틴이 알려줍니다.

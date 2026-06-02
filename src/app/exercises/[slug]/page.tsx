@@ -1,16 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, Target } from "lucide-react";
+import { ArrowLeft, PlayCircle, StickyNote, Target } from "lucide-react";
 
 import { FeedbackSection } from "@/features/exercises/components/feedback-section";
 import { VideoUploadForm } from "@/features/exercises/components/video-upload-form";
 import { EquipmentMethod } from "@/features/exercises/components/equipment-method";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
+import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import {
   getExerciseBySlug,
   getExerciseVideos,
 } from "@/features/exercises/data";
+import { getExerciseMedia } from "@/features/exercises/exercise-media";
+import { getMemoForExercise } from "@/features/routine/plan";
 import {
   getCatalogExercise,
   isEquipmentId,
@@ -68,7 +71,11 @@ export default async function ExerciseDetailPage({
 
   // 영상/피드백은 Supabase 에 해당 종목 행이 있을 때만 제공
   const supaExercise = await getExerciseBySlug(slug);
-  const videos = supaExercise ? await getExerciseVideos(supaExercise.id) : [];
+  const [videos, media, memo] = await Promise.all([
+    supaExercise ? getExerciseVideos(supaExercise.id) : Promise.resolve([]),
+    getExerciseMedia(slug),
+    getMemoForExercise(slug),
+  ]);
 
   return (
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-900 px-6 py-10 text-zinc-950 dark:text-zinc-100 sm:px-10">
@@ -97,6 +104,40 @@ export default async function ExerciseDetailPage({
               </div>
             </div>
           </header>
+
+          {media ? (
+            <section className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+              <div className="mb-3 flex items-center gap-2">
+                <PlayCircle
+                  aria-hidden="true"
+                  className="text-emerald-600 dark:text-emerald-400"
+                  size={20}
+                />
+                <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
+                  시범 영상
+                </h2>
+              </div>
+              <MediaEmbed url={media.url} kind={media.kind} />
+            </section>
+          ) : null}
+
+          {memo ? (
+            <section className="rounded-lg border border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 p-5">
+              <div className="mb-2 flex items-center gap-2">
+                <StickyNote
+                  aria-hidden="true"
+                  className="text-amber-600 dark:text-amber-300"
+                  size={18}
+                />
+                <h2 className="text-sm font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">
+                  내 메모
+                </h2>
+              </div>
+              <p className="whitespace-pre-wrap text-sm leading-6 text-amber-900 dark:text-amber-100">
+                {memo}
+              </p>
+            </section>
+          ) : null}
 
           <EquipmentMethod
             exercise={exercise}

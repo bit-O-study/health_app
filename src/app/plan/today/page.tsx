@@ -102,6 +102,7 @@ export default async function TodayConditioningPage({
               reps: p.reps,
               weightKg: p.weightKg,
               setDetails: p.setDetails,
+              memo: p.memo,
             }));
       return {
         focus,

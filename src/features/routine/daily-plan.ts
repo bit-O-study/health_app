@@ -26,6 +26,8 @@ export type DailyPlanRow = {
   weightKg: number | null;
   /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
   setDetails: SetDetail[] | null;
+  /** 개인 메모. null = 없음. */
+  memo: string | null;
 };
 
 type Row = {
@@ -38,6 +40,7 @@ type Row = {
   reps: number;
   weight_kg: number | string | null;
   set_details?: unknown;
+  memo?: unknown;
 };
 
 const num = (v: number | string | null): number | null => {
@@ -76,6 +79,8 @@ export const getDailyPlanForDate = cache(
       reps: r.reps,
       weightKg: num(r.weight_kg),
       setDetails: parseSetDetails(r.set_details),
+      memo:
+        typeof r.memo === "string" && r.memo.trim() !== "" ? r.memo : null,
     }));
   },
 );

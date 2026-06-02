@@ -2318,6 +2318,16 @@ export const BODY_PART_LABEL: Record<BodyPart, string> = {
   core: "코어",
 };
 
+/** 부위별 배지 색상 (라이트/다크). 운동이 어느 부위인지 한눈에 구분. */
+export const BODY_PART_TONE: Record<BodyPart, string> = {
+  chest: "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300",
+  back: "bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300",
+  shoulder: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300",
+  arm: "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300",
+  lower: "bg-teal-100 text-teal-700 dark:bg-teal-500/20 dark:text-teal-300",
+  core: "bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-500/20 dark:text-fuchsia-300",
+};
+
 export const BODY_PART_ORDER: BodyPart[] = [
   "chest",
   "back",
@@ -2444,6 +2454,60 @@ const PRIMARY_BODY_PART: Record<string, BodyPart> = {
 
 export function primaryBodyPart(id: string): BodyPart {
   return PRIMARY_BODY_PART[id] ?? "core";
+}
+
+/**
+ * 보조 부위 — 한 운동이 여러 부위를 자극할 때(복합 운동) 추가로 다는 태그.
+ * 예: 플랭크=코어+하체, 데드리프트=등+하체, 스쿼트=하체+코어.
+ * primary 외에 함께 표시할 부위만 적는다. (조정하려면 여기만 고치면 됨)
+ */
+const EXTRA_BODY_PARTS: Record<string, BodyPart[]> = {
+  // 코어 + 하체
+  plank: ["lower"],
+  "side-plank": ["lower"],
+  "mountain-climber": ["lower"],
+  "hanging-leg-raise": ["lower"],
+  "toes-to-bar": ["lower"],
+  "ab-rollout": ["shoulder"],
+  // 데드리프트 계열 (등 ↔ 하체)
+  deadlift: ["lower"],
+  "sumo-deadlift": ["back"],
+  rdl: ["back"],
+  "stiff-leg-deadlift": ["back"],
+  "good-morning": ["back"],
+  // 스쿼트·런지 계열 (하체 + 코어)
+  squat: ["core"],
+  "front-squat": ["core"],
+  "goblet-squat": ["core"],
+  "hack-squat": ["core"],
+  "bulgarian-split-squat": ["core"],
+  lunge: ["core"],
+  "walking-lunge": ["core"],
+  "curtsy-lunge": ["core"],
+  "step-up": ["core"],
+  "pistol-squat": ["core"],
+  "cossack-squat": ["core"],
+  // 미는 운동 (가슴/어깨 + 삼두)
+  "bench-press": ["arm"],
+  "close-grip-bench-press": ["arm"],
+  dips: ["arm"],
+  "push-up": ["arm"],
+  ohp: ["arm"],
+  "arnold-press": ["arm"],
+  // 당기는 운동 (등 + 이두)
+  "pull-up": ["arm"],
+  "chin-up": ["arm"],
+  "barbell-row": ["arm"],
+  "lat-pulldown": ["arm"],
+};
+
+/**
+ * 운동이 자극하는 모든 부위(주 + 보조), BODY_PART_ORDER 순서로 정렬·중복 제거.
+ * 배지를 여러 개 달 때 사용.
+ */
+export function bodyPartsFor(id: string): BodyPart[] {
+  const set = new Set<BodyPart>([primaryBodyPart(id), ...(EXTRA_BODY_PARTS[id] ?? [])]);
+  return BODY_PART_ORDER.filter((p) => set.has(p));
 }
 
 /** 부위별로 그룹핑한 카탈로그 — /exercises 페이지에서 사용 */

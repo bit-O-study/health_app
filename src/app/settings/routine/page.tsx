@@ -3,8 +3,10 @@ import { ChevronLeft } from "lucide-react";
 
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { RecommendRoutineCard } from "@/features/routine/components/recommend-card";
+import { RoutinePresets } from "@/features/routine/components/routine-presets";
 import { saveRoutineAction } from "@/features/routine/actions";
 import { getUserRoutine } from "@/features/routine/data-access";
+import { getRoutinePresets } from "@/features/routine/presets";
 import { DEFAULT_SPLITS, DEFAULT_VARIANT_ID } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getLatestBodyComposition } from "@/features/body-composition/data-access";
@@ -15,12 +17,23 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function RoutineSettingsPage() {
-  const [routine, profile, bodyComp] = await Promise.all([
+export default async function RoutineSettingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ from?: string }>;
+}) {
+  const [routine, profile, bodyComp, presets, sp] = await Promise.all([
     getUserRoutine(),
     getUserProfile(),
     getLatestBodyComposition(),
+    getRoutinePresets(),
+    searchParams,
   ]);
+
+  // 진입 경로별 백링크 — 메인에서 왔으면 메인으로, 설정에서 왔으면 설정으로.
+  const fromHome = sp.from === "home";
+  const backHref = fromHome ? "/" : "/settings";
+  const backLabel = fromHome ? "오늘의 운동" : "설정";
 
   const recommendation = bodyComp
     ? recommendByBodyComp(bodyComp)
@@ -32,10 +45,10 @@ export default async function RoutineSettingsPage() {
     <main className="mx-auto w-full max-w-5xl px-6 py-10 sm:px-8">
       <Link
         className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/settings"
+        href={backHref}
       >
         <ChevronLeft aria-hidden="true" size={16} />
-        설정
+        {backLabel}
       </Link>
 
       <div className="mt-6 mb-6 space-y-1">
@@ -53,6 +66,10 @@ export default async function RoutineSettingsPage() {
           <RecommendRoutineCard recommendation={recommendation} />
         </div>
       ) : null}
+
+      <div className="mb-6">
+        <RoutinePresets presets={presets} />
+      </div>
 
       <RoutinePlanner
         initialSplits={routine?.splits ?? DEFAULT_SPLITS}

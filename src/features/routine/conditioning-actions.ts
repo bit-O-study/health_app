@@ -29,6 +29,40 @@ export type ConditioningInput = {
   incline: number | null;
 };
 
+/**
+ * 워밍업/마무리 1행의 메모만 저장 — 메인 화면 메모 버튼에서 사용.
+ * rowId 는 routine_conditioning 또는 daily_conditioning 의 id. 빈 문자열이면 제거.
+ */
+export async function updateConditioningMemoAction(
+  rowId: string,
+  memo: string | null,
+): Promise<SaveConditioningResult> {
+  if (!rowId) return { ok: false, error: "행을 찾을 수 없습니다." };
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const value =
+    typeof memo === "string" && memo.trim() !== ""
+      ? memo.trim().slice(0, 1000)
+      : null;
+
+  const [rc, dc] = await Promise.all([
+    supabase
+      .from("routine_conditioning")
+      .update({ memo: value })
+      .eq("user_id", user.id)
+      .eq("id", rowId),
+    supabase
+      .from("daily_conditioning")
+      .update({ memo: value })
+      .eq("user_id", user.id)
+      .eq("id", rowId),
+  ]);
+  if (rc.error && dc.error) return { ok: false, error: rc.error.message };
+  return { ok: true };
+}
+
 function isItemValidForKind(itemId: string, kind: ConditioningKind): boolean {
   const item = getConditioningItem(itemId);
   return !!item && item.kinds.includes(kind);
@@ -53,6 +87,20 @@ export async function saveConditioningAction(
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
+  // 기존 메모를 item_id 기준으로 보존 (통째 교체 시 메모 유실 방지)
+  const { data: prev } = await supabase
+    .from("routine_conditioning")
+    .select("item_id, memo")
+    .eq("user_id", user.id)
+    .eq("focus", focus)
+    .eq("kind", kind);
+  const memoByItem = new Map<string, string>();
+  for (const r of (prev ?? []) as { item_id: string; memo?: unknown }[]) {
+    if (typeof r.memo === "string" && r.memo.trim() !== "") {
+      memoByItem.set(r.item_id, r.memo);
+    }
+  }
+
   const del = await supabase
     .from("routine_conditioning")
     .delete()
@@ -71,6 +119,7 @@ export async function saveConditioningAction(
       duration_min: it.durationMin,
       speed: it.speed,
       incline: it.incline,
+      memo: memoByItem.get(it.itemId) ?? null,
     }));
     const ins = await supabase.from("routine_conditioning").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };

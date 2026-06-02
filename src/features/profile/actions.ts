@@ -52,11 +52,19 @@ export async function saveProfileAction(
     return { ok: false, error: "로그인이 필요합니다." };
   }
 
+  // 가입 시 user_metadata 에 담아둔 이름/전화번호를 프로필로 복사(있을 때만).
+  const meta = (user.user_metadata ?? {}) as { name?: unknown; phone?: unknown };
+  const metaName = typeof meta.name === "string" && meta.name.trim() !== "" ? meta.name.trim() : null;
+  const metaPhone =
+    typeof meta.phone === "string" && meta.phone.trim() !== "" ? meta.phone.trim() : null;
+
   const { error } = await supabase.from("profiles").upsert(
     {
       user_id: user.id,
       gender,
       experience,
+      ...(metaName ? { name: metaName } : {}),
+      ...(metaPhone ? { phone: metaPhone } : {}),
       ...(metrics
         ? {
             height_cm: metrics.heightCm,

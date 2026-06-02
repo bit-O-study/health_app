@@ -284,6 +284,9 @@ create table if not exists public.routine_exercises (
 -- 형식: [{"weightKg": 15, "reps": 12}, {"weightKg": 20, "reps": 10}, ...]
 alter table public.routine_exercises add column if not exists set_details jsonb;
 
+-- 운동별 메모 (자세 주의점 등). 운동별 고정 — 매일 같은 메모가 표시된다.
+alter table public.routine_exercises add column if not exists memo text;
+
 create index if not exists routine_exercises_user_focus_idx
   on public.routine_exercises (user_id, focus, position);
 
@@ -370,6 +373,9 @@ create table if not exists public.routine_conditioning (
 create index if not exists routine_conditioning_user_idx
   on public.routine_conditioning (user_id, focus, kind, position);
 
+-- 워밍업/마무리 개인 메모
+alter table public.routine_conditioning add column if not exists memo text;
+
 alter table public.routine_conditioning enable row level security;
 
 drop policy if exists "Users can read own conditioning" on public.routine_conditioning;
@@ -412,6 +418,9 @@ create table if not exists public.daily_plan (
 -- 세트별 무게·횟수 오버라이드 (routine_exercises.set_details 와 동일 형식)
 alter table public.daily_plan add column if not exists set_details jsonb;
 
+-- 운동별 메모 (오늘만 오버라이드 행에도 보존)
+alter table public.daily_plan add column if not exists memo text;
+
 create index if not exists daily_plan_user_date_idx
   on public.daily_plan (user_id, for_date, focus, position);
 
@@ -425,6 +434,15 @@ create policy "Users can read own daily plan"
 drop policy if exists "Users can insert own daily plan" on public.daily_plan;
 create policy "Users can insert own daily plan"
   on public.daily_plan for insert
+  with check (auth.uid() = user_id);
+
+-- ⚠ UPDATE 정책 필수 — updateExerciseAction(메모/세트/무게 수정)·reorderPlanAction(순서)
+-- 이 daily_plan(오늘만 변경 오버라이드) 행을 update 한다. 없으면 RLS 가 조용히 막아
+-- 오버라이드 행의 인라인 수정·정렬이 반영 안 됨.
+drop policy if exists "Users can update own daily plan" on public.daily_plan;
+create policy "Users can update own daily plan"
+  on public.daily_plan for update
+  using (auth.uid() = user_id)
   with check (auth.uid() = user_id);
 
 drop policy if exists "Users can delete own daily plan" on public.daily_plan;
@@ -451,6 +469,9 @@ create table if not exists public.daily_conditioning (
 
 create index if not exists daily_conditioning_user_date_idx
   on public.daily_conditioning (user_id, for_date, kind, position);
+
+-- 워밍업/마무리 개인 메모 (오늘만 오버라이드 행에도 보존)
+alter table public.daily_conditioning add column if not exists memo text;
 
 alter table public.daily_conditioning enable row level security;
 
@@ -619,6 +640,14 @@ create policy "Users can insert own exercise completions"
   on public.exercise_completions for insert
   with check (auth.uid() = user_id);
 
+-- upsert(onConflict) 가 conflict 시 UPDATE 경로를 타므로 update 정책 필수.
+-- 누락 시 이미 완료 행이 있는 운동의 재완료/상태변경이 RLS 에 막혀 "완료 안 됨" 증상.
+drop policy if exists "Users can update own exercise completions" on public.exercise_completions;
+create policy "Users can update own exercise completions"
+  on public.exercise_completions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
 drop policy if exists "Users can delete own exercise completions" on public.exercise_completions;
 create policy "Users can delete own exercise completions"
   on public.exercise_completions for delete
@@ -777,5 +806,125 @@ create policy "Creator updates gym"
 -- 사용자 프로필에 현재 헬스장 연결
 alter table public.profiles
   add column if not exists gym_id uuid references public.gyms(id) on delete set null;
+
+-- ─────────────────────────────────────────────────────────────
+-- 운동별 미디어 (영상/움짤 URL) — 전역 공용. 관리자(어드민 페이지)만 등록.
+-- 운동 시작(가이드)·상세에서 모든 사용자에게 표출. 운동별 1개.
+-- url 은 youtube/vimeo 링크 또는 직접 mp4/gif/이미지 URL.
+create table if not exists public.exercise_media (
+  exercise_id text primary key,
+  url text not null,
+  kind text not null default 'video' check (kind in ('video', 'gif', 'image')),
+  updated_by uuid references auth.users(id) on delete set null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.exercise_media enable row level security;
+
+-- 운동 미디어는 공용 정보 — 로그인 사용자 누구나 읽음
+drop policy if exists "anyone reads exercise media" on public.exercise_media;
+create policy "anyone reads exercise media" on public.exercise_media
+  for select using (true);
+
+-- 쓰기는 관리자 이메일만 (JWT email 클레임 기준). 새 관리자 추가 시 이 목록을 갱신.
+drop policy if exists "admin writes exercise media" on public.exercise_media;
+create policy "admin writes exercise media" on public.exercise_media
+  for all
+  using (lower(auth.jwt() ->> 'email') in ('jyg@elonsoft.co.kr', 'bong94688@gmail.com'))
+  with check (lower(auth.jwt() ->> 'email') in ('jyg@elonsoft.co.kr', 'bong94688@gmail.com'));
+
+-- ─────────────────────────────────────────────────────────────
+-- 루틴 프리셋 (이름 붙여 저장 → 루틴설정에서 불러오기).
+-- exercises: routine_exercises 스냅샷 배열.
+create table if not exists public.routine_presets (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null,
+  splits int not null,
+  variant_id text not null,
+  custom_week jsonb,
+  exercises jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists routine_presets_user_idx
+  on public.routine_presets (user_id, created_at desc);
+
+alter table public.routine_presets enable row level security;
+
+drop policy if exists "read own routine presets" on public.routine_presets;
+create policy "read own routine presets" on public.routine_presets
+  for select using (auth.uid() = user_id);
+drop policy if exists "insert own routine presets" on public.routine_presets;
+create policy "insert own routine presets" on public.routine_presets
+  for insert with check (auth.uid() = user_id);
+drop policy if exists "update own routine presets" on public.routine_presets;
+create policy "update own routine presets" on public.routine_presets
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "delete own routine presets" on public.routine_presets;
+create policy "delete own routine presets" on public.routine_presets
+  for delete using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────
+-- 관리자 — 이메일 기반. 회원 중에서 지정 가능(런타임 관리).
+-- 첫 관리자: simbonggyo@gmail.com (seed). 관리자는 일반 화면 접근 차단, /admin 만.
+create table if not exists public.admins (
+  email text primary key,
+  created_at timestamptz not null default now()
+);
+insert into public.admins (email) values ('simbonggyo@gmail.com')
+  on conflict (email) do nothing;
+
+-- SECURITY DEFINER — admins RLS 재귀를 피하면서 현재 사용자가 관리자인지 판정.
+create or replace function public.is_admin() returns boolean
+  language sql security definer stable set search_path = public as $$
+  select exists(
+    select 1 from public.admins where lower(email) = lower(auth.jwt() ->> 'email')
+  );
+$$;
+
+alter table public.admins enable row level security;
+drop policy if exists "read admins" on public.admins;
+create policy "read admins" on public.admins for select
+  using (public.is_admin() or lower(email) = lower(auth.jwt() ->> 'email'));
+drop policy if exists "admin inserts admins" on public.admins;
+create policy "admin inserts admins" on public.admins for insert
+  with check (public.is_admin());
+drop policy if exists "admin deletes admins" on public.admins;
+create policy "admin deletes admins" on public.admins for delete
+  using (public.is_admin());
+
+-- 관리자는 모든 회원 프로필 조회 가능 (회원정보 페이지)
+drop policy if exists "admin reads all profiles" on public.profiles;
+create policy "admin reads all profiles" on public.profiles for select
+  using (public.is_admin());
+
+-- exercise_media 쓰기 정책을 is_admin() 기반으로 (하드코딩 이메일 → DB 관리)
+drop policy if exists "admin writes exercise media" on public.exercise_media;
+create policy "admin writes exercise media" on public.exercise_media for all
+  using (public.is_admin()) with check (public.is_admin());
+
+-- 회원 이름/전화번호 (회원가입 시 수집). 회원정보(관리자) 화면에 표시.
+alter table public.profiles add column if not exists name text;
+alter table public.profiles add column if not exists phone text;
+
+-- 관리자 전용 회원 목록 — 이메일은 auth.users 소관이라 SECURITY DEFINER 로 join.
+-- 내부 is_admin() 게이트로 비관리자는 0행. authenticated 만 execute.
+create or replace function public.admin_members()
+returns table(
+  user_id uuid, email text, name text, phone text,
+  gender text, experience text, height_cm int,
+  weight_kg numeric, created_at timestamptz
+)
+language sql security definer stable set search_path = public, auth as $$
+  select p.user_id, u.email::text, p.name, p.phone, p.gender, p.experience,
+         p.height_cm, p.weight_kg, p.created_at
+  from public.profiles p
+  join auth.users u on u.id = p.user_id
+  where public.is_admin()
+  order by p.created_at desc
+$$;
+revoke all on function public.admin_members() from public, anon;
+grant execute on function public.admin_members() to authenticated;
 
 notify pgrst, 'reload schema';

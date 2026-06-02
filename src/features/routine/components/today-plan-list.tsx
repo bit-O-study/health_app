@@ -22,6 +22,7 @@ import {
 import { estimateStrengthKcal } from "@/features/routine/calories";
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
+import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import { DAY_BLOCKS, type FocusTone } from "@/features/routine/data";
@@ -85,6 +86,7 @@ export function TodayPlanList({
 }) {
   const edit = useTodayEdit();
   const editMode = edit.editMode;
+  const orderScope = useTodayOrder();
   const router = useRouter();
   const rest = useRestTimer();
   const [order, setOrder] = useState(items);
@@ -139,6 +141,9 @@ export function TodayPlanList({
   const w = weightKg ?? 65;
 
   function persistOrder(next: TodayPlanItem[]) {
+    // 가이드 큐(WorkoutSessionTimer)도 같은 순서로 시작하도록 공유 컨텍스트에 새 순서를 올린다.
+    // 서버를 다시 그리지 않으므로(perf) timer 의 stale 한 prop 순서를 이걸로 덮어쓴다.
+    orderScope?.setMainOrder(next.map((i) => i.id));
     // fire-and-forget — 로컬 order 가 이미 갱신됐고 서버 액션도 revalidate 를 생략하므로
     // router.refresh() 호출은 불필요. 드래그 직후 RSC 재요청 없어 체감 지연 제거.
     startTx(async () => {

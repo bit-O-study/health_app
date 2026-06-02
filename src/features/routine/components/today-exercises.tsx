@@ -38,6 +38,7 @@ import {
   TodayEditBar,
   TodayEditScope,
 } from "@/features/routine/components/today-edit-scope";
+import { TodayOrderScope } from "@/features/routine/components/today-order-scope";
 import { WorkoutSessionTimer } from "@/features/workout-timer/workout-session-timer";
 import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
@@ -289,6 +290,7 @@ export async function TodayExercises({
   return (
     <TodayEditScope>
       <RestTimerProvider>
+        <TodayOrderScope>
         <section className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
@@ -436,6 +438,7 @@ export async function TodayExercises({
           dateYmd={todayYmd}
         />
         </section>
+        </TodayOrderScope>
       </RestTimerProvider>
     </TodayEditScope>
   );

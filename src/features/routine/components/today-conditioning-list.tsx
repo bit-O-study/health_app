@@ -21,6 +21,7 @@ import {
 } from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
+import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
 import {
   conditioningOptions,
@@ -72,6 +73,7 @@ export function TodayConditioningList({
 }) {
   const edit = useTodayEdit();
   const editMode = edit.editMode;
+  const orderScope = useTodayOrder();
   const router = useRouter();
   const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
@@ -149,7 +151,9 @@ export function TodayConditioningList({
   }
 
   function persistOrder(next: TodayConditioningItem[]) {
-    // 로컬 order 가 이미 갱신됨 + 서버 액션 revalidate 생략 → router.refresh() 불필요
+    // 가이드 큐(WorkoutSessionTimer)의 워밍업/마무리도 같은 순서로 시작하도록 공유
+    // 컨텍스트에 새 순서를 올린다(즉시 반영). 로컬 order 도 이미 갱신돼 화면은 바로 바뀐다.
+    orderScope?.setOrder(kind, next.map((i) => i.rowId));
     startTx(async () => {
       await reorderConditioningAction({
         source,
@@ -158,6 +162,8 @@ export function TodayConditioningList({
         dateYmd,
         ids: next.map((i) => i.rowId),
       });
+      // 안전망: 서버 재렌더로 queueItems(서버 계산 순서)도 새 순서로 동기화.
+      router.refresh();
     });
   }
 

@@ -58,7 +58,7 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
             <>
               <Link
                 className="inline-flex h-9 items-center gap-1.5 rounded-md bg-emerald-600 px-3.5 text-sm font-semibold text-white transition hover:bg-emerald-500"
-                href="/settings/routine"
+                href="/settings/routine?from=home"
               >
                 <Sparkles aria-hidden="true" size={15} />
                 추천 루틴
@@ -178,7 +178,7 @@ function NoRoutinePrompt() {
       </div>
       <Link
         className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
-        href="/settings/routine"
+        href="/settings/routine?from=home"
       >
         <Sparkles aria-hidden="true" size={17} />
         추천 루틴에서 시작하기
@@ -281,7 +281,7 @@ async function TodayWorkout({
           </Link>
           <Link
             className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
-            href="/settings/routine"
+            href="/settings/routine?from=home"
           >
             루틴 변경
             <ArrowRight aria-hidden="true" size={15} />

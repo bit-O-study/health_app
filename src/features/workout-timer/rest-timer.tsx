@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -39,8 +40,7 @@ export function RestTimerProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<RestState | null>(null);
   // 하단 버튼 바가 떠 있으면 알약을 그 위로 — 탭 가림 방지
   const [lifted, setLiftedState] = useState(false);
-  // 0.25s 마다 렌더 — 잔여 시간 표시 부드럽게
-  const [, setTick] = useState(0);
+  // AudioContext 는 timer 들 사이에 재사용 — provider 수명 동안 1개만.
   const audioCtxRef = useRef<AudioContext | null>(null);
 
   const trigger = useCallback((seconds: number) => {
@@ -52,54 +52,31 @@ export function RestTimerProvider({ children }: { children: ReactNode }) {
 
   const setLifted = useCallback((v: boolean) => setLiftedState(v), []);
 
-  // tick
-  useEffect(() => {
-    if (!state) return;
-    const id = window.setInterval(() => setTick((t) => t + 1), 250);
-    return () => window.clearInterval(id);
-  }, [state]);
+  const skip = useCallback(() => setState(null), []);
+  const addSec = useCallback((extra: number) => {
+    setState((s) =>
+      s ? { endsAt: s.endsAt + extra * 1000, totalSec: s.totalSec + extra } : s,
+    );
+  }, []);
 
-  // 잔여 0 도달 여부 — 시계 기반 파생값. tick 마다 재계산되어 false→true 로 한 번 전환된다.
-  // eslint-disable-next-line react-hooks/purity
-  const ended = state !== null && state.endsAt - Date.now() <= 0;
-
-  // 종료 처리 — ended 가 true 로 전환될 때 한 번만 비프 + 진동 + 자동 닫기 예약.
-  // ⚠ deps 에 [ended] 를 둬야 함: deps 가 없으면 매 렌더(250ms tick)마다 effect 가
-  // 재실행되며 직전 렌더의 cleanup 이 close 타이머를 clearTimeout 해버려 영원히 안 닫힘.
-  useEffect(() => {
-    if (!ended) return;
-    playBeep(audioCtxRef);
-    tryVibrate([180, 80, 180]);
-    // 알약은 1.5초 더 보여주고 자동 닫기 (사용자가 끝났음을 인지)
-    const closeId = window.setTimeout(() => setState(null), 1500);
-    return () => window.clearTimeout(closeId);
-  }, [ended]);
-
-  function skip() {
-    setState(null);
-  }
-  function addSec(extra: number) {
-    if (!state) return;
-    setState({
-      endsAt: state.endsAt + extra * 1000,
-      totalSec: state.totalSec + extra,
-    });
-  }
-
-  // 잔여 시간은 매 tick 마다 Date.now() 로 재계산 — purity 룰은 무시 (시계 기반 UI 의도된 패턴).
-  // eslint-disable-next-line react-hooks/purity
-  const remainingMs = state ? Math.max(0, state.endsAt - Date.now()) : 0;
+  // ⚠ context value 는 반드시 useMemo — 인라인 객체면 매 렌더 새 ref 가 되어
+  // 이를 구독하는 자식(예: 가이드 오버레이)의 effect 가 불필요하게 재실행된다.
+  const value = useMemo(() => ({ trigger, setLifted }), [trigger, setLifted]);
 
   return (
-    <RestCtx.Provider value={{ trigger, setLifted }}>
+    <RestCtx.Provider value={value}>
       {children}
+      {/* 카운트다운 틱(250ms)은 RestOverlay 내부에 격리 — provider/children(워크아웃
+          섹션 전체)을 매 틱 리렌더하지 않도록. 알약만 자체 리렌더된다. */}
       {state ? (
         <RestOverlay
-          remainingMs={remainingMs}
-          totalSec={state.totalSec}
+          key={state.endsAt}
+          state={state}
           lifted={lifted}
           onSkip={skip}
           onAdd={addSec}
+          onClose={skip}
+          audioCtxRef={audioCtxRef}
         />
       ) : null}
     </RestCtx.Provider>
@@ -111,21 +88,45 @@ export function useRestTimer(): Ctx {
 }
 
 function RestOverlay({
-  remainingMs,
-  totalSec,
+  state,
   lifted,
   onSkip,
   onAdd,
+  onClose,
+  audioCtxRef,
 }: {
-  remainingMs: number;
-  totalSec: number;
+  state: RestState;
   /** 하단 버튼 바 위로 띄울지 — 가이드 오버레이가 떠 있을 때 true */
   lifted: boolean;
   onSkip: () => void;
   onAdd: (extra: number) => void;
+  onClose: () => void;
+  audioCtxRef: { current: AudioContext | null };
 }) {
+  const totalSec = state.totalSec;
+  // 250ms 틱 — 이 컴포넌트만 리렌더. provider/children(워크아웃 섹션)은 영향 없음.
+  const [, setTick] = useState(0);
+  useEffect(() => {
+    const id = window.setInterval(() => setTick((t) => t + 1), 250);
+    return () => window.clearInterval(id);
+  }, []);
+
+  // 잔여 시간은 매 tick 마다 Date.now() 로 재계산 — 시계 기반 UI 의도된 패턴.
+  // eslint-disable-next-line react-hooks/purity
+  const remainingMs = Math.max(0, state.endsAt - Date.now());
   const remainingSec = Math.ceil(remainingMs / 1000);
   const done = remainingMs <= 0;
+
+  // 종료 처리 — done 으로 전환될 때 한 번만 비프 + 진동 + 1.5s 후 자동 닫기.
+  // key={endsAt} 로 매 timer 마다 새 인스턴스라 ended 한 번만 안전하게 발화.
+  useEffect(() => {
+    if (!done) return;
+    playBeep(audioCtxRef);
+    tryVibrate([180, 80, 180]);
+    const closeId = window.setTimeout(onClose, 1500);
+    return () => window.clearTimeout(closeId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
   const progress = Math.min(
     1,
     1 - remainingMs / Math.max(1, totalSec * 1000),

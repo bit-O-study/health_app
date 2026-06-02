@@ -2,12 +2,14 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, ChevronRight, X } from "lucide-react";
+import { Check, ChevronRight, StickyNote, X } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import { ExerciseDemo } from "@/features/workout-timer/exercise-demo";
+import { MediaEmbed } from "@/features/exercises/components/media-embed";
+import type { MediaKind } from "@/features/exercises/exercise-media";
 import { ExerciseFlipbook } from "@/features/workout-timer/exercise-flipbook";
 import { conditioningMotionFor } from "@/features/workout-timer/exercise-motion";
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -26,6 +28,10 @@ export type GuidedItem =
       sets: number;
       reps: number;
       weightKg: number | null;
+      /** 개인 메모. null = 없음. */
+      memo: string | null;
+      /** 관리자 등록 시범 미디어. null = 없음(기본 일러스트 사용). */
+      media: { url: string; kind: MediaKind } | null;
     }
   | {
       kind: "warmup" | "cooldown";
@@ -37,7 +43,25 @@ export type GuidedItem =
       durationMin: number | null;
       speed: number | null;
       incline: number | null;
+      /** 개인 메모. null = 없음. */
+      memo: string | null;
     };
+
+/** 저장 실패 항목 — 배너 표시 + 재시도용. */
+type SaveFailure = {
+  key: string;
+  name: string;
+  status: "done" | "skipped";
+  captured: GuidedItem;
+  error: string;
+};
+
+/** 항목별 안정 키 — 같은 행의 실패는 하나로 합쳐 중복 배너 방지. */
+function failureKey(item: GuidedItem): string {
+  return item.kind === "main"
+    ? `main:${item.rowId}`
+    : `${item.kind}:${item.rowId}:${item.itemId}`;
+}
 
 /**
  * 가이드 운동 오버레이. `items` 큐를 처음부터 끝까지 진행하며 한 번에 한 운동을
@@ -61,6 +85,8 @@ export function GuidedOverlay({
   const [working, setWorking] = useState(false);
   const dirtyRef = useRef(false);
   const [closeAsk, setCloseAsk] = useState(false);
+  /** 저장 실패한 항목들 — 사용자에게 배너로 알리고 재시도 제공. */
+  const [failures, setFailures] = useState<SaveFailure[]>([]);
 
   /**
    * ⚠ 중요: items 를 시작 시점에 스냅샷으로 잡아둠. 서버 액션의 revalidatePath('/')
@@ -87,10 +113,56 @@ export function GuidedOverlay({
     setIndex((i) => i + 1);
   }
 
+  /** 해당 항목의 서버 액션 호출. 성공/실패 결과를 반환. */
+  function runAction(captured: GuidedItem, status: "done" | "skipped") {
+    if (captured.kind === "main") {
+      return setExerciseStatusAction(captured.rowId, status, {
+        exerciseId: captured.exerciseId,
+        equipment: captured.equipment,
+        sets: captured.sets,
+        reps: captured.reps,
+        weightKg: captured.weightKg,
+        focus: captured.focus,
+      });
+    }
+    return setConditioningStatusAction(captured.kind, captured.rowId, captured.itemId, status, {
+      durationMin: captured.durationMin,
+      speed: captured.speed,
+      incline: captured.incline,
+    });
+  }
+
+  /**
+   * 액션을 background 로 fire 하고 결과를 추적.
+   * 실패(서버가 ok:false 반환 또는 네트워크 예외) 시 failures 배너에 기록,
+   * 성공 시 같은 항목의 기존 실패 기록을 제거.
+   */
+  function fireAndTrack(captured: GuidedItem, status: "done" | "skipped") {
+    const key = failureKey(captured);
+    runAction(captured, status)
+      .then((res) => {
+        if (res && res.ok === false) {
+          setFailures((f) => [
+            ...f.filter((x) => x.key !== key),
+            { key, name: captured.name, status, captured, error: res.error },
+          ]);
+        } else {
+          setFailures((f) => f.filter((x) => x.key !== key));
+        }
+      })
+      .catch((e: unknown) => {
+        const error = e instanceof Error ? e.message : "알 수 없는 오류";
+        setFailures((f) => [
+          ...f.filter((x) => x.key !== key),
+          { key, name: captured.name, status, captured, error },
+        ]);
+      });
+  }
+
   /**
    * 완료·넘기기 — 낙관적 업데이트.
    * 서버 응답을 기다리지 않고 advance + 휴식 타이머 즉시 트리거.
-   * 액션은 background 로 fire — 실패 시 콘솔에 로그.
+   * 액션 실패 시 상단 배너로 알리고 재시도 가능(fireAndTrack).
    * 더블 탭은 workingRef 로 300ms 차단.
    */
   function dispatch(status: "done" | "skipped") {
@@ -101,23 +173,8 @@ export function GuidedOverlay({
     const captured = item; // advance 직전에 캡쳐
     const isMain = captured.kind === "main";
 
-    // 1) 서버 액션은 background — await 없음
-    if (isMain) {
-      setExerciseStatusAction(captured.rowId, status, {
-        exerciseId: captured.exerciseId,
-        equipment: captured.equipment,
-        sets: captured.sets,
-        reps: captured.reps,
-        weightKg: captured.weightKg,
-        focus: captured.focus,
-      }).catch((e) => console.error("[guided] action failed", e));
-    } else {
-      setConditioningStatusAction(captured.kind, captured.rowId, captured.itemId, status, {
-        durationMin: captured.durationMin,
-        speed: captured.speed,
-        incline: captured.incline,
-      }).catch((e) => console.error("[guided] action failed", e));
-    }
+    // 1) 서버 액션은 background — await 없음, 결과는 fireAndTrack 이 추적
+    fireAndTrack(captured, status);
 
     // 2) 완료 면 휴식 타이머 즉시
     if (status === "done" && isMain) {
@@ -133,6 +190,14 @@ export function GuidedOverlay({
       workingRef.current = false;
       setWorking(false);
     }, 300);
+  }
+
+  /** 배너에서 실패 항목 재시도. */
+  function retryFailure(f: SaveFailure) {
+    fireAndTrack(f.captured, f.status);
+  }
+  function dismissFailure(key: string) {
+    setFailures((list) => list.filter((x) => x.key !== key));
   }
 
   function complete() {
@@ -194,6 +259,38 @@ export function GuidedOverlay({
         </button>
       </div>
 
+      {/* 저장 실패 배너 — 액션이 실패하면(예: RLS/네트워크) 알리고 재시도 */}
+      {failures.length > 0 && (
+        <div
+          role="alert"
+          className="mx-4 mb-1 space-y-1.5 rounded-xl border border-red-300 bg-red-50 p-3 text-sm dark:border-red-500/40 dark:bg-red-500/10"
+        >
+          {failures.map((f) => (
+            <div key={f.key} className="flex items-center gap-2">
+              <span className="flex-1 text-red-800 dark:text-red-200">
+                <strong className="font-bold">{f.name}</strong> 저장 실패 —{" "}
+                {f.status === "done" ? "완료" : "넘기기"}가 기록되지 않았습니다.
+              </span>
+              <button
+                type="button"
+                onClick={() => retryFailure(f)}
+                className="shrink-0 rounded-lg bg-red-600 px-3 py-1 text-xs font-bold text-white transition hover:bg-red-500"
+              >
+                다시 시도
+              </button>
+              <button
+                type="button"
+                aria-label="닫기"
+                onClick={() => dismissFailure(f.key)}
+                className="shrink-0 rounded-lg p-1 text-red-700 transition hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-500/20"
+              >
+                <X aria-hidden="true" size={14} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* 본문 — 스크롤 가능 */}
       <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-4">
         <KindBadge kind={item.kind} />
@@ -212,6 +309,19 @@ export function GuidedOverlay({
             운동 방법 안내가 없습니다.
           </p>
         )}
+
+        {/* 개인 메모 — 메모가 있으면 표시 (본운동·워밍업·마무리 공통) */}
+        {item.memo ? (
+          <div className="mt-6 w-full max-w-md rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-500/40 dark:bg-amber-500/10">
+            <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">
+              <StickyNote aria-hidden="true" size={13} />
+              메모
+            </p>
+            <p className="whitespace-pre-wrap text-sm leading-6 text-amber-900 dark:text-amber-100">
+              {item.memo}
+            </p>
+          </div>
+        ) : null}
       </div>
 
       {/* 하단 버튼 */}
@@ -273,6 +383,14 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
  */
 function ItemVisual({ item }: { item: GuidedItem }) {
   if (item.kind === "main") {
+    // 관리자 등록 미디어가 있으면 그걸, 없으면 기본 일러스트.
+    if (item.media) {
+      return (
+        <div className="w-full max-w-md">
+          <MediaEmbed url={item.media.url} kind={item.media.kind} />
+        </div>
+      );
+    }
     return <ExerciseDemo exerciseId={item.exerciseId} name={item.name} />;
   }
   // 워밍업·마무리도 일러스트 — 컨디셔닝 모션 매핑 사용

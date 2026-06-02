@@ -22,6 +22,7 @@ import {
   estimateStrengthKcal,
 } from "@/features/routine/calories";
 import { getStatusMapToday } from "@/features/routine/exercise-completions";
+import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import { getConditioningStatusMapToday } from "@/features/routine/conditioning-completions";
 import {
@@ -116,11 +117,15 @@ export async function TodayExercises({
         reps: d.reps,
         weightKg: d.weightKg,
         setDetails: d.setDetails,
+        memo: d.memo,
       }));
     }
     return defaultPlansPerTone[idx];
   });
   const usingDailyPlan = tones.some((t) => dailyByFocus.has(t));
+
+  // 본운동 시범 미디어(관리자 등록) — 가이드 큐에서 표출
+  const mediaMap = await getExerciseMediaMap(plan.map((p) => p.exerciseId));
 
   const warmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
   const cooldownRows =
@@ -142,6 +147,7 @@ export async function TodayExercises({
     weightKg: item.weightKg,
     setDetails: item.setDetails,
     focus: item.focus,
+    memo: item.memo,
   }));
   const mainDoneIds = plan
     .filter((p) => mainStatus.get(p.id) === "done")
@@ -176,6 +182,7 @@ export async function TodayExercises({
         durationMin: eff.duration,
         speed: eff.speed,
         incline: eff.incline,
+        memo: r.memo,
       };
     });
     return { items, doneIds, skippedIds };
@@ -228,6 +235,7 @@ export async function TodayExercises({
       durationMin: wi.durationMin,
       speed: wi.speed,
       incline: wi.incline,
+      memo: wi.memo,
     });
   }
   for (const p of plan) {
@@ -252,6 +260,13 @@ export async function TodayExercises({
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,
+      memo: p.memo,
+      media: mediaMap.get(p.exerciseId)
+        ? {
+            url: mediaMap.get(p.exerciseId)!.url,
+            kind: mediaMap.get(p.exerciseId)!.kind,
+          }
+        : null,
     });
   }
   for (const ci2 of cool.items) {
@@ -267,6 +282,7 @@ export async function TodayExercises({
       durationMin: ci2.durationMin,
       speed: ci2.speed,
       incline: ci2.incline,
+      memo: ci2.memo,
     });
   }
 

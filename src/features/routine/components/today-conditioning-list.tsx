@@ -9,12 +9,14 @@ import {
   Loader2,
   Pencil,
   Plus,
+  StickyNote,
   X,
 } from "lucide-react";
 
 import {
   addConditioningToTodayAction,
   reorderConditioningAction,
+  updateConditioningMemoAction,
   updateConditioningRowAction,
 } from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
@@ -38,6 +40,8 @@ export type TodayConditioningItem = {
   durationMin: number | null;
   speed: number | null;
   incline: number | null;
+  /** 개인 메모. null = 없음. */
+  memo: string | null;
 };
 
 const SWIPE_THRESHOLD = 80;
@@ -74,6 +78,10 @@ export function TodayConditioningList({
   const [skipped, setSkipped] = useState<Set<string>>(new Set(skippedIds));
   // 인라인 수정 중인 row id (편집 모드 + 연필 버튼 클릭 시)
   const [editingId, setEditingId] = useState<string | null>(null);
+  // 메모 다이얼로그 대상 (메인 메모 버튼 클릭 시)
+  const [memoTarget, setMemoTarget] = useState<TodayConditioningItem | null>(
+    null,
+  );
   const [swipe, setSwipe] = useState<{ id: string; dx: number } | null>(null);
   const startRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
   const dxRef = useRef(0);
@@ -135,7 +143,8 @@ export function TodayConditioningList({
               incline: item.incline,
             },
       );
-      // router.refresh() 생략 — done/skipped 로컬 state 가 행 표시를 즉시 갱신.
+      // 행 표시는 로컬 state 로 즉시 갱신. router.refresh() 로 상단 칼로리 카드도 동기화.
+      router.refresh();
     });
   }
 
@@ -321,6 +330,7 @@ export function TodayConditioningList({
       : "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400";
 
   return (
+    <>
     <ul className="space-y-2">
       {order.map((item, index) => {
         const isDone = done.has(item.rowId);
@@ -360,7 +370,9 @@ export function TodayConditioningList({
             className="relative overflow-hidden rounded-xl"
             style={liftStyle}
           >
-            {isDragging || inlineEditing ? null : (
+            {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더 — 완료/휴식
+                행의 반투명 배경 뒤로 "완료"/"취소" 가 비쳐 보이는 것 방지. */}
+            {swipe?.id !== item.rowId || isDragging || inlineEditing ? null : (
               <>
                 <div
                   className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
@@ -411,9 +423,9 @@ export function TodayConditioningList({
                   : inlineEditing
                     ? "border-emerald-400 ring-1 ring-emerald-200"
                     : isDone
-                      ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40"
+                      ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950"
                       : isSkipped
-                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-800/60"
+                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-900"
                         : "border-zinc-200 dark:border-zinc-700"
               }`}
             >
@@ -450,11 +462,13 @@ export function TodayConditioningList({
                 />
               ) : null}
 
-              <span
-                className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconBg}`}
-              >
-                <ConditioningIcon id={item.itemId} size={22} />
-              </span>
+              {inlineEditing ? null : (
+                <span
+                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconBg}`}
+                >
+                  <ConditioningIcon id={item.itemId} size={22} />
+                </span>
+              )}
               {inlineEditing ? (
                 <ConditioningEditForm
                   item={item}
@@ -491,6 +505,16 @@ export function TodayConditioningList({
                         · 약 {item.kcal}kcal
                       </span>
                     </p>
+                    {item.memo ? (
+                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                        <StickyNote
+                          aria-hidden="true"
+                          size={12}
+                          className="mt-0.5 shrink-0 text-amber-500"
+                        />
+                        <span className="whitespace-pre-wrap">{item.memo}</span>
+                      </p>
+                    ) : null}
                   </div>
                   {editMode ? (
                     <button
@@ -509,11 +533,32 @@ export function TodayConditioningList({
                       <Pencil aria-hidden="true" size={16} />
                     </button>
                   ) : (
-                    <ChevronRight
-                      aria-hidden="true"
-                      className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
-                      size={18}
-                    />
+                    <>
+                      <button
+                        type="button"
+                        aria-label={item.memo ? "메모 수정" : "메모 추가"}
+                        title={item.memo ? "메모 수정" : "메모 추가"}
+                        onPointerDown={(e) => e.stopPropagation()}
+                        onPointerMove={(e) => e.stopPropagation()}
+                        onPointerUp={(e) => e.stopPropagation()}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setMemoTarget(item);
+                        }}
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition ${
+                          item.memo
+                            ? "text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30"
+                            : "text-zinc-400 dark:text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                        }`}
+                      >
+                        <StickyNote aria-hidden="true" size={16} />
+                      </button>
+                      <ChevronRight
+                        aria-hidden="true"
+                        className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
+                        size={18}
+                      />
+                    </>
                   )}
                 </div>
               )}
@@ -531,6 +576,106 @@ export function TodayConditioningList({
         </li>
       ) : null}
     </ul>
+    {memoTarget ? (
+      <CondMemoDialog
+        item={memoTarget}
+        onClose={() => setMemoTarget(null)}
+        onSaved={(memo) => {
+          setOrder((prev) =>
+            prev.map((p) =>
+              p.rowId === memoTarget.rowId ? { ...p, memo } : p,
+            ),
+          );
+          setMemoTarget(null);
+        }}
+      />
+    ) : null}
+    </>
+  );
+}
+
+/** 워밍업/마무리 메모 편집 다이얼로그 (메인 메모 버튼). */
+function CondMemoDialog({
+  item,
+  onClose,
+  onSaved,
+}: {
+  item: TodayConditioningItem;
+  onClose: () => void;
+  onSaved: (memo: string | null) => void;
+}) {
+  const [memo, setMemo] = useState<string>(item.memo ?? "");
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  function save() {
+    const value = memo.trim() === "" ? null : memo.trim();
+    start(async () => {
+      const res = await updateConditioningMemoAction(item.rowId, value);
+      if (res.ok) onSaved(value);
+      else setError(res.error);
+    });
+  }
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-md rounded-2xl bg-white dark:bg-zinc-800 p-5 shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mb-3 flex items-center gap-2">
+          <StickyNote aria-hidden="true" className="text-amber-500" size={18} />
+          <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+            {item.name} 메모
+          </h3>
+        </div>
+        <textarea
+          aria-label="메모"
+          value={memo}
+          maxLength={1000}
+          rows={4}
+          autoFocus
+          placeholder="예: 발목 가볍게 풀고, 호흡 일정하게"
+          onChange={(e) => {
+            setMemo(e.target.value);
+            setError(null);
+          }}
+          disabled={pending}
+          className="w-full resize-y rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
+        />
+        {error ? (
+          <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+            {error}
+          </p>
+        ) : null}
+        <div className="mt-3 flex justify-end gap-2">
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={pending}
+            className="inline-flex h-10 items-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
+          >
+            취소
+          </button>
+          <button
+            type="button"
+            onClick={save}
+            disabled={pending}
+            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          >
+            {pending ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+            ) : (
+              <Check aria-hidden="true" size={15} />
+            )}
+            저장
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

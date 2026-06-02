@@ -844,8 +844,11 @@ create table if not exists public.routine_presets (
   variant_id text not null,
   custom_week jsonb,
   exercises jsonb not null default '[]'::jsonb,
+  conditioning jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
 );
+-- 기존 DB 호환: 컬럼 없으면 추가
+alter table public.routine_presets add column if not exists conditioning jsonb not null default '[]'::jsonb;
 
 create index if not exists routine_presets_user_idx
   on public.routine_presets (user_id, created_at desc);

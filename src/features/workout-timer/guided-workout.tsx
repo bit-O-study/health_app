@@ -2,11 +2,17 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, ChevronRight, StickyNote, X } from "lucide-react";
+import { Check, ChevronRight, StickyNote, Timer, X } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
+import {
+  REST_PRESETS,
+  formatRest,
+  isLastSet,
+  setProgressLabel,
+} from "@/features/workout-timer/rest-logic";
 import { ExerciseDemo } from "@/features/workout-timer/exercise-demo";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
@@ -101,6 +107,25 @@ export function GuidedOverlay({
   const total = sessionItems.length;
   const isLast = index >= total - 1;
 
+  // 현재 본운동에서 완료한 세트 수(0-base). 항목이 바뀌면 0으로 리셋.
+  const [setsDone, setSetsDone] = useState(0);
+  useEffect(() => {
+    // 의도된 리셋 — 운동(인덱스)이 바뀌면 세트 카운트 초기화.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSetsDone(0);
+  }, [index]);
+
+  // 본운동이고 세트가 2개 이상이면 세트별 휴식 안내 노출.
+  const mainSets =
+    item && item.kind === "main" && item.sets > 1 ? item.sets : 0;
+  const onLastSet = mainSets > 0 ? isLastSet(setsDone, mainSets) : true;
+
+  /** 세트 완료 — 운동을 넘기지 않고 휴식만 시작 + 세트 카운트 증가. */
+  function completeSet() {
+    rest.trigger();
+    setSetsDone((d) => Math.min(d + 1, Math.max(0, mainSets - 1)));
+  }
+
   function advance() {
     if (isLast) {
       onClose();
@@ -176,9 +201,9 @@ export function GuidedOverlay({
     // 1) 서버 액션은 background — await 없음, 결과는 fireAndTrack 이 추적
     fireAndTrack(captured, status);
 
-    // 2) 완료 면 휴식 타이머 즉시
+    // 2) 완료 면 휴식 타이머 즉시(사용자 설정 휴식 시간)
     if (status === "done" && isMain) {
-      rest.trigger(captured.weightKg !== null && captured.weightKg > 0 ? 90 : 60);
+      rest.trigger();
     }
 
     // 3) UI 즉시 advance
@@ -325,25 +350,70 @@ export function GuidedOverlay({
       </div>
 
       {/* 하단 버튼 */}
-      <div className="grid grid-cols-2 gap-2 border-t border-zinc-200 bg-white/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
-        <button
-          type="button"
-          onClick={skip}
-          disabled={pending || working}
-          className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white text-base font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-        >
-          <ChevronRight aria-hidden="true" size={20} />
-          넘기기
-        </button>
-        <button
-          type="button"
-          onClick={complete}
-          disabled={pending || working}
-          className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-base font-bold text-white shadow-lg transition hover:bg-emerald-500 disabled:opacity-50"
-        >
-          <Check aria-hidden="true" size={20} />
-          {isLast ? "완료하고 종료" : "완료"}
-        </button>
+      <div className="space-y-2.5 border-t border-zinc-200 bg-white/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
+        {/* 휴식 시간 설정 — 운동 시작 화면에서 바로 조절 */}
+        <div className="flex items-center gap-2 overflow-x-auto">
+          <span className="flex shrink-0 items-center gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <Timer aria-hidden="true" size={13} />
+            휴식
+          </span>
+          {REST_PRESETS.map((sec) => {
+            const active = rest.defaultSec === sec;
+            return (
+              <button
+                key={sec}
+                type="button"
+                onClick={() => rest.setDefaultSec(sec)}
+                className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold transition ${
+                  active
+                    ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
+                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                }`}
+              >
+                {formatRest(sec)}
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 본운동 세트 진행 + 세트 완료(휴식) — 세트가 여러 개일 때만 */}
+        {mainSets > 0 ? (
+          <div className="flex items-center gap-2">
+            <span className="shrink-0 rounded-lg bg-emerald-50 px-2.5 py-2 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+              {setProgressLabel(setsDone, mainSets)}
+            </span>
+            <button
+              type="button"
+              onClick={completeSet}
+              disabled={pending || working || onLastSet}
+              className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
+            >
+              <Timer aria-hidden="true" size={16} />
+              {onLastSet ? "마지막 세트" : `세트 완료 · 휴식 ${formatRest(rest.defaultSec)}`}
+            </button>
+          </div>
+        ) : null}
+
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={skip}
+            disabled={pending || working}
+            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white text-base font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+          >
+            <ChevronRight aria-hidden="true" size={20} />
+            넘기기
+          </button>
+          <button
+            type="button"
+            onClick={complete}
+            disabled={pending || working}
+            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-base font-bold text-white shadow-lg transition hover:bg-emerald-500 disabled:opacity-50"
+          >
+            <Check aria-hidden="true" size={20} />
+            {isLast ? "완료하고 종료" : mainSets > 0 ? "운동 완료" : "완료"}
+          </button>
+        </div>
       </div>
       <ConfirmDialog
         open={closeAsk}

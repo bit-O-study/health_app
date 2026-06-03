@@ -10,6 +10,7 @@ export type CompletionStatus = "done" | "skipped";
 export type ExerciseCompletionRow = {
   forDate: string;
   exerciseRowId: string;
+  exerciseId: string | null;
   status: CompletionStatus;
   focus: string | null;
   sets: number | null;
@@ -20,6 +21,7 @@ export type ExerciseCompletionRow = {
 type Row = {
   for_date: string;
   exercise_row_id: string;
+  exercise_id: string | null;
   status: string;
   focus: string | null;
   sets: number | null;
@@ -76,7 +78,7 @@ export async function getRecentExerciseCompletions(
   // daily_plan 으로 등록된 운동의 완료 행은 routine_exercises 에 매칭되지 않아 점수 누락이 발생했음.
   const { data, error } = await supabase
     .from("exercise_completions")
-    .select("for_date, exercise_row_id, status, focus, sets, reps, weight_kg")
+    .select("for_date, exercise_row_id, exercise_id, status, focus, sets, reps, weight_kg")
     .eq("user_id", user.id)
     .gte("for_date", fromStr)
     .order("for_date", { ascending: false });
@@ -85,6 +87,7 @@ export async function getRecentExerciseCompletions(
   return (data as Row[]).map((r) => ({
     forDate: r.for_date,
     exerciseRowId: r.exercise_row_id,
+    exerciseId: r.exercise_id ?? null,
     status: toStatus(r.status),
     focus: r.focus ?? null,
     sets: r.sets ?? null,

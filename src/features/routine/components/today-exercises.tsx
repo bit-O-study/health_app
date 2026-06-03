@@ -22,6 +22,7 @@ import {
   estimateStrengthKcal,
 } from "@/features/routine/calories";
 import { getStatusMapToday } from "@/features/routine/exercise-completions";
+import { orderMainPlan } from "@/features/routine/plan-order";
 import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import { getConditioningStatusMapToday } from "@/features/routine/conditioning-completions";
@@ -105,7 +106,8 @@ export async function TodayExercises({
     arr.push(row);
     dailyByFocus.set(row.focus, arr);
   }
-  const plan = tones.flatMap((t, idx) => {
+  // 부위별 plan 을 tones 순서로 이어 붙임(부위 그룹 순서).
+  const groupedPlan = tones.flatMap((t, idx) => {
     const overrides = dailyByFocus.get(t);
     if (overrides && overrides.length > 0) {
       return overrides.map((d) => ({
@@ -123,6 +125,9 @@ export async function TodayExercises({
     }
     return defaultPlansPerTone[idx];
   });
+  // 부위 경계를 넘어 드래그하면 전역 position 으로 재정렬돼 있으므로 그 순서를 따른다.
+  // (기본 상태는 그룹 순서 유지 — orderMainPlan 참고)
+  const plan = orderMainPlan(groupedPlan);
   const usingDailyPlan = tones.some((t) => dailyByFocus.has(t));
 
   // 본운동 시범 미디어(관리자 등록) — 가이드 큐에서 표출

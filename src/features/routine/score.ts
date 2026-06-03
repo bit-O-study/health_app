@@ -130,6 +130,63 @@ export const FOCUS_TO_REGIONS: Record<
   upper: ["chest", "back", "shoulder", "arm"],
 };
 
+export type Region = "chest" | "back" | "shoulder" | "arm" | "leg" | "core";
+
+export const REGION_LIST: Region[] = [
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "leg",
+  "core",
+];
+
+export type RegionTrainingRecord = {
+  forDate: string;
+  /** 운동 부위(focus). FOCUS_TO_REGIONS 로 region 에 매핑. null 이면 제외. */
+  focus?: string | null;
+  sets?: number | null;
+  reps?: number | null;
+  /** 중량(kg). null/없으면 맨몸 → userWeightKg 가중. */
+  weightKg?: number | null;
+};
+
+/**
+ * 완료된 운동 기록을 부위(region)별 운동량 점수로 누적한다.
+ * 점수 페이지 "부위별 밸런스" 가 운동을 실제로 반영하도록 하는 핵심 로직.
+ * 점수 산식은 총점(computeScore)과 동일: 운동량/200 × 반감기(14일).
+ */
+export function regionPointsFromTraining(
+  done: RegionTrainingRecord[],
+  userWeightKg: number,
+  todayYmd: string = seoulYmd(),
+): Record<Region, number> {
+  const today = ymdToEpochDay(todayYmd);
+  const out = Object.fromEntries(REGION_LIST.map((r) => [r, 0])) as Record<
+    Region,
+    number
+  >;
+  for (const c of done) {
+    if (!c.focus) continue;
+    const regs = FOCUS_TO_REGIONS[c.focus];
+    if (!regs) continue;
+    const sets = c.sets ?? 1;
+    const reps = c.reps ?? 10;
+    const w = c.weightKg ?? userWeightKg;
+    const volume = sets * reps * Math.max(0, w);
+    const age = Math.max(0, today - ymdToEpochDay(c.forDate));
+    const pts =
+      (volume / VOLUME_PER_POINT) * Math.pow(0.5, age / HALF_LIFE_DAYS);
+    for (const r of regs) out[r] += pts;
+  }
+  return out;
+}
+
+/** 부위별 점수 합이 0보다 크면 운동 기록이 반영돼 있다는 뜻. */
+export function hasRegionTraining(points: Record<Region, number>): boolean {
+  return REGION_LIST.some((r) => points[r] > 0);
+}
+
 /**
  * 부위별 누적 점수 → 부위 간 상대비율로 밸런스 상태 산출.
  * - 가장 강한 부위 대비 70%↑ : balanced

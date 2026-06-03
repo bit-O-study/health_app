@@ -11,7 +11,8 @@ import {
   BALANCE_COLOR,
   BALANCE_LABEL,
   computeScore,
-  FOCUS_TO_REGIONS,
+  hasRegionTraining,
+  regionPointsFromTraining,
   type BalanceStatus,
 } from "@/features/routine/score";
 import { seoulYmd } from "@/features/routine/data";
@@ -31,11 +32,6 @@ const REGIONS: BodyRegion[] = [
   "leg",
   "core",
 ];
-
-function ymdToEpochDay(ymd: string): number {
-  const [y, m, d] = ymd.split("-").map(Number);
-  return Math.floor(Date.UTC(y, m - 1, d) / 86_400_000);
-}
 
 export default async function ScorePage() {
   // 독립 쿼리 병렬화 — profile 만 redirect 판단에 필요하고 나머지는 의존성 없음.
@@ -58,11 +54,24 @@ export default async function ScorePage() {
     userWeight,
   );
 
-  // 부위별 누적 — 체성분 등록돼 있으면 그걸 우선 사용, 없으면 운동량 기반
-  const todayEpoch = ymdToEpochDay(seoulYmd());
+  // 부위별 누적 — 운동 기록이 있으면 운동량 기반을 우선(완료한 운동이 반영되도록),
+  // 운동 기록이 없을 때만 체성분 분석값으로 fallback.
+  const trainingRegion = regionPointsFromTraining(
+    done.map((c) => ({
+      forDate: c.forDate,
+      focus: c.focus,
+      sets: c.sets,
+      reps: c.reps,
+      weightKg: c.weightKg,
+    })),
+    userWeight,
+  );
   let regionPoints: Record<BodyRegion, number>;
   let balanceSource: "body" | "training";
-  if (bodyComp) {
+  if (hasRegionTraining(trainingRegion)) {
+    regionPoints = trainingRegion;
+    balanceSource = "training";
+  } else if (bodyComp) {
     regionPoints = regionScoresFromBodyComp(bodyComp);
     balanceSource = "body";
   } else {
@@ -70,18 +79,6 @@ export default async function ScorePage() {
       BodyRegion,
       number
     >;
-    for (const c of done) {
-      if (!c.focus) continue;
-      const regs = FOCUS_TO_REGIONS[c.focus];
-      if (!regs) continue;
-      const sets = c.sets ?? 1;
-      const reps = c.reps ?? 10;
-      const w = c.weightKg ?? userWeight;
-      const volume = sets * reps * Math.max(0, w);
-      const age = Math.max(0, todayEpoch - ymdToEpochDay(c.forDate));
-      const pts = (volume / 200) * Math.pow(0.5, age / 14);
-      for (const r of regs) regionPoints[r] += pts;
-    }
     balanceSource = "training";
   }
   const maxRegion = Math.max(...REGIONS.map((r) => regionPoints[r]));

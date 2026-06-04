@@ -183,8 +183,13 @@ export function RoutinePlanner({
           )
         : await saveAction(splits, variant.id, null, fillMode);
       if (result.ok) {
-        // 추천 채우기 = 운동까지 완비 → 메인으로. 직접 등록 = /plan 으로 이동해 직접 채우기.
-        const target = fillMode === "recommend" ? "/" : redirectOnSuccess;
+        // 추천 = 운동까지 완비 → 메인. 근육별 = 3D 마네킹 페이지. 직접 = /plan.
+        const target =
+          fillMode === "recommend"
+            ? "/"
+            : fillMode === "byMuscle"
+              ? "/plan/muscle"
+              : redirectOnSuccess;
         if (target) {
           router.push(target);
           router.refresh();
@@ -425,10 +430,11 @@ export function RoutinePlanner({
         <div className="mt-6 flex flex-col gap-4 border-t border-zinc-200 dark:border-zinc-700 pt-5">
           <fieldset>
             <legend className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
-              운동 채우기 방식
+              운동 선택 방식
             </legend>
-            <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            <div className="mt-2 grid gap-2 sm:grid-cols-3">
               <label
+                data-testid="fillmode-recommend"
                 className={cn(
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "recommend"
@@ -446,7 +452,7 @@ export function RoutinePlanner({
                 />
                 <span className="min-w-0">
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
-                    추천으로 채우기
+                    추천으로 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
                     체형·성별·경력에 맞춘 본운동과 워밍업/마무리까지 한 번에
@@ -455,6 +461,7 @@ export function RoutinePlanner({
                 </span>
               </label>
               <label
+                data-testid="fillmode-manual"
                 className={cn(
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "manual"
@@ -472,11 +479,38 @@ export function RoutinePlanner({
                 />
                 <span className="min-w-0">
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
-                    직접 등록할게요
+                    직접 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
                     아무것도 자동으로 채우지 않습니다. 운동 등록 화면에서 직접
                     골라 넣습니다.
+                  </span>
+                </span>
+              </label>
+              <label
+                data-testid="fillmode-byMuscle"
+                className={cn(
+                  "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
+                  fillMode === "byMuscle"
+                    ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
+                    : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700",
+                )}
+              >
+                <input
+                  type="radio"
+                  name="fillMode"
+                  value="byMuscle"
+                  checked={fillMode === "byMuscle"}
+                  onChange={() => setFillMode("byMuscle")}
+                  className="mt-0.5 accent-emerald-600"
+                />
+                <span className="min-w-0">
+                  <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
+                    근육별로 운동선택
+                  </span>
+                  <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                    3D 마네킹을 돌려 근육 부위를 누르고 그 부위 운동을 직접
+                    골라 담습니다.
                   </span>
                 </span>
               </label>
@@ -500,7 +534,9 @@ export function RoutinePlanner({
                 <p className="text-zinc-500 dark:text-zinc-400">
                   {fillMode === "recommend"
                     ? "저장 후 메인 화면에서 오늘 운동을 확인하세요."
-                    : "저장 후 운동 등록 화면에서 부위별로 직접 채워 넣으세요."}
+                    : fillMode === "byMuscle"
+                      ? "저장 후 3D 마네킹에서 근육별로 운동을 골라 담으세요."
+                      : "저장 후 운동 등록 화면에서 부위별로 직접 채워 넣으세요."}
                 </p>
               )}
             </div>

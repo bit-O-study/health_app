@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { ArrowRight, Building2, Check, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -29,7 +28,6 @@ type Step = "gender" | "experience" | "body" | "gym" | "recommend";
 const STEP_ORDER: Step[] = ["gender", "experience", "body", "gym", "recommend"];
 
 export function OnboardingFlow() {
-  const router = useRouter();
   const [step, setStep] = useState<Step>("gender");
   const [gender, setGender] = useState<Gender | null>(null);
   const [experience, setExperience] = useState<ExperienceLevel | null>(null);
@@ -63,7 +61,11 @@ export function OnboardingFlow() {
     weightNum <= 250 &&
     bodyType !== null;
 
-  /** 프로필 저장 → 루틴 저장 → 메인 이동. RoutinePlanner 에 넘긴다. */
+  /**
+   * 프로필 저장 → 루틴 저장. 이동은 RoutinePlanner 가 fillMode 에 맞춰 처리한다
+   * (recommend/manual → "/", byMuscle → "/plan/muscle"). 여기서 직접 router 를
+   * 호출하면 RoutinePlanner 이동과 경합하므로 저장만 하고 결과만 돌려준다.
+   */
   async function handleSaveRoutine(
     splits: number,
     variantId: string,
@@ -96,16 +98,9 @@ export function OnboardingFlow() {
       });
     }
 
-    const routineResult = await saveRoutineAction(
-      splits,
-      variantId,
-      customWeek,
-    );
-    if (routineResult.ok) {
-      router.replace("/");
-      router.refresh();
-    }
-    return routineResult;
+    // 온보딩의 자동 채우기 정책은 기존 그대로 유지(여기서 fillMode 를 saveRoutineAction
+    // 에 넘기지 않음 → 기본 manual 저장). 이동은 RoutinePlanner 가 담당.
+    return saveRoutineAction(splits, variantId, customWeek);
   }
 
   const recommendation =
@@ -467,6 +462,7 @@ export function OnboardingFlow() {
               initialSplits={recommendation.splits}
               initialVariantId={recommendation.variantId}
               saveAction={handleSaveRoutine}
+              redirectOnSuccess="/"
             />
 
             <div className="flex flex-wrap gap-2">

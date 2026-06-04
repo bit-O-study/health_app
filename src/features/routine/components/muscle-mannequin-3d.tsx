@@ -26,7 +26,6 @@ import {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -453,9 +452,13 @@ function AnatomyModel({
   const { scene } = useGLTF(url);
   const groupRef = useRef<Group>(null);
   const [hovered, setHovered] = useState<string | null>(null);
+  // 메쉬별 머티리얼(교체본) + sub 매핑 — ref 에 보관해 effect 안에서만 변형(렌더 중 변형 금지).
+  const meshInfoRef = useRef<{ sub: string | null; mat: MeshStandardMaterial }[]>(
+    [],
+  );
 
-  // 메쉬별 머티리얼을 우리가 제어할 수 있게 교체 + sub 매핑 기록
-  const meshInfo = useMemo(() => {
+  // 모델 로드 시: 우리 제어용 머티리얼로 교체 + 화면 중앙·적정 크기로 자동 정렬
+  useEffect(() => {
     const arr: { sub: string | null; mat: MeshStandardMaterial }[] = [];
     scene.traverse((obj) => {
       const m = obj as Mesh;
@@ -471,28 +474,28 @@ function AnatomyModel({
         arr.push({ sub: subIdFromMeshName(m.name), mat });
       }
     });
-    return arr;
-  }, [scene]);
+    meshInfoRef.current = arr;
 
-  // 모델을 화면 중앙·적정 크기로 자동 정렬 (발이 바닥 근처에 오도록)
-  useEffect(() => {
     const g = groupRef.current;
-    if (!g) return;
-    g.scale.set(1, 1, 1);
-    g.position.set(0, 0, 0);
-    const box = new Box3().setFromObject(scene);
-    const size = new Vector3();
-    const center = new Vector3();
-    box.getSize(size);
-    box.getCenter(center);
-    const s = 2.7 / (size.y || 1);
-    g.scale.setScalar(s);
-    g.position.set(-center.x * s, -box.min.y * s - 1.05, -center.z * s);
+    if (g) {
+      g.scale.set(1, 1, 1);
+      g.position.set(0, 0, 0);
+      const box = new Box3().setFromObject(scene);
+      const size = new Vector3();
+      const center = new Vector3();
+      box.getSize(size);
+      box.getCenter(center);
+      const s = 2.7 / (size.y || 1);
+      g.scale.setScalar(s);
+      g.position.set(-center.x * s, -box.min.y * s - 1.05, -center.z * s);
+    }
   }, [scene]);
 
-  // 선택/호버 상태에 따라 머티리얼 색·글로우 갱신
+  // 선택/호버 상태에 따라 머티리얼 색·글로우 갱신.
+  // three.js 머티리얼을 명령형으로 갱신하는 정당한 패턴이라 immutability 규칙만 비활성화.
+  /* eslint-disable react-hooks/immutability */
   useEffect(() => {
-    for (const { sub, mat } of meshInfo) {
+    for (const { sub, mat } of meshInfoRef.current) {
       const active = !!sub && activeSubs.has(sub);
       const hover = !!sub && hovered === sub;
       const col = sub ? subMuscleColor(sub) : SKIN;
@@ -501,7 +504,8 @@ function AnatomyModel({
       mat.emissiveIntensity = active ? 0.7 : hover ? 0.35 : 0;
       mat.needsUpdate = true;
     }
-  }, [meshInfo, activeSubs, hovered]);
+  }, [scene, activeSubs, hovered]);
+  /* eslint-enable react-hooks/immutability */
 
   return (
     <group
@@ -577,7 +581,8 @@ export function MuscleMannequin3D({
       <Canvas
         camera={{ position: [0, 0.25, 3.6], fov: 42 }}
         dpr={[1, 2]}
-        gl={{ antialias: true }}
+        gl={{ antialias: true, powerPreference: "high-performance" }}
+        frameloop="demand"
       >
         {/* 부드러운 스튜디오 조명 */}
         <ambientLight intensity={0.65} />
@@ -716,7 +721,8 @@ export function MuscleBalanceMannequin3D({
       <Canvas
         camera={{ position: [0, 0.25, 3.6], fov: 42 }}
         dpr={[1, 2]}
-        gl={{ antialias: true }}
+        gl={{ antialias: true, powerPreference: "high-performance" }}
+        frameloop="demand"
       >
         <ambientLight intensity={0.7} />
         <hemisphereLight args={["#ffffff", "#b08968", 0.5]} />

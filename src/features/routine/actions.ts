@@ -27,8 +27,13 @@ import { registerRecommendedConditioningAction } from "@/features/routine/condit
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
-/** 루틴 저장 시 본운동/워밍업/마무리 자동 채우기 방식 */
-export type RoutineFillMode = "recommend" | "manual";
+/**
+ * 루틴 저장 시 본운동/워밍업/마무리 자동 채우기 방식.
+ * -"recommend": 추천 운동으로 일괄 채움
+ * -"manual": 자동으로 안 채움 → /plan 에서 부위별 직접 등록
+ * -"byMuscle": 자동으로 안 채움 → /plan/muscle 3D 마네킹에서 근육별 선택
+ */
+export type RoutineFillMode = "recommend" | "manual" | "byMuscle";
 
 /**
  * 현재 사용자의 루틴을 저장(없으면 생성, 있으면 갱신)합니다.

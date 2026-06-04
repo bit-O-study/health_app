@@ -15,6 +15,9 @@ import {
 import { getExerciseMedia } from "@/features/exercises/exercise-media";
 import { getMemoForExercise } from "@/features/routine/plan";
 import {
+  BODY_PART_LABEL,
+  BODY_PART_TONE,
+  bodyPartsFor,
   getCatalogExercise,
   isEquipmentId,
 } from "@/features/routine/exercise-catalog";
@@ -101,6 +104,16 @@ export default async function ExerciseDetailPage({
                 <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
                   {exercise.target}
                 </p>
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {bodyPartsFor(exercise.id).map((p) => (
+                    <span
+                      key={p}
+                      className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${BODY_PART_TONE[p]}`}
+                    >
+                      {BODY_PART_LABEL[p]}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </header>
@@ -170,7 +183,17 @@ export default async function ExerciseDetailPage({
                 자극 부위
               </h2>
             </div>
-            <p className="mt-4 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {bodyPartsFor(exercise.id).map((p) => (
+                <span
+                  key={p}
+                  className={`rounded-full px-2 py-0.5 text-xs font-bold ${BODY_PART_TONE[p]}`}
+                >
+                  {BODY_PART_LABEL[p]}
+                </span>
+              ))}
+            </div>
+            <p className="mt-3 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
               {exercise.target}
             </p>
           </section>

@@ -12,15 +12,25 @@ import {
   BALANCE_LABEL,
   computeScore,
   hasRegionTraining,
+  hasSubMuscleTraining,
   regionPointsFromTraining,
+  subMusclePointsFromTraining,
   type BalanceStatus,
 } from "@/features/routine/score";
+import {
+  ALL_SUB_MUSCLES,
+  SUB_MUSCLES,
+} from "@/features/routine/muscle-detail";
+import {
+  MUSCLE_ORDER,
+  muscleGroup,
+} from "@/features/routine/muscle-map";
 import { seoulYmd } from "@/features/routine/data";
 import {
-  Mannequin,
   REGION_LABEL,
   type BodyRegion,
 } from "@/features/routine/components/mannequin";
+import { MuscleBalance3D } from "@/features/routine/components/muscle-balance-3d";
 
 export const dynamic = "force-dynamic";
 
@@ -88,6 +98,32 @@ export default async function ScorePage() {
   const regionColors = Object.fromEntries(
     REGIONS.map((r) => [r, BALANCE_COLOR[regionStatus[r]]]),
   ) as Record<BodyRegion, string>;
+
+  // 세부근육 단위 밸런스 — 완료한 운동(exercise_id)을 세부근육에 균등 배분.
+  // 운동 기록이 있을 때만 의미 있음(체성분 기반일 땐 세부 분포가 없음).
+  const subPoints = subMusclePointsFromTraining(
+    done.map((c) => ({
+      forDate: c.forDate,
+      exerciseId: c.exerciseId,
+      sets: c.sets,
+      reps: c.reps,
+      weightKg: c.weightKg,
+    })),
+    userWeight,
+  );
+  const hasSub = hasSubMuscleTraining(subPoints);
+  const maxSub = Math.max(0, ...ALL_SUB_MUSCLES.map((s) => subPoints[s.id] ?? 0));
+  const subStatus = Object.fromEntries(
+    ALL_SUB_MUSCLES.map((s) => [
+      s.id,
+      balanceStatusFor(subPoints[s.id] ?? 0, maxSub),
+    ]),
+  ) as Record<string, BalanceStatus>;
+  const subColors: Record<string, string> | undefined = hasSub
+    ? (Object.fromEntries(
+        ALL_SUB_MUSCLES.map((s) => [s.id, BALANCE_COLOR[subStatus[s.id]]]),
+      ) as Record<string, string>)
+    : undefined;
 
   // 21일 미니 캘린더 — 그 날 한 개라도 완료
   const todayYmd = seoulYmd();
@@ -292,7 +328,13 @@ export default async function ScorePage() {
 
         <div className="flex flex-col gap-6 md:flex-row">
           <div className="flex flex-col items-center gap-3">
-            <Mannequin colors={regionColors} />
+            <div className="w-full sm:w-72">
+              <MuscleBalance3D
+                gender={profile.gender}
+                colors={regionColors}
+                subColors={subColors}
+              />
+            </div>
             <div className="flex items-center gap-3 text-[11px] text-zinc-600 dark:text-zinc-400">
               <Legend color={BALANCE_COLOR.balanced} label="균형" />
               <Legend color={BALANCE_COLOR.low} label="부족" />
@@ -341,6 +383,50 @@ export default async function ScorePage() {
           밸런스 요약 — 균형 {balancedCount} · 부족 {lowCount} · 심하게 부족{" "}
           {underCount}
         </p>
+
+        {/* 세부근육 분포 — 같은 부위라도 어느 갈래가 강/약한지 (운동 기록 기반) */}
+        {hasSub ? (
+          <div className="mt-6 border-t border-zinc-200 dark:border-zinc-700 pt-5">
+            <p className="mb-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              세부근육 분포
+            </p>
+            <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+              완료한 운동을 세부근육별로 나눠 본 균형 — 같은 부위라도 이두
+              장두/단두처럼 갈래별로 강·약이 다를 수 있어요. (마네킹 위
+              “세부근육” 토글과 같은 색)
+            </p>
+            <div className="space-y-3">
+              {MUSCLE_ORDER.map((m) => (
+                <div key={m}>
+                  <p className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+                    <span
+                      aria-hidden
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: muscleGroup(m).color }}
+                    />
+                    {muscleGroup(m).label}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {SUB_MUSCLES[m].map((s) => (
+                      <span
+                        key={s.id}
+                        className="inline-flex items-center gap-1 rounded-full border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 text-[11px] font-medium text-zinc-700 dark:text-zinc-300"
+                        title={`${Math.round(subPoints[s.id] ?? 0)}점`}
+                      >
+                        <span
+                          aria-hidden
+                          className="h-2 w-2 rounded-full"
+                          style={{ backgroundColor: BALANCE_COLOR[subStatus[s.id]] }}
+                        />
+                        {s.label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : null}
       </section>
     </main>
   );

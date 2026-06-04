@@ -52,6 +52,61 @@ test("운동 완료 → 점수와 캘린더에 반영된다", async ({ page }) =
   await expect(page.getByText("월", { exact: true }).first()).toBeVisible();
 });
 
+// 부위별 밸런스 3D 마네킹이 점수 화면에 에러 없이 렌더된다 (WebGL 실패 시 2D 폴백).
+test("부위별 밸런스 3D 마네킹이 점수 화면에 렌더된다", async ({ page }) => {
+  const errors: string[] = [];
+  page.on("console", (m) => {
+    if (m.type() === "error") errors.push(m.text());
+  });
+  page.on("pageerror", (e) => errors.push(String(e)));
+
+  await signUpAndOnboard(page);
+  await page.goto("/settings/score", { waitUntil: "networkidle" });
+
+  const balance = page.locator("section", { hasText: "부위별 밸런스" });
+  await expect(balance).toBeVisible();
+
+  // 3D 캔버스 또는 (WebGL 미지원 시) 2D 마네킹 폴백 중 하나는 반드시 보인다.
+  const canvas3d = page.getByTestId("balance-mannequin-canvas");
+  const svg2d = page.getByRole("img", { name: "부위별 발달도 마네킹" });
+  await expect(canvas3d.or(svg2d)).toBeVisible();
+
+  await expect(page.locator("body")).not.toContainText("Unhandled Runtime Error");
+  const fatal = errors.filter(
+    (e) => e.includes("limb") || e.includes("Could not load"),
+  );
+  expect(fatal, fatal.join("\n")).toHaveLength(0);
+});
+
+// 세부근육 단위 밸런스 — 완료한 운동이 세부근육별로 갈려 토글/분포로 나타난다.
+// (완료 기록을 DB에 직접 시드 → 가이드의 비동기 완료 타이밍에 의존하지 않음)
+test("세부근육 단위 밸런스: 토글 + 분포가 운동 기록으로 나타난다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+
+  // incline-curl → 이두 장두, bench-press → 중부·하부 대흉근
+  await dbQuery(
+    `insert into public.exercise_completions
+       (user_id, for_date, exercise_row_id, exercise_id, status, focus, sets, reps, weight_kg)
+     values
+       ((select id from auth.users where lower(email)=lower($1)), current_date, gen_random_uuid(), 'incline-curl', 'done', 'arm', 4, 10, 20),
+       ((select id from auth.users where lower(email)=lower($1)), current_date, gen_random_uuid(), 'bench-press', 'done', 'chest', 5, 5, 100)`,
+    [email],
+  );
+
+  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  const balance = page.locator("section", { hasText: "부위별 밸런스" });
+
+  // 세부근육 토글이 보이고, 누르면 세부근육 분포가 나타난다
+  await expect(balance.getByTestId("balance-mode-detail")).toBeVisible();
+  await balance.getByTestId("balance-mode-detail").click();
+  await expect(page.getByText("세부근육 분포")).toBeVisible();
+  // 이두 장두 같은 세부근육 라벨이 분포에 노출
+  await expect(page.getByText("이두 장두").first()).toBeVisible();
+});
+
 // 회귀: 체성분이 등록돼 있어도, 운동을 완료하면 부위별 점수가 운동 기반으로 반영돼야 한다.
 // (예전엔 체성분이 있으면 부위별을 체성분 기반으로만 계산해 운동이 무시됐음.)
 test("체성분이 있어도 운동 완료가 부위별 점수에 반영된다", async ({ page }) => {

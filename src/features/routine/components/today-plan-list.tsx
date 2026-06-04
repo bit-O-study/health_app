@@ -40,8 +40,9 @@ import {
   summarizeSetDetails,
   type SetDetail,
 } from "@/features/routine/set-details";
+import { dropIndex } from "@/features/routine/plan-order";
 
-/** 한 행 평균 높이 (px) — 위·아래 이동 시 슬롯 계산용 */
+/** 행 높이를 못 잰 경우의 폴백 평균 높이 (px) */
 const ROW_HEIGHT_PX = 80;
 
 export type TodayPlanItem = {
@@ -103,17 +104,42 @@ export function TodayPlanList({
   } | null>(null);
   const dragStartYRef = useRef(0);
   const dragIndex = drag?.index ?? null;
-  // 현재 dy 기준 새 위치 (다른 행이 비켜줄 자리 계산용)
+  // 각 행 DOM(높이 측정용) + 드래그 시작 시 캡처한 중심 y / 잡은 행 높이(state — 렌더에서 읽음)
+  const rowRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const [centers, setCenters] = useState<number[]>([]);
+  const [dragShift, setDragShift] = useState(ROW_HEIGHT_PX);
+
+  /** 드래그 시작 시 각 행의 중심 y(화면좌표)와 잡은 행 높이를 캡처 — 가변 높이 정확 계산. */
+  function captureCenters(source: number) {
+    const next: number[] = [];
+    let shift = ROW_HEIGHT_PX;
+    for (let i = 0; i < order.length; i++) {
+      const el = rowRefs.current[i];
+      if (el) {
+        const r = el.getBoundingClientRect();
+        next[i] = r.top + r.height / 2;
+        if (i === source) shift = r.height || ROW_HEIGHT_PX;
+      } else {
+        next[i] = i * ROW_HEIGHT_PX; // 폴백
+      }
+    }
+    setCenters(next);
+    setDragShift(shift);
+  }
+
+  // 현재 dy 기준 새 위치 (가변 행 높이를 고려한 기하 계산; 캡처 실패 시 폴백)
   const newIndex =
-    drag !== null
-      ? Math.max(
-          0,
-          Math.min(
-            order.length - 1,
-            drag.index + Math.round(drag.dy / ROW_HEIGHT_PX),
-          ),
-        )
-      : null;
+    drag === null
+      ? null
+      : centers.length === order.length
+        ? dropIndex(centers, drag.index, drag.dy)
+        : Math.max(
+            0,
+            Math.min(
+              order.length - 1,
+              drag.index + Math.round(drag.dy / ROW_HEIGHT_PX),
+            ),
+          );
 
   // 인라인 수정 중인 row id (편집 모드 + 연필 버튼 클릭 시) — 한 번에 1개만
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -204,6 +230,7 @@ export function TodayPlanList({
     e.stopPropagation();
     if (e.pointerType === "mouse" && e.button !== 0) return;
     dragStartYRef.current = e.clientY;
+    captureCenters(index);
     setDrag({ index, dy: 0, pointerId: e.pointerId });
     e.currentTarget.setPointerCapture(e.pointerId);
     // 햅틱 (지원 기기만 — 무시되더라도 안전)
@@ -266,6 +293,8 @@ export function TodayPlanList({
       setSwipe(null);
       dxRef.current = 0;
       lockedRef.current = "none";
+      dragStartYRef.current = startRef.current.y;
+      captureCenters(index);
       setDrag({ index, dy: 0, pointerId });
       if (typeof navigator !== "undefined" && "vibrate" in navigator) {
         try {
@@ -397,10 +426,9 @@ export function TodayPlanList({
         // 다른 행이 자리를 비켜줄 거리 (드래그 행이 위 아래로 이동했을 때)
         let liftOtherY = 0;
         if (drag !== null && newIndex !== null && !isDragging) {
-          if (drag.index < index && index <= newIndex)
-            liftOtherY = -ROW_HEIGHT_PX;
+          if (drag.index < index && index <= newIndex) liftOtherY = -dragShift;
           else if (drag.index > index && index >= newIndex)
-            liftOtherY = ROW_HEIGHT_PX;
+            liftOtherY = dragShift;
         }
         const liftStyle = isDragging
           ? {
@@ -421,6 +449,9 @@ export function TodayPlanList({
         return (
           <li
             key={item.id}
+            ref={(el) => {
+              rowRefs.current[index] = el;
+            }}
             className="relative overflow-hidden rounded-xl"
             style={liftStyle}
           >

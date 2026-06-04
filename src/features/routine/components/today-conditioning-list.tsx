@@ -31,6 +31,7 @@ import {
   type ConditioningKind,
 } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
+import { dropIndex } from "@/features/routine/plan-order";
 
 export type TodayConditioningItem = {
   rowId: string;
@@ -105,16 +106,40 @@ export function TodayConditioningList({
   } | null>(null);
   const dragStartYRef = useRef(0);
   const dragIndex = drag?.index ?? null;
+  const rowRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const [centers, setCenters] = useState<number[]>([]);
+  const [dragShift, setDragShift] = useState(ROW_HEIGHT_PX);
+
+  /** 드래그 시작 시 각 행 중심 y와 잡은 행 높이 캡처 — 가변 높이 정확 계산. */
+  function captureCenters(source: number) {
+    const next: number[] = [];
+    let shift = ROW_HEIGHT_PX;
+    for (let i = 0; i < order.length; i++) {
+      const el = rowRefs.current[i];
+      if (el) {
+        const r = el.getBoundingClientRect();
+        next[i] = r.top + r.height / 2;
+        if (i === source) shift = r.height || ROW_HEIGHT_PX;
+      } else {
+        next[i] = i * ROW_HEIGHT_PX;
+      }
+    }
+    setCenters(next);
+    setDragShift(shift);
+  }
+
   const newIndex =
-    drag !== null
-      ? Math.max(
-          0,
-          Math.min(
-            order.length - 1,
-            drag.index + Math.round(drag.dy / ROW_HEIGHT_PX),
-          ),
-        )
-      : null;
+    drag === null
+      ? null
+      : centers.length === order.length
+        ? dropIndex(centers, drag.index, drag.dy)
+        : Math.max(
+            0,
+            Math.min(
+              order.length - 1,
+              drag.index + Math.round(drag.dy / ROW_HEIGHT_PX),
+            ),
+          );
   const [, startTx] = useTransition();
 
   function setStatus(
@@ -171,6 +196,7 @@ export function TodayConditioningList({
     e.stopPropagation();
     if (e.pointerType === "mouse" && e.button !== 0) return;
     dragStartYRef.current = e.clientY;
+    captureCenters(index);
     setDrag({ index, dy: 0, pointerId: e.pointerId });
     e.currentTarget.setPointerCapture(e.pointerId);
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
@@ -224,6 +250,8 @@ export function TodayConditioningList({
       setSwipe(null);
       dxRef.current = 0;
       lockedRef.current = "none";
+      dragStartYRef.current = startRef.current.y;
+      captureCenters(index);
       setDrag({ index, dy: 0, pointerId });
       if (typeof navigator !== "undefined" && "vibrate" in navigator) {
         try {
@@ -349,10 +377,9 @@ export function TodayConditioningList({
         const isDragging = dragIndex === index;
         let liftOtherY = 0;
         if (drag !== null && newIndex !== null && !isDragging) {
-          if (drag.index < index && index <= newIndex)
-            liftOtherY = -ROW_HEIGHT_PX;
+          if (drag.index < index && index <= newIndex) liftOtherY = -dragShift;
           else if (drag.index > index && index >= newIndex)
-            liftOtherY = ROW_HEIGHT_PX;
+            liftOtherY = dragShift;
         }
         const liftStyle = isDragging
           ? {
@@ -373,6 +400,9 @@ export function TodayConditioningList({
         return (
           <li
             key={item.rowId}
+            ref={(el) => {
+              rowRefs.current[index] = el;
+            }}
             className="relative overflow-hidden rounded-xl"
             style={liftStyle}
           >

@@ -219,6 +219,96 @@ export async function saveManualPlanAction(
   return { ok: true };
 }
 
+/** 근육별 운동선택(3D 마네킹) 한 줄 — 어느 부위(focus)에 어떤 운동을 담을지. */
+export type MuscleSelectionItem = { focus: string; exerciseId: string };
+
+/**
+ * 근육별 운동선택 저장 — 3D 마네킹에서 부위를 눌러 고른 운동들을 등록한다.
+ *
+ * - 선택이 들어온 부위(focus)만 통째로 교체한다. 선택이 없는 부위는 건드리지 않음.
+ * - 세트·횟수·무게는 프로필 기반 prescribe 추천값, 기구는 내 헬스장 우선으로 자동 지정.
+ * - 같은 운동의 기존 메모는 부위 단위로 보존한다(saveManualPlanAction 과 동일 규칙).
+ */
+export async function saveMuscleSelectionAction(
+  selections: MuscleSelectionItem[],
+): Promise<SavePlanResult> {
+  if (!Array.isArray(selections) || selections.length === 0) {
+    return { ok: false, error: "선택한 운동이 없습니다." };
+  }
+
+  // 부위(focus)별로 운동 id 묶기 (입력 순서 유지, 중복 제거)
+  const byFocus = new Map<string, string[]>();
+  for (const sel of selections) {
+    if (!ALL_FOCUSES.includes(sel.focus as (typeof ALL_FOCUSES)[number])) {
+      return { ok: false, error: "부위가 올바르지 않습니다." };
+    }
+    if (!getCatalogExercise(sel.exerciseId)) {
+      return { ok: false, error: "운동 값이 올바르지 않습니다." };
+    }
+    const list = byFocus.get(sel.focus) ?? [];
+    if (!list.includes(sel.exerciseId)) list.push(sel.exerciseId);
+    byFocus.set(sel.focus, list);
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const [profile, gym] = await Promise.all([getUserProfile(), getCurrentGym()]);
+  if (!profile) return { ok: false, error: "프로필이 필요합니다." };
+  const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
+  const opts = {
+    gender: profile.gender,
+    experience: profile.experience,
+    bodyType: profile.bodyType ?? ("average" as const),
+    weightKg: profile.weightKg ?? 65,
+  };
+
+  for (const [focus, exerciseIds] of byFocus) {
+    // 기존 메모 보존 (운동 id 기준)
+    const { data: prev } = await supabase
+      .from("routine_exercises")
+      .select("exercise_id, memo")
+      .eq("user_id", user.id)
+      .eq("focus", focus);
+    const memoByExercise = new Map<string, string>();
+    for (const r of (prev ?? []) as { exercise_id: string; memo?: unknown }[]) {
+      if (typeof r.memo === "string" && r.memo.trim() !== "") {
+        memoByExercise.set(r.exercise_id, r.memo);
+      }
+    }
+
+    const del = await supabase
+      .from("routine_exercises")
+      .delete()
+      .eq("user_id", user.id)
+      .eq("focus", focus);
+    if (del.error) return { ok: false, error: del.error.message };
+
+    const rows = exerciseIds.map((exerciseId, index) => {
+      const ex = getCatalogExercise(exerciseId)!;
+      const p = prescribe(exerciseId, opts);
+      return {
+        user_id: user.id,
+        focus,
+        position: index,
+        exercise_id: exerciseId,
+        equipment: pickEquipment(ex, gymSet),
+        sets: p.sets,
+        reps: p.reps,
+        weight_kg: p.weightKg,
+        memo: memoByExercise.get(exerciseId) ?? null,
+      };
+    });
+    const ins = await supabase.from("routine_exercises").insert(rows);
+    if (ins.error) return { ok: false, error: ins.error.message };
+  }
+
+  revalidatePath("/");
+  revalidatePath("/plan");
+  return { ok: true };
+}
+
 /**
  * 본운동 1행의 세트·횟수·무게를 즉시 수정한다. rowId 는 routine_exercises
  * 또는 daily_plan 의 id 일 수 있어 두 테이블 모두에 update 시도한다.

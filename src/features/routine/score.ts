@@ -5,6 +5,7 @@
  */
 
 import { seoulYmd } from "@/features/routine/data";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
 
 const HALF_LIFE_DAYS = 14;
 const VOLUME_PER_POINT = 200; // 200 kg·reps = 1점 (조절 가능)
@@ -185,6 +186,50 @@ export function regionPointsFromTraining(
 /** 부위별 점수 합이 0보다 크면 운동 기록이 반영돼 있다는 뜻. */
 export function hasRegionTraining(points: Record<Region, number>): boolean {
   return REGION_LIST.some((r) => points[r] > 0);
+}
+
+export type SubMuscleTrainingRecord = {
+  forDate: string;
+  /** 카탈로그 운동 id — 세부근육 매핑(subMusclesForExercise)에 사용. 없으면 제외. */
+  exerciseId?: string | null;
+  sets?: number | null;
+  reps?: number | null;
+  weightKg?: number | null;
+};
+
+/**
+ * 완료 기록을 **세부근육(이두 장두/단두, 삼두 3갈래 등)** 단위 점수로 누적한다.
+ * 각 운동의 운동량 점수를 그 운동이 특화하는 세부근육들에 **균등 배분**한다.
+ * (예: 인클라인 컬 → 이두 장두에 100%, 벤치프레스 → 중부·하부 대흉근에 50%씩)
+ * 산식은 부위 점수와 동일: 운동량/200 × 반감기(14일).
+ */
+export function subMusclePointsFromTraining(
+  done: SubMuscleTrainingRecord[],
+  userWeightKg: number,
+  todayYmd: string = seoulYmd(),
+): Record<string, number> {
+  const today = ymdToEpochDay(todayYmd);
+  const out: Record<string, number> = {};
+  for (const c of done) {
+    if (!c.exerciseId) continue;
+    const subs = subMusclesForExercise(c.exerciseId);
+    if (subs.length === 0) continue;
+    const sets = c.sets ?? 1;
+    const reps = c.reps ?? 10;
+    const w = c.weightKg ?? userWeightKg;
+    const volume = sets * reps * Math.max(0, w);
+    const age = Math.max(0, today - ymdToEpochDay(c.forDate));
+    const pts =
+      (volume / VOLUME_PER_POINT) * Math.pow(0.5, age / HALF_LIFE_DAYS);
+    const share = pts / subs.length; // 균등 배분
+    for (const s of subs) out[s.id] = (out[s.id] ?? 0) + share;
+  }
+  return out;
+}
+
+/** 세부근육 점수 합이 0보다 크면 운동 기록이 반영돼 있다. */
+export function hasSubMuscleTraining(points: Record<string, number>): boolean {
+  return Object.values(points).some((v) => v > 0);
 }
 
 /**

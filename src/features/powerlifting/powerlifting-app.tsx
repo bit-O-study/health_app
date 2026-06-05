@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   CalendarCheck,
   CheckCircle2,
@@ -7,6 +8,7 @@ import {
   Dumbbell,
   History,
   Home,
+  LogIn,
   Settings,
   SlidersHorizontal,
   type LucideIcon,
@@ -246,7 +248,7 @@ function formatTrainingMaxFormula(oneRepMax: number | null, trainingMax: number)
   return "TM = 빈봉 시작 기준";
 }
 
-export function PowerliftingApp() {
+export function PowerliftingApp({ isLoggedIn }: { isLoggedIn: boolean }) {
   const [activeTab, setActiveTab] = useState<Tab>("home");
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
   const [records, setRecords] = useState<WorkoutRecord[]>([]);
@@ -337,8 +339,19 @@ export function PowerliftingApp() {
             <p className="text-xs font-semibold text-emerald-300">{todayLabel()}</p>
             <h1 className="mt-1 text-2xl font-bold tracking-tight">오늘의 리프팅</h1>
           </div>
-          <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-500 text-zinc-950">
-            <Dumbbell aria-hidden="true" size={22} />
+          <div className="flex items-center gap-2">
+            {!isLoggedIn ? (
+              <Link
+                href="/login?redirect=/powerlifting"
+                className="inline-flex h-10 items-center gap-1.5 rounded-md border border-zinc-700 px-3 text-sm font-black text-zinc-200 transition hover:border-emerald-400 hover:text-emerald-300"
+              >
+                <LogIn aria-hidden="true" size={16} />
+                로그인
+              </Link>
+            ) : null}
+            <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-500 text-zinc-950">
+              <Dumbbell aria-hidden="true" size={22} />
+            </div>
           </div>
         </header>
 
@@ -789,6 +802,13 @@ function SettingsPanel({
         <CalendarCheck aria-hidden="true" className="mt-0.5 shrink-0" size={18} />
         설정과 최근 기록은 이 브라우저에 저장되어 새로고침 후에도 유지됩니다.
       </section>
+
+      <Link
+        href="/?choose=1"
+        className="flex h-12 items-center justify-center rounded-lg border border-zinc-700 text-sm font-black text-zinc-200 transition hover:border-emerald-400 hover:text-emerald-300"
+      >
+        운동 모드 변경
+      </Link>
     </div>
   );
 }

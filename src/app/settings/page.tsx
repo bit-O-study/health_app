@@ -230,6 +230,28 @@ export default async function SettingsPage() {
           />
         </Link>
 
+        <Link
+          href="/?choose=1"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+            <Dumbbell aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              운동 모드 변경
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              웨이트 트레이닝 또는 스트렝스 훈련 다시 선택
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
         <ThemePicker />
 
         <form action={signOut}>

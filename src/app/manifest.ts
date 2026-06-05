@@ -25,19 +25,19 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#4f46e5",
     icons: [
       {
-        src: "/icon-192.png",
+        src: "/icon-192.png?v=helssu-20260605",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icon-512.png",
+        src: "/icon-512.png?v=helssu-20260605",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icon-512-maskable.png",
+        src: "/icon-512-maskable.png?v=helssu-20260605",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

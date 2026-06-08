@@ -7,7 +7,7 @@ import {
   getCatalogExercise,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
-import { getPlanForFocus } from "@/features/routine/plan";
+import { getPlanForDay, getPlanForFocus } from "@/features/routine/plan";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
@@ -74,10 +74,13 @@ function formatDetail(
 
 export async function TodayExercises({
   tones,
+  dayIndex,
   weightKg,
 }: {
   /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
   tones: FocusKey[];
+  /** 오늘의 주기 일차(0~6). 본운동을 이 일차에서 읽고, 오늘 운동 추가도 여기로. */
+  dayIndex: number;
   weightKg: number | null;
 }) {
   const todayYmd = seoulYmd();
@@ -90,7 +93,14 @@ export async function TodayExercises({
     mainStatus,
     condStatus,
   ] = await Promise.all([
-    Promise.all(tones.map((t) => getPlanForFocus(t))),
+    // 일차별 독립 — 오늘 일차의 부위 운동을 읽는다. 그 일차에 없으면(오버라이드
+    // 데이 등) 부위 전체(union)로 폴백해 빈 화면을 막는다.
+    Promise.all(
+      tones.map(async (t) => {
+        const byDay = await getPlanForDay(dayIndex, t);
+        return byDay.length > 0 ? byDay : getPlanForFocus(t);
+      }),
+    ),
     getDailyPlanForDate(todayYmd),
     getConditioningForFocus(primaryTone),
     getDailyConditioning(todayYmd),
@@ -423,6 +433,7 @@ export async function TodayExercises({
               key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}`}
               focus={primaryTone}
               tones={tones}
+              dayIndex={dayIndex}
               items={items}
               weightKg={weightKg}
               doneIds={mainDoneIds}

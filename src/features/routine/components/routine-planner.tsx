@@ -59,6 +59,8 @@ const MUSCLE_ATOMS: DayBlockId[] = [
   "back",
   "shoulder",
   "arm",
+  "biceps",
+  "triceps",
   "lower",
   "core",
   "push",

@@ -287,8 +287,20 @@ alter table public.routine_exercises add column if not exists set_details jsonb;
 -- 운동별 메모 (자세 주의점 등). 운동별 고정 — 매일 같은 메모가 표시된다.
 alter table public.routine_exercises add column if not exists memo text;
 
+-- 주기 N일차(0~6). 같은 focus 가 여러 일차에 나와도(PPL×2 등) 일차별로 독립
+-- 보관해 한 일차 편집이 다른 날에 새지 않게 한다. NULL = 미마이그레이션(앱이 백필).
+alter table public.routine_exercises add column if not exists day_index int;
+alter table public.routine_exercises
+  drop constraint if exists routine_exercises_day_index_check;
+alter table public.routine_exercises
+  add constraint routine_exercises_day_index_check
+  check (day_index is null or day_index between 0 and 6);
+
 create index if not exists routine_exercises_user_focus_idx
   on public.routine_exercises (user_id, focus, position);
+
+create index if not exists routine_exercises_user_day_focus_idx
+  on public.routine_exercises (user_id, day_index, focus, position);
 
 drop trigger if exists routine_exercises_set_updated_at on public.routine_exercises;
 create trigger routine_exercises_set_updated_at

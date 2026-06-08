@@ -33,6 +33,7 @@ import {
 } from "@/features/routine/data";
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
@@ -109,6 +110,11 @@ export default async function Home() {
   }
 
   const routine = user ? await getUserRoutine() : null;
+
+  // 일차별 독립 마이그레이션 (멱등·지연 — day_index 없는 기존 행만 백필)
+  if (user && routine) {
+    await ensureDayIndexBackfilled(user.id);
+  }
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100">
@@ -349,7 +355,7 @@ async function TodayWorkout({
               ).map((muscle) => (
                 <span
                   key={muscle}
-                  className="rounded-full bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-300"
+                  className="rounded-full bg-white/80 dark:bg-zinc-800/80 px-2.5 py-1 text-xs font-semibold text-zinc-800 dark:text-zinc-100 ring-1 ring-black/5 dark:ring-white/15"
                 >
                   {muscle}
                 </span>
@@ -365,6 +371,7 @@ async function TodayWorkout({
           tones={
             todayTones as import("@/features/routine/exercise-catalog").FocusKey[]
           }
+          dayIndex={offset}
           weightKg={profile?.weightKg ?? null}
         />
       ) : null}

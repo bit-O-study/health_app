@@ -17,6 +17,7 @@ import {
   exercisesForFocus,
   getCatalogExercise,
   prescribe,
+  sideExercisesForSlot,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import {
@@ -34,11 +35,20 @@ import {
 } from "@/features/gym/gym-equipment-mapping";
 
 type FocusData = {
+  /** 일차+부위 고유 키 (예: "3:push") — 반복 부위가 충돌하지 않게 state 키로 사용 */
+  key: string;
+  dayIndex: number;
   focus: FocusTone;
+  /** 사이드 추천 운동 선택용 블록 id (이두/삼두 구분) */
+  blockIds: string[];
+  /** 그날 보조(사이드) 부위인지 — 추천 채우기 시 2개만 */
+  isSide: boolean;
   label: string;
   items: PlanExercise[];
   warmup: ConditioningRow[];
   cooldown: ConditioningRow[];
+  /** 워밍업/마무리 에디터 노출 여부 (부위 첫 섹션만 true — 중복 방지) */
+  showConditioning: boolean;
 };
 
 type Row = {
@@ -82,13 +92,13 @@ export function PlanEditor({
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
   const [plans, setPlans] = useState<Record<string, Row[]>>(() =>
-    Object.fromEntries(focuses.map((f) => [f.focus, f.items.map(toRow)])),
+    Object.fromEntries(focuses.map((f) => [f.key, f.items.map(toRow)])),
   );
-  // 저장 안 된 부위들 — 페이지를 떠날 때 경고하고, "추천으로 채우기" 덮어쓰기 확인용
+  // 저장 안 된 섹션들(key) — 페이지를 떠날 때 경고하고, "추천으로 채우기" 덮어쓰기 확인용
   const [dirty, setDirty] = useState<Set<string>>(new Set());
   // 파괴적 동작(추천 덮어쓰기) 확인 모달 상태
   const [confirm, setConfirm] = useState<
-    { kind: "focus"; focus: FocusTone } | { kind: "all" } | null
+    { kind: "focus"; section: FocusData } | { kind: "all" } | null
   >(null);
 
   // 저장하지 않은 편집이 있는 채로 탭을 닫거나 새로고침하면 브라우저 기본 경고.
@@ -101,9 +111,9 @@ export function PlanEditor({
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
   }, [dirty]);
 
-  function update(focus: string, next: Row[]) {
-    setPlans((prev) => ({ ...prev, [focus]: next }));
-    setDirty((prev) => new Set(prev).add(focus));
+  function update(key: string, next: Row[]) {
+    setPlans((prev) => ({ ...prev, [key]: next }));
+    setDirty((prev) => new Set(prev).add(key));
     setStatus(null);
   }
 
@@ -117,12 +127,12 @@ export function PlanEditor({
     return available?.equipment ?? ex.equipments[0].equipment;
   }
 
-  function addRow(focus: FocusTone) {
-    const options = allExercisesForFocus(focus);
+  function addRow(f: FocusData) {
+    const options = allExercisesForFocus(f.focus);
     const first = options[0];
     if (!first) return;
-    update(focus, [
-      ...(plans[focus] ?? []),
+    update(f.key, [
+      ...(plans[f.key] ?? []),
       {
         exerciseId: first.id,
         equipment: pickDefaultEquipment(first),
@@ -148,15 +158,19 @@ export function PlanEditor({
     });
   }
 
-  /** 한 부위만 추천 운동으로 행을 갈아끼움 — 저장은 아래"이 부위 저장" 버튼이 담당 */
-  function doRecommendFocus(focus: FocusTone) {
+  /** 한 섹션(일차·부위)만 추천 운동으로 행을 갈아끼움 — 저장은 아래 저장 버튼 담당.
+   * 보조(사이드) 섹션이면 2개만, 주 섹션이면 풀 목록. */
+  function doRecommendFocus(f: FocusData) {
     const opts = {
       gender,
       experience,
       bodyType: bodyType ?? ("average" as const),
       weightKg: weightKg ?? 65,
     };
-    const next: Row[] = exercisesForFocus(focus, gender).map((ex) => {
+    const catalog = f.isSide
+      ? sideExercisesForSlot(f.focus as never, f.blockIds, gender)
+      : exercisesForFocus(f.focus, gender);
+    const next: Row[] = catalog.map((ex) => {
       const p = prescribe(ex.id, opts);
       return {
         exerciseId: ex.id,
@@ -167,18 +181,18 @@ export function PlanEditor({
         setDetails: null,
       };
     });
-    update(focus, next);
+    update(f.key, next);
   }
 
   // 편집 중인 행이 있으면 덮어쓰기 전에 확인, 비어 있으면 바로 채움
-  function recommendFocus(focus: FocusTone) {
-    if ((plans[focus] ?? []).length > 0) setConfirm({ kind: "focus", focus });
-    else doRecommendFocus(focus);
+  function recommendFocus(f: FocusData) {
+    if ((plans[f.key] ?? []).length > 0) setConfirm({ kind: "focus", section: f });
+    else doRecommendFocus(f);
   }
 
-  function saveFocus(focus: string) {
+  function saveFocus(f: FocusData) {
     start(async () => {
-      const items = (plans[focus] ?? []).map((r) => ({
+      const items = (plans[f.key] ?? []).map((r) => ({
         exerciseId: r.exerciseId,
         equipment: r.equipment,
         sets: r.sets,
@@ -186,12 +200,12 @@ export function PlanEditor({
         weightKg: r.weight.trim() === "" ? null : Number(r.weight),
         setDetails: r.setDetails,
       }));
-      const res = await saveManualPlanAction(focus, items);
-      setStatus(res.ok ? `“${focus}” 저장됨` : res.error);
+      const res = await saveManualPlanAction(f.dayIndex, f.focus, items);
+      setStatus(res.ok ? `“${f.label}” 저장됨` : res.error);
       if (res.ok) {
         setDirty((prev) => {
           const next = new Set(prev);
-          next.delete(focus);
+          next.delete(f.key);
           return next;
         });
         router.refresh();
@@ -236,21 +250,26 @@ export function PlanEditor({
       </p>
 
       {focuses.map((f) => {
-        const rows = plans[f.focus] ?? [];
+        const rows = plans[f.key] ?? [];
         const options = allExercisesForFocus(f.focus);
         return (
           <section
-            key={f.focus}
+            key={f.key}
             className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+              <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-950 dark:text-zinc-100">
                 {f.label}
+                {f.isSide ? (
+                  <span className="rounded-full bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                    보조
+                  </span>
+                ) : null}
               </h3>
               <div className="flex flex-wrap items-center gap-1.5">
                 <button
                   type="button"
-                  onClick={() => recommendFocus(f.focus)}
+                  onClick={() => recommendFocus(f)}
                   className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
                 >
                   <Sparkles aria-hidden="true" size={14} />
@@ -258,7 +277,7 @@ export function PlanEditor({
                 </button>
                 <button
                   type="button"
-                  onClick={() => addRow(f.focus)}
+                  onClick={() => addRow(f)}
                   className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
                 >
                   <Plus aria-hidden="true" size={14} />
@@ -304,7 +323,7 @@ export function PlanEditor({
                               ? pickDefaultEquipment(nextEx)
                               : row.equipment,
                           };
-                          update(f.focus, next);
+                          update(f.key, next);
                         }}
                         className="h-9 min-w-[8rem] flex-1 basis-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 sm:basis-auto"
                       >
@@ -324,7 +343,7 @@ export function PlanEditor({
                             ...row,
                             equipment: e.target.value as EquipmentId,
                           };
-                          update(f.focus, next);
+                          update(f.key, next);
                         }}
                         className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
                       >
@@ -347,12 +366,12 @@ export function PlanEditor({
                         onUniformChange={(patch) => {
                           const next = [...rows];
                           next[idx] = { ...row, ...patch };
-                          update(f.focus, next);
+                          update(f.key, next);
                         }}
                         onSetDetailsChange={(sd) => {
                           const next = [...rows];
                           next[idx] = { ...row, setDetails: sd };
-                          update(f.focus, next);
+                          update(f.key, next);
                         }}
                       />
                       <button
@@ -377,7 +396,7 @@ export function PlanEditor({
             <button
               type="button"
               disabled={pending}
-              onClick={() => saveFocus(f.focus)}
+              onClick={() => saveFocus(f)}
               className="mt-4 inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-4 text-sm font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
             >
               {pending ? (
@@ -390,21 +409,23 @@ export function PlanEditor({
               저장
             </button>
 
-            <div className="mt-5 space-y-3 border-t border-zinc-200 dark:border-zinc-700 pt-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                워밍업 / 마무리
-              </p>
-              <ConditioningEditor
-                focus={f.focus}
-                kind="warmup"
-                initial={f.warmup}
-              />
-              <ConditioningEditor
-                focus={f.focus}
-                kind="cooldown"
-                initial={f.cooldown}
-              />
-            </div>
+            {f.showConditioning ? (
+              <div className="mt-5 space-y-3 border-t border-zinc-200 dark:border-zinc-700 pt-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  워밍업 / 마무리
+                </p>
+                <ConditioningEditor
+                  focus={f.focus}
+                  kind="warmup"
+                  initial={f.warmup}
+                />
+                <ConditioningEditor
+                  focus={f.focus}
+                  kind="cooldown"
+                  initial={f.cooldown}
+                />
+              </div>
+            ) : null}
           </section>
         );
       })}
@@ -421,7 +442,7 @@ export function PlanEditor({
         confirmLabel="교체하기"
         onConfirm={() => {
           if (confirm?.kind === "all") doRecommendAll();
-          else if (confirm?.kind === "focus") doRecommendFocus(confirm.focus);
+          else if (confirm?.kind === "focus") doRecommendFocus(confirm.section);
           setConfirm(null);
         }}
         onCancel={() => setConfirm(null)}

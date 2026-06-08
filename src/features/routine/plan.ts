@@ -75,6 +75,28 @@ export async function getPlanForFocus(focus: string): Promise<PlanExercise[]> {
   return (data as PlanRow[]).map(toPlanExercise);
 }
 
+/** 특정 일차(day_index)·부위의 등록 운동(순서대로). 없으면 빈 배열.
+ * 일차별 독립 저장의 기본 조회 함수 — getPlanForFocus 를 대체한다. */
+export async function getPlanForDay(
+  dayIndex: number,
+  focus: string,
+): Promise<PlanExercise[]> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("routine_exercises")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("day_index", dayIndex)
+    .eq("focus", focus)
+    .order("position", { ascending: true });
+
+  if (error || !data) return [];
+  return (data as PlanRow[]).map(toPlanExercise);
+}
+
 /**
  * 특정 운동에 대한 사용자의 개인 메모. 오늘 "오늘만 변경" 오버라이드(daily_plan)에
  * 메모가 있으면 그걸 우선하고, 없으면 기본 루틴(routine_exercises)의 메모를 사용.

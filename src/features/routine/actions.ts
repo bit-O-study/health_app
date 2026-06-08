@@ -13,14 +13,14 @@ import {
   isDayBlockId,
   isValidRoutine,
   normalizeCustomWeek,
-  resolveRoutine,
+  routineDaySlots,
   seoulYmd,
   type DayBlockId,
 } from "@/features/routine/data";
 import {
   exercisesForFocus,
   prescribe,
-  type FocusKey,
+  sideExercisesForSlot,
 } from "@/features/routine/exercise-catalog";
 import { getUserProfile } from "@/features/profile/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
@@ -121,8 +121,9 @@ export async function saveRoutineAction(
 }
 
 /**
- * 새 루틴의 부위 중 등록된 운동이 없는 부위에만 추천 운동을 자동 등록.
- * 기존에 운동이 있는 부위는 건드리지 않음 (사용자 커스터마이즈 보존).
+ * 새 루틴의 (일차, 부위) 슬롯 중 등록된 운동이 없는 슬롯에만 추천 운동을 자동 등록.
+ * 기존에 운동이 있는 일차·부위는 건드리지 않음 (사용자 커스터마이즈 보존).
+ * 보조(사이드) 슬롯은 2개만 채운다.
  */
 async function fillMissingFocusesAction(
   userId: string,
@@ -133,32 +134,27 @@ async function fillMissingFocusesAction(
   const profile = await getUserProfile();
   if (!profile) return;
 
-  // 새 루틴이 쓰는 부위 set
-  const { variant } = resolveRoutine(splits, variantId, customWeek);
-  const usedFocuses = new Set<FocusKey>();
-  for (const day of variant.week) {
-    const tones = day.tones ?? [day.tone];
-    for (const t of tones) {
-      if (t !== "rest") usedFocuses.add(t as FocusKey);
-    }
-  }
-  if (usedFocuses.size === 0) return;
+  const slots = routineDaySlots(splits, variantId, customWeek);
+  if (slots.length === 0) return;
 
   const supabase = await createSupabaseServerClient();
-  // 기존 행의 focus set 조회
+  // 기존 행의 (day_index, focus) 쌍 조회
   const { data: existing } = await supabase
     .from("routine_exercises")
-    .select("focus")
+    .select("day_index, focus")
     .eq("user_id", userId);
-  const existingFocuses = new Set(
-    (existing ?? []).map((r: { focus: string }) => r.focus),
+  const existingPairs = new Set(
+    (existing ?? []).map(
+      (r: { day_index: number | null; focus: string }) =>
+        `${r.day_index}:${r.focus}`,
+    ),
   );
 
-  // 비어 있는 부위만 추천으로 채움
-  const missingFocuses = [...usedFocuses].filter(
-    (f) => !existingFocuses.has(f),
+  // 비어 있는 슬롯만 추천으로 채움
+  const missing = slots.filter(
+    (s) => !existingPairs.has(`${s.dayIndex}:${s.focus}`),
   );
-  if (missingFocuses.length === 0) return;
+  if (missing.length === 0) return;
 
   const opts = {
     gender: profile.gender,
@@ -166,12 +162,16 @@ async function fillMissingFocusesAction(
     bodyType: profile.bodyType ?? ("average" as const),
     weightKg: profile.weightKg ?? 65,
   };
-  const rows = missingFocuses.flatMap((focus) =>
-    exercisesForFocus(focus, profile.gender).map((ex, index) => {
+  const rows = missing.flatMap((slot) => {
+    const list = slot.isSide
+      ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender)
+      : exercisesForFocus(slot.focus, profile.gender);
+    return list.map((ex, index) => {
       const p = prescribe(ex.id, opts);
       return {
         user_id: userId,
-        focus,
+        day_index: slot.dayIndex,
+        focus: slot.focus,
         position: index,
         exercise_id: ex.id,
         equipment: ex.equipments[0].equipment,
@@ -179,8 +179,8 @@ async function fillMissingFocusesAction(
         reps: p.reps,
         weight_kg: p.weightKg,
       };
-    }),
-  );
+    });
+  });
   if (rows.length > 0) {
     await supabase.from("routine_exercises").insert(rows);
   }

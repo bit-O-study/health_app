@@ -8,8 +8,10 @@ import {
 } from "@/lib/supabase/server";
 import {
   CUSTOM_VARIANT_ID,
+  focusToDaysMap,
   isValidRoutine,
   normalizeCustomWeek,
+  routineDaySlots,
   seoulYmd,
 } from "@/features/routine/data";
 
@@ -17,6 +19,8 @@ export type PresetResult = { ok: true } | { ok: false; error: string };
 
 /** routine_exercises 의 DB 행 형태(스냅샷용) — 그대로 다시 insert 할 수 있게 snake_case 유지. */
 type ExerciseSnapshot = {
+  /** 주기 일차(0~6). 구버전 스냅샷엔 없을 수 있어 옵셔널. */
+  day_index?: number | null;
   focus: string;
   position: number;
   exercise_id: string;
@@ -62,9 +66,10 @@ export async function saveRoutinePresetAction(
       supabase
         .from("routine_exercises")
         .select(
-          "focus, position, exercise_id, equipment, sets, reps, weight_kg, set_details, memo",
+          "day_index, focus, position, exercise_id, equipment, sets, reps, weight_kg, set_details, memo",
         )
         .eq("user_id", user.id)
+        .order("day_index", { ascending: true })
         .order("focus", { ascending: true })
         .order("position", { ascending: true }),
       supabase
@@ -158,18 +163,38 @@ export async function loadRoutinePresetAction(
     ? (p.exercises as ExerciseSnapshot[])
     : [];
   if (snapshot.length > 0) {
-    const rows = snapshot.map((e) => ({
-      user_id: user.id,
-      focus: e.focus,
-      position: e.position,
-      exercise_id: e.exercise_id,
-      equipment: e.equipment,
-      sets: e.sets,
-      reps: e.reps,
-      weight_kg: e.weight_kg ?? null,
-      set_details: e.set_details ?? null,
-      memo: e.memo ?? null,
-    }));
+    // 구버전 스냅샷(day_index 없음)은 로드 루틴의 부위→일차 매핑으로 정규화 —
+    // 같은 부위를 여러 일차에 쓰면 그 일차들로 복제한다.
+    const needsBackfill = snapshot.some((e) => e.day_index == null);
+    const focusDays = needsBackfill
+      ? focusToDaysMap(
+          routineDaySlots(
+            p.splits,
+            p.variant_id,
+            isCustom ? normalized : null,
+          ),
+        )
+      : null;
+
+    const rows = snapshot.flatMap((e) => {
+      const days =
+        e.day_index != null
+          ? [e.day_index]
+          : (focusDays?.get(e.focus as never) ?? [0]);
+      return days.map((dayIndex) => ({
+        user_id: user.id,
+        day_index: dayIndex,
+        focus: e.focus,
+        position: e.position,
+        exercise_id: e.exercise_id,
+        equipment: e.equipment,
+        sets: e.sets,
+        reps: e.reps,
+        weight_kg: e.weight_kg ?? null,
+        set_details: e.set_details ?? null,
+        memo: e.memo ?? null,
+      }));
+    });
     const ins = await supabase.from("routine_exercises").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };
   }

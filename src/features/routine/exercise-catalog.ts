@@ -591,7 +591,7 @@ const EXERCISES: Record<string, CatalogExercise> = {
   },
   "hip-abduction": {
     id: "hip-abduction",
-    name: "힙 어브덕션",
+    name: "힙 어브덕션 (아웃타이)",
     target: "중둔근",
     equipments: [
       {
@@ -1289,7 +1289,7 @@ const EXERCISES: Record<string, CatalogExercise> = {
   },
   "hip-adduction": {
     id: "hip-adduction",
-    name: "힙 어덕션",
+    name: "힙 어덕션 (이너타이)",
     target: "내전근",
     equipments: [
       {
@@ -1986,6 +1986,99 @@ const EXERCISES: Record<string, CatalogExercise> = {
       },
     ],
   },
+
+  /* ─── 3차 추가 (헬스장 단골 머신) ───────────────────────────────────── */
+  "low-row-machine": {
+    id: "low-row-machine",
+    name: "롱풀",
+    target: "광배 하부 · 능형근",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "발판에 발 고정, 가슴 패드에 기대고 손잡이 잡기",
+          "팔꿈치를 뒤·아래로 당겨 광배 하부 수축",
+          "견갑 모은 후 통제하며 천천히 복귀",
+        ],
+      },
+      {
+        equipment: "cable",
+        method: [
+          "로우 풀리에 V바 걸고 발판 고정",
+          "상체 세운 채 배꼽 쪽으로 당기기",
+          "광배 수축 후 통제 복귀",
+        ],
+      },
+    ],
+  },
+  "chest-supported-row": {
+    id: "chest-supported-row",
+    name: "체스트 서포티드 로우",
+    target: "능형근 · 광배",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "가슴 패드에 기대 상체 고정(반동 차단)",
+          "팔꿈치를 뒤로 당겨 견갑 모으기",
+          "통제하며 복귀 — 광배·능형근 집중",
+        ],
+      },
+      {
+        equipment: "dumbbell",
+        method: [
+          "인클라인 벤치에 엎드려 덤벨 들기",
+          "팔꿈치를 천장 쪽으로 당기며 견갑 모으기",
+          "천천히 내리며 광배 신장",
+        ],
+      },
+    ],
+  },
+  "assisted-pull-up": {
+    id: "assisted-pull-up",
+    name: "어시스티드 풀업 머신",
+    target: "광배 · 이두",
+    equipments: [
+      {
+        equipment: "machine",
+        method: [
+          "무릎/발 패드에 올라 보조 무게 설정",
+          "어깨너비보다 넓게 잡고 광배로 몸 끌어올리기",
+          "턱이 바 위로 — 통제하며 신장",
+        ],
+      },
+    ],
+  },
+  "standing-cable-curl": {
+    id: "standing-cable-curl",
+    name: "스탠딩 케이블 컬",
+    target: "이두",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "로우 풀리에 바 걸고 팔꿈치 몸통 고정",
+          "팔꿈치 고정한 채 바를 말아 올려 이두 수축",
+          "케이블 장력 유지하며 천천히 신장",
+        ],
+      },
+    ],
+  },
+  "cable-pull-through": {
+    id: "cable-pull-through",
+    name: "케이블 풀스루",
+    target: "둔근 · 햄스트링",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "로우 풀리 등지고 로프를 가랑이 사이로 잡기",
+          "엉덩이 뒤로 빼며 힌지, 햄스트링 신장",
+          "둔근으로 골반 밀어 일어서며 수축",
+        ],
+      },
+    ],
+  },
 };
 
 export type FocusKey = Exclude<FocusTone, "rest">;
@@ -2073,6 +2166,45 @@ export function exercisesForFocus(
   const ids =
     gender === "female" ? FOCUS_EXERCISES_FEMALE[tone] : FOCUS_EXERCISES[tone];
   return ids.map((id) => EXERCISES[id]);
+}
+
+/** 보조(사이드)로 붙는 부위의 추천 운동 — 부위별 2개 큐레이션.
+ * 본운동(주 부위)은 exercisesForFocus 풀 목록(4~5개)을 쓰고, 사이드는 이 짧은
+ * 목록을 써서 운동량이 과하지 않게 한다. */
+const SIDE_FOCUS_EXERCISES: Partial<Record<FocusKey, string[]>> = {
+  chest: ["incline-press", "chest-fly"],
+  back: ["lat-pulldown", "seated-cable-row"],
+  shoulder: ["lateral-raise", "rear-delt-fly"],
+  arm: ["biceps-curl", "triceps-pushdown"],
+  lower: ["leg-curl", "leg-extension"],
+  core: ["plank", "hanging-leg-raise"],
+};
+
+/** 블록 id 별 사이드 운동 — 이두/삼두처럼 같은 focus(arm) 로 합쳐지는 블록을
+ * 구분해 알맞은 2개를 고른다. */
+const SIDE_BLOCK_EXERCISES: Record<string, string[]> = {
+  biceps: ["biceps-curl", "hammer-curl"],
+  triceps: ["triceps-pushdown", "skull-crusher"],
+  arm: ["biceps-curl", "triceps-pushdown"],
+};
+
+/**
+ * 한 일차의 보조 슬롯(focus + 기여 블록 id들)에 대한 추천 운동.
+ * 블록별 목록(이두/삼두 구분) 우선, 없으면 focus 기본 사이드 목록, 그래도 없으면
+ * 일반 추천 목록 앞 2개. 블록별 2개씩이므로 이두+삼두면 합쳐서 4개가 된다.
+ */
+export function sideExercisesForSlot(
+  focus: FocusKey,
+  blockIds: string[],
+  gender: "male" | "female" = "male",
+): CatalogExercise[] {
+  const ids: string[] = [];
+  for (const b of blockIds) {
+    const list = SIDE_BLOCK_EXERCISES[b] ?? SIDE_FOCUS_EXERCISES[focus] ?? [];
+    for (const id of list) if (!ids.includes(id)) ids.push(id);
+  }
+  if (ids.length === 0) return exercisesForFocus(focus, gender).slice(0, 2);
+  return ids.map((id) => EXERCISES[id]).filter(Boolean);
 }
 
 /** 분할(focus tone) → 후보 신체 부위 집합.
@@ -2221,6 +2353,12 @@ const LOAD_CLASS: Record<string, LoadClass> = {
   "hollow-hold": "bodyweight",
   "toes-to-bar": "bodyweight",
   "bicycle-crunch": "bodyweight",
+  // ── 3차 추가
+  "low-row-machine": "medium",
+  "chest-supported-row": "medium",
+  "assisted-pull-up": "medium",
+  "standing-cable-curl": "light",
+  "cable-pull-through": "medium",
 };
 
 export function loadClassOf(id: string): LoadClass {
@@ -2450,6 +2588,12 @@ const PRIMARY_BODY_PART: Record<string, BodyPart> = {
   "hollow-hold": "core",
   "toes-to-bar": "core",
   "bicycle-crunch": "core",
+  // ── 3차 추가
+  "low-row-machine": "back",
+  "chest-supported-row": "back",
+  "assisted-pull-up": "back",
+  "standing-cable-curl": "arm",
+  "cable-pull-through": "lower",
 };
 
 export function primaryBodyPart(id: string): BodyPart {
@@ -2499,6 +2643,11 @@ const EXTRA_BODY_PARTS: Record<string, BodyPart[]> = {
   "chin-up": ["arm"],
   "barbell-row": ["arm"],
   "lat-pulldown": ["arm"],
+  "low-row-machine": ["arm"],
+  "chest-supported-row": ["arm"],
+  "assisted-pull-up": ["arm"],
+  // 풀스루 (하체 + 코어)
+  "cable-pull-through": ["core"],
 };
 
 /**

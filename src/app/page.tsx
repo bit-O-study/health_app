@@ -358,7 +358,7 @@ async function TodayWorkout({
               ).map((muscle) => (
                 <span
                   key={muscle}
-                  className="rounded-full bg-white/70 dark:bg-white/10 px-2.5 py-1 text-xs font-medium text-zinc-700 dark:text-zinc-200"
+                  className="rounded-full bg-white/80 dark:bg-zinc-800/80 px-2.5 py-1 text-xs font-semibold text-zinc-800 dark:text-zinc-100 ring-1 ring-black/5 dark:ring-white/15"
                 >
                   {muscle}
                 </span>

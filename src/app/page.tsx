@@ -33,6 +33,7 @@ import {
 } from "@/features/routine/data";
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
@@ -111,6 +112,11 @@ export default async function Home() {
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
     redirect("/onboarding");
+  }
+
+  // 일차별 독립 마이그레이션 (멱등·지연 — day_index 없는 기존 행만 백필)
+  if (user && routine) {
+    await ensureDayIndexBackfilled(user.id);
   }
 
   return (
@@ -368,6 +374,7 @@ async function TodayWorkout({
           tones={
             todayTones as import("@/features/routine/exercise-catalog").FocusKey[]
           }
+          dayIndex={offset}
           weightKg={profile?.weightKg ?? null}
         />
       ) : null}

@@ -32,7 +32,7 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   );
   await seedRecommendedExercises(page);
 
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
 
   // 편집 모드 → "오늘 루틴에 운동 추가" 열기

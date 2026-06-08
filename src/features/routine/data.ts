@@ -194,6 +194,23 @@ const LEG: DayPlan = {
   examples: ["스쿼트", "레그프레스", "레그컬"],
 };
 
+/* 이두/삼두 — 보조(사이드)로 다른 부위에 붙여 쓰는 팔 세부 블록.
+ * 저장 tone 은 "arm" 으로 통일(새 FocusTone 을 만들지 않음). 이두/삼두 구분은
+ * 커스텀 주간의 블록 id(biceps/triceps)로만 하며, 추천 운동 선택에 쓰인다. */
+const BICEPS: DayPlan = {
+  focus: "이두",
+  tone: "arm",
+  muscles: ["이두", "전완"],
+  examples: ["바벨컬", "해머컬", "프리처컬"],
+};
+
+const TRICEPS: DayPlan = {
+  focus: "삼두",
+  tone: "arm",
+  muscles: ["삼두"],
+  examples: ["케이블 푸시다운", "스컬크러셔", "오버헤드 익스텐션"],
+};
+
 const PUSH: DayPlan = {
   focus: "밀기",
   tone: "push",
@@ -382,7 +399,9 @@ export type DayBlockId =
   | "arm"
   | "push"
   | "pull"
-  | "core";
+  | "core"
+  | "biceps"
+  | "triceps";
 
 /** 커스텀 빌더에서 고를 수 있는 하루 블록 (id → 라벨 + DayPlan) */
 export const DAY_BLOCKS: Record<DayBlockId, { label: string; day: DayPlan }> = {
@@ -397,6 +416,8 @@ export const DAY_BLOCKS: Record<DayBlockId, { label: string; day: DayPlan }> = {
   push: { label: "밀기", day: PUSH },
   pull: { label: "당기기", day: PULL },
   core: { label: "코어 + 유산소", day: CORE },
+  biceps: { label: "이두", day: BICEPS },
+  triceps: { label: "삼두", day: TRICEPS },
 };
 
 export const DAY_BLOCK_IDS = Object.keys(DAY_BLOCKS) as DayBlockId[];
@@ -557,6 +578,103 @@ export function resolveRoutine(
 export function isValidRoutine(splits: number, variantId: string): boolean {
   void splits;
   return findPresetByVariantId(variantId) !== null;
+}
+
+/* ─── 일차(cycle-day)별 부위 슬롯 ────────────────────────────────────────────
+ * 본운동은 (day_index, focus) 단위로 저장된다. 같은 부위가 여러 일차에 나와도
+ * 일차별로 독립이다. 아래 헬퍼들은 "이 루틴이 어느 일차에 어떤 부위를 쓰는가"를
+ * 한 곳에서 계산해 추천 시드/편집 UI/마이그레이션이 모두 공유하게 한다.
+ */
+
+export type FocusKey = Exclude<FocusTone, "rest">;
+
+export type DaySlot = {
+  /** 주기 일차 0~6 */
+  dayIndex: number;
+  /** 저장·조회 키가 되는 부위 톤 (이두/삼두는 arm 으로 합쳐짐) */
+  focus: FocusKey;
+  /** 이 focus 그룹에 기여한 블록 id (추천 사이드 운동 선택용). 프리셋이면 focus 자체. */
+  blockIds: string[];
+  /** 그날의 첫 부위 그룹이 아니면 보조(사이드) */
+  isSide: boolean;
+  /** 편집 UI 라벨 예: "5일 · 가슴" */
+  label: string;
+};
+
+/**
+ * 루틴을 풀어 일차별 부위 슬롯 목록을 만든다.
+ * - 커스텀이면 custom_week 의 블록 id 를 그대로 보고(이두/삼두 구분 유지),
+ *   프리셋이면 variant.week 의 tones 를 본다.
+ * - 같은 일차에서 같은 focus 로 묶이는 블록은 한 슬롯으로 합친다(blockIds 누적).
+ * - 그날 첫 부위 그룹 = 주, 나머지 = 보조(isSide).
+ */
+export function routineDaySlots(
+  splits: number,
+  variantId: string,
+  customWeek?: DayBlockId[][] | DayBlockId[] | null,
+): DaySlot[] {
+  const normalized =
+    variantId === CUSTOM_VARIANT_ID ? normalizeCustomWeek(customWeek) : null;
+  const { variant } = resolveRoutine(splits, variantId, customWeek);
+  const slots: DaySlot[] = [];
+
+  variant.week.forEach((day, dayIndex) => {
+    // (focus, blockId) 쌍을 등장 순서대로
+    const pairs: { focus: FocusKey; blockId: string }[] = normalized
+      ? normalized[dayIndex]
+          .filter((b) => b !== "rest")
+          .map((b) => ({
+            focus: DAY_BLOCKS[b].day.tone as FocusKey,
+            blockId: b,
+          }))
+      : ((day.tones ?? [day.tone]).filter((t) => t !== "rest") as FocusKey[]).map(
+          (t) => ({ focus: t, blockId: t }),
+        );
+
+    // focus 별 그룹(순서 보존)
+    const order: FocusKey[] = [];
+    const byFocus = new Map<FocusKey, string[]>();
+    for (const { focus, blockId } of pairs) {
+      const cur = byFocus.get(focus);
+      if (cur) cur.push(blockId);
+      else {
+        byFocus.set(focus, [blockId]);
+        order.push(focus);
+      }
+    }
+
+    order.forEach((focus, groupIndex) => {
+      slots.push({
+        dayIndex,
+        focus,
+        blockIds: byFocus.get(focus)!,
+        isSide: groupIndex > 0,
+        label: `${DAY_LABELS[dayIndex]} · ${DAY_BLOCKS[focus as DayBlockId]?.label ?? focus}`,
+      });
+    });
+  });
+
+  return slots;
+}
+
+/** focus → 그 부위를 쓰는 일차 인덱스 목록 (마이그레이션·중복 처리용) */
+export function focusToDaysMap(slots: DaySlot[]): Map<FocusKey, number[]> {
+  const m = new Map<FocusKey, number[]>();
+  for (const s of slots) {
+    const arr = m.get(s.focus);
+    if (arr) arr.push(s.dayIndex);
+    else m.set(s.focus, [s.dayIndex]);
+  }
+  return m;
+}
+
+/** 이 focus 를 처음 쓰는 일차 인덱스 (없으면 null) — 오버라이드 데이 폴백용 */
+export function firstDayIndexForFocus(
+  slots: DaySlot[],
+  focus: string,
+): number | null {
+  const s = slots.find((x) => x.focus === focus);
+  return s ? s.dayIndex : null;
 }
 
 /* ─── 기준일 기반 날짜 매핑 ──────────────────────────────────────────────────

@@ -115,6 +115,9 @@ export const EXERCISE_SUB_MUSCLES: Record<string, string[]> = {
   "t-bar-row": ["back-lats", "back-rhomboids"],
   "meadows-row": ["back-lats"],
   "seated-cable-row": ["back-rhomboids", "back-lats"],
+  "low-row-machine": ["back-lats", "back-rhomboids"],
+  "chest-supported-row": ["back-rhomboids", "back-lats"],
+  "assisted-pull-up": ["back-lats"],
   "one-arm-dumbbell-row": ["back-lats"],
   "lat-pulldown": ["back-lats"],
   "wide-grip-pull-up": ["back-lats"],
@@ -140,6 +143,7 @@ export const EXERCISE_SUB_MUSCLES: Record<string, string[]> = {
 
   /* ── 팔 (이두/삼두/전완 세분화) ── */
   "biceps-curl": ["arm-biceps-long", "arm-biceps-short"],
+  "standing-cable-curl": ["arm-biceps-long", "arm-biceps-short"],
   "ez-bar-curl": ["arm-biceps-long", "arm-biceps-short"],
   "incline-curl": ["arm-biceps-long"],
   "drag-curl": ["arm-biceps-long"],
@@ -181,6 +185,7 @@ export const EXERCISE_SUB_MUSCLES: Record<string, string[]> = {
   "leg-curl": ["lower-hamstrings"],
   "seated-leg-curl": ["lower-hamstrings"],
   "hip-thrust": ["lower-glutes"],
+  "cable-pull-through": ["lower-glutes", "lower-hamstrings"],
   "glute-bridge": ["lower-glutes"],
   "cable-kickback": ["lower-glutes"],
   "hip-abduction": ["lower-glutes"],

@@ -98,6 +98,39 @@ describe("orderMainPlan — 본운동 부위 교차 순서", () => {
     expect(orderMainPlan(grouped).map((r) => r.id)).toEqual(["a", "b", "c"]);
   });
 
+  it("새로 추가한 운동(큰 position)은 멀티 부위에서도 맨 아래로 간다", () => {
+    // 가슴(0,1) + 팔(0,1) 기본 + 가슴에 추가한 행(append base 이상)
+    const grouped = [
+      row("bench", "chest", 0),
+      row("incline", "chest", 1),
+      row("added", "chest", 1000), // "오늘 운동 추가"로 들어온 행
+      row("hammer", "arm", 0),
+      row("curl", "arm", 1),
+    ];
+    expect(orderMainPlan(grouped).map((r) => r.id)).toEqual([
+      "bench",
+      "incline",
+      "hammer",
+      "curl",
+      "added", // 그룹 중간이 아니라 전체 맨 아래
+    ]);
+  });
+
+  it("추가분이 여러 개면 추가 순서(position)대로 맨 아래에 쌓인다", () => {
+    const grouped = [
+      row("bench", "chest", 0),
+      row("a2", "chest", 1001),
+      row("hammer", "arm", 0),
+      row("a1", "arm", 1000),
+    ];
+    expect(orderMainPlan(grouped).map((r) => r.id)).toEqual([
+      "bench",
+      "hammer",
+      "a1",
+      "a2",
+    ]);
+  });
+
   it("0~1개 항목은 그대로 반환", () => {
     expect(orderMainPlan([])).toEqual([]);
     expect(orderMainPlan([row("only", "arm", 5)]).map((r) => r.id)).toEqual([

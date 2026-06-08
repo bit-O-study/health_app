@@ -7,18 +7,22 @@ import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import {
   DAY_BLOCKS,
+  firstDayIndexForFocus,
   isDayBlockId,
   resolveRoutine,
   routineDayOffset,
+  routineDaySlots,
   seoulYmd,
   ymdDisplay,
   type FocusTone,
 } from "@/features/routine/data";
+import { getCurrentUser } from "@/lib/supabase/server";
 import { ALL_FOCUSES } from "@/features/routine/exercise-catalog";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
-import { getPlanForFocus } from "@/features/routine/plan";
+import { getPlanForDay, getPlanForFocus } from "@/features/routine/plan";
+import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
 import { DailyMainEditor } from "@/features/routine/components/daily-main-editor";
 
@@ -29,13 +33,15 @@ export default async function TodayConditioningPage({
 }: {
   searchParams: Promise<{ focus?: string }>;
 }) {
-  const [profile, routine, gym] = await Promise.all([
+  const [user, profile, routine, gym] = await Promise.all([
+    getCurrentUser(),
     getUserProfile(),
     getUserRoutine(),
     getCurrentGym(),
   ]);
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
+  if (user) await ensureDayIndexBackfilled(user.id);
   const gymEquipment = gym?.equipmentIds ?? null;
 
   const { focus: focusParam } = await searchParams;
@@ -64,7 +70,8 @@ export default async function TodayConditioningPage({
     const overriddenToday =
       routine.overrideDate === todayYmd && routine.overrideBlock !== null;
     if (overriddenToday) {
-      const tone = routine.overrideBlock!;
+      // 이두/삼두 같은 블록은 arm 톤으로 매핑돼 저장·조회된다.
+      const tone = DAY_BLOCKS[routine.overrideBlock!].day.tone;
       if (tone !== "rest") focuses = [tone];
     } else {
       // 멀티 부위 일자 — 모든 부위를 기본으로 채움
@@ -85,14 +92,33 @@ export default async function TodayConditioningPage({
     (f): f is Exclude<FocusTone, "rest"> => f !== "rest",
   );
 
+  // 오늘 일차 기준으로 기본값을 읽는다(일차별 독립). 그 일차에 부위가 없으면
+  // 첫 등장 일차, 그래도 없으면 부위 전체(union)로 폴백.
+  const offsetForToday = routineDayOffset(routine.startDate, todayYmd);
+  const slots = routineDaySlots(
+    routine.splits,
+    routine.variantId,
+    routine.customWeek,
+  );
+  const readDayFor = (focus: string): number => {
+    const onToday = slots.some(
+      (s) => s.dayIndex === offsetForToday && s.focus === focus,
+    );
+    return onToday
+      ? offsetForToday
+      : (firstDayIndexForFocus(slots, focus) ?? offsetForToday);
+  };
+
   // 부위별 본운동 섹션
   const mainSections = await Promise.all(
     validFocuses.map(async (focus) => {
       const dailyMain = dailyAll.filter((r) => r.focus === focus);
+      const byDay = await getPlanForDay(readDayFor(focus), focus);
+      const base = byDay.length > 0 ? byDay : await getPlanForFocus(focus);
       const initialMain =
         dailyMain.length > 0
           ? dailyMain
-          : (await getPlanForFocus(focus)).map((p) => ({
+          : base.map((p) => ({
               id: p.id,
               focus: p.focus,
               position: p.position,

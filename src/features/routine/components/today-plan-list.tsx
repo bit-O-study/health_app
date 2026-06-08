@@ -72,6 +72,7 @@ const LONG_PRESS_MOVE_TOLERANCE = 6;
 export function TodayPlanList({
   focus,
   tones,
+  dayIndex,
   items,
   weightKg,
   doneIds,
@@ -80,6 +81,8 @@ export function TodayPlanList({
   focus: string;
   /** 오늘의 모든 부위 — 편집 모드에서 운동 추가 시 부위 선택지로 사용 */
   tones: FocusKey[];
+  /** 오늘의 주기 일차 — 운동 추가 시 그 일차에 저장 */
+  dayIndex: number;
   items: TodayPlanItem[];
   weightKg: number | null;
   doneIds: string[];
@@ -677,7 +680,11 @@ export function TodayPlanList({
       })}
       {editMode ? (
         <li className="relative">
-          <AddExerciseSlot tones={tones} onAdded={() => router.refresh()} />
+          <AddExerciseSlot
+            tones={tones}
+            dayIndex={dayIndex}
+            onAdded={() => router.refresh()}
+          />
         </li>
       ) : null}
     </ul>
@@ -1094,9 +1101,11 @@ function ExerciseEditForm({
  * 부위 → 운동 → 기구 선택 후 추가하면 즉시 오늘 목록에 합쳐진다. */
 function AddExerciseSlot({
   tones,
+  dayIndex,
   onAdded,
 }: {
   tones: FocusKey[];
+  dayIndex: number;
   onAdded: () => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -1135,7 +1144,12 @@ function AddExerciseSlot({
   function submit() {
     if (!exerciseId) return;
     start(async () => {
-      const res = await addExerciseToTodayAction(focus, exerciseId, equipment);
+      const res = await addExerciseToTodayAction(
+        dayIndex,
+        focus,
+        exerciseId,
+        equipment,
+      );
       if (res.ok) {
         setOpen(false);
         setError(null);

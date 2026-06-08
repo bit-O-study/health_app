@@ -2,19 +2,21 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
+import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
-import { DAY_BLOCKS, resolveRoutine } from "@/features/routine/data";
-import type { FocusKey } from "@/features/routine/exercise-catalog";
-import { getPlanForFocus } from "@/features/routine/plan";
+import { routineDaySlots } from "@/features/routine/data";
+import { getPlanForDay } from "@/features/routine/plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
+import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { PlanEditor } from "@/features/routine/components/plan-editor";
 
 export const dynamic = "force-dynamic";
 
 export default async function PlanPage() {
-  const [profile, routine, gym] = await Promise.all([
+  const [user, profile, routine, gym] = await Promise.all([
+    getCurrentUser(),
     getUserProfile(),
     getUserRoutine(),
     getCurrentGym(),
@@ -22,40 +24,47 @@ export default async function PlanPage() {
 
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
+  if (user) await ensureDayIndexBackfilled(user.id);
   const gymEquipment = gym?.equipmentIds ?? null;
 
-  // 현재 선택된 루틴의 주간 계획에서 등장하는 부위만 (휴식 제외, 첫 등장 순).
-  // 멀티 부위 일자는 DayPlan.tones 에 모든 부위가 들어있어 그것까지 모두 포함.
-  const { variant } = resolveRoutine(
+  // 루틴을 일차별 부위 슬롯으로 펼친다. 같은 부위가 여러 일차에 나오면 각각
+  // 독립 섹션으로 편집한다(일차별 독립). 워밍업/마무리는 부위 단위라 그 부위
+  // 첫 섹션에서만 노출한다(중복 방지).
+  const slots = routineDaySlots(
     routine.splits,
     routine.variantId,
     routine.customWeek,
   );
-  const seen = new Set<FocusKey>();
-  const usedFocuses: FocusKey[] = [];
-  for (const day of variant.week) {
-    const dayTones = day.tones ?? [day.tone];
-    for (const t of dayTones) {
-      if (t === "rest") continue;
-      const f = t as FocusKey;
-      if (seen.has(f)) continue;
-      seen.add(f);
-      usedFocuses.push(f);
-    }
-  }
+  const seenFocus = new Set<string>();
+  const slotMeta = slots.map((s) => {
+    const showConditioning = !seenFocus.has(s.focus);
+    seenFocus.add(s.focus);
+    return { ...s, showConditioning };
+  });
+
+  const distinctFocuses = [...new Set(slots.map((s) => s.focus))];
+  const condEntries = await Promise.all(
+    distinctFocuses.map(
+      async (f) => [f, await getConditioningForFocus(f)] as const,
+    ),
+  );
+  const condByFocus = new Map(condEntries);
 
   const focuses = await Promise.all(
-    usedFocuses.map(async (focus) => {
-      const [items, conditioning] = await Promise.all([
-        getPlanForFocus(focus),
-        getConditioningForFocus(focus),
-      ]);
+    slotMeta.map(async (s) => {
+      const items = await getPlanForDay(s.dayIndex, s.focus);
+      const cond = condByFocus.get(s.focus)!;
       return {
-        focus,
-        label: DAY_BLOCKS[focus].label,
+        key: `${s.dayIndex}:${s.focus}`,
+        dayIndex: s.dayIndex,
+        focus: s.focus,
+        blockIds: s.blockIds,
+        isSide: s.isSide,
+        label: s.label,
         items,
-        warmup: conditioning.warmup,
-        cooldown: conditioning.cooldown,
+        warmup: cond.warmup,
+        cooldown: cond.cooldown,
+        showConditioning: s.showConditioning,
       };
     }),
   );

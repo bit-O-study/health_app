@@ -8,12 +8,31 @@
  * 따른다. 기본(추천 등록) 상태는 부위마다 position 이 0..n 으로 겹치므로
  * (서로 다른 두 부위는 항상 position 0 을 공유) 그룹 순서를 그대로 유지한다.
  */
+/**
+ * "오늘 운동 추가"로 새로 넣은 행은 이 값 이상의 position 을 받는다(부위별 0..n
+ * 정상 범위를 훨씬 넘는 큰 값). 멀티 부위 일자에서도 그룹 중간이 아니라 전체
+ * 리스트 맨 아래에 붙도록 하기 위함. (드래그로 재정렬하면 0..N-1 로 다시 매겨져
+ * 이 표식이 사라지고 사용자 지정 순서를 따른다.)
+ */
+export const APPEND_POSITION_BASE = 1000;
+
 export function orderMainPlan<T extends { position: number }>(grouped: T[]): T[] {
   if (grouped.length < 2) return grouped;
-  const positions = grouped.map((p) => p.position);
+  // 추가분(큰 position)은 항상 맨 끝으로 — position 순.
+  const head = grouped.filter((p) => p.position < APPEND_POSITION_BASE);
+  const tail = grouped
+    .filter((p) => p.position >= APPEND_POSITION_BASE)
+    .sort((a, b) => a.position - b.position);
+
+  // head: 부위 경계를 넘는 전역 재정렬(전역 position 고유)이면 position 순,
+  // 기본(부위마다 0..n 겹침)이면 그룹 순서 유지.
+  const positions = head.map((p) => p.position);
   const allDistinct = new Set(positions).size === positions.length;
-  if (!allDistinct) return grouped;
-  return [...grouped].sort((a, b) => a.position - b.position);
+  const headOrdered = allDistinct
+    ? [...head].sort((a, b) => a.position - b.position)
+    : head;
+
+  return tail.length > 0 ? [...headOrdered, ...tail] : headOrdered;
 }
 
 /**

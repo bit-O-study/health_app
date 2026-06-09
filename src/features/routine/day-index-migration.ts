@@ -19,12 +19,22 @@ import { focusToDaysMap, routineDaySlots } from "@/features/routine/data";
 export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
   const supabase = await createSupabaseServerClient();
 
+  // 끝나면 플래그를 세팅해 다음 로드부터 이 함수 호출 자체를 건너뛴다.
+  const markDone = () =>
+    supabase
+      .from("user_routines")
+      .update({ day_index_migrated: true })
+      .eq("user_id", userId);
+
   const { count } = await supabase
     .from("routine_exercises")
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId)
     .is("day_index", null);
-  if (!count) return;
+  if (!count) {
+    await markDone();
+    return;
+  }
 
   const routine = await getUserRoutine();
   // 루틴이 없으면 매핑 불가 — 미마이그레이션 행을 0 으로 stamp 해 NULL 만 제거.
@@ -34,6 +44,7 @@ export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
       .update({ day_index: 0 })
       .eq("user_id", userId)
       .is("day_index", null);
+    await markDone();
     return;
   }
 
@@ -52,7 +63,10 @@ export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
     )
     .eq("user_id", userId)
     .is("day_index", null);
-  if (!legacy || legacy.length === 0) return;
+  if (!legacy || legacy.length === 0) {
+    await markDone();
+    return;
+  }
 
   // focus 별로 묶기
   const byFocus = new Map<string, typeof legacy>();
@@ -108,4 +122,6 @@ export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
       }
     }
   }
+
+  await markDone();
 }

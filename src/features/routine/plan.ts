@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -57,8 +59,11 @@ function toPlanExercise(row: PlanRow): PlanExercise {
   };
 }
 
-/** 현재 사용자의 특정 부위 등록 운동(순서대로). 없으면 빈 배열. */
-export async function getPlanForFocus(focus: string): Promise<PlanExercise[]> {
+/** 현재 사용자의 특정 부위 등록 운동(순서대로). 없으면 빈 배열.
+ * React.cache 로 한 요청 내 같은 focus 중복 조회를 1회로 합친다. */
+export const getPlanForFocus = cache(async function getPlanForFocus(
+  focus: string,
+): Promise<PlanExercise[]> {
   const user = await getCurrentUser();
   if (!user) return [];
   const supabase = await createSupabaseServerClient();
@@ -73,11 +78,11 @@ export async function getPlanForFocus(focus: string): Promise<PlanExercise[]> {
 
   if (error || !data) return [];
   return (data as PlanRow[]).map(toPlanExercise);
-}
+});
 
 /** 특정 일차(day_index)·부위의 등록 운동(순서대로). 없으면 빈 배열.
- * 일차별 독립 저장의 기본 조회 함수 — getPlanForFocus 를 대체한다. */
-export async function getPlanForDay(
+ * 일차별 독립 저장의 기본 조회 함수. React.cache 로 요청 내 중복 조회 합침. */
+export const getPlanForDay = cache(async function getPlanForDay(
   dayIndex: number,
   focus: string,
 ): Promise<PlanExercise[]> {
@@ -95,7 +100,7 @@ export async function getPlanForDay(
 
   if (error || !data) return [];
   return (data as PlanRow[]).map(toPlanExercise);
-}
+});
 
 /**
  * 특정 운동에 대한 사용자의 개인 메모. 오늘 "오늘만 변경" 오버라이드(daily_plan)에

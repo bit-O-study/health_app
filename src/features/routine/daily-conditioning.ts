@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -26,7 +28,7 @@ const num = (v: number | string | null): number | null => {
 };
 
 /** 특정 날짜의 워밍업/마무리 오버라이드. 없으면 빈 배열. */
-export async function getDailyConditioning(
+export const getDailyConditioning = cache(async function getDailyConditioning(
   dateYmd: string,
 ): Promise<{ warmup: ConditioningRow[]; cooldown: ConditioningRow[] }> {
   const user = await getCurrentUser();
@@ -61,7 +63,7 @@ export async function getDailyConditioning(
     warmup: rows.filter((r) => r.kind === "warmup"),
     cooldown: rows.filter((r) => r.kind === "cooldown"),
   };
-}
+});
 
 /** 특정 날짜·종류의 오버라이드 존재 여부 */
 export async function hasDailyOverride(

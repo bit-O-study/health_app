@@ -237,7 +237,7 @@ export async function loadRoutinePresetAction(
       .gte("for_date", today),
   ]);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/routine");
   revalidatePath("/plan");
   revalidatePath("/plan/today");

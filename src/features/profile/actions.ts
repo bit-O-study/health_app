@@ -80,7 +80,7 @@ export async function saveProfileAction(
     return { ok: false, error: error.message };
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }
 
@@ -161,7 +161,7 @@ export async function logBodyAction(
     await supabase.from("profiles").update(patch).eq("user_id", user.id);
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/profile");
   return { ok: true };
 }

@@ -113,7 +113,7 @@ export async function saveRoutineAction(
     await registerRecommendedConditioningAction();
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/routine");
   revalidatePath("/plan");
   revalidatePath("/plan/today");
@@ -243,29 +243,50 @@ export async function reorderUpcomingSevenDaysAction(
       .gte("for_date", today),
   ]);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/routine");
   revalidatePath("/plan");
   return { ok: true };
 }
 
-/** 루틴 기준일을 오늘로 재설정 — 오늘이 루틴 1일차가 된다. */
+/**
+ * "오늘부터 다시 시작하기" — 처음 설정한 루틴으로 되돌린다.
+ * 기준일을 오늘로 리셋해 오늘이 1일차가 되고, 그동안 쌓인 임시 변경
+ * (오늘만 운동 변경=daily_plan / daily_conditioning, 오늘 휴식, 오늘만 부위 변경)을
+ * 오늘 이후 범위에서 모두 지워 기본 루틴이 그대로 보이게 한다. (지난 기록은 보존)
+ */
 export async function restartRoutineFromTodayAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return;
 
+  const today = seoulYmd();
+
   await supabase
     .from("user_routines")
     .update({
-      start_date: seoulYmd(),
+      start_date: today,
       rest_date: null,
       override_date: null,
       override_block: null,
     })
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  // 오늘 이후의 '오늘만 변경' 오버라이드 제거 → 기본(처음 설정한) 루틴으로 복귀.
+  await Promise.all([
+    supabase
+      .from("daily_plan")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+    supabase
+      .from("daily_conditioning")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+  ]);
+
+  revalidatePath("/routine");
 }
 
 /**
@@ -296,7 +317,7 @@ export async function convertTodayToRestAction(): Promise<void> {
     })
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }
 
 /**
@@ -328,7 +349,7 @@ export async function undoTodayRestAction(): Promise<void> {
     })
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }
 
 /**
@@ -351,5 +372,5 @@ export async function setTodayFocusAction(blockId: DayBlockId): Promise<void> {
     })
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }

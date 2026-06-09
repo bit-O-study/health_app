@@ -76,13 +76,17 @@ export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
       continue;
     }
 
-    // 원본은 첫 일차로 (UUID 보존)
-    await supabase
+    // 원본을 첫 일차로 claim (UUID 보존). .select() 로 실제 영향받은 행을 받아,
+    // 0행이면 다른 동시 호출이 이미 이 부위를 처리한 것이므로 복제를 건너뛴다.
+    // (페이지가 동시에 여러 번 마이그레이션을 호출해도 복제가 두 번 안 되게 — 중복 방지)
+    const { data: claimed } = await supabase
       .from("routine_exercises")
       .update({ day_index: days[0] })
       .eq("user_id", userId)
       .eq("focus", focus)
-      .is("day_index", null);
+      .is("day_index", null)
+      .select("id");
+    if (!claimed || claimed.length === 0) continue;
 
     // 나머지 일차로 복제 (새 UUID)
     for (const d of days.slice(1)) {

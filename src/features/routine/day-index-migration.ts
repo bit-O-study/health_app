@@ -2,126 +2,183 @@ import "server-only";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getUserRoutine } from "@/features/routine/data-access";
-import { focusToDaysMap, routineDaySlots } from "@/features/routine/data";
+import {
+  focusToDaysMap,
+  routineDaySlots,
+  type DayBlockId,
+} from "@/features/routine/data";
+
+type ExRow = {
+  id: string;
+  day_index: number | null;
+  focus: string;
+  position: number;
+  exercise_id: string;
+  equipment: string;
+  sets: number;
+  reps: number;
+  weight_kg: number | null;
+  set_details: unknown;
+  memo: unknown;
+};
+
+const NULL_KEY = -1; // day_index NULL 을 내부 그룹 키로 표현
 
 /**
- * 일차별 독립 저장 마이그레이션 (앱 레벨, 지연·멱등).
+ * routine_exercises 의 day_index 를 "현재 루틴이 그 부위를 쓰는 일차들"에 맞춰 정렬한다.
+ * 일차별 독립 저장의 핵심 — 루틴이 바뀌면(드래그/설정/프리셋/다시시작) 행의 day_index 가
+ * 새 루틴과 어긋나(드리프트) 어떤 일차는 행이 비고, 그러면 today 화면이 다른 일차 운동을
+ * 합쳐 보여주며 편집까지 섞인다. 이 함수가 그 어긋남을 바로잡는다.
  *
- * 과거 routine_exercises 는 (user_id, focus) 단위로 저장돼 같은 부위를 여러 일차에
- * 쓰면 공유됐다. day_index 컬럼 추가 후, 기존 행(day_index IS NULL)을 사용자의 현재
- * 루틴에 맞춰 일차별로 배치한다:
- *  - 부위가 한 일차만 쓰면 그 일차로 stamp (원본 UUID 보존 → 완료기록 유지).
- *  - 부위가 여러 일차를 쓰면(PPL×2 등) 원본은 첫 일차에 두고 나머지 일차로 행을 복제.
- *  - 현재 루틴이 안 쓰는 부위는 0 으로 stamp (어차피 읽히지 않음).
+ * 부위별로:
+ *  - 현재 루틴이 쓰는 일차(target) 가 아닌 일차에 있는 행(NULL 포함, '드리프트/구버전')은
+ *    → 비어 있는 target 일차로 **이동**(UPDATE — UUID 보존, 완료기록 유지, 그 일차 편집도 보존)
+ *  - 옮길 빈 target 이 없는 나머지 드리프트 행은 → **삭제**(중복/불필요)
+ *  - 그래도 비어 있는 target 일차는 → 값이 있는 target 일차에서 **복사**(새 UUID)
+ *  - 루틴이 더 안 쓰는 부위는 그대로 둠(읽히지 않음; NULL 만 0 으로 정리)
  *
- * count(head) 가드로 이미 끝났으면 즉시 반환하므로 매 페이지 진입마다 호출해도 싸다.
+ * 멱등하다(이미 맞는 상태면 아무 일도 안 함).
+ */
+export async function syncRoutineExerciseDays(
+  userId: string,
+  splits: number,
+  variantId: string,
+  customWeek: DayBlockId[][] | null,
+): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const slots = routineDaySlots(splits, variantId, customWeek);
+  const focusDays = focusToDaysMap(slots);
+
+  const { data: allRows } = await supabase
+    .from("routine_exercises")
+    .select(
+      "id, day_index, focus, position, exercise_id, equipment, sets, reps, weight_kg, set_details, memo",
+    )
+    .eq("user_id", userId);
+  if (!allRows || allRows.length === 0) return;
+
+  const byFocus = new Map<string, ExRow[]>();
+  for (const r of allRows as ExRow[]) {
+    const a = byFocus.get(r.focus);
+    if (a) a.push(r);
+    else byFocus.set(r.focus, [r]);
+  }
+
+  for (const [focus, rows] of byFocus) {
+    const target = focusDays.get(focus as never) ?? [];
+
+    // day_index 별 그룹 (NULL → NULL_KEY)
+    const byDay = new Map<number, ExRow[]>();
+    for (const r of rows) {
+      const k = r.day_index ?? NULL_KEY;
+      const a = byDay.get(k);
+      if (a) a.push(r);
+      else byDay.set(k, [r]);
+    }
+
+    // 루틴이 안 쓰는 부위 — NULL 만 0 으로 정리하고 둔다.
+    if (target.length === 0) {
+      if (byDay.has(NULL_KEY)) {
+        await supabase
+          .from("routine_exercises")
+          .update({ day_index: 0 })
+          .eq("user_id", userId)
+          .eq("focus", focus)
+          .is("day_index", null);
+      }
+      continue;
+    }
+
+    const present = [...byDay.keys()];
+    const orphans = present.filter((d) => !target.includes(d)); // 드리프트/NULL
+    const emptyTargets = target.filter((d) => !byDay.has(d));
+
+    const updateDay = (from: number, to: number) => {
+      const q = supabase
+        .from("routine_exercises")
+        .update({ day_index: to })
+        .eq("user_id", userId)
+        .eq("focus", focus);
+      return from === NULL_KEY ? q.is("day_index", null) : q.eq("day_index", from);
+    };
+    const deleteDay = (from: number) => {
+      const q = supabase
+        .from("routine_exercises")
+        .delete()
+        .eq("user_id", userId)
+        .eq("focus", focus);
+      return from === NULL_KEY ? q.is("day_index", null) : q.eq("day_index", from);
+    };
+
+    // 1) 드리프트 행 → 빈 target 으로 이동(UUID 보존)
+    let oi = 0;
+    let ti = 0;
+    for (; oi < orphans.length && ti < emptyTargets.length; oi++, ti++) {
+      const o = orphans[oi];
+      const t = emptyTargets[ti];
+      await updateDay(o, t);
+      byDay.set(t, byDay.get(o)!);
+      byDay.delete(o);
+    }
+    // 2) 남은 드리프트 행 → 삭제(중복)
+    for (; oi < orphans.length; oi++) {
+      await deleteDay(orphans[oi]);
+      byDay.delete(orphans[oi]);
+    }
+    // 3) 아직 비어 있는 target → 값 있는 target 에서 복사
+    const stillEmpty = emptyTargets.slice(ti);
+    if (stillEmpty.length > 0) {
+      const canonDay = target.find((d) => byDay.has(d));
+      if (canonDay !== undefined) {
+        const canon = byDay.get(canonDay)!;
+        for (const t of stillEmpty) {
+          const copies = canon.map((r) => ({
+            user_id: userId,
+            day_index: t,
+            focus: r.focus,
+            position: r.position,
+            exercise_id: r.exercise_id,
+            equipment: r.equipment,
+            sets: r.sets,
+            reps: r.reps,
+            weight_kg: r.weight_kg,
+            set_details: r.set_details ?? null,
+            memo: r.memo ?? null,
+          }));
+          if (copies.length > 0) {
+            await supabase.from("routine_exercises").insert(copies);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * 지연·멱등 동기화 (페이지 진입 시). day_index_migrated 플래그를 원자적으로 claim 해
+ * 한 번만(동시 호출에도 1회만) 현재 루틴 기준으로 day_index 를 정렬한다. 끝나면 플래그
+ * true 로 두어 다음 로드부터는 호출 자체를 건너뛴다. (루틴 변경 액션은 플래그를 false 로
+ * 되돌려 다음 진입 때 다시 동기화되게 한다.)
  */
 export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
   const supabase = await createSupabaseServerClient();
 
-  // 끝나면 플래그를 세팅해 다음 로드부터 이 함수 호출 자체를 건너뛴다.
-  const markDone = () =>
-    supabase
-      .from("user_routines")
-      .update({ day_index_migrated: true })
-      .eq("user_id", userId);
-
-  const { count } = await supabase
-    .from("routine_exercises")
-    .select("id", { count: "exact", head: true })
+  // 원자적 claim: false → true 로 바꾼 행이 있을 때만(=내가 잡았을 때만) 진행.
+  const { data: claimed } = await supabase
+    .from("user_routines")
+    .update({ day_index_migrated: true })
     .eq("user_id", userId)
-    .is("day_index", null);
-  if (!count) {
-    await markDone();
-    return;
-  }
+    .eq("day_index_migrated", false)
+    .select("user_id");
+  if (!claimed || claimed.length === 0) return;
 
   const routine = await getUserRoutine();
-  // 루틴이 없으면 매핑 불가 — 미마이그레이션 행을 0 으로 stamp 해 NULL 만 제거.
-  if (!routine) {
-    await supabase
-      .from("routine_exercises")
-      .update({ day_index: 0 })
-      .eq("user_id", userId)
-      .is("day_index", null);
-    await markDone();
-    return;
-  }
+  if (!routine) return;
 
-  const slots = routineDaySlots(
+  await syncRoutineExerciseDays(
+    userId,
     routine.splits,
     routine.variantId,
     routine.customWeek,
   );
-  const focusDays = focusToDaysMap(slots);
-
-  // 미마이그레이션 행 전체 로드
-  const { data: legacy } = await supabase
-    .from("routine_exercises")
-    .select(
-      "id, focus, position, exercise_id, equipment, sets, reps, weight_kg, set_details, memo",
-    )
-    .eq("user_id", userId)
-    .is("day_index", null);
-  if (!legacy || legacy.length === 0) {
-    await markDone();
-    return;
-  }
-
-  // focus 별로 묶기
-  const byFocus = new Map<string, typeof legacy>();
-  for (const row of legacy) {
-    const arr = byFocus.get(row.focus);
-    if (arr) arr.push(row);
-    else byFocus.set(row.focus, [row]);
-  }
-
-  for (const [focus, rows] of byFocus) {
-    const days = focusDays.get(focus as never) ?? [];
-
-    if (days.length === 0) {
-      // 현재 루틴이 안 쓰는 부위 — NULL 만 제거 (읽히지 않음)
-      await supabase
-        .from("routine_exercises")
-        .update({ day_index: 0 })
-        .eq("user_id", userId)
-        .eq("focus", focus)
-        .is("day_index", null);
-      continue;
-    }
-
-    // 원본을 첫 일차로 claim (UUID 보존). .select() 로 실제 영향받은 행을 받아,
-    // 0행이면 다른 동시 호출이 이미 이 부위를 처리한 것이므로 복제를 건너뛴다.
-    // (페이지가 동시에 여러 번 마이그레이션을 호출해도 복제가 두 번 안 되게 — 중복 방지)
-    const { data: claimed } = await supabase
-      .from("routine_exercises")
-      .update({ day_index: days[0] })
-      .eq("user_id", userId)
-      .eq("focus", focus)
-      .is("day_index", null)
-      .select("id");
-    if (!claimed || claimed.length === 0) continue;
-
-    // 나머지 일차로 복제 (새 UUID)
-    for (const d of days.slice(1)) {
-      const copies = rows.map((r) => ({
-        user_id: userId,
-        day_index: d,
-        focus: r.focus,
-        position: r.position,
-        exercise_id: r.exercise_id,
-        equipment: r.equipment,
-        sets: r.sets,
-        reps: r.reps,
-        weight_kg: r.weight_kg,
-        set_details: r.set_details ?? null,
-        memo: r.memo ?? null,
-      }));
-      if (copies.length > 0) {
-        await supabase.from("routine_exercises").insert(copies);
-      }
-    }
-  }
-
-  await markDone();
 }

@@ -19,7 +19,14 @@ export function conditioningCompletionKey(
   return `c:${kind ?? ""}:${itemId ?? ""}`;
 }
 
-/** 오늘의 워밍업/마무리 상태 맵. source_row_id + (종류:항목) 키 둘 다 포함. */
+/** 워밍업/마무리 "종류" 단위 완료 키. 오늘 그 종류(워밍업/마무리)를 한 번이라도
+ * 완료했으면, 루틴을 바꿔 부위가 달라져 마무리 종목 자체가 바뀌어도(런닝→스트레칭)
+ * 그 섹션을 완료로 유지한다. (사용자 결정: "오늘 마무리 한번 하면 종일 완료") */
+export function conditioningKindDoneKey(kind: string | null | undefined): string {
+  return `k:${kind ?? ""}`;
+}
+
+/** 오늘의 워밍업/마무리 상태 맵. source_row_id + (종류:항목) + (종류) 키 모두 포함. */
 export async function getConditioningStatusMapToday(
   todayYmd: string,
 ): Promise<Map<string, CompletionStatus>> {
@@ -45,6 +52,8 @@ export async function getConditioningStatusMapToday(
     if (r.source_row_id) map.set(r.source_row_id, st);
     const key = conditioningCompletionKey(r.kind, r.item_id);
     if (st === "done" || !map.has(key)) map.set(key, st);
+    // 종류 단위는 "완료"만 표식(스킵은 종일 완료로 번지지 않게).
+    if (st === "done") map.set(conditioningKindDoneKey(r.kind), "done");
   }
   return map;
 }

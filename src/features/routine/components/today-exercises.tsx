@@ -30,6 +30,7 @@ import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import {
   conditioningCompletionKey,
+  conditioningKindDoneKey,
   getConditioningStatusMapToday,
 } from "@/features/routine/conditioning-completions";
 import {
@@ -197,11 +198,12 @@ export async function TodayExercises({
       const kcal = Math.round(
         estimateConditioningKcal(w, r.itemId, eff.duration, eff.speed),
       );
-      // 행 id → (종류:항목) 키 순으로 매칭 — 루틴 변경으로 행 id 가 바뀌어도
-      // 오늘 완료한 워밍업/마무리는 유지된다.
+      // 행 id → (종류:항목) → (종류) 단위 순으로 매칭. 루틴 변경으로 행 id 나
+      // 부위(=마무리 종목)가 바뀌어도, 오늘 그 종류를 한 번 완료했으면 유지된다.
       const st =
         condStatus.get(r.id) ??
-        condStatus.get(conditioningCompletionKey(r.kind, r.itemId));
+        condStatus.get(conditioningCompletionKey(r.kind, r.itemId)) ??
+        condStatus.get(conditioningKindDoneKey(r.kind));
       if (st === "done") doneIds.push(r.id);
       else if (st === "skipped") skippedIds.push(r.id);
       return {

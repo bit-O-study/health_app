@@ -57,7 +57,7 @@ export async function setExerciseMediaAction(
 
   revalidatePath("/admin/exercise-media");
   revalidatePath(`/exercises/${exerciseId}`);
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }
 
@@ -77,6 +77,6 @@ export async function deleteExerciseMediaAction(
 
   revalidatePath("/admin/exercise-media");
   revalidatePath(`/exercises/${exerciseId}`);
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }

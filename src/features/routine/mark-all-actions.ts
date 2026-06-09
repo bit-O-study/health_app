@@ -80,7 +80,7 @@ export async function markAllTodayCompleteAction(opts: {
     await supabase.from("conditioning_completions").insert(inserts);
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/score");
   revalidatePath("/settings/history");
   revalidatePath(`/settings/history/${today}`);

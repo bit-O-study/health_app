@@ -33,7 +33,7 @@ export async function deleteMainExerciseAction(rowId: string): Promise<void> {
   ]);
 
   // /settings/*, /plan* 는 모두 force-dynamic → 진입 시 fresh — 홈만 무효화
-  revalidatePath("/");
+  revalidatePath("/routine");
 }
 
 /**
@@ -66,5 +66,5 @@ export async function deleteConditioningRowAction(
       .eq("source_row_id", rowId),
   ]);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }

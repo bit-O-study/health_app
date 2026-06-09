@@ -125,7 +125,7 @@ export async function saveConditioningAction(
     if (ins.error) return { ok: false, error: ins.error.message };
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/plan");
   return { ok: true };
 }
@@ -164,7 +164,7 @@ export async function registerRecommendedConditioningAction(): Promise<void> {
     await supabase.from("routine_conditioning").insert(rows);
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/plan");
 }
 
@@ -246,7 +246,7 @@ export async function addConditioningToTodayAction(
   }
 
   // 신규 행 추가 — 클라이언트가 router.refresh() 로 보여줌
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }
 

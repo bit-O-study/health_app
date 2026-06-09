@@ -143,6 +143,12 @@ export async function loadRoutinePresetAction(
       splits: p.splits,
       variant_id: p.variant_id,
       custom_week: isCustom ? normalized : null,
+      // 프리셋 로드 = 의도적 루틴 선택 → 기준 루틴으로도 기록
+      baseline_routine: {
+        splits: p.splits,
+        variant_id: p.variant_id,
+        custom_week: isCustom ? normalized : null,
+      },
       start_date: today,
       rest_date: null,
       override_date: null,
@@ -237,7 +243,7 @@ export async function loadRoutinePresetAction(
       .gte("for_date", today),
   ]);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/routine");
   revalidatePath("/plan");
   revalidatePath("/plan/today");

@@ -74,12 +74,21 @@ export async function saveRoutineAction(
   }
 
   // 루틴을 바꾸면 오늘만 변경/휴식 오버라이드는 의미가 없어지므로 함께 클리어.
+  // '설정>루틴 설정' 저장은 곧 기준 루틴이므로 baseline_routine 도 함께 기록한다
+  // ('오늘부터 다시 시작하기'가 이 기준으로 복원).
+  const effSplits = isCustom ? CUSTOM_SPLITS : splits;
+  const effCustomWeek = isCustom ? normalized : null;
   const { error } = await supabase.from("user_routines").upsert(
     {
       user_id: user.id,
-      splits: isCustom ? CUSTOM_SPLITS : splits,
+      splits: effSplits,
       variant_id: variantId,
-      custom_week: isCustom ? normalized : null,
+      custom_week: effCustomWeek,
+      baseline_routine: {
+        splits: effSplits,
+        variant_id: variantId,
+        custom_week: effCustomWeek,
+      },
       rest_date: null,
       override_date: null,
       override_block: null,
@@ -113,7 +122,7 @@ export async function saveRoutineAction(
     await registerRecommendedConditioningAction();
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/routine");
   revalidatePath("/plan");
   revalidatePath("/plan/today");
@@ -243,29 +252,74 @@ export async function reorderUpcomingSevenDaysAction(
       .gte("for_date", today),
   ]);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/routine");
   revalidatePath("/plan");
   return { ok: true };
 }
 
-/** 루틴 기준일을 오늘로 재설정 — 오늘이 루틴 1일차가 된다. */
+/**
+ * "오늘부터 다시 시작하기" — 처음 설정한 루틴으로 되돌린다.
+ * 기준일을 오늘로 리셋해 오늘이 1일차가 되고, 그동안 쌓인 임시 변경
+ * (오늘만 운동 변경=daily_plan / daily_conditioning, 오늘 휴식, 오늘만 부위 변경)을
+ * 오늘 이후 범위에서 모두 지워 기본 루틴이 그대로 보이게 한다. (지난 기록은 보존)
+ */
 export async function restartRoutineFromTodayAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return;
 
+  const today = seoulYmd();
+
+  // 기준(설정) 루틴 스냅샷을 읽어, 그동안 '다가오는 7일' 드래그 등으로 바뀐
+  // 현재 루틴을 기준 루틴으로 복원한다. (스냅샷 없으면 주기만 오늘로 리셋)
+  const { data: cur } = await supabase
+    .from("user_routines")
+    .select("baseline_routine")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  const baseline = (cur as { baseline_routine?: unknown } | null)
+    ?.baseline_routine as
+    | { splits?: number; variant_id?: string; custom_week?: unknown }
+    | null
+    | undefined;
+
+  const update: Record<string, unknown> = {
+    start_date: today,
+    rest_date: null,
+    override_date: null,
+    override_block: null,
+  };
+  if (
+    baseline &&
+    typeof baseline.splits === "number" &&
+    typeof baseline.variant_id === "string"
+  ) {
+    update.splits = baseline.splits;
+    update.variant_id = baseline.variant_id;
+    update.custom_week = baseline.custom_week ?? null;
+  }
+
   await supabase
     .from("user_routines")
-    .update({
-      start_date: seoulYmd(),
-      rest_date: null,
-      override_date: null,
-      override_block: null,
-    })
+    .update(update)
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  // 오늘 이후의 '오늘만 변경' 오버라이드 제거 → 기본(처음 설정한) 루틴으로 복귀.
+  await Promise.all([
+    supabase
+      .from("daily_plan")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+    supabase
+      .from("daily_conditioning")
+      .delete()
+      .eq("user_id", user.id)
+      .gte("for_date", today),
+  ]);
+
+  revalidatePath("/routine");
 }
 
 /**
@@ -296,7 +350,7 @@ export async function convertTodayToRestAction(): Promise<void> {
     })
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }
 
 /**
@@ -328,7 +382,7 @@ export async function undoTodayRestAction(): Promise<void> {
     })
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }
 
 /**
@@ -351,5 +405,5 @@ export async function setTodayFocusAction(blockId: DayBlockId): Promise<void> {
     })
     .eq("user_id", user.id);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }

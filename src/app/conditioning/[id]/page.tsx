@@ -60,7 +60,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
       <section className="mx-auto w-full max-w-3xl space-y-6">
         <Link
           className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100"
-          href="/"
+          href="/routine"
         >
           <ArrowLeft aria-hidden="true" size={16} />
           메인으로

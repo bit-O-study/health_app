@@ -43,9 +43,12 @@ export async function signUpAndOnboard(page: Page): Promise<string> {
   // gym → skip
   await page.getByRole("button", { name: "건너뛰기" }).click();
   await page.waitForTimeout(400);
-  // recommend step → save routine → home
+  // recommend step → save routine → home (/routine, 과거엔 / 였음 — 둘 다 허용)
   await page.getByRole("button", { name: "저장" }).last().click();
-  await page.waitForURL((u) => new URL(u).pathname === "/", { timeout: 30_000 });
+  await page.waitForURL(
+    (u) => ["/", "/routine"].includes(new URL(u).pathname),
+    { timeout: 30_000 },
+  );
 
   return email;
 }
@@ -60,8 +63,11 @@ export async function seedRecommendedExercises(page: Page): Promise<void> {
   await page.waitForTimeout(600);
   await page.getByRole("button", { name: "추천으로 등록" }).click();
   await page.getByRole("button", { name: "교체하기" }).click();
-  // 추천 등록 후 클라이언트는 "/"(모드 선택)로 이동 — 오늘의 운동은 /routine 에 있다.
-  await page.waitForURL((u) => new URL(u).pathname === "/", { timeout: 30_000 });
+  // 추천 등록 후 클라이언트는 홈(/routine, 과거 /)으로 이동.
+  await page.waitForURL(
+    (u) => ["/", "/routine"].includes(new URL(u).pathname),
+    { timeout: 30_000 },
+  );
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
   // sanity: 오늘의 운동(/routine)에 시작 가능한 워크아웃이 있어야 한다.

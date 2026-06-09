@@ -171,6 +171,11 @@ alter table public.user_routines
   add column if not exists override_date date;
 alter table public.user_routines
   add column if not exists override_block text;
+-- 기준(설정) 루틴 스냅샷 {splits, variant_id, custom_week}. '설정>루틴 설정'/온보딩/
+-- 프리셋 로드에서만 갱신되고, '다가오는 7일' 드래그/오늘만 변경 같은 임시 변경은
+-- 건드리지 않는다. '오늘부터 다시 시작하기'가 이걸로 루틴을 복원한다.
+alter table public.user_routines
+  add column if not exists baseline_routine jsonb;
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines

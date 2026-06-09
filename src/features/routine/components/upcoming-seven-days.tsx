@@ -28,6 +28,16 @@ export function UpcomingSevenDaysGrid({
 }) {
   const router = useRouter();
   const [blocks, setBlocks] = useState<DayBlockId[][]>(initialBlocks);
+
+  // 루틴이 바뀌면(예: '오늘부터 다시 시작', 루틴 변경) 부모가 새 initialBlocks 를
+  // 내려준다. useState 초기값은 최초 1회만 반영되므로, prop 이 바뀌면 로컬 state 를
+  // 동기화해 하단 7일 그리드가 서버 데이터와 어긋나지 않게 한다. (React 권장 패턴)
+  const initialKey = JSON.stringify(initialBlocks);
+  const seenKeyRef = useRef(initialKey);
+  if (seenKeyRef.current !== initialKey) {
+    seenKeyRef.current = initialKey;
+    setBlocks(initialBlocks);
+  }
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
   /** 드래그 시작 지점부터 현재까지의 이동량 — 잡힌 카드가 마우스/손가락을 따라간다 */

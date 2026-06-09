@@ -55,7 +55,7 @@ export async function clearDailyPlanForDateAction(
     .eq("for_date", dateYmd);
   if (error) return { ok: false, error: error.message };
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/plan/today");
   return { ok: true };
 }
@@ -119,7 +119,7 @@ export async function saveDailyPlanAction(
     if (ins.error) return { ok: false, error: ins.error.message };
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/plan/today");
   return { ok: true };
 }

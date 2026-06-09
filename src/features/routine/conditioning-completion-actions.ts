@@ -61,7 +61,7 @@ export async function setConditioningStatusAction(
   }
 
   // 홈 + 점수·기록 페이지 무효화 (클라이언트 Router Cache stale 방지).
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/score");
   revalidatePath("/settings/history");
   return { ok: true };

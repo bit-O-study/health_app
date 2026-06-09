@@ -67,7 +67,7 @@ export async function saveDailyConditioningAction(
     if (ins.error) return { ok: false, error: ins.error.message };
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/plan/today");
   return { ok: true };
 }
@@ -89,6 +89,6 @@ export async function resetDailyConditioningAction(
     .eq("for_date", dateYmd)
     .eq("kind", kind);
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/plan/today");
 }

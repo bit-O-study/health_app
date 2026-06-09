@@ -74,7 +74,7 @@ export async function setExerciseStatusAction(
 
   // 홈 + 점수·기록 페이지 무효화. force-dynamic 이라도 클라이언트 Router Cache 때문에
   // 소프트 네비게이션 시 stale 이 보일 수 있어, 완료 기록이 반영되는 화면들을 명시 무효화.
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/settings/score");
   revalidatePath("/settings/history");
   return { ok: true };

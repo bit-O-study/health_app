@@ -121,6 +121,6 @@ export async function saveBodyCompositionAction(
   revalidatePath("/settings/body-composition");
   revalidatePath("/settings/score");
   revalidatePath("/settings/profile");
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }

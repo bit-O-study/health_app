@@ -53,6 +53,6 @@ export async function addWorkoutDurationAction(
   revalidatePath("/settings/history");
   revalidatePath(`/settings/history/${forDate}`);
   revalidatePath("/settings/score");
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true, total };
 }

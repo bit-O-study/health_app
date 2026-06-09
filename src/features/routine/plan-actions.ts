@@ -131,7 +131,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   // 워밍업·마무리도 기본 추천으로 함께 채운다
   await registerRecommendedConditioningAction();
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }
 
@@ -251,7 +251,7 @@ export async function saveManualPlanAction(
     if (ins.error) return { ok: false, error: ins.error.message };
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }
 
@@ -358,7 +358,7 @@ export async function saveMuscleSelectionAction(
     }
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
   revalidatePath("/plan");
   return { ok: true };
 }
@@ -585,7 +585,7 @@ export async function addExerciseToTodayAction(
   }
 
   // 신규 행이 추가됐으므로 캐시 무효화는 필요 — 클라이언트가 router.refresh() 호출해 보여줌
-  revalidatePath("/");
+  revalidatePath("/routine");
   return { ok: true };
 }
 
@@ -661,5 +661,5 @@ export async function applyTodayRecommendedAction(
     await supabase.from("routine_exercises").insert(rows);
   }
 
-  revalidatePath("/");
+  revalidatePath("/routine");
 }

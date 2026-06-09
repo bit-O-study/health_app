@@ -15,7 +15,7 @@ export default async function MusclePlanPage() {
     <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
       <Link
         className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/"
+        href="/routine"
       >
         <ChevronLeft aria-hidden="true" size={16} />
         메인으로

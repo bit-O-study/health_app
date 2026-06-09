@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -51,8 +53,8 @@ function toRow(r: Row): ConditioningRow {
   };
 }
 
-/** 부위·종류별 컨디셔닝 항목(순서대로) */
-export async function getConditioningForFocus(
+/** 부위·종류별 컨디셔닝 항목(순서대로). React.cache 로 요청 내 중복 조회 합침. */
+export const getConditioningForFocus = cache(async function getConditioningForFocus(
   focus: string,
 ): Promise<{ warmup: ConditioningRow[]; cooldown: ConditioningRow[] }> {
   const user = await getCurrentUser();
@@ -74,4 +76,4 @@ export async function getConditioningForFocus(
     warmup: rows.filter((r) => r.kind === "warmup"),
     cooldown: rows.filter((r) => r.kind === "cooldown"),
   };
-}
+});

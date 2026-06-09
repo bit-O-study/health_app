@@ -24,6 +24,7 @@ import {
 } from "@/features/routine/exercise-catalog";
 import { getUserProfile } from "@/features/profile/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
+import { syncRoutineExerciseDays } from "@/features/routine/day-index-migration";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
@@ -121,6 +122,14 @@ export async function saveRoutineAction(
     await fillMissingFocusesAction(user.id, splits, variantId, normalized);
     await registerRecommendedConditioningAction();
   }
+
+  // 루틴 구조가 바뀌었으니 기존 운동의 day_index 를 새 루틴 일차에 맞춰 재정렬.
+  await syncRoutineExerciseDays(
+    user.id,
+    isCustom ? CUSTOM_SPLITS : splits,
+    variantId,
+    normalized,
+  );
 
   revalidatePath("/routine");
   revalidatePath("/settings/routine");
@@ -252,6 +261,9 @@ export async function reorderUpcomingSevenDaysAction(
       .gte("for_date", today),
   ]);
 
+  // 드래그로 일차 배치가 바뀌었으니 day_index 재정렬(일차별 운동이 새 일차로 따라감).
+  await syncRoutineExerciseDays(user.id, CUSTOM_SPLITS, CUSTOM_VARIANT_ID, blocks);
+
   revalidatePath("/routine");
   revalidatePath("/settings/routine");
   revalidatePath("/plan");
@@ -290,14 +302,14 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
     override_date: null,
     override_block: null,
   };
-  if (
+  const restoredBaseline =
     baseline &&
     typeof baseline.splits === "number" &&
-    typeof baseline.variant_id === "string"
-  ) {
-    update.splits = baseline.splits;
-    update.variant_id = baseline.variant_id;
-    update.custom_week = baseline.custom_week ?? null;
+    typeof baseline.variant_id === "string";
+  if (restoredBaseline) {
+    update.splits = baseline!.splits;
+    update.variant_id = baseline!.variant_id;
+    update.custom_week = baseline!.custom_week ?? null;
   }
 
   await supabase
@@ -318,6 +330,16 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
       .eq("user_id", user.id)
       .gte("for_date", today),
   ]);
+
+  // 기준 루틴으로 구조가 바뀌었으면 day_index 도 그 루틴에 맞춰 재정렬.
+  if (restoredBaseline) {
+    await syncRoutineExerciseDays(
+      user.id,
+      baseline!.splits as number,
+      baseline!.variant_id as string,
+      (baseline!.custom_week ?? null) as DayBlockId[][] | null,
+    );
+  }
 
   revalidatePath("/routine");
 }

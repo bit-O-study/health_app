@@ -21,11 +21,18 @@ import {
   estimateConditioningKcal,
   estimateStrengthKcal,
 } from "@/features/routine/calories";
-import { getStatusMapToday } from "@/features/routine/exercise-completions";
+import {
+  exerciseCompletionKey,
+  getStatusMapToday,
+} from "@/features/routine/exercise-completions";
 import { orderMainPlan } from "@/features/routine/plan-order";
 import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
-import { getConditioningStatusMapToday } from "@/features/routine/conditioning-completions";
+import {
+  conditioningCompletionKey,
+  conditioningKindDoneKey,
+  getConditioningStatusMapToday,
+} from "@/features/routine/conditioning-completions";
 import {
   TodayPlanList,
   type TodayPlanItem,
@@ -165,11 +172,16 @@ export async function TodayExercises({
     focus: item.focus,
     memo: item.memo,
   }));
+  // 완료 상태는 row_id 로 먼저, 없으면 (부위:운동) 키로 — 루틴을 바꿔 행 UUID 가
+  // 새로 생겨도 오늘 완료한 운동이면 체크가 유지된다.
+  const statusOf = (p: { id: string; focus: string; exerciseId: string }) =>
+    mainStatus.get(p.id) ??
+    mainStatus.get(exerciseCompletionKey(p.focus, p.exerciseId));
   const mainDoneIds = plan
-    .filter((p) => mainStatus.get(p.id) === "done")
+    .filter((p) => statusOf(p) === "done")
     .map((p) => p.id);
   const mainSkippedIds = plan
-    .filter((p) => mainStatus.get(p.id) === "skipped")
+    .filter((p) => statusOf(p) === "skipped")
     .map((p) => p.id);
   const mainSkipSet = new Set(mainSkippedIds);
   const mainDoneSet = new Set(mainDoneIds);
@@ -186,7 +198,12 @@ export async function TodayExercises({
       const kcal = Math.round(
         estimateConditioningKcal(w, r.itemId, eff.duration, eff.speed),
       );
-      const st = condStatus.get(r.id);
+      // 행 id → (종류:항목) → (종류) 단위 순으로 매칭. 루틴 변경으로 행 id 나
+      // 부위(=마무리 종목)가 바뀌어도, 오늘 그 종류를 한 번 완료했으면 유지된다.
+      const st =
+        condStatus.get(r.id) ??
+        condStatus.get(conditioningCompletionKey(r.kind, r.itemId)) ??
+        condStatus.get(conditioningKindDoneKey(r.kind));
       if (st === "done") doneIds.push(r.id);
       else if (st === "skipped") skippedIds.push(r.id);
       return {

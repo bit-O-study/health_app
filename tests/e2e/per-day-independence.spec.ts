@@ -100,6 +100,12 @@ test("legacy(day_index NULL) 행이 일차별로 자동 백필된다", async ({ 
         and focus='push'`,
     [email],
   );
+  // 진짜 미마이그레이션 사용자 모사 — 플래그도 false 로 (안 그러면 백필 스킵됨)
+  await dbQuery(
+    `update public.user_routines set day_index_migrated = false
+      where user_id=(select id from auth.users where lower(email)=lower($1))`,
+    [email],
+  );
   // 백필 전: push 행이 모두 day_index NULL 이어야 한다(일차 배정 전 상태)
   const legacyNulls = await dbQuery<{ n: string }>(
     `select count(*)::text as n from public.routine_exercises

@@ -111,8 +111,9 @@ export default async function Home() {
 
   const routine = user ? await getUserRoutine() : null;
 
-  // 일차별 독립 마이그레이션 (멱등·지연 — day_index 없는 기존 행만 백필)
-  if (user && routine) {
+  // 일차별 독립 마이그레이션 (멱등·지연). 이미 끝난 사용자는 플래그로 스킵 →
+  // 매 로드마다 돌던 count 쿼리 제거(성능).
+  if (user && routine && !routine.dayIndexMigrated) {
     await ensureDayIndexBackfilled(user.id);
   }
 
@@ -266,6 +267,19 @@ async function TodayWorkout({
   const { weekday } = ymdDisplay(todayYmd);
   const dateLabel = `${Number(mm)}월 ${Number(dd)}일 (${weekday})`;
 
+  // 다가오는 7일 블록 (그리드 + remount key 공용)
+  const upcomingBlocks = Array.from({ length: 7 }, (_, i) => {
+    const ymd = addDaysYmd(todayYmd, i);
+    const isToday = i === 0;
+    if (isToday) {
+      if (restedToday) return ["rest"] as DayBlockId[];
+      if (hasDailyOverride) return dailyFocuses as DayBlockId[];
+      if (overriddenToday) return [routine.overrideBlock!];
+    }
+    const dp = variant.week[routineDayOffset(routine.startDate, ymd)];
+    return (dp.tones ?? [dp.tone]) as DayBlockId[];
+  });
+
   return (
     <div className="space-y-6 sm:space-y-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
@@ -378,18 +392,10 @@ async function TodayWorkout({
 
       {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
       <UpcomingSevenDaysGrid
-        initialBlocks={Array.from({ length: 7 }, (_, i) => {
-          const ymd = addDaysYmd(todayYmd, i);
-          const isToday = i === 0;
-          if (isToday) {
-            if (restedToday) return ["rest"] as DayBlockId[];
-            if (hasDailyOverride) return dailyFocuses as DayBlockId[];
-            if (overriddenToday) return [routine.overrideBlock!];
-          }
-          const dp = variant.week[routineDayOffset(routine.startDate, ymd)];
-          const tones = (dp.tones ?? [dp.tone]) as DayBlockId[];
-          return tones;
-        })}
+        // 루틴이 바뀌면(예: '오늘부터 다시 시작') 그리드를 remount 해 새 7일을 확실히
+        // 반영한다 — 클라이언트 로컬 state 가 옛 루틴에 갇히지 않게.
+        key={`grid-${JSON.stringify(upcomingBlocks)}`}
+        initialBlocks={upcomingBlocks}
         cells={Array.from({ length: 7 }, (_, i) => {
           const ymd = addDaysYmd(todayYmd, i);
           const { weekday: wd, label } = ymdDisplay(ymd);

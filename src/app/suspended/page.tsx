@@ -35,7 +35,7 @@ export default async function SuspendedPage() {
     : "active";
 
   // 차단 상태가 아니면 메인으로 (미들웨어가 보통 먼저 처리하지만 방어).
-  if (state === "active") redirect("/");
+  if (state === "active") redirect("/routine");
 
   const isBan = state === "banned";
 

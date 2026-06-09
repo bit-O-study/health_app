@@ -96,7 +96,7 @@ export default async function ProgressPage() {
             그려집니다.
           </p>
           <Link
-            href="/"
+            href="/routine"
             className="mt-4 inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-indigo-600 px-5 text-sm font-semibold text-white transition hover:bg-indigo-500"
           >
             오늘 운동하러 가기

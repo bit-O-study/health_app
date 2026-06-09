@@ -50,7 +50,7 @@ export default function ExercisesPage() {
           </div>
           <Link
             className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700"
-            href="/"
+            href="/routine"
           >
             홈으로
           </Link>

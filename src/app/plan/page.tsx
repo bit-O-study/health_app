@@ -24,7 +24,8 @@ export default async function PlanPage() {
 
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
-  if (user) await ensureDayIndexBackfilled(user.id);
+  if (user && routine && !routine.dayIndexMigrated)
+    await ensureDayIndexBackfilled(user.id);
   const gymEquipment = gym?.equipmentIds ?? null;
 
   // 루틴을 일차별 부위 슬롯으로 펼친다. 같은 부위가 여러 일차에 나오면 각각
@@ -73,7 +74,7 @@ export default async function PlanPage() {
     <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
       <Link
         className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/"
+        href="/routine"
       >
         <ChevronLeft aria-hidden="true" size={16} />
         메인으로

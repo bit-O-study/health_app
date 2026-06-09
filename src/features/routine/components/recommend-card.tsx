@@ -24,7 +24,7 @@ export function RecommendRoutineCard({
         "recommend",
       );
       if (res.ok) {
-        router.push("/");
+        router.push("/routine");
         router.refresh();
       }
     });

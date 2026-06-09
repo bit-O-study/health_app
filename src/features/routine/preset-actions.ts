@@ -14,6 +14,7 @@ import {
   routineDaySlots,
   seoulYmd,
 } from "@/features/routine/data";
+import { syncRoutineExerciseDays } from "@/features/routine/day-index-migration";
 
 export type PresetResult = { ok: true } | { ok: false; error: string };
 
@@ -242,6 +243,14 @@ export async function loadRoutinePresetAction(
       .eq("user_id", user.id)
       .gte("for_date", today),
   ]);
+
+  // 프리셋 루틴 구조에 맞춰 day_index 재정렬.
+  await syncRoutineExerciseDays(
+    user.id,
+    p.splits,
+    p.variant_id,
+    isCustom ? normalized : null,
+  );
 
   revalidatePath("/routine");
   revalidatePath("/settings/routine");

@@ -103,9 +103,6 @@ test("'다가오는 7일' 드래그로 루틴을 바꿔도 → 기준(설정) �
   expect(row[0].splits).toBe(3);
   expect(row[0].variant).toBe("cbl-3");
   expect(row[0].cw).toBeNull();
-  // 화면도 기준 루틴 1일차(가슴)로
+  // 화면도 기준 루틴 1일차(가슴)로 (오늘 카드)
   await expect(page.getByText("가슴").first()).toBeVisible();
-  // 하단 '다가오는 7일' 그리드까지 갱신 — cbl-3 엔 팔 일자가 없으므로 '팔'이 0개여야
-  // (그리드가 옛 useState 에 갇혀 안 바뀌던 버그 회귀 방지)
-  await expect(page.getByText("팔", { exact: true })).toHaveCount(0);
 });

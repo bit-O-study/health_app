@@ -176,6 +176,10 @@ alter table public.user_routines
 -- 건드리지 않는다. '오늘부터 다시 시작하기'가 이걸로 루틴을 복원한다.
 alter table public.user_routines
   add column if not exists baseline_routine jsonb;
+-- 일차별(day_index) 마이그레이션 완료 플래그. true 면 매 페이지 로드마다 돌던
+-- 백필 count 쿼리를 건너뛴다(성능). 마이그레이션이 끝나면 true 로 세팅.
+alter table public.user_routines
+  add column if not exists day_index_migrated boolean not null default false;
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines

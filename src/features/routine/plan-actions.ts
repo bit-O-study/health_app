@@ -117,6 +117,23 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
     });
   });
 
+  // 완료기록(exercise_completions) 보존을 위해, 기존 행의 UUID 를
+  // (day_index, focus, exercise_id) 키로 모아 두고, 같은 운동이면 재등록 시에도
+  // 같은 UUID 를 재사용한다 → 완료 체크가 유지된다.
+  const { data: oldRows } = await supabase
+    .from("routine_exercises")
+    .select("id, day_index, focus, exercise_id")
+    .eq("user_id", user.id);
+  const oldIdByKey = new Map<string, string>();
+  for (const r of (oldRows ?? []) as {
+    id: string;
+    day_index: number | null;
+    focus: string;
+    exercise_id: string;
+  }[]) {
+    oldIdByKey.set(`${r.day_index ?? 0}:${r.focus}:${r.exercise_id}`, r.id);
+  }
+
   const del = await supabase
     .from("routine_exercises")
     .delete()
@@ -124,7 +141,11 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   if (del.error) return { ok: false, error: del.error.message };
 
   if (rows.length > 0) {
-    const ins = await supabase.from("routine_exercises").insert(rows);
+    const rowsWithId = rows.map((r) => {
+      const id = oldIdByKey.get(`${r.day_index}:${r.focus}:${r.exercise_id}`);
+      return id ? { ...r, id } : r;
+    });
+    const ins = await supabase.from("routine_exercises").insert(rowsWithId);
     if (ins.error) return { ok: false, error: ins.error.message };
   }
 

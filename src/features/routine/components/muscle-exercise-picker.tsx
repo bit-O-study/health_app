@@ -149,7 +149,7 @@ export function MuscleExercisePicker({
     start(async () => {
       const res = await saveMuscleSelectionAction(selections);
       if (res.ok) {
-        router.push("/");
+        router.push("/routine");
         router.refresh();
       } else {
         setError(res.error);

@@ -26,6 +26,8 @@ export type UserRoutine = {
   overrideDate: string | null;
   /** 그날 덮어쓸 부위 블록 또는 null */
   overrideBlock: DayBlockId | null;
+  /** 일차별(day_index) 마이그레이션 완료 여부 — true 면 백필 호출 자체를 스킵 */
+  dayIndexMigrated: boolean;
   updatedAt: string;
 };
 
@@ -37,6 +39,7 @@ type UserRoutineRow = {
   rest_date: string | null;
   override_date: string | null;
   override_block: unknown;
+  day_index_migrated?: boolean | null;
   updated_at: string;
 };
 
@@ -54,7 +57,7 @@ export const getUserRoutine = cache(async (): Promise<UserRoutine | null> => {
   const { data, error } = await supabase
     .from("user_routines")
     .select(
-      "splits, variant_id, custom_week, start_date, rest_date, override_date, override_block, updated_at",
+      "splits, variant_id, custom_week, start_date, rest_date, override_date, override_block, day_index_migrated, updated_at",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -85,6 +88,7 @@ export const getUserRoutine = cache(async (): Promise<UserRoutine | null> => {
     restDate: row.rest_date ?? null,
     overrideDate: overrideBlock ? (row.override_date ?? null) : null,
     overrideBlock,
+    dayIndexMigrated: row.day_index_migrated === true,
     updatedAt: row.updated_at,
   };
 });

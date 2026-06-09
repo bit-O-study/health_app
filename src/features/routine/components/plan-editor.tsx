@@ -150,7 +150,7 @@ export function PlanEditor({
       const res = await registerRecommendedPlanAction();
       if (res.ok) {
         setDirty(new Set());
-        router.push("/");
+        router.push("/routine");
         router.refresh();
       } else {
         setStatus(res.error);

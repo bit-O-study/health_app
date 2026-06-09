@@ -28,7 +28,10 @@ import {
 import { orderMainPlan } from "@/features/routine/plan-order";
 import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
-import { getConditioningStatusMapToday } from "@/features/routine/conditioning-completions";
+import {
+  conditioningCompletionKey,
+  getConditioningStatusMapToday,
+} from "@/features/routine/conditioning-completions";
 import {
   TodayPlanList,
   type TodayPlanItem,
@@ -194,7 +197,11 @@ export async function TodayExercises({
       const kcal = Math.round(
         estimateConditioningKcal(w, r.itemId, eff.duration, eff.speed),
       );
-      const st = condStatus.get(r.id);
+      // 행 id → (종류:항목) 키 순으로 매칭 — 루틴 변경으로 행 id 가 바뀌어도
+      // 오늘 완료한 워밍업/마무리는 유지된다.
+      const st =
+        condStatus.get(r.id) ??
+        condStatus.get(conditioningCompletionKey(r.kind, r.itemId));
       if (st === "done") doneIds.push(r.id);
       else if (st === "skipped") skippedIds.push(r.id);
       return {

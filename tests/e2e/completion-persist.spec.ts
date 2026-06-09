@@ -60,6 +60,31 @@ test("루틴 변경으로 행 UUID 가 새로 생겨도 오늘 완료한 운동�
     [email],
   );
 
+  // 워밍업 1개(런닝) 등록 + 오늘 완료 + 행 재생성(새 id)
+  await dbQuery(
+    `insert into public.routine_conditioning
+       (user_id, focus, kind, position, item_id, duration_min)
+     values (${uid}, 'chest', 'warmup', 0, 'running', 5)`,
+    [email],
+  );
+  await dbQuery(
+    `insert into public.conditioning_completions
+       (user_id, for_date, kind, item_id, source_row_id, status)
+     select user_id, (now() at time zone 'Asia/Seoul')::date, kind, item_id, id, 'done'
+       from public.routine_conditioning where user_id=${uid} and kind='warmup'`,
+    [email],
+  );
+  await dbQuery(
+    `delete from public.routine_conditioning where user_id=${uid} and kind='warmup'`,
+    [email],
+  );
+  await dbQuery(
+    `insert into public.routine_conditioning
+       (user_id, focus, kind, position, item_id, duration_min)
+     values (${uid}, 'chest', 'warmup', 0, 'running', 5)`,
+    [email],
+  );
+
   // 완료기록은 (FK 드롭으로) 살아있어야 한다
   const comps = await dbQuery<{ n: string }>(
     `select count(*)::text n from public.exercise_completions
@@ -77,4 +102,8 @@ test("루틴 변경으로 행 UUID 가 새로 생겨도 오늘 완료한 운동�
     .locator("ul.space-y-2")
     .filter({ hasText: "벤치프레스" });
   await expect(mainUl.getByText("완료", { exact: true }).first()).toBeVisible();
+
+  // 워밍업(런닝)도 행 id 가 바뀌었지만 완료 유지돼야 한다 (kind:item 키 매칭).
+  const warmUl = page.locator("ul.space-y-2").filter({ hasText: "런닝" });
+  await expect(warmUl.getByText("완료", { exact: true }).first()).toBeVisible();
 });

@@ -24,6 +24,10 @@ export const metadata: Metadata = {
   title: { default: siteConfig.title, template: "%s | 헬쑤" },
   description: siteConfig.description,
   applicationName: siteConfig.name,
+  icons: {
+    icon: "/icon-192.png?v=helssu-20260611",
+    apple: "/apple-touch-icon.png?v=helssu-20260611",
+  },
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,

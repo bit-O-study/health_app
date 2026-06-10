@@ -20,6 +20,15 @@ function loadEnv(): Record<string, string> {
 const env = { ...loadEnv(), ...process.env };
 export const hasDb = Boolean(env.SUPA_DB_REF && env.SUPA_DB_HOST && env.SUPA_DB_PW);
 
+/**
+ * 실계정 스모크 테스트용 자격증명 — .env.test.local 의 E2E_REAL_EMAIL/E2E_REAL_PW.
+ * (gitignore 되는 파일이라 소스에 비밀번호를 하드코딩하지 않는다.) 없으면 null → 스킵.
+ */
+export const realAccount =
+  env.E2E_REAL_EMAIL && env.E2E_REAL_PW
+    ? { email: env.E2E_REAL_EMAIL, pw: env.E2E_REAL_PW }
+    : null;
+
 export async function dbQuery<T = unknown>(
   sql: string,
   params: unknown[] = [],

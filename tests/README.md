@@ -32,10 +32,15 @@ SUPA_DB_REF=<project-ref>          # from NEXT_PUBLIC_SUPABASE_URL
 SUPA_DB_HOST=aws-1-ap-southeast-1.pooler.supabase.com
 SUPA_DB_PORT=5432
 SUPA_DB_PW=<database password>
+
+# (선택) 실계정 로그인 스모크 테스트(real-account-login.spec.ts)용 — 없으면 스킵
+E2E_REAL_EMAIL=<실계정 이메일>
+E2E_REAL_PW=<실계정 비밀번호>
 ```
 
 Without it, the schema-sync test **skips** and E2E cleanup is a **no-op** (tests
-still run; throwaway accounts just aren't deleted).
+still run; throwaway accounts just aren't deleted). `real-account-login.spec.ts`
+는 `E2E_REAL_*` 가 없으면 스킵된다(소스에 비밀번호를 두지 않기 위함).
 
 ## BE: schema-sync guard — why it exists
 

@@ -37,6 +37,9 @@ test("순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두
   await signUpAndOnboard(page);
   await seedRecommendedExercises(page);
 
+  // 순서 변경은 '편집하기' 모드에서만 가능 — 그립 핸들도 편집모드에서만 보인다.
+  await page.getByRole("button", { name: "편집하기" }).click();
+
   // ul.space-y-2 순서: [워밍업, 본운동, 마무리]
   const warmUl = page.locator("ul.space-y-2").nth(0);
   const mainUl = page.locator("ul.space-y-2").nth(1);

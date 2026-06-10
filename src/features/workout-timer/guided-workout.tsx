@@ -2,7 +2,15 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, ChevronRight, StickyNote, Timer, X } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  Pause,
+  Play,
+  StickyNote,
+  Timer,
+  X,
+} from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
@@ -77,11 +85,20 @@ export function GuidedOverlay({
   items,
   onClose,
   onAllComplete,
+  elapsedLabel,
+  running = true,
+  onPauseResume,
 }: {
   items: GuidedItem[];
   onClose: () => void;
   /** 마지막 항목까지 완료/넘기기 처리되면 호출. 부모가 운동시간 저장 등 후처리. */
   onAllComplete?: () => void;
+  /** 세션 경과 시간(mm:ss). 운동 페이지 안에 표시. undefined 면 표시 안 함. */
+  elapsedLabel?: string;
+  /** 타이머가 흐르는 중인지 — 버튼이 '중단하기'/'운동 다시 시작하기'로 토글. */
+  running?: boolean;
+  /** 중단/다시 시작 토글. */
+  onPauseResume?: () => void;
 }) {
   const router = useRouter();
   const rest = useRestTimer();
@@ -283,6 +300,41 @@ export function GuidedOverlay({
           <X aria-hidden="true" size={18} />
         </button>
       </div>
+
+      {/* 세션 운동 시간 — 운동 페이지 안에서 보여준다(+ 중단하기/다시 시작하기). */}
+      {elapsedLabel !== undefined ? (
+        <div className="flex items-center justify-center gap-2 px-4 pb-1">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1 dark:border-emerald-800 dark:bg-emerald-950/40">
+            <Timer
+              aria-hidden="true"
+              size={14}
+              className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
+            />
+            <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
+              {elapsedLabel}
+            </span>
+          </span>
+          {onPauseResume ? (
+            <button
+              type="button"
+              onClick={onPauseResume}
+              className="inline-flex h-8 items-center gap-1 rounded-full border border-emerald-300 bg-white px-3 text-xs font-bold text-emerald-700 transition hover:bg-emerald-50 dark:border-emerald-700 dark:bg-zinc-900 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
+            >
+              {running ? (
+                <>
+                  <Pause aria-hidden="true" size={13} />
+                  중단하기
+                </>
+              ) : (
+                <>
+                  <Play aria-hidden="true" size={13} />
+                  운동 다시 시작하기
+                </>
+              )}
+            </button>
+          ) : null}
+        </div>
+      ) : null}
 
       {/* 저장 실패 배너 — 액션이 실패하면(예: RLS/네트워크) 알리고 재시도 */}
       {failures.length > 0 && (

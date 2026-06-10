@@ -3,17 +3,19 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { ListChecks, Pause, Play, Save, Timer } from "lucide-react";
+import { Pause, Play, Save, Timer } from "lucide-react";
 
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
 import {
+  clearSavedMark,
   elapsedMs,
   formatElapsed,
   readTimer,
   seoulTodayYmd,
+  takeUnsavedDelta,
   writeTimer,
   type TimerState,
 } from "@/features/workout-timer/timer-store";
@@ -41,8 +43,11 @@ const GuidedOverlay = dynamic(
  */
 export function WorkoutSessionTimer({
   queueItems = [],
+  hideVideos = false,
 }: {
   queueItems?: GuidedItem[];
+  /** 개인설정 '운동영상 안 보기'. true 면 영상 가이드 없이 타이머(중지/시작/저장)만. */
+  hideVideos?: boolean;
 }) {
   const router = useRouter();
   const orderScope = useTodayOrder();
@@ -115,8 +120,9 @@ export function WorkoutSessionTimer({
       const today = seoulTodayYmd();
       if (restored.forDate !== today && rolledOverRef.current !== restored.forDate) {
         rolledOverRef.current = restored.forDate;
-        const elapsedSec = Math.floor(elapsedMs(restored) / 1000);
-        void saveDuration(restored.forDate, elapsedSec);
+        const d = takeUnsavedDelta(restored);
+        if (d) void saveDuration(d.forDate, d.deltaSec);
+        clearSavedMark();
         // 새 세션 시작 (계속 운동 중이라고 가정 — 일시정지 상태였으면 유지)
         const fresh: TimerState = {
           startedAt: Date.now(),
@@ -145,8 +151,9 @@ export function WorkoutSessionTimer({
         const today = seoulTodayYmd();
         if (state.forDate !== today && rolledOverRef.current !== state.forDate) {
           rolledOverRef.current = state.forDate;
-          const elapsedSec = Math.floor(elapsedMs(state) / 1000);
-          void saveDuration(state.forDate, elapsedSec);
+          const d = takeUnsavedDelta(state);
+          if (d) void saveDuration(d.forDate, d.deltaSec);
+          clearSavedMark();
           const fresh: TimerState = {
             startedAt: Date.now(),
             pausedAt: null,
@@ -172,9 +179,11 @@ export function WorkoutSessionTimer({
       accumulated: 0,
       forDate: seoulTodayYmd(),
     };
+    clearSavedMark(); // 새 세션은 0 부터 누적
     writeTimer(s);
     setState(s);
-    if (queue.length > 0) setGuided(true);
+    // 영상 보기 모드에서만 가이드 오버레이를 연다. '안 보기'면 타이머만.
+    if (!hideVideos && queue.length > 0) setGuided(true);
   }
   function pause() {
     if (!state || state.pausedAt !== null) return;
@@ -198,6 +207,13 @@ export function WorkoutSessionTimer({
     };
     writeTimer(s);
     setState(s);
+    // 영상 보기 모드: '운동 다시 시작하기'가 가이드도 다시 연다.
+    if (!hideVideos && queue.length > 0) setGuided(true);
+  }
+  /** 영상 보기 모드의 '중단하기' — 일시정지하고 가이드 오버레이를 닫는다. */
+  function pauseAndCloseGuide() {
+    pause();
+    setGuided(false);
   }
   function requestSave() {
     setSaveAsk(true);
@@ -211,10 +227,14 @@ export function WorkoutSessionTimer({
       setSaveAsk(false);
       return;
     }
-    const sec = Math.floor(elapsedMs(state) / 1000);
     setSaveAsk(false);
-    const ok = await saveDuration(state.forDate, sec);
-    if (!ok) return; // 실패 시 상태 유지해 재시도 가능
+    // 운동 완료마다 이미 누적했을 수 있으니 '아직 안 올린 만큼'만 더한다(이중 가산 방지).
+    const d = takeUnsavedDelta(state);
+    if (d) {
+      const ok = await saveDuration(d.forDate, d.deltaSec);
+      if (!ok) return; // 실패 시 상태 유지해 재시도 가능
+    }
+    clearSavedMark();
     writeTimer(null);
     setState(null);
   }
@@ -226,9 +246,12 @@ export function WorkoutSessionTimer({
    */
   async function handleGuidedAllComplete() {
     if (!state) return;
-    const sec = Math.floor(elapsedMs(state) / 1000);
-    const ok = await saveDuration(state.forDate, sec);
-    if (!ok) return;
+    const d = takeUnsavedDelta(state);
+    if (d) {
+      const ok = await saveDuration(d.forDate, d.deltaSec);
+      if (!ok) return;
+    }
+    clearSavedMark();
     writeTimer(null);
     setState(null);
   }
@@ -246,17 +269,22 @@ export function WorkoutSessionTimer({
     );
   }
 
+  const running = state.pausedAt === null;
+  const time = formatElapsed(elapsedMs(state));
+
   const overlay =
     guided && queue.length > 0 ? (
       <GuidedOverlay
         items={queue}
         onClose={() => setGuided(false)}
         onAllComplete={handleGuidedAllComplete}
+        // 운동 페이지(가이드) 안에 경과 시간 + 중단/다시 시작 표시.
+        // 일시정지해도 오버레이는 유지(가이드를 닫지 않음).
+        elapsedLabel={time}
+        running={running}
+        onPauseResume={running ? pause : resume}
       />
     ) : null;
-
-  const running = state.pausedAt === null;
-  const time = formatElapsed(elapsedMs(state));
 
   return (
     <>
@@ -269,47 +297,61 @@ export function WorkoutSessionTimer({
         <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
           {time}
         </span>
-        {queue.length > 0 && !guided ? (
+        {hideVideos ? (
+          /* 영상 끄기 모드: 중지/시작/저장 (기존 버튼 그대로). */
+          <>
+            {running ? (
+              <button
+                type="button"
+                aria-label="일시정지"
+                title="일시정지"
+                onClick={pause}
+                className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+              >
+                <Pause aria-hidden="true" size={14} />
+              </button>
+            ) : (
+              <button
+                type="button"
+                aria-label="재개"
+                title="재개"
+                onClick={resume}
+                className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+              >
+                <Play aria-hidden="true" size={14} />
+              </button>
+            )}
+            <button
+              type="button"
+              aria-label="정지하고 시간 저장"
+              title="정지하고 시간 저장"
+              onClick={requestSave}
+              className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+            >
+              <Save aria-hidden="true" size={13} />
+            </button>
+          </>
+        ) : running ? (
+          /* 영상 보기 모드 · 진행중: '중단하기' 한 개만. */
           <button
             type="button"
-            aria-label="가이드 다시 열기"
-            title="가이드 다시 열기"
-            onClick={() => setGuided(true)}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+            onClick={pauseAndCloseGuide}
+            className="inline-flex h-7 items-center gap-1 rounded-full px-2.5 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
           >
-            <ListChecks aria-hidden="true" size={14} />
-          </button>
-        ) : null}
-        {running ? (
-          <button
-            type="button"
-            aria-label="일시정지"
-            title="일시정지"
-            onClick={pause}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-          >
-            <Pause aria-hidden="true" size={14} />
+            <Pause aria-hidden="true" size={13} />
+            중단하기
           </button>
         ) : (
+          /* 영상 보기 모드 · 정지: '운동 다시 시작하기' 한 개만. */
           <button
             type="button"
-            aria-label="재개"
-            title="재개"
             onClick={resume}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+            className="inline-flex h-7 items-center gap-1 rounded-full px-2.5 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
           >
-            <Play aria-hidden="true" size={14} />
+            <Play aria-hidden="true" size={13} />
+            운동 다시 시작하기
           </button>
         )}
-        <button
-          type="button"
-          aria-label="정지하고 시간 저장"
-          title="정지하고 시간 저장"
-          onClick={requestSave}
-          className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-        >
-          <Save aria-hidden="true" size={13} />
-        </button>
       </div>
       {overlay}
       <ConfirmDialog

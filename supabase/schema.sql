@@ -269,6 +269,11 @@ alter table public.profiles add column if not exists body_type text;
 alter table public.profiles add column if not exists body_fat_pct numeric(4, 1);
 alter table public.profiles add column if not exists muscle_mass_kg numeric(5, 1);
 
+-- 개인설정: 운동영상(가이드 오버레이) 안 보기. true 면 '운동 시작' 시 영상 가이드 대신
+-- 타이머(중지/시작/저장)만 표시. 기본 false(영상 보기).
+alter table public.profiles
+  add column if not exists hide_exercise_videos boolean not null default false;
+
 -- Registered workout plan per user, grouped by focus (DayPlan tone).
 --
 -- "추천 운동들로 등록" fills this from the recommendation; "직접 등록" lets the

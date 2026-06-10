@@ -907,6 +907,43 @@ export function focusToDaysMap(slots: DaySlot[]): Map<FocusKey, number[]> {
   return m;
 }
 
+/**
+ * "다가오는 7일" 드래그 순열에 맞춰 본운동의 day_index 를 다시 매긴다(순수 함수).
+ *
+ * `order[newPos] = 원래 day_index` — 즉 새 화면 위치 newPos 의 카드가 원래 몇 일차에서
+ * 왔는지. 저장 시 start_date 가 오늘로 리셋돼 (day_index == 화면 위치) 가 되므로, 원래
+ * day_index `order[newPos]` 의 운동들은 day_index `newPos` 로 옮겨야 한다.
+ *
+ * 부위(focus)가 같은 두 일차를 바꿔도 운동이 카드를 "따라" 이동하게 하는 핵심. 부위
+ * 배열만으로는 어느 운동을 어디로 옮길지 복원할 수 없어 클라이언트가 순열을 보낸다.
+ *
+ * - order 가 0~6 의 순열이 아니면 [] (아무것도 안 옮김 — 안전한 무동작).
+ * - day_index 가 그대로인 행, 범위 밖(NULL/7~)인 행은 결과에서 제외.
+ * - 충돌 회피: 호출부는 반드시 **id 로** 갱신해야 한다(컬럼값 필터는 이미 옮긴 행과 섞임).
+ */
+export function planDayIndexRemap(
+  rows: { id: string; day_index: number | null }[],
+  order: number[],
+): { id: string; dayIndex: number }[] {
+  const isPermutation =
+    order.length === 7 &&
+    order.every((n) => Number.isInteger(n) && n >= 0 && n <= 6) &&
+    new Set(order).size === 7;
+  if (!isPermutation) return [];
+
+  const oldToNew = new Map<number, number>();
+  order.forEach((oldIdx, newPos) => oldToNew.set(oldIdx, newPos));
+
+  const out: { id: string; dayIndex: number }[] = [];
+  for (const r of rows) {
+    if (r.day_index === null) continue;
+    const nd = oldToNew.get(r.day_index);
+    if (nd === undefined || nd === r.day_index) continue;
+    out.push({ id: r.id, dayIndex: nd });
+  }
+  return out;
+}
+
 /** 이 focus 를 처음 쓰는 일차 인덱스 (없으면 null) — 오버라이드 데이 폴백용 */
 export function firstDayIndexForFocus(
   slots: DaySlot[],

@@ -245,22 +245,25 @@ export function TodayConditioningList({
     const pointerId = e.pointerId;
     const index = order.findIndex((o) => o.rowId === id);
     if (index < 0) return;
-    longPressTimerRef.current = setTimeout(() => {
-      longPressTimerRef.current = null;
-      setSwipe(null);
-      dxRef.current = 0;
-      lockedRef.current = "none";
-      dragStartYRef.current = startRef.current.y;
-      captureCenters(index);
-      setDrag({ index, dy: 0, pointerId });
-      if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-        try {
-          navigator.vibrate(20);
-        } catch {
-          /* noop */
+    // 순서 변경은 '편집하기' 모드에서만 — 평소엔 스와이프(완료/휴식)·탭(상세)만.
+    if (editMode) {
+      longPressTimerRef.current = setTimeout(() => {
+        longPressTimerRef.current = null;
+        setSwipe(null);
+        dxRef.current = 0;
+        lockedRef.current = "none";
+        dragStartYRef.current = startRef.current.y;
+        captureCenters(index);
+        setDrag({ index, dy: 0, pointerId });
+        if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+          try {
+            navigator.vibrate(20);
+          } catch {
+            /* noop */
+          }
         }
-      }
-    }, LONG_PRESS_MS);
+      }, LONG_PRESS_MS);
+    }
   }
   function onPointerMove(e: PointerEvent<HTMLDivElement>) {
     if (drag && e.pointerId === drag.pointerId) {
@@ -465,7 +468,7 @@ export function TodayConditioningList({
                         : "border-zinc-200 dark:border-zinc-700"
               }`}
             >
-              {inlineEditing ? null : (
+              {!editMode || inlineEditing ? null : (
                 <span
                   onPointerDown={(e) => onGripPointerDown(e, index)}
                   onPointerMove={onGripPointerMove}

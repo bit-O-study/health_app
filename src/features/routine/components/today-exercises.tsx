@@ -40,10 +40,7 @@ import {
   type TodayConditioningItem,
 } from "@/features/routine/components/today-conditioning-list";
 import { MarkAllDoneButton } from "@/features/routine/components/mark-all-done-button";
-import {
-  TodayEditBar,
-  TodayEditScope,
-} from "@/features/routine/components/today-edit-scope";
+import { TodayEditBar } from "@/features/routine/components/today-edit-scope";
 import { TodayOrderScope } from "@/features/routine/components/today-order-scope";
 import { WorkoutSessionTimer } from "@/features/workout-timer/workout-session-timer";
 import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
@@ -81,12 +78,15 @@ export async function TodayExercises({
   tones,
   dayIndex,
   weightKg,
+  hideVideos = false,
 }: {
   /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
   tones: FocusKey[];
   /** 오늘의 주기 일차(0~6). 본운동을 이 일차에서 읽고, 오늘 운동 추가도 여기로. */
   dayIndex: number;
   weightKg: number | null;
+  /** 개인설정 '운동영상 안 보기' — 운동 시작 시 영상 가이드 대신 타이머만. */
+  hideVideos?: boolean;
 }) {
   const todayYmd = seoulYmd();
   const primaryTone = tones[0];
@@ -313,9 +313,10 @@ export async function TodayExercises({
   }
 
   return (
-    <TodayEditScope>
-      <RestTimerProvider>
-        <TodayOrderScope>
+    // 편집모드(TodayEditScope)는 부모(page.tsx)가 7일 그리드까지 함께 감싼다 →
+    // '편집하기' 하나로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
+    <RestTimerProvider>
+      <TodayOrderScope>
         <section className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
@@ -327,7 +328,10 @@ export async function TodayExercises({
               ) : null}
             </h2>
             <div className="flex items-center gap-2">
-              <WorkoutSessionTimer queueItems={queueItems} />
+              <WorkoutSessionTimer
+                queueItems={queueItems}
+                hideVideos={hideVideos}
+              />
               <TodayEditBar />
             </div>
         </div>
@@ -437,7 +441,7 @@ export async function TodayExercises({
           <div>
             <p className="mb-2 text-xs text-zinc-400 dark:text-zinc-500">
               → 오른쪽으로 끌면 완료 · ← 왼쪽으로 끌면 오늘 안 함(같은 방향으로
-              다시 끌면 원상복구) · 핸들 잡고 위·아래로 순서 변경
+              다시 끌면 원상복구) · 순서 변경은 '편집하기'에서
             </p>
             <TodayPlanList
               key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}`}
@@ -464,9 +468,8 @@ export async function TodayExercises({
           dateYmd={todayYmd}
         />
         </section>
-        </TodayOrderScope>
-      </RestTimerProvider>
-    </TodayEditScope>
+      </TodayOrderScope>
+    </RestTimerProvider>
   );
 }
 

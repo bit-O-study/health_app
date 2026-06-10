@@ -13,6 +13,7 @@ import {
   isDayBlockId,
   isValidRoutine,
   normalizeCustomWeek,
+  planDayIndexRemap,
   routineDaySlots,
   seoulYmd,
   type DayBlockId,
@@ -208,10 +209,14 @@ async function fillMissingFocusesAction(
  *"다가오는 7일" 카드를 드래그로 재배열한 결과를 그대로 루틴으로 저장.
  * - splits/variantId 를 커스텀으로 전환하고 customWeek = 전달된 7일치 부위 배열
  * - start_date 를 오늘로 재설정 → 변경된 첫째 칸이 곧"오늘"이 됨
+ * - `order` 가 오면(order[newPos]=원래 day_index) 본운동의 day_index 도 카드를 따라
+ *   옮긴다 → 같은 부위(예: 하체)가 여러 일차에 있어도, 1일차 운동을 0일차로 끌면
+ *   그 운동들이 오늘 화면에 뜬다. (부위 배열만으로는 복원 불가해 순열을 함께 받음)
  * - 오늘 이후의 daily_plan / daily_conditioning 오버라이드는 새 루틴과 맞지 않을 수 있어 정리
  */
 export async function reorderUpcomingSevenDaysAction(
   blocks: DayBlockId[][],
+  order?: number[],
 ): Promise<SaveRoutineResult> {
   if (!Array.isArray(blocks) || blocks.length !== 7) {
     return { ok: false, error: "7일치 데이터가 필요합니다." };
@@ -261,7 +266,34 @@ export async function reorderUpcomingSevenDaysAction(
       .gte("for_date", today),
   ]);
 
-  // 드래그로 일차 배치가 바뀌었으니 day_index 재정렬(일차별 운동이 새 일차로 따라감).
+  // 드래그 순열대로 본운동의 day_index 를 카드와 함께 옮긴다. start_date=오늘 이라
+  // 저장 후 (day_index == 화면 위치). order 가 없거나 순열이 아니면 무동작(빈 매핑).
+  if (Array.isArray(order)) {
+    const { data: rows } = await supabase
+      .from("routine_exercises")
+      .select("id, day_index")
+      .eq("user_id", user.id);
+    const remap = planDayIndexRemap(
+      (rows ?? []) as { id: string; day_index: number | null }[],
+      order,
+    );
+    // 목적지 day_index 별로 묶어 id 로 갱신. 원래 스냅샷 기준이라 충돌 없음
+    // (컬럼값으로 필터하면 이미 옮긴 행까지 다시 잡혀 섞인다 — 반드시 id 필터).
+    const idsByDay = new Map<number, string[]>();
+    for (const u of remap) {
+      const arr = idsByDay.get(u.dayIndex) ?? [];
+      arr.push(u.id);
+      idsByDay.set(u.dayIndex, arr);
+    }
+    for (const [dayIndex, ids] of idsByDay) {
+      await supabase
+        .from("routine_exercises")
+        .update({ day_index: dayIndex })
+        .in("id", ids);
+    }
+  }
+
+  // 부위 배치가 바뀌었으니 day_index 정합성 보정(비어버린 일차 채우기/드리프트 수리).
   await syncRoutineExerciseDays(user.id, CUSTOM_SPLITS, CUSTOM_VARIANT_ID, blocks);
 
   revalidatePath("/routine");

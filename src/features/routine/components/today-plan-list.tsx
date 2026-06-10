@@ -21,6 +21,11 @@ import {
 } from "@/features/routine/plan-actions";
 import { estimateStrengthKcal } from "@/features/routine/calories";
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
+import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
+import {
+  readTimer,
+  takeUnsavedDelta,
+} from "@/features/workout-timer/timer-store";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
@@ -203,6 +208,12 @@ export function TodayPlanList({
       const restSec = item.weightKg !== null && item.weightKg > 0 ? 90 : 60;
       rest.trigger(restSec);
     }
+    // 운동 1개 완료마다 그날 누적 운동시간 갱신 — 타이머가 돌고 있을 때만,
+    // 아직 DB 에 안 올린 만큼(delta)만 더해 캘린더에 반영(이중 가산 방지).
+    if (target === "done" && !wasDone) {
+      const d = takeUnsavedDelta(readTimer());
+      if (d) void addWorkoutDurationAction(d.forDate, d.deltaSec);
+    }
     startTx(async () => {
       await setExerciseStatusAction(
         id,
@@ -290,23 +301,26 @@ export function TodayPlanList({
     const pointerId = e.pointerId;
     const index = order.findIndex((o) => o.id === id);
     if (index < 0) return;
-    longPressTimerRef.current = setTimeout(() => {
-      longPressTimerRef.current = null;
-      // 드래그 모드 진입 — 진행 중이던 스와이프 상태는 모두 무효화
-      setSwipe(null);
-      dxRef.current = 0;
-      lockedRef.current = "none";
-      dragStartYRef.current = startRef.current.y;
-      captureCenters(index);
-      setDrag({ index, dy: 0, pointerId });
-      if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-        try {
-          navigator.vibrate(20);
-        } catch {
-          /* noop */
+    // 순서 변경은 '편집하기' 모드에서만 — 평소엔 스와이프(완료/휴식)·탭(상세)만.
+    if (editMode) {
+      longPressTimerRef.current = setTimeout(() => {
+        longPressTimerRef.current = null;
+        // 드래그 모드 진입 — 진행 중이던 스와이프 상태는 모두 무효화
+        setSwipe(null);
+        dxRef.current = 0;
+        lockedRef.current = "none";
+        dragStartYRef.current = startRef.current.y;
+        captureCenters(index);
+        setDrag({ index, dy: 0, pointerId });
+        if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+          try {
+            navigator.vibrate(20);
+          } catch {
+            /* noop */
+          }
         }
-      }
-    }, LONG_PRESS_MS);
+      }, LONG_PRESS_MS);
+    }
   }
   function onPointerMove(e: PointerEvent<HTMLDivElement>) {
     // 1) 드래그 모드면 행을 손가락에 붙여 이동
@@ -520,7 +534,7 @@ export function TodayPlanList({
                         : "border-zinc-200 dark:border-zinc-700"
               }`}
             >
-              {inlineEditing ? null : (
+              {!editMode || inlineEditing ? null : (
                 <span
                   onPointerDown={(e) => onGripPointerDown(e, index)}
                   onPointerMove={onGripPointerMove}

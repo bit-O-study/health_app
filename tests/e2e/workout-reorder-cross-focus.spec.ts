@@ -64,6 +64,9 @@ test("부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드�
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
 
+  // 순서 변경은 '편집하기' 모드에서만 가능 — 그립 핸들도 편집모드에서만 보인다.
+  await page.getByRole("button", { name: "편집하기" }).click();
+
   // ul.space-y-2 순서: [워밍업, 본운동, 마무리]
   const warmUl = page.locator("ul.space-y-2").nth(0);
   const mainUl = page.locator("ul.space-y-2").nth(1);

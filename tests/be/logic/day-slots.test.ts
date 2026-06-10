@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  composeDayPlan,
   DAY_BLOCKS,
   firstDayIndexForFocus,
   focusToDaysMap,
@@ -242,6 +243,14 @@ describe("세부근육 블록 (전 부위 세분화 — 루틴 빌더)", () => {
     const chest = slots.find((s) => s.dayIndex === 0 && s.focus === "chest");
     expect(chest?.label.endsWith("가슴")).toBe(true);
     expect(chest?.label).not.toContain("가슴 상부");
+  });
+
+  it("composeDayPlan: 같은 부위 세부근육은 tones 중복 없음(메인 운동 복제 방지)", () => {
+    const day = composeDayPlan(["pull", "chest-upper", "chest-lower"]);
+    expect(day.tones).toBeDefined();
+    // chest 가 한 번만 — 안 그러면 오늘 운동을 chest 로 두 번 불러와 복제된다.
+    expect(day.tones!.filter((t) => t === "chest")).toHaveLength(1);
+    expect(day.tones!.length).toBe(new Set(day.tones).size);
   });
 
   it("가슴 외 다른 부위도 동일 — 하체(대퇴사두·햄스트링)·등(광배근)·팔(이두)", () => {

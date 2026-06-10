@@ -698,7 +698,9 @@ export function composeDayPlan(blocks: DayBlockId[]): DayPlan {
     return { ...d, tones: [d.tone] };
   }
   const days = nonRest.map((b) => DAY_BLOCKS[b].day);
-  const tones = days.map((d) => d.tone);
+  // 세부근육 블록(가슴 상부+하부 등)은 같은 tone 으로 모이므로 중복 제거 —
+  // 안 그러면 오늘 운동을 같은 부위로 두 번 불러와 행이 복제된다(React key 중복).
+  const tones = Array.from(new Set(days.map((d) => d.tone)));
   const focus = nonRest.map((b) => DAY_BLOCKS[b].label).join(" + ");
   const muscles = Array.from(new Set(days.flatMap((d) => d.muscles)));
   const examples = Array.from(new Set(days.flatMap((d) => d.examples))).slice(

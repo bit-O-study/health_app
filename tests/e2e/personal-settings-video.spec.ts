@@ -95,14 +95,21 @@ test("영상 보기: 운동모드 안엔 시간만, 나오면 '다시 운동하�
   await expect(
     page.getByRole("button", { name: "넘기기" }).first(),
   ).toBeVisible({ timeout: 10_000 });
+  const timeText = () =>
+    page.getByText(/^\d{1,2}:\d{2}$/).first().innerText();
+  const toSec = (t: string) => {
+    const [m, s] = t.split(":").map(Number);
+    return m * 60 + s;
+  };
   await expect(page.getByText(/^\d{1,2}:\d{2}$/).first()).toBeVisible();
   // 운동모드 안엔 중단하기/운동 다시 시작하기 버튼이 없다(시간만).
   await expect(page.getByRole("button", { name: "중단하기" })).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "운동 다시 시작하기" }),
   ).toHaveCount(0);
+  const before = toSec(await timeText());
 
-  // 운동모드에서 나오기: 닫기 → '중단' 확인.
+  // 운동모드에서 나오기: 닫기 → '중단' 확인 → 시간 정지.
   await page.getByRole("button", { name: "닫기" }).first().click();
   await page.getByRole("button", { name: "중단", exact: true }).click();
   await page.waitForTimeout(600);
@@ -114,9 +121,20 @@ test("영상 보기: 운동모드 안엔 시간만, 나오면 '다시 운동하�
     page.getByRole("button", { name: "다시 운동하기" }),
   ).toBeVisible();
 
-  // '다시 운동하기' → 운동모드 재진입(가이드 다시 열림).
+  // 닫힌 동안(정지) 시간이 흐르면 안 된다 — 3초 기다려도 그대로.
+  await page.waitForTimeout(3000);
+
+  // '다시 운동하기' → 운동모드 재진입(가이드 다시 열림) + 시간 재개.
   await page.getByRole("button", { name: "다시 운동하기" }).click();
   await expect(
     page.getByRole("button", { name: "넘기기" }).first(),
   ).toBeVisible({ timeout: 10_000 });
+  // 정지돼 있었으므로 재진입 직후 시간은 닫기 전과 거의 같다(+1초 이내).
+  const after = toSec(await timeText());
+  expect(after - before).toBeLessThanOrEqual(1);
+
+  // 재개됐는지 — 2초 흐른 뒤 시간이 늘어난다.
+  await page.waitForTimeout(2000);
+  const later = toSec(await timeText());
+  expect(later).toBeGreaterThan(after);
 });

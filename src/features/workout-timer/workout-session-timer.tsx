@@ -271,7 +271,11 @@ export function WorkoutSessionTimer({
     guided && queue.length > 0 ? (
       <GuidedOverlay
         items={queue}
-        onClose={() => setGuided(false)}
+        // 운동모드에서 나오면(X→중단) 시간 정지. '다시 운동하기'로 들어오면 재개.
+        onClose={() => {
+          pause();
+          setGuided(false);
+        }}
         onAllComplete={handleGuidedAllComplete}
         // 운동 페이지(가이드) 안에는 경과 시간만 표시(중단/다시 시작 버튼 없음).
         elapsedLabel={time}
@@ -328,7 +332,10 @@ export function WorkoutSessionTimer({
            밖(홈)에선 운동모드로 다시 들어가는 '다시 운동하기' 버튼 하나만. */
         <button
           type="button"
-          onClick={() => setGuided(true)}
+          onClick={() => {
+            resume();
+            setGuided(true);
+          }}
           className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500"
         >
           <Play aria-hidden="true" size={16} />

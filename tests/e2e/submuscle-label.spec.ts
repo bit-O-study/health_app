@@ -12,9 +12,9 @@ test("보조 세부근육 슬롯은 등록 화면에서 세부근육명으로 �
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  // 0일차: 팔(주) + 가슴 상부·하부(보조), 1일차: 어깨(주) + 햄스트링(보조)
+  // 0일차: 당기기(주) + 가슴 상부·하부(보조), 1일차: 어깨(주) + 햄스트링(보조)
   const week = [
-    ["arm", "chest-upper", "chest-lower"],
+    ["pull", "chest-upper", "chest-lower"],
     ["shoulder", "lower-hamstrings"],
     ["rest"],
     ["rest"],

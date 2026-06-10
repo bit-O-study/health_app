@@ -234,15 +234,39 @@ describe("세부근육 블록 (전 부위 세분화 — 루틴 빌더)", () => {
     expect(chest?.label).toContain("가슴 하부");
   });
 
-  it("부위 전체를 함께 고르면 라벨은 부위명(가슴) 하나로", () => {
+  it("전체+세부를 같이 고르면 세부근육을 우선 표시(가슴 상부)", () => {
     const week: DayBlockId[][] = [
       ["chest", "chest-upper"],
       ...(Array(6).fill(["rest"]) as DayBlockId[][]),
     ];
     const slots = routineDaySlots(0, "custom", week);
     const chest = slots.find((s) => s.dayIndex === 0 && s.focus === "chest");
-    expect(chest?.label.endsWith("가슴")).toBe(true);
-    expect(chest?.label).not.toContain("가슴 상부");
+    expect(chest?.label).toContain("가슴 상부");
+    expect(chest?.label.endsWith("가슴")).toBe(false);
+  });
+
+  it("부위 전체만 고르면 부위명(가슴)", () => {
+    const slots = routineDaySlots(0, "custom", [
+      ["chest"],
+      ...(Array(6).fill(["rest"]) as DayBlockId[][]),
+    ]);
+    const chest = slots.find((s) => s.dayIndex === 0 && s.focus === "chest");
+    expect(chest?.label.endsWith("· 가슴")).toBe(true);
+  });
+
+  it("composeDayPlan focus: 전체+세부면 세부만 (어깨+후면삼각근 → 후면 삼각근)", () => {
+    expect(composeDayPlan(["shoulder", "shoulder-rear"]).focus).toBe(
+      "후면 삼각근",
+    );
+    expect(composeDayPlan(["chest", "chest-upper", "chest-lower"]).focus).toBe(
+      "가슴 상부 + 가슴 하부",
+    );
+    // 세부 없이 전체만이면 부위명
+    expect(composeDayPlan(["shoulder"]).focus).toBe("어깨");
+    // 다른 부위 + 세부는 둘 다 유지
+    expect(composeDayPlan(["pull", "chest-upper"]).focus).toBe(
+      "당기기 + 가슴 상부",
+    );
   });
 
   it("composeDayPlan: 같은 부위 세부근육은 tones 중복 없음(메인 운동 복제 방지)", () => {

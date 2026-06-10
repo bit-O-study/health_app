@@ -701,7 +701,21 @@ export function composeDayPlan(blocks: DayBlockId[]): DayPlan {
   // 세부근육 블록(가슴 상부+하부 등)은 같은 tone 으로 모이므로 중복 제거 —
   // 안 그러면 오늘 운동을 같은 부위로 두 번 불러와 행이 복제된다(React key 중복).
   const tones = Array.from(new Set(days.map((d) => d.tone)));
-  const focus = nonRest.map((b) => DAY_BLOCKS[b].label).join(" + ");
+  // 라벨: 전체 부위 블록과 그 세부근육이 같이 있으면 전체를 빼고 세부근육을 보여준다.
+  // (예: [어깨, 후면삼각근] → "후면 삼각근", [가슴, 가슴 상부] → "가슴 상부")
+  const subParentTones = new Set(
+    nonRest
+      .filter((b) => MUSCLE_BLOCK_GROUPS.some((g) => g.subs.includes(b)))
+      .map((b) => DAY_BLOCKS[b].day.tone),
+  );
+  const labelBlocks = nonRest.filter(
+    (b) =>
+      !(
+        MUSCLE_BLOCK_GROUPS.some((g) => g.whole === b) &&
+        subParentTones.has(DAY_BLOCKS[b].day.tone)
+      ),
+  );
+  const focus = labelBlocks.map((b) => DAY_BLOCKS[b].label).join(" + ");
   const muscles = Array.from(new Set(days.flatMap((d) => d.muscles)));
   const examples = Array.from(new Set(days.flatMap((d) => d.examples))).slice(
     0,
@@ -861,10 +875,11 @@ export function routineDaySlots(
 
     order.forEach((focus, groupIndex) => {
       const blockIds = byFocus.get(focus)!;
-      // 라벨은 실제 고른 블록 기준. 부위 전체(chest)를 골랐으면 그 부위명("가슴"),
-      // 세부근육만 골랐으면 그 세부근육명("가슴 상부, 가슴 하부")으로 보여준다.
-      const hasWhole = blockIds.includes(focus as DayBlockId);
-      const labelBlocks = hasWhole ? [focus as DayBlockId] : blockIds;
+      // 라벨은 고른 세부근육을 우선. 세부근육(가슴 상부 등)이 있으면 그걸 보여주고,
+      // 부위 전체만 골랐으면 부위명("가슴")으로. (전체+세부 같이 고르면 세부가 더
+      // 구체적이라 세부만 표시 — 사용자가 후면삼각근을 고르면 "어깨" 대신 "후면 삼각근")
+      const subs = blockIds.filter((b) => b !== (focus as DayBlockId));
+      const labelBlocks = subs.length > 0 ? subs : blockIds;
       const blockLabel = labelBlocks
         .map((b) => DAY_BLOCKS[b as DayBlockId]?.label ?? b)
         .join(", ");

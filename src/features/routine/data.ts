@@ -858,12 +858,20 @@ export function routineDaySlots(
     }
 
     order.forEach((focus, groupIndex) => {
+      const blockIds = byFocus.get(focus)!;
+      // 라벨은 실제 고른 블록 기준. 부위 전체(chest)를 골랐으면 그 부위명("가슴"),
+      // 세부근육만 골랐으면 그 세부근육명("가슴 상부, 가슴 하부")으로 보여준다.
+      const hasWhole = blockIds.includes(focus as DayBlockId);
+      const labelBlocks = hasWhole ? [focus as DayBlockId] : blockIds;
+      const blockLabel = labelBlocks
+        .map((b) => DAY_BLOCKS[b as DayBlockId]?.label ?? b)
+        .join(", ");
       slots.push({
         dayIndex,
         focus,
-        blockIds: byFocus.get(focus)!,
+        blockIds,
         isSide: groupIndex > 0,
-        label: `${DAY_LABELS[dayIndex]} · ${DAY_BLOCKS[focus as DayBlockId]?.label ?? focus}`,
+        label: `${DAY_LABELS[dayIndex]} · ${blockLabel}`,
       });
     });
   });

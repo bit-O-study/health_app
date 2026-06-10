@@ -938,6 +938,10 @@ alter table public.profiles add column if not exists suspended_until timestamptz
 alter table public.profiles add column if not exists banned_at timestamptz;
 alter table public.profiles add column if not exists ban_reason text;
 
+-- 회원탈퇴(소프트). withdrawn_at 이 있으면 탈퇴 상태 — 데이터는 유지하되 앱 접근 차단.
+-- 본인이 자기 프로필을 update(본인-only RLS)로 설정. 관리자가 null 로 되돌리면 복구.
+alter table public.profiles add column if not exists withdrawn_at timestamptz;
+
 -- 관리자 전용 회원 목록 — 이메일은 auth.users 소관이라 SECURITY DEFINER 로 join.
 -- 내부 is_admin() 게이트로 비관리자는 0행. authenticated 만 execute.
 -- 반환 타입에 정지/차단 컬럼을 추가하므로 기존 함수를 drop 후 재생성한다.
@@ -947,12 +951,13 @@ returns table(
   user_id uuid, email text, name text, phone text,
   gender text, experience text, height_cm int,
   weight_kg numeric, created_at timestamptz,
-  suspended_until timestamptz, banned_at timestamptz, ban_reason text
+  suspended_until timestamptz, banned_at timestamptz, ban_reason text,
+  withdrawn_at timestamptz
 )
 language sql security definer stable set search_path = public, auth as $$
   select p.user_id, u.email::text, p.name, p.phone, p.gender, p.experience,
          p.height_cm, p.weight_kg, p.created_at,
-         p.suspended_until, p.banned_at, p.ban_reason
+         p.suspended_until, p.banned_at, p.ban_reason, p.withdrawn_at
   from public.profiles p
   join auth.users u on u.id = p.user_id
   where public.is_admin()
@@ -983,5 +988,57 @@ end;
 $$;
 revoke all on function public.admin_set_user_ban(uuid, timestamptz, timestamptz, text) from public, anon;
 grant execute on function public.admin_set_user_ban(uuid, timestamptz, timestamptz, text) to authenticated;
+
+-- 관리자 전용: 회원 탈퇴 복구(withdrawn_at = null). 본인 자가탈퇴는 본인-only update RLS 로.
+create or replace function public.admin_restore_user(p_user_id uuid)
+returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'forbidden: admin only';
+  end if;
+  update public.profiles set withdrawn_at = null where user_id = p_user_id;
+end;
+$$;
+revoke all on function public.admin_restore_user(uuid) from public, anon;
+grant execute on function public.admin_restore_user(uuid) to authenticated;
+
+-- 일별 활동(접속) 로그 — 접속유저수 통계용. 하루에 한 번 (user_id, active_date) 1행.
+-- 미들웨어가 로그인 사용자의 매 네비게이션마다 upsert(on conflict do nothing) 한다.
+create table if not exists public.user_activity (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  active_date date not null,
+  primary key (user_id, active_date)
+);
+alter table public.user_activity enable row level security;
+
+drop policy if exists "Users insert own activity" on public.user_activity;
+create policy "Users insert own activity"
+  on public.user_activity for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users read own activity" on public.user_activity;
+create policy "Users read own activity"
+  on public.user_activity for select
+  using (auth.uid() = user_id);
+
+-- 관리자 전용: 활동(접속) 유저수 시계열. p_gran = 'day'|'month'|'year'.
+-- distinct 는 버킷 단위로 DB 에서 계산해야 정확하다(월 distinct ≠ 일 distinct 합).
+drop function if exists public.admin_active_users(text);
+create or replace function public.admin_active_users(p_gran text)
+returns table(bucket date, users int)
+language sql security definer stable set search_path = public as $$
+  select date_trunc(
+           case when p_gran in ('day','month','year') then p_gran else 'day' end,
+           a.active_date
+         )::date as bucket,
+         count(distinct a.user_id)::int as users
+  from public.user_activity a
+  where public.is_admin()
+  group by 1
+  order by 1
+$$;
+revoke all on function public.admin_active_users(text) from public, anon;
+grant execute on function public.admin_active_users(text) to authenticated;
 
 notify pgrst, 'reload schema';

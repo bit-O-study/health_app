@@ -52,6 +52,8 @@ export type MemberRow = {
   /** 영구정지 시각(ISO). null = 영구정지 아님. */
   bannedAt: string | null;
   banReason: string | null;
+  /** 회원탈퇴(소프트) 시각(ISO). null = 탈퇴 아님. */
+  withdrawnAt: string | null;
 };
 
 /**
@@ -76,6 +78,7 @@ export async function getMembers(): Promise<MemberRow[]> {
       suspended_until: string | null;
       banned_at: string | null;
       ban_reason: string | null;
+      withdrawn_at: string | null;
     }[]
   ).map((r) => ({
     userId: r.user_id,
@@ -91,5 +94,21 @@ export async function getMembers(): Promise<MemberRow[]> {
     suspendedUntil: r.suspended_until,
     bannedAt: r.banned_at,
     banReason: r.ban_reason,
+    withdrawnAt: r.withdrawn_at,
+  }));
+}
+
+/** 관리자: 활동(접속) 유저수 시계열. gran = 'day'|'month'|'year'. */
+export async function getActiveUsersSeries(
+  gran: "day" | "month" | "year",
+): Promise<{ bucket: string; users: number }[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.rpc("admin_active_users", {
+    p_gran: gran,
+  });
+  if (error || !data) return [];
+  return (data as { bucket: string; users: number }[]).map((r) => ({
+    bucket: typeof r.bucket === "string" ? r.bucket.slice(0, 10) : r.bucket,
+    users: r.users,
   }));
 }

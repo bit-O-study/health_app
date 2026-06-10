@@ -14,6 +14,8 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
   const tctx = await browser.newContext({ viewport: { width: 430, height: 920 } });
   const tpage = await tctx.newPage();
   const targetEmail = await signUpAndOnboard(tpage);
+  // "/" 는 모드 선택 랜딩(루틴/파워리프팅)이라 운동 화면은 /routine 으로 직접 이동.
+  await tpage.goto("/routine", { waitUntil: "networkidle" });
   await expect(tpage.getByRole("heading", { name: "오늘의 운동" })).toBeVisible();
 
   // ── 관리자 ──

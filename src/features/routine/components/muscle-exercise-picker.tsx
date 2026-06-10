@@ -34,11 +34,7 @@ import {
   subMusclesFor,
   subMusclesForExercise,
 } from "@/features/routine/muscle-detail";
-import {
-  BODY_PART_LABEL,
-  BODY_PART_TONE,
-  bodyPartsFor,
-} from "@/features/routine/exercise-catalog";
+import { majorMuscleTag } from "@/features/routine/exercise-catalog";
 import { saveMuscleSelectionAction } from "@/features/routine/plan-actions";
 
 const MuscleMannequin3D = dynamic(
@@ -136,6 +132,12 @@ export function MuscleExercisePicker({
       delete next[focus];
       return next;
     });
+  }
+
+  /** 담은 운동 전체 초기화 */
+  function clearAll() {
+    setPicked({});
+    setError(null);
   }
 
   function handleSave() {
@@ -327,29 +329,30 @@ export function MuscleExercisePicker({
                     <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                       {ex.name}
                     </span>
-                    {bodyPartsFor(ex.id).map((p) => (
+                    {/* 대근육 부위 1개 + 세부근육 1개만 */}
+                    {(() => {
+                      const major = majorMuscleTag(ex.id);
+                      return (
+                        <span
+                          className={cn(
+                            "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
+                            major.tone,
+                          )}
+                        >
+                          {major.label}
+                        </span>
+                      );
+                    })()}
+                    {exSubs[0] ? (
                       <span
-                        key={p}
-                        className={cn(
-                          "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
-                          BODY_PART_TONE[p],
-                        )}
-                      >
-                        {BODY_PART_LABEL[p]}
-                      </span>
-                    ))}
-                  </div>
-                  {/* 특화 세부근육 */}
-                  <div className="mt-1 flex flex-wrap gap-1">
-                    {exSubs.map((s) => (
-                      <span
-                        key={s.id}
                         className="rounded px-1.5 py-0.5 text-[10px] font-semibold text-white"
-                        style={{ backgroundColor: muscleGroup(s.muscle).color }}
+                        style={{
+                          backgroundColor: muscleGroup(exSubs[0].muscle).color,
+                        }}
                       >
-                        {s.label}
+                        {exSubs[0].label}
                       </span>
-                    ))}
+                    ) : null}
                   </div>
                   <Link
                     href={`/exercises/${ex.id}`}
@@ -372,9 +375,20 @@ export function MuscleExercisePicker({
       {/* 담은 운동 요약 */}
       {totalPicked > 0 ? (
         <section className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5 dark:border-emerald-800 dark:bg-emerald-950/30">
-          <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
-            담은 운동 {totalPicked}개
-          </h3>
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              담은 운동 {totalPicked}개
+            </h3>
+            <button
+              type="button"
+              data-testid="clear-all-picked"
+              onClick={clearAll}
+              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 px-2 text-xs font-semibold text-red-600 transition hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/40"
+            >
+              <Trash2 size={13} />
+              전체 초기화
+            </button>
+          </div>
           <div className="mt-3 space-y-2">
             {MUSCLE_GROUPS.filter((g) => (picked[g.id]?.length ?? 0) > 0).map(
               (g) => (

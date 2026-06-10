@@ -18,7 +18,7 @@ import {
   type DayBlockId,
 } from "@/features/routine/data";
 import {
-  exercisesForFocus,
+  focusExercisesForSlot,
   prescribe,
   sideExercisesForSlot,
 } from "@/features/routine/exercise-catalog";
@@ -183,7 +183,7 @@ async function fillMissingFocusesAction(
   const rows = missing.flatMap((slot) => {
     const list = slot.isSide
       ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender)
-      : exercisesForFocus(slot.focus, profile.gender);
+      : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender);
     return list.map((ex, index) => {
       const p = prescribe(ex.id, opts);
       return {

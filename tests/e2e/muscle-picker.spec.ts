@@ -53,7 +53,10 @@ test("근육별로 운동선택: 마네킹 부위 선택 → 운동 담기 → �
   await save.click();
 
   // 메인으로 이동 + 오늘 시작할 운동이 생김
-  await page.waitForURL((u) => new URL(u).pathname === "/", { timeout: 30_000 });
+  await page.waitForURL(
+    (u) => ["/", "/routine"].includes(new URL(u).pathname),
+    { timeout: 30_000 },
+  );
 });
 
 /**
@@ -154,7 +157,10 @@ test("세부근육 드릴다운: 이두 장두 vs 단두 운동 필터", async (
   const save = page.getByTestId("save-muscle-selection");
   await expect(save).toContainText("저장 (1)");
   await save.click();
-  await page.waitForURL((u) => new URL(u).pathname === "/", { timeout: 30_000 });
+  await page.waitForURL(
+    (u) => ["/", "/routine"].includes(new URL(u).pathname),
+    { timeout: 30_000 },
+  );
 });
 
 /** 운동 상세 페이지에 부위 배지가 표시된다. */

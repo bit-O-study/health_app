@@ -15,7 +15,6 @@ import {
 import { cn } from "@/lib/utils";
 import {
   DAY_BLOCKS,
-  DAY_BLOCK_IDS,
   TONE_STYLES,
   type DayBlockId,
 } from "@/features/routine/data";
@@ -27,9 +26,19 @@ import {
 import { clearDailyPlanForDateAction } from "@/features/routine/daily-plan-actions";
 import { seoulYmd } from "@/features/routine/data";
 
-const FOCUS_CHOICES = DAY_BLOCK_IDS.filter(
-  (id): id is DayBlockId => id !== "rest",
-);
+// "오늘만 바꾸기" 는 부위 단위로만 — 세부근육 블록은 정신없으니 루틴 빌더에서만 노출.
+const FOCUS_CHOICES: DayBlockId[] = [
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "lower",
+  "core",
+  "fullbody",
+  "upper",
+  "push",
+  "pull",
+];
 
 export function TodayAdjustMenu({
   isRestToday = false,

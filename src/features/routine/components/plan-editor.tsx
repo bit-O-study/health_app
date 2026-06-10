@@ -10,16 +10,16 @@ import type { FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
 import {
   allExercisesForFocus,
-  BODY_PART_LABEL,
-  BODY_PART_TONE,
-  bodyPartsFor,
   EQUIPMENT_LABELS,
-  exercisesForFocus,
+  focusExercisesForSlot,
   getCatalogExercise,
+  majorMuscleTag,
   prescribe,
   sideExercisesForSlot,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   registerRecommendedPlanAction,
   saveManualPlanAction,
@@ -98,7 +98,10 @@ export function PlanEditor({
   const [dirty, setDirty] = useState<Set<string>>(new Set());
   // 파괴적 동작(추천 덮어쓰기) 확인 모달 상태
   const [confirm, setConfirm] = useState<
-    { kind: "focus"; section: FocusData } | { kind: "all" } | null
+    | { kind: "focus"; section: FocusData }
+    | { kind: "all" }
+    | { kind: "clear-all" }
+    | null
   >(null);
 
   // 저장하지 않은 편집이 있는 채로 탭을 닫거나 새로고침하면 브라우저 기본 경고.
@@ -158,6 +161,17 @@ export function PlanEditor({
     });
   }
 
+  // 모든 부위의 담은 운동을 비운다(클라이언트 state 만 — 각 섹션 '저장'을 눌러야 DB 반영).
+  function doClearAll() {
+    setPlans((prev) => {
+      const next: Record<string, Row[]> = {};
+      for (const key of Object.keys(prev)) next[key] = [];
+      return next;
+    });
+    setDirty(new Set(focuses.map((f) => f.key)));
+    setStatus("모든 부위의 운동을 비웠어요. 각 부위에서 ‘저장’을 눌러야 반영됩니다.");
+  }
+
   /** 한 섹션(일차·부위)만 추천 운동으로 행을 갈아끼움 — 저장은 아래 저장 버튼 담당.
    * 보조(사이드) 섹션이면 2개만, 주 섹션이면 풀 목록. */
   function doRecommendFocus(f: FocusData) {
@@ -169,7 +183,7 @@ export function PlanEditor({
     };
     const catalog = f.isSide
       ? sideExercisesForSlot(f.focus as never, f.blockIds, gender)
-      : exercisesForFocus(f.focus, gender);
+      : focusExercisesForSlot(f.focus as never, f.blockIds, gender);
     const next: Row[] = catalog.map((ex) => {
       const p = prescribe(ex.id, opts);
       return {
@@ -245,9 +259,21 @@ export function PlanEditor({
         </p>
       ) : null}
 
-      <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-        또는 직접 등록
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+          또는 직접 등록
+        </p>
+        <button
+          type="button"
+          data-testid="clear-all-exercises"
+          disabled={pending}
+          onClick={() => setConfirm({ kind: "clear-all" })}
+          className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-800 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-60"
+        >
+          <Trash2 aria-hidden="true" size={14} />
+          전체 운동 초기화
+        </button>
+      </div>
 
       {focuses.map((f) => {
         const rows = plans[f.key] ?? [];
@@ -301,14 +327,31 @@ export function PlanEditor({
                       className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
                     >
                       <span className="flex shrink-0 flex-wrap gap-1">
-                        {bodyPartsFor(row.exerciseId).map((p) => (
-                          <span
-                            key={p}
-                            className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold ${BODY_PART_TONE[p]}`}
-                          >
-                            {BODY_PART_LABEL[p]}
-                          </span>
-                        ))}
+                        {/* 대근육 부위 1개 + 세부근육 1개만 */}
+                        {(() => {
+                          const major = majorMuscleTag(row.exerciseId);
+                          return (
+                            <span
+                              className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold ${major.tone}`}
+                            >
+                              {major.label}
+                            </span>
+                          );
+                        })()}
+                        {(() => {
+                          const sub = subMusclesForExercise(row.exerciseId)[0];
+                          if (!sub) return null;
+                          return (
+                            <span
+                              className="whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                              style={{
+                                backgroundColor: muscleGroup(sub.muscle).color,
+                              }}
+                            >
+                              {sub.label}
+                            </span>
+                          );
+                        })()}
                       </span>
                       <select
                         aria-label="운동"
@@ -377,9 +420,10 @@ export function PlanEditor({
                       <button
                         type="button"
                         aria-label="삭제"
+                        data-testid={`delete-row-${f.key}-${idx}`}
                         onClick={() =>
                           update(
-                            f.focus,
+                            f.key,
                             rows.filter((_, i) => i !== idx),
                           )
                         }
@@ -433,16 +477,23 @@ export function PlanEditor({
       <ConfirmDialog
         open={confirm !== null}
         tone="danger"
-        title="추천 운동으로 교체할까요?"
-        message={
-          confirm?.kind === "all"
-            ? "직접 등록·수정한 모든 부위의 운동이 추천 운동으로 교체되고 바로 저장됩니다. 되돌릴 수 없습니다."
-            : "이 부위에서 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"
+        title={
+          confirm?.kind === "clear-all"
+            ? "모든 운동을 비울까요?"
+            : "추천 운동으로 교체할까요?"
         }
-        confirmLabel="교체하기"
+        message={
+          confirm?.kind === "clear-all"
+            ? "모든 부위의 담은 운동이 비워집니다. 각 부위에서 ‘저장’을 눌러야 실제로 반영됩니다."
+            : confirm?.kind === "all"
+              ? "직접 등록·수정한 모든 부위의 운동이 추천 운동으로 교체되고 바로 저장됩니다. 되돌릴 수 없습니다."
+              : "이 부위에서 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"
+        }
+        confirmLabel={confirm?.kind === "clear-all" ? "전체 비우기" : "교체하기"}
         onConfirm={() => {
           if (confirm?.kind === "all") doRecommendAll();
           else if (confirm?.kind === "focus") doRecommendFocus(confirm.section);
+          else if (confirm?.kind === "clear-all") doClearAll();
           setConfirm(null);
         }}
         onCancel={() => setConfirm(null)}

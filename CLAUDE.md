@@ -14,6 +14,18 @@ When you add or change a feature, you MUST add or update tests in the same chang
 - **DB 스키마 변경(`supabase/schema.sql` 수정)** → 반드시 라이브 DB에도 적용하고
   `pnpm test:schema`로 동기화를 확인한다. (스키마만 고치고 DB에 안 올리면 prod에서 "빵꾸"가 난다 — 과거 버그 전부 이 원인이었다.)
 
+### 🔴 기능을 바꾸면 영향받는 기존 테스트·코드 경로를 _전부_ 같이 고친다
+
+새 테스트만 추가하고 **기존 테스트를 방치하지 말 것.** 비즈니스 로직을 바꿨으면
+그 로직을 검증하던 기존 단언(`tests/**`)을 찾아 바뀐 동작에 맞게 **갱신하거나 삭제**한다.
+(과거에 "테스트는 그대로인데 로직만 바뀌어서 검증이 안 되는" 문제가 반복됐다.)
+
+또한 **같은 동작을 구현한 코드 경로가 여러 개면 한 곳만 고치지 말고 전부 고친다.**
+끝내기 전에 바꾼 함수·상수 이름으로 `grep` 해서 다른 호출부가 빠지지 않았는지 확인한다.
+예) "추천 운동 채우기"는 `fillMissingFocusesAction`(actions.ts)·
+`registerRecommendedPlanAction`(plan-actions.ts)·`PlanEditor.doRecommendFocus`(컴포넌트)
+**세 곳**에 있다 — 하나만 고치면 다른 경로로 들어온 사용자에게는 기능이 빠진다.
+
 작업을 "끝났다"고 말하기 전에 `pnpm test`가 green인지 확인한다. UI 변경이면 관련 E2E도 돌린다.
 
 ## 테스트 실행 (Test commands)

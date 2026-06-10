@@ -28,11 +28,9 @@ import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import { DAY_BLOCKS, type FocusTone } from "@/features/routine/data";
 import {
   allExercisesForFocus,
-  BODY_PART_LABEL,
-  BODY_PART_TONE,
-  bodyPartsFor,
   EQUIPMENT_LABELS,
   getCatalogExercise,
+  majorMuscleTag,
   type EquipmentId,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
@@ -41,6 +39,8 @@ import {
   type SetDetail,
 } from "@/features/routine/set-details";
 import { dropIndex } from "@/features/routine/plan-order";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { muscleGroup } from "@/features/routine/muscle-map";
 
 /** 행 높이를 못 잰 경우의 폴백 평균 높이 (px) */
 const ROW_HEIGHT_PX = 80;
@@ -57,6 +57,8 @@ export type TodayPlanItem = {
   /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
   setDetails: SetDetail[] | null;
   focus: string;
+  /** 그날 보조(사이드) 부위의 운동인지 — 메인 화면에 '보조' 뱃지 표시 */
+  isSide?: boolean;
   /** 개인 메모. null = 없음. */
   memo: string | null;
 };
@@ -581,14 +583,36 @@ export function TodayPlanList({
                   <div className="min-w-0 flex-1">
                     <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                       {item.name}
-                      {bodyPartsFor(item.exerciseId).map((p) => (
-                        <span
-                          key={p}
-                          className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold ${BODY_PART_TONE[p]}`}
-                        >
-                          {BODY_PART_LABEL[p]}
+                      {item.isSide ? (
+                        <span className="ml-1 whitespace-nowrap rounded-full bg-zinc-200 px-1.5 py-0.5 text-[10px] font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                          보조
                         </span>
-                      ))}
+                      ) : null}
+                      {/* 대근육 부위 1개 + 세부근육 1개 — 가장 영향 큰 것만 */}
+                      {(() => {
+                        const major = majorMuscleTag(item.exerciseId);
+                        return (
+                          <span
+                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold ${major.tone}`}
+                          >
+                            {major.label}
+                          </span>
+                        );
+                      })()}
+                      {(() => {
+                        const sub = subMusclesForExercise(item.exerciseId)[0];
+                        if (!sub) return null;
+                        return (
+                          <span
+                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
+                            style={{
+                              backgroundColor: muscleGroup(sub.muscle).color,
+                            }}
+                          >
+                            {sub.label}
+                          </span>
+                        );
+                      })()}
                       <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
                         {item.equipmentLabel}
                       </span>

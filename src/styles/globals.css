@@ -43,6 +43,24 @@ body {
   }
 }
 
+/* ── 실사 시연 사진 교차 재생(시작 ↔ 끝 프레임) ─────────────────────────── */
+@keyframes ex-photo-a {
+  0%, 38% { opacity: 1; }
+  50%, 88% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes ex-photo-b {
+  0%, 38% { opacity: 0; }
+  50%, 88% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.ex-photo-a { animation: ex-photo-a var(--ex-cycle, 2600ms) ease-in-out infinite; }
+.ex-photo-b { animation: ex-photo-b var(--ex-cycle, 2600ms) ease-in-out infinite; }
+
+/* 튜토리얼 단계 자막 — 장면 전환 시 페이드인업 */
+@keyframes ex-cap { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.ex-cap { animation: ex-cap 420ms ease-out both; }
+
 /* ── 브랜드 진입 스플래시 — 로고가 '팝'하고 등장, 헤일로 번짐, 워드 슬라이드인 ── */
 /* 배지: 작게 시작해 살짝 오버슈트 후 안착(스프링 느낌). */
 @keyframes heltch-pop {

@@ -9,7 +9,8 @@ async function completeWorkout(page: import("@playwright/test").Page) {
   await page.waitForTimeout(1000);
   for (let i = 0; i < 40; i++) {
     const last = page.getByRole("button", { name: "완료하고 종료" });
-    const mid = page.getByRole("button", { name: /^완료$/ });
+    // 본운동 버튼은 "운동 완료", 컨디셔닝/무세트는 "완료" — 둘 다 클릭.
+    const mid = page.getByRole("button", { name: /^(운동 완료|완료)$/ });
     if (await last.count()) { await last.click(); break; }
     if (await mid.count()) { await mid.click(); await page.waitForTimeout(420); continue; }
     break;
@@ -31,7 +32,8 @@ test("운동 완료 → 점수와 캘린더에 반영된다", async ({ page }) =
   let completed = 0;
   for (let i = 0; i < 40; i++) {
     const last = page.getByRole("button", { name: "완료하고 종료" });
-    const mid = page.getByRole("button", { name: /^완료$/ });
+    // 본운동 버튼은 "운동 완료", 컨디셔닝/무세트는 "완료" — 둘 다 클릭.
+    const mid = page.getByRole("button", { name: /^(운동 완료|완료)$/ });
     if (await last.count()) { await last.click(); completed++; break; }
     if (await mid.count()) { await mid.click(); completed++; await page.waitForTimeout(420); continue; }
     break;

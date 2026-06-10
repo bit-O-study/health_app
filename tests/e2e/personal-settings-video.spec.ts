@@ -80,7 +80,7 @@ test("운동영상 안 보기 ON → 가이드 없이 타이머만 + 운동 완�
   expect(Number(sess[0].sec)).toBeGreaterThanOrEqual(1);
 });
 
-test("영상 보기: 시간·중단은 운동모드 안에만, 나오면 '다시 운동하기'만", async ({
+test("영상 보기: 운동모드 안엔 시간만, 나오면 '다시 운동하기'만", async ({
   page,
 }) => {
   await signUpAndOnboard(page);
@@ -89,13 +89,18 @@ test("영상 보기: 시간·중단은 운동모드 안에만, 나오면 '다시
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1000);
+  await page.waitForTimeout(1200);
 
-  // 운동모드(가이드 오버레이) 안: '넘기기' + 시간 옆 '중단하기'.
+  // 운동모드(가이드 오버레이): '넘기기'는 있고, 경과 시간(mm:ss)이 보인다.
   await expect(
     page.getByRole("button", { name: "넘기기" }).first(),
   ).toBeVisible({ timeout: 10_000 });
-  await expect(page.getByRole("button", { name: "중단하기" })).toBeVisible();
+  await expect(page.getByText(/^\d{1,2}:\d{2}$/).first()).toBeVisible();
+  // 운동모드 안엔 중단하기/운동 다시 시작하기 버튼이 없다(시간만).
+  await expect(page.getByRole("button", { name: "중단하기" })).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "운동 다시 시작하기" }),
+  ).toHaveCount(0);
 
   // 운동모드에서 나오기: 닫기 → '중단' 확인.
   await page.getByRole("button", { name: "닫기" }).first().click();

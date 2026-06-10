@@ -273,11 +273,9 @@ export function WorkoutSessionTimer({
         items={queue}
         onClose={() => setGuided(false)}
         onAllComplete={handleGuidedAllComplete}
-        // 운동 페이지(가이드) 안에 경과 시간 + 중단/다시 시작 표시.
-        // 일시정지해도 오버레이는 유지(가이드를 닫지 않음).
+        // 운동 페이지(가이드) 안에는 경과 시간만 표시(중단/다시 시작 버튼 없음).
         elapsedLabel={time}
         running={running}
-        onPauseResume={running ? pause : resume}
       />
     ) : null;
 

@@ -41,15 +41,16 @@ test("순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두
   const warmUl = page.locator("ul.space-y-2").nth(0);
   const mainUl = page.locator("ul.space-y-2").nth(1);
   const coolUl = page.locator("ul.space-y-2").nth(2);
-  await expect(warmUl.locator(GRIP)).toHaveCount(3);
-  await expect(mainUl.locator(GRIP)).toHaveCount(3);
-  await expect(coolUl.locator(GRIP)).toHaveCount(3);
+  // 워밍업/마무리 추천은 부위당 4개. 본운동은 부위별로 다를 수 있어 개수 비의존.
+  await expect(warmUl.locator(GRIP)).toHaveCount(4);
+  await expect(coolUl.locator(GRIP)).toHaveCount(4);
+  expect(await mainUl.locator(GRIP).count()).toBeGreaterThanOrEqual(3);
 
   const warmBefore = await names(warmUl);
   const mainBefore = await names(mainUl);
   const coolBefore = await names(coolUl);
 
-  // 세 리스트 모두 첫 항목을 맨 끝으로
+  // 세 리스트 모두 첫 항목을 맨 끝으로 → [1..n-1, 0]
   await dragFirstToLast(page, warmUl);
   await dragFirstToLast(page, mainUl);
   await dragFirstToLast(page, coolUl);
@@ -57,9 +58,9 @@ test("순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두
   const warmAfter = await names(warmUl);
   const mainAfter = await names(mainUl);
   const coolAfter = await names(coolUl);
-  expect(warmAfter).toEqual([warmBefore[1], warmBefore[2], warmBefore[0]]);
-  expect(mainAfter).toEqual([mainBefore[1], mainBefore[2], mainBefore[0]]);
-  expect(coolAfter).toEqual([coolBefore[1], coolBefore[2], coolBefore[0]]);
+  expect(warmAfter).toEqual([...warmBefore.slice(1), warmBefore[0]]);
+  expect(mainAfter).toEqual([...mainBefore.slice(1), mainBefore[0]]);
+  expect(coolAfter).toEqual([...coolBefore.slice(1), coolBefore[0]]);
 
   // 운동 시작 → 가이드를 끝까지 넘기며 종류별 순서 수집
   await page.getByRole("button", { name: "운동 시작" }).click();

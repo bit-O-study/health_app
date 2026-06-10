@@ -10,6 +10,8 @@ export type BanState = "active" | "suspended" | "banned";
 export type BanFields = {
   suspendedUntil: string | null;
   bannedAt: string | null;
+  /** 회원탈퇴(소프트) 시각. 있으면 탈퇴 상태 — 앱 접근 차단. */
+  withdrawnAt?: string | null;
 };
 
 export function banStateOf(p: BanFields, now: Date = new Date()): BanState {
@@ -20,9 +22,14 @@ export function banStateOf(p: BanFields, now: Date = new Date()): BanState {
   return "active";
 }
 
-/** 앱 접근이 차단돼야 하는지(정지 또는 영구정지). */
+/** 탈퇴 상태인지(소프트 탈퇴). */
+export function isWithdrawn(p: BanFields): boolean {
+  return p.withdrawnAt != null;
+}
+
+/** 앱 접근이 차단돼야 하는지(정지·영구정지·탈퇴). */
 export function isBlocked(p: BanFields, now: Date = new Date()): boolean {
-  return banStateOf(p, now) !== "active";
+  return isWithdrawn(p) || banStateOf(p, now) !== "active";
 }
 
 export const BAN_STATE_LABEL: Record<BanState, string> = {

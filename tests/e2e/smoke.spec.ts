@@ -5,7 +5,9 @@ import { signUpAndOnboard } from "./helpers/auth";
 // Broad smoke: after signup, every major route must render without a Next.js
 // runtime-error overlay or pageerror. Catches schema/render regressions cheaply.
 const ROUTES: { path: string; expect?: RegExp }[] = [
-  { path: "/", expect: /오늘의 운동/ },
+  // "/" 는 모드 선택 랜딩(루틴/파워리프팅) — 에러 없이 렌더만 확인.
+  { path: "/" },
+  { path: "/routine", expect: /오늘의 운동/ },
   { path: "/plan", expect: /운동 등록/ },
   { path: "/plan/today" },
   { path: "/settings" },

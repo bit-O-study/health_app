@@ -211,6 +211,130 @@ const TRICEPS: DayPlan = {
   examples: ["케이블 푸시다운", "스컬크러셔", "오버헤드 익스텐션"],
 };
 
+/* 부위별 세부근육 블록 — 이두/삼두와 동일 패턴. 저장 tone 은 부모 부위로 통일하고,
+ * 세부 구분은 블록 id 로만 한다(예: chest-upper → tone "chest"). 추천 운동은
+ * 그 세부근육 전용으로 채워진다(SIDE_BLOCK_EXERCISES / MAIN_BLOCK_EXERCISES). */
+const CHEST_UPPER: DayPlan = {
+  focus: "가슴 상부",
+  tone: "chest",
+  muscles: ["상부 대흉근"],
+  examples: ["인클라인 프레스", "인클라인 케이블 플라이"],
+};
+const CHEST_LOWER: DayPlan = {
+  focus: "가슴 하부",
+  tone: "chest",
+  muscles: ["하부 대흉근"],
+  examples: ["딥스", "디클라인 프레스"],
+};
+const BACK_LATS: DayPlan = {
+  focus: "광배근",
+  tone: "back",
+  muscles: ["광배근"],
+  examples: ["랫풀다운", "풀업"],
+};
+const BACK_TRAPS: DayPlan = {
+  focus: "승모근",
+  tone: "back",
+  muscles: ["승모근"],
+  examples: ["슈러그", "업라이트 로우"],
+};
+const BACK_ERECTOR: DayPlan = {
+  focus: "척추기립근",
+  tone: "back",
+  muscles: ["척추기립근"],
+  examples: ["백 익스텐션", "굿모닝"],
+};
+const SHOULDER_FRONT: DayPlan = {
+  focus: "전면 삼각근",
+  tone: "shoulder",
+  muscles: ["전면 삼각근"],
+  examples: ["오버헤드프레스", "프론트 레이즈"],
+};
+const SHOULDER_SIDE: DayPlan = {
+  focus: "측면 삼각근",
+  tone: "shoulder",
+  muscles: ["측면 삼각근"],
+  examples: ["사이드 레터럴 레이즈", "케이블 레터럴 레이즈"],
+};
+const SHOULDER_REAR: DayPlan = {
+  focus: "후면 삼각근",
+  tone: "shoulder",
+  muscles: ["후면 삼각근"],
+  examples: ["리어 델트 플라이", "페이스풀"],
+};
+const LOWER_QUADS: DayPlan = {
+  focus: "대퇴사두",
+  tone: "lower",
+  muscles: ["대퇴사두"],
+  examples: ["레그 익스텐션", "핵스쿼트"],
+};
+const LOWER_HAMS: DayPlan = {
+  focus: "햄스트링",
+  tone: "lower",
+  muscles: ["햄스트링"],
+  examples: ["레그컬", "루마니안 데드리프트"],
+};
+const LOWER_GLUTES: DayPlan = {
+  focus: "둔근",
+  tone: "lower",
+  muscles: ["둔근"],
+  examples: ["힙 쓰러스트", "글루트 브릿지"],
+};
+const LOWER_CALVES: DayPlan = {
+  focus: "종아리",
+  tone: "lower",
+  muscles: ["종아리"],
+  examples: ["스탠딩 카프 레이즈", "시티드 카프 레이즈"],
+};
+const CHEST_MID: DayPlan = {
+  focus: "가슴 중부",
+  tone: "chest",
+  muscles: ["중부 대흉근"],
+  examples: ["벤치프레스", "머신 체스트 프레스"],
+};
+const CHEST_INNER: DayPlan = {
+  focus: "가슴 내측",
+  tone: "chest",
+  muscles: ["내측 대흉근"],
+  examples: ["펙덱 플라이", "케이블 크로스오버"],
+};
+const BACK_RHOMBOIDS: DayPlan = {
+  focus: "능형근",
+  tone: "back",
+  muscles: ["능형근"],
+  examples: ["시티드 케이블 로우", "체스트 서포티드 로우"],
+};
+const ARM_FOREARM: DayPlan = {
+  focus: "전완",
+  tone: "arm",
+  muscles: ["전완"],
+  examples: ["리버스 컬", "리스트 컬"],
+};
+const LOWER_ADDUCTORS: DayPlan = {
+  focus: "내전근",
+  tone: "lower",
+  muscles: ["내전근"],
+  examples: ["이너타이(힙 어덕션)", "스모 스쿼트"],
+};
+const CORE_UPPER_ABS: DayPlan = {
+  focus: "상복부",
+  tone: "core",
+  muscles: ["상복부"],
+  examples: ["크런치", "케이블 크런치"],
+};
+const CORE_LOWER_ABS: DayPlan = {
+  focus: "하복부",
+  tone: "core",
+  muscles: ["하복부"],
+  examples: ["행잉 레그 레이즈", "리버스 크런치"],
+};
+const CORE_OBLIQUES: DayPlan = {
+  focus: "복사근",
+  tone: "core",
+  muscles: ["복사근"],
+  examples: ["러시안 트위스트", "사이드 플랭크"],
+};
+
 const PUSH: DayPlan = {
   focus: "밀기",
   tone: "push",
@@ -401,7 +525,28 @@ export type DayBlockId =
   | "pull"
   | "core"
   | "biceps"
-  | "triceps";
+  | "triceps"
+  // 부위별 세부근육 블록 (tone 은 부모 부위)
+  | "chest-upper"
+  | "chest-mid"
+  | "chest-lower"
+  | "chest-inner"
+  | "back-lats"
+  | "back-traps"
+  | "back-rhomboids"
+  | "back-erector"
+  | "shoulder-front"
+  | "shoulder-side"
+  | "shoulder-rear"
+  | "arm-forearm"
+  | "lower-quads"
+  | "lower-hamstrings"
+  | "lower-glutes"
+  | "lower-adductors"
+  | "lower-calves"
+  | "core-upper-abs"
+  | "core-lower-abs"
+  | "core-obliques";
 
 /** 커스텀 빌더에서 고를 수 있는 하루 블록 (id → 라벨 + DayPlan) */
 export const DAY_BLOCKS: Record<DayBlockId, { label: string; day: DayPlan }> = {
@@ -418,9 +563,78 @@ export const DAY_BLOCKS: Record<DayBlockId, { label: string; day: DayPlan }> = {
   core: { label: "코어 + 유산소", day: CORE },
   biceps: { label: "이두", day: BICEPS },
   triceps: { label: "삼두", day: TRICEPS },
+  "chest-upper": { label: "가슴 상부", day: CHEST_UPPER },
+  "chest-mid": { label: "가슴 중부", day: CHEST_MID },
+  "chest-lower": { label: "가슴 하부", day: CHEST_LOWER },
+  "chest-inner": { label: "가슴 내측", day: CHEST_INNER },
+  "back-lats": { label: "광배근", day: BACK_LATS },
+  "back-traps": { label: "승모근", day: BACK_TRAPS },
+  "back-rhomboids": { label: "능형근", day: BACK_RHOMBOIDS },
+  "back-erector": { label: "척추기립근", day: BACK_ERECTOR },
+  "shoulder-front": { label: "전면 삼각근", day: SHOULDER_FRONT },
+  "shoulder-side": { label: "측면 삼각근", day: SHOULDER_SIDE },
+  "shoulder-rear": { label: "후면 삼각근", day: SHOULDER_REAR },
+  "arm-forearm": { label: "전완", day: ARM_FOREARM },
+  "lower-quads": { label: "대퇴사두", day: LOWER_QUADS },
+  "lower-hamstrings": { label: "햄스트링", day: LOWER_HAMS },
+  "lower-glutes": { label: "둔근", day: LOWER_GLUTES },
+  "lower-adductors": { label: "내전근", day: LOWER_ADDUCTORS },
+  "lower-calves": { label: "종아리", day: LOWER_CALVES },
+  "core-upper-abs": { label: "상복부", day: CORE_UPPER_ABS },
+  "core-lower-abs": { label: "하복부", day: CORE_LOWER_ABS },
+  "core-obliques": { label: "복사근", day: CORE_OBLIQUES },
 };
 
 export const DAY_BLOCK_IDS = Object.keys(DAY_BLOCKS) as DayBlockId[];
+
+/**
+ * 근육 부위 그룹 — 루틴 빌더의 "부위 추가" 2단 드릴다운에 쓴다.
+ * 1단계로 부위(가슴/등/…)를 고르고, 2단계로 "전체"(whole) 또는 세부근육(subs) 선택.
+ * 세션 그룹(밀기/당기기/전신/상체)은 여기 넣지 않는다 — "운동 근육 부위만".
+ */
+export type MuscleBlockGroup = {
+  /** 부위 전체 블록 id (예: "chest") */
+  whole: DayBlockId;
+  /** 부위 한국어 라벨 */
+  label: string;
+  /** 세부근육 블록 id 목록 (없으면 전체만) */
+  subs: DayBlockId[];
+};
+
+export const MUSCLE_BLOCK_GROUPS: MuscleBlockGroup[] = [
+  {
+    whole: "chest",
+    label: "가슴",
+    subs: ["chest-upper", "chest-mid", "chest-lower", "chest-inner"],
+  },
+  {
+    whole: "back",
+    label: "등",
+    subs: ["back-lats", "back-traps", "back-rhomboids", "back-erector"],
+  },
+  {
+    whole: "shoulder",
+    label: "어깨",
+    subs: ["shoulder-front", "shoulder-side", "shoulder-rear"],
+  },
+  { whole: "arm", label: "팔", subs: ["biceps", "triceps", "arm-forearm"] },
+  {
+    whole: "lower",
+    label: "하체",
+    subs: [
+      "lower-quads",
+      "lower-hamstrings",
+      "lower-glutes",
+      "lower-adductors",
+      "lower-calves",
+    ],
+  },
+  {
+    whole: "core",
+    label: "코어",
+    subs: ["core-upper-abs", "core-lower-abs", "core-obliques"],
+  },
+];
 
 /**
  * 비어 있을 때 시작점이 되는 기본 커스텀 주간 (PPL + 휴식).

@@ -80,17 +80,19 @@ export async function updateSession(request: NextRequest) {
     // 차단 상태면 안내 페이지(/suspended)로만 보낸다. 정지 안 된 사용자가
     // /suspended 에 있으면 메인으로 되돌린다.
     const onSuspended = pathname === "/suspended";
+    let blocked = false;
     try {
       const { data: prof } = await supabase
         .from("profiles")
-        .select("suspended_until, banned_at")
+        .select("suspended_until, banned_at, withdrawn_at")
         .eq("user_id", user.id)
         .maybeSingle();
-      const blocked = prof
+      blocked = prof
         ? isBlocked({
             suspendedUntil: (prof as { suspended_until: string | null })
               .suspended_until,
             bannedAt: (prof as { banned_at: string | null }).banned_at,
+            withdrawnAt: (prof as { withdrawn_at: string | null }).withdrawn_at,
           })
         : false;
       if (blocked && !onSuspended) {
@@ -107,6 +109,34 @@ export async function updateSession(request: NextRequest) {
       }
     } catch {
       /* 조회 실패 시 차단하지 않음(정상 사용자 막지 않기) */
+    }
+
+    // 활동(접속) 기록 — 접속유저수 통계용. 하루 1회만(쿠키 게이트)으로 DB 부하 최소화.
+    // 차단되지 않은 정상 사용자만 집계.
+    if (!blocked) {
+      const today = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Asia/Seoul",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(new Date());
+      if (request.cookies.get("hx_act")?.value !== today) {
+        try {
+          await supabase
+            .from("user_activity")
+            .upsert(
+              { user_id: user.id, active_date: today },
+              { onConflict: "user_id,active_date", ignoreDuplicates: true },
+            );
+        } catch {
+          /* 활동 기록 실패는 무시(앱 사용에 영향 없음) */
+        }
+        response.cookies.set("hx_act", today, {
+          path: "/",
+          maxAge: 60 * 60 * 24,
+          sameSite: "lax",
+        });
+      }
     }
 
     const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");

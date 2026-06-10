@@ -4,8 +4,17 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import {
+  exerciseCompletionKey,
+  type CompletionStatus,
+} from "@/features/routine/completion-match";
 
-export type CompletionStatus = "done" | "skipped";
+// 순수 매칭 로직은 completion-match 로 분리(단위 테스트 가능). 호환을 위해 재노출.
+export {
+  exerciseCompletionKey,
+  resolveTodayStatus,
+} from "@/features/routine/completion-match";
+export type { CompletionStatus } from "@/features/routine/completion-match";
 
 export type ExerciseCompletionRow = {
   forDate: string;
@@ -37,16 +46,6 @@ const num = (v: number | string | null | undefined): number | null => {
 
 function toStatus(s: string): CompletionStatus {
   return s === "skipped" ? "skipped" : "done";
-}
-
-/** 오늘 운동별 완료 키. 완료는 '사실'이라 루틴을 바꿔 행 UUID 가 새로 생겨도
- * 유지돼야 한다. 그래서 row_id 외에 `f:${focus}:${exerciseId}` 복합 키로도 넣어,
- * 오늘 같은 운동이 보이면(행 id 가 달라도) 완료로 인식하게 한다. */
-export function exerciseCompletionKey(
-  focus: string | null | undefined,
-  exerciseId: string | null | undefined,
-): string {
-  return `f:${focus ?? ""}:${exerciseId ?? ""}`;
 }
 
 /** 오늘 운동별 상태 맵 (done/skipped). row_id + (부위:운동) 키 둘 다 포함. 미기록은 맵에 없음. */

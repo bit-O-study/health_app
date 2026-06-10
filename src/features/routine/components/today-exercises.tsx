@@ -21,10 +21,8 @@ import {
   estimateConditioningKcal,
   estimateStrengthKcal,
 } from "@/features/routine/calories";
-import {
-  exerciseCompletionKey,
-  getStatusMapToday,
-} from "@/features/routine/exercise-completions";
+import { getStatusMapToday } from "@/features/routine/exercise-completions";
+import { resolveTodayStatus } from "@/features/routine/completion-match";
 import { orderMainPlan } from "@/features/routine/plan-order";
 import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
@@ -158,6 +156,8 @@ export async function TodayExercises({
 
   const w = weightKg ?? 65;
 
+  // 그날 첫 부위(tones[0])는 주(主), 나머지 부위는 보조(사이드).
+  const sideTones = new Set(tones.slice(1));
   // Main 행 변환
   const items: TodayPlanItem[] = plan.map((item) => ({
     id: item.id,
@@ -170,13 +170,13 @@ export async function TodayExercises({
     weightKg: item.weightKg,
     setDetails: item.setDetails,
     focus: item.focus,
+    isSide: sideTones.has(item.focus as FocusKey),
     memo: item.memo,
   }));
   // 완료 상태는 row_id 로 먼저, 없으면 (부위:운동) 키로 — 루틴을 바꿔 행 UUID 가
   // 새로 생겨도 오늘 완료한 운동이면 체크가 유지된다.
   const statusOf = (p: { id: string; focus: string; exerciseId: string }) =>
-    mainStatus.get(p.id) ??
-    mainStatus.get(exerciseCompletionKey(p.focus, p.exerciseId));
+    resolveTodayStatus(mainStatus, p);
   const mainDoneIds = plan
     .filter((p) => statusOf(p) === "done")
     .map((p) => p.id);

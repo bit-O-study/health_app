@@ -2186,6 +2186,72 @@ const SIDE_BLOCK_EXERCISES: Record<string, string[]> = {
   biceps: ["biceps-curl", "hammer-curl"],
   triceps: ["triceps-pushdown", "skull-crusher"],
   arm: ["biceps-curl", "triceps-pushdown"],
+  // 부위별 세부근육 — 그 근육 전용 2개
+  "chest-upper": ["incline-press", "incline-cable-fly"],
+  "chest-mid": ["machine-chest-press", "push-up"],
+  "chest-lower": ["decline-press", "dips"],
+  "chest-inner": ["pec-deck", "cable-crossover"],
+  "back-lats": ["lat-pulldown", "straight-arm-pulldown"],
+  "back-traps": ["shrug", "upright-row"],
+  "back-rhomboids": ["seated-cable-row", "chest-supported-row"],
+  "back-erector": ["hyperextension", "good-morning"],
+  "shoulder-front": ["ohp", "front-raise"],
+  "shoulder-side": ["lateral-raise", "cable-lateral-raise"],
+  "shoulder-rear": ["rear-delt-fly", "face-pull"],
+  "arm-forearm": ["reverse-curl", "wrist-curl"],
+  "lower-quads": ["leg-extension", "hack-squat"],
+  "lower-hamstrings": ["leg-curl", "rdl"],
+  "lower-glutes": ["hip-thrust", "glute-bridge"],
+  "lower-adductors": ["hip-adduction", "sumo-squat"],
+  "lower-calves": ["standing-calf-raise", "seated-calf-raise"],
+  "core-upper-abs": ["crunch", "cable-crunch"],
+  "core-lower-abs": ["hanging-leg-raise", "reverse-crunch"],
+  "core-obliques": ["russian-twist", "side-plank"],
+};
+
+/** 주(主) 슬롯이 이두/삼두 같은 세부 블록일 때 쓰는 그 근육 **전용** 추천 목록.
+ * exercisesForFocus("arm") 은 이두·삼두가 섞여 있어, 이두 블록만 추가해도 삼두
+ * 운동(triceps-pushdown)이 따라 들어오는 버그가 있었다. 블록 id 로 분기해
+ * 해당 근육 운동만 넣는다. (사이드는 SIDE_BLOCK_EXERCISES 로 이미 2개만 분리됨) */
+const MAIN_BLOCK_EXERCISES: Record<string, string[]> = {
+  biceps: ["biceps-curl", "hammer-curl", "preacher-curl", "incline-curl"],
+  triceps: [
+    "triceps-pushdown",
+    "skull-crusher",
+    "overhead-triceps-extension",
+    "triceps-kickback",
+  ],
+  // 부위별 세부근육 — 그 근육 전용 주(主) 볼륨
+  "chest-upper": ["incline-press", "incline-cable-fly"],
+  "chest-mid": ["bench-press", "machine-chest-press", "smith-bench-press", "push-up"],
+  "chest-lower": ["decline-press", "dips", "cable-crossover"],
+  "chest-inner": ["pec-deck", "cable-crossover", "chest-fly"],
+  "back-lats": [
+    "lat-pulldown",
+    "pull-up",
+    "straight-arm-pulldown",
+    "one-arm-dumbbell-row",
+  ],
+  "back-traps": ["shrug", "upright-row", "face-pull"],
+  "back-rhomboids": [
+    "seated-cable-row",
+    "chest-supported-row",
+    "barbell-row",
+    "t-bar-row",
+  ],
+  "back-erector": ["deadlift", "hyperextension", "good-morning"],
+  "shoulder-front": ["ohp", "arnold-press", "front-raise"],
+  "shoulder-side": ["lateral-raise", "cable-lateral-raise", "upright-row"],
+  "shoulder-rear": ["rear-delt-fly", "face-pull", "machine-rear-delt-fly"],
+  "arm-forearm": ["hammer-curl", "reverse-curl", "wrist-curl", "zottman-curl"],
+  "lower-quads": ["hack-squat", "leg-extension", "front-squat", "leg-press"],
+  "lower-hamstrings": ["rdl", "leg-curl", "stiff-leg-deadlift", "seated-leg-curl"],
+  "lower-glutes": ["hip-thrust", "glute-bridge", "cable-kickback", "hip-abduction"],
+  "lower-adductors": ["hip-adduction", "sumo-squat", "cossack-squat"],
+  "lower-calves": ["standing-calf-raise", "seated-calf-raise", "donkey-calf-raise"],
+  "core-upper-abs": ["crunch", "cable-crunch", "sit-up"],
+  "core-lower-abs": ["hanging-leg-raise", "reverse-crunch", "toes-to-bar"],
+  "core-obliques": ["russian-twist", "side-plank", "bicycle-crunch"],
 };
 
 /**
@@ -2205,6 +2271,28 @@ export function sideExercisesForSlot(
   }
   if (ids.length === 0) return exercisesForFocus(focus, gender).slice(0, 2);
   return ids.map((id) => EXERCISES[id]).filter(Boolean);
+}
+
+/**
+ * 주(主) 슬롯의 추천 운동.
+ * 블록 id 가 전부 세부 블록(이두/삼두)이면 그 근육 **전용** 목록을 쓰고,
+ * 그 외(가슴/등/팔 통째 등)는 부위 기본 추천 목록(exercisesForFocus)을 쓴다.
+ * → "이두만 추가했는데 삼두가 따라 들어오는" 문제를 막는다.
+ */
+export function focusExercisesForSlot(
+  focus: FocusKey,
+  blockIds: string[],
+  gender: "male" | "female" = "male",
+): CatalogExercise[] {
+  const blockLists = blockIds.map((b) => MAIN_BLOCK_EXERCISES[b]);
+  // blockIds 가 비어있지 않고 전부 세부 블록일 때만 블록 전용 목록을 합쳐 쓴다.
+  if (blockIds.length > 0 && blockLists.every(Boolean)) {
+    const ids: string[] = [];
+    for (const list of blockLists)
+      for (const id of list!) if (!ids.includes(id)) ids.push(id);
+    return ids.map((id) => EXERCISES[id]).filter(Boolean);
+  }
+  return exercisesForFocus(focus, gender);
 }
 
 /** 분할(focus tone) → 후보 신체 부위 집합.
@@ -2657,6 +2745,27 @@ const EXTRA_BODY_PARTS: Record<string, BodyPart[]> = {
 export function bodyPartsFor(id: string): BodyPart[] {
   const set = new Set<BodyPart>([primaryBodyPart(id), ...(EXTRA_BODY_PARTS[id] ?? [])]);
   return BODY_PART_ORDER.filter((p) => set.has(p));
+}
+
+/** 상체 대근육(전신 판정용) */
+const UPPER_BODY_PARTS: BodyPart[] = ["chest", "back", "shoulder", "arm"];
+
+/** 전신 태그 색(중립 회색) — 특정 부위 색과 구분. */
+export const FULLBODY_TONE =
+  "bg-zinc-200 text-zinc-700 dark:bg-zinc-600 dark:text-zinc-200";
+
+/**
+ * 운동이 "제일 영향 많이 받는 대근육" 한 개의 표시용 태그.
+ * 상체(가슴/등/어깨/팔) 중 하나와 하체를 **동시에** 쓰면 '전신'(데드리프트 등),
+ * 아니면 1차 부위(가슴/팔/하체/코어…). 배지를 1개만 달 때 쓴다.
+ */
+export function majorMuscleTag(id: string): { label: string; tone: string } {
+  const parts = bodyPartsFor(id);
+  const isFullBody =
+    parts.includes("lower") && parts.some((p) => UPPER_BODY_PARTS.includes(p));
+  if (isFullBody) return { label: "전신", tone: FULLBODY_TONE };
+  const primary = primaryBodyPart(id);
+  return { label: BODY_PART_LABEL[primary], tone: BODY_PART_TONE[primary] };
 }
 
 /** 부위별로 그룹핑한 카탈로그 — /exercises 페이지에서 사용 */

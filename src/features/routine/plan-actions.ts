@@ -23,6 +23,7 @@ import {
 import {
   ALL_FOCUSES,
   exercisesForFocus,
+  focusExercisesForSlot,
   getCatalogExercise,
   isEquipmentId,
   prescribe,
@@ -100,7 +101,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   const rows = slots.flatMap((slot) => {
     const list = slot.isSide
       ? sideExercisesForSlot(slot.focus, slot.blockIds, gender)
-      : exercisesForFocus(slot.focus, gender);
+      : focusExercisesForSlot(slot.focus, slot.blockIds, gender);
     return list.map((ex, index) => {
       const p = prescribe(ex.id, opts);
       return {

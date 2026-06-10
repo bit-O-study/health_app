@@ -19,6 +19,7 @@ import { getUserRoutine } from "@/features/routine/data-access";
 import { resolveRoutine } from "@/features/routine/data";
 import { ThemePicker } from "@/features/theme/theme-picker";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
+import { WithdrawButton } from "@/features/account/components/withdraw-button";
 
 export const dynamic = "force-dynamic";
 
@@ -263,6 +264,8 @@ export default async function SettingsPage() {
             로그아웃
           </button>
         </form>
+
+        <WithdrawButton />
       </div>
     </main>
   );

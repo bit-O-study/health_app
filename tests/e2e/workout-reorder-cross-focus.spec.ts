@@ -60,7 +60,8 @@ test("부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드�
         (now() at time zone 'Asia/Seoul')::date, 'chest', 0, 'bench-press', 'barbell', 3, 10, 40)`;
   await dbQuery(insert, [email]);
 
-  await page.goto("/", { waitUntil: "networkidle" });
+  // "/" 는 모드 선택 랜딩이라 운동 화면은 /routine 으로 직접 이동.
+  await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
 
   // ul.space-y-2 순서: [워밍업, 본운동, 마무리]

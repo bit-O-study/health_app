@@ -5,6 +5,7 @@ import { ChevronLeft } from "lucide-react";
 import { getMembers, isAdminUser } from "@/features/admin/admin";
 import { banStateOf, BAN_STATE_LABEL } from "@/features/admin/ban";
 import { MemberBanControls } from "@/features/admin/components/member-ban-controls";
+import { RestoreMemberButton } from "@/features/admin/components/restore-member-button";
 
 export const dynamic = "force-dynamic";
 
@@ -77,13 +78,20 @@ export default async function AdminMembersPage() {
                     </p>
                     <p className="truncate text-xs text-zinc-500">{m.email ?? "-"}</p>
                   </div>
-                  <span
-                    className={`shrink-0 whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold ${badge}`}
-                  >
-                    {BAN_STATE_LABEL[state]}
-                    {state === "suspended" && m.suspendedUntil
-                      ? ` ${suspendedUntilLabel(m.suspendedUntil)}`
-                      : ""}
+                  <span className="flex shrink-0 flex-wrap items-center gap-1">
+                    {m.withdrawnAt ? (
+                      <span className="whitespace-nowrap rounded-full bg-zinc-200 px-2 py-0.5 text-[11px] font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                        탈퇴
+                      </span>
+                    ) : null}
+                    <span
+                      className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold ${badge}`}
+                    >
+                      {BAN_STATE_LABEL[state]}
+                      {state === "suspended" && m.suspendedUntil
+                        ? ` ${suspendedUntilLabel(m.suspendedUntil)}`
+                        : ""}
+                    </span>
                   </span>
                 </div>
                 <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
@@ -94,8 +102,11 @@ export default async function AdminMembersPage() {
                     사유: {m.banReason}
                   </p>
                 ) : null}
-                <div className="mt-3 border-t border-zinc-100 dark:border-zinc-700/60 pt-3">
+                <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-zinc-100 dark:border-zinc-700/60 pt-3">
                   <MemberBanControls userId={m.userId} state={state} />
+                  {m.withdrawnAt ? (
+                    <RestoreMemberButton userId={m.userId} />
+                  ) : null}
                 </div>
               </li>
             );

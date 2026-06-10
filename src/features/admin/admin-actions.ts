@@ -106,3 +106,20 @@ export async function unbanUserAction(
 ): Promise<AdminActionResult> {
   return setUserBan(userId, null, null, null);
 }
+
+/** 회원탈퇴 복구 — withdrawn_at = null (소프트 탈퇴 되돌림). 관리자만. */
+export async function restoreUserAction(
+  userId: string,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  if (!userId) return { ok: false, error: "회원이 올바르지 않습니다." };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc("admin_restore_user", {
+    p_user_id: userId,
+  });
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/admin/members");
+  return { ok: true };
+}

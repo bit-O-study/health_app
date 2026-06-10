@@ -7,7 +7,7 @@ import {
   getCatalogExercise,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
-import { getPlanForDay, getPlanForFocus } from "@/features/routine/plan";
+import { getPlanForDay } from "@/features/routine/plan";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
@@ -98,14 +98,10 @@ export async function TodayExercises({
     mainStatus,
     condStatus,
   ] = await Promise.all([
-    // 일차별 독립 — 오늘 일차의 부위 운동을 읽는다. 그 일차에 없으면(오버라이드
-    // 데이 등) 부위 전체(union)로 폴백해 빈 화면을 막는다.
-    Promise.all(
-      tones.map(async (t) => {
-        const byDay = await getPlanForDay(dayIndex, t);
-        return byDay.length > 0 ? byDay : getPlanForFocus(t);
-      }),
-    ),
+    // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
+    // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
+    // 사라지는 누수가 생긴다. 그 일차에 운동이 없으면 빈 화면(등록 안내)을 보여준다.
+    Promise.all(tones.map((t) => getPlanForDay(dayIndex, t))),
     getDailyPlanForDate(todayYmd),
     getConditioningForFocus(primaryTone),
     getDailyConditioning(todayYmd),

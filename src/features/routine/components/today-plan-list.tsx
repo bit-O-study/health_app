@@ -57,8 +57,6 @@ export type TodayPlanItem = {
   /** 세트별 무게·횟수. null = 균일(sets×reps@weightKg). */
   setDetails: SetDetail[] | null;
   focus: string;
-  /** 그날 보조(사이드) 부위의 운동인지 — 메인 화면에 '보조' 뱃지 표시 */
-  isSide?: boolean;
   /** 개인 메모. null = 없음. */
   memo: string | null;
 };
@@ -583,11 +581,6 @@ export function TodayPlanList({
                   <div className="min-w-0 flex-1">
                     <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                       {item.name}
-                      {item.isSide ? (
-                        <span className="ml-1 whitespace-nowrap rounded-full bg-zinc-200 px-1.5 py-0.5 text-[10px] font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
-                          보조
-                        </span>
-                      ) : null}
                       {/* 대근육 부위 1개 + 세부근육 1개 — 가장 영향 큰 것만 */}
                       {(() => {
                         const major = majorMuscleTag(item.exerciseId);

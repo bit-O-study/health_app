@@ -124,16 +124,23 @@ describe("focusExercisesForSlot (주 슬롯 추천 — 이두/삼두 분리)", (
     }
   });
 
-  it("세부 블록이 아닌 부위(가슴)는 부위 기본 추천을 그대로 쓴다", () => {
+  it("세부 블록이 아닌 부위(가슴)는 부위 기본 추천을 4개로 쓴다", () => {
     expect(focusExercisesForSlot("chest", ["chest"]).map((e) => e.id)).toEqual(
-      exercisesForFocus("chest").map((e) => e.id),
+      exercisesForFocus("chest").slice(0, 4).map((e) => e.id),
     );
   });
 
-  it("blockIds 가 비면 부위 기본 추천으로 폴백", () => {
+  it("blockIds 가 비면 부위 기본 추천으로 폴백(4개)", () => {
     expect(focusExercisesForSlot("arm", []).map((e) => e.id)).toEqual(
-      exercisesForFocus("arm").map((e) => e.id),
+      exercisesForFocus("arm").slice(0, 4).map((e) => e.id),
     );
+  });
+
+  it("주(主) 슬롯 추천은 부위당 4개 — 보조는 2개", () => {
+    for (const f of ["chest", "back", "shoulder", "arm", "lower", "core"] as FocusKey[]) {
+      expect(focusExercisesForSlot(f, [f]).length).toBe(4);
+      expect(sideExercisesForSlot(f, [f]).length).toBe(2);
+    }
   });
 });
 

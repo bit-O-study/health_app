@@ -24,6 +24,7 @@ import {
   registerRecommendedPlanAction,
   saveManualPlanAction,
 } from "@/features/routine/plan-actions";
+import { clearAllPlanAction } from "@/features/routine/delete-actions";
 import type { SetDetail } from "@/features/routine/set-details";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
@@ -161,15 +162,18 @@ export function PlanEditor({
     });
   }
 
-  // 모든 부위의 담은 운동을 비운다(클라이언트 state 만 — 각 섹션 '저장'을 눌러야 DB 반영).
+  // 전체 운동 비우기 — 본운동·워밍업·마무리를 즉시 DB 에서 삭제(저장 불필요).
+  // 컨디셔닝 에디터는 prop 변경에 재동기화되지 않으므로 하드 새로고침으로 반영.
   function doClearAll() {
-    setPlans((prev) => {
-      const next: Record<string, Row[]> = {};
-      for (const key of Object.keys(prev)) next[key] = [];
-      return next;
+    setStatus(null);
+    start(async () => {
+      const res = await clearAllPlanAction();
+      if (res.ok) {
+        window.location.reload();
+      } else {
+        setStatus(res.error ?? "전체 비우기에 실패했습니다.");
+      }
     });
-    setDirty(new Set(focuses.map((f) => f.key)));
-    setStatus("모든 부위의 운동을 비웠어요. 각 부위에서 ‘저장’을 눌러야 반영됩니다.");
   }
 
   /** 한 섹션(일차·부위)만 추천 운동으로 행을 갈아끼움 — 저장은 아래 저장 버튼 담당.
@@ -479,12 +483,12 @@ export function PlanEditor({
         tone="danger"
         title={
           confirm?.kind === "clear-all"
-            ? "모든 운동을 비울까요?"
+            ? "전체 운동을 비울까요?"
             : "추천 운동으로 교체할까요?"
         }
         message={
           confirm?.kind === "clear-all"
-            ? "모든 부위의 담은 운동이 비워집니다. 각 부위에서 ‘저장’을 눌러야 실제로 반영됩니다."
+            ? "본운동·워밍업·마무리 운동이 모두 즉시 삭제됩니다(저장 안 눌러도 바로 반영). ⚠️ 되돌릴 수 없습니다. (이미 완료한 운동 기록·점수는 그대로 유지됩니다.)"
             : confirm?.kind === "all"
               ? "직접 등록·수정한 모든 부위의 운동이 추천 운동으로 교체되고 바로 저장됩니다. 되돌릴 수 없습니다."
               : "이 부위에서 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"

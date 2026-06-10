@@ -68,3 +68,31 @@ export async function deleteConditioningRowAction(
 
   revalidatePath("/routine");
 }
+
+/**
+ * 전체 운동 비우기 — 본운동(routine_exercises)·워밍업/마무리(routine_conditioning)
+ * 와 '오늘만 변경' 오버라이드(daily_plan/daily_conditioning)를 모두 삭제한다.
+ * 즉시 DB 에 반영(저장 불필요). 완료 기록(점수·기록)은 건드리지 않는다.
+ */
+export async function clearAllPlanAction(): Promise<{
+  ok: boolean;
+  error?: string;
+}> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const uid = user.id;
+
+  const results = await Promise.all([
+    supabase.from("routine_exercises").delete().eq("user_id", uid),
+    supabase.from("routine_conditioning").delete().eq("user_id", uid),
+    supabase.from("daily_plan").delete().eq("user_id", uid),
+    supabase.from("daily_conditioning").delete().eq("user_id", uid),
+  ]);
+  const failed = results.find((r) => r.error);
+  if (failed?.error) return { ok: false, error: failed.error.message };
+
+  revalidatePath("/routine");
+  revalidatePath("/plan");
+  return { ok: true };
+}

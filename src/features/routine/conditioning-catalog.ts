@@ -502,36 +502,63 @@ export function isConditioningKind(v: unknown): v is ConditioningKind {
   return v === "warmup" || v === "cooldown";
 }
 
-/** 부위별 추천 워밍업 (item id × 3) */
+/** 부위별 추천 워밍업 (부위당 4개): 유산소 리드인(체온↑) → 가동성 → 활성화 순.
+ * 일반 워밍업(체온 상승) 없이 모빌리티만 하던 걸 보강해 퀄리티를 높였다. */
 const WARMUP_DEFAULTS: Record<FocusKey, string[]> = {
-  chest: ["shoulder-circle", "push-up-warm", "band-pull-apart"],
-  back: ["cat-cow", "dead-hang", "band-pull-apart"],
-  shoulder: ["shoulder-circle", "wall-slide", "band-pull-apart"],
-  arm: ["wrist-circle", "shoulder-circle", "push-up-warm"],
-  lower: ["hip-circle", "dynamic-lunge", "bw-squat"],
-  push: ["shoulder-circle", "push-up-warm", "band-pull-apart"],
-  pull: ["dead-hang", "cat-cow", "band-pull-apart"],
-  fullbody: ["jumping-jack", "dynamic-lunge", "bw-squat"],
-  upper: ["shoulder-circle", "cat-cow", "push-up-warm"],
-  core: ["cat-cow", "dead-bug", "glute-bridge-warm"],
+  chest: ["rowing", "shoulder-circle", "band-pull-apart", "push-up-warm"],
+  back: ["rowing", "cat-cow", "dead-hang", "band-pull-apart"],
+  shoulder: ["jump-rope", "shoulder-circle", "wall-slide", "band-pull-apart"],
+  arm: ["jump-rope", "wrist-circle", "shoulder-circle", "push-up-warm"],
+  lower: ["cycling", "hip-circle", "dynamic-lunge", "bw-squat"],
+  push: ["rowing", "shoulder-circle", "push-up-warm", "band-pull-apart"],
+  pull: ["rowing", "dead-hang", "cat-cow", "band-pull-apart"],
+  fullbody: ["jumping-jack", "dynamic-lunge", "bw-squat", "cat-cow"],
+  upper: ["rowing", "shoulder-circle", "cat-cow", "push-up-warm"],
+  core: ["jumping-jack", "cat-cow", "dead-bug", "glute-bridge-warm"],
 };
 
-/** 부위별 추천 마무리 (item id × 3) */
+/** 부위별 추천 마무리 (부위당 4개): 그날 쓴 근육 중심의 정적 스트레칭. */
 const COOLDOWN_DEFAULTS: Record<FocusKey, string[]> = {
-  chest: ["chest-door-stretch", "shoulder-cross-stretch", "child-pose"],
-  back: ["child-pose", "cobra-stretch", "lat-stretch"],
-  shoulder: ["shoulder-cross-stretch", "sleeper-stretch", "neck-stretch"],
-  arm: ["triceps-overhead-stretch", "biceps-door-stretch", "wrist-stretch"],
-  lower: ["hamstring-stretch", "pigeon-pose", "calf-stretch"],
+  chest: [
+    "chest-door-stretch",
+    "shoulder-cross-stretch",
+    "triceps-overhead-stretch",
+    "child-pose",
+  ],
+  back: ["lat-stretch", "child-pose", "cobra-stretch", "neck-stretch"],
+  shoulder: [
+    "shoulder-cross-stretch",
+    "sleeper-stretch",
+    "neck-stretch",
+    "child-pose",
+  ],
+  arm: [
+    "triceps-overhead-stretch",
+    "biceps-door-stretch",
+    "wrist-stretch",
+    "shoulder-cross-stretch",
+  ],
+  lower: ["hamstring-stretch", "pigeon-pose", "calf-stretch", "child-pose"],
   push: [
     "chest-door-stretch",
     "triceps-overhead-stretch",
     "shoulder-cross-stretch",
+    "child-pose",
   ],
-  pull: ["child-pose", "lat-stretch", "hamstring-stretch"],
-  fullbody: ["hamstring-stretch", "chest-door-stretch", "child-pose"],
-  upper: ["chest-door-stretch", "shoulder-cross-stretch", "child-pose"],
-  core: ["child-pose", "cobra-stretch", "cat-cow"],
+  pull: ["lat-stretch", "child-pose", "biceps-door-stretch", "hamstring-stretch"],
+  fullbody: [
+    "hamstring-stretch",
+    "chest-door-stretch",
+    "calf-stretch",
+    "child-pose",
+  ],
+  upper: [
+    "chest-door-stretch",
+    "shoulder-cross-stretch",
+    "lat-stretch",
+    "child-pose",
+  ],
+  core: ["child-pose", "cobra-stretch", "cat-cow", "pigeon-pose"],
 };
 
 export function defaultsFor(tone: FocusTone, kind: ConditioningKind): string[] {

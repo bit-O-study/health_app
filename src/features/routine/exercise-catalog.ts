@@ -2085,8 +2085,8 @@ export type FocusKey = Exclude<FocusTone, "rest">;
 
 /** 부위 → 운동 id 목록 (남성 기본) */
 const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
-  fullbody: ["squat", "bench-press", "barbell-row"],
-  upper: ["bench-press", "barbell-row", "ohp"],
+  fullbody: ["squat", "bench-press", "barbell-row", "ohp"],
+  upper: ["bench-press", "barbell-row", "ohp", "lat-pulldown"],
   lower: [
     "squat",
     "rdl",
@@ -2125,8 +2125,8 @@ const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
 
 /** 부위 → 운동 id 목록 (여성: 둔근·하체·코어 강조) */
 const FOCUS_EXERCISES_FEMALE: Record<FocusKey, string[]> = {
-  fullbody: ["squat", "hip-thrust", "barbell-row"],
-  upper: ["lat-pulldown", "chest-fly", "lateral-raise"],
+  fullbody: ["squat", "hip-thrust", "barbell-row", "ohp"],
+  upper: ["lat-pulldown", "chest-fly", "lateral-raise", "seated-cable-row"],
   lower: [
     "hip-thrust",
     "squat",
@@ -2279,6 +2279,9 @@ export function sideExercisesForSlot(
  * 그 외(가슴/등/팔 통째 등)는 부위 기본 추천 목록(exercisesForFocus)을 쓴다.
  * → "이두만 추가했는데 삼두가 따라 들어오는" 문제를 막는다.
  */
+/** 주(主) 슬롯 추천 운동 개수 — 한 부위당 4개로 표준화. */
+export const MAIN_SLOT_COUNT = 4;
+
 export function focusExercisesForSlot(
   focus: FocusKey,
   blockIds: string[],
@@ -2290,9 +2293,13 @@ export function focusExercisesForSlot(
     const ids: string[] = [];
     for (const list of blockLists)
       for (const id of list!) if (!ids.includes(id)) ids.push(id);
-    return ids.map((id) => EXERCISES[id]).filter(Boolean);
+    return ids
+      .map((id) => EXERCISES[id])
+      .filter(Boolean)
+      .slice(0, MAIN_SLOT_COUNT);
   }
-  return exercisesForFocus(focus, gender);
+  // 주 부위는 4개로 통일(보조는 sideExercisesForSlot 에서 2개).
+  return exercisesForFocus(focus, gender).slice(0, MAIN_SLOT_COUNT);
 }
 
 /** 분할(focus tone) → 후보 신체 부위 집합.

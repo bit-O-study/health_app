@@ -250,10 +250,18 @@ async function TodayWorkout({
         (t) => t !== "rest",
       ) as Exclude<FocusTone, "rest">[]);
 
-  // 실제 오늘 부위 — daily_plan 부위가 routine 을 덮어쓴다
-  const todayTones: Exclude<FocusTone, "rest">[] = hasDailyOverride
-    ? (dailyFocuses.filter((f) => f !== "rest") as Exclude<FocusTone, "rest">[])
-    : routineTones;
+  // 실제 오늘 부위 — daily_plan 부위가 routine 을 덮어쓴다. 같은 tone 중복 제거
+  // (세부근육 블록이 같은 부위로 모일 때 운동 중복 로드 방지).
+  const todayTones: Exclude<FocusTone, "rest">[] = Array.from(
+    new Set(
+      hasDailyOverride
+        ? (dailyFocuses.filter((f) => f !== "rest") as Exclude<
+            FocusTone,
+            "rest"
+          >[])
+        : routineTones,
+    ),
+  );
 
   const tone = isRest ? "rest" : (todayTones[0] ?? planToday.tone);
   const focusLabel = isRest

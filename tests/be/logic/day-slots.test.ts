@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  composeDayPlan,
   DAY_BLOCKS,
   firstDayIndexForFocus,
   focusToDaysMap,
@@ -218,6 +219,55 @@ describe("세부근육 블록 (전 부위 세분화 — 루틴 빌더)", () => {
     );
     expect(chest).toHaveLength(1);
     expect(chest[0].blockIds).toEqual(["chest", "chest-upper"]);
+  });
+
+  it("세부근육만 고른 보조 슬롯 라벨은 세부근육명(가슴 상부·가슴 하부)", () => {
+    const week: DayBlockId[][] = [
+      ["arm", "chest-upper", "chest-lower"],
+      ...(Array(6).fill(["rest"]) as DayBlockId[][]),
+    ];
+    const slots = routineDaySlots(0, "custom", week);
+    const chest = slots.find((s) => s.dayIndex === 0 && s.focus === "chest");
+    expect(chest?.blockIds).toEqual(["chest-upper", "chest-lower"]);
+    expect(chest?.isSide).toBe(true);
+    expect(chest?.label).toContain("가슴 상부");
+    expect(chest?.label).toContain("가슴 하부");
+  });
+
+  it("부위 전체를 함께 고르면 라벨은 부위명(가슴) 하나로", () => {
+    const week: DayBlockId[][] = [
+      ["chest", "chest-upper"],
+      ...(Array(6).fill(["rest"]) as DayBlockId[][]),
+    ];
+    const slots = routineDaySlots(0, "custom", week);
+    const chest = slots.find((s) => s.dayIndex === 0 && s.focus === "chest");
+    expect(chest?.label.endsWith("가슴")).toBe(true);
+    expect(chest?.label).not.toContain("가슴 상부");
+  });
+
+  it("composeDayPlan: 같은 부위 세부근육은 tones 중복 없음(메인 운동 복제 방지)", () => {
+    const day = composeDayPlan(["pull", "chest-upper", "chest-lower"]);
+    expect(day.tones).toBeDefined();
+    // chest 가 한 번만 — 안 그러면 오늘 운동을 chest 로 두 번 불러와 복제된다.
+    expect(day.tones!.filter((t) => t === "chest")).toHaveLength(1);
+    expect(day.tones!.length).toBe(new Set(day.tones).size);
+  });
+
+  it("가슴 외 다른 부위도 동일 — 하체(대퇴사두·햄스트링)·등(광배근)·팔(이두)", () => {
+    const week: DayBlockId[][] = [
+      ["arm", "lower-quads", "lower-hamstrings"], // 하체 세부만(전체 없음)
+      ["shoulder", "back-lats"], // 등 세부만
+      ["chest", "biceps"], // 팔 세부만
+      ...(Array(4).fill(["rest"]) as DayBlockId[][]),
+    ];
+    const slots = routineDaySlots(0, "custom", week);
+    const lower = slots.find((s) => s.dayIndex === 0 && s.focus === "lower");
+    expect(lower?.label).toContain("대퇴사두");
+    expect(lower?.label).toContain("햄스트링");
+    const back = slots.find((s) => s.dayIndex === 1 && s.focus === "back");
+    expect(back?.label).toContain("광배근");
+    const arm = slots.find((s) => s.dayIndex === 2 && s.focus === "arm");
+    expect(arm?.label).toContain("이두");
   });
 });
 

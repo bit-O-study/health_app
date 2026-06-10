@@ -9,6 +9,7 @@ import {
   Dumbbell,
   LogOut,
   Scale,
+  SlidersHorizontal,
   TrendingUp,
   Trophy,
 } from "lucide-react";
@@ -88,6 +89,28 @@ export default async function SettingsPage() {
             </h2>
             <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
               추천으로 한 번에 등록하거나 부위별로 직접 추가
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        <Link
+          href="/settings/personal"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+            <SlidersHorizontal aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              개인설정
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              운동영상 보기/숨기기 등 화면 동작 설정
             </p>
           </div>
           <ArrowRight

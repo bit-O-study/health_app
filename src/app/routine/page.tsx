@@ -35,6 +35,7 @@ import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
+import { TodayEditScope } from "@/features/routine/components/today-edit-scope";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
@@ -103,13 +104,16 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
 export default async function Home() {
   const user = await getCurrentUser();
 
+  // profile·routine 은 서로 의존이 없다(둘 다 getCurrentUser 캐시만 사용) → 병렬로
+  // 받아 라운드트립 1회 절약. (예전엔 순차 await 였음)
+  const [profile, routine] = user
+    ? await Promise.all([getUserProfile(), getUserRoutine()])
+    : [null, null];
+
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
-  const profile = user ? await getUserProfile() : null;
   if (user && !profile) {
     redirect("/onboarding");
   }
-
-  const routine = user ? await getUserRoutine() : null;
 
   // 일차별 독립 마이그레이션 (멱등·지연). 이미 끝난 사용자는 플래그로 스킵 →
   // 매 로드마다 돌던 count 쿼리 제거(성능).
@@ -387,29 +391,39 @@ async function TodayWorkout({
         )}
       </section>
 
-      {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
-      {!isRest && todayTones.length > 0 ? (
-        <TodayExercises
-          tones={
-            todayTones as import("@/features/routine/exercise-catalog").FocusKey[]
-          }
-          dayIndex={offset}
-          weightKg={profile?.weightKg ?? null}
-        />
-      ) : null}
+      {/* 편집모드 하나(TodayEditScope)로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
+          '편집하기'를 눌러야만 순서 변경이 가능하고, 평소엔 탭=상세, 스와이프=완료. */}
+      <TodayEditScope>
+        {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
+        {!isRest && todayTones.length > 0 ? (
+          <TodayExercises
+            tones={
+              todayTones as import("@/features/routine/exercise-catalog").FocusKey[]
+            }
+            dayIndex={offset}
+            weightKg={profile?.weightKg ?? null}
+            hideVideos={profile?.hideExerciseVideos ?? false}
+          />
+        ) : null}
 
-      {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
-      <UpcomingSevenDaysGrid
+        {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
+        <UpcomingSevenDaysGrid
         // 루틴이 바뀌면(예: '오늘부터 다시 시작') 그리드를 remount 해 새 7일을 확실히
         // 반영한다 — 클라이언트 로컬 state 가 옛 루틴에 갇히지 않게.
         key={`grid-${JSON.stringify(upcomingBlocks)}`}
         initialBlocks={upcomingBlocks}
+        // 각 화면 위치(0=오늘)가 현재 루틴의 몇 일차인지 — 드래그 시 본운동을 카드와
+        // 함께 옮기기 위한 순열 기준.
+        initialDayIndexes={Array.from({ length: 7 }, (_, i) =>
+          routineDayOffset(routine.startDate, addDaysYmd(todayYmd, i)),
+        )}
         cells={Array.from({ length: 7 }, (_, i) => {
           const ymd = addDaysYmd(todayYmd, i);
           const { weekday: wd, label } = ymdDisplay(ymd);
           return { ymd, weekday: wd, label, isToday: i === 0 };
         })}
-      />
+        />
+      </TodayEditScope>
     </div>
   );
 }

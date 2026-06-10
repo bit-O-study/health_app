@@ -58,6 +58,67 @@ export function elapsedMs(s: TimerState | null): number {
   return s.accumulated + (Date.now() - s.startedAt);
 }
 
+// ── 누적 저장 마크 ───────────────────────────────────────────────────────────
+// 운동 1개 완료마다 그날 누적 시간을 갱신한다(addWorkoutDurationAction 은 가산식).
+// 매번 '경과 전체'를 더하면 이중 계산되므로, 직전에 저장한 초(savedSec)를 기억해
+// 이번에 늘어난 만큼(delta)만 더한다. 세션이 끝나거나(정지·완주) 새로 시작하면 리셋.
+const SAVED_KEY = "heltch.workout.saved";
+type SavedMark = { forDate: string; savedSec: number };
+
+function readSaved(): SavedMark | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(SAVED_KEY);
+    if (!raw) return null;
+    const v = JSON.parse(raw) as Partial<SavedMark>;
+    if (typeof v?.forDate === "string" && typeof v?.savedSec === "number") {
+      return v as SavedMark;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+function writeSaved(m: SavedMark | null) {
+  if (typeof window === "undefined") return;
+  try {
+    if (m === null) localStorage.removeItem(SAVED_KEY);
+    else localStorage.setItem(SAVED_KEY, JSON.stringify(m));
+  } catch {
+    /* noop */
+  }
+}
+
+/**
+ * 아직 DB 에 안 올린 경과 초(delta)와 forDate 를 돌려주고, 저장 마크를 현재까지로
+ * 끌어올린다(= delta 를 '가져간다'). 더 올릴 게 없으면 null.
+ * 운동 완료·정지·완주·자정롤오버에서 호출해 그날 누적 시간을 정확히 1회만 더한다.
+ */
+export function takeUnsavedDelta(
+  s: TimerState | null,
+): { forDate: string; deltaSec: number } | null {
+  if (!s) return null;
+  const cur = Math.floor(elapsedMs(s) / 1000);
+  const saved = readSaved();
+  const base = saved && saved.forDate === s.forDate ? saved.savedSec : 0;
+  const delta = cur - base;
+  if (delta <= 0) {
+    // forDate 가 바뀌었으면 마크만 맞춰 둔다(중복 가산 방지).
+    if (!saved || saved.forDate !== s.forDate) {
+      writeSaved({ forDate: s.forDate, savedSec: cur });
+    }
+    return null;
+  }
+  writeSaved({ forDate: s.forDate, savedSec: cur });
+  return { forDate: s.forDate, deltaSec: delta };
+}
+
+/** 세션 시작·종료·리셋 시 저장 마크 제거(다음 세션은 0 부터). */
+export function clearSavedMark() {
+  writeSaved(null);
+}
+
 /** 사람이 읽는 mm:ss 또는 hh:mm:ss */
 export function formatElapsed(ms: number): string {
   const totalSec = Math.max(0, Math.floor(ms / 1000));

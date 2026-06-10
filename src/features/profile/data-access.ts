@@ -27,6 +27,8 @@ export type UserProfile = {
   name: string | null;
   /** 전화번호 — 선택 입력 */
   phone: string | null;
+  /** 개인설정: 운동영상(가이드) 안 보기. true 면 운동 시작 시 영상 대신 타이머만. */
+  hideExerciseVideos: boolean;
 };
 
 type ProfileRow = {
@@ -39,6 +41,7 @@ type ProfileRow = {
   muscle_mass_kg: unknown;
   name: unknown;
   phone: unknown;
+  hide_exercise_videos: unknown;
 };
 
 /**
@@ -55,7 +58,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone",
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone, hide_exercise_videos",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -87,5 +90,6 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     name: typeof row.name === "string" && row.name.trim() !== "" ? row.name : null,
     phone:
       typeof row.phone === "string" && row.phone.trim() !== "" ? row.phone : null,
+    hideExerciseVideos: row.hide_exercise_videos === true,
   };
 });

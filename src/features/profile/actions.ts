@@ -84,6 +84,31 @@ export async function saveProfileAction(
   return { ok: true };
 }
 
+/**
+ * 개인설정: '운동영상 안 보기' on/off 저장. true 면 운동 시작 시 영상 가이드 대신
+ * 타이머(중지/시작/저장)만 표시한다. /routine·/settings 화면을 무효화해 즉시 반영.
+ */
+export async function setHideExerciseVideosAction(
+  hide: boolean,
+): Promise<SaveProfileResult> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ hide_exercise_videos: hide })
+    .eq("user_id", user.id);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/routine");
+  revalidatePath("/settings");
+  revalidatePath("/settings/personal");
+  return { ok: true };
+}
+
 export type BodyLogInput = {
   weightKg?: number | null;
   heightCm?: number | null;

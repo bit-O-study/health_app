@@ -11,6 +11,7 @@ import {
   type DayBlockId,
 } from "@/features/routine/data";
 import { reorderUpcomingSevenDaysAction } from "@/features/routine/actions";
+import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 
 type DayCell = {
   ymd: string;
@@ -21,22 +22,34 @@ type DayCell = {
 
 export function UpcomingSevenDaysGrid({
   initialBlocks,
+  initialDayIndexes,
   cells,
 }: {
   initialBlocks: DayBlockId[][];
+  /** 각 화면 위치(0=오늘…6)가 현재 루틴의 몇 일차(day_index)인지. 드래그 순열 추적용. */
+  initialDayIndexes: number[];
   cells: DayCell[];
 }) {
   const router = useRouter();
+  // 순서 변경은 '편집하기' 모드에서만 — 본운동·컨디셔닝과 같은 편집 스코프를 공유.
+  const { editMode } = useTodayEdit();
   const [blocks, setBlocks] = useState<DayBlockId[][]>(initialBlocks);
+  // 각 화면 위치가 원래 어느 day_index 에서 왔는지(부위 배열만으로는 복원 못 하므로
+  // 별도로 추적). 드래그 시 blocks 와 똑같이 splice 해 함께 움직이고, 드롭 때 서버로
+  // 보내 본운동 day_index 를 카드와 함께 옮긴다.
+  const [order, setOrder] = useState<number[]>(initialDayIndexes);
 
-  // 루틴이 바뀌면(예: '오늘부터 다시 시작', 루틴 변경) 부모가 새 initialBlocks 를
+  // 루틴이 바뀌면(예: '오늘부터 다시 시작', 루틴 변경) 부모가 새 initialBlocks/일차를
   // 내려준다. useState 초기값은 최초 1회만 반영되므로, prop 이 바뀌면 로컬 state 를
   // 동기화해 하단 7일 그리드가 서버 데이터와 어긋나지 않게 한다. (React 권장 패턴)
-  const initialKey = JSON.stringify(initialBlocks);
+  // 부위가 같은 두 일차를 바꾸면 initialBlocks 는 그대로여도 initialDayIndexes 는
+  // 바뀌므로(저장 후 0~6 정규화) 키에 둘 다 포함해 order 도 확실히 리셋한다.
+  const initialKey = JSON.stringify([initialBlocks, initialDayIndexes]);
   const seenKeyRef = useRef(initialKey);
   if (seenKeyRef.current !== initialKey) {
     seenKeyRef.current = initialKey;
     setBlocks(initialBlocks);
+    setOrder(initialDayIndexes);
   }
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
@@ -72,6 +85,7 @@ export function UpcomingSevenDaysGrid({
   }
 
   function onPointerDown(index: number, e: React.PointerEvent<HTMLDivElement>) {
+    if (!editMode) return; // 편집모드에서만 드래그 가능
     if (e.pointerType === "mouse" && e.button !== 0) return;
     e.currentTarget.setPointerCapture(e.pointerId);
     pointerIdRef.current = e.pointerId;
@@ -104,6 +118,7 @@ export function UpcomingSevenDaysGrid({
     const from = draggedIndex;
     const to = hoverIndex;
     const snapshot = blocks;
+    const orderSnapshot = order;
 
     setDraggedIndex(null);
     setHoverIndex(null);
@@ -115,15 +130,25 @@ export function UpcomingSevenDaysGrid({
     const [moved] = next.splice(from, 1);
     next.splice(to, 0, moved);
     setBlocks(next);
+
+    // 순열도 똑같이 splice — nextOrder[newPos] = 원래 day_index.
+    const nextOrder = [...orderSnapshot];
+    const [movedIdx] = nextOrder.splice(from, 1);
+    nextOrder.splice(to, 0, movedIdx);
+    setOrder(nextOrder);
     tryVibrate(10);
 
     start(async () => {
-      const res = await reorderUpcomingSevenDaysAction(next);
+      const res = await reorderUpcomingSevenDaysAction(next, nextOrder);
       if (res.ok) {
+        // 저장 후 서버는 start_date=오늘 + day_index 를 화면 위치로 정규화한다 →
+        // 로컬 순열도 항등(0~6)으로 리셋해 다음 드래그가 올바른 기준에서 계산되게.
+        setOrder(next.map((_, i) => i));
         router.refresh();
       } else {
         setErr(res.error);
         setBlocks(snapshot);
+        setOrder(orderSnapshot);
       }
     });
   }
@@ -141,7 +166,10 @@ export function UpcomingSevenDaysGrid({
     <section>
       <div className="mb-3 flex items-center justify-between gap-2">
         <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-          다가오는 7일 · 드래그로 순서 변경
+          다가오는 7일
+          <span className="ml-1.5 normal-case tracking-normal text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
+            {editMode ? "· 드래그로 순서 변경" : "· '편집하기'에서 순서 변경"}
+          </span>
         </h2>
         {pending ? (
           <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
@@ -199,7 +227,8 @@ export function UpcomingSevenDaysGrid({
               onContextMenu={(e) => e.preventDefault()}
               style={liftStyle}
               className={cn(
-                "relative cursor-grab select-none rounded-lg border p-3 active:cursor-grabbing",
+                "relative select-none rounded-lg border p-3",
+                editMode ? "cursor-grab active:cursor-grabbing" : "",
                 style.card,
                 cell.isToday ? "ring-2 ring-emerald-500 ring-offset-1" : "",
                 isDragged
@@ -212,16 +241,18 @@ export function UpcomingSevenDaysGrid({
             >
               <div className="flex items-center justify-between gap-1">
                 <span className="flex min-w-0 items-center gap-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                  <GripVertical
-                    aria-hidden="true"
-                    className={cn(
-                      "shrink-0 transition-colors",
-                      isDragged
-                        ? "text-emerald-600"
-                        : "text-zinc-400 dark:text-zinc-500",
-                    )}
-                    size={13}
-                  />
+                  {editMode ? (
+                    <GripVertical
+                      aria-hidden="true"
+                      className={cn(
+                        "shrink-0 transition-colors",
+                        isDragged
+                          ? "text-emerald-600"
+                          : "text-zinc-400 dark:text-zinc-500",
+                      )}
+                      size={13}
+                    />
+                  ) : null}
                   <span className="truncate">
                     {cell.weekday}
                     <span className="ml-1.5 text-xs font-normal text-zinc-500 dark:text-zinc-400">

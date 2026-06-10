@@ -210,11 +210,6 @@ export function WorkoutSessionTimer({
     // 영상 보기 모드: '운동 다시 시작하기'가 가이드도 다시 연다.
     if (!hideVideos && queue.length > 0) setGuided(true);
   }
-  /** 영상 보기 모드의 '중단하기' — 일시정지하고 가이드 오버레이를 닫는다. */
-  function pauseAndCloseGuide() {
-    pause();
-    setGuided(false);
-  }
   function requestSave() {
     setSaveAsk(true);
   }
@@ -276,83 +271,77 @@ export function WorkoutSessionTimer({
     guided && queue.length > 0 ? (
       <GuidedOverlay
         items={queue}
-        onClose={() => setGuided(false)}
+        // 운동모드에서 나오면(X→중단) 시간 정지. '다시 운동하기'로 들어오면 재개.
+        onClose={() => {
+          pause();
+          setGuided(false);
+        }}
         onAllComplete={handleGuidedAllComplete}
-        // 운동 페이지(가이드) 안에 경과 시간 + 중단/다시 시작 표시.
-        // 일시정지해도 오버레이는 유지(가이드를 닫지 않음).
+        // 운동 페이지(가이드) 안에는 경과 시간만 표시(중단/다시 시작 버튼 없음).
         elapsedLabel={time}
         running={running}
-        onPauseResume={running ? pause : resume}
       />
     ) : null;
 
   return (
     <>
-      <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1.5 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/40">
-        <Timer
-          aria-hidden="true"
-          size={16}
-          className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
-        />
-        <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
-          {time}
-        </span>
-        {hideVideos ? (
-          /* 영상 끄기 모드: 중지/시작/저장 (기존 버튼 그대로). */
-          <>
-            {running ? (
-              <button
-                type="button"
-                aria-label="일시정지"
-                title="일시정지"
-                onClick={pause}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-              >
-                <Pause aria-hidden="true" size={14} />
-              </button>
-            ) : (
-              <button
-                type="button"
-                aria-label="재개"
-                title="재개"
-                onClick={resume}
-                className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-              >
-                <Play aria-hidden="true" size={14} />
-              </button>
-            )}
+      {hideVideos ? (
+        /* 영상 끄기 모드: 운동모드(가이드)가 없으니 시간 + 중지/시작/저장을 밖에 표시. */
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1.5 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/40">
+          <Timer
+            aria-hidden="true"
+            size={16}
+            className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
+          />
+          <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
+            {time}
+          </span>
+          {running ? (
             <button
               type="button"
-              aria-label="정지하고 시간 저장"
-              title="정지하고 시간 저장"
-              onClick={requestSave}
+              aria-label="일시정지"
+              title="일시정지"
+              onClick={pause}
               className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
             >
-              <Save aria-hidden="true" size={13} />
+              <Pause aria-hidden="true" size={14} />
             </button>
-          </>
-        ) : running ? (
-          /* 영상 보기 모드 · 진행중: '중단하기' 한 개만. */
+          ) : (
+            <button
+              type="button"
+              aria-label="재개"
+              title="재개"
+              onClick={resume}
+              className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+            >
+              <Play aria-hidden="true" size={14} />
+            </button>
+          )}
           <button
             type="button"
-            onClick={pauseAndCloseGuide}
-            className="inline-flex h-7 items-center gap-1 rounded-full px-2.5 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+            aria-label="정지하고 시간 저장"
+            title="정지하고 시간 저장"
+            onClick={requestSave}
+            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
           >
-            <Pause aria-hidden="true" size={13} />
-            중단하기
+            <Save aria-hidden="true" size={13} />
           </button>
-        ) : (
-          /* 영상 보기 모드 · 정지: '운동 다시 시작하기' 한 개만. */
-          <button
-            type="button"
-            onClick={resume}
-            className="inline-flex h-7 items-center gap-1 rounded-full px-2.5 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
-          >
-            <Play aria-hidden="true" size={13} />
-            운동 다시 시작하기
-          </button>
-        )}
-      </div>
+        </div>
+      ) : (
+        /* 영상 보기 모드: 시간·중단/다시시작은 운동모드(오버레이) 안에만.
+           밖(홈)에선 운동모드로 다시 들어가는 '다시 운동하기' 버튼 하나만. */
+        <button
+          type="button"
+          onClick={() => {
+            resume();
+            setGuided(true);
+          }}
+          className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500"
+        >
+          <Play aria-hidden="true" size={16} />
+          다시 운동하기
+        </button>
+      )}
       {overlay}
       <ConfirmDialog
         open={saveAsk}

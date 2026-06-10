@@ -43,19 +43,39 @@ body {
   }
 }
 
-/* ── 브랜드 진입 스플래시 — 작은 로고가 잠깐 보였다가 빠르게 사라짐 ─────── */
-@keyframes heltch-fade-up {
-  from { opacity: 0; transform: translateY(8px) scale(0.98); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+/* ── 브랜드 진입 스플래시 — 로고가 '팝'하고 등장, 헤일로 번짐, 워드 슬라이드인 ── */
+/* 배지: 작게 시작해 살짝 오버슈트 후 안착(스프링 느낌). */
+@keyframes heltch-pop {
+  0% { opacity: 0; transform: scale(0.4) rotate(-12deg); }
+  55% { opacity: 1; transform: scale(1.12) rotate(4deg); }
+  75% { transform: scale(0.96) rotate(-1deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0); }
 }
-/* JS 없이도 자동으로 사라지게(opacity+visibility). 빠르고 은은하게. */
+/* 헤일로: 배지 뒤에서 번졌다 사라지는 빛. */
+@keyframes heltch-glow {
+  0% { opacity: 0; transform: scale(0.7); }
+  45% { opacity: 0.7; }
+  100% { opacity: 0; transform: scale(1.9); }
+}
+/* 워드마크: 살짝 미끄러져 들어옴. */
+@keyframes heltch-word-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+/* JS 없이도 자동으로 사라지게(opacity+visibility) — 모션을 보여준 뒤 끝에서 페이드아웃. */
 @keyframes heltch-splash-out {
-  0%, 50% { opacity: 1; visibility: visible; }
+  0%, 68% { opacity: 1; visibility: visible; }
   100% { opacity: 0; visibility: hidden; }
 }
 .app-splash {
-  animation: heltch-splash-out 0.85s ease-in forwards;
+  animation: heltch-splash-out 1.3s ease-in forwards;
 }
-.app-splash-inner {
-  animation: heltch-fade-up 0.4s ease-out both;
+.app-splash-mark {
+  animation: heltch-pop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.app-splash-glow {
+  animation: heltch-glow 1.1s ease-out 0.08s both;
+}
+.app-splash-word {
+  animation: heltch-word-in 0.5s ease-out 0.32s both;
 }

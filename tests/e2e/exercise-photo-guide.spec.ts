@@ -54,20 +54,20 @@ test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async (
   expect(srcs.some((s) => s.includes("/Barbell_Squat/0.jpg"))).toBe(true);
   expect(srcs.some((s) => s.includes("/Barbell_Squat/1.jpg"))).toBe(true);
 
-  // 자막 단계가 가리키는 신체 부위로 사진이 확대(줌인)되며 부위 마커가 뜬다.
-  // (단계가 3초마다 순환하므로 한 바퀴 안에 마커가 보이는지 확인.)
+  // 자막 단계가 가리키는 신체 부위가 사진 위 배지로 안내된다(확대 X — 선명 유지).
+  // (단계가 3초마다 순환하므로 한 바퀴 안에 배지가 보이는지 확인.)
   const marker = page.getByTestId("ex-focus-marker");
   await expect(marker).toBeVisible({ timeout: 8000 });
-  // 줌 트랜스폼이 실제로 적용됐는지(scale > 1) 프레임 이미지에서 확인.
-  const scaled = await squatImg.first().evaluate((el) => {
+  // 사진은 확대(scale) 없이 원본 그대로여야 한다(저해상도 줌으로 깨지지 않게).
+  const notScaled = await squatImg.first().evaluate((el) => {
     const t = getComputedStyle(el as HTMLElement).transform;
-    if (!t || t === "none") return false;
+    if (!t || t === "none") return true;
     const m = t.match(/matrix\(([^)]+)\)/);
-    if (!m) return false;
+    if (!m) return true;
     const a = parseFloat(m[1].split(",")[0]);
-    return a > 1.01; // scale(x) → matrix 첫 값이 배율
+    return Math.abs(a - 1) < 0.01; // 배율 ≈ 1
   });
-  expect(scaled).toBe(true);
+  expect(notScaled).toBe(true);
 });
 
 test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤벨 사진이 뜬다", async ({ page }) => {

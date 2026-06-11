@@ -21,23 +21,25 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#fafafa",
+    // 네이티브 스플래시(앱 켜자마자 OS가 그리는 첫 화면) 배경 — 진입 모션 화면과
+    // 같은 톤이라 정적→모션 전환이 자연스럽게 이어진다.
+    background_color: "#eef3ff",
     theme_color: "#4f46e5",
     icons: [
       {
-        src: "/icon-192.png?v=helssu-20260610",
+        src: "/icon-192.png?v=helssu-20260611",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icon-512.png?v=helssu-20260610",
+        src: "/icon-512.png?v=helssu-20260611",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icon-512-maskable.png?v=helssu-20260610",
+        src: "/icon-512-maskable.png?v=helssu-20260611",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

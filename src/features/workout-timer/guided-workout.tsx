@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Check,
@@ -118,10 +118,12 @@ export function GuidedOverlay({
   const router = useRouter();
   const rest = useRestTimer();
   const [index, setIndex] = useState(0);
-  const [pending, startTx] = useTransition();
   const workingRef = useRef(false);
   const [working, setWorking] = useState(false);
   const dirtyRef = useRef(false);
+  /** 진행 중인 완료/넘기기 저장들 — 화면을 닫고 새로고침하기 전에 모두 끝났는지 기다린다.
+   * (백그라운드로 쏘고 곧바로 refresh 하면 저장 전 stale 데이터를 읽어 일부가 반영 안 됨.) */
+  const pendingRef = useRef<Promise<unknown>[]>([]);
   const [closeAsk, setCloseAsk] = useState(false);
   /** 저장 실패한 항목들 — 사용자에게 배너로 알리고 재시도 제공. */
   const [failures, setFailures] = useState<SaveFailure[]>([]);
@@ -179,8 +181,8 @@ export function GuidedOverlay({
       onClose();
       // 모든 항목 종료 — 부모(타이머)가 운동시간 저장 처리
       onAllComplete?.();
-      // 화면 합계도 새로 가져오기
-      startTx(() => router.refresh());
+      // 진행 중인 완료/넘기기 저장이 모두 끝난 뒤 화면 합계를 새로 가져온다.
+      refreshAfterPending();
       return;
     }
     setIndex((i) => i + 1);
@@ -212,7 +214,7 @@ export function GuidedOverlay({
    */
   function fireAndTrack(captured: GuidedItem, status: "done" | "skipped") {
     const key = failureKey(captured);
-    runAction(captured, status)
+    const p = runAction(captured, status)
       .then((res) => {
         if (res && res.ok === false) {
           setFailures((f) => [
@@ -230,6 +232,22 @@ export function GuidedOverlay({
           { key, name: captured.name, status, captured, error },
         ]);
       });
+    // 닫기/새로고침 전에 이 저장이 끝났는지 기다릴 수 있게 모아둔다.
+    pendingRef.current.push(p);
+  }
+
+  /**
+   * 진행 중인 모든 완료/넘기기 저장이 끝난 뒤에 화면을 새로고침한다.
+   * 저장 전에 refresh 하면 서버가 옛 데이터를 읽어 일부 항목이 홈에 반영되지 않는다
+   * (= 새로고침하면 그제서야 보이던 버그). 저장 완료를 기다린 뒤 한 번만 refresh.
+   */
+  function refreshAfterPending() {
+    const pend = pendingRef.current;
+    pendingRef.current = [];
+    void (async () => {
+      await Promise.allSettled(pend);
+      router.refresh();
+    })();
   }
 
   /**
@@ -288,7 +306,8 @@ export function GuidedOverlay({
     onClose();
     setCloseAsk(false);
     if (dirtyRef.current) {
-      startTx(() => router.refresh());
+      // 중간에 닫아도, 그동안의 완료/넘기기 저장이 끝난 뒤 새로고침해 stale 방지.
+      refreshAfterPending();
     }
   }
 
@@ -483,7 +502,7 @@ export function GuidedOverlay({
             <button
               type="button"
               onClick={completeSet}
-              disabled={pending || working || onLastSet}
+              disabled={working || onLastSet}
               className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
             >
               <Timer aria-hidden="true" size={16} />
@@ -496,7 +515,7 @@ export function GuidedOverlay({
           <button
             type="button"
             onClick={skip}
-            disabled={pending || working}
+            disabled={working}
             className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white text-base font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
             <ChevronRight aria-hidden="true" size={20} />
@@ -505,7 +524,7 @@ export function GuidedOverlay({
           <button
             type="button"
             onClick={complete}
-            disabled={pending || working}
+            disabled={working}
             className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-base font-bold text-white shadow-lg transition hover:bg-emerald-500 disabled:opacity-50"
           >
             <Check aria-hidden="true" size={20} />

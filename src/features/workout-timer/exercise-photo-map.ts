@@ -97,6 +97,21 @@ export const EXERCISE_PHOTO_DB: Record<string, string> = {
   "wide-grip-pull-up": "Wide-Grip_Rear_Pull-Up",
   "wrist-curl": "Cable_Wrist_Curl",
   "zottman-curl": "Zottman_Curl",
+  // 단일 기구·맨몸 운동(기존에 사진이 없던 것들) — 동작이 가장 비슷한 실사로.
+  "hip-abduction": "Thigh_Abductor",
+  "side-plank": "Side_Bridge",
+  "mountain-climber": "Mountain_Climbers",
+  "wood-chopper": "Standing_Cable_Wood_Chop",
+  "pendlay-row": "Reverse_Grip_Bent-Over_Rows",
+  "meadows-row": "Bent_Over_One-Arm_Long_Bar_Row",
+  "triceps-kickback": "Tricep_Dumbbell_Kickback",
+  "diamond-pushup": "Close-Grip_Push-Up_off_of_a_Dumbbell",
+  "cossack-squat": "Bodyweight_Squat",
+  "belt-squat": "Hack_Squat",
+  "v-up": "Jackknife_Sit-Up",
+  "hollow-hold": "Flat_Bench_Lying_Leg_Raise",
+  "toes-to-bar": "Hanging_Leg_Raise",
+  "bicycle-crunch": "Air_Bike",
 };
 
 /**
@@ -141,6 +156,9 @@ export const EXERCISE_PHOTO_DB_BY_EQUIP: Record<
   "bulgarian-split-squat": { dumbbell: "Split_Squat_with_Dumbbells", bodyweight: "Bodyweight_Walking_Lunge" },
   "hip-adduction": { machine: "Thigh_Adductor" },
   "russian-twist": { bodyweight: "Russian_Twist", dumbbell: "Dumbbell_Side_Bend" },
+  "curtsy-lunge": { dumbbell: "Dumbbell_Rear_Lunge", bodyweight: "Crossover_Reverse_Lunge" },
+  "sumo-squat": { dumbbell: "Plie_Dumbbell_Squat", bodyweight: "Bodyweight_Squat" },
+  "chest-supported-row": { machine: "Leverage_Iso_Row", dumbbell: "Incline_Bench_Pull" },
 };
 
 /**
@@ -154,7 +172,9 @@ export const CONDITIONING_PHOTO_DB: Record<string, string> = {
   cycling: "Bicycling_Stationary",
   rowing: "Rowing_Stationary",
   elliptical: "Elliptical_Trainer",
+  "stair-master": "Stairmaster",
   "jump-rope": "Rope_Jumping",
+  "jumping-jack": "Star_Jump",
   "shoulder-circle": "Shoulder_Circles",
   "cat-cow": "Cat_Stretch",
   "band-pull-apart": "Band_Pull_Apart",
@@ -162,12 +182,14 @@ export const CONDITIONING_PHOTO_DB: Record<string, string> = {
   "bw-squat": "Bodyweight_Squat",
   "dead-bug": "Dead_Bug",
   "glute-bridge-warm": "Butt_Lift_Bridge",
+  "hip-circle": "Standing_Hip_Circles",
   "wrist-circle": "Wrist_Circles",
   "push-up-warm": "Pushups",
   "chest-door-stretch": "Dynamic_Chest_Stretch",
   "shoulder-cross-stretch": "Shoulder_Stretch",
   "child-pose": "Childs_Pose",
   "cobra-stretch": "Upward_Stretch",
+  "lat-stretch": "Standing_Lateral_Stretch",
   "triceps-overhead-stretch": "Triceps_Stretch",
   "biceps-door-stretch": "Standing_Biceps_Stretch",
   "wrist-stretch": "Wrist_Circles",

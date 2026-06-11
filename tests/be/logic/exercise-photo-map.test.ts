@@ -26,9 +26,26 @@ describe("exercisePhotoFrames", () => {
     }
   });
 
+  it("예전에 사진이 없던 운동들도 이제 실사가 나온다", () => {
+    // 마운틴 클라이머·토스 투 바 등 — 전엔 SVG 폴백이라 '안 보였던' 운동들(기본 매핑).
+    for (const id of [
+      "mountain-climber", "toes-to-bar", "v-up", "hollow-hold", "bicycle-crunch",
+      "side-plank", "diamond-pushup", "cossack-squat", "belt-squat",
+      "pendlay-row", "meadows-row", "wood-chopper", "hip-abduction", "triceps-kickback",
+    ]) {
+      expect(exercisePhotoFrames(id), id).not.toBeNull();
+    }
+    // 기구별 매핑만 있는 운동(기구 인자 필요).
+    expect(exercisePhotoFrames("curtsy-lunge", "bodyweight"), "curtsy-lunge").not.toBeNull();
+    expect(exercisePhotoFrames("sumo-squat", "dumbbell"), "sumo-squat").not.toBeNull();
+    expect(exercisePhotoFrames("chest-supported-row", "machine"), "chest-supported-row").not.toBeNull();
+    expect(exercisePhotoFrames("mountain-climber")![0]).toContain("/Mountain_Climbers/0.jpg");
+    expect(exercisePhotoFrames("toes-to-bar")![0]).toContain("/Hanging_Leg_Raise/0.jpg");
+  });
+
   it("매핑 없는 운동은 null → 호출부가 SVG 폴백", () => {
-    expect(exercisePhotoFrames("v-up")).toBeNull(); // 오매칭이라 일부러 제외
     expect(exercisePhotoFrames("nonexistent-exercise")).toBeNull();
+    expect(exercisePhotoFrames("another-fake-id", "barbell")).toBeNull();
   });
 
   it("매핑 값은 모두 0/1 프레임이 존재하는 형식", () => {
@@ -91,9 +108,10 @@ describe("워밍업·마무리 실사 시연 사진 (conditioningPhotoFrames)", 
     expect(conditioningPhotoFrames("bw-squat")![0]).toContain("/Bodyweight_Squat/0.jpg");
   });
 
-  it("매핑 없는 컨디셔닝(천국의 계단 등)은 null → 호출부가 모션 일러스트 폴백", () => {
-    expect(conditioningPhotoFrames("stair-master")).toBeNull();
+  it("매핑 없는 컨디셔닝(데드행 등)은 null → 호출부가 모션 일러스트 폴백", () => {
     expect(conditioningPhotoFrames("dead-hang")).toBeNull();
+    expect(conditioningPhotoFrames("wall-slide")).toBeNull();
+    expect(conditioningPhotoFrames("sleeper-stretch")).toBeNull();
     expect(conditioningPhotoFrames("nonexistent")).toBeNull();
   });
 

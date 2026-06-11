@@ -8,14 +8,15 @@ const SRC = "src/features/workout-timer/exercise-photo-map.ts";
 const DATASET =
   "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/dist/exercises.json";
 
-// TS 소스에서 BY_EQUIP 블록의 슬러그(따옴표 안 PascalCase_With_Underscores)를 추출.
+// TS 소스의 세 매핑(EXERCISE_PHOTO_DB / _BY_EQUIP / CONDITIONING_PHOTO_DB)에서
+// free-exercise-db 슬러그를 추출. 슬러그는 대문자로 시작(우리 운동 id 는 소문자 kebab).
 function slugsFromSource() {
   const txt = fs.readFileSync(SRC, "utf8");
-  const start = txt.indexOf("EXERCISE_PHOTO_DB_BY_EQUIP");
+  const start = txt.indexOf("export const EXERCISE_PHOTO_DB");
   const body = txt.slice(start, txt.indexOf("const CDN", start));
   const slugs = new Set();
-  for (const m of body.matchAll(/(barbell|dumbbell|machine|cable|bodyweight):\s*"([^"]+)"/g)) {
-    slugs.add(m[2]);
+  for (const m of body.matchAll(/"([A-Z][^"]*)"/g)) {
+    slugs.add(m[1]);
   }
   return [...slugs];
 }

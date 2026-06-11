@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Eye } from "lucide-react";
 
 import { exercisePhotoFrames } from "@/features/workout-timer/exercise-photo-map";
 import { focusForStep } from "@/features/workout-timer/exercise-focus";
@@ -22,9 +23,9 @@ export function ExercisePhotoDemo({
   if (!frames) return null;
   const [a, b] = frames;
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-lg">
       <div
-        className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800"
+        className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800"
         style={{ ["--ex-cycle" as string]: `${cycleMs}ms` }}
       >
         <img src={a} alt="" loading="eager" decoding="async" className="ex-photo-a absolute inset-0 h-full w-full object-cover" />
@@ -56,6 +57,8 @@ export function ExerciseTutorial({
   const [active, setActive] = useState(0);
 
   useEffect(() => {
+    // 단계 배열이 바뀌면 첫 단계부터 — 의도된 리셋.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setActive(0);
     if (steps.length <= 1) return;
     const id = window.setInterval(
@@ -68,21 +71,14 @@ export function ExerciseTutorial({
   // 앞 절반 = 시작 프레임, 뒤 절반 = 끝 프레임.
   const useEnd = steps.length > 1 && active >= Math.ceil(steps.length / 2);
 
-  // 이 단계가 가리키는 신체 부위 → 그 부위로 확대(줌인). 없으면 전체 보기.
+  // 이 단계가 가리키는 신체 부위 — 사진 위 라벨로 "어디를 볼지" 안내한다.
+  // (사진마다 프레임/해상도가 달라 부위로 확대하면 흐려지거나 엉뚱한 곳을 가리켜서,
+  //  확대 대신 선명한 전체 사진 + 부위 라벨로 안내한다.)
   const focus = steps.length > 0 ? focusForStep(steps[active]) : null;
-  // 줌 트랜스폼 — 초점을 transform-origin 으로 두면 그 지점은 화면에 고정된 채 확대된다.
-  const zoomStyle: React.CSSProperties = focus
-    ? {
-        transform: `scale(${focus.zoom})`,
-        transformOrigin: `${focus.x * 100}% ${focus.y * 100}%`,
-      }
-    : { transform: "scale(1)", transformOrigin: "center" };
-  // 마커 라벨은 위쪽에 두되, 부위가 사진 위쪽(시선·목 등)이면 잘리지 않게 아래로.
-  const labelAbove = focus ? focus.y > 0.2 : true;
 
   return (
-    <div className="w-full max-w-md">
-      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-gradient-to-br from-indigo-100 to-cyan-100 dark:border-zinc-700 dark:from-zinc-800 dark:to-zinc-900">
+    <div className="w-full max-w-lg">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-zinc-200 bg-gradient-to-br from-indigo-100 to-cyan-100 dark:border-zinc-700 dark:from-zinc-800 dark:to-zinc-900">
         {frames ? (
           <>
             <img
@@ -90,41 +86,31 @@ export function ExerciseTutorial({
               alt=""
               loading="eager"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out"
-              style={{ opacity: useEnd ? 0 : 1, ...zoomStyle }}
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
+              style={{ opacity: useEnd ? 0 : 1 }}
             />
             <img
               src={frames[1]}
               alt=""
               loading="eager"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-out"
-              style={{ opacity: useEnd ? 1 : 0, ...zoomStyle }}
+              className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
+              style={{ opacity: useEnd ? 1 : 0 }}
             />
           </>
         ) : null}
 
-        {/* 부위 확대 마커 — 자막이 가리키는 부위에 펄스 링 + 부위명. 줌 초점과 같은 지점. */}
+        {/* 부위 안내 배지 — 이 단계가 어느 부위를 보는지 라벨로(좌표 확대 X, 선명 유지). */}
         {focus ? (
-          <div
+          <span
             key={`focus-${active}`}
             data-testid="ex-focus-marker"
             data-part={focus.part}
-            className="ex-cap pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-1/2"
-            style={{ left: `${focus.x * 100}%`, top: `${focus.y * 100}%` }}
+            className="ex-cap absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-500/95 px-2.5 py-1 text-[11px] font-extrabold text-white shadow-lg backdrop-blur-sm"
           >
-            <span className="relative flex h-9 w-9 items-center justify-center">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60" />
-              <span className="relative inline-flex h-9 w-9 rounded-full border-[2.5px] border-white bg-emerald-500/25 shadow-[0_0_0_2px_rgba(16,185,129,0.65)]" />
-            </span>
-            <span
-              className={`absolute left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-emerald-500 px-2.5 py-1 text-[11px] font-extrabold text-white shadow-lg ${
-                labelAbove ? "bottom-[42px]" : "top-[42px]"
-              }`}
-            >
-              {focus.part} 보기
-            </span>
-          </div>
+            <Eye size={12} aria-hidden="true" />
+            {focus.part}
+          </span>
         ) : null}
 
         {/* 자막 가독성용 하단 그라데이션 */}

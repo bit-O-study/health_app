@@ -26,7 +26,10 @@ import {
   ExercisePhotoDemo,
   ExerciseTutorial,
 } from "@/features/workout-timer/exercise-photo-demo";
-import { exercisePhotoFrames } from "@/features/workout-timer/exercise-photo-map";
+import {
+  conditioningPhotoFrames,
+  exercisePhotoFrames,
+} from "@/features/workout-timer/exercise-photo-map";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
 import { ExerciseFlipbook } from "@/features/workout-timer/exercise-flipbook";
@@ -283,9 +286,17 @@ export function GuidedOverlay({
 
   if (!item) return null;
 
-  // 본운동 + 등록 영상 없음 + 방법 문구 있음 → 문구를 사진 위 장면으로 넘기는 튜토리얼.
+  // 이 항목의 실사 시연 사진(2프레임). 본운동=기구별 매핑, 워밍업·마무리=컨디셔닝 매핑.
+  const photoFrames =
+    item.kind === "main"
+      ? exercisePhotoFrames(item.exerciseId, item.equipment)
+      : conditioningPhotoFrames(item.itemId);
+  // 방법 문구를 사진 위 장면으로 넘기는 '튜토리얼 영상'.
+  // - 본운동: 등록 영상이 없고 방법 문구가 있으면(사진 없어도 그라데이션 위 문구로).
+  // - 워밍업·마무리: 방법 문구가 있고 실사 사진 매핑이 있을 때(없으면 기존 모션 일러스트).
   const tutorial =
-    item.kind === "main" && !item.media && item.method.length > 0;
+    item.method.length > 0 &&
+    (item.kind === "main" ? !item.media : photoFrames !== null);
 
   return (
     <div className="fixed inset-0 z-40 flex flex-col bg-zinc-50 dark:bg-zinc-950">
@@ -383,7 +394,7 @@ export function GuidedOverlay({
         {/* 본운동에 등록 영상이 없고 방법 문구가 있으면, 문구를 사진 위에 한 장면씩
             넘기는 '튜토리얼 영상'으로 보여준다. 그 외(영상 등록/워밍업·마무리)는 기존대로. */}
         {tutorial ? (
-          <ExerciseTutorial exerciseId={item.exerciseId} steps={item.method} />
+          <ExerciseTutorial frames={photoFrames} steps={item.method} />
         ) : (
           <ItemVisual item={item} />
         )}
@@ -530,8 +541,10 @@ function ItemVisual({ item }: { item: GuidedItem }) {
       );
     }
     // 등록 영상이 없으면 실사 시연 사진(2프레임 교차) — 매핑 없으면 SVG 폴백.
-    const photo = <ExercisePhotoDemo exerciseId={item.exerciseId} />;
-    if (exercisePhotoFrames(item.exerciseId)) return photo;
+    const photo = (
+      <ExercisePhotoDemo exerciseId={item.exerciseId} equipment={item.equipment} />
+    );
+    if (exercisePhotoFrames(item.exerciseId, item.equipment)) return photo;
     return <ExerciseDemo exerciseId={item.exerciseId} name={item.name} />;
   }
   // 워밍업·마무리도 일러스트 — 컨디셔닝 모션 매핑 사용

@@ -99,11 +99,104 @@ export const EXERCISE_PHOTO_DB: Record<string, string> = {
   "zottman-curl": "Zottman_Curl",
 };
 
+/**
+ * 기구별 시연 사진 — 같은 운동이라도 바벨/덤벨/머신/케이블/맨몸은 동작이 달라서
+ * 각기 다른 free-exercise-db 항목으로 보여준다. (없는 기구는 기본 매핑으로 폴백.)
+ * 슬러그는 scripts/validate-equip-map.js 로 2프레임 존재를 검증함.
+ */
+export const EXERCISE_PHOTO_DB_BY_EQUIP: Record<
+  string,
+  Partial<Record<string, string>>
+> = {
+  "bench-press": { barbell: "Barbell_Bench_Press_-_Medium_Grip", dumbbell: "Dumbbell_Bench_Press_with_Neutral_Grip", machine: "Machine_Bench_Press" },
+  "incline-press": { barbell: "Barbell_Incline_Bench_Press_-_Medium_Grip", dumbbell: "Hammer_Grip_Incline_DB_Bench_Press" },
+  "chest-fly": { dumbbell: "Dumbbell_Flyes", cable: "Flat_Bench_Cable_Flyes", machine: "Butterfly" },
+  "decline-press": { barbell: "Decline_Barbell_Bench_Press", dumbbell: "Decline_Dumbbell_Bench_Press", machine: "Decline_Smith_Press" },
+  "barbell-row": { barbell: "Bent_Over_Barbell_Row", dumbbell: "Bent_Over_Two-Dumbbell_Row" },
+  "t-bar-row": { barbell: "Lying_Cambered_Barbell_Row", machine: "Lying_T-Bar_Row" },
+  "lat-pulldown": { cable: "Wide-Grip_Lat_Pulldown" },
+  ohp: { barbell: "Barbell_Shoulder_Press", dumbbell: "Dumbbell_Shoulder_Press", machine: "Leverage_Shoulder_Press" },
+  "lateral-raise": { dumbbell: "Side_Lateral_Raise", cable: "Cable_Seated_Lateral_Raise" },
+  "front-raise": { dumbbell: "Front_Dumbbell_Raise", cable: "Front_Cable_Raise", barbell: "Standing_Front_Barbell_Raise_Over_Head" },
+  "rear-delt-fly": { dumbbell: "Reverse_Flyes", machine: "Reverse_Machine_Flyes", cable: "Cable_Rear_Delt_Fly" },
+  "upright-row": { barbell: "Upright_Barbell_Row", dumbbell: "Dumbbell_One-Arm_Upright_Row", cable: "Low_Pulley_Row_To_Neck" },
+  shrug: { barbell: "Barbell_Shrug", dumbbell: "Dumbbell_Shrug" },
+  "biceps-curl": { barbell: "Barbell_Curl", dumbbell: "Dumbbell_Bicep_Curl", cable: "Standing_Biceps_Cable_Curl" },
+  "preacher-curl": { barbell: "Preacher_Curl", dumbbell: "One_Arm_Dumbbell_Preacher_Curl", machine: "Machine_Bicep_Curl" },
+  "reverse-curl": { barbell: "Reverse_Barbell_Curl", dumbbell: "Standing_Dumbbell_Reverse_Curl" },
+  "wrist-curl": { dumbbell: "Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench", barbell: "Palms-Down_Wrist_Curl_Over_A_Bench" },
+  "triceps-pushdown": { cable: "Triceps_Pushdown_-_Rope_Attachment", machine: "Machine_Triceps_Extension" },
+  "skull-crusher": { barbell: "Lying_Close-Grip_Barbell_Triceps_Press_To_Chin", dumbbell: "Seated_Triceps_Press" },
+  "overhead-triceps-extension": { dumbbell: "Decline_Dumbbell_Triceps_Extension", cable: "Cable_Rope_Overhead_Triceps_Extension" },
+  squat: { barbell: "Barbell_Squat", machine: "Smith_Machine_Squat", bodyweight: "Bodyweight_Squat" },
+  "smith-squat": { machine: "Smith_Machine_Squat" },
+  "goblet-squat": { dumbbell: "Dumbbell_Squat" },
+  rdl: { barbell: "Romanian_Deadlift", dumbbell: "Stiff-Legged_Dumbbell_Deadlift" },
+  "hip-thrust": { barbell: "Barbell_Hip_Thrust", machine: "Smith_Machine_Hip_Raise" },
+  "glute-bridge": { bodyweight: "Butt_Lift_Bridge", barbell: "Barbell_Glute_Bridge" },
+  hyperextension: { machine: "Reverse_Hyperextension", bodyweight: "Hyperextensions_With_No_Hyperextension_Bench" },
+  "step-up": { dumbbell: "Dumbbell_Step_Ups", bodyweight: "Step-up_with_Knee_Raise" },
+  lunge: { dumbbell: "Dumbbell_Lunges", bodyweight: "Bodyweight_Walking_Lunge" },
+  "walking-lunge": { dumbbell: "Dumbbell_Lunges", bodyweight: "Bodyweight_Walking_Lunge" },
+  "bulgarian-split-squat": { dumbbell: "Split_Squat_with_Dumbbells", bodyweight: "Bodyweight_Walking_Lunge" },
+  "hip-adduction": { machine: "Thigh_Adductor" },
+  "russian-twist": { bodyweight: "Russian_Twist", dumbbell: "Dumbbell_Side_Bend" },
+};
+
+/**
+ * 워밍업·마무리(컨디셔닝) 종목 id → free-exercise-db 실사 항목. 스트레칭·유산소도
+ * 데이터셋에 있어 실제 시연 사진을 보여준다. 매핑 없는 항목(천국의 계단·데드행 등)은
+ * 호출부가 기존 모션 일러스트(플립북)로 폴백. 슬러그는 scripts/validate-equip-map.js 로 검증.
+ */
+export const CONDITIONING_PHOTO_DB: Record<string, string> = {
+  running: "Running_Treadmill",
+  walking: "Jogging_Treadmill",
+  cycling: "Bicycling_Stationary",
+  rowing: "Rowing_Stationary",
+  elliptical: "Elliptical_Trainer",
+  "jump-rope": "Rope_Jumping",
+  "shoulder-circle": "Shoulder_Circles",
+  "cat-cow": "Cat_Stretch",
+  "band-pull-apart": "Band_Pull_Apart",
+  "dynamic-lunge": "Bodyweight_Walking_Lunge",
+  "bw-squat": "Bodyweight_Squat",
+  "dead-bug": "Dead_Bug",
+  "glute-bridge-warm": "Butt_Lift_Bridge",
+  "wrist-circle": "Wrist_Circles",
+  "push-up-warm": "Pushups",
+  "chest-door-stretch": "Dynamic_Chest_Stretch",
+  "shoulder-cross-stretch": "Shoulder_Stretch",
+  "child-pose": "Childs_Pose",
+  "cobra-stretch": "Upward_Stretch",
+  "triceps-overhead-stretch": "Triceps_Stretch",
+  "biceps-door-stretch": "Standing_Biceps_Stretch",
+  "wrist-stretch": "Wrist_Circles",
+  "hamstring-stretch": "Hamstring_Stretch",
+  "pigeon-pose": "IT_Band_and_Glute_Stretch",
+  "calf-stretch": "Calf_Stretch_Hands_Against_Wall",
+  "neck-stretch": "Side_Neck_Stretch",
+};
+
 const CDN = "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises";
 
-/** 시연 사진 2프레임 URL. 매핑 없으면 null → 호출부가 SVG 폴백. */
-export function exercisePhotoFrames(exerciseId: string): [string, string] | null {
-  const db = EXERCISE_PHOTO_DB[exerciseId];
+/**
+ * 시연 사진 2프레임 URL. 기구가 주어지고 그 기구 전용 매핑이 있으면 그걸,
+ * 없으면 운동 기본 매핑으로 폴백. 둘 다 없으면 null → 호출부가 SVG 폴백.
+ */
+export function exercisePhotoFrames(
+  exerciseId: string,
+  equipment?: string,
+): [string, string] | null {
+  const db =
+    (equipment ? EXERCISE_PHOTO_DB_BY_EQUIP[exerciseId]?.[equipment] : undefined) ??
+    EXERCISE_PHOTO_DB[exerciseId];
+  if (!db) return null;
+  return [`${CDN}/${db}/0.jpg`, `${CDN}/${db}/1.jpg`];
+}
+
+/** 워밍업·마무리 종목 2프레임 URL. 매핑 없으면 null → 호출부가 모션 일러스트로 폴백. */
+export function conditioningPhotoFrames(itemId: string): [string, string] | null {
+  const db = CONDITIONING_PHOTO_DB[itemId];
   if (!db) return null;
   return [`${CDN}/${db}/0.jpg`, `${CDN}/${db}/1.jpg`];
 }

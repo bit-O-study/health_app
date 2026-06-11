@@ -50,10 +50,11 @@ export function AdminNav() {
           </Link>
         );
       })}
-      <form action={signOut} className="mt-auto hidden sm:block">
+      {/* 로그아웃 — 모바일에선 상단 가로 메뉴 끝에, 데스크톱에선 사이드바 맨 아래에. */}
+      <form action={signOut} className="shrink-0 sm:mt-auto sm:w-full">
         <button
           type="submit"
-          className="inline-flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-zinc-500 transition hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/40"
+          className="inline-flex w-full items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-zinc-500 transition hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/40"
         >
           <LogOut aria-hidden="true" size={18} />
           로그아웃

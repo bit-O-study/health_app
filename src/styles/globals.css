@@ -21,10 +21,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* 모바일에서 끝까지 스크롤할 때 고무줄(rubber-band)로 페이지 '밖' 배경이 보이지 않게:
+   - html 배경을 body 와 같은 톤으로 맞추고
+   - overscroll-behavior 로 바운스 자체를 막는다. */
+html {
+  background: var(--background);
+  overscroll-behavior: none;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overscroll-behavior: none;
   /* 한국어 줄바꿈: 음절 단위로 끊지 말고(=한 글자씩 줄바꿈 방지) 어절(공백) 단위로.
      단, 한 어절이 칸보다 길면 그때만 분해해 오버플로 방지. */
   word-break: keep-all;

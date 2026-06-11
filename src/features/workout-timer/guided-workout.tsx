@@ -85,6 +85,13 @@ function failureKey(item: GuidedItem): string {
     : `${item.kind}:${item.rowId}:${item.itemId}`;
 }
 
+/** 항목의 실사 시연 사진(2프레임). 본운동=기구별 매핑, 워밍업·마무리=컨디셔닝 매핑. */
+function framesForItem(item: GuidedItem): [string, string] | null {
+  return item.kind === "main"
+    ? exercisePhotoFrames(item.exerciseId, item.equipment)
+    : conditioningPhotoFrames(item.itemId);
+}
+
 /**
  * 가이드 운동 오버레이. `items` 큐를 처음부터 끝까지 진행하며 한 번에 한 운동을
  * 풀스크린으로 보여준다. 운동 방법 단계는 3초마다 자동 강조 순환.
@@ -139,6 +146,22 @@ export function GuidedOverlay({
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSetsDone(0);
   }, [index]);
+
+  // 다음 1~2개 운동의 시연 사진을 미리 받아둔다 → '다음 운동'으로 넘길 때
+  // 빈 화면/지연 없이 즉시 표시(브라우저 캐시 워밍). 현재 항목이 바뀔 때마다.
+  useEffect(() => {
+    for (let k = 1; k <= 2; k++) {
+      const next = sessionItems[index + k];
+      if (!next) break;
+      const frames = framesForItem(next);
+      if (!frames) continue;
+      for (const src of frames) {
+        const img = new Image();
+        img.decoding = "async";
+        img.src = src;
+      }
+    }
+  }, [index, sessionItems]);
 
   // 본운동이고 세트가 2개 이상이면 세트별 휴식 안내 노출.
   const mainSets =
@@ -286,11 +309,8 @@ export function GuidedOverlay({
 
   if (!item) return null;
 
-  // 이 항목의 실사 시연 사진(2프레임). 본운동=기구별 매핑, 워밍업·마무리=컨디셔닝 매핑.
-  const photoFrames =
-    item.kind === "main"
-      ? exercisePhotoFrames(item.exerciseId, item.equipment)
-      : conditioningPhotoFrames(item.itemId);
+  // 이 항목의 실사 시연 사진(2프레임).
+  const photoFrames = item ? framesForItem(item) : null;
   // 방법 문구를 사진 위 장면으로 넘기는 '튜토리얼 영상'.
   // - 본운동: 등록 영상이 없고 방법 문구가 있으면(사진 없어도 그라데이션 위 문구로).
   // - 워밍업·마무리: 방법 문구가 있고 실사 사진 매핑이 있을 때(없으면 기존 모션 일러스트).

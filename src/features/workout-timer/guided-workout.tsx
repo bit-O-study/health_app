@@ -1,13 +1,17 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+  AlertTriangle,
   Check,
   ChevronRight,
+  Crosshair,
+  ListChecks,
   Pause,
   Play,
   StickyNote,
+  Target,
   Timer,
   X,
 } from "lucide-react";
@@ -21,7 +25,6 @@ import {
   isLastSet,
   setProgressLabel,
 } from "@/features/workout-timer/rest-logic";
-import { ExerciseDemo } from "@/features/workout-timer/exercise-demo";
 import {
   ExercisePhotoDemo,
   ExerciseTutorial,
@@ -32,8 +35,10 @@ import {
 } from "@/features/workout-timer/exercise-photo-map";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
-import { ExerciseFlipbook } from "@/features/workout-timer/exercise-flipbook";
-import { conditioningMotionFor } from "@/features/workout-timer/exercise-motion";
+import {
+  guideFor,
+  type ExerciseGuide,
+} from "@/features/workout-timer/exercise-guides";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
@@ -93,6 +98,18 @@ function framesForItem(item: GuidedItem): [string, string] | null {
 }
 
 /**
+ * 사진 위로 한 장면씩 넘기는 튜토리얼 자막.
+ * 본운동은 방법 3줄 대신 가이드의 상세 폼 큐(어떻게 하는지) + 💡꿀팁(초보 팁)으로
+ * 훨씬 자세하게 — "견갑을 모은다"면 어떻게 모으는지, 흔한 실수까지 한 장면씩.
+ * 워밍업·마무리는 컨디셔닝 방법 문구 그대로.
+ */
+function tutorialStepsFor(item: GuidedItem): string[] {
+  if (item.kind !== "main") return item.method;
+  const g = guideFor(item.exerciseId);
+  return [...g.cues, ...g.beginnerTips.map((t) => `💡 ${t}`)];
+}
+
+/**
  * 가이드 운동 오버레이. `items` 큐를 처음부터 끝까지 진행하며 한 번에 한 운동을
  * 풀스크린으로 보여준다. 운동 방법 단계는 3초마다 자동 강조 순환.
  */
@@ -103,6 +120,7 @@ export function GuidedOverlay({
   elapsedLabel,
   running = true,
   onPauseResume,
+  showGuide = true,
 }: {
   items: GuidedItem[];
   onClose: () => void;
@@ -114,6 +132,8 @@ export function GuidedOverlay({
   running?: boolean;
   /** 중단/다시 시작 토글. */
   onPauseResume?: () => void;
+  /** 개인설정: 상세 가이드 카드 표시. 기본 true. */
+  showGuide?: boolean;
 }) {
   const router = useRouter();
   const rest = useRestTimer();
@@ -164,6 +184,14 @@ export function GuidedOverlay({
       }
     }
   }, [index, sessionItems]);
+
+  // 튜토리얼 자막(상세 큐 + 💡꿀팁) — 참조를 안정화한다. 인라인으로 만들면 매 렌더
+  // (타이머 경과시간 갱신 등)마다 새 배열이라 ExerciseTutorial 의 자동 전환이 0으로
+  // 리셋돼 첫 장면에 갇힌다.
+  const tutorialSteps = useMemo(
+    () => (item ? tutorialStepsFor(item) : []),
+    [item],
+  );
 
   // 본운동이고 세트가 2개 이상이면 세트별 휴식 안내 노출.
   const mainSets =
@@ -332,10 +360,9 @@ export function GuidedOverlay({
   const photoFrames = item ? framesForItem(item) : null;
   // 방법 문구를 사진 위 장면으로 넘기는 '튜토리얼 영상'.
   // - 본운동: 등록 영상이 없고 방법 문구가 있으면(사진 없어도 그라데이션 위 문구로).
-  // - 워밍업·마무리: 방법 문구가 있고 실사 사진 매핑이 있을 때(없으면 기존 모션 일러스트).
+  // - 워밍업·마무리: 방법 문구가 있으면(사진 없으면 그라데이션 위 문구로). 막대인간 일러스트는 쓰지 않는다.
   const tutorial =
-    item.method.length > 0 &&
-    (item.kind === "main" ? !item.media : photoFrames !== null);
+    item.method.length > 0 && (item.kind === "main" ? !item.media : true);
 
   return (
     <div className="fixed inset-0 z-40 flex flex-col bg-zinc-50 dark:bg-zinc-950">
@@ -427,16 +454,29 @@ export function GuidedOverlay({
         </div>
       )}
 
-      {/* 본문 — 스크롤 가능 */}
-      <div className="flex flex-1 flex-col items-center justify-center overflow-y-auto px-6 py-4">
+      {/* 본문 — 스크롤 가능. justify-center 는 내용이 길면 위쪽이 잘려 스크롤이 막히므로
+          (flexbox 한계), m-auto 래퍼로 대체 — 짧으면 가운데, 길면 위부터 끝까지 스크롤. */}
+      <div
+        data-testid="guided-scroll"
+        className="flex flex-1 flex-col overflow-y-auto px-6 py-4"
+      >
+        <div className="m-auto flex w-full flex-col items-center">
         <KindBadge kind={item.kind} />
         {/* 본운동에 등록 영상이 없고 방법 문구가 있으면, 문구를 사진 위에 한 장면씩
             넘기는 '튜토리얼 영상'으로 보여준다. 그 외(영상 등록/워밍업·마무리)는 기존대로. */}
         {tutorial ? (
-          <ExerciseTutorial frames={photoFrames} steps={item.method} />
+          <>
+            {photoFrames ? (
+              <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+                실제 자세
+              </p>
+            ) : null}
+            <ExerciseTutorial frames={photoFrames} steps={tutorialSteps} />
+          </>
         ) : (
           <ItemVisual item={item} />
         )}
+
         <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
           {item.name}
         </h2>
@@ -444,13 +484,20 @@ export function GuidedOverlay({
           {item.subtitle}
         </p>
 
+        {/* 기구별 빠른 단계 — 튜토리얼(사진 위 자막)이 아닐 때만 목록으로. */}
         {tutorial ? null : item.method.length > 0 ? (
           <MethodSteps steps={item.method} />
-        ) : (
+        ) : item.kind !== "main" ? (
           <p className="mt-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
             운동 방법 안내가 없습니다.
           </p>
-        )}
+        ) : null}
+
+        {/* 본운동: 자세 잡기·자극 부위·핵심 포인트·초보 팁 상세 가이드.
+            따라 하면서 운동할 수 있게 방법 문구보다 훨씬 구체적으로. (개인설정으로 끌 수 있음) */}
+        {item.kind === "main" && showGuide ? (
+          <ExerciseGuideCard guide={guideFor(item.exerciseId)} />
+        ) : null}
 
         {/* 개인 메모 — 메모가 있으면 표시 (본운동·워밍업·마무리 공통) */}
         {item.memo ? (
@@ -464,6 +511,7 @@ export function GuidedOverlay({
             </p>
           </div>
         ) : null}
+        </div>
       </div>
 
       {/* 하단 버튼 */}
@@ -564,13 +612,13 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
 }
 
 /**
- * 본운동·워밍업·마무리 모두 일러스트 컨테이너 사용.
- * - main: ExerciseDemo (시각 코칭 오버레이 포함)
- * - warmup/cooldown: ExerciseFlipbook 의 컨디셔닝 모션 일러스트
+ * 방법 문구가 없는 항목(튜토리얼이 아닌 경우)의 시각 자료.
+ * 막대인간(SVG) 일러스트는 쓰지 않는다 — 실사 사진이 있으면 사진, 없으면 빈 그라데이션.
+ * - main: 관리자 영상 > 실사 사진
+ * - warmup/cooldown: 컨디셔닝 실사 사진(없으면 그라데이션)
  */
 function ItemVisual({ item }: { item: GuidedItem }) {
   if (item.kind === "main") {
-    // 관리자 등록 미디어가 있으면 그걸, 없으면 기본 일러스트.
     if (item.media) {
       return (
         <div className="w-full max-w-md">
@@ -579,26 +627,92 @@ function ItemVisual({ item }: { item: GuidedItem }) {
         </div>
       );
     }
-    // 등록 영상이 없으면 실사 시연 사진(2프레임 교차) — 매핑 없으면 SVG 폴백.
-    const photo = (
+    // 실사 시연 사진(매핑 없으면 null → 표시 안 함).
+    return (
       <ExercisePhotoDemo exerciseId={item.exerciseId} equipment={item.equipment} />
     );
-    if (exercisePhotoFrames(item.exerciseId, item.equipment)) return photo;
-    return <ExerciseDemo exerciseId={item.exerciseId} name={item.name} />;
   }
-  // 워밍업·마무리도 일러스트 — 컨디셔닝 모션 매핑 사용
-  const conditioning = conditioningMotionFor(item.itemId);
+  // 워밍업·마무리: 실사 사진(없으면 그라데이션). steps 없이 사진/배경만.
+  return <ExerciseTutorial frames={conditioningPhotoFrames(item.itemId)} steps={[]} />;
+}
+
+/**
+ * 본운동 상세 가이드 — 자세 잡기 / 자극 부위(어디가 느껴져야 하는지) / 핵심 포인트 /
+ * 초보가 자주 놓치는 것. 방법 3줄보다 훨씬 구체적으로 "따라 하면서" 운동하게 한다.
+ */
+function ExerciseGuideCard({ guide }: { guide: ExerciseGuide }) {
   return (
-    <div
-      className="relative w-full max-w-md overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-gradient-to-b from-white to-zinc-100 dark:from-zinc-800 dark:to-zinc-900 p-4"
-      style={
-        {
-          ["--cycle" as string]: `2200ms`,
-          aspectRatio: "1 / 1",
-        } as React.CSSProperties
-      }
-    >
-      <ExerciseFlipbook conditioning={conditioning} />
+    <div className="mt-6 w-full max-w-md space-y-3 text-left">
+      {/* 자세 잡기 */}
+      <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
+        <h3 className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <Crosshair aria-hidden="true" size={13} className="text-emerald-500" />
+          자세 잡기
+        </h3>
+        <p className="text-sm leading-6 text-zinc-700 dark:text-zinc-200">
+          {guide.setup}
+        </p>
+      </section>
+
+      {/* 자극 부위 */}
+      <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
+        <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <Target aria-hidden="true" size={13} className="text-rose-500" />
+          자극 부위 — 여기가 느껴져야 정상
+        </h3>
+        <ul className="space-y-1.5">
+          {guide.targets.map((t) => (
+            <li key={t.name} className="text-sm leading-6">
+              <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+                {t.name}
+              </span>
+              <span className="text-zinc-500 dark:text-zinc-400">
+                {" "}
+                — {t.feel}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* 핵심 포인트(폼 큐) */}
+      <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-500/30 dark:bg-emerald-500/10">
+        <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+          <ListChecks aria-hidden="true" size={13} />
+          핵심 포인트
+        </h3>
+        <ol className="space-y-2">
+          {guide.cues.map((c, i) => (
+            <li key={i} className="flex gap-2.5 text-sm leading-6">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-[11px] font-extrabold text-white">
+                {i + 1}
+              </span>
+              <span className="text-zinc-800 dark:text-zinc-100">{c}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* 초보가 자주 놓치는 것 */}
+      <section className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-500/30 dark:bg-amber-500/10">
+        <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">
+          <AlertTriangle aria-hidden="true" size={13} />
+          초보가 자주 놓치는 것
+        </h3>
+        <ul className="space-y-1.5">
+          {guide.beginnerTips.map((t, i) => (
+            <li
+              key={i}
+              className="flex gap-2 text-sm leading-6 text-amber-900 dark:text-amber-100"
+            >
+              <span aria-hidden="true" className="shrink-0 text-amber-500">
+                •
+              </span>
+              <span>{t}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }

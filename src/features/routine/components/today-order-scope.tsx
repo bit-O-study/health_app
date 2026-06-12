@@ -18,10 +18,20 @@ export type OrderKind = "main" | "warmup" | "cooldown";
 
 type OrderMap = Record<OrderKind, string[] | null>;
 
+/** 로컬 완료/스킵 오버라이드. 'active' = (스킵/완료) 취소돼 다시 할 항목. */
+export type LocalCompletion = "active" | "done" | "skipped";
+
 type Ctx = {
   /** 종류별 row id 의 현재 순서. null = 아직 정렬 안 함(서버 기본 순서 사용). */
   order: OrderMap;
   setOrder: (kind: OrderKind, ids: string[]) => void;
+  /**
+   * 로컬 완료/스킵 오버라이드(rowId → 상태). 리스트에서 스킵/완료/취소하면 즉시 올린다.
+   * '운동 시작' 큐가 서버 새로고침을 기다리지 않고 이 값을 반영해, 휴식 취소 후 바로
+   * 시작해도 그 운동이 큐에 뜬다(반대로 방금 스킵한 건 빠진다).
+   */
+  completion: Record<string, LocalCompletion>;
+  setCompletion: (rowId: string, status: LocalCompletion) => void;
 };
 
 const TodayOrderCtx = createContext<Ctx | null>(null);
@@ -34,8 +44,15 @@ export function TodayOrderScope({ children }: { children: ReactNode }) {
   });
   const setOrder = (kind: OrderKind, ids: string[]) =>
     setOrderState((prev) => ({ ...prev, [kind]: ids }));
+
+  const [completion, setCompletionState] = useState<
+    Record<string, LocalCompletion>
+  >({});
+  const setCompletion = (rowId: string, status: LocalCompletion) =>
+    setCompletionState((prev) => ({ ...prev, [rowId]: status }));
+
   return (
-    <TodayOrderCtx.Provider value={{ order, setOrder }}>
+    <TodayOrderCtx.Provider value={{ order, setOrder, completion, setCompletion }}>
       {children}
     </TodayOrderCtx.Provider>
   );

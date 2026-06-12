@@ -79,6 +79,9 @@ export async function TodayExercises({
   dayIndex,
   weightKg,
   hideVideos = false,
+  showGuide = true,
+  restSound = true,
+  restHaptic = true,
 }: {
   /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
   tones: FocusKey[];
@@ -87,6 +90,11 @@ export async function TodayExercises({
   weightKg: number | null;
   /** 개인설정 '운동영상 안 보기' — 운동 시작 시 영상 가이드 대신 타이머만. */
   hideVideos?: boolean;
+  /** 개인설정: 상세 가이드 카드 표시. */
+  showGuide?: boolean;
+  /** 개인설정: 휴식 종료 소리 / 진동. */
+  restSound?: boolean;
+  restHaptic?: boolean;
 }) {
   const todayYmd = seoulYmd();
   const primaryTone = tones[0];
@@ -246,10 +254,14 @@ export async function TodayExercises({
 
   const skipCount = mainSkipSet.size + warmSkipSet.size + coolSkipSet.size;
 
-  // 가이드 운동 큐 — 아직 완료/스킵 안 한 항목만, 워밍업 → 본운동 → 마무리 순서.
+  // 가이드 운동 큐 — 워밍업 → 본운동 → 마무리 순서로 '모든' 항목을 담는다.
+  // (완료/스킵 제외는 클라이언트 타이머가 서버 상태 + 로컬 오버라이드로 필터한다.
+  //  서버에서 미리 빼면, 휴식 취소 후 바로 시작 시 그 운동이 큐에 없어서 안 뜬다.)
+  const doneOrSkippedIds: string[] = [];
   const queueItems: GuidedItem[] = [];
   for (const wi of warm.items) {
-    if (warmDoneSet.has(wi.rowId) || warmSkipSet.has(wi.rowId)) continue;
+    if (warmDoneSet.has(wi.rowId) || warmSkipSet.has(wi.rowId))
+      doneOrSkippedIds.push(wi.rowId);
     const ci = getConditioningItem(wi.itemId);
     queueItems.push({
       kind: "warmup",
@@ -265,7 +277,8 @@ export async function TodayExercises({
     });
   }
   for (const p of plan) {
-    if (mainDoneSet.has(p.id) || mainSkipSet.has(p.id)) continue;
+    if (mainDoneSet.has(p.id) || mainSkipSet.has(p.id))
+      doneOrSkippedIds.push(p.id);
     const ex = getCatalogExercise(p.exerciseId);
     const eq = ex?.equipments.find((e) => e.equipment === p.equipment);
     const subtitle =
@@ -296,7 +309,8 @@ export async function TodayExercises({
     });
   }
   for (const ci2 of cool.items) {
-    if (coolDoneSet.has(ci2.rowId) || coolSkipSet.has(ci2.rowId)) continue;
+    if (coolDoneSet.has(ci2.rowId) || coolSkipSet.has(ci2.rowId))
+      doneOrSkippedIds.push(ci2.rowId);
     const cat = getConditioningItem(ci2.itemId);
     queueItems.push({
       kind: "cooldown",
@@ -315,7 +329,7 @@ export async function TodayExercises({
   return (
     // 편집모드(TodayEditScope)는 부모(page.tsx)가 7일 그리드까지 함께 감싼다 →
     // '편집하기' 하나로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
-    <RestTimerProvider>
+    <RestTimerProvider sound={restSound} haptic={restHaptic}>
       <TodayOrderScope>
         <section className="space-y-5">
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -330,7 +344,9 @@ export async function TodayExercises({
             <div className="flex items-center gap-2">
               <WorkoutSessionTimer
                 queueItems={queueItems}
+                doneOrSkippedIds={doneOrSkippedIds}
                 hideVideos={hideVideos}
+                showGuide={showGuide}
               />
               <TodayEditBar />
             </div>

@@ -29,6 +29,12 @@ export type UserProfile = {
   phone: string | null;
   /** 개인설정: 운동영상(가이드) 안 보기. true 면 운동 시작 시 영상 대신 타이머만. */
   hideExerciseVideos: boolean;
+  /** 자세 잡기·자극 부위·핵심 포인트·초보 팁 상세 가이드 카드 표시. 기본 true. */
+  showExerciseGuide: boolean;
+  /** 휴식 종료 시 비프음. 기본 true. */
+  restSound: boolean;
+  /** 휴식 종료 시 진동(햅틱). 기본 true. */
+  restHaptic: boolean;
 };
 
 type ProfileRow = {
@@ -42,6 +48,9 @@ type ProfileRow = {
   name: unknown;
   phone: unknown;
   hide_exercise_videos: unknown;
+  show_exercise_guide: unknown;
+  rest_sound: unknown;
+  rest_haptic: unknown;
 };
 
 /**
@@ -58,7 +67,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone, hide_exercise_videos",
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -91,5 +100,9 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     phone:
       typeof row.phone === "string" && row.phone.trim() !== "" ? row.phone : null,
     hideExerciseVideos: row.hide_exercise_videos === true,
+    // 기본 true(컬럼 default) — 명시적으로 false 일 때만 끈다.
+    showExerciseGuide: row.show_exercise_guide !== false,
+    restSound: row.rest_sound !== false,
+    restHaptic: row.rest_haptic !== false,
   };
 });

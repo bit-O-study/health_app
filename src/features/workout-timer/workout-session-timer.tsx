@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { Pause, Play, Save, Timer } from "lucide-react";
 
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
+import { isQueueItemActive } from "@/features/workout-timer/queue-filter";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
@@ -43,11 +44,18 @@ const GuidedOverlay = dynamic(
  */
 export function WorkoutSessionTimer({
   queueItems = [],
+  doneOrSkippedIds = [],
   hideVideos = false,
+  showGuide = true,
 }: {
+  /** 워밍업·본운동·마무리 '모든' 항목(완료/스킵 포함). 필터는 아래에서. */
   queueItems?: GuidedItem[];
+  /** 서버 기준 완료/스킵된 row id. 로컬 오버라이드가 없으면 이걸로 큐에서 제외. */
+  doneOrSkippedIds?: string[];
   /** 개인설정 '운동영상 안 보기'. true 면 영상 가이드 없이 타이머(중지/시작/저장)만. */
   hideVideos?: boolean;
+  /** 개인설정: 상세 가이드 카드 표시. */
+  showGuide?: boolean;
 }) {
   const router = useRouter();
   const orderScope = useTodayOrder();
@@ -57,8 +65,15 @@ export function WorkoutSessionTimer({
   const mainOrder = orderScope?.order.main ?? null;
   const warmupOrder = orderScope?.order.warmup ?? null;
   const cooldownOrder = orderScope?.order.cooldown ?? null;
+  const completion = orderScope?.completion ?? null;
   const queue = useMemo(() => {
-    const result = [...queueItems];
+    // 1) 완료/스킵 항목 제외 — 로컬 오버라이드 우선, 없으면 서버 상태.
+    //    (휴식 취소 후 바로 시작해도 그 운동이 뜨고, 방금 스킵한 건 빠진다.)
+    const serverInactive = new Set(doneOrSkippedIds);
+    const active = queueItems.filter((it) =>
+      isQueueItemActive(it.rowId, serverInactive, completion),
+    );
+    const result = [...active];
     const byKind: { kind: GuidedItem["kind"]; ord: string[] | null }[] = [
       { kind: "warmup", ord: warmupOrder },
       { kind: "main", ord: mainOrder },
@@ -68,18 +83,18 @@ export function WorkoutSessionTimer({
       if (!ord) continue;
       const rank = new Map(ord.map((id, i) => [id, i]));
       const idxs: number[] = [];
-      queueItems.forEach((q, i) => {
+      active.forEach((q, i) => {
         if (q.kind === kind) idxs.push(i);
       });
       const sorted = idxs
-        .map((i) => queueItems[i])
+        .map((i) => active[i])
         .sort((a, b) => (rank.get(a.rowId) ?? 0) - (rank.get(b.rowId) ?? 0));
       idxs.forEach((i, j) => {
         result[i] = sorted[j];
       });
     }
     return result;
-  }, [queueItems, mainOrder, warmupOrder, cooldownOrder]);
+  }, [queueItems, doneOrSkippedIds, completion, mainOrder, warmupOrder, cooldownOrder]);
   const [state, setState] = useState<TimerState | null>(null);
   const [guided, setGuided] = useState(false);
   const [saveAsk, setSaveAsk] = useState(false);
@@ -280,6 +295,7 @@ export function WorkoutSessionTimer({
         // 운동 페이지(가이드) 안에는 경과 시간만 표시(중단/다시 시작 버튼 없음).
         elapsedLabel={time}
         running={running}
+        showGuide={showGuide}
       />
     ) : null;
 

@@ -156,6 +156,8 @@ export function TodayConditioningList({
     else if (target === "skipped") nextSkipped.add(rowId);
     setDone(nextDone);
     setSkipped(nextSkipped);
+    // '운동 시작' 큐가 즉시 반영하도록 공유 오버라이드에 기록(서버 새로고침 대기 X).
+    orderScope?.setCompletion(rowId, target === "clear" ? "active" : target);
     startTx(async () => {
       await setConditioningStatusAction(
         kind,

@@ -54,7 +54,17 @@ const RestCtx = createContext<Ctx>({
  * 종료 시 비프음(Web Audio) + 진동 + 브라우저 알림 — 앱이 백그라운드여도 알림 발화.
  * 휴식 동안 Wake Lock 으로 화면이 꺼지지 않게 유지(지원 기기).
  */
-export function RestTimerProvider({ children }: { children: ReactNode }) {
+export function RestTimerProvider({
+  children,
+  sound = true,
+  haptic = true,
+}: {
+  children: ReactNode;
+  /** 개인설정: 휴식 종료 시 비프음. */
+  sound?: boolean;
+  /** 개인설정: 휴식 종료 시 진동. */
+  haptic?: boolean;
+}) {
   const [state, setState] = useState<RestState | null>(null);
   // 하단 버튼 바가 떠 있으면 알약을 그 위로 + 크게 — 가이드 화면 전용
   const [lifted, setLiftedState] = useState(false);
@@ -62,10 +72,11 @@ export function RestTimerProvider({ children }: { children: ReactNode }) {
   // AudioContext 는 timer 들 사이에 재사용 — provider 수명 동안 1개만.
   const audioCtxRef = useRef<AudioContext | null>(null);
 
-  // 사용자 기본 휴식 시간 복원
+  // 사용자 기본 휴식 시간 복원 — 외부(localStorage) 동기화라 의도된 setState.
   useEffect(() => {
     try {
       const raw = window.localStorage.getItem(REST_DEFAULT_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (raw) setDefaultSecState(clampRest(Number(raw)));
     } catch {
       /* noop */
@@ -122,6 +133,8 @@ export function RestTimerProvider({ children }: { children: ReactNode }) {
           onAdd={addSec}
           onClose={skip}
           audioCtxRef={audioCtxRef}
+          sound={sound}
+          haptic={haptic}
         />
       ) : null}
     </RestCtx.Provider>
@@ -139,6 +152,8 @@ function RestOverlay({
   onAdd,
   onClose,
   audioCtxRef,
+  sound,
+  haptic,
 }: {
   state: RestState;
   /** 하단 버튼 바 위로 + 크게 — 가이드 오버레이가 떠 있을 때 true */
@@ -147,6 +162,9 @@ function RestOverlay({
   onAdd: (extra: number) => void;
   onClose: () => void;
   audioCtxRef: { current: AudioContext | null };
+  /** 개인설정: 종료 비프음 / 진동. */
+  sound: boolean;
+  haptic: boolean;
 }) {
   const totalSec = state.totalSec;
   // 250ms 틱 — 이 컴포넌트만 리렌더. provider/children(워크아웃 섹션)은 영향 없음.
@@ -200,8 +218,8 @@ function RestOverlay({
   // key={endsAt} 로 매 timer 마다 새 인스턴스라 ended 한 번만 안전하게 발화.
   useEffect(() => {
     if (!done) return;
-    playBeep(audioCtxRef);
-    tryVibrate([180, 80, 180, 80, 260]);
+    if (sound) playBeep(audioCtxRef);
+    if (haptic) tryVibrate([180, 80, 180, 80, 260]);
     notifyRestDone();
     const closeId = window.setTimeout(onClose, 1500);
     return () => window.clearTimeout(closeId);

@@ -109,6 +109,44 @@ export async function setHideExerciseVideosAction(
   return { ok: true };
 }
 
+/** 개인설정 boolean 토글 — 화이트리스트한 컬럼만 갱신(임의 컬럼 주입 차단). */
+const PERSONAL_BOOL_COLUMNS = {
+  showExerciseGuide: "show_exercise_guide",
+  restSound: "rest_sound",
+  restHaptic: "rest_haptic",
+} as const;
+
+export type PersonalBoolKey = keyof typeof PERSONAL_BOOL_COLUMNS;
+
+/**
+ * 개인설정 토글 저장(동작 흐름·상세 가이드·휴식 소리·휴식 진동).
+ * key 는 화이트리스트로만 받아 임의 컬럼 업데이트를 막는다.
+ */
+export async function setPersonalPrefAction(
+  key: PersonalBoolKey,
+  value: boolean,
+): Promise<SaveProfileResult> {
+  const column = PERSONAL_BOOL_COLUMNS[key];
+  if (!column) return { ok: false, error: "알 수 없는 설정입니다." };
+
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ [column]: value })
+    .eq("user_id", user.id);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/routine");
+  revalidatePath("/settings");
+  revalidatePath("/settings/personal");
+  return { ok: true };
+}
+
 export type BodyLogInput = {
   weightKg?: number | null;
   heightCm?: number | null;

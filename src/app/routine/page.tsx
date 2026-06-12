@@ -403,6 +403,9 @@ async function TodayWorkout({
             dayIndex={offset}
             weightKg={profile?.weightKg ?? null}
             hideVideos={profile?.hideExerciseVideos ?? false}
+            showGuide={profile?.showExerciseGuide ?? true}
+            restSound={profile?.restSound ?? true}
+            restHaptic={profile?.restHaptic ?? true}
           />
         ) : null}
 

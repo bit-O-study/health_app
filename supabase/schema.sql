@@ -274,6 +274,16 @@ alter table public.profiles add column if not exists muscle_mass_kg numeric(5, 1
 alter table public.profiles
   add column if not exists hide_exercise_videos boolean not null default false;
 
+-- 개인설정(운동 모드 표시·휴식 알림). 모두 기본 켜짐.
+-- show_exercise_guide:     자세 잡기·자극 부위·핵심 포인트·초보 팁 상세 카드 표시.
+-- rest_sound / rest_haptic: 휴식 종료 시 비프음 / 진동.
+alter table public.profiles
+  add column if not exists show_exercise_guide boolean not null default true;
+alter table public.profiles
+  add column if not exists rest_sound boolean not null default true;
+alter table public.profiles
+  add column if not exists rest_haptic boolean not null default true;
+
 -- Registered workout plan per user, grouped by focus (DayPlan tone).
 --
 -- "추천 운동들로 등록" fills this from the recommendation; "직접 등록" lets the

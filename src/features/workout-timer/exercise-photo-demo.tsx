@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Eye } from "lucide-react";
+import { Eye, Lightbulb } from "lucide-react";
 
 import { exercisePhotoFrames } from "@/features/workout-timer/exercise-photo-map";
 import { focusForStep } from "@/features/workout-timer/exercise-focus";
@@ -116,33 +116,56 @@ export function ExerciseTutorial({
         {/* 자막 가독성용 하단 그라데이션 */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/45 to-transparent" />
 
-        {/* 단계 자막 장면 — active 가 바뀔 때마다 페이드인업 */}
-        {steps.length > 0 ? (
-          <div key={active} className="ex-cap absolute inset-x-0 bottom-0 p-4">
-            <div className="flex items-start gap-2.5">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-extrabold text-white shadow">
-                {active + 1}
-              </span>
-              <p className="text-[15px] font-semibold leading-snug text-white drop-shadow sm:text-base">
-                {steps[active]}
-              </p>
-            </div>
-            {/* 진행 점 */}
-            <div className="mt-2.5 flex items-center gap-1.5 pl-[34px]">
-              {steps.map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === active ? "w-5 bg-emerald-400" : "w-1.5 bg-white/45"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        ) : null}
+        {/* 단계 자막 장면 — active 가 바뀔 때마다 페이드인업. 💡 로 시작하면 '꿀팁' 장면. */}
+        {steps.length > 0
+          ? (() => {
+              const raw = steps[active] ?? "";
+              const isTip = raw.startsWith("💡");
+              const text = isTip ? raw.replace(/^💡\s*/, "") : raw;
+              return (
+                <div key={active} className="ex-cap absolute inset-x-0 bottom-0 p-4">
+                  <div className="flex items-start gap-2.5">
+                    <span
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-extrabold text-white shadow ${
+                        isTip ? "bg-amber-500" : "bg-emerald-500"
+                      }`}
+                    >
+                      {isTip ? (
+                        <Lightbulb aria-hidden="true" size={13} />
+                      ) : (
+                        active + 1
+                      )}
+                    </span>
+                    <p className="text-[15px] font-semibold leading-snug text-white drop-shadow sm:text-base">
+                      {isTip ? (
+                        <span className="font-extrabold text-amber-300">꿀팁 · </span>
+                      ) : null}
+                      {text}
+                    </p>
+                  </div>
+                  {/* 진행 점 */}
+                  <div className="mt-2.5 flex items-center gap-1.5 pl-[34px]">
+                    {steps.map((_, i) => (
+                      <span
+                        key={i}
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          i === active
+                            ? raw.startsWith("💡")
+                              ? "w-5 bg-amber-400"
+                              : "w-5 bg-emerald-400"
+                            : "w-1.5 bg-white/45"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              );
+            })()
+          : null}
 
+        {/* 자세 단계 — 2프레임(시작/끝)이 무슨 자세인지 명확히 라벨링. */}
         <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
-          {frames ? "실제 동작" : "동작 가이드"}
+          {frames ? (useEnd ? "② 마무리 자세" : "① 시작 자세") : "동작 가이드"}
         </span>
       </div>
     </div>

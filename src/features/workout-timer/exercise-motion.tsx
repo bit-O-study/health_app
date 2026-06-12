@@ -1,7 +1,7 @@
 /**
  * 운동 종목 → 모션 카테고리 매핑.
- * 카테고리는 측면뷰 플립북 일러스트(exercise-flipbook.tsx) 와 단계 안내
- * (exercise-phases.ts) 의 fallback 선택에 사용된다.
+ * 카테고리는 상세 가이드(exercise-guides.ts)의 카테고리별 폴백 선택에 사용된다.
+ * (예: 전용 가이드가 없는 로우 운동 → 'row' 카테고리 가이드)
  */
 
 export type MotionCategory =
@@ -131,6 +131,12 @@ const CATEGORY_MAP: Record<string, MotionCategory> = {
   "sissy-squat": "squat",
   "single-leg-leg-press": "squat",
   "donkey-calf-raise": "squat",
+  // 빠져 있어 'static' 으로 잘못 떨어지던 것들 — 실제 동작 패턴으로 교정.
+  "low-row-machine": "row",
+  "chest-supported-row": "row",
+  "assisted-pull-up": "pulldown",
+  "standing-cable-curl": "curl",
+  "cable-pull-through": "hinge",
 };
 
 export function motionCategoryFor(exerciseId: string): MotionCategory {

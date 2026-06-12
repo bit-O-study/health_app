@@ -202,6 +202,8 @@ export function TodayPlanList({
     else if (target === "skipped") nextSkipped.add(id);
     setDone(nextDone);
     setSkipped(nextSkipped);
+    // '운동 시작' 큐가 즉시 반영하도록 공유 오버라이드에 기록(서버 새로고침 대기 X).
+    orderScope?.setCompletion(id, target === "clear" ? "active" : target);
     // 새로 완료 처리한 운동(취소 아님)에 한해 휴식 타이머 자동 시작.
     // 강도 추정: 무게 있으면 90초, 맨몸이면 60초.
     if (target === "done" && !wasDone && item) {

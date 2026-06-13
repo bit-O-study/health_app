@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import {
   AlertTriangle,
   Check,
+  ChevronLeft,
   ChevronRight,
   Crosshair,
   ListChecks,
@@ -564,6 +565,28 @@ export function GuidedOverlay({
             </button>
           </div>
         ) : null}
+
+        {/* 이전 / 다음 — 완료·스킵 없이 운동 사이만 이동(상태 안 바뀜). */}
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={() => setIndex((i) => Math.max(0, i - 1))}
+            disabled={index === 0}
+            className="inline-flex h-11 items-center justify-center gap-1 rounded-xl border border-zinc-200 bg-white text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          >
+            <ChevronLeft aria-hidden="true" size={18} />
+            이전
+          </button>
+          <button
+            type="button"
+            onClick={() => setIndex((i) => Math.min(total - 1, i + 1))}
+            disabled={isLast}
+            className="inline-flex h-11 items-center justify-center gap-1 rounded-xl border border-zinc-200 bg-white text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          >
+            다음
+            <ChevronRight aria-hidden="true" size={18} />
+          </button>
+        </div>
 
         <div className="grid grid-cols-2 gap-2">
           <button

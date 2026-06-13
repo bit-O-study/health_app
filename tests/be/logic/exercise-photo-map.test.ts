@@ -7,6 +7,7 @@ import {
   conditioningPhotoFrames,
   exercisePhotoFrames,
 } from "@/features/workout-timer/exercise-photo-map";
+import { ALL_CONDITIONING_ITEMS } from "@/features/routine/conditioning-catalog";
 
 // 운동 id → free-exercise-db(퍼블릭도메인) 실사 2프레임 URL 매핑.
 
@@ -108,11 +109,19 @@ describe("워밍업·마무리 실사 시연 사진 (conditioningPhotoFrames)", 
     expect(conditioningPhotoFrames("bw-squat")![0]).toContain("/Bodyweight_Squat/0.jpg");
   });
 
-  it("매핑 없는 컨디셔닝(데드행 등)은 null → 호출부가 모션 일러스트 폴백", () => {
-    expect(conditioningPhotoFrames("dead-hang")).toBeNull();
-    expect(conditioningPhotoFrames("wall-slide")).toBeNull();
-    expect(conditioningPhotoFrames("sleeper-stretch")).toBeNull();
+  it("데드행 등 모든 컨디셔닝 항목이 실사 사진을 가진다(미매핑 0)", () => {
+    // 데드행·월슬라이드·슬리퍼 스트레칭도 이제 사진이 떠야 한다(과거엔 그라데이션만).
+    for (const id of ["dead-hang", "wall-slide", "sleeper-stretch"]) {
+      expect(conditioningPhotoFrames(id), id).not.toBeNull();
+    }
+    expect(conditioningPhotoFrames("dead-hang")![0]).toContain("/Scapular_Pull-Up/0.jpg");
     expect(conditioningPhotoFrames("nonexistent")).toBeNull();
+  });
+
+  it("카탈로그의 모든 워밍업·마무리 종목이 실사 사진을 가진다", () => {
+    for (const c of ALL_CONDITIONING_ITEMS) {
+      expect(conditioningPhotoFrames(c.id), c.id).not.toBeNull();
+    }
   });
 
   it("매핑 값은 모두 0/1 프레임 형식 + jsdelivr CDN", () => {

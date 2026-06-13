@@ -18,6 +18,7 @@ import {
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import {
   REST_PRESETS,
@@ -137,6 +138,7 @@ export function GuidedOverlay({
 }) {
   const router = useRouter();
   const rest = useRestTimer();
+  const orderScope = useTodayOrder();
   const [index, setIndex] = useState(0);
   const workingRef = useRef(false);
   const [working, setWorking] = useState(false);
@@ -291,6 +293,10 @@ export function GuidedOverlay({
 
     const captured = item; // advance 직전에 캡쳐
     const isMain = captured.kind === "main";
+
+    // 0) 공유 오버라이드 즉시 갱신 — 운동 끝나고 바로 다시 시작해도(서버 새로고침 전)
+    //    완료/넘긴 운동이 큐에 다시 안 뜨게. (리스트 스킵/완료와 동일한 경로.)
+    orderScope?.setCompletion(captured.rowId, status);
 
     // 1) 서버 액션은 background — await 없음, 결과는 fireAndTrack 이 추적
     fireAndTrack(captured, status);

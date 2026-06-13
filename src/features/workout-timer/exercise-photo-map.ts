@@ -128,7 +128,7 @@ export const EXERCISE_PHOTO_DB_BY_EQUIP: Record<
   "chest-fly": { dumbbell: "Dumbbell_Flyes", cable: "Flat_Bench_Cable_Flyes", machine: "Butterfly" },
   "decline-press": { barbell: "Decline_Barbell_Bench_Press", dumbbell: "Decline_Dumbbell_Bench_Press", machine: "Decline_Smith_Press" },
   "barbell-row": { barbell: "Bent_Over_Barbell_Row", dumbbell: "Bent_Over_Two-Dumbbell_Row" },
-  "t-bar-row": { barbell: "Lying_Cambered_Barbell_Row", machine: "Lying_T-Bar_Row" },
+  "t-bar-row": { barbell: "Bent_Over_Two-Arm_Long_Bar_Row", machine: "Lying_T-Bar_Row" },
   "lat-pulldown": { cable: "Wide-Grip_Lat_Pulldown" },
   ohp: { barbell: "Barbell_Shoulder_Press", dumbbell: "Dumbbell_Shoulder_Press", machine: "Leverage_Shoulder_Press" },
   "lateral-raise": { dumbbell: "Side_Lateral_Raise", cable: "Cable_Seated_Lateral_Raise" },

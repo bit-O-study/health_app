@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Activity,
   ArrowRight,
   Dumbbell,
   type LucideIcon,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Logo } from "@/features/brand/logo";
 
@@ -21,19 +22,33 @@ const modeHref: Record<TrainingMode, string> = {
 };
 
 export default function ModeSelectPage() {
+  const router = useRouter();
+  // 저장된 모드 확인 전까지 모드 선택 UI 를 그리지 않는다 — 그려두면 콜드 스타트 때
+  // '모드를 선택해주세요' 가 잠깐 보였다가 사라지는 깜빡임이 난다. (스플래시가 덮는 동안 결정.)
+  const [showSelect, setShowSelect] = useState(false);
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const shouldChoose = params.get("choose") === "1";
     const savedMode = window.localStorage.getItem(MODE_STORAGE_KEY) as TrainingMode | null;
 
     if (!shouldChoose && savedMode && savedMode in modeHref) {
-      window.location.replace(modeHref[savedMode]);
+      // 소프트 내비게이션 — window.location.replace 는 풀 리로드라 스플래시가 두 번 뜨고
+      // '갔다 들어오는' 느낌을 준다. router.replace 는 루트 레이아웃 유지(스플래시 1회).
+      router.replace(modeHref[savedMode]);
+      return;
     }
-  }, []);
+    // 저장된 모드 없음 → 모드 선택 표시. 외부(localStorage) 확인 후 결정이라 의도된 setState.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setShowSelect(true);
+  }, [router]);
 
   function rememberMode(mode: TrainingMode) {
     window.localStorage.setItem(MODE_STORAGE_KEY, mode);
   }
+
+  // 저장된 모드로 이동 중(또는 확인 중)엔 빈 화면 — 스플래시가 덮고 있어 깜빡임 없음.
+  if (!showSelect) return null;
 
   return (
     <main className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-zinc-900 dark:text-zinc-100">

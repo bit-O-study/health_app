@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import {
   AlertTriangle,
@@ -147,6 +147,11 @@ export function GuidedOverlay({
   /** 진행 중인 완료/넘기기 저장들 — 화면을 닫고 새로고침하기 전에 모두 끝났는지 기다린다.
    * (백그라운드로 쏘고 곧바로 refresh 하면 저장 전 stale 데이터를 읽어 일부가 반영 안 됨.) */
   const pendingRef = useRef<Promise<unknown>[]>([]);
+  /** 드래그(스와이프) 네비게이션 — 시작 좌표 + 현재 가로 이동량(px).
+   * dragDxRef 는 onPointerUp 이 리렌더 전이라도 최신 이동량을 동기적으로 읽기 위함. */
+  const swipeStartRef = useRef<{ x: number; y: number } | null>(null);
+  const dragDxRef = useRef(0);
+  const [dragDx, setDragDx] = useState(0);
   const [closeAsk, setCloseAsk] = useState(false);
   /** 저장 실패한 항목들 — 사용자에게 배너로 알리고 재시도 제공. */
   const [failures, setFailures] = useState<SaveFailure[]>([]);
@@ -205,6 +210,34 @@ export function GuidedOverlay({
   function completeSet() {
     rest.trigger();
     setSetsDone((d) => Math.min(d + 1, Math.max(0, mainSets - 1)));
+  }
+
+  /* ── 드래그(스와이프) 네비게이션 — 왼쪽으로 밀면 다음, 오른쪽으로 밀면 이전.
+   *    완료·스킵 없이 운동 사이만 이동(상태 안 바뀜). 세로 스크롤과 구분. ── */
+  function onSwipeDown(e: PointerEvent<HTMLDivElement>) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    swipeStartRef.current = { x: e.clientX, y: e.clientY };
+  }
+  function onSwipeMove(e: PointerEvent<HTMLDivElement>) {
+    const s = swipeStartRef.current;
+    if (!s) return;
+    const dx = e.clientX - s.x;
+    const dy = e.clientY - s.y;
+    // 가로 제스처가 세로보다 우세하고 일정 이상일 때만 카드가 손가락을 따라온다.
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 6) {
+      const clamped = Math.max(-120, Math.min(120, dx));
+      dragDxRef.current = clamped;
+      setDragDx(clamped);
+    }
+  }
+  function onSwipeEnd() {
+    const dx = dragDxRef.current; // 리렌더 전이라도 최신 이동량(stale state 회피)
+    swipeStartRef.current = null;
+    dragDxRef.current = 0;
+    setDragDx(0);
+    const THRESHOLD = 60;
+    if (dx <= -THRESHOLD) setIndex((i) => Math.min(total - 1, i + 1)); // ← 다음
+    else if (dx >= THRESHOLD) setIndex((i) => Math.max(0, i - 1)); // → 이전
   }
 
   function advance() {
@@ -465,24 +498,61 @@ export function GuidedOverlay({
           (flexbox 한계), m-auto 래퍼로 대체 — 짧으면 가운데, 길면 위부터 끝까지 스크롤. */}
       <div
         data-testid="guided-scroll"
+        onPointerDown={onSwipeDown}
+        onPointerMove={onSwipeMove}
+        onPointerUp={onSwipeEnd}
+        onPointerCancel={onSwipeEnd}
+        style={{ touchAction: "pan-y" }}
         className="flex flex-1 flex-col overflow-y-auto px-6 py-4"
       >
-        <div className="m-auto flex w-full flex-col items-center">
+        <div
+          className="m-auto flex w-full flex-col items-center"
+          style={{
+            transform: dragDx ? `translateX(${dragDx}px)` : undefined,
+            transition: dragDx ? "none" : "transform 200ms ease-out",
+          }}
+        >
         <KindBadge kind={item.kind} />
         {/* 본운동에 등록 영상이 없고 방법 문구가 있으면, 문구를 사진 위에 한 장면씩
             넘기는 '튜토리얼 영상'으로 보여준다. 그 외(영상 등록/워밍업·마무리)는 기존대로. */}
-        {tutorial ? (
-          <>
-            {photoFrames ? (
-              <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
-                실제 자세
-              </p>
-            ) : null}
-            <ExerciseTutorial frames={photoFrames} steps={tutorialSteps} />
-          </>
-        ) : (
-          <ItemVisual item={item} />
-        )}
+        {/* 시연(사진/영상) — 좌우 화살표(‹ ›)를 사진 위에 얹어 운동 이동(탭/스와이프 보조). */}
+        <div className="relative w-full max-w-lg">
+          {tutorial ? (
+            <>
+              {photoFrames ? (
+                <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+                  실제 자세
+                </p>
+              ) : null}
+              <ExerciseTutorial frames={photoFrames} steps={tutorialSteps} />
+            </>
+          ) : (
+            <ItemVisual item={item} />
+          )}
+
+          {total > 1 ? (
+            <>
+              <button
+                type="button"
+                aria-label="이전 운동"
+                onClick={() => setIndex((i) => Math.max(0, i - 1))}
+                disabled={index === 0}
+                className="absolute left-1.5 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md backdrop-blur-sm transition hover:bg-black/65 disabled:pointer-events-none disabled:opacity-0"
+              >
+                <ChevronLeft aria-hidden="true" size={22} />
+              </button>
+              <button
+                type="button"
+                aria-label="다음 운동"
+                onClick={() => setIndex((i) => Math.min(total - 1, i + 1))}
+                disabled={isLast}
+                className="absolute right-1.5 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md backdrop-blur-sm transition hover:bg-black/65 disabled:pointer-events-none disabled:opacity-0"
+              >
+                <ChevronRight aria-hidden="true" size={22} />
+              </button>
+            </>
+          ) : null}
+        </div>
 
         <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
           {item.name}
@@ -565,28 +635,6 @@ export function GuidedOverlay({
             </button>
           </div>
         ) : null}
-
-        {/* 이전 / 다음 — 완료·스킵 없이 운동 사이만 이동(상태 안 바뀜). */}
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={() => setIndex((i) => Math.max(0, i - 1))}
-            disabled={index === 0}
-            className="inline-flex h-11 items-center justify-center gap-1 rounded-xl border border-zinc-200 bg-white text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            <ChevronLeft aria-hidden="true" size={18} />
-            이전
-          </button>
-          <button
-            type="button"
-            onClick={() => setIndex((i) => Math.min(total - 1, i + 1))}
-            disabled={isLast}
-            className="inline-flex h-11 items-center justify-center gap-1 rounded-xl border border-zinc-200 bg-white text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800"
-          >
-            다음
-            <ChevronRight aria-hidden="true" size={18} />
-          </button>
-        </div>
 
         <div className="grid grid-cols-2 gap-2">
           <button

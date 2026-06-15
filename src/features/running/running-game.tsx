@@ -100,12 +100,20 @@ export function RunningGame() {
         };
       };
       const fileset = await vision.FilesetResolver.forVisionTasks(WASM_URL);
-      const landmarker = await vision.FaceLandmarker.createFromOptions(fileset, {
-        baseOptions: { modelAssetPath: MODEL_URL, delegate: "GPU" },
-        runningMode: "VIDEO",
-        numFaces: 1,
-        outputFacialTransformationMatrixes: true,
-      });
+      const makeLandmarker = (delegate: "GPU" | "CPU") =>
+        vision.FaceLandmarker.createFromOptions(fileset, {
+          baseOptions: { modelAssetPath: MODEL_URL, delegate },
+          runningMode: "VIDEO",
+          numFaces: 1,
+          outputFacialTransformationMatrixes: true,
+        });
+      // iOS/일부 기기에서 GPU(WebGL) 델리게이트가 막히면 CPU 로 자동 폴백.
+      let landmarker: unknown;
+      try {
+        landmarker = await makeLandmarker("GPU");
+      } catch {
+        landmarker = await makeLandmarker("CPU");
+      }
       landmarkerRef.current = landmarker;
 
       // 3) 보정(정면 1.5초) → 플레이

@@ -15,6 +15,7 @@ import {
   elapsedMs,
   formatElapsed,
   readTimer,
+  reconcileResume,
   seoulTodayYmd,
   takeUnsavedDelta,
   writeTimer,
@@ -129,9 +130,13 @@ export function WorkoutSessionTimer({
 
   // 1) localStorage 복원 + 자정 롤오버 체크
   useEffect(() => {
-    const restored = readTimer();
+    const raw = readTimer();
+    // ⚠ 먼저 '안 보던 동안'의 시간을 제외한다(reconcile). 타이머를 켜둔 채 앱을
+    //    며칠 닫아두면 그 며칠(어제·그제·일주일)이 경과시간으로 잡히는데, 이를
+    //    빼고 나서 롤오버를 판정해야 옛 날짜 캘린더에 그 시간이 잘못 가산되지 않는다.
+    const restored = reconcileResume(raw, Date.now());
     if (restored) {
-      // forDate 와 오늘이 다르면: 어제까지의 시간을 저장하고 타이머는 reset
+      // forDate 와 오늘이 다르면: 어제까지의 (실제 운동)시간을 저장하고 타이머는 reset
       const today = seoulTodayYmd();
       if (restored.forDate !== today && rolledOverRef.current !== restored.forDate) {
         rolledOverRef.current = restored.forDate;
@@ -144,12 +149,15 @@ export function WorkoutSessionTimer({
           pausedAt: restored.pausedAt !== null ? Date.now() : null,
           accumulated: 0,
           forDate: today,
+          lastSeenAt: Date.now(),
         };
         writeTimer(fresh);
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setState(fresh);
         return;
       }
+      // 같은 날: 보정된 상태로 복원(닫힌 시간 제외).
+      writeTimer(restored);
     }
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setState(restored);
@@ -179,6 +187,9 @@ export function WorkoutSessionTimer({
           setState(fresh);
           return;
         }
+        // 하트비트 — 앱이 떠 있는 동안 매 틱 lastSeenAt 갱신(닫힌 시간 구분용).
+        // setState 없이 localStorage 만 갱신(startedAt/accumulated 불변).
+        writeTimer({ ...state, lastSeenAt: Date.now() });
       }
       setTick((t) => t + 1);
     }, 1000);
@@ -187,12 +198,29 @@ export function WorkoutSessionTimer({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  // 3) 백그라운드에서 다시 보일 때 — 안 보던 동안 시간을 경과에서 제외(하트비트 기반).
+  useEffect(() => {
+    function onVisible() {
+      if (document.visibilityState !== "visible") return;
+      const cur = readTimer(); // 하트비트로 갱신된 최신 lastSeenAt 사용
+      if (!cur || cur.pausedAt !== null) return;
+      const rec = reconcileResume(cur, Date.now());
+      if (rec && rec.startedAt !== cur.startedAt) {
+        writeTimer(rec);
+        setState(rec);
+      }
+    }
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+  }, []);
+
   function start() {
     const s: TimerState = {
       startedAt: Date.now(),
       pausedAt: null,
       accumulated: 0,
       forDate: seoulTodayYmd(),
+      lastSeenAt: Date.now(),
     };
     clearSavedMark(); // 새 세션은 0 부터 누적
     writeTimer(s);
@@ -219,6 +247,7 @@ export function WorkoutSessionTimer({
       pausedAt: null,
       accumulated: state.accumulated,
       forDate: state.forDate,
+      lastSeenAt: Date.now(),
     };
     writeTimer(s);
     setState(s);

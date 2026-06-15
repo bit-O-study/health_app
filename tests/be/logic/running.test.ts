@@ -1,0 +1,78 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  laneFromYaw,
+  isLookingUp,
+  runIntensityFromBounce,
+} from "@/features/running/controls";
+import { createGame, stepGame } from "@/features/running/game";
+
+describe("controls", () => {
+  it("yaw 임계 넘으면 그쪽 레인, 가운데면 0", () => {
+    expect(laneFromYaw(0)).toBe(0);
+    expect(laneFromYaw(20)).toBe(1); // 오른쪽
+    expect(laneFromYaw(-20)).toBe(-1); // 왼쪽
+    expect(laneFromYaw(5)).toBe(0); // 임계 미만
+  });
+
+  it("위를 보면 점프 신호", () => {
+    expect(isLookingUp(0)).toBe(false);
+    expect(isLookingUp(20)).toBe(true);
+  });
+
+  it("머리 흔들림이 클수록 달리기 강도↑, 가만히면 0", () => {
+    const still = Array.from({ length: 30 }, () => 0.5);
+    expect(runIntensityFromBounce(still)).toBe(0);
+    const running = Array.from({ length: 30 }, (_, i) => 0.5 + (i % 2 ? 0.04 : -0.04));
+    expect(runIntensityFromBounce(running)).toBeGreaterThan(0.5);
+    expect(runIntensityFromBounce([0.5])).toBe(0); // 표본 부족
+  });
+});
+
+describe("game", () => {
+  const input = (over: Partial<Parameters<typeof stepGame>[1]> = {}) => ({
+    targetLane: 0 as const,
+    jump: false,
+    runIntensity: 1,
+    ...over,
+  });
+
+  it("가만히 있으면(runIntensity 0) 거의 안 나아가고, 달리면 전진한다", () => {
+    let still = createGame();
+    for (let i = 0; i < 60; i++) still = stepGame(still, input({ runIntensity: 0 }), 16, () => 0.99);
+    let run = createGame();
+    for (let i = 0; i < 60; i++) run = stepGame(run, input({ runIntensity: 1 }), 16, () => 0.99);
+    expect(run.distance).toBeGreaterThan(still.distance * 2);
+  });
+
+  it("레인을 바꾸면 playerLane 이 목표로 부드럽게 이동", () => {
+    let s = createGame();
+    for (let i = 0; i < 40; i++) s = stepGame(s, input({ targetLane: 1 }), 16, () => 0.99);
+    expect(s.playerLane).toBeGreaterThan(0.8);
+    expect(s.targetLane).toBe(1);
+  });
+
+  it("같은 레인 블록에 부딪히면(점프 안 하면) 게임오버", () => {
+    let s = createGame();
+    // 가운데 레인에 블록 하나를 플레이어 앞에 직접 배치(rng 로 lane=가운데, block).
+    s = { ...s, obstacles: [{ id: 1, lane: 0, z: 0.2, kind: "block" }] };
+    s = stepGame(s, input({ targetLane: 0, jump: false }), 16, () => 0.99);
+    expect(s.status).toBe("over");
+  });
+
+  it("점프해서 블록을 넘으면 살아남는다", () => {
+    let s = createGame();
+    s = { ...s, obstacles: [{ id: 1, lane: 0, z: 0.2, kind: "block" }], jumpY: 1, onGround: false, vy: 1 };
+    s = stepGame(s, input({ targetLane: 0, jump: false }), 16, () => 0.99);
+    expect(s.status).toBe("playing");
+  });
+
+  it("같은 레인 코인을 먹으면 coins 증가(중복 없음)", () => {
+    let s = createGame();
+    s = { ...s, obstacles: [{ id: 1, lane: 0, z: 0.1, kind: "coin" }] };
+    s = stepGame(s, input({ targetLane: 0 }), 16, () => 0.99);
+    expect(s.coins).toBe(1);
+    s = stepGame(s, input({ targetLane: 0 }), 16, () => 0.99);
+    expect(s.coins).toBe(1); // 같은 코인 재획득 안 됨
+  });
+});

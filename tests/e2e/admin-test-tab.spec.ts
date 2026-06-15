@@ -31,6 +31,25 @@ test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", asyn
   });
 });
 
+test("관리자 세션에서도 런닝모드 3D 모델(.glb)이 /admin 으로 리다이렉트되지 않는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await dbQuery(
+    `insert into public.admins(email) values($1) on conflict (email) do nothing`,
+    [email.toLowerCase()],
+  );
+  // 관리자 세션을 확립(미들웨어가 admins 를 인식하도록 한 번 방문).
+  await page.goto("/admin", { waitUntil: "networkidle" });
+
+  // 정적 모델 에셋은 미들웨어를 타지 않고 그대로 200 이어야 한다(307→/admin 금지).
+  const res = await page.request.get("/models/runner.glb", { maxRedirects: 0 });
+  expect(res.status()).toBe(200);
+  const buf = await res.body();
+  expect(buf.length).toBeGreaterThan(1_000_000); // 2.1MB GLB
+});
+
 test("관리자가 아니면 /admin/test 의 런닝 모드 진입점이 보이지 않는다", async ({
   page,
 }) => {

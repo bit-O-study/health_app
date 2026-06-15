@@ -19,6 +19,7 @@ import {
   clampRest,
   formatRest,
 } from "@/features/workout-timer/rest-logic";
+import { playRestAlert } from "@/features/workout-timer/rest-sound";
 
 type RestState = {
   /** 종료 예정 시각(ms epoch) */
@@ -218,7 +219,8 @@ function RestOverlay({
   // key={endsAt} 로 매 timer 마다 새 인스턴스라 ended 한 번만 안전하게 발화.
   useEffect(() => {
     if (!done) return;
-    if (sound) playBeep(audioCtxRef);
+    // 설정된 알림음(기본: 음성 "운동 시작하세요" / 비프 / 사용자 업로드)으로 알림.
+    if (sound) void playRestAlert(audioCtxRef);
     if (haptic) tryVibrate([180, 80, 180, 80, 260]);
     notifyRestDone();
     const closeId = window.setTimeout(onClose, 1500);
@@ -373,39 +375,6 @@ function notifyRestDone() {
       }
       n.close();
     };
-  } catch {
-    /* noop */
-  }
-}
-
-function playBeep(ctxRef: { current: AudioContext | null }) {
-  try {
-    // 사용자 제스처 후에만 동작 — 운동 시작 버튼 탭으로 unlock 됨
-    type WindowWithAudio = Window &
-      typeof globalThis & {
-        webkitAudioContext?: typeof AudioContext;
-      };
-    const w = window as WindowWithAudio;
-    const AC = window.AudioContext ?? w.webkitAudioContext;
-    if (!AC) return;
-    if (!ctxRef.current) ctxRef.current = new AC();
-    const ctx = ctxRef.current;
-    // 백그라운드 후 suspend 됐을 수 있어 resume 시도
-    if (ctx.state === "suspended") void ctx.resume();
-    // 두 번 짧게 삐
-    [0, 0.18].forEach((delay) => {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = 880;
-      const start = ctx.currentTime + delay;
-      gain.gain.setValueAtTime(0.0001, start);
-      gain.gain.exponentialRampToValueAtTime(0.3, start + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.15);
-      osc.start(start);
-      osc.stop(start + 0.16);
-    });
   } catch {
     /* noop */
   }

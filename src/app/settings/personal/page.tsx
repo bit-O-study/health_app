@@ -5,6 +5,7 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { VideoPrefToggle } from "@/features/profile/components/video-pref-toggle";
 import { PrefToggle } from "@/features/profile/components/pref-toggle";
 import { RestDefaultPicker } from "@/features/profile/components/rest-default-picker";
+import { RestSoundPicker } from "@/features/profile/components/rest-sound-picker";
 
 export const dynamic = "force-dynamic";
 
@@ -58,9 +59,10 @@ export default async function PersonalSettingsPage() {
             prefKey="restSound"
             initial={profile?.restSound ?? true}
             title="휴식 종료 소리"
-            description="휴식 타이머가 끝나면 비프음으로 알립니다."
+            description="휴식 타이머가 끝나면 소리로 알립니다. (소리 종류는 아래에서 선택)"
             icon="sound"
           />
+          <RestSoundPicker />
           <PrefToggle
             prefKey="restHaptic"
             initial={profile?.restHaptic ?? true}

@@ -586,7 +586,10 @@ export function TodayPlanList({
                       ),
                     );
                     setEditingId(null);
-                    // router.refresh() 생략 — 로컬 order 가 새 값으로 즉시 반영.
+                    // 카드(로컬 order)는 즉시 반영되지만, 운동모드 큐(queueItems)는
+                    // 서버 렌더값이라 router.refresh() 로 다시 그려야 세트수 변경
+                    // (예: 4→6세트)이 운동모드에도 반영된다. (persistOrder 와 동일한 안전망)
+                    router.refresh();
                   }}
                 />
               ) : (

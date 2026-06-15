@@ -21,6 +21,14 @@ test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", asyn
   const card = page.getByRole("link", { name: /런닝 모드/ });
   await expect(card).toBeVisible();
   await expect(card).toHaveAttribute("href", "/running");
+
+  // 카드 클릭 → 실제로 /running 으로 들어가야 한다(관리자도 막히지 않음).
+  // (mobile-chromium 컨텍스트라 모바일 게이트 통과 → 게임 인트로가 떠야 한다.)
+  await card.click();
+  await expect(page).toHaveURL(/\/running$/);
+  await expect(page.getByRole("heading", { name: "런닝 모드 🏃" })).toBeVisible({
+    timeout: 8000,
+  });
 });
 
 test("관리자가 아니면 /admin/test 의 런닝 모드 진입점이 보이지 않는다", async ({

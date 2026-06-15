@@ -140,6 +140,9 @@ export async function updateSession(request: NextRequest) {
     }
 
     const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
+    // 관리자도 접근 허용하는 일반 경로(숨은 테스트 기능 등) — /admin 강제이동에서 제외.
+    const isAdminAllowedExtra =
+      pathname === "/running" || pathname.startsWith("/running/");
     let isAdmin = false;
     try {
       // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.
@@ -148,8 +151,8 @@ export async function updateSession(request: NextRequest) {
     } catch {
       isAdmin = false;
     }
-    if (isAdmin && !isAdminPath) {
-      // 관리자가 일반 화면 접근 → 관리자 홈으로
+    if (isAdmin && !isAdminPath && !isAdminAllowedExtra) {
+      // 관리자가 일반 화면 접근 → 관리자 홈으로(단 허용 경로 제외)
       const url = request.nextUrl.clone();
       url.pathname = "/admin";
       url.search = "";

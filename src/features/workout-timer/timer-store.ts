@@ -19,7 +19,17 @@ export type TimerState = {
   accumulated: number;
   /** 세션이 속한 날짜 YYYY-MM-DD (서울). 자정 넘으면 변경됨. */
   forDate: string;
+  /**
+   * 앱이 '실제로 떠 있던' 마지막 시각 (ms epoch). 실행 중 매 틱마다 갱신.
+   * 앱을 닫거나 백그라운드로 둔 동안은 갱신이 멈춘다. 재접속 시 이 값과 now 의
+   * 간격이 크면 그 시간만큼은 운동을 안 한 것으로 보고 경과에서 제외한다.
+   * (구버전 저장본엔 없을 수 있어 optional — 없으면 startedAt 으로 본다.)
+   */
+  lastSeenAt?: number;
 };
+
+/** 백그라운드/종료로 간주하는 공백 임계(ms). 이보다 길게 안 보였으면 그 구간 제외. */
+export const AWAY_GAP_MS = 120_000; // 2분
 
 export function readTimer(): TimerState | null {
   if (typeof window === "undefined") return null;
@@ -56,6 +66,27 @@ export function elapsedMs(s: TimerState | null): number {
   if (!s) return 0;
   if (s.pausedAt !== null) return s.accumulated;
   return s.accumulated + (Date.now() - s.startedAt);
+}
+
+/**
+ * 재접속/포커스 복귀 시 '안 보던 동안'의 시간을 경과에서 제외한 새 상태를 돌려준다.
+ * 실행 중이고 (now - lastSeenAt) 이 임계를 넘으면, 그 공백만큼 startedAt 을 미뤄
+ * 경과시간을 lastSeenAt 시점에 '얼린' 뒤 now 부터 다시 흐르게 한다. 그래서 앱을
+ * 닫아둔 9시간 같은 시간이 운동시간으로 잡히지 않는다(캘린더 과다 가산도 방지).
+ * 순수 함수 — now·gap 주입으로 테스트 가능.
+ */
+export function reconcileResume(
+  s: TimerState | null,
+  now: number,
+  gapMs: number = AWAY_GAP_MS,
+): TimerState | null {
+  if (!s) return s;
+  if (s.pausedAt !== null) return s; // 정지 상태는 시간이 안 흐르니 그대로
+  const seen = s.lastSeenAt ?? s.startedAt;
+  const gap = now - seen;
+  if (gap <= gapMs) return { ...s, lastSeenAt: now };
+  // 공백만큼 startedAt 을 뒤로 밀어 그 시간을 빼고, 지금부터 다시 카운트.
+  return { ...s, startedAt: s.startedAt + gap, lastSeenAt: now };
 }
 
 // ── 누적 저장 마크 ───────────────────────────────────────────────────────────

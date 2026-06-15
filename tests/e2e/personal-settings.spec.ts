@@ -29,6 +29,24 @@ test("개인설정 페이지가 에러 없이 뜨고 토글이 동작한다", as
   await expect(guideSwitch).toHaveAttribute("aria-checked", "false");
 });
 
+test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내 소리)", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  await signUpAndOnboard(page);
+  await page.goto("/settings/personal", { waitUntil: "networkidle" });
+
+  // 알림음 피커가 뜨고, 종류 3종 + 미리듣기가 있다.
+  await expect(page.getByText("휴식 종료 알림음")).toBeVisible();
+  await expect(page.getByRole("button", { name: "미리듣기" })).toBeVisible();
+
+  // 기본은 음성 → 비프로 바꾸면 localStorage 에 저장된다.
+  await page.getByRole("button", { name: /비프/ }).click();
+  await expect
+    .poll(() => page.evaluate(() => localStorage.getItem("heltch.rest.sound.kind")))
+    .toBe("beep");
+});
+
 test("개인설정으로 상세 가이드를 끄면 운동 모드에서 숨겨진다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);

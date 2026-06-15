@@ -1,6 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import {
+  Suspense,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useAnimations, useGLTF } from "@react-three/drei";
+import * as THREE from "three";
 
 import {
   isLookingUp,
@@ -8,15 +17,13 @@ import {
   runIntensityFromBounce,
   type Lane,
 } from "@/features/running/controls";
-import {
-  createGame,
-  stepGame,
-  GAME_TUNING,
-  type GameState,
-} from "@/features/running/game";
+import { createGame, stepGame, type GameState } from "@/features/running/game";
 
-/* MediaPipe(tasks-vision) 를 런타임 CDN ESM 으로 로드 — 번들러(Turbopack/webpack)가
- * 정적 분석하지 못하도록 new Function 으로 네이티브 import 를 만든다. */
+/* 실제 리깅 캐릭터(군인) + Run 애니메이션. three.js 예제 모델을 자체 호스팅. */
+const RUNNER_URL = "/models/runner.glb";
+if (typeof window !== "undefined") useGLTF.preload(RUNNER_URL);
+
+/* MediaPipe(tasks-vision) 런타임 CDN ESM 로드 — 번들러가 정적분석 못 하게 native import. */
 const VISION_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/vision_bundle.mjs";
 const WASM_URL =
@@ -29,14 +36,22 @@ const nativeImport = new Function("u", "return import(u)") as (
   u: string,
 ) => Promise<Record<string, unknown>>;
 
-const YAW_SIGN = 1; // 고개 방향이 반대로 느껴지면 -1 로 (좌우 보정)
+const YAW_SIGN = 1; // 좌우가 반대로 느껴지면 -1
 const YAW_THRESHOLD = 12;
 const PITCH_JUMP_THRESHOLD = 14;
 const HEAD_Y_HISTORY = 18;
 
+// 3D 월드 스케일
+const LANE_W = 1.5; // 레인 간격(월드)
+const Z_WORLD = 1.15; // 게임 z → 월드 거리
+const JUMP_WORLD = 2.3; // 게임 jumpY → 월드 높이
+const POOL = 24; // 장애물 메쉬 풀 크기
+
 type Phase = "intro" | "loading" | "calibrating" | "playing" | "over" | "error";
 
-/** 4x4 변환행렬(열 우선)에서 yaw(좌우)·pitch(상하) 추출(deg). */
+type Control = { targetLane: Lane; runIntensity: number };
+
+/** 4x4 변환행렬(열 우선)에서 yaw·pitch(deg). */
 function headAngles(m: ArrayLike<number>): { yaw: number; pitch: number } {
   const r02 = m[8],
     r12 = m[9],
@@ -48,28 +63,32 @@ function headAngles(m: ArrayLike<number>): { yaw: number; pitch: number } {
 
 export function RunningGame() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [phase, setPhase] = useState<Phase>("intro");
   const [error, setError] = useState<string | null>(null);
   const [score, setScore] = useState({ distance: 0, coins: 0 });
 
-  // 게임/세션 상태(렌더 루프 안에서만 변경 → ref).
+  // 게임/입력 공유 상태 — 렌더 루프(useFrame)와 비전 루프가 ref 로 공유.
   const landmarkerRef = useRef<unknown>(null);
   const gameRef = useRef<GameState>(createGame());
+  const controlRef = useRef<Control>({ targetLane: 0, runIntensity: 0 });
+  const jumpPendingRef = useRef(false);
   const neutralRef = useRef<{ yaw: number; pitch: number } | null>(null);
   const calibSamplesRef = useRef<{ yaw: number; pitch: number }[]>([]);
   const headYRef = useRef<number[]>([]);
-  const jumpArmedRef = useRef(true); // 점프 에지(내렸다 올릴 때만)
-  const lastTsRef = useRef(0);
+  const jumpArmedRef = useRef(true);
+  const overRef = useRef(false);
   const rafRef = useRef(0);
   const phaseRef = useRef<Phase>("intro");
   phaseRef.current = phase;
+  // HUD DOM refs(매 프레임 React 리렌더 없이 갱신)
+  const distRef = useRef<HTMLSpanElement | null>(null);
+  const coinRef = useRef<HTMLSpanElement | null>(null);
+  const gaugeRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     return () => {
       cancelAnimationFrame(rafRef.current);
-      const v = videoRef.current;
-      const stream = v?.srcObject as MediaStream | null;
+      const stream = videoRef.current?.srcObject as MediaStream | null;
       stream?.getTracks().forEach((t) => t.stop());
     };
   }, []);
@@ -78,7 +97,6 @@ export function RunningGame() {
     setError(null);
     setPhase("loading");
     try {
-      // 1) 카메라
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "user", width: 640, height: 480 },
         audio: false,
@@ -87,44 +105,39 @@ export function RunningGame() {
       v.srcObject = stream;
       await v.play();
 
-      // 2) MediaPipe FaceLandmarker
       const vision = (await nativeImport(VISION_URL)) as {
-        FilesetResolver: {
-          forVisionTasks: (p: string) => Promise<unknown>;
-        };
+        FilesetResolver: { forVisionTasks: (p: string) => Promise<unknown> };
         FaceLandmarker: {
-          createFromOptions: (
-            fileset: unknown,
-            opts: unknown,
-          ) => Promise<unknown>;
+          createFromOptions: (f: unknown, o: unknown) => Promise<unknown>;
         };
       };
       const fileset = await vision.FilesetResolver.forVisionTasks(WASM_URL);
-      const makeLandmarker = (delegate: "GPU" | "CPU") =>
+      const make = (delegate: "GPU" | "CPU") =>
         vision.FaceLandmarker.createFromOptions(fileset, {
           baseOptions: { modelAssetPath: MODEL_URL, delegate },
           runningMode: "VIDEO",
           numFaces: 1,
           outputFacialTransformationMatrixes: true,
         });
-      // iOS/일부 기기에서 GPU(WebGL) 델리게이트가 막히면 CPU 로 자동 폴백.
       let landmarker: unknown;
       try {
-        landmarker = await makeLandmarker("GPU");
+        landmarker = await make("GPU");
       } catch {
-        landmarker = await makeLandmarker("CPU");
+        landmarker = await make("CPU");
       }
       landmarkerRef.current = landmarker;
 
-      // 3) 보정(정면 1.5초) → 플레이
+      // 리셋 + 보정 시작
       calibSamplesRef.current = [];
       neutralRef.current = null;
       gameRef.current = createGame();
+      controlRef.current = { targetLane: 0, runIntensity: 0 };
+      jumpPendingRef.current = false;
       headYRef.current = [];
       jumpArmedRef.current = true;
-      lastTsRef.current = 0;
+      overRef.current = false;
       setPhase("calibrating");
-      rafRef.current = requestAnimationFrame(loop);
+      rafRef.current = requestAnimationFrame(visionLoop);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "알 수 없는 오류";
       setError(
@@ -136,9 +149,9 @@ export function RunningGame() {
     }
   }
 
-  function loop(ts: number) {
+  /** 비전 루프 — 머리 자세→조작(controlRef/jumpPendingRef). 게임 전진/렌더는 useFrame 이. */
+  function visionLoop(ts: number) {
     const v = videoRef.current;
-    const canvas = canvasRef.current;
     const landmarker = landmarkerRef.current as {
       detectForVideo: (
         v: HTMLVideoElement,
@@ -148,24 +161,20 @@ export function RunningGame() {
         facialTransformationMatrixes?: { data: number[] }[];
       };
     } | null;
-    if (!v || !canvas || !landmarker) return;
-
-    const dt = lastTsRef.current ? ts - lastTsRef.current : 16;
-    lastTsRef.current = ts;
+    if (!v || !landmarker) return;
 
     let yaw = 0;
     let pitch = 0;
-    let faceFound = false;
+    let face = false;
     if (v.readyState >= 2) {
       const res = landmarker.detectForVideo(v, ts);
       const mtx = res.facialTransformationMatrixes?.[0]?.data;
       const lm = res.faceLandmarks?.[0];
       if (mtx && lm) {
-        faceFound = true;
+        face = true;
         const a = headAngles(mtx);
         yaw = a.yaw;
         pitch = a.pitch;
-        // 머리 수직 흔들림용 코끝 y(정규화)
         const noseY = lm[1]?.y ?? 0.5;
         const hist = headYRef.current;
         hist.push(noseY);
@@ -174,7 +183,7 @@ export function RunningGame() {
     }
 
     if (phaseRef.current === "calibrating") {
-      if (faceFound) calibSamplesRef.current.push({ yaw, pitch });
+      if (face) calibSamplesRef.current.push({ yaw, pitch });
       if (calibSamplesRef.current.length >= 30) {
         const s = calibSamplesRef.current;
         neutralRef.current = {
@@ -183,55 +192,95 @@ export function RunningGame() {
         };
         setPhase("playing");
       }
-      renderFrame(canvas, v, gameRef.current, "calibrating");
-      rafRef.current = requestAnimationFrame(loop);
-      return;
-    }
-
-    if (phaseRef.current === "playing") {
-      const neutral = neutralRef.current ?? { yaw: 0, pitch: 0 };
-      const relYaw = YAW_SIGN * (yaw - neutral.yaw);
-      const relPitch = pitch - neutral.pitch;
-      const targetLane: Lane = laneFromYaw(relYaw, YAW_THRESHOLD);
-      const lookingUp = isLookingUp(relPitch, PITCH_JUMP_THRESHOLD);
-      const jump = lookingUp && jumpArmedRef.current;
-      if (jump) jumpArmedRef.current = false;
-      if (!lookingUp) jumpArmedRef.current = true; // 내려야 다시 점프 가능(에지)
-      const runIntensity = runIntensityFromBounce(headYRef.current);
-
-      const next = stepGame(gameRef.current, { targetLane, jump, runIntensity }, dt);
-      gameRef.current = next;
-      renderFrame(canvas, v, next, "playing");
-
-      if (next.status === "over") {
-        setScore({ distance: Math.round(next.distance), coins: next.coins });
-        setPhase("over");
-        return;
+    } else if (phaseRef.current === "playing") {
+      const n = neutralRef.current ?? { yaw: 0, pitch: 0 };
+      const relYaw = YAW_SIGN * (yaw - n.yaw);
+      const relPitch = pitch - n.pitch;
+      controlRef.current = {
+        targetLane: laneFromYaw(relYaw, YAW_THRESHOLD),
+        runIntensity: runIntensityFromBounce(headYRef.current),
+      };
+      const up = isLookingUp(relPitch, PITCH_JUMP_THRESHOLD);
+      if (up && jumpArmedRef.current) {
+        jumpPendingRef.current = true;
+        jumpArmedRef.current = false;
       }
+      if (!up) jumpArmedRef.current = true;
     }
-    rafRef.current = requestAnimationFrame(loop);
+    rafRef.current = requestAnimationFrame(visionLoop);
+  }
+
+  function handleOver(distance: number, coins: number) {
+    setScore({ distance, coins });
+    setPhase("over");
   }
 
   function restart() {
     gameRef.current = createGame();
+    controlRef.current = { targetLane: 0, runIntensity: 0 };
+    jumpPendingRef.current = false;
     headYRef.current = [];
     jumpArmedRef.current = true;
-    lastTsRef.current = 0;
+    overRef.current = false;
     calibSamplesRef.current = [];
     neutralRef.current = null;
     setPhase("calibrating");
-    rafRef.current = requestAnimationFrame(loop);
+    rafRef.current = requestAnimationFrame(visionLoop);
   }
 
-  return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-zinc-950 text-white">
-      {/* 카메라 — 보이지 않게 두고(분석용) PIP 로 따로 그린다. */}
-      <video ref={videoRef} playsInline muted className="hidden" />
-      <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" />
+  const active = phase === "playing" || phase === "calibrating" || phase === "over";
 
-      {/* 오버레이 UI */}
+  return (
+    <div className="relative h-[100dvh] w-full overflow-hidden bg-[#0b1026] text-white">
+      {/* 3D 게임 */}
+      {active ? (
+        <Canvas
+          shadows
+          dpr={[1, 2]}
+          camera={{ position: [0, 2.7, 5.6], fov: 55 }}
+          onCreated={({ camera }) => camera.lookAt(0, 1.1, -4)}
+          className="absolute inset-0"
+        >
+          <Scene
+            gameRef={gameRef}
+            controlRef={controlRef}
+            jumpPendingRef={jumpPendingRef}
+            overRef={overRef}
+            phaseRef={phaseRef}
+            onOver={handleOver}
+            hud={{ dist: distRef, coin: coinRef, gauge: gaugeRef }}
+          />
+        </Canvas>
+      ) : null}
+
+      {/* 카메라 PIP(거울) — 분석용 비디오를 코너에 보여준다. */}
+      <video
+        ref={videoRef}
+        playsInline
+        muted
+        className={`absolute right-3 top-3 z-20 h-24 w-32 -scale-x-100 rounded-xl object-cover ring-1 ring-white/30 ${
+          active ? "" : "hidden"
+        }`}
+      />
+
+      {/* HUD */}
+      {phase === "playing" ? (
+        <div className="pointer-events-none absolute left-4 top-3 z-20 select-none">
+          <span ref={distRef} className="block font-mono text-xl font-black drop-shadow">
+            0 m
+          </span>
+          <span ref={coinRef} className="block font-mono text-sm font-bold text-amber-400 drop-shadow">
+            ◉ 0
+          </span>
+          <div className="mt-1 h-2 w-28 overflow-hidden rounded-full bg-white/20">
+            <div ref={gaugeRef} className="h-full w-0 bg-emerald-400" />
+          </div>
+        </div>
+      ) : null}
+
+      {/* 오버레이 */}
       {phase === "intro" || phase === "error" ? (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-black/70 px-6 text-center">
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 bg-black/70 px-6 text-center">
           <h1 className="text-3xl font-extrabold">런닝 모드 🏃</h1>
           <p className="max-w-xs text-sm leading-6 text-zinc-300">
             카메라로 머리를 인식해요. 제자리에서 <b>달리면</b> 캐릭터가 달리고,
@@ -253,13 +302,13 @@ export function RunningGame() {
       ) : null}
 
       {phase === "loading" ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/70 text-sm text-zinc-200">
-          카메라·모델 불러오는 중…
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 text-sm text-zinc-200">
+          카메라·3D 캐릭터 불러오는 중…
         </div>
       ) : null}
 
       {phase === "calibrating" ? (
-        <div className="pointer-events-none absolute inset-x-0 top-20 flex justify-center">
+        <div className="pointer-events-none absolute inset-x-0 top-24 z-20 flex justify-center">
           <span className="rounded-full bg-black/60 px-4 py-2 text-sm font-bold">
             정면을 바라봐 주세요… (자세 보정)
           </span>
@@ -267,7 +316,7 @@ export function RunningGame() {
       ) : null}
 
       {phase === "over" ? (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/75 px-6 text-center">
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/75 px-6 text-center">
           <h2 className="text-2xl font-extrabold">게임 오버</h2>
           <p className="text-lg">
             거리 <b className="text-emerald-400">{score.distance}m</b> · 코인{" "}
@@ -286,165 +335,254 @@ export function RunningGame() {
   );
 }
 
-/* ── 캔버스 렌더링 — 의사 3D 3레인 러너 ─────────────────────────── */
-function renderFrame(
-  canvas: HTMLCanvasElement,
-  video: HTMLVideoElement,
-  s: GameState,
-  phase: "calibrating" | "playing",
-) {
-  const dpr = Math.min(2, window.devicePixelRatio || 1);
-  const W = canvas.clientWidth;
-  const H = canvas.clientHeight;
-  if (canvas.width !== W * dpr || canvas.height !== H * dpr) {
-    canvas.width = W * dpr;
-    canvas.height = H * dpr;
-  }
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, W, H);
+/* ── 3D 씬 ──────────────────────────────────────────────────────────────── */
+type SlotRefs = { group: THREE.Group; block: THREE.Mesh; coin: THREE.Mesh };
 
-  const horizonY = H * 0.34;
-  const groundY = H * 0.9;
-  const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-  const project = (lane: number, z: number) => {
-    const t = Math.max(0, Math.min(1, z / GAME_TUNING.SPAWN_Z));
-    const y = lerp(groundY, horizonY, t);
-    const spread = lerp(W * 0.32, W * 0.05, t);
-    const scale = lerp(1, 0.16, t);
-    return { x: W / 2 + lane * spread, y, scale };
+function Scene({
+  gameRef,
+  controlRef,
+  jumpPendingRef,
+  overRef,
+  phaseRef,
+  onOver,
+  hud,
+}: {
+  gameRef: React.MutableRefObject<GameState>;
+  controlRef: React.MutableRefObject<Control>;
+  jumpPendingRef: React.MutableRefObject<boolean>;
+  overRef: React.MutableRefObject<boolean>;
+  phaseRef: React.MutableRefObject<Phase>;
+  onOver: (distance: number, coins: number) => void;
+  hud: {
+    dist: React.RefObject<HTMLSpanElement | null>;
+    coin: React.RefObject<HTMLSpanElement | null>;
+    gauge: React.RefObject<HTMLDivElement | null>;
   };
+}) {
+  const playerRef = useRef<THREE.Group>(null);
+  const runActionRef = useRef<THREE.AnimationAction | null>(null);
+  const slotRefs = useRef<SlotRefs[]>([]);
+  const slotById = useRef<Map<number, number>>(new Map());
 
-  // 하늘 + 바닥
-  const sky = ctx.createLinearGradient(0, 0, 0, horizonY);
-  sky.addColorStop(0, "#0b1026");
-  sky.addColorStop(1, "#27306a");
-  ctx.fillStyle = sky;
-  ctx.fillRect(0, 0, W, horizonY);
-  const ground = ctx.createLinearGradient(0, horizonY, 0, H);
-  ground.addColorStop(0, "#1c2540");
-  ground.addColorStop(1, "#10162b");
-  ctx.fillStyle = ground;
-  ctx.fillRect(0, horizonY, W, H - horizonY);
-
-  // 레인 경계선(원근)
-  ctx.strokeStyle = "rgba(255,255,255,0.18)";
-  ctx.lineWidth = 2;
-  for (const edge of [-1.5, -0.5, 0.5, 1.5]) {
-    const a = project(edge, 0);
-    const b = project(edge, GAME_TUNING.SPAWN_Z);
-    ctx.beginPath();
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.stroke();
-  }
-
-  // 장애물(멀리→가까이 순서로 그리기)
-  const sorted = [...s.obstacles].sort((a, b) => b.z - a.z);
-  for (const o of sorted) {
-    if (o.kind === "coin" && o.got) continue;
-    const p = project(o.lane, Math.max(0, o.z));
-    if (o.kind === "coin") {
-      ctx.fillStyle = "#fbbf24";
-      ctx.beginPath();
-      ctx.arc(p.x, p.y - 22 * p.scale, 16 * p.scale, 0, Math.PI * 2);
-      ctx.fill();
-    } else {
-      const w = 64 * p.scale;
-      const h = 70 * p.scale;
-      ctx.fillStyle = "#ef4444";
-      ctx.fillRect(p.x - w / 2, p.y - h, w, h);
-      ctx.fillStyle = "rgba(0,0,0,0.25)";
-      ctx.fillRect(p.x - w / 2, p.y - h, w, h * 0.25);
+  // 스크롤하는 도로 텍스처(속도감)
+  const roadTex = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = 128;
+    c.height = 256;
+    const ctx = c.getContext("2d")!;
+    ctx.fillStyle = "#141a30";
+    ctx.fillRect(0, 0, 128, 256);
+    // 레인 경계선 2개(세로)
+    ctx.fillStyle = "rgba(255,255,255,0.22)";
+    ctx.fillRect(128 / 3 - 1.5, 0, 3, 256);
+    ctx.fillRect((128 * 2) / 3 - 1.5, 0, 3, 256);
+    // 각 레인 중앙 점선(속도감)
+    ctx.fillStyle = "rgba(255,255,255,0.5)";
+    for (const cx of [128 / 6, 128 / 2, (128 * 5) / 6]) {
+      for (let y = 0; y < 256; y += 64) ctx.fillRect(cx - 2, y, 4, 34);
     }
-  }
+    const t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.repeat.set(1, 26);
+    t.anisotropy = 4;
+    return t;
+  }, []);
 
-  // 플레이어 캐릭터(z=0)
-  const pp = project(s.playerLane, 0);
-  const px = pp.x;
-  const jump = s.jumpY * 120;
-  const py = groundY - jump;
-  drawRunner(ctx, px, py, s.speed, phase === "playing");
+  useFrame((_, delta) => {
+    const dt = Math.min(0.05, delta);
+    const playing = phaseRef.current === "playing";
 
-  // 카메라 PIP(거울)
-  const pipW = Math.min(140, W * 0.32);
-  const pipH = pipW * 0.75;
-  ctx.save();
-  ctx.translate(W - pipW - 10, 10);
-  ctx.beginPath();
-  ctx.roundRect(0, 0, pipW, pipH, 10);
-  ctx.clip();
-  ctx.translate(pipW, 0);
-  ctx.scale(-1, 1); // 거울
-  try {
-    ctx.drawImage(video, 0, 0, pipW, pipH);
-  } catch {
-    /* 첫 프레임 등 — 무시 */
-  }
-  ctx.restore();
-  ctx.strokeStyle = "rgba(255,255,255,0.4)";
-  ctx.strokeRect(W - pipW - 10, 10, pipW, pipH);
+    // 1) 게임 전진
+    if (playing && gameRef.current.status === "playing") {
+      const jump = jumpPendingRef.current;
+      jumpPendingRef.current = false;
+      gameRef.current = stepGame(
+        gameRef.current,
+        {
+          targetLane: controlRef.current.targetLane,
+          jump,
+          runIntensity: controlRef.current.runIntensity,
+        },
+        dt * 1000,
+      );
+    }
+    const s = gameRef.current;
 
-  // HUD
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 18px system-ui, sans-serif";
-  ctx.textAlign = "left";
-  ctx.fillText(`${Math.round(s.distance)} m`, 14, 30);
-  ctx.fillStyle = "#fbbf24";
-  ctx.fillText(`◉ ${s.coins}`, 14, 54);
+    // 2) 플레이어(레인/점프/기울임)
+    const p = playerRef.current;
+    if (p) {
+      p.position.x = s.playerLane * LANE_W;
+      p.position.y = s.jumpY * JUMP_WORLD;
+      p.rotation.z = (s.playerLane - s.targetLane) * 0.18;
+    }
+    // 달리기 클립 속도 = 게임 속도
+    if (runActionRef.current) {
+      runActionRef.current.timeScale = playing
+        ? THREE.MathUtils.clamp(s.speed / 6, 0.15, 2.4)
+        : 0.15;
+    }
 
-  // 달리기 게이지
-  const gi = Math.max(0, Math.min(1, (s.speed - GAME_TUNING.SPEED_MIN) / (GAME_TUNING.SPEED_MAX - GAME_TUNING.SPEED_MIN)));
-  ctx.fillStyle = "rgba(255,255,255,0.2)";
-  ctx.fillRect(14, 66, 120, 8);
-  ctx.fillStyle = "#34d399";
-  ctx.fillRect(14, 66, 120 * gi, 8);
+    // 3) 장애물 풀 — id→슬롯 유지(팝핑 방지)
+    const slots = slotRefs.current;
+    if (slots.length === POOL) {
+      const prev = slotById.current;
+      const occupied = new Array(POOL).fill(false);
+      const cur = new Map<number, number>();
+      for (const o of s.obstacles) {
+        const ps = prev.get(o.id);
+        if (ps !== undefined && !occupied[ps]) {
+          occupied[ps] = true;
+          cur.set(o.id, ps);
+        }
+      }
+      let f = 0;
+      for (const o of s.obstacles) {
+        if (cur.has(o.id)) continue;
+        while (f < POOL && occupied[f]) f++;
+        if (f >= POOL) break;
+        occupied[f] = true;
+        cur.set(o.id, f);
+      }
+      slotById.current = cur;
+      for (let i = 0; i < POOL; i++) slots[i].group.visible = false;
+      for (const o of s.obstacles) {
+        const slot = cur.get(o.id);
+        if (slot === undefined) continue;
+        const sl = slots[slot];
+        sl.group.visible = true;
+        sl.group.position.set(o.lane * LANE_W, 0, -o.z * Z_WORLD);
+        const isCoin = o.kind === "coin";
+        sl.block.visible = !isCoin;
+        sl.coin.visible = isCoin && !o.got;
+        if (isCoin) sl.coin.rotation.y += dt * 4;
+      }
+    }
+
+    // 4) 도로 스크롤
+    roadTex.offset.y = (s.distance * 0.085) % 1;
+
+    // 5) HUD
+    if (hud.dist.current) hud.dist.current.textContent = `${Math.round(s.distance)} m`;
+    if (hud.coin.current) hud.coin.current.textContent = `◉ ${s.coins}`;
+    if (hud.gauge.current) {
+      const g = THREE.MathUtils.clamp((s.speed - 2.5) / (15 - 2.5), 0, 1);
+      hud.gauge.current.style.width = `${g * 100}%`;
+    }
+
+    // 6) 게임오버
+    if (s.status === "over" && !overRef.current) {
+      overRef.current = true;
+      onOver(Math.round(s.distance), s.coins);
+    }
+  });
+
+  return (
+    <>
+      <fog attach="fog" args={["#0b1026", 12, 36]} />
+      <hemisphereLight args={["#aab9ff", "#0b1026", 1.1]} />
+      <directionalLight
+        position={[5, 11, 6]}
+        intensity={2.2}
+        castShadow
+        shadow-mapSize={[1024, 1024]}
+        shadow-camera-left={-10}
+        shadow-camera-right={10}
+        shadow-camera-top={10}
+        shadow-camera-bottom={-10}
+      />
+
+      {/* 도로 */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, -10]} receiveShadow>
+        <planeGeometry args={[LANE_W * 3, 80]} />
+        <meshStandardMaterial map={roadTex} color="#5b6cab" />
+      </mesh>
+
+      {/* 플레이어 */}
+      <group ref={playerRef} position={[0, 0, 0]}>
+        <Suspense fallback={<FallbackRunner />}>
+          <Runner runActionRef={runActionRef} />
+        </Suspense>
+      </group>
+
+      {/* 장애물 풀 */}
+      {Array.from({ length: POOL }).map((_, i) => (
+        <group
+          key={i}
+          visible={false}
+          ref={(g) => {
+            if (!g) return;
+            slotRefs.current[i] = {
+              group: g,
+              block: g.children[0] as THREE.Mesh,
+              coin: g.children[1] as THREE.Mesh,
+            };
+          }}
+        >
+          {/* block */}
+          <mesh position={[0, 0.6, 0]} castShadow>
+            <boxGeometry args={[1.0, 1.2, 1.0]} />
+            <meshStandardMaterial color="#ef4444" roughness={0.5} />
+          </mesh>
+          {/* coin */}
+          <mesh position={[0, 1.0, 0]} rotation={[Math.PI / 2, 0, 0]} castShadow>
+            <torusGeometry args={[0.38, 0.13, 12, 24]} />
+            <meshStandardMaterial color="#fbbf24" metalness={0.7} roughness={0.25} emissive="#7a5300" />
+          </mesh>
+        </group>
+      ))}
+    </>
+  );
 }
 
-function drawRunner(
-  ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  speed: number,
-  running: boolean,
-) {
-  const t = running ? (performance.now() / 90) * Math.max(0.3, speed / 6) : 0;
-  const swing = running ? Math.sin(t) * 8 : 0;
-  ctx.save();
-  ctx.translate(x, y);
-  // 그림자
-  ctx.fillStyle = "rgba(0,0,0,0.3)";
-  ctx.beginPath();
-  ctx.ellipse(0, 2, 22, 7, 0, 0, Math.PI * 2);
-  ctx.fill();
-  // 다리
-  ctx.strokeStyle = "#1f2937";
-  ctx.lineWidth = 7;
-  ctx.lineCap = "round";
-  ctx.beginPath();
-  ctx.moveTo(-4, -34);
-  ctx.lineTo(-4 - swing, -2);
-  ctx.moveTo(4, -34);
-  ctx.lineTo(4 + swing, -2);
-  ctx.stroke();
-  // 몸통
-  ctx.fillStyle = "#10b981";
-  ctx.beginPath();
-  ctx.roundRect(-14, -70, 28, 40, 10);
-  ctx.fill();
-  // 팔
-  ctx.strokeStyle = "#0d9488";
-  ctx.beginPath();
-  ctx.moveTo(-12, -60);
-  ctx.lineTo(-12 + swing, -42);
-  ctx.moveTo(12, -60);
-  ctx.lineTo(12 - swing, -42);
-  ctx.stroke();
-  // 머리
-  ctx.fillStyle = "#fcd34d";
-  ctx.beginPath();
-  ctx.arc(0, -84, 14, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
+/** GLB 실제 캐릭터 + Run 애니메이션. 모델 크기를 자동으로 키 1.7m 에 맞춘다. */
+function Runner({
+  runActionRef,
+}: {
+  runActionRef: React.MutableRefObject<THREE.AnimationAction | null>;
+}) {
+  const { scene, animations } = useGLTF(RUNNER_URL);
+  const ref = useRef<THREE.Group>(null);
+  const { actions } = useAnimations(animations, ref);
+
+  // 자동 스케일/발 위치 보정 + 그림자
+  const fit = useMemo(() => {
+    const box = new THREE.Box3().setFromObject(scene);
+    const size = new THREE.Vector3();
+    box.getSize(size);
+    const h = size.y || 1;
+    const scale = 1.7 / h;
+    scene.traverse((o) => {
+      const m = o as THREE.Mesh;
+      if (m.isMesh) m.castShadow = true;
+    });
+    return { scale, yOffset: -box.min.y * (1.7 / h) };
+  }, [scene]);
+
+  useEffect(() => {
+    // Run 클립 재생(없으면 첫 클립).
+    const run = actions["Run"] ?? Object.values(actions)[0] ?? null;
+    if (run) {
+      run.reset().play();
+      runActionRef.current = run;
+    }
+    return () => {
+      run?.stop();
+    };
+  }, [actions, runActionRef]);
+
+  return (
+    <group ref={ref} position={[0, fit.yOffset, 0]} scale={fit.scale}>
+      <primitive object={scene} />
+    </group>
+  );
+}
+
+/** 모델 로딩 동안/실패 시 임시 캡슐(거의 안 보임). */
+function FallbackRunner() {
+  return (
+    <mesh position={[0, 0.9, 0]} castShadow>
+      <capsuleGeometry args={[0.35, 0.9, 6, 12]} />
+      <meshStandardMaterial color="#10b981" />
+    </mesh>
+  );
 }

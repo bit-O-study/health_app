@@ -20,6 +20,37 @@ test("모바일에서 힐링 러닝 인트로가 뜬다", async ({ browser }) =>
   await ctx.close();
 });
 
+test("오른쪽을 누르고 있으면 캐릭터가 앞으로 간다(거리 증가)", async ({
+  browser,
+}) => {
+  const ctx = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  });
+  const page = await ctx.newPage();
+  await page.goto("/jog", { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "시작하기" }).click();
+
+  const zone = page.getByTestId("zen-forward");
+  await expect(zone).toBeVisible({ timeout: 5000 });
+
+  // 오른쪽 영역을 꾹 누르고 유지 → 거리(m)가 증가해야 한다.
+  const box = (await zone.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.mouse.down();
+  await page.waitForTimeout(2500);
+  await page.mouse.up();
+
+  const dist = await page
+    .locator("text=/\\d+ m/")
+    .first()
+    .innerText();
+  const meters = parseInt(dist, 10);
+  expect(meters).toBeGreaterThan(0);
+  await ctx.close();
+});
+
 test("데스크톱에서도 힐링 러닝은 접근 차단 없이 인트로가 뜬다", async ({
   browser,
 }) => {

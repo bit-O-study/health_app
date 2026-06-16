@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { ChevronRight } from "lucide-react";
 
 import { accelMagnitude, runIntensityFromAccel } from "@/features/running/motion";
 
@@ -77,13 +78,27 @@ export function ZenRun() {
   return (
     <div
       className="relative h-[100dvh] w-full select-none overflow-hidden bg-[#bfeaff] text-white"
-      onPointerDown={() => (holdingRef.current = true)}
-      onPointerUp={() => (holdingRef.current = false)}
-      onPointerLeave={() => (holdingRef.current = false)}
     >
       {phase === "playing" ? (
         <>
           <ZenScene runRef={runRef} hud={{ dist: distRef }} />
+
+          {/* 오른쪽을 누르고 있으면 앞으로 — 모션 감지와 함께(둘 중 큰 값). */}
+          <div
+            data-testid="zen-forward"
+            aria-label="앞으로"
+            onPointerDown={() => (holdingRef.current = true)}
+            onPointerUp={() => (holdingRef.current = false)}
+            onPointerLeave={() => (holdingRef.current = false)}
+            onPointerCancel={() => (holdingRef.current = false)}
+            className="absolute right-0 top-0 z-20 flex h-full w-1/2 items-center justify-end pr-6 text-white/80 active:bg-white/5"
+          >
+            <span className="flex flex-col items-center gap-1 rounded-2xl bg-black/25 px-4 py-3 backdrop-blur-sm">
+              <ChevronRight aria-hidden="true" size={30} className="animate-pulse" />
+              <span className="text-xs font-bold">눌러서 앞으로</span>
+            </span>
+          </div>
+
           {/* 거리 HUD */}
           <div className="pointer-events-none absolute left-4 top-4 z-20">
             <span
@@ -97,8 +112,8 @@ export function ZenRun() {
           <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center px-4">
             <span className="rounded-full bg-black/40 px-4 py-2 text-center text-sm font-semibold backdrop-blur">
               {holdHint
-                ? "화면을 꾹 누르고 있으면 달려요 (폰에선 제자리 달리기로 인식)"
-                : "제자리에서 달리면 캐릭터가 달려요 🏃 멈추면 같이 쉬어요"}
+                ? "오른쪽을 누르고 있으면 앞으로 가요 ▶ 떼면 멈춰요"
+                : "제자리에서 달리거나, 오른쪽을 누르고 있으면 앞으로 가요 🏃"}
             </span>
           </div>
         </>

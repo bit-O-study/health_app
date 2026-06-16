@@ -2,6 +2,18 @@
 
 This file is read automatically at the start of every session. Follow it.
 
+## 🔴 커밋 기여자 규칙 (Commit author — mandatory)
+
+**모든 커밋은 `bong94688 <bong94688@gmail.com>` 이름/이메일로만 한다.**
+커밋 작성자·기여자에 **Claude / Anthropic / Co-Authored-By 가 절대 남으면 안 된다.**
+
+- 커밋 메시지에 `Co-Authored-By: Claude ...`, `Generated with Claude Code` 같은
+  트레일러를 **넣지 않는다**.
+- 커밋 실행은 작성자를 명시해서:
+  `git -c user.name="bong94688" -c user.email="bong94688@gmail.com" commit ...`
+- PR 본문에도 Claude 생성 표기를 넣지 않는다.
+- 기여자(contributor) 목록에 오직 bong94688 만 남아야 한다.
+
 ## 🔴 테스트는 필수 (Tests are mandatory)
 
 **기능을 만들거나 고치면 항상 테스트 코드를 같이 작성/갱신한다.** 예외 없음.

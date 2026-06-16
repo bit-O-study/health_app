@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 
 import {
   isLookingUp,
-  laneFromYaw,
+  laneFromLean,
   runIntensityFromBounce,
   type Lane,
 } from "@/features/running/controls";
@@ -32,9 +32,11 @@ const nativeImport = new Function("u", "return import(u)") as (
   u: string,
 ) => Promise<Record<string, unknown>>;
 
-const YAW_SIGN = 1; // 좌우가 반대로 느껴지면 -1
-const YAW_THRESHOLD = 12;
-const PITCH_JUMP_THRESHOLD = 14;
+// 레인 이동은 '고개 돌리기'(yaw)가 아니라 '좌우로 기울이기/옮기기'(머리 가로 위치)로.
+// 제자리 달리기 중에도 화면을 보면서 조작 가능. 좌우가 반대면 LEAN_SIGN 을 -1↔1 뒤집기.
+const LEAN_SIGN = -1; // 셀피(전면)카메라 기준 기본값 — 반대로 가면 1 로
+const LEAN_THRESHOLD = 0.045; // 코끝 가로 위치(0..1) 변화 임계
+const PITCH_JUMP_THRESHOLD = 11; // 위 보기 점프 — 달리면서도 쉽게(살짝 낮춤)
 const HEAD_Y_HISTORY = 18;
 
 export type Phase =
@@ -66,8 +68,9 @@ export function RunningGame() {
   const gameRef = useRef<GameState>(createGame());
   const controlRef = useRef<Control>({ targetLane: 0, runIntensity: 0 });
   const jumpPendingRef = useRef(false);
-  const neutralRef = useRef<{ yaw: number; pitch: number } | null>(null);
-  const calibSamplesRef = useRef<{ yaw: number; pitch: number }[]>([]);
+  // 정면 기준값: pitch(점프용)·x(코끝 가로 위치, 기울이기 레인용).
+  const neutralRef = useRef<{ pitch: number; x: number } | null>(null);
+  const calibSamplesRef = useRef<{ pitch: number; x: number }[]>([]);
   const headYRef = useRef<number[]>([]);
   const jumpArmedRef = useRef(true);
   const overRef = useRef(false);
@@ -155,8 +158,8 @@ export function RunningGame() {
     } | null;
     if (!v || !landmarker) return;
 
-    let yaw = 0;
     let pitch = 0;
+    let noseX = 0.5; // 코끝 가로 위치(0..1) — 좌우 기울이기 레인용
     let face = false;
     if (v.readyState >= 2) {
       const res = landmarker.detectForVideo(v, ts);
@@ -164,9 +167,8 @@ export function RunningGame() {
       const lm = res.faceLandmarks?.[0];
       if (mtx && lm) {
         face = true;
-        const a = headAngles(mtx);
-        yaw = a.yaw;
-        pitch = a.pitch;
+        pitch = headAngles(mtx).pitch;
+        noseX = lm[1]?.x ?? 0.5;
         const noseY = lm[1]?.y ?? 0.5;
         const hist = headYRef.current;
         hist.push(noseY);
@@ -175,21 +177,22 @@ export function RunningGame() {
     }
 
     if (phaseRef.current === "calibrating") {
-      if (face) calibSamplesRef.current.push({ yaw, pitch });
+      if (face) calibSamplesRef.current.push({ pitch, x: noseX });
       if (calibSamplesRef.current.length >= 30) {
         const s = calibSamplesRef.current;
         neutralRef.current = {
-          yaw: s.reduce((a, b) => a + b.yaw, 0) / s.length,
           pitch: s.reduce((a, b) => a + b.pitch, 0) / s.length,
+          x: s.reduce((a, b) => a + b.x, 0) / s.length,
         };
         setPhase("playing");
       }
     } else if (phaseRef.current === "playing") {
-      const n = neutralRef.current ?? { yaw: 0, pitch: 0 };
-      const relYaw = YAW_SIGN * (yaw - n.yaw);
+      const n = neutralRef.current ?? { pitch: 0, x: 0.5 };
+      // 레인: 정면 대비 머리 가로 위치(기울이기) — 고개를 돌리지 않아도 됨.
+      const dx = LEAN_SIGN * (noseX - n.x);
       const relPitch = pitch - n.pitch;
       controlRef.current = {
-        targetLane: laneFromYaw(relYaw, YAW_THRESHOLD),
+        targetLane: laneFromLean(dx, LEAN_THRESHOLD),
         runIntensity: runIntensityFromBounce(headYRef.current),
       };
       const up = isLookingUp(relPitch, PITCH_JUMP_THRESHOLD);
@@ -268,7 +271,8 @@ export function RunningGame() {
           <h1 className="text-3xl font-extrabold">런닝 모드 🏃</h1>
           <p className="max-w-xs text-sm leading-6 text-zinc-300">
             카메라로 머리를 인식해요. 제자리에서 <b>달리면</b> 캐릭터가 달리고,
-            고개를 <b>왼쪽/오른쪽</b>으로 돌리면 레인 이동, <b>위로</b> 보면 점프!
+            화면을 보면서 몸을 <b>왼쪽/오른쪽</b>으로 기울이면 레인 이동,{" "}
+            <b>위로</b> 보면 점프! (달리면서도 조작하기 쉬워요)
           </p>
           {error ? (
             <p className="rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-200">

@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Crosshair,
+  Key,
   ListChecks,
   Pause,
   Play,
@@ -105,10 +106,28 @@ function framesForItem(item: GuidedItem): [string, string] | null {
  * 훨씬 자세하게 — "견갑을 모은다"면 어떻게 모으는지, 흔한 실수까지 한 장면씩.
  * 워밍업·마무리는 컨디셔닝 방법 문구 그대로.
  */
+/** setup 문단을 문장 단위로 쪼개 준비 장면용으로(셋업 단계 데이터가 없을 때 대체). */
+function splitSetup(setup: string): string[] {
+  return setup
+    .split(/(?<=[.。!])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .slice(0, 4);
+}
+
 function tutorialStepsFor(item: GuidedItem): string[] {
   if (item.kind !== "main") return item.method;
   const g = guideFor(item.exerciseId);
-  return [...g.cues, ...g.beginnerTips.map((t) => `💡 ${t}`)];
+  // 준비 셋업(발→어깨→그립) → 핵심 동작 → 🔑꿀팁 → 💡초보 팁 순서로 장면 구성.
+  const setup = (
+    g.setupSteps && g.setupSteps.length > 0 ? g.setupSteps : splitSetup(g.setup)
+  ).map((s) => `🧭 ${s}`);
+  return [
+    ...setup,
+    ...g.cues,
+    ...(g.proTips ?? []).map((t) => `🔑 ${t}`),
+    ...g.beginnerTips.map((t) => `💡 ${t}`),
+  ];
 }
 
 /**
@@ -769,6 +788,29 @@ function ExerciseGuideCard({ guide }: { guide: ExerciseGuide }) {
           ))}
         </ol>
       </section>
+
+      {/* 꿀팁 — 그립·손/발 위치·각도별 자극 차이 등 한 단계 위 노하우 */}
+      {guide.proTips && guide.proTips.length > 0 ? (
+        <section className="rounded-2xl border border-violet-200 bg-violet-50/70 p-4 dark:border-violet-500/30 dark:bg-violet-500/10">
+          <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-violet-700 dark:text-violet-300">
+            <Key aria-hidden="true" size={13} />
+            꿀팁
+          </h3>
+          <ul className="space-y-1.5">
+            {guide.proTips.map((t, i) => (
+              <li
+                key={i}
+                className="flex gap-2 text-sm leading-6 text-violet-900 dark:text-violet-100"
+              >
+                <span aria-hidden="true" className="shrink-0 text-violet-500">
+                  🔑
+                </span>
+                <span>{t}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       {/* 초보가 자주 놓치는 것 */}
       <section className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-500/30 dark:bg-amber-500/10">

@@ -22,6 +22,11 @@ test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", asyn
   await expect(card).toBeVisible();
   await expect(card).toHaveAttribute("href", "/running");
 
+  // 두 번째 카드(힐링 러닝)도 있고 /jog 로 연결된다.
+  const zen = page.getByRole("link", { name: /힐링 러닝/ });
+  await expect(zen).toBeVisible();
+  await expect(zen).toHaveAttribute("href", "/jog");
+
   // 카드 클릭 → 실제로 /running 으로 들어가야 한다(관리자도 막히지 않음).
   // (mobile-chromium 컨텍스트라 모바일 게이트 통과 → 게임 인트로가 떠야 한다.)
   await card.click();
@@ -29,6 +34,21 @@ test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", asyn
   await expect(page.getByRole("heading", { name: "런닝 모드 🏃" })).toBeVisible({
     timeout: 8000,
   });
+});
+
+test("관리자 세션에서도 /jog 가 /admin 으로 리다이렉트되지 않는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await dbQuery(
+    `insert into public.admins(email) values($1) on conflict (email) do nothing`,
+    [email.toLowerCase()],
+  );
+  await page.goto("/admin", { waitUntil: "networkidle" });
+
+  const res = await page.request.get("/jog", { maxRedirects: 0 });
+  expect(res.status()).toBe(200);
 });
 
 test("관리자 세션에서도 런닝모드 3D 모델(.glb)이 /admin 으로 리다이렉트되지 않는다", async ({

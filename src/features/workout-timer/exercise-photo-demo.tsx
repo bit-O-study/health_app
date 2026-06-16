@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Eye, Lightbulb } from "lucide-react";
+import { Eye, Footprints, Key, Lightbulb } from "lucide-react";
 
 import { exercisePhotoFrames } from "@/features/workout-timer/exercise-photo-map";
 import { focusForStep } from "@/features/workout-timer/exercise-focus";
@@ -116,29 +116,58 @@ export function ExerciseTutorial({
         {/* 자막 가독성용 하단 그라데이션 */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-black/80 via-black/45 to-transparent" />
 
-        {/* 단계 자막 장면 — active 가 바뀔 때마다 페이드인업. 💡 로 시작하면 '꿀팁' 장면. */}
+        {/* 단계 자막 장면 — 화면마다 종류 구분: 🧭=준비 셋업(파랑) / 🔑=꿀팁(보라) /
+            💡=초보 팁(노랑) / 숫자=핵심 동작(초록). 한 장면씩 자동 전환되며 보여준다. */}
         {steps.length > 0
           ? (() => {
               const raw = steps[active] ?? "";
-              const isTip = raw.startsWith("💡");
-              const text = isTip ? raw.replace(/^💡\s*/, "") : raw;
+              const kind = raw.startsWith("🧭")
+                ? "setup"
+                : raw.startsWith("🔑")
+                  ? "pro"
+                  : raw.startsWith("💡")
+                    ? "tip"
+                    : "cue";
+              const text = raw.replace(/^(🧭|🔑|💡)\s*/, "");
+              const badge =
+                kind === "setup"
+                  ? "bg-sky-500"
+                  : kind === "pro"
+                    ? "bg-violet-500"
+                    : kind === "tip"
+                      ? "bg-amber-500"
+                      : "bg-emerald-500";
+              const dot =
+                kind === "setup"
+                  ? "bg-sky-400"
+                  : kind === "pro"
+                    ? "bg-violet-400"
+                    : kind === "tip"
+                      ? "bg-amber-400"
+                      : "bg-emerald-400";
               return (
                 <div key={active} className="ex-cap absolute inset-x-0 bottom-0 p-4">
                   <div className="flex items-start gap-2.5">
                     <span
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-extrabold text-white shadow ${
-                        isTip ? "bg-amber-500" : "bg-emerald-500"
-                      }`}
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-extrabold text-white shadow ${badge}`}
                     >
-                      {isTip ? (
+                      {kind === "setup" ? (
+                        <Footprints aria-hidden="true" size={13} />
+                      ) : kind === "pro" ? (
+                        <Key aria-hidden="true" size={13} />
+                      ) : kind === "tip" ? (
                         <Lightbulb aria-hidden="true" size={13} />
                       ) : (
                         active + 1
                       )}
                     </span>
                     <p className="text-[15px] font-semibold leading-snug text-white drop-shadow sm:text-base">
-                      {isTip ? (
-                        <span className="font-extrabold text-amber-300">꿀팁 · </span>
+                      {kind === "setup" ? (
+                        <span className="font-extrabold text-sky-200">준비 · </span>
+                      ) : kind === "pro" ? (
+                        <span className="font-extrabold text-violet-200">꿀팁 · </span>
+                      ) : kind === "tip" ? (
+                        <span className="font-extrabold text-amber-300">초보 팁 · </span>
                       ) : null}
                       {text}
                     </p>
@@ -149,11 +178,7 @@ export function ExerciseTutorial({
                       <span
                         key={i}
                         className={`h-1.5 rounded-full transition-all duration-300 ${
-                          i === active
-                            ? raw.startsWith("💡")
-                              ? "w-5 bg-amber-400"
-                              : "w-5 bg-emerald-400"
-                            : "w-1.5 bg-white/45"
+                          i === active ? `w-5 ${dot}` : "w-1.5 bg-white/45"
                         }`}
                       />
                     ))}

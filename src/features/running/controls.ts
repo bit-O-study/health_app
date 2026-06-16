@@ -15,6 +15,18 @@ export function laneFromYaw(yawDeg: number, threshold = 12): Lane {
   return 0;
 }
 
+/**
+ * 머리를 좌우로 '기울이기/옮기기'(화면 가로 위치 이동)로 레인 선택.
+ * dxNorm = 보정 기준(정면) 대비 코끝의 가로 위치 변화(화면 비율, 대략 -0.3..0.3).
+ * 고개를 돌리지 않고 화면을 계속 보면서 몸/머리를 좌우로 살짝 옮기면 되므로,
+ * 제자리 달리기 중에도 조작하기 쉽다. (호출부에서 좌우 방향 부호를 맞춘다.)
+ */
+export function laneFromLean(dxNorm: number, threshold = 0.045): Lane {
+  if (dxNorm >= threshold) return 1;
+  if (dxNorm <= -threshold) return -1;
+  return 0;
+}
+
 /** 위를 보면(pitch up, deg; 위 +) 점프 신호. (에지 판정=직전 false→true 는 호출부) */
 export function isLookingUp(pitchDeg: number, threshold = 12): boolean {
   return pitchDeg >= threshold;

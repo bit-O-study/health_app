@@ -1,18 +1,18 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  laneFromYaw,
+  laneFromLean,
   isLookingUp,
   runIntensityFromBounce,
 } from "@/features/running/controls";
 import { createGame, stepGame } from "@/features/running/game";
 
 describe("controls", () => {
-  it("yaw 임계 넘으면 그쪽 레인, 가운데면 0", () => {
-    expect(laneFromYaw(0)).toBe(0);
-    expect(laneFromYaw(20)).toBe(1); // 오른쪽
-    expect(laneFromYaw(-20)).toBe(-1); // 왼쪽
-    expect(laneFromYaw(5)).toBe(0); // 임계 미만
+  it("좌우로 기울이면(가로 위치 변화) 그쪽 레인, 가운데면 0", () => {
+    expect(laneFromLean(0)).toBe(0);
+    expect(laneFromLean(0.1)).toBe(1); // 한쪽
+    expect(laneFromLean(-0.1)).toBe(-1); // 반대쪽
+    expect(laneFromLean(0.02)).toBe(0); // 임계 미만(작은 흔들림 무시)
   });
 
   it("위를 보면 점프 신호", () => {

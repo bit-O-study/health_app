@@ -142,7 +142,10 @@ export async function updateSession(request: NextRequest) {
     const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
     // 관리자도 접근 허용하는 일반 경로(숨은 테스트 기능 등) — /admin 강제이동에서 제외.
     const isAdminAllowedExtra =
-      pathname === "/running" || pathname.startsWith("/running/");
+      pathname === "/running" ||
+      pathname.startsWith("/running/") ||
+      pathname === "/jog" ||
+      pathname.startsWith("/jog/");
     let isAdmin = false;
     try {
       // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.

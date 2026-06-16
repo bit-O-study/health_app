@@ -19,10 +19,9 @@ const WINDOW = 24;
 
 export function ZenRun() {
   const [phase, setPhase] = useState<"intro" | "playing">("intro");
-  const [holdHint, setHoldHint] = useState(false); // 센서 없을 때 안내
+  const [noSensor, setNoSensor] = useState(false); // 모션 센서 없음/거부
   const runRef = useRef(0); // 현재 달리기 강도 0..1 (씬이 매 프레임 읽음)
   const magsRef = useRef<number[]>([]);
-  const holdingRef = useRef(false);
   const rafRef = useRef(0);
   const distRef = useRef<HTMLSpanElement | null>(null);
 
@@ -43,10 +42,9 @@ export function ZenRun() {
     if (arr.length > WINDOW) arr.shift();
   }
 
+  // 오직 모션 센서(제자리 달리기)로만 전진. 화면 터치로는 움직이지 않는다.
   function controlLoop() {
-    const motion = runIntensityFromAccel(magsRef.current);
-    const hold = holdingRef.current ? 1 : 0;
-    const target = Math.max(motion, hold);
+    const target = runIntensityFromAccel(magsRef.current);
     runRef.current += (target - runRef.current) * 0.15; // 부드럽게
     rafRef.current = requestAnimationFrame(controlLoop);
   }
@@ -66,8 +64,7 @@ export function ZenRun() {
       hasSensor = false;
     }
     if (hasSensor) window.addEventListener("devicemotion", onMotion);
-    // 센서가 없거나 거부됐으면 '꾹 눌러 달리기' 안내.
-    setHoldHint(!hasSensor);
+    setNoSensor(!hasSensor); // 센서 없으면 안내(터치 조작은 없음 — 센서 전용)
     magsRef.current = [];
     runRef.current = 0;
     setPhase("playing");
@@ -75,15 +72,11 @@ export function ZenRun() {
   }
 
   return (
-    <div
-      className="relative h-[100dvh] w-full select-none overflow-hidden bg-[#bfeaff] text-white"
-      onPointerDown={() => (holdingRef.current = true)}
-      onPointerUp={() => (holdingRef.current = false)}
-      onPointerLeave={() => (holdingRef.current = false)}
-    >
+    <div className="relative h-[100dvh] w-full select-none overflow-hidden bg-[#bfeaff] text-white">
       {phase === "playing" ? (
         <>
           <ZenScene runRef={runRef} hud={{ dist: distRef }} />
+
           {/* 거리 HUD */}
           <div className="pointer-events-none absolute left-4 top-4 z-20">
             <span
@@ -93,11 +86,12 @@ export function ZenRun() {
               0 m
             </span>
           </div>
-          {/* 안내 */}
+
+          {/* 안내 (조작은 없음 — 제자리 달리기 감지로만 전진) */}
           <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center px-4">
             <span className="rounded-full bg-black/40 px-4 py-2 text-center text-sm font-semibold backdrop-blur">
-              {holdHint
-                ? "화면을 꾹 누르고 있으면 달려요 (폰에선 제자리 달리기로 인식)"
+              {noSensor
+                ? "⚠ 이 기기는 모션 센서가 없어요 — 휴대폰에서 열어주세요"
                 : "제자리에서 달리면 캐릭터가 달려요 🏃 멈추면 같이 쉬어요"}
             </span>
           </div>
@@ -107,7 +101,7 @@ export function ZenRun() {
           <h1 className="text-3xl font-extrabold drop-shadow-sm">힐링 러닝 🌿</h1>
           <p className="max-w-xs text-sm font-medium leading-6">
             카메라 없이, <b>제자리에서 달리기만</b> 하면 돼요. 폰이 흔들림을
-            느껴 캐릭터가 같이 달리고, 멈추면 함께 쉽니다. 조작은 필요 없어요 —
+            느껴 캐릭터가 같이 달리고, 멈추면 함께 쉽니다. 조작(터치)은 없어요 —
             예쁜 풍경 속을 달려보세요.
           </p>
           <button

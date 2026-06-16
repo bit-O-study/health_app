@@ -20,6 +20,50 @@ test("모바일에서 힐링 러닝 인트로가 뜬다", async ({ browser }) =>
   await ctx.close();
 });
 
+test("센서(흔들림)로만 캐릭터가 앞으로 간다 — 터치로는 안 움직인다", async ({
+  browser,
+}) => {
+  const ctx = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+  });
+  const page = await ctx.newPage();
+  await page.goto("/jog", { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: "시작하기" }).click();
+  await page.waitForTimeout(800);
+
+  const distText = page.locator("text=/\\d+ m/").first();
+
+  // 1) 화면을 눌러도(터치) 움직이지 않아야 한다.
+  await page.mouse.move(200, 600);
+  await page.mouse.down();
+  await page.waitForTimeout(1500);
+  await page.mouse.up();
+  expect(parseInt(await distText.innerText(), 10)).toBe(0);
+
+  // 2) 모션 센서(흔들림) 이벤트를 주입하면 전진해야 한다.
+  await page.evaluate(() => {
+    let i = 0;
+    const w = window as unknown as { __inj?: ReturnType<typeof setInterval> };
+    w.__inj = setInterval(() => {
+      const y = i++ % 2 ? 19 : 1; // 크게 위아래로 — 달리기 흔들림
+      window.dispatchEvent(
+        new DeviceMotionEvent("devicemotion", {
+          accelerationIncludingGravity: { x: 0, y, z: 0 },
+        }),
+      );
+    }, 30);
+  });
+  await page.waitForTimeout(2500);
+  await page.evaluate(() => {
+    const w = window as unknown as { __inj?: ReturnType<typeof setInterval> };
+    if (w.__inj) clearInterval(w.__inj);
+  });
+  expect(parseInt(await distText.innerText(), 10)).toBeGreaterThan(0);
+  await ctx.close();
+});
+
 test("데스크톱에서도 힐링 러닝은 접근 차단 없이 인트로가 뜬다", async ({
   browser,
 }) => {

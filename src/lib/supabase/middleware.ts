@@ -7,7 +7,13 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 /** 보호 경로: 로그인하지 않으면 /login 으로 보냄 */
-const PROTECTED_PREFIXES = ["/settings", "/onboarding", "/plan", "/admin"];
+const PROTECTED_PREFIXES = [
+  "/settings",
+  "/onboarding",
+  "/plan",
+  "/admin",
+  "/change-password",
+];
 
 /**
  * 매 요청마다 access/refresh 토큰을 검증·갱신하고 쿠키에 다시 기록합니다.
@@ -84,7 +90,7 @@ export async function updateSession(request: NextRequest) {
     try {
       const { data: prof } = await supabase
         .from("profiles")
-        .select("suspended_until, banned_at, withdrawn_at")
+        .select("suspended_until, banned_at, withdrawn_at, must_change_password")
         .eq("user_id", user.id)
         .maybeSingle();
       blocked = prof
@@ -104,6 +110,19 @@ export async function updateSession(request: NextRequest) {
       if (!blocked && onSuspended) {
         const url = request.nextUrl.clone();
         url.pathname = "/";
+        url.search = "";
+        return NextResponse.redirect(url);
+      }
+      // 임시 비밀번호로 로그인 → 새 비밀번호 변경 화면으로 강제 이동(차단 회원 제외).
+      // /change-password 자기 자신은 제외(루프 방지). 관리자 라우팅보다 먼저 처리.
+      if (
+        !blocked &&
+        (prof as { must_change_password: boolean | null } | null)
+          ?.must_change_password === true &&
+        pathname !== "/change-password"
+      ) {
+        const url = request.nextUrl.clone();
+        url.pathname = "/change-password";
         url.search = "";
         return NextResponse.redirect(url);
       }
@@ -145,7 +164,9 @@ export async function updateSession(request: NextRequest) {
       pathname === "/running" ||
       pathname.startsWith("/running/") ||
       pathname === "/jog" ||
-      pathname.startsWith("/jog/");
+      pathname.startsWith("/jog/") ||
+      // 관리자도 임시 비번이면 비번 변경 화면을 거쳐야 함 — /admin 강제이동에서 제외.
+      pathname === "/change-password";
     let isAdmin = false;
     try {
       // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.

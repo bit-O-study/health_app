@@ -1056,4 +1056,112 @@ $$;
 revoke all on function public.admin_active_users(text) from public, anon;
 grant execute on function public.admin_active_users(text) to authenticated;
 
+-- ─────────────────────────────────────────────────────────────
+-- 비밀번호 초기화 / 아이디·비밀번호 찾기
+--   • 관리자: 회원 비밀번호 초기화(임시 비번 발급) → 이메일 발송 + 화면 표시
+--   • 임시 비번으로 로그인하면 must_change_password=true 라 강제로 변경 화면으로
+--   • 아이디 찾기: 이름 + 휴대폰 → 이메일 반환
+--   • 비밀번호 찾기: 이메일 + 휴대폰 → 임시 비번 발급(이메일 발송)
+-- ⚠ service_role 키 없이 동작하도록 SECURITY DEFINER 함수로 auth.users 를 직접
+--   갱신한다(pgcrypto bcrypt). 비번 평문은 함수에 들어오지 않고 호출 측(서버)에서
+--   임시 비번을 생성해 넘긴다. 익명 호출 함수(find/ reset_by_identity)는 휴대폰
+--   OTP 인증을 실질적 게이트로 사용한다 — 운영에선 Supabase SMS OTP 활성화 권장.
+-- ─────────────────────────────────────────────────────────────
+
+-- 임시 비밀번호로 로그인하면 강제로 비밀번호 변경 화면으로 보내기 위한 플래그.
+alter table public.profiles
+  add column if not exists must_change_password boolean not null default false;
+
+-- 휴대폰 정규화 — auth-form 의 normalizePhone 과 동일 규칙(0→+82, 기호 제거).
+-- 가입 시 +82… 로 저장되지만 찾기 화면 입력은 010-… 일 수 있어 양쪽을 맞춘다.
+create or replace function public.norm_phone(p text) returns text
+  language sql immutable set search_path = public as $$
+  select case
+    when p is null then null
+    when regexp_replace(p, '[^0-9+]', '', 'g') like '+%'
+      then regexp_replace(p, '[^0-9+]', '', 'g')
+    when regexp_replace(p, '[^0-9]', '', 'g') like '0%'
+      then '+82' || substring(regexp_replace(p, '[^0-9]', '', 'g') from 2)
+    else regexp_replace(p, '[^0-9]', '', 'g')
+  end;
+$$;
+
+-- 관리자 전용: 회원 비밀번호를 임시 비밀번호로 초기화.
+-- auth.users.encrypted_password 를 bcrypt(pgcrypto) 로 갱신 + must_change_password=true.
+create or replace function public.admin_reset_user_password(
+  p_user_id uuid, p_password text
+) returns void
+language plpgsql security definer set search_path = public, auth, extensions as $$
+begin
+  if not public.is_admin() then
+    raise exception 'forbidden: admin only';
+  end if;
+  if length(coalesce(p_password, '')) < 6 then
+    raise exception 'password too short';
+  end if;
+  update auth.users
+    set encrypted_password = crypt(p_password, gen_salt('bf')),
+        updated_at = now()
+    where id = p_user_id;
+  if not found then
+    raise exception 'user not found';
+  end if;
+  update public.profiles set must_change_password = true where user_id = p_user_id;
+end;
+$$;
+revoke all on function public.admin_reset_user_password(uuid, text) from public, anon;
+grant execute on function public.admin_reset_user_password(uuid, text) to authenticated;
+
+-- 아이디(이메일) 찾기: 이름 + 휴대폰 일치 시 이메일 반환(없으면 null). 탈퇴 회원 제외.
+-- 익명 호출 허용 — 로그인 전 화면에서 사용. 휴대폰 OTP 가 실질적 게이트.
+create or replace function public.find_login_email(p_name text, p_phone text)
+returns text
+language plpgsql security definer stable set search_path = public, auth as $$
+declare v_email text;
+begin
+  select u.email::text into v_email
+  from public.profiles p
+  join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(btrim(coalesce(p.name, ''))) = lower(btrim(coalesce(p_name, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  return v_email;
+end;
+$$;
+revoke all on function public.find_login_email(text, text) from public;
+grant execute on function public.find_login_email(text, text) to anon, authenticated;
+
+-- 비밀번호 찾기: 이메일 + 휴대폰 일치 시 임시 비번으로 초기화(성공 시 true). 탈퇴 회원 제외.
+-- 익명 호출 허용. 평문 임시비번은 호출 측(서버 액션)에서 생성해 넘기고 이메일로 발송한다.
+create or replace function public.reset_password_by_identity(
+  p_email text, p_phone text, p_new_password text
+) returns boolean
+language plpgsql security definer set search_path = public, auth, extensions as $$
+declare v_uid uuid;
+begin
+  if length(coalesce(p_new_password, '')) < 6 then
+    raise exception 'password too short';
+  end if;
+  select p.user_id into v_uid
+  from public.profiles p
+  join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(u.email) = lower(btrim(coalesce(p_email, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  if v_uid is null then
+    return false;
+  end if;
+  update auth.users
+    set encrypted_password = crypt(p_new_password, gen_salt('bf')),
+        updated_at = now()
+    where id = v_uid;
+  update public.profiles set must_change_password = true where user_id = v_uid;
+  return true;
+end;
+$$;
+revoke all on function public.reset_password_by_identity(text, text, text) from public;
+grant execute on function public.reset_password_by_identity(text, text, text) to anon, authenticated;
+
 notify pgrst, 'reload schema';

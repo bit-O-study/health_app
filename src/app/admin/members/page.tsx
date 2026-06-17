@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getMembers, isAdminUser } from "@/features/admin/admin";
 import { banStateOf, BAN_STATE_LABEL } from "@/features/admin/ban";
 import { MemberBanControls } from "@/features/admin/components/member-ban-controls";
+import { MemberPasswordReset } from "@/features/admin/components/member-password-reset";
 import { RestoreMemberButton } from "@/features/admin/components/restore-member-button";
 
 export const dynamic = "force-dynamic";
@@ -95,6 +96,7 @@ export default async function AdminMembersPage() {
                 ) : null}
                 <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-zinc-100 dark:border-zinc-700/60 pt-3">
                   <MemberBanControls userId={m.userId} state={state} />
+                  <MemberPasswordReset userId={m.userId} email={m.email} />
                   {m.withdrawnAt ? (
                     <RestoreMemberButton userId={m.userId} />
                   ) : null}

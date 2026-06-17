@@ -4,25 +4,13 @@ import { type FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, LogIn, ShieldCheck, UserPlus } from "lucide-react";
 
+import Link from "next/link";
+
 import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { isLocalEnv, normalizePhone } from "@/features/auth/phone";
 
 type Mode = "login" | "signup";
-
-/** 로컬(개발) 환경이면 핸드폰 인증을 건너뛴다. 운영에선 SMS OTP 진행. */
-function isLocalEnv(): boolean {
-  if (typeof window === "undefined") return false;
-  const h = window.location.hostname;
-  return h === "localhost" || h === "127.0.0.1" || h === "0.0.0.0";
-}
-
-/** 전화번호를 E.164 비슷하게 정규화 (한국 0으로 시작하면 +82 로). */
-function normalizePhone(raw: string): string {
-  const digits = raw.replace(/[^0-9+]/g, "");
-  if (digits.startsWith("+")) return digits;
-  if (digits.startsWith("0")) return "+82" + digits.slice(1);
-  return digits;
-}
 
 export function AuthForm({ redirectTo }: { redirectTo: string }) {
   const router = useRouter();
@@ -343,6 +331,23 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
           {mode === "login" ? "로그인" : "회원가입"}
         </button>
       </form>
+
+      {mode === "login" ? (
+        <div className="mt-4 flex items-center justify-center gap-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <Link href="/find-id" className="transition hover:text-zinc-800 dark:hover:text-zinc-200">
+            아이디 찾기
+          </Link>
+          <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
+            |
+          </span>
+          <Link
+            href="/find-password"
+            className="transition hover:text-zinc-800 dark:hover:text-zinc-200"
+          >
+            비밀번호 찾기
+          </Link>
+        </div>
+      ) : null}
     </div>
   );
 }

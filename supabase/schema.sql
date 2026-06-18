@@ -1061,10 +1061,10 @@ grant execute on function public.admin_active_users(text) to authenticated;
 --   • 관리자: 회원 비밀번호 초기화(임시 비번 발급) → 이메일 발송 + 화면 표시
 --   • 임시 비번으로 로그인하면 must_change_password=true 라 강제로 변경 화면으로
 --   • 아이디 찾기: 이름 + 휴대폰 → 이메일 반환
---   • 비밀번호 찾기: 이메일 + 휴대폰 → 임시 비번 발급(이메일 발송)
+--   • 비밀번호 찾기: 이메일 + 휴대폰 OTP 인증 후 화면에서 새 비번 직접 설정
+--     (이메일/임시비번 발송 없음 — 도메인·비용 불필요)
 -- ⚠ service_role 키 없이 동작하도록 SECURITY DEFINER 함수로 auth.users 를 직접
---   갱신한다(pgcrypto bcrypt). 비번 평문은 함수에 들어오지 않고 호출 측(서버)에서
---   임시 비번을 생성해 넘긴다. 익명 호출 함수(find/ reset_by_identity)는 휴대폰
+--   갱신한다(pgcrypto bcrypt). 익명 호출 함수(find/ reset_by_identity)는 휴대폰
 --   OTP 인증을 실질적 게이트로 사용한다 — 운영에선 Supabase SMS OTP 활성화 권장.
 -- ─────────────────────────────────────────────────────────────
 
@@ -1132,8 +1132,9 @@ $$;
 revoke all on function public.find_login_email(text, text) from public;
 grant execute on function public.find_login_email(text, text) to anon, authenticated;
 
--- 비밀번호 찾기: 이메일 + 휴대폰 일치 시 임시 비번으로 초기화(성공 시 true). 탈퇴 회원 제외.
--- 익명 호출 허용. 평문 임시비번은 호출 측(서버 액션)에서 생성해 넘기고 이메일로 발송한다.
+-- 비밀번호 찾기: 이메일 + 휴대폰 일치 시 사용자가 화면에서 입력한 새 비번으로 설정
+-- (성공 시 true). 탈퇴 회원 제외. 본인이 정한 진짜 비번이므로 강제변경 플래그는 내린다
+-- (관리자 임시비번으로 true 였더라도 여기서 해제). 익명 호출 허용 — 휴대폰 OTP 가 게이트.
 create or replace function public.reset_password_by_identity(
   p_email text, p_phone text, p_new_password text
 ) returns boolean
@@ -1157,7 +1158,7 @@ begin
     set encrypted_password = crypt(p_new_password, gen_salt('bf')),
         updated_at = now()
     where id = v_uid;
-  update public.profiles set must_change_password = true where user_id = v_uid;
+  update public.profiles set must_change_password = false where user_id = v_uid;
   return true;
 end;
 $$;

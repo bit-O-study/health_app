@@ -2,12 +2,12 @@
 
 import { type FormEvent, useState } from "react";
 import Link from "next/link";
-import { MailCheck, ShieldCheck } from "lucide-react";
+import { CheckCircle2, KeyRound, ShieldCheck } from "lucide-react";
 
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isLocalEnv } from "@/features/auth/phone";
 import { sendPhoneOtp, verifyPhoneOtp } from "@/features/auth/otp";
-import { requestPasswordResetAction } from "@/features/auth/recover-actions";
+import { resetPasswordWithIdentityAction } from "@/features/auth/recover-actions";
 import {
   Err,
   Notice,
@@ -15,26 +15,18 @@ import {
   inputCls,
 } from "@/features/auth/components/recover-ui";
 
+type Stage = "form" | "otp" | "newpw" | "done";
+
 export function FindPasswordForm() {
+  const [stage, setStage] = useState<Stage>("form");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [otpStep, setOtpStep] = useState(false);
   const [otpCode, setOtpCode] = useState("");
-  const [done, setDone] = useState(false);
+  const [newPw, setNewPw] = useState("");
+  const [confirmPw, setConfirmPw] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-
-  async function runReset() {
-    const res = await requestPasswordResetAction(email, phone);
-    setBusy(false);
-    if (!res.ok) {
-      setError(res.error);
-      return;
-    }
-    setOtpStep(false);
-    setDone(true);
-  }
 
   async function handleStart(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -46,19 +38,21 @@ export function FindPasswordForm() {
     }
     setBusy(true);
 
+    // 로컬(또는 SMS 미설정)에선 OTP 를 건너뛰고 바로 새 비번 단계로.
     if (isLocalEnv()) {
-      await runReset();
+      setStage("newpw");
+      setBusy(false);
       return;
     }
     const supabase = createSupabaseBrowserClient();
     const sent = await sendPhoneOtp(supabase, phone);
+    setBusy(false);
     if (sent) {
-      setOtpStep(true);
-      setBusy(false);
+      setStage("otp");
       setNotice("인증번호를 문자로 보냈습니다. 입력해 주세요.");
     } else {
       setNotice("휴대폰 인증을 건너뛰고 진행합니다(SMS 미설정).");
-      await runReset();
+      setStage("newpw");
     }
   }
 
@@ -72,30 +66,56 @@ export function FindPasswordForm() {
     setBusy(true);
     const supabase = createSupabaseBrowserClient();
     const ok = await verifyPhoneOtp(supabase, phone, otpCode);
+    setBusy(false);
     if (!ok) {
       setError("인증번호가 올바르지 않습니다. 다시 확인해 주세요.");
-      setBusy(false);
       return;
     }
-    await runReset();
+    setNotice(null);
+    setStage("newpw");
   }
 
-  if (done) {
+  async function handleSetPassword(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    if (newPw.length < 6) {
+      setError("비밀번호는 6자 이상이어야 합니다.");
+      return;
+    }
+    if (newPw !== confirmPw) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+    setBusy(true);
+    const res = await resetPasswordWithIdentityAction(email, phone, newPw);
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error);
+      return;
+    }
+    if (!res.matched) {
+      setError(
+        "입력하신 이메일·휴대폰과 일치하는 계정이 없습니다. 정보를 다시 확인해 주세요.",
+      );
+      return;
+    }
+    setStage("done");
+  }
+
+  if (stage === "done") {
     return (
       <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
         <div className="mb-3 flex items-center gap-2">
-          <MailCheck aria-hidden="true" className="text-emerald-600" size={20} />
+          <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={20} />
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-            임시 비밀번호 발송
+            비밀번호 변경 완료
           </h2>
         </div>
         <p
           data-testid="find-pw-done"
           className="mb-5 text-sm leading-6 text-zinc-600 dark:text-zinc-400"
         >
-          입력하신 정보가 가입 정보와 일치하면 임시 비밀번호를 이메일로
-          보내드렸습니다. 메일을 확인하고 임시 비밀번호로 로그인한 뒤 새 비밀번호로
-          변경해 주세요.
+          새 비밀번호로 변경되었습니다. 변경한 비밀번호로 로그인해 주세요.
         </p>
         <Link
           href="/login"
@@ -107,7 +127,58 @@ export function FindPasswordForm() {
     );
   }
 
-  if (otpStep) {
+  if (stage === "newpw") {
+    return (
+      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+        <div className="mb-5 flex items-center gap-2">
+          <KeyRound aria-hidden="true" className="text-emerald-600" size={20} />
+          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+            새 비밀번호 설정
+          </h2>
+        </div>
+        <form className="space-y-4" onSubmit={handleSetPassword}>
+          <div className="space-y-1.5">
+            <label
+              className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
+              htmlFor="new-password"
+            >
+              새 비밀번호
+            </label>
+            <input
+              id="new-password"
+              type="password"
+              autoComplete="new-password"
+              className={inputCls}
+              placeholder="6자 이상"
+              value={newPw}
+              onChange={(e) => setNewPw(e.target.value)}
+            />
+          </div>
+          <div className="space-y-1.5">
+            <label
+              className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
+              htmlFor="confirm-password"
+            >
+              새 비밀번호 확인
+            </label>
+            <input
+              id="confirm-password"
+              type="password"
+              autoComplete="new-password"
+              className={inputCls}
+              placeholder="다시 입력"
+              value={confirmPw}
+              onChange={(e) => setConfirmPw(e.target.value)}
+            />
+          </div>
+          {error ? <Err>{error}</Err> : null}
+          <Submit busy={busy} label="비밀번호 변경" />
+        </form>
+      </div>
+    );
+  }
+
+  if (stage === "otp") {
     return (
       <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
         <div className="mb-5 flex items-center gap-2">
@@ -130,7 +201,7 @@ export function FindPasswordForm() {
             onChange={(e) => setOtpCode(e.target.value)}
           />
           {error ? <Err>{error}</Err> : null}
-          <Submit busy={busy} label="인증하고 임시 비밀번호 받기" />
+          <Submit busy={busy} label="인증하고 새 비밀번호 설정" />
         </form>
       </div>
     );
@@ -169,7 +240,7 @@ export function FindPasswordForm() {
         </div>
         {error ? <Err>{error}</Err> : null}
         {notice ? <Notice>{notice}</Notice> : null}
-        <Submit busy={busy} label="비밀번호 찾기" icon="search" />
+        <Submit busy={busy} label="다음" icon="search" />
       </form>
     </div>
   );

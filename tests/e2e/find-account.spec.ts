@@ -41,22 +41,41 @@ test("아이디 찾기: 일치 정보 없으면 안내", async ({ page }) => {
   await expect(page.getByTestId("find-id-none")).toBeVisible({ timeout: 15_000 });
 });
 
-test("비밀번호 찾기: 이메일 + 휴대폰 → 임시 비번 발송 + must_change_password", async ({
+test("비밀번호 찾기: 이메일 + 휴대폰 인증 후 새 비번 직접 설정 → 새 비번으로 로그인", async ({
   page,
+  browser,
 }) => {
   const email = await signUpAndOnboard(page);
   // 가입 시 휴대폰은 +821012345678(010-1234-5678). 이메일은 고유하므로 매칭 충돌 없음.
+  const NEWPW = "resetpw99887";
 
   await page.goto("/find-password", { waitUntil: "networkidle" });
   await page.fill("#email", email);
   await page.fill("#phone", "010-1234-5678");
-  await page.getByRole("button", { name: "비밀번호 찾기" }).click();
+  // 로컬에선 OTP 를 건너뛰고 바로 새 비번 단계로.
+  await page.getByRole("button", { name: "다음" }).click();
+  await page.fill("#new-password", NEWPW);
+  await page.fill("#confirm-password", NEWPW);
+  await page.getByRole("button", { name: "비밀번호 변경" }).click();
 
   await expect(page.getByTestId("find-pw-done")).toBeVisible({ timeout: 15_000 });
 
+  // 본인이 정한 비번이므로 강제변경 플래그는 꺼져 있어야 한다.
   const rows = await dbQuery<{ f: boolean }>(
     `select must_change_password as f from public.profiles where user_id=${uidByEmail}`,
     [email],
   );
-  expect(rows[0]?.f).toBe(true);
+  expect(rows[0]?.f).toBe(false);
+
+  // 새 비밀번호로 실제 로그인되는지 확인(새 컨텍스트).
+  const cctx = await browser.newContext();
+  const cpage = await cctx.newPage();
+  await cpage.goto("/login", { waitUntil: "networkidle" });
+  await cpage.fill("#email", email);
+  await cpage.fill("#password", NEWPW);
+  await cpage.getByRole("button", { name: "로그인" }).last().click();
+  await cpage.waitForURL((u) => !new URL(u).pathname.startsWith("/login"), {
+    timeout: 30_000,
+  });
+  await cctx.close();
 });

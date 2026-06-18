@@ -2,12 +2,12 @@
 
 import { type FormEvent, useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, KeyRound, ShieldCheck } from "lucide-react";
+import { CheckCircle2, MailCheck } from "lucide-react";
 
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { isLocalEnv } from "@/features/auth/phone";
-import { sendPhoneOtp, verifyPhoneOtp } from "@/features/auth/otp";
-import { resetPasswordWithIdentityAction } from "@/features/auth/recover-actions";
+import {
+  requestEmailOtpAction,
+  verifyEmailOtpAndResetAction,
+} from "@/features/auth/recover-actions";
 import {
   Err,
   Notice,
@@ -15,20 +15,27 @@ import {
   inputCls,
 } from "@/features/auth/components/recover-ui";
 
-type Stage = "form" | "otp" | "newpw" | "done";
+type Stage = "form" | "verify" | "done";
+
+const VERIFY_MSG: Record<string, string> = {
+  invalid: "인증번호가 올바르지 않습니다. 다시 확인해 주세요.",
+  expired: "인증번호가 만료되었습니다. 다시 받아 주세요.",
+  locked: "인증 시도가 많아 잠겼습니다. 인증번호를 다시 받아 주세요.",
+  nomatch: "입력하신 이메일·휴대폰과 일치하는 계정이 없습니다.",
+};
 
 export function FindPasswordForm() {
   const [stage, setStage] = useState<Stage>("form");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [otpCode, setOtpCode] = useState("");
+  const [code, setCode] = useState("");
   const [newPw, setNewPw] = useState("");
   const [confirmPw, setConfirmPw] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  async function handleStart(event: FormEvent<HTMLFormElement>) {
+  async function handleRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     setNotice(null);
@@ -37,47 +44,39 @@ export function FindPasswordForm() {
       return;
     }
     setBusy(true);
-
-    // 로컬(또는 SMS 미설정)에선 OTP 를 건너뛰고 바로 새 비번 단계로.
-    if (isLocalEnv()) {
-      setStage("newpw");
-      setBusy(false);
+    const res = await requestEmailOtpAction(email, phone);
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error);
       return;
     }
-    const supabase = createSupabaseBrowserClient();
-    const sent = await sendPhoneOtp(supabase, phone);
-    setBusy(false);
-    if (sent) {
-      setStage("otp");
-      setNotice("인증번호를 문자로 보냈습니다. 입력해 주세요.");
-    } else {
-      setNotice("휴대폰 인증을 건너뛰고 진행합니다(SMS 미설정).");
-      setStage("newpw");
+    if (!res.matched) {
+      setError("입력하신 이메일·휴대폰과 일치하는 계정이 없습니다.");
+      return;
     }
+    setStage("verify");
+    setNotice(`${email} 로 인증번호를 보냈습니다. 메일을 확인해 주세요.`);
+  }
+
+  async function handleResend() {
+    setError(null);
+    setBusy(true);
+    const res = await requestEmailOtpAction(email, phone);
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error);
+      return;
+    }
+    setNotice(`${email} 로 인증번호를 다시 보냈습니다.`);
   }
 
   async function handleVerify(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
-    if (otpCode.trim().length < 4) {
+    if (code.trim().length < 4) {
       setError("인증번호를 입력해 주세요.");
       return;
     }
-    setBusy(true);
-    const supabase = createSupabaseBrowserClient();
-    const ok = await verifyPhoneOtp(supabase, phone, otpCode);
-    setBusy(false);
-    if (!ok) {
-      setError("인증번호가 올바르지 않습니다. 다시 확인해 주세요.");
-      return;
-    }
-    setNotice(null);
-    setStage("newpw");
-  }
-
-  async function handleSetPassword(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
     if (newPw.length < 6) {
       setError("비밀번호는 6자 이상이어야 합니다.");
       return;
@@ -87,19 +86,17 @@ export function FindPasswordForm() {
       return;
     }
     setBusy(true);
-    const res = await resetPasswordWithIdentityAction(email, phone, newPw);
+    const res = await verifyEmailOtpAndResetAction(email, phone, code, newPw);
     setBusy(false);
     if (!res.ok) {
       setError(res.error);
       return;
     }
-    if (!res.matched) {
-      setError(
-        "입력하신 이메일·휴대폰과 일치하는 계정이 없습니다. 정보를 다시 확인해 주세요.",
-      );
+    if (res.status === "ok") {
+      setStage("done");
       return;
     }
-    setStage("done");
+    setError(VERIFY_MSG[res.status] ?? "인증에 실패했습니다.");
   }
 
   if (stage === "done") {
@@ -127,16 +124,34 @@ export function FindPasswordForm() {
     );
   }
 
-  if (stage === "newpw") {
+  if (stage === "verify") {
     return (
       <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
         <div className="mb-5 flex items-center gap-2">
-          <KeyRound aria-hidden="true" className="text-emerald-600" size={20} />
+          <MailCheck aria-hidden="true" className="text-emerald-600" size={20} />
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-            새 비밀번호 설정
+            인증번호 입력 & 새 비밀번호
           </h2>
         </div>
-        <form className="space-y-4" onSubmit={handleSetPassword}>
+        <form className="space-y-4" onSubmit={handleVerify}>
+          <div className="space-y-1.5">
+            <label
+              className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
+              htmlFor="otp-code"
+            >
+              이메일 인증번호
+            </label>
+            <input
+              id="otp-code"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              className={`${inputCls} text-center text-lg tracking-widest`}
+              placeholder="6자리"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
+          </div>
           <div className="space-y-1.5">
             <label
               className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
@@ -172,36 +187,16 @@ export function FindPasswordForm() {
             />
           </div>
           {error ? <Err>{error}</Err> : null}
+          {notice ? <Notice>{notice}</Notice> : null}
           <Submit busy={busy} label="비밀번호 변경" />
-        </form>
-      </div>
-    );
-  }
-
-  if (stage === "otp") {
-    return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-        <div className="mb-5 flex items-center gap-2">
-          <ShieldCheck aria-hidden="true" className="text-emerald-600" size={20} />
-          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-            휴대폰 인증
-          </h2>
-        </div>
-        <form className="space-y-4" onSubmit={handleVerify}>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            {phone} 로 보낸 인증번호를 입력해 주세요.
-          </p>
-          <input
-            type="text"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            className={`${inputCls} text-center text-lg tracking-widest`}
-            placeholder="인증번호"
-            value={otpCode}
-            onChange={(e) => setOtpCode(e.target.value)}
-          />
-          {error ? <Err>{error}</Err> : null}
-          <Submit busy={busy} label="인증하고 새 비밀번호 설정" />
+          <button
+            type="button"
+            disabled={busy}
+            onClick={handleResend}
+            className="w-full text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 transition hover:text-zinc-800 dark:hover:text-zinc-200 disabled:opacity-50"
+          >
+            인증번호 다시 받기
+          </button>
         </form>
       </div>
     );
@@ -209,7 +204,7 @@ export function FindPasswordForm() {
 
   return (
     <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-      <form className="space-y-4" onSubmit={handleStart}>
+      <form className="space-y-4" onSubmit={handleRequest}>
         <div className="space-y-1.5">
           <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="email">
             아이디(이메일)
@@ -240,7 +235,7 @@ export function FindPasswordForm() {
         </div>
         {error ? <Err>{error}</Err> : null}
         {notice ? <Notice>{notice}</Notice> : null}
-        <Submit busy={busy} label="다음" icon="search" />
+        <Submit busy={busy} label="인증번호 받기" icon="search" />
       </form>
     </div>
   );

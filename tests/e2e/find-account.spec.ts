@@ -41,7 +41,7 @@ test("아이디 찾기: 일치 정보 없으면 안내", async ({ page }) => {
   await expect(page.getByTestId("find-id-none")).toBeVisible({ timeout: 15_000 });
 });
 
-test("비밀번호 찾기: 이메일 + 휴대폰 인증 후 새 비번 직접 설정 → 새 비번으로 로그인", async ({
+test("비밀번호 찾기: 이메일 인증번호 → 새 비번 설정 → 새 비번으로 로그인", async ({
   page,
   browser,
 }) => {
@@ -52,15 +52,31 @@ test("비밀번호 찾기: 이메일 + 휴대폰 인증 후 새 비번 직접 �
   await page.goto("/find-password", { waitUntil: "networkidle" });
   await page.fill("#email", email);
   await page.fill("#phone", "010-1234-5678");
-  // 로컬에선 OTP 를 건너뛰고 바로 새 비번 단계로.
-  await page.getByRole("button", { name: "다음" }).click();
+  await page.getByRole("button", { name: "인증번호 받기" }).click();
+
+  // 인증번호 입력 단계로 전환됨(메일은 example.com 이라 실제 발송 생략됨).
+  await expect(page.locator("#otp-code")).toBeVisible({ timeout: 15_000 });
+
+  // RLS 로 잠긴 password_otps 에서 코드를 읽어온다(테스트는 pooler=owner 라 접근 가능).
+  const otp = await dbQuery<{ code: string }>(
+    `select code from public.password_otps where email = lower($1)`,
+    [email],
+  );
+  expect(otp[0]?.code).toMatch(/^\d{6}$/);
+
+  await page.fill("#otp-code", otp[0].code);
   await page.fill("#new-password", NEWPW);
   await page.fill("#confirm-password", NEWPW);
   await page.getByRole("button", { name: "비밀번호 변경" }).click();
 
   await expect(page.getByTestId("find-pw-done")).toBeVisible({ timeout: 15_000 });
 
-  // 본인이 정한 비번이므로 강제변경 플래그는 꺼져 있어야 한다.
+  // 성공 시 인증번호 행은 소비(삭제)되고, 강제변경 플래그는 꺼져 있어야 한다.
+  const otpAfter = await dbQuery(
+    `select 1 from public.password_otps where email = lower($1)`,
+    [email],
+  );
+  expect(otpAfter.length).toBe(0);
   const rows = await dbQuery<{ f: boolean }>(
     `select must_change_password as f from public.profiles where user_id=${uidByEmail}`,
     [email],
@@ -78,4 +94,14 @@ test("비밀번호 찾기: 이메일 + 휴대폰 인증 후 새 비번 직접 �
     timeout: 30_000,
   });
   await cctx.close();
+});
+
+test("비밀번호 찾기: 일치하는 계정 없으면 안내(메일 안 감)", async ({ page }) => {
+  await page.goto("/find-password", { waitUntil: "networkidle" });
+  await page.fill("#email", `nobody_${Date.now()}@example.com`);
+  await page.fill("#phone", "010-0000-0000");
+  await page.getByRole("button", { name: "인증번호 받기" }).click();
+  await expect(page.getByText("일치하는 계정이 없습니다")).toBeVisible({
+    timeout: 15_000,
+  });
 });

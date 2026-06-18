@@ -35,7 +35,10 @@ import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
-import { TodayEditScope } from "@/features/routine/components/today-edit-scope";
+import {
+  TodayEditScope,
+  TodayEditBar,
+} from "@/features/routine/components/today-edit-scope";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
@@ -407,7 +410,14 @@ async function TodayWorkout({
             restSound={profile?.restSound ?? true}
             restHaptic={profile?.restHaptic ?? true}
           />
-        ) : null}
+        ) : (
+          // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도
+          // 사라진다 → 아래 '다가오는 7일' 순서를 바꿀 방법이 없어진다. 이때도
+          // 편집 토글을 노출해 7일 순서 변경(드래그)을 켤 수 있게 한다.
+          <div className="flex justify-end">
+            <TodayEditBar />
+          </div>
+        )}
 
         {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
         <UpcomingSevenDaysGrid

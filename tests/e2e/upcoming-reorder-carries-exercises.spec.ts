@@ -116,6 +116,55 @@ test("다가오는 7일 드래그 → 본운동이 카드를 따라 오늘로 �
   ]);
 });
 
+test("휴식일에도 '편집하기'가 보이고 7일 순서를 바꿀 수 있다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  // 오늘(0일차)=휴식, 1일차=하체(스쿼트). 과거엔 휴식일이면 '오늘 할 운동' 섹션이
+  // 없어 '편집하기' 버튼도 사라져 다가오는 7일 순서를 못 바꿨다(회귀 가드).
+  const email = await signUpAndOnboard(page);
+  await dbQuery(
+    `update public.user_routines
+        set splits=0, variant_id='custom',
+            custom_week='[["rest"],["lower"],["rest"],["rest"],["rest"],["rest"],["rest"]]'::jsonb,
+            start_date=${today}, day_index_migrated=true,
+            rest_date=null, override_date=null, override_block=null
+      where user_id=${uid}`,
+    [email],
+  );
+  await dbQuery(`delete from public.routine_exercises where user_id=${uid}`, [
+    email,
+  ]);
+  await dbQuery(
+    `insert into public.routine_exercises
+       (user_id, day_index, focus, position, exercise_id, equipment, sets, reps, weight_kg)
+     values (${uid}, 1, 'lower', 0, 'squat', 'barbell', 4, 8, 60)`,
+    [email],
+  );
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+
+  // 오늘은 휴식 — 그래도 편집하기 버튼이 보여야 한다(이 PR 의 핵심 수정).
+  await expect(page.getByText("휴식", { exact: true }).first()).toBeVisible();
+  const editBtn = page.getByRole("button", { name: "편집하기" });
+  await expect(editBtn).toBeVisible();
+
+  // 편집모드 진입 → 1일차(하체) 카드를 오늘(0번)으로 끌어온다.
+  await editBtn.click();
+  await dragCard(page, 1, 0);
+
+  // 오늘이 하체로 바뀌어 스쿼트가 본운동에 떠야 한다.
+  await expect(page.locator("li h3", { hasText: "스쿼트" })).toBeVisible({
+    timeout: 10_000,
+  });
+  const d0 = await dbQuery<{ exercise_id: string }>(
+    `select exercise_id from public.routine_exercises
+       where user_id=${uid} and day_index=0 and focus='lower' order by position`,
+    [email],
+  );
+  expect(d0.map((r) => r.exercise_id)).toEqual(["squat"]);
+});
+
 test("편집모드가 아니면 순서 변경이 막힌다(그립 없음 + 드래그 무시)", async ({
   page,
 }) => {

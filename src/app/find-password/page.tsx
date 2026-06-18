@@ -22,8 +22,8 @@ export default function FindPasswordPage() {
           비밀번호 찾기
         </h1>
         <p className="max-w-sm text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          아이디(이메일)와 휴대폰 번호로 본인 확인 후, 새 비밀번호를 바로
-          설정할 수 있습니다.
+          아이디(이메일)와 휴대폰 번호 확인 후, 이메일로 받은 인증번호를 입력하고
+          새 비밀번호를 설정하세요.
         </p>
       </div>
       <FindPasswordForm />

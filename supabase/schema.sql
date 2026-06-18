@@ -1163,6 +1163,89 @@ begin
 end;
 $$;
 revoke all on function public.reset_password_by_identity(text, text, text) from public;
-grant execute on function public.reset_password_by_identity(text, text, text) to anon, authenticated;
+-- 직접 초기화는 이메일 인증번호(OTP) 흐름으로 대체 — 익명/로그인 클라이언트 호출 차단해
+-- 계정 탈취 표면을 줄인다(관리자용 admin_reset_user_password 와는 별개로 유지).
+revoke execute on function public.reset_password_by_identity(text, text, text)
+  from anon, authenticated;
+
+-- ─────────────────────────────────────────────────────────────
+-- 비밀번호 찾기 — 이메일 인증번호(OTP). 휴대폰 SMS 없이 무료(Gmail/Resend)로 본인확인.
+--   1) request_password_otp: 이메일+휴대폰 일치 시 6자리 코드 생성·저장(5분) → 코드 반환
+--      (서버 액션이 이메일로 발송)
+--   2) verify_otp_and_reset: 코드 검증(5회 제한) 통과 시 새 비번 설정
+-- RLS 로 잠근 password_otps 테이블에 코드를 두고 SECURITY DEFINER 함수로만 접근.
+-- ─────────────────────────────────────────────────────────────
+create table if not exists public.password_otps (
+  email text primary key,
+  code text not null,
+  expires_at timestamptz not null,
+  attempts int not null default 0
+);
+alter table public.password_otps enable row level security;
+-- 정책 없음 → anon/authenticated 직접 접근 불가(아래 SECURITY DEFINER 함수로만).
+
+-- 인증번호 발급: 이메일+휴대폰 일치 시 6자리 코드 생성·저장 후 반환(불일치 null).
+-- ⚠ 익명 호출 함수라 코드가 호출자에게 반환된다 — service_role 키 없이 동작시키기 위한
+--    절충. 완전 차단하려면 추후 service_role 로 서버에서만 코드를 다루도록 변경 권장.
+create or replace function public.request_password_otp(p_email text, p_phone text)
+returns text
+language plpgsql security definer set search_path = public, auth as $$
+declare v_uid uuid; v_code text;
+begin
+  select p.user_id into v_uid
+  from public.profiles p join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(u.email) = lower(btrim(coalesce(p_email, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  if v_uid is null then return null; end if;
+  v_code := lpad((floor(random() * 1000000))::int::text, 6, '0');
+  insert into public.password_otps(email, code, expires_at, attempts)
+    values (lower(btrim(p_email)), v_code, now() + interval '5 minutes', 0)
+    on conflict (email) do update
+      set code = excluded.code, expires_at = excluded.expires_at, attempts = 0;
+  return v_code;
+end;
+$$;
+revoke all on function public.request_password_otp(text, text) from public;
+grant execute on function public.request_password_otp(text, text) to anon, authenticated;
+
+-- 인증번호 검증 + 새 비밀번호 설정. 반환: 'ok'|'invalid'|'expired'|'locked'|'nomatch'.
+create or replace function public.verify_otp_and_reset(
+  p_email text, p_phone text, p_code text, p_new_password text
+) returns text
+language plpgsql security definer set search_path = public, auth, extensions as $$
+declare v_uid uuid; v_code text; v_exp timestamptz; v_att int; v_key text;
+begin
+  if length(coalesce(p_new_password, '')) < 6 then
+    raise exception 'password too short';
+  end if;
+  select p.user_id into v_uid
+  from public.profiles p join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(u.email) = lower(btrim(coalesce(p_email, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  if v_uid is null then return 'nomatch'; end if;
+  v_key := lower(btrim(coalesce(p_email, '')));
+  select code, expires_at, attempts into v_code, v_exp, v_att
+    from public.password_otps where email = v_key;
+  if not found then return 'invalid'; end if;
+  if v_att >= 5 then return 'locked'; end if;
+  if v_exp < now() then return 'expired'; end if;
+  if v_code <> btrim(coalesce(p_code, '')) then
+    update public.password_otps set attempts = attempts + 1 where email = v_key;
+    return 'invalid';
+  end if;
+  update auth.users
+    set encrypted_password = crypt(p_new_password, gen_salt('bf')), updated_at = now()
+    where id = v_uid;
+  update public.profiles set must_change_password = false where user_id = v_uid;
+  delete from public.password_otps where email = v_key;
+  return 'ok';
+end;
+$$;
+revoke all on function public.verify_otp_and_reset(text, text, text, text) from public;
+grant execute on function public.verify_otp_and_reset(text, text, text, text) to anon, authenticated;
 
 notify pgrst, 'reload schema';

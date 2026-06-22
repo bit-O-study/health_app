@@ -7,6 +7,7 @@ import {
   Loader2,
   Moon,
   Play,
+  Plus,
   RotateCcw,
   SlidersHorizontal,
   X,
@@ -23,7 +24,10 @@ import {
   restartRoutineFromTodayAction,
   undoTodayRestAction,
 } from "@/features/routine/actions";
-import { clearDailyPlanForDateAction } from "@/features/routine/daily-plan-actions";
+import {
+  clearDailyPlanForDateAction,
+  pinRoutineFocusesForTodayAction,
+} from "@/features/routine/daily-plan-actions";
 import { seoulYmd } from "@/features/routine/data";
 
 // "오늘만 바꾸기" 는 부위 단위로만 — 세부근육 블록은 정신없으니 루틴 빌더에서만 노출.
@@ -74,14 +78,29 @@ export function TodayAdjustMenu({
     });
   }
 
-  function applyAndGo() {
+  // "운동 전체 바꾸기": 오늘 부위를 선택 부위로 '대체'. 기존 daily_plan 을 비운다.
+  // 이미 완료한 운동은 오늘 화면에 완료 배지로 그대로 남는다(today-exercises 가 합쳐 보임).
+  function replaceAndGo() {
     if (picked.size === 0) return;
     const focuses = Array.from(picked).join(",");
     start(async () => {
-      // 휴식 상태였다면 운동 상태로 전환한 뒤 편집 화면으로 이동
       if (isRestToday) await undoTodayRestAction();
-      //"오늘만 변경" 은 누적이 아니라 대체 — 기존 daily_plan 을 먼저 비운다
       await clearDailyPlanForDateAction(seoulYmd());
+      setOpen(false);
+      setPicked(new Set());
+      router.push(`/plan/today?focus=${focuses}`);
+      router.refresh();
+    });
+  }
+
+  // "오늘만 부위 추가": 기존 부위는 그대로 두고 선택 부위를 더한다. 기존 루틴 부위를
+  // 오늘 daily_plan 으로 고정(pin)해 둔 뒤 추가 부위를 편집하면, today 가 (기존+추가)로 보인다.
+  function addAndGo() {
+    if (picked.size === 0) return;
+    const focuses = Array.from(picked).join(",");
+    start(async () => {
+      if (isRestToday) await undoTodayRestAction();
+      await pinRoutineFocusesForTodayAction();
       setOpen(false);
       setPicked(new Set());
       router.push(`/plan/today?focus=${focuses}`);
@@ -215,19 +234,32 @@ export function TodayAdjustMenu({
               })}
             </div>
 
-            <button
-              type="button"
-              disabled={pending || picked.size === 0}
-              onClick={applyAndGo}
-              className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
-            >
-              바꾸기 ({picked.size}개)
-              <ArrowRight aria-hidden="true" size={15} />
-            </button>
+            <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <button
+                type="button"
+                disabled={pending || picked.size === 0}
+                onClick={replaceAndGo}
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+              >
+                운동 전체 바꾸기
+                <ArrowRight aria-hidden="true" size={15} />
+              </button>
+              <button
+                type="button"
+                disabled={pending || picked.size === 0}
+                onClick={addAndGo}
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-emerald-500 bg-white px-4 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 disabled:cursor-not-allowed disabled:border-zinc-200 disabled:text-zinc-300 dark:bg-zinc-800 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+              >
+                <Plus aria-hidden="true" size={15} />
+                오늘만 부위 추가
+              </button>
+            </div>
 
-            <p className="mt-3 text-[11px] text-zinc-500 dark:text-zinc-400">
-              선택한 부위만 보여주는 편집 화면으로 이동합니다. 저장하면 오늘
-              운동 목록에 바로 반영되고, 이미 완료한 운동은 그대로 남습니다.
+            <p className="mt-3 text-[11px] leading-5 text-zinc-500 dark:text-zinc-400">
+              <strong>전체 바꾸기</strong>는 오늘 부위를 선택 부위로 바꿉니다(이미
+              완료한 운동은 그대로 남아요). <strong>부위 추가</strong>는 오늘
+              운동에 선택 부위를 더합니다. 둘 다 <strong>오늘 하루만</strong>{" "}
+              반영됩니다.
             </p>
 
             {pending ? (

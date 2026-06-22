@@ -17,3 +17,29 @@ export function isQueueItemActive(
   if (ov) return ov === "active";
   return !serverInactive.has(rowId);
 }
+
+/**
+ * 운동모드(가이드) 좌/우 네비게이션에서 이동할 다음 인덱스를 찾는다.
+ *
+ * 가이드 큐는 시작 시점 스냅샷이라(인덱스 밀림 방지) 세션 중 완료/스킵한 항목도
+ * 배열에는 그대로 남는다. 완료한 운동은 운동모드에 다시 안 떠야 하므로, 화살표(‹ ›)·
+ * 스와이프 이동 시 이번 세션에 처리한(processed) 항목은 건너뛴다.
+ * (예전엔 ‹ 로 되돌아가면 방금 완료한 운동이 다시 보였다 — 그 버그 방지.)
+ *
+ * @param rowIds    큐 항목들의 rowId (스냅샷 순서)
+ * @param processed 이번 세션에 완료/스킵한 rowId 집합
+ * @param current   현재 인덱스
+ * @param dir       +1 = 다음, -1 = 이전
+ * @returns 이동할 인덱스. 갈 곳이 없으면 null.
+ */
+export function adjacentActiveIndex(
+  rowIds: readonly string[],
+  processed: ReadonlySet<string>,
+  current: number,
+  dir: 1 | -1,
+): number | null {
+  for (let i = current + dir; i >= 0 && i < rowIds.length; i += dir) {
+    if (!processed.has(rowIds[i])) return i;
+  }
+  return null;
+}

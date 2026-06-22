@@ -20,6 +20,7 @@ import {
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { adjacentActiveIndex } from "@/features/workout-timer/queue-filter";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import {
@@ -183,10 +184,23 @@ export function GuidedOverlay({
    * 초기값(고정 배열) 만 사용. items prop 의 변화는 무시.
    */
   const [sessionItems] = useState(items);
+  const rowIds = useMemo(() => sessionItems.map((i) => i.rowId), [sessionItems]);
+
+  /**
+   * 이번 세션에 완료/스킵 처리한 항목들(rowId). 가이드 큐는 시작 스냅샷이라 처리해도
+   * 배열엔 남는데, 완료한 운동은 운동모드에 다시 안 떠야 하므로 ‹ › / 스와이프 이동
+   * 시 이 항목들을 건너뛴다. (예전엔 ‹ 로 되돌아가면 방금 완료한 운동이 다시 보였음.)
+   */
+  const [processed, setProcessed] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  );
 
   const item = sessionItems[index];
   const total = sessionItems.length;
-  const isLast = index >= total - 1;
+  // '마지막'은 배열 끝이 아니라 "앞에 남은 활성(미처리) 항목이 없을 때".
+  const isLast = adjacentActiveIndex(rowIds, processed, index, 1) === null;
+  const prevIndex = adjacentActiveIndex(rowIds, processed, index, -1);
+  const nextIndex = adjacentActiveIndex(rowIds, processed, index, 1);
 
   // 현재 본운동에서 완료한 세트 수(0-base). 항목이 바뀌면 0으로 리셋.
   const [setsDone, setSetsDone] = useState(0);
@@ -249,18 +263,29 @@ export function GuidedOverlay({
       setDragDx(clamped);
     }
   }
+  /** ‹ › / 스와이프 공용 이동 — 완료/스킵한 항목은 건너뛴다. 갈 곳 없으면 무동작. */
+  function goTo(dir: 1 | -1) {
+    const ni = adjacentActiveIndex(rowIds, processed, index, dir);
+    if (ni !== null) setIndex(ni);
+  }
+
   function onSwipeEnd() {
     const dx = dragDxRef.current; // 리렌더 전이라도 최신 이동량(stale state 회피)
     swipeStartRef.current = null;
     dragDxRef.current = 0;
     setDragDx(0);
     const THRESHOLD = 60;
-    if (dx <= -THRESHOLD) setIndex((i) => Math.min(total - 1, i + 1)); // ← 다음
-    else if (dx >= THRESHOLD) setIndex((i) => Math.max(0, i - 1)); // → 이전
+    if (dx <= -THRESHOLD) goTo(1); // ← 다음
+    else if (dx >= THRESHOLD) goTo(-1); // → 이전
   }
 
-  function advance() {
-    if (isLast) {
+  /**
+   * 다음 활성(미처리) 항목으로 진행. processedSet 은 방금 처리한 항목까지 포함한
+   * 최신 집합(setState 비동기라 직접 전달). 남은 활성 항목이 없으면 세션 종료.
+   */
+  function advance(processedSet: ReadonlySet<string>) {
+    const ni = adjacentActiveIndex(rowIds, processedSet, index, 1);
+    if (ni === null) {
       onClose();
       // 모든 항목 종료 — 부모(타이머)가 운동시간 저장 처리
       onAllComplete?.();
@@ -268,7 +293,7 @@ export function GuidedOverlay({
       refreshAfterPending();
       return;
     }
-    setIndex((i) => i + 1);
+    setIndex(ni);
   }
 
   /** 해당 항목의 서버 액션 호출. 성공/실패 결과를 반환. */
@@ -359,9 +384,11 @@ export function GuidedOverlay({
       rest.trigger();
     }
 
-    // 3) UI 즉시 advance
+    // 3) UI 즉시 advance — 방금 처리한 항목은 이번 세션 동안 건너뛴다(‹ 로도 안 보임).
     dirtyRef.current = true;
-    advance();
+    const nextProcessed = new Set(processed).add(captured.rowId);
+    setProcessed(nextProcessed);
+    advance(nextProcessed);
 
     // 4) 더블 탭 가드 짧게 — 300ms 후 다시 활성화
     window.setTimeout(() => {
@@ -554,8 +581,8 @@ export function GuidedOverlay({
               <button
                 type="button"
                 aria-label="이전 운동"
-                onClick={() => setIndex((i) => Math.max(0, i - 1))}
-                disabled={index === 0}
+                onClick={() => goTo(-1)}
+                disabled={prevIndex === null}
                 className="absolute left-1.5 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md backdrop-blur-sm transition hover:bg-black/65 disabled:pointer-events-none disabled:opacity-0"
               >
                 <ChevronLeft aria-hidden="true" size={22} />
@@ -563,8 +590,8 @@ export function GuidedOverlay({
               <button
                 type="button"
                 aria-label="다음 운동"
-                onClick={() => setIndex((i) => Math.min(total - 1, i + 1))}
-                disabled={isLast}
+                onClick={() => goTo(1)}
+                disabled={nextIndex === null}
                 className="absolute right-1.5 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md backdrop-blur-sm transition hover:bg-black/65 disabled:pointer-events-none disabled:opacity-0"
               >
                 <ChevronRight aria-hidden="true" size={22} />

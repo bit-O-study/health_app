@@ -7,6 +7,10 @@ import {
   routineDaySlots,
   type DayBlockId,
 } from "@/features/routine/data";
+import {
+  NULL_DAY_KEY,
+  planFocusDaySync,
+} from "@/features/routine/day-sync-plan";
 
 type ExRow = {
   id: string;
@@ -21,8 +25,6 @@ type ExRow = {
   set_details: unknown;
   memo: unknown;
 };
-
-const NULL_KEY = -1; // day_index NULL 을 내부 그룹 키로 표현
 
 /**
  * routine_exercises 의 day_index 를 "현재 루틴이 그 부위를 쓰는 일차들"에 맞춰 정렬한다.
@@ -48,6 +50,10 @@ export async function syncRoutineExerciseDays(
   const supabase = await createSupabaseServerClient();
   const slots = routineDaySlots(splits, variantId, customWeek);
   const focusDays = focusToDaysMap(slots);
+  // (부위:일차) → 역할(주=false/보조=true). 같은 부위가 여러 일차일 때 복사 시
+  // 역할이 같은 일차끼리만 채우기 위함(본↔보조 교차 복사 방지).
+  const sideByFocusDay = new Map<string, boolean>();
+  for (const s of slots) sideByFocusDay.set(`${s.focus}:${s.dayIndex}`, s.isSide);
 
   const { data: allRows } = await supabase
     .from("routine_exercises")
@@ -67,10 +73,10 @@ export async function syncRoutineExerciseDays(
   for (const [focus, rows] of byFocus) {
     const target = focusDays.get(focus as never) ?? [];
 
-    // day_index 별 그룹 (NULL → NULL_KEY)
+    // day_index 별 그룹 (NULL → NULL_DAY_KEY)
     const byDay = new Map<number, ExRow[]>();
     for (const r of rows) {
-      const k = r.day_index ?? NULL_KEY;
+      const k = r.day_index ?? NULL_DAY_KEY;
       const a = byDay.get(k);
       if (a) a.push(r);
       else byDay.set(k, [r]);
@@ -78,7 +84,7 @@ export async function syncRoutineExerciseDays(
 
     // 루틴이 안 쓰는 부위 — NULL 만 0 으로 정리하고 둔다.
     if (target.length === 0) {
-      if (byDay.has(NULL_KEY)) {
+      if (byDay.has(NULL_DAY_KEY)) {
         await supabase
           .from("routine_exercises")
           .update({ day_index: 0 })
@@ -89,17 +95,15 @@ export async function syncRoutineExerciseDays(
       continue;
     }
 
-    const present = [...byDay.keys()];
-    const orphans = present.filter((d) => !target.includes(d)); // 드리프트/NULL
-    const emptyTargets = target.filter((d) => !byDay.has(d));
-
     const updateDay = (from: number, to: number) => {
       const q = supabase
         .from("routine_exercises")
         .update({ day_index: to })
         .eq("user_id", userId)
         .eq("focus", focus);
-      return from === NULL_KEY ? q.is("day_index", null) : q.eq("day_index", from);
+      return from === NULL_DAY_KEY
+        ? q.is("day_index", null)
+        : q.eq("day_index", from);
     };
     const deleteDay = (from: number) => {
       const q = supabase
@@ -107,34 +111,31 @@ export async function syncRoutineExerciseDays(
         .delete()
         .eq("user_id", userId)
         .eq("focus", focus);
-      return from === NULL_KEY ? q.is("day_index", null) : q.eq("day_index", from);
+      return from === NULL_DAY_KEY
+        ? q.is("day_index", null)
+        : q.eq("day_index", from);
     };
 
-    // 1) 드리프트 행 → 빈 target 으로 이동(UUID 보존)
-    let oi = 0;
-    let ti = 0;
-    for (; oi < orphans.length && ti < emptyTargets.length; oi++, ti++) {
-      const o = orphans[oi];
-      const t = emptyTargets[ti];
-      await updateDay(o, t);
-      byDay.set(t, byDay.get(o)!);
-      byDay.delete(o);
-    }
-    // 2) 남은 드리프트 행 → 삭제(중복)
-    for (; oi < orphans.length; oi++) {
-      await deleteDay(orphans[oi]);
-      byDay.delete(orphans[oi]);
-    }
-    // 3) 아직 비어 있는 target → 값 있는 target 에서 복사
-    const stillEmpty = emptyTargets.slice(ti);
-    if (stillEmpty.length > 0) {
-      const canonDay = target.find((d) => byDay.has(d));
-      if (canonDay !== undefined) {
-        const canon = byDay.get(canonDay)!;
-        for (const t of stillEmpty) {
-          const copies = canon.map((r) => ({
+    // 순수 계획: 이동/삭제/복사 연산. 복사는 같은 역할(주/보조)끼리만(교차 복사 금지).
+    const isSide = (day: number) =>
+      sideByFocusDay.get(`${focus}:${day}`) ?? false;
+    const ops = planFocusDaySync([...byDay.keys()], target, isSide);
+
+    // 연산 적용 — move 먼저(byDay 갱신) → delete → copy(byDay 에서 소스 읽음) 순.
+    for (const op of ops) {
+      if (op.type === "move") {
+        await updateDay(op.from, op.to);
+        byDay.set(op.to, byDay.get(op.from)!);
+        byDay.delete(op.from);
+      } else if (op.type === "delete") {
+        await deleteDay(op.from);
+        byDay.delete(op.from);
+      } else {
+        const src = byDay.get(op.from);
+        if (src && src.length > 0) {
+          const copies = src.map((r) => ({
             user_id: userId,
-            day_index: t,
+            day_index: op.to,
             focus: r.focus,
             position: r.position,
             exercise_id: r.exercise_id,
@@ -145,9 +146,8 @@ export async function syncRoutineExerciseDays(
             set_details: r.set_details ?? null,
             memo: r.memo ?? null,
           }));
-          if (copies.length > 0) {
-            await supabase.from("routine_exercises").insert(copies);
-          }
+          await supabase.from("routine_exercises").insert(copies);
+          byDay.set(op.to, copies as unknown as ExRow[]);
         }
       }
     }

@@ -21,8 +21,14 @@ import {
   estimateConditioningKcal,
   estimateStrengthKcal,
 } from "@/features/routine/calories";
-import { getStatusMapToday } from "@/features/routine/exercise-completions";
-import { resolveTodayStatus } from "@/features/routine/completion-match";
+import {
+  getStatusMapToday,
+  getTodayCompletedItems,
+} from "@/features/routine/exercise-completions";
+import {
+  exerciseCompletionKey,
+  resolveTodayStatus,
+} from "@/features/routine/completion-match";
 import { orderMainPlan } from "@/features/routine/plan-order";
 import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
@@ -105,6 +111,7 @@ export async function TodayExercises({
     daily,
     mainStatus,
     condStatus,
+    completedItems,
   ] = await Promise.all([
     // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
     // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
@@ -115,6 +122,7 @@ export async function TodayExercises({
     getDailyConditioning(todayYmd),
     getStatusMapToday(todayYmd),
     getConditioningStatusMapToday(todayYmd),
+    getTodayCompletedItems(todayYmd),
   ]);
 
   // 본운동: 부위별로 daily_plan override 있으면 그것, 없으면 기본 plan
@@ -146,7 +154,38 @@ export async function TodayExercises({
   });
   // 부위 경계를 넘어 드래그하면 전역 position 으로 재정렬돼 있으므로 그 순서를 따른다.
   // (기본 상태는 그룹 순서 유지 — orderMainPlan 참고)
-  const plan = orderMainPlan(groupedPlan);
+  const activePlan = orderMainPlan(groupedPlan);
+
+  // 완료 보존: 오늘 완료/스킵한 운동 중 현재 plan 에 없는 것(부위를 '오늘만 바꾸기'로
+  // 교체해 빠진 것)을 완료 행으로 함께 보여준다. 행 id 또는 (부위:운동) 키가 이미
+  // 있으면 중복이라 제외. (등 2개 완료 후 가슴으로 바꿔도 등 완료가 사라지지 않게.)
+  const activeIds = new Set(activePlan.map((p) => p.id));
+  const activeKeys = new Set(
+    activePlan.map((p) => exerciseCompletionKey(p.focus, p.exerciseId)),
+  );
+  const seenGhost = new Set<string>();
+  const ghostPlan = completedItems
+    .filter((c) => {
+      if (activeIds.has(c.exerciseRowId)) return false;
+      const key = exerciseCompletionKey(c.focus, c.exerciseId);
+      if (activeKeys.has(key) || seenGhost.has(key)) return false;
+      seenGhost.add(key);
+      return true;
+    })
+    .map((c, i) => ({
+      id: c.exerciseRowId,
+      focus: c.focus ?? primaryTone,
+      position: 1_000_000 + i, // 항상 맨 뒤(완료 묶음)
+      exerciseId: c.exerciseId,
+      equipment: c.equipment,
+      sets: c.sets,
+      reps: c.reps,
+      weightKg: c.weightKg,
+      setDetails: c.setDetails,
+      memo: null as string | null,
+    }));
+  // 활성 운동(위) + 완료로 남은 운동(아래) 순. 이후 계산은 이 합본을 기준으로 한다.
+  const plan = [...activePlan, ...ghostPlan];
   const usingDailyPlan = tones.some((t) => dailyByFocus.has(t));
 
   // 본운동 시범 미디어(관리자 등록) — 가이드 큐에서 표출

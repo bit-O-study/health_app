@@ -110,5 +110,33 @@ test("이동 후 완료는 올바른 운동에 기록되고 미방문 운동은 
   await expect(overlay.getByRole("heading", { name: "레그프레스" })).toHaveCount(0);
 });
 
+test("완료한 운동은 ‹(이전)로 되돌아가도 다시 안 보인다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await startGuided(page, email);
+
+  const overlay = page.getByTestId("guided-scroll");
+  const prev = page.getByRole("button", { name: "이전 운동" });
+
+  // 첫 운동 = 스쿼트.
+  await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible({
+    timeout: 8000,
+  });
+
+  // 스쿼트 완료 → 레그프레스로 진행.
+  await page
+    .getByRole("button", { name: "운동 완료" })
+    .or(page.getByRole("button", { name: "완료하고 종료" }))
+    .click();
+  await expect(overlay.getByRole("heading", { name: "레그프레스" })).toBeVisible();
+
+  // ‹(이전)을 눌러도 방금 완료한 스쿼트로 되돌아가지 않는다(완료 운동은 운동모드에서 제외).
+  // 앞에 남은 활성 운동이 없으므로 '이전' 버튼은 비활성.
+  await expect(prev).toBeDisabled();
+  await prev.click({ force: true });
+  await expect(overlay.getByRole("heading", { name: "레그프레스" })).toBeVisible();
+  await expect(overlay.getByRole("heading", { name: "스쿼트" })).toHaveCount(0);
+});
+
 // 참고: 좌우 드래그(스와이프) 이동도 지원하지만(터치), Playwright 마우스-드래그가
 // 합성 pointer 이벤트를 일관되게 보내지 못해 회귀 가드는 화살표(탭)로 둔다.

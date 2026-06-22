@@ -8,6 +8,11 @@ import {
   exerciseCompletionKey,
   type CompletionStatus,
 } from "@/features/routine/completion-match";
+import {
+  isEquipmentId,
+  type EquipmentId,
+} from "@/features/routine/exercise-catalog";
+import { parseSetDetails, type SetDetail } from "@/features/routine/set-details";
 
 // 순수 매칭 로직은 completion-match 로 분리(단위 테스트 가능). 호환을 위해 재노출.
 export {
@@ -77,6 +82,68 @@ export async function getStatusMapToday(
     if (st === "done" || !map.has(key)) map.set(key, st);
   }
   return map;
+}
+
+/** 오늘 완료/스킵한 본운동의 스냅샷(렌더용). exercise_id 가 있는(스냅샷 저장된) 행만. */
+export type TodayCompletedItem = {
+  exerciseRowId: string;
+  exerciseId: string;
+  equipment: EquipmentId;
+  sets: number;
+  reps: number;
+  weightKg: number | null;
+  setDetails: SetDetail[] | null;
+  focus: string | null;
+  status: CompletionStatus;
+};
+
+/**
+ * 오늘 완료/스킵 처리된 본운동들의 스냅샷 목록.
+ * 부위를 바꿔(오늘만 변경) 현재 플랜에서 빠진 운동도 '완료'로 계속 보여주기 위해 쓴다.
+ * (등 완료 후 가슴으로 바꿔도 등 완료가 사라지지 않게 — 호출부가 plan 에 없는 것만 합친다.)
+ */
+export async function getTodayCompletedItems(
+  todayYmd: string,
+): Promise<TodayCompletedItem[]> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("exercise_completions")
+    .select(
+      "exercise_row_id, status, focus, exercise_id, equipment, sets, reps, weight_kg, set_details",
+    )
+    .eq("user_id", user.id)
+    .eq("for_date", todayYmd);
+
+  if (error || !data) return [];
+  const out: TodayCompletedItem[] = [];
+  for (const r of data as {
+    exercise_row_id: string;
+    status: string;
+    focus: string | null;
+    exercise_id: string | null;
+    equipment: unknown;
+    sets: number | null;
+    reps: number | null;
+    weight_kg: number | string | null;
+    set_details?: unknown;
+  }[]) {
+    if (!r.exercise_id) continue; // 스냅샷 없는 옛 기록은 렌더 불가 → 제외
+    out.push({
+      exerciseRowId: r.exercise_row_id,
+      exerciseId: r.exercise_id,
+      equipment: isEquipmentId(r.equipment) ? r.equipment : "barbell",
+      sets: r.sets ?? 1,
+      reps: r.reps ?? 1,
+      weightKg: num(r.weight_kg),
+      setDetails: parseSetDetails(r.set_details),
+      focus: r.focus ?? null,
+      status: toStatus(r.status),
+    });
+  }
+  return out;
 }
 
 /** 최근 N일의 운동별 완료/스킵 기록(최신→과거) */

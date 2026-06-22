@@ -16,6 +16,15 @@ import {
   toRowFields,
   type SetDetail,
 } from "@/features/routine/set-details";
+import {
+  DAY_BLOCKS,
+  resolveRoutine,
+  routineDayOffset,
+  seoulYmd,
+  type FocusTone,
+} from "@/features/routine/data";
+import { getUserRoutine } from "@/features/routine/data-access";
+import { getPlanForDay } from "@/features/routine/plan";
 
 export type DailyPlanItem = {
   exerciseId: string;
@@ -31,6 +40,77 @@ export type SaveDailyPlanResult = { ok: true } | { ok: false; error: string };
 
 function isValidYmd(s: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(s);
+}
+
+/**
+ * "오늘만 부위 추가" 준비 — 오늘의 기존 루틴 부위들을 daily_plan 으로 고정(pin)한다.
+ *
+ * "오늘만 변경"은 daily_plan 이 그날 부위를 '대체'하는 구조라, 그냥 새 부위만 추가하면
+ * 기존 루틴 부위가 화면에서 사라진다(대체돼서). 그래서 추가 모드에서는 현재 루틴 부위의
+ * 오늘 운동을 daily_plan 으로 복사해 둔 뒤(이미 오버라이드된 부위는 건드리지 않음), 그
+ * 위에 새 부위를 더하면 today 화면이 (기존 + 추가) 합집합으로 보인다. 완료 기록은 그대로.
+ */
+export async function pinRoutineFocusesForTodayAction(): Promise<SaveDailyPlanResult> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const routine = await getUserRoutine();
+  if (!routine) return { ok: false, error: "루틴이 없습니다." };
+
+  const today = seoulYmd();
+  const { variant } = resolveRoutine(
+    routine.splits,
+    routine.variantId,
+    routine.customWeek,
+  );
+  const offset = routineDayOffset(routine.startDate, today);
+  const overriddenToday =
+    routine.overrideDate === today && routine.overrideBlock !== null;
+  const planToday = overriddenToday
+    ? DAY_BLOCKS[routine.overrideBlock!].day
+    : variant.week[offset];
+  const routineTones = (planToday.tones ?? [planToday.tone]).filter(
+    (t): t is Exclude<FocusTone, "rest"> => t !== "rest",
+  );
+  if (routineTones.length === 0) return { ok: true };
+
+  // 이미 daily_plan 오버라이드가 있는 부위는 그대로 둔다(중복 고정 방지).
+  const { data: existing } = await supabase
+    .from("daily_plan")
+    .select("focus")
+    .eq("user_id", user.id)
+    .eq("for_date", today);
+  const pinned = new Set(
+    ((existing ?? []) as { focus: string }[]).map((r) => r.focus),
+  );
+
+  for (const tone of routineTones) {
+    if (pinned.has(tone)) continue;
+    const dayPlan = await getPlanForDay(offset, tone);
+    if (dayPlan.length === 0) continue; // 등록 운동 없는 부위는 고정할 것도 없음
+    const rows = dayPlan.map((p, index) => ({
+      user_id: user.id,
+      for_date: today,
+      focus: tone,
+      position: index,
+      exercise_id: p.exerciseId,
+      equipment: p.equipment,
+      ...toRowFields({
+        sets: p.sets,
+        reps: p.reps,
+        weightKg: p.weightKg,
+        setDetails: p.setDetails,
+      }),
+      memo: p.memo,
+    }));
+    const ins = await supabase.from("daily_plan").insert(rows);
+    if (ins.error) return { ok: false, error: ins.error.message };
+  }
+
+  revalidatePath("/routine");
+  revalidatePath("/plan/today");
+  return { ok: true };
 }
 
 /**

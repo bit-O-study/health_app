@@ -220,7 +220,9 @@ export function TodayPlanList({
       await setExerciseStatusAction(
         id,
         target,
-        target === "clear" || !item
+        // clear 에도 스냅샷을 넘긴다 — 액션이 (부위:운동) 폴백 기록까지 지워야
+        // 루틴 변경으로 행 id 가 바뀐 완료도 정상 취소된다.
+        !item
           ? undefined
           : {
               exerciseId: item.exerciseId,

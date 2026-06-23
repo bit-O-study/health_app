@@ -36,13 +36,17 @@ export async function setConditioningStatusAction(
 
   const today = seoulYmd();
 
-  // 같은 행에 대한 기존 기록을 먼저 제거(= 취소 시 기록에서도 삭제)
+  // 기존 기록을 먼저 제거 — 이 행 id 뿐 아니라 같은 (종류:항목) 기록도 함께.
+  // 루틴을 바꿔 행 id 가 새로 생기면 완료는 (종류:항목) 폴백 키로 표시되는데, 그때
+  // 표시행 id 로만 지우면 원본 기록이 남아 '취소해도 완료로 남는' 버그가 생긴다.
   const del = await supabase
     .from("conditioning_completions")
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", today)
-    .eq("source_row_id", sourceRowId);
+    .or(
+      `source_row_id.eq.${sourceRowId},and(kind.eq.${kind},item_id.eq.${itemId})`,
+    );
   if (del.error) return { ok: false, error: del.error.message };
 
   if (status !== "clear") {

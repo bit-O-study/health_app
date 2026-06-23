@@ -3,11 +3,12 @@ import { expect, test } from "@playwright/test";
 import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
-// 사용자 시나리오: 마무리(쿨다운)를 완료한 뒤 하단 '다가오는 7일' 드래그로 루틴을
-// 바꾸면 오늘 보이는 부위(focus)가 달라진다. 부위마다 마무리 종목이 달라도(런닝→
-// 스트레칭) "오늘 마무리 한번 하면 종일 완료" 규칙으로 완료가 유지돼야 한다.
+// 사용자 시나리오: 마무리(쿨다운)를 완료한 뒤 루틴을 바꿔 오늘 부위(focus)가 달라지면
+// 마무리 종목 자체가 바뀐다(런닝→차일드포즈). 이때 '다른 종목'은 완료로 번지면 안 된다
+// — 본운동과 동일하게 (종류:항목)으로만 매칭한다. (예전엔 "종일 완료" 규칙으로 번졌는데,
+// 새 종목이 완료로 떠 버리고 취소도 안 돼 버그로 보고됨 → 동작 변경.)
 
-test("루틴변경으로 오늘 마무리 종목이 달라져도(런닝→스트레칭) 완료 유지", async ({
+test("루틴변경으로 마무리 종목이 달라지면(런닝→차일드포즈) 새 종목은 완료로 안 뜬다", async ({
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
@@ -64,10 +65,11 @@ test("루틴변경으로 오늘 마무리 종목이 달라져도(런닝→스트
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
 
-  // 오늘 부위가 등으로 바뀌어 마무리 종목이 차일드포즈(런닝과 다른 종목)지만,
-  // 오늘 이미 마무리를 한 번 완료했으므로 (종류) 키로 완료가 유지돼야 한다.
+  // 오늘 부위가 등으로 바뀌어 마무리 종목이 차일드포즈(런닝과 다른 종목)가 됐다.
+  // 런닝 완료가 차일드포즈로 번지면 안 된다 — 새 종목은 완료가 아니어야 한다.
   const coolUl = page
     .locator("ul.space-y-2")
     .filter({ hasText: "차일드 포즈" });
-  await expect(coolUl.getByText("완료", { exact: true }).first()).toBeVisible();
+  await expect(coolUl.first()).toBeVisible({ timeout: 8000 });
+  await expect(coolUl.getByText("완료", { exact: true })).toHaveCount(0);
 });

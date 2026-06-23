@@ -41,14 +41,34 @@ export async function setExerciseStatusAction(
   // supabase 클라이언트는 에러를 throw 하지 않고 { error } 로 돌려준다.
   // 이전엔 이를 무시해 RLS/스키마 실패가 조용히 묻혔다 — 반드시 확인해 반환한다.
   if (status === "clear") {
-    const { error } = await supabase
+    // 이 행 id 뿐 아니라 같은 (부위:운동) 기록도 함께 지운다. 루틴을 바꿔 행 id 가
+    // 새로 생기면 완료는 (부위:운동) 폴백 키로 표시되는데, 표시행 id 로만 지우면 원본
+    // 기록이 남아 '취소해도 완료로 남는' 버그가 생긴다(컨디셔닝과 동일 처리).
+    const base = supabase
       .from("exercise_completions")
       .delete()
       .eq("user_id", user.id)
-      .eq("for_date", today)
-      .eq("exercise_row_id", exerciseRowId);
+      .eq("for_date", today);
+    const { error } =
+      snapshot?.focus && snapshot?.exerciseId
+        ? await base.or(
+            `exercise_row_id.eq.${exerciseRowId},and(focus.eq.${snapshot.focus},exercise_id.eq.${snapshot.exerciseId})`,
+          )
+        : await base.eq("exercise_row_id", exerciseRowId);
     if (error) return { ok: false, error: error.message };
   } else {
+    // 같은 (부위:운동) 의 '옛 행 id' 기록을 먼저 정리 — 루틴 변경으로 행 id 가 바뀌면
+    // upsert(행 id 기준)가 중복 완료 기록을 만들 수 있어 미리 제거한다.
+    if (snapshot?.focus && snapshot?.exerciseId) {
+      await supabase
+        .from("exercise_completions")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("for_date", today)
+        .eq("focus", snapshot.focus)
+        .eq("exercise_id", snapshot.exerciseId)
+        .neq("exercise_row_id", exerciseRowId);
+    }
     const { error } = await supabase.from("exercise_completions").upsert(
       {
         user_id: user.id,

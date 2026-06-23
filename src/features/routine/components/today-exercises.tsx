@@ -35,6 +35,7 @@ import { summarizeSetDetails } from "@/features/routine/set-details";
 import {
   conditioningCompletionKey,
   getConditioningStatusMapToday,
+  getTodayCompletedConditioning,
 } from "@/features/routine/conditioning-completions";
 import {
   TodayPlanList,
@@ -111,6 +112,7 @@ export async function TodayExercises({
     mainStatus,
     condStatus,
     completedItems,
+    completedCond,
   ] = await Promise.all([
     // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
     // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
@@ -122,6 +124,7 @@ export async function TodayExercises({
     getStatusMapToday(todayYmd),
     getConditioningStatusMapToday(todayYmd),
     getTodayCompletedItems(todayYmd),
+    getTodayCompletedConditioning(todayYmd),
   ]);
 
   // 본운동: 부위별로 daily_plan override 있으면 그것, 없으면 기본 plan
@@ -190,11 +193,48 @@ export async function TodayExercises({
   // 본운동 시범 미디어(관리자 등록) — 가이드 큐에서 표출
   const mediaMap = await getExerciseMediaMap(plan.map((p) => p.exerciseId));
 
-  const warmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
-  const cooldownRows =
+  const baseWarmupRows = daily.warmup.length > 0 ? daily.warmup : defaults.warmup;
+  const baseCooldownRows =
     daily.cooldown.length > 0 ? daily.cooldown : defaults.cooldown;
   const isDailyWarmup = daily.warmup.length > 0;
   const isDailyCooldown = daily.cooldown.length > 0;
+
+  // 완료 보존(본운동과 동일): 오늘 완료/스킵한 워밍업·마무리 중 현재 목록에 없는 종목
+  // (요일별 루틴을 바꿔 종목이 달라져 빠진 것)을 완료 행으로 함께 보여준다.
+  // 행 id 또는 (종류:항목) 키가 이미 있으면 중복이라 제외.
+  function withCondGhosts(
+    kind: "warmup" | "cooldown",
+    baseRows: ConditioningRow[],
+  ): ConditioningRow[] {
+    const baseIds = new Set(baseRows.map((r) => r.id));
+    const baseKeys = new Set(
+      baseRows.map((r) => conditioningCompletionKey(r.kind, r.itemId)),
+    );
+    const seen = new Set<string>();
+    const ghosts = completedCond
+      .filter((c) => {
+        if (c.kind !== kind) return false;
+        if (baseIds.has(c.sourceRowId)) return false;
+        const key = conditioningCompletionKey(c.kind, c.itemId);
+        if (baseKeys.has(key) || seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
+      .map((c, i) => ({
+        id: c.sourceRowId,
+        focus: primaryTone,
+        kind: c.kind,
+        position: 1_000_000 + i, // 항상 맨 뒤(완료 묶음)
+        itemId: c.itemId,
+        durationMin: c.durationMin,
+        speed: c.speed,
+        incline: c.incline,
+        memo: null,
+      }));
+    return [...baseRows, ...ghosts];
+  }
+  const warmupRows = withCondGhosts("warmup", baseWarmupRows);
+  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows);
 
   const w = weightKg ?? 65;
 

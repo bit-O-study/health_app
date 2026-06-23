@@ -5,9 +5,70 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
+import {
+  isConditioningKind,
+  type ConditioningKind,
+} from "@/features/routine/conditioning-catalog";
 
 function toStatus(s: string): CompletionStatus {
   return s === "skipped" ? "skipped" : "done";
+}
+
+const numOrNull = (v: number | string | null | undefined): number | null => {
+  if (v === null || v === undefined || v === "") return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+};
+
+/** 오늘 완료/스킵한 워밍업·마무리의 스냅샷(렌더용). 루틴(요일)을 바꿔 그 종목이
+ * 더는 안 보여도 '완료'로 계속 보여주기 위해 쓴다(본운동 완료 보존과 동일). */
+export type TodayCompletedConditioning = {
+  sourceRowId: string;
+  kind: ConditioningKind;
+  itemId: string;
+  status: CompletionStatus;
+  durationMin: number | null;
+  speed: number | null;
+  incline: number | null;
+};
+
+export async function getTodayCompletedConditioning(
+  todayYmd: string,
+): Promise<TodayCompletedConditioning[]> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("conditioning_completions")
+    .select("source_row_id, kind, item_id, status, duration_min, speed, incline")
+    .eq("user_id", user.id)
+    .eq("for_date", todayYmd);
+
+  if (error || !data) return [];
+  const out: TodayCompletedConditioning[] = [];
+  for (const r of data as {
+    source_row_id: string | null;
+    kind: string | null;
+    item_id: string | null;
+    status: string;
+    duration_min: number | string | null;
+    speed: number | string | null;
+    incline: number | string | null;
+  }[]) {
+    if (!r.source_row_id || !r.item_id || !isConditioningKind(r.kind ?? ""))
+      continue;
+    out.push({
+      sourceRowId: r.source_row_id,
+      kind: r.kind as ConditioningKind,
+      itemId: r.item_id,
+      status: toStatus(r.status),
+      durationMin: numOrNull(r.duration_min),
+      speed: numOrNull(r.speed),
+      incline: numOrNull(r.incline),
+    });
+  }
+  return out;
 }
 
 /** 워밍업/마무리 완료의 (종류:항목) 키. 본운동과 같은 이유로, 루틴을 바꿔 행 UUID 가

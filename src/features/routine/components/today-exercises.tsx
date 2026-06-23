@@ -34,7 +34,6 @@ import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import {
   conditioningCompletionKey,
-  conditioningKindDoneKey,
   getConditioningStatusMapToday,
 } from "@/features/routine/conditioning-completions";
 import {
@@ -230,19 +229,9 @@ export async function TodayExercises({
   function buildCondItems(rows: ConditioningRow[]) {
     const doneIds: string[] = [];
     const skippedIds: string[] = [];
-    // 1) 먼저 '직접' 매칭(행 id 또는 종류:항목 키)으로 각 행의 상태를 구한다.
-    const directStatus = rows.map(
-      (r) =>
-        condStatus.get(r.id) ??
-        condStatus.get(conditioningCompletionKey(r.kind, r.itemId)),
-    );
-    // 2) 이 종류(워밍업/마무리)에 '직접 완료'된 행이 하나라도 있으면, 종류 단위 완료
-    //    키(conditioningKindDoneKey)로 형제 행까지 완료가 번지지 않게 한다.
-    //    → "워밍업 하나 완료했는데 나머지 워밍업이 다 완료되던" 버그 방지.
-    //    직접 완료가 전혀 없을 때만(예: 루틴이 바뀌어 마무리 종목 자체가 달라진 경우)
-    //    종류 키로 '오늘 그 섹션 한 번 했음'을 이어준다.
-    const anyDirectDone = directStatus.some((st) => st === "done");
-    const items: TodayConditioningItem[] = rows.map((r, i) => {
+    // 본운동과 동일하게 '행 id 또는 (종류:항목) 키'로만 매칭한다. 종류 단위 완료 키는
+    // 제거 — 루틴을 바꿔 새 워밍업/마무리 항목이 와도 완료로 번지지 않게(취소도 정상 동작).
+    const items: TodayConditioningItem[] = rows.map((r) => {
       const item = getConditioningItem(r.itemId);
       const name = item?.name ?? r.itemId;
       const detail = formatDetail(r, item) || "—";
@@ -251,10 +240,8 @@ export async function TodayExercises({
         estimateConditioningKcal(w, r.itemId, eff.duration, eff.speed),
       );
       const st =
-        directStatus[i] ??
-        (anyDirectDone
-          ? undefined
-          : condStatus.get(conditioningKindDoneKey(r.kind)));
+        condStatus.get(r.id) ??
+        condStatus.get(conditioningCompletionKey(r.kind, r.itemId));
       if (st === "done") doneIds.push(r.id);
       else if (st === "skipped") skippedIds.push(r.id);
       return {

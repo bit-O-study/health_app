@@ -78,6 +78,41 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
   expect(Number(done[0].weight_kg)).toBe(60);
 });
 
+test("고정 끔: 운동모드 무게 더블클릭해 직접 입력한 값이 기록된다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await seedSquat(email, false);
+
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: "운동 시작" }).click();
+  await page.waitForTimeout(1000);
+
+  const overlay = page.getByTestId("guided-scroll");
+  // 무게 값(슬라이더)을 더블클릭 → 직접 입력칸이 뜬다. 80 입력 후 Enter.
+  await overlay.getByRole("slider", { name: "무게" }).dblclick();
+  const input = overlay.getByRole("spinbutton", { name: "무게 직접 입력" });
+  await expect(input).toBeVisible({ timeout: 4000 });
+  await input.fill("80");
+  await input.press("Enter");
+  await expect(overlay.getByText("80", { exact: true })).toBeVisible();
+
+  await page
+    .getByRole("button", { name: "완료하고 종료" })
+    .or(page.getByRole("button", { name: "운동 완료" }))
+    .first()
+    .click();
+  await page.waitForTimeout(1500);
+
+  const done = await dbQuery<{ weight_kg: string }>(
+    `select weight_kg::text from public.exercise_completions
+       where user_id=${uid} and status='done'`,
+    [email],
+  );
+  expect(done.length).toBe(1);
+  expect(Number(done[0].weight_kg)).toBe(80);
+});
+
 test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);

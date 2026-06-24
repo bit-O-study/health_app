@@ -646,18 +646,19 @@ export function TodayPlanList({
                       ) : null}
                     </h3>
                     <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-                      {/* 무게·횟수 고정 끔 → 세트 수만(무게/횟수는 운동모드에서 설정) */}
-                      {!lockWeightReps
-                        ? `${item.sets}세트`
-                        : item.setDetails && item.setDetails.length > 0
+                      {/* 무게·횟수 고정 켬일 때만 세트·횟수·무게 표시. 끔이면 운동모드에서
+                          정하므로 메인엔 칼로리만(세트수도 안 보임). */}
+                      {lockWeightReps
+                        ? item.setDetails && item.setDetails.length > 0
                           ? `${item.setDetails.length}세트 · ${summarizeSetDetails(item.setDetails)}`
                           : `${item.sets}세트 × ${item.reps}회${
                               item.weightKg !== null
                                 ? ` · ${item.weightKg}kg`
                                 : " · 맨몸"
-                            }`}
-                      <span className="ml-2 text-xs text-orange-700 dark:text-orange-400">
-                        · 약 {kcal}kcal
+                            }`
+                        : null}
+                      <span className="text-xs text-orange-700 dark:text-orange-400">
+                        {lockWeightReps ? " · " : ""}약 {kcal}kcal
                       </span>
                     </p>
                     {item.memo ? (

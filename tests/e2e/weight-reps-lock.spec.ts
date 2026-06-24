@@ -43,10 +43,11 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
 
-  // 메인 스쿼트 행: 세트는 보이고 무게(60kg)·횟수(8회)는 안 보인다.
+  // 메인 스쿼트 행: 무게·횟수는 물론 세트수도 안 보이고(운동모드에서 설정), 칼로리만.
   const squatRow = page.locator("li").filter({ hasText: "스쿼트" }).first();
   await expect(squatRow).toBeVisible({ timeout: 8000 });
-  await expect(squatRow.getByText("4세트")).toBeVisible();
+  await expect(squatRow.getByText(/kcal/)).toBeVisible();
+  await expect(squatRow.getByText(/세트/)).toHaveCount(0);
   await expect(squatRow.getByText(/60kg/)).toHaveCount(0);
   await expect(squatRow.getByText(/8회/)).toHaveCount(0);
 

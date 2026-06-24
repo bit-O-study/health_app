@@ -69,13 +69,10 @@ test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async (
   });
   expect(notScaled).toBe(true);
 
-  // 방법 3줄 대신 상세 가이드(자세 잡기·자극 부위·핵심 포인트·초보 팁)가 뜬다.
-  await expect(page.getByText("자세 잡기")).toBeVisible();
+  // 장황한 5단 설명 대신 간결 가이드(자극 부위 + 한 줄 요약 + 핵심 포인트)가 뜬다.
   await expect(page.getByText("핵심 포인트")).toBeVisible();
-  await expect(page.getByText("초보가 자주 놓치는 것")).toBeVisible();
-
-  // 사진 위 자막이 상세 폼 큐 + 💡꿀팁으로 한 장면씩 — 한 바퀴 안에 '꿀팁' 장면이 뜬다.
-  await expect(page.getByText("꿀팁 ·").first()).toBeVisible({ timeout: 30000 });
+  // 한 줄 요약·핵심에 타겟 부위(둔근/대퇴)가 담겨 보인다.
+  await expect(page.getByText(/둔근|대퇴/).first()).toBeVisible();
 });
 
 test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤벨 사진이 뜬다", async ({ page }) => {

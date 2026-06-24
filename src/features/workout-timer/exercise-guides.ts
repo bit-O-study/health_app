@@ -885,3 +885,159 @@ export function guideFor(exerciseId: string): ExerciseGuide {
     ...(setupSteps ? { setupSteps } : {}),
   };
 }
+
+/* ─── 간결 요약(운동모드·상세 공용) ──────────────────────────────────────────
+ * "자세/그립 → 어디가 잘 먹는지" 한 줄 + 핵심 큐 2~3개 + 타겟 부위.
+ * 운동모드(가이드 카드)·상세 페이지에서 장황한 5단 설명 대신 이걸 딱딱 보여준다.
+ */
+
+/** 운동별 한 줄 요약 — "핵심 자세/그립 → 주 타겟 부위". 없으면 카테고리 폴백. */
+const EXERCISE_ONE_LINER: Record<string, string> = {
+  "ab-rollout": "골반 살짝 말아 복부 긴장 유지하며 굴리기 → 복근 전체",
+  "arnold-press": "손바닥 안→밖 돌리며 밀기 → 전면·측면 삼각근",
+  "assisted-pull-up": "오버그립 넓게 + 가슴을 바로 끌기 → 광배(등 너비)",
+  "barbell-row": "상체 숙여 갈비뼈 쪽으로 당기기 → 광배·등 두께",
+  "belt-squat": "허리 부담 없이 상체 세우고 앉기 → 대퇴사두·둔근",
+  "bench-dip": "몸을 의자에 붙여 수직으로 내리기 → 삼두",
+  "bench-press": "견갑 고정 + 어깨너비 그립으로 가슴에 밀기 → 대흉근",
+  "biceps-curl": "팔꿈치 고정 + 언더그립, 반동 없이 → 이두",
+  "bicycle-crunch": "반대 팔꿈치-무릎 끝까지 비틀기 → 복사근",
+  "box-squat": "박스에 앉았다 반동 없이 폭발적으로 → 둔근·햄스트링",
+  "bulgarian-split-squat": "뒷발 올리고 앞다리로 밀기 → 대퇴사두·둔근",
+  "cable-crossover": "팔 모아 교차하며 짜기 → 가슴 안쪽",
+  "cable-crunch": "갈비뼈를 골반 쪽으로 말기 → 복근",
+  "cable-kickback": "팔꿈치 고정하고 뒤로 곧게 차기 → 삼두 장두",
+  "cable-lateral-raise": "팔꿈치를 손보다 높게 리드 → 측면 삼각근",
+  "cable-pull-through": "엉덩이 뒤로 접었다 밀기 → 둔근·햄스트링",
+  "cable-rope-hammer-curl": "뉴트럴(세로) 그립으로 올리기 → 상완근·전완",
+  "chest-fly": "팔꿈치 각도 고정하고 모으기 → 가슴(스트레치)",
+  "chest-supported-row": "패드에 기대 반동 없이 당기기 → 등(순수 자극)",
+  "chin-up": "언더그립 + 가슴을 바로 끌기 → 광배 하부·이두",
+  "close-grip-bench-press": "좁은 그립 + 팔꿈치 붙여 내리기 → 삼두",
+  "concentration-curl": "팔꿈치 허벅지에 고정하고 짜기 → 이두 정점",
+  "cossack-squat": "옆으로 깊게 앉기 → 내전근(안쪽 허벅지)·둔근",
+  crunch: "상체 전체 말고 갈비뼈만 말기 → 복직근 상부",
+  "curtsy-lunge": "뒷발 대각선 뒤로 교차 → 중둔근(엉덩이 옆)",
+  deadlift: "바를 정강이에 붙여 엉덩이·어깨 동시에 들기 → 햄스트링·둔근·등",
+  "decline-press": "벤치 머리 낮추고 명치로 내리기 → 가슴 하부",
+  "diamond-pushup": "손 모아 팔꿈치 붙여 내리기 → 삼두·가슴 안쪽",
+  dips: "상체 세우면 삼두 / 앞으로 숙이면 가슴 하부",
+  "donkey-calf-raise": "상체 숙여 종아리 늘렸다 짜기 → 비복근",
+  "drag-curl": "바를 몸에 붙여 끌어올리기 → 이두 장두",
+  "dumbbell-pullover": "팔 뒤로 깊게 내렸다 끌기 → 광배·가슴",
+  "ez-bar-curl": "굽은 바로 손목 편히, 팔꿈치 고정 → 이두",
+  "face-pull": "로프를 얼굴로 + 팔꿈치 높게 → 후면 삼각근·승모 중하부",
+  "front-raise": "반동 없이 어깨 높이까지 → 전면 삼각근",
+  "front-squat": "바를 앞에 얹고 상체 수직 → 대퇴사두",
+  "glute-bridge": "발 가까이 두고 정점에서 둔근 조임 → 둔근",
+  "goblet-squat": "덤벨 가슴 앞 + 상체 세워 앉기 → 대퇴사두·둔근",
+  "good-morning": "무릎 살짝 굽혀 엉덩이 뒤로 접기 → 햄스트링·둔근",
+  "hack-squat": "발 위쪽=둔근/아래쪽=대퇴 — 깊게 앉기 → 하체",
+  "hammer-curl": "뉴트럴(세로) 그립으로 올리기 → 상완근·전완",
+  "hanging-leg-raise": "다리만 말고 골반을 말아올리기 → 하복부",
+  "hip-abduction": "다리를 바깥으로 벌리기 → 중둔근(엉덩이 옆)",
+  "hip-adduction": "다리를 안으로 모으기 → 내전근(안쪽 허벅지)",
+  "hip-thrust": "정점에서 둔근 강하게 1초 조임 → 둔근",
+  "hollow-hold": "허리를 바닥에 눌러 붙여 버티기 → 복직근",
+  hyperextension: "과신전 없이 상체만 들기 → 척추기립근",
+  "incline-cable-fly": "낮은 풀리에서 위로 모으기 → 가슴 상부(윗가슴)",
+  "incline-curl": "팔을 뒤로 늘어뜨려 올리기 → 이두 장두(스트레치)",
+  "incline-press": "벤치 15~30도, 쇄골 아래로 내리기 → 가슴 상부",
+  "inverted-row": "몸 눕혀 가슴을 바로 당기기 → 등 상부·광배",
+  "lat-pulldown": "넓은 오버그립으로 쇄골에 당기기 → 광배",
+  "lateral-raise": "팔꿈치를 손보다 높게, 반동 없이 → 측면 삼각근",
+  "leg-curl": "발끝 당기고 무릎 굽히기 → 햄스트링",
+  "leg-extension": "무릎 완전히 펴 1초 짜기 → 대퇴사두",
+  "leg-press": "발 위쪽=둔근·햄스트링 / 아래쪽=대퇴사두",
+  "low-row-machine": "팔꿈치 몸에 붙여 당기기 → 광배·등 중앙",
+  lunge: "상체 세우면 대퇴 / 앞으로 숙이면 둔근",
+  "machine-chest-press": "견갑 고정하고 가슴으로 밀기 → 가슴",
+  "machine-rear-delt-fly": "팔을 옆으로 벌리기(팔꿈치 손 높이) → 후면 삼각근",
+  "machine-shoulder-press": "귀 높이까지 내렸다 밀기 → 삼각근",
+  "meadows-row": "한 손으로 옆구리로 당기기 → 광배 한쪽",
+  "mountain-climber": "골반 낮추고 무릎을 가슴으로 → 하복부·심폐",
+  ohp: "머리 위 정수직으로 밀기 → 삼각근",
+  "one-arm-dumbbell-row": "팔꿈치 몸에 붙여 당기기 → 광배",
+  "overhead-triceps-extension": "머리 위로 깊게 내렸다 펴기 → 삼두 장두",
+  "pallof-press": "옆에서 밀며 비틀림 버티기 → 코어(회전 저항)",
+  "pec-deck": "팔꿈치 어깨 높이로 모으기 → 가슴 안쪽",
+  "pendlay-row": "바닥에서 매번 폭발적으로 당기기 → 등 상부·광배",
+  "pistol-squat": "한 다리로 깊게 앉기 → 대퇴사두·둔근·균형",
+  plank: "엉덩이 안 처지게 몸 일직선 버티기 → 코어 전체",
+  "preacher-curl": "패드에 팔 고정, 반동 차단 → 이두 하부",
+  "pull-up": "넓은 오버그립 + 가슴을 바로 끌기 → 광배(등 너비)",
+  "push-up": "손 넓으면 가슴 / 좁으면(다이아몬드) 삼두",
+  rdl: "무릎 거의 고정하고 엉덩이 뒤로 접기 → 햄스트링",
+  "rear-delt-fly": "상체 숙여 팔을 옆으로 들기 → 후면 삼각근",
+  "reverse-crunch": "골반을 말아올리기(다리 반동 X) → 하복부",
+  "reverse-curl": "오버그립(손등 위)으로 올리기 → 전완·상완근",
+  "reverse-pec-deck": "팔을 뒤로 벌리기 → 후면 삼각근",
+  "russian-twist": "상체를 통째로 비틀기(팔만 X) → 복사근",
+  "seated-cable-row": "팔꿈치 몸에 붙여 당기기 → 광배",
+  "seated-calf-raise": "무릎 굽힌 자세로 짜기 → 가자미근(아래 종아리)",
+  "seated-leg-curl": "상체 세운 자세로 굽히기 → 햄스트링",
+  shrug: "돌리지 말고 으쓱 위로만 → 승모 상부",
+  "side-plank": "골반 처지지 않게 옆으로 일직선 → 복사근",
+  "single-leg-leg-press": "한 다리로 — 발 위치로 둔근/대퇴 조절",
+  "sissy-squat": "무릎 앞·상체 뒤로 기울이기 → 대퇴사두(스트레치)",
+  "sit-up": "상체 끝까지 일으키기(반동 줄여) → 복직근",
+  "skull-crusher": "이마/머리 뒤로 내리기, 팔꿈치 고정 → 삼두 장두",
+  "smith-bench-press": "바 경로 고정 + 가슴으로 밀기 → 가슴",
+  "smith-squat": "발을 앞에 두고 앉기 → 대퇴사두",
+  squat: "상체 세우면 대퇴 / 엉덩이 빼면 둔근·햄스트링",
+  "standing-cable-curl": "전 구간 장력 유지, 팔꿈치 고정 → 이두",
+  "standing-calf-raise": "무릎 편 자세로 짜기 → 비복근(위 종아리)",
+  "step-up": "뒷발 반동 없이 앞다리로만 올라가기 → 둔근·햄스트링",
+  "stiff-leg-deadlift": "무릎 펴고 엉덩이 접기 → 햄스트링(스트레치)",
+  "straight-arm-pulldown": "팔 펴고 호를 그려 당기기 → 광배 단독",
+  "sumo-deadlift": "발 넓게 + 상체 수직으로 밀기 → 내전근·둔근",
+  "sumo-squat": "발 넓게 45도, 깊게 앉기 → 내전근·둔근",
+  "t-bar-row": "상체 숙여 배꼽 쪽으로 당기기 → 등 두께",
+  "toes-to-bar": "골반 말아 발끝을 바로 → 하복부",
+  "triceps-kickback": "팔꿈치 고정하고 뒤로 곧게 펴기 → 삼두 장두",
+  "triceps-pushdown": "팔꿈치 몸통에 붙여 펴기 → 삼두",
+  "upright-row": "팔꿈치를 손보다 높게 끌어올리기 → 측면 삼각근·승모",
+  "v-up": "상체·다리 동시에 V자로 → 복직근 전체",
+  "walking-lunge": "걸으며 내딛고 앞다리로 밀기 → 둔근·대퇴",
+  "wide-grip-pull-up": "넓은 오버그립으로 끌기 → 광배 바깥(등 너비)",
+  "wood-chopper": "몸통 회전으로 대각선 당기기 → 복사근",
+  "wrist-curl": "전완 고정하고 손목만 말기 → 전완",
+  "zottman-curl": "올릴 땐 언더(이두) / 내릴 땐 오버(전완)",
+};
+
+/** 카테고리 폴백 한 줄 요약 — 전용 요약이 없는 운동용. */
+const ONE_LINER_BY_CATEGORY: Record<MotionCategory, string> = {
+  press: "견갑 고정하고 가슴으로 밀기 → 가슴·삼두·어깨",
+  row: "팔이 아니라 등으로 당기기(견갑 먼저) → 광배·등",
+  pulldown: "견갑 내려 쇄골로 당기기 → 광배",
+  squat: "상체 세우면 대퇴 / 엉덩이 빼면 둔근",
+  hinge: "엉덩이 뒤로 접기(허리 중립) → 햄스트링·둔근",
+  curl: "팔꿈치 고정, 반동 없이 → 이두/전완",
+  extension: "팔꿈치 고정하고 끝까지 펴기 → 삼두",
+  raise: "반동 없이 천천히 → 어깨(삼각근)",
+  static: "몸을 일직선으로 버티기 → 코어",
+};
+
+/** 운동모드·상세에서 쓰는 간결 요약. */
+export type ExerciseSummary = {
+  /** 한 줄: 핵심 자세/그립 → 주 타겟 */
+  oneLiner: string;
+  /** 핵심 큐 2~3개 (그립·각도에 따른 자극 차이 등) */
+  cues: string[];
+  /** 자극 부위명 (칩용) */
+  targets: string[];
+};
+
+export function exerciseSummary(exerciseId: string): ExerciseSummary {
+  const oneLiner =
+    EXERCISE_ONE_LINER[exerciseId] ??
+    ONE_LINER_BY_CATEGORY[motionCategoryFor(exerciseId)];
+  const guide = guideFor(exerciseId);
+  // 핵심 큐: 운동별 꿀팁(그립/각도→자극) 우선, 없으면 동작 큐. 최대 3개.
+  const cues = (EXERCISE_PRO_TIPS[exerciseId] ?? guide.cues).slice(0, 3);
+  // 타겟 칩: 괄호 설명 떼고 부위명만 (예: "대흉근(가슴 가운데)" → "대흉근").
+  const targets = guide.targets.map((t) =>
+    t.name.replace(/\s*\([^)]*\)\s*/g, "").trim(),
+  );
+  return { oneLiner, cues, targets };
+}

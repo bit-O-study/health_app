@@ -3,12 +3,9 @@
 import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
 import { useRouter } from "next/navigation";
 import {
-  AlertTriangle,
   Check,
   ChevronLeft,
   ChevronRight,
-  Crosshair,
-  Key,
   ListChecks,
   Pause,
   Play,
@@ -40,8 +37,8 @@ import {
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
 import {
-  guideFor,
-  type ExerciseGuide,
+  exerciseSummary,
+  type ExerciseSummary,
 } from "@/features/workout-timer/exercise-guides";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
@@ -107,28 +104,11 @@ function framesForItem(item: GuidedItem): [string, string] | null {
  * 훨씬 자세하게 — "견갑을 모은다"면 어떻게 모으는지, 흔한 실수까지 한 장면씩.
  * 워밍업·마무리는 컨디셔닝 방법 문구 그대로.
  */
-/** setup 문단을 문장 단위로 쪼개 준비 장면용으로(셋업 단계 데이터가 없을 때 대체). */
-function splitSetup(setup: string): string[] {
-  return setup
-    .split(/(?<=[.。!])\s+/)
-    .map((s) => s.trim())
-    .filter(Boolean)
-    .slice(0, 4);
-}
-
 function tutorialStepsFor(item: GuidedItem): string[] {
   if (item.kind !== "main") return item.method;
-  const g = guideFor(item.exerciseId);
-  // 준비 셋업(발→어깨→그립) → 핵심 동작 → 🔑꿀팁 → 💡초보 팁 순서로 장면 구성.
-  const setup = (
-    g.setupSteps && g.setupSteps.length > 0 ? g.setupSteps : splitSetup(g.setup)
-  ).map((s) => `🧭 ${s}`);
-  return [
-    ...setup,
-    ...g.cues,
-    ...(g.proTips ?? []).map((t) => `🔑 ${t}`),
-    ...g.beginnerTips.map((t) => `💡 ${t}`),
-  ];
+  // 사진 위 자막도 간결하게 — 한 줄 요약 + 핵심 큐만 순환.
+  const s = exerciseSummary(item.exerciseId);
+  return [s.oneLiner, ...s.cues];
 }
 
 /**
@@ -616,10 +596,9 @@ export function GuidedOverlay({
           </p>
         ) : null}
 
-        {/* 본운동: 자세 잡기·자극 부위·핵심 포인트·초보 팁 상세 가이드.
-            따라 하면서 운동할 수 있게 방법 문구보다 훨씬 구체적으로. (개인설정으로 끌 수 있음) */}
+        {/* 본운동: 한 줄 요약 + 자극 부위 + 핵심 포인트만 — 딱딱 간결하게. (개인설정으로 끌 수 있음) */}
         {item.kind === "main" && showGuide ? (
-          <ExerciseGuideCard guide={guideFor(item.exerciseId)} />
+          <ExerciseConciseCard summary={exerciseSummary(item.exerciseId)} />
         ) : null}
 
         {/* 개인 메모 — 메모가 있으면 표시 (본운동·워밍업·마무리 공통) */}
@@ -760,105 +739,55 @@ function ItemVisual({ item }: { item: GuidedItem }) {
 }
 
 /**
- * 본운동 상세 가이드 — 자세 잡기 / 자극 부위(어디가 느껴져야 하는지) / 핵심 포인트 /
- * 초보가 자주 놓치는 것. 방법 3줄보다 훨씬 구체적으로 "따라 하면서" 운동하게 한다.
+ * 본운동 간결 가이드 — 자극 부위 칩 + 한 줄 요약 + 핵심 포인트 2~3개.
+ * "앉은 위치·그립 → 어디가 잘 먹는지"를 딱딱 보여주는 게 목적(장황한 설명 X).
  */
-function ExerciseGuideCard({ guide }: { guide: ExerciseGuide }) {
+function ExerciseConciseCard({ summary }: { summary: ExerciseSummary }) {
   return (
     <div className="mt-6 w-full max-w-md space-y-3 text-left">
-      {/* 자세 잡기 */}
-      <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-        <h3 className="mb-1.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-          <Crosshair aria-hidden="true" size={13} className="text-emerald-500" />
-          자세 잡기
-        </h3>
-        <p className="text-sm leading-6 text-zinc-700 dark:text-zinc-200">
-          {guide.setup}
-        </p>
-      </section>
-
-      {/* 자극 부위 */}
-      <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-        <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-          <Target aria-hidden="true" size={13} className="text-rose-500" />
-          자극 부위 — 여기가 느껴져야 정상
-        </h3>
-        <ul className="space-y-1.5">
-          {guide.targets.map((t) => (
-            <li key={t.name} className="text-sm leading-6">
-              <span className="font-semibold text-zinc-900 dark:text-zinc-100">
-                {t.name}
-              </span>
-              <span className="text-zinc-500 dark:text-zinc-400">
-                {" "}
-                — {t.feel}
-              </span>
-            </li>
+      {/* 자극 부위 칩 */}
+      {summary.targets.length > 0 ? (
+        <div className="flex flex-wrap items-center gap-1.5">
+          <Target
+            aria-hidden="true"
+            size={14}
+            className="text-rose-500"
+          />
+          {summary.targets.map((t) => (
+            <span
+              key={t}
+              className="rounded-full bg-rose-100 px-2 py-0.5 text-[11px] font-bold text-rose-700 dark:bg-rose-500/20 dark:text-rose-300"
+            >
+              {t}
+            </span>
           ))}
-        </ul>
-      </section>
+        </div>
+      ) : null}
 
-      {/* 핵심 포인트(폼 큐) */}
-      <section className="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 dark:border-emerald-500/30 dark:bg-emerald-500/10">
-        <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
-          <ListChecks aria-hidden="true" size={13} />
-          핵심 포인트
-        </h3>
-        <ol className="space-y-2">
-          {guide.cues.map((c, i) => (
-            <li key={i} className="flex gap-2.5 text-sm leading-6">
-              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-[11px] font-extrabold text-white">
-                {i + 1}
-              </span>
-              <span className="text-zinc-800 dark:text-zinc-100">{c}</span>
-            </li>
-          ))}
-        </ol>
-      </section>
+      {/* 한 줄 요약 — 핵심 자세/그립 → 타겟 */}
+      <p className="rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-base font-bold leading-7 text-emerald-900 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-100">
+        {summary.oneLiner}
+      </p>
 
-      {/* 꿀팁 — 그립·손/발 위치·각도별 자극 차이 등 한 단계 위 노하우 */}
-      {guide.proTips && guide.proTips.length > 0 ? (
-        <section className="rounded-2xl border border-violet-200 bg-violet-50/70 p-4 dark:border-violet-500/30 dark:bg-violet-500/10">
-          <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-violet-700 dark:text-violet-300">
-            <Key aria-hidden="true" size={13} />
-            꿀팁
+      {/* 핵심 포인트 — 그립·각도에 따른 자극 차이 등 */}
+      {summary.cues.length > 0 ? (
+        <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <ListChecks aria-hidden="true" size={13} className="text-emerald-500" />
+            핵심 포인트
           </h3>
           <ul className="space-y-1.5">
-            {guide.proTips.map((t, i) => (
-              <li
-                key={i}
-                className="flex gap-2 text-sm leading-6 text-violet-900 dark:text-violet-100"
-              >
-                <span aria-hidden="true" className="shrink-0 text-violet-500">
-                  🔑
+            {summary.cues.map((c, i) => (
+              <li key={i} className="flex gap-2 text-sm leading-6">
+                <span aria-hidden="true" className="shrink-0 text-emerald-500">
+                  •
                 </span>
-                <span>{t}</span>
+                <span className="text-zinc-800 dark:text-zinc-100">{c}</span>
               </li>
             ))}
           </ul>
         </section>
       ) : null}
-
-      {/* 초보가 자주 놓치는 것 */}
-      <section className="rounded-2xl border border-amber-200 bg-amber-50/70 p-4 dark:border-amber-500/30 dark:bg-amber-500/10">
-        <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">
-          <AlertTriangle aria-hidden="true" size={13} />
-          초보가 자주 놓치는 것
-        </h3>
-        <ul className="space-y-1.5">
-          {guide.beginnerTips.map((t, i) => (
-            <li
-              key={i}
-              className="flex gap-2 text-sm leading-6 text-amber-900 dark:text-amber-100"
-            >
-              <span aria-hidden="true" className="shrink-0 text-amber-500">
-                •
-              </span>
-              <span>{t}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
     </div>
   );
 }

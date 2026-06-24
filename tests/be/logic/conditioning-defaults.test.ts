@@ -54,3 +54,18 @@ describe("컨디셔닝 추천 기본값 (퀄리티·종류)", () => {
     }
   });
 });
+
+describe("경사(incline) 파라미터는 실제 경사가 있는 기구만", () => {
+  // 경사(slope %)는 트레드밀류(런닝·걷기)와 램프가 있는 일립티컬에만. 계단 머신·실내
+  // 자전거는 경사가 없고 강도를 '속도(레벨/저항)'로 조절하므로 incline 을 두면 안 된다.
+  const HAS_INCLINE = ["running", "walking", "elliptical"];
+  const NO_INCLINE = ["stair-master", "cycling", "rowing", "jump-rope"];
+
+  it.each(HAS_INCLINE)("%s 는 incline 파라미터가 있다", (id) => {
+    expect(getConditioningItem(id)?.params).toContain("incline");
+  });
+
+  it.each(NO_INCLINE)("%s 는 incline 파라미터가 없다", (id) => {
+    expect(getConditioningItem(id)?.params ?? []).not.toContain("incline");
+  });
+});

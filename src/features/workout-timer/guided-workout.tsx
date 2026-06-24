@@ -94,7 +94,9 @@ function framesForItem(item: GuidedItem): [string, string] | null {
 }
 
 /**
- * 무게/횟수/세트 스크러버 — 좌우로 밀거나 ±로 조절. (고정 끔일 때 운동모드에서 사용)
+ * 무게/횟수/세트 스크러버 — 한 줄(full-width) 행: 라벨 + [− 값 +].
+ * 값은 좌우로 밀거나 ±로 조절하고, **더블클릭하면 직접 숫자 입력**도 된다.
+ * (예전엔 3개를 가로로 나란히 둬서 모바일 폭에서 넘쳐 레이아웃이 깨졌다 → 세로 스택.)
  * 손가락을 가로로 끌면 값이 오르내린다(맨몸 허용 시 최소 아래로 더 내리면 '맨몸').
  */
 function NumberScrubber({
@@ -117,6 +119,8 @@ function NumberScrubber({
   onChange: (v: number | null) => void;
 }) {
   const startRef = useRef<{ x: number; base: number } | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [editing, setEditing] = useState(false);
   const PX_PER_STEP = 12;
   const clamp = (v: number) => Math.min(max, Math.max(min, v));
   const round = (v: number) => Math.round(v / step) * step;
@@ -158,47 +162,89 @@ function NumberScrubber({
   function inc() {
     onChange(value === null ? min : clamp(value + step));
   }
+  // 더블클릭 직접 입력 — 빈칸은 (맨몸 허용 시) 맨몸, 아니면 변경 없음. step 단위로 스냅.
+  function commitInput() {
+    const raw = inputRef.current?.value.trim() ?? "";
+    setEditing(false);
+    if (raw === "") {
+      if (allowBodyweight) onChange(null);
+      return;
+    }
+    const n = Number(raw);
+    if (!Number.isFinite(n)) return;
+    if (allowBodyweight && n < min) return onChange(null);
+    onChange(clamp(round(n)));
+  }
   const display = value === null ? "맨몸" : String(value);
 
   return (
-    <div className="flex min-w-0 flex-1 flex-col items-center gap-1">
-      <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+    <div className="flex items-center justify-between gap-2 py-2">
+      <span className="text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
         {label}
       </span>
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1.5">
         <button
           type="button"
           aria-label={`${label} 줄이기`}
           onClick={dec}
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-xl font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
         >
           −
         </button>
-        <div
-          role="slider"
-          aria-label={label}
-          aria-valuenow={value ?? 0}
-          onPointerDown={onDown}
-          onPointerMove={onMove}
-          onPointerUp={onUp}
-          onPointerCancel={onUp}
-          style={{ touchAction: "none" }}
-          className="flex min-w-[3.5rem] cursor-ew-resize select-none items-baseline justify-center rounded-lg bg-emerald-50 px-2 py-1 dark:bg-emerald-500/10"
-        >
-          <span className="text-2xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
-            {display}
-          </span>
-          {value !== null ? (
-            <span className="ml-0.5 text-xs font-semibold text-emerald-700/70 dark:text-emerald-300/70">
-              {unit}
+        {editing ? (
+          <input
+            ref={inputRef}
+            type="number"
+            inputMode="decimal"
+            aria-label={`${label} 직접 입력`}
+            autoFocus
+            defaultValue={value ?? ""}
+            onFocus={(e) => e.currentTarget.select()}
+            onBlur={commitInput}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                commitInput();
+              } else if (e.key === "Escape") {
+                e.preventDefault();
+                setEditing(false);
+              }
+            }}
+            onPointerDown={(e) => e.stopPropagation()}
+            className="h-9 w-[4.75rem] rounded-lg border border-emerald-400 bg-white px-2 text-center text-xl font-extrabold tabular-nums text-emerald-700 outline-none focus:border-emerald-500 dark:border-emerald-500 dark:bg-zinc-900 dark:text-emerald-300"
+          />
+        ) : (
+          <div
+            role="slider"
+            aria-label={label}
+            aria-valuenow={value ?? 0}
+            title="좌우로 끌거나 더블클릭해 직접 입력"
+            onPointerDown={onDown}
+            onPointerMove={onMove}
+            onPointerUp={onUp}
+            onPointerCancel={onUp}
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              setEditing(true);
+            }}
+            style={{ touchAction: "none" }}
+            className="flex h-9 min-w-[4.75rem] cursor-ew-resize select-none items-center justify-center gap-0.5 rounded-lg bg-emerald-50 px-2 dark:bg-emerald-500/10"
+          >
+            <span className="text-xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+              {display}
             </span>
-          ) : null}
-        </div>
+            {value !== null ? (
+              <span className="text-xs font-semibold text-emerald-700/70 dark:text-emerald-300/70">
+                {unit}
+              </span>
+            ) : null}
+          </div>
+        )}
         <button
           type="button"
           aria-label={`${label} 늘리기`}
           onClick={inc}
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-xl font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
         >
           +
         </button>
@@ -742,10 +788,11 @@ export function GuidedOverlay({
           </p>
         )}
 
-        {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 좌우로 밀거나 ±로 조절. */}
+        {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 세로 스택(모바일 폭에서도 안 깨짐).
+            좌우로 밀거나 ±로 조절, 더블클릭하면 직접 입력. */}
         {editable ? (
-          <div className="mt-4 w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-            <div className="flex items-start justify-center gap-3">
+          <div className="mt-4 w-full max-w-xs rounded-2xl border border-zinc-200 bg-white px-4 py-1 dark:border-zinc-800 dark:bg-zinc-900/60">
+            <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
               <NumberScrubber
                 label="무게"
                 value={editW}
@@ -775,8 +822,8 @@ export function GuidedOverlay({
                 onChange={(v) => putEdit({ sets: v ?? 1 })}
               />
             </div>
-            <p className="mt-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
-              숫자를 좌우로 끌거나 ± 로 조절 · 완료하면 이 값으로 기록돼요
+            <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+              좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
             </p>
           </div>
         ) : null}

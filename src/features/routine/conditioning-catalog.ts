@@ -62,10 +62,10 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "stair-master",
     name: "천국의 계단",
     kinds: ["warmup", "cooldown"],
-    params: ["duration", "speed", "incline"],
+    // 계단 머신은 경사(slope)가 없다 — 강도는 '속도(레벨)'로 조절. incline 제외.
+    params: ["duration", "speed"],
     defaultMin: 10,
     defaultSpeed: 50,
-    defaultIncline: 10,
     target: "둔근·햄스트링 활성화 + 심폐 강도 높이는 유산소",
     method: [
       "발 전체로 계단을 디뎌 발뒤꿈치까지 닿게 (앞꿈치만 디디지 않기)",
@@ -77,7 +77,8 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "cycling",
     name: "사이클",
     kinds: ["warmup", "cooldown"],
-    params: ["duration", "speed", "incline"],
+    // 실내 자전거는 경사(slope)가 없다 — 강도는 '속도(저항)'로 조절. incline 제외.
+    params: ["duration", "speed"],
     defaultMin: 5,
     defaultSpeed: 20,
     target: "무릎 부담 적은 하체 워밍업·회복 유산소",

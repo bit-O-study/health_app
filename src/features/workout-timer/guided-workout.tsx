@@ -1,21 +1,35 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type PointerEvent } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent,
+  type ReactNode,
+} from "react";
 import { useRouter } from "next/navigation";
 import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Gauge,
   ListChecks,
   Pause,
   Play,
   StickyNote,
   Timer,
+  TrendingUp,
   X,
 } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import {
+  getConditioningItem,
+  PARAM_LABEL,
+  PARAM_UNIT,
+} from "@/features/routine/conditioning-catalog";
 import { adjacentActiveIndex } from "@/features/workout-timer/queue-filter";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
@@ -728,14 +742,10 @@ export function GuidedOverlay({
         >
         <KindBadge kind={item.kind} />
         {/* 시연(사진/영상). 좌우 화살표(‹ ›)로 운동 이동(탭/스와이프 보조).
-            본운동은 운동방법·꿀팁 텍스트를 빼고(상세 페이지에서), 워밍업·마무리는
-            상세 페이지가 없으므로 사진 위 방법 자막을 그대로 보여준다. */}
+            본운동·워밍업·마무리 모두 방법 자막(문구)을 빼고 사진/영상만 — 워밍업·마무리는
+            설정값(시간·속도·경사) 칩을 이름 아래에 보여주고, 본운동은 상세 페이지로. */}
         <div className="relative w-full max-w-lg">
-          {item.kind !== "main" && item.method.length > 0 ? (
-            <ExerciseTutorial frames={framesForItem(item)} steps={item.method} />
-          ) : (
-            <ItemVisual item={item} />
-          )}
+          <ItemVisual item={item} />
 
           {total > 1 ? (
             <>
@@ -781,11 +791,14 @@ export function GuidedOverlay({
             {item.name}
           </h2>
         )}
-        {/* 고정 끔이면 무게/횟수는 아래 스크러버로 — subtitle 의 무게/횟수 표기는 숨긴다. */}
-        {editable ? null : (
+        {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 설정값 칩으로,
+            본운동(고정 켬)은 한 줄 subtitle 로. */}
+        {editable ? null : item.kind === "main" ? (
           <p className="mt-1.5 text-center text-sm text-zinc-600 dark:text-zinc-300">
             {item.subtitle}
           </p>
+        ) : (
+          <ConditioningSettings item={item} />
         )}
 
         {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 세로 스택(모바일 폭에서도 안 깨짐).
@@ -949,6 +962,63 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
     >
       {label}
     </span>
+  );
+}
+
+/**
+ * 워밍업·마무리 설정값 칩 — 운동마다 다른 파라미터를 그 운동의 것만 보여준다.
+ * 런닝/유산소: 시간·속도·경사 / 스트레칭·모빌리티: 시간만. (방법 문구 대신 핵심 수치만.)
+ */
+function ConditioningSettings({
+  item,
+}: {
+  item: Extract<GuidedItem, { kind: "warmup" | "cooldown" }>;
+}) {
+  const params = getConditioningItem(item.itemId)?.params ?? [];
+  const chips: { key: string; icon: ReactNode; label: string; value: string }[] =
+    [];
+  if (params.includes("duration") && item.durationMin != null)
+    chips.push({
+      key: "duration",
+      icon: <Timer size={15} aria-hidden="true" />,
+      label: PARAM_LABEL.duration,
+      value: `${item.durationMin}${PARAM_UNIT.duration}`,
+    });
+  if (params.includes("speed") && item.speed != null)
+    chips.push({
+      key: "speed",
+      icon: <Gauge size={15} aria-hidden="true" />,
+      label: PARAM_LABEL.speed,
+      value: `${item.speed}${PARAM_UNIT.speed}`,
+    });
+  if (params.includes("incline") && item.incline != null)
+    chips.push({
+      key: "incline",
+      icon: <TrendingUp size={15} aria-hidden="true" />,
+      label: PARAM_LABEL.incline,
+      value: `${item.incline}${PARAM_UNIT.incline}`,
+    });
+  if (chips.length === 0) return null;
+  return (
+    <div
+      data-testid="cond-settings"
+      className="mt-3 flex flex-wrap items-center justify-center gap-2"
+    >
+      {chips.map((c) => (
+        <span
+          key={c.key}
+          className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 dark:border-emerald-500/30 dark:bg-emerald-500/10"
+        >
+          <span className="text-emerald-600 dark:text-emerald-400">{c.icon}</span>
+          <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            {c.label}
+          </span>
+          <span className="text-sm font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+            {c.value}
+          </span>
+        </span>
+      ))}
+    </div>
   );
 }
 

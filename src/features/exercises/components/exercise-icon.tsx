@@ -1550,7 +1550,58 @@ const ICONS: Record<string, (p: ExerciseIconProps) => ReactNode> = {
   "cable-crunch": CableCrunchIcon,
   "wood-chopper": WoodChopperIcon,
   "pallof-press": PallofPressIcon,
+
+  // 변형·머신 운동 — 전용 아이콘이 없어 '가장 가까운 동작'의 아이콘을 재사용한다.
+  // (예전엔 매핑이 없어 전부 일반 덤벨로 떠서 실제 운동과 안 맞았다.)
+  // 가슴
+  "machine-chest-press": BenchPressIcon,
+  "smith-bench-press": BenchPressIcon,
+  "incline-cable-fly": CableCrossoverIcon,
+  "diamond-pushup": PushUpIcon,
+  "dumbbell-pullover": ChestFlyIcon,
+  // 등
+  "wide-grip-pull-up": PullUpIcon,
+  "assisted-pull-up": PullUpIcon,
+  "inverted-row": BarbellRowIcon,
+  "pendlay-row": BarbellRowIcon,
+  "meadows-row": TBarRowIcon,
+  "chest-supported-row": SeatedCableRowIcon,
+  "low-row-machine": SeatedCableRowIcon,
+  // 어깨
+  "machine-shoulder-press": OhpIcon,
+  "cable-lateral-raise": LateralRaiseIcon,
+  "machine-rear-delt-fly": RearDeltFlyIcon,
+  "reverse-pec-deck": RearDeltFlyIcon,
+  // 팔
+  "standing-cable-curl": BicepsCurlIcon,
+  "drag-curl": BicepsCurlIcon,
+  "zottman-curl": BicepsCurlIcon,
+  "cable-rope-hammer-curl": HammerCurlIcon,
+  "triceps-kickback": TricepsPushdownIcon,
+  // 하체
+  "box-squat": SquatIcon,
+  "belt-squat": SquatIcon,
+  "sumo-squat": SquatIcon,
+  "sissy-squat": SquatIcon,
+  "pistol-squat": SquatIcon,
+  "single-leg-leg-press": LegPressIcon,
+  "cossack-squat": LungeIcon,
+  "curtsy-lunge": LungeIcon,
+  "stiff-leg-deadlift": RdlIcon,
+  "cable-pull-through": RdlIcon,
+  "donkey-calf-raise": StandingCalfRaiseIcon,
+  // 코어
+  "bicycle-crunch": CrunchIcon,
+  "reverse-crunch": CrunchIcon,
+  "v-up": SitUpIcon,
+  "toes-to-bar": HangingLegRaiseIcon,
+  "hollow-hold": PlankIcon,
 };
+
+/** 운동 전용(일반 덤벨 폴백이 아닌) 아이콘이 매핑돼 있는지. */
+export function hasDedicatedIcon(id: string): boolean {
+  return id in ICONS;
+}
 
 /** 운동 id 로 매핑된 SVG 아이콘. 매핑 없으면 일반 덤벨 아이콘. */
 export function ExerciseIcon({

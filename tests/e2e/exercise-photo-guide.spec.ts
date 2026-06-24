@@ -115,7 +115,7 @@ test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤
   await expect(page.locator('img[src*="Barbell_Incline"]')).toHaveCount(0);
 });
 
-test("워밍업도 실사 시연 사진 + 부위 마커가 뜬다", async ({ page }) => {
+test("워밍업도 실사 시연 사진 + 설정값(시간) 칩이 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
@@ -151,9 +151,54 @@ test("워밍업도 실사 시연 사진 + 부위 마커가 뜬다", async ({ pag
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);
 
-  // 첫 화면이 워밍업(보디웨이트 스쿼트) — 실사 사진 + 부위 줌 마커.
+  // 첫 화면이 워밍업(보디웨이트 스쿼트) — 실사 사진 + 방법 문구 대신 설정값 칩.
   await expect(page.locator('img[src*="Bodyweight_Squat"]').first()).toBeVisible({
     timeout: 8000,
   });
-  await expect(page.getByTestId("ex-focus-marker")).toBeVisible({ timeout: 8000 });
+  // bw-squat 은 duration 파라미터만 → 시간 칩(기본 2분)이 뜨고, 방법 자막은 없다.
+  const settings = page.getByTestId("cond-settings");
+  await expect(settings).toBeVisible({ timeout: 8000 });
+  await expect(settings.getByText("시간", { exact: true })).toBeVisible();
+  await expect(settings.getByText("2분", { exact: true })).toBeVisible();
+});
+
+test("워밍업 런닝은 시간·속도·경사 설정값이 모두 뜬다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+
+  await dbQuery(
+    `update public.user_routines
+        set splits=0, variant_id='custom',
+            custom_week='[["lower"],["rest"],["rest"],["rest"],["rest"],["rest"],["rest"]]'::jsonb,
+            start_date=${today}, day_index_migrated=true,
+            rest_date=null, override_date=null, override_block=null
+      where user_id=${uid}`,
+    [email],
+  );
+  await dbQuery(`delete from public.routine_exercises where user_id=${uid}`, [email]);
+  await dbQuery(
+    `insert into public.routine_exercises
+       (user_id, day_index, focus, position, exercise_id, equipment, sets, reps, weight_kg)
+     values (${uid}, 0, 'lower', 0, 'squat', 'barbell', 4, 8, 60)`,
+    [email],
+  );
+  // 워밍업 = 런닝(시간 6분, 속도 9km/h, 경사 2%).
+  await dbQuery(`delete from public.routine_conditioning where user_id=${uid}`, [email]);
+  await dbQuery(
+    `insert into public.routine_conditioning
+       (user_id, focus, kind, position, item_id, duration_min, speed, incline)
+     values (${uid}, 'lower', 'warmup', 0, 'running', 6, 9, 2)`,
+    [email],
+  );
+
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: "운동 시작" }).click();
+  await page.waitForTimeout(1200);
+
+  const settings = page.getByTestId("cond-settings");
+  await expect(settings).toBeVisible({ timeout: 8000 });
+  await expect(settings.getByText("6분", { exact: true })).toBeVisible();
+  await expect(settings.getByText("9km/h", { exact: true })).toBeVisible();
+  await expect(settings.getByText("2%", { exact: true })).toBeVisible();
 });

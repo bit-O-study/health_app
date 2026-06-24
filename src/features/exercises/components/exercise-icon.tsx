@@ -1456,6 +1456,174 @@ export function PallofPressIcon(p: ExerciseIconProps) {
   );
 }
 
+/* ─── 변형 전용 아이콘 (동작이 확연히 다른 것) ──────────────────────────── */
+
+export function DumbbellPulloverIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      {/* bench */}
+      <rect x="5" y="19" width="22" height="3" rx="0.5" />
+      <line x1="9" y1="22" x2="9" y2="27" />
+      <line x1="23" y1="22" x2="23" y2="27" />
+      {/* body lying, head left */}
+      <circle cx="7" cy="17" r="1.8" />
+      <line x1="9" y1="17" x2="22" y2="17" />
+      {/* arms reaching back over head (up-left) */}
+      <line x1="12" y1="17" x2="6" y2="9" />
+      {/* single dumbbell overhead */}
+      <rect x="3" y="6.5" width="5" height="3" rx="0.6" />
+    </Svg>
+  );
+}
+
+export function TricepsKickbackIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      {/* hinged torso */}
+      <circle cx="8" cy="9" r="1.8" />
+      <line x1="9" y1="11" x2="18" y2="15" />
+      {/* legs */}
+      <line x1="18" y1="15" x2="16" y2="27" />
+      <line x1="18" y1="15" x2="21" y2="27" />
+      {/* upper arm back, forearm extended straight back */}
+      <line x1="12" y1="13" x2="18" y2="12" />
+      <line x1="18" y1="12" x2="26" y2="14" />
+      <rect x="25" y="12" width="3" height="4" rx="0.5" />
+    </Svg>
+  );
+}
+
+export function InvertedRowIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      {/* high horizontal bar */}
+      <line x1="4" y1="8" x2="22" y2="8" />
+      <line x1="6" y1="8" x2="6" y2="3" />
+      {/* body horizontal below, head left */}
+      <circle cx="8" cy="14" r="1.8" />
+      <line x1="10" y1="14" x2="26" y2="18" />
+      {/* feet */}
+      <line x1="26" y1="18" x2="29" y2="20" />
+      {/* arms up to bar */}
+      <line x1="11" y1="13" x2="11" y2="9" />
+      <line x1="15" y1="14" x2="15" y2="9" />
+    </Svg>
+  );
+}
+
+export function CablePullThroughIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      {/* low pulley behind (right) */}
+      <circle cx="28" cy="25" r="1.4" />
+      {/* cable through legs to hands */}
+      <line x1="27" y1="25" x2="15" y2="20" />
+      {/* hinged person facing left */}
+      <circle cx="8" cy="9" r="1.8" />
+      <line x1="9" y1="11" x2="18" y2="15" />
+      <line x1="18" y1="15" x2="17" y2="27" />
+      <line x1="18" y1="15" x2="21" y2="27" />
+      {/* arms down between legs to handle */}
+      <line x1="13" y1="13" x2="15" y2="20" />
+      <rect x="13" y="20" width="4" height="2.5" rx="0.4" />
+    </Svg>
+  );
+}
+
+export function HollowHoldIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      <line x1="3" y1="27" x2="29" y2="27" />
+      {/* banana-shaped body, low back on floor */}
+      <path d="M6 18 Q16 24 26 18" />
+      <circle cx="5" cy="16" r="1.6" />
+      {/* arms overhead */}
+      <line x1="6" y1="17" x2="4" y2="11" />
+      {/* legs raised */}
+      <line x1="26" y1="17" x2="28" y2="11" />
+    </Svg>
+  );
+}
+
+export function VUpIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      <line x1="3" y1="27" x2="29" y2="27" />
+      {/* torso up-left */}
+      <circle cx="6" cy="10" r="1.6" />
+      <line x1="7" y1="11" x2="15" y2="22" />
+      {/* legs up-right (V) */}
+      <line x1="15" y1="22" x2="26" y2="10" />
+      {/* arms reaching toward feet */}
+      <line x1="10" y1="15" x2="21" y2="15" />
+    </Svg>
+  );
+}
+
+export function BicycleCrunchIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      <line x1="3" y1="27" x2="29" y2="27" />
+      {/* head/shoulders left */}
+      <circle cx="7" cy="20" r="1.6" />
+      <line x1="8" y1="19" x2="14" y2="16" />
+      {/* one knee tucked */}
+      <line x1="14" y1="16" x2="18" y2="20" />
+      <line x1="18" y1="20" x2="15" y2="24" />
+      {/* other leg extended */}
+      <line x1="14" y1="16" x2="27" y2="22" />
+      {/* elbow toward opposite knee (twist) */}
+      <line x1="9" y1="18" x2="16" y2="20" />
+    </Svg>
+  );
+}
+
+export function PistolSquatIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="13" cy="6" r="1.8" />
+      <line x1="13" y1="8" x2="13" y2="15" />
+      {/* standing leg bent */}
+      <path d="M13 15 L10 19 L12 27" />
+      {/* other leg extended forward */}
+      <line x1="13" y1="16" x2="27" y2="14" />
+      {/* arms forward for balance */}
+      <line x1="13" y1="11" x2="22" y2="11" />
+    </Svg>
+  );
+}
+
+export function SumoSquatIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      <circle cx="16" cy="7" r="1.8" />
+      <line x1="16" y1="9" x2="16" y2="15" />
+      {/* very wide stance, knees out */}
+      <path d="M16 15 L8 18 L7 26" />
+      <path d="M16 15 L24 18 L25 26" />
+      {/* hands holding weight at center */}
+      <line x1="14" y1="13" x2="18" y2="13" />
+      <path d="M14 13 L13 16 L19 16 L18 13" />
+    </Svg>
+  );
+}
+
+export function DiamondPushupIcon(p: ExerciseIconProps) {
+  return (
+    <Svg {...p}>
+      <line x1="3" y1="27" x2="29" y2="27" />
+      {/* body diagonal, head right */}
+      <line x1="6" y1="19" x2="25" y2="14" />
+      <circle cx="27" cy="13" r="1.8" />
+      {/* hands together (diamond) under chest */}
+      <line x1="15" y1="16.5" x2="14" y2="24" />
+      <path d="M11.5 24 L14 22 L16.5 24 L14 26 Z" />
+      {/* legs */}
+      <line x1="6" y1="19" x2="3" y2="27" />
+    </Svg>
+  );
+}
+
 /* ─── 기본 fallback ─────────────────────────────────────────────────── */
 
 export function GenericDumbbellIcon(p: ExerciseIconProps) {
@@ -1550,7 +1718,59 @@ const ICONS: Record<string, (p: ExerciseIconProps) => ReactNode> = {
   "cable-crunch": CableCrunchIcon,
   "wood-chopper": WoodChopperIcon,
   "pallof-press": PallofPressIcon,
+
+  // 변형·머신 운동. 동작이 확연히 다른 것은 전용 아이콘을 새로 만들고,
+  // 나머지(머신/그립 변형 등)는 '가장 가까운 동작'의 아이콘을 재사용한다.
+  // (예전엔 매핑이 없어 전부 일반 덤벨로 떠서 실제 운동과 안 맞았다.)
+  // 가슴
+  "machine-chest-press": BenchPressIcon,
+  "smith-bench-press": BenchPressIcon,
+  "incline-cable-fly": CableCrossoverIcon,
+  "diamond-pushup": DiamondPushupIcon,
+  "dumbbell-pullover": DumbbellPulloverIcon,
+  // 등
+  "wide-grip-pull-up": PullUpIcon,
+  "assisted-pull-up": PullUpIcon,
+  "inverted-row": InvertedRowIcon,
+  "pendlay-row": BarbellRowIcon,
+  "meadows-row": TBarRowIcon,
+  "chest-supported-row": SeatedCableRowIcon,
+  "low-row-machine": SeatedCableRowIcon,
+  // 어깨
+  "machine-shoulder-press": OhpIcon,
+  "cable-lateral-raise": LateralRaiseIcon,
+  "machine-rear-delt-fly": RearDeltFlyIcon,
+  "reverse-pec-deck": RearDeltFlyIcon,
+  // 팔
+  "standing-cable-curl": BicepsCurlIcon,
+  "drag-curl": BicepsCurlIcon,
+  "zottman-curl": BicepsCurlIcon,
+  "cable-rope-hammer-curl": HammerCurlIcon,
+  "triceps-kickback": TricepsKickbackIcon,
+  // 하체
+  "box-squat": SquatIcon,
+  "belt-squat": SquatIcon,
+  "sumo-squat": SumoSquatIcon,
+  "sissy-squat": SquatIcon,
+  "pistol-squat": PistolSquatIcon,
+  "single-leg-leg-press": LegPressIcon,
+  "cossack-squat": LungeIcon,
+  "curtsy-lunge": LungeIcon,
+  "stiff-leg-deadlift": RdlIcon,
+  "cable-pull-through": CablePullThroughIcon,
+  "donkey-calf-raise": StandingCalfRaiseIcon,
+  // 코어
+  "bicycle-crunch": BicycleCrunchIcon,
+  "reverse-crunch": CrunchIcon,
+  "v-up": VUpIcon,
+  "toes-to-bar": HangingLegRaiseIcon,
+  "hollow-hold": HollowHoldIcon,
 };
+
+/** 운동 전용(일반 덤벨 폴백이 아닌) 아이콘이 매핑돼 있는지. */
+export function hasDedicatedIcon(id: string): boolean {
+  return id in ICONS;
+}
 
 /** 운동 id 로 매핑된 SVG 아이콘. 매핑 없으면 일반 덤벨 아이콘. */
 export function ExerciseIcon({

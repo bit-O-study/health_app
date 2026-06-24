@@ -283,6 +283,10 @@ alter table public.profiles
   add column if not exists rest_sound boolean not null default true;
 alter table public.profiles
   add column if not exists rest_haptic boolean not null default true;
+-- lock_weight_reps: 무게·횟수를 미리 '고정'으로 정할지. 기본 false(끔) = 메인·편집·등록에
+-- 무게/횟수 숨기고 운동모드에서 그때그때 설정. true 면 미리 정해 메인에 표시/수정.
+alter table public.profiles
+  add column if not exists lock_weight_reps boolean not null default false;
 
 -- Registered workout plan per user, grouped by focus (DayPlan tone).
 --

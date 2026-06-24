@@ -8,6 +8,7 @@ import {
   type CatalogExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import { exerciseSummary } from "@/features/workout-timer/exercise-guides";
 
 export function EquipmentMethod({
   exercise,
@@ -25,11 +26,16 @@ export function EquipmentMethod({
     exercise.equipments.find((e) => e.equipment === selected) ??
     exercise.equipments[0];
 
+  // 장황한 단계 나열 대신 한 줄 요약 + 핵심 포인트로 딱딱 간결하게.
+  const summary = exerciseSummary(exercise.id);
+
   return (
     <section className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
       <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
-        기구별 운동법
+        운동법 핵심
       </h2>
+
+      {/* 가능한 기구 (선택해 두면 루틴 등록 시 기본 기구로) */}
       <div className="mt-4 flex flex-wrap gap-2">
         {exercise.equipments.map((e) => {
           const active = e.equipment === current.equipment;
@@ -51,19 +57,27 @@ export function EquipmentMethod({
         })}
       </div>
 
-      <ol className="mt-5 space-y-3">
-        {current.method.map((step, i) => (
-          <li
-            key={step}
-            className="flex gap-3 text-sm leading-6 text-zinc-700 dark:text-zinc-300"
-          >
-            <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-              {i + 1}
-            </span>
-            {step}
-          </li>
-        ))}
-      </ol>
+      {/* 한 줄 요약 — 핵심 자세/그립 → 타겟 */}
+      <p className="mt-5 rounded-xl border border-emerald-300 dark:border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-3 text-base font-bold leading-7 text-emerald-900 dark:text-emerald-100">
+        {summary.oneLiner}
+      </p>
+
+      {/* 핵심 포인트 */}
+      {summary.cues.length > 0 ? (
+        <ul className="mt-4 space-y-2">
+          {summary.cues.map((c, i) => (
+            <li
+              key={i}
+              className="flex gap-2.5 text-sm leading-6 text-zinc-700 dark:text-zinc-300"
+            >
+              <span aria-hidden="true" className="shrink-0 text-emerald-500">
+                •
+              </span>
+              {c}
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </section>
   );
 }

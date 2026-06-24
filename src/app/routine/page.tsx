@@ -409,6 +409,7 @@ async function TodayWorkout({
             showGuide={profile?.showExerciseGuide ?? true}
             restSound={profile?.restSound ?? true}
             restHaptic={profile?.restHaptic ?? true}
+            lockWeightReps={profile?.lockWeightReps ?? false}
           />
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도

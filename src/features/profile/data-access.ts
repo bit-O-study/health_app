@@ -35,6 +35,9 @@ export type UserProfile = {
   restSound: boolean;
   /** 휴식 종료 시 진동(햅틱). 기본 true. */
   restHaptic: boolean;
+  /** 무게·횟수를 미리 '고정'으로 정할지. 기본 false(끔) = 메인·편집·등록에서 숨기고
+   *  운동모드에서 그때그때 설정. true 면 미리 정해 메인에 표시/수정(운동모드 조절 X). */
+  lockWeightReps: boolean;
 };
 
 type ProfileRow = {
@@ -51,6 +54,7 @@ type ProfileRow = {
   show_exercise_guide: unknown;
   rest_sound: unknown;
   rest_haptic: unknown;
+  lock_weight_reps: unknown;
 };
 
 /**
@@ -67,7 +71,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic",
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic, lock_weight_reps",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -104,5 +108,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     showExerciseGuide: row.show_exercise_guide !== false,
     restSound: row.rest_sound !== false,
     restHaptic: row.rest_haptic !== false,
+    // 기본 false(컬럼 default) — 명시적으로 true 일 때만 고정.
+    lockWeightReps: row.lock_weight_reps === true,
   };
 });

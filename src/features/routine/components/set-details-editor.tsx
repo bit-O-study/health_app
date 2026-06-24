@@ -27,6 +27,7 @@ export function SetDetailsEditor({
   weight,
   setDetails,
   disabled = false,
+  onlySets = false,
   onUniformChange,
   onSetDetailsChange,
 }: {
@@ -36,6 +37,8 @@ export function SetDetailsEditor({
   weight: string;
   setDetails: SetDetail[] | null;
   disabled?: boolean;
+  /** 무게·횟수 '고정' 끔 — 세트 수만 입력받고 무게/횟수/세트별은 숨긴다(운동모드에서 설정). */
+  onlySets?: boolean;
   onUniformChange: (patch: {
     sets?: number;
     reps?: number;
@@ -43,7 +46,9 @@ export function SetDetailsEditor({
   }) => void;
   onSetDetailsChange: (sd: SetDetail[] | null) => void;
 }) {
-  const [perSet, setPerSet] = useState(!!setDetails && setDetails.length > 0);
+  const [perSet, setPerSet] = useState(
+    !onlySets && !!setDetails && setDetails.length > 0,
+  );
   const [rows, setRows] = useState<Draft[]>(() =>
     setDetails && setDetails.length > 0
       ? setDetails.map((s) => ({
@@ -88,6 +93,27 @@ export function SetDetailsEditor({
     "h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
   const wCls =
     "h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
+
+  // 무게·횟수 고정 끔 → 세트 수만 입력. 무게/횟수는 운동모드에서 그때그때 설정.
+  if (onlySets) {
+    return (
+      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 basis-full sm:basis-auto">
+        <input
+          aria-label="세트"
+          type="number"
+          inputMode="numeric"
+          value={sets}
+          onChange={(e) => onUniformChange({ sets: Number(e.target.value) })}
+          disabled={disabled}
+          className={numCls}
+        />
+        <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
+        <span className="text-[11px] text-zinc-400 dark:text-zinc-500">
+          무게·횟수는 운동모드에서 설정
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5 basis-full sm:basis-auto">

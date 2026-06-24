@@ -114,6 +114,7 @@ const PERSONAL_BOOL_COLUMNS = {
   showExerciseGuide: "show_exercise_guide",
   restSound: "rest_sound",
   restHaptic: "rest_haptic",
+  lockWeightReps: "lock_weight_reps",
 } as const;
 
 export type PersonalBoolKey = keyof typeof PERSONAL_BOOL_COLUMNS;

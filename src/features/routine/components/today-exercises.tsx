@@ -21,13 +21,10 @@ import {
   estimateConditioningKcal,
   estimateStrengthKcal,
 } from "@/features/routine/calories";
+import { getTodayCompletedItems } from "@/features/routine/exercise-completions";
 import {
-  getStatusMapToday,
-  getTodayCompletedItems,
-} from "@/features/routine/exercise-completions";
-import {
+  assignCompletions,
   exerciseCompletionKey,
-  resolveTodayStatus,
 } from "@/features/routine/completion-match";
 import { orderMainPlan } from "@/features/routine/plan-order";
 import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
@@ -112,7 +109,6 @@ export async function TodayExercises({
     dailyPlan,
     defaults,
     daily,
-    mainStatus,
     condStatus,
     completedItems,
     completedCond,
@@ -124,7 +120,6 @@ export async function TodayExercises({
     getDailyPlanForDate(todayYmd),
     getConditioningForFocus(primaryTone),
     getDailyConditioning(todayYmd),
-    getStatusMapToday(todayYmd),
     getConditioningStatusMapToday(todayYmd),
     getTodayCompletedItems(todayYmd),
     getTodayCompletedConditioning(todayYmd),
@@ -161,34 +156,47 @@ export async function TodayExercises({
   // (기본 상태는 그룹 순서 유지 — orderMainPlan 참고)
   const activePlan = orderMainPlan(groupedPlan);
 
-  // 완료 보존: 오늘 완료/스킵한 운동 중 현재 plan 에 없는 것(부위를 '오늘만 바꾸기'로
-  // 교체해 빠진 것)을 완료 행으로 함께 보여준다. 행 id 또는 (부위:운동) 키가 이미
-  // 있으면 중복이라 제외. (등 2개 완료 후 가슴으로 바꿔도 등 완료가 사라지지 않게.)
-  const activeIds = new Set(activePlan.map((p) => p.id));
-  const activeKeys = new Set(
-    activePlan.map((p) => exerciseCompletionKey(p.focus, p.exerciseId)),
+  // 완료 판정 + 완료 보존(고스트) — 완료 기록을 행에 1:1 배정해 과매칭을 막는다.
+  // (같은 운동이 한 부위에 2개 있어도 완료 기록 수만큼만 done. 1개만 완료하면 1개만 done.)
+  const mainRecords = completedItems.map((c) => ({
+    id: c.exerciseRowId,
+    key: exerciseCompletionKey(c.focus, c.exerciseId),
+    status: c.status,
+  }));
+  const { statusById: mainStatusById, usedRecord } = assignCompletions(
+    activePlan.map((p) => ({
+      id: p.id,
+      key: exerciseCompletionKey(p.focus, p.exerciseId),
+    })),
+    mainRecords,
   );
+  // 활성 행에 배정되지 않은 완료 기록 → 고스트(부위를 '오늘만 바꾸기'로 바꿔 빠졌지만
+  // 오늘 완료한 운동). 렌더 가능(exerciseId 있음)·키 중복 제거.
   const seenGhost = new Set<string>();
   const ghostPlan = completedItems
-    .filter((c) => {
-      if (activeIds.has(c.exerciseRowId)) return false;
+    .filter((c, i) => {
+      if (usedRecord[i] || !c.exerciseId) return false;
       const key = exerciseCompletionKey(c.focus, c.exerciseId);
-      if (activeKeys.has(key) || seenGhost.has(key)) return false;
+      if (seenGhost.has(key)) return false;
       seenGhost.add(key);
       return true;
     })
-    .map((c, i) => ({
-      id: c.exerciseRowId,
-      focus: c.focus ?? primaryTone,
-      position: 1_000_000 + i, // 항상 맨 뒤(완료 묶음)
-      exerciseId: c.exerciseId,
-      equipment: c.equipment,
-      sets: c.sets,
-      reps: c.reps,
-      weightKg: c.weightKg,
-      setDetails: c.setDetails,
-      memo: null as string | null,
-    }));
+    .map((c, i) => {
+      // 고스트 행 상태도 등록(자기 행 id = 완료 기록 row id).
+      mainStatusById.set(c.exerciseRowId, c.status);
+      return {
+        id: c.exerciseRowId,
+        focus: c.focus ?? primaryTone,
+        position: 1_000_000 + i, // 항상 맨 뒤(완료 묶음)
+        exerciseId: c.exerciseId as string,
+        equipment: c.equipment,
+        sets: c.sets,
+        reps: c.reps,
+        weightKg: c.weightKg,
+        setDetails: c.setDetails,
+        memo: null as string | null,
+      };
+    });
   // 활성 운동(위) + 완료로 남은 운동(아래) 순. 이후 계산은 이 합본을 기준으로 한다.
   const plan = [...activePlan, ...ghostPlan];
   const usingDailyPlan = tones.some((t) => dailyByFocus.has(t));
@@ -255,15 +263,12 @@ export async function TodayExercises({
     focus: item.focus,
     memo: item.memo,
   }));
-  // 완료 상태는 row_id 로 먼저, 없으면 (부위:운동) 키로 — 루틴을 바꿔 행 UUID 가
-  // 새로 생겨도 오늘 완료한 운동이면 체크가 유지된다.
-  const statusOf = (p: { id: string; focus: string; exerciseId: string }) =>
-    resolveTodayStatus(mainStatus, p);
+  // 완료 상태 — assignCompletions 로 행에 1:1 배정된 결과(과매칭 없음).
   const mainDoneIds = plan
-    .filter((p) => statusOf(p) === "done")
+    .filter((p) => mainStatusById.get(p.id) === "done")
     .map((p) => p.id);
   const mainSkippedIds = plan
-    .filter((p) => statusOf(p) === "skipped")
+    .filter((p) => mainStatusById.get(p.id) === "skipped")
     .map((p) => p.id);
   const mainSkipSet = new Set(mainSkippedIds);
   const mainDoneSet = new Set(mainDoneIds);

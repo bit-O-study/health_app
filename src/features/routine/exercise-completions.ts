@@ -87,7 +87,8 @@ export async function getStatusMapToday(
 /** 오늘 완료/스킵한 본운동의 스냅샷(렌더용). exercise_id 가 있는(스냅샷 저장된) 행만. */
 export type TodayCompletedItem = {
   exerciseRowId: string;
-  exerciseId: string;
+  /** 스냅샷이 없는(옛) 기록은 null — 행 id 직접 매칭엔 쓰이지만 고스트로는 못 그린다. */
+  exerciseId: string | null;
   equipment: EquipmentId;
   sets: number;
   reps: number;
@@ -130,10 +131,11 @@ export async function getTodayCompletedItems(
     weight_kg: number | string | null;
     set_details?: unknown;
   }[]) {
-    if (!r.exercise_id) continue; // 스냅샷 없는 옛 기록은 렌더 불가 → 제외
+    // 스냅샷(exercise_id) 없는 옛 기록도 포함 — 행 id 직접 매칭(완료 판정)엔 필요.
+    // 고스트(완료 보존 표시)는 호출부가 exerciseId 있는 것만 그린다.
     out.push({
       exerciseRowId: r.exercise_row_id,
-      exerciseId: r.exercise_id,
+      exerciseId: r.exercise_id ?? null,
       equipment: isEquipmentId(r.equipment) ? r.equipment : "barbell",
       sets: r.sets ?? 1,
       reps: r.reps ?? 1,

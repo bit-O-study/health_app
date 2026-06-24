@@ -82,6 +82,7 @@ export function TodayPlanList({
   weightKg,
   doneIds,
   skippedIds,
+  lockWeightReps = false,
 }: {
   focus: string;
   /** 오늘의 모든 부위 — 편집 모드에서 운동 추가 시 부위 선택지로 사용 */
@@ -92,6 +93,8 @@ export function TodayPlanList({
   weightKg: number | null;
   doneIds: string[];
   skippedIds: string[];
+  /** 무게·횟수 고정. false 면 메인 표시·편집에서 무게/횟수 숨김(운동모드에서 설정). */
+  lockWeightReps?: boolean;
 }) {
   const edit = useTodayEdit();
   const editMode = edit.editMode;
@@ -580,6 +583,7 @@ export function TodayPlanList({
               {inlineEditing ? (
                 <ExerciseEditForm
                   item={item}
+                  lockWeightReps={lockWeightReps}
                   onCancel={() => setEditingId(null)}
                   onSaved={(next) => {
                     setOrder((prev) =>
@@ -642,15 +646,19 @@ export function TodayPlanList({
                       ) : null}
                     </h3>
                     <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-                      {item.setDetails && item.setDetails.length > 0
-                        ? `${item.setDetails.length}세트 · ${summarizeSetDetails(item.setDetails)}`
-                        : `${item.sets}세트 × ${item.reps}회${
-                            item.weightKg !== null
-                              ? ` · ${item.weightKg}kg`
-                              : " · 맨몸"
-                          }`}
-                      <span className="ml-2 text-xs text-orange-700 dark:text-orange-400">
-                        · 약 {kcal}kcal
+                      {/* 무게·횟수 고정 켬일 때만 세트·횟수·무게 표시. 끔이면 운동모드에서
+                          정하므로 메인엔 칼로리만(세트수도 안 보임). */}
+                      {lockWeightReps
+                        ? item.setDetails && item.setDetails.length > 0
+                          ? `${item.setDetails.length}세트 · ${summarizeSetDetails(item.setDetails)}`
+                          : `${item.sets}세트 × ${item.reps}회${
+                              item.weightKg !== null
+                                ? ` · ${item.weightKg}kg`
+                                : " · 맨몸"
+                            }`
+                        : null}
+                      <span className="text-xs text-orange-700 dark:text-orange-400">
+                        {lockWeightReps ? " · " : ""}약 {kcal}kcal
                       </span>
                     </p>
                     {item.memo ? (
@@ -836,10 +844,13 @@ function MemoDialog({
  * 운동·기구 변경은 삭제 후 다시 추가로 처리. */
 function ExerciseEditForm({
   item,
+  lockWeightReps = false,
   onCancel,
   onSaved,
 }: {
   item: TodayPlanItem;
+  /** 무게·횟수 고정 끔 → 세트 수만 수정(무게/횟수/세트별 숨김). */
+  lockWeightReps?: boolean;
   onCancel: () => void;
   onSaved: (next: {
     sets: number;
@@ -853,9 +864,9 @@ function ExerciseEditForm({
   const [weight, setWeight] = useState<string>(
     item.weightKg === null ? "" : String(item.weightKg),
   );
-  // 세트별 모드 on/off + 세트별 입력값(문자열 보관 → 빈칸=맨몸 허용)
+  // 세트별 모드 on/off + 세트별 입력값(문자열 보관 → 빈칸=맨몸 허용). 고정 끔이면 항상 균일.
   const [perSet, setPerSet] = useState<boolean>(
-    !!item.setDetails && item.setDetails.length > 0,
+    lockWeightReps && !!item.setDetails && item.setDetails.length > 0,
   );
   const [detailRows, setDetailRows] = useState<
     { weight: string; reps: string }[]
@@ -989,18 +1000,20 @@ function ExerciseEditForm({
             {item.equipmentLabel}
           </span>
         </div>
-        <button
-          type="button"
-          onClick={perSet ? disablePerSet : enablePerSet}
-          disabled={pending}
-          className={`inline-flex h-7 items-center rounded-md border px-2 text-[11px] font-semibold transition ${
-            perSet
-              ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
-              : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
-          }`}
-        >
-          세트별 다르게
-        </button>
+        {lockWeightReps ? (
+          <button
+            type="button"
+            onClick={perSet ? disablePerSet : enablePerSet}
+            disabled={pending}
+            className={`inline-flex h-7 items-center rounded-md border px-2 text-[11px] font-semibold transition ${
+              perSet
+                ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
+                : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
+            }`}
+          >
+            세트별 다르게
+          </button>
+        ) : null}
       </div>
 
       {perSet ? (
@@ -1071,35 +1084,44 @@ function ExerciseEditForm({
             className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
           />
           <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
-          <input
-            aria-label="횟수"
-            type="number"
-            inputMode="numeric"
-            value={reps}
-            onChange={(e) => {
-              setReps(e.target.value);
-              setError(null);
-            }}
-            disabled={pending}
-            className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-          />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
-          <input
-            aria-label="무게(kg)"
-            type="number"
-            inputMode="decimal"
-            placeholder="kg"
-            value={weight}
-            onChange={(e) => {
-              setWeight(e.target.value);
-              setError(null);
-            }}
-            disabled={pending}
-            className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-          />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">
-            kg (빈칸=맨몸)
-          </span>
+          {/* 고정 끔이면 무게·횟수 입력 숨김 — 운동모드에서 그때그때 설정 */}
+          {lockWeightReps ? (
+            <>
+              <input
+                aria-label="횟수"
+                type="number"
+                inputMode="numeric"
+                value={reps}
+                onChange={(e) => {
+                  setReps(e.target.value);
+                  setError(null);
+                }}
+                disabled={pending}
+                className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+              />
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
+              <input
+                aria-label="무게(kg)"
+                type="number"
+                inputMode="decimal"
+                placeholder="kg"
+                value={weight}
+                onChange={(e) => {
+                  setWeight(e.target.value);
+                  setError(null);
+                }}
+                disabled={pending}
+                className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+              />
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                kg (빈칸=맨몸)
+              </span>
+            </>
+          ) : (
+            <span className="text-[11px] text-zinc-400 dark:text-zinc-500">
+              무게·횟수는 운동모드에서 설정
+            </span>
+          )}
         </div>
       )}
 

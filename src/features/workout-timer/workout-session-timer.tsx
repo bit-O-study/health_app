@@ -48,6 +48,7 @@ export function WorkoutSessionTimer({
   doneOrSkippedIds = [],
   hideVideos = false,
   showGuide = true,
+  lockWeightReps = false,
 }: {
   /** 워밍업·본운동·마무리 '모든' 항목(완료/스킵 포함). 필터는 아래에서. */
   queueItems?: GuidedItem[];
@@ -57,6 +58,8 @@ export function WorkoutSessionTimer({
   hideVideos?: boolean;
   /** 개인설정: 상세 가이드 카드 표시. */
   showGuide?: boolean;
+  /** 무게·횟수 고정. false 면 운동모드에서 무게·횟수·세트를 그때그때 설정. */
+  lockWeightReps?: boolean;
 }) {
   const router = useRouter();
   const orderScope = useTodayOrder();
@@ -325,6 +328,7 @@ export function WorkoutSessionTimer({
         elapsedLabel={time}
         running={running}
         showGuide={showGuide}
+        lockWeightReps={lockWeightReps}
       />
     ) : null;
 

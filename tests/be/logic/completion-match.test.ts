@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  assignCompletions,
   exerciseCompletionKey,
   resolveTodayStatus,
   type CompletionStatus,
@@ -121,5 +122,67 @@ describe("resolveTodayStatus — 루틴 변경 후 완료 유지", () => {
         exerciseId: "bench-press",
       }),
     ).toBe("skipped");
+  });
+});
+
+describe("assignCompletions — 완료 기록 1:1 배정(과매칭 방지)", () => {
+  const K = "f:chest:bench-press";
+
+  it("🔴 핵심: 같은 키 행 2개 + 완료 1개 → 한 행만 done", () => {
+    const rows = [
+      { id: "row-a", key: K },
+      { id: "row-b", key: K },
+    ];
+    // 완료 기록은 row-a 것 1개뿐.
+    const { statusById } = assignCompletions(rows, [
+      { id: "row-a", key: K, status: "done" },
+    ]);
+    expect(statusById.get("row-a")).toBe("done");
+    expect(statusById.get("row-b")).toBeUndefined();
+  });
+
+  it("같은 키 행 2개 + 완료 2개 → 둘 다 done", () => {
+    const rows = [
+      { id: "row-a", key: K },
+      { id: "row-b", key: K },
+    ];
+    const { statusById } = assignCompletions(rows, [
+      { id: "row-a", key: K, status: "done" },
+      { id: "row-b", key: K, status: "done" },
+    ]);
+    expect(statusById.get("row-a")).toBe("done");
+    expect(statusById.get("row-b")).toBe("done");
+  });
+
+  it("행 id 가 바뀌어도 키로 1개 매칭(완료 유지) — 과매칭 없음", () => {
+    const rows = [{ id: "new-uuid", key: K }];
+    const { statusById, usedRecord } = assignCompletions(rows, [
+      { id: "old-uuid", key: K, status: "done" },
+    ]);
+    expect(statusById.get("new-uuid")).toBe("done");
+    expect(usedRecord[0]).toBe(true);
+  });
+
+  it("행 id 직접 매칭이 키 매칭보다 우선(소비 충돌 없음)", () => {
+    const rows = [
+      { id: "row-a", key: K },
+      { id: "row-b", key: K },
+    ];
+    // row-b 직접 완료 + 키만 맞는 기록 1개 → row-b=직접, row-a=키
+    const { statusById } = assignCompletions(rows, [
+      { id: "row-b", key: K, status: "skipped" },
+      { id: "ghost", key: K, status: "done" },
+    ]);
+    expect(statusById.get("row-b")).toBe("skipped");
+    expect(statusById.get("row-a")).toBe("done");
+  });
+
+  it("소비 안 된 기록은 usedRecord=false(고스트 대상)", () => {
+    const rows = [{ id: "row-a", key: K }];
+    const { usedRecord } = assignCompletions(rows, [
+      { id: "row-a", key: K, status: "done" },
+      { id: "removed", key: "f:back:pull-up", status: "done" },
+    ]);
+    expect(usedRecord).toEqual([true, false]);
   });
 });

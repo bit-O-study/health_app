@@ -86,7 +86,8 @@ test("개인설정으로 상세 가이드를 끄면 운동 모드에서 숨겨�
     timeout: 8000,
   });
 
-  // 끈 상세 가이드는 보이지 않아야 한다.
-  await expect(page.getByText("핵심 포인트")).toHaveCount(0);
-  await expect(page.getByText("초보가 자주 놓치는 것")).toHaveCount(0);
+  // 끈 상세 가이드 → 운동모드의 '운동법·꿀팁 보기' 버튼이 안 보인다.
+  await expect(
+    page.getByRole("button", { name: "운동법·꿀팁 보기" }),
+  ).toHaveCount(0);
 });

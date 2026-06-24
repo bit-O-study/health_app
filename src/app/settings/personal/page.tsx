@@ -39,10 +39,17 @@ export default async function PersonalSettingsPage() {
         <div className="space-y-4">
           <VideoPrefToggle initialHide={profile?.hideExerciseVideos ?? false} />
           <PrefToggle
+            prefKey="lockWeightReps"
+            initial={profile?.lockWeightReps ?? false}
+            title="무게·횟수 고정"
+            description="켜면 미리 정한 무게·횟수를 메인·편집에 표시하고 수정합니다. 끄면 메인에선 숨기고 운동모드에서 그때그때 설정합니다."
+            icon="weight"
+          />
+          <PrefToggle
             prefKey="showExerciseGuide"
             initial={profile?.showExerciseGuide ?? true}
             title="상세 가이드"
-            description="자세 잡기·자극 부위·핵심 포인트·초보 팁을 카드로 보여줍니다."
+            description="운동모드에서 '운동법·꿀팁 보기' 버튼을 보여줍니다. (자세한 운동법은 상세 페이지에서)"
             icon="guide"
           />
         </div>

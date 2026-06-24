@@ -289,20 +289,47 @@ export function GuidedOverlay({
   const [editW, setEditW] = useState<number | null>(null);
   const [editReps, setEditReps] = useState(10);
   const [editSets, setEditSets] = useState(3);
+  // 운동별로 정한 값을 보관 — ‹ › 로 다른 운동 갔다 와도 입력값이 유지된다.
+  const editStoreRef = useRef<
+    Map<string, { w: number | null; reps: number; sets: number }>
+  >(new Map());
   useEffect(() => {
-    // 운동(인덱스)이 바뀌면 세트 카운트·편집값을 그 운동 기준으로 리셋.
+    // 운동(인덱스)이 바뀌면 세트 카운트 리셋 + 편집값은 보관분 있으면 복원, 없으면 계획값.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSetsDone(0);
     const it = sessionItems[index];
     if (it && it.kind === "main") {
+      const saved = editStoreRef.current.get(it.rowId);
+      const init = saved ?? {
+        w: it.weightKg,
+        reps: it.reps > 0 ? it.reps : 10,
+        sets: it.sets > 0 ? it.sets : 3,
+      };
+      if (!saved) editStoreRef.current.set(it.rowId, init);
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setEditW(it.weightKg);
+      setEditW(init.w);
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setEditReps(it.reps > 0 ? it.reps : 10);
+      setEditReps(init.reps);
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setEditSets(it.sets > 0 ? it.sets : 3);
+      setEditSets(init.sets);
     }
   }, [index, sessionItems]);
+
+  // 스크러버 값 변경 — 화면 state + 운동별 보관소를 함께 갱신.
+  function putEdit(patch: { w?: number | null; reps?: number; sets?: number }) {
+    const it = sessionItems[index];
+    if (!it) return;
+    const cur = editStoreRef.current.get(it.rowId) ?? {
+      w: editW,
+      reps: editReps,
+      sets: editSets,
+    };
+    const next = { ...cur, ...patch };
+    editStoreRef.current.set(it.rowId, next);
+    if (patch.w !== undefined) setEditW(patch.w);
+    if (patch.reps !== undefined) setEditReps(patch.reps);
+    if (patch.sets !== undefined) setEditSets(patch.sets);
+  }
 
   // 유효 세트 수 — 고정 끔이면 스크러버 값, 켜짐이면 계획값.
   const effSets =
@@ -717,35 +744,40 @@ export function GuidedOverlay({
 
         {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 좌우로 밀거나 ±로 조절. */}
         {editable ? (
-          <div className="mt-4 flex w-full max-w-md items-start justify-center gap-3 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-            <NumberScrubber
-              label="무게"
-              value={editW}
-              unit="kg"
-              min={0}
-              max={500}
-              step={2.5}
-              allowBodyweight
-              onChange={setEditW}
-            />
-            <NumberScrubber
-              label="횟수"
-              value={editReps}
-              unit="회"
-              min={1}
-              max={100}
-              step={1}
-              onChange={(v) => setEditReps(v ?? 1)}
-            />
-            <NumberScrubber
-              label="세트"
-              value={editSets}
-              unit="세트"
-              min={1}
-              max={20}
-              step={1}
-              onChange={(v) => setEditSets(v ?? 1)}
-            />
+          <div className="mt-4 w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
+            <div className="flex items-start justify-center gap-3">
+              <NumberScrubber
+                label="무게"
+                value={editW}
+                unit="kg"
+                min={0}
+                max={500}
+                step={2.5}
+                allowBodyweight
+                onChange={(v) => putEdit({ w: v })}
+              />
+              <NumberScrubber
+                label="횟수"
+                value={editReps}
+                unit="회"
+                min={1}
+                max={100}
+                step={1}
+                onChange={(v) => putEdit({ reps: v ?? 1 })}
+              />
+              <NumberScrubber
+                label="세트"
+                value={editSets}
+                unit="세트"
+                min={1}
+                max={20}
+                step={1}
+                onChange={(v) => putEdit({ sets: v ?? 1 })}
+              />
+            </div>
+            <p className="mt-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+              숫자를 좌우로 끌거나 ± 로 조절 · 완료하면 이 값으로 기록돼요
+            </p>
           </div>
         ) : null}
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { ListChecks, Loader2, Vibrate, Volume2 } from "lucide-react";
+import { Dumbbell, ListChecks, Loader2, Vibrate, Volume2 } from "lucide-react";
 
 import {
   setPersonalPrefAction,
@@ -16,6 +16,7 @@ const ICONS = {
   guide: ListChecks,
   sound: Volume2,
   haptic: Vibrate,
+  weight: Dumbbell,
 } as const;
 
 /**

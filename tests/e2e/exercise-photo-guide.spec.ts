@@ -54,11 +54,7 @@ test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async (
   expect(srcs.some((s) => s.includes("/Barbell_Squat/0.jpg"))).toBe(true);
   expect(srcs.some((s) => s.includes("/Barbell_Squat/1.jpg"))).toBe(true);
 
-  // 자막 단계가 가리키는 신체 부위가 사진 위 배지로 안내된다(확대 X — 선명 유지).
-  // (단계가 3초마다 순환하므로 한 바퀴 안에 배지가 보이는지 확인.)
-  const marker = page.getByTestId("ex-focus-marker");
-  await expect(marker).toBeVisible({ timeout: 8000 });
-  // 사진은 확대(scale) 없이 원본 그대로여야 한다(저해상도 줌으로 깨지지 않게).
+  // 본운동은 운동방법·꿀팁 자막을 빼고 사진만 — 사진은 확대(scale) 없이 원본 그대로여야 한다.
   const notScaled = await squatImg.first().evaluate((el) => {
     const t = getComputedStyle(el as HTMLElement).transform;
     if (!t || t === "none") return true;
@@ -69,10 +65,10 @@ test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async (
   });
   expect(notScaled).toBe(true);
 
-  // 장황한 5단 설명 대신 간결 가이드(자극 부위 + 한 줄 요약 + 핵심 포인트)가 뜬다.
-  await expect(page.getByText("핵심 포인트")).toBeVisible();
-  // 한 줄 요약·핵심에 타겟 부위(둔근/대퇴)가 담겨 보인다.
-  await expect(page.getByText(/둔근|대퇴/).first()).toBeVisible();
+  // 운동모드엔 운동법·꿀팁 텍스트를 빼고, 자세히는 상세 페이지로 가는 버튼만 둔다.
+  await expect(
+    page.getByRole("button", { name: "운동법·꿀팁 보기" }),
+  ).toBeVisible();
 });
 
 test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤벨 사진이 뜬다", async ({ page }) => {

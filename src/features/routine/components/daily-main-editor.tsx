@@ -58,6 +58,7 @@ export function DailyMainEditor({
   dateYmd,
   initial,
   gymEquipment = null,
+  lockWeightReps = false,
 }: {
   focus: FocusTone;
   label: string;
@@ -69,6 +70,8 @@ export function DailyMainEditor({
   initial: DailyPlanRow[];
   /** 내 헬스장 기구 ID 배열. null = 미설정(필터링 안 함) */
   gymEquipment?: readonly string[] | null;
+  /** 무게·횟수 고정. false 면 입력란 숨기고 세트 수만(운동모드에서 설정). */
+  lockWeightReps?: boolean;
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
@@ -269,6 +272,7 @@ export function DailyMainEditor({
                   reps={row.reps}
                   weight={row.weight}
                   setDetails={row.setDetails}
+                  onlySets={!lockWeightReps}
                   onUniformChange={(patch) => {
                     const next = [...rows];
                     next[idx] = { ...row, ...patch };

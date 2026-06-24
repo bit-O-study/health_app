@@ -10,7 +10,6 @@ import {
   Pause,
   Play,
   StickyNote,
-  Target,
   Timer,
   X,
 } from "lucide-react";
@@ -36,10 +35,6 @@ import {
 } from "@/features/workout-timer/exercise-photo-map";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
-import {
-  exerciseSummary,
-  type ExerciseSummary,
-} from "@/features/workout-timer/exercise-guides";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
@@ -99,16 +94,117 @@ function framesForItem(item: GuidedItem): [string, string] | null {
 }
 
 /**
- * 사진 위로 한 장면씩 넘기는 튜토리얼 자막.
- * 본운동은 방법 3줄 대신 가이드의 상세 폼 큐(어떻게 하는지) + 💡꿀팁(초보 팁)으로
- * 훨씬 자세하게 — "견갑을 모은다"면 어떻게 모으는지, 흔한 실수까지 한 장면씩.
- * 워밍업·마무리는 컨디셔닝 방법 문구 그대로.
+ * 무게/횟수/세트 스크러버 — 좌우로 밀거나 ±로 조절. (고정 끔일 때 운동모드에서 사용)
+ * 손가락을 가로로 끌면 값이 오르내린다(맨몸 허용 시 최소 아래로 더 내리면 '맨몸').
  */
-function tutorialStepsFor(item: GuidedItem): string[] {
-  if (item.kind !== "main") return item.method;
-  // 사진 위 자막도 간결하게 — 한 줄 요약 + 핵심 큐만 순환.
-  const s = exerciseSummary(item.exerciseId);
-  return [s.oneLiner, ...s.cues];
+function NumberScrubber({
+  label,
+  value,
+  unit,
+  min,
+  max,
+  step,
+  allowBodyweight = false,
+  onChange,
+}: {
+  label: string;
+  value: number | null;
+  unit: string;
+  min: number;
+  max: number;
+  step: number;
+  allowBodyweight?: boolean;
+  onChange: (v: number | null) => void;
+}) {
+  const startRef = useRef<{ x: number; base: number } | null>(null);
+  const PX_PER_STEP = 12;
+  const clamp = (v: number) => Math.min(max, Math.max(min, v));
+  const round = (v: number) => Math.round(v / step) * step;
+
+  function applyDelta(base: number, dxSteps: number) {
+    const nv = round(base + dxSteps * step);
+    if (allowBodyweight && nv < min) onChange(null);
+    else onChange(clamp(nv));
+  }
+  function onDown(e: PointerEvent<HTMLDivElement>) {
+    e.stopPropagation();
+    try {
+      e.currentTarget.setPointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
+    startRef.current = { x: e.clientX, base: value ?? min };
+  }
+  function onMove(e: PointerEvent<HTMLDivElement>) {
+    if (!startRef.current) return;
+    e.stopPropagation();
+    const dxSteps = Math.round((e.clientX - startRef.current.x) / PX_PER_STEP);
+    applyDelta(startRef.current.base, dxSteps);
+  }
+  function onUp(e: PointerEvent<HTMLDivElement>) {
+    startRef.current = null;
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch {
+      /* noop */
+    }
+  }
+  function dec() {
+    if (value === null) return onChange(min);
+    const nv = value - step;
+    if (allowBodyweight && nv < min) onChange(null);
+    else onChange(clamp(nv));
+  }
+  function inc() {
+    onChange(value === null ? min : clamp(value + step));
+  }
+  const display = value === null ? "맨몸" : String(value);
+
+  return (
+    <div className="flex min-w-0 flex-1 flex-col items-center gap-1">
+      <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+        {label}
+      </span>
+      <div className="flex items-center gap-1">
+        <button
+          type="button"
+          aria-label={`${label} 줄이기`}
+          onClick={dec}
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
+        >
+          −
+        </button>
+        <div
+          role="slider"
+          aria-label={label}
+          aria-valuenow={value ?? 0}
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          onPointerCancel={onUp}
+          style={{ touchAction: "none" }}
+          className="flex min-w-[3.5rem] cursor-ew-resize select-none items-baseline justify-center rounded-lg bg-emerald-50 px-2 py-1 dark:bg-emerald-500/10"
+        >
+          <span className="text-2xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+            {display}
+          </span>
+          {value !== null ? (
+            <span className="ml-0.5 text-xs font-semibold text-emerald-700/70 dark:text-emerald-300/70">
+              {unit}
+            </span>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          aria-label={`${label} 늘리기`}
+          onClick={inc}
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
 }
 
 /**
@@ -123,6 +219,7 @@ export function GuidedOverlay({
   running = true,
   onPauseResume,
   showGuide = true,
+  lockWeightReps = false,
 }: {
   items: GuidedItem[];
   onClose: () => void;
@@ -136,6 +233,8 @@ export function GuidedOverlay({
   onPauseResume?: () => void;
   /** 개인설정: 상세 가이드 카드 표시. 기본 true. */
   showGuide?: boolean;
+  /** 무게·횟수 고정. false 면 운동모드에서 무게·횟수·세트를 그때그때 설정(스크러버). */
+  lockWeightReps?: boolean;
 }) {
   const router = useRouter();
   const rest = useRestTimer();
@@ -184,11 +283,34 @@ export function GuidedOverlay({
 
   // 현재 본운동에서 완료한 세트 수(0-base). 항목이 바뀌면 0으로 리셋.
   const [setsDone, setSetsDone] = useState(0);
+
+  // 무게·횟수 고정 끔(unlocked) → 운동모드에서 무게/횟수/세트를 그때그때 설정.
+  const editable = !lockWeightReps && item?.kind === "main";
+  const [editW, setEditW] = useState<number | null>(null);
+  const [editReps, setEditReps] = useState(10);
+  const [editSets, setEditSets] = useState(3);
   useEffect(() => {
-    // 의도된 리셋 — 운동(인덱스)이 바뀌면 세트 카운트 초기화.
+    // 운동(인덱스)이 바뀌면 세트 카운트·편집값을 그 운동 기준으로 리셋.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSetsDone(0);
-  }, [index]);
+    const it = sessionItems[index];
+    if (it && it.kind === "main") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditW(it.weightKg);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditReps(it.reps > 0 ? it.reps : 10);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditSets(it.sets > 0 ? it.sets : 3);
+    }
+  }, [index, sessionItems]);
+
+  // 유효 세트 수 — 고정 끔이면 스크러버 값, 켜짐이면 계획값.
+  const effSets =
+    item && item.kind === "main"
+      ? editable
+        ? editSets
+        : item.sets
+      : 0;
 
   // 다음 1~2개 운동의 시연 사진을 미리 받아둔다 → '다음 운동'으로 넘길 때
   // 빈 화면/지연 없이 즉시 표시(브라우저 캐시 워밍). 현재 항목이 바뀔 때마다.
@@ -206,17 +328,8 @@ export function GuidedOverlay({
     }
   }, [index, sessionItems]);
 
-  // 튜토리얼 자막(상세 큐 + 💡꿀팁) — 참조를 안정화한다. 인라인으로 만들면 매 렌더
-  // (타이머 경과시간 갱신 등)마다 새 배열이라 ExerciseTutorial 의 자동 전환이 0으로
-  // 리셋돼 첫 장면에 갇힌다.
-  const tutorialSteps = useMemo(
-    () => (item ? tutorialStepsFor(item) : []),
-    [item],
-  );
-
-  // 본운동이고 세트가 2개 이상이면 세트별 휴식 안내 노출.
-  const mainSets =
-    item && item.kind === "main" && item.sets > 1 ? item.sets : 0;
+  // 본운동이고 세트가 2개 이상이면 세트별 휴식 안내 노출. (고정 끔이면 스크러버 세트수 기준)
+  const mainSets = item && item.kind === "main" && effSets > 1 ? effSets : 0;
   const onLastSet = mainSets > 0 ? isLastSet(setsDone, mainSets) : true;
 
   /** 세트 완료 — 운동을 넘기지 않고 휴식만 시작 + 세트 카운트 증가. */
@@ -349,7 +462,11 @@ export function GuidedOverlay({
     workingRef.current = true;
     setWorking(true);
 
-    const captured = item; // advance 직전에 캡쳐
+    // 고정 끔이면 운동모드에서 정한 무게/횟수/세트를 완료 기록에 반영(계획은 불변).
+    const captured: GuidedItem =
+      item.kind === "main" && !lockWeightReps
+        ? { ...item, weightKg: editW, reps: editReps, sets: editSets }
+        : item; // advance 직전에 캡쳐
     const isMain = captured.kind === "main";
 
     // 0) 공유 오버라이드 즉시 갱신 — 운동 끝나고 바로 다시 시작해도(서버 새로고침 전)
@@ -422,13 +539,11 @@ export function GuidedOverlay({
 
   if (!item) return null;
 
-  // 이 항목의 실사 시연 사진(2프레임).
-  const photoFrames = item ? framesForItem(item) : null;
-  // 방법 문구를 사진 위 장면으로 넘기는 '튜토리얼 영상'.
-  // - 본운동: 등록 영상이 없고 방법 문구가 있으면(사진 없어도 그라데이션 위 문구로).
-  // - 워밍업·마무리: 방법 문구가 있으면(사진 없으면 그라데이션 위 문구로). 막대인간 일러스트는 쓰지 않는다.
-  const tutorial =
-    item.method.length > 0 && (item.kind === "main" ? !item.media : true);
+  // 운동모드에선 꿀팁·운동방법 텍스트를 빼고, 자세히 보려면 상세 페이지로 이동한다.
+  function viewDetail() {
+    if (!item || item.kind !== "main") return;
+    router.push(`/exercises/${item.exerciseId}?eq=${item.equipment}`);
+  }
 
   return (
     <div className="fixed inset-0 z-40 flex flex-col bg-zinc-50 dark:bg-zinc-950">
@@ -539,19 +654,12 @@ export function GuidedOverlay({
           }}
         >
         <KindBadge kind={item.kind} />
-        {/* 본운동에 등록 영상이 없고 방법 문구가 있으면, 문구를 사진 위에 한 장면씩
-            넘기는 '튜토리얼 영상'으로 보여준다. 그 외(영상 등록/워밍업·마무리)는 기존대로. */}
-        {/* 시연(사진/영상) — 좌우 화살표(‹ ›)를 사진 위에 얹어 운동 이동(탭/스와이프 보조). */}
+        {/* 시연(사진/영상). 좌우 화살표(‹ ›)로 운동 이동(탭/스와이프 보조).
+            본운동은 운동방법·꿀팁 텍스트를 빼고(상세 페이지에서), 워밍업·마무리는
+            상세 페이지가 없으므로 사진 위 방법 자막을 그대로 보여준다. */}
         <div className="relative w-full max-w-lg">
-          {tutorial ? (
-            <>
-              {photoFrames ? (
-                <p className="mb-1.5 text-xs font-bold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
-                  실제 자세
-                </p>
-              ) : null}
-              <ExerciseTutorial frames={photoFrames} steps={tutorialSteps} />
-            </>
+          {item.kind !== "main" && item.method.length > 0 ? (
+            <ExerciseTutorial frames={framesForItem(item)} steps={item.method} />
           ) : (
             <ItemVisual item={item} />
           )}
@@ -580,25 +688,77 @@ export function GuidedOverlay({
           ) : null}
         </div>
 
-        <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
-          {item.name}
-        </h2>
-        <p className="mt-1.5 text-center text-sm text-zinc-600 dark:text-zinc-300">
-          {item.subtitle}
-        </p>
-
-        {/* 기구별 빠른 단계 — 튜토리얼(사진 위 자막)이 아닐 때만 목록으로. */}
-        {tutorial ? null : item.method.length > 0 ? (
-          <MethodSteps steps={item.method} />
-        ) : item.kind !== "main" ? (
-          <p className="mt-8 text-center text-sm text-zinc-500 dark:text-zinc-400">
-            운동 방법 안내가 없습니다.
+        {item.kind === "main" ? (
+          <button
+            type="button"
+            onClick={viewDetail}
+            className="mt-4 inline-flex items-center gap-1.5"
+          >
+            <h2 className="text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
+              {item.name}
+            </h2>
+            <ChevronRight
+              aria-hidden="true"
+              size={22}
+              className="text-emerald-600 dark:text-emerald-400"
+            />
+          </button>
+        ) : (
+          <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
+            {item.name}
+          </h2>
+        )}
+        {/* 고정 끔이면 무게/횟수는 아래 스크러버로 — subtitle 의 무게/횟수 표기는 숨긴다. */}
+        {editable ? null : (
+          <p className="mt-1.5 text-center text-sm text-zinc-600 dark:text-zinc-300">
+            {item.subtitle}
           </p>
+        )}
+
+        {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 좌우로 밀거나 ±로 조절. */}
+        {editable ? (
+          <div className="mt-4 flex w-full max-w-md items-start justify-center gap-3 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
+            <NumberScrubber
+              label="무게"
+              value={editW}
+              unit="kg"
+              min={0}
+              max={500}
+              step={2.5}
+              allowBodyweight
+              onChange={setEditW}
+            />
+            <NumberScrubber
+              label="횟수"
+              value={editReps}
+              unit="회"
+              min={1}
+              max={100}
+              step={1}
+              onChange={(v) => setEditReps(v ?? 1)}
+            />
+            <NumberScrubber
+              label="세트"
+              value={editSets}
+              unit="세트"
+              min={1}
+              max={20}
+              step={1}
+              onChange={(v) => setEditSets(v ?? 1)}
+            />
+          </div>
         ) : null}
 
-        {/* 본운동: 한 줄 요약 + 자극 부위 + 핵심 포인트만 — 딱딱 간결하게. (개인설정으로 끌 수 있음) */}
+        {/* 운동법·꿀팁은 운동모드에서 빼고 상세 페이지에서. (개인설정으로 버튼 끌 수 있음) */}
         {item.kind === "main" && showGuide ? (
-          <ExerciseConciseCard summary={exerciseSummary(item.exerciseId)} />
+          <button
+            type="button"
+            onClick={viewDetail}
+            className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-emerald-400"
+          >
+            <ListChecks aria-hidden="true" size={15} />
+            운동법·꿀팁 보기
+          </button>
         ) : null}
 
         {/* 개인 메모 — 메모가 있으면 표시 (본운동·워밍업·마무리 공통) */}
@@ -738,112 +898,4 @@ function ItemVisual({ item }: { item: GuidedItem }) {
   return <ExerciseTutorial frames={conditioningPhotoFrames(item.itemId)} steps={[]} />;
 }
 
-/**
- * 본운동 간결 가이드 — 자극 부위 칩 + 한 줄 요약 + 핵심 포인트 2~3개.
- * "앉은 위치·그립 → 어디가 잘 먹는지"를 딱딱 보여주는 게 목적(장황한 설명 X).
- */
-function ExerciseConciseCard({ summary }: { summary: ExerciseSummary }) {
-  return (
-    <div className="mt-6 w-full max-w-md space-y-3 text-left">
-      {/* 자극 부위 칩 */}
-      {summary.targets.length > 0 ? (
-        <div className="flex flex-wrap items-center gap-1.5">
-          <Target
-            aria-hidden="true"
-            size={14}
-            className="text-rose-500"
-          />
-          {summary.targets.map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-rose-100 px-2 py-0.5 text-[11px] font-bold text-rose-700 dark:bg-rose-500/20 dark:text-rose-300"
-            >
-              {t}
-            </span>
-          ))}
-        </div>
-      ) : null}
-
-      {/* 한 줄 요약 — 핵심 자세/그립 → 타겟 */}
-      <p className="rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-base font-bold leading-7 text-emerald-900 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-100">
-        {summary.oneLiner}
-      </p>
-
-      {/* 핵심 포인트 — 그립·각도에 따른 자극 차이 등 */}
-      {summary.cues.length > 0 ? (
-        <section className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900/60">
-          <h3 className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-            <ListChecks aria-hidden="true" size={13} className="text-emerald-500" />
-            핵심 포인트
-          </h3>
-          <ul className="space-y-1.5">
-            {summary.cues.map((c, i) => (
-              <li key={i} className="flex gap-2 text-sm leading-6">
-                <span aria-hidden="true" className="shrink-0 text-emerald-500">
-                  •
-                </span>
-                <span className="text-zinc-800 dark:text-zinc-100">{c}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
-    </div>
-  );
-}
-
-/**
- * 운동 방법 단계 — 3초마다 한 단계씩 강조 순환.
- * 강조된 단계: 더 크게, 밝게, 좌측에 인디케이터.
- */
-function MethodSteps({ steps }: { steps: string[] }) {
-  const [active, setActive] = useState(0);
-
-  useEffect(() => {
-    // 단계 배열이 바뀔 때마다 첫 단계부터 다시. 3초 간격 자동 순환. 의도된 setState.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setActive(0);
-    if (steps.length <= 1) return;
-    const id = window.setInterval(() => {
-      setActive((i) => (i + 1) % steps.length);
-    }, 3000);
-    return () => window.clearInterval(id);
-  }, [steps]);
-
-  return (
-    <ul className="mt-6 w-full max-w-md space-y-2">
-      {steps.map((s, i) => {
-        const isActive = i === active;
-        return (
-          <li
-            key={i}
-            className={`flex gap-3 rounded-2xl border px-4 py-3 transition-all duration-500 ${
-              isActive
-                ? "border-emerald-400 bg-emerald-50 text-emerald-900 shadow-lg shadow-emerald-500/10 dark:bg-emerald-500/10 dark:text-white"
-                : "border-zinc-200 bg-zinc-50 text-zinc-500 opacity-80 dark:border-white/10 dark:bg-white/[0.03] dark:text-zinc-400"
-            }`}
-            style={{
-              transform: isActive ? "scale(1.02)" : "scale(1)",
-            }}
-          >
-            <span
-              className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold transition ${
-                isActive
-                  ? "bg-emerald-500 text-white"
-                  : "bg-zinc-200 text-zinc-500 dark:bg-white/10 dark:text-zinc-400"
-              }`}
-            >
-              {i + 1}
-            </span>
-            <span
-              className={`text-sm leading-6 ${isActive ? "font-semibold" : ""}`}
-            >
-              {s}
-            </span>
-          </li>
-        );
-      })}
-    </ul>
-  );
-}
 

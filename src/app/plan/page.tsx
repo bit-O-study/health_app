@@ -97,6 +97,7 @@ export default async function PlanPage() {
         bodyType={profile.bodyType}
         weightKg={profile.weightKg}
         gymEquipment={gymEquipment}
+        lockWeightReps={profile.lockWeightReps}
       />
     </main>
   );

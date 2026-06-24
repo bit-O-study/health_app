@@ -200,6 +200,7 @@ export default async function TodayConditioningPage({
               dateYmd={todayYmd}
               initial={s.initialMain}
               gymEquipment={gymEquipment}
+              lockWeightReps={profile.lockWeightReps}
             />
           ))}
 

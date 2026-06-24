@@ -88,6 +88,7 @@ export async function TodayExercises({
   showGuide = true,
   restSound = true,
   restHaptic = true,
+  lockWeightReps = false,
 }: {
   /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
   tones: FocusKey[];
@@ -101,6 +102,8 @@ export async function TodayExercises({
   /** 개인설정: 휴식 종료 소리 / 진동. */
   restSound?: boolean;
   restHaptic?: boolean;
+  /** 개인설정: 무게·횟수 고정. false 면 메인에 무게/횟수 숨기고 운동모드에서 설정. */
+  lockWeightReps?: boolean;
 }) {
   const todayYmd = seoulYmd();
   const primaryTone = tones[0];
@@ -424,6 +427,7 @@ export async function TodayExercises({
                 doneOrSkippedIds={doneOrSkippedIds}
                 hideVideos={hideVideos}
                 showGuide={showGuide}
+                lockWeightReps={lockWeightReps}
               />
               <TodayEditBar />
             </div>
@@ -545,6 +549,7 @@ export async function TodayExercises({
               weightKg={weightKg}
               doneIds={mainDoneIds}
               skippedIds={mainSkippedIds}
+              lockWeightReps={lockWeightReps}
             />
           </div>
         )}

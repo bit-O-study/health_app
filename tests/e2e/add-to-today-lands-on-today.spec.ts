@@ -41,7 +41,10 @@ test("오늘 등에 데드리프트를 추가하면 오늘 목록에 바로 뜬�
   await page.waitForTimeout(400);
   await page.getByRole("button", { name: "오늘 루틴에 운동 추가" }).click();
   await page.waitForTimeout(300);
-  await page.getByLabel("운동").selectOption({ label: "데드리프트" });
+  await page.getByLabel("운동").click();
+  await page.getByLabel("운동 검색").fill("데드리프트");
+  await page.getByRole("listbox").getByRole("option").first().click();
+  await expect(page.getByLabel("운동 검색")).toHaveCount(0);
   await page.getByRole("button", { name: "추가", exact: true }).click();
   await page.waitForTimeout(1500);
 

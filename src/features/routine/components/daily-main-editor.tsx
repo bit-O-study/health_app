@@ -15,6 +15,7 @@ import {
   prescribe,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import {
   saveDailyPlanAction,
   type DailyPlanItem,
@@ -219,29 +220,22 @@ export function DailyMainEditor({
                 key={idx}
                 className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
               >
-                <select
-                  aria-label="운동"
+                <ExerciseSearchSelect
+                  options={options}
                   value={row.exerciseId}
-                  onChange={(e) => {
-                    const nextEx = getCatalogExercise(e.target.value);
+                  onChange={(id) => {
+                    const nextEx = getCatalogExercise(id);
                     const next = [...rows];
                     next[idx] = {
                       ...row,
-                      exerciseId: e.target.value,
+                      exerciseId: id,
                       equipment: nextEx
                         ? pickDefaultEquipment(nextEx)
                         : row.equipment,
                     };
                     update(next);
                   }}
-                  className="h-9 min-w-[8rem] flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
-                >
-                  {options.map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {o.name}
-                    </option>
-                  ))}
-                </select>
+                />
 
                 <select
                   aria-label="기구"

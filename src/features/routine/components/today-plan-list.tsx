@@ -673,7 +673,7 @@ export function TodayPlanList({
                       </p>
                     ) : null}
                   </div>
-                  {editMode ? (
+                  {editMode && lockWeightReps ? (
                     <button
                       type="button"
                       aria-label="수정"

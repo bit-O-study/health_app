@@ -20,6 +20,7 @@ import {
 } from "@/features/routine/conditioning-actions";
 import { saveDailyConditioningAction } from "@/features/routine/daily-conditioning-actions";
 import type { ConditioningRow } from "@/features/routine/conditioning";
+import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 
 type Row = {
   itemId: string;
@@ -165,35 +166,31 @@ export function ConditioningEditor({
                 key={idx}
                 className="flex flex-wrap items-center gap-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2"
               >
-                <select
-                  aria-label="항목"
-                  value={row.itemId}
-                  onChange={(e) => {
-                    const next = [...rows];
-                    const nextItem = getConditioningItem(e.target.value);
-                    next[idx] = {
-                      ...row,
-                      itemId: e.target.value,
-                      duration: nextItem?.defaultMin
-                        ? String(nextItem.defaultMin)
-                        : "",
-                      speed: nextItem?.defaultSpeed
-                        ? String(nextItem.defaultSpeed)
-                        : "",
-                      incline: nextItem?.defaultIncline
-                        ? String(nextItem.defaultIncline)
-                        : "",
-                    };
-                    update(next);
-                  }}
-                  className="h-8 min-w-[8rem] flex-1 basis-full rounded border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm sm:basis-auto"
-                >
-                  {options.map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {o.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="basis-full sm:basis-auto sm:flex-1">
+                  <ExerciseSearchSelect
+                    ariaLabel="항목"
+                    options={options}
+                    value={row.itemId}
+                    onChange={(id) => {
+                      const next = [...rows];
+                      const nextItem = getConditioningItem(id);
+                      next[idx] = {
+                        ...row,
+                        itemId: id,
+                        duration: nextItem?.defaultMin
+                          ? String(nextItem.defaultMin)
+                          : "",
+                        speed: nextItem?.defaultSpeed
+                          ? String(nextItem.defaultSpeed)
+                          : "",
+                        incline: nextItem?.defaultIncline
+                          ? String(nextItem.defaultIncline)
+                          : "",
+                      };
+                      update(next);
+                    }}
+                  />
+                </div>
 
                 {lockWeightReps
                   ? params.map((p) => (

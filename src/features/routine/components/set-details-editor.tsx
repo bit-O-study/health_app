@@ -94,22 +94,13 @@ export function SetDetailsEditor({
   const wCls =
     "h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
 
-  // 무게·횟수 고정 끔 → 세트 수만 입력. 무게/횟수는 운동모드에서 그때그때 설정.
+  // 무게·횟수 고정 끔 → 편집기에선 아무 수치도 안 받는다.
+  // 세트·무게·횟수 모두 운동모드에서 그때그때 설정·기록한다.
   if (onlySets) {
     return (
-      <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1.5 basis-full sm:basis-auto">
-        <input
-          aria-label="세트"
-          type="number"
-          inputMode="numeric"
-          value={sets}
-          onChange={(e) => onUniformChange({ sets: Number(e.target.value) })}
-          disabled={disabled}
-          className={numCls}
-        />
-        <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
+      <div className="flex min-w-0 flex-1 basis-full items-center sm:basis-auto">
         <span className="text-[11px] text-zinc-400 dark:text-zinc-500">
-          무게·횟수는 운동모드에서 설정
+          세트·무게·횟수는 운동모드에서 설정해요
         </span>
       </div>
     );

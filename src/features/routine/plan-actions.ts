@@ -23,13 +23,15 @@ import {
 import {
   ALL_FOCUSES,
   exercisesForFocus,
-  focusExercisesForSlot,
   getCatalogExercise,
   isEquipmentId,
   prescribe,
-  sideExercisesForSlot,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  focusExercisesForSlot,
+  sideExercisesForSlot,
+} from "@/features/routine/recommend";
 import {
   isValidSetDetails,
   toRowFields,

@@ -47,6 +47,7 @@ export function ConditioningEditor({
   kind,
   initial,
   dailyDate,
+  lockWeightReps = false,
 }: {
   /** 기본값 편집 모드일 때의 부위. dailyDate 가 있으면 사용하지 않음 */
   focus?: string;
@@ -54,6 +55,8 @@ export function ConditioningEditor({
   initial: ConditioningRow[];
   /** 지정되면 해당 날짜의 오늘만 오버라이드로 저장 */
   dailyDate?: string;
+  /** 시간·속도·경사 고정. false 면 입력란 숨기고 운동모드에서 설정. */
+  lockWeightReps?: boolean;
 }) {
   const router = useRouter();
   const options = conditioningOptions(kind);
@@ -192,40 +195,42 @@ export function ConditioningEditor({
                   ))}
                 </select>
 
-                {params.map((p) => (
-                  <span key={p} className="flex items-center gap-1">
-                    <input
-                      aria-label={PARAM_LABEL[p]}
-                      type="number"
-                      inputMode="decimal"
-                      value={
-                        p === "duration"
-                          ? row.duration
-                          : p === "speed"
-                            ? row.speed
-                            : row.incline
-                      }
-                      onChange={(e) => {
-                        const next = [...rows];
-                        const v = e.target.value;
-                        next[idx] = {
-                          ...row,
-                          ...(p === "duration"
-                            ? { duration: v }
-                            : p === "speed"
-                              ? { speed: v }
-                              : { incline: v }),
-                        };
-                        update(next);
-                      }}
-                      placeholder={PARAM_LABEL[p]}
-                      className="h-8 w-16 rounded border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-                    />
-                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                      {PARAM_UNIT[p]}
-                    </span>
-                  </span>
-                ))}
+                {lockWeightReps
+                  ? params.map((p) => (
+                      <span key={p} className="flex items-center gap-1">
+                        <input
+                          aria-label={PARAM_LABEL[p]}
+                          type="number"
+                          inputMode="decimal"
+                          value={
+                            p === "duration"
+                              ? row.duration
+                              : p === "speed"
+                                ? row.speed
+                                : row.incline
+                          }
+                          onChange={(e) => {
+                            const next = [...rows];
+                            const v = e.target.value;
+                            next[idx] = {
+                              ...row,
+                              ...(p === "duration"
+                                ? { duration: v }
+                                : p === "speed"
+                                  ? { speed: v }
+                                  : { incline: v }),
+                            };
+                            update(next);
+                          }}
+                          placeholder={PARAM_LABEL[p]}
+                          className="h-8 w-16 rounded border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                        />
+                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                          {PARAM_UNIT[p]}
+                        </span>
+                      </span>
+                    ))
+                  : null}
 
                 <button
                   type="button"
@@ -240,6 +245,13 @@ export function ConditioningEditor({
           })}
         </div>
       )}
+
+      {!lockWeightReps && rows.length > 0 ? (
+        <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+          시간·속도·경사는 <b>운동 모드</b>에서 그때그때 설정해요. (설정 ▸ 무게·횟수
+          고정을 켜면 여기서 직접 입력)
+        </p>
+      ) : null}
 
       <div className="mt-3 flex items-center gap-3">
         <button

@@ -18,11 +18,11 @@ import {
   seoulYmd,
   type DayBlockId,
 } from "@/features/routine/data";
+import { prescribe } from "@/features/routine/exercise-catalog";
 import {
   focusExercisesForSlot,
-  prescribe,
   sideExercisesForSlot,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/recommend";
 import { getUserProfile } from "@/features/profile/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 import { syncRoutineExerciseDays } from "@/features/routine/day-index-migration";

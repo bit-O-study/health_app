@@ -39,6 +39,7 @@ import {
   type EquipmentId,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
+import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import {
   summarizeSetDetails,
   type SetDetail,
@@ -1258,19 +1259,12 @@ function AddExerciseSlot({
             {DAY_BLOCKS[focus].label}
           </span>
         )}
-        <select
-          aria-label="운동"
+        <ExerciseSearchSelect
+          options={exerciseOptions}
           value={exerciseId}
-          onChange={(e) => changeExercise(e.target.value)}
+          onChange={changeExercise}
           disabled={pending || exerciseOptions.length === 0}
-          className="h-9 min-w-[9rem] flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
-        >
-          {exerciseOptions.map((o) => (
-            <option key={o.id} value={o.id}>
-              {o.name}
-            </option>
-          ))}
-        </select>
+        />
         <select
           aria-label="기구"
           value={equipment}

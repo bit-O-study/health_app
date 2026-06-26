@@ -468,11 +468,13 @@ export function PlanEditor({
                   focus={f.focus}
                   kind="warmup"
                   initial={f.warmup}
+                  lockWeightReps={lockWeightReps}
                 />
                 <ConditioningEditor
                   focus={f.focus}
                   kind="cooldown"
                   initial={f.cooldown}
+                  lockWeightReps={lockWeightReps}
                 />
               </div>
             ) : null}

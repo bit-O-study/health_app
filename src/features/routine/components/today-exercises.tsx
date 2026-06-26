@@ -523,6 +523,7 @@ export async function TodayExercises({
           skippedIds={warm.skippedIds}
           focus={primaryTone}
           dateYmd={todayYmd}
+          lockWeightReps={lockWeightReps}
         />
 
         {/* 본운동 */}
@@ -569,6 +570,7 @@ export async function TodayExercises({
           skippedIds={cool.skippedIds}
           focus={primaryTone}
           dateYmd={todayYmd}
+          lockWeightReps={lockWeightReps}
         />
         </section>
       </TodayOrderScope>
@@ -585,6 +587,7 @@ function ConditioningSection({
   skippedIds,
   focus,
   dateYmd,
+  lockWeightReps,
 }: {
   kind: "warmup" | "cooldown";
   rowsCount: number;
@@ -594,6 +597,7 @@ function ConditioningSection({
   skippedIds: string[];
   focus: string;
   dateYmd: string;
+  lockWeightReps: boolean;
 }) {
   const isWarm = kind === "warmup";
   const HeaderIcon = isWarm ? Flame : Wind;
@@ -641,6 +645,7 @@ function ConditioningSection({
           source={isDailyOverride ? "daily" : "default"}
           focus={focus}
           dateYmd={dateYmd}
+          lockWeightReps={lockWeightReps}
         />
       )}
     </section>

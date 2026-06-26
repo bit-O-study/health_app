@@ -145,6 +145,11 @@ test("워밍업도 실사 시연 사진 + 설정값(시간) 칩이 뜬다", asyn
      values (${uid}, 'lower', 'warmup', 0, 'bw-squat', null, null, null)`,
     [email],
   );
+  // 고정 켬 → 설정값을 칩으로 표시(고정 끔이면 스크러버로 바뀜).
+  await dbQuery(
+    `update public.profiles set lock_weight_reps=true where user_id=${uid}`,
+    [email],
+  );
 
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
@@ -188,6 +193,11 @@ test("워밍업 런닝은 시간·속도·경사 설정값이 모두 뜬다", as
     `insert into public.routine_conditioning
        (user_id, focus, kind, position, item_id, duration_min, speed, incline)
      values (${uid}, 'lower', 'warmup', 0, 'running', 6, 9, 2)`,
+    [email],
+  );
+  // 고정 켬 → 칩으로 표시.
+  await dbQuery(
+    `update public.profiles set lock_weight_reps=true where user_id=${uid}`,
     [email],
   );
 

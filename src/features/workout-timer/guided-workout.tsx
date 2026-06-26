@@ -353,6 +353,20 @@ export function GuidedOverlay({
   const editStoreRef = useRef<
     Map<string, { w: number | null; reps: number; sets: number }>
   >(new Map());
+
+  // 컨디셔닝(워밍업/마무리) 고정 끔 → 운동모드에서 시간/속도/경사를 그때그때 설정.
+  const condEditable =
+    !lockWeightReps && (item?.kind === "warmup" || item?.kind === "cooldown");
+  const [editDuration, setEditDuration] = useState<number | null>(null);
+  const [editSpeed, setEditSpeed] = useState<number | null>(null);
+  const [editIncline, setEditIncline] = useState<number | null>(null);
+  const condEditStoreRef = useRef<
+    Map<
+      string,
+      { duration: number | null; speed: number | null; incline: number | null }
+    >
+  >(new Map());
+
   useEffect(() => {
     // 운동(인덱스)이 바뀌면 세트 카운트 리셋 + 편집값은 보관분 있으면 복원, 없으면 계획값.
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -372,6 +386,22 @@ export function GuidedOverlay({
       setEditReps(init.reps);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditSets(init.sets);
+    } else if (it) {
+      // 컨디셔닝: 그 항목이 가진 파라미터만 값 보유(없는 건 null → 기록 안 됨).
+      const saved = condEditStoreRef.current.get(it.rowId);
+      const p = getConditioningItem(it.itemId)?.params ?? [];
+      const init = saved ?? {
+        duration: p.includes("duration") ? (it.durationMin ?? 5) : null,
+        speed: p.includes("speed") ? (it.speed ?? 1) : null,
+        incline: p.includes("incline") ? (it.incline ?? 0) : null,
+      };
+      if (!saved) condEditStoreRef.current.set(it.rowId, init);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditDuration(init.duration);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditSpeed(init.speed);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditIncline(init.incline);
     }
   }, [index, sessionItems]);
 
@@ -389,6 +419,26 @@ export function GuidedOverlay({
     if (patch.w !== undefined) setEditW(patch.w);
     if (patch.reps !== undefined) setEditReps(patch.reps);
     if (patch.sets !== undefined) setEditSets(patch.sets);
+  }
+
+  // 컨디셔닝 스크러버 값 변경 — 화면 state + 항목별 보관소 함께 갱신.
+  function putCondEdit(patch: {
+    duration?: number | null;
+    speed?: number | null;
+    incline?: number | null;
+  }) {
+    const it = sessionItems[index];
+    if (!it) return;
+    const cur = condEditStoreRef.current.get(it.rowId) ?? {
+      duration: editDuration,
+      speed: editSpeed,
+      incline: editIncline,
+    };
+    const next = { ...cur, ...patch };
+    condEditStoreRef.current.set(it.rowId, next);
+    if (patch.duration !== undefined) setEditDuration(patch.duration);
+    if (patch.speed !== undefined) setEditSpeed(patch.speed);
+    if (patch.incline !== undefined) setEditIncline(patch.incline);
   }
 
   // 유효 세트 수 — 고정 끔이면 스크러버 값, 켜짐이면 계획값.
@@ -549,11 +599,19 @@ export function GuidedOverlay({
     workingRef.current = true;
     setWorking(true);
 
-    // 고정 끔이면 운동모드에서 정한 무게/횟수/세트를 완료 기록에 반영(계획은 불변).
+    // 고정 끔이면 운동모드에서 정한 값을 완료 기록에 반영(계획은 불변).
+    // 본운동=무게/횟수/세트, 컨디셔닝=시간/속도/경사.
     const captured: GuidedItem =
       item.kind === "main" && !lockWeightReps
         ? { ...item, weightKg: editW, reps: editReps, sets: editSets }
-        : item; // advance 직전에 캡쳐
+        : item.kind !== "main" && !lockWeightReps
+          ? {
+              ...item,
+              durationMin: editDuration,
+              speed: editSpeed,
+              incline: editIncline,
+            }
+          : item; // advance 직전에 캡쳐
     const isMain = captured.kind === "main";
 
     // 0) 공유 오버라이드 즉시 갱신 — 운동 끝나고 바로 다시 시작해도(서버 새로고침 전)
@@ -791,15 +849,26 @@ export function GuidedOverlay({
             {item.name}
           </h2>
         )}
-        {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 설정값 칩으로,
-            본운동(고정 켬)은 한 줄 subtitle 로. */}
-        {editable ? null : item.kind === "main" ? (
+        {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 고정 켬이면
+            설정값 칩, 고정 끔이면 아래 스크러버에서 설정(칩 숨김). 본운동(고정 켬)은 subtitle. */}
+        {editable || condEditable ? null : item.kind === "main" ? (
           <p className="mt-1.5 text-center text-sm text-zinc-600 dark:text-zinc-300">
             {item.subtitle}
           </p>
         ) : (
           <ConditioningSettings item={item} />
         )}
+
+        {/* 컨디셔닝 시간·속도·경사 스크러버 (고정 끔, 워밍업/마무리) */}
+        {condEditable ? (
+          <CondScrubbers
+            itemId={item.itemId}
+            duration={editDuration}
+            speed={editSpeed}
+            incline={editIncline}
+            onChange={putCondEdit}
+          />
+        ) : null}
 
         {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 세로 스택(모바일 폭에서도 안 깨짐).
             좌우로 밀거나 ±로 조절, 더블클릭하면 직접 입력. */}
@@ -1018,6 +1087,73 @@ function ConditioningSettings({
           </span>
         </span>
       ))}
+    </div>
+  );
+}
+
+/**
+ * 컨디셔닝 시간/속도/경사 스크러버 (고정 끔) — 그 항목이 가진 파라미터만 보여준다.
+ * 본운동 스크러버와 동일 UX(좌우 드래그·± ·더블클릭 입력). 완료 시 값이 기록된다.
+ */
+function CondScrubbers({
+  itemId,
+  duration,
+  speed,
+  incline,
+  onChange,
+}: {
+  itemId: string;
+  duration: number | null;
+  speed: number | null;
+  incline: number | null;
+  onChange: (patch: {
+    duration?: number | null;
+    speed?: number | null;
+    incline?: number | null;
+  }) => void;
+}) {
+  const params = getConditioningItem(itemId)?.params ?? [];
+  if (params.length === 0) return null;
+  return (
+    <div className="mt-4 w-full max-w-xs rounded-2xl border border-zinc-200 bg-white px-4 py-1 dark:border-zinc-800 dark:bg-zinc-900/60">
+      <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+        {params.includes("duration") ? (
+          <NumberScrubber
+            label={PARAM_LABEL.duration}
+            value={duration}
+            unit={PARAM_UNIT.duration}
+            min={1}
+            max={120}
+            step={1}
+            onChange={(v) => onChange({ duration: v ?? 1 })}
+          />
+        ) : null}
+        {params.includes("speed") ? (
+          <NumberScrubber
+            label={PARAM_LABEL.speed}
+            value={speed}
+            unit={PARAM_UNIT.speed}
+            min={1}
+            max={30}
+            step={1}
+            onChange={(v) => onChange({ speed: v ?? 1 })}
+          />
+        ) : null}
+        {params.includes("incline") ? (
+          <NumberScrubber
+            label={PARAM_LABEL.incline}
+            value={incline}
+            unit={PARAM_UNIT.incline}
+            min={0}
+            max={30}
+            step={1}
+            onChange={(v) => onChange({ incline: v ?? 0 })}
+          />
+        ) : null}
+      </div>
+      <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+        좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
+      </p>
     </div>
   );
 }

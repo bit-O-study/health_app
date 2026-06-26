@@ -11,13 +11,15 @@ import type { PlanExercise } from "@/features/routine/plan";
 import {
   allExercisesForFocus,
   EQUIPMENT_LABELS,
-  focusExercisesForSlot,
   getCatalogExercise,
   majorMuscleTag,
   prescribe,
-  sideExercisesForSlot,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  focusExercisesForSlot,
+  sideExercisesForSlot,
+} from "@/features/routine/recommend";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
 import { muscleGroup } from "@/features/routine/muscle-map";
 import {

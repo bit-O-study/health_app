@@ -101,6 +101,7 @@ export const EXERCISE_SUB_MUSCLES: Record<string, string[]> = {
   "chest-fly": ["chest-inner", "chest-mid"],
   "pec-deck": ["chest-inner", "chest-mid"],
   "cable-crossover": ["chest-inner", "chest-lower"],
+  "cable-fly": ["chest-inner", "chest-mid"],
   dips: ["chest-lower"],
   "push-up": ["chest-mid"],
   "close-grip-bench-press": ["chest-inner"],
@@ -139,10 +140,13 @@ export const EXERCISE_SUB_MUSCLES: Record<string, string[]> = {
   "upright-row": ["shoulder-side", "back-traps"],
   "rear-delt-fly": ["shoulder-rear"],
   "machine-rear-delt-fly": ["shoulder-rear"],
+  "cable-rear-delt-fly": ["shoulder-rear"],
+  "cable-front-raise": ["shoulder-front"],
   "face-pull": ["shoulder-rear", "back-traps"],
 
   /* ── 팔 (이두/삼두/전완 세분화) ── */
   "biceps-curl": ["arm-biceps-long", "arm-biceps-short"],
+  "cable-curl": ["arm-biceps-long", "arm-biceps-short"],
   "standing-cable-curl": ["arm-biceps-long", "arm-biceps-short"],
   "ez-bar-curl": ["arm-biceps-long", "arm-biceps-short"],
   "incline-curl": ["arm-biceps-long"],

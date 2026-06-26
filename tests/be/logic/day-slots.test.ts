@@ -11,14 +11,15 @@ import {
   type DayBlockId,
 } from "@/features/routine/data";
 import {
-  exercisesForFocus,
-  focusExercisesForSlot,
   getCatalogExercise,
   majorMuscleTag,
   primaryBodyPart,
-  sideExercisesForSlot,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
+import {
+  focusExercisesForSlot,
+  sideExercisesForSlot,
+} from "@/features/routine/recommend";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
 
 describe("routineDaySlots (일차별 부위 슬롯)", () => {
@@ -125,16 +126,26 @@ describe("focusExercisesForSlot (주 슬롯 추천 — 이두/삼두 분리)", (
     }
   });
 
-  it("세부 블록이 아닌 부위(가슴)는 부위 기본 추천을 4개로 쓴다", () => {
-    expect(focusExercisesForSlot("chest", ["chest"]).map((e) => e.id)).toEqual(
-      exercisesForFocus("chest").slice(0, 4).map((e) => e.id),
+  it("세부 블록이 아닌 부위(가슴)는 세부 근육을 골고루 4개 추천", () => {
+    const picks = focusExercisesForSlot("chest", ["chest"]);
+    expect(picks.length).toBe(4);
+    // 상/중/하/내측이 골고루 — 대표 세부근육이 모두 다르다(한쪽 쏠림 금지)
+    const subs = picks.map((e) => subMusclesForExercise(e.id)[0]?.id);
+    expect(new Set(subs).size).toBe(4);
+  });
+
+  it("어깨 추천은 전면·측면·후면 삼각근을 모두 커버한다(랜덤 아님)", () => {
+    const picks = focusExercisesForSlot("shoulder", ["shoulder"]);
+    const covered = new Set(
+      picks.flatMap((e) => subMusclesForExercise(e.id).map((s) => s.id)),
     );
+    expect(covered.has("shoulder-front")).toBe(true);
+    expect(covered.has("shoulder-side")).toBe(true);
+    expect(covered.has("shoulder-rear")).toBe(true);
   });
 
   it("blockIds 가 비면 부위 기본 추천으로 폴백(4개)", () => {
-    expect(focusExercisesForSlot("arm", []).map((e) => e.id)).toEqual(
-      exercisesForFocus("arm").slice(0, 4).map((e) => e.id),
-    );
+    expect(focusExercisesForSlot("arm", []).length).toBe(4);
   });
 
   it("주(主) 슬롯 추천은 부위당 4개 — 보조는 2개", () => {

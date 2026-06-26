@@ -38,7 +38,7 @@ export type CatalogExercise = {
 };
 
 /** 운동 마스터 (여러 부위에서 재사용) */
-const EXERCISES: Record<string, CatalogExercise> = {
+export const EXERCISES: Record<string, CatalogExercise> = {
   "bench-press": {
     id: "bench-press",
     name: "벤치프레스",
@@ -1656,6 +1656,70 @@ const EXERCISES: Record<string, CatalogExercise> = {
       },
     ],
   },
+  "cable-rear-delt-fly": {
+    id: "cable-rear-delt-fly",
+    name: "케이블 리어 델트 레이즈",
+    target: "후면 삼각근",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "양쪽 높은 도르래를 교차로 잡기(왼손→오른쪽 손잡이)",
+          "팔꿈치 살짝 굽힌 채 뒤·옆으로 호 그리며 벌리기",
+          "견갑은 고정, 후면 삼각근으로만 — 장력 유지하며 복귀",
+        ],
+      },
+    ],
+  },
+  "cable-front-raise": {
+    id: "cable-front-raise",
+    name: "케이블 프론트 레이즈",
+    target: "전면 삼각근",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "낮은 도르래를 등지고 서서 바·손잡이를 허벅지 앞에 잡기",
+          "팔꿈치 살짝 굽힌 채 어깨 높이까지 앞으로 들어올리기",
+          "반동 없이 천천히 — 장력 유지하며 복귀",
+        ],
+      },
+    ],
+  },
+
+  /* ─── 가슴 추가(케이블) ──────────────────────────────────────────────── */
+  "cable-fly": {
+    id: "cable-fly",
+    name: "케이블 플라이",
+    target: "대흉근 (내측·중부)",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "도르래를 가슴 높이에 두고 양손 손잡이, 한 발 앞으로",
+          "팔꿈치 살짝 굽힌 채 가슴 앞으로 호 그리며 모으기",
+          "정점에서 1초 수축(쥐어짜기), 통제하며 복귀",
+        ],
+      },
+    ],
+  },
+
+  /* ─── 팔 추가(케이블) ───────────────────────────────────────────────── */
+  "cable-curl": {
+    id: "cable-curl",
+    name: "케이블 컬",
+    target: "이두",
+    equipments: [
+      {
+        equipment: "cable",
+        method: [
+          "낮은 도르래에 스트레이트 바·로프 걸고 어깨너비로 잡기",
+          "팔꿈치 옆구리 고정한 채 컬 — 장력이 처음부터 끝까지",
+          "정점에서 수축, 천천히 복귀(이두로 버티며)",
+        ],
+      },
+    ],
+  },
 
   /* ─── 팔 추가 2차 ───────────────────────────────────────────────────── */
   "drag-curl": {
@@ -2084,7 +2148,7 @@ const EXERCISES: Record<string, CatalogExercise> = {
 export type FocusKey = Exclude<FocusTone, "rest">;
 
 /** 부위 → 운동 id 목록 (남성 기본) */
-const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
+export const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
   fullbody: ["squat", "bench-press", "barbell-row", "ohp"],
   upper: ["bench-press", "barbell-row", "ohp", "lat-pulldown"],
   lower: [
@@ -2124,7 +2188,7 @@ const FOCUS_EXERCISES: Record<FocusKey, string[]> = {
 };
 
 /** 부위 → 운동 id 목록 (여성: 둔근·하체·코어 강조) */
-const FOCUS_EXERCISES_FEMALE: Record<FocusKey, string[]> = {
+export const FOCUS_EXERCISES_FEMALE: Record<FocusKey, string[]> = {
   fullbody: ["squat", "hip-thrust", "barbell-row", "ohp"],
   upper: ["lat-pulldown", "chest-fly", "lateral-raise", "seated-cable-row"],
   lower: [
@@ -2171,7 +2235,7 @@ export function exercisesForFocus(
 /** 보조(사이드)로 붙는 부위의 추천 운동 — 부위별 2개 큐레이션.
  * 본운동(주 부위)은 exercisesForFocus 풀 목록(4~5개)을 쓰고, 사이드는 이 짧은
  * 목록을 써서 운동량이 과하지 않게 한다. */
-const SIDE_FOCUS_EXERCISES: Partial<Record<FocusKey, string[]>> = {
+export const SIDE_FOCUS_EXERCISES: Partial<Record<FocusKey, string[]>> = {
   chest: ["incline-press", "chest-fly"],
   back: ["lat-pulldown", "seated-cable-row"],
   shoulder: ["lateral-raise", "rear-delt-fly"],
@@ -2182,7 +2246,7 @@ const SIDE_FOCUS_EXERCISES: Partial<Record<FocusKey, string[]>> = {
 
 /** 블록 id 별 사이드 운동 — 이두/삼두처럼 같은 focus(arm) 로 합쳐지는 블록을
  * 구분해 알맞은 2개를 고른다. */
-const SIDE_BLOCK_EXERCISES: Record<string, string[]> = {
+export const SIDE_BLOCK_EXERCISES: Record<string, string[]> = {
   biceps: ["biceps-curl", "hammer-curl"],
   triceps: ["triceps-pushdown", "skull-crusher"],
   arm: ["biceps-curl", "triceps-pushdown"],
@@ -2213,8 +2277,8 @@ const SIDE_BLOCK_EXERCISES: Record<string, string[]> = {
  * exercisesForFocus("arm") 은 이두·삼두가 섞여 있어, 이두 블록만 추가해도 삼두
  * 운동(triceps-pushdown)이 따라 들어오는 버그가 있었다. 블록 id 로 분기해
  * 해당 근육 운동만 넣는다. (사이드는 SIDE_BLOCK_EXERCISES 로 이미 2개만 분리됨) */
-const MAIN_BLOCK_EXERCISES: Record<string, string[]> = {
-  biceps: ["biceps-curl", "hammer-curl", "preacher-curl", "incline-curl"],
+export const MAIN_BLOCK_EXERCISES: Record<string, string[]> = {
+  biceps: ["biceps-curl", "hammer-curl", "preacher-curl", "cable-curl"],
   triceps: [
     "triceps-pushdown",
     "skull-crusher",
@@ -2225,7 +2289,7 @@ const MAIN_BLOCK_EXERCISES: Record<string, string[]> = {
   "chest-upper": ["incline-press", "incline-cable-fly"],
   "chest-mid": ["bench-press", "machine-chest-press", "smith-bench-press", "push-up"],
   "chest-lower": ["decline-press", "dips", "cable-crossover"],
-  "chest-inner": ["pec-deck", "cable-crossover", "chest-fly"],
+  "chest-inner": ["pec-deck", "cable-crossover", "cable-fly", "chest-fly"],
   "back-lats": [
     "lat-pulldown",
     "pull-up",
@@ -2240,9 +2304,14 @@ const MAIN_BLOCK_EXERCISES: Record<string, string[]> = {
     "t-bar-row",
   ],
   "back-erector": ["deadlift", "hyperextension", "good-morning"],
-  "shoulder-front": ["ohp", "arnold-press", "front-raise"],
+  "shoulder-front": ["ohp", "arnold-press", "front-raise", "cable-front-raise"],
   "shoulder-side": ["lateral-raise", "cable-lateral-raise", "upright-row"],
-  "shoulder-rear": ["rear-delt-fly", "face-pull", "machine-rear-delt-fly"],
+  "shoulder-rear": [
+    "rear-delt-fly",
+    "face-pull",
+    "machine-rear-delt-fly",
+    "cable-rear-delt-fly",
+  ],
   "arm-forearm": ["hammer-curl", "reverse-curl", "wrist-curl", "zottman-curl"],
   "lower-quads": ["hack-squat", "leg-extension", "front-squat", "leg-press"],
   "lower-hamstrings": ["rdl", "leg-curl", "stiff-leg-deadlift", "seated-leg-curl"],
@@ -2254,53 +2323,10 @@ const MAIN_BLOCK_EXERCISES: Record<string, string[]> = {
   "core-obliques": ["russian-twist", "side-plank", "bicycle-crunch"],
 };
 
-/**
- * 한 일차의 보조 슬롯(focus + 기여 블록 id들)에 대한 추천 운동.
- * 블록별 목록(이두/삼두 구분) 우선, 없으면 focus 기본 사이드 목록, 그래도 없으면
- * 일반 추천 목록 앞 2개. 블록별 2개씩이므로 이두+삼두면 합쳐서 4개가 된다.
- */
-export function sideExercisesForSlot(
-  focus: FocusKey,
-  blockIds: string[],
-  gender: "male" | "female" = "male",
-): CatalogExercise[] {
-  const ids: string[] = [];
-  for (const b of blockIds) {
-    const list = SIDE_BLOCK_EXERCISES[b] ?? SIDE_FOCUS_EXERCISES[focus] ?? [];
-    for (const id of list) if (!ids.includes(id)) ids.push(id);
-  }
-  if (ids.length === 0) return exercisesForFocus(focus, gender).slice(0, 2);
-  return ids.map((id) => EXERCISES[id]).filter(Boolean);
-}
-
-/**
- * 주(主) 슬롯의 추천 운동.
- * 블록 id 가 전부 세부 블록(이두/삼두)이면 그 근육 **전용** 목록을 쓰고,
- * 그 외(가슴/등/팔 통째 등)는 부위 기본 추천 목록(exercisesForFocus)을 쓴다.
- * → "이두만 추가했는데 삼두가 따라 들어오는" 문제를 막는다.
- */
-/** 주(主) 슬롯 추천 운동 개수 — 한 부위당 4개로 표준화. */
+/** 주(主) 슬롯 추천 운동 개수 — 한 부위당 4개로 표준화.
+ * 추천 선택 로직(세부 근육 균형)은 순환 import 를 피해 `recommend.ts` 로 분리했다
+ * (focusExercisesForSlot / sideExercisesForSlot). */
 export const MAIN_SLOT_COUNT = 4;
-
-export function focusExercisesForSlot(
-  focus: FocusKey,
-  blockIds: string[],
-  gender: "male" | "female" = "male",
-): CatalogExercise[] {
-  const blockLists = blockIds.map((b) => MAIN_BLOCK_EXERCISES[b]);
-  // blockIds 가 비어있지 않고 전부 세부 블록일 때만 블록 전용 목록을 합쳐 쓴다.
-  if (blockIds.length > 0 && blockLists.every(Boolean)) {
-    const ids: string[] = [];
-    for (const list of blockLists)
-      for (const id of list!) if (!ids.includes(id)) ids.push(id);
-    return ids
-      .map((id) => EXERCISES[id])
-      .filter(Boolean)
-      .slice(0, MAIN_SLOT_COUNT);
-  }
-  // 주 부위는 4개로 통일(보조는 sideExercisesForSlot 에서 2개).
-  return exercisesForFocus(focus, gender).slice(0, MAIN_SLOT_COUNT);
-}
 
 /** 분할(focus tone) → 후보 신체 부위 집합.
  * fullbody/upper/push/pull 처럼 합성 focus 도 모두 적절한 body part 로 펼친다. */
@@ -2428,6 +2454,10 @@ const LOAD_CLASS: Record<string, LoadClass> = {
   "cable-lateral-raise": "light",
   "machine-shoulder-press": "medium",
   "machine-rear-delt-fly": "light",
+  "cable-rear-delt-fly": "light",
+  "cable-front-raise": "light",
+  "cable-fly": "light",
+  "cable-curl": "light",
   "drag-curl": "medium",
   "zottman-curl": "light",
   "cable-rope-hammer-curl": "light",
@@ -2663,6 +2693,10 @@ const PRIMARY_BODY_PART: Record<string, BodyPart> = {
   "cable-lateral-raise": "shoulder",
   "machine-shoulder-press": "shoulder",
   "machine-rear-delt-fly": "shoulder",
+  "cable-rear-delt-fly": "shoulder",
+  "cable-front-raise": "shoulder",
+  "cable-fly": "chest",
+  "cable-curl": "arm",
   "drag-curl": "arm",
   "zottman-curl": "arm",
   "cable-rope-hammer-curl": "arm",

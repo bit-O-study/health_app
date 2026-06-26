@@ -1740,8 +1740,13 @@ const ICONS: Record<string, (p: ExerciseIconProps) => ReactNode> = {
   "machine-shoulder-press": OhpIcon,
   "cable-lateral-raise": LateralRaiseIcon,
   "machine-rear-delt-fly": RearDeltFlyIcon,
+  "cable-rear-delt-fly": RearDeltFlyIcon,
+  "cable-front-raise": FrontRaiseIcon,
   "reverse-pec-deck": RearDeltFlyIcon,
+  // 가슴(케이블)
+  "cable-fly": CableCrossoverIcon,
   // 팔
+  "cable-curl": BicepsCurlIcon,
   "standing-cable-curl": BicepsCurlIcon,
   "drag-curl": BicepsCurlIcon,
   "zottman-curl": BicepsCurlIcon,

@@ -212,12 +212,14 @@ export default async function TodayConditioningPage({
                 kind="warmup"
                 initial={warmupInitial}
                 dailyDate={todayYmd}
+                lockWeightReps={profile.lockWeightReps}
               />
               <ConditioningEditor
                 focus={primaryFocus}
                 kind="cooldown"
                 initial={cooldownInitial}
                 dailyDate={todayYmd}
+                lockWeightReps={profile.lockWeightReps}
               />
             </>
           ) : null}

@@ -61,6 +61,7 @@ export function TodayConditioningList({
   source,
   focus,
   dateYmd,
+  lockWeightReps = false,
 }: {
   kind: ConditioningKind;
   items: TodayConditioningItem[];
@@ -71,6 +72,8 @@ export function TodayConditioningList({
   source: "daily" | "default";
   focus?: string;
   dateYmd?: string;
+  /** 시간·속도·경사 고정. false 면 메인 표시에서 숨김(운동모드에서 설정·기록). */
+  lockWeightReps?: boolean;
 }) {
   const edit = useTodayEdit();
   const editMode = edit.editMode;
@@ -541,7 +544,13 @@ export function TodayConditioningList({
                       ) : null}
                     </h4>
                     <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-                      {item.detail}
+                      {lockWeightReps ? (
+                        item.detail
+                      ) : (
+                        <span className="text-zinc-400 dark:text-zinc-500">
+                          운동모드에서 설정
+                        </span>
+                      )}
                       <span className="ml-2 text-xs text-orange-700 dark:text-orange-400">
                         · 약 {item.kcal}kcal
                       </span>
@@ -557,7 +566,7 @@ export function TodayConditioningList({
                       </p>
                     ) : null}
                   </div>
-                  {editMode ? (
+                  {editMode && lockWeightReps ? (
                     <button
                       type="button"
                       aria-label="수정"

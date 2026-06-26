@@ -11,13 +11,16 @@ import type { PlanExercise } from "@/features/routine/plan";
 import {
   allExercisesForFocus,
   EQUIPMENT_LABELS,
-  focusExercisesForSlot,
   getCatalogExercise,
   majorMuscleTag,
   prescribe,
-  sideExercisesForSlot,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  focusExercisesForSlot,
+  sideExercisesForSlot,
+} from "@/features/routine/recommend";
+import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
 import { muscleGroup } from "@/features/routine/muscle-map";
 import {
@@ -360,29 +363,24 @@ export function PlanEditor({
                           );
                         })()}
                       </span>
-                      <select
-                        aria-label="운동"
-                        value={row.exerciseId}
-                        onChange={(e) => {
-                          const nextEx = getCatalogExercise(e.target.value);
-                          const next = [...rows];
-                          next[idx] = {
-                            ...row,
-                            exerciseId: e.target.value,
-                            equipment: nextEx
-                              ? pickDefaultEquipment(nextEx)
-                              : row.equipment,
-                          };
-                          update(f.key, next);
-                        }}
-                        className="h-9 min-w-[8rem] flex-1 basis-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 sm:basis-auto"
-                      >
-                        {options.map((o) => (
-                          <option key={o.id} value={o.id}>
-                            {o.name}
-                          </option>
-                        ))}
-                      </select>
+                      <div className="flex-1 basis-full sm:basis-auto">
+                        <ExerciseSearchSelect
+                          options={options}
+                          value={row.exerciseId}
+                          onChange={(id) => {
+                            const nextEx = getCatalogExercise(id);
+                            const next = [...rows];
+                            next[idx] = {
+                              ...row,
+                              exerciseId: id,
+                              equipment: nextEx
+                                ? pickDefaultEquipment(nextEx)
+                                : row.equipment,
+                            };
+                            update(f.key, next);
+                          }}
+                        />
+                      </div>
 
                       <select
                         aria-label="기구"
@@ -470,11 +468,13 @@ export function PlanEditor({
                   focus={f.focus}
                   kind="warmup"
                   initial={f.warmup}
+                  lockWeightReps={lockWeightReps}
                 />
                 <ConditioningEditor
                   focus={f.focus}
                   kind="cooldown"
                   initial={f.cooldown}
+                  lockWeightReps={lockWeightReps}
                 />
               </div>
             ) : null}

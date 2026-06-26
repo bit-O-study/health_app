@@ -133,3 +133,44 @@ test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬�
   await expect(overlay.getByText("세트", { exact: true })).toHaveCount(0);
   await expect(overlay.getByText(/60kg/)).toBeVisible();
 });
+
+test("고정 끔: 워밍업(런닝) 시간을 운동모드에서 바꿔 기록한다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await seedSquat(email, false); // 본운동 스쿼트 + 고정 끔
+  // 워밍업 = 런닝(시간 6분, 속도 9, 경사 2) — 가이드 첫 항목.
+  await dbQuery(`delete from public.routine_conditioning where user_id=${uid}`, [email]);
+  await dbQuery(
+    `insert into public.routine_conditioning
+       (user_id, focus, kind, position, item_id, duration_min, speed, incline)
+     values (${uid}, 'lower', 'warmup', 0, 'running', 6, 9, 2)`,
+    [email],
+  );
+
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: "운동 시작" }).click();
+  await page.waitForTimeout(1200);
+
+  const overlay = page.getByTestId("guided-scroll");
+  // 고정 끔 → 워밍업도 스크러버(시간/속도/경사). 시간 더블클릭 직접 입력으로 12분.
+  await overlay.getByRole("slider", { name: "시간" }).dblclick();
+  const input = overlay.getByRole("spinbutton", { name: "시간 직접 입력" });
+  await expect(input).toBeVisible({ timeout: 4000 });
+  await input.fill("12");
+  await input.press("Enter");
+  await expect(overlay.getByText("12", { exact: true })).toBeVisible();
+
+  // 워밍업 완료 → 컨디셔닝 완료 기록에 시간 12분이 남는다.
+  await page.getByRole("button", { name: "완료", exact: true }).click();
+  await page.waitForTimeout(1500);
+
+  const done = await dbQuery<{ duration_min: string; item_id: string }>(
+    `select duration_min::text, item_id from public.conditioning_completions
+       where user_id=${uid} and status='done'`,
+    [email],
+  );
+  expect(done.length).toBe(1);
+  expect(done[0].item_id).toBe("running");
+  expect(Number(done[0].duration_min)).toBe(12);
+});

@@ -40,7 +40,11 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   await page.getByRole("button", { name: "오늘 루틴에 운동 추가" }).click();
   // 부위=가슴, 운동=펙덱 플라이(시드에 없는 가슴 운동) 선택 후 추가
   await page.getByLabel("부위").selectOption("chest");
-  await page.getByLabel("운동").selectOption({ label: "펙덱 플라이" });
+  // 운동 검색 콤보박스: 열고 → 검색 → 결과 선택
+  await page.getByLabel("운동").click();
+  await page.getByLabel("운동 검색").fill("펙덱");
+  await page.getByRole("listbox").getByRole("option").first().click();
+  await expect(page.getByLabel("운동 검색")).toHaveCount(0);
   await page.getByRole("button", { name: "추가", exact: true }).click();
   await page.waitForTimeout(1500);
 
@@ -55,9 +59,9 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   expect(rows[0].position).toBeGreaterThanOrEqual(1000);
 
   // 화면에서도 본운동 리스트의 마지막 항목이 펙덱 플라이여야 한다.
+  // (refresh 반영까지 자동 재시도 — 고정 timeout 레이스 방지)
   const mainUl = page.locator("ul.space-y-2").nth(1);
-  const lastName = (
-    await mainUl.locator("li h3").last().innerText()
-  ).split("\n")[0].trim();
-  expect(lastName).toContain("펙덱 플라이");
+  await expect(mainUl.locator("li h3").last()).toContainText("펙덱 플라이", {
+    timeout: 10000,
+  });
 });

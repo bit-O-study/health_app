@@ -812,7 +812,7 @@ export function GuidedOverlay({
                 unit="kg"
                 min={0}
                 max={500}
-                step={2.5}
+                step={1}
                 allowBodyweight
                 onChange={(v) => putEdit({ w: v })}
               />

@@ -18,6 +18,23 @@ export type MacroTarget = {
 const DEFAULT_AGE = 30;
 const ACTIVITY = 1.5; // 가벼운~보통 활동
 const FALLBACK_KCAL = 2000;
+/** 키·몸무게가 없을 때 쓰는 기본 기초대사량(kcal/일). */
+const FALLBACK_BMR = { male: 1700, female: 1400 };
+
+/** 기초대사량(BMR, kcal/일) — Mifflin–St Jeor. 키·몸무게 없으면 성별 기본값. */
+export function basalMetabolicRate(profile: {
+  gender: Gender;
+  weightKg: number | null;
+  heightCm: number | null;
+}): number {
+  const { gender, weightKg, heightCm } = profile;
+  if (weightKg && heightCm && weightKg > 0 && heightCm > 0) {
+    return Math.round(
+      10 * weightKg + 6.25 * heightCm - 5 * DEFAULT_AGE + (gender === "male" ? 5 : -161),
+    );
+  }
+  return FALLBACK_BMR[gender];
+}
 
 export function dailyTarget(profile: {
   gender: Gender;
@@ -28,12 +45,7 @@ export function dailyTarget(profile: {
 
   let kcal: number;
   if (weightKg && heightCm && weightKg > 0 && heightCm > 0) {
-    const bmr =
-      10 * weightKg +
-      6.25 * heightCm -
-      5 * DEFAULT_AGE +
-      (gender === "male" ? 5 : -161);
-    kcal = Math.round((bmr * ACTIVITY) / 10) * 10;
+    kcal = Math.round((basalMetabolicRate(profile) * ACTIVITY) / 10) * 10;
   } else {
     kcal = gender === "female" ? 1800 : FALLBACK_KCAL;
   }

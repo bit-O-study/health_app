@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dumbbell, ListChecks, Settings, Utensils } from "lucide-react";
+import { CalendarDays, Dumbbell, Settings, Utensils } from "lucide-react";
 
 type Tab = {
   href: string;
@@ -21,10 +21,10 @@ const TABS: Tab[] = [
   },
   { href: "/diet", label: "식단", icon: Utensils, match: (p) => p.startsWith("/diet") },
   {
-    href: "/exercises",
-    label: "운동목록",
-    icon: ListChecks,
-    match: (p) => p.startsWith("/exercises"),
+    href: "/calendar",
+    label: "캘린더",
+    icon: CalendarDays,
+    match: (p) => p.startsWith("/calendar"),
   },
   {
     href: "/settings",

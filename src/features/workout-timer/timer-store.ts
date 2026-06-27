@@ -28,8 +28,11 @@ export type TimerState = {
   lastSeenAt?: number;
 };
 
-/** 백그라운드/종료로 간주하는 공백 임계(ms). 이보다 길게 안 보였으면 그 구간 제외. */
-export const AWAY_GAP_MS = 120_000; // 2분
+/** 백그라운드/종료로 간주하는 공백 임계(ms). 이보다 길게 안 보였으면 그 구간 제외.
+ * 운동 중 휴식/전화/폰 잠금(앱 백그라운드)으로 몇 분 비는 건 실제 운동시간으로 인정해
+ * 타이머가 실제 시계와 맞게 흐르도록 10분으로 둔다. (헬스장에서 운동 끝나고 앱을 켠 채
+ * 둔 장시간 공백은 여전히 제외 — 캘린더 과다 가산 방지.) */
+export const AWAY_GAP_MS = 600_000; // 10분
 
 export function readTimer(): TimerState | null {
   if (typeof window === "undefined") return null;

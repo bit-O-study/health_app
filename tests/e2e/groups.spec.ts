@@ -57,6 +57,12 @@ test("그룹 생성 → 초대 링크 참여 → 랭킹에 멤버 표시", async
   // 랭킹 목록(ol > li)에 두 명
   await expect(pageB.locator("ol > li")).toHaveCount(2);
 
+  // 멤버 행을 눌러 상대방 오늘 운동·식단 상세로 진입(같은 그룹원 열람)
+  await pageB.locator("ol > li a").first().click();
+  await pageB.waitForURL(/\/groups\/[0-9a-f-]{8,}\/member\//, { timeout: 10000 });
+  await expect(pageB.getByRole("heading", { name: "오늘 운동" })).toBeVisible({ timeout: 8000 });
+  await expect(pageB.getByRole("heading", { name: "오늘 식단" })).toBeVisible();
+
   await ctxA.close();
   await ctxB.close();
 });

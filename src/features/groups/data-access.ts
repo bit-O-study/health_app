@@ -8,7 +8,11 @@ import {
   estimateStrengthKcal,
   estimateConditioningKcal,
 } from "@/features/routine/calories";
-import { conditioningDefaults } from "@/features/routine/conditioning-catalog";
+import {
+  conditioningDefaults,
+  getConditioningItem,
+} from "@/features/routine/conditioning-catalog";
+import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { seoulYmd } from "@/features/routine/data";
 import { weekRange, rankMembers, type MemberStat, type RankedMember } from "@/features/groups/ranking";
 
@@ -245,5 +249,137 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     weekFrom: from,
     weekTo: to,
     ranking: rankMembers([...stats.values()]),
+  };
+}
+
+export type MemberDay = {
+  name: string;
+  date: string;
+  intake: number;
+  burned: number;
+  foods: { name: string; meal: string; kcal: number; photoUrl: string | null }[];
+  workouts: { name: string; detail: string; kcal: number }[];
+};
+
+const MEAL_LABEL: Record<string, string> = {
+  breakfast: "아침",
+  lunch: "점심",
+  dinner: "저녁",
+  snack: "간식",
+};
+
+/** 같은 그룹원의 특정 날짜(기본 오늘) 운동·식단 상세. 내가 그룹원이 아니거나 상대가 멤버가 아니면 null. */
+export async function getGroupMemberDay(
+  groupId: string,
+  memberId: string,
+  dateYmd?: string,
+): Promise<MemberDay | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const supabase = await createSupabaseServerClient();
+  const date = dateYmd ?? seoulYmd();
+
+  const { data: members } = await supabase
+    .from("group_members")
+    .select("user_id, display_name")
+    .eq("group_id", groupId);
+  const rows = (members ?? []) as { user_id: string; display_name: string | null }[];
+  const ids = rows.map((r) => r.user_id);
+  if (!ids.includes(user.id) || !ids.includes(memberId)) return null; // 둘 다 멤버여야
+
+  const [{ data: profile }, { data: exRows }, { data: condRows }, { data: foodRows }] =
+    await Promise.all([
+      supabase.from("profiles").select("name, weight_kg").eq("user_id", memberId).maybeSingle(),
+      supabase
+        .from("exercise_completions")
+        .select("exercise_id, sets, reps, weight_kg")
+        .eq("user_id", memberId)
+        .eq("for_date", date)
+        .eq("status", "done"),
+      supabase
+        .from("conditioning_completions")
+        .select("item_id, duration_min, speed, sets, reps")
+        .eq("user_id", memberId)
+        .eq("for_date", date)
+        .eq("status", "done"),
+      supabase
+        .from("food_logs")
+        .select("name, meal, kcal, photo_url, position")
+        .eq("user_id", memberId)
+        .eq("for_date", date)
+        .order("meal", { ascending: true })
+        .order("position", { ascending: true }),
+    ]);
+
+  const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
+  const displayName =
+    rows.find((r) => r.user_id === memberId)?.display_name?.trim() ||
+    ((profile as { name?: string | null } | null)?.name?.trim() ?? "회원");
+
+  let burnedRaw = 0;
+  const workouts: MemberDay["workouts"] = [];
+  for (const r of (exRows ?? []) as {
+    exercise_id: string | null;
+    sets: number | null;
+    reps: number | null;
+  }[]) {
+    if (!r.exercise_id) continue;
+    const raw = estimateStrengthKcal(weight, r.exercise_id, num(r.sets));
+    burnedRaw += raw;
+    const parts: string[] = [];
+    if (r.sets != null) parts.push(`${r.sets}세트`);
+    if (r.reps != null) parts.push(`${r.reps}회`);
+    workouts.push({
+      name: getCatalogExercise(r.exercise_id)?.name ?? r.exercise_id,
+      detail: parts.join(" · "),
+      kcal: Math.round(raw),
+    });
+  }
+  for (const r of (condRows ?? []) as {
+    item_id: string | null;
+    duration_min: number | null;
+    speed: number | string | null;
+    sets: number | null;
+    reps: number | null;
+  }[]) {
+    if (!r.item_id) continue;
+    const d = conditioningDefaults(r.item_id);
+    const raw = estimateConditioningKcal(
+      weight,
+      r.item_id,
+      r.duration_min ?? d.durationMin,
+      r.speed === null ? d.speed : num(r.speed),
+    );
+    burnedRaw += raw;
+    const parts: string[] = [];
+    if (r.duration_min != null) parts.push(`${r.duration_min}분`);
+    if (r.sets != null) parts.push(`${r.sets}세트`);
+    if (r.reps != null) parts.push(`${r.reps}회`);
+    workouts.push({
+      name: getConditioningItem(r.item_id)?.name ?? r.item_id,
+      detail: parts.join(" · "),
+      kcal: Math.round(raw),
+    });
+  }
+
+  const foods = ((foodRows ?? []) as {
+    name: string;
+    meal: string;
+    kcal: number | string;
+    photo_url: string | null;
+  }[]).map((r) => ({
+    name: r.name,
+    meal: MEAL_LABEL[r.meal] ?? r.meal,
+    kcal: Math.round(num(r.kcal)),
+    photoUrl: r.photo_url,
+  }));
+
+  return {
+    name: displayName,
+    date,
+    intake: foods.reduce((s, f) => s + f.kcal, 0),
+    burned: Math.round(burnedRaw),
+    foods,
+    workouts,
   };
 }

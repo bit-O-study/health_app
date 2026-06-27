@@ -69,9 +69,10 @@ export default async function GroupDetailPage({
 
       <ol className="mb-6 space-y-2">
         {detail.ranking.map((m) => (
-          <li
-            key={m.userId}
-            className={`flex items-center gap-3 rounded-xl border p-3 ${
+          <li key={m.userId}>
+           <Link
+            href={`/groups/${detail.id}/member/${m.userId}`}
+            className={`flex items-center gap-3 rounded-xl border p-3 transition hover:border-emerald-300 dark:hover:border-emerald-700 ${
               m.isMe
                 ? "border-emerald-400 bg-emerald-50/60 dark:border-emerald-600 dark:bg-emerald-950/30"
                 : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
@@ -113,6 +114,7 @@ export default async function GroupDetailPage({
               </span>
               <span className="text-[10px] font-semibold text-zinc-400">kcal</span>
             </span>
+           </Link>
           </li>
         ))}
       </ol>

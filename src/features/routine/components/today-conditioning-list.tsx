@@ -544,15 +544,9 @@ export function TodayConditioningList({
                       ) : null}
                     </h4>
                     <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-                      {lockWeightReps ? (
-                        item.detail
-                      ) : (
-                        <span className="text-zinc-400 dark:text-zinc-500">
-                          운동모드에서 설정
-                        </span>
-                      )}
-                      <span className="ml-2 text-xs text-orange-700 dark:text-orange-400">
-                        · 약 {item.kcal}kcal
+                      {lockWeightReps ? <>{item.detail} · </> : null}
+                      <span className="text-xs text-orange-700 dark:text-orange-400">
+                        약 {item.kcal}kcal
                       </span>
                     </p>
                     {item.memo ? (

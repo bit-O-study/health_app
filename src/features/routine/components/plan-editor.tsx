@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
@@ -411,7 +411,6 @@ export function PlanEditor({
                         reps={row.reps}
                         weight={row.weight}
                         setDetails={row.setDetails}
-                        onlySets={!lockWeightReps}
                         onUniformChange={(patch) => {
                           const next = [...rows];
                           next[idx] = { ...row, ...patch };
@@ -423,6 +422,32 @@ export function PlanEditor({
                           update(f.key, next);
                         }}
                       />
+                      <button
+                        type="button"
+                        aria-label="위로"
+                        disabled={idx === 0}
+                        onClick={() => {
+                          const next = [...rows];
+                          [next[idx - 1], next[idx]] = [next[idx], next[idx - 1]];
+                          update(f.key, next);
+                        }}
+                        className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
+                      >
+                        <ChevronUp aria-hidden="true" size={16} />
+                      </button>
+                      <button
+                        type="button"
+                        aria-label="아래로"
+                        disabled={idx === rows.length - 1}
+                        onClick={() => {
+                          const next = [...rows];
+                          [next[idx + 1], next[idx]] = [next[idx], next[idx + 1]];
+                          update(f.key, next);
+                        }}
+                        className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
+                      >
+                        <ChevronDown aria-hidden="true" size={16} />
+                      </button>
                       <button
                         type="button"
                         aria-label="삭제"

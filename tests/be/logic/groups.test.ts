@@ -10,6 +10,7 @@ const stat = (over: Partial<MemberStat>): MemberStat => ({
   days: over.days ?? 0,
   todayIntake: over.todayIntake ?? 0,
   todayBurned: over.todayBurned ?? 0,
+  todayPhotos: over.todayPhotos ?? [],
   isMe: over.isMe ?? false,
 });
 

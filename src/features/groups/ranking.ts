@@ -13,6 +13,8 @@ export type MemberStat = {
   todayIntake: number;
   /** 오늘 운동 소비 kcal. */
   todayBurned: number;
+  /** 오늘 식단 사진 썸네일 URL(최대 몇 장). */
+  todayPhotos: string[];
   isMe: boolean;
 };
 

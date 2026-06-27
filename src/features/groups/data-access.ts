@@ -119,9 +119,10 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
         .lte("for_date", to),
       supabase
         .from("food_logs")
-        .select("user_id, kcal")
+        .select("user_id, kcal, photo_url, position")
         .in("user_id", memberIds)
-        .eq("for_date", today),
+        .eq("for_date", today)
+        .order("position", { ascending: true }),
     ]);
 
   const nameOf = new Map<string, string>();
@@ -138,10 +139,23 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     weightOf.set(p.user_id, num(p.weight_kg) || 65);
   }
 
-  // 오늘 섭취 kcal(식단 공유)
+  // 오늘 섭취 kcal + 식단 사진 썸네일(식단 공유)
   const todayIntakeOf = new Map<string, number>();
-  for (const r of (foodRows ?? []) as { user_id: string; kcal: number | string }[]) {
+  const todayPhotosOf = new Map<string, string[]>();
+  const MAX_PHOTOS = 4;
+  for (const r of (foodRows ?? []) as {
+    user_id: string;
+    kcal: number | string;
+    photo_url: string | null;
+  }[]) {
     todayIntakeOf.set(r.user_id, (todayIntakeOf.get(r.user_id) ?? 0) + num(r.kcal));
+    if (r.photo_url) {
+      const arr = todayPhotosOf.get(r.user_id) ?? [];
+      if (arr.length < MAX_PHOTOS) {
+        arr.push(r.photo_url);
+        todayPhotosOf.set(r.user_id, arr);
+      }
+    }
   }
   // 오늘 운동 소비 kcal (raw 누적)
   const todayBurnedOf = new Map<string, number>();
@@ -160,6 +174,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
         days: 0,
         todayIntake: 0,
         todayBurned: 0,
+        todayPhotos: [],
         isMe: uid === user.id,
       };
       stats.set(uid, s);
@@ -219,6 +234,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     s.kcal = Math.round(s.kcal);
     s.todayIntake = Math.round(todayIntakeOf.get(s.userId) ?? 0);
     s.todayBurned = Math.round(todayBurnedOf.get(s.userId) ?? 0);
+    s.todayPhotos = todayPhotosOf.get(s.userId) ?? [];
   }
 
   return {

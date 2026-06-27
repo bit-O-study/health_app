@@ -93,6 +93,19 @@ export default async function GroupDetailPage({
               <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
                 오늘 🍽 {m.todayIntake.toLocaleString()} · 🔥 {m.todayBurned.toLocaleString()}
               </p>
+              {m.todayPhotos.length > 0 ? (
+                <div className="mt-1 flex gap-1">
+                  {m.todayPhotos.map((src) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={src}
+                      src={src}
+                      alt="오늘 식단"
+                      className="h-9 w-9 rounded-md object-cover"
+                    />
+                  ))}
+                </div>
+              ) : null}
             </div>
             <span className="shrink-0 text-right">
               <span className="block text-base font-extrabold tabular-nums text-emerald-600 dark:text-emerald-400">

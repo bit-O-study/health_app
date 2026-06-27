@@ -744,6 +744,8 @@ export function TodayPlanList({
             prev.map((p) => (p.id === memoTarget.id ? { ...p, memo } : p)),
           );
           setMemoTarget(null);
+          // 서버 렌더값(운동모드 큐 queueItems)도 다시 그려야 운동모드에 메모가 반영된다.
+          router.refresh();
         }}
       />
     ) : null}

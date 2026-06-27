@@ -638,6 +638,8 @@ export function TodayConditioningList({
             ),
           );
           setMemoTarget(null);
+          // 운동모드 큐(queueItems)도 다시 그려 메모가 워밍업/마무리에도 반영되게.
+          router.refresh();
         }}
       />
     ) : null}

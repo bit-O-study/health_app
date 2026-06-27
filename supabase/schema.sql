@@ -1306,4 +1306,37 @@ create policy "Users can delete own food logs"
   on public.food_logs for delete
   using (auth.uid() = user_id);
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 월경(생리) 기록(cycle_logs) — 날짜별 생리여부·출혈량·증상·메모. 예측은 앱에서 계산.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.cycle_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  is_period boolean not null default false,
+  flow text check (flow in ('spotting', 'light', 'medium', 'heavy')),
+  symptoms text[] not null default '{}',
+  note text,
+  created_at timestamptz not null default now(),
+  unique (user_id, for_date)
+);
+
+create index if not exists cycle_logs_user_date_idx
+  on public.cycle_logs (user_id, for_date desc);
+
+alter table public.cycle_logs enable row level security;
+
+drop policy if exists "Users can read own cycle logs" on public.cycle_logs;
+create policy "Users can read own cycle logs"
+  on public.cycle_logs for select using (auth.uid() = user_id);
+drop policy if exists "Users can insert own cycle logs" on public.cycle_logs;
+create policy "Users can insert own cycle logs"
+  on public.cycle_logs for insert with check (auth.uid() = user_id);
+drop policy if exists "Users can update own cycle logs" on public.cycle_logs;
+create policy "Users can update own cycle logs"
+  on public.cycle_logs for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "Users can delete own cycle logs" on public.cycle_logs;
+create policy "Users can delete own cycle logs"
+  on public.cycle_logs for delete using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

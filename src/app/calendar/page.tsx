@@ -1,0 +1,228 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { ChevronLeft, ChevronRight, Flame, Utensils, Activity } from "lucide-react";
+
+import { getCurrentUser } from "@/lib/supabase/server";
+import { seoulYmd } from "@/features/routine/data";
+import { getMonthlyCalendar } from "@/features/calendar/data-access";
+
+export const dynamic = "force-dynamic";
+export const metadata = { title: "캘린더" };
+
+const WEEKDAYS = ["월", "화", "수", "목", "금", "토", "일"] as const;
+const pad = (n: number) => String(n).padStart(2, "0");
+const ymd = (y: number, m1: number, d: number) => `${y}-${pad(m1)}-${pad(d)}`;
+const daysInMonth = (y: number, m0: number) =>
+  new Date(Date.UTC(y, m0 + 1, 0)).getUTCDate();
+function parseMonth(s: string | undefined) {
+  if (s && /^\d{4}-\d{2}$/.test(s)) {
+    const [y, m] = s.split("-").map(Number);
+    if (m >= 1 && m <= 12) return { year: y, month0: m - 1 };
+  }
+  const [yy, mm] = seoulYmd().split("-").map(Number);
+  return { year: yy, month0: mm - 1 };
+}
+function shiftMonth(y: number, m0: number, delta: number) {
+  const d = new Date(Date.UTC(y, m0 + delta, 1));
+  return { year: d.getUTCFullYear(), month0: d.getUTCMonth() };
+}
+const leadDays = (jsDay: number) => (jsDay === 0 ? 6 : jsDay - 1);
+
+export default async function CalendarPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ m?: string }>;
+}) {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+
+  const { m } = await searchParams;
+  const { year, month0 } = parseMonth(m);
+  const dim = daysInMonth(year, month0);
+  const from = ymd(year, month0 + 1, 1);
+  const to = ymd(year, month0 + 1, dim);
+  const prev = shiftMonth(year, month0, -1);
+  const next = shiftMonth(year, month0, +1);
+  const monthParam = (mm: { year: number; month0: number }) =>
+    `${mm.year}-${pad(mm.month0 + 1)}`;
+
+  const today = seoulYmd();
+  const [ty, tm, td] = today.split("-").map(Number);
+  const isCurrentMonth = ty === year && tm === month0 + 1;
+  const isFutureMonth =
+    year > ty || (year === ty && month0 + 1 > tm);
+  // 기초대사 소비를 셀 일수: 지난달=전체, 이번달=오늘까지, 다음달=0
+  const daysCounted = isFutureMonth ? 0 : isCurrentMonth ? td : dim;
+
+  const { byDate, intakeTotal, workoutBurnedTotal, bmr } =
+    await getMonthlyCalendar(from, to);
+
+  const bmrBurned = bmr * daysCounted;
+  const totalBurned = bmrBurned + workoutBurnedTotal;
+
+  // 셀 구성(월요일 시작)
+  const firstJsDay = new Date(Date.UTC(year, month0, 1)).getUTCDay();
+  const lead = leadDays(firstJsDay);
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < lead; i++) cells.push(null);
+  for (let d = 1; d <= dim; d++) cells.push(d);
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  return (
+    <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
+      <div className="mb-4 flex items-center justify-between">
+        <Link
+          href={`/calendar?m=${monthParam(prev)}`}
+          aria-label="이전 달"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+        >
+          <ChevronLeft aria-hidden="true" size={20} />
+        </Link>
+        <h1 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
+          {year}년 {month0 + 1}월
+        </h1>
+        <Link
+          href={`/calendar?m=${monthParam(next)}`}
+          aria-label="다음 달"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+        >
+          <ChevronRight aria-hidden="true" size={20} />
+        </Link>
+      </div>
+
+      {/* 캘린더 */}
+      <div className="rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-3">
+        <div className="grid grid-cols-7">
+          {WEEKDAYS.map((w, i) => (
+            <div
+              key={w}
+              className={`pb-1 text-center text-[11px] font-bold ${
+                i === 5 ? "text-sky-600" : i === 6 ? "text-rose-500" : "text-zinc-400"
+              }`}
+            >
+              {w}
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-7 gap-0.5">
+          {cells.map((day, idx) => {
+            if (day === null) return <div key={`e${idx}`} />;
+            const date = ymd(year, month0 + 1, day);
+            const s = byDate.get(date);
+            const isToday = date === today;
+            return (
+              <Link
+                key={date}
+                href={`/calendar/${date}`}
+                className={`flex min-h-[60px] flex-col items-center rounded-lg border p-1 transition hover:border-emerald-300 dark:hover:border-emerald-700 ${
+                  isToday
+                    ? "border-emerald-400 bg-emerald-50/50 dark:border-emerald-600 dark:bg-emerald-950/30"
+                    : "border-transparent"
+                }`}
+              >
+                <span
+                  className={`text-xs font-bold ${
+                    isToday
+                      ? "text-emerald-700 dark:text-emerald-400"
+                      : "text-zinc-700 dark:text-zinc-300"
+                  }`}
+                >
+                  {day}
+                </span>
+                {s && s.intake > 0 ? (
+                  <span className="mt-0.5 text-[10px] font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                    +{s.intake}
+                  </span>
+                ) : null}
+                {s && s.burned > 0 ? (
+                  <span className="text-[10px] font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                    -{s.burned}
+                  </span>
+                ) : null}
+              </Link>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 월 요약 */}
+      <div className="mt-5 space-y-2">
+        <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
+          이번 달 요약
+        </h2>
+        <div className="grid grid-cols-2 gap-2">
+          <SummaryCard
+            icon={<Utensils size={16} />}
+            tone="amber"
+            label="총 섭취"
+            value={intakeTotal}
+          />
+          <SummaryCard
+            icon={<Flame size={16} />}
+            tone="emerald"
+            label="운동 소비"
+            value={workoutBurnedTotal}
+          />
+          <SummaryCard
+            icon={<Activity size={16} />}
+            tone="zinc"
+            label={`기초대사 소비 (${bmr}/일×${daysCounted}일)`}
+            value={bmrBurned}
+          />
+          <SummaryCard
+            icon={<Flame size={16} />}
+            tone="rose"
+            label="총 소비 (기초+운동)"
+            value={totalBurned}
+          />
+        </div>
+        <div className="rounded-xl border border-zinc-200 bg-white p-4 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            섭취 − 총 소비
+          </span>
+          <p
+            className={`mt-0.5 text-2xl font-extrabold tabular-nums ${
+              intakeTotal - totalBurned > 0
+                ? "text-amber-600 dark:text-amber-400"
+                : "text-emerald-600 dark:text-emerald-400"
+            }`}
+          >
+            {intakeTotal - totalBurned > 0 ? "+" : ""}
+            {(intakeTotal - totalBurned).toLocaleString()} kcal
+          </p>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+function SummaryCard({
+  icon,
+  tone,
+  label,
+  value,
+}: {
+  icon: React.ReactNode;
+  tone: "amber" | "emerald" | "zinc" | "rose";
+  label: string;
+  value: number;
+}) {
+  const toneCls = {
+    amber: "text-amber-600 dark:text-amber-400",
+    emerald: "text-emerald-600 dark:text-emerald-400",
+    zinc: "text-zinc-600 dark:text-zinc-300",
+    rose: "text-rose-600 dark:text-rose-400",
+  }[tone];
+  return (
+    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <span className={`flex items-center gap-1 text-[11px] font-bold ${toneCls}`}>
+        {icon}
+        {label}
+      </span>
+      <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+        {value.toLocaleString()}
+        <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+      </p>
+    </div>
+  );
+}

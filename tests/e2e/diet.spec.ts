@@ -16,10 +16,12 @@ test("하단 식단 탭에서 음식 추가→칼로리 반영→삭제", async 
   await page.waitForURL("**/diet", { timeout: 10000 });
   await page.waitForTimeout(500);
 
-  // 점심(두 번째 끼니) 추가 → 검색 → 닭가슴살 담기
+  // 점심(두 번째 끼니) 추가 → 검색 → 항목 선택 → 양(100g) 담기
   await page.getByRole("button", { name: "추가" }).nth(1).click();
   await page.getByLabel("음식 검색").fill("닭가슴살");
-  await page.getByRole("button", { name: "닭가슴살 추가" }).click();
+  await page.getByRole("button").filter({ hasText: "닭가슴살" }).first().click();
+  await page.getByRole("button", { name: "담기" }).click();
+  await page.waitForTimeout(400);
   await page.getByRole("button", { name: "닫기" }).click();
   await page.waitForTimeout(800);
 

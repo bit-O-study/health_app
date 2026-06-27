@@ -95,6 +95,35 @@ create policy "Anyone can upload exercise videos"
   on storage.objects for insert
   with check (bucket_id = 'exercise-videos');
 
+-- 음식 사진 버킷(food-photos) — 식단 기록에 사진 첨부.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'food-photos',
+  'food-photos',
+  true,
+  10485760,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/heic']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Food photos are publicly readable" on storage.objects;
+create policy "Food photos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'food-photos');
+
+drop policy if exists "Users can upload own food photos" on storage.objects;
+create policy "Users can upload own food photos"
+  on storage.objects for insert
+  with check (bucket_id = 'food-photos' and owner = auth.uid());
+
+drop policy if exists "Users can delete own food photos" on storage.objects;
+create policy "Users can delete own food photos"
+  on storage.objects for delete
+  using (bucket_id = 'food-photos' and owner = auth.uid());
+
 insert into public.exercises
   (slug, name, summary, difficulty, equipment, target_muscles, cues)
 values
@@ -1277,8 +1306,14 @@ create table if not exists public.food_logs (
   carbs_g numeric(6, 1),
   fat_g numeric(6, 1),
   amount text,
+  category text,
+  photo_url text,
   created_at timestamptz not null default now()
 );
+
+-- 기존 DB 보정(컬럼 추가)
+alter table public.food_logs add column if not exists category text;
+alter table public.food_logs add column if not exists photo_url text;
 
 create index if not exists food_logs_user_date_idx
   on public.food_logs (user_id, for_date desc, meal, position);
@@ -1305,5 +1340,147 @@ drop policy if exists "Users can delete own food logs" on public.food_logs;
 create policy "Users can delete own food logs"
   on public.food_logs for delete
   using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 월경(생리) 기록(cycle_logs) — 날짜별 생리여부·출혈량·증상·메모. 예측은 앱에서 계산.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.cycle_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  is_period boolean not null default false,
+  flow text check (flow in ('spotting', 'light', 'medium', 'heavy')),
+  symptoms text[] not null default '{}',
+  note text,
+  created_at timestamptz not null default now(),
+  unique (user_id, for_date)
+);
+
+create index if not exists cycle_logs_user_date_idx
+  on public.cycle_logs (user_id, for_date desc);
+
+alter table public.cycle_logs enable row level security;
+
+drop policy if exists "Users can read own cycle logs" on public.cycle_logs;
+create policy "Users can read own cycle logs"
+  on public.cycle_logs for select using (auth.uid() = user_id);
+drop policy if exists "Users can insert own cycle logs" on public.cycle_logs;
+create policy "Users can insert own cycle logs"
+  on public.cycle_logs for insert with check (auth.uid() = user_id);
+drop policy if exists "Users can update own cycle logs" on public.cycle_logs;
+create policy "Users can update own cycle logs"
+  on public.cycle_logs for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "Users can delete own cycle logs" on public.cycle_logs;
+create policy "Users can delete own cycle logs"
+  on public.cycle_logs for delete using (auth.uid() = user_id);
+
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 그룹(groups) + 멤버(group_members) — 운동 랭킹대전. 공유 링크(invite_token)로 참여.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.groups (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  invite_token text not null unique default encode(gen_random_bytes(9), 'hex'),
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.group_members (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  role text not null default 'member' check (role in ('owner', 'member')),
+  joined_at timestamptz not null default now(),
+  display_name text,
+  unique (group_id, user_id)
+);
+
+alter table public.group_members add column if not exists display_name text;
+
+create index if not exists group_members_user_idx on public.group_members (user_id);
+create index if not exists group_members_group_idx on public.group_members (group_id);
+
+-- 보안 정의자 헬퍼 — group_members RLS 재귀 방지용.
+create or replace function public.is_group_member(gid uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.group_members
+    where group_id = gid and user_id = auth.uid()
+  );
+$$;
+
+create or replace function public.shares_group_with(other uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.group_members a
+    join public.group_members b on a.group_id = b.group_id
+    where a.user_id = auth.uid() and b.user_id = other
+  );
+$$;
+
+-- 토큰으로 그룹 참여(보안 정의자) / 가입 전 이름 미리보기.
+create or replace function public.join_group_by_token(token text)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare gid uuid; nm text;
+begin
+  select id into gid from public.groups where invite_token = token;
+  if gid is null then raise exception 'invalid_token'; end if;
+  select coalesce(
+    nullif((select name from public.profiles where user_id = auth.uid()), ''),
+    nullif((select raw_user_meta_data->>'name' from auth.users where id = auth.uid()), ''),
+    '회원'
+  ) into nm;
+  insert into public.group_members (group_id, user_id, role, display_name)
+    values (gid, auth.uid(), 'member', nm)
+    on conflict (group_id, user_id) do nothing;
+  return gid;
+end; $$;
+
+create or replace function public.group_name_by_token(token text)
+returns text language sql security definer stable set search_path = public as $$
+  select name from public.groups where invite_token = token;
+$$;
+
+alter table public.groups enable row level security;
+alter table public.group_members enable row level security;
+
+drop policy if exists "members read groups" on public.groups;
+create policy "members read groups" on public.groups for select
+  using (public.is_group_member(id) or owner_id = auth.uid());
+drop policy if exists "owner creates group" on public.groups;
+create policy "owner creates group" on public.groups for insert
+  with check (owner_id = auth.uid());
+drop policy if exists "owner updates group" on public.groups;
+create policy "owner updates group" on public.groups for update
+  using (owner_id = auth.uid()) with check (owner_id = auth.uid());
+drop policy if exists "owner deletes group" on public.groups;
+create policy "owner deletes group" on public.groups for delete
+  using (owner_id = auth.uid());
+
+drop policy if exists "members read members" on public.group_members;
+create policy "members read members" on public.group_members for select
+  using (public.is_group_member(group_id));
+drop policy if exists "join self" on public.group_members;
+create policy "join self" on public.group_members for insert
+  with check (user_id = auth.uid());
+drop policy if exists "leave self" on public.group_members;
+create policy "leave self" on public.group_members for delete
+  using (user_id = auth.uid());
+
+-- 그룹원끼리 운동 기록·프로필 열람(랭킹 계산용). 기존 본인 전용 정책과 OR.
+drop policy if exists "group mates read exercise completions" on public.exercise_completions;
+create policy "group mates read exercise completions" on public.exercise_completions
+  for select using (public.shares_group_with(user_id));
+drop policy if exists "group mates read conditioning completions" on public.conditioning_completions;
+create policy "group mates read conditioning completions" on public.conditioning_completions
+  for select using (public.shares_group_with(user_id));
+drop policy if exists "group mates read profiles" on public.profiles;
+create policy "group mates read profiles" on public.profiles
+  for select using (public.shares_group_with(user_id));
+drop policy if exists "group mates read food logs" on public.food_logs;
+create policy "group mates read food logs" on public.food_logs
+  for select using (public.shares_group_with(user_id));
 
 notify pgrst, 'reload schema';

@@ -21,4 +21,6 @@ export type FoodLog = {
   carbs: number | null;
   fat: number | null;
   amount: string | null;
+  category: string | null;
+  photoUrl: string | null;
 };

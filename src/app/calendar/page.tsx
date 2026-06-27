@@ -1,10 +1,17 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft, ChevronRight, Flame, Utensils, Activity } from "lucide-react";
+import { ChevronLeft, ChevronRight, Flame, Heart, Scale, Utensils } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
+import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
 import { getMonthlyCalendar } from "@/features/calendar/data-access";
+import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
+import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
+import {
+  predictCycle,
+  predictedPeriodDatesInRange,
+} from "@/features/cycle/cycle-predict";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "캘린더" };
@@ -45,20 +52,29 @@ export default async function CalendarPage({
   const next = shiftMonth(year, month0, +1);
   const monthParam = (mm: { year: number; month0: number }) =>
     `${mm.year}-${pad(mm.month0 + 1)}`;
-
   const today = seoulYmd();
-  const [ty, tm, td] = today.split("-").map(Number);
-  const isCurrentMonth = ty === year && tm === month0 + 1;
-  const isFutureMonth =
-    year > ty || (year === ty && month0 + 1 > tm);
-  // 기초대사 소비를 셀 일수: 지난달=전체, 이번달=오늘까지, 다음달=0
-  const daysCounted = isFutureMonth ? 0 : isCurrentMonth ? td : dim;
 
-  const { byDate, intakeTotal, workoutBurnedTotal, bmr } =
-    await getMonthlyCalendar(from, to);
+  const { byDate, intakeTotal, workoutBurnedTotal } = await getMonthlyCalendar(
+    from,
+    to,
+  );
+  const net = intakeTotal - workoutBurnedTotal;
 
-  const bmrBurned = bmr * daysCounted;
-  const totalBurned = bmrBurned + workoutBurnedTotal;
+  // 생리 표시 — 여성만. 기록된 생리일(꽉찬 하트) + 예측 생리일(빈 하트).
+  const profile = await getUserProfile();
+  const periodDays = new Set<string>();
+  const predictedDays = new Set<string>();
+  if (profile?.gender === "female") {
+    const [logs, startDates] = await Promise.all([
+      getCycleLogsRange(from, to),
+      getPeriodStartDates(),
+    ]);
+    for (const l of logs) if (l.isPeriod) periodDays.add(l.forDate);
+    const pred = predictCycle(startDates, today);
+    for (const d of predictedPeriodDatesInRange(pred, from, to)) {
+      if (!periodDays.has(d)) predictedDays.add(d);
+    }
+  }
 
   // 셀 구성(월요일 시작)
   const firstJsDay = new Date(Date.UTC(year, month0, 1)).getUTCDay();
@@ -110,25 +126,55 @@ export default async function CalendarPage({
             const date = ymd(year, month0 + 1, day);
             const s = byDate.get(date);
             const isToday = date === today;
+            const marks = getDayMarks(date);
+            const holiday = marks.find((mk) => mk.kind === "holiday");
+            const bok = marks.find((mk) => mk.kind === "bok");
+            const isHol = isHoliday(date);
+            const col = idx % 7;
+            const isPeriod = periodDays.has(date);
+            const isPredicted = predictedDays.has(date);
+            const dayColor = isHol || col === 6
+              ? "text-rose-500 dark:text-rose-400"
+              : col === 5
+                ? "text-sky-600 dark:text-sky-400"
+                : "text-zinc-700 dark:text-zinc-300";
             return (
               <Link
                 key={date}
                 href={`/calendar/${date}`}
-                className={`flex min-h-[60px] flex-col items-center rounded-lg border p-1 transition hover:border-emerald-300 dark:hover:border-emerald-700 ${
+                className={`relative flex min-h-[64px] flex-col items-center rounded-lg border p-1 transition hover:border-emerald-300 dark:hover:border-emerald-700 ${
                   isToday
                     ? "border-emerald-400 bg-emerald-50/50 dark:border-emerald-600 dark:bg-emerald-950/30"
                     : "border-transparent"
                 }`}
               >
+                {(isPeriod || isPredicted) && (
+                  <Heart
+                    aria-label="생리"
+                    className={`absolute right-0.5 top-0.5 ${
+                      isPeriod
+                        ? "fill-rose-500 text-rose-500"
+                        : "text-rose-300 dark:text-rose-700"
+                    }`}
+                    size={9}
+                  />
+                )}
                 <span
                   className={`text-xs font-bold ${
-                    isToday
-                      ? "text-emerald-700 dark:text-emerald-400"
-                      : "text-zinc-700 dark:text-zinc-300"
+                    isToday ? "text-emerald-700 dark:text-emerald-400" : dayColor
                   }`}
                 >
                   {day}
                 </span>
+                {holiday ? (
+                  <span className="w-full truncate text-center text-[8px] font-semibold leading-tight text-rose-500 dark:text-rose-400">
+                    {holiday.name}
+                  </span>
+                ) : bok ? (
+                  <span className="w-full truncate text-center text-[8px] font-semibold leading-tight text-orange-500 dark:text-orange-400">
+                    {bok.name}
+                  </span>
+                ) : null}
                 {s && s.intake > 0 ? (
                   <span className="mt-0.5 text-[10px] font-bold tabular-nums text-amber-600 dark:text-amber-400">
                     +{s.intake}
@@ -150,7 +196,7 @@ export default async function CalendarPage({
         <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
           이번 달 요약
         </h2>
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <SummaryCard
             icon={<Utensils size={16} />}
             tone="amber"
@@ -163,33 +209,7 @@ export default async function CalendarPage({
             label="운동 소비"
             value={workoutBurnedTotal}
           />
-          <SummaryCard
-            icon={<Activity size={16} />}
-            tone="zinc"
-            label={`기초대사 소비 (${bmr}/일×${daysCounted}일)`}
-            value={bmrBurned}
-          />
-          <SummaryCard
-            icon={<Flame size={16} />}
-            tone="rose"
-            label="총 소비 (기초+운동)"
-            value={totalBurned}
-          />
-        </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-4 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-            섭취 − 총 소비
-          </span>
-          <p
-            className={`mt-0.5 text-2xl font-extrabold tabular-nums ${
-              intakeTotal - totalBurned > 0
-                ? "text-amber-600 dark:text-amber-400"
-                : "text-emerald-600 dark:text-emerald-400"
-            }`}
-          >
-            {intakeTotal - totalBurned > 0 ? "+" : ""}
-            {(intakeTotal - totalBurned).toLocaleString()} kcal
-          </p>
+          <NetCard net={net} />
         </div>
       </div>
     </main>
@@ -203,15 +223,13 @@ function SummaryCard({
   value,
 }: {
   icon: React.ReactNode;
-  tone: "amber" | "emerald" | "zinc" | "rose";
+  tone: "amber" | "emerald";
   label: string;
   value: number;
 }) {
   const toneCls = {
     amber: "text-amber-600 dark:text-amber-400",
     emerald: "text-emerald-600 dark:text-emerald-400",
-    zinc: "text-zinc-600 dark:text-zinc-300",
-    rose: "text-rose-600 dark:text-rose-400",
   }[tone];
   return (
     <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
@@ -221,6 +239,28 @@ function SummaryCard({
       </span>
       <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
         {value.toLocaleString()}
+        <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+      </p>
+    </div>
+  );
+}
+
+/** 순 칼로리 = 섭취 − 소비. 양수면 섭취 우위(rose), 음수면 소비 우위(emerald). */
+function NetCard({ net }: { net: number }) {
+  const surplus = net > 0;
+  const toneCls = surplus
+    ? "text-rose-600 dark:text-rose-400"
+    : "text-emerald-600 dark:text-emerald-400";
+  const sign = net > 0 ? "+" : net < 0 ? "−" : "";
+  return (
+    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <span className={`flex items-center gap-1 text-[11px] font-bold ${toneCls}`}>
+        <Scale size={16} />
+        순(섭취-소비)
+      </span>
+      <p className={`mt-1 text-lg font-extrabold tabular-nums ${toneCls}`}>
+        {sign}
+        {Math.abs(net).toLocaleString()}
         <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
       </p>
     </div>

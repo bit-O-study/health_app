@@ -8,19 +8,33 @@ import type { FocusKey } from "@/features/routine/exercise-catalog";
 
 export type ConditioningKind = "warmup" | "cooldown";
 
-export type ConditioningParam = "duration" | "speed" | "incline";
+// 유산소(런닝·사이클 등)는 시간/속도/경사, 그 외 모빌리티·스트레칭은 세트/횟수로 입력.
+export type ConditioningParam =
+  | "duration"
+  | "speed"
+  | "incline"
+  | "sets"
+  | "reps";
 
 export const PARAM_LABEL: Record<ConditioningParam, string> = {
   duration: "시간",
   speed: "속도",
   incline: "경사",
+  sets: "세트",
+  reps: "횟수",
 };
 
 export const PARAM_UNIT: Record<ConditioningParam, string> = {
   duration: "분",
   speed: "km/h", // 런닝 km/h, 머신류는 강도로 사용
   incline: "%",
+  sets: "세트",
+  reps: "회",
 };
+
+/** 세트/횟수 파라미터의 기본값(항목에 명시 없을 때). */
+export const DEFAULT_COND_SETS = 1;
+export const DEFAULT_COND_REPS = 12;
 
 export type ConditioningItem = {
   id: string;
@@ -35,6 +49,10 @@ export type ConditioningItem = {
   defaultSpeed?: number;
   /** 추천 시 기본 경사(% 또는 단계) */
   defaultIncline?: number;
+  /** 추천 시 기본 세트 */
+  defaultSets?: number;
+  /** 추천 시 기본 횟수 */
+  defaultReps?: number;
   /** 한 줄 설명 (목적·자극·효과 등) */
   target?: string;
   /** 동작 방법 단계 (보통 3단계) */
@@ -147,7 +165,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "shoulder-circle",
     name: "어깨 회전",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "어깨·회전근개 가동성 — 푸시/풀 운동 전",
     method: [
@@ -160,7 +178,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "cat-cow",
     name: "캣카우",
     kinds: ["warmup", "cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "척추 분절 가동성·코어 활성화",
     method: [
@@ -173,7 +191,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "dead-hang",
     name: "데드행",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "광배·악력 활성화, 어깨 신연 — 등 운동 전",
     method: [
@@ -186,7 +204,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "band-pull-apart",
     name: "밴드 풀어파트",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "후면 삼각근·능형근 활성화 — 가슴·어깨 운동 전",
     method: [
@@ -199,7 +217,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "wall-slide",
     name: "월 슬라이드",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "어깨 가동성·후면 견갑 안정성",
     method: [
@@ -212,7 +230,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "dynamic-lunge",
     name: "다이나믹 런지",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 2,
     target: "고관절·대퇴 가동성 — 하체 운동 전",
     method: [
@@ -225,7 +243,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "bw-squat",
     name: "보디웨이트 스쿼트",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 2,
     target: "전체 하체 활성화 — 본운동 전 가동범위 확보",
     method: [
@@ -238,7 +256,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "hip-circle",
     name: "힙 서클",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "고관절 가동성·둔근 활성화",
     method: [
@@ -251,7 +269,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "dead-bug",
     name: "데드버그",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "코어 활성화·허리 안정성 — 본운동 전",
     method: [
@@ -264,7 +282,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "glute-bridge-warm",
     name: "글루트 브릿지(워밍)",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "둔근 활성화 — 하체·힙 스러스트 전",
     method: [
@@ -290,7 +308,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "wrist-circle",
     name: "손목 회전",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "손목 가동성·관절 윤활 — 푸시·컬 운동 전",
     method: [
@@ -303,7 +321,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "push-up-warm",
     name: "푸시업 워밍업",
     kinds: ["warmup"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "가슴·삼두·견갑 활성화 — 푸시 운동 전",
     method: [
@@ -318,7 +336,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "chest-door-stretch",
     name: "도어 가슴 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "대흉근·전면 삼각근 — 가슴·푸시 운동 후",
     method: [
@@ -331,7 +349,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "shoulder-cross-stretch",
     name: "어깨 크로스 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "후면 삼각근·견갑 — 어깨·등 운동 후",
     method: [
@@ -344,7 +362,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "child-pose",
     name: "차일드 포즈",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "광배·요추 이완 — 등·전신 운동 후",
     method: [
@@ -357,7 +375,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "cobra-stretch",
     name: "코브라 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "복부·요방형근 이완 — 코어·등 운동 후",
     method: [
@@ -370,7 +388,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "lat-stretch",
     name: "광배 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "광배·체간 측면 이완",
     method: [
@@ -383,7 +401,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "sleeper-stretch",
     name: "슬리퍼 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "후면 회전근개 — 어깨 후방 가동성",
     method: [
@@ -396,7 +414,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "triceps-overhead-stretch",
     name: "삼두 머리 위 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "삼두 장두 — 푸시·삼두 운동 후",
     method: [
@@ -409,7 +427,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "biceps-door-stretch",
     name: "이두 도어 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "이두 — 컬 운동 후",
     method: [
@@ -422,7 +440,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "wrist-stretch",
     name: "손목 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "전완·손목 — 컬·푸시 운동 후",
     method: [
@@ -435,7 +453,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "hamstring-stretch",
     name: "햄스트링 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "햄스트링 — 하체·데드 운동 후",
     method: [
@@ -448,7 +466,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "pigeon-pose",
     name: "비둘기 자세",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "둔근·이상근 — 하체 운동 후",
     method: [
@@ -461,7 +479,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "calf-stretch",
     name: "카프 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "비복근·가자미근 — 런닝·카프 운동 후",
     method: [
@@ -474,7 +492,7 @@ const ITEMS: Record<string, ConditioningItem> = {
     id: "neck-stretch",
     name: "목 스트레칭",
     kinds: ["cooldown"],
-    params: ["duration"],
+    params: ["sets", "reps"],
     defaultMin: 1,
     target: "승모·후두근 — 어깨 운동 후",
     method: [
@@ -497,6 +515,25 @@ export function conditioningOptions(
 
 export function getConditioningItem(id: string): ConditioningItem | undefined {
   return ITEMS[id];
+}
+
+/** 항목의 파라미터별 기본값(없는 파라미터는 null). 추천 채우기·신규 추가·초기값에 공통 사용. */
+export function conditioningDefaults(itemId: string): {
+  durationMin: number | null;
+  speed: number | null;
+  incline: number | null;
+  sets: number | null;
+  reps: number | null;
+} {
+  const item = getConditioningItem(itemId);
+  const p = item?.params ?? [];
+  return {
+    durationMin: p.includes("duration") ? (item?.defaultMin ?? null) : null,
+    speed: p.includes("speed") ? (item?.defaultSpeed ?? null) : null,
+    incline: p.includes("incline") ? (item?.defaultIncline ?? null) : null,
+    sets: p.includes("sets") ? (item?.defaultSets ?? DEFAULT_COND_SETS) : null,
+    reps: p.includes("reps") ? (item?.defaultReps ?? DEFAULT_COND_REPS) : null,
+  };
 }
 
 export function isConditioningKind(v: unknown): v is ConditioningKind {

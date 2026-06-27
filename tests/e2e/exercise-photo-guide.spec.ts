@@ -115,7 +115,7 @@ test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤
   await expect(page.locator('img[src*="Barbell_Incline"]')).toHaveCount(0);
 });
 
-test("워밍업도 실사 시연 사진 + 설정값(시간) 칩이 뜬다", async ({ page }) => {
+test("워밍업도 실사 시연 사진 + 설정값(세트·횟수) 칩이 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
@@ -160,11 +160,11 @@ test("워밍업도 실사 시연 사진 + 설정값(시간) 칩이 뜬다", asyn
   await expect(page.locator('img[src*="Bodyweight_Squat"]').first()).toBeVisible({
     timeout: 8000,
   });
-  // bw-squat 은 duration 파라미터만 → 시간 칩(기본 2분)이 뜨고, 방법 자막은 없다.
+  // bw-squat(비유산소)은 세트/횟수 파라미터 → 세트·횟수 칩이 뜨고, 방법 자막은 없다.
   const settings = page.getByTestId("cond-settings");
   await expect(settings).toBeVisible({ timeout: 8000 });
-  await expect(settings.getByText("시간", { exact: true })).toBeVisible();
-  await expect(settings.getByText("2분", { exact: true })).toBeVisible();
+  await expect(settings.getByText("세트", { exact: true })).toBeVisible();
+  await expect(settings.getByText("횟수", { exact: true })).toBeVisible();
 });
 
 test("워밍업 런닝은 시간·속도·경사 설정값이 모두 뜬다", async ({ page }) => {

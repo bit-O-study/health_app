@@ -17,6 +17,9 @@ export type ConditioningRow = {
   durationMin: number | null;
   speed: number | null;
   incline: number | null;
+  /** 세트/횟수(비유산소 모빌리티·스트레칭). null = 해당 없음. */
+  sets: number | null;
+  reps: number | null;
   /** 개인 메모. null = 없음. */
   memo: string | null;
 };
@@ -30,6 +33,8 @@ type Row = {
   duration_min: number | null;
   speed: number | string | null;
   incline: number | string | null;
+  sets?: number | null;
+  reps?: number | null;
   memo?: unknown;
 };
 
@@ -49,6 +54,8 @@ function toRow(r: Row): ConditioningRow {
     durationMin: r.duration_min,
     speed: num(r.speed),
     incline: num(r.incline),
+    sets: r.sets ?? null,
+    reps: r.reps ?? null,
     memo: typeof r.memo === "string" && r.memo.trim() !== "" ? r.memo : null,
   };
 }
@@ -63,7 +70,7 @@ export const getConditioningForFocus = cache(async function getConditioningForFo
 
   const { data, error } = await supabase
     .from("routine_conditioning")
-    .select("id, focus, kind, position, item_id, duration_min, speed, incline, memo")
+    .select("id, focus, kind, position, item_id, duration_min, speed, incline, sets, reps, memo")
     .eq("user_id", user.id)
     .eq("focus", focus)
     .order("kind", { ascending: true })

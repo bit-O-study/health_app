@@ -12,6 +12,7 @@ import {
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
 import {
+  conditioningDefaults,
   defaultsFor,
   getConditioningItem,
   isConditioningKind,
@@ -27,6 +28,8 @@ export type ConditioningInput = {
   durationMin: number | null;
   speed: number | null;
   incline: number | null;
+  sets: number | null;
+  reps: number | null;
 };
 
 /**
@@ -119,6 +122,8 @@ export async function saveConditioningAction(
       duration_min: it.durationMin,
       speed: it.speed,
       incline: it.incline,
+      sets: it.sets,
+      reps: it.reps,
       memo: memoByItem.get(it.itemId) ?? null,
     }));
     const ins = await supabase.from("routine_conditioning").insert(rows);
@@ -143,16 +148,18 @@ export async function registerRecommendedConditioningAction(): Promise<void> {
   const rows = ALL_FOCUSES.flatMap((focus: FocusKey) =>
     kinds.flatMap((kind) =>
       defaultsFor(focus, kind).map((itemId, index) => {
-        const item = getConditioningItem(itemId);
+        const d = conditioningDefaults(itemId);
         return {
           user_id: user.id,
           focus,
           kind,
           position: index,
           item_id: itemId,
-          duration_min: item?.defaultMin ?? null,
-          speed: item?.defaultSpeed ?? null,
-          incline: item?.defaultIncline ?? null,
+          duration_min: d.durationMin,
+          speed: d.speed,
+          incline: d.incline,
+          sets: d.sets,
+          reps: d.reps,
         };
       }),
     ),
@@ -204,10 +211,7 @@ export async function addConditioningToTodayAction(
     .order("position", { ascending: false })
     .limit(1);
 
-  const params = item.params ?? [];
-  const dur = params.includes("duration") ? (item.defaultMin ?? null) : null;
-  const spd = params.includes("speed") ? (item.defaultSpeed ?? null) : null;
-  const inc = params.includes("incline") ? (item.defaultIncline ?? null) : null;
+  const d = conditioningDefaults(itemId);
 
   if (daily && daily.length > 0) {
     const nextPos = (daily[0].position as number) + 1;
@@ -217,9 +221,11 @@ export async function addConditioningToTodayAction(
       kind,
       position: nextPos,
       item_id: itemId,
-      duration_min: dur,
-      speed: spd,
-      incline: inc,
+      duration_min: d.durationMin,
+      speed: d.speed,
+      incline: d.incline,
+      sets: d.sets,
+      reps: d.reps,
     });
     if (ins.error) return { ok: false, error: ins.error.message };
   } else {
@@ -238,9 +244,11 @@ export async function addConditioningToTodayAction(
       kind,
       position: nextPos,
       item_id: itemId,
-      duration_min: dur,
-      speed: spd,
-      incline: inc,
+      duration_min: d.durationMin,
+      speed: d.speed,
+      incline: d.incline,
+      sets: d.sets,
+      reps: d.reps,
     });
     if (ins.error) return { ok: false, error: ins.error.message };
   }
@@ -261,17 +269,21 @@ export async function updateConditioningRowAction(
     durationMin: number | null;
     speed: number | null;
     incline: number | null;
+    sets?: number | null;
+    reps?: number | null;
   },
 ): Promise<SaveConditioningResult> {
   if (!rowId) return { ok: false, error: "행을 찾을 수 없습니다." };
-  function inRange(v: number | null, max: number): boolean {
-    if (v === null) return true;
+  function inRange(v: number | null | undefined, max: number): boolean {
+    if (v === null || v === undefined) return true;
     return Number.isFinite(v) && v >= 0 && v <= max;
   }
   if (
     !inRange(values.durationMin, 600) ||
     !inRange(values.speed, 200) ||
-    !inRange(values.incline, 100)
+    !inRange(values.incline, 100) ||
+    !inRange(values.sets, 20) ||
+    !inRange(values.reps, 100)
   ) {
     return { ok: false, error: "값 범위가 올바르지 않습니다." };
   }
@@ -284,6 +296,8 @@ export async function updateConditioningRowAction(
     duration_min: values.durationMin,
     speed: values.speed,
     incline: values.incline,
+    sets: values.sets ?? null,
+    reps: values.reps ?? null,
   };
   await Promise.all([
     supabase

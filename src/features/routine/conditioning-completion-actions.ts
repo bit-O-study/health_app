@@ -15,6 +15,8 @@ export type CondSnapshot = {
   durationMin: number | null;
   speed: number | null;
   incline: number | null;
+  sets?: number | null;
+  reps?: number | null;
 };
 
 /**
@@ -60,6 +62,8 @@ export async function setConditioningStatusAction(
       duration_min: snapshot?.durationMin ?? null,
       speed: snapshot?.speed ?? null,
       incline: snapshot?.incline ?? null,
+      sets: snapshot?.sets ?? null,
+      reps: snapshot?.reps ?? null,
     });
     if (error) return { ok: false, error: error.message };
   }

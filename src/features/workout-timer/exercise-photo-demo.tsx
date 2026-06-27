@@ -13,13 +13,18 @@ import { focusForStep } from "@/features/workout-timer/exercise-focus";
 export function ExercisePhotoDemo({
   exerciseId,
   equipment,
+  frames: framesProp,
   cycleMs = 2600,
 }: {
-  exerciseId: string;
+  exerciseId?: string;
   equipment?: string;
+  /** 직접 프레임 2장 지정(컨디셔닝 등). 없으면 exerciseId·equipment 로 조회. */
+  frames?: [string, string] | null;
   cycleMs?: number;
 }) {
-  const frames = exercisePhotoFrames(exerciseId, equipment);
+  const frames =
+    framesProp ??
+    (exerciseId ? exercisePhotoFrames(exerciseId, equipment) : null);
   if (!frames) return null;
   const [a, b] = frames;
   return (

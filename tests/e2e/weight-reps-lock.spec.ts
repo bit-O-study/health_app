@@ -129,7 +129,8 @@ test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬�
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);
   const overlay = page.getByTestId("guided-scroll");
-  await expect(overlay.getByRole("button", { name: "스쿼트" })).toBeVisible({ timeout: 8000 });
+  // 이름은 이제 링크가 아니라 제목(heading) — 상세는 '운동법·꿀팁 보기' 버튼으로만.
+  await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible({ timeout: 8000 });
   await expect(overlay.getByText("세트", { exact: true })).toHaveCount(0);
   await expect(overlay.getByText(/60kg/)).toBeVisible();
 });

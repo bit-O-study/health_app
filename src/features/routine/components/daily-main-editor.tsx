@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
@@ -110,6 +110,15 @@ export function DailyMainEditor({
       isEquipmentAvailable(eq.equipment, gymSet),
     );
     return available?.equipment ?? ex.equipments[0].equipment;
+  }
+
+  /** 운동 순서 변경 — 행을 위/아래로 한 칸 이동. */
+  function move(idx: number, dir: -1 | 1) {
+    const j = idx + dir;
+    if (j < 0 || j >= rows.length) return;
+    const next = [...rows];
+    [next[idx], next[j]] = [next[j], next[idx]];
+    update(next);
   }
 
   function addRow() {
@@ -266,7 +275,6 @@ export function DailyMainEditor({
                   reps={row.reps}
                   weight={row.weight}
                   setDetails={row.setDetails}
-                  onlySets={!lockWeightReps}
                   onUniformChange={(patch) => {
                     const next = [...rows];
                     next[idx] = { ...row, ...patch };
@@ -278,6 +286,24 @@ export function DailyMainEditor({
                     update(next);
                   }}
                 />
+                <button
+                  type="button"
+                  aria-label="위로"
+                  disabled={idx === 0}
+                  onClick={() => move(idx, -1)}
+                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
+                >
+                  <ChevronUp aria-hidden="true" size={16} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="아래로"
+                  disabled={idx === rows.length - 1}
+                  onClick={() => move(idx, 1)}
+                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
+                >
+                  <ChevronDown aria-hidden="true" size={16} />
+                </button>
                 <button
                   type="button"
                   aria-label="삭제"

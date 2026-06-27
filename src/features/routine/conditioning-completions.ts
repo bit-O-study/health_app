@@ -30,6 +30,8 @@ export type TodayCompletedConditioning = {
   durationMin: number | null;
   speed: number | null;
   incline: number | null;
+  sets: number | null;
+  reps: number | null;
 };
 
 export async function getTodayCompletedConditioning(
@@ -41,7 +43,9 @@ export async function getTodayCompletedConditioning(
 
   const { data, error } = await supabase
     .from("conditioning_completions")
-    .select("source_row_id, kind, item_id, status, duration_min, speed, incline")
+    .select(
+      "source_row_id, kind, item_id, status, duration_min, speed, incline, sets, reps",
+    )
     .eq("user_id", user.id)
     .eq("for_date", todayYmd);
 
@@ -55,6 +59,8 @@ export async function getTodayCompletedConditioning(
     duration_min: number | string | null;
     speed: number | string | null;
     incline: number | string | null;
+    sets: number | null;
+    reps: number | null;
   }[]) {
     if (!r.source_row_id || !r.item_id || !isConditioningKind(r.kind ?? ""))
       continue;
@@ -66,6 +72,8 @@ export async function getTodayCompletedConditioning(
       durationMin: numOrNull(r.duration_min),
       speed: numOrNull(r.speed),
       incline: numOrNull(r.incline),
+      sets: r.sets ?? null,
+      reps: r.reps ?? null,
     });
   }
   return out;

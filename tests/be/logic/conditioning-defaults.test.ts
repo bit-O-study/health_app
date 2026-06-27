@@ -69,3 +69,41 @@ describe("경사(incline) 파라미터는 실제 경사가 있는 기구만", ()
     expect(getConditioningItem(id)?.params ?? []).not.toContain("incline");
   });
 });
+
+describe("비유산소 컨디셔닝은 시간 대신 세트/횟수", () => {
+  // 유산소(런닝·사이클·머신류·줄넘기·점프잭)는 시간 기반, 그 외 모빌리티·스트레칭은 세트/횟수.
+  const CARDIO_TIME = [
+    "running",
+    "cycling",
+    "stair-master",
+    "rowing",
+    "elliptical",
+    "walking",
+    "jump-rope",
+    "jumping-jack",
+  ];
+  const SETS_REPS = [
+    "bw-squat",
+    "dynamic-lunge",
+    "shoulder-circle",
+    "cat-cow",
+    "band-pull-apart",
+    "hamstring-stretch",
+    "child-pose",
+    "calf-stretch",
+  ];
+
+  it.each(CARDIO_TIME)("%s 는 시간(duration) 기반, 세트/횟수 없음", (id) => {
+    const p = getConditioningItem(id)?.params ?? [];
+    expect(p).toContain("duration");
+    expect(p).not.toContain("sets");
+    expect(p).not.toContain("reps");
+  });
+
+  it.each(SETS_REPS)("%s 는 세트/횟수 기반, 시간 없음", (id) => {
+    const p = getConditioningItem(id)?.params ?? [];
+    expect(p).toContain("sets");
+    expect(p).toContain("reps");
+    expect(p).not.toContain("duration");
+  });
+});

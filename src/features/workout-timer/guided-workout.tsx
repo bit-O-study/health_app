@@ -24,7 +24,9 @@ import {
 } from "lucide-react";
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
+import { updateExerciseMemoAction } from "@/features/routine/plan-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { updateConditioningMemoAction } from "@/features/routine/conditioning-actions";
 import {
   getConditioningItem,
   PARAM_LABEL,
@@ -39,10 +41,18 @@ import {
   isLastSet,
   setProgressLabel,
 } from "@/features/workout-timer/rest-logic";
+import { ExercisePhotoDemo } from "@/features/workout-timer/exercise-photo-demo";
 import {
-  ExercisePhotoDemo,
-  ExerciseTutorial,
-} from "@/features/workout-timer/exercise-photo-demo";
+  Mannequin,
+  type BodyRegion,
+} from "@/features/routine/components/mannequin";
+import { bodyPartsFor, type BodyPart } from "@/features/routine/exercise-catalog";
+import {
+  getMainEdit,
+  setMainEdit,
+  getCondEdit,
+  setCondEdit,
+} from "@/features/workout-timer/workout-edit-store";
 import {
   conditioningPhotoFrames,
   exercisePhotoFrames,
@@ -80,6 +90,8 @@ export type GuidedItem =
       durationMin: number | null;
       speed: number | null;
       incline: number | null;
+      sets: number | null;
+      reps: number | null;
       /** 개인 메모. null = 없음. */
       memo: string | null;
     };
@@ -314,6 +326,14 @@ export function GuidedOverlay({
   const [closeAsk, setCloseAsk] = useState(false);
   /** 저장 실패한 항목들 — 사용자에게 배너로 알리고 재시도 제공. */
   const [failures, setFailures] = useState<SaveFailure[]>([]);
+  /** 워밍업·마무리 운동법(방법) 보기 다이얼로그. */
+  const [tipsOpen, setTipsOpen] = useState(false);
+  /** 메모 작성 다이얼로그. */
+  const [memoOpen, setMemoOpen] = useState(false);
+  /** 운동모드에서 수정한 메모(행 id→메모). 저장 후 화면 즉시 반영용(refresh 대기 X). */
+  const [memoOverrides, setMemoOverrides] = useState<Map<string, string | null>>(
+    () => new Map(),
+  );
 
   /**
    * ⚠ 중요: items 를 시작 시점에 스냅샷으로 잡아둠. 서버 액션의 revalidatePath('/')
@@ -349,10 +369,6 @@ export function GuidedOverlay({
   const [editW, setEditW] = useState<number | null>(null);
   const [editReps, setEditReps] = useState(10);
   const [editSets, setEditSets] = useState(3);
-  // 운동별로 정한 값을 보관 — ‹ › 로 다른 운동 갔다 와도 입력값이 유지된다.
-  const editStoreRef = useRef<
-    Map<string, { w: number | null; reps: number; sets: number }>
-  >(new Map());
 
   // 컨디셔닝(워밍업/마무리) 고정 끔 → 운동모드에서 시간/속도/경사를 그때그때 설정.
   const condEditable =
@@ -360,26 +376,24 @@ export function GuidedOverlay({
   const [editDuration, setEditDuration] = useState<number | null>(null);
   const [editSpeed, setEditSpeed] = useState<number | null>(null);
   const [editIncline, setEditIncline] = useState<number | null>(null);
-  const condEditStoreRef = useRef<
-    Map<
-      string,
-      { duration: number | null; speed: number | null; incline: number | null }
-    >
-  >(new Map());
+  const [editCondSets, setEditCondSets] = useState<number | null>(null);
+  const [editCondReps, setEditCondReps] = useState<number | null>(null);
 
+  // 운동별로 정한 값은 그날 localStorage 에 보관 — 운동모드를 나갔다 다시 와도 유지되고
+  // 날짜가 바뀌면 초기화돼 편집기(등록)의 초기 데이터부터 다시 시작한다. (직전값 우선)
   useEffect(() => {
-    // 운동(인덱스)이 바뀌면 세트 카운트 리셋 + 편집값은 보관분 있으면 복원, 없으면 계획값.
+    // 운동(인덱스)이 바뀌면 세트 카운트 리셋 + 직전 값 있으면 복원, 없으면 등록 초기값.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setSetsDone(0);
     const it = sessionItems[index];
     if (it && it.kind === "main") {
-      const saved = editStoreRef.current.get(it.rowId);
+      const saved = getMainEdit(it.rowId);
       const init = saved ?? {
         w: it.weightKg,
         reps: it.reps > 0 ? it.reps : 10,
         sets: it.sets > 0 ? it.sets : 3,
       };
-      if (!saved) editStoreRef.current.set(it.rowId, init);
+      if (!saved) setMainEdit(it.rowId, init);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditW(init.w);
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -388,57 +402,69 @@ export function GuidedOverlay({
       setEditSets(init.sets);
     } else if (it) {
       // 컨디셔닝: 그 항목이 가진 파라미터만 값 보유(없는 건 null → 기록 안 됨).
-      const saved = condEditStoreRef.current.get(it.rowId);
+      const saved = getCondEdit(it.rowId);
       const p = getConditioningItem(it.itemId)?.params ?? [];
       const init = saved ?? {
         duration: p.includes("duration") ? (it.durationMin ?? 5) : null,
         speed: p.includes("speed") ? (it.speed ?? 1) : null,
         incline: p.includes("incline") ? (it.incline ?? 0) : null,
+        sets: p.includes("sets") ? (it.sets ?? 1) : null,
+        reps: p.includes("reps") ? (it.reps ?? 12) : null,
       };
-      if (!saved) condEditStoreRef.current.set(it.rowId, init);
+      if (!saved) setCondEdit(it.rowId, init);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditDuration(init.duration);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditSpeed(init.speed);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditIncline(init.incline);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditCondSets(init.sets);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditCondReps(init.reps);
     }
   }, [index, sessionItems]);
 
-  // 스크러버 값 변경 — 화면 state + 운동별 보관소를 함께 갱신.
+  // 스크러버 값 변경 — 화면 state + 그날 보관소(localStorage)를 함께 갱신.
   function putEdit(patch: { w?: number | null; reps?: number; sets?: number }) {
     const it = sessionItems[index];
     if (!it) return;
-    const cur = editStoreRef.current.get(it.rowId) ?? {
+    const cur = getMainEdit(it.rowId) ?? {
       w: editW,
       reps: editReps,
       sets: editSets,
     };
     const next = { ...cur, ...patch };
-    editStoreRef.current.set(it.rowId, next);
+    setMainEdit(it.rowId, next);
     if (patch.w !== undefined) setEditW(patch.w);
     if (patch.reps !== undefined) setEditReps(patch.reps);
     if (patch.sets !== undefined) setEditSets(patch.sets);
   }
 
-  // 컨디셔닝 스크러버 값 변경 — 화면 state + 항목별 보관소 함께 갱신.
+  // 컨디셔닝 스크러버 값 변경 — 화면 state + 그날 보관소 함께 갱신.
   function putCondEdit(patch: {
     duration?: number | null;
     speed?: number | null;
     incline?: number | null;
+    sets?: number | null;
+    reps?: number | null;
   }) {
     const it = sessionItems[index];
     if (!it) return;
-    const cur = condEditStoreRef.current.get(it.rowId) ?? {
+    const cur = getCondEdit(it.rowId) ?? {
       duration: editDuration,
       speed: editSpeed,
       incline: editIncline,
+      sets: editCondSets,
+      reps: editCondReps,
     };
     const next = { ...cur, ...patch };
-    condEditStoreRef.current.set(it.rowId, next);
+    setCondEdit(it.rowId, next);
     if (patch.duration !== undefined) setEditDuration(patch.duration);
     if (patch.speed !== undefined) setEditSpeed(patch.speed);
     if (patch.incline !== undefined) setEditIncline(patch.incline);
+    if (patch.sets !== undefined) setEditCondSets(patch.sets);
+    if (patch.reps !== undefined) setEditCondReps(patch.reps);
   }
 
   // 유효 세트 수 — 고정 끔이면 스크러버 값, 켜짐이면 계획값.
@@ -542,6 +568,8 @@ export function GuidedOverlay({
       durationMin: captured.durationMin,
       speed: captured.speed,
       incline: captured.incline,
+      sets: captured.sets,
+      reps: captured.reps,
     });
   }
 
@@ -588,6 +616,28 @@ export function GuidedOverlay({
     })();
   }
 
+  /** 현재 항목의 메모(운동모드에서 수정한 값 우선). */
+  function currentMemo(it: GuidedItem): string | null {
+    return memoOverrides.has(it.rowId)
+      ? (memoOverrides.get(it.rowId) ?? null)
+      : it.memo;
+  }
+
+  /** 운동모드에서 메모 저장 — 본운동/컨디셔닝 각 액션으로. 화면은 즉시 반영. */
+  function saveMemo(text: string) {
+    if (!item) return;
+    const value = text.trim() === "" ? null : text.trim();
+    const rowId = item.rowId;
+    setMemoOverrides((m) => new Map(m).set(rowId, value));
+    setMemoOpen(false);
+    const p =
+      item.kind === "main"
+        ? updateExerciseMemoAction(rowId, value)
+        : updateConditioningMemoAction(rowId, value);
+    pendingRef.current.push(Promise.resolve(p));
+    dirtyRef.current = true;
+  }
+
   /**
    * 완료·넘기기 — 낙관적 업데이트.
    * 서버 응답을 기다리지 않고 advance + 휴식 타이머 즉시 트리거.
@@ -610,6 +660,8 @@ export function GuidedOverlay({
               durationMin: editDuration,
               speed: editSpeed,
               incline: editIncline,
+              sets: editCondSets,
+              reps: editCondReps,
             }
           : item; // advance 직전에 캡쳐
     const isMain = captured.kind === "main";
@@ -685,9 +737,15 @@ export function GuidedOverlay({
   if (!item) return null;
 
   // 운동모드에선 꿀팁·운동방법 텍스트를 빼고, 자세히 보려면 상세 페이지로 이동한다.
+  // 상세에서 돌아오면(브라우저 뒤로/홈) 운동모드가 자동으로 다시 열리도록 플래그를 남긴다.
   function viewDetail() {
     if (!item || item.kind !== "main") return;
-    router.push(`/exercises/${item.exerciseId}?eq=${item.equipment}`);
+    try {
+      sessionStorage.setItem("heltch.resumeWorkout", "1");
+    } catch {
+      /* noop */
+    }
+    router.push(`/exercises/${item.exerciseId}?eq=${item.equipment}&from=workout`);
   }
 
   return (
@@ -804,6 +862,10 @@ export function GuidedOverlay({
             설정값(시간·속도·경사) 칩을 이름 아래에 보여주고, 본운동은 상세 페이지로. */}
         <div className="relative w-full max-w-lg">
           <ItemVisual item={item} />
+          {/* 자극 부위 색 오버레이 — 실사 위 작은 마네킹에 타깃 근육을 색으로(본운동). */}
+          {item.kind === "main" ? (
+            <MuscleHighlightInset exerciseId={item.exerciseId} />
+          ) : null}
 
           {total > 1 ? (
             <>
@@ -829,26 +891,10 @@ export function GuidedOverlay({
           ) : null}
         </div>
 
-        {item.kind === "main" ? (
-          <button
-            type="button"
-            onClick={viewDetail}
-            className="mt-4 inline-flex items-center gap-1.5"
-          >
-            <h2 className="text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
-              {item.name}
-            </h2>
-            <ChevronRight
-              aria-hidden="true"
-              size={22}
-              className="text-emerald-600 dark:text-emerald-400"
-            />
-          </button>
-        ) : (
-          <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
-            {item.name}
-          </h2>
-        )}
+        {/* 이름은 링크가 아니다 — 상세는 오직 아래 '운동법·꿀팁 보기' 버튼으로만. */}
+        <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
+          {item.name}
+        </h2>
         {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 고정 켬이면
             설정값 칩, 고정 끔이면 아래 스크러버에서 설정(칩 숨김). 본운동(고정 켬)은 subtitle. */}
         {editable || condEditable ? null : item.kind === "main" ? (
@@ -866,6 +912,8 @@ export function GuidedOverlay({
             duration={editDuration}
             speed={editSpeed}
             incline={editIncline}
+            sets={editCondSets}
+            reps={editCondReps}
             onChange={putCondEdit}
           />
         ) : null}
@@ -910,27 +958,48 @@ export function GuidedOverlay({
           </div>
         ) : null}
 
-        {/* 운동법·꿀팁은 운동모드에서 빼고 상세 페이지에서. (개인설정으로 버튼 끌 수 있음) */}
-        {item.kind === "main" && showGuide ? (
+        {/* 운동법·꿀팁(개인설정 가능) + 메모(항상). 본운동은 상세로, 워밍업·마무리는
+            방법 다이얼로그로 — 상세 라우트가 없는 컨디셔닝도 '운동법 보기' 제공. */}
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+          {showGuide && item.kind === "main" ? (
+            <button
+              type="button"
+              onClick={viewDetail}
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-emerald-400"
+            >
+              <ListChecks aria-hidden="true" size={15} />
+              운동법·꿀팁 보기
+            </button>
+          ) : showGuide && item.method.length > 0 ? (
+            <button
+              type="button"
+              onClick={() => setTipsOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-emerald-400"
+            >
+              <ListChecks aria-hidden="true" size={15} />
+              운동법 보기
+            </button>
+          ) : null}
+          {/* 메모 작성/수정 — 모든 항목 공통(가이드 설정과 무관). */}
           <button
             type="button"
-            onClick={viewDetail}
-            className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-emerald-400"
+            onClick={() => setMemoOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-amber-400 hover:text-amber-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-amber-400"
           >
-            <ListChecks aria-hidden="true" size={15} />
-            운동법·꿀팁 보기
+            <StickyNote aria-hidden="true" size={15} />
+            {currentMemo(item) ? "메모 수정" : "메모"}
           </button>
-        ) : null}
+        </div>
 
-        {/* 개인 메모 — 메모가 있으면 표시 (본운동·워밍업·마무리 공통) */}
-        {item.memo ? (
+        {/* 개인 메모 — 있으면 표시 (본운동·워밍업·마무리 공통) */}
+        {currentMemo(item) ? (
           <div className="mt-6 w-full max-w-md rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-500/40 dark:bg-amber-500/10">
             <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">
               <StickyNote aria-hidden="true" size={13} />
               메모
             </p>
             <p className="whitespace-pre-wrap text-sm leading-6 text-amber-900 dark:text-amber-100">
-              {item.memo}
+              {currentMemo(item)}
             </p>
           </div>
         ) : null}
@@ -1012,6 +1081,120 @@ export function GuidedOverlay({
         onConfirm={confirmClose}
         onCancel={() => setCloseAsk(false)}
       />
+      {tipsOpen && item.kind !== "main" ? (
+        <TipsDialog
+          name={item.name}
+          steps={item.method}
+          onClose={() => setTipsOpen(false)}
+        />
+      ) : null}
+      {memoOpen ? (
+        <MemoEditDialog
+          initial={currentMemo(item) ?? ""}
+          onSave={saveMemo}
+          onCancel={() => setMemoOpen(false)}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/** 워밍업·마무리 운동법(방법 단계) 보기 — 상세 라우트가 없는 컨디셔닝용 다이얼로그. */
+function TipsDialog({
+  name,
+  steps,
+  onClose,
+}: {
+  name: string;
+  steps: string[];
+  onClose: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center">
+      <button
+        type="button"
+        aria-label="닫기"
+        onClick={onClose}
+        className="absolute inset-0 cursor-default bg-black/40"
+      />
+      <div className="relative m-3 max-h-[80vh] w-[min(28rem,94vw)] overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
+        <h3 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-50">
+          {name} · 운동법
+        </h3>
+        <ol className="space-y-2.5">
+          {steps.map((s, i) => (
+            <li key={i} className="flex items-start gap-2.5">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-extrabold text-white">
+                {i + 1}
+              </span>
+              <span className="text-sm leading-6 text-zinc-700 dark:text-zinc-200">
+                {s.replace(/^(🧭|🔑|💡)\s*/, "")}
+              </span>
+            </li>
+          ))}
+        </ol>
+        <button
+          type="button"
+          onClick={onClose}
+          className="mt-4 h-10 w-full rounded-xl bg-zinc-900 text-sm font-bold text-white dark:bg-zinc-100 dark:text-zinc-900"
+        >
+          닫기
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/** 운동모드 메모 작성/수정 다이얼로그. */
+function MemoEditDialog({
+  initial,
+  onSave,
+  onCancel,
+}: {
+  initial: string;
+  onSave: (text: string) => void;
+  onCancel: () => void;
+}) {
+  const [text, setText] = useState(initial);
+  return (
+    <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center">
+      <button
+        type="button"
+        aria-label="닫기"
+        onClick={onCancel}
+        className="absolute inset-0 cursor-default bg-black/40"
+      />
+      <div className="relative m-3 w-[min(28rem,94vw)] rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
+        <h3 className="mb-3 flex items-center gap-1.5 text-lg font-bold text-zinc-950 dark:text-zinc-50">
+          <StickyNote aria-hidden="true" size={18} />
+          메모
+        </h3>
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          autoFocus
+          rows={4}
+          maxLength={1000}
+          placeholder="예: 마지막 세트 천천히, 무릎 안쪽으로 모이지 않게"
+          className="w-full resize-none rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 outline-none focus:border-emerald-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
+        />
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="h-10 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+          >
+            취소
+          </button>
+          <button
+            type="button"
+            onClick={() => onSave(text)}
+            className="h-10 rounded-xl bg-emerald-600 text-sm font-bold text-white"
+          >
+            저장
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1067,6 +1250,20 @@ function ConditioningSettings({
       label: PARAM_LABEL.incline,
       value: `${item.incline}${PARAM_UNIT.incline}`,
     });
+  if (params.includes("sets") && item.sets != null)
+    chips.push({
+      key: "sets",
+      icon: <ListChecks size={15} aria-hidden="true" />,
+      label: PARAM_LABEL.sets,
+      value: `${item.sets}${PARAM_UNIT.sets}`,
+    });
+  if (params.includes("reps") && item.reps != null)
+    chips.push({
+      key: "reps",
+      icon: <Check size={15} aria-hidden="true" />,
+      label: PARAM_LABEL.reps,
+      value: `${item.reps}${PARAM_UNIT.reps}`,
+    });
   if (chips.length === 0) return null;
   return (
     <div
@@ -1100,16 +1297,22 @@ function CondScrubbers({
   duration,
   speed,
   incline,
+  sets,
+  reps,
   onChange,
 }: {
   itemId: string;
   duration: number | null;
   speed: number | null;
   incline: number | null;
+  sets: number | null;
+  reps: number | null;
   onChange: (patch: {
     duration?: number | null;
     speed?: number | null;
     incline?: number | null;
+    sets?: number | null;
+    reps?: number | null;
   }) => void;
 }) {
   const params = getConditioningItem(itemId)?.params ?? [];
@@ -1150,10 +1353,60 @@ function CondScrubbers({
             onChange={(v) => onChange({ incline: v ?? 0 })}
           />
         ) : null}
+        {params.includes("sets") ? (
+          <NumberScrubber
+            label={PARAM_LABEL.sets}
+            value={sets}
+            unit={PARAM_UNIT.sets}
+            min={1}
+            max={20}
+            step={1}
+            onChange={(v) => onChange({ sets: v ?? 1 })}
+          />
+        ) : null}
+        {params.includes("reps") ? (
+          <NumberScrubber
+            label={PARAM_LABEL.reps}
+            value={reps}
+            unit={PARAM_UNIT.reps}
+            min={1}
+            max={100}
+            step={1}
+            onChange={(v) => onChange({ reps: v ?? 1 })}
+          />
+        ) : null}
       </div>
       <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
         좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
       </p>
+    </div>
+  );
+}
+
+/** 실사 위 자극 부위 색 오버레이 — 작은 정면 마네킹에 타깃 부위만 색으로 칠한다.
+ * (PlanFit 풍: 흰 실루엣 위 자극 근육 강조. 본운동 전용 — 부위 매핑이 명확.) */
+function MuscleHighlightInset({ exerciseId }: { exerciseId: string }) {
+  const HILITE = "#34d399"; // emerald-400
+  const DIM = "rgba(255,255,255,0.14)";
+  const toRegion = (p: BodyPart): BodyRegion => (p === "lower" ? "leg" : p);
+  const targets = new Set<BodyRegion>(bodyPartsFor(exerciseId).map(toRegion));
+  const c = (r: BodyRegion) => (targets.has(r) ? HILITE : DIM);
+  const colors: Record<BodyRegion, string> = {
+    chest: c("chest"),
+    back: c("back"),
+    shoulder: c("shoulder"),
+    arm: c("arm"),
+    leg: c("leg"),
+    core: c("core"),
+  };
+  return (
+    <div className="pointer-events-none absolute bottom-2 left-2 z-10 flex flex-col items-center rounded-xl bg-black/55 px-1.5 pb-1 pt-0.5 backdrop-blur-sm">
+      <span className="text-[9px] font-bold text-white/90">자극 부위</span>
+      <Mannequin
+        className="h-24 w-[3.25rem]"
+        colors={colors}
+        ariaLabel="자극 부위"
+      />
     </div>
   );
 }
@@ -1179,8 +1432,8 @@ function ItemVisual({ item }: { item: GuidedItem }) {
       <ExercisePhotoDemo exerciseId={item.exerciseId} equipment={item.equipment} />
     );
   }
-  // 워밍업·마무리: 실사 사진(없으면 그라데이션). steps 없이 사진/배경만.
-  return <ExerciseTutorial frames={conditioningPhotoFrames(item.itemId)} steps={[]} />;
+  // 워밍업·마무리: 실사 시연 2프레임을 자동 교차재생(영상처럼). 매핑 없으면 표시 안 함.
+  return <ExercisePhotoDemo frames={conditioningPhotoFrames(item.itemId)} />;
 }
 
 

@@ -415,6 +415,9 @@ create index if not exists routine_conditioning_user_idx
 
 -- 워밍업/마무리 개인 메모
 alter table public.routine_conditioning add column if not exists memo text;
+-- 비유산소(모빌리티·스트레칭)는 시간 대신 세트/횟수로 입력 — 유산소는 그대로 시간/속도/경사.
+alter table public.routine_conditioning add column if not exists sets int check (sets between 1 and 20);
+alter table public.routine_conditioning add column if not exists reps int check (reps between 1 and 100);
 
 alter table public.routine_conditioning enable row level security;
 
@@ -512,6 +515,8 @@ create index if not exists daily_conditioning_user_date_idx
 
 -- 워밍업/마무리 개인 메모 (오늘만 오버라이드 행에도 보존)
 alter table public.daily_conditioning add column if not exists memo text;
+alter table public.daily_conditioning add column if not exists sets int check (sets between 1 and 20);
+alter table public.daily_conditioning add column if not exists reps int check (reps between 1 and 100);
 
 alter table public.daily_conditioning enable row level security;
 
@@ -633,6 +638,10 @@ alter table public.conditioning_completions
   add column if not exists speed numeric(5, 1);
 alter table public.conditioning_completions
   add column if not exists incline numeric(4, 1);
+alter table public.conditioning_completions
+  add column if not exists sets int;
+alter table public.conditioning_completions
+  add column if not exists reps int;
 alter table public.conditioning_completions
   drop constraint if exists conditioning_completions_user_id_for_date_kind_item_id_key;
 create unique index if not exists conditioning_completions_by_source_row_idx

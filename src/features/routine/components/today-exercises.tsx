@@ -12,9 +12,11 @@ import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import {
+  conditioningDefaults,
   getConditioningItem,
   PARAM_UNIT,
   type ConditioningItem,
+  type ConditioningParam,
 } from "@/features/routine/conditioning-catalog";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import {
@@ -49,15 +51,18 @@ import { WorkoutSessionTimer } from "@/features/workout-timer/workout-session-ti
 import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
 
-/** DB row 의 값이 비어 있으면 카탈로그 기본값(defaultMin/Speed/Incline)을 대신 사용 */
+/** DB row 의 값이 비어 있으면 카탈로그 기본값을 대신 사용(파라미터별, 시간/속도/경사/세트/횟수) */
 function effectiveValues(
   row: ConditioningRow,
-  item: ConditioningItem | undefined,
+  _item: ConditioningItem | undefined,
 ) {
+  const d = conditioningDefaults(row.itemId);
   return {
-    duration: row.durationMin ?? item?.defaultMin ?? null,
-    speed: row.speed ?? item?.defaultSpeed ?? null,
-    incline: row.incline ?? item?.defaultIncline ?? null,
+    duration: row.durationMin ?? d.durationMin,
+    speed: row.speed ?? d.speed,
+    incline: row.incline ?? d.incline,
+    sets: row.sets ?? d.sets,
+    reps: row.reps ?? d.reps,
   };
 }
 
@@ -67,14 +72,22 @@ function formatDetail(
 ): string {
   const v = effectiveValues(row, item);
   const params = item?.params ?? [];
+  const valOf = (p: ConditioningParam): number | null =>
+    p === "duration"
+      ? v.duration
+      : p === "speed"
+        ? v.speed
+        : p === "incline"
+          ? v.incline
+          : p === "sets"
+            ? v.sets
+            : v.reps;
   const parts: string[] = [];
-  if (v.duration !== null && params.includes("duration"))
-    parts.push(`${v.duration}${PARAM_UNIT.duration}`);
-  if (v.speed !== null && params.includes("speed"))
-    parts.push(`${v.speed}${PARAM_UNIT.speed}`);
-  if (v.incline !== null && params.includes("incline"))
-    parts.push(`${v.incline}${PARAM_UNIT.incline}`);
-  return parts.join(" ·");
+  for (const p of params) {
+    const x = valOf(p);
+    if (x !== null) parts.push(`${x}${PARAM_UNIT[p]}`);
+  }
+  return parts.join(" · ");
 }
 
 export async function TodayExercises({
@@ -240,6 +253,8 @@ export async function TodayExercises({
         durationMin: c.durationMin,
         speed: c.speed,
         incline: c.incline,
+        sets: c.sets,
+        reps: c.reps,
         memo: null,
       }));
     return [...baseRows, ...ghosts];
@@ -301,6 +316,8 @@ export async function TodayExercises({
         durationMin: eff.duration,
         speed: eff.speed,
         incline: eff.incline,
+        sets: eff.sets,
+        reps: eff.reps,
         memo: r.memo,
       };
     });
@@ -358,6 +375,8 @@ export async function TodayExercises({
       durationMin: wi.durationMin,
       speed: wi.speed,
       incline: wi.incline,
+      sets: wi.sets,
+      reps: wi.reps,
       memo: wi.memo,
     });
   }
@@ -407,6 +426,8 @@ export async function TodayExercises({
       durationMin: ci2.durationMin,
       speed: ci2.speed,
       incline: ci2.incline,
+      sets: ci2.sets,
+      reps: ci2.reps,
       memo: ci2.memo,
     });
   }

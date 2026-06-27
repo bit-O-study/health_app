@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import {
+  conditioningDefaults,
   conditioningOptions,
   defaultsFor,
   getConditioningItem,
@@ -27,16 +28,45 @@ type Row = {
   duration: string;
   speed: string;
   incline: string;
+  sets: string;
+  reps: string;
 };
+
+const str = (n: number | null | undefined) =>
+  n === null || n === undefined ? "" : String(n);
 
 function toRow(r: ConditioningRow): Row {
   return {
     itemId: r.itemId,
-    duration: r.durationMin === null ? "" : String(r.durationMin),
-    speed: r.speed === null ? "" : String(r.speed),
-    incline: r.incline === null ? "" : String(r.incline),
+    duration: str(r.durationMin),
+    speed: str(r.speed),
+    incline: str(r.incline),
+    sets: str(r.sets),
+    reps: str(r.reps),
   };
 }
+
+/** 항목 선택/추가 시 그 항목의 기본값으로 채운 행. */
+function defaultsRow(itemId: string): Row {
+  const d = conditioningDefaults(itemId);
+  return {
+    itemId,
+    duration: str(d.durationMin),
+    speed: str(d.speed),
+    incline: str(d.incline),
+    sets: str(d.sets),
+    reps: str(d.reps),
+  };
+}
+
+/** 파라미터 → 행 필드 키. */
+const FIELD: Record<ConditioningParam, keyof Row> = {
+  duration: "duration",
+  speed: "speed",
+  incline: "incline",
+  sets: "sets",
+  reps: "reps",
+};
 
 const KIND_LABEL: Record<ConditioningKind, string> = {
   warmup: "워밍업",
@@ -73,23 +103,18 @@ export function ConditioningEditor({
   function addRow() {
     const first = options[0];
     if (!first) return;
-    update([
-      ...rows,
-      {
-        itemId: first.id,
-        duration: first.defaultMin ? String(first.defaultMin) : "",
-        speed: first.defaultSpeed ? String(first.defaultSpeed) : "",
-        incline: first.defaultIncline ? String(first.defaultIncline) : "",
-      },
-    ]);
+    update([...rows, defaultsRow(first.id)]);
   }
 
   function rowsToInput(list: Row[]): ConditioningInput[] {
+    const n = (s: string) => (s.trim() === "" ? null : Number(s));
     return list.map((r) => ({
       itemId: r.itemId,
-      durationMin: r.duration.trim() === "" ? null : Number(r.duration),
-      speed: r.speed.trim() === "" ? null : Number(r.speed),
-      incline: r.incline.trim() === "" ? null : Number(r.incline),
+      durationMin: n(r.duration),
+      speed: n(r.speed),
+      incline: n(r.incline),
+      sets: n(r.sets),
+      reps: n(r.reps),
     }));
   }
 
@@ -111,16 +136,7 @@ export function ConditioningEditor({
       return;
     }
     const ids = defaultsFor(focus as FocusTone, kind);
-    const next: Row[] = ids.map((id) => {
-      const item = getConditioningItem(id);
-      return {
-        itemId: id,
-        duration: item?.defaultMin ? String(item.defaultMin) : "",
-        speed: item?.defaultSpeed ? String(item.defaultSpeed) : "",
-        incline: item?.defaultIncline ? String(item.defaultIncline) : "",
-      };
-    });
-    update(next);
+    update(ids.map((id) => defaultsRow(id)));
   }
 
   return (
@@ -173,20 +189,7 @@ export function ConditioningEditor({
                     value={row.itemId}
                     onChange={(id) => {
                       const next = [...rows];
-                      const nextItem = getConditioningItem(id);
-                      next[idx] = {
-                        ...row,
-                        itemId: id,
-                        duration: nextItem?.defaultMin
-                          ? String(nextItem.defaultMin)
-                          : "",
-                        speed: nextItem?.defaultSpeed
-                          ? String(nextItem.defaultSpeed)
-                          : "",
-                        incline: nextItem?.defaultIncline
-                          ? String(nextItem.defaultIncline)
-                          : "",
-                      };
+                      next[idx] = defaultsRow(id);
                       update(next);
                     }}
                   />
@@ -199,24 +202,10 @@ export function ConditioningEditor({
                           aria-label={PARAM_LABEL[p]}
                           type="number"
                           inputMode="decimal"
-                          value={
-                            p === "duration"
-                              ? row.duration
-                              : p === "speed"
-                                ? row.speed
-                                : row.incline
-                          }
+                          value={row[FIELD[p]]}
                           onChange={(e) => {
                             const next = [...rows];
-                            const v = e.target.value;
-                            next[idx] = {
-                              ...row,
-                              ...(p === "duration"
-                                ? { duration: v }
-                                : p === "speed"
-                                  ? { speed: v }
-                                  : { incline: v }),
-                            };
+                            next[idx] = { ...row, [FIELD[p]]: e.target.value };
                             update(next);
                           }}
                           placeholder={PARAM_LABEL[p]}

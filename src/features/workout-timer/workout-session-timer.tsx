@@ -131,6 +131,20 @@ export function WorkoutSessionTimer({
     }
   }
 
+  // 운동모드에서 운동상세로 갔다가 돌아오면(세션 플래그) 운동모드를 자동 재오픈.
+  // (상세 → 뒤로/홈 → /routine 재마운트 시 1회 소비.)
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem("heltch.resumeWorkout") === "1") {
+        sessionStorage.removeItem("heltch.resumeWorkout");
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setGuided(true);
+      }
+    } catch {
+      /* noop */
+    }
+  }, []);
+
   // 1) localStorage 복원 + 자정 롤오버 체크
   useEffect(() => {
     const raw = readTimer();

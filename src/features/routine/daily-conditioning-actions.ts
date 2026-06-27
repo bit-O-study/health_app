@@ -62,6 +62,8 @@ export async function saveDailyConditioningAction(
       duration_min: it.durationMin,
       speed: it.speed,
       incline: it.incline,
+      sets: it.sets,
+      reps: it.reps,
     }));
     const ins = await supabase.from("daily_conditioning").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };

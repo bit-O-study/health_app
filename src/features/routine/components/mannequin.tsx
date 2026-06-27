@@ -14,13 +14,21 @@ export const REGION_LABEL: Record<BodyRegion, string> = {
   core: "코어",
 };
 
-export function Mannequin({ colors }: { colors: Record<BodyRegion, string> }) {
+export function Mannequin({
+  colors,
+  className = "h-72 w-44",
+  ariaLabel = "부위별 발달도 마네킹",
+}: {
+  colors: Record<BodyRegion, string>;
+  className?: string;
+  ariaLabel?: string;
+}) {
   return (
     <svg
       viewBox="0 0 200 320"
-      className="h-72 w-44"
+      className={className}
       role="img"
-      aria-label="부위별 발달도 마네킹"
+      aria-label={ariaLabel}
     >
       {/* 윤곽 */}
       <g stroke="#a1a1aa" strokeWidth={1} fill="#f4f4f5">

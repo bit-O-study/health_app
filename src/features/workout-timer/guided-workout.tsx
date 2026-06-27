@@ -43,6 +43,11 @@ import {
 } from "@/features/workout-timer/rest-logic";
 import { ExercisePhotoDemo } from "@/features/workout-timer/exercise-photo-demo";
 import {
+  Mannequin,
+  type BodyRegion,
+} from "@/features/routine/components/mannequin";
+import { bodyPartsFor, type BodyPart } from "@/features/routine/exercise-catalog";
+import {
   getMainEdit,
   setMainEdit,
   getCondEdit,
@@ -857,6 +862,10 @@ export function GuidedOverlay({
             설정값(시간·속도·경사) 칩을 이름 아래에 보여주고, 본운동은 상세 페이지로. */}
         <div className="relative w-full max-w-lg">
           <ItemVisual item={item} />
+          {/* 자극 부위 색 오버레이 — 실사 위 작은 마네킹에 타깃 근육을 색으로(본운동). */}
+          {item.kind === "main" ? (
+            <MuscleHighlightInset exerciseId={item.exerciseId} />
+          ) : null}
 
           {total > 1 ? (
             <>
@@ -1370,6 +1379,34 @@ function CondScrubbers({
       <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
         좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
       </p>
+    </div>
+  );
+}
+
+/** 실사 위 자극 부위 색 오버레이 — 작은 정면 마네킹에 타깃 부위만 색으로 칠한다.
+ * (PlanFit 풍: 흰 실루엣 위 자극 근육 강조. 본운동 전용 — 부위 매핑이 명확.) */
+function MuscleHighlightInset({ exerciseId }: { exerciseId: string }) {
+  const HILITE = "#34d399"; // emerald-400
+  const DIM = "rgba(255,255,255,0.14)";
+  const toRegion = (p: BodyPart): BodyRegion => (p === "lower" ? "leg" : p);
+  const targets = new Set<BodyRegion>(bodyPartsFor(exerciseId).map(toRegion));
+  const c = (r: BodyRegion) => (targets.has(r) ? HILITE : DIM);
+  const colors: Record<BodyRegion, string> = {
+    chest: c("chest"),
+    back: c("back"),
+    shoulder: c("shoulder"),
+    arm: c("arm"),
+    leg: c("leg"),
+    core: c("core"),
+  };
+  return (
+    <div className="pointer-events-none absolute bottom-2 left-2 z-10 flex flex-col items-center rounded-xl bg-black/55 px-1.5 pb-1 pt-0.5 backdrop-blur-sm">
+      <span className="text-[9px] font-bold text-white/90">자극 부위</span>
+      <Mannequin
+        className="h-24 w-[3.25rem]"
+        colors={colors}
+        ariaLabel="자극 부위"
+      />
     </div>
   );
 }

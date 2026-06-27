@@ -174,8 +174,10 @@ export function DietBoard({
       {adding ? (
         <AddFoodDialog
           meal={adding}
+          items={logs.filter((l) => l.meal === adding)}
           onClose={() => setAdding(null)}
           onAdd={(input) => addFood(adding, input)}
+          onDelete={removeFood}
         />
       ) : null}
     </section>
@@ -319,32 +321,158 @@ function MealSection({
   );
 }
 
+/** amount 표기에서 기준 그램 수를 뽑는다. "100g"→100, "1공기(210g)"→210, "1개"→null. */
+function parseGrams(amount: string): number | null {
+  const m = amount.match(/(\d+(?:\.\d+)?)\s*g/);
+  return m ? Number(m[1]) : null;
+}
+
+/** 선택한 음식의 양 조절 — 그램 단위(애매한 고기·생선 등)면 g 입력으로 칼로리 비례 계산,
+ *  아니면 인분/개 단위 ×배수. */
+function QuantityEditor({
+  food,
+  meal,
+  onBack,
+  onConfirm,
+}: {
+  food: FoodItem;
+  meal: Meal;
+  onBack: () => void;
+  onConfirm: (input: FoodInput) => void;
+}) {
+  const baseG = parseGrams(food.amount);
+  const [grams, setGrams] = useState(String(baseG ?? 100));
+  const [qty, setQty] = useState(1);
+
+  // 배율: 그램 모드면 g/기준g, 인분 모드면 qty.
+  const factor = baseG
+    ? (Number(grams) > 0 ? Number(grams) / baseG : 0)
+    : qty;
+  const r1 = (n: number) => Math.round(n * 10) / 10;
+  const kcal = Math.round(food.kcal * factor);
+  const amountLabel = baseG
+    ? `${Number(grams) || 0}g`
+    : qty === 1
+      ? food.amount
+      : `${food.amount} ×${qty}`;
+
+  function confirm() {
+    onConfirm({
+      meal,
+      name: food.name,
+      kcal,
+      protein: r1(food.protein * factor),
+      carbs: r1(food.carbs * factor),
+      fat: r1(food.fat * factor),
+      amount: amountLabel,
+    });
+  }
+
+  const QTYS = [0.5, 1, 1.5, 2, 3];
+  return (
+    <div className="flex-1 space-y-4 overflow-y-auto px-4 pb-8 pt-4">
+      <button
+        type="button"
+        onClick={onBack}
+        className="text-sm font-semibold text-zinc-500 dark:text-zinc-400"
+      >
+        ← 목록으로
+      </button>
+      <div>
+        <p className="text-lg font-bold text-zinc-950 dark:text-zinc-50">{food.name}</p>
+        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          기준 {food.amount} · {food.kcal}kcal
+        </p>
+      </div>
+
+      {baseG ? (
+        <label className="block">
+          <span className="mb-1 block text-xs font-bold text-zinc-500">
+            그램(g) 입력 — 양에 맞춰 칼로리 자동 계산
+          </span>
+          <div className="flex items-center gap-2">
+            <input
+              autoFocus
+              type="number"
+              inputMode="numeric"
+              value={grams}
+              onChange={(e) => setGrams(e.target.value)}
+              className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-lg font-bold outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            />
+            <span className="text-sm font-semibold text-zinc-500">g</span>
+          </div>
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {[50, 100, 150, 200, 300].map((g) => (
+              <button
+                key={g}
+                type="button"
+                onClick={() => setGrams(String(g))}
+                className="rounded-full border border-zinc-300 px-2.5 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-600 dark:text-zinc-300"
+              >
+                {g}g
+              </button>
+            ))}
+          </div>
+        </label>
+      ) : (
+        <div>
+          <span className="mb-1 block text-xs font-bold text-zinc-500">양(인분/개)</span>
+          <div className="flex flex-wrap gap-1.5">
+            {QTYS.map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => setQty(n)}
+                className={`h-10 min-w-[3rem] rounded-xl px-3 text-sm font-bold transition ${
+                  qty === n
+                    ? "bg-emerald-600 text-white"
+                    : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                }`}
+              >
+                ×{n}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="rounded-xl bg-emerald-50 p-3 text-center dark:bg-emerald-950/30">
+        <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+          {amountLabel} · 단 {r1(food.protein * factor)} · 탄 {r1(food.carbs * factor)} · 지 {r1(food.fat * factor)}
+        </span>
+        <p className="text-2xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+          {kcal} kcal
+        </p>
+      </div>
+
+      <button
+        type="button"
+        onClick={confirm}
+        className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500"
+      >
+        담기
+      </button>
+    </div>
+  );
+}
+
 function AddFoodDialog({
   meal,
+  items,
   onClose,
   onAdd,
+  onDelete,
 }: {
   meal: Meal;
+  items: FoodLog[];
   onClose: () => void;
   onAdd: (input: FoodInput) => void;
+  onDelete: (id: string) => void;
 }) {
   const [mode, setMode] = useState<"search" | "manual">("search");
   const [q, setQ] = useState("");
   const results = useMemo(() => searchFoods(q).slice(0, 40), [q]);
-  const [added, setAdded] = useState<Set<string>>(() => new Set());
-
-  function addCatalog(f: FoodItem) {
-    onAdd({
-      meal,
-      name: f.name,
-      kcal: f.kcal,
-      protein: f.protein,
-      carbs: f.carbs,
-      fat: f.fat,
-      amount: f.amount,
-    });
-    setAdded((s) => new Set(s).add(f.id));
-  }
+  const [picked, setPicked] = useState<FoodItem | null>(null);
 
   return (
     <div className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
@@ -362,12 +490,43 @@ function AddFoodDialog({
         </button>
       </div>
 
+      {/* 이미 담은 음식 — 여기서 바로 삭제 가능 */}
+      {items.length > 0 ? (
+        <div className="border-b border-zinc-100 px-4 py-2 dark:border-zinc-800">
+          <p className="mb-1 text-[11px] font-bold text-zinc-400">담은 음식</p>
+          <ul className="flex flex-col gap-1">
+            {items.map((it) => (
+              <li key={it.id} className="flex items-center gap-2">
+                <span className="min-w-0 flex-1 truncate text-sm text-zinc-700 dark:text-zinc-200">
+                  {it.name}
+                  <span className="ml-1 text-xs text-zinc-400">
+                    {it.amount ? `${it.amount} · ` : ""}
+                    {Math.round(it.kcal)}kcal
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  aria-label={`${it.name} 삭제`}
+                  onClick={() => onDelete(it.id)}
+                  className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40"
+                >
+                  <Trash2 aria-hidden="true" size={14} />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+
       <div className="flex gap-1 px-4 pt-3">
         {(["search", "manual"] as const).map((m) => (
           <button
             key={m}
             type="button"
-            onClick={() => setMode(m)}
+            onClick={() => {
+              setMode(m);
+              setPicked(null);
+            }}
             className={`h-9 flex-1 rounded-lg text-sm font-bold transition ${
               mode === m
                 ? "bg-emerald-600 text-white"
@@ -379,7 +538,24 @@ function AddFoodDialog({
         ))}
       </div>
 
-      {mode === "search" ? (
+      {mode === "manual" ? (
+        <ManualForm
+          onSubmit={(input) => {
+            onAdd(input);
+            onClose();
+          }}
+        />
+      ) : picked ? (
+        <QuantityEditor
+          food={picked}
+          meal={meal}
+          onBack={() => setPicked(null)}
+          onConfirm={(input) => {
+            onAdd(input);
+            setPicked(null);
+          }}
+        />
+      ) : (
         <>
           <div className="mx-4 mt-3 flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3 dark:border-zinc-700 dark:bg-zinc-900">
             <Search aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
@@ -399,41 +575,32 @@ function AddFoodDialog({
               </li>
             ) : (
               results.map((f) => (
-                <li key={f.id} className="flex items-center gap-2 py-2.5">
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                      {f.name}
-                      <span className="ml-1.5 text-xs font-normal text-zinc-400">
-                        {f.amount}
-                      </span>
-                    </p>
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                      {f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
-                    </p>
-                  </div>
+                <li key={f.id}>
                   <button
                     type="button"
-                    aria-label={`${f.name} 추가`}
-                    onClick={() => addCatalog(f)}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white transition hover:bg-emerald-500"
+                    onClick={() => setPicked(f)}
+                    className="flex w-full items-center gap-2 py-2.5 text-left"
                   >
-                    <Plus aria-hidden="true" size={16} />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                        {f.name}
+                        <span className="ml-1.5 text-xs font-normal text-zinc-400">
+                          {f.amount}
+                        </span>
+                      </p>
+                      <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                        {f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
+                      </p>
+                    </div>
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
+                      <Plus aria-hidden="true" size={16} />
+                    </span>
                   </button>
-                  {added.has(f.id) ? (
-                    <span className="text-[11px] font-bold text-emerald-600">담음</span>
-                  ) : null}
                 </li>
               ))
             )}
           </ul>
         </>
-      ) : (
-        <ManualForm
-          onSubmit={(input) => {
-            onAdd(input);
-            onClose();
-          }}
-        />
       )}
     </div>
   );

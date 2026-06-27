@@ -279,6 +279,9 @@ FOOD_ITEMS.sort(
     CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category),
 );
 
+/** 카테고리 목록(직접 입력 시 선택용). */
+export const FOOD_CATEGORIES: FoodCategory[] = CATEGORY_ORDER;
+
 const BY_ID: Record<string, FoodItem> = Object.fromEntries(
   FOOD_ITEMS.map((f) => [f.id, f]),
 );

@@ -19,7 +19,14 @@ export type FoodInput = {
   carbs: number | null;
   fat: number | null;
   amount: string | null;
+  category?: string | null;
+  photoUrl?: string | null;
 };
+
+function cleanUrl(v: string | null | undefined): string | null {
+  const s = v?.trim() ?? "";
+  return /^https?:\/\//.test(s) ? s.slice(0, 500) : null;
+}
 
 const MEALS = ["breakfast", "lunch", "dinner", "snack"];
 
@@ -66,6 +73,8 @@ export async function addFoodLogAction(
       carbs_g: clampNum(input.carbs, 2000),
       fat_g: clampNum(input.fat, 2000),
       amount: input.amount?.trim().slice(0, 40) || null,
+      category: input.category?.trim().slice(0, 20) || null,
+      photo_url: cleanUrl(input.photoUrl),
     })
     .select("id")
     .maybeSingle();
@@ -92,6 +101,8 @@ export async function updateFoodLogAction(
   if (patch.carbs !== undefined) update.carbs_g = clampNum(patch.carbs, 2000);
   if (patch.fat !== undefined) update.fat_g = clampNum(patch.fat, 2000);
   if (patch.amount !== undefined) update.amount = patch.amount?.trim().slice(0, 40) || null;
+  if (patch.category !== undefined) update.category = patch.category?.trim().slice(0, 20) || null;
+  if (patch.photoUrl !== undefined) update.photo_url = cleanUrl(patch.photoUrl);
 
   const { error } = await supabase
     .from("food_logs")

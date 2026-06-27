@@ -260,6 +260,25 @@ export const FOOD_ITEMS: FoodItem[] = [
   { id: "protein-drink", name: "단백질음료", category: "단백질·보충", amount: "1병", kcal: 160, protein: 20, carbs: 12, fat: 3 },
 ];
 
+// 카테고리 순서로 정렬해 검색/둘러보기에서 같은 분류끼리 모이게 한다.
+// (추가 음식이 배열 끝에만 몰려 안 보이는 문제 방지 — JS sort는 안정 정렬이라 분류 내 순서는 유지.)
+const CATEGORY_ORDER: FoodCategory[] = [
+  "밥·면",
+  "국·찌개",
+  "고기·계란",
+  "생선·해산물",
+  "채소·반찬",
+  "과일",
+  "유제품",
+  "빵·간식",
+  "음료",
+  "단백질·보충",
+];
+FOOD_ITEMS.sort(
+  (a, b) =>
+    CATEGORY_ORDER.indexOf(a.category) - CATEGORY_ORDER.indexOf(b.category),
+);
+
 const BY_ID: Record<string, FoodItem> = Object.fromEntries(
   FOOD_ITEMS.map((f) => [f.id, f]),
 );

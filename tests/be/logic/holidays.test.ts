@@ -17,6 +17,12 @@ describe("공휴일·복날 마크", () => {
     expect(getDayMarks("2026-03-02")[0]?.name).toBe("대체공휴일");
   });
 
+  it("제헌절은 2026년부터 다시 공휴일", () => {
+    expect(getDayMarks("2026-07-17")[0]?.name).toBe("제헌절");
+    expect(isHoliday("2026-07-17")).toBe(true);
+    expect(getDayMarks("2027-07-17")[0]?.name).toBe("제헌절");
+  });
+
   it("복날은 공휴일이 아니라 'bok' 마크", () => {
     const marks = getDayMarks("2026-07-15");
     expect(marks[0]?.kind).toBe("bok");

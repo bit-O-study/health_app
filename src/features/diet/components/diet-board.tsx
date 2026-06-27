@@ -477,7 +477,7 @@ function AddFoodDialog({
 }) {
   const [mode, setMode] = useState<"search" | "manual">("search");
   const [q, setQ] = useState("");
-  const results = useMemo(() => searchFoods(q).slice(0, 40), [q]);
+  const results = useMemo(() => searchFoods(q).slice(0, 200), [q]);
   const [picked, setPicked] = useState<FoodItem | null>(null);
 
   return (

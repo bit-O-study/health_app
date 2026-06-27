@@ -9,6 +9,10 @@ export type MemberStat = {
   workouts: number;
   /** 이번 주 운동한 날 수. */
   days: number;
+  /** 오늘 섭취 kcal(식단). */
+  todayIntake: number;
+  /** 오늘 운동 소비 kcal. */
+  todayBurned: number;
   isMe: boolean;
 };
 

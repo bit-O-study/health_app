@@ -91,41 +91,62 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
 
   const { data: members } = await supabase
     .from("group_members")
-    .select("user_id")
+    .select("user_id, display_name")
     .eq("group_id", groupId);
-  const memberIds = (members ?? []).map((r) => (r as { user_id: string }).user_id);
+  const memberRows = (members ?? []) as { user_id: string; display_name: string | null }[];
+  const memberIds = memberRows.map((r) => r.user_id);
   if (!memberIds.includes(user.id)) return null; // 멤버 아님
 
-  const { from, to } = weekRange(seoulYmd());
+  const today = seoulYmd();
+  const { from, to } = weekRange(today);
 
-  const [{ data: profiles }, { data: exRows }, { data: condRows }] = await Promise.all([
-    supabase.from("profiles").select("user_id, name, weight_kg").in("user_id", memberIds),
-    supabase
-      .from("exercise_completions")
-      .select("user_id, for_date, exercise_id, sets")
-      .in("user_id", memberIds)
-      .eq("status", "done")
-      .gte("for_date", from)
-      .lte("for_date", to),
-    supabase
-      .from("conditioning_completions")
-      .select("user_id, for_date, item_id, duration_min, speed")
-      .in("user_id", memberIds)
-      .eq("status", "done")
-      .gte("for_date", from)
-      .lte("for_date", to),
-  ]);
+  const [{ data: profiles }, { data: exRows }, { data: condRows }, { data: foodRows }] =
+    await Promise.all([
+      supabase.from("profiles").select("user_id, name, weight_kg").in("user_id", memberIds),
+      supabase
+        .from("exercise_completions")
+        .select("user_id, for_date, exercise_id, sets")
+        .in("user_id", memberIds)
+        .eq("status", "done")
+        .gte("for_date", from)
+        .lte("for_date", to),
+      supabase
+        .from("conditioning_completions")
+        .select("user_id, for_date, item_id, duration_min, speed")
+        .in("user_id", memberIds)
+        .eq("status", "done")
+        .gte("for_date", from)
+        .lte("for_date", to),
+      supabase
+        .from("food_logs")
+        .select("user_id, kcal")
+        .in("user_id", memberIds)
+        .eq("for_date", today),
+    ]);
 
   const nameOf = new Map<string, string>();
   const weightOf = new Map<string, number>();
+  for (const r of memberRows) {
+    if (r.display_name?.trim()) nameOf.set(r.user_id, r.display_name.trim());
+  }
   for (const p of (profiles ?? []) as {
     user_id: string;
     name: string | null;
     weight_kg: number | string | null;
   }[]) {
-    nameOf.set(p.user_id, p.name?.trim() || "이름 없음");
+    if (!nameOf.has(p.user_id)) nameOf.set(p.user_id, p.name?.trim() || "회원");
     weightOf.set(p.user_id, num(p.weight_kg) || 65);
   }
+
+  // 오늘 섭취 kcal(식단 공유)
+  const todayIntakeOf = new Map<string, number>();
+  for (const r of (foodRows ?? []) as { user_id: string; kcal: number | string }[]) {
+    todayIntakeOf.set(r.user_id, (todayIntakeOf.get(r.user_id) ?? 0) + num(r.kcal));
+  }
+  // 오늘 운동 소비 kcal (raw 누적)
+  const todayBurnedOf = new Map<string, number>();
+  const addToday = (uid: string, v: number) =>
+    todayBurnedOf.set(uid, (todayBurnedOf.get(uid) ?? 0) + v);
 
   const stats = new Map<string, MemberStat>();
   const ensure = (uid: string): MemberStat => {
@@ -133,10 +154,12 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     if (!s) {
       s = {
         userId: uid,
-        name: nameOf.get(uid) ?? "이름 없음",
+        name: nameOf.get(uid) ?? "회원",
         kcal: 0,
         workouts: 0,
         days: 0,
+        todayIntake: 0,
+        todayBurned: 0,
         isMe: uid === user.id,
       };
       stats.set(uid, s);
@@ -163,9 +186,11 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
   }[]) {
     if (!r.exercise_id) continue;
     const s = ensure(r.user_id);
-    s.kcal += estimateStrengthKcal(weightOf.get(r.user_id) ?? 65, r.exercise_id, num(r.sets));
+    const v = estimateStrengthKcal(weightOf.get(r.user_id) ?? 65, r.exercise_id, num(r.sets));
+    s.kcal += v;
     s.workouts += 1;
     markDay(r.user_id, r.for_date);
+    if (r.for_date === today) addToday(r.user_id, v);
   }
   for (const r of (condRows ?? []) as {
     user_id: string;
@@ -177,18 +202,24 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     if (!r.item_id) continue;
     const d = conditioningDefaults(r.item_id);
     const s = ensure(r.user_id);
-    s.kcal += estimateConditioningKcal(
+    const v = estimateConditioningKcal(
       weightOf.get(r.user_id) ?? 65,
       r.item_id,
       r.duration_min ?? d.durationMin,
       r.speed === null ? d.speed : num(r.speed),
     );
+    s.kcal += v;
     s.workouts += 1;
     markDay(r.user_id, r.for_date);
+    if (r.for_date === today) addToday(r.user_id, v);
   }
 
   for (const [uid, set] of daySet) ensure(uid).days = set.size;
-  for (const s of stats.values()) s.kcal = Math.round(s.kcal);
+  for (const s of stats.values()) {
+    s.kcal = Math.round(s.kcal);
+    s.todayIntake = Math.round(todayIntakeOf.get(s.userId) ?? 0);
+    s.todayBurned = Math.round(todayBurnedOf.get(s.userId) ?? 0);
+  }
 
   return {
     id: g.id,

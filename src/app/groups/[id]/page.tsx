@@ -90,6 +90,9 @@ export default async function GroupDetailPage({
               <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
                 운동 {m.workouts}회 · {m.days}일
               </p>
+              <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
+                오늘 🍽 {m.todayIntake.toLocaleString()} · 🔥 {m.todayBurned.toLocaleString()}
+              </p>
             </div>
             <span className="shrink-0 text-right">
               <span className="block text-base font-extrabold tabular-nums text-emerald-600 dark:text-emerald-400">

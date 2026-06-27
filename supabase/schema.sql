@@ -1393,8 +1393,11 @@ create table if not exists public.group_members (
   user_id uuid not null references auth.users(id) on delete cascade,
   role text not null default 'member' check (role in ('owner', 'member')),
   joined_at timestamptz not null default now(),
+  display_name text,
   unique (group_id, user_id)
 );
+
+alter table public.group_members add column if not exists display_name text;
 
 create index if not exists group_members_user_idx on public.group_members (user_id);
 create index if not exists group_members_group_idx on public.group_members (group_id);
@@ -1420,12 +1423,17 @@ $$;
 -- 토큰으로 그룹 참여(보안 정의자) / 가입 전 이름 미리보기.
 create or replace function public.join_group_by_token(token text)
 returns uuid language plpgsql security definer set search_path = public as $$
-declare gid uuid;
+declare gid uuid; nm text;
 begin
   select id into gid from public.groups where invite_token = token;
   if gid is null then raise exception 'invalid_token'; end if;
-  insert into public.group_members (group_id, user_id, role)
-    values (gid, auth.uid(), 'member')
+  select coalesce(
+    nullif((select name from public.profiles where user_id = auth.uid()), ''),
+    nullif((select raw_user_meta_data->>'name' from auth.users where id = auth.uid()), ''),
+    '회원'
+  ) into nm;
+  insert into public.group_members (group_id, user_id, role, display_name)
+    values (gid, auth.uid(), 'member', nm)
     on conflict (group_id, user_id) do nothing;
   return gid;
 end; $$;
@@ -1470,6 +1478,9 @@ create policy "group mates read conditioning completions" on public.conditioning
   for select using (public.shares_group_with(user_id));
 drop policy if exists "group mates read profiles" on public.profiles;
 create policy "group mates read profiles" on public.profiles
+  for select using (public.shares_group_with(user_id));
+drop policy if exists "group mates read food logs" on public.food_logs;
+create policy "group mates read food logs" on public.food_logs
   for select using (public.shares_group_with(user_id));
 
 notify pgrst, 'reload schema';

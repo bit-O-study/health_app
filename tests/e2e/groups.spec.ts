@@ -21,6 +21,11 @@ test("그룹 생성 → 초대 링크 참여 → 랭킹에 멤버 표시", async
   await expect(pageA.getByText("E2E 헬스모임")).toBeVisible({ timeout: 8000 });
   await expect(pageA.getByText("이번 주 운동 랭킹대전")).toBeVisible();
   await expect(pageA.getByText("나", { exact: true })).toBeVisible();
+  // 회원가입 시 이름(검증유저)이 랭킹에 표시되고 '이름 없음'이 아니어야 한다
+  await expect(pageA.getByText("검증유저").first()).toBeVisible();
+  await expect(pageA.getByText("이름 없음")).toHaveCount(0);
+  // 오늘 식단·운동 공유 줄
+  await expect(pageA.getByText(/오늘 🍽/).first()).toBeVisible();
 
   // 초대 토큰 확보
   const g = await dbQuery<{ invite_token: string }>(

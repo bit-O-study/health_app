@@ -6,6 +6,7 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { getUserProfile } from "@/features/profile/data-access";
 
 export type GroupActionResult =
   | { ok: true; id?: string }
@@ -28,9 +29,14 @@ export async function createGroupAction(name: string): Promise<GroupActionResult
   if (error || !data) return { ok: false, error: error?.message ?? "생성 실패" };
   const id = (data as { id: string }).id;
 
+  const profile = await getUserProfile();
+  const metaName =
+    typeof user.user_metadata?.name === "string" ? user.user_metadata.name : "";
+  const displayName = (profile?.name?.trim() || metaName.trim() || "회원").slice(0, 30);
+
   const { error: memErr } = await supabase
     .from("group_members")
-    .insert({ group_id: id, user_id: user.id, role: "owner" });
+    .insert({ group_id: id, user_id: user.id, role: "owner", display_name: displayName });
   if (memErr) return { ok: false, error: memErr.message };
 
   revalidatePath("/groups");

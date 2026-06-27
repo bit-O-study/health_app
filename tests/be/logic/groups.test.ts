@@ -8,6 +8,8 @@ const stat = (over: Partial<MemberStat>): MemberStat => ({
   kcal: over.kcal ?? 0,
   workouts: over.workouts ?? 0,
   days: over.days ?? 0,
+  todayIntake: over.todayIntake ?? 0,
+  todayBurned: over.todayBurned ?? 0,
   isMe: over.isMe ?? false,
 });
 

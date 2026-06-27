@@ -147,8 +147,8 @@ export function DietBoard({
       </div>
 
       {/* 요약 카드 — 칼로리 링 + 탄단지 바 */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="flex items-center gap-5">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-5">
+        <div className="flex items-center gap-4">
           <KcalRing consumed={totals.kcal} target={target.kcal} />
           <div className="min-w-0 flex-1 space-y-2.5">
             <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="#10b981" />
@@ -191,31 +191,37 @@ function KcalRing({ consumed, target }: { consumed: number; target: number }) {
   const C = 2 * Math.PI * R;
   const remain = Math.max(0, target - consumed);
   return (
-    <div className="relative flex h-[88px] w-[88px] shrink-0 items-center justify-center">
-      <svg viewBox="0 0 80 80" className="h-[88px] w-[88px] -rotate-90">
-        <circle cx="40" cy="40" r={R} fill="none" stroke="currentColor" strokeWidth="8" className="text-zinc-200 dark:text-zinc-800" />
-        <circle
-          cx="40"
-          cy="40"
-          r={R}
-          fill="none"
-          stroke={over ? "#ef4444" : "#10b981"}
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeDasharray={C}
-          strokeDashoffset={C * (1 - pct)}
-        />
-      </svg>
-      <div className="absolute flex flex-col items-center">
-        <span className="text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-          {consumed}
-        </span>
-        <span className="text-[10px] font-semibold text-zinc-400">
-          / {target}
-        </span>
+    <div className="flex shrink-0 flex-col items-center gap-1">
+      <div className="relative h-20 w-20">
+        <svg viewBox="0 0 80 80" className="h-20 w-20 -rotate-90">
+          <circle cx="40" cy="40" r={R} fill="none" stroke="currentColor" strokeWidth="8" className="text-zinc-200 dark:text-zinc-800" />
+          <circle
+            cx="40"
+            cy="40"
+            r={R}
+            fill="none"
+            stroke={over ? "#ef4444" : "#10b981"}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            strokeDashoffset={C * (1 - pct)}
+          />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-base font-extrabold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
+            {consumed}
+          </span>
+          <span className="mt-0.5 text-[10px] font-semibold leading-none text-zinc-400">
+            / {target}
+          </span>
+        </div>
       </div>
-      <span className="absolute -bottom-0.5 whitespace-nowrap text-[10px] font-bold text-zinc-400">
-        {over ? `+${consumed - target}` : `${remain} 남음`}
+      <span
+        className={`whitespace-nowrap text-[11px] font-bold ${
+          over ? "text-rose-500" : "text-zinc-400"
+        }`}
+      >
+        {over ? `+${consumed - target} 초과` : `${remain} 남음`}
       </span>
     </div>
   );

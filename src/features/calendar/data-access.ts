@@ -11,7 +11,10 @@ import {
 } from "@/features/routine/calories";
 import { getWorkoutDurationsRange } from "@/features/workout-timer/workout-sessions";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
-import { getConditioningItem } from "@/features/routine/conditioning-catalog";
+import {
+  conditioningDefaults,
+  getConditioningItem,
+} from "@/features/routine/conditioning-catalog";
 import { basalMetabolicRate } from "@/features/diet/calorie-target";
 import { getFoodLogsForDate, type FoodLog } from "@/features/diet/data-access";
 
@@ -109,11 +112,13 @@ export async function getMonthlyCalendar(
     speed: number | string | null;
   }[]) {
     if (!r.item_id) continue;
+    // 스냅샷이 비면 카탈로그 기본값으로 보정 — 메인 화면 '완료 kcal' 과 일치하게.
+    const d = conditioningDefaults(r.item_id);
     ensure(r.for_date).burned += estimateConditioningKcal(
       weight,
       r.item_id,
-      r.duration_min,
-      r.speed === null ? null : num(r.speed),
+      r.duration_min ?? d.durationMin,
+      r.speed === null ? d.speed : num(r.speed),
     );
   }
   for (const [date, sec] of durMap) ensure(date).durationSec = sec;
@@ -209,12 +214,13 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   }[])
     .filter((r) => r.item_id)
     .map((r) => {
+      const dd = conditioningDefaults(r.item_id!);
       const kcal = Math.round(
         estimateConditioningKcal(
           weight,
           r.item_id!,
-          r.duration_min,
-          r.speed === null ? null : num(r.speed),
+          r.duration_min ?? dd.durationMin,
+          r.speed === null ? dd.speed : num(r.speed),
         ),
       );
       burned += kcal;

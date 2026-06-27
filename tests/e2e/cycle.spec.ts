@@ -36,9 +36,12 @@ test("생리 기록 → 하트·예측·캘린더 마커", async ({ page }) => {
   // 예측 요약(다음 생리) 표시
   await expect(page.getByText("다음 생리")).toBeVisible({ timeout: 8000 });
 
-  // 캘린더에도 생리 마커(하트) + 생리 기록 링크
+  // 진입은 설정에서 조용히(여성). 캘린더엔 대놓고 노출하지 않는다.
+  await page.goto("/settings", { waitUntil: "networkidle" });
+  await expect(page.getByRole("link", { name: /생리 기록/ })).toBeVisible({
+    timeout: 8000,
+  });
   await page.goto("/calendar", { waitUntil: "networkidle" });
-  await page.waitForTimeout(500);
-  await expect(page.getByLabel("생리").first()).toBeVisible({ timeout: 8000 });
-  await expect(page.getByRole("link", { name: /생리 기록/ })).toBeVisible();
+  await page.waitForTimeout(400);
+  await expect(page.getByRole("link", { name: /생리 기록/ })).toHaveCount(0);
 });

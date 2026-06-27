@@ -1,26 +1,10 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Flame,
-  Heart,
-  Utensils,
-  Activity,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, Flame, Utensils } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
-import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
 import { getMonthlyCalendar } from "@/features/calendar/data-access";
-import {
-  getCycleLogsRange,
-  getPeriodStartDates,
-} from "@/features/cycle/data-access";
-import {
-  predictCycle,
-  predictedPeriodDatesInRange,
-} from "@/features/cycle/cycle-predict";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "캘린더" };
@@ -61,53 +45,12 @@ export default async function CalendarPage({
   const next = shiftMonth(year, month0, +1);
   const monthParam = (mm: { year: number; month0: number }) =>
     `${mm.year}-${pad(mm.month0 + 1)}`;
-
   const today = seoulYmd();
-  const [ty, tm] = today.split("-").map(Number);
-  const isCurrentMonth = ty === year && tm === month0 + 1;
-  const isFutureMonth = year > ty || (year === ty && month0 + 1 > tm);
 
-  // 기초대사 소비를 셀 일수 — 가입일부터 오늘까지(이번달)·월말까지(지난달). 가입 이전은 0.
-  // (가입 첫날엔 1일치만 잡혀야 함 — 한 달치가 잡히던 버그 수정.)
-  const signupYmd = new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Seoul",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).format(new Date(user.created_at));
-  const epochDay = (s: string) => {
-    const [y, mo, d] = s.split("-").map(Number);
-    return Math.floor(Date.UTC(y, mo - 1, d) / 86_400_000);
-  };
-  const startCount = signupYmd > from ? signupYmd : from;
-  const endCount = isFutureMonth ? null : isCurrentMonth ? today : to;
-  const daysCounted =
-    endCount && signupYmd <= to && startCount <= endCount
-      ? epochDay(endCount) - epochDay(startCount) + 1
-      : 0;
-
-  const { byDate, intakeTotal, workoutBurnedTotal, bmr } =
-    await getMonthlyCalendar(from, to);
-
-  // 생리 마커(여성만): 실제 생리일(❤️) + 예정일(빈 하트).
-  const profile = await getUserProfile();
-  const isFemale = profile?.gender === "female";
-  const periodSet = new Set<string>();
-  const predictedSet = new Set<string>();
-  if (isFemale) {
-    const [logs, startDates] = await Promise.all([
-      getCycleLogsRange(from, to),
-      getPeriodStartDates(),
-    ]);
-    for (const l of logs) if (l.isPeriod) periodSet.add(l.forDate);
-    const pred = predictCycle(startDates, today);
-    for (const d of predictedPeriodDatesInRange(pred, from, to)) {
-      if (!periodSet.has(d) && d >= today) predictedSet.add(d);
-    }
-  }
-
-  const bmrBurned = bmr * daysCounted;
-  const totalBurned = bmrBurned + workoutBurnedTotal;
+  const { byDate, intakeTotal, workoutBurnedTotal } = await getMonthlyCalendar(
+    from,
+    to,
+  );
 
   // 셀 구성(월요일 시작)
   const firstJsDay = new Date(Date.UTC(year, month0, 1)).getUTCDay();
@@ -169,29 +112,14 @@ export default async function CalendarPage({
                     : "border-transparent"
                 }`}
               >
-                <span className="relative flex w-full items-center justify-center">
-                  <span
-                    className={`text-xs font-bold ${
-                      isToday
-                        ? "text-emerald-700 dark:text-emerald-400"
-                        : "text-zinc-700 dark:text-zinc-300"
-                    }`}
-                  >
-                    {day}
-                  </span>
-                  {periodSet.has(date) ? (
-                    <Heart
-                      aria-label="생리"
-                      size={10}
-                      className="absolute right-0 top-0 fill-rose-500 text-rose-500"
-                    />
-                  ) : predictedSet.has(date) ? (
-                    <Heart
-                      aria-label="생리 예정"
-                      size={10}
-                      className="absolute right-0 top-0 text-rose-300 dark:text-rose-500/60"
-                    />
-                  ) : null}
+                <span
+                  className={`text-xs font-bold ${
+                    isToday
+                      ? "text-emerald-700 dark:text-emerald-400"
+                      : "text-zinc-700 dark:text-zinc-300"
+                  }`}
+                >
+                  {day}
                 </span>
                 {s && s.intake > 0 ? (
                   <span className="mt-0.5 text-[10px] font-bold tabular-nums text-amber-600 dark:text-amber-400">
@@ -208,16 +136,6 @@ export default async function CalendarPage({
           })}
         </div>
       </div>
-
-      {isFemale ? (
-        <Link
-          href="/cycle"
-          className="mt-3 flex items-center justify-center gap-1.5 rounded-xl border border-rose-200 bg-rose-50/60 py-2.5 text-sm font-bold text-rose-600 transition hover:bg-rose-100 dark:border-rose-500/30 dark:bg-rose-950/20 dark:text-rose-300"
-        >
-          <Heart aria-hidden="true" size={15} className="fill-rose-500 text-rose-500" />
-          생리 기록 · 예측 보기
-        </Link>
-      ) : null}
 
       {/* 월 요약 */}
       <div className="mt-5 space-y-2">
@@ -237,33 +155,6 @@ export default async function CalendarPage({
             label="운동 소비"
             value={workoutBurnedTotal}
           />
-          <SummaryCard
-            icon={<Activity size={16} />}
-            tone="zinc"
-            label={`기초대사 소비 (${bmr}/일×${daysCounted}일)`}
-            value={bmrBurned}
-          />
-          <SummaryCard
-            icon={<Flame size={16} />}
-            tone="rose"
-            label="총 소비 (기초+운동)"
-            value={totalBurned}
-          />
-        </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-4 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-            섭취 − 총 소비
-          </span>
-          <p
-            className={`mt-0.5 text-2xl font-extrabold tabular-nums ${
-              intakeTotal - totalBurned > 0
-                ? "text-amber-600 dark:text-amber-400"
-                : "text-emerald-600 dark:text-emerald-400"
-            }`}
-          >
-            {intakeTotal - totalBurned > 0 ? "+" : ""}
-            {(intakeTotal - totalBurned).toLocaleString()} kcal
-          </p>
         </div>
       </div>
     </main>
@@ -277,15 +168,13 @@ function SummaryCard({
   value,
 }: {
   icon: React.ReactNode;
-  tone: "amber" | "emerald" | "zinc" | "rose";
+  tone: "amber" | "emerald";
   label: string;
   value: number;
 }) {
   const toneCls = {
     amber: "text-amber-600 dark:text-amber-400",
     emerald: "text-emerald-600 dark:text-emerald-400",
-    zinc: "text-zinc-600 dark:text-zinc-300",
-    rose: "text-rose-600 dark:text-rose-400",
   }[tone];
   return (
     <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">

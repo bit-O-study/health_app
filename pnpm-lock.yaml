@@ -29,9 +29,15 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      korean-lunar-calendar:
+        specifier: ^0.4.0
+        version: 0.4.0
       lucide-react:
         specifier: ^1.16.0
         version: 1.16.0(react@19.2.4)
+      lunar-javascript:
+        specifier: ^1.7.7
+        version: 1.7.7
       next:
         specifier: 16.2.6
         version: 16.2.6(@babel/core@7.29.0)(@playwright/test@1.60.0)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -1997,6 +2003,10 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
+  korean-lunar-calendar@0.4.0:
+    resolution: {integrity: sha512-kJXyH3sI/butJxCBtsLXlMJsl5qqNKNjduf1Na0s7XXwP+D/Wdlx0R0/S5ygxPVFSXf/JZ3bBKaCP6bGWhgZ0w==}
+    engines: {node: '>= 16.14.0'}
+
   language-subtag-registry@0.3.23:
     resolution: {integrity: sha512-0K65Lea881pHotoGEa5gDlMxt3pctLi2RplBb7Ezh4rRdLEOtgi7n4EwK9lamnUCkKBqaeKRVebTq6BAxSkpXQ==}
 
@@ -2103,6 +2113,9 @@ packages:
     resolution: {integrity: sha512-dYwyPzb4MEKpGUmNYk3WKWPnMrHs3FKM+q94kAnJrcDIqqn1hq2xY8scaS2ovsOCM5D51ey2gaRG3PBb1vgoYQ==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  lunar-javascript@1.7.7:
+    resolution: {integrity: sha512-u/KYiwPIBo/0bT+WWfU7qO1d+aqeB90Tuy4ErXenr2Gam0QcWeezUvtiOIyXR7HbVnW2I1DKfU0NBvzMZhbVQw==}
 
   maath@0.10.8:
     resolution: {integrity: sha512-tRvbDF0Pgqz+9XUa4jjfgAQ8/aPKmQdWXilFu2tMy4GWj4NOsx99HlULO4IeREfbO3a0sA145DZYyvXPkybm0g==}
@@ -4854,6 +4867,8 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
+  korean-lunar-calendar@0.4.0: {}
+
   language-subtag-registry@0.3.23: {}
 
   language-tags@1.0.9:
@@ -4935,6 +4950,8 @@ snapshots:
   lucide-react@1.16.0(react@19.2.4):
     dependencies:
       react: 19.2.4
+
+  lunar-javascript@1.7.7: {}
 
   maath@0.10.8(@types/three@0.184.1)(three@0.184.0):
     dependencies:

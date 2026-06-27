@@ -21,6 +21,8 @@ type Row = {
   carbs_g: number | string | null;
   fat_g: number | string | null;
   amount: string | null;
+  category: string | null;
+  photo_url: string | null;
 };
 
 const num = (v: number | string | null): number | null => {
@@ -43,7 +45,7 @@ export const getFoodLogsForDate = cache(async function getFoodLogsForDate(
 
   const { data, error } = await supabase
     .from("food_logs")
-    .select("id, meal, position, name, kcal, protein_g, carbs_g, fat_g, amount")
+    .select("id, meal, position, name, kcal, protein_g, carbs_g, fat_g, amount, category, photo_url")
     .eq("user_id", user.id)
     .eq("for_date", dateYmd)
     .order("meal", { ascending: true })
@@ -62,5 +64,7 @@ export const getFoodLogsForDate = cache(async function getFoodLogsForDate(
       carbs: num(r.carbs_g),
       fat: num(r.fat_g),
       amount: r.amount,
+      category: r.category,
+      photoUrl: r.photo_url,
     }));
 });

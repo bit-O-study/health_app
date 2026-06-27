@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarDays, Dumbbell, Settings, Utensils } from "lucide-react";
+import { CalendarDays, Dumbbell, Settings, Users, Utensils } from "lucide-react";
 
 type Tab = {
   href: string;
@@ -27,6 +27,12 @@ const TABS: Tab[] = [
     match: (p) => p.startsWith("/calendar"),
   },
   {
+    href: "/groups",
+    label: "그룹",
+    icon: Users,
+    match: (p) => p.startsWith("/groups"),
+  },
+  {
     href: "/settings",
     label: "설정",
     icon: Settings,
@@ -37,7 +43,7 @@ const TABS: Tab[] = [
 // 로그인/온보딩 등 앱 외 화면에선 숨긴다.
 const HIDDEN_PREFIXES = ["/login", "/onboarding"];
 
-/** 모바일 하단 탭 네비게이션 — 운동/식단/운동목록/설정. */
+/** 모바일 하단 탭 네비게이션 — 운동/식단/캘린더/그룹/설정. */
 export function BottomNav() {
   const pathname = usePathname() ?? "/";
   const hidden = HIDDEN_PREFIXES.some((h) => pathname.startsWith(h));

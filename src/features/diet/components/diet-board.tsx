@@ -3,8 +3,10 @@
 import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Camera,
   ChevronLeft,
   ChevronRight,
+  Loader2,
   Plus,
   Search,
   Trash2,
@@ -24,7 +26,12 @@ import {
   deleteFoodLogAction,
   type FoodInput,
 } from "@/features/diet/diet-actions";
-import { searchFoods, type FoodItem } from "@/features/diet/food-catalog";
+import {
+  searchFoods,
+  FOOD_CATEGORIES,
+  type FoodItem,
+} from "@/features/diet/food-catalog";
+import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import type { MacroTarget } from "@/features/diet/calorie-target";
 
 const MEAL_ICON: Record<Meal, string> = {
@@ -89,6 +96,8 @@ export function DietBoard({
       carbs: input.carbs,
       fat: input.fat,
       amount: input.amount,
+      category: input.category ?? null,
+      photoUrl: input.photoUrl ?? null,
     };
     setLogs((prev) => [...prev, optimistic]);
     start(async () => {
@@ -147,8 +156,8 @@ export function DietBoard({
       </div>
 
       {/* 요약 카드 — 칼로리 링 + 탄단지 바 */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-        <div className="flex items-center gap-5">
+      <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-5">
+        <div className="flex items-center gap-4">
           <KcalRing consumed={totals.kcal} target={target.kcal} />
           <div className="min-w-0 flex-1 space-y-2.5">
             <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="#10b981" />
@@ -191,31 +200,37 @@ function KcalRing({ consumed, target }: { consumed: number; target: number }) {
   const C = 2 * Math.PI * R;
   const remain = Math.max(0, target - consumed);
   return (
-    <div className="relative flex h-[88px] w-[88px] shrink-0 items-center justify-center">
-      <svg viewBox="0 0 80 80" className="h-[88px] w-[88px] -rotate-90">
-        <circle cx="40" cy="40" r={R} fill="none" stroke="currentColor" strokeWidth="8" className="text-zinc-200 dark:text-zinc-800" />
-        <circle
-          cx="40"
-          cy="40"
-          r={R}
-          fill="none"
-          stroke={over ? "#ef4444" : "#10b981"}
-          strokeWidth="8"
-          strokeLinecap="round"
-          strokeDasharray={C}
-          strokeDashoffset={C * (1 - pct)}
-        />
-      </svg>
-      <div className="absolute flex flex-col items-center">
-        <span className="text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-          {consumed}
-        </span>
-        <span className="text-[10px] font-semibold text-zinc-400">
-          / {target}
-        </span>
+    <div className="flex shrink-0 flex-col items-center gap-1">
+      <div className="relative h-20 w-20">
+        <svg viewBox="0 0 80 80" className="h-20 w-20 -rotate-90">
+          <circle cx="40" cy="40" r={R} fill="none" stroke="currentColor" strokeWidth="8" className="text-zinc-200 dark:text-zinc-800" />
+          <circle
+            cx="40"
+            cy="40"
+            r={R}
+            fill="none"
+            stroke={over ? "#ef4444" : "#10b981"}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            strokeDashoffset={C * (1 - pct)}
+          />
+        </svg>
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-base font-extrabold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
+            {consumed}
+          </span>
+          <span className="mt-0.5 text-[10px] font-semibold leading-none text-zinc-400">
+            / {target}
+          </span>
+        </div>
       </div>
-      <span className="absolute -bottom-0.5 whitespace-nowrap text-[10px] font-bold text-zinc-400">
-        {over ? `+${consumed - target}` : `${remain} 남음`}
+      <span
+        className={`whitespace-nowrap text-[11px] font-bold ${
+          over ? "text-rose-500" : "text-zinc-400"
+        }`}
+      >
+        {over ? `+${consumed - target} 초과` : `${remain} 남음`}
       </span>
     </div>
   );
@@ -289,9 +304,22 @@ function MealSection({
         <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
           {items.map((it) => (
             <li key={it.id} className="flex items-center gap-2 py-2">
+              {it.photoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={it.photoUrl}
+                  alt={it.name}
+                  className="h-10 w-10 shrink-0 rounded-lg object-cover"
+                />
+              ) : null}
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                   {it.name}
+                  {it.category ? (
+                    <span className="ml-1.5 rounded bg-zinc-100 px-1 py-0.5 text-[10px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                      {it.category}
+                    </span>
+                  ) : null}
                   {it.amount ? (
                     <span className="ml-1.5 text-xs font-normal text-zinc-400">
                       {it.amount}
@@ -321,6 +349,77 @@ function MealSection({
   );
 }
 
+/** 음식 사진 첨부 — 파일 선택 → 업로드 → 공개 URL. */
+function PhotoPicker({
+  value,
+  onChange,
+}: {
+  value: string | null;
+  onChange: (url: string | null) => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function pick(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    setErr(null);
+    setBusy(true);
+    try {
+      onChange(await uploadFoodPhoto(file));
+    } catch (e2) {
+      setErr(e2 instanceof Error ? e2.message : "업로드 실패");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div>
+      <span className="mb-1 block text-xs font-bold text-zinc-500">사진(선택)</span>
+      {value ? (
+        <div className="relative inline-block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={value}
+            alt="음식 사진"
+            className="h-24 w-24 rounded-xl object-cover"
+          />
+          <button
+            type="button"
+            aria-label="사진 삭제"
+            onClick={() => onChange(null)}
+            className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-800/80 text-white"
+          >
+            <X aria-hidden="true" size={13} />
+          </button>
+        </div>
+      ) : (
+        <label className="flex h-24 w-24 cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border border-dashed border-zinc-300 text-zinc-400 dark:border-zinc-600">
+          {busy ? (
+            <Loader2 aria-hidden="true" size={20} className="animate-spin" />
+          ) : (
+            <Camera aria-hidden="true" size={20} />
+          )}
+          <span className="text-[11px] font-semibold">
+            {busy ? "올리는 중" : "사진 추가"}
+          </span>
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            onChange={pick}
+            disabled={busy}
+            className="hidden"
+          />
+        </label>
+      )}
+      {err ? <p className="mt-1 text-[11px] text-red-500">{err}</p> : null}
+    </div>
+  );
+}
+
 /** amount 표기에서 기준 그램 수를 뽑는다. "100g"→100, "1공기(210g)"→210, "1개"→null. */
 function parseGrams(amount: string): number | null {
   const m = amount.match(/(\d+(?:\.\d+)?)\s*g/);
@@ -343,6 +442,7 @@ function QuantityEditor({
   const baseG = parseGrams(food.amount);
   const [grams, setGrams] = useState(String(baseG ?? 100));
   const [qty, setQty] = useState(1);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   // 배율: 그램 모드면 g/기준g, 인분 모드면 qty.
   const factor = baseG
@@ -365,6 +465,8 @@ function QuantityEditor({
       carbs: r1(food.carbs * factor),
       fat: r1(food.fat * factor),
       amount: amountLabel,
+      category: food.category,
+      photoUrl,
     });
   }
 
@@ -445,6 +547,8 @@ function QuantityEditor({
         </p>
       </div>
 
+      <PhotoPicker value={photoUrl} onChange={setPhotoUrl} />
+
       <button
         type="button"
         onClick={confirm}
@@ -471,7 +575,7 @@ function AddFoodDialog({
 }) {
   const [mode, setMode] = useState<"search" | "manual">("search");
   const [q, setQ] = useState("");
-  const results = useMemo(() => searchFoods(q).slice(0, 40), [q]);
+  const results = useMemo(() => searchFoods(q).slice(0, 200), [q]);
   const [picked, setPicked] = useState<FoodItem | null>(null);
 
   return (
@@ -607,11 +711,13 @@ function AddFoodDialog({
 
   function ManualForm({ onSubmit }: { onSubmit: (i: FoodInput) => void }) {
     const [name, setName] = useState("");
+    const [category, setCategory] = useState("");
     const [kcal, setKcal] = useState("");
     const [protein, setProtein] = useState("");
     const [carbs, setCarbs] = useState("");
     const [fat, setFat] = useState("");
     const [amount, setAmount] = useState("");
+    const [photoUrl, setPhotoUrl] = useState<string | null>(null);
     const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
     const valid = name.trim() !== "" && kcal.trim() !== "" && Number(kcal) >= 0;
     const field =
@@ -621,6 +727,21 @@ function AddFoodDialog({
         <label className="block">
           <span className="mb-1 block text-xs font-bold text-zinc-500">음식 이름</span>
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 직접 만든 도시락" className={field} />
+        </label>
+        <label className="block">
+          <span className="mb-1 block text-xs font-bold text-zinc-500">종류(선택)</span>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className={field}
+          >
+            <option value="">선택 안 함</option>
+            {FOOD_CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
         </label>
         <div className="grid grid-cols-2 gap-3">
           <label className="block">
@@ -646,6 +767,7 @@ function AddFoodDialog({
             <input value={fat} onChange={(e) => setFat(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
           </label>
         </div>
+        <PhotoPicker value={photoUrl} onChange={setPhotoUrl} />
         <button
           type="button"
           disabled={!valid}
@@ -658,6 +780,8 @@ function AddFoodDialog({
               carbs: numOrNull(carbs),
               fat: numOrNull(fat),
               amount: amount.trim() || null,
+              category: category || null,
+              photoUrl,
             })
           }
           className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"

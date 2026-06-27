@@ -44,10 +44,10 @@ describe("음식 카탈로그 검색", () => {
     expect(searchFoods("").length).toBe(FOOD_ITEMS.length);
   });
 
-  it("모든 항목은 kcal 양수 + id 유니크", () => {
+  it("모든 항목은 kcal 0 이상 + id 유니크", () => {
     const ids = new Set(FOOD_ITEMS.map((f) => f.id));
-    expect(ids.size).toBe(FOOD_ITEMS.length);
-    for (const f of FOOD_ITEMS) expect(f.kcal).toBeGreaterThan(0);
+    expect(ids.size).toBe(FOOD_ITEMS.length); // id 중복 없음
+    for (const f of FOOD_ITEMS) expect(f.kcal).toBeGreaterThanOrEqual(0); // 제로콜라=0 허용
     expect(getFoodItem("rice")?.name).toBe("흰쌀밥");
   });
 });

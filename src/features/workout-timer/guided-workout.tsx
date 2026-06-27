@@ -85,6 +85,8 @@ export type GuidedItem =
       durationMin: number | null;
       speed: number | null;
       incline: number | null;
+      sets: number | null;
+      reps: number | null;
       /** 개인 메모. null = 없음. */
       memo: string | null;
     };
@@ -369,6 +371,8 @@ export function GuidedOverlay({
   const [editDuration, setEditDuration] = useState<number | null>(null);
   const [editSpeed, setEditSpeed] = useState<number | null>(null);
   const [editIncline, setEditIncline] = useState<number | null>(null);
+  const [editCondSets, setEditCondSets] = useState<number | null>(null);
+  const [editCondReps, setEditCondReps] = useState<number | null>(null);
 
   // 운동별로 정한 값은 그날 localStorage 에 보관 — 운동모드를 나갔다 다시 와도 유지되고
   // 날짜가 바뀌면 초기화돼 편집기(등록)의 초기 데이터부터 다시 시작한다. (직전값 우선)
@@ -399,6 +403,8 @@ export function GuidedOverlay({
         duration: p.includes("duration") ? (it.durationMin ?? 5) : null,
         speed: p.includes("speed") ? (it.speed ?? 1) : null,
         incline: p.includes("incline") ? (it.incline ?? 0) : null,
+        sets: p.includes("sets") ? (it.sets ?? 1) : null,
+        reps: p.includes("reps") ? (it.reps ?? 12) : null,
       };
       if (!saved) setCondEdit(it.rowId, init);
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -407,6 +413,10 @@ export function GuidedOverlay({
       setEditSpeed(init.speed);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditIncline(init.incline);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditCondSets(init.sets);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setEditCondReps(init.reps);
     }
   }, [index, sessionItems]);
 
@@ -431,6 +441,8 @@ export function GuidedOverlay({
     duration?: number | null;
     speed?: number | null;
     incline?: number | null;
+    sets?: number | null;
+    reps?: number | null;
   }) {
     const it = sessionItems[index];
     if (!it) return;
@@ -438,12 +450,16 @@ export function GuidedOverlay({
       duration: editDuration,
       speed: editSpeed,
       incline: editIncline,
+      sets: editCondSets,
+      reps: editCondReps,
     };
     const next = { ...cur, ...patch };
     setCondEdit(it.rowId, next);
     if (patch.duration !== undefined) setEditDuration(patch.duration);
     if (patch.speed !== undefined) setEditSpeed(patch.speed);
     if (patch.incline !== undefined) setEditIncline(patch.incline);
+    if (patch.sets !== undefined) setEditCondSets(patch.sets);
+    if (patch.reps !== undefined) setEditCondReps(patch.reps);
   }
 
   // 유효 세트 수 — 고정 끔이면 스크러버 값, 켜짐이면 계획값.
@@ -547,6 +563,8 @@ export function GuidedOverlay({
       durationMin: captured.durationMin,
       speed: captured.speed,
       incline: captured.incline,
+      sets: captured.sets,
+      reps: captured.reps,
     });
   }
 
@@ -637,6 +655,8 @@ export function GuidedOverlay({
               durationMin: editDuration,
               speed: editSpeed,
               incline: editIncline,
+              sets: editCondSets,
+              reps: editCondReps,
             }
           : item; // advance 직전에 캡쳐
     const isMain = captured.kind === "main";
@@ -883,6 +903,8 @@ export function GuidedOverlay({
             duration={editDuration}
             speed={editSpeed}
             incline={editIncline}
+            sets={editCondSets}
+            reps={editCondReps}
             onChange={putCondEdit}
           />
         ) : null}
@@ -1219,6 +1241,20 @@ function ConditioningSettings({
       label: PARAM_LABEL.incline,
       value: `${item.incline}${PARAM_UNIT.incline}`,
     });
+  if (params.includes("sets") && item.sets != null)
+    chips.push({
+      key: "sets",
+      icon: <ListChecks size={15} aria-hidden="true" />,
+      label: PARAM_LABEL.sets,
+      value: `${item.sets}${PARAM_UNIT.sets}`,
+    });
+  if (params.includes("reps") && item.reps != null)
+    chips.push({
+      key: "reps",
+      icon: <Check size={15} aria-hidden="true" />,
+      label: PARAM_LABEL.reps,
+      value: `${item.reps}${PARAM_UNIT.reps}`,
+    });
   if (chips.length === 0) return null;
   return (
     <div
@@ -1252,16 +1288,22 @@ function CondScrubbers({
   duration,
   speed,
   incline,
+  sets,
+  reps,
   onChange,
 }: {
   itemId: string;
   duration: number | null;
   speed: number | null;
   incline: number | null;
+  sets: number | null;
+  reps: number | null;
   onChange: (patch: {
     duration?: number | null;
     speed?: number | null;
     incline?: number | null;
+    sets?: number | null;
+    reps?: number | null;
   }) => void;
 }) {
   const params = getConditioningItem(itemId)?.params ?? [];
@@ -1300,6 +1342,28 @@ function CondScrubbers({
             max={30}
             step={1}
             onChange={(v) => onChange({ incline: v ?? 0 })}
+          />
+        ) : null}
+        {params.includes("sets") ? (
+          <NumberScrubber
+            label={PARAM_LABEL.sets}
+            value={sets}
+            unit={PARAM_UNIT.sets}
+            min={1}
+            max={20}
+            step={1}
+            onChange={(v) => onChange({ sets: v ?? 1 })}
+          />
+        ) : null}
+        {params.includes("reps") ? (
+          <NumberScrubber
+            label={PARAM_LABEL.reps}
+            value={reps}
+            unit={PARAM_UNIT.reps}
+            min={1}
+            max={100}
+            step={1}
+            onChange={(v) => onChange({ reps: v ?? 1 })}
           />
         ) : null}
       </div>

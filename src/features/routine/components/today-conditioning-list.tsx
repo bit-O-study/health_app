@@ -26,10 +26,13 @@ import { ConditioningIcon } from "@/features/exercises/components/conditioning-i
 import {
   conditioningOptions,
   getConditioningItem,
+  PARAM_LABEL,
   PARAM_UNIT,
   type ConditioningItem,
   type ConditioningKind,
+  type ConditioningParam,
 } from "@/features/routine/conditioning-catalog";
+import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import { dropIndex } from "@/features/routine/plan-order";
 
@@ -42,6 +45,8 @@ export type TodayConditioningItem = {
   durationMin: number | null;
   speed: number | null;
   incline: number | null;
+  sets: number | null;
+  reps: number | null;
   /** 개인 메모. null = 없음. */
   memo: string | null;
 };
@@ -173,6 +178,8 @@ export function TodayConditioningList({
               durationMin: item.durationMin,
               speed: item.speed,
               incline: item.incline,
+              sets: item.sets,
+              reps: item.reps,
             },
       );
       // 행 표시는 로컬 state 로 즉시 갱신. router.refresh() 로 상단 칼로리 카드도 동기화.
@@ -723,7 +730,7 @@ function CondMemoDialog({
   );
 }
 
-/** 워밍업/마무리 1행의 시간·속도·경사 인라인 수정 폼. 아이템이 지원하는 params 만 표시. */
+/** 워밍업/마무리 1행의 파라미터(시간/속도/경사 또는 세트/횟수) 인라인 수정 폼. */
 function ConditioningEditForm({
   item,
   onCancel,
@@ -735,20 +742,21 @@ function ConditioningEditForm({
     durationMin: number | null;
     speed: number | null;
     incline: number | null;
+    sets: number | null;
+    reps: number | null;
     detail: string;
   }) => void;
 }) {
   const catalog = getConditioningItem(item.itemId);
   const params = catalog?.params ?? [];
-  const [duration, setDuration] = useState<string>(
-    item.durationMin === null ? "" : String(item.durationMin),
-  );
-  const [speed, setSpeed] = useState<string>(
-    item.speed === null ? "" : String(item.speed),
-  );
-  const [incline, setIncline] = useState<string>(
-    item.incline === null ? "" : String(item.incline),
-  );
+  const str = (n: number | null) => (n === null ? "" : String(n));
+  const [vals, setVals] = useState<Record<ConditioningParam, string>>({
+    duration: str(item.durationMin),
+    speed: str(item.speed),
+    incline: str(item.incline),
+    sets: str(item.sets),
+    reps: str(item.reps),
+  });
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -757,28 +765,37 @@ function ConditioningEditForm({
     const n = Number(s);
     return Number.isFinite(n) ? n : null;
   }
+  const MAX: Record<ConditioningParam, number> = {
+    duration: 600,
+    speed: 200,
+    incline: 100,
+    sets: 20,
+    reps: 100,
+  };
 
   function save() {
-    const dur = params.includes("duration") ? parse(duration) : null;
-    const spd = params.includes("speed") ? parse(speed) : null;
-    const inc = params.includes("incline") ? parse(incline) : null;
-    function ok(v: number | null, max: number): boolean {
-      return v === null || (Number.isFinite(v) && v >= 0 && v <= max);
-    }
-    if (!ok(dur, 600) || !ok(spd, 200) || !ok(inc, 100)) {
-      setError("값 범위를 확인해 주세요 (시간 0~600, 속도 0~200, 경사 0~100)");
+    const get = (p: ConditioningParam) =>
+      params.includes(p) ? parse(vals[p]) : null;
+    const next = {
+      durationMin: get("duration"),
+      speed: get("speed"),
+      incline: get("incline"),
+      sets: get("sets"),
+      reps: get("reps"),
+    };
+    const okRange = params.every((p) => {
+      const v = get(p);
+      return v === null || (Number.isFinite(v) && v >= 0 && v <= MAX[p]);
+    });
+    if (!okRange) {
+      setError("값 범위를 확인해 주세요.");
       return;
     }
     start(async () => {
-      const res = await updateConditioningRowAction(item.rowId, {
-        durationMin: dur,
-        speed: spd,
-        incline: inc,
-      });
+      const res = await updateConditioningRowAction(item.rowId, next);
       if (res.ok) {
         setError(null);
-        const detail = buildDetail(catalog, dur, spd, inc);
-        onSaved({ durationMin: dur, speed: spd, incline: inc, detail });
+        onSaved({ ...next, detail: buildDetail(catalog, next) });
       } else {
         setError(res.error);
       }
@@ -791,63 +808,25 @@ function ConditioningEditForm({
         {item.name}
       </div>
       <div className="flex flex-wrap items-center gap-1.5">
-        {params.includes("duration") ? (
-          <>
+        {params.map((p) => (
+          <span key={p} className="flex items-center gap-1">
             <input
-              aria-label="시간(분)"
-              type="number"
-              inputMode="numeric"
-              value={duration}
-              onChange={(e) => {
-                setDuration(e.target.value);
-                setError(null);
-              }}
-              disabled={pending}
-              className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-            />
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
-              {PARAM_UNIT.duration}
-            </span>
-          </>
-        ) : null}
-        {params.includes("speed") ? (
-          <>
-            <input
-              aria-label="속도"
+              aria-label={PARAM_LABEL[p]}
               type="number"
               inputMode="decimal"
-              value={speed}
+              value={vals[p]}
               onChange={(e) => {
-                setSpeed(e.target.value);
+                setVals((v) => ({ ...v, [p]: e.target.value }));
                 setError(null);
               }}
               disabled={pending}
               className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
             />
             <span className="text-xs text-zinc-500 dark:text-zinc-400">
-              {PARAM_UNIT.speed}
+              {PARAM_UNIT[p]}
             </span>
-          </>
-        ) : null}
-        {params.includes("incline") ? (
-          <>
-            <input
-              aria-label="경사"
-              type="number"
-              inputMode="decimal"
-              value={incline}
-              onChange={(e) => {
-                setIncline(e.target.value);
-                setError(null);
-              }}
-              disabled={pending}
-              className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
-            />
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
-              {PARAM_UNIT.incline}
-            </span>
-          </>
-        ) : null}
+          </span>
+        ))}
         <button
           type="button"
           onClick={save}
@@ -881,19 +860,31 @@ function ConditioningEditForm({
 
 function buildDetail(
   item: ConditioningItem | undefined,
-  duration: number | null,
-  speed: number | null,
-  incline: number | null,
+  v: {
+    durationMin: number | null;
+    speed: number | null;
+    incline: number | null;
+    sets: number | null;
+    reps: number | null;
+  },
 ): string {
   const params = item?.params ?? [];
+  const valOf = (p: ConditioningParam): number | null =>
+    p === "duration"
+      ? v.durationMin
+      : p === "speed"
+        ? v.speed
+        : p === "incline"
+          ? v.incline
+          : p === "sets"
+            ? v.sets
+            : v.reps;
   const parts: string[] = [];
-  if (duration !== null && params.includes("duration"))
-    parts.push(`${duration}${PARAM_UNIT.duration}`);
-  if (speed !== null && params.includes("speed"))
-    parts.push(`${speed}${PARAM_UNIT.speed}`);
-  if (incline !== null && params.includes("incline"))
-    parts.push(`${incline}${PARAM_UNIT.incline}`);
-  return parts.join(" ·") || "—";
+  for (const p of params) {
+    const x = valOf(p);
+    if (x !== null) parts.push(`${x}${PARAM_UNIT[p]}`);
+  }
+  return parts.join(" · ") || "—";
 }
 
 /** 편집 모드 하단의"워밍업/마무리에 추가" 점선 박스. 종목 선택 → 즉시 추가. */
@@ -944,22 +935,16 @@ function AddConditioningSlot({
   return (
     <div className="rounded-xl border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3">
       <div className="flex flex-wrap items-center gap-2">
-        <select
-          aria-label="항목"
+        <ExerciseSearchSelect
+          ariaLabel="항목"
+          options={options}
           value={itemId}
-          onChange={(e) => {
-            setItemId(e.target.value);
+          disabled={pending || options.length === 0}
+          onChange={(id) => {
+            setItemId(id);
             setError(null);
           }}
-          disabled={pending || options.length === 0}
-          className="h-9 min-w-[10rem] flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
-        >
-          {options.map((o) => (
-            <option key={o.id} value={o.id}>
-              {o.name}
-            </option>
-          ))}
-        </select>
+        />
         <button
           type="button"
           onClick={submit}

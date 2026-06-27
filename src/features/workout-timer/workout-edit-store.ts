@@ -15,6 +15,8 @@ export type CondEdit = {
   duration: number | null;
   speed: number | null;
   incline: number | null;
+  sets: number | null;
+  reps: number | null;
 };
 type Store = {
   date: string;

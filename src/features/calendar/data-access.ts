@@ -184,7 +184,9 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
       .maybeSingle(),
   ]);
 
-  let burned = 0;
+  // 합계는 raw로 누적해 마지막에 한 번만 반올림한다(월간 집계·운동모드 총합과 동일한 방식).
+  // 항목별 표시 kcal은 보기 좋게 개별 반올림하되, burned 총합에는 raw를 더한다.
+  let burnedRaw = 0;
   const workouts = ((exRes.data ?? []) as {
     exercise_id: string | null;
     sets: number | null;
@@ -193,8 +195,9 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   }[])
     .filter((r) => r.exercise_id)
     .map((r) => {
-      const kcal = Math.round(estimateStrengthKcal(weight, r.exercise_id!, num(r.sets)));
-      burned += kcal;
+      const raw = estimateStrengthKcal(weight, r.exercise_id!, num(r.sets));
+      burnedRaw += raw;
+      const kcal = Math.round(raw);
       return {
         name: getCatalogExercise(r.exercise_id!)?.name ?? r.exercise_id!,
         sets: num(r.sets),
@@ -215,15 +218,14 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
     .filter((r) => r.item_id)
     .map((r) => {
       const dd = conditioningDefaults(r.item_id!);
-      const kcal = Math.round(
-        estimateConditioningKcal(
-          weight,
-          r.item_id!,
-          r.duration_min ?? dd.durationMin,
-          r.speed === null ? dd.speed : num(r.speed),
-        ),
+      const raw = estimateConditioningKcal(
+        weight,
+        r.item_id!,
+        r.duration_min ?? dd.durationMin,
+        r.speed === null ? dd.speed : num(r.speed),
       );
-      burned += kcal;
+      burnedRaw += raw;
+      const kcal = Math.round(raw);
       const item = getConditioningItem(r.item_id!);
       const parts: string[] = [];
       if (r.duration_min != null) parts.push(`${r.duration_min}분`);
@@ -241,5 +243,6 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
     num((durRes.data as { duration_sec?: number } | null)?.duration_sec),
   );
 
+  const burned = Math.round(burnedRaw);
   return { intake, burned, durationSec, foods, workouts, conditioning };
 }

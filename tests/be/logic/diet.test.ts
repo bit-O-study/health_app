@@ -1,0 +1,53 @@
+import { describe, expect, it } from "vitest";
+
+import { dailyTarget } from "@/features/diet/calorie-target";
+import { searchFoods, getFoodItem, FOOD_ITEMS } from "@/features/diet/food-catalog";
+
+describe("dailyTarget — 권장 칼로리·탄단지", () => {
+  it("키·몸무게 있으면 Mifflin-St Jeor 기반 TDEE", () => {
+    const t = dailyTarget({ gender: "male", weightKg: 75, heightCm: 178 });
+    // BMR = 10*75 + 6.25*178 - 5*30 + 5 = 1717.5 → *1.5 ≈ 2576 → 10단위 반올림
+    expect(t.kcal).toBeGreaterThan(2400);
+    expect(t.kcal).toBeLessThan(2700);
+    // 단백질 = 체중*1.6
+    expect(t.protein).toBe(120);
+    // 탄단지 합이 대략 kcal 와 맞다(±50)
+    const sum = t.protein * 4 + t.carbs * 4 + t.fat * 9;
+    expect(Math.abs(sum - t.kcal)).toBeLessThanOrEqual(50);
+  });
+
+  it("키·몸무게 없으면 성별 기본값", () => {
+    expect(dailyTarget({ gender: "male", weightKg: null, heightCm: null }).kcal).toBe(2000);
+    expect(dailyTarget({ gender: "female", weightKg: null, heightCm: null }).kcal).toBe(1800);
+  });
+
+  it("여성이 남성보다 BMR 낮다(같은 체격)", () => {
+    const m = dailyTarget({ gender: "male", weightKg: 70, heightCm: 170 });
+    const f = dailyTarget({ gender: "female", weightKg: 70, heightCm: 170 });
+    expect(f.kcal).toBeLessThan(m.kcal);
+  });
+});
+
+describe("음식 카탈로그 검색", () => {
+  it("이름 부분일치", () => {
+    const r = searchFoods("닭");
+    expect(r.some((f) => f.id === "chicken-breast")).toBe(true);
+  });
+
+  it("카테고리로도 검색", () => {
+    const r = searchFoods("과일");
+    expect(r.length).toBeGreaterThan(0);
+    expect(r.every((f) => f.category === "과일")).toBe(true);
+  });
+
+  it("빈 검색어는 전체", () => {
+    expect(searchFoods("").length).toBe(FOOD_ITEMS.length);
+  });
+
+  it("모든 항목은 kcal 양수 + id 유니크", () => {
+    const ids = new Set(FOOD_ITEMS.map((f) => f.id));
+    expect(ids.size).toBe(FOOD_ITEMS.length);
+    for (const f of FOOD_ITEMS) expect(f.kcal).toBeGreaterThan(0);
+    expect(getFoodItem("rice")?.name).toBe("흰쌀밥");
+  });
+});

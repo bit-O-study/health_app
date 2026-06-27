@@ -1261,4 +1261,49 @@ $$;
 revoke all on function public.verify_otp_and_reset(text, text, text, text) from public;
 grant execute on function public.verify_otp_and_reset(text, text, text, text) to anon, authenticated;
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 식단 기록(food_logs) — 날짜·끼니별 음식 + 칼로리/탄단지. 끼니: 아침/점심/저녁/간식.
+-- 같은 음식 중복 로깅 허용(유니크 없음).
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.food_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  meal text not null check (meal in ('breakfast', 'lunch', 'dinner', 'snack')),
+  position int not null default 0,
+  name text not null,
+  kcal numeric(7, 1) not null default 0,
+  protein_g numeric(6, 1),
+  carbs_g numeric(6, 1),
+  fat_g numeric(6, 1),
+  amount text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists food_logs_user_date_idx
+  on public.food_logs (user_id, for_date desc, meal, position);
+
+alter table public.food_logs enable row level security;
+
+drop policy if exists "Users can read own food logs" on public.food_logs;
+create policy "Users can read own food logs"
+  on public.food_logs for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own food logs" on public.food_logs;
+create policy "Users can insert own food logs"
+  on public.food_logs for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own food logs" on public.food_logs;
+create policy "Users can update own food logs"
+  on public.food_logs for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own food logs" on public.food_logs;
+create policy "Users can delete own food logs"
+  on public.food_logs for delete
+  using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

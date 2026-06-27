@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
+import { BottomNav } from "@/components/bottom-nav";
 import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
@@ -76,6 +77,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <AppSplash />
         {children}
+        <BottomNav />
         <PWARegister />
         <Analytics />
         <SpeedInsights />

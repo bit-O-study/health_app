@@ -9,6 +9,7 @@ import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { saveRoutineAction } from "@/features/routine/actions";
 import { saveProfileAction } from "@/features/profile/actions";
 import { upsertGymAction } from "@/features/gym/gym-actions";
+import { GymPlaceSuggestions } from "@/features/gym/components/gym-place-suggestions";
 import {
   DEFAULT_KOREAN_GYM_EQUIPMENT,
   GYM_EQUIPMENT_GROUPS,
@@ -350,6 +351,13 @@ export function OnboardingFlow() {
                   placeholder="예: 강남 OO 헬스"
                   maxLength={100}
                   className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                />
+                <GymPlaceSuggestions
+                  query={gymName}
+                  onPick={(picked, addr) => {
+                    setGymName(picked);
+                    if (addr) setGymAddress(addr);
+                  }}
                 />
               </label>
               <label className="block">

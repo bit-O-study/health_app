@@ -2,19 +2,48 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Copy, LogOut, Trash2 } from "lucide-react";
+import { Check, Copy, LogOut, MessageCircle, Trash2 } from "lucide-react";
 
 import {
   deleteGroupAction,
   leaveGroupAction,
 } from "@/features/groups/group-actions";
 
+type KakaoLike = {
+  isInitialized: () => boolean;
+  init: (key: string) => void;
+  Share?: { sendDefault: (opts: unknown) => void };
+};
+
+/** 카카오 JS SDK 로드 + init. 키(NEXT_PUBLIC_KAKAO_JS_KEY) 없으면 null. */
+async function loadKakao(): Promise<KakaoLike | null> {
+  const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+  if (!key || typeof window === "undefined") return null;
+  const w = window as unknown as { Kakao?: KakaoLike };
+  if (!w.Kakao) {
+    await new Promise<void>((resolve, reject) => {
+      const s = document.createElement("script");
+      s.src = "https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js";
+      s.async = true;
+      s.onload = () => resolve();
+      s.onerror = () => reject(new Error("sdk load fail"));
+      document.head.appendChild(s);
+    }).catch(() => {});
+  }
+  const Kakao = w.Kakao;
+  if (!Kakao) return null;
+  if (!Kakao.isInitialized()) Kakao.init(key);
+  return Kakao;
+}
+
 export function GroupControls({
   groupId,
+  groupName,
   inviteToken,
   isOwner,
 }: {
   groupId: string;
+  groupName: string;
   inviteToken: string;
   isOwner: boolean;
 }) {
@@ -22,8 +51,10 @@ export function GroupControls({
   const [pending, start] = useTransition();
   const [copied, setCopied] = useState(false);
 
+  const inviteUrl = () => `${window.location.origin}/groups/join/${inviteToken}`;
+
   async function copyLink() {
-    const url = `${window.location.origin}/groups/join/${inviteToken}`;
+    const url = inviteUrl();
     try {
       await navigator.clipboard.writeText(url);
     } catch {
@@ -31,6 +62,43 @@ export function GroupControls({
     }
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
+  }
+
+  async function shareKakao() {
+    const url = inviteUrl();
+    // 1) 카카오 JS SDK(전용 카드) — 키 있을 때
+    try {
+      const Kakao = await loadKakao();
+      if (Kakao?.Share) {
+        Kakao.Share.sendDefault({
+          objectType: "text",
+          text: `${groupName} 그룹에 초대합니다!\n운동 랭킹대전에 함께 참여해요 💪`,
+          link: { mobileWebUrl: url, webUrl: url },
+          buttonTitle: "그룹 참여하기",
+        });
+        return;
+      }
+    } catch {
+      /* 폴백으로 진행 */
+    }
+    // 2) 기기 공유 시트(모바일은 카카오톡 선택 가능)
+    const nav = navigator as Navigator & {
+      share?: (data: ShareData) => Promise<void>;
+    };
+    if (nav.share) {
+      try {
+        await nav.share({
+          title: `${groupName} 그룹 초대`,
+          text: "운동 그룹에 초대합니다",
+          url,
+        });
+        return;
+      } catch {
+        /* 취소 등 — 복사로 폴백 */
+      }
+    }
+    // 3) 최후: 링크 복사
+    await copyLink();
   }
 
   function leave() {
@@ -53,8 +121,16 @@ export function GroupControls({
     <div className="space-y-2">
       <button
         type="button"
+        onClick={shareKakao}
+        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#FEE500] text-base font-bold text-[#191600] transition hover:brightness-95"
+      >
+        <MessageCircle aria-hidden="true" size={18} /> 카카오톡으로 초대
+      </button>
+
+      <button
+        type="button"
         onClick={copyLink}
-        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500"
+        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 text-base font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
       >
         {copied ? (
           <>

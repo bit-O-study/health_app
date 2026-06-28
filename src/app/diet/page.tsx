@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
-import { getFoodLogsForDate } from "@/features/diet/data-access";
+import { getFoodLogsForDate, getMealPhotosForDate } from "@/features/diet/data-access";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { seoulYmd } from "@/features/routine/data";
 import { DietBoard } from "@/features/diet/components/diet-board";
@@ -27,6 +27,7 @@ export default async function DietPage({
     typeof sp?.d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(sp.d) ? sp.d : today;
 
   const logs = await getFoodLogsForDate(date);
+  const mealPhotos = await getMealPhotosForDate(date);
   const target = dailyTarget({
     gender: profile.gender === "female" ? "female" : "male",
     weightKg: profile.weightKg,
@@ -35,7 +36,13 @@ export default async function DietPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
-      <DietBoard date={date} today={today} logs={logs} target={target} />
+      <DietBoard
+        date={date}
+        today={today}
+        logs={logs}
+        target={target}
+        mealPhotos={mealPhotos}
+      />
     </main>
   );
 }

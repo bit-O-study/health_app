@@ -26,6 +26,7 @@ import {
   deleteFoodLogAction,
   type FoodInput,
 } from "@/features/diet/diet-actions";
+import { setMealPhotoAction } from "@/features/diet/meal-photo-actions";
 import {
   searchFoods,
   FOOD_CATEGORIES,
@@ -46,16 +47,27 @@ export function DietBoard({
   today,
   logs: initial,
   target,
+  mealPhotos,
 }: {
   date: string;
   today: string;
   logs: FoodLog[];
   target: MacroTarget;
+  mealPhotos: Record<Meal, string | null>;
 }) {
   const router = useRouter();
   const [, start] = useTransition();
   const [logs, setLogs] = useState<FoodLog[]>(initial);
+  const [photos, setPhotos] = useState<Record<Meal, string | null>>(mealPhotos);
   const [adding, setAdding] = useState<Meal | null>(null);
+
+  function setMealPhoto(meal: Meal, url: string | null) {
+    setPhotos((p) => ({ ...p, [meal]: url }));
+    start(async () => {
+      await setMealPhotoAction(meal, url, date);
+      router.refresh();
+    });
+  }
 
   const totals = useMemo(() => {
     let kcal = 0,
@@ -174,6 +186,8 @@ export function DietBoard({
             key={meal}
             meal={meal}
             items={logs.filter((l) => l.meal === meal)}
+            photo={photos[meal]}
+            onSetPhoto={(url) => setMealPhoto(meal, url)}
             onAdd={() => setAdding(meal)}
             onDelete={removeFood}
           />
@@ -266,11 +280,15 @@ function MacroBar({
 function MealSection({
   meal,
   items,
+  photo,
+  onSetPhoto,
   onAdd,
   onDelete,
 }: {
   meal: Meal;
   items: FoodLog[];
+  photo: string | null;
+  onSetPhoto: (url: string | null) => void;
   onAdd: () => void;
   onDelete: (id: string) => void;
 }) {
@@ -296,6 +314,12 @@ function MealSection({
           추가
         </button>
       </div>
+
+      {/* 끼니 사진 — 음식별이 아니라 이 끼니 전체를 한 장으로 */}
+      <div className="mb-3">
+        <PhotoPicker value={photo} onChange={onSetPhoto} label={`${MEAL_LABEL[meal]} 사진`} />
+      </div>
+
       {items.length === 0 ? (
         <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
           아직 기록이 없어요
@@ -304,14 +328,6 @@ function MealSection({
         <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
           {items.map((it) => (
             <li key={it.id} className="flex items-center gap-2 py-2">
-              {it.photoUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={it.photoUrl}
-                  alt={it.name}
-                  className="h-10 w-10 shrink-0 rounded-lg object-cover"
-                />
-              ) : null}
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                   {it.name}
@@ -353,9 +369,11 @@ function MealSection({
 function PhotoPicker({
   value,
   onChange,
+  label = "사진(선택)",
 }: {
   value: string | null;
   onChange: (url: string | null) => void;
+  label?: string;
 }) {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
@@ -377,7 +395,7 @@ function PhotoPicker({
 
   return (
     <div>
-      <span className="mb-1 block text-xs font-bold text-zinc-500">사진(선택)</span>
+      <span className="mb-1 block text-xs font-bold text-zinc-500">{label}</span>
       {value ? (
         <div className="relative inline-block">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -442,7 +460,6 @@ function QuantityEditor({
   const baseG = parseGrams(food.amount);
   const [grams, setGrams] = useState(String(baseG ?? 100));
   const [qty, setQty] = useState(1);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   // 배율: 그램 모드면 g/기준g, 인분 모드면 qty.
   const factor = baseG
@@ -466,7 +483,6 @@ function QuantityEditor({
       fat: r1(food.fat * factor),
       amount: amountLabel,
       category: food.category,
-      photoUrl,
     });
   }
 
@@ -546,8 +562,6 @@ function QuantityEditor({
           {kcal} kcal
         </p>
       </div>
-
-      <PhotoPicker value={photoUrl} onChange={setPhotoUrl} />
 
       <button
         type="button"
@@ -717,7 +731,6 @@ function AddFoodDialog({
     const [carbs, setCarbs] = useState("");
     const [fat, setFat] = useState("");
     const [amount, setAmount] = useState("");
-    const [photoUrl, setPhotoUrl] = useState<string | null>(null);
     const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
     const valid = name.trim() !== "" && kcal.trim() !== "" && Number(kcal) >= 0;
     const field =
@@ -767,7 +780,6 @@ function AddFoodDialog({
             <input value={fat} onChange={(e) => setFat(e.target.value)} type="number" inputMode="decimal" placeholder="g" className={field} />
           </label>
         </div>
-        <PhotoPicker value={photoUrl} onChange={setPhotoUrl} />
         <button
           type="button"
           disabled={!valid}
@@ -781,7 +793,6 @@ function AddFoodDialog({
               fat: numOrNull(fat),
               amount: amount.trim() || null,
               category: category || null,
-              photoUrl,
             })
           }
           className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"

@@ -78,7 +78,7 @@ export function GroupControls({
       if (Kakao?.Share) {
         Kakao.Share.sendDefault({
           objectType: "text",
-          text: `${groupName} 그룹에 초대합니다!\n운동 랭킹대전에 함께 참여해요 💪`,
+          text: `${groupName} 그룹에 초대합니다!\n운동 랭킹대전에 함께 참여해요 💪\n${url}`,
           link: { mobileWebUrl: url, webUrl: url },
           buttonTitle: "그룹 참여하기",
         });
@@ -93,9 +93,10 @@ export function GroupControls({
     };
     if (nav.share) {
       try {
+        // 링크를 text 안에도 넣어, 일부 공유 대상(카카오톡 등)이 url 필드를 빼먹어도 링크가 남게 한다.
         await nav.share({
           title: `${groupName} 그룹 초대`,
-          text: "운동 그룹에 초대합니다",
+          text: `${groupName} 운동 그룹에 초대합니다 💪\n${url}`,
           url,
         });
         return;

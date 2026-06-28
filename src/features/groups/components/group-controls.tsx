@@ -72,41 +72,32 @@ export function GroupControls({
 
   async function shareKakao() {
     const url = inviteUrl();
-    const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
 
-    // 1) 카카오 JS SDK(버튼 카드) — 키 있을 때
-    if (!key) {
-      window.alert(
-        "[진단] 카카오 JS 키가 빌드에 없어요(NEXT_PUBLIC_KAKAO_JS_KEY). 기기 공유로 보냅니다.",
-      );
-    } else {
+    // 1) 카카오 카드(버튼) 우선 — 깔끔한 버튼 카드로 전송
+    const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
+    if (key) {
       try {
         const Kakao = await loadKakao();
-        if (!Kakao) throw new Error("SDK 로드 실패");
-        if (!Kakao.Share) throw new Error("Kakao.Share 사용 불가");
-        const link = { mobileWebUrl: url, webUrl: url };
-        Kakao.Share.sendDefault({
-          objectType: "feed",
-          content: {
-            title: `${groupName} · 운동 그룹 초대`,
-            description: "운동 랭킹대전에 함께 참여해요 💪",
-            imageUrl: `${siteBase()}/icon-512.png`,
-            link,
-          },
-          buttons: [{ title: "그룹 참여하기", link }],
-        });
-        return; // 카드+버튼 전송 성공
-      } catch (e) {
-        // 보통 카카오 개발자센터 Web 플랫폼 도메인 미등록(KOE006)일 때 여기로 온다.
-        window.alert(
-          "[진단] 카카오 카드 공유 실패: " +
-            (e instanceof Error ? e.message : String(e)) +
-            "\n→ 카카오 개발자센터 > 앱 설정 > 플랫폼 > Web 에 도메인 등록을 확인하세요.\n일단 기기 공유/링크 복사로 보냅니다.",
-        );
+        if (Kakao?.Share) {
+          const link = { mobileWebUrl: url, webUrl: url };
+          Kakao.Share.sendDefault({
+            objectType: "feed",
+            content: {
+              title: `${groupName} · 운동 그룹 초대`,
+              description: "운동 랭킹대전에 함께 참여해요 💪",
+              imageUrl: `${siteBase()}/icon-512.png`,
+              link,
+            },
+            buttons: [{ title: "그룹 참여하기", link }],
+          });
+          return;
+        }
+      } catch {
+        /* 폴백 진행 */
       }
     }
 
-    // 2) 기기 공유 시트(모바일은 카카오톡 선택 가능)
+    // 2) 카카오 SDK 불가(키 없음/로드 실패) → 기기 공유 시트
     const nav = navigator as Navigator & {
       share?: (data: ShareData) => Promise<void>;
     };
@@ -114,7 +105,7 @@ export function GroupControls({
       try {
         await nav.share({
           title: `${groupName} 그룹 초대`,
-          text: `${groupName} 운동 그룹에 초대합니다 💪\n${url}`,
+          text: `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`,
           url,
         });
         return;

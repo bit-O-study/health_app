@@ -68,3 +68,35 @@ export const getFoodLogsForDate = cache(async function getFoodLogsForDate(
       photoUrl: r.photo_url,
     }));
 });
+
+export type MealPhotos = Record<Meal, string | null>;
+
+const EMPTY_MEAL_PHOTOS: MealPhotos = {
+  breakfast: null,
+  lunch: null,
+  dinner: null,
+  snack: null,
+};
+
+function isMealKey(v: string): v is Meal {
+  return v === "breakfast" || v === "lunch" || v === "dinner" || v === "snack";
+}
+
+/** 특정 날짜의 끼니별 사진(아침/점심/저녁/간식). */
+export const getMealPhotosForDate = cache(async function getMealPhotosForDate(
+  dateYmd: string,
+): Promise<MealPhotos> {
+  const user = await getCurrentUser();
+  if (!user) return { ...EMPTY_MEAL_PHOTOS };
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("meal_photos")
+    .select("meal, photo_url")
+    .eq("user_id", user.id)
+    .eq("for_date", dateYmd);
+  const out: MealPhotos = { ...EMPTY_MEAL_PHOTOS };
+  for (const r of (data ?? []) as { meal: string; photo_url: string }[]) {
+    if (isMealKey(r.meal)) out[r.meal] = r.photo_url;
+  }
+  return out;
+});

@@ -14,6 +14,7 @@ import {
   upsertGymAction,
   type GymSearchHit,
 } from "@/features/gym/gym-actions";
+import { GymPlaceSuggestions } from "@/features/gym/components/gym-place-suggestions";
 
 export type GymFormInitial = {
   id: string | null;
@@ -115,6 +116,15 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
             maxLength={100}
             className="mt-1 block w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-950 dark:text-zinc-100 focus:border-emerald-500 focus:outline-none"
           />
+          {isNew ? (
+            <GymPlaceSuggestions
+              query={name}
+              onPick={(picked, addr) => {
+                setName(picked);
+                if (addr) setAddress(addr);
+              }}
+            />
+          ) : null}
         </label>
         <label className="mt-3 block">
           <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">

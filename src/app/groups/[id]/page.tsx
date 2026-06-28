@@ -121,6 +121,7 @@ export default async function GroupDetailPage({
 
       <GroupControls
         groupId={detail.id}
+        groupName={detail.name}
         inviteToken={detail.inviteToken}
         isOwner={detail.isOwner}
       />

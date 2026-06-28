@@ -104,6 +104,25 @@ export default async function GroupMemberPage({
         <h2 className="mb-2 flex items-center gap-1 text-sm font-bold text-zinc-500 dark:text-zinc-400">
           <Utensils size={15} /> 오늘 식단
         </h2>
+        {/* 끼니별 사진 */}
+        {day.mealPhotos.length > 0 ? (
+          <div className="mb-3 flex flex-wrap gap-2">
+            {day.mealPhotos.map((p, i) => (
+              <figure key={i} className="text-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={p.photoUrl}
+                  alt={`${p.meal} 사진`}
+                  className="h-24 w-24 rounded-xl object-cover"
+                />
+                <figcaption className="mt-0.5 text-[11px] font-semibold text-zinc-500">
+                  {p.meal}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        ) : null}
+
         {day.foods.length === 0 ? (
           <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-zinc-400 dark:border-zinc-700">
             오늘 기록한 식단이 없어요.
@@ -112,14 +131,6 @@ export default async function GroupMemberPage({
           <ul className="divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
             {day.foods.map((f, i) => (
               <li key={i} className="flex items-center gap-2 px-4 py-2.5">
-                {f.photoUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={f.photoUrl}
-                    alt={f.name}
-                    className="h-10 w-10 shrink-0 rounded-lg object-cover"
-                  />
-                ) : null}
                 <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                   <span className="mr-1.5 rounded bg-zinc-100 px-1 py-0.5 text-[10px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                     {f.meal}

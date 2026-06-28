@@ -7,6 +7,32 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { ALL_GYM_EQUIPMENT_IDS } from "@/features/gym/gym-equipment-catalog";
+import { parseKakaoPlaces, type GymPlace } from "@/features/gym/gym-places";
+
+/**
+ * 카카오 로컬(키워드) 장소검색으로 실제 헬스장 찾기 — 이름 자동완성용.
+ * 무료(developers.kakao.com, REST API 키). 키(KAKAO_REST_API_KEY)가 없으면
+ * 빈 배열을 돌려줘 앱은 그대로 수기 입력으로 동작한다.
+ */
+export async function searchGymPlacesAction(query: string): Promise<GymPlace[]> {
+  const q = query.trim();
+  if (q.length < 2) return [];
+  const key = process.env.KAKAO_REST_API_KEY;
+  if (!key) return [];
+  try {
+    const url = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(
+      q,
+    )}&size=8`;
+    const res = await fetch(url, {
+      headers: { Authorization: `KakaoAK ${key}` },
+      cache: "no-store",
+    });
+    if (!res.ok) return [];
+    return parseKakaoPlaces(await res.json());
+  } catch {
+    return [];
+  }
+}
 
 export type GymSearchHit = {
   id: string;

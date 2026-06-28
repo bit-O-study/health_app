@@ -104,30 +104,39 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
   const today = seoulYmd();
   const { from, to } = weekRange(today);
 
-  const [{ data: profiles }, { data: exRows }, { data: condRows }, { data: foodRows }] =
-    await Promise.all([
-      supabase.from("profiles").select("user_id, name, weight_kg").in("user_id", memberIds),
-      supabase
-        .from("exercise_completions")
-        .select("user_id, for_date, exercise_id, sets")
-        .in("user_id", memberIds)
-        .eq("status", "done")
-        .gte("for_date", from)
-        .lte("for_date", to),
-      supabase
-        .from("conditioning_completions")
-        .select("user_id, for_date, item_id, duration_min, speed")
-        .in("user_id", memberIds)
-        .eq("status", "done")
-        .gte("for_date", from)
-        .lte("for_date", to),
-      supabase
-        .from("food_logs")
-        .select("user_id, kcal, photo_url, position")
-        .in("user_id", memberIds)
-        .eq("for_date", today)
-        .order("position", { ascending: true }),
-    ]);
+  const [
+    { data: profiles },
+    { data: exRows },
+    { data: condRows },
+    { data: foodRows },
+    { data: mealPhotoRows },
+  ] = await Promise.all([
+    supabase.from("profiles").select("user_id, name, weight_kg").in("user_id", memberIds),
+    supabase
+      .from("exercise_completions")
+      .select("user_id, for_date, exercise_id, sets")
+      .in("user_id", memberIds)
+      .eq("status", "done")
+      .gte("for_date", from)
+      .lte("for_date", to),
+    supabase
+      .from("conditioning_completions")
+      .select("user_id, for_date, item_id, duration_min, speed")
+      .in("user_id", memberIds)
+      .eq("status", "done")
+      .gte("for_date", from)
+      .lte("for_date", to),
+    supabase
+      .from("food_logs")
+      .select("user_id, kcal")
+      .in("user_id", memberIds)
+      .eq("for_date", today),
+    supabase
+      .from("meal_photos")
+      .select("user_id, meal, photo_url")
+      .in("user_id", memberIds)
+      .eq("for_date", today),
+  ]);
 
   const nameOf = new Map<string, string>();
   const weightOf = new Map<string, number>();
@@ -143,23 +152,28 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     weightOf.set(p.user_id, num(p.weight_kg) || 65);
   }
 
-  // 오늘 섭취 kcal + 식단 사진 썸네일(식단 공유)
+  // 오늘 섭취 kcal(식단)
   const todayIntakeOf = new Map<string, number>();
-  const todayPhotosOf = new Map<string, string[]>();
-  const MAX_PHOTOS = 4;
-  for (const r of (foodRows ?? []) as {
-    user_id: string;
-    kcal: number | string;
-    photo_url: string | null;
-  }[]) {
+  for (const r of (foodRows ?? []) as { user_id: string; kcal: number | string }[]) {
     todayIntakeOf.set(r.user_id, (todayIntakeOf.get(r.user_id) ?? 0) + num(r.kcal));
-    if (r.photo_url) {
-      const arr = todayPhotosOf.get(r.user_id) ?? [];
-      if (arr.length < MAX_PHOTOS) {
-        arr.push(r.photo_url);
-        todayPhotosOf.set(r.user_id, arr);
-      }
-    }
+  }
+  // 오늘 끼니 사진 썸네일(아침→점심→저녁→간식 순)
+  const MEAL_ORDER = ["breakfast", "lunch", "dinner", "snack"];
+  const photosByUser = new Map<string, { meal: string; url: string }[]>();
+  for (const r of (mealPhotoRows ?? []) as {
+    user_id: string;
+    meal: string;
+    photo_url: string;
+  }[]) {
+    if (!r.photo_url) continue;
+    const arr = photosByUser.get(r.user_id) ?? [];
+    arr.push({ meal: r.meal, url: r.photo_url });
+    photosByUser.set(r.user_id, arr);
+  }
+  const todayPhotosOf = new Map<string, string[]>();
+  for (const [uid, arr] of photosByUser) {
+    arr.sort((a, b) => MEAL_ORDER.indexOf(a.meal) - MEAL_ORDER.indexOf(b.meal));
+    todayPhotosOf.set(uid, arr.map((x) => x.url));
   }
   // 오늘 운동 소비 kcal (raw 누적)
   const todayBurnedOf = new Map<string, number>();
@@ -257,7 +271,8 @@ export type MemberDay = {
   date: string;
   intake: number;
   burned: number;
-  foods: { name: string; meal: string; kcal: number; photoUrl: string | null }[];
+  foods: { name: string; meal: string; kcal: number }[];
+  mealPhotos: { meal: string; photoUrl: string }[];
   workouts: { name: string; detail: string; kcal: number }[];
 };
 
@@ -287,29 +302,39 @@ export async function getGroupMemberDay(
   const ids = rows.map((r) => r.user_id);
   if (!ids.includes(user.id) || !ids.includes(memberId)) return null; // 둘 다 멤버여야
 
-  const [{ data: profile }, { data: exRows }, { data: condRows }, { data: foodRows }] =
-    await Promise.all([
-      supabase.from("profiles").select("name, weight_kg").eq("user_id", memberId).maybeSingle(),
-      supabase
-        .from("exercise_completions")
-        .select("exercise_id, sets, reps, weight_kg")
-        .eq("user_id", memberId)
-        .eq("for_date", date)
-        .eq("status", "done"),
-      supabase
-        .from("conditioning_completions")
-        .select("item_id, duration_min, speed, sets, reps")
-        .eq("user_id", memberId)
-        .eq("for_date", date)
-        .eq("status", "done"),
-      supabase
-        .from("food_logs")
-        .select("name, meal, kcal, photo_url, position")
-        .eq("user_id", memberId)
-        .eq("for_date", date)
-        .order("meal", { ascending: true })
-        .order("position", { ascending: true }),
-    ]);
+  const [
+    { data: profile },
+    { data: exRows },
+    { data: condRows },
+    { data: foodRows },
+    { data: photoRows },
+  ] = await Promise.all([
+    supabase.from("profiles").select("name, weight_kg").eq("user_id", memberId).maybeSingle(),
+    supabase
+      .from("exercise_completions")
+      .select("exercise_id, sets, reps, weight_kg")
+      .eq("user_id", memberId)
+      .eq("for_date", date)
+      .eq("status", "done"),
+    supabase
+      .from("conditioning_completions")
+      .select("item_id, duration_min, speed, sets, reps")
+      .eq("user_id", memberId)
+      .eq("for_date", date)
+      .eq("status", "done"),
+    supabase
+      .from("food_logs")
+      .select("name, meal, kcal, position")
+      .eq("user_id", memberId)
+      .eq("for_date", date)
+      .order("meal", { ascending: true })
+      .order("position", { ascending: true }),
+    supabase
+      .from("meal_photos")
+      .select("meal, photo_url")
+      .eq("user_id", memberId)
+      .eq("for_date", date),
+  ]);
 
   const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
   const displayName =
@@ -366,13 +391,17 @@ export async function getGroupMemberDay(
     name: string;
     meal: string;
     kcal: number | string;
-    photo_url: string | null;
   }[]).map((r) => ({
     name: r.name,
     meal: MEAL_LABEL[r.meal] ?? r.meal,
     kcal: Math.round(num(r.kcal)),
-    photoUrl: r.photo_url,
   }));
+
+  const MEAL_ORDER = ["breakfast", "lunch", "dinner", "snack"];
+  const mealPhotos = ((photoRows ?? []) as { meal: string; photo_url: string }[])
+    .filter((r) => r.photo_url)
+    .sort((a, b) => MEAL_ORDER.indexOf(a.meal) - MEAL_ORDER.indexOf(b.meal))
+    .map((r) => ({ meal: MEAL_LABEL[r.meal] ?? r.meal, photoUrl: r.photo_url }));
 
   return {
     name: displayName,
@@ -380,6 +409,7 @@ export async function getGroupMemberDay(
     intake: foods.reduce((s, f) => s + f.kcal, 0),
     burned: Math.round(burnedRaw),
     foods,
+    mealPhotos,
     workouts,
   };
 }

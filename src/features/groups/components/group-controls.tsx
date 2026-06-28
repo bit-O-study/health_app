@@ -97,8 +97,11 @@ export function GroupControls({
         /* 취소 등 — 복사로 폴백 */
       }
     }
-    // 3) 최후: 링크 복사
+    // 3) 최후: 링크 복사 + 안내
     await copyLink();
+    window.alert(
+      "카카오톡 공유 창을 열 수 없어 초대 링크를 복사했어요.\n카카오톡 대화방에 붙여넣어 보내주세요.",
+    );
   }
 
   function leave() {

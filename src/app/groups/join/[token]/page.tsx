@@ -12,7 +12,9 @@ export default async function JoinGroupPage({
 }) {
   const { token } = await params;
   const user = await getCurrentUser();
-  if (!user) redirect(`/login?next=${encodeURIComponent(`/groups/join/${token}`)}`);
+  // 비로그인(예: 카카오톡 인앱 브라우저)이면 로그인 후 다시 이 초대 링크로 돌아오게 한다.
+  if (!user)
+    redirect(`/login?redirect=${encodeURIComponent(`/groups/join/${token}`)}`);
 
   // 서버 컴포넌트 렌더 중이라 revalidatePath를 쓰는 서버 액션 대신 RPC를 직접 호출한다.
   const supabase = await createSupabaseServerClient();

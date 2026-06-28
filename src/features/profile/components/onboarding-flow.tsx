@@ -28,7 +28,11 @@ type Step = "gender" | "experience" | "body" | "gym" | "recommend";
 
 const STEP_ORDER: Step[] = ["gender", "experience", "body", "gym", "recommend"];
 
-export function OnboardingFlow() {
+export function OnboardingFlow({
+  redirectOnSuccess = "/",
+}: {
+  redirectOnSuccess?: string;
+} = {}) {
   const [step, setStep] = useState<Step>("gender");
   const [gender, setGender] = useState<Gender | null>(null);
   const [experience, setExperience] = useState<ExperienceLevel | null>(null);
@@ -470,7 +474,7 @@ export function OnboardingFlow() {
               initialSplits={recommendation.splits}
               initialVariantId={recommendation.variantId}
               saveAction={handleSaveRoutine}
-              redirectOnSuccess="/"
+              redirectOnSuccess={redirectOnSuccess}
             />
 
             <div className="flex flex-wrap gap-2">

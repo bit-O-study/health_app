@@ -33,9 +33,13 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
     setOtpStep(false);
   }
 
-  /** 가입 성공(세션 보유) 후 온보딩으로. */
+  /** 가입 성공(세션 보유) 후 온보딩으로. 초대 링크 등 목적지가 있으면 이어서 전달. */
   function finishSignup() {
-    router.replace("/onboarding");
+    const q =
+      redirectTo && redirectTo !== "/"
+        ? `?redirect=${encodeURIComponent(redirectTo)}`
+        : "";
+    router.replace(`/onboarding${q}`);
     router.refresh();
   }
 

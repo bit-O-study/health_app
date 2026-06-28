@@ -196,7 +196,7 @@ export default async function CalendarPage({
         <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
           이번 달 요약
         </h2>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 gap-2">
           <SummaryCard
             icon={<Utensils size={16} />}
             tone="amber"
@@ -209,8 +209,8 @@ export default async function CalendarPage({
             label="운동 소비"
             value={workoutBurnedTotal}
           />
-          <NetCard net={net} />
         </div>
+        <NetCard net={net} />
       </div>
     </main>
   );
@@ -245,7 +245,7 @@ function SummaryCard({
   );
 }
 
-/** 순 칼로리 = 섭취 − 소비. 양수면 섭취 우위(rose), 음수면 소비 우위(emerald). */
+/** 순 칼로리 = 섭취 − 소비. 양수면 섭취 우위(rose), 음수면 소비 우위(emerald). 전체 너비 가로 카드. */
 function NetCard({ net }: { net: number }) {
   const surplus = net > 0;
   const toneCls = surplus
@@ -253,16 +253,16 @@ function NetCard({ net }: { net: number }) {
     : "text-emerald-600 dark:text-emerald-400";
   const sign = net > 0 ? "+" : net < 0 ? "−" : "";
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <span className={`flex items-center gap-1 text-[11px] font-bold ${toneCls}`}>
-        <Scale size={16} />
-        순(섭취-소비)
+    <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
+        <Scale size={15} className="shrink-0" />
+        순 (섭취 − 소비)
       </span>
-      <p className={`mt-1 text-lg font-extrabold tabular-nums ${toneCls}`}>
+      <span className={`whitespace-nowrap text-lg font-extrabold tabular-nums ${toneCls}`}>
         {sign}
         {Math.abs(net).toLocaleString()}
         <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
-      </p>
+      </span>
     </div>
   );
 }

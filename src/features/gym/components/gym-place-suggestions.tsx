@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
 
 import { searchGymPlacesAction } from "@/features/gym/gym-actions";
-import { placeAddress, type GymPlace } from "@/features/gym/naver-places";
+import { placeAddress, type GymPlace } from "@/features/gym/gym-places";
 
 /**
- * 헬스장 이름 입력값(query)으로 네이버 지역검색 결과를 띄우고, 고르면 이름·주소를 채운다.
- * 네이버 키가 없거나 결과가 없으면 아무것도 렌더하지 않는다(앱은 수기 입력으로 동작).
+ * 헬스장 이름 입력값(query)으로 카카오 장소검색 결과를 띄우고, 고르면 이름·주소를 채운다.
+ * 카카오 키가 없거나 결과가 없으면 아무것도 렌더하지 않는다(앱은 수기 입력으로 동작).
  */
 export function GymPlaceSuggestions({
   query,

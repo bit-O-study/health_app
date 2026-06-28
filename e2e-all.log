@@ -1,0 +1,229 @@
+
+Running 38 tests using 1 worker
+
+  x   1 [mobile-chromium] › tests\e2e\add-appends-bottom.spec.ts:9:5 › 편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래로 간다 (31.1s)
+  ok  2 [mobile-chromium] › tests\e2e\admin-account.spec.ts:8:5 › 회원탈퇴: 설정 → 탈퇴 → 로그인화면 + withdrawn_at 기록 (17.5s)
+  ok  3 [mobile-chromium] › tests\e2e\admin-account.spec.ts:34:5 › 관리자 대시보드: 사이드바 메뉴 + 4지표 차트 + 일/월/연 토글 (12.5s)
+  x   4 [mobile-chromium] › tests\e2e\admin-ban.spec.ts:12:5 › 관리자 영구정지 → 회원 차단 → 해제 → 복구 (46.6s)
+  ok  5 [mobile-chromium] › tests\e2e\admin-ban.spec.ts:61:5 › 관리자 기간정지(7일) → 회원 차단 → DB 반영 (39.9s)
+  ok  6 [mobile-chromium] › tests\e2e\completion-persist.spec.ts:9:5 › 루틴 변경으로 행 UUID 가 새로 생겨도 오늘 완료한 운동은 완료로 유지 (23.2s)
+  ok  7 [mobile-chromium] › tests\e2e\completion-persist.spec.ts:112:5 › 부분 완료: 완료한 운동만 루틴 변경 뒤에도 완료로 남고, 안 한 운동은 미완료 (17.3s)
+  ok  8 [mobile-chromium] › tests\e2e\conditioning-reorder-persist.spec.ts:10:5 › 루틴변경으로 오늘 마무리 종목이 달라져도(런닝→스트레칭) 완료 유지 (16.9s)
+  ok  9 [mobile-chromium] › tests\e2e\day-resync.spec.ts:9:5 › day_index 드리프트는 다음 진입 시 현재 루틴 일차로 재정렬된다 (25.3s)
+  ok 10 [mobile-chromium] › tests\e2e\muscle-picker.spec.ts:13:5 › 근육별로 운동선택: 마네킹 부위 선택 → 운동 담기 → 저장 (17.7s)
+  ok 11 [mobile-chromium] › tests\e2e\muscle-picker.spec.ts:67:5 › 온보딩에서 근육별로 운동선택 → 3D 마네킹으로 이동 (9.7s)
+  ok 12 [mobile-chromium] › tests\e2e\muscle-picker.spec.ts:108:5 › 마네킹: 콘솔 에러 없이 3D 본체 렌더 (에러 폴백 아님) (12.8s)
+  ok 13 [mobile-chromium] › tests\e2e\muscle-picker.spec.ts:139:5 › 세부근육 드릴다운: 이두 장두 vs 단두 운동 필터 (14.5s)
+  ok 14 [mobile-chromium] › tests\e2e\muscle-picker.spec.ts:167:5 › 운동 상세: 자극 부위 배지 노출 (14.8s)
+  ok 15 [mobile-chromium] › tests\e2e\per-day-independence.spec.ts:24:5 › 같은 부위가 두 일차에 있어도 한 일차 편집이 다른 일차에 안 샌다 (28.5s)
+  ok 16 [mobile-chromium] › tests\e2e\per-day-independence.spec.ts:75:5 › legacy(day_index NULL) 행이 일차별로 자동 백필된다 (26.6s)
+  ok 17 [mobile-chromium] › tests\e2e\plan-clear-all.spec.ts:8:5 › 전체 운동 초기화: 저장 없이 본운동·워밍업·마무리 즉시 삭제 (14.7s)
+  ok 18 [mobile-chromium] › tests\e2e\plan-editor-delete.spec.ts:10:5 › 개별 운동 삭제 버튼이 그 행을 실제로 지운다 (11.8s)
+  ok 19 [mobile-chromium] › tests\e2e\plan-editor-delete.spec.ts:38:5 › 전체 운동 초기화가 모든 부위의 담은 운동을 비운다 (13.4s)
+  ok 20 [mobile-chromium] › tests\e2e\rest-timer.spec.ts:8:5 › 가이드 화면에서 휴식 시간 설정 + 세트 완료 시 휴식 타이머가 시작된다 (23.9s)
+  ok 21 [mobile-chromium] › tests\e2e\rest-timer.spec.ts:45:5 › 성장 그래프 페이지가 열린다 (10.4s)
+  ok 22 [mobile-chromium] › tests\e2e\restart-routine.spec.ts:12:5 › 오늘만 변경/휴식을 지우고 기준일을 오늘로 리셋한다 (24.8s)
+  ok 23 [mobile-chromium] › tests\e2e\restart-routine.spec.ts:61:5 › '다가오는 7일' 드래그로 루틴을 바꿔도 → 기준(설정) 루틴으로 복귀한다 (23.7s)
+  x  24 [mobile-chromium] › tests\e2e\routine-and-plan.spec.ts:9:7 › routine + plan registration › 7일 루틴(splits=7) 저장이 성공한다 (2.0m)
+  ok 25 [mobile-chromium] › tests\e2e\routine-and-plan.spec.ts:25:7 › routine + plan registration › 세트별 다른 kg(피라미드) 등록이 저장·영속된다 (20.9s)
+  ok 26 [mobile-chromium] › tests\e2e\routine-presets.spec.ts:6:5 › "현재 루틴 저장" 프리셋이 저장되고 목록에 나타난다 (21.5s)
+  ok 27 [mobile-chromium] › tests\e2e\routine-recommend-fill.spec.ts:9:5 › 루틴 빌더: 추천으로 저장하면 운동이 등록되고 운동 화면이 보인다 (16.4s)
+  ok 28 [mobile-chromium] › tests\e2e\routine-submuscle.spec.ts:8:5 › 루틴 빌더: 부위 추가 → 가슴 → '가슴 상부' 세부근육을 보조로 추가 (11.1s)
+  ok 29 [mobile-chromium] › tests\e2e\routine-submuscle.spec.ts:33:5 › 루틴 빌더: 부위 추가 → 팔 → '이두'가 보이고 추가된다 (11.0s)
+  ok 30 [mobile-chromium] › tests\e2e\score-calendar.spec.ts:24:5 › 운동 완료 → 점수와 캘린더에 반영된다 (26.7s)
+  ok 31 [mobile-chromium] › tests\e2e\score-calendar.spec.ts:56:5 › 부위별 밸런스 3D 마네킹이 점수 화면에 렌더된다 (10.7s)
+  ok 32 [mobile-chromium] › tests\e2e\score-calendar.spec.ts:83:5 › 세부근육 단위 밸런스: 토글 + 분포가 운동 기록으로 나타난다 (11.9s)
+  x  33 [mobile-chromium] › tests\e2e\score-calendar.spec.ts:112:5 › 체성분이 있어도 운동 완료가 부위별 점수에 반영된다 (41.5s)
+  ok 34 [mobile-chromium] › tests\e2e\side-volume.spec.ts:12:5 › 사이드로 붙인 삼두는 2개만, 삼두 운동으로 채워진다 (25.2s)
+  ok 35 [mobile-chromium] › tests\e2e\side-volume.spec.ts:61:5 › 이두만 추가하면 삼두 없이 이두 운동만 등록된다 (20.5s)
+  ok 36 [mobile-chromium] › tests\e2e\smoke.spec.ts:23:5 › 주요 페이지가 회원가입 후 에러 없이 렌더된다 (43.3s)
+  ok 37 [mobile-chromium] › tests\e2e\workout-reorder-cross-focus.spec.ts:44:5 › 부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드에 반영된다 (59.6s)
+  x  38 [mobile-chromium] › tests\e2e\workout-reorder.spec.ts:36:5 › 순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두 바뀐 순서를 따른다 (44.3s)
+[teardown] deleted 40 test account(s) + cascaded data
+
+
+  1) [mobile-chromium] › tests\e2e\add-appends-bottom.spec.ts:9:5 › 편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래로 간다 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoContain[2m([22m[32mexpected[39m[2m) // indexOf[22m
+
+    Expected substring: [32m"펙덱 플라이"[39m
+    Received string:    [31m"트라이셉스 푸시다운팔삼두 외측두케이블"[39m
+
+      60 |     await mainUl.locator("li h3").last().innerText()
+      61 |   ).split("\n")[0].trim();
+    > 62 |   expect(lastName).toContain("펙덱 플라이");
+         |                    ^
+      63 | });
+      64 |
+        at C:\git\heltch\health_app\tests\e2e\add-appends-bottom.spec.ts:62:20
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\add-appends-bottom-편집에서-추가한-운동은-멀티-부위-일자에서도-맨-아래로-간다-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\add-appends-bottom-편집에서-추가한-운동은-멀티-부위-일자에서도-맨-아래로-간다-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\add-appends-bottom-편집에서-추가한-운동은-멀티-부위-일자에서도-맨-아래로-간다-mobile-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\add-appends-bottom-편집에서-추가한-운동은-멀티-부위-일자에서도-맨-아래로-간다-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile-chromium] › tests\e2e\admin-ban.spec.ts:12:5 › 관리자 영구정지 → 회원 차단 → 해제 → 복구 ─────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('heading', { name: '오늘의 운동' })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 15000ms[22m
+    [2m  - waiting for getByRole('heading', { name: '오늘의 운동' })[22m
+
+
+      53 |   await tpage.goto("/", { waitUntil: "networkidle" });
+      54 |   await expect(tpage).not.toHaveURL(/\/suspended$/);
+    > 55 |   await expect(tpage.getByRole("heading", { name: "오늘의 운동" })).toBeVisible();
+         |                                                                ^
+      56 |
+      57 |   await tctx.close();
+      58 |   await actx.close();
+        at C:\git\heltch\health_app\tests\e2e\admin-ban.spec.ts:55:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\admin-ban-관리자-영구정지-→-회원-차단-→-해제-→-복구-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\admin-ban-관리자-영구정지-→-회원-차단-→-해제-→-복구-mobile-chromium\test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\admin-ban-관리자-영구정지-→-회원-차단-→-해제-→-복구-mobile-chromium\error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\admin-ban-관리자-영구정지-→-회원-차단-→-해제-→-복구-mobile-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\admin-ban-관리자-영구정지-→-회원-차단-→-해제-→-복구-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [mobile-chromium] › tests\e2e\routine-and-plan.spec.ts:9:7 › routine + plan registration › 7일 루틴(splits=7) 저장이 성공한다 
+
+    [31mTest timeout of 120000ms exceeded.[39m
+
+    Error: locator.click: Test timeout of 120000ms exceeded.
+    Call log:
+    [2m  - waiting for getByText('직접 등록할게요')[22m
+
+
+      13 |     const planner = page.locator('section:has-text("나의 루틴")').last();
+      14 |     await planner.getByRole("button", { name: "7일 루틴" }).click();
+    > 15 |     await page.getByText("직접 등록할게요").click(); // manual fill → redirects to /plan on success
+         |                                      ^
+      16 |     await planner.getByRole("button", { name: "저장" }).click();
+      17 |
+      18 |     // success = navigation to /plan; constraint violation would keep us on the
+        at C:\git\heltch\health_app\tests\e2e\routine-and-plan.spec.ts:15:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\routine-and-plan-routine-p-63a1d-ion-7일-루틴-splits-7-저장이-성공한다-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\routine-and-plan-routine-p-63a1d-ion-7일-루틴-splits-7-저장이-성공한다-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\routine-and-plan-routine-p-63a1d-ion-7일-루틴-splits-7-저장이-성공한다-mobile-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\routine-and-plan-routine-p-63a1d-ion-7일-루틴-splits-7-저장이-성공한다-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [mobile-chromium] › tests\e2e\score-calendar.spec.ts:112:5 › 체성분이 있어도 운동 완료가 부위별 점수에 반영된다 ─────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: locator('section').filter({ hasText: '부위별 밸런스' }).getByText('운동량 기반')
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 15000ms[22m
+    [2m  - waiting for locator('section').filter({ hasText: '부위별 밸런스' }).getByText('운동량 기반')[22m
+
+
+      127 |   const balance = page.locator("section", { hasText: "부위별 밸런스" });
+      128 |   // 운동이 반영되므로 "운동량 기반" 배지여야 하고, "체성분 기반" 이면 안 된다.
+    > 129 |   await expect(balance.getByText("운동량 기반")).toBeVisible();
+          |                                             ^
+      130 |   await expect(balance.getByText("체성분 기반")).toHaveCount(0);
+      131 |   // 부위별 점수 중 0보다 큰 값이 하나 이상 있어야 한다(운동 반영).
+      132 |   const nums = await balance
+        at C:\git\heltch\health_app\tests\e2e\score-calendar.spec.ts:129:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\score-calendar-체성분이-있어도-운동-완료가-부위별-점수에-반영된다-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\score-calendar-체성분이-있어도-운동-완료가-부위별-점수에-반영된다-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\score-calendar-체성분이-있어도-운동-완료가-부위별-점수에-반영된다-mobile-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\score-calendar-체성분이-있어도-운동-완료가-부위별-점수에-반영된다-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [mobile-chromium] › tests\e2e\workout-reorder.spec.ts:36:5 › 순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두 바뀐 순서를 따른다 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoHaveCount[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator:  locator('ul.space-y-2').first().locator('[title="잡고 위·아래로 순서 변경"]')
+    Expected: [32m3[39m
+    Received: [31m4[39m
+    Timeout:  15000ms
+
+    Call log:
+    [2m  - Expect "toHaveCount" with timeout 15000ms[22m
+    [2m  - waiting for locator('ul.space-y-2').first().locator('[title="잡고 위·아래로 순서 변경"]')[22m
+    [2m    33 × locator resolved to 4 elements[22m
+    [2m       - unexpected value "4"[22m
+
+
+      42 |   const mainUl = page.locator("ul.space-y-2").nth(1);
+      43 |   const coolUl = page.locator("ul.space-y-2").nth(2);
+    > 44 |   await expect(warmUl.locator(GRIP)).toHaveCount(3);
+         |                                      ^
+      45 |   await expect(mainUl.locator(GRIP)).toHaveCount(3);
+      46 |   await expect(coolUl.locator(GRIP)).toHaveCount(3);
+      47 |
+        at C:\git\heltch\health_app\tests\e2e\workout-reorder.spec.ts:44:38
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results\workout-reorder-순서-변경-후-운동-시작-시-워밍업·본운동·마무리-모두-바뀐-순서를-따른다-mobile-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results\workout-reorder-순서-변경-후-운동-시작-시-워밍업·본운동·마무리-모두-바뀐-순서를-따른다-mobile-chromium\error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workout-reorder-순서-변경-후-운동-시작-시-워밍업·본운동·마무리-모두-바뀐-순서를-따른다-mobile-chromium\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workout-reorder-순서-변경-후-운동-시작-시-워밍업·본운동·마무리-모두-바뀐-순서를-따른다-mobile-chromium\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    [mobile-chromium] › tests\e2e\add-appends-bottom.spec.ts:9:5 › 편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래로 간다 
+    [mobile-chromium] › tests\e2e\admin-ban.spec.ts:12:5 › 관리자 영구정지 → 회원 차단 → 해제 → 복구 ──────────────
+    [mobile-chromium] › tests\e2e\routine-and-plan.spec.ts:9:7 › routine + plan registration › 7일 루틴(splits=7) 저장이 성공한다 
+    [mobile-chromium] › tests\e2e\score-calendar.spec.ts:112:5 › 체성분이 있어도 운동 완료가 부위별 점수에 반영된다 ──────
+    [mobile-chromium] › tests\e2e\workout-reorder.spec.ts:36:5 › 순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두 바뀐 순서를 따른다 
+  33 passed (16.7m)

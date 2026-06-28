@@ -7,29 +7,28 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { ALL_GYM_EQUIPMENT_IDS } from "@/features/gym/gym-equipment-catalog";
-import { parseNaverPlaces, type GymPlace } from "@/features/gym/naver-places";
+import { parseKakaoPlaces, type GymPlace } from "@/features/gym/gym-places";
 
 /**
- * 네이버 지역(local) 검색으로 실제 헬스장 찾기 — 이름 자동완성용.
- * 무료 검색 API(developers.naver.com). 키(NAVER_SEARCH_CLIENT_ID/SECRET)가 없으면
+ * 카카오 로컬(키워드) 장소검색으로 실제 헬스장 찾기 — 이름 자동완성용.
+ * 무료(developers.kakao.com, REST API 키). 키(KAKAO_REST_API_KEY)가 없으면
  * 빈 배열을 돌려줘 앱은 그대로 수기 입력으로 동작한다.
  */
 export async function searchGymPlacesAction(query: string): Promise<GymPlace[]> {
   const q = query.trim();
   if (q.length < 2) return [];
-  const id = process.env.NAVER_SEARCH_CLIENT_ID;
-  const secret = process.env.NAVER_SEARCH_CLIENT_SECRET;
-  if (!id || !secret) return [];
+  const key = process.env.KAKAO_REST_API_KEY;
+  if (!key) return [];
   try {
-    const url = `https://openapi.naver.com/v1/search/local.json?query=${encodeURIComponent(
+    const url = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(
       q,
-    )}&display=5&sort=random`;
+    )}&size=8`;
     const res = await fetch(url, {
-      headers: { "X-Naver-Client-Id": id, "X-Naver-Client-Secret": secret },
+      headers: { Authorization: `KakaoAK ${key}` },
       cache: "no-store",
     });
     if (!res.ok) return [];
-    return parseNaverPlaces(await res.json());
+    return parseKakaoPlaces(await res.json());
   } catch {
     return [];
   }

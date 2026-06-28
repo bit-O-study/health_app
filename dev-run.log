@@ -1,0 +1,153 @@
+$ vitest run tests/be/logic
+
+ RUN  v4.1.7 C:/git/heltch/health_app
+
+
+ Test Files  27 passed (27)
+      Tests  207 passed (207)
+   Start at  10:36:17
+   Duration  28.27s (transform 39.98s, setup 0ms, import 96.36s, tests 4.29s, environment 3ms)
+
+$ next dev
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.1.1.107:3000
+- Environments: .env
+✓ Ready in 1931ms
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+
+ GET /jog 200 in 2.4s (next.js: 1940ms, proxy.ts: 216ms, application-code: 233ms)
+ GET /jog 200 in 82ms (next.js: 11ms, proxy.ts: 16ms, application-code: 54ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead.
+ GET /jog 200 in 105ms (next.js: 13ms, proxy.ts: 14ms, application-code: 78ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead.
+ GET /jog 200 in 69ms (next.js: 8ms, proxy.ts: 8ms, application-code: 53ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead.
+ GET /jog 200 in 59ms (next.js: 7ms, proxy.ts: 7ms, application-code: 45ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead.
+ GET /jog 200 in 79ms (next.js: 12ms, proxy.ts: 13ms, application-code: 54ms)
+ GET /login 200 in 394ms (next.js: 137ms, proxy.ts: 10ms, application-code: 247ms)
+ GET /onboarding 200 in 2.3s (next.js: 95ms, proxy.ts: 1828ms, application-code: 349ms)
+ GET /onboarding 200 in 959ms (next.js: 8ms, proxy.ts: 649ms, application-code: 301ms)
+ POST /onboarding 200 in 997ms (next.js: 11ms, proxy.ts: 362ms, application-code: 624ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 279ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1671ms (next.js: 14ms, proxy.ts: 437ms, application-code: 1220ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 847ms src/features/routine/actions.ts
+ GET /routine 200 in 1851ms (next.js: 94ms, proxy.ts: 578ms, application-code: 1179ms)
+ GET /routine 200 in 1365ms (next.js: 9ms, proxy.ts: 450ms, application-code: 906ms)
+ GET /admin 200 in 2.8s (next.js: 135ms, proxy.ts: 493ms, application-code: 2.1s)
+ GET /admin/test 200 in 810ms (next.js: 85ms, proxy.ts: 382ms, application-code: 342ms)
+ GET /running 200 in 554ms (next.js: 107ms, proxy.ts: 339ms, application-code: 107ms)
+ GET /login 200 in 90ms (next.js: 8ms, proxy.ts: 9ms, application-code: 73ms)
+ GET /onboarding 200 in 861ms (next.js: 12ms, proxy.ts: 585ms, application-code: 264ms)
+ GET /onboarding 200 in 581ms (next.js: 9ms, proxy.ts: 313ms, application-code: 258ms)
+ POST /onboarding 200 in 857ms (next.js: 12ms, proxy.ts: 332ms, application-code: 513ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 233ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1182ms (next.js: 8ms, proxy.ts: 315ms, application-code: 859ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 513ms src/features/routine/actions.ts
+ GET /routine 200 in 1327ms (next.js: 8ms, proxy.ts: 387ms, application-code: 932ms)
+ GET /routine 200 in 1319ms (next.js: 14ms, proxy.ts: 513ms, application-code: 792ms)
+ GET /admin 200 in 844ms (next.js: 10ms, proxy.ts: 380ms, application-code: 455ms)
+ GET /jog 200 in 415ms (next.js: 10ms, proxy.ts: 313ms, application-code: 92ms)
+ GET /login 200 in 110ms (next.js: 12ms, proxy.ts: 12ms, application-code: 87ms)
+ GET /onboarding 200 in 851ms (next.js: 7ms, proxy.ts: 554ms, application-code: 290ms)
+ GET /onboarding 200 in 665ms (next.js: 10ms, proxy.ts: 344ms, application-code: 311ms)
+ POST /onboarding 200 in 815ms (next.js: 13ms, proxy.ts: 310ms, application-code: 492ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 220ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1127ms (next.js: 11ms, proxy.ts: 297ms, application-code: 820ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 566ms src/features/routine/actions.ts
+ GET /routine 200 in 1285ms (next.js: 10ms, proxy.ts: 300ms, application-code: 975ms)
+ GET /routine 200 in 1158ms (next.js: 12ms, proxy.ts: 338ms, application-code: 808ms)
+ GET /admin 200 in 884ms (next.js: 10ms, proxy.ts: 382ms, application-code: 492ms)
+ GET /login 200 in 131ms (next.js: 10ms, proxy.ts: 9ms, application-code: 112ms)
+ GET /onboarding 200 in 1015ms (next.js: 12ms, proxy.ts: 692ms, application-code: 311ms)
+ GET /onboarding 200 in 669ms (next.js: 7ms, proxy.ts: 399ms, application-code: 263ms)
+ POST /onboarding 200 in 914ms (next.js: 6ms, proxy.ts: 369ms, application-code: 539ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 223ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1064ms (next.js: 7ms, proxy.ts: 337ms, application-code: 720ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 462ms src/features/routine/actions.ts
+ GET /routine 200 in 1366ms (next.js: 13ms, proxy.ts: 347ms, application-code: 1006ms)
+ GET /routine 200 in 1164ms (next.js: 12ms, proxy.ts: 396ms, application-code: 756ms)
+ GET / 200 in 605ms (next.js: 108ms, proxy.ts: 422ms, application-code: 75ms)
+ GET /running 200 in 181ms (next.js: 19ms, proxy.ts: 20ms, application-code: 141ms)
+ GET /running 200 in 121ms (next.js: 14ms, proxy.ts: 16ms, application-code: 91ms)
+ GET /jog 200 in 94ms (next.js: 13ms, proxy.ts: 8ms, application-code: 73ms)
+ GET /jog 200 in 95ms (next.js: 11ms, proxy.ts: 10ms, application-code: 74ms)
+ GET /login 200 in 84ms (next.js: 6ms, proxy.ts: 8ms, application-code: 70ms)
+ GET /onboarding 200 in 958ms (next.js: 9ms, proxy.ts: 683ms, application-code: 266ms)
+ GET /onboarding 200 in 593ms (next.js: 8ms, proxy.ts: 330ms, application-code: 255ms)
+ POST /onboarding 200 in 770ms (next.js: 7ms, proxy.ts: 285ms, application-code: 478ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 200ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1072ms (next.js: 7ms, proxy.ts: 290ms, application-code: 774ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 535ms src/features/routine/actions.ts
+ GET /routine 200 in 1191ms (next.js: 19ms, proxy.ts: 306ms, application-code: 866ms)
+ GET /routine 200 in 1329ms (next.js: 10ms, proxy.ts: 439ms, application-code: 881ms)
+ GET /admin 200 in 876ms (next.js: 10ms, proxy.ts: 350ms, application-code: 516ms)
+ GET /admin/test 200 in 642ms (next.js: 13ms, proxy.ts: 305ms, application-code: 325ms)
+ GET /running 200 in 353ms (next.js: 6ms, proxy.ts: 323ms, application-code: 24ms)
+ GET /login 200 in 117ms (next.js: 7ms, proxy.ts: 7ms, application-code: 103ms)
+ GET /onboarding 200 in 912ms (next.js: 12ms, proxy.ts: 615ms, application-code: 285ms)
+ GET /onboarding 200 in 706ms (next.js: 7ms, proxy.ts: 390ms, application-code: 310ms)
+ POST /onboarding 200 in 822ms (next.js: 8ms, proxy.ts: 350ms, application-code: 464ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 192ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1246ms (next.js: 10ms, proxy.ts: 328ms, application-code: 908ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 613ms src/features/routine/actions.ts
+ GET /routine 200 in 1364ms (next.js: 14ms, proxy.ts: 336ms, application-code: 1014ms)
+ GET /routine 200 in 1145ms (next.js: 29ms, proxy.ts: 364ms, application-code: 751ms)
+ GET /admin 200 in 774ms (next.js: 11ms, proxy.ts: 354ms, application-code: 409ms)
+ GET /jog 200 in 609ms (next.js: 8ms, proxy.ts: 537ms, application-code: 64ms)
+ GET /login 200 in 101ms (next.js: 6ms, proxy.ts: 8ms, application-code: 87ms)
+ GET /onboarding 200 in 981ms (next.js: 7ms, proxy.ts: 677ms, application-code: 297ms)
+ GET /onboarding 200 in 679ms (next.js: 9ms, proxy.ts: 388ms, application-code: 282ms)
+ POST /onboarding 200 in 848ms (next.js: 7ms, proxy.ts: 389ms, application-code: 452ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 210ms src/features/profile/actions.ts
+ POST /onboarding 200 in 987ms (next.js: 7ms, proxy.ts: 325ms, application-code: 654ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 416ms src/features/routine/actions.ts
+ GET /routine 200 in 1402ms (next.js: 12ms, proxy.ts: 307ms, application-code: 1083ms)
+ GET /routine 200 in 1197ms (next.js: 25ms, proxy.ts: 332ms, application-code: 840ms)
+ GET /admin 200 in 787ms (next.js: 8ms, proxy.ts: 393ms, application-code: 386ms)
+ GET /login 200 in 72ms (next.js: 8ms, proxy.ts: 10ms, application-code: 54ms)
+ GET /onboarding 200 in 882ms (next.js: 7ms, proxy.ts: 643ms, application-code: 231ms)
+ GET /onboarding 200 in 560ms (next.js: 7ms, proxy.ts: 315ms, application-code: 238ms)
+ POST /onboarding 200 in 797ms (next.js: 12ms, proxy.ts: 312ms, application-code: 472ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 212ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1101ms (next.js: 10ms, proxy.ts: 341ms, application-code: 749ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 497ms src/features/routine/actions.ts
+ GET /routine 200 in 1196ms (next.js: 9ms, proxy.ts: 336ms, application-code: 850ms)
+ GET /routine 200 in 965ms (next.js: 14ms, proxy.ts: 343ms, application-code: 609ms)
+ GET / 200 in 349ms (next.js: 8ms, proxy.ts: 286ms, application-code: 56ms)
+ GET /running 200 in 91ms (next.js: 13ms, proxy.ts: 20ms, application-code: 58ms)
+ GET /running 200 in 72ms (next.js: 13ms, proxy.ts: 14ms, application-code: 44ms)
+ GET /jog 200 in 63ms (next.js: 6ms, proxy.ts: 6ms, application-code: 52ms)
+ GET /jog 200 in 59ms (next.js: 6ms, proxy.ts: 6ms, application-code: 47ms)
+ GET / 200 in 221ms (next.js: 35ms, proxy.ts: 85ms, application-code: 100ms)
+ GET /login 200 in 88ms (next.js: 8ms, proxy.ts: 7ms, application-code: 73ms)
+ GET /onboarding 200 in 1766ms (next.js: 38ms, proxy.ts: 1434ms, application-code: 295ms)
+ GET /onboarding 200 in 1231ms (next.js: 7ms, proxy.ts: 764ms, application-code: 460ms)
+ POST /onboarding 200 in 818ms (next.js: 17ms, proxy.ts: 339ms, application-code: 462ms)
+  └─ ƒ saveProfileAction("male", "beginner", {"bodyType":"lean","heightCm":175,"weightKg":75}) in 207ms src/features/profile/actions.ts
+ POST /onboarding 200 in 1072ms (next.js: 8ms, proxy.ts: 301ms, application-code: 763ms)
+  └─ ƒ saveRoutineAction(3, "fullbody-3", null) in 487ms src/features/routine/actions.ts
+ GET /routine 200 in 2.7s (next.js: 304ms, proxy.ts: 327ms, application-code: 2.0s)
+ GET /routine 200 in 1903ms (next.js: 8ms, proxy.ts: 317ms, application-code: 1578ms)
+ GET /routine 200 in 2.0s (next.js: 9ms, proxy.ts: 311ms, application-code: 1702ms)
+ GET /jog 200 in 1157ms (next.js: 293ms, proxy.ts: 275ms, application-code: 589ms)
+ GET /jog 200 in 147ms (next.js: 16ms, proxy.ts: 18ms, application-code: 113ms)
+ GET /jog 200 in 175ms (next.js: 20ms, proxy.ts: 21ms, application-code: 134ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead.
+ GET /jog 200 in 164ms (next.js: 17ms, proxy.ts: 14ms, application-code: 133ms)
+ GET /jog 200 in 142ms (next.js: 17ms, proxy.ts: 12ms, application-code: 112ms)
+ GET /jog 200 in 160ms (next.js: 16ms, proxy.ts: 15ms, application-code: 129ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead.
+ GET /jog 200 in 174ms (next.js: 17ms, proxy.ts: 19ms, application-code: 138ms)
+ GET /jog 200 in 597ms (next.js: 161ms, proxy.ts: 51ms, application-code: 385ms)
+ GET /jog 200 in 104ms (next.js: 14ms, proxy.ts: 18ms, application-code: 73ms)
+[browser] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[browser] THREE.WebGLShadowMap: PCFSoftShadowMap has been deprecated. Using PCFShadowMap instead.
+ GET /jog 200 in 86ms (next.js: 12ms, proxy.ts: 11ms, application-code: 64ms)

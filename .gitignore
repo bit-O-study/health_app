@@ -51,3 +51,11 @@ next-env.d.ts
 /playwright/.cache/
 .verify-shots/
 test-*.mjs
+
+# IDE
+/.idea/
+
+# dev scratch / logs
+/scripts/
+*.log
+*.out

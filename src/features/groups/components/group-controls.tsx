@@ -51,7 +51,13 @@ export function GroupControls({
   const [pending, start] = useTransition();
   const [copied, setCopied] = useState(false);
 
-  const inviteUrl = () => `${window.location.origin}/groups/join/${inviteToken}`;
+  // 공개 배포 주소가 설정돼 있으면 그걸로(로컬 테스트 시 localhost 링크가 공유되는 문제 방지).
+  const inviteUrl = () => {
+    const base = (
+      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
+    ).replace(/\/$/, "");
+    return `${base}/groups/join/${inviteToken}`;
+  };
 
   async function copyLink() {
     const url = inviteUrl();

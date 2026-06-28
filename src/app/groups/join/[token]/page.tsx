@@ -1,9 +1,12 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
+import { JoinConfirm } from "@/features/groups/components/join-confirm";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "그룹 참여" };
+export const metadata = { title: "그룹 초대" };
 
 export default async function JoinGroupPage({
   params,
@@ -16,11 +19,29 @@ export default async function JoinGroupPage({
   if (!user)
     redirect(`/login?redirect=${encodeURIComponent(`/groups/join/${token}`)}`);
 
-  // 서버 컴포넌트 렌더 중이라 revalidatePath를 쓰는 서버 액션 대신 RPC를 직접 호출한다.
+  // 가입 전, 토큰으로 그룹 이름만 미리 가져온다(보안 정의자 RPC).
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.rpc("join_group_by_token", {
+  const { data: name } = await supabase.rpc("group_name_by_token", {
     token: token.trim(),
   });
 
-  redirect(!error && data ? `/groups/${data as string}` : "/groups");
+  return (
+    <main className="mx-auto flex min-h-[70vh] w-full max-w-md flex-col items-center justify-center px-4 py-10">
+      {name ? (
+        <JoinConfirm token={token} groupName={name as string} />
+      ) : (
+        <div className="text-center">
+          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+            유효하지 않거나 만료된 초대 링크예요.
+          </p>
+          <Link
+            href="/groups"
+            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
+          >
+            <ChevronLeft size={16} /> 그룹 목록
+          </Link>
+        </div>
+      )}
+    </main>
+  );
 }

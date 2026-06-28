@@ -52,12 +52,12 @@ export function GroupControls({
   const [copied, setCopied] = useState(false);
 
   // 공개 배포 주소가 설정돼 있으면 그걸로(로컬 테스트 시 localhost 링크가 공유되는 문제 방지).
-  const inviteUrl = () => {
-    const base = (
-      process.env.NEXT_PUBLIC_SITE_URL || window.location.origin
-    ).replace(/\/$/, "");
-    return `${base}/groups/join/${inviteToken}`;
-  };
+  const siteBase = () =>
+    (process.env.NEXT_PUBLIC_SITE_URL || window.location.origin).replace(
+      /\/$/,
+      "",
+    );
+  const inviteUrl = () => `${siteBase()}/groups/join/${inviteToken}`;
 
   async function copyLink() {
     const url = inviteUrl();
@@ -76,11 +76,16 @@ export function GroupControls({
     try {
       const Kakao = await loadKakao();
       if (Kakao?.Share) {
+        const link = { mobileWebUrl: url, webUrl: url };
         Kakao.Share.sendDefault({
-          objectType: "text",
-          text: `${groupName} 그룹에 초대합니다!\n운동 랭킹대전에 함께 참여해요 💪\n${url}`,
-          link: { mobileWebUrl: url, webUrl: url },
-          buttonTitle: "그룹 참여하기",
+          objectType: "feed",
+          content: {
+            title: `${groupName} · 운동 그룹 초대`,
+            description: "운동 랭킹대전에 함께 참여해요 💪",
+            imageUrl: `${siteBase()}/icon-512.png`,
+            link,
+          },
+          buttons: [{ title: "그룹 참여하기", link }],
         });
         return;
       }

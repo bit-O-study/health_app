@@ -116,15 +116,16 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
             maxLength={100}
             className="mt-1 block w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-950 dark:text-zinc-100 focus:border-emerald-500 focus:outline-none"
           />
-          {isNew ? (
-            <GymPlaceSuggestions
-              query={name}
-              onPick={(picked, addr) => {
-                setName(picked);
-                if (addr) setAddress(addr);
-              }}
-            />
-          ) : null}
+          <GymPlaceSuggestions
+            query={name}
+            onPick={(picked, addr) => {
+              setName(picked);
+              if (addr) setAddress(addr);
+            }}
+          />
+          <p className="mt-1 text-[11px] text-zinc-400">
+            이름을 입력하면 실제 헬스장이 자동완성돼요(카카오 지도).
+          </p>
         </label>
         <label className="mt-3 block">
           <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">

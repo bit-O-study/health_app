@@ -73,24 +73,7 @@ export function GroupControls({
   async function shareKakao() {
     const url = inviteUrl();
 
-    // 1) 기기 공유 시트 우선 — 카카오톡으로 보내면 '일반 링크'라 그냥 눌러진다(도메인 설정 무관).
-    const nav = navigator as Navigator & {
-      share?: (data: ShareData) => Promise<void>;
-    };
-    if (nav.share) {
-      try {
-        await nav.share({
-          title: `${groupName} 그룹 초대`,
-          text: `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`,
-          url,
-        });
-        return;
-      } catch {
-        /* 취소 등 — 복사로 폴백 */
-      }
-    }
-
-    // 2) 기기 공유 미지원(주로 PC) → 카카오 JS SDK 카드
+    // 1) 카카오 카드(버튼) 우선 — 깔끔한 버튼 카드로 전송
     const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
     if (key) {
       try {
@@ -111,6 +94,23 @@ export function GroupControls({
         }
       } catch {
         /* 폴백 진행 */
+      }
+    }
+
+    // 2) 카카오 SDK 불가(키 없음/로드 실패) → 기기 공유 시트
+    const nav = navigator as Navigator & {
+      share?: (data: ShareData) => Promise<void>;
+    };
+    if (nav.share) {
+      try {
+        await nav.share({
+          title: `${groupName} 그룹 초대`,
+          text: `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`,
+          url,
+        });
+        return;
+      } catch {
+        /* 취소 등 — 복사로 폴백 */
       }
     }
     // 3) 최후: 링크 복사 + 안내

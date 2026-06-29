@@ -425,6 +425,8 @@ async function TodayWorkout({
         // 루틴이 바뀌면(예: '오늘부터 다시 시작') 그리드를 remount 해 새 7일을 확실히
         // 반영한다 — 클라이언트 로컬 state 가 옛 루틴에 갇히지 않게.
         key={`grid-${JSON.stringify(upcomingBlocks)}`}
+        // 오늘이 '오늘만 변경'(운동/부위/휴식) 상태면 하단 순서변경 시 확인을 받는다.
+        todayModified={hasDailyOverride || overriddenToday || restedToday}
         initialBlocks={upcomingBlocks}
         // 각 화면 위치(0=오늘)가 현재 루틴의 몇 일차인지 — 드래그 시 본운동을 카드와
         // 함께 옮기기 위한 순열 기준.

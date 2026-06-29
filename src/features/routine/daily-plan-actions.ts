@@ -141,6 +141,45 @@ export async function clearDailyPlanForDateAction(
 }
 
 /**
+ * "오늘만 상태 해제" — 오늘 하루에 걸린 임시 변경을 모두 비워 오늘을 기본 루틴으로 되돌린다.
+ * (루틴 정의·다른 날짜는 건드리지 않는다.) 완료 기록(exercise/conditioning completions)은 보존.
+ *  - daily_plan / daily_conditioning(오늘) 삭제
+ *  - user_routines 의 오늘 단일 마커(override_date/override_block, rest_date) 해제
+ */
+export async function exitTodayOnlyAction(): Promise<SaveDailyPlanResult> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const today = seoulYmd();
+
+  const [dp, dc, ov, rd] = await Promise.all([
+    supabase.from("daily_plan").delete().eq("user_id", user.id).eq("for_date", today),
+    supabase
+      .from("daily_conditioning")
+      .delete()
+      .eq("user_id", user.id)
+      .eq("for_date", today),
+    supabase
+      .from("user_routines")
+      .update({ override_date: null, override_block: null })
+      .eq("user_id", user.id)
+      .eq("override_date", today),
+    supabase
+      .from("user_routines")
+      .update({ rest_date: null })
+      .eq("user_id", user.id)
+      .eq("rest_date", today),
+  ]);
+  const err = dp.error || dc.error || ov.error || rd.error;
+  if (err) return { ok: false, error: err.message };
+
+  revalidatePath("/routine");
+  revalidatePath("/plan/today");
+  return { ok: true };
+}
+
+/**
  * 특정 날짜·부위의 본운동 오버라이드를 통째로 교체한다.
  * 비어 있는 items 로 호출하면 그 (날짜, 부위) 오버라이드만 삭제(기본으로 복귀).
  * 완료 기록(exercise_completions)은 건드리지 않아 이미 완료한 운동은 남는다.

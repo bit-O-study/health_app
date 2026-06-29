@@ -1,0 +1,36 @@
+name: workout-inactivity-cron
+
+# 운동 무활동 감지 cron — Vercel Pro 없이 무료로 스케줄링.
+# 10분마다 /api/cron/workout-inactivity 를 호출해, 진행 중 세션의 30분 무활동 종료 푸시와
+# 10분 무응답 자동 종료를 트리거한다. (GitHub Actions 의 schedule 은 UTC·약간의 지연 가능)
+#
+# 필요한 저장소 시크릿(Settings → Secrets and variables → Actions):
+#   - CRON_URL      : 배포 URL + 경로. 예) https://health-app-five-iota.vercel.app/api/cron/workout-inactivity
+#   - CRON_SECRET   : Vercel 환경변수 CRON_SECRET 과 동일한 값
+
+on:
+  schedule:
+    - cron: "*/10 * * * *" # 10분마다 (UTC)
+  workflow_dispatch: {} # 수동 실행 버튼
+
+# 동시 실행 방지(이전 호출이 늦어져도 겹치지 않게)
+concurrency:
+  group: workout-inactivity-cron
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call inactivity cron endpoint
+        run: |
+          if [ -z "${CRON_URL}" ] || [ -z "${CRON_SECRET}" ]; then
+            echo "CRON_URL / CRON_SECRET 시크릿이 설정되지 않았습니다." >&2
+            exit 1
+          fi
+          curl -fsS -X GET "${CRON_URL}" \
+            -H "Authorization: Bearer ${CRON_SECRET}" \
+            -w "\n[status %{http_code}]\n"
+        env:
+          CRON_URL: ${{ secrets.CRON_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}

@@ -61,6 +61,26 @@ export function isBodyType(value: unknown): value is BodyType {
   return value === "lean" || value === "average" || value === "heavy";
 }
 
+/** 키(cm)·몸무게(kg)로 BMI 계산. 값이 없거나 비정상이면 null. */
+export function bmiOf(
+  heightCm: number | null,
+  weightKg: number | null,
+): number | null {
+  if (!heightCm || !weightKg || heightCm <= 0 || weightKg <= 0) return null;
+  const m = heightCm / 100;
+  return weightKg / (m * m);
+}
+
+export type BmiCategory = "저체중" | "정상" | "과체중" | "비만";
+
+/** BMI 분류(대한비만학회 아시아 기준). */
+export function bmiCategory(bmi: number): BmiCategory {
+  if (bmi < 18.5) return "저체중";
+  if (bmi < 23) return "정상";
+  if (bmi < 25) return "과체중";
+  return "비만";
+}
+
 export type BodyMetrics = {
   heightCm: number;
   weightKg: number;

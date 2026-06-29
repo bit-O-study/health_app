@@ -297,7 +297,7 @@ export function GuidedOverlay({
   /** 마지막 항목까지 완료/넘기기 처리되면 호출. 부모가 운동시간 저장 등 후처리. */
   onAllComplete?: () => void;
   /** 세션 경과 시간(mm:ss). 운동 페이지 안에 표시. undefined 면 표시 안 함. */
-  elapsedLabel?: string;
+  elapsedLabel?: ReactNode;
   /** 타이머가 흐르는 중인지 — 버튼이 '중단하기'/'운동 다시 시작하기'로 토글. */
   running?: boolean;
   /** 중단/다시 시작 토글. */

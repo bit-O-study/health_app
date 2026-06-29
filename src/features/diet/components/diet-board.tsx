@@ -508,6 +508,8 @@ function MealSection({
               <img
                 src={cover}
                 alt={`${MEAL_LABEL[meal]} 대표사진`}
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
             ) : (
@@ -711,6 +713,8 @@ function MealDetailDialog({
                 <img
                   src={photos[wrapIndex(photoIdx, photos.length)]}
                   alt={`${MEAL_LABEL[meal]} 사진`}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover"
                 />
               ) : (
@@ -1026,6 +1030,8 @@ function MultiPhotoPicker({
             <img
               src={url}
               alt="음식 사진"
+              loading="lazy"
+              decoding="async"
               className="h-24 w-24 rounded-xl object-cover"
             />
             {i === 0 ? (

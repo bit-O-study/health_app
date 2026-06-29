@@ -43,7 +43,6 @@ import {
   type FoodItem,
 } from "@/features/diet/food-catalog";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
-import { fileTakenYmd, photoDateAllowed } from "@/features/diet/photo-date";
 import type { MacroTarget } from "@/features/diet/calorie-target";
 
 const MEAL_ICON: Record<Meal, string> = {
@@ -75,11 +74,6 @@ function nowSeoulHHMM(): string {
     minute: "2-digit",
     hour12: false,
   });
-}
-
-/** 서울 기준 오늘 "YYYY-MM-DD". */
-function nowSeoulYmd(): string {
-  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Seoul" });
 }
 
 export function DietBoard({
@@ -1011,14 +1005,6 @@ function MultiPhotoPicker({
     setErr(null);
     setBusy(true);
     try {
-      // 오늘 기록이면 갤러리에서 골라도 '오늘 찍은 사진'만 허용(과거 기록은 제한 없음).
-      if (isToday) {
-        const taken = await fileTakenYmd(file);
-        if (!photoDateAllowed(taken, true, nowSeoulYmd())) {
-          setErr("오늘 찍은 사진만 올릴 수 있어요. 오늘 날짜의 사진을 선택하세요.");
-          return;
-        }
-      }
       onAdd(await uploadFoodPhoto(file));
     } catch (e2) {
       setErr(e2 instanceof Error ? e2.message : "업로드 실패");
@@ -1098,11 +1084,6 @@ function MultiPhotoPicker({
         </label>
       </div>
       {err ? <p className="mt-1 text-[11px] text-red-500">{err}</p> : null}
-      {isToday ? (
-        <p className="mt-1 text-[11px] text-zinc-400">
-          오늘 기록엔 오늘 찍은 사진만 올릴 수 있어요.
-        </p>
-      ) : null}
     </div>
   );
 }

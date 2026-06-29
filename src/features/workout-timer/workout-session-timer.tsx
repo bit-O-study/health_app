@@ -85,6 +85,26 @@ function showLocalNotification(title: string, body: string) {
 }
 
 /**
+ * 경과 시간 표시 — 자체 1초 틱으로 갱신해, 부모(WorkoutSessionTimer/GuidedOverlay)가
+ * 매초 리렌더되지 않게 격리한다. 정지 상태(pausedAt!=null)면 틱하지 않음.
+ */
+function LiveElapsed({
+  state,
+  className,
+}: {
+  state: TimerState;
+  className?: string;
+}) {
+  const [, setT] = useState(0);
+  useEffect(() => {
+    if (state.pausedAt !== null) return;
+    const id = window.setInterval(() => setT((t) => t + 1), 1000);
+    return () => window.clearInterval(id);
+  }, [state]);
+  return <span className={className}>{formatElapsed(elapsedMs(state))}</span>;
+}
+
+/**
  * "오늘 할 운동" 상단 세션 스톱워치 + 가이드 트리거.
  *
  * 동작
@@ -155,7 +175,6 @@ export function WorkoutSessionTimer({
   const [guided, setGuided] = useState(false);
   const [saveAsk, setSaveAsk] = useState(false);
   const [savingErr, setSavingErr] = useState<string | null>(null);
-  const [, setTick] = useState(0);
   // 자정 롤오버 중복 방지 — 한 번 처리한 forDate 는 다시 처리 안 함
   const rolledOverRef = useRef<string | null>(null);
 
@@ -283,7 +302,7 @@ export function WorkoutSessionTimer({
         // setState 없이 localStorage 만 갱신(startedAt/accumulated 불변).
         writeTimer({ ...state, lastSeenAt: Date.now() });
       }
-      setTick((t) => t + 1);
+      // 경과 시간 표시는 LiveElapsed 가 자체 틱으로 갱신 → 여기선 리렌더 불필요.
     }, 1000);
     return () => window.clearInterval(id);
     // saveDuration 은 closure 로 고정 — state 만 deps
@@ -544,7 +563,6 @@ export function WorkoutSessionTimer({
   }
 
   const running = state.pausedAt === null;
-  const time = formatElapsed(elapsedMs(state));
 
   const overlay =
     guided && queue.length > 0 ? (
@@ -557,7 +575,7 @@ export function WorkoutSessionTimer({
         }}
         onAllComplete={handleGuidedAllComplete}
         // 운동 페이지(가이드) 안에는 경과 시간만 표시(중단/다시 시작 버튼 없음).
-        elapsedLabel={time}
+        elapsedLabel={<LiveElapsed state={state} />}
         running={running}
         showGuide={showGuide}
         lockWeightReps={lockWeightReps}
@@ -574,9 +592,10 @@ export function WorkoutSessionTimer({
             size={16}
             className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
           />
-          <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
-            {time}
-          </span>
+          <LiveElapsed
+            state={state}
+            className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100"
+          />
           {running ? (
             <button
               type="button"

@@ -23,6 +23,7 @@ type Row = {
   amount: string | null;
   category: string | null;
   photo_url: string | null;
+  eaten_at: string | null;
 };
 
 const num = (v: number | string | null): number | null => {
@@ -45,7 +46,7 @@ export const getFoodLogsForDate = cache(async function getFoodLogsForDate(
 
   const { data, error } = await supabase
     .from("food_logs")
-    .select("id, meal, position, name, kcal, protein_g, carbs_g, fat_g, amount, category, photo_url")
+    .select("id, meal, position, name, kcal, protein_g, carbs_g, fat_g, amount, category, photo_url, eaten_at")
     .eq("user_id", user.id)
     .eq("for_date", dateYmd)
     .order("meal", { ascending: true })
@@ -66,37 +67,41 @@ export const getFoodLogsForDate = cache(async function getFoodLogsForDate(
       amount: r.amount,
       category: r.category,
       photoUrl: r.photo_url,
+      eatenAt: r.eaten_at ? r.eaten_at.slice(0, 5) : null,
     }));
 });
 
-export type MealPhotos = Record<Meal, string | null>;
+/** 끼니별 사진 목록(등록 순서). 배열 첫 번째가 대표사진. */
+export type MealPhotos = Record<Meal, string[]>;
 
-const EMPTY_MEAL_PHOTOS: MealPhotos = {
-  breakfast: null,
-  lunch: null,
-  dinner: null,
-  snack: null,
-};
+const emptyMealPhotos = (): MealPhotos => ({
+  breakfast: [],
+  lunch: [],
+  dinner: [],
+  snack: [],
+});
 
 function isMealKey(v: string): v is Meal {
   return v === "breakfast" || v === "lunch" || v === "dinner" || v === "snack";
 }
 
-/** 특정 날짜의 끼니별 사진(아침/점심/저녁/간식). */
+/** 특정 날짜의 끼니별 사진 목록 — position·created_at 오름차순(먼저 등록한 게 대표). */
 export const getMealPhotosForDate = cache(async function getMealPhotosForDate(
   dateYmd: string,
 ): Promise<MealPhotos> {
   const user = await getCurrentUser();
-  if (!user) return { ...EMPTY_MEAL_PHOTOS };
+  if (!user) return emptyMealPhotos();
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("meal_photos")
-    .select("meal, photo_url")
+    .select("meal, photo_url, position, created_at")
     .eq("user_id", user.id)
-    .eq("for_date", dateYmd);
-  const out: MealPhotos = { ...EMPTY_MEAL_PHOTOS };
+    .eq("for_date", dateYmd)
+    .order("position", { ascending: true })
+    .order("created_at", { ascending: true });
+  const out = emptyMealPhotos();
   for (const r of (data ?? []) as { meal: string; photo_url: string }[]) {
-    if (isMealKey(r.meal)) out[r.meal] = r.photo_url;
+    if (isMealKey(r.meal)) out[r.meal].push(r.photo_url);
   }
   return out;
 });

@@ -258,6 +258,100 @@ export const FOOD_ITEMS: FoodItem[] = [
   { id: "egg-white", name: "계란흰자", category: "단백질·보충", amount: "100g", kcal: 52, protein: 11, carbs: 1, fat: 0 },
   { id: "protein-yogurt", name: "단백질요거트", category: "단백질·보충", amount: "1개", kcal: 150, protein: 15, carbs: 12, fat: 3 },
   { id: "protein-drink", name: "단백질음료", category: "단백질·보충", amount: "1병", kcal: 160, protein: 20, carbs: 12, fat: 3 },
+
+  // ── 밥·면 (추가 2)
+  { id: "janchi-guksu", name: "잔치국수", category: "밥·면", amount: "1그릇", kcal: 400, protein: 12, carbs: 75, fat: 5 },
+  { id: "bibim-guksu", name: "비빔국수", category: "밥·면", amount: "1그릇", kcal: 480, protein: 12, carbs: 90, fat: 7 },
+  { id: "rabokki", name: "라볶이", category: "밥·면", amount: "1인분", kcal: 600, protein: 14, carbs: 100, fat: 16 },
+  { id: "kimchi-mandu", name: "김치만두", category: "밥·면", amount: "5개", kcal: 360, protein: 12, carbs: 42, fat: 15 },
+  { id: "fried-mandu", name: "군만두", category: "밥·면", amount: "5개", kcal: 420, protein: 13, carbs: 44, fat: 22 },
+  { id: "pho", name: "쌀국수", category: "밥·면", amount: "1그릇", kcal: 380, protein: 18, carbs: 60, fat: 6 },
+  { id: "malatang", name: "마라탕", category: "밥·면", amount: "1인분", kcal: 550, protein: 25, carbs: 40, fat: 30 },
+  { id: "burrito", name: "부리토", category: "밥·면", amount: "1개", kcal: 600, protein: 22, carbs: 70, fat: 25 },
+  { id: "taco", name: "타코", category: "밥·면", amount: "2개", kcal: 360, protein: 16, carbs: 30, fat: 18 },
+  { id: "gyudon", name: "규동", category: "밥·면", amount: "1그릇", kcal: 650, protein: 24, carbs: 95, fat: 18 },
+  { id: "tendon", name: "텐동", category: "밥·면", amount: "1그릇", kcal: 700, protein: 20, carbs: 100, fat: 24 },
+  { id: "sushi", name: "초밥", category: "밥·면", amount: "8피스", kcal: 480, protein: 22, carbs: 80, fat: 6 },
+  { id: "inari-sushi", name: "유부초밥", category: "밥·면", amount: "1인분", kcal: 420, protein: 10, carbs: 78, fat: 8 },
+  { id: "onigiri", name: "주먹밥", category: "밥·면", amount: "1개", kcal: 200, protein: 5, carbs: 38, fat: 4 },
+  { id: "nurungji", name: "누룽지", category: "밥·면", amount: "1그릇", kcal: 230, protein: 5, carbs: 48, fat: 2 },
+  { id: "kongnamul-gukbap", name: "콩나물국밥", category: "밥·면", amount: "1그릇", kcal: 350, protein: 18, carbs: 50, fat: 8 },
+  { id: "albap", name: "알밥", category: "밥·면", amount: "1그릇", kcal: 480, protein: 18, carbs: 70, fat: 12 },
+
+  // ── 국·찌개 (추가 2)
+  { id: "dongtae-jjigae", name: "동태찌개", category: "국·찌개", amount: "1뚝배기", kcal: 300, protein: 30, carbs: 12, fat: 14 },
+  { id: "cheonggukjang", name: "청국장", category: "국·찌개", amount: "1뚝배기", kcal: 250, protein: 18, carbs: 16, fat: 12 },
+  { id: "gamjatang", name: "감자탕", category: "국·찌개", amount: "1인분", kcal: 600, protein: 38, carbs: 30, fat: 36 },
+  { id: "maeuntang", name: "매운탕", category: "국·찌개", amount: "1그릇", kcal: 320, protein: 30, carbs: 14, fat: 14 },
+  { id: "odeng-tang", name: "어묵탕", category: "국·찌개", amount: "1그릇", kcal: 180, protein: 12, carbs: 18, fat: 6 },
+  { id: "miso-soup", name: "미소된장국", category: "국·찌개", amount: "1그릇", kcal: 80, protein: 6, carbs: 8, fat: 3 },
+
+  // ── 고기·계란 (추가 2)
+  { id: "chicken-tender", name: "닭안심", category: "고기·계란", amount: "100g", kcal: 105, protein: 24, carbs: 0, fat: 1 },
+  { id: "hanwoo-sirloin", name: "한우 등심", category: "고기·계란", amount: "100g", kcal: 320, protein: 18, carbs: 0, fat: 27 },
+  { id: "chicken-wingstick", name: "닭봉", category: "고기·계란", amount: "3개", kcal: 240, protein: 22, carbs: 4, fat: 15 },
+  { id: "chicken-feet", name: "닭발", category: "고기·계란", amount: "1인분", kcal: 280, protein: 24, carbs: 6, fat: 18 },
+  { id: "gopchang", name: "곱창", category: "고기·계란", amount: "100g", kcal: 280, protein: 14, carbs: 2, fat: 24 },
+  { id: "makchang", name: "막창", category: "고기·계란", amount: "100g", kcal: 300, protein: 15, carbs: 1, fat: 26 },
+  { id: "ham-egg", name: "햄에그", category: "고기·계란", amount: "1인분", kcal: 250, protein: 16, carbs: 4, fat: 18 },
+  { id: "quail-egg", name: "메추리알", category: "고기·계란", amount: "5개", kcal: 70, protein: 6, carbs: 1, fat: 5 },
+
+  // ── 생선·해산물 (추가 2)
+  { id: "myeongnan", name: "명란젓", category: "생선·해산물", amount: "30g", kcal: 30, protein: 4, carbs: 1, fat: 1 },
+  { id: "abalone", name: "전복", category: "생선·해산물", amount: "100g", kcal: 100, protein: 17, carbs: 6, fat: 1 },
+  { id: "scallop", name: "가리비", category: "생선·해산물", amount: "100g", kcal: 90, protein: 17, carbs: 5, fat: 1 },
+  { id: "fried-shrimp", name: "새우튀김", category: "생선·해산물", amount: "3개", kcal: 250, protein: 12, carbs: 18, fat: 14 },
+  { id: "fried-squid", name: "오징어튀김", category: "생선·해산물", amount: "1인분", kcal: 320, protein: 16, carbs: 24, fat: 18 },
+  { id: "oyster-raw", name: "굴(생)", category: "생선·해산물", amount: "100g", kcal: 70, protein: 9, carbs: 4, fat: 2 },
+
+  // ── 채소·반찬 (추가 2)
+  { id: "corn-salad", name: "콘샐러드", category: "채소·반찬", amount: "1접시", kcal: 180, protein: 4, carbs: 22, fat: 9 },
+  { id: "potato-salad", name: "감자샐러드", category: "채소·반찬", amount: "1접시", kcal: 220, protein: 4, carbs: 24, fat: 12 },
+  { id: "musaengchae", name: "무생채", category: "채소·반찬", amount: "1접시", kcal: 30, protein: 1, carbs: 6, fat: 0 },
+  { id: "oimuchim", name: "오이무침", category: "채소·반찬", amount: "1접시", kcal: 35, protein: 1, carbs: 6, fat: 1 },
+  { id: "eggplant-stir", name: "가지볶음", category: "채소·반찬", amount: "1접시", kcal: 90, protein: 2, carbs: 8, fat: 6 },
+  { id: "zucchini-stir", name: "애호박볶음", category: "채소·반찬", amount: "1접시", kcal: 80, protein: 2, carbs: 7, fat: 5 },
+  { id: "jangjorim", name: "장조림", category: "채소·반찬", amount: "1접시", kcal: 160, protein: 22, carbs: 6, fat: 5 },
+  { id: "kongjaban", name: "콩자반", category: "채소·반찬", amount: "1접시", kcal: 150, protein: 9, carbs: 18, fat: 4 },
+  { id: "gimjaban", name: "김자반", category: "채소·반찬", amount: "1접시", kcal: 60, protein: 4, carbs: 4, fat: 3 },
+  { id: "ueong-jorim", name: "우엉조림", category: "채소·반찬", amount: "1접시", kcal: 110, protein: 2, carbs: 22, fat: 2 },
+
+  // ── 과일 (추가 2)
+  { id: "grapefruit", name: "자몽", category: "과일", amount: "1/2개", kcal: 40, protein: 1, carbs: 10, fat: 0 },
+  { id: "fig", name: "무화과", category: "과일", amount: "1개", kcal: 40, protein: 0, carbs: 10, fat: 0 },
+  { id: "pomegranate", name: "석류", category: "과일", amount: "1/2개", kcal: 70, protein: 1, carbs: 17, fat: 1 },
+  { id: "raspberry", name: "라즈베리", category: "과일", amount: "100g", kcal: 52, protein: 1, carbs: 12, fat: 1 },
+  { id: "green-grape", name: "청포도", category: "과일", amount: "100g", kcal: 60, protein: 1, carbs: 16, fat: 0 },
+
+  // ── 유제품 (추가 2)
+  { id: "plain-yogurt", name: "플레인요거트", category: "유제품", amount: "100g", kcal: 60, protein: 5, carbs: 7, fat: 2 },
+  { id: "processed-cheese", name: "가공치즈", category: "유제품", amount: "1장(18g)", kcal: 60, protein: 4, carbs: 1, fat: 5 },
+  { id: "choco-milk", name: "초코우유", category: "유제품", amount: "1팩(200ml)", kcal: 160, protein: 6, carbs: 24, fat: 5 },
+  { id: "strawberry-milk", name: "딸기우유", category: "유제품", amount: "1팩(200ml)", kcal: 150, protein: 6, carbs: 26, fat: 4 },
+
+  // ── 빵·간식 (추가 2)
+  { id: "castella", name: "카스텔라", category: "빵·간식", amount: "1조각", kcal: 160, protein: 4, carbs: 24, fat: 6 },
+  { id: "cracker", name: "크래커", category: "빵·간식", amount: "5개", kcal: 130, protein: 2, carbs: 20, fat: 5 },
+  { id: "yanggaeng", name: "양갱", category: "빵·간식", amount: "1개", kcal: 150, protein: 2, carbs: 35, fat: 0 },
+  { id: "yakgwa", name: "약과", category: "빵·간식", amount: "1개", kcal: 180, protein: 1, carbs: 28, fat: 8 },
+  { id: "injeolmi", name: "인절미", category: "빵·간식", amount: "3개", kcal: 180, protein: 4, carbs: 36, fat: 3 },
+  { id: "corndog", name: "핫도그", category: "빵·간식", amount: "1개", kcal: 290, protein: 9, carbs: 30, fat: 15 },
+  { id: "churros", name: "츄러스", category: "빵·간식", amount: "1개", kcal: 220, protein: 3, carbs: 28, fat: 11 },
+
+  // ── 음료 (추가 2)
+  { id: "hot-chocolate", name: "핫초코", category: "음료", amount: "1잔", kcal: 190, protein: 6, carbs: 30, fat: 5 },
+  { id: "vanilla-latte", name: "바닐라라떼", category: "음료", amount: "1잔", kcal: 250, protein: 8, carbs: 35, fat: 8 },
+  { id: "iced-tea", name: "아이스티", category: "음료", amount: "1잔", kcal: 90, protein: 0, carbs: 22, fat: 0 },
+  { id: "tomato-juice", name: "토마토주스", category: "음료", amount: "1잔(200ml)", kcal: 40, protein: 2, carbs: 8, fat: 0 },
+  { id: "barley-tea", name: "보리차", category: "음료", amount: "1잔", kcal: 5, protein: 0, carbs: 1, fat: 0 },
+  { id: "whiskey", name: "위스키", category: "음료", amount: "1샷", kcal: 95, protein: 0, carbs: 0, fat: 0 },
+
+  // ── 단백질·보충 (추가 2)
+  { id: "oatmeal", name: "오트밀", category: "단백질·보충", amount: "1인분(40g)", kcal: 150, protein: 5, carbs: 27, fat: 3 },
+  { id: "chicken-sausage", name: "닭가슴살소시지", category: "단백질·보충", amount: "1개", kcal: 90, protein: 14, carbs: 3, fat: 2 },
+  { id: "chicken-ball", name: "닭가슴살볼", category: "단백질·보충", amount: "100g", kcal: 130, protein: 20, carbs: 6, fat: 3 },
+  { id: "casein", name: "카제인", category: "단백질·보충", amount: "1스쿱", kcal: 120, protein: 24, carbs: 3, fat: 1 },
+  { id: "egg-white-pack", name: "계란흰자(가공)", category: "단백질·보충", amount: "1팩", kcal: 80, protein: 18, carbs: 2, fat: 0 },
 ];
 
 // 카테고리 순서로 정렬해 검색/둘러보기에서 같은 분류끼리 모이게 한다.

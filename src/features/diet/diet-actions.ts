@@ -21,11 +21,19 @@ export type FoodInput = {
   amount: string | null;
   category?: string | null;
   photoUrl?: string | null;
+  /** 먹은 시간 "HH:MM"(24h). 없으면 null. */
+  eatenAt?: string | null;
 };
 
 function cleanUrl(v: string | null | undefined): string | null {
   const s = v?.trim() ?? "";
   return /^https?:\/\//.test(s) ? s.slice(0, 500) : null;
+}
+
+/** "HH:MM"(00:00~23:59)만 통과, 그 외엔 null. */
+function cleanTime(v: string | null | undefined): string | null {
+  const s = v?.trim() ?? "";
+  return /^([01]\d|2[0-3]):[0-5]\d$/.test(s) ? s : null;
 }
 
 const MEALS = ["breakfast", "lunch", "dinner", "snack"];
@@ -75,6 +83,7 @@ export async function addFoodLogAction(
       amount: input.amount?.trim().slice(0, 40) || null,
       category: input.category?.trim().slice(0, 20) || null,
       photo_url: cleanUrl(input.photoUrl),
+      eaten_at: cleanTime(input.eatenAt),
     })
     .select("id")
     .maybeSingle();
@@ -103,12 +112,35 @@ export async function updateFoodLogAction(
   if (patch.amount !== undefined) update.amount = patch.amount?.trim().slice(0, 40) || null;
   if (patch.category !== undefined) update.category = patch.category?.trim().slice(0, 20) || null;
   if (patch.photoUrl !== undefined) update.photo_url = cleanUrl(patch.photoUrl);
+  if (patch.eatenAt !== undefined) update.eaten_at = cleanTime(patch.eatenAt);
 
   const { error } = await supabase
     .from("food_logs")
     .update(update)
     .eq("user_id", user.id)
     .eq("id", id);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/diet");
+  return { ok: true };
+}
+
+/** 한 끼니(게시물) 통째 삭제 — 그 날짜·끼니의 모든 음식 기록 제거. */
+export async function deleteMealAction(
+  meal: Meal,
+  dateYmd?: string,
+): Promise<DietActionResult> {
+  if (!MEALS.includes(meal)) return { ok: false, error: "끼니 값이 올바르지 않습니다." };
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const date = dateYmd ?? seoulYmd();
+  const { error } = await supabase
+    .from("food_logs")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("for_date", date)
+    .eq("meal", meal);
   if (error) return { ok: false, error: error.message };
   revalidatePath("/diet");
   return { ok: true };

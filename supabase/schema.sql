@@ -1308,12 +1308,14 @@ create table if not exists public.food_logs (
   amount text,
   category text,
   photo_url text,
+  eaten_at time,
   created_at timestamptz not null default now()
 );
 
 -- 기존 DB 보정(컬럼 추가)
 alter table public.food_logs add column if not exists category text;
 alter table public.food_logs add column if not exists photo_url text;
+alter table public.food_logs add column if not exists eaten_at time;
 
 create index if not exists food_logs_user_date_idx
   on public.food_logs (user_id, for_date desc, meal, position);
@@ -1485,16 +1487,21 @@ create policy "group mates read food logs" on public.food_logs
 
 notify pgrst, 'reload schema';
 
--- 끼니별 식단 사진(meal_photos) — 음식별이 아니라 아침/점심/저녁/간식 단위 1장.
+-- 끼니별 식단 사진(meal_photos) — 끼니(아침/점심/저녁/간식)당 여러 장 가능.
+-- position 오름차순이 등록 순서이며, 가장 앞(=먼저 등록한) 사진이 대표사진.
 create table if not exists public.meal_photos (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   for_date date not null,
   meal text not null check (meal in ('breakfast', 'lunch', 'dinner', 'snack')),
   photo_url text not null,
-  created_at timestamptz not null default now(),
-  unique (user_id, for_date, meal)
+  position int not null default 0,
+  created_at timestamptz not null default now()
 );
+
+-- 기존 DB 보정: 끼니당 1장 유니크 제거 + 정렬용 position 추가(여러 장 허용)
+alter table public.meal_photos drop constraint if exists meal_photos_user_id_for_date_meal_key;
+alter table public.meal_photos add column if not exists position int not null default 0;
 
 create index if not exists meal_photos_user_date_idx
   on public.meal_photos (user_id, for_date);

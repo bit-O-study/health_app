@@ -3,12 +3,18 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarDays, Dumbbell, Settings, Users, Utensils } from "lucide-react";
+import {
+  CalendarHeart,
+  Flame,
+  Salad,
+  SlidersHorizontal,
+  UsersRound,
+} from "lucide-react";
 
 type Tab = {
   href: string;
   label: string;
-  icon: typeof Dumbbell;
+  icon: typeof Flame;
   match: (p: string) => boolean;
 };
 
@@ -16,26 +22,26 @@ const TABS: Tab[] = [
   {
     href: "/routine",
     label: "운동",
-    icon: Dumbbell,
+    icon: Flame,
     match: (p) => p === "/" || p.startsWith("/routine") || p.startsWith("/plan"),
   },
-  { href: "/diet", label: "식단", icon: Utensils, match: (p) => p.startsWith("/diet") },
+  { href: "/diet", label: "식단", icon: Salad, match: (p) => p.startsWith("/diet") },
   {
     href: "/calendar",
     label: "캘린더",
-    icon: CalendarDays,
+    icon: CalendarHeart,
     match: (p) => p.startsWith("/calendar"),
   },
   {
     href: "/groups",
     label: "그룹",
-    icon: Users,
+    icon: UsersRound,
     match: (p) => p.startsWith("/groups"),
   },
   {
     href: "/settings",
     label: "설정",
-    icon: Settings,
+    icon: SlidersHorizontal,
     match: (p) => p.startsWith("/settings"),
   },
 ];

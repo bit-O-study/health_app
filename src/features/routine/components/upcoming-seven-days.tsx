@@ -11,6 +11,7 @@ import {
   type DayBlockId,
 } from "@/features/routine/data";
 import { reorderUpcomingSevenDaysAction } from "@/features/routine/actions";
+import { exitTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 
 type DayCell = {
@@ -24,11 +25,14 @@ export function UpcomingSevenDaysGrid({
   initialBlocks,
   initialDayIndexes,
   cells,
+  todayModified,
 }: {
   initialBlocks: DayBlockId[][];
   /** 각 화면 위치(0=오늘…6)가 현재 루틴의 몇 일차(day_index)인지. 드래그 순열 추적용. */
   initialDayIndexes: number[];
   cells: DayCell[];
+  /** 오늘이 '오늘만 변경'(운동/부위/휴식 오버라이드) 상태인지 — 하단 순서변경 시 확인받기. */
+  todayModified: boolean;
 }) {
   const router = useRouter();
   // 순서 변경은 '편집하기' 모드에서만 — 본운동·컨디셔닝과 같은 편집 스코프를 공유.
@@ -60,6 +64,8 @@ export function UpcomingSevenDaysGrid({
 
   const [pending, start] = useTransition();
   const [err, setErr] = useState<string | null>(null);
+  // '오늘만 변경' 상태에선 순서변경 불가 — 먼저 '오늘만 해제'를 권하는 확인 모달.
+  const [confirmExit, setConfirmExit] = useState(false);
 
   function indexFromPoint(clientX: number, clientY: number): number | null {
     const el = document.elementFromPoint(
@@ -129,15 +135,30 @@ export function UpcomingSevenDaysGrid({
     const next = [...snapshot];
     const [moved] = next.splice(from, 1);
     next.splice(to, 0, moved);
-    setBlocks(next);
-
     // 순열도 똑같이 splice — nextOrder[newPos] = 원래 day_index.
     const nextOrder = [...orderSnapshot];
     const [movedIdx] = nextOrder.splice(from, 1);
     nextOrder.splice(to, 0, movedIdx);
-    setOrder(nextOrder);
     tryVibrate(10);
 
+    // '오늘만 변경' 상태면 순서변경을 적용하지 않고, 먼저 '오늘만 해제'를 권한다.
+    // (드래그는 버리고 화면도 그대로 — 해제 후 다시 드래그하면 순서변경이 반영된다.)
+    if (todayModified) {
+      setConfirmExit(true);
+      return;
+    }
+
+    setBlocks(next);
+    setOrder(nextOrder);
+    runReorder(next, nextOrder, snapshot, orderSnapshot);
+  }
+
+  function runReorder(
+    next: DayBlockId[][],
+    nextOrder: number[],
+    snapshot: DayBlockId[][],
+    orderSnapshot: number[],
+  ) {
     start(async () => {
       const res = await reorderUpcomingSevenDaysAction(next, nextOrder);
       if (res.ok) {
@@ -151,6 +172,22 @@ export function UpcomingSevenDaysGrid({
         setOrder(orderSnapshot);
       }
     });
+  }
+
+  // '예' — 오늘만 상태만 해제(오늘을 원래 루틴으로 복귀). 순서변경은 적용하지 않는다.
+  // 해제 후 일반 상태가 되므로, 다시 드래그하면 순서변경이 바로 반영된다.
+  function acceptExit() {
+    setConfirmExit(false);
+    start(async () => {
+      const res = await exitTodayOnlyAction();
+      if (res.ok) router.refresh();
+      else setErr(res.error);
+    });
+  }
+
+  // '아니오' — 닫기만(오늘만 상태 유지).
+  function cancelExit() {
+    setConfirmExit(false);
   }
 
   function onPointerCancel(e: React.PointerEvent<HTMLDivElement>) {
@@ -288,6 +325,46 @@ export function UpcomingSevenDaysGrid({
         <p className="mt-2 text-xs font-medium text-red-600 dark:text-red-400">
           {err}
         </p>
+      ) : null}
+
+      {confirmExit ? (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="오늘만 상태 해제 확인"
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/40 p-4"
+          onClick={cancelExit}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl dark:bg-zinc-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+              오늘만 운동 상태예요
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+              오늘만 운동 상태에서는 일자 순서를 바꿀 수 없어요.{" "}
+              <strong>오늘만 상태에서 벗어나겠습니까?</strong> 오늘 운동이 원래
+              루틴으로 돌아간 뒤에 순서를 바꿀 수 있어요.
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={cancelExit}
+                className="h-10 rounded-lg px-4 text-sm font-semibold text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              >
+                아니오
+              </button>
+              <button
+                type="button"
+                onClick={acceptExit}
+                className="h-10 rounded-lg bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-500"
+              >
+                예, 오늘만 해제
+              </button>
+            </div>
+          </div>
+        </div>
       ) : null}
     </section>
   );

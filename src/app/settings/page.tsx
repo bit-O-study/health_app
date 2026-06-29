@@ -12,6 +12,7 @@ import {
   SlidersHorizontal,
   TrendingUp,
   Trophy,
+  UserRound,
 } from "lucide-react";
 
 import { signOut } from "@/features/auth/actions";
@@ -55,6 +56,28 @@ export default async function SettingsPage() {
       </div>
 
       <div className="mt-8 space-y-4">
+        <Link
+          href="/settings/me"
+          className="group flex items-center gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
+            <UserRound aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              마이페이지
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              내 프로필·신체·식단·운동을 한눈에
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
         <Link
           href="/settings/routine"
           className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"

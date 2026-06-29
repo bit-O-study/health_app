@@ -1526,4 +1526,61 @@ drop policy if exists "group mates read meal photos" on public.meal_photos;
 create policy "group mates read meal photos" on public.meal_photos
   for select using (public.shares_group_with(user_id));
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 웹푸시 구독(push_subscriptions) — 사용자별 브라우저 푸시 엔드포인트(여러 기기 가능).
+-- 앱이 닫혀 있어도 30분 무활동 종료 알림을 보내기 위함(Vercel Cron + web-push).
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.push_subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  endpoint text not null unique,
+  p256dh text not null,
+  auth text not null,
+  user_agent text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists push_subscriptions_user_idx
+  on public.push_subscriptions (user_id);
+
+alter table public.push_subscriptions enable row level security;
+
+drop policy if exists "Users manage own push subs (select)" on public.push_subscriptions;
+create policy "Users manage own push subs (select)" on public.push_subscriptions
+  for select using (auth.uid() = user_id);
+drop policy if exists "Users manage own push subs (insert)" on public.push_subscriptions;
+create policy "Users manage own push subs (insert)" on public.push_subscriptions
+  for insert with check (auth.uid() = user_id);
+drop policy if exists "Users manage own push subs (delete)" on public.push_subscriptions;
+create policy "Users manage own push subs (delete)" on public.push_subscriptions
+  for delete using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 진행 중 운동 세션 상태(workout_active_state) — 서버가 '무활동'을 판정하기 위한 1인 1행.
+-- 클라이언트가 시작/활동/스누즈/종료 때 갱신한다. remaining 에 '남은 운동' 스냅샷을 담아
+-- 앱이 닫혀 있어도(푸시 버튼/cron) 휴식 처리를 할 수 있게 한다.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.workout_active_state (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  for_date date not null,
+  active boolean not null default true,
+  started_at timestamptz not null default now(),
+  last_activity_at timestamptz not null default now(),
+  prompted_at timestamptz,
+  remaining jsonb not null default '{"planRows":[],"warmup":[],"cooldown":[]}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists workout_active_state_scan_idx
+  on public.workout_active_state (active, last_activity_at);
+
+alter table public.workout_active_state enable row level security;
+
+drop policy if exists "Users manage own active state (select)" on public.workout_active_state;
+create policy "Users manage own active state (select)" on public.workout_active_state
+  for select using (auth.uid() = user_id);
+drop policy if exists "Users manage own active state (write)" on public.workout_active_state;
+create policy "Users manage own active state (write)" on public.workout_active_state
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

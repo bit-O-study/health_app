@@ -29,6 +29,13 @@ import {
 } from "@/features/workout-timer/inactivity";
 import { queueToRestInputs } from "@/features/routine/rest-remaining";
 import { restRemainingTodayAction } from "@/features/routine/rest-remaining-actions";
+import { ensurePushSubscribed } from "@/features/notifications/push-client";
+import {
+  startActiveSessionAction,
+  updateActiveActivityAction,
+  snoozeActiveAction,
+  endActiveSessionAction,
+} from "@/features/workout-timer/active-state-actions";
 
 // 가이드 오버레이(일러스트/플립북 등 ~1.5k줄)는 "운동 시작" 탭 전까지 필요 없으므로
 // 동적 로드해 홈 화면 초기 번들에서 제외한다.
@@ -312,14 +319,20 @@ export function WorkoutSessionTimer({
     setState(s);
     lastActivityRef.current = Date.now();
     promptedRef.current = false;
-    // 폰 알림(30분 무활동 종료 확인)용 권한 요청 — 처음 한 번.
+    // 폰 알림(30분 무활동 종료 확인)용 권한 요청 + 웹푸시 구독(닫힌 앱 대응).
     try {
-      if ("Notification" in window && Notification.permission === "default") {
-        void Notification.requestPermission();
+      if ("Notification" in window) {
+        if (Notification.permission === "default") {
+          void Notification.requestPermission().then(() => void ensurePushSubscribed());
+        } else if (Notification.permission === "granted") {
+          void ensurePushSubscribed();
+        }
       }
     } catch {
       /* noop */
     }
+    // 서버에 활성 세션 등록(닫힌 앱에서도 cron 이 무활동 감지).
+    void startActiveSessionAction(queueToRestInputs(queue));
     // 영상 보기 모드에서만 가이드 오버레이를 연다. '안 보기'면 타이머만.
     if (!hideVideos && queue.length > 0) setGuided(true);
   }
@@ -347,6 +360,8 @@ export function WorkoutSessionTimer({
     writeTimer(s);
     setState(s);
     lastActivityRef.current = Date.now();
+    // 돌아와서 이어서 운동 — 서버 활성 세션 재활성화(닫힌 앱 감지 재개).
+    void updateActiveActivityAction(queueToRestInputs(queue));
     // 영상 보기 모드: '운동 다시 시작하기'가 가이드도 다시 연다.
     if (!hideVideos && queue.length > 0) setGuided(true);
   }
@@ -379,6 +394,7 @@ export function WorkoutSessionTimer({
     promptedRef.current = false;
     clearNoRespTimer();
     clearPrompt();
+    void endActiveSessionAction(); // 서버 활성 세션 종료(더 이상 푸시 안 함)
     return true;
   }
 
@@ -416,6 +432,7 @@ export function WorkoutSessionTimer({
     clearNoRespTimer();
     clearPrompt();
     lastActivityRef.current = Date.now();
+    void snoozeActiveAction(); // 서버: 다시 30분 무활동 감지
   }
 
   // 10분 무응답 — 휴식 처리 없이 타이머만 자동 종료(기록).
@@ -474,6 +491,8 @@ export function WorkoutSessionTimer({
   useEffect(() => {
     if (queue.length < prevQueueLenRef.current) {
       lastActivityRef.current = Date.now();
+      // 서버 활성 상태도 갱신(남은 운동 스냅샷 + 무활동 카운트 리셋).
+      void updateActiveActivityAction(queueToRestInputs(queue));
       if (promptedRef.current) {
         promptedRef.current = false;
         clearNoRespTimer();

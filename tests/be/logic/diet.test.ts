@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { searchFoods, getFoodItem, FOOD_ITEMS } from "@/features/diet/food-catalog";
+import { wrapIndex } from "@/features/diet/meal";
 
 describe("dailyTarget — 권장 칼로리·탄단지", () => {
   it("키·몸무게 있으면 Mifflin-St Jeor 기반 TDEE", () => {
@@ -49,5 +50,27 @@ describe("음식 카탈로그 검색", () => {
     expect(ids.size).toBe(FOOD_ITEMS.length); // id 중복 없음
     for (const f of FOOD_ITEMS) expect(f.kcal).toBeGreaterThanOrEqual(0); // 제로콜라=0 허용
     expect(getFoodItem("rice")?.name).toBe("흰쌀밥");
+  });
+});
+
+describe("wrapIndex — 사진 캐러셀 순환", () => {
+  it("범위 내 인덱스는 그대로", () => {
+    expect(wrapIndex(0, 3)).toBe(0);
+    expect(wrapIndex(2, 3)).toBe(2);
+  });
+
+  it("초과하면 처음으로 감싼다(다음)", () => {
+    expect(wrapIndex(3, 3)).toBe(0);
+    expect(wrapIndex(4, 3)).toBe(1);
+  });
+
+  it("음수면 끝에서부터 감싼다(이전)", () => {
+    expect(wrapIndex(-1, 3)).toBe(2);
+    expect(wrapIndex(-4, 3)).toBe(2);
+  });
+
+  it("사진이 없으면 0", () => {
+    expect(wrapIndex(0, 0)).toBe(0);
+    expect(wrapIndex(5, 0)).toBe(0);
   });
 });

@@ -3,11 +3,12 @@ import { expect, test } from "@playwright/test";
 import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
-// 식단 기능: 하단 탭 → /diet, 끼니별(아침/점심/저녁/간식) 음식 추가/삭제, 칼로리 합계.
+// 식단 기능: 하단 탭 → /diet, 끼니별(아침/점심/저녁/간식) 음식 추가/수정/삭제, 칼로리 합계.
+// 삭제·수정은 인라인이 아니라 '게시물 상세'에 들어가 '…' 메뉴로 한다(밀리그램 스타일).
 
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
-test("하단 식단 탭에서 음식 추가→칼로리 반영→삭제", async ({ page }) => {
+test("하단 식단 탭에서 음식 추가→칼로리 반영→게시물 상세에서 삭제", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
@@ -38,8 +39,11 @@ test("하단 식단 탭에서 음식 추가→칼로리 반영→삭제", async 
   expect(rows[0].name).toBe("닭가슴살");
   expect(rows[0].meal).toBe("lunch");
 
-  // 삭제 → 사라짐 + DB 비움
-  await page.getByRole("button", { name: "삭제" }).first().click();
+  // 게시물(점심) 카드 탭 → 상세 → '더보기(…)' → '삭제' → 확인
+  await page.getByRole("button", { name: "점심 게시물 열기" }).click();
+  await page.getByRole("button", { name: "더보기" }).click();
+  await page.getByRole("button", { name: "삭제", exact: true }).click();
+  await page.getByRole("button", { name: "삭제 확인" }).click();
   await page.waitForTimeout(1000);
   await expect(page.getByText("닭가슴살")).toHaveCount(0);
   const after = await dbQuery<{ n: string }>(
@@ -47,6 +51,41 @@ test("하단 식단 탭에서 음식 추가→칼로리 반영→삭제", async 
     [email],
   );
   expect(after[0].n).toBe("0");
+});
+
+test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+
+  await page.getByRole("link", { name: "식단" }).click();
+  await page.waitForURL("**/diet", { timeout: 10000 });
+  await page.waitForTimeout(500);
+
+  // 아침(첫 끼니)에 직접 입력으로 한 건 추가
+  await page.getByRole("button", { name: "추가" }).first().click();
+  await page.getByRole("button", { name: "직접 입력" }).click();
+  await page.getByPlaceholder("예: 직접 만든 도시락").fill("오트밀");
+  await page.getByPlaceholder("0").fill("300");
+  await page.getByRole("button", { name: "추가하기" }).click();
+  await page.waitForTimeout(800);
+
+  // 게시물 상세 → 더보기 → 수정 → 음식 탭 → 칼로리 450 으로 저장
+  await page.getByRole("button", { name: "아침 게시물 열기" }).click();
+  await page.getByRole("button", { name: "더보기" }).click();
+  await page.getByRole("button", { name: "수정", exact: true }).click();
+  await page.getByRole("button", { name: "오트밀 수정" }).click();
+  const kcal = page.getByLabel("칼로리(kcal)");
+  await kcal.fill("450");
+  await page.getByRole("button", { name: "저장" }).click();
+  await page.waitForTimeout(1000);
+
+  const rows = await dbQuery<{ name: string; kcal: string }>(
+    `select name, kcal::text from public.food_logs where user_id=${uid}`,
+    [email],
+  );
+  expect(rows.length).toBe(1);
+  expect(rows[0].name).toBe("오트밀");
+  expect(Number(rows[0].kcal)).toBe(450);
 });
 
 test("직접 입력으로 음식 종류(category) 지정해 추가", async ({ page }) => {

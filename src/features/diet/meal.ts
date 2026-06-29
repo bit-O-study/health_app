@@ -11,6 +11,12 @@ export const MEAL_LABEL: Record<Meal, string> = {
   snack: "간식",
 };
 
+/** 캐러셀 인덱스를 [0, len) 범위로 순환(음수·초과도 감싼다). len<=0이면 0. */
+export function wrapIndex(i: number, len: number): number {
+  if (len <= 0) return 0;
+  return ((i % len) + len) % len;
+}
+
 export type FoodLog = {
   id: string;
   meal: Meal;
@@ -23,4 +29,6 @@ export type FoodLog = {
   amount: string | null;
   category: string | null;
   photoUrl: string | null;
+  /** 먹은 시간 "HH:MM"(24h). 없으면 null. */
+  eatenAt: string | null;
 };

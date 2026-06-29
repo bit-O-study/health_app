@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
 import { BottomNav } from "@/components/bottom-nav";
+import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
@@ -75,9 +76,11 @@ export default function RootLayout({
         <ThemeScript />
       </head>
       <body className="min-h-full flex flex-col">
-        <AppSplash />
-        {children}
-        <BottomNav />
+        <NotificationCenterProvider>
+          <AppSplash />
+          {children}
+          <BottomNav />
+        </NotificationCenterProvider>
         <PWARegister />
         <Analytics />
         <SpeedInsights />

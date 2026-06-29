@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import { Logo } from "@/features/brand/logo";
+import { NotificationBell } from "@/features/notifications/notification-center";
 import { getCurrentUser } from "@/lib/supabase/server";
 import {
   getUserProfile,
@@ -81,6 +82,7 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
                 <Sparkles aria-hidden="true" size={15} />
                 추천 루틴
               </Link>
+              <NotificationBell />
               <Link
                 aria-label="설정"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100"

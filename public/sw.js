@@ -22,3 +22,25 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 });
+
+// 운동 종료 알림(예/아니오) 클릭 → 열린 앱 창에 응답 전달. 없으면 /routine 을 연다.
+self.addEventListener("notificationclick", (event) => {
+  const action = event.action || ""; // 'yes' | 'no' | '' (본문 클릭)
+  event.notification.close();
+  event.waitUntil(
+    (async () => {
+      const clients = await self.clients.matchAll({
+        type: "window",
+        includeUncontrolled: true,
+      });
+      for (const client of clients) {
+        client.postMessage({ type: "workout-end-response", action });
+      }
+      if (clients.length > 0) {
+        await clients[0].focus();
+      } else {
+        await self.clients.openWindow("/routine");
+      }
+    })(),
+  );
+});

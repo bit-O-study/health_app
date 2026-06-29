@@ -22,6 +22,13 @@ import {
   type TimerState,
 } from "@/features/workout-timer/timer-store";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
+import { useNotificationCenter } from "@/features/notifications/notification-center";
+import {
+  NO_RESPONSE_LIMIT_MS,
+  shouldPrompt,
+} from "@/features/workout-timer/inactivity";
+import { queueToRestInputs } from "@/features/routine/rest-remaining";
+import { restRemainingTodayAction } from "@/features/routine/rest-remaining-actions";
 
 // 가이드 오버레이(일러스트/플립북 등 ~1.5k줄)는 "운동 시작" 탭 전까지 필요 없으므로
 // 동적 로드해 홈 화면 초기 번들에서 제외한다.
@@ -32,6 +39,43 @@ const GuidedOverlay = dynamic(
     ),
   { ssr: false },
 );
+
+/** 폰/앱 로컬 알림 — 권한이 있을 때만. 서비스워커가 있으면 액션(예/아니오) 버튼 포함. */
+function showLocalNotification(title: string, body: string) {
+  if (typeof window === "undefined" || !("Notification" in window)) return;
+  if (Notification.permission !== "granted") return;
+  const opts: NotificationOptions = {
+    body,
+    tag: "workout-end",
+    requireInteraction: true,
+    // 일부 타입 정의엔 actions 가 없지만 SW showNotification 에선 동작.
+    actions: [
+      { action: "yes", title: "예" },
+      { action: "no", title: "아니오" },
+    ],
+  } as NotificationOptions;
+  try {
+    if ("serviceWorker" in navigator) {
+      void navigator.serviceWorker
+        .getRegistration()
+        .then((reg) => {
+          if (reg) reg.showNotification(title, opts);
+          else new Notification(title, { body });
+        })
+        .catch(() => {
+          try {
+            new Notification(title, { body });
+          } catch {
+            /* noop */
+          }
+        });
+    } else {
+      new Notification(title, { body });
+    }
+  } catch {
+    /* noop */
+  }
+}
 
 /**
  * "오늘 할 운동" 상단 세션 스톱워치 + 가이드 트리거.
@@ -62,6 +106,7 @@ export function WorkoutSessionTimer({
   lockWeightReps?: boolean;
 }) {
   const router = useRouter();
+  const { showPrompt, clearPrompt } = useNotificationCenter();
   const orderScope = useTodayOrder();
   // 드래그로 순서를 바꿨으면(공유 컨텍스트) 가이드 큐의 해당 종류 항목들을 그 순서로
   // 재정렬한다. 워밍업 → 본운동 → 마무리 블록 위치는 그대로 두고, 각 블록 안에서만
@@ -107,6 +152,27 @@ export function WorkoutSessionTimer({
   // 자정 롤오버 중복 방지 — 한 번 처리한 forDate 는 다시 처리 안 함
   const rolledOverRef = useRef<string | null>(null);
 
+  // ── 무활동 종료 감지용 refs (콜백에서 최신값을 읽기 위해 ref 로 동기화) ──
+  const queueRef = useRef<GuidedItem[]>([]);
+  const stateRef = useRef<TimerState | null>(null);
+  const lastActivityRef = useRef<number>(0); // 마운트 시 effect 에서 now 로 설정
+  const promptedRef = useRef(false); // 종료 알림이 떠 있는지
+  const noRespTimerRef = useRef<number | null>(null); // 10분 무응답 타이머
+  const prevQueueLenRef = useRef(0);
+  const hadItemsRef = useRef(false); // 한 번이라도 남은 운동이 있었는지(자동 종료 판정)
+  const handlersRef = useRef<{
+    endWithRest: () => void;
+    snooze: () => void;
+    endTimerOnly: () => void;
+  }>({ endWithRest: () => {}, snooze: () => {}, endTimerOnly: () => {} });
+  // 콜백/인터벌에서 최신 값을 읽도록 ref 동기화(렌더 중 직접 대입 금지 → effect).
+  useEffect(() => {
+    queueRef.current = queue;
+  }, [queue]);
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
   /** 서버 액션 호출 + 결과 처리. 실패 시 사용자에게 알림. */
   async function saveDuration(forDate: string, sec: number): Promise<boolean> {
     if (sec <= 0) return true;
@@ -147,6 +213,7 @@ export function WorkoutSessionTimer({
 
   // 1) localStorage 복원 + 자정 롤오버 체크
   useEffect(() => {
+    lastActivityRef.current = Date.now(); // 무활동 기준 시각 초기화
     const raw = readTimer();
     // ⚠ 먼저 '안 보던 동안'의 시간을 제외한다(reconcile). 타이머를 켜둔 채 앱을
     //    며칠 닫아두면 그 며칠(어제·그제·일주일)이 경과시간으로 잡히는데, 이를
@@ -158,6 +225,7 @@ export function WorkoutSessionTimer({
       if (restored.forDate !== today && rolledOverRef.current !== restored.forDate) {
         rolledOverRef.current = restored.forDate;
         const d = takeUnsavedDelta(restored);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         if (d) void saveDuration(d.forDate, d.deltaSec);
         clearSavedMark();
         // 새 세션 시작 (계속 운동 중이라고 가정 — 일시정지 상태였으면 유지)
@@ -242,6 +310,16 @@ export function WorkoutSessionTimer({
     clearSavedMark(); // 새 세션은 0 부터 누적
     writeTimer(s);
     setState(s);
+    lastActivityRef.current = Date.now();
+    promptedRef.current = false;
+    // 폰 알림(30분 무활동 종료 확인)용 권한 요청 — 처음 한 번.
+    try {
+      if ("Notification" in window && Notification.permission === "default") {
+        void Notification.requestPermission();
+      }
+    } catch {
+      /* noop */
+    }
     // 영상 보기 모드에서만 가이드 오버레이를 연다. '안 보기'면 타이머만.
     if (!hideVideos && queue.length > 0) setGuided(true);
   }
@@ -268,49 +346,170 @@ export function WorkoutSessionTimer({
     };
     writeTimer(s);
     setState(s);
+    lastActivityRef.current = Date.now();
     // 영상 보기 모드: '운동 다시 시작하기'가 가이드도 다시 연다.
     if (!hideVideos && queue.length > 0) setGuided(true);
   }
   function requestSave() {
     setSaveAsk(true);
   }
-  /**
-   * 정지 = 누적 시간을 DB 에 더하고 타이머 reset.
-   * "없애는 게 아니라 캘린더에 올린다" 의미.
-   */
-  async function confirmSave() {
-    if (!state) {
-      setSaveAsk(false);
-      return;
+  function clearNoRespTimer() {
+    if (noRespTimerRef.current !== null) {
+      window.clearTimeout(noRespTimerRef.current);
+      noRespTimerRef.current = null;
     }
-    setSaveAsk(false);
-    // 운동 완료마다 이미 누적했을 수 있으니 '아직 안 올린 만큼'만 더한다(이중 가산 방지).
-    const d = takeUnsavedDelta(state);
-    if (d) {
-      const ok = await saveDuration(d.forDate, d.deltaSec);
-      if (!ok) return; // 실패 시 상태 유지해 재시도 가능
-    }
-    clearSavedMark();
-    writeTimer(null);
-    setState(null);
   }
 
   /**
-   * 가이드 오버레이가 마지막 항목까지 모두 처리됐을 때 호출.
-   * 운동이 끝났으니 누적 시간을 저장하고 타이머 reset.
-   * 사용자가 명시적 정지 안 눌러도 자동으로 캘린더 반영.
+   * 타이머 종료 공통 — '아직 안 올린' 누적 시간을 DB 에 더하고(=기록) 타이머 reset.
+   * 종료 알림/무응답 타이머도 정리한다. 다시 운동을 시작하면 그날 누적에 이어 더해진다.
    */
-  async function handleGuidedAllComplete() {
-    if (!state) return;
-    const d = takeUnsavedDelta(state);
+  async function endSession(): Promise<boolean> {
+    const s = stateRef.current;
+    if (!s) return true;
+    // 운동 완료마다 이미 누적했을 수 있으니 '아직 안 올린 만큼'만 더한다(이중 가산 방지).
+    const d = takeUnsavedDelta(s);
     if (d) {
       const ok = await saveDuration(d.forDate, d.deltaSec);
-      if (!ok) return;
+      if (!ok) return false; // 실패 시 상태 유지해 재시도 가능
     }
     clearSavedMark();
     writeTimer(null);
     setState(null);
+    promptedRef.current = false;
+    clearNoRespTimer();
+    clearPrompt();
+    return true;
   }
+
+  /** 정지(Save) = 누적 시간을 캘린더에 올리고 타이머 reset. */
+  async function confirmSave() {
+    setSaveAsk(false);
+    await endSession();
+  }
+
+  /** 가이드 완주(마지막 항목까지 처리) 시 자동 종료(기록). */
+  async function handleGuidedAllComplete() {
+    await endSession();
+  }
+
+  // '예' — 완료 외 남은 운동을 휴식(skip) 처리하고 타이머 종료(기록).
+  async function endWithRest() {
+    promptedRef.current = false;
+    clearNoRespTimer();
+    clearPrompt();
+    const inputs = queueToRestInputs(queueRef.current);
+    if (inputs.planRows.length || inputs.warmup.length || inputs.cooldown.length) {
+      try {
+        await restRemainingTodayAction(inputs);
+      } catch {
+        /* 휴식 처리 실패해도 타이머는 종료 */
+      }
+    }
+    await endSession();
+    router.refresh();
+  }
+
+  // '아니오' — 닫고 다시 30분 무활동 감지(타이머는 계속).
+  function snooze() {
+    promptedRef.current = false;
+    clearNoRespTimer();
+    clearPrompt();
+    lastActivityRef.current = Date.now();
+  }
+
+  // 10분 무응답 — 휴식 처리 없이 타이머만 자동 종료(기록).
+  async function endTimerOnly() {
+    await endSession();
+  }
+
+  // 종료 알림 띄우기(앱 내 벨 + 폰 로컬 알림). 10분 무응답이면 타이머만 종료.
+  function raiseEndPrompt() {
+    if (promptedRef.current) return;
+    promptedRef.current = true;
+    showPrompt({
+      id: `end-${Date.now()}`,
+      title: "운동을 종료하시겠습니까?",
+      body: "30분 동안 완료된 운동이 없어요. ‘예’를 누르면 남은 운동을 휴식 처리하고 타이머를 종료합니다.",
+      onYes: () => void handlersRef.current.endWithRest(),
+      onNo: () => handlersRef.current.snooze(),
+    });
+    showLocalNotification(
+      "운동을 종료하시겠습니까?",
+      "30분 동안 완료된 운동이 없어요. 예/아니오를 눌러주세요.",
+    );
+    noRespTimerRef.current = window.setTimeout(() => {
+      void handlersRef.current.endTimerOnly();
+    }, NO_RESPONSE_LIMIT_MS);
+  }
+
+  // 콜백(앱 내 벨/SW 알림)에서 최신 핸들러를 부르도록 ref 동기화(매 렌더).
+  useEffect(() => {
+    handlersRef.current = { endWithRest, snooze, endTimerOnly };
+  });
+
+  // 4) 무활동 감지 — 30초마다 점검. 실행 중 30분간 완료가 없으면 종료 알림.
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      const s = stateRef.current;
+      if (!s || s.pausedAt !== null) return;
+      if (
+        shouldPrompt({
+          running: true,
+          alreadyPrompted: promptedRef.current,
+          remainingCount: queueRef.current.length,
+          lastActivityMs: lastActivityRef.current,
+          nowMs: Date.now(),
+        })
+      ) {
+        raiseEndPrompt();
+      }
+    }, 30_000);
+    return () => window.clearInterval(id);
+    // raiseEndPrompt 는 ref 기반 — deps 불필요
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 5) 완료/스킵으로 남은 큐가 줄면 = 활동 → 무활동 카운트 리셋(+알림 떠 있으면 닫기).
+  useEffect(() => {
+    if (queue.length < prevQueueLenRef.current) {
+      lastActivityRef.current = Date.now();
+      if (promptedRef.current) {
+        promptedRef.current = false;
+        clearNoRespTimer();
+        clearPrompt();
+      }
+    }
+    prevQueueLenRef.current = queue.length;
+    if (queue.length > 0) hadItemsRef.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queue.length]);
+
+  // 6) 오늘 운동을 전부 끝내면(완료/스킵으로 큐가 0) 타이머 자동 종료(기록).
+  useEffect(() => {
+    if (!stateRef.current) return;
+    if (hadItemsRef.current && queue.length === 0) {
+      hadItemsRef.current = false;
+      void handlersRef.current.endTimerOnly();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queue.length]);
+
+  // 7) 서비스워커 알림(예/아니오) 클릭 → 앱 내와 동일 처리.
+  useEffect(() => {
+    if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
+      return;
+    }
+    function onMsg(e: MessageEvent) {
+      const d = e.data as { type?: string; action?: string } | null;
+      if (!d || d.type !== "workout-end-response") return;
+      if (!promptedRef.current) return;
+      if (d.action === "yes") handlersRef.current.endWithRest();
+      else handlersRef.current.snooze();
+    }
+    navigator.serviceWorker.addEventListener("message", onMsg);
+    return () => navigator.serviceWorker.removeEventListener("message", onMsg);
+  }, []);
 
   if (!state) {
     return (

@@ -15,7 +15,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Bell } from "lucide-react";
+import { Bell, BellOff } from "lucide-react";
 
 export type WorkoutEndPrompt = {
   id: string;
@@ -93,7 +93,25 @@ export function NotificationBell() {
       </button>
 
       {open ? (
-        <div className="absolute right-0 top-11 z-50 w-72 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+        <div className="fixed right-2 top-14 z-50 w-72 max-w-[calc(100vw-1rem)] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
+          <div className="flex items-center justify-between border-b border-zinc-100 px-3 py-2 dark:border-zinc-800">
+            <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
+              알림
+            </span>
+            {prompt ? (
+              <button
+                type="button"
+                onClick={() => {
+                  clearPrompt();
+                  setOpen(false);
+                }}
+                className="text-[11px] font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
+              >
+                지우기
+              </button>
+            ) : null}
+          </div>
+
           {prompt ? (
             <div className="p-3">
               <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
@@ -126,22 +144,17 @@ export function NotificationBell() {
               </div>
             </div>
           ) : (
-            <p className="p-4 text-center text-xs text-zinc-400 dark:text-zinc-500">
-              새 알림이 없어요
-            </p>
+            <div className="flex items-center justify-center gap-2 px-4 py-5 text-center">
+              <BellOff
+                aria-hidden="true"
+                size={16}
+                className="text-zinc-300 dark:text-zinc-600"
+              />
+              <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                새 알림이 없어요
+              </p>
+            </div>
           )}
-          {prompt ? (
-            <button
-              type="button"
-              onClick={() => {
-                clearPrompt();
-                setOpen(false);
-              }}
-              className="block w-full border-t border-zinc-100 py-2 text-[11px] font-semibold text-zinc-400 transition hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-800"
-            >
-              알림 지우기
-            </button>
-          ) : null}
         </div>
       ) : null}
     </div>

@@ -1431,9 +1431,13 @@ declare gid uuid; nm text;
 begin
   select id into gid from public.groups where invite_token = token;
   if gid is null then raise exception 'invalid_token'; end if;
+  -- 표시 이름: 닉네임 → 이름 → 메타데이터 → 이메일 앞부분 → '회원'.
   select coalesce(
+    nullif((select nickname from public.profiles where user_id = auth.uid()), ''),
     nullif((select name from public.profiles where user_id = auth.uid()), ''),
+    nullif((select raw_user_meta_data->>'nickname' from auth.users where id = auth.uid()), ''),
     nullif((select raw_user_meta_data->>'name' from auth.users where id = auth.uid()), ''),
+    nullif(split_part((select email from auth.users where id = auth.uid()), '@', 1), ''),
     '회원'
   ) into nm;
   insert into public.group_members (group_id, user_id, role, display_name)

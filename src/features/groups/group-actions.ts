@@ -36,6 +36,7 @@ export async function createGroupAction(name: string): Promise<GroupActionResult
     profile?.nickname?.trim() ||
     profile?.name?.trim() ||
     metaName.trim() ||
+    user.email?.split("@")[0] ||
     "회원"
   ).slice(0, 30);
 

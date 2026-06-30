@@ -48,11 +48,11 @@ export function ExerciseFinder() {
 
       {open ? (
         <div
-          className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-0 sm:items-center sm:p-4"
+          className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 sm:items-center sm:p-4"
           onClick={() => setOpen(false)}
         >
           <div
-            className="flex h-[80vh] w-full max-w-md flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl dark:bg-zinc-900 sm:h-[70vh] sm:rounded-2xl"
+            className="flex h-[80dvh] max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl dark:bg-zinc-900 sm:h-[600px] sm:max-h-[82vh] sm:rounded-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* 헤더 */}
@@ -73,18 +73,12 @@ export function ExerciseFinder() {
 
             {/* 대화 영역 */}
             <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
-              {turns.length === 0 ? (
-                <div className="rounded-xl bg-zinc-50 p-3 text-sm leading-6 text-zinc-600 dark:bg-zinc-800/60 dark:text-zinc-300">
-                  운동을 말로 설명해 보세요. 예) <br />
-                  <button
-                    type="button"
-                    onClick={() => setInput("덤벨 쓰고 머리 뒤로 왔다갔다 하는 운동")}
-                    className="mt-1 rounded-md bg-white px-2 py-1 text-left text-xs font-semibold text-emerald-700 shadow-sm dark:bg-zinc-900 dark:text-emerald-300"
-                  >
-                    “덤벨 쓰고 머리 뒤로 왔다갔다 하는 운동”
-                  </button>
-                </div>
-              ) : null}
+              {/* 첫 인사 */}
+              <div className="flex justify-start">
+                <span className="max-w-[88%] rounded-2xl rounded-bl-sm bg-zinc-100 px-3 py-2 text-sm text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
+                  안녕하세요? 궁금한 내용을 물어봐주세요 🙂
+                </span>
+              </div>
 
               {turns.map((t, i) => (
                 <div key={i} className="space-y-2">
@@ -142,7 +136,7 @@ export function ExerciseFinder() {
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="예) 케이블로 가슴 모아주는 운동"
+                placeholder="메시지를 입력하세요"
                 className="h-10 flex-1 rounded-full border border-zinc-300 bg-zinc-50 px-4 text-sm text-zinc-900 outline-none transition focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
               />
               <button

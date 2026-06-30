@@ -31,25 +31,56 @@ async function getPlugin(): Promise<HealthConnectLike | null> {
   }
 }
 
+/**
+ * 진입 시 상태 판정의 '순수' 부분(웹/네이티브·플러그인·권한 → 표시상태).
+ * 핵심 규칙: **웹에서만 숨긴다(unavailable). 네이티브면 권한 전이라도 항상 버튼을 보여준다(denied)**
+ * — 그래야 S23 같은 기기에서 '아무것도 안 뜨는' 침묵실패 없이 버튼을 눌러 사유를 볼 수 있다.
+ */
+export type StepsAvail =
+  | "web" // 웹/비네이티브 → 숨김
+  | "no-plugin" // 네이티브인데 플러그인 로드 실패 → 버튼(탭하면 사유)
+  | "hc-unavailable" // Health Connect 미설치/미지원 → 버튼
+  | "no-perm" // 권한 미허용 → 버튼
+  | "ok"; // 권한 있음 → 걸음수 표시
+
+export function decideStepsState(avail: StepsAvail, steps: number): StepsState {
+  if (avail === "web") return { status: "unavailable" };
+  if (avail === "ok") return { status: "granted", steps: steps > 0 ? steps : 0 };
+  return { status: "denied" }; // no-plugin · hc-unavailable · no-perm → 네이티브면 버튼 노출
+}
+
+async function isNative(): Promise<boolean> {
+  if (typeof window === "undefined") return false;
+  try {
+    const { Capacitor } = await import("@capacitor/core");
+    return Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+}
+
 /** Health Connect 사용 가능 + 걸음수 권한 보유 시 오늘 걸음수까지 읽는다. 액티비티는 안 띄움. */
 export async function getStepsState(): Promise<StepsState> {
+  if (!(await isNative())) return decideStepsState("web", 0);
+
   const HC = await getPlugin();
-  if (!HC) return { status: "unavailable" };
+  if (!HC) return decideStepsState("no-plugin", 0); // 네이티브인데 플러그인 없음 → 버튼
   try {
     const avail = await HC.checkAvailability?.();
-    if (avail && avail.availability !== "Available") return { status: "unavailable" };
+    if (avail && avail.availability !== "Available")
+      return decideStepsState("hc-unavailable", 0);
 
     const perm = await HC.checkHealthPermissions?.({
       read: [STEPS_READ],
       write: [],
     });
     const granted = !!perm && (perm.grantedPermissions?.length ?? 0) > 0;
-    if (!granted) return { status: "denied" };
+    if (!granted) return decideStepsState("no-perm", 0);
 
     const steps = await readSteps(HC);
-    return { status: "granted", steps: steps ?? 0 };
+    return decideStepsState("ok", steps ?? 0);
   } catch {
-    return { status: "unavailable" };
+    return decideStepsState("no-perm", 0); // 네이티브 오류 → 버튼(탭하면 사유)
   }
 }
 

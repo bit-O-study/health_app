@@ -32,8 +32,9 @@ describe("searchExercises — 자연어 묘사로 운동 추론", () => {
     expect(ids.some((id) => id === "pull-up" || id === "chin-up")).toBe(true);
   });
 
-  it("이름 직접 검색도 동작('벤치')", () => {
-    const ids = searchExercises("벤치프레스").map((h) => h.id);
+  it("이름 직접 검색도 동작(풀네임이 상위권에)", () => {
+    // 1,300 확장 카탈로그엔 '벤치' 변형이 많으므로 풀네임으로 검색해 상위권 포함 확인.
+    const ids = searchExercises("바벨 벤치프레스", 10).map((h) => h.id);
     expect(ids).toContain("bench-press");
   });
 

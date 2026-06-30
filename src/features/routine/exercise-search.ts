@@ -4,7 +4,7 @@
  */
 
 import {
-  EXERCISES,
+  ALL_EXERCISES,
   EQUIPMENT_LABELS,
 } from "@/features/routine/exercise-catalog";
 
@@ -84,7 +84,7 @@ export function tokenize(query: string): string[] {
 type Indexed = { id: string; name: string; target: string; text: string };
 
 function buildIndex(): Indexed[] {
-  return Object.values(EXERCISES).map((ex) => {
+  return ALL_EXERCISES.map((ex) => {
     const equip = ex.equipments
       .map((e) => EQUIPMENT_LABELS[e.equipment])
       .join(" ");

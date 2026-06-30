@@ -4,7 +4,12 @@ import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Footprints, Loader2, RefreshCw } from "lucide-react";
 
-import { getStepsState, connectSteps } from "@/features/health/steps-native";
+import {
+  getStepsState,
+  connectSteps,
+  diagnoseSteps,
+  formatStepsDiag,
+} from "@/features/health/steps-native";
 import { saveStepsAction } from "@/features/health/steps-actions";
 
 /**
@@ -22,11 +27,19 @@ export function StepsSync() {
   const [mode, setMode] = useState<Mode>("hidden");
   const [steps, setSteps] = useState<number | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
+  const [diag, setDiag] = useState<string | null>(null);
   const [pending, start] = useTransition();
+
+  // 화면 디버그: 네이티브에서 파이프라인 원시값(권한/레코드/합계)을 한 줄로 노출.
+  async function refreshDiag() {
+    const d = await diagnoseSteps();
+    if (d.native) setDiag(formatStepsDiag(d));
+  }
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
+      await refreshDiag();
       const st = await getStepsState();
       if (cancelled) return;
       if (st.status === "granted") {
@@ -58,10 +71,12 @@ export function StepsSync() {
       } else {
         setMsg(r.reason);
       }
+      await refreshDiag();
     });
   }
 
-  if (mode === "hidden") return null;
+  // 디버그 라인은 네이티브면 mode 가 hidden 이어도 보여준다(원인 파악용).
+  if (mode === "hidden" && !diag) return null;
 
   return (
     <div className="flex flex-col items-end gap-1">
@@ -103,6 +118,11 @@ export function StepsSync() {
       {msg ? (
         <span className="max-w-[220px] text-right text-[11px] leading-tight text-zinc-500 dark:text-zinc-400">
           {msg}
+        </span>
+      ) : null}
+      {diag ? (
+        <span className="max-w-[260px] break-all text-right text-[10px] leading-tight text-zinc-400 dark:text-zinc-500">
+          {diag}
         </span>
       ) : null}
     </div>

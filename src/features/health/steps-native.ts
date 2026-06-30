@@ -133,6 +133,77 @@ export async function connectSteps(): Promise<ConnectResult> {
   }
 }
 
+/**
+ * 진단: 권한요청(액티비티) 없이 파이프라인의 각 단계 값을 그대로 수집한다.
+ * 화면에 찍어 '어디서 0이 나오는지' 한 번에 가리기 위함(권한은 됐다는데 안 변할 때).
+ */
+export type StepsDiag = {
+  native: boolean;
+  plugin: boolean;
+  availability: string | null;
+  granted: string[] | null;
+  recordCount: number | null;
+  steps: number | null;
+  error: string | null;
+};
+
+export async function diagnoseSteps(): Promise<StepsDiag> {
+  const d: StepsDiag = {
+    native: false,
+    plugin: false,
+    availability: null,
+    granted: null,
+    recordCount: null,
+    steps: null,
+    error: null,
+  };
+  try {
+    d.native = await isNative();
+    if (!d.native) return d;
+    const HC = await getPlugin();
+    d.plugin = !!HC;
+    if (!HC) return d;
+
+    const avail = await HC.checkAvailability?.();
+    d.availability = avail?.availability ?? "unknown";
+
+    const perm = await HC.checkHealthPermissions?.({
+      read: [STEPS_READ],
+      write: [],
+    });
+    d.granted = perm?.grantedPermissions ?? [];
+    if ((d.granted?.length ?? 0) === 0) return d; // 권한 없으면 읽기 생략
+
+    const now = new Date();
+    const start = new Date(now);
+    start.setHours(0, 0, 0, 0);
+    const res = await HC.readRecords({
+      type: STEPS_READ,
+      timeRangeFilter: { type: "between", startTime: start, endTime: now },
+    });
+    const records = res?.records ?? [];
+    d.recordCount = records.length;
+    d.steps = records.reduce((sum, r) => sum + (Number(r.count) || 0), 0);
+  } catch (e) {
+    d.error = e instanceof Error ? e.message : String(e);
+  }
+  return d;
+}
+
+/** 진단 결과를 한 줄 문자열로(화면 디버그용). */
+export function formatStepsDiag(d: StepsDiag): string {
+  if (!d.native) return "웹(네이티브 아님)";
+  const parts = [
+    `플러그인${d.plugin ? "O" : "X"}`,
+    `HC=${d.availability ?? "-"}`,
+    `권한=${d.granted ? d.granted.length : "-"}`,
+    `레코드=${d.recordCount ?? "-"}`,
+    `합계=${d.steps ?? "-"}`,
+  ];
+  if (d.error) parts.push(`오류:${d.error}`);
+  return parts.join(" · ");
+}
+
 /** 오늘(자정~지금) 누적 걸음수. */
 async function readSteps(HC: HealthConnectLike): Promise<number | null> {
   const now = new Date();

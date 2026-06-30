@@ -44,12 +44,13 @@ export async function readTodaySteps(): Promise<number | null> {
     const start = new Date(now);
     start.setHours(0, 0, 0, 0);
 
+    // @kiwi-health/capacitor-health-connect: timeRangeFilter 는 Date 를 받는다(브리지가 직렬화).
     const res = await HC.readRecords({
       type: "Steps",
       timeRangeFilter: {
         type: "between",
-        startTime: start.toISOString(),
-        endTime: now.toISOString(),
+        startTime: start,
+        endTime: now,
       },
     });
     const records = res?.records ?? [];
@@ -71,6 +72,6 @@ type HealthConnectLike = {
   }) => Promise<unknown>;
   readRecords: (opts: {
     type: string;
-    timeRangeFilter: { type: string; startTime: string; endTime: string };
+    timeRangeFilter: { type: string; startTime: Date; endTime: Date };
   }) => Promise<{ records?: { count?: number | string }[] }>;
 };

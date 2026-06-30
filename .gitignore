@@ -59,3 +59,6 @@ test-*.mjs
 /scripts/
 *.log
 *.out
+
+# Capacitor 네이티브 프로젝트(빌드 시 cap add 로 생성 — 스크립트가 재생성)
+/ios/

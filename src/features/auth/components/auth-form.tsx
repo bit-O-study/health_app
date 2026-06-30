@@ -18,6 +18,7 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
@@ -76,7 +77,9 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: email.trim(),
         password,
-        options: { data: { name: name.trim(), phone: normPhone } },
+        options: {
+          data: { name: name.trim(), nickname: nickname.trim(), phone: normPhone },
+        },
       });
 
       if (signUpError) {
@@ -248,10 +251,29 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
                 id="name"
                 type="text"
                 autoComplete="name"
+                required
                 className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
                 placeholder="홍길동"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <label
+                className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
+                htmlFor="nickname"
+              >
+                닉네임 <span className="font-normal text-zinc-400">(선택)</span>
+              </label>
+              <input
+                id="nickname"
+                type="text"
+                autoComplete="nickname"
+                maxLength={20}
+                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                placeholder="그룹·랭킹에 보일 이름 (미입력 시 이름 사용)"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
               />
             </div>
             <div className="space-y-1.5">

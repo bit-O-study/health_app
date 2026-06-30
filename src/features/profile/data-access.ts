@@ -23,8 +23,10 @@ export type UserProfile = {
   bodyType: BodyType | null;
   bodyFatPct: number | null;
   muscleMassKg: number | null;
-  /** 이름(성명) — 선택 입력 */
+  /** 이름(성명) — 가입 필수 */
   name: string | null;
+  /** 닉네임 — 선택, 그룹·마이페이지 공개 표시 이름 */
+  nickname: string | null;
   /** 전화번호 — 선택 입력 */
   phone: string | null;
   /** 개인설정: 운동영상(가이드) 안 보기. true 면 운동 시작 시 영상 대신 타이머만. */
@@ -49,6 +51,7 @@ type ProfileRow = {
   body_fat_pct: unknown;
   muscle_mass_kg: unknown;
   name: unknown;
+  nickname: unknown;
   phone: unknown;
   hide_exercise_videos: unknown;
   show_exercise_guide: unknown;
@@ -71,7 +74,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic, lock_weight_reps",
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, name, nickname, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic, lock_weight_reps",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -101,6 +104,10 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     bodyFatPct: n(row.body_fat_pct),
     muscleMassKg: n(row.muscle_mass_kg),
     name: typeof row.name === "string" && row.name.trim() !== "" ? row.name : null,
+    nickname:
+      typeof row.nickname === "string" && row.nickname.trim() !== ""
+        ? row.nickname.trim()
+        : null,
     phone:
       typeof row.phone === "string" && row.phone.trim() !== "" ? row.phone : null,
     hideExerciseVideos: row.hide_exercise_videos === true,

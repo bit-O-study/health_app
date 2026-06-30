@@ -32,7 +32,13 @@ export async function createGroupAction(name: string): Promise<GroupActionResult
   const profile = await getUserProfile();
   const metaName =
     typeof user.user_metadata?.name === "string" ? user.user_metadata.name : "";
-  const displayName = (profile?.name?.trim() || metaName.trim() || "회원").slice(0, 30);
+  const displayName = (
+    profile?.nickname?.trim() ||
+    profile?.name?.trim() ||
+    metaName.trim() ||
+    user.email?.split("@")[0] ||
+    "회원"
+  ).slice(0, 30);
 
   const { error: memErr } = await supabase
     .from("group_members")

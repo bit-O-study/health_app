@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Search, Send, Sparkles, X } from "lucide-react";
 
@@ -21,6 +22,12 @@ export function ExerciseFinder() {
   const [input, setInput] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+  // 포털 마운트 가드(SSR 시 document 없음).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -46,11 +53,14 @@ export function ExerciseFinder() {
         운동 찾기
       </button>
 
-      {open ? (
-        <div
-          className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 sm:items-center sm:p-4"
-          onClick={() => setOpen(false)}
-        >
+      {open && mounted
+        ? createPortal(
+            // 헤더(backdrop-blur)가 fixed 기준을 바꿔 대화창이 위로 깨지던 문제 →
+            // document.body 로 포털해서 항상 뷰포트 기준으로 띄운다.
+            <div
+              className="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 sm:items-center sm:p-4"
+              onClick={() => setOpen(false)}
+            >
           <div
             className="flex h-[80dvh] max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl dark:bg-zinc-900 sm:h-[600px] sm:max-h-[82vh] sm:rounded-2xl"
             onClick={(e) => e.stopPropagation()}
@@ -149,8 +159,10 @@ export function ExerciseFinder() {
               </button>
             </form>
           </div>
-        </div>
-      ) : null}
+        </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }

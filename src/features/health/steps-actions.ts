@@ -30,7 +30,7 @@ export async function saveStepsAction(
     { onConflict: "user_id,for_date" },
   );
   if (!error) {
-    revalidatePath("/settings/me");
+    revalidatePath("/calendar");
     revalidatePath("/routine");
   }
   return { ok: !error };

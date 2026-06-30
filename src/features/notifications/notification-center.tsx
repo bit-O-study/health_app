@@ -93,7 +93,7 @@ export function NotificationBell() {
       </button>
 
       {open ? (
-        <div className="fixed right-2 top-14 z-50 w-72 max-w-[calc(100vw-1rem)] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
+        <div className="fixed right-2 top-[calc(3.5rem_+_env(safe-area-inset-top))] z-50 w-72 max-w-[calc(100vw-1rem)] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
           <div className="flex items-center justify-between border-b border-zinc-100 px-3 py-2 dark:border-zinc-800">
             <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
               알림

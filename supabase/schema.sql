@@ -988,6 +988,8 @@ create policy "admin writes exercise media" on public.exercise_media for all
 -- 회원 이름/전화번호 (회원가입 시 수집). 회원정보(관리자) 화면에 표시.
 alter table public.profiles add column if not exists name text;
 alter table public.profiles add column if not exists phone text;
+-- 닉네임(선택) — 그룹·마이페이지 등 공개 표시 이름. 없으면 이름으로 폴백.
+alter table public.profiles add column if not exists nickname text;
 
 -- 회원 정지/영구정지 (관리자). suspended_until = 기간정지 만료시각(지나면 자동 해제),
 -- banned_at = 영구정지 시각(수동 해제 전까지), ban_reason = 사유.

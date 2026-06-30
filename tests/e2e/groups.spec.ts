@@ -41,6 +41,8 @@ test("그룹 생성 → 초대 링크 참여 → 랭킹에 멤버 표시", async
   await signUpAndOnboard(pageB);
 
   await pageB.goto(`/groups/join/${token}`);
+  // 초대 확인 화면 — '확인'을 눌러 가입한다.
+  await pageB.getByRole("button", { name: "확인" }).click();
   await pageB.waitForURL(/\/groups\/[0-9a-f-]{8,}/, { timeout: 10000 });
   await expect(pageB.getByText("E2E 헬스모임")).toBeVisible({ timeout: 8000 });
 

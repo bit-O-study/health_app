@@ -52,9 +52,17 @@ export async function saveProfileAction(
     return { ok: false, error: "로그인이 필요합니다." };
   }
 
-  // 가입 시 user_metadata 에 담아둔 이름/전화번호를 프로필로 복사(있을 때만).
-  const meta = (user.user_metadata ?? {}) as { name?: unknown; phone?: unknown };
+  // 가입 시 user_metadata 에 담아둔 이름/닉네임/전화번호를 프로필로 복사(있을 때만).
+  const meta = (user.user_metadata ?? {}) as {
+    name?: unknown;
+    nickname?: unknown;
+    phone?: unknown;
+  };
   const metaName = typeof meta.name === "string" && meta.name.trim() !== "" ? meta.name.trim() : null;
+  const metaNickname =
+    typeof meta.nickname === "string" && meta.nickname.trim() !== ""
+      ? meta.nickname.trim()
+      : null;
   const metaPhone =
     typeof meta.phone === "string" && meta.phone.trim() !== "" ? meta.phone.trim() : null;
 
@@ -64,6 +72,7 @@ export async function saveProfileAction(
       gender,
       experience,
       ...(metaName ? { name: metaName } : {}),
+      ...(metaNickname ? { nickname: metaNickname } : {}),
       ...(metaPhone ? { phone: metaPhone } : {}),
       ...(metrics
         ? {
@@ -81,6 +90,28 @@ export async function saveProfileAction(
   }
 
   revalidatePath("/routine");
+  return { ok: true };
+}
+
+/** 닉네임 저장(빈 값이면 해제). 그룹·마이페이지 공개 표시 이름. */
+export async function updateNicknameAction(
+  nickname: string,
+): Promise<SaveProfileResult> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const clean = nickname.trim().slice(0, 20);
+  const { error } = await supabase
+    .from("profiles")
+    .update({ nickname: clean || null })
+    .eq("user_id", user.id);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/settings/me");
+  revalidatePath("/groups");
   return { ok: true };
 }
 

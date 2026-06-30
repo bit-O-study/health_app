@@ -135,12 +135,23 @@ setup_capacitor() {
   fi
   log "웹 자산/플러그인 동기화(cap sync android)…"
   PNPM exec cap sync android
+
+  # local.properties — Java properties 는 백슬래시가 이스케이프라 forward-slash 경로로 써야
+  # 'java.io.IOException: 파일 이름…구문이 잘못' 을 피한다. (Windows 경로는 cygpath -m 로 변환)
+  local sdkpath="$ANDROID_SDK_ROOT"
+  if have cygpath; then sdkpath="$(cygpath -m "$ANDROID_SDK_ROOT")"; fi
+  echo "sdk.dir=$sdkpath" > android/local.properties
+  log "android/local.properties → sdk.dir=$sdkpath"
 }
 
 # ── 5) 디버그 APK 빌드 ──────────────────────────────────────────────────────
 build_apk() {
   log "디버그 APK 빌드(gradlew assembleDebug)…"
-  ( cd android && ./gradlew --no-daemon assembleDebug )
+  if [ "$OS_KIND" = "windows" ]; then
+    ( cd android && cmd //c "gradlew.bat --no-daemon assembleDebug" )
+  else
+    ( cd android && chmod +x gradlew && ./gradlew --no-daemon assembleDebug )
+  fi
   local apk="android/app/build/outputs/apk/debug/app-debug.apk"
   if [ -f "$apk" ]; then
     log "빌드 성공 → $apk"

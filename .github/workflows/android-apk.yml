@@ -1,0 +1,66 @@
+name: android-apk
+
+# 안드로이드 디버그 APK 빌드(우분투) → 아티팩트 업로드.
+# 로컬 Windows 에서 나던 경로 버그 없이 리눅스에서 안정적으로 빌드한다.
+# 실행: Actions 탭 → android-apk → Run workflow (수동), 또는 v* 태그 푸시 시.
+#
+# 결과 APK: Actions 실행 결과의 "heltch-debug-apk" 아티팩트로 다운로드.
+# (태그 푸시면 GitHub Release 에도 첨부)
+
+on:
+  workflow_dispatch: {}
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write # Release 첨부용
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node + pnpm(corepack)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: corepack enable
+
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install deps
+        run: corepack pnpm install --frozen-lockfile
+
+      # android/ 는 gitignore 라 매번 새로 생성한 뒤 동기화.
+      - name: Capacitor add + sync (android)
+        run: |
+          corepack pnpm exec cap add android || true
+          corepack pnpm exec cap sync android
+
+      - name: Build debug APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: heltch-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Attach APK to Release (태그 푸시 시)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: android/app/build/outputs/apk/debug/app-debug.apk

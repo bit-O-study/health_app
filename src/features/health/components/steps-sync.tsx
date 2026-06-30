@@ -30,10 +30,11 @@ export function StepsSync() {
   const [diag, setDiag] = useState<string | null>(null);
   const [pending, start] = useTransition();
 
-  // 화면 디버그: 네이티브에서 파이프라인 원시값(권한/레코드/합계)을 한 줄로 노출.
+  // 화면 디버그: 파이프라인 원시값(네이티브/권한/레코드/합계)을 한 줄로 '항상' 노출.
+  // (네이티브 감지 자체가 실패하는지 확인하려면 웹에서도 보여야 한다 — 임시 진단용.)
   async function refreshDiag() {
     const d = await diagnoseSteps();
-    if (d.native) setDiag(formatStepsDiag(d));
+    setDiag(formatStepsDiag(d));
   }
 
   useEffect(() => {
@@ -121,8 +122,8 @@ export function StepsSync() {
         </span>
       ) : null}
       {diag ? (
-        <span className="max-w-[260px] break-all text-right text-[10px] leading-tight text-zinc-400 dark:text-zinc-500">
-          {diag}
+        <span className="max-w-[280px] break-all rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-right text-[11px] font-semibold leading-tight text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300">
+          🩺 {diag}
         </span>
       ) : null}
     </div>

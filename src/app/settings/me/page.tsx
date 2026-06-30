@@ -71,7 +71,8 @@ export default async function MyPage() {
   const genderLabel = labelOf(GENDER_OPTIONS, profile.gender);
   const expLabel = labelOf(EXPERIENCE_OPTIONS, profile.experience);
   const bodyTypeLabel = labelOf(BODY_TYPE_OPTIONS, profile.bodyType);
-  const displayName = profile.nickname ?? profile.name ?? "회원";
+  const displayName =
+    profile.nickname ?? profile.name ?? user.email?.split("@")[0] ?? "회원";
   const initial = (profile.nickname ?? profile.name ?? user.email ?? "?")
     .trim()
     .charAt(0)

@@ -124,8 +124,17 @@ export default async function CalendarPage({
         </Link>
       </div>
 
-      {/* 네이티브 앱: 걸음수 동기화(권한 있으면 자동, 없으면 '걸음수 연동' 버튼). 웹은 무동작. */}
-      <div className="mb-3 flex justify-end">
+      {/* 걸음수 동기화(네이티브) + 생리 기록(여성, 설정에서 캘린더로 이동). */}
+      <div className="mb-3 flex items-center justify-end gap-2">
+        {profile?.gender === "female" ? (
+          <Link
+            href="/cycle"
+            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3 text-xs font-bold text-rose-600 transition hover:bg-rose-100 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300"
+          >
+            <Heart aria-hidden="true" size={13} />
+            생리 기록
+          </Link>
+        ) : null}
         <StepsSync />
       </div>
 

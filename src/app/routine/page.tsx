@@ -21,6 +21,7 @@ import {
 } from "@/features/profile/data-access";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { getUserRoutine } from "@/features/routine/data-access";
+import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import {
@@ -69,12 +70,8 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </Link>
 
         <div className="flex items-center gap-2">
-          <Link
-            className="hidden h-9 items-center rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100 sm:inline-flex"
-            href="/exercises"
-          >
-            운동 리스트
-          </Link>
+          {/* 운동 찾기 — 자연어로 묘사하면 키워드 분석해 운동 추론(대화창). */}
+          <ExerciseFinder />
           {isLoggedIn ? (
             <>
               <NotificationBell />

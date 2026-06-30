@@ -8,6 +8,7 @@ import {
   LogIn,
   Moon,
   Settings,
+  SlidersHorizontal,
   Sparkles,
 } from "lucide-react";
 
@@ -314,18 +315,13 @@ async function TodayWorkout({
               muscleMassKg: profile?.muscleMassKg ?? null,
             }}
           />
+          {/* '운동 편집'(구 '기본 편집') — '루틴 변경'은 이 화면(/plan) 안으로 이동. */}
           <Link
             className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
             href="/plan"
           >
-            기본 편집
-          </Link>
-          <Link
-            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
-            href="/settings/routine?from=home"
-          >
-            루틴 변경
-            <ArrowRight aria-hidden="true" size={15} />
+            <SlidersHorizontal aria-hidden="true" size={15} />
+            운동 편집
           </Link>
         </div>
       </div>

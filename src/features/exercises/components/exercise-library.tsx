@@ -32,7 +32,7 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
   return (
     <>
       {/* 부위 필터 — 클릭한 부위 운동만 보임."전체" 로 해제 */}
-      <div className="sticky top-0 z-10 -mx-6 border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50/90 dark:bg-zinc-900/90 px-6 py-3 backdrop-blur sm:-mx-10 sm:px-10">
+      <div className="sticky top-[env(safe-area-inset-top)] z-10 -mx-6 border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50/90 dark:bg-zinc-900/90 px-6 py-3 backdrop-blur sm:-mx-10 sm:px-10">
         <nav className="-mb-1 flex flex-wrap items-center gap-1.5">
           <FilterChip
             label="전체"

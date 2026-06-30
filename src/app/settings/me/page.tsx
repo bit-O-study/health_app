@@ -6,12 +6,15 @@ import {
   ChevronLeft,
   Dumbbell,
   Flame,
+  LogOut,
   Scale,
   Trophy,
   Utensils,
 } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
+import { signOut } from "@/features/auth/actions";
+import { WithdrawButton } from "@/features/account/components/withdraw-button";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
   bmiOf,
@@ -176,6 +179,20 @@ export default async function MyPage() {
           <Stat label="최근 7일" value={`${score.last7DayCount}`} unit="일" icon={<Activity size={15} />} tone="emerald" />
           <Stat label="총 완료" value={`${score.totalCount}`} unit="건" icon={<Activity size={15} />} tone="indigo" />
         </div>
+      </section>
+
+      {/* 계정 — 하단에 조용히(로그아웃·회원탈퇴) */}
+      <section className="mt-12 flex flex-col items-center gap-2 border-t border-zinc-100 pt-6 dark:border-zinc-800">
+        <form action={signOut}>
+          <button
+            type="submit"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 underline-offset-2 transition hover:text-zinc-600 hover:underline dark:text-zinc-500 dark:hover:text-zinc-300"
+          >
+            <LogOut aria-hidden="true" size={13} />
+            로그아웃
+          </button>
+        </form>
+        <WithdrawButton />
       </section>
     </main>
   );

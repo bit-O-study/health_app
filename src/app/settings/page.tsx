@@ -7,7 +7,6 @@ import {
   Heart,
   ClipboardList,
   Dumbbell,
-  LogOut,
   Scale,
   SlidersHorizontal,
   TrendingUp,
@@ -15,14 +14,12 @@ import {
   UserRound,
 } from "lucide-react";
 
-import { signOut } from "@/features/auth/actions";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { resolveRoutine } from "@/features/routine/data";
 import { ThemePicker } from "@/features/theme/theme-picker";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { getUserProfile } from "@/features/profile/data-access";
-import { WithdrawButton } from "@/features/account/components/withdraw-button";
 
 export const dynamic = "force-dynamic";
 
@@ -305,18 +302,6 @@ export default async function SettingsPage() {
         </Link>
 
         <ThemePicker />
-
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="inline-flex h-11 items-center gap-2 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-red-300 dark:hover:border-red-700 hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-700"
-          >
-            <LogOut aria-hidden="true" size={16} />
-            로그아웃
-          </button>
-        </form>
-
-        <WithdrawButton />
       </div>
     </main>
   );

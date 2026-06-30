@@ -1,11 +1,23 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft, ChevronRight, Flame, Heart, Scale, Utensils } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Flame,
+  Heart,
+  Scale,
+  TrendingDown,
+  TrendingUp,
+  Utensils,
+  Weight,
+} from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
 import { getMonthlyCalendar } from "@/features/calendar/data-access";
+import { getBodyLogs } from "@/features/profile/body-logs";
+import { computeWeightDelta } from "@/features/profile/weight-delta";
 import { StepsSync } from "@/features/health/components/steps-sync";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
@@ -60,6 +72,11 @@ export default async function CalendarPage({
     to,
   );
   const spent = workoutBurnedTotal - intakeTotal;
+
+  // 체중 증감 — 직전 기록 대비. 기록 없으면 null(→ '체형 기록하러 가기' 버튼).
+  const weightDelta = computeWeightDelta(
+    (await getBodyLogs()).map((l) => l.weightKg),
+  );
 
   // 생리 표시 — 여성만. 기록된 생리일(꽉찬 하트) + 예측 생리일(빈 하트).
   const profile = await getUserProfile();
@@ -217,8 +234,66 @@ export default async function CalendarPage({
           />
         </div>
         <NetCard spent={spent} />
+        <WeightCard delta={weightDelta} />
       </div>
     </main>
+  );
+}
+
+/** 체중 카드 — 데이터 있으면 현재 체중 + 직전 대비 증감, 없으면 기록하러 가기 버튼. */
+function WeightCard({
+  delta,
+}: {
+  delta: { latestKg: number; deltaKg: number | null } | null;
+}) {
+  if (!delta) {
+    return (
+      <Link
+        href="/settings/profile"
+        className="flex items-center justify-between gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
+      >
+        <span className="flex items-center gap-1">
+          <Weight size={15} className="shrink-0" />
+          체중 기록이 없어요
+        </span>
+        <span className="whitespace-nowrap">체형 기록하러 가기 →</span>
+      </Link>
+    );
+  }
+
+  const d = delta.deltaKg;
+  const down = d !== null && d < 0;
+  const up = d !== null && d > 0;
+  const toneCls = down
+    ? "text-emerald-600 dark:text-emerald-400"
+    : up
+      ? "text-rose-600 dark:text-rose-400"
+      : "text-zinc-500 dark:text-zinc-400";
+  return (
+    <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      <span className="flex items-center gap-1 text-xs font-bold text-zinc-500 dark:text-zinc-400">
+        <Weight size={15} className="shrink-0" />
+        현재 체중
+      </span>
+      <span className="flex items-center gap-2">
+        <span className="whitespace-nowrap text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          {delta.latestKg.toLocaleString()}
+          <span className="ml-0.5 text-xs font-semibold text-zinc-400">kg</span>
+        </span>
+        {d === null ? (
+          <span className="text-[11px] font-semibold text-zinc-400">첫 기록</span>
+        ) : (
+          <span className={`flex items-center gap-0.5 text-xs font-bold tabular-nums ${toneCls}`}>
+            {down ? (
+              <TrendingDown size={14} />
+            ) : up ? (
+              <TrendingUp size={14} />
+            ) : null}
+            {d === 0 ? "변화 없음" : `${Math.abs(d)}kg ${down ? "감량" : "증가"}`}
+          </span>
+        )}
+      </span>
+    </div>
   );
 }
 

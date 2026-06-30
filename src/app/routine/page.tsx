@@ -20,6 +20,7 @@ import {
 } from "@/features/profile/data-access";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { getUserRoutine } from "@/features/routine/data-access";
+import { routineDisplayLabel } from "@/features/routine/routine-label";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import {
   addDaysYmd,
@@ -75,13 +76,6 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
           </Link>
           {isLoggedIn ? (
             <>
-              <Link
-                className="inline-flex h-9 items-center gap-1.5 rounded-md bg-emerald-600 px-3.5 text-sm font-semibold text-white transition hover:bg-emerald-500"
-                href="/settings/routine?from=home"
-              >
-                <Sparkles aria-hidden="true" size={15} />
-                추천 루틴
-              </Link>
               <NotificationBell />
               <Link
                 aria-label="설정"
@@ -308,7 +302,7 @@ async function TodayWorkout({
             오늘의 운동
           </h1>
           <p className="mt-1.5 text-xs text-zinc-600 dark:text-zinc-400 sm:mt-2 sm:text-sm">
-            {dateLabel} · {preset.label} · {variant.name}
+            {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">

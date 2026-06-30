@@ -1,0 +1,1301 @@
+ID,운동명(한글),운동명(영문),대분류,소분류,주동근,보조근,기구,운동유형,난이도
+1,바벨 벤치프레스,Barbell Bench Press,가슴,중부가슴,대흉근,삼두근·전면삼각근,바벨,Compound,Intermediate
+2,인클라인 바벨 벤치프레스,Incline Barbell Bench Press,가슴,상부가슴,대흉근 상부,삼두근·전면삼각근,바벨,Compound,Intermediate
+3,디클라인 바벨 벤치프레스,Decline Barbell Bench Press,가슴,하부가슴,대흉근 하부,삼두근,바벨,Compound,Intermediate
+4,덤벨 벤치프레스,Dumbbell Bench Press,가슴,중부가슴,대흉근,삼두근·전면삼각근,덤벨,Compound,Beginner
+5,인클라인 덤벨 벤치프레스,Incline Dumbbell Bench Press,가슴,상부가슴,대흉근 상부,삼두근·전면삼각근,덤벨,Compound,Intermediate
+6,디클라인 덤벨 벤치프레스,Decline Dumbbell Bench Press,가슴,하부가슴,대흉근 하부,삼두근,덤벨,Compound,Intermediate
+7,덤벨 플라이,Dumbbell Fly,가슴,중부가슴,대흉근,전면삼각근,덤벨,Isolation,Beginner
+8,인클라인 덤벨 플라이,Incline Dumbbell Fly,가슴,상부가슴,대흉근 상부,전면삼각근,덤벨,Isolation,Intermediate
+9,케이블 크로스오버,Cable Crossover,가슴,중부가슴,대흉근,전면삼각근,케이블,Isolation,Intermediate
+10,로우 케이블 플라이,Low Cable Fly,가슴,상부가슴,대흉근 상부,전면삼각근,케이블,Isolation,Intermediate
+11,펙덱 플라이,Pec Deck Fly,가슴,중부가슴,대흉근,전면삼각근,머신,Isolation,Beginner
+12,머신 체스트 프레스,Machine Chest Press,가슴,중부가슴,대흉근,삼두근,머신,Compound,Beginner
+13,스미스 머신 벤치프레스,Smith Machine Bench Press,가슴,중부가슴,대흉근,삼두근·전면삼각근,스미스,Compound,Beginner
+14,푸시업,Push-Up,가슴,중부가슴,대흉근,삼두근·코어,맨몸,Compound,Beginner
+15,인클라인 푸시업,Incline Push-Up,가슴,하부가슴,대흉근,삼두근,맨몸,Compound,Beginner
+16,디클라인 푸시업,Decline Push-Up,가슴,상부가슴,대흉근 상부,삼두근·전면삼각근,맨몸,Compound,Intermediate
+17,체스트 딥스,Chest Dip,가슴,하부가슴,대흉근 하부,삼두근,맨몸,Compound,Intermediate
+18,덤벨 풀오버,Dumbbell Pullover,가슴,중부가슴,대흉근,광배근·전거근,덤벨,Isolation,Intermediate
+19,스벤드 프레스,Svend Press,가슴,중부가슴,대흉근,전면삼각근,원판,Isolation,Beginner
+20,플로어 프레스,Floor Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Intermediate
+21,컨벤셔널 데드리프트,Conventional Deadlift,등,척추기립근,척추기립근·둔근,햄스트링·승모근,바벨,Compound,Advanced
+22,스모 데드리프트,Sumo Deadlift,등,척추기립근,둔근·내전근,햄스트링·척추기립근,바벨,Compound,Advanced
+23,루마니안 데드리프트,Romanian Deadlift,등,햄스트링,햄스트링·둔근,척추기립근,바벨,Compound,Intermediate
+24,바벨 벤트오버 로우,Barbell Bent-Over Row,등,광배근,광배근·능형근,후면삼각근·이두근,바벨,Compound,Intermediate
+25,펜들레이 로우,Pendlay Row,등,광배근,광배근·능형근,후면삼각근,바벨,Compound,Advanced
+26,티바 로우,T-Bar Row,등,광배근,광배근·능형근,이두근,바벨,Compound,Intermediate
+27,원암 덤벨 로우,One-Arm Dumbbell Row,등,광배근,광배근,능형근·이두근,덤벨,Compound,Beginner
+28,시티드 케이블 로우,Seated Cable Row,등,광배근,광배근·능형근,이두근,케이블,Compound,Beginner
+29,랫 풀다운,Lat Pulldown,등,광배근,광배근,이두근·능형근,케이블,Compound,Beginner
+30,와이드 그립 랫 풀다운,Wide-Grip Lat Pulldown,등,광배근,광배근 상부,능형근,케이블,Compound,Beginner
+31,클로즈 그립 랫 풀다운,Close-Grip Lat Pulldown,등,광배근,광배근 하부,이두근,케이블,Compound,Beginner
+32,풀업,Pull-Up,등,광배근,광배근,이두근·능형근,맨몸,Compound,Advanced
+33,친업,Chin-Up,등,광배근,광배근·이두근,능형근,맨몸,Compound,Intermediate
+34,와이드 그립 풀업,Wide-Grip Pull-Up,등,광배근,광배근 상부,능형근,맨몸,Compound,Advanced
+35,어시스트 풀업,Assisted Pull-Up,등,광배근,광배근,이두근,머신,Compound,Beginner
+36,인버티드 로우,Inverted Row,등,광배근,광배근·능형근,이두근,맨몸,Compound,Beginner
+37,스트레이트 암 풀다운,Straight-Arm Pulldown,등,광배근,광배근,대원근,케이블,Isolation,Intermediate
+38,체스트 서포티드 로우,Chest-Supported Row,등,능형근,능형근·중부승모근,후면삼각근,덤벨,Compound,Beginner
+39,머신 로우,Machine Row,등,광배근,광배근·능형근,이두근,머신,Compound,Beginner
+40,하이 로우 머신,Hammer Strength High Row,등,광배근,광배근 상부,능형근,머신,Compound,Intermediate
+41,랙풀,Rack Pull,등,척추기립근,척추기립근·승모근,둔근,바벨,Compound,Intermediate
+42,굿모닝,Good Morning,등,척추기립근,척추기립근·햄스트링,둔근,바벨,Compound,Advanced
+43,백 익스텐션,Back Extension,등,척추기립근,척추기립근,둔근·햄스트링,맨몸,Isolation,Beginner
+44,바벨 슈러그,Barbell Shrug,등,승모근,상부승모근,전완근,바벨,Isolation,Beginner
+45,덤벨 슈러그,Dumbbell Shrug,등,승모근,상부승모근,전완근,덤벨,Isolation,Beginner
+46,미도우즈 로우,Meadows Row,등,광배근,광배근,후면삼각근,랜드마인,Compound,Advanced
+47,실 로우,Seal Row,등,능형근,능형근·광배근,후면삼각근,덤벨,Compound,Intermediate
+48,랜드마인 로우,Landmine Row,등,광배근,광배근·능형근,이두근,랜드마인,Compound,Intermediate
+49,바벨 오버헤드 프레스,Barbell Overhead Press,어깨,전면삼각근,전면·측면삼각근,삼두근·상부승모근,바벨,Compound,Intermediate
+50,밀리터리 프레스,Military Press,어깨,전면삼각근,전면삼각근,삼두근·코어,바벨,Compound,Advanced
+51,덤벨 숄더 프레스,Dumbbell Shoulder Press,어깨,전면삼각근,전면·측면삼각근,삼두근,덤벨,Compound,Beginner
+52,아놀드 프레스,Arnold Press,어깨,전면삼각근,전면·측면삼각근,삼두근,덤벨,Compound,Intermediate
+53,머신 숄더 프레스,Machine Shoulder Press,어깨,전면삼각근,전면·측면삼각근,삼두근,머신,Compound,Beginner
+54,스미스 머신 숄더 프레스,Smith Machine Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,스미스,Compound,Beginner
+55,비하인드 넥 프레스,Behind-the-Neck Press,어깨,측면삼각근,측면·후면삼각근,삼두근,바벨,Compound,Advanced
+56,덤벨 사이드 레터럴 레이즈,Dumbbell Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,덤벨,Isolation,Beginner
+57,케이블 레터럴 레이즈,Cable Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케이블,Isolation,Intermediate
+58,머신 레터럴 레이즈,Machine Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,머신,Isolation,Beginner
+59,덤벨 프론트 레이즈,Dumbbell Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,덤벨,Isolation,Beginner
+60,케이블 프론트 레이즈,Cable Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,케이블,Isolation,Beginner
+61,덤벨 리어 델트 플라이,Dumbbell Rear Delt Fly,어깨,후면삼각근,후면삼각근,능형근,덤벨,Isolation,Beginner
+62,리버스 펙덱,Reverse Pec Deck,어깨,후면삼각근,후면삼각근,능형근,머신,Isolation,Beginner
+63,케이블 리어 델트 플라이,Cable Rear Delt Fly,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Intermediate
+64,페이스 풀,Face Pull,어깨,후면삼각근,후면삼각근·회전근개,능형근,케이블,Isolation,Beginner
+65,바벨 업라이트 로우,Barbell Upright Row,어깨,측면삼각근,측면삼각근·승모근,이두근,바벨,Compound,Intermediate
+66,케이블 업라이트 로우,Cable Upright Row,어깨,측면삼각근,측면삼각근·승모근,이두근,케이블,Compound,Beginner
+67,랜드마인 프레스,Landmine Press,어깨,전면삼각근,전면삼각근,삼두근·상부가슴,랜드마인,Compound,Intermediate
+68,플레이트 프론트 레이즈,Plate Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,원판,Isolation,Beginner
+69,바벨 백 스쿼트,Barbell Back Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링·코어,바벨,Compound,Intermediate
+70,프론트 스쿼트,Front Squat,하체,대퇴사두,대퇴사두,둔근·코어,바벨,Compound,Advanced
+71,하이바 스쿼트,High-Bar Squat,하체,대퇴사두,대퇴사두,둔근,바벨,Compound,Intermediate
+72,로우바 스쿼트,Low-Bar Squat,하체,둔근,둔근·햄스트링,대퇴사두,바벨,Compound,Advanced
+73,고블릿 스쿼트,Goblet Squat,하체,대퇴사두,대퇴사두·둔근,코어,덤벨,Compound,Beginner
+74,스미스 머신 스쿼트,Smith Machine Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,스미스,Compound,Beginner
+75,핵 스쿼트,Hack Squat,하체,대퇴사두,대퇴사두,둔근,머신,Compound,Intermediate
+76,레그 프레스,Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+77,레그 익스텐션,Leg Extension,하체,대퇴사두,대퇴사두,-,머신,Isolation,Beginner
+78,라잉 레그 컬,Lying Leg Curl,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+79,시티드 레그 컬,Seated Leg Curl,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+80,워킹 런지,Walking Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+81,덤벨 런지,Dumbbell Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Beginner
+82,불가리안 스플릿 스쿼트,Bulgarian Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+83,스텝업,Step-Up,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Beginner
+84,바벨 힙 쓰러스트,Barbell Hip Thrust,하체,둔근,대둔근,햄스트링,바벨,Compound,Intermediate
+85,글루트 브릿지,Glute Bridge,하체,둔근,대둔근,햄스트링,맨몸,Isolation,Beginner
+86,케이블 글루트 킥백,Cable Glute Kickback,하체,둔근,대둔근,햄스트링,케이블,Isolation,Beginner
+87,힙 어브덕션 머신,Hip Abduction Machine,하체,중둔근,중둔근,대둔근,머신,Isolation,Beginner
+88,힙 어덕션 머신,Hip Adduction Machine,하체,내전근,내전근,-,머신,Isolation,Beginner
+89,스탠딩 카프 레이즈,Standing Calf Raise,하체,비복근,비복근,가자미근,머신,Isolation,Beginner
+90,시티드 카프 레이즈,Seated Calf Raise,하체,가자미근,가자미근,비복근,머신,Isolation,Beginner
+91,레그 프레스 카프 레이즈,Leg Press Calf Raise,하체,비복근,비복근,가자미근,머신,Isolation,Beginner
+92,스모 스쿼트,Sumo Squat,하체,내전근,내전근·둔근,대퇴사두,덤벨,Compound,Beginner
+93,컷시 런지,Curtsy Lunge,하체,둔근,중둔근·대둔근,대퇴사두,덤벨,Compound,Intermediate
+94,피스톨 스쿼트,Pistol Squat,하체,대퇴사두,대퇴사두·둔근,코어,맨몸,Compound,Advanced
+95,박스 스쿼트,Box Squat,하체,둔근,둔근·대퇴사두,햄스트링,바벨,Compound,Intermediate
+96,벨트 스쿼트,Belt Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Intermediate
+97,노르딕 햄스트링 컬,Nordic Hamstring Curl,하체,햄스트링,햄스트링,둔근,맨몸,Isolation,Advanced
+98,글루트 햄 레이즈,Glute-Ham Raise,하체,햄스트링,햄스트링·둔근,척추기립근,머신,Compound,Advanced
+99,시시 스쿼트,Sissy Squat,하체,대퇴사두,대퇴사두,-,맨몸,Isolation,Advanced
+100,점프 스쿼트,Jump Squat,하체,대퇴사두,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+101,바벨 컬,Barbell Curl,팔,이두근,이두근,전완근,바벨,Isolation,Beginner
+102,EZ바 컬,EZ-Bar Curl,팔,이두근,이두근,전완근,바벨,Isolation,Beginner
+103,덤벨 컬,Dumbbell Biceps Curl,팔,이두근,이두근,전완근,덤벨,Isolation,Beginner
+104,해머 컬,Hammer Curl,팔,이두근,이두근·상완근,전완근,덤벨,Isolation,Beginner
+105,인클라인 덤벨 컬,Incline Dumbbell Curl,팔,이두근,이두근 장두,전완근,덤벨,Isolation,Intermediate
+106,프리처 컬,Preacher Curl,팔,이두근,이두근 단두,전완근,바벨,Isolation,Intermediate
+107,머신 프리처 컬,Machine Preacher Curl,팔,이두근,이두근,전완근,머신,Isolation,Beginner
+108,컨센트레이션 컬,Concentration Curl,팔,이두근,이두근,전완근,덤벨,Isolation,Beginner
+109,케이블 컬,Cable Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+110,케이블 로프 해머 컬,Cable Rope Hammer Curl,팔,이두근,이두근·상완근,전완근,케이블,Isolation,Beginner
+111,스파이더 컬,Spider Curl,팔,이두근,이두근 단두,전완근,덤벨,Isolation,Intermediate
+112,드래그 컬,Drag Curl,팔,이두근,이두근 장두,전완근,바벨,Isolation,Intermediate
+113,졸트만 컬,Zottman Curl,팔,이두근,이두근·전완근,상완근,덤벨,Isolation,Intermediate
+114,21s 바벨 컬,21s Barbell Curl,팔,이두근,이두근,전완근,바벨,Isolation,Intermediate
+115,리버스 바벨 컬,Reverse Barbell Curl,팔,전완근,상완요골근·전완근,이두근,바벨,Isolation,Intermediate
+116,스탠딩 케이블 컬,Standing Cable Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+117,클로즈 그립 벤치프레스,Close-Grip Bench Press,팔,삼두근,삼두근,대흉근·전면삼각근,바벨,Compound,Intermediate
+118,스컬크러셔,Lying Triceps Extension,팔,삼두근,삼두근,-,바벨,Isolation,Intermediate
+119,EZ바 스컬크러셔,EZ-Bar Skull Crusher,팔,삼두근,삼두근,-,바벨,Isolation,Intermediate
+120,오버헤드 트라이셉스 익스텐션,Overhead Triceps Extension,팔,삼두근,삼두근 장두,-,바벨,Isolation,Intermediate
+121,덤벨 오버헤드 익스텐션,Dumbbell Overhead Extension,팔,삼두근,삼두근 장두,-,덤벨,Isolation,Beginner
+122,케이블 푸시다운,Triceps Pushdown,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+123,로프 푸시다운,Rope Triceps Pushdown,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+124,리버스 그립 푸시다운,Reverse-Grip Pushdown,팔,삼두근,삼두근 내측두,-,케이블,Isolation,Beginner
+125,트라이셉스 킥백,Triceps Kickback,팔,삼두근,삼두근,-,덤벨,Isolation,Beginner
+126,케이블 킥백,Cable Triceps Kickback,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+127,벤치 딥스,Bench Dip,팔,삼두근,삼두근,전면삼각근,맨몸,Compound,Beginner
+128,트라이셉스 딥스,Triceps Dip,팔,삼두근,삼두근,대흉근,맨몸,Compound,Intermediate
+129,다이아몬드 푸시업,Diamond Push-Up,팔,삼두근,삼두근,대흉근,맨몸,Compound,Intermediate
+130,JM 프레스,JM Press,팔,삼두근,삼두근,대흉근,바벨,Compound,Advanced
+131,머신 트라이셉스 익스텐션,Machine Triceps Extension,팔,삼두근,삼두근,-,머신,Isolation,Beginner
+132,케이블 오버헤드 익스텐션,Cable Overhead Triceps Extension,팔,삼두근,삼두근 장두,-,케이블,Isolation,Intermediate
+133,리스트 컬,Wrist Curl,팔,전완근,전완 굴근,-,덤벨,Isolation,Beginner
+134,리버스 리스트 컬,Reverse Wrist Curl,팔,전완근,전완 신근,-,덤벨,Isolation,Beginner
+135,비하인드 백 리스트 컬,Behind-the-Back Wrist Curl,팔,전완근,전완 굴근,-,바벨,Isolation,Intermediate
+136,파머스 캐리,Farmer's Carry,팔,전완근,전완근·승모근,코어,덤벨,Compound,Beginner
+137,플레이트 핀치,Plate Pinch,팔,전완근,전완 굴근,-,원판,Isolation,Intermediate
+138,리스트 롤러,Wrist Roller,팔,전완근,전완 굴근·신근,-,기타,Isolation,Intermediate
+139,플랭크,Plank,코어,복직근,복직근·복횡근,척추기립근,맨몸,Isolation,Beginner
+140,사이드 플랭크,Side Plank,코어,복사근,복사근,복횡근,맨몸,Isolation,Beginner
+141,크런치,Crunch,코어,복직근,복직근 상부,-,맨몸,Isolation,Beginner
+142,싯업,Sit-Up,코어,복직근,복직근,고관절굴근,맨몸,Isolation,Beginner
+143,디클라인 싯업,Decline Sit-Up,코어,복직근,복직근,고관절굴근,맨몸,Isolation,Intermediate
+144,케이블 크런치,Cable Crunch,코어,복직근,복직근,복사근,케이블,Isolation,Beginner
+145,행잉 레그 레이즈,Hanging Leg Raise,코어,복직근,복직근 하부,고관절굴근,맨몸,Isolation,Advanced
+146,행잉 니 레이즈,Hanging Knee Raise,코어,복직근,복직근 하부,고관절굴근,맨몸,Isolation,Intermediate
+147,토즈 투 바,Toes-to-Bar,코어,복직근,복직근,광배근·고관절굴근,맨몸,Compound,Advanced
+148,리버스 크런치,Reverse Crunch,코어,복직근,복직근 하부,-,맨몸,Isolation,Beginner
+149,바이시클 크런치,Bicycle Crunch,코어,복사근,복직근·복사근,-,맨몸,Isolation,Beginner
+150,러시안 트위스트,Russian Twist,코어,복사근,복사근,복직근,맨몸,Isolation,Beginner
+151,케이블 우드 찹,Cable Woodchopper,코어,복사근,복사근,복직근,케이블,Compound,Intermediate
+152,팔로프 프레스,Pallof Press,코어,복사근,복사근·복횡근,복직근,케이블,Isolation,Intermediate
+153,앱 휠 롤아웃,Ab Wheel Rollout,코어,복직근,복직근·복횡근,광배근,기타,Compound,Advanced
+154,V업,V-Up,코어,복직근,복직근,고관절굴근,맨몸,Isolation,Intermediate
+155,할로우 바디 홀드,Hollow Body Hold,코어,복직근,복직근·복횡근,고관절굴근,맨몸,Isolation,Intermediate
+156,마운틴 클라이머,Mountain Climber,코어,복직근,복직근,고관절굴근,맨몸,Compound,Beginner
+157,데드버그,Dead Bug,코어,복횡근,복횡근·복직근,고관절굴근,맨몸,Isolation,Beginner
+158,버드독,Bird Dog,코어,척추기립근,척추기립근·둔근,복횡근,맨몸,Isolation,Beginner
+159,드래곤 플래그,Dragon Flag,코어,복직근,복직근,광배근,맨몸,Isolation,Advanced
+160,캡틴스 체어 레그 레이즈,Captain's Chair Leg Raise,코어,복직근,복직근 하부,고관절굴근,머신,Isolation,Intermediate
+161,케틀벨 스윙,Kettlebell Swing,전신,둔근,둔근·햄스트링,코어·승모근,케틀벨,Compound,Intermediate
+162,케틀벨 고블릿 스쿼트,Kettlebell Goblet Squat,하체,대퇴사두,대퇴사두·둔근,코어,케틀벨,Compound,Beginner
+163,케틀벨 클린,Kettlebell Clean,전신,둔근,둔근·햄스트링,승모근·전완근,케틀벨,Compound,Intermediate
+164,케틀벨 스내치,Kettlebell Snatch,전신,둔근,둔근·삼각근,코어,케틀벨,Compound,Advanced
+165,터키시 겟업,Turkish Get-Up,전신,코어,어깨·코어,둔근,케틀벨,Compound,Advanced
+166,케틀벨 프레스,Kettlebell Press,어깨,전면삼각근,전면삼각근,삼두근,케틀벨,Compound,Intermediate
+167,케틀벨 윈드밀,Kettlebell Windmill,코어,복사근,복사근·어깨,햄스트링,케틀벨,Compound,Advanced
+168,케틀벨 데드리프트,Kettlebell Deadlift,하체,둔근,둔근·햄스트링,척추기립근,케틀벨,Compound,Beginner
+169,케틀벨 프론트 스쿼트,Kettlebell Front Squat,하체,대퇴사두,대퇴사두·둔근,코어,케틀벨,Compound,Intermediate
+170,케틀벨 로우,Kettlebell Row,등,광배근,광배근,이두근,케틀벨,Compound,Beginner
+171,TRX 로우,TRX Row,등,광배근,광배근·능형근,이두근,TRX,Compound,Beginner
+172,TRX 푸시업,TRX Push-Up,가슴,대흉근,대흉근,삼두근·코어,TRX,Compound,Intermediate
+173,TRX 파이크,TRX Pike,코어,복직근,복직근,어깨,TRX,Compound,Advanced
+174,TRX 비셉스 컬,TRX Biceps Curl,팔,이두근,이두근,전완근,TRX,Isolation,Beginner
+175,TRX 트라이셉스 익스텐션,TRX Triceps Extension,팔,삼두근,삼두근,코어,TRX,Isolation,Intermediate
+176,TRX 런지,TRX Lunge,하체,대퇴사두,대퇴사두·둔근,코어,TRX,Compound,Intermediate
+177,TRX 햄스트링 컬,TRX Hamstring Curl,하체,햄스트링,햄스트링,둔근,TRX,Isolation,Intermediate
+178,TRX 체스트 프레스,TRX Chest Press,가슴,대흉근,대흉근,삼두근,TRX,Compound,Intermediate
+179,밴드 풀어파트,Band Pull-Apart,어깨,후면삼각근,후면삼각근,능형근,밴드,Isolation,Beginner
+180,밴드 레터럴 레이즈,Band Lateral Raise,어깨,측면삼각근,측면삼각근,승모근,밴드,Isolation,Beginner
+181,밴드 비셉스 컬,Band Biceps Curl,팔,이두근,이두근,전완근,밴드,Isolation,Beginner
+182,밴드 트라이셉스 푸시다운,Band Triceps Pushdown,팔,삼두근,삼두근,-,밴드,Isolation,Beginner
+183,밴드 페이스 풀,Band Face Pull,어깨,후면삼각근,후면삼각근·회전근개,능형근,밴드,Isolation,Beginner
+184,밴드 굿모닝,Band Good Morning,등,척추기립근,척추기립근·햄스트링,둔근,밴드,Compound,Beginner
+185,밴드 몬스터 워크,Band Monster Walk,하체,중둔근,중둔근,대둔근,밴드,Isolation,Beginner
+186,밴드 글루트 브릿지,Band Glute Bridge,하체,둔근,대둔근,햄스트링,밴드,Isolation,Beginner
+187,메디신볼 슬램,Medicine Ball Slam,전신,복직근,복직근·광배근,어깨,메디신볼,Compound,Beginner
+188,메디신볼 체스트 패스,Medicine Ball Chest Pass,가슴,대흉근,대흉근,삼두근,메디신볼,Compound,Beginner
+189,메디신볼 러시안 트위스트,Medicine Ball Russian Twist,코어,복사근,복사근,복직근,메디신볼,Isolation,Beginner
+190,월 볼,Wall Ball,전신,대퇴사두,대퇴사두·둔근,어깨,메디신볼,Compound,Intermediate
+191,배틀로프 웨이브,Battle Rope Wave,전신,어깨,어깨·전완근,코어,배틀로프,Compound,Intermediate
+192,슬레드 푸시,Sled Push,하체,대퇴사두,대퇴사두·둔근,종아리,슬레드,Compound,Intermediate
+193,슬레드 풀,Sled Pull,하체,햄스트링,햄스트링·둔근,등,슬레드,Compound,Intermediate
+194,보수 스쿼트,BOSU Squat,하체,대퇴사두,대퇴사두·둔근,코어,BOSU,Compound,Beginner
+195,짐볼 크런치,Stability Ball Crunch,코어,복직근,복직근,복사근,짐볼,Isolation,Beginner
+196,짐볼 햄스트링 컬,Stability Ball Hamstring Curl,하체,햄스트링,햄스트링,둔근,짐볼,Isolation,Intermediate
+197,짐볼 플랭크,Stability Ball Plank,코어,복직근,복직근·복횡근,어깨,짐볼,Isolation,Intermediate
+198,파워 클린,Power Clean,전신,둔근,둔근·햄스트링,승모근·삼각근,바벨,Compound,Advanced
+199,행 클린,Hang Clean,전신,둔근,둔근·햄스트링,승모근,바벨,Compound,Advanced
+200,푸시 프레스,Push Press,전신,전면삼각근,전면삼각근·대퇴사두,삼두근,바벨,Compound,Intermediate
+201,스내치,Snatch,전신,올림픽리프팅,둔근·삼각근,햄스트링·승모근,바벨,Compound,Advanced
+202,클린 앤 저크,Clean and Jerk,전신,올림픽리프팅,둔근·삼각근,햄스트링·삼두근,바벨,Compound,Advanced
+203,파워 스내치,Power Snatch,전신,올림픽리프팅,둔근·삼각근,승모근,바벨,Compound,Advanced
+204,행 스내치,Hang Snatch,전신,올림픽리프팅,둔근·삼각근,승모근,바벨,Compound,Advanced
+205,스쿼트 클린,Squat Clean,전신,올림픽리프팅,둔근·대퇴사두,승모근·삼각근,바벨,Compound,Advanced
+206,스플릿 저크,Split Jerk,전신,올림픽리프팅,전면삼각근·대퇴사두,삼두근·코어,바벨,Compound,Advanced
+207,푸시 저크,Push Jerk,전신,올림픽리프팅,전면삼각근·대퇴사두,삼두근,바벨,Compound,Advanced
+208,클린 풀,Clean Pull,전신,올림픽리프팅,둔근·햄스트링,승모근,바벨,Compound,Advanced
+209,스내치 풀,Snatch Pull,전신,올림픽리프팅,둔근·햄스트링,승모근,바벨,Compound,Advanced
+210,오버헤드 스쿼트,Overhead Squat,전신,올림픽리프팅,대퇴사두·삼각근,코어·둔근,바벨,Compound,Advanced
+211,머슬 스내치,Muscle Snatch,전신,올림픽리프팅,삼각근·둔근,승모근,바벨,Compound,Advanced
+212,행 파워 클린,Hang Power Clean,전신,올림픽리프팅,둔근·승모근,햄스트링,바벨,Compound,Advanced
+213,클린 그립 데드리프트,Clean-Grip Deadlift,전신,올림픽리프팅,둔근·햄스트링,승모근,바벨,Compound,Intermediate
+214,스내치 그립 데드리프트,Snatch-Grip Deadlift,전신,올림픽리프팅,둔근·햄스트링,승모근·광배근,바벨,Compound,Advanced
+215,소츠 프레스,Sots Press,전신,올림픽리프팅,삼각근,대퇴사두·코어,바벨,Compound,Advanced
+216,클린 앤 프레스,Clean and Press,전신,올림픽리프팅,둔근·삼각근,삼두근,바벨,Compound,Advanced
+217,아틀라스 스톤 리프트,Atlas Stone Lift,전신,스트롱맨,둔근·척추기립근,이두근·광배근,기타,Compound,Advanced
+218,요크 워크,Yoke Walk,전신,스트롱맨,척추기립근·코어,승모근·대퇴사두,기타,Compound,Advanced
+219,로그 프레스,Log Press,전신,스트롱맨,전면삼각근,삼두근·대퇴사두,기타,Compound,Advanced
+220,케그 토스,Keg Toss,전신,스트롱맨,둔근·삼각근,햄스트링,기타,Compound,Advanced
+221,타이어 플립,Tire Flip,전신,스트롱맨,둔근·대퇴사두,광배근·이두근,기타,Compound,Advanced
+222,카 데드리프트,Car Deadlift,전신,스트롱맨,둔근·햄스트링,승모근·전완근,기타,Compound,Advanced
+223,샌드백 캐리,Sandbag Carry,전신,스트롱맨,코어·승모근,전완근·둔근,기타,Compound,Intermediate
+224,허큘리스 홀드,Hercules Hold,전신,스트롱맨,전완근,승모근·삼각근,기타,Isolation,Advanced
+225,액슬 바 데드리프트,Axle Bar Deadlift,전신,스트롱맨,둔근·햄스트링,전완근·승모근,바벨,Compound,Advanced
+226,트랩바 데드리프트,Trap Bar Deadlift,하체,스트롱맨,둔근·대퇴사두,햄스트링·승모근,바벨,Compound,Intermediate
+227,컨티넨탈 클린,Continental Clean,전신,스트롱맨,둔근·승모근,이두근·전완근,기타,Compound,Advanced
+228,스톤 오버 바,Stone Over Bar,전신,스트롱맨,둔근·척추기립근,광배근,기타,Compound,Advanced
+229,박스 점프,Box Jump,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+230,브로드 점프,Broad Jump,전신,플라이오메트릭,둔근·대퇴사두,햄스트링,맨몸,Compound,Intermediate
+231,점프 런지,Jump Lunge,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+232,뎁스 점프,Depth Jump,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Advanced
+233,버피,Burpee,전신,플라이오메트릭,대퇴사두·대흉근,코어·삼두근,맨몸,Compound,Beginner
+234,박스 점프 오버,Box Jump Over,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+235,클랩 푸시업,Clap Push-Up,가슴,플라이오메트릭,대흉근,삼두근·전면삼각근,맨몸,Compound,Advanced
+236,플라이오메트릭 푸시업,Plyometric Push-Up,가슴,플라이오메트릭,대흉근,삼두근,맨몸,Compound,Advanced
+237,라테럴 바운드,Lateral Bound,전신,플라이오메트릭,둔근·대퇴사두,중둔근,맨몸,Compound,Intermediate
+238,스케이터 점프,Skater Jump,전신,플라이오메트릭,둔근·대퇴사두,중둔근,맨몸,Compound,Beginner
+239,턱 점프,Tuck Jump,전신,플라이오메트릭,대퇴사두·둔근,코어,맨몸,Compound,Intermediate
+240,점프 로프,Jump Rope,유산소,플라이오메트릭,비복근,어깨·전완근,기타,Compound,Beginner
+241,더블 언더,Double Under,유산소,기능성,비복근,어깨·전완근,기타,Compound,Advanced
+242,월 클라임,Wall Climb,전신,기능성,어깨·코어,삼두근,맨몸,Compound,Advanced
+243,핸드스탠드 푸시업,Handstand Push-Up,어깨,기능성,전면삼각근,삼두근·코어,맨몸,Compound,Advanced
+244,머슬업,Muscle-Up,전신,기능성,광배근·대흉근,이두근·삼두근,맨몸,Compound,Advanced
+245,키핑 풀업,Kipping Pull-Up,등,기능성,광배근,코어·이두근,맨몸,Compound,Intermediate
+246,데빌 프레스,Devil Press,전신,기능성,둔근·삼각근,대흉근·코어,덤벨,Compound,Advanced
+247,맨메이커,Man Maker,전신,기능성,대흉근·삼각근,광배근·코어,덤벨,Compound,Advanced
+248,쓰러스터,Thruster,전신,기능성,대퇴사두·삼각근,둔근·삼두근,바벨,Compound,Intermediate
+249,아메리칸 케틀벨 스윙,American Kettlebell Swing,전신,기능성,둔근·삼각근,햄스트링·코어,케틀벨,Compound,Intermediate
+250,GHD 싯업,GHD Sit-Up,코어,기능성,복직근,고관절굴근,머신,Isolation,Intermediate
+251,베어 크롤,Bear Crawl,전신,기능성,코어·어깨,대퇴사두,맨몸,Compound,Beginner
+252,크랩 워크,Crab Walk,전신,기능성,삼두근·둔근,코어,맨몸,Compound,Beginner
+253,로잉 머신,Rowing Machine,유산소,유산소,광배근·대퇴사두,둔근·이두근,머신,Compound,Beginner
+254,어썰트 바이크,Assault Bike,유산소,유산소,대퇴사두·삼각근,햄스트링,머신,Compound,Beginner
+255,스키 에르그,Ski Erg,유산소,유산소,광배근·삼두근,코어,머신,Compound,Beginner
+256,트레드밀 러닝,Treadmill Running,유산소,유산소,대퇴사두·비복근,햄스트링·둔근,머신,Compound,Beginner
+257,일립티컬,Elliptical Trainer,유산소,유산소,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+258,스테어 클라이머,Stair Climber,유산소,유산소,둔근·대퇴사두,비복근,머신,Compound,Beginner
+259,덤벨 익스터널 로테이션,Dumbbell External Rotation,어깨,재활,극하근·소원근,후면삼각근,덤벨,Isolation,Beginner
+260,덤벨 인터널 로테이션,Dumbbell Internal Rotation,어깨,재활,견갑하근,대흉근,덤벨,Isolation,Beginner
+261,케이블 익스터널 로테이션,Cable External Rotation,어깨,재활,극하근·소원근,후면삼각근,케이블,Isolation,Beginner
+262,엠티 캔 레이즈,Empty Can Raise,어깨,재활,극상근,측면삼각근,덤벨,Isolation,Beginner
+263,풀 캔 레이즈,Full Can Raise,어깨,재활,극상근,측면삼각근,덤벨,Isolation,Beginner
+264,스캡션,Scaption,어깨,재활,극상근·삼각근,전거근,덤벨,Isolation,Beginner
+265,밴드 익스터널 로테이션,Band External Rotation,어깨,재활,극하근·소원근,후면삼각근,밴드,Isolation,Beginner
+266,프론 코브라,Prone Cobra,등,재활,중하부승모근,능형근·후면삼각근,맨몸,Isolation,Beginner
+267,월 슬라이드,Wall Slide,어깨,재활,중하부승모근,전거근,맨몸,Isolation,Beginner
+268,스캐퓰러 풀업,Scapular Pull-Up,등,재활,하부승모근,광배근,맨몸,Isolation,Intermediate
+269,클램쉘,Clamshell,하체,재활,중둔근,대둔근,밴드,Isolation,Beginner
+270,파이어 하이드런트,Fire Hydrant,하체,재활,중둔근,대둔근,맨몸,Isolation,Beginner
+271,싱글 레그 글루트 브릿지,Single-Leg Glute Bridge,하체,재활,둔근,햄스트링,맨몸,Isolation,Beginner
+272,도네키 킥,Donkey Kick,하체,재활,대둔근,햄스트링,맨몸,Isolation,Beginner
+273,캣 카우,Cat-Cow,코어,스트레칭,척추기립근,복횡근,맨몸,Isolation,Beginner
+274,차일드 포즈,Child's Pose,등,스트레칭,광배근,척추기립근,맨몸,Isolation,Beginner
+275,카프 스트레치,Calf Stretch,하체,스트레칭,비복근,가자미근,맨몸,Isolation,Beginner
+276,스탠딩 햄스트링 스트레치,Standing Hamstring Stretch,하체,스트레칭,햄스트링,비복근,맨몸,Isolation,Beginner
+277,피겨4 스트레치,Figure-4 Stretch,하체,스트레칭,둔근,이상근,맨몸,Isolation,Beginner
+278,코브라 스트레치,Cobra Stretch,코어,스트레칭,복직근,고관절굴근,맨몸,Isolation,Beginner
+279,다운독,Downward Dog,전신,스트레칭,햄스트링·어깨,비복근,맨몸,Isolation,Beginner
+280,90/90 힙 스트레치,90/90 Hip Stretch,하체,스트레칭,둔근·이상근,고관절,맨몸,Isolation,Beginner
+281,폼롤러 IT밴드 릴리즈,Foam Roller IT Band,하체,스트레칭,장경인대,대퇴근막장근,기타,Isolation,Beginner
+282,폼롤러 흉추 릴리즈,Foam Roller Thoracic,등,스트레칭,흉추기립근,능형근,기타,Isolation,Beginner
+283,해머 스트렝스 아이소레터럴 로우,Hammer Strength Iso-Lateral Row,등,머신,광배근,능형근·이두근,머신,Compound,Beginner
+284,해머 스트렝스 체스트 프레스,Hammer Strength Chest Press,가슴,머신,대흉근,삼두근·전면삼각근,머신,Compound,Beginner
+285,해머 스트렝스 숄더 프레스,Hammer Strength Shoulder Press,어깨,머신,전면삼각근,삼두근,머신,Compound,Beginner
+286,해머 스트렝스 풀다운,Hammer Strength Pulldown,등,머신,광배근,이두근,머신,Compound,Beginner
+287,해머 스트렝스 레그 프레스,Hammer Strength Leg Press,하체,머신,대퇴사두,둔근·햄스트링,머신,Compound,Beginner
+288,라이프 피트니스 체스트 프레스,Life Fitness Chest Press,가슴,머신,대흉근,삼두근,머신,Compound,Beginner
+289,라이프 피트니스 레그 익스텐션,Life Fitness Leg Extension,하체,머신,대퇴사두,-,머신,Isolation,Beginner
+290,테크노짐 펙토럴 머신,Technogym Pectoral Machine,가슴,머신,대흉근,전면삼각근,머신,Isolation,Beginner
+291,매트릭스 시티드 로우,Matrix Seated Row,등,머신,광배근,능형근·이두근,머신,Compound,Beginner
+292,사이벡스 레그 프레스,Cybex Leg Press,하체,머신,대퇴사두,둔근,머신,Compound,Beginner
+293,펜듈럼 스쿼트,Pendulum Squat,하체,머신,대퇴사두,둔근,머신,Compound,Intermediate
+294,V-스쿼트 머신,V-Squat Machine,하체,머신,대퇴사두,둔근,머신,Compound,Intermediate
+295,글루트 드라이브 머신,Glute Drive Machine,하체,머신,대둔근,햄스트링,머신,Isolation,Beginner
+296,어시스티드 딥 머신,Assisted Dip Machine,팔,머신,삼두근,대흉근,머신,Compound,Beginner
+297,백 익스텐션 머신,Back Extension Machine,등,머신,척추기립근,둔근·햄스트링,머신,Isolation,Beginner
+298,토르소 로테이션 머신,Torso Rotation Machine,코어,머신,복사근,복직근,머신,Isolation,Beginner
+299,앱도미널 크런치 머신,Abdominal Crunch Machine,코어,머신,복직근,복사근,머신,Isolation,Beginner
+300,스미스 머신 힙 쓰러스트,Smith Machine Hip Thrust,하체,머신,둔근,햄스트링,스미스,Compound,Beginner
+301,와이드 그립 벤치프레스,Wide-Grip Bench Press,가슴,중부가슴,대흉근,삼두근·전면삼각근,바벨,Compound,Intermediate
+302,클로즈 그립 푸시업,Close-Grip Push-Up,가슴,중부가슴,대흉근,삼두근,맨몸,Compound,Beginner
+303,와이드 푸시업,Wide Push-Up,가슴,중부가슴,대흉근,전면삼각근,맨몸,Compound,Beginner
+304,아처 푸시업,Archer Push-Up,가슴,중부가슴,대흉근,삼두근,맨몸,Compound,Advanced
+305,스파이더맨 푸시업,Spider-Man Push-Up,가슴,중부가슴,대흉근,코어·삼두근,맨몸,Compound,Intermediate
+306,하이 케이블 플라이,High Cable Fly,가슴,하부가슴,대흉근 하부,전면삼각근,케이블,Isolation,Intermediate
+307,인클라인 케이블 플라이,Incline Cable Fly,가슴,상부가슴,대흉근 상부,전면삼각근,케이블,Isolation,Intermediate
+308,싱글 암 케이블 크로스오버,Single-Arm Cable Crossover,가슴,중부가슴,대흉근,전면삼각근,케이블,Isolation,Intermediate
+309,스미스 머신 인클라인 프레스,Smith Machine Incline Press,가슴,상부가슴,대흉근 상부,삼두근,스미스,Compound,Beginner
+310,스미스 머신 디클라인 프레스,Smith Machine Decline Press,가슴,하부가슴,대흉근 하부,삼두근,스미스,Compound,Beginner
+311,인클라인 머신 체스트 프레스,Incline Machine Chest Press,가슴,상부가슴,대흉근 상부,삼두근,머신,Compound,Beginner
+312,싱글 암 덤벨 벤치프레스,Single-Arm Dumbbell Bench Press,가슴,중부가슴,대흉근,코어·삼두근,덤벨,Compound,Intermediate
+313,뉴트럴 그립 덤벨 프레스,Neutral-Grip Dumbbell Press,가슴,중부가슴,대흉근,삼두근,덤벨,Compound,Beginner
+314,스쿼즈 프레스,Squeeze Press,가슴,중부가슴,대흉근,삼두근,덤벨,Compound,Intermediate
+315,디클라인 덤벨 플라이,Decline Dumbbell Fly,가슴,하부가슴,대흉근 하부,전면삼각근,덤벨,Isolation,Intermediate
+316,와이드 그립 바벨 로우,Wide-Grip Barbell Row,등,광배근,광배근·후면삼각근,능형근,바벨,Compound,Intermediate
+317,언더핸드 바벨 로우,Underhand Barbell Row,등,광배근,광배근·이두근,능형근,바벨,Compound,Intermediate
+318,와이드 그립 케이블 로우,Wide-Grip Cable Row,등,광배근,광배근·후면삼각근,능형근,케이블,Compound,Beginner
+319,싱글 암 케이블 로우,Single-Arm Cable Row,등,광배근,광배근,이두근,케이블,Compound,Beginner
+320,뉴트럴 그립 랫 풀다운,Neutral-Grip Lat Pulldown,등,광배근,광배근,이두근,케이블,Compound,Beginner
+321,비하인드 넥 풀다운,Behind-the-Neck Pulldown,등,광배근,광배근 상부,능형근,케이블,Compound,Advanced
+322,싱글 암 랫 풀다운,Single-Arm Lat Pulldown,등,광배근,광배근,이두근,케이블,Compound,Intermediate
+323,케이블 풀오버,Cable Pullover,등,광배근,광배근,대원근,케이블,Isolation,Intermediate
+324,머신 풀오버,Machine Pullover,등,광배근,광배근,대원근,머신,Isolation,Beginner
+325,인클라인 벤치 덤벨 로우,Incline Bench Dumbbell Row,등,능형근,능형근·광배근,후면삼각근,덤벨,Compound,Beginner
+326,스미스 머신 벤트오버 로우,Smith Machine Bent-Over Row,등,광배근,광배근·능형근,후면삼각근,스미스,Compound,Beginner
+327,데피싯 데드리프트,Deficit Deadlift,등,척추기립근,척추기립근·둔근,햄스트링,바벨,Compound,Advanced
+328,블록 풀,Block Pull,등,척추기립근,척추기립근·승모근,둔근,바벨,Compound,Intermediate
+329,비하인드 백 슈러그,Behind-the-Back Shrug,등,승모근,상부승모근,전완근,바벨,Isolation,Intermediate
+330,케이블 슈러그,Cable Shrug,등,승모근,상부승모근,전완근,케이블,Isolation,Beginner
+331,싱글 암 머신 로우,Single-Arm Machine Row,등,광배근,광배근,이두근,머신,Compound,Beginner
+332,어시스티드 친업,Assisted Chin-Up,등,광배근,광배근·이두근,능형근,머신,Compound,Beginner
+333,클로즈 뉴트럴 그립 시티드 로우,Close Neutral-Grip Seated Row,등,광배근,광배근 하부,이두근,케이블,Compound,Beginner
+334,싱글 암 덤벨 숄더 프레스,Single-Arm Dumbbell Shoulder Press,어깨,전면삼각근,전면삼각근,코어·삼두근,덤벨,Compound,Intermediate
+335,시티드 바벨 오버헤드 프레스,Seated Barbell Overhead Press,어깨,전면삼각근,전면삼각근,삼두근,바벨,Compound,Intermediate
+336,시티드 덤벨 숄더 프레스,Seated Dumbbell Shoulder Press,어깨,전면삼각근,전면·측면삼각근,삼두근,덤벨,Compound,Beginner
+337,리닝 케이블 레터럴 레이즈,Leaning Cable Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케이블,Isolation,Intermediate
+338,라잉 사이드 레터럴 레이즈,Lying Side Lateral Raise,어깨,측면삼각근,측면삼각근,후면삼각근,덤벨,Isolation,Intermediate
+339,케이블 Y 레이즈,Cable Y-Raise,어깨,측면삼각근,측면·후면삼각근,하부승모근,케이블,Isolation,Intermediate
+340,인클라인 리어 델트 레이즈,Incline Rear Delt Raise,어깨,후면삼각근,후면삼각근,능형근,덤벨,Isolation,Beginner
+341,시티드 벤트오버 레터럴 레이즈,Seated Bent-Over Lateral Raise,어깨,후면삼각근,후면삼각근,능형근,덤벨,Isolation,Beginner
+342,케틀벨 보텀업 프레스,Kettlebell Bottoms-Up Press,어깨,전면삼각근,전면삼각근,코어·전완근,케틀벨,Compound,Advanced
+343,Z 프레스,Z Press,어깨,전면삼각근,전면삼각근,코어·삼두근,바벨,Compound,Advanced
+344,브래드포드 프레스,Bradford Press,어깨,측면삼각근,전면·측면삼각근,삼두근,바벨,Compound,Intermediate
+345,쿠반 프레스,Cuban Press,어깨,후면삼각근,후면삼각근·회전근개,승모근,덤벨,Compound,Advanced
+346,플레이트 어라운드 더 월드,Plate Around the World,어깨,전면삼각근,전면·측면삼각근,코어,원판,Isolation,Intermediate
+347,싱글 암 케이블 레터럴 레이즈,Single-Arm Cable Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케이블,Isolation,Beginner
+348,덤벨 푸시 프레스,Dumbbell Push Press,어깨,전면삼각근,전면삼각근·대퇴사두,삼두근,덤벨,Compound,Intermediate
+349,와이드 그립 바벨 컬,Wide-Grip Barbell Curl,팔,이두근,이두근 단두,전완근,바벨,Isolation,Beginner
+350,클로즈 그립 바벨 컬,Close-Grip Barbell Curl,팔,이두근,이두근 장두,전완근,바벨,Isolation,Beginner
+351,케이블 EZ바 컬,Cable EZ-Bar Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+352,싱글 암 케이블 컬,Single-Arm Cable Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+353,하이 케이블 컬,High Cable Curl,팔,이두근,이두근 장두,전완근,케이블,Isolation,Intermediate
+354,머신 비셉스 컬,Machine Biceps Curl,팔,이두근,이두근,전완근,머신,Isolation,Beginner
+355,크로스 바디 해머 컬,Cross-Body Hammer Curl,팔,이두근,이두근·상완근,전완근,덤벨,Isolation,Beginner
+356,시티드 덤벨 컬,Seated Dumbbell Curl,팔,이두근,이두근,전완근,덤벨,Isolation,Beginner
+357,리버스 EZ바 컬,Reverse EZ-Bar Curl,팔,전완근,상완요골근·전완근,이두근,바벨,Isolation,Intermediate
+358,케이블 프리처 컬,Cable Preacher Curl,팔,이두근,이두근 단두,전완근,케이블,Isolation,Intermediate
+359,클로즈 그립 푸시다운,Close-Grip Pushdown,팔,삼두근,삼두근 내측두,-,케이블,Isolation,Beginner
+360,싱글 암 케이블 푸시다운,Single-Arm Cable Pushdown,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+361,V바 푸시다운,V-Bar Pushdown,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+362,인클라인 덤벨 트라이셉스 익스텐션,Incline Dumbbell Triceps Extension,팔,삼두근,삼두근 장두,-,덤벨,Isolation,Intermediate
+363,케이블 라잉 트라이셉스 익스텐션,Cable Lying Triceps Extension,팔,삼두근,삼두근,-,케이블,Isolation,Intermediate
+364,테이트 프레스,Tate Press,팔,삼두근,삼두근,대흉근,덤벨,Isolation,Intermediate
+365,클로즈 그립 덤벨 플로어 프레스,Close-Grip Dumbbell Floor Press,팔,삼두근,삼두근,대흉근,덤벨,Compound,Intermediate
+366,인클라인 케이블 컬,Incline Cable Curl,팔,이두근,이두근 장두,전완근,케이블,Isolation,Intermediate
+367,밴드 오버헤드 트라이셉스 익스텐션,Band Overhead Triceps Extension,팔,삼두근,삼두근 장두,-,밴드,Isolation,Beginner
+368,바벨 리스트 컬,Barbell Wrist Curl,팔,전완근,전완 굴근,-,바벨,Isolation,Beginner
+369,포즈 스쿼트,Pause Squat,하체,대퇴사두,대퇴사두·둔근,코어,바벨,Compound,Intermediate
+370,템포 스쿼트,Tempo Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Intermediate
+371,세이프티 바 스쿼트,Safety Bar Squat,하체,대퇴사두,대퇴사두·둔근,척추기립근,바벨,Compound,Intermediate
+372,와이드 스탠스 레그 프레스,Wide-Stance Leg Press,하체,둔근,둔근·내전근,대퇴사두,머신,Compound,Beginner
+373,클로즈 스탠스 레그 프레스,Close-Stance Leg Press,하체,대퇴사두,대퇴사두,둔근,머신,Compound,Beginner
+374,싱글 레그 레그 프레스,Single-Leg Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Intermediate
+375,싱글 레그 익스텐션,Single-Leg Extension,하체,대퇴사두,대퇴사두,-,머신,Isolation,Beginner
+376,싱글 레그 컬,Single-Leg Curl,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+377,스탠딩 싱글 레그 컬,Standing Single-Leg Curl,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+378,덤벨 루마니안 데드리프트,Dumbbell Romanian Deadlift,하체,햄스트링,햄스트링·둔근,척추기립근,덤벨,Compound,Beginner
+379,싱글 레그 루마니안 데드리프트,Single-Leg Romanian Deadlift,하체,햄스트링,햄스트링·둔근,코어,덤벨,Compound,Advanced
+380,스티프 레그 데드리프트,Stiff-Leg Deadlift,하체,햄스트링,햄스트링,둔근·척추기립근,바벨,Compound,Intermediate
+381,리버스 런지,Reverse Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Beginner
+382,사이드 런지,Side Lunge,하체,내전근,내전근·둔근,대퇴사두,덤벨,Compound,Intermediate
+383,덤벨 스텝다운,Dumbbell Step-Down,하체,대퇴사두,대퇴사두·둔근,코어,덤벨,Compound,Intermediate
+384,스플릿 스쿼트,Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Beginner
+385,랜드마인 스쿼트,Landmine Squat,하체,대퇴사두,대퇴사두·둔근,코어,랜드마인,Compound,Beginner
+386,동키 카프 레이즈,Donkey Calf Raise,하체,비복근,비복근,가자미근,머신,Isolation,Intermediate
+387,싱글 레그 카프 레이즈,Single-Leg Calf Raise,하체,비복근,비복근,가자미근,덤벨,Isolation,Beginner
+388,케이블 풀스루,Cable Pull-Through,하체,둔근,둔근·햄스트링,척추기립근,케이블,Compound,Beginner
+389,디클라인 크런치,Decline Crunch,코어,복직근,복직근 상부,복사근,맨몸,Isolation,Intermediate
+390,로우 투 하이 케이블 찹,Low-to-High Cable Chop,코어,복사근,복사근,복직근,케이블,Compound,Intermediate
+391,행잉 윈드쉴드 와이퍼,Hanging Windshield Wiper,코어,복사근,복사근·복직근,광배근,맨몸,Isolation,Advanced
+392,덤벨 사이드 벤드,Dumbbell Side Bend,코어,복사근,복사근,요방형근,덤벨,Isolation,Beginner
+393,케이블 사이드 벤드,Cable Side Bend,코어,복사근,복사근,요방형근,케이블,Isolation,Beginner
+394,토 터치 크런치,Toe-Touch Crunch,코어,복직근,복직근 상부,-,맨몸,Isolation,Beginner
+395,플러터 킥,Flutter Kick,코어,복직근,복직근 하부,고관절굴근,맨몸,Isolation,Beginner
+396,시저 킥,Scissor Kick,코어,복직근,복직근 하부,고관절굴근,맨몸,Isolation,Beginner
+397,할로우 락,Hollow Rock,코어,복직근,복직근·복횡근,고관절굴근,맨몸,Isolation,Intermediate
+398,L 싯,L-Sit,코어,복직근,복직근,고관절굴근·삼두근,맨몸,Isolation,Advanced
+399,행잉 오블리크 레이즈,Hanging Oblique Raise,코어,복사근,복사근,복직근,맨몸,Isolation,Advanced
+400,스탠딩 케이블 크런치,Standing Cable Crunch,코어,복직근,복직근,복사근,케이블,Isolation,Beginner
+401,머신 힙 쓰러스트,Machine Hip Thrust,하체,둔근,대둔근,햄스트링,머신,Compound,Beginner
+402,싱글 레그 힙 쓰러스트,Single-Leg Hip Thrust,하체,둔근,대둔근,햄스트링,맨몸,Isolation,Intermediate
+403,밴드 힙 쓰러스트,Band Hip Thrust,하체,둔근,대둔근,햄스트링,밴드,Isolation,Beginner
+404,프로그 펌프,Frog Pump,하체,둔근,대둔근,내전근,맨몸,Isolation,Beginner
+405,글루트 브릿지 마치,Glute Bridge March,하체,둔근,대둔근,코어,맨몸,Isolation,Beginner
+406,케이블 힙 익스텐션,Cable Hip Extension,하체,둔근,대둔근,햄스트링,케이블,Isolation,Beginner
+407,케틀벨 스모 데드리프트,Kettlebell Sumo Deadlift,하체,둔근,둔근·내전근,햄스트링,케틀벨,Compound,Beginner
+408,덤벨 데드리프트,Dumbbell Deadlift,하체,둔근,둔근·햄스트링,척추기립근,덤벨,Compound,Beginner
+409,트랩바 스쿼트,Trap Bar Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Beginner
+410,스미스 머신 스플릿 스쿼트,Smith Machine Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,스미스,Compound,Beginner
+411,케틀벨 런지,Kettlebell Lunge,하체,대퇴사두,대퇴사두·둔근,코어,케틀벨,Compound,Beginner
+412,스텝업 윗 니 드라이브,Step-Up with Knee Drive,하체,대퇴사두,대퇴사두·둔근,고관절굴근,덤벨,Compound,Beginner
+413,사이드 라잉 힙 어브덕션,Side-Lying Hip Abduction,하체,중둔근,중둔근,대둔근,맨몸,Isolation,Beginner
+414,코펜하겐 플랭크,Copenhagen Plank,하체,내전근,내전근,코어,맨몸,Isolation,Advanced
+415,카프 프레스 머신,Calf Press Machine,하체,비복근,비복근,가자미근,머신,Isolation,Beginner
+416,싱글 레그 카프 프레스,Single-Leg Calf Press,하체,비복근,비복근,가자미근,머신,Isolation,Intermediate
+417,스탠딩 토 레이즈,Standing Toe Raise,하체,전경골근,전경골근,-,맨몸,Isolation,Beginner
+418,시티드 토 레이즈,Seated Toe Raise,하체,전경골근,전경골근,-,머신,Isolation,Beginner
+419,밴드 토 레이즈,Band Toe Raise,하체,전경골근,전경골근,-,밴드,Isolation,Beginner
+420,넥 익스텐션,Neck Extension,목,목,경판상근,승모근,맨몸,Isolation,Beginner
+421,넥 플렉션,Neck Flexion,목,목,흉쇄유돌근,-,맨몸,Isolation,Beginner
+422,넥 레터럴 플렉션,Neck Lateral Flexion,목,목,흉쇄유돌근,사각근,맨몸,Isolation,Beginner
+423,넥 하니스 익스텐션,Neck Harness Extension,목,목,경판상근,승모근,기타,Isolation,Intermediate
+424,플레이트 넥 익스텐션,Plate Neck Extension,목,목,경판상근,승모근,원판,Isolation,Intermediate
+425,프론 Y 레이즈,Prone Y Raise,어깨,재활,하부승모근,후면삼각근,덤벨,Isolation,Beginner
+426,프론 T 레이즈,Prone T Raise,어깨,재활,중부승모근,능형근,덤벨,Isolation,Beginner
+427,프론 W 레이즈,Prone W Raise,어깨,재활,중하부승모근,능형근,덤벨,Isolation,Beginner
+428,프론 L 레이즈,Prone L Raise,어깨,재활,극하근·소원근,후면삼각근,덤벨,Isolation,Beginner
+429,밴드 인터널 로테이션,Band Internal Rotation,어깨,재활,견갑하근,대흉근,밴드,Isolation,Beginner
+430,사이드 라잉 익스터널 로테이션,Side-Lying External Rotation,어깨,재활,극하근·소원근,후면삼각근,덤벨,Isolation,Beginner
+431,90도 익스터널 로테이션,90-Degree External Rotation,어깨,재활,극하근,후면삼각근,케이블,Isolation,Intermediate
+432,스탠딩 밴드 로우,Standing Band Row,등,재활,능형근,중부승모근,밴드,Compound,Beginner
+433,데드 행,Dead Hang,팔,전완근,전완 굴근,광배근,맨몸,Isolation,Beginner
+434,타월 풀업,Towel Pull-Up,팔,전완근,전완근·광배근,이두근,맨몸,Compound,Advanced
+435,그립 크러셔,Grip Crusher,팔,전완근,전완 굴근,-,기타,Isolation,Beginner
+436,케이블 리버스 컬,Cable Reverse Curl,팔,전완근,상완요골근,이두근,케이블,Isolation,Beginner
+437,리스트 익스텐션 머신,Wrist Extension Machine,팔,전완근,전완 신근,-,머신,Isolation,Beginner
+438,핀치 그립 데드리프트,Pinch-Grip Deadlift,팔,전완근,전완 굴근,승모근,바벨,Compound,Advanced
+439,스탠딩 케이블 체스트 프레스,Standing Cable Chest Press,가슴,중부가슴,대흉근,삼두근·코어,케이블,Compound,Intermediate
+440,케이블 인클라인 프레스,Cable Incline Press,가슴,상부가슴,대흉근 상부,삼두근,케이블,Compound,Intermediate
+441,케이블 디클라인 프레스,Cable Decline Press,가슴,하부가슴,대흉근 하부,삼두근,케이블,Compound,Intermediate
+442,싱글 암 케이블 체스트 프레스,Single-Arm Cable Chest Press,가슴,중부가슴,대흉근,코어·삼두근,케이블,Compound,Intermediate
+443,하이 투 로우 케이블 찹,High-to-Low Cable Chop,코어,복사근,복사근,복직근,케이블,Compound,Intermediate
+444,스탠딩 케이블 리버스 플라이,Standing Cable Reverse Fly,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Intermediate
+445,싱글 암 케이블 프론트 레이즈,Single-Arm Cable Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,케이블,Isolation,Beginner
+446,비하인드 백 케이블 슈러그,Behind-the-Back Cable Shrug,등,승모근,상부승모근,전완근,케이블,Isolation,Intermediate
+447,월 싯,Wall Sit,하체,대퇴사두,대퇴사두,둔근,맨몸,Isolation,Beginner
+448,플랭크 업다운,Plank Up-Down,코어,복직근,복직근·복횡근,삼두근,맨몸,Compound,Intermediate
+449,사이드 플랭크 힙 레이즈,Side Plank Hip Raise,코어,복사근,복사근,중둔근,맨몸,Isolation,Intermediate
+450,RKC 플랭크,RKC Plank,코어,복직근,복직근·복횡근,둔근,맨몸,Isolation,Advanced
+451,슈퍼맨,Superman,등,척추기립근,척추기립근,둔근,맨몸,Isolation,Beginner
+452,리버스 하이퍼익스텐션,Reverse Hyperextension,하체,둔근,둔근·척추기립근,햄스트링,머신,Isolation,Intermediate
+453,45도 하이퍼익스텐션,45-Degree Hyperextension,등,척추기립근,척추기립근,둔근·햄스트링,머신,Isolation,Beginner
+454,GHD 백 익스텐션,GHD Back Extension,등,척추기립근,척추기립근,둔근,머신,Isolation,Intermediate
+455,플랭크 숄더 탭,Plank Shoulder Tap,코어,복직근,복직근·복횡근,어깨,맨몸,Isolation,Beginner
+456,베어 플랭크,Bear Plank,코어,복직근,복직근,어깨·대퇴사두,맨몸,Isolation,Beginner
+457,케틀벨 하이 풀,Kettlebell High Pull,어깨,측면삼각근,측면삼각근·승모근,둔근,케틀벨,Compound,Intermediate
+458,케틀벨 클린 앤 프레스,Kettlebell Clean and Press,전신,전면삼각근,둔근·삼각근,삼두근,케틀벨,Compound,Intermediate
+459,더블 케틀벨 프론트 스쿼트,Double Kettlebell Front Squat,하체,대퇴사두,대퇴사두·둔근,코어,케틀벨,Compound,Intermediate
+460,케틀벨 시소 프레스,Kettlebell Seesaw Press,어깨,전면삼각근,전면삼각근,코어,케틀벨,Compound,Intermediate
+461,싱글 암 케틀벨 스윙,Single-Arm Kettlebell Swing,전신,둔근,둔근·햄스트링,코어,케틀벨,Compound,Intermediate
+462,케틀벨 렌리게이드 로우,Kettlebell Renegade Row,등,광배근,광배근·코어,후면삼각근,케틀벨,Compound,Advanced
+463,케틀벨 핼로,Kettlebell Halo,어깨,삼각근,삼각근·회전근개,코어,케틀벨,Isolation,Beginner
+464,케틀벨 피겨 8,Kettlebell Figure-8,코어,코어,복사근·둔근,전완근,케틀벨,Compound,Beginner
+465,밴드 체스트 프레스,Band Chest Press,가슴,중부가슴,대흉근,삼두근,밴드,Compound,Beginner
+466,밴드 로우,Band Row,등,광배근,광배근·능형근,이두근,밴드,Compound,Beginner
+467,밴드 풀다운,Band Pulldown,등,광배근,광배근,이두근,밴드,Compound,Beginner
+468,밴드 숄더 프레스,Band Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,밴드,Compound,Beginner
+469,밴드 스쿼트,Band Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,밴드,Compound,Beginner
+470,밴드 데드리프트,Band Deadlift,하체,둔근,둔근·햄스트링,척추기립근,밴드,Compound,Beginner
+471,밴드 우드찹,Band Woodchopper,코어,복사근,복사근,복직근,밴드,Compound,Beginner
+472,밴드 풀스루,Band Pull-Through,하체,둔근,둔근·햄스트링,척추기립근,밴드,Compound,Beginner
+473,해머 스트렝스 디클라인 프레스,Hammer Strength Decline Press,가슴,하부가슴,대흉근 하부,삼두근,머신,Compound,Beginner
+474,해머 스트렝스 아이소레터럴 인클라인 프레스,Hammer Strength Iso-Lateral Incline Press,가슴,상부가슴,대흉근 상부,삼두근,머신,Compound,Beginner
+475,해머 스트렝스 로우 로우,Hammer Strength Low Row,등,광배근,광배근 하부,이두근,머신,Compound,Beginner
+476,라이프 피트니스 숄더 프레스,Life Fitness Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,머신,Compound,Beginner
+477,라이프 피트니스 레그 컬,Life Fitness Leg Curl,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+478,라이프 피트니스 랫 풀다운,Life Fitness Lat Pulldown,등,광배근,광배근,이두근,머신,Compound,Beginner
+479,테크노짐 레그 프레스,Technogym Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+480,테크노짐 숄더 프레스,Technogym Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,머신,Compound,Beginner
+481,매트릭스 레그 익스텐션,Matrix Leg Extension,하체,대퇴사두,대퇴사두,-,머신,Isolation,Beginner
+482,매트릭스 체스트 프레스,Matrix Chest Press,가슴,중부가슴,대흉근,삼두근,머신,Compound,Beginner
+483,사이벡스 아크 트레이너,Cybex Arc Trainer,유산소,유산소,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+484,너스 머신 레그 익스텐션,Nautilus Leg Extension,하체,대퇴사두,대퇴사두,-,머신,Isolation,Beginner
+485,프리코 머신 로우,Precor Machine Row,등,광배근,광배근·능형근,이두근,머신,Compound,Beginner
+486,랜드마인 180,Landmine 180,코어,복사근,복사근,어깨,랜드마인,Compound,Intermediate
+487,랜드마인 데드리프트,Landmine Deadlift,하체,둔근,둔근·햄스트링,척추기립근,랜드마인,Compound,Beginner
+488,랜드마인 시소 프레스,Landmine Seesaw Press,어깨,전면삼각근,전면삼각근,코어·삼두근,랜드마인,Compound,Intermediate
+489,랜드마인 런지,Landmine Lunge,하체,대퇴사두,대퇴사두·둔근,코어,랜드마인,Compound,Beginner
+490,좀비 스쿼트,Zombie Squat,하체,대퇴사두,대퇴사두,코어,바벨,Compound,Intermediate
+491,스파니쉬 스쿼트,Spanish Squat,하체,대퇴사두,대퇴사두,-,밴드,Isolation,Beginner
+492,짐볼 파이크,Stability Ball Pike,코어,복직근,복직근,어깨,짐볼,Compound,Advanced
+493,짐볼 롤아웃,Stability Ball Rollout,코어,복직근,복직근·복횡근,광배근,짐볼,Compound,Intermediate
+494,슬라이더 마운틴 클라이머,Slider Mountain Climber,코어,복직근,복직근,어깨,기타,Compound,Intermediate
+495,슬라이더 햄스트링 컬,Slider Hamstring Curl,하체,햄스트링,햄스트링,둔근,기타,Isolation,Intermediate
+496,슬라이더 리버스 런지,Slider Reverse Lunge,하체,대퇴사두,대퇴사두·둔근,코어,기타,Compound,Beginner
+497,보수 푸시업,BOSU Push-Up,가슴,중부가슴,대흉근,삼두근·코어,BOSU,Compound,Intermediate
+498,보수 플랭크,BOSU Plank,코어,복직근,복직근·복횡근,어깨,BOSU,Isolation,Beginner
+499,메디신볼 우드찹,Medicine Ball Woodchop,코어,복사근,복사근,복직근,메디신볼,Compound,Beginner
+500,메디신볼 V업,Medicine Ball V-Up,코어,복직근,복직근,고관절굴근,메디신볼,Isolation,Intermediate
+501,보드 프레스,Board Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+502,핀 프레스,Pin Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+503,스포토 프레스,Spoto Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+504,라센 프레스,Larsen Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+505,슬링샷 벤치프레스,Slingshot Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Intermediate
+506,핀 스쿼트,Pin Squat,하체,대퇴사두,대퇴사두·둔근,코어,바벨,Compound,Advanced
+507,안전바 굿모닝,Safety Bar Good Morning,등,척추기립근,척추기립근·햄스트링,둔근,바벨,Compound,Advanced
+508,체인 벤치프레스,Chain Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+509,밴드 벤치프레스,Banded Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+510,클로즈 그립 플로어 프레스,Close-Grip Floor Press,팔,삼두근,삼두근,대흉근,바벨,Compound,Intermediate
+511,플란체,Planche,전신,맨몸기술,어깨·코어,대흉근·전완근,맨몸,Compound,Advanced
+512,플란체 리닝,Planche Lean,전신,맨몸기술,어깨,코어·전완근,맨몸,Compound,Advanced
+513,프론트 레버,Front Lever,전신,맨몸기술,광배근·코어,후면삼각근,맨몸,Compound,Advanced
+514,백 레버,Back Lever,전신,맨몸기술,광배근·대흉근,이두근,맨몸,Compound,Advanced
+515,휴먼 플래그,Human Flag,전신,맨몸기술,광배근·코어,어깨,맨몸,Compound,Advanced
+516,핸드스탠드 홀드,Handstand Hold,어깨,맨몸기술,삼각근,코어·전완근,맨몸,Isolation,Advanced
+517,파이크 푸시업,Pike Push-Up,어깨,전면삼각근,전면삼각근,삼두근,맨몸,Compound,Intermediate
+518,코리안 딥스,Korean Dip,팔,삼두근,삼두근,대흉근,맨몸,Compound,Advanced
+519,아처 풀업,Archer Pull-Up,등,광배근,광배근,이두근,맨몸,Compound,Advanced
+520,커맨도 풀업,Commando Pull-Up,등,광배근,광배근·이두근,능형근,맨몸,Compound,Advanced
+521,익스플로시브 풀업,Explosive Pull-Up,등,광배근,광배근,이두근,맨몸,Compound,Advanced
+522,네거티브 풀업,Negative Pull-Up,등,광배근,광배근,이두근,맨몸,Compound,Beginner
+523,워리어 1 포즈,Warrior I Pose,하체,요가,대퇴사두·둔근,코어,맨몸,Isolation,Beginner
+524,워리어 2 포즈,Warrior II Pose,하체,요가,대퇴사두·둔근,어깨,맨몸,Isolation,Beginner
+525,워리어 3 포즈,Warrior III Pose,하체,요가,둔근·햄스트링,코어,맨몸,Isolation,Intermediate
+526,트리 포즈,Tree Pose,하체,요가,둔근,발목안정근,맨몸,Isolation,Beginner
+527,체어 포즈,Chair Pose,하체,요가,대퇴사두,둔근,맨몸,Isolation,Beginner
+528,보트 포즈,Boat Pose,코어,요가,복직근,고관절굴근,맨몸,Isolation,Intermediate
+529,브릿지 포즈,Bridge Pose,하체,요가,둔근,햄스트링·척추기립근,맨몸,Isolation,Beginner
+530,비둘기 포즈,Pigeon Pose,하체,스트레칭,둔근·이상근,고관절굴근,맨몸,Isolation,Beginner
+531,업워드 독,Upward-Facing Dog,코어,요가,척추기립근,대흉근,맨몸,Isolation,Beginner
+532,트라이앵글 포즈,Triangle Pose,코어,요가,복사근,햄스트링,맨몸,Isolation,Beginner
+533,캐멀 포즈,Camel Pose,코어,스트레칭,복직근,고관절굴근,맨몸,Isolation,Intermediate
+534,필라테스 헌드레드,Pilates Hundred,코어,필라테스,복직근,복횡근,맨몸,Isolation,Beginner
+535,필라테스 롤업,Pilates Roll-Up,코어,필라테스,복직근,고관절굴근,맨몸,Isolation,Intermediate
+536,스프린트,Sprint,유산소,컨디셔닝,대퇴사두·둔근,햄스트링·비복근,맨몸,Compound,Intermediate
+537,힐 스프린트,Hill Sprint,유산소,컨디셔닝,둔근·대퇴사두,햄스트링·비복근,맨몸,Compound,Advanced
+538,셔틀 런,Shuttle Run,유산소,컨디셔닝,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+539,하이 니,High Knees,유산소,컨디셔닝,고관절굴근,대퇴사두·코어,맨몸,Compound,Beginner
+540,버트 킥,Butt Kicks,유산소,컨디셔닝,햄스트링,비복근,맨몸,Compound,Beginner
+541,점핑 잭,Jumping Jack,유산소,컨디셔닝,삼각근·둔근,비복근,맨몸,Compound,Beginner
+542,프라울러 스프린트,Prowler Sprint,전신,컨디셔닝,대퇴사두·둔근,비복근,슬레드,Compound,Advanced
+543,슬레드 로우,Sled Row,등,컨디셔닝,광배근,능형근·이두근,슬레드,Compound,Intermediate
+544,배틀로프 슬램,Battle Rope Slam,전신,컨디셔닝,어깨·코어,광배근,배틀로프,Compound,Intermediate
+545,배틀로프 얼터네이팅 웨이브,Battle Rope Alternating Wave,전신,컨디셔닝,어깨,전완근·코어,배틀로프,Compound,Intermediate
+546,케틀벨 점프 스쿼트,Kettlebell Jump Squat,하체,플라이오메트릭,대퇴사두·둔근,비복근,케틀벨,Compound,Intermediate
+547,크랩 리치,Crab Reach,전신,모빌리티,둔근·어깨,코어,맨몸,Compound,Beginner
+548,스콜피온 스트레치,Scorpion Stretch,코어,스트레칭,복사근,척추기립근,맨몸,Isolation,Beginner
+549,월드 그레이티스트 스트레치,World's Greatest Stretch,전신,모빌리티,고관절굴근·흉추,햄스트링,맨몸,Isolation,Beginner
+550,인치웜,Inchworm,전신,모빌리티,햄스트링·코어,어깨,맨몸,Compound,Beginner
+551,힙 서클,Hip Circle,하체,모빌리티,고관절,둔근,맨몸,Isolation,Beginner
+552,레그 스윙,Leg Swing,하체,모빌리티,고관절굴근,햄스트링,맨몸,Isolation,Beginner
+553,암 서클,Arm Circle,어깨,모빌리티,삼각근,회전근개,맨몸,Isolation,Beginner
+554,토라식 로테이션,Thoracic Rotation,등,모빌리티,흉추기립근,복사근,맨몸,Isolation,Beginner
+555,수파인 스파인 트위스트,Supine Spinal Twist,코어,스트레칭,복사근,둔근,맨몸,Isolation,Beginner
+556,디프 스쿼트 홀드,Deep Squat Hold,하체,모빌리티,고관절·발목,대퇴사두,맨몸,Isolation,Beginner
+557,카우치 스트레치,Couch Stretch,하체,스트레칭,고관절굴근,대퇴사두,맨몸,Isolation,Beginner
+558,버터플라이 스트레치,Butterfly Stretch,하체,스트레칭,내전근,고관절,맨몸,Isolation,Beginner
+559,포즈 벤치프레스,Pause Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Intermediate
+560,템포 벤치프레스,Tempo Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Intermediate
+561,핀 데드리프트,Pin Deadlift,등,척추기립근,척추기립근·둔근,승모근,바벨,Compound,Advanced
+562,포즈 데드리프트,Pause Deadlift,등,척추기립근,둔근·햄스트링,승모근,바벨,Compound,Advanced
+563,템포 데드리프트,Tempo Deadlift,등,척추기립근,둔근·햄스트링,승모근,바벨,Compound,Advanced
+564,데드스탑 벤치프레스,Dead-Stop Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+565,디클라인 스컬크러셔,Decline Skull Crusher,팔,삼두근,삼두근,-,바벨,Isolation,Intermediate
+566,시티드 오버헤드 바벨 익스텐션,Seated Overhead Barbell Extension,팔,삼두근,삼두근 장두,-,바벨,Isolation,Intermediate
+567,케이블 스파이더 컬,Cable Spider Curl,팔,이두근,이두근 단두,전완근,케이블,Isolation,Intermediate
+568,인클라인 해머 컬,Incline Hammer Curl,팔,이두근,이두근·상완근,전완근,덤벨,Isolation,Intermediate
+569,체스트 서포티드 T바 로우,Chest-Supported T-Bar Row,등,능형근,능형근·광배근,후면삼각근,머신,Compound,Intermediate
+570,데드스탑 로우,Dead-Stop Row,등,광배근,광배근·능형근,후면삼각근,바벨,Compound,Intermediate
+571,피트 엘리베이티드 인버티드 로우,Feet-Elevated Inverted Row,등,광배근,광배근·능형근,이두근,맨몸,Compound,Intermediate
+572,와이드 그립 인버티드 로우,Wide-Grip Inverted Row,등,능형근,능형근·후면삼각근,광배근,맨몸,Compound,Intermediate
+573,클로즈 그립 인클라인 프레스,Close-Grip Incline Press,가슴,상부가슴,대흉근 상부,삼두근,바벨,Compound,Intermediate
+574,리버스 그립 벤치프레스,Reverse-Grip Bench Press,가슴,상부가슴,대흉근 상부,삼두근,바벨,Compound,Advanced
+575,덤벨 플로어 프레스,Dumbbell Floor Press,가슴,중부가슴,대흉근,삼두근,덤벨,Compound,Beginner
+576,프론트 풋 엘리베이티드 스플릿 스쿼트,Front-Foot-Elevated Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+577,데피싯 리버스 런지,Deficit Reverse Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+578,오버헤드 런지,Overhead Lunge,하체,대퇴사두,대퇴사두·둔근,어깨·코어,바벨,Compound,Advanced
+579,사이드 스텝업,Lateral Step-Up,하체,대퇴사두,대퇴사두·중둔근,햄스트링,덤벨,Compound,Beginner
+580,크로스오버 스텝업,Crossover Step-Up,하체,둔근,중둔근·대둔근,대퇴사두,덤벨,Compound,Intermediate
+581,스케이터 스쿼트,Skater Squat,하체,대퇴사두,대퇴사두·둔근,코어,맨몸,Compound,Advanced
+582,고블릿 스텝업,Goblet Step-Up,하체,대퇴사두,대퇴사두·둔근,코어,덤벨,Compound,Beginner
+583,B 스탠스 루마니안 데드리프트,B-Stance Romanian Deadlift,하체,햄스트링,햄스트링·둔근,척추기립근,덤벨,Compound,Intermediate
+584,B 스탠스 힙 쓰러스트,B-Stance Hip Thrust,하체,둔근,대둔근,햄스트링,바벨,Compound,Intermediate
+585,케틀벨 싱글 레그 데드리프트,Kettlebell Single-Leg Deadlift,하체,햄스트링,햄스트링·둔근,코어,케틀벨,Compound,Intermediate
+586,힐 엘리베이티드 스쿼트,Heel-Elevated Squat,하체,대퇴사두,대퇴사두,둔근,바벨,Compound,Beginner
+587,힐 엘리베이티드 고블릿 스쿼트,Heel-Elevated Goblet Squat,하체,대퇴사두,대퇴사두,둔근,덤벨,Compound,Beginner
+588,프리즈너 스쿼트,Prisoner Squat,하체,대퇴사두,대퇴사두·둔근,코어,맨몸,Compound,Beginner
+589,덤벨 쓰러스터,Dumbbell Thruster,전신,대퇴사두,대퇴사두·삼각근,둔근·삼두근,덤벨,Compound,Intermediate
+590,케틀벨 쓰러스터,Kettlebell Thruster,전신,대퇴사두,대퇴사두·삼각근,둔근·삼두근,케틀벨,Compound,Intermediate
+591,디클라인 리버스 크런치,Decline Reverse Crunch,코어,복직근,복직근 하부,고관절굴근,맨몸,Isolation,Intermediate
+592,행잉 니 레이즈 트위스트,Hanging Knee Raise Twist,코어,복사근,복사근·복직근,고관절굴근,맨몸,Isolation,Intermediate
+593,캡틴스 체어 오블리크 레이즈,Captain's Chair Oblique Raise,코어,복사근,복사근,복직근,머신,Isolation,Intermediate
+594,케이블 토르소 트위스트,Cable Torso Twist,코어,복사근,복사근,복직근,케이블,Isolation,Beginner
+595,머신 오블리크 크런치,Machine Oblique Crunch,코어,복사근,복사근,복직근,머신,Isolation,Beginner
+596,V 싯 홀드,V-Sit Hold,코어,복직근,복직근,고관절굴근,맨몸,Isolation,Intermediate
+597,잭나이프 싯업,Jackknife Sit-Up,코어,복직근,복직근,고관절굴근,맨몸,Isolation,Intermediate
+598,사이드 메디신볼 슬램,Side Medicine Ball Slam,코어,복사근,복사근,광배근,메디신볼,Compound,Intermediate
+599,디클라인 트위스팅 싯업,Decline Twisting Sit-Up,코어,복사근,복사근·복직근,고관절굴근,맨몸,Isolation,Intermediate
+600,스탠딩 앱 휠 롤아웃,Standing Ab Wheel Rollout,코어,복직근,복직근·복횡근,광배근,기타,Compound,Advanced
+601,싱글 암 머신 체스트 프레스,Single-Arm Machine Chest Press,가슴,중부가슴,대흉근,삼두근·코어,머신,Compound,Intermediate
+602,디클라인 케이블 플라이,Decline Cable Fly,가슴,하부가슴,대흉근 하부,전면삼각근,케이블,Isolation,Intermediate
+603,라잉 케이블 플라이,Lying Cable Fly,가슴,중부가슴,대흉근,전면삼각근,케이블,Isolation,Intermediate
+604,위티드 딥스,Weighted Dip,가슴,하부가슴,대흉근 하부,삼두근,맨몸,Compound,Advanced
+605,링 딥스,Ring Dip,가슴,하부가슴,대흉근,삼두근·코어,맨몸,Compound,Advanced
+606,링 푸시업,Ring Push-Up,가슴,중부가슴,대흉근,삼두근·코어,맨몸,Compound,Intermediate
+607,스태거드 푸시업,Staggered Push-Up,가슴,중부가슴,대흉근,삼두근,맨몸,Compound,Beginner
+608,인클라인 스쿼즈 프레스,Incline Squeeze Press,가슴,상부가슴,대흉근 상부,삼두근,덤벨,Compound,Intermediate
+609,와이드 그립 인클라인 벤치프레스,Wide-Grip Incline Bench Press,가슴,상부가슴,대흉근 상부,전면삼각근,바벨,Compound,Intermediate
+610,리버스 그립 인클라인 프레스,Reverse-Grip Incline Press,가슴,상부가슴,대흉근 상부,삼두근,바벨,Compound,Advanced
+611,머신 디클라인 체스트 프레스,Machine Decline Chest Press,가슴,하부가슴,대흉근 하부,삼두근,머신,Compound,Beginner
+612,스미스 머신 와이드 그립 벤치프레스,Smith Machine Wide-Grip Bench Press,가슴,중부가슴,대흉근,전면삼각근,스미스,Compound,Beginner
+613,클로즈 그립 바벨 로우,Close-Grip Barbell Row,등,광배근,광배근 하부,이두근,바벨,Compound,Intermediate
+614,와이드 그립 머신 로우,Wide-Grip Machine Row,등,광배근,광배근·후면삼각근,능형근,머신,Compound,Beginner
+615,뉴트럴 그립 케이블 로우,Neutral-Grip Cable Row,등,광배근,광배근,이두근,케이블,Compound,Beginner
+616,V바 랫 풀다운,V-Bar Lat Pulldown,등,광배근,광배근,이두근,케이블,Compound,Beginner
+617,닐링 케이블 페이스 풀,Kneeling Cable Face Pull,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Intermediate
+618,언더핸드 인버티드 로우,Underhand Inverted Row,등,광배근,광배근·이두근,능형근,맨몸,Compound,Beginner
+619,덤벨 데드스탑 로우,Dumbbell Dead-Stop Row,등,광배근,광배근,능형근,덤벨,Compound,Intermediate
+620,헬름스 로우,Helms Row,등,능형근,능형근·광배근,후면삼각근,덤벨,Compound,Intermediate
+621,언더핸드 펜들레이 로우,Underhand Pendlay Row,등,광배근,광배근·이두근,능형근,바벨,Compound,Advanced
+622,트랩바 로우,Trap Bar Row,등,광배근,광배근·능형근,승모근,바벨,Compound,Intermediate
+623,시티드 하이 로우 머신,Seated High Row Machine,등,광배근,광배근 상부,후면삼각근,머신,Compound,Beginner
+624,싱글 암 스트레이트암 풀다운,Single-Arm Straight-Arm Pulldown,등,광배근,광배근,대원근,케이블,Isolation,Intermediate
+625,인클라인 덤벨 풀오버,Incline Dumbbell Pullover,등,광배근,광배근,대흉근,덤벨,Isolation,Intermediate
+626,와이드 그립 펜들레이 로우,Wide-Grip Pendlay Row,등,광배근,광배근·후면삼각근,능형근,바벨,Compound,Advanced
+627,시티드 케이블 레터럴 레이즈,Seated Cable Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케이블,Isolation,Intermediate
+628,인클라인 케이블 레터럴 레이즈,Incline Cable Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케이블,Isolation,Intermediate
+629,머신 프론트 레이즈,Machine Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,머신,Isolation,Beginner
+630,비하인드 백 케이블 레터럴 레이즈,Behind-the-Back Cable Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케이블,Isolation,Intermediate
+631,오버헤드 핀 프레스,Overhead Pin Press,어깨,전면삼각근,전면삼각근,삼두근,바벨,Compound,Advanced
+632,비하인드 넥 스미스 프레스,Behind-the-Neck Smith Press,어깨,측면삼각근,측면·후면삼각근,삼두근,스미스,Compound,Advanced
+633,시티드 스미스 머신 숄더 프레스,Seated Smith Machine Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,스미스,Compound,Beginner
+634,싱글 암 랜드마인 프레스,Single-Arm Landmine Press,어깨,전면삼각근,전면삼각근,삼두근·코어,랜드마인,Compound,Intermediate
+635,하프 닐링 랜드마인 프레스,Half-Kneeling Landmine Press,어깨,전면삼각근,전면삼각근,코어,랜드마인,Compound,Intermediate
+636,덤벨 6-웨이 레이즈,Dumbbell 6-Way Raise,어깨,측면삼각근,전면·측면·후면삼각근,승모근,덤벨,Isolation,Intermediate
+637,바벨 하이 풀,Barbell High Pull,어깨,측면삼각근,측면삼각근·승모근,둔근,바벨,Compound,Intermediate
+638,덤벨 하이 풀,Dumbbell High Pull,어깨,측면삼각근,측면삼각근·승모근,둔근,덤벨,Compound,Intermediate
+639,스내치 그립 하이 풀,Snatch-Grip High Pull,어깨,측면삼각근,승모근·삼각근,둔근,바벨,Compound,Advanced
+640,시티드 덤벨 레터럴 레이즈,Seated Dumbbell Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,덤벨,Isolation,Beginner
+641,덤벨 프리처 컬,Dumbbell Preacher Curl,팔,이두근,이두근 단두,전완근,덤벨,Isolation,Beginner
+642,싱글 암 프리처 컬,Single-Arm Preacher Curl,팔,이두근,이두근 단두,전완근,덤벨,Isolation,Beginner
+643,EZ바 프리처 컬,EZ-Bar Preacher Curl,팔,이두근,이두근 단두,전완근,바벨,Isolation,Beginner
+644,케이블 로프 컬,Cable Rope Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+645,케이블 드래그 컬,Cable Drag Curl,팔,이두근,이두근 장두,전완근,케이블,Isolation,Intermediate
+646,와이드 그립 프리처 컬,Wide-Grip Preacher Curl,팔,이두근,이두근 단두,전완근,바벨,Isolation,Intermediate
+647,리버스 프리처 컬,Reverse Preacher Curl,팔,전완근,상완요골근,이두근,바벨,Isolation,Intermediate
+648,머신 해머 컬,Machine Hammer Curl,팔,이두근,이두근·상완근,전완근,머신,Isolation,Beginner
+649,와이드 그립 케이블 컬,Wide-Grip Cable Curl,팔,이두근,이두근 단두,전완근,케이블,Isolation,Beginner
+650,클로즈 그립 EZ바 컬,Close-Grip EZ-Bar Curl,팔,이두근,이두근 장두,전완근,바벨,Isolation,Beginner
+651,오버헤드 케이블 컬,Overhead Cable Curl,팔,이두근,이두근 장두,전완근,케이블,Isolation,Intermediate
+652,디클라인 케이블 트라이셉스 익스텐션,Decline Cable Triceps Extension,팔,삼두근,삼두근,-,케이블,Isolation,Intermediate
+653,싱글 암 오버헤드 덤벨 익스텐션,Single-Arm Overhead Dumbbell Extension,팔,삼두근,삼두근 장두,-,덤벨,Isolation,Beginner
+654,리버스 그립 트라이셉스 익스텐션,Reverse-Grip Triceps Extension,팔,삼두근,삼두근 내측두,-,케이블,Isolation,Intermediate
+655,인클라인 케이블 트라이셉스 익스텐션,Incline Cable Triceps Extension,팔,삼두근,삼두근 장두,-,케이블,Isolation,Intermediate
+656,위티드 벤치 딥스,Weighted Bench Dip,팔,삼두근,삼두근,전면삼각근,맨몸,Compound,Intermediate
+657,머신 딥,Machine Dip,팔,삼두근,삼두근,대흉근,머신,Compound,Beginner
+658,싱글 암 케이블 오버헤드 익스텐션,Single-Arm Cable Overhead Extension,팔,삼두근,삼두근 장두,-,케이블,Isolation,Intermediate
+659,바벨 스파이더 컬,Barbell Spider Curl,팔,이두근,이두근 단두,전완근,바벨,Isolation,Intermediate
+660,케틀벨 비셉스 컬,Kettlebell Biceps Curl,팔,이두근,이두근,전완근,케틀벨,Isolation,Beginner
+661,포즈 프론트 스쿼트,Pause Front Squat,하체,대퇴사두,대퇴사두,코어·둔근,바벨,Compound,Advanced
+662,템포 프론트 스쿼트,Tempo Front Squat,하체,대퇴사두,대퇴사두,코어,바벨,Compound,Advanced
+663,와이드 스탠스 스쿼트,Wide-Stance Squat,하체,둔근,둔근·내전근,대퇴사두,바벨,Compound,Intermediate
+664,클로즈 스탠스 스쿼트,Close-Stance Squat,하체,대퇴사두,대퇴사두,둔근,바벨,Compound,Intermediate
+665,점핑 스플릿 스쿼트,Jumping Split Squat,하체,대퇴사두,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+666,스미스 머신 리버스 런지,Smith Machine Reverse Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,스미스,Compound,Beginner
+667,바벨 워킹 런지,Barbell Walking Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Advanced
+668,밴드 어시스티드 노르딕 컬,Band-Assisted Nordic Curl,하체,햄스트링,햄스트링,둔근,밴드,Isolation,Intermediate
+669,케이블 레그 컬,Cable Leg Curl,하체,햄스트링,햄스트링,비복근,케이블,Isolation,Beginner
+670,스탠딩 케이블 힙 어덕션,Standing Cable Hip Adduction,하체,내전근,내전근,-,케이블,Isolation,Beginner
+671,코사크 스쿼트,Cossack Squat,하체,내전근,내전근·둔근,대퇴사두,맨몸,Compound,Intermediate
+672,어시스티드 시시 스쿼트,Assisted Sissy Squat,하체,대퇴사두,대퇴사두,-,맨몸,Isolation,Beginner
+673,덤벨 스쿼트,Dumbbell Squat,하체,대퇴사두,대퇴사두·둔근,코어,덤벨,Compound,Beginner
+674,바벨 스플릿 스쿼트,Barbell Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Intermediate
+675,싱글 레그 레그프레스 카프 레이즈,Single-Leg Leg-Press Calf Raise,하체,비복근,비복근,가자미근,머신,Isolation,Intermediate
+676,덤벨 스탠딩 카프 레이즈,Dumbbell Standing Calf Raise,하체,비복근,비복근,가자미근,덤벨,Isolation,Beginner
+677,덤벨 점프 스쿼트,Dumbbell Jump Squat,하체,대퇴사두,대퇴사두·둔근,비복근,덤벨,Compound,Intermediate
+678,위티드 박스 스텝업,Weighted Box Step-Up,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+679,리버스 노르딕 컬,Reverse Nordic Curl,하체,대퇴사두,대퇴사두,고관절굴근,맨몸,Isolation,Advanced
+680,싱글 레그 월 싯,Single-Leg Wall Sit,하체,대퇴사두,대퇴사두,둔근,맨몸,Isolation,Intermediate
+681,글루트 킥백 머신,Glute Kickback Machine,하체,둔근,대둔근,햄스트링,머신,Isolation,Beginner
+682,시티드 굿모닝,Seated Good Morning,등,척추기립근,척추기립근,둔근,바벨,Compound,Advanced
+683,바벨 글루트 브릿지,Barbell Glute Bridge,하체,둔근,대둔근,햄스트링,바벨,Compound,Beginner
+684,포즈 힙 쓰러스트,Pause Hip Thrust,하체,둔근,대둔근,햄스트링,바벨,Compound,Intermediate
+685,케틀벨 고블릿 런지,Kettlebell Goblet Lunge,하체,대퇴사두,대퇴사두·둔근,코어,케틀벨,Compound,Beginner
+686,위티드 플랭크,Weighted Plank,코어,복직근,복직근·복횡근,어깨,원판,Isolation,Intermediate
+687,위티드 싯업,Weighted Sit-Up,코어,복직근,복직근,고관절굴근,원판,Isolation,Intermediate
+688,위티드 크런치,Weighted Crunch,코어,복직근,복직근 상부,복사근,원판,Isolation,Beginner
+689,디클라인 러시안 트위스트,Decline Russian Twist,코어,복사근,복사근,복직근,맨몸,Isolation,Intermediate
+690,닐링 케이블 오블리크 크런치,Kneeling Cable Oblique Crunch,코어,복사근,복사근,복직근,케이블,Isolation,Intermediate
+691,위티드 행잉 레그 레이즈,Weighted Hanging Leg Raise,코어,복직근,복직근 하부,고관절굴근,맨몸,Isolation,Advanced
+692,슬라이더 바디 쏘,Slider Body Saw,코어,복직근,복직근·복횡근,어깨,기타,Isolation,Intermediate
+693,바디 쏘,Body Saw,코어,복직근,복직근·복횡근,어깨,맨몸,Isolation,Intermediate
+694,하프 닐링 팔로프 프레스,Half-Kneeling Pallof Press,코어,복사근,복사근·복횡근,둔근,케이블,Isolation,Intermediate
+695,호리즌탈 케이블 찹,Horizontal Cable Chop,코어,복사근,복사근,복직근,케이블,Compound,Intermediate
+696,메디신볼 싯업,Medicine Ball Sit-Up,코어,복직근,복직근,고관절굴근,메디신볼,Isolation,Beginner
+697,위티드 데드버그,Weighted Dead Bug,코어,복횡근,복횡근·복직근,고관절굴근,덤벨,Isolation,Intermediate
+698,라잉 윈드쉴드 와이퍼,Lying Windshield Wiper,코어,복사근,복사근·복직근,고관절굴근,맨몸,Isolation,Intermediate
+699,스터 더 팟,Stir the Pot,코어,복직근,복직근·복횡근,어깨,짐볼,Isolation,Advanced
+700,메디신볼 토 터치,Medicine Ball Toe Touch,코어,복직근,복직근 상부,-,메디신볼,Isolation,Beginner
+701,싱글 암 케이블 플라이,Single-Arm Cable Fly,가슴,중부가슴,대흉근,전면삼각근,케이블,Isolation,Intermediate
+702,싱글 암 로우 케이블 플라이,Single-Arm Low Cable Fly,가슴,상부가슴,대흉근 상부,전면삼각근,케이블,Isolation,Intermediate
+703,싱글 암 하이 케이블 플라이,Single-Arm High Cable Fly,가슴,하부가슴,대흉근 하부,전면삼각근,케이블,Isolation,Intermediate
+704,싱글 암 케이블 리어 델트 플라이,Single-Arm Cable Rear Delt Fly,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Intermediate
+705,싱글 암 케이블 업라이트 로우,Single-Arm Cable Upright Row,어깨,측면삼각근,측면삼각근,승모근,케이블,Compound,Beginner
+706,싱글 암 케이블 트라이셉스 킥백,Single-Arm Cable Triceps Kickback,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+707,싱글 암 케이블 페이스 풀,Single-Arm Cable Face Pull,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Intermediate
+708,싱글 암 케이블 슈러그,Single-Arm Cable Shrug,등,승모근,상부승모근,전완근,케이블,Isolation,Beginner
+709,로프 케이블 프론트 레이즈,Rope Cable Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,케이블,Isolation,Beginner
+710,로프 케이블 업라이트 로우,Rope Cable Upright Row,어깨,측면삼각근,측면삼각근,승모근,케이블,Compound,Beginner
+711,케이블 컨센트레이션 컬,Cable Concentration Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+712,로우 케이블 레터럴 레이즈,Low Cable Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케이블,Isolation,Intermediate
+713,케이블 21s 컬,Cable 21s Curl,팔,이두근,이두근,전완근,케이블,Isolation,Intermediate
+714,와이드 그립 케이블 푸시다운,Wide-Grip Cable Pushdown,팔,삼두근,삼두근 외측두,-,케이블,Isolation,Beginner
+715,케이블 바 인클라인 컬,Cable Bar Incline Curl,팔,이두근,이두근 장두,전완근,케이블,Isolation,Intermediate
+716,시티드 싱글 암 덤벨 숄더 프레스,Seated Single-Arm Dumbbell Shoulder Press,어깨,전면삼각근,전면삼각근,코어·삼두근,덤벨,Compound,Intermediate
+717,싱글 암 덤벨 프론트 레이즈,Single-Arm Dumbbell Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,덤벨,Isolation,Beginner
+718,싱글 암 덤벨 레터럴 레이즈,Single-Arm Dumbbell Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,덤벨,Isolation,Beginner
+719,얼터네이팅 덤벨 컬,Alternating Dumbbell Curl,팔,이두근,이두근,전완근,덤벨,Isolation,Beginner
+720,얼터네이팅 덤벨 숄더 프레스,Alternating Dumbbell Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,덤벨,Compound,Beginner
+721,얼터네이팅 덤벨 프론트 레이즈,Alternating Dumbbell Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,덤벨,Isolation,Beginner
+722,덤벨 리버스 컬,Dumbbell Reverse Curl,팔,전완근,상완요골근,이두근,덤벨,Isolation,Beginner
+723,시티드 덤벨 슈러그,Seated Dumbbell Shrug,등,승모근,상부승모근,전완근,덤벨,Isolation,Beginner
+724,싱글 암 인클라인 덤벨 컬,Single-Arm Incline Dumbbell Curl,팔,이두근,이두근 장두,전완근,덤벨,Isolation,Intermediate
+725,덤벨 플로어 플라이,Dumbbell Floor Fly,가슴,중부가슴,대흉근,전면삼각근,덤벨,Isolation,Beginner
+726,크로스 벤치 덤벨 풀오버,Cross-Bench Dumbbell Pullover,가슴,중부가슴,대흉근,광배근,덤벨,Isolation,Intermediate
+727,덤벨 스윙,Dumbbell Swing,전신,둔근,둔근·햄스트링,어깨·코어,덤벨,Compound,Intermediate
+728,덤벨 스내치,Dumbbell Snatch,전신,삼각근,둔근·삼각근,승모근,덤벨,Compound,Advanced
+729,덤벨 클린,Dumbbell Clean,전신,둔근,둔근·햄스트링,승모근,덤벨,Compound,Intermediate
+730,덤벨 클린 앤 프레스,Dumbbell Clean and Press,전신,전면삼각근,둔근·삼각근,삼두근,덤벨,Compound,Intermediate
+731,덤벨 윈드밀,Dumbbell Windmill,코어,복사근,복사근·어깨,햄스트링,덤벨,Compound,Advanced
+732,덤벨 터키시 겟업,Dumbbell Turkish Get-Up,전신,코어,어깨·코어,둔근,덤벨,Compound,Advanced
+733,덤벨 렌리게이드 로우,Dumbbell Renegade Row,등,광배근,광배근·코어,후면삼각근,덤벨,Compound,Advanced
+734,덤벨 풀 쓰루,Dumbbell Pull-Through,하체,둔근,둔근·햄스트링,척추기립근,덤벨,Compound,Beginner
+735,덤벨 스티프 레그 데드리프트,Dumbbell Stiff-Leg Deadlift,하체,햄스트링,햄스트링,둔근,덤벨,Compound,Beginner
+736,덤벨 스모 데드리프트,Dumbbell Sumo Deadlift,하체,둔근,둔근·내전근,햄스트링,덤벨,Compound,Beginner
+737,덤벨 힙 쓰러스트,Dumbbell Hip Thrust,하체,둔근,대둔근,햄스트링,덤벨,Compound,Beginner
+738,덤벨 글루트 브릿지,Dumbbell Glute Bridge,하체,둔근,대둔근,햄스트링,덤벨,Isolation,Beginner
+739,시티드 덤벨 카프 레이즈,Seated Dumbbell Calf Raise,하체,가자미근,가자미근,비복근,덤벨,Isolation,Beginner
+740,덤벨 프론트 스쿼트,Dumbbell Front Squat,하체,대퇴사두,대퇴사두·둔근,코어,덤벨,Compound,Intermediate
+741,덤벨 리어 델트 로우,Dumbbell Rear Delt Row,어깨,후면삼각근,후면삼각근,능형근,덤벨,Compound,Intermediate
+742,인클라인 덤벨 Y 레이즈,Incline Dumbbell Y-Raise,어깨,재활,하부승모근,후면삼각근,덤벨,Isolation,Beginner
+743,인클라인 덤벨 T 레이즈,Incline Dumbbell T-Raise,어깨,재활,중부승모근,능형근,덤벨,Isolation,Beginner
+744,프론 인클라인 덤벨 슈러그,Prone Incline Dumbbell Shrug,등,승모근,중하부승모근,능형근,덤벨,Isolation,Intermediate
+745,덤벨 21s 컬,Dumbbell 21s Curl,팔,이두근,이두근,전완근,덤벨,Isolation,Intermediate
+746,와이드 그립 업라이트 로우,Wide-Grip Upright Row,어깨,측면삼각근,측면삼각근,승모근,바벨,Compound,Intermediate
+747,클로즈 그립 업라이트 로우,Close-Grip Upright Row,어깨,승모근,승모근·측면삼각근,이두근,바벨,Compound,Intermediate
+748,데피싯 펜들레이 로우,Deficit Pendlay Row,등,광배근,광배근·능형근,후면삼각근,바벨,Compound,Advanced
+749,바벨 헥 리프트,Barbell Hack Lift,하체,대퇴사두,대퇴사두·둔근,전완근,바벨,Compound,Intermediate
+750,제퍼슨 데드리프트,Jefferson Deadlift,하체,둔근,둔근·대퇴사두,척추기립근,바벨,Compound,Advanced
+751,스내치 그립 로우,Snatch-Grip Row,등,광배근,광배근·후면삼각근,능형근,바벨,Compound,Intermediate
+752,바벨 프론트 레이즈,Barbell Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,바벨,Isolation,Beginner
+753,바벨 리버스 리스트 컬,Barbell Reverse Wrist Curl,팔,전완근,전완 신근,-,바벨,Isolation,Beginner
+754,바벨 런지,Barbell Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Intermediate
+755,바벨 리버스 런지,Barbell Reverse Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Intermediate
+756,바벨 스텝업,Barbell Step-Up,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Intermediate
+757,바벨 카프 레이즈,Barbell Calf Raise,하체,비복근,비복근,가자미근,바벨,Isolation,Beginner
+758,제르커 스쿼트,Zercher Squat,하체,대퇴사두,대퇴사두·둔근,코어,바벨,Compound,Advanced
+759,제르커 데드리프트,Zercher Deadlift,하체,둔근,둔근·햄스트링,코어·전완근,바벨,Compound,Advanced
+760,제르커 캐리,Zercher Carry,전신,코어,코어·전완근,승모근,바벨,Compound,Intermediate
+761,컨버징 체스트 프레스 머신,Converging Chest Press Machine,가슴,중부가슴,대흉근,삼두근,머신,Compound,Beginner
+762,컨버징 숄더 프레스 머신,Converging Shoulder Press Machine,어깨,전면삼각근,전면삼각근,삼두근,머신,Compound,Beginner
+763,다이버징 랫 풀다운,Diverging Lat Pulldown,등,광배근,광배근,이두근,머신,Compound,Beginner
+764,스탠딩 레그 컬 머신,Standing Leg Curl Machine,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+765,라잉 T바 로우 머신,Lying T-Bar Row Machine,등,광배근,광배근·능형근,후면삼각근,머신,Compound,Beginner
+766,리버스 핵 스쿼트,Reverse Hack Squat,하체,둔근,둔근·햄스트링,대퇴사두,머신,Compound,Intermediate
+767,인클라인 펙 플라이 머신,Incline Chest Fly Machine,가슴,상부가슴,대흉근 상부,전면삼각근,머신,Isolation,Beginner
+768,디클라인 펙 플라이 머신,Decline Chest Fly Machine,가슴,하부가슴,대흉근 하부,전면삼각근,머신,Isolation,Beginner
+769,시티드 레그 프레스 머신,Seated Leg Press Machine,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+770,호리즌탈 카프 레이즈 머신,Horizontal Calf Raise Machine,하체,비복근,비복근,가자미근,머신,Isolation,Beginner
+771,싱글 레그 박스 점프,Single-Leg Box Jump,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Advanced
+772,싱글 레그 브로드 점프,Single-Leg Broad Jump,전신,플라이오메트릭,둔근·대퇴사두,햄스트링,맨몸,Compound,Advanced
+773,버피 박스 점프 오버,Burpee Box Jump-Over,전신,플라이오메트릭,대퇴사두·대흉근,코어,맨몸,Compound,Advanced
+774,버피 풀업,Burpee Pull-Up,전신,기능성,광배근·대흉근,대퇴사두·코어,맨몸,Compound,Advanced
+775,싱글 언더,Single Under,유산소,컨디셔닝,비복근,어깨·전완근,기타,Compound,Beginner
+776,래터럴 박스 셔플,Lateral Box Shuffle,유산소,컨디셔닝,대퇴사두·둔근,비복근,맨몸,Compound,Beginner
+777,스텝업 점프,Step-Up Jump,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+778,케틀벨 클린 앤 저크,Kettlebell Clean and Jerk,전신,올림픽리프팅,둔근·삼각근,삼두근,케틀벨,Compound,Advanced
+779,메디신볼 백 토스,Medicine Ball Backward Toss,전신,컨디셔닝,둔근·삼각근,코어,메디신볼,Compound,Intermediate
+780,메디신볼 스쿼트 투 프레스,Medicine Ball Squat to Press,전신,기능성,대퇴사두·삼각근,둔근,메디신볼,Compound,Beginner
+781,파워 스텝업,Power Step-Up,전신,플라이오메트릭,대퇴사두·둔근,고관절굴근,맨몸,Compound,Intermediate
+782,크리스크로스 점프 로프,Criss-Cross Jump Rope,유산소,컨디셔닝,비복근,어깨,기타,Compound,Intermediate
+783,인치웜 푸시업,Inchworm Push-Up,전신,기능성,대흉근·코어,어깨·햄스트링,맨몸,Compound,Intermediate
+784,스프롤,Sprawl,전신,컨디셔닝,코어·대퇴사두,어깨,맨몸,Compound,Beginner
+785,스타 점프,Star Jump,유산소,플라이오메트릭,대퇴사두·삼각근,둔근,맨몸,Compound,Beginner
+786,넥 스트레치,Neck Stretch,목,스트레칭,흉쇄유돌근,승모근,맨몸,Isolation,Beginner
+787,크로스바디 숄더 스트레치,Cross-Body Shoulder Stretch,어깨,스트레칭,후면삼각근,능형근,맨몸,Isolation,Beginner
+788,오버헤드 트라이셉스 스트레치,Overhead Triceps Stretch,팔,스트레칭,삼두근,광배근,맨몸,Isolation,Beginner
+789,도어웨이 체스트 스트레치,Doorway Chest Stretch,가슴,스트레칭,대흉근,전면삼각근,맨몸,Isolation,Beginner
+790,래트 스트레치,Lat Stretch,등,스트레칭,광배근,대원근,맨몸,Isolation,Beginner
+791,스탠딩 쿼드 스트레치,Standing Quad Stretch,하체,스트레칭,대퇴사두,고관절굴근,맨몸,Isolation,Beginner
+792,월 카프 스트레치,Wall Calf Stretch,하체,스트레칭,비복근,가자미근,맨몸,Isolation,Beginner
+793,닐링 힙 플렉서 스트레치,Kneeling Hip Flexor Stretch,하체,스트레칭,고관절굴근,대퇴사두,맨몸,Isolation,Beginner
+794,시티드 글루트 스트레치,Seated Glute Stretch,하체,스트레칭,둔근,이상근,맨몸,Isolation,Beginner
+795,시티드 스파인 트위스트,Seated Spinal Twist,코어,스트레칭,복사근,척추기립근,맨몸,Isolation,Beginner
+796,스레드 더 니들,Thread the Needle,등,모빌리티,흉추기립근,후면삼각근,맨몸,Isolation,Beginner
+797,리스트 플렉서 스트레치,Wrist Flexor Stretch,팔,스트레칭,전완 굴근,-,맨몸,Isolation,Beginner
+798,리스트 익스텐서 스트레치,Wrist Extensor Stretch,팔,스트레칭,전완 신근,-,맨몸,Isolation,Beginner
+799,앵클 모빌리티 드릴,Ankle Mobility Drill,하체,모빌리티,발목,비복근,맨몸,Isolation,Beginner
+800,폼롤러 쿼드 릴리즈,Foam Roller Quad Release,하체,스트레칭,대퇴사두,장경인대,기타,Isolation,Beginner
+801,스미스 머신 프론트 스쿼트,Smith Machine Front Squat,하체,대퇴사두,대퇴사두·둔근,코어,스미스,Compound,Beginner
+802,스미스 머신 불가리안 스플릿 스쿼트,Smith Machine Bulgarian Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,스미스,Compound,Intermediate
+803,스미스 머신 시티드 카프 레이즈,Smith Machine Seated Calf Raise,하체,가자미근,가자미근,비복근,스미스,Isolation,Beginner
+804,스미스 머신 데드리프트,Smith Machine Deadlift,하체,둔근,둔근·햄스트링,척추기립근,스미스,Compound,Beginner
+805,스미스 머신 루마니안 데드리프트,Smith Machine Romanian Deadlift,하체,햄스트링,햄스트링·둔근,척추기립근,스미스,Compound,Beginner
+806,스미스 머신 굿모닝,Smith Machine Good Morning,등,척추기립근,척추기립근·햄스트링,둔근,스미스,Compound,Intermediate
+807,스미스 머신 슈러그,Smith Machine Shrug,등,승모근,상부승모근,전완근,스미스,Isolation,Beginner
+808,스미스 머신 업라이트 로우,Smith Machine Upright Row,어깨,측면삼각근,측면삼각근,승모근,스미스,Compound,Beginner
+809,스미스 머신 인버티드 로우,Smith Machine Inverted Row,등,광배근,광배근·능형근,이두근,스미스,Compound,Beginner
+810,스미스 머신 클로즈 그립 벤치프레스,Smith Machine Close-Grip Bench Press,팔,삼두근,삼두근,대흉근,스미스,Compound,Beginner
+811,스미스 머신 박스 스쿼트,Smith Machine Box Squat,하체,둔근,둔근·대퇴사두,햄스트링,스미스,Compound,Beginner
+812,스미스 머신 스티프 레그 데드리프트,Smith Machine Stiff-Leg Deadlift,하체,햄스트링,햄스트링,둔근,스미스,Compound,Beginner
+813,케틀벨 데드 클린,Kettlebell Dead Clean,전신,둔근,둔근·햄스트링,승모근,케틀벨,Compound,Intermediate
+814,케틀벨 푸시 프레스,Kettlebell Push Press,어깨,전면삼각근,전면삼각근·대퇴사두,삼두근,케틀벨,Compound,Intermediate
+815,케틀벨 저크,Kettlebell Jerk,전신,전면삼각근,삼각근·대퇴사두,삼두근,케틀벨,Compound,Advanced
+816,더블 케틀벨 클린,Double Kettlebell Clean,전신,둔근,둔근·햄스트링,승모근·전완근,케틀벨,Compound,Advanced
+817,더블 케틀벨 프레스,Double Kettlebell Press,어깨,전면삼각근,전면삼각근,삼두근,케틀벨,Compound,Intermediate
+818,더블 케틀벨 스내치,Double Kettlebell Snatch,전신,둔근,둔근·삼각근,코어,케틀벨,Compound,Advanced
+819,케틀벨 시소 로우,Kettlebell Seesaw Row,등,광배근,광배근,능형근,케틀벨,Compound,Intermediate
+820,케틀벨 스모 스쿼트,Kettlebell Sumo Squat,하체,내전근,내전근·둔근,대퇴사두,케틀벨,Compound,Beginner
+821,케틀벨 사이드 런지,Kettlebell Side Lunge,하체,내전근,내전근·둔근,대퇴사두,케틀벨,Compound,Intermediate
+822,케틀벨 오버헤드 스쿼트,Kettlebell Overhead Squat,전신,대퇴사두,대퇴사두·삼각근,코어,케틀벨,Compound,Advanced
+823,케틀벨 오버헤드 캐리,Kettlebell Overhead Carry,어깨,삼각근,삼각근·코어,전완근,케틀벨,Compound,Intermediate
+824,케틀벨 래크 캐리,Kettlebell Rack Carry,코어,코어,코어·전완근,승모근,케틀벨,Compound,Beginner
+825,케틀벨 클린 앤 스쿼트,Kettlebell Clean and Squat,전신,대퇴사두,대퇴사두·둔근,승모근,케틀벨,Compound,Intermediate
+826,케틀벨 풀오버,Kettlebell Pullover,등,광배근,광배근,대흉근,케틀벨,Isolation,Intermediate
+827,TRX 풀업,TRX Pull-Up,등,광배근,광배근,이두근,TRX,Compound,Advanced
+828,TRX Y 플라이,TRX Y-Fly,어깨,재활,하부승모근,후면삼각근,TRX,Isolation,Intermediate
+829,TRX T 플라이,TRX T-Fly,어깨,후면삼각근,후면삼각근,능형근,TRX,Isolation,Intermediate
+830,TRX 페이스 풀,TRX Face Pull,어깨,후면삼각근,후면삼각근,능형근,TRX,Isolation,Beginner
+831,TRX 싱글 레그 스쿼트,TRX Single-Leg Squat,하체,대퇴사두,대퇴사두·둔근,코어,TRX,Compound,Advanced
+832,TRX 스쿼트,TRX Squat,하체,대퇴사두,대퇴사두·둔근,코어,TRX,Compound,Beginner
+833,TRX 애토믹 푸시업,TRX Atomic Push-Up,가슴,중부가슴,대흉근·복직근,삼두근,TRX,Compound,Advanced
+834,TRX 마운틴 클라이머,TRX Mountain Climber,코어,복직근,복직근,고관절굴근,TRX,Compound,Intermediate
+835,TRX 오블리크 크런치,TRX Oblique Crunch,코어,복사근,복사근,복직근,TRX,Isolation,Intermediate
+836,TRX 사이드 플랭크,TRX Side Plank,코어,복사근,복사근,중둔근,TRX,Isolation,Advanced
+837,밴드 시티드 로우,Band Seated Row,등,광배근,광배근·능형근,이두근,밴드,Compound,Beginner
+838,밴드 해머 컬,Band Hammer Curl,팔,이두근,이두근·상완근,전완근,밴드,Isolation,Beginner
+839,밴드 리어 델트 플라이,Band Rear Delt Fly,어깨,후면삼각근,후면삼각근,능형근,밴드,Isolation,Beginner
+840,밴드 프론트 레이즈,Band Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,밴드,Isolation,Beginner
+841,밴드 업라이트 로우,Band Upright Row,어깨,측면삼각근,측면삼각근,승모근,밴드,Compound,Beginner
+842,밴드 트라이셉스 킥백,Band Triceps Kickback,팔,삼두근,삼두근,-,밴드,Isolation,Beginner
+843,밴드 레그 컬,Band Leg Curl,하체,햄스트링,햄스트링,비복근,밴드,Isolation,Beginner
+844,밴드 레그 익스텐션,Band Leg Extension,하체,대퇴사두,대퇴사두,-,밴드,Isolation,Beginner
+845,밴드 클램쉘,Band Clamshell,하체,중둔근,중둔근,대둔근,밴드,Isolation,Beginner
+846,밴드 스탠딩 힙 어브덕션,Band Standing Hip Abduction,하체,중둔근,중둔근,대둔근,밴드,Isolation,Beginner
+847,싱글 레그 데드리프트,Single-Leg Deadlift,하체,햄스트링,햄스트링·둔근,척추기립근,바벨,Compound,Advanced
+848,싱글 레그 핵 스쿼트,Single-Leg Hack Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Intermediate
+849,싱글 레그 글루트 킥백 머신,Single-Leg Glute Kickback Machine,하체,둔근,대둔근,햄스트링,머신,Isolation,Beginner
+850,싱글 레그 스미스 카프 레이즈,Single-Leg Smith Calf Raise,하체,비복근,비복근,가자미근,스미스,Isolation,Intermediate
+851,케틀벨 스텝업,Kettlebell Step-Up,하체,대퇴사두,대퇴사두·둔근,코어,케틀벨,Compound,Beginner
+852,케틀벨 리버스 런지,Kettlebell Reverse Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,케틀벨,Compound,Beginner
+853,트랩바 루마니안 데드리프트,Trap Bar Romanian Deadlift,하체,햄스트링,햄스트링·둔근,척추기립근,바벨,Compound,Intermediate
+854,트랩바 슈러그,Trap Bar Shrug,등,승모근,상부승모근,전완근,바벨,Isolation,Beginner
+855,트랩바 카프 레이즈,Trap Bar Calf Raise,하체,비복근,비복근,가자미근,바벨,Isolation,Beginner
+856,핵 스쿼트 카프 레이즈,Hack Squat Calf Raise,하체,비복근,비복근,가자미근,머신,Isolation,Beginner
+857,위티드 시시 스쿼트,Weighted Sissy Squat,하체,대퇴사두,대퇴사두,-,원판,Isolation,Advanced
+858,밴드 글루트 햄 레이즈,Band Glute-Ham Raise,하체,햄스트링,햄스트링·둔근,척추기립근,밴드,Compound,Intermediate
+859,위티드 노르딕 컬,Weighted Nordic Curl,하체,햄스트링,햄스트링,둔근,원판,Isolation,Advanced
+860,위티드 백 익스텐션,Weighted Back Extension,등,척추기립근,척추기립근,둔근·햄스트링,원판,Isolation,Intermediate
+861,위티드 45도 하이퍼익스텐션,Weighted 45-Degree Hyperextension,등,척추기립근,척추기립근,둔근,원판,Isolation,Intermediate
+862,스탠딩 힙 어브덕션 머신,Standing Hip Abduction Machine,하체,중둔근,중둔근,대둔근,머신,Isolation,Beginner
+863,멀티 힙 머신 익스텐션,Multi-Hip Machine Extension,하체,둔근,대둔근,햄스트링,머신,Isolation,Beginner
+864,멀티 힙 머신 플렉션,Multi-Hip Machine Flexion,하체,고관절굴근,고관절굴근,대퇴사두,머신,Isolation,Beginner
+865,멀티 힙 머신 어브덕션,Multi-Hip Machine Abduction,하체,중둔근,중둔근,대둔근,머신,Isolation,Beginner
+866,멀티 힙 머신 어덕션,Multi-Hip Machine Adduction,하체,내전근,내전근,-,머신,Isolation,Beginner
+867,덤벨 리스트 익스텐션,Dumbbell Wrist Extension,팔,전완근,전완 신근,-,덤벨,Isolation,Beginner
+868,케이블 리스트 컬,Cable Wrist Curl,팔,전완근,전완 굴근,-,케이블,Isolation,Beginner
+869,패럴렐 바 행,Parallel Bar Hang,팔,전완근,전완 굴근,광배근,맨몸,Isolation,Beginner
+870,타월 행,Towel Hang,팔,전완근,전완 굴근,광배근,맨몸,Isolation,Intermediate
+871,팻 그립 데드리프트,Fat-Grip Deadlift,팔,전완근,전완 굴근,둔근·승모근,바벨,Compound,Advanced
+872,팻 그립 컬,Fat-Grip Curl,팔,전완근,이두근·전완근,상완근,덤벨,Isolation,Intermediate
+873,리스트 로테이션,Wrist Rotation,팔,전완근,회내근·회외근,-,덤벨,Isolation,Beginner
+874,라이스 버킷 트레이닝,Rice Bucket Training,팔,전완근,전완 굴근·신근,-,기타,Isolation,Beginner
+875,핸드 그리퍼,Hand Gripper,팔,전완근,전완 굴근,-,기타,Isolation,Beginner
+876,플레이트 컬,Plate Curl,팔,전완근,상완요골근·전완근,이두근,원판,Isolation,Beginner
+877,라잉 햄스트링 스트레치,Lying Hamstring Stretch,하체,스트레칭,햄스트링,비복근,맨몸,Isolation,Beginner
+878,시티드 햄스트링 스트레치,Seated Hamstring Stretch,하체,스트레칭,햄스트링,척추기립근,맨몸,Isolation,Beginner
+879,스탠딩 사이드 벤드 스트레치,Standing Side Bend Stretch,코어,스트레칭,복사근,광배근,맨몸,Isolation,Beginner
+880,스핑크스 스트레치,Sphinx Stretch,코어,스트레칭,복직근,고관절굴근,맨몸,Isolation,Beginner
+881,슬리퍼 스트레치,Sleeper Stretch,어깨,스트레칭,극하근,후면삼각근,맨몸,Isolation,Beginner
+882,코너 펙 스트레치,Corner Pec Stretch,가슴,스트레칭,대흉근,전면삼각근,맨몸,Isolation,Beginner
+883,레바터 스캐퓰러 스트레치,Levator Scapulae Stretch,목,스트레칭,견갑거근,상부승모근,맨몸,Isolation,Beginner
+884,어퍼 트랩 스트레치,Upper Trap Stretch,목,스트레칭,상부승모근,견갑거근,맨몸,Isolation,Beginner
+885,프로그 스트레치,Frog Stretch,하체,스트레칭,내전근,고관절,맨몸,Isolation,Beginner
+886,이글 포즈,Eagle Pose,전신,요가,후면삼각근·둔근,코어,맨몸,Isolation,Intermediate
+887,로우 런지 스트레치,Low Lunge Stretch,하체,스트레칭,고관절굴근,대퇴사두,맨몸,Isolation,Beginner
+888,하이 런지 스트레치,High Lunge Stretch,하체,스트레칭,고관절굴근,햄스트링,맨몸,Isolation,Beginner
+889,해피 베이비 포즈,Happy Baby Pose,하체,스트레칭,내전근·둔근,고관절,맨몸,Isolation,Beginner
+890,시티드 포워드 폴드,Seated Forward Fold,하체,스트레칭,햄스트링,척추기립근,맨몸,Isolation,Beginner
+891,스탠딩 포워드 폴드,Standing Forward Fold,하체,스트레칭,햄스트링,척추기립근,맨몸,Isolation,Beginner
+892,와이드 레그 포워드 폴드,Wide-Leg Forward Fold,하체,스트레칭,내전근·햄스트링,척추기립근,맨몸,Isolation,Beginner
+893,라잉 쿼드 스트레치,Lying Quad Stretch,하체,스트레칭,대퇴사두,고관절굴근,맨몸,Isolation,Beginner
+894,IT밴드 스트레치,IT Band Stretch,하체,스트레칭,장경인대,대퇴근막장근,맨몸,Isolation,Beginner
+895,피리포미스 스트레치,Piriformis Stretch,하체,스트레칭,이상근,둔근,맨몸,Isolation,Beginner
+896,폼롤러 카프 릴리즈,Foam Roller Calf Release,하체,스트레칭,비복근,가자미근,기타,Isolation,Beginner
+897,폼롤러 글루트 릴리즈,Foam Roller Glute Release,하체,스트레칭,둔근,이상근,기타,Isolation,Beginner
+898,폼롤러 햄스트링 릴리즈,Foam Roller Hamstring Release,하체,스트레칭,햄스트링,둔근,기타,Isolation,Beginner
+899,폼롤러 랫 릴리즈,Foam Roller Lat Release,등,스트레칭,광배근,대원근,기타,Isolation,Beginner
+900,폼롤러 어덕터 릴리즈,Foam Roller Adductor Release,하체,스트레칭,내전근,고관절,기타,Isolation,Beginner
+901,40야드 대시,40-Yard Dash,유산소,스피드,대퇴사두·둔근,햄스트링·비복근,맨몸,Compound,Intermediate
+902,어질리티 래더 드릴,Agility Ladder Drill,유산소,민첩성,비복근·대퇴사두,고관절굴근,맨몸,Compound,Beginner
+903,콘 드릴,Cone Drill,유산소,민첩성,대퇴사두·둔근,비복근,맨몸,Compound,Beginner
+904,T-드릴,T-Drill,유산소,민첩성,대퇴사두·둔근,중둔근,맨몸,Compound,Intermediate
+905,5-10-5 프로 어질리티,5-10-5 Pro Agility,유산소,민첩성,대퇴사두·둔근,중둔근,맨몸,Compound,Intermediate
+906,카리오카,Carioca,유산소,민첩성,내전근·둔근,복사근,맨몸,Compound,Beginner
+907,백페달,Backpedal,유산소,민첩성,햄스트링·둔근,비복근,맨몸,Compound,Beginner
+908,버티컬 점프,Vertical Jump,전신,파워,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+909,뎁스 드롭,Depth Drop,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Advanced
+910,오버헤드 메디신볼 쓰로우,Overhead Medicine Ball Throw,전신,파워,어깨·코어,광배근,메디신볼,Compound,Intermediate
+911,로테이셔널 메디신볼 쓰로우,Rotational Medicine Ball Throw,전신,파워,복사근,둔근·어깨,메디신볼,Compound,Intermediate
+912,파워 스킵,Power Skip,전신,파워,둔근·대퇴사두,고관절굴근,맨몸,Compound,Intermediate
+913,리지스티드 스프린트,Resisted Sprint,전신,스피드,둔근·대퇴사두,햄스트링,슬레드,Compound,Advanced
+914,허들 홉,Hurdle Hop,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+915,싱글 레그 홉,Single-Leg Hop,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+916,필라테스 사이드 킥,Pilates Side Kick,하체,필라테스,중둔근,대둔근,맨몸,Isolation,Beginner
+917,필라테스 레그 서클,Pilates Leg Circle,코어,필라테스,고관절굴근,복직근,맨몸,Isolation,Beginner
+918,필라테스 티저,Pilates Teaser,코어,필라테스,복직근,고관절굴근,맨몸,Isolation,Advanced
+919,필라테스 스완,Pilates Swan,등,필라테스,척추기립근,둔근,맨몸,Isolation,Intermediate
+920,필라테스 싱글 레그 스트레치,Pilates Single-Leg Stretch,코어,필라테스,복직근,고관절굴근,맨몸,Isolation,Beginner
+921,필라테스 더블 레그 스트레치,Pilates Double-Leg Stretch,코어,필라테스,복직근,복횡근,맨몸,Isolation,Intermediate
+922,필라테스 크리스크로스,Pilates Criss-Cross,코어,필라테스,복사근,복직근,맨몸,Isolation,Beginner
+923,바레 플리에,Barre Plié,하체,바레,대퇴사두·둔근,내전근,맨몸,Isolation,Beginner
+924,바레 렐레베,Barre Relevé,하체,바레,비복근,가자미근,맨몸,Isolation,Beginner
+925,바레 아라베스크,Barre Arabesque,하체,바레,둔근,햄스트링,맨몸,Isolation,Intermediate
+926,카우 페이스 포즈,Cow Face Pose,어깨,요가,후면삼각근,삼두근,맨몸,Isolation,Beginner
+927,댄서 포즈,Dancer Pose,하체,요가,대퇴사두·둔근,코어,맨몸,Isolation,Advanced
+928,하프 문 포즈,Half Moon Pose,하체,요가,중둔근·코어,햄스트링,맨몸,Isolation,Intermediate
+929,익스텐디드 사이드 앵글 포즈,Extended Side Angle Pose,하체,요가,대퇴사두·복사근,내전근,맨몸,Isolation,Beginner
+930,게이트 포즈,Gate Pose,코어,요가,복사근,내전근,맨몸,Isolation,Beginner
+931,로커스트 포즈,Locust Pose,등,요가,척추기립근,둔근·후면삼각근,맨몸,Isolation,Beginner
+932,보우 포즈,Bow Pose,등,요가,척추기립근,대퇴사두,맨몸,Isolation,Intermediate
+933,피쉬 포즈,Fish Pose,코어,요가,척추기립근,흉쇄유돌근,맨몸,Isolation,Intermediate
+934,휠 포즈,Wheel Pose,전신,요가,척추기립근·둔근,어깨,맨몸,Compound,Advanced
+935,크로우 포즈,Crow Pose,전신,요가,코어·어깨,전완근,맨몸,Compound,Advanced
+936,사이드 크로우,Side Crow,전신,요가,복사근·어깨,코어,맨몸,Compound,Advanced
+937,헤드스탠드,Headstand,전신,요가,어깨·코어,승모근,맨몸,Compound,Advanced
+938,숄더스탠드,Shoulder Stand,전신,요가,코어,승모근,맨몸,Isolation,Intermediate
+939,플라우 포즈,Plow Pose,등,요가,척추기립근,햄스트링,맨몸,Isolation,Intermediate
+940,레그 업 더 월 포즈,Legs-Up-the-Wall Pose,하체,요가,햄스트링,둔근,맨몸,Isolation,Beginner
+941,리클라인드 스파인 트위스트,Reclined Spinal Twist,코어,요가,복사근,둔근,맨몸,Isolation,Beginner
+942,퍼피 포즈,Puppy Pose,등,요가,광배근,척추기립근,맨몸,Isolation,Beginner
+943,리저드 포즈,Lizard Pose,하체,요가,고관절굴근,내전근,맨몸,Isolation,Intermediate
+944,가랜드 포즈,Garland Pose,하체,요가,내전근·둔근,발목,맨몸,Isolation,Beginner
+945,리버스 워리어,Reverse Warrior,하체,요가,대퇴사두·복사근,둔근,맨몸,Isolation,Beginner
+946,90/90 힙 트랜지션,90/90 Hip Transition,하체,모빌리티,고관절,둔근,맨몸,Isolation,Beginner
+947,힙 에어플레인,Hip Airplane,하체,모빌리티,둔근,코어,맨몸,Isolation,Advanced
+948,앵클 락,Ankle Rock,하체,모빌리티,발목,비복근,맨몸,Isolation,Beginner
+949,리스트 모빌리티 서클,Wrist Mobility Circle,팔,모빌리티,전완근,-,맨몸,Isolation,Beginner
+950,숄더 디스로케이트,Shoulder Dislocate,어깨,모빌리티,삼각근·회전근개,승모근,밴드,Isolation,Beginner
+951,스틱 패스스루,Stick Pass-Through,어깨,모빌리티,삼각근,회전근개,기타,Isolation,Beginner
+952,토라식 브릿지,Thoracic Bridge,등,모빌리티,흉추기립근,어깨,맨몸,Compound,Intermediate
+953,파이어 하이드런트 서클,Fire Hydrant Circle,하체,모빌리티,중둔근,대둔근,맨몸,Isolation,Beginner
+954,스파이더맨 스트레치,Spider-Man Stretch,하체,모빌리티,고관절굴근,내전근,맨몸,Isolation,Beginner
+955,코사크 록,Cossack Rock,하체,모빌리티,내전근,둔근,맨몸,Isolation,Beginner
+956,딥 런지 위드 트위스트,Deep Lunge with Twist,전신,모빌리티,고관절굴근·흉추,햄스트링,맨몸,Compound,Beginner
+957,다이나믹 카프 스트레치,Dynamic Calf Stretch,하체,모빌리티,비복근,가자미근,맨몸,Isolation,Beginner
+958,라테럴 레그 스윙,Lateral Leg Swing,하체,모빌리티,내전근·중둔근,고관절,맨몸,Isolation,Beginner
+959,백워드 암 서클,Backward Arm Circle,어깨,모빌리티,삼각근,회전근개,맨몸,Isolation,Beginner
+960,넥 CARs,Neck CARs,목,모빌리티,경부근,승모근,맨몸,Isolation,Beginner
+961,핸드 릴리즈 푸시업,Hand-Release Push-Up,가슴,중부가슴,대흉근,삼두근,맨몸,Compound,Beginner
+962,힌두 푸시업,Hindu Push-Up,가슴,중부가슴,대흉근·어깨,삼두근,맨몸,Compound,Intermediate
+963,다이브 바머 푸시업,Dive-Bomber Push-Up,가슴,중부가슴,대흉근·어깨,삼두근,맨몸,Compound,Intermediate
+964,슈도 플란체 푸시업,Pseudo Planche Push-Up,가슴,중부가슴,대흉근·전면삼각근,코어,맨몸,Compound,Advanced
+965,원암 푸시업,One-Arm Push-Up,가슴,중부가슴,대흉근,삼두근·코어,맨몸,Compound,Advanced
+966,닐링 푸시업,Kneeling Push-Up,가슴,중부가슴,대흉근,삼두근,맨몸,Compound,Beginner
+967,템포 푸시업,Tempo Push-Up,가슴,중부가슴,대흉근,삼두근,맨몸,Compound,Beginner
+968,스트레이트 바 딥,Straight Bar Dip,팔,삼두근,삼두근,대흉근,맨몸,Compound,Intermediate
+969,L-싯 풀업,L-Sit Pull-Up,등,광배근,광배근·복직근,이두근,맨몸,Compound,Advanced
+970,타입라이터 풀업,Typewriter Pull-Up,등,광배근,광배근,이두근,맨몸,Compound,Advanced
+971,클로즈 그립 친업,Close-Grip Chin-Up,등,광배근,광배근·이두근,능형근,맨몸,Compound,Intermediate
+972,싱글 암 인버티드 로우,Single-Arm Inverted Row,등,광배근,광배근,이두근,맨몸,Compound,Advanced
+973,스캐퓰러 푸시업,Scapular Push-Up,등,전거근,전거근,능형근,맨몸,Isolation,Beginner
+974,스캐퓰러 딥,Scapular Dip,등,하부승모근,하부승모근,능형근,맨몸,Isolation,Beginner
+975,월 워크,Wall Walk,전신,맨몸기술,어깨·코어,삼두근,맨몸,Compound,Advanced
+976,프리스탠딩 핸드스탠드,Freestanding Handstand,어깨,맨몸기술,삼각근,코어·전완근,맨몸,Isolation,Advanced
+977,쉬림프 스쿼트,Shrimp Squat,하체,대퇴사두,대퇴사두·둔근,코어,맨몸,Compound,Advanced
+978,어시스티드 피스톨 스쿼트,Assisted Pistol Squat,하체,대퇴사두,대퇴사두·둔근,코어,맨몸,Compound,Intermediate
+979,행잉 L-싯,Hanging L-Sit,코어,복직근,복직근,고관절굴근,맨몸,Isolation,Advanced
+980,액티브 행,Active Hang,등,광배근,광배근·하부승모근,전완근,맨몸,Isolation,Beginner
+981,글루트 브릿지 어브덕션,Glute Bridge with Abduction,하체,둔근,대둔근·중둔근,햄스트링,밴드,Isolation,Beginner
+982,슈퍼맨 풀,Superman Pull,등,척추기립근,척추기립근·하부승모근,후면삼각근,맨몸,Isolation,Beginner
+983,리버스 스노우 엔젤,Reverse Snow Angel,등,하부승모근,중하부승모근,후면삼각근,맨몸,Isolation,Beginner
+984,노 머니 익서사이즈,No-Money Exercise,어깨,재활,극하근·소원근,후면삼각근,밴드,Isolation,Beginner
+985,스쿼트 잭,Squat Jack,유산소,컨디셔닝,대퇴사두·둔근,내전근,맨몸,Compound,Beginner
+986,플랭크 잭,Plank Jack,코어,복직근,복직근,어깨,맨몸,Compound,Beginner
+987,크로스바디 마운틴 클라이머,Cross-Body Mountain Climber,코어,복사근,복사근,고관절굴근,맨몸,Compound,Beginner
+988,워킹 푸시업,Walking Push-Up,가슴,중부가슴,대흉근,어깨·코어,맨몸,Compound,Intermediate
+989,펄스 런지,Pulse Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,맨몸,Isolation,Beginner
+990,펄스 스쿼트,Pulse Squat,하체,대퇴사두,대퇴사두·둔근,내전근,맨몸,Isolation,Beginner
+991,덕 워크,Duck Walk,하체,대퇴사두,대퇴사두·둔근,종아리,맨몸,Compound,Intermediate
+992,백워드 베어 크롤,Backward Bear Crawl,전신,기능성,어깨·코어,대퇴사두,맨몸,Compound,Beginner
+993,라테럴 크랩 워크,Lateral Crab Walk,전신,기능성,삼두근·둔근,코어,맨몸,Compound,Beginner
+994,하이 니 스킵,High-Knee Skip,유산소,컨디셔닝,고관절굴근,대퇴사두,맨몸,Compound,Beginner
+995,토 탭,Toe Tap,유산소,컨디셔닝,고관절굴근,비복근,맨몸,Compound,Beginner
+996,스텝 잭,Step Jack,유산소,컨디셔닝,둔근·삼각근,비복근,맨몸,Compound,Beginner
+997,플랭크 토 탭,Plank Toe Tap,코어,복직근,복직근,어깨,맨몸,Isolation,Beginner
+998,사이드 플랭크 로테이션,Side Plank Rotation,코어,복사근,복사근,어깨,맨몸,Isolation,Intermediate
+999,버드독 크런치,Bird Dog Crunch,코어,복직근,복직근,둔근,맨몸,Isolation,Beginner
+1000,스위머,Swimmer Exercise,등,척추기립근,척추기립근,둔근·후면삼각근,맨몸,Isolation,Beginner
+1001,뉴트럴 그립 인클라인 덤벨 프레스,Neutral-Grip Incline Dumbbell Press,가슴,상부가슴,대흉근 상부,삼두근,덤벨,Compound,Beginner
+1002,뉴트럴 그립 디클라인 덤벨 프레스,Neutral-Grip Decline Dumbbell Press,가슴,하부가슴,대흉근 하부,삼두근,덤벨,Compound,Beginner
+1003,스위스바 벤치프레스,Swiss Bar Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Intermediate
+1004,스위스바 오버헤드 프레스,Swiss Bar Overhead Press,어깨,전면삼각근,전면삼각근,삼두근,바벨,Compound,Intermediate
+1005,스위스바 클로즈 그립 프레스,Swiss Bar Close-Grip Press,팔,삼두근,삼두근,대흉근,바벨,Compound,Intermediate
+1006,인클라인 벤치 케이블 프레스,Incline Bench Cable Press,가슴,상부가슴,대흉근 상부,삼두근,케이블,Compound,Intermediate
+1007,시티드 케이블 체스트 프레스,Seated Cable Chest Press,가슴,중부가슴,대흉근,삼두근,케이블,Compound,Beginner
+1008,디클라인 바벨 풀오버,Decline Barbell Pullover,가슴,중부가슴,대흉근,광배근,바벨,Isolation,Intermediate
+1009,바벨 풀오버,Barbell Pullover,가슴,중부가슴,대흉근,광배근,바벨,Isolation,Intermediate
+1010,스미스 머신 플로어 프레스,Smith Machine Floor Press,가슴,중부가슴,대흉근,삼두근,스미스,Compound,Beginner
+1011,리버스 그립 덤벨 프레스,Reverse-Grip Dumbbell Press,가슴,상부가슴,대흉근 상부,삼두근,덤벨,Compound,Intermediate
+1012,와이드 그립 딥스,Wide-Grip Dip,가슴,하부가슴,대흉근 하부,삼두근,맨몸,Compound,Intermediate
+1013,클로즈 그립 딥스,Close-Grip Dip,팔,삼두근,삼두근,대흉근,맨몸,Compound,Intermediate
+1014,포워드 린 딥스,Forward-Lean Dip,가슴,하부가슴,대흉근 하부,삼두근,맨몸,Compound,Intermediate
+1015,밴드 어시스티드 딥스,Band-Assisted Dip,가슴,하부가슴,대흉근,삼두근,밴드,Compound,Beginner
+1016,체스트 서포티드 덤벨 로우,Chest-Supported Dumbbell Row,등,능형근,능형근·광배근,후면삼각근,덤벨,Compound,Beginner
+1017,인클라인 벤치 바벨 로우,Incline Bench Barbell Row,등,능형근,능형근·광배근,후면삼각근,바벨,Compound,Intermediate
+1018,와이드 그립 시티드 로우,Wide-Grip Seated Row,등,광배근,광배근·후면삼각근,능형근,케이블,Compound,Beginner
+1019,언더핸드 시티드 케이블 로우,Underhand Seated Cable Row,등,광배근,광배근·이두근,능형근,케이블,Compound,Beginner
+1020,케틀벨 벤트오버 로우,Kettlebell Bent-Over Row,등,광배근,광배근,능형근,케틀벨,Compound,Beginner
+1021,더블 케틀벨 로우,Double Kettlebell Row,등,광배근,광배근·능형근,후면삼각근,케틀벨,Compound,Intermediate
+1022,인클라인 케이블 로우,Incline Cable Row,등,광배근,광배근,후면삼각근,케이블,Compound,Beginner
+1023,하이 케이블 로우,High Cable Row,등,광배근,광배근 상부,후면삼각근,케이블,Compound,Beginner
+1024,로우 케이블 로우,Low Cable Row,등,광배근,광배근 하부,이두근,케이블,Compound,Beginner
+1025,클로즈 뉴트럴 랫 풀다운,Close Neutral-Grip Lat Pulldown,등,광배근,광배근 하부,이두근,케이블,Compound,Beginner
+1026,비하인드 넥 풀업,Behind-the-Neck Pull-Up,등,광배근,광배근 상부,능형근,맨몸,Compound,Advanced
+1027,미디엄 그립 풀업,Medium-Grip Pull-Up,등,광배근,광배근,이두근,맨몸,Compound,Intermediate
+1028,믹스드 그립 풀업,Mixed-Grip Pull-Up,등,광배근,광배근·이두근,능형근,맨몸,Compound,Intermediate
+1029,슈퍼 와이드 그립 풀다운,Super-Wide-Grip Pulldown,등,광배근,광배근 상부,능형근,케이블,Compound,Beginner
+1030,시티드 케이블 페이스 풀,Seated Cable Face Pull,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Beginner
+1031,시티드 비하인드 넥 프레스,Seated Behind-the-Neck Press,어깨,측면삼각근,측면·후면삼각근,삼두근,바벨,Compound,Advanced
+1032,핀 숄더 프레스,Pin Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,바벨,Compound,Advanced
+1033,스미스 머신 브래드포드 프레스,Smith Machine Bradford Press,어깨,측면삼각근,전면·측면삼각근,삼두근,스미스,Compound,Intermediate
+1034,시티드 케틀벨 프레스,Seated Kettlebell Press,어깨,전면삼각근,전면삼각근,삼두근,케틀벨,Compound,Intermediate
+1035,체스트 서포티드 리어 델트 레이즈,Chest-Supported Rear Delt Raise,어깨,후면삼각근,후면삼각근,능형근,덤벨,Isolation,Beginner
+1036,와이드 케이블 페이스 풀,Wide Cable Face Pull,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Beginner
+1037,디클라인 벤치 리어 델트 레이즈,Decline Bench Rear Delt Raise,어깨,후면삼각근,후면삼각근,능형근,덤벨,Isolation,Intermediate
+1038,플레이트 로디드 레터럴 레이즈 머신,Plate-Loaded Lateral Raise Machine,어깨,측면삼각근,측면삼각근,상부승모근,머신,Isolation,Beginner
+1039,밴드 Y 레이즈,Band Y-Raise,어깨,재활,하부승모근,후면삼각근,밴드,Isolation,Beginner
+1040,라잉 케이블 리어 델트 레이즈,Lying Cable Rear Delt Raise,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Intermediate
+1041,비하인드 넥 푸시 프레스,Behind-the-Neck Push Press,어깨,측면삼각근,측면삼각근·대퇴사두,삼두근,바벨,Compound,Advanced
+1042,케틀벨 프론트 레이즈,Kettlebell Front Raise,어깨,전면삼각근,전면삼각근,상부승모근,케틀벨,Isolation,Beginner
+1043,케이블 인터널 로테이션,Cable Internal Rotation,어깨,재활,견갑하근,대흉근,케이블,Isolation,Beginner
+1044,프론 밴드 풀어파트,Prone Band Pull-Apart,어깨,후면삼각근,후면삼각근,능형근,밴드,Isolation,Beginner
+1045,케틀벨 레터럴 레이즈,Kettlebell Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,케틀벨,Isolation,Beginner
+1046,싱글 암 머신 컬,Single-Arm Machine Curl,팔,이두근,이두근,전완근,머신,Isolation,Beginner
+1047,비하인드 백 케이블 컬,Behind-the-Back Cable Curl,팔,이두근,이두근 장두,전완근,케이블,Isolation,Intermediate
+1048,프로네이티드 덤벨 컬,Pronated Dumbbell Curl,팔,전완근,상완요골근,이두근,덤벨,Isolation,Intermediate
+1049,EZ바 리버스 컬,EZ-Bar Reverse Curl,팔,전완근,상완요골근,이두근,바벨,Isolation,Beginner
+1050,케틀벨 해머 컬,Kettlebell Hammer Curl,팔,이두근,이두근·상완근,전완근,케틀벨,Isolation,Beginner
+1051,인클라인 덤벨 리버스 컬,Incline Dumbbell Reverse Curl,팔,전완근,상완요골근,이두근,덤벨,Isolation,Intermediate
+1052,바 케이블 오버헤드 트라이셉스 익스텐션,Bar Cable Overhead Triceps Extension,팔,삼두근,삼두근 장두,-,케이블,Isolation,Intermediate
+1053,덤벨 라잉 트라이셉스 익스텐션,Dumbbell Lying Triceps Extension,팔,삼두근,삼두근,-,덤벨,Isolation,Beginner
+1054,싱글 암 덤벨 라잉 익스텐션,Single-Arm Dumbbell Lying Extension,팔,삼두근,삼두근,-,덤벨,Isolation,Intermediate
+1055,크로스보디 케이블 익스텐션,Cross-Body Cable Extension,팔,삼두근,삼두근 외측두,-,케이블,Isolation,Intermediate
+1056,머신 오버헤드 익스텐션,Machine Overhead Extension,팔,삼두근,삼두근 장두,-,머신,Isolation,Beginner
+1057,피트 엘리베이티드 벤치 딥스,Feet-Elevated Bench Dip,팔,삼두근,삼두근,전면삼각근,맨몸,Compound,Intermediate
+1058,로프 오버헤드 트라이셉스 익스텐션,Rope Overhead Triceps Extension,팔,삼두근,삼두근 장두,-,케이블,Isolation,Beginner
+1059,디클라인 클로즈 그립 벤치프레스,Decline Close-Grip Bench Press,팔,삼두근,삼두근,대흉근 하부,바벨,Compound,Intermediate
+1060,인클라인 클로즈 그립 벤치프레스,Incline Close-Grip Bench Press,팔,삼두근,삼두근,대흉근 상부,바벨,Compound,Intermediate
+1061,1.5 렙 스쿼트,1.5-Rep Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Intermediate
+1062,1.5 렙 레그 프레스,1.5-Rep Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+1063,1.5 렙 런지,1.5-Rep Lunge,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+1064,페이즈 레그 익스텐션,Pause Leg Extension,하체,대퇴사두,대퇴사두,-,머신,Isolation,Beginner
+1065,페이즈 레그 컬,Pause Leg Curl,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+1066,페이즈 카프 레이즈,Pause Calf Raise,하체,비복근,비복근,가자미근,머신,Isolation,Beginner
+1067,비하인드 더 백 데드리프트,Behind-the-Back Deadlift,하체,둔근,둔근·대퇴사두,척추기립근,바벨,Compound,Advanced
+1068,데피싯 스모 데드리프트,Deficit Sumo Deadlift,하체,둔근,둔근·내전근,햄스트링,바벨,Compound,Advanced
+1069,풀 ROM 레그 프레스,Full ROM Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Intermediate
+1070,페이즈 불가리안 스플릿 스쿼트,Pause Bulgarian Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+1071,템포 불가리안 스플릿 스쿼트,Tempo Bulgarian Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+1072,데피싯 스플릿 스쿼트,Deficit Split Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,덤벨,Compound,Intermediate
+1073,페이즈 고블릿 스쿼트,Pause Goblet Squat,하체,대퇴사두,대퇴사두·둔근,코어,덤벨,Compound,Beginner
+1074,와이드 핵 스쿼트,Wide-Stance Hack Squat,하체,둔근,둔근·내전근,대퇴사두,머신,Compound,Intermediate
+1075,클로즈 핵 스쿼트,Close-Stance Hack Squat,하체,대퇴사두,대퇴사두,둔근,머신,Compound,Intermediate
+1076,더블 케틀벨 루마니안 데드리프트,Double Kettlebell Romanian Deadlift,하체,햄스트링,햄스트링·둔근,척추기립근,케틀벨,Compound,Intermediate
+1077,싱글 레그 글루트 브릿지 마치,Single-Leg Glute Bridge March,하체,둔근,대둔근,코어,맨몸,Isolation,Intermediate
+1078,시시 스쿼트 머신,Sissy Squat Machine,하체,대퇴사두,대퇴사두,-,머신,Isolation,Intermediate
+1079,위티드 글루트 햄 레이즈,Weighted Glute-Ham Raise,하체,햄스트링,햄스트링·둔근,척추기립근,원판,Compound,Advanced
+1080,위티드 리버스 노르딕 컬,Weighted Reverse Nordic Curl,하체,대퇴사두,대퇴사두,고관절굴근,원판,Isolation,Advanced
+1081,위티드 토즈 투 바,Weighted Toes-to-Bar,코어,복직근,복직근,광배근,맨몸,Compound,Advanced
+1082,캡틴스 체어 트위스팅 레이즈,Captain's Chair Twisting Raise,코어,복사근,복사근,복직근,머신,Isolation,Intermediate
+1083,시티드 케이블 우드찹,Seated Cable Woodchop,코어,복사근,복사근,복직근,케이블,Compound,Beginner
+1084,위티드 디클라인 싯업,Weighted Decline Sit-Up,코어,복직근,복직근,고관절굴근,원판,Isolation,Intermediate
+1085,스위스볼 잭나이프,Stability Ball Jackknife,코어,복직근,복직근,어깨,짐볼,Compound,Intermediate
+1086,드래곤 플래그 네거티브,Dragon Flag Negative,코어,복직근,복직근,광배근,맨몸,Isolation,Advanced
+1087,안티 로테이션 홀드,Anti-Rotation Hold,코어,복사근,복사근·복횡근,복직근,케이블,Isolation,Intermediate
+1088,사이드 플랭크 위드 리치,Side Plank with Reach,코어,복사근,복사근,어깨,맨몸,Isolation,Intermediate
+1089,플랭크 위드 레그 리프트,Plank with Leg Lift,코어,복직근,복직근,둔근,맨몸,Isolation,Intermediate
+1090,보트 투 로우 보트,Boat-to-Low-Boat,코어,복직근,복직근,고관절굴근,맨몸,Isolation,Intermediate
+1091,수트케이스 캐리,Suitcase Carry,코어,복사근,복사근·전완근,승모근,덤벨,Compound,Beginner
+1092,오버헤드 바벨 캐리,Overhead Barbell Carry,어깨,삼각근,삼각근·코어,승모근,바벨,Compound,Advanced
+1093,더블 케틀벨 프론트 랙 캐리,Double Kettlebell Front Rack Carry,코어,코어,코어·전완근,승모근,케틀벨,Compound,Intermediate
+1094,보텀업 케틀벨 캐리,Bottoms-Up Kettlebell Carry,어깨,전완근,전완근·어깨,코어,케틀벨,Compound,Intermediate
+1095,트랩바 캐리,Trap Bar Carry,전신,전완근,전완근·승모근,코어,바벨,Compound,Beginner
+1096,플레이트 핀치 캐리,Plate Pinch Carry,팔,전완근,전완 굴근,승모근,원판,Compound,Intermediate
+1097,샌드백 숄더링,Sandbag Shouldering,전신,둔근,둔근·척추기립근,광배근,기타,Compound,Advanced
+1098,샌드백 클린,Sandbag Clean,전신,둔근,둔근·햄스트링,승모근,기타,Compound,Intermediate
+1099,샌드백 스쿼트,Sandbag Squat,하체,대퇴사두,대퇴사두·둔근,코어,기타,Compound,Beginner
+1100,샌드백 런지,Sandbag Lunge,하체,대퇴사두,대퇴사두·둔근,코어,기타,Compound,Beginner
+1101,이센트릭 친업,Eccentric Chin-Up,등,광배근,광배근·이두근,능형근,맨몸,Compound,Intermediate
+1102,이센트릭 벤치프레스,Eccentric Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Advanced
+1103,이센트릭 스쿼트,Eccentric Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Advanced
+1104,이센트릭 데드리프트,Eccentric Deadlift,등,척추기립근,둔근·햄스트링,승모근,바벨,Compound,Advanced
+1105,이센트릭 레그 컬,Eccentric Leg Curl,하체,햄스트링,햄스트링,비복근,머신,Isolation,Intermediate
+1106,파셜 데드리프트,Partial Deadlift,등,척추기립근,척추기립근·둔근,승모근,바벨,Compound,Intermediate
+1107,파셜 스쿼트,Partial Squat,하체,대퇴사두,대퇴사두,둔근,바벨,Compound,Intermediate
+1108,파셜 레터럴 레이즈,Partial Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,덤벨,Isolation,Beginner
+1109,파셜 바벨 컬,Partial Barbell Curl,팔,이두근,이두근,전완근,바벨,Isolation,Beginner
+1110,톱 하프 레그 익스텐션,Top-Half Leg Extension,하체,대퇴사두,대퇴사두,-,머신,Isolation,Beginner
+1111,바텀 하프 스쿼트,Bottom-Half Squat,하체,대퇴사두,대퇴사두·둔근,햄스트링,바벨,Compound,Intermediate
+1112,아이소메트릭 벤치 홀드,Isometric Bench Hold,가슴,중부가슴,대흉근,삼두근,바벨,Isolation,Intermediate
+1113,아이소메트릭 스쿼트 홀드,Isometric Squat Hold,하체,대퇴사두,대퇴사두·둔근,코어,바벨,Isolation,Intermediate
+1114,아이소메트릭 데드리프트 홀드,Isometric Deadlift Hold,등,척추기립근,둔근·햄스트링,승모근,바벨,Isolation,Advanced
+1115,아이소메트릭 컬 홀드,Isometric Curl Hold,팔,이두근,이두근,전완근,덤벨,Isolation,Beginner
+1116,아이소메트릭 레터럴 레이즈 홀드,Isometric Lateral Raise Hold,어깨,측면삼각근,측면삼각근,상부승모근,덤벨,Isolation,Intermediate
+1117,아이소메트릭 풀업 홀드,Isometric Pull-Up Hold,등,광배근,광배근,이두근,맨몸,Isolation,Intermediate
+1118,아이소메트릭 푸시업 홀드,Isometric Push-Up Hold,가슴,중부가슴,대흉근,삼두근,맨몸,Isolation,Beginner
+1119,템포 풀업,Tempo Pull-Up,등,광배근,광배근,이두근,맨몸,Compound,Intermediate
+1120,템포 레그 프레스,Tempo Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+1121,템포 로우,Tempo Row,등,광배근,광배근·능형근,후면삼각근,바벨,Compound,Intermediate
+1122,템포 오버헤드 프레스,Tempo Overhead Press,어깨,전면삼각근,전면삼각근,삼두근,바벨,Compound,Intermediate
+1123,템포 컬,Tempo Curl,팔,이두근,이두근,전완근,덤벨,Isolation,Beginner
+1124,템포 레터럴 레이즈,Tempo Lateral Raise,어깨,측면삼각근,측면삼각근,상부승모근,덤벨,Isolation,Beginner
+1125,이센트릭 노르딕 컬,Eccentric Nordic Curl,하체,햄스트링,햄스트링,둔근,맨몸,Isolation,Advanced
+1126,이센트릭 카프 레이즈,Eccentric Calf Raise,하체,비복근,비복근,가자미근,맨몸,Isolation,Beginner
+1127,파셜 레그 프레스,Partial Leg Press,하체,대퇴사두,대퇴사두,둔근,머신,Compound,Beginner
+1128,파셜 풀다운,Partial Pulldown,등,광배근,광배근,이두근,케이블,Compound,Beginner
+1129,1.25 렙 벤치프레스,1.25-Rep Bench Press,가슴,중부가슴,대흉근,삼두근,바벨,Compound,Intermediate
+1130,1.5 렙 숄더 프레스,1.5-Rep Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,바벨,Compound,Intermediate
+1131,싱글 암 머신 숄더 프레스,Single-Arm Machine Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,머신,Compound,Beginner
+1132,싱글 암 머신 랫 풀다운,Single-Arm Machine Lat Pulldown,등,광배근,광배근,이두근,머신,Compound,Beginner
+1133,싱글 암 머신 리어 델트,Single-Arm Machine Rear Delt,어깨,후면삼각근,후면삼각근,능형근,머신,Isolation,Beginner
+1134,싱글 암 펙덱 플라이,Single-Arm Pec Deck Fly,가슴,중부가슴,대흉근,전면삼각근,머신,Isolation,Beginner
+1135,싱글 암 케이블 풀다운,Single-Arm Cable Pulldown,등,광배근,광배근,이두근,케이블,Compound,Intermediate
+1136,싱글 암 랜드마인 로우,Single-Arm Landmine Row,등,광배근,광배근,후면삼각근,랜드마인,Compound,Intermediate
+1137,싱글 암 스미스 로우,Single-Arm Smith Row,등,광배근,광배근,능형근,스미스,Compound,Beginner
+1138,싱글 암 덤벨 스컬크러셔,Single-Arm Dumbbell Skull Crusher,팔,삼두근,삼두근,-,덤벨,Isolation,Intermediate
+1139,싱글 암 케이블 크런치,Single-Arm Cable Crunch,코어,복사근,복사근·복직근,-,케이블,Isolation,Intermediate
+1140,싱글 암 케틀벨 클린,Single-Arm Kettlebell Clean,전신,둔근,둔근·햄스트링,승모근,케틀벨,Compound,Intermediate
+1141,싱글 암 케틀벨 스내치,Single-Arm Kettlebell Snatch,전신,둔근,둔근·삼각근,코어,케틀벨,Compound,Advanced
+1142,원암 풀업,One-Arm Pull-Up,등,광배근,광배근,이두근·코어,맨몸,Compound,Advanced
+1143,싱글 레그 머신 힙 쓰러스트,Single-Leg Machine Hip Thrust,하체,둔근,대둔근,햄스트링,머신,Isolation,Intermediate
+1144,싱글 암 덤벨 플로어 프레스,Single-Arm Dumbbell Floor Press,가슴,중부가슴,대흉근,삼두근·코어,덤벨,Compound,Intermediate
+1145,싱글 암 오버헤드 캐리,Single-Arm Overhead Carry,어깨,삼각근,삼각근·코어,전완근,덤벨,Compound,Intermediate
+1146,싱글 암 덤벨 데드리프트,Single-Arm Dumbbell Deadlift,하체,둔근,둔근·햄스트링,척추기립근,덤벨,Compound,Beginner
+1147,닐링 싱글 암 케이블 로우,Kneeling Single-Arm Cable Row,등,광배근,광배근,이두근,케이블,Compound,Beginner
+1148,닐링 싱글 암 랫 풀다운,Kneeling Single-Arm Lat Pulldown,등,광배근,광배근,이두근,케이블,Compound,Beginner
+1149,바벨 싱글 레그 루마니안 데드리프트,Barbell Single-Leg Romanian Deadlift,하체,햄스트링,햄스트링·둔근,코어,바벨,Compound,Advanced
+1150,닐링 싱글 암 케이블 컬,Kneeling Single-Arm Cable Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+1151,컨티뉴어스 박스 점프,Continuous Box Jump,전신,플라이오메트릭,대퇴사두·둔근,비복근,맨몸,Compound,Intermediate
+1152,컨티뉴어스 브로드 점프,Continuous Broad Jump,전신,플라이오메트릭,둔근·대퇴사두,햄스트링,맨몸,Compound,Advanced
+1153,트리플 언더,Triple Under,유산소,컨디셔닝,비복근,어깨,기타,Compound,Advanced
+1154,버피 브로드 점프,Burpee Broad Jump,전신,컨디셔닝,대퇴사두·대흉근,코어,맨몸,Compound,Advanced
+1155,라더 인앤아웃,Ladder In-and-Out,유산소,민첩성,비복근·대퇴사두,고관절굴근,맨몸,Compound,Beginner
+1156,라더 아이키 셔플,Ladder Icky Shuffle,유산소,민첩성,대퇴사두·둔근,내전근,맨몸,Compound,Intermediate
+1157,콘 위브,Cone Weave,유산소,민첩성,대퇴사두·둔근,중둔근,맨몸,Compound,Beginner
+1158,박스 드릴,Box Drill,유산소,민첩성,대퇴사두·둔근,중둔근,맨몸,Compound,Intermediate
+1159,스타 드릴,Star Drill,유산소,민첩성,대퇴사두·둔근,중둔근,맨몸,Compound,Intermediate
+1160,백워드 슬레드 드래그,Backward Sled Drag,하체,컨디셔닝,대퇴사두,둔근·비복근,슬레드,Compound,Intermediate
+1161,라테럴 슬레드 드래그,Lateral Sled Drag,하체,컨디셔닝,중둔근·내전근,대퇴사두,슬레드,Compound,Intermediate
+1162,배틀로프 인앤아웃,Battle Rope In-and-Out,전신,컨디셔닝,어깨,코어·전완근,배틀로프,Compound,Intermediate
+1163,배틀로프 사이드 투 사이드,Battle Rope Side-to-Side,전신,컨디셔닝,어깨·복사근,전완근,배틀로프,Compound,Intermediate
+1164,배틀로프 점프 슬램,Battle Rope Jumping Slam,전신,컨디셔닝,어깨·대퇴사두,코어,배틀로프,Compound,Advanced
+1165,로프 클라임,Rope Climb,전신,기능성,광배근·이두근,전완근·코어,기타,Compound,Advanced
+1166,페그보드 클라임,Pegboard Climb,전신,기능성,광배근·전완근,이두근,기타,Compound,Advanced
+1167,타이어 점프 인앤아웃,Tire Jump In-and-Out,전신,플라이오메트릭,대퇴사두·둔근,비복근,기타,Compound,Intermediate
+1168,사이드 월 볼,Side Wall Ball,전신,컨디셔닝,복사근·대퇴사두,어깨,메디신볼,Compound,Intermediate
+1169,데드볼 오버 숄더 토스,Dead Ball Over-Shoulder Toss,전신,파워,둔근·척추기립근,어깨,메디신볼,Compound,Advanced
+1170,샌드백 캐리 인터벌,Sandbag Carry Interval,전신,컨디셔닝,코어·승모근,전완근·둔근,기타,Compound,Intermediate
+1171,아쿠아 조깅,Aqua Jogging,유산소,수중,대퇴사두·둔근,햄스트링,기타,Compound,Beginner
+1172,풀 워킹,Pool Walking,유산소,수중,대퇴사두,둔근,기타,Compound,Beginner
+1173,워터 에어로빅,Water Aerobics,유산소,수중,전신,코어,기타,Compound,Beginner
+1174,백워드 몬스터 워크,Backward Monster Walk,하체,재활,중둔근,대둔근,밴드,Isolation,Beginner
+1175,밴드 라테럴 워크,Band Lateral Walk,하체,재활,중둔근,대둔근,밴드,Isolation,Beginner
+1176,밴드 X 워크,Band X-Walk,하체,재활,중둔근,내전근,밴드,Isolation,Beginner
+1177,글루트 액티베이션 브릿지,Glute Activation Bridge,하체,재활,둔근,햄스트링,밴드,Isolation,Beginner
+1178,시티드 밴드 어브덕션,Seated Band Abduction,하체,재활,중둔근,대둔근,밴드,Isolation,Beginner
+1179,시티드 밴드 풀어파트,Seated Band Pull-Apart,어깨,재활,후면삼각근,능형근,밴드,Isolation,Beginner
+1180,밴드 오버헤드 스쿼트,Band Overhead Squat,전신,모빌리티,대퇴사두·삼각근,코어,밴드,Compound,Beginner
+1181,라크로스볼 글루트 릴리즈,Lacrosse Ball Glute Release,하체,재활,둔근,이상근,기타,Isolation,Beginner
+1182,라크로스볼 풋 릴리즈,Lacrosse Ball Foot Release,하체,재활,족저근막,발내재근,기타,Isolation,Beginner
+1183,라크로스볼 페크 릴리즈,Lacrosse Ball Pec Release,가슴,재활,대흉근,소흉근,기타,Isolation,Beginner
+1184,넥 아이소메트릭 홀드,Neck Isometric Hold,목,재활,경부근,승모근,맨몸,Isolation,Beginner
+1185,밴드 앵클 도르시플렉션,Band Ankle Dorsiflexion,하체,재활,전경골근,-,밴드,Isolation,Beginner
+1186,숄더 플렉션 스트레치,Shoulder Flexion Stretch,어깨,스트레칭,삼각근,광배근,맨몸,Isolation,Beginner
+1187,숄더 익스텐션 스트레치,Shoulder Extension Stretch,어깨,스트레칭,전면삼각근,대흉근,맨몸,Isolation,Beginner
+1188,시티드 흉추 로테이션,Seated Thoracic Rotation,등,모빌리티,흉추기립근,복사근,맨몸,Isolation,Beginner
+1189,넥 리트랙션,Neck Retraction,목,재활,경부심부굴근,-,맨몸,Isolation,Beginner
+1190,친 턱,Chin Tuck,목,재활,경부심부굴근,-,맨몸,Isolation,Beginner
+1191,프레이어 스트레치,Prayer Stretch,팔,스트레칭,전완 굴근,-,맨몸,Isolation,Beginner
+1192,리버스 프레이어 스트레치,Reverse Prayer Stretch,팔,스트레칭,전완 신근,-,맨몸,Isolation,Beginner
+1193,핑거 익스텐션 스트레치,Finger Extension Stretch,팔,스트레칭,전완 굴근,-,맨몸,Isolation,Beginner
+1194,다이나믹 힙 플렉서 스트레치,Dynamic Hip Flexor Stretch,하체,모빌리티,고관절굴근,대퇴사두,맨몸,Isolation,Beginner
+1195,다이나믹 햄스트링 스트레치,Dynamic Hamstring Stretch,하체,모빌리티,햄스트링,비복근,맨몸,Isolation,Beginner
+1196,다이나믹 글루트 스트레치,Dynamic Glute Stretch,하체,모빌리티,둔근,이상근,맨몸,Isolation,Beginner
+1197,앵클 서클,Ankle Circle,하체,모빌리티,발목,비복근,맨몸,Isolation,Beginner
+1198,풋 아치 도밍,Foot Arch Doming,하체,재활,발내재근,전경골근,맨몸,Isolation,Beginner
+1199,빅 토 익스텐션,Big Toe Extension,하체,재활,무지신근,발내재근,맨몸,Isolation,Beginner
+1200,스파인 와브,Spinal Wave,등,모빌리티,척추기립근,복직근,맨몸,Isolation,Beginner
+1201,D핸들 케이블 로우,D-Handle Cable Row,등,광배근,광배근,이두근,케이블,Compound,Beginner
+1202,로프 케이블 로우,Rope Cable Row,등,광배근,광배근·후면삼각근,능형근,케이블,Compound,Beginner
+1203,와이드 바 케이블 로우,Wide-Bar Cable Row,등,광배근,광배근·후면삼각근,능형근,케이블,Compound,Beginner
+1204,싱글 로프 케이블 컬,Single Rope Cable Curl,팔,이두근,이두근,전완근,케이블,Isolation,Beginner
+1205,EZ바 케이블 푸시다운,EZ-Bar Cable Pushdown,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+1206,로프 케이블 킥백,Rope Cable Kickback,팔,삼두근,삼두근,-,케이블,Isolation,Beginner
+1207,리버스 그립 EZ 푸시다운,Reverse-Grip EZ Pushdown,팔,삼두근,삼두근 내측두,-,케이블,Isolation,Beginner
+1208,스트레이트 바 페이스 풀,Straight-Bar Face Pull,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Beginner
+1209,프론트 케이블 슈러그,Front Cable Shrug,등,승모근,상부승모근,전완근,케이블,Isolation,Beginner
+1210,스트레이트 바 케이블 풀오버,Straight-Bar Cable Pullover,등,광배근,광배근,대원근,케이블,Isolation,Intermediate
+1211,케이블 리어 델트 로우,Cable Rear Delt Row,어깨,후면삼각근,후면삼각근,능형근,케이블,Compound,Intermediate
+1212,와이드 그립 케이블 업라이트 로우,Wide-Grip Cable Upright Row,어깨,측면삼각근,측면삼각근,승모근,케이블,Compound,Beginner
+1213,크로스보디 케이블 레이즈,Cross-Body Cable Raise,어깨,전면삼각근,전면삼각근,측면삼각근,케이블,Isolation,Intermediate
+1214,케이블 데드리프트,Cable Deadlift,하체,둔근,둔근·햄스트링,척추기립근,케이블,Compound,Beginner
+1215,앵클 스트랩 케이블 힙 어브덕션,Ankle-Strap Cable Hip Abduction,하체,중둔근,중둔근,대둔근,케이블,Isolation,Beginner
+1216,케이블 힙 플렉션,Cable Hip Flexion,하체,고관절굴근,고관절굴근,대퇴사두,케이블,Isolation,Beginner
+1217,케이블 니 레이즈,Cable Knee Raise,코어,복직근,복직근 하부,고관절굴근,케이블,Isolation,Intermediate
+1218,케이블 리프트,Cable Lift,코어,복사근,복사근,복직근,케이블,Compound,Intermediate
+1219,케이블 트위스트,Cable Twist,코어,복사근,복사근,복직근,케이블,Isolation,Beginner
+1220,케이블 풀 어파트,Cable Pull-Apart,어깨,후면삼각근,후면삼각근,능형근,케이블,Isolation,Beginner
+1221,덤벨 Z 프레스,Dumbbell Z Press,어깨,전면삼각근,전면삼각근,코어·삼두근,덤벨,Compound,Advanced
+1222,덤벨 시소 프레스,Dumbbell Seesaw Press,어깨,전면삼각근,전면삼각근,코어,덤벨,Compound,Intermediate
+1223,시티드 아놀드 프레스,Seated Arnold Press,어깨,전면삼각근,전면·측면삼각근,삼두근,덤벨,Compound,Intermediate
+1224,얼터네이팅 인클라인 덤벨 컬,Alternating Incline Dumbbell Curl,팔,이두근,이두근 장두,전완근,덤벨,Isolation,Intermediate
+1225,와이드 덤벨 컬,Wide Dumbbell Curl,팔,이두근,이두근 단두,전완근,덤벨,Isolation,Beginner
+1226,덤벨 스컬크러셔,Dumbbell Skull Crusher,팔,삼두근,삼두근,-,덤벨,Isolation,Intermediate
+1227,덤벨 JM 프레스,Dumbbell JM Press,팔,삼두근,삼두근,대흉근,덤벨,Compound,Advanced
+1228,덤벨 풀오버 투 프레스,Dumbbell Pullover to Press,가슴,중부가슴,대흉근,광배근·삼두근,덤벨,Compound,Intermediate
+1229,치트 컬,Cheat Curl,팔,이두근,이두근,전완근·척추기립근,바벨,Compound,Intermediate
+1230,바벨 7s 컬,Barbell 7s Curl,팔,이두근,이두근,전완근,바벨,Isolation,Intermediate
+1231,케틀벨 사이드 프레스,Kettlebell Side Press,어깨,전면삼각근,전면삼각근·복사근,삼두근,케틀벨,Compound,Advanced
+1232,케틀벨 벤트 프레스,Kettlebell Bent Press,전신,복사근,복사근·어깨,햄스트링,케틀벨,Compound,Advanced
+1233,케틀벨 트라이셉스 익스텐션,Kettlebell Triceps Extension,팔,삼두근,삼두근 장두,-,케틀벨,Isolation,Beginner
+1234,케틀벨 컨센트레이션 컬,Kettlebell Concentration Curl,팔,이두근,이두근,전완근,케틀벨,Isolation,Beginner
+1235,메이스 360,Mace 360,전신,코어,어깨·코어,전완근,기타,Compound,Advanced
+1236,메이스 10 투 2,Mace 10-to-2,전신,코어,어깨·코어,전완근,기타,Compound,Intermediate
+1237,클럽벨 스윙,Clubbell Swing,전신,어깨,어깨·전완근,코어,기타,Compound,Intermediate
+1238,슬램볼 스쿼트,Slam Ball Squat,하체,대퇴사두,대퇴사두·둔근,코어,메디신볼,Compound,Beginner
+1239,통나무 캐리,Log Carry,전신,코어,코어·승모근,전완근,기타,Compound,Intermediate
+1240,케그 캐리,Keg Carry,전신,코어,코어·둔근,전완근,기타,Compound,Intermediate
+1241,컨버징 인클라인 프레스 머신,Converging Incline Press Machine,가슴,상부가슴,대흉근 상부,삼두근,머신,Compound,Beginner
+1242,컨버징 디클라인 프레스 머신,Converging Decline Press Machine,가슴,하부가슴,대흉근 하부,삼두근,머신,Compound,Beginner
+1243,아이소레터럴 인클라인 로우,Iso-Lateral Incline Row,등,광배근,광배근,후면삼각근,머신,Compound,Beginner
+1244,아이소레터럴 프론트 풀다운,Iso-Lateral Front Pulldown,등,광배근,광배근,이두근,머신,Compound,Beginner
+1245,아이소레터럴 숄더 프레스,Iso-Lateral Shoulder Press,어깨,전면삼각근,전면삼각근,삼두근,머신,Compound,Beginner
+1246,아이소레터럴 레그 프레스,Iso-Lateral Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Beginner
+1247,아이소레터럴 로우 로우,Iso-Lateral Low Row,등,광배근,광배근 하부,이두근,머신,Compound,Beginner
+1248,아이소레터럴 하이 로우,Iso-Lateral High Row,등,광배근,광배근 상부,후면삼각근,머신,Compound,Beginner
+1249,펜듈럼 레그 프레스,Pendulum Leg Press,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Intermediate
+1250,벨트 스쿼트 머신,Belt Squat Machine,하체,대퇴사두,대퇴사두·둔근,햄스트링,머신,Compound,Intermediate
+1251,글루트 햄 디벨로퍼 머신,Glute-Ham Developer Machine,하체,햄스트링,햄스트링·둔근,척추기립근,머신,Compound,Advanced
+1252,호리즌탈 백 익스텐션 머신,Horizontal Back Extension Machine,등,척추기립근,척추기립근,둔근,머신,Isolation,Beginner
+1253,플레이트 로디드 시티드 카프,Plate-Loaded Seated Calf,하체,가자미근,가자미근,비복근,머신,Isolation,Beginner
+1254,닐링 레그 컬 머신,Kneeling Leg Curl Machine,하체,햄스트링,햄스트링,비복근,머신,Isolation,Beginner
+1255,컨버징 로우 머신,Converging Row Machine,등,광배근,광배근·능형근,이두근,머신,Compound,Beginner
+1256,어시스티드 풀업 머신,Assisted Pull-Up Machine,등,광배근,광배근,이두근,머신,Compound,Beginner
+1257,플레이트 로디드 프리처 컬,Plate-Loaded Preacher Curl,팔,이두근,이두근 단두,전완근,머신,Isolation,Beginner
+1258,머신 라잉 트라이셉스 익스텐션,Machine Lying Triceps Extension,팔,삼두근,삼두근,-,머신,Isolation,Beginner
+1259,버티컬 체스트 프레스 머신,Vertical Chest Press Machine,가슴,중부가슴,대흉근,삼두근,머신,Compound,Beginner
+1260,로우 풀리 로우 머신,Low Pulley Row Machine,등,광배근,광배근 하부,이두근,머신,Compound,Beginner
+1261,엘리베이티드 파이크 푸시업,Elevated Pike Push-Up,어깨,전면삼각근,전면삼각근,삼두근,맨몸,Compound,Advanced
+1262,핑거팁 푸시업,Fingertip Push-Up,가슴,중부가슴,대흉근,전완근,맨몸,Compound,Advanced
+1263,너클 푸시업,Knuckle Push-Up,가슴,중부가슴,대흉근,전완근,맨몸,Compound,Intermediate
+1264,타입라이터 푸시업,Typewriter Push-Up,가슴,중부가슴,대흉근,삼두근,맨몸,Compound,Advanced
+1265,슬라이더 푸시업,Slider Push-Up,가슴,중부가슴,대흉근,삼두근·코어,기타,Compound,Intermediate
+1266,슬라이더 플라이,Slider Fly,가슴,중부가슴,대흉근,코어,기타,Isolation,Advanced
+1267,슬라이더 니 턱,Slider Knee Tuck,코어,복직근,복직근,어깨,기타,Compound,Intermediate
+1268,링 머슬업,Ring Muscle-Up,전신,기능성,광배근·대흉근,이두근·삼두근,TRX,Compound,Advanced
+1269,링 로우,Ring Row,등,광배근,광배근·능형근,이두근,TRX,Compound,Beginner
+1270,링 풀업,Ring Pull-Up,등,광배근,광배근,이두근,TRX,Compound,Advanced
+1271,링 페이스 풀,Ring Face Pull,어깨,후면삼각근,후면삼각근,능형근,TRX,Isolation,Beginner
+1272,링 트라이셉스 익스텐션,Ring Triceps Extension,팔,삼두근,삼두근,코어,TRX,Isolation,Intermediate
+1273,링 비셉스 컬,Ring Biceps Curl,팔,이두근,이두근,전완근,TRX,Isolation,Beginner
+1274,싱글 레그 박스 스쿼트,Single-Leg Box Squat,하체,대퇴사두,대퇴사두·둔근,코어,맨몸,Compound,Intermediate
+1275,월 싯 마치,Wall Sit March,하체,대퇴사두,대퇴사두,고관절굴근,맨몸,Isolation,Intermediate
+1276,스텝 카프 레이즈,Step Calf Raise,하체,비복근,비복근,가자미근,맨몸,Isolation,Beginner
+1277,라잉 레그 레이즈,Lying Leg Raise,코어,복직근,복직근 하부,고관절굴근,맨몸,Isolation,Beginner
+1278,힐 터치,Heel Touch,코어,복사근,복사근,복직근,맨몸,Isolation,Beginner
+1279,데드버그 익스텐션,Dead Bug Extension,코어,복횡근,복횡근·복직근,고관절굴근,맨몸,Isolation,Beginner
+1280,쿼드러페드 힙 익스텐션,Quadruped Hip Extension,하체,둔근,대둔근,햄스트링,맨몸,Isolation,Beginner
+1281,니 투 체스트 스트레치,Knee-to-Chest Stretch,하체,스트레칭,둔근,척추기립근,맨몸,Isolation,Beginner
+1282,더블 니 투 체스트,Double Knee-to-Chest,등,스트레칭,척추기립근,둔근,맨몸,Isolation,Beginner
+1283,라잉 글루트 스트레치,Lying Glute Stretch,하체,스트레칭,둔근,이상근,맨몸,Isolation,Beginner
+1284,스탠딩 IT밴드 스트레치,Standing IT Band Stretch,하체,스트레칭,장경인대,대퇴근막장근,맨몸,Isolation,Beginner
+1285,스트래들 스트레치,Straddle Stretch,하체,스트레칭,내전근·햄스트링,고관절,맨몸,Isolation,Intermediate
+1286,사이드 스플릿 스트레치,Side Split Stretch,하체,스트레칭,내전근,햄스트링,맨몸,Isolation,Advanced
+1287,프론트 스플릿 스트레치,Front Split Stretch,하체,스트레칭,고관절굴근·햄스트링,둔근,맨몸,Isolation,Advanced
+1288,스텝 카프 스트레치,Step Calf Stretch,하체,스트레칭,비복근,가자미근,맨몸,Isolation,Beginner
+1289,스케일렌 넥 스트레치,Scalene Neck Stretch,목,스트레칭,사각근,흉쇄유돌근,맨몸,Isolation,Beginner
+1290,펙 마이너 스트레치,Pec Minor Stretch,가슴,스트레칭,소흉근,대흉근,맨몸,Isolation,Beginner
+1291,바이셉스 스트레치,Biceps Stretch,팔,스트레칭,이두근,전면삼각근,맨몸,Isolation,Beginner
+1292,핑거 스트레치,Finger Stretch,팔,스트레칭,전완 굴근·신근,-,맨몸,Isolation,Beginner
+1293,스탠딩 백 익스텐션 스트레치,Standing Back Extension Stretch,등,스트레칭,척추기립근,복직근,맨몸,Isolation,Beginner
+1294,사이드 리칭 차일드 포즈,Side-Reaching Child's Pose,등,스트레칭,광배근,척추기립근,맨몸,Isolation,Beginner
+1295,시티드 사이드 스트레치,Seated Side Stretch,코어,스트레칭,복사근,광배근,맨몸,Isolation,Beginner
+1296,닐링 햄스트링 스트레치,Kneeling Hamstring Stretch,하체,스트레칭,햄스트링,비복근,맨몸,Isolation,Beginner
+1297,사이드 라잉 쿼드 스트레치,Side-Lying Quad Stretch,하체,스트레칭,대퇴사두,고관절굴근,맨몸,Isolation,Beginner
+1298,폼롤러 TFL 릴리즈,Foam Roller TFL Release,하체,스트레칭,대퇴근막장근,장경인대,기타,Isolation,Beginner
+1299,폼롤러 펙 릴리즈,Foam Roller Pec Release,가슴,스트레칭,대흉근,소흉근,기타,Isolation,Beginner
+1300,폼롤러 척추기립근 릴리즈,Foam Roller Erector Release,등,스트레칭,척추기립근,요방형근,기타,Isolation,Beginner

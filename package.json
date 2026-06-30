@@ -15,9 +15,15 @@
     "test:watch": "vitest",
     "test:schema": "vitest run tests/be/schema-sync.test.ts",
     "test:e2e": "playwright test",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "cap:sync": "cap sync android",
+    "android:setup": "bash tools/setup-android-linux.sh",
+    "android:setup:win": "bash tools/setup-android-windows.sh"
   },
   "dependencies": {
+    "@capacitor/android": "^8.4.1",
+    "@capacitor/core": "^8.4.1",
+    "@kiwi-health/capacitor-health-connect": "^0.0.42",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@supabase/ssr": "^0.10.3",
@@ -40,6 +46,7 @@
     "web-push": "^3.6.7"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.4.1",
     "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

@@ -1589,4 +1589,26 @@ drop policy if exists "Users manage own active state (write)" on public.workout_
 create policy "Users manage own active state (write)" on public.workout_active_state
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 일일 걸음수(daily_steps) — 네이티브 앱(Health Connect/HealthKit)에서 읽어 동기화.
+-- 1인 1일 1행(upsert). source = 'health-connect' | 'healthkit' | 'manual'.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.daily_steps (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  steps int not null default 0 check (steps >= 0 and steps <= 200000),
+  source text,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+
+alter table public.daily_steps enable row level security;
+
+drop policy if exists "Users manage own steps (select)" on public.daily_steps;
+create policy "Users manage own steps (select)" on public.daily_steps
+  for select using (auth.uid() = user_id);
+drop policy if exists "Users manage own steps (write)" on public.daily_steps;
+create policy "Users manage own steps (write)" on public.daily_steps
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

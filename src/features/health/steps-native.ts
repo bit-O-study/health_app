@@ -53,19 +53,52 @@ export async function getStepsState(): Promise<StepsState> {
   }
 }
 
-/** 사용자 버튼 클릭 시에만 호출 — 권한 요청(액티비티) 후 허용되면 걸음수 반환, 아니면 null. */
-export async function requestStepsPermission(): Promise<number | null> {
-  const HC = await getPlugin();
-  if (!HC) return null;
+export type ConnectResult =
+  | { ok: true; steps: number }
+  | { ok: false; reason: string };
+
+/**
+ * 사용자 버튼 클릭 시에만 호출 — 권한 요청(액티비티) 후 걸음수 반환.
+ * 실패 시 '이유'를 함께 돌려 화면에 표시해 디버깅 가능하게 한다.
+ */
+export async function connectSteps(): Promise<ConnectResult> {
+  if (typeof window === "undefined") return { ok: false, reason: "웹 환경" };
   try {
+    const { Capacitor } = await import("@capacitor/core");
+    if (!Capacitor.isNativePlatform()) {
+      return { ok: false, reason: "앱(네이티브)에서만 동작합니다" };
+    }
+  } catch {
+    return { ok: false, reason: "Capacitor 로드 실패" };
+  }
+  const HC = await getPlugin();
+  if (!HC) return { ok: false, reason: "Health Connect 플러그인 로드 실패" };
+
+  try {
+    const avail = await HC.checkAvailability?.();
+    if (avail && avail.availability !== "Available") {
+      return {
+        ok: false,
+        reason:
+          avail.availability === "NotInstalled"
+            ? "Health Connect 설치/업데이트 필요"
+            : "이 기기는 Health Connect 미지원",
+      };
+    }
     const res = await HC.requestHealthPermissions?.({
       read: [STEPS_READ],
       write: [],
     });
-    if (!res || !res.hasAllPermissions) return null;
-    return (await readSteps(HC)) ?? 0;
-  } catch {
-    return null;
+    if (!res || !res.hasAllPermissions) {
+      return { ok: false, reason: "걸음수 권한이 허용되지 않았어요" };
+    }
+    const steps = (await readSteps(HC)) ?? 0;
+    return { ok: true, steps };
+  } catch (e) {
+    return {
+      ok: false,
+      reason: "오류: " + (e instanceof Error ? e.message : String(e)),
+    };
   }
 }
 

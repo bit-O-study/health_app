@@ -59,7 +59,7 @@ export default async function CalendarPage({
     from,
     to,
   );
-  const net = intakeTotal - workoutBurnedTotal;
+  const spent = workoutBurnedTotal - intakeTotal;
 
   // 생리 표시 — 여성만. 기록된 생리일(꽉찬 하트) + 예측 생리일(빈 하트).
   const profile = await getUserProfile();
@@ -216,7 +216,7 @@ export default async function CalendarPage({
             value={workoutBurnedTotal}
           />
         </div>
-        <NetCard net={net} />
+        <NetCard spent={spent} />
       </div>
     </main>
   );
@@ -251,22 +251,22 @@ function SummaryCard({
   );
 }
 
-/** 순 칼로리 = 섭취 − 소비. 양수면 섭취 우위(rose), 음수면 소비 우위(emerald). 전체 너비 가로 카드. */
-function NetCard({ net }: { net: number }) {
-  const surplus = net > 0;
-  const toneCls = surplus
-    ? "text-rose-600 dark:text-rose-400"
-    : "text-emerald-600 dark:text-emerald-400";
-  const sign = net > 0 ? "+" : net < 0 ? "−" : "";
+/** 소요 칼로리 = 운동 소비 − 총 섭취. 양수면 소비 우위(emerald), 음수면 섭취 우위(rose). 전체 너비 가로 카드. */
+function NetCard({ spent }: { spent: number }) {
+  const burnDominant = spent > 0;
+  const toneCls = burnDominant
+    ? "text-emerald-600 dark:text-emerald-400"
+    : "text-rose-600 dark:text-rose-400";
+  const sign = spent > 0 ? "+" : spent < 0 ? "−" : "";
   return (
     <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
         <Scale size={15} className="shrink-0" />
-        순 (섭취 − 소비)
+        소요 칼로리
       </span>
       <span className={`whitespace-nowrap text-lg font-extrabold tabular-nums ${toneCls}`}>
         {sign}
-        {Math.abs(net).toLocaleString()}
+        {Math.abs(spent).toLocaleString()}
         <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
       </span>
     </div>

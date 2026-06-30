@@ -138,6 +138,7 @@ export async function connectSteps(): Promise<ConnectResult> {
  * 화면에 찍어 '어디서 0이 나오는지' 한 번에 가리기 위함(권한은 됐다는데 안 변할 때).
  */
 export type StepsDiag = {
+  bridge: boolean; // window.Capacitor 주입 여부(=Capacitor WebView 안인지)
   native: boolean;
   plugin: boolean;
   availability: string | null;
@@ -147,8 +148,15 @@ export type StepsDiag = {
   error: string | null;
 };
 
+/** window.Capacitor 가 주입돼 있나 — 네이티브 WebView(앱) 안인지 빠르게 가린다. */
+export function hasCapacitorBridge(): boolean {
+  if (typeof window === "undefined") return false;
+  return !!(window as unknown as { Capacitor?: unknown }).Capacitor;
+}
+
 export async function diagnoseSteps(): Promise<StepsDiag> {
   const d: StepsDiag = {
+    bridge: hasCapacitorBridge(),
     native: false,
     plugin: false,
     availability: null,
@@ -192,8 +200,9 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
 
 /** 진단 결과를 한 줄 문자열로(화면 디버그용). */
 export function formatStepsDiag(d: StepsDiag): string {
-  if (!d.native) return "웹(네이티브 아님)";
   const parts = [
+    `브릿지${d.bridge ? "O" : "X"}`,
+    `네이티브${d.native ? "O" : "X"}`,
     `플러그인${d.plugin ? "O" : "X"}`,
     `HC=${d.availability ?? "-"}`,
     `권한=${d.granted ? d.granted.length : "-"}`,

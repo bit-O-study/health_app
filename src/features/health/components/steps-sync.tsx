@@ -9,6 +9,7 @@ import {
   connectSteps,
   diagnoseSteps,
   formatStepsDiag,
+  hasCapacitorBridge,
 } from "@/features/health/steps-native";
 import { saveStepsAction } from "@/features/health/steps-actions";
 
@@ -30,9 +31,10 @@ export function StepsSync() {
   const [diag, setDiag] = useState<string | null>(null);
   const [pending, start] = useTransition();
 
-  // 화면 디버그: 파이프라인 원시값(네이티브/권한/레코드/합계)을 한 줄로 '항상' 노출.
-  // (네이티브 감지 자체가 실패하는지 확인하려면 웹에서도 보여야 한다 — 임시 진단용.)
+  // 화면 디버그: Capacitor 앱(브릿지 주입) 안에서만 노출 → 일반 웹에선 안 보임.
+  // 앱 안에선 네이티브 감지 실패 여부까지 보이도록 bridge/native 플래그 포함(임시 진단용).
   async function refreshDiag() {
+    if (!hasCapacitorBridge()) return; // 웹: 디버그 칩 숨김
     const d = await diagnoseSteps();
     setDiag(formatStepsDiag(d));
   }

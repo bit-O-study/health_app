@@ -354,8 +354,6 @@ export async function TodayExercises({
     .reduce((s, p) => s + estimateStrengthKcal(w, p.exerciseId, p.sets), 0);
   const completedKcal = Math.round(doneWarm + doneMain + doneCool);
 
-  const skipCount = mainSkipSet.size + warmSkipSet.size + coolSkipSet.size;
-
   // 가이드 운동 큐 — 워밍업 → 본운동 → 마무리 순서로 '모든' 항목을 담는다.
   // (완료/스킵 제외는 클라이언트 타이머가 서버 상태 + 로컬 오버라이드로 필터한다.
   //  서버에서 미리 빼면, 휴식 취소 후 바로 시작 시 그 운동이 큐에 없어서 안 뜬다.)
@@ -481,12 +479,6 @@ export async function TodayExercises({
                 <span className="text-xs font-medium text-zinc-500 sm:text-sm">
                   kcal 예상
                 </span>
-              </p>
-              <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
-                예상 — 워밍업 {Math.round(totalWarm)} · 본운동{" "}
-                {Math.round(totalMain)} · 마무리 {Math.round(totalCool)}
-                {skipCount > 0 ? ` · 스킵 ${skipCount}개 제외` : ""}
-                {weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
               </p>
             </div>
             <MarkAllDoneButton

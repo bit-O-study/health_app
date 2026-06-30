@@ -132,7 +132,27 @@ export default async function ExerciseDetailPage({
               </div>
               <MediaEmbed url={media.url} kind={media.kind} />
             </section>
-          ) : null}
+          ) : (
+            // 등록된 시범 영상이 없으면 유튜브에서 운동명으로 검색해 바로 볼 수 있게.
+            <a
+              href={`https://www.youtube.com/results?search_query=${encodeURIComponent(`${exercise.name} 운동법`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700"
+            >
+              <span className="flex items-center gap-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                <PlayCircle
+                  aria-hidden="true"
+                  className="text-red-600 dark:text-red-400"
+                  size={20}
+                />
+                유튜브에서 ‘{exercise.name}’ 운동법 보기
+              </span>
+              <span className="shrink-0 text-xs font-semibold text-zinc-400">
+                열기 ↗
+              </span>
+            </a>
+          )}
 
           {memo ? (
             <section className="rounded-lg border border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 p-5">

@@ -14,6 +14,7 @@ import {
 } from "@/features/routine/conditioning-catalog";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { seoulYmd } from "@/features/routine/data";
+import { resolveMemberName } from "@/features/groups/member-name";
 import { weekRange, rankMembers, type MemberStat, type RankedMember } from "@/features/groups/ranking";
 
 const num = (v: number | string | null | undefined): number => {
@@ -111,7 +112,10 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     { data: foodRows },
     { data: mealPhotoRows },
   ] = await Promise.all([
-    supabase.from("profiles").select("user_id, name, weight_kg").in("user_id", memberIds),
+    supabase
+      .from("profiles")
+      .select("user_id, name, nickname, weight_kg")
+      .in("user_id", memberIds),
     supabase
       .from("exercise_completions")
       .select("user_id, for_date, exercise_id, sets")
@@ -140,16 +144,27 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
 
   const nameOf = new Map<string, string>();
   const weightOf = new Map<string, number>();
-  for (const r of memberRows) {
-    if (r.display_name?.trim()) nameOf.set(r.user_id, r.display_name.trim());
-  }
+  // 그룹 닉네임(가입 스냅샷) — 표시 이름 결정에 보조로 사용.
+  const dispOf = new Map<string, string | null>();
+  for (const r of memberRows) dispOf.set(r.user_id, r.display_name);
+  // 표시 이름 = 프로필 이름(최신) 우선 → 그룹 닉네임 → "회원".
   for (const p of (profiles ?? []) as {
     user_id: string;
     name: string | null;
+    nickname: string | null;
     weight_kg: number | string | null;
   }[]) {
-    if (!nameOf.has(p.user_id)) nameOf.set(p.user_id, p.name?.trim() || "회원");
+    nameOf.set(
+      p.user_id,
+      resolveMemberName(p.nickname, p.name, dispOf.get(p.user_id)),
+    );
     weightOf.set(p.user_id, num(p.weight_kg) || 65);
+  }
+  // 프로필 행이 없는 멤버는 가입 스냅샷(display_name)만으로.
+  for (const r of memberRows) {
+    if (!nameOf.has(r.user_id)) {
+      nameOf.set(r.user_id, resolveMemberName(null, null, r.display_name));
+    }
   }
 
   // 오늘 섭취 kcal(식단)
@@ -309,7 +324,11 @@ export async function getGroupMemberDay(
     { data: foodRows },
     { data: photoRows },
   ] = await Promise.all([
-    supabase.from("profiles").select("name, weight_kg").eq("user_id", memberId).maybeSingle(),
+    supabase
+      .from("profiles")
+      .select("name, nickname, weight_kg")
+      .eq("user_id", memberId)
+      .maybeSingle(),
     supabase
       .from("exercise_completions")
       .select("exercise_id, sets, reps, weight_kg")
@@ -337,9 +356,12 @@ export async function getGroupMemberDay(
   ]);
 
   const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
-  const displayName =
-    rows.find((r) => r.user_id === memberId)?.display_name?.trim() ||
-    ((profile as { name?: string | null } | null)?.name?.trim() ?? "회원");
+  const prof = profile as { name?: string | null; nickname?: string | null } | null;
+  const displayName = resolveMemberName(
+    prof?.nickname,
+    prof?.name,
+    rows.find((r) => r.user_id === memberId)?.display_name,
+  );
 
   let burnedRaw = 0;
   const workouts: MemberDay["workouts"] = [];

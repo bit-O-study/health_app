@@ -20,6 +20,7 @@ import {
   EXPERIENCE_OPTIONS,
   BODY_TYPE_OPTIONS,
 } from "@/features/profile/data";
+import { NicknameEditor } from "@/features/profile/components/nickname-editor";
 import { getRecentExerciseCompletions } from "@/features/routine/exercise-completions";
 import { computeScore } from "@/features/routine/score";
 import { getFoodLogsForDate } from "@/features/diet/data-access";
@@ -70,8 +71,12 @@ export default async function MyPage() {
   const genderLabel = labelOf(GENDER_OPTIONS, profile.gender);
   const expLabel = labelOf(EXPERIENCE_OPTIONS, profile.experience);
   const bodyTypeLabel = labelOf(BODY_TYPE_OPTIONS, profile.bodyType);
-  const displayName = profile.name ?? user.email?.split("@")[0] ?? "회원";
-  const initial = (profile.name ?? user.email ?? "?").trim().charAt(0).toUpperCase();
+  const displayName =
+    profile.nickname ?? profile.name ?? user.email?.split("@")[0] ?? "회원";
+  const initial = (profile.nickname ?? profile.name ?? user.email ?? "?")
+    .trim()
+    .charAt(0)
+    .toUpperCase();
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
@@ -106,6 +111,7 @@ export default async function MyPage() {
               {bodyTypeLabel ? <Badge>{bodyTypeLabel}</Badge> : null}
               {profile.phone ? <Badge>{profile.phone}</Badge> : null}
             </div>
+            <NicknameEditor initial={profile.nickname ?? ""} />
           </div>
         </div>
       </section>

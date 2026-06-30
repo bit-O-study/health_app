@@ -81,7 +81,15 @@ export function tokenize(query: string): string[] {
     .filter((t) => t.length >= 1 && !STOPWORDS.has(t));
 }
 
-type Indexed = { id: string; name: string; target: string; text: string };
+type Indexed = {
+  id: string;
+  name: string;
+  target: string;
+  text: string;
+  // 공백 무시 매칭용(예: '싱글레그컬' ↔ '싱글 레그 컬').
+  textNoSpace: string;
+  nameNoSpace: string;
+};
 
 function buildIndex(): Indexed[] {
   return ALL_EXERCISES.map((ex) => {
@@ -89,11 +97,14 @@ function buildIndex(): Indexed[] {
       .map((e) => EQUIPMENT_LABELS[e.equipment])
       .join(" ");
     const kw = (EXERCISE_KEYWORDS[ex.id] ?? []).join(" ");
+    const text = `${ex.name} ${ex.target} ${equip} ${kw}`.toLowerCase();
     return {
       id: ex.id,
       name: ex.name,
       target: ex.target,
-      text: `${ex.name} ${ex.target} ${equip} ${kw}`.toLowerCase(),
+      text,
+      textNoSpace: text.replace(/\s+/g, ""),
+      nameNoSpace: ex.name.toLowerCase().replace(/\s+/g, ""),
     };
   });
 }
@@ -120,8 +131,13 @@ export function searchExercises(
   for (const it of index) {
     let score = 0;
     for (const tok of tokens) {
-      if (it.text.includes(tok)) {
-        score += it.name.toLowerCase().includes(tok) ? 2 : 1;
+      const tokNo = tok.replace(/\s+/g, "");
+      // 공백 있/없 양쪽으로 매칭 — '싱글레그컬'(붙여) 도 '싱글 레그 컬' 을 찾게.
+      const inText = it.text.includes(tok) || it.textNoSpace.includes(tokNo);
+      if (inText) {
+        const inName =
+          it.name.toLowerCase().includes(tok) || it.nameNoSpace.includes(tokNo);
+        score += inName ? 2 : 1;
       }
     }
     if (score > 0) hits.push({ id: it.id, name: it.name, target: it.target, score });

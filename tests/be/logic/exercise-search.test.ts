@@ -38,6 +38,15 @@ describe("searchExercises — 자연어 묘사로 운동 추론", () => {
     expect(ids).toContain("bench-press");
   });
 
+  it("공백 무시 검색 — '싱글레그컬'(붙여)·'싱글 레그 컬'(띄움) 둘 다 single-leg-curl", () => {
+    expect(searchExercises("싱글레그컬", 10).map((h) => h.id)).toContain(
+      "single-leg-curl",
+    );
+    expect(searchExercises("싱글 레그 컬", 10).map((h) => h.id)).toContain(
+      "single-leg-curl",
+    );
+  });
+
   it("매칭 없으면 빈 배열", () => {
     expect(searchExercises("@@@@")).toEqual([]);
     expect(searchExercises("")).toEqual([]);

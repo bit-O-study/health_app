@@ -6,7 +6,6 @@ import {
   ChevronLeft,
   Dumbbell,
   Flame,
-  Footprints,
   Scale,
   Trophy,
   Utensils,
@@ -22,8 +21,6 @@ import {
   BODY_TYPE_OPTIONS,
 } from "@/features/profile/data";
 import { NicknameEditor } from "@/features/profile/components/nickname-editor";
-import { StepsSync } from "@/features/health/components/steps-sync";
-import { getTodaySteps } from "@/features/health/steps-data";
 import { getRecentExerciseCompletions } from "@/features/routine/exercise-completions";
 import { computeScore } from "@/features/routine/score";
 import { getFoodLogsForDate } from "@/features/diet/data-access";
@@ -45,10 +42,9 @@ export default async function MyPage() {
   if (!profile) redirect("/onboarding");
 
   const today = seoulYmd();
-  const [completions, logs, steps] = await Promise.all([
+  const [completions, logs] = await Promise.all([
     getRecentExerciseCompletions(90),
     getFoodLogsForDate(today),
-    getTodaySteps(),
   ]);
 
   const done = completions.filter((c) => c.status === "done");
@@ -91,9 +87,6 @@ export default async function MyPage() {
         <ChevronLeft aria-hidden="true" size={16} />
         설정
       </Link>
-
-      {/* 네이티브 앱이면 오늘 걸음수를 읽어 서버에 동기화(웹에선 무동작) */}
-      <StepsSync />
 
       <h1 className="mt-6 mb-6 text-2xl font-bold text-zinc-950 dark:text-zinc-100">
         마이페이지
@@ -171,24 +164,6 @@ export default async function MyPage() {
               ? `오늘 ${logs.length}개 기록 · 목표까지 ${Math.max(0, target.kcal - consumed)} kcal`
               : "아직 오늘 기록이 없어요 — 식단을 올려보세요"}
           </p>
-        </div>
-      </section>
-
-      {/* 오늘 걸음수 (네이티브 앱에서 Health Connect/삼성헬스 동기화) */}
-      <section className="mt-6">
-        <div className="flex items-center justify-between rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-          <span className="flex items-center gap-2 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-            <Footprints
-              aria-hidden="true"
-              size={16}
-              className="text-emerald-600 dark:text-emerald-400"
-            />
-            오늘 걸음수
-          </span>
-          <span className="text-xl font-extrabold tabular-nums text-zinc-950 dark:text-zinc-100">
-            {steps != null ? steps.toLocaleString() : "—"}
-            <span className="ml-1 text-xs font-medium text-zinc-400">걸음</span>
-          </span>
         </div>
       </section>
 

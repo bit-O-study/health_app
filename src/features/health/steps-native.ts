@@ -1,75 +1,98 @@
 "use client";
 
 /**
- * 네이티브(안드로이드) Health Connect 에서 오늘 걸음수를 읽는 브리지.
- * - 웹/미지원 환경에선 항상 null (no-op) → 웹 빌드·동작에 영향 없음.
- * - 플러그인(@kiwi-health/capacitor-health-connect)은 네이티브 빌드에만 설치(설정 스크립트).
- *   웹 번들에 안 들어가도록 string 변수로 동적 import 한다.
- *
- * 삼성헬스가 걸음수를 Health Connect 에 기록하므로, Health Connect 읽기로 가져온다.
+ * 네이티브(안드로이드) Health Connect 걸음수 브리지.
+ * - 웹/미지원/미설치 환경에선 안전하게 무동작(크래시 없음).
+ * - ⚠️ 권한요청(requestHealthPermissions)은 액티비티를 띄우므로 '자동'으로 부르지 않는다.
+ *   (마이페이지 진입 시 자동 권한요청이 네이티브 크래시를 유발했음.) 사용자가 버튼을
+ *   눌렀을 때만 요청한다. 진입 시엔 '이미 허용됐는지'만 확인(checkHealthPermissions, 안전).
  */
 
 const HC_PLUGIN = "@kiwi-health/capacitor-health-connect";
+const STEPS_READ = "Steps";
 
-export async function isNativeHealthAvailable(): Promise<boolean> {
-  if (typeof window === "undefined") return false;
+export type StepsState =
+  | { status: "unavailable" }
+  | { status: "denied" }
+  | { status: "granted"; steps: number };
+
+async function getPlugin(): Promise<HealthConnectLike | null> {
+  if (typeof window === "undefined") return null;
   try {
     const { Capacitor } = await import("@capacitor/core");
-    return Capacitor.isNativePlatform();
-  } catch {
-    return false;
-  }
-}
-
-/** 오늘(자정~지금) 누적 걸음수. 실패/미지원 시 null. */
-export async function readTodaySteps(): Promise<number | null> {
-  if (!(await isNativeHealthAvailable())) return null;
-  try {
-    // string 변수 → tsc/번들러가 모듈을 정적으로 해석하지 않음(웹 빌드 안전).
-    const spec: string = HC_PLUGIN;
+    if (!Capacitor.isNativePlatform()) return null;
+    const spec: string = HC_PLUGIN; // string 변수 → 웹 번들에 정적 포함 안 됨
     const mod = (await import(spec).catch(() => null)) as {
       HealthConnect?: HealthConnectLike;
     } | null;
-    const HC = mod?.HealthConnect;
-    if (!HC) return null;
-
-    // 권한 보장(이미 허용돼 있으면 무시).
-    try {
-      await HC.requestHealthPermissions?.({ read: ["Steps"], write: [] });
-    } catch {
-      /* 사용자가 거부했거나 이미 처리됨 */
-    }
-
-    const now = new Date();
-    const start = new Date(now);
-    start.setHours(0, 0, 0, 0);
-
-    // @kiwi-health/capacitor-health-connect: timeRangeFilter 는 Date 를 받는다(브리지가 직렬화).
-    const res = await HC.readRecords({
-      type: "Steps",
-      timeRangeFilter: {
-        type: "between",
-        startTime: start,
-        endTime: now,
-      },
-    });
-    const records = res?.records ?? [];
-    const total = records.reduce(
-      (sum, r) => sum + (Number(r.count) || 0),
-      0,
-    );
-    return total;
+    return mod?.HealthConnect ?? null;
   } catch {
     return null;
   }
 }
 
+/** Health Connect 사용 가능 + 걸음수 권한 보유 시 오늘 걸음수까지 읽는다. 액티비티는 안 띄움. */
+export async function getStepsState(): Promise<StepsState> {
+  const HC = await getPlugin();
+  if (!HC) return { status: "unavailable" };
+  try {
+    const avail = await HC.checkAvailability?.();
+    if (avail && avail.availability !== "Available") return { status: "unavailable" };
+
+    const perm = await HC.checkHealthPermissions?.({
+      read: [STEPS_READ],
+      write: [],
+    });
+    const granted = !!perm && (perm.grantedPermissions?.length ?? 0) > 0;
+    if (!granted) return { status: "denied" };
+
+    const steps = await readSteps(HC);
+    return { status: "granted", steps: steps ?? 0 };
+  } catch {
+    return { status: "unavailable" };
+  }
+}
+
+/** 사용자 버튼 클릭 시에만 호출 — 권한 요청(액티비티) 후 허용되면 걸음수 반환, 아니면 null. */
+export async function requestStepsPermission(): Promise<number | null> {
+  const HC = await getPlugin();
+  if (!HC) return null;
+  try {
+    const res = await HC.requestHealthPermissions?.({
+      read: [STEPS_READ],
+      write: [],
+    });
+    if (!res || !res.hasAllPermissions) return null;
+    return (await readSteps(HC)) ?? 0;
+  } catch {
+    return null;
+  }
+}
+
+/** 오늘(자정~지금) 누적 걸음수. */
+async function readSteps(HC: HealthConnectLike): Promise<number | null> {
+  const now = new Date();
+  const start = new Date(now);
+  start.setHours(0, 0, 0, 0);
+  const res = await HC.readRecords({
+    type: STEPS_READ,
+    timeRangeFilter: { type: "between", startTime: start, endTime: now },
+  });
+  const records = res?.records ?? [];
+  return records.reduce((sum, r) => sum + (Number(r.count) || 0), 0);
+}
+
 // 플러그인 최소 타입(설치 안 돼 있어도 tsc 통과).
 type HealthConnectLike = {
+  checkAvailability?: () => Promise<{ availability: string }>;
+  checkHealthPermissions?: (opts: {
+    read: string[];
+    write: string[];
+  }) => Promise<{ grantedPermissions?: string[]; hasAllPermissions?: boolean }>;
   requestHealthPermissions?: (opts: {
     read: string[];
     write: string[];
-  }) => Promise<unknown>;
+  }) => Promise<{ grantedPermissions?: string[]; hasAllPermissions?: boolean }>;
   readRecords: (opts: {
     type: string;
     timeRangeFilter: { type: string; startTime: Date; endTime: Date };

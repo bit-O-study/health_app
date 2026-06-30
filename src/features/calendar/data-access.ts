@@ -17,6 +17,8 @@ import {
 } from "@/features/routine/conditioning-catalog";
 import { basalMetabolicRate } from "@/features/diet/calorie-target";
 import { getFoodLogsForDate, type FoodLog } from "@/features/diet/data-access";
+import { getStepsRange, getStepsForDate } from "@/features/health/steps-data";
+import { stepsToKcal } from "@/features/health/steps-calories";
 
 const num = (v: number | string | null | undefined): number => {
   if (v === null || v === undefined || v === "") return 0;
@@ -26,8 +28,9 @@ const num = (v: number | string | null | undefined): number => {
 
 export type DaySummary = {
   intake: number;
-  burned: number; // 운동 소비
+  burned: number; // 활동 소비(운동 + 걸음 칼로리)
   durationSec: number;
+  steps: number; // 그날 걸음수
 };
 
 export type MonthlyCalendar = {
@@ -61,7 +64,7 @@ export async function getMonthlyCalendar(
   const ensure = (d: string): DaySummary => {
     let s = byDate.get(d);
     if (!s) {
-      s = { intake: 0, burned: 0, durationSec: 0 };
+      s = { intake: 0, burned: 0, durationSec: 0, steps: 0 };
       byDate.set(d, s);
     }
     return s;
@@ -70,7 +73,7 @@ export async function getMonthlyCalendar(
   if (!user) return { byDate, intakeTotal: 0, workoutBurnedTotal: 0, bmr };
   const supabase = await createSupabaseServerClient();
 
-  const [foodRes, exRes, condRes, durMap] = await Promise.all([
+  const [foodRes, exRes, condRes, durMap, stepsMap] = await Promise.all([
     supabase
       .from("food_logs")
       .select("for_date, kcal")
@@ -92,6 +95,7 @@ export async function getMonthlyCalendar(
       .gte("for_date", from)
       .lte("for_date", to),
     getWorkoutDurationsRange(from, to),
+    getStepsRange(from, to),
   ]);
 
   for (const r of (foodRes.data ?? []) as { for_date: string; kcal: number | string }[]) {
@@ -122,6 +126,12 @@ export async function getMonthlyCalendar(
     );
   }
   for (const [date, sec] of durMap) ensure(date).durationSec = sec;
+  // 걸음수 → 그날 소비 칼로리에 가산 + 걸음수 저장.
+  for (const [date, steps] of stepsMap) {
+    const s = ensure(date);
+    s.steps = steps;
+    s.burned += stepsToKcal(steps, weight);
+  }
 
   let intakeTotal = 0;
   let workoutBurnedTotal = 0;
@@ -139,6 +149,8 @@ export type DayDetail = {
   intake: number;
   burned: number;
   durationSec: number;
+  steps: number;
+  stepsKcal: number;
   foods: FoodLog[];
   workouts: { name: string; sets: number; reps: number; weightKg: number | null; kcal: number }[];
   conditioning: { name: string; detail: string; kcal: number }[];
@@ -156,12 +168,16 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
     intake,
     burned: 0,
     durationSec: 0,
+    steps: 0,
+    stepsKcal: 0,
     foods,
     workouts: [],
     conditioning: [],
   };
   if (!user) return empty;
   const supabase = await createSupabaseServerClient();
+  const steps = (await getStepsForDate(dateYmd)) ?? 0;
+  const stepsKcal = stepsToKcal(steps, weight);
 
   const [exRes, condRes, durRes] = await Promise.all([
     supabase
@@ -243,6 +259,15 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
     num((durRes.data as { duration_sec?: number } | null)?.duration_sec),
   );
 
-  const burned = Math.round(burnedRaw);
-  return { intake, burned, durationSec, foods, workouts, conditioning };
+  const burned = Math.round(burnedRaw) + stepsKcal; // 운동 + 걸음 칼로리
+  return {
+    intake,
+    burned,
+    durationSec,
+    steps,
+    stepsKcal,
+    foods,
+    workouts,
+    conditioning,
+  };
 }

@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
 import { getMonthlyCalendar } from "@/features/calendar/data-access";
+import { StepsSync } from "@/features/health/components/steps-sync";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
 import {
@@ -104,6 +105,11 @@ export default async function CalendarPage({
         >
           <ChevronRight aria-hidden="true" size={20} />
         </Link>
+      </div>
+
+      {/* 네이티브 앱: 걸음수 동기화(권한 있으면 자동, 없으면 '걸음수 연동' 버튼). 웹은 무동작. */}
+      <div className="mb-3 flex justify-end">
+        <StepsSync />
       </div>
 
       {/* 캘린더 */}

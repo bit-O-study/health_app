@@ -1,6 +1,14 @@
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
-import { ChevronLeft, Flame, Utensils, Timer, Dumbbell, Wind } from "lucide-react";
+import {
+  ChevronLeft,
+  Flame,
+  Footprints,
+  Utensils,
+  Timer,
+  Dumbbell,
+  Wind,
+} from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getDayDetail } from "@/features/calendar/data-access";
@@ -29,7 +37,7 @@ export default async function CalendarDayPage({
   const { date } = await params;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) notFound();
 
-  const { intake, burned, durationSec, foods, workouts, conditioning } =
+  const { intake, burned, durationSec, steps, stepsKcal, foods, workouts, conditioning } =
     await getDayDetail(date);
   const { weekday, label } = ymdDisplay(date);
   const [, mm] = label.split("/");
@@ -52,7 +60,7 @@ export default async function CalendarDayPage({
       </h1>
 
       {/* 요약 칩 */}
-      <div className="mt-3 grid grid-cols-3 gap-2">
+      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
         <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
           <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
             <Utensils size={13} /> 섭취
@@ -63,10 +71,21 @@ export default async function CalendarDayPage({
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
           <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-            <Flame size={13} /> 운동 소비
+            <Flame size={13} /> 소비
           </span>
           <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
             -{burned}
+          </p>
+        </div>
+        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-sky-600 dark:text-sky-400">
+            <Footprints size={13} /> 걸음수
+          </span>
+          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+            {steps.toLocaleString()}
+          </p>
+          <p className="text-[10px] font-medium text-zinc-400">
+            {stepsKcal > 0 ? `-${stepsKcal}kcal` : "—"}
           </p>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">

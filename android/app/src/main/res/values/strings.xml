@@ -4,4 +4,8 @@
     <string name="title_activity_main">헬쑤</string>
     <string name="package_name">app.helssu.twa</string>
     <string name="custom_url_scheme">app.helssu.twa</string>
+    <!-- 카카오 네이티브 SDK(공유 버튼 카드) -->
+    <string name="kakao_app_key">1f10b052bc71d3bed27ca4e82a037211</string>
+    <string name="kakao_scheme">kakao1f10b052bc71d3bed27ca4e82a037211</string>
+    <string name="kakaolink_host">kakaolink</string>
 </resources>

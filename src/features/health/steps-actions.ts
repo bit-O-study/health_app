@@ -35,3 +35,40 @@ export async function saveStepsAction(
   }
   return { ok: !error };
 }
+
+/**
+ * 여러 날짜 걸음수 백필(upsert). Health Connect 에서 최근 N일치를 서울 날짜별로
+ * 버킷팅한 맵을 그대로 저장해 캘린더 과거 일자도 채운다.
+ */
+export async function saveStepsDaysAction(
+  byDay: Record<string, number>,
+  source = "health-connect",
+): Promise<{ ok: boolean; saved: number }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, saved: 0 };
+
+  const now = new Date().toISOString();
+  const src = source.slice(0, 20);
+  const rows = Object.entries(byDay ?? {})
+    .filter(
+      ([ymd, s]) => /^\d{4}-\d{2}-\d{2}$/.test(ymd) && Number.isFinite(s),
+    )
+    .map(([ymd, s]) => ({
+      user_id: user.id,
+      for_date: ymd,
+      steps: Math.max(0, Math.min(200000, Math.floor(s))),
+      source: src,
+      updated_at: now,
+    }));
+  if (rows.length === 0) return { ok: true, saved: 0 };
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("daily_steps")
+    .upsert(rows, { onConflict: "user_id,for_date" });
+  if (!error) {
+    revalidatePath("/calendar");
+    revalidatePath("/routine");
+  }
+  return { ok: !error, saved: error ? 0 : rows.length };
+}

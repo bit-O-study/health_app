@@ -1,6 +1,9 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import type { BodyComp } from "@/features/body-composition/data";
 
 type Row = {
@@ -30,10 +33,10 @@ const num = (v: number | string | null): number | null => {
 
 /** 가장 최근(measured_at desc) 체성분 1건. 없으면 null. */
 export async function getLatestBodyComposition(): Promise<BodyComp | null> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const [supabase, user] = await Promise.all([
+    createSupabaseServerClient(),
+    getCurrentUser(),
+  ]);
   if (!user) return null;
 
   const { data, error } = await supabase

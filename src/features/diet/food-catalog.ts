@@ -352,6 +352,13 @@ export const FOOD_ITEMS: FoodItem[] = [
   { id: "chicken-ball", name: "닭가슴살볼", category: "단백질·보충", amount: "100g", kcal: 130, protein: 20, carbs: 6, fat: 3 },
   { id: "casein", name: "카제인", category: "단백질·보충", amount: "1스쿱", kcal: 120, protein: 24, carbs: 3, fat: 1 },
   { id: "egg-white-pack", name: "계란흰자(가공)", category: "단백질·보충", amount: "1팩", kcal: 80, protein: 18, carbs: 2, fat: 0 },
+
+  // ── 추가 보강 (계란 변형 등)
+  { id: "egg-poached", name: "수란", category: "고기·계란", amount: "1개", kcal: 78, protein: 6, carbs: 1, fat: 5 },
+  { id: "egg-softboiled", name: "반숙란", category: "고기·계란", amount: "1개", kcal: 78, protein: 6, carbs: 1, fat: 5 },
+  { id: "egg-raw", name: "날계란(생란)", category: "고기·계란", amount: "1개", kcal: 72, protein: 6, carbs: 0, fat: 5 },
+  { id: "egg-rice", name: "계란밥", category: "밥·면", amount: "1그릇", kcal: 420, protein: 13, carbs: 70, fat: 9 },
+  { id: "vienna-sausage", name: "비엔나소시지", category: "고기·계란", amount: "5개", kcal: 180, protein: 8, carbs: 3, fat: 15 },
 ];
 
 // 카테고리 순서로 정렬해 검색/둘러보기에서 같은 분류끼리 모이게 한다.

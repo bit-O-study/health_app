@@ -4,6 +4,9 @@
  * (예: 전용 가이드가 없는 로우 운동 → 'row' 카테고리 가이드)
  */
 
+// 1,300 확장 운동의 동작 분류(자동 생성). 운동모드 일러스트·가이드가 동작에 맞게 나오게.
+import { EXTRA_MOTION_CATEGORY } from "@/features/workout-timer/exercise-motion-extra";
+
 export type MotionCategory =
   | "press"
   | "row"
@@ -140,7 +143,9 @@ const CATEGORY_MAP: Record<string, MotionCategory> = {
 };
 
 export function motionCategoryFor(exerciseId: string): MotionCategory {
-  return CATEGORY_MAP[exerciseId] ?? "static";
+  return (
+    CATEGORY_MAP[exerciseId] ?? EXTRA_MOTION_CATEGORY[exerciseId] ?? "static"
+  );
 }
 
 /* ─── 워밍업·마무리 카테고리 ──────────────────────────────────── */

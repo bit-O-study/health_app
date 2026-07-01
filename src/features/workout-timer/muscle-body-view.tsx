@@ -4,6 +4,7 @@ import Model, { type IExerciseData, type Muscle } from "react-body-highlighter";
 import { X } from "lucide-react";
 
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { musclesForKoreanNames } from "@/features/workout-timer/muscle-body-map";
 
 /** 우리 세부 근육 id → react-body-highlighter 의 근육명. */
 const SUB_TO_MUSCLE: Record<string, Muscle> = {
@@ -45,6 +46,37 @@ export function musclesForExerciseBody(exerciseId: string): Muscle[] {
     if (m) set.add(m);
   }
   return [...set];
+}
+
+/** 여러 근육명을 앞·뒤 인체에 색칠(루틴 일자 요약 '자극 부위'용, 소형). */
+export function MuscleBodyByNames({
+  names,
+  width = 44,
+}: {
+  names: readonly string[];
+  width?: number;
+}) {
+  const data: IExerciseData[] = [
+    { name: "day", muscles: musclesForKoreanNames(names) },
+  ];
+  return (
+    <div className="flex items-end justify-start gap-1.5">
+      <Model
+        data={data}
+        type="anterior"
+        highlightedColors={HILITE}
+        bodyColor={BODY}
+        style={{ width }}
+      />
+      <Model
+        data={data}
+        type="posterior"
+        highlightedColors={HILITE}
+        bodyColor={BODY}
+        style={{ width }}
+      />
+    </div>
+  );
 }
 
 /** 실사풍 인체(정면) 작은 미리보기 — 자극 근육 색칠. 탭하면 앞·뒤 크게. */

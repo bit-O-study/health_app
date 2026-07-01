@@ -61,6 +61,62 @@ test("부위를 바꾸면 다른 워밍업은 완료로 번지지 않는다", as
   await expect(catRow.getByText("완료", { exact: true })).toHaveCount(0);
 });
 
+test("같은 종목(런닝)이 여러 개면 하나만 완료해도 나머지는 미완료다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+
+  // 오늘=하체. 마무리(쿨다운)에 '런닝' 2개 — 경사/속도/시간만 다르고 종목(item_id)은 같다.
+  // (실제 버그 재현: 하나를 완료하면 (종류:항목) 키 폴백이 형제 런닝까지 완료로 만들거나,
+  //  저장 시 형제 완료기록을 지워 캘린더에서 사라지던 문제. 이제 행 단위 1:1 배정.)
+  await dbQuery(
+    `update public.user_routines
+        set splits=0, variant_id='custom',
+            custom_week='[["lower"],["rest"],["rest"],["rest"],["rest"],["rest"],["rest"]]'::jsonb,
+            start_date=${today}, day_index_migrated=true,
+            rest_date=null, override_date=null, override_block=null
+      where user_id=${uid}`,
+    [email],
+  );
+  await dbQuery(`delete from public.routine_exercises where user_id=${uid}`, [email]);
+  await dbQuery(`delete from public.routine_conditioning where user_id=${uid}`, [email]);
+  await dbQuery(`delete from public.conditioning_completions where user_id=${uid}`, [email]);
+  await dbQuery(`delete from public.daily_conditioning where user_id=${uid}`, [email]);
+  await dbQuery(
+    `insert into public.routine_exercises (user_id, day_index, focus, position, exercise_id, equipment, sets, reps, weight_kg)
+     values (${uid}, 0, 'lower', 0, 'squat', 'barbell', 4, 8, 60)`,
+    [email],
+  );
+  // 런닝 2개: (20분/속도5/경사10) 과 (10분/속도9/경사0).
+  await dbQuery(
+    `insert into public.routine_conditioning
+       (user_id, focus, kind, position, item_id, duration_min, speed, incline)
+     values (${uid}, 'lower', 'cooldown', 0, 'running', 20, 5, 10),
+            (${uid}, 'lower', 'cooldown', 1, 'running', 10, 9, 0)`,
+    [email],
+  );
+  // 첫 번째(경사10/속도5) 런닝만 완료.
+  await dbQuery(
+    `insert into public.conditioning_completions
+       (user_id, for_date, kind, item_id, source_row_id, status, duration_min, speed, incline)
+     select user_id, ${today}, kind, item_id, id, 'done', duration_min, speed, incline
+       from public.routine_conditioning
+      where user_id=${uid} and kind='cooldown' and item_id='running' and incline=10`,
+    [email],
+  );
+
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+
+  // 런닝 행이 2개 보이고, 그 중 '완료' 배지는 정확히 1개여야 한다(형제까지 번지면 안 됨).
+  const runRows = page.locator("li").filter({ hasText: "런닝" });
+  await expect(runRows.first()).toBeVisible({ timeout: 8000 });
+  await expect(
+    runRows.getByText("완료", { exact: true }),
+  ).toHaveCount(1);
+});
+
 test("본운동도 부위를 바꾸면 새 부위 운동은 완료로 안 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);

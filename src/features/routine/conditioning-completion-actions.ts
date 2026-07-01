@@ -38,17 +38,16 @@ export async function setConditioningStatusAction(
 
   const today = seoulYmd();
 
-  // 기존 기록을 먼저 제거 — 이 행 id 뿐 아니라 같은 (종류:항목) 기록도 함께.
-  // 루틴을 바꿔 행 id 가 새로 생기면 완료는 (종류:항목) 폴백 키로 표시되는데, 그때
-  // 표시행 id 로만 지우면 원본 기록이 남아 '취소해도 완료로 남는' 버그가 생긴다.
+  // 이 '행(source_row_id)' 의 기존 기록만 제거하고 새로 넣는다.
+  // ⚠ 예전엔 (kind,item_id) 로도 함께 지웠는데, 루틴에 같은 항목(예: 러닝)이 여러 개
+  //   있으면(경사/속도/시간만 다른 쿨다운 러닝 3개 등) 하나를 완료할 때 나머지 러닝
+  //   완료기록까지 삭제돼 사라지는 버그가 있었다. 행 단위(source_row_id)로만 판정한다.
   const del = await supabase
     .from("conditioning_completions")
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", today)
-    .or(
-      `source_row_id.eq.${sourceRowId},and(kind.eq.${kind},item_id.eq.${itemId})`,
-    );
+    .eq("source_row_id", sourceRowId);
   if (del.error) return { ok: false, error: del.error.message };
 
   if (status !== "clear") {

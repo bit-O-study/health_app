@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { formatStepsDiag, type StepsDiag } from "@/features/health/steps-native";
 
 const base: StepsDiag = {
+  bridge: true,
   native: true,
   plugin: true,
   availability: "Available",
@@ -13,8 +14,12 @@ const base: StepsDiag = {
 };
 
 describe("formatStepsDiag — 화면 디버그 한 줄", () => {
-  it("웹이면 명확히 표기", () => {
-    expect(formatStepsDiag({ ...base, native: false })).toBe("웹(네이티브 아님)");
+  it("브릿지/네이티브 플래그를 항상 포함(앱 안 네이티브 감지 확인용)", () => {
+    expect(formatStepsDiag(base)).toContain("브릿지O");
+    expect(formatStepsDiag(base)).toContain("네이티브O");
+    expect(
+      formatStepsDiag({ ...base, bridge: true, native: false }),
+    ).toContain("네이티브X");
   });
 
   it("정상 케이스: 권한 개수·레코드·합계 포함", () => {

@@ -10,7 +10,8 @@ import {
 import { ExerciseLibrary } from "@/features/exercises/components/exercise-library";
 import { absoluteUrl } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+// 순수 카탈로그(인메모리) 데이터만 쓰므로 정적 렌더 — 사용자별 데이터 없음.
+// (예전엔 force-dynamic 이라 매 요청마다 서버 렌더했는데 불필요했다.)
 
 export const metadata: Metadata = {
   title: "운동 종목 리스트",

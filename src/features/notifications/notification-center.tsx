@@ -15,6 +15,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { createPortal } from "react-dom";
 import { Bell, BellOff } from "lucide-react";
 
 export type WorkoutEndPrompt = {
@@ -59,6 +60,13 @@ export function NotificationBell() {
   const { prompt, clearPrompt } = useNotificationCenter();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  // 포털 마운트 가드(SSR 시 document 없음).
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   // 새 알림이 오면 자동으로 패널을 연다(놓치지 않게).
   useEffect(() => {
@@ -66,11 +74,13 @@ export function NotificationBell() {
     if (prompt) setOpen(true);
   }, [prompt]);
 
-  // 바깥 클릭 시 닫기.
+  // 바깥 클릭 시 닫기 — 벨과 (포털된) 패널 양쪽을 '안'으로 친다.
   useEffect(() => {
     if (!open) return;
     function onDown(e: PointerEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+      const t = e.target as Node;
+      if (ref.current?.contains(t) || panelRef.current?.contains(t)) return;
+      setOpen(false);
     }
     document.addEventListener("pointerdown", onDown);
     return () => document.removeEventListener("pointerdown", onDown);
@@ -92,8 +102,13 @@ export function NotificationBell() {
         ) : null}
       </button>
 
-      {open ? (
-        <div className="fixed right-2 top-[calc(3.5rem_+_env(safe-area-inset-top))] z-50 w-72 max-w-[calc(100vw-1rem)] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
+      {open && mounted
+        ? createPortal(
+            // 헤더(backdrop-blur)가 fixed 기준을 바꿔 패널이 틀어지던 문제 → body 로 포털.
+            <div
+              ref={panelRef}
+              className="fixed right-2 top-[calc(3.5rem_+_env(safe-area-inset-top))] z-[60] w-72 max-w-[calc(100vw-1rem)] overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-xl dark:border-zinc-700 dark:bg-zinc-900"
+            >
           <div className="flex items-center justify-between border-b border-zinc-100 px-3 py-2 dark:border-zinc-800">
             <span className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
               알림
@@ -155,8 +170,10 @@ export function NotificationBell() {
               </p>
             </div>
           )}
-        </div>
-      ) : null}
+        </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }

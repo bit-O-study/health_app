@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { Pause, Play, Save, Timer } from "lucide-react";
+import { CheckCircle2, Pause, Play, Save, Timer } from "lucide-react";
 
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { isQueueItemActive } from "@/features/workout-timer/queue-filter";
@@ -550,6 +550,17 @@ export function WorkoutSessionTimer({
   }, []);
 
   if (!state) {
+    // 오늘 할 운동이 있었는데 전부 완료/스킵돼 남은 게 없으면 '수고하셨습니다'(비활성).
+    // queue 는 로컬 오버라이드(완료/휴식 취소)로 즉시 갱신 → 미완료가 다시 생기면 바로 '운동 시작' 복귀.
+    const allDone = queueItems.length > 0 && queue.length === 0;
+    if (allDone) {
+      return (
+        <span className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-100 px-4 text-sm font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+          <CheckCircle2 aria-hidden="true" size={16} />
+          수고하셨습니다
+        </span>
+      );
+    }
     return (
       <button
         type="button"

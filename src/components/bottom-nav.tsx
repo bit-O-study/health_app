@@ -3,13 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  CalendarHeart,
-  Flame,
-  Salad,
-  SlidersHorizontal,
-  UsersRound,
-} from "lucide-react";
+import { CalendarHeart, Flame, Salad, UsersRound } from "lucide-react";
 
 type Tab = {
   href: string;
@@ -37,12 +31,6 @@ const TABS: Tab[] = [
     label: "그룹",
     icon: UsersRound,
     match: (p) => p.startsWith("/groups"),
-  },
-  {
-    href: "/settings",
-    label: "설정",
-    icon: SlidersHorizontal,
-    match: (p) => p.startsWith("/settings"),
   },
 ];
 

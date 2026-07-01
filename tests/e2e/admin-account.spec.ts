@@ -11,13 +11,15 @@ test("회원탈퇴: 설정 → 탈퇴 → 로그인화면 + withdrawn_at 기록"
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  // 회원탈퇴는 마이페이지(설정 > 마이페이지) 하단으로 이동됨.
+  await page.goto("/settings/me", { waitUntil: "networkidle" });
   await page.getByTestId("withdraw-account").click();
-  // 확인 다이얼로그(포털)의 '회원탈퇴' 확인 버튼
-  await page
-    .getByRole("dialog")
-    .getByRole("button", { name: "회원탈퇴" })
-    .click();
+  // 설문: 이유 선택 → 다음
+  await page.getByText("운동을 더 이상 하지 않아요").click();
+  await page.getByRole("button", { name: "다음" }).click();
+  // 감수 체크 → 탈퇴하기
+  await page.getByRole("checkbox").check();
+  await page.getByTestId("withdraw-confirm").click();
 
   // 탈퇴 후 로그아웃 → 로그인 화면
   await page.waitForURL(/\/login$/, { timeout: 30_000 });

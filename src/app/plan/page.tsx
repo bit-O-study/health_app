@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
+import { ArrowRight, ChevronLeft } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
@@ -72,13 +72,23 @@ export default async function PlanPage() {
 
   return (
     <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
-      <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/routine"
-      >
-        <ChevronLeft aria-hidden="true" size={16} />
-        메인으로
-      </Link>
+      <div className="flex items-center justify-between gap-2">
+        <Link
+          className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
+          href="/routine"
+        >
+          <ChevronLeft aria-hidden="true" size={16} />
+          메인으로
+        </Link>
+        {/* '루틴 변경' — 메인 헤더에서 이 화면(운동 편집) 안으로 이동. */}
+        <Link
+          className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+          href="/settings/routine?from=plan"
+        >
+          루틴 변경
+          <ArrowRight aria-hidden="true" size={15} />
+        </Link>
+      </div>
 
       <div className="mt-6 mb-6 space-y-1">
         <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">

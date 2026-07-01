@@ -33,7 +33,6 @@ import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import {
   conditioningCompletionKey,
-  getConditioningStatusMapToday,
   getTodayCompletedConditioning,
 } from "@/features/routine/conditioning-completions";
 import {
@@ -122,7 +121,6 @@ export async function TodayExercises({
     dailyPlan,
     defaults,
     daily,
-    condStatus,
     completedItems,
     completedCond,
   ] = await Promise.all([
@@ -133,7 +131,6 @@ export async function TodayExercises({
     getDailyPlanForDate(todayYmd),
     getConditioningForFocus(primaryTone),
     getDailyConditioning(todayYmd),
-    getConditioningStatusMapToday(todayYmd),
     getTodayCompletedItems(todayYmd),
     getTodayCompletedConditioning(todayYmd),
   ]);
@@ -223,40 +220,57 @@ export async function TodayExercises({
   const isDailyWarmup = daily.warmup.length > 0;
   const isDailyCooldown = daily.cooldown.length > 0;
 
-  // 완료 보존(본운동과 동일): 오늘 완료/스킵한 워밍업·마무리 중 현재 목록에 없는 종목
-  // (요일별 루틴을 바꿔 종목이 달라져 빠진 것)을 완료 행으로 함께 보여준다.
-  // 행 id 또는 (종류:항목) 키가 이미 있으면 중복이라 제외.
+  // 워밍업/마무리 완료도 본운동과 똑같이 '행에 1:1 배정'한다(과매칭 방지). 같은 항목이
+  // 여러 개(예: 경사·속도만 다른 쿨다운 러닝 3개)여도 완료 기록 수만큼만 done — 하나를
+  // 완료해도 나머지 형제 행은 미완료로 남는다. (예전엔 (종류:항목) 키 폴백을 행마다
+  // 독립으로 봐서, 러닝 1개만 완료해도 같은 러닝 전부 완료로 떴다.)
+  const condRecords = completedCond.map((c) => ({
+    id: c.sourceRowId,
+    key: conditioningCompletionKey(c.kind, c.itemId),
+    status: c.status,
+  }));
+  const activeCondRows = [...baseWarmupRows, ...baseCooldownRows];
+  const { statusById: condStatusById, usedRecord: condUsed } =
+    assignCompletions(
+      activeCondRows.map((r) => ({
+        id: r.id,
+        key: conditioningCompletionKey(r.kind, r.itemId),
+      })),
+      condRecords,
+    );
+
+  // 완료 보존(본운동과 동일): 활성 행에 배정되지 않은 완료 기록(루틴을 바꿔 오늘 목록에서
+  // 빠졌지만 오늘 완료한 종목)을 완료 행으로 함께 보여준다. (종류:항목) 키 중복은 제외.
+  const condGhostSeen = new Set<string>();
   function withCondGhosts(
     kind: "warmup" | "cooldown",
     baseRows: ConditioningRow[],
   ): ConditioningRow[] {
-    const baseIds = new Set(baseRows.map((r) => r.id));
-    const baseKeys = new Set(
-      baseRows.map((r) => conditioningCompletionKey(r.kind, r.itemId)),
-    );
-    const seen = new Set<string>();
     const ghosts = completedCond
-      .filter((c) => {
-        if (c.kind !== kind) return false;
-        if (baseIds.has(c.sourceRowId)) return false;
+      .filter((c, i) => {
+        if (c.kind !== kind || condUsed[i]) return false;
         const key = conditioningCompletionKey(c.kind, c.itemId);
-        if (baseKeys.has(key) || seen.has(key)) return false;
-        seen.add(key);
+        if (condGhostSeen.has(key)) return false;
+        condGhostSeen.add(key);
         return true;
       })
-      .map((c, i) => ({
-        id: c.sourceRowId,
-        focus: primaryTone,
-        kind: c.kind,
-        position: 1_000_000 + i, // 항상 맨 뒤(완료 묶음)
-        itemId: c.itemId,
-        durationMin: c.durationMin,
-        speed: c.speed,
-        incline: c.incline,
-        sets: c.sets,
-        reps: c.reps,
-        memo: null,
-      }));
+      .map((c, i) => {
+        // 고스트 자기 행 상태 등록(자기 행 id = 완료 기록 source_row_id).
+        condStatusById.set(c.sourceRowId, c.status);
+        return {
+          id: c.sourceRowId,
+          focus: primaryTone,
+          kind: c.kind,
+          position: 1_000_000 + i, // 항상 맨 뒤(완료 묶음)
+          itemId: c.itemId,
+          durationMin: c.durationMin,
+          speed: c.speed,
+          incline: c.incline,
+          sets: c.sets,
+          reps: c.reps,
+          memo: null,
+        };
+      });
     return [...baseRows, ...ghosts];
   }
   const warmupRows = withCondGhosts("warmup", baseWarmupRows);
@@ -292,8 +306,8 @@ export async function TodayExercises({
   function buildCondItems(rows: ConditioningRow[]) {
     const doneIds: string[] = [];
     const skippedIds: string[] = [];
-    // 본운동과 동일하게 '행 id 또는 (종류:항목) 키'로만 매칭한다. 종류 단위 완료 키는
-    // 제거 — 루틴을 바꿔 새 워밍업/마무리 항목이 와도 완료로 번지지 않게(취소도 정상 동작).
+    // 완료는 assignCompletions 로 행에 1:1 배정된 결과(condStatusById)로만 판정한다.
+    // 행 id 로 직접 조회 — 키 폴백/배정은 위에서 이미 끝났다(과매칭 없음).
     const items: TodayConditioningItem[] = rows.map((r) => {
       const item = getConditioningItem(r.itemId);
       const name = item?.name ?? r.itemId;
@@ -302,9 +316,7 @@ export async function TodayExercises({
       const kcal = Math.round(
         estimateConditioningKcal(w, r.itemId, eff.duration, eff.speed),
       );
-      const st =
-        condStatus.get(r.id) ??
-        condStatus.get(conditioningCompletionKey(r.kind, r.itemId));
+      const st = condStatusById.get(r.id);
       if (st === "done") doneIds.push(r.id);
       else if (st === "skipped") skippedIds.push(r.id);
       return {
@@ -353,8 +365,6 @@ export async function TodayExercises({
     .filter((p) => mainDoneSet.has(p.id))
     .reduce((s, p) => s + estimateStrengthKcal(w, p.exerciseId, p.sets), 0);
   const completedKcal = Math.round(doneWarm + doneMain + doneCool);
-
-  const skipCount = mainSkipSet.size + warmSkipSet.size + coolSkipSet.size;
 
   // 가이드 운동 큐 — 워밍업 → 본운동 → 마무리 순서로 '모든' 항목을 담는다.
   // (완료/스킵 제외는 클라이언트 타이머가 서버 상태 + 로컬 오버라이드로 필터한다.
@@ -481,12 +491,6 @@ export async function TodayExercises({
                 <span className="text-xs font-medium text-zinc-500 sm:text-sm">
                   kcal 예상
                 </span>
-              </p>
-              <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
-                예상 — 워밍업 {Math.round(totalWarm)} · 본운동{" "}
-                {Math.round(totalMain)} · 마무리 {Math.round(totalCool)}
-                {skipCount > 0 ? ` · 스킵 ${skipCount}개 제외` : ""}
-                {weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
               </p>
             </div>
             <MarkAllDoneButton

@@ -333,22 +333,26 @@ function SummaryCard({
   );
 }
 
-/** 소요 칼로리 = 운동 소비 − 총 섭취. 양수면 소비 우위(emerald), 음수면 섭취 우위(rose). 전체 너비 가로 카드. */
+/** 칼로리 흑자/적자 = 운동 소비 − 총 섭취.
+ *  소비가 더 많으면 '흑자'(초록, 양수), 섭취가 더 많으면 '적자'(빨강, 음수). 전체 너비 카드. */
 function NetCard({ spent }: { spent: number }) {
-  const burnDominant = spent > 0;
-  const toneCls = burnDominant
+  const surplus = spent > 0; // 소비 > 섭취 → 흑자
+  const deficit = spent < 0; // 섭취 > 소비 → 적자
+  const toneCls = surplus
     ? "text-emerald-600 dark:text-emerald-400"
-    : "text-rose-600 dark:text-rose-400";
-  const sign = spent > 0 ? "+" : spent < 0 ? "−" : "";
+    : deficit
+      ? "text-rose-600 dark:text-rose-400"
+      : "text-zinc-500 dark:text-zinc-400";
+  const label = surplus ? "칼로리 흑자" : deficit ? "칼로리 적자" : "칼로리 균형";
   return (
     <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
       <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
         <Scale size={15} className="shrink-0" />
-        소요 칼로리
+        {label}
       </span>
       <span className={`whitespace-nowrap text-lg font-extrabold tabular-nums ${toneCls}`}>
-        {sign}
-        {Math.abs(spent).toLocaleString()}
+        {/* 흑자면 300, 적자면 -300 그대로 표기 */}
+        {spent.toLocaleString()}
         <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
       </span>
     </div>

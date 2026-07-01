@@ -37,3 +37,11 @@
   `supabase/schema.sql` + 라이브 DB 둘 다 갱신하고 `pnpm test:schema` 통과 확인.
 - 걸음수 진단칩은 위 규칙과 별개로 URL `?stepsdebug=1` 로 누구나 강제로 볼 수 있다
   (일회성 현장 진단용). 코드: `steps-sync.tsx` 의 `refreshDiag()`.
+
+## 등록된 디버그 기능
+
+| id | 설명 | 진입점 | 비고 |
+| --- | --- | --- | --- |
+| `steps` | 걸음수 진단칩 🩺 | 캘린더 상단 | 네이티브 앱에서만 의미 |
+| `equipment-scan` | 기구 사진 분석 📷 (Claude 비전) | 관리자 콘솔 → "기구 분석"(`/equipment`) | `ANTHROPIC_API_KEY` 필요. GA 시 `/equipment` 게이트를 풀고 `/exercises` 로 진입점 이동 |
+

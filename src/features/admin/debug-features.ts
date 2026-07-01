@@ -12,6 +12,10 @@ export const DEBUG_FEATURES = [
     id: "steps",
     label: "걸음수 진단칩(🩺 앱UA·브릿지·플러그인·권한·레코드…)",
   },
+  {
+    id: "equipment-scan",
+    label: "기구 사진 분석(📷 기구 식별 + 가능한 운동, Claude 비전)",
+  },
 ] as const;
 
 export type DebugFeatureId = (typeof DEBUG_FEATURES)[number]["id"];

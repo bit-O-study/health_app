@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Camera,
   Film,
   FlaskConical,
   LayoutDashboard,
@@ -19,6 +20,7 @@ const LINKS = [
   { href: "/admin/members", label: "회원정보", Icon: Users },
   { href: "/admin/settings", label: "관리자 설정", Icon: ShieldCheck },
   { href: "/admin/exercise-media", label: "운동 영상", Icon: Film },
+  { href: "/equipment", label: "기구 분석", Icon: Camera },
   { href: "/admin/test", label: "테스트", Icon: FlaskConical },
 ];
 

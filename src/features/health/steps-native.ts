@@ -279,9 +279,13 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
   return d;
 }
 
+/** 진단칩 버전 — 앱이 새 코드를 실제로 불러왔는지(캐시 아님) 확인용. 배포마다 올린다. */
+const STEPS_DIAG_VER = "v3";
+
 /** 진단 결과를 한 줄 문자열로(화면 디버그용). */
 export function formatStepsDiag(d: StepsDiag): string {
   const parts = [
+    STEPS_DIAG_VER,
     `앱UA${d.ua ? "O" : "X"}`,
     `브릿지${d.bridge ? "O" : "X"}`,
     `네이티브${d.native ? "O" : "X"}`,

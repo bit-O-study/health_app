@@ -75,8 +75,40 @@ export function GroupControls({
 
     const text = `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`;
 
-    // 1) 카카오 카드(버튼) — 웹·앱 공통 최우선. PWA(크롬 설치본)와 동일한 '버튼 카드' 경험.
-    //    앱(WebView)에서도 JS SDK 로 카카오톡을 띄운다. (도메인은 운영 Vercel 로 동일 등록됨)
+    // in-app(네이티브) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor 폴백.
+    const hasUa =
+      typeof navigator !== "undefined" &&
+      navigator.userAgent.includes("helssu-app");
+    const hasBridge =
+      typeof window !== "undefined" &&
+      !!(window as unknown as { Capacitor?: unknown }).Capacitor;
+    const inApp = hasUa || hasBridge;
+
+    // 앱: 네이티브 공유시트(@capacitor/share)로 카카오톡 선택 전송.
+    // (카카오 JS SDK 카드는 브라우저 전용 intent:// 라 WebView 에선 제로페이로 새거나 무반응.)
+    if (inApp) {
+      try {
+        const { Share } = await import("@capacitor/share");
+        await Share.share({
+          title: `${groupName} 그룹 초대`,
+          text,
+          url,
+          dialogTitle: "친구에게 초대 보내기",
+        });
+        return;
+      } catch (e) {
+        // 실패 원인을 그대로 노출(브리지/플러그인 진단) — 링크 복사로 폴백.
+        await copyLink();
+        window.alert(
+          `앱 공유 실패 → 링크 복사함.\n사유: ${
+            e instanceof Error ? e.message : String(e)
+          }\n[진단] 앱UA:${hasUa ? "O" : "X"} · 브릿지:${hasBridge ? "O" : "X"}`,
+        );
+        return;
+      }
+    }
+
+    // 웹: 카카오 카드(버튼) 우선 → 기기 공유 → 링크 복사.
     const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
     if (key) {
       try {
@@ -100,29 +132,6 @@ export function GroupControls({
       }
     }
 
-    // in-app(네이티브) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor 폴백.
-    const inApp =
-      typeof navigator !== "undefined" &&
-      (navigator.userAgent.includes("helssu-app") ||
-        !!(window as unknown as { Capacitor?: unknown }).Capacitor);
-
-    // 2) 카카오 SDK 불가 시: 앱은 네이티브 공유 시트(@capacitor/share).
-    if (inApp) {
-      try {
-        const { Share } = await import("@capacitor/share");
-        await Share.share({
-          title: `${groupName} 그룹 초대`,
-          text,
-          url,
-          dialogTitle: "친구에게 초대 보내기",
-        });
-        return;
-      } catch {
-        /* 플러그인/브리지 불가 → 복사 폴백 */
-      }
-    }
-
-    // 3) 웹: 기기 공유 시트 → 4) 최후엔 링크 복사.
     const nav = navigator as Navigator & {
       share?: (data: ShareData) => Promise<void>;
     };

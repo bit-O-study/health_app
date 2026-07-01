@@ -71,25 +71,29 @@ let lastPluginError = "";
 
 async function getPlugin(): Promise<HealthConnectLike | null> {
   if (typeof window === "undefined") return null;
+  // 동적 import(@capacitor/core)가 앱에서 멈추는(hang) 경우가 있어, 이미 주입된
+  // window.Capacitor 를 직접 쓴다(브릿지:O 면 여기 있음). 네이티브가 등록한 플러그인은
+  // Capacitor.Plugins 아래에 있다.
+  const cap = (
+    window as unknown as {
+      Capacitor?: {
+        Plugins?: Record<string, HealthConnectLike | undefined>;
+        registerPlugin?: (name: string) => HealthConnectLike;
+      };
+    }
+  ).Capacitor;
+  if (!cap) {
+    lastPluginError = "window.Capacitor 없음";
+    return null;
+  }
   try {
-    const core = (await import("@capacitor/core")) as unknown as {
-      Capacitor?: { isNativePlatform?: () => boolean };
-      registerPlugin?: (name: string) => HealthConnectLike;
-    };
-    const native = !!core.Capacitor?.isNativePlatform?.();
-    if (!native && !hasNativeUa()) {
-      lastPluginError = "non-native";
-      return null;
-    }
-    if (typeof core.registerPlugin !== "function") {
-      lastPluginError =
-        "registerPlugin 없음 (core: " + Object.keys(core).join(",") + ")";
-      return null;
-    }
-    // 패키지 JS 대신 registerPlugin 으로 네이티브 플러그인('HealthConnect') 프록시 직접 획득.
-    const hc = core.registerPlugin("HealthConnect");
+    const hc =
+      cap.Plugins?.HealthConnect ?? cap.registerPlugin?.("HealthConnect");
     if (!hc) {
-      lastPluginError = "registerPlugin 결과 없음";
+      lastPluginError =
+        "HealthConnect 미등록 (Plugins: " +
+        Object.keys(cap.Plugins ?? {}).join(",") +
+        ")";
       return null;
     }
     lastPluginError = "";
@@ -299,7 +303,7 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
 }
 
 /** 진단칩 버전 — 앱이 새 코드를 실제로 불러왔는지(캐시 아님) 확인용. 배포마다 올린다. */
-const STEPS_DIAG_VER = "v5";
+const STEPS_DIAG_VER = "v6";
 
 /** 진단 결과를 한 줄 문자열로(화면 디버그용). */
 export function formatStepsDiag(d: StepsDiag): string {

@@ -45,14 +45,20 @@ export function resolveTodayStatus(
  * 같은 키가 여러 행이어도 '완료 기록 수'만큼만 done 으로 표시된다.
  * (예전엔 키 폴백을 행마다 독립으로 봐서, 같은 운동 2개 중 1개만 완료해도 둘 다 완료로 떴다.)
  *
- * @returns statusById: 행 id → 상태, usedRecord: 각 기록이 소비됐는지(고스트 산출용)
+ * @returns statusById: 행 id → 상태, usedRecord: 각 기록이 소비됐는지(고스트 산출용),
+ *   recordIndexById: 행 id → 배정된 기록의 인덱스(그 기록의 스냅샷 세트수 등을 쓰기 위함)
  */
 export function assignCompletions(
   rows: { id: string; key: string }[],
   records: { id: string; key: string; status: CompletionStatus }[],
-): { statusById: Map<string, CompletionStatus>; usedRecord: boolean[] } {
+): {
+  statusById: Map<string, CompletionStatus>;
+  usedRecord: boolean[];
+  recordIndexById: Map<string, number>;
+} {
   const used = records.map(() => false);
   const statusById = new Map<string, CompletionStatus>();
+  const recordIndexById = new Map<string, number>();
 
   // 1) 행 id 직접 매칭
   for (const r of rows) {
@@ -61,6 +67,7 @@ export function assignCompletions(
     if (i >= 0) {
       used[i] = true;
       statusById.set(r.id, records[i].status);
+      recordIndexById.set(r.id, i);
     }
   }
   // 2) 키 매칭 — done 우선, 미사용 기록 1개 소비
@@ -78,7 +85,8 @@ export function assignCompletions(
     if (pick >= 0) {
       used[pick] = true;
       statusById.set(r.id, records[pick].status);
+      recordIndexById.set(r.id, pick);
     }
   }
-  return { statusById, usedRecord: used };
+  return { statusById, usedRecord: used, recordIndexById };
 }

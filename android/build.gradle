@@ -21,6 +21,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        // 카카오 SDK(v2-share 등) 저장소 — Maven Central 미러 대비 안전망.
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 }
 

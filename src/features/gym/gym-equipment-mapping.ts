@@ -34,6 +34,19 @@ const EQUIPMENT_REQUIREMENTS: Record<EquipmentId, string[]> = {
   cable: ["cable_dual", "cable_crossover", "lat_pulldown", "seated_row"],
   // 맨몸 — 풀업/딥 등 일부는 봉 필요하지만 평균적으로 어디서나 가능 → 항상 통과
   bodyweight: [],
+  // 확장 기구(1,300 카탈로그). 휴대/소도구류는 항상 통과(false negative 최소화).
+  smith: ["smith"],
+  kettlebell: ["dumbbell"],
+  landmine: ["barbell"],
+  band: [],
+  trx: [],
+  medicineball: [],
+  sled: [],
+  battlerope: [],
+  bosu: [],
+  ball: [],
+  plate: [],
+  other: [],
 };
 
 /**

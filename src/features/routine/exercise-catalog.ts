@@ -6,13 +6,31 @@
  */
 
 import type { FocusTone } from "@/features/routine/data";
+// 자동 생성 확장 세트(1,300 CSV 중 기존에 없는 운동). 검색·선택·운동모드에서 함께 노출.
+import {
+  EXTRA_EXERCISES,
+  EXTRA_BODY_PART,
+  EXTRA_LOAD_CLASS,
+} from "@/features/routine/exercise-catalog-extra";
 
 export type EquipmentId =
   | "barbell"
   | "dumbbell"
   | "machine"
   | "cable"
-  | "bodyweight";
+  | "bodyweight"
+  | "smith"
+  | "kettlebell"
+  | "band"
+  | "trx"
+  | "medicineball"
+  | "landmine"
+  | "sled"
+  | "battlerope"
+  | "bosu"
+  | "ball"
+  | "plate"
+  | "other";
 
 export const EQUIPMENT_LABELS: Record<EquipmentId, string> = {
   barbell: "바벨",
@@ -20,6 +38,18 @@ export const EQUIPMENT_LABELS: Record<EquipmentId, string> = {
   machine: "머신",
   cable: "케이블",
   bodyweight: "맨몸",
+  smith: "스미스",
+  kettlebell: "케틀벨",
+  band: "밴드",
+  trx: "TRX",
+  medicineball: "메디신볼",
+  landmine: "랜드마인",
+  sled: "슬레드",
+  battlerope: "배틀로프",
+  bosu: "보수",
+  ball: "짐볼",
+  plate: "원판",
+  other: "기타",
 };
 
 export type EquipmentVariant = {
@@ -2487,7 +2517,7 @@ const LOAD_CLASS: Record<string, LoadClass> = {
 };
 
 export function loadClassOf(id: string): LoadClass {
-  return LOAD_CLASS[id] ?? "medium";
+  return LOAD_CLASS[id] ?? EXTRA_LOAD_CLASS[id] ?? "medium";
 }
 
 export type Prescription = {
@@ -2563,7 +2593,10 @@ export function prescribe(
 }
 
 /** 전체 운동(슬러그=운동 id) — 운동 종목 리스트용 */
-export const ALL_EXERCISES: CatalogExercise[] = Object.values(EXERCISES);
+export const ALL_EXERCISES: CatalogExercise[] = [
+  ...Object.values(EXERCISES),
+  ...Object.values(EXTRA_EXERCISES),
+];
 
 /**
  * 운동 종목 리스트(/exercises) 그룹용 1차 부위 매핑.
@@ -2726,7 +2759,7 @@ const PRIMARY_BODY_PART: Record<string, BodyPart> = {
 };
 
 export function primaryBodyPart(id: string): BodyPart {
-  return PRIMARY_BODY_PART[id] ?? "core";
+  return PRIMARY_BODY_PART[id] ?? EXTRA_BODY_PART[id] ?? "core";
 }
 
 /**
@@ -2827,7 +2860,7 @@ export function groupedByBodyPart(): Record<BodyPart, CatalogExercise[]> {
 
 /** 슬러그(=운동 id)로 카탈로그 운동 조회 */
 export function getCatalogExercise(slug: string): CatalogExercise | undefined {
-  return EXERCISES[slug];
+  return EXERCISES[slug] ?? EXTRA_EXERCISES[slug];
 }
 
 export function isEquipmentId(value: unknown): value is EquipmentId {

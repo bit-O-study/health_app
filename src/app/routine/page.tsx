@@ -8,6 +8,7 @@ import {
   LogIn,
   Moon,
   Settings,
+  SlidersHorizontal,
   Sparkles,
 } from "lucide-react";
 
@@ -20,6 +21,8 @@ import {
 } from "@/features/profile/data-access";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { getUserRoutine } from "@/features/routine/data-access";
+import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
+import { routineDisplayLabel } from "@/features/routine/routine-label";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import {
   addDaysYmd,
@@ -34,6 +37,7 @@ import {
 } from "@/features/routine/data";
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 import {
@@ -67,21 +71,10 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </Link>
 
         <div className="flex items-center gap-2">
-          <Link
-            className="hidden h-9 items-center rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100 sm:inline-flex"
-            href="/exercises"
-          >
-            운동 리스트
-          </Link>
+          {/* 운동 찾기 — 자연어로 묘사하면 키워드 분석해 운동 추론(대화창). */}
+          <ExerciseFinder />
           {isLoggedIn ? (
             <>
-              <Link
-                className="inline-flex h-9 items-center gap-1.5 rounded-md bg-emerald-600 px-3.5 text-sm font-semibold text-white transition hover:bg-emerald-500"
-                href="/settings/routine?from=home"
-              >
-                <Sparkles aria-hidden="true" size={15} />
-                추천 루틴
-              </Link>
               <NotificationBell />
               <Link
                 aria-label="설정"
@@ -308,7 +301,7 @@ async function TodayWorkout({
             오늘의 운동
           </h1>
           <p className="mt-1.5 text-xs text-zinc-600 dark:text-zinc-400 sm:mt-2 sm:text-sm">
-            {dateLabel} · {preset.label} · {variant.name}
+            {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -320,18 +313,13 @@ async function TodayWorkout({
               muscleMassKg: profile?.muscleMassKg ?? null,
             }}
           />
+          {/* '운동 편집'(구 '기본 편집') — '루틴 변경'은 이 화면(/plan) 안으로 이동. */}
           <Link
             className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
             href="/plan"
           >
-            기본 편집
-          </Link>
-          <Link
-            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
-            href="/settings/routine?from=home"
-          >
-            루틴 변경
-            <ArrowRight aria-hidden="true" size={15} />
+            <SlidersHorizontal aria-hidden="true" size={15} />
+            운동 편집
           </Link>
         </div>
       </div>
@@ -371,28 +359,36 @@ async function TodayWorkout({
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
           </p>
         ) : (
-          <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              자극 부위
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {(hasDailyOverride
-                ? Array.from(
-                    new Set(
-                      dailyFocuses.flatMap((f) => DAY_BLOCKS[f].day.muscles),
-                    ),
-                  )
-                : planToday.muscles
-              ).map((muscle) => (
-                <span
-                  key={muscle}
-                  className="rounded-full bg-white/80 dark:bg-zinc-800/80 px-2.5 py-1 text-xs font-semibold text-zinc-800 dark:text-zinc-100 ring-1 ring-black/5 dark:ring-white/15"
-                >
-                  {muscle}
-                </span>
-              ))}
-            </div>
-          </div>
+          (() => {
+            const dayMuscles = hasDailyOverride
+              ? Array.from(
+                  new Set(
+                    dailyFocuses.flatMap((f) => DAY_BLOCKS[f].day.muscles),
+                  ),
+                )
+              : planToday.muscles;
+            return (
+              <div className="mt-6">
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  자극 부위
+                </p>
+                {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트(상단 정렬) */}
+                <div className="mt-3 flex items-start gap-3">
+                  <DayMuscleMap names={dayMuscles} width={44} />
+                  <div className="flex flex-1 flex-wrap gap-1.5">
+                    {dayMuscles.map((muscle) => (
+                      <span
+                        key={muscle}
+                        className="rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 ring-1 ring-black/5 dark:bg-zinc-800/70 dark:text-zinc-300 dark:ring-white/15"
+                      >
+                        {muscle}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            );
+          })()
         )}
       </section>
 

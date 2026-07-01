@@ -73,9 +73,15 @@ export function GroupControls({
   async function shareKakao() {
     const url = inviteUrl();
 
-    // 1) 카카오 카드(버튼) 우선 — 깔끔한 버튼 카드로 전송
+    // 네이티브 앱(Capacitor WebView)에선 카카오 JS SDK 의 intent:// 스킴이 엉뚱한 앱
+    // (제로페이 등)을 띄우는 문제가 있어, 카카오 카드를 건너뛰고 기기 공유 시트를 쓴다.
+    const inApp =
+      typeof window !== "undefined" &&
+      !!(window as unknown as { Capacitor?: unknown }).Capacitor;
+
+    // 1) 카카오 카드(버튼) 우선 — 단, 웹에서만(앱은 기기 공유 시트로)
     const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
-    if (key) {
+    if (key && !inApp) {
       try {
         const Kakao = await loadKakao();
         if (Kakao?.Share) {

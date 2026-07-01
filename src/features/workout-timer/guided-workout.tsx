@@ -41,7 +41,10 @@ import {
   isLastSet,
   setProgressLabel,
 } from "@/features/workout-timer/rest-logic";
-import { ExercisePhotoDemo } from "@/features/workout-timer/exercise-photo-demo";
+import {
+  ExercisePhotoDemo,
+  ExerciseTutorial,
+} from "@/features/workout-timer/exercise-photo-demo";
 import {
   MuscleBodyInset,
   MuscleBodyModal,
@@ -1410,13 +1413,30 @@ function ItemVisual({ item }: { item: GuidedItem }) {
         </div>
       );
     }
-    // 실사 시연 사진(매핑 없으면 null → 표시 안 함).
+    const frames = exercisePhotoFrames(item.exerciseId, item.equipment);
+    if (frames) return <ExercisePhotoDemo frames={frames} />;
+    // 실사 사진·영상이 없는 운동(예: 신규 1,200여 종)은 운동법 단계를
+    // 튜토리얼(그라데이션 위 단계 자막, 자동 전환)로 보여준다 — 빈 화면 방지.
+    if (item.method.length > 0) {
+      return (
+        <div className="w-full max-w-md">
+          <ExerciseTutorial frames={null} steps={item.method} />
+        </div>
+      );
+    }
+    return null;
+  }
+  // 워밍업·마무리: 실사 시연 2프레임 자동 교차재생. 없으면 방법 문구 튜토리얼.
+  const condFrames = conditioningPhotoFrames(item.itemId);
+  if (condFrames) return <ExercisePhotoDemo frames={condFrames} />;
+  if (item.method.length > 0) {
     return (
-      <ExercisePhotoDemo exerciseId={item.exerciseId} equipment={item.equipment} />
+      <div className="w-full max-w-md">
+        <ExerciseTutorial frames={null} steps={item.method} />
+      </div>
     );
   }
-  // 워밍업·마무리: 실사 시연 2프레임을 자동 교차재생(영상처럼). 매핑 없으면 표시 안 함.
-  return <ExercisePhotoDemo frames={conditioningPhotoFrames(item.itemId)} />;
+  return null;
 }
 
 

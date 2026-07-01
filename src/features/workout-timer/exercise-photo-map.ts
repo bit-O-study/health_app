@@ -3,6 +3,8 @@
   * 두 프레임(0/1.jpg)을 교차해 실제 시연 동작을 보여준다. jsdelivr CDN 로 로드.
   * 출처: https://github.com/yuhonas/free-exercise-db (The Unlicense)
   */
+import { EXTRA_PHOTO_DB } from "@/features/workout-timer/exercise-photo-extra";
+
 export const EXERCISE_PHOTO_DB: Record<string, string> = {
   "ab-rollout": "Barbell_Ab_Rollout",
   "arnold-press": "Arnold_Dumbbell_Press",
@@ -218,7 +220,9 @@ export function exercisePhotoFrames(
 ): [string, string] | null {
   const db =
     (equipment ? EXERCISE_PHOTO_DB_BY_EQUIP[exerciseId]?.[equipment] : undefined) ??
-    EXERCISE_PHOTO_DB[exerciseId];
+    EXERCISE_PHOTO_DB[exerciseId] ??
+    // 1,300 확장 운동의 free-exercise-db 매칭(자동 생성). 매칭 없으면 호출부가 튜토리얼 폴백.
+    EXTRA_PHOTO_DB[exerciseId];
   if (!db) return null;
   return [`${CDN}/${db}/0.jpg`, `${CDN}/${db}/1.jpg`];
 }

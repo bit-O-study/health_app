@@ -294,7 +294,7 @@ function RestOverlay({
   return (
     <div
       className="pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4"
-      style={{ bottom: "1rem" }}
+      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 5rem)" }}
     >
       <div
         className={`pointer-events-auto relative flex items-center gap-3 overflow-hidden rounded-full px-4 py-2.5 shadow-lg ${

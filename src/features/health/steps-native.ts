@@ -66,17 +66,36 @@ export type StepsState =
   | { status: "denied" }
   | { status: "granted"; steps: number; byDay?: Record<string, number> };
 
+/** 마지막 플러그인 획득 실패 사유(진단칩에 그대로 노출). */
+let lastPluginError = "";
+
 async function getPlugin(): Promise<HealthConnectLike | null> {
   if (typeof window === "undefined") return null;
   try {
-    const { Capacitor, registerPlugin } = await import("@capacitor/core");
-    if (!Capacitor.isNativePlatform() && !hasNativeUa()) return null;
-    // ⚠ 예전엔 플러그인 패키지를 '문자열 변수'로 import 했는데, 번들러가 그 모듈을 앱
-    //   번들에 안 넣어(웹 제외 트릭) 앱에서도 로드 실패했다("플러그인:X"). 대신 @capacitor/core
-    //   의 registerPlugin 으로 네이티브 플러그인('HealthConnect') 프록시를 직접 얻는다
-    //   — 네이티브 구현이 등록돼 있으면 그대로 호출된다(패키지 JS 불필요).
-    return registerPlugin<HealthConnectLike>("HealthConnect");
-  } catch {
+    const core = (await import("@capacitor/core")) as unknown as {
+      Capacitor?: { isNativePlatform?: () => boolean };
+      registerPlugin?: (name: string) => HealthConnectLike;
+    };
+    const native = !!core.Capacitor?.isNativePlatform?.();
+    if (!native && !hasNativeUa()) {
+      lastPluginError = "non-native";
+      return null;
+    }
+    if (typeof core.registerPlugin !== "function") {
+      lastPluginError =
+        "registerPlugin 없음 (core: " + Object.keys(core).join(",") + ")";
+      return null;
+    }
+    // 패키지 JS 대신 registerPlugin 으로 네이티브 플러그인('HealthConnect') 프록시 직접 획득.
+    const hc = core.registerPlugin("HealthConnect");
+    if (!hc) {
+      lastPluginError = "registerPlugin 결과 없음";
+      return null;
+    }
+    lastPluginError = "";
+    return hc;
+  } catch (e) {
+    lastPluginError = e instanceof Error ? e.message : String(e);
     return null;
   }
 }
@@ -240,7 +259,7 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
     const HC = await withTimeout(getPlugin(), 4000, null);
     d.plugin = !!HC;
     if (!HC) {
-      d.error = "플러그인 로드 실패/시간초과";
+      d.error = "플러그인:" + (lastPluginError || "로드 실패/시간초과");
       return d;
     }
 
@@ -280,7 +299,7 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
 }
 
 /** 진단칩 버전 — 앱이 새 코드를 실제로 불러왔는지(캐시 아님) 확인용. 배포마다 올린다. */
-const STEPS_DIAG_VER = "v3";
+const STEPS_DIAG_VER = "v4";
 
 /** 진단 결과를 한 줄 문자열로(화면 디버그용). */
 export function formatStepsDiag(d: StepsDiag): string {

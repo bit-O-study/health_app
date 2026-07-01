@@ -13,6 +13,7 @@ import {
   getExerciseVideos,
 } from "@/features/exercises/data";
 import { getExerciseMedia } from "@/features/exercises/exercise-media";
+import { ExerciseMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { getMemoForExercise } from "@/features/routine/plan";
 import {
   BODY_PART_LABEL,
@@ -202,6 +203,10 @@ export default async function ExerciseDetailPage({
               <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
                 자극 부위
               </h2>
+            </div>
+            {/* 자극 근육을 인체(앞·뒤)에 색칠해 위치로 보여준다(텍스트 대신 시각화). */}
+            <div className="mt-4 rounded-xl bg-zinc-50 py-3 dark:bg-zinc-900/40">
+              <ExerciseMuscleMap exerciseId={exercise.id} name={exercise.name} />
             </div>
             <div className="mt-4 flex flex-wrap gap-1.5">
               {bodyPartsFor(exercise.id).map((p) => (

@@ -42,6 +42,8 @@ export function StepsSync() {
       typeof window !== "undefined" &&
       new URLSearchParams(window.location.search).has("stepsdebug");
     if (!hasCapacitorBridge() && !forced) return; // 웹(디버그 off): 칩 숨김
+    // 진단이 느리거나 플러그인이 먹통이어도 칩은 '즉시' 뜨게 한다(멈춘 화면 방지).
+    setDiag("진단 중…");
     const d = await diagnoseSteps();
     setDiag(formatStepsDiag(d));
   }

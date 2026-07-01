@@ -56,7 +56,7 @@ const MuscleBodyByNames = dynamic(
     loading: () => (
       <div
         aria-hidden="true"
-        className="min-h-[72px] w-full animate-pulse rounded-lg bg-zinc-100 dark:bg-zinc-800"
+        className="h-[92px] w-[104px] animate-pulse rounded-lg bg-zinc-100 dark:bg-zinc-800"
       />
     ),
   },

@@ -372,20 +372,19 @@ async function TodayWorkout({
                 <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                   자극 부위
                 </p>
-                {/* 자극 부위를 텍스트 대신 인체(앞·뒤)에 색칠해 위치로 보여준다(좌측·소형). */}
-                <div className="mt-3 flex justify-start rounded-xl bg-white/60 px-3 py-2 dark:bg-zinc-800/40">
-                  <DayMuscleMap names={dayMuscles} width={52} />
-                </div>
-                {/* 유산소 등 인체로 표현 안 되는 항목까지 놓치지 않게 이름은 작게 함께 표기 */}
-                <div className="mt-2 flex flex-wrap justify-start gap-1.5">
-                  {dayMuscles.map((muscle) => (
-                    <span
-                      key={muscle}
-                      className="rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 ring-1 ring-black/5 dark:bg-zinc-800/70 dark:text-zinc-300 dark:ring-white/15"
-                    >
-                      {muscle}
-                    </span>
-                  ))}
+                {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트 */}
+                <div className="mt-3 flex items-center gap-3 rounded-xl bg-white/60 px-3 py-2 dark:bg-zinc-800/40">
+                  <DayMuscleMap names={dayMuscles} width={44} />
+                  <div className="flex flex-1 flex-wrap gap-1.5">
+                    {dayMuscles.map((muscle) => (
+                      <span
+                        key={muscle}
+                        className="rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 ring-1 ring-black/5 dark:bg-zinc-800/70 dark:text-zinc-300 dark:ring-white/15"
+                      >
+                        {muscle}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             );

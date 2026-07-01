@@ -48,10 +48,10 @@ export function musclesForExerciseBody(exerciseId: string): Muscle[] {
   return [...set];
 }
 
-/** 여러 근육명을 앞·뒤 인체에 색칠(루틴 일자 요약 '자극 부위'용). */
+/** 여러 근육명을 앞·뒤 인체에 색칠(루틴 일자 요약 '자극 부위'용, 소형). */
 export function MuscleBodyByNames({
   names,
-  width = 64,
+  width = 44,
 }: {
   names: readonly string[];
   width?: number;
@@ -60,31 +60,21 @@ export function MuscleBodyByNames({
     { name: "day", muscles: musclesForKoreanNames(names) },
   ];
   return (
-    <div className="flex items-end justify-start gap-3">
-      <figure className="flex flex-col items-center gap-1">
-        <Model
-          data={data}
-          type="anterior"
-          highlightedColors={HILITE}
-          bodyColor={BODY}
-          style={{ width }}
-        />
-        <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
-          앞
-        </figcaption>
-      </figure>
-      <figure className="flex flex-col items-center gap-1">
-        <Model
-          data={data}
-          type="posterior"
-          highlightedColors={HILITE}
-          bodyColor={BODY}
-          style={{ width }}
-        />
-        <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
-          뒤
-        </figcaption>
-      </figure>
+    <div className="flex items-end justify-start gap-1.5">
+      <Model
+        data={data}
+        type="anterior"
+        highlightedColors={HILITE}
+        bodyColor={BODY}
+        style={{ width }}
+      />
+      <Model
+        data={data}
+        type="posterior"
+        highlightedColors={HILITE}
+        bodyColor={BODY}
+        style={{ width }}
+      />
     </div>
   );
 }

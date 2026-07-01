@@ -73,16 +73,20 @@ export function GroupControls({
   async function shareKakao() {
     const url = inviteUrl();
 
-    const text = `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`;
+    // 링크는 별도 줄에 두면 카카오톡이 OG 카드로 깔끔하게 펼친다("참여 링크:" 접두 제거).
+    const text = `${groupName} 운동 그룹에 초대합니다 💪\n${url}`;
 
-    // in-app(네이티브) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor 폴백.
-    const hasUa =
-      typeof navigator !== "undefined" &&
-      navigator.userAgent.includes("helssu-app");
+    // in-app(네이티브/웹뷰) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor,
+    // 그리고 Android WebView 표식(UA 의 'wv') 까지 본다. wv 를 포함하면 브라우저용 카카오
+    // 카드(intent://)는 제로페이로 새거나 무반응이라 절대 안 쓰고, 네이티브 공유→복사로 간다.
+    // (구버전 APK 라 helssu-app 표식이 없어도 '앱 안'임을 감지해 조용히 실패하지 않게 한다.)
+    const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
+    const hasUa = ua.includes("helssu-app");
+    const isAndroidWebView = /;\s*wv\)/.test(ua) || /\bwv\b/.test(ua);
     const hasBridge =
       typeof window !== "undefined" &&
       !!(window as unknown as { Capacitor?: unknown }).Capacitor;
-    const inApp = hasUa || hasBridge;
+    const inApp = hasUa || hasBridge || isAndroidWebView;
 
     // 앱: 네이티브 공유시트(@capacitor/share)로 카카오톡 선택 전송.
     // (카카오 JS SDK 카드는 브라우저 전용 intent:// 라 WebView 에선 제로페이로 새거나 무반응.)

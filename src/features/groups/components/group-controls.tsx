@@ -73,15 +73,39 @@ export function GroupControls({
   async function shareKakao() {
     const url = inviteUrl();
 
-    // 네이티브 앱(Capacitor WebView)에선 카카오 JS SDK 의 intent:// 스킴이 엉뚱한 앱
-    // (제로페이 등)을 띄우는 문제가 있어, 카카오 카드를 건너뛰고 기기 공유 시트를 쓴다.
-    const inApp =
-      typeof window !== "undefined" &&
-      !!(window as unknown as { Capacitor?: unknown }).Capacitor;
+    const text = `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`;
 
-    // 1) 카카오 카드(버튼) 우선 — 단, 웹에서만(앱은 기기 공유 시트로)
+    // in-app(네이티브) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor 폴백.
+    // (외부 server.url 로드 시 window.Capacitor 가 안 붙는 버그가 있어 UA 로도 본다.)
+    const inApp =
+      typeof navigator !== "undefined" &&
+      (navigator.userAgent.includes("helssu-app") ||
+        !!(window as unknown as { Capacitor?: unknown }).Capacitor);
+
+    // 앱: 네이티브 공유 시트(@capacitor/share) → 카카오톡 등 선택해 전송.
+    // (카카오 JS SDK 카드는 WebView 에서 intent:// 로 제로페이 등 엉뚱한 앱을 띄워서 안 씀.
+    //  WebView 엔 navigator.share 도 기본 제공이 안 돼 네이티브 플러그인을 쓴다.)
+    if (inApp) {
+      try {
+        const { Share } = await import("@capacitor/share");
+        await Share.share({
+          title: `${groupName} 그룹 초대`,
+          text,
+          url,
+          dialogTitle: "친구에게 초대 보내기",
+        });
+        return;
+      } catch {
+        /* 플러그인/브리지 불가 → 링크 복사 폴백 */
+      }
+      await copyLink();
+      window.alert("초대 링크를 복사했어요. 카카오톡 대화방에 붙여넣어 보내주세요.");
+      return;
+    }
+
+    // 웹: 카카오 카드(버튼) 우선.
     const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
-    if (key && !inApp) {
+    if (key) {
       try {
         const Kakao = await loadKakao();
         if (Kakao?.Share) {
@@ -103,23 +127,18 @@ export function GroupControls({
       }
     }
 
-    // 2) 카카오 SDK 불가(키 없음/로드 실패) → 기기 공유 시트
+    // 웹 폴백: 기기 공유 시트 → 최후엔 링크 복사.
     const nav = navigator as Navigator & {
       share?: (data: ShareData) => Promise<void>;
     };
     if (nav.share) {
       try {
-        await nav.share({
-          title: `${groupName} 그룹 초대`,
-          text: `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`,
-          url,
-        });
+        await nav.share({ title: `${groupName} 그룹 초대`, text, url });
         return;
       } catch {
         /* 취소 등 — 복사로 폴백 */
       }
     }
-    // 3) 최후: 링크 복사 + 안내
     await copyLink();
     window.alert("초대 링크를 복사했어요. 카카오톡 대화방에 붙여넣어 보내주세요.");
   }

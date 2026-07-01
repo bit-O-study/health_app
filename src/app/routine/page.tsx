@@ -37,6 +37,7 @@ import {
 } from "@/features/routine/data";
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 import {
@@ -358,28 +359,37 @@ async function TodayWorkout({
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
           </p>
         ) : (
-          <div className="mt-6">
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              자극 부위
-            </p>
-            <div className="mt-2 flex flex-wrap gap-1.5">
-              {(hasDailyOverride
-                ? Array.from(
-                    new Set(
-                      dailyFocuses.flatMap((f) => DAY_BLOCKS[f].day.muscles),
-                    ),
-                  )
-                : planToday.muscles
-              ).map((muscle) => (
-                <span
-                  key={muscle}
-                  className="rounded-full bg-white/80 dark:bg-zinc-800/80 px-2.5 py-1 text-xs font-semibold text-zinc-800 dark:text-zinc-100 ring-1 ring-black/5 dark:ring-white/15"
-                >
-                  {muscle}
-                </span>
-              ))}
-            </div>
-          </div>
+          (() => {
+            const dayMuscles = hasDailyOverride
+              ? Array.from(
+                  new Set(
+                    dailyFocuses.flatMap((f) => DAY_BLOCKS[f].day.muscles),
+                  ),
+                )
+              : planToday.muscles;
+            return (
+              <div className="mt-6">
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  자극 부위
+                </p>
+                {/* 자극 부위를 텍스트 대신 인체(앞·뒤)에 색칠해 위치로 보여준다. */}
+                <div className="mt-3 rounded-xl bg-white/60 py-3 dark:bg-zinc-800/40">
+                  <DayMuscleMap names={dayMuscles} />
+                </div>
+                {/* 유산소 등 인체로 표현 안 되는 항목까지 놓치지 않게 이름은 작게 함께 표기 */}
+                <div className="mt-2 flex flex-wrap justify-center gap-1.5">
+                  {dayMuscles.map((muscle) => (
+                    <span
+                      key={muscle}
+                      className="rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 ring-1 ring-black/5 dark:bg-zinc-800/70 dark:text-zinc-300 dark:ring-white/15"
+                    >
+                      {muscle}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })()
         )}
       </section>
 

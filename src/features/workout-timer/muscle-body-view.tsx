@@ -4,6 +4,7 @@ import Model, { type IExerciseData, type Muscle } from "react-body-highlighter";
 import { X } from "lucide-react";
 
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { musclesForKoreanNames } from "@/features/workout-timer/muscle-body-map";
 
 /** 우리 세부 근육 id → react-body-highlighter 의 근육명. */
 const SUB_TO_MUSCLE: Record<string, Muscle> = {
@@ -45,6 +46,47 @@ export function musclesForExerciseBody(exerciseId: string): Muscle[] {
     if (m) set.add(m);
   }
   return [...set];
+}
+
+/** 여러 근육명을 앞·뒤 인체에 색칠(루틴 일자 요약 '자극 부위'용). */
+export function MuscleBodyByNames({
+  names,
+  width = 96,
+}: {
+  names: readonly string[];
+  width?: number;
+}) {
+  const data: IExerciseData[] = [
+    { name: "day", muscles: musclesForKoreanNames(names) },
+  ];
+  return (
+    <div className="flex items-end justify-center gap-4">
+      <figure className="flex flex-col items-center gap-1">
+        <Model
+          data={data}
+          type="anterior"
+          highlightedColors={HILITE}
+          bodyColor={BODY}
+          style={{ width }}
+        />
+        <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
+          앞
+        </figcaption>
+      </figure>
+      <figure className="flex flex-col items-center gap-1">
+        <Model
+          data={data}
+          type="posterior"
+          highlightedColors={HILITE}
+          bodyColor={BODY}
+          style={{ width }}
+        />
+        <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
+          뒤
+        </figcaption>
+      </figure>
+    </div>
+  );
 }
 
 /** 인라인 앞·뒤 인체에 자극 근육을 색칠해 보여준다(모달 아님). 운동 상세 '자극 부위'

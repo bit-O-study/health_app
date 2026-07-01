@@ -45,3 +45,30 @@ export function ExerciseMuscleMap({
     />
   );
 }
+
+const MuscleBodyByNames = dynamic(
+  () =>
+    import("@/features/workout-timer/muscle-body-view").then(
+      (m) => m.MuscleBodyByNames,
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        aria-hidden="true"
+        className="min-h-[72px] w-full animate-pulse rounded-lg bg-zinc-100 dark:bg-zinc-800"
+      />
+    ),
+  },
+);
+
+/** 루틴 일자 요약 '자극 부위'용 — 그날 자극 근육 이름들을 인체(앞·뒤)에 색칠. */
+export function DayMuscleMap({
+  names,
+  width,
+}: {
+  names: readonly string[];
+  width?: number;
+}) {
+  return <MuscleBodyByNames names={names} width={width} />;
+}

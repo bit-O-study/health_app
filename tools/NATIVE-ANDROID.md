@@ -32,8 +32,15 @@ echo "sdk.dir=C:/Users/admin/android-sdk" > android/local.properties
 ```
 
 **결과물 / 설치:**
-- APK: `android/app/build/outputs/apk/debug/app-debug.apk`
-- 설치: `adb install -r android/app/build/outputs/apk/debug/app-debug.apk`
+- 빌드 산출물: `android/app/build/outputs/apk/debug/app-debug.apk` (gitignore 됨)
+- 🔴 **빌드하면 반드시 disk 일자별 폴더에 저장한다** (사용자 규칙):
+  ```
+  releases/apk/<YYYY-MM-DD>/helssu-debug.apk
+  ```
+  예) `cp android/app/build/outputs/apk/debug/app-debug.apk releases/apk/$(date +%F)/helssu-debug.apk`
+  (폴더 없으면 `mkdir -p`). 이 폴더는 git 에 올라가 사용자가 GitHub 에서 받아 설치한다.
+  자세한 규칙은 `releases/README.md`.
+- 설치: `adb install -r releases/apk/<날짜>/helssu-debug.apk`
   (USB 디버깅 켠 기기 연결. 기존 앱은 먼저 완전 삭제 후 설치 권장 — 브리지/플러그인
   변경은 clean 재설치라야 확실히 반영된다.)
 

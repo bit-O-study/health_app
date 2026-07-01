@@ -992,6 +992,21 @@ drop policy if exists "admin writes exercise media" on public.exercise_media;
 create policy "admin writes exercise media" on public.exercise_media for all
   using (public.is_admin()) with check (public.is_admin());
 
+-- 앱 설정(key-value) — 디버그 기능 '기능별 온오프' 저장. key='debug.<featureId>', value=jsonb(boolean).
+-- 관리자만 읽고 쓴다(디버그 노출은 관리자=디버그 계정만 대상이라 비관리자 읽기 불필요).
+create table if not exists public.app_settings (
+  key text primary key,
+  value jsonb not null default 'null'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.app_settings enable row level security;
+drop policy if exists "admin reads app settings" on public.app_settings;
+create policy "admin reads app settings" on public.app_settings for select
+  using (public.is_admin());
+drop policy if exists "admin writes app settings" on public.app_settings;
+create policy "admin writes app settings" on public.app_settings for all
+  using (public.is_admin()) with check (public.is_admin());
+
 -- 회원 이름/전화번호 (회원가입 시 수집). 회원정보(관리자) 화면에 표시.
 alter table public.profiles add column if not exists name text;
 alter table public.profiles add column if not exists phone text;

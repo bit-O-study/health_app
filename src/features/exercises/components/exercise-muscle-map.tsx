@@ -13,20 +13,35 @@ const MuscleBodyStatic = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[180px] items-center justify-center text-xs text-zinc-400">
-        자극 부위 불러오는 중…
-      </div>
+      <div
+        aria-hidden="true"
+        className="min-h-[72px] w-full animate-pulse rounded-lg bg-zinc-100 dark:bg-zinc-800"
+      />
     ),
   },
 );
 
-/** 운동 상세 '자극 부위' 카드용 — 자극 근육을 인체(앞·뒤)에 색칠해 위치로 보여준다. */
+/**
+ * 운동 상세/라이브러리용 — 자극 근육을 인체(앞·뒤)에 색칠해 위치로 보여준다.
+ * react-body-highlighter 는 클라이언트 전용이라 ssr:false 로 동적 로드한다.
+ */
 export function ExerciseMuscleMap({
   exerciseId,
   name,
+  width,
+  anteriorOnly,
 }: {
   exerciseId: string;
   name?: string;
+  width?: number;
+  anteriorOnly?: boolean;
 }) {
-  return <MuscleBodyStatic exerciseId={exerciseId} name={name} />;
+  return (
+    <MuscleBodyStatic
+      exerciseId={exerciseId}
+      name={name}
+      width={width}
+      anteriorOnly={anteriorOnly}
+    />
+  );
 }

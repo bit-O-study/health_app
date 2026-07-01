@@ -53,10 +53,13 @@ export function MuscleBodyStatic({
   exerciseId,
   name,
   width = 116,
+  anteriorOnly = false,
 }: {
   exerciseId: string;
   name?: string;
   width?: number;
+  /** true 면 앞모습만(라이브러리 카드처럼 많이 렌더할 때 경량화). */
+  anteriorOnly?: boolean;
 }) {
   const data: IExerciseData[] = [
     { name: name ?? "x", muscles: musclesForExerciseBody(exerciseId) },
@@ -71,22 +74,26 @@ export function MuscleBodyStatic({
           bodyColor={BODY}
           style={{ width }}
         />
-        <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
-          앞
-        </figcaption>
+        {anteriorOnly ? null : (
+          <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
+            앞
+          </figcaption>
+        )}
       </figure>
-      <figure className="flex flex-col items-center gap-1">
-        <Model
-          data={data}
-          type="posterior"
-          highlightedColors={HILITE}
-          bodyColor={BODY}
-          style={{ width }}
-        />
-        <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
-          뒤
-        </figcaption>
-      </figure>
+      {anteriorOnly ? null : (
+        <figure className="flex flex-col items-center gap-1">
+          <Model
+            data={data}
+            type="posterior"
+            highlightedColors={HILITE}
+            bodyColor={BODY}
+            style={{ width }}
+          />
+          <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
+            뒤
+          </figcaption>
+        </figure>
+      )}
     </div>
   );
 }

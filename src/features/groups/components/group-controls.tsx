@@ -75,35 +75,8 @@ export function GroupControls({
 
     const text = `${groupName} 운동 그룹에 초대합니다 💪\n참여 링크: ${url}`;
 
-    // in-app(네이티브) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor 폴백.
-    // (외부 server.url 로드 시 window.Capacitor 가 안 붙는 버그가 있어 UA 로도 본다.)
-    const inApp =
-      typeof navigator !== "undefined" &&
-      (navigator.userAgent.includes("helssu-app") ||
-        !!(window as unknown as { Capacitor?: unknown }).Capacitor);
-
-    // 앱: 네이티브 공유 시트(@capacitor/share) → 카카오톡 등 선택해 전송.
-    // (카카오 JS SDK 카드는 WebView 에서 intent:// 로 제로페이 등 엉뚱한 앱을 띄워서 안 씀.
-    //  WebView 엔 navigator.share 도 기본 제공이 안 돼 네이티브 플러그인을 쓴다.)
-    if (inApp) {
-      try {
-        const { Share } = await import("@capacitor/share");
-        await Share.share({
-          title: `${groupName} 그룹 초대`,
-          text,
-          url,
-          dialogTitle: "친구에게 초대 보내기",
-        });
-        return;
-      } catch {
-        /* 플러그인/브리지 불가 → 링크 복사 폴백 */
-      }
-      await copyLink();
-      window.alert("초대 링크를 복사했어요. 카카오톡 대화방에 붙여넣어 보내주세요.");
-      return;
-    }
-
-    // 웹: 카카오 카드(버튼) 우선.
+    // 1) 카카오 카드(버튼) — 웹·앱 공통 최우선. PWA(크롬 설치본)와 동일한 '버튼 카드' 경험.
+    //    앱(WebView)에서도 JS SDK 로 카카오톡을 띄운다. (도메인은 운영 Vercel 로 동일 등록됨)
     const key = process.env.NEXT_PUBLIC_KAKAO_JS_KEY;
     if (key) {
       try {
@@ -127,7 +100,29 @@ export function GroupControls({
       }
     }
 
-    // 웹 폴백: 기기 공유 시트 → 최후엔 링크 복사.
+    // in-app(네이티브) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor 폴백.
+    const inApp =
+      typeof navigator !== "undefined" &&
+      (navigator.userAgent.includes("helssu-app") ||
+        !!(window as unknown as { Capacitor?: unknown }).Capacitor);
+
+    // 2) 카카오 SDK 불가 시: 앱은 네이티브 공유 시트(@capacitor/share).
+    if (inApp) {
+      try {
+        const { Share } = await import("@capacitor/share");
+        await Share.share({
+          title: `${groupName} 그룹 초대`,
+          text,
+          url,
+          dialogTitle: "친구에게 초대 보내기",
+        });
+        return;
+      } catch {
+        /* 플러그인/브리지 불가 → 복사 폴백 */
+      }
+    }
+
+    // 3) 웹: 기기 공유 시트 → 4) 최후엔 링크 복사.
     const nav = navigator as Navigator & {
       share?: (data: ShareData) => Promise<void>;
     };

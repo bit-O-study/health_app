@@ -25,6 +25,13 @@ export function JoinConfirm({
         router.push(`/groups/${res.id}`);
         router.refresh();
       } else if (!res.ok) {
+        // 비로그인(카톡 인앱 브라우저 등)이면 로그인 후 이 초대로 되돌아오게 한다.
+        if (res.error.includes("로그인")) {
+          router.push(
+            `/login?redirect=${encodeURIComponent(`/groups/join/${token}`)}`,
+          );
+          return;
+        }
         setErr(res.error);
       }
     });

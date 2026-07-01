@@ -1,12 +1,53 @@
+import type { Metadata } from "next";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
-import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { JoinConfirm } from "@/features/groups/components/join-confirm";
+import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "그룹 초대" };
+
+/** 토큰으로 그룹 이름을 미리 읽는다(보안 정의자 RPC — 로그인 불필요). */
+async function groupNameByToken(token: string): Promise<string | null> {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase.rpc("group_name_by_token", {
+      token: token.trim(),
+    });
+    return typeof data === "string" && data.trim() !== "" ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * OG 메타 — 카카오톡 등에 초대 링크를 붙이면 '클릭 가능한 카드'로 펼쳐진다(이미지+제목+설명).
+ * ⚠ 이 응답이 카톡 미리보기 봇에게 그대로 가야 하므로, 페이지에서 비로그인 리다이렉트를
+ *   하지 않는다(리다이렉트하면 봇이 /login 을 긁어 카드가 안 뜬다). 로그인은 '확인' 클릭 시.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ token: string }>;
+}): Promise<Metadata> {
+  const { token } = await params;
+  const name = await groupNameByToken(token);
+  const title = name ? `${name} · 운동 그룹 초대` : "운동 그룹 초대";
+  const description = "운동 랭킹대전에 함께 참여해요 💪 눌러서 그룹에 가입하세요.";
+  const image = absoluteUrl("/icon-512.png");
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: absoluteUrl(`/groups/join/${token}`),
+      images: [{ url: image, width: 512, height: 512, alt: title }],
+      type: "website",
+    },
+  };
+}
 
 export default async function JoinGroupPage({
   params,
@@ -14,21 +55,13 @@ export default async function JoinGroupPage({
   params: Promise<{ token: string }>;
 }) {
   const { token } = await params;
-  const user = await getCurrentUser();
-  // 비로그인(예: 카카오톡 인앱 브라우저)이면 로그인 후 다시 이 초대 링크로 돌아오게 한다.
-  if (!user)
-    redirect(`/login?redirect=${encodeURIComponent(`/groups/join/${token}`)}`);
-
-  // 가입 전, 토큰으로 그룹 이름만 미리 가져온다(보안 정의자 RPC).
-  const supabase = await createSupabaseServerClient();
-  const { data: name } = await supabase.rpc("group_name_by_token", {
-    token: token.trim(),
-  });
+  // 로그인 여부와 무관하게 카드를 그린다(비로그인이면 '확인' 시 로그인으로 보냄).
+  const name = await groupNameByToken(token);
 
   return (
     <main className="mx-auto flex min-h-[70vh] w-full max-w-md flex-col items-center justify-center px-4 py-10">
       {name ? (
-        <JoinConfirm token={token} groupName={name as string} />
+        <JoinConfirm token={token} groupName={name} />
       ) : (
         <div className="text-center">
           <p className="text-sm text-zinc-600 dark:text-zinc-400">

@@ -88,9 +88,33 @@ export function GroupControls({
       !!(window as unknown as { Capacitor?: unknown }).Capacitor;
     const inApp = hasUa || hasBridge || isAndroidWebView;
 
-    // 앱: 네이티브 공유시트(@capacitor/share)로 카카오톡 선택 전송.
-    // (카카오 JS SDK 카드는 브라우저 전용 intent:// 라 WebView 에선 제로페이로 새거나 무반응.)
     if (inApp) {
+      // 1) 카카오 네이티브 SDK — "그룹 참여하기" 버튼이 박힌 카카오톡 카드(원하던 그 카드).
+      try {
+        const mod = (await import("capacitor-kakao-plugin")) as unknown as {
+          CapacitorKakao: {
+            shareDefault(o: {
+              title: string;
+              description: string;
+              imageUrl: string;
+              imageLinkUrl: string;
+              buttonTitle: string;
+            }): Promise<void>;
+          };
+        };
+        await mod.CapacitorKakao.shareDefault({
+          title: `${groupName} · 운동 그룹 초대`,
+          description: "운동 랭킹대전에 함께 참여해요 💪",
+          imageUrl: `${siteBase()}/icon-512.png`,
+          imageLinkUrl: url,
+          buttonTitle: "그룹 참여하기",
+        });
+        return;
+      } catch {
+        /* 카카오 네이티브 불가(SDK/브리지/미설치) → 아래 공유시트로 폴백 */
+      }
+
+      // 2) 네이티브 공유시트(@capacitor/share) — 카카오톡 등 선택 전송.
       try {
         const { Share } = await import("@capacitor/share");
         await Share.share({

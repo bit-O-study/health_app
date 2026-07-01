@@ -11,7 +11,10 @@ import {
   formatStepsDiag,
   hasCapacitorBridge,
 } from "@/features/health/steps-native";
-import { saveStepsAction } from "@/features/health/steps-actions";
+import {
+  saveStepsAction,
+  saveStepsDaysAction,
+} from "@/features/health/steps-actions";
 
 /**
  * 네이티브 앱에서 걸음수를 동기화한다.
@@ -46,7 +49,12 @@ export function StepsSync() {
       const st = await getStepsState();
       if (cancelled) return;
       if (st.status === "granted") {
-        await saveStepsAction(st.steps);
+        // 여러 날짜(백필) 맵이 있으면 통째로 저장, 없으면 오늘만.
+        if (st.byDay && Object.keys(st.byDay).length > 0) {
+          await saveStepsDaysAction(st.byDay);
+        } else {
+          await saveStepsAction(st.steps);
+        }
         if (cancelled) return;
         setSteps(st.steps);
         setMode("synced");
@@ -67,7 +75,11 @@ export function StepsSync() {
     start(async () => {
       const r = await connectSteps();
       if (r.ok) {
-        await saveStepsAction(r.steps);
+        if (r.byDay && Object.keys(r.byDay).length > 0) {
+          await saveStepsDaysAction(r.byDay);
+        } else {
+          await saveStepsAction(r.steps);
+        }
         setSteps(r.steps);
         setMode("synced");
         router.refresh();

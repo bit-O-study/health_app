@@ -8,13 +8,20 @@
  *   눌렀을 때만 요청한다. 진입 시엔 '이미 허용됐는지'만 확인(checkHealthPermissions, 안전).
  */
 
+import {
+  bucketStepsBySeoulDay,
+  seoulYmdOf,
+} from "@/features/health/steps-bucket";
+
 const HC_PLUGIN = "@kiwi-health/capacitor-health-connect";
 const STEPS_READ = "Steps";
+/** 진입/동기화 시 함께 백필할 과거 일수(캘린더가 서울 날짜별로 채워지게). */
+const BACKFILL_DAYS = 7;
 
 export type StepsState =
   | { status: "unavailable" }
   | { status: "denied" }
-  | { status: "granted"; steps: number };
+  | { status: "granted"; steps: number; byDay?: Record<string, number> };
 
 async function getPlugin(): Promise<HealthConnectLike | null> {
   if (typeof window === "undefined") return null;
@@ -77,15 +84,17 @@ export async function getStepsState(): Promise<StepsState> {
     const granted = !!perm && (perm.grantedPermissions?.length ?? 0) > 0;
     if (!granted) return decideStepsState("no-perm", 0);
 
-    const steps = await readSteps(HC);
-    return decideStepsState("ok", steps ?? 0);
+    const byDay = await readStepsByDay(HC);
+    const today = seoulYmdOf(new Date()) ?? "";
+    const steps = byDay[today] ?? 0;
+    return { status: "granted", steps: steps > 0 ? steps : 0, byDay };
   } catch {
     return decideStepsState("no-perm", 0); // 네이티브 오류 → 버튼(탭하면 사유)
   }
 }
 
 export type ConnectResult =
-  | { ok: true; steps: number }
+  | { ok: true; steps: number; byDay?: Record<string, number> }
   | { ok: false; reason: string };
 
 /**
@@ -123,8 +132,9 @@ export async function connectSteps(): Promise<ConnectResult> {
     if (!res || !res.hasAllPermissions) {
       return { ok: false, reason: "걸음수 권한이 허용되지 않았어요" };
     }
-    const steps = (await readSteps(HC)) ?? 0;
-    return { ok: true, steps };
+    const byDay = await readStepsByDay(HC);
+    const today = seoulYmdOf(new Date()) ?? "";
+    return { ok: true, steps: byDay[today] ?? 0, byDay };
   } catch (e) {
     return {
       ok: false,
@@ -213,17 +223,25 @@ export function formatStepsDiag(d: StepsDiag): string {
   return parts.join(" · ");
 }
 
-/** 오늘(자정~지금) 누적 걸음수. */
-async function readSteps(HC: HealthConnectLike): Promise<number | null> {
+/**
+ * 최근 BACKFILL_DAYS 일치 Steps 레코드를 읽어 **서울 날짜별** 합계 맵으로 반환.
+ * (기존엔 오늘 하루만, 기기-로컬 자정 기준으로 합산했다. 이제 서울 날짜로 버킷팅해
+ *  캘린더(서울 for_date)와 어긋나지 않게 하고, 과거 일자도 함께 채운다.)
+ */
+async function readStepsByDay(
+  HC: HealthConnectLike,
+  days = BACKFILL_DAYS,
+): Promise<Record<string, number>> {
   const now = new Date();
   const start = new Date(now);
+  start.setDate(start.getDate() - (days - 1));
   start.setHours(0, 0, 0, 0);
   const res = await HC.readRecords({
     type: STEPS_READ,
     timeRangeFilter: { type: "between", startTime: start, endTime: now },
   });
-  const records = res?.records ?? [];
-  return records.reduce((sum, r) => sum + (Number(r.count) || 0), 0);
+  const todayYmd = seoulYmdOf(now) ?? "";
+  return bucketStepsBySeoulDay(res?.records ?? [], todayYmd);
 }
 
 // 플러그인 최소 타입(설치 안 돼 있어도 tsc 통과).
@@ -240,5 +258,7 @@ type HealthConnectLike = {
   readRecords: (opts: {
     type: string;
     timeRangeFilter: { type: string; startTime: Date; endTime: Date };
-  }) => Promise<{ records?: { count?: number | string }[] }>;
+  }) => Promise<{
+    records?: { count?: number | string; startTime?: string | number | Date }[];
+  }>;
 };

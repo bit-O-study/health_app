@@ -11,28 +11,31 @@ import {
 import { useEffect, useState } from "react";
 
 import { Logo } from "@/features/brand/logo";
-
-type TrainingMode = "routine" | "powerlifting";
+import { saveTrainingModeAction } from "@/features/profile/training-mode-actions";
+import {
+  MODE_COOKIE,
+  MODE_COOKIE_MAX_AGE,
+  MODE_HREF,
+  type TrainingMode,
+} from "@/features/profile/training-mode-shared";
 
 const MODE_STORAGE_KEY = "training.mode.v1";
-/** 서버(루트 페이지)가 읽어 리다이렉트하는 쿠키 — localStorage 보다 오래 유지돼 앱에서
- *  '모드 선택'이 가끔 다시 뜨는 문제를 막는다. */
-export const MODE_COOKIE = "training_mode";
 
-const modeHref: Record<TrainingMode, string> = {
-  routine: "/routine",
-  powerlifting: "/powerlifting",
-};
+function setModeCookieClient(mode: TrainingMode) {
+  document.cookie = `${MODE_COOKIE}=${mode}; path=/; max-age=${MODE_COOKIE_MAX_AGE}; samesite=lax`;
+}
 
-function setModeCookie(mode: TrainingMode) {
-  // 약 10년. 앱 WebView 에서도 유지되게 SameSite=Lax, path=/.
-  document.cookie = `${MODE_COOKIE}=${mode}; path=/; max-age=${60 * 60 * 24 * 365 * 10}; samesite=lax`;
+/** 모드 저장 — localStorage + 쿠키(즉시) + 계정 DB(서버액션). 3단 폴백 모두 채운다. */
+function persistMode(mode: TrainingMode) {
+  window.localStorage.setItem(MODE_STORAGE_KEY, mode);
+  setModeCookieClient(mode);
+  void saveTrainingModeAction(mode);
 }
 
 /**
- * 학습모드 선택 UI. 서버 루트 페이지가 쿠키로 리다이렉트를 이미 처리하므로, 이 컴포넌트가
- * 렌더된다는 건 쿠키가 없다는 뜻이다. 그때도 예전 localStorage 값이 있으면 쿠키로 옮기고
- * 바로 이동(마이그레이션) — 화면 깜빡임 없이.
+ * 학습모드 선택 UI. 서버 루트 페이지가 쿠키·DB 로 리다이렉트를 이미 처리하므로, 이 컴포넌트가
+ * 렌더된다는 건 쿠키·DB 둘 다 없다는 뜻이다. 그때도 예전 localStorage 값이 있으면 쿠키·DB 로
+ * 옮기고 바로 이동(마이그레이션) — 화면 깜빡임 없이.
  */
 export function ModeSelectClient() {
   const router = useRouter();
@@ -46,20 +49,15 @@ export function ModeSelectClient() {
       MODE_STORAGE_KEY,
     ) as TrainingMode | null;
 
-    if (!shouldChoose && savedMode && savedMode in modeHref) {
-      // 예전 localStorage 사용자 → 쿠키로 승격 후 이동(다음부터는 서버가 즉시 리다이렉트).
-      setModeCookie(savedMode);
-      router.replace(modeHref[savedMode]);
+    if (!shouldChoose && (savedMode === "routine" || savedMode === "powerlifting")) {
+      // 예전 localStorage 사용자 → 쿠키·DB 로 승격 후 이동(다음부턴 서버가 즉시 리다이렉트).
+      persistMode(savedMode);
+      router.replace(MODE_HREF[savedMode]);
       return;
     }
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setShowSelect(true);
   }, [router]);
-
-  function rememberMode(mode: TrainingMode) {
-    window.localStorage.setItem(MODE_STORAGE_KEY, mode);
-    setModeCookie(mode);
-  }
 
   if (!showSelect) return null;
 
@@ -88,14 +86,14 @@ export function ModeSelectClient() {
             icon={Activity}
             title="웨이트 트레이닝"
             description="분할 루틴, 추천 운동, 기록과 신체 변화"
-            onClick={() => rememberMode("routine")}
+            onClick={() => persistMode("routine")}
           />
           <ModeCard
             href="/powerlifting"
             icon={Dumbbell}
             title="스트렝스 훈련"
             description="5x5, 5/3/1, 1RM 기반 중량 계산"
-            onClick={() => rememberMode("powerlifting")}
+            onClick={() => persistMode("powerlifting")}
           />
         </section>
 

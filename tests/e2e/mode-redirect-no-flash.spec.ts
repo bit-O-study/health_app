@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
-import { hasDb } from "./helpers/db";
+import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀: 저장된 모드가 있으면 '/'(모드 선택)는 '모드를 선택해주세요'를 보여주지 않고
 // 바로 /routine 으로 간다. (과거: 모드선택 화면이 잠깐 떴다가 풀 리로드로 넘어가
@@ -40,6 +40,27 @@ test("모드 쿠키가 있으면 / 는 선택화면 없이 서버에서 /routine
 
   await page.goto("/", { waitUntil: "networkidle" });
   await expect(page).toHaveURL(/\/routine(\?|$)/, { timeout: 8000 });
+  await expect(page.getByText("모드를 선택해주세요")).toHaveCount(0);
+});
+
+// 3단 폴백 마지막: 쿠키·localStorage 가 모두 없어도 계정(DB)에 모드가 있으면 선택화면 없이
+// 바로 메인으로. (앱에서 클라 저장이 다 날아가도 계정 기준으로 복원.)
+test("쿠키·localStorage 없어도 계정 DB 모드가 있으면 / 는 선택화면 없이 이동", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  const uid = `(select id from auth.users where lower(email)=lower($1))`;
+  await dbQuery(
+    `update public.profiles set training_mode='powerlifting' where user_id=${uid}`,
+    [email],
+  );
+  // 신규 가입이라 training_mode 쿠키·localStorage 는 없음(auth 쿠키는 유지). DB 만 있는 상태.
+  await page.goto("/routine", { waitUntil: "domcontentloaded" });
+  await page.evaluate(() => window.localStorage.removeItem("training.mode.v1"));
+
+  await page.goto("/", { waitUntil: "networkidle" });
+  await expect(page).toHaveURL(/\/powerlifting(\?|$)/, { timeout: 8000 });
   await expect(page.getByText("모드를 선택해주세요")).toHaveCount(0);
 });
 

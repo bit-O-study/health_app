@@ -372,8 +372,8 @@ async function TodayWorkout({
                 <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                   자극 부위
                 </p>
-                {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트 */}
-                <div className="mt-3 flex items-center gap-3 rounded-xl bg-white/60 px-3 py-2 dark:bg-zinc-800/40">
+                {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트(상단 정렬) */}
+                <div className="mt-3 flex items-start gap-3">
                   <DayMuscleMap names={dayMuscles} width={44} />
                   <div className="flex flex-1 flex-wrap gap-1.5">
                     {dayMuscles.map((muscle) => (

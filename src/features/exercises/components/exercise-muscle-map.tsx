@@ -53,12 +53,8 @@ const MuscleBodyByNames = dynamic(
     ),
   {
     ssr: false,
-    loading: () => (
-      <div
-        aria-hidden="true"
-        className="h-[92px] w-[104px] animate-pulse rounded-lg bg-zinc-100 dark:bg-zinc-800"
-      />
-    ),
+    // 회색 자리표시 없이, 레이아웃만 잡아두는 투명 박스.
+    loading: () => <div aria-hidden="true" className="h-[92px] w-[104px]" />,
   },
 );
 

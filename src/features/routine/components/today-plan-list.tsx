@@ -29,12 +29,13 @@ import {
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
-import { ExerciseMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
+import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import { DAY_BLOCKS, type FocusTone } from "@/features/routine/data";
 import {
   allExercisesForFocus,
   EQUIPMENT_LABELS,
   getCatalogExercise,
+  majorMuscleTag,
   type EquipmentId,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
@@ -44,6 +45,8 @@ import {
   type SetDetail,
 } from "@/features/routine/set-details";
 import { dropIndex } from "@/features/routine/plan-order";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { muscleGroup } from "@/features/routine/muscle-map";
 
 /** 행 높이를 못 잰 경우의 폴백 평균 높이 (px) */
 const ROW_HEIGHT_PX = 80;
@@ -573,14 +576,8 @@ export function TodayPlanList({
               ) : null}
 
               {inlineEditing ? null : (
-                // 자극 부위를 텍스트(대흉근·삼두) 대신 인체(앞모습)에 색칠해 위치로 보여준다.
-                <span className="flex h-16 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-zinc-50 dark:bg-zinc-900/40">
-                  <ExerciseMuscleMap
-                    exerciseId={item.exerciseId}
-                    name={item.name}
-                    width={30}
-                    anteriorOnly
-                  />
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+                  <ExerciseIcon id={item.exerciseId} size={22} />
                 </span>
               )}
 
@@ -610,7 +607,31 @@ export function TodayPlanList({
                   <div className="min-w-0 flex-1">
                     <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                       {item.name}
-                      {/* 자극 부위는 왼쪽 인체 그림으로 표시(텍스트 배지 제거). */}
+                      {/* 대근육 부위 1개 + 세부근육 1개 — 가장 영향 큰 것만 */}
+                      {(() => {
+                        const major = majorMuscleTag(item.exerciseId);
+                        return (
+                          <span
+                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold ${major.tone}`}
+                          >
+                            {major.label}
+                          </span>
+                        );
+                      })()}
+                      {(() => {
+                        const sub = subMusclesForExercise(item.exerciseId)[0];
+                        if (!sub) return null;
+                        return (
+                          <span
+                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
+                            style={{
+                              backgroundColor: muscleGroup(sub.muscle).color,
+                            }}
+                          >
+                            {sub.label}
+                          </span>
+                        );
+                      })()}
                       <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
                         {item.equipmentLabel}
                       </span>

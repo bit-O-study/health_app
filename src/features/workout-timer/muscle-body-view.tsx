@@ -79,57 +79,6 @@ export function MuscleBodyByNames({
   );
 }
 
-/** 인라인 앞·뒤 인체에 자극 근육을 색칠해 보여준다(모달 아님). 운동 상세 '자극 부위'
- *  카드에서 텍스트 대신 실제 근육 위치를 보여주는 용도. */
-export function MuscleBodyStatic({
-  exerciseId,
-  name,
-  width = 116,
-  anteriorOnly = false,
-}: {
-  exerciseId: string;
-  name?: string;
-  width?: number;
-  /** true 면 앞모습만(라이브러리 카드처럼 많이 렌더할 때 경량화). */
-  anteriorOnly?: boolean;
-}) {
-  const data: IExerciseData[] = [
-    { name: name ?? "x", muscles: musclesForExerciseBody(exerciseId) },
-  ];
-  return (
-    <div className="flex items-end justify-center gap-4">
-      <figure className="flex flex-col items-center gap-1">
-        <Model
-          data={data}
-          type="anterior"
-          highlightedColors={HILITE}
-          bodyColor={BODY}
-          style={{ width }}
-        />
-        {anteriorOnly ? null : (
-          <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
-            앞
-          </figcaption>
-        )}
-      </figure>
-      {anteriorOnly ? null : (
-        <figure className="flex flex-col items-center gap-1">
-          <Model
-            data={data}
-            type="posterior"
-            highlightedColors={HILITE}
-            bodyColor={BODY}
-            style={{ width }}
-          />
-          <figcaption className="text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
-            뒤
-          </figcaption>
-        </figure>
-      )}
-    </div>
-  );
-}
-
 /** 실사풍 인체(정면) 작은 미리보기 — 자극 근육 색칠. 탭하면 앞·뒤 크게. */
 export function MuscleBodyInset({
   exerciseId,

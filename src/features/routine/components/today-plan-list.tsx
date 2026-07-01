@@ -29,6 +29,7 @@ import {
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
+import { useCoalescedRefresh } from "@/features/routine/use-coalesced-refresh";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import { DAY_BLOCKS, type FocusTone } from "@/features/routine/data";
 import {
@@ -101,6 +102,8 @@ export function TodayPlanList({
   const editMode = edit.editMode;
   const orderScope = useTodayOrder();
   const router = useRouter();
+  // 완료 토글이 연달아 일어나도 서버 재렌더는 한 번으로 합친다(칼로리 카드만 갱신).
+  const coalescedRefresh = useCoalescedRefresh();
   const rest = useRestTimer();
   const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
@@ -238,9 +241,9 @@ export function TodayPlanList({
               focus: item.focus,
             },
       );
-      // 행 색·뱃지는 로컬 done/skipped Set 으로 이미 즉시 반영됨. 추가로 router.refresh()
-      // 로 상단"완료 kcal" 카드(서버 계산값)도 갱신 — 같은 화면에 있어 stale 이 바로 보이므로.
-      router.refresh();
+      // 행 색·뱃지는 로컬 done/skipped Set 으로 이미 즉시 반영됨. 상단 "완료 kcal" 카드
+      // (서버 계산값)만 마지막 토글 뒤 한 번 새로고침(연타 시 전체 재렌더 폭주 방지).
+      coalescedRefresh();
     });
   }
 

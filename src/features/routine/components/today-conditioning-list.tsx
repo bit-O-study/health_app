@@ -35,6 +35,7 @@ import {
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import { dropIndex } from "@/features/routine/plan-order";
+import { useCoalescedRefresh } from "@/features/routine/use-coalesced-refresh";
 
 export type TodayConditioningItem = {
   rowId: string;
@@ -84,6 +85,7 @@ export function TodayConditioningList({
   const editMode = edit.editMode;
   const orderScope = useTodayOrder();
   const router = useRouter();
+  const coalescedRefresh = useCoalescedRefresh();
   const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
   const [skipped, setSkipped] = useState<Set<string>>(new Set(skippedIds));
@@ -182,8 +184,9 @@ export function TodayConditioningList({
               reps: item.reps,
             },
       );
-      // 행 표시는 로컬 state 로 즉시 갱신. router.refresh() 로 상단 칼로리 카드도 동기화.
-      router.refresh();
+      // 행 표시는 로컬 state 로 즉시 갱신. 상단 칼로리 카드만 마지막 토글 뒤 한 번
+      // 새로고침(연타 시 전체 재렌더 폭주 방지).
+      coalescedRefresh();
     });
   }
 

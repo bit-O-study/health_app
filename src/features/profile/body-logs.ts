@@ -1,6 +1,9 @@
 import "server-only";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 
 export type BodyMetricKey =
   | "weightKg"
@@ -29,10 +32,11 @@ const num = (v: number | string | null): number | null =>
 
 /** 현재 사용자의 체형 측정 이력(오래된→최신). 그래프용, 최근 120건. */
 export async function getBodyLogs(): Promise<BodyLog[]> {
-  const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // getCurrentUser 는 요청 단위 cache() 라 다른 헬퍼와 인증 왕복을 공유(중복 제거).
+  const [supabase, user] = await Promise.all([
+    createSupabaseServerClient(),
+    getCurrentUser(),
+  ]);
   if (!user) return [];
 
   const { data, error } = await supabase

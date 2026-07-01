@@ -67,19 +67,17 @@ export default async function CalendarPage({
     `${mm.year}-${pad(mm.month0 + 1)}`;
   const today = seoulYmd();
 
-  const { byDate, intakeTotal, workoutBurnedTotal } = await getMonthlyCalendar(
-    from,
-    to,
-  );
+  // 서로 독립인 세 쿼리는 한 번에(직렬 3파 → 1파). 각 함수는 cache()된 인증을 공유.
+  const [{ byDate, intakeTotal, workoutBurnedTotal }, bodyLogs, profile] =
+    await Promise.all([
+      getMonthlyCalendar(from, to),
+      getBodyLogs(),
+      getUserProfile(),
+    ]);
   const spent = workoutBurnedTotal - intakeTotal;
 
   // 체중 증감 — 직전 기록 대비. 기록 없으면 null(→ '체형 기록하러 가기' 버튼).
-  const weightDelta = computeWeightDelta(
-    (await getBodyLogs()).map((l) => l.weightKg),
-  );
-
-  // 생리 표시 — 여성만. 기록된 생리일(꽉찬 하트) + 예측 생리일(빈 하트).
-  const profile = await getUserProfile();
+  const weightDelta = computeWeightDelta(bodyLogs.map((l) => l.weightKg));
   const periodDays = new Set<string>();
   const predictedDays = new Set<string>();
   if (profile?.gender === "female") {

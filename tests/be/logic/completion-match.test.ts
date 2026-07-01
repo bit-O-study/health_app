@@ -185,4 +185,18 @@ describe("assignCompletions — 완료 기록 1:1 배정(과매칭 방지)", () 
     ]);
     expect(usedRecord).toEqual([true, false]);
   });
+
+  it("recordIndexById: 행에 배정된 기록의 인덱스를 돌려준다(스냅샷 세트수 조회용)", () => {
+    const rows = [
+      { id: "row-a", key: K },
+      { id: "new-uuid", key: K }, // 행 id 바뀜 → 키 매칭
+    ];
+    const { recordIndexById } = assignCompletions(rows, [
+      { id: "ghost", key: K, status: "done" }, // index 0 → 키로 배정
+      { id: "row-a", key: K, status: "done" }, // index 1 → 행 id 직접
+    ]);
+    // row-a 는 자기 id 기록(index 1), new-uuid 는 남은 키 기록(index 0) 배정.
+    expect(recordIndexById.get("row-a")).toBe(1);
+    expect(recordIndexById.get("new-uuid")).toBe(0);
+  });
 });

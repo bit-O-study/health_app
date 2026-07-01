@@ -173,13 +173,29 @@ export async function TodayExercises({
     key: exerciseCompletionKey(c.focus, c.exerciseId),
     status: c.status,
   }));
-  const { statusById: mainStatusById, usedRecord } = assignCompletions(
+  const {
+    statusById: mainStatusById,
+    usedRecord,
+    recordIndexById: mainRecordIndexById,
+  } = assignCompletions(
     activePlan.map((p) => ({
       id: p.id,
       key: exerciseCompletionKey(p.focus, p.exerciseId),
     })),
     mainRecords,
   );
+
+  /**
+   * 칼로리용 '유효 세트수'. 완료된 본운동은 계획 기본 세트가 아니라 '실제로 한 세트수'
+   * (완료 스냅샷)로 계산해, 운동모드·캘린더와 값이 일치하게 한다(비고정 모드에서 세트를
+   * 바꿔 완료해도 바깥 칼로리가 운동모드와 같아진다). 완료 전엔 계획값(예상)을 쓴다.
+   */
+  const effMainSets = (rowId: string, planSets: number): number => {
+    if (mainStatusById.get(rowId) !== "done") return planSets;
+    const idx = mainRecordIndexById.get(rowId);
+    const snap = idx != null ? completedItems[idx]?.sets : null;
+    return typeof snap === "number" && snap > 0 ? snap : planSets;
+  };
   // 활성 행에 배정되지 않은 완료 기록 → 고스트(부위를 '오늘만 바꾸기'로 바꿔 빠졌지만
   // 오늘 완료한 운동). 렌더 가능(exerciseId 있음)·키 중복 제거.
   const seenGhost = new Set<string>();
@@ -285,7 +301,8 @@ export async function TodayExercises({
     equipment: item.equipment,
     name: getCatalogExercise(item.exerciseId)?.name ?? item.exerciseId,
     equipmentLabel: EQUIPMENT_LABELS[item.equipment],
-    sets: item.sets,
+    // 완료된 운동은 실제 한 세트수로 표시(칼로리도 그 값으로 계산됨).
+    sets: effMainSets(item.id, item.sets),
     reps: item.reps,
     weightKg: item.weightKg,
     setDetails: item.setDetails,
@@ -351,7 +368,11 @@ export async function TodayExercises({
     .reduce((s, i) => s + i.kcal, 0);
   const totalMain = plan
     .filter((p) => !mainSkipSet.has(p.id))
-    .reduce((s, p) => s + estimateStrengthKcal(w, p.exerciseId, p.sets), 0);
+    .reduce(
+      (s, p) =>
+        s + estimateStrengthKcal(w, p.exerciseId, effMainSets(p.id, p.sets)),
+      0,
+    );
   const totalKcal = Math.round(totalWarm + totalMain + totalCool);
 
   // 완료 칼로리 — done 만 합산
@@ -363,7 +384,11 @@ export async function TodayExercises({
     .reduce((s, i) => s + i.kcal, 0);
   const doneMain = plan
     .filter((p) => mainDoneSet.has(p.id))
-    .reduce((s, p) => s + estimateStrengthKcal(w, p.exerciseId, p.sets), 0);
+    .reduce(
+      (s, p) =>
+        s + estimateStrengthKcal(w, p.exerciseId, effMainSets(p.id, p.sets)),
+      0,
+    );
   const completedKcal = Math.round(doneWarm + doneMain + doneCool);
 
   // 가이드 운동 큐 — 워밍업 → 본운동 → 마무리 순서로 '모든' 항목을 담는다.

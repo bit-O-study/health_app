@@ -13,7 +13,6 @@ import {
   seoulYmdOf,
 } from "@/features/health/steps-bucket";
 
-const HC_PLUGIN = "@kiwi-health/capacitor-health-connect";
 const STEPS_READ = "Steps";
 /** 진입/동기화 시 함께 백필할 과거 일수(캘린더가 서울 날짜별로 채워지게). */
 const BACKFILL_DAYS = 7;
@@ -70,13 +69,13 @@ export type StepsState =
 async function getPlugin(): Promise<HealthConnectLike | null> {
   if (typeof window === "undefined") return null;
   try {
-    const { Capacitor } = await import("@capacitor/core");
-    if (!Capacitor.isNativePlatform()) return null;
-    const spec: string = HC_PLUGIN; // string 변수 → 웹 번들에 정적 포함 안 됨
-    const mod = (await import(spec).catch(() => null)) as {
-      HealthConnect?: HealthConnectLike;
-    } | null;
-    return mod?.HealthConnect ?? null;
+    const { Capacitor, registerPlugin } = await import("@capacitor/core");
+    if (!Capacitor.isNativePlatform() && !hasNativeUa()) return null;
+    // ⚠ 예전엔 플러그인 패키지를 '문자열 변수'로 import 했는데, 번들러가 그 모듈을 앱
+    //   번들에 안 넣어(웹 제외 트릭) 앱에서도 로드 실패했다("플러그인:X"). 대신 @capacitor/core
+    //   의 registerPlugin 으로 네이티브 플러그인('HealthConnect') 프록시를 직접 얻는다
+    //   — 네이티브 구현이 등록돼 있으면 그대로 호출된다(패키지 JS 불필요).
+    return registerPlugin<HealthConnectLike>("HealthConnect");
   } catch {
     return null;
   }

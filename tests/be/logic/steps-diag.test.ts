@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { formatStepsDiag, type StepsDiag } from "@/features/health/steps-native";
 
 const base: StepsDiag = {
+  ua: true,
   bridge: true,
   native: true,
   plugin: true,
@@ -14,12 +15,14 @@ const base: StepsDiag = {
 };
 
 describe("formatStepsDiag — 화면 디버그 한 줄", () => {
-  it("브릿지/네이티브 플래그를 항상 포함(앱 안 네이티브 감지 확인용)", () => {
+  it("앱UA/브릿지/네이티브 플래그를 항상 포함(앱 안 네이티브 감지 확인용)", () => {
+    expect(formatStepsDiag(base)).toContain("앱UAO");
     expect(formatStepsDiag(base)).toContain("브릿지O");
     expect(formatStepsDiag(base)).toContain("네이티브O");
-    expect(
-      formatStepsDiag({ ...base, bridge: true, native: false }),
-    ).toContain("네이티브X");
+    // UA 표식은 있는데(새 APK) window.Capacitor 는 없는 경우(#7269)를 구분해 보여준다.
+    const s = formatStepsDiag({ ...base, ua: true, bridge: false });
+    expect(s).toContain("앱UAO");
+    expect(s).toContain("브릿지X");
   });
 
   it("정상 케이스: 권한 개수·레코드·합계 포함", () => {

@@ -49,8 +49,15 @@ echo "sdk.dir=C:/Users/admin/android-sdk" > android/local.properties
 ## ⚠️ 앱인데 걸음수/버튼/진단칩이 하나도 안 뜰 때 = Capacitor 브리지 미주입
 
 앱(설치 APK) 안에서 `window.Capacitor` 가 없으면 `isNativePlatform()` 이 false 라
-**모든 네이티브 플러그인(걸음수 포함)이 동작 안 한다.** `MainActivity extends BridgeActivity`
-+ 플러그인 등록은 소스상 정상이므로, 원인은 대개 **APK 가 구버전/불완전 빌드**다.
+**모든 네이티브 플러그인(걸음수 포함)이 동작 안 한다.**
+
+🔴 **가장 흔한 진짜 원인(이 앱에서 실제로 이거였음):** 안드로이드에서 `server.url` 로
+**외부 도메인**(우리 Vercel 주소)을 로드하면 Capacitor 가 `window.Capacitor` 를 주입 안 하는
+알려진 버그([ionic-team/capacitor#7269](https://github.com/ionic-team/capacitor/issues/7269)).
+**해결: `capacitor.config.ts` 에 `appendUserAgent: "helssu-app"`(아무 문자열) 추가.**
+이 값이 있어야 브리지가 주입된다 — 지우지 말 것. (변경 후 `cap sync` + APK 재빌드 필요.)
+
+그 외 원인: **APK 가 구버전/불완전 빌드**.
 1. 위 "한 줄 빌드" 로 **clean 재빌드** → 기존 앱 삭제 후 새 APK 설치.
 2. 확인(배포 불필요): PC 에 폰 USB 연결 → 크롬 `chrome://inspect` → 헬쑤 WebView `inspect`
    → 콘솔에 `window.Capacitor` / `Capacitor?.isNativePlatform?.()` 입력.

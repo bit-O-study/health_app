@@ -24,3 +24,39 @@ test("저장된 모드가 있으면 / 가 모드선택 깜빡임 없이 /routine
   await expect(page).toHaveURL(/\/routine(\?|$)/, { timeout: 8000 });
   await expect(page.getByText("모드를 선택해주세요")).toHaveCount(0);
 });
+
+// 쿠키(durable)가 있으면 서버에서 바로 리다이렉트 — 앱에서 localStorage 가 사라져도
+// 모드 선택이 다시 뜨지 않게 한 핵심 수정.
+test("모드 쿠키가 있으면 / 는 선택화면 없이 서버에서 /routine 으로", async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  await signUpAndOnboard(page);
+  await context.addCookies([
+    { name: "training_mode", value: "routine", url: baseURL! },
+  ]);
+
+  await page.goto("/", { waitUntil: "networkidle" });
+  await expect(page).toHaveURL(/\/routine(\?|$)/, { timeout: 8000 });
+  await expect(page.getByText("모드를 선택해주세요")).toHaveCount(0);
+});
+
+// 설정 → 운동 모드 변경(?choose=1)은 쿠키가 있어도 선택 화면을 보여줘야 한다.
+test("?choose=1 이면 쿠키가 있어도 모드 선택 화면을 보여준다", async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  await signUpAndOnboard(page);
+  await context.addCookies([
+    { name: "training_mode", value: "routine", url: baseURL! },
+  ]);
+
+  await page.goto("/?choose=1", { waitUntil: "networkidle" });
+  await expect(page.getByText("모드를 선택해주세요")).toBeVisible({
+    timeout: 8000,
+  });
+});

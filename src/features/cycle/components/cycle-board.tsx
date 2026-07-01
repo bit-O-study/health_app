@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 
@@ -43,6 +43,19 @@ export function CycleBoard({
     () => new Map(initial.map((l) => [l.forDate, l])),
   );
   const [editing, setEditing] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  // ⚠ logs 는 useState 초기화라 props(initial)가 바뀌어도 갱신되지 않았다 → 월 이동/새로고침
+  //   후에도 옛 달 데이터가 남거나 저장한 기록이 안 보이던 원인. 서버 데이터가 바뀌면 동기화.
+  const initialKey = initial
+    .map((l) => `${l.forDate}:${l.isPeriod ? 1 : 0}:${l.flow ?? ""}:${l.symptoms.length}`)
+    .join("|");
+  useEffect(() => {
+    // 외부(서버) 데이터가 바뀌면 로컬 표시를 맞춘다 — 의도된 동기화.
+    // eslint-disable-next-line react-hooks/set-state-in-effect, react-hooks/exhaustive-deps
+    setLogs(new Map(initial.map((l) => [l.forDate, l])));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialKey]);
 
   const predictedSet = useMemo(() => new Set(predicted), [predicted]);
   const dim = daysInMonth(year, month0);
@@ -71,13 +84,16 @@ export function CycleBoard({
       return next;
     });
     setEditing(null);
+    setErr(null);
     start(async () => {
-      await setCycleDayAction(date, {
+      const res = await setCycleDayAction(date, {
         isPeriod: patch.isPeriod,
         flow: patch.flow,
         symptoms: patch.symptoms,
         note: patch.note,
       });
+      if (!res.ok) setErr(`저장 실패: ${res.error}`);
+      // 성공/실패 모두 서버 상태로 재동기화(위 useEffect) — 실패 시 낙관적 표시가 사라진다.
       router.refresh();
     });
   }
@@ -113,6 +129,12 @@ export function CycleBoard({
           </button>
         </div>
       </div>
+
+      {err ? (
+        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-600 dark:bg-red-950/40 dark:text-red-300">
+          {err}
+        </p>
+      ) : null}
 
       {/* 예측 요약 */}
       <div className="rounded-2xl border border-rose-200 bg-rose-50/60 p-4 dark:border-rose-500/30 dark:bg-rose-950/20">

@@ -21,7 +21,7 @@ import {
 } from "@/features/routine/exercise-catalog";
 import {
   estimateConditioningKcal,
-  estimateStrengthKcal,
+  strengthKcalForCompletion,
 } from "@/features/routine/calories";
 import {
   getConditioningItem,
@@ -127,7 +127,7 @@ export default async function HistoryDetailPage({
       const name = catalog?.name ?? exerciseId;
       const equipmentLabel =
         EQUIPMENT_LABELS[equipment as EquipmentId] ?? equipment;
-      const kcal = Math.round(estimateStrengthKcal(weightKg, exerciseId, sets));
+      const kcal = Math.round(strengthKcalForCompletion(weightKg, exerciseId, sets));
       return {
         focus,
         name,

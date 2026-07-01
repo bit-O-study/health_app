@@ -5,7 +5,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import {
-  estimateStrengthKcal,
+  strengthKcalForCompletion,
   estimateConditioningKcal,
 } from "@/features/routine/calories";
 import {
@@ -234,7 +234,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
   }[]) {
     if (!r.exercise_id) continue;
     const s = ensure(r.user_id);
-    const v = estimateStrengthKcal(weightOf.get(r.user_id) ?? 65, r.exercise_id, num(r.sets));
+    const v = strengthKcalForCompletion(weightOf.get(r.user_id) ?? 65, r.exercise_id, num(r.sets));
     s.kcal += v;
     s.workouts += 1;
     markDay(r.user_id, r.for_date);
@@ -371,7 +371,7 @@ export async function getGroupMemberDay(
     reps: number | null;
   }[]) {
     if (!r.exercise_id) continue;
-    const raw = estimateStrengthKcal(weight, r.exercise_id, num(r.sets));
+    const raw = strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
     burnedRaw += raw;
     const parts: string[] = [];
     if (r.sets != null) parts.push(`${r.sets}세트`);

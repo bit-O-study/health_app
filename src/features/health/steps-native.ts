@@ -295,7 +295,9 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
     );
     const records = res?.records ?? [];
     d.recordCount = records.length;
-    d.steps = records.reduce((sum, r) => sum + (Number(r.count) || 0), 0);
+    // 표시와 동일하게 '출처별 중복 제거'된 오늘 걸음수(원시 합이 아니라).
+    const todayYmd = seoulYmdOf(now) ?? "";
+    d.steps = bucketStepsBySeoulDay(records, todayYmd)[todayYmd] ?? 0;
   } catch (e) {
     d.error = e instanceof Error ? e.message : String(e);
   }
@@ -303,7 +305,7 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
 }
 
 /** 진단칩 버전 — 앱이 새 코드를 실제로 불러왔는지(캐시 아님) 확인용. 배포마다 올린다. */
-const STEPS_DIAG_VER = "v6";
+const STEPS_DIAG_VER = "v7";
 
 /** 진단 결과를 한 줄 문자열로(화면 디버그용). */
 export function formatStepsDiag(d: StepsDiag): string {
@@ -358,6 +360,10 @@ type HealthConnectLike = {
     type: string;
     timeRangeFilter: { type: string; startTime: Date; endTime: Date };
   }) => Promise<{
-    records?: { count?: number | string; startTime?: string | number | Date }[];
+    records?: {
+      count?: number | string;
+      startTime?: string | number | Date;
+      metadata?: { dataOrigin?: string | null } | null;
+    }[];
   }>;
 };

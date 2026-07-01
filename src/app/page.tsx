@@ -1,134 +1,29 @@
-"use client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import {
-  Activity,
-  ArrowRight,
-  Dumbbell,
-  type LucideIcon,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import { ModeSelectClient, MODE_COOKIE } from "@/app/mode-select-client";
 
-import { Logo } from "@/features/brand/logo";
+export const dynamic = "force-dynamic";
 
-type TrainingMode = "routine" | "powerlifting";
+/**
+ * 루트('/') — 학습모드 선택 랜딩. 앱(WebView)은 매 실행마다 '/' 를 로드하므로, 저장된
+ * 모드가 있으면 **서버에서 즉시** 해당 화면으로 리다이렉트한다(클라 렌더 전이라 '모드 선택'
+ * 깜빡임이 없다). 모드는 쿠키에 저장 — localStorage 만 쓰면 앱에서 가끔 값이 사라져
+ * 선택 화면이 다시 뜨던 문제가 있었다. '?choose=1'(설정→운동 모드 변경) 이면 리다이렉트
+ * 하지 않고 선택 화면을 보여준다.
+ */
+export default async function ModeSelectPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ choose?: string }>;
+}) {
+  const { choose } = await searchParams;
+  const mode = (await cookies()).get(MODE_COOKIE)?.value;
 
-const MODE_STORAGE_KEY = "training.mode.v1";
-
-const modeHref: Record<TrainingMode, string> = {
-  routine: "/routine",
-  powerlifting: "/powerlifting",
-};
-
-export default function ModeSelectPage() {
-  const router = useRouter();
-  // 저장된 모드 확인 전까지 모드 선택 UI 를 그리지 않는다 — 그려두면 콜드 스타트 때
-  // '모드를 선택해주세요' 가 잠깐 보였다가 사라지는 깜빡임이 난다. (스플래시가 덮는 동안 결정.)
-  const [showSelect, setShowSelect] = useState(false);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const shouldChoose = params.get("choose") === "1";
-    const savedMode = window.localStorage.getItem(MODE_STORAGE_KEY) as TrainingMode | null;
-
-    if (!shouldChoose && savedMode && savedMode in modeHref) {
-      // 소프트 내비게이션 — window.location.replace 는 풀 리로드라 스플래시가 두 번 뜨고
-      // '갔다 들어오는' 느낌을 준다. router.replace 는 루트 레이아웃 유지(스플래시 1회).
-      router.replace(modeHref[savedMode]);
-      return;
-    }
-    // 저장된 모드 없음 → 모드 선택 표시. 외부(localStorage) 확인 후 결정이라 의도된 setState.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setShowSelect(true);
-  }, [router]);
-
-  function rememberMode(mode: TrainingMode) {
-    window.localStorage.setItem(MODE_STORAGE_KEY, mode);
+  if (choose !== "1" && (mode === "routine" || mode === "powerlifting")) {
+    redirect(mode === "powerlifting" ? "/powerlifting" : "/routine");
   }
 
-  // 저장된 모드로 이동 중(또는 확인 중)엔 빈 화면 — 스플래시가 덮고 있어 깜빡임 없음.
-  if (!showSelect) return null;
-
-  return (
-    <main className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-zinc-900 dark:text-zinc-100">
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-4 py-6">
-        <header>
-          <Logo size={36} />
-        </header>
-
-        <section className="mt-9">
-          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
-            Training mode
-          </p>
-          <h1 className="mt-2 text-3xl font-bold leading-tight tracking-tight">
-            모드를 선택해주세요
-          </h1>
-          <p className="mt-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-            선택한 모드는 저장되어 다음 실행부터 바로 열립니다.
-          </p>
-        </section>
-
-        <section className="mt-7 space-y-3">
-          <ModeCard
-            href="/routine"
-            icon={Activity}
-            title="웨이트 트레이닝"
-            description="분할 루틴, 추천 운동, 기록과 신체 변화"
-            onClick={() => rememberMode("routine")}
-          />
-          <ModeCard
-            href="/powerlifting"
-            icon={Dumbbell}
-            title="스트렝스 훈련"
-            description="5x5, 5/3/1, 1RM 기반 중량 계산"
-            onClick={() => rememberMode("powerlifting")}
-          />
-        </section>
-
-        <div className="mt-auto" />
-      </div>
-    </main>
-  );
-}
-
-function ModeCard({
-  href,
-  icon: Icon,
-  title,
-  description,
-  onClick,
-}: {
-  href: string;
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  onClick: () => void;
-}) {
-  return (
-    <Link
-      href={href}
-      onClick={() => {
-        onClick();
-      }}
-      className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 sm:p-5"
-    >
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
-        <Icon aria-hidden="true" size={22} />
-      </span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-base font-semibold text-zinc-950 dark:text-zinc-100">
-          {title}
-        </span>
-        <span className="mt-0.5 block text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          {description}
-        </span>
-      </span>
-      <ArrowRight
-        aria-hidden="true"
-        className="shrink-0 text-zinc-400 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-        size={18}
-      />
-    </Link>
-  );
+  // 쿠키가 없을 때만 선택 UI(내부에서 예전 localStorage 값은 쿠키로 승격 후 이동).
+  return <ModeSelectClient />;
 }

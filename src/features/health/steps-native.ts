@@ -17,6 +17,18 @@ const HC_PLUGIN = "@kiwi-health/capacitor-health-connect";
 const STEPS_READ = "Steps";
 /** 진입/동기화 시 함께 백필할 과거 일수(캘린더가 서울 날짜별로 채워지게). */
 const BACKFILL_DAYS = 7;
+/**
+ * capacitor.config.ts 의 appendUserAgent 로 심는 표식. 외부 server.url 로드 시 안드로이드에서
+ * window.Capacitor 주입이 실패하는 버그(ionic-team/capacitor#7269)가 있어, UA 표식으로도
+ * '네이티브 앱'인지 판별한다(브리지 없어도 확실히 감지). 값은 config 와 반드시 일치.
+ */
+const NATIVE_UA_MARK = "helssu-app";
+
+/** User-Agent 에 네이티브 앱 표식이 있는지(브리지 주입과 무관하게 앱 여부 판별). */
+function hasNativeUa(): boolean {
+  if (typeof navigator === "undefined") return false;
+  return navigator.userAgent.includes(NATIVE_UA_MARK);
+}
 
 export type StepsState =
   | { status: "unavailable" }
@@ -58,6 +70,8 @@ export function decideStepsState(avail: StepsAvail, steps: number): StepsState {
 
 async function isNative(): Promise<boolean> {
   if (typeof window === "undefined") return false;
+  // UA 표식이 있으면 네이티브 앱 확정(window.Capacitor 주입 실패해도 앱은 앱).
+  if (hasNativeUa()) return true;
   try {
     const { Capacitor } = await import("@capacitor/core");
     return Capacitor.isNativePlatform();
@@ -148,7 +162,8 @@ export async function connectSteps(): Promise<ConnectResult> {
  * 화면에 찍어 '어디서 0이 나오는지' 한 번에 가리기 위함(권한은 됐다는데 안 변할 때).
  */
 export type StepsDiag = {
-  bridge: boolean; // window.Capacitor 주입 여부(=Capacitor WebView 안인지)
+  ua: boolean; // UA 표식(helssu-app) — 새 APK 설치 여부
+  bridge: boolean; // window.Capacitor 실제 주입 여부(#7269 확인용)
   native: boolean;
   plugin: boolean;
   availability: string | null;
@@ -161,12 +176,19 @@ export type StepsDiag = {
 /** window.Capacitor 가 주입돼 있나 — 네이티브 WebView(앱) 안인지 빠르게 가린다. */
 export function hasCapacitorBridge(): boolean {
   if (typeof window === "undefined") return false;
+  // 네이티브 앱이면(UA 표식) 브리지가 없어도 진단칩을 띄운다 — 앱엔 주소창이 없어
+  // ?stepsdebug 로 못 여니, 앱에선 자동으로 진단이 보이게 한다. (웹은 표식 없어 숨김)
+  if (hasNativeUa()) return true;
   return !!(window as unknown as { Capacitor?: unknown }).Capacitor;
 }
 
 export async function diagnoseSteps(): Promise<StepsDiag> {
   const d: StepsDiag = {
-    bridge: hasCapacitorBridge(),
+    ua: hasNativeUa(),
+    // 실제 window.Capacitor 주입 여부(UA 표식과 분리해서 봐야 #7269 판별 가능).
+    bridge:
+      typeof window !== "undefined" &&
+      !!(window as unknown as { Capacitor?: unknown }).Capacitor,
     native: false,
     plugin: false,
     availability: null,
@@ -211,6 +233,7 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
 /** 진단 결과를 한 줄 문자열로(화면 디버그용). */
 export function formatStepsDiag(d: StepsDiag): string {
   const parts = [
+    `앱UA${d.ua ? "O" : "X"}`,
     `브릿지${d.bridge ? "O" : "X"}`,
     `네이티브${d.native ? "O" : "X"}`,
     `플러그인${d.plugin ? "O" : "X"}`,

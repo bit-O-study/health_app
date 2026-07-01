@@ -16,6 +16,11 @@ const config: CapacitorConfig = {
   appName: "헬쑤",
   // remote URL 방식이라 실제로 안 쓰이지만 Capacitor 가 webDir 를 요구한다(오프라인 폴백 셸).
   webDir: "native-shell",
+  // 🔴 외부 server.url 을 안드로이드에서 로드하면 window.Capacitor(네이티브 브리지)가
+  // 주입 안 되는 알려진 버그(ionic-team/capacitor#7269) 가 있다. appendUserAgent 에
+  // '아무 문자열'이나 주면 브리지가 정상 주입된다(확인된 우회책). → 걸음수 등 네이티브
+  // 플러그인이 동작하려면 이 값이 반드시 있어야 한다. 지우지 말 것.
+  appendUserAgent: "helssu-app",
   server: {
     url: SERVER_URL,
     androidScheme: "https",

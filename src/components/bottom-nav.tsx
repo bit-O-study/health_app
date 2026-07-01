@@ -1,9 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import Link from "next/link";
+import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
-import { CalendarHeart, Flame, Salad, UsersRound } from "lucide-react";
+import {
+  CalendarHeart,
+  Flame,
+  Loader2,
+  Salad,
+  UsersRound,
+} from "lucide-react";
 
 type Tab = {
   href: string;
@@ -37,7 +43,40 @@ const TABS: Tab[] = [
 // 로그인/온보딩 등 앱 외 화면에선 숨긴다.
 const HIDDEN_PREFIXES = ["/login", "/onboarding"];
 
-/** 모바일 하단 탭 네비게이션 — 운동/식단/캘린더/그룹/설정. */
+/**
+ * 탭 안쪽 — 아이콘/라벨. useLinkStatus 로 '누른 즉시' 로딩상태를 감지해,
+ * 서버 렌더가 끝나기 전에도 스피너 + 활성색을 보여준다(탭 이동이 안 답답하게).
+ */
+function TabInner({
+  Icon,
+  label,
+  active,
+}: {
+  Icon: typeof Flame;
+  label: string;
+  active: boolean;
+}) {
+  const { pending } = useLinkStatus();
+  const highlight = active || pending;
+  return (
+    <span
+      className={`flex h-16 flex-col items-center justify-center gap-0.5 text-[11px] font-bold transition-colors ${
+        highlight
+          ? "text-emerald-600 dark:text-emerald-400"
+          : "text-zinc-500 dark:text-zinc-400"
+      }`}
+    >
+      {pending ? (
+        <Loader2 aria-hidden="true" size={22} className="animate-spin" />
+      ) : (
+        <Icon aria-hidden="true" size={22} />
+      )}
+      {label}
+    </span>
+  );
+}
+
+/** 모바일 하단 탭 네비게이션 — 운동/식단/캘린더/그룹. */
 export function BottomNav() {
   const pathname = usePathname() ?? "/";
   const hidden = HIDDEN_PREFIXES.some((h) => pathname.startsWith(h));
@@ -60,20 +99,14 @@ export function BottomNav() {
       <ul className="mx-auto flex w-full max-w-2xl">
         {TABS.map((t) => {
           const active = t.match(pathname);
-          const Icon = t.icon;
           return (
             <li key={t.href} className="flex-1">
               <Link
                 href={t.href}
                 aria-current={active ? "page" : undefined}
-                className={`flex h-16 flex-col items-center justify-center gap-0.5 text-[11px] font-bold transition ${
-                  active
-                    ? "text-emerald-600 dark:text-emerald-400"
-                    : "text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
-                }`}
+                className="block active:scale-95 transition-transform"
               >
-                <Icon aria-hidden="true" size={22} />
-                {t.label}
+                <TabInner Icon={t.icon} label={t.label} active={active} />
               </Link>
             </li>
           );

@@ -26,6 +26,9 @@ import {
  */
 type Mode = "hidden" | "connect" | "synced";
 
+/** 첫 접속 1회 자동 권한요청 여부(설치당 1번만) — 매번 권한창 뜨는 것 방지. */
+const AUTO_ASKED_KEY = "heltch.steps.autoAsked";
+
 export function StepsSync() {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("hidden");
@@ -67,6 +70,21 @@ export function StepsSync() {
         router.refresh();
       } else if (st.status === "denied") {
         setMode("connect"); // 네이티브인데 권한/플러그인/HC 문제 → 연동 버튼
+        // C: 첫 접속(설치 후 1회)엔 다른 앱처럼 자동으로 권한을 요청한다. 이후엔 버튼으로.
+        // (예전 크래시는 플러그인 미로드 때문 — 지금은 브리지/플러그인 정상. 화면 안정 후 지연 실행.)
+        try {
+          if (
+            typeof window !== "undefined" &&
+            !window.localStorage.getItem(AUTO_ASKED_KEY)
+          ) {
+            window.localStorage.setItem(AUTO_ASKED_KEY, "1");
+            setTimeout(() => {
+              if (!cancelled) sync();
+            }, 700);
+          }
+        } catch {
+          /* localStorage 불가 시 무시 — 버튼으로 요청 가능 */
+        }
       }
       // unavailable(웹) → hidden 유지
     })();

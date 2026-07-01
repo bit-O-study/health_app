@@ -29,7 +29,7 @@ type Mode = "hidden" | "connect" | "synced";
 /** 첫 접속 1회 자동 권한요청 여부(설치당 1번만) — 매번 권한창 뜨는 것 방지. */
 const AUTO_ASKED_KEY = "heltch.steps.autoAsked";
 
-export function StepsSync() {
+export function StepsSync({ debug = false }: { debug?: boolean }) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("hidden");
   const [steps, setSteps] = useState<number | null>(null);
@@ -37,14 +37,13 @@ export function StepsSync() {
   const [diag, setDiag] = useState<string | null>(null);
   const [pending, start] = useTransition();
 
-  // 화면 디버그: 평소엔 Capacitor 앱(브릿지 주입) 안에서만 노출 → 일반 웹에선 안 보임.
-  // 단, URL 에 ?stepsdebug=1 이 있으면 브릿지가 없어도 강제로 띄운다 — 앱인데 브릿지가
-  // 주입 안 될 때("브릿지X" 여부)를 눈으로 확인하기 위한 진단용 스위치.
+  // 화면 디버그(🩺 진단칩): '디버그 계정'(관리자 지정)에게만 앱에서 노출한다. 일반 사용자
+  // 에겐 안 보인다. 단, URL 에 ?stepsdebug=1 이 있으면 누구나 강제로 볼 수 있다(일회성 진단).
   async function refreshDiag() {
     const forced =
       typeof window !== "undefined" &&
       new URLSearchParams(window.location.search).has("stepsdebug");
-    if (!hasCapacitorBridge() && !forced) return; // 웹(디버그 off): 칩 숨김
+    if (!forced && !(debug && hasCapacitorBridge())) return; // 디버그 계정 아니면 칩 숨김
     // 진단이 느리거나 플러그인이 먹통이어도 칩은 '즉시' 뜨게 한다(멈춘 화면 방지).
     setDiag("진단 중…");
     const d = await diagnoseSteps();

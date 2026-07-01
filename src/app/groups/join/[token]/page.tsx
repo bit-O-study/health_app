@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { JoinConfirm } from "@/features/groups/components/join-confirm";
-import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+/** 실제 요청 호스트로 절대 URL 을 만든다(NEXT_PUBLIC_SITE_URL 미설정 시 localhost 로
+ *  깨지는 것 방지 — 카카오 미리보기봇이 이미지·URL 을 가져올 수 있게 반드시 절대경로). */
+async function originFromRequest(): Promise<string> {
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "";
+  const proto = h.get("x-forwarded-proto") ?? "https";
+  return host ? `${proto}://${host}` : "";
+}
 
 /** 토큰으로 그룹 이름을 미리 읽는다(보안 정의자 RPC — 로그인 불필요). */
 async function groupNameByToken(token: string): Promise<string | null> {
@@ -32,19 +41,29 @@ export async function generateMetadata({
   params: Promise<{ token: string }>;
 }): Promise<Metadata> {
   const { token } = await params;
-  const name = await groupNameByToken(token);
+  const [name, origin] = await Promise.all([
+    groupNameByToken(token),
+    originFromRequest(),
+  ]);
   const title = name ? `${name} · 운동 그룹 초대` : "운동 그룹 초대";
   const description = "운동 랭킹대전에 함께 참여해요 💪 눌러서 그룹에 가입하세요.";
-  const image = absoluteUrl("/icon-512.png");
+  const image = `${origin}/icon-512.png`;
   return {
     title,
     description,
     openGraph: {
       title,
       description,
-      url: absoluteUrl(`/groups/join/${token}`),
+      url: `${origin}/groups/join/${token}`,
       images: [{ url: image, width: 512, height: 512, alt: title }],
       type: "website",
+    },
+    // 일부 앱은 트위터 카드 태그로 미리보기를 만든다 — 함께 넣어 호환성↑.
+    twitter: {
+      card: "summary",
+      title,
+      description,
+      images: [image],
     },
   };
 }

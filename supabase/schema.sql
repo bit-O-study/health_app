@@ -317,6 +317,13 @@ alter table public.profiles
 alter table public.profiles
   add column if not exists lock_weight_reps boolean not null default false;
 
+-- 학습 모드('routine'=웨이트 / 'powerlifting'=스트렝스). 앱은 매 실행 '/' 를 로드하는데
+-- 쿠키·localStorage 가 가끔 사라지면 '모드 선택'이 다시 떴다. 계정(DB)에도 저장해, 둘 다
+-- 없어도 계정 기준으로 복원한다(3단 폴백). null = 아직 선택 안 함 → 선택 화면.
+alter table public.profiles
+  add column if not exists training_mode text
+  check (training_mode is null or training_mode in ('routine', 'powerlifting'));
+
 -- Registered workout plan per user, grouped by focus (DayPlan tone).
 --
 -- "추천 운동들로 등록" fills this from the recommendation; "직접 등록" lets the

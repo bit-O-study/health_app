@@ -72,6 +72,19 @@ export function estimateConditioningKcal(
   return kcalPerMin(met, weightKg) * min;
 }
 
+/**
+ * '완료한 근력운동 1건'의 kcal — 오늘의 운동·캘린더·기록·그룹 모든 화면이 이 함수 하나만
+ * 써서 값이 항상 같게 한다. `sets` 는 반드시 **완료 스냅샷의 실제 세트수**를 넘긴다(계획
+ * 기본값 X). 예전엔 화면마다 세트 소스가 달라 칼로리가 어긋났다 — 단일 진입점으로 재발 방지.
+ */
+export function strengthKcalForCompletion(
+  weightKg: number,
+  exerciseId: string,
+  snapshotSets: number,
+): number {
+  return estimateStrengthKcal(weightKg, exerciseId, snapshotSets);
+}
+
 export type CalorieBreakdown = {
   warmup: number;
   main: number;

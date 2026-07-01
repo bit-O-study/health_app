@@ -34,10 +34,14 @@ export function StepsSync() {
   const [diag, setDiag] = useState<string | null>(null);
   const [pending, start] = useTransition();
 
-  // 화면 디버그: Capacitor 앱(브릿지 주입) 안에서만 노출 → 일반 웹에선 안 보임.
-  // 앱 안에선 네이티브 감지 실패 여부까지 보이도록 bridge/native 플래그 포함(임시 진단용).
+  // 화면 디버그: 평소엔 Capacitor 앱(브릿지 주입) 안에서만 노출 → 일반 웹에선 안 보임.
+  // 단, URL 에 ?stepsdebug=1 이 있으면 브릿지가 없어도 강제로 띄운다 — 앱인데 브릿지가
+  // 주입 안 될 때("브릿지X" 여부)를 눈으로 확인하기 위한 진단용 스위치.
   async function refreshDiag() {
-    if (!hasCapacitorBridge()) return; // 웹: 디버그 칩 숨김
+    const forced =
+      typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).has("stepsdebug");
+    if (!hasCapacitorBridge() && !forced) return; // 웹(디버그 off): 칩 숨김
     const d = await diagnoseSteps();
     setDiag(formatStepsDiag(d));
   }

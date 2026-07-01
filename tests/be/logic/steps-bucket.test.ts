@@ -89,4 +89,40 @@ describe("bucketStepsBySeoulDay — 날짜별 합계", () => {
     expect(bucketStepsBySeoulDay(null, "2026-06-29")).toEqual({});
     expect(bucketStepsBySeoulDay(undefined, "2026-06-29")).toEqual({});
   });
+
+  it("🔴 두 데이터 출처가 같은 걸음수를 중복 기록하면 합치지 않고 최댓값(중복 제거)", () => {
+    // 삼성헬스(9669) + 다른 앱(9669)이 같은 하루를 각각 기록 → 합 19338 이 아니라 9669.
+    const out = bucketStepsBySeoulDay(
+      [
+        {
+          count: 5000,
+          startTime: "2026-06-29T01:00:00Z",
+          metadata: { dataOrigin: "com.sec.android.app.shealth" },
+        },
+        {
+          count: 4669,
+          startTime: "2026-06-29T05:00:00Z",
+          metadata: { dataOrigin: "com.sec.android.app.shealth" },
+        },
+        {
+          count: 9669,
+          startTime: "2026-06-29T05:00:00Z",
+          metadata: { dataOrigin: "com.google.android.apps.fitness" },
+        },
+      ],
+      "2026-06-29",
+    );
+    expect(out).toEqual({ "2026-06-29": 9669 });
+  });
+
+  it("한 출처 안의 여러 레코드는 정상 합산(출처별 합의 최댓값)", () => {
+    const out = bucketStepsBySeoulDay(
+      [
+        { count: 100, startTime: "2026-06-29T01:00:00Z", dataOrigin: "a" },
+        { count: 250, startTime: "2026-06-29T02:00:00Z", dataOrigin: "a" },
+      ],
+      "2026-06-29",
+    );
+    expect(out).toEqual({ "2026-06-29": 350 });
+  });
 });

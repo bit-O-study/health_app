@@ -6,7 +6,7 @@ import {
 } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
-  estimateStrengthKcal,
+  strengthKcalForCompletion,
   estimateConditioningKcal,
 } from "@/features/routine/calories";
 import { getWorkoutDurationsRange } from "@/features/workout-timer/workout-sessions";
@@ -107,7 +107,7 @@ export async function getMonthlyCalendar(
     sets: number | null;
   }[]) {
     if (!r.exercise_id) continue;
-    ensure(r.for_date).burned += estimateStrengthKcal(weight, r.exercise_id, num(r.sets));
+    ensure(r.for_date).burned += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
   }
   for (const r of (condRes.data ?? []) as {
     for_date: string;
@@ -211,7 +211,7 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   }[])
     .filter((r) => r.exercise_id)
     .map((r) => {
-      const raw = estimateStrengthKcal(weight, r.exercise_id!, num(r.sets));
+      const raw = strengthKcalForCompletion(weight, r.exercise_id!, num(r.sets));
       burnedRaw += raw;
       const kcal = Math.round(raw);
       return {

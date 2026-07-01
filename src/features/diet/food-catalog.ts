@@ -359,6 +359,52 @@ export const FOOD_ITEMS: FoodItem[] = [
   { id: "egg-raw", name: "날계란(생란)", category: "고기·계란", amount: "1개", kcal: 72, protein: 6, carbs: 0, fat: 5 },
   { id: "egg-rice", name: "계란밥", category: "밥·면", amount: "1그릇", kcal: 420, protein: 13, carbs: 70, fat: 9 },
   { id: "vienna-sausage", name: "비엔나소시지", category: "고기·계란", amount: "5개", kcal: 180, protein: 8, carbs: 3, fat: 15 },
+
+  // ── 국밥 종류 보강
+  { id: "sundae-gukbap", name: "순대국밥", category: "국·찌개", amount: "1뚝배기", kcal: 520, protein: 30, carbs: 48, fat: 22 },
+  { id: "someori-gukbap", name: "소머리국밥", category: "국·찌개", amount: "1뚝배기", kcal: 500, protein: 34, carbs: 40, fat: 22 },
+  { id: "dwaeji-gukbap", name: "돼지국밥", category: "국·찌개", amount: "1뚝배기", kcal: 550, protein: 34, carbs: 45, fat: 26 },
+  { id: "sogogi-gukbap", name: "소고기국밥", category: "국·찌개", amount: "1뚝배기", kcal: 480, protein: 34, carbs: 42, fat: 18 },
+  { id: "gul-gukbap", name: "굴국밥", category: "국·찌개", amount: "1뚝배기", kcal: 400, protein: 24, carbs: 46, fat: 12 },
+  { id: "ttaro-gukbap", name: "따로국밥", category: "국·찌개", amount: "1상", kcal: 480, protein: 30, carbs: 44, fat: 18 },
+  { id: "siraegi-gukbap", name: "시래기국밥", category: "국·찌개", amount: "1뚝배기", kcal: 380, protein: 18, carbs: 50, fat: 10 },
+  { id: "ugeoji-gukbap", name: "우거지국밥", category: "국·찌개", amount: "1뚝배기", kcal: 390, protein: 20, carbs: 48, fat: 11 },
+  { id: "seonji-haejang", name: "선지해장국", category: "국·찌개", amount: "1뚝배기", kcal: 360, protein: 28, carbs: 20, fat: 16 },
+  { id: "naejang-tang", name: "내장탕", category: "국·찌개", amount: "1그릇", kcal: 430, protein: 30, carbs: 18, fat: 24 },
+
+  // ── 세계 음식 (밥·면류)
+  { id: "pad-thai", name: "팟타이", category: "밥·면", amount: "1접시", kcal: 560, protein: 20, carbs: 78, fat: 18 },
+  { id: "nasi-goreng", name: "나시고랭", category: "밥·면", amount: "1접시", kcal: 620, protein: 18, carbs: 88, fat: 20 },
+  { id: "yakisoba", name: "야키소바", category: "밥·면", amount: "1접시", kcal: 540, protein: 16, carbs: 80, fat: 16 },
+  { id: "ramen-jp", name: "일본라멘", category: "밥·면", amount: "1그릇", kcal: 550, protein: 24, carbs: 66, fat: 20 },
+  { id: "lasagna", name: "라자냐", category: "밥·면", amount: "1인분", kcal: 520, protein: 24, carbs: 44, fat: 27 },
+  { id: "risotto", name: "리조또", category: "밥·면", amount: "1접시", kcal: 480, protein: 12, carbs: 62, fat: 18 },
+  { id: "paella", name: "빠에야", category: "밥·면", amount: "1접시", kcal: 560, protein: 26, carbs: 70, fat: 18 },
+  { id: "mapo-rice", name: "마파두부덮밥", category: "밥·면", amount: "1그릇", kcal: 600, protein: 24, carbs: 78, fat: 22 },
+  { id: "tom-yum", name: "똠얌꿍", category: "국·찌개", amount: "1그릇", kcal: 240, protein: 20, carbs: 16, fat: 10 },
+  { id: "pho-beef", name: "소고기 쌀국수", category: "밥·면", amount: "1그릇", kcal: 420, protein: 26, carbs: 60, fat: 8 },
+
+  // ── 세계 음식 (고기·해산물)
+  { id: "kebab", name: "케밥", category: "고기·계란", amount: "1개", kcal: 520, protein: 28, carbs: 48, fat: 24 },
+  { id: "schnitzel", name: "슈니첼", category: "고기·계란", amount: "1장", kcal: 500, protein: 32, carbs: 28, fat: 28 },
+  { id: "pork-ribs", name: "폭립(바비큐)", category: "고기·계란", amount: "1인분", kcal: 700, protein: 40, carbs: 20, fat: 50 },
+  { id: "lamb-skewer", name: "양꼬치", category: "고기·계란", amount: "5꼬치", kcal: 400, protein: 30, carbs: 6, fat: 28 },
+  { id: "peking-duck", name: "베이징덕", category: "고기·계란", amount: "1인분", kcal: 560, protein: 30, carbs: 20, fat: 40 },
+  { id: "sashimi", name: "모둠회(사시미)", category: "생선·해산물", amount: "1인분", kcal: 250, protein: 40, carbs: 2, fat: 9 },
+  { id: "lobster", name: "랍스터", category: "생선·해산물", amount: "1마리", kcal: 200, protein: 40, carbs: 2, fat: 4 },
+  { id: "fish-and-chips", name: "피시앤칩스", category: "생선·해산물", amount: "1인분", kcal: 780, protein: 32, carbs: 70, fat: 40 },
+  { id: "shrimp-tempura", name: "새우튀김", category: "생선·해산물", amount: "5개", kcal: 340, protein: 18, carbs: 26, fat: 18 },
+
+  // ── 세계 음식 (빵·간식)
+  { id: "quesadilla", name: "케사디아", category: "빵·간식", amount: "1개", kcal: 480, protein: 20, carbs: 42, fat: 26 },
+  { id: "nachos", name: "나초", category: "빵·간식", amount: "1접시", kcal: 560, protein: 14, carbs: 56, fat: 32 },
+  { id: "dimsum", name: "딤섬", category: "빵·간식", amount: "4개", kcal: 300, protein: 14, carbs: 34, fat: 12 },
+  { id: "spring-roll", name: "스프링롤", category: "빵·간식", amount: "3개", kcal: 260, protein: 8, carbs: 32, fat: 12 },
+  { id: "falafel", name: "팔라펠", category: "빵·간식", amount: "4개", kcal: 330, protein: 13, carbs: 32, fat: 18 },
+  { id: "hummus", name: "후무스", category: "채소·반찬", amount: "100g", kcal: 180, protein: 8, carbs: 16, fat: 10 },
+  { id: "pancake", name: "팬케이크", category: "빵·간식", amount: "2장", kcal: 350, protein: 8, carbs: 52, fat: 12 },
+  { id: "pretzel", name: "프레첼", category: "빵·간식", amount: "1개", kcal: 340, protein: 9, carbs: 68, fat: 4 },
+  { id: "panini", name: "파니니", category: "빵·간식", amount: "1개", kcal: 450, protein: 22, carbs: 44, fat: 20 },
 ];
 
 // 카테고리 순서로 정렬해 검색/둘러보기에서 같은 분류끼리 모이게 한다.

@@ -51,7 +51,7 @@ export function musclesForExerciseBody(exerciseId: string): Muscle[] {
 /** 여러 근육명을 앞·뒤 인체에 색칠(루틴 일자 요약 '자극 부위'용). */
 export function MuscleBodyByNames({
   names,
-  width = 96,
+  width = 64,
 }: {
   names: readonly string[];
   width?: number;
@@ -60,7 +60,7 @@ export function MuscleBodyByNames({
     { name: "day", muscles: musclesForKoreanNames(names) },
   ];
   return (
-    <div className="flex items-end justify-center gap-4">
+    <div className="flex items-end justify-start gap-3">
       <figure className="flex flex-col items-center gap-1">
         <Model
           data={data}

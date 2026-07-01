@@ -372,12 +372,12 @@ async function TodayWorkout({
                 <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                   자극 부위
                 </p>
-                {/* 자극 부위를 텍스트 대신 인체(앞·뒤)에 색칠해 위치로 보여준다. */}
-                <div className="mt-3 rounded-xl bg-white/60 py-3 dark:bg-zinc-800/40">
-                  <DayMuscleMap names={dayMuscles} />
+                {/* 자극 부위를 텍스트 대신 인체(앞·뒤)에 색칠해 위치로 보여준다(좌측·소형). */}
+                <div className="mt-3 flex justify-start rounded-xl bg-white/60 px-3 py-2 dark:bg-zinc-800/40">
+                  <DayMuscleMap names={dayMuscles} width={52} />
                 </div>
                 {/* 유산소 등 인체로 표현 안 되는 항목까지 놓치지 않게 이름은 작게 함께 표기 */}
-                <div className="mt-2 flex flex-wrap justify-center gap-1.5">
+                <div className="mt-2 flex flex-wrap justify-start gap-1.5">
                   {dayMuscles.map((muscle) => (
                     <span
                       key={muscle}

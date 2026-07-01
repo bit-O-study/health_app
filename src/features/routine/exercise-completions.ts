@@ -182,3 +182,44 @@ export async function getRecentExerciseCompletions(
     weightKg: num(r.weight_kg ?? null),
   }));
 }
+
+export type LastExerciseValues = {
+  weightKg: number | null;
+  reps: number | null;
+  sets: number | null;
+};
+
+/**
+ * 운동별 '마지막으로 실제 한 값'(가장 최근 done 완료 스냅샷). 운동모드/루틴이 다시 돌아오면
+ * 이 값으로 미리 채워, 사용자가 매번 다시 입력하지 않게 한다(비고정 모드). 없으면 맵에 없음.
+ */
+export async function getLastExerciseValues(): Promise<
+  Map<string, LastExerciseValues>
+> {
+  const out = new Map<string, LastExerciseValues>();
+  const user = await getCurrentUser();
+  if (!user) return out;
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("exercise_completions")
+    .select("exercise_id, sets, reps, weight_kg, for_date")
+    .eq("user_id", user.id)
+    .eq("status", "done")
+    .order("for_date", { ascending: false });
+  if (error || !data) return out;
+  for (const r of data as {
+    exercise_id: string | null;
+    sets: number | null;
+    reps: number | null;
+    weight_kg: number | string | null;
+  }[]) {
+    // desc 정렬 → 운동별 첫 항목이 가장 최근 값.
+    if (!r.exercise_id || out.has(r.exercise_id)) continue;
+    out.set(r.exercise_id, {
+      weightKg: num(r.weight_kg ?? null),
+      reps: r.reps ?? null,
+      sets: r.sets ?? null,
+    });
+  }
+  return out;
+}

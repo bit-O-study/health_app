@@ -23,7 +23,10 @@ import {
   estimateConditioningKcal,
   estimateStrengthKcal,
 } from "@/features/routine/calories";
-import { getTodayCompletedItems } from "@/features/routine/exercise-completions";
+import {
+  getTodayCompletedItems,
+  getLastExerciseValues,
+} from "@/features/routine/exercise-completions";
 import {
   assignCompletions,
   exerciseCompletionKey,
@@ -123,6 +126,7 @@ export async function TodayExercises({
     daily,
     completedItems,
     completedCond,
+    lastValues,
   ] = await Promise.all([
     // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
     // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
@@ -133,6 +137,7 @@ export async function TodayExercises({
     getDailyConditioning(todayYmd),
     getTodayCompletedItems(todayYmd),
     getTodayCompletedConditioning(todayYmd),
+    getLastExerciseValues(),
   ]);
 
   // 본운동: 부위별로 daily_plan override 있으면 그것, 없으면 기본 plan
@@ -164,7 +169,22 @@ export async function TodayExercises({
   });
   // 부위 경계를 넘어 드래그하면 전역 position 으로 재정렬돼 있으므로 그 순서를 따른다.
   // (기본 상태는 그룹 순서 유지 — orderMainPlan 참고)
-  const activePlan = orderMainPlan(groupedPlan);
+  const orderedPlan = orderMainPlan(groupedPlan);
+  // A: 비고정 모드면 운동별 '마지막 실제값'(가장 최근 완료 스냅샷)으로 미리 채운다 —
+  // 루틴이 다시 돌아오거나 운동모드에 다시 들어가도 지난번 무게/횟수/세트로 시작한다.
+  // (고정 모드는 사용자가 등록한 값을 그대로 유지.)
+  const activePlan = lockWeightReps
+    ? orderedPlan
+    : orderedPlan.map((p) => {
+        const last = lastValues.get(p.exerciseId);
+        if (!last) return p;
+        return {
+          ...p,
+          weightKg: last.weightKg ?? p.weightKg,
+          reps: last.reps ?? p.reps,
+          sets: last.sets ?? p.sets,
+        };
+      });
 
   // 완료 판정 + 완료 보존(고스트) — 완료 기록을 행에 1:1 배정해 과매칭을 막는다.
   // (같은 운동이 한 부위에 2개 있어도 완료 기록 수만큼만 done. 1개만 완료하면 1개만 done.)

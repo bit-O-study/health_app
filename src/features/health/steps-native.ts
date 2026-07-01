@@ -30,6 +30,38 @@ function hasNativeUa(): boolean {
   return navigator.userAgent.includes(NATIVE_UA_MARK);
 }
 
+/**
+ * 플러그인(네이티브) 호출이 콜백을 안 돌려주고 '먹통'이 되면 화면 전체가 멈춘다
+ * (버튼·진단칩 둘 다 안 뜸). ms 안에 안 끝나면 fallback 으로 넘어가 UI 가 계속 뜨게 한다.
+ */
+function withTimeout<T>(p: Promise<T>, ms: number, fallback: T): Promise<T> {
+  return new Promise<T>((resolve) => {
+    let done = false;
+    const t = setTimeout(() => {
+      if (!done) {
+        done = true;
+        resolve(fallback);
+      }
+    }, ms);
+    p.then(
+      (v) => {
+        if (!done) {
+          done = true;
+          clearTimeout(t);
+          resolve(v);
+        }
+      },
+      () => {
+        if (!done) {
+          done = true;
+          clearTimeout(t);
+          resolve(fallback);
+        }
+      },
+    );
+  });
+}
+
 export type StepsState =
   | { status: "unavailable" }
   | { status: "denied" }
@@ -84,21 +116,27 @@ async function isNative(): Promise<boolean> {
 export async function getStepsState(): Promise<StepsState> {
   if (!(await isNative())) return decideStepsState("web", 0);
 
-  const HC = await getPlugin();
-  if (!HC) return decideStepsState("no-plugin", 0); // 네이티브인데 플러그인 없음 → 버튼
+  const HC = await withTimeout(getPlugin(), 4000, null);
+  if (!HC) return decideStepsState("no-plugin", 0); // 네이티브인데 플러그인 없음/먹통 → 버튼
   try {
-    const avail = await HC.checkAvailability?.();
+    // 각 네이티브 호출에 타임아웃 — 먹통이면 '연동' 버튼이라도 뜨게 한다.
+    const avail = await withTimeout(
+      (async () => HC.checkAvailability?.())(),
+      3500,
+      undefined,
+    );
     if (avail && avail.availability !== "Available")
       return decideStepsState("hc-unavailable", 0);
 
-    const perm = await HC.checkHealthPermissions?.({
-      read: [STEPS_READ],
-      write: [],
-    });
+    const perm = await withTimeout(
+      (async () => HC.checkHealthPermissions?.({ read: [STEPS_READ], write: [] }))(),
+      3500,
+      undefined,
+    );
     const granted = !!perm && (perm.grantedPermissions?.length ?? 0) > 0;
     if (!granted) return decideStepsState("no-perm", 0);
 
-    const byDay = await readStepsByDay(HC);
+    const byDay = await withTimeout(readStepsByDay(HC), 5000, {});
     const today = seoulYmdOf(new Date()) ?? "";
     const steps = byDay[today] ?? 0;
     return { status: "granted", steps: steps > 0 ? steps : 0, byDay };
@@ -200,27 +238,39 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
   try {
     d.native = await isNative();
     if (!d.native) return d;
-    const HC = await getPlugin();
+    const HC = await withTimeout(getPlugin(), 4000, null);
     d.plugin = !!HC;
-    if (!HC) return d;
+    if (!HC) {
+      d.error = "플러그인 로드 실패/시간초과";
+      return d;
+    }
 
-    const avail = await HC.checkAvailability?.();
-    d.availability = avail?.availability ?? "unknown";
+    const avail = await withTimeout(
+      (async () => HC.checkAvailability?.())(),
+      3500,
+      undefined,
+    );
+    d.availability = avail?.availability ?? "timeout";
 
-    const perm = await HC.checkHealthPermissions?.({
-      read: [STEPS_READ],
-      write: [],
-    });
+    const perm = await withTimeout(
+      (async () => HC.checkHealthPermissions?.({ read: [STEPS_READ], write: [] }))(),
+      3500,
+      undefined,
+    );
     d.granted = perm?.grantedPermissions ?? [];
     if ((d.granted?.length ?? 0) === 0) return d; // 권한 없으면 읽기 생략
 
     const now = new Date();
     const start = new Date(now);
     start.setHours(0, 0, 0, 0);
-    const res = await HC.readRecords({
-      type: STEPS_READ,
-      timeRangeFilter: { type: "between", startTime: start, endTime: now },
-    });
+    const res = await withTimeout(
+      HC.readRecords({
+        type: STEPS_READ,
+        timeRangeFilter: { type: "between", startTime: start, endTime: now },
+      }),
+      5000,
+      { records: [] },
+    );
     const records = res?.records ?? [];
     d.recordCount = records.length;
     d.steps = records.reduce((sum, r) => sum + (Number(r.count) || 0), 0);

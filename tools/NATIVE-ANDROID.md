@@ -5,19 +5,52 @@ WebView 가 배포된 사이트를 로드하므로 로그인·서버액션·API 
 **걸음수만 네이티브 브리지**(Health Connect)로 추가한다. 삼성헬스는 Health Connect 에 걸음수를
 기록하므로 거기서 읽는다.
 
-## 빌드/실행 (한 줄)
+## 🔴 APK 빌드 — Claude 가 만든다. 여기 그대로 따라 하면 됨 (이 PC 에서 검증됨)
 
-- 윈도우(**Git Bash** 에서): `bash tools/setup-android-windows.sh`  ( = `pnpm android:setup:win` )
-- 리눅스/macOS: `bash tools/setup-android-linux.sh`  ( = `pnpm android:setup` )
+> 사용자는 Claude(내)가 APK 를 만들어 주기를 기대한다. 매번 잊지 말 것.
+> 이 저장소 PC(Windows, admin) 에서 **실제로 되는** 환경/명령은 아래와 같다.
 
-스크립트가 하는 일(멱등, 여러 번 실행 안전):
-1. Node / JDK(17+) / Android SDK 점검 → 없으면 설치(JDK·SDK 설치엔 네트워크/권한 필요)
-2. `pnpm install` + 걸음수 플러그인 설치
-3. `cap add android`(최초 1회) + `cap sync android`
-4. 디버그 APK 빌드 → `android/app/build/outputs/apk/debug/app-debug.apk`
+**검증된 환경 (이 PC):**
+- JDK: `C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot` (JDK 21, 이미 설치됨)
+- Android SDK: `C:/Users/admin/android-sdk` (`android/local.properties` 의 `sdk.dir` 이 이걸 가리켜야 함)
 
-휴대폰에 설치: `adb install -r android/app/build/outputs/apk/debug/app-debug.apk`
-(USB 디버깅 켠 안드로이드 기기 연결 필요)
+**한 줄 빌드 (권장, 멱등):**
+```bash
+corepack pnpm android:setup:win     # = bash tools/setup-android-windows.sh
+```
+스크립트가 하는 일: JDK/SDK 점검 → `pnpm install` → `cap sync android` →
+`android/local.properties` 작성 → `gradlew.bat --no-daemon assembleDebug` →
+APK 를 `android/app/build/outputs/apk/debug/app-debug.apk` 에 생성.
+
+**수동 빌드 (스크립트가 막힐 때, Git Bash):**
+```bash
+export ANDROID_SDK_ROOT="C:/Users/admin/android-sdk"
+export ANDROID_HOME="$ANDROID_SDK_ROOT"
+corepack pnpm exec cap sync android                 # 웹자산·플러그인·설정 동기화
+echo "sdk.dir=C:/Users/admin/android-sdk" > android/local.properties
+( cd android && cmd //c "gradlew.bat --no-daemon assembleDebug" )
+```
+
+**결과물 / 설치:**
+- APK: `android/app/build/outputs/apk/debug/app-debug.apk`
+- 설치: `adb install -r android/app/build/outputs/apk/debug/app-debug.apk`
+  (USB 디버깅 켠 기기 연결. 기존 앱은 먼저 완전 삭제 후 설치 권장 — 브리지/플러그인
+  변경은 clean 재설치라야 확실히 반영된다.)
+
+리눅스/macOS 는 `corepack pnpm android:setup`(= `tools/setup-android-linux.sh`).
+
+## ⚠️ 앱인데 걸음수/버튼/진단칩이 하나도 안 뜰 때 = Capacitor 브리지 미주입
+
+앱(설치 APK) 안에서 `window.Capacitor` 가 없으면 `isNativePlatform()` 이 false 라
+**모든 네이티브 플러그인(걸음수 포함)이 동작 안 한다.** `MainActivity extends BridgeActivity`
++ 플러그인 등록은 소스상 정상이므로, 원인은 대개 **APK 가 구버전/불완전 빌드**다.
+1. 위 "한 줄 빌드" 로 **clean 재빌드** → 기존 앱 삭제 후 새 APK 설치.
+2. 확인(배포 불필요): PC 에 폰 USB 연결 → 크롬 `chrome://inspect` → 헬쑤 WebView `inspect`
+   → 콘솔에 `window.Capacitor` / `Capacitor?.isNativePlatform?.()` 입력.
+3. 배포 후: 앱에서 `/calendar?stepsdebug=1` 로 열면 브리지가 없어도 진단칩(🩺)이 강제로
+   떠서 `브릿지X` 여부가 눈에 보인다.
+4. 앱은 `capacitor.config.ts` 의 `server.url`(운영 Vercel) 을 로드하므로, **웹 코드 수정은
+   배포(push→Vercel)해야 앱에 반영**된다. 네이티브(브리지/플러그인) 수정은 APK 재빌드 필요.
 
 ## 설정
 
@@ -31,8 +64,9 @@ WebView 가 배포된 사이트를 로드하므로 로그인·서버액션·API 
 
 ## 동작 흐름(걸음수)
 
-`StepsSync`(마이페이지) 마운트 → 네이티브면 `readTodaySteps()`(Health Connect) → `saveStepsAction()` →
-`daily_steps` 테이블 upsert → 마이페이지 "오늘 걸음수" 표시. **웹에선 전부 no-op**(걸음수 "—").
+`StepsSync`(**캘린더 상단**) 마운트 → 네이티브면 최근 7일 걸음수를 서울 날짜별로 읽어
+(`readStepsByDay`, Health Connect) → `saveStepsDaysAction()` → `daily_steps` upsert →
+캘린더 "오늘 N걸음" 표시. **웹에선 전부 no-op**(칩·버튼 숨김).
 
 ## 안 되는 것 / 다음 단계
 

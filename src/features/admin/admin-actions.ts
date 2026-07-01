@@ -4,6 +4,11 @@ import { revalidatePath } from "next/cache";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAdminUser } from "@/features/admin/admin";
+import {
+  DEBUG_FEATURES,
+  debugSettingKey,
+  type DebugFeatureId,
+} from "@/features/admin/debug-features";
 import { genTempPassword, tempPasswordEmail } from "@/features/auth/password-reset";
 import { sendEmail } from "@/lib/email/send";
 
@@ -156,6 +161,35 @@ export async function resetMemberPasswordAction(
 
   revalidatePath("/admin/members");
   return { ok: true, tempPassword: temp, emailed, note };
+}
+
+/**
+ * 디버그(개발/진단) 기능을 기능별로 켜고 끈다 — app_settings["debug.<id>"] 에 저장.
+ * 켜짐이 기본값이라 끌 때만 false 를 기록한다. 디버그 계정(관리자)만 가능(RLS 도 이중 차단).
+ */
+export async function setDebugFeatureAction(
+  id: DebugFeatureId,
+  enabled: boolean,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  if (!DEBUG_FEATURES.some((f) => f.id === id)) {
+    return { ok: false, error: "알 수 없는 디버그 기능입니다." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("app_settings").upsert(
+    {
+      key: debugSettingKey(id),
+      value: enabled,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "key" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/admin/settings");
+  revalidatePath("/calendar");
+  return { ok: true };
 }
 
 /** 회원탈퇴 복구 — withdrawn_at = null (소프트 탈퇴 되돌림). 관리자만. */

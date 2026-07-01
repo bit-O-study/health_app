@@ -19,7 +19,7 @@ import { getMonthlyCalendar } from "@/features/calendar/data-access";
 import { getBodyLogs } from "@/features/profile/body-logs";
 import { computeWeightDelta } from "@/features/profile/weight-delta";
 import { StepsSync } from "@/features/health/components/steps-sync";
-import { isDebugUser } from "@/features/admin/admin";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
 import {
@@ -74,7 +74,7 @@ export default async function CalendarPage({
       getMonthlyCalendar(from, to),
       getBodyLogs(),
       getUserProfile(),
-      isDebugUser(),
+      isDebugFeatureEnabled("steps"),
     ]);
   const spent = workoutBurnedTotal - intakeTotal;
 

@@ -29,7 +29,7 @@ export function GroupSwitcher({
   }
 
   return (
-    <div className="mb-4 flex items-center gap-4 overflow-x-auto pb-1">
+    <div className="mb-2 flex items-center gap-4 overflow-x-auto pb-1">
       {groups.map((g) => {
         const active = g.id === currentId;
         const loading = pending && target === g.id;

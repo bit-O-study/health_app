@@ -193,8 +193,8 @@ export function GymRoom({
         </div>
       </div>
 
-      {/* ── 중앙: 이름 + 큰 캐릭터 ── */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2">
+      {/* ── 중앙(살짝 아래): 이름 + 큰 캐릭터 — 하단 카드 바로 위에 접지 ── */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-end gap-2 pb-[150px]">
         <span className="flex items-center gap-1 rounded-full bg-black/45 px-3 py-1 text-base font-extrabold text-white backdrop-blur">
           {pet.name || "우리 늑대"}
           <span className="rounded-full bg-violet-500 px-1.5 text-[11px] font-bold">

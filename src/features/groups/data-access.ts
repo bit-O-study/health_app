@@ -15,7 +15,14 @@ import {
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { seoulYmd } from "@/features/routine/data";
 import { resolveMemberName } from "@/features/groups/member-name";
-import { weekRange, rankMembers, type MemberStat, type RankedMember } from "@/features/groups/ranking";
+import {
+  weekRange,
+  addDaysYmd,
+  rankMembers,
+  type MemberStat,
+  type RankedMember,
+} from "@/features/groups/ranking";
+import { computeWorkoutStreak } from "@/features/groups/streak";
 
 const num = (v: number | string | null | undefined): number => {
   if (v === null || v === undefined || v === "") return 0;
@@ -104,6 +111,8 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
 
   const today = seoulYmd();
   const { from, to } = weekRange(today);
+  // 스트릭용 — 지난 60일 운동일(근력+컨디셔닝) 조회 범위.
+  const streakFrom = addDaysYmd(today, -60);
 
   const [
     { data: profiles },
@@ -111,6 +120,8 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     { data: condRows },
     { data: foodRows },
     { data: mealPhotoRows },
+    { data: exDateRows },
+    { data: condDateRows },
   ] = await Promise.all([
     supabase
       .from("profiles")
@@ -140,6 +151,20 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       .select("user_id, meal, photo_url")
       .in("user_id", memberIds)
       .eq("for_date", today),
+    supabase
+      .from("exercise_completions")
+      .select("user_id, for_date")
+      .in("user_id", memberIds)
+      .eq("status", "done")
+      .gte("for_date", streakFrom)
+      .lte("for_date", today),
+    supabase
+      .from("conditioning_completions")
+      .select("user_id, for_date")
+      .in("user_id", memberIds)
+      .eq("status", "done")
+      .gte("for_date", streakFrom)
+      .lte("for_date", today),
   ]);
 
   const nameOf = new Map<string, string>();
@@ -208,6 +233,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
         todayIntake: 0,
         todayBurned: 0,
         todayPhotos: [],
+        streak: 0,
         isMe: uid === user.id,
       };
       stats.set(uid, s);
@@ -263,11 +289,30 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
   }
 
   for (const [uid, set] of daySet) ensure(uid).days = set.size;
+
+  // 스트릭 — 지난 60일 운동일 집합(근력+컨디셔닝 합집합)에서 연속일 계산.
+  const streakDatesOf = new Map<string, Set<string>>();
+  const addStreakDate = (uid: string, d: string) => {
+    let set = streakDatesOf.get(uid);
+    if (!set) {
+      set = new Set();
+      streakDatesOf.set(uid, set);
+    }
+    set.add(d);
+  };
+  for (const r of [
+    ...((exDateRows ?? []) as { user_id: string; for_date: string }[]),
+    ...((condDateRows ?? []) as { user_id: string; for_date: string }[]),
+  ]) {
+    addStreakDate(r.user_id, r.for_date);
+  }
+
   for (const s of stats.values()) {
     s.kcal = Math.round(s.kcal);
     s.todayIntake = Math.round(todayIntakeOf.get(s.userId) ?? 0);
     s.todayBurned = Math.round(todayBurnedOf.get(s.userId) ?? 0);
     s.todayPhotos = todayPhotosOf.get(s.userId) ?? [];
+    s.streak = computeWorkoutStreak(streakDatesOf.get(s.userId) ?? [], today);
   }
 
   return {

@@ -4,6 +4,7 @@ import { ChevronLeft, Flame } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getGroupDetail } from "@/features/groups/data-access";
+import { topBadge } from "@/features/groups/streak";
 import { GroupControls } from "@/features/groups/components/group-controls";
 
 export const dynamic = "force-dynamic";
@@ -82,14 +83,27 @@ export default async function GroupDetailPage({
               {MEDAL[m.rank - 1] ?? m.rank}
             </span>
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              <p className="flex items-center gap-1 truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
                 {m.name}
                 {m.isMe ? (
-                  <span className="ml-1 text-xs font-semibold text-emerald-600">나</span>
+                  <span className="text-xs font-semibold text-emerald-600">나</span>
+                ) : null}
+                {m.streak >= 3 && topBadge(m.streak) ? (
+                  <span
+                    title={`${topBadge(m.streak)!.label} 운동 중`}
+                    className="rounded-full bg-orange-100 px-1.5 py-0.5 text-[10px] font-bold text-orange-700 dark:bg-orange-950/40 dark:text-orange-300"
+                  >
+                    {topBadge(m.streak)!.emoji} {topBadge(m.streak)!.label}
+                  </span>
                 ) : null}
               </p>
               <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
                 운동 {m.workouts}회 · {m.days}일
+                {m.streak > 0 ? (
+                  <span className="text-orange-500 dark:text-orange-400">
+                    {" "}· 🔥 {m.streak}일 연속
+                  </span>
+                ) : null}
               </p>
               <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
                 오늘 🍽 {m.todayIntake.toLocaleString()} · 🔥 {m.todayBurned.toLocaleString()}

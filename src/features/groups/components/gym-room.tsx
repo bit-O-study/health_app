@@ -121,7 +121,7 @@ export function GymRoom({
       <div className="absolute right-1 top-11 z-30 w-[150px]">
         <div className="mb-1 flex items-center justify-end gap-1">
           <span className="rounded-full bg-violet-600 px-1.5 py-0.5 text-[12px] font-black text-white shadow">
-            🪙 쓴 {pet.coinsSpent.toLocaleString()}
+            🪙 {pet.coinsSpent.toLocaleString()} 사용
           </span>
           <button
             type="button"
@@ -193,8 +193,8 @@ export function GymRoom({
         </div>
       </div>
 
-      {/* ── 중앙: 이름 + 큰 캐릭터 ── */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2">
+      {/* ── 중앙(살짝 아래): 이름 + 큰 캐릭터 — 하단 카드 바로 위에 접지 ── */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-end gap-2 pb-[150px]">
         <span className="flex items-center gap-1 rounded-full bg-black/45 px-3 py-1 text-base font-extrabold text-white backdrop-blur">
           {pet.name || "우리 늑대"}
           <span className="rounded-full bg-violet-500 px-1.5 text-[11px] font-bold">
@@ -221,7 +221,7 @@ export function GymRoom({
             {pet.equipped.face ? (
               <span
                 className="absolute left-1/2 -translate-x-1/2 leading-none"
-                style={{ top: "40%", fontSize: petSize * 0.2 }}
+                style={{ top: "43%", fontSize: petSize * 0.24 }}
               >
                 {cosmetic(pet.equipped.face)?.emoji}
               </span>
@@ -281,13 +281,6 @@ export function GymRoom({
               />
               <button
                 type="button"
-                onClick={() => setAmount(String(pet.coins))}
-                className="h-10 shrink-0 rounded-lg bg-zinc-200 px-2 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200"
-              >
-                전부
-              </button>
-              <button
-                type="button"
                 onClick={() => deposit(Number(amount))}
                 disabled={pending || !amount}
                 className="inline-flex h-10 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-black text-white shadow disabled:opacity-60"
@@ -306,6 +299,13 @@ export function GymRoom({
                 className="h-10 shrink-0 rounded-lg border border-zinc-300 px-2 text-xs font-bold text-zinc-500 disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300"
               >
                 취소
+              </button>
+              <button
+                type="button"
+                onClick={() => setAmount(String(pet.coins))}
+                className="h-10 shrink-0 rounded-lg bg-zinc-200 px-2 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200"
+              >
+                전부
               </button>
             </div>
           ) : (

@@ -24,14 +24,13 @@ export function GymScene() {
         <line x1="300" y1="232" x2="300" y2="260" />
       </g>
 
-      {/* 창문 */}
+      {/* 천장 전구(펜던트) — 창문 자리 대신 가운데 위에 매달림 */}
       <g>
-        <rect x="150" y="34" width="100" height="72" rx="8" fill="#ffffff" />
-        <rect x="156" y="40" width="88" height="60" rx="5" fill="#bfe3ff" />
-        <circle cx="228" cy="56" r="9" fill="#fff3b0" />
-        <ellipse cx="182" cy="72" rx="16" ry="8" fill="#ffffff" opacity="0.9" />
-        <line x1="200" y1="40" x2="200" y2="100" stroke="#ffffff" strokeWidth="4" />
-        <line x1="156" y1="70" x2="244" y2="70" stroke="#ffffff" strokeWidth="4" />
+        <line x1="200" y1="0" x2="200" y2="24" stroke="#7a5f33" strokeWidth="2" />
+        <ellipse cx="200" cy="46" rx="30" ry="24" fill="#fff3b0" opacity="0.4" />
+        <rect x="195" y="24" width="10" height="7" rx="1.5" fill="#b8912f" />
+        <circle cx="200" cy="42" r="12" fill="#ffe37a" stroke="#e0b34a" strokeWidth="2" />
+        <path d="M194 48 q6 7 12 0" stroke="#e0b34a" strokeWidth="1.5" fill="none" />
       </g>
 
       {/* 동기부여 포스터 */}

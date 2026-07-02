@@ -40,7 +40,7 @@ export default async function GroupDetailPage({
   }
 
   return (
-    <main className="h-[calc(100dvh-4rem)] w-full overflow-hidden">
+    <main className="h-[calc(100dvh-4rem-env(safe-area-inset-bottom))] w-full overflow-hidden">
       <GroupBoard detail={detail} groups={groups} />
     </main>
   );

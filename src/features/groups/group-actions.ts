@@ -7,7 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
-import { isReactionEmoji } from "@/features/groups/reactions";
+import { isValidCheer, normalizeCheer } from "@/features/groups/cheers";
 import { isChallengeMetric } from "@/features/groups/challenge";
 import { weekRange } from "@/features/groups/ranking";
 import { seoulYmd } from "@/features/routine/data";
@@ -89,17 +89,14 @@ export async function leaveGroupAction(groupId: string): Promise<GroupActionResu
 }
 
 /**
- * 응원 리액션 토글 — 같은 이모지가 이미 있으면 취소, 없으면 추가.
- * 대상 날짜는 오늘(그날 기록에 대한 응원). RLS 가 그룹원·본인 여부를 강제한다.
+ * 응원 문구 남기기/수정 — 그날(오늘) 그룹원에게 10자 이내 한 마디. 하루 한 문구(수정 가능).
+ * 빈 문구면 삭제. RLS 가 그룹원·본인 여부를 강제한다.
  */
-export async function toggleReactionAction(
+export async function setCheerAction(
   groupId: string,
   toUser: string,
-  emoji: string,
+  message: string,
 ): Promise<GroupActionResult> {
-  if (!isReactionEmoji(emoji)) {
-    return { ok: false, error: "허용되지 않은 이모지입니다." };
-  }
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
@@ -107,34 +104,38 @@ export async function toggleReactionAction(
     return { ok: false, error: "내 기록엔 응원할 수 없어요." };
   }
   const forDate = seoulYmd();
+  const msg = normalizeCheer(message);
 
-  // 이미 눌렀으면 취소.
-  const { data: existing } = await supabase
-    .from("group_reactions")
-    .select("id")
-    .eq("group_id", groupId)
-    .eq("from_user", user.id)
-    .eq("to_user", toUser)
-    .eq("for_date", forDate)
-    .eq("emoji", emoji)
-    .maybeSingle();
-
-  if (existing) {
+  // 빈 문구 → 삭제(응원 취소).
+  if (msg === "") {
     const { error } = await supabase
-      .from("group_reactions")
+      .from("group_cheers")
       .delete()
-      .eq("id", (existing as { id: string }).id);
+      .eq("group_id", groupId)
+      .eq("from_user", user.id)
+      .eq("to_user", toUser)
+      .eq("for_date", forDate);
     if (error) return { ok: false, error: error.message };
-  } else {
-    const { error } = await supabase.from("group_reactions").insert({
+    revalidatePath(`/groups/${groupId}`);
+    return { ok: true };
+  }
+
+  if (!isValidCheer(msg)) {
+    return { ok: false, error: "응원은 10자 이내로 입력하세요." };
+  }
+
+  const { error } = await supabase.from("group_cheers").upsert(
+    {
       group_id: groupId,
       from_user: user.id,
       to_user: toUser,
       for_date: forDate,
-      emoji,
-    });
-    if (error) return { ok: false, error: error.message };
-  }
+      message: msg,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "group_id,from_user,to_user,for_date" },
+  );
+  if (error) return { ok: false, error: error.message };
 
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };

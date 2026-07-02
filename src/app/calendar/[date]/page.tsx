@@ -2,6 +2,8 @@ import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import {
   ChevronLeft,
+  ChevronRight,
+  Flag,
   Flame,
   Footprints,
   Utensils,
@@ -12,6 +14,8 @@ import {
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getDayDetail } from "@/features/calendar/data-access";
+import { getMyCommitments } from "@/features/commitments/data-access";
+import { isActiveOn } from "@/features/commitments/commitment";
 import { MEAL_LABEL, MEALS, type Meal } from "@/features/diet/meal";
 import { ymdDisplay } from "@/features/routine/data";
 
@@ -37,8 +41,14 @@ export default async function CalendarDayPage({
   const { date } = await params;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) notFound();
 
-  const { intake, burned, durationSec, steps, stepsKcal, foods, workouts, conditioning } =
-    await getDayDetail(date);
+  const [
+    { intake, burned, durationSec, steps, stepsKcal, foods, workouts, conditioning },
+    allCommitments,
+  ] = await Promise.all([getDayDetail(date), getMyCommitments()]);
+  // 이 날짜에 진행 중인 다짐만.
+  const dayCommitments = allCommitments.filter((c) =>
+    isActiveOn({ startDate: c.startDate, deadline: c.deadline }, date),
+  );
   const { weekday, label } = ymdDisplay(date);
   const [, mm] = label.split("/");
   void mm;
@@ -97,6 +107,61 @@ export default async function CalendarDayPage({
           </p>
         </div>
       </div>
+
+      {/* 이 날짜에 진행 중인 다짐 — 클릭하면 다짐 관리로 이동 */}
+      {dayCommitments.length > 0 ? (
+        <section className="mt-6">
+          <h2 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+            <Flag size={16} className="text-emerald-600" /> 진행 중인 다짐
+          </h2>
+          <ul className="space-y-2">
+            {dayCommitments.map((c) => {
+              const p = c.progress;
+              return (
+                <li key={c.id}>
+                  <Link
+                    href="/commitments"
+                    className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-3 transition hover:border-emerald-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                        {c.title}
+                        {p.done ? (
+                          <span className="ml-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                            달성 ✓
+                          </span>
+                        ) : c.deadline === date ? (
+                          <span className="ml-1 text-xs font-bold text-red-500">
+                            오늘 데드라인
+                          </span>
+                        ) : null}
+                      </p>
+                      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+                        <div
+                          className={`h-full rounded-full ${
+                            p.done ? "bg-emerald-500" : "bg-emerald-400"
+                          }`}
+                          style={{ width: `${p.pct}%` }}
+                        />
+                      </div>
+                      <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
+                        {c.metricLabel} {p.current.toLocaleString()} /{" "}
+                        {p.target.toLocaleString()} {c.unit}
+                        {!p.done && !p.expired ? ` · D-${p.daysLeft}` : ""}
+                      </p>
+                    </div>
+                    <ChevronRight
+                      aria-hidden="true"
+                      size={16}
+                      className="shrink-0 text-zinc-400"
+                    />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+      ) : null}
 
       {/* 한 운동 */}
       <section className="mt-6">

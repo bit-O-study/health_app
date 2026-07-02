@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
 import { BottomNav } from "@/components/bottom-nav";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
@@ -63,11 +64,13 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 헬쑤쌤 탭 노출 여부(디버그 계정 + 기능 켜짐). 일반 사용자는 false.
+  const showCoach = await isDebugFeatureEnabled("helssu-coach");
   return (
     <html
       lang="ko"
@@ -82,7 +85,7 @@ export default function RootLayout({
         <NotificationCenterProvider>
           <AppSplash />
           {children}
-          <BottomNav />
+          <BottomNav showCoach={showCoach} />
         </NotificationCenterProvider>
         <PWARegister />
         <Analytics />

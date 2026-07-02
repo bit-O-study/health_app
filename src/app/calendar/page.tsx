@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
+  Flag,
   Flame,
   Heart,
   Scale,
@@ -20,6 +21,8 @@ import { getBodyLogs } from "@/features/profile/body-logs";
 import { computeWeightDelta } from "@/features/profile/weight-delta";
 import { StepsSync } from "@/features/health/components/steps-sync";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { getCommitmentBands } from "@/features/commitments/data-access";
+import { isActiveOn } from "@/features/commitments/commitment";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
 import {
@@ -69,13 +72,23 @@ export default async function CalendarPage({
   const today = seoulYmd();
 
   // 서로 독립인 세 쿼리는 한 번에(직렬 3파 → 1파). 각 함수는 cache()된 인증을 공유.
-  const [{ byDate, intakeTotal, workoutBurnedTotal }, bodyLogs, profile, debug] =
-    await Promise.all([
-      getMonthlyCalendar(from, to),
-      getBodyLogs(),
-      getUserProfile(),
-      isDebugFeatureEnabled("steps"),
-    ]);
+  const [
+    { byDate, intakeTotal, workoutBurnedTotal },
+    bodyLogs,
+    profile,
+    debug,
+    commitmentBands,
+  ] = await Promise.all([
+    getMonthlyCalendar(from, to),
+    getBodyLogs(),
+    getUserProfile(),
+    isDebugFeatureEnabled("steps"),
+    getCommitmentBands(),
+  ]);
+  // 이 달과 겹치는 다짐만(성능·가독성).
+  const monthBands = commitmentBands.filter(
+    (b) => b.startDate <= to && b.deadline >= from,
+  );
   const spent = workoutBurnedTotal - intakeTotal;
 
   // 체중 증감 — 직전 기록 대비. 기록 없으면 null(→ '체형 기록하러 가기' 버튼).
@@ -165,6 +178,8 @@ export default async function CalendarPage({
             const col = idx % 7;
             const isPeriod = periodDays.has(date);
             const isPredicted = predictedDays.has(date);
+            const activeCommit = monthBands.some((b) => isActiveOn(b, date));
+            const deadlineCommit = monthBands.filter((b) => b.deadline === date);
             const dayColor = isHol || col === 6
               ? "text-rose-500 dark:text-rose-400"
               : col === 5
@@ -191,6 +206,22 @@ export default async function CalendarPage({
                     size={9}
                   />
                 )}
+                {deadlineCommit.length > 0 ? (
+                  <Flag
+                    aria-label={`다짐 데드라인: ${deadlineCommit
+                      .map((b) => b.title)
+                      .join(", ")}`}
+                    className="absolute left-0.5 top-0.5 fill-emerald-500 text-emerald-600"
+                    size={9}
+                  />
+                ) : null}
+                {/* 다짐 진행 기간 밴드(셀 하단) */}
+                {activeCommit ? (
+                  <span
+                    aria-hidden="true"
+                    className="absolute inset-x-1 bottom-0.5 h-0.5 rounded-full bg-emerald-400/70"
+                  />
+                ) : null}
                 <span
                   className={`text-xs font-bold ${
                     isToday ? "text-emerald-700 dark:text-emerald-400" : dayColor
@@ -222,6 +253,18 @@ export default async function CalendarPage({
           })}
         </div>
       </div>
+
+      {monthBands.length > 0 ? (
+        <Link
+          href="/commitments"
+          className="mt-2 flex items-center justify-center gap-2 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400"
+        >
+          <span className="inline-block h-0.5 w-4 rounded-full bg-emerald-400/70" />
+          다짐 진행 기간
+          <Flag aria-hidden="true" size={10} className="fill-emerald-500 text-emerald-600" />
+          데드라인 · 다짐 관리 →
+        </Link>
+      ) : null}
 
       {/* 월 요약 */}
       <div className="mt-5 space-y-2">

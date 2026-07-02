@@ -21,6 +21,16 @@ export const isAdminUser = cache(async (): Promise<boolean> => {
   return (data?.length ?? 0) > 0;
 });
 
+/**
+ * 디버그 기능(걸음수 진단칩 등 안드로이드 디버깅 UI) 노출 여부.
+ * 지금은 '관리자 계정'을 디버그 계정으로 쓴다 — 관리자 설정에서 계정을 admins 에 추가하면
+ * 그 계정에서만 디버그가 보인다. 앞으로 다른 디버깅 기능도 이 게이트 하나로 통일해 켠다.
+ * (관리자와 분리된 전용 디버그 목록이 필요해지면 이 함수 내부만 바꾸면 된다.)
+ */
+export const isDebugUser = cache(async (): Promise<boolean> => {
+  return isAdminUser();
+});
+
 export type AdminRow = { email: string; createdAt: string };
 
 /** 전체 관리자 목록 (관리자만 조회 가능). */

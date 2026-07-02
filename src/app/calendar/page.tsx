@@ -19,6 +19,7 @@ import { getMonthlyCalendar } from "@/features/calendar/data-access";
 import { getBodyLogs } from "@/features/profile/body-logs";
 import { computeWeightDelta } from "@/features/profile/weight-delta";
 import { StepsSync } from "@/features/health/components/steps-sync";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
 import {
@@ -68,11 +69,12 @@ export default async function CalendarPage({
   const today = seoulYmd();
 
   // 서로 독립인 세 쿼리는 한 번에(직렬 3파 → 1파). 각 함수는 cache()된 인증을 공유.
-  const [{ byDate, intakeTotal, workoutBurnedTotal }, bodyLogs, profile] =
+  const [{ byDate, intakeTotal, workoutBurnedTotal }, bodyLogs, profile, debug] =
     await Promise.all([
       getMonthlyCalendar(from, to),
       getBodyLogs(),
       getUserProfile(),
+      isDebugFeatureEnabled("steps"),
     ]);
   const spent = workoutBurnedTotal - intakeTotal;
 
@@ -133,7 +135,7 @@ export default async function CalendarPage({
             생리 기록
           </Link>
         ) : null}
-        <StepsSync />
+        <StepsSync debug={debug} />
       </div>
 
       {/* 캘린더 */}

@@ -23,6 +23,10 @@ import {
   type RankedMember,
 } from "@/features/groups/ranking";
 import { computeWorkoutStreak } from "@/features/groups/streak";
+import {
+  aggregateReactions,
+  type ReactionCount,
+} from "@/features/groups/reactions";
 
 const num = (v: number | string | null | undefined): number => {
   if (v === null || v === undefined || v === "") return 0;
@@ -84,7 +88,10 @@ export type GroupDetail = {
   isOwner: boolean;
   weekFrom: string;
   weekTo: string;
+  today: string;
   ranking: RankedMember[];
+  /** 오늘 기준, 멤버(userId)별 받은 응원 리액션 집계. */
+  reactions: Record<string, ReactionCount[]>;
 };
 
 /** 그룹 상세 + 이번 주 운동 랭킹. 내가 멤버가 아니면 null. */
@@ -122,6 +129,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     { data: mealPhotoRows },
     { data: exDateRows },
     { data: condDateRows },
+    { data: reactionRows },
   ] = await Promise.all([
     supabase
       .from("profiles")
@@ -165,7 +173,27 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       .eq("status", "done")
       .gte("for_date", streakFrom)
       .lte("for_date", today),
+    supabase
+      .from("group_reactions")
+      .select("to_user, from_user, emoji")
+      .eq("group_id", groupId)
+      .eq("for_date", today),
   ]);
+
+  const reactionsMap = aggregateReactions(
+    ((reactionRows ?? []) as {
+      to_user: string;
+      from_user: string;
+      emoji: string;
+    }[]).map((r) => ({
+      toUser: r.to_user,
+      fromUser: r.from_user,
+      emoji: r.emoji,
+    })),
+    user.id,
+  );
+  const reactions: Record<string, ReactionCount[]> = {};
+  for (const [uid, list] of reactionsMap) reactions[uid] = list;
 
   const nameOf = new Map<string, string>();
   const weightOf = new Map<string, number>();
@@ -322,7 +350,9 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     isOwner: g.owner_id === user.id,
     weekFrom: from,
     weekTo: to,
+    today,
     ranking: rankMembers([...stats.values()]),
+    reactions,
   };
 }
 

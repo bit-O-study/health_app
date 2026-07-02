@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getGroupDetail } from "@/features/groups/data-access";
 import { topBadge } from "@/features/groups/streak";
 import { GroupControls } from "@/features/groups/components/group-controls";
+import { MemberReactions } from "@/features/groups/components/member-reactions";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "그룹 랭킹" };
@@ -129,6 +130,12 @@ export default async function GroupDetailPage({
               <span className="text-[10px] font-semibold text-zinc-400">kcal</span>
             </span>
            </Link>
+           <MemberReactions
+             groupId={detail.id}
+             toUser={m.userId}
+             counts={detail.reactions[m.userId] ?? []}
+             readOnly={m.isMe}
+           />
           </li>
         ))}
       </ol>

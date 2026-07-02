@@ -1581,6 +1581,36 @@ drop policy if exists "group mates read meal photos" on public.meal_photos;
 create policy "group mates read meal photos" on public.meal_photos
   for select using (public.shares_group_with(user_id));
 
+-- 그룹 응원 리액션(group_reactions) — 그룹원이 다른 멤버의 '그날 기록'에 이모지로 응원.
+-- (group_id, from_user, to_user, for_date, emoji) 유니크 → 토글(있으면 취소).
+create table if not exists public.group_reactions (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  from_user uuid not null references auth.users(id) on delete cascade,
+  to_user uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  emoji text not null,
+  created_at timestamptz not null default now(),
+  unique (group_id, from_user, to_user, for_date, emoji)
+);
+create index if not exists group_reactions_group_date_idx
+  on public.group_reactions (group_id, for_date);
+alter table public.group_reactions enable row level security;
+drop policy if exists "members read reactions" on public.group_reactions;
+create policy "members read reactions" on public.group_reactions for select
+  using (public.is_group_member(group_id));
+drop policy if exists "react to mates" on public.group_reactions;
+create policy "react to mates" on public.group_reactions for insert
+  with check (
+    from_user = auth.uid()
+    and public.is_group_member(group_id)
+    and public.shares_group_with(to_user)
+  );
+drop policy if exists "unreact self" on public.group_reactions;
+create policy "unreact self" on public.group_reactions for delete
+  using (from_user = auth.uid());
+notify pgrst, 'reload schema';
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 웹푸시 구독(push_subscriptions) — 사용자별 브라우저 푸시 엔드포인트(여러 기기 가능).
 -- 앱이 닫혀 있어도 30분 무활동 종료 알림을 보내기 위함(Vercel Cron + web-push).

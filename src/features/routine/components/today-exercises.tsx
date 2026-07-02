@@ -7,7 +7,7 @@ import {
   getCatalogExercise,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
-import { getPlanForDay } from "@/features/routine/plan";
+import { getPlanForDayTones } from "@/features/routine/plan";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
@@ -131,7 +131,7 @@ export async function TodayExercises({
     // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
     // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
     // 사라지는 누수가 생긴다. 그 일차에 운동이 없으면 빈 화면(등록 안내)을 보여준다.
-    Promise.all(tones.map((t) => getPlanForDay(dayIndex, t))),
+    getPlanForDayTones(dayIndex, tones),
     getDailyPlanForDate(todayYmd),
     getConditioningForFocus(primaryTone),
     getDailyConditioning(todayYmd),
@@ -629,7 +629,7 @@ export async function TodayExercises({
           <div>
             <p className="mb-2 text-xs text-zinc-400 dark:text-zinc-500">
               → 오른쪽으로 끌면 완료 · ← 왼쪽으로 끌면 오늘 안 함(같은 방향으로
-              다시 끌면 원상복구) · 순서 변경은 '편집하기'에서
+              다시 끌면 원상복구) · 순서 변경은 ‘편집하기’에서
             </p>
             <TodayPlanList
               key={`plan-${plan.map((p) => p.id).join("|")}-${mainDoneIds.join(",")}-${mainSkippedIds.join(",")}`}

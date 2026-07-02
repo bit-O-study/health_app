@@ -97,7 +97,8 @@ export default async function HistoryDetailPage({
   const [exRes, condRes, workoutDurationSec] = await Promise.all([
     supabase
       .from("exercise_completions")
-      .select("*")
+      // 넓은 스냅샷 테이블 — 매퍼가 쓰는 컬럼만 선택(과다 fetch 방지).
+      .select("focus, exercise_id, equipment, sets, reps, weight_kg, set_details")
       .eq("user_id", user.id)
       .eq("for_date", date)
       .eq("status", "done"),

@@ -11,9 +11,9 @@ export function GroupBoard({
   groups: GroupSummary[];
 }) {
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col overflow-hidden">
       {/* 상단: 그룹 탭(전환칩)만 */}
-      <div className="shrink-0 px-4 pt-2">
+      <div className="shrink-0 px-4 pt-1">
         <GroupSwitcher groups={groups} currentId={detail.id} />
       </div>
 

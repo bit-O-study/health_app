@@ -42,8 +42,8 @@ export default async function GroupsPage({
   }
 
   return (
-    // 전체화면 헬스장 — 아래 탭(4rem) 만큼 빼고 화면을 꽉 채운다.
-    <main className="h-[calc(100dvh-4rem)] w-full overflow-hidden">
+    // 전체화면 헬스장 — 아래 탭(4rem) + 폰 홈인디케이터(safe-area)만큼 빼고 한 화면에 딱.
+    <main className="h-[calc(100dvh-4rem-env(safe-area-inset-bottom))] w-full overflow-hidden">
       <GroupBoard detail={detail} groups={groups} />
     </main>
   );

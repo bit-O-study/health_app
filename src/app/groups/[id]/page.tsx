@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getGroupDetail } from "@/features/groups/data-access";
 import { topBadge } from "@/features/groups/streak";
 import { GroupControls } from "@/features/groups/components/group-controls";
+import { GroupChallenge } from "@/features/groups/components/group-challenge";
 import { MemberReactions } from "@/features/groups/components/member-reactions";
 
 export const dynamic = "force-dynamic";
@@ -68,6 +69,12 @@ export default async function GroupDetailPage({
           {mdDisplay(detail.weekFrom)} ~ {mdDisplay(detail.weekTo)}
         </span>
       </div>
+
+      <GroupChallenge
+        groupId={detail.id}
+        isOwner={detail.isOwner}
+        challenge={detail.challenge}
+      />
 
       <ol className="mb-6 space-y-2">
         {detail.ranking.map((m) => (

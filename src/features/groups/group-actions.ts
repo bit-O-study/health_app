@@ -8,6 +8,8 @@ import {
 } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { isReactionEmoji } from "@/features/groups/reactions";
+import { isChallengeMetric } from "@/features/groups/challenge";
+import { weekRange } from "@/features/groups/ranking";
 import { seoulYmd } from "@/features/routine/data";
 
 export type GroupActionResult =
@@ -134,6 +136,60 @@ export async function toggleReactionAction(
     if (error) return { ok: false, error: error.message };
   }
 
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/**
+ * 이번 주 그룹 챌린지 설정/수정 — 그룹장만(RLS 강제). 주(week_from)당 하나로 upsert.
+ */
+export async function setGroupChallengeAction(
+  groupId: string,
+  metric: string,
+  target: number,
+): Promise<GroupActionResult> {
+  if (!isChallengeMetric(metric)) {
+    return { ok: false, error: "목표 종류가 올바르지 않습니다." };
+  }
+  const t = Math.floor(Number(target));
+  if (!Number.isFinite(t) || t <= 0) {
+    return { ok: false, error: "목표 값을 1 이상으로 입력하세요." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { from } = weekRange(seoulYmd());
+  const { error } = await supabase.from("group_challenges").upsert(
+    {
+      group_id: groupId,
+      metric,
+      target: t,
+      week_from: from,
+      created_by: user.id,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "group_id,week_from" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/** 이번 주 챌린지 삭제 — 그룹장만(RLS 강제). */
+export async function clearGroupChallengeAction(
+  groupId: string,
+): Promise<GroupActionResult> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const { from } = weekRange(seoulYmd());
+  const { error } = await supabase
+    .from("group_challenges")
+    .delete()
+    .eq("group_id", groupId)
+    .eq("week_from", from);
+  if (error) return { ok: false, error: error.message };
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
 }

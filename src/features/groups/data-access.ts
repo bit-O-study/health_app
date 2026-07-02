@@ -27,6 +27,11 @@ import {
   aggregateReactions,
   type ReactionCount,
 } from "@/features/groups/reactions";
+import {
+  challengeProgress,
+  isChallengeMetric,
+  type ChallengeProgress,
+} from "@/features/groups/challenge";
 
 const num = (v: number | string | null | undefined): number => {
   if (v === null || v === undefined || v === "") return 0;
@@ -92,6 +97,8 @@ export type GroupDetail = {
   ranking: RankedMember[];
   /** 오늘 기준, 멤버(userId)별 받은 응원 리액션 집계. */
   reactions: Record<string, ReactionCount[]>;
+  /** 이번 주 그룹 챌린지(목표+진행률). 없으면 null. */
+  challenge: ChallengeProgress | null;
 };
 
 /** 그룹 상세 + 이번 주 운동 랭킹. 내가 멤버가 아니면 null. */
@@ -130,6 +137,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     { data: exDateRows },
     { data: condDateRows },
     { data: reactionRows },
+    { data: challengeRow },
   ] = await Promise.all([
     supabase
       .from("profiles")
@@ -178,6 +186,12 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       .select("to_user, from_user, emoji")
       .eq("group_id", groupId)
       .eq("for_date", today),
+    supabase
+      .from("group_challenges")
+      .select("metric, target")
+      .eq("group_id", groupId)
+      .eq("week_from", from)
+      .maybeSingle(),
   ]);
 
   const reactionsMap = aggregateReactions(
@@ -353,6 +367,11 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     today,
     ranking: rankMembers([...stats.values()]),
     reactions,
+    challenge: (() => {
+      const c = challengeRow as { metric: string; target: number } | null;
+      if (!c || !isChallengeMetric(c.metric)) return null;
+      return challengeProgress(c.metric, c.target, [...stats.values()]);
+    })(),
   };
 }
 

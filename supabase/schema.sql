@@ -1609,6 +1609,32 @@ create policy "react to mates" on public.group_reactions for insert
 drop policy if exists "unreact self" on public.group_reactions;
 create policy "unreact self" on public.group_reactions for delete
   using (from_user = auth.uid());
+
+-- 주간 그룹 챌린지/목표(group_challenges) — 그룹장이 주간 목표 설정, 그룹 합산 진행률.
+-- 주(week_from=월요일)당 하나. metric: 합산 kcal / 합산 운동횟수 / 합산 운동일수.
+create table if not exists public.group_challenges (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  metric text not null check (metric in ('kcal', 'workouts', 'days')),
+  target int not null check (target > 0),
+  week_from date not null,
+  created_by uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (group_id, week_from)
+);
+alter table public.group_challenges enable row level security;
+drop policy if exists "members read challenge" on public.group_challenges;
+create policy "members read challenge" on public.group_challenges for select
+  using (public.is_group_member(group_id));
+drop policy if exists "owner writes challenge" on public.group_challenges;
+create policy "owner writes challenge" on public.group_challenges for all
+  using (
+    exists (select 1 from public.groups g where g.id = group_id and g.owner_id = auth.uid())
+  )
+  with check (
+    exists (select 1 from public.groups g where g.id = group_id and g.owner_id = auth.uid())
+  );
 notify pgrst, 'reload schema';
 
 -- ─────────────────────────────────────────────────────────────────────────────

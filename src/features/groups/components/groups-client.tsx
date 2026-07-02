@@ -9,6 +9,7 @@ import {
   createGroupAction,
   joinGroupByTokenAction,
 } from "@/features/groups/group-actions";
+import { GroupControls } from "@/features/groups/components/group-controls";
 import type { GroupSummary } from "@/features/groups/data-access";
 
 /** 붙여넣은 값에서 토큰만 추출 — 전체 URL이면 마지막 경로, 아니면 그대로. */
@@ -67,31 +68,43 @@ export function GroupsClient({ groups }: { groups: GroupSummary[] }) {
         ) : (
           <ul className="space-y-2">
             {groups.map((g) => (
-              <li key={g.id}>
+              <li
+                key={g.id}
+                className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+              >
                 <Link
-                  href={`/groups/${g.id}`}
-                  className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-emerald-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700"
+                  href={`/groups?g=${g.id}`}
+                  className="group flex items-center gap-3"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-                    <Users aria-hidden="true" size={20} />
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+                    <Users aria-hidden="true" size={18} />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="flex items-center gap-1 truncate text-base font-bold text-zinc-900 dark:text-zinc-100">
+                    <p className="flex items-center gap-1 truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
                       {g.name}
                       {g.isOwner ? (
-                        <Crown aria-hidden="true" size={14} className="text-amber-500" />
+                        <Crown aria-hidden="true" size={13} className="text-amber-500" />
                       ) : null}
                     </p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
                       멤버 {g.memberCount}명
                     </p>
                   </div>
                   <ChevronRight
                     aria-hidden="true"
-                    size={18}
+                    size={16}
                     className="shrink-0 text-zinc-400 transition group-hover:translate-x-1"
                   />
                 </Link>
+                <div className="mt-2 border-t border-zinc-100 pt-2 dark:border-zinc-800">
+                  <GroupControls
+                    groupId={g.id}
+                    groupName={g.name}
+                    inviteToken={g.inviteToken}
+                    isOwner={g.isOwner}
+                    compact
+                  />
+                </div>
               </li>
             ))}
           </ul>

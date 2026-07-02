@@ -41,11 +41,14 @@ export function GroupControls({
   groupName,
   inviteToken,
   isOwner,
+  compact = false,
 }: {
   groupId: string;
   groupName: string;
   inviteToken: string;
   isOwner: boolean;
+  /** 관리 목록용 — 작은 아이콘 버튼 한 줄. */
+  compact?: boolean;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -189,6 +192,45 @@ export function GroupControls({
       await deleteGroupAction(groupId);
       router.push("/groups");
     });
+  }
+
+  if (compact) {
+    return (
+      <div className="flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={shareKakao}
+          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-[11px] font-bold text-[#191600] transition hover:brightness-95"
+        >
+          <MessageCircle aria-hidden="true" size={13} /> 초대
+        </button>
+        <button
+          type="button"
+          onClick={copyLink}
+          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-emerald-300 bg-emerald-50 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+        >
+          {copied ? (
+            <Check aria-hidden="true" size={13} />
+          ) : (
+            <Copy aria-hidden="true" size={13} />
+          )}
+          {copied ? "복사됨" : "링크"}
+        </button>
+        <button
+          type="button"
+          disabled={pending}
+          onClick={isOwner ? remove : leave}
+          aria-label={isOwner ? "그룹 삭제" : "그룹 나가기"}
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-red-950/40"
+        >
+          {isOwner ? (
+            <Trash2 aria-hidden="true" size={14} />
+          ) : (
+            <LogOut aria-hidden="true" size={14} />
+          )}
+        </button>
+      </div>
+    );
   }
 
   return (

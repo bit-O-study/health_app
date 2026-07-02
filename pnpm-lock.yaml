@@ -83,9 +83,6 @@ importers:
       three:
         specifier: ^0.184.0
         version: 0.184.0
-      three-stdlib:
-        specifier: ^2.36.1
-        version: 2.36.1(three@0.184.0)
       web-push:
         specifier: ^3.6.7
         version: 3.6.7

@@ -30,15 +30,12 @@ export function WolfCharacter({
   const [lottie, setLottie] = useState<object | null>(cachedLottie);
 
   useEffect(() => {
-    if (cachedKind) {
-      setKind(cachedKind);
-      setLottie(cachedLottie);
-      return;
-    }
+    // 이미 판별됨 → 초기 state 가 이미 반영(아래 fetch 스킵).
+    if (cachedKind) return;
     if (typeof window === "undefined") return;
     let on = true;
 
-    const useSvg = () => {
+    const fallbackToSvg = () => {
       cachedKind = "svg";
       if (on) setKind("svg");
     };
@@ -58,7 +55,7 @@ export function WolfCharacter({
       } catch {
         /* 무시 */
       }
-      useSvg();
+      fallbackToSvg();
     };
 
     const img = new window.Image();

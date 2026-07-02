@@ -15,6 +15,8 @@ export type MemberStat = {
   todayBurned: number;
   /** 오늘 식단 사진 썸네일 URL(최대 몇 장). */
   todayPhotos: string[];
+  /** 연속 운동일 스트릭(오늘/어제 기준). */
+  streak: number;
   isMe: boolean;
 };
 

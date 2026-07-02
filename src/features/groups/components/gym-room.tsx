@@ -47,23 +47,42 @@ export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {/* ── 벽 ── */}
-      <div className="absolute inset-x-0 top-0 h-[60%] bg-gradient-to-b from-sky-100 to-indigo-50 dark:from-sky-950/50 dark:to-zinc-900">
-        <div className="absolute left-4 top-10 h-20 w-28 rounded-lg border-4 border-white/85 bg-gradient-to-b from-sky-300 to-sky-100 shadow-sm">
-          <div className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-white/80" />
-          <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-white/80" />
-        </div>
-        <div className="absolute right-4 top-10 h-24 w-16 rounded-xl border-4 border-zinc-200/80 bg-gradient-to-br from-white/80 to-sky-100/60 shadow-sm dark:border-zinc-600/70" />
+      {/* ── 벽(검정) ── */}
+      <div className="absolute inset-x-0 top-0 h-[62%] bg-gradient-to-b from-black to-zinc-900" />
+      {/* ── 바닥(체육관 회색 고무바닥) ── */}
+      <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-b from-zinc-500 to-zinc-400 dark:from-zinc-700 dark:to-zinc-600">
+        {/* 바닥 라인 */}
+        <div className="absolute inset-x-0 top-0 h-px bg-white/20" />
+        <div className="absolute inset-x-0 top-1/2 h-px bg-black/10" />
       </div>
-      {/* ── 바닥 ── */}
-      <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-b from-amber-200 to-amber-300 dark:from-amber-900/50 dark:to-amber-950/60">
-        <div className="absolute left-1/2 top-2 h-10 w-40 -translate-x-1/2 rounded-2xl bg-rose-400/40" />
-        <div className="absolute bottom-3 right-24 flex items-center">
-          <span className="h-4 w-4 rounded-full bg-zinc-800" />
-          <span className="h-1.5 w-5 bg-zinc-500" />
-          <span className="h-4 w-4 rounded-full bg-zinc-800" />
+
+      {/* ── 헬스 기구(벽·바닥 경계에 배치) ── */}
+      {[
+        { icon: "🏃‍♂️", label: "런닝머신" },
+        { icon: "🏋️", label: "벤치프레스" },
+        { icon: "🦿", label: "하체프레스" },
+        { icon: "🏋️‍♀️", label: "바벨" },
+        { icon: null, label: "덤벨" },
+      ].map((e, i) => (
+        <div
+          key={e.label}
+          className="absolute z-[6] flex -translate-x-1/2 flex-col items-center"
+          style={{ left: `${10 + i * 20}%`, top: "56%" }}
+        >
+          {e.icon ? (
+            <span className="text-3xl drop-shadow">{e.icon}</span>
+          ) : (
+            <span className="flex h-8 items-center drop-shadow">
+              <span className="h-4 w-4 rounded-full bg-zinc-800" />
+              <span className="h-1.5 w-4 bg-zinc-600" />
+              <span className="h-4 w-4 rounded-full bg-zinc-800" />
+            </span>
+          )}
+          <span className="mt-0.5 rounded bg-black/50 px-1 text-[8px] font-bold text-white">
+            {e.label}
+          </span>
         </div>
-      </div>
+      ))}
 
       {/* 고퀄 배경 이미지(있으면 CSS 헬스장을 덮음) */}
       {bgOk ? (

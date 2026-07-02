@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 
 import { SpriteWolf } from "@/features/groups/components/sprite-wolf";
 
-// 헬스장 안(가로·세로 %)에서만 배회 — 화면 밖으로 안 나간다. y 는 바닥 영역(top %).
-const XMIN = 5;
+// 헬스장 '바닥'에서만 배회(벽으로 안 올라감). y 는 바닥 영역(top %).
+const XMIN = 6;
 const XMAX = 80;
-const YMIN = 48; // 위(멀리)
-const YMAX = 82; // 아래(가까이)
+const YMIN = 66; // 바닥 시작(벽/바닥 경계 아래)
+const YMAX = 92; // 바닥 앞쪽
 
 const rand = (a: number, b: number) => a + Math.random() * (b - a);
 

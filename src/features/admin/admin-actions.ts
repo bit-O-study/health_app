@@ -71,6 +71,44 @@ export async function removeAdminAction(
   return { ok: true };
 }
 
+/** 회원(이메일)을 게시물 관리자(모더레이터)로 지정. 관리자만 가능. */
+export async function addPostModeratorAction(
+  email: string,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  const e = email.trim().toLowerCase();
+  if (!isEmail(e)) return { ok: false, error: "올바른 이메일을 입력하세요." };
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("post_moderators")
+    .upsert({ email: e }, { onConflict: "email" });
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/admin/settings");
+  return { ok: true };
+}
+
+/** 게시물 관리자 해제. */
+export async function removePostModeratorAction(
+  email: string,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase
+    .from("post_moderators")
+    .delete()
+    .eq("email", email.trim().toLowerCase());
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/admin/settings");
+  return { ok: true };
+}
+
 /** 정지/차단 값을 admin_set_user_ban RPC 로 설정(관리자 게이트는 DB 함수 내부). */
 async function setUserBan(
   userId: string,

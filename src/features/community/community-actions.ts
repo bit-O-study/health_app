@@ -7,7 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { resolveMemberName } from "@/features/groups/member-name";
-import { validatePostInput } from "./community";
+import { MAX_CAPTION, validatePostInput } from "./community";
 import { getPostComments, type CommunityComment } from "./data-access";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
@@ -59,18 +59,37 @@ export async function createCommunityPostAction(input: {
   return { ok: true, id: (data as { id: string }).id };
 }
 
-/** 내 인증 글 삭제(RLS로 본인 글만). */
+/** 인증 글 삭제 — 본인 또는 게시물 관리자(모더레이터). 권한은 RLS가 강제. */
 export async function deleteCommunityPostAction(id: string): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   if (!id) return { ok: false, error: "잘못된 요청입니다." };
 
   const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("community_posts").delete().eq("id", id);
+
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/community");
+  return { ok: true };
+}
+
+/** 인증 글 한마디 수정 — 본인 또는 게시물 관리자. 권한은 RLS가 강제. */
+export async function editCommunityPostAction(
+  id: string,
+  caption: string,
+): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!id) return { ok: false, error: "잘못된 요청입니다." };
+  const text = (caption ?? "").trim();
+  if (text.length > MAX_CAPTION)
+    return { ok: false, error: `한마디는 ${MAX_CAPTION}자까지 쓸 수 있어요.` };
+
+  const supabase = await createSupabaseServerClient();
   const { error } = await supabase
     .from("community_posts")
-    .delete()
-    .eq("id", id)
-    .eq("user_id", user.id);
+    .update({ caption: text.length > 0 ? text : null })
+    .eq("id", id);
 
   if (error) return { ok: false, error: error.message };
   revalidatePath("/community");

@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   Camera,
   Heart,
@@ -13,20 +14,12 @@ import {
   X,
 } from "lucide-react";
 
-import {
-  postsForFilter,
-  publicOnly,
-  relativeTime,
-  MAX_CAPTION,
-} from "../community";
-import type { CommunityComment, CommunityPost } from "../data-access";
+import { postsForFilter, publicOnly, MAX_CAPTION } from "../community";
+import type { CommunityPost } from "../data-access";
 import { uploadCommunityPhoto } from "../upload-photo";
 import {
-  addCommentAction,
   createCommunityPostAction,
-  deleteCommentAction,
   deleteCommunityPostAction,
-  listCommentsAction,
   toggleLikeAction,
 } from "../community-actions";
 
@@ -47,7 +40,6 @@ export function CommunityBoard({
     () => new Set(groups.map((g) => g.id)),
   );
   const [compose, setCompose] = useState(false);
-  const [openComments, setOpenComments] = useState<CommunityPost | null>(null);
 
   const groupAllSelected =
     groups.length > 0 && groups.every((g) => selected.has(g.id));
@@ -143,12 +135,7 @@ export function CommunityBoard({
       ) : (
         <ul className="grid grid-cols-2 gap-2 px-2 py-3">
           {visible.map((p) => (
-            <PostCard
-              key={p.id}
-              post={p}
-              router={router}
-              onOpenComments={() => setOpenComments(p)}
-            />
+            <PostCard key={p.id} post={p} router={router} />
           ))}
         </ul>
       )}
@@ -176,14 +163,6 @@ export function CommunityBoard({
           }}
         />
       ) : null}
-
-      {openComments ? (
-        <CommentsModal
-          post={openComments}
-          onClose={() => setOpenComments(null)}
-          onChanged={() => router.refresh()}
-        />
-      ) : null}
     </div>
   );
 }
@@ -191,11 +170,9 @@ export function CommunityBoard({
 function PostCard({
   post,
   router,
-  onOpenComments,
 }: {
   post: CommunityPost;
   router: ReturnType<typeof useRouter>;
-  onOpenComments: () => void;
 }) {
   const [pending, start] = useTransition();
   const [gone, setGone] = useState(false);
@@ -204,15 +181,14 @@ function PostCard({
   if (gone) return null;
 
   function toggleLike() {
-    const nextLiked = !liked;
-    setLiked(nextLiked);
-    setLikeCount((c) => c + (nextLiked ? 1 : -1));
+    const next = !liked;
+    setLiked(next);
+    setLikeCount((c) => c + (next ? 1 : -1));
     start(async () => {
       const r = await toggleLikeAction(post.id);
       if (!r.ok) {
-        // 실패 시 롤백
-        setLiked(!nextLiked);
-        setLikeCount((c) => c + (nextLiked ? -1 : 1));
+        setLiked(!next);
+        setLikeCount((c) => c + (next ? -1 : 1));
       }
     });
   }
@@ -232,12 +208,8 @@ function PostCard({
 
   return (
     <li className="overflow-hidden rounded-xl bg-white dark:bg-zinc-900">
-      <button
-        type="button"
-        onClick={onOpenComments}
-        className="block w-full"
-        aria-label="댓글 보기"
-      >
+      {/* 사진 — 클릭하면 상세페이지 */}
+      <Link href={`/community/${post.id}`} className="block" aria-label="게시물 열기">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={post.photoUrl}
@@ -245,13 +217,15 @@ function PostCard({
           loading="lazy"
           className="aspect-[3/2] w-full bg-zinc-100 object-cover dark:bg-zinc-800"
         />
-      </button>
+      </Link>
 
       <div className="space-y-1 px-1.5 py-1.5">
         {post.caption ? (
-          <p className="line-clamp-2 break-words text-xs leading-snug">
-            {post.caption}
-          </p>
+          <Link href={`/community/${post.id}`} className="block">
+            <p className="line-clamp-2 break-words text-xs leading-snug">
+              {post.caption}
+            </p>
+          </Link>
         ) : null}
         {post.groupName ? (
           <span className="inline-block rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
@@ -276,15 +250,14 @@ function PostCard({
             />
             {likeCount}
           </button>
-          <button
-            type="button"
-            onClick={onOpenComments}
+          <Link
+            href={`/community/${post.id}`}
             className="inline-flex items-center gap-1 text-xs font-bold"
             aria-label="댓글"
           >
             <MessageCircle size={15} className="text-zinc-400" />
             {post.commentCount}
-          </button>
+          </Link>
           {post.isMine ? (
             <button
               type="button"
@@ -299,140 +272,6 @@ function PostCard({
         </div>
       </div>
     </li>
-  );
-}
-
-function CommentsModal({
-  post,
-  onClose,
-  onChanged,
-}: {
-  post: CommunityPost;
-  onClose: () => void;
-  onChanged: () => void;
-}) {
-  const [comments, setComments] = useState<CommunityComment[] | null>(null);
-  const [body, setBody] = useState("");
-  const [pending, start] = useTransition();
-  const [now] = useState(() => Date.now());
-
-  async function reload() {
-    const list = await listCommentsAction(post.id);
-    setComments(list);
-  }
-  useEffect(() => {
-    let active = true;
-    (async () => {
-      const list = await listCommentsAction(post.id);
-      if (active) setComments(list);
-    })();
-    return () => {
-      active = false;
-    };
-  }, [post.id]);
-
-  function add() {
-    const text = body.trim();
-    if (!text) return;
-    start(async () => {
-      const r = await addCommentAction(post.id, text);
-      if (r.ok) {
-        setBody("");
-        await reload();
-        onChanged();
-      } else {
-        alert(r.error);
-      }
-    });
-  }
-
-  function removeComment(id: string) {
-    start(async () => {
-      const r = await deleteCommentAction(id);
-      if (r.ok) {
-        await reload();
-        onChanged();
-      } else {
-        alert(r.error);
-      }
-    });
-  }
-
-  return (
-    <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
-      <div className="flex max-h-[80vh] w-full max-w-md flex-col rounded-t-3xl bg-white dark:bg-zinc-900 sm:rounded-3xl">
-        <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
-          <h2 className="text-base font-extrabold">댓글</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="닫기"
-            className="rounded-full p-1 text-zinc-400"
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        <div className="min-h-24 flex-1 space-y-3 overflow-y-auto px-4 py-3">
-          {comments === null ? (
-            <div className="flex justify-center py-6 text-zinc-400">
-              <Loader2 size={20} className="animate-spin" />
-            </div>
-          ) : comments.length === 0 ? (
-            <p className="py-6 text-center text-sm text-zinc-400">
-              첫 댓글을 남겨보세요!
-            </p>
-          ) : (
-            comments.map((c) => (
-              <div key={c.id} className="flex items-start gap-2">
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
-                    {c.authorName}
-                    <span className="ml-1.5 font-normal text-zinc-400">
-                      {relativeTime(new Date(c.createdAt).getTime(), now)}
-                    </span>
-                  </p>
-                  <p className="whitespace-pre-wrap break-words text-sm">
-                    {c.body}
-                  </p>
-                </div>
-                {c.isMine ? (
-                  <button
-                    type="button"
-                    onClick={() => removeComment(c.id)}
-                    disabled={pending}
-                    aria-label="댓글 삭제"
-                    className="shrink-0 text-zinc-300 hover:text-rose-500 disabled:opacity-50"
-                  >
-                    <Trash2 size={13} />
-                  </button>
-                ) : null}
-              </div>
-            ))
-          )}
-        </div>
-
-        <div className="flex items-center gap-2 border-t border-zinc-100 p-3 dark:border-zinc-800">
-          <input
-            value={body}
-            onChange={(e) => setBody(e.target.value.slice(0, 300))}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.nativeEvent.isComposing) add();
-            }}
-            placeholder="댓글 달기…"
-            className="h-10 min-w-0 flex-1 rounded-full border border-zinc-200 px-4 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
-          />
-          <button
-            type="button"
-            onClick={add}
-            disabled={pending || !body.trim()}
-            className="shrink-0 rounded-full bg-emerald-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
-          >
-            등록
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }
 

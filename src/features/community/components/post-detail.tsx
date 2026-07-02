@@ -1,0 +1,290 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  ChevronLeft,
+  Heart,
+  Loader2,
+  MessageCircle,
+  Pencil,
+  Trash2,
+} from "lucide-react";
+
+import { characterEmoji, pastelClass } from "@/features/groups/avatar";
+import { relativeTime, MAX_CAPTION } from "../community";
+import type { CommunityComment, CommunityPost } from "../data-access";
+import {
+  addCommentAction,
+  deleteCommentAction,
+  deleteCommunityPostAction,
+  editCommunityPostAction,
+  listCommentsAction,
+  toggleLikeAction,
+} from "../community-actions";
+
+/** 게시물 상세 — 좌상단 이름·작성시간 → 글내용 → 사진 → 좋아요/댓글. */
+export function PostDetail({
+  post,
+  initialComments,
+  canManage,
+}: {
+  post: CommunityPost;
+  initialComments: CommunityComment[];
+  canManage: boolean;
+}) {
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  const [now] = useState(() => Date.now());
+
+  const [liked, setLiked] = useState(post.likedByMe);
+  const [likeCount, setLikeCount] = useState(post.likeCount);
+  const [comments, setComments] = useState<CommunityComment[]>(initialComments);
+  const [body, setBody] = useState("");
+
+  const [editing, setEditing] = useState(false);
+  const [caption, setCaption] = useState(post.caption ?? "");
+
+  const when = relativeTime(new Date(post.createdAt).getTime(), now);
+
+  function toggleLike() {
+    const next = !liked;
+    setLiked(next);
+    setLikeCount((c) => c + (next ? 1 : -1));
+    start(async () => {
+      const r = await toggleLikeAction(post.id);
+      if (!r.ok) {
+        setLiked(!next);
+        setLikeCount((c) => c + (next ? -1 : 1));
+      }
+    });
+  }
+
+  async function reloadComments() {
+    setComments(await listCommentsAction(post.id));
+  }
+
+  function addComment() {
+    const text = body.trim();
+    if (!text) return;
+    start(async () => {
+      const r = await addCommentAction(post.id, text);
+      if (r.ok) {
+        setBody("");
+        await reloadComments();
+      } else {
+        alert(r.error);
+      }
+    });
+  }
+
+  function removeComment(id: string) {
+    start(async () => {
+      const r = await deleteCommentAction(id);
+      if (r.ok) await reloadComments();
+      else alert(r.error);
+    });
+  }
+
+  function saveCaption() {
+    start(async () => {
+      const r = await editCommunityPostAction(post.id, caption);
+      if (r.ok) {
+        setEditing(false);
+        router.refresh();
+      } else {
+        alert(r.error);
+      }
+    });
+  }
+
+  function removePost() {
+    if (!confirm("이 게시물을 삭제할까요?")) return;
+    start(async () => {
+      const r = await deleteCommunityPostAction(post.id);
+      if (r.ok) router.push("/community");
+      else alert(r.error);
+    });
+  }
+
+  return (
+    <div className="mx-auto w-full max-w-lg px-4 py-4">
+      <div className="mb-3 flex items-center justify-between">
+        <Link
+          href="/community"
+          className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200"
+        >
+          <ChevronLeft size={16} /> 커뮤니티
+        </Link>
+        {canManage ? (
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setEditing((v) => !v)}
+              className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-bold text-zinc-500 hover:text-emerald-600"
+            >
+              <Pencil size={14} /> 수정
+            </button>
+            <button
+              type="button"
+              onClick={removePost}
+              disabled={pending}
+              className="inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-bold text-zinc-500 hover:text-rose-600 disabled:opacity-50"
+            >
+              <Trash2 size={14} /> 삭제
+            </button>
+          </div>
+        ) : null}
+      </div>
+
+      {/* 좌상단: 이름 + 작성시간 */}
+      <div className="mb-2 flex items-center gap-2">
+        <span
+          className={`flex h-9 w-9 items-center justify-center rounded-full text-lg ${pastelClass(
+            post.authorName,
+          )}`}
+        >
+          {characterEmoji(post.authorName)}
+        </span>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-bold">{post.authorName}</p>
+          <p className="text-[11px] text-zinc-400">{when}</p>
+        </div>
+        {post.groupName ? (
+          <span className="ml-auto rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+            # {post.groupName}
+          </span>
+        ) : null}
+      </div>
+
+      {/* 바로 밑: 글 내용 */}
+      {editing ? (
+        <div className="mb-3">
+          <textarea
+            value={caption}
+            onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
+            rows={2}
+            className="w-full resize-none rounded-xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          />
+          <div className="mt-1 flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setEditing(false);
+                setCaption(post.caption ?? "");
+              }}
+              className="rounded-lg px-3 py-1 text-xs font-bold text-zinc-500"
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              onClick={saveCaption}
+              disabled={pending}
+              className="rounded-lg bg-emerald-500 px-3 py-1 text-xs font-bold text-white disabled:opacity-60"
+            >
+              저장
+            </button>
+          </div>
+        </div>
+      ) : post.caption ? (
+        <p className="mb-3 whitespace-pre-wrap break-words text-[15px] leading-relaxed">
+          {post.caption}
+        </p>
+      ) : null}
+
+      {/* 밑: 사진 */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={post.photoUrl}
+        alt="오운완 인증"
+        className="w-full rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
+      />
+
+      {/* 좋아요 / 댓글 수 */}
+      <div className="mt-3 flex items-center gap-4 border-b border-zinc-100 pb-3 dark:border-zinc-800">
+        <button
+          type="button"
+          onClick={toggleLike}
+          disabled={pending}
+          className="inline-flex items-center gap-1.5 text-sm font-bold disabled:opacity-60"
+        >
+          <Heart
+            size={20}
+            className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"}
+          />
+          {likeCount}
+        </button>
+        <span className="inline-flex items-center gap-1.5 text-sm font-bold text-zinc-500">
+          <MessageCircle size={20} className="text-zinc-400" />
+          {comments.length}
+        </span>
+      </div>
+
+      {/* 댓글 */}
+      <div className="space-y-3 py-3">
+        {comments.length === 0 ? (
+          <p className="py-4 text-center text-sm text-zinc-400">
+            첫 댓글을 남겨보세요!
+          </p>
+        ) : (
+          comments.map((c) => (
+            <div key={c.id} className="flex items-start gap-2">
+              <span
+                className={`mt-0.5 flex h-7 w-7 items-center justify-center rounded-full text-sm ${pastelClass(
+                  c.authorName,
+                )}`}
+              >
+                {characterEmoji(c.authorName)}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
+                  {c.authorName}
+                  <span className="ml-1.5 font-normal text-zinc-400">
+                    {relativeTime(new Date(c.createdAt).getTime(), now)}
+                  </span>
+                </p>
+                <p className="whitespace-pre-wrap break-words text-sm">
+                  {c.body}
+                </p>
+              </div>
+              {c.isMine || canManage ? (
+                <button
+                  type="button"
+                  onClick={() => removeComment(c.id)}
+                  disabled={pending}
+                  aria-label="댓글 삭제"
+                  className="shrink-0 text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+                >
+                  <Trash2 size={13} />
+                </button>
+              ) : null}
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* 댓글 입력 */}
+      <div className="sticky bottom-0 flex items-center gap-2 bg-white py-2 dark:bg-zinc-950">
+        <input
+          value={body}
+          onChange={(e) => setBody(e.target.value.slice(0, 300))}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) addComment();
+          }}
+          placeholder="댓글 달기…"
+          className="h-10 min-w-0 flex-1 rounded-full border border-zinc-200 px-4 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+        />
+        <button
+          type="button"
+          onClick={addComment}
+          disabled={pending || !body.trim()}
+          className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+        >
+          {pending ? <Loader2 size={14} className="animate-spin" /> : null}등록
+        </button>
+      </div>
+    </div>
+  );
+}

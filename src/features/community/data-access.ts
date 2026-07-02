@@ -108,6 +108,57 @@ export async function getCommunityFeed(limit = 100): Promise<CommunityPost[]> {
   }));
 }
 
+/** 상세페이지용 — 글 하나(가시성 RLS). 좋아요/댓글 수 포함. 안 보이면 null. */
+export async function getCommunityPostDetail(
+  id: string,
+): Promise<CommunityPost | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const supabase = await createSupabaseServerClient();
+
+  const { data } = await supabase
+    .from("community_posts")
+    .select("id, user_id, group_id, author_name, photo_url, caption, created_at")
+    .eq("id", id)
+    .maybeSingle();
+  if (!data) return null;
+  const r = data as Row;
+
+  let groupName: string | null = null;
+  if (r.group_id) {
+    const { data: g } = await supabase
+      .from("groups")
+      .select("name")
+      .eq("id", r.group_id)
+      .maybeSingle();
+    groupName = (g as { name: string } | null)?.name ?? null;
+  }
+
+  const [{ data: likes }, { count: commentCount }] = await Promise.all([
+    supabase.from("community_likes").select("user_id").eq("post_id", id),
+    supabase
+      .from("community_comments")
+      .select("id", { count: "exact", head: true })
+      .eq("post_id", id),
+  ]);
+  const likeRows = (likes ?? []) as { user_id: string }[];
+
+  return {
+    id: r.id,
+    userId: r.user_id,
+    authorName: r.author_name?.trim() || "회원",
+    groupId: r.group_id,
+    groupName,
+    photoUrl: r.photo_url,
+    caption: r.caption,
+    createdAt: r.created_at,
+    isMine: r.user_id === user.id,
+    likeCount: likeRows.length,
+    commentCount: commentCount ?? 0,
+    likedByMe: likeRows.some((l) => l.user_id === user.id),
+  };
+}
+
 /** 한 글의 댓글 목록(오래된 순). */
 export async function getPostComments(
   postId: string,

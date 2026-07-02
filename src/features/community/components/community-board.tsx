@@ -28,9 +28,12 @@ type Group = { id: string; name: string };
 export function CommunityBoard({
   groups,
   initialPosts,
+  canModerate,
 }: {
   groups: Group[];
   initialPosts: CommunityPost[];
+  /** 게시물 관리자만 카드(밖)에서 바로 삭제 가능. 일반 유저는 상세페이지에서. */
+  canModerate: boolean;
 }) {
   const router = useRouter();
   // 상위 탭: 전체(공개글만) / 그룹(그룹 글, 하위 다중선택).
@@ -135,7 +138,12 @@ export function CommunityBoard({
       ) : (
         <ul className="grid grid-cols-2 gap-2 px-2 py-3">
           {visible.map((p) => (
-            <PostCard key={p.id} post={p} router={router} />
+            <PostCard
+              key={p.id}
+              post={p}
+              router={router}
+              canModerate={canModerate}
+            />
           ))}
         </ul>
       )}
@@ -170,9 +178,11 @@ export function CommunityBoard({
 function PostCard({
   post,
   router,
+  canModerate,
 }: {
   post: CommunityPost;
   router: ReturnType<typeof useRouter>;
+  canModerate: boolean;
 }) {
   const [pending, start] = useTransition();
   const [gone, setGone] = useState(false);
@@ -258,7 +268,7 @@ function PostCard({
             <MessageCircle size={15} className="text-zinc-400" />
             {post.commentCount}
           </Link>
-          {post.isMine ? (
+          {canModerate ? (
             <button
               type="button"
               onClick={remove}

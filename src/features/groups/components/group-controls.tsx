@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Copy, LogOut, MessageCircle, Trash2 } from "lucide-react";
+import { Check, Copy, Loader2, LogOut, MessageCircle, Trash2 } from "lucide-react";
 
 import {
   deleteGroupAction,
@@ -53,6 +53,7 @@ export function GroupControls({
   const router = useRouter();
   const [pending, start] = useTransition();
   const [copied, setCopied] = useState(false);
+  const [sharing, setSharing] = useState(false);
 
   // 공개 배포 주소가 설정돼 있으면 그걸로(로컬 테스트 시 localhost 링크가 공유되는 문제 방지).
   const siteBase = () =>
@@ -73,7 +74,18 @@ export function GroupControls({
     setTimeout(() => setCopied(false), 1500);
   }
 
+  // 중복 클릭 방지 — 공유가 진행 중이면 무시(공유시트 여러 개 뜨는 문제 차단).
   async function shareKakao() {
+    if (sharing) return;
+    setSharing(true);
+    try {
+      await doShareKakao();
+    } finally {
+      setSharing(false);
+    }
+  }
+
+  async function doShareKakao() {
     const url = inviteUrl();
 
     // 링크는 별도 줄에 두면 카카오톡이 OG 카드로 깔끔하게 펼친다("참여 링크:" 접두 제거).
@@ -200,9 +212,15 @@ export function GroupControls({
         <button
           type="button"
           onClick={shareKakao}
-          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-[11px] font-bold text-[#191600] transition hover:brightness-95"
+          disabled={sharing}
+          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-[11px] font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
         >
-          <MessageCircle aria-hidden="true" size={13} /> 초대
+          {sharing ? (
+            <Loader2 aria-hidden="true" size={13} className="animate-spin" />
+          ) : (
+            <MessageCircle aria-hidden="true" size={13} />
+          )}{" "}
+          초대
         </button>
         <button
           type="button"
@@ -238,9 +256,15 @@ export function GroupControls({
       <button
         type="button"
         onClick={shareKakao}
-        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#FEE500] text-base font-bold text-[#191600] transition hover:brightness-95"
+        disabled={sharing}
+        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#FEE500] text-base font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
       >
-        <MessageCircle aria-hidden="true" size={18} /> 카카오톡으로 초대
+        {sharing ? (
+          <Loader2 aria-hidden="true" size={18} className="animate-spin" />
+        ) : (
+          <MessageCircle aria-hidden="true" size={18} />
+        )}{" "}
+        카카오톡으로 초대
       </button>
 
       <button

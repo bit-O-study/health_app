@@ -61,18 +61,17 @@ export async function getCommunityFeed(limit = 100): Promise<CommunityPost[]> {
     ...new Set(rows.map((r) => r.group_id).filter((v): v is string => !!v)),
   ];
 
-  const [{ data: grps }, { data: likes }, { data: comments }] =
+  // 카운트는 RPC로 집계(좋아요/댓글 행 전체를 가져오지 않음), 좋아요 여부는 내 것만 조회.
+  const [{ data: grps }, { data: counts }, { data: myLikes }] =
     await Promise.all([
       groupIds.length > 0
         ? supabase.from("groups").select("id, name").in("id", groupIds)
         : Promise.resolve({ data: [] as { id: string; name: string }[] }),
+      supabase.rpc("community_post_counts", { pids: postIds }),
       supabase
         .from("community_likes")
-        .select("post_id, user_id")
-        .in("post_id", postIds),
-      supabase
-        .from("community_comments")
         .select("post_id")
+        .eq("user_id", user.id)
         .in("post_id", postIds),
     ]);
 
@@ -82,15 +81,18 @@ export async function getCommunityFeed(limit = 100): Promise<CommunityPost[]> {
   }
 
   const likeCount = new Map<string, number>();
-  const likedByMe = new Set<string>();
-  for (const l of (likes ?? []) as { post_id: string; user_id: string }[]) {
-    likeCount.set(l.post_id, (likeCount.get(l.post_id) ?? 0) + 1);
-    if (l.user_id === user.id) likedByMe.add(l.post_id);
-  }
   const commentCount = new Map<string, number>();
-  for (const cm of (comments ?? []) as { post_id: string }[]) {
-    commentCount.set(cm.post_id, (commentCount.get(cm.post_id) ?? 0) + 1);
+  for (const r of (counts ?? []) as {
+    post_id: string;
+    like_count: number;
+    comment_count: number;
+  }[]) {
+    likeCount.set(r.post_id, r.like_count);
+    commentCount.set(r.post_id, r.comment_count);
   }
+  const likedByMe = new Set<string>(
+    ((myLikes ?? []) as { post_id: string }[]).map((l) => l.post_id),
+  );
 
   return rows.map((r) => ({
     id: r.id,

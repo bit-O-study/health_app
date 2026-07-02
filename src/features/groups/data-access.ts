@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -45,8 +47,8 @@ export type GroupSummary = {
   memberCount: number;
 };
 
-/** 내가 속한 그룹 목록. */
-export async function getMyGroups(): Promise<GroupSummary[]> {
+/** 내가 속한 그룹 목록. 요청 내 중복 호출(네비 + 페이지) 캐시. */
+export const getMyGroups = cache(async (): Promise<GroupSummary[]> => {
   const user = await getCurrentUser();
   if (!user) return [];
   const supabase = await createSupabaseServerClient();
@@ -82,7 +84,7 @@ export async function getMyGroups(): Promise<GroupSummary[]> {
       memberCount: counts.get(g.id) ?? 1,
     }))
     .sort((a, b) => a.name.localeCompare(b.name, "ko"));
-}
+});
 
 export type GroupDetail = {
   id: string;
@@ -136,18 +138,21 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
   if (!user) return null;
   const supabase = await createSupabaseServerClient();
 
-  const { data: group } = await supabase
-    .from("groups")
-    .select("id, name, owner_id, invite_token")
-    .eq("id", groupId)
-    .maybeSingle();
+  // 그룹 정보와 멤버 목록은 독립 → 병렬로(한 라운드트립 절약).
+  const [{ data: group }, { data: members }] = await Promise.all([
+    supabase
+      .from("groups")
+      .select("id, name, owner_id, invite_token")
+      .eq("id", groupId)
+      .maybeSingle(),
+    supabase
+      .from("group_members")
+      .select("user_id, display_name")
+      .eq("group_id", groupId),
+  ]);
   if (!group) return null;
   const g = group as { id: string; name: string; owner_id: string; invite_token: string };
 
-  const { data: members } = await supabase
-    .from("group_members")
-    .select("user_id, display_name")
-    .eq("group_id", groupId);
   const memberRows = (members ?? []) as { user_id: string; display_name: string | null }[];
   const memberIds = memberRows.map((r) => r.user_id);
   if (!memberIds.includes(user.id)) return null; // 멤버 아님

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const PWA_ICON_VERSION = "20260702";
+const PWA_ICON_VERSION = "20260702b";
 
 /**
  * PWA 매니페스트.

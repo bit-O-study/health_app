@@ -11,7 +11,7 @@ import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
-const PWA_ICON_VERSION = "20260702";
+const PWA_ICON_VERSION = "20260702b";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

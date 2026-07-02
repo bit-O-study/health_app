@@ -1668,6 +1668,27 @@ create policy "own commitments" on public.commitments for all
 notify pgrst, 'reload schema';
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- 늑대 펫(pets) — 운동으로 Lv업 + 포인트 획득 → 아이템(옷) 구매/착용(싸이월드 미니미).
+--   points: 사용가능 포인트, synced_workouts: 이미 포인트로 환산한 누적 운동 수(중복지급 방지)
+--   owned: 보유 아이템 id[], equipped: slot→itemId
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.pets (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  name text not null default '',
+  points int not null default 0,
+  synced_workouts int not null default 0,
+  owned jsonb not null default '[]'::jsonb,
+  equipped jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+alter table public.pets enable row level security;
+drop policy if exists "own pet" on public.pets;
+create policy "own pet" on public.pets for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- 웹푸시 구독(push_subscriptions) — 사용자별 브라우저 푸시 엔드포인트(여러 기기 가능).
 -- 앱이 닫혀 있어도 30분 무활동 종료 알림을 보내기 위함(Vercel Cron + web-push).
 -- ─────────────────────────────────────────────────────────────────────────────

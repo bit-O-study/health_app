@@ -102,6 +102,33 @@ body::before {
   0%, 100% { opacity: 0.3; transform: scale(0.8); }
   50% { opacity: 1; transform: scale(1.15); }
 }
+/* 늑대 펫 — 대부분 가만히 있다가 '주기적으로' 통통 움직인다(깃허브 캐릭터 느낌). */
+@keyframes wolf-idle {
+  0%, 62% { transform: translateY(0) rotate(0deg) scale(1); }
+  70% { transform: translateY(-10%) rotate(-4deg) scale(1.02); }
+  78% { transform: translateY(0) rotate(3deg); }
+  85% { transform: translateY(-5%) rotate(-2deg); }
+  92%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+}
+.wolf-idle {
+  animation: wolf-idle 4.5s ease-in-out infinite;
+  transform-origin: bottom center;
+  display: inline-block;
+}
+
+/* 헬스장 늑대 — 좌우로 어슬렁어슬렁 걸어다닌다(끝에서 방향 전환). */
+@keyframes wolf-wander {
+  from { left: 6%; }
+  to { left: 82%; }
+}
+.wolf-wander {
+  animation-name: wolf-wander;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  left: 6%;
+}
+
 .g-bob { animation: g-bob 2s ease-in-out infinite; }
 .g-bob-big { animation: g-bob-big 2.2s ease-in-out infinite; }
 .g-crown { animation: g-crown 2.4s ease-in-out infinite; transform-origin: bottom center; }

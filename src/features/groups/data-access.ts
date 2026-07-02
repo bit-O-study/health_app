@@ -23,6 +23,7 @@ import {
   type RankedMember,
 } from "@/features/groups/ranking";
 import { computeWorkoutStreak } from "@/features/groups/streak";
+import { gymLevel } from "@/features/groups/gym";
 import { cheersByTarget } from "@/features/groups/cheers";
 import {
   challengeProgress,
@@ -267,6 +268,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
         todayBurned: 0,
         todayPhotos: [],
         streak: 0,
+        level: 0,
         isMe: uid === user.id,
       };
       stats.set(uid, s);
@@ -340,12 +342,33 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     addStreakDate(r.user_id, r.for_date);
   }
 
+  // 헬스장 늑대 레벨 — 멤버별 '전체 기간' 완료 운동 수(근력+컨디셔닝) 기준. 처음 0.
+  const totalWorkoutsOf = new Map<string, number>();
+  await Promise.all(
+    memberIds.map(async (uid) => {
+      const [{ count: e }, { count: c }] = await Promise.all([
+        supabase
+          .from("exercise_completions")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", uid)
+          .eq("status", "done"),
+        supabase
+          .from("conditioning_completions")
+          .select("id", { count: "exact", head: true })
+          .eq("user_id", uid)
+          .eq("status", "done"),
+      ]);
+      totalWorkoutsOf.set(uid, (e ?? 0) + (c ?? 0));
+    }),
+  );
+
   for (const s of stats.values()) {
     s.kcal = Math.round(s.kcal);
     s.todayIntake = Math.round(todayIntakeOf.get(s.userId) ?? 0);
     s.todayBurned = Math.round(todayBurnedOf.get(s.userId) ?? 0);
     s.todayPhotos = todayPhotosOf.get(s.userId) ?? [];
     s.streak = computeWorkoutStreak(streakDatesOf.get(s.userId) ?? [], today);
+    s.level = gymLevel(totalWorkoutsOf.get(s.userId) ?? 0);
   }
 
   // 응원 문구 — 대상자별로 묶고 작성자 이름을 붙인다.

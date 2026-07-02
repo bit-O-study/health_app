@@ -47,44 +47,7 @@ export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {/* ── 벽(검정) ── */}
-      <div className="absolute inset-x-0 top-0 h-[62%] bg-gradient-to-b from-black to-zinc-900" />
-      {/* ── 바닥(체육관 회색 고무바닥) ── */}
-      <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-b from-zinc-500 to-zinc-400 dark:from-zinc-700 dark:to-zinc-600">
-        {/* 바닥 라인 */}
-        <div className="absolute inset-x-0 top-0 h-px bg-white/20" />
-        <div className="absolute inset-x-0 top-1/2 h-px bg-black/10" />
-      </div>
-
-      {/* ── 헬스 기구(벽·바닥 경계에 배치) ── */}
-      {[
-        { icon: "🏃‍♂️", label: "런닝머신" },
-        { icon: "🏋️", label: "벤치프레스" },
-        { icon: "🦿", label: "하체프레스" },
-        { icon: "🏋️‍♀️", label: "바벨" },
-        { icon: null, label: "덤벨" },
-      ].map((e, i) => (
-        <div
-          key={e.label}
-          className="absolute z-[6] flex -translate-x-1/2 flex-col items-center"
-          style={{ left: `${10 + i * 20}%`, top: "56%" }}
-        >
-          {e.icon ? (
-            <span className="text-3xl drop-shadow">{e.icon}</span>
-          ) : (
-            <span className="flex h-8 items-center drop-shadow">
-              <span className="h-4 w-4 rounded-full bg-zinc-800" />
-              <span className="h-1.5 w-4 bg-zinc-600" />
-              <span className="h-4 w-4 rounded-full bg-zinc-800" />
-            </span>
-          )}
-          <span className="mt-0.5 rounded bg-black/50 px-1 text-[8px] font-bold text-white">
-            {e.label}
-          </span>
-        </div>
-      ))}
-
-      {/* 고퀄 배경 이미지(있으면 CSS 헬스장을 덮음) */}
+      {/* 실사 헬스장 사진(있으면 배경). 없으면 아래 CSS 헬스장으로 폴백. */}
       {bgOk ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -93,7 +56,40 @@ export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
           onError={() => setBgOk(false)}
           className="absolute inset-0 h-full w-full object-cover"
         />
-      ) : null}
+      ) : (
+        <>
+          {/* ── 벽(검정) ── */}
+          <div className="absolute inset-x-0 top-0 h-[62%] bg-gradient-to-b from-black to-zinc-900" />
+          {/* ── 바닥(체육관 회색 고무바닥) ── */}
+          <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-b from-zinc-500 to-zinc-400 dark:from-zinc-700 dark:to-zinc-600">
+            <div className="absolute inset-x-0 top-0 h-px bg-white/20" />
+            <div className="absolute inset-x-0 top-1/2 h-px bg-black/10" />
+          </div>
+          {/* 헬스 기구(폴백용) */}
+          {[
+            { label: "런닝머신" },
+            { label: "벤치프레스" },
+            { label: "하체프레스" },
+            { label: "바벨" },
+            { label: "덤벨" },
+          ].map((e, i) => (
+            <div
+              key={e.label}
+              className="absolute z-[6] flex -translate-x-1/2 flex-col items-center"
+              style={{ left: `${10 + i * 20}%`, top: "56%" }}
+            >
+              <span className="flex h-8 items-center drop-shadow">
+                <span className="h-4 w-4 rounded-full bg-zinc-800" />
+                <span className="h-1.5 w-4 bg-zinc-600" />
+                <span className="h-4 w-4 rounded-full bg-zinc-800" />
+              </span>
+              <span className="mt-0.5 rounded bg-black/50 px-1 text-[8px] font-bold text-white">
+                {e.label}
+              </span>
+            </div>
+          ))}
+        </>
+      )}
 
       {/* 그룹 공유 늑대(화면 안 2D 배회) */}
       <WalkingDog size={petSize} seed={pet.groupWorkouts + pet.level} />

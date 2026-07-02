@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 
+const PWA_ICON_VERSION = "20260702";
+
 /**
  * PWA 매니페스트.
  * Next.js 가 이 파일을 자동으로`/manifest.webmanifest` 로 서빙하고
@@ -27,19 +29,19 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#4f46e5",
     icons: [
       {
-        src: "/icon-192.png?v=helssu-20260611",
+        src: `/icon-192-${PWA_ICON_VERSION}.png`,
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icon-512.png?v=helssu-20260611",
+        src: `/icon-512-${PWA_ICON_VERSION}.png`,
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icon-512-maskable.png?v=helssu-20260611",
+        src: `/icon-512-maskable-${PWA_ICON_VERSION}.png`,
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

@@ -23,7 +23,7 @@ import {
   type RankedMember,
 } from "@/features/groups/ranking";
 import { computeWorkoutStreak } from "@/features/groups/streak";
-import { gymLevel } from "@/features/groups/gym";
+import { gymLevel, coinsForLevel, COINS_PER_WORKOUT } from "@/features/groups/gym";
 import { cheersByTarget } from "@/features/groups/cheers";
 import {
   challengeProgress,
@@ -97,6 +97,20 @@ export type GroupDetail = {
   cheers: Record<string, CheerView[]>;
   /** 이번 주 그룹 챌린지(목표+진행률). 없으면 null. */
   challenge: ChallengeProgress | null;
+  /** 그룹 공유 펫(코인·레벨). */
+  pet: GroupPet;
+};
+
+/** 그룹 공유 펫 — 그룹당 1마리. 운동 코인으로 함께 레벨업. */
+export type GroupPet = {
+  name: string;
+  level: number;
+  coins: number;
+  /** 다음 레벨업 비용(코인). */
+  nextCost: number;
+  /** 그룹 전체 누적 운동 수. */
+  groupWorkouts: number;
+  memberCount: number;
 };
 
 /** 응원 문구 표시용 — 작성자 이름 + 내용 + 내가 쓴 것인지. */
@@ -394,6 +408,47 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     }));
   }
 
+  // 그룹 공유 펫 — 그룹 전체 누적 운동으로 코인 적립(신규 운동만큼, 중복 방지).
+  const groupWorkouts = [...totalWorkoutsOf.values()].reduce((a, b) => a + b, 0);
+  const { data: petRow } = await supabase
+    .from("group_pets")
+    .select("name, level, coins, synced_workouts")
+    .eq("group_id", groupId)
+    .maybeSingle();
+  const pr = petRow as {
+    name: string | null;
+    level: number | null;
+    coins: number | null;
+    synced_workouts: number | null;
+  } | null;
+  const petName = pr?.name ?? "";
+  const petLevelVal = pr?.level ?? 0;
+  let petCoins = pr?.coins ?? 0;
+  let petSynced = pr?.synced_workouts ?? 0;
+  if (!pr || groupWorkouts > petSynced) {
+    petCoins += Math.max(0, groupWorkouts - petSynced) * COINS_PER_WORKOUT;
+    petSynced = groupWorkouts;
+    await supabase.from("group_pets").upsert(
+      {
+        group_id: groupId,
+        name: petName,
+        level: petLevelVal,
+        coins: petCoins,
+        synced_workouts: petSynced,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "group_id" },
+    );
+  }
+  const pet: GroupPet = {
+    name: petName,
+    level: petLevelVal,
+    coins: petCoins,
+    nextCost: coinsForLevel(petLevelVal),
+    groupWorkouts,
+    memberCount: memberIds.length,
+  };
+
   return {
     id: g.id,
     name: g.name,
@@ -409,6 +464,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       if (!c || !isChallengeMetric(c.metric)) return null;
       return challengeProgress(c.metric, c.target, [...stats.values()]);
     })(),
+    pet,
   };
 }
 

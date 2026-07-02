@@ -1,76 +1,71 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { Check, Coins, Loader2, Pencil } from "lucide-react";
 
-import type { RankedMember } from "@/features/groups/ranking";
+import type { GroupPet } from "@/features/groups/data-access";
 import { wolfScale } from "@/features/groups/gym";
-import { WolfCharacter } from "@/features/groups/components/wolf-character";
+import {
+  levelUpGroupPetAction,
+  setGroupPetNameAction,
+} from "@/features/groups/group-actions";
+import { WalkingDog } from "@/features/groups/components/walking-dog";
 
 /**
- * 2D 헬스장(전체화면) — 그룹원들이 각자 귀여운 늑대로 계속 걸어다닌다.
- * public/gym/gym.png 배경 이미지가 있으면 그걸로 고퀄 배경, 없으면 CSS 헬스장.
+ * 2D 헬스장(전체화면) — 그룹 공유 늑대 1마리가 화면 안에서 위아래·좌우로 배회.
+ * 그룹원 운동으로 모인 코인으로 레벨업. 이름 지정 가능.
  */
-export function GymRoom({ members }: { members: RankedMember[] }) {
+export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
+  const router = useRouter();
+  const [pending, start] = useTransition();
   const [bgOk, setBgOk] = useState(true);
+  const [editing, setEditing] = useState(false);
+  const [name, setName] = useState(pet.name);
+  const [msg, setMsg] = useState<string | null>(null);
+
+  const petSize = Math.round(120 * wolfScale(pet.level));
+  const canLevel = pet.coins >= pet.nextCost;
+
+  function levelUp() {
+    setMsg(null);
+    start(async () => {
+      const r = await levelUpGroupPetAction(groupId);
+      if (r.ok) router.refresh();
+      else setMsg(r.error);
+    });
+  }
+  function saveName() {
+    start(async () => {
+      const r = await setGroupPetNameAction(groupId, name);
+      if (r.ok) {
+        setEditing(false);
+        router.refresh();
+      } else setMsg(r.error);
+    });
+  }
+
   return (
     <div className="relative h-full w-full overflow-hidden">
       {/* ── 벽 ── */}
       <div className="absolute inset-x-0 top-0 h-[60%] bg-gradient-to-b from-sky-100 to-indigo-50 dark:from-sky-950/50 dark:to-zinc-900">
-        {/* 창문 */}
-        <div className="absolute left-4 top-6 h-20 w-28 rounded-lg border-4 border-white/85 bg-gradient-to-b from-sky-300 to-sky-100 shadow-sm">
+        <div className="absolute left-4 top-10 h-20 w-28 rounded-lg border-4 border-white/85 bg-gradient-to-b from-sky-300 to-sky-100 shadow-sm">
           <div className="absolute inset-y-0 left-1/2 w-0.5 -translate-x-1/2 bg-white/80" />
           <div className="absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-white/80" />
         </div>
-        {/* 거울 */}
-        <div className="absolute right-4 top-6 h-24 w-16 rounded-xl border-4 border-zinc-200/80 bg-gradient-to-br from-white/80 to-sky-100/60 shadow-sm dark:border-zinc-600/70" />
-        {/* 벽시계 */}
-        <div className="absolute left-1/2 top-4 h-8 w-8 -translate-x-1/2 rounded-full border-2 border-zinc-300 bg-white/90 dark:border-zinc-600 dark:bg-zinc-800">
-          <div className="absolute left-1/2 top-1/2 h-2 w-0.5 -translate-x-1/2 -translate-y-full bg-zinc-500" />
-          <div className="absolute left-1/2 top-1/2 h-0.5 w-2 -translate-y-1/2 bg-zinc-500" />
-        </div>
-        {/* 동기부여 포스터 */}
-        <div className="absolute left-[38%] top-8 flex h-16 w-14 flex-col items-center justify-center gap-1 rounded-md bg-emerald-500/90 p-1 shadow-sm">
-          <span className="text-lg">💪</span>
-          <span className="h-1 w-9 rounded bg-white/80" />
-          <span className="h-1 w-7 rounded bg-white/70" />
-        </div>
-        {/* 벽 봉(풀업바) */}
-        <div className="absolute right-[26%] top-7 h-1.5 w-16 rounded bg-zinc-400/80" />
+        <div className="absolute right-4 top-10 h-24 w-16 rounded-xl border-4 border-zinc-200/80 bg-gradient-to-br from-white/80 to-sky-100/60 shadow-sm dark:border-zinc-600/70" />
       </div>
-
       {/* ── 바닥 ── */}
       <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-b from-amber-200 to-amber-300 dark:from-amber-900/50 dark:to-amber-950/60">
-        {/* 매트 */}
         <div className="absolute left-1/2 top-2 h-10 w-40 -translate-x-1/2 rounded-2xl bg-rose-400/40" />
-
-        {/* 러닝머신(왼쪽) */}
-        <div className="absolute bottom-2 left-3">
-          <div className="h-6 w-16 rounded-md bg-zinc-700" />
-          <div className="ml-11 -mt-9 h-9 w-4 rounded-t-md bg-zinc-500" />
-        </div>
-
-        {/* 덤벨 한 쌍(가운데 오른쪽) */}
         <div className="absolute bottom-3 right-24 flex items-center">
           <span className="h-4 w-4 rounded-full bg-zinc-800" />
           <span className="h-1.5 w-5 bg-zinc-500" />
           <span className="h-4 w-4 rounded-full bg-zinc-800" />
         </div>
-
-        {/* 원판 랙(오른쪽) */}
-        <div className="absolute bottom-2 right-4 flex items-end gap-1">
-          <span className="h-8 w-2 rounded bg-zinc-600" />
-          <span className="h-6 w-6 rounded-full border-4 border-emerald-600 bg-emerald-500" />
-          <span className="h-5 w-5 rounded-full border-4 border-sky-600 bg-sky-500" />
-        </div>
-
-        {/* 화분(왼쪽 코너) */}
-        <div className="absolute bottom-2 left-24">
-          <div className="mx-auto h-4 w-5 rounded-b-md bg-orange-400" />
-          <div className="-mt-6 text-xl leading-none">🌿</div>
-        </div>
       </div>
 
-      {/* 고퀄 배경 이미지(있으면 CSS 헬스장을 덮는다) */}
+      {/* 고퀄 배경 이미지(있으면 CSS 헬스장을 덮음) */}
       {bgOk ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
@@ -81,33 +76,83 @@ export function GymRoom({ members }: { members: RankedMember[] }) {
         />
       ) : null}
 
-      {/* ── 늑대들(계속 배회) ── */}
-      {members.map((m, i) => {
-        const scale = wolfScale(m.level);
-        const lane = i % 3;
-        const bottom = 6 + lane * 11; // 바닥 위 깊이(%)
-        const dur = 6 + ((i * 31) % 6); // 6~11s (또렷하게 이동)
-        const delay = -((i * 47) % 11);
-        return (
-          <div
-            key={m.userId}
-            className="wolf-wander absolute flex flex-col items-center"
-            style={{
-              bottom: `${bottom}%`,
-              animationDuration: `${dur}s`,
-              animationDelay: `${delay}s`,
-              zIndex: 10 + lane,
-            }}
+      {/* 그룹 공유 늑대(화면 안 2D 배회) */}
+      <WalkingDog size={petSize} seed={pet.groupWorkouts + pet.level} />
+
+      {/* 상단 오버레이 — 이름 / Lv / 코인 / 레벨업 */}
+      <div className="absolute inset-x-0 top-0 z-30 flex items-start justify-between gap-2 p-2">
+        {/* 이름 + Lv */}
+        <div className="flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-1 shadow backdrop-blur dark:bg-zinc-900/90">
+          {editing ? (
+            <>
+              <input
+                aria-label="늑대 이름"
+                value={name}
+                maxLength={12}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="늑대 이름"
+                className="h-6 w-24 rounded border border-zinc-300 px-1 text-xs dark:border-zinc-600 dark:bg-zinc-800"
+              />
+              <button
+                type="button"
+                onClick={saveName}
+                disabled={pending}
+                className="text-emerald-600"
+              >
+                <Check size={14} />
+              </button>
+            </>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setName(pet.name);
+                setEditing(true);
+              }}
+              className="flex items-center gap-1 text-sm font-extrabold text-zinc-900 dark:text-zinc-100"
+            >
+              {pet.name || "우리 늑대"}
+              <Pencil size={11} className="text-zinc-400" />
+            </button>
+          )}
+          <span className="rounded-full bg-violet-500 px-1.5 text-[10px] font-bold text-white">
+            Lv.{pet.level}
+          </span>
+        </div>
+
+        {/* 코인 + 레벨업 */}
+        <div className="flex items-center gap-1">
+          <span className="flex items-center gap-0.5 rounded-full bg-amber-100 px-2 py-1 text-xs font-black text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
+            <Coins size={13} /> {pet.coins.toLocaleString()}
+          </span>
+          <button
+            type="button"
+            onClick={levelUp}
+            disabled={pending || !canLevel}
+            className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs font-bold shadow transition ${
+              canLevel
+                ? "bg-violet-600 text-white hover:bg-violet-500"
+                : "bg-zinc-200 text-zinc-400 dark:bg-zinc-700"
+            } disabled:opacity-70`}
           >
-            <span className="wolf-idle inline-block">
-              <WolfCharacter size={Math.round(74 * scale)} level={m.level} />
-            </span>
-            <span className="-mt-1 whitespace-nowrap rounded-full bg-white/85 px-1.5 text-[9px] font-bold text-zinc-600 shadow-sm dark:bg-zinc-800/85 dark:text-zinc-300">
-              {m.name.length > 5 ? `${m.name.slice(0, 5)}…` : m.name} · Lv{m.level}
-            </span>
-          </div>
-        );
-      })}
+            {pending ? (
+              <Loader2 size={13} className="animate-spin" />
+            ) : null}
+            레벨업 {pet.nextCost}🪙
+          </button>
+        </div>
+      </div>
+
+      {msg ? (
+        <p className="absolute inset-x-0 top-12 z-30 mx-auto w-fit rounded-lg bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 shadow dark:bg-red-950/60 dark:text-red-300">
+          {msg}
+        </p>
+      ) : null}
+
+      {/* 함께 키우는 인원 */}
+      <p className="absolute bottom-1 left-1/2 z-30 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-zinc-500/90">
+        {pet.memberCount}명이 함께 키우는 중 · 운동하면 코인 적립 🪙
+      </p>
     </div>
   );
 }

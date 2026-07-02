@@ -1641,6 +1641,25 @@ create policy "owner writes challenge" on public.group_challenges for all
   );
 notify pgrst, 'reload schema';
 
+-- 그룹 공유 펫(group_pets) — 그룹당 1마리(늑대/강아지). 그룹원들이 운동으로 코인을 모아
+-- 함께 레벨업시킨다. Lv0 시작. coins: 사용가능 코인, synced_workouts: 코인 환산 완료한 그룹 누적 운동 수.
+create table if not exists public.group_pets (
+  group_id uuid primary key references public.groups(id) on delete cascade,
+  name text not null default '',
+  level int not null default 0,
+  coins int not null default 0,
+  synced_workouts int not null default 0,
+  updated_at timestamptz not null default now()
+);
+alter table public.group_pets enable row level security;
+drop policy if exists "members read group pet" on public.group_pets;
+create policy "members read group pet" on public.group_pets for select
+  using (public.is_group_member(group_id));
+drop policy if exists "members write group pet" on public.group_pets;
+create policy "members write group pet" on public.group_pets for all
+  using (public.is_group_member(group_id)) with check (public.is_group_member(group_id));
+notify pgrst, 'reload schema';
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 다짐(commitments) — 사용자가 정한 목표. 시작일~데드라인 기간 동안 기존 운동/식단
 -- 기록으로 진행률을 '자동 집계'한다. 캘린더에 기간·데드라인을 표시.

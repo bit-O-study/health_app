@@ -11,6 +11,7 @@ import { sendPush, pushEnabled } from "@/features/notifications/push";
 import { getUserProfile } from "@/features/profile/data-access";
 import { isValidCheer, normalizeCheer } from "@/features/groups/cheers";
 import { isChallengeMetric } from "@/features/groups/challenge";
+import { coinsForLevel } from "@/features/groups/gym";
 import { weekRange } from "@/features/groups/ranking";
 import { seoulYmd } from "@/features/routine/data";
 
@@ -248,6 +249,61 @@ export async function clearGroupChallengeAction(
     .eq("group_id", groupId)
     .eq("week_from", from);
   if (error) return { ok: false, error: error.message };
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/**
+ * 그룹 공유 펫 레벨업 — 모인 코인으로 그룹원 누구나 올릴 수 있다. 코인 부족이면 실패.
+ * (RLS: 그룹원만 group_pets 쓰기 가능.)
+ */
+export async function levelUpGroupPetAction(
+  groupId: string,
+): Promise<GroupActionResult> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { data } = await supabase
+    .from("group_pets")
+    .select("level, coins")
+    .eq("group_id", groupId)
+    .maybeSingle();
+  const level = (data as { level: number | null } | null)?.level ?? 0;
+  const coins = (data as { coins: number | null } | null)?.coins ?? 0;
+  const cost = coinsForLevel(level);
+  if (coins < cost) {
+    return { ok: false, error: `코인이 부족해요. (${coins}/${cost}) 운동으로 모아요!` };
+  }
+  const { error } = await supabase.from("group_pets").upsert(
+    {
+      group_id: groupId,
+      level: level + 1,
+      coins: coins - cost,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "group_id" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath(`/groups`);
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/** 그룹 펫 이름 짓기(≤12자) — 그룹원 누구나. */
+export async function setGroupPetNameAction(
+  groupId: string,
+  name: string,
+): Promise<GroupActionResult> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const { error } = await supabase.from("group_pets").upsert(
+    { group_id: groupId, name: name.trim().slice(0, 12), updated_at: new Date().toISOString() },
+    { onConflict: "group_id" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath(`/groups`);
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
 }

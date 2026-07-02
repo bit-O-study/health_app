@@ -21,3 +21,11 @@ export function gymLevel(totalWorkouts: number): number {
 export function wolfScale(level: number): number {
   return Math.min(1.7, 0.8 + Math.max(0, level) * 0.06);
 }
+
+/** 그룹 운동 1회당 적립 코인(그룹 전체 누적 기준). */
+export const COINS_PER_WORKOUT = 10;
+
+/** 현재 레벨 → 다음 레벨(level→level+1)로 올리는 데 드는 코인. 오를수록 비싸진다. */
+export function coinsForLevel(level: number): number {
+  return 50 + Math.max(0, Math.floor(level)) * 30;
+}

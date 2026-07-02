@@ -33,16 +33,30 @@ self.addEventListener("push", (event) => {
   }
   const title = data.title || "헬쑤";
   const body = data.body || "";
+  const type = data.type || "workout-end";
+
+  if (type === "workout-end") {
+    event.waitUntil(
+      self.registration.showNotification(title, {
+        body,
+        tag: "workout-end",
+        requireInteraction: true,
+        data: { type },
+        actions: [
+          { action: "yes", title: "예" },
+          { action: "no", title: "아니오" },
+        ],
+      }),
+    );
+    return;
+  }
+
+  // 일반 알림(그룹 응원 등) — 예/아니오 없이 표시, 본문 클릭 시 url 로 이동.
   event.waitUntil(
     self.registration.showNotification(title, {
       body,
-      tag: "workout-end",
-      requireInteraction: true,
-      data: { type: data.type || "workout-end" },
-      actions: [
-        { action: "yes", title: "예" },
-        { action: "no", title: "아니오" },
-      ],
+      tag: type,
+      data: { type, url: data.url || "/" },
     }),
   );
 });
@@ -52,7 +66,34 @@ self.addEventListener("push", (event) => {
 // - 앱이 닫혀 있으면: SW 가 직접 서버(/api/workout/end)에 알림(쿠키 포함) 후 앱을 연다.
 self.addEventListener("notificationclick", (event) => {
   const action = event.action || ""; // 'yes' | 'no' | '' (본문 클릭)
+  const ndata = event.notification.data || {};
+  const type = ndata.type || "workout-end";
   event.notification.close();
+
+  // 일반 알림(그룹 응원 등) — 저장된 url 로 앱을 연다(있으면 기존 창 포커스).
+  if (type !== "workout-end") {
+    const url = ndata.url || "/";
+    event.waitUntil(
+      (async () => {
+        const wins = await self.clients.matchAll({
+          type: "window",
+          includeUncontrolled: true,
+        });
+        const client = wins[0];
+        if (client) {
+          try {
+            await client.navigate(url);
+          } catch {
+            /* navigate 미지원/실패 — 포커스만 */
+          }
+          return client.focus();
+        }
+        return self.clients.openWindow(url);
+      })(),
+    );
+    return;
+  }
+
   event.waitUntil(
     (async () => {
       const clients = await self.clients.matchAll({

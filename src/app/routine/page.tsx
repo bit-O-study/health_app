@@ -15,6 +15,7 @@ import {
 
 import { Logo } from "@/features/brand/logo";
 import { NotificationBell } from "@/features/notifications/notification-center";
+import { PermissionNudge } from "@/features/notifications/components/permission-nudge";
 import { getCurrentUser } from "@/lib/supabase/server";
 import {
   getUserProfile,
@@ -132,6 +133,11 @@ export default async function Home() {
       <HeaderBar isLoggedIn={Boolean(user)} />
 
       <main className="mx-auto w-full max-w-5xl px-4 py-8 sm:px-10 sm:py-12">
+        {user ? (
+          <div className="mb-4">
+            <PermissionNudge />
+          </div>
+        ) : null}
         {!user ? (
           <LoggedOutHero />
         ) : !routine ? (

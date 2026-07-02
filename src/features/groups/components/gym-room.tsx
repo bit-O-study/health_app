@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, Coins, Loader2, Pencil, Users } from "lucide-react";
+import { Check, ChevronRight, Coins, Loader2, Pencil, Users, X } from "lucide-react";
 
 import type { GroupPet } from "@/features/groups/data-access";
 import type { RankedMember } from "@/features/groups/ranking";
@@ -32,6 +33,7 @@ export function GymRoom({
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(pet.name);
   const [msg, setMsg] = useState<string | null>(null);
+  const [showMembers, setShowMembers] = useState(false);
 
   const petSize = Math.round(190 * wolfScale(pet.level));
   const canLevel = pet.coins >= pet.nextCost;
@@ -65,26 +67,30 @@ export function GymRoom({
         <span className="flex items-center gap-1 rounded-full bg-amber-400 px-3 py-1 text-sm font-black text-amber-950 shadow">
           <Coins size={15} /> {pet.coins.toLocaleString()}
         </span>
-        <span className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-zinc-700 shadow dark:bg-zinc-900/90 dark:text-zinc-200">
-          <Users size={13} /> {pet.memberCount}명이 함께
-        </span>
+        <button
+          type="button"
+          onClick={() => setShowMembers(true)}
+          className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-zinc-700 shadow transition hover:bg-white dark:bg-zinc-900/90 dark:text-zinc-200"
+        >
+          <Users size={14} /> {pet.memberCount}명이 함께
+        </button>
       </div>
 
       {/* ── 오른쪽: 이번주 소모 칼로리 순위(반투명) + 늑대에 쓴 코인 ── */}
-      <div className="absolute right-1 top-11 z-30 w-[104px]">
-        <div className="mb-0.5 text-right text-[10px] font-black text-violet-600 drop-shadow-sm dark:text-violet-300">
+      <div className="absolute right-1 top-11 z-30 w-[150px]">
+        <div className="mb-0.5 text-right text-[12px] font-black text-violet-600 drop-shadow-sm dark:text-violet-300">
           🪙 늑대에 쓴 {pet.coinsSpent.toLocaleString()}
         </div>
-        <div className="max-h-[42vh] space-y-0.5 overflow-y-auto rounded-lg bg-white/35 p-1 backdrop-blur-sm dark:bg-zinc-900/35">
-          <p className="mb-0.5 text-center text-[9px] font-bold text-zinc-500">
+        <div className="max-h-[42vh] space-y-0.5 overflow-y-auto rounded-lg bg-white/40 p-1.5 backdrop-blur-sm dark:bg-zinc-900/40">
+          <p className="mb-0.5 text-center text-[11px] font-bold text-zinc-500">
             이번주 소모 kcal
           </p>
           {members.map((m, i) => (
             <div
               key={m.userId}
-              className="flex items-center gap-1 text-[10px] leading-tight"
+              className="flex items-center gap-1 text-[13px] leading-tight"
             >
-              <span className="w-3 shrink-0 text-center font-black text-zinc-500">
+              <span className="w-3.5 shrink-0 text-center font-black text-zinc-500">
                 {i + 1}
               </span>
               <span
@@ -193,6 +199,57 @@ export function GymRoom({
           </p>
         </div>
       </div>
+
+      {/* 멤버 목록 모달 — 회원 누르면 그 회원 오늘 음식·운동 상세로 */}
+      {showMembers ? (
+        <div
+          className="absolute inset-0 z-40 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => setShowMembers(false)}
+        >
+          <div
+            className="max-h-[80%] w-full max-w-xs overflow-y-auto rounded-2xl bg-white p-3 shadow-xl dark:bg-zinc-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-2 flex items-center justify-between">
+              <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                멤버 · 눌러서 오늘 기록 보기
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowMembers(false)}
+                aria-label="닫기"
+                className="text-zinc-400"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            <ul className="space-y-1.5">
+              {members.map((m, i) => (
+                <li key={m.userId}>
+                  <Link
+                    href={`/groups/${groupId}/member/${m.userId}`}
+                    className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-2.5 transition hover:border-emerald-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700"
+                  >
+                    <span className="w-4 text-center text-sm font-black text-zinc-400">
+                      {i + 1}
+                    </span>
+                    <span className="min-w-0 flex-1 truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                      {m.name}
+                      {m.isMe ? (
+                        <span className="ml-1 text-[10px] font-bold text-emerald-600">나</span>
+                      ) : null}
+                    </span>
+                    <span className="shrink-0 text-xs font-bold text-orange-600 dark:text-orange-400">
+                      🔥{m.kcal.toLocaleString()}
+                    </span>
+                    <ChevronRight size={15} className="shrink-0 text-zinc-400" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

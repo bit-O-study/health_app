@@ -1638,6 +1638,32 @@ create policy "owner writes challenge" on public.group_challenges for all
 notify pgrst, 'reload schema';
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- 다짐(commitments) — 사용자가 정한 목표. 시작일~데드라인 기간 동안 기존 운동/식단
+-- 기록으로 진행률을 '자동 집계'한다. 캘린더에 기간·데드라인을 표시.
+-- metric: 운동한 날/운동 횟수/소비 kcal/식단기록한 날(이상 달성), 하루평균섭취(이하 달성).
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.commitments (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  title text not null,
+  tag text not null default 'custom',
+  metric text not null check (metric in (
+    'workout_days', 'workout_count', 'burn_kcal', 'diet_days', 'intake_avg_max'
+  )),
+  target numeric not null check (target > 0),
+  start_date date not null,
+  deadline date not null,
+  archived boolean not null default false,
+  created_at timestamptz not null default now()
+);
+create index if not exists commitments_user_idx on public.commitments (user_id);
+alter table public.commitments enable row level security;
+drop policy if exists "own commitments" on public.commitments;
+create policy "own commitments" on public.commitments for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- 웹푸시 구독(push_subscriptions) — 사용자별 브라우저 푸시 엔드포인트(여러 기기 가능).
 -- 앱이 닫혀 있어도 30분 무활동 종료 알림을 보내기 위함(Vercel Cron + web-push).
 -- ─────────────────────────────────────────────────────────────────────────────

@@ -26,13 +26,24 @@
 | `src/features/admin/debug-features.ts` | 순수 모듈 — `DEBUG_FEATURES` 레지스트리, `debugSettingKey`, `debugValueEnabled`(단위 테스트 대상) |
 | `src/features/admin/debug-features.server.ts` | server-only — `isDebugFeatureEnabled(id)`(노출 게이트), `getDebugFeatureStates()`(관리자 설정용 상태맵) |
 | `setDebugFeatureAction(id, enabled)` (`admin-actions.ts`) | 기능별 온/오프 저장(관리자만). 끌 때만 `false` 기록, 기본은 켜짐 |
-| `DebugFeaturesManager` (`components/debug-features-manager.tsx`) | 관리자 설정의 토글 UI |
-| `app_settings` 테이블 (key `debug.<id>`, jsonb value) | 온/오프 저장소. RLS 로 관리자만 read/write |
+| `add/removeDebugAccountAction(email)` (`admin-actions.ts`) | 디버그 계정 지정/해제(관리자만) → `app_settings['debug.accounts']` |
+| `DebugFeaturesManager` / `DebugAccountsManager` (`components/`) | 관리자 설정의 토글·계정 UI |
+| `is_debug_account()` / `debug_feature_enabled(id)` (SQL, SECURITY DEFINER) | 디버그 계정·노출 판정. 비관리자 디버그 계정도 판정 가능 |
+| `app_settings` 테이블 (key `debug.<id>`/`debug.accounts`, jsonb) | 온/오프·계정목록 저장소. RLS 로 관리자만 read/write |
+
+## 디버그 계정
+
+디버그 기능은 **디버그 계정**에게만 보인다. 디버그 계정 =
+- **모든 관리자**(항상), 또는
+- 관리자가 `/admin/settings` → "디버그 계정" 에 이메일로 지정한 계정(테스트폰용).
+
+지정 목록은 `app_settings['debug.accounts']`(이메일 배열)에 저장된다. 판정은
+DB 함수 **`is_debug_account()`**(SECURITY DEFINER)가 하므로, 비관리자 테스트 계정도
+자기 자신이 디버그 계정인지 확인할 수 있다(목록 자체는 노출되지 않음). 기능 노출
+게이트 `isDebugFeatureEnabled(id)` 는 DB 함수 **`debug_feature_enabled(id)`** 를
+호출한다(디버그 계정 AND 기능 켜짐을 한 번에 판정).
 
 ## 주의
-
-- **디버그 계정 = 관리자.** `isDebugFeatureEnabled` 는 `isAdminUser()`(admins 테이블
-  + `is_admin()` SQL 함수)를 먼저 확인한다. 관리자 지정은 `/admin/settings` 상단에서.
 - `app_settings` 는 수동 DDL 로 라이브 DB에 이미 적용됨. 스키마 변경 시
   `supabase/schema.sql` + 라이브 DB 둘 다 갱신하고 `pnpm test:schema` 통과 확인.
 - 걸음수 진단칩은 위 규칙과 별개로 URL `?stepsdebug=1` 로 누구나 강제로 볼 수 있다

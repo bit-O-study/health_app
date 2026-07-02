@@ -992,8 +992,9 @@ drop policy if exists "admin writes exercise media" on public.exercise_media;
 create policy "admin writes exercise media" on public.exercise_media for all
   using (public.is_admin()) with check (public.is_admin());
 
--- 앱 설정(key-value) — 디버그 기능 '기능별 온오프' 저장. key='debug.<featureId>', value=jsonb(boolean).
--- 관리자만 읽고 쓴다(디버그 노출은 관리자=디버그 계정만 대상이라 비관리자 읽기 불필요).
+-- 앱 설정(key-value). 관리자만 읽고 쓴다.
+--   key='debug.<featureId>'  value=jsonb(boolean)  → 디버그 기능 '기능별 온오프'
+--   key='debug.accounts'     value=jsonb(string[]) → '디버그 계정'(이메일) 목록
 create table if not exists public.app_settings (
   key text primary key,
   value jsonb not null default 'null'::jsonb,
@@ -1006,6 +1007,32 @@ create policy "admin reads app settings" on public.app_settings for select
 drop policy if exists "admin writes app settings" on public.app_settings;
 create policy "admin writes app settings" on public.app_settings for all
   using (public.is_admin()) with check (public.is_admin());
+
+-- 디버그 계정 — 관리자(is_admin) 이거나 app_settings['debug.accounts'](이메일 배열)에 든 계정.
+-- SECURITY DEFINER 라 비관리자 테스트 계정도 '자기 자신'이 디버그 계정인지 확인 가능(목록 자체는 노출 안 됨).
+create or replace function public.is_debug_account() returns boolean
+  language sql security definer stable set search_path = public as $$
+  select public.is_admin() or exists(
+    select 1
+    from public.app_settings s
+    cross join lateral jsonb_array_elements_text(
+      case when jsonb_typeof(s.value) = 'array' then s.value else '[]'::jsonb end
+    ) as e(email)
+    where s.key = 'debug.accounts'
+      and lower(e.email) = lower(auth.jwt() ->> 'email')
+  );
+$$;
+
+-- 특정 디버그 기능이 '이 사용자에게' 켜져 있나 — 디버그 계정이면서 그 기능이 꺼짐(false)이 아닐 때.
+-- SECURITY DEFINER 라 비관리자 디버그 계정도 debug.<id> 상태를 확인할 수 있다.
+create or replace function public.debug_feature_enabled(p_feature text) returns boolean
+  language sql security definer stable set search_path = public as $$
+  select public.is_debug_account()
+    and (
+      (select value from public.app_settings where key = 'debug.' || p_feature)
+        is distinct from 'false'::jsonb
+    );
+$$;
 
 -- 회원 이름/전화번호 (회원가입 시 수집). 회원정보(관리자) 화면에 표시.
 alter table public.profiles add column if not exists name text;

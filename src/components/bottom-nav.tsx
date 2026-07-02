@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   CalendarHeart,
   Flame,
+  GraduationCap,
   Loader2,
   Salad,
   UsersRound,
@@ -39,6 +40,14 @@ const TABS: Tab[] = [
     match: (p) => p.startsWith("/groups"),
   },
 ];
+
+// 헬쑤쌤(AI 코치) 탭 — 디버그 기능이 켜진 사용자에게만 그룹 옆에 추가된다.
+const COACH_TAB: Tab = {
+  href: "/coach",
+  label: "헬쑤쌤",
+  icon: GraduationCap,
+  match: (p) => p.startsWith("/coach"),
+};
 
 // 로그인/온보딩 등 앱 외 화면 + 관리자 전용 화면(관리자 콘솔·기구분석)에선 숨긴다.
 // (관리자 계정은 이 화면들에서 활동하고, 관리자 콘솔엔 자체 사이드 네비가 있어 하단탭이 방해된다.)
@@ -77,10 +86,11 @@ function TabInner({
   );
 }
 
-/** 모바일 하단 탭 네비게이션 — 운동/식단/캘린더/그룹. */
-export function BottomNav() {
+/** 모바일 하단 탭 네비게이션 — 운동/식단/캘린더/그룹(+헬쑤쌤). */
+export function BottomNav({ showCoach = false }: { showCoach?: boolean }) {
   const pathname = usePathname() ?? "/";
   const hidden = HIDDEN_PREFIXES.some((h) => pathname.startsWith(h));
+  const tabs = showCoach ? [...TABS, COACH_TAB] : TABS;
 
   // 고정 바에 콘텐츠가 가리지 않게 body 하단 패딩 확보(보일 때만).
   useEffect(() => {
@@ -98,7 +108,7 @@ export function BottomNav() {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-zinc-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
       <ul className="mx-auto flex w-full max-w-2xl">
-        {TABS.map((t) => {
+        {tabs.map((t) => {
           const active = t.match(pathname);
           return (
             <li key={t.href} className="flex-1">

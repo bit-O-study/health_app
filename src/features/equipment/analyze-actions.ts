@@ -34,7 +34,11 @@ export async function analyzeEquipmentAction(input: {
   imageBase64: string;
   mediaType: string;
 }): Promise<EquipmentAnalysisResult> {
-  if (!(await isDebugFeatureEnabled("equipment-scan"))) {
+  // 기구 스캔 단독 기능 또는 헬쑤쌤(AI 코치) 탭 안에서 사용 가능.
+  const allowed =
+    (await isDebugFeatureEnabled("equipment-scan")) ||
+    (await isDebugFeatureEnabled("helssu-coach"));
+  if (!allowed) {
     return { ok: false, error: "이 기능은 아직 사용할 수 없습니다." };
   }
   const b64 = (input.imageBase64 ?? "").trim();

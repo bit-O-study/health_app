@@ -7,7 +7,7 @@ import { getGroupDetail } from "@/features/groups/data-access";
 import { topBadge } from "@/features/groups/streak";
 import { GroupControls } from "@/features/groups/components/group-controls";
 import { GroupChallenge } from "@/features/groups/components/group-challenge";
-import { MemberReactions } from "@/features/groups/components/member-reactions";
+import { MemberCheers } from "@/features/groups/components/member-cheers";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "그룹 랭킹" };
@@ -137,10 +137,10 @@ export default async function GroupDetailPage({
               <span className="text-[10px] font-semibold text-zinc-400">kcal</span>
             </span>
            </Link>
-           <MemberReactions
+           <MemberCheers
              groupId={detail.id}
              toUser={m.userId}
-             counts={detail.reactions[m.userId] ?? []}
+             cheers={detail.cheers[m.userId] ?? []}
              readOnly={m.isMe}
            />
           </li>

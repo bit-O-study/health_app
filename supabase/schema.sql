@@ -1581,33 +1581,37 @@ drop policy if exists "group mates read meal photos" on public.meal_photos;
 create policy "group mates read meal photos" on public.meal_photos
   for select using (public.shares_group_with(user_id));
 
--- 그룹 응원 리액션(group_reactions) — 그룹원이 다른 멤버의 '그날 기록'에 이모지로 응원.
--- (group_id, from_user, to_user, for_date, emoji) 유니크 → 토글(있으면 취소).
-create table if not exists public.group_reactions (
+-- 그룹 응원 문구(group_cheers) — 그룹원이 다른 멤버의 '그날 기록'에 짧은 응원(≤10자)을 남긴다.
+-- (group_id, from_user, to_user, for_date) 유니크 → 한 사람당 하루 한 문구(수정 가능).
+create table if not exists public.group_cheers (
   id uuid primary key default gen_random_uuid(),
   group_id uuid not null references public.groups(id) on delete cascade,
   from_user uuid not null references auth.users(id) on delete cascade,
   to_user uuid not null references auth.users(id) on delete cascade,
   for_date date not null,
-  emoji text not null,
+  message text not null check (char_length(message) between 1 and 10),
   created_at timestamptz not null default now(),
-  unique (group_id, from_user, to_user, for_date, emoji)
+  updated_at timestamptz not null default now(),
+  unique (group_id, from_user, to_user, for_date)
 );
-create index if not exists group_reactions_group_date_idx
-  on public.group_reactions (group_id, for_date);
-alter table public.group_reactions enable row level security;
-drop policy if exists "members read reactions" on public.group_reactions;
-create policy "members read reactions" on public.group_reactions for select
+create index if not exists group_cheers_group_date_idx
+  on public.group_cheers (group_id, for_date);
+alter table public.group_cheers enable row level security;
+drop policy if exists "members read cheers" on public.group_cheers;
+create policy "members read cheers" on public.group_cheers for select
   using (public.is_group_member(group_id));
-drop policy if exists "react to mates" on public.group_reactions;
-create policy "react to mates" on public.group_reactions for insert
+drop policy if exists "cheer mates" on public.group_cheers;
+create policy "cheer mates" on public.group_cheers for insert
   with check (
     from_user = auth.uid()
     and public.is_group_member(group_id)
     and public.shares_group_with(to_user)
   );
-drop policy if exists "unreact self" on public.group_reactions;
-create policy "unreact self" on public.group_reactions for delete
+drop policy if exists "edit own cheer" on public.group_cheers;
+create policy "edit own cheer" on public.group_cheers for update
+  using (from_user = auth.uid()) with check (from_user = auth.uid());
+drop policy if exists "delete own cheer" on public.group_cheers;
+create policy "delete own cheer" on public.group_cheers for delete
   using (from_user = auth.uid());
 
 -- 주간 그룹 챌린지/목표(group_challenges) — 그룹장이 주간 목표 설정, 그룹 합산 진행률.

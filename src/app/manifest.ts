@@ -19,7 +19,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "헬쑤",
     description: "오늘 뭐 해야 할지 매일 알려주는 헬스 루틴 앱",
     lang: "ko",
-    start_url: "/",
+    start_url: `/?webapk=${PWA_ICON_VERSION}`,
     scope: "/",
     display: "standalone",
     orientation: "portrait",

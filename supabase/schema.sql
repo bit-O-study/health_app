@@ -686,6 +686,9 @@ create unique index if not exists conditioning_completions_by_source_row_idx
 
 create index if not exists conditioning_completions_user_date_idx
   on public.conditioning_completions (user_id, for_date desc);
+-- 그룹 랭킹 카운트(status='done' 만 스캔) 가속용 부분 인덱스.
+create index if not exists conditioning_completions_done_idx
+  on public.conditioning_completions (user_id, for_date) where status = 'done';
 
 alter table public.conditioning_completions enable row level security;
 
@@ -712,6 +715,9 @@ create policy "Users can delete own conditioning completions"
 
 create index if not exists exercise_completions_user_date_idx
   on public.exercise_completions (user_id, for_date desc);
+-- 그룹 랭킹 카운트(status='done' 만 스캔) 가속용 부분 인덱스.
+create index if not exists exercise_completions_done_idx
+  on public.exercise_completions (user_id, for_date) where status = 'done';
 
 alter table public.exercise_completions enable row level security;
 
@@ -1940,5 +1946,24 @@ create policy "comment on visible post" on public.community_comments for insert
 drop policy if exists "delete own comment" on public.community_comments;
 create policy "delete own comment" on public.community_comments for delete
   using (user_id = auth.uid() or public.is_post_moderator());
+
+-- 피드 카운트 집계 RPC — 여러 글의 좋아요/댓글 수를 한 번에(행 전체를 안 가져옴).
+create or replace function public.community_post_counts(pids uuid[])
+returns table(post_id uuid, like_count int, comment_count int)
+language sql stable security definer set search_path = public as $$
+  select x.pid,
+    coalesce(l.n, 0)::int,
+    coalesce(cm.n, 0)::int
+  from unnest(pids) as x(pid)
+  left join (
+    select post_id, count(*) n from public.community_likes
+    where post_id = any(pids) group by post_id
+  ) l on l.post_id = x.pid
+  left join (
+    select post_id, count(*) n from public.community_comments
+    where post_id = any(pids) group by post_id
+  ) cm on cm.post_id = x.pid;
+$$;
+grant execute on function public.community_post_counts(uuid[]) to authenticated;
 
 notify pgrst, 'reload schema';

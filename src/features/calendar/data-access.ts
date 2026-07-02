@@ -159,9 +159,13 @@ export type DayDetail = {
 /** 한 날짜의 상세: 식단 + 완료 운동 + 컨디셔닝 + 운동시간. */
 export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   const user = await getCurrentUser();
-  const profile = await getUserProfile();
+  // 프로필·식단·걸음수는 서로 독립(모두 캐시된 user만 의존) → 병렬로.
+  const [profile, foods, stepsRaw] = await Promise.all([
+    getUserProfile(),
+    getFoodLogsForDate(dateYmd),
+    user ? getStepsForDate(dateYmd) : Promise.resolve(0),
+  ]);
   const weight = profile?.weightKg ?? 65;
-  const foods = await getFoodLogsForDate(dateYmd);
   const intake = Math.round(foods.reduce((s, f) => s + f.kcal, 0));
 
   const empty: DayDetail = {
@@ -176,7 +180,7 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   };
   if (!user) return empty;
   const supabase = await createSupabaseServerClient();
-  const steps = (await getStepsForDate(dateYmd)) ?? 0;
+  const steps = stepsRaw ?? 0;
   const stepsKcal = stepsToKcal(steps, weight);
 
   const [exRes, condRes, durRes] = await Promise.all([

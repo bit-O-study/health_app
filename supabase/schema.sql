@@ -1746,4 +1746,71 @@ drop policy if exists "Users manage own steps (write)" on public.daily_steps;
 create policy "Users manage own steps (write)" on public.daily_steps
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 커뮤니티(오운완 인증) — 사진 + 한 줄 캡션. group_id 가 null 이면 전체 공개,
+-- 값이 있으면 그 그룹 멤버에게만 보인다(그룹별 탭에서 그룹 이름 태그와 함께).
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 인증 사진 버킷(community-photos) — 공개 읽기, 본인만 업로드/삭제.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'community-photos',
+  'community-photos',
+  true,
+  10485760,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/heic']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Community photos are publicly readable" on storage.objects;
+create policy "Community photos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'community-photos');
+
+drop policy if exists "Users can upload own community photos" on storage.objects;
+create policy "Users can upload own community photos"
+  on storage.objects for insert
+  with check (bucket_id = 'community-photos' and owner = auth.uid());
+
+drop policy if exists "Users can delete own community photos" on storage.objects;
+create policy "Users can delete own community photos"
+  on storage.objects for delete
+  using (bucket_id = 'community-photos' and owner = auth.uid());
+
+create table if not exists public.community_posts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  group_id uuid references public.groups(id) on delete cascade,
+  -- 작성 시점 표시 이름 스냅샷(공개 피드엔 모르는 사람 글도 떠서 프로필 조인이 RLS로 막힘).
+  author_name text not null default '회원',
+  photo_url text not null,
+  caption text check (caption is null or char_length(caption) <= 200),
+  created_at timestamptz not null default now()
+);
+create index if not exists community_posts_created_idx
+  on public.community_posts (created_at desc);
+create index if not exists community_posts_group_idx
+  on public.community_posts (group_id, created_at desc);
+
+alter table public.community_posts enable row level security;
+
+-- 읽기: 전체 공개글(누구나) 또는 내가 속한 그룹의 글.
+drop policy if exists "read visible community posts" on public.community_posts;
+create policy "read visible community posts" on public.community_posts for select
+  using (group_id is null or public.is_group_member(group_id));
+
+-- 쓰기: 본인 글이고, 그룹 지정 시 그 그룹 멤버여야 한다.
+drop policy if exists "insert own community post" on public.community_posts;
+create policy "insert own community post" on public.community_posts for insert
+  with check (
+    user_id = auth.uid()
+    and (group_id is null or public.is_group_member(group_id))
+  );
+
+drop policy if exists "delete own community post" on public.community_posts;
+create policy "delete own community post" on public.community_posts for delete
+  using (user_id = auth.uid());
+
 notify pgrst, 'reload schema';

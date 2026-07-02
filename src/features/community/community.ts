@@ -19,9 +19,16 @@ export function validatePostInput(
   return { ok: true };
 }
 
+/** 상단 '전체' 탭 — 공개글(groupId=null)만. 그룹글은 그룹 탭에서만 보인다. */
+export function publicOnly<T extends { groupId: string | null }>(
+  posts: T[],
+): T[] {
+  return posts.filter((p) => p.groupId === null);
+}
+
 /**
  * 선택된 그룹들의 글만(여러 개 선택 시 합집합). 공개글(groupId=null)은 제외.
- * 선택이 비어 있으면 아무것도 안 보인다. (전체 모드는 컴포넌트에서 별도 처리 — 공개글 포함 전부.)
+ * 선택이 비어 있으면 아무것도 안 보인다. (그룹 탭의 '전체'는 모든 그룹 선택 = 그룹글 전부.)
  */
 export function postsForFilter<T extends { groupId: string | null }>(
   posts: T[],

@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   avatarColorClass,
+  characterEmoji,
   memberInitial,
+  pastelClass,
   relativeBarPct,
 } from "@/features/groups/avatar";
 
@@ -24,6 +26,23 @@ describe("avatarColorClass", () => {
   });
   it("returns a palette class", () => {
     expect(avatarColorClass("영희")).toMatch(/^bg-[a-z]+-500$/);
+  });
+});
+
+describe("characterEmoji", () => {
+  it("is deterministic per name", () => {
+    expect(characterEmoji("철수")).toBe(characterEmoji("철수"));
+  });
+  it("returns one of the cute animal set", () => {
+    const set = ["🐰", "🐻", "🐱", "🐶", "🐥", "🐸", "🐼", "🦊", "🐯", "🐨", "🐹", "🐷"];
+    expect(set).toContain(characterEmoji("영희"));
+  });
+});
+
+describe("pastelClass", () => {
+  it("is deterministic and returns pastel bg classes", () => {
+    expect(pastelClass("철수")).toBe(pastelClass("철수"));
+    expect(pastelClass("영희")).toMatch(/^bg-[a-z]+-100 /);
   });
 });
 

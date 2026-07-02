@@ -4,7 +4,6 @@ import type { GroupDetail, GroupSummary } from "@/features/groups/data-access";
 import { GroupSwitcher } from "@/features/groups/components/group-switcher";
 import { GroupChallenge } from "@/features/groups/components/group-challenge";
 import { GroupLeaderboard } from "@/features/groups/components/group-leaderboard";
-import { GroupControls } from "@/features/groups/components/group-controls";
 
 function mdDisplay(ymd: string) {
   const [, m, d] = ymd.split("-");
@@ -45,20 +44,13 @@ export function GroupBoard({
         challenge={detail.challenge}
       />
 
-      <div className="mb-6">
+      <div className="mb-4">
         <GroupLeaderboard
           groupId={detail.id}
           ranking={detail.ranking}
           cheers={detail.cheers}
         />
       </div>
-
-      <GroupControls
-        groupId={detail.id}
-        groupName={detail.name}
-        inviteToken={detail.inviteToken}
-        isOwner={detail.isOwner}
-      />
     </div>
   );
 }

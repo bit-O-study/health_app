@@ -30,3 +30,41 @@ export function relativeBarPct(kcal: number, topKcal: number): number {
   if (topKcal <= 0 || kcal <= 0) return 0;
   return Math.max(4, Math.min(100, Math.round((kcal / topKcal) * 100)));
 }
+
+// 아기자기 귀여운 동물 캐릭터 — 이름 기반으로 고정 배정(같은 이름 → 늘 같은 캐릭터).
+const CHARACTERS = [
+  "🐰",
+  "🐻",
+  "🐱",
+  "🐶",
+  "🐥",
+  "🐸",
+  "🐼",
+  "🦊",
+  "🐯",
+  "🐨",
+  "🐹",
+  "🐷",
+] as const;
+
+export function characterEmoji(seed: string): string {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+  return CHARACTERS[h % CHARACTERS.length];
+}
+
+// 캐릭터 뒤 파스텔 배경(부드럽고 귀엽게).
+const PASTELS = [
+  "bg-rose-100 dark:bg-rose-950/40",
+  "bg-amber-100 dark:bg-amber-950/40",
+  "bg-emerald-100 dark:bg-emerald-950/40",
+  "bg-sky-100 dark:bg-sky-950/40",
+  "bg-violet-100 dark:bg-violet-950/40",
+  "bg-teal-100 dark:bg-teal-950/40",
+] as const;
+
+export function pastelClass(seed: string): string {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 17 + seed.charCodeAt(i)) >>> 0;
+  return PASTELS[h % PASTELS.length];
+}

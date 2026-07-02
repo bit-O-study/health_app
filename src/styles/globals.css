@@ -85,6 +85,28 @@ body::before {
 .ex-photo-a { animation: ex-photo-a var(--ex-cycle, 2600ms) ease-in-out infinite; }
 .ex-photo-b { animation: ex-photo-b var(--ex-cycle, 2600ms) ease-in-out infinite; }
 
+/* ── 그룹 랭킹 귀여운 캐릭터 — 살짝 통통 튀는 아이들(아기자기) ───────────── */
+@keyframes g-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes g-bob-big {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-5px) rotate(2deg); }
+}
+@keyframes g-crown {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-2px) rotate(8deg); }
+}
+@keyframes g-sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+.g-bob { animation: g-bob 2s ease-in-out infinite; }
+.g-bob-big { animation: g-bob-big 2.2s ease-in-out infinite; }
+.g-crown { animation: g-crown 2.4s ease-in-out infinite; transform-origin: bottom center; }
+.g-sparkle { animation: g-sparkle 1.6s ease-in-out infinite; }
+
 /* 튜토리얼 단계 자막 — 장면 전환 시 페이드인업 */
 @keyframes ex-cap { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .ex-cap { animation: ex-cap 420ms ease-out both; }

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Check, Coins, Loader2, Pencil, Users } from "lucide-react";
 
 import type { GroupPet } from "@/features/groups/data-access";
+import type { RankedMember } from "@/features/groups/ranking";
 import { wolfScale } from "@/features/groups/gym";
 import {
   levelUpGroupPetAction,
@@ -17,7 +18,15 @@ import { GymScene } from "@/features/groups/components/gym-scene";
  * 올팜식 그룹 헬스장 — 중앙에 그룹 공유 늑대(크게, 러닝머신처럼 제자리 달리기),
  * 상단 코인 카운터, 하단 큰 성장 진행바 + 레벨업 버튼. 그룹원 운동으로 함께 키운다.
  */
-export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
+export function GymRoom({
+  groupId,
+  pet,
+  members,
+}: {
+  groupId: string;
+  pet: GroupPet;
+  members: RankedMember[];
+}) {
   const router = useRouter();
   const [pending, start] = useTransition();
   const [editing, setEditing] = useState(false);
@@ -47,7 +56,7 @@ export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div className="relative h-full w-full overflow-hidden bg-[#f7c07a] dark:bg-zinc-900">
       {/* 배경 — 플랫 카툰 헬스장(강아지 그림체 매치) */}
       <GymScene />
 
@@ -59,6 +68,40 @@ export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
         <span className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-xs font-bold text-zinc-700 shadow dark:bg-zinc-900/90 dark:text-zinc-200">
           <Users size={13} /> {pet.memberCount}명이 함께
         </span>
+      </div>
+
+      {/* ── 오른쪽: 이번주 소모 칼로리 순위(반투명) + 늑대에 쓴 코인 ── */}
+      <div className="absolute right-1 top-11 z-30 w-[104px]">
+        <div className="mb-0.5 text-right text-[10px] font-black text-violet-600 drop-shadow-sm dark:text-violet-300">
+          🪙 늑대에 쓴 {pet.coinsSpent.toLocaleString()}
+        </div>
+        <div className="max-h-[42vh] space-y-0.5 overflow-y-auto rounded-lg bg-white/35 p-1 backdrop-blur-sm dark:bg-zinc-900/35">
+          <p className="mb-0.5 text-center text-[9px] font-bold text-zinc-500">
+            이번주 소모 kcal
+          </p>
+          {members.map((m, i) => (
+            <div
+              key={m.userId}
+              className="flex items-center gap-1 text-[10px] leading-tight"
+            >
+              <span className="w-3 shrink-0 text-center font-black text-zinc-500">
+                {i + 1}
+              </span>
+              <span
+                className={`min-w-0 flex-1 truncate font-bold ${
+                  m.isMe
+                    ? "text-emerald-700 dark:text-emerald-300"
+                    : "text-zinc-800 dark:text-zinc-100"
+                }`}
+              >
+                {m.name}
+              </span>
+              <span className="shrink-0 font-bold text-orange-600 dark:text-orange-400">
+                🔥{m.kcal.toLocaleString()}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* ── 중앙: 이름 + 큰 캐릭터 ── */}

@@ -10,13 +10,13 @@ export function GymScene() {
       className="absolute inset-0 h-full w-full"
       aria-hidden="true"
     >
-      {/* 벽 */}
-      <rect x="0" y="0" width="400" height="180" fill="#ffe9cf" />
+      {/* 벽(따뜻한 살구색) */}
+      <rect x="0" y="0" width="400" height="180" fill="#f7c07a" />
       {/* 벽 몰딩 */}
-      <rect x="0" y="168" width="400" height="12" fill="#f6d3a8" />
+      <rect x="0" y="168" width="400" height="12" fill="#e39f52" />
       {/* 바닥(원목) */}
-      <rect x="0" y="180" width="400" height="80" fill="#e6c093" />
-      <g stroke="#d3a973" strokeWidth="2">
+      <rect x="0" y="180" width="400" height="80" fill="#c98a4f" />
+      <g stroke="#a86f3a" strokeWidth="2">
         <line x1="0" y1="205" x2="400" y2="205" />
         <line x1="0" y1="232" x2="400" y2="232" />
         <line x1="70" y1="180" x2="70" y2="205" />

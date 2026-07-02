@@ -19,7 +19,7 @@ export function GroupBoard({
 
       {/* 헬스장(나머지 전부) */}
       <div className="relative min-h-0 flex-1">
-        <GymRoom groupId={detail.id} pet={detail.pet} />
+        <GymRoom groupId={detail.id} pet={detail.pet} members={detail.ranking} />
       </div>
     </div>
   );

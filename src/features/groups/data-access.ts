@@ -110,6 +110,8 @@ export type GroupPet = {
   nextCost: number;
   /** 그룹 전체 누적 운동 수. */
   groupWorkouts: number;
+  /** 지금까지 늑대에게 쓴(레벨업에 소비한) 코인 누적. */
+  coinsSpent: number;
   memberCount: number;
 };
 
@@ -446,6 +448,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     coins: petCoins,
     nextCost: coinsForLevel(petLevelVal),
     groupWorkouts,
+    coinsSpent: Math.max(0, groupWorkouts * COINS_PER_WORKOUT - petCoins),
     memberCount: memberIds.length,
   };
 

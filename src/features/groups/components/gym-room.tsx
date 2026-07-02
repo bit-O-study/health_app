@@ -209,11 +209,11 @@ export function GymRoom({
             <div className="absolute inset-0 flex items-end justify-center">
               <SpriteWolf size={petSize} />
             </div>
-            {/* 강아지는 프레임 세로를 꽉 채움(머리 top≈2.5%) — 머리/얼굴/목 위치에 맞춤 */}
+            {/* 앞모습 강아지: 귀 맨위, 눈≈세로48%, 목≈62% — 각 부위에 맞춤(가로 가운데) */}
             {pet.equipped.hat ? (
               <span
                 className="absolute left-1/2 -translate-x-1/2 leading-none"
-                style={{ top: "0%", fontSize: petSize * 0.28 }}
+                style={{ top: "9%", fontSize: petSize * 0.3 }}
               >
                 {cosmetic(pet.equipped.hat)?.emoji}
               </span>
@@ -221,7 +221,7 @@ export function GymRoom({
             {pet.equipped.face ? (
               <span
                 className="absolute left-1/2 -translate-x-1/2 leading-none"
-                style={{ top: "13%", fontSize: petSize * 0.22 }}
+                style={{ top: "40%", fontSize: petSize * 0.2 }}
               >
                 {cosmetic(pet.equipped.face)?.emoji}
               </span>
@@ -229,7 +229,7 @@ export function GymRoom({
             {pet.equipped.neck ? (
               <span
                 className="absolute left-1/2 -translate-x-1/2 leading-none"
-                style={{ top: "27%", fontSize: petSize * 0.22 }}
+                style={{ top: "54%", fontSize: petSize * 0.2 }}
               >
                 {cosmetic(pet.equipped.neck)?.emoji}
               </span>

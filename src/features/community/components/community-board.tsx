@@ -23,7 +23,9 @@ export function CommunityBoard({
   initialPosts: CommunityPost[];
 }) {
   const router = useRouter();
-  // 필터 태그(다중 선택). 초기값 = 모든 그룹 선택(= 전체).
+  // 상위 탭: 전체(공개글 포함 전부) / 그룹(그룹 글만, 하위 다중선택).
+  const [tab, setTab] = useState<"all" | "group">("all");
+  // 그룹 탭 하위 선택(다중). 초기값 = 모든 그룹(= 하위 '전체').
   const [selected, setSelected] = useState<Set<string>>(
     () => new Set(groups.map((g) => g.id)),
   );
@@ -36,12 +38,13 @@ export function CommunityBoard({
     return () => clearInterval(t);
   }, []);
 
-  const allSelected = groups.every((g) => selected.has(g.id));
-  // 전체(모든 그룹 선택 또는 그룹 없음) → 공개글 포함 전부. 아니면 선택 그룹 합집합.
-  const showAll = groups.length === 0 || allSelected;
-  const visible = showAll
-    ? initialPosts
-    : postsForFilter(initialPosts, [...selected]);
+  const groupAllSelected =
+    groups.length > 0 && groups.every((g) => selected.has(g.id));
+  // 전체 탭 → 공개글 포함 전부. 그룹 탭 → 선택된 그룹들의 글만(공개글 제외).
+  const visible =
+    tab === "all"
+      ? initialPosts
+      : postsForFilter(initialPosts, [...selected]);
 
   function toggleGroup(id: string) {
     setSelected((prev) => {
@@ -54,36 +57,67 @@ export function CommunityBoard({
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col">
-      {/* 헤더 + 필터 태그(전체 / 그룹들, 다중선택) */}
+      {/* 헤더 + 2단 필터: [전체][그룹] → 그룹이면 [전체][#그룹…] */}
       <div className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 px-4 pb-2 pt-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
         <h1 className="mb-2 text-lg font-extrabold">커뮤니티</h1>
-        <div className="-mx-1 flex gap-1.5 overflow-x-auto px-1 pb-1">
-          <button
-            type="button"
-            onClick={() => setSelected(new Set(groups.map((g) => g.id)))}
-            className={`shrink-0 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
-              showAll
-                ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-                : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
-            }`}
-          >
-            전체
-          </button>
-          {groups.map((g) => (
+        <div className="flex gap-1 rounded-full bg-zinc-100 p-1 dark:bg-zinc-900">
+          {(
+            [
+              ["all", "전체"],
+              ["group", "그룹"],
+            ] as const
+          ).map(([k, label]) => (
             <button
-              key={g.id}
+              key={k}
               type="button"
-              onClick={() => toggleGroup(g.id)}
-              className={`shrink-0 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
-                selected.has(g.id)
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-                  : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
+              onClick={() => setTab(k)}
+              className={`flex-1 rounded-full py-1.5 text-sm font-bold transition-colors ${
+                tab === k
+                  ? "bg-white text-emerald-600 shadow-sm dark:bg-zinc-800 dark:text-emerald-400"
+                  : "text-zinc-500"
               }`}
             >
-              # {g.name}
+              {label}
             </button>
           ))}
         </div>
+
+        {/* 그룹 탭: 하위 다중선택 칩 [전체][#그룹…] */}
+        {tab === "group" ? (
+          groups.length === 0 ? (
+            <p className="py-2 text-center text-xs text-zinc-400">
+              아직 속한 그룹이 없어요.
+            </p>
+          ) : (
+            <div className="-mx-1 mt-2 flex gap-1.5 overflow-x-auto px-1 pb-1">
+              <button
+                type="button"
+                onClick={() => setSelected(new Set(groups.map((g) => g.id)))}
+                className={`shrink-0 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
+                  groupAllSelected
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                    : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
+                }`}
+              >
+                전체
+              </button>
+              {groups.map((g) => (
+                <button
+                  key={g.id}
+                  type="button"
+                  onClick={() => toggleGroup(g.id)}
+                  className={`shrink-0 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
+                    selected.has(g.id)
+                      ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                      : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
+                  }`}
+                >
+                  # {g.name}
+                </button>
+              ))}
+            </div>
+          )
+        ) : null}
       </div>
 
       {/* 피드 */}
@@ -116,7 +150,7 @@ export function CommunityBoard({
         <ComposeModal
           groups={groups}
           defaultGroupId={
-            !showAll && selected.size === 1 ? [...selected][0] : null
+            tab === "group" && selected.size === 1 ? [...selected][0] : null
           }
           onClose={() => setCompose(false)}
           onDone={() => {

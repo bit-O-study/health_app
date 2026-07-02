@@ -1581,6 +1581,88 @@ drop policy if exists "group mates read meal photos" on public.meal_photos;
 create policy "group mates read meal photos" on public.meal_photos
   for select using (public.shares_group_with(user_id));
 
+-- 그룹 응원 리액션(group_reactions) — 그룹원이 다른 멤버의 '그날 기록'에 이모지로 응원.
+-- (group_id, from_user, to_user, for_date, emoji) 유니크 → 토글(있으면 취소).
+create table if not exists public.group_reactions (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  from_user uuid not null references auth.users(id) on delete cascade,
+  to_user uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  emoji text not null,
+  created_at timestamptz not null default now(),
+  unique (group_id, from_user, to_user, for_date, emoji)
+);
+create index if not exists group_reactions_group_date_idx
+  on public.group_reactions (group_id, for_date);
+alter table public.group_reactions enable row level security;
+drop policy if exists "members read reactions" on public.group_reactions;
+create policy "members read reactions" on public.group_reactions for select
+  using (public.is_group_member(group_id));
+drop policy if exists "react to mates" on public.group_reactions;
+create policy "react to mates" on public.group_reactions for insert
+  with check (
+    from_user = auth.uid()
+    and public.is_group_member(group_id)
+    and public.shares_group_with(to_user)
+  );
+drop policy if exists "unreact self" on public.group_reactions;
+create policy "unreact self" on public.group_reactions for delete
+  using (from_user = auth.uid());
+
+-- 주간 그룹 챌린지/목표(group_challenges) — 그룹장이 주간 목표 설정, 그룹 합산 진행률.
+-- 주(week_from=월요일)당 하나. metric: 합산 kcal / 합산 운동횟수 / 합산 운동일수.
+create table if not exists public.group_challenges (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  metric text not null check (metric in ('kcal', 'workouts', 'days')),
+  target int not null check (target > 0),
+  week_from date not null,
+  created_by uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (group_id, week_from)
+);
+alter table public.group_challenges enable row level security;
+drop policy if exists "members read challenge" on public.group_challenges;
+create policy "members read challenge" on public.group_challenges for select
+  using (public.is_group_member(group_id));
+drop policy if exists "owner writes challenge" on public.group_challenges;
+create policy "owner writes challenge" on public.group_challenges for all
+  using (
+    exists (select 1 from public.groups g where g.id = group_id and g.owner_id = auth.uid())
+  )
+  with check (
+    exists (select 1 from public.groups g where g.id = group_id and g.owner_id = auth.uid())
+  );
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 다짐(commitments) — 사용자가 정한 목표. 시작일~데드라인 기간 동안 기존 운동/식단
+-- 기록으로 진행률을 '자동 집계'한다. 캘린더에 기간·데드라인을 표시.
+-- metric: 운동한 날/운동 횟수/소비 kcal/식단기록한 날(이상 달성), 하루평균섭취(이하 달성).
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.commitments (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  title text not null,
+  tag text not null default 'custom',
+  metric text not null check (metric in (
+    'workout_days', 'workout_count', 'burn_kcal', 'diet_days', 'intake_avg_max'
+  )),
+  target numeric not null check (target > 0),
+  start_date date not null,
+  deadline date not null,
+  archived boolean not null default false,
+  created_at timestamptz not null default now()
+);
+create index if not exists commitments_user_idx on public.commitments (user_id);
+alter table public.commitments enable row level security;
+drop policy if exists "own commitments" on public.commitments;
+create policy "own commitments" on public.commitments for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+notify pgrst, 'reload schema';
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 웹푸시 구독(push_subscriptions) — 사용자별 브라우저 푸시 엔드포인트(여러 기기 가능).
 -- 앱이 닫혀 있어도 30분 무활동 종료 알림을 보내기 위함(Vercel Cron + web-push).

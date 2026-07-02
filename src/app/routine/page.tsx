@@ -5,6 +5,7 @@ import {
   ArrowRight,
   CalendarDays,
   Dumbbell,
+  Flag,
   LogIn,
   Moon,
   Settings,
@@ -71,11 +72,18 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
         </Link>
 
         <div className="flex items-center gap-2">
-          {/* 운동 찾기 — 자연어로 묘사하면 키워드 분석해 운동 추론(대화창). */}
-          <ExerciseFinder />
           {isLoggedIn ? (
             <>
+              {/* 운동 찾기(자연어 운동 검색) — 로그인 후에만 노출. */}
+              <ExerciseFinder />
               <NotificationBell />
+              <Link
+                aria-label="다짐"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition hover:text-emerald-600 dark:hover:text-emerald-400"
+                href="/commitments"
+              >
+                <Flag aria-hidden="true" size={17} />
+              </Link>
               <Link
                 aria-label="설정"
                 className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100"

@@ -47,6 +47,8 @@ export async function generateMetadata({
   return {
     title: `${exercise.name} 자세와 운동법`,
     description,
+    // 로그인 후에만 접근 가능(미들웨어 게이트) → 색인 제외.
+    robots: { index: false, follow: false },
     alternates: {
       canonical: absoluteUrl(`/exercises/${exercise.id}`),
     },

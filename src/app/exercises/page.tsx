@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   title: "운동 종목 리스트",
   description:
     "가슴, 등, 어깨, 팔, 하체, 코어 운동을 부위별로 확인하고 기구별 운동법을 찾아보세요.",
+  // 로그인 후에만 접근 가능(미들웨어 게이트) → 검색엔진 색인 제외.
+  robots: { index: false, follow: false },
   alternates: {
     canonical: absoluteUrl("/exercises"),
   },

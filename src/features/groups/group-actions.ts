@@ -7,6 +7,10 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
+import { isReactionEmoji } from "@/features/groups/reactions";
+import { isChallengeMetric } from "@/features/groups/challenge";
+import { weekRange } from "@/features/groups/ranking";
+import { seoulYmd } from "@/features/routine/data";
 
 export type GroupActionResult =
   | { ok: true; id?: string }
@@ -81,6 +85,112 @@ export async function leaveGroupAction(groupId: string): Promise<GroupActionResu
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/groups");
+  return { ok: true };
+}
+
+/**
+ * 응원 리액션 토글 — 같은 이모지가 이미 있으면 취소, 없으면 추가.
+ * 대상 날짜는 오늘(그날 기록에 대한 응원). RLS 가 그룹원·본인 여부를 강제한다.
+ */
+export async function toggleReactionAction(
+  groupId: string,
+  toUser: string,
+  emoji: string,
+): Promise<GroupActionResult> {
+  if (!isReactionEmoji(emoji)) {
+    return { ok: false, error: "허용되지 않은 이모지입니다." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (toUser === user.id) {
+    return { ok: false, error: "내 기록엔 응원할 수 없어요." };
+  }
+  const forDate = seoulYmd();
+
+  // 이미 눌렀으면 취소.
+  const { data: existing } = await supabase
+    .from("group_reactions")
+    .select("id")
+    .eq("group_id", groupId)
+    .eq("from_user", user.id)
+    .eq("to_user", toUser)
+    .eq("for_date", forDate)
+    .eq("emoji", emoji)
+    .maybeSingle();
+
+  if (existing) {
+    const { error } = await supabase
+      .from("group_reactions")
+      .delete()
+      .eq("id", (existing as { id: string }).id);
+    if (error) return { ok: false, error: error.message };
+  } else {
+    const { error } = await supabase.from("group_reactions").insert({
+      group_id: groupId,
+      from_user: user.id,
+      to_user: toUser,
+      for_date: forDate,
+      emoji,
+    });
+    if (error) return { ok: false, error: error.message };
+  }
+
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/**
+ * 이번 주 그룹 챌린지 설정/수정 — 그룹장만(RLS 강제). 주(week_from)당 하나로 upsert.
+ */
+export async function setGroupChallengeAction(
+  groupId: string,
+  metric: string,
+  target: number,
+): Promise<GroupActionResult> {
+  if (!isChallengeMetric(metric)) {
+    return { ok: false, error: "목표 종류가 올바르지 않습니다." };
+  }
+  const t = Math.floor(Number(target));
+  if (!Number.isFinite(t) || t <= 0) {
+    return { ok: false, error: "목표 값을 1 이상으로 입력하세요." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { from } = weekRange(seoulYmd());
+  const { error } = await supabase.from("group_challenges").upsert(
+    {
+      group_id: groupId,
+      metric,
+      target: t,
+      week_from: from,
+      created_by: user.id,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "group_id,week_from" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/** 이번 주 챌린지 삭제 — 그룹장만(RLS 강제). */
+export async function clearGroupChallengeAction(
+  groupId: string,
+): Promise<GroupActionResult> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const { from } = weekRange(seoulYmd());
+  const { error } = await supabase
+    .from("group_challenges")
+    .delete()
+    .eq("group_id", groupId)
+    .eq("week_from", from);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath(`/groups/${groupId}`);
   return { ok: true };
 }
 

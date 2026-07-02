@@ -29,3 +29,35 @@ export const debugSettingKey = (id: string) => `debug.${id}`;
 export function debugValueEnabled(value: unknown): boolean {
   return value !== false;
 }
+
+/** app_settings['debug.accounts'] 저장 키. */
+export const DEBUG_ACCOUNTS_KEY = "debug.accounts";
+
+/** 저장된 값(무엇이든)을 정규화된 이메일 목록으로 — 소문자·trim·중복/빈값 제거. */
+export function normalizeDebugAccounts(value: unknown): string[] {
+  if (!Array.isArray(value)) return [];
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const v of value) {
+    if (typeof v !== "string") continue;
+    const e = v.trim().toLowerCase();
+    if (e && !seen.has(e)) {
+      seen.add(e);
+      out.push(e);
+    }
+  }
+  return out;
+}
+
+/** 목록에 이메일 추가(정규화·중복제거). 잘못된 이메일이면 null(호출부에서 에러 처리). */
+export function addDebugAccount(list: unknown, email: string): string[] | null {
+  const e = email.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)) return null;
+  return normalizeDebugAccounts([...normalizeDebugAccounts(list), e]);
+}
+
+/** 목록에서 이메일 제거. */
+export function removeDebugAccount(list: unknown, email: string): string[] {
+  const e = email.trim().toLowerCase();
+  return normalizeDebugAccounts(list).filter((x) => x !== e);
+}

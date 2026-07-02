@@ -5,8 +5,12 @@ import { revalidatePath } from "next/cache";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAdminUser } from "@/features/admin/admin";
 import {
+  DEBUG_ACCOUNTS_KEY,
   DEBUG_FEATURES,
+  addDebugAccount,
   debugSettingKey,
+  normalizeDebugAccounts,
+  removeDebugAccount,
   type DebugFeatureId,
 } from "@/features/admin/debug-features";
 import { genTempPassword, tempPasswordEmail } from "@/features/auth/password-reset";
@@ -190,6 +194,59 @@ export async function setDebugFeatureAction(
   revalidatePath("/admin/settings");
   revalidatePath("/calendar");
   return { ok: true };
+}
+
+/** 현재 저장된 디버그 계정 목록을 읽는다(관리자). 없으면 빈 배열. */
+async function readDebugAccounts(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+): Promise<string[]> {
+  const { data } = await supabase
+    .from("app_settings")
+    .select("value")
+    .eq("key", DEBUG_ACCOUNTS_KEY)
+    .maybeSingle();
+  return normalizeDebugAccounts((data as { value: unknown } | null)?.value);
+}
+
+async function writeDebugAccounts(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  list: string[],
+): Promise<AdminActionResult> {
+  const { error } = await supabase.from("app_settings").upsert(
+    { key: DEBUG_ACCOUNTS_KEY, value: list, updated_at: new Date().toISOString() },
+    { onConflict: "key" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/admin/settings");
+  return { ok: true };
+}
+
+/**
+ * 디버그 계정(이메일) 추가 — 이 계정은 관리자가 아니어도 켜진 디버그 기능을 앱에서 볼 수 있다.
+ * (테스트폰 계정을 지정해 현장 진단용으로 쓰는 용도.) 관리자만 가능.
+ */
+export async function addDebugAccountAction(
+  email: string,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const next = addDebugAccount(await readDebugAccounts(supabase), email);
+  if (!next) return { ok: false, error: "올바른 이메일을 입력하세요." };
+  return writeDebugAccounts(supabase, next);
+}
+
+/** 디버그 계정 해제 — 목록에서 제거. 관리자만. */
+export async function removeDebugAccountAction(
+  email: string,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const next = removeDebugAccount(await readDebugAccounts(supabase), email);
+  return writeDebugAccounts(supabase, next);
 }
 
 /** 회원탈퇴 복구 — withdrawn_at = null (소프트 탈퇴 되돌림). 관리자만. */

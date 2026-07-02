@@ -2,17 +2,22 @@ import { notFound } from "next/navigation";
 
 import { getAdmins, isAdminUser } from "@/features/admin/admin";
 import { DEBUG_FEATURES } from "@/features/admin/debug-features";
-import { getDebugFeatureStates } from "@/features/admin/debug-features.server";
+import {
+  getDebugAccounts,
+  getDebugFeatureStates,
+} from "@/features/admin/debug-features.server";
 import { AdminSettingsManager } from "@/features/admin/components/admin-settings-manager";
+import { DebugAccountsManager } from "@/features/admin/components/debug-accounts-manager";
 import { DebugFeaturesManager } from "@/features/admin/components/debug-features-manager";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
   if (!(await isAdminUser())) notFound();
-  const [admins, debugStates] = await Promise.all([
+  const [admins, debugStates, debugAccounts] = await Promise.all([
     getAdmins(),
     getDebugFeatureStates(),
+    getDebugAccounts(),
   ]);
   const debugFeatures = DEBUG_FEATURES.map((f) => ({
     id: f.id,
@@ -33,11 +38,22 @@ export default async function AdminSettingsPage() {
 
       <section className="mt-10">
         <h2 className="mb-1 text-lg font-bold text-zinc-950 dark:text-zinc-100">
+          디버그 계정
+        </h2>
+        <p className="mb-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          여기에 지정한 계정은 관리자가 아니어도 켜진 디버그 기능을 앱에서 볼 수
+          있습니다. (테스트폰 계정 지정용. 관리자 계정은 항상 볼 수 있습니다.)
+        </p>
+        <DebugAccountsManager accounts={debugAccounts} />
+      </section>
+
+      <section className="mt-10">
+        <h2 className="mb-1 text-lg font-bold text-zinc-950 dark:text-zinc-100">
           디버그 기능
         </h2>
         <p className="mb-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
           개발/진단용 기능을 기능별로 켜고 끌 수 있습니다. 켜진 기능은 디버그
-          계정(관리자)에게만 앱에 표시됩니다.
+          계정에게만 앱에 표시됩니다.
         </p>
         <DebugFeaturesManager features={debugFeatures} />
       </section>

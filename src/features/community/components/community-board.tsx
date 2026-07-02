@@ -60,7 +60,8 @@ export function CommunityBoard({
       {/* 헤더 + 2단 필터: [전체][그룹] → 그룹이면 [전체][#그룹…] */}
       <div className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 px-4 pb-2 pt-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
         <h1 className="mb-2 text-lg font-extrabold">커뮤니티</h1>
-        <div className="flex gap-1 rounded-full bg-zinc-100 p-1 dark:bg-zinc-900">
+        {/* 상단 탭 — 반반 세그먼트 말고 왼쪽정렬 17px 텍스트 클릭식 */}
+        <div className="flex items-center gap-4">
           {(
             [
               ["all", "전체"],
@@ -71,10 +72,10 @@ export function CommunityBoard({
               key={k}
               type="button"
               onClick={() => setTab(k)}
-              className={`flex-1 rounded-full py-1.5 text-sm font-bold transition-colors ${
+              className={`text-[17px] font-bold transition-colors ${
                 tab === k
-                  ? "bg-white text-emerald-600 shadow-sm dark:bg-zinc-800 dark:text-emerald-400"
-                  : "text-zinc-500"
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
               {label}

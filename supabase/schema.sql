@@ -686,6 +686,9 @@ create unique index if not exists conditioning_completions_by_source_row_idx
 
 create index if not exists conditioning_completions_user_date_idx
   on public.conditioning_completions (user_id, for_date desc);
+-- 그룹 랭킹 카운트(status='done' 만 스캔) 가속용 부분 인덱스.
+create index if not exists conditioning_completions_done_idx
+  on public.conditioning_completions (user_id, for_date) where status = 'done';
 
 alter table public.conditioning_completions enable row level security;
 
@@ -712,6 +715,9 @@ create policy "Users can delete own conditioning completions"
 
 create index if not exists exercise_completions_user_date_idx
   on public.exercise_completions (user_id, for_date desc);
+-- 그룹 랭킹 카운트(status='done' 만 스캔) 가속용 부분 인덱스.
+create index if not exists exercise_completions_done_idx
+  on public.exercise_completions (user_id, for_date) where status = 'done';
 
 alter table public.exercise_completions enable row level security;
 
@@ -1791,5 +1797,173 @@ create policy "Users manage own steps (select)" on public.daily_steps
 drop policy if exists "Users manage own steps (write)" on public.daily_steps;
 create policy "Users manage own steps (write)" on public.daily_steps
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 커뮤니티(오운완 인증) — 사진 + 한 줄 캡션. group_id 가 null 이면 전체 공개,
+-- 값이 있으면 그 그룹 멤버에게만 보인다(그룹별 탭에서 그룹 이름 태그와 함께).
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 인증 사진 버킷(community-photos) — 공개 읽기, 본인만 업로드/삭제.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'community-photos',
+  'community-photos',
+  true,
+  10485760,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/heic']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Community photos are publicly readable" on storage.objects;
+create policy "Community photos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'community-photos');
+
+drop policy if exists "Users can upload own community photos" on storage.objects;
+create policy "Users can upload own community photos"
+  on storage.objects for insert
+  with check (bucket_id = 'community-photos' and owner = auth.uid());
+
+drop policy if exists "Users can delete own community photos" on storage.objects;
+create policy "Users can delete own community photos"
+  on storage.objects for delete
+  using (bucket_id = 'community-photos' and owner = auth.uid());
+
+-- 게시물 관리자(모더레이터) — 관리자가 이메일로 지정. 모든 게시물 삭제/수정 가능.
+create table if not exists public.post_moderators (
+  email text primary key,
+  created_at timestamptz not null default now()
+);
+alter table public.post_moderators enable row level security;
+drop policy if exists "read post_moderators" on public.post_moderators;
+create policy "read post_moderators" on public.post_moderators for select
+  using (public.is_admin() or lower(email) = lower(auth.jwt() ->> 'email'));
+drop policy if exists "admin inserts post_moderators" on public.post_moderators;
+create policy "admin inserts post_moderators" on public.post_moderators for insert
+  with check (public.is_admin());
+drop policy if exists "admin deletes post_moderators" on public.post_moderators;
+create policy "admin deletes post_moderators" on public.post_moderators for delete
+  using (public.is_admin());
+
+create or replace function public.is_post_moderator() returns boolean
+  language sql security definer stable set search_path = public as $$
+  select public.is_admin() or exists(
+    select 1 from public.post_moderators
+    where lower(email) = lower(auth.jwt() ->> 'email')
+  );
+$$;
+
+create table if not exists public.community_posts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  group_id uuid references public.groups(id) on delete cascade,
+  -- 작성 시점 표시 이름 스냅샷(공개 피드엔 모르는 사람 글도 떠서 프로필 조인이 RLS로 막힘).
+  author_name text not null default '회원',
+  photo_url text not null,
+  caption text check (caption is null or char_length(caption) <= 200),
+  created_at timestamptz not null default now()
+);
+create index if not exists community_posts_created_idx
+  on public.community_posts (created_at desc);
+create index if not exists community_posts_group_idx
+  on public.community_posts (group_id, created_at desc);
+
+alter table public.community_posts enable row level security;
+
+-- 읽기: 전체 공개글(누구나) 또는 내가 속한 그룹의 글.
+drop policy if exists "read visible community posts" on public.community_posts;
+create policy "read visible community posts" on public.community_posts for select
+  using (group_id is null or public.is_group_member(group_id));
+
+-- 쓰기: 본인 글이고, 그룹 지정 시 그 그룹 멤버여야 한다.
+drop policy if exists "insert own community post" on public.community_posts;
+create policy "insert own community post" on public.community_posts for insert
+  with check (
+    user_id = auth.uid()
+    and (group_id is null or public.is_group_member(group_id))
+  );
+
+-- 삭제/수정: 본인 글 또는 게시물 관리자(모더레이터).
+drop policy if exists "delete own community post" on public.community_posts;
+create policy "delete own community post" on public.community_posts for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+drop policy if exists "update own or moderator community post" on public.community_posts;
+create policy "update own or moderator community post" on public.community_posts for update
+  using (user_id = auth.uid() or public.is_post_moderator())
+  with check (user_id = auth.uid() or public.is_post_moderator());
+
+-- 글을 볼 수 있는지(좋아요/댓글 RLS 공통) — 공개글이거나 그 그룹 멤버.
+create or replace function public.can_see_community_post(pid uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.community_posts p
+    where p.id = pid
+      and (p.group_id is null or public.is_group_member(p.group_id))
+  );
+$$;
+
+-- 좋아요(한 사람당 글 하나에 하나).
+create table if not exists public.community_likes (
+  post_id uuid not null references public.community_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (post_id, user_id)
+);
+create index if not exists community_likes_post_idx
+  on public.community_likes (post_id);
+alter table public.community_likes enable row level security;
+drop policy if exists "read likes on visible posts" on public.community_likes;
+create policy "read likes on visible posts" on public.community_likes for select
+  using (public.can_see_community_post(post_id));
+drop policy if exists "like visible post" on public.community_likes;
+create policy "like visible post" on public.community_likes for insert
+  with check (user_id = auth.uid() and public.can_see_community_post(post_id));
+drop policy if exists "unlike own" on public.community_likes;
+create policy "unlike own" on public.community_likes for delete
+  using (user_id = auth.uid());
+
+-- 댓글.
+create table if not exists public.community_comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid not null references public.community_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  author_name text not null default '회원',
+  body text not null check (char_length(body) between 1 and 300),
+  created_at timestamptz not null default now()
+);
+create index if not exists community_comments_post_idx
+  on public.community_comments (post_id, created_at);
+alter table public.community_comments enable row level security;
+drop policy if exists "read comments on visible posts" on public.community_comments;
+create policy "read comments on visible posts" on public.community_comments for select
+  using (public.can_see_community_post(post_id));
+drop policy if exists "comment on visible post" on public.community_comments;
+create policy "comment on visible post" on public.community_comments for insert
+  with check (user_id = auth.uid() and public.can_see_community_post(post_id));
+drop policy if exists "delete own comment" on public.community_comments;
+create policy "delete own comment" on public.community_comments for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+-- 피드 카운트 집계 RPC — 여러 글의 좋아요/댓글 수를 한 번에(행 전체를 안 가져옴).
+create or replace function public.community_post_counts(pids uuid[])
+returns table(post_id uuid, like_count int, comment_count int)
+language sql stable security definer set search_path = public as $$
+  select x.pid,
+    coalesce(l.n, 0)::int,
+    coalesce(cm.n, 0)::int
+  from unnest(pids) as x(pid)
+  left join (
+    select post_id, count(*) n from public.community_likes
+    where post_id = any(pids) group by post_id
+  ) l on l.post_id = x.pid
+  left join (
+    select post_id, count(*) n from public.community_comments
+    where post_id = any(pids) group by post_id
+  ) cm on cm.post_id = x.pid;
+$$;
+grant execute on function public.community_post_counts(uuid[]) to authenticated;
 
 notify pgrst, 'reload schema';

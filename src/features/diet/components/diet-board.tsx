@@ -90,7 +90,7 @@ export function DietBoard({
   mealPhotos: Record<Meal, string[]>;
 }) {
   const router = useRouter();
-  const [, start] = useTransition();
+  const [pending, start] = useTransition();
   const [logs, setLogs] = useState<FoodLog[]>(initial);
   const [photos, setPhotos] = useState<Record<Meal, string[]>>(mealPhotos);
   const [adding, setAdding] = useState<Meal | null>(null);
@@ -141,11 +141,13 @@ export function DietBoard({
   const isToday = date === today;
 
   function goDay(delta: number) {
+    if (pending) return;
     const d = addDaysYmd(date, delta);
-    router.push(d === today ? "/diet" : `/diet?d=${d}`);
+    start(() => router.push(d === today ? "/diet" : `/diet?d=${d}`));
   }
 
   function addFood(meal: Meal, input: FoodInput) {
+    if (pending) return;
     const tempId = `tmp-${Date.now()}-${Math.round(logs.length)}`;
     const optimistic: FoodLog = {
       id: tempId,
@@ -176,6 +178,7 @@ export function DietBoard({
   }
 
   function removeFood(id: string) {
+    if (pending) return;
     const prev = logs;
     setLogs((cur) => cur.filter((l) => l.id !== id));
     start(async () => {
@@ -186,6 +189,7 @@ export function DietBoard({
   }
 
   function editFood(id: string, patch: Partial<Omit<FoodInput, "meal">>) {
+    if (pending) return;
     const prev = logs;
     setLogs((cur) =>
       cur.map((l) =>
@@ -230,6 +234,7 @@ export function DietBoard({
 
   // 게시물(끼니) 통째 삭제 — 그 끼니의 모든 음식 + 사진 제거.
   function deleteMeal(meal: Meal) {
+    if (pending) return;
     const prevLogs = logs;
     const prevPhotos = photos[meal];
     setLogs((cur) => cur.filter((l) => l.meal !== meal));
@@ -260,7 +265,8 @@ export function DietBoard({
             type="button"
             aria-label="이전 날"
             onClick={() => goDay(-1)}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            disabled={pending}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <ChevronLeft aria-hidden="true" size={18} />
           </button>
@@ -271,7 +277,7 @@ export function DietBoard({
             type="button"
             aria-label="다음 날"
             onClick={() => goDay(1)}
-            disabled={isToday}
+            disabled={isToday || pending}
             className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <ChevronRight aria-hidden="true" size={18} />

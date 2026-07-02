@@ -103,6 +103,38 @@ export const getPlanForDay = cache(async function getPlanForDay(
 });
 
 /**
+ * 여러 부위를 한 번에 — 같은 일차(day_index)의 여러 focus 를 단일 쿼리로 조회.
+ * tones 순서대로 부위별 배열을 돌려준다(getPlanForDay 를 부위 수만큼 부르던 걸 1회로).
+ */
+export async function getPlanForDayTones(
+  dayIndex: number,
+  tones: string[],
+): Promise<PlanExercise[][]> {
+  if (tones.length === 0) return [];
+  const user = await getCurrentUser();
+  if (!user) return tones.map(() => []);
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("routine_exercises")
+    .select("*")
+    .eq("user_id", user.id)
+    .eq("day_index", dayIndex)
+    .in("focus", tones)
+    .order("position", { ascending: true });
+
+  if (error || !data) return tones.map(() => []);
+  const byFocus = new Map<string, PlanExercise[]>();
+  for (const row of data as PlanRow[]) {
+    const ex = toPlanExercise(row);
+    const arr = byFocus.get(ex.focus) ?? [];
+    arr.push(ex);
+    byFocus.set(ex.focus, arr);
+  }
+  return tones.map((t) => byFocus.get(t) ?? []);
+}
+
+/**
  * 특정 운동에 대한 사용자의 개인 메모. 오늘 "오늘만 변경" 오버라이드(daily_plan)에
  * 메모가 있으면 그걸 우선하고, 없으면 기본 루틴(routine_exercises)의 메모를 사용.
  */

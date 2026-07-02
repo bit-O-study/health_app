@@ -2,8 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import {
   DEBUG_FEATURES,
+  addDebugAccount,
   debugSettingKey,
   debugValueEnabled,
+  normalizeDebugAccounts,
+  removeDebugAccount,
 } from "@/features/admin/debug-features";
 
 describe("debug feature registry", () => {
@@ -43,5 +46,33 @@ describe("debugValueEnabled — default on, only false disables", () => {
   it("any other value = enabled", () => {
     expect(debugValueEnabled(0)).toBe(true);
     expect(debugValueEnabled("off")).toBe(true);
+  });
+});
+
+describe("debug accounts list — normalize/add/remove", () => {
+  it("normalizes: lowercases, trims, dedupes, drops non-strings/blank", () => {
+    expect(
+      normalizeDebugAccounts([" A@X.com ", "a@x.com", "", 5, "b@y.com"]),
+    ).toEqual(["a@x.com", "b@y.com"]);
+  });
+  it("normalize on non-array = []", () => {
+    expect(normalizeDebugAccounts(null)).toEqual([]);
+    expect(normalizeDebugAccounts("a@x.com")).toEqual([]);
+  });
+  it("add appends normalized email without duplicating", () => {
+    expect(addDebugAccount(["a@x.com"], "B@Y.com")).toEqual([
+      "a@x.com",
+      "b@y.com",
+    ]);
+    expect(addDebugAccount(["a@x.com"], "a@x.com")).toEqual(["a@x.com"]);
+  });
+  it("add rejects invalid email (null)", () => {
+    expect(addDebugAccount([], "not-an-email")).toBeNull();
+    expect(addDebugAccount([], "  ")).toBeNull();
+  });
+  it("remove is case-insensitive and keeps the rest", () => {
+    expect(removeDebugAccount(["a@x.com", "b@y.com"], "A@X.com")).toEqual([
+      "b@y.com",
+    ]);
   });
 });

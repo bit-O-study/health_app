@@ -55,4 +55,5 @@ DB 함수 **`is_debug_account()`**(SECURITY DEFINER)가 하므로, 비관리자 
 | --- | --- | --- | --- |
 | `steps` | 걸음수 진단칩 🩺 | 캘린더 상단 | 네이티브 앱에서만 의미 |
 | `equipment-scan` | 기구 사진 분석 📷 (Claude 비전) | 관리자 콘솔 → "기구 분석"(`/equipment`) | `ANTHROPIC_API_KEY` 필요. GA 시 `/equipment` 게이트를 풀고 `/exercises` 로 진입점 이동 |
+| `helssu-coach` | 헬쑤쌤 탭 🧑‍🏫 (AI 코치: 기구검색·운동/식단 분석·AI 다짐·자세분석) | 하단 탭 "헬쑤쌤"(`/coach`) | `ANTHROPIC_API_KEY` 필요. 유료화(프리미엄+월구독) 예정 → GA 시 디버그 게이트를 구독 게이트로 교체 |
 

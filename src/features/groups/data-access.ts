@@ -23,10 +23,7 @@ import {
   type RankedMember,
 } from "@/features/groups/ranking";
 import { computeWorkoutStreak } from "@/features/groups/streak";
-import {
-  aggregateReactions,
-  type ReactionCount,
-} from "@/features/groups/reactions";
+import { cheersByTarget } from "@/features/groups/cheers";
 import {
   challengeProgress,
   isChallengeMetric,
@@ -95,10 +92,18 @@ export type GroupDetail = {
   weekTo: string;
   today: string;
   ranking: RankedMember[];
-  /** 오늘 기준, 멤버(userId)별 받은 응원 리액션 집계. */
-  reactions: Record<string, ReactionCount[]>;
+  /** 오늘 기준, 멤버(userId)별 받은 응원 문구(작성자 이름 포함). */
+  cheers: Record<string, CheerView[]>;
   /** 이번 주 그룹 챌린지(목표+진행률). 없으면 null. */
   challenge: ChallengeProgress | null;
+};
+
+/** 응원 문구 표시용 — 작성자 이름 + 내용 + 내가 쓴 것인지. */
+export type CheerView = {
+  fromUser: string;
+  fromName: string;
+  message: string;
+  mine: boolean;
 };
 
 /** 그룹 상세 + 이번 주 운동 랭킹. 내가 멤버가 아니면 null. */
@@ -136,7 +141,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     { data: mealPhotoRows },
     { data: exDateRows },
     { data: condDateRows },
-    { data: reactionRows },
+    { data: cheerRows },
     { data: challengeRow },
   ] = await Promise.all([
     supabase
@@ -182,8 +187,8 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       .gte("for_date", streakFrom)
       .lte("for_date", today),
     supabase
-      .from("group_reactions")
-      .select("to_user, from_user, emoji")
+      .from("group_cheers")
+      .select("to_user, from_user, message")
       .eq("group_id", groupId)
       .eq("for_date", today),
     supabase
@@ -194,20 +199,6 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       .maybeSingle(),
   ]);
 
-  const reactionsMap = aggregateReactions(
-    ((reactionRows ?? []) as {
-      to_user: string;
-      from_user: string;
-      emoji: string;
-    }[]).map((r) => ({
-      toUser: r.to_user,
-      fromUser: r.from_user,
-      emoji: r.emoji,
-    })),
-    user.id,
-  );
-  const reactions: Record<string, ReactionCount[]> = {};
-  for (const [uid, list] of reactionsMap) reactions[uid] = list;
 
   const nameOf = new Map<string, string>();
   const weightOf = new Map<string, number>();
@@ -357,6 +348,29 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     s.streak = computeWorkoutStreak(streakDatesOf.get(s.userId) ?? [], today);
   }
 
+  // 응원 문구 — 대상자별로 묶고 작성자 이름을 붙인다.
+  const cheerMap = cheersByTarget(
+    ((cheerRows ?? []) as {
+      to_user: string;
+      from_user: string;
+      message: string;
+    }[]).map((r) => ({
+      toUser: r.to_user,
+      fromUser: r.from_user,
+      message: r.message,
+    })),
+    user.id,
+  );
+  const cheers: Record<string, CheerView[]> = {};
+  for (const [uid, list] of cheerMap) {
+    cheers[uid] = list.map((c) => ({
+      fromUser: c.fromUser,
+      fromName: nameOf.get(c.fromUser) ?? "회원",
+      message: c.message,
+      mine: c.mine,
+    }));
+  }
+
   return {
     id: g.id,
     name: g.name,
@@ -366,7 +380,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     weekTo: to,
     today,
     ranking: rankMembers([...stats.values()]),
-    reactions,
+    cheers,
     challenge: (() => {
       const c = challengeRow as { metric: string; target: number } | null;
       if (!c || !isChallengeMetric(c.metric)) return null;

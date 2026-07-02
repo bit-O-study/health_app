@@ -15,6 +15,7 @@ const PROTECTED_PREFIXES = [
   "/change-password",
   "/exercises", // 운동 찾기(목록·상세) — 로그인 후에만 노출
   "/commitments", // 다짐 — 개인 목표(로그인 필요)
+  "/coach", // 헬쑤쌤(AI 코치) — 로그인 필요
 ];
 
 /**
@@ -171,6 +172,7 @@ export async function updateSession(request: NextRequest) {
       pathname === "/exercises" ||
       pathname.startsWith("/exercises/") ||
       pathname === "/commitments" ||
+      pathname === "/coach" ||
       // 관리자도 임시 비번이면 비번 변경 화면을 거쳐야 함 — /admin 강제이동에서 제외.
       pathname === "/change-password";
     let isAdmin = false;

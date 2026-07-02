@@ -16,6 +16,10 @@ export const DEBUG_FEATURES = [
     id: "equipment-scan",
     label: "기구 사진 분석(📷 기구 식별 + 가능한 운동, Claude 비전)",
   },
+  {
+    id: "helssu-coach",
+    label: "헬쑤쌤 탭(🧑‍🏫 AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
+  },
 ] as const;
 
 export type DebugFeatureId = (typeof DEBUG_FEATURES)[number]["id"];

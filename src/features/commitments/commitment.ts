@@ -59,7 +59,6 @@ export type CommitmentAgg = {
   intakeDays: number;
 };
 
-const pad = (n: number) => String(n).padStart(2, "0");
 /** ymd(a) → ymd(b) 사이 일수(b-a). 같은 날=0, 미래=양수. */
 export function ymdDiff(a: string, b: string): number {
   const [ay, am, ad] = a.split("-").map(Number);

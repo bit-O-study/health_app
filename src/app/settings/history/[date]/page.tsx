@@ -2,7 +2,10 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft, Dumbbell, Flame, Timer, Wind, Zap } from "lucide-react";
 
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getWorkoutDurationFor } from "@/features/workout-timer/workout-sessions";
 
@@ -80,15 +83,16 @@ export default async function HistoryDetailPage({
   const { date } = await params;
   if (!isValidYmd(date)) notFound();
 
-  const profile = await getUserProfile();
+  // 사용자·프로필 병렬 조회(캐시된 getCurrentUser 재사용 — 중복 auth 라운드트립 제거).
+  const [user, profile] = await Promise.all([
+    getCurrentUser(),
+    getUserProfile(),
+  ]);
+  if (!user) redirect("/login");
   if (!profile) redirect("/onboarding");
   const weightKg = profile.weightKg ?? 65;
 
   const supabase = await createSupabaseServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) redirect("/login");
 
   const [exRes, condRes, workoutDurationSec] = await Promise.all([
     supabase

@@ -8,6 +8,7 @@ import {
   Flame,
   GraduationCap,
   Loader2,
+  Newspaper,
   Salad,
   UsersRound,
 } from "lucide-react";
@@ -38,6 +39,12 @@ const TABS: Tab[] = [
     label: "그룹",
     icon: UsersRound,
     match: (p) => p.startsWith("/groups"),
+  },
+  {
+    href: "/community",
+    label: "커뮤니티",
+    icon: Newspaper,
+    match: (p) => p.startsWith("/community"),
   },
 ];
 

@@ -1648,9 +1648,15 @@ create table if not exists public.group_pets (
   name text not null default '',
   level int not null default 0,
   coins int not null default 0,
+  progress int not null default 0, -- 다음 레벨에 넣은(투입한) 코인
   synced_workouts int not null default 0,
+  owned jsonb not null default '[]'::jsonb,     -- 보유 꾸미기 아이템 id[]
+  equipped jsonb not null default '{}'::jsonb,  -- slot -> itemId
   updated_at timestamptz not null default now()
 );
+alter table public.group_pets add column if not exists progress int not null default 0;
+alter table public.group_pets add column if not exists owned jsonb not null default '[]'::jsonb;
+alter table public.group_pets add column if not exists equipped jsonb not null default '{}'::jsonb;
 alter table public.group_pets enable row level security;
 drop policy if exists "members read group pet" on public.group_pets;
 create policy "members read group pet" on public.group_pets for select

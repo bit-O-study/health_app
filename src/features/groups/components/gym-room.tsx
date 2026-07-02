@@ -3,21 +3,38 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Check, ChevronRight, Coins, Loader2, Pencil, Users, X } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  Coins,
+  Loader2,
+  Pencil,
+  ShoppingBag,
+  Users,
+  X,
+} from "lucide-react";
 
 import type { GroupPet } from "@/features/groups/data-access";
 import type { RankedMember } from "@/features/groups/ranking";
 import { wolfScale } from "@/features/groups/gym";
 import {
-  levelUpGroupPetAction,
+  COSMETIC_SLOTS,
+  cosmetic,
+  cosmeticsBySlot,
+  type CosmeticSlot,
+} from "@/features/groups/cosmetics";
+import {
+  buyPetItemAction,
+  depositCoinsAction,
+  equipPetItemAction,
   setGroupPetNameAction,
 } from "@/features/groups/group-actions";
 import { SpriteWolf } from "@/features/groups/components/sprite-wolf";
 import { GymScene } from "@/features/groups/components/gym-scene";
 
 /**
- * 올팜식 그룹 헬스장 — 중앙에 그룹 공유 늑대(크게, 러닝머신처럼 제자리 달리기),
- * 상단 코인 카운터, 하단 큰 성장 진행바 + 레벨업 버튼. 그룹원 운동으로 함께 키운다.
+ * 올팜식 그룹 헬스장 — 중앙에 그룹 공유 늑대(크게), 코인을 원하는 만큼 넣어서(투입) 키운다.
+ * 넣은 코인이 다음 레벨 비용을 채우면 자동 레벨업. 오른쪽엔 이번주 소모 kcal 순위.
  */
 export function GymRoom({
   groupId,
@@ -34,17 +51,41 @@ export function GymRoom({
   const [name, setName] = useState(pet.name);
   const [msg, setMsg] = useState<string | null>(null);
   const [showMembers, setShowMembers] = useState(false);
+  const [depositOpen, setDepositOpen] = useState(false);
+  const [amount, setAmount] = useState("");
+  const [showShop, setShowShop] = useState(false);
+  const [shopSlot, setShopSlot] = useState<CosmeticSlot>("hat");
 
-  const petSize = Math.round(190 * wolfScale(pet.level));
-  const canLevel = pet.coins >= pet.nextCost;
-  const pct = Math.min(100, Math.round((pet.coins / Math.max(1, pet.nextCost)) * 100));
-
-  function levelUp() {
+  const owned = new Set(pet.owned);
+  function buy(id: string) {
     setMsg(null);
     start(async () => {
-      const r = await levelUpGroupPetAction(groupId);
+      const r = await buyPetItemAction(groupId, id);
       if (r.ok) router.refresh();
       else setMsg(r.error);
+    });
+  }
+  function equip(slot: CosmeticSlot, id: string | null) {
+    start(async () => {
+      const r = await equipPetItemAction(groupId, slot, id);
+      if (r.ok) router.refresh();
+      else setMsg(r.error);
+    });
+  }
+
+  const petSize = Math.round(190 * wolfScale(pet.level));
+  const pct = Math.min(100, Math.round((pet.progress / Math.max(1, pet.nextCost)) * 100));
+  const suggested = Math.max(0, Math.min(pet.coins, pet.nextCost - pet.progress));
+
+  function deposit(amt: number) {
+    setMsg(null);
+    start(async () => {
+      const r = await depositCoinsAction(groupId, amt);
+      if (r.ok) {
+        setDepositOpen(false);
+        setAmount("");
+        router.refresh();
+      } else setMsg(r.error);
     });
   }
   function saveName() {
@@ -76,12 +117,54 @@ export function GymRoom({
         </button>
       </div>
 
-      {/* ── 오른쪽: 이번주 소모 칼로리 순위(반투명) + 늑대에 쓴 코인 ── */}
+      {/* ── 오른쪽: 늑대에 쓴 코인 + 이름버튼 + 이번주 소모 kcal 순위 ── */}
       <div className="absolute right-1 top-11 z-30 w-[150px]">
-        <div className="mb-0.5 text-right text-[12px] font-black text-violet-600 drop-shadow-sm dark:text-violet-300">
-          🪙 늑대에 쓴 {pet.coinsSpent.toLocaleString()}
+        <div className="mb-1 flex items-center justify-end gap-1">
+          <span className="rounded-full bg-violet-600 px-1.5 py-0.5 text-[12px] font-black text-white shadow">
+            🪙 쓴 {pet.coinsSpent.toLocaleString()}
+          </span>
+          <button
+            type="button"
+            onClick={() => {
+              setName(pet.name);
+              setEditing((v) => !v);
+            }}
+            className="inline-flex items-center gap-0.5 rounded-full bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-zinc-700 shadow dark:bg-zinc-800/90 dark:text-zinc-200"
+          >
+            <Pencil size={10} /> 이름
+          </button>
         </div>
-        <div className="max-h-[42vh] space-y-0.5 overflow-y-auto rounded-lg bg-white/40 p-1.5 backdrop-blur-sm dark:bg-zinc-900/40">
+
+        {editing ? (
+          <div className="mb-1 flex items-center gap-1">
+            <input
+              aria-label="늑대 이름"
+              value={name}
+              maxLength={12}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="늑대 이름"
+              className="h-7 min-w-0 flex-1 rounded border border-zinc-300 px-1 text-xs dark:border-zinc-600 dark:bg-zinc-800"
+            />
+            <button
+              type="button"
+              onClick={saveName}
+              disabled={pending}
+              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded bg-emerald-600 text-white"
+            >
+              <Check size={13} />
+            </button>
+          </div>
+        ) : null}
+
+        <button
+          type="button"
+          onClick={() => setShowShop(true)}
+          className="mb-1 flex w-full items-center justify-center gap-1 rounded-full bg-fuchsia-600 px-2 py-1 text-[12px] font-black text-white shadow transition hover:bg-fuchsia-500"
+        >
+          <ShoppingBag size={13} /> 상점
+        </button>
+
+        <div className="max-h-[40vh] space-y-0.5 overflow-y-auto rounded-lg bg-white/40 p-1.5 backdrop-blur-sm dark:bg-zinc-900/40">
           <p className="mb-0.5 text-center text-[11px] font-bold text-zinc-500">
             이번주 소모 kcal
           </p>
@@ -112,45 +195,46 @@ export function GymRoom({
 
       {/* ── 중앙: 이름 + 큰 캐릭터 ── */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2">
-        {editing ? (
-          <div className="flex items-center gap-1">
-            <input
-              aria-label="늑대 이름"
-              value={name}
-              maxLength={12}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="늑대 이름"
-              className="h-8 w-32 rounded-lg border border-zinc-300 px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
-            />
-            <button
-              type="button"
-              onClick={saveName}
-              disabled={pending}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white"
-            >
-              <Check size={15} />
-            </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={() => {
-              setName(pet.name);
-              setEditing(true);
-            }}
-            className="flex items-center gap-1 rounded-full bg-black/45 px-3 py-1 text-base font-extrabold text-white backdrop-blur"
-          >
-            {pet.name || "우리 늑대"}
-            <span className="rounded-full bg-violet-500 px-1.5 text-[11px] font-bold">
-              Lv.{pet.level}
-            </span>
-            <Pencil size={12} className="opacity-80" />
-          </button>
-        )}
-
-        {/* 캐릭터 + 그림자(제자리 달리기 = 러닝머신 느낌) */}
+        <span className="flex items-center gap-1 rounded-full bg-black/45 px-3 py-1 text-base font-extrabold text-white backdrop-blur">
+          {pet.name || "우리 늑대"}
+          <span className="rounded-full bg-violet-500 px-1.5 text-[11px] font-bold">
+            Lv.{pet.level}
+          </span>
+        </span>
         <div className="flex flex-col items-center">
-          <SpriteWolf size={petSize} />
+          <div
+            className="relative"
+            style={{ width: petSize * 1.14, height: petSize }}
+          >
+            <div className="absolute inset-0 flex items-end justify-center">
+              <SpriteWolf size={petSize} />
+            </div>
+            {/* 강아지는 프레임 세로를 꽉 채움(머리 top≈2.5%) — 머리/얼굴/목 위치에 맞춤 */}
+            {pet.equipped.hat ? (
+              <span
+                className="absolute left-1/2 -translate-x-1/2 leading-none"
+                style={{ top: "0%", fontSize: petSize * 0.28 }}
+              >
+                {cosmetic(pet.equipped.hat)?.emoji}
+              </span>
+            ) : null}
+            {pet.equipped.face ? (
+              <span
+                className="absolute left-1/2 -translate-x-1/2 leading-none"
+                style={{ top: "13%", fontSize: petSize * 0.22 }}
+              >
+                {cosmetic(pet.equipped.face)?.emoji}
+              </span>
+            ) : null}
+            {pet.equipped.neck ? (
+              <span
+                className="absolute left-1/2 -translate-x-1/2 leading-none"
+                style={{ top: "27%", fontSize: petSize * 0.22 }}
+              >
+                {cosmetic(pet.equipped.neck)?.emoji}
+              </span>
+            ) : null}
+          </div>
           <span
             className="mt-[-6px] rounded-[100%] bg-black/25 blur-[2px]"
             style={{ width: petSize * 0.6, height: petSize * 0.12 }}
@@ -159,20 +243,20 @@ export function GymRoom({
       </div>
 
       {msg ? (
-        <p className="absolute inset-x-0 bottom-28 z-40 mx-auto w-fit rounded-lg bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 shadow dark:bg-red-950/70 dark:text-red-300">
+        <p className="absolute inset-x-0 bottom-32 z-40 mx-auto w-fit rounded-lg bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 shadow dark:bg-red-950/70 dark:text-red-300">
           {msg}
         </p>
       ) : null}
 
-      {/* ── 하단: 성장바 + 레벨업 ── */}
-      <div className="absolute inset-x-0 bottom-0 z-30 space-y-2 p-3">
-        <div className="rounded-2xl bg-white/90 p-3 shadow-lg backdrop-blur dark:bg-zinc-900/90">
+      {/* ── 하단: 성장바 + 코인 넣기 ── */}
+      <div className="absolute inset-x-0 bottom-0 z-30 p-3">
+        <div className="rounded-2xl bg-white/95 p-3 shadow-lg backdrop-blur dark:bg-zinc-900/95">
           <div className="mb-1 flex items-center justify-between text-xs font-bold">
             <span className="text-zinc-700 dark:text-zinc-200">
               Lv.{pet.level} → Lv.{pet.level + 1}
             </span>
             <span className="tabular-nums text-amber-600 dark:text-amber-400">
-              🪙 {pet.coins.toLocaleString()} / {pet.nextCost.toLocaleString()}
+              🪙 {pet.progress.toLocaleString()} / {pet.nextCost.toLocaleString()}
             </span>
           </div>
           <div className="h-3 w-full overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-700">
@@ -181,22 +265,62 @@ export function GymRoom({
               style={{ width: `${pct}%` }}
             />
           </div>
-          <button
-            type="button"
-            onClick={levelUp}
-            disabled={pending || !canLevel}
-            className={`mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-black shadow transition ${
-              canLevel
-                ? "animate-pulse bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white hover:brightness-110"
-                : "bg-zinc-200 text-zinc-400 dark:bg-zinc-700"
-            } disabled:opacity-80`}
-          >
-            {pending ? <Loader2 size={16} className="animate-spin" /> : null}
-            {canLevel ? "🎉 레벨업 하기!" : `레벨업까지 ${pet.nextCost - pet.coins}🪙`}
-          </button>
-          <p className="mt-1 text-center text-[10px] text-zinc-400">
-            그룹원이 운동할수록 코인이 쌓여요 · 총 운동 {pet.groupWorkouts}회
-          </p>
+
+          {depositOpen ? (
+            <div className="mt-2 flex items-center gap-1.5">
+              <input
+                aria-label="넣을 코인"
+                type="number"
+                inputMode="numeric"
+                min={1}
+                max={pet.coins}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder={`최대 ${pet.coins}`}
+                className="h-10 min-w-0 flex-1 rounded-lg border border-zinc-300 px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
+              />
+              <button
+                type="button"
+                onClick={() => setAmount(String(pet.coins))}
+                className="h-10 shrink-0 rounded-lg bg-zinc-200 px-2 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200"
+              >
+                전부
+              </button>
+              <button
+                type="button"
+                onClick={() => deposit(Number(amount))}
+                disabled={pending || !amount}
+                className="inline-flex h-10 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-black text-white shadow disabled:opacity-60"
+              >
+                {pending ? <Loader2 size={15} className="animate-spin" /> : null}
+                넣기
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setDepositOpen(false);
+                  setAmount("");
+                  setMsg(null);
+                }}
+                disabled={pending}
+                className="h-10 shrink-0 rounded-lg border border-zinc-300 px-2 text-xs font-bold text-zinc-500 disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300"
+              >
+                취소
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                setAmount(suggested > 0 ? String(suggested) : "");
+                setDepositOpen(true);
+              }}
+              disabled={pet.coins <= 0}
+              className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-black text-white shadow transition hover:brightness-110 disabled:opacity-60"
+            >
+              🪙 코인 넣기 (보유 {pet.coins.toLocaleString()})
+            </button>
+          )}
         </div>
       </div>
 
@@ -247,6 +371,114 @@ export function GymRoom({
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      ) : null}
+
+      {/* 상점 모달 — 코인으로 꾸미기 구매/착용 */}
+      {showShop ? (
+        <div
+          className="absolute inset-0 z-40 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => setShowShop(false)}
+        >
+          <div
+            className="w-full max-w-xs rounded-2xl bg-white p-3 shadow-xl dark:bg-zinc-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="mb-2 flex items-center justify-between">
+              <h3 className="flex items-center gap-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                <ShoppingBag size={15} /> 상점
+                <span className="ml-1 rounded-full bg-amber-100 px-1.5 text-[11px] font-black text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
+                  🪙 {pet.coins.toLocaleString()}
+                </span>
+              </h3>
+              <button
+                type="button"
+                onClick={() => setShowShop(false)}
+                aria-label="닫기"
+                className="text-zinc-400"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="mb-2 flex gap-1">
+              {COSMETIC_SLOTS.map((s) => (
+                <button
+                  key={s.slot}
+                  type="button"
+                  onClick={() => setShopSlot(s.slot)}
+                  className={`h-8 flex-1 rounded-lg text-xs font-bold transition ${
+                    shopSlot === s.slot
+                      ? "bg-fuchsia-600 text-white"
+                      : "border border-zinc-200 text-zinc-600 dark:border-zinc-700 dark:text-zinc-300"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-3 gap-2">
+              {pet.equipped[shopSlot] ? (
+                <button
+                  type="button"
+                  onClick={() => equip(shopSlot, null)}
+                  disabled={pending}
+                  className="flex flex-col items-center gap-1 rounded-xl border border-dashed border-zinc-300 p-2 text-[11px] font-bold text-zinc-500 disabled:opacity-50 dark:border-zinc-700"
+                >
+                  <span className="text-2xl">🚫</span>
+                  벗기
+                </button>
+              ) : null}
+              {cosmeticsBySlot(shopSlot).map((it) => {
+                const has = owned.has(it.id);
+                const on = pet.equipped[shopSlot] === it.id;
+                return (
+                  <div
+                    key={it.id}
+                    className={`flex flex-col items-center gap-1 rounded-xl border p-2 text-center ${
+                      on
+                        ? "border-fuchsia-400 bg-fuchsia-50 dark:border-fuchsia-500 dark:bg-fuchsia-950/30"
+                        : "border-zinc-200 dark:border-zinc-800"
+                    }`}
+                  >
+                    <span className="text-2xl">{it.emoji}</span>
+                    <span className="truncate text-[11px] font-bold text-zinc-800 dark:text-zinc-100">
+                      {it.name}
+                    </span>
+                    {!has ? (
+                      <button
+                        type="button"
+                        onClick={() => buy(it.id)}
+                        disabled={pending}
+                        className="w-full rounded-lg bg-amber-500 py-1 text-[10px] font-black text-white disabled:opacity-50"
+                      >
+                        🪙 {it.price}
+                      </button>
+                    ) : on ? (
+                      <button
+                        type="button"
+                        onClick={() => equip(shopSlot, null)}
+                        disabled={pending}
+                        className="w-full rounded-lg bg-fuchsia-600 py-1 text-[10px] font-black text-white disabled:opacity-50"
+                      >
+                        착용중
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => equip(shopSlot, it.id)}
+                        disabled={pending}
+                        className="w-full rounded-lg border border-fuchsia-300 py-1 text-[10px] font-black text-fuchsia-700 disabled:opacity-50 dark:border-fuchsia-700 dark:text-fuchsia-300"
+                      >
+                        착용
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       ) : null}

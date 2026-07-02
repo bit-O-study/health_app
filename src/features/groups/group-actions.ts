@@ -11,7 +11,8 @@ import { sendPush, pushEnabled } from "@/features/notifications/push";
 import { getUserProfile } from "@/features/profile/data-access";
 import { isValidCheer, normalizeCheer } from "@/features/groups/cheers";
 import { isChallengeMetric } from "@/features/groups/challenge";
-import { coinsForLevel } from "@/features/groups/gym";
+import { applyDeposit } from "@/features/groups/gym";
+import { cosmetic, isCosmeticSlot } from "@/features/groups/cosmetics";
 import { weekRange } from "@/features/groups/ranking";
 import { seoulYmd } from "@/features/routine/data";
 
@@ -254,11 +255,12 @@ export async function clearGroupChallengeAction(
 }
 
 /**
- * 그룹 공유 펫 레벨업 — 모인 코인으로 그룹원 누구나 올릴 수 있다. 코인 부족이면 실패.
- * (RLS: 그룹원만 group_pets 쓰기 가능.)
+ * 그룹 펫에 코인 '넣기' — 모인 코인 중 원하는 만큼 다음 레벨에 투입한다. 투입한 코인이
+ * 다음 레벨 비용을 채우면 자동으로 레벨업(넘친 만큼 다음 레벨로 이월). 그룹원 누구나.
  */
-export async function levelUpGroupPetAction(
+export async function depositCoinsAction(
   groupId: string,
+  amount: number,
 ): Promise<GroupActionResult> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
@@ -266,26 +268,113 @@ export async function levelUpGroupPetAction(
 
   const { data } = await supabase
     .from("group_pets")
-    .select("level, coins")
+    .select("level, coins, progress")
     .eq("group_id", groupId)
     .maybeSingle();
-  const level = (data as { level: number | null } | null)?.level ?? 0;
-  const coins = (data as { coins: number | null } | null)?.coins ?? 0;
-  const cost = coinsForLevel(level);
-  if (coins < cost) {
-    return { ok: false, error: `코인이 부족해요. (${coins}/${cost}) 운동으로 모아요!` };
+  const level0 = (data as { level: number | null } | null)?.level ?? 0;
+  const coins0 = (data as { coins: number | null } | null)?.coins ?? 0;
+  const progress0 = (data as { progress: number | null } | null)?.progress ?? 0;
+
+  const next = applyDeposit(level0, coins0, progress0, amount);
+  if (next.added <= 0) {
+    return { ok: false, error: "넣을 코인이 없어요. 운동으로 모아요!" };
   }
+
   const { error } = await supabase.from("group_pets").upsert(
     {
       group_id: groupId,
-      level: level + 1,
-      coins: coins - cost,
+      level: next.level,
+      coins: next.coins,
+      progress: next.progress,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "group_id" },
   );
   if (error) return { ok: false, error: error.message };
   revalidatePath(`/groups`);
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/** 상점에서 꾸미기 아이템 구매 — 코인 차감 + 보유목록 추가. 이미 있으면 성공 처리. */
+export async function buyPetItemAction(
+  groupId: string,
+  itemId: string,
+): Promise<GroupActionResult> {
+  const item = cosmetic(itemId);
+  if (!item) return { ok: false, error: "없는 아이템입니다." };
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { data } = await supabase
+    .from("group_pets")
+    .select("coins, owned")
+    .eq("group_id", groupId)
+    .maybeSingle();
+  const coins = (data as { coins: number | null } | null)?.coins ?? 0;
+  const owned = Array.isArray((data as { owned?: unknown } | null)?.owned)
+    ? ((data as { owned: string[] }).owned)
+    : [];
+
+  if (owned.includes(itemId)) return { ok: true };
+  if (coins < item.price) {
+    return { ok: false, error: "코인이 부족해요. 운동으로 모아요!" };
+  }
+  const { error } = await supabase.from("group_pets").upsert(
+    {
+      group_id: groupId,
+      coins: coins - item.price,
+      owned: [...owned, itemId],
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "group_id" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/groups");
+  revalidatePath(`/groups/${groupId}`);
+  return { ok: true };
+}
+
+/** 꾸미기 착용/해제 — itemId null 이면 그 부위 벗기. 보유한 것만 착용. */
+export async function equipPetItemAction(
+  groupId: string,
+  slot: string,
+  itemId: string | null,
+): Promise<GroupActionResult> {
+  if (!isCosmeticSlot(slot)) return { ok: false, error: "잘못된 부위입니다." };
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { data } = await supabase
+    .from("group_pets")
+    .select("owned, equipped")
+    .eq("group_id", groupId)
+    .maybeSingle();
+  const owned = Array.isArray((data as { owned?: unknown } | null)?.owned)
+    ? ((data as { owned: string[] }).owned)
+    : [];
+  const equipped: Record<string, string> =
+    (data as { equipped?: unknown } | null)?.equipped &&
+    typeof (data as { equipped: unknown }).equipped === "object"
+      ? { ...((data as { equipped: Record<string, string> }).equipped) }
+      : {};
+
+  if (itemId) {
+    const it = cosmetic(itemId);
+    if (!it || it.slot !== slot) return { ok: false, error: "맞지 않는 부위예요." };
+    if (!owned.includes(itemId)) return { ok: false, error: "먼저 구매해야 해요." };
+    equipped[slot] = itemId;
+  } else {
+    delete equipped[slot];
+  }
+  const { error } = await supabase.from("group_pets").upsert(
+    { group_id: groupId, equipped, updated_at: new Date().toISOString() },
+    { onConflict: "group_id" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/groups");
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };
 }

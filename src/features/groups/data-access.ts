@@ -23,7 +23,7 @@ import {
   type RankedMember,
 } from "@/features/groups/ranking";
 import { computeWorkoutStreak } from "@/features/groups/streak";
-import { gymLevel, coinsForLevel, COINS_PER_WORKOUT } from "@/features/groups/gym";
+import { coinsForLevel, COINS_PER_WORKOUT } from "@/features/groups/gym";
 import { cheersByTarget } from "@/features/groups/cheers";
 import {
   challengeProgress,
@@ -105,7 +105,10 @@ export type GroupDetail = {
 export type GroupPet = {
   name: string;
   level: number;
+  /** 사용 가능한(아직 안 넣은) 코인. */
   coins: number;
+  /** 다음 레벨에 이미 넣은 코인. */
+  progress: number;
   /** 다음 레벨업 비용(코인). */
   nextCost: number;
   /** 그룹 전체 누적 운동 수. */
@@ -113,6 +116,10 @@ export type GroupPet = {
   /** 지금까지 늑대에게 쓴(레벨업에 소비한) 코인 누적. */
   coinsSpent: number;
   memberCount: number;
+  /** 보유 꾸미기 아이템 id 목록. */
+  owned: string[];
+  /** 착용 중인 꾸미기(slot -> itemId). */
+  equipped: Record<string, string>;
 };
 
 /** 응원 문구 표시용 — 작성자 이름 + 내용 + 내가 쓴 것인지. */
@@ -358,25 +365,20 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     addStreakDate(r.user_id, r.for_date);
   }
 
-  // 헬스장 늑대 레벨 — 멤버별 '전체 기간' 완료 운동 수(근력+컨디셔닝) 기준. 처음 0.
-  const totalWorkoutsOf = new Map<string, number>();
-  await Promise.all(
-    memberIds.map(async (uid) => {
-      const [{ count: e }, { count: c }] = await Promise.all([
-        supabase
-          .from("exercise_completions")
-          .select("id", { count: "exact", head: true })
-          .eq("user_id", uid)
-          .eq("status", "done"),
-        supabase
-          .from("conditioning_completions")
-          .select("id", { count: "exact", head: true })
-          .eq("user_id", uid)
-          .eq("status", "done"),
-      ]);
-      totalWorkoutsOf.set(uid, (e ?? 0) + (c ?? 0));
-    }),
-  );
+  // 그룹 공유 펫 코인용 — 그룹 전체 누적 운동 수를 '한 번에' 집계(멤버별 2×N → 2쿼리).
+  const [{ count: exAll }, { count: condAll }] = await Promise.all([
+    supabase
+      .from("exercise_completions")
+      .select("id", { count: "exact", head: true })
+      .in("user_id", memberIds)
+      .eq("status", "done"),
+    supabase
+      .from("conditioning_completions")
+      .select("id", { count: "exact", head: true })
+      .in("user_id", memberIds)
+      .eq("status", "done"),
+  ]);
+  const groupWorkouts = (exAll ?? 0) + (condAll ?? 0);
 
   for (const s of stats.values()) {
     s.kcal = Math.round(s.kcal);
@@ -384,7 +386,6 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     s.todayBurned = Math.round(todayBurnedOf.get(s.userId) ?? 0);
     s.todayPhotos = todayPhotosOf.get(s.userId) ?? [];
     s.streak = computeWorkoutStreak(streakDatesOf.get(s.userId) ?? [], today);
-    s.level = gymLevel(totalWorkoutsOf.get(s.userId) ?? 0);
   }
 
   // 응원 문구 — 대상자별로 묶고 작성자 이름을 붙인다.
@@ -410,21 +411,24 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     }));
   }
 
-  // 그룹 공유 펫 — 그룹 전체 누적 운동으로 코인 적립(신규 운동만큼, 중복 방지).
-  const groupWorkouts = [...totalWorkoutsOf.values()].reduce((a, b) => a + b, 0);
+  // 그룹 공유 펫 — 그룹 전체 누적 운동(groupWorkouts, 위에서 집계)으로 코인 적립.
   const { data: petRow } = await supabase
     .from("group_pets")
-    .select("name, level, coins, synced_workouts")
+    .select("name, level, coins, progress, synced_workouts, owned, equipped")
     .eq("group_id", groupId)
     .maybeSingle();
   const pr = petRow as {
     name: string | null;
     level: number | null;
     coins: number | null;
+    progress: number | null;
     synced_workouts: number | null;
+    owned: unknown;
+    equipped: unknown;
   } | null;
   const petName = pr?.name ?? "";
   const petLevelVal = pr?.level ?? 0;
+  const petProgress = pr?.progress ?? 0;
   let petCoins = pr?.coins ?? 0;
   let petSynced = pr?.synced_workouts ?? 0;
   if (!pr || groupWorkouts > petSynced) {
@@ -446,10 +450,17 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     name: petName,
     level: petLevelVal,
     coins: petCoins,
+    progress: petProgress,
     nextCost: coinsForLevel(petLevelVal),
     groupWorkouts,
+    // 늑대에 쓴 코인 = 획득 - 남은 코인(넣은 progress + 레벨업에 소비 합산).
     coinsSpent: Math.max(0, groupWorkouts * COINS_PER_WORKOUT - petCoins),
     memberCount: memberIds.length,
+    owned: Array.isArray(pr?.owned) ? (pr!.owned as string[]) : [],
+    equipped:
+      pr?.equipped && typeof pr.equipped === "object"
+        ? (pr.equipped as Record<string, string>)
+        : {},
   };
 
   return {

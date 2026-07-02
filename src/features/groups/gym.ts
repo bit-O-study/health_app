@@ -29,3 +29,37 @@ export const COINS_PER_WORKOUT = 10;
 export function coinsForLevel(level: number): number {
   return 50 + Math.max(0, Math.floor(level)) * 30;
 }
+
+export type DepositResult = {
+  level: number;
+  coins: number;
+  progress: number;
+  /** 실제로 넣은 코인(보유 초과분은 잘림). */
+  added: number;
+};
+
+/**
+ * 코인 넣기 — amount 만큼 progress 에 투입(보유 coins 한도). 넣은 코인이 다음 레벨 비용을
+ * 채우면 자동 레벨업(넘친 만큼 다음 레벨로 이월). 순수 함수(테스트 가능).
+ */
+export function applyDeposit(
+  level: number,
+  coins: number,
+  progress: number,
+  amount: number,
+): DepositResult {
+  const avail = Math.max(0, Math.floor(coins || 0));
+  let amt = Math.floor(Number(amount) || 0);
+  if (amt <= 0 || avail <= 0) {
+    return { level, coins: avail, progress: Math.max(0, progress || 0), added: 0 };
+  }
+  amt = Math.min(amt, avail);
+  const c = avail - amt;
+  let p = Math.max(0, progress || 0) + amt;
+  let l = Math.max(0, Math.floor(level || 0));
+  while (p >= coinsForLevel(l)) {
+    p -= coinsForLevel(l);
+    l += 1;
+  }
+  return { level: l, coins: c, progress: p, added: amt };
+}

@@ -47,6 +47,33 @@ export async function getAdmins(): Promise<AdminRow[]> {
   }));
 }
 
+/**
+ * 현재 사용자가 게시물 관리자(모더레이터)인지 — 관리자이거나 post_moderators 에 지정된 이메일.
+ * 모든 커뮤니티 게시물/댓글 삭제·수정 가능. (RLS는 is_post_moderator() SQL 함수가 강제.)
+ */
+export const isPostModerator = cache(async (): Promise<boolean> => {
+  const user = await getCurrentUser();
+  if (!user) return false;
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.rpc("is_post_moderator");
+  if (error) return false;
+  return data === true;
+});
+
+/** 게시물 관리자 목록 (관리자만 조회 가능). */
+export async function getPostModerators(): Promise<AdminRow[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("post_moderators")
+    .select("email, created_at")
+    .order("created_at", { ascending: true });
+  if (error || !data) return [];
+  return (data as { email: string; created_at: string }[]).map((r) => ({
+    email: r.email,
+    createdAt: r.created_at,
+  }));
+}
+
 export type MemberRow = {
   userId: string;
   email: string | null;

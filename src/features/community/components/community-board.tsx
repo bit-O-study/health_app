@@ -1,16 +1,26 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Camera, ImagePlus, Loader2, Plus, Trash2, X } from "lucide-react";
+import Link from "next/link";
+import {
+  Camera,
+  Heart,
+  ImagePlus,
+  Loader2,
+  MessageCircle,
+  Plus,
+  Trash2,
+  X,
+} from "lucide-react";
 
-import { characterEmoji, pastelClass } from "@/features/groups/avatar";
-import { postsForFilter, relativeTime, MAX_CAPTION } from "../community";
+import { postsForFilter, publicOnly, MAX_CAPTION } from "../community";
 import type { CommunityPost } from "../data-access";
 import { uploadCommunityPhoto } from "../upload-photo";
 import {
   createCommunityPostAction,
   deleteCommunityPostAction,
+  toggleLikeAction,
 } from "../community-actions";
 
 type Group = { id: string; name: string };
@@ -18,12 +28,15 @@ type Group = { id: string; name: string };
 export function CommunityBoard({
   groups,
   initialPosts,
+  canModerate,
 }: {
   groups: Group[];
   initialPosts: CommunityPost[];
+  /** 게시물 관리자만 카드(밖)에서 바로 삭제 가능. 일반 유저는 상세페이지에서. */
+  canModerate: boolean;
 }) {
   const router = useRouter();
-  // 상위 탭: 전체(공개글 포함 전부) / 그룹(그룹 글만, 하위 다중선택).
+  // 상위 탭: 전체(공개글만) / 그룹(그룹 글, 하위 다중선택).
   const [tab, setTab] = useState<"all" | "group">("all");
   // 그룹 탭 하위 선택(다중). 초기값 = 모든 그룹(= 하위 '전체').
   const [selected, setSelected] = useState<Set<string>>(
@@ -31,19 +44,12 @@ export function CommunityBoard({
   );
   const [compose, setCompose] = useState(false);
 
-  // 상대시간용 현재시각 — 최초값은 lazy init, 이후 1분마다 갱신(시간 자동 업데이트).
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const t = setInterval(() => setNow(Date.now()), 60_000);
-    return () => clearInterval(t);
-  }, []);
-
   const groupAllSelected =
     groups.length > 0 && groups.every((g) => selected.has(g.id));
-  // 전체 탭 → 공개글 포함 전부. 그룹 탭 → 선택된 그룹들의 글만(공개글 제외).
+  // 전체 탭 → 공개글만. 그룹 탭 → 선택된 그룹들의 글만.
   const visible =
     tab === "all"
-      ? initialPosts
+      ? publicOnly(initialPosts)
       : postsForFilter(initialPosts, [...selected]);
 
   function toggleGroup(id: string) {
@@ -60,7 +66,8 @@ export function CommunityBoard({
       {/* 헤더 + 2단 필터: [전체][그룹] → 그룹이면 [전체][#그룹…] */}
       <div className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 px-4 pb-2 pt-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
         <h1 className="mb-2 text-lg font-extrabold">커뮤니티</h1>
-        <div className="flex gap-1 rounded-full bg-zinc-100 p-1 dark:bg-zinc-900">
+        {/* 상단 탭 — 왼쪽정렬 17px 텍스트 클릭식 */}
+        <div className="flex items-center gap-4">
           {(
             [
               ["all", "전체"],
@@ -71,10 +78,10 @@ export function CommunityBoard({
               key={k}
               type="button"
               onClick={() => setTab(k)}
-              className={`flex-1 rounded-full py-1.5 text-sm font-bold transition-colors ${
+              className={`text-[17px] font-bold transition-colors ${
                 tab === k
-                  ? "bg-white text-emerald-600 shadow-sm dark:bg-zinc-800 dark:text-emerald-400"
-                  : "text-zinc-500"
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
               {label}
@@ -120,7 +127,7 @@ export function CommunityBoard({
         ) : null}
       </div>
 
-      {/* 피드 */}
+      {/* 피드 — 한 줄에 2개(그리드) */}
       {visible.length === 0 ? (
         <div className="flex flex-col items-center gap-2 px-6 py-16 text-center text-zinc-400">
           <Camera size={40} className="opacity-40" />
@@ -129,9 +136,14 @@ export function CommunityBoard({
           </p>
         </div>
       ) : (
-        <ul className="flex flex-col gap-3 px-3 py-3">
+        <ul className="grid grid-cols-2 gap-2 px-2 py-3">
           {visible.map((p) => (
-            <PostCard key={p.id} post={p} router={router} now={now} />
+            <PostCard
+              key={p.id}
+              post={p}
+              router={router}
+              canModerate={canModerate}
+            />
           ))}
         </ul>
       )}
@@ -166,19 +178,30 @@ export function CommunityBoard({
 function PostCard({
   post,
   router,
-  now,
+  canModerate,
 }: {
   post: CommunityPost;
   router: ReturnType<typeof useRouter>;
-  now: number;
+  canModerate: boolean;
 }) {
   const [pending, start] = useTransition();
   const [gone, setGone] = useState(false);
+  const [liked, setLiked] = useState(post.likedByMe);
+  const [likeCount, setLikeCount] = useState(post.likeCount);
   if (gone) return null;
 
-  const when = now
-    ? relativeTime(new Date(post.createdAt).getTime(), now)
-    : "";
+  function toggleLike() {
+    const next = !liked;
+    setLiked(next);
+    setLikeCount((c) => c + (next ? 1 : -1));
+    start(async () => {
+      const r = await toggleLikeAction(post.id);
+      if (!r.ok) {
+        setLiked(!next);
+        setLikeCount((c) => c + (next ? -1 : 1));
+      }
+    });
+  }
 
   function remove() {
     if (!confirm("이 인증을 삭제할까요?")) return;
@@ -194,59 +217,69 @@ function PostCard({
   }
 
   return (
-    <li className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <div className="flex items-center gap-2 px-3 py-2">
-        <span
-          className={`flex h-8 w-8 items-center justify-center rounded-full text-lg ${pastelClass(
-            post.authorName,
-          )}`}
-        >
-          {characterEmoji(post.authorName)}
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold">{post.authorName}</p>
-          <p className="text-[11px] text-zinc-400">{when}</p>
-        </div>
-        {post.isMine ? (
-          <button
-            type="button"
-            onClick={remove}
-            disabled={pending}
-            aria-label="삭제"
-            className="rounded-full p-1.5 text-zinc-400 hover:text-rose-500 disabled:opacity-50"
-          >
-            {pending ? (
-              <Loader2 size={16} className="animate-spin" />
-            ) : (
-              <Trash2 size={16} />
-            )}
-          </button>
-        ) : null}
-      </div>
+    <li className="overflow-hidden rounded-xl bg-white dark:bg-zinc-900">
+      {/* 사진 — 클릭하면 상세페이지 */}
+      <Link href={`/community/${post.id}`} className="block" aria-label="게시물 열기">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={post.photoUrl}
+          alt="오운완 인증"
+          loading="lazy"
+          className="aspect-[3/2] w-full bg-zinc-100 object-cover dark:bg-zinc-800"
+        />
+      </Link>
 
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={post.photoUrl}
-        alt="오운완 인증"
-        loading="lazy"
-        className="aspect-square w-full bg-zinc-100 object-cover dark:bg-zinc-800"
-      />
-
-      <div className="space-y-1.5 px-3 py-2">
+      <div className="space-y-1 px-1.5 py-1.5">
         {post.caption ? (
-          <p className="whitespace-pre-wrap break-words text-sm">
-            {post.caption}
-          </p>
+          <Link href={`/community/${post.id}`} className="block">
+            <p className="line-clamp-2 break-words text-xs leading-snug">
+              {post.caption}
+            </p>
+          </Link>
         ) : null}
         {post.groupName ? (
-          <span className="inline-block rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+          <span className="inline-block rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
             # {post.groupName}
           </span>
-        ) : (
-          <span className="inline-block rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-500 dark:bg-zinc-800">
-            전체 공개
-          </span>
-        )}
+        ) : null}
+
+        {/* 좋아요 / 댓글 수 */}
+        <div className="flex items-center gap-3 pt-0.5 text-zinc-500 dark:text-zinc-400">
+          <button
+            type="button"
+            onClick={toggleLike}
+            disabled={pending}
+            className="inline-flex items-center gap-1 text-xs font-bold disabled:opacity-60"
+            aria-label="좋아요"
+          >
+            <Heart
+              size={15}
+              className={
+                liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"
+              }
+            />
+            {likeCount}
+          </button>
+          <Link
+            href={`/community/${post.id}`}
+            className="inline-flex items-center gap-1 text-xs font-bold"
+            aria-label="댓글"
+          >
+            <MessageCircle size={15} className="text-zinc-400" />
+            {post.commentCount}
+          </Link>
+          {canModerate ? (
+            <button
+              type="button"
+              onClick={remove}
+              disabled={pending}
+              aria-label="삭제"
+              className="ml-auto text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+            >
+              <Trash2 size={14} />
+            </button>
+          ) : null}
+        </div>
       </div>
     </li>
   );

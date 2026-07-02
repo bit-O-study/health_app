@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   MAX_CAPTION,
   postsForFilter,
+  publicOnly,
   relativeTime,
   validatePostInput,
 } from "@/features/community/community";
@@ -31,6 +32,17 @@ describe("community — validatePostInput", () => {
     expect(
       validatePostInput({ photoUrl: "http://x/y.png", caption: "" }).ok,
     ).toBe(true);
+  });
+});
+
+describe("community — publicOnly (전체 탭)", () => {
+  const posts = [
+    { id: "1", groupId: null },
+    { id: "2", groupId: "g1" },
+    { id: "3", groupId: null },
+  ];
+  it("전체 탭은 공개글만 — 그룹글 제외", () => {
+    expect(publicOnly(posts).map((p) => p.id)).toEqual(["1", "3"]);
   });
 });
 

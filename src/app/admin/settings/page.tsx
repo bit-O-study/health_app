@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
 
-import { getAdmins, isAdminUser } from "@/features/admin/admin";
+import {
+  getAdmins,
+  getPostModerators,
+  isAdminUser,
+} from "@/features/admin/admin";
 import { DEBUG_FEATURES } from "@/features/admin/debug-features";
 import {
   getDebugAccounts,
@@ -9,15 +13,17 @@ import {
 import { AdminSettingsManager } from "@/features/admin/components/admin-settings-manager";
 import { DebugAccountsManager } from "@/features/admin/components/debug-accounts-manager";
 import { DebugFeaturesManager } from "@/features/admin/components/debug-features-manager";
+import { PostModeratorsManager } from "@/features/admin/components/post-moderators-manager";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
   if (!(await isAdminUser())) notFound();
-  const [admins, debugStates, debugAccounts] = await Promise.all([
+  const [admins, debugStates, debugAccounts, moderators] = await Promise.all([
     getAdmins(),
     getDebugFeatureStates(),
     getDebugAccounts(),
+    getPostModerators(),
   ]);
   const debugFeatures = DEBUG_FEATURES.map((f) => ({
     id: f.id,
@@ -35,6 +41,17 @@ export default async function AdminSettingsPage() {
         계정은 일반 화면 대신 이 관리자 콘솔로 이동합니다.
       </p>
       <AdminSettingsManager admins={admins} />
+
+      <section className="mt-10">
+        <h2 className="mb-1 text-lg font-bold text-zinc-950 dark:text-zinc-100">
+          게시물 관리자
+        </h2>
+        <p className="mb-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          여기에 지정한 계정은 커뮤니티의 모든 게시물·댓글을 삭제하거나 수정할 수
+          있습니다. (관리자 계정은 기본으로 가능합니다.)
+        </p>
+        <PostModeratorsManager moderators={moderators} />
+      </section>
 
       <section className="mt-10">
         <h2 className="mb-1 text-lg font-bold text-zinc-950 dark:text-zinc-100">

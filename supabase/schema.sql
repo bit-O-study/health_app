@@ -1825,6 +1825,30 @@ create policy "Users can delete own community photos"
   on storage.objects for delete
   using (bucket_id = 'community-photos' and owner = auth.uid());
 
+-- 게시물 관리자(모더레이터) — 관리자가 이메일로 지정. 모든 게시물 삭제/수정 가능.
+create table if not exists public.post_moderators (
+  email text primary key,
+  created_at timestamptz not null default now()
+);
+alter table public.post_moderators enable row level security;
+drop policy if exists "read post_moderators" on public.post_moderators;
+create policy "read post_moderators" on public.post_moderators for select
+  using (public.is_admin() or lower(email) = lower(auth.jwt() ->> 'email'));
+drop policy if exists "admin inserts post_moderators" on public.post_moderators;
+create policy "admin inserts post_moderators" on public.post_moderators for insert
+  with check (public.is_admin());
+drop policy if exists "admin deletes post_moderators" on public.post_moderators;
+create policy "admin deletes post_moderators" on public.post_moderators for delete
+  using (public.is_admin());
+
+create or replace function public.is_post_moderator() returns boolean
+  language sql security definer stable set search_path = public as $$
+  select public.is_admin() or exists(
+    select 1 from public.post_moderators
+    where lower(email) = lower(auth.jwt() ->> 'email')
+  );
+$$;
+
 create table if not exists public.community_posts (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -1855,8 +1879,66 @@ create policy "insert own community post" on public.community_posts for insert
     and (group_id is null or public.is_group_member(group_id))
   );
 
+-- 삭제/수정: 본인 글 또는 게시물 관리자(모더레이터).
 drop policy if exists "delete own community post" on public.community_posts;
 create policy "delete own community post" on public.community_posts for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+drop policy if exists "update own or moderator community post" on public.community_posts;
+create policy "update own or moderator community post" on public.community_posts for update
+  using (user_id = auth.uid() or public.is_post_moderator())
+  with check (user_id = auth.uid() or public.is_post_moderator());
+
+-- 글을 볼 수 있는지(좋아요/댓글 RLS 공통) — 공개글이거나 그 그룹 멤버.
+create or replace function public.can_see_community_post(pid uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.community_posts p
+    where p.id = pid
+      and (p.group_id is null or public.is_group_member(p.group_id))
+  );
+$$;
+
+-- 좋아요(한 사람당 글 하나에 하나).
+create table if not exists public.community_likes (
+  post_id uuid not null references public.community_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (post_id, user_id)
+);
+create index if not exists community_likes_post_idx
+  on public.community_likes (post_id);
+alter table public.community_likes enable row level security;
+drop policy if exists "read likes on visible posts" on public.community_likes;
+create policy "read likes on visible posts" on public.community_likes for select
+  using (public.can_see_community_post(post_id));
+drop policy if exists "like visible post" on public.community_likes;
+create policy "like visible post" on public.community_likes for insert
+  with check (user_id = auth.uid() and public.can_see_community_post(post_id));
+drop policy if exists "unlike own" on public.community_likes;
+create policy "unlike own" on public.community_likes for delete
   using (user_id = auth.uid());
+
+-- 댓글.
+create table if not exists public.community_comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid not null references public.community_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  author_name text not null default '회원',
+  body text not null check (char_length(body) between 1 and 300),
+  created_at timestamptz not null default now()
+);
+create index if not exists community_comments_post_idx
+  on public.community_comments (post_id, created_at);
+alter table public.community_comments enable row level security;
+drop policy if exists "read comments on visible posts" on public.community_comments;
+create policy "read comments on visible posts" on public.community_comments for select
+  using (public.can_see_community_post(post_id));
+drop policy if exists "comment on visible post" on public.community_comments;
+create policy "comment on visible post" on public.community_comments for insert
+  with check (user_id = auth.uid() and public.can_see_community_post(post_id));
+drop policy if exists "delete own comment" on public.community_comments;
+create policy "delete own comment" on public.community_comments for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
 
 notify pgrst, 'reload schema';

@@ -6,6 +6,8 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { sendPush, pushEnabled } from "@/features/notifications/push";
 import { getUserProfile } from "@/features/profile/data-access";
 import { isValidCheer, normalizeCheer } from "@/features/groups/cheers";
 import { isChallengeMetric } from "@/features/groups/challenge";
@@ -89,8 +91,61 @@ export async function leaveGroupAction(groupId: string): Promise<GroupActionResu
 }
 
 /**
+ * 응원을 받은 그룹원에게 웹푸시 알림. 상대 구독 조회는 RLS(본인 전용)를 넘어야 해서
+ * 서비스롤 admin 클라이언트를 쓴다. 실패해도 응원 자체엔 영향 없음(조용히 무시).
+ */
+async function notifyCheerRecipient(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  groupId: string,
+  toUser: string,
+  fromUserId: string,
+): Promise<void> {
+  try {
+    if (!pushEnabled()) return;
+    const admin = createSupabaseAdminClient();
+    if (!admin) return;
+    // 상대가 보는 '보낸 사람 이름' = 그룹 가입 스냅샷(display_name).
+    const { data: mem } = await supabase
+      .from("group_members")
+      .select("display_name")
+      .eq("group_id", groupId)
+      .eq("user_id", fromUserId)
+      .maybeSingle();
+    const fromName =
+      ((mem as { display_name: string | null } | null)?.display_name ?? "").trim() ||
+      "그룹원";
+
+    const { data: subs } = await admin
+      .from("push_subscriptions")
+      .select("endpoint, p256dh, auth")
+      .eq("user_id", toUser);
+    const payload = {
+      type: "group-cheer",
+      title: "응원이 도착했어요 💪",
+      body: `${fromName}님이 응원을 남겼습니다`,
+      url: `/groups/${groupId}`,
+    };
+    for (const s of (subs ?? []) as {
+      endpoint: string;
+      p256dh: string;
+      auth: string;
+    }[]) {
+      const res = await sendPush(
+        { endpoint: s.endpoint, p256dh: s.p256dh, auth: s.auth },
+        payload,
+      );
+      if (res === "gone") {
+        await admin.from("push_subscriptions").delete().eq("endpoint", s.endpoint);
+      }
+    }
+  } catch {
+    /* 알림 실패는 무시 */
+  }
+}
+
+/**
  * 응원 문구 남기기/수정 — 그날(오늘) 그룹원에게 10자 이내 한 마디. 하루 한 문구(수정 가능).
- * 빈 문구면 삭제. RLS 가 그룹원·본인 여부를 강제한다.
+ * 빈 문구면 삭제. RLS 가 그룹원·본인 여부를 강제한다. 남기면 상대에게 푸시 알림.
  */
 export async function setCheerAction(
   groupId: string,
@@ -136,6 +191,8 @@ export async function setCheerAction(
     { onConflict: "group_id,from_user,to_user,for_date" },
   );
   if (error) return { ok: false, error: error.message };
+
+  await notifyCheerRecipient(supabase, groupId, toUser, user.id);
 
   revalidatePath(`/groups/${groupId}`);
   return { ok: true };

@@ -221,7 +221,7 @@ export function GymRoom({
             {pet.equipped.face ? (
               <span
                 className="absolute left-1/2 -translate-x-1/2 leading-none"
-                style={{ top: "40%", fontSize: petSize * 0.2 }}
+                style={{ top: "43%", fontSize: petSize * 0.24 }}
               >
                 {cosmetic(pet.equipped.face)?.emoji}
               </span>

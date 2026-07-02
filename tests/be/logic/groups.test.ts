@@ -12,6 +12,7 @@ const stat = (over: Partial<MemberStat>): MemberStat => ({
   todayBurned: over.todayBurned ?? 0,
   todayPhotos: over.todayPhotos ?? [],
   streak: over.streak ?? 0,
+  level: over.level ?? 0,
   isMe: over.isMe ?? false,
 });
 

@@ -38,7 +38,7 @@ export function CycleBoard({
   predicted: string[];
 }) {
   const router = useRouter();
-  const [, start] = useTransition();
+  const [pending, start] = useTransition();
   const [logs, setLogs] = useState<Map<string, CycleLog>>(
     () => new Map(initial.map((l) => [l.forDate, l])),
   );
@@ -67,11 +67,15 @@ export function CycleBoard({
   while (cells.length % 7 !== 0) cells.push(null);
 
   function goMonth(delta: number) {
+    if (pending) return;
     const d = new Date(Date.UTC(year, month0 + delta, 1));
-    router.push(`/cycle?m=${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}`);
+    start(() =>
+      router.push(`/cycle?m=${d.getUTCFullYear()}-${pad(d.getUTCMonth() + 1)}`),
+    );
   }
 
   function saveDay(date: string, patch: CycleLog) {
+    if (pending) return;
     setLogs((prev) => {
       const next = new Map(prev);
       const empty =
@@ -112,7 +116,8 @@ export function CycleBoard({
             type="button"
             aria-label="이전 달"
             onClick={() => goMonth(-1)}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            disabled={pending}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <ChevronLeft size={18} />
           </button>
@@ -123,7 +128,8 @@ export function CycleBoard({
             type="button"
             aria-label="다음 달"
             onClick={() => goMonth(1)}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            disabled={pending}
+            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <ChevronRight size={18} />
           </button>

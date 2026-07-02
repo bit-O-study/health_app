@@ -36,6 +36,7 @@ function baseStat(userId: string, name: string): MemberStat {
     todayBurned: 0,
     todayPhotos: [],
     streak: 0,
+    level: 0,
     isMe: false,
   };
 }

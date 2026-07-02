@@ -1641,6 +1641,31 @@ create policy "owner writes challenge" on public.group_challenges for all
   );
 notify pgrst, 'reload schema';
 
+-- 그룹 공유 펫(group_pets) — 그룹당 1마리(늑대/강아지). 그룹원들이 운동으로 코인을 모아
+-- 함께 레벨업시킨다. Lv0 시작. coins: 사용가능 코인, synced_workouts: 코인 환산 완료한 그룹 누적 운동 수.
+create table if not exists public.group_pets (
+  group_id uuid primary key references public.groups(id) on delete cascade,
+  name text not null default '',
+  level int not null default 0,
+  coins int not null default 0,
+  progress int not null default 0, -- 다음 레벨에 넣은(투입한) 코인
+  synced_workouts int not null default 0,
+  owned jsonb not null default '[]'::jsonb,     -- 보유 꾸미기 아이템 id[]
+  equipped jsonb not null default '{}'::jsonb,  -- slot -> itemId
+  updated_at timestamptz not null default now()
+);
+alter table public.group_pets add column if not exists progress int not null default 0;
+alter table public.group_pets add column if not exists owned jsonb not null default '[]'::jsonb;
+alter table public.group_pets add column if not exists equipped jsonb not null default '{}'::jsonb;
+alter table public.group_pets enable row level security;
+drop policy if exists "members read group pet" on public.group_pets;
+create policy "members read group pet" on public.group_pets for select
+  using (public.is_group_member(group_id));
+drop policy if exists "members write group pet" on public.group_pets;
+create policy "members write group pet" on public.group_pets for all
+  using (public.is_group_member(group_id)) with check (public.is_group_member(group_id));
+notify pgrst, 'reload schema';
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 다짐(commitments) — 사용자가 정한 목표. 시작일~데드라인 기간 동안 기존 운동/식단
 -- 기록으로 진행률을 '자동 집계'한다. 캘린더에 기간·데드라인을 표시.
@@ -1664,6 +1689,27 @@ create index if not exists commitments_user_idx on public.commitments (user_id);
 alter table public.commitments enable row level security;
 drop policy if exists "own commitments" on public.commitments;
 create policy "own commitments" on public.commitments for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 늑대 펫(pets) — 운동으로 Lv업 + 포인트 획득 → 아이템(옷) 구매/착용(싸이월드 미니미).
+--   points: 사용가능 포인트, synced_workouts: 이미 포인트로 환산한 누적 운동 수(중복지급 방지)
+--   owned: 보유 아이템 id[], equipped: slot→itemId
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.pets (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  name text not null default '',
+  points int not null default 0,
+  synced_workouts int not null default 0,
+  owned jsonb not null default '[]'::jsonb,
+  equipped jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+alter table public.pets enable row level security;
+drop policy if exists "own pet" on public.pets;
+create policy "own pet" on public.pets for all
   using (auth.uid() = user_id) with check (auth.uid() = user_id);
 notify pgrst, 'reload schema';
 

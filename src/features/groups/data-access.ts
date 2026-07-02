@@ -23,6 +23,7 @@ import {
   type RankedMember,
 } from "@/features/groups/ranking";
 import { computeWorkoutStreak } from "@/features/groups/streak";
+import { coinsForLevel, COINS_PER_WORKOUT } from "@/features/groups/gym";
 import { cheersByTarget } from "@/features/groups/cheers";
 import {
   challengeProgress,
@@ -96,6 +97,29 @@ export type GroupDetail = {
   cheers: Record<string, CheerView[]>;
   /** 이번 주 그룹 챌린지(목표+진행률). 없으면 null. */
   challenge: ChallengeProgress | null;
+  /** 그룹 공유 펫(코인·레벨). */
+  pet: GroupPet;
+};
+
+/** 그룹 공유 펫 — 그룹당 1마리. 운동 코인으로 함께 레벨업. */
+export type GroupPet = {
+  name: string;
+  level: number;
+  /** 사용 가능한(아직 안 넣은) 코인. */
+  coins: number;
+  /** 다음 레벨에 이미 넣은 코인. */
+  progress: number;
+  /** 다음 레벨업 비용(코인). */
+  nextCost: number;
+  /** 그룹 전체 누적 운동 수. */
+  groupWorkouts: number;
+  /** 지금까지 늑대에게 쓴(레벨업에 소비한) 코인 누적. */
+  coinsSpent: number;
+  memberCount: number;
+  /** 보유 꾸미기 아이템 id 목록. */
+  owned: string[];
+  /** 착용 중인 꾸미기(slot -> itemId). */
+  equipped: Record<string, string>;
 };
 
 /** 응원 문구 표시용 — 작성자 이름 + 내용 + 내가 쓴 것인지. */
@@ -267,6 +291,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
         todayBurned: 0,
         todayPhotos: [],
         streak: 0,
+        level: 0,
         isMe: uid === user.id,
       };
       stats.set(uid, s);
@@ -340,6 +365,21 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     addStreakDate(r.user_id, r.for_date);
   }
 
+  // 그룹 공유 펫 코인용 — 그룹 전체 누적 운동 수를 '한 번에' 집계(멤버별 2×N → 2쿼리).
+  const [{ count: exAll }, { count: condAll }] = await Promise.all([
+    supabase
+      .from("exercise_completions")
+      .select("id", { count: "exact", head: true })
+      .in("user_id", memberIds)
+      .eq("status", "done"),
+    supabase
+      .from("conditioning_completions")
+      .select("id", { count: "exact", head: true })
+      .in("user_id", memberIds)
+      .eq("status", "done"),
+  ]);
+  const groupWorkouts = (exAll ?? 0) + (condAll ?? 0);
+
   for (const s of stats.values()) {
     s.kcal = Math.round(s.kcal);
     s.todayIntake = Math.round(todayIntakeOf.get(s.userId) ?? 0);
@@ -371,6 +411,58 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
     }));
   }
 
+  // 그룹 공유 펫 — 그룹 전체 누적 운동(groupWorkouts, 위에서 집계)으로 코인 적립.
+  const { data: petRow } = await supabase
+    .from("group_pets")
+    .select("name, level, coins, progress, synced_workouts, owned, equipped")
+    .eq("group_id", groupId)
+    .maybeSingle();
+  const pr = petRow as {
+    name: string | null;
+    level: number | null;
+    coins: number | null;
+    progress: number | null;
+    synced_workouts: number | null;
+    owned: unknown;
+    equipped: unknown;
+  } | null;
+  const petName = pr?.name ?? "";
+  const petLevelVal = pr?.level ?? 0;
+  const petProgress = pr?.progress ?? 0;
+  let petCoins = pr?.coins ?? 0;
+  let petSynced = pr?.synced_workouts ?? 0;
+  if (!pr || groupWorkouts > petSynced) {
+    petCoins += Math.max(0, groupWorkouts - petSynced) * COINS_PER_WORKOUT;
+    petSynced = groupWorkouts;
+    await supabase.from("group_pets").upsert(
+      {
+        group_id: groupId,
+        name: petName,
+        level: petLevelVal,
+        coins: petCoins,
+        synced_workouts: petSynced,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "group_id" },
+    );
+  }
+  const pet: GroupPet = {
+    name: petName,
+    level: petLevelVal,
+    coins: petCoins,
+    progress: petProgress,
+    nextCost: coinsForLevel(petLevelVal),
+    groupWorkouts,
+    // 늑대에 쓴 코인 = 획득 - 남은 코인(넣은 progress + 레벨업에 소비 합산).
+    coinsSpent: Math.max(0, groupWorkouts * COINS_PER_WORKOUT - petCoins),
+    memberCount: memberIds.length,
+    owned: Array.isArray(pr?.owned) ? (pr!.owned as string[]) : [],
+    equipped:
+      pr?.equipped && typeof pr.equipped === "object"
+        ? (pr.equipped as Record<string, string>)
+        : {},
+  };
+
   return {
     id: g.id,
     name: g.name,
@@ -386,6 +478,7 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
       if (!c || !isChallengeMetric(c.metric)) return null;
       return challengeProgress(c.metric, c.target, [...stats.values()]);
     })(),
+    pet,
   };
 }
 

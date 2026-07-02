@@ -14,6 +14,12 @@ import {
 const PUSH_DISMISS = "heltch.nudge.push.dismissed";
 const STEPS_DISMISS = "heltch.nudge.steps.dismissed";
 
+/** 모바일(폰) 여부 — 알림 넛지는 모바일에서만 띄운다. */
+function isMobile(): boolean {
+  if (typeof navigator === "undefined") return false;
+  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+}
+
 /**
  * 권한 넛지 — 접속할 때마다(세션마다) 확인해서:
  * - 앱 푸시 알림 권한이 아직이면 '알림 켜기' 배너
@@ -29,13 +35,16 @@ export function PermissionNudge() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      // 앱 푸시 알림
+      // 앱 푸시 알림 — 모바일에서만 넛지.
       try {
         if ("Notification" in window) {
           const perm = Notification.permission;
           if (perm === "granted") {
             void ensurePushSubscribed(); // 허용돼 있으면 구독만 갱신(배너 X)
-          } else if (window.localStorage.getItem(PUSH_DISMISS) !== "1") {
+          } else if (
+            isMobile() &&
+            window.localStorage.getItem(PUSH_DISMISS) !== "1"
+          ) {
             if (!cancelled) {
               setPushDenied(perm === "denied");
               setShowPush(true);
@@ -67,16 +76,13 @@ export function PermissionNudge() {
     setBusy("push");
     try {
       const p = await Notification.requestPermission();
-      if (p === "granted") {
-        await ensurePushSubscribed();
-        setShowPush(false);
-      } else {
-        setPushDenied(p === "denied");
-      }
+      if (p === "granted") await ensurePushSubscribed();
     } catch {
       /* 무시 */
     } finally {
       setBusy(null);
+      // 허용/거부 상관없이 무조건 배너를 닫는다(안 닫히면 버그로 오해).
+      setShowPush(false);
     }
   }
   function dismissPush() {

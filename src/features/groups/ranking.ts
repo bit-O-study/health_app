@@ -17,6 +17,8 @@ export type MemberStat = {
   todayPhotos: string[];
   /** 연속 운동일 스트릭(오늘/어제 기준). */
   streak: number;
+  /** 헬스장 늑대 레벨(누적 운동 기반, 처음 0). */
+  level: number;
   isMe: boolean;
 };
 

@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
 import { BottomNav } from "@/components/bottom-nav";
+import { getCurrentUser } from "@/lib/supabase/server";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
@@ -69,8 +70,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // 헬쑤쌤 탭 노출 여부(디버그 계정 + 기능 켜짐). 일반 사용자는 false.
-  const showCoach = await isDebugFeatureEnabled("helssu-coach");
+  // 로그인 전에는 하단 탭을 숨긴다(로그인 후에만 앱 네비 노출).
+  const [user, showCoach] = await Promise.all([
+    getCurrentUser(),
+    isDebugFeatureEnabled("helssu-coach"),
+  ]);
+  const isLoggedIn = Boolean(user);
   return (
     <html
       lang="ko"
@@ -85,7 +90,7 @@ export default async function RootLayout({
         <NotificationCenterProvider>
           <AppSplash />
           {children}
-          <BottomNav showCoach={showCoach} />
+          {isLoggedIn ? <BottomNav showCoach={showCoach} /> : null}
         </NotificationCenterProvider>
         <PWARegister />
         <Analytics />

@@ -11,6 +11,7 @@ import {
   setGroupPetNameAction,
 } from "@/features/groups/group-actions";
 import { SpriteWolf } from "@/features/groups/components/sprite-wolf";
+import { GymScene } from "@/features/groups/components/gym-scene";
 
 /**
  * 올팜식 그룹 헬스장 — 중앙에 그룹 공유 늑대(크게, 러닝머신처럼 제자리 달리기),
@@ -19,7 +20,6 @@ import { SpriteWolf } from "@/features/groups/components/sprite-wolf";
 export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
   const router = useRouter();
   const [pending, start] = useTransition();
-  const [bgOk, setBgOk] = useState(true);
   const [editing, setEditing] = useState(false);
   const [name, setName] = useState(pet.name);
   const [msg, setMsg] = useState<string | null>(null);
@@ -48,23 +48,8 @@ export function GymRoom({ groupId, pet }: { groupId: string; pet: GroupPet }) {
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {/* 배경 — 실사 헬스장 사진(있으면), 없으면 귀여운 CSS 헬스장 */}
-      {bgOk ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src="/gym/gym.png"
-          alt=""
-          onError={() => setBgOk(false)}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      ) : (
-        <>
-          <div className="absolute inset-x-0 top-0 h-[62%] bg-gradient-to-b from-sky-200 to-indigo-100 dark:from-sky-950/60 dark:to-zinc-900" />
-          <div className="absolute inset-x-0 bottom-0 h-[38%] bg-gradient-to-b from-emerald-300 to-emerald-400 dark:from-emerald-900/50 dark:to-emerald-950/60" />
-        </>
-      )}
-      {/* 가독성 위한 살짝 어둡게 */}
-      <div className="absolute inset-0 bg-black/10" />
+      {/* 배경 — 플랫 카툰 헬스장(강아지 그림체 매치) */}
+      <GymScene />
 
       {/* ── 상단: 코인 / 인원 ── */}
       <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between p-2">

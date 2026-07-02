@@ -13,6 +13,7 @@ const PROTECTED_PREFIXES = [
   "/plan",
   "/admin",
   "/change-password",
+  "/exercises", // 운동 찾기(목록·상세) — 로그인 후에만 노출
 ];
 
 /**
@@ -165,6 +166,9 @@ export async function updateSession(request: NextRequest) {
       pathname.startsWith("/running/") ||
       pathname === "/jog" ||
       pathname.startsWith("/jog/") ||
+      // 운동 찾기(목록·상세) — 관리자도 볼 수 있어야 기구분석 '상세보기' 링크가 동작한다.
+      pathname === "/exercises" ||
+      pathname.startsWith("/exercises/") ||
       // 관리자도 임시 비번이면 비번 변경 화면을 거쳐야 함 — /admin 강제이동에서 제외.
       pathname === "/change-password";
     let isAdmin = false;

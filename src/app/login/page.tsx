@@ -48,13 +48,6 @@ export default async function LoginPage({
       </div>
 
       <AuthForm redirectTo={redirectTo} />
-
-      <Link
-        className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/exercises"
-      >
-        먼저 운동 리스트 둘러보기
-      </Link>
     </main>
   );
 }

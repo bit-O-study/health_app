@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import {
   DEBUG_FEATURES,
+  DEBUG_VISIBILITIES,
   addDebugAccount,
   debugSettingKey,
   debugValueEnabled,
+  debugValueToVisibility,
+  isDebugVisibility,
   normalizeDebugAccounts,
   removeDebugAccount,
 } from "@/features/admin/debug-features";
@@ -46,6 +49,31 @@ describe("debugValueEnabled — default on, only false disables", () => {
   it("any other value = enabled", () => {
     expect(debugValueEnabled(0)).toBe(true);
     expect(debugValueEnabled("off")).toBe(true);
+  });
+});
+
+describe("debugValueToVisibility — 3단계(숨김/디버그/공개), 기본 debug", () => {
+  it("미설정/null/true = debug (디버그 계정만)", () => {
+    expect(debugValueToVisibility(undefined)).toBe("debug");
+    expect(debugValueToVisibility(null)).toBe("debug");
+    expect(debugValueToVisibility(true)).toBe("debug");
+    expect(debugValueToVisibility("debug")).toBe("debug");
+  });
+  it('"public" = 전체 공개', () => {
+    expect(debugValueToVisibility("public")).toBe("public");
+  });
+  it('false(구버전 꺼짐)·"hidden" = 숨김', () => {
+    expect(debugValueToVisibility(false)).toBe("hidden");
+    expect(debugValueToVisibility("hidden")).toBe("hidden");
+  });
+});
+
+describe("isDebugVisibility", () => {
+  it("3개 값만 통과", () => {
+    for (const v of DEBUG_VISIBILITIES) expect(isDebugVisibility(v)).toBe(true);
+    expect(isDebugVisibility("nope")).toBe(false);
+    expect(isDebugVisibility(true)).toBe(false);
+    expect(isDebugVisibility(null)).toBe(false);
   });
 });
 

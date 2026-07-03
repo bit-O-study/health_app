@@ -8,15 +8,18 @@ import {
   DEBUG_ACCOUNTS_KEY,
   DEBUG_FEATURES,
   debugSettingKey,
-  debugValueEnabled,
+  debugValueToVisibility,
   normalizeDebugAccounts,
   type DebugFeatureId,
+  type DebugVisibility,
 } from "@/features/admin/debug-features";
 
-/** 관리자 설정용 — 디버그 기능별 온오프 상태(미설정=기본 켜짐). */
-export async function getDebugFeatureStates(): Promise<Record<string, boolean>> {
-  const out: Record<string, boolean> = {};
-  for (const f of DEBUG_FEATURES) out[f.id] = true; // 기본 켜짐
+/** 관리자 설정용 — 디버그 기능별 노출 범위(미설정=기본 'debug'=디버그 계정만). */
+export async function getDebugFeatureStates(): Promise<
+  Record<string, DebugVisibility>
+> {
+  const out: Record<string, DebugVisibility> = {};
+  for (const f of DEBUG_FEATURES) out[f.id] = "debug"; // 기본: 디버그 계정만
   if (!(await isAdminUser())) return out;
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
@@ -28,7 +31,7 @@ export async function getDebugFeatureStates(): Promise<Record<string, boolean>> 
     );
   for (const r of (data ?? []) as { key: string; value: unknown }[]) {
     const id = r.key.replace(/^debug\./, "");
-    if (id in out) out[id] = debugValueEnabled(r.value);
+    if (id in out) out[id] = debugValueToVisibility(r.value);
   }
   return out;
 }

@@ -32,6 +32,18 @@ export async function scanMealPhotoAction(input: {
   }
   if (!input.imageBase64) return { ok: false, error: "사진이 없습니다." };
 
+  // 테스트 전용 시드 — NVIDIA 호출 없이 고정 결과. E2E(중복담기·사진등록 회귀)에서만.
+  // 프로덕션에선 절대 켜지지 않도록 NODE_ENV 로 이중 가드.
+  if (process.env.NODE_ENV !== "production" && process.env.MEAL_SCAN_STUB === "1") {
+    return {
+      ok: true,
+      meal: "lunch",
+      items: [
+        { name: "스캔테스트밥", amount: "1공기", kcal: 300, protein: 6, carbs: 65, fat: 1 },
+      ],
+    };
+  }
+
   const res = await callAI(SYSTEM, "이 사진의 음식을 분석해줘.", {
     images: [{ base64: input.imageBase64, mediaType: input.mediaType }],
     maxTokens: 1000,

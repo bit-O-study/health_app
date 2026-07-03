@@ -1129,7 +1129,7 @@ export function GuidedOverlay({
       ) : null}
       {postureOpen && item.kind === "main" ? (
         <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50 sm:items-center">
-          <div className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 pt-[max(env(safe-area-inset-top),1rem)] shadow-xl dark:bg-zinc-950 sm:rounded-2xl">
+          <div className="max-h-[88dvh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 pb-[max(env(safe-area-inset-bottom),1.25rem)] shadow-xl dark:bg-zinc-950 sm:max-h-[85dvh] sm:rounded-2xl sm:pb-4">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-900 dark:text-zinc-100">
                 <ScanLine aria-hidden="true" size={18} />

@@ -1,10 +1,7 @@
 import "server-only";
 
+import { callAI } from "@/features/coach/ai";
 import { parseVisionResult, type VisionResult } from "@/features/equipment/parse";
-
-/** 비용/정확도 균형 — 기구 식별엔 Haiku 4.5 로 충분(장당 수 원). */
-const MODEL = "claude-haiku-4-5-20251001";
-const API_URL = "https://api.anthropic.com/v1/messages";
 
 export type VisionCall =
   | { ok: true; result: VisionResult }
@@ -29,67 +26,20 @@ const PROMPT = `이 사진은 헬스장/운동 기구 사진이다. 아래 JSON 
 - 사진이 운동기구가 아니거나 불확실하면 confidence 를 "low" 로 하고 summary 에 이유를 적어라.`;
 
 /**
- * 이미지(base64)를 Claude 비전에 보내 기구 분석 결과를 받는다.
- * ANTHROPIC_API_KEY 가 없으면 실패를 반환(친절한 안내 메시지).
+ * 이미지(base64)를 AI 비전에 보내 기구 분석 결과를 받는다.
+ * provider 는 callAI 가 자동 선택(NVIDIA 무료 우선, 없으면 Claude).
  */
 export async function analyzeEquipmentImage(
   imageBase64: string,
   mediaType: string,
 ): Promise<VisionCall> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return {
-      ok: false,
-      error: "서버에 ANTHROPIC_API_KEY 가 설정되지 않았습니다(관리자 설정 필요).",
-    };
-  }
-  const allowed = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-  const mt = allowed.includes(mediaType) ? mediaType : "image/jpeg";
+  const res = await callAI("", PROMPT, {
+    images: [{ base64: imageBase64, mediaType }],
+    maxTokens: 800,
+  });
+  if (!res.ok) return { ok: false, error: res.error };
 
-  let res: Response;
-  try {
-    res = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 800,
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "image",
-                source: { type: "base64", media_type: mt, data: imageBase64 },
-              },
-              { type: "text", text: PROMPT },
-            ],
-          },
-        ],
-      }),
-    });
-  } catch (e) {
-    return { ok: false, error: `분석 요청 실패: ${(e as Error).message}` };
-  }
-
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    return {
-      ok: false,
-      error: `분석 서버 오류(${res.status}). ${body.slice(0, 200)}`,
-    };
-  }
-
-  const data = (await res.json().catch(() => null)) as {
-    content?: { type: string; text?: string }[];
-  } | null;
-  const text =
-    data?.content?.find((c) => c.type === "text")?.text ?? "";
-  const parsed = parseVisionResult(text);
+  const parsed = parseVisionResult(res.text);
   if (!parsed) {
     return { ok: false, error: "분석 결과를 이해하지 못했어요. 다시 시도해 주세요." };
   }

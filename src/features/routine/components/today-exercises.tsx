@@ -50,6 +50,7 @@ import { MarkAllDoneButton } from "@/features/routine/components/mark-all-done-b
 import { TodayEditBar } from "@/features/routine/components/today-edit-scope";
 import { TodayOrderScope } from "@/features/routine/components/today-order-scope";
 import { WorkoutSessionTimer } from "@/features/workout-timer/workout-session-timer";
+import { EquipmentScanButton } from "@/features/equipment/components/equipment-scan-button";
 import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
 
@@ -101,6 +102,8 @@ export async function TodayExercises({
   restSound = true,
   restHaptic = true,
   lockWeightReps = false,
+  postureEnabled = false,
+  equipmentScan = false,
 }: {
   /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
   tones: FocusKey[];
@@ -116,6 +119,10 @@ export async function TodayExercises({
   restHaptic?: boolean;
   /** 개인설정: 무게·횟수 고정. false 면 메인에 무게/횟수 숨기고 운동모드에서 설정. */
   lockWeightReps?: boolean;
+  /** 운동 모드 안 'AI 자세 분석' 노출(디버그 계정). */
+  postureEnabled?: boolean;
+  /** '운동 시작' 왼쪽 기구 스캔 아이콘 노출(디버그 계정). */
+  equipmentScan?: boolean;
 }) {
   const todayYmd = seoulYmd();
   const primaryTone = tones[0];
@@ -518,12 +525,14 @@ export async function TodayExercises({
               ) : null}
             </h2>
             <div className="flex items-center gap-2">
+              {equipmentScan ? <EquipmentScanButton /> : null}
               <WorkoutSessionTimer
                 queueItems={queueItems}
                 doneOrSkippedIds={doneOrSkippedIds}
                 hideVideos={hideVideos}
                 showGuide={showGuide}
                 lockWeightReps={lockWeightReps}
+                postureEnabled={postureEnabled}
               />
               <TodayEditBar />
             </div>

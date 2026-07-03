@@ -20,6 +20,10 @@ export const DEBUG_FEATURES = [
     id: "helssu-coach",
     label: "헬쑤쌤 탭(🧑‍🏫 AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
   },
+  {
+    id: "diet-photo-ai",
+    label: "AI 식단 사진 인식(🍱 사진 → 음식·칼로리 자동 추정, NVIDIA 무료 비전)",
+  },
 ] as const;
 
 export type DebugFeatureId = (typeof DEBUG_FEATURES)[number]["id"];

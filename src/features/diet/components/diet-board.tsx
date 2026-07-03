@@ -43,6 +43,7 @@ import {
   type FoodItem,
 } from "@/features/diet/food-catalog";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
+import { MealScanForm } from "@/features/diet/components/meal-scanner";
 import type { MacroTarget } from "@/features/diet/calorie-target";
 
 const MEAL_ICON: Record<Meal, string> = {
@@ -82,12 +83,14 @@ export function DietBoard({
   logs: initial,
   target,
   mealPhotos,
+  aiScanEnabled = false,
 }: {
   date: string;
   today: string;
   logs: FoodLog[];
   target: MacroTarget;
   mealPhotos: Record<Meal, string[]>;
+  aiScanEnabled?: boolean;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -334,6 +337,7 @@ export function DietBoard({
           items={logs.filter((l) => l.meal === adding)}
           photos={photos[adding]}
           isToday={isToday}
+          aiScanEnabled={aiScanEnabled}
           onAddPhoto={(url) => addPhoto(adding, url)}
           onRemovePhoto={(url) => removePhoto(adding, url)}
           onClose={() => setAdding(null)}
@@ -1241,6 +1245,7 @@ function AddFoodDialog({
   items,
   photos,
   isToday,
+  aiScanEnabled = false,
   onClose,
   onAdd,
   onAddPhoto,
@@ -1250,18 +1255,22 @@ function AddFoodDialog({
   items: FoodLog[];
   photos: string[];
   isToday: boolean;
+  aiScanEnabled?: boolean;
   onClose: () => void;
   onAdd: (input: FoodInput) => void;
   onAddPhoto: (url: string) => void;
   onRemovePhoto: (url: string) => void;
 }) {
-  const [mode, setMode] = useState<"search" | "manual">("search");
+  const [mode, setMode] = useState<"search" | "manual" | "ai">("search");
   const [q, setQ] = useState("");
   const results = useMemo(() => searchFoods(q).slice(0, 200), [q]);
   const [picked, setPicked] = useState<FoodItem | null>(null);
   const [time, setTime] = useState(isToday ? nowSeoulHHMM() : "");
   const addWithTime = (input: FoodInput) =>
     onAdd({ ...input, eatenAt: time || null });
+  const modes: Array<"search" | "manual" | "ai"> = aiScanEnabled
+    ? ["search", "manual", "ai"]
+    : ["search", "manual"];
 
   return (
     <div className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
@@ -1323,7 +1332,7 @@ function AddFoodDialog({
       ) : null}
 
       <div className="flex gap-1 px-4 pt-3">
-        {(["search", "manual"] as const).map((m) => (
+        {modes.map((m) => (
           <button
             key={m}
             type="button"
@@ -1337,12 +1346,18 @@ function AddFoodDialog({
                 : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
             }`}
           >
-            {m === "search" ? "검색" : "직접 입력"}
+            {m === "search" ? "검색" : m === "manual" ? "직접 입력" : "✨ AI 사진"}
           </button>
         ))}
       </div>
 
-      {mode === "manual" ? (
+      {mode === "ai" ? (
+        <MealScanForm
+          meal={meal}
+          onAdd={addWithTime}
+          onClose={onClose}
+        />
+      ) : mode === "manual" ? (
         <ManualForm
           onSubmit={(input) => {
             addWithTime(input);

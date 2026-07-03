@@ -68,19 +68,22 @@ function TabInner({
   Icon,
   label,
   active,
+  groupTheme = false,
 }: {
   Icon: typeof Flame;
   label: string;
   active: boolean;
+  groupTheme?: boolean;
 }) {
   const { pending } = useLinkStatus();
   const highlight = active || pending;
+  const inactive = groupTheme
+    ? "text-amber-950/55 dark:text-zinc-400"
+    : "text-zinc-500 dark:text-zinc-400";
   return (
     <span
       className={`flex h-16 flex-col items-center justify-center gap-0.5 text-[11px] font-bold transition-colors ${
-        highlight
-          ? "text-emerald-600 dark:text-emerald-400"
-          : "text-zinc-500 dark:text-zinc-400"
+        highlight ? "text-emerald-700 dark:text-emerald-400" : inactive
       }`}
     >
       {pending ? (
@@ -98,6 +101,8 @@ export function BottomNav({ showCoach = false }: { showCoach?: boolean }) {
   const pathname = usePathname() ?? "/";
   const hidden = HIDDEN_PREFIXES.some((h) => pathname.startsWith(h));
   const tabs = showCoach ? [...TABS, COACH_TAB] : TABS;
+  // 그룹 헬스장 화면(정확히 /groups)에선 하단 탭도 헬스장 앰버 톤으로 이어 붙인다.
+  const groupTheme = pathname === "/groups";
 
   // 고정 바에 콘텐츠가 가리지 않게 body 하단 패딩 확보(보일 때만).
   useEffect(() => {
@@ -113,7 +118,13 @@ export function BottomNav({ showCoach = false }: { showCoach?: boolean }) {
   if (hidden) return null;
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-zinc-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
+    <nav
+      className={`fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur ${
+        groupTheme
+          ? "border-amber-950/15 bg-[#f7c07a]/95 dark:border-amber-800/40 dark:bg-[#5a4326]/95"
+          : "border-zinc-200 bg-white/95 dark:border-zinc-800 dark:bg-zinc-950/95"
+      }`}
+    >
       <ul className="mx-auto flex w-full max-w-2xl">
         {tabs.map((t) => {
           const active = t.match(pathname);
@@ -124,7 +135,12 @@ export function BottomNav({ showCoach = false }: { showCoach?: boolean }) {
                 aria-current={active ? "page" : undefined}
                 className="block active:scale-95 transition-transform"
               >
-                <TabInner Icon={t.icon} label={t.label} active={active} />
+                <TabInner
+                  Icon={t.icon}
+                  label={t.label}
+                  active={active}
+                  groupTheme={groupTheme}
+                />
               </Link>
             </li>
           );

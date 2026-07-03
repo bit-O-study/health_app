@@ -39,6 +39,7 @@ import {
 } from "@/features/routine/data";
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
@@ -117,6 +118,11 @@ export default async function Home() {
     ? await Promise.all([getUserProfile(), getUserRoutine()])
     : [null, null];
 
+  // '운동 시작' 왼쪽 기구 스캔 아이콘 — 디버그 계정(기구 스캔 기능)에만 노출.
+  const equipmentScan = user ? await isDebugFeatureEnabled("equipment-scan") : false;
+  // 운동 모드(가이드) 안 '자세 분석' — 디버그 계정(헬쑤쌤)에만 노출.
+  const postureEnabled = user ? await isDebugFeatureEnabled("helssu-coach") : false;
+
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
     redirect("/onboarding");
@@ -143,7 +149,12 @@ export default async function Home() {
         ) : !routine ? (
           <NoRoutinePrompt />
         ) : (
-          <TodayWorkout routine={routine} profile={profile} />
+          <TodayWorkout
+            routine={routine}
+            profile={profile}
+            postureEnabled={postureEnabled}
+            equipmentScan={equipmentScan}
+          />
         )}
       </main>
 
@@ -223,6 +234,8 @@ function NoRoutinePrompt() {
 async function TodayWorkout({
   routine,
   profile,
+  postureEnabled = false,
+  equipmentScan = false,
 }: {
   routine: {
     splits: number;
@@ -234,6 +247,8 @@ async function TodayWorkout({
     overrideBlock: DayBlockId | null;
   };
   profile: UserProfile | null;
+  postureEnabled?: boolean;
+  equipmentScan?: boolean;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -422,6 +437,8 @@ async function TodayWorkout({
             restSound={profile?.restSound ?? true}
             restHaptic={profile?.restHaptic ?? true}
             lockWeightReps={profile?.lockWeightReps ?? false}
+            postureEnabled={postureEnabled}
+            equipmentScan={equipmentScan}
           />
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도

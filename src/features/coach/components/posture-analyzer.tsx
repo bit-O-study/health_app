@@ -1,13 +1,21 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { Loader2, Sparkles, Video } from "lucide-react";
 
 import { analyzePostureAction } from "@/features/coach/coach-actions";
+import { isNativeApp } from "@/lib/platform/is-native-app";
 import type { CoachAnalysis } from "@/features/coach/parse";
 
-/** 영상에서 균등 간격 4프레임을 뽑아 JPEG base64 로. (긴 변 640px 로 축소) */
-async function extractFrames(file: File, count = 4): Promise<{ base64: string; mediaType: string }[]> {
+/**
+ * 영상에서 균등 간격 4프레임을 뽑아 2×2 격자 '한 장'으로 합성해 JPEG base64 로 돌려준다.
+ * (NVIDIA 비전은 요청당 이미지 1장만 허용 → 여러 프레임을 한 이미지에 이어붙인다.)
+ * 좌상→우상→좌하→우하 순서가 동작 시간순(시작→끝)이며 각 칸에 번호를 찍는다.
+ */
+async function extractCompositeFrame(
+  file: File,
+  count = 4,
+): Promise<{ base64: string; mediaType: string }> {
   const url = URL.createObjectURL(file);
   try {
     const video = document.createElement("video");
@@ -21,17 +29,24 @@ async function extractFrames(file: File, count = 4): Promise<{ base64: string; m
     const dur = video.duration || 0;
     if (!dur || !isFinite(dur)) throw new Error("영상 길이를 읽지 못했습니다.");
 
-    const maxPx = 640;
-    const scale = Math.min(1, maxPx / Math.max(video.videoWidth, video.videoHeight));
-    const w = Math.max(1, Math.round(video.videoWidth * scale));
-    const h = Math.max(1, Math.round(video.videoHeight * scale));
+    const cell = 384; // 각 칸 한 변(px) — 2×2 → 768×768 합성
+    const cols = 2;
+    const rows = Math.ceil(count / cols);
     const canvas = document.createElement("canvas");
-    canvas.width = w;
-    canvas.height = h;
+    canvas.width = cell * cols;
+    canvas.height = cell * rows;
     const ctx = canvas.getContext("2d");
     if (!ctx) throw new Error("이 브라우저에선 프레임 추출이 안 돼요.");
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    const frames: { base64: string; mediaType: string }[] = [];
+    // 원본 비율 유지하며 칸 안에 맞춰 그리기(레터박스).
+    const vw = video.videoWidth || 1;
+    const vh = video.videoHeight || 1;
+    const s = Math.min(cell / vw, cell / vh);
+    const dw = Math.round(vw * s);
+    const dh = Math.round(vh * s);
+
     for (let i = 0; i < count; i++) {
       const t = (dur * (i + 0.5)) / count; // 균등 간격(양끝 살짝 안쪽)
       await new Promise<void>((resolve, reject) => {
@@ -39,23 +54,40 @@ async function extractFrames(file: File, count = 4): Promise<{ base64: string; m
         video.onerror = () => reject(new Error("프레임 탐색 실패"));
         video.currentTime = Math.min(dur - 0.05, t);
       });
-      ctx.drawImage(video, 0, 0, w, h);
-      const jpeg = canvas.toDataURL("image/jpeg", 0.8);
-      frames.push({ base64: jpeg.split(",")[1] ?? "", mediaType: "image/jpeg" });
+      const cx = (i % cols) * cell + Math.round((cell - dw) / 2);
+      const cy = Math.floor(i / cols) * cell + Math.round((cell - dh) / 2);
+      ctx.drawImage(video, cx, cy, dw, dh);
+      // 칸 번호(동작 순서) 표시
+      const lx = (i % cols) * cell + 8;
+      const ly = Math.floor(i / cols) * cell + 8;
+      ctx.fillStyle = "rgba(0,0,0,0.6)";
+      ctx.fillRect(lx, ly, 26, 22);
+      ctx.fillStyle = "#fff";
+      ctx.font = "bold 16px sans-serif";
+      ctx.textBaseline = "top";
+      ctx.fillText(String(i + 1), lx + 8, ly + 4);
     }
-    return frames;
+    const jpeg = canvas.toDataURL("image/jpeg", 0.7);
+    return { base64: jpeg.split(",")[1] ?? "", mediaType: "image/jpeg" };
   } finally {
     URL.revokeObjectURL(url);
   }
 }
 
-export function PostureAnalyzer() {
+export function PostureAnalyzer({
+  defaultExerciseName = "",
+}: {
+  defaultExerciseName?: string;
+}) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [pending, start] = useTransition();
   const [phase, setPhase] = useState<"idle" | "extracting">("idle");
   const [analysis, setAnalysis] = useState<CoachAnalysis | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [exerciseName, setExerciseName] = useState("");
+  const [exerciseName, setExerciseName] = useState(defaultExerciseName);
+  // 앱(APK)에선 카메라로 촬영, 웹에선 영상 파일 업로드만.
+  const [isApp, setIsApp] = useState(false);
+  useEffect(() => setIsApp(isNativeApp()), []);
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -63,10 +95,10 @@ export function PostureAnalyzer() {
     if (!file) return;
     setError(null);
     setAnalysis(null);
-    let frames: { base64: string; mediaType: string }[];
+    let frame: { base64: string; mediaType: string };
     try {
       setPhase("extracting");
-      frames = await extractFrames(file);
+      frame = await extractCompositeFrame(file);
     } catch (err) {
       setError((err as Error).message);
       setPhase("idle");
@@ -74,7 +106,7 @@ export function PostureAnalyzer() {
     }
     setPhase("idle");
     start(async () => {
-      const res = await analyzePostureAction({ frames, exerciseName });
+      const res = await analyzePostureAction({ frames: [frame], exerciseName });
       if (res.ok) setAnalysis(res.analysis);
       else setError(res.error);
     });
@@ -93,7 +125,7 @@ export function PostureAnalyzer() {
             자세 분석
           </h2>
           <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-            운동 영상을 올리면 자세를 분석해 교정점을 알려드려요.
+            10~30초 운동 영상을 촬영/업로드하면 자세를 분석해 교정점을 알려드려요.
           </p>
         </div>
       </div>
@@ -111,7 +143,7 @@ export function PostureAnalyzer() {
         ref={inputRef}
         type="file"
         accept="video/*"
-        capture="environment"
+        {...(isApp ? { capture: "environment" as const } : {})}
         onChange={onPick}
         className="hidden"
       />

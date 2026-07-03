@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getFoodLogsForDate, getMealPhotosForDate } from "@/features/diet/data-access";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { seoulYmd } from "@/features/routine/data";
 import { DietBoard } from "@/features/diet/components/diet-board";
@@ -28,6 +29,7 @@ export default async function DietPage({
 
   const logs = await getFoodLogsForDate(date);
   const mealPhotos = await getMealPhotosForDate(date);
+  const aiScanEnabled = await isDebugFeatureEnabled("diet-photo-ai");
   const target = dailyTarget({
     gender: profile.gender === "female" ? "female" : "male",
     weightKg: profile.weightKg,
@@ -42,6 +44,7 @@ export default async function DietPage({
         logs={logs}
         target={target}
         mealPhotos={mealPhotos}
+        aiScanEnabled={aiScanEnabled}
       />
     </main>
   );

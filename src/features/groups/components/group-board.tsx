@@ -12,8 +12,8 @@ export function GroupBoard({
 }) {
   return (
     <div className="flex h-full flex-col overflow-hidden">
-      {/* 상단: 그룹 탭(전환칩)만 */}
-      <div className="shrink-0 px-4 pt-1">
+      {/* 상단: 그룹 탭(전환칩)만 — 헬스장과 같은 앰버 톤으로 이어 붙인다 */}
+      <div className="shrink-0 bg-[#f7c07a] px-4 pt-2 dark:bg-[#5a4326]">
         <GroupSwitcher groups={groups} currentId={detail.id} />
       </div>
 

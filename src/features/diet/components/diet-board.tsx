@@ -181,7 +181,6 @@ export function DietBoard({
   }
 
   function removeFood(id: string) {
-    if (pending) return;
     const prev = logs;
     setLogs((cur) => cur.filter((l) => l.id !== id));
     start(async () => {
@@ -191,8 +190,10 @@ export function DietBoard({
     });
   }
 
+  // 주의: 예전 `if (pending) return`을 붙이지 말 것. 담기의 router.refresh()가 pending을
+  // 붙잡는 동안 수정/삭제 클릭이 조용히 무시돼(느린 기기에서 자주) 저장이 사라졌다.
+  // 수정·삭제는 낙관적 롤백이 있어 중복 실행돼도 안전하다.
   function editFood(id: string, patch: Partial<Omit<FoodInput, "meal">>) {
-    if (pending) return;
     const prev = logs;
     setLogs((cur) =>
       cur.map((l) =>
@@ -237,7 +238,6 @@ export function DietBoard({
 
   // 게시물(끼니) 통째 삭제 — 그 끼니의 모든 음식 + 사진 제거.
   function deleteMeal(meal: Meal) {
-    if (pending) return;
     const prevLogs = logs;
     const prevPhotos = photos[meal];
     setLogs((cur) => cur.filter((l) => l.meal !== meal));

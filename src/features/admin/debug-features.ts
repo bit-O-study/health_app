@@ -38,6 +38,38 @@ export function debugValueEnabled(value: unknown): boolean {
   return value !== false;
 }
 
+/**
+ * 기능 노출 범위 — 숨김(아무에게도 X) / debug(디버그 계정만) / public(전체 공개).
+ * 관리자 설정에서 기능별로 이 3단계를 고른다.
+ */
+export type DebugVisibility = "hidden" | "debug" | "public";
+
+export const DEBUG_VISIBILITIES: readonly DebugVisibility[] = [
+  "hidden",
+  "debug",
+  "public",
+];
+
+export const DEBUG_VISIBILITY_LABEL: Record<DebugVisibility, string> = {
+  hidden: "숨김",
+  debug: "디버그 계정만",
+  public: "전체 공개",
+};
+
+export function isDebugVisibility(v: unknown): v is DebugVisibility {
+  return v === "hidden" || v === "debug" || v === "public";
+}
+
+/**
+ * app_settings 값 → 노출 범위. 기본 'debug'(디버그 계정만).
+ * 하위호환: 과거 boolean false(=꺼짐)는 'hidden' 으로 본다.
+ */
+export function debugValueToVisibility(value: unknown): DebugVisibility {
+  if (value === "public") return "public";
+  if (value === false || value === "hidden") return "hidden";
+  return "debug";
+}
+
 /** app_settings['debug.accounts'] 저장 키. */
 export const DEBUG_ACCOUNTS_KEY = "debug.accounts";
 

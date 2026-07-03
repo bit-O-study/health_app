@@ -1029,15 +1029,22 @@ create or replace function public.is_debug_account() returns boolean
   );
 $$;
 
--- 특정 디버그 기능이 '이 사용자에게' 켜져 있나 — 디버그 계정이면서 그 기능이 꺼짐(false)이 아닐 때.
+-- 특정 기능이 '이 사용자에게' 보이나 — 노출 범위 3단계로 판정.
+--   app_settings['debug.<id>'] 값:
+--     '"public"'          → 전체 공개(모든 사용자 true)
+--     'false' / '"hidden"' → 숨김(모두 false)
+--     그 외/미설정         → 디버그 계정만(is_debug_account)  ← 기본
 -- SECURITY DEFINER 라 비관리자 디버그 계정도 debug.<id> 상태를 확인할 수 있다.
 create or replace function public.debug_feature_enabled(p_feature text) returns boolean
   language sql security definer stable set search_path = public as $$
-  select public.is_debug_account()
-    and (
-      (select value from public.app_settings where key = 'debug.' || p_feature)
-        is distinct from 'false'::jsonb
-    );
+  select case (
+      select value from public.app_settings where key = 'debug.' || p_feature
+    )
+    when '"public"'::jsonb then true
+    when 'false'::jsonb then false
+    when '"hidden"'::jsonb then false
+    else public.is_debug_account()
+  end;
 $$;
 
 -- 회원 이름/전화번호 (회원가입 시 수집). 회원정보(관리자) 화면에 표시.

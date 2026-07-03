@@ -67,7 +67,21 @@ test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) 
   await page.getByPlaceholder("예: 직접 만든 도시락").fill("오트밀");
   await page.getByPlaceholder("0").fill("300");
   await page.getByRole("button", { name: "추가하기" }).click();
-  await page.waitForTimeout(800);
+  // 인서트가 끝나(낙관적 tempId→실제 id 확정) 저장된 뒤에 수정한다.
+  // (실사용도 담기→상세→수정까지 수 초 걸려 항상 저장 완료 상태다. 여기서 바로
+  //  수정하면 아직 tempId 라 서버 업데이트가 0행이 되는 테스트 전용 레이스가 난다.)
+  await expect
+    .poll(
+      async () =>
+        (
+          await dbQuery(
+            `select 1 from public.food_logs where user_id=${uid} and name='오트밀'`,
+            [email],
+          )
+        ).length,
+      { timeout: 10_000 },
+    )
+    .toBeGreaterThan(0);
 
   // 게시물 상세 → 더보기 → 수정 → 음식 탭 → 칼로리 450 으로 저장
   await page.getByRole("button", { name: "아침 게시물 열기" }).click();

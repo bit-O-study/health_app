@@ -154,6 +154,7 @@ export function DietBoard({
     const tempId = `tmp-${Date.now()}-${Math.round(logs.length)}`;
     const optimistic: FoodLog = {
       id: tempId,
+      rowKey: tempId, // 인서트 후 id 가 실제값으로 바뀌어도 목록 key 는 고정(재마운트 방지)
       meal,
       position: 1_000_000,
       name: input.name,
@@ -176,7 +177,9 @@ export function DietBoard({
       } else if (!res.ok) {
         setLogs((prev) => prev.filter((l) => l.id !== tempId));
       }
-      router.refresh();
+      // router.refresh() 를 부르지 않는다: 낙관적 목록이 이미 최신이고 서버 액션이
+      // revalidatePath 로 캐시를 무효화한다. refresh 하면 서버가 준 같은 항목이 낙관적
+      // 항목과 잠깐 겹쳐 "2개로 보였다가 탭 이동하면 사라지는" 중복 표시가 났다.
     });
   }
 
@@ -536,8 +539,7 @@ function MealSection({
             {items.length > 0 ? (
               <ul className="space-y-1">
                 {items.map((it) => (
-                  <li
-                    key={it.id}
+                  <li key={it.rowKey ?? it.id}
                     className="flex items-baseline justify-between gap-2 text-sm"
                   >
                     <span className="min-w-0 flex-1 truncate font-semibold text-zinc-800 dark:text-zinc-100">
@@ -803,7 +805,7 @@ function MealDetailDialog({
           <ul className="space-y-2">
             {items.map((it) =>
               editing && editId === it.id ? (
-                <li key={it.id}>
+                <li key={it.rowKey ?? it.id}>
                   <EditFoodForm
                     item={it}
                     onCancel={() => setEditId(null)}
@@ -818,7 +820,7 @@ function MealDetailDialog({
                   />
                 </li>
               ) : (
-                <li key={it.id}>
+                <li key={it.rowKey ?? it.id}>
                   <button
                     type="button"
                     disabled={!editing}
@@ -1317,7 +1319,7 @@ function AddFoodDialog({
           <p className="mb-1 text-[11px] font-bold text-zinc-400">담은 음식</p>
           <ul className="flex flex-col gap-1">
             {items.map((it) => (
-              <li key={it.id} className="flex items-center gap-2">
+              <li key={it.rowKey ?? it.id} className="flex items-center gap-2">
                 <span className="min-w-0 flex-1 truncate text-sm text-zinc-700 dark:text-zinc-200">
                   {it.name}
                   <span className="ml-1 text-xs text-zinc-400">
@@ -1355,6 +1357,7 @@ function AddFoodDialog({
         <MealScanForm
           meal={meal}
           onAdd={addWithTime}
+          onAddPhoto={onAddPhoto}
           onClose={onClose}
         />
       ) : mode === "manual" ? (

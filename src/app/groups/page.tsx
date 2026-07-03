@@ -42,8 +42,9 @@ export default async function GroupsPage({
   }
 
   return (
-    // 전체화면 헬스장 — 아래 탭(4rem) + 폰 홈인디케이터(safe-area)만큼 빼고 한 화면에 딱.
-    <main className="h-[calc(100dvh-4rem-env(safe-area-inset-bottom))] w-full overflow-hidden">
+    // 전체화면 헬스장 — 상단~하단탭(4rem+safe) 사이에 fixed 로 고정.
+    // dvh 계산/바디 패딩에 의존하지 않아 어떤 기기에서도 스크롤이 생기지 않는다.
+    <main className="fixed inset-x-0 top-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] overflow-hidden">
       <GroupBoard detail={detail} groups={groups} />
     </main>
   );

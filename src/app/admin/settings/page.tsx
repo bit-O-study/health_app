@@ -28,7 +28,7 @@ export default async function AdminSettingsPage() {
   const debugFeatures = DEBUG_FEATURES.map((f) => ({
     id: f.id,
     label: f.label,
-    enabled: debugStates[f.id] ?? true,
+    visibility: debugStates[f.id] ?? "debug",
   }));
 
   return (

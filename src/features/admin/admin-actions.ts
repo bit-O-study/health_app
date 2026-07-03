@@ -9,9 +9,11 @@ import {
   DEBUG_FEATURES,
   addDebugAccount,
   debugSettingKey,
+  isDebugVisibility,
   normalizeDebugAccounts,
   removeDebugAccount,
   type DebugFeatureId,
+  type DebugVisibility,
 } from "@/features/admin/debug-features";
 import { genTempPassword, tempPasswordEmail } from "@/features/auth/password-reset";
 import { sendEmail } from "@/lib/email/send";
@@ -211,7 +213,7 @@ export async function resetMemberPasswordAction(
  */
 export async function setDebugFeatureAction(
   id: DebugFeatureId,
-  enabled: boolean,
+  visibility: DebugVisibility,
 ): Promise<AdminActionResult> {
   if (!(await isAdminUser())) {
     return { ok: false, error: "관리자만 가능합니다." };
@@ -219,18 +221,24 @@ export async function setDebugFeatureAction(
   if (!DEBUG_FEATURES.some((f) => f.id === id)) {
     return { ok: false, error: "알 수 없는 디버그 기능입니다." };
   }
+  if (!isDebugVisibility(visibility)) {
+    return { ok: false, error: "잘못된 노출 범위입니다." };
+  }
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase.from("app_settings").upsert(
     {
       key: debugSettingKey(id),
-      value: enabled,
+      value: visibility,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "key" },
   );
   if (error) return { ok: false, error: error.message };
+  // 노출 범위 변경은 여러 화면 게이트에 영향 → 관련 경로 재검증.
   revalidatePath("/admin/settings");
   revalidatePath("/calendar");
+  revalidatePath("/");
+  revalidatePath("/diet");
   return { ok: true };
 }
 

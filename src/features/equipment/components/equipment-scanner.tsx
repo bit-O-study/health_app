@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { Camera, Dumbbell, Loader2, Target } from "lucide-react";
 
@@ -8,37 +8,8 @@ import {
   analyzeEquipmentAction,
   type EquipmentAnalysis,
 } from "@/features/equipment/analyze-actions";
-
-/** 사진을 캔버스로 긴 변 maxPx 이하로 줄여 JPEG base64 로 만든다(토큰·업로드 절감). */
-async function fileToResizedBase64(
-  file: File,
-  maxPx = 1024,
-): Promise<{ base64: string; mediaType: string; preview: string }> {
-  const dataUrl: string = await new Promise((resolve, reject) => {
-    const fr = new FileReader();
-    fr.onload = () => resolve(fr.result as string);
-    fr.onerror = () => reject(new Error("파일을 읽지 못했습니다."));
-    fr.readAsDataURL(file);
-  });
-  const img: HTMLImageElement = await new Promise((resolve, reject) => {
-    const el = new window.Image();
-    el.onload = () => resolve(el);
-    el.onerror = () => reject(new Error("이미지를 열지 못했습니다."));
-    el.src = dataUrl;
-  });
-  const scale = Math.min(1, maxPx / Math.max(img.width, img.height));
-  const w = Math.max(1, Math.round(img.width * scale));
-  const h = Math.max(1, Math.round(img.height * scale));
-  const canvas = document.createElement("canvas");
-  canvas.width = w;
-  canvas.height = h;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) throw new Error("이미지 처리를 지원하지 않는 브라우저입니다.");
-  ctx.drawImage(img, 0, 0, w, h);
-  const jpeg = canvas.toDataURL("image/jpeg", 0.82);
-  const base64 = jpeg.split(",")[1] ?? "";
-  return { base64, mediaType: "image/jpeg", preview: jpeg };
-}
+import { resizeImageForAI } from "@/lib/image/resize-for-ai";
+import { isNativeApp } from "@/lib/platform/is-native-app";
 
 const CONFIDENCE_LABEL: Record<string, string> = {
   high: "정확도 높음",
@@ -52,6 +23,9 @@ export function EquipmentScanner() {
   const [analysis, setAnalysis] = useState<EquipmentAnalysis | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  // 앱(APK)에선 사진앱/카메라를 열고, 웹에선 파일 업로드만.
+  const [isApp, setIsApp] = useState(false);
+  useEffect(() => setIsApp(isNativeApp()), []);
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -61,7 +35,7 @@ export function EquipmentScanner() {
     setAnalysis(null);
     let img: { base64: string; mediaType: string; preview: string };
     try {
-      img = await fileToResizedBase64(file);
+      img = await resizeImageForAI(file);
     } catch (err) {
       setError((err as Error).message);
       return;
@@ -83,7 +57,7 @@ export function EquipmentScanner() {
         ref={inputRef}
         type="file"
         accept="image/*"
-        capture="environment"
+        {...(isApp ? { capture: "environment" as const } : {})}
         onChange={onPick}
         className="hidden"
       />
@@ -155,51 +129,72 @@ export function EquipmentScanner() {
             ) : null}
           </div>
 
-          {analysis.exercises.length > 0 ? (
-            <div>
-              <h3 className="mb-2 text-sm font-bold text-zinc-800 dark:text-zinc-200">
-                할 수 있는 운동
-              </h3>
-              <ul className="space-y-2">
-                {analysis.exercises.map((ex, i) => {
-                  const body = (
-                    <>
-                      <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                        {ex.name}
-                        {ex.catalog ? (
-                          <span className="ml-1.5 rounded bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300">
-                            상세보기
-                          </span>
-                        ) : null}
-                      </p>
-                      {ex.description ? (
-                        <p className="mt-0.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-                          {ex.description}
-                        </p>
-                      ) : null}
-                    </>
-                  );
-                  return (
-                    <li
-                      key={`${ex.name}-${i}`}
-                      className="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800"
-                    >
-                      {ex.catalog ? (
-                        <Link
-                          href={`/exercises/${ex.catalog.slug}`}
-                          className="block transition hover:opacity-80"
+          {(() => {
+            const registered = analysis.exercises.filter((e) => e.catalog);
+            const others = analysis.exercises.filter((e) => !e.catalog);
+            return (
+              <>
+                {/* 앱에 등록된 운동 — 눌러서 상세로. "어떤 운동을 할 수 있는지" 안내의 핵심 */}
+                {registered.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-emerald-700 dark:text-emerald-300">
+                      <Dumbbell aria-hidden="true" size={15} />앱에 등록된 운동 · 눌러서 상세보기
+                    </h3>
+                    <ul className="space-y-2">
+                      {registered.map((ex, i) => (
+                        <li key={`reg-${ex.name}-${i}`}>
+                          <Link
+                            href={`/exercises/${ex.catalog!.slug}`}
+                            className="flex items-center gap-2 rounded-lg border border-emerald-300 bg-emerald-50 p-3 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/30 dark:hover:bg-emerald-950/50"
+                          >
+                            <div className="min-w-0 flex-1">
+                              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                                {ex.name}
+                              </p>
+                              {ex.description ? (
+                                <p className="mt-0.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                                  {ex.description}
+                                </p>
+                              ) : null}
+                            </div>
+                            <span className="shrink-0 rounded bg-emerald-600 px-2 py-1 text-[10px] font-bold text-white">
+                              상세보기
+                            </span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+
+                {/* 카탈로그에 없는 추천 운동 — 링크 없이 안내만 */}
+                {others.length > 0 ? (
+                  <div>
+                    <h3 className="mb-2 text-sm font-bold text-zinc-800 dark:text-zinc-200">
+                      {registered.length > 0 ? "그 외 추천 운동" : "할 수 있는 운동"}
+                    </h3>
+                    <ul className="space-y-2">
+                      {others.map((ex, i) => (
+                        <li
+                          key={`etc-${ex.name}-${i}`}
+                          className="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800"
                         >
-                          {body}
-                        </Link>
-                      ) : (
-                        body
-                      )}
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ) : null}
+                          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                            {ex.name}
+                          </p>
+                          {ex.description ? (
+                            <p className="mt-0.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
+                              {ex.description}
+                            </p>
+                          ) : null}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </>
+            );
+          })()}
         </div>
       ) : null}
     </div>

@@ -19,6 +19,7 @@ import { getMonthlyCalendar } from "@/features/calendar/data-access";
 import { getBodyLogs } from "@/features/profile/body-logs";
 import { computeWeightDelta } from "@/features/profile/weight-delta";
 import { StepsSync } from "@/features/health/components/steps-sync";
+import { CommitmentSuggestions } from "@/features/coach/components/commitment-suggestions";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
 import { getCycleLogsRange, getPeriodStartDates } from "@/features/cycle/data-access";
@@ -69,13 +70,19 @@ export default async function CalendarPage({
   const today = seoulYmd();
 
   // 서로 독립인 세 쿼리는 한 번에(직렬 3파 → 1파). 각 함수는 cache()된 인증을 공유.
-  const [{ byDate, intakeTotal, workoutBurnedTotal }, bodyLogs, profile, debug] =
-    await Promise.all([
-      getMonthlyCalendar(from, to),
-      getBodyLogs(),
-      getUserProfile(),
-      isDebugFeatureEnabled("steps"),
-    ]);
+  const [
+    { byDate, intakeTotal, workoutBurnedTotal },
+    bodyLogs,
+    profile,
+    debug,
+    coachEnabled,
+  ] = await Promise.all([
+    getMonthlyCalendar(from, to),
+    getBodyLogs(),
+    getUserProfile(),
+    isDebugFeatureEnabled("steps"),
+    isDebugFeatureEnabled("helssu-coach"),
+  ]);
   const spent = workoutBurnedTotal - intakeTotal;
 
   // 체중 증감 — 직전 기록 대비. 기록 없으면 null(→ '체형 기록하러 가기' 버튼).
@@ -245,6 +252,13 @@ export default async function CalendarPage({
         <NetCard spent={spent} />
         <WeightCard delta={weightDelta} />
       </div>
+
+      {/* AI 다짐 짜주기 — 디버그 계정(헬쑤쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
+      {coachEnabled ? (
+        <div className="mt-4">
+          <CommitmentSuggestions />
+        </div>
+      ) : null}
     </main>
   );
 }

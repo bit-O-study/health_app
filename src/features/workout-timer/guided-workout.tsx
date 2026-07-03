@@ -17,6 +17,7 @@ import {
   ListChecks,
   Pause,
   Play,
+  ScanLine,
   StickyNote,
   Timer,
   TrendingUp,
@@ -49,6 +50,7 @@ import {
   MuscleBodyInset,
   MuscleBodyModal,
 } from "@/features/workout-timer/muscle-body-view";
+import { PostureAnalyzer } from "@/features/coach/components/posture-analyzer";
 import {
   getMainEdit,
   setMainEdit,
@@ -294,6 +296,7 @@ export function GuidedOverlay({
   onPauseResume,
   showGuide = true,
   lockWeightReps = false,
+  postureEnabled = false,
 }: {
   items: GuidedItem[];
   onClose: () => void;
@@ -309,6 +312,8 @@ export function GuidedOverlay({
   showGuide?: boolean;
   /** 무게·횟수 고정. false 면 운동모드에서 무게·횟수·세트를 그때그때 설정(스크러버). */
   lockWeightReps?: boolean;
+  /** 'AI 자세 분석' 버튼 노출(디버그 계정). 현재 운동 영상을 찍어 자세 코칭. */
+  postureEnabled?: boolean;
 }) {
   const router = useRouter();
   const rest = useRestTimer();
@@ -332,6 +337,8 @@ export function GuidedOverlay({
   const [tipsOpen, setTipsOpen] = useState(false);
   /** 자극 부위 3D 보기 모달. */
   const [muscle3dOpen, setMuscle3dOpen] = useState(false);
+  /** AI 자세 분석 다이얼로그(현재 운동 영상 → 자세 코칭). */
+  const [postureOpen, setPostureOpen] = useState(false);
   /** 메모 작성 다이얼로그. */
   const [memoOpen, setMemoOpen] = useState(false);
   /** 운동모드에서 수정한 메모(행 id→메모). 저장 후 화면 즉시 반영용(refresh 대기 X). */
@@ -996,6 +1003,17 @@ export function GuidedOverlay({
             <StickyNote aria-hidden="true" size={15} />
             {currentMemo(item) ? "메모 수정" : "메모"}
           </button>
+          {/* AI 자세 분석 — 본운동에서만, 디버그 계정에만. 현재 운동 영상 촬영→코칭. */}
+          {postureEnabled && item.kind === "main" ? (
+            <button
+              type="button"
+              onClick={() => setPostureOpen(true)}
+              className="inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 transition hover:border-violet-400 hover:bg-violet-100 dark:border-violet-700 dark:bg-violet-950/40 dark:text-violet-300"
+            >
+              <ScanLine aria-hidden="true" size={15} />
+              AI 자세 분석
+            </button>
+          ) : null}
         </div>
 
         {/* 개인 메모 — 있으면 표시 (본운동·워밍업·마무리 공통) */}
@@ -1108,6 +1126,27 @@ export function GuidedOverlay({
           name={item.name}
           onClose={() => setMuscle3dOpen(false)}
         />
+      ) : null}
+      {postureOpen && item.kind === "main" ? (
+        <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50 sm:items-center">
+          <div className="max-h-[92vh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 pt-[max(env(safe-area-inset-top),1rem)] shadow-xl dark:bg-zinc-950 sm:rounded-2xl">
+            <div className="mb-3 flex items-center justify-between">
+              <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-900 dark:text-zinc-100">
+                <ScanLine aria-hidden="true" size={18} />
+                {item.name} 자세 분석
+              </h3>
+              <button
+                type="button"
+                aria-label="닫기"
+                onClick={() => setPostureOpen(false)}
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+              >
+                <X aria-hidden="true" size={18} />
+              </button>
+            </div>
+            <PostureAnalyzer defaultExerciseName={item.name} />
+          </div>
+        </div>
       ) : null}
     </div>
   );

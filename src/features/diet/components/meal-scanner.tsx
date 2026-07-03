@@ -6,6 +6,7 @@ import { Camera, Check, Loader2, Sparkles } from "lucide-react";
 import { resizeImageForAI } from "@/lib/image/resize-for-ai";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 import { scanMealPhotoAction } from "@/features/diet/meal-scan-actions";
+import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import type { ScannedFood } from "@/features/diet/meal-scan-parse";
 import type { FoodInput } from "@/features/diet/diet-actions";
 import type { Meal } from "@/features/diet/meal";
@@ -13,18 +14,22 @@ import type { Meal } from "@/features/diet/meal";
 /**
  * AI 식단 사진 인식 — 사진 1장 → NVIDIA 비전이 음식·칼로리 추정 → 사용자가 골라 담기.
  * 담기는 기존 addFoodLogAction(onAdd) 경로를 그대로 쓴다(먹은 시간도 함께 반영됨).
+ * 담을 때 분석에 쓴 사진을 그 끼니의 게시물 사진으로도 함께 등록한다(onAddPhoto).
  */
 export function MealScanForm({
   meal,
   onAdd,
+  onAddPhoto,
   onClose,
 }: {
   meal: Meal;
   onAdd: (input: FoodInput) => void;
+  onAddPhoto: (url: string) => void;
   onClose: () => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [items, setItems] = useState<ScannedFood[] | null>(null);
   const [checked, setChecked] = useState<Record<number, boolean>>({});
   const [error, setError] = useState<string | null>(null);
@@ -34,14 +39,15 @@ export function MealScanForm({
   useEffect(() => setIsApp(isNativeApp()), []);
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+    const picked = e.target.files?.[0];
     e.target.value = "";
-    if (!file) return;
+    if (!picked) return;
     setError(null);
     setItems(null);
+    setFile(picked); // 담을 때 끼니 사진으로 등록할 원본
     let img: { base64: string; mediaType: string; preview: string };
     try {
-      img = await resizeImageForAI(file);
+      img = await resizeImageForAI(picked);
     } catch (err) {
       setError((err as Error).message);
       return;
@@ -76,6 +82,12 @@ export function MealScanForm({
         category: null,
       });
     });
+    // 분석에 쓴 사진을 그 끼니의 게시물 사진으로도 등록(업로드는 백그라운드).
+    if (file) {
+      uploadFoodPhoto(file)
+        .then((url) => onAddPhoto(url))
+        .catch(() => {});
+    }
     onClose();
   }
 

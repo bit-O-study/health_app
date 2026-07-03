@@ -19,6 +19,13 @@ export function wrapIndex(i: number, len: number): number {
 
 export type FoodLog = {
   id: string;
+  /**
+   * React 렌더용 안정 key(선택). 낙관적 추가 항목은 인서트 성공 시 id 가 tempId→실제id 로
+   * 바뀌는데, 목록 key 를 id 로 쓰면 그때 언마운트/재마운트가 일어난다. 안드로이드 WebView
+   * 에선 이 재마운트가 밀려 같은 항목이 잠깐 2개로 보였다. rowKey 를 tempId 로 고정해 두면
+   * id 가 바뀌어도 key 는 그대로라 재마운트가 없다. 서버에서 온 항목엔 없음(그땐 id 로 폴백).
+   */
+  rowKey?: string;
   meal: Meal;
   position: number;
   name: string;

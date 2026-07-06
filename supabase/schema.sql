@@ -1543,7 +1543,7 @@ alter table public.group_members enable row level security;
 
 drop policy if exists "members read groups" on public.groups;
 create policy "members read groups" on public.groups for select
-  using (public.is_group_member(id) or owner_id = auth.uid());
+  using (public.is_group_member(id) or owner_id = auth.uid() or public.is_post_moderator());
 drop policy if exists "owner creates group" on public.groups;
 create policy "owner creates group" on public.groups for insert
   with check (owner_id = auth.uid());
@@ -1916,10 +1916,12 @@ create index if not exists community_posts_group_idx
 alter table public.community_posts enable row level security;
 
 -- 읽기: 본인 글 / 전체공개 / (그룹공개 & 그룹멤버) / (그룹제외공개 & 그룹멤버 아님).
+-- 게시물 관리자(디버깅 계정)는 모든 그룹 글을 볼 수 있다.
 drop policy if exists "read visible community posts" on public.community_posts;
 create policy "read visible community posts" on public.community_posts for select
   using (
     user_id = auth.uid()
+    or public.is_post_moderator()
     or visibility = 'public'
     or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
     or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
@@ -1954,6 +1956,7 @@ returns boolean language sql security definer stable set search_path = public as
     where p.id = pid
       and (
         p.user_id = auth.uid()
+        or public.is_post_moderator()
         or p.visibility = 'public'
         or (p.visibility = 'group' and public.is_group_member(p.group_id))
         or (p.visibility = 'public_except_group' and (p.group_id is null or not public.is_group_member(p.group_id)))
@@ -2084,11 +2087,12 @@ create index if not exists teaching_posts_tag_idx
 
 alter table public.teaching_posts enable row level security;
 
--- 읽기: community_posts 와 동일 — 본인 / 전체 / 그룹 / 그룹제외.
+-- 읽기: community_posts 와 동일 — 본인 / 전체 / 그룹 / 그룹제외 + 관리자(디버깅) 전체.
 drop policy if exists "read teaching posts" on public.teaching_posts;
 create policy "read teaching posts" on public.teaching_posts for select
   using (
     user_id = auth.uid()
+    or public.is_post_moderator()
     or visibility = 'public'
     or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
     or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))

@@ -18,12 +18,9 @@ import {
 
 import { MAX_CAPTION } from "../community";
 import {
-  applyFeedFilter,
-  feedTags,
   forTab,
   resolveVisibility,
   VISIBILITY_OPTIONS,
-  type FeedFilter,
   type Visibility,
 } from "../feed";
 import type { FeedPost } from "../data-access";
@@ -33,23 +30,9 @@ import {
   deleteCommunityPostAction,
   toggleLikeAction,
 } from "../community-actions";
-import {
-  MAX_TAG,
-  MAX_TEACHING_CAPTION,
-  TEACHING_MAX_SECONDS,
-  TEACHING_RULES,
-  normalizeTag,
-} from "@/features/teaching/teaching";
-import { uploadTeachingVideo } from "@/features/teaching/upload-video";
-import {
-  createTeachingPostAction,
-  deleteTeachingPostAction,
-} from "@/features/teaching/teaching-actions";
+import { deleteTeachingPostAction } from "@/features/teaching/teaching-actions";
 
 type Group = { id: string; name: string };
-
-/** 피드 보기 모드 — 전체 / 티칭만 / 티칭 숨김. */
-type FeedMode = "all" | "teaching" | "hide";
 
 const RULES =
   "비방·욕설·음란물·광고 등 부적절한 게시물은 예고 없이 삭제되며, 반복 시 계정이 정지될 수 있습니다.";
@@ -68,30 +51,15 @@ export function CommunityBoard({
   const [selected, setSelected] = useState<Set<string>>(
     () => new Set(groups.map((g) => g.id)),
   );
-  const [mode, setMode] = useState<FeedMode>("all");
-  const [tags, setTags] = useState<string[]>([]); // 빈 배열 = 전체 태그
   const [compose, setCompose] = useState(false);
 
   const groupAllSelected =
     groups.length > 0 && groups.every((g) => selected.has(g.id));
 
-  // 1) 탭(전체/그룹) → 2) 종류·태그 필터.
-  const tabPosts = useMemo(
+  // 탭(전체/그룹)만으로 분류 — 별도 필터 없음. 사진 인증 + 운동 티칭 영상이 함께 보인다.
+  const visible = useMemo(
     () => forTab(initialPosts, tab, [...selected]),
     [initialPosts, tab, selected],
-  );
-  const availableTags = useMemo(() => feedTags(tabPosts), [tabPosts]);
-  const filter: FeedFilter = useMemo(
-    () => ({
-      scope: mode === "teaching" ? "teaching" : "all",
-      hideTeaching: mode === "hide",
-      tags,
-    }),
-    [mode, tags],
-  );
-  const visible = useMemo(
-    () => applyFeedFilter(tabPosts, filter),
-    [tabPosts, filter],
   );
 
   function toggleGroup(id: string) {
@@ -101,15 +69,6 @@ export function CommunityBoard({
       else next.add(id);
       return next;
     });
-  }
-  function toggleTag(t: string) {
-    setTags((prev) =>
-      prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t],
-    );
-  }
-  function setModeSafe(m: FeedMode) {
-    setMode(m);
-    if (m === "hide") setTags([]); // 티칭 숨김이면 태그필터 무의미
   }
 
   return (
@@ -164,49 +123,6 @@ export function CommunityBoard({
             </div>
           )
         ) : null}
-
-        {/* 종류 필터: 전체 / 운동티칭만 / 티칭 숨김 */}
-        <div className="mt-2 flex gap-1.5">
-          {(
-            [
-              ["all", "전체"],
-              ["teaching", "🎬 운동티칭만"],
-              ["hide", "티칭 숨김"],
-            ] as const
-          ).map(([k, label]) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => setModeSafe(k)}
-              className={`rounded-full px-3 py-1 text-xs font-bold transition-colors ${
-                mode === k
-                  ? "bg-emerald-600 text-white"
-                  : "bg-zinc-100 text-zinc-500 dark:bg-zinc-800 dark:text-zinc-300"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* 태그 필터(운동 태그 다중선택). 티칭 숨김이면 숨긴다. */}
-        {mode !== "hide" && availableTags.length > 0 ? (
-          <div className="-mx-1 mt-2 flex gap-1.5 overflow-x-auto px-1 pb-1">
-            <Chip
-              active={tags.length === 0}
-              onClick={() => setTags([])}
-              label="전체 태그"
-            />
-            {availableTags.map((t) => (
-              <Chip
-                key={t}
-                active={tags.includes(t)}
-                onClick={() => toggleTag(t)}
-                label={`#${t}`}
-              />
-            ))}
-          </div>
-        ) : null}
       </div>
 
       {/* 피드 */}
@@ -214,7 +130,7 @@ export function CommunityBoard({
         <div className="flex flex-col items-center gap-2 px-6 py-16 text-center text-zinc-400">
           <Camera size={40} className="opacity-40" />
           <p className="text-sm">
-            아직 글이 없어요. 오늘 운동 인증·티칭 첫 타자가 되어보세요! 💪
+            아직 글이 없어요. 오늘 운동 인증 첫 타자가 되어보세요! 💪
           </p>
         </div>
       ) : (
@@ -225,11 +141,11 @@ export function CommunityBoard({
         </ul>
       )}
 
-      {/* 글쓰기 FAB */}
+      {/* 글쓰기 FAB — 사진 인증 */}
       <button
         type="button"
         onClick={() => setCompose(true)}
-        aria-label="글쓰기"
+        aria-label="오운완 인증하기"
         className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg active:scale-95"
         style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
       >
@@ -432,7 +348,7 @@ function PostCard({
   );
 }
 
-/** 글쓰기 — 사진 인증 / 운동 티칭 영상 + 공개범위(전체/그룹만/그룹제외). */
+/** 사진 인증 글쓰기 — 사진 + 한마디 + 공개범위(전체/그룹만/그룹제외). 티칭 영상은 운동모드에서만. */
 function ComposeModal({
   groups,
   defaultGroupId,
@@ -444,12 +360,10 @@ function ComposeModal({
   onClose: () => void;
   onDone: () => void;
 }) {
-  const [kind, setKind] = useState<"photo" | "teaching">("photo");
   const fileRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [caption, setCaption] = useState("");
-  const [tag, setTag] = useState("");
   const [visibility, setVisibility] = useState<Visibility>(
     defaultGroupId ? "group" : "public",
   );
@@ -459,7 +373,7 @@ function ComposeModal({
 
   const needsGroup = visibility !== "public";
 
-  function pickPhoto(f: File | null) {
+  function pick(f: File | null) {
     setError(null);
     setFile(f);
     setPreview((prev) => {
@@ -468,55 +382,12 @@ function ComposeModal({
     });
   }
 
-  function pickVideo(f: File | null) {
-    setError(null);
-    if (preview) URL.revokeObjectURL(preview);
-    if (!f) {
-      setFile(null);
-      setPreview(null);
-      return;
-    }
-    const url = URL.createObjectURL(f);
-    const v = document.createElement("video");
-    v.preload = "metadata";
-    v.onloadedmetadata = () => {
-      if (Number.isFinite(v.duration) && v.duration > TEACHING_MAX_SECONDS) {
-        setError(`영상은 30초 이내로 올려주세요. (현재 ${Math.round(v.duration)}초)`);
-        setFile(null);
-        setPreview(null);
-        URL.revokeObjectURL(url);
-        return;
-      }
-      setFile(f);
-      setPreview(url);
-    };
-    v.onerror = () => {
-      setFile(f);
-      setPreview(url);
-    };
-    v.src = url;
-  }
-
-  function switchKind(k: "photo" | "teaching") {
-    if (k === kind) return;
-    if (preview) URL.revokeObjectURL(preview);
-    setFile(null);
-    setPreview(null);
-    setError(null);
-    setKind(k);
-  }
-
   function submit() {
     setError(null);
     if (!file) {
-      setError(kind === "photo" ? "사진을 골라주세요." : "영상을 골라주세요.");
+      setError("사진을 골라주세요.");
       return;
     }
-    if (kind === "teaching" && !normalizeTag(tag)) {
-      setError("어떤 운동인지 태그를 입력해주세요.");
-      return;
-    }
-    // 공개범위/그룹 정합성 미리 확인(서버도 재검증).
     const vis = resolveVisibility(visibility, groupId);
     if (!vis.ok) {
       setError(vis.error);
@@ -524,28 +395,15 @@ function ComposeModal({
     }
     start(async () => {
       try {
-        if (kind === "photo") {
-          const url = await uploadCommunityPhoto(file);
-          const r = await createCommunityPostAction({
-            photoUrl: url,
-            caption,
-            groupId: vis.groupId,
-            visibility: vis.visibility,
-          });
-          if (r.ok) onDone();
-          else setError(r.error);
-        } else {
-          const videoUrl = await uploadTeachingVideo(file);
-          const r = await createTeachingPostAction({
-            videoUrl,
-            exerciseTag: tag,
-            caption,
-            groupId: vis.groupId,
-            visibility: vis.visibility,
-          });
-          if (r.ok) onDone();
-          else setError(r.error);
-        }
+        const url = await uploadCommunityPhoto(file);
+        const r = await createCommunityPostAction({
+          photoUrl: url,
+          caption,
+          groupId: vis.groupId,
+          visibility: vis.visibility,
+        });
+        if (r.ok) onDone();
+        else setError(r.error);
       } catch (e) {
         setError(e instanceof Error ? e.message : "업로드에 실패했어요.");
       }
@@ -559,102 +417,43 @@ function ComposeModal({
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
       <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-extrabold">글쓰기</h2>
+          <h2 className="text-base font-extrabold">오운완 인증 💪</h2>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
             <X size={20} />
           </button>
         </div>
 
-        {/* 종류 선택 */}
-        <div className="mb-3 flex gap-1.5">
-          {(
-            [
-              ["photo", "📷 사진 인증"],
-              ["teaching", "🎬 운동 티칭 영상"],
-            ] as const
-          ).map(([k, label]) => (
-            <button
-              key={k}
-              type="button"
-              onClick={() => switchKind(k)}
-              className={`h-9 flex-1 rounded-xl text-sm font-bold transition ${
-                kind === k
-                  ? "bg-emerald-600 text-white"
-                  : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
-              }`}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        {/* 미디어 */}
+        {/* 사진 */}
         <input
           ref={fileRef}
           type="file"
-          accept={kind === "photo" ? "image/*" : "video/*"}
+          accept="image/*"
           capture="environment"
           className="hidden"
-          onChange={(e) =>
-            kind === "photo"
-              ? pickPhoto(e.target.files?.[0] ?? null)
-              : pickVideo(e.target.files?.[0] ?? null)
-          }
+          onChange={(e) => pick(e.target.files?.[0] ?? null)}
         />
-        {kind === "teaching" && preview ? (
-          <video src={preview} controls playsInline className="aspect-video w-full rounded-2xl bg-black object-contain" />
-        ) : (
-          <button
-            type="button"
-            onClick={() => fileRef.current?.click()}
-            className={`flex w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800 ${
-              kind === "photo" ? "aspect-square" : "aspect-video"
-            }`}
-          >
-            {kind === "photo" && preview ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={preview} alt="미리보기" className="h-full w-full object-cover" />
-            ) : (
-              <span className="flex flex-col items-center gap-1 text-sm">
-                {kind === "photo" ? <ImagePlus size={32} /> : <Video size={32} />}
-                {kind === "photo" ? "사진 올리기" : "30초 이내 영상 찍기 / 올리기"}
-              </span>
-            )}
-          </button>
-        )}
-        {kind === "teaching" && preview ? (
-          <button
-            type="button"
-            onClick={() => fileRef.current?.click()}
-            className="mt-2 w-full rounded-xl border border-zinc-200 py-2 text-xs font-bold text-zinc-500 dark:border-zinc-700"
-          >
-            다시 찍기 / 다른 영상
-          </button>
-        ) : null}
-
-        {/* 티칭: 운동 태그 */}
-        {kind === "teaching" ? (
-          <>
-            <label className="mt-3 block text-xs font-bold text-zinc-500">어떤 운동인가요? (태그)</label>
-            <input
-              value={tag}
-              onChange={(e) => setTag(e.target.value.slice(0, MAX_TAG))}
-              placeholder="예: 스쿼트, 벤치프레스"
-              className={field}
-            />
-          </>
-        ) : null}
+        <button
+          type="button"
+          onClick={() => fileRef.current?.click()}
+          className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+        >
+          {preview ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={preview} alt="미리보기" className="h-full w-full object-cover" />
+          ) : (
+            <span className="flex flex-col items-center gap-1 text-sm">
+              <ImagePlus size={32} />
+              사진 올리기
+            </span>
+          )}
+        </button>
 
         {/* 한마디 */}
         <textarea
           value={caption}
-          onChange={(e) =>
-            setCaption(
-              e.target.value.slice(0, kind === "teaching" ? MAX_TEACHING_CAPTION : MAX_CAPTION),
-            )
-          }
+          onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
           rows={2}
-          placeholder={kind === "teaching" ? "자세 팁 한마디 (선택)" : "오늘 운동 한마디 (선택)"}
+          placeholder="오늘 운동 한마디 (선택)"
           className={`${field} resize-none`}
         />
 
@@ -702,7 +501,7 @@ function ComposeModal({
         {error ? <p className="mt-2 text-xs font-bold text-rose-500">{error}</p> : null}
 
         <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-[11px] leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
-          {kind === "teaching" ? TEACHING_RULES : RULES}
+          {RULES}
         </p>
 
         <button
@@ -715,8 +514,6 @@ function ComposeModal({
             <>
               <Loader2 size={18} className="animate-spin" /> 올리는 중…
             </>
-          ) : kind === "teaching" ? (
-            "티칭 영상 올리기"
           ) : (
             "인증 올리기"
           )}

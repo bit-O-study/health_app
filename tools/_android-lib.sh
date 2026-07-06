@@ -77,7 +77,10 @@ ensure_jdk() {
 sdk_root() { echo "${ANDROID_SDK_ROOT:-${ANDROID_HOME:-$HOME/android-sdk}}"; }
 sdkmanager_bin() {
   local r; r="$(sdk_root)"
-  echo "$r/cmdline-tools/latest/bin/sdkmanager"
+  # Windows(Git Bash)에선 실행 파일이 sdkmanager.bat 이다. 확장자 없는 이름을 찾으면
+  # 이미 설치된 SDK를 "없다"고 오판해 재다운로드 → latest/bin 경로에서 실패한다.
+  local ext=""; [ "${OS_KIND:-}" = "windows" ] && ext=".bat"
+  echo "$r/cmdline-tools/latest/bin/sdkmanager$ext"
 }
 ensure_android_sdk() {
   local root; root="$(sdk_root)"
@@ -111,7 +114,8 @@ ensure_android_sdk() {
 
   log "필수 SDK 패키지 설치(platform-tools, platform-34, build-tools)…"
   yes | "$sm" --sdk_root="$root" --licenses >/dev/null 2>&1 || true
-  "$sm" --sdk_root="$root" "platform-tools" "platforms;android-34" "build-tools;34.0.0" >/dev/null
+  # 프로젝트 compileSdk/targetSdk(변수: android/variables.gradle)와 맞춘다 — 현재 36.
+  "$sm" --sdk_root="$root" "platform-tools" "platforms;android-36" "build-tools;36.0.0" >/dev/null
   log "Android SDK 준비 완료"
 }
 

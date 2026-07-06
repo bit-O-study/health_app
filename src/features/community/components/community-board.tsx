@@ -16,7 +16,7 @@ import {
   X,
 } from "lucide-react";
 
-import { MAX_CAPTION } from "../community";
+import { MAX_CAPTION, relativeTime } from "../community";
 import {
   forTab,
   resolveVisibility,
@@ -31,6 +31,7 @@ import {
   toggleLikeAction,
 } from "../community-actions";
 import { deleteTeachingPostAction } from "@/features/teaching/teaching-actions";
+import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 
 type Group = { id: string; name: string };
 
@@ -47,6 +48,7 @@ export function CommunityBoard({
   canModerate: boolean;
 }) {
   const router = useRouter();
+  const [now] = useState(() => Date.now());
   const [tab, setTab] = useState<"all" | "group">("all");
   const [selected, setSelected] = useState<Set<string>>(
     () => new Set(groups.map((g) => g.id)),
@@ -125,18 +127,29 @@ export function CommunityBoard({
         ) : null}
       </div>
 
-      {/* 피드 */}
+      {/* 피드 — 1단 인스타식 카드 */}
       {visible.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 px-6 py-16 text-center text-zinc-400">
-          <Camera size={40} className="opacity-40" />
-          <p className="text-sm">
-            아직 글이 없어요. 오늘 운동 인증 첫 타자가 되어보세요! 💪
+        <div className="flex flex-col items-center gap-3 px-6 py-20 text-center">
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-500 dark:bg-emerald-950/40">
+            <Camera size={30} />
+          </div>
+          <p className="text-sm font-bold text-zinc-500 dark:text-zinc-300">
+            {tab === "group" ? "이 그룹엔 아직 글이 없어요" : "아직 글이 없어요"}
+          </p>
+          <p className="text-xs text-zinc-400">
+            오늘 운동 인증 첫 타자가 되어보세요! 💪
           </p>
         </div>
       ) : (
-        <ul className="grid grid-cols-2 gap-2 px-2 py-3">
+        <ul className="flex flex-col gap-3 px-2 py-3 sm:px-0">
           {visible.map((p) => (
-            <PostCard key={`${p.kind}:${p.id}`} post={p} router={router} canModerate={canModerate} />
+            <PostCard
+              key={`${p.kind}:${p.id}`}
+              post={p}
+              now={now}
+              router={router}
+              canModerate={canModerate}
+            />
           ))}
         </ul>
       )}
@@ -195,10 +208,12 @@ function Chip({
 
 function PostCard({
   post,
+  now,
   router,
   canModerate,
 }: {
   post: FeedPost;
+  now: number;
   router: ReturnType<typeof useRouter>;
   canModerate: boolean;
 }) {
@@ -207,12 +222,15 @@ function PostCard({
   const [liked, setLiked] = useState(post.likedByMe);
   const [likeCount, setLikeCount] = useState(post.likeCount);
   const [showVideo, setShowVideo] = useState(false);
+  const [imgLoaded, setImgLoaded] = useState(false);
+  const [burst, setBurst] = useState(false); // 더블탭 좋아요 하트
   if (gone) return null;
 
   const isTeaching = post.kind === "teaching";
+  const when = relativeTime(new Date(post.createdAt).getTime(), now);
 
-  function toggleLike() {
-    const next = !liked;
+  function setLike(next: boolean) {
+    if (next === liked) return;
     setLiked(next);
     setLikeCount((c) => c + (next ? 1 : -1));
     start(async () => {
@@ -222,6 +240,14 @@ function PostCard({
         setLikeCount((c) => c + (next ? -1 : 1));
       }
     });
+  }
+  function toggleLike() {
+    setLike(!liked);
+  }
+  function doubleTapLike() {
+    setLike(true);
+    setBurst(true);
+    window.setTimeout(() => setBurst(false), 650);
   }
 
   function remove() {
@@ -240,10 +266,38 @@ function PostCard({
   }
 
   return (
-    <li className="overflow-hidden rounded-xl bg-white dark:bg-zinc-900">
+    <li className="overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+      {/* 헤더: 아바타 + 이름 + 시간 + 배지 */}
+      <div className="flex items-center gap-2 px-3 pt-3">
+        <span
+          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg ${pastelClass(
+            post.authorName,
+          )}`}
+        >
+          {characterEmoji(post.authorName)}
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="truncate text-sm font-bold text-zinc-800 dark:text-zinc-100">
+            {post.authorName}
+          </p>
+          <p className="text-[11px] text-zinc-400">{when}</p>
+        </div>
+        {isTeaching ? (
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-fuchsia-50 px-2 py-0.5 text-[10px] font-bold text-fuchsia-700 dark:bg-fuchsia-950/40 dark:text-fuchsia-300">
+            <Video size={11} /> 티칭
+          </span>
+        ) : null}
+        {post.groupName ? (
+          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+            # {post.groupName}
+            {post.visibility === "public_except_group" ? " 제외" : ""}
+          </span>
+        ) : null}
+      </div>
+
+      {/* 미디어 */}
       {isTeaching ? (
-        // 운동 티칭 영상 — 탭하면 그 자리에서 재생(preload=none 으로 메모리 절약).
-        <div className="relative aspect-[3/2] w-full bg-black">
+        <div className="relative mt-2 aspect-square w-full bg-black">
           {showVideo ? (
             <video
               src={post.videoUrl ?? undefined}
@@ -260,90 +314,101 @@ function PostCard({
               aria-label="영상 재생"
               className="flex h-full w-full items-center justify-center"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-white/85 text-emerald-700 shadow">
-                <Play size={22} className="translate-x-0.5 fill-current" />
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-emerald-700 shadow-lg">
+                <Play size={26} className="translate-x-0.5 fill-current" />
               </span>
             </button>
           )}
-          <span className="absolute left-1.5 top-1.5 inline-flex items-center gap-0.5 rounded-full bg-black/60 px-1.5 py-0.5 text-[10px] font-bold text-white">
-            <Video size={11} /> 티칭
-          </span>
-        </div>
-      ) : (
-        <Link href={`/community/${post.id}`} className="block" aria-label="게시물 열기">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={post.photoUrl ?? undefined}
-            alt="오운완 인증"
-            loading="lazy"
-            className="aspect-[3/2] w-full bg-zinc-100 object-cover dark:bg-zinc-800"
-          />
-        </Link>
-      )}
-
-      <div className="space-y-1 px-1.5 py-1.5">
-        {post.caption ? (
-          isTeaching ? (
-            <p className="line-clamp-2 break-words text-xs leading-snug">{post.caption}</p>
-          ) : (
-            <Link href={`/community/${post.id}`} className="block">
-              <p className="line-clamp-2 break-words text-xs leading-snug">{post.caption}</p>
-            </Link>
-          )
-        ) : null}
-
-        <div className="flex flex-wrap gap-1">
-          {isTeaching && post.exerciseTag ? (
-            <span className="inline-block rounded-full bg-fuchsia-50 px-1.5 py-0.5 text-[10px] font-bold text-fuchsia-700 dark:bg-fuchsia-950/40 dark:text-fuchsia-300">
+          {post.exerciseTag ? (
+            <span className="absolute bottom-2 left-2 rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-bold text-white">
               #{post.exerciseTag}
             </span>
           ) : null}
-          {post.groupName ? (
-            <span className="inline-block rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-              # {post.groupName}
-              {post.visibility === "public_except_group" ? " 제외" : ""}
+        </div>
+      ) : (
+        <div
+          className="relative mt-2 aspect-square w-full bg-zinc-100 dark:bg-zinc-800"
+          onDoubleClick={doubleTapLike}
+        >
+          <Link href={`/community/${post.id}`} aria-label="게시물 열기">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={post.photoUrl ?? undefined}
+              alt="오운완 인증"
+              loading="lazy"
+              onLoad={() => setImgLoaded(true)}
+              className={`h-full w-full object-cover transition-opacity duration-300 ${
+                imgLoaded ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          </Link>
+          {burst ? (
+            <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <Heart size={92} className="animate-ping fill-white/90 text-white/90 drop-shadow" />
             </span>
           ) : null}
         </div>
+      )}
 
-        <div className="flex items-center gap-3 pt-0.5 text-zinc-500 dark:text-zinc-400">
-          {isTeaching ? (
-            <span className="text-[11px] font-bold text-zinc-400">{post.authorName}</span>
-          ) : (
-            <>
-              <button
-                type="button"
-                onClick={toggleLike}
-                disabled={pending}
-                className="inline-flex items-center gap-1 text-xs font-bold disabled:opacity-60"
-                aria-label="좋아요"
-              >
-                <Heart size={15} className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"} />
-                {likeCount}
-              </button>
-              <Link
-                href={`/community/${post.id}`}
-                className="inline-flex items-center gap-1 text-xs font-bold"
-                aria-label="댓글"
-              >
-                <MessageCircle size={15} className="text-zinc-400" />
-                {post.commentCount}
-              </Link>
-            </>
-          )}
-          {canModerate || post.isMine ? (
+      {/* 액션 */}
+      <div className="flex items-center gap-4 px-3 pt-2.5 text-zinc-500 dark:text-zinc-400">
+        {!isTeaching ? (
+          <>
             <button
               type="button"
-              onClick={remove}
+              onClick={toggleLike}
               disabled={pending}
-              aria-label="삭제"
-              className="ml-auto text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 text-sm font-bold transition-transform active:scale-125 disabled:opacity-60"
+              aria-label="좋아요"
             >
-              <Trash2 size={14} />
+              <Heart size={22} className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"} />
+              {likeCount}
             </button>
-          ) : null}
-        </div>
+            <Link
+              href={`/community/${post.id}`}
+              className="inline-flex items-center gap-1.5 text-sm font-bold"
+              aria-label="댓글"
+            >
+              <MessageCircle size={22} className="text-zinc-400" />
+              {post.commentCount}
+            </Link>
+          </>
+        ) : (
+          <span className="text-xs font-bold text-zinc-400">운동 티칭 영상</span>
+        )}
+        {canModerate || post.isMine ? (
+          <button
+            type="button"
+            onClick={remove}
+            disabled={pending}
+            aria-label="삭제"
+            className="ml-auto text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+          >
+            <Trash2 size={16} />
+          </button>
+        ) : null}
       </div>
+
+      {/* 캡션 */}
+      {post.caption ? (
+        <div className="px-3 pb-3 pt-1.5">
+          {isTeaching ? (
+            <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">
+              <span className="mr-1.5 font-bold">{post.authorName}</span>
+              {post.caption}
+            </p>
+          ) : (
+            <Link href={`/community/${post.id}`} className="block">
+              <p className="line-clamp-3 whitespace-pre-wrap break-words text-sm leading-relaxed">
+                <span className="mr-1.5 font-bold">{post.authorName}</span>
+                {post.caption}
+              </p>
+            </Link>
+          )}
+        </div>
+      ) : (
+        <div className="pb-3" />
+      )}
     </li>
   );
 }

@@ -13,6 +13,8 @@ import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
+const PWA_ICON_VERSION = "20260702b";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,9 +30,10 @@ export const metadata: Metadata = {
   title: { default: siteConfig.title, template: "%s | 헬쑤" },
   description: siteConfig.description,
   applicationName: siteConfig.name,
+  manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/icon-192.png?v=helssu-20260611",
-    apple: "/apple-touch-icon.png?v=helssu-20260611",
+    icon: `/icon-192-${PWA_ICON_VERSION}.png`,
+    apple: `/apple-touch-icon-${PWA_ICON_VERSION}.png`,
   },
   openGraph: {
     title: siteConfig.title,

@@ -25,7 +25,10 @@ export function EquipmentScanButton() {
 
       {open ? (
         <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50 sm:items-center">
-          <div className="max-h-[88dvh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 pb-[max(env(safe-area-inset-bottom),1.25rem)] shadow-xl dark:bg-zinc-950 sm:max-h-[85dvh] sm:rounded-2xl sm:pb-4">
+          {/* 하단 여백: env(safe-area-inset-bottom) + 기본 2rem — Android WebView 는 홈/제스처
+              바가 있어도 env() 를 0 으로 주는 경우가 많아, 사진·결과가 홈 메뉴와 겹치지 않도록
+              기본 여백을 항상 더한다. */}
+          <div className="max-h-[85dvh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 pb-[calc(env(safe-area-inset-bottom,0px)+2rem)] shadow-xl dark:bg-zinc-950 sm:max-h-[85dvh] sm:rounded-2xl sm:pb-4">
             <div className="mb-3 flex items-center justify-between">
               <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-900 dark:text-zinc-100">
                 <ScanSearch aria-hidden="true" size={18} />

@@ -6,6 +6,8 @@
  * 빠른 기록·대략적인 칼로리 관리용.
  */
 
+import { WORLD_FOOD_ITEMS } from "@/features/diet/food-catalog-world";
+
 export type FoodCategory =
   | "밥·면"
   | "국·찌개"
@@ -16,12 +18,18 @@ export type FoodCategory =
   | "유제품"
   | "빵·간식"
   | "음료"
-  | "단백질·보충";
+  | "단백질·보충"
+  | "기타";
+
+/** 음식 문화권(browse/검색 보조). 미표기는 한식으로 간주. */
+export type Cuisine = "한식" | "양식" | "중식" | "일식" | "아시아" | "그외";
 
 export type FoodItem = {
   id: string;
   name: string;
   category: FoodCategory;
+  /** 문화권 태그(선택). 검색어로도 매칭된다. 없으면 한식 취급. */
+  cuisine?: Cuisine;
   /** 1회 제공량 표기 (예: "1공기", "200g", "1개") */
   amount: string;
   kcal: number;
@@ -30,7 +38,7 @@ export type FoodItem = {
   fat: number; // g
 };
 
-export const FOOD_ITEMS: FoodItem[] = [
+const KOREAN_FOOD_ITEMS: FoodItem[] = [
   // ── 밥·면
   { id: "rice", name: "흰쌀밥", category: "밥·면", amount: "1공기(210g)", kcal: 310, protein: 6, carbs: 69, fat: 1 },
   { id: "brown-rice", name: "현미밥", category: "밥·면", amount: "1공기(210g)", kcal: 300, protein: 7, carbs: 64, fat: 2 },
@@ -405,7 +413,50 @@ export const FOOD_ITEMS: FoodItem[] = [
   { id: "pancake", name: "팬케이크", category: "빵·간식", amount: "2장", kcal: 350, protein: 8, carbs: 52, fat: 12 },
   { id: "pretzel", name: "프레첼", category: "빵·간식", amount: "1개", kcal: 340, protein: 9, carbs: 68, fat: 4 },
   { id: "panini", name: "파니니", category: "빵·간식", amount: "1개", kcal: 450, protein: 22, carbs: 44, fat: 20 },
+
+  // ── 국밥·탕·해장국 대보강 (국·찌개)
+  { id: "bppyeo-haejangguk", name: "뼈해장국", category: "국·찌개", amount: "1뚝배기", kcal: 480, protein: 34, carbs: 26, fat: 26 },
+  { id: "bppyeodagwi-haejang", name: "뼈다귀해장국", category: "국·찌개", amount: "1뚝배기", kcal: 480, protein: 34, carbs: 26, fat: 26 },
+  { id: "sundae-guk", name: "순대국", category: "국·찌개", amount: "1뚝배기", kcal: 500, protein: 30, carbs: 42, fat: 24 },
+  { id: "eolkeun-sundaeguk", name: "얼큰순대국", category: "국·찌개", amount: "1뚝배기", kcal: 520, protein: 30, carbs: 44, fat: 25 },
+  { id: "haemultang", name: "해물탕", category: "국·찌개", amount: "1인분", kcal: 380, protein: 34, carbs: 20, fat: 16 },
+  { id: "kkotge-tang", name: "꽃게탕", category: "국·찌개", amount: "1그릇", kcal: 300, protein: 28, carbs: 14, fat: 12 },
+  { id: "honghap-tang", name: "홍합탕", category: "국·찌개", amount: "1그릇", kcal: 160, protein: 18, carbs: 8, fat: 5 },
+  { id: "al-tang", name: "알탕", category: "국·찌개", amount: "1그릇", kcal: 340, protein: 30, carbs: 12, fat: 18 },
+  { id: "daegu-tang", name: "대구탕", category: "국·찌개", amount: "1그릇", kcal: 280, protein: 32, carbs: 12, fat: 10 },
+  { id: "bok-jiri", name: "복지리", category: "국·찌개", amount: "1그릇", kcal: 250, protein: 34, carbs: 10, fat: 7 },
+  { id: "jaecheop-guk", name: "재첩국", category: "국·찌개", amount: "1그릇", kcal: 120, protein: 12, carbs: 8, fat: 3 },
+  { id: "maesaengi-guk", name: "매생이국", category: "국·찌개", amount: "1그릇", kcal: 140, protein: 10, carbs: 10, fat: 6 },
+  { id: "dogani-tang", name: "도가니탕", category: "국·찌개", amount: "1그릇", kcal: 420, protein: 34, carbs: 12, fat: 24 },
+  { id: "kkori-gomtang", name: "꼬리곰탕", category: "국·찌개", amount: "1그릇", kcal: 460, protein: 34, carbs: 12, fat: 28 },
+  { id: "sokkori-tang", name: "소꼬리탕", category: "국·찌개", amount: "1그릇", kcal: 460, protein: 34, carbs: 12, fat: 28 },
+  { id: "ugeoji-galbitang", name: "우거지갈비탕", category: "국·찌개", amount: "1그릇", kcal: 420, protein: 30, carbs: 20, fat: 24 },
+  { id: "kongnamul-haejang", name: "콩나물해장국", category: "국·찌개", amount: "1뚝배기", kcal: 300, protein: 20, carbs: 30, fat: 10 },
+  { id: "ugeoji-haejang", name: "우거지해장국", category: "국·찌개", amount: "1뚝배기", kcal: 340, protein: 20, carbs: 34, fat: 12 },
+  { id: "hwangtae-haejang", name: "황태해장국", category: "국·찌개", amount: "1뚝배기", kcal: 220, protein: 24, carbs: 12, fat: 8 },
+  { id: "bugeo-guk", name: "북엇국", category: "국·찌개", amount: "1그릇", kcal: 180, protein: 20, carbs: 10, fat: 7 },
+  { id: "kimchi-guk", name: "김칫국", category: "국·찌개", amount: "1그릇", kcal: 90, protein: 5, carbs: 8, fat: 4 },
+  { id: "mu-guk", name: "무국", category: "국·찌개", amount: "1그릇", kcal: 80, protein: 5, carbs: 7, fat: 3 },
+  { id: "sogogi-muguk", name: "소고기무국", category: "국·찌개", amount: "1그릇", kcal: 160, protein: 14, carbs: 8, fat: 8 },
+  { id: "aewok-guk", name: "아욱국", category: "국·찌개", amount: "1그릇", kcal: 110, protein: 8, carbs: 8, fat: 5 },
+  { id: "siraegi-doenjang", name: "시래기된장국", category: "국·찌개", amount: "1그릇", kcal: 160, protein: 10, carbs: 16, fat: 6 },
+  { id: "kimchi-jeongol", name: "김치전골", category: "국·찌개", amount: "1인분", kcal: 480, protein: 26, carbs: 26, fat: 28 },
+  { id: "mandu-jeongol", name: "만두전골", category: "국·찌개", amount: "1인분", kcal: 520, protein: 24, carbs: 46, fat: 24 },
+  { id: "beoseot-jeongol", name: "버섯전골", category: "국·찌개", amount: "1인분", kcal: 300, protein: 16, carbs: 22, fat: 16 },
+  { id: "nakji-jeongol", name: "낙지전골", category: "국·찌개", amount: "1인분", kcal: 380, protein: 28, carbs: 24, fat: 18 },
+  { id: "haemul-sundubu", name: "해물순두부", category: "국·찌개", amount: "1뚝배기", kcal: 280, protein: 20, carbs: 12, fat: 16 },
+  { id: "chadol-doenjang", name: "차돌된장찌개", category: "국·찌개", amount: "1뚝배기", kcal: 320, protein: 20, carbs: 14, fat: 20 },
+  { id: "kongbiji-jjigae", name: "콩비지찌개", category: "국·찌개", amount: "1뚝배기", kcal: 260, protein: 16, carbs: 18, fat: 13 },
+  { id: "godeungeo-jorim", name: "고등어조림", category: "국·찌개", amount: "1인분", kcal: 320, protein: 26, carbs: 12, fat: 18 },
+  { id: "kimchi-kongnamul-guk", name: "콩나물김칫국", category: "국·찌개", amount: "1그릇", kcal: 90, protein: 6, carbs: 9, fat: 3 },
 ];
+
+// 한식(기본) + 세계 음식을 합친 전체 카탈로그. 이름(정규화) 중복은 앞선 항목(한식) 우선으로
+// 전부 제거한다(한식 내부 중복도 포함).
+export const FOOD_ITEMS: FoodItem[] = mergeFoodResults(
+  [],
+  [...KOREAN_FOOD_ITEMS, ...WORLD_FOOD_ITEMS],
+);
 
 // 카테고리 순서로 정렬해 검색/둘러보기에서 같은 분류끼리 모이게 한다.
 // (추가 음식이 배열 끝에만 몰려 안 보이는 문제 방지 — JS sort는 안정 정렬이라 분류 내 순서는 유지.)
@@ -420,6 +471,7 @@ const CATEGORY_ORDER: FoodCategory[] = [
   "빵·간식",
   "음료",
   "단백질·보충",
+  "기타",
 ];
 FOOD_ITEMS.sort(
   (a, b) =>
@@ -437,6 +489,38 @@ export function getFoodItem(id: string): FoodItem | undefined {
   return BY_ID[id];
 }
 
+/** 음식 이름 정규화 — 공백 제거 + 소문자. 중복/기지(旣知) 판별의 키. */
+export function normalizeFoodName(name: string): string {
+  return (name ?? "").trim().toLowerCase().replace(/\s+/g, "");
+}
+
+const KNOWN_NAMES: Set<string> = new Set(
+  FOOD_ITEMS.map((f) => normalizeFoodName(f.name)),
+);
+
+/** 정적 카탈로그에 이미 있는 음식인가(정규화 이름 기준). custom_foods 자동추가 판별용. */
+export function isKnownFood(name: string): boolean {
+  const n = normalizeFoodName(name);
+  return n.length > 0 && KNOWN_NAMES.has(n);
+}
+
+/**
+ * 정적 카탈로그 결과 + 커스텀(자동성장) 결과를 합치되 정규화 이름 기준 중복 제거.
+ * 정적 카탈로그를 우선(앞)에 둔다. 순수 함수(테스트 가능).
+ */
+export function mergeFoodResults(base: FoodItem[], extra: FoodItem[]): FoodItem[] {
+  const seen = new Set(base.map((f) => normalizeFoodName(f.name)));
+  const out = [...base];
+  for (const f of extra) {
+    const n = normalizeFoodName(f.name);
+    if (n && !seen.has(n)) {
+      seen.add(n);
+      out.push(f);
+    }
+  }
+  return out;
+}
+
 /** 이름·카테고리로 검색(공백 무시, 부분일치). 빈 검색어면 전체. */
 export function searchFoods(query: string): FoodItem[] {
   const q = query.trim().toLowerCase().replace(/\s+/g, "");
@@ -444,6 +528,7 @@ export function searchFoods(query: string): FoodItem[] {
   return FOOD_ITEMS.filter(
     (f) =>
       f.name.toLowerCase().replace(/\s+/g, "").includes(q) ||
-      f.category.toLowerCase().replace(/\s+/g, "").includes(q),
+      f.category.toLowerCase().replace(/\s+/g, "").includes(q) ||
+      (f.cuisine ?? "").toLowerCase().replace(/\s+/g, "").includes(q),
   );
 }

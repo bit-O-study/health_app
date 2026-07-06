@@ -35,7 +35,7 @@ export default function ZenScene({
         intensity={1.9}
         color="#fff2cf"
         castShadow
-        shadow-mapSize={[2048, 2048]}
+        shadow-mapSize={[1024, 1024]}
         shadow-camera-left={-14}
         shadow-camera-right={14}
         shadow-camera-top={14}
@@ -69,6 +69,7 @@ function Sky() {
     scene.fog = new THREE.Fog("#eaf6ec", 30, 64);
     return () => {
       scene.background = prev;
+      tex.dispose(); // 수동 생성 텍스처 GPU 메모리 해제
     };
   }, [scene, tex]);
   return (
@@ -118,6 +119,7 @@ function World({
     t.repeat.set(24, 7);
     return t;
   }, []);
+  useEffect(() => () => grassTex.dispose(), [grassTex]); // 언마운트 시 GPU 텍스처 해제
 
   const treeData = useMemo(
     () =>

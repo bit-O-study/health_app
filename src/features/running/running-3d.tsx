@@ -41,7 +41,7 @@ export default function Running3D(props: {
   return (
     <Canvas
       shadows
-      dpr={[1, 2]}
+      dpr={[1, 1.5]}
       camera={{ position: [0, 2.7, 5.6], fov: 55 }}
       onCreated={({ camera }) => camera.lookAt(0, 1.1, -4)}
       className="absolute inset-0"
@@ -93,6 +93,9 @@ function Scene({
     t.anisotropy = 4;
     return t;
   }, []);
+  // 수동 생성한 CanvasTexture는 R3F가 자동 해제하지 않는다 → 언마운트 시 직접 dispose
+  // (안 하면 런닝모드 재진입마다 GPU 텍스처 메모리가 새서 팅김에 기여).
+  useEffect(() => () => roadTex.dispose(), [roadTex]);
 
   useFrame((_, delta) => {
     const dt = Math.min(0.05, delta);
@@ -183,7 +186,7 @@ function Scene({
         position={[5, 11, 6]}
         intensity={2.2}
         castShadow
-        shadow-mapSize={[1024, 1024]}
+        shadow-mapSize={[768, 768]}
         shadow-camera-left={-10}
         shadow-camera-right={10}
         shadow-camera-top={10}

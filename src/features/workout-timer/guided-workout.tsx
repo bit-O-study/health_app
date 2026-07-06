@@ -21,6 +21,7 @@ import {
   StickyNote,
   Timer,
   TrendingUp,
+  Video,
   X,
 } from "lucide-react";
 
@@ -51,11 +52,14 @@ import {
   MuscleBodyModal,
 } from "@/features/workout-timer/muscle-body-view";
 import { PostureAnalyzer } from "@/features/coach/components/posture-analyzer";
+import { TeachingComposeModal } from "@/features/teaching/components/teaching-compose";
 import {
   getMainEdit,
   setMainEdit,
   getCondEdit,
   setCondEdit,
+  getSetsDone as loadSetsDone,
+  setSetsDone as saveSetsDone,
 } from "@/features/workout-timer/workout-edit-store";
 import {
   conditioningPhotoFrames,
@@ -339,6 +343,8 @@ export function GuidedOverlay({
   const [muscle3dOpen, setMuscle3dOpen] = useState(false);
   /** AI 자세 분석 다이얼로그(현재 운동 영상 → 자세 코칭). */
   const [postureOpen, setPostureOpen] = useState(false);
+  /** 운동 티칭 영상 올리기 다이얼로그(현재 운동으로 태그). */
+  const [teachOpen, setTeachOpen] = useState(false);
   /** 메모 작성 다이얼로그. */
   const [memoOpen, setMemoOpen] = useState(false);
   /** 운동모드에서 수정한 메모(행 id→메모). 저장 후 화면 즉시 반영용(refresh 대기 X). */
@@ -393,9 +399,6 @@ export function GuidedOverlay({
   // 운동별로 정한 값은 그날 localStorage 에 보관 — 운동모드를 나갔다 다시 와도 유지되고
   // 날짜가 바뀌면 초기화돼 편집기(등록)의 초기 데이터부터 다시 시작한다. (직전값 우선)
   useEffect(() => {
-    // 운동(인덱스)이 바뀌면 세트 카운트 리셋 + 직전 값 있으면 복원, 없으면 등록 초기값.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setSetsDone(0);
     const it = sessionItems[index];
     if (it && it.kind === "main") {
       const saved = getMainEdit(it.rowId);
@@ -411,7 +414,14 @@ export function GuidedOverlay({
       setEditReps(init.reps);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditSets(init.sets);
+      // 나갔다 와도 완료한 세트 수 복원(그날 저장). 세트수보다 크면 클램프(자동완료 방지).
+      const savedDone = loadSetsDone(it.rowId);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSetsDone(Math.min(savedDone, Math.max(0, init.sets - 1)));
     } else if (it) {
+      // 컨디셔닝은 세트 완료 UI 없음 — 0.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSetsDone(0);
       // 컨디셔닝: 그 항목이 가진 파라미터만 값 보유(없는 건 null → 기록 안 됨).
       const saved = getCondEdit(it.rowId);
       const p = getConditioningItem(it.itemId)?.params ?? [];
@@ -506,10 +516,29 @@ export function GuidedOverlay({
   const mainSets = item && item.kind === "main" && effSets > 1 ? effSets : 0;
   const onLastSet = mainSets > 0 ? isLastSet(setsDone, mainSets) : true;
 
-  /** 세트 완료 — 운동을 넘기지 않고 휴식만 시작 + 세트 카운트 증가. */
+  /**
+   * 세트 완료 — 세트 카운트 +1 저장 후 휴식 시작. 마지막 세트까지 채우면 운동 자동 완료.
+   * (완료 수는 그날 localStorage 에 저장 — 운동모드를 나갔다 와도 유지.)
+   */
   function completeSet() {
+    if (mainSets <= 0 || !item || item.kind !== "main") return;
+    const next = setsDone + 1;
+    saveSetsDone(item.rowId, next);
+    setSetsDone(next);
+    if (next >= mainSets) {
+      // 세트를 다 채우면 자동으로 '완료' 처리(운동 넘어감).
+      dispatch("done");
+      return;
+    }
     rest.trigger();
-    setSetsDone((d) => Math.min(d + 1, Math.max(0, mainSets - 1)));
+  }
+
+  /** 세트 완료 취소 — 마지막으로 완료한 세트를 하나 되돌린다(그날 저장에도 반영). */
+  function cancelSet() {
+    if (!item || item.kind !== "main") return;
+    const next = Math.max(0, setsDone - 1);
+    saveSetsDone(item.rowId, next);
+    setSetsDone(next);
   }
 
   /* ── 드래그(스와이프) 네비게이션 — 왼쪽으로 밀면 다음, 오른쪽으로 밀면 이전.
@@ -739,6 +768,18 @@ export function GuidedOverlay({
     return () => window.removeEventListener("keydown", onKey);
   }, [onClose]);
 
+  // 뒤로가기(안드로이드 하드웨어 back / 브라우저 뒤로) 로 실수로 운동모드가 닫히지 않게
+  // 히스토리 항목을 하나 쌓고, popstate 가 오면 다시 쌓아 화면을 유지한다.
+  // 운동모드 종료는 오직 X(닫기) 버튼(→ confirm)으로만. 강제종료 전까지 안 꺼짐.
+  useEffect(() => {
+    function keepOpen() {
+      window.history.pushState({ heltchWorkout: true }, "");
+    }
+    window.history.pushState({ heltchWorkout: true }, "");
+    window.addEventListener("popstate", keepOpen);
+    return () => window.removeEventListener("popstate", keepOpen);
+  }, []);
+
   // 오버레이가 떠 있는 동안 휴식 알약을 하단 버튼 바 위로 올려, 알약이 완료/넘기기 탭을 가리지 않게 한다.
   useEffect(() => {
     rest.setLifted(true);
@@ -867,7 +908,30 @@ export function GuidedOverlay({
             transition: dragDx ? "none" : "transform 200ms ease-out",
           }}
         >
-        <KindBadge kind={item.kind} />
+        {/* 상단 태그(본운동/워밍업/마무리) + 오른쪽 끝에 메모·AI 자세 분석 */}
+        <div className="mb-3 flex w-full items-center justify-between gap-2">
+          <KindBadge kind={item.kind} />
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => setMemoOpen(true)}
+              className="inline-flex items-center gap-1 rounded-full border border-zinc-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-amber-400 hover:text-amber-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-amber-400"
+            >
+              <StickyNote aria-hidden="true" size={14} />
+              {currentMemo(item) ? "메모 수정" : "메모"}
+            </button>
+            {postureEnabled && item.kind === "main" ? (
+              <button
+                type="button"
+                onClick={() => setPostureOpen(true)}
+                className="inline-flex items-center gap-1 rounded-full border border-violet-300 bg-violet-50 px-2.5 py-1.5 text-xs font-semibold text-violet-700 transition hover:border-violet-400 hover:bg-violet-100 dark:border-violet-700 dark:bg-violet-950/40 dark:text-violet-300"
+              >
+                <ScanLine aria-hidden="true" size={14} />
+                AI 자세
+              </button>
+            ) : null}
+          </div>
+        </div>
         {/* 시연(사진/영상). 좌우 화살표(‹ ›)로 운동 이동(탭/스와이프 보조).
             본운동·워밍업·마무리 모두 방법 자막(문구)을 빼고 사진/영상만 — 워밍업·마무리는
             설정값(시간·속도·경사) 칩을 이름 아래에 보여주고, 본운동은 상세 페이지로. */}
@@ -972,8 +1036,8 @@ export function GuidedOverlay({
           </div>
         ) : null}
 
-        {/* 운동법·꿀팁(개인설정 가능) + 메모(항상). 본운동은 상세로, 워밍업·마무리는
-            방법 다이얼로그로 — 상세 라우트가 없는 컨디셔닝도 '운동법 보기' 제공. */}
+        {/* 운동법·꿀팁(개인설정 가능). 본운동은 상세로, 워밍업·마무리는 방법 다이얼로그로.
+            (메모·AI 자세 분석은 상단 태그 오른쪽으로 이동함.) */}
         <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
           {showGuide && item.kind === "main" ? (
             <button
@@ -994,26 +1058,15 @@ export function GuidedOverlay({
               운동법 보기
             </button>
           ) : null}
-          {/* 메모 작성/수정 — 모든 항목 공통(가이드 설정과 무관). */}
+          {/* 운동 티칭 영상 올리기 — 현재 운동을 태그로. 30초 시범 영상 공유. */}
           <button
             type="button"
-            onClick={() => setMemoOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-amber-400 hover:text-amber-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-amber-400"
+            onClick={() => setTeachOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
           >
-            <StickyNote aria-hidden="true" size={15} />
-            {currentMemo(item) ? "메모 수정" : "메모"}
+            <Video aria-hidden="true" size={15} />
+            티칭 영상
           </button>
-          {/* AI 자세 분석 — 본운동에서만, 디버그 계정에만. 현재 운동 영상 촬영→코칭. */}
-          {postureEnabled && item.kind === "main" ? (
-            <button
-              type="button"
-              onClick={() => setPostureOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-violet-300 bg-violet-50 px-4 py-2 text-sm font-semibold text-violet-700 transition hover:border-violet-400 hover:bg-violet-100 dark:border-violet-700 dark:bg-violet-950/40 dark:text-violet-300"
-            >
-              <ScanLine aria-hidden="true" size={15} />
-              AI 자세 분석
-            </button>
-          ) : null}
         </div>
 
         {/* 개인 메모 — 있으면 표시 (본운동·워밍업·마무리 공통) */}
@@ -1064,14 +1117,35 @@ export function GuidedOverlay({
             <span className="shrink-0 rounded-lg bg-emerald-50 px-2.5 py-2 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
               {setProgressLabel(setsDone, mainSets)}
             </span>
+            {setsDone > 0 ? (
+              <button
+                type="button"
+                onClick={cancelSet}
+                disabled={working}
+                aria-label="세트 완료 취소"
+                className="inline-flex h-11 shrink-0 items-center justify-center gap-1 rounded-xl border border-zinc-300 bg-white px-3 text-xs font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+              >
+                <ChevronLeft aria-hidden="true" size={15} />
+                취소
+              </button>
+            ) : null}
             <button
               type="button"
               onClick={completeSet}
-              disabled={working || onLastSet}
+              disabled={working}
               className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
             >
-              <Timer aria-hidden="true" size={16} />
-              {onLastSet ? "마지막 세트" : `세트 완료 · 휴식 ${formatRest(rest.defaultSec)}`}
+              {onLastSet ? (
+                <>
+                  <Check aria-hidden="true" size={16} />
+                  마지막 세트 완료
+                </>
+              ) : (
+                <>
+                  <Timer aria-hidden="true" size={16} />
+                  {`세트 완료 · 휴식 ${formatRest(rest.defaultSec)}`}
+                </>
+              )}
             </button>
           </div>
         ) : null}
@@ -1147,6 +1221,14 @@ export function GuidedOverlay({
             <PostureAnalyzer defaultExerciseName={item.name} />
           </div>
         </div>
+      ) : null}
+      {teachOpen ? (
+        <TeachingComposeModal
+          defaultTag={item.name}
+          defaultSlug={item.kind === "main" ? item.exerciseId : null}
+          onClose={() => setTeachOpen(false)}
+          onDone={() => setTeachOpen(false)}
+        />
       ) : null}
     </div>
   );
@@ -1263,7 +1345,7 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
         : "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300";
   return (
     <span
-      className={`mb-3 inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${tone}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${tone}`}
     >
       {label}
     </span>

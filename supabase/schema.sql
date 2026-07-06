@@ -1973,4 +1973,75 @@ language sql stable security definer set search_path = public as $$
 $$;
 grant execute on function public.community_post_counts(uuid[]) to authenticated;
 
+-- ── 운동 티칭 커뮤니티 ─────────────────────────────────────────────
+-- 운동모드에서 30초씩 찍은 시범 영상을 운동별 태그로 올려 공유. 공개 피드(전체 열람).
+-- 상단에서 태그(운동명)로 검색, 게시물 하단에 태그 노출.
+
+-- 티칭 영상 버킷(teaching-videos) — 공개 읽기, 본인만 업로드/삭제.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'teaching-videos',
+  'teaching-videos',
+  true,
+  62914560,
+  array['video/mp4', 'video/webm', 'video/quicktime', 'video/3gpp', 'video/x-matroska']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Teaching videos are publicly readable" on storage.objects;
+create policy "Teaching videos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'teaching-videos');
+
+drop policy if exists "Users can upload own teaching videos" on storage.objects;
+create policy "Users can upload own teaching videos"
+  on storage.objects for insert
+  with check (bucket_id = 'teaching-videos' and owner = auth.uid());
+
+drop policy if exists "Users can delete own teaching videos" on storage.objects;
+create policy "Users can delete own teaching videos"
+  on storage.objects for delete
+  using (bucket_id = 'teaching-videos' and owner = auth.uid());
+
+create table if not exists public.teaching_posts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  author_name text not null default '회원',
+  -- 앱 카탈로그 운동 slug(있으면). 검색/필터의 태그는 exercise_tag(운동 이름).
+  exercise_slug text,
+  exercise_tag text not null check (char_length(exercise_tag) between 1 and 40),
+  video_url text not null,
+  caption text check (caption is null or char_length(caption) <= 200),
+  created_at timestamptz not null default now()
+);
+create index if not exists teaching_posts_created_idx
+  on public.teaching_posts (created_at desc);
+create index if not exists teaching_posts_tag_idx
+  on public.teaching_posts (lower(exercise_tag), created_at desc);
+
+alter table public.teaching_posts enable row level security;
+
+-- 읽기: 전체 공개(누구나).
+drop policy if exists "read teaching posts" on public.teaching_posts;
+create policy "read teaching posts" on public.teaching_posts for select
+  using (true);
+
+-- 쓰기: 본인 글만.
+drop policy if exists "insert own teaching post" on public.teaching_posts;
+create policy "insert own teaching post" on public.teaching_posts for insert
+  with check (user_id = auth.uid());
+
+-- 삭제/수정: 본인 또는 게시물 관리자(모더레이터).
+drop policy if exists "delete own teaching post" on public.teaching_posts;
+create policy "delete own teaching post" on public.teaching_posts for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+drop policy if exists "update own or moderator teaching post" on public.teaching_posts;
+create policy "update own or moderator teaching post" on public.teaching_posts for update
+  using (user_id = auth.uid() or public.is_post_moderator())
+  with check (user_id = auth.uid() or public.is_post_moderator());
+
 notify pgrst, 'reload schema';

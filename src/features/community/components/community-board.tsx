@@ -66,7 +66,7 @@ export function CommunityBoard({
       {/* 헤더 + 2단 필터: [전체][그룹] → 그룹이면 [전체][#그룹…] */}
       <div className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 px-4 pb-2 pt-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
         <h1 className="mb-2 text-lg font-extrabold">커뮤니티</h1>
-        {/* 상단 탭 — 왼쪽정렬 17px 텍스트 클릭식 */}
+        {/* 상단 탭 — 왼쪽정렬 17px 텍스트 클릭식 + 오른쪽 '운동 티칭' 링크 */}
         <div className="flex items-center gap-4">
           {(
             [
@@ -87,6 +87,12 @@ export function CommunityBoard({
               {label}
             </button>
           ))}
+          <Link
+            href="/teaching"
+            className="ml-auto inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 dark:bg-emerald-950/40 dark:text-emerald-300"
+          >
+            🎬 운동 티칭
+          </Link>
         </div>
 
         {/* 그룹 탭: 하위 다중선택 칩 [전체][#그룹…] */}
@@ -153,7 +159,8 @@ export function CommunityBoard({
         type="button"
         onClick={() => setCompose(true)}
         aria-label="오운완 인증하기"
-        className="fixed bottom-20 right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg active:scale-95"
+        className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg active:scale-95"
+        style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
       >
         <Plus size={28} />
       </button>
@@ -333,7 +340,7 @@ function ComposeModal({
 
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
-      <div className="w-full max-w-md rounded-t-3xl bg-white p-4 dark:bg-zinc-900 sm:rounded-3xl">
+      <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-base font-extrabold">오운완 인증 💪</h2>
           <button
@@ -408,11 +415,18 @@ function ComposeModal({
           <p className="mt-2 text-xs font-bold text-rose-500">{error}</p>
         ) : null}
 
+        {/* 게시판 규칙 */}
+        <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-[11px] leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
+          비방·욕설·음란물·광고 등 부적절한 게시물은 예고 없이 삭제되며,
+          반복 시 계정이 <span className="font-bold text-rose-500">정지</span>될 수
+          있습니다.
+        </p>
+
         <button
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-500 py-3 text-sm font-extrabold text-white active:scale-[0.99] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-500 py-3 text-sm font-extrabold text-white active:scale-[0.99] disabled:opacity-60"
         >
           {pending ? (
             <>

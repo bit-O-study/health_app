@@ -1891,12 +1891,23 @@ create table if not exists public.community_posts (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   group_id uuid references public.groups(id) on delete cascade,
+  -- 공개범위: group(그 그룹만) / public(전체) / public_except_group(그룹 제외 전체).
+  -- group·public_except_group 은 group_id(기준 그룹) 필수.
+  visibility text not null default 'public'
+    check (visibility in ('group', 'public', 'public_except_group')),
   -- 작성 시점 표시 이름 스냅샷(공개 피드엔 모르는 사람 글도 떠서 프로필 조인이 RLS로 막힘).
   author_name text not null default '회원',
   photo_url text not null,
   caption text check (caption is null or char_length(caption) <= 200),
   created_at timestamptz not null default now()
 );
+-- 기존 DB 보정 + 백필(group_id 있으면 group, 없으면 public).
+alter table public.community_posts add column if not exists visibility text
+  not null default 'public'
+  check (visibility in ('group', 'public', 'public_except_group'));
+update public.community_posts
+  set visibility = case when group_id is not null then 'group' else 'public' end
+  where visibility is null or visibility = 'public' and group_id is not null;
 create index if not exists community_posts_created_idx
   on public.community_posts (created_at desc);
 create index if not exists community_posts_group_idx
@@ -1904,17 +1915,25 @@ create index if not exists community_posts_group_idx
 
 alter table public.community_posts enable row level security;
 
--- 읽기: 전체 공개글(누구나) 또는 내가 속한 그룹의 글.
+-- 읽기: 본인 글 / 전체공개 / (그룹공개 & 그룹멤버) / (그룹제외공개 & 그룹멤버 아님).
 drop policy if exists "read visible community posts" on public.community_posts;
 create policy "read visible community posts" on public.community_posts for select
-  using (group_id is null or public.is_group_member(group_id));
+  using (
+    user_id = auth.uid()
+    or visibility = 'public'
+    or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+    or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+  );
 
--- 쓰기: 본인 글이고, 그룹 지정 시 그 그룹 멤버여야 한다.
+-- 쓰기: 본인 글. 전체공개면 그룹 불필요, 그 외(group/except)는 기준 그룹 멤버여야 한다.
 drop policy if exists "insert own community post" on public.community_posts;
 create policy "insert own community post" on public.community_posts for insert
   with check (
     user_id = auth.uid()
-    and (group_id is null or public.is_group_member(group_id))
+    and (
+      visibility = 'public'
+      or (group_id is not null and public.is_group_member(group_id))
+    )
   );
 
 -- 삭제/수정: 본인 글 또는 게시물 관리자(모더레이터).
@@ -1933,7 +1952,12 @@ returns boolean language sql security definer stable set search_path = public as
   select exists (
     select 1 from public.community_posts p
     where p.id = pid
-      and (p.group_id is null or public.is_group_member(p.group_id))
+      and (
+        p.user_id = auth.uid()
+        or p.visibility = 'public'
+        or (p.visibility = 'group' and public.is_group_member(p.group_id))
+        or (p.visibility = 'public_except_group' and (p.group_id is null or not public.is_group_member(p.group_id)))
+      )
   );
 $$;
 
@@ -2034,6 +2058,11 @@ create policy "Users can delete own teaching videos"
 create table if not exists public.teaching_posts (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
+  -- 공개범위 기준 그룹(그룹공개/그룹제외 공개일 때). 전체공개면 null.
+  group_id uuid references public.groups(id) on delete set null,
+  -- 공개범위: group / public / public_except_group (community_posts 와 동일 규칙).
+  visibility text not null default 'public'
+    check (visibility in ('group', 'public', 'public_except_group')),
   author_name text not null default '회원',
   -- 앱 카탈로그 운동 slug(있으면). 검색/필터의 태그는 exercise_tag(운동 이름).
   exercise_slug text,
@@ -2042,6 +2071,12 @@ create table if not exists public.teaching_posts (
   caption text check (caption is null or char_length(caption) <= 200),
   created_at timestamptz not null default now()
 );
+-- 기존 DB 보정(컬럼 추가). 기존 티칭 글은 전체공개로 둔다.
+alter table public.teaching_posts add column if not exists group_id uuid
+  references public.groups(id) on delete set null;
+alter table public.teaching_posts add column if not exists visibility text
+  not null default 'public'
+  check (visibility in ('group', 'public', 'public_except_group'));
 create index if not exists teaching_posts_created_idx
   on public.teaching_posts (created_at desc);
 create index if not exists teaching_posts_tag_idx
@@ -2049,15 +2084,26 @@ create index if not exists teaching_posts_tag_idx
 
 alter table public.teaching_posts enable row level security;
 
--- 읽기: 전체 공개(누구나).
+-- 읽기: community_posts 와 동일 — 본인 / 전체 / 그룹 / 그룹제외.
 drop policy if exists "read teaching posts" on public.teaching_posts;
 create policy "read teaching posts" on public.teaching_posts for select
-  using (true);
+  using (
+    user_id = auth.uid()
+    or visibility = 'public'
+    or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+    or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+  );
 
--- 쓰기: 본인 글만.
+-- 쓰기: 본인 글. 전체공개면 그룹 불필요, 그 외는 기준 그룹 멤버여야 한다.
 drop policy if exists "insert own teaching post" on public.teaching_posts;
 create policy "insert own teaching post" on public.teaching_posts for insert
-  with check (user_id = auth.uid());
+  with check (
+    user_id = auth.uid()
+    and (
+      visibility = 'public'
+      or (group_id is not null and public.is_group_member(group_id))
+    )
+  );
 
 -- 삭제/수정: 본인 또는 게시물 관리자(모더레이터).
 drop policy if exists "delete own teaching post" on public.teaching_posts;

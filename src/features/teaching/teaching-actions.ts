@@ -7,16 +7,22 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { resolveMemberName } from "@/features/groups/member-name";
+import { resolveVisibility, type Visibility } from "@/features/community/feed";
 import { normalizeTag, validateTeachingPost } from "./teaching";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
-/** 운동 티칭 영상 글 작성. 공개 피드. exerciseSlug 는 앱 카탈로그 운동이면 채운다. */
+/**
+ * 운동 티칭 영상 글 작성. 커뮤니티 통합 피드에 뜬다.
+ * 공개범위(visibility) + 기준 그룹(groupId) 은 사진 인증 글과 동일 규칙.
+ */
 export async function createTeachingPostAction(input: {
   videoUrl: string;
   exerciseTag: string;
   exerciseSlug?: string | null;
   caption: string;
+  groupId?: string | null;
+  visibility?: Visibility;
 }): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
@@ -27,6 +33,9 @@ export async function createTeachingPostAction(input: {
     caption: input.caption,
   });
   if (!check.ok) return check;
+
+  const vis = resolveVisibility(input.visibility, input.groupId ?? null);
+  if (!vis.ok) return vis;
 
   const supabase = await createSupabaseServerClient();
 
@@ -46,6 +55,8 @@ export async function createTeachingPostAction(input: {
     .from("teaching_posts")
     .insert({
       user_id: user.id,
+      group_id: vis.groupId,
+      visibility: vis.visibility,
       author_name: authorName,
       exercise_slug: input.exerciseSlug?.trim() || null,
       exercise_tag: normalizeTag(input.exerciseTag),
@@ -56,7 +67,7 @@ export async function createTeachingPostAction(input: {
     .single();
 
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/teaching");
+  revalidatePath("/community");
   return { ok: true, id: (data as { id: string }).id };
 }
 
@@ -72,6 +83,6 @@ export async function deleteTeachingPostAction(
   const { error } = await supabase.from("teaching_posts").delete().eq("id", id);
 
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/teaching");
+  revalidatePath("/community");
   return { ok: true };
 }

@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isPostModerator } from "@/features/admin/admin";
 import { getMyGroups } from "@/features/groups/data-access";
-import { getCommunityFeed } from "@/features/community/data-access";
+import { getUnifiedFeed } from "@/features/community/data-access";
 import { CommunityBoard } from "@/features/community/components/community-board";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +15,7 @@ export default async function CommunityPage() {
 
   const [groups, posts, canModerate] = await Promise.all([
     getMyGroups(),
-    getCommunityFeed(),
+    getUnifiedFeed(),
     isPostModerator(),
   ]);
 

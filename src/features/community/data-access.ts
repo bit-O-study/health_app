@@ -4,6 +4,34 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import {
+  mergeByCreatedAt,
+  type FeedKind,
+  type Visibility,
+} from "@/features/community/feed";
+
+/** 통합 피드 글(사진 인증 + 운동 티칭 영상). */
+export type FeedPost = {
+  id: string;
+  kind: FeedKind;
+  userId: string;
+  authorName: string;
+  groupId: string | null;
+  groupName: string | null;
+  visibility: Visibility;
+  caption: string | null;
+  createdAt: string;
+  isMine: boolean;
+  // photo 전용
+  photoUrl: string | null;
+  likeCount: number;
+  commentCount: number;
+  likedByMe: boolean;
+  // teaching 전용
+  videoUrl: string | null;
+  exerciseTag: string | null;
+  exerciseSlug: string | null;
+};
 
 export type CommunityPost = {
   id: string;
@@ -108,6 +136,127 @@ export async function getCommunityFeed(limit = 100): Promise<CommunityPost[]> {
     commentCount: commentCount.get(r.id) ?? 0,
     likedByMe: likedByMe.has(r.id),
   }));
+}
+
+type TeachingRow = {
+  id: string;
+  user_id: string;
+  group_id: string | null;
+  visibility: string | null;
+  author_name: string | null;
+  exercise_slug: string | null;
+  exercise_tag: string;
+  video_url: string;
+  caption: string | null;
+  created_at: string;
+};
+
+const asVisibility = (v: string | null, groupId: string | null): Visibility => {
+  if (v === "group" || v === "public" || v === "public_except_group") return v;
+  return groupId ? "group" : "public";
+};
+
+/**
+ * 통합 피드 — 사진 인증(community_posts) + 운동 티칭 영상(teaching_posts)을
+ * 한 번에 가져와 작성시각순으로 병합. 가시성은 RLS가 강제(공개범위별).
+ */
+export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const supabase = await createSupabaseServerClient();
+
+  const [{ data: cData }, { data: tData }] = await Promise.all([
+    supabase
+      .from("community_posts")
+      .select("id, user_id, group_id, visibility, author_name, photo_url, caption, created_at")
+      .order("created_at", { ascending: false })
+      .limit(limit),
+    supabase
+      .from("teaching_posts")
+      .select("id, user_id, group_id, visibility, author_name, exercise_slug, exercise_tag, video_url, caption, created_at")
+      .order("created_at", { ascending: false })
+      .limit(limit),
+  ]);
+
+  const cRows = (cData ?? []) as (Row & { visibility: string | null })[];
+  const tRows = (tData ?? []) as TeachingRow[];
+  if (cRows.length === 0 && tRows.length === 0) return [];
+
+  // 그룹 이름 + 사진글 카운트/내 좋아요.
+  const groupIds = [
+    ...new Set(
+      [...cRows, ...tRows]
+        .map((r) => r.group_id)
+        .filter((v): v is string => !!v),
+    ),
+  ];
+  const photoIds = cRows.map((r) => r.id);
+
+  const [{ data: grps }, { data: counts }, { data: myLikes }] = await Promise.all([
+    groupIds.length > 0
+      ? supabase.from("groups").select("id, name").in("id", groupIds)
+      : Promise.resolve({ data: [] as { id: string; name: string }[] }),
+    photoIds.length > 0
+      ? supabase.rpc("community_post_counts", { pids: photoIds })
+      : Promise.resolve({ data: [] as { post_id: string; like_count: number; comment_count: number }[] }),
+    photoIds.length > 0
+      ? supabase.from("community_likes").select("post_id").eq("user_id", user.id).in("post_id", photoIds)
+      : Promise.resolve({ data: [] as { post_id: string }[] }),
+  ]);
+
+  const groupNameById = new Map<string, string>();
+  for (const g of (grps ?? []) as { id: string; name: string }[]) groupNameById.set(g.id, g.name);
+  const likeCount = new Map<string, number>();
+  const commentCount = new Map<string, number>();
+  for (const r of (counts ?? []) as { post_id: string; like_count: number; comment_count: number }[]) {
+    likeCount.set(r.post_id, r.like_count);
+    commentCount.set(r.post_id, r.comment_count);
+  }
+  const likedByMe = new Set<string>(((myLikes ?? []) as { post_id: string }[]).map((l) => l.post_id));
+
+  const gName = (id: string | null) => (id ? (groupNameById.get(id) ?? null) : null);
+
+  const photos: FeedPost[] = cRows.map((r) => ({
+    id: r.id,
+    kind: "photo",
+    userId: r.user_id,
+    authorName: r.author_name?.trim() || "회원",
+    groupId: r.group_id,
+    groupName: gName(r.group_id),
+    visibility: asVisibility(r.visibility, r.group_id),
+    caption: r.caption,
+    createdAt: r.created_at,
+    isMine: r.user_id === user.id,
+    photoUrl: r.photo_url,
+    likeCount: likeCount.get(r.id) ?? 0,
+    commentCount: commentCount.get(r.id) ?? 0,
+    likedByMe: likedByMe.has(r.id),
+    videoUrl: null,
+    exerciseTag: null,
+    exerciseSlug: null,
+  }));
+
+  const teachings: FeedPost[] = tRows.map((r) => ({
+    id: r.id,
+    kind: "teaching",
+    userId: r.user_id,
+    authorName: r.author_name?.trim() || "회원",
+    groupId: r.group_id,
+    groupName: gName(r.group_id),
+    visibility: asVisibility(r.visibility, r.group_id),
+    caption: r.caption,
+    createdAt: r.created_at,
+    isMine: r.user_id === user.id,
+    photoUrl: null,
+    likeCount: 0,
+    commentCount: 0,
+    likedByMe: false,
+    videoUrl: r.video_url,
+    exerciseTag: r.exercise_tag,
+    exerciseSlug: r.exercise_slug,
+  }));
+
+  return mergeByCreatedAt(photos, teachings).slice(0, limit);
 }
 
 /** 상세페이지용 — 글 하나(가시성 RLS). 좋아요/댓글 수 포함. 안 보이면 null. */

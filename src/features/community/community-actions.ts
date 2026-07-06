@@ -8,15 +8,20 @@ import {
 } from "@/lib/supabase/server";
 import { resolveMemberName } from "@/features/groups/member-name";
 import { MAX_CAPTION, validatePostInput } from "./community";
+import { resolveVisibility, type Visibility } from "./feed";
 import { getPostComments, type CommunityComment } from "./data-access";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
-/** 오운완 인증 글 작성. groupId=null 이면 전체 공개, 값이 있으면 그 그룹에만. */
+/**
+ * 오운완 인증 글 작성. 공개범위(visibility) + 기준 그룹(groupId).
+ * public=전체공개(그룹불필요), group=그룹만, public_except_group=그 그룹 제외 공개.
+ */
 export async function createCommunityPostAction(input: {
   photoUrl: string;
   caption: string;
   groupId: string | null;
+  visibility?: Visibility;
 }): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
@@ -26,6 +31,9 @@ export async function createCommunityPostAction(input: {
     caption: input.caption,
   });
   if (!check.ok) return check;
+
+  const vis = resolveVisibility(input.visibility, input.groupId);
+  if (!vis.ok) return vis;
 
   const supabase = await createSupabaseServerClient();
 
@@ -46,7 +54,8 @@ export async function createCommunityPostAction(input: {
     .from("community_posts")
     .insert({
       user_id: user.id,
-      group_id: input.groupId,
+      group_id: vis.groupId,
+      visibility: vis.visibility,
       author_name: authorName,
       photo_url: input.photoUrl.trim(),
       caption: caption.length > 0 ? caption : null,

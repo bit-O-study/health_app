@@ -174,7 +174,6 @@ export function RoutinePlanner({
         : await saveAction(splits, variant.id, null, fillMode);
       if (result.ok) {
         // 추천 = 운동까지 완비 → 운동 화면(/routine). 근육별 = 3D 마네킹. 직접 = /plan.
-        // ("/" 는 운동/파워리프팅 모드 선택 랜딩이라 운동이 안 보임 — /routine 으로 직접 이동)
         const target =
           fillMode === "recommend"
             ? "/routine"

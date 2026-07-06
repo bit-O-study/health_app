@@ -36,9 +36,8 @@ cp android/app/build/outputs/apk/debug/app-debug.apk \
 
 ## git 추적 정책
 
-- **`.apk` 바이너리는 git에 커밋하지 않는다**(`.gitignore` 에서 `/releases/apk/**/*.apk` 제외). 11MB+ 바이너리가 저장소를 부풀리는 것 방지.
-- 이 `README.md` 와 폴더 구조만 추적한다.
-- git으로 버전관리하고 싶으면 Git LFS 또는 GitHub Releases 첨부를 쓴다.
+- **APK 도 git에 커밋한다**(추적한다). 여기 `releases/apk/<날짜>/` 에 넣은 `.apk` 를
+  `git add` 해서 함께 올린다. (기존 `2026-07-01/helssu-debug.apk` 도 추적 중)
 
 ## 주의
 

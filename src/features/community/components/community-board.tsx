@@ -313,7 +313,11 @@ function ComposeModal({
 
   function pick(f: File | null) {
     setFile(f);
-    setPreview(f ? URL.createObjectURL(f) : null);
+    // 이전 미리보기 blob URL 해제 후 새로 생성 — 재선택마다 이미지 blob이 새는 것 방지.
+    setPreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return f ? URL.createObjectURL(f) : null;
+    });
   }
 
   function submit() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   Camera,
@@ -39,9 +39,11 @@ import {
 } from "@/features/diet/meal-photo-actions";
 import {
   searchFoods,
+  mergeFoodResults,
   FOOD_CATEGORIES,
   type FoodItem,
 } from "@/features/diet/food-catalog";
+import { searchCustomFoodsAction } from "@/features/diet/custom-foods";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import { MealScanForm } from "@/features/diet/components/meal-scanner";
 import type { MacroTarget } from "@/features/diet/calorie-target";
@@ -1265,7 +1267,34 @@ function AddFoodDialog({
 }) {
   const [mode, setMode] = useState<"search" | "manual" | "ai">("search");
   const [q, setQ] = useState("");
-  const results = useMemo(() => searchFoods(q).slice(0, 200), [q]);
+  const localResults = useMemo(() => searchFoods(q), [q]);
+  // 자동 성장 카탈로그(custom_foods) 검색 — 디바운스 후 서버 액션. 정적 결과와 합침.
+  const [customResults, setCustomResults] = useState<FoodItem[]>([]);
+  useEffect(() => {
+    const query = q.trim();
+    if (query.length < 1) {
+      setCustomResults([]);
+      return;
+    }
+    let alive = true;
+    const t = setTimeout(() => {
+      searchCustomFoodsAction(query)
+        .then((r) => {
+          if (alive) setCustomResults(r);
+        })
+        .catch(() => {
+          if (alive) setCustomResults([]);
+        });
+    }, 250);
+    return () => {
+      alive = false;
+      clearTimeout(t);
+    };
+  }, [q]);
+  const results = useMemo(
+    () => mergeFoodResults(localResults, customResults).slice(0, 200),
+    [localResults, customResults],
+  );
   const [picked, setPicked] = useState<FoodItem | null>(null);
   const [time, setTime] = useState(isToday ? nowSeoulHHMM() : "");
   const addWithTime = (input: FoodInput) =>

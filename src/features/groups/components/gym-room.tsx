@@ -15,12 +15,7 @@ import {
 
 import type { GroupPet } from "@/features/groups/data-access";
 import type { RankedMember } from "@/features/groups/ranking";
-import {
-  petScale,
-  petStage,
-  nextStage,
-  levelsToEvolve,
-} from "@/features/groups/evolution";
+import { petScale } from "@/features/groups/evolution";
 import {
   depositCoinsAction,
   setGroupPetNameAction,
@@ -50,9 +45,6 @@ export function GymRoom({
   const [depositOpen, setDepositOpen] = useState(false);
   const [amount, setAmount] = useState("");
 
-  const stage = petStage(pet.level);
-  const evolveIn = levelsToEvolve(pet.level);
-  const upcoming = nextStage(pet.level);
   const petSize = Math.round(200 * petScale(pet.level));
   const pct = Math.min(100, Math.round((pet.progress / Math.max(1, pet.nextCost)) * 100));
   const suggested = Math.max(0, Math.min(pet.coins, pet.nextCost - pet.progress));
@@ -169,19 +161,6 @@ export function GymRoom({
           <span className="rounded-full bg-violet-500 px-1.5 text-[11px] font-bold">
             Lv.{pet.level}
           </span>
-        </span>
-        {/* 진화 단계 뱃지 */}
-        <span className="flex items-center gap-1 rounded-full bg-white/85 px-2.5 py-0.5 text-[12px] font-black text-zinc-700 shadow backdrop-blur dark:bg-zinc-900/85 dark:text-zinc-200">
-          {stage.emoji} {stage.title}
-          {evolveIn !== null && upcoming ? (
-            <span className="text-[11px] font-bold text-fuchsia-600 dark:text-fuchsia-300">
-              · 진화까지 {evolveIn}Lv
-            </span>
-          ) : (
-            <span className="text-[11px] font-bold text-amber-600 dark:text-amber-300">
-              · 최종 진화
-            </span>
-          )}
         </span>
         <div className="flex flex-col items-center">
           <div className="flex items-end justify-center" style={{ width: petSize, height: petSize }}>

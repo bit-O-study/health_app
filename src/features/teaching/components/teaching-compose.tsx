@@ -38,6 +38,8 @@ export function TeachingComposeModal({
 
   function pick(f: File | null) {
     setError(null);
+    // 이전 미리보기 blob URL 해제 — 다시 찍기 반복 시 영상 blob이 메모리에 새는 것 방지.
+    if (preview) URL.revokeObjectURL(preview);
     if (!f) {
       setFile(null);
       setPreview(null);

@@ -3,6 +3,7 @@
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { callAI } from "@/features/coach/ai";
 import { parseMealScan, type ScannedFood } from "@/features/diet/meal-scan-parse";
+import { persistScannedFoods } from "@/features/diet/custom-foods";
 import type { Meal } from "@/features/diet/meal";
 
 export type MealScanResult =
@@ -59,5 +60,7 @@ export async function scanMealPhotoAction(input: {
   if (scan.items.length === 0) {
     return { ok: false, error: "사진에서 음식을 찾지 못했어요. 다시 찍어보세요." };
   }
+  // 카탈로그에 없는 음식은 자동 성장 카탈로그(custom_foods)에 축적 → 다음부터 검색됨.
+  await persistScannedFoods(scan.items);
   return { ok: true, meal: scan.meal, items: scan.items };
 }

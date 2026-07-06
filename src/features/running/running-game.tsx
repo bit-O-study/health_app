@@ -86,6 +86,10 @@ export function RunningGame() {
       cancelAnimationFrame(rafRef.current);
       const stream = videoRef.current?.srcObject as MediaStream | null;
       stream?.getTracks().forEach((t) => t.stop());
+      // MediaPipe FaceLandmarker(WASM+GPU 델리게이트) 해제 — 안 하면 화면 재진입마다
+      // 네이티브 메모리가 누적돼 저사양 폰에서 OOM(팅김).
+      (landmarkerRef.current as { close?: () => void } | null)?.close?.();
+      landmarkerRef.current = null;
     };
   }, []);
 
@@ -132,6 +136,7 @@ export function RunningGame() {
       jumpArmedRef.current = true;
       overRef.current = false;
       setPhase("calibrating");
+      cancelAnimationFrame(rafRef.current); // 겹치기 방지
       rafRef.current = requestAnimationFrame(visionLoop);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "알 수 없는 오류";
@@ -202,7 +207,11 @@ export function RunningGame() {
       }
       if (!up) jumpArmedRef.current = true;
     }
-    rafRef.current = requestAnimationFrame(visionLoop);
+    // 게임 종료(over) 후엔 루프를 멈춘다 — 안 그러면 매 프레임 얼굴추론을 계속 돌려
+    // CPU/GPU를 태우고, restart 때 두 번째 루프가 겹쳐 팅김의 원인이 된다.
+    if (phaseRef.current !== "over") {
+      rafRef.current = requestAnimationFrame(visionLoop);
+    }
   }
 
   function handleOver(distance: number, coins: number) {
@@ -220,6 +229,7 @@ export function RunningGame() {
     calibSamplesRef.current = [];
     neutralRef.current = null;
     setPhase("calibrating");
+    cancelAnimationFrame(rafRef.current); // 이전 루프 겹치기 방지
     rafRef.current = requestAnimationFrame(visionLoop);
   }
 

@@ -6,6 +6,8 @@
  * 빠른 기록·대략적인 칼로리 관리용.
  */
 
+import { WORLD_FOOD_ITEMS } from "@/features/diet/food-catalog-world";
+
 export type FoodCategory =
   | "밥·면"
   | "국·찌개"
@@ -16,12 +18,18 @@ export type FoodCategory =
   | "유제품"
   | "빵·간식"
   | "음료"
-  | "단백질·보충";
+  | "단백질·보충"
+  | "기타";
+
+/** 음식 문화권(browse/검색 보조). 미표기는 한식으로 간주. */
+export type Cuisine = "한식" | "양식" | "중식" | "일식" | "아시아" | "그외";
 
 export type FoodItem = {
   id: string;
   name: string;
   category: FoodCategory;
+  /** 문화권 태그(선택). 검색어로도 매칭된다. 없으면 한식 취급. */
+  cuisine?: Cuisine;
   /** 1회 제공량 표기 (예: "1공기", "200g", "1개") */
   amount: string;
   kcal: number;
@@ -30,7 +38,7 @@ export type FoodItem = {
   fat: number; // g
 };
 
-export const FOOD_ITEMS: FoodItem[] = [
+const KOREAN_FOOD_ITEMS: FoodItem[] = [
   // ── 밥·면
   { id: "rice", name: "흰쌀밥", category: "밥·면", amount: "1공기(210g)", kcal: 310, protein: 6, carbs: 69, fat: 1 },
   { id: "brown-rice", name: "현미밥", category: "밥·면", amount: "1공기(210g)", kcal: 300, protein: 7, carbs: 64, fat: 2 },
@@ -443,6 +451,13 @@ export const FOOD_ITEMS: FoodItem[] = [
   { id: "kimchi-kongnamul-guk", name: "콩나물김칫국", category: "국·찌개", amount: "1그릇", kcal: 90, protein: 6, carbs: 9, fat: 3 },
 ];
 
+// 한식(기본) + 세계 음식을 합친 전체 카탈로그. 이름(정규화) 중복은 앞선 항목(한식) 우선으로
+// 전부 제거한다(한식 내부 중복도 포함).
+export const FOOD_ITEMS: FoodItem[] = mergeFoodResults(
+  [],
+  [...KOREAN_FOOD_ITEMS, ...WORLD_FOOD_ITEMS],
+);
+
 // 카테고리 순서로 정렬해 검색/둘러보기에서 같은 분류끼리 모이게 한다.
 // (추가 음식이 배열 끝에만 몰려 안 보이는 문제 방지 — JS sort는 안정 정렬이라 분류 내 순서는 유지.)
 const CATEGORY_ORDER: FoodCategory[] = [
@@ -456,6 +471,7 @@ const CATEGORY_ORDER: FoodCategory[] = [
   "빵·간식",
   "음료",
   "단백질·보충",
+  "기타",
 ];
 FOOD_ITEMS.sort(
   (a, b) =>
@@ -473,6 +489,38 @@ export function getFoodItem(id: string): FoodItem | undefined {
   return BY_ID[id];
 }
 
+/** 음식 이름 정규화 — 공백 제거 + 소문자. 중복/기지(旣知) 판별의 키. */
+export function normalizeFoodName(name: string): string {
+  return (name ?? "").trim().toLowerCase().replace(/\s+/g, "");
+}
+
+const KNOWN_NAMES: Set<string> = new Set(
+  FOOD_ITEMS.map((f) => normalizeFoodName(f.name)),
+);
+
+/** 정적 카탈로그에 이미 있는 음식인가(정규화 이름 기준). custom_foods 자동추가 판별용. */
+export function isKnownFood(name: string): boolean {
+  const n = normalizeFoodName(name);
+  return n.length > 0 && KNOWN_NAMES.has(n);
+}
+
+/**
+ * 정적 카탈로그 결과 + 커스텀(자동성장) 결과를 합치되 정규화 이름 기준 중복 제거.
+ * 정적 카탈로그를 우선(앞)에 둔다. 순수 함수(테스트 가능).
+ */
+export function mergeFoodResults(base: FoodItem[], extra: FoodItem[]): FoodItem[] {
+  const seen = new Set(base.map((f) => normalizeFoodName(f.name)));
+  const out = [...base];
+  for (const f of extra) {
+    const n = normalizeFoodName(f.name);
+    if (n && !seen.has(n)) {
+      seen.add(n);
+      out.push(f);
+    }
+  }
+  return out;
+}
+
 /** 이름·카테고리로 검색(공백 무시, 부분일치). 빈 검색어면 전체. */
 export function searchFoods(query: string): FoodItem[] {
   const q = query.trim().toLowerCase().replace(/\s+/g, "");
@@ -480,6 +528,7 @@ export function searchFoods(query: string): FoodItem[] {
   return FOOD_ITEMS.filter(
     (f) =>
       f.name.toLowerCase().replace(/\s+/g, "").includes(q) ||
-      f.category.toLowerCase().replace(/\s+/g, "").includes(q),
+      f.category.toLowerCase().replace(/\s+/g, "").includes(q) ||
+      (f.cuisine ?? "").toLowerCase().replace(/\s+/g, "").includes(q),
   );
 }

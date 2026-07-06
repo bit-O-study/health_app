@@ -1408,6 +1408,38 @@ create policy "Users can delete own food logs"
   using (auth.uid() = user_id);
 
 -- ─────────────────────────────────────────────────────────────────────────────
+-- 커스텀 음식(custom_foods) — 자동 성장 카탈로그. 정적 카탈로그(food-catalog.ts)에
+-- 없는 음식을 AI 사진분석이 감지하면 여기에 자동 저장 → 다음부터 검색으로 잡힌다.
+-- 전역 공유(누가 올리든 모두 검색 가능). norm_name(공백·소문자 정규화)로 중복 방지.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.custom_foods (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  norm_name text not null unique,
+  category text,
+  cuisine text,
+  amount text not null default '1인분',
+  kcal numeric(7, 1) not null default 0,
+  protein_g numeric(6, 1) not null default 0,
+  carbs_g numeric(6, 1) not null default 0,
+  fat_g numeric(6, 1) not null default 0,
+  source text not null default 'ai',
+  created_by uuid references auth.users(id) on delete set null,
+  hits int not null default 1,
+  created_at timestamptz not null default now()
+);
+create index if not exists custom_foods_name_idx on public.custom_foods (norm_name);
+alter table public.custom_foods enable row level security;
+-- 로그인 사용자면 누구나 읽기(공유 카탈로그) + 추가. 수정/삭제는 막는다(관리자 SQL로만).
+drop policy if exists "authed read custom foods" on public.custom_foods;
+create policy "authed read custom foods" on public.custom_foods for select
+  using (auth.uid() is not null);
+drop policy if exists "authed insert custom foods" on public.custom_foods;
+create policy "authed insert custom foods" on public.custom_foods for insert
+  with check (auth.uid() is not null);
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
 -- 월경(생리) 기록(cycle_logs) — 날짜별 생리여부·출혈량·증상·메모. 예측은 앱에서 계산.
 -- ─────────────────────────────────────────────────────────────────────────────
 create table if not exists public.cycle_logs (

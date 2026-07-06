@@ -62,3 +62,7 @@ test-*.mjs
 
 # Capacitor 네이티브 프로젝트(빌드 시 cap add 로 생성 — 스크립트가 재생성)
 /ios/
+
+# 릴리스 APK 산출물 — releases/apk/<날짜>/ 에 보관하되 바이너리는 git에 넣지 않음
+# (규칙은 releases/apk/README.md 참고). README/구조만 추적.
+/releases/apk/**/*.apk

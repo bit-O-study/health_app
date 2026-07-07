@@ -80,23 +80,28 @@ export function CommunityBoard({
 
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-col">
-      <div className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 px-4 pb-2 pt-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
-        <h1 className="mb-2 text-lg font-extrabold">커뮤니티</h1>
+      <div className="sticky top-0 z-10 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-3 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
+        <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-black tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
+          커뮤니티
+        </h1>
 
-        {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 */}
-        <div className="flex items-center gap-4">
+        {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
+        <div className="flex items-center gap-5">
           {BOARD_TABS.map(({ value, label }) => (
             <button
               key={value}
               type="button"
               onClick={() => setTab(value)}
-              className={`text-[17px] font-bold transition-colors ${
+              className={`relative pb-2.5 text-[16px] font-bold transition-colors ${
                 tab === value
-                  ? "text-emerald-600 dark:text-emerald-400"
+                  ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
               {label}
+              {tab === value ? (
+                <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" />
+              ) : null}
             </button>
           ))}
         </div>
@@ -128,7 +133,7 @@ export function CommunityBoard({
 
         {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
         {tab === "teaching" ? (
-          <div className="relative mt-2">
+          <div className="relative mb-2.5 mt-2">
             <Search
               size={15}
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -188,7 +193,7 @@ export function CommunityBoard({
           type="button"
           onClick={() => setCompose(true)}
           aria-label="오운완 인증하기"
-          className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg active:scale-95"
+          className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/60 transition-transform active:scale-95 dark:ring-zinc-950/60"
           style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
         >
           <Plus size={28} />
@@ -296,7 +301,7 @@ function PostCard({
   }
 
   return (
-    <li className="overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <li className="overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm ring-1 ring-black/[0.02] transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/[0.03]">
       {/* 헤더: 아바타 + 이름 + 시간 + 배지 */}
       <div className="flex items-center gap-2 px-3 pt-3">
         <span

@@ -43,7 +43,6 @@ import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
-import { TodayDirectAddInline } from "@/features/routine/components/today-direct-add";
 import {
   TodayEditScope,
   TodayEditBar,
@@ -307,6 +306,18 @@ async function TodayWorkout({
 
   // 오늘을 밀었는데 아직 아무것도 안 담은 '빈 변경일' — 휴식도, 특정 부위도 아니다.
   const emptyChangedDay = deferredToday && !hasDailyOverride && !isRest;
+  // 빈 변경일에도 워밍업/본운동/마무리 섹션(기존 빈 상태 UI)을 띄우려면 tone 이 하나
+  // 필요하다. 오늘 원래 하려던 부위(밀려서 내일로 간 그 부위)를 쓰고, 그것도 휴식이면
+  // 가슴을 기본으로. (섹션은 전부 빈 상태 — 담은 것만 채워진다.)
+  const deferredSectionTones: Exclude<FocusTone, "rest">[] = (() => {
+    if (!emptyChangedDay) return [];
+    const orig =
+      variant.week[routineDayOffset(routine.startDate, addDaysYmd(todayYmd, 1))];
+    const t = (orig.tones ?? [orig.tone]).filter(
+      (x) => x !== "rest",
+    ) as Exclude<FocusTone, "rest">[];
+    return t.length > 0 ? t : (["chest"] as Exclude<FocusTone, "rest">[]);
+  })();
   const tone = isRest
     ? "rest"
     : (todayTones[0] ?? (emptyChangedDay ? "core" : planToday.tone));
@@ -448,11 +459,14 @@ async function TodayWorkout({
       {/* 편집모드 하나(TodayEditScope)로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
           '편집하기'를 눌러야만 순서 변경이 가능하고, 평소엔 탭=상세, 스와이프=완료. */}
       <TodayEditScope>
-        {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
-        {!isRest && todayTones.length > 0 ? (
+        {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법. 밀린 빈 날(emptyChangedDay)도
+            기존 빈 상태 UI(워밍업/본운동/마무리 각 섹션)를 그대로 띄운다. */}
+        {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
           <TodayExercises
             tones={
-              todayTones as import("@/features/routine/exercise-catalog").FocusKey[]
+              (todayTones.length > 0
+                ? todayTones
+                : deferredSectionTones) as import("@/features/routine/exercise-catalog").FocusKey[]
             }
             dayIndex={offset}
             weightKg={profile?.weightKg ?? null}
@@ -465,10 +479,6 @@ async function TodayWorkout({
             equipmentScan={equipmentScan}
             blankDefaults={deferredToday}
           />
-        ) : emptyChangedDay && profile ? (
-          // 오늘을 밀었는데 아직 안 담은 빈 날 — 휴식처럼 비우지 말고 이 화면에서 바로
-          // 워밍업/본운동/마무리 빈 3섹션을 띄워 직접 담게 한다(전체 운동).
-          <TodayDirectAddInline profile={profile} />
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도
           // 사라진다 → 아래 '다가오는 7일' 순서를 바꿀 방법이 없어진다. 이때도

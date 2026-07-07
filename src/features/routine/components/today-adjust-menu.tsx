@@ -118,9 +118,8 @@ export function TodayAdjustMenu({
           className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
         >
           <SlidersHorizontal aria-hidden="true" size={14} />
-          오늘만 부위 바꾸기
+          오늘만 운동 바꾸기
         </button>
-        <TodayAddExercises />
         <button
           type="button"
           disabled={pending}
@@ -200,8 +199,15 @@ export function TodayAdjustMenu({
               </button>
             )}
 
+            {/* ① 운동 직접 담기 — 전체 운동 검색·다중선택(오늘만) */}
             <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              오늘 바꿀 부위 선택 (여러 개)
+              운동 직접 담기
+            </p>
+            <TodayAddExercises />
+
+            {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가 */}
+            <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              오늘만 부위 바꾸기 — 부위 선택 (여러 개)
             </p>
             <div className="grid grid-cols-2 gap-2">
               {FOCUS_CHOICES.map((id) => {

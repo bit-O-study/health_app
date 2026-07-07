@@ -94,16 +94,10 @@ export function SetDetailsEditor({
   const wCls =
     "h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
 
-  // 무게·횟수 고정 끔 → 편집기에선 아무 수치도 안 받는다.
+  // 무게·횟수 고정 끔 → 편집기에선 수치 입력도, 안내 문구도 안 보인다.
   // 세트·무게·횟수 모두 운동모드에서 그때그때 설정·기록한다.
   if (onlySets) {
-    return (
-      <div className="flex min-w-0 flex-1 basis-full items-center sm:basis-auto">
-        <span className="text-[11px] text-zinc-400 dark:text-zinc-500">
-          세트·무게·횟수는 운동모드에서 설정해요
-        </span>
-      </div>
-    );
+    return null;
   }
 
   return (

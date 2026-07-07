@@ -16,6 +16,8 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   saveDailyPlanAction,
   type DailyPlanItem,
@@ -202,8 +204,8 @@ export function DailyMainEditor({
     >
       <div className="flex flex-wrap items-center justify-between gap-2">
         {embedded ? (
-          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-            # {label}
+          <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            {label} 추천·추가
           </span>
         ) : (
           <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -239,11 +241,19 @@ export function DailyMainEditor({
         <div className="mt-4 space-y-2">
           {rows.map((row, idx) => {
             const ex = getCatalogExercise(row.exerciseId) ?? options[0];
+            const sub = subMusclesForExercise(row.exerciseId)[0];
             return (
               <div
                 key={idx}
                 className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
               >
+                <span
+                  className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                  style={{ backgroundColor: sub ? muscleGroup(sub.muscle).color : "#71717a" }}
+                >
+                  {label}
+                  {sub ? `(${sub.label})` : ""}
+                </span>
                 <ExerciseSearchSelect
                   options={options}
                   value={row.exerciseId}
@@ -286,6 +296,7 @@ export function DailyMainEditor({
                 </select>
 
                 <SetDetailsEditor
+                  onlySets={!lockWeightReps}
                   sets={row.sets}
                   reps={row.reps}
                   weight={row.weight}

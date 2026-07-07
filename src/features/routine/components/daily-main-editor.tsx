@@ -8,6 +8,7 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 
 import type { FocusTone } from "@/features/routine/data";
 import {
+  allExercisesForFocus,
   allExercisesGrouped,
   EQUIPMENT_LABELS,
   exercisesForFocus,
@@ -91,16 +92,19 @@ export function DailyMainEditor({
   const labelOf = (f: FocusTone) =>
     sections.find((s) => s.focus === f)?.label ?? f;
 
-  // 모든 운동을 드롭다운에(직접 담기·부위 바꾸기 공용). 부위는 선택 시 자동 배정.
+  // 드롭다운 후보: 부위를 선택한 경우(전체 바꾸기)엔 그 부위 운동만, 부위 없이 직접
+  // 담기면 전체 카탈로그. (담은 운동의 태그는 저장 시 focusForExercise 로 자동 배정.)
   const options: CatalogExercise[] = (() => {
     const seen = new Set<string>();
     const out: CatalogExercise[] = [];
-    for (const g of allExercisesGrouped()) {
-      for (const ex of g.exercises) {
-        if (seen.has(ex.id)) continue;
-        seen.add(ex.id);
-        out.push(ex);
-      }
+    const source =
+      focuses.length > 0
+        ? focuses.flatMap((f) => allExercisesForFocus(f as FocusTone))
+        : allExercisesGrouped().flatMap((g) => g.exercises);
+    for (const ex of source) {
+      if (seen.has(ex.id)) continue;
+      seen.add(ex.id);
+      out.push(ex);
     }
     return out;
   })();

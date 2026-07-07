@@ -22,7 +22,8 @@ export function TodayAddExercises() {
       // 원래 운동을 숨긴 뒤, 빈값에서 직접 담는다.
       await deferRoutineOneDayAction();
       await clearDailyPlanForDateAction(seoulYmd());
-      router.push("/plan/today");
+      // direct=1 → 부위 제한 없이 빈 워밍업/본운동/마무리 섹션에서 '전체 운동' 추가.
+      router.push("/plan/today?direct=1");
       router.refresh();
     });
   }

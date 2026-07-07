@@ -31,7 +31,7 @@ export const dynamic = "force-dynamic";
 export default async function TodayConditioningPage({
   searchParams,
 }: {
-  searchParams: Promise<{ focus?: string }>;
+  searchParams: Promise<{ focus?: string; direct?: string }>;
 }) {
   const [user, profile, routine, gym] = await Promise.all([
     getCurrentUser(),
@@ -45,7 +45,10 @@ export default async function TodayConditioningPage({
     await ensureDayIndexBackfilled(user.id);
   const gymEquipment = gym?.equipmentIds ?? null;
 
-  const { focus: focusParam } = await searchParams;
+  const { focus: focusParam, direct: directParam } = await searchParams;
+  // 직접 담기(direct) — 부위 제한 없이 전체 운동에서 담는다. 부위 자동배정은 저장 시
+  // 운동별 focusForExercise 로 이뤄진다(빈 본운동/워밍업/마무리 섹션에서 추가).
+  const direct = directParam === "1";
 
   // 선택 부위 (?focus=chest,back) — 없으면 오늘의 실제 부위 1개
   let focuses: FocusTone[] = [];
@@ -60,7 +63,8 @@ export default async function TodayConditioningPage({
           ALL_FOCUSES.includes(s as Exclude<FocusTone, "rest">),
       );
   }
-  if (focuses.length === 0) {
+  // 직접 담기면 부위 폴백을 하지 않는다(빈 상태로 시작 → 전체 운동 추가).
+  if (focuses.length === 0 && !direct) {
     const { variant } = resolveRoutine(
       routine.splits,
       routine.variantId,
@@ -140,11 +144,13 @@ export default async function TodayConditioningPage({
           오늘만 운동 바꾸기
         </h1>
         <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          {dateLabel} · 선택 부위 ·{" "}
+          {dateLabel} ·{" "}
           <strong>
-            {mainSections.length > 0
-              ? mainSections.map((s) => s.label).join(",")
-              : "선택 없음"}
+            {direct
+              ? "전체 운동에서 직접 담기"
+              : mainSections.length > 0
+                ? mainSections.map((s) => s.label).join(",")
+                : "선택 없음"}
           </strong>
           . 저장한 내용은 <strong>오늘만</strong> 반영되고 내일부터는 기본
           루틴으로 돌아갑니다. 이미 완료 처리한 운동은 그대로 남습니다.
@@ -155,7 +161,7 @@ export default async function TodayConditioningPage({
         </p>
       </div>
 
-      {mainSections.length === 0 ? (
+      {!direct && mainSections.length === 0 ? (
         <p className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
           편집할 부위가 없습니다. 메인 화면 “오늘만 운동 바꾸기” 팝업에서 부위를
           선택해 주세요.
@@ -178,11 +184,12 @@ export default async function TodayConditioningPage({
             lockWeightReps={profile.lockWeightReps}
           />
 
-          {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움 */}
-          {primaryFocus ? (
+          {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움.
+              직접 담기(direct)면 부위 기준 없이도 빈 섹션을 띄워 직접 추가하게 한다. */}
+          {primaryFocus || direct ? (
             <>
               <ConditioningEditor
-                focus={primaryFocus}
+                focus={primaryFocus ?? "core"}
                 recommendFocuses={validFocuses}
                 kind="warmup"
                 initial={warmupInitial}
@@ -190,7 +197,7 @@ export default async function TodayConditioningPage({
                 lockWeightReps={profile.lockWeightReps}
               />
               <ConditioningEditor
-                focus={primaryFocus}
+                focus={primaryFocus ?? "core"}
                 recommendFocuses={validFocuses}
                 kind="cooldown"
                 initial={cooldownInitial}

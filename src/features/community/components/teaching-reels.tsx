@@ -193,7 +193,7 @@ function ReelSlide({
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="none"
         onClick={togglePlay}
         onDoubleClick={doubleTapLike}
         className="h-full w-full object-contain"

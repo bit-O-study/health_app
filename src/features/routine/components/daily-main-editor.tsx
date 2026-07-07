@@ -60,6 +60,7 @@ export function DailyMainEditor({
   initial,
   gymEquipment = null,
   lockWeightReps = false,
+  embedded = false,
 }: {
   focus: FocusTone;
   label: string;
@@ -73,6 +74,8 @@ export function DailyMainEditor({
   gymEquipment?: readonly string[] | null;
   /** 무게·횟수 고정. false 면 입력란 숨기고 세트 수만(운동모드에서 설정). */
   lockWeightReps?: boolean;
+  /** 여러 부위를 한 박스에 합쳐 보일 때: 자체 테두리/박스 없이 부위 태그로 렌더. */
+  embedded?: boolean;
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
@@ -190,11 +193,23 @@ export function DailyMainEditor({
   }
 
   return (
-    <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+    <section
+      className={
+        embedded
+          ? "border-t border-zinc-100 pt-4 first:border-t-0 first:pt-0 dark:border-zinc-800"
+          : "rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
+      }
+    >
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-          {label} · 본운동
-        </h3>
+        {embedded ? (
+          <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+            # {label}
+          </span>
+        ) : (
+          <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+            {label} · 본운동
+          </h3>
+        )}
         <div className="flex flex-wrap items-center gap-1.5">
           <button
             type="button"

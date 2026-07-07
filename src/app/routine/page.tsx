@@ -345,7 +345,7 @@ async function TodayWorkout({
   const focusLabel = isRest
     ? "휴식"
     : emptyChangedDay
-      ? "오늘 운동 담기"
+      ? "오늘만 운동변경"
       : hasDailyOverride
         ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
         : planToday.focus;
@@ -437,13 +437,7 @@ async function TodayWorkout({
               ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
           </p>
-        ) : emptyChangedDay ? (
-          <p className="mt-5 text-base leading-7 text-zinc-600 dark:text-zinc-400">
-            오늘 운동을 내일로 미뤘어요. <strong>휴식이 아니라 빈 날</strong>이라,
-            위 <strong>‘오늘만 운동 바꾸기’</strong>에서 <strong>직접 담기</strong>나{" "}
-            <strong>부위 바꾸기</strong>로 오늘 할 운동을 담으면 됩니다.
-          </p>
-        ) : (
+        ) : emptyChangedDay ? null : (
           (() => {
             const dayMuscles = hasDailyOverride
               ? Array.from(

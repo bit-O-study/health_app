@@ -395,6 +395,18 @@ export async function deferRoutineOneDayAction(): Promise<void> {
     .eq("user_id", user.id)
     .maybeSingle();
   if (!data) return;
+
+  // 멱등: 이미 오늘이 '오늘만 변경'(daily_plan 오버라이드) 상태면 또 미루지 않는다
+  // (버튼 여러 번 눌러도 루틴이 계속 하루씩 밀리는 드리프트 방지).
+  const today = seoulYmd();
+  const { data: existing } = await supabase
+    .from("daily_plan")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("for_date", today)
+    .limit(1);
+  if (existing && existing.length > 0) return;
+
   await supabase
     .from("user_routines")
     .update({

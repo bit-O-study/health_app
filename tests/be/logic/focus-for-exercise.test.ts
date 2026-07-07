@@ -35,4 +35,17 @@ describe("allExercisesGrouped — 전체 운동 둘러보기", () => {
     expect(ids.has("squat")).toBe(true);
     expect(ids.has("bench-press")).toBe(true);
   });
+
+  it("전체 운동 모두 유효한 부위로 역매핑된다(직접 담기 자동 배정 보장)", () => {
+    const ids = [
+      ...new Set(allExercisesGrouped().flatMap((g) => g.exercises.map((e) => e.id))),
+    ];
+    // 오늘만 '직접 담기' 에서 아무 운동이나 골라도 focusForExercise 로 부위가 정해져야
+    // 저장(부위별 daily_plan)이 안 빠진다.
+    for (const id of ids) {
+      const f = focusForExercise(id);
+      expect(f, `운동 ${id} 의 부위 역매핑`).not.toBeNull();
+      expect(ALL_FOCUSES).toContain(f);
+    }
+  });
 });

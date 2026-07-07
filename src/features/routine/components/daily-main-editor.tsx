@@ -8,7 +8,7 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 
 import type { FocusTone } from "@/features/routine/data";
 import {
-  allExercisesForFocus,
+  allExercisesGrouped,
   EQUIPMENT_LABELS,
   exercisesForFocus,
   focusForExercise,
@@ -91,12 +91,12 @@ export function DailyMainEditor({
   const labelOf = (f: FocusTone) =>
     sections.find((s) => s.focus === f)?.label ?? f;
 
-  // 오늘 부위 전체의 운동 드롭다운(합집합, 중복 제거).
+  // 모든 운동을 드롭다운에(직접 담기·부위 바꾸기 공용). 부위는 선택 시 자동 배정.
   const options: CatalogExercise[] = (() => {
     const seen = new Set<string>();
     const out: CatalogExercise[] = [];
-    for (const f of focuses) {
-      for (const ex of allExercisesForFocus(f)) {
+    for (const g of allExercisesGrouped()) {
+      for (const ex of g.exercises) {
         if (seen.has(ex.id)) continue;
         seen.add(ex.id);
         out.push(ex);
@@ -137,11 +137,11 @@ export function DailyMainEditor({
     return available?.equipment ?? ex.equipments[0].equipment;
   }
 
-  /** 운동의 대표 부위 — 오늘 부위 중 하나면 그것, 아니면 첫 부위. */
+  /** 운동의 대표 부위 — 역인덱스로 자동 배정(없으면 오늘 첫 부위, 그것도 없으면 chest). */
   function focusOf(exerciseId: string): FocusTone {
     const f = focusForExercise(exerciseId);
-    if (f && focuses.includes(f)) return f;
-    return focuses.includes(f as FocusTone) ? (f as FocusTone) : focuses[0];
+    if (f) return f;
+    return focuses[0] ?? ("chest" as FocusTone);
   }
 
   function addRow() {
@@ -174,8 +174,9 @@ export function DailyMainEditor({
 
   function save() {
     start(async () => {
-      // 오늘 부위 전부에 대해 저장(비면 그 부위 오버라이드 제거). 순서는 목록 순.
-      for (const f of focuses) {
+      // 오늘 부위 + 행에 실제로 들어있는 부위 전부 저장(비면 그 부위 오버라이드 제거).
+      const allFocuses = [...new Set([...focuses, ...rows.map((r) => r.focus)])];
+      for (const f of allFocuses) {
         const items = rowsToItems(rows.filter((r) => r.focus === f));
         const res = await saveDailyPlanAction(dateYmd, f, items);
         if (!res.ok) {

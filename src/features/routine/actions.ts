@@ -380,6 +380,33 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
  * 오늘을 휴식으로 전환하고 루틴을 하루 미룬다.
  * 기준일 +1일 → 오늘 예정이던 운동이 내일로 이동, 오늘은 휴식 표시.
  */
+/**
+ * "오늘만 부위 바꾸기(전체 교체)" 용 — 오늘 원래 루틴을 **내일로 미룬다**(start_date +1).
+ * 오늘은 daily_plan 오버라이드(선택 부위)로 대체되므로 휴식(rest)은 걸지 않는다.
+ * 결과: 오늘 = 선택 부위(빈값→추천으로 채움), 내일부터 원래 루틴이 하루 밀려 이어진다.
+ */
+export async function deferRoutineOneDayAction(): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return;
+  const { data } = await supabase
+    .from("user_routines")
+    .select("start_date")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (!data) return;
+  await supabase
+    .from("user_routines")
+    .update({
+      start_date: addDaysYmd((data as { start_date: string }).start_date, 1),
+      rest_date: null,
+      override_date: null,
+      override_block: null,
+    })
+    .eq("user_id", user.id);
+  revalidatePath("/routine");
+}
+
 export async function convertTodayToRestAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();

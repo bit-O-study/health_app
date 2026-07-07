@@ -126,12 +126,12 @@ export function TodayEditBar() {
   }
 
   return (
-    <div className="flex items-center gap-1.5">
+    <div className="flex shrink-0 items-center gap-1.5">
       <button
         type="button"
         disabled={pending || count === 0}
         onClick={onDelete}
-        className="inline-flex h-7 items-center gap-1 rounded-md border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/40 px-2 text-xs font-semibold text-red-700 dark:text-red-400 transition hover:bg-red-100 disabled:opacity-50"
+        className="inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/40 px-2 text-xs font-semibold text-red-700 dark:text-red-400 transition hover:bg-red-100 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={13} />
@@ -144,7 +144,7 @@ export function TodayEditBar() {
         type="button"
         disabled={pending}
         onClick={onCancel}
-        className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50"
+        className="inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50"
       >
         <X aria-hidden="true" size={13} />
         취소

@@ -94,7 +94,7 @@ export function MealScanForm({
   const anyChecked = items ? items.some((_, i) => checked[i]) : false;
 
   return (
-    <div className="flex-1 space-y-4 overflow-y-auto px-4 pb-8 pt-4">
+    <div className="flex-1 space-y-4 overflow-y-auto px-4 pt-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))]">
       <input
         ref={inputRef}
         type="file"

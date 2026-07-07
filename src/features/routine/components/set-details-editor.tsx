@@ -111,7 +111,7 @@ export function SetDetailsEditor({
       {perSet ? (
         <>
           {rows.map((row, i) => (
-            <div key={i} className="flex items-center gap-1.5">
+            <div key={i} className="flex flex-wrap items-center gap-1.5">
               <span className="w-9 shrink-0 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
                 {i + 1}세트
               </span>

@@ -1721,8 +1721,17 @@ create table if not exists public.commitments (
   start_date date not null,
   deadline date not null,
   archived boolean not null default false,
+  -- 생성 방식: manual(직접 설정) / survey(설문 기반 미션).
+  mode text not null default 'manual' check (mode in ('manual', 'survey')),
+  -- 설문 기반 다짐의 하루 미션 목록(MissionSpec[] JSON). 캘린더 ○△✕ 자동 판정에 씀.
+  missions jsonb not null default '[]'::jsonb,
   created_at timestamptz not null default now()
 );
+-- 기존 DB 보정
+alter table public.commitments add column if not exists mode text
+  not null default 'manual' check (mode in ('manual', 'survey'));
+alter table public.commitments add column if not exists missions jsonb
+  not null default '[]'::jsonb;
 create index if not exists commitments_user_idx on public.commitments (user_id);
 alter table public.commitments enable row level security;
 drop policy if exists "own commitments" on public.commitments;

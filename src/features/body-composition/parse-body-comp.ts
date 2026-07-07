@@ -7,6 +7,8 @@
  * - 키워드의 흔한 오인식까지 대응 (체중↔체증, 체지방률↔체지방를 등)
  */
 
+import { extractJsonObject } from "@/features/coach/parse";
+
 export type OcrField =
   | "weightKg"
   | "skeletalMuscleKg"
@@ -22,6 +24,45 @@ export type OcrField =
   | "fatTrunk"
   | "fatRightLeg"
   | "fatLeftLeg";
+
+export const BODY_COMP_FIELDS: OcrField[] = [
+  "weightKg",
+  "skeletalMuscleKg",
+  "bodyFatKg",
+  "bodyFatPct",
+  "muscleRightArm",
+  "muscleLeftArm",
+  "muscleTrunk",
+  "muscleRightLeg",
+  "muscleLeftLeg",
+  "fatRightArm",
+  "fatLeftArm",
+  "fatTrunk",
+  "fatRightLeg",
+  "fatLeftLeg",
+];
+
+/**
+ * AI 비전(체성분 사진 판독) 응답 JSON → 14개 수치. Tesseract 텍스트 파서 대신 쓴다.
+ * 각 필드는 숫자(양수, 1000 미만)만 채택, 소수 1자리 반올림. 못 읽었으면(null·비숫자) 생략.
+ */
+export function parseBodyCompScan(
+  text: string,
+): Partial<Record<OcrField, number>> {
+  const raw = extractJsonObject(text);
+  if (!raw || typeof raw !== "object") return {};
+  const o = raw as Record<string, unknown>;
+  const out: Partial<Record<OcrField, number>> = {};
+  for (const f of BODY_COMP_FIELDS) {
+    const v = o[f];
+    if (v == null) continue;
+    const n = Number(v);
+    if (Number.isFinite(n) && n > 0 && n < 1000) {
+      out[f] = Math.round(n * 10) / 10;
+    }
+  }
+  return out;
+}
 
 /**"12.3" /"12,3" /"12 . 3" 같은 표기 모두 number 로. undefined 안전. */
 function toNumber(raw: string | undefined): number | null {

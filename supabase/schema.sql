@@ -209,6 +209,10 @@ alter table public.user_routines
 -- 백필 count 쿼리를 건너뛴다(성능). 마이그레이션이 끝나면 true 로 세팅.
 alter table public.user_routines
   add column if not exists day_index_migrated boolean not null default false;
+-- '오늘만 변경(전체 바꾸기/직접 담기)'으로 하루 민 날짜. 이 날짜가 오늘이면 화면에서
+-- 원래 루틴 운동을 숨긴다(변경된 빈 날). 재클릭해도 하루만 밀리게 하는 멱등 마커.
+alter table public.user_routines
+  add column if not exists last_deferred_date date;
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines
@@ -2181,5 +2185,35 @@ language sql stable security definer set search_path = public as $$
   left join (select post_id, true mine from public.teaching_likes where post_id = any(pids) and user_id = auth.uid()) me on me.post_id = x.pid;
 $$;
 grant execute on function public.teaching_post_counts(uuid[]) to authenticated;
+
+-- ── 게시판/댓글 신고 ──────────────────────────────────────────────
+-- 누구나 신고 등록(본인 명의). 모더레이터만 열람/처리(글·댓글 삭제, 작성자 정지).
+create table if not exists public.post_reports (
+  id uuid primary key default gen_random_uuid(),
+  target_kind text not null check (target_kind in ('community_post','community_comment','teaching_post','teaching_comment')),
+  target_id uuid not null,
+  target_user_id uuid,
+  target_author text,
+  target_preview text,
+  reporter_id uuid not null references auth.users(id) on delete cascade,
+  reason text not null check (char_length(reason) between 1 and 500),
+  status text not null default 'open' check (status in ('open','resolved')),
+  created_at timestamptz not null default now()
+);
+create index if not exists post_reports_status_idx
+  on public.post_reports (status, created_at desc);
+alter table public.post_reports enable row level security;
+drop policy if exists "insert own report" on public.post_reports;
+create policy "insert own report" on public.post_reports for insert
+  with check (reporter_id = auth.uid());
+drop policy if exists "moderator read reports" on public.post_reports;
+create policy "moderator read reports" on public.post_reports for select
+  using (public.is_post_moderator());
+drop policy if exists "moderator update reports" on public.post_reports;
+create policy "moderator update reports" on public.post_reports for update
+  using (public.is_post_moderator());
+drop policy if exists "moderator delete reports" on public.post_reports;
+create policy "moderator delete reports" on public.post_reports for delete
+  using (public.is_post_moderator());
 
 notify pgrst, 'reload schema';

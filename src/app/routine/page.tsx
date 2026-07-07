@@ -245,6 +245,7 @@ async function TodayWorkout({
     restDate: string | null;
     overrideDate: string | null;
     overrideBlock: DayBlockId | null;
+    deferredDate: string | null;
   };
   profile: UserProfile | null;
   postureEnabled?: boolean;
@@ -265,6 +266,10 @@ async function TodayWorkout({
     : variant.week[offset];
   const restedToday = routine.restDate === todayYmd;
   const isRest = restedToday || planToday.tone === "rest";
+  // 오늘이 '오늘만 변경(전체 바꾸기/직접 담기)'으로 하루 밀린 날이면, 아직 선택/추가
+  // 운동을 담기 전까지 원래 루틴 운동을 숨긴다(변경된 빈 날). daily_plan 오버라이드가
+  // 생기면(=사용자가 담으면) 그게 오늘 부위가 된다. 완료 기록은 DB에 그대로 보존.
+  const deferredToday = routine.deferredDate === todayYmd;
 
   //"오늘만 변경" 으로 저장된 daily_plan 행들의 부위 — 있으면 그것이 오늘의
   // 실제 부위. (routine.overrideBlock 보다 우선, 다중 부위도 지원)
@@ -274,12 +279,14 @@ async function TodayWorkout({
   ) as DayBlockId[];
   const hasDailyOverride = dailyFocuses.length > 0;
 
-  // 기본 부위 (route 기준) — daily override 가 없을 때 fallback
-  const routineTones = isRest
-    ? []
-    : ((planToday.tones ?? [planToday.tone]).filter(
-        (t) => t !== "rest",
-      ) as Exclude<FocusTone, "rest">[]);
+  // 기본 부위 (route 기준) — daily override 가 없을 때 fallback.
+  // deferredToday 면(오늘 밀린 빈 날) 원래 루틴 부위를 숨긴다 → 담기 전엔 빈 화면.
+  const routineTones =
+    isRest || deferredToday
+      ? []
+      : ((planToday.tones ?? [planToday.tone]).filter(
+          (t) => t !== "rest",
+        ) as Exclude<FocusTone, "rest">[]);
 
   // 실제 오늘 부위 — daily_plan 부위가 routine 을 덮어쓴다. 같은 tone 중복 제거
   // (세부근육 블록이 같은 부위로 모일 때 운동 중복 로드 방지).
@@ -314,6 +321,7 @@ async function TodayWorkout({
       if (restedToday) return ["rest"] as DayBlockId[];
       if (hasDailyOverride) return dailyFocuses as DayBlockId[];
       if (overriddenToday) return [routine.overrideBlock!];
+      if (deferredToday) return [] as DayBlockId[]; // 담기 전 빈 날
     }
     const dp = variant.week[routineDayOffset(routine.startDate, ymd)];
     return (dp.tones ?? [dp.tone]) as DayBlockId[];

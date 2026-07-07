@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Dumbbell, Loader2 } from "lucide-react";
 
 import { seoulYmd } from "@/features/routine/data";
-import { deferTodayWorkoutToTomorrowAction } from "@/features/routine/actions";
+import { deferRoutineOneDayAction } from "@/features/routine/actions";
 import { clearDailyPlanForDateAction } from "@/features/routine/daily-plan-actions";
 
 /**
@@ -18,9 +18,9 @@ export function TodayAddExercises() {
 
   function go() {
     start(async () => {
-      // 오늘 루틴(본운동+워밍업+마무리)을 내일로 이월(start_date 안 건드림)하고,
-      // 오늘은 빈값에서 직접 담기.
-      await deferTodayWorkoutToTomorrowAction();
+      // 루틴 전체를 하루씩 밀고(아무 날도 안 사라짐) 오늘을 '변경된 날'로 마킹해
+      // 원래 운동을 숨긴 뒤, 빈값에서 직접 담는다.
+      await deferRoutineOneDayAction();
       await clearDailyPlanForDateAction(seoulYmd());
       router.push("/plan/today");
       router.refresh();

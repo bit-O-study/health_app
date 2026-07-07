@@ -14,12 +14,9 @@ import {
   isValidRoutine,
   normalizeCustomWeek,
   planDayIndexRemap,
-  resolveRoutine,
-  routineDayOffset,
   routineDaySlots,
   seoulYmd,
   type DayBlockId,
-  type FocusTone,
 } from "@/features/routine/data";
 import { prescribe } from "@/features/routine/exercise-catalog";
 import {
@@ -29,11 +26,6 @@ import {
 import { getUserProfile } from "@/features/profile/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 import { syncRoutineExerciseDays } from "@/features/routine/day-index-migration";
-import { getUserRoutine } from "@/features/routine/data-access";
-import { getPlanForDay } from "@/features/routine/plan";
-import { getConditioningForFocus } from "@/features/routine/conditioning";
-import { toRowFields } from "@/features/routine/set-details";
-import { conditioningUnion } from "@/features/routine/defer-carry";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
@@ -102,6 +94,7 @@ export async function saveRoutineAction(
       rest_date: null,
       override_date: null,
       override_block: null,
+      last_deferred_date: null,
     },
     { onConflict: "user_id" },
   );
@@ -256,6 +249,7 @@ export async function reorderUpcomingSevenDaysAction(
       rest_date: null,
       override_date: null,
       override_block: null,
+      last_deferred_date: null,
     },
     { onConflict: "user_id" },
   );
@@ -341,6 +335,7 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
     rest_date: null,
     override_date: null,
     override_block: null,
+    last_deferred_date: null,
   };
   const restoredBaseline =
     baseline &&
@@ -389,9 +384,12 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
  * 기준일 +1일 → 오늘 예정이던 운동이 내일로 이동, 오늘은 휴식 표시.
  */
 /**
- * "오늘만 부위 바꾸기(전체 교체)" 용 — 오늘 원래 루틴을 **내일로 미룬다**(start_date +1).
- * 오늘은 daily_plan 오버라이드(선택 부위)로 대체되므로 휴식(rest)은 걸지 않는다.
- * 결과: 오늘 = 선택 부위(빈값→추천으로 채움), 내일부터 원래 루틴이 하루 밀려 이어진다.
+ * "오늘만 변경(전체 바꾸기/직접 담기)" 용 — 루틴 전체를 하루씩 민다(start_date +1).
+ * 오늘 예정이던 운동은 내일로, 내일 건 모레로… 밀려 아무 날도 사라지지 않는다.
+ * 오늘은 last_deferred_date 마커로 '변경된 날'로 표시돼, 화면에서 원래 루틴 운동을
+ * 숨기고(완료한 운동은 그대로) 선택/추가한 운동만 보이게 한다(page.tsx 가 마커를 읽음).
+ *
+ * 멱등: 오늘 이미 밀었으면(last_deferred_date === 오늘) 다시 안 민다(재클릭 드리프트 방지).
  */
 export async function deferRoutineOneDayAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
@@ -399,134 +397,36 @@ export async function deferRoutineOneDayAction(): Promise<void> {
   if (!user) return;
   const { data } = await supabase
     .from("user_routines")
-    .select("start_date")
+    .select("start_date, last_deferred_date")
     .eq("user_id", user.id)
     .maybeSingle();
   if (!data) return;
+  const row = data as { start_date: string; last_deferred_date: string | null };
 
-  // 멱등: 이미 오늘이 '오늘만 변경'(daily_plan 오버라이드) 상태면 또 미루지 않는다
-  // (버튼 여러 번 눌러도 루틴이 계속 하루씩 밀리는 드리프트 방지).
   const today = seoulYmd();
-  const { data: existing } = await supabase
-    .from("daily_plan")
-    .select("id")
+
+  // 오늘을 '완료 제외 전부 비우기' — 오늘 워밍업/마무리 오버라이드도 지운다.
+  // (본운동 daily_plan 은 호출측 clearDailyPlanForDateAction 이 지운다.)
+  await supabase
+    .from("daily_conditioning")
+    .delete()
     .eq("user_id", user.id)
-    .eq("for_date", today)
-    .limit(1);
-  if (existing && existing.length > 0) return;
+    .eq("for_date", today);
+
+  // 이미 오늘 밀었으면 중복 시프트 금지(마커 유지). '전체 바꾸기'를 여러 번 눌러
+  // 부위만 다시 골라도 루틴은 하루만 밀린다.
+  if (row.last_deferred_date === today) return;
 
   await supabase
     .from("user_routines")
     .update({
-      start_date: addDaysYmd((data as { start_date: string }).start_date, 1),
+      start_date: addDaysYmd(row.start_date, 1),
+      last_deferred_date: today,
       rest_date: null,
       override_date: null,
       override_block: null,
     })
     .eq("user_id", user.id);
-  revalidatePath("/routine");
-}
-
-/**
- * '오늘만 변경(전체 바꾸기 / 직접 담기)' 용 defer — 오늘 원래 루틴 운동
- * (본운동 + 워밍업/마무리)을 **내일 daily 오버라이드로 이월**한다.
- *
- * start_date 를 건드리지 않아(= 예전 방식의 부작용) 전체 루틴이 하루씩 밀리지
- * 않고, 내일 하루만 오늘 운동으로 대체된다. 오늘 화면 비우기(daily_plan 삭제)는
- * 호출측(clearDailyPlanForDateAction)이 이어서 한다. 이미 완료한 운동은
- * exercise_completions 에 남아 오늘 화면에 완료로 그대로 보인다.
- *
- * 멱등: 내일에 이미 이월분(daily_plan)이 있으면 다시 이월하지 않는다(재클릭 방지).
- */
-export async function deferTodayWorkoutToTomorrowAction(): Promise<void> {
-  const supabase = await createSupabaseServerClient();
-  const user = await getCurrentUser();
-  if (!user) return;
-  const routine = await getUserRoutine();
-  if (!routine) return;
-
-  const today = seoulYmd();
-  const tomorrow = addDaysYmd(today, 1);
-
-  // 멱등: 내일에 이미 이월된 daily_plan 이 있으면 skip.
-  const { data: existingTomorrow } = await supabase
-    .from("daily_plan")
-    .select("id")
-    .eq("user_id", user.id)
-    .eq("for_date", tomorrow)
-    .limit(1);
-  if (existingTomorrow && existingTomorrow.length > 0) return;
-
-  // 오늘 원래 루틴 부위(톤).
-  const { variant } = resolveRoutine(
-    routine.splits,
-    routine.variantId,
-    routine.customWeek,
-  );
-  const offset = routineDayOffset(routine.startDate, today);
-  const planToday = variant.week[offset];
-  const tones = (planToday.tones ?? [planToday.tone]).filter(
-    (t): t is Exclude<FocusTone, "rest"> => t !== "rest",
-  );
-  if (tones.length === 0) return; // 오늘이 휴식이면 이월할 것 없음
-
-  // 본운동 이월 — 부위별로 오늘 일차 등록 운동을 내일 daily_plan 으로 복사.
-  const perTone = await Promise.all(
-    tones.map(async (tone) => ({
-      tone,
-      main: await getPlanForDay(offset, tone),
-      cond: await getConditioningForFocus(tone),
-    })),
-  );
-
-  const planRows: Record<string, unknown>[] = [];
-  for (const { tone, main } of perTone) {
-    main.forEach((p, index) => {
-      planRows.push({
-        user_id: user.id,
-        for_date: tomorrow,
-        focus: tone,
-        position: index,
-        exercise_id: p.exerciseId,
-        equipment: p.equipment,
-        ...toRowFields({
-          sets: p.sets,
-          reps: p.reps,
-          weightKg: p.weightKg,
-          setDetails: p.setDetails,
-        }),
-        memo: p.memo,
-      });
-    });
-  }
-  if (planRows.length > 0) {
-    await supabase.from("daily_plan").insert(planRows);
-  }
-
-  // 워밍업/마무리 이월 — 오늘 전 부위 합집합(중복 제거)을 내일 daily_conditioning 으로.
-  const { warmup, cooldown } = conditioningUnion(perTone.map((t) => t.cond));
-  const condRows: Record<string, unknown>[] = [];
-  for (const kind of ["warmup", "cooldown"] as const) {
-    const list = kind === "warmup" ? warmup : cooldown;
-    list.forEach((it, index) => {
-      condRows.push({
-        user_id: user.id,
-        for_date: tomorrow,
-        kind,
-        position: index,
-        item_id: it.itemId,
-        duration_min: it.durationMin,
-        speed: it.speed,
-        incline: it.incline,
-        sets: it.sets,
-        reps: it.reps,
-      });
-    });
-  }
-  if (condRows.length > 0) {
-    await supabase.from("daily_conditioning").insert(condRows);
-  }
-
   revalidatePath("/routine");
   revalidatePath("/plan/today");
 }

@@ -1,8 +1,16 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronUp, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  GripVertical,
+  Loader2,
+  Plus,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
@@ -125,6 +133,78 @@ export function PlanEditor({
     setPlans((prev) => ({ ...prev, [key]: next }));
     setDirty((prev) => new Set(prev).add(key));
     setStatus(null);
+  }
+
+  // ── 드래그 순서 변경 — 부위 섹션별로 그립 '롱프레스' 리프트 후 이동 ──
+  // (daily-main-editor 와 동일 UX. 단 rows 가 섹션(f.key)별로 나뉘어 있어
+  //  드래그 상태에 key 를 함께 둔다 — 섹션 간 이동은 막고 같은 부위 안에서만.)
+  const rowRefs = useRef<Record<string, (HTMLDivElement | null)[]>>({});
+  const dragRef = useRef<{ key: string; from: number; startY: number } | null>(
+    null,
+  );
+  const lpTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [drag, setDrag] = useState<{
+    key: string;
+    from: number;
+    dy: number;
+  } | null>(null);
+  const LONG_PRESS = 180;
+
+  function clearLp() {
+    if (lpTimer.current) {
+      clearTimeout(lpTimer.current);
+      lpTimer.current = null;
+    }
+  }
+  function onGripDown(e: React.PointerEvent, key: string, index: number) {
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    const startY = e.clientY;
+    clearLp();
+    lpTimer.current = setTimeout(() => {
+      dragRef.current = { key, from: index, startY };
+      setDrag({ key, from: index, dy: 0 });
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate(8);
+      }
+    }, LONG_PRESS);
+  }
+  function onGripMove(e: React.PointerEvent) {
+    const d = dragRef.current;
+    if (!d) {
+      clearLp();
+      return;
+    }
+    e.preventDefault();
+    const refs = rowRefs.current[d.key] ?? [];
+    const rows = plans[d.key] ?? [];
+    const y = e.clientY;
+    let target = d.from;
+    for (let i = 0; i < refs.length; i++) {
+      const el = refs[i];
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      const mid = (r.top + r.bottom) / 2;
+      if (i < d.from && y < mid) {
+        target = i;
+        break;
+      }
+      if (i > d.from && y > mid) target = i;
+    }
+    if (target !== d.from) {
+      const next = [...rows];
+      const [moved] = next.splice(d.from, 1);
+      next.splice(target, 0, moved);
+      dragRef.current = { key: d.key, from: target, startY: y };
+      setDrag({ key: d.key, from: target, dy: 0 });
+      update(d.key, next);
+    } else {
+      setDrag({ key: d.key, from: d.from, dy: y - d.startY });
+    }
+  }
+  function onGripUp() {
+    clearLp();
+    dragRef.current = null;
+    setDrag(null);
   }
 
   /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째 */
@@ -331,11 +411,39 @@ export function PlanEditor({
               <div className="mt-4 space-y-2">
                 {rows.map((row, idx) => {
                   const ex = getCatalogExercise(row.exerciseId) ?? options[0];
+                  const isDragging = drag?.key === f.key && drag.from === idx;
                   return (
                     <div
                       key={idx}
+                      ref={(el) => {
+                        if (!rowRefs.current[f.key]) rowRefs.current[f.key] = [];
+                        rowRefs.current[f.key][idx] = el;
+                      }}
+                      style={
+                        isDragging
+                          ? {
+                              transform: `translateY(${drag.dy}px) scale(1.03)`,
+                              boxShadow: "0 14px 30px rgba(0,0,0,0.18)",
+                              zIndex: 20,
+                              position: "relative",
+                              transition: "none",
+                              touchAction: "none",
+                            }
+                          : { transition: "transform 160ms ease" }
+                      }
                       className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
                     >
+                      <button
+                        type="button"
+                        aria-label="드래그로 순서 변경"
+                        onPointerDown={(e) => onGripDown(e, f.key, idx)}
+                        onPointerMove={onGripMove}
+                        onPointerUp={onGripUp}
+                        onPointerCancel={onGripUp}
+                        className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
+                      >
+                        <GripVertical aria-hidden="true" size={16} />
+                      </button>
                       <span className="flex shrink-0 flex-wrap gap-1">
                         {/* 대근육 부위 1개 + 세부근육 1개만 */}
                         {(() => {

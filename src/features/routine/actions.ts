@@ -14,6 +14,7 @@ import {
   isValidRoutine,
   normalizeCustomWeek,
   planDayIndexRemap,
+  routineDayOffset,
   routineDaySlots,
   seoulYmd,
   type DayBlockId,
@@ -304,7 +305,7 @@ export async function reorderUpcomingSevenDaysAction(
 
 /**
  * "오늘부터 다시 시작하기" — 처음 설정한 루틴으로 되돌린다.
- * 기준일을 오늘로 리셋해 오늘이 1일차가 되고, 그동안 쌓인 임시 변경
+ * 오늘의 주기 위치는 유지하고, 그동안 쌓인 임시 변경
  * (오늘만 운동 변경=daily_plan / daily_conditioning, 오늘 휴식, 오늘만 부위 변경)을
  * 오늘 이후 범위에서 모두 지워 기본 루틴이 그대로 보이게 한다. (지난 기록은 보존)
  */
@@ -316,20 +317,28 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
   const today = seoulYmd();
 
   // 기준(설정) 루틴 스냅샷을 읽어, 그동안 '다가오는 7일' 드래그 등으로 바뀐
-  // 현재 루틴을 기준 루틴으로 복원한다. (스냅샷 없으면 주기만 오늘로 리셋)
+  // 현재 루틴을 기준 루틴으로 복원한다. (스냅샷 없으면 현재 일차만 유지)
   const { data: cur } = await supabase
     .from("user_routines")
-    .select("baseline_routine")
+    .select("baseline_routine, start_date, rest_date")
     .eq("user_id", user.id)
     .maybeSingle();
-  const baseline = (cur as { baseline_routine?: unknown } | null)
-    ?.baseline_routine as
+  const row = cur as {
+    baseline_routine?: unknown;
+    start_date?: string | null;
+    rest_date?: string | null;
+  } | null;
+  const baseline = row?.baseline_routine as
     | { splits?: number; variant_id?: string; custom_week?: unknown }
     | null
     | undefined;
+  const activeStartDate = row?.start_date ?? today;
+  const cycleStartDate =
+    row?.rest_date === today ? addDaysYmd(activeStartDate, -1) : activeStartDate;
+  const todayOffset = routineDayOffset(cycleStartDate, today);
 
   const update: Record<string, unknown> = {
-    start_date: today,
+    start_date: addDaysYmd(today, -todayOffset),
     rest_date: null,
     override_date: null,
     override_block: null,

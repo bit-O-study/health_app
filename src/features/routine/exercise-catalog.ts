@@ -2389,10 +2389,25 @@ export function allExercisesForFocus(tone: FocusTone): CatalogExercise[] {
 /** 운동 id → 대표 부위(focus). 부위별 목록을 역인덱싱(첫 매칭). "오늘만 담기"에서 개별
  * 운동을 daily_plan 에 넣을 때 focus 를 정하는 용도. 매칭 없으면 null. */
 let _focusByExercise: Map<string, FocusKey> | null = null;
+/** 대표 부위는 항상 '기본 부위(가슴/등/어깨/팔/하체/코어)' 를 먼저 매칭한다.
+ *  fullbody/upper/push/pull 같은 합성 focus 를 먼저 보면 벤치프레스가 fullbody 로
+ *  잡히는 식의 무책임한 태그가 나온다 → 기본 부위 우선. */
+const PRIMARY_FOCUS_ORDER: FocusKey[] = [
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "lower",
+  "core",
+];
 export function focusForExercise(exerciseId: string): FocusKey | null {
   if (!_focusByExercise) {
     const m = new Map<string, FocusKey>();
-    for (const f of ALL_FOCUSES) {
+    const ordered = [
+      ...PRIMARY_FOCUS_ORDER.filter((f) => ALL_FOCUSES.includes(f)),
+      ...ALL_FOCUSES.filter((f) => !PRIMARY_FOCUS_ORDER.includes(f)),
+    ];
+    for (const f of ordered) {
       for (const ex of allExercisesForFocus(f as FocusTone)) {
         if (!m.has(ex.id)) m.set(ex.id, f);
       }

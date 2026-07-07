@@ -17,6 +17,21 @@ describe("focusForExercise — 운동→부위 역인덱스", () => {
     expect(focusForExercise("__does-not-exist__")).toBeNull();
     expect(focusForExercise("")).toBeNull();
   });
+
+  // 합성 focus(fullbody/upper/push/pull) 가 아니라 '기본 부위' 로 태깅돼야 한다.
+  // (벤치프레스가 fullbody 로 잡히던 무책임한 태그 회귀 방지.)
+  it("대표 부위는 기본 부위 — 벤치=가슴, 스쿼트=하체, 로우=등, OHP=어깨", () => {
+    expect(focusForExercise("bench-press")).toBe("chest");
+    expect(focusForExercise("squat")).toBe("lower");
+    expect(focusForExercise("barbell-row")).toBe("back");
+    expect(focusForExercise("ohp")).toBe("shoulder");
+  });
+  it("합성 focus 로는 절대 태깅되지 않는다", () => {
+    const composites = new Set(["fullbody", "upper", "push", "pull"]);
+    for (const id of ["bench-press", "squat", "barbell-row", "ohp", "hip-thrust"]) {
+      expect(composites.has(focusForExercise(id) as string)).toBe(false);
+    }
+  });
 });
 
 describe("allExercisesGrouped — 전체 운동 둘러보기", () => {

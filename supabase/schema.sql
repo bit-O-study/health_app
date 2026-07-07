@@ -1892,9 +1892,11 @@ drop policy if exists "admin deletes post_moderators" on public.post_moderators;
 create policy "admin deletes post_moderators" on public.post_moderators for delete
   using (public.is_admin());
 
+-- 게시물 모더레이터 — 디버그 계정(is_debug_account, admin 포함) 이거나 post_moderators.
+-- 디버그 계정도 커뮤니티 전체(미가입 그룹글 포함) 열람·정리할 수 있어야 한다.
 create or replace function public.is_post_moderator() returns boolean
   language sql security definer stable set search_path = public as $$
-  select public.is_admin() or exists(
+  select public.is_debug_account() or exists(
     select 1 from public.post_moderators
     where lower(email) = lower(auth.jwt() ->> 'email')
   );

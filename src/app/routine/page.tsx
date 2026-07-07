@@ -462,7 +462,26 @@ async function TodayWorkout({
             lockWeightReps={profile?.lockWeightReps ?? false}
             postureEnabled={postureEnabled}
             equipmentScan={equipmentScan}
+            blankDefaults={deferredToday}
           />
+        ) : emptyChangedDay ? (
+          // 오늘을 밀었는데 아직 안 담은 빈 날 — 휴식처럼 비우지 말고 '담으러 가기' CTA.
+          <div className="rounded-2xl border border-dashed border-emerald-300 bg-emerald-50/50 p-6 text-center dark:border-emerald-800 dark:bg-emerald-950/20">
+            <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">
+              오늘은 아직 담은 운동이 없어요.
+            </p>
+            <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+              워밍업 · 본운동 · 마무리를 담아 오늘 운동을 시작하세요. (러닝 등 기본값은
+              자동으로 넣지 않아요.)
+            </p>
+            <Link
+              href="/plan/today"
+              className="mt-4 inline-flex h-11 items-center gap-2 rounded-xl bg-emerald-600 px-5 text-sm font-bold text-white transition hover:bg-emerald-500"
+            >
+              <Dumbbell aria-hidden="true" size={16} />
+              오늘 운동 담기
+            </Link>
+          </div>
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도
           // 사라진다 → 아래 '다가오는 7일' 순서를 바꿀 방법이 없어진다. 이때도

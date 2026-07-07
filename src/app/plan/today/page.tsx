@@ -139,12 +139,23 @@ export default async function TodayConditioningPage({
     }),
   );
 
-  // 워밍업/마무리는 하루 1세트(첫 선택 부위 기준 기본값) — 중복 노출 방지
+  // 워밍업/마무리는 하루 1세트. 추천 기본값은 오늘 선택한 **전 부위**의 워밍업/마무리를
+  // 합쳐서(중복 itemId 제거) 채운다. (예전엔 첫 부위만 → 부위 여러 개일 때 빠졌음)
   const primaryFocus = validFocuses[0];
   const daily = await getDailyConditioning(todayYmd);
-  const condDefaults = primaryFocus
-    ? await getConditioningForFocus(primaryFocus)
-    : { warmup: [], cooldown: [] };
+  const perFocusCond = await Promise.all(
+    validFocuses.map((f) => getConditioningForFocus(f)),
+  );
+  const dedupeById = <T extends { itemId: string }>(arr: T[]): T[] => {
+    const seen = new Set<string>();
+    return arr.filter((x) =>
+      seen.has(x.itemId) ? false : (seen.add(x.itemId), true),
+    );
+  };
+  const condDefaults = {
+    warmup: dedupeById(perFocusCond.flatMap((c) => c.warmup)),
+    cooldown: dedupeById(perFocusCond.flatMap((c) => c.cooldown)),
+  };
   const warmupInitial =
     daily.warmup.length > 0 ? daily.warmup : condDefaults.warmup;
   const cooldownInitial =

@@ -11,6 +11,7 @@ import {
   MessageCircle,
   Play,
   Plus,
+  Search,
   Trash2,
   Video,
   X,
@@ -18,12 +19,15 @@ import {
 
 import { MAX_CAPTION, relativeTime } from "../community";
 import {
-  forTab,
+  forBoard,
+  BOARD_TABS,
   resolveVisibility,
   VISIBILITY_OPTIONS,
+  type BoardTab,
   type Visibility,
 } from "../feed";
 import type { FeedPost } from "../data-access";
+import { TeachingReels } from "./teaching-reels";
 import { uploadCommunityPhoto } from "../upload-photo";
 import {
   createCommunityPostAction,
@@ -49,19 +53,20 @@ export function CommunityBoard({
 }) {
   const router = useRouter();
   const [now] = useState(() => Date.now());
-  const [tab, setTab] = useState<"all" | "group">("all");
+  const [tab, setTab] = useState<BoardTab>("workout");
   const [selected, setSelected] = useState<Set<string>>(
     () => new Set(groups.map((g) => g.id)),
   );
+  const [search, setSearch] = useState("");
   const [compose, setCompose] = useState(false);
 
   const groupAllSelected =
     groups.length > 0 && groups.every((g) => selected.has(g.id));
 
-  // 탭(전체/그룹)만으로 분류 — 별도 필터 없음. 사진 인증 + 운동 티칭 영상이 함께 보인다.
+  // 게시판 탭별 분류. 오운완=사진, 그룹=그룹사진, 운동=티칭(검색), 내 글=내가 쓴 것.
   const visible = useMemo(
-    () => forTab(initialPosts, tab, [...selected]),
-    [initialPosts, tab, selected],
+    () => forBoard(initialPosts, tab, [...selected], search),
+    [initialPosts, tab, selected, search],
   );
 
   function toggleGroup(id: string) {
@@ -78,20 +83,15 @@ export function CommunityBoard({
       <div className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 px-4 pb-2 pt-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
         <h1 className="mb-2 text-lg font-extrabold">커뮤니티</h1>
 
-        {/* 상단 탭 — 전체 / 그룹 */}
+        {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 */}
         <div className="flex items-center gap-4">
-          {(
-            [
-              ["all", "전체"],
-              ["group", "그룹"],
-            ] as const
-          ).map(([k, label]) => (
+          {BOARD_TABS.map(({ value, label }) => (
             <button
-              key={k}
+              key={value}
               type="button"
-              onClick={() => setTab(k)}
+              onClick={() => setTab(value)}
               className={`text-[17px] font-bold transition-colors ${
-                tab === k
+                tab === value
                   ? "text-emerald-600 dark:text-emerald-400"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
@@ -125,16 +125,44 @@ export function CommunityBoard({
             </div>
           )
         ) : null}
+
+        {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
+        {tab === "teaching" ? (
+          <div className="relative mt-2">
+            <Search
+              size={15}
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+            />
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="운동 검색 (예: 스쿼트, 벤치프레스)"
+              className="w-full rounded-full border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-fuchsia-400 dark:border-zinc-700 dark:bg-zinc-800"
+            />
+          </div>
+        ) : null}
       </div>
 
-      {/* 피드 — 1단 인스타식 카드 */}
-      {visible.length === 0 ? (
+      {/* 피드 */}
+      {tab === "teaching" ? (
+        // 운동 탭 — 숏츠/릴스 스타일 세로 풀스크린 피드
+        <TeachingReels
+          posts={visible}
+          canModerate={canModerate}
+          onChanged={() => router.refresh()}
+        />
+      ) : visible.length === 0 ? (
         <div className="flex flex-col items-center gap-3 px-6 py-20 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-500 dark:bg-emerald-950/40">
             <Camera size={30} />
           </div>
           <p className="text-sm font-bold text-zinc-500 dark:text-zinc-300">
-            {tab === "group" ? "이 그룹엔 아직 글이 없어요" : "아직 글이 없어요"}
+            {tab === "group"
+              ? "이 그룹엔 아직 글이 없어요"
+              : tab === "mine"
+                ? "아직 내가 쓴 글이 없어요"
+                : "아직 글이 없어요"}
           </p>
           <p className="text-xs text-zinc-400">
             오늘 운동 인증 첫 타자가 되어보세요! 💪
@@ -154,16 +182,18 @@ export function CommunityBoard({
         </ul>
       )}
 
-      {/* 글쓰기 FAB — 사진 인증 */}
-      <button
-        type="button"
-        onClick={() => setCompose(true)}
-        aria-label="오운완 인증하기"
-        className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg active:scale-95"
-        style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
-      >
-        <Plus size={28} />
-      </button>
+      {/* 글쓰기 FAB — 사진 인증(운동 탭은 운동모드에서 촬영하므로 숨김) */}
+      {tab !== "teaching" ? (
+        <button
+          type="button"
+          onClick={() => setCompose(true)}
+          aria-label="오운완 인증하기"
+          className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg active:scale-95"
+          style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
+        >
+          <Plus size={28} />
+        </button>
+      ) : null}
 
       {compose ? (
         <ComposeModal

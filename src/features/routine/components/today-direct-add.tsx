@@ -24,12 +24,7 @@ export async function TodayDirectAddInline({
 
   return (
     <div className="space-y-6">
-      <div className="rounded-xl border border-dashed border-emerald-300 bg-emerald-50/40 p-4 text-sm text-zinc-600 dark:border-emerald-800 dark:bg-emerald-950/20 dark:text-zinc-300">
-        오늘 운동을 내일로 미뤘어요. 아래에서 <strong>워밍업 · 본운동 · 마무리</strong>를
-        직접 담으세요. (러닝 등 기본값은 자동으로 넣지 않아요.)
-      </div>
-
-      {/* 본운동 — 부위 제한 없이 전체 운동에서 추가(태그 자동) */}
+      {/* 원래 편집기 UI 그대로 — 본운동은 부위 제한 없이 전체 운동에서 추가(태그 자동) */}
       <DailyMainEditor
         sections={[]}
         gender={profile.gender}

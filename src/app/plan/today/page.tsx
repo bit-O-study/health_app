@@ -187,30 +187,21 @@ export default async function TodayConditioningPage({
         </p>
       ) : (
         <div className="space-y-6">
-          {/* 본운동 — 오늘 선택 부위를 한 박스에 (부위는 태그로 구분) */}
-          <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-            <h2 className="mb-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
-              본운동
-            </h2>
-            <div className="space-y-4">
-              {mainSections.map((s) => (
-                <DailyMainEditor
-                  key={s.focus}
-                  focus={s.focus}
-                  label={s.label}
-                  gender={profile.gender}
-                  experience={profile.experience}
-                  bodyType={profile.bodyType}
-                  weightKg={profile.weightKg}
-                  dateYmd={todayYmd}
-                  initial={s.initialMain}
-                  gymEquipment={gymEquipment}
-                  lockWeightReps={profile.lockWeightReps}
-                  embedded
-                />
-              ))}
-            </div>
-          </section>
+          {/* 본운동 — 오늘 선택 부위를 한 편집기에(부위는 태그로 구분, 추천/추가 버튼 1개) */}
+          <DailyMainEditor
+            sections={mainSections.map((s) => ({
+              focus: s.focus,
+              label: s.label,
+              initial: s.initialMain,
+            }))}
+            gender={profile.gender}
+            experience={profile.experience}
+            bodyType={profile.bodyType}
+            weightKg={profile.weightKg}
+            dateYmd={todayYmd}
+            gymEquipment={gymEquipment}
+            lockWeightReps={profile.lockWeightReps}
+          />
 
           {/* 워밍업/마무리는 하루 1세트 */}
           {primaryFocus ? (

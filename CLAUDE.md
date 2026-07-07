@@ -14,6 +14,14 @@ This file is read automatically at the start of every session. Follow it.
 - PR 본문에도 Claude 생성 표기를 넣지 않는다.
 - 기여자(contributor) 목록에 오직 bong94688 만 남아야 한다.
 
+## 🔴 커밋만 한다 — push·PR 은 사용자가 (Commit only)
+
+**작업이 끝나면 커밋까지만 한다. `git push` 와 PR 생성은 사용자가 직접 한다.**
+
+- 명시적으로 "푸시해줘 / 올려줘 / PR 만들어줘" 라고 요청하지 않는 한 **push 하지 않는다.**
+- 브랜치를 main 으로 올리거나 원격에 반영하는 것도 사용자 몫. Claude 는 로컬 커밋만 만든다.
+- 커밋 후 "커밋했습니다. 푸시는 직접 해주세요" 처럼 상태만 알린다.
+
 ## 🔴 테스트는 필수 (Tests are mandatory)
 
 **기능을 만들거나 고치면 항상 테스트 코드를 같이 작성/갱신한다.** 예외 없음.

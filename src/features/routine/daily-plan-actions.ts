@@ -9,8 +9,12 @@ import {
 import {
   getCatalogExercise,
   isEquipmentId,
+  prescribe,
+  focusForExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import { APPEND_POSITION_BASE } from "@/features/routine/plan-order";
+import { getUserProfile } from "@/features/profile/data-access";
 import {
   isValidSetDetails,
   toRowFields,
@@ -237,6 +241,77 @@ export async function saveDailyPlanAction(
     const ins = await supabase.from("daily_plan").insert(rows);
     if (ins.error) return { ok: false, error: ins.error.message };
   }
+
+  revalidatePath("/routine");
+  revalidatePath("/plan/today");
+  return { ok: true };
+}
+
+/**
+ * "오늘만 — 운동 직접 담기(다중선택)". 선택한 개별 운동들을 **오늘 하루만** daily_plan 에
+ * 추가한다. 루틴(routine_exercises)은 절대 건드리지 않는다(완전 독립).
+ *
+ * 절차: ① 오늘 루틴을 daily_plan 으로 고정(스냅샷) → 오늘이 독립 오버라이드 상태가 됨.
+ *      ② 선택 운동들을 각자 대표 부위(focusForExercise)로 daily_plan 맨 아래 append.
+ * 운동의 세트/횟수/무게는 프로필 기반 prescribe 추천값.
+ */
+export async function addExercisesTodayOnlyAction(
+  items: { exerciseId: string; equipment: EquipmentId }[],
+): Promise<SaveDailyPlanResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const clean = (items ?? []).filter(
+    (it) => getCatalogExercise(it.exerciseId) && isEquipmentId(it.equipment),
+  );
+  if (clean.length === 0)
+    return { ok: false, error: "담을 운동을 선택해 주세요." };
+
+  // ① 오늘 루틴을 daily_plan 으로 고정(독립 스냅샷). 루틴 원본은 안 건드린다.
+  const pin = await pinRoutineFocusesForTodayAction();
+  if (!pin.ok) return pin;
+
+  const supabase = await createSupabaseServerClient();
+  const profile = await getUserProfile();
+  const todayYmd = seoulYmd();
+
+  const { data: dmax } = await supabase
+    .from("daily_plan")
+    .select("position")
+    .eq("user_id", user.id)
+    .eq("for_date", todayYmd)
+    .order("position", { ascending: false })
+    .limit(1);
+  let pos = Math.max(
+    ((dmax?.[0]?.position as number | undefined) ?? -1) + 1,
+    APPEND_POSITION_BASE,
+  );
+
+  const rows = clean.map((it) => {
+    const focus = focusForExercise(it.exerciseId) ?? "chest";
+    const p = profile
+      ? prescribe(it.exerciseId, {
+          gender: profile.gender === "female" ? "female" : "male",
+          experience: profile.experience,
+          bodyType: profile.bodyType ?? "average",
+          weightKg: profile.weightKg ?? 65,
+        })
+      : { sets: 3, reps: 10, weightKg: null };
+    return {
+      user_id: user.id,
+      for_date: todayYmd,
+      focus,
+      position: pos++,
+      exercise_id: it.exerciseId,
+      equipment: it.equipment,
+      sets: p.sets,
+      reps: p.reps,
+      weight_kg: p.weightKg,
+    };
+  });
+
+  const ins = await supabase.from("daily_plan").insert(rows);
+  if (ins.error) return { ok: false, error: ins.error.message };
 
   revalidatePath("/routine");
   revalidatePath("/plan/today");

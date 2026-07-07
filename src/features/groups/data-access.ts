@@ -86,6 +86,17 @@ export const getMyGroups = cache(async (): Promise<GroupSummary[]> => {
     .sort((a, b) => a.name.localeCompare(b.name, "ko"));
 });
 
+/**
+ * 전체 그룹 목록(id·이름). 게시물 관리자(디버깅 계정)가 그룹탭에서 모든 그룹 글을
+ * 보게 하려는 용도 — groups RLS 에 모더레이터 우회가 있어 관리자면 전부 읽힌다.
+ * 일반 사용자가 호출하면 RLS로 본인 그룹만 반환된다.
+ */
+export async function getAllGroups(): Promise<{ id: string; name: string }[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase.from("groups").select("id, name").order("name");
+  return (data ?? []) as { id: string; name: string }[];
+}
+
 export type GroupDetail = {
   id: string;
   name: string;

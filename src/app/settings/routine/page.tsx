@@ -31,7 +31,6 @@ export default async function RoutineSettingsPage({
   ]);
 
   // 진입 경로별 백링크 — 메인에서 왔으면 운동 메인(/routine)으로, 설정에서 왔으면 설정으로.
-  // ("/" 는 운동/파워리프팅 모드 선택 랜딩이라 운동 화면이 아님)
   const fromHome = sp.from === "home";
   const backHref = fromHome ? "/routine" : "/settings";
   const backLabel = fromHome ? "오늘의 운동" : "설정";

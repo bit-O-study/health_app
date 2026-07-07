@@ -524,7 +524,7 @@ export async function TodayExercises({
                 </span>
               ) : null}
             </h2>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center justify-end gap-2">
               {equipmentScan ? <EquipmentScanButton /> : null}
               <WorkoutSessionTimer
                 queueItems={queueItems}

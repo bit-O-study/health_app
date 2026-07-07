@@ -1,29 +1,19 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Sparkles, Upload } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
+import { resizeImageForAI } from "@/lib/image/resize-for-ai";
 import {
   saveBodyCompositionAction,
   type SaveBodyCompInput,
 } from "@/features/body-composition/actions";
-import { parseBodyCompText } from "@/features/body-composition/parse-body-comp";
+import { scanBodyCompPhotoAction } from "@/features/body-composition/body-comp-scan-actions";
 
 const BUCKET = "body-composition-images";
-
-/** Tesseract.js logger 의 영문 status 를 사용자용 한국어 문구로 */
-function translatePhase(s: string): string {
-  if (s.includes("loading tesseract core")) return "엔진 로딩";
-  if (s.includes("initializing tesseract")) return "엔진 초기화";
-  if (s.includes("loading language traineddata"))
-    return "한국어 데이터 다운로드";
-  if (s.includes("initializing api")) return "분석 준비";
-  if (s.includes("recognizing")) return "사진 분석 중";
-  return s;
-}
 
 type FieldKey = Exclude<
   keyof SaveBodyCompInput,
@@ -99,7 +89,6 @@ export function BodyCompForm({
   const [ocrMsg, setOcrMsg] = useState<{ ok: boolean; text: string } | null>(
     null,
   );
-  const ocrAbortRef = useRef<{ cancel: () => void } | null>(null);
 
   async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -139,24 +128,20 @@ export function BodyCompForm({
     setOcrMsg(null);
     setOcrRunning(true);
     setOcrProgress(0);
-    setOcrPhase("준비 중");
+    setOcrPhase("AI가 분석 중…");
     try {
-      // 무거우니까 클릭한 순간에만 로드 — 초기 번들 크기 영향 없음
-      const { createWorker } = await import("tesseract.js");
-      const worker = await createWorker(["kor", "eng"], 1, {
-        logger: (m: { status: string; progress?: number }) => {
-          if (typeof m.progress === "number") {
-            setOcrProgress(Math.round(m.progress * 100));
-          }
-          if (m.status) setOcrPhase(translatePhase(m.status));
-        },
+      // 사진을 AI 비전 크기로 축소 후 서버에서 판독(식단 스캔과 동일 경로).
+      const img = await resizeImageForAI(imageFile);
+      const res = await scanBodyCompPhotoAction({
+        imageBase64: img.base64,
+        mediaType: img.mediaType,
       });
-      ocrAbortRef.current = { cancel: () => worker.terminate() };
-      const { data } = await worker.recognize(imageFile);
-      await worker.terminate();
-      ocrAbortRef.current = null;
+      if (!res.ok) {
+        setOcrMsg({ ok: false, text: res.error });
+        return;
+      }
 
-      const parsed = parseBodyCompText(data.text);
+      const parsed = res.values;
       const filled: string[] = [];
       setValues((prev) => {
         const next = { ...prev };
@@ -179,16 +164,10 @@ export function BodyCompForm({
             },
       );
     } catch (err) {
-      // 정확한 원인 파악을 위해 콘솔에 풀 스택 + 사용자에겐 메시지/원인 노출
-      console.error("[ocr] failed", err);
       const msg = err instanceof Error ? err.message : String(err);
-      const cause =
-        err instanceof Error && err.cause
-          ? ` (원인: ${err.cause instanceof Error ? err.cause.message : String(err.cause)})`
-          : "";
       setOcrMsg({
         ok: false,
-        text: `OCR 실패: ${msg}${cause}. 인터넷 연결 확인 후 다시 시도하거나 직접 입력해 주세요.`,
+        text: `분석 실패: ${msg}. 다시 시도하거나 직접 입력해 주세요.`,
       });
     } finally {
       setOcrRunning(false);

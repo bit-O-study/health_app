@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Calendar,
   Camera,
   ChevronLeft,
   ChevronRight,
@@ -22,6 +23,7 @@ import {
   MEALS,
   MEAL_LABEL,
   wrapIndex,
+  clampDietDate,
   type FoodLog,
   type Meal,
 } from "@/features/diet/meal";
@@ -144,10 +146,20 @@ export function DietBoard({
 
   const { label } = ymdDisplay(date);
   const isToday = date === today;
+  const [datePicker, setDatePicker] = useState(false);
 
   function goDay(delta: number) {
     if (pending) return;
     const d = addDaysYmd(date, delta);
+    start(() => router.push(d === today ? "/diet" : `/diet?d=${d}`));
+  }
+
+  /** 특정 날짜(과거)로 이동 — 날짜 선택 팝업에서 호출. 미래는 오늘로 클램프. */
+  function goToDate(ymd: string) {
+    if (pending) return;
+    const d = clampDietDate(ymd, today);
+    if (!d) return;
+    setDatePicker(false);
     start(() => router.push(d === today ? "/diet" : `/diet?d=${d}`));
   }
 
@@ -278,9 +290,16 @@ export function DietBoard({
           >
             <ChevronLeft aria-hidden="true" size={18} />
           </button>
-          <span className="min-w-[4.5rem] text-center text-sm font-bold text-zinc-700 dark:text-zinc-200">
+          <button
+            type="button"
+            onClick={() => setDatePicker(true)}
+            onDoubleClick={() => setDatePicker(true)}
+            aria-label="날짜 선택 — 과거 식단 등록·수정"
+            className="flex min-w-[4.5rem] items-center justify-center gap-1 rounded-full px-2 py-1 text-sm font-bold text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+          >
+            <Calendar aria-hidden="true" size={13} className="text-zinc-400" />
             {isToday ? "오늘" : label}
-          </span>
+          </button>
           <button
             type="button"
             aria-label="다음 날"
@@ -349,7 +368,90 @@ export function DietBoard({
           onAdd={(input) => addFood(adding, input)}
         />
       ) : null}
+
+      {datePicker ? (
+        <DatePickerDialog
+          date={date}
+          today={today}
+          onPick={goToDate}
+          onClose={() => setDatePicker(false)}
+        />
+      ) : null}
     </section>
+  );
+}
+
+/** 날짜 선택 팝업 — 과거 식단 등록·수정을 위해 임의 날짜로 이동. 미래는 못 고른다. */
+function DatePickerDialog({
+  date,
+  today,
+  onPick,
+  onClose,
+}: {
+  date: string;
+  today: string;
+  onPick: (ymd: string) => void;
+  onClose: () => void;
+}) {
+  const quick: Array<{ label: string; ymd: string }> = [
+    { label: "오늘", ymd: today },
+    { label: "어제", ymd: addDaysYmd(today, -1) },
+    { label: "그저께", ymd: addDaysYmd(today, -2) },
+    { label: "3일 전", ymd: addDaysYmd(today, -3) },
+    { label: "일주일 전", ymd: addDaysYmd(today, -7) },
+  ];
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center"
+      onClick={onClose}
+    >
+      <div
+        className="w-full max-w-sm rounded-t-3xl bg-white p-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-5"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="mb-1 flex items-center justify-between">
+          <h2 className="flex items-center gap-1.5 text-base font-extrabold">
+            <Calendar size={18} className="text-emerald-600" /> 날짜 선택
+          </h2>
+          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
+            <X size={20} />
+          </button>
+        </div>
+        <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+          과거 날짜를 골라 그날의 식단을 등록·수정할 수 있어요.
+        </p>
+
+        {/* 달력에서 날짜 선택(미래 불가) */}
+        <label className="block text-xs font-bold text-zinc-500">날짜</label>
+        <input
+          type="date"
+          value={date}
+          max={today}
+          onChange={(e) => {
+            if (e.target.value) onPick(e.target.value);
+          }}
+          className="mt-1 h-12 w-full rounded-2xl border border-zinc-200 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+        />
+
+        {/* 빠른 선택 */}
+        <div className="mt-3 flex flex-wrap gap-1.5">
+          {quick.map((q) => (
+            <button
+              key={q.ymd}
+              type="button"
+              onClick={() => onPick(q.ymd)}
+              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${
+                date === q.ymd
+                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                  : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
+              }`}
+            >
+              {q.label}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 

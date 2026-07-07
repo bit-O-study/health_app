@@ -17,6 +17,15 @@ export function wrapIndex(i: number, len: number): number {
   return ((i % len) + len) % len;
 }
 
+/**
+ * 식단 날짜 선택 정규화 — 과거 날짜로 이동할 때 쓴다.
+ * 형식(YYYY-MM-DD)이 아니면 null, 미래 날짜는 today 로 클램프(식단은 과거만 편집).
+ */
+export function clampDietDate(ymd: string, today: string): string | null {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(ymd)) return null;
+  return ymd > today ? today : ymd;
+}
+
 export type FoodLog = {
   id: string;
   /**

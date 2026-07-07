@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { searchFoods, getFoodItem, FOOD_ITEMS } from "@/features/diet/food-catalog";
-import { wrapIndex } from "@/features/diet/meal";
+import { wrapIndex, clampDietDate } from "@/features/diet/meal";
 
 describe("dailyTarget — 권장 칼로리·탄단지", () => {
   it("키·몸무게 있으면 Mifflin-St Jeor 기반 TDEE", () => {
@@ -72,5 +72,25 @@ describe("wrapIndex — 사진 캐러셀 순환", () => {
   it("사진이 없으면 0", () => {
     expect(wrapIndex(0, 0)).toBe(0);
     expect(wrapIndex(5, 0)).toBe(0);
+  });
+});
+
+describe("clampDietDate — 과거 날짜 이동 정규화", () => {
+  const today = "2026-07-07";
+  it("과거 날짜는 그대로", () => {
+    expect(clampDietDate("2026-07-01", today)).toBe("2026-07-01");
+    expect(clampDietDate("2025-12-31", today)).toBe("2025-12-31");
+  });
+  it("오늘은 그대로", () => {
+    expect(clampDietDate(today, today)).toBe(today);
+  });
+  it("미래 날짜는 오늘로 클램프", () => {
+    expect(clampDietDate("2026-07-08", today)).toBe(today);
+    expect(clampDietDate("2027-01-01", today)).toBe(today);
+  });
+  it("형식이 틀리면 null", () => {
+    expect(clampDietDate("2026-7-7", today)).toBeNull();
+    expect(clampDietDate("", today)).toBeNull();
+    expect(clampDietDate("어제", today)).toBeNull();
   });
 });

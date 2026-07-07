@@ -10,7 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { Clock, Plus, X } from "lucide-react";
+import { Clock, GripVertical, Plus, X } from "lucide-react";
 
 import {
   DEFAULT_REST_SEC,
@@ -246,14 +246,88 @@ function RestOverlay({
 
   const progress = Math.min(1, 1 - remainingMs / Math.max(1, totalSec * 1000));
 
+  // ── 드래그 이동 — 그립을 잡고 화면 어디든 옮긴다(위치는 localStorage 유지) ──
+  const cardRef = useRef<HTMLDivElement>(null);
+  const dragRef = useRef<{ dx: number; dy: number } | null>(null);
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem(REST_POS_KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        if (typeof p?.x === "number" && typeof p?.y === "number") setPos(p);
+      }
+    } catch {
+      /* noop */
+    }
+  }, []);
+
+  function onGripDown(e: React.PointerEvent) {
+    const el = cardRef.current;
+    if (!el) return;
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    const r = el.getBoundingClientRect();
+    dragRef.current = { dx: e.clientX - r.left, dy: e.clientY - r.top };
+  }
+  function onGripMove(e: React.PointerEvent) {
+    const d = dragRef.current;
+    const el = cardRef.current;
+    if (!d || !el) return;
+    e.preventDefault();
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    const x = clampPos(e.clientX - d.dx, window.innerWidth - w);
+    const y = clampPos(e.clientY - d.dy, window.innerHeight - h);
+    setPos({ x, y });
+  }
+  function onGripUp() {
+    if (dragRef.current && pos) {
+      try {
+        window.localStorage.setItem(REST_POS_KEY, JSON.stringify(pos));
+      } catch {
+        /* noop */
+      }
+    }
+    dragRef.current = null;
+  }
+
+  const anchored = pos !== null;
+  // 드래그로 옮긴 위치가 있으면 그 좌표로, 없으면 기본(하단 중앙) 앵커.
+  const outerClass = anchored
+    ? "pointer-events-none fixed z-50"
+    : "pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4";
+  const outerStyle: React.CSSProperties = anchored
+    ? { left: pos.x, top: pos.y }
+    : {
+        bottom: lifted
+          ? "calc(env(safe-area-inset-bottom, 0px) + 5.75rem)"
+          : "calc(env(safe-area-inset-bottom, 0px) + 5rem)",
+      };
+  const gripProps = {
+    onPointerDown: onGripDown,
+    onPointerMove: onGripMove,
+    onPointerUp: onGripUp,
+    onPointerCancel: onGripUp,
+  };
+  const Grip = (
+    <button
+      type="button"
+      aria-label="드래그로 이동"
+      {...gripProps}
+      className="relative z-10 flex h-7 w-5 shrink-0 cursor-grab touch-none items-center justify-center text-white/50 active:cursor-grabbing"
+    >
+      <GripVertical aria-hidden="true" size={14} />
+    </button>
+  );
+
   // 가이드 화면(lifted)에서는 더 크고 눈에 띄는 카드, 그 외에는 컴팩트 알약.
   if (lifted) {
     return (
-      <div
-        className="pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4"
-        style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 5.75rem)" }}
-      >
+      <div className={outerClass} style={outerStyle}>
         <div
+          ref={cardRef}
           className={`pointer-events-auto relative w-full max-w-md overflow-hidden rounded-2xl px-5 py-4 shadow-2xl ring-1 ${
             done
               ? "bg-emerald-600 text-white ring-emerald-400/50"
@@ -268,6 +342,7 @@ function RestOverlay({
           />
           <div className="relative z-10 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
+              {Grip}
               <Clock aria-hidden="true" size={18} className="shrink-0 opacity-90" />
               <span className="text-xs font-semibold uppercase tracking-wide opacity-80">
                 {done ? "휴식 완료" : "휴식 중"}
@@ -308,12 +383,10 @@ function RestOverlay({
   }
 
   return (
-    <div
-      className="pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4"
-      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 5rem)" }}
-    >
+    <div className={outerClass} style={outerStyle}>
       <div
-        className={`pointer-events-auto relative flex items-center gap-3 overflow-hidden rounded-full px-4 py-2.5 shadow-lg ${
+        ref={cardRef}
+        className={`pointer-events-auto relative flex items-center gap-2 overflow-hidden rounded-full px-3 py-2.5 shadow-lg ${
           done
             ? "bg-emerald-600 text-white"
             : "bg-zinc-900 text-white dark:bg-zinc-800"
@@ -325,6 +398,7 @@ function RestOverlay({
           className="absolute inset-y-0 left-0 bg-emerald-500/30"
           style={{ width: `${progress * 100}%`, transition: "width 250ms linear" }}
         />
+        {Grip}
         <Clock aria-hidden="true" size={16} className="relative z-10 shrink-0" />
         <span className="relative z-10 font-mono text-sm font-bold tabular-nums">
           {done ? "휴식 완료" : `휴식 ${formatRest(remainingSec)}`}
@@ -356,6 +430,13 @@ function RestOverlay({
 
 /** 빠른 선택 프리셋(설정 UI 재사용용 export). */
 export { REST_PRESETS };
+
+/** 드래그로 옮긴 휴식 위젯 위치(localStorage 키). */
+const REST_POS_KEY = "rest:widgetPos";
+/** 화면 밖으로 못 나가게 좌표를 [4, max-4] 로 보정. */
+function clampPos(v: number, max: number): number {
+  return Math.max(4, Math.min(Math.max(4, max), v));
+}
 
 function requestNotifyPermission() {
   try {

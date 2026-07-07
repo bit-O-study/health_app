@@ -78,9 +78,17 @@ export function CommunityBoard({
     });
   }
 
+  const isReels = tab === "teaching";
+
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col">
-      <div className="sticky top-0 z-10 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-3 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
+    <div
+      className={
+        isReels
+          ? "mx-auto flex h-[calc(100dvh-4rem-env(safe-area-inset-bottom))] w-full max-w-2xl flex-col overflow-hidden"
+          : "mx-auto flex w-full max-w-2xl flex-col"
+      }
+    >
+      <div className="sticky top-0 z-10 shrink-0 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-3 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
         <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-black tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
           커뮤니티
         </h1>
@@ -150,13 +158,15 @@ export function CommunityBoard({
       </div>
 
       {/* 피드 */}
-      {tab === "teaching" ? (
-        // 운동 탭 — 숏츠/릴스 스타일 세로 풀스크린 피드
-        <TeachingReels
-          posts={visible}
-          canModerate={canModerate}
-          onChanged={() => router.refresh()}
-        />
+      {isReels ? (
+        // 운동 탭 — 숏츠/릴스 스타일 세로 풀스크린 피드(이 영역만 스냅 스크롤)
+        <div className="min-h-0 flex-1">
+          <TeachingReels
+            posts={visible}
+            canModerate={canModerate}
+            onChanged={() => router.refresh()}
+          />
+        </div>
       ) : visible.length === 0 ? (
         <div className="flex flex-col items-center gap-3 px-6 py-20 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-500 dark:bg-emerald-950/40">
@@ -230,10 +240,10 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`shrink-0 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
+      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition-all active:scale-95 ${
         active
-          ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-          : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
+          ? "border-transparent bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/30"
+          : "border-zinc-200 text-zinc-500 hover:border-emerald-300 hover:text-emerald-600 dark:border-zinc-700 dark:hover:border-emerald-800"
       }`}
     >
       {label}
@@ -608,7 +618,7 @@ function ComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-500 py-3 text-sm font-extrabold text-white active:scale-[0.99] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-emerald-500/25 transition-transform active:scale-[0.99] disabled:opacity-60"
         >
           {pending ? (
             <>

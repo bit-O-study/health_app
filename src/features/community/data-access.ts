@@ -191,18 +191,30 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
     ),
   ];
   const photoIds = cRows.map((r) => r.id);
+  const teachIds = tRows.map((r) => r.id);
 
-  const [{ data: grps }, { data: counts }, { data: myLikes }] = await Promise.all([
-    groupIds.length > 0
-      ? supabase.from("groups").select("id, name").in("id", groupIds)
-      : Promise.resolve({ data: [] as { id: string; name: string }[] }),
-    photoIds.length > 0
-      ? supabase.rpc("community_post_counts", { pids: photoIds })
-      : Promise.resolve({ data: [] as { post_id: string; like_count: number; comment_count: number }[] }),
-    photoIds.length > 0
-      ? supabase.from("community_likes").select("post_id").eq("user_id", user.id).in("post_id", photoIds)
-      : Promise.resolve({ data: [] as { post_id: string }[] }),
-  ]);
+  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }] =
+    await Promise.all([
+      groupIds.length > 0
+        ? supabase.from("groups").select("id, name").in("id", groupIds)
+        : Promise.resolve({ data: [] as { id: string; name: string }[] }),
+      photoIds.length > 0
+        ? supabase.rpc("community_post_counts", { pids: photoIds })
+        : Promise.resolve({ data: [] as { post_id: string; like_count: number; comment_count: number }[] }),
+      photoIds.length > 0
+        ? supabase.from("community_likes").select("post_id").eq("user_id", user.id).in("post_id", photoIds)
+        : Promise.resolve({ data: [] as { post_id: string }[] }),
+      teachIds.length > 0
+        ? supabase.rpc("teaching_post_counts", { pids: teachIds })
+        : Promise.resolve({
+            data: [] as {
+              post_id: string;
+              like_count: number;
+              comment_count: number;
+              liked_by_me: boolean;
+            }[],
+          }),
+    ]);
 
   const groupNameById = new Map<string, string>();
   for (const g of (grps ?? []) as { id: string; name: string }[]) groupNameById.set(g.id, g.name);
@@ -213,6 +225,21 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
     commentCount.set(r.post_id, r.comment_count);
   }
   const likedByMe = new Set<string>(((myLikes ?? []) as { post_id: string }[]).map((l) => l.post_id));
+
+  // 티칭 글 좋아요/댓글 수 + 내 좋아요 여부(teaching_post_counts RPC).
+  const tLike = new Map<string, number>();
+  const tComment = new Map<string, number>();
+  const tLikedByMe = new Set<string>();
+  for (const r of (tCounts ?? []) as {
+    post_id: string;
+    like_count: number;
+    comment_count: number;
+    liked_by_me: boolean;
+  }[]) {
+    tLike.set(r.post_id, r.like_count);
+    tComment.set(r.post_id, r.comment_count);
+    if (r.liked_by_me) tLikedByMe.add(r.post_id);
+  }
 
   const gName = (id: string | null) => (id ? (groupNameById.get(id) ?? null) : null);
 
@@ -248,9 +275,9 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
     createdAt: r.created_at,
     isMine: r.user_id === user.id,
     photoUrl: null,
-    likeCount: 0,
-    commentCount: 0,
-    likedByMe: false,
+    likeCount: tLike.get(r.id) ?? 0,
+    commentCount: tComment.get(r.id) ?? 0,
+    likedByMe: tLikedByMe.has(r.id),
     videoUrl: r.video_url,
     exerciseTag: r.exercise_tag,
     exerciseSlug: r.exercise_slug,

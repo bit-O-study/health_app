@@ -1,13 +1,30 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { Heart, Search, Trash2, Video, Volume2, VolumeX } from "lucide-react";
+import {
+  Heart,
+  Loader2,
+  MessageCircle,
+  Search,
+  Send,
+  Trash2,
+  Video,
+  Volume2,
+  VolumeX,
+  X,
+} from "lucide-react";
 
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime } from "../community";
 import type { FeedPost } from "../data-access";
-import { toggleLikeAction } from "../community-actions";
-import { deleteTeachingPostAction } from "@/features/teaching/teaching-actions";
+import {
+  addTeachingCommentAction,
+  deleteTeachingCommentAction,
+  deleteTeachingPostAction,
+  listTeachingCommentsAction,
+  toggleTeachingLikeAction,
+  type TeachingComment,
+} from "@/features/teaching/teaching-actions";
 
 /**
  * 운동(티칭) 게시판 — 유튜브 숏츠/인스타 릴스 스타일 세로 풀스크린 피드.
@@ -43,7 +60,7 @@ export function TeachingReels({
   }
 
   return (
-    <div className="h-[calc(100dvh-10.5rem)] min-h-[440px] snap-y snap-mandatory overflow-y-scroll overscroll-contain rounded-t-xl bg-black">
+    <div className="h-full snap-y snap-mandatory overflow-y-scroll overscroll-contain bg-black [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       {posts.map((p) => (
         <ReelSlide
           key={p.id}
@@ -78,8 +95,10 @@ function ReelSlide({
   const [paused, setPaused] = useState(false);
   const [liked, setLiked] = useState(post.likedByMe);
   const [likeCount, setLikeCount] = useState(post.likeCount);
+  const [commentCount, setCommentCount] = useState(post.commentCount);
   const [burst, setBurst] = useState(false);
   const [gone, setGone] = useState(false);
+  const [comments, setComments] = useState(false);
   const [pending, start] = useTransition();
 
   // 화면 중앙에 온 영상만 재생, 벗어나면 정지(+처음으로).
@@ -133,7 +152,7 @@ function ReelSlide({
     setLiked(next);
     setLikeCount((c) => c + (next ? 1 : -1));
     start(async () => {
-      const r = await toggleLikeAction(post.id);
+      const r = await toggleTeachingLikeAction(post.id);
       if (!r.ok) {
         setLiked(!next);
         setLikeCount((c) => c + (next ? -1 : 1));
@@ -218,8 +237,18 @@ function ReelSlide({
         ) : null}
       </div>
 
-      {/* 우측 액션 레일: 좋아요 · 음소거 · (삭제) */}
+      {/* 우측 액션 레일: 댓글 · 좋아요 · 음소거 · (삭제) */}
       <div className="absolute bottom-4 right-2 flex flex-col items-center gap-4 text-white">
+        <button
+          type="button"
+          onClick={() => setComments(true)}
+          aria-label="댓글"
+          className="flex flex-col items-center gap-0.5 transition-transform active:scale-110"
+        >
+          <MessageCircle size={30} className="text-white drop-shadow" />
+          <span className="text-xs font-bold drop-shadow">{commentCount}</span>
+        </button>
+
         <button
           type="button"
           onClick={() => setLike(!liked)}
@@ -254,6 +283,172 @@ function ReelSlide({
             <Trash2 size={18} />
           </button>
         ) : null}
+      </div>
+
+      {comments ? (
+        <CommentSheet
+          postId={post.id}
+          onClose={() => setComments(false)}
+          onCountChange={setCommentCount}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/** 티칭 영상 댓글 시트 — 목록 + 작성 + 삭제(본인). */
+function CommentSheet({
+  postId,
+  onClose,
+  onCountChange,
+}: {
+  postId: string;
+  onClose: () => void;
+  onCountChange: (n: number) => void;
+}) {
+  const [now] = useState(() => Date.now());
+  const [list, setList] = useState<TeachingComment[] | null>(null);
+  const [text, setText] = useState("");
+  const [pending, start] = useTransition();
+
+  useEffect(() => {
+    let alive = true;
+    listTeachingCommentsAction(postId).then((rows) => {
+      if (alive) setList(rows);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [postId]);
+
+  function submit() {
+    const body = text.trim();
+    if (!body) return;
+    start(async () => {
+      const r = await addTeachingCommentAction(postId, body);
+      if (r.ok) {
+        setText("");
+        const rows = await listTeachingCommentsAction(postId);
+        setList(rows);
+        onCountChange(rows.length);
+      } else {
+        alert(r.error);
+      }
+    });
+  }
+
+  function remove(id: string) {
+    start(async () => {
+      const r = await deleteTeachingCommentAction(id);
+      if (r.ok) {
+        const rows = await listTeachingCommentsAction(postId);
+        setList(rows);
+        onCountChange(rows.length);
+      } else {
+        alert(r.error);
+      }
+    });
+  }
+
+  return (
+    <div
+      className="absolute inset-0 z-30 flex flex-col justify-end"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/40" />
+      <div
+        className="relative flex max-h-[70%] flex-col rounded-t-3xl bg-white text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
+          <span className="text-sm font-extrabold">
+            댓글 {list?.length ?? 0}
+          </span>
+          <button
+            type="button"
+            aria-label="닫기"
+            onClick={onClose}
+            className="rounded-full p-1 text-zinc-400"
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="min-h-[120px] flex-1 overflow-y-auto px-4 py-3">
+          {list === null ? (
+            <div className="flex justify-center py-8 text-zinc-400">
+              <Loader2 size={20} className="animate-spin" />
+            </div>
+          ) : list.length === 0 ? (
+            <p className="py-8 text-center text-sm text-zinc-400">
+              첫 댓글을 남겨보세요 💬
+            </p>
+          ) : (
+            <ul className="flex flex-col gap-3">
+              {list.map((c) => (
+                <li key={c.id} className="flex items-start gap-2">
+                  <span
+                    className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-sm ${pastelClass(
+                      c.authorName,
+                    )}`}
+                  >
+                    {characterEmoji(c.authorName)}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs">
+                      <span className="font-bold">{c.authorName}</span>
+                      <span className="ml-1.5 text-zinc-400">
+                        {relativeTime(new Date(c.createdAt).getTime(), now)}
+                      </span>
+                    </p>
+                    <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">
+                      {c.body}
+                    </p>
+                  </div>
+                  {c.isMine ? (
+                    <button
+                      type="button"
+                      aria-label="댓글 삭제"
+                      onClick={() => remove(c.id)}
+                      disabled={pending}
+                      className="text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div
+          className="flex items-center gap-2 border-t border-zinc-100 px-3 py-2.5 dark:border-zinc-800"
+          style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 0.625rem)" }}
+        >
+          <input
+            value={text}
+            onChange={(e) => setText(e.target.value.slice(0, 300))}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.nativeEvent.isComposing) submit();
+            }}
+            placeholder="댓글 달기…"
+            className="h-10 flex-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          />
+          <button
+            type="button"
+            onClick={submit}
+            disabled={pending || !text.trim()}
+            aria-label="댓글 등록"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white disabled:opacity-40"
+          >
+            {pending ? (
+              <Loader2 size={16} className="animate-spin" />
+            ) : (
+              <Send size={16} />
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

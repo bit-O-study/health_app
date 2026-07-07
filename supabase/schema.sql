@@ -2128,4 +2128,58 @@ create policy "update own or moderator teaching post" on public.teaching_posts f
   using (user_id = auth.uid() or public.is_post_moderator())
   with check (user_id = auth.uid() or public.is_post_moderator());
 
+-- ── 운동(티칭) 게시판 소셜 — 좋아요/댓글 ──────────────────────────────
+-- community_* 는 community_posts(id) FK 라 티칭 글에 못 쓴다. 티칭 전용 테이블.
+create table if not exists public.teaching_likes (
+  post_id uuid not null references public.teaching_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (post_id, user_id)
+);
+create index if not exists teaching_likes_post_idx
+  on public.teaching_likes (post_id);
+alter table public.teaching_likes enable row level security;
+drop policy if exists "read teaching likes" on public.teaching_likes;
+create policy "read teaching likes" on public.teaching_likes for select using (true);
+drop policy if exists "like teaching" on public.teaching_likes;
+create policy "like teaching" on public.teaching_likes for insert
+  with check (user_id = auth.uid());
+drop policy if exists "unlike teaching own" on public.teaching_likes;
+create policy "unlike teaching own" on public.teaching_likes for delete
+  using (user_id = auth.uid());
+
+create table if not exists public.teaching_comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid not null references public.teaching_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  author_name text not null default '회원',
+  body text not null check (char_length(body) between 1 and 300),
+  created_at timestamptz not null default now()
+);
+create index if not exists teaching_comments_post_idx
+  on public.teaching_comments (post_id, created_at);
+alter table public.teaching_comments enable row level security;
+drop policy if exists "read teaching comments" on public.teaching_comments;
+create policy "read teaching comments" on public.teaching_comments for select using (true);
+drop policy if exists "comment teaching" on public.teaching_comments;
+create policy "comment teaching" on public.teaching_comments for insert
+  with check (user_id = auth.uid());
+drop policy if exists "delete teaching comment own" on public.teaching_comments;
+create policy "delete teaching comment own" on public.teaching_comments for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+create or replace function public.teaching_post_counts(pids uuid[])
+returns table(post_id uuid, like_count int, comment_count int, liked_by_me boolean)
+language sql stable security definer set search_path = public as $$
+  select x.pid,
+    coalesce(l.n, 0)::int,
+    coalesce(cm.n, 0)::int,
+    coalesce(me.mine, false)
+  from unnest(pids) as x(pid)
+  left join (select post_id, count(*) n from public.teaching_likes where post_id = any(pids) group by post_id) l on l.post_id = x.pid
+  left join (select post_id, count(*) n from public.teaching_comments where post_id = any(pids) group by post_id) cm on cm.post_id = x.pid
+  left join (select post_id, true mine from public.teaching_likes where post_id = any(pids) and user_id = auth.uid()) me on me.post_id = x.pid;
+$$;
+grant execute on function public.teaching_post_counts(uuid[]) to authenticated;
+
 notify pgrst, 'reload schema';

@@ -221,41 +221,65 @@ export function DailyMainEditor({
     setConfirmRecommend(false);
   }
 
-  // ── 드래그 순서 변경 (그립 핸들) ──
+  // ── 드래그 순서 변경 — 메인 화면처럼 그립 '롱프레스' 로 리프트 후 이동 ──
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const dragFrom = useRef<number | null>(null);
+  const dragRef = useRef<{ from: number; startY: number } | null>(null);
+  const lpTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [drag, setDrag] = useState<{ from: number; dy: number } | null>(null);
+  const LONG_PRESS = 180;
 
+  function clearLp() {
+    if (lpTimer.current) {
+      clearTimeout(lpTimer.current);
+      lpTimer.current = null;
+    }
+  }
   function onGripDown(e: React.PointerEvent, index: number) {
-    e.preventDefault();
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-    dragFrom.current = index;
+    const startY = e.clientY;
+    clearLp();
+    // 롱프레스가 지나야 드래그(리프트) 시작 — 짧은 탭은 무시.
+    lpTimer.current = setTimeout(() => {
+      dragRef.current = { from: index, startY };
+      setDrag({ from: index, dy: 0 });
+      if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(8);
+    }, LONG_PRESS);
   }
   function onGripMove(e: React.PointerEvent) {
-    const from = dragFrom.current;
-    if (from === null) return;
+    const d = dragRef.current;
+    if (!d) {
+      clearLp();
+      return;
+    }
+    e.preventDefault();
     const y = e.clientY;
-    // 포인터가 어느 행 위에 있는지 계산해 실시간 재정렬.
-    let target = from;
+    let target = d.from;
     for (let i = 0; i < rowRefs.current.length; i++) {
       const el = rowRefs.current[i];
       if (!el) continue;
-      const rect = el.getBoundingClientRect();
-      if (y >= rect.top && y <= rect.bottom) {
+      const r = el.getBoundingClientRect();
+      const mid = (r.top + r.bottom) / 2;
+      if (i < d.from && y < mid) {
         target = i;
         break;
       }
-      if (y > rect.bottom) target = i;
+      if (i > d.from && y > mid) target = i;
     }
-    if (target !== from) {
+    if (target !== d.from) {
       const next = [...rows];
-      const [moved] = next.splice(from, 1);
+      const [moved] = next.splice(d.from, 1);
       next.splice(target, 0, moved);
-      dragFrom.current = target;
+      dragRef.current = { from: target, startY: y };
+      setDrag({ from: target, dy: 0 });
       update(next);
+    } else {
+      setDrag({ from: d.from, dy: y - d.startY });
     }
   }
   function onGripUp() {
-    dragFrom.current = null;
+    clearLp();
+    dragRef.current = null;
+    setDrag(null);
   }
 
   return (
@@ -298,6 +322,18 @@ export function DailyMainEditor({
                 ref={(el) => {
                   rowRefs.current[idx] = el;
                 }}
+                style={
+                  drag?.from === idx
+                    ? {
+                        transform: `translateY(${drag.dy}px) scale(1.03)`,
+                        boxShadow: "0 14px 30px rgba(0,0,0,0.18)",
+                        zIndex: 20,
+                        position: "relative",
+                        transition: "none",
+                        touchAction: "none",
+                      }
+                    : { transition: "transform 160ms ease" }
+                }
                 className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5 dark:border-zinc-700 dark:bg-zinc-900"
               >
                 <button

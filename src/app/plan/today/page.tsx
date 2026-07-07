@@ -110,34 +110,13 @@ export default async function TodayConditioningPage({
       : (firstDayIndexForFocus(slots, focus) ?? offsetForToday);
   };
 
-  // 부위별 본운동 섹션
-  const mainSections = await Promise.all(
-    validFocuses.map(async (focus) => {
-      const dailyMain = dailyAll.filter((r) => r.focus === focus);
-      const byDay = await getPlanForDay(readDayFor(focus), focus);
-      const base = byDay.length > 0 ? byDay : await getPlanForFocus(focus);
-      const initialMain =
-        dailyMain.length > 0
-          ? dailyMain
-          : base.map((p) => ({
-              id: p.id,
-              focus: p.focus,
-              position: p.position,
-              exerciseId: p.exerciseId,
-              equipment: p.equipment,
-              sets: p.sets,
-              reps: p.reps,
-              weightKg: p.weightKg,
-              setDetails: p.setDetails,
-              memo: p.memo,
-            }));
-      return {
-        focus,
-        label: DAY_BLOCKS[focus].label,
-        initialMain,
-      };
-    }),
-  );
+  // 부위별 본운동 섹션 — 오늘 오버라이드가 있으면 그걸, 없으면 **빈값**으로 시작한다.
+  // (기본 루틴을 미리 채우지 않음 → 처음엔 비어 있고 "추천으로 채우기"로 담는다)
+  const mainSections = validFocuses.map((focus) => ({
+    focus,
+    label: DAY_BLOCKS[focus].label,
+    initialMain: dailyAll.filter((r) => r.focus === focus),
+  }));
 
   // 워밍업/마무리는 하루 1세트. 추천 기본값은 오늘 선택한 **전 부위**의 워밍업/마무리를
   // 합쳐서(중복 itemId 제거) 채운다. (예전엔 첫 부위만 → 부위 여러 개일 때 빠졌음)
@@ -156,10 +135,10 @@ export default async function TodayConditioningPage({
     warmup: dedupeById(perFocusCond.flatMap((c) => c.warmup)),
     cooldown: dedupeById(perFocusCond.flatMap((c) => c.cooldown)),
   };
-  const warmupInitial =
-    daily.warmup.length > 0 ? daily.warmup : condDefaults.warmup;
-  const cooldownInitial =
-    daily.cooldown.length > 0 ? daily.cooldown : condDefaults.cooldown;
+  // 초기엔 오늘 오버라이드만(없으면 빈값 → '추천으로 채우기'로 담는다). condDefaults 는 유지.
+  void condDefaults;
+  const warmupInitial = daily.warmup;
+  const cooldownInitial = daily.cooldown;
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">

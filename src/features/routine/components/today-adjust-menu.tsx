@@ -29,6 +29,7 @@ import {
   pinRoutineFocusesForTodayAction,
 } from "@/features/routine/daily-plan-actions";
 import { seoulYmd } from "@/features/routine/data";
+import { TodayAddExercises } from "@/features/routine/components/today-add-exercises";
 
 // "오늘만 바꾸기" 는 부위 단위로만 — 세부근육 블록은 정신없으니 루틴 빌더에서만 노출.
 const FOCUS_CHOICES: DayBlockId[] = [
@@ -117,8 +118,9 @@ export function TodayAdjustMenu({
           className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
         >
           <SlidersHorizontal aria-hidden="true" size={14} />
-          오늘만 운동 바꾸기
+          오늘만 부위 바꾸기
         </button>
+        <TodayAddExercises />
         <button
           type="button"
           disabled={pending}

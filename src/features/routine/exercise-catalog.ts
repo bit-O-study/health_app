@@ -2386,6 +2386,30 @@ export function allExercisesForFocus(tone: FocusTone): CatalogExercise[] {
   return parts.flatMap((p) => grouped[p]);
 }
 
+/** 운동 id → 대표 부위(focus). 부위별 목록을 역인덱싱(첫 매칭). "오늘만 담기"에서 개별
+ * 운동을 daily_plan 에 넣을 때 focus 를 정하는 용도. 매칭 없으면 null. */
+let _focusByExercise: Map<string, FocusKey> | null = null;
+export function focusForExercise(exerciseId: string): FocusKey | null {
+  if (!_focusByExercise) {
+    const m = new Map<string, FocusKey>();
+    for (const f of ALL_FOCUSES) {
+      for (const ex of allExercisesForFocus(f as FocusTone)) {
+        if (!m.has(ex.id)) m.set(ex.id, f);
+      }
+    }
+    _focusByExercise = m;
+  }
+  return _focusByExercise.get(exerciseId) ?? null;
+}
+
+/** 오늘만 담기용 — 전체 운동 목록(부위별 그룹). 검색 없이 둘러보기. */
+export function allExercisesGrouped(): { focus: FocusKey; exercises: CatalogExercise[] }[] {
+  return ALL_FOCUSES.map((f) => ({
+    focus: f,
+    exercises: allExercisesForFocus(f as FocusTone),
+  })).filter((g) => g.exercises.length > 0);
+}
+
 /* ─── 처방(세트×횟수×무게) ──────────────────────────────────────────────── */
 
 export type LoadClass = "heavy" | "medium" | "light" | "bodyweight";

@@ -1521,7 +1521,7 @@ function AddFoodDialog({
               className="h-11 w-full bg-transparent text-base outline-none placeholder:text-zinc-400 dark:text-zinc-100"
             />
           </div>
-          <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-6 dark:divide-zinc-800">
+          <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] dark:divide-zinc-800">
             {results.length === 0 ? (
               <li className="py-10 text-center text-sm text-zinc-400">
                 검색 결과가 없어요. ‘직접 입력’으로 추가하세요.
@@ -1571,7 +1571,7 @@ function AddFoodDialog({
     const field =
       "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
     return (
-      <div className="flex-1 space-y-3 overflow-y-auto px-4 pb-8 pt-3">
+      <div className="flex-1 space-y-3 overflow-y-auto px-4 pt-3 pb-[calc(6rem+env(safe-area-inset-bottom,0px))]">
         <label className="block">
           <span className="mb-1 block text-xs font-bold text-zinc-500">음식 이름</span>
           <input value={name} onChange={(e) => setName(e.target.value)} placeholder="예: 직접 만든 도시락" className={field} />

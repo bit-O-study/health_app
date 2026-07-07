@@ -76,6 +76,7 @@ export function DailyMainEditor({
   dateYmd,
   gymEquipment = null,
   lockWeightReps = false,
+  allowAllExercises = false,
 }: {
   sections: MainSection[];
   gender: "male" | "female";
@@ -85,6 +86,8 @@ export function DailyMainEditor({
   dateYmd: string;
   gymEquipment?: readonly string[] | null;
   lockWeightReps?: boolean;
+  /** 직접 담기 — sections 에 부위가 있어도 전체 카탈로그에서 고르게 한다. */
+  allowAllExercises?: boolean;
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
@@ -98,7 +101,7 @@ export function DailyMainEditor({
     const seen = new Set<string>();
     const out: CatalogExercise[] = [];
     const source =
-      focuses.length > 0
+      focuses.length > 0 && !allowAllExercises
         ? focuses.flatMap((f) => allExercisesForFocus(f as FocusTone))
         : allExercisesGrouped().flatMap((g) => g.exercises);
     for (const ex of source) {

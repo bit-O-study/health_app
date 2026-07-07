@@ -182,6 +182,7 @@ export default async function TodayConditioningPage({
             dateYmd={todayYmd}
             gymEquipment={gymEquipment}
             lockWeightReps={profile.lockWeightReps}
+            allowAllExercises={direct}
           />
 
           {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움.

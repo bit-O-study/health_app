@@ -21,7 +21,7 @@ import {
 } from "@/features/routine/data";
 import {
   convertTodayToRestAction,
-  deferRoutineOneDayAction,
+  deferTodayWorkoutToTomorrowAction,
   restartRoutineFromTodayAction,
   undoTodayRestAction,
 } from "@/features/routine/actions";
@@ -87,8 +87,9 @@ export function TodayAdjustMenu({
     const focuses = Array.from(picked).join(",");
     start(async () => {
       if (isRestToday) await undoTodayRestAction();
-      // 오늘 원래 루틴(본운동+워밍업+마무리)을 통째로 내일로 미룬다.
-      await deferRoutineOneDayAction();
+      // 오늘 원래 루틴(본운동+워밍업+마무리)을 내일로 이월(start_date 안 건드림)하고
+      // 오늘 화면은 비운다. 완료한 운동은 그대로 남는다.
+      await deferTodayWorkoutToTomorrowAction();
       await clearDailyPlanForDateAction(seoulYmd());
       setOpen(false);
       setPicked(new Set());

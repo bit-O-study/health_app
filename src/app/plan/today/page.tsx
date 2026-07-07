@@ -118,25 +118,10 @@ export default async function TodayConditioningPage({
     initialMain: dailyAll.filter((r) => r.focus === focus),
   }));
 
-  // 워밍업/마무리는 하루 1세트. 추천 기본값은 오늘 선택한 **전 부위**의 워밍업/마무리를
-  // 합쳐서(중복 itemId 제거) 채운다. (예전엔 첫 부위만 → 부위 여러 개일 때 빠졌음)
+  // 워밍업/마무리는 하루 1세트. 초기엔 오늘 오버라이드만(없으면 빈값 → '추천으로 채우기').
+  // 추천은 편집기 안에서 오늘 전 부위(validFocuses) 합집합으로 채운다.
   const primaryFocus = validFocuses[0];
   const daily = await getDailyConditioning(todayYmd);
-  const perFocusCond = await Promise.all(
-    validFocuses.map((f) => getConditioningForFocus(f)),
-  );
-  const dedupeById = <T extends { itemId: string }>(arr: T[]): T[] => {
-    const seen = new Set<string>();
-    return arr.filter((x) =>
-      seen.has(x.itemId) ? false : (seen.add(x.itemId), true),
-    );
-  };
-  const condDefaults = {
-    warmup: dedupeById(perFocusCond.flatMap((c) => c.warmup)),
-    cooldown: dedupeById(perFocusCond.flatMap((c) => c.cooldown)),
-  };
-  // 초기엔 오늘 오버라이드만(없으면 빈값 → '추천으로 채우기'로 담는다). condDefaults 는 유지.
-  void condDefaults;
   const warmupInitial = daily.warmup;
   const cooldownInitial = daily.cooldown;
 
@@ -193,11 +178,12 @@ export default async function TodayConditioningPage({
             lockWeightReps={profile.lockWeightReps}
           />
 
-          {/* 워밍업/마무리는 하루 1세트 */}
+          {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움 */}
           {primaryFocus ? (
             <>
               <ConditioningEditor
                 focus={primaryFocus}
+                recommendFocuses={validFocuses}
                 kind="warmup"
                 initial={warmupInitial}
                 dailyDate={todayYmd}
@@ -205,6 +191,7 @@ export default async function TodayConditioningPage({
               />
               <ConditioningEditor
                 focus={primaryFocus}
+                recommendFocuses={validFocuses}
                 kind="cooldown"
                 initial={cooldownInitial}
                 dailyDate={todayYmd}

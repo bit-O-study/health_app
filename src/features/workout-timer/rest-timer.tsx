@@ -72,6 +72,8 @@ export function RestTimerProvider({
   const [defaultSec, setDefaultSecState] = useState(DEFAULT_REST_SEC);
   // AudioContext 는 timer 들 사이에 재사용 — provider 수명 동안 1개만.
   const audioCtxRef = useRef<AudioContext | null>(null);
+  // 현재 휴식 종료 예정 시각(ms epoch) — 연장/취소 시 SW 재예약 기준.
+  const endsAtRef = useRef<number | null>(null);
 
   // 사용자 기본 휴식 시간 복원 — 외부(localStorage) 동기화라 의도된 setState.
   useEffect(() => {
@@ -99,18 +101,30 @@ export function RestTimerProvider({
       const sec = clampRest(seconds ?? defaultSec);
       // 사용자 제스처(완료 버튼 탭) 직후라 알림 권한 요청이 허용됨
       requestNotifyPermission();
-      setState({ endsAt: Date.now() + sec * 1000, totalSec: sec });
+      const endsAt = Date.now() + sec * 1000;
+      endsAtRef.current = endsAt;
+      setState({ endsAt, totalSec: sec });
+      // SW 에 종료시각 예약 — 페이지 JS 가 백그라운드에서 얼어도 SW 가 알림 발화.
+      scheduleRestNotification(endsAt);
     },
     [defaultSec],
   );
 
   const setLifted = useCallback((v: boolean) => setLiftedState(v), []);
 
-  const skip = useCallback(() => setState(null), []);
+  const skip = useCallback(() => {
+    endsAtRef.current = null;
+    cancelRestNotification();
+    setState(null);
+  }, []);
   const addSec = useCallback((extra: number) => {
-    setState((s) =>
-      s ? { endsAt: s.endsAt + extra * 1000, totalSec: s.totalSec + extra } : s,
-    );
+    const base = endsAtRef.current;
+    if (base == null) return;
+    const endsAt = base + extra * 1000;
+    endsAtRef.current = endsAt;
+    setState((s) => (s ? { endsAt, totalSec: s.totalSec + extra } : s));
+    // 연장 시 SW 예약도 새 종료시각으로 갱신.
+    scheduleRestNotification(endsAt);
   }, []);
 
   // ⚠ context value 는 반드시 useMemo — 인라인 객체면 매 렌더 새 ref 가 되어
@@ -222,7 +236,9 @@ function RestOverlay({
     // 설정된 알림음(기본: 음성 "운동 시작하세요" / 비프 / 사용자 업로드)으로 알림.
     if (sound) void playRestAlert(audioCtxRef);
     if (haptic) tryVibrate([180, 80, 180, 80, 260]);
-    notifyRestDone();
+    // 시스템 알림은 SW 예약(schedule-rest)이 담당한다 — 앱이 백그라운드여도 발화.
+    // SW 미제어(dev/미설치)일 때만 포그라운드 Notification 으로 폴백.
+    if (!hasServiceWorkerController()) notifyRestDone();
     const closeId = window.setTimeout(onClose, 1500);
     return () => window.clearTimeout(closeId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -350,6 +366,44 @@ function requestNotifyPermission() {
   } catch {
     /* noop */
   }
+}
+
+/** SW 가 제어 중인지(= 예약 알림을 맡길 수 있는지). dev/미설치면 false. */
+function hasServiceWorkerController(): boolean {
+  return (
+    typeof navigator !== "undefined" &&
+    "serviceWorker" in navigator &&
+    !!navigator.serviceWorker.controller
+  );
+}
+
+/** SW 에 메시지 전달(활성 SW 준비되면). 실패는 조용히 무시. */
+function postToServiceWorker(msg: Record<string, unknown>) {
+  try {
+    if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
+      return;
+    }
+    navigator.serviceWorker.ready
+      .then((reg) => reg.active?.postMessage(msg))
+      .catch(() => {});
+  } catch {
+    /* noop */
+  }
+}
+
+/** 휴식 종료시각을 SW 에 예약 — 만료 시 (앱이 백그라운드면) 시스템 알림. */
+function scheduleRestNotification(endsAt: number) {
+  postToServiceWorker({
+    type: "schedule-rest",
+    endsAt,
+    title: "휴식 완료! 💪",
+    body: "다음 세트를 시작하세요.",
+  });
+}
+
+/** 예약된 휴식 알림 취소(건너뛰기·완료 시). */
+function cancelRestNotification() {
+  postToServiceWorker({ type: "cancel-rest" });
 }
 
 function notifyRestDone() {

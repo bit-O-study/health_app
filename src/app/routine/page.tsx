@@ -112,16 +112,16 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
 export default async function Home() {
   const user = await getCurrentUser();
 
-  // profile·routine 은 서로 의존이 없다(둘 다 getCurrentUser 캐시만 사용) → 병렬로
-  // 받아 라운드트립 1회 절약. (예전엔 순차 await 였음)
-  const [profile, routine] = user
-    ? await Promise.all([getUserProfile(), getUserRoutine()])
-    : [null, null];
-
-  // '운동 시작' 왼쪽 기구 스캔 아이콘 — 디버그 계정(기구 스캔 기능)에만 노출.
-  const equipmentScan = user ? await isDebugFeatureEnabled("equipment-scan") : false;
-  // 운동 모드(가이드) 안 '자세 분석' — 디버그 계정(헬쑤쌤)에만 노출.
-  const postureEnabled = user ? await isDebugFeatureEnabled("helssu-coach") : false;
+  // profile·routine·디버그 플래그는 서로 의존이 없다 → 전부 한 번에 병렬로 받아
+  // 라운드트립을 줄인다. (예전엔 profile/routine 병렬 뒤 디버그 2건을 순차 await 했음)
+  const [profile, routine, equipmentScan, postureEnabled] = user
+    ? await Promise.all([
+        getUserProfile(),
+        getUserRoutine(),
+        isDebugFeatureEnabled("equipment-scan"), // 기구 스캔 아이콘(디버그)
+        isDebugFeatureEnabled("helssu-coach"), // 자세 분석(디버그)
+      ])
+    : [null, null, false, false];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {

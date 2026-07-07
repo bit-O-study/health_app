@@ -88,8 +88,8 @@ export function TodayAdjustMenu({
     start(async () => {
       if (isRestToday) await undoTodayRestAction();
       // 루틴 전체를 하루씩 민다(오늘 원래 운동→내일, 아무 날도 안 사라짐) + 오늘을
-      // '변경된 날'로 마킹해 원래 운동을 숨긴다. 오늘 daily_plan/conditioning 은 비운다.
-      await deferRoutineOneDayAction();
+      // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
+      await deferRoutineOneDayAction(focuses);
       await clearDailyPlanForDateAction(seoulYmd());
       setOpen(false);
       setPicked(new Set());

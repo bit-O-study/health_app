@@ -18,9 +18,9 @@ export function TodayAddExercises() {
 
   function go() {
     start(async () => {
-      // 루틴 전체를 하루씩 밀고(아무 날도 안 사라짐) 오늘을 '변경된 날'로 마킹해
-      // 원래 운동을 숨긴 뒤, 빈값에서 직접 담는다.
-      await deferRoutineOneDayAction();
+      // 루틴 전체를 하루씩 밀고(아무 날도 안 사라짐) 오늘을 '변경된 날(direct)'로 마킹해
+      // 원래 운동을 숨긴 뒤, 빈값에서 전체 운동 직접 담는다.
+      await deferRoutineOneDayAction("direct");
       await clearDailyPlanForDateAction(seoulYmd());
       // direct=1 → 부위 제한 없이 빈 워밍업/본운동/마무리 섹션에서 '전체 운동' 추가.
       router.push("/plan/today?direct=1");

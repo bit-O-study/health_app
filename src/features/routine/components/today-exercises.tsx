@@ -105,6 +105,7 @@ export async function TodayExercises({
   postureEnabled = false,
   equipmentScan = false,
   blankDefaults = false,
+  registerHref = "/plan",
 }: {
   /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
   tones: FocusKey[];
@@ -127,6 +128,8 @@ export async function TodayExercises({
   /** '오늘만 변경'으로 하루 밀린 날 — 담지 않은 본운동/워밍업/마무리 기본값(러닝 등)을
    *  자동으로 채우지 않는다. 사용자가 직접 담은 것만 보인다. */
   blankDefaults?: boolean;
+  /** 빈 상태 '운동 등록하기' 링크. 밀린 빈 날은 그날을 만든 흐름(직접/부위)으로. */
+  registerHref?: string;
 }) {
   const todayYmd = seoulYmd();
   const primaryTone = tones[0];
@@ -632,6 +635,7 @@ export async function TodayExercises({
           focus={primaryTone}
           dateYmd={todayYmd}
           lockWeightReps={lockWeightReps}
+          registerHref={registerHref}
         />
 
         {/* 본운동 */}
@@ -641,7 +645,7 @@ export async function TodayExercises({
               오늘 부위에 등록된 본운동이 없습니다.
             </p>
             <Link
-              href="/plan"
+              href={registerHref}
               className="mt-3 inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500"
             >
               <Plus aria-hidden="true" size={16} />
@@ -679,6 +683,7 @@ export async function TodayExercises({
           focus={primaryTone}
           dateYmd={todayYmd}
           lockWeightReps={lockWeightReps}
+          registerHref={registerHref}
         />
         </section>
       </TodayOrderScope>
@@ -696,6 +701,7 @@ function ConditioningSection({
   focus,
   dateYmd,
   lockWeightReps,
+  registerHref = "/plan",
 }: {
   kind: "warmup" | "cooldown";
   rowsCount: number;
@@ -706,6 +712,7 @@ function ConditioningSection({
   focus: string;
   dateYmd: string;
   lockWeightReps: boolean;
+  registerHref?: string;
 }) {
   const isWarm = kind === "warmup";
   const HeaderIcon = isWarm ? Flame : Wind;
@@ -734,13 +741,13 @@ function ConditioningSection({
         <p className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-4 text-center text-xs text-zinc-500 dark:text-zinc-400">
           등록된 항목이 없습니다.{" "}
           <Link
-            href="/plan"
+            href={registerHref}
             className="font-semibold text-emerald-700 dark:text-emerald-400"
           >
-            /plan
+            운동 등록하기
           </Link>
           {" "}
-          에서 추가하거나 “추천으로 채우기”를 사용하세요.
+          또는 “추천으로 채우기”를 사용하세요.
         </p>
       ) : (
         <TodayConditioningList

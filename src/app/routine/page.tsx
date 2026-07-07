@@ -246,6 +246,7 @@ async function TodayWorkout({
     overrideDate: string | null;
     overrideBlock: DayBlockId | null;
     deferredDate: string | null;
+    deferredTarget: string | null;
   };
   profile: UserProfile | null;
   postureEnabled?: boolean;
@@ -306,18 +307,38 @@ async function TodayWorkout({
 
   // 오늘을 밀었는데 아직 아무것도 안 담은 '빈 변경일' — 휴식도, 특정 부위도 아니다.
   const emptyChangedDay = deferredToday && !hasDailyOverride && !isRest;
+  // '부위 전체변경'으로 밀었으면 그 부위(deferredTarget)를 기억한다. 직접 담기('direct')
+  // 거나 없으면 부위 제한 없음.
+  const deferredFocuses: Exclude<FocusTone, "rest">[] =
+    routine.deferredTarget && routine.deferredTarget !== "direct"
+      ? (routine.deferredTarget
+          .split(",")
+          .map((s) => s.trim())
+          .filter(
+            (s) => s !== "rest" && isDayBlockId(s),
+          ) as Exclude<FocusTone, "rest">[])
+      : [];
+
   // 빈 변경일에도 워밍업/본운동/마무리 섹션(기존 빈 상태 UI)을 띄우려면 tone 이 하나
-  // 필요하다. 오늘 원래 하려던 부위(밀려서 내일로 간 그 부위)를 쓰고, 그것도 휴식이면
-  // 가슴을 기본으로. (섹션은 전부 빈 상태 — 담은 것만 채워진다.)
+  // 필요하다. 부위 전체변경이면 그 부위, 직접이면 밀려서 내일로 간 원래 오늘 부위,
+  // 그것도 휴식이면 가슴을 기본으로. (섹션은 전부 빈 상태 — 담은 것만 채워진다.)
   const deferredSectionTones: Exclude<FocusTone, "rest">[] = (() => {
     if (!emptyChangedDay) return [];
-    const orig =
-      variant.week[routineDayOffset(routine.startDate, addDaysYmd(todayYmd, 1))];
-    const t = (orig.tones ?? [orig.tone]).filter(
+    if (deferredFocuses.length > 0) return deferredFocuses;
+    // 밀지 않으므로 오늘 원래 부위(planToday)를 그대로. 오늘이 휴식이면 가슴 기본.
+    const t = (planToday.tones ?? [planToday.tone]).filter(
       (x) => x !== "rest",
     ) as Exclude<FocusTone, "rest">[];
     return t.length > 0 ? t : (["chest"] as Exclude<FocusTone, "rest">[]);
   })();
+
+  // 밀린 빈 날 '운동 등록하기' 링크 — 그날을 만든 흐름(직접/부위)으로 되돌린다.
+  const registerHref =
+    routine.deferredTarget === "direct"
+      ? "/plan/today?direct=1"
+      : deferredFocuses.length > 0
+        ? `/plan/today?focus=${deferredFocuses.join(",")}`
+        : "/plan/today?direct=1";
   const tone = isRest
     ? "rest"
     : (todayTones[0] ?? (emptyChangedDay ? "core" : planToday.tone));
@@ -478,6 +499,7 @@ async function TodayWorkout({
             postureEnabled={postureEnabled}
             equipmentScan={equipmentScan}
             blankDefaults={deferredToday}
+            registerHref={emptyChangedDay ? registerHref : undefined}
           />
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도

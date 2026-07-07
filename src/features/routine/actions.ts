@@ -95,6 +95,7 @@ export async function saveRoutineAction(
       override_date: null,
       override_block: null,
       last_deferred_date: null,
+      deferred_target: null,
     },
     { onConflict: "user_id" },
   );
@@ -250,6 +251,7 @@ export async function reorderUpcomingSevenDaysAction(
       override_date: null,
       override_block: null,
       last_deferred_date: null,
+      deferred_target: null,
     },
     { onConflict: "user_id" },
   );
@@ -336,6 +338,7 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
     override_date: null,
     override_block: null,
     last_deferred_date: null,
+    deferred_target: null,
   };
   const restoredBaseline =
     baseline &&
@@ -384,44 +387,37 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
  * 기준일 +1일 → 오늘 예정이던 운동이 내일로 이동, 오늘은 휴식 표시.
  */
 /**
- * "오늘만 변경(전체 바꾸기/직접 담기)" 용 — 루틴 전체를 하루씩 민다(start_date +1).
- * 오늘 예정이던 운동은 내일로, 내일 건 모레로… 밀려 아무 날도 사라지지 않는다.
- * 오늘은 last_deferred_date 마커로 '변경된 날'로 표시돼, 화면에서 원래 루틴 운동을
- * 숨기고(완료한 운동은 그대로) 선택/추가한 운동만 보이게 한다(page.tsx 가 마커를 읽음).
+ * "오늘만 변경(전체 바꾸기/직접 담기)" 용 — **루틴 원본은 절대 건드리지 않는다.**
+ * 오늘 하루만 override 로 바꾸고, 오늘이 지나면 자동으로 원래 루틴으로 돌아간다.
+ * (start_date 등 루틴을 밀지 않는다 — '오늘만' 이므로 내일부턴 그대로.)
  *
- * 멱등: 오늘 이미 밀었으면(last_deferred_date === 오늘) 다시 안 민다(재클릭 드리프트 방지).
+ * 동작: 오늘을 last_deferred_date 마커로 '변경된 날'로 표시 → page 가 오늘 원래 루틴
+ * 운동을 숨긴다(완료 기록은 보존). deferred_target(직접/부위)을 기억해 '운동 등록하기'
+ * 링크를 그 흐름으로 보낸다. 오늘 워밍업/마무리 오버라이드도 비운다(본운동 daily_plan 은
+ * 호출측 clearDailyPlanForDateAction 이 비움). 마커는 날짜가 지나면 자연히 무효.
  */
-export async function deferRoutineOneDayAction(): Promise<void> {
+export async function deferRoutineOneDayAction(
+  target?: string,
+): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return;
-  const { data } = await supabase
-    .from("user_routines")
-    .select("start_date, last_deferred_date")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (!data) return;
-  const row = data as { start_date: string; last_deferred_date: string | null };
 
   const today = seoulYmd();
 
-  // 오늘을 '완료 제외 전부 비우기' — 오늘 워밍업/마무리 오버라이드도 지운다.
-  // (본운동 daily_plan 은 호출측 clearDailyPlanForDateAction 이 지운다.)
+  // 오늘 워밍업/마무리 오버라이드 비우기.
   await supabase
     .from("daily_conditioning")
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", today);
 
-  // 이미 오늘 밀었으면 중복 시프트 금지(마커 유지). '전체 바꾸기'를 여러 번 눌러
-  // 부위만 다시 골라도 루틴은 하루만 밀린다.
-  if (row.last_deferred_date === today) return;
-
+  // 오늘을 '변경된 날'로만 마킹 — 루틴(start_date)은 그대로. 오늘 지나면 자동 복귀.
   await supabase
     .from("user_routines")
     .update({
-      start_date: addDaysYmd(row.start_date, 1),
       last_deferred_date: today,
+      deferred_target: target ?? null,
       rest_date: null,
       override_date: null,
       override_block: null,

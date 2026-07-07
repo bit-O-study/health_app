@@ -213,6 +213,10 @@ alter table public.user_routines
 -- 원래 루틴 운동을 숨긴다(변경된 빈 날). 재클릭해도 하루만 밀리게 하는 멱등 마커.
 alter table public.user_routines
   add column if not exists last_deferred_date date;
+-- 그 날 defer 를 만든 방식 — 'direct'(직접 담기) 또는 부위 목록('chest,back').
+-- 밀린 빈 날의 '운동 등록하기' 링크를 원래 흐름(직접/부위)으로 되돌려주기 위함.
+alter table public.user_routines
+  add column if not exists deferred_target text;
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines

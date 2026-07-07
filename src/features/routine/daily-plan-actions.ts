@@ -176,7 +176,7 @@ export async function exitTodayOnlyAction(): Promise<SaveDailyPlanResult> {
       .eq("rest_date", today),
     supabase
       .from("user_routines")
-      .update({ last_deferred_date: null })
+      .update({ last_deferred_date: null, deferred_target: null })
       .eq("user_id", user.id)
       .eq("last_deferred_date", today),
   ]);

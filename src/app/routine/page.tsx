@@ -265,11 +265,14 @@ async function TodayWorkout({
     ? DAY_BLOCKS[routine.overrideBlock!].day
     : variant.week[offset];
   const restedToday = routine.restDate === todayYmd;
-  const isRest = restedToday || planToday.tone === "rest";
   // 오늘이 '오늘만 변경(전체 바꾸기/직접 담기)'으로 하루 밀린 날이면, 아직 선택/추가
   // 운동을 담기 전까지 원래 루틴 운동을 숨긴다(변경된 빈 날). daily_plan 오버라이드가
   // 생기면(=사용자가 담으면) 그게 오늘 부위가 된다. 완료 기록은 DB에 그대로 보존.
   const deferredToday = routine.deferredDate === todayYmd;
+  // 밀기로 오늘 offset 이 주기상 '휴식일'에 착지해도, 변경된 날(deferredToday)은
+  // 휴식이 아니라 '빈 편집 가능한 날'로 둔다 → 아무것도 안 담아도 휴식으로 안 바뀌고
+  // 편집으로 다시 담을 수 있다. (사용자가 명시적으로 휴식전환한 restedToday 만 휴식.)
+  const isRest = restedToday || (!deferredToday && planToday.tone === "rest");
 
   //"오늘만 변경" 으로 저장된 daily_plan 행들의 부위 — 있으면 그것이 오늘의
   // 실제 부위. (routine.overrideBlock 보다 우선, 다중 부위도 지원)
@@ -301,12 +304,18 @@ async function TodayWorkout({
     ),
   );
 
-  const tone = isRest ? "rest" : (todayTones[0] ?? planToday.tone);
+  // 오늘을 밀었는데 아직 아무것도 안 담은 '빈 변경일' — 휴식도, 특정 부위도 아니다.
+  const emptyChangedDay = deferredToday && !hasDailyOverride && !isRest;
+  const tone = isRest
+    ? "rest"
+    : (todayTones[0] ?? (emptyChangedDay ? "core" : planToday.tone));
   const focusLabel = isRest
     ? "휴식"
-    : hasDailyOverride
-      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
-      : planToday.focus;
+    : emptyChangedDay
+      ? "오늘 운동 담기"
+      : hasDailyOverride
+        ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
+        : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
 
   const [, mm, dd] = todayYmd.split("-");
@@ -394,6 +403,12 @@ async function TodayWorkout({
             {restedToday
               ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
+          </p>
+        ) : emptyChangedDay ? (
+          <p className="mt-5 text-base leading-7 text-zinc-600 dark:text-zinc-400">
+            오늘 운동을 내일로 미뤘어요. <strong>휴식이 아니라 빈 날</strong>이라,
+            위 <strong>‘오늘만 운동 바꾸기’</strong>에서 <strong>직접 담기</strong>나{" "}
+            <strong>부위 바꾸기</strong>로 오늘 할 운동을 담으면 됩니다.
           </p>
         ) : (
           (() => {

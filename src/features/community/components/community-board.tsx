@@ -28,6 +28,7 @@ import {
 } from "../feed";
 import type { FeedPost } from "../data-access";
 import { TeachingReels } from "./teaching-reels";
+import { ReportButton } from "./report-button";
 import { uploadCommunityPhoto } from "../upload-photo";
 import {
   createCommunityPostAction,
@@ -421,13 +422,24 @@ function PostCard({
         ) : (
           <span className="text-xs font-bold text-zinc-400">운동 티칭 영상</span>
         )}
+        {!post.isMine ? (
+          <ReportButton
+            className="ml-auto inline-flex items-center gap-1 text-zinc-300 hover:text-rose-500"
+            targetKind={isTeaching ? "teaching_post" : "community_post"}
+            targetId={post.id}
+            targetUserId={post.userId}
+            targetAuthor={post.authorName}
+            targetPreview={post.caption}
+            iconSize={16}
+          />
+        ) : null}
         {canModerate || post.isMine ? (
           <button
             type="button"
             onClick={remove}
             disabled={pending}
             aria-label="삭제"
-            className="ml-auto text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+            className={`${post.isMine ? "ml-auto" : ""} text-zinc-300 hover:text-rose-500 disabled:opacity-50`}
           >
             <Trash2 size={16} />
           </button>

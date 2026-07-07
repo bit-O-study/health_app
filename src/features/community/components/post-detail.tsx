@@ -16,6 +16,7 @@ import {
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime, MAX_CAPTION } from "../community";
 import type { CommunityComment, CommunityPost } from "../data-access";
+import { ReportButton } from "./report-button";
 import {
   addCommentAction,
   deleteCommentAction,
@@ -289,7 +290,16 @@ export function PostDetail({
                 >
                   <Trash2 size={13} />
                 </button>
-              ) : null}
+              ) : (
+                <ReportButton
+                  className="shrink-0 text-zinc-300 hover:text-rose-500"
+                  targetKind="community_comment"
+                  targetId={c.id}
+                  targetAuthor={c.authorName}
+                  targetPreview={c.body}
+                  iconSize={13}
+                />
+              )}
             </div>
           ))
         )}

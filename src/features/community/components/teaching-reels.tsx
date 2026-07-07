@@ -17,6 +17,7 @@ import {
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime } from "../community";
 import type { FeedPost } from "../data-access";
+import { ReportButton } from "./report-button";
 import {
   addTeachingCommentAction,
   deleteTeachingCommentAction,
@@ -272,6 +273,18 @@ function ReelSlide({
           {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
 
+        {!post.isMine ? (
+          <ReportButton
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-rose-400"
+            targetKind="teaching_post"
+            targetId={post.id}
+            targetUserId={post.userId}
+            targetAuthor={post.authorName}
+            targetPreview={post.caption}
+            iconSize={18}
+          />
+        ) : null}
+
         {canModerate || post.isMine ? (
           <button
             type="button"
@@ -415,7 +428,16 @@ function CommentSheet({
                     >
                       <Trash2 size={14} />
                     </button>
-                  ) : null}
+                  ) : (
+                    <ReportButton
+                      className="text-zinc-300 hover:text-rose-500"
+                      targetKind="teaching_comment"
+                      targetId={c.id}
+                      targetAuthor={c.authorName}
+                      targetPreview={c.body}
+                      iconSize={13}
+                    />
+                  )}
                 </li>
               ))}
             </ul>

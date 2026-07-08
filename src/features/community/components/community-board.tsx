@@ -264,6 +264,7 @@ function PostCard({
   canModerate: boolean;
 }) {
   const [pending, start] = useTransition();
+  const [navPending, startNav] = useTransition(); // 상세 이동 중 로딩 표시
   const [gone, setGone] = useState(false);
   const [liked, setLiked] = useState(post.likedByMe);
   const [likeCount, setLikeCount] = useState(post.likeCount);
@@ -312,17 +313,25 @@ function PostCard({
   }
 
   // 사진 인증 카드는 전체를 눌러도 상세로 이동(티칭은 인라인 재생이라 제외).
+  // 이동은 transition 으로 감싸 로딩(버퍼링)을 표시하고 중복 탭을 막는다.
   function goDetail() {
-    if (!isTeaching) router.push(`/community/${post.id}`);
+    if (isTeaching || navPending) return;
+    startNav(() => router.push(`/community/${post.id}`));
   }
 
   return (
     <li
       onClick={goDetail}
-      className={`overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm ring-1 ring-black/[0.02] transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/[0.03] ${
+      aria-busy={navPending}
+      className={`relative overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm ring-1 ring-black/[0.02] transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/[0.03] ${
         isTeaching ? "" : "cursor-pointer"
       }`}
     >
+      {navPending ? (
+        <span className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center bg-white/60 backdrop-blur-[1px] dark:bg-zinc-900/60">
+          <Loader2 aria-hidden="true" size={28} className="animate-spin text-emerald-500" />
+        </span>
+      ) : null}
       {/* 헤더: 아바타 + 이름 + 시간 + 배지 */}
       <div className="flex items-center gap-2 px-3 pt-3">
         <span

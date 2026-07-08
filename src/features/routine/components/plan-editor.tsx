@@ -317,6 +317,21 @@ export function PlanEditor({
     });
   }
 
+  // 부위 섹션을 '일차(dayIndex)'별로 묶는다 — 같은 날 부위들이 한 그룹으로 보이게.
+  const days = (() => {
+    const map = new Map<number, FocusData[]>();
+    for (const f of focuses) {
+      const arr = map.get(f.dayIndex) ?? [];
+      arr.push(f);
+      map.set(f.dayIndex, arr);
+    }
+    return [...map.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([dayIndex, fs]) => ({ dayIndex, focuses: fs }));
+  })();
+  // "N일 · 가슴" 형태 라벨에서 부위 이름만 추출(일차는 그룹 헤더로 따로 표시).
+  const focusName = (label: string) => label.split(" · ").pop() ?? label;
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -365,17 +380,28 @@ export function PlanEditor({
         </button>
       </div>
 
-      {focuses.map((f) => {
-        const rows = plans[f.key] ?? [];
-        const options = allExercisesForFocus(f.focus);
-        return (
-          <section
-            key={f.key}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-950 dark:text-zinc-100">
-                {f.label}
+      {days.map((day) => (
+        <div key={`day-${day.dayIndex}`} className="space-y-3">
+          {/* 일차 그룹 헤더 — 같은 날 부위들을 묶어 보여준다. */}
+          <div className="flex items-center gap-2 pt-1">
+            <span className="inline-flex h-7 items-center rounded-full bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+              {day.dayIndex + 1}일차
+            </span>
+            <span className="truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+              {day.focuses.map((f) => focusName(f.label)).join(" · ")}
+            </span>
+          </div>
+          {day.focuses.map((f) => {
+            const rows = plans[f.key] ?? [];
+            const options = allExercisesForFocus(f.focus);
+            return (
+              <section
+                key={f.key}
+                className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-950 dark:text-zinc-100">
+                    {focusName(f.label)}
                 {f.isSide ? (
                   <span className="rounded-full bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
                     보조
@@ -614,7 +640,9 @@ export function PlanEditor({
             ) : null}
           </section>
         );
-      })}
+          })}
+        </div>
+      ))}
 
       <ConfirmDialog
         open={confirm !== null}

@@ -264,25 +264,51 @@ function RestOverlay({
     }
   }, []);
 
-  function onGripDown(e: React.PointerEvent) {
-    const el = cardRef.current;
-    if (!el) return;
-    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-    const r = el.getBoundingClientRect();
-    dragRef.current = { dx: e.clientX - r.left, dy: e.clientY - r.top };
+  // 위젯 '전체'를 꾹 눌러(롱프레스) 이동. 버튼은 빠른 탭이면 그대로 동작하고,
+  // 길게 누르면 드래그가 시작된다.
+  const lpRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startRef = useRef<{ x: number; y: number; id: number } | null>(null);
+  const LONG_PRESS = 180;
+
+  function clearLp() {
+    if (lpRef.current) {
+      clearTimeout(lpRef.current);
+      lpRef.current = null;
+    }
   }
-  function onGripMove(e: React.PointerEvent) {
-    const d = dragRef.current;
-    const el = cardRef.current;
-    if (!d || !el) return;
-    e.preventDefault();
-    const w = el.offsetWidth;
-    const h = el.offsetHeight;
-    const x = clampPos(e.clientX - d.dx, window.innerWidth - w);
-    const y = clampPos(e.clientY - d.dy, window.innerHeight - h);
-    setPos({ x, y });
+  function onCardDown(e: React.PointerEvent) {
+    startRef.current = { x: e.clientX, y: e.clientY, id: e.pointerId };
+    clearLp();
+    lpRef.current = setTimeout(() => {
+      const el = cardRef.current;
+      const s = startRef.current;
+      if (!el || !s) return;
+      el.setPointerCapture?.(s.id);
+      const r = el.getBoundingClientRect();
+      dragRef.current = { dx: s.x - r.left, dy: s.y - r.top };
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate(8); // 잡혔다는 햅틱 힌트
+      }
+    }, LONG_PRESS);
   }
-  function onGripUp() {
+  function onCardMove(e: React.PointerEvent) {
+    if (dragRef.current) {
+      const el = cardRef.current;
+      if (!el) return;
+      e.preventDefault();
+      const x = clampPos(e.clientX - dragRef.current.dx, window.innerWidth - el.offsetWidth);
+      const y = clampPos(e.clientY - dragRef.current.dy, window.innerHeight - el.offsetHeight);
+      setPos({ x, y });
+    } else {
+      // 롱프레스 전에 많이 움직이면(스와이프/스크롤) 드래그로 치지 않는다.
+      const s = startRef.current;
+      if (s && (Math.abs(e.clientX - s.x) > 8 || Math.abs(e.clientY - s.y) > 8)) {
+        clearLp();
+      }
+    }
+  }
+  function onCardUp() {
+    clearLp();
     if (dragRef.current && pos) {
       try {
         window.localStorage.setItem(REST_POS_KEY, JSON.stringify(pos));
@@ -291,6 +317,7 @@ function RestOverlay({
       }
     }
     dragRef.current = null;
+    startRef.current = null;
   }
 
   const anchored = pos !== null;
@@ -305,21 +332,21 @@ function RestOverlay({
           ? "calc(env(safe-area-inset-bottom, 0px) + 5.75rem)"
           : "calc(env(safe-area-inset-bottom, 0px) + 5rem)",
       };
-  const gripProps = {
-    onPointerDown: onGripDown,
-    onPointerMove: onGripMove,
-    onPointerUp: onGripUp,
-    onPointerCancel: onGripUp,
+  // 위젯 전체에 붙는 드래그(롱프레스) 이벤트. 카드 컨테이너에 spread.
+  const cardDragProps = {
+    onPointerDown: onCardDown,
+    onPointerMove: onCardMove,
+    onPointerUp: onCardUp,
+    onPointerCancel: onCardUp,
   };
+  // 이동 가능하다는 시각 힌트(6점) — 실제 드래그는 카드 전체가 받는다.
   const Grip = (
-    <button
-      type="button"
-      aria-label="드래그로 이동"
-      {...gripProps}
-      className="relative z-10 flex h-7 w-5 shrink-0 cursor-grab touch-none items-center justify-center text-white/50 active:cursor-grabbing"
+    <span
+      aria-hidden="true"
+      className="relative z-10 flex h-7 w-4 shrink-0 items-center justify-center text-white/40"
     >
-      <GripVertical aria-hidden="true" size={14} />
-    </button>
+      <GripVertical size={14} />
+    </span>
   );
 
   // 가이드 화면(lifted)에서는 더 크고 눈에 띄는 카드, 그 외에는 컴팩트 알약.
@@ -328,7 +355,8 @@ function RestOverlay({
       <div className={outerClass} style={outerStyle}>
         <div
           ref={cardRef}
-          className={`pointer-events-auto relative w-full max-w-md overflow-hidden rounded-2xl px-5 py-4 shadow-2xl ring-1 ${
+          {...cardDragProps}
+          className={`pointer-events-auto relative w-full max-w-md touch-none overflow-hidden rounded-2xl px-5 py-4 shadow-2xl ring-1 ${
             done
               ? "bg-emerald-600 text-white ring-emerald-400/50"
               : "bg-zinc-900 text-white ring-white/10 dark:bg-zinc-800"
@@ -386,7 +414,8 @@ function RestOverlay({
     <div className={outerClass} style={outerStyle}>
       <div
         ref={cardRef}
-        className={`pointer-events-auto relative flex items-center gap-2 overflow-hidden rounded-full px-3 py-2.5 shadow-lg ${
+        {...cardDragProps}
+        className={`pointer-events-auto relative flex touch-none items-center gap-2 overflow-hidden rounded-full px-3 py-2.5 shadow-lg ${
           done
             ? "bg-emerald-600 text-white"
             : "bg-zinc-900 text-white dark:bg-zinc-800"

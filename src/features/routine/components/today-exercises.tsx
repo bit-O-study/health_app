@@ -680,6 +680,18 @@ export async function TodayExercises({
           </div>
         )}
 
+        {/* 오늘만 변경(직접/부위) 상태면 목록이 있어도 '운동 추가'로 더 담을 수 있게.
+            registerHref 가 /plan/today 로 오면(변경된 날) 노출 — 직접이면 전체 부위. */}
+        {plan.length > 0 && registerHref.startsWith("/plan/today") ? (
+          <Link
+            href={registerHref}
+            className="mt-3 inline-flex h-9 items-center gap-1.5 rounded-md border border-emerald-300 bg-emerald-50 px-3 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
+          >
+            <Plus aria-hidden="true" size={14} />
+            운동 추가
+          </Link>
+        ) : null}
+
         {/* 마무리 */}
         <ConditioningSection
           kind="cooldown"

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
-import { CheckCircle2, Pause, Play, Save, Timer } from "lucide-react";
+import { CheckCircle2, Pause, Play, Plus, Save, Timer } from "lucide-react";
 
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { isQueueItemActive } from "@/features/workout-timer/queue-filter";
@@ -561,6 +561,15 @@ export function WorkoutSessionTimer({
         <span className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-100 px-4 text-sm font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
           <CheckCircle2 aria-hidden="true" size={16} />
           수고하셨습니다
+        </span>
+      );
+    }
+    // 오늘 담긴 운동이 하나도 없으면 '운동 시작' 대신 '운동을 추가하세요' 안내.
+    if (queueItems.length === 0) {
+      return (
+        <span className="inline-flex h-10 items-center gap-2 rounded-full bg-zinc-100 px-4 text-sm font-bold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+          <Plus aria-hidden="true" size={16} />
+          운동을 추가하세요
         </span>
       );
     }

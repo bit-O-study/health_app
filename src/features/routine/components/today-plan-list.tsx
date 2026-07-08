@@ -85,6 +85,7 @@ export function TodayPlanList({
   doneIds,
   skippedIds,
   lockWeightReps = false,
+  allowAllParts = false,
 }: {
   focus: string;
   /** 오늘의 모든 부위 — 편집 모드에서 운동 추가 시 부위 선택지로 사용 */
@@ -97,6 +98,8 @@ export function TodayPlanList({
   skippedIds: string[];
   /** 무게·횟수 고정. false 면 메인 표시·편집에서 무게/횟수 숨김(운동모드에서 설정). */
   lockWeightReps?: boolean;
+  /** 직접 담기(오늘만 변경)면 편집 추가에서 전체 부위 선택 허용. */
+  allowAllParts?: boolean;
 }) {
   const edit = useTodayEdit();
   const editMode = edit.editMode;
@@ -734,6 +737,7 @@ export function TodayPlanList({
             tones={tones}
             dayIndex={dayIndex}
             onAdded={() => router.refresh()}
+            allowAllParts={allowAllParts}
           />
         </li>
       ) : null}
@@ -1165,16 +1169,31 @@ function ExerciseEditForm({
 
 /** 편집 모드 하단의"오늘 루틴에 운동 추가" 점선 박스. 클릭 시 인라인 폼으로 확장.
  * 부위 → 운동 → 기구 선택 후 추가하면 즉시 오늘 목록에 합쳐진다. */
+/** 직접 담기(오늘만 변경)에서 고를 수 있는 '모든 기본 부위'. */
+const ALL_PART_CHOICES: FocusKey[] = [
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "lower",
+  "core",
+];
+
 function AddExerciseSlot({
   tones,
   dayIndex,
   onAdded,
+  allowAllParts = false,
 }: {
   tones: FocusKey[];
   dayIndex: number;
   onAdded: () => void;
+  /** 직접 담기면 오늘 부위만이 아니라 전체 기본 부위에서 고를 수 있게. */
+  allowAllParts?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  // 직접 담기면 전체 부위, 아니면 오늘 부위만.
+  const partChoices = allowAllParts ? ALL_PART_CHOICES : tones;
   // 휴식일 등으로 tones 가 비면 컴포넌트가 의미 없으므로 렌더 자체를 생략 (Hook 위에 두면 안 됨).
   const [focus, setFocus] = useState<FocusKey>(
     tones[0] ?? ("chest" as FocusKey),
@@ -1245,7 +1264,9 @@ function AddExerciseSlot({
   return (
     <div className="rounded-xl border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3">
       <div className="flex flex-wrap items-center gap-2">
-        {tones.length > 1 ? (
+        {/* 직접 담기(allowAllParts)면 모든 기본 부위에서 고를 수 있게(가슴만 되던 문제
+            해결). 일반/부위 바꾸기는 오늘 부위만. 고른 부위 슬롯으로 오늘 저장된다. */}
+        {partChoices.length > 1 ? (
           <select
             aria-label="부위"
             value={focus}
@@ -1253,7 +1274,7 @@ function AddExerciseSlot({
             disabled={pending}
             className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
           >
-            {tones.map((t) => (
+            {partChoices.map((t) => (
               <option key={t} value={t}>
                 {DAY_BLOCKS[t].label}
               </option>

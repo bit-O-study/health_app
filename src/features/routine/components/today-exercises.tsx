@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Flame, Plus, Wind, Zap } from "lucide-react";
+import { Dumbbell, Flame, Plus, Wind, Zap } from "lucide-react";
 
 import { seoulYmd } from "@/features/routine/data";
 import {
@@ -639,6 +639,14 @@ export async function TodayExercises({
         />
 
         {/* 본운동 */}
+        <div className="mb-2 flex items-center gap-2">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+            <Dumbbell aria-hidden="true" size={15} />
+          </span>
+          <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+            본운동
+          </h3>
+        </div>
         {plan.length === 0 ? (
           <div className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-6 text-center">
             <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">

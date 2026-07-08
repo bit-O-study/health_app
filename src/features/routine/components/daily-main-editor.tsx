@@ -77,6 +77,7 @@ export function DailyMainEditor({
   gymEquipment = null,
   lockWeightReps = false,
   allowAllExercises = false,
+  recommendFocuses,
 }: {
   sections: MainSection[];
   gender: "male" | "female";
@@ -86,6 +87,8 @@ export function DailyMainEditor({
   dateYmd: string;
   gymEquipment?: readonly string[] | null;
   lockWeightReps?: boolean;
+  /** sections 가 비었을 때(직접 담기) '추천으로 채우기'가 쓸 부위들. */
+  recommendFocuses?: FocusTone[];
   /** 직접 담기 — sections 에 부위가 있어도 전체 카탈로그에서 고르게 한다. */
   allowAllExercises?: boolean;
 }) {
@@ -211,7 +214,9 @@ export function DailyMainEditor({
       weightKg: weightKg ?? 65,
     };
     const next: Row[] = [];
-    for (const f of focuses) {
+    // 직접 담기(sections 없음)면 recommendFocuses(오늘 원래 부위)로 추천.
+    const recFocuses = focuses.length > 0 ? focuses : (recommendFocuses ?? []);
+    for (const f of recFocuses) {
       for (const ex of exercisesForFocus(f, gender)) {
         const p = prescribe(ex.id, opts);
         next.push({

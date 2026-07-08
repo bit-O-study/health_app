@@ -63,28 +63,28 @@ export default async function TodayConditioningPage({
           ALL_FOCUSES.includes(s as Exclude<FocusTone, "rest">),
       );
   }
-  // 직접 담기면 부위 폴백을 하지 않는다(빈 상태로 시작 → 전체 운동 추가).
-  if (focuses.length === 0 && !direct) {
+  // 오늘 원래 루틴 부위 — 폴백/직접담기 추천에 쓴다.
+  const origTodayFocuses: Exclude<FocusTone, "rest">[] = (() => {
     const { variant } = resolveRoutine(
       routine.splits,
       routine.variantId,
       routine.customWeek,
     );
-    const todayYmd = seoulYmd();
-    const offset = routineDayOffset(routine.startDate, todayYmd);
+    const offset = routineDayOffset(routine.startDate, seoulYmd());
     const overriddenToday =
-      routine.overrideDate === todayYmd && routine.overrideBlock !== null;
+      routine.overrideDate === seoulYmd() && routine.overrideBlock !== null;
     if (overriddenToday) {
-      // 이두/삼두 같은 블록은 arm 톤으로 매핑돼 저장·조회된다.
       const tone = DAY_BLOCKS[routine.overrideBlock!].day.tone;
-      if (tone !== "rest") focuses = [tone];
-    } else {
-      // 멀티 부위 일자 — 모든 부위를 기본으로 채움
-      const dayPlan = variant.week[offset];
-      focuses = (dayPlan.tones ?? [dayPlan.tone]).filter(
-        (t): t is Exclude<FocusTone, "rest"> => t !== "rest",
-      );
+      return tone !== "rest" ? [tone] : [];
     }
+    const dayPlan = variant.week[offset];
+    return (dayPlan.tones ?? [dayPlan.tone]).filter(
+      (t): t is Exclude<FocusTone, "rest"> => t !== "rest",
+    );
+  })();
+  // 직접 담기면 부위 폴백을 하지 않는다(빈 상태로 시작 → 전체 운동 추가).
+  if (focuses.length === 0 && !direct) {
+    focuses = origTodayFocuses;
   }
 
   const todayYmd = seoulYmd();
@@ -183,6 +183,7 @@ export default async function TodayConditioningPage({
             gymEquipment={gymEquipment}
             lockWeightReps={profile.lockWeightReps}
             allowAllExercises={direct}
+            recommendFocuses={direct ? origTodayFocuses : undefined}
           />
 
           {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움.
@@ -191,7 +192,7 @@ export default async function TodayConditioningPage({
             <>
               <ConditioningEditor
                 focus={primaryFocus ?? "core"}
-                recommendFocuses={validFocuses}
+                recommendFocuses={direct ? origTodayFocuses : validFocuses}
                 kind="warmup"
                 initial={warmupInitial}
                 dailyDate={todayYmd}
@@ -199,7 +200,7 @@ export default async function TodayConditioningPage({
               />
               <ConditioningEditor
                 focus={primaryFocus ?? "core"}
-                recommendFocuses={validFocuses}
+                recommendFocuses={direct ? origTodayFocuses : validFocuses}
                 kind="cooldown"
                 initial={cooldownInitial}
                 dailyDate={todayYmd}

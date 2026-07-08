@@ -6,7 +6,11 @@ import { GripVertical, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
-import type { FocusTone } from "@/features/routine/data";
+import {
+  DAY_BLOCKS,
+  isDayBlockId,
+  type FocusTone,
+} from "@/features/routine/data";
 import {
   allExercisesForFocus,
   allExercisesGrouped,
@@ -95,8 +99,10 @@ export function DailyMainEditor({
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
   const focuses = sections.map((s) => s.focus);
+  // 부위 한글 라벨 — sections 에 있으면 그 라벨, 없으면(직접 담기) DAY_BLOCKS 한글명.
   const labelOf = (f: FocusTone) =>
-    sections.find((s) => s.focus === f)?.label ?? f;
+    sections.find((s) => s.focus === f)?.label ??
+    (isDayBlockId(f) ? DAY_BLOCKS[f].label : f);
 
   // 드롭다운 후보: 부위를 선택한 경우(전체 바꾸기)엔 그 부위 운동만, 부위 없이 직접
   // 담기면 전체 카탈로그. (담은 운동의 태그는 저장 시 focusForExercise 로 자동 배정.)

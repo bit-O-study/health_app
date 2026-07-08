@@ -95,6 +95,8 @@ export async function saveRoutineAction(
       rest_date: null,
       override_date: null,
       override_block: null,
+      last_deferred_date: null,
+      deferred_target: null,
     },
     { onConflict: "user_id" },
   );
@@ -249,6 +251,8 @@ export async function reorderUpcomingSevenDaysAction(
       rest_date: null,
       override_date: null,
       override_block: null,
+      last_deferred_date: null,
+      deferred_target: null,
     },
     { onConflict: "user_id" },
   );
@@ -342,6 +346,8 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
     rest_date: null,
     override_date: null,
     override_block: null,
+    last_deferred_date: null,
+    deferred_target: null,
   };
   const restoredBaseline =
     baseline &&
@@ -389,6 +395,47 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
  * 오늘을 휴식으로 전환하고 루틴을 하루 미룬다.
  * 기준일 +1일 → 오늘 예정이던 운동이 내일로 이동, 오늘은 휴식 표시.
  */
+/**
+ * "오늘만 변경(전체 바꾸기/직접 담기)" 용 — **루틴 원본은 절대 건드리지 않는다.**
+ * 오늘 하루만 override 로 바꾸고, 오늘이 지나면 자동으로 원래 루틴으로 돌아간다.
+ * (start_date 등 루틴을 밀지 않는다 — '오늘만' 이므로 내일부턴 그대로.)
+ *
+ * 동작: 오늘을 last_deferred_date 마커로 '변경된 날'로 표시 → page 가 오늘 원래 루틴
+ * 운동을 숨긴다(완료 기록은 보존). deferred_target(직접/부위)을 기억해 '운동 등록하기'
+ * 링크를 그 흐름으로 보낸다. 오늘 워밍업/마무리 오버라이드도 비운다(본운동 daily_plan 은
+ * 호출측 clearDailyPlanForDateAction 이 비움). 마커는 날짜가 지나면 자연히 무효.
+ */
+export async function deferRoutineOneDayAction(
+  target?: string,
+): Promise<void> {
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return;
+
+  const today = seoulYmd();
+
+  // 오늘 워밍업/마무리 오버라이드 비우기.
+  await supabase
+    .from("daily_conditioning")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("for_date", today);
+
+  // 오늘을 '변경된 날'로만 마킹 — 루틴(start_date)은 그대로. 오늘 지나면 자동 복귀.
+  await supabase
+    .from("user_routines")
+    .update({
+      last_deferred_date: today,
+      deferred_target: target ?? null,
+      rest_date: null,
+      override_date: null,
+      override_block: null,
+    })
+    .eq("user_id", user.id);
+  revalidatePath("/routine");
+  revalidatePath("/plan/today");
+}
+
 export async function convertTodayToRestAction(): Promise<void> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();

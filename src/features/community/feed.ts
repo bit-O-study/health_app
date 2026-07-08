@@ -82,6 +82,61 @@ export function forTab<T extends MinItem>(
   );
 }
 
+/** 커뮤니티 게시판 탭 — 오운완(사진) / 그룹(사진) / 운동(티칭) / 내 글. */
+export type BoardTab = "workout" | "group" | "teaching" | "mine";
+
+export const BOARD_TABS: { value: BoardTab; label: string }[] = [
+  { value: "workout", label: "오운완" },
+  { value: "group", label: "그룹" },
+  { value: "teaching", label: "운동" },
+  { value: "mine", label: "내 글" },
+];
+
+type BoardItem = MinItem & { isMine: boolean };
+
+/**
+ * 게시판 탭별 분류(+운동 탭 검색). 순수 로직.
+ * - workout(오운완): 사진 인증만, 그룹전용 아님(전체·그룹제외).
+ * - group(그룹): 선택 그룹의 그룹전용 사진 글.
+ * - teaching(운동): 티칭 영상만(그룹전용 제외). search 있으면 운동 태그 부분일치.
+ * - mine(내 글): 내가 쓴 모든 글(사진+티칭).
+ */
+export function forBoard<T extends BoardItem>(
+  items: T[],
+  tab: BoardTab,
+  selectedGroupIds: string[],
+  search = "",
+): T[] {
+  switch (tab) {
+    case "workout":
+      return items.filter(
+        (it) => it.kind === "photo" && it.visibility !== "group",
+      );
+    case "group": {
+      const set = new Set(selectedGroupIds);
+      return items.filter(
+        (it) =>
+          it.kind === "photo" &&
+          it.visibility === "group" &&
+          it.groupId !== null &&
+          set.has(it.groupId),
+      );
+    }
+    case "teaching": {
+      const q = normalizeTag(search).toLowerCase();
+      return items.filter((it) => {
+        if (it.kind !== "teaching" || it.visibility === "group") return false;
+        if (!q) return true;
+        return it.exerciseTag
+          ? normalizeTag(it.exerciseTag).toLowerCase().includes(q)
+          : false;
+      });
+    }
+    case "mine":
+      return items.filter((it) => it.isMine);
+  }
+}
+
 /**
  * 종류/태그 필터 적용.
  * - scope "teaching" → 티칭 글만.

@@ -11,6 +11,7 @@ import {
   MessageCircle,
   Play,
   Plus,
+  Search,
   Trash2,
   Video,
   X,
@@ -18,12 +19,16 @@ import {
 
 import { MAX_CAPTION, relativeTime } from "../community";
 import {
-  forTab,
+  forBoard,
+  BOARD_TABS,
   resolveVisibility,
   VISIBILITY_OPTIONS,
+  type BoardTab,
   type Visibility,
 } from "../feed";
 import type { FeedPost } from "../data-access";
+import { TeachingReels } from "./teaching-reels";
+import { ReportButton } from "./report-button";
 import { uploadCommunityPhoto } from "../upload-photo";
 import {
   createCommunityPostAction,
@@ -49,19 +54,20 @@ export function CommunityBoard({
 }) {
   const router = useRouter();
   const [now] = useState(() => Date.now());
-  const [tab, setTab] = useState<"all" | "group">("all");
+  const [tab, setTab] = useState<BoardTab>("workout");
   const [selected, setSelected] = useState<Set<string>>(
     () => new Set(groups.map((g) => g.id)),
   );
+  const [search, setSearch] = useState("");
   const [compose, setCompose] = useState(false);
 
   const groupAllSelected =
     groups.length > 0 && groups.every((g) => selected.has(g.id));
 
-  // 탭(전체/그룹)만으로 분류 — 별도 필터 없음. 사진 인증 + 운동 티칭 영상이 함께 보인다.
+  // 게시판 탭별 분류. 오운완=사진, 그룹=그룹사진, 운동=티칭(검색), 내 글=내가 쓴 것.
   const visible = useMemo(
-    () => forTab(initialPosts, tab, [...selected]),
-    [initialPosts, tab, selected],
+    () => forBoard(initialPosts, tab, [...selected], search),
+    [initialPosts, tab, selected, search],
   );
 
   function toggleGroup(id: string) {
@@ -73,30 +79,38 @@ export function CommunityBoard({
     });
   }
 
-  return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col">
-      <div className="sticky top-0 z-10 border-b border-zinc-200 bg-white/95 px-4 pb-2 pt-3 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95">
-        <h1 className="mb-2 text-lg font-extrabold">커뮤니티</h1>
+  const isReels = tab === "teaching";
 
-        {/* 상단 탭 — 전체 / 그룹 */}
-        <div className="flex items-center gap-4">
-          {(
-            [
-              ["all", "전체"],
-              ["group", "그룹"],
-            ] as const
-          ).map(([k, label]) => (
+  return (
+    <div
+      className={
+        isReels
+          ? "mx-auto flex h-[calc(100dvh-4rem-env(safe-area-inset-bottom))] w-full max-w-2xl flex-col overflow-hidden"
+          : "mx-auto flex w-full max-w-2xl flex-col"
+      }
+    >
+      <div className="sticky top-0 z-10 shrink-0 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-3 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
+        <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-black tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
+          커뮤니티
+        </h1>
+
+        {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
+        <div className="flex items-center gap-5">
+          {BOARD_TABS.map(({ value, label }) => (
             <button
-              key={k}
+              key={value}
               type="button"
-              onClick={() => setTab(k)}
-              className={`text-[17px] font-bold transition-colors ${
-                tab === k
-                  ? "text-emerald-600 dark:text-emerald-400"
+              onClick={() => setTab(value)}
+              className={`relative pb-2.5 text-[16px] font-bold transition-colors ${
+                tab === value
+                  ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
               {label}
+              {tab === value ? (
+                <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" />
+              ) : null}
             </button>
           ))}
         </div>
@@ -125,16 +139,46 @@ export function CommunityBoard({
             </div>
           )
         ) : null}
+
+        {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
+        {tab === "teaching" ? (
+          <div className="relative mb-2.5 mt-2">
+            <Search
+              size={15}
+              className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
+            />
+            <input
+              type="search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="운동 검색 (예: 스쿼트, 벤치프레스)"
+              className="w-full rounded-full border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-fuchsia-400 dark:border-zinc-700 dark:bg-zinc-800"
+            />
+          </div>
+        ) : null}
       </div>
 
-      {/* 피드 — 1단 인스타식 카드 */}
-      {visible.length === 0 ? (
+      {/* 피드 */}
+      {isReels ? (
+        // 운동 탭 — 숏츠/릴스 스타일 세로 풀스크린 피드(이 영역만 스냅 스크롤)
+        <div className="min-h-0 flex-1">
+          <TeachingReels
+            posts={visible}
+            canModerate={canModerate}
+            onChanged={() => router.refresh()}
+          />
+        </div>
+      ) : visible.length === 0 ? (
         <div className="flex flex-col items-center gap-3 px-6 py-20 text-center">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-500 dark:bg-emerald-950/40">
             <Camera size={30} />
           </div>
           <p className="text-sm font-bold text-zinc-500 dark:text-zinc-300">
-            {tab === "group" ? "이 그룹엔 아직 글이 없어요" : "아직 글이 없어요"}
+            {tab === "group"
+              ? "이 그룹엔 아직 글이 없어요"
+              : tab === "mine"
+                ? "아직 내가 쓴 글이 없어요"
+                : "아직 글이 없어요"}
           </p>
           <p className="text-xs text-zinc-400">
             오늘 운동 인증 첫 타자가 되어보세요! 💪
@@ -154,16 +198,18 @@ export function CommunityBoard({
         </ul>
       )}
 
-      {/* 글쓰기 FAB — 사진 인증 */}
-      <button
-        type="button"
-        onClick={() => setCompose(true)}
-        aria-label="오운완 인증하기"
-        className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg active:scale-95"
-        style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
-      >
-        <Plus size={28} />
-      </button>
+      {/* 글쓰기 FAB — 사진 인증(운동 탭은 운동모드에서 촬영하므로 숨김) */}
+      {tab !== "teaching" ? (
+        <button
+          type="button"
+          onClick={() => setCompose(true)}
+          aria-label="오운완 인증하기"
+          className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/60 transition-transform active:scale-95 dark:ring-zinc-950/60"
+          style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
+        >
+          <Plus size={28} />
+        </button>
+      ) : null}
 
       {compose ? (
         <ComposeModal
@@ -195,10 +241,10 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`shrink-0 rounded-full border px-3 py-1 text-xs font-bold transition-colors ${
+      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition-all active:scale-95 ${
         active
-          ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-          : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
+          ? "border-transparent bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/30"
+          : "border-zinc-200 text-zinc-500 hover:border-emerald-300 hover:text-emerald-600 dark:border-zinc-700 dark:hover:border-emerald-800"
       }`}
     >
       {label}
@@ -218,6 +264,7 @@ function PostCard({
   canModerate: boolean;
 }) {
   const [pending, start] = useTransition();
+  const [navPending, startNav] = useTransition(); // 상세 이동 중 로딩 표시
   const [gone, setGone] = useState(false);
   const [liked, setLiked] = useState(post.likedByMe);
   const [likeCount, setLikeCount] = useState(post.likeCount);
@@ -265,8 +312,26 @@ function PostCard({
     });
   }
 
+  // 사진 인증 카드는 전체를 눌러도 상세로 이동(티칭은 인라인 재생이라 제외).
+  // 이동은 transition 으로 감싸 로딩(버퍼링)을 표시하고 중복 탭을 막는다.
+  function goDetail() {
+    if (isTeaching || navPending) return;
+    startNav(() => router.push(`/community/${post.id}`));
+  }
+
   return (
-    <li className="overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <li
+      onClick={goDetail}
+      aria-busy={navPending}
+      className={`relative overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm ring-1 ring-black/[0.02] transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/[0.03] ${
+        isTeaching ? "" : "cursor-pointer"
+      }`}
+    >
+      {navPending ? (
+        <span className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center bg-white/60 backdrop-blur-[1px] dark:bg-zinc-900/60">
+          <Loader2 aria-hidden="true" size={28} className="animate-spin text-emerald-500" />
+        </span>
+      ) : null}
       {/* 헤더: 아바타 + 이름 + 시간 + 배지 */}
       <div className="flex items-center gap-2 px-3 pt-3">
         <span
@@ -330,18 +395,16 @@ function PostCard({
           className="relative mt-2 aspect-square w-full bg-zinc-100 dark:bg-zinc-800"
           onDoubleClick={doubleTapLike}
         >
-          <Link href={`/community/${post.id}`} aria-label="게시물 열기">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={post.photoUrl ?? undefined}
-              alt="오운완 인증"
-              loading="lazy"
-              onLoad={() => setImgLoaded(true)}
-              className={`h-full w-full object-cover transition-opacity duration-300 ${
-                imgLoaded ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          </Link>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={post.photoUrl ?? undefined}
+            alt="오운완 인증"
+            loading="lazy"
+            onLoad={() => setImgLoaded(true)}
+            className={`h-full w-full object-cover transition-opacity duration-300 ${
+              imgLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
           {burst ? (
             <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <Heart size={92} className="animate-ping fill-white/90 text-white/90 drop-shadow" />
@@ -350,8 +413,11 @@ function PostCard({
         </div>
       )}
 
-      {/* 액션 */}
-      <div className="flex items-center gap-4 px-3 pt-2.5 text-zinc-500 dark:text-zinc-400">
+      {/* 액션 — 버튼 클릭은 카드 이동(상세)으로 전파되지 않게 막는다. */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex items-center gap-4 px-3 pt-2.5 text-zinc-500 dark:text-zinc-400"
+      >
         {!isTeaching ? (
           <>
             <button
@@ -376,35 +442,41 @@ function PostCard({
         ) : (
           <span className="text-xs font-bold text-zinc-400">운동 티칭 영상</span>
         )}
+        {!post.isMine ? (
+          <ReportButton
+            className="ml-auto inline-flex items-center gap-1 text-zinc-300 hover:text-rose-500"
+            targetKind={isTeaching ? "teaching_post" : "community_post"}
+            targetId={post.id}
+            targetUserId={post.userId}
+            targetAuthor={post.authorName}
+            targetPreview={post.caption}
+            iconSize={16}
+          />
+        ) : null}
         {canModerate || post.isMine ? (
           <button
             type="button"
             onClick={remove}
             disabled={pending}
             aria-label="삭제"
-            className="ml-auto text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+            className={`${post.isMine ? "ml-auto" : ""} text-zinc-300 hover:text-rose-500 disabled:opacity-50`}
           >
             <Trash2 size={16} />
           </button>
         ) : null}
       </div>
 
-      {/* 캡션 */}
+      {/* 캡션 — 카드 전체가 상세로 이동하므로 별도 링크 없이 텍스트만. */}
       {post.caption ? (
         <div className="px-3 pb-3 pt-1.5">
-          {isTeaching ? (
-            <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">
-              <span className="mr-1.5 font-bold">{post.authorName}</span>
-              {post.caption}
-            </p>
-          ) : (
-            <Link href={`/community/${post.id}`} className="block">
-              <p className="line-clamp-3 whitespace-pre-wrap break-words text-sm leading-relaxed">
-                <span className="mr-1.5 font-bold">{post.authorName}</span>
-                {post.caption}
-              </p>
-            </Link>
-          )}
+          <p
+            className={`whitespace-pre-wrap break-words text-sm leading-relaxed ${
+              isTeaching ? "" : "line-clamp-3"
+            }`}
+          >
+            <span className="mr-1.5 font-bold">{post.authorName}</span>
+            {post.caption}
+          </p>
         </div>
       ) : (
         <div className="pb-3" />
@@ -573,7 +645,7 @@ function ComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-500 py-3 text-sm font-extrabold text-white active:scale-[0.99] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-emerald-500/25 transition-transform active:scale-[0.99] disabled:opacity-60"
         >
           {pending ? (
             <>

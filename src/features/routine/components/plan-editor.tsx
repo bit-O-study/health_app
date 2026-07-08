@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronUp, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import {
+  GripVertical,
+  Loader2,
+  Plus,
+  Sparkles,
+  Trash2,
+} from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
@@ -55,6 +61,9 @@ type FocusData = {
   showConditioning: boolean;
 };
 
+/** 한 일차(dayIndex)의 부위들 — 통합 박스 단위. */
+type DayGroup = { dayIndex: number; focuses: FocusData[] };
+
 type Row = {
   exerciseId: string;
   equipment: EquipmentId;
@@ -106,6 +115,7 @@ export function PlanEditor({
   // 파괴적 동작(추천 덮어쓰기) 확인 모달 상태
   const [confirm, setConfirm] = useState<
     | { kind: "focus"; section: FocusData }
+    | { kind: "day"; day: DayGroup }
     | { kind: "all" }
     | { kind: "clear-all" }
     | null
@@ -125,6 +135,78 @@ export function PlanEditor({
     setPlans((prev) => ({ ...prev, [key]: next }));
     setDirty((prev) => new Set(prev).add(key));
     setStatus(null);
+  }
+
+  // ── 드래그 순서 변경 — 부위 섹션별로 그립 '롱프레스' 리프트 후 이동 ──
+  // (daily-main-editor 와 동일 UX. 단 rows 가 섹션(f.key)별로 나뉘어 있어
+  //  드래그 상태에 key 를 함께 둔다 — 섹션 간 이동은 막고 같은 부위 안에서만.)
+  const rowRefs = useRef<Record<string, (HTMLDivElement | null)[]>>({});
+  const dragRef = useRef<{ key: string; from: number; startY: number } | null>(
+    null,
+  );
+  const lpTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [drag, setDrag] = useState<{
+    key: string;
+    from: number;
+    dy: number;
+  } | null>(null);
+  const LONG_PRESS = 180;
+
+  function clearLp() {
+    if (lpTimer.current) {
+      clearTimeout(lpTimer.current);
+      lpTimer.current = null;
+    }
+  }
+  function onGripDown(e: React.PointerEvent, key: string, index: number) {
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    const startY = e.clientY;
+    clearLp();
+    lpTimer.current = setTimeout(() => {
+      dragRef.current = { key, from: index, startY };
+      setDrag({ key, from: index, dy: 0 });
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate(8);
+      }
+    }, LONG_PRESS);
+  }
+  function onGripMove(e: React.PointerEvent) {
+    const d = dragRef.current;
+    if (!d) {
+      clearLp();
+      return;
+    }
+    e.preventDefault();
+    const refs = rowRefs.current[d.key] ?? [];
+    const rows = plans[d.key] ?? [];
+    const y = e.clientY;
+    let target = d.from;
+    for (let i = 0; i < refs.length; i++) {
+      const el = refs[i];
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      const mid = (r.top + r.bottom) / 2;
+      if (i < d.from && y < mid) {
+        target = i;
+        break;
+      }
+      if (i > d.from && y > mid) target = i;
+    }
+    if (target !== d.from) {
+      const next = [...rows];
+      const [moved] = next.splice(d.from, 1);
+      next.splice(target, 0, moved);
+      dragRef.current = { key: d.key, from: target, startY: y };
+      setDrag({ key: d.key, from: target, dy: 0 });
+      update(d.key, next);
+    } else {
+      setDrag({ key: d.key, from: d.from, dy: y - d.startY });
+    }
+  }
+  function onGripUp() {
+    clearLp();
+    dragRef.current = null;
+    setDrag(null);
   }
 
   /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째 */
@@ -208,32 +290,57 @@ export function PlanEditor({
     update(f.key, next);
   }
 
-  // 편집 중인 행이 있으면 덮어쓰기 전에 확인, 비어 있으면 바로 채움
-  function recommendFocus(f: FocusData) {
-    if ((plans[f.key] ?? []).length > 0) setConfirm({ kind: "focus", section: f });
-    else doRecommendFocus(f);
-  }
+  // 부위 섹션을 '일차(dayIndex)'별로 묶는다 — 같은 날 부위들을 한 바구니(박스)로.
+  const days: DayGroup[] = (() => {
+    const map = new Map<number, FocusData[]>();
+    for (const f of focuses) {
+      const arr = map.get(f.dayIndex) ?? [];
+      arr.push(f);
+      map.set(f.dayIndex, arr);
+    }
+    return [...map.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([dayIndex, fs]) => ({ dayIndex, focuses: fs }));
+  })();
+  // "N일 · 가슴" 형태 라벨에서 부위 이름만 추출(일차는 그룹 헤더로 따로 표시).
+  const focusName = (label: string) => label.split(" · ").pop() ?? label;
 
-  function saveFocus(f: FocusData) {
+  // 그날 첫 부위 슬롯에 기본 운동 추가(운동을 바꾸면 태그는 실제 근육으로 표시).
+  function addRowDay(day: DayGroup) {
+    const primary = day.focuses[0];
+    if (primary) addRow(primary);
+  }
+  // 그날 모든 부위를 추천으로 채움(행 있으면 확인 후).
+  function recommendDay(day: DayGroup) {
+    const hasRows = day.focuses.some((f) => (plans[f.key] ?? []).length > 0);
+    if (hasRows) setConfirm({ kind: "day", day });
+    else day.focuses.forEach((f) => doRecommendFocus(f));
+  }
+  // 그날 모든 부위를 한 번에 저장(부위별 슬롯으로 나눠 저장).
+  function saveDay(day: DayGroup) {
     start(async () => {
-      const items = (plans[f.key] ?? []).map((r) => ({
-        exerciseId: r.exerciseId,
-        equipment: r.equipment,
-        sets: r.sets,
-        reps: r.reps,
-        weightKg: r.weight.trim() === "" ? null : Number(r.weight),
-        setDetails: r.setDetails,
-      }));
-      const res = await saveManualPlanAction(f.dayIndex, f.focus, items);
-      setStatus(res.ok ? `“${f.label}” 저장됨` : res.error);
-      if (res.ok) {
-        setDirty((prev) => {
-          const next = new Set(prev);
-          next.delete(f.key);
-          return next;
-        });
-        router.refresh();
+      for (const f of day.focuses) {
+        const items = (plans[f.key] ?? []).map((r) => ({
+          exerciseId: r.exerciseId,
+          equipment: r.equipment,
+          sets: r.sets,
+          reps: r.reps,
+          weightKg: r.weight.trim() === "" ? null : Number(r.weight),
+          setDetails: r.setDetails,
+        }));
+        const res = await saveManualPlanAction(f.dayIndex, f.focus, items);
+        if (!res.ok) {
+          setStatus(res.error);
+          return;
+        }
       }
+      setStatus(`${day.dayIndex + 1}일차 저장됨`);
+      setDirty((prev) => {
+        const next = new Set(prev);
+        day.focuses.forEach((f) => next.delete(f.key));
+        return next;
+      });
+      router.refresh();
     });
   }
 
@@ -285,227 +392,220 @@ export function PlanEditor({
         </button>
       </div>
 
-      {focuses.map((f) => {
-        const rows = plans[f.key] ?? [];
-        const options = allExercisesForFocus(f.focus);
-        return (
-          <section
-            key={f.key}
-            className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
-          >
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-950 dark:text-zinc-100">
-                {f.label}
-                {f.isSide ? (
-                  <span className="rounded-full bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
-                    보조
-                  </span>
-                ) : null}
-              </h3>
-              <div className="flex flex-wrap items-center gap-1.5">
-                <button
-                  type="button"
-                  onClick={() => recommendFocus(f)}
-                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
-                >
-                  <Sparkles aria-hidden="true" size={14} />
-                  추천으로 채우기
-                </button>
-                <button
-                  type="button"
-                  onClick={() => addRow(f)}
-                  className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
-                >
-                  <Plus aria-hidden="true" size={14} />
-                  운동 추가
-                </button>
-              </div>
-            </div>
-
-            {rows.length === 0 ? (
-              <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
-                등록된 운동이 없습니다. “운동 추가”로 직접 넣거나 위에서 추천
-                등록을 사용하세요.
-              </p>
-            ) : (
-              <div className="mt-4 space-y-2">
-                {rows.map((row, idx) => {
-                  const ex = getCatalogExercise(row.exerciseId) ?? options[0];
-                  return (
-                    <div
-                      key={idx}
-                      className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
+      {days.map((day) => (
+        <div key={`day-${day.dayIndex}`} className="space-y-3">
+          {/* 일차 그룹 헤더 — 같은 날 부위들을 묶어 보여준다. */}
+          <div className="flex items-center gap-2 pt-1">
+            <span className="inline-flex h-7 items-center rounded-full bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+              {day.dayIndex + 1}일차
+            </span>
+            <span className="truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+              {day.focuses.map((f) => focusName(f.label)).join(" · ")}
+            </span>
+          </div>
+          {(() => {
+            const primary = day.focuses[0];
+            const entries = day.focuses.flatMap((f) =>
+              (plans[f.key] ?? []).map((row, idx) => ({ f, row, idx })),
+            );
+            const optsOf = (f: FocusData) => allExercisesForFocus(f.focus);
+            return (
+              <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+                    본운동
+                  </h3>
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => recommendDay(day)}
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
                     >
-                      <span className="flex shrink-0 flex-wrap gap-1">
-                        {/* 대근육 부위 1개 + 세부근육 1개만 */}
-                        {(() => {
-                          const major = majorMuscleTag(row.exerciseId);
-                          return (
-                            <span
-                              className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold ${major.tone}`}
-                            >
-                              {major.label}
-                            </span>
-                          );
-                        })()}
-                        {(() => {
-                          const sub = subMusclesForExercise(row.exerciseId)[0];
-                          if (!sub) return null;
-                          return (
-                            <span
-                              className="whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
-                              style={{
-                                backgroundColor: muscleGroup(sub.muscle).color,
-                              }}
-                            >
-                              {sub.label}
-                            </span>
-                          );
-                        })()}
-                      </span>
-                      <div className="flex-1 basis-full sm:basis-auto">
-                        <ExerciseSearchSelect
-                          options={options}
-                          value={row.exerciseId}
-                          onChange={(id) => {
-                            const nextEx = getCatalogExercise(id);
-                            const next = [...rows];
-                            next[idx] = {
-                              ...row,
-                              exerciseId: id,
-                              equipment: nextEx
-                                ? pickDefaultEquipment(nextEx)
-                                : row.equipment,
-                            };
-                            update(f.key, next);
+                      <Sparkles aria-hidden="true" size={14} />
+                      추천으로 채우기
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => addRowDay(day)}
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                    >
+                      <Plus aria-hidden="true" size={14} />
+                      운동 추가
+                    </button>
+                  </div>
+                </div>
+
+                {entries.length === 0 ? (
+                  <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
+                    등록된 운동이 없습니다. 위 버튼으로 추가하거나 추천으로 채우세요.
+                  </p>
+                ) : (
+                  <div className="mt-4 space-y-2">
+                    {entries.map(({ f, row, idx }) => {
+                      const options = optsOf(f);
+                      const rows = plans[f.key] ?? [];
+                      const ex = getCatalogExercise(row.exerciseId) ?? options[0];
+                      const isDragging = drag?.key === f.key && drag.from === idx;
+                      return (
+                        <div
+                          key={`${f.key}-${idx}`}
+                          ref={(el) => {
+                            if (!rowRefs.current[f.key]) rowRefs.current[f.key] = [];
+                            rowRefs.current[f.key][idx] = el;
                           }}
-                        />
-                      </div>
+                          style={
+                            isDragging
+                              ? {
+                                  transform: `translateY(${drag.dy}px) scale(1.03)`,
+                                  boxShadow: "0 14px 30px rgba(0,0,0,0.18)",
+                                  zIndex: 20,
+                                  position: "relative",
+                                  transition: "none",
+                                  touchAction: "none",
+                                }
+                              : { transition: "transform 160ms ease" }
+                          }
+                          className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
+                        >
+                          <button
+                            type="button"
+                            aria-label="드래그로 순서 변경"
+                            onPointerDown={(e) => onGripDown(e, f.key, idx)}
+                            onPointerMove={onGripMove}
+                            onPointerUp={onGripUp}
+                            onPointerCancel={onGripUp}
+                            className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
+                          >
+                            <GripVertical aria-hidden="true" size={16} />
+                          </button>
+                          <span className="flex shrink-0 flex-wrap gap-1">
+                            {(() => {
+                              const major = majorMuscleTag(row.exerciseId);
+                              return (
+                                <span
+                                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold ${major.tone}`}
+                                >
+                                  {major.label}
+                                </span>
+                              );
+                            })()}
+                            {(() => {
+                              const sub = subMusclesForExercise(row.exerciseId)[0];
+                              if (!sub) return null;
+                              return (
+                                <span
+                                  className="whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                                  style={{ backgroundColor: muscleGroup(sub.muscle).color }}
+                                >
+                                  {sub.label}
+                                </span>
+                              );
+                            })()}
+                          </span>
+                          <div className="flex-1 basis-full sm:basis-auto">
+                            <ExerciseSearchSelect
+                              options={options}
+                              value={row.exerciseId}
+                              onChange={(id) => {
+                                const nextEx = getCatalogExercise(id);
+                                const next = [...rows];
+                                next[idx] = {
+                                  ...row,
+                                  exerciseId: id,
+                                  equipment: nextEx ? pickDefaultEquipment(nextEx) : row.equipment,
+                                };
+                                update(f.key, next);
+                              }}
+                            />
+                          </div>
+                          <select
+                            aria-label="기구"
+                            value={row.equipment}
+                            onChange={(e) => {
+                              const next = [...rows];
+                              next[idx] = { ...row, equipment: e.target.value as EquipmentId };
+                              update(f.key, next);
+                            }}
+                            className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
+                          >
+                            {ex.equipments.map((eq) => {
+                              const ok = isEquipmentAvailable(eq.equipment, gymSet);
+                              return (
+                                <option key={eq.equipment} value={eq.equipment}>
+                                  {EQUIPMENT_LABELS[eq.equipment]}
+                                  {ok ? "" : " (헬스장에 없음)"}
+                                </option>
+                              );
+                            })}
+                          </select>
+                          <SetDetailsEditor
+                            sets={row.sets}
+                            reps={row.reps}
+                            weight={row.weight}
+                            setDetails={row.setDetails}
+                            onlySets={!lockWeightReps}
+                            onUniformChange={(patch) => {
+                              const next = [...rows];
+                              next[idx] = { ...row, ...patch };
+                              update(f.key, next);
+                            }}
+                            onSetDetailsChange={(sd) => {
+                              const next = [...rows];
+                              next[idx] = { ...row, setDetails: sd };
+                              update(f.key, next);
+                            }}
+                          />
+                          <button
+                            type="button"
+                            aria-label="삭제"
+                            data-testid={`delete-row-${f.key}-${idx}`}
+                            onClick={() => update(f.key, rows.filter((_, i) => i !== idx))}
+                            className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
+                          >
+                            <Trash2 aria-hidden="true" size={16} />
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
 
-                      <select
-                        aria-label="기구"
-                        value={row.equipment}
-                        onChange={(e) => {
-                          const next = [...rows];
-                          next[idx] = {
-                            ...row,
-                            equipment: e.target.value as EquipmentId,
-                          };
-                          update(f.key, next);
-                        }}
-                        className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
-                      >
-                        {ex.equipments.map((eq) => {
-                          const ok = isEquipmentAvailable(eq.equipment, gymSet);
-                          return (
-                            <option key={eq.equipment} value={eq.equipment}>
-                              {EQUIPMENT_LABELS[eq.equipment]}
-                              {ok ? "" : " (헬스장에 없음)"}
-                            </option>
-                          );
-                        })}
-                      </select>
+                <button
+                  type="button"
+                  disabled={pending}
+                  onClick={() => saveDay(day)}
+                  className="mt-4 inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-4 text-sm font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
+                >
+                  {pending ? (
+                    <Loader2 aria-hidden="true" className="animate-spin" size={15} />
+                  ) : null}
+                  {day.dayIndex + 1}일차 저장
+                </button>
 
-                      <SetDetailsEditor
-                        sets={row.sets}
-                        reps={row.reps}
-                        weight={row.weight}
-                        setDetails={row.setDetails}
-                        onUniformChange={(patch) => {
-                          const next = [...rows];
-                          next[idx] = { ...row, ...patch };
-                          update(f.key, next);
-                        }}
-                        onSetDetailsChange={(sd) => {
-                          const next = [...rows];
-                          next[idx] = { ...row, setDetails: sd };
-                          update(f.key, next);
-                        }}
-                      />
-                      <button
-                        type="button"
-                        aria-label="위로"
-                        disabled={idx === 0}
-                        onClick={() => {
-                          const next = [...rows];
-                          [next[idx - 1], next[idx]] = [next[idx], next[idx - 1]];
-                          update(f.key, next);
-                        }}
-                        className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
-                      >
-                        <ChevronUp aria-hidden="true" size={16} />
-                      </button>
-                      <button
-                        type="button"
-                        aria-label="아래로"
-                        disabled={idx === rows.length - 1}
-                        onClick={() => {
-                          const next = [...rows];
-                          [next[idx + 1], next[idx]] = [next[idx], next[idx + 1]];
-                          update(f.key, next);
-                        }}
-                        className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
-                      >
-                        <ChevronDown aria-hidden="true" size={16} />
-                      </button>
-                      <button
-                        type="button"
-                        aria-label="삭제"
-                        data-testid={`delete-row-${f.key}-${idx}`}
-                        onClick={() =>
-                          update(
-                            f.key,
-                            rows.filter((_, i) => i !== idx),
-                          )
-                        }
-                        className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
-                      >
-                        <Trash2 aria-hidden="true" size={16} />
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-
-            <button
-              type="button"
-              disabled={pending}
-              onClick={() => saveFocus(f)}
-              className="mt-4 inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-4 text-sm font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
-            >
-              {pending ? (
-                <Loader2
-                  aria-hidden="true"
-                  className="animate-spin"
-                  size={15}
-                />
-              ) : null}
-              저장
-            </button>
-
-            {f.showConditioning ? (
-              <div className="mt-5 space-y-3 border-t border-zinc-200 dark:border-zinc-700 pt-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                  워밍업 / 마무리
-                </p>
-                <ConditioningEditor
-                  focus={f.focus}
-                  kind="warmup"
-                  initial={f.warmup}
-                  lockWeightReps={lockWeightReps}
-                />
-                <ConditioningEditor
-                  focus={f.focus}
-                  kind="cooldown"
-                  initial={f.cooldown}
-                  lockWeightReps={lockWeightReps}
-                />
-              </div>
-            ) : null}
-          </section>
-        );
-      })}
+                {primary ? (
+                  <div className="mt-5 space-y-3 border-t border-zinc-200 dark:border-zinc-700 pt-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                      워밍업 / 마무리
+                    </p>
+                    <ConditioningEditor
+                      focus={primary.focus}
+                      kind="warmup"
+                      initial={primary.warmup}
+                      lockWeightReps={lockWeightReps}
+                    />
+                    <ConditioningEditor
+                      focus={primary.focus}
+                      kind="cooldown"
+                      initial={primary.cooldown}
+                      lockWeightReps={lockWeightReps}
+                    />
+                  </div>
+                ) : null}
+              </section>
+            );
+          })()}
+        </div>
+      ))}
 
       <ConfirmDialog
         open={confirm !== null}
@@ -526,6 +626,8 @@ export function PlanEditor({
         onConfirm={() => {
           if (confirm?.kind === "all") doRecommendAll();
           else if (confirm?.kind === "focus") doRecommendFocus(confirm.section);
+          else if (confirm?.kind === "day")
+            confirm.day.focuses.forEach((f) => doRecommendFocus(f));
           else if (confirm?.kind === "clear-all") doClearAll();
           setConfirm(null);
         }}

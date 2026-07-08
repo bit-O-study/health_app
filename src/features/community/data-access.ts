@@ -9,6 +9,7 @@ import {
   type FeedKind,
   type Visibility,
 } from "@/features/community/feed";
+import { resolveMemberName } from "@/features/groups/member-name";
 
 /** 통합 피드 글(사진 인증 + 운동 티칭 영상). */
 export type FeedPost = {
@@ -165,7 +166,7 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
   if (!user) return [];
   const supabase = await createSupabaseServerClient();
 
-  const [{ data: cData }, { data: tData }] = await Promise.all([
+  const [{ data: cData }, { data: tData }, { data: myProf }] = await Promise.all([
     supabase
       .from("community_posts")
       .select("id, user_id, group_id, visibility, author_name, photo_url, caption, created_at")
@@ -176,7 +177,22 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
       .select("id, user_id, group_id, visibility, author_name, exercise_slug, exercise_tag, video_url, caption, created_at")
       .order("created_at", { ascending: false })
       .limit(limit),
+    supabase
+      .from("profiles")
+      .select("name, nickname")
+      .eq("user_id", user.id)
+      .maybeSingle(),
   ]);
+
+  // 내 글은 저장 당시 스냅샷된 author_name 대신 '현재' 닉네임으로 보여준다
+  // (닉네임 바꾸면 옛 글이 옛 이름으로 남던 문제).
+  const myName = resolveMemberName(
+    (myProf as { nickname?: string | null } | null)?.nickname,
+    (myProf as { name?: string | null } | null)?.name,
+    null,
+  );
+  const displayName = (uid: string, snapshot: string | null): string =>
+    uid === user.id ? myName : (snapshot?.trim() || "회원");
 
   const cRows = (cData ?? []) as (Row & { visibility: string | null })[];
   const tRows = (tData ?? []) as TeachingRow[];
@@ -191,18 +207,30 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
     ),
   ];
   const photoIds = cRows.map((r) => r.id);
+  const teachIds = tRows.map((r) => r.id);
 
-  const [{ data: grps }, { data: counts }, { data: myLikes }] = await Promise.all([
-    groupIds.length > 0
-      ? supabase.from("groups").select("id, name").in("id", groupIds)
-      : Promise.resolve({ data: [] as { id: string; name: string }[] }),
-    photoIds.length > 0
-      ? supabase.rpc("community_post_counts", { pids: photoIds })
-      : Promise.resolve({ data: [] as { post_id: string; like_count: number; comment_count: number }[] }),
-    photoIds.length > 0
-      ? supabase.from("community_likes").select("post_id").eq("user_id", user.id).in("post_id", photoIds)
-      : Promise.resolve({ data: [] as { post_id: string }[] }),
-  ]);
+  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }] =
+    await Promise.all([
+      groupIds.length > 0
+        ? supabase.from("groups").select("id, name").in("id", groupIds)
+        : Promise.resolve({ data: [] as { id: string; name: string }[] }),
+      photoIds.length > 0
+        ? supabase.rpc("community_post_counts", { pids: photoIds })
+        : Promise.resolve({ data: [] as { post_id: string; like_count: number; comment_count: number }[] }),
+      photoIds.length > 0
+        ? supabase.from("community_likes").select("post_id").eq("user_id", user.id).in("post_id", photoIds)
+        : Promise.resolve({ data: [] as { post_id: string }[] }),
+      teachIds.length > 0
+        ? supabase.rpc("teaching_post_counts", { pids: teachIds })
+        : Promise.resolve({
+            data: [] as {
+              post_id: string;
+              like_count: number;
+              comment_count: number;
+              liked_by_me: boolean;
+            }[],
+          }),
+    ]);
 
   const groupNameById = new Map<string, string>();
   for (const g of (grps ?? []) as { id: string; name: string }[]) groupNameById.set(g.id, g.name);
@@ -214,13 +242,28 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
   }
   const likedByMe = new Set<string>(((myLikes ?? []) as { post_id: string }[]).map((l) => l.post_id));
 
+  // 티칭 글 좋아요/댓글 수 + 내 좋아요 여부(teaching_post_counts RPC).
+  const tLike = new Map<string, number>();
+  const tComment = new Map<string, number>();
+  const tLikedByMe = new Set<string>();
+  for (const r of (tCounts ?? []) as {
+    post_id: string;
+    like_count: number;
+    comment_count: number;
+    liked_by_me: boolean;
+  }[]) {
+    tLike.set(r.post_id, r.like_count);
+    tComment.set(r.post_id, r.comment_count);
+    if (r.liked_by_me) tLikedByMe.add(r.post_id);
+  }
+
   const gName = (id: string | null) => (id ? (groupNameById.get(id) ?? null) : null);
 
   const photos: FeedPost[] = cRows.map((r) => ({
     id: r.id,
     kind: "photo",
     userId: r.user_id,
-    authorName: r.author_name?.trim() || "회원",
+    authorName: displayName(r.user_id, r.author_name),
     groupId: r.group_id,
     groupName: gName(r.group_id),
     visibility: asVisibility(r.visibility, r.group_id),
@@ -240,7 +283,7 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
     id: r.id,
     kind: "teaching",
     userId: r.user_id,
-    authorName: r.author_name?.trim() || "회원",
+    authorName: displayName(r.user_id, r.author_name),
     groupId: r.group_id,
     groupName: gName(r.group_id),
     visibility: asVisibility(r.visibility, r.group_id),
@@ -248,9 +291,9 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
     createdAt: r.created_at,
     isMine: r.user_id === user.id,
     photoUrl: null,
-    likeCount: 0,
-    commentCount: 0,
-    likedByMe: false,
+    likeCount: tLike.get(r.id) ?? 0,
+    commentCount: tComment.get(r.id) ?? 0,
+    likedByMe: tLikedByMe.has(r.id),
     videoUrl: r.video_url,
     exerciseTag: r.exercise_tag,
     exerciseSlug: r.exercise_slug,

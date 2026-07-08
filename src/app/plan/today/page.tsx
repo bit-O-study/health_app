@@ -31,7 +31,7 @@ export const dynamic = "force-dynamic";
 export default async function TodayConditioningPage({
   searchParams,
 }: {
-  searchParams: Promise<{ focus?: string }>;
+  searchParams: Promise<{ focus?: string; direct?: string }>;
 }) {
   const [user, profile, routine, gym] = await Promise.all([
     getCurrentUser(),
@@ -45,7 +45,10 @@ export default async function TodayConditioningPage({
     await ensureDayIndexBackfilled(user.id);
   const gymEquipment = gym?.equipmentIds ?? null;
 
-  const { focus: focusParam } = await searchParams;
+  const { focus: focusParam, direct: directParam } = await searchParams;
+  // 직접 담기(direct) — 부위 제한 없이 전체 운동에서 담는다. 부위 자동배정은 저장 시
+  // 운동별 focusForExercise 로 이뤄진다(빈 본운동/워밍업/마무리 섹션에서 추가).
+  const direct = directParam === "1";
 
   // 선택 부위 (?focus=chest,back) — 없으면 오늘의 실제 부위 1개
   let focuses: FocusTone[] = [];
@@ -60,28 +63,32 @@ export default async function TodayConditioningPage({
           ALL_FOCUSES.includes(s as Exclude<FocusTone, "rest">),
       );
   }
-  if (focuses.length === 0) {
+  // 오늘 원래 루틴 부위 — 폴백/직접담기 추천에 쓴다.
+  const origTodayFocuses: Exclude<FocusTone, "rest">[] = (() => {
     const { variant } = resolveRoutine(
       routine.splits,
       routine.variantId,
       routine.customWeek,
     );
-    const todayYmd = seoulYmd();
-    const offset = routineDayOffset(routine.startDate, todayYmd);
+    const offset = routineDayOffset(routine.startDate, seoulYmd());
     const overriddenToday =
-      routine.overrideDate === todayYmd && routine.overrideBlock !== null;
+      routine.overrideDate === seoulYmd() && routine.overrideBlock !== null;
     if (overriddenToday) {
-      // 이두/삼두 같은 블록은 arm 톤으로 매핑돼 저장·조회된다.
       const tone = DAY_BLOCKS[routine.overrideBlock!].day.tone;
-      if (tone !== "rest") focuses = [tone];
-    } else {
-      // 멀티 부위 일자 — 모든 부위를 기본으로 채움
-      const dayPlan = variant.week[offset];
-      focuses = (dayPlan.tones ?? [dayPlan.tone]).filter(
-        (t): t is Exclude<FocusTone, "rest"> => t !== "rest",
-      );
+      return tone !== "rest" ? [tone] : [];
     }
+    const dayPlan = variant.week[offset];
+    return (dayPlan.tones ?? [dayPlan.tone]).filter(
+      (t): t is Exclude<FocusTone, "rest"> => t !== "rest",
+    );
+  })();
+  // 직접 담기면 부위 폴백을 하지 않는다(빈 상태로 시작 → 전체 운동 추가).
+  if (focuses.length === 0 && !direct) {
+    focuses = origTodayFocuses;
   }
+  // 직접 담기 '추천으로 채우기'는 오늘 루틴(지금 바꾸려는 대상)을 그대로 넣으면
+  // 헷갈리므로, 예측 가능한 '균형 운동(가슴·등·하체)'으로 채운다.
+  const directRecFocuses: Exclude<FocusTone, "rest">[] = ["chest", "back", "lower"];
 
   const todayYmd = seoulYmd();
   const { weekday } = ymdDisplay(todayYmd);
@@ -110,45 +117,20 @@ export default async function TodayConditioningPage({
       : (firstDayIndexForFocus(slots, focus) ?? offsetForToday);
   };
 
-  // 부위별 본운동 섹션
-  const mainSections = await Promise.all(
-    validFocuses.map(async (focus) => {
-      const dailyMain = dailyAll.filter((r) => r.focus === focus);
-      const byDay = await getPlanForDay(readDayFor(focus), focus);
-      const base = byDay.length > 0 ? byDay : await getPlanForFocus(focus);
-      const initialMain =
-        dailyMain.length > 0
-          ? dailyMain
-          : base.map((p) => ({
-              id: p.id,
-              focus: p.focus,
-              position: p.position,
-              exerciseId: p.exerciseId,
-              equipment: p.equipment,
-              sets: p.sets,
-              reps: p.reps,
-              weightKg: p.weightKg,
-              setDetails: p.setDetails,
-              memo: p.memo,
-            }));
-      return {
-        focus,
-        label: DAY_BLOCKS[focus].label,
-        initialMain,
-      };
-    }),
-  );
+  // 부위별 본운동 섹션 — 오늘 오버라이드가 있으면 그걸, 없으면 **빈값**으로 시작한다.
+  // (기본 루틴을 미리 채우지 않음 → 처음엔 비어 있고 "추천으로 채우기"로 담는다)
+  const mainSections = validFocuses.map((focus) => ({
+    focus,
+    label: DAY_BLOCKS[focus].label,
+    initialMain: dailyAll.filter((r) => r.focus === focus),
+  }));
 
-  // 워밍업/마무리는 하루 1세트(첫 선택 부위 기준 기본값) — 중복 노출 방지
+  // 워밍업/마무리는 하루 1세트. 초기엔 오늘 오버라이드만(없으면 빈값 → '추천으로 채우기').
+  // 추천은 편집기 안에서 오늘 전 부위(validFocuses) 합집합으로 채운다.
   const primaryFocus = validFocuses[0];
   const daily = await getDailyConditioning(todayYmd);
-  const condDefaults = primaryFocus
-    ? await getConditioningForFocus(primaryFocus)
-    : { warmup: [], cooldown: [] };
-  const warmupInitial =
-    daily.warmup.length > 0 ? daily.warmup : condDefaults.warmup;
-  const cooldownInitial =
-    daily.cooldown.length > 0 ? daily.cooldown : condDefaults.cooldown;
+  const warmupInitial = daily.warmup;
+  const cooldownInitial = daily.cooldown;
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
@@ -165,11 +147,13 @@ export default async function TodayConditioningPage({
           오늘만 운동 바꾸기
         </h1>
         <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          {dateLabel} · 선택 부위 ·{" "}
+          {dateLabel} ·{" "}
           <strong>
-            {mainSections.length > 0
-              ? mainSections.map((s) => s.label).join(",")
-              : "선택 없음"}
+            {direct
+              ? "전체 운동에서 직접 담기"
+              : mainSections.length > 0
+                ? mainSections.map((s) => s.label).join(",")
+                : "선택 없음"}
           </strong>
           . 저장한 내용은 <strong>오늘만</strong> 반영되고 내일부터는 기본
           루틴으로 돌아갑니다. 이미 완료 처리한 운동은 그대로 남습니다.
@@ -180,42 +164,49 @@ export default async function TodayConditioningPage({
         </p>
       </div>
 
-      {mainSections.length === 0 ? (
+      {!direct && mainSections.length === 0 ? (
         <p className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
           편집할 부위가 없습니다. 메인 화면 “오늘만 운동 바꾸기” 팝업에서 부위를
           선택해 주세요.
         </p>
       ) : (
         <div className="space-y-6">
-          {/* 부위별 본운동 */}
-          {mainSections.map((s) => (
-            <DailyMainEditor
-              key={s.focus}
-              focus={s.focus}
-              label={s.label}
-              gender={profile.gender}
-              experience={profile.experience}
-              bodyType={profile.bodyType}
-              weightKg={profile.weightKg}
-              dateYmd={todayYmd}
-              initial={s.initialMain}
-              gymEquipment={gymEquipment}
-              lockWeightReps={profile.lockWeightReps}
-            />
-          ))}
+          {/* 본운동 — 오늘 선택 부위를 한 편집기에(부위는 태그로 구분, 추천/추가 버튼 1개) */}
+          <DailyMainEditor
+            sections={mainSections.map((s) => ({
+              focus: s.focus,
+              label: s.label,
+              initial: s.initialMain,
+            }))}
+            gender={profile.gender}
+            experience={profile.experience}
+            bodyType={profile.bodyType}
+            weightKg={profile.weightKg}
+            dateYmd={todayYmd}
+            gymEquipment={gymEquipment}
+            lockWeightReps={profile.lockWeightReps}
+            allowAllExercises={direct}
+            recommendFocuses={direct ? directRecFocuses : undefined}
+            hideRecommend={direct}
+          />
 
-          {/* 워밍업/마무리는 하루 1세트 */}
-          {primaryFocus ? (
+          {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움.
+              직접 담기(direct)면 부위 기준 없이도 빈 섹션을 띄워 직접 추가하게 한다. */}
+          {primaryFocus || direct ? (
             <>
               <ConditioningEditor
-                focus={primaryFocus}
+                focus={primaryFocus ?? "core"}
+                recommendFocuses={direct ? directRecFocuses : validFocuses}
+                hideRecommend={direct}
                 kind="warmup"
                 initial={warmupInitial}
                 dailyDate={todayYmd}
                 lockWeightReps={profile.lockWeightReps}
               />
               <ConditioningEditor
-                focus={primaryFocus}
+                focus={primaryFocus ?? "core"}
+                recommendFocuses={direct ? directRecFocuses : validFocuses}
+                hideRecommend={direct}
                 kind="cooldown"
                 initial={cooldownInitial}
                 dailyDate={todayYmd}

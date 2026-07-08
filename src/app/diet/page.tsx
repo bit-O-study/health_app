@@ -27,9 +27,12 @@ export default async function DietPage({
   const date =
     typeof sp?.d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(sp.d) ? sp.d : today;
 
-  const logs = await getFoodLogsForDate(date);
-  const mealPhotos = await getMealPhotosForDate(date);
-  const aiScanEnabled = await isDebugFeatureEnabled("diet-photo-ai");
+  // 서로 의존이 없어 한 번에 병렬로(순차 3회 → 라운드트립 2회 절약).
+  const [logs, mealPhotos, aiScanEnabled] = await Promise.all([
+    getFoodLogsForDate(date),
+    getMealPhotosForDate(date),
+    isDebugFeatureEnabled("diet-photo-ai"),
+  ]);
   const target = dailyTarget({
     gender: profile.gender === "female" ? "female" : "male",
     weightKg: profile.weightKg,
@@ -39,6 +42,7 @@ export default async function DietPage({
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
       <DietBoard
+        key={date}
         date={date}
         today={today}
         logs={logs}

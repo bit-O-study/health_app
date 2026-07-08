@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   forTab,
+  forBoard,
   applyFeedFilter,
   feedTags,
   mergeByCreatedAt,
@@ -17,6 +18,7 @@ type Item = {
   visibility: Visibility;
   groupId: string | null;
   exerciseTag: string | null;
+  isMine: boolean;
   createdAt: string;
 };
 
@@ -25,6 +27,7 @@ const mk = (o: Partial<Item> & { id: string }): Item => ({
   visibility: "public",
   groupId: null,
   exerciseTag: null,
+  isMine: false,
   createdAt: "2026-07-06T00:00:00Z",
   ...o,
 });
@@ -44,6 +47,35 @@ describe("forTab", () => {
     expect(forTab(items, "group", ["g1"]).map((i) => i.id)).toEqual(["g1"]);
     expect(forTab(items, "group", ["g1", "g2"]).map((i) => i.id)).toEqual(["g1", "g2"]);
     expect(forTab(items, "group", []).map((i) => i.id)).toEqual([]);
+  });
+});
+
+describe("forBoard", () => {
+  const items = [
+    mk({ id: "pub", kind: "photo", visibility: "public", isMine: true }),
+    mk({ id: "gphoto", kind: "photo", visibility: "group", groupId: "g1" }),
+    mk({ id: "t-sq", kind: "teaching", exerciseTag: "스쿼트" }),
+    mk({ id: "t-bp", kind: "teaching", exerciseTag: "벤치프레스", isMine: true }),
+    mk({ id: "t-grp", kind: "teaching", visibility: "group", groupId: "g1" }),
+  ];
+
+  it("오운완(workout) — 사진 인증만, 그룹전용 제외", () => {
+    expect(forBoard(items, "workout", []).map((i) => i.id)).toEqual(["pub"]);
+  });
+  it("그룹(group) — 선택 그룹의 그룹전용 사진만", () => {
+    expect(forBoard(items, "group", ["g1"]).map((i) => i.id)).toEqual(["gphoto"]);
+    expect(forBoard(items, "group", []).map((i) => i.id)).toEqual([]);
+  });
+  it("운동(teaching) — 티칭만(그룹전용 제외)", () => {
+    expect(forBoard(items, "teaching", []).map((i) => i.id)).toEqual(["t-sq", "t-bp"]);
+  });
+  it("운동 검색 — 운동 태그 부분일치", () => {
+    expect(forBoard(items, "teaching", [], "스쿼").map((i) => i.id)).toEqual(["t-sq"]);
+    expect(forBoard(items, "teaching", [], " 벤치 ").map((i) => i.id)).toEqual(["t-bp"]);
+    expect(forBoard(items, "teaching", [], "없는운동").map((i) => i.id)).toEqual([]);
+  });
+  it("내 글(mine) — 내가 쓴 모든 글(사진+티칭)", () => {
+    expect(forBoard(items, "mine", []).map((i) => i.id)).toEqual(["pub", "t-bp"]);
   });
 });
 

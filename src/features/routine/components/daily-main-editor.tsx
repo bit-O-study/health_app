@@ -1,21 +1,30 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { ChevronDown, ChevronUp, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
+import { GripVertical, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
-import type { FocusTone } from "@/features/routine/data";
+import {
+  DAY_BLOCKS,
+  isDayBlockId,
+  type FocusTone,
+} from "@/features/routine/data";
 import {
   allExercisesForFocus,
+  allExercisesGrouped,
   EQUIPMENT_LABELS,
   exercisesForFocus,
+  focusForExercise,
   getCatalogExercise,
   prescribe,
+  type CatalogExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   saveDailyPlanAction,
   type DailyPlanItem,
@@ -30,6 +39,7 @@ import {
 } from "@/features/gym/gym-equipment-mapping";
 
 type Row = {
+  focus: FocusTone;
   exerciseId: string;
   equipment: EquipmentId;
   sets: number;
@@ -38,57 +48,90 @@ type Row = {
   setDetails: SetDetail[] | null;
 };
 
-function toRow(item: DailyPlanRow): Row {
+export type MainSection = {
+  focus: FocusTone;
+  label: string;
+  initial: DailyPlanRow[];
+};
+
+function toRow(focus: FocusTone, r: DailyPlanRow): Row {
   return {
-    exerciseId: item.exerciseId,
-    equipment: item.equipment,
-    sets: item.sets,
-    reps: item.reps,
-    weight: item.weightKg === null ? "" : String(item.weightKg),
-    setDetails: item.setDetails,
+    focus,
+    exerciseId: r.exerciseId,
+    equipment: r.equipment,
+    sets: r.sets,
+    reps: r.reps,
+    weight: r.weightKg === null ? "" : String(r.weightKg),
+    setDetails: r.setDetails,
   };
 }
 
+/**
+ * 오늘만 본운동 — 오늘 선택한 여러 부위를 **한 편집기**에서 다룬다.
+ * 운동은 한 목록(부위는 태그로 구분), '추천으로 채우기'/'운동 추가' 버튼은 각각 1개.
+ * 저장은 내부에서 부위별로 나눠 daily_plan 에 저장(부위별 오버라이드).
+ */
 export function DailyMainEditor({
-  focus,
-  label,
+  sections,
   gender,
   experience,
   bodyType,
   weightKg,
   dateYmd,
-  initial,
   gymEquipment = null,
   lockWeightReps = false,
+  allowAllExercises = false,
+  recommendFocuses,
+  hideRecommend = false,
 }: {
-  focus: FocusTone;
-  label: string;
+  sections: MainSection[];
   gender: "male" | "female";
   experience: ExperienceLevel;
   bodyType: BodyType | null;
   weightKg: number | null;
   dateYmd: string;
-  initial: DailyPlanRow[];
-  /** 내 헬스장 기구 ID 배열. null = 미설정(필터링 안 함) */
   gymEquipment?: readonly string[] | null;
-  /** 무게·횟수 고정. false 면 입력란 숨기고 세트 수만(운동모드에서 설정). */
   lockWeightReps?: boolean;
+  /** sections 가 비었을 때(직접 담기) '추천으로 채우기'가 쓸 부위들. */
+  recommendFocuses?: FocusTone[];
+  /** 직접 담기 등 순수 수동 모드 — '추천으로 채우기' 버튼을 숨긴다. */
+  hideRecommend?: boolean;
+  /** 직접 담기 — sections 에 부위가 있어도 전체 카탈로그에서 고르게 한다. */
+  allowAllExercises?: boolean;
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
-  // 드롭다운에는 부위에 매핑된 카탈로그 전체 (gender 무관 — 본인이 직접 선택)
-  const options = allExercisesForFocus(focus);
-  // 추천 자동 채우기에는 성별 큐레이션 짧은 목록
-  const recommendedOptions = exercisesForFocus(focus, gender);
-  const [rows, setRows] = useState<Row[]>(initial.map(toRow));
+  const focuses = sections.map((s) => s.focus);
+  // 부위 한글 라벨 — sections 에 있으면 그 라벨, 없으면(직접 담기) DAY_BLOCKS 한글명.
+  const labelOf = (f: FocusTone) =>
+    sections.find((s) => s.focus === f)?.label ??
+    (isDayBlockId(f) ? DAY_BLOCKS[f].label : f);
+
+  // 드롭다운 후보: 부위를 선택한 경우(전체 바꾸기)엔 그 부위 운동만, 부위 없이 직접
+  // 담기면 전체 카탈로그. (담은 운동의 태그는 저장 시 focusForExercise 로 자동 배정.)
+  const options: CatalogExercise[] = (() => {
+    const seen = new Set<string>();
+    const out: CatalogExercise[] = [];
+    const source =
+      focuses.length > 0 && !allowAllExercises
+        ? focuses.flatMap((f) => allExercisesForFocus(f as FocusTone))
+        : allExercisesGrouped().flatMap((g) => g.exercises);
+    for (const ex of source) {
+      if (seen.has(ex.id)) continue;
+      seen.add(ex.id);
+      out.push(ex);
+    }
+    return out;
+  })();
+
+  const [rows, setRows] = useState<Row[]>(() =>
+    sections.flatMap((s) => s.initial.map((r) => toRow(s.focus, r))),
+  );
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
-  // 저장 안 된 편집 여부 — 페이지 이탈 경고용
   const [dirty, setDirty] = useState(false);
-  // "추천으로 채우기" 덮어쓰기 확인 모달
   const [confirmRecommend, setConfirmRecommend] = useState(false);
 
-  // 저장하지 않은 편집이 있는 채로 탭을 닫거나 새로고침하면 브라우저 기본 경고.
   useEffect(() => {
     if (!dirty) return;
     function onBeforeUnload(e: BeforeUnloadEvent) {
@@ -104,21 +147,20 @@ export function DailyMainEditor({
     setMsg(null);
   }
 
-  /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째를 기본값으로. 없으면 첫 번째 */
-  function pickDefaultEquipment(ex: { equipments: { equipment: EquipmentId }[] }): EquipmentId {
+  function pickDefaultEquipment(ex: {
+    equipments: { equipment: EquipmentId }[];
+  }): EquipmentId {
     const available = ex.equipments.find((eq) =>
       isEquipmentAvailable(eq.equipment, gymSet),
     );
     return available?.equipment ?? ex.equipments[0].equipment;
   }
 
-  /** 운동 순서 변경 — 행을 위/아래로 한 칸 이동. */
-  function move(idx: number, dir: -1 | 1) {
-    const j = idx + dir;
-    if (j < 0 || j >= rows.length) return;
-    const next = [...rows];
-    [next[idx], next[j]] = [next[j], next[idx]];
-    update(next);
+  /** 운동의 대표 부위 — 역인덱스로 자동 배정(없으면 오늘 첫 부위, 그것도 없으면 chest). */
+  function focusOf(exerciseId: string): FocusTone {
+    const f = focusForExercise(exerciseId);
+    if (f) return f;
+    return focuses[0] ?? ("chest" as FocusTone);
   }
 
   function addRow() {
@@ -127,6 +169,7 @@ export function DailyMainEditor({
     update([
       ...rows,
       {
+        focus: focusOf(first.id),
         exerciseId: first.id,
         equipment: pickDefaultEquipment(first),
         sets: 3,
@@ -150,23 +193,28 @@ export function DailyMainEditor({
 
   function save() {
     start(async () => {
-      const items = rowsToItems(rows);
-      const res = await saveDailyPlanAction(dateYmd, focus, items);
-      setMsg(res.ok ? `‘${label}’ 저장됨` : res.error);
-       if (res.ok) {
-        setDirty(false);
-        router.refresh();
+      // 오늘 부위 + 행에 실제로 들어있는 부위 전부 저장(비면 그 부위 오버라이드 제거).
+      const allFocuses = [...new Set([...focuses, ...rows.map((r) => r.focus)])];
+      for (const f of allFocuses) {
+        const items = rowsToItems(rows.filter((r) => r.focus === f));
+        const res = await saveDailyPlanAction(dateYmd, f, items);
+        if (!res.ok) {
+          setMsg(res.error);
+          return;
+        }
       }
+      setMsg("저장됨");
+      setDirty(false);
+      router.refresh();
     });
   }
 
-  // 편집 중인 행이 있으면 덮어쓰기 전에 확인, 비어 있으면 바로 채움
   function recommend() {
     if (rows.length > 0) setConfirmRecommend(true);
     else doRecommend();
   }
 
-  /** 체형·성별·경력 기반 추천으로 행을 채움 — 저장은 아래"오늘 본운동 저장" 버튼이 담당 */
+  /** 오늘 각 부위의 추천 운동을 모아 한 목록으로 채운다. */
   function doRecommend() {
     const opts = {
       gender,
@@ -174,41 +222,108 @@ export function DailyMainEditor({
       bodyType: bodyType ?? ("average" as const),
       weightKg: weightKg ?? 65,
     };
-    // 추천으로 채울 때는 부위별 큐레이션된 짧은 목록 사용 (드롭다운 전체 ≠ 추천)
-    const next: Row[] = recommendedOptions.map((ex) => {
-      const p = prescribe(ex.id, opts);
-      return {
-        exerciseId: ex.id,
-        equipment: pickDefaultEquipment(ex),
-        sets: p.sets,
-        reps: p.reps,
-        weight: p.weightKg === null ? "" : String(p.weightKg),
-        setDetails: null,
-      };
-    });
+    const next: Row[] = [];
+    // 직접 담기(sections 없음)면 recommendFocuses(오늘 원래 부위)로 추천.
+    const recFocuses = focuses.length > 0 ? focuses : (recommendFocuses ?? []);
+    for (const f of recFocuses) {
+      for (const ex of exercisesForFocus(f, gender)) {
+        const p = prescribe(ex.id, opts);
+        next.push({
+          focus: f,
+          exerciseId: ex.id,
+          equipment: pickDefaultEquipment(ex),
+          sets: p.sets,
+          reps: p.reps,
+          weight: p.weightKg === null ? "" : String(p.weightKg),
+          setDetails: null,
+        });
+      }
+    }
     update(next);
+    setConfirmRecommend(false);
+  }
+
+  // ── 드래그 순서 변경 — 메인 화면처럼 그립 '롱프레스' 로 리프트 후 이동 ──
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const dragRef = useRef<{ from: number; startY: number } | null>(null);
+  const lpTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [drag, setDrag] = useState<{ from: number; dy: number } | null>(null);
+  const LONG_PRESS = 180;
+
+  function clearLp() {
+    if (lpTimer.current) {
+      clearTimeout(lpTimer.current);
+      lpTimer.current = null;
+    }
+  }
+  function onGripDown(e: React.PointerEvent, index: number) {
+    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
+    const startY = e.clientY;
+    clearLp();
+    // 롱프레스가 지나야 드래그(리프트) 시작 — 짧은 탭은 무시.
+    lpTimer.current = setTimeout(() => {
+      dragRef.current = { from: index, startY };
+      setDrag({ from: index, dy: 0 });
+      if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(8);
+    }, LONG_PRESS);
+  }
+  function onGripMove(e: React.PointerEvent) {
+    const d = dragRef.current;
+    if (!d) {
+      clearLp();
+      return;
+    }
+    e.preventDefault();
+    const y = e.clientY;
+    let target = d.from;
+    for (let i = 0; i < rowRefs.current.length; i++) {
+      const el = rowRefs.current[i];
+      if (!el) continue;
+      const r = el.getBoundingClientRect();
+      const mid = (r.top + r.bottom) / 2;
+      if (i < d.from && y < mid) {
+        target = i;
+        break;
+      }
+      if (i > d.from && y > mid) target = i;
+    }
+    if (target !== d.from) {
+      const next = [...rows];
+      const [moved] = next.splice(d.from, 1);
+      next.splice(target, 0, moved);
+      dragRef.current = { from: target, startY: y };
+      setDrag({ from: target, dy: 0 });
+      update(next);
+    } else {
+      setDrag({ from: d.from, dy: y - d.startY });
+    }
+  }
+  function onGripUp() {
+    clearLp();
+    dragRef.current = null;
+    setDrag(null);
   }
 
   return (
-    <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+    <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-          {label} · 본운동
-        </h3>
+        <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">본운동</h2>
         <div className="flex flex-wrap items-center gap-1.5">
-          <button
-            type="button"
-            disabled={pending}
-            onClick={recommend}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
-          >
-            <Sparkles aria-hidden="true" size={14} />
-            추천으로 채우기
-          </button>
+          {!hideRecommend ? (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={recommend}
+              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
+            >
+              <Sparkles aria-hidden="true" size={14} />
+              추천으로 채우기
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
           >
             <Plus aria-hidden="true" size={14} />
             운동 추가
@@ -218,17 +333,55 @@ export function DailyMainEditor({
 
       {rows.length === 0 ? (
         <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
-          등록된 운동이 없습니다. “운동 추가”로 직접 넣으세요.
+          등록된 운동이 없습니다. “추천으로 채우기” 또는 “운동 추가”로 넣으세요.
         </p>
       ) : (
         <div className="mt-4 space-y-2">
           {rows.map((row, idx) => {
             const ex = getCatalogExercise(row.exerciseId) ?? options[0];
+            const sub = subMusclesForExercise(row.exerciseId)[0];
             return (
               <div
                 key={idx}
-                className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
+                ref={(el) => {
+                  rowRefs.current[idx] = el;
+                }}
+                style={
+                  drag?.from === idx
+                    ? {
+                        transform: `translateY(${drag.dy}px) scale(1.03)`,
+                        boxShadow: "0 14px 30px rgba(0,0,0,0.18)",
+                        zIndex: 20,
+                        position: "relative",
+                        transition: "none",
+                        touchAction: "none",
+                      }
+                    : { transition: "transform 160ms ease" }
+                }
+                className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5 dark:border-zinc-700 dark:bg-zinc-900"
               >
+                <button
+                  type="button"
+                  aria-label="드래그로 순서 변경"
+                  onPointerDown={(e) => onGripDown(e, idx)}
+                  onPointerMove={onGripMove}
+                  onPointerUp={onGripUp}
+                  onPointerCancel={onGripUp}
+                  className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
+                >
+                  <GripVertical aria-hidden="true" size={16} />
+                </button>
+
+                <span
+                  className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                  style={{
+                    backgroundColor: sub ? muscleGroup(sub.muscle).color : "#71717a",
+                  }}
+                >
+                  {labelOf(row.focus)}
+                  {sub ? `(${sub.label})` : ""}
+                </span>
+
                 <ExerciseSearchSelect
                   options={options}
                   value={row.exerciseId}
@@ -238,9 +391,8 @@ export function DailyMainEditor({
                     next[idx] = {
                       ...row,
                       exerciseId: id,
-                      equipment: nextEx
-                        ? pickDefaultEquipment(nextEx)
-                        : row.equipment,
+                      focus: focusOf(id),
+                      equipment: nextEx ? pickDefaultEquipment(nextEx) : row.equipment,
                     };
                     update(next);
                   }}
@@ -251,13 +403,10 @@ export function DailyMainEditor({
                   value={row.equipment}
                   onChange={(e) => {
                     const next = [...rows];
-                    next[idx] = {
-                      ...row,
-                      equipment: e.target.value as EquipmentId,
-                    };
+                    next[idx] = { ...row, equipment: e.target.value as EquipmentId };
                     update(next);
                   }}
-                  className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
+                  className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
                 >
                   {ex.equipments.map((eq) => {
                     const ok = isEquipmentAvailable(eq.equipment, gymSet);
@@ -271,6 +420,7 @@ export function DailyMainEditor({
                 </select>
 
                 <SetDetailsEditor
+                  onlySets={!lockWeightReps}
                   sets={row.sets}
                   reps={row.reps}
                   weight={row.weight}
@@ -286,29 +436,12 @@ export function DailyMainEditor({
                     update(next);
                   }}
                 />
-                <button
-                  type="button"
-                  aria-label="위로"
-                  disabled={idx === 0}
-                  onClick={() => move(idx, -1)}
-                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
-                >
-                  <ChevronUp aria-hidden="true" size={16} />
-                </button>
-                <button
-                  type="button"
-                  aria-label="아래로"
-                  disabled={idx === rows.length - 1}
-                  onClick={() => move(idx, 1)}
-                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-700 disabled:opacity-30"
-                >
-                  <ChevronDown aria-hidden="true" size={16} />
-                </button>
+
                 <button
                   type="button"
                   aria-label="삭제"
                   onClick={() => update(rows.filter((_, i) => i !== idx))}
-                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
+                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 dark:text-zinc-500 dark:hover:bg-red-950/40"
                 >
                   <Trash2 aria-hidden="true" size={16} />
                 </button>
@@ -323,17 +456,13 @@ export function DailyMainEditor({
           type="button"
           disabled={pending}
           onClick={save}
-          className="inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-4 text-sm font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
+          className="inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
         >
-          {pending ? (
-            <Loader2 aria-hidden="true" className="animate-spin" size={15} />
-          ) : null}
+          {pending ? <Loader2 aria-hidden="true" className="animate-spin" size={15} /> : null}
           저장
         </button>
         {msg ? (
-          <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
-            {msg}
-          </span>
+          <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">{msg}</span>
         ) : null}
       </div>
 
@@ -341,12 +470,9 @@ export function DailyMainEditor({
         open={confirmRecommend}
         tone="danger"
         title="추천 운동으로 교체할까요?"
-        message="지금 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"
+        message="지금 편집 중인 운동들이 오늘 부위 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"
         confirmLabel="교체하기"
-        onConfirm={() => {
-          doRecommend();
-          setConfirmRecommend(false);
-        }}
+        onConfirm={doRecommend}
         onCancel={() => setConfirmRecommend(false)}
       />
     </section>

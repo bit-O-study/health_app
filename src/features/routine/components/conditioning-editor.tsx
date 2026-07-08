@@ -79,6 +79,8 @@ export function ConditioningEditor({
   initial,
   dailyDate,
   lockWeightReps = false,
+  recommendFocuses,
+  hideRecommend = false,
 }: {
   /** 기본값 편집 모드일 때의 부위. dailyDate 가 있으면 사용하지 않음 */
   focus?: string;
@@ -88,6 +90,10 @@ export function ConditioningEditor({
   dailyDate?: string;
   /** 시간·속도·경사 고정. false 면 입력란 숨기고 운동모드에서 설정. */
   lockWeightReps?: boolean;
+  /** '추천으로 채우기' 시 이 부위들 전체의 추천을 합쳐 채운다(오늘만 변경 다부위). */
+  recommendFocuses?: FocusTone[];
+  /** 직접 담기 등 순수 수동 모드 — '추천으로 채우기' 버튼을 숨긴다. */
+  hideRecommend?: boolean;
 }) {
   const router = useRouter();
   const options = conditioningOptions(kind);
@@ -129,13 +135,28 @@ export function ConditioningEditor({
     });
   }
 
-  /** 부위 기본 추천으로 행을 채움 — 저장은 아래"저장" 버튼이 담당 */
+  /** 부위 기본 추천으로 행을 채움 — 여러 부위면 합쳐서(중복 itemId 제거). */
   function recommend() {
-    if (!focus) {
+    const targets: FocusTone[] =
+      recommendFocuses && recommendFocuses.length > 0
+        ? recommendFocuses
+        : focus
+          ? [focus as FocusTone]
+          : [];
+    if (targets.length === 0) {
       setMsg("부위 정보가 없어 추천할 수 없습니다.");
       return;
     }
-    const ids = defaultsFor(focus as FocusTone, kind);
+    const seen = new Set<string>();
+    const ids: string[] = [];
+    for (const f of targets) {
+      for (const id of defaultsFor(f, kind)) {
+        if (!seen.has(id)) {
+          seen.add(id);
+          ids.push(id);
+        }
+      }
+    }
     update(ids.map((id) => defaultsRow(id)));
   }
 
@@ -146,7 +167,8 @@ export function ConditioningEditor({
           {KIND_LABEL[kind]}
         </h4>
         <div className="flex flex-wrap items-center gap-1.5">
-          {focus ? (
+          {!hideRecommend &&
+          (focus || (recommendFocuses && recommendFocuses.length > 0)) ? (
             <button
               type="button"
               disabled={pending}

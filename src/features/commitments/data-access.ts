@@ -9,15 +9,26 @@ import {
   estimateConditioningKcal,
 } from "@/features/routine/calories";
 import { conditioningDefaults } from "@/features/routine/conditioning-catalog";
-import { seoulYmd } from "@/features/routine/data";
+import { seoulYmd, addDaysYmd } from "@/features/routine/data";
 import {
   commitmentProgress,
+  isActiveOn,
   isCommitmentMetric,
   metricMeta,
+  ymdDiff,
   type CommitmentAgg,
   type CommitmentMetric,
   type CommitmentProgress,
 } from "@/features/commitments/commitment";
+import {
+  achievementForDay,
+  markerForPct,
+  sanitizeMissions,
+  EMPTY_DAY,
+  type DayStats,
+  type MarkerLevel,
+  type MissionSpec,
+} from "@/features/commitments/missions";
 
 const num = (v: number | string | null | undefined): number => {
   if (v === null || v === undefined || v === "") return 0;
@@ -187,6 +198,141 @@ export async function getMyCommitments(): Promise<CommitmentView[]> {
       kind: meta.kind,
     };
   });
+}
+
+export type DayMarker = { pct: number; marker: MarkerLevel };
+
+/**
+ * 설문 기반 다짐의 하루 미션 달성 마커(캘린더용). [from, min(to, today)] 각 날짜에 대해
+ * 그날 활성 설문다짐들의 미션을 기록으로 자동 판정 → 70% ○ / 40% △ / 그미만 ✕.
+ * 미션 없는(활성 설문다짐 없는) 날은 결과에 없음.
+ */
+export async function getMissionCalendar(
+  fromYmd: string,
+  toYmd: string,
+): Promise<Record<string, DayMarker>> {
+  const user = await getCurrentUser();
+  if (!user) return {};
+  const supabase = await createSupabaseServerClient();
+  const today = seoulYmd();
+  const to = toYmd < today ? toYmd : today; // 미래는 마커 없음
+  if (to < fromYmd) return {};
+
+  const { data: crows } = await supabase
+    .from("commitments")
+    .select("start_date, deadline, missions")
+    .eq("user_id", user.id)
+    .eq("archived", false)
+    .eq("mode", "survey");
+
+  const surveys = ((crows ?? []) as {
+    start_date: string;
+    deadline: string;
+    missions: unknown;
+  }[])
+    .map((c) => ({
+      startDate: c.start_date,
+      deadline: c.deadline,
+      missions: sanitizeMissions(c.missions),
+    }))
+    .filter((c) => c.missions.length > 0);
+  if (surveys.length === 0) return {};
+
+  const [{ data: profile }, { data: exRows }, { data: condRows }, { data: foodRows }] =
+    await Promise.all([
+      supabase.from("profiles").select("weight_kg").eq("user_id", user.id).maybeSingle(),
+      supabase
+        .from("exercise_completions")
+        .select("for_date, exercise_id, sets")
+        .eq("user_id", user.id)
+        .eq("status", "done")
+        .gte("for_date", fromYmd)
+        .lte("for_date", to),
+      supabase
+        .from("conditioning_completions")
+        .select("for_date, item_id, duration_min, speed")
+        .eq("user_id", user.id)
+        .eq("status", "done")
+        .gte("for_date", fromYmd)
+        .lte("for_date", to),
+      supabase
+        .from("food_logs")
+        .select("for_date, meal, kcal, protein_g")
+        .eq("user_id", user.id)
+        .gte("for_date", fromYmd)
+        .lte("for_date", to),
+    ]);
+
+  const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
+
+  // 날짜별 DayStats 집계.
+  const stats = new Map<string, DayStats>();
+  const meals = new Map<string, Set<string>>();
+  const get = (d: string): DayStats => {
+    let s = stats.get(d);
+    if (!s) {
+      s = { ...EMPTY_DAY };
+      stats.set(d, s);
+    }
+    return s;
+  };
+
+  for (const r of (exRows ?? []) as ExRow[]) {
+    if (!r.exercise_id) continue;
+    const s = get(r.for_date);
+    s.workedOut = true;
+    s.workoutCount += 1;
+    s.burnKcal += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+  }
+  for (const r of (condRows ?? []) as CondRow[]) {
+    if (!r.item_id) continue;
+    const d = conditioningDefaults(r.item_id);
+    const dur = r.duration_min ?? d.durationMin;
+    const s = get(r.for_date);
+    s.workedOut = true;
+    s.workoutCount += 1;
+    s.cardioMin += num(dur);
+    s.burnKcal += estimateConditioningKcal(
+      weight,
+      r.item_id,
+      dur,
+      r.speed === null ? d.speed : num(r.speed),
+    );
+  }
+  for (const r of (foodRows ?? []) as {
+    for_date: string;
+    meal: string | null;
+    kcal: number | string;
+    protein_g: number | string | null;
+  }[]) {
+    const s = get(r.for_date);
+    s.loggedDiet = true;
+    s.intakeKcal += num(r.kcal);
+    s.proteinG += num(r.protein_g);
+    if (r.meal) {
+      let set = meals.get(r.for_date);
+      if (!set) {
+        set = new Set();
+        meals.set(r.for_date, set);
+      }
+      set.add(r.meal);
+    }
+  }
+  for (const [d, set] of meals) get(d).mealCount = set.size;
+
+  // 날짜별 마커.
+  const out: Record<string, DayMarker> = {};
+  const days = ymdDiff(fromYmd, to);
+  for (let i = 0; i <= days; i++) {
+    const d = addDaysYmd(fromYmd, i);
+    const active = surveys.filter((s) => isActiveOn(s, d));
+    if (active.length === 0) continue;
+    const missions: MissionSpec[] = active.flatMap((s) => s.missions);
+    const { pct } = achievementForDay(missions, stats.get(d) ?? EMPTY_DAY);
+    const marker = markerForPct(pct, missions.length > 0);
+    if (marker) out[d] = { pct, marker };
+  }
+  return out;
 }
 
 /** 캘린더 표시용 — 활성/예정 다짐의 기간(경량, 진행률 계산 없음). */

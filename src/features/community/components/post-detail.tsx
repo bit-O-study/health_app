@@ -120,7 +120,7 @@ export function PostDetail({
         >
           <ChevronLeft size={16} /> 커뮤니티
         </Link>
-        {canManage ? (
+        {canManage || !post.isMine ? (
           <div className="relative">
             <button
               type="button"
@@ -141,27 +141,45 @@ export function PostDetail({
                   className="fixed inset-0 z-10 cursor-default"
                 />
                 <div className="absolute right-0 top-9 z-20 w-28 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-800">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      setEditing(true);
-                    }}
-                    className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-700"
-                  >
-                    <Pencil size={14} /> 수정
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMenuOpen(false);
-                      removePost();
-                    }}
-                    disabled={pending}
-                    className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold text-rose-600 hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-zinc-700"
-                  >
-                    <Trash2 size={14} /> 삭제
-                  </button>
+                  {canManage ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMenuOpen(false);
+                          setEditing(true);
+                        }}
+                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                      >
+                        <Pencil size={14} /> 수정
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setMenuOpen(false);
+                          removePost();
+                        }}
+                        disabled={pending}
+                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold text-rose-600 hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-zinc-700"
+                      >
+                        <Trash2 size={14} /> 삭제
+                      </button>
+                    </>
+                  ) : null}
+                  {!post.isMine ? (
+                    <div onClick={() => setMenuOpen(false)}>
+                      <ReportButton
+                        targetKind="community_post"
+                        targetId={post.id}
+                        targetUserId={post.userId}
+                        targetAuthor={post.authorName}
+                        targetPreview={post.caption}
+                        label="신고"
+                        iconSize={14}
+                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold text-rose-600 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </>
             ) : null}

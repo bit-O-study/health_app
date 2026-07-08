@@ -26,6 +26,7 @@ export function UpcomingSevenDaysGrid({
   initialDayIndexes,
   cells,
   todayModified,
+  todayChangedEmpty = false,
 }: {
   initialBlocks: DayBlockId[][];
   /** 각 화면 위치(0=오늘…6)가 현재 루틴의 몇 일차(day_index)인지. 드래그 순열 추적용. */
@@ -33,6 +34,8 @@ export function UpcomingSevenDaysGrid({
   cells: DayCell[];
   /** 오늘이 '오늘만 변경'(운동/부위/휴식 오버라이드) 상태인지 — 하단 순서변경 시 확인받기. */
   todayModified: boolean;
+  /** 오늘이 '오늘만 운동변경'으로 아직 안 담은 빈 날 — 휴식 대신 '오늘만 운동변경' 표시. */
+  todayChangedEmpty?: boolean;
 }) {
   const router = useRouter();
   // 순서 변경은 '편집하기' 모드에서만 — 본운동·컨디셔닝과 같은 편집 스코프를 공유.
@@ -220,8 +223,10 @@ export function UpcomingSevenDaysGrid({
         {blocks.map((dayBlocks, i) => {
           const cell = cells[i];
           const dayPlan = composeDayPlan(dayBlocks);
-          const isRest = dayPlan.tone === "rest";
-          const style = TONE_STYLES[dayPlan.tone];
+          // 오늘(i=0)이 '오늘만 운동변경' 빈 날이면 휴식이 아니라 변경일로 표시.
+          const isTodayChanged = i === 0 && todayChangedEmpty;
+          const isRest = !isTodayChanged && dayPlan.tone === "rest";
+          const style = TONE_STYLES[isTodayChanged ? "core" : dayPlan.tone];
           const isDragged = draggedIndex === i;
           const isHoverTarget =
             hoverIndex === i && draggedIndex !== null && draggedIndex !== i;
@@ -313,7 +318,11 @@ export function UpcomingSevenDaysGrid({
                   className={cn("h-1 w-1 shrink-0 rounded-full", style.dot)}
                 />
                 <span className="truncate">
-                  {isRest ? "휴식" : dayPlan.focus}
+                  {isTodayChanged
+                    ? "오늘만 운동변경"
+                    : isRest
+                      ? "휴식"
+                      : dayPlan.focus}
                 </span>
               </span>
             </div>

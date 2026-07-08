@@ -16,6 +16,8 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
 import { getMonthlyCalendar } from "@/features/calendar/data-access";
+import { getMissionCalendar } from "@/features/commitments/data-access";
+import { MARKER_SYMBOL } from "@/features/commitments/missions";
 import { getBodyLogs } from "@/features/profile/body-logs";
 import { computeWeightDelta } from "@/features/profile/weight-delta";
 import { StepsSync } from "@/features/health/components/steps-sync";
@@ -76,12 +78,14 @@ export default async function CalendarPage({
     profile,
     debug,
     coachEnabled,
+    missionMarks,
   ] = await Promise.all([
     getMonthlyCalendar(from, to),
     getBodyLogs(),
     getUserProfile(),
     isDebugFeatureEnabled("steps"),
     isDebugFeatureEnabled("helssu-coach"),
+    getMissionCalendar(from, to),
   ]);
   const spent = workoutBurnedTotal - intakeTotal;
 
@@ -172,6 +176,7 @@ export default async function CalendarPage({
             const col = idx % 7;
             const isPeriod = periodDays.has(date);
             const isPredicted = predictedDays.has(date);
+            const mMark = missionMarks[date];
             const dayColor = isHol || col === 6
               ? "text-rose-500 dark:text-rose-400"
               : col === 5
@@ -198,6 +203,20 @@ export default async function CalendarPage({
                     size={9}
                   />
                 )}
+                {mMark ? (
+                  <span
+                    aria-label={`미션 달성 ${mMark.pct}%`}
+                    className={`absolute left-0.5 top-0.5 text-[11px] font-black leading-none ${
+                      mMark.marker === "circle"
+                        ? "text-emerald-500"
+                        : mMark.marker === "triangle"
+                          ? "text-amber-500"
+                          : "text-rose-400"
+                    }`}
+                  >
+                    {MARKER_SYMBOL[mMark.marker]}
+                  </span>
+                ) : null}
                 <span
                   className={`text-xs font-bold ${
                     isToday ? "text-emerald-700 dark:text-emerald-400" : dayColor

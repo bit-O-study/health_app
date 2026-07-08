@@ -209,6 +209,14 @@ alter table public.user_routines
 -- 백필 count 쿼리를 건너뛴다(성능). 마이그레이션이 끝나면 true 로 세팅.
 alter table public.user_routines
   add column if not exists day_index_migrated boolean not null default false;
+-- '오늘만 변경(전체 바꾸기/직접 담기)'으로 하루 민 날짜. 이 날짜가 오늘이면 화면에서
+-- 원래 루틴 운동을 숨긴다(변경된 빈 날). 재클릭해도 하루만 밀리게 하는 멱등 마커.
+alter table public.user_routines
+  add column if not exists last_deferred_date date;
+-- 그 날 defer 를 만든 방식 — 'direct'(직접 담기) 또는 부위 목록('chest,back').
+-- 밀린 빈 날의 '운동 등록하기' 링크를 원래 흐름(직접/부위)으로 되돌려주기 위함.
+alter table public.user_routines
+  add column if not exists deferred_target text;
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines
@@ -1888,9 +1896,11 @@ drop policy if exists "admin deletes post_moderators" on public.post_moderators;
 create policy "admin deletes post_moderators" on public.post_moderators for delete
   using (public.is_admin());
 
+-- 게시물 모더레이터 — 디버그 계정(is_debug_account, admin 포함) 이거나 post_moderators.
+-- 디버그 계정도 커뮤니티 전체(미가입 그룹글 포함) 열람·정리할 수 있어야 한다.
 create or replace function public.is_post_moderator() returns boolean
   language sql security definer stable set search_path = public as $$
-  select public.is_admin() or exists(
+  select public.is_debug_account() or exists(
     select 1 from public.post_moderators
     where lower(email) = lower(auth.jwt() ->> 'email')
   );
@@ -2127,5 +2137,89 @@ drop policy if exists "update own or moderator teaching post" on public.teaching
 create policy "update own or moderator teaching post" on public.teaching_posts for update
   using (user_id = auth.uid() or public.is_post_moderator())
   with check (user_id = auth.uid() or public.is_post_moderator());
+
+-- ── 운동(티칭) 게시판 소셜 — 좋아요/댓글 ──────────────────────────────
+-- community_* 는 community_posts(id) FK 라 티칭 글에 못 쓴다. 티칭 전용 테이블.
+create table if not exists public.teaching_likes (
+  post_id uuid not null references public.teaching_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (post_id, user_id)
+);
+create index if not exists teaching_likes_post_idx
+  on public.teaching_likes (post_id);
+alter table public.teaching_likes enable row level security;
+drop policy if exists "read teaching likes" on public.teaching_likes;
+create policy "read teaching likes" on public.teaching_likes for select using (true);
+drop policy if exists "like teaching" on public.teaching_likes;
+create policy "like teaching" on public.teaching_likes for insert
+  with check (user_id = auth.uid());
+drop policy if exists "unlike teaching own" on public.teaching_likes;
+create policy "unlike teaching own" on public.teaching_likes for delete
+  using (user_id = auth.uid());
+
+create table if not exists public.teaching_comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid not null references public.teaching_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  author_name text not null default '회원',
+  body text not null check (char_length(body) between 1 and 300),
+  created_at timestamptz not null default now()
+);
+create index if not exists teaching_comments_post_idx
+  on public.teaching_comments (post_id, created_at);
+alter table public.teaching_comments enable row level security;
+drop policy if exists "read teaching comments" on public.teaching_comments;
+create policy "read teaching comments" on public.teaching_comments for select using (true);
+drop policy if exists "comment teaching" on public.teaching_comments;
+create policy "comment teaching" on public.teaching_comments for insert
+  with check (user_id = auth.uid());
+drop policy if exists "delete teaching comment own" on public.teaching_comments;
+create policy "delete teaching comment own" on public.teaching_comments for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+create or replace function public.teaching_post_counts(pids uuid[])
+returns table(post_id uuid, like_count int, comment_count int, liked_by_me boolean)
+language sql stable security definer set search_path = public as $$
+  select x.pid,
+    coalesce(l.n, 0)::int,
+    coalesce(cm.n, 0)::int,
+    coalesce(me.mine, false)
+  from unnest(pids) as x(pid)
+  left join (select post_id, count(*) n from public.teaching_likes where post_id = any(pids) group by post_id) l on l.post_id = x.pid
+  left join (select post_id, count(*) n from public.teaching_comments where post_id = any(pids) group by post_id) cm on cm.post_id = x.pid
+  left join (select post_id, true mine from public.teaching_likes where post_id = any(pids) and user_id = auth.uid()) me on me.post_id = x.pid;
+$$;
+grant execute on function public.teaching_post_counts(uuid[]) to authenticated;
+
+-- ── 게시판/댓글 신고 ──────────────────────────────────────────────
+-- 누구나 신고 등록(본인 명의). 모더레이터만 열람/처리(글·댓글 삭제, 작성자 정지).
+create table if not exists public.post_reports (
+  id uuid primary key default gen_random_uuid(),
+  target_kind text not null check (target_kind in ('community_post','community_comment','teaching_post','teaching_comment')),
+  target_id uuid not null,
+  target_user_id uuid,
+  target_author text,
+  target_preview text,
+  reporter_id uuid not null references auth.users(id) on delete cascade,
+  reason text not null check (char_length(reason) between 1 and 500),
+  status text not null default 'open' check (status in ('open','resolved')),
+  created_at timestamptz not null default now()
+);
+create index if not exists post_reports_status_idx
+  on public.post_reports (status, created_at desc);
+alter table public.post_reports enable row level security;
+drop policy if exists "insert own report" on public.post_reports;
+create policy "insert own report" on public.post_reports for insert
+  with check (reporter_id = auth.uid());
+drop policy if exists "moderator read reports" on public.post_reports;
+create policy "moderator read reports" on public.post_reports for select
+  using (public.is_post_moderator());
+drop policy if exists "moderator update reports" on public.post_reports;
+create policy "moderator update reports" on public.post_reports for update
+  using (public.is_post_moderator());
+drop policy if exists "moderator delete reports" on public.post_reports;
+create policy "moderator delete reports" on public.post_reports for delete
+  using (public.is_post_moderator());
 
 notify pgrst, 'reload schema';

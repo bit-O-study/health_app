@@ -23,6 +23,69 @@ self.addEventListener("fetch", (event) => {
   if (url.origin !== self.location.origin) return;
 });
 
+// ── 휴식 타이머 예약 알림 ──────────────────────────────────────────────
+// 페이지(rest-timer.tsx)가 휴식 시작 시 종료시각을 SW 에 등록한다. 페이지 JS 는
+// 백그라운드에서 얼어붙어(특히 iOS) 종료 시각에 알림을 못 띄우지만, SW 는 여기서
+// 자체 setTimeout 으로 만료를 감지해 showNotification 한다. 앱이 포그라운드(보이는
+// 창)면 화면 카드/비프로 충분하니 알림은 생략한다.
+let restTimerId = null;
+
+function clearRestTimer() {
+  if (restTimerId !== null) {
+    clearTimeout(restTimerId);
+    restTimerId = null;
+  }
+}
+
+self.addEventListener("message", (event) => {
+  const data = event.data || {};
+
+  if (data.type === "schedule-rest") {
+    clearRestTimer();
+    const endsAt = Number(data.endsAt) || 0;
+    const delay = endsAt - Date.now();
+    // 비정상(과거·1시간 초과)이면 예약 안 함.
+    if (delay < 0 || delay > 60 * 60 * 1000) return;
+
+    const title = data.title || "휴식 완료! 💪";
+    const body = data.body || "다음 세트를 시작하세요.";
+
+    const fire = async () => {
+      clearRestTimer();
+      // 보이는 창이 있으면(앱 사용 중) 시스템 알림 생략 — 화면 카드/비프가 처리.
+      const wins = await self.clients.matchAll({
+        type: "window",
+        includeUncontrolled: true,
+      });
+      const visible = wins.some(
+        (c) => c.visibilityState === "visible" || c.focused,
+      );
+      if (visible) return;
+      await self.registration.showNotification(title, {
+        body,
+        tag: "rest-timer",
+        renotify: true,
+        data: { type: "rest", url: "/routine" },
+        vibrate: [180, 80, 180],
+      });
+    };
+
+    // waitUntil 로 SW 를 만료 시각까지 살려두도록 힌트(짧은 휴식엔 유효).
+    const keepAlive = new Promise((resolve) => {
+      restTimerId = setTimeout(() => {
+        fire().finally(resolve);
+      }, Math.max(0, delay));
+    });
+    if (typeof event.waitUntil === "function") event.waitUntil(keepAlive);
+    return;
+  }
+
+  if (data.type === "cancel-rest") {
+    clearRestTimer();
+    return;
+  }
+});
+
 // 웹푸시 수신(앱이 닫혀 있어도) → 종료 확인 알림 표시(예/아니오 버튼).
 self.addEventListener("push", (event) => {
   let data = {};

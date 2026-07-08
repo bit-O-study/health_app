@@ -17,7 +17,10 @@ export const ADMIN_SECTIONS: AdminSection[] = [
   },
   {
     title: "콘텐츠",
-    links: [{ href: "/admin/exercise-media", label: "운동 영상" }],
+    links: [
+      { href: "/admin/exercise-media", label: "운동 영상" },
+      { href: "/admin/reports", label: "신고" },
+    ],
   },
   {
     title: "도구",

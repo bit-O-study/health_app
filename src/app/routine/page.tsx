@@ -112,16 +112,16 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
 export default async function Home() {
   const user = await getCurrentUser();
 
-  // profile·routine 은 서로 의존이 없다(둘 다 getCurrentUser 캐시만 사용) → 병렬로
-  // 받아 라운드트립 1회 절약. (예전엔 순차 await 였음)
-  const [profile, routine] = user
-    ? await Promise.all([getUserProfile(), getUserRoutine()])
-    : [null, null];
-
-  // '운동 시작' 왼쪽 기구 스캔 아이콘 — 디버그 계정(기구 스캔 기능)에만 노출.
-  const equipmentScan = user ? await isDebugFeatureEnabled("equipment-scan") : false;
-  // 운동 모드(가이드) 안 '자세 분석' — 디버그 계정(헬쑤쌤)에만 노출.
-  const postureEnabled = user ? await isDebugFeatureEnabled("helssu-coach") : false;
+  // profile·routine·디버그 플래그는 서로 의존이 없다 → 전부 한 번에 병렬로 받아
+  // 라운드트립을 줄인다. (예전엔 profile/routine 병렬 뒤 디버그 2건을 순차 await 했음)
+  const [profile, routine, equipmentScan, postureEnabled] = user
+    ? await Promise.all([
+        getUserProfile(),
+        getUserRoutine(),
+        isDebugFeatureEnabled("equipment-scan"), // 기구 스캔 아이콘(디버그)
+        isDebugFeatureEnabled("helssu-coach"), // 자세 분석(디버그)
+      ])
+    : [null, null, false, false];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -245,6 +245,8 @@ async function TodayWorkout({
     restDate: string | null;
     overrideDate: string | null;
     overrideBlock: DayBlockId | null;
+    deferredDate: string | null;
+    deferredTarget: string | null;
   };
   profile: UserProfile | null;
   postureEnabled?: boolean;
@@ -264,7 +266,14 @@ async function TodayWorkout({
     ? DAY_BLOCKS[routine.overrideBlock!].day
     : variant.week[offset];
   const restedToday = routine.restDate === todayYmd;
-  const isRest = restedToday || planToday.tone === "rest";
+  // 오늘이 '오늘만 변경(전체 바꾸기/직접 담기)'으로 하루 밀린 날이면, 아직 선택/추가
+  // 운동을 담기 전까지 원래 루틴 운동을 숨긴다(변경된 빈 날). daily_plan 오버라이드가
+  // 생기면(=사용자가 담으면) 그게 오늘 부위가 된다. 완료 기록은 DB에 그대로 보존.
+  const deferredToday = routine.deferredDate === todayYmd;
+  // 밀기로 오늘 offset 이 주기상 '휴식일'에 착지해도, 변경된 날(deferredToday)은
+  // 휴식이 아니라 '빈 편집 가능한 날'로 둔다 → 아무것도 안 담아도 휴식으로 안 바뀌고
+  // 편집으로 다시 담을 수 있다. (사용자가 명시적으로 휴식전환한 restedToday 만 휴식.)
+  const isRest = restedToday || (!deferredToday && planToday.tone === "rest");
 
   //"오늘만 변경" 으로 저장된 daily_plan 행들의 부위 — 있으면 그것이 오늘의
   // 실제 부위. (routine.overrideBlock 보다 우선, 다중 부위도 지원)
@@ -274,12 +283,14 @@ async function TodayWorkout({
   ) as DayBlockId[];
   const hasDailyOverride = dailyFocuses.length > 0;
 
-  // 기본 부위 (route 기준) — daily override 가 없을 때 fallback
-  const routineTones = isRest
-    ? []
-    : ((planToday.tones ?? [planToday.tone]).filter(
-        (t) => t !== "rest",
-      ) as Exclude<FocusTone, "rest">[]);
+  // 기본 부위 (route 기준) — daily override 가 없을 때 fallback.
+  // deferredToday 면(오늘 밀린 빈 날) 원래 루틴 부위를 숨긴다 → 담기 전엔 빈 화면.
+  const routineTones =
+    isRest || deferredToday
+      ? []
+      : ((planToday.tones ?? [planToday.tone]).filter(
+          (t) => t !== "rest",
+        ) as Exclude<FocusTone, "rest">[]);
 
   // 실제 오늘 부위 — daily_plan 부위가 routine 을 덮어쓴다. 같은 tone 중복 제거
   // (세부근육 블록이 같은 부위로 모일 때 운동 중복 로드 방지).
@@ -294,12 +305,50 @@ async function TodayWorkout({
     ),
   );
 
-  const tone = isRest ? "rest" : (todayTones[0] ?? planToday.tone);
+  // 오늘을 밀었는데 아직 아무것도 안 담은 '빈 변경일' — 휴식도, 특정 부위도 아니다.
+  const emptyChangedDay = deferredToday && !hasDailyOverride && !isRest;
+  // '부위 전체변경'으로 밀었으면 그 부위(deferredTarget)를 기억한다. 직접 담기('direct')
+  // 거나 없으면 부위 제한 없음.
+  const deferredFocuses: Exclude<FocusTone, "rest">[] =
+    routine.deferredTarget && routine.deferredTarget !== "direct"
+      ? (routine.deferredTarget
+          .split(",")
+          .map((s) => s.trim())
+          .filter(
+            (s) => s !== "rest" && isDayBlockId(s),
+          ) as Exclude<FocusTone, "rest">[])
+      : [];
+
+  // 빈 변경일에도 워밍업/본운동/마무리 섹션(기존 빈 상태 UI)을 띄우려면 tone 이 하나
+  // 필요하다. 부위 전체변경이면 그 부위, 직접이면 밀려서 내일로 간 원래 오늘 부위,
+  // 그것도 휴식이면 가슴을 기본으로. (섹션은 전부 빈 상태 — 담은 것만 채워진다.)
+  const deferredSectionTones: Exclude<FocusTone, "rest">[] = (() => {
+    if (!emptyChangedDay) return [];
+    if (deferredFocuses.length > 0) return deferredFocuses;
+    // 밀지 않으므로 오늘 원래 부위(planToday)를 그대로. 오늘이 휴식이면 가슴 기본.
+    const t = (planToday.tones ?? [planToday.tone]).filter(
+      (x) => x !== "rest",
+    ) as Exclude<FocusTone, "rest">[];
+    return t.length > 0 ? t : (["chest"] as Exclude<FocusTone, "rest">[]);
+  })();
+
+  // 밀린 빈 날 '운동 등록하기' 링크 — 그날을 만든 흐름(직접/부위)으로 되돌린다.
+  const registerHref =
+    routine.deferredTarget === "direct"
+      ? "/plan/today?direct=1"
+      : deferredFocuses.length > 0
+        ? `/plan/today?focus=${deferredFocuses.join(",")}`
+        : "/plan/today?direct=1";
+  const tone = isRest
+    ? "rest"
+    : (todayTones[0] ?? (emptyChangedDay ? "core" : planToday.tone));
   const focusLabel = isRest
     ? "휴식"
-    : hasDailyOverride
-      ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
-      : planToday.focus;
+    : emptyChangedDay
+      ? "오늘만 운동변경"
+      : hasDailyOverride
+        ? dailyFocuses.map((f) => DAY_BLOCKS[f].label).join(" +")
+        : planToday.focus;
   const todayStyle = TONE_STYLES[tone];
 
   const [, mm, dd] = todayYmd.split("-");
@@ -314,6 +363,7 @@ async function TodayWorkout({
       if (restedToday) return ["rest"] as DayBlockId[];
       if (hasDailyOverride) return dailyFocuses as DayBlockId[];
       if (overriddenToday) return [routine.overrideBlock!];
+      if (deferredToday) return [] as DayBlockId[]; // 담기 전 빈 날
     }
     const dp = variant.week[routineDayOffset(routine.startDate, ymd)];
     return (dp.tones ?? [dp.tone]) as DayBlockId[];
@@ -387,7 +437,7 @@ async function TodayWorkout({
               ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
           </p>
-        ) : (
+        ) : emptyChangedDay ? null : (
           (() => {
             const dayMuscles = hasDailyOverride
               ? Array.from(
@@ -424,11 +474,14 @@ async function TodayWorkout({
       {/* 편집모드 하나(TodayEditScope)로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
           '편집하기'를 눌러야만 순서 변경이 가능하고, 평소엔 탭=상세, 스와이프=완료. */}
       <TodayEditScope>
-        {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법 */}
-        {!isRest && todayTones.length > 0 ? (
+        {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법. 밀린 빈 날(emptyChangedDay)도
+            기존 빈 상태 UI(워밍업/본운동/마무리 각 섹션)를 그대로 띄운다. */}
+        {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
           <TodayExercises
             tones={
-              todayTones as import("@/features/routine/exercise-catalog").FocusKey[]
+              (todayTones.length > 0
+                ? todayTones
+                : deferredSectionTones) as import("@/features/routine/exercise-catalog").FocusKey[]
             }
             dayIndex={offset}
             weightKg={profile?.weightKg ?? null}
@@ -439,6 +492,8 @@ async function TodayWorkout({
             lockWeightReps={profile?.lockWeightReps ?? false}
             postureEnabled={postureEnabled}
             equipmentScan={equipmentScan}
+            blankDefaults={deferredToday}
+            registerHref={deferredToday ? registerHref : undefined}
           />
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도
@@ -455,7 +510,8 @@ async function TodayWorkout({
         // 반영한다 — 클라이언트 로컬 state 가 옛 루틴에 갇히지 않게.
         key={`grid-${JSON.stringify(upcomingBlocks)}`}
         // 오늘이 '오늘만 변경'(운동/부위/휴식) 상태면 하단 순서변경 시 확인을 받는다.
-        todayModified={hasDailyOverride || overriddenToday || restedToday}
+        todayModified={hasDailyOverride || overriddenToday || restedToday || deferredToday}
+        todayChangedEmpty={emptyChangedDay}
         initialBlocks={upcomingBlocks}
         // 각 화면 위치(0=오늘)가 현재 루틴의 몇 일차인지 — 드래그 시 본운동을 카드와
         // 함께 옮기기 위한 순열 기준.

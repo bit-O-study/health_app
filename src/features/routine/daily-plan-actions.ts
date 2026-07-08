@@ -174,6 +174,11 @@ export async function exitTodayOnlyAction(): Promise<SaveDailyPlanResult> {
       .update({ rest_date: null })
       .eq("user_id", user.id)
       .eq("rest_date", today),
+    supabase
+      .from("user_routines")
+      .update({ last_deferred_date: null, deferred_target: null })
+      .eq("user_id", user.id)
+      .eq("last_deferred_date", today),
   ]);
   const err = dp.error || dc.error || ov.error || rd.error;
   if (err) return { ok: false, error: err.message };

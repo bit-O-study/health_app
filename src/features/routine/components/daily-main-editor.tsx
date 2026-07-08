@@ -82,6 +82,7 @@ export function DailyMainEditor({
   lockWeightReps = false,
   allowAllExercises = false,
   recommendFocuses,
+  hideRecommend = false,
 }: {
   sections: MainSection[];
   gender: "male" | "female";
@@ -93,6 +94,8 @@ export function DailyMainEditor({
   lockWeightReps?: boolean;
   /** sections 가 비었을 때(직접 담기) '추천으로 채우기'가 쓸 부위들. */
   recommendFocuses?: FocusTone[];
+  /** 직접 담기 등 순수 수동 모드 — '추천으로 채우기' 버튼을 숨긴다. */
+  hideRecommend?: boolean;
   /** 직접 담기 — sections 에 부위가 있어도 전체 카탈로그에서 고르게 한다. */
   allowAllExercises?: boolean;
 }) {
@@ -306,15 +309,17 @@ export function DailyMainEditor({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">본운동</h2>
         <div className="flex flex-wrap items-center gap-1.5">
-          <button
-            type="button"
-            disabled={pending}
-            onClick={recommend}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
-          >
-            <Sparkles aria-hidden="true" size={14} />
-            추천으로 채우기
-          </button>
+          {!hideRecommend ? (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={recommend}
+              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
+            >
+              <Sparkles aria-hidden="true" size={14} />
+              추천으로 채우기
+            </button>
+          ) : null}
           <button
             type="button"
             onClick={addRow}

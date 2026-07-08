@@ -80,6 +80,7 @@ export function ConditioningEditor({
   dailyDate,
   lockWeightReps = false,
   recommendFocuses,
+  hideRecommend = false,
 }: {
   /** 기본값 편집 모드일 때의 부위. dailyDate 가 있으면 사용하지 않음 */
   focus?: string;
@@ -91,6 +92,8 @@ export function ConditioningEditor({
   lockWeightReps?: boolean;
   /** '추천으로 채우기' 시 이 부위들 전체의 추천을 합쳐 채운다(오늘만 변경 다부위). */
   recommendFocuses?: FocusTone[];
+  /** 직접 담기 등 순수 수동 모드 — '추천으로 채우기' 버튼을 숨긴다. */
+  hideRecommend?: boolean;
 }) {
   const router = useRouter();
   const options = conditioningOptions(kind);
@@ -164,7 +167,8 @@ export function ConditioningEditor({
           {KIND_LABEL[kind]}
         </h4>
         <div className="flex flex-wrap items-center gap-1.5">
-          {focus || (recommendFocuses && recommendFocuses.length > 0) ? (
+          {!hideRecommend &&
+          (focus || (recommendFocuses && recommendFocuses.length > 0)) ? (
             <button
               type="button"
               disabled={pending}

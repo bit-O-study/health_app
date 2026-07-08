@@ -187,6 +187,7 @@ export default async function TodayConditioningPage({
             lockWeightReps={profile.lockWeightReps}
             allowAllExercises={direct}
             recommendFocuses={direct ? directRecFocuses : undefined}
+            hideRecommend={direct}
           />
 
           {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움.
@@ -196,6 +197,7 @@ export default async function TodayConditioningPage({
               <ConditioningEditor
                 focus={primaryFocus ?? "core"}
                 recommendFocuses={direct ? directRecFocuses : validFocuses}
+                hideRecommend={direct}
                 kind="warmup"
                 initial={warmupInitial}
                 dailyDate={todayYmd}
@@ -204,6 +206,7 @@ export default async function TodayConditioningPage({
               <ConditioningEditor
                 focus={primaryFocus ?? "core"}
                 recommendFocuses={direct ? directRecFocuses : validFocuses}
+                hideRecommend={direct}
                 kind="cooldown"
                 initial={cooldownInitial}
                 dailyDate={todayYmd}

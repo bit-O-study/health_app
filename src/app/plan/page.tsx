@@ -71,7 +71,10 @@ export default async function PlanPage() {
   );
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
+    <main
+      className="mx-auto w-full max-w-3xl px-6 pb-10 sm:px-8"
+      style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 2.5rem)" }}
+    >
       <div className="flex items-center justify-between gap-2">
         <Link
           className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"

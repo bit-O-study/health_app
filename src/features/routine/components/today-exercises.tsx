@@ -676,6 +676,7 @@ export async function TodayExercises({
               doneIds={mainDoneIds}
               skippedIds={mainSkippedIds}
               lockWeightReps={lockWeightReps}
+              allowAllParts={registerHref.includes("direct=1")}
             />
           </div>
         )}

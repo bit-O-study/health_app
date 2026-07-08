@@ -551,25 +551,34 @@ export async function addExerciseToTodayAction(
   const appendPos = (currentMax: number) =>
     Math.max(currentMax + 1, APPEND_POSITION_BASE);
 
-  // 같은 부위 daily_plan 오버라이드가 이미 있으면 거기에 append (오늘만)
-  const { data: daily } = await supabase
-    .from("daily_plan")
-    .select("position")
-    .eq("user_id", user.id)
-    .eq("for_date", todayYmd)
-    .eq("focus", focus)
-    .order("position", { ascending: false })
-    .limit(1);
-
-  if (daily && daily.length > 0) {
-    // 그 날짜 전 부위 통틀어 최대 position
-    const { data: dmax } = await supabase
+  // 오늘이 '오늘만 변경' 상태(마커 last_deferred_date / override_date, 또는 어떤
+  // daily 오버라이드 존재)면 새 운동도 '오늘만'(daily_plan)에 넣는다. 그래야 직접
+  // 담기 중 다른 부위(등 등)를 추가해도 영구 루틴이 아니라 오늘 화면에 바로 뜬다.
+  // 일반 날은 기본 루틴(routine_exercises)에 추가(오늘 이후에도 유지).
+  const [{ data: rtRow }, { data: dmax }] = await Promise.all([
+    supabase
+      .from("user_routines")
+      .select("last_deferred_date, override_date")
+      .eq("user_id", user.id)
+      .maybeSingle(),
+    supabase
       .from("daily_plan")
       .select("position")
       .eq("user_id", user.id)
       .eq("for_date", todayYmd)
       .order("position", { ascending: false })
-      .limit(1);
+      .limit(1),
+  ]);
+  const rr = rtRow as {
+    last_deferred_date?: string | null;
+    override_date?: string | null;
+  } | null;
+  const isTodayChanged =
+    (dmax && dmax.length > 0) ||
+    rr?.last_deferred_date === todayYmd ||
+    rr?.override_date === todayYmd;
+
+  if (isTodayChanged) {
     const nextPos = appendPos((dmax?.[0]?.position as number | undefined) ?? -1);
     const ins = await supabase.from("daily_plan").insert({
       user_id: user.id,

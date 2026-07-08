@@ -117,9 +117,17 @@ export default async function TodayConditioningPage({
       : (firstDayIndexForFocus(slots, focus) ?? offsetForToday);
   };
 
+  // 편집할 부위 — 직접 담기(direct)면 이미 담아 저장한 부위(daily_plan)를 불러온다
+  // (그래야 재편집 때 담은 게 보이고, allowAllExercises 로 다른 부위도 계속 추가 가능).
+  const editFocuses: Exclude<FocusTone, "rest">[] = direct
+    ? ([
+        ...new Set(dailyAll.map((r) => r.focus)),
+      ].filter(
+        (f): f is Exclude<FocusTone, "rest"> => f !== "rest" && isDayBlockId(f),
+      ) as Exclude<FocusTone, "rest">[])
+    : validFocuses;
   // 부위별 본운동 섹션 — 오늘 오버라이드가 있으면 그걸, 없으면 **빈값**으로 시작한다.
-  // (기본 루틴을 미리 채우지 않음 → 처음엔 비어 있고 "추천으로 채우기"로 담는다)
-  const mainSections = validFocuses.map((focus) => ({
+  const mainSections = editFocuses.map((focus) => ({
     focus,
     label: DAY_BLOCKS[focus].label,
     initialMain: dailyAll.filter((r) => r.focus === focus),
@@ -133,7 +141,10 @@ export default async function TodayConditioningPage({
   const cooldownInitial = daily.cooldown;
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
+    <main
+      className="mx-auto w-full max-w-2xl px-6 pb-10 sm:px-8"
+      style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 2.5rem)" }}
+    >
       <Link
         className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
         href="/routine"

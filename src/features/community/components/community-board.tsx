@@ -311,8 +311,18 @@ function PostCard({
     });
   }
 
+  // 사진 인증 카드는 전체를 눌러도 상세로 이동(티칭은 인라인 재생이라 제외).
+  function goDetail() {
+    if (!isTeaching) router.push(`/community/${post.id}`);
+  }
+
   return (
-    <li className="overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm ring-1 ring-black/[0.02] transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/[0.03]">
+    <li
+      onClick={goDetail}
+      className={`overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm ring-1 ring-black/[0.02] transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/[0.03] ${
+        isTeaching ? "" : "cursor-pointer"
+      }`}
+    >
       {/* 헤더: 아바타 + 이름 + 시간 + 배지 */}
       <div className="flex items-center gap-2 px-3 pt-3">
         <span
@@ -376,18 +386,16 @@ function PostCard({
           className="relative mt-2 aspect-square w-full bg-zinc-100 dark:bg-zinc-800"
           onDoubleClick={doubleTapLike}
         >
-          <Link href={`/community/${post.id}`} aria-label="게시물 열기">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={post.photoUrl ?? undefined}
-              alt="오운완 인증"
-              loading="lazy"
-              onLoad={() => setImgLoaded(true)}
-              className={`h-full w-full object-cover transition-opacity duration-300 ${
-                imgLoaded ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          </Link>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={post.photoUrl ?? undefined}
+            alt="오운완 인증"
+            loading="lazy"
+            onLoad={() => setImgLoaded(true)}
+            className={`h-full w-full object-cover transition-opacity duration-300 ${
+              imgLoaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
           {burst ? (
             <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <Heart size={92} className="animate-ping fill-white/90 text-white/90 drop-shadow" />
@@ -396,8 +404,11 @@ function PostCard({
         </div>
       )}
 
-      {/* 액션 */}
-      <div className="flex items-center gap-4 px-3 pt-2.5 text-zinc-500 dark:text-zinc-400">
+      {/* 액션 — 버튼 클릭은 카드 이동(상세)으로 전파되지 않게 막는다. */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="flex items-center gap-4 px-3 pt-2.5 text-zinc-500 dark:text-zinc-400"
+      >
         {!isTeaching ? (
           <>
             <button
@@ -446,22 +457,17 @@ function PostCard({
         ) : null}
       </div>
 
-      {/* 캡션 */}
+      {/* 캡션 — 카드 전체가 상세로 이동하므로 별도 링크 없이 텍스트만. */}
       {post.caption ? (
         <div className="px-3 pb-3 pt-1.5">
-          {isTeaching ? (
-            <p className="whitespace-pre-wrap break-words text-sm leading-relaxed">
-              <span className="mr-1.5 font-bold">{post.authorName}</span>
-              {post.caption}
-            </p>
-          ) : (
-            <Link href={`/community/${post.id}`} className="block">
-              <p className="line-clamp-3 whitespace-pre-wrap break-words text-sm leading-relaxed">
-                <span className="mr-1.5 font-bold">{post.authorName}</span>
-                {post.caption}
-              </p>
-            </Link>
-          )}
+          <p
+            className={`whitespace-pre-wrap break-words text-sm leading-relaxed ${
+              isTeaching ? "" : "line-clamp-3"
+            }`}
+          >
+            <span className="mr-1.5 font-bold">{post.authorName}</span>
+            {post.caption}
+          </p>
         </div>
       ) : (
         <div className="pb-3" />

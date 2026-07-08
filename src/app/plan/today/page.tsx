@@ -86,6 +86,9 @@ export default async function TodayConditioningPage({
   if (focuses.length === 0 && !direct) {
     focuses = origTodayFocuses;
   }
+  // 직접 담기 '추천으로 채우기'는 오늘 루틴(지금 바꾸려는 대상)을 그대로 넣으면
+  // 헷갈리므로, 예측 가능한 '균형 운동(가슴·등·하체)'으로 채운다.
+  const directRecFocuses: Exclude<FocusTone, "rest">[] = ["chest", "back", "lower"];
 
   const todayYmd = seoulYmd();
   const { weekday } = ymdDisplay(todayYmd);
@@ -183,7 +186,7 @@ export default async function TodayConditioningPage({
             gymEquipment={gymEquipment}
             lockWeightReps={profile.lockWeightReps}
             allowAllExercises={direct}
-            recommendFocuses={direct ? origTodayFocuses : undefined}
+            recommendFocuses={direct ? directRecFocuses : undefined}
           />
 
           {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움.
@@ -192,7 +195,7 @@ export default async function TodayConditioningPage({
             <>
               <ConditioningEditor
                 focus={primaryFocus ?? "core"}
-                recommendFocuses={direct ? origTodayFocuses : validFocuses}
+                recommendFocuses={direct ? directRecFocuses : validFocuses}
                 kind="warmup"
                 initial={warmupInitial}
                 dailyDate={todayYmd}
@@ -200,7 +203,7 @@ export default async function TodayConditioningPage({
               />
               <ConditioningEditor
                 focus={primaryFocus ?? "core"}
-                recommendFocuses={direct ? origTodayFocuses : validFocuses}
+                recommendFocuses={direct ? directRecFocuses : validFocuses}
                 kind="cooldown"
                 initial={cooldownInitial}
                 dailyDate={todayYmd}

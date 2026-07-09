@@ -10,15 +10,11 @@ import {
   hasCapacitorBridge,
 } from "@/features/health/steps-native";
 
-// "다시는 안 보기" 영구 저장 키(설치/브라우저당). 이걸 켜면 다시 안 뜬다.
-const PUSH_DISMISS = "heltch.nudge.push.dismissed";
+// 알림 권한은 받을 때까지 계속 요청한다 → '나중에'는 이번 세션만 숨김(sessionStorage).
+// 새로고침/재접속하면 권한이 아직 없으면 다시 뜬다.
+const PUSH_SNOOZE = "heltch.nudge.push.snooze";
+// 걸음수 넛지는 '다시는 안 보기'가 영구(설치/브라우저당).
 const STEPS_DISMISS = "heltch.nudge.steps.dismissed";
-
-/** 모바일(폰) 여부 — 알림 넛지는 모바일에서만 띄운다. */
-function isMobile(): boolean {
-  if (typeof navigator === "undefined") return false;
-  return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-}
 
 /**
  * 권한 넛지 — 접속할 때마다(세션마다) 확인해서:
@@ -41,10 +37,8 @@ export function PermissionNudge() {
           const perm = Notification.permission;
           if (perm === "granted") {
             void ensurePushSubscribed(); // 허용돼 있으면 구독만 갱신(배너 X)
-          } else if (
-            isMobile() &&
-            window.localStorage.getItem(PUSH_DISMISS) !== "1"
-          ) {
+          } else if (window.sessionStorage.getItem(PUSH_SNOOZE) !== "1") {
+            // 권한이 없으면(기본/차단) 계속 요청 — 기기 종류 안 가림. 세션 스누즈만.
             if (!cancelled) {
               setPushDenied(perm === "denied");
               setShowPush(true);
@@ -86,8 +80,9 @@ export function PermissionNudge() {
     }
   }
   function dismissPush() {
+    // 이번 세션만 숨김 — 새로고침/재접속하면 권한 없을 때 다시 요청.
     try {
-      window.localStorage.setItem(PUSH_DISMISS, "1");
+      window.sessionStorage.setItem(PUSH_SNOOZE, "1");
     } catch {
       /* 무시 */
     }
@@ -130,6 +125,7 @@ export function PermissionNudge() {
           busy={busy === "push"}
           onAllow={allowPush}
           onDismiss={dismissPush}
+          dismissLabel="나중에"
         />
       ) : null}
       {showSteps ? (
@@ -153,6 +149,7 @@ function NudgeCard({
   busy,
   onAllow,
   onDismiss,
+  dismissLabel = "다시는 안 보기",
 }: {
   icon: React.ReactNode;
   title: string;
@@ -160,6 +157,7 @@ function NudgeCard({
   busy: boolean;
   onAllow: () => void;
   onDismiss: () => void;
+  dismissLabel?: string;
 }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3 dark:border-emerald-900 dark:bg-emerald-950/40">
@@ -192,7 +190,7 @@ function NudgeCard({
           disabled={busy}
           className="text-[10px] font-semibold text-emerald-700/70 underline-offset-2 hover:underline dark:text-emerald-300/70"
         >
-          다시는 안 보기
+          {dismissLabel}
         </button>
       </div>
     </div>

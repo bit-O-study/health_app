@@ -252,36 +252,21 @@ export function DailyMainEditor({
     setConfirmRecommend(false);
   }
 
-  // ── 드래그 순서 변경 — 메인 화면처럼 그립 '롱프레스' 로 리프트 후 이동 ──
+  // ── 드래그 순서 변경 — 그립을 잡으면 바로 이동(롱프레스 없음).
+  // (롱프레스 방식은 손가락을 조금만 움직여도 취소돼 '드래그가 안 되는' 문제가 있었다.)
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
   const dragRef = useRef<{ from: number; startY: number } | null>(null);
-  const lpTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [drag, setDrag] = useState<{ from: number; dy: number } | null>(null);
-  const LONG_PRESS = 180;
 
-  function clearLp() {
-    if (lpTimer.current) {
-      clearTimeout(lpTimer.current);
-      lpTimer.current = null;
-    }
-  }
   function onGripDown(e: React.PointerEvent, index: number) {
     (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-    const startY = e.clientY;
-    clearLp();
-    // 롱프레스가 지나야 드래그(리프트) 시작 — 짧은 탭은 무시.
-    lpTimer.current = setTimeout(() => {
-      dragRef.current = { from: index, startY };
-      setDrag({ from: index, dy: 0 });
-      if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(8);
-    }, LONG_PRESS);
+    dragRef.current = { from: index, startY: e.clientY };
+    setDrag({ from: index, dy: 0 });
+    if (typeof navigator !== "undefined" && navigator.vibrate) navigator.vibrate(8);
   }
   function onGripMove(e: React.PointerEvent) {
     const d = dragRef.current;
-    if (!d) {
-      clearLp();
-      return;
-    }
+    if (!d) return;
     e.preventDefault();
     const y = e.clientY;
     let target = d.from;
@@ -308,7 +293,6 @@ export function DailyMainEditor({
     }
   }
   function onGripUp() {
-    clearLp();
     dragRef.current = null;
     setDrag(null);
   }

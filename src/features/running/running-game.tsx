@@ -206,9 +206,9 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         </div>
       ) : null}
 
-      {/* 하단: 종료(위) + 속도·경사 설정(아래). 거리 표시(좌상단)와 겹치지 않게. */}
+      {/* 하단: 종료(위) + 속도·경사 설정(아래). 홈버튼/제스처 바와 안 겹치게 safe-area+여백. */}
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),0.75rem)] z-20 flex flex-col items-center gap-3 px-4">
+        <div className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] z-20 flex flex-col items-center gap-3 px-4">
           <button
             type="button"
             onClick={finish}

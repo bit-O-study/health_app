@@ -179,14 +179,13 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     <div className="relative h-[100dvh] w-full overflow-hidden bg-[#bfeaff] text-white">
       {active ? <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} /> : null}
 
-      {/* 카메라 PIP(거울) */}
+      {/* 카메라 — 화면엔 안 보이게(감지용으로만 사용). display:none 은 일부 브라우저에서
+          프레임이 멈춰 감지가 안 되므로 opacity 0 + 1px 로 렌더는 유지한다. */}
       <video
         ref={videoRef}
         playsInline
         muted
-        className={`absolute right-3 top-3 z-20 h-24 w-32 -scale-x-100 rounded-xl object-cover ring-1 ring-white/40 ${
-          active ? "" : "hidden"
-        }`}
+        className="pointer-events-none absolute left-0 top-0 h-px w-px opacity-0"
       />
 
       {/* 거리 + 맵 HUD */}
@@ -207,9 +206,16 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         </div>
       ) : null}
 
-      {/* 상단 수동 설정(속도·경사) — 트레드밀처럼 위에서 설정. */}
+      {/* 하단: 종료(위) + 속도·경사 설정(아래). 거리 표시(좌상단)와 겹치지 않게. */}
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 top-[max(env(safe-area-inset-top),1rem)] z-20 flex justify-center px-4">
+        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),0.75rem)] z-20 flex flex-col items-center gap-3 px-4">
+          <button
+            type="button"
+            onClick={finish}
+            className="rounded-full bg-red-500 px-10 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
+          >
+            종료
+          </button>
           <div className="flex items-center gap-3 rounded-2xl bg-black/55 px-4 py-2.5 backdrop-blur">
             <Stepper
               label="속도"
@@ -227,19 +233,6 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               onPlus={() => changeIncline(1)}
             />
           </div>
-        </div>
-      ) : null}
-
-      {/* 하단 종료 */}
-      {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),1rem)] z-20 flex justify-center px-4">
-          <button
-            type="button"
-            onClick={finish}
-            className="rounded-full bg-red-500 px-10 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
-          >
-            종료
-          </button>
         </div>
       ) : null}
 

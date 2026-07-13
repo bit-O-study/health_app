@@ -26,6 +26,7 @@ import { getUserRoutine } from "@/features/routine/data-access";
 import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
+import { todayFocuses } from "@/features/routine/defer-carry";
 import {
   addDaysYmd,
   DAY_BLOCKS,
@@ -292,18 +293,14 @@ async function TodayWorkout({
           (t) => t !== "rest",
         ) as Exclude<FocusTone, "rest">[]);
 
-  // 실제 오늘 부위 — daily_plan 부위가 routine 을 덮어쓴다. 같은 tone 중복 제거
-  // (세부근육 블록이 같은 부위로 모일 때 운동 중복 로드 방지).
-  const todayTones: Exclude<FocusTone, "rest">[] = Array.from(
-    new Set(
-      hasDailyOverride
-        ? (dailyFocuses.filter((f) => f !== "rest") as Exclude<
-            FocusTone,
-            "rest"
-          >[])
-        : routineTones,
-    ),
-  );
+  // 실제 오늘 부위 = 루틴 부위 ∪ daily_plan 부위 (합집합·중복 제거·"rest" 제외).
+  // '부위 추가'가 원래 부위를 daily_plan 으로 다 옮기지 못해도 루틴 부위가 남아 사라지지
+  // 않는다. replace 는 오늘을 defer 해 routineTones=[] 이므로 선택 부위만 표시된다.
+  // (자세한 배경은 todayFocuses 주석 참고.)
+  const todayTones = todayFocuses(routineTones, dailyFocuses) as Exclude<
+    FocusTone,
+    "rest"
+  >[];
 
   // 오늘을 밀었는데 아직 아무것도 안 담은 '빈 변경일' — 휴식도, 특정 부위도 아니다.
   const emptyChangedDay = deferredToday && !hasDailyOverride && !isRest;

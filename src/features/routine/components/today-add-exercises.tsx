@@ -23,8 +23,8 @@ export function TodayAddExercises() {
       await deferRoutineOneDayAction("direct");
       await clearDailyPlanForDateAction(seoulYmd());
       // direct=1 → 부위 제한 없이 빈 워밍업/본운동/마무리 섹션에서 '전체 운동' 추가.
+      // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(이동 시 새로 렌더).
       router.push("/plan/today?direct=1");
-      router.refresh();
     });
   }
 

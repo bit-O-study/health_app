@@ -264,51 +264,42 @@ function RestOverlay({
     }
   }, []);
 
-  // 위젯 '전체'를 꾹 눌러(롱프레스) 이동. 버튼은 빠른 탭이면 그대로 동작하고,
-  // 길게 누르면 드래그가 시작된다.
-  const lpRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 위젯 '전체' 어디를 눌러도, 길게 안 눌러도 '살짝만 드래그'하면 바로 이동한다.
+  // (이동 임계값 방식 — 4px 이상 움직이면 드래그 시작. 움직임 없이 떼면 = 탭 → 버튼 동작.)
   const startRef = useRef<{ x: number; y: number; id: number } | null>(null);
-  const LONG_PRESS = 180;
+  const DRAG_THRESHOLD = 4;
 
-  function clearLp() {
-    if (lpRef.current) {
-      clearTimeout(lpRef.current);
-      lpRef.current = null;
-    }
-  }
   function onCardDown(e: React.PointerEvent) {
     startRef.current = { x: e.clientX, y: e.clientY, id: e.pointerId };
-    clearLp();
-    lpRef.current = setTimeout(() => {
-      const el = cardRef.current;
-      const s = startRef.current;
-      if (!el || !s) return;
-      el.setPointerCapture?.(s.id);
-      const r = el.getBoundingClientRect();
-      dragRef.current = { dx: s.x - r.left, dy: s.y - r.top };
-      if (typeof navigator !== "undefined" && navigator.vibrate) {
-        navigator.vibrate(8); // 잡혔다는 햅틱 힌트
-      }
-    }, LONG_PRESS);
   }
   function onCardMove(e: React.PointerEvent) {
+    const el = cardRef.current;
+    if (!el) return;
+    // 이미 드래그 중이면 계속 이동.
     if (dragRef.current) {
-      const el = cardRef.current;
-      if (!el) return;
       e.preventDefault();
       const x = clampPos(e.clientX - dragRef.current.dx, window.innerWidth - el.offsetWidth);
       const y = clampPos(e.clientY - dragRef.current.dy, window.innerHeight - el.offsetHeight);
       setPos({ x, y });
-    } else {
-      // 롱프레스 전에 많이 움직이면(스와이프/스크롤) 드래그로 치지 않는다.
-      const s = startRef.current;
-      if (s && (Math.abs(e.clientX - s.x) > 8 || Math.abs(e.clientY - s.y) > 8)) {
-        clearLp();
-      }
+      return;
+    }
+    // 아직 시작 전 — 임계값 넘으면 드래그 시작(포인터 캡처 + 오프셋 계산).
+    const s = startRef.current;
+    if (!s) return;
+    if (
+      Math.abs(e.clientX - s.x) > DRAG_THRESHOLD ||
+      Math.abs(e.clientY - s.y) > DRAG_THRESHOLD
+    ) {
+      el.setPointerCapture?.(s.id);
+      const r = el.getBoundingClientRect();
+      dragRef.current = { dx: e.clientX - r.left, dy: e.clientY - r.top };
+      e.preventDefault();
+      const x = clampPos(e.clientX - dragRef.current.dx, window.innerWidth - el.offsetWidth);
+      const y = clampPos(e.clientY - dragRef.current.dy, window.innerHeight - el.offsetHeight);
+      setPos({ x, y });
     }
   }
   function onCardUp() {
-    clearLp();
     if (dragRef.current && pos) {
       try {
         window.localStorage.setItem(REST_POS_KEY, JSON.stringify(pos));

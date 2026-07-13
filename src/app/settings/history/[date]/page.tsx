@@ -161,7 +161,7 @@ export default async function HistoryDetailPage({
     if (inc !== null) parts.push(`${inc}${PARAM_UNIT.incline}`);
     const detail = parts.join(" ·") || "—";
     const kcal = Math.round(
-      estimateConditioningKcal(weightKg, r.item_id, dur, spd),
+      estimateConditioningKcal(weightKg, r.item_id, dur, spd, inc),
     );
     const entry = { name, detail, kcal };
     if (r.kind === "cooldown") cooldownItems.push(entry);

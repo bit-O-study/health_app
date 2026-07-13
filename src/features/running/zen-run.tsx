@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 import { accelMagnitude, runIntensityFromAccel } from "@/features/running/motion";
 
@@ -18,6 +19,7 @@ type DeviceMotionWithPermission = typeof DeviceMotionEvent & {
 const WINDOW = 24;
 
 export function ZenRun() {
+  const router = useRouter();
   const [phase, setPhase] = useState<"intro" | "playing">("intro");
   const [noSensor, setNoSensor] = useState(false); // 모션 센서 없음/거부
   const runRef = useRef(0); // 현재 달리기 강도 0..1 (씬이 매 프레임 읽음)
@@ -77,6 +79,15 @@ export function ZenRun() {
       {phase === "playing" ? (
         <>
           <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} />
+
+          {/* 종료(우상단) */}
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="absolute right-4 top-[max(env(safe-area-inset-top),1rem)] z-20 rounded-full bg-black/45 px-4 py-1.5 text-sm font-bold text-white backdrop-blur active:scale-95"
+          >
+            종료
+          </button>
 
           {/* 거리 + 현재 맵 HUD */}
           <div className="pointer-events-none absolute left-4 top-4 z-20 flex flex-col items-start gap-1">

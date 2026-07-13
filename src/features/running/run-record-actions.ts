@@ -1,5 +1,11 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+
+import {
+  createSupabaseServerClient,
+  getCurrentUser,
+} from "@/lib/supabase/server";
 import { getUserRoutine } from "@/features/routine/data-access";
 import {
   resolveRoutine,
@@ -23,8 +29,10 @@ const toInput = (r: ConditioningRow): ConditioningInput => ({
 });
 
 /**
- * 런닝(실내/야외) 종료 → 오늘 '마무리 운동'에 러닝 1개를 더해 완료로 기록한다.
- * 기존 오늘 마무리(오버라이드 또는 루틴 기본)를 보존하고 그 위에 러닝을 얹는다.
+ * 런닝(실내/야외) 종료 → 오늘 '마무리 운동'에 러닝을 완료로 기록한다.
+ *
+ * ⚠ 하루에 여러 번 달려도 러닝 행은 **1개만** 유지하고 시간을 누적한다(예전엔 매번 새 행이
+ * 쌓여 삭제가 번거롭고 목록이 지저분했다). 기존 오늘 마무리(오버라이드/루틴 기본)는 보존.
  */
 export async function recordRunAsCooldownAction(input: {
   durationMin: number;
@@ -41,8 +49,32 @@ export async function recordRunAsCooldownAction(input: {
   const incline =
     input.incline != null && input.incline >= 0 ? Math.round(input.incline) : null;
 
-  // 오늘 마무리 기준 목록: 오버라이드가 있으면 그것, 없으면 오늘 부위 루틴 기본.
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
   const override = (await getDailyConditioning(today)).cooldown;
+  const existingRun = override.find((r) => r.itemId === "running");
+
+  // 이미 오늘 러닝 행이 있으면 시간 누적(행 추가 X, id 유지).
+  if (existingRun) {
+    const newDur = (existingRun.durationMin ?? 0) + durationMin;
+    const upd = await supabase
+      .from("daily_conditioning")
+      .update({ duration_min: newDur, speed, incline })
+      .eq("user_id", user.id)
+      .eq("id", existingRun.id);
+    if (upd.error) return { ok: false, error: upd.error.message };
+    await setConditioningStatusAction("cooldown", existingRun.id, "running", "done", {
+      durationMin: newDur,
+      speed,
+      incline,
+    });
+    revalidatePath("/routine");
+    return { ok: true };
+  }
+
+  // 첫 러닝 — 기존 오늘 마무리(오버라이드 or 루틴 기본)를 보존하며 러닝을 얹는다.
   let base = override;
   if (base.length === 0) {
     const routine = await getUserRoutine();
@@ -64,19 +96,18 @@ export async function recordRunAsCooldownAction(input: {
     ...base.map(toInput),
     { itemId: "running", durationMin, speed, incline, sets: null, reps: null },
   ];
-
   const saved = await saveDailyConditioningAction(today, "cooldown", nextList);
   if (!saved.ok) return { ok: false, error: saved.error };
 
-  // 방금 추가한 러닝 행(마지막 running)을 완료 처리.
   const after = (await getDailyConditioning(today)).cooldown;
   const runRow = [...after].reverse().find((r) => r.itemId === "running");
   if (runRow) {
     await setConditioningStatusAction("cooldown", runRow.id, "running", "done", {
       durationMin,
       speed,
-      incline: null,
+      incline,
     });
   }
+  revalidatePath("/routine");
   return { ok: true };
 }

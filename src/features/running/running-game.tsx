@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
 import { runIntensityFromBounce } from "@/features/running/controls";
+import { formatDuration } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
 
 /* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
@@ -39,8 +40,10 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const [error, setError] = useState<string | null>(null);
   const [speed, setSpeed] = useState(8);
   const [incline, setIncline] = useState(1);
+  const [elapsedSec, setElapsedSec] = useState(0);
   const speedRef = useRef(8);
   const inclineRef = useRef(1);
+  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
   function changeSpeed(d: number) {
     setSpeed((s) => {
       const n = Math.round(Math.min(20, Math.max(1, s + d)) * 10) / 10;
@@ -74,6 +77,10 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
   function stopCamera() {
     cancelAnimationFrame(rafRef.current);
+    if (tickRef.current) {
+      clearInterval(tickRef.current);
+      tickRef.current = null;
+    }
     const stream = videoRef.current?.srcObject as MediaStream | null;
     stream?.getTracks().forEach((t) => t.stop());
     // MediaPipe FaceLandmarker(WASM+GPU) 해제 — 안 하면 재진입마다 네이티브 메모리 누적(팅김).
@@ -118,9 +125,13 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       runRef.current = 0;
       targetRef.current = 0;
       playStartRef.current = Date.now();
+      setElapsedSec(0);
       setPhase("playing");
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(visionLoop);
+      tickRef.current = setInterval(() => {
+        setElapsedSec((Date.now() - playStartRef.current) / 1000);
+      }, 1000);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "알 수 없는 오류";
       setError(
@@ -196,6 +207,9 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
             className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-black text-emerald-700 shadow"
           >
             0 m
+          </span>
+          <span className="rounded-full bg-black/45 px-3 py-0.5 font-mono text-sm font-bold text-white shadow backdrop-blur">
+            {formatDuration(elapsedSec)}
           </span>
           <span
             ref={mapRef}

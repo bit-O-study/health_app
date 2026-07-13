@@ -173,12 +173,11 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   function finish() {
     stopCamera();
     setPhase("done");
-    const durationMin = Math.max(
-      1,
-      Math.round((Date.now() - playStartRef.current) / 60000),
-    );
+    const sec = (Date.now() - playStartRef.current) / 1000;
+    const durationMin = Math.max(1, Math.round(sec / 60));
     void recordRunAsCooldownAction({
       durationMin,
+      durationSec: sec,
       avgKmh: speedRef.current,
       incline: inclineRef.current,
     }).catch(() => {});

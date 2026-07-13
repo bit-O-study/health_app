@@ -18,6 +18,7 @@ import { saveDailyConditioningAction } from "@/features/routine/daily-conditioni
 import type { ConditioningInput } from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import type { ConditioningRow } from "@/features/routine/conditioning";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 const toInput = (r: ConditioningRow): ConditioningInput => ({
   itemId: r.itemId,
@@ -28,6 +29,33 @@ const toInput = (r: ConditioningRow): ConditioningInput => ({
   reps: r.reps ?? null,
 });
 
+/** 오늘 누적 운동 시간을 deltaSec 만큼 가감(음수 가능, 0 미만은 0). */
+async function adjustWorkoutSeconds(
+  supabase: SupabaseClient,
+  userId: string,
+  forDate: string,
+  deltaSec: number,
+): Promise<void> {
+  const delta = Math.round(deltaSec);
+  if (delta === 0) return;
+  const { data } = await supabase
+    .from("workout_sessions")
+    .select("duration_sec")
+    .eq("user_id", userId)
+    .eq("for_date", forDate)
+    .maybeSingle();
+  const total = Math.max(0, Number(data?.duration_sec ?? 0) + delta);
+  await supabase.from("workout_sessions").upsert(
+    {
+      user_id: userId,
+      for_date: forDate,
+      duration_sec: total,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "user_id,for_date" },
+  );
+}
+
 /**
  * 런닝(실내/야외) 종료 → 오늘 '마무리 운동'에 러닝을 완료로 기록한다.
  *
@@ -36,12 +64,18 @@ const toInput = (r: ConditioningRow): ConditioningInput => ({
  */
 export async function recordRunAsCooldownAction(input: {
   durationMin: number;
+  /** 실제 런닝 초 — 오늘 운동 시간(누적)에 더한다. 없으면 durationMin*60. */
+  durationSec?: number;
   distanceKm?: number | null;
   avgKmh?: number | null;
   incline?: number | null;
 }): Promise<{ ok: boolean; error?: string }> {
   const today = seoulYmd();
   const durationMin = Math.max(1, Math.round(input.durationMin || 1));
+  const durationSec = Math.max(
+    0,
+    Math.round(input.durationSec ?? durationMin * 60),
+  );
   const speed =
     input.avgKmh != null && input.avgKmh > 0
       ? Math.round(input.avgKmh * 10) / 10
@@ -52,6 +86,9 @@ export async function recordRunAsCooldownAction(input: {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  // 오늘 운동 시간(누적)에 런닝 시간 더하기(삭제 시 removeTodayRunAction 이 뺀다).
+  if (durationSec > 0) await adjustWorkoutSeconds(supabase, user.id, today, durationSec);
 
   const override = (await getDailyConditioning(today)).cooldown;
   const existingRun = override.find((r) => r.itemId === "running");
@@ -109,5 +146,49 @@ export async function recordRunAsCooldownAction(input: {
     });
   }
   revalidatePath("/routine");
+  return { ok: true };
+}
+
+/**
+ * 오늘 러닝 기록 삭제 — 마무리 러닝 행 + 완료기록을 지우고, 그 시간을 오늘 운동 시간에서 뺀다.
+ * (런닝 항목을 '완료취소/삭제' 할 때 호출.)
+ */
+export async function removeTodayRunAction(): Promise<{
+  ok: boolean;
+  error?: string;
+}> {
+  const today = seoulYmd();
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const runRow = (await getDailyConditioning(today)).cooldown.find(
+    (r) => r.itemId === "running",
+  );
+  if (!runRow) {
+    revalidatePath("/routine");
+    return { ok: true };
+  }
+
+  // 오늘 운동 시간에서 러닝 시간만큼 빼기.
+  const sec = Math.round((runRow.durationMin ?? 0) * 60);
+  if (sec > 0) await adjustWorkoutSeconds(supabase, user.id, today, -sec);
+
+  // 완료기록 + 마무리 러닝 행 삭제.
+  await supabase
+    .from("conditioning_completions")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("for_date", today)
+    .eq("source_row_id", runRow.id);
+  await supabase
+    .from("daily_conditioning")
+    .delete()
+    .eq("user_id", user.id)
+    .eq("id", runRow.id);
+
+  revalidatePath("/routine");
+  revalidatePath("/settings/score");
+  revalidatePath("/settings/history");
   return { ok: true };
 }

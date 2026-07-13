@@ -10,6 +10,7 @@ import {
   type Lane,
 } from "@/features/running/controls";
 import { createGame, type GameState } from "@/features/running/game";
+import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
 
 /* 무거운 3D 엔진(three + R3F + 2.1MB 모델)은 '시작하기' 전까지 로드하지 않는다.
  * /running 첫 진입(인트로)에 거대한 번들을 끌어오면 PWA 웹뷰 등에서 "page couldn't
@@ -74,6 +75,7 @@ export function RunningGame() {
   const headYRef = useRef<number[]>([]);
   const jumpArmedRef = useRef(true);
   const overRef = useRef(false);
+  const playStartRef = useRef(0); // 플레이 시작 시각(마무리 자동기록용 운동시간)
   const rafRef = useRef(0);
   const phaseRef = useRef<Phase>("intro");
   phaseRef.current = phase;
@@ -189,6 +191,7 @@ export function RunningGame() {
           pitch: s.reduce((a, b) => a + b.pitch, 0) / s.length,
           x: s.reduce((a, b) => a + b.x, 0) / s.length,
         };
+        playStartRef.current = Date.now();
         setPhase("playing");
       }
     } else if (phaseRef.current === "playing") {
@@ -217,6 +220,12 @@ export function RunningGame() {
   function handleOver(distance: number, coins: number) {
     setScore({ distance, coins });
     setPhase("over");
+    // 오늘 마무리 운동에 자동 기록 — 플레이한 시간(분)만 기록(실내는 게임이라 거리/속도는 생략).
+    const durationMin = Math.max(
+      1,
+      Math.round((Date.now() - playStartRef.current) / 60000),
+    );
+    void recordRunAsCooldownAction({ durationMin }).catch(() => {});
   }
 
   function restart() {

@@ -24,7 +24,9 @@ test("데스크톱(비터치·넓은 화면)에서 /running 은 휴대폰 전용
   await ctx.close();
 });
 
-test("모바일(터치)에서는 게임 인트로(시작하기)가 뜬다", async ({ browser }) => {
+test("모바일(터치)에서는 모드선택(실내/야외)이 뜨고, 실내 고르면 게임 인트로", async ({
+  browser,
+}) => {
   const ctx = await browser.newContext({
     viewport: { width: 390, height: 844 },
     hasTouch: true,
@@ -35,7 +37,34 @@ test("모바일(터치)에서는 게임 인트로(시작하기)가 뜬다", asyn
   const page = await ctx.newPage();
   await page.goto("/running", { waitUntil: "domcontentloaded" });
 
+  // 모드 선택 — 실내/야외
+  await expect(page.getByRole("heading", { name: "런닝 모드" })).toBeVisible({
+    timeout: 5000,
+  });
+  await expect(page.getByRole("button", { name: /실내 런닝/ })).toBeVisible();
+  await expect(page.getByRole("button", { name: /야외 런닝/ })).toBeVisible();
+
+  // 실내 선택 → 카메라 게임 인트로
+  await page.getByRole("button", { name: /실내 런닝/ }).click();
   await expect(page.getByRole("heading", { name: "런닝 모드 🏃" })).toBeVisible({
+    timeout: 5000,
+  });
+  await expect(page.getByRole("button", { name: "시작하기" })).toBeVisible();
+  await ctx.close();
+});
+
+test("모바일에서 야외 런닝을 고르면 GPS 인트로가 뜬다", async ({ browser }) => {
+  const ctx = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    hasTouch: true,
+    isMobile: true,
+    userAgent:
+      "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+  });
+  const page = await ctx.newPage();
+  await page.goto("/running", { waitUntil: "domcontentloaded" });
+  await page.getByRole("button", { name: /야외 런닝/ }).click();
+  await expect(page.getByRole("heading", { name: "야외 런닝 📍" })).toBeVisible({
     timeout: 5000,
   });
   await expect(page.getByRole("button", { name: "시작하기" })).toBeVisible();

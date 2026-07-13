@@ -39,7 +39,8 @@ export type StepInput = {
   runIntensity: number;
 };
 
-const SPEED_MIN = 2.5;
+// 카메라로 '달리는 중'이 감지되면 전진, 안 되면 정지(가만히). 그래서 최소 속도 0.
+const SPEED_MIN = 0;
 const SPEED_MAX = 15;
 const JUMP_V = 3.4;
 const GRAVITY = 9.5;

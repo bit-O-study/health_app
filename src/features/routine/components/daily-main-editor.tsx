@@ -372,114 +372,128 @@ export function DailyMainEditor({
                       }
                     : { transition: "transform 160ms ease" }
                 }
-                className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5 dark:border-zinc-700 dark:bg-zinc-900"
+                className="flex flex-col gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5 dark:border-zinc-700 dark:bg-zinc-900"
               >
-                <button
-                  type="button"
-                  aria-label="드래그로 순서 변경"
-                  onPointerDown={(e) => onGripDown(e, idx)}
-                  onPointerMove={onGripMove}
-                  onPointerUp={onGripUp}
-                  onPointerCancel={onGripUp}
-                  className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
-                >
-                  <GripVertical aria-hidden="true" size={16} />
-                </button>
-
-                {/* 부위 먼저 — 여러 부위를 고를 수 있으면 드롭다운, 아니면 라벨.
-                    (기존 '운동 추가'와 동일: 부위 → 그 부위 운동만 목록에 나온다.) */}
-                {focusChoices.length > 1 ? (
-                  <select
-                    aria-label="부위"
-                    value={isDayBlockId(row.focus) ? row.focus : focusChoices[0]}
-                    onChange={(e) =>
-                      changeRowFocus(idx, e.target.value as FocusTone)
-                    }
-                    className="h-9 shrink-0 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+                {/* 1행: 그립 + 부위 + 삭제 */}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    aria-label="드래그로 순서 변경"
+                    onPointerDown={(e) => onGripDown(e, idx)}
+                    onPointerMove={onGripMove}
+                    onPointerUp={onGripUp}
+                    onPointerCancel={onGripUp}
+                    className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
                   >
-                    {focusChoices.map((f) => (
-                      <option key={f} value={f}>
-                        {isDayBlockId(f) ? DAY_BLOCKS[f].label : f}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <span
-                    className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
-                    style={{
-                      backgroundColor: sub
-                        ? muscleGroup(sub.muscle).color
-                        : "#71717a",
+                    <GripVertical aria-hidden="true" size={16} />
+                  </button>
+
+                  {/* 부위 먼저 — 여러 부위면 드롭다운, 아니면 라벨.
+                      (기존 '운동 추가'와 동일: 부위 → 그 부위 운동만 목록에.) */}
+                  {focusChoices.length > 1 ? (
+                    <select
+                      aria-label="부위"
+                      value={isDayBlockId(row.focus) ? row.focus : focusChoices[0]}
+                      onChange={(e) =>
+                        changeRowFocus(idx, e.target.value as FocusTone)
+                      }
+                      className="h-9 min-w-0 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+                    >
+                      {focusChoices.map((f) => (
+                        <option key={f} value={f}>
+                          {isDayBlockId(f) ? DAY_BLOCKS[f].label : f}
+                        </option>
+                      ))}
+                    </select>
+                  ) : (
+                    <span
+                      className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                      style={{
+                        backgroundColor: sub
+                          ? muscleGroup(sub.muscle).color
+                          : "#71717a",
+                      }}
+                    >
+                      {labelOf(row.focus)}
+                      {sub ? `(${sub.label})` : ""}
+                    </span>
+                  )}
+
+                  <button
+                    type="button"
+                    aria-label="삭제"
+                    onClick={() => update(rows.filter((_, i) => i !== idx))}
+                    className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 dark:text-zinc-500 dark:hover:bg-red-950/40"
+                  >
+                    <Trash2 aria-hidden="true" size={16} />
+                  </button>
+                </div>
+
+                {/* 2행: 운동 + 기구 */}
+                <div className="flex items-center gap-2 pl-8">
+                  <ExerciseSearchSelect
+                    options={rowOptions}
+                    muscleFilter
+                    value={row.exerciseId}
+                    onChange={(id) => {
+                      const nextEx = getCatalogExercise(id);
+                      const next = [...rows];
+                      next[idx] = {
+                        ...row,
+                        exerciseId: id,
+                        equipment: nextEx
+                          ? pickDefaultEquipment(nextEx)
+                          : row.equipment,
+                      };
+                      update(next);
                     }}
+                  />
+
+                  <select
+                    aria-label="기구"
+                    value={row.equipment}
+                    onChange={(e) => {
+                      const next = [...rows];
+                      next[idx] = {
+                        ...row,
+                        equipment: e.target.value as EquipmentId,
+                      };
+                      update(next);
+                    }}
+                    className="h-9 max-w-[40%] shrink-0 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
                   >
-                    {labelOf(row.focus)}
-                    {sub ? `(${sub.label})` : ""}
-                  </span>
-                )}
+                    {exEquipments.map((eq) => {
+                      const ok = isEquipmentAvailable(eq.equipment, gymSet);
+                      return (
+                        <option key={eq.equipment} value={eq.equipment}>
+                          {EQUIPMENT_LABELS[eq.equipment]}
+                          {ok ? "" : " (헬스장에 없음)"}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
 
-                <ExerciseSearchSelect
-                  options={rowOptions}
-                  muscleFilter
-                  value={row.exerciseId}
-                  onChange={(id) => {
-                    const nextEx = getCatalogExercise(id);
-                    const next = [...rows];
-                    next[idx] = {
-                      ...row,
-                      exerciseId: id,
-                      equipment: nextEx ? pickDefaultEquipment(nextEx) : row.equipment,
-                    };
-                    update(next);
-                  }}
-                />
-
-                <select
-                  aria-label="기구"
-                  value={row.equipment}
-                  onChange={(e) => {
-                    const next = [...rows];
-                    next[idx] = { ...row, equipment: e.target.value as EquipmentId };
-                    update(next);
-                  }}
-                  className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
-                >
-                  {exEquipments.map((eq) => {
-                    const ok = isEquipmentAvailable(eq.equipment, gymSet);
-                    return (
-                      <option key={eq.equipment} value={eq.equipment}>
-                        {EQUIPMENT_LABELS[eq.equipment]}
-                        {ok ? "" : " (헬스장에 없음)"}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <SetDetailsEditor
-                  onlySets={!lockWeightReps}
-                  sets={row.sets}
-                  reps={row.reps}
-                  weight={row.weight}
-                  setDetails={row.setDetails}
-                  onUniformChange={(patch) => {
-                    const next = [...rows];
-                    next[idx] = { ...row, ...patch };
-                    update(next);
-                  }}
-                  onSetDetailsChange={(sd) => {
-                    const next = [...rows];
-                    next[idx] = { ...row, setDetails: sd };
-                    update(next);
-                  }}
-                />
-
-                <button
-                  type="button"
-                  aria-label="삭제"
-                  onClick={() => update(rows.filter((_, i) => i !== idx))}
-                  className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 dark:text-zinc-500 dark:hover:bg-red-950/40"
-                >
-                  <Trash2 aria-hidden="true" size={16} />
-                </button>
+                {/* 3행: 세트/무게/횟수 */}
+                <div className="pl-8">
+                  <SetDetailsEditor
+                    onlySets={!lockWeightReps}
+                    sets={row.sets}
+                    reps={row.reps}
+                    weight={row.weight}
+                    setDetails={row.setDetails}
+                    onUniformChange={(patch) => {
+                      const next = [...rows];
+                      next[idx] = { ...row, ...patch };
+                      update(next);
+                    }}
+                    onSetDetailsChange={(sd) => {
+                      const next = [...rows];
+                      next[idx] = { ...row, setDetails: sd };
+                      update(next);
+                    }}
+                  />
+                </div>
               </div>
             );
           })}

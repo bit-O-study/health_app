@@ -360,7 +360,8 @@ export function TodayConditioningList({
       !justDraggedRef.current &&
       !editMode
     ) {
-      router.push(`/conditioning/${itemId}`);
+      // 런닝 운동은 상세 대신 런닝 모드(야외/실내 선택)로 — 운동하다 바로 실행.
+      router.push(itemId === "running" ? "/running" : `/conditioning/${itemId}`);
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);

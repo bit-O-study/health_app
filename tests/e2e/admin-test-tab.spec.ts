@@ -28,12 +28,13 @@ test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", asyn
   await expect(zen).toHaveAttribute("href", "/jog");
 
   // 카드 클릭 → 실제로 /running 으로 들어가야 한다(관리자도 막히지 않음).
-  // (mobile-chromium 컨텍스트라 모바일 게이트 통과 → 게임 인트로가 떠야 한다.)
+  // (mobile-chromium 컨텍스트라 모바일 게이트 통과 → 모드선택(실내/야외)이 떠야 한다.)
   await card.click();
   await expect(page).toHaveURL(/\/running$/);
-  await expect(page.getByRole("heading", { name: "런닝 모드 🏃" })).toBeVisible({
+  await expect(page.getByRole("heading", { name: "런닝 모드" })).toBeVisible({
     timeout: 8000,
   });
+  await expect(page.getByRole("button", { name: /실내 런닝/ })).toBeVisible();
 });
 
 test("관리자 세션에서도 /jog 가 /admin 으로 리다이렉트되지 않는다", async ({
@@ -77,7 +78,9 @@ test("관리자가 아니면 /admin/test 의 런닝 모드 진입점이 보이�
   await signUpAndOnboard(page); // 일반 회원(관리자 아님)
   await page.goto("/admin/test", { waitUntil: "networkidle" });
 
-  // notFound() 처리되어 런닝 모드 카드/링크가 노출되지 않아야 한다.
+  // 관리자 테스트 카드(런닝 모드/힐링 러닝)는 노출되지 않아야 한다.
+  // (참고: /running 은 이제 운동 탭에서 누구나 쓰는 공개 기능이라 링크 존재 자체는 정상.
+  //  힐링(/jog)은 여전히 관리자 전용이므로 그 진입점 부재로 검증한다.)
   await expect(page.getByRole("link", { name: /런닝 모드/ })).toHaveCount(0);
-  await expect(page.locator('a[href="/running"]')).toHaveCount(0);
+  await expect(page.locator('a[href="/jog"]')).toHaveCount(0);
 });

@@ -31,6 +31,7 @@ type Metrics = { meters: number; kmh: number; elapsedSec: number };
  */
 export function OutdoorRun({
   onFinish,
+  onExit,
 }: {
   /** 종료 시 요약(마무리 운동 자동기록 등에 사용). */
   onFinish?: (summary: {
@@ -38,6 +39,8 @@ export function OutdoorRun({
     distanceKm: number;
     avgKmh: number;
   }) => void;
+  /** 시작 화면 '나가기' → 모드 선택으로. */
+  onExit?: () => void;
 }) {
   const [phase, setPhase] = useState<Phase>("intro");
   const [error, setError] = useState<string | null>(null);
@@ -191,6 +194,15 @@ export function OutdoorRun({
 
       {phase === "intro" || phase === "error" ? (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 bg-gradient-to-b from-sky-400 to-emerald-200 px-6 text-center text-emerald-950">
+          {onExit ? (
+            <button
+              type="button"
+              onClick={onExit}
+              className="absolute left-4 top-[max(env(safe-area-inset-top),1rem)] inline-flex items-center gap-1 rounded-full bg-black/10 px-3 py-1.5 text-sm font-semibold text-emerald-950 active:scale-95"
+            >
+              ← 나가기
+            </button>
+          ) : null}
           <h1 className="text-3xl font-extrabold drop-shadow-sm">야외 런닝 📍</h1>
           <p className="max-w-xs text-sm font-medium leading-6">
             밖에서 <b>실제로 달리면</b> GPS로 거리·시속·페이스가 기록되고, 속도에

@@ -63,6 +63,11 @@ export async function pinRoutineFocusesForTodayAction(): Promise<SaveDailyPlanRe
   if (!routine) return { ok: false, error: "루틴이 없습니다." };
 
   const today = seoulYmd();
+  // 오늘이 이미 '오늘만 변경(전체 바꾸기/직접 담기)'로 defer 된 상태면, 오늘 부위는 이미
+  // daily_plan 에 들어있고 원래 루틴은 내일로 밀린 상태다. 이때 pin 을 돌리면 (start_date
+  // 가 밀려) 엉뚱한 날의 루틴 부위를 오늘에 끼워 넣어 부위 추가가 오작동한다. 그러니 defer
+  // 된 날엔 추가로 pin 하지 않는다 — 추가 부위만 얹으면 /routine 이 합집합으로 보여준다.
+  if (routine.deferredDate === today) return { ok: true };
   const { variant } = resolveRoutine(
     routine.splits,
     routine.variantId,

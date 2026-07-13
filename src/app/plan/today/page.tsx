@@ -31,7 +31,7 @@ export const dynamic = "force-dynamic";
 export default async function TodayConditioningPage({
   searchParams,
 }: {
-  searchParams: Promise<{ focus?: string; direct?: string }>;
+  searchParams: Promise<{ focus?: string; direct?: string; add?: string }>;
 }) {
   const [user, profile, routine, gym] = await Promise.all([
     getCurrentUser(),
@@ -45,10 +45,12 @@ export default async function TodayConditioningPage({
     await ensureDayIndexBackfilled(user.id);
   const gymEquipment = gym?.equipmentIds ?? null;
 
-  const { focus: focusParam, direct: directParam } = await searchParams;
+  const { focus: focusParam, direct: directParam, add: addParam } = await searchParams;
   // 직접 담기(direct) — 부위 제한 없이 전체 운동에서 담는다. 부위 자동배정은 저장 시
   // 운동별 focusForExercise 로 이뤄진다(빈 본운동/워밍업/마무리 섹션에서 추가).
   const direct = directParam === "1";
+  // 부위 추가(add) — 오늘 현재 운동(핀된 daily_plan)에 선택 부위를 더해 함께 편집한다.
+  const addMode = addParam === "1";
 
   // 선택 부위 (?focus=chest,back) — 없으면 오늘의 실제 부위 1개
   let focuses: FocusTone[] = [];
@@ -119,13 +121,18 @@ export default async function TodayConditioningPage({
 
   // 편집할 부위 — 직접 담기(direct)면 이미 담아 저장한 부위(daily_plan)를 불러온다
   // (그래야 재편집 때 담은 게 보이고, allowAllExercises 로 다른 부위도 계속 추가 가능).
+  const dailyFocuses = [...new Set(dailyAll.map((r) => r.focus))].filter(
+    (f): f is Exclude<FocusTone, "rest"> => f !== "rest" && isDayBlockId(f),
+  ) as Exclude<FocusTone, "rest">[];
   const editFocuses: Exclude<FocusTone, "rest">[] = direct
-    ? ([
-        ...new Set(dailyAll.map((r) => r.focus)),
-      ].filter(
-        (f): f is Exclude<FocusTone, "rest"> => f !== "rest" && isDayBlockId(f),
-      ) as Exclude<FocusTone, "rest">[])
-    : validFocuses;
+    ? dailyFocuses
+    : addMode
+      ? // 부위 추가 — 현재 오늘 운동(핀된 daily_plan 부위) + 새로 선택한 부위(합집합).
+        ([...new Set([...dailyFocuses, ...validFocuses])] as Exclude<
+          FocusTone,
+          "rest"
+        >[])
+      : validFocuses;
   // 부위별 본운동 섹션 — 오늘 오버라이드가 있으면 그걸, 없으면 **빈값**으로 시작한다.
   const mainSections = editFocuses.map((focus) => ({
     focus,

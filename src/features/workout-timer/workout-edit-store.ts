@@ -24,6 +24,9 @@ type Store = {
   cond: Record<string, CondEdit>;
   /** 본운동 행별 완료한 세트 수(0-base). 운동모드를 나갔다 와도 유지, 날짜 바뀌면 초기화. */
   setsDone: Record<string, number>;
+  /** 운동모드에서 마지막으로 보고 있던 항목(rowId). '운동법 보기' 등으로 route 를 나갔다
+   * 와서 오버레이가 재마운트돼도 그 운동에서 이어보게 복원. 날짜 바뀌면 초기화. */
+  activeRow?: string;
 };
 
 const KEY = "heltch.workout.edits";
@@ -43,6 +46,7 @@ function read(): Store {
           main: v.main ?? {},
           cond: v.cond ?? {},
           setsDone: v.setsDone ?? {},
+          activeRow: v.activeRow,
         };
       }
     }
@@ -90,5 +94,23 @@ export function getSetsDone(rowId: string): number {
 export function setSetsDone(rowId: string, n: number) {
   const s = read();
   s.setsDone[rowId] = Math.max(0, Math.floor(n));
+  write(s);
+}
+
+/** 운동모드에서 마지막으로 보던 항목(rowId). 없거나 날짜가 지났으면 null. */
+export function getActiveRow(): string | null {
+  return read().activeRow ?? null;
+}
+
+export function setActiveRow(rowId: string) {
+  const s = read();
+  s.activeRow = rowId;
+  write(s);
+}
+
+/** 운동모드를 정상 종료(닫기/전부 완료)할 때 호출 — 다음에 새로 열면 처음부터 시작. */
+export function clearActiveRow() {
+  const s = read();
+  delete s.activeRow;
   write(s);
 }

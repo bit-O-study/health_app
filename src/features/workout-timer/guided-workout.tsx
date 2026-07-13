@@ -60,6 +60,9 @@ import {
   setCondEdit,
   getSetsDone as loadSetsDone,
   setSetsDone as saveSetsDone,
+  getActiveRow,
+  setActiveRow,
+  clearActiveRow,
 } from "@/features/workout-timer/workout-edit-store";
 import {
   conditioningPhotoFrames,
@@ -322,7 +325,14 @@ export function GuidedOverlay({
   const router = useRouter();
   const rest = useRestTimer();
   const orderScope = useTodayOrder();
-  const [index, setIndex] = useState(0);
+  // 마지막으로 보던 항목(rowId) 복원 — '운동법 보기'로 route 를 나갔다 오거나(오버레이
+  // 재마운트) 앱이 백그라운드에서 리로드돼도 그 운동에서 이어보게. 없거나 매칭 안 되면 0.
+  const [index, setIndex] = useState(() => {
+    const active = getActiveRow();
+    if (!active) return 0;
+    const i = items.findIndex((it) => it.rowId === active);
+    return i >= 0 ? i : 0;
+  });
   const workingRef = useRef(false);
   const [working, setWorking] = useState(false);
   const dirtyRef = useRef(false);
@@ -377,6 +387,13 @@ export function GuidedOverlay({
   const isLast = adjacentActiveIndex(rowIds, processed, index, 1) === null;
   const prevIndex = adjacentActiveIndex(rowIds, processed, index, -1);
   const nextIndex = adjacentActiveIndex(rowIds, processed, index, 1);
+
+  // 현재 위치(항목 rowId)를 그날 저장 — '운동법 보기'로 나갔다 오거나 앱 리로드 후에도
+  // 이 운동에서 이어보게(위 index 초기화가 복원). 정상 종료 시 clearActiveRow 로 지운다.
+  useEffect(() => {
+    const it = sessionItems[index];
+    if (it) setActiveRow(it.rowId);
+  }, [index, sessionItems]);
 
   // 현재 본운동에서 완료한 세트 수(0-base). 항목이 바뀌면 0으로 리셋.
   const [setsDone, setSetsDone] = useState(0);
@@ -582,6 +599,7 @@ export function GuidedOverlay({
   function advance(processedSet: ReadonlySet<string>) {
     const ni = adjacentActiveIndex(rowIds, processedSet, index, 1);
     if (ni === null) {
+      clearActiveRow(); // 전부 완료 — 다음에 새로 열면 처음부터
       onClose();
       // 모든 항목 종료 — 부모(타이머)가 운동시간 저장 처리
       onAllComplete?.();
@@ -751,6 +769,7 @@ export function GuidedOverlay({
     setCloseAsk(true);
   }
   function confirmClose() {
+    clearActiveRow(); // 사용자가 X 로 종료 — 다음에 새로 열면 처음부터
     onClose();
     setCloseAsk(false);
     if (dirtyRef.current) {

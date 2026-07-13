@@ -13,10 +13,8 @@ import {
 } from "@/features/routine/data";
 import {
   allExercisesForFocus,
-  allExercisesGrouped,
   EQUIPMENT_LABELS,
   exercisesForFocus,
-  focusForExercise,
   getCatalogExercise,
   prescribe,
   type CatalogExercise,
@@ -53,6 +51,16 @@ export type MainSection = {
   label: string;
   initial: DailyPlanRow[];
 };
+
+/** 직접 담기에서 고를 수 있는 기본 부위(세부근육 블록 제외 — 그건 부위 안 세부칩으로). */
+const BASE_PARTS: FocusTone[] = [
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "lower",
+  "core",
+];
 
 function toRow(focus: FocusTone, r: DailyPlanRow): Row {
   return {
@@ -107,22 +115,16 @@ export function DailyMainEditor({
     sections.find((s) => s.focus === f)?.label ??
     (isDayBlockId(f) ? DAY_BLOCKS[f].label : f);
 
-  // 드롭다운 후보: 부위를 선택한 경우(전체 바꾸기)엔 그 부위 운동만, 부위 없이 직접
-  // 담기면 전체 카탈로그. (담은 운동의 태그는 저장 시 focusForExercise 로 자동 배정.)
-  const options: CatalogExercise[] = (() => {
-    const seen = new Set<string>();
-    const out: CatalogExercise[] = [];
-    const source =
-      focuses.length > 0 && !allowAllExercises
-        ? focuses.flatMap((f) => allExercisesForFocus(f as FocusTone))
-        : allExercisesGrouped().flatMap((g) => g.exercises);
-    for (const ex of source) {
-      if (seen.has(ex.id)) continue;
-      seen.add(ex.id);
-      out.push(ex);
-    }
-    return out;
-  })();
+  // '기존 운동 추가' 방식: 부위를 먼저 고르고 → 그 부위 운동만 목록에 나온다.
+  // 직접 담기(allowAllExercises)면 전체 기본 부위에서 고를 수 있게, 아니면 이 편집기의
+  // 부위(전체 바꾸기=선택 부위 / 부위 추가=현재+추가)만 고를 수 있다.
+  const focusChoices: FocusTone[] = allowAllExercises
+    ? BASE_PARTS
+    : focuses.length > 0
+      ? focuses
+      : BASE_PARTS;
+  // 행의 부위에 맞는 운동 목록(그 부위만). 세부근육 칩은 ExerciseSearchSelect 안에서 좁힘.
+  const optionsFor = (f: FocusTone): CatalogExercise[] => allExercisesForFocus(f);
 
   const [rows, setRows] = useState<Row[]>(() =>
     sections.flatMap((s) => s.initial.map((r) => toRow(s.focus, r))),
@@ -156,20 +158,14 @@ export function DailyMainEditor({
     return available?.equipment ?? ex.equipments[0].equipment;
   }
 
-  /** 운동의 대표 부위 — 역인덱스로 자동 배정(없으면 오늘 첫 부위, 그것도 없으면 chest). */
-  function focusOf(exerciseId: string): FocusTone {
-    const f = focusForExercise(exerciseId);
-    if (f) return f;
-    return focuses[0] ?? ("chest" as FocusTone);
-  }
-
   function addRow() {
-    const first = options[0];
+    const f0 = focusChoices[0];
+    const first = optionsFor(f0)[0];
     if (!first) return;
     update([
       ...rows,
       {
-        focus: focusOf(first.id),
+        focus: f0,
         exerciseId: first.id,
         equipment: pickDefaultEquipment(first),
         sets: 3,
@@ -178,6 +174,19 @@ export function DailyMainEditor({
         setDetails: null,
       },
     ]);
+  }
+
+  /** 행의 부위 변경 — 그 부위 첫 운동으로 초기화(기존 '운동 추가'와 동일 동작). */
+  function changeRowFocus(idx: number, nextFocus: FocusTone) {
+    const first = optionsFor(nextFocus)[0];
+    const next = [...rows];
+    next[idx] = {
+      ...next[idx],
+      focus: nextFocus,
+      exerciseId: first?.id ?? next[idx].exerciseId,
+      equipment: first ? pickDefaultEquipment(first) : next[idx].equipment,
+    };
+    update(next);
   }
 
   function rowsToItems(list: Row[]): DailyPlanItem[] {
@@ -338,7 +347,12 @@ export function DailyMainEditor({
       ) : (
         <div className="mt-4 space-y-2">
           {rows.map((row, idx) => {
-            const ex = getCatalogExercise(row.exerciseId) ?? options[0];
+            // 카탈로그에서 사라진 운동 id(옛 데이터·AI 커스텀 등)면 getCatalogExercise 가
+            // undefined 이고, 그 부위에 옵션이 없으면 options[0] 도 undefined → 예전엔
+            // ex.equipments 에서 크래시. equipments 를 안전하게 비워 크래시를 막는다.
+            const rowOptions = optionsFor(row.focus);
+            const ex = getCatalogExercise(row.exerciseId) ?? rowOptions[0];
+            const exEquipments = ex?.equipments ?? [];
             const sub = subMusclesForExercise(row.exerciseId)[0];
             return (
               <div
@@ -372,18 +386,40 @@ export function DailyMainEditor({
                   <GripVertical aria-hidden="true" size={16} />
                 </button>
 
-                <span
-                  className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
-                  style={{
-                    backgroundColor: sub ? muscleGroup(sub.muscle).color : "#71717a",
-                  }}
-                >
-                  {labelOf(row.focus)}
-                  {sub ? `(${sub.label})` : ""}
-                </span>
+                {/* 부위 먼저 — 여러 부위를 고를 수 있으면 드롭다운, 아니면 라벨.
+                    (기존 '운동 추가'와 동일: 부위 → 그 부위 운동만 목록에 나온다.) */}
+                {focusChoices.length > 1 ? (
+                  <select
+                    aria-label="부위"
+                    value={isDayBlockId(row.focus) ? row.focus : focusChoices[0]}
+                    onChange={(e) =>
+                      changeRowFocus(idx, e.target.value as FocusTone)
+                    }
+                    className="h-9 shrink-0 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+                  >
+                    {focusChoices.map((f) => (
+                      <option key={f} value={f}>
+                        {isDayBlockId(f) ? DAY_BLOCKS[f].label : f}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <span
+                    className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                    style={{
+                      backgroundColor: sub
+                        ? muscleGroup(sub.muscle).color
+                        : "#71717a",
+                    }}
+                  >
+                    {labelOf(row.focus)}
+                    {sub ? `(${sub.label})` : ""}
+                  </span>
+                )}
 
                 <ExerciseSearchSelect
-                  options={options}
+                  options={rowOptions}
+                  muscleFilter
                   value={row.exerciseId}
                   onChange={(id) => {
                     const nextEx = getCatalogExercise(id);
@@ -391,7 +427,6 @@ export function DailyMainEditor({
                     next[idx] = {
                       ...row,
                       exerciseId: id,
-                      focus: focusOf(id),
                       equipment: nextEx ? pickDefaultEquipment(nextEx) : row.equipment,
                     };
                     update(next);
@@ -408,7 +443,7 @@ export function DailyMainEditor({
                   }}
                   className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
                 >
-                  {ex.equipments.map((eq) => {
+                  {exEquipments.map((eq) => {
                     const ok = isEquipmentAvailable(eq.equipment, gymSet);
                     return (
                       <option key={eq.equipment} value={eq.equipment}>

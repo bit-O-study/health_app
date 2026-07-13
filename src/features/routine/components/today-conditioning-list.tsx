@@ -20,6 +20,7 @@ import {
   updateConditioningRowAction,
 } from "@/features/routine/conditioning-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { removeTodayRunAction } from "@/features/running/run-record-actions";
 import { useTodayEdit } from "@/features/routine/components/today-edit-scope";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { ConditioningIcon } from "@/features/exercises/components/conditioning-icon";
@@ -158,6 +159,22 @@ export function TodayConditioningList({
     target: CompletionStatus | "clear",
   ) {
     const item = order.find((o) => o.rowId === rowId);
+    // 런닝은 '완료취소' = 기록 삭제(+오늘 운동 시간에서 빼기). 목록에서도 제거.
+    if (itemId === "running" && target === "clear") {
+      const nd = new Set(done);
+      const ns = new Set(skipped);
+      nd.delete(rowId);
+      ns.delete(rowId);
+      setDone(nd);
+      setSkipped(ns);
+      setOrder(order.filter((o) => o.rowId !== rowId));
+      orderScope?.setCompletion(rowId, "active");
+      startTx(async () => {
+        await removeTodayRunAction();
+        coalescedRefresh();
+      });
+      return;
+    }
     const nextDone = new Set(done);
     const nextSkipped = new Set(skipped);
     nextDone.delete(rowId);

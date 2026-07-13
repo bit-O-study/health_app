@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
 import { runIntensityFromBounce } from "@/features/running/controls";
+import { formatDuration } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
 
 /* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
@@ -39,8 +40,10 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const [error, setError] = useState<string | null>(null);
   const [speed, setSpeed] = useState(8);
   const [incline, setIncline] = useState(1);
+  const [elapsedSec, setElapsedSec] = useState(0);
   const speedRef = useRef(8);
   const inclineRef = useRef(1);
+  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
   function changeSpeed(d: number) {
     setSpeed((s) => {
       const n = Math.round(Math.min(20, Math.max(1, s + d)) * 10) / 10;
@@ -74,6 +77,10 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
   function stopCamera() {
     cancelAnimationFrame(rafRef.current);
+    if (tickRef.current) {
+      clearInterval(tickRef.current);
+      tickRef.current = null;
+    }
     const stream = videoRef.current?.srcObject as MediaStream | null;
     stream?.getTracks().forEach((t) => t.stop());
     // MediaPipe FaceLandmarker(WASM+GPU) 해제 — 안 하면 재진입마다 네이티브 메모리 누적(팅김).
@@ -118,9 +125,13 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       runRef.current = 0;
       targetRef.current = 0;
       playStartRef.current = Date.now();
+      setElapsedSec(0);
       setPhase("playing");
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(visionLoop);
+      tickRef.current = setInterval(() => {
+        setElapsedSec((Date.now() - playStartRef.current) / 1000);
+      }, 1000);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "알 수 없는 오류";
       setError(
@@ -162,12 +173,11 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   function finish() {
     stopCamera();
     setPhase("done");
-    const durationMin = Math.max(
-      1,
-      Math.round((Date.now() - playStartRef.current) / 60000),
-    );
+    const sec = (Date.now() - playStartRef.current) / 1000;
+    const durationMin = Math.max(1, Math.round(sec / 60));
     void recordRunAsCooldownAction({
       durationMin,
+      durationSec: sec,
       avgKmh: speedRef.current,
       incline: inclineRef.current,
     }).catch(() => {});
@@ -179,14 +189,13 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     <div className="relative h-[100dvh] w-full overflow-hidden bg-[#bfeaff] text-white">
       {active ? <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} /> : null}
 
-      {/* 카메라 PIP(거울) */}
+      {/* 카메라 — 화면엔 안 보이게(감지용으로만 사용). display:none 은 일부 브라우저에서
+          프레임이 멈춰 감지가 안 되므로 opacity 0 + 1px 로 렌더는 유지한다. */}
       <video
         ref={videoRef}
         playsInline
         muted
-        className={`absolute right-3 top-3 z-20 h-24 w-32 -scale-x-100 rounded-xl object-cover ring-1 ring-white/40 ${
-          active ? "" : "hidden"
-        }`}
+        className="pointer-events-none absolute left-0 top-0 h-px w-px opacity-0"
       />
 
       {/* 거리 + 맵 HUD */}
@@ -198,6 +207,9 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
           >
             0 m
           </span>
+          <span className="rounded-full bg-black/45 px-3 py-0.5 font-mono text-sm font-bold text-white shadow backdrop-blur">
+            {formatDuration(elapsedSec)}
+          </span>
           <span
             ref={mapRef}
             className="rounded-full bg-black/40 px-3 py-0.5 text-xs font-bold text-white shadow backdrop-blur"
@@ -207,9 +219,16 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         </div>
       ) : null}
 
-      {/* 상단 수동 설정(속도·경사) — 트레드밀처럼 위에서 설정. */}
+      {/* 하단: 종료(위) + 속도·경사 설정(아래). 홈버튼/제스처 바와 안 겹치게 safe-area+여백. */}
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 top-[max(env(safe-area-inset-top),1rem)] z-20 flex justify-center px-4">
+        <div className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] z-20 flex flex-col items-center gap-3 px-4">
+          <button
+            type="button"
+            onClick={finish}
+            className="rounded-full bg-red-500 px-10 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
+          >
+            종료
+          </button>
           <div className="flex items-center gap-3 rounded-2xl bg-black/55 px-4 py-2.5 backdrop-blur">
             <Stepper
               label="속도"
@@ -227,19 +246,6 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               onPlus={() => changeIncline(1)}
             />
           </div>
-        </div>
-      ) : null}
-
-      {/* 하단 종료 */}
-      {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),1rem)] z-20 flex justify-center px-4">
-          <button
-            type="button"
-            onClick={finish}
-            className="rounded-full bg-red-500 px-10 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
-          >
-            종료
-          </button>
         </div>
       ) : null}
 

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { ChevronLeft } from "lucide-react";
 
 import { RunningGame } from "@/features/running/running-game";
 import { OutdoorRun } from "@/features/running/outdoor-run";
@@ -18,8 +20,10 @@ function isMobileDevice(): boolean {
 type Mode = "camera" | "outdoor";
 
 export function RunningMobileGate() {
+  const router = useRouter();
   const [state, setState] = useState<"checking" | "ok" | "desktop">("checking");
   const [mode, setMode] = useState<Mode | null>(null);
+  const exitToSelect = () => setMode(null); // 시작 화면 '나가기' → 모드 선택으로
 
   useEffect(() => {
     setState(isMobileDevice() ? "ok" : "desktop");
@@ -46,12 +50,21 @@ export function RunningMobileGate() {
     );
   }
 
-  if (mode === "camera") return <RunningGame />;
-  if (mode === "outdoor") return <OutdoorRun />;
+  if (mode === "camera") return <RunningGame onExit={exitToSelect} />;
+  if (mode === "outdoor") return <OutdoorRun onExit={exitToSelect} />;
 
   // 모드 선택 화면 — 실내(카메라) / 야외(GPS)
   return (
-    <div className="flex h-[100dvh] w-full flex-col items-center justify-center gap-6 bg-gradient-to-b from-zinc-950 to-zinc-900 px-6 text-center text-white">
+    <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center gap-6 bg-gradient-to-b from-zinc-950 to-zinc-900 px-6 text-center text-white">
+      {/* 나가기 → 운동 화면으로 */}
+      <button
+        type="button"
+        onClick={() => router.push("/routine")}
+        className="absolute left-4 top-[max(env(safe-area-inset-top),1rem)] z-10 inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/90 active:scale-95"
+      >
+        <ChevronLeft aria-hidden="true" size={16} />
+        나가기
+      </button>
       <div>
         <h1 className="text-3xl font-extrabold">런닝 모드</h1>
         <p className="mt-2 text-sm text-zinc-400">원하는 모드를 골라주세요</p>

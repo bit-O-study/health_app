@@ -71,6 +71,15 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- 실내 런닝(카메라 동작인식) — WebView getUserMedia 가 권한 프롬프트를 띄우려면 필요. -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 야외 런닝(GPS) — WebView geolocation 권한 프롬프트에 필요. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 카메라/GPS 없는 기기도 설치 가능하게(런닝은 선택 기능). -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+
     <!-- Health Connect 설치/연동 확인용 query -->
     <queries>
         <package android:name="com.google.android.apps.healthdata" />

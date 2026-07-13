@@ -388,6 +388,7 @@ export function DailyMainEditor({
 
                 <ExerciseSearchSelect
                   options={options}
+                  muscleFilter
                   value={row.exerciseId}
                   onChange={(id) => {
                     const nextEx = getCatalogExercise(id);

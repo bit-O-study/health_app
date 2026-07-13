@@ -59,7 +59,7 @@ function headAngles(m: ArrayLike<number>): { yaw: number; pitch: number } {
   return { yaw, pitch };
 }
 
-export function RunningGame() {
+export function RunningGame({ onExit }: { onExit?: () => void }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [phase, setPhase] = useState<Phase>("intro");
   const [error, setError] = useState<string | null>(null);
@@ -333,6 +333,15 @@ export function RunningGame() {
       {/* 오버레이 */}
       {phase === "intro" || phase === "error" ? (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 bg-black/70 px-6 text-center">
+          {onExit ? (
+            <button
+              type="button"
+              onClick={onExit}
+              className="absolute left-4 top-[max(env(safe-area-inset-top),1rem)] inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/90 active:scale-95"
+            >
+              ← 나가기
+            </button>
+          ) : null}
           <h1 className="text-3xl font-extrabold">런닝 모드 🏃</h1>
           <p className="max-w-xs text-sm leading-6 text-zinc-300">
             카메라로 머리를 인식해요. 제자리에서 <b>달리면</b> 캐릭터가 달리고,

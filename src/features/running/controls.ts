@@ -43,8 +43,10 @@ export function runIntensityFromBounce(samples: number[]): number {
   const variance =
     samples.reduce((a, b) => a + (b - mean) ** 2, 0) / samples.length;
   const std = Math.sqrt(variance);
-  // 가만히 ≈ 0.004 이하, 달리기 ≈ 0.026 이상 → 0..1 로 매핑.
-  return clamp01((std - 0.004) / 0.022);
+  // 감도 상향(제자리 달리기 머리 흔들림이 작아 '안 뛰던' 문제): 바닥값을 낮추고 범위를
+  // 좁혀 가벼운 달리기부터 강도가 빠르게 붙게 한다. 가만히(std≈0) 는 여전히 0.
+  //   가만히 ≈ 0.0035 이하, 달리기 ≈ 0.0135 이상 → 0..1.
+  return clamp01((std - 0.0035) / 0.01);
 }
 
 export function clamp01(x: number): number {

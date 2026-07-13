@@ -3,19 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
-import {
-  isLookingUp,
-  laneFromLean,
-  runIntensityFromBounce,
-  type Lane,
-} from "@/features/running/controls";
-import { createGame, type GameState } from "@/features/running/game";
+import { runIntensityFromBounce } from "@/features/running/controls";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
 
-/* 무거운 3D 엔진(three + R3F + 2.1MB 모델)은 '시작하기' 전까지 로드하지 않는다.
- * /running 첫 진입(인트로)에 거대한 번들을 끌어오면 PWA 웹뷰 등에서 "page couldn't
- * load" 가 날 수 있어, next/dynamic(ssr:false)로 활성화될 때만 지연 로드한다. */
-const Running3D = dynamic(() => import("@/features/running/running-3d"), {
+/* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
+const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
   ssr: false,
   loading: () => null,
 });
@@ -33,38 +25,18 @@ const nativeImport = new Function("u", "return import(u)") as (
   u: string,
 ) => Promise<Record<string, unknown>>;
 
-// 레인 이동은 '고개 돌리기'(yaw)가 아니라 '좌우로 기울이기/옮기기'(머리 가로 위치)로.
-// 제자리 달리기 중에도 화면을 보면서 조작 가능. 좌우가 반대면 LEAN_SIGN 을 -1↔1 뒤집기.
-const LEAN_SIGN = -1; // 셀피(전면)카메라 기준 기본값 — 반대로 가면 1 로
-const LEAN_THRESHOLD = 0.045; // 코끝 가로 위치(0..1) 변화 임계
-const PITCH_JUMP_THRESHOLD = 11; // 위 보기 점프 — 달리면서도 쉽게(살짝 낮춤)
 const HEAD_Y_HISTORY = 18;
 
-export type Phase =
-  | "intro"
-  | "loading"
-  | "calibrating"
-  | "playing"
-  | "over"
-  | "error";
-export type Control = { targetLane: Lane; runIntensity: number };
+type Phase = "intro" | "loading" | "playing" | "done" | "error";
 
-/** 4x4 변환행렬(열 우선)에서 yaw·pitch(deg). */
-function headAngles(m: ArrayLike<number>): { yaw: number; pitch: number } {
-  const r02 = m[8],
-    r12 = m[9],
-    r22 = m[10];
-  const yaw = Math.atan2(r02, r22) * (180 / Math.PI);
-  const pitch = Math.atan2(-r12, Math.hypot(r02, r22)) * (180 / Math.PI);
-  return { yaw, pitch };
-}
-
+/**
+ * 실내 런닝 — 카메라로 '제자리 달리기'를 감지해 힐링 풍경(ZenScene) 속 캐릭터가 달린다.
+ * (힐링 모드와 같은 예쁜 씬·맵 전환. 실내는 입력만 카메라.) 하단에서 속도·경사 설정.
+ */
 export function RunningGame({ onExit }: { onExit?: () => void }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [phase, setPhase] = useState<Phase>("intro");
   const [error, setError] = useState<string | null>(null);
-  const [score, setScore] = useState({ distance: 0, coins: 0 });
-  // 트레드밀처럼 하단에서 수동 설정하는 속도(km/h)·경사도. 기록에 그대로 저장.
   const [speed, setSpeed] = useState(8);
   const [incline, setIncline] = useState(1);
   const speedRef = useRef(8);
@@ -85,34 +57,29 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   }
 
   const landmarkerRef = useRef<unknown>(null);
-  const gameRef = useRef<GameState>(createGame());
-  const controlRef = useRef<Control>({ targetLane: 0, runIntensity: 0 });
-  const jumpPendingRef = useRef(false);
-  // 정면 기준값: pitch(점프용)·x(코끝 가로 위치, 기울이기 레인용).
-  const neutralRef = useRef<{ pitch: number; x: number } | null>(null);
-  const calibSamplesRef = useRef<{ pitch: number; x: number }[]>([]);
   const headYRef = useRef<number[]>([]);
-  const jumpArmedRef = useRef(true);
-  const overRef = useRef(false);
-  const playStartRef = useRef(0); // 플레이 시작 시각(마무리 자동기록용 운동시간)
+  const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
+  const targetRef = useRef(0);
   const rafRef = useRef(0);
   const phaseRef = useRef<Phase>("intro");
   phaseRef.current = phase;
+  const playStartRef = useRef(0);
   const distRef = useRef<HTMLSpanElement | null>(null);
-  const coinRef = useRef<HTMLSpanElement | null>(null);
-  const gaugeRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      const stream = videoRef.current?.srcObject as MediaStream | null;
-      stream?.getTracks().forEach((t) => t.stop());
-      // MediaPipe FaceLandmarker(WASM+GPU 델리게이트) 해제 — 안 하면 화면 재진입마다
-      // 네이티브 메모리가 누적돼 저사양 폰에서 OOM(팅김).
-      (landmarkerRef.current as { close?: () => void } | null)?.close?.();
-      landmarkerRef.current = null;
-    };
+    return () => stopCamera();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function stopCamera() {
+    cancelAnimationFrame(rafRef.current);
+    const stream = videoRef.current?.srcObject as MediaStream | null;
+    stream?.getTracks().forEach((t) => t.stop());
+    // MediaPipe FaceLandmarker(WASM+GPU) 해제 — 안 하면 재진입마다 네이티브 메모리 누적(팅김).
+    (landmarkerRef.current as { close?: () => void } | null)?.close?.();
+    landmarkerRef.current = null;
+  }
 
   async function start() {
     setError(null);
@@ -138,7 +105,6 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
           baseOptions: { modelAssetPath: MODEL_URL, delegate },
           runningMode: "VIDEO",
           numFaces: 1,
-          outputFacialTransformationMatrixes: true,
         });
       let landmarker: unknown;
       try {
@@ -148,98 +114,54 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       }
       landmarkerRef.current = landmarker;
 
-      calibSamplesRef.current = [];
-      neutralRef.current = null;
-      gameRef.current = createGame();
-      controlRef.current = { targetLane: 0, runIntensity: 0 };
-      jumpPendingRef.current = false;
       headYRef.current = [];
-      jumpArmedRef.current = true;
-      overRef.current = false;
-      setPhase("calibrating");
-      cancelAnimationFrame(rafRef.current); // 겹치기 방지
+      runRef.current = 0;
+      targetRef.current = 0;
+      playStartRef.current = Date.now();
+      setPhase("playing");
+      cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(visionLoop);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "알 수 없는 오류";
       setError(
         /denied|permission/i.test(msg)
-          ? "카메라 권한이 필요합니다. 브라우저 설정에서 허용해 주세요."
+          ? "카메라 권한이 필요합니다. 권한을 허용해 주세요."
           : `시작 실패: ${msg}`,
       );
       setPhase("error");
     }
   }
 
-  /** 비전 루프 — 머리 자세→조작(controlRef/jumpPendingRef). 게임 전진/렌더는 R3F 가. */
+  /** 비전 루프 — 머리 수직 흔들림으로 달리기 강도. 풍경/캐릭터 전진은 ZenScene 이 runRef 로. */
   function visionLoop(ts: number) {
     const v = videoRef.current;
     const landmarker = landmarkerRef.current as {
       detectForVideo: (
         v: HTMLVideoElement,
         ts: number,
-      ) => {
-        faceLandmarks?: { x: number; y: number }[][];
-        facialTransformationMatrixes?: { data: number[] }[];
-      };
+      ) => { faceLandmarks?: { x: number; y: number }[][] };
     } | null;
-    if (!v || !landmarker) return;
-
-    let pitch = 0;
-    let noseX = 0.5; // 코끝 가로 위치(0..1) — 좌우 기울이기 레인용
-    let face = false;
-    if (v.readyState >= 2) {
+    if (v && landmarker && v.readyState >= 2) {
       const res = landmarker.detectForVideo(v, ts);
-      const mtx = res.facialTransformationMatrixes?.[0]?.data;
       const lm = res.faceLandmarks?.[0];
-      if (mtx && lm) {
-        face = true;
-        pitch = headAngles(mtx).pitch;
-        noseX = lm[1]?.x ?? 0.5;
-        const noseY = lm[1]?.y ?? 0.5;
+      const noseY = lm?.[1]?.y;
+      if (typeof noseY === "number") {
         const hist = headYRef.current;
         hist.push(noseY);
         if (hist.length > HEAD_Y_HISTORY) hist.shift();
+        targetRef.current = runIntensityFromBounce(hist);
       }
     }
-
-    if (phaseRef.current === "calibrating") {
-      if (face) calibSamplesRef.current.push({ pitch, x: noseX });
-      if (calibSamplesRef.current.length >= 30) {
-        const s = calibSamplesRef.current;
-        neutralRef.current = {
-          pitch: s.reduce((a, b) => a + b.pitch, 0) / s.length,
-          x: s.reduce((a, b) => a + b.x, 0) / s.length,
-        };
-        playStartRef.current = Date.now();
-        setPhase("playing");
-      }
-    } else if (phaseRef.current === "playing") {
-      const n = neutralRef.current ?? { pitch: 0, x: 0.5 };
-      // 레인: 정면 대비 머리 가로 위치(기울이기) — 고개를 돌리지 않아도 됨.
-      const dx = LEAN_SIGN * (noseX - n.x);
-      const relPitch = pitch - n.pitch;
-      controlRef.current = {
-        targetLane: laneFromLean(dx, LEAN_THRESHOLD),
-        runIntensity: runIntensityFromBounce(headYRef.current),
-      };
-      const up = isLookingUp(relPitch, PITCH_JUMP_THRESHOLD);
-      if (up && jumpArmedRef.current) {
-        jumpPendingRef.current = true;
-        jumpArmedRef.current = false;
-      }
-      if (!up) jumpArmedRef.current = true;
-    }
-    // 게임 종료(over) 후엔 루프를 멈춘다 — 안 그러면 매 프레임 얼굴추론을 계속 돌려
-    // CPU/GPU를 태우고, restart 때 두 번째 루프가 겹쳐 팅김의 원인이 된다.
-    if (phaseRef.current !== "over") {
+    // 부드럽게 보간 — 달리면 캐릭터가 달리고 멈추면 같이 멈춘다.
+    runRef.current += (targetRef.current - runRef.current) * 0.15;
+    if (phaseRef.current !== "done") {
       rafRef.current = requestAnimationFrame(visionLoop);
     }
   }
 
-  function handleOver(distance: number, coins: number) {
-    setScore({ distance, coins });
-    setPhase("over");
-    // 오늘 마무리 운동에 자동 기록 — 시간(분) + 하단에서 설정한 속도·경사.
+  function finish() {
+    stopCamera();
+    setPhase("done");
     const durationMin = Math.max(
       1,
       Math.round((Date.now() - playStartRef.current) / 60000),
@@ -251,65 +173,43 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     }).catch(() => {});
   }
 
-  function restart() {
-    gameRef.current = createGame();
-    controlRef.current = { targetLane: 0, runIntensity: 0 };
-    jumpPendingRef.current = false;
-    headYRef.current = [];
-    jumpArmedRef.current = true;
-    overRef.current = false;
-    calibSamplesRef.current = [];
-    neutralRef.current = null;
-    setPhase("calibrating");
-    cancelAnimationFrame(rafRef.current); // 이전 루프 겹치기 방지
-    rafRef.current = requestAnimationFrame(visionLoop);
-  }
-
-  const active =
-    phase === "playing" || phase === "calibrating" || phase === "over";
+  const active = phase === "playing" || phase === "done";
 
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-[#0b1026] text-white">
-      {active ? (
-        <Running3D
-          gameRef={gameRef}
-          controlRef={controlRef}
-          jumpPendingRef={jumpPendingRef}
-          overRef={overRef}
-          phaseRef={phaseRef}
-          onOver={handleOver}
-          hud={{ dist: distRef, coin: coinRef, gauge: gaugeRef }}
-        />
-      ) : null}
+    <div className="relative h-[100dvh] w-full overflow-hidden bg-[#bfeaff] text-white">
+      {active ? <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} /> : null}
 
       {/* 카메라 PIP(거울) */}
       <video
         ref={videoRef}
         playsInline
         muted
-        className={`absolute right-3 top-3 z-20 h-24 w-32 -scale-x-100 rounded-xl object-cover ring-1 ring-white/30 ${
+        className={`absolute right-3 top-3 z-20 h-24 w-32 -scale-x-100 rounded-xl object-cover ring-1 ring-white/40 ${
           active ? "" : "hidden"
         }`}
       />
 
-      {/* HUD */}
+      {/* 거리 + 맵 HUD */}
       {phase === "playing" ? (
-        <div className="pointer-events-none absolute left-4 top-3 z-20 select-none">
-          <span ref={distRef} className="block font-mono text-xl font-black drop-shadow">
+        <div className="pointer-events-none absolute left-4 top-4 z-20 flex flex-col items-start gap-1">
+          <span
+            ref={distRef}
+            className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-black text-emerald-700 shadow"
+          >
             0 m
           </span>
-          <span ref={coinRef} className="block font-mono text-sm font-bold text-amber-400 drop-shadow">
-            ◉ 0
+          <span
+            ref={mapRef}
+            className="rounded-full bg-black/40 px-3 py-0.5 text-xs font-bold text-white shadow backdrop-blur"
+          >
+            초원
           </span>
-          <div className="mt-1 h-2 w-28 overflow-hidden rounded-full bg-white/20">
-            <div ref={gaugeRef} className="h-full w-0 bg-emerald-400" />
-          </div>
         </div>
       ) : null}
 
-      {/* 하단 수동 설정 — 트레드밀처럼 속도(km/h)·경사도. 기록에 그대로 저장된다. */}
+      {/* 상단 수동 설정(속도·경사) — 트레드밀처럼 위에서 설정. */}
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),1rem)] z-20 flex justify-center px-4">
+        <div className="absolute inset-x-0 top-[max(env(safe-area-inset-top),1rem)] z-20 flex justify-center px-4">
           <div className="flex items-center gap-3 rounded-2xl bg-black/55 px-4 py-2.5 backdrop-blur">
             <Stepper
               label="속도"
@@ -330,36 +230,49 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         </div>
       ) : null}
 
-      {/* 오버레이 */}
+      {/* 하단 종료 */}
+      {phase === "playing" ? (
+        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),1rem)] z-20 flex justify-center px-4">
+          <button
+            type="button"
+            onClick={finish}
+            className="rounded-full bg-red-500 px-10 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
+          >
+            종료
+          </button>
+        </div>
+      ) : null}
+
+      {/* 인트로 / 에러 */}
       {phase === "intro" || phase === "error" ? (
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 bg-black/70 px-6 text-center">
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 bg-gradient-to-b from-sky-400 to-emerald-200 px-6 text-center text-emerald-950">
           {onExit ? (
             <button
               type="button"
               onClick={onExit}
-              className="absolute left-4 top-[max(env(safe-area-inset-top),1rem)] inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/90 active:scale-95"
+              className="absolute left-4 top-[max(env(safe-area-inset-top),1rem)] inline-flex items-center gap-1 rounded-full bg-black/10 px-3 py-1.5 text-sm font-semibold text-emerald-950 active:scale-95"
             >
               ← 나가기
             </button>
           ) : null}
-          <h1 className="text-3xl font-extrabold">런닝 모드 🏃</h1>
-          <p className="max-w-xs text-sm leading-6 text-zinc-300">
-            카메라로 머리를 인식해요. 제자리에서 <b>달리면</b> 캐릭터가 달리고,
-            멈추면 캐릭터도 멈춰요. 화면을 보면서 몸을 <b>왼쪽/오른쪽</b>으로
-            기울이면 레인 이동, <b>위로</b> 보면 점프!
+          <h1 className="text-3xl font-extrabold drop-shadow-sm">실내 런닝 🏠</h1>
+          <p className="max-w-xs text-sm font-medium leading-6">
+            카메라가 <b>제자리 달리기</b>를 감지하면 풍경 속 캐릭터가 함께 달려요.
+            멈추면 같이 쉬어요. 하단에서 속도·경사를 설정하고, 끝나면 오늘 마무리
+            운동으로 기록됩니다.
           </p>
-          <p className="max-w-xs rounded-lg bg-white/10 px-3 py-2 text-xs font-semibold text-emerald-200">
+          <p className="max-w-xs rounded-lg bg-black/10 px-3 py-2 text-xs font-semibold text-emerald-950">
             ⚠ 카메라 권한이 필요해요. 시작을 누르면 전면 카메라 권한을 요청합니다.
           </p>
           {error ? (
-            <p className="rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-200">
+            <p className="rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-800">
               {error}
             </p>
           ) : null}
           <button
             type="button"
             onClick={start}
-            className="rounded-full bg-emerald-500 px-8 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
+            className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
           >
             시작하기
           </button>
@@ -367,32 +280,21 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       ) : null}
 
       {phase === "loading" ? (
-        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/70 text-sm text-zinc-200">
-          카메라·3D 캐릭터 불러오는 중…
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/60 text-sm text-white">
+          카메라·풍경 불러오는 중…
         </div>
       ) : null}
 
-      {phase === "calibrating" ? (
-        <div className="pointer-events-none absolute inset-x-0 top-24 z-20 flex justify-center">
-          <span className="rounded-full bg-black/60 px-4 py-2 text-sm font-bold">
-            정면을 바라봐 주세요… (자세 보정)
-          </span>
-        </div>
-      ) : null}
-
-      {phase === "over" ? (
-        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/75 px-6 text-center">
-          <h2 className="text-2xl font-extrabold">게임 오버</h2>
-          <p className="text-lg">
-            거리 <b className="text-emerald-400">{score.distance}m</b> · 코인{" "}
-            <b className="text-amber-400">{score.coins}</b>
-          </p>
+      {phase === "done" ? (
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
+          <h2 className="text-2xl font-extrabold">런닝 완료 🏁</h2>
+          <p className="text-sm text-zinc-300">오늘 마무리 운동에 기록했어요.</p>
           <button
             type="button"
-            onClick={restart}
+            onClick={() => setPhase("intro")}
             className="rounded-full bg-emerald-500 px-8 py-3 text-lg font-bold text-white active:scale-95"
           >
-            다시 하기
+            확인
           </button>
         </div>
       ) : null}

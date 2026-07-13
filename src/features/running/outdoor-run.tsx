@@ -96,8 +96,15 @@ export function OutdoorRun({
     const mps =
       typeof c.speed === "number" && c.speed >= 0 ? c.speed : instMps;
     const kmh = speedKmh(mps);
-    if (mps > 0) lastMoveTsRef.current = Date.now();
-    targetRef.current = runIntensityFromSpeed(kmh);
+    // GPS 드리프트로 가만히 있어도 캐릭터가 움직이던 문제 — 걷기 이상(≥3.5km/h)일 때만
+    // 이동으로 본다. 그 이하는 정지(target 0) → 캐릭터도 멈춤.
+    const MOVING_KMH = 3.5;
+    if (kmh >= MOVING_KMH) {
+      lastMoveTsRef.current = Date.now();
+      targetRef.current = runIntensityFromSpeed(kmh);
+    } else {
+      targetRef.current = 0;
+    }
     setM((prev) => ({ ...prev, meters: track.totalMeters, kmh }));
   }
 
@@ -181,7 +188,7 @@ export function OutdoorRun({
       ) : null}
 
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-8 z-20 flex justify-center px-6">
+        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),5.5rem)] z-20 flex justify-center px-6">
           <button
             type="button"
             onClick={finish}

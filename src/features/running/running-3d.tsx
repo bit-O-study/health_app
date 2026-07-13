@@ -7,12 +7,16 @@ import * as THREE from "three";
 
 import { stepGame, type GameState } from "@/features/running/game";
 import type { Control, Phase } from "@/features/running/running-game";
+import {
+  CHARACTER_MODEL_URL,
+  pickClipName,
+} from "@/features/running/character";
 
-/* 실제 리깅 캐릭터(군인) + Run 애니메이션. three.js 예제 모델을 자체 호스팅.
+/* 캐릭터 모델은 character.ts 한 곳에서 관리(교체 쉽게 — Mixamo 등). 클립 이름은
+ * pickClipName 이 유연하게 매칭한다.
  * ⚠ 이 모듈(three/R3F 포함)은 RunningGame 에서 next/dynamic(ssr:false)로 '시작하기'
- *   이후에만 로드된다 — /running 첫 진입(인트로)에 무거운 3D 번들을 끌어오지 않기 위함.
- *   (PWA 웹뷰에서 큰 번들을 한 번에 받다 "page couldn't load" 나던 문제 회피.) */
-const RUNNER_URL = "/models/runner.glb";
+ *   이후에만 로드된다 — /running 첫 진입(인트로)에 무거운 3D 번들을 끌어오지 않기 위함. */
+const RUNNER_URL = CHARACTER_MODEL_URL;
 useGLTF.preload(RUNNER_URL);
 
 // 3D 월드 스케일
@@ -260,7 +264,9 @@ function Runner({
   }, [scene]);
 
   useEffect(() => {
-    const run = actions["Run"] ?? Object.values(actions)[0] ?? null;
+    const runName = pickClipName(Object.keys(actions), "run");
+    const run =
+      (runName ? actions[runName] : null) ?? Object.values(actions)[0] ?? null;
     if (run) {
       run.reset().play();
       runActionRef.current = run;

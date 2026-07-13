@@ -5,8 +5,13 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-/* 귀여운 로봇 캐릭터(Running/Idle 내장). 자체 호스팅. 지연 로드 모듈이라 preload 안전. */
-const ROBOT_URL = "/models/runner-robot.glb";
+import {
+  CHARACTER_MODEL_URL,
+  pickClipName,
+} from "@/features/running/character";
+
+/* 캐릭터 모델은 character.ts 한 곳에서 관리(교체 쉽게 — Mixamo 등). 지연 로드라 preload 안전. */
+const ROBOT_URL = CHARACTER_MODEL_URL;
 if (typeof window !== "undefined") useGLTF.preload(ROBOT_URL);
 
 const MAX_SCROLL = 8; // 달리기 강도 1일 때 초당 월드 이동량
@@ -467,23 +472,35 @@ function Robot({ runRef }: { runRef: React.MutableRefObject<number> }) {
     return { scale, yOffset: -box.min.y * (1.5 / (size.y || 1)) };
   }, [scene]);
 
+  // 클립 이름은 모델마다 다르므로(Mixamo 등) picker 로 매칭. idle 클립이 없으면
+  // run 클립을 정지(timeScale 0)시켜 '가만히' 폴백.
+  const names = Object.keys(actions);
+  const runName = pickClipName(names, "run");
+  const idleName = pickClipName(names, "idle");
+  const runAction = runName ? actions[runName] : null;
+  const idleAction = idleName ? actions[idleName] : null;
+
   useEffect(() => {
-    const idle = actions["Idle"] ?? null;
-    idle?.reset().play();
-    activeRef.current = idle;
+    const first = idleAction ?? runAction ?? null;
+    first?.reset().play();
+    activeRef.current = first;
+    // idle 이 없어 run 으로 시작하면 멈춘 상태이니 정지.
+    if (!idleAction && runAction) runAction.timeScale = 0;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions]);
 
   useFrame((_, delta) => {
     const run = runRef.current;
     const running = run > 0.06;
-    const want = running ? actions["Running"] : actions["Idle"];
+    const want = running ? runAction : (idleAction ?? runAction);
     if (want && want !== activeRef.current) {
       activeRef.current?.fadeOut(0.25);
       want.reset().fadeIn(0.25).play();
       activeRef.current = want;
     }
-    if (running && actions["Running"]) {
-      actions["Running"].timeScale = 0.7 + run * 1.4;
+    if (runAction) {
+      // 달리면 속도 비례, 멈추면(idle 없을 때) 정지.
+      runAction.timeScale = running ? 0.7 + run * 1.4 : idleAction ? 1 : 0;
     }
     bobRef.current += running ? delta * (6 + run * 6) : 0;
     if (ref.current) {

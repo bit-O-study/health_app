@@ -109,9 +109,10 @@ export function TodayAdjustMenu({
       await pinRoutineFocusesForTodayAction();
       setOpen(false);
       setPicked(new Set());
+      // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
       // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(부위 추가가
       // /plan/today 로 이동 안 하고 /routine 에 머물던 원인). 이동 시 새로 렌더됨.
-      router.push(`/plan/today?focus=${focuses}`);
+      router.push(`/plan/today?focus=${focuses}&add=1`);
     });
   }
 

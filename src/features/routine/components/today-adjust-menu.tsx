@@ -93,8 +93,9 @@ export function TodayAdjustMenu({
       await clearDailyPlanForDateAction(seoulYmd());
       setOpen(false);
       setPicked(new Set());
+      // push 뒤 refresh 는 넣지 않는다 — /plan/today 이동 시 서버 컴포넌트가 새로 렌더되고,
+      // push 직후 refresh 는 (현재 /routine 을 리페치해) push 를 취소하는 레이스가 있다.
       router.push(`/plan/today?focus=${focuses}`);
-      router.refresh();
     });
   }
 
@@ -108,8 +109,9 @@ export function TodayAdjustMenu({
       await pinRoutineFocusesForTodayAction();
       setOpen(false);
       setPicked(new Set());
+      // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(부위 추가가
+      // /plan/today 로 이동 안 하고 /routine 에 머물던 원인). 이동 시 새로 렌더됨.
       router.push(`/plan/today?focus=${focuses}`);
-      router.refresh();
     });
   }
 

@@ -338,7 +338,11 @@ export function DailyMainEditor({
       ) : (
         <div className="mt-4 space-y-2">
           {rows.map((row, idx) => {
+            // 카탈로그에서 사라진 운동 id(옛 데이터·AI 커스텀 등)면 getCatalogExercise 가
+            // undefined 이고, 그 부위에 옵션이 없으면 options[0] 도 undefined → 예전엔
+            // ex.equipments 에서 크래시. equipments 를 안전하게 비워 크래시를 막는다.
             const ex = getCatalogExercise(row.exerciseId) ?? options[0];
+            const exEquipments = ex?.equipments ?? [];
             const sub = subMusclesForExercise(row.exerciseId)[0];
             return (
               <div
@@ -408,7 +412,7 @@ export function DailyMainEditor({
                   }}
                   className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
                 >
-                  {ex.equipments.map((eq) => {
+                  {exEquipments.map((eq) => {
                     const ok = isEquipmentAvailable(eq.equipment, gymSet);
                     return (
                       <option key={eq.equipment} value={eq.equipment}>

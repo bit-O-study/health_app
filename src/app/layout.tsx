@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
+import { RouteKeeper } from "@/app/_route-keeper";
 import { BottomNav } from "@/components/bottom-nav";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -91,6 +92,7 @@ export default async function RootLayout({
           <AppSplash />
           {children}
           {isLoggedIn ? <BottomNav showCoach={showCoach} /> : null}
+          {isLoggedIn ? <RouteKeeper /> : null}
         </NotificationCenterProvider>
         <PWARegister />
         <Analytics />

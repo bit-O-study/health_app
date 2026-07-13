@@ -64,6 +64,25 @@ export function RunningGame() {
   const [phase, setPhase] = useState<Phase>("intro");
   const [error, setError] = useState<string | null>(null);
   const [score, setScore] = useState({ distance: 0, coins: 0 });
+  // 트레드밀처럼 하단에서 수동 설정하는 속도(km/h)·경사도. 기록에 그대로 저장.
+  const [speed, setSpeed] = useState(8);
+  const [incline, setIncline] = useState(1);
+  const speedRef = useRef(8);
+  const inclineRef = useRef(1);
+  function changeSpeed(d: number) {
+    setSpeed((s) => {
+      const n = Math.round(Math.min(20, Math.max(1, s + d)) * 10) / 10;
+      speedRef.current = n;
+      return n;
+    });
+  }
+  function changeIncline(d: number) {
+    setIncline((s) => {
+      const n = Math.min(15, Math.max(0, s + d));
+      inclineRef.current = n;
+      return n;
+    });
+  }
 
   const landmarkerRef = useRef<unknown>(null);
   const gameRef = useRef<GameState>(createGame());
@@ -220,12 +239,16 @@ export function RunningGame() {
   function handleOver(distance: number, coins: number) {
     setScore({ distance, coins });
     setPhase("over");
-    // 오늘 마무리 운동에 자동 기록 — 플레이한 시간(분)만 기록(실내는 게임이라 거리/속도는 생략).
+    // 오늘 마무리 운동에 자동 기록 — 시간(분) + 하단에서 설정한 속도·경사.
     const durationMin = Math.max(
       1,
       Math.round((Date.now() - playStartRef.current) / 60000),
     );
-    void recordRunAsCooldownAction({ durationMin }).catch(() => {});
+    void recordRunAsCooldownAction({
+      durationMin,
+      avgKmh: speedRef.current,
+      incline: inclineRef.current,
+    }).catch(() => {});
   }
 
   function restart() {
@@ -280,6 +303,29 @@ export function RunningGame() {
           </span>
           <div className="mt-1 h-2 w-28 overflow-hidden rounded-full bg-white/20">
             <div ref={gaugeRef} className="h-full w-0 bg-emerald-400" />
+          </div>
+        </div>
+      ) : null}
+
+      {/* 하단 수동 설정 — 트레드밀처럼 속도(km/h)·경사도. 기록에 그대로 저장된다. */}
+      {phase === "playing" ? (
+        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),1rem)] z-20 flex justify-center px-4">
+          <div className="flex items-center gap-3 rounded-2xl bg-black/55 px-4 py-2.5 backdrop-blur">
+            <Stepper
+              label="속도"
+              value={`${speed.toFixed(1)}`}
+              unit="km/h"
+              onMinus={() => changeSpeed(-0.5)}
+              onPlus={() => changeSpeed(0.5)}
+            />
+            <span className="h-8 w-px bg-white/20" />
+            <Stepper
+              label="경사"
+              value={`${incline}`}
+              unit="%"
+              onMinus={() => changeIncline(-1)}
+              onPlus={() => changeIncline(1)}
+            />
           </div>
         </div>
       ) : null}
@@ -341,6 +387,53 @@ export function RunningGame() {
           </button>
         </div>
       ) : null}
+    </div>
+  );
+}
+
+/** 하단 수동 설정용 −/+ 스테퍼(속도·경사). */
+function Stepper({
+  label,
+  value,
+  unit,
+  onMinus,
+  onPlus,
+}: {
+  label: string;
+  value: string;
+  unit: string;
+  onMinus: () => void;
+  onPlus: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        type="button"
+        aria-label={`${label} 줄이기`}
+        onClick={onMinus}
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xl font-black text-white active:scale-90"
+      >
+        −
+      </button>
+      <div className="min-w-14 text-center leading-tight">
+        <span className="block font-mono text-lg font-black tabular-nums text-white">
+          {value}
+          <span className="ml-0.5 text-[10px] font-semibold text-white/70">
+            {unit}
+          </span>
+        </span>
+        <span className="block text-[10px] font-semibold text-white/60">
+          {label}
+        </span>
+      </div>
+      <button
+        type="button"
+        aria-label={`${label} 늘리기`}
+        onClick={onPlus}
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xl font-black text-white active:scale-90"
+      >
+        +
+      </button>
     </div>
   );
 }

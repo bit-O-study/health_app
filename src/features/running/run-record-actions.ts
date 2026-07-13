@@ -30,6 +30,7 @@ export async function recordRunAsCooldownAction(input: {
   durationMin: number;
   distanceKm?: number | null;
   avgKmh?: number | null;
+  incline?: number | null;
 }): Promise<{ ok: boolean; error?: string }> {
   const today = seoulYmd();
   const durationMin = Math.max(1, Math.round(input.durationMin || 1));
@@ -37,6 +38,8 @@ export async function recordRunAsCooldownAction(input: {
     input.avgKmh != null && input.avgKmh > 0
       ? Math.round(input.avgKmh * 10) / 10
       : null;
+  const incline =
+    input.incline != null && input.incline >= 0 ? Math.round(input.incline) : null;
 
   // 오늘 마무리 기준 목록: 오버라이드가 있으면 그것, 없으면 오늘 부위 루틴 기본.
   const override = (await getDailyConditioning(today)).cooldown;
@@ -59,7 +62,7 @@ export async function recordRunAsCooldownAction(input: {
 
   const nextList: ConditioningInput[] = [
     ...base.map(toInput),
-    { itemId: "running", durationMin, speed, incline: null, sets: null, reps: null },
+    { itemId: "running", durationMin, speed, incline, sets: null, reps: null },
   ];
 
   const saved = await saveDailyConditioningAction(today, "cooldown", nextList);

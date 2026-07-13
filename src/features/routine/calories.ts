@@ -42,8 +42,20 @@ function runningMet(speed: number): number {
   return 13.5;
 }
 
-function metForConditioning(itemId: string, speed: number | null): number {
-  if (itemId === "running" && speed && speed > 0) return runningMet(speed);
+/** 경사도(%) 보정 — 트레드밀 오르막은 소모가 커진다(근사: 1%당 약 +3%). */
+function inclineFactor(incline: number | null): number {
+  if (!incline || incline <= 0) return 1;
+  return 1 + Math.min(15, incline) * 0.03;
+}
+
+function metForConditioning(
+  itemId: string,
+  speed: number | null,
+  incline: number | null = null,
+): number {
+  if (itemId === "running" && speed && speed > 0) {
+    return runningMet(speed) * inclineFactor(incline);
+  }
   return CONDITIONING_MET[itemId] ?? STRETCH_MET;
 }
 
@@ -65,10 +77,11 @@ export function estimateConditioningKcal(
   itemId: string,
   durationMin: number | null,
   speed: number | null,
+  incline: number | null = null,
 ): number {
   // 시간 미지정 모빌리티/스트레칭은 항목당 3분으로 가정
   const min = durationMin ?? 3;
-  const met = metForConditioning(itemId, speed);
+  const met = metForConditioning(itemId, speed, incline);
   return kcalPerMin(met, weightKg) * min;
 }
 

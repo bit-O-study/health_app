@@ -196,6 +196,10 @@ export function OutdoorRun({
             밖에서 <b>실제로 달리면</b> GPS로 거리·시속·페이스가 기록되고, 속도에
             맞춰 캐릭터가 함께 달려요. 끝나면 오늘 마무리 운동으로 기록됩니다.
           </p>
+          <p className="max-w-xs rounded-lg bg-emerald-900/10 px-3 py-2 text-xs font-semibold text-emerald-900">
+            ⚠ 위치(GPS) 권한을 허용해야 작동해요. 시작을 누르면 권한을 요청하고,
+            거부하면 야외 런닝이 실행되지 않아요.
+          </p>
           {error ? (
             <p className="rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-800">
               {error}

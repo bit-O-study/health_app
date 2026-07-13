@@ -290,8 +290,11 @@ export function RunningGame() {
           <h1 className="text-3xl font-extrabold">런닝 모드 🏃</h1>
           <p className="max-w-xs text-sm leading-6 text-zinc-300">
             카메라로 머리를 인식해요. 제자리에서 <b>달리면</b> 캐릭터가 달리고,
-            화면을 보면서 몸을 <b>왼쪽/오른쪽</b>으로 기울이면 레인 이동,{" "}
-            <b>위로</b> 보면 점프! (달리면서도 조작하기 쉬워요)
+            멈추면 캐릭터도 멈춰요. 화면을 보면서 몸을 <b>왼쪽/오른쪽</b>으로
+            기울이면 레인 이동, <b>위로</b> 보면 점프!
+          </p>
+          <p className="max-w-xs rounded-lg bg-white/10 px-3 py-2 text-xs font-semibold text-emerald-200">
+            ⚠ 카메라 권한이 필요해요. 시작을 누르면 전면 카메라 권한을 요청합니다.
           </p>
           {error ? (
             <p className="rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-200">

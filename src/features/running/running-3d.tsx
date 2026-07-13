@@ -123,9 +123,10 @@ function Scene({
       p.rotation.z = (s.playerLane - s.targetLane) * 0.18;
     }
     if (runActionRef.current) {
+      // 감지되면(속도>0) 다리 애니메이션, 멈추면(속도≈0) 거의 정지 → '가만히'.
       runActionRef.current.timeScale = playing
-        ? THREE.MathUtils.clamp(s.speed / 6, 0.15, 2.4)
-        : 0.15;
+        ? THREE.MathUtils.clamp(s.speed / 6, 0, 2.4)
+        : 0;
     }
 
     const slots = slotRefs.current;

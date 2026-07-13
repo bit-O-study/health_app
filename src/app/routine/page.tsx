@@ -389,14 +389,6 @@ async function TodayWorkout({
               muscleMassKg: profile?.muscleMassKg ?? null,
             }}
           />
-          {/* 런닝 — 실내(카메라)/야외(GPS) 런닝 모드. 끝나면 마무리 운동 자동기록. */}
-          <Link
-            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-sky-300 dark:border-sky-700 bg-sky-50 dark:bg-sky-950/30 px-3 text-sm font-semibold text-sky-700 dark:text-sky-300 transition hover:border-sky-400 hover:bg-sky-100 dark:hover:bg-sky-900/30 sm:flex-initial sm:px-4"
-            href="/running"
-          >
-            <span aria-hidden="true">🏃</span>
-            런닝
-          </Link>
           {/* '운동 편집'(구 '기본 편집') — '루틴 변경'은 이 화면(/plan) 안으로 이동. */}
           <Link
             className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"

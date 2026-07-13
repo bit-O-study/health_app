@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 
 import { RunningGame } from "@/features/running/running-game";
-import { ZenRun } from "@/features/running/zen-run";
+import { OutdoorRun } from "@/features/running/outdoor-run";
 
 /** 휴대폰(터치 + 좁은 화면 / 모바일 UA)에서만 런닝 모드를 띄운다. */
 function isMobileDevice(): boolean {
@@ -15,7 +15,7 @@ function isMobileDevice(): boolean {
   return mobileUa || (touch && narrow);
 }
 
-type Mode = "camera" | "zen";
+type Mode = "camera" | "outdoor";
 
 export function RunningMobileGate() {
   const [state, setState] = useState<"checking" | "ok" | "desktop">("checking");
@@ -47,9 +47,9 @@ export function RunningMobileGate() {
   }
 
   if (mode === "camera") return <RunningGame />;
-  if (mode === "zen") return <ZenRun />;
+  if (mode === "outdoor") return <OutdoorRun />;
 
-  // 모드 선택 화면
+  // 모드 선택 화면 — 실내(카메라) / 야외(GPS)
   return (
     <div className="flex h-[100dvh] w-full flex-col items-center justify-center gap-6 bg-gradient-to-b from-zinc-950 to-zinc-900 px-6 text-center text-white">
       <div>
@@ -63,32 +63,33 @@ export function RunningMobileGate() {
           onClick={() => setMode("camera")}
           className="flex items-center gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-left transition active:scale-[0.98]"
         >
-          <span className="text-4xl">🏃</span>
+          <span className="text-4xl">🏠</span>
           <span className="min-w-0">
-            <span className="block text-lg font-extrabold">카메라 런닝</span>
+            <span className="block text-lg font-extrabold">실내 런닝</span>
             <span className="block text-xs text-zinc-400">
-              카메라로 머리 움직임을 인식해 달리는 게임
+              카메라로 제자리 달리기를 인식해 캐릭터가 달려요
             </span>
           </span>
         </button>
 
         <button
           type="button"
-          onClick={() => setMode("zen")}
-          className="flex items-center gap-4 rounded-2xl border border-lime-400/40 bg-lime-400/10 p-4 text-left transition active:scale-[0.98]"
+          onClick={() => setMode("outdoor")}
+          className="flex items-center gap-4 rounded-2xl border border-sky-400/40 bg-sky-400/10 p-4 text-left transition active:scale-[0.98]"
         >
-          <span className="text-4xl">🌿</span>
+          <span className="text-4xl">📍</span>
           <span className="min-w-0">
-            <span className="block text-lg font-extrabold">힐링 러닝</span>
+            <span className="block text-lg font-extrabold">야외 런닝</span>
             <span className="block text-xs text-zinc-400">
-              제자리 달리기 모션으로 자연 속을 달리는 힐링 모드
+              GPS로 거리·시속·페이스를 기록하며 캐릭터가 함께 달려요
             </span>
           </span>
         </button>
       </div>
 
       <p className="max-w-xs text-[11px] leading-5 text-zinc-500">
-        카메라 런닝은 얼굴 인식(전면 카메라), 힐링 러닝은 움직임 센서를 사용합니다.
+        실내는 전면 카메라(얼굴 인식), 야외는 위치(GPS)를 사용합니다. 끝나면 오늘
+        마무리 운동에 자동 기록돼요.
       </p>
     </div>
   );

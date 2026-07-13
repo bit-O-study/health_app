@@ -1,17 +1,137 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-/* 귀여운 로봇 캐릭터(Running/Idle 내장). 자체 호스팅. 지연 로드 모듈이라 preload 안전. */
-const ROBOT_URL = "/models/runner-robot.glb";
+import {
+  CHARACTER_MODEL_URL,
+  pickClipName,
+} from "@/features/running/character";
+
+/* 캐릭터 모델은 character.ts 한 곳에서 관리(교체 쉽게 — Mixamo 등). 지연 로드라 preload 안전. */
+const ROBOT_URL = CHARACTER_MODEL_URL;
 if (typeof window !== "undefined") useGLTF.preload(ROBOT_URL);
 
 const MAX_SCROLL = 8; // 달리기 강도 1일 때 초당 월드 이동량
+const SEGMENT_M = 250; // 이 거리마다 다음 맵으로 전환
 
-export type ZenHud = { dist: React.RefObject<HTMLSpanElement | null> };
+/** 맵(테마) 팔레트 — 하늘/안개/조명/지면/식생 색을 한 세트로. */
+export type MapPreset = {
+  name: string;
+  sky: [string, string, string, string]; // 위→아래 그라데이션
+  fog: string;
+  sunGlow: string;
+  sunCore: string;
+  hemiSky: string;
+  hemiGround: string;
+  dirColor: string;
+  ground: string;
+  grassBase: string;
+  grassBladeA: string;
+  grassBladeB: string;
+  path: string;
+  trees: [string, string, string];
+  flowers: [string, string, string, string];
+  nearHill: string;
+  farHill: string;
+  mountain: string;
+  cloud: string;
+};
+
+const MAPS: MapPreset[] = [
+  {
+    name: "초원",
+    sky: ["#bfe9ff", "#dff3ff", "#fff1e6", "#ffe6c2"],
+    fog: "#eaf6ec",
+    sunGlow: "#fff7d6",
+    sunCore: "#fff4bf",
+    hemiSky: "#fdf3ff",
+    hemiGround: "#bfe6a8",
+    dirColor: "#fff2cf",
+    ground: "#a6e285",
+    grassBase: "#9bd877",
+    grassBladeA: "#a8e085",
+    grassBladeB: "#90d069",
+    path: "#f1ddb4",
+    trees: ["#74c95f", "#86d36c", "#65bd7e"],
+    flowers: ["#ff9ec4", "#fff1a8", "#ffffff", "#c9a8ff"],
+    nearHill: "#aedd82",
+    farHill: "#cdecaa",
+    mountain: "#c4e3da",
+    cloud: "#ffffff",
+  },
+  {
+    name: "노을",
+    sky: ["#ffd08a", "#ffb27a", "#ff8f9e", "#c86fb0"],
+    fog: "#f7d9c4",
+    sunGlow: "#ffe0a0",
+    sunCore: "#ffd27a",
+    hemiSky: "#ffe3c0",
+    hemiGround: "#e0a878",
+    dirColor: "#ffd9a0",
+    ground: "#cdae7f",
+    grassBase: "#cdae7f",
+    grassBladeA: "#d8bd8f",
+    grassBladeB: "#c2a374",
+    path: "#e9cfa8",
+    trees: ["#b98a5a", "#a9764d", "#c99a63"],
+    flowers: ["#ff9ec4", "#ffd27a", "#ffffff", "#ffb0a0"],
+    nearHill: "#c9a06f",
+    farHill: "#d8b98a",
+    mountain: "#b98fa8",
+    cloud: "#ffe3d0",
+  },
+  {
+    name: "벚꽃길",
+    sky: ["#ffe6f2", "#ffeef7", "#fff4ef", "#ffe9d6"],
+    fog: "#fbe6ef",
+    sunGlow: "#fff0f6",
+    sunCore: "#ffe6f0",
+    hemiSky: "#fff0f6",
+    hemiGround: "#e8c0d0",
+    dirColor: "#fff0e6",
+    ground: "#bfe0a0",
+    grassBase: "#b8dc98",
+    grassBladeA: "#c6e6a8",
+    grassBladeB: "#aed488",
+    path: "#f0dcc0",
+    trees: ["#ffb7d5", "#ffc9e0", "#ff9ec4"],
+    flowers: ["#ff9ec4", "#ffffff", "#ffd6e8", "#c9a8ff"],
+    nearHill: "#c4e2a0",
+    farHill: "#d6ecb6",
+    mountain: "#e0c4d4",
+    cloud: "#ffffff",
+  },
+  {
+    name: "별밤",
+    sky: ["#1b2450", "#2a3566", "#3f4a80", "#5a4a78"],
+    fog: "#2a3560",
+    sunGlow: "#aeb8ff",
+    sunCore: "#dfe6ff",
+    hemiSky: "#3a4680",
+    hemiGround: "#1e2a4a",
+    dirColor: "#c8d0ff",
+    ground: "#2f6b4a",
+    grassBase: "#2c6446",
+    grassBladeA: "#357552",
+    grassBladeB: "#245539",
+    path: "#4a5570",
+    trees: ["#2f7a52", "#286a47", "#358a5c"],
+    flowers: ["#9ec4ff", "#c9a8ff", "#ffffff", "#a8ffe0"],
+    nearHill: "#2a6b4a",
+    farHill: "#356b52",
+    mountain: "#3a4670",
+    cloud: "#5a6690",
+  },
+];
+
+export type ZenHud = {
+  dist: React.RefObject<HTMLSpanElement | null>;
+  /** 선택: 현재 맵 이름을 표시할 요소. */
+  map?: React.RefObject<HTMLSpanElement | null>;
+};
 
 export default function ZenScene({
   runRef,
@@ -20,6 +140,14 @@ export default function ZenScene({
   runRef: React.MutableRefObject<number>;
   hud: ZenHud;
 }) {
+  const [mapIndex, setMapIndex] = useState(0);
+  const preset = MAPS[mapIndex];
+
+  // 현재 맵 이름 HUD 갱신.
+  useEffect(() => {
+    if (hud.map?.current) hud.map.current.textContent = preset.name;
+  }, [preset, hud]);
+
   return (
     <Canvas
       shadows
@@ -28,12 +156,12 @@ export default function ZenScene({
       onCreated={({ camera }) => camera.lookAt(3.4, 2.1, -8)}
       className="absolute inset-0"
     >
-      <Sky />
-      <hemisphereLight args={["#fdf3ff", "#bfe6a8", 1.35]} />
+      <Sky preset={preset} />
+      <hemisphereLight args={[preset.hemiSky, preset.hemiGround, 1.35]} />
       <directionalLight
         position={[7, 10, 6]}
         intensity={1.9}
-        color="#fff2cf"
+        color={preset.dirColor}
         castShadow
         shadow-mapSize={[1024, 1024]}
         shadow-camera-left={-14}
@@ -41,13 +169,18 @@ export default function ZenScene({
         shadow-camera-top={14}
         shadow-camera-bottom={-14}
       />
-      <World runRef={runRef} hud={hud} />
+      <World
+        runRef={runRef}
+        hud={hud}
+        preset={preset}
+        onAdvanceMap={() => setMapIndex((i) => (i + 1) % MAPS.length)}
+      />
     </Canvas>
   );
 }
 
-/** 부드러운 파스텔 그라데이션 하늘 + 해(은은한 글로우) + 옅은 안개. */
-function Sky() {
+/** 부드러운 그라데이션 하늘 + 해/달(은은한 글로우) + 옅은 안개. 맵 프리셋에 따라 색이 바뀐다. */
+function Sky({ preset }: { preset: MapPreset }) {
   const { scene } = useThree();
   const tex = useMemo(() => {
     const c = document.createElement("canvas");
@@ -55,33 +188,35 @@ function Sky() {
     c.height = 256;
     const ctx = c.getContext("2d")!;
     const g = ctx.createLinearGradient(0, 0, 0, 256);
-    g.addColorStop(0, "#bfe9ff"); // 맑은 하늘
-    g.addColorStop(0.45, "#dff3ff");
-    g.addColorStop(0.78, "#fff1e6");
-    g.addColorStop(1, "#ffe6c2"); // 따뜻한 지평선
+    g.addColorStop(0, preset.sky[0]);
+    g.addColorStop(0.45, preset.sky[1]);
+    g.addColorStop(0.78, preset.sky[2]);
+    g.addColorStop(1, preset.sky[3]);
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, 16, 256);
     return new THREE.CanvasTexture(c);
-  }, []);
+  }, [preset]);
   useEffect(() => {
     const prev = scene.background;
+    const prevFog = scene.fog;
     scene.background = tex;
-    scene.fog = new THREE.Fog("#eaf6ec", 30, 64);
+    scene.fog = new THREE.Fog(preset.fog, 30, 64);
     return () => {
       scene.background = prev;
+      scene.fog = prevFog;
       tex.dispose(); // 수동 생성 텍스처 GPU 메모리 해제
     };
-  }, [scene, tex]);
+  }, [scene, tex, preset.fog]);
   return (
     <group position={[11, 7.5, -34]}>
       {/* 글로우 */}
       <mesh>
         <circleGeometry args={[5.2, 40]} />
-        <meshBasicMaterial color="#fff7d6" transparent opacity={0.35} />
+        <meshBasicMaterial color={preset.sunGlow} transparent opacity={0.35} />
       </mesh>
       <mesh position={[0, 0, 0.1]}>
         <circleGeometry args={[2.8, 40]} />
-        <meshBasicMaterial color="#fff4bf" />
+        <meshBasicMaterial color={preset.sunCore} />
       </mesh>
     </group>
   );
@@ -90,9 +225,13 @@ function Sky() {
 function World({
   runRef,
   hud,
+  preset,
+  onAdvanceMap,
 }: {
   runRef: React.MutableRefObject<number>;
   hud: ZenHud;
+  preset: MapPreset;
+  onAdvanceMap: () => void;
 }) {
   const groundMat = useRef<THREE.MeshStandardMaterial>(null);
   const trees = useRef<THREE.Group[]>([]);
@@ -102,41 +241,43 @@ function World({
   const mountains = useRef<THREE.Mesh[]>([]);
   const clouds = useRef<THREE.Group[]>([]);
   const distRef = useRef(0);
+  const nextSwitchRef = useRef(SEGMENT_M);
 
   const grassTex = useMemo(() => {
     const c = document.createElement("canvas");
     c.width = 128;
     c.height = 128;
     const ctx = c.getContext("2d")!;
-    ctx.fillStyle = "#9bd877";
+    ctx.fillStyle = preset.grassBase;
     ctx.fillRect(0, 0, 128, 128);
     for (let i = 0; i < 140; i++) {
-      ctx.fillStyle = i % 2 ? "#90d069" : "#a8e085";
+      ctx.fillStyle = i % 2 ? preset.grassBladeB : preset.grassBladeA;
       ctx.fillRect((i * 53) % 128, (i * 31) % 128, 3, 6);
     }
     const t = new THREE.CanvasTexture(c);
     t.wrapS = t.wrapT = THREE.RepeatWrapping;
     t.repeat.set(24, 7);
     return t;
-  }, []);
-  useEffect(() => () => grassTex.dispose(), [grassTex]); // 언마운트 시 GPU 텍스처 해제
+  }, [preset]);
+  useEffect(() => () => grassTex.dispose(), [grassTex]); // 언마운트/맵변경 시 GPU 텍스처 해제
 
-  const treeData = useMemo(
+  // 나무/꽃 배치는 고정, 색만 프리셋에서(달릴 때 순환).
+  const treeLayout = useMemo(
     () =>
       Array.from({ length: 9 }, (_, i) => ({
         x: -18 + i * 4.6,
         z: -2.2 - (i % 3) * 1.1,
         s: 0.85 + ((i * 7) % 5) / 8,
-        c: ["#74c95f", "#86d36c", "#65bd7e"][i % 3],
+        ci: i % 3,
       })),
     [],
   );
-  const flowerData = useMemo(
+  const flowerLayout = useMemo(
     () =>
       Array.from({ length: 16 }, (_, i) => ({
         x: -16 + i * 2.1,
         z: i % 2 ? 1.7 + (i % 3) * 0.6 : -1.4 - (i % 3) * 0.5,
-        c: ["#ff9ec4", "#fff1a8", "#ffffff", "#c9a8ff"][i % 4],
+        ci: i % 4,
       })),
     [],
   );
@@ -146,6 +287,12 @@ function World({
     const run = runRef.current;
     const dx = run * MAX_SCROLL * dt;
     distRef.current += dx;
+
+    // 일정 거리마다 다음 맵으로.
+    if (distRef.current >= nextSwitchRef.current) {
+      nextSwitchRef.current += SEGMENT_M;
+      onAdvanceMap();
+    }
 
     if (groundMat.current?.map) groundMat.current.map.offset.x += dx * 0.05;
 
@@ -161,12 +308,11 @@ function World({
         if (o.position.x < left) o.position.x += span;
       });
 
-    recycle(trees.current, 1, -20, treeData.length * 4.6);
-    recycle(flowers.current, 1, -18, flowerData.length * 2.1);
+    recycle(trees.current, 1, -20, treeLayout.length * 4.6);
+    recycle(flowers.current, 1, -18, flowerLayout.length * 2.1);
     recycle(nearHills.current, 0.5, -34, nearHills.current.length * 14);
     recycle(farHills.current, 0.3, -48, farHills.current.length * 18);
     recycle(mountains.current, 0.16, -64, mountains.current.length * 26);
-    // 구름은 자체 드리프트도 살짝
     clouds.current.forEach((g) => {
       if (!g) return;
       g.position.x -= dx * 0.14 + dt * 0.22;
@@ -182,15 +328,15 @@ function World({
       {/* 지면(풀밭) */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
         <planeGeometry args={[140, 40]} />
-        <meshStandardMaterial ref={groundMat} map={grassTex} color="#a6e285" />
+        <meshStandardMaterial ref={groundMat} map={grassTex} color={preset.ground} />
       </mesh>
       {/* 캐릭터 발밑 오솔길 */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 0]} receiveShadow>
         <planeGeometry args={[140, 2.4]} />
-        <meshStandardMaterial color="#f1ddb4" />
+        <meshStandardMaterial color={preset.path} />
       </mesh>
 
-      {/* 먼 산(가장 옅게) — 지평선 위로 살짝 솟은 봉우리 */}
+      {/* 먼 산 */}
       {Array.from({ length: 5 }).map((_, i) => (
         <mesh
           key={`mt${i}`}
@@ -201,10 +347,10 @@ function World({
           scale={[1.4, 1, 1]}
         >
           <coneGeometry args={[7, 6.5, 5]} />
-          <meshStandardMaterial color="#c4e3da" flatShading />
+          <meshStandardMaterial color={preset.mountain} flatShading />
         </mesh>
       ))}
-      {/* 먼 언덕 — 넓고 낮은 둔덕(납작한 구) */}
+      {/* 먼 언덕 */}
       {Array.from({ length: 6 }).map((_, i) => (
         <mesh
           key={`fh${i}`}
@@ -215,7 +361,7 @@ function World({
           scale={[2.0, 0.42, 1]}
         >
           <sphereGeometry args={[7, 24, 16]} />
-          <meshStandardMaterial color="#cdecaa" />
+          <meshStandardMaterial color={preset.farHill} />
         </mesh>
       ))}
       {/* 가까운 언덕 */}
@@ -229,12 +375,12 @@ function World({
           scale={[1.8, 0.45, 1]}
         >
           <sphereGeometry args={[6, 24, 16]} />
-          <meshStandardMaterial color="#aedd82" />
+          <meshStandardMaterial color={preset.nearHill} />
         </mesh>
       ))}
 
       {/* 나무 */}
-      {treeData.map((t, i) => (
+      {treeLayout.map((t, i) => (
         <group
           key={`t${i}`}
           ref={(g) => {
@@ -249,17 +395,17 @@ function World({
           </mesh>
           <mesh position={[0, 1.75, 0]} castShadow>
             <sphereGeometry args={[0.9, 16, 14]} />
-            <meshStandardMaterial color={t.c} />
+            <meshStandardMaterial color={preset.trees[t.ci]} />
           </mesh>
           <mesh position={[0.5, 1.3, 0.2]} castShadow>
             <sphereGeometry args={[0.58, 14, 12]} />
-            <meshStandardMaterial color={t.c} />
+            <meshStandardMaterial color={preset.trees[t.ci]} />
           </mesh>
         </group>
       ))}
 
       {/* 꽃 */}
-      {flowerData.map((f, i) => (
+      {flowerLayout.map((f, i) => (
         <group
           key={`f${i}`}
           ref={(g) => {
@@ -273,7 +419,7 @@ function World({
           </mesh>
           <mesh position={[0, 0.34, 0]} castShadow>
             <sphereGeometry args={[0.11, 10, 8]} />
-            <meshStandardMaterial color={f.c} />
+            <meshStandardMaterial color={preset.flowers[f.ci]} />
           </mesh>
         </group>
       ))}
@@ -295,7 +441,7 @@ function World({
           ].map(([x, y, r], j) => (
             <mesh key={j} position={[x, y, 0]}>
               <sphereGeometry args={[r, 14, 12]} />
-              <meshStandardMaterial color="#ffffff" />
+              <meshStandardMaterial color={preset.cloud} />
             </mesh>
           ))}
         </group>
@@ -326,23 +472,35 @@ function Robot({ runRef }: { runRef: React.MutableRefObject<number> }) {
     return { scale, yOffset: -box.min.y * (1.5 / (size.y || 1)) };
   }, [scene]);
 
+  // 클립 이름은 모델마다 다르므로(Mixamo 등) picker 로 매칭. idle 클립이 없으면
+  // run 클립을 정지(timeScale 0)시켜 '가만히' 폴백.
+  const names = Object.keys(actions);
+  const runName = pickClipName(names, "run");
+  const idleName = pickClipName(names, "idle");
+  const runAction = runName ? actions[runName] : null;
+  const idleAction = idleName ? actions[idleName] : null;
+
   useEffect(() => {
-    const idle = actions["Idle"] ?? null;
-    idle?.reset().play();
-    activeRef.current = idle;
+    const first = idleAction ?? runAction ?? null;
+    first?.reset().play();
+    activeRef.current = first;
+    // idle 이 없어 run 으로 시작하면 멈춘 상태이니 정지.
+    if (!idleAction && runAction) runAction.timeScale = 0;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions]);
 
   useFrame((_, delta) => {
     const run = runRef.current;
     const running = run > 0.06;
-    const want = running ? actions["Running"] : actions["Idle"];
+    const want = running ? runAction : (idleAction ?? runAction);
     if (want && want !== activeRef.current) {
       activeRef.current?.fadeOut(0.25);
       want.reset().fadeIn(0.25).play();
       activeRef.current = want;
     }
-    if (running && actions["Running"]) {
-      actions["Running"].timeScale = 0.7 + run * 1.4;
+    if (runAction) {
+      // 달리면 속도 비례, 멈추면(idle 없을 때) 정지.
+      runAction.timeScale = running ? 0.7 + run * 1.4 : idleAction ? 1 : 0;
     }
     bobRef.current += running ? delta * (6 + run * 6) : 0;
     if (ref.current) {

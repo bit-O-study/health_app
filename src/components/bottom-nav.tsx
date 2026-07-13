@@ -58,7 +58,14 @@ const COACH_TAB: Tab = {
 
 // 로그인/온보딩 등 앱 외 화면 + 관리자 전용 화면(관리자 콘솔·기구분석)에선 숨긴다.
 // (관리자 계정은 이 화면들에서 활동하고, 관리자 콘솔엔 자체 사이드 네비가 있어 하단탭이 방해된다.)
-const HIDDEN_PREFIXES = ["/login", "/onboarding", "/admin", "/equipment"];
+const HIDDEN_PREFIXES = [
+  "/login",
+  "/onboarding",
+  "/admin",
+  "/equipment",
+  "/running", // 풀스크린 런닝 게임 — 하단탭이 가리지 않게
+  "/jog",
+];
 
 /**
  * 탭 안쪽 — 아이콘/라벨. useLinkStatus 로 '누른 즉시' 로딩상태를 감지해,

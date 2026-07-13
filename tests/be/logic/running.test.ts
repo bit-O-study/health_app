@@ -27,6 +27,22 @@ describe("controls", () => {
     expect(runIntensityFromBounce(running)).toBeGreaterThan(0.5);
     expect(runIntensityFromBounce([0.5])).toBe(0); // 표본 부족
   });
+
+  it("감도 상향 — 가벼운 제자리 달리기(작은 흔들림)도 강도가 붙는다", () => {
+    // ±0.008 alternating → std ≈ 0.008. 예전 매핑((std-0.004)/0.022)이면 ~0.18 로
+    // 캐릭터가 거의 안 뛰었다. 상향 후엔 확실히 반응해야 한다.
+    const light = Array.from(
+      { length: 30 },
+      (_, i) => 0.5 + (i % 2 ? 0.008 : -0.008),
+    );
+    expect(runIntensityFromBounce(light)).toBeGreaterThan(0.3);
+    // 아주 미세한 흔들림(≈idle)은 여전히 0 근처.
+    const tiny = Array.from(
+      { length: 30 },
+      (_, i) => 0.5 + (i % 2 ? 0.002 : -0.002),
+    );
+    expect(runIntensityFromBounce(tiny)).toBeLessThan(0.1);
+  });
 });
 
 describe("game", () => {

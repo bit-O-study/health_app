@@ -24,6 +24,7 @@ export function ZenRun() {
   const magsRef = useRef<number[]>([]);
   const rafRef = useRef(0);
   const distRef = useRef<HTMLSpanElement | null>(null);
+  const mapRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
     return () => {
@@ -75,15 +76,21 @@ export function ZenRun() {
     <div className="relative h-[100dvh] w-full select-none overflow-hidden bg-[#bfeaff] text-white">
       {phase === "playing" ? (
         <>
-          <ZenScene runRef={runRef} hud={{ dist: distRef }} />
+          <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} />
 
-          {/* 거리 HUD */}
-          <div className="pointer-events-none absolute left-4 top-4 z-20">
+          {/* 거리 + 현재 맵 HUD */}
+          <div className="pointer-events-none absolute left-4 top-4 z-20 flex flex-col items-start gap-1">
             <span
               ref={distRef}
               className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-black text-emerald-700 shadow"
             >
               0 m
+            </span>
+            <span
+              ref={mapRef}
+              className="rounded-full bg-black/40 px-3 py-0.5 text-xs font-bold text-white shadow backdrop-blur"
+            >
+              초원
             </span>
           </div>
 

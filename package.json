@@ -21,6 +21,7 @@
     "android:setup:win": "bash tools/setup-android-windows.sh"
   },
   "dependencies": {
+    "@capacitor-community/background-geolocation": "^1.2.26",
     "@capacitor/android": "^8.4.1",
     "@capacitor/core": "^8.4.1",
     "@capacitor/local-notifications": "^8.0.1",

@@ -43,7 +43,7 @@ import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
-import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
+import { TodayFocusMenu } from "@/features/routine/components/today-focus-menu";
 import {
   TodayEditScope,
   TodayEditBar,
@@ -417,15 +417,13 @@ async function TodayWorkout({
                 size={20}
               />
             )}
-            <span
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${todayStyle.badge}`}
-            >
-              <span className={`h-1.5 w-1.5 rounded-full ${todayStyle.dot}`} />
-              {focusLabel}
-            </span>
+            <TodayFocusMenu
+              focusLabel={focusLabel}
+              badgeClass={todayStyle.badge}
+              dotClass={todayStyle.dot}
+              isRestToday={restedToday}
+            />
           </div>
-
-          <TodayAdjustMenu isRestToday={restedToday} />
         </div>
 
         {isRest ? (

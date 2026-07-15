@@ -71,10 +71,8 @@ export default async function PlanPage() {
   );
 
   return (
-    <main
-      className="mx-auto w-full max-w-3xl px-6 pb-10 sm:px-8"
-      style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 2.5rem)" }}
-    >
+    <main className="mx-auto w-full max-w-3xl px-6 pb-10 pt-10 sm:px-8">
+      {/* 상단 인셋은 body(globals.css)가 이미 적용 — 여기선 헤더 여백(pt-10)만. */}
       <div className="flex items-center justify-between gap-2">
         <Link
           className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"

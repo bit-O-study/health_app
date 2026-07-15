@@ -20,6 +20,10 @@ import {
   formatRest,
 } from "@/features/workout-timer/rest-logic";
 import { playRestAlert } from "@/features/workout-timer/rest-sound";
+import {
+  scheduleRestLocalNotif,
+  cancelRestLocalNotif,
+} from "@/features/notifications/local-notif";
 
 type RestState = {
   /** 종료 예정 시각(ms epoch) */
@@ -492,7 +496,8 @@ function postToServiceWorker(msg: Record<string, unknown>) {
   }
 }
 
-/** 휴식 종료시각을 SW 에 예약 — 만료 시 (앱이 백그라운드면) 시스템 알림. */
+/** 휴식 종료시각을 예약 — 만료 시 (앱이 백그라운드/화면꺼짐이면) 시스템 알림.
+ *  웹 PWA: 서비스워커. 네이티브 앱: @capacitor/local-notifications(WebView 는 SW 푸시 미지원). */
 function scheduleRestNotification(endsAt: number) {
   postToServiceWorker({
     type: "schedule-rest",
@@ -500,11 +505,14 @@ function scheduleRestNotification(endsAt: number) {
     title: "휴식 완료! 💪",
     body: "다음 세트를 시작하세요.",
   });
+  // 네이티브 앱 — OS 로컬 알림으로도 예약(백그라운드에서도 확실히 뜨게).
+  void scheduleRestLocalNotif(endsAt, "휴식 완료! 💪", "다음 세트를 시작하세요.");
 }
 
 /** 예약된 휴식 알림 취소(건너뛰기·완료 시). */
 function cancelRestNotification() {
   postToServiceWorker({ type: "cancel-rest" });
+  void cancelRestLocalNotif();
 }
 
 function notifyRestDone() {

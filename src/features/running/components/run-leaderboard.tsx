@@ -21,8 +21,11 @@ const ROW_H = 30; // px — 한 줄 높이(스르륵 이동 계산용)
  */
 export function RunLeaderboard({
   getSessionMeters,
+  top,
 }: {
   getSessionMeters: () => number;
+  /** 우측 상단 top 위치(CSS). 야외처럼 상단 HUD 와 겹칠 땐 더 아래로. */
+  top?: string;
 }) {
   const [board, setBoard] = useState<GroupRunLeaderboard | null>(null);
   const [live, setLive] = useState(0);
@@ -59,7 +62,10 @@ export function RunLeaderboard({
   const rows = pickRunLeaderboard(members, board.myUserId);
 
   return (
-    <div className="pointer-events-none absolute right-3 top-[calc(env(safe-area-inset-top,0px)+0.75rem)] z-20 w-40">
+    <div
+      className="pointer-events-none absolute right-3 z-20 w-40"
+      style={{ top: top ?? "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
+    >
       <p className="mb-1 text-right text-[10px] font-bold uppercase tracking-wide text-white/80 drop-shadow">
         🏃 {board.groupName} 오늘 순위
       </p>

@@ -81,9 +81,65 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const mapRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
+    // 진입 시 카메라 권한이 '거부'면 실내 런닝을 못 들어오게 막는다(에러 화면).
+    (async () => {
+      try {
+        const perms = (
+          navigator as unknown as {
+            permissions?: {
+              query?: (d: { name: string }) => Promise<{ state: string }>;
+            };
+          }
+        ).permissions;
+        const st = await perms?.query?.({ name: "camera" });
+        if (st?.state === "denied") {
+          setError(
+            "카메라 권한이 꺼져 있어요. 권한을 허용해야 실내 런닝을 할 수 있어요.",
+          );
+          setPhase("error");
+        }
+      } catch {
+        /* permissions API 미지원 — intro 유지, 시작 시 getUserMedia 가 처리 */
+      }
+    })();
     return () => stopCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // 백그라운드 갔다 오면(딴 앱 → 복귀) 세션을 잃지 않고 카메라를 다시 살린다.
+  // (안드로이드는 백그라운드에서 카메라를 강제 종료 → 복귀 시 재획득. 시간은 계속 흐른다.)
+  useEffect(() => {
+    function onVisible() {
+      if (document.visibilityState !== "visible") return;
+      if (phaseRef.current !== "playing") return;
+      void resumeCamera();
+    }
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /** 복귀 시 카메라 스트림이 죽었으면 다시 획득하고 감지 루프를 재개(세션은 유지). */
+  async function resumeCamera() {
+    const v = videoRef.current;
+    if (!v) return;
+    try {
+      const cur = v.srcObject as MediaStream | null;
+      const alive = cur?.getTracks().some((t) => t.readyState === "live");
+      if (!alive) {
+        const s = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: 640, height: 480 },
+          audio: false,
+        });
+        v.srcObject = s;
+      }
+      await v.play().catch(() => {});
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(visionLoop);
+    } catch {
+      /* 재획득 실패 — 시간은 계속 흐르고, 사용자가 다시 눌러 복구 가능 */
+    }
+  }
 
   function stopCamera() {
     cancelAnimationFrame(rafRef.current);

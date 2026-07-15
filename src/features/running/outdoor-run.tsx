@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { Loader2 } from "lucide-react";
 
 import {
   addPoint,
@@ -15,6 +16,11 @@ import {
   type RunTrack,
 } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
+import {
+  startGeoWatch,
+  type GeoFix,
+  type GeoWatch,
+} from "@/features/running/background-geo";
 import { addRunDistanceAction } from "@/features/running/run-distance-actions";
 import { openLocationSettings } from "@/features/running/native";
 import { RunLeaderboard } from "@/features/running/components/run-leaderboard";
@@ -25,7 +31,7 @@ const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
   loading: () => null,
 });
 
-type Phase = "intro" | "playing" | "done" | "error";
+type Phase = "checking" | "intro" | "playing" | "done" | "error";
 type Metrics = { meters: number; kmh: number; elapsedSec: number };
 // 이 거리(m) 미만이면 '실제로 달리지 않음'으로 보고 기록하지 않는다(들어왔다 나간 경우).
 const MIN_RUN_METERS = 50;
@@ -61,22 +67,57 @@ export function OutdoorRun({
   const trackRef = useRef<RunTrack>(emptyTrack());
   const lastMoveTsRef = useRef(0);
   const startTsRef = useRef(0);
-  const watchRef = useRef<number | null>(null);
+  const watchRef = useRef<GeoWatch | null>(null);
+  const watchWantedRef = useRef(false); // 추적 유지 의도(async 워처 레이스 방지)
   const rafRef = useRef(0);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hiddenDistRef = useRef<HTMLSpanElement | null>(null); // ZenScene 내부 거리(안 씀)
 
   useEffect(() => {
+    // 진입 시 위치 권한 AND 위치(GPS) 켜짐을 먼저 확인 — 하나라도 아니면 진입 차단.
+    checkLocation();
     return () => stopAll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * 위치 권한 + GPS 켜짐을 한 번에 확인(getCurrentPosition 프로브).
+   * 성공해야만 intro(시작 가능). 권한거부/GPS꺼짐/못찾음이면 error 로 진입 차단.
+   */
+  function checkLocation() {
+    setError(null);
+    setErrKind(null);
+    setPhase("checking");
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      setErrKind("other");
+      setError("이 기기에서 위치(GPS)를 사용할 수 없어요.");
+      setPhase("error");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      () => setPhase("intro"),
+      (err) => {
+        if (err.code === err.PERMISSION_DENIED) {
+          setErrKind("denied");
+          setError("위치 권한이 필요해요. 권한을 허용해야 야외 런닝을 할 수 있어요.");
+        } else if (err.code === err.POSITION_UNAVAILABLE) {
+          setErrKind("gps-off");
+          setError("위치 정보(GPS)가 꺼져 있어요. 휴대폰 설정에서 위치를 켠 뒤 다시 시도해 주세요.");
+        } else {
+          setErrKind("timeout");
+          setError("위치를 찾지 못했어요. 위치(GPS)가 켜져 있는지 확인해 주세요.");
+        }
+        setPhase("error");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
+    );
+  }
+
   function stopAll() {
     cancelAnimationFrame(rafRef.current);
-    if (watchRef.current != null && typeof navigator !== "undefined") {
-      navigator.geolocation?.clearWatch(watchRef.current);
-      watchRef.current = null;
-    }
+    watchWantedRef.current = false;
+    watchRef.current?.stop();
+    watchRef.current = null;
     if (tickRef.current) {
       clearInterval(tickRef.current);
       tickRef.current = null;
@@ -92,19 +133,17 @@ export function OutdoorRun({
     rafRef.current = requestAnimationFrame(controlLoop);
   }
 
-  function onPosition(pos: GeolocationPosition) {
-    const c = pos.coords;
+  function onFix(fix: GeoFix) {
     const p = {
-      lat: c.latitude,
-      lng: c.longitude,
-      t: pos.timestamp,
-      acc: c.accuracy,
+      lat: fix.lat,
+      lng: fix.lng,
+      t: fix.t,
+      acc: fix.accuracy ?? 0,
     };
     const { track, instMps } = addPoint(trackRef.current, p);
     trackRef.current = track;
     // 기기 제공 속도(m/s) 우선, 없으면 좌표로 계산한 순간속도.
-    const mps =
-      typeof c.speed === "number" && c.speed >= 0 ? c.speed : instMps;
+    const mps = fix.speedMps != null ? fix.speedMps : instMps;
     const kmh = speedKmh(mps);
     // GPS 드리프트로 가만히 있어도 캐릭터가 움직이던 문제 — 걷기 이상(≥3.5km/h)일 때만
     // 이동으로 본다. 그 이하는 정지(target 0) → 캐릭터도 멈춤.
@@ -121,12 +160,6 @@ export function OutdoorRun({
   function start() {
     setError(null);
     setErrKind(null);
-    if (typeof navigator === "undefined" || !navigator.geolocation) {
-      setError("이 기기에서 위치(GPS)를 사용할 수 없어요.");
-      setErrKind("other");
-      setPhase("error");
-      return;
-    }
     trackRef.current = emptyTrack();
     runRef.current = 0;
     targetRef.current = 0;
@@ -134,29 +167,25 @@ export function OutdoorRun({
     lastMoveTsRef.current = Date.now();
     setM({ meters: 0, kmh: 0, elapsedSec: 0 });
     setPhase("playing");
+    watchWantedRef.current = true;
 
-    watchRef.current = navigator.geolocation.watchPosition(
-      onPosition,
-      (err) => {
-        // 권한거부 / 위치정보(GPS) 꺼짐(POSITION_UNAVAILABLE) / 신호 타임아웃을 구분해 안내.
-        if (err.code === err.PERMISSION_DENIED) {
-          setErrKind("denied");
-          setError("위치 권한이 필요해요. 권한을 허용해 주세요.");
-        } else if (err.code === err.POSITION_UNAVAILABLE) {
-          setErrKind("gps-off");
-          setError("위치 정보(GPS)가 꺼져 있어요. 휴대폰 설정에서 위치를 켜주세요.");
-        } else if (err.code === err.TIMEOUT) {
-          setErrKind("timeout");
-          setError("위치를 찾지 못했어요. 실외에서 GPS가 켜져 있는지 확인해 주세요.");
-        } else {
-          setErrKind("other");
-          setError(`위치 오류: ${err.message}`);
-        }
-        setPhase("error");
-        stopAll();
-      },
-      { enableHighAccuracy: true, maximumAge: 1000, timeout: 15000 },
-    );
+    // 네이티브: 백그라운드에서도 유지되는 위치 추적. 웹: 포그라운드 watchPosition.
+    void startGeoWatch(onFix, (kind, msg) => {
+      setErrKind(kind);
+      setError(
+        kind === "gps-off"
+          ? "위치 정보(GPS)가 꺼져 있어요. 휴대폰 설정에서 위치를 켜주세요."
+          : kind === "denied"
+            ? "위치 권한이 필요해요. 권한을 허용해 주세요."
+            : msg,
+      );
+      setPhase("error");
+      stopAll();
+    }).then((handle) => {
+      // 종료(stopAll)가 먼저 호출됐으면 바로 정리.
+      if (watchWantedRef.current) watchRef.current = handle;
+      else handle.stop();
+    });
     rafRef.current = requestAnimationFrame(controlLoop);
     tickRef.current = setInterval(() => {
       setM((prev) => ({
@@ -195,9 +224,12 @@ export function OutdoorRun({
 
   return (
     <div className="fixed inset-0 z-40 w-full select-none overflow-hidden bg-[#bfeaff] text-white">
-      {/* 우측 상단 — 그룹 러닝 순위(오늘 달린 거리) */}
+      {/* 우측 상단 — 그룹 러닝 순위. 야외는 상단 HUD(거리·페이스·시간·시속)와 안 겹치게 더 아래로. */}
       {phase === "playing" ? (
-        <RunLeaderboard getSessionMeters={() => trackRef.current.totalMeters} />
+        <RunLeaderboard
+          getSessionMeters={() => trackRef.current.totalMeters}
+          top="calc(env(safe-area-inset-top, 0px) + 10rem)"
+        />
       ) : null}
 
       {phase === "playing" || phase === "done" ? (
@@ -279,11 +311,19 @@ export function OutdoorRun({
 
           <button
             type="button"
-            onClick={start}
+            onClick={phase === "error" ? checkLocation : start}
             className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition active:scale-95"
           >
-            {phase === "error" ? "다시 시도" : "시작하기"}
+            {phase === "error" ? "다시 확인" : "시작하기"}
           </button>
+        </div>
+      ) : null}
+
+      {/* 진입 시 위치 확인 중 */}
+      {phase === "checking" ? (
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-gradient-to-b from-sky-400 to-emerald-200 px-6 text-center text-emerald-950">
+          <Loader2 aria-hidden="true" size={30} className="animate-spin" />
+          <p className="text-sm font-semibold">위치 확인 중…</p>
         </div>
       ) : null}
 

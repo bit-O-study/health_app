@@ -22,6 +22,11 @@ import {
 } from "@/features/profile/data-access";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { goalProgress } from "@/features/profile/goal";
+import { getMyCommitments } from "@/features/commitments/data-access";
+import {
+  TodayGoalCard,
+  type MissionCardView,
+} from "@/features/routine/components/today-goal-card";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
@@ -260,6 +265,54 @@ async function TodayWorkout({
   );
 
   const todayYmd = seoulYmd();
+
+  // 체형 목표(자세히) + 다짐 미션 — 운동탭 메인 상단 카드.
+  const gp = goalProgress(
+    profile?.goal ?? null,
+    {
+      weightKg: profile?.weightKg ?? null,
+      bodyFatPct: profile?.bodyFatPct ?? null,
+      muscleMassKg: profile?.muscleMassKg ?? null,
+    },
+    {
+      targetWeightKg: profile?.targetWeightKg ?? null,
+      targetBodyFatPct: profile?.targetBodyFatPct ?? null,
+      targetMuscleKg: profile?.targetMuscleKg ?? null,
+    },
+  );
+  const goalCard = gp
+    ? {
+        metricLabel: gp.metricLabel,
+        directionLabel: gp.direction === "up" ? "증량" : "감량",
+        currentText: gp.currentText,
+        targetText: `${gp.target}${gp.unit}`,
+        remainingText: gp.remainingText,
+        reached: gp.reached,
+      }
+    : null;
+
+  const commitments = await getMyCommitments();
+  const missionCards: MissionCardView[] = commitments.slice(0, 4).map((c) => {
+    const p = c.progress;
+    const statusText = p.done
+      ? "달성"
+      : p.expired
+        ? "종료"
+        : p.upcoming
+          ? "예정"
+          : p.daysLeft <= 0
+            ? "오늘 마감"
+            : `D-${p.daysLeft}`;
+    return {
+      id: c.id,
+      title: c.title,
+      valueText: `${p.current}/${p.target}${c.unit}`,
+      pct: p.pct,
+      statusText,
+      done: p.done,
+    };
+  });
+
   const offset = routineDayOffset(routine.startDate, todayYmd);
   const overriddenToday =
     routine.overrideDate === todayYmd && routine.overrideBlock !== null;
@@ -381,8 +434,7 @@ async function TodayWorkout({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {/* 체형 기록 — 목표가 있으면 '목표까지 N kg/%' 를 보여주고, 탭하면 기록 입력.
-              (운동 편집은 오늘 카드의 부위 배지 메뉴로 이동했다.) */}
+          {/* 체형 기록 빠른 버튼. 상세한 목표·다짐은 아래 TodayGoalCard 에서 보여준다. */}
           <BodyLogButton
             current={{
               weightKg: profile?.weightKg ?? null,
@@ -390,32 +442,22 @@ async function TodayWorkout({
               bodyFatPct: profile?.bodyFatPct ?? null,
               muscleMassKg: profile?.muscleMassKg ?? null,
             }}
-            goal={(() => {
-              const gp = goalProgress(
-                profile?.goal ?? null,
-                {
-                  weightKg: profile?.weightKg ?? null,
-                  bodyFatPct: profile?.bodyFatPct ?? null,
-                  muscleMassKg: profile?.muscleMassKg ?? null,
-                },
-                {
-                  targetWeightKg: profile?.targetWeightKg ?? null,
-                  targetBodyFatPct: profile?.targetBodyFatPct ?? null,
-                  targetMuscleKg: profile?.targetMuscleKg ?? null,
-                },
-              );
-              return gp
-                ? {
-                    metricLabel: gp.metricLabel,
-                    remainingText: gp.remainingText,
-                    targetText: gp.targetText,
-                    reached: gp.reached,
-                  }
-                : null;
-            })()}
           />
         </div>
       </div>
+
+      {/* 체형 목표(자세히) + 다짐 미션 */}
+      <TodayGoalCard
+        goal={goalCard}
+        missions={missionCards}
+        totalMissions={commitments.length}
+        current={{
+          weightKg: profile?.weightKg ?? null,
+          heightCm: profile?.heightCm ?? null,
+          bodyFatPct: profile?.bodyFatPct ?? null,
+          muscleMassKg: profile?.muscleMassKg ?? null,
+        }}
+      />
 
       {/* 오늘 카드 */}
       <section className={cnCard(todayStyle.card)}>

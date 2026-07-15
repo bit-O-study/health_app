@@ -71,11 +71,19 @@ export type GoalProgress = {
   goal: Goal;
   /** 지표 이름(체중/체지방/근육). */
   metricLabel: string;
+  /** 현재 값(소수 1자리). */
+  current: number;
+  /** 목표 값(소수 1자리). */
+  target: number;
   /** 남은 양(절대값, 소수 1자리). 도달했으면 0. */
   remaining: number;
   unit: "kg" | "%";
+  /** "65.2kg" 처럼 현재값+단위. */
+  currentText: string;
   /** "3.2kg" 처럼 남은 양+단위. */
   remainingText: string;
+  /** 방향 — 감량/감소는 'down', 증량은 'up'. */
+  direction: "up" | "down";
   /** 목표 달성 여부. */
   reached: boolean;
   /** 목표치 표시용(예: "목표 체중 70kg"). */
@@ -129,6 +137,8 @@ export function goalProgress(
   const reached = diff <= 0;
   const metricLabel = GOAL_METRIC_LABEL[goal];
   const remainingText = `${remaining}${unit}`;
+  const currentText = `${round1(cur)}${unit}`;
+  const direction: "up" | "down" = goal === "muscle_gain" ? "up" : "down";
   const targetText = `목표 ${metricLabel} ${round1(tgt)}${unit}`;
   const label = reached
     ? `${metricLabel} 목표 달성 🎉`
@@ -137,6 +147,10 @@ export function goalProgress(
   return {
     goal,
     metricLabel,
+    current: round1(cur),
+    target: round1(tgt),
+    currentText,
+    direction,
     remaining,
     unit,
     remainingText,

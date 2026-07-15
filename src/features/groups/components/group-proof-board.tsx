@@ -131,8 +131,8 @@ export function GroupProofBoard({
 
   return (
     <div className="mx-auto flex h-full w-full max-w-2xl flex-col">
-      {/* 헤더 */}
-      <header className="shrink-0 px-4 pt-4 sm:px-6">
+      {/* 헤더 — fixed top-0 라 상태바(시계·배터리)와 안 겹치게 상단 safe-area 인셋. */}
+      <header className="shrink-0 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] sm:px-6">
         <GroupSwitcher groups={groups} currentId={board.id} />
         <div className="mt-1 flex items-end justify-between">
           <div>

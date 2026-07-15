@@ -6,7 +6,23 @@
 **WebView 에는 PushManager 가 없어 구독조차 안 된다.** 상태표시줄 알림을 받으려면
 **네이티브 FCM(Firebase Cloud Messaging)** 을 붙여야 한다.
 
-현재 준비 완료(빌드 안전한 것):
+## ✅ 연동 완료(코드)
+- `android/app/google-services.json` 배치(패키지 `app.helssu.twa`), `POST_NOTIFICATIONS` 권한.
+- `@capacitor/push-notifications` 추가 + 클라이언트 등록(`native-push.ts`) → FCM 토큰을 `fcm_tokens` 테이블에 저장.
+- 서버 전송 `fcm.ts` — 서비스계정 JWT→OAuth→FCM HTTP v1 REST(무거운 SDK 없이 node crypto+fetch).
+  **OAuth 토큰 발급 실제 성공 검증됨**(서비스계정·키 유효).
+- 웹푸시+FCM 통합 팬아웃(`push-fanout.notifyUser`)으로 응원/주간MVP/일일리마인더/무활동 트리거 전부 교체.
+- 로컬 `.env.local` 에 `FIREBASE_SERVICE_ACCOUNT` 저장(gitignore, 커밋 안 됨).
+
+## 🔴 남은 2가지 (이거 하면 상태바 알림 동작)
+1. **Vercel 환경변수 설정**(서버 전송용) — 내가 Vercel 접근 권한이 없어 직접 못 넣음:
+   - Vercel → 프로젝트 → Settings → Environment Variables → 추가
+   - Name: `FIREBASE_SERVICE_ACCOUNT`
+   - Value: 다운로드한 **서비스 계정 JSON 전체**(내가 받은 그 내용). Production(+Preview) 체크 후 저장 → 재배포.
+2. **APK 재빌드**(클라이언트 FCM 등록용) — `google-services.json` + 플러그인이 포함된 새 APK 필요.
+   원하면 내가 빌드해줄 수 있음(`corepack pnpm android:setup:win`).
+
+## (참고) 이전 준비
 - `AndroidManifest.xml` 에 `POST_NOTIFICATIONS` 권한 추가(Android 13+ 필수).
 
 ## 🔴 사용자가 준비해야 할 것 (이게 있어야 나머지 연결 가능)

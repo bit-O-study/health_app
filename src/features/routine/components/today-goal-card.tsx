@@ -82,9 +82,6 @@ export function TodayGoalCard({
                 </span>
               </span>
             )}
-            <span className="block text-xs font-medium text-zinc-500 dark:text-zinc-400">
-              현재 {goal.currentText} → 목표 {goal.targetText} · 탭해서 기록
-            </span>
           </span>
           <ArrowRight
             aria-hidden="true"

@@ -20,7 +20,6 @@ import {
   getUserProfile,
   type UserProfile,
 } from "@/features/profile/data-access";
-import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { goalProgress } from "@/features/profile/goal";
 import { getMyCommitments } from "@/features/commitments/data-access";
 import {
@@ -433,20 +432,9 @@ async function TodayWorkout({
             {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
           </p>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
-          {/* 체형 기록 빠른 버튼. 상세한 목표·다짐은 아래 TodayGoalCard 에서 보여준다. */}
-          <BodyLogButton
-            current={{
-              weightKg: profile?.weightKg ?? null,
-              heightCm: profile?.heightCm ?? null,
-              bodyFatPct: profile?.bodyFatPct ?? null,
-              muscleMassKg: profile?.muscleMassKg ?? null,
-            }}
-          />
-        </div>
       </div>
 
-      {/* 체형 목표(자세히) + 다짐 미션 */}
+      {/* 체형 목표(자세히) + 다짐 미션 — 체형 기록은 이 카드 탭으로 */}
       <TodayGoalCard
         goal={goalCard}
         missions={missionCards}

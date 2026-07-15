@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import { Loader2 } from "lucide-react";
 
 import {
   addPoint,
@@ -25,7 +26,7 @@ const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
   loading: () => null,
 });
 
-type Phase = "intro" | "playing" | "done" | "error";
+type Phase = "checking" | "intro" | "playing" | "done" | "error";
 type Metrics = { meters: number; kmh: number; elapsedSec: number };
 // 이 거리(m) 미만이면 '실제로 달리지 않음'으로 보고 기록하지 않는다(들어왔다 나간 경우).
 const MIN_RUN_METERS = 50;
@@ -67,9 +68,44 @@ export function OutdoorRun({
   const hiddenDistRef = useRef<HTMLSpanElement | null>(null); // ZenScene 내부 거리(안 씀)
 
   useEffect(() => {
+    // 진입 시 위치 권한 AND 위치(GPS) 켜짐을 먼저 확인 — 하나라도 아니면 진입 차단.
+    checkLocation();
     return () => stopAll();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  /**
+   * 위치 권한 + GPS 켜짐을 한 번에 확인(getCurrentPosition 프로브).
+   * 성공해야만 intro(시작 가능). 권한거부/GPS꺼짐/못찾음이면 error 로 진입 차단.
+   */
+  function checkLocation() {
+    setError(null);
+    setErrKind(null);
+    setPhase("checking");
+    if (typeof navigator === "undefined" || !navigator.geolocation) {
+      setErrKind("other");
+      setError("이 기기에서 위치(GPS)를 사용할 수 없어요.");
+      setPhase("error");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      () => setPhase("intro"),
+      (err) => {
+        if (err.code === err.PERMISSION_DENIED) {
+          setErrKind("denied");
+          setError("위치 권한이 필요해요. 권한을 허용해야 야외 런닝을 할 수 있어요.");
+        } else if (err.code === err.POSITION_UNAVAILABLE) {
+          setErrKind("gps-off");
+          setError("위치 정보(GPS)가 꺼져 있어요. 휴대폰 설정에서 위치를 켠 뒤 다시 시도해 주세요.");
+        } else {
+          setErrKind("timeout");
+          setError("위치를 찾지 못했어요. 위치(GPS)가 켜져 있는지 확인해 주세요.");
+        }
+        setPhase("error");
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
+    );
+  }
 
   function stopAll() {
     cancelAnimationFrame(rafRef.current);
@@ -195,9 +231,12 @@ export function OutdoorRun({
 
   return (
     <div className="fixed inset-0 z-40 w-full select-none overflow-hidden bg-[#bfeaff] text-white">
-      {/* 우측 상단 — 그룹 러닝 순위(오늘 달린 거리) */}
+      {/* 우측 상단 — 그룹 러닝 순위. 야외는 상단 HUD(거리·페이스·시간·시속)와 안 겹치게 더 아래로. */}
       {phase === "playing" ? (
-        <RunLeaderboard getSessionMeters={() => trackRef.current.totalMeters} />
+        <RunLeaderboard
+          getSessionMeters={() => trackRef.current.totalMeters}
+          top="calc(env(safe-area-inset-top, 0px) + 10rem)"
+        />
       ) : null}
 
       {phase === "playing" || phase === "done" ? (
@@ -279,11 +318,19 @@ export function OutdoorRun({
 
           <button
             type="button"
-            onClick={start}
+            onClick={phase === "error" ? checkLocation : start}
             className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition active:scale-95"
           >
-            {phase === "error" ? "다시 시도" : "시작하기"}
+            {phase === "error" ? "다시 확인" : "시작하기"}
           </button>
+        </div>
+      ) : null}
+
+      {/* 진입 시 위치 확인 중 */}
+      {phase === "checking" ? (
+        <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-3 bg-gradient-to-b from-sky-400 to-emerald-200 px-6 text-center text-emerald-950">
+          <Loader2 aria-hidden="true" size={30} className="animate-spin" />
+          <p className="text-sm font-semibold">위치 확인 중…</p>
         </div>
       ) : null}
 

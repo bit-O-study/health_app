@@ -81,6 +81,27 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const mapRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
+    // 진입 시 카메라 권한이 '거부'면 실내 런닝을 못 들어오게 막는다(에러 화면).
+    (async () => {
+      try {
+        const perms = (
+          navigator as unknown as {
+            permissions?: {
+              query?: (d: { name: string }) => Promise<{ state: string }>;
+            };
+          }
+        ).permissions;
+        const st = await perms?.query?.({ name: "camera" });
+        if (st?.state === "denied") {
+          setError(
+            "카메라 권한이 꺼져 있어요. 권한을 허용해야 실내 런닝을 할 수 있어요.",
+          );
+          setPhase("error");
+        }
+      } catch {
+        /* permissions API 미지원 — intro 유지, 시작 시 getUserMedia 가 처리 */
+      }
+    })();
     return () => stopCamera();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -15,6 +15,7 @@ import {
   type RunTrack,
 } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
+import { openLocationSettings } from "@/features/running/native";
 
 // 무거운 3D 씬은 '시작' 이후에만 지연 로드(첫 진입 번들 가볍게 — PWA 안전).
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -24,6 +25,8 @@ const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
 
 type Phase = "intro" | "playing" | "done" | "error";
 type Metrics = { meters: number; kmh: number; elapsedSec: number };
+// 오류 종류 — 권한 거부 / GPS(위치정보) 꺼짐 / 신호 못찾음 / 기타.
+type ErrKind = "denied" | "gps-off" | "timeout" | "other" | null;
 
 /**
  * 야외 런닝 — GPS(위치)로 캐릭터가 달리고, 나이키런처럼 거리·시속·페이스·시간을 보여준다.
@@ -44,6 +47,7 @@ export function OutdoorRun({
 }) {
   const [phase, setPhase] = useState<Phase>("intro");
   const [error, setError] = useState<string | null>(null);
+  const [errKind, setErrKind] = useState<ErrKind>(null);
   const [m, setM] = useState<Metrics>({ meters: 0, kmh: 0, elapsedSec: 0 });
 
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
@@ -110,8 +114,10 @@ export function OutdoorRun({
 
   function start() {
     setError(null);
+    setErrKind(null);
     if (typeof navigator === "undefined" || !navigator.geolocation) {
       setError("이 기기에서 위치(GPS)를 사용할 수 없어요.");
+      setErrKind("other");
       setPhase("error");
       return;
     }
@@ -126,11 +132,20 @@ export function OutdoorRun({
     watchRef.current = navigator.geolocation.watchPosition(
       onPosition,
       (err) => {
-        setError(
-          err.code === err.PERMISSION_DENIED
-            ? "위치 권한이 필요해요. 설정에서 허용해 주세요."
-            : `위치 오류: ${err.message}`,
-        );
+        // 권한거부 / 위치정보(GPS) 꺼짐(POSITION_UNAVAILABLE) / 신호 타임아웃을 구분해 안내.
+        if (err.code === err.PERMISSION_DENIED) {
+          setErrKind("denied");
+          setError("위치 권한이 필요해요. 권한을 허용해 주세요.");
+        } else if (err.code === err.POSITION_UNAVAILABLE) {
+          setErrKind("gps-off");
+          setError("위치 정보(GPS)가 꺼져 있어요. 휴대폰 설정에서 위치를 켜주세요.");
+        } else if (err.code === err.TIMEOUT) {
+          setErrKind("timeout");
+          setError("위치를 찾지 못했어요. 실외에서 GPS가 켜져 있는지 확인해 주세요.");
+        } else {
+          setErrKind("other");
+          setError(`위치 오류: ${err.message}`);
+        }
         setPhase("error");
         stopAll();
       },
@@ -164,7 +179,7 @@ export function OutdoorRun({
   const pace = avgPaceSecPerKm(m.meters, m.elapsedSec);
 
   return (
-    <div className="relative h-[100dvh] w-full select-none overflow-hidden bg-[#bfeaff] text-white">
+    <div className="fixed inset-0 z-40 w-full select-none overflow-hidden bg-[#bfeaff] text-white">
       {phase === "playing" || phase === "done" ? (
         <>
           <ZenScene runRef={runRef} hud={{ dist: hiddenDistRef }} />
@@ -188,7 +203,7 @@ export function OutdoorRun({
       ) : null}
 
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-[max(env(safe-area-inset-bottom),5.5rem)] z-20 flex justify-center px-6">
+        <div className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] z-20 flex justify-center px-6">
           <button
             type="button"
             onClick={finish}
@@ -220,16 +235,34 @@ export function OutdoorRun({
             거부하면 야외 런닝이 실행되지 않아요.
           </p>
           {error ? (
-            <p className="rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-800">
+            <p className="max-w-xs rounded-lg bg-red-500/20 px-3 py-2 text-sm font-semibold text-red-800">
               {error}
             </p>
           ) : null}
+
+          {/* GPS 꺼짐/타임아웃이면 '위치 설정 열기'(네이티브 앱) — 웹이면 안내로 폴백. */}
+          {phase === "error" && (errKind === "gps-off" || errKind === "timeout") ? (
+            <button
+              type="button"
+              onClick={() => {
+                if (!openLocationSettings()) {
+                  setError(
+                    "휴대폰 설정 → 위치(위치 정보)를 켠 뒤 다시 시도해 주세요.",
+                  );
+                }
+              }}
+              className="rounded-full bg-white px-6 py-2.5 text-sm font-bold text-emerald-800 shadow active:scale-95"
+            >
+              위치 설정 열기
+            </button>
+          ) : null}
+
           <button
             type="button"
             onClick={start}
             className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition active:scale-95"
           >
-            시작하기
+            {phase === "error" ? "다시 시도" : "시작하기"}
           </button>
         </div>
       ) : null}

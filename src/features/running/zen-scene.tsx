@@ -153,7 +153,7 @@ export default function ZenScene({
       shadows
       dpr={[1, 2]}
       camera={{ position: [0.6, 2.4, 12], fov: 40 }}
-      onCreated={({ camera }) => camera.lookAt(3.4, 2.1, -8)}
+      onCreated={({ camera }) => camera.lookAt(3.4, 1.6, -8)}
       className="absolute inset-0"
     >
       <Sky preset={preset} />

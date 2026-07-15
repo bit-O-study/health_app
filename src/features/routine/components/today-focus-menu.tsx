@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   ChevronDown,
+  Footprints,
   Loader2,
   RotateCcw,
   Shuffle,
@@ -11,7 +12,10 @@ import {
   X,
 } from "lucide-react";
 
-import { restartRoutineFromTodayAction } from "@/features/routine/actions";
+import {
+  deferRoutineOneDayAction,
+  restartRoutineFromTodayAction,
+} from "@/features/routine/actions";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
 
 /**
@@ -40,6 +44,15 @@ export function TodayFocusMenu({
       await restartRoutineFromTodayAction();
       setMenuOpen(false);
       router.refresh();
+    });
+  }
+
+  // 런닝하기 — 오늘 운동을 내일로 미루고 런닝 모드로. (런닝 종료 시 마무리운동에 자동 기록)
+  function runToday() {
+    start(async () => {
+      await deferRoutineOneDayAction();
+      setMenuOpen(false);
+      router.push("/running");
     });
   }
 
@@ -143,6 +156,29 @@ export function TodayFocusMenu({
                   </span>
                   <span className="block text-xs text-zinc-500 dark:text-zinc-400">
                     변경사항을 초기화하고 오늘을 루틴 1일차로
+                  </span>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                disabled={pending}
+                onClick={runToday}
+                className="flex w-full items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-left transition hover:border-emerald-400 hover:bg-emerald-100 disabled:opacity-60 dark:border-emerald-800 dark:bg-emerald-950/30 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/50"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
+                  {pending ? (
+                    <Loader2 aria-hidden="true" size={18} className="animate-spin" />
+                  ) : (
+                    <Footprints aria-hidden="true" size={18} />
+                  )}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
+                    런닝하기
+                  </span>
+                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                    오늘 운동은 내일로 미루고 런닝 (마무리운동에 자동 기록)
                   </span>
                 </span>
               </button>

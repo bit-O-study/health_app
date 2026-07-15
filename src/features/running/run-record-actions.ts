@@ -162,30 +162,29 @@ export async function removeTodayRunAction(): Promise<{
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const runRow = (await getDailyConditioning(today)).cooldown.find(
+  // 오늘 러닝 시간 합계(여러 행이어도) → 오늘 운동 시간에서 뺀다.
+  const runRows = (await getDailyConditioning(today)).cooldown.filter(
     (r) => r.itemId === "running",
   );
-  if (!runRow) {
-    revalidatePath("/routine");
-    return { ok: true };
-  }
-
-  // 오늘 운동 시간에서 러닝 시간만큼 빼기.
-  const sec = Math.round((runRow.durationMin ?? 0) * 60);
+  const totalMin = runRows.reduce((s, r) => s + (r.durationMin ?? 0), 0);
+  const sec = Math.round(totalMin * 60);
   if (sec > 0) await adjustWorkoutSeconds(supabase, user.id, today, -sec);
 
-  // 완료기록 + 마무리 러닝 행 삭제.
+  // 오늘 '러닝' 완료기록·마무리 행을 item_id 기준으로 '전부' 삭제한다.
+  // (예전엔 source_row_id 로만 지워, id 가 안 맞는 고아 완료기록이 남아 탭 이동 시
+  //  고스트로 러닝이 다시 살아났다. item_id 로 싹 지워 재생을 막는다.)
   await supabase
     .from("conditioning_completions")
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", today)
-    .eq("source_row_id", runRow.id);
+    .eq("item_id", "running");
   await supabase
     .from("daily_conditioning")
     .delete()
     .eq("user_id", user.id)
-    .eq("id", runRow.id);
+    .eq("for_date", today)
+    .eq("item_id", "running");
 
   revalidatePath("/routine");
   revalidatePath("/settings/score");

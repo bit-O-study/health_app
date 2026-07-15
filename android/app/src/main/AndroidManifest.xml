@@ -79,6 +79,10 @@
     <!-- 야외 런닝(GPS) — WebView geolocation 권한 프롬프트에 필요. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 백그라운드 러닝 — 앱이 뒤로 가도 GPS 추적 유지(포그라운드 서비스 + 백그라운드 위치). -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
     <!-- 카메라/GPS 없는 기기도 설치 가능하게(런닝은 선택 기능). -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />

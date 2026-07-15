@@ -1905,6 +1905,19 @@ drop policy if exists "Users manage own push subs (delete)" on public.push_subsc
 create policy "Users manage own push subs (delete)" on public.push_subscriptions
   for delete using (auth.uid() = user_id);
 
+-- 네이티브 푸시 토큰(fcm_tokens) — 안드로이드 WebView 앱은 Web Push 미지원이라 FCM 토큰으로 보낸다.
+create table if not exists public.fcm_tokens (
+  token text primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  platform text not null default 'android',
+  updated_at timestamptz not null default now()
+);
+create index if not exists fcm_tokens_user_idx on public.fcm_tokens (user_id);
+alter table public.fcm_tokens enable row level security;
+drop policy if exists "own fcm tokens" on public.fcm_tokens;
+create policy "own fcm tokens" on public.fcm_tokens for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 진행 중 운동 세션 상태(workout_active_state) — 서버가 '무활동'을 판정하기 위한 1인 1행.
 -- 클라이언트가 시작/활동/스누즈/종료 때 갱신한다. remaining 에 '남은 운동' 스냅샷을 담아

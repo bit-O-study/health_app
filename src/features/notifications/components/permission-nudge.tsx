@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Bell, Footprints, Loader2 } from "lucide-react";
 
 import { ensurePushSubscribed } from "@/features/notifications/push-client";
+import { registerNativePush } from "@/features/notifications/native-push";
 import {
   connectSteps,
   getStepsState,
@@ -30,6 +31,8 @@ export function PermissionNudge() {
 
   useEffect(() => {
     let cancelled = false;
+    // 네이티브(안드로이드 앱) — FCM 푸시 등록(상태표시줄 알림). 웹에선 no-op.
+    void registerNativePush();
     (async () => {
       // 앱 푸시 알림 — 모바일에서만 넛지.
       try {

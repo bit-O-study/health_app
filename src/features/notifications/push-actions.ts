@@ -30,6 +30,27 @@ export async function savePushSubscriptionAction(sub: {
   return { ok: !error };
 }
 
+/** 네이티브(FCM) 푸시 토큰 저장 — 안드로이드 앱에서 등록 시 호출. */
+export async function saveFcmTokenAction(
+  token: string,
+): Promise<{ ok: boolean }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false };
+  const t = (token ?? "").trim();
+  if (!t) return { ok: false };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("fcm_tokens").upsert(
+    {
+      token: t,
+      user_id: user.id,
+      platform: "android",
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: "token" },
+  );
+  return { ok: !error };
+}
+
 /** 구독 해지(로그아웃/권한 해제 시). */
 export async function deletePushSubscriptionAction(
   endpoint: string,

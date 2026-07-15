@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { sendPush, pushEnabled } from "@/features/notifications/push";
+import { notifyUser, notifyEnabled } from "@/features/notifications/push-fanout";
 import {
   reminderKindFor,
   REMINDER_PAYLOADS,
@@ -30,7 +30,6 @@ type RoutineRow = {
   override_date: string | null;
   override_block: unknown;
 };
-type SubRow = { endpoint: string; p256dh: string; auth: string };
 
 /**
  * 하루 리마인더 cron — 하루 1회(저녁, KST 20시 ≈ UTC 11시) 호출.
@@ -50,7 +49,7 @@ export async function GET(req: Request) {
   }
 
   const admin = createSupabaseAdminClient();
-  if (!admin || !pushEnabled()) {
+  if (!admin || !notifyEnabled()) {
     return NextResponse.json(
       { ok: false, reason: "push/admin not configured" },
       { status: 200 },
@@ -152,25 +151,20 @@ async function sendReminder(
   userId: string,
   kind: ReminderKind,
 ): Promise<boolean> {
-  const { data: subs } = await admin
-    .from("push_subscriptions")
-    .select("endpoint, p256dh, auth")
-    .eq("user_id", userId);
+  // 기기(웹푸시 구독 / FCM 토큰)가 하나라도 있어야 '전송함'으로 본다.
+  const [{ count: subCount }, { count: tokCount }] = await Promise.all([
+    admin
+      .from("push_subscriptions")
+      .select("endpoint", { count: "exact", head: true })
+      .eq("user_id", userId),
+    admin
+      .from("fcm_tokens")
+      .select("token", { count: "exact", head: true })
+      .eq("user_id", userId),
+  ]);
+  if ((subCount ?? 0) + (tokCount ?? 0) === 0) return false;
 
-  const list = (subs ?? []) as SubRow[];
-  if (list.length === 0) return false;
-
-  const payload = REMINDER_PAYLOADS[kind];
-  let ok = false;
-  for (const sub of list) {
-    const res = await sendPush(
-      { endpoint: sub.endpoint, p256dh: sub.p256dh, auth: sub.auth },
-      payload,
-    );
-    if (res === "ok") ok = true;
-    if (res === "gone") {
-      await admin.from("push_subscriptions").delete().eq("endpoint", sub.endpoint);
-    }
-  }
-  return ok;
+  // 웹푸시 + FCM(네이티브 앱) 양쪽으로.
+  await notifyUser(admin, userId, REMINDER_PAYLOADS[kind]);
+  return true;
 }

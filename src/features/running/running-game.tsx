@@ -6,7 +6,9 @@ import dynamic from "next/dynamic";
 import { runIntensityFromBounce } from "@/features/running/controls";
 import { formatDuration } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
+import { addRunDistanceAction } from "@/features/running/run-distance-actions";
 import { openAppSettings } from "@/features/running/native";
+import { RunLeaderboard } from "@/features/running/components/run-leaderboard";
 
 /* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -50,6 +52,8 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const speedRef = useRef(8);
   const inclineRef = useRef(1);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // 이번 세션 달린 거리(m) — 매초 (속도 m/s × 달리기 강도)로 누적. 그룹 순위·거리 저장용.
+  const sessionMetersRef = useRef(0);
   function changeSpeed(d: number) {
     setSpeed((s) => {
       const n = Math.round(Math.min(20, Math.max(1, s + d)) * 10) / 10;
@@ -130,6 +134,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       headYRef.current = [];
       runRef.current = 0;
       targetRef.current = 0;
+      sessionMetersRef.current = 0;
       playStartRef.current = Date.now();
       setElapsedSec(0);
       setPhase("playing");
@@ -137,6 +142,9 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       rafRef.current = requestAnimationFrame(visionLoop);
       tickRef.current = setInterval(() => {
         setElapsedSec((Date.now() - playStartRef.current) / 1000);
+        // 매초 거리 누적: 속도(m/s) × 달리기 강도(0..1). 가만히 있으면 안 늘어난다.
+        sessionMetersRef.current +=
+          (speedRef.current / 3.6) * Math.max(0, Math.min(1, runRef.current));
       }, 1000);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "알 수 없는 오류";
@@ -195,6 +203,8 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       avgKmh: speedRef.current,
       incline: inclineRef.current,
     }).catch(() => {});
+    // 오늘 달린 거리 누적(그룹 순위용).
+    void addRunDistanceAction(Math.round(sessionMetersRef.current)).catch(() => {});
   }
 
   const active = phase === "playing" || phase === "done";
@@ -211,6 +221,11 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         muted
         className="pointer-events-none absolute left-0 top-0 h-px w-px opacity-0"
       />
+
+      {/* 우측 상단 — 그룹 러닝 순위(오늘 달린 거리) */}
+      {phase === "playing" ? (
+        <RunLeaderboard getSessionMeters={() => sessionMetersRef.current} />
+      ) : null}
 
       {/* 거리 + 맵 HUD */}
       {phase === "playing" ? (

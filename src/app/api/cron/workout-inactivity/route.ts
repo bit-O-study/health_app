@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { sendPush, pushEnabled } from "@/features/notifications/push";
+import { notifyUser, notifyEnabled } from "@/features/notifications/push-fanout";
 import {
   INACTIVITY_LIMIT_MS,
   NO_RESPONSE_LIMIT_MS,
@@ -16,7 +16,6 @@ type StateRow = {
   last_activity_at: string;
   prompted_at: string | null;
 };
-type SubRow = { endpoint: string; p256dh: string; auth: string };
 
 /**
  * 무활동 감지 cron — Vercel Cron 이 주기적으로 호출(예: 10분마다).
@@ -33,7 +32,7 @@ export async function GET(req: Request) {
   }
 
   const admin = createSupabaseAdminClient();
-  if (!admin || !pushEnabled()) {
+  if (!admin || !notifyEnabled()) {
     return NextResponse.json(
       { ok: false, reason: "push/admin not configured" },
       { status: 200 },
@@ -75,24 +74,10 @@ export async function GET(req: Request) {
 }
 
 async function sendToUser(admin: SupabaseClient, userId: string) {
-  const { data: subs } = await admin
-    .from("push_subscriptions")
-    .select("endpoint, p256dh, auth")
-    .eq("user_id", userId);
-
-  const payload = {
+  // 웹푸시(예/아니오 액션은 SW가 처리) + FCM(네이티브 앱, 기본 알림).
+  await notifyUser(admin, userId, {
     type: "workout-end",
     title: "운동을 종료하시겠습니까?",
     body: "30분 동안 완료된 운동이 없어요. 예/아니오를 눌러주세요.",
-  };
-
-  for (const sub of (subs ?? []) as SubRow[]) {
-    const res = await sendPush(
-      { endpoint: sub.endpoint, p256dh: sub.p256dh, auth: sub.auth },
-      payload,
-    );
-    if (res === "gone") {
-      await admin.from("push_subscriptions").delete().eq("endpoint", sub.endpoint);
-    }
-  }
+  });
 }

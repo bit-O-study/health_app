@@ -57,16 +57,30 @@ export type GoalTargets = {
   targetMuscleKg: number | null;
 };
 
+/** 목표 지표 한글 이름 — '무엇이' 남았는지 표시용. */
+export const GOAL_METRIC_LABEL: Record<
+  Exclude<Goal, "maintain">,
+  string
+> = {
+  weight_loss: "체중",
+  fat_loss: "체지방",
+  muscle_gain: "근육",
+};
+
 export type GoalProgress = {
   goal: Goal;
+  /** 지표 이름(체중/체지방/근육). */
+  metricLabel: string;
   /** 남은 양(절대값, 소수 1자리). 도달했으면 0. */
   remaining: number;
   unit: "kg" | "%";
+  /** "3.2kg" 처럼 남은 양+단위. */
+  remainingText: string;
   /** 목표 달성 여부. */
   reached: boolean;
-  /** 목표치 표시용(예: "목표 70kg"). */
+  /** 목표치 표시용(예: "목표 체중 70kg"). */
   targetText: string;
-  /** 한 줄 표시(예: "목표까지 3.2kg", "목표 달성"). */
+  /** 한 줄 표시(예: "체중 3.2kg 남음", "체중 목표 달성"). */
   label: string;
 };
 
@@ -113,8 +127,21 @@ export function goalProgress(
 
   const remaining = round1(Math.max(0, diff));
   const reached = diff <= 0;
-  const targetText = `목표 ${round1(tgt)}${unit}`;
-  const label = reached ? "목표 달성 🎉" : `목표까지 ${remaining}${unit}`;
+  const metricLabel = GOAL_METRIC_LABEL[goal];
+  const remainingText = `${remaining}${unit}`;
+  const targetText = `목표 ${metricLabel} ${round1(tgt)}${unit}`;
+  const label = reached
+    ? `${metricLabel} 목표 달성 🎉`
+    : `${metricLabel} ${remainingText} 남음`;
 
-  return { goal, remaining, unit, reached, targetText, label };
+  return {
+    goal,
+    metricLabel,
+    remaining,
+    unit,
+    remainingText,
+    reached,
+    targetText,
+    label,
+  };
 }

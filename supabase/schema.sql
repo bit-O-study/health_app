@@ -1799,6 +1799,27 @@ create policy "Users can delete own group proofs"
   using (bucket_id = 'group-proofs' and owner = auth.uid());
 notify pgrst, 'reload schema';
 
+-- 오늘 누적 달린 거리(daily_run_distance) — 실내 러닝 그룹 순위(오늘 달린 m)용.
+-- 실내는 속도×시간 추정, 야외는 GPS 거리. 러닝 종료 시 그날 값에 누적.
+create table if not exists public.daily_run_distance (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  meters int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+create index if not exists daily_run_distance_date_idx
+  on public.daily_run_distance (for_date);
+alter table public.daily_run_distance enable row level security;
+drop policy if exists "own run distance" on public.daily_run_distance;
+create policy "own run distance" on public.daily_run_distance for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+-- 그룹원끼리 오늘 달린 거리 열람(러닝 순위).
+drop policy if exists "group mates read run distance" on public.daily_run_distance;
+create policy "group mates read run distance" on public.daily_run_distance
+  for select using (public.shares_group_with(user_id));
+notify pgrst, 'reload schema';
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 다짐(commitments) — 사용자가 정한 목표. 시작일~데드라인 기간 동안 기존 운동/식단
 -- 기록으로 진행률을 '자동 집계'한다. 캘린더에 기간·데드라인을 표시.
@@ -1883,6 +1904,19 @@ create policy "Users manage own push subs (insert)" on public.push_subscriptions
 drop policy if exists "Users manage own push subs (delete)" on public.push_subscriptions;
 create policy "Users manage own push subs (delete)" on public.push_subscriptions
   for delete using (auth.uid() = user_id);
+
+-- 네이티브 푸시 토큰(fcm_tokens) — 안드로이드 WebView 앱은 Web Push 미지원이라 FCM 토큰으로 보낸다.
+create table if not exists public.fcm_tokens (
+  token text primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  platform text not null default 'android',
+  updated_at timestamptz not null default now()
+);
+create index if not exists fcm_tokens_user_idx on public.fcm_tokens (user_id);
+alter table public.fcm_tokens enable row level security;
+drop policy if exists "own fcm tokens" on public.fcm_tokens;
+create policy "own fcm tokens" on public.fcm_tokens for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 진행 중 운동 세션 상태(workout_active_state) — 서버가 '무활동'을 판정하기 위한 1인 1행.

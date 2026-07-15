@@ -90,7 +90,7 @@ export function ZenRun() {
           </button>
 
           {/* 거리 + 현재 맵 HUD */}
-          <div className="pointer-events-none absolute left-4 top-4 z-20 flex flex-col items-start gap-1">
+          <div className="pointer-events-none absolute left-4 top-[max(env(safe-area-inset-top),1rem)] z-20 flex flex-col items-start gap-1">
             <span
               ref={distRef}
               className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-black text-emerald-700 shadow"
@@ -106,7 +106,7 @@ export function ZenRun() {
           </div>
 
           {/* 안내 (조작은 없음 — 제자리 달리기 감지로만 전진) */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center px-4">
+          <div className="pointer-events-none absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] z-20 flex justify-center px-4">
             <span className="rounded-full bg-black/40 px-4 py-2 text-center text-sm font-semibold backdrop-blur">
               {noSensor
                 ? "⚠ 이 기기는 모션 센서가 없어요 — 휴대폰에서 열어주세요"

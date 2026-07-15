@@ -1264,7 +1264,7 @@ function TipsDialog({
   onClose: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center">
+    <div className="fixed inset-0 z-[70] flex items-end justify-center pb-[env(safe-area-inset-bottom)] sm:items-center sm:pb-0">
       <button
         type="button"
         aria-label="닫기"
@@ -1311,7 +1311,7 @@ function MemoEditDialog({
 }) {
   const [text, setText] = useState(initial);
   return (
-    <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center">
+    <div className="fixed inset-0 z-[70] flex items-end justify-center pb-[env(safe-area-inset-bottom)] sm:items-center sm:pb-0">
       <button
         type="button"
         aria-label="닫기"

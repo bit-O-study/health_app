@@ -15,7 +15,9 @@ import {
   type RunTrack,
 } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
+import { addRunDistanceAction } from "@/features/running/run-distance-actions";
 import { openLocationSettings } from "@/features/running/native";
+import { RunLeaderboard } from "@/features/running/components/run-leaderboard";
 
 // 무거운 3D 씬은 '시작' 이후에만 지연 로드(첫 진입 번들 가볍게 — PWA 안전).
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -185,12 +187,19 @@ export function OutdoorRun({
     void recordRunAsCooldownAction({ durationMin, distanceKm, avgKmh }).catch(
       () => {},
     );
+    // 오늘 달린 거리 누적(그룹 순위용) — 야외는 실제 GPS 거리.
+    void addRunDistanceAction(Math.round(meters)).catch(() => {});
   }
 
   const pace = avgPaceSecPerKm(m.meters, m.elapsedSec);
 
   return (
     <div className="fixed inset-0 z-40 w-full select-none overflow-hidden bg-[#bfeaff] text-white">
+      {/* 우측 상단 — 그룹 러닝 순위(오늘 달린 거리) */}
+      {phase === "playing" ? (
+        <RunLeaderboard getSessionMeters={() => trackRef.current.totalMeters} />
+      ) : null}
+
       {phase === "playing" || phase === "done" ? (
         <>
           <ZenScene runRef={runRef} hud={{ dist: hiddenDistRef }} />

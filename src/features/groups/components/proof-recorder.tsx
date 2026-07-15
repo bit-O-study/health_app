@@ -53,6 +53,8 @@ export function ProofRecorder({
   const [phase, setPhase] = useState<Phase>("live");
   const [count, setCount] = useState(3);
   const [error, setError] = useState<string | null>(null);
+  // 카메라 스트림 준비 여부 — 여는 동안 '카메라 여는 중' 표시(첫 로딩이 답답하지 않게).
+  const [camReady, setCamReady] = useState(false);
   const [clip, setClip] = useState<{ blob: Blob; ext: string; url: string } | null>(
     null,
   );
@@ -67,6 +69,7 @@ export function ProofRecorder({
   useEffect(() => {
     if (phase !== "live") return;
     let cancelled = false;
+    setCamReady(false);
     (async () => {
       try {
         stopStream();
@@ -82,6 +85,7 @@ export function ProofRecorder({
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           await videoRef.current.play().catch(() => {});
+          if (!cancelled) setCamReady(true);
         }
       } catch {
         if (!cancelled) {
@@ -216,12 +220,17 @@ export function ProofRecorder({
       <div className="relative flex-1 overflow-hidden">
         {phase === "preview" || phase === "saving" ? (
           <video
+            key={clip?.url}
             ref={previewRef}
             src={clip?.url}
             autoPlay
             loop
             muted
             playsInline
+            preload="auto"
+            onLoadedData={(e) => {
+              void e.currentTarget.play().catch(() => {});
+            }}
             className="h-full w-full object-cover"
             style={mirror ? { transform: "scaleX(-1)" } : undefined}
           />
@@ -235,6 +244,14 @@ export function ProofRecorder({
             style={mirror ? { transform: "scaleX(-1)" } : undefined}
           />
         )}
+
+        {/* 카메라 여는 중 — 첫 로딩이 답답하지 않게 스피너 표시. */}
+        {phase === "live" && !camReady && !error ? (
+          <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40 text-white">
+            <Loader2 aria-hidden="true" size={28} className="animate-spin" />
+            <span className="text-sm font-semibold">카메라 여는 중…</span>
+          </div>
+        ) : null}
 
         {phase === "recording" ? (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">

@@ -7,7 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { sendPush, pushEnabled } from "@/features/notifications/push";
+import { notifyUser, notifyEnabled } from "@/features/notifications/push-fanout";
 import { getUserProfile } from "@/features/profile/data-access";
 import { isValidCheer, normalizeCheer } from "@/features/groups/cheers";
 import { isChallengeMetric } from "@/features/groups/challenge";
@@ -103,7 +103,7 @@ async function notifyCheerRecipient(
   fromUserId: string,
 ): Promise<void> {
   try {
-    if (!pushEnabled()) return;
+    if (!notifyEnabled()) return;
     const admin = createSupabaseAdminClient();
     if (!admin) return;
     // 상대가 보는 '보낸 사람 이름' = 그룹 가입 스냅샷(display_name).
@@ -117,29 +117,13 @@ async function notifyCheerRecipient(
       ((mem as { display_name: string | null } | null)?.display_name ?? "").trim() ||
       "그룹원";
 
-    const { data: subs } = await admin
-      .from("push_subscriptions")
-      .select("endpoint, p256dh, auth")
-      .eq("user_id", toUser);
-    const payload = {
+    // 웹푸시 + FCM(네이티브 앱) 양쪽으로 전송.
+    await notifyUser(admin, toUser, {
       type: "group-cheer",
       title: "응원이 도착했어요 💪",
       body: `${fromName}님이 응원을 남겼습니다`,
       url: `/groups/${groupId}`,
-    };
-    for (const s of (subs ?? []) as {
-      endpoint: string;
-      p256dh: string;
-      auth: string;
-    }[]) {
-      const res = await sendPush(
-        { endpoint: s.endpoint, p256dh: s.p256dh, auth: s.auth },
-        payload,
-      );
-      if (res === "gone") {
-        await admin.from("push_subscriptions").delete().eq("endpoint", s.endpoint);
-      }
-    }
+    });
   } catch {
     /* 알림 실패는 무시 */
   }

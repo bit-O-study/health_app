@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "109669009227",
+    "project_id": "bito-d0f5c",
+    "storage_bucket": "bito-d0f5c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109669009227:android:15d35c01070d6c7bb8cace",
+        "android_client_info": {
+          "package_name": "app.helssu.twa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8-og8DYdOfv5U1rh45sYdd1rVpDK1D3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

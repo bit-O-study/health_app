@@ -190,5 +190,6 @@ export async function removeTodayRunAction(): Promise<{
   revalidatePath("/routine");
   revalidatePath("/settings/score");
   revalidatePath("/settings/history");
+  revalidatePath("/calendar");
   return { ok: true };
 }

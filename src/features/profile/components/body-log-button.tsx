@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { LineChart, Scale, Target, X } from "lucide-react";
+import { LineChart, Scale, X } from "lucide-react";
 
 import { BodyLogForm } from "@/features/profile/components/body-log-form";
 
-/** 목표 진행 표시(운동탭 체형기록) — 목표까지 남은 양. 없으면 null. */
+/** 목표 진행 표시(운동탭 체형기록) — 무엇이 얼마나 남았는지. 없으면 null. */
 export type BodyGoalView = {
-  label: string;
+  /** 지표 이름(체중/체지방/근육). */
+  metricLabel: string;
+  /** 남은 양+단위(예: "3.2kg"). */
+  remainingText: string;
   targetText: string;
   reached: boolean;
 } | null;
@@ -30,19 +33,30 @@ export function BodyLogButton({
   return (
     <>
       {goal ? (
-        // 목표가 있으면 '목표까지 N kg/%' 를 크게 보여주고, 탭하면 기록 입력.
+        // 목표가 있으면 '무엇이 얼마 남았는지'를 배지+숫자로 보여주고, 탭하면 기록 입력.
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className={`inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border px-3 text-sm font-bold transition sm:flex-initial sm:px-4 ${
-            goal.reached
-              ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300"
-              : "border-emerald-300 bg-white text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:bg-zinc-800 dark:text-emerald-300 dark:hover:bg-emerald-950/30"
-          }`}
+          className="inline-flex h-10 flex-1 items-center gap-2 whitespace-nowrap rounded-full border border-emerald-300 bg-white pl-1.5 pr-3.5 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50 dark:border-emerald-700 dark:bg-zinc-800 dark:text-emerald-200 dark:hover:bg-emerald-950/30 sm:flex-initial"
           title={goal.targetText}
         >
-          <Target aria-hidden="true" size={15} />
-          {goal.label}
+          <span className="inline-flex h-7 items-center rounded-full bg-emerald-600 px-2.5 text-xs font-bold text-white">
+            {goal.metricLabel}
+          </span>
+          {goal.reached ? (
+            <span className="text-emerald-600 dark:text-emerald-400">
+              목표 달성 🎉
+            </span>
+          ) : (
+            <span>
+              <span className="text-base font-black tabular-nums">
+                {goal.remainingText}
+              </span>
+              <span className="ml-0.5 text-xs font-semibold text-emerald-600/80 dark:text-emerald-400/80">
+                남음
+              </span>
+            </span>
+          )}
         </button>
       ) : (
         <button

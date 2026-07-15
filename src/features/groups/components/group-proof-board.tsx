@@ -160,37 +160,38 @@ export function GroupProofBoard({
               아직 오늘 인증 전이에요
             </p>
             <p className="mt-0.5 text-xs text-emerald-700/80 dark:text-emerald-400/80">
-              운동 인증을 올리면 그룹원들의 인증도 볼 수 있어요.
+              운동 인증을 올려 오늘의 기록을 남겨보세요.
             </p>
           </div>
         ) : null}
 
         <div className="grid grid-cols-2 gap-3">
-          {posted.map((m) => {
-            const locked = !iPosted && !m.isMe;
-            const card = <ProofCard member={m} locked={locked} />;
-            // 잠기지 않은(볼 수 있는) 카드는 탭하면 그 사람의 오늘 운동·식단.
-            return locked ? (
-              <div key={m.userId}>{card}</div>
-            ) : (
-              <button
-                key={m.userId}
-                type="button"
-                onClick={() => setSelected(m)}
-                className="block rounded-2xl text-left transition active:scale-[0.98]"
-              >
-                {card}
-              </button>
-            );
-          })}
+          {/* 인증 전에도 그룹원의 인증·오늘 기록을 볼 수 있다(블러/잠금 없음). */}
+          {posted.map((m) => (
+            <button
+              key={m.userId}
+              type="button"
+              onClick={() => setSelected(m)}
+              className="block rounded-2xl text-left transition active:scale-[0.98]"
+            >
+              <ProofCard member={m} locked={false} />
+            </button>
+          ))}
           {pending.map((m) => (
-            <PendingCard key={m.userId} member={m} />
+            <button
+              key={m.userId}
+              type="button"
+              onClick={() => setSelected(m)}
+              className="block rounded-2xl text-left transition active:scale-[0.98]"
+            >
+              <PendingCard member={m} />
+            </button>
           ))}
         </div>
 
-        {iPosted && posted.length > 0 ? (
+        {board.totalCount > 0 ? (
           <p className="mt-3 text-center text-[11px] text-zinc-400">
-            그룹원을 탭하면 오늘 운동·식단을 볼 수 있어요.
+            그룹원을 탭하면 오늘 무슨 운동·뭘 먹었는지 볼 수 있어요.
           </p>
         ) : null}
 

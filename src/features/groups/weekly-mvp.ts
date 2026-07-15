@@ -2,7 +2,7 @@ import "server-only";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-import { sendPush } from "@/features/notifications/push";
+import { notifyUser } from "@/features/notifications/push-fanout";
 import {
   strengthKcalForCompletion,
   estimateConditioningKcal,
@@ -41,7 +41,6 @@ function baseStat(userId: string, name: string): MemberStat {
   };
 }
 
-type SubRow = { endpoint: string; p256dh: string; auth: string };
 
 /**
  * 지난주(월~일) 각 그룹의 운동 랭킹을 계산해, 멤버들에게 결과 푸시를 보낸다.
@@ -166,31 +165,18 @@ export async function runWeeklyGroupMvp(
 
     let sentInGroup = false;
     for (const m of ranking) {
-      const { data: subs } = await admin
-        .from("push_subscriptions")
-        .select("endpoint, p256dh, auth")
-        .eq("user_id", m.userId);
-      const rows = (subs ?? []) as SubRow[];
-      if (rows.length === 0) continue;
-
       const { title, body } = buildWeeklyMvpMessage(
         g.name,
         winner.name,
         m.rank,
         ranking.length,
       );
-      for (const sub of rows) {
-        const res = await sendPush(
-          { endpoint: sub.endpoint, p256dh: sub.p256dh, auth: sub.auth },
-          { type: "weekly-mvp", title, body },
-        );
-        if (res === "gone") {
-          await admin
-            .from("push_subscriptions")
-            .delete()
-            .eq("endpoint", sub.endpoint);
-        }
-      }
+      // 웹푸시 + FCM(네이티브 앱) 양쪽으로.
+      await notifyUser(admin, m.userId, {
+        type: "weekly-mvp",
+        title,
+        body,
+      });
       notified += 1;
       sentInGroup = true;
     }

@@ -37,6 +37,8 @@ export function TodayFocusMenu({
   const router = useRouter();
   const [menuOpen, setMenuOpen] = useState(false);
   const [adjustOpen, setAdjustOpen] = useState(false);
+  // 런닝하기 → '오늘 런닝으로 대체할까요?' 확인.
+  const [confirmRun, setConfirmRun] = useState(false);
   const [pending, start] = useTransition();
 
   function restart() {
@@ -47,13 +49,25 @@ export function TodayFocusMenu({
     });
   }
 
-  // 런닝하기 — 오늘 운동을 내일로 미루고 런닝 모드로. (런닝 종료 시 마무리운동에 자동 기록)
+  // 런닝하기 — 대체 여부를 먼저 물어본다.
   function runToday() {
+    setMenuOpen(false);
+    setConfirmRun(true);
+  }
+
+  // 예 — 오늘 운동을 내일로 미루고(런닝으로 대체) 런닝 모드로.
+  function replaceAndRun() {
     start(async () => {
       await deferRoutineOneDayAction();
-      setMenuOpen(false);
+      setConfirmRun(false);
       router.push("/running");
     });
+  }
+
+  // 아니요 — 기존 운동은 그대로 두고 런닝 모드로(런닝은 마무리운동에 기록).
+  function keepAndRun() {
+    setConfirmRun(false);
+    router.push("/running");
   }
 
   return (
@@ -178,9 +192,58 @@ export function TodayFocusMenu({
                     런닝하기
                   </span>
                   <span className="block text-xs text-zinc-500 dark:text-zinc-400">
-                    오늘 운동은 내일로 미루고 런닝 (마무리운동에 자동 기록)
+                    실내/실외 런닝 (마무리운동에 자동 기록)
                   </span>
                 </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {/* 런닝 대체 확인 — 예: 오늘 운동 미루고 런닝 / 아니요: 기존 운동 유지하고 런닝 */}
+      {confirmRun ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+          onClick={() => !pending && setConfirmRun(false)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl dark:bg-zinc-900"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+                <Footprints aria-hidden="true" size={20} />
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
+                  오늘 런닝으로 대체할까요?
+                </h3>
+                <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
+                  실내·실외 런닝을 시작합니다. 오늘 예정된 운동을 런닝으로 바꿀지
+                  선택하세요.
+                </p>
+              </div>
+            </div>
+            <div className="mt-5 space-y-2">
+              <button
+                type="button"
+                disabled={pending}
+                onClick={replaceAndRun}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+              >
+                {pending ? (
+                  <Loader2 aria-hidden="true" size={16} className="animate-spin" />
+                ) : null}
+                예 — 오늘 운동을 런닝으로 대체 (운동은 내일로)
+              </button>
+              <button
+                type="button"
+                disabled={pending}
+                onClick={keepAndRun}
+                className="flex w-full items-center justify-center rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+              >
+                아니요 — 기존 운동은 그대로 두고 런닝
               </button>
             </div>
           </div>

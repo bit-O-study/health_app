@@ -140,7 +140,7 @@ export function MuscleBodyModal({
           <X aria-hidden="true" size={18} />
         </button>
       </div>
-      <div className="flex flex-1 items-center justify-center gap-3 overflow-auto p-4">
+      <div className="flex flex-1 items-center justify-center gap-3 overflow-auto p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
         <figure className="flex flex-col items-center gap-1">
           <Model
             data={data}

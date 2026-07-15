@@ -405,7 +405,12 @@ async function TodayWorkout({
                 },
               );
               return gp
-                ? { label: gp.label, targetText: gp.targetText, reached: gp.reached }
+                ? {
+                    metricLabel: gp.metricLabel,
+                    remainingText: gp.remainingText,
+                    targetText: gp.targetText,
+                    reached: gp.reached,
+                  }
                 : null;
             })()}
           />

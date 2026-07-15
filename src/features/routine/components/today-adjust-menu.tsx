@@ -48,24 +48,37 @@ const FOCUS_CHOICES: DayBlockId[] = [
 
 export function TodayAdjustMenu({
   isRestToday = false,
+  embedded = false,
+  open: openProp,
+  onClose,
 }: {
   isRestToday?: boolean;
+  /** true 면 자체 트리거 버튼을 숨기고 open/onClose 로 외부에서 시트를 제어한다. */
+  embedded?: boolean;
+  open?: boolean;
+  onClose?: () => void;
 }) {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [openState, setOpenState] = useState(false);
+  const open = embedded ? Boolean(openProp) : openState;
   const [picked, setPicked] = useState<Set<DayBlockId>>(new Set());
   const [pending, start] = useTransition();
 
+  const closeSheet = () => {
+    if (embedded) onClose?.();
+    else setOpenState(false);
+  };
+
   function close() {
     if (pending) return;
-    setOpen(false);
+    closeSheet();
     setPicked(new Set());
   }
 
   function run(action: () => Promise<void>) {
     start(async () => {
       await action();
-      setOpen(false);
+      closeSheet();
       setPicked(new Set());
       router.refresh();
     });
@@ -91,7 +104,7 @@ export function TodayAdjustMenu({
       // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
       await deferRoutineOneDayAction(focuses);
       await clearDailyPlanForDateAction(seoulYmd());
-      setOpen(false);
+      closeSheet();
       setPicked(new Set());
       // push 뒤 refresh 는 넣지 않는다 — /plan/today 이동 시 서버 컴포넌트가 새로 렌더되고,
       // push 직후 refresh 는 (현재 /routine 을 리페치해) push 를 취소하는 레이스가 있다.
@@ -107,7 +120,7 @@ export function TodayAdjustMenu({
     start(async () => {
       if (isRestToday) await undoTodayRestAction();
       await pinRoutineFocusesForTodayAction();
-      setOpen(false);
+      closeSheet();
       setPicked(new Set());
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
       // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(부위 추가가
@@ -118,29 +131,31 @@ export function TodayAdjustMenu({
 
   return (
     <>
-      <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
-        >
-          <SlidersHorizontal aria-hidden="true" size={14} />
-          오늘만 운동 바꾸기
-        </button>
-        <button
-          type="button"
-          disabled={pending}
-          onClick={() => run(restartRoutineFromTodayAction)}
-          className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 disabled:opacity-60"
-        >
-          {pending ? (
-            <Loader2 aria-hidden="true" className="animate-spin" size={14} />
-          ) : (
-            <RotateCcw aria-hidden="true" size={14} />
-          )}
-          오늘부터 다시 시작하기
-        </button>
-      </div>
+      {!embedded ? (
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setOpenState(true)}
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+          >
+            <SlidersHorizontal aria-hidden="true" size={14} />
+            오늘만 운동 바꾸기
+          </button>
+          <button
+            type="button"
+            disabled={pending}
+            onClick={() => run(restartRoutineFromTodayAction)}
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 disabled:opacity-60"
+          >
+            {pending ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={14} />
+            ) : (
+              <RotateCcw aria-hidden="true" size={14} />
+            )}
+            오늘부터 다시 시작하기
+          </button>
+        </div>
+      ) : null}
 
       {open ? (
         <div

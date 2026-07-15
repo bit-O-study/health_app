@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { runIntensityFromBounce } from "@/features/running/controls";
 import { formatDuration } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
+import { openAppSettings } from "@/features/running/native";
 
 /* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -186,7 +187,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const active = phase === "playing" || phase === "done";
 
   return (
-    <div className="relative h-[100dvh] w-full overflow-hidden bg-[#bfeaff] text-white">
+    <div className="fixed inset-0 z-40 w-full overflow-hidden bg-[#bfeaff] text-white">
       {active ? <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} /> : null}
 
       {/* 카메라 — 화면엔 안 보이게(감지용으로만 사용). display:none 은 일부 브라우저에서
@@ -200,7 +201,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
       {/* 거리 + 맵 HUD */}
       {phase === "playing" ? (
-        <div className="pointer-events-none absolute left-4 top-4 z-20 flex flex-col items-start gap-1">
+        <div className="pointer-events-none absolute left-4 top-[calc(env(safe-area-inset-top,0px)+0.75rem)] z-20 flex flex-col items-start gap-1">
           <span
             ref={distRef}
             className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-black text-emerald-700 shadow"
@@ -219,17 +220,11 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         </div>
       ) : null}
 
-      {/* 하단: 종료(위) + 속도·경사 설정(아래). 홈버튼/제스처 바와 안 겹치게 safe-area+여백. */}
+      {/* 하단: 속도·경사(위) + 종료(아래). 캐릭터·길 안 가리게 화면 맨 아래로 컴팩트하게.
+          홈버튼/제스처 바와 안 겹치게 safe-area 여백. */}
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] z-20 flex flex-col items-center gap-3 px-4">
-          <button
-            type="button"
-            onClick={finish}
-            className="rounded-full bg-red-500 px-10 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
-          >
-            종료
-          </button>
-          <div className="flex items-center gap-3 rounded-2xl bg-black/55 px-4 py-2.5 backdrop-blur">
+        <div className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+0.6rem)] z-20 flex flex-col items-center gap-2 px-4">
+          <div className="flex items-center gap-3 rounded-2xl bg-black/55 px-4 py-2 backdrop-blur">
             <Stepper
               label="속도"
               value={`${speed.toFixed(1)}`}
@@ -246,6 +241,13 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               onPlus={() => changeIncline(1)}
             />
           </div>
+          <button
+            type="button"
+            onClick={finish}
+            className="rounded-full bg-red-500 px-10 py-2.5 text-base font-bold text-white shadow-lg active:scale-95"
+          >
+            종료
+          </button>
         </div>
       ) : null}
 
@@ -271,16 +273,32 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
             ⚠ 카메라 권한이 필요해요. 시작을 누르면 전면 카메라 권한을 요청합니다.
           </p>
           {error ? (
-            <p className="rounded-lg bg-red-500/20 px-3 py-2 text-sm text-red-800">
+            <p className="max-w-xs rounded-lg bg-red-500/20 px-3 py-2 text-sm font-semibold text-red-800">
               {error}
             </p>
           ) : null}
+
+          {/* 카메라 권한이 막힌 경우 앱 설정으로 안내(네이티브 앱). 웹이면 안내 폴백. */}
+          {phase === "error" && /권한/.test(error ?? "") ? (
+            <button
+              type="button"
+              onClick={() => {
+                if (!openAppSettings()) {
+                  setError("휴대폰 설정 → 앱 → 권한에서 카메라를 허용해 주세요.");
+                }
+              }}
+              className="rounded-full bg-white px-6 py-2.5 text-sm font-bold text-emerald-800 shadow active:scale-95"
+            >
+              앱 설정 열기
+            </button>
+          ) : null}
+
           <button
             type="button"
             onClick={start}
             className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
           >
-            시작하기
+            {phase === "error" ? "다시 시도" : "시작하기"}
           </button>
         </div>
       ) : null}

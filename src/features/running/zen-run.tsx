@@ -75,7 +75,7 @@ export function ZenRun() {
   }
 
   return (
-    <div className="relative h-[100dvh] w-full select-none overflow-hidden bg-[#bfeaff] text-white">
+    <div className="fixed inset-0 z-40 w-full select-none overflow-hidden bg-[#bfeaff] text-white">
       {phase === "playing" ? (
         <>
           <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} />

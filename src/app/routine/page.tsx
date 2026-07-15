@@ -9,7 +9,6 @@ import {
   LogIn,
   Moon,
   Settings,
-  SlidersHorizontal,
   Sparkles,
 } from "lucide-react";
 
@@ -22,6 +21,7 @@ import {
   type UserProfile,
 } from "@/features/profile/data-access";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
+import { goalProgress } from "@/features/profile/goal";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
@@ -43,7 +43,7 @@ import { TodayExercises } from "@/features/routine/components/today-exercises";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
-import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
+import { TodayFocusMenu } from "@/features/routine/components/today-focus-menu";
 import {
   TodayEditScope,
   TodayEditBar,
@@ -381,6 +381,8 @@ async function TodayWorkout({
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {/* 체형 기록 — 목표가 있으면 '목표까지 N kg/%' 를 보여주고, 탭하면 기록 입력.
+              (운동 편집은 오늘 카드의 부위 배지 메뉴로 이동했다.) */}
           <BodyLogButton
             current={{
               weightKg: profile?.weightKg ?? null,
@@ -388,15 +390,25 @@ async function TodayWorkout({
               bodyFatPct: profile?.bodyFatPct ?? null,
               muscleMassKg: profile?.muscleMassKg ?? null,
             }}
+            goal={(() => {
+              const gp = goalProgress(
+                profile?.goal ?? null,
+                {
+                  weightKg: profile?.weightKg ?? null,
+                  bodyFatPct: profile?.bodyFatPct ?? null,
+                  muscleMassKg: profile?.muscleMassKg ?? null,
+                },
+                {
+                  targetWeightKg: profile?.targetWeightKg ?? null,
+                  targetBodyFatPct: profile?.targetBodyFatPct ?? null,
+                  targetMuscleKg: profile?.targetMuscleKg ?? null,
+                },
+              );
+              return gp
+                ? { label: gp.label, targetText: gp.targetText, reached: gp.reached }
+                : null;
+            })()}
           />
-          {/* '운동 편집'(구 '기본 편집') — '루틴 변경'은 이 화면(/plan) 안으로 이동. */}
-          <Link
-            className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
-            href="/plan"
-          >
-            <SlidersHorizontal aria-hidden="true" size={15} />
-            운동 편집
-          </Link>
         </div>
       </div>
 
@@ -417,15 +429,13 @@ async function TodayWorkout({
                 size={20}
               />
             )}
-            <span
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold ${todayStyle.badge}`}
-            >
-              <span className={`h-1.5 w-1.5 rounded-full ${todayStyle.dot}`} />
-              {focusLabel}
-            </span>
+            <TodayFocusMenu
+              focusLabel={focusLabel}
+              badgeClass={todayStyle.badge}
+              dotClass={todayStyle.dot}
+              isRestToday={restedToday}
+            />
           </div>
-
-          <TodayAdjustMenu isRestToday={restedToday} />
         </div>
 
         {isRest ? (

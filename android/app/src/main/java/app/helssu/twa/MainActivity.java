@@ -1,9 +1,13 @@
 package app.helssu.twa;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.webkit.GeolocationPermissions;
+import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
 import android.webkit.WebView;
 
@@ -32,6 +36,12 @@ public class MainActivity extends BridgeActivity {
         super.onCreate(savedInstanceState);
 
         WebView webView = this.getBridge().getWebView();
+
+        // 웹에서 OS 설정 화면을 열 수 있는 JS 브릿지(window.HelssuNative).
+        // 야외 런닝에서 GPS(위치정보)가 꺼져 있으면 '위치 설정 열기'로 안내한다.
+        // ⚠ 웹/WebView 는 위치정보를 코드로 자동 ON 할 수 없어, 설정 화면 열기까지만 지원한다.
+        webView.addJavascriptInterface(new NativeBridge(), "HelssuNative");
+
         webView.setWebChromeClient(new BridgeWebChromeClient(this.getBridge()) {
             @Override
             public void onPermissionRequest(final PermissionRequest request) {
@@ -87,6 +97,30 @@ public class MainActivity extends BridgeActivity {
     private boolean hasPermission(String perm) {
         return ContextCompat.checkSelfPermission(this, perm)
             == PackageManager.PERMISSION_GRANTED;
+    }
+
+    /** window.HelssuNative — 웹에서 기기 설정 화면을 여는 브릿지. */
+    private class NativeBridge {
+        /** 기기 '위치 정보(GPS)' 설정 화면 열기. */
+        @JavascriptInterface
+        public void openLocationSettings() {
+            runOnUiThread(() -> {
+                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            });
+        }
+
+        /** 이 앱의 상세 설정(권한) 화면 열기. */
+        @JavascriptInterface
+        public void openAppSettings() {
+            runOnUiThread(() -> {
+                Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                i.setData(Uri.fromParts("package", getPackageName(), null));
+                i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            });
+        }
     }
 
     @Override

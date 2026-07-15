@@ -23,10 +23,22 @@ import {
   type ExperienceLevel,
   type Gender,
 } from "@/features/profile/data";
+import {
+  GOAL_OPTIONS,
+  goalTargetKind,
+  type Goal,
+} from "@/features/profile/goal";
 
-type Step = "gender" | "experience" | "body" | "gym" | "recommend";
+type Step = "gender" | "experience" | "body" | "goal" | "gym" | "recommend";
 
-const STEP_ORDER: Step[] = ["gender", "experience", "body", "gym", "recommend"];
+const STEP_ORDER: Step[] = [
+  "gender",
+  "experience",
+  "body",
+  "goal",
+  "gym",
+  "recommend",
+];
 
 export function OnboardingFlow({
   redirectOnSuccess = "/",
@@ -39,6 +51,11 @@ export function OnboardingFlow({
   const [heightCm, setHeightCm] = useState("");
   const [weightKg, setWeightKg] = useState("");
   const [bodyType, setBodyType] = useState<BodyType | null>(null);
+  // 운동 목표 + 목표치(목표 종류에 맞는 입력만 사용).
+  const [goal, setGoal] = useState<Goal | null>(null);
+  const [targetWeight, setTargetWeight] = useState("");
+  const [targetBodyFat, setTargetBodyFat] = useState("");
+  const [targetMuscle, setTargetMuscle] = useState("");
   // 헬스장 — 선택사항. 비워두면 저장 안 함.
   const [gymName, setGymName] = useState("");
   const [gymAddress, setGymAddress] = useState("");
@@ -55,8 +72,6 @@ export function OnboardingFlow({
     });
   }
 
-  const isFemale = gender === "female";
-
   const heightNum = Number(heightCm);
   const weightNum = Number(weightKg);
   const bodyValid =
@@ -65,6 +80,33 @@ export function OnboardingFlow({
     weightNum >= 30 &&
     weightNum <= 250 &&
     bodyType !== null;
+
+  // 목표 단계 — 목표를 고르고, 목표치가 필요한 목표면 값이 유효해야 다음으로.
+  const goalKind = goal ? goalTargetKind(goal) : null;
+  const goalTargetNum =
+    goalKind === "weight"
+      ? Number(targetWeight)
+      : goalKind === "bodyFat"
+        ? Number(targetBodyFat)
+        : goalKind === "muscle"
+          ? Number(targetMuscle)
+          : null;
+  const goalValid =
+    goal !== null &&
+    (goalKind === null ||
+      (goalTargetNum !== null &&
+        Number.isFinite(goalTargetNum) &&
+        goalTargetNum > 0));
+
+  function buildGoalInput() {
+    if (!goal) return undefined;
+    return {
+      goal,
+      targetWeightKg: goalKind === "weight" ? Number(targetWeight) : null,
+      targetBodyFatPct: goalKind === "bodyFat" ? Number(targetBodyFat) : null,
+      targetMuscleKg: goalKind === "muscle" ? Number(targetMuscle) : null,
+    };
+  }
 
   /**
    * 프로필 저장 → 루틴 저장. 이동은 RoutinePlanner 가 fillMode 에 맞춰 처리한다
@@ -83,11 +125,16 @@ export function OnboardingFlow({
       };
     }
 
-    const profileResult = await saveProfileAction(gender, experience, {
-      heightCm: heightNum,
-      weightKg: weightNum,
-      bodyType,
-    });
+    const profileResult = await saveProfileAction(
+      gender,
+      experience,
+      {
+        heightCm: heightNum,
+        weightKg: weightNum,
+        bodyType,
+      },
+      buildGoalInput(),
+    );
     if (!profileResult.ok) {
       return profileResult;
     }
@@ -112,12 +159,7 @@ export function OnboardingFlow({
     gender && experience ? recommendRoutine(gender, experience) : null;
 
   return (
-    <div
-      className={cn(
-        "min-h-screen transition-colors",
-        isFemale ? "bg-pink-50" : "bg-zinc-50 dark:bg-zinc-900",
-      )}
-    >
+    <div className="min-h-screen bg-zinc-50 transition-colors dark:bg-zinc-900">
       <div className="mx-auto w-full max-w-3xl px-6 py-12 sm:px-10">
         <div className="flex items-center">
           <Logo size={36} />
@@ -317,6 +359,109 @@ export function OnboardingFlow({
               <button
                 type="button"
                 disabled={!bodyValid}
+                onClick={() => setStep("goal")}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+              >
+                다음
+                <ArrowRight aria-hidden="true" size={17} />
+              </button>
+            </div>
+          </section>
+        ) : null}
+
+        {step === "goal" ? (
+          <section className="mt-10">
+            <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-3xl">
+              목표가 무엇인가요?
+            </h1>
+            <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+              목표에 맞춰 운동탭 체형기록에서 목표까지 얼마나 남았는지 보여드려요.
+            </p>
+
+            <div className="mt-6 space-y-3">
+              {GOAL_OPTIONS.map((option) => {
+                const active = goal === option.id;
+                return (
+                  <button
+                    key={option.id}
+                    type="button"
+                    onClick={() => setGoal(option.id)}
+                    className={cn(
+                      "flex w-full flex-col gap-1 rounded-xl border-2 px-5 py-4 text-left transition",
+                      active
+                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+                        : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-500",
+                    )}
+                  >
+                    <span className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+                      {option.label}
+                    </span>
+                    <span className="text-sm text-zinc-600 dark:text-zinc-400">
+                      {option.description}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 목표치 입력 — 목표 종류에 맞는 것만. */}
+            {goalKind === "weight" ? (
+              <label className="mt-5 block">
+                <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                  목표 체중 (kg)
+                </span>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  value={targetWeight}
+                  onChange={(e) => setTargetWeight(e.target.value)}
+                  placeholder={weightKg || "60"}
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                />
+              </label>
+            ) : null}
+            {goalKind === "bodyFat" ? (
+              <label className="mt-5 block">
+                <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                  목표 체지방률 (%)
+                </span>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  value={targetBodyFat}
+                  onChange={(e) => setTargetBodyFat(e.target.value)}
+                  placeholder="15"
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                />
+              </label>
+            ) : null}
+            {goalKind === "muscle" ? (
+              <label className="mt-5 block">
+                <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+                  목표 근육량 (kg)
+                </span>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  value={targetMuscle}
+                  onChange={(e) => setTargetMuscle(e.target.value)}
+                  placeholder="35"
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                />
+              </label>
+            ) : null}
+
+            <div className="mt-8 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setStep("body")}
+                className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+              >
+                이전
+              </button>
+              <button
+                type="button"
+                disabled={!goalValid}
                 onClick={() => setStep("gym")}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
               >

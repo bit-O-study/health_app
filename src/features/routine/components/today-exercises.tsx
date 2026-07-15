@@ -11,6 +11,7 @@ import { getPlanForDayTones } from "@/features/routine/plan";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
+import { showsDailyCooldownBadge } from "@/features/routine/daily-override";
 import {
   conditioningDefaults,
   getConditioningItem,
@@ -278,7 +279,9 @@ export async function TodayExercises({
         ? []
         : defaults.cooldown;
   const isDailyWarmup = daily.warmup.length > 0;
-  const isDailyCooldown = daily.cooldown.length > 0;
+  // 마무리운동: 러닝 자동기록만 얹힌 경우(기본값 + 러닝)는 '오늘만'으로 표시하지 않는다.
+  // (러닝을 기록만 했는데 마무리운동을 바꾼 것처럼 보이던 문제 수정.)
+  const isDailyCooldown = showsDailyCooldownBadge(daily.cooldown, defaults.cooldown);
 
   // 워밍업/마무리 완료도 본운동과 똑같이 '행에 1:1 배정'한다(과매칭 방지). 같은 항목이
   // 여러 개(예: 경사·속도만 다른 쿨다운 러닝 3개)여도 완료 기록 수만큼만 done — 하나를

@@ -15,6 +15,11 @@ import {
   type DebugFeatureId,
   type DebugVisibility,
 } from "@/features/admin/debug-features";
+import {
+  GROUP_MODE_KEY,
+  isGroupMode,
+  type GroupMode,
+} from "@/features/groups/group-mode";
 import { genTempPassword, tempPasswordEmail } from "@/features/auth/password-reset";
 import { sendEmail } from "@/lib/email/send";
 
@@ -239,6 +244,30 @@ export async function setDebugFeatureAction(
   revalidatePath("/calendar");
   revalidatePath("/");
   revalidatePath("/diet");
+  return { ok: true };
+}
+
+/**
+ * 그룹탭 전역 모드를 전환한다 — app_settings["group.mode"] 에 저장.
+ * 'gym'(기존 헬스장) / 'proof'(오늘 운동 인증 움짤). 관리자만 가능(RLS 도 이중 차단).
+ */
+export async function setGroupModeAction(
+  mode: GroupMode,
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) {
+    return { ok: false, error: "관리자만 가능합니다." };
+  }
+  if (!isGroupMode(mode)) {
+    return { ok: false, error: "잘못된 그룹 모드입니다." };
+  }
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("app_settings").upsert(
+    { key: GROUP_MODE_KEY, value: mode, updated_at: new Date().toISOString() },
+    { onConflict: "key" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/admin/settings");
+  revalidatePath("/groups");
   return { ok: true };
 }
 

@@ -166,31 +166,32 @@ export function GroupProofBoard({
         ) : null}
 
         <div className="grid grid-cols-2 gap-3">
-          {posted.map((m) => {
-            const locked = !iPosted && !m.isMe;
-            const card = <ProofCard member={m} locked={locked} />;
-            // 잠기지 않은(볼 수 있는) 카드는 탭하면 그 사람의 오늘 운동·식단.
-            return locked ? (
-              <div key={m.userId}>{card}</div>
-            ) : (
-              <button
-                key={m.userId}
-                type="button"
-                onClick={() => setSelected(m)}
-                className="block rounded-2xl text-left transition active:scale-[0.98]"
-              >
-                {card}
-              </button>
-            );
-          })}
+          {/* 어떤 카드든 탭하면 그 그룹원의 오늘 운동·식단이 열린다(인증 영상 블러와 무관). */}
+          {posted.map((m) => (
+            <button
+              key={m.userId}
+              type="button"
+              onClick={() => setSelected(m)}
+              className="block rounded-2xl text-left transition active:scale-[0.98]"
+            >
+              <ProofCard member={m} locked={!iPosted && !m.isMe} />
+            </button>
+          ))}
           {pending.map((m) => (
-            <PendingCard key={m.userId} member={m} />
+            <button
+              key={m.userId}
+              type="button"
+              onClick={() => setSelected(m)}
+              className="block rounded-2xl text-left transition active:scale-[0.98]"
+            >
+              <PendingCard member={m} />
+            </button>
           ))}
         </div>
 
-        {iPosted && posted.length > 0 ? (
+        {board.totalCount > 0 ? (
           <p className="mt-3 text-center text-[11px] text-zinc-400">
-            그룹원을 탭하면 오늘 운동·식단을 볼 수 있어요.
+            그룹원을 탭하면 오늘 무슨 운동·뭘 먹었는지 볼 수 있어요.
           </p>
         ) : null}
 

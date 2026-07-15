@@ -10,21 +10,25 @@ import {
   getDebugAccounts,
   getDebugFeatureStates,
 } from "@/features/admin/debug-features.server";
+import { getGroupMode } from "@/features/groups/group-mode.server";
 import { AdminSettingsManager } from "@/features/admin/components/admin-settings-manager";
 import { DebugAccountsManager } from "@/features/admin/components/debug-accounts-manager";
 import { DebugFeaturesManager } from "@/features/admin/components/debug-features-manager";
+import { GroupModeManager } from "@/features/admin/components/group-mode-manager";
 import { PostModeratorsManager } from "@/features/admin/components/post-moderators-manager";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
   if (!(await isAdminUser())) notFound();
-  const [admins, debugStates, debugAccounts, moderators] = await Promise.all([
-    getAdmins(),
-    getDebugFeatureStates(),
-    getDebugAccounts(),
-    getPostModerators(),
-  ]);
+  const [admins, debugStates, debugAccounts, moderators, groupMode] =
+    await Promise.all([
+      getAdmins(),
+      getDebugFeatureStates(),
+      getDebugAccounts(),
+      getPostModerators(),
+      getGroupMode(),
+    ]);
   const debugFeatures = DEBUG_FEATURES.map((f) => ({
     id: f.id,
     label: f.label,
@@ -41,6 +45,18 @@ export default async function AdminSettingsPage() {
         계정은 일반 화면 대신 이 관리자 콘솔로 이동합니다.
       </p>
       <AdminSettingsManager admins={admins} />
+
+      <section className="mt-10">
+        <h2 className="mb-1 text-lg font-bold text-zinc-950 dark:text-zinc-100">
+          그룹탭 모드
+        </h2>
+        <p className="mb-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          그룹탭에 어떤 기능을 켤지 앱 전체에 대해 선택합니다. &quot;헬스장&quot;은
+          기존 공유펫·랭킹 화면, &quot;오늘 운동 인증&quot;은 그룹원이 오늘 운동을 3초
+          움짤로 올리는 인증 피드입니다.
+        </p>
+        <GroupModeManager mode={groupMode} />
+      </section>
 
       <section className="mt-10">
         <h2 className="mb-1 text-lg font-bold text-zinc-950 dark:text-zinc-100">

@@ -23,6 +23,7 @@
   "dependencies": {
     "@capacitor/android": "^8.4.1",
     "@capacitor/core": "^8.4.1",
+    "@capacitor/local-notifications": "^8.0.1",
     "@capacitor/push-notifications": "^8.0.1",
     "@capacitor/share": "^8.0.1",
     "@kiwi-health/capacitor-health-connect": "^0.0.42",

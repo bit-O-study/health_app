@@ -43,7 +43,7 @@ export function ProofMemberSheet({
       onClick={onClose}
     >
       <div
-        className="flex max-h-[85vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl dark:bg-zinc-900 sm:rounded-3xl"
+        className="flex max-h-[85vh] w-full max-w-md flex-col overflow-hidden rounded-t-3xl bg-white pb-[env(safe-area-inset-bottom)] shadow-2xl dark:bg-zinc-900 sm:rounded-3xl sm:pb-0"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 헤더 */}

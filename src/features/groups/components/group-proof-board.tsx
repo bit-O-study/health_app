@@ -160,13 +160,13 @@ export function GroupProofBoard({
               아직 오늘 인증 전이에요
             </p>
             <p className="mt-0.5 text-xs text-emerald-700/80 dark:text-emerald-400/80">
-              운동 인증을 올리면 그룹원들의 인증도 볼 수 있어요.
+              운동 인증을 올려 오늘의 기록을 남겨보세요.
             </p>
           </div>
         ) : null}
 
         <div className="grid grid-cols-2 gap-3">
-          {/* 어떤 카드든 탭하면 그 그룹원의 오늘 운동·식단이 열린다(인증 영상 블러와 무관). */}
+          {/* 인증 전에도 그룹원의 인증·오늘 기록을 볼 수 있다(블러/잠금 없음). */}
           {posted.map((m) => (
             <button
               key={m.userId}
@@ -174,7 +174,7 @@ export function GroupProofBoard({
               onClick={() => setSelected(m)}
               className="block rounded-2xl text-left transition active:scale-[0.98]"
             >
-              <ProofCard member={m} locked={!iPosted && !m.isMe} />
+              <ProofCard member={m} locked={false} />
             </button>
           ))}
           {pending.map((m) => (

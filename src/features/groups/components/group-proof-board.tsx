@@ -130,9 +130,11 @@ export function GroupProofBoard({
   }
 
   return (
-    <div className="mx-auto flex h-full w-full max-w-2xl flex-col">
-      {/* 헤더 — fixed top-0 라 상태바(시계·배터리)와 안 겹치게 상단 safe-area 인셋. */}
-      <header className="shrink-0 px-4 pt-[calc(env(safe-area-inset-top)+0.75rem)] sm:px-6">
+    // 일반 흐름 — 헤더까지 전체가 문서 스크롤로 함께 움직인다(하단 CTA만 고정).
+    // 상단 상태바 여백은 body(globals.css)의 padding-top 이 처리한다.
+    <div className="w-full">
+      {/* 헤더 — 스크롤 시 함께 올라간다(sticky 아님). */}
+      <header className="px-4 pt-3 sm:px-6">
         <GroupSwitcher groups={groups} currentId={board.id} />
         <div className="mt-1 flex items-end justify-between">
           <div>
@@ -150,8 +152,8 @@ export function GroupProofBoard({
         </div>
       </header>
 
-      {/* 피드 */}
-      <div className="flex-1 overflow-y-auto px-4 pb-28 pt-3 sm:px-6">
+      {/* 피드 — 일반 흐름. 하단 고정 CTA 에 안 가리게 넉넉한 pb. */}
+      <div className="px-4 pb-32 pt-3 sm:px-6">
         {!iPosted ? (
           <div className="mb-4 rounded-2xl bg-emerald-50 p-4 text-center dark:bg-emerald-500/10">
             <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">

@@ -45,7 +45,9 @@ export default async function GroupsPage({
     const board = await getGroupProofBoard(selectedId);
     if (!board) redirect("/groups");
     return (
-      <main className="fixed inset-x-0 top-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] overflow-hidden">
+      // 움짤 인증 피드 — 일반 흐름(문서 스크롤)이라 헤더까지 전체가 함께 스크롤되고,
+      // body 의 상단 safe-area 패딩을 그대로 물려받아 상태바와 안 겹친다.
+      <main className="mx-auto w-full max-w-2xl">
         <GroupProofBoard board={board} groups={groups} />
       </main>
     );

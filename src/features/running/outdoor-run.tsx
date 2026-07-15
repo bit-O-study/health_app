@@ -25,6 +25,8 @@ const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
 
 type Phase = "intro" | "playing" | "done" | "error";
 type Metrics = { meters: number; kmh: number; elapsedSec: number };
+// 이 거리(m) 미만이면 '실제로 달리지 않음'으로 보고 기록하지 않는다(들어왔다 나간 경우).
+const MIN_RUN_METERS = 50;
 // 오류 종류 — 권한 거부 / GPS(위치정보) 꺼짐 / 신호 못찾음 / 기타.
 type ErrKind = "denied" | "gps-off" | "timeout" | "other" | null;
 
@@ -48,6 +50,8 @@ export function OutdoorRun({
   const [phase, setPhase] = useState<Phase>("intro");
   const [error, setError] = useState<string | null>(null);
   const [errKind, setErrKind] = useState<ErrKind>(null);
+  // 종료 시 실제 기록 여부 — 이동이 거의 없으면(안 뜀) 기록하지 않는다.
+  const [recorded, setRecorded] = useState(true);
   const [m, setM] = useState<Metrics>({ meters: 0, kmh: 0, elapsedSec: 0 });
 
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
@@ -168,6 +172,13 @@ export function OutdoorRun({
     const distanceKm = meters / 1000;
     const avgKmh = elapsedSec > 0 ? (meters / elapsedSec) * 3.6 : 0;
     setM((prev) => ({ ...prev, elapsedSec }));
+    // 실제로 달리지 않아 이동이 거의 없으면 기록하지 않는다(들어왔다 나간 경우 오기록 방지).
+    if (meters < MIN_RUN_METERS) {
+      setRecorded(false);
+      setPhase("done");
+      return;
+    }
+    setRecorded(true);
     setPhase("done");
     onFinish?.({ durationMin, distanceKm, avgKmh });
     // 오늘 마무리 운동에 자동 기록(실패해도 화면엔 영향 없음).
@@ -269,13 +280,19 @@ export function OutdoorRun({
 
       {phase === "done" ? (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
-          <h2 className="text-2xl font-extrabold">런닝 완료 🏁</h2>
+          <h2 className="text-2xl font-extrabold">
+            {recorded ? "런닝 완료 🏁" : "런닝 종료"}
+          </h2>
           <p className="text-lg">
             거리 <b className="text-emerald-400">{formatDistanceKm(m.meters)}km</b>
             {" · "}시간 <b>{formatDuration(m.elapsedSec)}</b>
             {" · "}페이스 <b>{formatPace(pace)}</b>
           </p>
-          <p className="text-sm text-zinc-300">오늘 마무리 운동에 기록했어요.</p>
+          <p className="text-sm text-zinc-300">
+            {recorded
+              ? "오늘 마무리 운동에 기록했어요."
+              : "이동이 거의 없어 기록하지 않았어요."}
+          </p>
           <button
             type="button"
             onClick={() => setPhase("intro")}

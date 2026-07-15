@@ -7,8 +7,23 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
+import {
+  getGroupMemberDay,
+  type MemberDay,
+} from "@/features/groups/data-access";
 
 export type ProofActionResult = { ok: true } | { ok: false; error: string };
+
+/**
+ * 움짤 인증 피드에서 그룹원을 탭했을 때 — 그 사람의 오늘 운동·식단을 가져온다.
+ * 같은 그룹원만 열람 가능(getGroupMemberDay 내부에서 멤버십 확인). 아니면 null.
+ */
+export async function getGroupMemberDayAction(
+  groupId: string,
+  memberId: string,
+): Promise<MemberDay | null> {
+  return getGroupMemberDay(groupId, memberId);
+}
 
 function isHttpUrl(s: string): boolean {
   return /^https?:\/\//.test(s);

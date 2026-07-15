@@ -9,6 +9,7 @@ import type { ProofBoard, ProofMember } from "@/features/groups/proof-data";
 import { deleteGroupProofAction } from "@/features/groups/proof-actions";
 import { GroupSwitcher } from "@/features/groups/components/group-switcher";
 import { ProofRecorder } from "@/features/groups/components/proof-recorder";
+import { ProofMemberSheet } from "@/features/groups/components/proof-member-sheet";
 
 /** 인증 시각 → 한국시간 "오후 3:24". */
 function formatTime(iso: string): string {
@@ -112,6 +113,8 @@ export function GroupProofBoard({
   const router = useRouter();
   const [recording, setRecording] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  // 탭한 그룹원 — 그 사람의 오늘 운동·식단 시트를 연다.
+  const [selected, setSelected] = useState<ProofMember | null>(null);
 
   const iPosted = board.myProof !== null;
   const posted = board.members.filter((m) => m.proof);
@@ -161,13 +164,33 @@ export function GroupProofBoard({
         ) : null}
 
         <div className="grid grid-cols-2 gap-3">
-          {posted.map((m) => (
-            <ProofCard key={m.userId} member={m} locked={!iPosted && !m.isMe} />
-          ))}
+          {posted.map((m) => {
+            const locked = !iPosted && !m.isMe;
+            const card = <ProofCard member={m} locked={locked} />;
+            // 잠기지 않은(볼 수 있는) 카드는 탭하면 그 사람의 오늘 운동·식단.
+            return locked ? (
+              <div key={m.userId}>{card}</div>
+            ) : (
+              <button
+                key={m.userId}
+                type="button"
+                onClick={() => setSelected(m)}
+                className="block rounded-2xl text-left transition active:scale-[0.98]"
+              >
+                {card}
+              </button>
+            );
+          })}
           {pending.map((m) => (
             <PendingCard key={m.userId} member={m} />
           ))}
         </div>
+
+        {iPosted && posted.length > 0 ? (
+          <p className="mt-3 text-center text-[11px] text-zinc-400">
+            그룹원을 탭하면 오늘 운동·식단을 볼 수 있어요.
+          </p>
+        ) : null}
 
         {board.totalCount === 1 ? (
           <p className="mt-6 text-center text-xs text-zinc-400">
@@ -211,6 +234,14 @@ export function GroupProofBoard({
 
       {recording ? (
         <ProofRecorder groupId={board.id} onClose={() => setRecording(false)} />
+      ) : null}
+
+      {selected ? (
+        <ProofMemberSheet
+          groupId={board.id}
+          member={{ userId: selected.userId, name: selected.name }}
+          onClose={() => setSelected(null)}
+        />
       ) : null}
     </div>
   );

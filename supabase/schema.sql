@@ -1054,6 +1054,17 @@ alter table public.profiles add column if not exists phone text;
 -- 닉네임(선택) — 그룹·마이페이지 등 공개 표시 이름. 없으면 이름으로 폴백.
 alter table public.profiles add column if not exists nickname text;
 
+-- 운동 목표(회원가입 설문) + 목표치 — 운동탭 체형기록 '남은 양' 표시에 사용.
+--   weight_loss(체중감량)  → target_weight_kg 까지 몇 kg 남음
+--   fat_loss(체지방감소)   → target_body_fat_pct 까지 몇 % 남음
+--   muscle_gain(근육증가)  → target_muscle_kg 까지 몇 kg 남음
+--   maintain(유지)         → 목표치 없음
+alter table public.profiles add column if not exists goal text
+  check (goal is null or goal in ('weight_loss', 'fat_loss', 'muscle_gain', 'maintain'));
+alter table public.profiles add column if not exists target_weight_kg numeric;
+alter table public.profiles add column if not exists target_body_fat_pct numeric;
+alter table public.profiles add column if not exists target_muscle_kg numeric;
+
 -- 회원 정지/영구정지 (관리자). suspended_until = 기간정지 만료시각(지나면 자동 해제),
 -- banned_at = 영구정지 시각(수동 해제 전까지), ban_reason = 사유.
 alter table public.profiles add column if not exists suspended_until timestamptz;
@@ -1710,6 +1721,82 @@ create policy "members read group pet" on public.group_pets for select
 drop policy if exists "members write group pet" on public.group_pets;
 create policy "members write group pet" on public.group_pets for all
   using (public.is_group_member(group_id)) with check (public.is_group_member(group_id));
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 그룹탭 전역 모드(group.mode) — 관리자가 /admin/settings 에서 전환.
+--   'gym'   → 기존 공유펫 헬스장(랭킹/챌린지/응원)  ← 기본
+--   'proof' → 오늘 운동 인증 움짤(3초 무음영상) 피드
+-- app_settings['group.mode'] 는 관리자만 read/write(RLS) 라, 일반 사용자도 현재 모드를
+-- 읽을 수 있도록 SECURITY DEFINER 함수로 노출한다(값 미설정이면 'gym').
+create or replace function public.group_mode() returns text
+  language sql security definer stable set search_path = public as $$
+  select case (select value from public.app_settings where key = 'group.mode')
+      when '"proof"'::jsonb then 'proof'
+      else 'gym'
+    end;
+$$;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 오늘 운동 인증 움짤(group_proofs) — 그룹원이 '오늘 운동했다'는 3초 무음영상을 올린다.
+-- (group_id, user_id, for_date) 유니크 → 멤버당 하루 1개(다시 올리면 교체=upsert).
+create table if not exists public.group_proofs (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  media_url text not null,
+  -- 'video'(무음 루프 영상, 기본) / 'gif'(정적 gif) — 표시 방식 구분용.
+  media_type text not null default 'video' check (media_type in ('video', 'gif')),
+  caption text check (caption is null or char_length(caption) <= 40),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (group_id, user_id, for_date)
+);
+create index if not exists group_proofs_group_date_idx
+  on public.group_proofs (group_id, for_date);
+alter table public.group_proofs enable row level security;
+drop policy if exists "members read proofs" on public.group_proofs;
+create policy "members read proofs" on public.group_proofs for select
+  using (public.is_group_member(group_id));
+drop policy if exists "insert own proof" on public.group_proofs;
+create policy "insert own proof" on public.group_proofs for insert
+  with check (user_id = auth.uid() and public.is_group_member(group_id));
+drop policy if exists "update own proof" on public.group_proofs;
+create policy "update own proof" on public.group_proofs for update
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists "delete own proof" on public.group_proofs;
+create policy "delete own proof" on public.group_proofs for delete
+  using (user_id = auth.uid());
+
+-- 인증 움짤 버킷(group-proofs) — 공개 읽기, 본인만 업로드/삭제. (URL은 추측불가 UUID)
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'group-proofs',
+  'group-proofs',
+  true,
+  20971520,
+  array['video/mp4', 'video/webm', 'video/quicktime', 'image/gif']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Group proofs are publicly readable" on storage.objects;
+create policy "Group proofs are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'group-proofs');
+
+drop policy if exists "Users can upload own group proofs" on storage.objects;
+create policy "Users can upload own group proofs"
+  on storage.objects for insert
+  with check (bucket_id = 'group-proofs' and owner = auth.uid());
+
+drop policy if exists "Users can delete own group proofs" on storage.objects;
+create policy "Users can delete own group proofs"
+  on storage.objects for delete
+  using (bucket_id = 'group-proofs' and owner = auth.uid());
 notify pgrst, 'reload schema';
 
 -- ─────────────────────────────────────────────────────────────────────────────

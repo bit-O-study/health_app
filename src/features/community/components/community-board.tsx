@@ -89,7 +89,7 @@ export function CommunityBoard({
           : "mx-auto flex w-full max-w-2xl flex-col"
       }
     >
-      <div className="sticky top-0 z-10 shrink-0 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-3 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
+      <div className="sticky top-[env(safe-area-inset-top)] z-10 shrink-0 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-3 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
         <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-black tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
           커뮤니티
         </h1>

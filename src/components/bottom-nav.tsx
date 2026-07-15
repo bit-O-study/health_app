@@ -104,12 +104,19 @@ function TabInner({
 }
 
 /** 모바일 하단 탭 네비게이션 — 운동/식단/캘린더/그룹(+헬쑤쌤). */
-export function BottomNav({ showCoach = false }: { showCoach?: boolean }) {
+export function BottomNav({
+  showCoach = false,
+  groupTheme: groupThemeEnabled = true,
+}: {
+  showCoach?: boolean;
+  /** 그룹탭이 헬스장 모드일 때만 앰버 톤 적용(움짤 인증 모드에선 끈다). */
+  groupTheme?: boolean;
+}) {
   const pathname = usePathname() ?? "/";
   const hidden = HIDDEN_PREFIXES.some((h) => pathname.startsWith(h));
   const tabs = showCoach ? [...TABS, COACH_TAB] : TABS;
-  // 그룹 헬스장 화면(정확히 /groups)에선 하단 탭도 헬스장 앰버 톤으로 이어 붙인다.
-  const groupTheme = pathname === "/groups";
+  // 그룹 헬스장 화면(정확히 /groups + gym 모드)에선 하단 탭도 헬스장 앰버 톤으로 이어 붙인다.
+  const groupTheme = groupThemeEnabled && pathname === "/groups";
 
   // 고정 바에 콘텐츠가 가리지 않게 body 하단 패딩 확보(보일 때만).
   useEffect(() => {

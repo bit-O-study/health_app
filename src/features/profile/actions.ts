@@ -12,8 +12,17 @@ import {
   type ExperienceLevel,
   type Gender,
 } from "@/features/profile/data";
+import { goalTargetKind, isGoal, type Goal } from "@/features/profile/goal";
 
 export type SaveProfileResult = { ok: true } | { ok: false; error: string };
+
+/** 운동 목표 + 목표치(선택). goal 만 있고 목표치는 종류에 맞는 것만 저장한다. */
+export type GoalInput = {
+  goal: Goal;
+  targetWeightKg?: number | null;
+  targetBodyFatPct?: number | null;
+  targetMuscleKg?: number | null;
+};
 
 /**
  * 현재 사용자의 온보딩 프로필을 저장(없으면 생성, 있으면 갱신)합니다.
@@ -23,9 +32,14 @@ export async function saveProfileAction(
   gender: Gender,
   experience: ExperienceLevel,
   metrics?: BodyMetrics,
+  goalInput?: GoalInput,
 ): Promise<SaveProfileResult> {
   if (!isGender(gender) || !isExperienceLevel(experience)) {
     return { ok: false, error: "성별/경력 값이 올바르지 않습니다." };
+  }
+
+  if (goalInput && !isGoal(goalInput.goal)) {
+    return { ok: false, error: "목표 값이 올바르지 않습니다." };
   }
 
   if (metrics) {
@@ -66,6 +80,22 @@ export async function saveProfileAction(
   const metaPhone =
     typeof meta.phone === "string" && meta.phone.trim() !== "" ? meta.phone.trim() : null;
 
+  // 목표 + 목표치 — goal 종류에 맞는 목표치만 저장(나머지는 null).
+  const num = (v: number | null | undefined): number | null =>
+    typeof v === "number" && Number.isFinite(v) && v > 0 ? v : null;
+  const goalFields = goalInput
+    ? (() => {
+        const kind = goalTargetKind(goalInput.goal);
+        return {
+          goal: goalInput.goal,
+          target_weight_kg: kind === "weight" ? num(goalInput.targetWeightKg) : null,
+          target_body_fat_pct:
+            kind === "bodyFat" ? num(goalInput.targetBodyFatPct) : null,
+          target_muscle_kg: kind === "muscle" ? num(goalInput.targetMuscleKg) : null,
+        };
+      })()
+    : {};
+
   const { error } = await supabase.from("profiles").upsert(
     {
       user_id: user.id,
@@ -81,6 +111,7 @@ export async function saveProfileAction(
             body_type: metrics.bodyType,
           }
         : {}),
+      ...goalFields,
     },
     { onConflict: "user_id" },
   );

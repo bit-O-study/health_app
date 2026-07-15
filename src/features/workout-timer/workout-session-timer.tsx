@@ -574,24 +574,14 @@ export function WorkoutSessionTimer({
       );
     }
     return (
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          onClick={() => router.push("/running")}
-          className="inline-flex h-10 items-center gap-1.5 rounded-full border border-sky-300 bg-sky-50 px-4 text-sm font-semibold text-sky-700 shadow-sm transition hover:bg-sky-100 dark:border-sky-700 dark:bg-sky-950/40 dark:text-sky-300"
-        >
-          <span aria-hidden="true">🏃</span>
-          런닝 하기
-        </button>
-        <button
-          type="button"
-          onClick={start}
-          className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500"
-        >
-          <Play aria-hidden="true" size={16} />
-          운동 시작
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={start}
+        className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500"
+      >
+        <Play aria-hidden="true" size={16} />
+        운동 시작
+      </button>
     );
   }
 
@@ -663,27 +653,18 @@ export function WorkoutSessionTimer({
         </div>
       ) : (
         /* 영상 보기 모드: 시간·중단/다시시작은 운동모드(오버레이) 안에만.
-           밖(홈)에선 '런닝 하기'(야외/실내 선택) + 운동모드로 다시 들어가는 '다시 운동하기'. */
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => router.push("/running")}
-            className="inline-flex h-10 items-center gap-1.5 rounded-full border border-sky-300 bg-sky-50 px-4 text-sm font-semibold text-sky-700 shadow-sm transition hover:bg-sky-100 dark:border-sky-700 dark:bg-sky-950/40 dark:text-sky-300"
-          >
-            런닝 하기
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              resume();
-              setGuided(true);
-            }}
-            className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500"
-          >
-            <Play aria-hidden="true" size={16} />
-            다시 운동하기
-          </button>
-        </div>
+           밖(홈)에선 운동모드로 다시 들어가는 '다시 운동하기'. (런닝은 부위 배지 메뉴로) */
+        <button
+          type="button"
+          onClick={() => {
+            resume();
+            setGuided(true);
+          }}
+          className="inline-flex h-10 items-center gap-2 rounded-full bg-emerald-600 px-4 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-500"
+        >
+          <Play aria-hidden="true" size={16} />
+          다시 운동하기
+        </button>
       )}
       {overlay}
       <ConfirmDialog

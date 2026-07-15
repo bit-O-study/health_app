@@ -9,6 +9,7 @@ import { RouteKeeper } from "@/app/_route-keeper";
 import { BottomNav } from "@/components/bottom-nav";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
@@ -72,9 +73,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // 로그인 전에는 하단 탭을 숨긴다(로그인 후에만 앱 네비 노출).
-  const [user, showCoach] = await Promise.all([
+  const [user, showCoach, groupMode] = await Promise.all([
     getCurrentUser(),
     isDebugFeatureEnabled("helssu-coach"),
+    getGroupMode(),
   ]);
   const isLoggedIn = Boolean(user);
   return (
@@ -91,7 +93,9 @@ export default async function RootLayout({
         <NotificationCenterProvider>
           <AppSplash />
           {children}
-          {isLoggedIn ? <BottomNav showCoach={showCoach} /> : null}
+          {isLoggedIn ? (
+            <BottomNav showCoach={showCoach} groupTheme={groupMode === "gym"} />
+          ) : null}
           {isLoggedIn ? <RouteKeeper /> : null}
         </NotificationCenterProvider>
         <PWARegister />

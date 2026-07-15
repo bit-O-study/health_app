@@ -15,6 +15,9 @@ const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
 });
 
 /* MediaPipe(tasks-vision) 런타임 CDN ESM 로드 — 번들러가 정적분석 못 하게 native import. */
+// 이 시간(초) 미만이면 '실제로 뛰지 않음'으로 보고 기록하지 않는다(잠깐 들어왔다 나간 경우).
+const MIN_RUN_SEC = 60;
+
 const VISION_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/vision_bundle.mjs";
 const WASM_URL =
@@ -42,6 +45,8 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const [speed, setSpeed] = useState(8);
   const [incline, setIncline] = useState(1);
   const [elapsedSec, setElapsedSec] = useState(0);
+  // 종료 시 실제로 기록했는지(너무 짧으면 기록 안 함) — 완료 문구 분기용.
+  const [recorded, setRecorded] = useState(true);
   const speedRef = useRef(8);
   const inclineRef = useRef(1);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -173,8 +178,16 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
   function finish() {
     stopCamera();
-    setPhase("done");
     const sec = (Date.now() - playStartRef.current) / 1000;
+    // 실제로 뛰지 않고 잠깐 들어왔다 나간 경우(짧은 세션)엔 기록하지 않는다.
+    // (예전엔 최소 1분으로 강제 기록돼 안 뛰어도 ~14kcal 가 잡혔다.)
+    if (sec < MIN_RUN_SEC) {
+      setRecorded(false);
+      setPhase("done");
+      return;
+    }
+    setRecorded(true);
+    setPhase("done");
     const durationMin = Math.max(1, Math.round(sec / 60));
     void recordRunAsCooldownAction({
       durationMin,
@@ -311,8 +324,14 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
       {phase === "done" ? (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
-          <h2 className="text-2xl font-extrabold">런닝 완료 🏁</h2>
-          <p className="text-sm text-zinc-300">오늘 마무리 운동에 기록했어요.</p>
+          <h2 className="text-2xl font-extrabold">
+            {recorded ? "런닝 완료 🏁" : "런닝 종료"}
+          </h2>
+          <p className="text-sm text-zinc-300">
+            {recorded
+              ? "오늘 마무리 운동에 기록했어요."
+              : "너무 짧아 기록하지 않았어요."}
+          </p>
           <button
             type="button"
             onClick={() => setPhase("intro")}

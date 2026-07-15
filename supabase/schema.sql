@@ -1054,6 +1054,17 @@ alter table public.profiles add column if not exists phone text;
 -- 닉네임(선택) — 그룹·마이페이지 등 공개 표시 이름. 없으면 이름으로 폴백.
 alter table public.profiles add column if not exists nickname text;
 
+-- 운동 목표(회원가입 설문) + 목표치 — 운동탭 체형기록 '남은 양' 표시에 사용.
+--   weight_loss(체중감량)  → target_weight_kg 까지 몇 kg 남음
+--   fat_loss(체지방감소)   → target_body_fat_pct 까지 몇 % 남음
+--   muscle_gain(근육증가)  → target_muscle_kg 까지 몇 kg 남음
+--   maintain(유지)         → 목표치 없음
+alter table public.profiles add column if not exists goal text
+  check (goal is null or goal in ('weight_loss', 'fat_loss', 'muscle_gain', 'maintain'));
+alter table public.profiles add column if not exists target_weight_kg numeric;
+alter table public.profiles add column if not exists target_body_fat_pct numeric;
+alter table public.profiles add column if not exists target_muscle_kg numeric;
+
 -- 회원 정지/영구정지 (관리자). suspended_until = 기간정지 만료시각(지나면 자동 해제),
 -- banned_at = 영구정지 시각(수동 해제 전까지), ban_reason = 사유.
 alter table public.profiles add column if not exists suspended_until timestamptz;

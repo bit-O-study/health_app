@@ -31,6 +31,7 @@ export type DaySummary = {
   burned: number; // 활동 소비(운동 + 걸음 칼로리)
   durationSec: number;
   steps: number; // 그날 걸음수
+  didWeight: boolean; // 실제로 웨이트(근력 운동)을 완료한 날 — 캘린더 덤벨 마커
 };
 
 export type MonthlyCalendar = {
@@ -64,7 +65,7 @@ export async function getMonthlyCalendar(
   const ensure = (d: string): DaySummary => {
     let s = byDate.get(d);
     if (!s) {
-      s = { intake: 0, burned: 0, durationSec: 0, steps: 0 };
+      s = { intake: 0, burned: 0, durationSec: 0, steps: 0, didWeight: false };
       byDate.set(d, s);
     }
     return s;
@@ -107,7 +108,9 @@ export async function getMonthlyCalendar(
     sets: number | null;
   }[]) {
     if (!r.exercise_id) continue;
-    ensure(r.for_date).burned += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+    const s = ensure(r.for_date);
+    s.burned += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+    s.didWeight = true; // 근력 운동을 실제로 완료 → 그날 '웨이트한 날'
   }
   for (const r of (condRes.data ?? []) as {
     for_date: string;

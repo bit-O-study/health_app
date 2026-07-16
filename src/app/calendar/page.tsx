@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import {
   ChevronLeft,
   ChevronRight,
+  Dumbbell,
   Flame,
   Heart,
   Scale,
@@ -203,6 +204,13 @@ export default async function CalendarPage({
                     size={9}
                   />
                 )}
+                {s?.didWeight ? (
+                  <Dumbbell
+                    aria-label="웨이트한 날"
+                    className="absolute bottom-0.5 right-0.5 text-emerald-500 dark:text-emerald-400"
+                    size={11}
+                  />
+                ) : null}
                 {mMark ? (
                   <span
                     aria-label={`미션 달성 ${mMark.pct}%`}

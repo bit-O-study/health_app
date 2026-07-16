@@ -683,7 +683,11 @@ export async function TodayExercises({
               doneIds={mainDoneIds}
               skippedIds={mainSkippedIds}
               lockWeightReps={lockWeightReps}
-              allowAllParts={registerHref.includes("direct=1")}
+              // 오늘만 변경(부위추가/직접담기/밀린 빈 날)엔 인라인 '운동 추가'에서 모든 부위 허용.
+              // (예전엔 direct 만 허용해, 부위추가로 팔·어깨를 더해도 등만 담을 수 있던 문제.)
+              allowAllParts={
+                registerHref.includes("direct=1") || usingDailyPlan || blankDefaults
+              }
             />
           </div>
         )}

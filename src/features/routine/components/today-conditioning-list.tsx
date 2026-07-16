@@ -377,8 +377,8 @@ export function TodayConditioningList({
       !justDraggedRef.current &&
       !editMode
     ) {
-      // 런닝 운동은 상세 대신 런닝 모드(야외/실내 선택)로 — 운동하다 바로 실행.
-      router.push(itemId === "running" ? "/running" : `/conditioning/${itemId}`);
+      // 모든 컨디셔닝 항목(런닝 포함)은 운동법 상세로. (런닝 모드는 부위 배지 메뉴 '런닝하기'로 진입)
+      router.push(`/conditioning/${itemId}`);
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);

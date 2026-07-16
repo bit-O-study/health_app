@@ -348,7 +348,11 @@ export async function TodayExercises({
     return [...baseRows, ...ghosts];
   }
   const warmupRows = withCondGhosts("warmup", baseWarmupRows);
-  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows);
+  // 런닝(런닝모드 기록)은 헬스탭 마무리운동에 표시하지 않는다 — '운동 기록'(캘린더·기록·
+  // 운동시간)에만 쌓이게. (예전엔 여기 남아 취소해도 고스트로 되살아나 보이던 문제도 해소.)
+  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows).filter(
+    (r) => r.itemId !== "running",
+  );
 
   const w = weightKg ?? 65;
 

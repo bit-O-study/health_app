@@ -139,8 +139,8 @@ export function GroupProofBoard({
         <div className="h-8" />
       </header>
 
-      {/* 피드 */}
-      <div className="px-4 pb-10 sm:px-6">
+      {/* 피드 — 마지막 카드가 하단 탭바(4rem)+제스처바(safe-area)에 안 가리게 하단 여백. */}
+      <div className="px-4 pb-[calc(4rem+env(safe-area-inset-bottom))] sm:px-6">
         <div className="grid grid-cols-2 gap-3">
           {posted.map((m) =>
             m.isMe ? (

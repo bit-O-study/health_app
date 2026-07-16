@@ -50,38 +50,51 @@ export type GroupRunLeaderboard = {
 };
 
 /**
- * 내가 속한 (첫) 그룹의 '오늘 달린 거리' 순위 데이터. 그룹이 없으면 null.
- * 그룹원 거리는 RLS(shares_group_with)로 열람 가능.
+ * 내가 속한 '모든' 그룹의 그룹원을 합쳐 '오늘 달린 거리' 순위를 만든다. 그룹이 없으면 null.
+ * 여러 그룹에 겹쳐 있는 사람은 한 번만(중복 제거). 그룹원 거리는 RLS(shares_group_with)로 열람.
  */
 export async function getGroupRunLeaderboardAction(): Promise<GroupRunLeaderboard | null> {
   const user = await getCurrentUser();
   if (!user) return null;
   const supabase = await createSupabaseServerClient();
 
-  // 내 첫 그룹.
+  // 내가 속한 모든 그룹.
   const { data: myMem } = await supabase
     .from("group_members")
     .select("group_id")
-    .eq("user_id", user.id)
-    .limit(1);
-  const groupId = (myMem?.[0] as { group_id: string } | undefined)?.group_id;
-  if (!groupId) return null;
+    .eq("user_id", user.id);
+  const myGroupIds = ((myMem ?? []) as { group_id: string }[]).map(
+    (r) => r.group_id,
+  );
+  if (myGroupIds.length === 0) return null;
 
-  const [{ data: group }, { data: members }] = await Promise.all([
-    supabase.from("groups").select("id, name").eq("id", groupId).maybeSingle(),
+  const [{ data: groups }, { data: members }] = await Promise.all([
+    supabase.from("groups").select("id, name").in("id", myGroupIds),
     supabase
       .from("group_members")
       .select("user_id, display_name")
-      .eq("group_id", groupId),
+      .in("group_id", myGroupIds),
   ]);
-  if (!group) return null;
 
-  const memberRows = (members ?? []) as {
+  // 겹치는 그룹원은 한 번만 — user_id 기준 중복 제거(display_name 은 처음 값 유지).
+  const seen = new Set<string>();
+  const memberRows: { user_id: string; display_name: string | null }[] = [];
+  for (const r of (members ?? []) as {
     user_id: string;
     display_name: string | null;
-  }[];
+  }[]) {
+    if (seen.has(r.user_id)) continue;
+    seen.add(r.user_id);
+    memberRows.push(r);
+  }
   const ids = memberRows.map((r) => r.user_id);
   if (ids.length === 0) return null;
+
+  // 그룹이 하나면 그 이름, 여러 개면 '전체 그룹'.
+  const groupRows = (groups ?? []) as { id: string; name: string }[];
+  const groupName =
+    groupRows.length === 1 ? groupRows[0].name : "전체 그룹";
+  const groupId = groupRows[0]?.id ?? myGroupIds[0];
 
   const today = seoulYmd();
   const [{ data: profiles }, { data: dist }] = await Promise.all([
@@ -119,7 +132,7 @@ export async function getGroupRunLeaderboardAction(): Promise<GroupRunLeaderboar
 
   return {
     groupId,
-    groupName: (group as { name: string }).name,
+    groupName,
     members: runMembers,
     myUserId: user.id,
   };

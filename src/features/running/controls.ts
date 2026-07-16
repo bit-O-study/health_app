@@ -52,3 +52,13 @@ export function runIntensityFromBounce(samples: number[]): number {
 export function clamp01(x: number): number {
   return Math.max(0, Math.min(1, x));
 }
+
+/**
+ * 실내 러닝에서 '1초 동안 달린 실거리(m)'.
+ * 설정 속도(km/h)를 m/s 로 바꾼 뒤 달리기 강도(0..1)를 곱한다.
+ * 가만히 있으면(intensity 0) 0. — 화면 HUD·그룹 순위·기록이 모두 이 값을 쓴다
+ * (단일 소스). 씬 스크롤 단위와 섞이면 '왼쪽 m ≠ 순위 m' 이 된다.
+ */
+export function runMetersPerSecond(speedKmh: number, intensity: number): number {
+  return (Math.max(0, speedKmh) / 3.6) * clamp01(intensity);
+}

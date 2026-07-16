@@ -4,6 +4,7 @@ import {
   CONDITIONING_PHOTO_DB,
   EXERCISE_PHOTO_DB,
   EXERCISE_PHOTO_DB_BY_EQUIP,
+  PHOTO_CORRECTIONS,
   conditioningPhotoFrames,
   exercisePhotoFrames,
 } from "@/features/workout-timer/exercise-photo-map";
@@ -55,6 +56,36 @@ describe("exercisePhotoFrames", () => {
       expect(f, id).not.toBeNull();
       expect(f![0]).toContain(`/${db}/0.jpg`);
       expect(f![1]).toContain(`/${db}/1.jpg`);
+    }
+  });
+});
+
+describe("오매핑 손수 교정 (PHOTO_CORRECTIONS)", () => {
+  it("교정된 id는 교정 슬러그로 해석된다(자동생성 EXTRA 보다 우선)", () => {
+    for (const [id, slug] of Object.entries(PHOTO_CORRECTIONS)) {
+      const f = exercisePhotoFrames(id);
+      expect(f, id).not.toBeNull();
+      expect(f![0], id).toContain(`/${slug}/0.jpg`);
+      expect(f![1], id).toContain(`/${slug}/1.jpg`);
+    }
+  });
+
+  it("교정 슬러그는 jsdelivr free-exercise-db CDN 형식", () => {
+    for (const [id] of Object.entries(PHOTO_CORRECTIONS)) {
+      expect(exercisePhotoFrames(id)![0], id).toMatch(
+        /^https:\/\/cdn\.jsdelivr\.net\/gh\/yuhonas\/free-exercise-db/,
+      );
+    }
+  });
+
+  it("기구 전용 매핑이 있으면 그게 교정보다 우선(기구 인자가 이긴다)", () => {
+    // 교정은 기구 미지정 폴백용 — 기구별 매핑이 있는 id면 그쪽이 이겨야 한다.
+    for (const id of Object.keys(PHOTO_CORRECTIONS)) {
+      const byEquip = EXERCISE_PHOTO_DB_BY_EQUIP[id];
+      if (!byEquip) continue;
+      for (const [equip, slug] of Object.entries(byEquip)) {
+        expect(exercisePhotoFrames(id, equip)![0], `${id}/${equip}`).toContain(`/${slug}/0.jpg`);
+      }
     }
   });
 });

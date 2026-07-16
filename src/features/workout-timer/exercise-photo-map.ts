@@ -211,8 +211,49 @@ export const CONDITIONING_PHOTO_DB: Record<string, string> = {
 const CDN = "https://cdn.jsdelivr.net/gh/yuhonas/free-exercise-db@main/exercises";
 
 /**
+ * 자동생성 매핑(EXTRA_PHOTO_DB) 이 장비/편측을 잘못 잡은 것들의 손수 교정.
+ * (free-exercise-db 에 해당 변형이 없어 '동작이 맞는' 가장 가까운 것으로 바로잡음.)
+ * EXTRA 보다 우선 적용된다. 실제 데이터셋 슬러그로만 지정(사진이 떠야 함).
+ */
+export const PHOTO_CORRECTIONS: Record<string, string> = {
+  // 로우 머신 / 시티드 로우 — 프리웨이트·스미스로 잘못 나오던 것 → 시티드/머신 로우
+  "machine-row": "Seated_Cable_Rows",
+  "low-pulley-row-machine": "Seated_Cable_Rows",
+  "converging-row-machine": "Leverage_High_Row",
+  "matrix-seated-row": "Seated_Cable_Rows",
+  "close-neutral-grip-seated-row": "Seated_Cable_Rows",
+  "wide-grip-machine-row": "Seated_Cable_Rows",
+  "seated-high-row-machine": "Leverage_High_Row",
+  "hammer-strength-low-row": "Leverage_High_Row",
+  // 원암 리어델트 플라이 — 두손 데모로 나오던 것 → 한손 리어델트
+  "single-arm-cable-rear-delt-fly": "Dumbbell_Lying_One-Arm_Rear_Lateral_Raise",
+  // 덤벨 리어델트 로우
+  "dumbbell-rear-delt-row": "Bent_Over_Two-Dumbbell_Row",
+  // 머신 체스트 프레스 — 케이블/바벨로 나오던 것 → 레버리지(머신)
+  "hammer-strength-chest-press": "Leverage_Chest_Press",
+  "single-arm-machine-chest-press": "Leverage_Chest_Press",
+  "incline-machine-chest-press": "Leverage_Incline_Chest_Press",
+  "hammer-strength-iso-lateral-incline-press": "Leverage_Incline_Chest_Press",
+  // 머신 컬 — 바벨/덤벨로 나오던 것 → 머신 바이셉 컬
+  "machine-biceps-curl": "Machine_Bicep_Curl",
+  "machine-preacher-curl": "Machine_Bicep_Curl",
+  // 원암 케이블 트라이셉스 — 두손/푸시다운으로 나오던 것 → 원암 케이블 트라이셉
+  "single-arm-cable-pushdown": "Cable_One_Arm_Tricep_Extension",
+  "single-arm-cable-triceps-kickback": "Cable_One_Arm_Tricep_Extension",
+  // 원암 덤벨 벤치 / 원암 프리처
+  "single-arm-dumbbell-bench-press": "One_Arm_Dumbbell_Bench_Press",
+  "single-arm-preacher-curl": "One_Arm_Dumbbell_Preacher_Curl",
+  // 켈틀벨 싱글레그 데드리프트
+  "kettlebell-single-leg-deadlift": "Kettlebell_One-Legged_Deadlift",
+  // 스미스 머신 루마니안/플로어 프레스
+  "smith-machine-romanian-deadlift": "Smith_Machine_Stiff-Legged_Deadlift",
+  "smith-machine-floor-press": "Smith_Machine_Bench_Press",
+};
+
+/**
  * 시연 사진 2프레임 URL. 기구가 주어지고 그 기구 전용 매핑이 있으면 그걸,
- * 없으면 운동 기본 매핑으로 폴백. 둘 다 없으면 null → 호출부가 SVG 폴백.
+ * 없으면 손수 교정(PHOTO_CORRECTIONS) → 운동 기본 매핑 → 자동생성 순으로 폴백.
+ * 다 없으면 null → 호출부가 튜토리얼(텍스트) 폴백.
  */
 export function exercisePhotoFrames(
   exerciseId: string,
@@ -220,6 +261,7 @@ export function exercisePhotoFrames(
 ): [string, string] | null {
   const db =
     (equipment ? EXERCISE_PHOTO_DB_BY_EQUIP[exerciseId]?.[equipment] : undefined) ??
+    PHOTO_CORRECTIONS[exerciseId] ??
     EXERCISE_PHOTO_DB[exerciseId] ??
     // 1,300 확장 운동의 free-exercise-db 매칭(자동 생성). 매칭 없으면 호출부가 튜토리얼 폴백.
     EXTRA_PHOTO_DB[exerciseId];

@@ -4,6 +4,7 @@ import {
   laneFromLean,
   isLookingUp,
   runIntensityFromBounce,
+  runMetersPerSecond,
 } from "@/features/running/controls";
 import { createGame, stepGame } from "@/features/running/game";
 
@@ -47,6 +48,19 @@ describe("controls", () => {
       (_, i) => 0.5 + (i % 2 ? 0.002 : -0.002),
     );
     expect(runIntensityFromBounce(tiny)).toBe(0);
+  });
+
+  it("초당 실거리 = 속도(m/s)×강도 — HUD·순위·기록이 쓰는 단일 소스", () => {
+    // 10.8 km/h = 3 m/s. 전력(강도 1) → 초당 3m.
+    expect(runMetersPerSecond(10.8, 1)).toBeCloseTo(3, 5);
+    // 강도 절반 → 절반 거리.
+    expect(runMetersPerSecond(10.8, 0.5)).toBeCloseTo(1.5, 5);
+    // 가만히(강도 0) → 0.
+    expect(runMetersPerSecond(10.8, 0)).toBe(0);
+    // 강도는 0..1 로 클램프(1 초과 입력에도 속도 이상으로 안 뜀).
+    expect(runMetersPerSecond(10.8, 5)).toBeCloseTo(3, 5);
+    // 음수 속도 방어.
+    expect(runMetersPerSecond(-5, 1)).toBe(0);
   });
 });
 

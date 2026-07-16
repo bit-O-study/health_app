@@ -182,6 +182,13 @@ export function TodayPlanList({
   }
 
   const [, startTx] = useTransition();
+  // 완료/취소 서버 쓰기 직렬화 큐 — 연타해도 한 줄로 순차 실행(동시 겹침 에러 방지).
+  const writeChainRef = useRef<Promise<unknown>>(Promise.resolve());
+  function enqueueWrite(fn: () => Promise<unknown>) {
+    writeChainRef.current = writeChainRef.current
+      .catch(() => {})
+      .then(() => fn().catch(() => {}));
+  }
   const w = weightKg ?? 65;
 
   function persistOrder(next: TodayPlanItem[]) {
@@ -222,32 +229,28 @@ export function TodayPlanList({
     }
     // 운동 1개 완료마다 그날 누적 운동시간 갱신 — 타이머가 돌고 있을 때만,
     // 아직 DB 에 안 올린 만큼(delta)만 더해 캘린더에 반영(이중 가산 방지).
-    if (target === "done" && !wasDone) {
-      const d = takeUnsavedDelta(readTimer());
-      if (d) void addWorkoutDurationAction(d.forDate, d.deltaSec);
-    }
-    startTx(async () => {
-      await setExerciseStatusAction(
-        id,
-        target,
-        // clear 에도 스냅샷을 넘긴다 — 액션이 (부위:운동) 폴백 기록까지 지워야
-        // 루틴 변경으로 행 id 가 바뀐 완료도 정상 취소된다.
-        !item
-          ? undefined
-          : {
-              exerciseId: item.exerciseId,
-              equipment: item.equipment,
-              sets: item.sets,
-              reps: item.reps,
-              weightKg: item.weightKg,
-              setDetails: item.setDetails,
-              focus: item.focus,
-            },
-      );
-      // 행 색·뱃지는 로컬 done/skipped Set 으로 이미 즉시 반영됨. 상단 "완료 kcal" 카드
-      // (서버 계산값)만 마지막 토글 뒤 한 번 새로고침(연타 시 전체 재렌더 폭주 방지).
-      coalescedRefresh();
+    const delta =
+      target === "done" && !wasDone ? takeUnsavedDelta(readTimer()) : null;
+    // clear 에도 스냅샷을 넘긴다 — 액션이 (부위:운동) 폴백 기록까지 지워야
+    // 루틴 변경으로 행 id 가 바뀐 완료도 정상 취소된다.
+    const snap = !item
+      ? undefined
+      : {
+          exerciseId: item.exerciseId,
+          equipment: item.equipment,
+          sets: item.sets,
+          reps: item.reps,
+          weightKg: item.weightKg,
+          setDetails: item.setDetails,
+          focus: item.focus,
+        };
+    // 연타 시 서버액션이 '동시에' 겹쳐 에러나던 문제 → 쓰기를 한 줄로 직렬화(큐).
+    // 화면(행 색·뱃지)은 위 optimistic 로 이미 즉시 반영됨. 마지막에 새로고침 한 번(합쳐짐).
+    enqueueWrite(async () => {
+      if (delta) await addWorkoutDurationAction(delta.forDate, delta.deltaSec);
+      await setExerciseStatusAction(id, target, snap);
     });
+    coalescedRefresh();
   }
 
   /* ── 포인터 기반 드래그 (그립 핸들에서 시작) ─

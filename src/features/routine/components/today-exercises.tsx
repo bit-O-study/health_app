@@ -348,7 +348,11 @@ export async function TodayExercises({
     return [...baseRows, ...ghosts];
   }
   const warmupRows = withCondGhosts("warmup", baseWarmupRows);
-  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows);
+  // 런닝(런닝모드 기록)은 헬스탭 마무리운동에 표시하지 않는다 — '운동 기록'(캘린더·기록·
+  // 운동시간)에만 쌓이게. (예전엔 여기 남아 취소해도 고스트로 되살아나 보이던 문제도 해소.)
+  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows).filter(
+    (r) => r.itemId !== "running",
+  );
 
   const w = weightKg ?? 65;
 
@@ -679,7 +683,11 @@ export async function TodayExercises({
               doneIds={mainDoneIds}
               skippedIds={mainSkippedIds}
               lockWeightReps={lockWeightReps}
-              allowAllParts={registerHref.includes("direct=1")}
+              // 오늘만 변경(부위추가/직접담기/밀린 빈 날)엔 인라인 '운동 추가'에서 모든 부위 허용.
+              // (예전엔 direct 만 허용해, 부위추가로 팔·어깨를 더해도 등만 담을 수 있던 문제.)
+              allowAllParts={
+                registerHref.includes("direct=1") || usingDailyPlan || blankDefaults
+              }
             />
           </div>
         )}

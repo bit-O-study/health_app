@@ -128,7 +128,12 @@ const MAPS: MapPreset[] = [
 ];
 
 export type ZenHud = {
-  dist: React.RefObject<HTMLSpanElement | null>;
+  /**
+   * 선택: 거리 HUD 요소. ⚠ ZenScene 은 여기에 '실거리'를 쓰지 않는다 —
+   * 씬 스크롤 단위와 실거리(runMetersPerSecond 누적)는 스케일이 다르기 때문.
+   * 실거리 표시는 호출부(RunningGame)가 sessionMetersRef 로 직접 갱신한다.
+   */
+  dist?: React.RefObject<HTMLSpanElement | null>;
   /** 선택: 현재 맵 이름을 표시할 요소. */
   map?: React.RefObject<HTMLSpanElement | null>;
 };
@@ -319,8 +324,8 @@ function World({
       if (g.position.x < -42) g.position.x += clouds.current.length * 14;
     });
 
-    if (hud.dist.current)
-      hud.dist.current.textContent = `${Math.round(distRef.current)} m`;
+    // 거리 HUD 는 호출부가 실거리(sessionMetersRef)로 갱신한다 — 여기서 씬 스크롤
+    // 단위를 덮어쓰면 '왼쪽 m ≠ 순위 m' 가 된다. (distRef 는 맵 전환 페이싱에만 사용)
   });
 
   return (

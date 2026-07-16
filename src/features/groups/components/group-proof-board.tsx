@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Camera, Dumbbell, Lock, RefreshCw, Trash2 } from "lucide-react";
+import { Camera, Dumbbell, X } from "lucide-react";
 
 import type { GroupSummary } from "@/features/groups/data-access";
 import type { ProofBoard, ProofMember } from "@/features/groups/proof-data";
@@ -24,14 +24,8 @@ function formatTime(iso: string): string {
   }
 }
 
-/** 인증한 멤버의 큰 카드 — 무음 루프 영상 + 이름 + 시각. locked 면 블러+잠금. */
-function ProofCard({
-  member,
-  locked,
-}: {
-  member: ProofMember;
-  locked: boolean;
-}) {
+/** 인증한 멤버의 큰 카드 — 무음 루프 영상 + 이름 + 시각. */
+function ProofCard({ member }: { member: ProofMember }) {
   const proof = member.proof!;
   return (
     <figure className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-zinc-900">
@@ -40,7 +34,7 @@ function ProofCard({
         <img
           src={proof.mediaUrl}
           alt={`${member.name} 인증`}
-          className={`h-full w-full object-cover ${locked ? "blur-xl scale-110" : ""}`}
+          className="h-full w-full object-cover"
         />
       ) : (
         <video
@@ -49,7 +43,7 @@ function ProofCard({
           loop
           muted
           playsInline
-          className={`h-full w-full object-cover ${locked ? "blur-xl scale-110" : ""}`}
+          className="h-full w-full object-cover"
         />
       )}
 
@@ -68,40 +62,49 @@ function ProofCard({
         </span>
       </figcaption>
 
-      {proof.caption && !locked ? (
+      {proof.caption ? (
         <p className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-3 text-sm font-medium text-white drop-shadow">
           {proof.caption}
         </p>
-      ) : null}
-
-      {locked ? (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-white/90">
-          <Lock size={26} />
-          <span className="text-xs font-bold">인증하면 보여요</span>
-        </div>
       ) : null}
     </figure>
   );
 }
 
-/** 아직 인증 안 한 멤버 — 흐린 플레이스홀더. */
+/** 아직 인증 안 한 다른 그룹원 — 흐린 플레이스홀더. */
 function PendingCard({ member }: { member: ProofMember }) {
   return (
     <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800/50">
       <Dumbbell size={26} className="text-zinc-400" />
       <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
         {member.name}
-        {member.isMe ? " (나)" : ""}
       </span>
       <span className="text-[11px] text-zinc-400">아직 인증 전</span>
     </div>
   );
 }
 
+/** 내 카드(아직 인증 전) — 탭하면 카메라를 열어 인증한다. */
+function MyRecordCard() {
+  return (
+    <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-emerald-400 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950/30">
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white">
+        <Camera size={24} />
+      </span>
+      <span className="text-sm font-black text-emerald-800 dark:text-emerald-300">
+        탭하여 오늘 인증
+      </span>
+      <span className="text-[11px] text-emerald-700/70 dark:text-emerald-400/70">
+        3초 운동 인증
+      </span>
+    </div>
+  );
+}
+
 /**
- * 오늘 운동 인증 움짤 피드 — BeReal 스타일.
- *  - 내가 인증해야 그룹원 인증이 보인다(안 하면 블러+잠금).
- *  - 인증한 사람이 먼저, 최신순. 각 카드에 인증 시각 표시.
+ * 오늘 운동 인증 움짤 피드.
+ *  - 내 카드(아직 인증 전)를 탭하면 카메라로 인증. 내가 올린 영상은 우하단 X 로 삭제.
+ *  - 다른 그룹원 카드를 탭하면 그 사람 오늘 운동·식단을 본다.
  */
 export function GroupProofBoard({
   board,
@@ -116,7 +119,6 @@ export function GroupProofBoard({
   // 탭한 그룹원 — 그 사람의 오늘 운동·식단 시트를 연다.
   const [selected, setSelected] = useState<ProofMember | null>(null);
 
-  const iPosted = board.myProof !== null;
   const posted = board.members.filter((m) => m.proof);
   const pending = board.members.filter((m) => !m.proof);
 
@@ -130,109 +132,71 @@ export function GroupProofBoard({
   }
 
   return (
-    // 일반 흐름 — 헤더까지 전체가 문서 스크롤로 함께 움직인다(하단 CTA만 고정).
-    // 상단 상태바 여백은 body(globals.css)의 padding-top 이 처리한다.
     <div className="w-full">
-      {/* 헤더 — 스크롤 시 함께 올라간다(sticky 아님). */}
+      {/* 헤더 — 그룹 전환 칩 + 위쪽 빈 여백(패딩) */}
       <header className="px-4 pt-3 sm:px-6">
         <GroupSwitcher groups={groups} currentId={board.id} />
-        <div className="mt-1 flex items-end justify-between">
-          <div>
-            <h1 className="text-xl font-black text-zinc-950 dark:text-zinc-50">
-              오늘 운동 인증
-            </h1>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              오늘{" "}
-              <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                {board.doneCount}
-              </span>
-              /{board.totalCount}명 인증
-            </p>
-          </div>
-        </div>
+        <div className="h-8" />
       </header>
 
-      {/* 피드 — 일반 흐름. 하단 고정 CTA 에 안 가리게 넉넉한 pb. */}
-      <div className="px-4 pb-32 pt-3 sm:px-6">
-        {!iPosted ? (
-          <div className="mb-4 rounded-2xl bg-emerald-50 p-4 text-center dark:bg-emerald-500/10">
-            <p className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
-              아직 오늘 인증 전이에요
-            </p>
-            <p className="mt-0.5 text-xs text-emerald-700/80 dark:text-emerald-400/80">
-              운동 인증을 올려 오늘의 기록을 남겨보세요.
-            </p>
-          </div>
-        ) : null}
-
+      {/* 피드 — 마지막 카드가 하단 탭바(4rem)+제스처바(safe-area)에 안 가리게 하단 여백. */}
+      <div className="px-4 pb-[calc(4rem+env(safe-area-inset-bottom))] sm:px-6">
         <div className="grid grid-cols-2 gap-3">
-          {/* 인증 전에도 그룹원의 인증·오늘 기록을 볼 수 있다(블러/잠금 없음). */}
-          {posted.map((m) => (
-            <button
-              key={m.userId}
-              type="button"
-              onClick={() => setSelected(m)}
-              className="block rounded-2xl text-left transition active:scale-[0.98]"
-            >
-              <ProofCard member={m} locked={false} />
-            </button>
-          ))}
-          {pending.map((m) => (
-            <button
-              key={m.userId}
-              type="button"
-              onClick={() => setSelected(m)}
-              className="block rounded-2xl text-left transition active:scale-[0.98]"
-            >
-              <PendingCard member={m} />
-            </button>
-          ))}
+          {posted.map((m) =>
+            m.isMe ? (
+              // 내가 올린 영상 — 탭하면 내 오늘 기록, 우하단 X 로 삭제.
+              <div key={m.userId} className="relative">
+                <button
+                  type="button"
+                  onClick={() => setSelected(m)}
+                  className="block w-full rounded-2xl text-left transition active:scale-[0.98]"
+                >
+                  <ProofCard member={m} />
+                </button>
+                <button
+                  type="button"
+                  onClick={removeMine}
+                  disabled={deleting}
+                  aria-label="내 인증 삭제"
+                  className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white shadow-lg active:scale-90 disabled:opacity-50"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <button
+                key={m.userId}
+                type="button"
+                onClick={() => setSelected(m)}
+                className="block rounded-2xl text-left transition active:scale-[0.98]"
+              >
+                <ProofCard member={m} />
+              </button>
+            ),
+          )}
+          {pending.map((m) =>
+            m.isMe ? (
+              // 내 카드(아직 인증 전) — 탭하면 카메라로 인증.
+              <button
+                key={m.userId}
+                type="button"
+                onClick={() => setRecording(true)}
+                className="block rounded-2xl text-left transition active:scale-[0.98]"
+              >
+                <MyRecordCard />
+              </button>
+            ) : (
+              <button
+                key={m.userId}
+                type="button"
+                onClick={() => setSelected(m)}
+                className="block rounded-2xl text-left transition active:scale-[0.98]"
+              >
+                <PendingCard member={m} />
+              </button>
+            ),
+          )}
         </div>
-
-        {board.totalCount > 0 ? (
-          <p className="mt-3 text-center text-[11px] text-zinc-400">
-            그룹원을 탭하면 오늘 무슨 운동·뭘 먹었는지 볼 수 있어요.
-          </p>
-        ) : null}
-
-        {board.totalCount === 1 ? (
-          <p className="mt-6 text-center text-xs text-zinc-400">
-            그룹원을 초대하면 서로의 오늘 운동 인증을 볼 수 있어요.
-          </p>
-        ) : null}
-      </div>
-
-      {/* 하단 고정 CTA */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 flex justify-center px-4 pb-3">
-        {iPosted ? (
-          <div className="pointer-events-auto flex items-center gap-2 rounded-full bg-zinc-900/95 p-1.5 pl-4 shadow-xl backdrop-blur dark:bg-zinc-800/95">
-            <span className="text-sm font-bold text-white">오늘 인증 완료 ✓</span>
-            <button
-              type="button"
-              onClick={() => setRecording(true)}
-              className="flex items-center gap-1 rounded-full bg-white/15 px-3 py-2 text-xs font-bold text-white active:scale-95"
-            >
-              <RefreshCw size={14} /> 다시
-            </button>
-            <button
-              type="button"
-              onClick={removeMine}
-              disabled={deleting}
-              aria-label="오늘 인증 삭제"
-              className="flex items-center rounded-full bg-white/15 px-3 py-2 text-xs font-bold text-white active:scale-95 disabled:opacity-50"
-            >
-              <Trash2 size={14} />
-            </button>
-          </div>
-        ) : (
-          <button
-            type="button"
-            onClick={() => setRecording(true)}
-            className="pointer-events-auto flex items-center gap-2 rounded-full bg-emerald-600 px-7 py-3.5 text-base font-black text-white shadow-xl active:scale-95"
-          >
-            <Camera size={20} /> 운동 인증하기
-          </button>
-        )}
       </div>
 
       {recording ? (

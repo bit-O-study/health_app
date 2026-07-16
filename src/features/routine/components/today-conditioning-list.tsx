@@ -152,6 +152,13 @@ export function TodayConditioningList({
             ),
           );
   const [, startTx] = useTransition();
+  // 완료/취소 서버 쓰기 직렬화 큐(연타 동시 겹침 에러 방지).
+  const writeChainRef = useRef<Promise<unknown>>(Promise.resolve());
+  function enqueueWrite(fn: () => Promise<unknown>) {
+    writeChainRef.current = writeChainRef.current
+      .catch(() => {})
+      .then(() => fn().catch(() => {}));
+  }
 
   function setStatus(
     rowId: string,
@@ -185,26 +192,21 @@ export function TodayConditioningList({
     setSkipped(nextSkipped);
     // '운동 시작' 큐가 즉시 반영하도록 공유 오버라이드에 기록(서버 새로고침 대기 X).
     orderScope?.setCompletion(rowId, target === "clear" ? "active" : target);
-    startTx(async () => {
-      await setConditioningStatusAction(
-        kind,
-        rowId,
-        itemId,
-        target,
-        target === "clear" || !item
-          ? undefined
-          : {
-              durationMin: item.durationMin,
-              speed: item.speed,
-              incline: item.incline,
-              sets: item.sets,
-              reps: item.reps,
-            },
-      );
-      // 행 표시는 로컬 state 로 즉시 갱신. 상단 칼로리 카드만 마지막 토글 뒤 한 번
-      // 새로고침(연타 시 전체 재렌더 폭주 방지).
-      coalescedRefresh();
-    });
+    const snap =
+      target === "clear" || !item
+        ? undefined
+        : {
+            durationMin: item.durationMin,
+            speed: item.speed,
+            incline: item.incline,
+            sets: item.sets,
+            reps: item.reps,
+          };
+    // 연타 시 서버액션 동시 겹침 에러 방지 — 쓰기를 직렬 큐로. 행 표시는 optimistic 로 즉시.
+    enqueueWrite(() =>
+      setConditioningStatusAction(kind, rowId, itemId, target, snap),
+    );
+    coalescedRefresh();
   }
 
   function persistOrder(next: TodayConditioningItem[]) {
@@ -377,8 +379,8 @@ export function TodayConditioningList({
       !justDraggedRef.current &&
       !editMode
     ) {
-      // 런닝 운동은 상세 대신 런닝 모드(야외/실내 선택)로 — 운동하다 바로 실행.
-      router.push(itemId === "running" ? "/running" : `/conditioning/${itemId}`);
+      // 모든 컨디셔닝 항목(런닝 포함)은 운동법 상세로. (런닝 모드는 부위 배지 메뉴 '런닝하기'로 진입)
+      router.push(`/conditioning/${itemId}`);
     }
     try {
       e.currentTarget.releasePointerCapture(e.pointerId);

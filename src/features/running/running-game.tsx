@@ -3,7 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 
-import { runIntensityFromBounce } from "@/features/running/controls";
+import {
+  runIntensityFromBounce,
+  runMetersPerSecond,
+} from "@/features/running/controls";
 import { formatDuration } from "@/features/running/geo";
 import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
 import { addRunDistanceAction } from "@/features/running/run-distance-actions";
@@ -198,9 +201,14 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       rafRef.current = requestAnimationFrame(visionLoop);
       tickRef.current = setInterval(() => {
         setElapsedSec((Date.now() - playStartRef.current) / 1000);
-        // 매초 거리 누적: 속도(m/s) × 달리기 강도(0..1). 가만히 있으면 안 늘어난다.
-        sessionMetersRef.current +=
-          (speedRef.current / 3.6) * Math.max(0, Math.min(1, runRef.current));
+        // 매초 거리 누적(단일 소스): 속도(m/s) × 달리기 강도(0..1). 가만히 있으면 안 늘어난다.
+        sessionMetersRef.current += runMetersPerSecond(
+          speedRef.current,
+          runRef.current,
+        );
+        // 왼쪽 HUD 도 같은 값으로 갱신 → 순위 오버레이·기록과 항상 일치.
+        if (distRef.current)
+          distRef.current.textContent = `${Math.round(sessionMetersRef.current)} m`;
       }, 1000);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "알 수 없는 오류";
@@ -267,7 +275,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
   return (
     <div className="fixed inset-0 z-40 w-full overflow-hidden bg-[#bfeaff] text-white">
-      {active ? <ZenScene runRef={runRef} hud={{ dist: distRef, map: mapRef }} /> : null}
+      {active ? <ZenScene runRef={runRef} hud={{ map: mapRef }} /> : null}
 
       {/* 카메라 — 화면엔 안 보이게(감지용으로만 사용). display:none 은 일부 브라우저에서
           프레임이 멈춰 감지가 안 되므로 opacity 0 + 1px 로 렌더는 유지한다. */}

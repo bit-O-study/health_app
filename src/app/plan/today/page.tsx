@@ -204,6 +204,9 @@ export default async function TodayConditioningPage({
             allowAllExercises={direct}
             recommendFocuses={direct ? directRecFocuses : undefined}
             hideRecommend={direct}
+            // 부위 추가(add) 모드에서는 '추가 요청한 부위'만 새로 담을 수 있게 제한한다.
+            // (오늘 이미 있던 부위는 편집기에 그대로 보이되, 새 운동 추가/부위 전환은 요청 부위만.)
+            addableFocuses={addMode ? validFocuses : undefined}
           />
 
           {/* 워밍업/마무리는 하루 1세트. 추천은 오늘 전 부위 합집합으로 채움.

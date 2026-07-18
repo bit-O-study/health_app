@@ -33,6 +33,7 @@ import {
   exerciseCompletionKey,
 } from "@/features/routine/completion-match";
 import { orderMainPlan } from "@/features/routine/plan-order";
+import { isTimedExercise } from "@/features/routine/timed-exercises";
 import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import {
@@ -484,10 +485,11 @@ export async function TodayExercises({
       doneOrSkippedIds.push(p.id);
     const ex = getCatalogExercise(p.exerciseId);
     const eq = ex?.equipments.find((e) => e.equipment === p.equipment);
+    const repUnit = isTimedExercise(p.exerciseId) ? "초" : "회";
     const subtitle =
       p.setDetails && p.setDetails.length > 0
         ? `${EQUIPMENT_LABELS[p.equipment]} · ${summarizeSetDetails(p.setDetails)}`
-        : `${EQUIPMENT_LABELS[p.equipment]} · ${p.sets}세트 × ${p.reps}회${
+        : `${EQUIPMENT_LABELS[p.equipment]} · ${p.sets}세트 × ${p.reps}${repUnit}${
             p.weightKg !== null ? ` · ${p.weightKg}kg` : " · 맨몸"
           }`;
     queueItems.push({

@@ -348,11 +348,9 @@ export async function TodayExercises({
     return [...baseRows, ...ghosts];
   }
   const warmupRows = withCondGhosts("warmup", baseWarmupRows);
-  // 런닝(런닝모드 기록)은 헬스탭 마무리운동에 표시하지 않는다 — '운동 기록'(캘린더·기록·
-  // 운동시간)에만 쌓이게. (예전엔 여기 남아 취소해도 고스트로 되살아나 보이던 문제도 해소.)
-  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows).filter(
-    (r) => r.itemId !== "running",
-  );
+  // 런닝(런닝모드 기록)도 헬스탭 마무리운동 목록에 표시한다. (사용자 요청: 런닝을 운동목록에서
+  // 빼지 말 것 — 빼는 건 '런닝모드 종료 화면의 기록 요약'뿐. 운동목록엔 런닝이 그대로 보여야 함.)
+  const cooldownRows = withCondGhosts("cooldown", baseCooldownRows);
 
   const w = weightKg ?? 65;
 

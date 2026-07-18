@@ -406,11 +406,11 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
           <h2 className="text-2xl font-extrabold">
             {recorded ? "런닝 완료 🏁" : "런닝 종료"}
           </h2>
-          <p className="text-sm text-zinc-300">
-            {recorded
-              ? "오늘 마무리 운동에 기록했어요."
-              : "너무 짧아 기록하지 않았어요."}
-          </p>
+          {/* 종료 화면의 '기록 요약'(기록됨 안내)은 표시하지 않는다 — 런닝 기록은 헬스탭
+              운동목록·캘린더·기록에서 확인. '기록 안 됨' 경고만 남긴다. */}
+          {!recorded ? (
+            <p className="text-sm text-zinc-300">너무 짧아 기록하지 않았어요.</p>
+          ) : null}
           <button
             type="button"
             onClick={() => setPhase("intro")}

@@ -40,6 +40,9 @@ export async function signUpAndOnboard(page: Page): Promise<string> {
   await page.locator('input[placeholder="65"]').fill("75");
   await page.locator("section button.w-full").first().click();
   await page.getByRole("button", { name: "다음" }).click();
+  // goal → "현재 유지"(목표치 입력 불필요) → next  (온보딩에 목표 단계가 추가됨)
+  await page.getByRole("button", { name: /현재 유지/ }).click();
+  await page.getByRole("button", { name: "다음" }).click();
   // gym → skip
   await page.getByRole("button", { name: "건너뛰기" }).click();
   await page.waitForTimeout(400);

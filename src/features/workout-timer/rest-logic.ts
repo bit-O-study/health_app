@@ -40,3 +40,19 @@ export function setProgressLabel(done: number, total: number): string {
 export function isLastSet(done: number, total: number): boolean {
   return done >= Math.max(1, total) - 1;
 }
+
+/**
+ * 운동모드에서 선택 가능한 총 세트 수의 하한. 이미 완료한 세트(completed)보다 총 세트를
+ * 적게 내릴 수 없다 — 세트 완료를 취소(cancelSet)하기 전엔 완료분 아래로 못 줄이게.
+ * (예: 4세트 완료했으면 총 세트를 4 미만으로 바꿀 수 없음.) 항상 최소 1.
+ */
+export function minSelectableSets(completed: number): number {
+  return Math.max(1, Math.floor(Number.isFinite(completed) ? completed : 0));
+}
+
+/** 요청한 총 세트 수를 완료분 하한으로 보정(하한 미만이면 하한으로 올림). */
+export function clampTotalSets(requested: number, completed: number): number {
+  const min = minSelectableSets(completed);
+  const r = Math.round(Number.isFinite(requested) ? requested : min);
+  return Math.max(min, r);
+}

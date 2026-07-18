@@ -70,6 +70,11 @@ import {
   conditioningPhotoFrames,
   exercisePhotoFrames,
 } from "@/features/workout-timer/exercise-photo-map";
+import {
+  isTimedExercise,
+  holdSecondsFromReps,
+  formatHold,
+} from "@/features/routine/timed-exercises";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -400,6 +405,20 @@ export function GuidedOverlay({
   // 현재 본운동에서 완료한 세트 수(0-base). 항목이 바뀌면 0으로 리셋.
   const [setsDone, setSetsDone] = useState(0);
 
+  // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
+  const timed = item?.kind === "main" && isTimedExercise(item.exerciseId);
+  const [holdSec, setHoldSec] = useState(0);
+  // 운동/세트가 바뀌면 홀드 타이머를 0으로. (완료 세트 수·현재 운동 인덱스 기준)
+  useEffect(() => {
+    setHoldSec(0);
+  }, [index, setsDone]);
+  // 시간 운동이면 1초마다 카운트업. (다른 운동이거나 아닐 땐 안 돈다.)
+  useEffect(() => {
+    if (!timed) return;
+    const id = setInterval(() => setHoldSec((s) => s + 1), 1000);
+    return () => clearInterval(id);
+  }, [timed, index, setsDone]);
+
   // 무게·횟수 고정 끔(unlocked) → 운동모드에서 무게/횟수/세트를 그때그때 설정.
   const editable = !lockWeightReps && item?.kind === "main";
   const [editW, setEditW] = useState<number | null>(null);
@@ -516,6 +535,10 @@ export function GuidedOverlay({
         ? editSets
         : item.sets
       : 0;
+  // 시간 운동의 유효 횟수(=목표 초). 고정 끔이면 스크러버(초), 켜짐이면 계획값.
+  const effReps =
+    item && item.kind === "main" ? (editable ? editReps : item.reps) : 0;
+  const targetHoldSec = timed ? holdSecondsFromReps(effReps) : 0;
 
   // 다음 1~2개 운동의 시연 사진을 미리 받아둔다 → '다음 운동'으로 넘길 때
   // 빈 화면/지연 없이 즉시 표시(브라우저 캐시 워밍). 현재 항목이 바뀔 때마다.
@@ -1006,6 +1029,27 @@ export function GuidedOverlay({
           <ConditioningSettings item={item} />
         )}
 
+        {/* 시간(초) 기반 운동(플랭크 등) — 큰 초 타이머(카운트업). 세트마다 0부터 다시.
+            완료를 누르면(하단 '세트 완료') 세트가 완료되고 다음 세트에서 리셋된다.
+            목표 시간을 넘기면 초록 → 색으로 도달 표시. */}
+        {timed ? (
+          <div className="mt-4 flex flex-col items-center gap-1">
+            <div
+              className={`text-6xl font-extrabold tabular-nums ${
+                holdSec >= targetHoldSec
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-zinc-900 dark:text-zinc-100"
+              }`}
+              aria-label={`경과 ${holdSec}초`}
+            >
+              {formatHold(holdSec)}
+            </div>
+            <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              목표 {targetHoldSec}초 버티기 · 완료를 누르면 이 세트 완료
+            </p>
+          </div>
+        ) : null}
+
         {/* 컨디셔닝 시간·속도·경사 스크러버 (고정 끔, 워밍업/마무리) */}
         {condEditable ? (
           <CondScrubbers
@@ -1034,14 +1078,15 @@ export function GuidedOverlay({
                 allowBodyweight
                 onChange={(v) => putEdit({ w: v })}
               />
+              {/* 시간 운동(플랭크 등)은 '횟수' 대신 '목표 시간(초)'로 다룬다 — reps 칸 재사용. */}
               <NumberScrubber
-                label="횟수"
+                label={timed ? "시간" : "횟수"}
                 value={editReps}
-                unit="회"
-                min={1}
-                max={100}
-                step={1}
-                onChange={(v) => putEdit({ reps: v ?? 1 })}
+                unit={timed ? "초" : "회"}
+                min={timed ? 5 : 1}
+                max={timed ? 600 : 100}
+                step={timed ? 5 : 1}
+                onChange={(v) => putEdit({ reps: v ?? (timed ? 30 : 1) })}
               />
               <NumberScrubber
                 label="세트"

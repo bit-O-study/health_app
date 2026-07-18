@@ -51,6 +51,7 @@ import {
   summarizeSetDetails,
   type SetDetail,
 } from "@/features/routine/set-details";
+import { isTimedExercise } from "@/features/routine/timed-exercises";
 import { dropIndex } from "@/features/routine/plan-order";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
 import { muscleGroup } from "@/features/routine/muscle-map";
@@ -681,7 +682,9 @@ export function TodayPlanList({
                       {lockWeightReps
                         ? item.setDetails && item.setDetails.length > 0
                           ? `${item.setDetails.length}세트 · ${summarizeSetDetails(item.setDetails)}`
-                          : `${item.sets}세트 × ${item.reps}회${
+                          : `${item.sets}세트 × ${item.reps}${
+                              isTimedExercise(item.exerciseId) ? "초" : "회"
+                            }${
                               item.weightKg !== null
                                 ? ` · ${item.weightKg}kg`
                                 : " · 맨몸"

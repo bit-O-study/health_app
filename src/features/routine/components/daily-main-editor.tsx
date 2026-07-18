@@ -91,6 +91,7 @@ export function DailyMainEditor({
   allowAllExercises = false,
   recommendFocuses,
   hideRecommend = false,
+  addableFocuses,
 }: {
   sections: MainSection[];
   gender: "male" | "female";
@@ -106,6 +107,9 @@ export function DailyMainEditor({
   hideRecommend?: boolean;
   /** 직접 담기 — sections 에 부위가 있어도 전체 카탈로그에서 고르게 한다. */
   allowAllExercises?: boolean;
+  /** '오늘만 부위 추가' 모드 — 새로 담을 수 있는 부위를 '추가 요청한 부위'로만 제한.
+   * (기존 today 부위는 그대로 보이되, 새 운동 추가/부위 전환은 이 부위들로 한정.) */
+  addableFocuses?: FocusTone[];
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
@@ -123,6 +127,15 @@ export function DailyMainEditor({
     : focuses.length > 0
       ? focuses
       : BASE_PARTS;
+  // '오늘만 부위 추가'면 새로 담을 부위를 '추가 요청한 부위'로 제한한다(없으면 기존 로직).
+  const addChoices: FocusTone[] =
+    addableFocuses && addableFocuses.length > 0 ? addableFocuses : focusChoices;
+  // 한 행에서 고를 수 있는 부위 — 그 행의 현재 부위 + 새로 담을 수 있는 부위(중복 제거).
+  // (부위 추가 모드에서 기존 부위 행은 자기 부위를 유지하되, 다른 요청 부위로만 바꿀 수 있다.)
+  const rowFocusChoices = (rowFocus: FocusTone): FocusTone[] =>
+    addableFocuses && addableFocuses.length > 0
+      ? [...new Set<FocusTone>([rowFocus, ...addChoices])]
+      : focusChoices;
   // 행의 부위에 맞는 운동 목록(그 부위만). 세부근육 칩은 ExerciseSearchSelect 안에서 좁힘.
   const optionsFor = (f: FocusTone): CatalogExercise[] => allExercisesForFocus(f);
 
@@ -159,7 +172,7 @@ export function DailyMainEditor({
   }
 
   function addRow() {
-    const f0 = focusChoices[0];
+    const f0 = addChoices[0];
     const first = optionsFor(f0)[0];
     if (!first) return;
     update([
@@ -232,8 +245,14 @@ export function DailyMainEditor({
       weightKg: weightKg ?? 65,
     };
     const next: Row[] = [];
-    // 직접 담기(sections 없음)면 recommendFocuses(오늘 원래 부위)로 추천.
-    const recFocuses = focuses.length > 0 ? focuses : (recommendFocuses ?? []);
+    // 부위 추가 모드면 '추가 요청한 부위'만 추천한다(기존 오늘 부위는 유지). 직접 담기(sections
+    // 없음)면 recommendFocuses(오늘 원래 부위)로. 그 외(전체 바꾸기)면 편집기의 부위 전체.
+    const addOnly = !!(addableFocuses && addableFocuses.length > 0);
+    const recFocuses = addOnly
+      ? addableFocuses!
+      : focuses.length > 0
+        ? focuses
+        : (recommendFocuses ?? []);
     for (const f of recFocuses) {
       for (const ex of exercisesForFocus(f, gender)) {
         const p = prescribe(ex.id, opts);
@@ -248,7 +267,16 @@ export function DailyMainEditor({
         });
       }
     }
-    update(next);
+    if (addOnly) {
+      // 기존(핀된 오늘 부위) 행은 유지하고, 추천 요청 부위만 덧붙인다(중복 방지 — 전체 대체 X).
+      const seen = new Set(rows.map((r) => `${r.focus}:${r.exerciseId}`));
+      const appended = next.filter(
+        (r) => !seen.has(`${r.focus}:${r.exerciseId}`),
+      );
+      update([...rows, ...appended]);
+    } else {
+      update(next);
+    }
     setConfirmRecommend(false);
   }
 
@@ -374,16 +402,18 @@ export function DailyMainEditor({
 
                   {/* 부위 먼저 — 여러 부위면 드롭다운, 아니면 라벨.
                       (기존 '운동 추가'와 동일: 부위 → 그 부위 운동만 목록에.) */}
-                  {focusChoices.length > 1 ? (
+                  {(() => {
+                    const choices = rowFocusChoices(row.focus);
+                    return choices.length > 1 ? (
                     <select
                       aria-label="부위"
-                      value={isDayBlockId(row.focus) ? row.focus : focusChoices[0]}
+                      value={isDayBlockId(row.focus) ? row.focus : choices[0]}
                       onChange={(e) =>
                         changeRowFocus(idx, e.target.value as FocusTone)
                       }
                       className="h-9 min-w-0 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
                     >
-                      {focusChoices.map((f) => (
+                      {choices.map((f) => (
                         <option key={f} value={f}>
                           {isDayBlockId(f) ? DAY_BLOCKS[f].label : f}
                         </option>
@@ -401,7 +431,8 @@ export function DailyMainEditor({
                       {labelOf(row.focus)}
                       {sub ? `(${sub.label})` : ""}
                     </span>
-                  )}
+                    );
+                  })()}
 
                   <button
                     type="button"

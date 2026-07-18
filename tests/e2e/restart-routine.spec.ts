@@ -4,12 +4,12 @@ import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // "오늘부터 다시 시작하기": 처음(설정)한 루틴으로 복귀해야 한다.
-//  - 기준일 리셋 + '오늘만 변경'(daily_plan) 제거
+//  - 현재 일차 유지 + '오늘만 변경'(daily_plan) 제거
 //  - '다가오는 7일' 드래그로 바뀐 루틴도 기준(설정) 루틴으로 복원
 
 const today = `(now() at time zone 'Asia/Seoul')::date`;
 
-test("오늘만 변경/휴식을 지우고 기준일을 오늘로 리셋한다", async ({ page }) => {
+test("오늘만 변경/휴식을 지우고 현재 일차는 유지한다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
@@ -44,7 +44,7 @@ test("오늘만 변경/휴식을 지우고 기준일을 오늘로 리셋한다",
   await page.waitForTimeout(1500);
 
   const row = await dbQuery<{ d: string; t: string; ob: string | null; daily: string }>(
-    `select to_char(start_date,'YYYY-MM-DD') as d, to_char(${today},'YYYY-MM-DD') as t,
+    `select to_char(start_date,'YYYY-MM-DD') as d, to_char(${today} - 2,'YYYY-MM-DD') as t,
             override_block as ob,
             (select count(*)::text from public.daily_plan
                where user_id=${uid} and for_date=${today}) as daily
@@ -55,7 +55,7 @@ test("오늘만 변경/휴식을 지우고 기준일을 오늘로 리셋한다",
   expect(row[0].ob).toBeNull();
   expect(row[0].daily).toBe("0");
   await expect(page.getByText("오늘만 변경됨")).toHaveCount(0);
-  await expect(page.getByText("가슴").first()).toBeVisible();
+  await expect(page.getByText("등").first()).toBeVisible();
 });
 
 test("'다가오는 7일' 드래그로 루틴을 바꿔도 → 기준(설정) 루틴으로 복귀한다", async ({

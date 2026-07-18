@@ -1,6 +1,12 @@
 "use client";
 
-import { useRef, useState, useTransition, type PointerEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+  type PointerEvent,
+} from "react";
 import { useRouter } from "next/navigation";
 import {
   Check,
@@ -111,6 +117,20 @@ export function TodayPlanList({
   const [order, setOrder] = useState(items);
   const [done, setDone] = useState<Set<string>>(new Set(doneIds));
   const [skipped, setSkipped] = useState<Set<string>>(new Set(skippedIds));
+
+  // 서버에서 목록 '구성(행 id 집합)'이 바뀌면(오늘만 부위추가/삭제·재정렬 후 refresh) 재동기화한다.
+  // '오늘만 부위추가'는 오늘 루틴을 daily_plan 으로 스냅샷 → 행 id 가 통째로 새로 생기는데,
+  // router.refresh 는 이 클라이언트 상태를 remount 하지 않아 낡은 done/order(옛 id)가 남아
+  // 방금 완료한 세트가 '풀린 것처럼' 보였다. 구성이 바뀔 때만 재시드해 in-flight 낙관값은 보존.
+  const itemSig = items.map((i) => i.id).join("|");
+  const lastSigRef = useRef(itemSig);
+  useEffect(() => {
+    if (lastSigRef.current === itemSig) return;
+    lastSigRef.current = itemSig;
+    setOrder(items);
+    setDone(new Set(doneIds));
+    setSkipped(new Set(skippedIds));
+  }, [itemSig, items, doneIds, skippedIds]);
 
   // 포인터 기반 드래그 (그립 핸들에서 시작 — 마우스/터치 공통).
   // index: 잡힌 원래 위치, dy: 시작점에서 현재까지의 수직 이동(px),

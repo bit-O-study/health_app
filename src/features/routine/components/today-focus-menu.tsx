@@ -76,6 +76,7 @@ export function TodayFocusMenu({
         type="button"
         onClick={() => setMenuOpen(true)}
         aria-haspopup="dialog"
+        data-today-focus-badge
         className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold transition active:scale-95 ${badgeClass}`}
       >
         <span className={`h-1.5 w-1.5 rounded-full ${dotClass}`} />

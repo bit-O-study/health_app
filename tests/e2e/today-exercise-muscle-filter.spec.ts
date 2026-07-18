@@ -13,6 +13,7 @@ async function dismissNudge(page: Page) {
 
 async function openAdjust(page: Page) {
   await dismissNudge(page);
+  await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).first().click();
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),

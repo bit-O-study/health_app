@@ -38,6 +38,7 @@ test("오늘만 전체 바꾸기 → 루틴이 하루 밀린다(start_date +1, �
   await page.waitForTimeout(800);
 
   // '오늘만 운동 바꾸기' 열고, 부위 선택 후 '운동 전체 바꾸기'
+  await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).click();
   await page.waitForTimeout(300);
   // 다리(하체) 부위 하나 선택 — 라벨 텍스트가 정확치 않을 수 있어 첫 부위 칩을 고른다.

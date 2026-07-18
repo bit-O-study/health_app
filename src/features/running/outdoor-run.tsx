@@ -332,16 +332,14 @@ export function OutdoorRun({
           <h2 className="text-2xl font-extrabold">
             {recorded ? "런닝 완료 🏁" : "런닝 종료"}
           </h2>
-          <p className="text-lg">
-            거리 <b className="text-emerald-400">{formatDistanceKm(m.meters)}km</b>
-            {" · "}시간 <b>{formatDuration(m.elapsedSec)}</b>
-            {" · "}페이스 <b>{formatPace(pace)}</b>
-          </p>
-          <p className="text-sm text-zinc-300">
-            {recorded
-              ? "오늘 마무리 운동에 기록했어요."
-              : "이동이 거의 없어 기록하지 않았어요."}
-          </p>
+          {/* 종료 화면의 '기록 요약'(거리·시간·페이스, 기록됨 안내)은 표시하지 않는다 — 런닝
+              기록은 헬스탭 운동목록·캘린더·기록에서 확인. 단, '기록 안 됨' 경고는 남겨 사용자가
+              저장 안 된 걸 알 수 있게 한다. (사용자 요청: 런닝모드 종료화면의 기록 요약만 제거) */}
+          {!recorded ? (
+            <p className="text-sm text-zinc-300">
+              이동이 거의 없어 기록하지 않았어요.
+            </p>
+          ) : null}
           <button
             type="button"
             onClick={() => setPhase("intro")}

@@ -42,6 +42,8 @@ import {
   formatRest,
   isLastSet,
   setProgressLabel,
+  minSelectableSets,
+  clampTotalSets,
 } from "@/features/workout-timer/rest-logic";
 import {
   ExercisePhotoDemo,
@@ -472,6 +474,8 @@ export function GuidedOverlay({
       reps: editReps,
       sets: editSets,
     };
+    // 총 세트는 이미 완료한 세트(setsDone) 아래로 못 내린다 — 세트 완료를 취소해야 줄일 수 있음.
+    if (patch.sets !== undefined) patch = { ...patch, sets: clampTotalSets(patch.sets, setsDone) };
     const next = { ...cur, ...patch };
     setMainEdit(it.rowId, next);
     if (patch.w !== undefined) setEditW(patch.w);
@@ -1043,7 +1047,7 @@ export function GuidedOverlay({
                 label="세트"
                 value={editSets}
                 unit="세트"
-                min={1}
+                min={minSelectableSets(setsDone)}
                 max={20}
                 step={1}
                 onChange={(v) => putEdit({ sets: v ?? 1 })}

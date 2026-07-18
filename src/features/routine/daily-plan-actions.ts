@@ -113,8 +113,34 @@ export async function pinRoutineFocusesForTodayAction(): Promise<SaveDailyPlanRe
       }),
       memo: p.memo,
     }));
-    const ins = await supabase.from("daily_plan").insert(rows);
+    const ins = await supabase
+      .from("daily_plan")
+      .insert(rows)
+      .select("id, position");
     if (ins.error) return { ok: false, error: ins.error.message };
+
+    // ⚠ 오늘 이미 완료해 둔 세트가 '풀리지' 않게: 완료기록(exercise_completions)이 가리키던
+    // 옛 루틴 행 id 를 방금 만든 daily_plan 행 id 로 옮긴다(같은 position = 같은 운동, 1:1).
+    // 이걸 안 하면 오늘 화면이 새 행 id 로 바뀌어, 완료 취소(행 id 삭제)도 안 먹고 클라이언트
+    // 낙관 상태와도 어긋난다(= "부위 추가하면 방금 완료한 세트가 다 풀림" 버그).
+    const newIdByPos = new Map(
+      ((ins.data ?? []) as { id: string; position: number }[]).map((r) => [
+        r.position,
+        r.id,
+      ]),
+    );
+    for (let index = 0; index < dayPlan.length; index++) {
+      const oldRowId = dayPlan[index].id;
+      const newRowId = newIdByPos.get(index);
+      if (!newRowId || newRowId === oldRowId) continue;
+      const upd = await supabase
+        .from("exercise_completions")
+        .update({ exercise_row_id: newRowId })
+        .eq("user_id", user.id)
+        .eq("for_date", today)
+        .eq("exercise_row_id", oldRowId);
+      if (upd.error) return { ok: false, error: upd.error.message };
+    }
   }
 
   revalidatePath("/routine");

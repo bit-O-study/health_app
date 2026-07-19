@@ -55,29 +55,15 @@ export function CommunityBoard({
   const router = useRouter();
   const [now] = useState(() => Date.now());
   const [tab, setTab] = useState<BoardTab>("workout");
-  const [selected, setSelected] = useState<Set<string>>(
-    () => new Set(groups.map((g) => g.id)),
-  );
   const [search, setSearch] = useState("");
   const [compose, setCompose] = useState(false);
 
-  const groupAllSelected =
-    groups.length > 0 && groups.every((g) => selected.has(g.id));
-
-  // 게시판 탭별 분류. 오운완=사진, 그룹=그룹사진, 운동=티칭(검색), 내 글=내가 쓴 것.
+  // 게시판 탭별 분류. 오운완=사진(그룹글 포함), 운동=티칭(검색), 내 글=내가 쓴 것.
+  // (그룹 게시판은 없앰 — 그룹원 공개 글도 오운완/운동에 섞여 그룹명 태그로 구분.)
   const visible = useMemo(
-    () => forBoard(initialPosts, tab, [...selected], search),
-    [initialPosts, tab, selected, search],
+    () => forBoard(initialPosts, tab, [], search),
+    [initialPosts, tab, search],
   );
-
-  function toggleGroup(id: string) {
-    setSelected((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  }
 
   const isReels = tab === "teaching";
 
@@ -115,31 +101,6 @@ export function CommunityBoard({
           ))}
         </div>
 
-        {/* 그룹 탭: 하위 다중선택 칩 */}
-        {tab === "group" ? (
-          groups.length === 0 ? (
-            <p className="py-2 text-center text-xs text-zinc-400">
-              아직 속한 그룹이 없어요.
-            </p>
-          ) : (
-            <div className="-mx-1 mt-2 flex gap-1.5 overflow-x-auto px-1 pb-1">
-              <Chip
-                active={groupAllSelected}
-                onClick={() => setSelected(new Set(groups.map((g) => g.id)))}
-                label="전체"
-              />
-              {groups.map((g) => (
-                <Chip
-                  key={g.id}
-                  active={selected.has(g.id)}
-                  onClick={() => toggleGroup(g.id)}
-                  label={`# ${g.name}`}
-                />
-              ))}
-            </div>
-          )
-        ) : null}
-
         {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
         {tab === "teaching" ? (
           <div className="relative mb-2.5 mt-2">
@@ -174,11 +135,7 @@ export function CommunityBoard({
             <Camera size={30} />
           </div>
           <p className="text-sm font-bold text-zinc-500 dark:text-zinc-300">
-            {tab === "group"
-              ? "이 그룹엔 아직 글이 없어요"
-              : tab === "mine"
-                ? "아직 내가 쓴 글이 없어요"
-                : "아직 글이 없어요"}
+            {tab === "mine" ? "아직 내가 쓴 글이 없어요" : "아직 글이 없어요"}
           </p>
           <p className="text-xs text-zinc-400">
             오늘 운동 인증 첫 타자가 되어보세요! 💪
@@ -214,9 +171,7 @@ export function CommunityBoard({
       {compose ? (
         <ComposeModal
           groups={groups}
-          defaultGroupId={
-            tab === "group" && selected.size === 1 ? [...selected][0] : null
-          }
+          defaultGroupId={null}
           onClose={() => setCompose(false)}
           onDone={() => {
             setCompose(false);
@@ -352,12 +307,6 @@ function PostCard({
             <Video size={11} /> 티칭
           </span>
         ) : null}
-        {post.groupName ? (
-          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
-            # {post.groupName}
-            {post.visibility === "public_except_group" ? " 제외" : ""}
-          </span>
-        ) : null}
       </div>
 
       {/* 미디어 */}
@@ -384,10 +333,21 @@ function PostCard({
               </span>
             </button>
           )}
-          {post.exerciseTag ? (
-            <span className="absolute bottom-2 left-2 rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-bold text-white">
-              #{post.exerciseTag}
-            </span>
+          {/* 운동게시판(영상): 그룹명 태그 + 운동 태그를 왼쪽 아래에 세로로 오버레이 */}
+          {post.groupName || post.exerciseTag ? (
+            <div className="absolute bottom-2 left-2 flex flex-col items-start gap-1">
+              {post.groupName ? (
+                <span className="rounded-full bg-emerald-600/80 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur-sm">
+                  # {post.groupName}
+                  {post.visibility === "public_except_group" ? " 제외" : ""}
+                </span>
+              ) : null}
+              {post.exerciseTag ? (
+                <span className="rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-bold text-white">
+                  #{post.exerciseTag}
+                </span>
+              ) : null}
+            </div>
           ) : null}
         </div>
       ) : (
@@ -408,6 +368,13 @@ function PostCard({
           {burst ? (
             <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <Heart size={92} className="animate-ping fill-white/90 text-white/90 drop-shadow" />
+            </span>
+          ) : null}
+          {/* 오운완(사진): 그룹명 태그를 오른쪽 위에 오버레이 */}
+          {post.groupName ? (
+            <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur-sm">
+              # {post.groupName}
+              {post.visibility === "public_except_group" ? " 제외" : ""}
             </span>
           ) : null}
         </div>

@@ -4,7 +4,7 @@ import { ChevronLeft } from "lucide-react";
 
 import { getUserProfile } from "@/features/profile/data-access";
 import { getBodyLogs } from "@/features/profile/body-logs";
-import { BodyLogForm } from "@/features/profile/components/body-log-form";
+import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { BodyChart } from "@/features/profile/components/body-chart";
 
 export const dynamic = "force-dynamic";
@@ -48,10 +48,10 @@ export default async function ProfileSettingsPage() {
             체형 기록
           </h2>
           <p className="mb-3 text-sm text-zinc-600 dark:text-zinc-400">
-            입력한 항목만 누적 기록되고 최신값으로 갱신됩니다. 체형을 함께
-            저장하면 추천 강도에 반영됩니다.
+            아래 버튼을 눌러 기록하세요. 입력한 항목만 누적 기록되고 최신값으로
+            갱신됩니다. 체형을 함께 저장하면 추천 강도에 반영됩니다.
           </p>
-          <BodyLogForm
+          <BodyLogButton
             current={{
               weightKg: profile.weightKg,
               bodyFatPct: profile.bodyFatPct,
@@ -60,6 +60,7 @@ export default async function ProfileSettingsPage() {
             }}
             withBodyType
             currentBodyType={profile.bodyType}
+            showGraphLink={false}
           />
         </section>
       </div>

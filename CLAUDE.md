@@ -2,6 +2,11 @@
 
 This file is read automatically at the start of every session. Follow it.
 
+## 🔴 원칙(법) 먼저 — `docs/원칙.md` (Read PRINCIPLES first)
+
+**모든 요청/질문을 처리하기 전에 `docs/원칙.md` 를 먼저 읽고, 거기 적힌 원칙을 반드시 지킨다.**
+`docs/원칙.md` 는 **법**이며 사용자만 바꾼다 — Claude 는 임의로 수정·삭제·완화하지 않는다.
+
 ## 🔴 커밋 기여자 규칙 (Commit author — mandatory)
 
 **모든 커밋은 `bong94688 <bong94688@gmail.com>` 이름/이메일로만 한다.**

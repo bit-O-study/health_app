@@ -5,6 +5,7 @@ import Link from "next/link";
 import { LineChart, Scale, X } from "lucide-react";
 
 import { BodyLogForm } from "@/features/profile/components/body-log-form";
+import type { BodyType } from "@/features/profile/data";
 
 /** 목표 진행 표시(운동탭 체형기록) — 무엇이 얼마나 남았는지. 없으면 null. */
 export type BodyGoalView = {
@@ -19,6 +20,9 @@ export type BodyGoalView = {
 export function BodyLogButton({
   current,
   goal = null,
+  withBodyType = false,
+  currentBodyType = null,
+  showGraphLink = true,
 }: {
   current: {
     weightKg: number | null;
@@ -27,6 +31,11 @@ export function BodyLogButton({
     muscleMassKg: number | null;
   };
   goal?: BodyGoalView;
+  /** 체형(마름/보통/통통) 선택도 함께 기록할지. */
+  withBodyType?: boolean;
+  currentBodyType?: BodyType | null;
+  /** 모달 하단 '체형 그래프 보기' 링크 표시(체형정보 페이지 자체에선 숨김). */
+  showGraphLink?: boolean;
 }) {
   const [open, setOpen] = useState(false);
 
@@ -92,15 +101,22 @@ export function BodyLogButton({
               </button>
             </div>
 
-            <BodyLogForm current={current} onDone={() => setOpen(false)} />
+            <BodyLogForm
+              current={current}
+              withBodyType={withBodyType}
+              currentBodyType={currentBodyType}
+              onDone={() => setOpen(false)}
+            />
 
-            <Link
-              href="/settings/profile"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400 transition hover:text-emerald-600 dark:hover:text-emerald-300"
-            >
-              <LineChart aria-hidden="true" size={15} />
-              체형 그래프 보기
-            </Link>
+            {showGraphLink ? (
+              <Link
+                href="/settings/profile"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400 transition hover:text-emerald-600 dark:hover:text-emerald-300"
+              >
+                <LineChart aria-hidden="true" size={15} />
+                체형 그래프 보기
+              </Link>
+            ) : null}
           </div>
         </div>
       ) : null}

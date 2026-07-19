@@ -59,15 +59,18 @@ describe("forBoard", () => {
     mk({ id: "t-grp", kind: "teaching", visibility: "group", groupId: "g1" }),
   ];
 
-  it("오운완(workout) — 사진 인증만, 그룹전용 제외", () => {
-    expect(forBoard(items, "workout", []).map((i) => i.id)).toEqual(["pub"]);
+  it("오운완(workout) — 사진 인증 전부(그룹전용도 포함)", () => {
+    expect(forBoard(items, "workout", []).map((i) => i.id)).toEqual([
+      "pub",
+      "gphoto",
+    ]);
   });
-  it("그룹(group) — 선택 그룹의 그룹전용 사진만", () => {
-    expect(forBoard(items, "group", ["g1"]).map((i) => i.id)).toEqual(["gphoto"]);
-    expect(forBoard(items, "group", []).map((i) => i.id)).toEqual([]);
-  });
-  it("운동(teaching) — 티칭만(그룹전용 제외)", () => {
-    expect(forBoard(items, "teaching", []).map((i) => i.id)).toEqual(["t-sq", "t-bp"]);
+  it("운동(teaching) — 티칭 전부(그룹전용도 포함)", () => {
+    expect(forBoard(items, "teaching", []).map((i) => i.id)).toEqual([
+      "t-sq",
+      "t-bp",
+      "t-grp",
+    ]);
   });
   it("운동 검색 — 운동 태그 부분일치", () => {
     expect(forBoard(items, "teaching", [], "스쿼").map((i) => i.id)).toEqual(["t-sq"]);

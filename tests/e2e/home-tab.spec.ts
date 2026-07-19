@@ -22,10 +22,16 @@ test("홈 탭: 체형목표·내다짐·설정이 홈에 있고, 운동탭엔 �
   await expect(page.getByRole("link", { name: /내다짐/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /설정/ })).toBeVisible();
 
-  // 운동탭(/routine) 헤더엔 설정 아이콘이 없어야 한다(홈으로 옮김).
+  // 운동탭(/routine) 으로 이동 — 실제 운동탭에 도달했는지 확인.
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
-  await expect(page.getByRole("link", { name: "설정" })).toHaveCount(0);
+  await expect(
+    page.getByRole("heading", { name: "오늘의 운동" }),
+  ).toBeVisible({ timeout: 10000 });
+  // 헤더에 설정 아이콘(aria-label 정확히 '설정')이 없어야 한다(홈으로 옮김).
+  await expect(
+    page.getByRole("link", { name: "설정", exact: true }),
+  ).toHaveCount(0);
 
   // 하단탭에 홈·운동이 모두 있어야 한다.
   await expect(page.getByRole("link", { name: "홈" }).first()).toBeVisible();

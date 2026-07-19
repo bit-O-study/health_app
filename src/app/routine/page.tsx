@@ -18,12 +18,6 @@ import {
   getUserProfile,
   type UserProfile,
 } from "@/features/profile/data-access";
-import { goalProgress } from "@/features/profile/goal";
-import { getMyCommitments } from "@/features/commitments/data-access";
-import {
-  TodayGoalCard,
-  type MissionCardView,
-} from "@/features/routine/components/today-goal-card";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
@@ -250,52 +244,7 @@ async function TodayWorkout({
 
   const todayYmd = seoulYmd();
 
-  // 체형 목표(자세히) + 다짐 미션 — 운동탭 메인 상단 카드.
-  const gp = goalProgress(
-    profile?.goal ?? null,
-    {
-      weightKg: profile?.weightKg ?? null,
-      bodyFatPct: profile?.bodyFatPct ?? null,
-      muscleMassKg: profile?.muscleMassKg ?? null,
-    },
-    {
-      targetWeightKg: profile?.targetWeightKg ?? null,
-      targetBodyFatPct: profile?.targetBodyFatPct ?? null,
-      targetMuscleKg: profile?.targetMuscleKg ?? null,
-    },
-  );
-  const goalCard = gp
-    ? {
-        metricLabel: gp.metricLabel,
-        directionLabel: gp.direction === "up" ? "증량" : "감량",
-        currentText: gp.currentText,
-        targetText: `${gp.target}${gp.unit}`,
-        remainingText: gp.remainingText,
-        reached: gp.reached,
-      }
-    : null;
-
-  const commitments = await getMyCommitments();
-  const missionCards: MissionCardView[] = commitments.slice(0, 4).map((c) => {
-    const p = c.progress;
-    const statusText = p.done
-      ? "달성"
-      : p.expired
-        ? "종료"
-        : p.upcoming
-          ? "예정"
-          : p.daysLeft <= 0
-            ? "오늘 마감"
-            : `D-${p.daysLeft}`;
-    return {
-      id: c.id,
-      title: c.title,
-      valueText: `${p.current}/${p.target}${c.unit}`,
-      pct: p.pct,
-      statusText,
-      done: p.done,
-    };
-  });
+  // (체형 목표·내다짐 카드는 홈탭으로 옮김 — 운동탭은 오늘 운동에 집중. #12/#19)
 
   const offset = routineDayOffset(routine.startDate, todayYmd);
   const overriddenToday =
@@ -418,19 +367,6 @@ async function TodayWorkout({
           </p>
         </div>
       </div>
-
-      {/* 체형 목표(자세히) + 다짐 미션 — 체형 기록은 이 카드 탭으로 */}
-      <TodayGoalCard
-        goal={goalCard}
-        missions={missionCards}
-        totalMissions={commitments.length}
-        current={{
-          weightKg: profile?.weightKg ?? null,
-          heightCm: profile?.heightCm ?? null,
-          bodyFatPct: profile?.bodyFatPct ?? null,
-          muscleMassKg: profile?.muscleMassKg ?? null,
-        }}
-      />
 
       {/* 오늘 카드 */}
       <section className={cnCard(todayStyle.card)}>

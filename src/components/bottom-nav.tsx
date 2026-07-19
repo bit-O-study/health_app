@@ -7,6 +7,7 @@ import {
   CalendarHeart,
   Flame,
   GraduationCap,
+  House,
   Loader2,
   Newspaper,
   Salad,
@@ -22,10 +23,16 @@ type Tab = {
 
 const TABS: Tab[] = [
   {
+    href: "/home",
+    label: "홈",
+    icon: House,
+    match: (p) => p === "/" || p.startsWith("/home"),
+  },
+  {
     href: "/routine",
     label: "운동",
     icon: Flame,
-    match: (p) => p === "/" || p.startsWith("/routine") || p.startsWith("/plan"),
+    match: (p) => p.startsWith("/routine") || p.startsWith("/plan"),
   },
   { href: "/diet", label: "식단", icon: Salad, match: (p) => p.startsWith("/diet") },
   {

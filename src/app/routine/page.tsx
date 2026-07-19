@@ -5,10 +5,8 @@ import {
   ArrowRight,
   CalendarDays,
   Dumbbell,
-  Flag,
   LogIn,
   Moon,
-  Settings,
   Sparkles,
 } from "lucide-react";
 
@@ -20,12 +18,6 @@ import {
   getUserProfile,
   type UserProfile,
 } from "@/features/profile/data-access";
-import { goalProgress } from "@/features/profile/goal";
-import { getMyCommitments } from "@/features/commitments/data-access";
-import {
-  TodayGoalCard,
-  type MissionCardView,
-} from "@/features/routine/components/today-goal-card";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
@@ -84,20 +76,7 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
               {/* 운동 찾기(자연어 운동 검색) — 로그인 후에만 노출. */}
               <ExerciseFinder />
               <NotificationBell />
-              <Link
-                aria-label="다짐"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition hover:text-emerald-600 dark:hover:text-emerald-400"
-                href="/commitments"
-              >
-                <Flag aria-hidden="true" size={17} />
-              </Link>
-              <Link
-                aria-label="설정"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100"
-                href="/settings"
-              >
-                <Settings aria-hidden="true" size={17} />
-              </Link>
+              {/* 설정·다짐은 홈탭으로 이동함(운동탭은 오늘 운동에 집중). */}
             </>
           ) : (
             <Link
@@ -265,52 +244,7 @@ async function TodayWorkout({
 
   const todayYmd = seoulYmd();
 
-  // 체형 목표(자세히) + 다짐 미션 — 운동탭 메인 상단 카드.
-  const gp = goalProgress(
-    profile?.goal ?? null,
-    {
-      weightKg: profile?.weightKg ?? null,
-      bodyFatPct: profile?.bodyFatPct ?? null,
-      muscleMassKg: profile?.muscleMassKg ?? null,
-    },
-    {
-      targetWeightKg: profile?.targetWeightKg ?? null,
-      targetBodyFatPct: profile?.targetBodyFatPct ?? null,
-      targetMuscleKg: profile?.targetMuscleKg ?? null,
-    },
-  );
-  const goalCard = gp
-    ? {
-        metricLabel: gp.metricLabel,
-        directionLabel: gp.direction === "up" ? "증량" : "감량",
-        currentText: gp.currentText,
-        targetText: `${gp.target}${gp.unit}`,
-        remainingText: gp.remainingText,
-        reached: gp.reached,
-      }
-    : null;
-
-  const commitments = await getMyCommitments();
-  const missionCards: MissionCardView[] = commitments.slice(0, 4).map((c) => {
-    const p = c.progress;
-    const statusText = p.done
-      ? "달성"
-      : p.expired
-        ? "종료"
-        : p.upcoming
-          ? "예정"
-          : p.daysLeft <= 0
-            ? "오늘 마감"
-            : `D-${p.daysLeft}`;
-    return {
-      id: c.id,
-      title: c.title,
-      valueText: `${p.current}/${p.target}${c.unit}`,
-      pct: p.pct,
-      statusText,
-      done: p.done,
-    };
-  });
+  // (체형 목표·내다짐 카드는 홈탭으로 옮김 — 운동탭은 오늘 운동에 집중. #12/#19)
 
   const offset = routineDayOffset(routine.startDate, todayYmd);
   const overriddenToday =
@@ -433,19 +367,6 @@ async function TodayWorkout({
           </p>
         </div>
       </div>
-
-      {/* 체형 목표(자세히) + 다짐 미션 — 체형 기록은 이 카드 탭으로 */}
-      <TodayGoalCard
-        goal={goalCard}
-        missions={missionCards}
-        totalMissions={commitments.length}
-        current={{
-          weightKg: profile?.weightKg ?? null,
-          heightCm: profile?.heightCm ?? null,
-          bodyFatPct: profile?.bodyFatPct ?? null,
-          muscleMassKg: profile?.muscleMassKg ?? null,
-        }}
-      />
 
       {/* 오늘 카드 */}
       <section className={cnCard(todayStyle.card)}>

@@ -43,6 +43,11 @@ describe("exercisePhotoFrames", () => {
     expect(exercisePhotoFrames("chest-supported-row", "machine"), "chest-supported-row").not.toBeNull();
     expect(exercisePhotoFrames("mountain-climber")![0]).toContain("/Mountain_Climbers/0.jpg");
     expect(exercisePhotoFrames("toes-to-bar")![0]).toContain("/Hanging_Leg_Raise/0.jpg");
+    // 싱글암 케이블 리어델트 플라이 — '케이블' 동작으로 교정(누운 덤벨 동작 오매핑 수정).
+    expect(
+      exercisePhotoFrames("single-arm-cable-rear-delt-fly")![0],
+      "single-arm-cable-rear-delt-fly",
+    ).toContain("/Cable_Rear_Delt_Fly/0.jpg");
   });
 
   it("매핑 없는 운동은 null → 호출부가 SVG 폴백", () => {

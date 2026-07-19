@@ -324,6 +324,10 @@ export async function TodayExercises({
     const ghosts = completedCond
       .filter((c, i) => {
         if (c.kind !== kind || condUsed[i]) return false;
+        // 런닝모드 기록(마무리 러닝)은 목록에 표시하지 않는다 — 캘린더·운동점수에만 남긴다.
+        // 런닝모드 런닝은 '플랜 행' 없이 완료기록만 있어 여기서 고스트로 되살아나던 것(#17)을
+        // 막는다. 루틴/오늘만 편집으로 추가한 마무리 러닝은 base 행이라 그대로 보인다. (#16/18)
+        if (c.itemId === "running") return false;
         const key = conditioningCompletionKey(c.kind, c.itemId);
         if (condGhostSeen.has(key)) return false;
         condGhostSeen.add(key);
@@ -349,8 +353,8 @@ export async function TodayExercises({
     return [...baseRows, ...ghosts];
   }
   const warmupRows = withCondGhosts("warmup", baseWarmupRows);
-  // 런닝(런닝모드 기록)도 헬스탭 마무리운동 목록에 표시한다. (사용자 요청: 런닝을 운동목록에서
-  // 빼지 말 것 — 빼는 건 '런닝모드 종료 화면의 기록 요약'뿐. 운동목록엔 런닝이 그대로 보여야 함.)
+  // 런닝모드 기록은 목록에 안 뜬다(완료기록만 → 위 고스트 필터에서 제외). 루틴/오늘만 편집으로
+  // 추가한 마무리 러닝은 base 행이라 그대로 보인다. (#16/17/18)
   const cooldownRows = withCondGhosts("cooldown", baseCooldownRows);
 
   const w = weightKg ?? 65;

@@ -83,11 +83,10 @@ export function forTab<T extends MinItem>(
 }
 
 /** 커뮤니티 게시판 탭 — 오운완(사진) / 그룹(사진) / 운동(티칭) / 내 글. */
-export type BoardTab = "workout" | "group" | "teaching" | "mine";
+export type BoardTab = "workout" | "teaching" | "mine";
 
 export const BOARD_TABS: { value: BoardTab; label: string }[] = [
   { value: "workout", label: "오운완" },
-  { value: "group", label: "그룹" },
   { value: "teaching", label: "운동" },
   { value: "mine", label: "내 글" },
 ];
@@ -96,36 +95,26 @@ type BoardItem = MinItem & { isMine: boolean };
 
 /**
  * 게시판 탭별 분류(+운동 탭 검색). 순수 로직.
- * - workout(오운완): 사진 인증만, 그룹전용 아님(전체·그룹제외).
- * - group(그룹): 선택 그룹의 그룹전용 사진 글.
- * - teaching(운동): 티칭 영상만(그룹전용 제외). search 있으면 운동 태그 부분일치.
+ * - workout(오운완): 사진 인증 전부(공개 + 그룹전용도 포함 — 그룹전용은 그룹명 태그로 구분).
+ *   그룹 게시판을 없애고, 그룹원 공개 글도 오운완에 섞어 보여준다(가시성은 서버 RLS가 필터).
+ * - teaching(운동): 티칭 영상 전부(그룹전용 포함). search 있으면 운동 태그 부분일치.
  * - mine(내 글): 내가 쓴 모든 글(사진+티칭).
+ *
+ * (selectedGroupIds 인자는 옛 그룹 탭 호환용 — 지금은 무시.)
  */
 export function forBoard<T extends BoardItem>(
   items: T[],
   tab: BoardTab,
-  selectedGroupIds: string[],
+  _selectedGroupIds: string[] = [],
   search = "",
 ): T[] {
   switch (tab) {
     case "workout":
-      return items.filter(
-        (it) => it.kind === "photo" && it.visibility !== "group",
-      );
-    case "group": {
-      const set = new Set(selectedGroupIds);
-      return items.filter(
-        (it) =>
-          it.kind === "photo" &&
-          it.visibility === "group" &&
-          it.groupId !== null &&
-          set.has(it.groupId),
-      );
-    }
+      return items.filter((it) => it.kind === "photo");
     case "teaching": {
       const q = normalizeTag(search).toLowerCase();
       return items.filter((it) => {
-        if (it.kind !== "teaching" || it.visibility === "group") return false;
+        if (it.kind !== "teaching") return false;
         if (!q) return true;
         return it.exerciseTag
           ? normalizeTag(it.exerciseTag).toLowerCase().includes(q)

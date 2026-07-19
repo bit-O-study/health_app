@@ -226,7 +226,9 @@ export const PHOTO_CORRECTIONS: Record<string, string> = {
   "seated-high-row-machine": "Leverage_High_Row",
   "hammer-strength-low-row": "Leverage_High_Row",
   // 원암 리어델트 플라이 — 두손 데모로 나오던 것 → 한손 리어델트
-  "single-arm-cable-rear-delt-fly": "Dumbbell_Lying_One-Arm_Rear_Lateral_Raise",
+  // 싱글암 케이블 리어델트 플라이 — '케이블' 동작이 나와야 하는데 누운 덤벨 동작으로 잘못
+  // 매핑돼 있던 것 교정. (single-arm 전용 데이터셋 슬러그가 없어 케이블 리어델트 플라이로.)
+  "single-arm-cable-rear-delt-fly": "Cable_Rear_Delt_Fly",
   // 덤벨 리어델트 로우
   "dumbbell-rear-delt-row": "Bent_Over_Two-Dumbbell_Row",
   // 머신 체스트 프레스 — 케이블/바벨로 나오던 것 → 레버리지(머신)

@@ -1,33 +1,16 @@
 "use server";
 
+import { randomUUID } from "node:crypto";
+
 import { revalidatePath } from "next/cache";
 
 import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
-import { getUserRoutine } from "@/features/routine/data-access";
-import {
-  resolveRoutine,
-  routineDayOffset,
-  seoulYmd,
-} from "@/features/routine/data";
-import { getConditioningForFocus } from "@/features/routine/conditioning";
-import { getDailyConditioning } from "@/features/routine/daily-conditioning";
-import { saveDailyConditioningAction } from "@/features/routine/daily-conditioning-actions";
-import type { ConditioningInput } from "@/features/routine/conditioning-actions";
+import { seoulYmd } from "@/features/routine/data";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
-import type { ConditioningRow } from "@/features/routine/conditioning";
 import type { SupabaseClient } from "@supabase/supabase-js";
-
-const toInput = (r: ConditioningRow): ConditioningInput => ({
-  itemId: r.itemId,
-  durationMin: r.durationMin,
-  speed: r.speed,
-  incline: r.incline,
-  sets: r.sets ?? null,
-  reps: r.reps ?? null,
-});
 
 /** 오늘 누적 운동 시간을 deltaSec 만큼 가감(음수 가능, 0 미만은 0). */
 async function adjustWorkoutSeconds(
@@ -57,10 +40,17 @@ async function adjustWorkoutSeconds(
 }
 
 /**
- * 런닝(실내/야외) 종료 → 오늘 '마무리 운동'에 러닝을 완료로 기록한다.
+ * 런닝(실내/야외) 종료 → 런닝모드 기록.
  *
- * ⚠ 하루에 여러 번 달려도 러닝 행은 **1개만** 유지하고 시간을 누적한다(예전엔 매번 새 행이
- * 쌓여 삭제가 번거롭고 목록이 지저분했다). 기존 오늘 마무리(오버라이드/루틴 기본)는 보존.
+ * ⚠ 런닝모드 기록은 **'마무리운동 목록'에 표시하지 않는다** — 오늘 운동 시간(점수)과
+ *   캘린더·기록(conditioning_completions)에만 반영한다. (사용자 규칙: 런닝모드 기록은
+ *   캘린더·운동점수에만. 루틴/오늘만 편집으로 추가한 마무리 런닝만 목록에 보인다.)
+ *
+ * 그래서 daily_conditioning(마무리 '플랜' 행)은 만들지 않고, conditioning_completions
+ * (런닝 완료)만 남긴다. 목록에 플랜 행이 없으므로 목록엔 안 뜨고, 완료취소 시 고스트로
+ * 되살아나던 문제(#17)도 사라진다.
+ *
+ * 하루에 여러 번 달리면 완료기록 **1건**에 시간을 누적한다(같은 source_row_id 재사용).
  */
 export async function recordRunAsCooldownAction(input: {
   durationMin: number;
@@ -90,68 +80,39 @@ export async function recordRunAsCooldownAction(input: {
   // 오늘 운동 시간(누적)에 런닝 시간 더하기(삭제 시 removeTodayRunAction 이 뺀다).
   if (durationSec > 0) await adjustWorkoutSeconds(supabase, user.id, today, durationSec);
 
-  const override = (await getDailyConditioning(today)).cooldown;
-  const existingRun = override.find((r) => r.itemId === "running");
+  // 오늘 이미 런닝 완료기록이 있으면 시간 누적(같은 source_row_id 재사용 → 1건 유지).
+  const { data: existing } = await supabase
+    .from("conditioning_completions")
+    .select("source_row_id, duration_min")
+    .eq("user_id", user.id)
+    .eq("for_date", today)
+    .eq("item_id", "running")
+    .limit(1);
+  const prev = (existing ?? [])[0] as
+    | { source_row_id: string | null; duration_min: number | null }
+    | undefined;
+  const sourceRowId = prev?.source_row_id ?? randomUUID();
+  const newDur = (Number(prev?.duration_min) || 0) + durationMin;
 
-  // 이미 오늘 러닝 행이 있으면 시간 누적(행 추가 X, id 유지).
-  if (existingRun) {
-    const newDur = (existingRun.durationMin ?? 0) + durationMin;
-    const upd = await supabase
-      .from("daily_conditioning")
-      .update({ duration_min: newDur, speed, incline })
-      .eq("user_id", user.id)
-      .eq("id", existingRun.id);
-    if (upd.error) return { ok: false, error: upd.error.message };
-    await setConditioningStatusAction("cooldown", existingRun.id, "running", "done", {
-      durationMin: newDur,
-      speed,
-      incline,
-    });
-    revalidatePath("/routine");
-    return { ok: true };
-  }
+  const res = await setConditioningStatusAction(
+    "cooldown",
+    sourceRowId,
+    "running",
+    "done",
+    { durationMin: newDur, speed, incline },
+  );
+  if (!res.ok) return { ok: false, error: res.error };
 
-  // 첫 러닝 — 기존 오늘 마무리(오버라이드 or 루틴 기본)를 보존하며 러닝을 얹는다.
-  let base = override;
-  if (base.length === 0) {
-    const routine = await getUserRoutine();
-    let focus = "chest";
-    if (routine) {
-      const { variant } = resolveRoutine(
-        routine.splits,
-        routine.variantId,
-        routine.customWeek,
-      );
-      const day = variant.week[routineDayOffset(routine.startDate, today)];
-      const tone = (day.tones ?? [day.tone]).find((t) => t !== "rest");
-      if (tone) focus = tone;
-    }
-    base = (await getConditioningForFocus(focus)).cooldown;
-  }
-
-  const nextList: ConditioningInput[] = [
-    ...base.map(toInput),
-    { itemId: "running", durationMin, speed, incline, sets: null, reps: null },
-  ];
-  const saved = await saveDailyConditioningAction(today, "cooldown", nextList);
-  if (!saved.ok) return { ok: false, error: saved.error };
-
-  const after = (await getDailyConditioning(today)).cooldown;
-  const runRow = [...after].reverse().find((r) => r.itemId === "running");
-  if (runRow) {
-    await setConditioningStatusAction("cooldown", runRow.id, "running", "done", {
-      durationMin,
-      speed,
-      incline,
-    });
-  }
   revalidatePath("/routine");
+  revalidatePath("/calendar");
+  revalidatePath("/settings/score");
+  revalidatePath("/settings/history");
   return { ok: true };
 }
 
 /**
- * 오늘 러닝 기록 삭제 — 마무리 러닝 행 + 완료기록을 지우고, 그 시간을 오늘 운동 시간에서 뺀다.
- * (런닝 항목을 '완료취소/삭제' 할 때 호출.)
+ * 오늘 런닝모드 기록 삭제 — 런닝 완료기록을 지우고, 그 시간을 오늘 운동 시간에서 뺀다.
+ * (예전 데이터 호환: daily_conditioning 에 남아있던 런닝 행도 함께 정리.)
  */
 export async function removeTodayRunAction(): Promise<{
   ok: boolean;
@@ -162,17 +123,33 @@ export async function removeTodayRunAction(): Promise<{
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  // 오늘 러닝 시간 합계(여러 행이어도) → 오늘 운동 시간에서 뺀다.
-  const runRows = (await getDailyConditioning(today)).cooldown.filter(
-    (r) => r.itemId === "running",
+  // 오늘 런닝 총 시간 → 완료기록(런닝) 기준으로 합산(런닝모드는 completion 전용).
+  // 예전 daily_conditioning 런닝 행이 있으면 그걸로 폴백(중복 합산 방지).
+  const [compRes, legacyRes] = await Promise.all([
+    supabase
+      .from("conditioning_completions")
+      .select("duration_min")
+      .eq("user_id", user.id)
+      .eq("for_date", today)
+      .eq("item_id", "running"),
+    supabase
+      .from("daily_conditioning")
+      .select("duration_min")
+      .eq("user_id", user.id)
+      .eq("for_date", today)
+      .eq("item_id", "running"),
+  ]);
+  const sumMin = (rows: { duration_min: number | null }[] | null) =>
+    (rows ?? []).reduce((s, r) => s + (Number(r.duration_min) || 0), 0);
+  const compMin = sumMin(compRes.data as { duration_min: number | null }[] | null);
+  const legacyMin = sumMin(
+    legacyRes.data as { duration_min: number | null }[] | null,
   );
-  const totalMin = runRows.reduce((s, r) => s + (r.durationMin ?? 0), 0);
+  const totalMin = compMin > 0 ? compMin : legacyMin;
   const sec = Math.round(totalMin * 60);
   if (sec > 0) await adjustWorkoutSeconds(supabase, user.id, today, -sec);
 
-  // 오늘 '러닝' 완료기록·마무리 행을 item_id 기준으로 '전부' 삭제한다.
-  // (예전엔 source_row_id 로만 지워, id 가 안 맞는 고아 완료기록이 남아 탭 이동 시
-  //  고스트로 러닝이 다시 살아났다. item_id 로 싹 지워 재생을 막는다.)
+  // 오늘 '러닝' 완료기록 + (레거시) 마무리 행을 item_id 기준으로 모두 삭제.
   await supabase
     .from("conditioning_completions")
     .delete()

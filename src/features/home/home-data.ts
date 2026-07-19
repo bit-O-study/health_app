@@ -1,5 +1,6 @@
 import "server-only";
 
+import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { goalProgress } from "@/features/profile/goal";
 import { getMyCommitments } from "@/features/commitments/data-access";
 import type { UserProfile } from "@/features/profile/data-access";
@@ -8,7 +9,17 @@ import type {
   MissionCardView,
 } from "@/features/routine/components/today-goal-card";
 
-export type GoalAndMissions = {
+/** 홈 '오늘의 다짐' 체크리스트 한 줄. */
+export type TodayCommitment = {
+  id: string;
+  title: string;
+  /** 목표 달성(완료) 여부. */
+  done: boolean;
+  /** "12/20일" 등 현재/목표. */
+  valueText: string;
+};
+
+export type HomeDashboard = {
   goalCard: GoalCardView | null;
   missionCards: MissionCardView[];
   totalMissions: number;
@@ -18,15 +29,16 @@ export type GoalAndMissions = {
     bodyFatPct: number | null;
     muscleMassKg: number | null;
   };
+  /** 오늘 진행 중인 다짐(예정·종료 제외) — 체크리스트용. */
+  todayCommitments: TodayCommitment[];
+  /** 지금까지 운동한 횟수(운동한 날 수). */
+  workoutCount: number;
 };
 
-/**
- * 홈 대시보드용 — 체형 목표 진행(goalCard) + 내다짐 미션(missionCards)을 한 번에 만든다.
- * (운동탭 상단에 있던 로직을 홈으로 옮기며 재사용하려고 순수 서버 헬퍼로 분리.)
- */
-export async function getGoalAndMissions(
+/** 홈 대시보드 — 체형 목표 + 오늘의 다짐 체크리스트 + 누적 운동 횟수. */
+export async function getHomeDashboard(
   profile: UserProfile | null,
-): Promise<GoalAndMissions> {
+): Promise<HomeDashboard> {
   const gp = goalProgress(
     profile?.goal ?? null,
     {
@@ -51,7 +63,11 @@ export async function getGoalAndMissions(
       }
     : null;
 
-  const commitments = await getMyCommitments();
+  const [commitments, workoutCount] = await Promise.all([
+    getMyCommitments(),
+    countWorkouts(),
+  ]);
+
   const missionCards: MissionCardView[] = commitments.slice(0, 4).map((c) => {
     const p = c.progress;
     const statusText = p.done
@@ -73,6 +89,16 @@ export async function getGoalAndMissions(
     };
   });
 
+  // 오늘 진행 중(예정·종료 아님)인 다짐만 체크리스트로.
+  const todayCommitments: TodayCommitment[] = commitments
+    .filter((c) => !c.progress.expired && !c.progress.upcoming)
+    .map((c) => ({
+      id: c.id,
+      title: c.title,
+      done: c.progress.done,
+      valueText: `${c.progress.current}/${c.progress.target}${c.unit}`,
+    }));
+
   return {
     goalCard,
     missionCards,
@@ -83,5 +109,20 @@ export async function getGoalAndMissions(
       bodyFatPct: profile?.bodyFatPct ?? null,
       muscleMassKg: profile?.muscleMassKg ?? null,
     },
+    todayCommitments,
+    workoutCount,
   };
+}
+
+/** 지금까지 운동한 날 수 — workout_sessions(하루 1행) 개수. */
+async function countWorkouts(): Promise<number> {
+  const user = await getCurrentUser();
+  if (!user) return 0;
+  const supabase = await createSupabaseServerClient();
+  const { count } = await supabase
+    .from("workout_sessions")
+    .select("for_date", { count: "exact", head: true })
+    .eq("user_id", user.id)
+    .gt("duration_sec", 0);
+  return count ?? 0;
 }

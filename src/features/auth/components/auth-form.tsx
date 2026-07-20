@@ -160,11 +160,10 @@ export function AuthForm({
       provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
-        // 카카오는 기본값(account_email 포함)을 그대로 쓰면 KOE205 로 막힌다 —
-        // 이메일 제공은 카카오 '비즈 앱' 심사를 통과해야만 켤 수 있는 동의항목이라
-        // 일반 앱에선 설정 자체가 불가능하다. 닉네임만 요청해 비즈앱 없이도 되게 한다.
-        // (Supabase Auth 의 "Allow users without an email" 이 켜져 있어야 함.)
-        ...(provider === "kakao" ? { scopes: "profile_nickname" } : {}),
+        // ⚠ scopes 옵션은 Supabase 기본 scope 를 '대체'하지 않고 뒤에 덧붙기만 한다.
+        // (카카오 기본값 account_email·profile_image·profile_nickname 은 그대로 나감)
+        // 따라서 요청 scope 를 줄이려면 여기가 아니라 Kakao Developers 콘솔의
+        // [카카오 로그인] > [동의항목] 에서 해당 항목을 설정해야 한다.
       },
     });
     if (oauthError) {

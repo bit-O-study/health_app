@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Flag, Target, X } from "lucide-react";
+import { ArrowRight, Flag, X } from "lucide-react";
 
 import { BodyLogForm } from "@/features/profile/components/body-log-form";
 
@@ -64,9 +64,6 @@ export function TodayGoalCard({
           className="w-full rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-left transition active:scale-[0.99] dark:border-emerald-900/50 dark:bg-emerald-950/25"
         >
           <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white">
-              <Target aria-hidden="true" size={22} />
-            </span>
             <span className="min-w-0 flex-1 text-xs font-bold text-emerald-700 dark:text-emerald-400">
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>

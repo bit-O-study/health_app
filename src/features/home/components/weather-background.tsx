@@ -2,20 +2,42 @@
 
 import { useEffect, useState } from "react";
 
-type WeatherCategory = "clear" | "clouds" | "rain" | "snow" | "thunder" | "fog";
+import {
+  categoryFromCode,
+  readFreshWeatherCache,
+  type WeatherCategory,
+} from "@/features/home/weather-cache";
 
 /** 위치 권한이 없거나 실패하면 서울 좌표로 대체. */
 const SEOUL = { lat: 37.5665, lon: 126.978 };
 
-/** Open-Meteo WMO 날씨 코드 → 카테고리. https://open-meteo.com/en/docs */
-function categoryFromCode(code: number): WeatherCategory {
-  if (code === 0 || code === 1) return "clear";
-  if (code === 2 || code === 3) return "clouds";
-  if (code === 45 || code === 48) return "fog";
-  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "rain";
-  if ([71, 73, 75, 77, 85, 86].includes(code)) return "snow";
-  if ([95, 96, 99].includes(code)) return "thunder";
-  return "clouds";
+const CACHE_KEY = "hx_weather_cache";
+// 홈에 다시 올 때마다 위치 권한 협상 + Open-Meteo 호출을 반복하지 않게(최적화#34).
+// 날씨는 자주 안 바뀌므로 20분이면 충분히 신선.
+const FRESH_MS = 20 * 60 * 1000;
+
+function cachedCategory(): WeatherCategory | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return readFreshWeatherCache(
+      window.sessionStorage.getItem(CACHE_KEY),
+      Date.now(),
+      FRESH_MS,
+    );
+  } catch {
+    return null; // sessionStorage 접근 불가(프라이빗 모드 등) — 조용히 무시.
+  }
+}
+
+function writeCache(category: WeatherCategory) {
+  try {
+    window.sessionStorage.setItem(
+      CACHE_KEY,
+      JSON.stringify({ category, ts: Date.now() }),
+    );
+  } catch {
+    /* 저장 실패는 무시 — 다음에 다시 조회하면 그만 */
+  }
 }
 
 /** 다크모드는 기존 디자인 톤(짙은 #0a0a0b 근처)을 유지하면서 색만 은은하게 섞는다. */
@@ -49,11 +71,17 @@ const GRADIENT: Record<WeatherCategory, { light: string; dark: string }> = {
 /**
  * 홈 배경 — 오늘 날씨(위치 권한 있으면 현재 위치, 없으면 서울) 기준으로 은은하게 바뀐다.
  * Open-Meteo(무료·키 불필요) 사용. 실패하면 조용히 기본(흐림) 배경 유지.
+ * 세션 캐시(20분)로 홈을 재방문할 때마다 위치 권한 협상·API 호출을 반복하지 않는다.
  */
 export function WeatherBackground() {
-  const [category, setCategory] = useState<WeatherCategory>("clouds");
+  const [category, setCategory] = useState<WeatherCategory>(
+    () => cachedCategory() ?? "clouds",
+  );
 
   useEffect(() => {
+    // 세션 캐시가 아직 신선하면 위치 권한 요청·API 호출을 생략.
+    if (cachedCategory()) return;
+
     let cancelled = false;
 
     const load = async (lat: number, lon: number) => {
@@ -64,7 +92,11 @@ export function WeatherBackground() {
         if (!res.ok) return;
         const data = (await res.json()) as { current?: { weather_code?: number } };
         const code = Number(data.current?.weather_code);
-        if (!cancelled && Number.isFinite(code)) setCategory(categoryFromCode(code));
+        if (!cancelled && Number.isFinite(code)) {
+          const next = categoryFromCode(code);
+          setCategory(next);
+          writeCache(next);
+        }
       } catch {
         // 네트워크 실패는 조용히 무시 — 기본 배경 유지.
       }

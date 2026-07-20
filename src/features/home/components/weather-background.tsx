@@ -1,0 +1,98 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+type WeatherCategory = "clear" | "clouds" | "rain" | "snow" | "thunder" | "fog";
+
+/** 위치 권한이 없거나 실패하면 서울 좌표로 대체. */
+const SEOUL = { lat: 37.5665, lon: 126.978 };
+
+/** Open-Meteo WMO 날씨 코드 → 카테고리. https://open-meteo.com/en/docs */
+function categoryFromCode(code: number): WeatherCategory {
+  if (code === 0 || code === 1) return "clear";
+  if (code === 2 || code === 3) return "clouds";
+  if (code === 45 || code === 48) return "fog";
+  if ([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 80, 81, 82].includes(code)) return "rain";
+  if ([71, 73, 75, 77, 85, 86].includes(code)) return "snow";
+  if ([95, 96, 99].includes(code)) return "thunder";
+  return "clouds";
+}
+
+/** 다크모드는 기존 디자인 톤(짙은 #0a0a0b 근처)을 유지하면서 색만 은은하게 섞는다. */
+const GRADIENT: Record<WeatherCategory, { light: string; dark: string }> = {
+  clear: {
+    light: "linear-gradient(180deg,#bfe3ff 0%,#fef3c7 55%,#fde68a 100%)",
+    dark: "linear-gradient(180deg,#0a0a0b 0%,#111827 55%,#1e293b 100%)",
+  },
+  clouds: {
+    light: "linear-gradient(180deg,#dbe2ea 0%,#eef1f4 100%)",
+    dark: "linear-gradient(180deg,#0a0a0b 0%,#18181b 100%)",
+  },
+  rain: {
+    light: "linear-gradient(180deg,#93a7bb 0%,#c7d2dd 100%)",
+    dark: "linear-gradient(180deg,#050708 0%,#0f172a 100%)",
+  },
+  snow: {
+    light: "linear-gradient(180deg,#eaf4ff 0%,#ffffff 100%)",
+    dark: "linear-gradient(180deg,#0a0a0b 0%,#151a22 100%)",
+  },
+  thunder: {
+    light: "linear-gradient(180deg,#5b6b7c 0%,#8a97a6 100%)",
+    dark: "linear-gradient(180deg,#020204 0%,#150f2e 100%)",
+  },
+  fog: {
+    light: "linear-gradient(180deg,#d9dadd 0%,#eceef0 100%)",
+    dark: "linear-gradient(180deg,#0a0a0b 0%,#1a1a1d 100%)",
+  },
+};
+
+/**
+ * 홈 배경 — 오늘 날씨(위치 권한 있으면 현재 위치, 없으면 서울) 기준으로 은은하게 바뀐다.
+ * Open-Meteo(무료·키 불필요) 사용. 실패하면 조용히 기본(흐림) 배경 유지.
+ */
+export function WeatherBackground() {
+  const [category, setCategory] = useState<WeatherCategory>("clouds");
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const load = async (lat: number, lon: number) => {
+      try {
+        const res = await fetch(
+          `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=weather_code`,
+        );
+        if (!res.ok) return;
+        const data = (await res.json()) as { current?: { weather_code?: number } };
+        const code = Number(data.current?.weather_code);
+        if (!cancelled && Number.isFinite(code)) setCategory(categoryFromCode(code));
+      } catch {
+        // 네트워크 실패는 조용히 무시 — 기본 배경 유지.
+      }
+    };
+
+    if (typeof navigator !== "undefined" && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => load(pos.coords.latitude, pos.coords.longitude),
+        () => load(SEOUL.lat, SEOUL.lon),
+        { timeout: 4000, maximumAge: 30 * 60 * 1000 },
+      );
+    } else {
+      load(SEOUL.lat, SEOUL.lon);
+    }
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const g = GRADIENT[category];
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none fixed inset-0 -z-10 transition-colors duration-700"
+    >
+      <div className="absolute inset-0 dark:hidden" style={{ background: g.light }} />
+      <div className="absolute inset-0 hidden dark:block" style={{ background: g.dark }} />
+    </div>
+  );
+}

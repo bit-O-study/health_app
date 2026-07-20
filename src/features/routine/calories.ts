@@ -98,6 +98,16 @@ export function strengthKcalForCompletion(
   return estimateStrengthKcal(weightKg, exerciseId, snapshotSets);
 }
 
+/** 홈 대시보드 "얼마나 더 운동해야 하나" 안내용 — 보통 강도 유산소 기준(가이드용). */
+const GENERAL_MET = 6.0;
+
+/** kcal 을 태우는 데 필요한 대략적인 운동 시간(분) — 보통 강도 유산소 가정. */
+export function kcalToMinutes(kcal: number, weightKg: number | null): number {
+  if (kcal <= 0) return 0;
+  const perMin = kcalPerMin(GENERAL_MET, weightKg ?? 65);
+  return perMin > 0 ? Math.round(kcal / perMin) : 0;
+}
+
 export type CalorieBreakdown = {
   warmup: number;
   main: number;

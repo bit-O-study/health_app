@@ -181,8 +181,8 @@ export default async function MyPage() {
         </div>
       </section>
 
-      {/* 계정 — 하단에 조용히(로그아웃·회원탈퇴) */}
-      <section className="mt-12 flex flex-col items-center gap-2 border-t border-zinc-100 pt-6 dark:border-zinc-800">
+      {/* 계정 — 하단에 조용히(로그아웃·회원탈퇴), 양옆으로 나란히 */}
+      <section className="mt-12 flex items-center justify-center gap-3 border-t border-zinc-100 pt-6 dark:border-zinc-800">
         <form action={signOut}>
           <button
             type="submit"
@@ -192,6 +192,9 @@ export default async function MyPage() {
             로그아웃
           </button>
         </form>
+        <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
+          |
+        </span>
         <WithdrawButton />
       </section>
     </main>

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChevronLeft, ChevronRight as ChevronRightIcon } from "lucide-react";
 
+import { BackLink } from "@/components/back-link";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
@@ -160,13 +161,10 @@ export default async function HistoryPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/settings"
-      >
+      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
         <ChevronLeft aria-hidden="true" size={16} />
         설정
-      </Link>
+      </BackLink>
 
       <div className="mt-6 mb-6 space-y-1">
         <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">

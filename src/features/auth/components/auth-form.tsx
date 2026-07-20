@@ -160,6 +160,10 @@ export function AuthForm({
       provider,
       options: {
         redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+        // ⚠ scopes 옵션은 Supabase 기본 scope 를 '대체'하지 않고 뒤에 덧붙기만 한다.
+        // (카카오 기본값 account_email·profile_image·profile_nickname 은 그대로 나감)
+        // 따라서 요청 scope 를 줄이려면 여기가 아니라 Kakao Developers 콘솔의
+        // [카카오 로그인] > [동의항목] 에서 해당 항목을 설정해야 한다.
       },
     });
     if (oauthError) {

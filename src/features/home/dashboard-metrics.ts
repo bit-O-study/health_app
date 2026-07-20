@@ -85,15 +85,34 @@ function epochDayToYmd(day: number): string {
 }
 
 /**
+ * 가입일부터 오늘까지 잔디 그래프를 그리는 데 필요한 주 수(최대 maxWeeks).
+ * 가입한 지 얼마 안 된 사용자에게 대부분 빈 칸인 1년치 그래프를 보여주지
+ * 않기 위함 — 가입일 이후 기간만큼만 그린다.
+ */
+export function weeksSinceJoin(
+  joinYmd: string,
+  todayYmd: string,
+  maxWeeks: number,
+): number {
+  const days = ymdToEpochDay(todayYmd) - ymdToEpochDay(joinYmd) + 1;
+  const weeks = Math.max(1, Math.ceil(days / 7));
+  return Math.min(maxWeeks, weeks);
+}
+
+/**
  * GitHub 스타일 잔디 그리드 — 일요일 시작, `weeks`주 × 7일. 오늘이 포함된 주의
  * 미래 날짜는 level=-1(빈 칸)로 채워 그리드 정렬만 맞춘다.
+ * joinYmd(가입일) 를 주면 그 이전 날짜도 같은 빈 칸(level=-1)으로 처리한다 —
+ * "가입 전"을 "가입 후 운동 안 함(level=0)"과 구분하기 위함.
  */
 export function buildContributionGrid(
   durationSecByDate: Map<string, number>,
   todayYmd: string,
   weeks = 53,
+  joinYmd?: string,
 ): ContributionDay[] {
   const todayEpoch = ymdToEpochDay(todayYmd);
+  const joinEpoch = joinYmd ? ymdToEpochDay(joinYmd) : null;
   const dow = new Date(todayEpoch * 86_400_000).getUTCDay(); // 0=일 ~ 6=토
   const satEpoch = todayEpoch + (6 - dow);
   const sunEpoch = satEpoch - (weeks * 7 - 1);
@@ -102,7 +121,7 @@ export function buildContributionGrid(
   for (let i = 0; i < weeks * 7; i++) {
     const epoch = sunEpoch + i;
     const date = epochDayToYmd(epoch);
-    if (epoch > todayEpoch) {
+    if (epoch > todayEpoch || (joinEpoch !== null && epoch < joinEpoch)) {
       days.push({ date, level: -1, minutes: 0 });
       continue;
     }

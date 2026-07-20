@@ -86,7 +86,7 @@ export function ContributionGraph({
           {totalWorkoutDays}
         </span>
         <span className="font-semibold text-zinc-500 dark:text-zinc-400">
-          일 운동 · 최근 1년
+          일 운동 · {weeks.length >= 52 ? "최근 1년" : "가입일부터"}
         </span>
       </p>
       <div
@@ -103,7 +103,7 @@ export function ContributionGraph({
             {monthLabels.map((label, i) => (
               <span
                 key={i}
-                className="text-[10px] font-medium text-zinc-400 dark:text-zinc-500"
+                className="whitespace-nowrap text-[10px] font-medium text-zinc-400 dark:text-zinc-500"
               >
                 {label ?? ""}
               </span>

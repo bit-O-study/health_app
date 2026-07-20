@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowLeft, Flag } from "lucide-react";
 
+import { BackLink } from "@/components/back-link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getMyCommitments } from "@/features/commitments/data-access";
 import { CommitmentManager } from "@/features/commitments/components/commitment-manager";
@@ -17,13 +17,10 @@ export default async function CommitmentsPage() {
 
   return (
     <main className="mx-auto w-full max-w-lg px-5 py-8">
-      <Link
-        href="/routine"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-      >
+      <BackLink className="mb-4 inline-flex items-center gap-1 text-sm text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
         <ArrowLeft aria-hidden="true" size={15} />
-        홈으로
-      </Link>
+        뒤로
+      </BackLink>
       <h1 className="mb-1 flex items-center gap-2 text-2xl font-bold text-zinc-950 dark:text-zinc-100">
         <Flag aria-hidden="true" size={22} className="text-emerald-600" />
         나의 다짐

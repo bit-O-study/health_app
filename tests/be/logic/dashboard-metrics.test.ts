@@ -5,6 +5,7 @@ import {
   computeDietExerciseNeed,
   computeMacroRemaining,
   levelForMinutes,
+  weeksSinceJoin,
 } from "@/features/home/dashboard-metrics";
 
 describe("computeDietExerciseNeed (오늘 식단 기준 필요 운동량)", () => {
@@ -104,5 +105,30 @@ describe("buildContributionGrid (잔디 그리드)", () => {
     const day18 = grid.find((d) => d.date === "2026-07-18")!;
     expect(day19.level).toBe(2);
     expect(day18.level).toBe(0);
+  });
+
+  // 가입일 이전은 "운동 안 함(level 0)"이 아니라 "아직 회원이 아니었음" —
+  // 미래 날짜와 같은 빈 칸(level -1)으로 구분한다.
+  it("★ joinYmd 이전 날짜는 빈 칸(level -1)", () => {
+    const map = new Map([["2026-07-01", 30 * 60]]); // 가입 전 기록은 있을 수 없지만 방어적으로
+    const grid = buildContributionGrid(map, "2026-07-20", 53, "2026-07-10");
+    const beforeJoin = grid.find((d) => d.date === "2026-07-01")!;
+    expect(beforeJoin.level).toBe(-1);
+    const joinDay = grid.find((d) => d.date === "2026-07-10")!;
+    expect(joinDay.level).not.toBe(-1);
+  });
+});
+
+describe("weeksSinceJoin (가입일 기준 잔디 그래프 주 수)", () => {
+  it("가입 당일이면 최소 1주", () => {
+    expect(weeksSinceJoin("2026-07-20", "2026-07-20", 53)).toBe(1);
+  });
+
+  it("가입 후 10일이면 2주(올림)", () => {
+    expect(weeksSinceJoin("2026-07-10", "2026-07-20", 53)).toBe(2);
+  });
+
+  it("★ maxWeeks 를 넘지 않는다(1년 넘게 가입했으면 53주로 상한)", () => {
+    expect(weeksSinceJoin("2020-01-01", "2026-07-20", 53)).toBe(53);
   });
 });

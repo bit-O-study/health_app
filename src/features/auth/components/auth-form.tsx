@@ -12,7 +12,14 @@ import { isLocalEnv, normalizePhone } from "@/features/auth/phone";
 
 type Mode = "login" | "signup";
 
-export function AuthForm({ redirectTo }: { redirectTo: string }) {
+export function AuthForm({
+  redirectTo,
+  initialError = null,
+}: {
+  redirectTo: string;
+  /** OAuth 콜백에서 실패하고 돌아온 경우의 에러 메시지(쿼리로 전달됨). */
+  initialError?: string | null;
+}) {
   const router = useRouter();
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
@@ -20,9 +27,12 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
   const [name, setName] = useState("");
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(initialError);
   const [notice, setNotice] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState<"google" | "kakao" | null>(
+    null,
+  );
   // 핸드폰 OTP 단계 (운영에서 가입 후): 인증번호 입력 화면
   const [otpStep, setOtpStep] = useState(false);
   const [otpCode, setOtpCode] = useState("");
@@ -138,6 +148,25 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
 
     router.replace(redirectTo);
     router.refresh();
+  }
+
+  /** 구글/카카오 로그인 — Supabase 가 provider 인증 페이지로 리다이렉트시킨다. */
+  async function handleOAuth(provider: "google" | "kakao") {
+    setError(null);
+    setNotice(null);
+    setOauthLoading(provider);
+    const supabase = createSupabaseBrowserClient();
+    const { error: oauthError } = await supabase.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+      },
+    });
+    if (oauthError) {
+      setError(oauthError.message);
+      setOauthLoading(null);
+    }
+    // 성공하면 브라우저가 provider 로그인 페이지로 이동하므로 별도 처리 불필요.
   }
 
   async function verifyOtp(event: FormEvent<HTMLFormElement>) {
@@ -358,6 +387,43 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
         </button>
       </form>
 
+      <div className="mt-5 flex items-center gap-3">
+        <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-700" />
+        <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
+          또는
+        </span>
+        <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-700" />
+      </div>
+
+      <div className="mt-4 space-y-2.5">
+        <button
+          type="button"
+          disabled={oauthLoading !== null}
+          onClick={() => handleOAuth("google")}
+          className="inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-md border border-zinc-300 bg-white text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+        >
+          {oauthLoading === "google" ? (
+            <Loader2 aria-hidden="true" className="animate-spin" size={17} />
+          ) : (
+            <GoogleIcon />
+          )}
+          구글로 계속하기
+        </button>
+        <button
+          type="button"
+          disabled={oauthLoading !== null}
+          onClick={() => handleOAuth("kakao")}
+          className="inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-md bg-[#FEE500] text-sm font-semibold text-[#191919] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {oauthLoading === "kakao" ? (
+            <Loader2 aria-hidden="true" className="animate-spin" size={17} />
+          ) : (
+            <KakaoIcon />
+          )}
+          카카오로 계속하기
+        </button>
+      </div>
+
       {mode === "login" ? (
         <div className="mt-4 flex items-center justify-center gap-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
           <Link href="/find-id" className="transition hover:text-zinc-800 dark:hover:text-zinc-200">
@@ -375,5 +441,39 @@ export function AuthForm({ redirectTo }: { redirectTo: string }) {
         </div>
       ) : null}
     </div>
+  );
+}
+
+function GoogleIcon() {
+  return (
+    <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24">
+      <path
+        fill="#4285F4"
+        d="M23.52 12.27c0-.85-.08-1.67-.22-2.45H12v4.64h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.57-5.17 3.57-8.82Z"
+      />
+      <path
+        fill="#34A853"
+        d="M12 24c3.24 0 5.96-1.07 7.95-2.91l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.95H1.26v3.1A12 12 0 0 0 12 24Z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58v-3.1H1.26a12 12 0 0 0 0 10.78l4.01-3.1Z"
+      />
+      <path
+        fill="#EA4335"
+        d="M12 4.75c1.76 0 3.35.61 4.6 1.8l3.44-3.44C17.95 1.19 15.24 0 12 0A12 12 0 0 0 1.26 6.61l4.01 3.1C6.22 6.86 8.87 4.75 12 4.75Z"
+      />
+    </svg>
+  );
+}
+
+function KakaoIcon() {
+  return (
+    <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24">
+      <path
+        fill="#191919"
+        d="M12 3C6.48 3 2 6.48 2 10.8c0 2.77 1.85 5.2 4.64 6.58-.2.74-.73 2.68-.84 3.1-.13.51.19.5.4.37.16-.11 2.6-1.77 3.66-2.49.68.1 1.39.15 2.14.15 5.52 0 10-3.48 10-7.71C22 6.48 17.52 3 12 3Z"
+      />
+    </svg>
   );
 }

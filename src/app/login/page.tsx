@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import { Logo } from "@/features/brand/logo";
 import { AuthForm } from "@/features/auth/components/auth-form";
+import { safeRedirectPath } from "@/features/auth/oauth-redirect";
 import { getCurrentUser } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -20,11 +21,10 @@ export const metadata: Metadata = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ redirect?: string }>;
+  searchParams: Promise<{ redirect?: string; error?: string }>;
 }) {
-  const { redirect: redirectParam } = await searchParams;
-  const redirectTo =
-    redirectParam && redirectParam.startsWith("/") ? redirectParam : "/";
+  const { redirect: redirectParam, error: oauthError } = await searchParams;
+  const redirectTo = safeRedirectPath(redirectParam);
 
   const user = await getCurrentUser();
   if (user) {
@@ -47,7 +47,7 @@ export default async function LoginPage({
         </p>
       </div>
 
-      <AuthForm redirectTo={redirectTo} />
+      <AuthForm redirectTo={redirectTo} initialError={oauthError ?? null} />
     </main>
   );
 }

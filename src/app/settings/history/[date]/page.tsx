@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft, Dumbbell, Flame, Timer, Wind, Zap } from "lucide-react";
+
+import { BackLink } from "@/components/back-link";
 
 import {
   createSupabaseServerClient,
@@ -65,9 +66,6 @@ type CondRow = {
 
 function isValidYmd(s: string): boolean {
   return /^\d{4}-\d{2}-\d{2}$/.test(s);
-}
-function monthOf(ymd: string): string {
-  return ymd.slice(0, 7);
 }
 function num(v: number | string | null | undefined): number | null {
   if (v === null || v === undefined || v === "") return null;
@@ -196,13 +194,10 @@ export default async function HistoryDetailPage({
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href={`/settings/history?month=${monthOf(date)}`}
-      >
+      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
         <ChevronLeft aria-hidden="true" size={16} />
-        {`${y}년 ${m}월 캘린더로`}
-      </Link>
+        뒤로
+      </BackLink>
 
       <div className="mt-6 mb-6 space-y-1">
         <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">

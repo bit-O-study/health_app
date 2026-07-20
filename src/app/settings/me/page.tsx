@@ -12,6 +12,7 @@ import {
   Utensils,
 } from "lucide-react";
 
+import { BackLink } from "@/components/back-link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { signOut } from "@/features/auth/actions";
 import { WithdrawButton } from "@/features/account/components/withdraw-button";
@@ -83,13 +84,10 @@ export default async function MyPage() {
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/settings"
-      >
+      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
         <ChevronLeft aria-hidden="true" size={16} />
         설정
-      </Link>
+      </BackLink>
 
       <h1 className="mt-6 mb-6 text-2xl font-bold text-zinc-950 dark:text-zinc-100">
         마이페이지

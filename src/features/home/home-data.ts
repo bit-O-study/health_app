@@ -16,6 +16,7 @@ import {
   buildContributionGrid,
   computeDietExerciseNeed,
   computeMacroRemaining,
+  weeksSinceJoin,
   type ContributionDay,
   type DietExerciseNeed,
   type MacroRemaining,
@@ -86,7 +87,13 @@ export async function getHomeDashboard(
     : null;
 
   const todayYmd = seoulYmd();
-  const fromYmd = addDaysYmd(todayYmd, -(CONTRIBUTION_WEEKS * 7 - 1));
+  // 잔디 그래프는 가입일부터만 — 가입한 지 얼마 안 된 사용자에게 대부분 빈 칸인
+  // 1년치 그래프를 보여주지 않는다.
+  const joinYmd = profile?.createdAt ? seoulYmd(new Date(profile.createdAt)) : null;
+  const contributionWeeks = joinYmd
+    ? weeksSinceJoin(joinYmd, todayYmd, CONTRIBUTION_WEEKS)
+    : CONTRIBUTION_WEEKS;
+  const fromYmd = addDaysYmd(todayYmd, -(contributionWeeks * 7 - 1));
   const [commitments, workoutCount, todayDetail, durationsByDate] = await Promise.all([
     getMyCommitments(),
     countWorkouts(),
@@ -120,7 +127,8 @@ export async function getHomeDashboard(
   const contributions = buildContributionGrid(
     durationsByDate,
     todayYmd,
-    CONTRIBUTION_WEEKS,
+    contributionWeeks,
+    joinYmd ?? undefined,
   );
 
   const missionCards: MissionCardView[] = commitments.slice(0, 4).map((c) => {

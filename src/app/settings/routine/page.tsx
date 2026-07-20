@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
+import { BackLink } from "@/components/back-link";
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { RecommendRoutineCard } from "@/features/routine/components/recommend-card";
 import { RoutinePresets } from "@/features/routine/components/routine-presets";
@@ -17,23 +17,13 @@ import {
 
 export const dynamic = "force-dynamic";
 
-export default async function RoutineSettingsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ from?: string }>;
-}) {
-  const [routine, profile, bodyComp, presets, sp] = await Promise.all([
+export default async function RoutineSettingsPage() {
+  const [routine, profile, bodyComp, presets] = await Promise.all([
     getUserRoutine(),
     getUserProfile(),
     getLatestBodyComposition(),
     getRoutinePresets(),
-    searchParams,
   ]);
-
-  // 진입 경로별 백링크 — 메인에서 왔으면 운동 메인(/routine)으로, 설정에서 왔으면 설정으로.
-  const fromHome = sp.from === "home";
-  const backHref = fromHome ? "/routine" : "/settings";
-  const backLabel = fromHome ? "오늘의 운동" : "설정";
 
   const recommendation = bodyComp
     ? recommendByBodyComp(bodyComp)
@@ -43,13 +33,10 @@ export default async function RoutineSettingsPage({
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-10 sm:px-8">
-      <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href={backHref}
-      >
+      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
         <ChevronLeft aria-hidden="true" size={16} />
-        {backLabel}
-      </Link>
+        뒤로
+      </BackLink>
 
       <div className="mt-6 mb-6 space-y-1">
         <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">

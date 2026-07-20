@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
 import { isBlocked } from "@/features/admin/ban";
+import { isOAuthCallbackPath } from "@/features/auth/oauth-redirect";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
@@ -24,6 +25,11 @@ const PROTECTED_PREFIXES = [
  * 보호 경로에 비로그인 접근 시 /login 으로 리다이렉트합니다.
  */
 export async function updateSession(request: NextRequest) {
+  // OAuth(구글·카카오) 콜백은 미들웨어가 세션에 손대면 안 된다(PKCE 쿠키 유실).
+  if (isOAuthCallbackPath(request.nextUrl.pathname)) {
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(supabaseUrl, supabaseKey, {

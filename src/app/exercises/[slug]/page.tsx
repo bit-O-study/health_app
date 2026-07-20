@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, PlayCircle, StickyNote, Target } from "lucide-react";
 
+import { BackLink } from "@/components/back-link";
 import { FeedbackSection } from "@/features/exercises/components/feedback-section";
 import { VideoUploadForm } from "@/features/exercises/components/video-upload-form";
 import { EquipmentMethod } from "@/features/exercises/components/equipment-method";
@@ -86,13 +86,10 @@ export default async function ExerciseDetailPage({
     <main className="min-h-screen bg-zinc-50 dark:bg-zinc-900 px-6 py-10 text-zinc-950 dark:text-zinc-100 sm:px-10">
       <section className="mx-auto grid w-full max-w-6xl gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="space-y-6">
-          <Link
-            className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100"
-            href="/routine"
-          >
+          <BackLink className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:text-zinc-950 dark:hover:text-zinc-100">
             <ArrowLeft aria-hidden="true" size={16} />
-            홈으로
-          </Link>
+            뒤로
+          </BackLink>
 
           <header className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
             <div className="flex items-center gap-3">

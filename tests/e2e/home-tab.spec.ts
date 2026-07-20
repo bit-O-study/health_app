@@ -21,11 +21,8 @@ test("홈 탭: 체형목표·내다짐·설정이 홈에 있고, 운동탭엔 �
   // 홈에 '오늘의 다짐' 체크리스트(내다짐 연결) + 설정 진입점이 있어야 한다.
   await expect(page.getByRole("link", { name: /오늘의 다짐/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /설정/ })).toBeVisible();
-  // #20 누적 운동 횟수 히어로가 보인다.
-  await expect(page.getByText("지금까지", { exact: true })).toBeVisible();
-  await expect(
-    page.getByRole("link", { name: /오늘 운동 하러가기/ }),
-  ).toBeVisible();
+  // 히어로(누적 운동횟수·인사말·바로가기)는 제거됨 — 잔디 그래프가 누적 운동일수를 대신 보여준다.
+  await expect(page.getByText(/일 운동 · 최근 1년/)).toBeVisible();
 
   // 운동탭(/routine) 으로 이동 — 실제 운동탭에 도달했는지 확인.
   await page.goto("/routine", { waitUntil: "networkidle" });

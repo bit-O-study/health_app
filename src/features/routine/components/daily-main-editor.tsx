@@ -9,6 +9,7 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import {
   DAY_BLOCKS,
   isDayBlockId,
+  type DayBlockId,
   type FocusTone,
 } from "@/features/routine/data";
 import {
@@ -20,6 +21,7 @@ import {
   type CatalogExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import { focusExercisesForSlot } from "@/features/routine/recommend";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
 import { muscleGroup } from "@/features/routine/muscle-map";
@@ -50,6 +52,8 @@ export type MainSection = {
   focus: FocusTone;
   label: string;
   initial: DailyPlanRow[];
+  /** 세부근육 블록(가슴 상부 등). 있으면 '추천으로 채우기'가 그 세부근육 운동으로 채운다. */
+  blockIds?: DayBlockId[];
 };
 
 /** 직접 담기에서 고를 수 있는 기본 부위(세부근육 블록 제외 — 그건 부위 안 세부칩으로). */
@@ -114,6 +118,10 @@ export function DailyMainEditor({
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
   const focuses = sections.map((s) => s.focus);
+  // 부위별 세부근육 블록 — '추천으로 채우기'가 세부근육(가슴 상부 등)을 따르게 한다.
+  const blockIdsByFocus = new Map<FocusTone, DayBlockId[]>(
+    sections.map((s) => [s.focus, s.blockIds ?? []]),
+  );
   // 부위 한글 라벨 — sections 에 있으면 그 라벨, 없으면(직접 담기) DAY_BLOCKS 한글명.
   const labelOf = (f: FocusTone) =>
     sections.find((s) => s.focus === f)?.label ??
@@ -254,7 +262,13 @@ export function DailyMainEditor({
         ? focuses
         : (recommendFocuses ?? []);
     for (const f of recFocuses) {
-      for (const ex of exercisesForFocus(f, gender)) {
+      // 세부근육 블록을 고른 부위면 그 세부근육 운동으로 추천(없으면 부위 전체 추천).
+      const blockIds = blockIdsByFocus.get(f) ?? [];
+      const recExercises =
+        blockIds.length > 0 && f !== "rest"
+          ? focusExercisesForSlot(f, blockIds, gender)
+          : exercisesForFocus(f, gender);
+      for (const ex of recExercises) {
         const p = prescribe(ex.id, opts);
         next.push({
           focus: f,

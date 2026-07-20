@@ -16,6 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import {
   DAY_BLOCKS,
+  MUSCLE_BLOCK_GROUPS,
   TONE_STYLES,
   type DayBlockId,
 } from "@/features/routine/data";
@@ -32,19 +33,46 @@ import {
 import { seoulYmd } from "@/features/routine/data";
 import { TodayAddExercises } from "@/features/routine/components/today-add-exercises";
 
-// "오늘만 바꾸기" 는 부위 단위로만 — 세부근육 블록은 정신없으니 루틴 빌더에서만 노출.
-const FOCUS_CHOICES: DayBlockId[] = [
-  "chest",
-  "back",
-  "shoulder",
-  "arm",
-  "lower",
-  "core",
-  "fullbody",
-  "upper",
-  "push",
-  "pull",
-];
+// "오늘만 바꾸기" 부위 선택 — 루틴 빌더와 **동일한 집합**을 제시해야 한다(원칙 #1):
+// 기본 부위(전체) + 세부근육 블록 + 세션 묶음. (MUSCLE_BLOCK_GROUPS = 빌더와 공유.)
+const SESSION_GROUPS: DayBlockId[] = ["fullbody", "upper", "push", "pull"];
+
+/** 부위/세부근육 선택 칩 (다중선택 토글). */
+function FocusToggle({
+  id,
+  label,
+  active,
+  disabled = false,
+  onClick,
+  whole = false,
+}: {
+  id: DayBlockId;
+  label: string;
+  active: boolean;
+  disabled?: boolean;
+  onClick: () => void;
+  /** 부위 전체·세션 묶음이면 살짝 강조(굵게). */
+  whole?: boolean;
+}) {
+  const style = TONE_STYLES[DAY_BLOCKS[id].day.tone];
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition",
+        whole ? "font-bold" : "font-semibold",
+        active
+          ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
+          : "border-zinc-200 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30",
+      )}
+    >
+      <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", style.dot)} />
+      {label}
+    </button>
+  );
+}
 
 export function TodayAdjustMenu({
   isRestToday = false,
@@ -227,41 +255,50 @@ export function TodayAdjustMenu({
             </p>
             <TodayAddExercises />
 
-            {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가 */}
+            {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가.
+                루틴 빌더와 동일하게 기본 부위 + 세부근육 블록까지 고를 수 있다(원칙 #1). */}
             <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              오늘만 부위 바꾸기 — 부위 선택 (여러 개)
+              오늘만 부위 바꾸기 — 부위 선택 (세부근육까지, 여러 개)
             </p>
-            <div className="grid grid-cols-2 gap-2">
-              {FOCUS_CHOICES.map((id) => {
-                const active = picked.has(id);
-                const style = TONE_STYLES[DAY_BLOCKS[id].day.tone];
-                return (
-                  <button
-                    key={id}
-                    type="button"
+            <div className="space-y-2.5">
+              {MUSCLE_BLOCK_GROUPS.map((g) => (
+                <div key={g.whole}>
+                  <div className="flex flex-wrap gap-1.5">
+                    <FocusToggle
+                      id={g.whole}
+                      label={`${g.label} 전체`}
+                      active={picked.has(g.whole)}
+                      disabled={pending}
+                      onClick={() => toggleFocus(g.whole)}
+                      whole
+                    />
+                    {g.subs.map((s) => (
+                      <FocusToggle
+                        key={s}
+                        id={s}
+                        label={DAY_BLOCKS[s].label}
+                        active={picked.has(s)}
+                        disabled={pending}
+                        onClick={() => toggleFocus(s)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+              {/* 세션 묶음(전신/상체/푸시/풀) */}
+              <div className="flex flex-wrap gap-1.5 border-t border-zinc-100 pt-2.5 dark:border-zinc-800">
+                {SESSION_GROUPS.map((s) => (
+                  <FocusToggle
+                    key={s}
+                    id={s}
+                    label={DAY_BLOCKS[s].label}
+                    active={picked.has(s)}
                     disabled={pending}
-                    onClick={() => toggleFocus(id)}
-                    className={cn(
-                      "flex items-center gap-2 rounded-lg border px-3 py-2.5 text-left text-sm font-semibold transition",
-                      active
-                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
-                        : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
-                    )}
-                  >
-                    <span
-                      className={cn("h-4 w-4 shrink-0 rounded border", {
-                        "border-emerald-600 bg-emerald-600": active,
-                        "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800":
-                          !active,
-                      })}
-                    />
-                    <span
-                      className={cn("h-2 w-2 shrink-0 rounded-full", style.dot)}
-                    />
-                    {DAY_BLOCKS[id].label}
-                  </button>
-                );
-              })}
+                    onClick={() => toggleFocus(s)}
+                    whole
+                  />
+                ))}
+              </div>
             </div>
 
             <div className="mt-5 grid grid-cols-1 gap-2 sm:grid-cols-2">

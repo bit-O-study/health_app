@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   adjacentActiveIndex,
   isQueueItemActive,
+  shouldAutoEndSession,
 } from "@/features/workout-timer/queue-filter";
 
 // '운동 시작' 큐 필터 — 로컬 오버라이드(방금 스킵/취소)가 서버 상태보다 우선.
@@ -63,5 +64,25 @@ describe("adjacentActiveIndex", () => {
   it("현재 인덱스 자신은 반환하지 않는다", () => {
     expect(adjacentActiveIndex(rowIds, new Set(), 1, 1)).toBe(2);
     expect(adjacentActiveIndex(rowIds, new Set(), 1, -1)).toBe(0);
+  });
+});
+
+// 운동 시간 0분 초기화 버그(#28) 재발 방지 — queueItems(전체)까지 0이 된 건
+// "오늘 운동 자체가 없어진 것"(daily_plan 이 지워진 순간의 스냅샷)이지 완료가 아니다.
+describe("shouldAutoEndSession", () => {
+  it("정상 완료: 큐가 비었고 전체 항목은 남아있음(완료/스킵 처리됨) → 종료", () => {
+    expect(shouldAutoEndSession(true, 0, 5)).toBe(true);
+  });
+
+  it("★ 회귀: 운동 중 부위추가/전체바꾸기로 큐 전체가 순간 0이 되면 → 종료 안 함", () => {
+    expect(shouldAutoEndSession(true, 0, 0)).toBe(false);
+  });
+
+  it("아직 활성 항목 남음(큐 > 0) → 종료 안 함", () => {
+    expect(shouldAutoEndSession(true, 2, 5)).toBe(false);
+  });
+
+  it("애초에 오늘 운동이 없었음(hadItems=false) → 종료 안 함", () => {
+    expect(shouldAutoEndSession(false, 0, 0)).toBe(false);
   });
 });

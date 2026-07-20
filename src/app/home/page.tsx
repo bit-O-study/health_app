@@ -10,6 +10,9 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
 import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
+import { DietExerciseCard } from "@/features/home/components/diet-exercise-card";
+import { ContributionGraph } from "@/features/home/components/contribution-graph";
+import { WeatherBackground } from "@/features/home/components/weather-background";
 
 export const dynamic = "force-dynamic";
 
@@ -24,14 +27,22 @@ export default async function HomePage() {
   const profile = await getUserProfile();
   if (!profile) redirect("/onboarding");
 
-  const { goalCard, current, todayCommitments, workoutCount } =
-    await getHomeDashboard(profile);
+  const {
+    goalCard,
+    current,
+    todayCommitments,
+    workoutCount,
+    dietExerciseNeed,
+    macroRemaining,
+    hasFoodLog,
+    contributions,
+  } = await getHomeDashboard(profile);
 
-  const displayName = profile.name?.trim() || "운동러";
   const doneCount = todayCommitments.filter((c) => c.done).length;
 
   return (
-    <div className="min-h-screen bg-[#fafaf9] text-zinc-900 dark:bg-[#0a0a0b] dark:text-zinc-100">
+    <div className="min-h-screen text-zinc-900 dark:text-zinc-100">
+      <WeatherBackground />
       <header className="sticky top-0 z-20 border-b border-zinc-200/70 bg-[#fafaf9]/80 backdrop-blur-xl dark:border-white/[0.06] dark:bg-[#0a0a0b]/80">
         <nav className="mx-auto flex w-full max-w-2xl items-center justify-between px-6 py-3.5 sm:px-8">
           <Link href="/home" className="flex items-center gap-2" aria-label="홈">
@@ -53,47 +64,20 @@ export default async function HomePage() {
       <main className="mx-auto w-full max-w-2xl px-6 pb-16 pt-8 sm:px-8">
         <PermissionNudge />
 
-        {/* 히어로 — 에디토리얼: 큰 숫자 + 얇은 액센트 라인 (다크에서도 은은하게) */}
-        <section className="pb-9">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 dark:text-zinc-500">
-            지금까지
-          </p>
-          <div className="mt-2 flex items-baseline gap-3">
-            <span className="text-[5.5rem] font-black leading-[0.85] tracking-tighter tabular-nums text-zinc-900 dark:text-zinc-50">
-              {workoutCount}
-            </span>
-            <span className="pb-1 text-xl font-bold text-zinc-400 dark:text-zinc-500">
-              일<span className="ml-1 font-medium">운동</span>
-            </span>
-          </div>
-          <div className="mt-5 h-px w-14 bg-emerald-500/90" />
-          <p className="mt-5 text-[15px] leading-relaxed text-zinc-500 dark:text-zinc-400">
-            안녕하세요,{" "}
-            <span className="font-semibold text-zinc-800 dark:text-zinc-200">
-              {displayName}
-            </span>
-            님. 오늘도 한 칸 채워볼까요.
-          </p>
-          <Link
-            href="/routine"
-            className="group mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-100"
-          >
-            오늘 운동 하러가기
-            <ArrowUpRight
-              aria-hidden="true"
-              size={17}
-              className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-emerald-600 dark:text-emerald-400"
-            />
-          </Link>
-        </section>
-
-        <div className="space-y-3">
+        <div className="space-y-3 pt-1">
           {/* 체형 목표 — 탭하면 체형 기록 입력 */}
           <TodayGoalCard
             goal={goalCard}
             missions={[]}
             totalMissions={0}
             current={current}
+          />
+
+          {/* 오늘 식단 기준 필요 운동량 + 탄단지 남은 양 */}
+          <DietExerciseCard
+            need={dietExerciseNeed}
+            macroRemaining={macroRemaining}
+            hasFoodLog={hasFoodLog}
           />
 
           {/* 오늘의 다짐 체크리스트 — 카드 전체를 누르면 내다짐 관리로 이동 */}
@@ -155,6 +139,9 @@ export default async function HomePage() {
               </ul>
             )}
           </Link>
+
+          {/* 잔디(컨트리뷰션) 그래프 — 하루 한 칸, 운동 시간만큼 진해진다 */}
+          <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
         </div>
       </main>
     </div>

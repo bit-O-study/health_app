@@ -32,6 +32,22 @@ export function isQueueItemActive(
  * @param dir       +1 = 다음, -1 = 이전
  * @returns 이동할 인덱스. 갈 곳이 없으면 null.
  */
+/**
+ * 운동 타이머를 자동 종료(기록)할지 — "오늘 운동을 전부 끝냈을 때"만 true.
+ *
+ * queueItems(전체, 완료/스킵 포함)까지 0이 되는 건 완료가 아니라 오늘 운동 자체가
+ * 없어진 것(오늘만 바꾸기·전체 교체 등으로 daily_plan 이 지워진 순간의 일시적 스냅샷).
+ * 그때 큐 길이만 보고 종료시키면, 운동 중 부위추가/전체바꾸기만 눌러도 진행 중이던
+ * 시간이 저장되며 화면 타이머가 즉시 0으로 리셋돼버린다 — 그 버그 재발 방지용 가드.
+ */
+export function shouldAutoEndSession(
+  hadItems: boolean,
+  queueLength: number,
+  queueItemsLength: number,
+): boolean {
+  return hadItems && queueLength === 0 && queueItemsLength > 0;
+}
+
 export function adjacentActiveIndex(
   rowIds: readonly string[],
   processed: ReadonlySet<string>,

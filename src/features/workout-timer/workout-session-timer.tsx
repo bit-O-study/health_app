@@ -6,7 +6,10 @@ import dynamic from "next/dynamic";
 import { CheckCircle2, Pause, Play, Plus, Save, Timer } from "lucide-react";
 
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
-import { isQueueItemActive } from "@/features/workout-timer/queue-filter";
+import {
+  isQueueItemActive,
+  shouldAutoEndSession,
+} from "@/features/workout-timer/queue-filter";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
@@ -529,12 +532,12 @@ export function WorkoutSessionTimer({
   // 6) 오늘 운동을 전부 끝내면(완료/스킵으로 큐가 0) 타이머 자동 종료(기록).
   useEffect(() => {
     if (!stateRef.current) return;
-    if (hadItemsRef.current && queue.length === 0) {
+    if (shouldAutoEndSession(hadItemsRef.current, queue.length, queueItems.length)) {
       hadItemsRef.current = false;
       void handlersRef.current.endTimerOnly();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queue.length]);
+  }, [queue.length, queueItems.length]);
 
   // 7) 서비스워커 알림(예/아니오) 클릭 → 앱 내와 동일 처리.
   useEffect(() => {

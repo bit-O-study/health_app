@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
+import { BackLink } from "@/components/back-link";
 import {
   BODY_PART_ORDER,
   groupedByBodyPart,
@@ -51,12 +51,9 @@ export default function ExercisesPage() {
               누르면 기구별 운동법을 확인할 수 있습니다.
             </p>
           </div>
-          <Link
-            className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700"
-            href="/routine"
-          >
-            홈으로
-          </Link>
+          <BackLink className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+            뒤로
+          </BackLink>
         </div>
 
         <ExerciseLibrary sections={sections} />

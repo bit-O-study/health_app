@@ -1,7 +1,7 @@
-import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { ArrowLeft, Camera, Dumbbell, GraduationCap, Salad } from "lucide-react";
 
+import { BackLink } from "@/components/back-link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import {
@@ -24,13 +24,10 @@ export default async function CoachPage() {
 
   return (
     <main className="mx-auto w-full max-w-lg px-4 py-6 sm:px-5">
-      <Link
-        href="/routine"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-      >
+      <BackLink className="mb-4 inline-flex items-center gap-1 text-sm text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
         <ArrowLeft aria-hidden="true" size={15} />
-        홈으로
-      </Link>
+        뒤로
+      </BackLink>
 
       {/* 히어로 */}
       <div className="mb-5 rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 p-5 text-white shadow-sm">

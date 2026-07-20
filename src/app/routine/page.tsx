@@ -206,7 +206,7 @@ function NoRoutinePrompt() {
       </div>
       <Link
         className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
-        href="/settings/routine?from=home"
+        href="/settings/routine"
       >
         <Sparkles aria-hidden="true" size={17} />
         추천 루틴에서 시작하기

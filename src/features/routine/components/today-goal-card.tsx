@@ -61,33 +61,52 @@ export function TodayGoalCard({
         <button
           type="button"
           onClick={() => setLogOpen(true)}
-          className="flex w-full items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-left transition active:scale-[0.99] dark:border-emerald-900/50 dark:bg-emerald-950/25"
+          className="w-full rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-left transition active:scale-[0.99] dark:border-emerald-900/50 dark:bg-emerald-950/25"
         >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white">
-            <Target aria-hidden="true" size={22} />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-xs font-bold text-emerald-700 dark:text-emerald-400">
+          <div className="flex items-center gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white">
+              <Target aria-hidden="true" size={22} />
+            </span>
+            <span className="min-w-0 flex-1 text-xs font-bold text-emerald-700 dark:text-emerald-400">
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>
-            {goal.reached ? (
-              <span className="block text-lg font-black text-emerald-700 dark:text-emerald-300">
-                목표 달성 🎉
-              </span>
-            ) : (
-              <span className="block text-lg font-black text-zinc-950 dark:text-zinc-50">
-                {goal.metricLabel} {goal.remainingText}{" "}
-                <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400">
-                  남음
-                </span>
-              </span>
-            )}
-          </span>
-          <ArrowRight
-            aria-hidden="true"
-            size={18}
-            className="shrink-0 text-emerald-500"
-          />
+            <ArrowRight
+              aria-hidden="true"
+              size={18}
+              className="shrink-0 text-emerald-500"
+            />
+          </div>
+
+          {goal.reached ? (
+            <p className="mt-3 text-center text-lg font-black text-emerald-700 dark:text-emerald-300">
+              목표 달성 🎉
+            </p>
+          ) : (
+            <>
+              {/* 왼쪽 현재값 / 오른쪽 목표값 — 정가운데를 얇은 구분선으로 반씩 나눈다. */}
+              <div className="mt-3 grid grid-cols-2">
+                <div className="border-r border-emerald-200/70 pr-2.5 text-center dark:border-emerald-900/50">
+                  <span className="block text-[10px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+                    현재
+                  </span>
+                  <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
+                    {goal.currentText}
+                  </span>
+                </div>
+                <div className="pl-2.5 text-center">
+                  <span className="block text-[10px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+                    목표
+                  </span>
+                  <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
+                    {goal.targetText}
+                  </span>
+                </div>
+              </div>
+              <p className="mt-2 text-center text-sm font-bold text-emerald-600 dark:text-emerald-400">
+                {goal.remainingText} 남았어요
+              </p>
+            </>
+          )}
         </button>
       ) : null}
 

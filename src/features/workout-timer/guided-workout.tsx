@@ -17,6 +17,7 @@ import {
   ListChecks,
   Pause,
   Play,
+  RotateCcw,
   ScanLine,
   StickyNote,
   Timer,
@@ -406,18 +407,21 @@ export function GuidedOverlay({
   const [setsDone, setSetsDone] = useState(0);
 
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
+  // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
   const timed = item?.kind === "main" && isTimedExercise(item.exerciseId);
   const [holdSec, setHoldSec] = useState(0);
-  // 운동/세트가 바뀌면 홀드 타이머를 0으로. (완료 세트 수·현재 운동 인덱스 기준)
+  const [holdRunning, setHoldRunning] = useState(false);
+  // 운동/세트가 바뀌면 홀드 타이머를 멈추고 0으로. (완료 세트 수·현재 운동 인덱스 기준)
   useEffect(() => {
     setHoldSec(0);
+    setHoldRunning(false);
   }, [index, setsDone]);
-  // 시간 운동이면 1초마다 카운트업. (다른 운동이거나 아닐 땐 안 돈다.)
+  // 시간 운동이고 '시작'을 눌러 실행 중일 때만 1초마다 카운트업.
   useEffect(() => {
-    if (!timed) return;
+    if (!timed || !holdRunning) return;
     const id = setInterval(() => setHoldSec((s) => s + 1), 1000);
     return () => clearInterval(id);
-  }, [timed, index, setsDone]);
+  }, [timed, holdRunning]);
 
   // 무게·횟수 고정 끔(unlocked) → 운동모드에서 무게/횟수/세트를 그때그때 설정.
   const editable = !lockWeightReps && item?.kind === "main";
@@ -1029,11 +1033,12 @@ export function GuidedOverlay({
           <ConditioningSettings item={item} />
         )}
 
-        {/* 시간(초) 기반 운동(플랭크 등) — 큰 초 타이머(카운트업). 세트마다 0부터 다시.
-            완료를 누르면(하단 '세트 완료') 세트가 완료되고 다음 세트에서 리셋된다.
-            목표 시간을 넘기면 초록 → 색으로 도달 표시. */}
+        {/* 시간(초) 기반 운동(플랭크 등) — 큰 초 타이머(카운트업). 진입 시 자동시작하지
+            않고 '시작' 버튼을 눌러야 흐른다(명시적 시작/중지/초기화, 요청 #29).
+            세트마다 0부터 다시. 완료를 누르면(하단 '세트 완료') 세트가 완료되고
+            다음 세트에서 리셋된다. 목표 시간을 넘기면 초록 색으로 도달 표시. */}
         {timed ? (
-          <div className="mt-4 flex flex-col items-center gap-1">
+          <div className="mt-4 flex flex-col items-center gap-2">
             <div
               className={`text-6xl font-extrabold tabular-nums ${
                 holdSec >= targetHoldSec
@@ -1047,6 +1052,36 @@ export function GuidedOverlay({
             <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
               목표 {targetHoldSec}초 버티기 · 완료를 누르면 이 세트 완료
             </p>
+            <div className="mt-1 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setHoldRunning((r) => !r)}
+                className="inline-flex h-9 items-center gap-1.5 rounded-full bg-zinc-900 px-4 text-sm font-bold text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+              >
+                {holdRunning ? (
+                  <>
+                    <Pause aria-hidden="true" size={15} />
+                    중지
+                  </>
+                ) : (
+                  <>
+                    <Play aria-hidden="true" size={15} />
+                    {holdSec > 0 ? "계속" : "시작"}
+                  </>
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setHoldRunning(false);
+                  setHoldSec(0);
+                }}
+                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+              >
+                <RotateCcw aria-hidden="true" size={15} />
+                초기화
+              </button>
+            </div>
           </div>
         ) : null}
 

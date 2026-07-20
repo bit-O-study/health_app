@@ -14,10 +14,10 @@ import {
   routineDaySlots,
   seoulYmd,
   ymdDisplay,
+  type DayBlockId,
   type FocusTone,
 } from "@/features/routine/data";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { ALL_FOCUSES } from "@/features/routine/exercise-catalog";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import { getDailyPlanForDate } from "@/features/routine/daily-plan";
@@ -52,19 +52,21 @@ export default async function TodayConditioningPage({
   // 부위 추가(add) — 오늘 현재 운동(핀된 daily_plan)에 선택 부위를 더해 함께 편집한다.
   const addMode = addParam === "1";
 
-  // 선택 부위 (?focus=chest,back) — 없으면 오늘의 실제 부위 1개
-  let focuses: FocusTone[] = [];
+  // 선택 부위/세부근육 (?focus=chest,shoulder-rear) — base 부위(tone)로 접고, 세부근육은
+  // blocksByFocus 에 모아 편집기가 추천·라벨에 쓴다. (원칙 #1: 오늘만도 세부근육 선택 가능)
+  const blocksByFocus = new Map<Exclude<FocusTone, "rest">, DayBlockId[]>();
   if (focusParam) {
-    focuses = focusParam
-      .split(",")
-      .map((s) => s.trim())
-      .filter(
-        (s): s is Exclude<FocusTone, "rest"> =>
-          s !== "rest" &&
-          isDayBlockId(s) &&
-          ALL_FOCUSES.includes(s as Exclude<FocusTone, "rest">),
-      );
+    for (const raw of focusParam.split(",").map((s) => s.trim())) {
+      if (raw === "rest" || !isDayBlockId(raw)) continue;
+      const tone = DAY_BLOCKS[raw].day.tone;
+      if (tone === "rest") continue;
+      const key = tone as Exclude<FocusTone, "rest">;
+      const arr = blocksByFocus.get(key) ?? [];
+      if (raw !== tone) arr.push(raw); // 세부근육이면 담기(부위 '전체'면 세부 없음)
+      blocksByFocus.set(key, arr);
+    }
   }
+  let focuses: Exclude<FocusTone, "rest">[] = [...blocksByFocus.keys()];
   // 오늘 원래 루틴 부위 — 폴백/직접담기 추천에 쓴다.
   const origTodayFocuses: Exclude<FocusTone, "rest">[] = (() => {
     const { variant } = resolveRoutine(
@@ -98,9 +100,8 @@ export default async function TodayConditioningPage({
   const dateLabel = `${Number(mm)}월 ${Number(dd)}일 (${weekday})`;
 
   const dailyAll = await getDailyPlanForDate(todayYmd);
-  const validFocuses = focuses.filter(
-    (f): f is Exclude<FocusTone, "rest"> => f !== "rest",
-  );
+  // focuses 는 이미 rest 제외한 base 부위 목록.
+  const validFocuses = focuses;
 
   // 오늘 일차 기준으로 기본값을 읽는다(일차별 독립). 그 일차에 부위가 없으면
   // 첫 등장 일차, 그래도 없으면 부위 전체(union)로 폴백.
@@ -134,11 +135,20 @@ export default async function TodayConditioningPage({
         >[])
       : validFocuses;
   // 부위별 본운동 섹션 — 오늘 오버라이드가 있으면 그걸, 없으면 **빈값**으로 시작한다.
-  const mainSections = editFocuses.map((focus) => ({
-    focus,
-    label: DAY_BLOCKS[focus].label,
-    initialMain: dailyAll.filter((r) => r.focus === focus),
-  }));
+  // 세부근육 블록을 골랐으면 그 블록들(blockIds)을 넘겨 추천·라벨이 세부근육을 따르게 한다.
+  const mainSections = editFocuses.map((focus) => {
+    const blockIds = blocksByFocus.get(focus) ?? [];
+    const label =
+      blockIds.length > 0
+        ? blockIds.map((b) => DAY_BLOCKS[b].label).join(", ")
+        : DAY_BLOCKS[focus].label;
+    return {
+      focus,
+      label,
+      blockIds,
+      initialMain: dailyAll.filter((r) => r.focus === focus),
+    };
+  });
 
   // 워밍업/마무리는 하루 1세트. 초기엔 오늘 오버라이드만(없으면 빈값 → '추천으로 채우기').
   // 추천은 편집기 안에서 오늘 전 부위(validFocuses) 합집합으로 채운다.
@@ -192,6 +202,7 @@ export default async function TodayConditioningPage({
             sections={mainSections.map((s) => ({
               focus: s.focus,
               label: s.label,
+              blockIds: s.blockIds,
               initial: s.initialMain,
             }))}
             gender={profile.gender}

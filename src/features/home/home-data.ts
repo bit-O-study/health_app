@@ -8,6 +8,20 @@ import type {
   GoalCardView,
   MissionCardView,
 } from "@/features/routine/components/today-goal-card";
+import { getDayDetail } from "@/features/calendar/data-access";
+import { dailyTarget } from "@/features/diet/calorie-target";
+import { seoulYmd, addDaysYmd } from "@/features/routine/data";
+import { getWorkoutDurationsRange } from "@/features/workout-timer/workout-sessions";
+import {
+  buildContributionGrid,
+  computeDietExerciseNeed,
+  computeMacroRemaining,
+  type ContributionDay,
+  type DietExerciseNeed,
+  type MacroRemaining,
+} from "@/features/home/dashboard-metrics";
+
+const CONTRIBUTION_WEEKS = 53;
 
 /** 홈 '오늘의 다짐' 체크리스트 한 줄. */
 export type TodayCommitment = {
@@ -33,6 +47,14 @@ export type HomeDashboard = {
   todayCommitments: TodayCommitment[];
   /** 지금까지 운동한 횟수(운동한 날 수). */
   workoutCount: number;
+  /** 오늘 식단 기준 필요 운동량(태워야 할 kcal · 남은 시간). */
+  dietExerciseNeed: DietExerciseNeed;
+  /** 탄단지 목표 대비 오늘 더 먹어야 하는 양(g). */
+  macroRemaining: MacroRemaining;
+  /** 오늘 식단 기록이 하나라도 있는지 — 없으면 카드에 '기록 없음'을 보여준다. */
+  hasFoodLog: boolean;
+  /** 잔디(컨트리뷰션) 그래프 — 최근 53주, 일요일 시작. */
+  contributions: ContributionDay[];
 };
 
 /** 홈 대시보드 — 체형 목표 + 오늘의 다짐 체크리스트 + 누적 운동 횟수. */
@@ -63,10 +85,43 @@ export async function getHomeDashboard(
       }
     : null;
 
-  const [commitments, workoutCount] = await Promise.all([
+  const todayYmd = seoulYmd();
+  const fromYmd = addDaysYmd(todayYmd, -(CONTRIBUTION_WEEKS * 7 - 1));
+  const [commitments, workoutCount, todayDetail, durationsByDate] = await Promise.all([
     getMyCommitments(),
     countWorkouts(),
+    getDayDetail(todayYmd),
+    getWorkoutDurationsRange(fromYmd, todayYmd),
   ]);
+
+  const target = dailyTarget({
+    gender: profile?.gender ?? "male",
+    weightKg: profile?.weightKg ?? null,
+    heightCm: profile?.heightCm ?? null,
+  });
+  const dietExerciseNeed = computeDietExerciseNeed({
+    targetKcal: target.kcal,
+    eatenKcal: todayDetail.intake,
+    burnedKcal: todayDetail.burned,
+    weightKg: profile?.weightKg ?? null,
+  });
+  const eatenMacro = todayDetail.foods.reduce(
+    (s, f) => ({
+      protein: s.protein + (f.protein ?? 0),
+      carbs: s.carbs + (f.carbs ?? 0),
+      fat: s.fat + (f.fat ?? 0),
+    }),
+    { protein: 0, carbs: 0, fat: 0 },
+  );
+  const macroRemaining = computeMacroRemaining(
+    { protein: target.protein, carbs: target.carbs, fat: target.fat },
+    eatenMacro,
+  );
+  const contributions = buildContributionGrid(
+    durationsByDate,
+    todayYmd,
+    CONTRIBUTION_WEEKS,
+  );
 
   const missionCards: MissionCardView[] = commitments.slice(0, 4).map((c) => {
     const p = c.progress;
@@ -111,6 +166,10 @@ export async function getHomeDashboard(
     },
     todayCommitments,
     workoutCount,
+    dietExerciseNeed,
+    macroRemaining,
+    hasFoodLog: todayDetail.foods.length > 0,
+    contributions,
   };
 }
 

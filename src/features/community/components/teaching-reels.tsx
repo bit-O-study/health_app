@@ -238,8 +238,12 @@ function ReelSlide({
         ) : null}
       </div>
 
-      {/* 우측 액션 레일: 댓글 · 좋아요 · 음소거 · (삭제) */}
-      <div className="absolute bottom-4 right-2 flex flex-col items-center gap-4 text-white">
+      {/* 우측 액션 레일: 댓글 · 좋아요 · 음소거 · (신고) · (삭제)
+          ⚠ 레일은 아래에서 위로 쌓여 맨 아래 항목(삭제)이 하단 탭바에 가장 가깝다.
+          데스크톱 실측 여유가 16px 뿐이라 실기기(safe-area/제스처바)에선 삭제 버튼이
+          탭바에 가려진다는 제보가 있어, 기기 inset 만큼 여유를 더 준다.
+          (데스크톱은 inset=0 이라 기존과 동일) */}
+      <div className="absolute bottom-[calc(1rem+env(safe-area-inset-bottom))] right-2 flex flex-col items-center gap-4 text-white">
         <button
           type="button"
           onClick={() => setComments(true)}

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { safeRedirectPath } from "@/features/auth/oauth-redirect";
+import { destinationAfterLogin } from "@/features/auth/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -24,5 +25,7 @@ export async function GET(request: Request) {
     }
   }
 
-  return NextResponse.redirect(new URL(next, url.origin));
+  return NextResponse.redirect(
+    new URL(await destinationAfterLogin(next), url.origin),
+  );
 }

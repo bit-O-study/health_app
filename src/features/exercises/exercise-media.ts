@@ -10,6 +10,34 @@ export type ExerciseMedia = {
   kind: MediaKind;
 };
 
+const BUILT_IN_MEDIA: Record<string, ExerciseMedia> = {
+  "bench-press": {
+    exerciseId: "bench-press",
+    url: "/exercise-guides/bench-press-multishot",
+    kind: "video",
+  },
+  "lat-pulldown": {
+    exerciseId: "lat-pulldown",
+    url: "/exercise-guides/lat-pulldown.mp4",
+    kind: "video",
+  },
+  "pull-up": {
+    exerciseId: "pull-up",
+    url: "/exercise-guides/pull-up.mp4",
+    kind: "video",
+  },
+  "smith-squat": {
+    exerciseId: "smith-squat",
+    url: "/exercise-guides/squat.mp4",
+    kind: "video",
+  },
+  "dumbbell-shoulder-press": {
+    exerciseId: "dumbbell-shoulder-press",
+    url: "/exercise-guides/dumbbell-shoulder-press.mp4",
+    kind: "video",
+  },
+};
+
 function toKind(v: unknown): MediaKind {
   return v === "gif" || v === "image" ? v : "video";
 }
@@ -18,6 +46,8 @@ function toKind(v: unknown): MediaKind {
 export async function getExerciseMedia(
   exerciseId: string,
 ): Promise<ExerciseMedia | null> {
+  const builtIn = BUILT_IN_MEDIA[exerciseId];
+  if (builtIn) return builtIn;
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("exercise_media")
@@ -36,6 +66,10 @@ export async function getExerciseMediaMap(
   const map = new Map<string, ExerciseMedia>();
   const ids = Array.from(new Set(exerciseIds)).filter(Boolean);
   if (ids.length === 0) return map;
+  for (const id of ids) {
+    const builtIn = BUILT_IN_MEDIA[id];
+    if (builtIn) map.set(id, builtIn);
+  }
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("exercise_media")
@@ -48,6 +82,10 @@ export async function getExerciseMediaMap(
       url: r.url,
       kind: toKind(r.kind),
     });
+  }
+  for (const id of ids) {
+    const builtIn = BUILT_IN_MEDIA[id];
+    if (builtIn) map.set(id, builtIn);
   }
   return map;
 }

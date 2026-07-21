@@ -8,6 +8,8 @@ import { VideoUploadForm } from "@/features/exercises/components/video-upload-fo
 import { EquipmentMethod } from "@/features/exercises/components/equipment-method";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
+import { ExercisePhotoDemo } from "@/features/workout-timer/exercise-photo-demo";
+import { exercisePhotoFrames } from "@/features/workout-timer/exercise-photo-map";
 import {
   getExerciseBySlug,
   getExerciseVideos,
@@ -73,6 +75,7 @@ export default async function ExerciseDetailPage({
   }
 
   const initialEquipment = isEquipmentId(eq) ? eq : undefined;
+  const photoFrames = exercisePhotoFrames(slug, initialEquipment);
 
   // 영상/피드백은 Supabase 에 해당 종목 행이 있을 때만 제공
   const supaExercise = await getExerciseBySlug(slug);
@@ -131,8 +134,22 @@ export default async function ExerciseDetailPage({
               </div>
               <MediaEmbed url={media.url} kind={media.kind} />
             </section>
+          ) : photoFrames ? (
+            <section className="rounded-lg border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+              <div className="mb-3 flex items-center gap-2">
+                <PlayCircle
+                  aria-hidden="true"
+                  className="text-emerald-600 dark:text-emerald-400"
+                  size={20}
+                />
+                <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
+                  동작 시범
+                </h2>
+              </div>
+              <ExercisePhotoDemo frames={photoFrames} cycleMs={2200} />
+            </section>
           ) : (
-            // 등록된 시범 영상이 없으면 유튜브에서 운동명으로 검색해 바로 볼 수 있게.
+            // 내부 시범 자료도 없을 때만 유튜브 검색으로 보완한다.
             <a
               href={`https://www.youtube.com/results?search_query=${encodeURIComponent(`${exercise.name} 운동법`)}`}
               target="_blank"

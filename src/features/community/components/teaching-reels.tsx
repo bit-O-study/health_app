@@ -185,7 +185,7 @@ function ReelSlide({
   return (
     <div
       ref={slideRef}
-      className="relative flex h-full w-full snap-start snap-always items-center justify-center bg-black"
+      className="relative flex h-full min-h-full w-full shrink-0 snap-start snap-always items-center justify-center bg-black"
     >
       <video
         ref={videoRef}
@@ -214,7 +214,7 @@ function ReelSlide({
       ) : null}
 
       {/* 좌하단: 작성자 · 태그 · 캡션 */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 pr-16 text-white">
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] bg-gradient-to-t from-black/70 to-transparent p-4 pr-16 text-white">
         <div className="flex items-center gap-2">
           <span
             className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base ${pastelClass(

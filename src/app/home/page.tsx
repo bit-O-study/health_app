@@ -67,6 +67,7 @@ export default async function HomePage() {
       </header>
 
       <main className="mx-auto w-full max-w-3xl px-4 pb-10 pt-5 sm:px-6 sm:pt-7">
+        <PromoBanner />
         <PermissionNudge />
 
         <div className="grid gap-3 md:grid-cols-2 md:items-start">
@@ -126,8 +127,6 @@ export default async function HomePage() {
             <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
           </div>
         </div>
-
-        <PromoBanner />
       </main>
     </div>
   );

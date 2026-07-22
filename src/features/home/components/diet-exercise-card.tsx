@@ -32,7 +32,7 @@ export function DietExerciseCard({
   return (
     <Link
       href="/diet"
-      className="group block rounded-2xl border border-zinc-200/80 bg-white/60 p-5 transition hover:border-zinc-300 dark:border-white/[0.07] dark:bg-white/[0.02] dark:hover:border-white/[0.12]"
+      className="group block rounded-2xl border border-white/70 bg-white/75 p-4 shadow-sm backdrop-blur transition hover:bg-white dark:border-white/[0.07] dark:bg-zinc-900/70 dark:hover:bg-zinc-900 sm:p-5"
     >
       <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
         오늘 식단 기준 운동량
@@ -58,10 +58,10 @@ export function DietExerciseCard({
             />
           </div>
         ) : (
-          <div className="flex w-full items-center gap-5">
+          <div className="grid w-full grid-cols-[88px_minmax(0,1fr)] items-center gap-3 min-[380px]:grid-cols-[104px_minmax(0,1fr)] min-[380px]:gap-5">
             {/* 원형 그래프 — 오늘 식단 초과분 대비 이미 태운 비율 */}
             <div className="relative shrink-0">
-              <svg viewBox="0 0 100 100" width={104} height={104} className="-rotate-90">
+              <svg viewBox="0 0 100 100" className="h-[88px] w-[88px] -rotate-90 min-[380px]:h-[104px] min-[380px]:w-[104px]">
                 <circle
                   cx="50"
                   cy="50"

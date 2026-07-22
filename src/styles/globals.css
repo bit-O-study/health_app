@@ -27,6 +27,8 @@
 html {
   background: var(--background);
   overscroll-behavior: none;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -38,6 +40,16 @@ body {
      단, 한 어절이 칸보다 길면 그때만 분해해 오버플로 방지. */
   word-break: keep-all;
   overflow-wrap: break-word;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 /* ── 네이티브 앱/노치 단말: 상태바(시간·배터리·카메라 노치) 영역 처리 ──────────

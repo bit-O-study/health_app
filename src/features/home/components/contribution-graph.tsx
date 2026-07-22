@@ -80,7 +80,7 @@ export function ContributionGraph({
   const gridCols = `repeat(${weeks.length}, ${CELL_PX}px)`;
 
   return (
-    <div className="rounded-2xl border border-zinc-200/80 bg-white/60 p-5 dark:border-white/[0.07] dark:bg-white/[0.02]">
+    <div className="min-w-0 rounded-2xl border border-white/70 bg-white/75 p-4 shadow-sm backdrop-blur dark:border-white/[0.07] dark:bg-zinc-900/70 sm:p-5">
       <p className="mb-4 text-sm">
         <span className="font-black tabular-nums text-zinc-900 dark:text-zinc-50">
           {totalWorkoutDays}
@@ -91,7 +91,7 @@ export function ContributionGraph({
       </p>
       <div
         ref={scrollRef}
-        className="cursor-grab select-none overflow-x-auto active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="max-w-full cursor-grab touch-pan-x select-none overflow-x-auto overscroll-x-contain active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={endDrag}

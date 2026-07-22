@@ -25,8 +25,12 @@ import {
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
 import { getUserProfile } from "@/features/profile/data-access";
+import { getUserRoutine } from "@/features/routine/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
-import { syncRoutineExerciseDays } from "@/features/routine/day-index-migration";
+import {
+  remapRoutineExerciseSlots,
+  syncRoutineExerciseDays,
+} from "@/features/routine/day-index-migration";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
@@ -76,6 +80,15 @@ export async function saveRoutineAction(
     return { ok: false, error: "로그인이 필요합니다." };
   }
 
+  const previousRoutine = await getUserRoutine();
+  const previousSlots = previousRoutine
+    ? routineDaySlots(
+        previousRoutine.splits,
+        previousRoutine.variantId,
+        previousRoutine.customWeek,
+      )
+    : [];
+
   // 루틴을 바꾸면 오늘만 변경/휴식 오버라이드는 의미가 없어지므로 함께 클리어.
   // '설정>루틴 설정' 저장은 곧 기준 루틴이므로 baseline_routine 도 함께 기록한다
   // ('오늘부터 다시 시작하기'가 이 기준으로 복원).
@@ -118,6 +131,16 @@ export async function saveRoutineAction(
       .eq("user_id", user.id)
       .gte("for_date", today),
   ]);
+
+  // 이두/삼두처럼 저장 focus가 같은 세부 슬롯은 새 루틴의 의미가 같은 슬롯으로
+  // 먼저 이동한다. 이 단계가 없으면 날짜를 맞바꿔도 기존 arm 행이 제자리에 남는다.
+  if (previousSlots.length > 0) {
+    await remapRoutineExerciseSlots(
+      user.id,
+      previousSlots,
+      routineDaySlots(effSplits, variantId, normalized),
+    );
+  }
 
   //"추천으로 채우기" 선택 시에만 자동 채우기 실행."직접 등록"이면 건드리지 않음.
   if (fillMode === "recommend") {

@@ -9,7 +9,6 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import type { FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
 import {
-  allExercisesForFocus,
   EQUIPMENT_LABELS,
   getCatalogExercise,
   majorMuscleTag,
@@ -17,6 +16,7 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import {
+  allExercisesForSlot,
   focusExercisesForSlot,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
@@ -42,7 +42,7 @@ type FocusData = {
   /** 일차+부위 고유 키 (예: "3:push") — 반복 부위가 충돌하지 않게 state 키로 사용 */
   key: string;
   dayIndex: number;
-  focus: FocusTone;
+  focus: Exclude<FocusTone, "rest">;
   /** 사이드 추천 운동 선택용 블록 id (이두/삼두 구분) */
   blockIds: string[];
   /** 그날 보조(사이드) 부위인지 — 추천 채우기 시 2개만 */
@@ -138,7 +138,7 @@ export function PlanEditor({
   }
 
   function addRow(f: FocusData) {
-    const options = allExercisesForFocus(f.focus);
+    const options = allExercisesForSlot(f.focus, f.blockIds);
     const first = options[0];
     if (!first) return;
     update(f.key, [
@@ -287,7 +287,7 @@ export function PlanEditor({
 
       {focuses.map((f) => {
         const rows = plans[f.key] ?? [];
-        const options = allExercisesForFocus(f.focus);
+        const options = allExercisesForSlot(f.focus, f.blockIds);
         return (
           <section
             key={f.key}

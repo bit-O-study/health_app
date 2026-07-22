@@ -17,6 +17,7 @@ import {
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
 import {
+  allExercisesForSlot,
   focusExercisesForSlot,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
@@ -89,6 +90,13 @@ describe("sideExercisesForSlot (보조 볼륨)", () => {
     expect(both).toHaveLength(4);
   });
 
+  it("팔 전체+이두를 같이 골라도 삼두가 섞이지 않는다", () => {
+    const ids = sideExercisesForSlot("arm", ["arm", "biceps"]).map(
+      (e) => e.id,
+    );
+    expect(ids).toEqual(["biceps-curl", "hammer-curl"]);
+  });
+
   it("일반 부위 사이드는 2개", () => {
     expect(sideExercisesForSlot("chest", ["chest"])).toHaveLength(2);
     expect(sideExercisesForSlot("back", ["back"])).toHaveLength(2);
@@ -124,6 +132,44 @@ describe("focusExercisesForSlot (주 슬롯 추천 — 이두/삼두 분리)", (
       expect(subs.some((s) => s.startsWith("arm-triceps"))).toBe(true);
       expect(subs.some((s) => s.startsWith("arm-biceps"))).toBe(false);
     }
+  });
+
+  it("이두+삼두 주 슬롯은 한쪽이 독식하지 않고 2개씩 추천한다", () => {
+    const ids = focusExercisesForSlot("arm", ["biceps", "triceps"]).map(
+      (e) => e.id,
+    );
+    expect(ids).toEqual([
+      "biceps-curl",
+      "triceps-pushdown",
+      "hammer-curl",
+      "skull-crusher",
+    ]);
+  });
+
+  it("팔 전체+이두 주 슬롯도 이두 운동만 추천한다", () => {
+    const ids = focusExercisesForSlot("arm", ["arm", "biceps"]).map(
+      (e) => e.id,
+    );
+    expect(ids).not.toContain("triceps-pushdown");
+    expect(ids).not.toContain("skull-crusher");
+  });
+
+  it("직접 등록 목록도 이두/삼두 블록을 서로 섞지 않는다", () => {
+    const biceps = allExercisesForSlot("arm", ["biceps"]).map((e) => e.id);
+    const triceps = allExercisesForSlot("arm", ["triceps"]).map((e) => e.id);
+    expect(biceps).toContain("barbell-curl");
+    expect(biceps).not.toContain("machine-overhead-extension");
+    expect(triceps).toContain("machine-overhead-extension");
+    expect(triceps).not.toContain("barbell-curl");
+  });
+
+  it("밀기/당기기 직접 등록의 팔 운동도 삼두/이두 방향을 지킨다", () => {
+    const push = allExercisesForSlot("push", ["push"]).map((e) => e.id);
+    const pull = allExercisesForSlot("pull", ["pull"]).map((e) => e.id);
+    expect(push).toContain("machine-overhead-extension");
+    expect(push).not.toContain("barbell-curl");
+    expect(pull).toContain("barbell-curl");
+    expect(pull).not.toContain("machine-overhead-extension");
   });
 
   it("세부 블록이 아닌 부위(가슴)는 세부 근육을 골고루 4개 추천", () => {

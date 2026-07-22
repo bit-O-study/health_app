@@ -114,7 +114,12 @@ export default async function TodayConditioningPage({
   const mainSections = await Promise.all(
     validFocuses.map(async (focus) => {
       const dailyMain = dailyAll.filter((r) => r.focus === focus);
-      const byDay = await getPlanForDay(readDayFor(focus), focus);
+      const dayIndex = readDayFor(focus);
+      const slot = slots.find(
+        (candidate) =>
+          candidate.dayIndex === dayIndex && candidate.focus === focus,
+      );
+      const byDay = await getPlanForDay(dayIndex, focus);
       const base = byDay.length > 0 ? byDay : await getPlanForFocus(focus);
       const initialMain =
         dailyMain.length > 0
@@ -133,7 +138,9 @@ export default async function TodayConditioningPage({
             }));
       return {
         focus,
-        label: DAY_BLOCKS[focus].label,
+        blockIds: slot?.blockIds ?? [focus],
+        isSide: slot?.isSide ?? false,
+        label: slot?.label.replace(/^\d+일 · /, "") ?? DAY_BLOCKS[focus].label,
         initialMain,
       };
     }),
@@ -192,6 +199,8 @@ export default async function TodayConditioningPage({
             <DailyMainEditor
               key={s.focus}
               focus={s.focus}
+              blockIds={s.blockIds}
+              isSide={s.isSide}
               label={s.label}
               gender={profile.gender}
               experience={profile.experience}

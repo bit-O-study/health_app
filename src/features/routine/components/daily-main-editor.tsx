@@ -8,13 +8,16 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 
 import type { FocusTone } from "@/features/routine/data";
 import {
-  allExercisesForFocus,
   EQUIPMENT_LABELS,
-  exercisesForFocus,
   getCatalogExercise,
   prescribe,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
+import {
+  allExercisesForSlot,
+  focusExercisesForSlot,
+  sideExercisesForSlot,
+} from "@/features/routine/recommend";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import {
   saveDailyPlanAction,
@@ -51,6 +54,8 @@ function toRow(item: DailyPlanRow): Row {
 
 export function DailyMainEditor({
   focus,
+  blockIds,
+  isSide,
   label,
   gender,
   experience,
@@ -61,7 +66,9 @@ export function DailyMainEditor({
   gymEquipment = null,
   lockWeightReps = false,
 }: {
-  focus: FocusTone;
+  focus: Exclude<FocusTone, "rest">;
+  blockIds: string[];
+  isSide: boolean;
   label: string;
   gender: "male" | "female";
   experience: ExperienceLevel;
@@ -77,9 +84,11 @@ export function DailyMainEditor({
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
   // 드롭다운에는 부위에 매핑된 카탈로그 전체 (gender 무관 — 본인이 직접 선택)
-  const options = allExercisesForFocus(focus);
-  // 추천 자동 채우기에는 성별 큐레이션 짧은 목록
-  const recommendedOptions = exercisesForFocus(focus, gender);
+  const options = allExercisesForSlot(focus, blockIds);
+  // 추천도 현재 슬롯의 세부근육과 주/보조 볼륨을 그대로 따른다.
+  const recommendedOptions = isSide
+    ? sideExercisesForSlot(focus, blockIds, gender)
+    : focusExercisesForSlot(focus, blockIds, gender);
   const [rows, setRows] = useState<Row[]>(initial.map(toRow));
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);

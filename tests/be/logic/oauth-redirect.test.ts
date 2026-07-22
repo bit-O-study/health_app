@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  ADMIN_CONSOLE_URL,
   destinationForUser,
   isOAuthCallbackPath,
   safeRedirectPath,
@@ -46,16 +45,16 @@ describe("safeRedirectPath", () => {
   });
 });
 
-// 관리자는 로그인 후 통합 관리자 콘솔(외부 앱)로, 일반 사용자는 안전한 내부 경로로.
+// 관리자·일반 구분 없이 open-redirect 안전 처리된 내부 경로로(관리자 자동 콘솔이동
+// 은 앱 WebView 버퍼링 때문에 제거 — 콘솔은 직접 접속).
 describe("destinationForUser", () => {
-  it("관리자는 통합 관리자 콘솔로 보낸다(요청 경로 무시)", () => {
-    expect(destinationForUser(true, "/plan")).toBe(ADMIN_CONSOLE_URL);
-    expect(destinationForUser(true, "/")).toBe(ADMIN_CONSOLE_URL);
-    expect(destinationForUser(true, null)).toBe(ADMIN_CONSOLE_URL);
-    expect(ADMIN_CONSOLE_URL).toBe("https://heltch-admin.vercel.app");
+  it("관리자도 앱에서는 내부 경로로(콘솔 자동이동 안 함)", () => {
+    expect(destinationForUser(true, "/plan")).toBe("/plan");
+    expect(destinationForUser(true, "//evil.com")).toBe("/");
+    expect(destinationForUser(true, null)).toBe("/");
   });
 
-  it("일반 사용자는 open-redirect 안전 처리된 내부 경로로", () => {
+  it("일반 사용자도 open-redirect 안전 처리된 내부 경로로", () => {
     expect(destinationForUser(false, "/plan")).toBe("/plan");
     expect(destinationForUser(false, "//evil.com")).toBe("/");
     expect(destinationForUser(false, "https://evil.com")).toBe("/");

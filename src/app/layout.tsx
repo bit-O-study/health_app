@@ -15,6 +15,13 @@ import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
+// ⚡ 서버 함수를 DB(Supabase, ap-southeast-1 싱가포르)와 같은 리전에서 실행한다.
+// 기본 리전(미국)에서 돌면 매 쿼리가 미국↔싱가포르(200ms+)를 왕복해 TTFB 가 수 초까지
+// 치솟는다. DB 와 같은 sin1 에 두면 왕복이 ~5ms 로 줄어 TTFB 가 크게 개선된다.
+// (루트 레이아웃에 두어 전 라우트에 적용. Vercel Project Settings 의 Functions Region
+//  으로도 같이 지정하면 확실하다.)
+export const preferredRegion = "sin1";
+
 const PWA_ICON_VERSION = "20260702b";
 
 const geistSans = Geist({

@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { isAdminUser } from "@/features/admin/admin";
-import { safeRedirectPath } from "@/features/auth/oauth-redirect";
+import { destinationForUser } from "@/features/auth/oauth-redirect";
 
 /** 로그아웃 후 홈으로 이동 */
 export async function signOut() {
@@ -15,10 +15,9 @@ export async function signOut() {
 
 export type AuthActionResult = { ok: true } | { ok: false; error: string };
 
-/** 로그인 직후 이동 위치. 관리자는 앱에서도 항상 전체 관리자 콘솔로 보낸다. */
+/** 로그인 직후 이동 위치. 관리자는 앱에서도 항상 통합 관리자 콘솔(외부 앱)로 보낸다. */
 export async function destinationAfterLogin(requested: string): Promise<string> {
-  if (await isAdminUser()) return "/admin";
-  return safeRedirectPath(requested);
+  return destinationForUser(await isAdminUser(), requested);
 }
 
 /**

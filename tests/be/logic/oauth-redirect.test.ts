@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ADMIN_CONSOLE_URL,
+  destinationForUser,
   isOAuthCallbackPath,
   safeRedirectPath,
 } from "@/features/auth/oauth-redirect";
@@ -41,5 +43,22 @@ describe("safeRedirectPath", () => {
   it("★ 프로토콜 상대 경로('//evil.com')는 '/'로 시작해도 거부 → 홈으로", () => {
     expect(safeRedirectPath("//evil.com")).toBe("/");
     expect(safeRedirectPath("//evil.com/phishing")).toBe("/");
+  });
+});
+
+// 관리자는 로그인 후 통합 관리자 콘솔(외부 앱)로, 일반 사용자는 안전한 내부 경로로.
+describe("destinationForUser", () => {
+  it("관리자는 통합 관리자 콘솔로 보낸다(요청 경로 무시)", () => {
+    expect(destinationForUser(true, "/plan")).toBe(ADMIN_CONSOLE_URL);
+    expect(destinationForUser(true, "/")).toBe(ADMIN_CONSOLE_URL);
+    expect(destinationForUser(true, null)).toBe(ADMIN_CONSOLE_URL);
+    expect(ADMIN_CONSOLE_URL).toBe("https://heltch-admin.vercel.app");
+  });
+
+  it("일반 사용자는 open-redirect 안전 처리된 내부 경로로", () => {
+    expect(destinationForUser(false, "/plan")).toBe("/plan");
+    expect(destinationForUser(false, "//evil.com")).toBe("/");
+    expect(destinationForUser(false, "https://evil.com")).toBe("/");
+    expect(destinationForUser(false, null)).toBe("/");
   });
 });

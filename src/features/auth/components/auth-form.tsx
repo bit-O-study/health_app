@@ -1,7 +1,6 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Loader2, LogIn, ShieldCheck, UserPlus } from "lucide-react";
 
 import Link from "next/link";
@@ -21,7 +20,6 @@ export function AuthForm({
   /** OAuth 콜백에서 실패하고 돌아온 경우의 에러 메시지(쿼리로 전달됨). */
   initialError?: string | null;
 }) {
-  const router = useRouter();
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,14 +43,18 @@ export function AuthForm({
     setOtpStep(false);
   }
 
-  /** 가입 성공(세션 보유) 후 온보딩으로. 초대 링크 등 목적지가 있으면 이어서 전달. */
+  /**
+   * 가입 성공(세션 보유) 후 온보딩으로. 초대 링크 등 목적지가 있으면 이어서 전달.
+   * ⚠ SPA 전환(router.replace+refresh)은 로그인 직후 미들웨어 getUser 왕복과 엉켜
+   *   앱 WebView 에서 전환이 안 끝나고 무한 로딩된다 → 하드 네비게이션으로 세션 쿠키가
+   *   실린 새 문서를 서버에서 렌더링하게 한다.
+   */
   function finishSignup() {
     const q =
       redirectTo && redirectTo !== "/"
         ? `?redirect=${encodeURIComponent(redirectTo)}`
         : "";
-    router.replace(`/onboarding${q}`);
-    router.refresh();
+    window.location.assign(`/onboarding${q}`);
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -148,8 +150,9 @@ export function AuthForm({
     }
 
     const destination = await destinationAfterLogin(redirectTo);
-    router.replace(destination);
-    router.refresh();
+    // ⚠ SPA 전환 대신 하드 네비게이션 — 로그인 직후 미들웨어 왕복과 엉켜 전환이
+    //   안 끝나는 무한 로딩을 막는다(로그인은 성공하는데 화면만 안 넘어가던 버그).
+    window.location.assign(destination);
   }
 
   /** 구글/카카오 로그인 — Supabase 가 provider 인증 페이지로 리다이렉트시킨다. */

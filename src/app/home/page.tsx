@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 
 import { Logo } from "@/features/brand/logo";
+import { PromoBanner } from "@/features/cross-promo/promo-banner";
 import { NotificationBell } from "@/features/notifications/notification-center";
 import { PermissionNudge } from "@/features/notifications/components/permission-nudge";
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -125,6 +126,8 @@ export default async function HomePage() {
             <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
           </div>
         </div>
+
+        <PromoBanner />
       </main>
     </div>
   );

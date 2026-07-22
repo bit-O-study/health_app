@@ -9,6 +9,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isLocalEnv, normalizePhone } from "@/features/auth/phone";
+import { destinationAfterLogin } from "@/features/auth/actions";
 
 type Mode = "login" | "signup";
 
@@ -146,7 +147,8 @@ export function AuthForm({
       return;
     }
 
-    router.replace(redirectTo);
+    const destination = await destinationAfterLogin(redirectTo);
+    router.replace(destination);
     router.refresh();
   }
 

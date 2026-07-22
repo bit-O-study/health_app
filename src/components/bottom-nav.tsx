@@ -96,14 +96,14 @@ function TabInner({
     : "text-zinc-500 dark:text-zinc-400";
   return (
     <span
-      className={`flex h-16 flex-col items-center justify-center gap-0.5 text-[11px] font-bold transition-colors ${
+      className={`flex h-16 min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 text-[10px] font-bold transition-colors min-[380px]:text-[11px] ${
         highlight ? "text-emerald-700 dark:text-emerald-400" : inactive
       }`}
     >
       {pending ? (
         <Loader2 aria-hidden="true" size={22} className="animate-spin" />
       ) : (
-        <Icon aria-hidden="true" size={22} />
+        <Icon aria-hidden="true" size={21} />
       )}
       {label}
     </span>
@@ -150,11 +150,11 @@ export function BottomNav({
         {tabs.map((t) => {
           const active = t.match(pathname);
           return (
-            <li key={t.href} className="flex-1">
+            <li key={t.href} className="min-w-0 flex-1">
               <Link
                 href={t.href}
                 aria-current={active ? "page" : undefined}
-                className="block active:scale-95 transition-transform"
+                className="block min-w-0 overflow-hidden transition-transform active:scale-95"
               >
                 <TabInner
                   Icon={t.icon}

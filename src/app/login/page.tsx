@@ -6,6 +6,7 @@ import { Logo } from "@/features/brand/logo";
 import { AuthForm } from "@/features/auth/components/auth-form";
 import { safeRedirectPath } from "@/features/auth/oauth-redirect";
 import { getCurrentUser } from "@/lib/supabase/server";
+import { destinationAfterLogin } from "@/features/auth/actions";
 
 export const dynamic = "force-dynamic";
 
@@ -28,7 +29,7 @@ export default async function LoginPage({
 
   const user = await getCurrentUser();
   if (user) {
-    redirect(redirectTo);
+    redirect(await destinationAfterLogin(redirectTo));
   }
 
   return (

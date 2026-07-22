@@ -21,3 +21,18 @@ export function safeRedirectPath(next: string | null | undefined): string {
   if (!next || !next.startsWith("/") || next.startsWith("//")) return "/";
   return next;
 }
+
+/** 통합 관리자 콘솔(별도 앱) URL. 관리자는 로그인 후 이곳으로 보낸다. */
+export const ADMIN_CONSOLE_URL = "https://heltch-admin.vercel.app";
+
+/**
+ * 로그인 후 이동할 목적지(순수 로직).
+ * 관리자는 통합 관리자 콘솔(외부 앱)로, 일반 사용자는 open-redirect 안전 처리된
+ * 내부 경로로 보낸다.
+ */
+export function destinationForUser(
+  isAdmin: boolean,
+  requested: string | null | undefined,
+): string {
+  return isAdmin ? ADMIN_CONSOLE_URL : safeRedirectPath(requested);
+}

@@ -95,14 +95,22 @@ export async function updateSession(request: NextRequest) {
     // 정지/영구정지 차단 — 본인 프로필 상태 확인(RLS: 본인 행 읽기 허용).
     // 차단 상태면 안내 페이지(/suspended)로만 보낸다. 정지 안 된 사용자가
     // /suspended 에 있으면 메인으로 되돌린다.
+    //
+    // ⚡ 성능: 차단여부(profiles) 와 관리자여부(admins) 는 서로 독립 쿼리라 병렬로
+    //   실행해 순차 왕복(2회)을 1회로 줄인다. (Supabase 가 원거리 리전이라 왕복
+    //   지연이 커서, 매 네비게이션 왕복 1회 절약이 전체 체감속도에 크게 기여한다.)
     const onSuspended = pathname === "/suspended";
-    let blocked = false;
-    try {
-      const { data: prof } = await supabase
+    const [profResult, adminResult] = await Promise.all([
+      supabase
         .from("profiles")
         .select("suspended_until, banned_at, withdrawn_at, must_change_password")
         .eq("user_id", user.id)
-        .maybeSingle();
+        .maybeSingle(),
+      supabase.from("admins").select("email").limit(1),
+    ]);
+    let blocked = false;
+    try {
+      const prof = profResult.data;
       blocked = prof
         ? isBlocked({
             suspendedUntil: (prof as { suspended_until: string | null })
@@ -183,14 +191,9 @@ export async function updateSession(request: NextRequest) {
       pathname === "/pet" ||
       // 관리자도 임시 비번이면 비번 변경 화면을 거쳐야 함 — /admin 강제이동에서 제외.
       pathname === "/change-password";
-    let isAdmin = false;
-    try {
-      // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.
-      const { data } = await supabase.from("admins").select("email").limit(1);
-      isAdmin = (data?.length ?? 0) > 0;
-    } catch {
-      isAdmin = false;
-    }
+    // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.
+    // (위 Promise.all 에서 profiles 와 함께 병렬 조회한 결과를 사용)
+    const isAdmin = ((adminResult.data as { email: string }[] | null)?.length ?? 0) > 0;
     if (isAdmin && !isAdminPath && !isAdminAllowedExtra) {
       // 관리자가 일반 화면 접근 → 관리자 홈으로(단 허용 경로 제외)
       const url = request.nextUrl.clone();

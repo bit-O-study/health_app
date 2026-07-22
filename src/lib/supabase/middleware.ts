@@ -177,30 +177,13 @@ export async function updateSession(request: NextRequest) {
     }
 
     const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
-    // 관리자도 접근 허용하는 일반 경로(숨은 테스트 기능 등) — /admin 강제이동에서 제외.
-    const isAdminAllowedExtra =
-      pathname === "/running" ||
-      pathname.startsWith("/running/") ||
-      pathname === "/jog" ||
-      pathname.startsWith("/jog/") ||
-      // 운동 찾기(목록·상세) — 관리자도 볼 수 있어야 기구분석 '상세보기' 링크가 동작한다.
-      pathname === "/exercises" ||
-      pathname.startsWith("/exercises/") ||
-      pathname === "/commitments" ||
-      pathname === "/coach" ||
-      pathname === "/pet" ||
-      // 관리자도 임시 비번이면 비번 변경 화면을 거쳐야 함 — /admin 강제이동에서 제외.
-      pathname === "/change-password";
     // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.
     // (위 Promise.all 에서 profiles 와 함께 병렬 조회한 결과를 사용)
     const isAdmin = ((adminResult.data as { email: string }[] | null)?.length ?? 0) > 0;
-    if (isAdmin && !isAdminPath && !isAdminAllowedExtra) {
-      // 관리자가 일반 화면 접근 → 관리자 홈으로(단 허용 경로 제외)
-      const url = request.nextUrl.clone();
-      url.pathname = "/admin";
-      url.search = "";
-      return NextResponse.redirect(url);
-    }
+    // 관리자는 로그인 시 통합 관리자 콘솔(destinationAfterLogin → ADMIN_CONSOLE_URL)로
+    // 이동한다. 앱 안에서 옛 /admin 으로 '강제 이동'시키지 않는다 — 그 옛 관리자
+    // 페이지는 모바일에서 깨지고 콘솔로 대체됐다. (강제 이동을 없애 깨진 페이지로
+    // 튕기지 않게 함. 관리자도 앱을 일반 사용자처럼 쓸 수 있다.)
     if (!isAdmin && isAdminPath) {
       // 일반 사용자가 관리자 화면 접근 → 메인으로
       const url = request.nextUrl.clone();

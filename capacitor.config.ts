@@ -26,6 +26,8 @@ const config: CapacitorConfig = {
     androidScheme: "https",
     // 운영 URL 은 https 라 cleartext 불필요. 로컬 IP(http) 테스트 시에만 true 로.
     cleartext: false,
+    // 관리자는 통합 관리자 콘솔(별도 도메인)로 이동한다 — WebView 안에서 열리도록 허용.
+    allowNavigation: ["heltch-admin.vercel.app"],
   },
 };
 

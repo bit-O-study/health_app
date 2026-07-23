@@ -166,7 +166,11 @@ export function TodayConditioningList({
     target: CompletionStatus | "clear",
   ) {
     const item = order.find((o) => o.rowId === rowId);
-    // 런닝은 '완료취소' = 기록 삭제(+오늘 운동 시간에서 빼기). 목록에서도 제거.
+    // 런닝 '완료취소' = 런닝모드 기록 삭제(+오늘 운동 시간에서 빼기).
+    // ⚠ 목록에서 행을 제거하지 않는다 — 목록의 런닝 행은 항상 '플랜 행'(루틴/오늘만에
+    //   추가한 마무리 런닝; 런닝모드 완료기록은 고스트에서 제외됨)이라 서버엔 active 로
+    //   남는다. 낙관적으로 지우면 사라졌다가 새로고침(다른 탭 왕복) 시 되살아나는
+    //   깜빡임이 생긴다. 그래서 done/skipped 만 해제해 active 로 되돌린다.
     if (itemId === "running" && target === "clear") {
       const nd = new Set(done);
       const ns = new Set(skipped);
@@ -174,7 +178,6 @@ export function TodayConditioningList({
       ns.delete(rowId);
       setDone(nd);
       setSkipped(ns);
-      setOrder(order.filter((o) => o.rowId !== rowId));
       orderScope?.setCompletion(rowId, "active");
       startTx(async () => {
         await removeTodayRunAction();

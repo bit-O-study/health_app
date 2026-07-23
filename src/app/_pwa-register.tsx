@@ -2,7 +2,11 @@
 
 import { useEffect } from "react";
 
-import { isChunkLoadError } from "@/lib/chunk-recovery";
+import {
+  AUTO_RELOAD_KEY,
+  isChunkLoadError,
+  shouldAutoReload,
+} from "@/lib/chunk-recovery";
 
 /**
  * service worker 등록 — 마운트되자마자 한 번만 시도.
@@ -30,13 +34,18 @@ export function PWARegister() {
 
     const recover = (msg: string) => {
       if (!isChunkLoadError(msg)) return;
-      const KEY = "heltch.chunkReloadAt";
+      // 에러 바운더리(error.tsx)의 자동 리로드와 30초 가드를 공유(중복 리로드 방지).
+      let last = 0;
       try {
-        const last = Number(sessionStorage.getItem(KEY) || 0);
-        if (Date.now() - last < 30_000) return; // 최근에 이미 새로고침함 → 루프 방지
-        sessionStorage.setItem(KEY, String(Date.now()));
+        last = Number(sessionStorage.getItem(AUTO_RELOAD_KEY) || 0);
       } catch {
         /* sessionStorage 불가 시 그냥 진행 */
+      }
+      if (!shouldAutoReload(last, Date.now())) return; // 최근에 이미 새로고침함 → 루프 방지
+      try {
+        sessionStorage.setItem(AUTO_RELOAD_KEY, String(Date.now()));
+      } catch {
+        /* noop */
       }
       // 최신 청크를 받도록 캐시 무시 새로고침.
       window.location.reload();

@@ -6,10 +6,12 @@ import {
   focusToDaysMap,
   routineDaySlots,
   type DayBlockId,
+  type DaySlot,
 } from "@/features/routine/data";
 import {
   NULL_DAY_KEY,
   planFocusDaySync,
+  planRoutineSlotRemap,
 } from "@/features/routine/day-sync-plan";
 
 type ExRow = {
@@ -25,6 +27,42 @@ type ExRow = {
   set_details: unknown;
   memo: unknown;
 };
+
+/**
+ * 루틴 저장 직전/직후 슬롯을 비교해 같은 의미의 운동 묶음을 새 일차로 옮긴다.
+ * 행 id로 갱신하므로 이두↔삼두 날짜를 맞바꿔도 중간 update가 서로 섞이지 않는다.
+ */
+export async function remapRoutineExerciseSlots(
+  userId: string,
+  previousSlots: DaySlot[],
+  nextSlots: DaySlot[],
+): Promise<void> {
+  const ops = planRoutineSlotRemap(previousSlots, nextSlots);
+  if (ops.length === 0) return;
+
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("routine_exercises")
+    .select("id, day_index, focus")
+    .eq("user_id", userId);
+  if (!data || data.length === 0) return;
+
+  const rows = data as { id: string; day_index: number | null; focus: string }[];
+  await Promise.all(
+    ops.map((op) => {
+      const ids = rows
+        .filter((row) => row.focus === op.focus && row.day_index === op.from)
+        .map((row) => row.id);
+      if (ids.length === 0) return Promise.resolve();
+      return op.to === null
+        ? supabase.from("routine_exercises").delete().in("id", ids)
+        : supabase
+            .from("routine_exercises")
+            .update({ day_index: op.to })
+            .in("id", ids);
+    }),
+  );
+}
 
 /**
  * routine_exercises 의 day_index 를 "현재 루틴이 그 부위를 쓰는 일차들"에 맞춰 정렬한다.
@@ -52,8 +90,13 @@ export async function syncRoutineExerciseDays(
   const focusDays = focusToDaysMap(slots);
   // (부위:일차) → 역할(주=false/보조=true). 같은 부위가 여러 일차일 때 복사 시
   // 역할이 같은 일차끼리만 채우기 위함(본↔보조 교차 복사 방지).
-  const sideByFocusDay = new Map<string, boolean>();
-  for (const s of slots) sideByFocusDay.set(`${s.focus}:${s.dayIndex}`, s.isSide);
+  const roleByFocusDay = new Map<string, string>();
+  for (const s of slots) {
+    roleByFocusDay.set(
+      `${s.focus}:${s.dayIndex}`,
+      `${s.isSide ? "side" : "main"}:${s.blockIds.join("+")}`,
+    );
+  }
 
   const { data: allRows } = await supabase
     .from("routine_exercises")
@@ -117,9 +160,9 @@ export async function syncRoutineExerciseDays(
     };
 
     // 순수 계획: 이동/삭제/복사 연산. 복사는 같은 역할(주/보조)끼리만(교차 복사 금지).
-    const isSide = (day: number) =>
-      sideByFocusDay.get(`${focus}:${day}`) ?? false;
-    const ops = planFocusDaySync([...byDay.keys()], target, isSide);
+    const slotRole = (day: number) =>
+      roleByFocusDay.get(`${focus}:${day}`) ?? "unknown";
+    const ops = planFocusDaySync([...byDay.keys()], target, slotRole);
 
     // 연산 적용 — move 먼저(byDay 갱신) → delete → copy(byDay 에서 소스 읽음) 순.
     for (const op of ops) {

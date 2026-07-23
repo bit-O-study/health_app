@@ -137,15 +137,23 @@ export default async function TodayConditioningPage({
   // 부위별 본운동 섹션 — 오늘 오버라이드가 있으면 그걸, 없으면 **빈값**으로 시작한다.
   // 세부근육 블록을 골랐으면 그 블록들(blockIds)을 넘겨 추천·라벨이 세부근육을 따르게 한다.
   const mainSections = editFocuses.map((focus) => {
-    const blockIds = blocksByFocus.get(focus) ?? [];
+    const dayIndex = readDayFor(focus);
+    const slot = slots.find(
+      (candidate) =>
+        candidate.dayIndex === dayIndex && candidate.focus === focus,
+    );
+    const selectedBlockIds = blocksByFocus.get(focus);
+    const slotBlockIds = slot?.blockIds.filter(isDayBlockId) ?? [];
+    const blockIds: DayBlockId[] = selectedBlockIds ?? slotBlockIds;
     const label =
       blockIds.length > 0
         ? blockIds.map((b) => DAY_BLOCKS[b].label).join(", ")
-        : DAY_BLOCKS[focus].label;
+        : slot?.label.replace(/^\d+일 · /, "") ?? DAY_BLOCKS[focus].label;
     return {
       focus,
       label,
       blockIds,
+      isSide: slot?.isSide ?? false,
       initialMain: dailyAll.filter((r) => r.focus === focus),
     };
   });
@@ -203,6 +211,7 @@ export default async function TodayConditioningPage({
               focus: s.focus,
               label: s.label,
               blockIds: s.blockIds,
+              isSide: s.isSide,
               initial: s.initialMain,
             }))}
             gender={profile.gender}

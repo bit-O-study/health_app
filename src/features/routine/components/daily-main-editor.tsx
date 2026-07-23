@@ -21,7 +21,11 @@ import {
   type CatalogExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
-import { focusExercisesForSlot } from "@/features/routine/recommend";
+import {
+  allExercisesForSlot,
+  focusExercisesForSlot,
+  sideExercisesForSlot,
+} from "@/features/routine/recommend";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
 import { muscleGroup } from "@/features/routine/muscle-map";
@@ -54,6 +58,8 @@ export type MainSection = {
   initial: DailyPlanRow[];
   /** 세부근육 블록(가슴 상부 등). 있으면 '추천으로 채우기'가 그 세부근육 운동으로 채운다. */
   blockIds?: DayBlockId[];
+  /** 현재 루틴에서 보조 슬롯이면 추천 개수를 보조 볼륨으로 제한한다. */
+  isSide?: boolean;
 };
 
 /** 직접 담기에서 고를 수 있는 기본 부위(세부근육 블록 제외 — 그건 부위 안 세부칩으로). */
@@ -122,6 +128,9 @@ export function DailyMainEditor({
   const blockIdsByFocus = new Map<FocusTone, DayBlockId[]>(
     sections.map((s) => [s.focus, s.blockIds ?? []]),
   );
+  const sideByFocus = new Map<FocusTone, boolean>(
+    sections.map((s) => [s.focus, s.isSide ?? false]),
+  );
   // 부위 한글 라벨 — sections 에 있으면 그 라벨, 없으면(직접 담기) DAY_BLOCKS 한글명.
   const labelOf = (f: FocusTone) =>
     sections.find((s) => s.focus === f)?.label ??
@@ -144,8 +153,11 @@ export function DailyMainEditor({
     addableFocuses && addableFocuses.length > 0
       ? [...new Set<FocusTone>([rowFocus, ...addChoices])]
       : focusChoices;
-  // 행의 부위에 맞는 운동 목록(그 부위만). 세부근육 칩은 ExerciseSearchSelect 안에서 좁힘.
-  const optionsFor = (f: FocusTone): CatalogExercise[] => allExercisesForFocus(f);
+  // 직접 담기는 부위 전체, 루틴 슬롯 편집은 저장된 세부 블록 범위만 보여준다.
+  const optionsFor = (f: FocusTone): CatalogExercise[] =>
+    allowAllExercises || f === "rest"
+      ? allExercisesForFocus(f)
+      : allExercisesForSlot(f, blockIdsByFocus.get(f) ?? []);
 
   const [rows, setRows] = useState<Row[]>(() =>
     sections.flatMap((s) => s.initial.map((r) => toRow(s.focus, r))),
@@ -264,9 +276,12 @@ export function DailyMainEditor({
     for (const f of recFocuses) {
       // 세부근육 블록을 고른 부위면 그 세부근육 운동으로 추천(없으면 부위 전체 추천).
       const blockIds = blockIdsByFocus.get(f) ?? [];
+      const isSide = sideByFocus.get(f) ?? false;
       const recExercises =
-        blockIds.length > 0 && f !== "rest"
-          ? focusExercisesForSlot(f, blockIds, gender)
+        f !== "rest" && isSide
+          ? sideExercisesForSlot(f, blockIds, gender)
+          : blockIds.length > 0 && f !== "rest"
+            ? focusExercisesForSlot(f, blockIds, gender)
           : exercisesForFocus(f, gender);
       for (const ex of recExercises) {
         const p = prescribe(ex.id, opts);

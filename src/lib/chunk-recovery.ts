@@ -12,3 +12,26 @@ export function isChunkLoadError(message: string | null | undefined): boolean {
   if (!message) return false;
   return CHUNK_ERROR_RE.test(message);
 }
+
+/**
+ * 자동 새로고침 루프 방지 판정(순수 — 테스트 가능).
+ *
+ * 에러 바운더리가 뜰 때(예: 다른 앱 갔다 복귀 → 옛 청크/RSC 로드 실패) 조용히
+ * 새로고침으로 자가복구하되, 방금 새로고침했는데 또 에러가 나면(진짜 고장) 무한
+ * 리로드하지 않도록 windowMs 내 1회로 제한한다.
+ *
+ * @param lastReloadAt 마지막 자동 리로드 시각(ms). 없으면 0/NaN.
+ * @param now 현재 시각(ms).
+ * @returns 지금 자동 리로드해도 되는지.
+ */
+export function shouldAutoReload(
+  lastReloadAt: number,
+  now: number,
+  windowMs = 30_000,
+): boolean {
+  if (!Number.isFinite(lastReloadAt) || lastReloadAt <= 0) return true;
+  return now - lastReloadAt >= windowMs;
+}
+
+/** 자동 리로드 시각 저장 키(sessionStorage) — 에러 바운더리·PWA 복구가 공유. */
+export const AUTO_RELOAD_KEY = "heltch.autoReloadAt";

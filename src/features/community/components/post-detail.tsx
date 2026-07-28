@@ -313,6 +313,7 @@ export function PostDetail({
                   className="shrink-0 text-zinc-300 hover:text-rose-500"
                   targetKind="community_comment"
                   targetId={c.id}
+                  targetUserId={c.userId}
                   targetAuthor={c.authorName}
                   targetPreview={c.body}
                   iconSize={13}

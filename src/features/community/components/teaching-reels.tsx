@@ -437,6 +437,7 @@ function CommentSheet({
                       className="text-zinc-300 hover:text-rose-500"
                       targetKind="teaching_comment"
                       targetId={c.id}
+                      targetUserId={c.userId}
                       targetAuthor={c.authorName}
                       targetPreview={c.body}
                       iconSize={13}

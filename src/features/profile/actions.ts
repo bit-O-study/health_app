@@ -13,6 +13,7 @@ import {
   type Gender,
 } from "@/features/profile/data";
 import { goalTargetKind, isGoal, type Goal } from "@/features/profile/goal";
+import { socialNameFromMetadata } from "@/features/auth/social-name";
 
 export type SaveProfileResult = { ok: true } | { ok: false; error: string };
 
@@ -67,12 +68,14 @@ export async function saveProfileAction(
   }
 
   // 가입 시 user_metadata 에 담아둔 이름/닉네임/전화번호를 프로필로 복사(있을 때만).
+  // 소셜(구글/카카오) 가입은 그 키가 없어서, 공급자가 준 이름 키들까지 훑는다
+  // (socialNameFromMetadata) — 안 그러면 프로필 이름이 비어 "회원"으로만 보인다.
   const meta = (user.user_metadata ?? {}) as {
     name?: unknown;
     nickname?: unknown;
     phone?: unknown;
   };
-  const metaName = typeof meta.name === "string" && meta.name.trim() !== "" ? meta.name.trim() : null;
+  const metaName = socialNameFromMetadata(meta as Record<string, unknown>);
   const metaNickname =
     typeof meta.nickname === "string" && meta.nickname.trim() !== ""
       ? meta.nickname.trim()

@@ -124,6 +124,8 @@ export async function toggleTeachingLikeAction(
 
 export type TeachingComment = {
   id: string;
+  /** 댓글 작성자 — 신고 시 '작성자 정지'에 필요하다(없으면 정지를 못 건다). */
+  userId: string;
   authorName: string;
   body: string;
   createdAt: string;
@@ -152,6 +154,7 @@ export async function listTeachingCommentsAction(
     }[]
   ).map((c) => ({
     id: c.id,
+    userId: c.user_id,
     authorName: c.author_name?.trim() || "회원",
     body: c.body,
     createdAt: c.created_at,

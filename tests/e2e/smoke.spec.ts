@@ -5,7 +5,9 @@ import { signUpAndOnboard } from "./helpers/auth";
 // Broad smoke: after signup, every major route must render without a Next.js
 // runtime-error overlay or pageerror. Catches schema/render regressions cheaply.
 const ROUTES: { path: string; expect?: RegExp }[] = [
-  { path: "/", expect: /오늘의 운동/ },
+  // "/" 는 홈탭(/home)으로 리다이렉트된다 — 운동 화면이 아니다(#12 홈탭 신설).
+  { path: "/", expect: /홈|운동|식단/ },
+  { path: "/home", expect: /홈|운동|식단/ },
   { path: "/routine", expect: /오늘의 운동/ },
   { path: "/plan", expect: /운동 등록/ },
   { path: "/plan/today" },

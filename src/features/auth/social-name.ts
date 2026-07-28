@@ -67,3 +67,34 @@ export function shouldFillProfileName(
 ): boolean {
   return !(currentName ?? "").trim();
 }
+
+/** 닉네임 최대 길이(마이페이지 닉네임 입력과 동일). */
+const NICKNAME_MAX = 20;
+
+/**
+ * 초기 닉네임 — 가입폼에서 따로 받은 닉네임이 있으면 그것, 없으면 이름과 같은 값.
+ * (소셜 가입자는 닉네임을 따로 안 받으므로 공급자 이름을 닉네임에도 그대로 넣는다.)
+ */
+export function socialNicknameFromMetadata(meta: Meta): string | null {
+  const explicit = clean(meta?.["nickname"]);
+  const v = explicit ?? socialNameFromMetadata(meta);
+  return v ? v.slice(0, NICKNAME_MAX) : null;
+}
+
+export type ProfileNamePatch = { name?: string; nickname?: string };
+
+/**
+ * 메타데이터로 채울 프로필 이름/닉네임 — **비어 있는 칸만** 채운다.
+ * 사용자가 직접 정한 이름·닉네임은 절대 덮어쓰지 않는다.
+ */
+export function socialProfilePatch(
+  meta: Meta,
+  current: { name?: string | null; nickname?: string | null },
+): ProfileNamePatch {
+  const patch: ProfileNamePatch = {};
+  const name = socialNameFromMetadata(meta);
+  if (name && shouldFillProfileName(current.name)) patch.name = name;
+  const nick = socialNicknameFromMetadata(meta);
+  if (nick && shouldFillProfileName(current.nickname)) patch.nickname = nick;
+  return patch;
+}

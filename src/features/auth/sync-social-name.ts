@@ -1,16 +1,13 @@
 import "server-only";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import {
-  shouldFillProfileName,
-  socialNameFromMetadata,
-} from "@/features/auth/social-name";
+import { socialProfilePatch } from "@/features/auth/social-name";
 
 /**
- * 로그인 직후 프로필 이름 채우기 — 소셜(구글/카카오) 가입자는 가입폼을 안 거쳐
- * profiles.name 이 비어 커뮤니티·관리자 화면에 "회원"으로만 보였다.
+ * 로그인 직후 프로필 이름/닉네임 채우기 — 소셜(구글/카카오) 가입자는 가입폼을 안 거쳐
+ * profiles.name·nickname 이 비어 커뮤니티·관리자 화면에 "회원"으로만 보였다.
  *
- * - 이름이 이미 있으면 아무것도 하지 않는다(사용자가 바꾼 이름을 덮지 않음).
+ * - **비어 있는 칸만** 채운다(사용자가 바꾼 이름·닉네임은 덮지 않음).
  * - 프로필 행이 아직 없으면(온보딩 전) 건너뛴다 — gender/experience 가 NOT NULL 이라
  *   여기서 행을 만들 수 없다. 온보딩 저장(saveProfileAction)이 같은 로직으로 채운다.
  */
@@ -21,18 +18,18 @@ export async function syncSocialProfileName(): Promise<void> {
   } = await supabase.auth.getUser();
   if (!user) return;
 
-  const name = socialNameFromMetadata(
-    user.user_metadata as Record<string, unknown> | null,
-  );
-  if (!name) return;
-
   const { data: prof } = await supabase
     .from("profiles")
-    .select("name")
+    .select("name, nickname")
     .eq("user_id", user.id)
     .maybeSingle();
   if (!prof) return;
-  if (!shouldFillProfileName((prof as { name?: string | null }).name)) return;
 
-  await supabase.from("profiles").update({ name }).eq("user_id", user.id);
+  const patch = socialProfilePatch(
+    user.user_metadata as Record<string, unknown> | null,
+    prof as { name?: string | null; nickname?: string | null },
+  );
+  if (Object.keys(patch).length === 0) return;
+
+  await supabase.from("profiles").update(patch).eq("user_id", user.id);
 }

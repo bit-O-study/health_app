@@ -187,15 +187,16 @@ export function TodayAdjustMenu({
 
       {open ? (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:items-center sm:pb-4"
+          // 폰에서 시트가 위로 뻗어 상태바(시계)와 앱 헤더(h-16)를 덮지 않도록
+          // 위쪽 여백 = 안전영역 + 헤더 높이(4rem) + 조금. 아래는 안전영역만.
+          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 px-4 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-[calc(env(safe-area-inset-top)+4.5rem)] sm:items-center sm:pb-4 sm:pt-4"
           onClick={close}
         >
           <div
             // ⚠ 폰에서 내용(부위 칩 여러 줄)이 화면보다 길어 시트가 밖으로 잘려
-            //   "깨진 것처럼" 보였다 → 높이를 화면에 맞추고 내부 스크롤.
-            //   className 은 dvh 미지원 웹뷰용 폴백, style 이 우선(주소창 높이 반영).
-            className="max-h-[calc(100vh-3rem)] w-full max-w-md overflow-y-auto overscroll-contain rounded-2xl bg-white p-4 shadow-xl dark:bg-zinc-800 sm:p-6"
-            style={{ maxHeight: "calc(100dvh - 3rem)" }}
+            //   "깨진 것처럼" 보였다 → 부모(패딩 = 상태바·헤더·안전영역)에 꽉 맞추고
+            //   내부 스크롤. max-h-full 이라 dvh 지원 여부와 무관하게 동작한다.
+            className="max-h-full w-full max-w-md overflow-y-auto overscroll-contain rounded-2xl bg-white p-4 shadow-xl dark:bg-zinc-800 sm:p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">

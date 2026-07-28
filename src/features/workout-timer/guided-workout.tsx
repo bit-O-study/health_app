@@ -67,6 +67,7 @@ import {
   setActiveRow,
   clearActiveRow,
 } from "@/features/workout-timer/workout-edit-store";
+import { exerciseCompletionKey } from "@/features/routine/completion-match";
 import {
   conditioningPhotoFrames,
   exercisePhotoFrames,
@@ -457,7 +458,11 @@ export function GuidedOverlay({
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditSets(init.sets);
       // 나갔다 와도 완료한 세트 수 복원(그날 저장). 세트수보다 크면 클램프(자동완료 방지).
-      const savedDone = loadSetsDone(it.rowId);
+      // 행 id 가 바뀌었어도(부위 추가·루틴 편집) (부위:운동) 키로 이어받는다.
+      const savedDone = loadSetsDone(
+        it.rowId,
+        exerciseCompletionKey(it.focus, it.exerciseId),
+      );
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setSetsDone(Math.min(savedDone, Math.max(0, init.sets - 1)));
     } else if (it) {
@@ -571,7 +576,11 @@ export function GuidedOverlay({
   function completeSet() {
     if (mainSets <= 0 || !item || item.kind !== "main") return;
     const next = setsDone + 1;
-    saveSetsDone(item.rowId, next);
+    saveSetsDone(
+      item.rowId,
+      next,
+      exerciseCompletionKey(item.focus, item.exerciseId),
+    );
     setSetsDone(next);
     if (next >= mainSets) {
       // 세트를 다 채우면 자동으로 '완료' 처리(운동 넘어감).
@@ -585,7 +594,11 @@ export function GuidedOverlay({
   function cancelSet() {
     if (!item || item.kind !== "main") return;
     const next = Math.max(0, setsDone - 1);
-    saveSetsDone(item.rowId, next);
+    saveSetsDone(
+      item.rowId,
+      next,
+      exerciseCompletionKey(item.focus, item.exerciseId),
+    );
     setSetsDone(next);
   }
 

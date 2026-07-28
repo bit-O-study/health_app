@@ -50,7 +50,7 @@ test("오늘만 부위 추가는 daily_plan(오늘)만 — routine_exercises 영
   await expect(
     page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
   ).toBeVisible({ timeout: 8000 });
-  await page.getByRole("button", { name: "어깨", exact: true }).click();
+  await page.getByRole("button", { name: "어깨 전체", exact: true }).click();
   await page.getByRole("button", { name: "오늘만 부위 추가" }).click();
   await expect(page).toHaveURL(/\/plan\/today.*add=1/, { timeout: 30000 });
   await page.waitForTimeout(1200);

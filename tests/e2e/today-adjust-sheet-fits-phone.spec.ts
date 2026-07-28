@@ -4,8 +4,9 @@ import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 /**
- * 회귀: "오늘만 운동 바꾸기" 시트가 폰 화면 밖으로 넘쳐 깨져 보이면 안 된다.
- * (높이 제한/내부 스크롤이 없어서 부위 칩이 길어지면 아래가 잘렸다.)
+ * 회귀: "오늘만 운동 바꾸기" 시트가
+ *  ① 폰 화면 밖으로 넘쳐 깨져 보이면 안 되고(높이 제한 + 내부 스크롤),
+ *  ② 위로 뻗어 상태바(시계)·앱 헤더를 덮으면 안 된다(위쪽 여백 = 안전영역+헤더).
  */
 test("오늘만 바꾸기 시트가 폰 화면 안에 들어오고 맨 아래 버튼까지 닿는다", async ({
   page,
@@ -30,6 +31,11 @@ test("오늘만 바꾸기 시트가 폰 화면 안에 들어오고 맨 아래 �
   expect(box).not.toBeNull();
   expect(box!.y).toBeGreaterThanOrEqual(-1); // 위로 안 잘림
   expect(box!.y + box!.height).toBeLessThanOrEqual(vh + 1); // 아래로 안 넘침
+
+  // 앱 헤더(로고·알림)를 가리지 않아야 한다 — 시트 상단이 헤더 아래에서 시작.
+  const headerBox = await page.locator("header").first().boundingBox();
+  expect(headerBox).not.toBeNull();
+  expect(box!.y).toBeGreaterThanOrEqual(headerBox!.y + headerBox!.height);
 
   // 내부 스크롤로 맨 아래 액션 버튼까지 실제로 닿아야 한다.
   const addBtn = page.getByRole("button", { name: "오늘만 부위 추가" });

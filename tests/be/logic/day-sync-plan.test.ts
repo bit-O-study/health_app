@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   NULL_DAY_KEY,
   planFocusDaySync,
+  planRoutineSlotRemap,
   type DaySyncOp,
 } from "@/features/routine/day-sync-plan";
 
@@ -34,6 +35,39 @@ describe("planFocusDaySync", () => {
     // push: 0일차·3일차 모두 본운동(isSide=false). 0만 채워짐 → 3으로 복사.
     const ops = planFocusDaySync([0], [0, 3], allMain);
     expect(ops).toEqual<DaySyncOp[]>([{ type: "copy", from: 0, to: 3 }]);
+  });
+
+  it("같은 arm 보조라도 이두와 삼두 슬롯끼리는 복사하지 않는다", () => {
+    const slotRole = (day: number) =>
+      day === 0 ? "side:biceps" : "side:triceps";
+    expect(planFocusDaySync([0], [0, 1], slotRole)).toEqual([]);
+  });
+
+  it("이미 채워진 이두/삼두 날짜를 맞바꾸면 운동 묶음도 서로 이동한다", () => {
+    const previous = [
+      { dayIndex: 0, focus: "arm", blockIds: ["biceps"], isSide: true },
+      { dayIndex: 1, focus: "arm", blockIds: ["triceps"], isSide: true },
+    ];
+    const next = [
+      { dayIndex: 0, focus: "arm", blockIds: ["triceps"], isSide: true },
+      { dayIndex: 1, focus: "arm", blockIds: ["biceps"], isSide: true },
+    ];
+    expect(planRoutineSlotRemap(previous, next)).toEqual([
+      { focus: "arm", from: 0, to: 1 },
+      { focus: "arm", from: 1, to: 0 },
+    ]);
+  });
+
+  it("이두 슬롯이 삼두 슬롯으로 바뀌면 호환되지 않는 기존 arm 묶음을 제거한다", () => {
+    const previous = [
+      { dayIndex: 0, focus: "arm", blockIds: ["biceps"], isSide: false },
+    ];
+    const next = [
+      { dayIndex: 0, focus: "arm", blockIds: ["triceps"], isSide: false },
+    ];
+    expect(planRoutineSlotRemap(previous, next)).toEqual([
+      { focus: "arm", from: 0, to: null },
+    ]);
   });
 
   it("legacy NULL 한 벌 → 첫 target 으로 이동 후 같은 역할 나머지로 복사", () => {

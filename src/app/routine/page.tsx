@@ -25,6 +25,7 @@ import { getDailyPlanForDate } from "@/features/routine/daily-plan";
 import { todayFocuses } from "@/features/routine/defer-carry";
 import {
   addDaysYmd,
+  CUSTOM_VARIANT_ID,
   DAY_BLOCKS,
   resolveRoutine,
   routineDayOffset,
@@ -348,7 +349,16 @@ async function TodayWorkout({
       if (overriddenToday) return [routine.overrideBlock!];
       if (deferredToday) return [] as DayBlockId[]; // 담기 전 빈 날
     }
-    const dp = variant.week[routineDayOffset(routine.startDate, ymd)];
+    const dayIndex = routineDayOffset(routine.startDate, ymd);
+    // 커스텀 루틴은 합성 DayPlan의 tone(이두/삼두 모두 arm)이 아니라 저장한
+    // 원본 블록을 써야 배지와 순서 변경 저장에서 세부 부위가 사라지지 않는다.
+    if (
+      routine.variantId === CUSTOM_VARIANT_ID &&
+      routine.customWeek !== null
+    ) {
+      return routine.customWeek[dayIndex];
+    }
+    const dp = variant.week[dayIndex];
     return (dp.tones ?? [dp.tone]) as DayBlockId[];
   });
 

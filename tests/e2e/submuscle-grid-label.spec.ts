@@ -4,7 +4,7 @@ import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 전체 부위 + 그 세부근육을 같이 고르면(예: 어깨 + 후면삼각근), 요일별 루틴
-// 그리드(빌더 미리보기 / 메인 다가오는 7일)에 "어깨"가 아니라 "후면 삼각근"이 떠야 한다.
+// 그리드(빌더 미리보기 / 메인 다가오는 7일)에 부모 tone이 아니라 저장한 세부근육이 떠야 한다.
 
 test("어깨+후면삼각근은 요일별 그리드에 '후면 삼각근'으로 표시", async ({
   page,
@@ -13,7 +13,12 @@ test("어깨+후면삼각근은 요일별 그리드에 '후면 삼각근'으로 
   const email = await signUpAndOnboard(page);
   const week = [
     ["shoulder", "shoulder-rear"],
-    ["rest"], ["rest"], ["rest"], ["rest"], ["rest"], ["rest"],
+    ["biceps"],
+    ["triceps"],
+    ["rest"],
+    ["rest"],
+    ["rest"],
+    ["rest"],
   ];
   await dbQuery(
     `update public.user_routines
@@ -30,4 +35,15 @@ test("어깨+후면삼각근은 요일별 그리드에 '후면 삼각근'으로 
   await expect(page.getByText("후면 삼각근").first()).toBeVisible();
   // 0일차 그리드 셀이 "어깨"가 아니라 "후면 삼각근" 이어야 한다(전체 라벨 대체 확인).
   await expect(page.getByText("어깨 + 후면", { exact: false })).toHaveCount(0);
+
+  // 이두/삼두는 내부 tone이 둘 다 arm이어도 저장한 세부 블록 배지로 복원돼야 한다.
+  await expect(
+    page.locator('[data-day-index="1"]').getByText("이두", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-day-index="2"]').getByText("삼두", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.locator('[data-day-index="1"]').getByText("팔", { exact: true }),
+  ).toHaveCount(0);
 });

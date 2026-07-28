@@ -16,6 +16,17 @@
  */
 export const APPEND_POSITION_BASE = 1000;
 
+export function resolvePlanAddTarget<T extends { key: string }>(
+  focuses: readonly T[],
+  requestedKey?: string,
+): T | null {
+  if (requestedKey !== undefined) {
+    return focuses.find((focus) => focus.key === requestedKey) ?? null;
+  }
+
+  return focuses.length === 1 ? focuses[0] : null;
+}
+
 export function orderMainPlan<T extends { position: number }>(grouped: T[]): T[] {
   if (grouped.length < 2) return grouped;
   // 추가분(큰 position)은 항상 맨 끝으로 — position 순.

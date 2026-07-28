@@ -20,6 +20,7 @@ import {
   SIDE_BLOCK_EXERCISES,
   MAIN_BLOCK_EXERCISES,
   MAIN_SLOT_COUNT,
+  allExercisesForFocus,
   exercisesForFocus,
   type CatalogExercise,
   type FocusKey,
@@ -27,7 +28,31 @@ import {
 import {
   SUB_MUSCLES,
   EXERCISE_SUB_MUSCLES,
+  subMusclesForExercise,
 } from "@/features/routine/muscle-detail";
+
+/**
+ * 전체 부위 블록과 세부 블록을 같이 골랐으면 세부 블록을 우선한다.
+ * 예: ["arm", "biceps"]를 arm 전체 추천으로 폴백시키면 삼두가 다시 섞인다.
+ */
+function specificBlockIds(blockIds: string[]): string[] {
+  const specific = blockIds.filter((b) => MAIN_BLOCK_EXERCISES[b]);
+  return specific.length > 0 ? specific : blockIds;
+}
+
+function subIdsForBlock(blockId: string): string[] {
+  if (blockId === "biceps") {
+    return ["arm-biceps-long", "arm-biceps-short"];
+  }
+  if (blockId === "triceps") {
+    return [
+      "arm-triceps-long",
+      "arm-triceps-lateral",
+      "arm-triceps-medial",
+    ];
+  }
+  return [blockId];
+}
 
 /**
  * 한 일차의 보조 슬롯(focus + 기여 블록 id들)에 대한 추천 운동.
@@ -40,12 +65,49 @@ export function sideExercisesForSlot(
   gender: "male" | "female" = "male",
 ): CatalogExercise[] {
   const ids: string[] = [];
-  for (const b of blockIds) {
+  for (const b of specificBlockIds(blockIds)) {
     const list = SIDE_BLOCK_EXERCISES[b] ?? SIDE_FOCUS_EXERCISES[focus] ?? [];
     for (const id of list) if (!ids.includes(id)) ids.push(id);
   }
   if (ids.length === 0) return exercisesForFocus(focus, gender).slice(0, 2);
   return ids.map((id) => EXERCISES[id]).filter(Boolean);
+}
+
+/**
+ * 직접 등록 드롭다운도 슬롯의 세부근육 범위를 지킨다.
+ * 추천만 이두 전용이어도 수동 추가가 arm 전체를 열면 삼두가 다시 섞일 수 있다.
+ */
+export function allExercisesForSlot(
+  focus: FocusKey,
+  blockIds: string[],
+): CatalogExercise[] {
+  const base = allExercisesForFocus(focus);
+  const specific = specificBlockIds(blockIds).filter(
+    (b) => MAIN_BLOCK_EXERCISES[b],
+  );
+  const wanted = new Set(specific.flatMap(subIdsForBlock));
+
+  if (wanted.size > 0) {
+    return base.filter((ex) =>
+      subMusclesForExercise(ex.id).some((sub) => wanted.has(sub.id)),
+    );
+  }
+
+  // 합성 부위의 직접 팔 운동도 동작 방향에 맞게 제한한다.
+  if (focus === "push" || focus === "pull") {
+    return base.filter((ex) => {
+      const subIds = subMusclesForExercise(ex.id).map((sub) => sub.id);
+      const isDirectArm = subIds.some((id) => id.startsWith("arm-"));
+      if (!isDirectArm) return true;
+      return focus === "push"
+        ? subIds.some((id) => id.startsWith("arm-triceps"))
+        : subIds.some(
+            (id) => id.startsWith("arm-biceps") || id === "arm-forearm",
+          );
+    });
+  }
+
+  return base;
 }
 
 /**
@@ -107,12 +169,23 @@ export function focusExercisesForSlot(
   blockIds: string[],
   gender: "male" | "female" = "male",
 ): CatalogExercise[] {
-  const blockLists = blockIds.map((b) => MAIN_BLOCK_EXERCISES[b]);
-  // blockIds 가 비어있지 않고 전부 세부 블록일 때만 블록 전용 목록을 합쳐 쓴다.
-  if (blockIds.length > 0 && blockLists.every(Boolean)) {
+  const specific = specificBlockIds(blockIds).filter(
+    (b) => MAIN_BLOCK_EXERCISES[b],
+  );
+  const blockLists = specific.map((b) => MAIN_BLOCK_EXERCISES[b]);
+  if (blockLists.length > 0) {
     const ids: string[] = [];
-    for (const list of blockLists)
-      for (const id of list!) if (!ids.includes(id)) ids.push(id);
+    // 여러 세부 블록은 한 목록이 슬롯을 독식하지 않게 라운드로빈으로 뽑는다.
+    // 이두+삼두라면 이두 2개 + 삼두 2개가 된다.
+    const maxLength = Math.max(...blockLists.map((list) => list.length));
+    for (let index = 0; index < maxLength; index++) {
+      for (const list of blockLists) {
+        const id = list[index];
+        if (id && !ids.includes(id)) ids.push(id);
+        if (ids.length >= MAIN_SLOT_COUNT) break;
+      }
+      if (ids.length >= MAIN_SLOT_COUNT) break;
+    }
     return ids
       .map((id) => EXERCISES[id])
       .filter(Boolean)

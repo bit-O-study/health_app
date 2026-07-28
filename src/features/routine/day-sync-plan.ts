@@ -14,12 +14,75 @@ export type DaySyncOp =
   | { type: "delete"; from: number } // from 일차의 행 삭제
   | { type: "copy"; from: number; to: number }; // from 일차의 행을 to 일차로 복제
 
+export type RoutineSlotShape = {
+  dayIndex: number;
+  focus: string;
+  blockIds: string[];
+  isSide: boolean;
+};
+
+export type RoutineSlotRemapOp = {
+  focus: string;
+  from: number;
+  /** null이면 새 루틴의 같은 focus에 대응 슬롯이 없어 기존 묶음을 제거한다. */
+  to: number | null;
+};
+
+/** 주/보조와 세부 블록을 합친 슬롯 정체성. */
+export function routineSlotRole(slot: RoutineSlotShape): string {
+  return `${slot.isSide ? "side" : "main"}:${slot.blockIds.join("+")}`;
+}
+
+/**
+ * 루틴 변경 전후의 같은 의미 슬롯을 짝지어 기존 운동 묶음의 이동 계획을 만든다.
+ * 이두와 삼두는 저장 focus가 모두 arm이라 day_index만 맞추면 서로 뒤바뀔 수 있다.
+ */
+export function planRoutineSlotRemap(
+  previous: RoutineSlotShape[],
+  next: RoutineSlotShape[],
+): RoutineSlotRemapOp[] {
+  const nextByFocus = new Map<string, RoutineSlotShape[]>();
+  const availableByRole = new Map<string, RoutineSlotShape[]>();
+  for (const slot of next) {
+    const focusSlots = nextByFocus.get(slot.focus) ?? [];
+    focusSlots.push(slot);
+    nextByFocus.set(slot.focus, focusSlots);
+
+    const key = `${slot.focus}:${routineSlotRole(slot)}`;
+    const sameRole = availableByRole.get(key) ?? [];
+    sameRole.push(slot);
+    availableByRole.set(key, sameRole);
+  }
+
+  const ops: RoutineSlotRemapOp[] = [];
+  for (const slot of previous) {
+    // 새 루틴이 이 focus를 전혀 안 쓰면 기존 정책대로 숨겨 둔다.
+    if (!nextByFocus.has(slot.focus)) continue;
+    const key = `${slot.focus}:${routineSlotRole(slot)}`;
+    const matches = availableByRole.get(key) ?? [];
+    const target = matches.shift();
+    if (target) {
+      if (target.dayIndex !== slot.dayIndex) {
+        ops.push({
+          focus: slot.focus,
+          from: slot.dayIndex,
+          to: target.dayIndex,
+        });
+      }
+    } else {
+      ops.push({ focus: slot.focus, from: slot.dayIndex, to: null });
+    }
+  }
+  return ops;
+}
+
 /**
  * 한 부위의 일차 동기화 연산을 만든다.
  *
  * @param presentDays 이 부위 행이 존재하는 day_index 목록(중복 없음, NULL 은 NULL_DAY_KEY)
  * @param target      이 부위를 쓰는 일차(오름차순, NULL 없음)
- * @param isSide      target 일차의 역할 조회 — 주(主)=false / 보조(side)=true
+ * @param slotRole    target 일차의 호환 역할. 주/보조뿐 아니라 이두/삼두 같은
+ *                    세부 블록 정체성까지 포함할 수 있다.
  *
  * 규칙:
  *  1) target 이 아닌 일차(드리프트/legacy NULL)의 행은 비어 있는 target 으로 **이동**
@@ -31,7 +94,7 @@ export type DaySyncOp =
 export function planFocusDaySync(
   presentDays: number[],
   target: number[],
-  isSide: (day: number) => boolean,
+  slotRole: (day: number) => string | boolean,
 ): DaySyncOp[] {
   const ops: DaySyncOp[] = [];
   if (target.length === 0) return ops;
@@ -58,7 +121,7 @@ export function planFocusDaySync(
   const stillEmpty = emptyTargets.slice(ti);
   for (const t of stillEmpty) {
     const canon = target.find(
-      (d) => d !== t && filled.has(d) && isSide(d) === isSide(t),
+      (d) => d !== t && filled.has(d) && slotRole(d) === slotRole(t),
     );
     if (canon !== undefined) ops.push({ type: "copy", from: canon, to: t });
     // 같은 역할의 채워진 일차가 없으면 비워 둔다(사용자가 직접 등록).

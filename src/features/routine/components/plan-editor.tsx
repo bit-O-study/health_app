@@ -15,7 +15,6 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import type { FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
 import {
-  allExercisesForFocus,
   EQUIPMENT_LABELS,
   getCatalogExercise,
   majorMuscleTag,
@@ -23,6 +22,7 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import {
+  allExercisesForSlot,
   focusExercisesForSlot,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
@@ -33,6 +33,7 @@ import {
   registerRecommendedPlanAction,
   saveManualPlanAction,
 } from "@/features/routine/plan-actions";
+import { resolvePlanAddTarget } from "@/features/routine/plan-order";
 import { clearAllPlanAction } from "@/features/routine/delete-actions";
 import type { SetDetail } from "@/features/routine/set-details";
 import type { ConditioningRow } from "@/features/routine/conditioning";
@@ -48,7 +49,7 @@ type FocusData = {
   /** 일차+부위 고유 키 (예: "3:push") — 반복 부위가 충돌하지 않게 state 키로 사용 */
   key: string;
   dayIndex: number;
-  focus: FocusTone;
+  focus: Exclude<FocusTone, "rest">;
   /** 사이드 추천 운동 선택용 블록 id (이두/삼두 구분) */
   blockIds: string[];
   /** 그날 보조(사이드) 부위인지 — 추천 채우기 시 2개만 */
@@ -107,6 +108,9 @@ export function PlanEditor({
   const gymSet = toGymEquipmentSet(gymEquipment);
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
+  const [addTargetDayIndex, setAddTargetDayIndex] = useState<number | null>(
+    null,
+  );
   const [plans, setPlans] = useState<Record<string, Row[]>>(() =>
     Object.fromEntries(focuses.map((f) => [f.key, f.items.map(toRow)])),
   );
@@ -220,7 +224,7 @@ export function PlanEditor({
   }
 
   function addRow(f: FocusData) {
-    const options = allExercisesForFocus(f.focus);
+    const options = allExercisesForSlot(f.focus, f.blockIds);
     const first = options[0];
     if (!first) return;
     update(f.key, [
@@ -305,10 +309,23 @@ export function PlanEditor({
   // "N일 · 가슴" 형태 라벨에서 부위 이름만 추출(일차는 그룹 헤더로 따로 표시).
   const focusName = (label: string) => label.split(" · ").pop() ?? label;
 
-  // 그날 첫 부위 슬롯에 기본 운동 추가(운동을 바꾸면 태그는 실제 근육으로 표시).
-  function addRowDay(day: DayGroup) {
-    const primary = day.focuses[0];
-    if (primary) addRow(primary);
+  function requestAddRow(day: DayGroup) {
+    const target = resolvePlanAddTarget(day.focuses);
+    if (target) {
+      addRow(target);
+      return;
+    }
+
+    setAddTargetDayIndex((current) =>
+      current === day.dayIndex ? null : day.dayIndex,
+    );
+  }
+  function addRowToFocus(day: DayGroup, focusKey: string) {
+    const target = resolvePlanAddTarget(day.focuses, focusKey);
+    if (!target) return;
+
+    addRow(target);
+    setAddTargetDayIndex(null);
   }
   // 그날 모든 부위를 추천으로 채움(행 있으면 확인 후).
   function recommendDay(day: DayGroup) {
@@ -393,7 +410,11 @@ export function PlanEditor({
       </div>
 
       {days.map((day) => (
-        <div key={`day-${day.dayIndex}`} className="space-y-3">
+        <div
+          key={`day-${day.dayIndex}`}
+          data-plan-day-index={day.dayIndex}
+          className="space-y-3"
+        >
           {/* 일차 그룹 헤더 — 같은 날 부위들을 묶어 보여준다. */}
           <div className="flex items-center gap-2 pt-1">
             <span className="inline-flex h-7 items-center rounded-full bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
@@ -408,7 +429,8 @@ export function PlanEditor({
             const entries = day.focuses.flatMap((f) =>
               (plans[f.key] ?? []).map((row, idx) => ({ f, row, idx })),
             );
-            const optsOf = (f: FocusData) => allExercisesForFocus(f.focus);
+            const optsOf = (f: FocusData) =>
+              allExercisesForSlot(f.focus, f.blockIds);
             return (
               <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -426,7 +448,7 @@ export function PlanEditor({
                     </button>
                     <button
                       type="button"
-                      onClick={() => addRowDay(day)}
+                      onClick={() => requestAddRow(day)}
                       className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
                     >
                       <Plus aria-hidden="true" size={14} />
@@ -434,6 +456,35 @@ export function PlanEditor({
                     </button>
                   </div>
                 </div>
+
+                {addTargetDayIndex === day.dayIndex ? (
+                  <div
+                    role="group"
+                    aria-label={`${day.dayIndex + 1}일차 추가할 부위`}
+                    className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-700 dark:bg-zinc-900/50"
+                  >
+                    <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                      추가할 부위
+                    </span>
+                    {day.focuses.map((focus) => {
+                      const name = focusName(focus.label);
+                      return (
+                        <button
+                          key={focus.key}
+                          type="button"
+                          aria-label={`${name} 운동 추가`}
+                          onClick={() => addRowToFocus(day, focus.key)}
+                          className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                        >
+                          {name}
+                          {focus.isSide ? (
+                            <span className="ml-1 text-zinc-400">보조</span>
+                          ) : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
 
                 {entries.length === 0 ? (
                   <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
@@ -449,6 +500,7 @@ export function PlanEditor({
                       return (
                         <div
                           key={`${f.key}-${idx}`}
+                          data-testid={`plan-row-${f.key}-${idx}`}
                           ref={(el) => {
                             if (!rowRefs.current[f.key]) rowRefs.current[f.key] = [];
                             rowRefs.current[f.key][idx] = el;

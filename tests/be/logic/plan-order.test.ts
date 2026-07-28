@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { dropIndex, orderMainPlan } from "@/features/routine/plan-order";
+import {
+  dropIndex,
+  orderMainPlan,
+  resolvePlanAddTarget,
+} from "@/features/routine/plan-order";
 
 type Row = { id: string; focus: string; position: number };
 const row = (id: string, focus: string, position: number): Row => ({
@@ -175,5 +179,26 @@ describe("dropIndex — 드래그 정렬 목표 위치(가변 행 높이)", () =
     expect(dropIndex([], 0, 50)).toBe(0);
     expect(dropIndex([10], 0, 50)).toBe(0);
     expect(dropIndex(centers, -1, 50)).toBe(-1);
+  });
+});
+
+describe("resolvePlanAddTarget — 복합 일차 운동 추가 대상", () => {
+  const shoulder = { key: "0:shoulder", label: "어깨" };
+  const arm = { key: "0:arm", label: "이두" };
+
+  it("복합 일차는 요청 전 첫 슬롯으로 자동 귀속하지 않는다", () => {
+    expect(resolvePlanAddTarget([shoulder, arm])).toBeNull();
+  });
+
+  it("사용자가 고른 슬롯을 반환한다", () => {
+    expect(resolvePlanAddTarget([shoulder, arm], "0:arm")).toBe(arm);
+  });
+
+  it("단일 일차는 선택 메뉴 없이 즉시 추가할 슬롯을 반환한다", () => {
+    expect(resolvePlanAddTarget([shoulder])).toBe(shoulder);
+  });
+
+  it("없는 슬롯 키는 추가 대상으로 사용하지 않는다", () => {
+    expect(resolvePlanAddTarget([shoulder, arm], "0:back")).toBeNull();
   });
 });

@@ -256,7 +256,33 @@ export function subMusclesForExercise(exerciseId: string): SubMuscle[] {
   // 폴백: 1차 부위 찾기
   const grouped = groupedByBodyPart();
   for (const muscle of Object.keys(grouped) as MuscleId[]) {
-    if (grouped[muscle].some((e) => e.id === exerciseId)) {
+    const exercise = grouped[muscle].find((e) => e.id === exerciseId);
+    if (exercise) {
+      // 확장 카탈로그의 팔 운동을 전부 기본값(이두)으로 취급하면 삼두·전완이
+      // 이두 선택 목록에 대량으로 섞인다. 이름/타깃의 명시 근육으로 먼저 분류한다.
+      if (muscle === "arm") {
+        const text = `${exercise.name} ${exercise.target}`.toLowerCase();
+        const inferred: string[] = [];
+        const add = (ids: string[]) => {
+          for (const id of ids) if (!inferred.includes(id)) inferred.push(id);
+        };
+        if (/이두|biceps|brachialis|상완근/.test(text)) {
+          add(["arm-biceps-long", "arm-biceps-short"]);
+        }
+        if (/삼두|triceps/.test(text)) {
+          add([
+            "arm-triceps-long",
+            "arm-triceps-lateral",
+            "arm-triceps-medial",
+          ]);
+        }
+        if (/전완|forearm|brachioradialis|wrist|손목/.test(text)) {
+          add(["arm-forearm"]);
+        }
+        if (inferred.length > 0) {
+          return inferred.map((id) => SUB_BY_ID[id]).filter(Boolean);
+        }
+      }
       return DEFAULT_SUB[muscle].map((id) => SUB_BY_ID[id]).filter(Boolean);
     }
   }

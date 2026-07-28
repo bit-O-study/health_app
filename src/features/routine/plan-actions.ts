@@ -242,7 +242,7 @@ export async function saveManualPlanAction(
   // 기존 행의 memo 를 exercise_id 기준으로 모아 뒀다가 같은 운동에 다시 붙인다.
   const { data: prev } = await supabase
     .from("routine_exercises")
-    .select("id, exercise_id, memo, position")
+    .select("exercise_id, memo")
     .eq("user_id", user.id)
     .eq("day_index", dayIndex)
     .eq("focus", focus)
@@ -285,10 +285,7 @@ export async function saveManualPlanAction(
       supabase,
       user.id,
       seoulYmd(),
-      ((prev ?? []) as { id: string; exercise_id: string }[]).map((r) => ({
-        id: r.id,
-        exerciseId: r.exercise_id,
-      })),
+      focus,
       ((ins.data ?? []) as { id: string; exercise_id: string }[]).map((r) => ({
         id: r.id,
         exerciseId: r.exercise_id,

@@ -257,17 +257,6 @@ export async function saveDailyPlanAction(
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  // ⚠ 통째로 지우고 다시 넣으므로 행 id 가 새로 생긴다. 오늘 완료기록이 옛 행 id 를
-  //   가리킨 채 남으면 "운동 중 부위 추가/편집하면 완료한 세트가 다 풀린다"가 된다.
-  //   → 저장 전 옛 행을 기억해 두고, 새 행 id 로 완료기록을 옮긴다.
-  const { data: oldRows } = await supabase
-    .from("daily_plan")
-    .select("id, exercise_id, position")
-    .eq("user_id", user.id)
-    .eq("for_date", dateYmd)
-    .eq("focus", focus)
-    .order("position", { ascending: true });
-
   const del = await supabase
     .from("daily_plan")
     .delete()
@@ -292,14 +281,13 @@ export async function saveDailyPlanAction(
       .select("id, exercise_id");
     if (ins.error) return { ok: false, error: ins.error.message };
 
+    // ⚠ 통째로 지우고 다시 넣으므로 행 id 가 새로 생긴다. 오늘 완료기록이 옛 행 id 를
+    //   가리킨 채 남으면 화면엔 완료로 보이는데 **완료 취소가 안 먹는다** → 새 행으로 옮긴다.
     await carryOverCompletions(
       supabase,
       user.id,
       dateYmd,
-      ((oldRows ?? []) as { id: string; exercise_id: string }[]).map((r) => ({
-        id: r.id,
-        exerciseId: r.exercise_id,
-      })),
+      focus,
       ((ins.data ?? []) as { id: string; exercise_id: string }[]).map((r) => ({
         id: r.id,
         exerciseId: r.exercise_id,

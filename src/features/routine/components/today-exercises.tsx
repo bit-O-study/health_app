@@ -108,6 +108,7 @@ export async function TodayExercises({
   equipmentScan = false,
   blankDefaults = false,
   registerHref = "/plan",
+  selectedBlocks,
 }: {
   /** 오늘의 부위 1개 이상 (멀티 부위 일자 지원). 첫 부위가 워밍업·마무리 기준 */
   tones: FocusKey[];
@@ -132,6 +133,8 @@ export async function TodayExercises({
   blankDefaults?: boolean;
   /** 빈 상태 '운동 등록하기' 링크. 밀린 빈 날은 그날을 만든 흐름(직접/부위)으로. */
   registerHref?: string;
+  /** 오늘 고른 블록(부위 + 세부근육). 인라인 '운동 추가'를 그 세부근육으로 좁힌다. */
+  selectedBlocks?: readonly string[];
 }) {
   const todayYmd = seoulYmd();
   const primaryTone = tones[0];
@@ -687,11 +690,13 @@ export async function TodayExercises({
               doneIds={mainDoneIds}
               skippedIds={mainSkippedIds}
               lockWeightReps={lockWeightReps}
-              // 오늘만 변경(부위추가/직접담기/밀린 빈 날)엔 인라인 '운동 추가'에서 모든 부위 허용.
-              // (예전엔 direct 만 허용해, 부위추가로 팔·어깨를 더해도 등만 담을 수 있던 문제.)
+              // 인라인 '운동 추가'의 부위 선택지 = **오늘 부위**(부위추가로 더한 것 포함).
+              // 전체 부위를 여는 건 '직접 담기'(부위 제한 없음)이거나 오늘 부위가 아예
+              // 없을 때뿐 — 안 고른 부위(등 등)가 선택지에 뜨면 안 된다.
               allowAllParts={
-                registerHref.includes("direct=1") || usingDailyPlan || blankDefaults
+                registerHref.includes("direct=1") || tones.length === 0
               }
+              selectedBlocks={selectedBlocks}
             />
           </div>
         )}

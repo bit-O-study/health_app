@@ -34,6 +34,9 @@ export type UserRoutine = {
   /** 그 defer 를 만든 방식 — 'direct'(직접 담기) 또는 부위 목록('chest,back') 또는 null.
    *  밀린 빈 날의 '운동 등록하기' 링크를 원래 흐름으로 되돌릴 때 사용. */
   deferredTarget: string | null;
+  /** "오늘만 부위 추가"로 오늘 더한 블록 목록(날짜가 오늘일 때만 유효). */
+  todayAddedDate: string | null;
+  todayAddedBlocks: string | null;
   updatedAt: string;
 };
 
@@ -47,6 +50,8 @@ type UserRoutineRow = {
   override_block: unknown;
   day_index_migrated?: boolean | null;
   last_deferred_date?: string | null;
+  today_added_date?: string | null;
+  today_added_blocks?: string | null;
   deferred_target?: string | null;
   updated_at: string;
 };
@@ -65,7 +70,7 @@ export const getUserRoutine = cache(async (): Promise<UserRoutine | null> => {
   const { data, error } = await supabase
     .from("user_routines")
     .select(
-      "splits, variant_id, custom_week, start_date, rest_date, override_date, override_block, day_index_migrated, last_deferred_date, deferred_target, updated_at",
+      "splits, variant_id, custom_week, start_date, rest_date, override_date, override_block, day_index_migrated, last_deferred_date, deferred_target, today_added_date, today_added_blocks, updated_at",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -99,6 +104,8 @@ export const getUserRoutine = cache(async (): Promise<UserRoutine | null> => {
     dayIndexMigrated: row.day_index_migrated === true,
     deferredDate: row.last_deferred_date ?? null,
     deferredTarget: row.deferred_target ?? null,
+    todayAddedDate: row.today_added_date ?? null,
+    todayAddedBlocks: row.today_added_blocks ?? null,
     updatedAt: row.updated_at,
   };
 });

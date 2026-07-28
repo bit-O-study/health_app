@@ -145,10 +145,9 @@ export default async function TodayConditioningPage({
     const selectedBlockIds = blocksByFocus.get(focus);
     const slotBlockIds = slot?.blockIds.filter(isDayBlockId) ?? [];
     const blockIds: DayBlockId[] = selectedBlockIds ?? slotBlockIds;
-    const label =
-      blockIds.length > 0
-        ? blockIds.map((b) => DAY_BLOCKS[b].label).join(", ")
-        : slot?.label.replace(/^\d+일 · /, "") ?? DAY_BLOCKS[focus].label;
+    // 표시는 **부위명만**("가슴 상부, 가슴 하부" X → "가슴"). 세부근육은 화면에 늘어놓지
+    // 않고 운동 목록 필터·추천에만 쓴다(blockIds). — 사용자 요청.
+    const label = DAY_BLOCKS[focus].label;
     return {
       focus,
       label,

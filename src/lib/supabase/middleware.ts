@@ -30,6 +30,17 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.next({ request });
   }
 
+  // ⚡ 성능: **문서(navigation) 요청에서만** 세션/차단 검사를 한다.
+  //   한 번 화면을 열면 프리페치·RSC·스크립트 요청이 20개 가까이 따라붙는데(하단 탭 6개
+  //   프리페치 등), 예전엔 그 전부가 getUser()+profiles+admins 왕복을 했다
+  //   (측정: /routine 1회 로드에 auth 19회 · profiles 16회 · admins 16회).
+  //   문서 요청만 검사해도 게이트는 그대로 동작한다 — 새로고침·주소 이동·앱 재진입이
+  //   모두 문서 요청이고, 세션 갱신은 페이지 서버 렌더의 supabase 클라이언트가 이어서 한다.
+  const accept = request.headers.get("accept") ?? "";
+  if (!accept.includes("text/html")) {
+    return NextResponse.next({ request });
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(supabaseUrl, supabaseKey, {

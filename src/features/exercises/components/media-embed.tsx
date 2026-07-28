@@ -178,6 +178,10 @@ export function MediaEmbed({
   }
   const embed = parseEmbed(url);
   const base = `relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
+  // ⚠ 시범 영상 중엔 **세로(1080×1920) 영상**이 있어(랫풀다운 등) 그냥 h-auto 로 두면
+  //   폰에서 높이가 화면을 넘겨 "한눈에" 안 들어온다. 화면의 절반 이하로 상한을 두고
+  //   object-contain 으로 (검은 배경 위에) 담는다. 가로 영상은 상한에 안 걸려 그대로.
+  const MEDIA_CAP = "max-h-[46vh] sm:max-h-[24rem]";
 
   // iframe 플레이어 준비 타이밍이 불확실 → 로드 후 여러 번 음소거해제+배속 전송.
   function onIframeLoad() {
@@ -208,7 +212,7 @@ export function MediaEmbed({
 
   if (kind === "video") {
     return (
-      <div className={base}>
+      <div className={`${base} flex items-center justify-center`}>
         <video
           src={url}
           controls={!autoPlay}
@@ -223,7 +227,8 @@ export function MediaEmbed({
             // 재생 시작 후 음소거 해제(운동 시작 클릭의 사용자 활성화로 허용됨).
             if (autoPlay) e.currentTarget.muted = false;
           }}
-          className="h-auto w-full"
+          className={`h-auto w-full object-contain ${MEDIA_CAP}`}
+          style={{ maxHeight: "min(46dvh, 24rem)" }}
         />
       </div>
     );
@@ -231,9 +236,14 @@ export function MediaEmbed({
 
   // gif / image
   return (
-    <div className={base}>
+    <div className={`${base} flex items-center justify-center`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={url} alt="운동 시범 움짤" className="h-auto w-full object-contain" />
+      <img
+        src={url}
+        alt="운동 시범 움짤"
+        className={`h-auto w-full object-contain ${MEDIA_CAP}`}
+        style={{ maxHeight: "min(46dvh, 24rem)" }}
+      />
     </div>
   );
 }

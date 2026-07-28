@@ -13,6 +13,7 @@ import {
   type Gender,
 } from "@/features/profile/data";
 import { goalTargetKind, isGoal, type Goal } from "@/features/profile/goal";
+import { socialProfilePatch } from "@/features/auth/social-name";
 
 export type SaveProfileResult = { ok: true } | { ok: false; error: string };
 
@@ -67,16 +68,19 @@ export async function saveProfileAction(
   }
 
   // 가입 시 user_metadata 에 담아둔 이름/닉네임/전화번호를 프로필로 복사(있을 때만).
-  const meta = (user.user_metadata ?? {}) as {
-    name?: unknown;
-    nickname?: unknown;
-    phone?: unknown;
-  };
-  const metaName = typeof meta.name === "string" && meta.name.trim() !== "" ? meta.name.trim() : null;
-  const metaNickname =
-    typeof meta.nickname === "string" && meta.nickname.trim() !== ""
-      ? meta.nickname.trim()
-      : null;
+  // 소셜(구글/카카오) 가입은 그 키가 없어서 공급자가 준 이름 키들까지 훑고(이름),
+  // 닉네임을 따로 안 받으므로 **초기엔 닉네임 칸에도 같은 이름**을 넣는다
+  // (socialProfilePatch). 이미 값이 있는 칸은 건드리지 않는다.
+  const meta = (user.user_metadata ?? {}) as { phone?: unknown };
+  const { data: current } = await supabase
+    .from("profiles")
+    .select("name, nickname")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  const namePatch = socialProfilePatch(
+    meta as Record<string, unknown>,
+    (current ?? {}) as { name?: string | null; nickname?: string | null },
+  );
   const metaPhone =
     typeof meta.phone === "string" && meta.phone.trim() !== "" ? meta.phone.trim() : null;
 
@@ -101,8 +105,7 @@ export async function saveProfileAction(
       user_id: user.id,
       gender,
       experience,
-      ...(metaName ? { name: metaName } : {}),
-      ...(metaNickname ? { nickname: metaNickname } : {}),
+      ...namePatch,
       ...(metaPhone ? { phone: metaPhone } : {}),
       ...(metrics
         ? {

@@ -191,7 +191,11 @@ export function TodayAdjustMenu({
           onClick={close}
         >
           <div
-            className="w-full max-w-md rounded-2xl bg-white dark:bg-zinc-800 p-6 shadow-xl"
+            // ⚠ 폰에서 내용(부위 칩 여러 줄)이 화면보다 길어 시트가 밖으로 잘려
+            //   "깨진 것처럼" 보였다 → 높이를 화면에 맞추고 내부 스크롤.
+            //   className 은 dvh 미지원 웹뷰용 폴백, style 이 우선(주소창 높이 반영).
+            className="max-h-[calc(100vh-3rem)] w-full max-w-md overflow-y-auto overscroll-contain rounded-2xl bg-white p-4 shadow-xl dark:bg-zinc-800 sm:p-6"
+            style={{ maxHeight: "calc(100dvh - 3rem)" }}
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">

@@ -58,7 +58,7 @@ test("② 전체 바꾸기 후 부위 추가 흐름도 에러 없다", async ({ 
 
   // 전체 바꾸기: 어깨 선택 → 운동 전체 바꾸기
   await openAdjustMenu(page);
-  await page.getByRole("button", { name: "어깨", exact: true }).click();
+  await page.getByRole("button", { name: "어깨 전체", exact: true }).click();
   await page.getByRole("button", { name: "운동 전체 바꾸기" }).click();
   await expect(page).toHaveURL(/\/plan\/today/, { timeout: 30000 });
   await page.waitForTimeout(1000);
@@ -69,7 +69,7 @@ test("② 전체 바꾸기 후 부위 추가 흐름도 에러 없다", async ({ 
 
   // 다시 오늘만 운동 바꾸기 → 하체 선택 → 오늘만 부위 추가
   await openAdjustMenu(page);
-  await page.getByRole("button", { name: "하체", exact: true }).click();
+  await page.getByRole("button", { name: "하체 전체", exact: true }).click();
   await page.getByRole("button", { name: "오늘만 부위 추가" }).click();
   await expect(page).toHaveURL(/\/plan\/today/, { timeout: 30000 });
   await page.waitForTimeout(1000);

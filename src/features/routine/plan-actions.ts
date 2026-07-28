@@ -38,6 +38,7 @@ import {
   type SetDetail,
 } from "@/features/routine/set-details";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
+import { carryOverCompletions } from "@/features/routine/completion-carry";
 import { APPEND_POSITION_BASE } from "@/features/routine/plan-order";
 
 /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째. 없으면 첫 번째. */
@@ -241,10 +242,11 @@ export async function saveManualPlanAction(
   // 기존 행의 memo 를 exercise_id 기준으로 모아 뒀다가 같은 운동에 다시 붙인다.
   const { data: prev } = await supabase
     .from("routine_exercises")
-    .select("exercise_id, memo")
+    .select("id, exercise_id, memo, position")
     .eq("user_id", user.id)
     .eq("day_index", dayIndex)
-    .eq("focus", focus);
+    .eq("focus", focus)
+    .order("position", { ascending: true });
   const memoByExercise = new Map<string, string>();
   for (const r of (prev ?? []) as { exercise_id: string; memo?: unknown }[]) {
     if (typeof r.memo === "string" && r.memo.trim() !== "") {
@@ -271,8 +273,27 @@ export async function saveManualPlanAction(
       ...toRowFields(it),
       memo: memoByExercise.get(it.exerciseId) ?? null,
     }));
-    const ins = await supabase.from("routine_exercises").insert(rows);
+    const ins = await supabase
+      .from("routine_exercises")
+      .insert(rows)
+      .select("id, exercise_id");
     if (ins.error) return { ok: false, error: ins.error.message };
+
+    // ⚠ 행 id 가 새로 생기므로 오늘 완료기록을 새 행으로 옮긴다 — 안 그러면 운동 중에
+    //   루틴을 편집·저장하는 순간 완료한 세트가 다 풀린 것처럼 보인다.
+    await carryOverCompletions(
+      supabase,
+      user.id,
+      seoulYmd(),
+      ((prev ?? []) as { id: string; exercise_id: string }[]).map((r) => ({
+        id: r.id,
+        exerciseId: r.exercise_id,
+      })),
+      ((ins.data ?? []) as { id: string; exercise_id: string }[]).map((r) => ({
+        id: r.id,
+        exerciseId: r.exercise_id,
+      })),
+    );
   }
 
   revalidatePath("/routine");

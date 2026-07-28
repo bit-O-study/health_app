@@ -9,6 +9,7 @@
  */
 
 import { seoulTodayYmd } from "@/features/workout-timer/timer-store";
+import { pickSetsDone } from "@/features/workout-timer/sets-done";
 
 export type MainEdit = { w: number | null; reps: number; sets: number };
 export type CondEdit = {
@@ -24,6 +25,9 @@ type Store = {
   cond: Record<string, CondEdit>;
   /** 본운동 행별 완료한 세트 수(0-base). 운동모드를 나갔다 와도 유지, 날짜 바뀌면 초기화. */
   setsDone: Record<string, number>;
+  /** 같은 값을 (부위:운동) 키로도 저장 — 부위 추가·루틴 편집으로 행 id 가 새로 생겨도
+   *  진행이 안 사라지게(행 id 저장분이 우선). */
+  setsDoneByKey?: Record<string, number>;
   /** 운동모드에서 마지막으로 보고 있던 항목(rowId). '운동법 보기' 등으로 route 를 나갔다
    * 와서 오버레이가 재마운트돼도 그 운동에서 이어보게 복원. 날짜 바뀌면 초기화. */
   activeRow?: string;
@@ -46,6 +50,7 @@ function read(): Store {
           main: v.main ?? {},
           cond: v.cond ?? {},
           setsDone: v.setsDone ?? {},
+          setsDoneByKey: v.setsDoneByKey ?? {},
           activeRow: v.activeRow,
         };
       }
@@ -85,15 +90,22 @@ export function setCondEdit(rowId: string, e: CondEdit) {
   write(s);
 }
 
-/** 본운동 행별 완료 세트 수(없으면 0). */
-export function getSetsDone(rowId: string): number {
-  const v = read().setsDone[rowId];
-  return typeof v === "number" && v >= 0 ? Math.floor(v) : 0;
+/**
+ * 본운동 행별 완료 세트 수(없으면 0).
+ * key = (부위:운동) 복합 키 — 부위 추가·루틴 편집으로 행 id 가 바뀌어도 이어지게 폴백.
+ */
+export function getSetsDone(rowId: string, key?: string | null): number {
+  const s = read();
+  return pickSetsDone(s.setsDone, s.setsDoneByKey, rowId, key);
 }
 
-export function setSetsDone(rowId: string, n: number) {
+export function setSetsDone(rowId: string, n: number, key?: string | null) {
   const s = read();
-  s.setsDone[rowId] = Math.max(0, Math.floor(n));
+  const v = Math.max(0, Math.floor(n));
+  s.setsDone[rowId] = v;
+  if (key) {
+    s.setsDoneByKey = { ...(s.setsDoneByKey ?? {}), [key]: v };
+  }
   write(s);
 }
 

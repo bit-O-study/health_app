@@ -66,7 +66,7 @@ test("부위 추가: 편집기에 현재 오늘 운동 + 추가한 부위가 함
 
   await openAdjust(page);
   // 어깨를 부위 추가
-  await page.getByRole("button", { name: "어깨", exact: true }).click();
+  await page.getByRole("button", { name: "어깨 전체", exact: true }).click();
   await page.getByRole("button", { name: "오늘만 부위 추가" }).click();
   await expect(page).toHaveURL(/\/plan\/today.*add=1/, { timeout: 30000 });
   await page.waitForTimeout(1200);

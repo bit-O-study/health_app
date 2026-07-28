@@ -10,6 +10,7 @@ import { seoulYmd } from "@/features/routine/data";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import type { SetDetail } from "@/features/routine/set-details";
 import type { StatusActionResult } from "@/features/routine/completion-result";
+import { pickCompletionToClear } from "@/features/routine/completion-clear";
 
 export type CompletionSnapshot = {
   exerciseId: string;
@@ -42,15 +43,49 @@ export async function setExerciseStatusAction(
   // 이전엔 이를 무시해 RLS/스키마 실패가 조용히 묻혔다 — 반드시 확인해 반환한다.
   if (status === "clear") {
     // 이 '행(exercise_row_id)' 의 기록만 지운다.
-    // ⚠ 예전엔 (부위:운동) 로도 함께 지웠는데, 같은 운동이 여러 번 들어간 루틴에선
-    //   하나를 취소할 때 다른 완료기록까지 삭제됐다 → 행 단위로만 판정(컨디셔닝과 동일).
-    const { error } = await supabase
+    // ⚠ (부위:운동) 로 '전부' 지우면 같은 운동이 여러 번 들어간 루틴에서 하나를 취소할 때
+    //   다른 완료기록까지 삭제된다 → 우선 행 단위로만 지운다.
+    const del = await supabase
       .from("exercise_completions")
       .delete()
       .eq("user_id", user.id)
       .eq("for_date", today)
-      .eq("exercise_row_id", exerciseRowId);
-    if (error) return { ok: false, error: error.message };
+      .eq("exercise_row_id", exerciseRowId)
+      .select("id");
+    if (del.error) return { ok: false, error: del.error.message };
+
+    // 지운 게 없다 = 완료기록이 '사라진 옛 행 id' 를 가리키는 상태("오늘만 변경"으로 계획을
+    // 다시 담으면 행 UUID 가 새로 생긴다). 화면은 (부위:운동) 폴백으로 완료로 보여주므로
+    // 취소도 같은 키의 기록 **1건만** 골라 지운다(다른 완료는 그대로).
+    if ((del.data?.length ?? 0) === 0 && snapshot) {
+      const { data: cands } = await supabase
+        .from("exercise_completions")
+        .select("id, exercise_row_id, status")
+        .eq("user_id", user.id)
+        .eq("for_date", today)
+        .eq("focus", snapshot.focus)
+        .eq("exercise_id", snapshot.exerciseId);
+      const pick = pickCompletionToClear(
+        ((cands ?? []) as {
+          id: string;
+          exercise_row_id: string;
+          status: "done" | "skipped";
+        }[]).map((c) => ({
+          id: c.id,
+          exerciseRowId: c.exercise_row_id,
+          status: c.status,
+        })),
+        exerciseRowId,
+      );
+      if (pick) {
+        const { error } = await supabase
+          .from("exercise_completions")
+          .delete()
+          .eq("user_id", user.id)
+          .eq("id", pick);
+        if (error) return { ok: false, error: error.message };
+      }
+    }
   } else {
     // 같은 운동이 여러 번 있어도 서로 삭제되지 않게 (부위:운동) 로 미리 지우지 않는다.
     // 같은 행 재완료는 아래 upsert(exercise_row_id 기준)가 처리한다.

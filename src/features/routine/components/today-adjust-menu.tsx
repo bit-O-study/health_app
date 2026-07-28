@@ -147,7 +147,8 @@ export function TodayAdjustMenu({
     const focuses = Array.from(picked).join(",");
     start(async () => {
       if (isRestToday) await undoTodayRestAction();
-      await pinRoutineFocusesForTodayAction();
+      // 고른 부위/세부근육을 오늘 한정으로 기억(아직 안 담아도 '운동 추가'에서 고를 수 있게).
+      await pinRoutineFocusesForTodayAction(focuses);
       closeSheet();
       setPicked(new Set());
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.

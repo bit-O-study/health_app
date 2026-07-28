@@ -54,6 +54,8 @@ import {
 import { isTimedExercise } from "@/features/routine/timed-exercises";
 import { dropIndex } from "@/features/routine/plan-order";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { allExercisesForSlot } from "@/features/routine/recommend";
+import { subBlocksForFocus } from "@/features/routine/plan-blocks";
 import { muscleGroup } from "@/features/routine/muscle-map";
 
 /** 행 높이를 못 잰 경우의 폴백 평균 높이 (px) */
@@ -93,6 +95,7 @@ export function TodayPlanList({
   skippedIds,
   lockWeightReps = false,
   allowAllParts = false,
+  selectedBlocks,
 }: {
   focus: string;
   /** 오늘의 모든 부위 — 편집 모드에서 운동 추가 시 부위 선택지로 사용 */
@@ -107,6 +110,8 @@ export function TodayPlanList({
   lockWeightReps?: boolean;
   /** 직접 담기(오늘만 변경)면 편집 추가에서 전체 부위 선택 허용. */
   allowAllParts?: boolean;
+  /** 오늘 고른 블록(세부근육 포함) — 인라인 '운동 추가' 목록을 좁히는 데 쓴다. */
+  selectedBlocks?: readonly string[];
 }) {
   const edit = useTodayEdit();
   const editMode = edit.editMode;
@@ -764,6 +769,7 @@ export function TodayPlanList({
             dayIndex={dayIndex}
             onAdded={() => router.refresh()}
             allowAllParts={allowAllParts}
+            selectedBlocks={selectedBlocks}
           />
         </li>
       ) : null}
@@ -1210,12 +1216,15 @@ function AddExerciseSlot({
   dayIndex,
   onAdded,
   allowAllParts = false,
+  selectedBlocks,
 }: {
   tones: FocusKey[];
   dayIndex: number;
   onAdded: () => void;
   /** 직접 담기면 오늘 부위만이 아니라 전체 기본 부위에서 고를 수 있게. */
   allowAllParts?: boolean;
+  /** 오늘 고른 블록(세부근육 포함) — 운동 목록을 그 세부근육으로 좁힌다. */
+  selectedBlocks?: readonly string[];
 }) {
   const [open, setOpen] = useState(false);
   // 직접 담기면 전체 부위, 아니면 오늘 부위만.
@@ -1224,7 +1233,11 @@ function AddExerciseSlot({
   const [focus, setFocus] = useState<FocusKey>(
     tones[0] ?? ("chest" as FocusKey),
   );
-  const exerciseOptions = allExercisesForFocus(focus as FocusTone);
+  // 고른 세부근육(가슴 상부 등)이 있으면 그 근육을 타깃하는 운동만 보여준다.
+  const exerciseOptions = allExercisesForSlot(
+    focus,
+    subBlocksForFocus(selectedBlocks, focus),
+  );
   const [exerciseId, setExerciseId] = useState<string>(
     exerciseOptions[0]?.id ?? "",
   );
@@ -1238,7 +1251,10 @@ function AddExerciseSlot({
 
   function changeFocus(next: FocusKey) {
     setFocus(next);
-    const first = allExercisesForFocus(next as FocusTone)[0];
+    const first = allExercisesForSlot(
+      next,
+      subBlocksForFocus(selectedBlocks, next),
+    )[0];
     if (first) {
       setExerciseId(first.id);
       setEquipment(first.equipments[0].equipment);

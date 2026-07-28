@@ -41,11 +41,11 @@ test("오늘만 전체 바꾸기 → 루틴이 하루 밀린다(start_date +1, �
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).click();
   await page.waitForTimeout(300);
-  // 다리(하체) 부위 하나 선택 — 라벨 텍스트가 정확치 않을 수 있어 첫 부위 칩을 고른다.
-  const chip = page
-    .getByRole("button", { name: /어깨|하체|다리|가슴|등|팔|복근|전신/ })
-    .first();
-  await chip.click();
+  // 부위 칩은 **시트 안에서** 고른다(바깥 부위 배지와 이름이 겹쳐 잘못 눌리던 문제).
+  await expect(
+    page.getByRole("heading", { name: "오늘만 운동 바꾸기" }),
+  ).toBeVisible({ timeout: 8000 });
+  await page.getByRole("button", { name: "하체 전체", exact: true }).click();
   await page.getByRole("button", { name: /운동 전체 바꾸기|전체 바꾸기/ }).click();
   // replace 는 /plan/today 로 이동 → defer 가 실행됨.
   await page.waitForURL(/\/plan\/today/, { timeout: 8000 });

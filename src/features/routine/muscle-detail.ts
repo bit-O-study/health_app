@@ -22,6 +22,7 @@ import {
   type BodySide,
   type MuscleId,
 } from "@/features/routine/muscle-map";
+import { inferSubMuscleIds } from "@/features/routine/sub-muscle-infer";
 
 export type SubMuscle = {
   /** 전역 유일 id — `${muscleId}-${slug}` */
@@ -78,19 +79,9 @@ export const SUB_MUSCLES: Record<MuscleId, SubMuscle[]> = {
   ],
 };
 
-/** 부위별 "기본 세부 근육" — 매핑 없는 운동의 폴백(그 부위 대표 갈래들). */
-const DEFAULT_SUB: Record<MuscleId, string[]> = {
-  chest: ["chest-mid", "chest-upper", "chest-lower"],
-  back: ["back-lats", "back-rhomboids"],
-  shoulder: ["shoulder-front", "shoulder-side"],
-  arm: ["arm-biceps-long", "arm-biceps-short"],
-  lower: ["lower-quads", "lower-glutes"],
-  core: ["core-upper-abs", "core-lower-abs"],
-};
-
 /**
  * 운동 id → 특화 세부 근육 id 목록.
- * (없으면 DEFAULT_SUB 로 폴백 — subMusclesForExercise 참고)
+ * (없으면 이름/타깃 추론으로 폴백 — subMusclesForExercise 참고)
  */
 export const EXERCISE_SUB_MUSCLES: Record<string, string[]> = {
   /* ── 가슴 ── */
@@ -253,37 +244,16 @@ export function subMusclesForExercise(exerciseId: string): SubMuscle[] {
   if (explicit) {
     return explicit.map((id) => SUB_BY_ID[id]).filter(Boolean);
   }
-  // 폴백: 1차 부위 찾기
+  // 폴백: 1차 부위를 찾아 **이름/타깃 문구로 세부근육을 추론**한다.
+  // (예전엔 부위 기본값 3개를 통째로 줬는데, 그러면 "가슴 상부만" 같은 필터가
+  //  사실상 전부 통과해 무의미했다 — sub-muscle-infer 참고.)
   const grouped = groupedByBodyPart();
   for (const muscle of Object.keys(grouped) as MuscleId[]) {
     const exercise = grouped[muscle].find((e) => e.id === exerciseId);
     if (exercise) {
-      // 확장 카탈로그의 팔 운동을 전부 기본값(이두)으로 취급하면 삼두·전완이
-      // 이두 선택 목록에 대량으로 섞인다. 이름/타깃의 명시 근육으로 먼저 분류한다.
-      if (muscle === "arm") {
-        const text = `${exercise.name} ${exercise.target}`.toLowerCase();
-        const inferred: string[] = [];
-        const add = (ids: string[]) => {
-          for (const id of ids) if (!inferred.includes(id)) inferred.push(id);
-        };
-        if (/이두|biceps|brachialis|상완근/.test(text)) {
-          add(["arm-biceps-long", "arm-biceps-short"]);
-        }
-        if (/삼두|triceps/.test(text)) {
-          add([
-            "arm-triceps-long",
-            "arm-triceps-lateral",
-            "arm-triceps-medial",
-          ]);
-        }
-        if (/전완|forearm|brachioradialis|wrist|손목/.test(text)) {
-          add(["arm-forearm"]);
-        }
-        if (inferred.length > 0) {
-          return inferred.map((id) => SUB_BY_ID[id]).filter(Boolean);
-        }
-      }
-      return DEFAULT_SUB[muscle].map((id) => SUB_BY_ID[id]).filter(Boolean);
+      return inferSubMuscleIds(muscle, exercise.name, exercise.target)
+        .map((id) => SUB_BY_ID[id])
+        .filter(Boolean);
     }
   }
   return [];

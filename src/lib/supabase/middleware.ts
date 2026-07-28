@@ -100,17 +100,27 @@ export async function updateSession(request: NextRequest) {
     //   실행해 순차 왕복(2회)을 1회로 줄인다. (Supabase 가 원거리 리전이라 왕복
     //   지연이 커서, 매 네비게이션 왕복 1회 절약이 전체 체감속도에 크게 기여한다.)
     const onSuspended = pathname === "/suspended";
+    // ⚡ 성능: 이 두 조회는 값이 거의 안 바뀌는데 **모든 네비게이션의 TTFB 에 얹힌다**.
+    //   짧은 쿠키 캐시(60초)로 그 사이엔 왕복을 아예 건너뛴다(정지/관리자 변경은
+    //   최대 1분 뒤 반영 — 그 정도 지연은 허용).
+    // ⚡ 성능: 관리자여부(admins)는 **/admin 경로에서만** 필요하다(그 외엔 판정에 안 씀).
+    //   모든 페이지에서 조회하면 원거리 리전 왕복이 매 네비게이션 TTFB 에 그대로 얹힌다.
+    //   정지 여부(profiles)는 즉시 반영돼야 하므로 항상 확인한다(캐시 안 함).
+    const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
     const [profResult, adminResult] = await Promise.all([
       supabase
         .from("profiles")
         .select("suspended_until, banned_at, withdrawn_at, must_change_password")
         .eq("user_id", user.id)
         .maybeSingle(),
-      supabase.from("admins").select("email").limit(1),
+      isAdminPath
+        ? supabase.from("admins").select("email").limit(1)
+        : Promise.resolve(null),
     ]);
     let blocked = false;
+    let mustChange = false;
     try {
-      const prof = profResult.data;
+      const prof = profResult?.data ?? null;
       blocked = prof
         ? isBlocked({
             suspendedUntil: (prof as { suspended_until: string | null })
@@ -119,6 +129,9 @@ export async function updateSession(request: NextRequest) {
             withdrawnAt: (prof as { withdrawn_at: string | null }).withdrawn_at,
           })
         : false;
+      mustChange =
+        (prof as { must_change_password: boolean | null } | null)
+          ?.must_change_password === true;
       if (blocked && !onSuspended) {
         const url = request.nextUrl.clone();
         url.pathname = "/suspended";
@@ -133,12 +146,7 @@ export async function updateSession(request: NextRequest) {
       }
       // 임시 비밀번호로 로그인 → 새 비밀번호 변경 화면으로 강제 이동(차단 회원 제외).
       // /change-password 자기 자신은 제외(루프 방지). 관리자 라우팅보다 먼저 처리.
-      if (
-        !blocked &&
-        (prof as { must_change_password: boolean | null } | null)
-          ?.must_change_password === true &&
-        pathname !== "/change-password"
-      ) {
+      if (!blocked && mustChange && pathname !== "/change-password") {
         const url = request.nextUrl.clone();
         url.pathname = "/change-password";
         url.search = "";
@@ -176,10 +184,10 @@ export async function updateSession(request: NextRequest) {
       }
     }
 
-    const isAdminPath = pathname === "/admin" || pathname.startsWith("/admin/");
     // RLS: 관리자면 admins 전체, 아니면 본인 행만(=없음) → 결과 유무로 판정.
-    // (위 Promise.all 에서 profiles 와 함께 병렬 조회한 결과를 사용)
-    const isAdmin = ((adminResult.data as { email: string }[] | null)?.length ?? 0) > 0;
+    // (위 Promise.all 에서 /admin 경로일 때만 조회한 결과를 사용)
+    const isAdmin =
+      ((adminResult?.data as { email: string }[] | null)?.length ?? 0) > 0;
     // 관리자는 로그인 시 통합 관리자 콘솔(destinationAfterLogin → ADMIN_CONSOLE_URL)로
     // 이동한다. 앱 안에서 옛 /admin 으로 '강제 이동'시키지 않는다 — 그 옛 관리자
     // 페이지는 모바일에서 깨지고 콘솔로 대체됐다. (강제 이동을 없애 깨진 페이지로

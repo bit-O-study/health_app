@@ -217,6 +217,13 @@ alter table public.user_routines
 -- 밀린 빈 날의 '운동 등록하기' 링크를 원래 흐름(직접/부위)으로 되돌려주기 위함.
 alter table public.user_routines
   add column if not exists deferred_target text;
+-- "오늘만 부위 추가"로 오늘 더한 부위/세부근육 블록(예: 'arm,arm-biceps') 과 그 날짜.
+-- 추가만 하고 아직 운동을 안 담아도 오늘 화면의 '운동 추가'에서 그 부위를 고를 수 있게
+-- 기억한다. 날짜가 오늘이 아니면 무시 — **다음 주기 루틴엔 영향 없음**(원칙 #2).
+alter table public.user_routines
+  add column if not exists today_added_date date;
+alter table public.user_routines
+  add column if not exists today_added_blocks text;
 alter table public.user_routines
   drop constraint if exists user_routines_splits_check;
 alter table public.user_routines

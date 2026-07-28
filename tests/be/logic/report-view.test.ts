@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   banBadgeLabel,
+  formatReportTime,
   reportActionState,
   suspendButtonLabel,
 } from "@/features/admin/report-view";
@@ -94,6 +95,33 @@ describe("정지 버튼/뱃지 문구", () => {
     expect(banBadgeLabel("active", null)).toBeNull();
     expect(banBadgeLabel("banned", null)).toBe("영구정지");
     expect(banBadgeLabel("suspended", null)).toBe("정지 중");
-    expect(banBadgeLabel("suspended", FUTURE)).toContain("정지 중");
+    // 만료일은 한국시간 고정 표기(로케일에 안 흔들림) — 2026-08-04T00:00Z = KST 8/4 09:00
+    expect(banBadgeLabel("suspended", FUTURE)).toBe("정지 중 · ~2026. 8. 4.");
+  });
+});
+
+// 서버(Node)와 브라우저 로케일이 달라 "오전"/"AM" 으로 갈리며 하이드레이션이 깨졌다.
+// → 한국시간 고정 조립. 환경과 무관하게 항상 같은 문자열이어야 한다.
+describe("formatReportTime — 로케일 무관 한국시간 고정", () => {
+  it("UTC 를 KST(+9)로 바꿔 표기", () => {
+    expect(formatReportTime("2026-07-28T01:44:19Z")).toBe(
+      "2026. 7. 28. 오전 10:44",
+    );
+    expect(formatReportTime("2026-07-28T05:30:00Z")).toBe(
+      "2026. 7. 28. 오후 2:30",
+    );
+  });
+
+  it("자정/정오 12시 표기", () => {
+    expect(formatReportTime("2026-07-27T15:00:00Z")).toBe(
+      "2026. 7. 28. 오전 12:00",
+    ); // KST 28일 00:00
+    expect(formatReportTime("2026-07-28T03:00:00Z")).toBe(
+      "2026. 7. 28. 오후 12:00",
+    );
+  });
+
+  it("잘못된 값은 빈 문자열", () => {
+    expect(formatReportTime("nope")).toBe("");
   });
 });

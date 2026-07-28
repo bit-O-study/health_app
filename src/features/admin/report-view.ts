@@ -56,6 +56,22 @@ export function suspendButtonLabel(banState: BanState): string {
   return "작성자 정지";
 }
 
+/**
+ * 신고 시각 표기 — 한국시간 고정으로 **직접 조립**한다.
+ * `toLocaleString("ko-KR")` 은 서버(Node ICU)와 브라우저의 로케일 데이터가 달라
+ * "오전" vs "AM" 으로 갈리면서 하이드레이션 미스매치를 냈다.
+ */
+export function formatReportTime(iso: string): string {
+  const t = new Date(iso).getTime();
+  if (!Number.isFinite(t)) return "";
+  const kst = new Date(t + 9 * 60 * 60 * 1000); // UTC+9 고정
+  const mm = String(kst.getUTCMinutes()).padStart(2, "0");
+  const h24 = kst.getUTCHours();
+  const half = h24 < 12 ? "오전" : "오후";
+  const h12 = h24 % 12 === 0 ? 12 : h24 % 12;
+  return `${kst.getUTCFullYear()}. ${kst.getUTCMonth() + 1}. ${kst.getUTCDate()}. ${half} ${h12}:${mm}`;
+}
+
 /** 정지 상태 뱃지 문구. active 면 null(뱃지 없음). */
 export function banBadgeLabel(
   banState: BanState,
@@ -64,5 +80,8 @@ export function banBadgeLabel(
   if (banState === "banned") return "영구정지";
   if (banState !== "suspended") return null;
   if (!suspendedUntil) return "정지 중";
-  return `정지 중 · ~${new Date(suspendedUntil).toLocaleDateString("ko-KR")}`;
+  const t = new Date(suspendedUntil).getTime();
+  if (!Number.isFinite(t)) return "정지 중";
+  const kst = new Date(t + 9 * 60 * 60 * 1000);
+  return `정지 중 · ~${kst.getUTCFullYear()}. ${kst.getUTCMonth() + 1}. ${kst.getUTCDate()}.`;
 }

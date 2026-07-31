@@ -8,6 +8,7 @@ import {
   deleteGroupAction,
   leaveGroupAction,
 } from "@/features/groups/group-actions";
+import { isNativeApp } from "@/lib/platform/is-native-app";
 
 type KakaoLike = {
   isInitialized: () => boolean;
@@ -91,17 +92,15 @@ export function GroupControls({
     // 링크는 별도 줄에 두면 카카오톡이 OG 카드로 깔끔하게 펼친다("참여 링크:" 접두 제거).
     const text = `${groupName} 운동 그룹에 초대합니다 💪\n${url}`;
 
-    // in-app(네이티브/웹뷰) 판별 — appendUserAgent 표식(helssu-app) 우선, window.Capacitor,
-    // 그리고 Android WebView 표식(UA 의 'wv') 까지 본다. wv 를 포함하면 브라우저용 카카오
+    // in-app(네이티브/웹뷰) 판별 — UA 표식(helssu-app)·Capacitor 네이티브 플랫폼(isNativeApp)
+    // 에 더해 Android WebView 표식(UA 의 'wv') 까지 본다. wv 를 포함하면 브라우저용 카카오
     // 카드(intent://)는 제로페이로 새거나 무반응이라 절대 안 쓰고, 네이티브 공유→복사로 간다.
     // (구버전 APK 라 helssu-app 표식이 없어도 '앱 안'임을 감지해 조용히 실패하지 않게 한다.)
+    // ⚠ window.Capacitor 는 웹에도 주입되므로 '존재'로 판별하지 않는다 — 그러면 일반
+    //   브라우저까지 in-app 으로 잡혀 쓰지도 못할 네이티브 공유 경로로 새어 들어간다.
     const ua = typeof navigator !== "undefined" ? navigator.userAgent : "";
-    const hasUa = ua.includes("helssu-app");
     const isAndroidWebView = /;\s*wv\)/.test(ua) || /\bwv\b/.test(ua);
-    const hasBridge =
-      typeof window !== "undefined" &&
-      !!(window as unknown as { Capacitor?: unknown }).Capacitor;
-    const inApp = hasUa || hasBridge || isAndroidWebView;
+    const inApp = isNativeApp() || isAndroidWebView;
 
     if (inApp) {
       // 1) 카카오 네이티브 SDK — "그룹 참여하기" 버튼이 박힌 카카오톡 카드(원하던 그 카드).
@@ -145,7 +144,9 @@ export function GroupControls({
         window.alert(
           `앱 공유 실패 → 링크 복사함.\n사유: ${
             e instanceof Error ? e.message : String(e)
-          }\n[진단] 앱UA:${hasUa ? "O" : "X"} · 브릿지:${hasBridge ? "O" : "X"}`,
+          }\n[진단] 앱UA:${ua.includes("helssu-app") ? "O" : "X"} · 웹뷰:${
+            isAndroidWebView ? "O" : "X"
+          }`,
         );
         return;
       }

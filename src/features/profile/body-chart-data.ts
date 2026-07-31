@@ -6,6 +6,8 @@
  * 별도 미니 차트(small multiples)로 그린다. 각 시리즈는 자기 값들의 [min,max]만 안다.
  */
 
+import { seoulYmdOf } from "@/features/health/steps-bucket";
+
 export type BodyMetricKey =
   | "weightKg"
   | "heightCm"
@@ -78,4 +80,83 @@ export function buildBodySeries(logs: BodyLogLike[]): BodySeries[] {
 /** 첫→마지막 변화량(부호 포함). 값이 1개면 0. 소수 1자리 반올림. */
 export function seriesDelta(s: BodySeries): number {
   return Math.round((s.latest - s.first) * 10) / 10;
+}
+
+/*
+ * ── 날짜 표시 ──────────────────────────────────────────────────────────────
+ * `created_at` 은 UTC 다. `new Date(iso).getDate()` 처럼 실행환경 로컬시각으로 찍으면
+ * 서버(UTC)와 폰(서울)에서 하루가 어긋난다(밤 9시 이후 기록이 전날로 보인다).
+ * 그래서 표시용 날짜는 전부 **서울 고정**으로 만든다.
+ */
+
+/** ISO → 서울 기준 "7/31"(그래프 눈금·리스트용). 파싱 실패면 "". */
+export function shortDateLabel(iso: string): string {
+  const ymd = seoulYmdOf(iso);
+  if (!ymd) return "";
+  const [, m, d] = ymd.split("-");
+  return `${Number(m)}/${Number(d)}`;
+}
+
+/** ISO → 서울 기준 "2026. 7. 31."(기록 리스트용, 해 넘어가도 구분되게). 실패면 "". */
+export function fullDateLabel(iso: string): string {
+  const ymd = seoulYmdOf(iso);
+  if (!ymd) return "";
+  const [y, m, d] = ymd.split("-");
+  return `${y}. ${Number(m)}. ${Number(d)}.`;
+}
+
+/** ISO → 서울 기준 "14:20"(같은 날 여러 번 잰 기록 구분용). 실패면 "". */
+export function timeLabel(iso: string): string {
+  const dt = new Date(iso);
+  if (Number.isNaN(dt.getTime())) return "";
+  return new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Seoul",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(dt);
+}
+
+/**
+ * x축에 날짜를 찍을 점의 위치(인덱스 배열).
+ * 점이 많으면 라벨이 서로 겹치므로 **최대 max 개**만, 첫·마지막을 반드시 포함해
+ * 균등 간격으로 고른다.
+ */
+export function dateTickIndexes(count: number, max = 4): number[] {
+  if (count <= 0) return [];
+  if (max <= 1 || count === 1) return [0];
+  if (count <= max) return Array.from({ length: count }, (_, i) => i);
+  const step = (count - 1) / (max - 1);
+  const out = new Set<number>();
+  for (let k = 0; k < max; k++) out.add(Math.round(k * step));
+  return [...out].sort((a, b) => a - b);
+}
+
+export type BodyLogRow = {
+  createdAt: string;
+  /** 이 기록에 실제로 값이 들어간 지표만(빈 칸은 표시하지 않는다). */
+  metrics: {
+    key: BodyMetricKey;
+    label: string;
+    unit: string;
+    color: string;
+    value: number;
+  }[];
+};
+
+/**
+ * 기록 리스트용 — **최신순**. 값이 하나도 없는 로그는 제외한다.
+ * (그래프만으로는 "언제 쟀는지"를 알 수 없어서, 날짜와 값을 같이 나열한다.)
+ */
+export function buildBodyLogRows(logs: BodyLogLike[]): BodyLogRow[] {
+  return logs
+    .map((l) => ({
+      createdAt: l.createdAt,
+      metrics: BODY_METRICS.flatMap((m) => {
+        const v = l[m.key];
+        return v !== null && Number.isFinite(v) ? [{ ...m, value: v }] : [];
+      }),
+    }))
+    .filter((r) => r.metrics.length > 0)
+    .reverse();
 }

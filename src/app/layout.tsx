@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -80,11 +81,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // 로그인 전에는 하단 탭을 숨긴다(로그인 후에만 앱 네비 노출).
-  const [user, showCoach, groupMode] = await Promise.all([
-    getCurrentUser(),
-    isDebugFeatureEnabled("helssu-coach"),
-    getGroupMode(),
-  ]);
+  const user = await getCurrentUser();
   const isLoggedIn = Boolean(user);
   return (
     <html
@@ -101,7 +98,9 @@ export default async function RootLayout({
           <AppSplash />
           {children}
           {isLoggedIn ? (
-            <BottomNav showCoach={showCoach} groupTheme={groupMode === "gym"} />
+            <Suspense fallback={<BottomNav />}>
+              <ConfiguredBottomNav />
+            </Suspense>
           ) : null}
           {isLoggedIn ? <RouteKeeper /> : null}
         </NotificationCenterProvider>
@@ -111,4 +110,12 @@ export default async function RootLayout({
       </body>
     </html>
   );
+}
+
+async function ConfiguredBottomNav() {
+  const [showCoach, groupMode] = await Promise.all([
+    isDebugFeatureEnabled("helssu-coach"),
+    getGroupMode(),
+  ]);
+  return <BottomNav showCoach={showCoach} groupTheme={groupMode === "gym"} />;
 }

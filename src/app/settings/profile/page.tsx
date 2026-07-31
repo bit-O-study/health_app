@@ -6,6 +6,7 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { getBodyLogs } from "@/features/profile/body-logs";
 import { BodyLogButton } from "@/features/profile/components/body-log-button";
 import { BodyChart } from "@/features/profile/components/body-chart";
+import { BodyLogList } from "@/features/profile/components/body-log-list";
 
 export const dynamic = "force-dynamic";
 
@@ -38,6 +39,16 @@ export default async function ProfileSettingsPage() {
             추이 그래프
           </h2>
           <BodyChart logs={logs} />
+        </section>
+
+        <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+          <h2 className="mb-1 text-base font-bold text-zinc-950 dark:text-zinc-100">
+            측정 기록
+          </h2>
+          <p className="mb-3 text-sm text-zinc-600 dark:text-zinc-400">
+            언제 잰 값인지 날짜와 함께 최신순으로 보여줍니다.
+          </p>
+          <BodyLogList logs={logs} />
         </section>
 
         <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">

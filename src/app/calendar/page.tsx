@@ -20,7 +20,11 @@ import { getMonthlyCalendar } from "@/features/calendar/data-access";
 import { getMissionCalendar } from "@/features/commitments/data-access";
 import { MARKER_SYMBOL } from "@/features/commitments/missions";
 import { getBodyLogs } from "@/features/profile/body-logs";
-import { computeWeightDelta } from "@/features/profile/weight-delta";
+import {
+  computeWeightDelta,
+  latestWeightAt,
+} from "@/features/profile/weight-delta";
+import { shortDateLabel } from "@/features/profile/body-chart-data";
 import { StepsSync } from "@/features/health/components/steps-sync";
 import { CommitmentSuggestions } from "@/features/coach/components/commitment-suggestions";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -92,6 +96,7 @@ export default async function CalendarPage({
 
   // 체중 증감 — 직전 기록 대비. 기록 없으면 null(→ '체형 기록하러 가기' 버튼).
   const weightDelta = computeWeightDelta(bodyLogs.map((l) => l.weightKg));
+  const weightMeasuredAt = latestWeightAt(bodyLogs);
   const periodDays = new Set<string>();
   const predictedDays = new Set<string>();
   if (profile?.gender === "female") {
@@ -277,7 +282,7 @@ export default async function CalendarPage({
           />
         </div>
         <NetCard spent={spent} />
-        <WeightCard delta={weightDelta} />
+        <WeightCard delta={weightDelta} measuredAt={weightMeasuredAt} />
       </div>
 
       {/* AI 다짐 짜주기 — 디버그 계정(헬쑤쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
@@ -290,11 +295,17 @@ export default async function CalendarPage({
   );
 }
 
-/** 체중 카드 — 데이터 있으면 현재 체중 + 직전 대비 증감, 없으면 기록하러 가기 버튼. */
+/**
+ * 체중 카드 — 데이터 있으면 현재 체중 + 직전 대비 증감(+ 언제 잰 값인지),
+ * 없으면 기록하러 가기 버튼.
+ */
 function WeightCard({
   delta,
+  measuredAt,
 }: {
   delta: { latestKg: number; deltaKg: number | null } | null;
+  /** 최근 체중 기록 시각(ISO). 없으면 날짜를 숨긴다. */
+  measuredAt: string | null;
 }) {
   if (!delta) {
     return (
@@ -324,6 +335,11 @@ function WeightCard({
       <span className="flex items-center gap-1 text-xs font-bold text-zinc-500 dark:text-zinc-400">
         <Weight size={15} className="shrink-0" />
         현재 체중
+        {measuredAt ? (
+          <span className="ml-0.5 whitespace-nowrap text-[10px] font-semibold text-zinc-400 dark:text-zinc-500">
+            {shortDateLabel(measuredAt)} 측정
+          </span>
+        ) : null}
       </span>
       <span className="flex items-center gap-2">
         <span className="whitespace-nowrap text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">

@@ -8,7 +8,8 @@ import {
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
 import { getPlanForDayTones } from "@/features/routine/plan";
-import { getDailyPlanForDate } from "@/features/routine/daily-plan";
+import type { DailyPlanRow } from "@/features/routine/daily-plan";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getConditioningForFocus } from "@/features/routine/conditioning";
 import { getDailyConditioning } from "@/features/routine/daily-conditioning";
 import { showsDailyCooldownBadge } from "@/features/routine/daily-override";
@@ -104,8 +105,7 @@ export async function TodayExercises({
   restSound = true,
   restHaptic = true,
   lockWeightReps = false,
-  postureEnabled = false,
-  equipmentScan = false,
+  dailyPlan,
   blankDefaults = false,
   registerHref = "/plan",
   selectedBlocks,
@@ -124,10 +124,8 @@ export async function TodayExercises({
   restHaptic?: boolean;
   /** 개인설정: 무게·횟수 고정. false 면 메인에 무게/횟수 숨기고 운동모드에서 설정. */
   lockWeightReps?: boolean;
-  /** 운동 모드 안 'AI 자세 분석' 노출(디버그 계정). */
-  postureEnabled?: boolean;
-  /** '운동 시작' 왼쪽 기구 스캔 아이콘 노출(디버그 계정). */
-  equipmentScan?: boolean;
+  /** 오늘의 daily_plan 행 — 상위(page)가 이미 읽은 것을 그대로 받는다(중복 조회 방지). */
+  dailyPlan: DailyPlanRow[];
   /** '오늘만 변경'으로 하루 밀린 날 — 담지 않은 본운동/워밍업/마무리 기본값(러닝 등)을
    *  자동으로 채우지 않는다. 사용자가 직접 담은 것만 보인다. */
   blankDefaults?: boolean;
@@ -140,23 +138,25 @@ export async function TodayExercises({
   const primaryTone = tones[0];
   const [
     defaultPlansPerTone,
-    dailyPlan,
     defaults,
     daily,
     completedItems,
     completedCond,
     lastValues,
+    postureEnabled,
+    equipmentScan,
   ] = await Promise.all([
     // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
     // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
     // 사라지는 누수가 생긴다. 그 일차에 운동이 없으면 빈 화면(등록 안내)을 보여준다.
     getPlanForDayTones(dayIndex, tones),
-    getDailyPlanForDate(todayYmd),
     getConditioningForFocus(primaryTone),
     getDailyConditioning(todayYmd),
     getTodayCompletedItems(todayYmd),
     getTodayCompletedConditioning(todayYmd),
     getLastExerciseValues(),
+    isDebugFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
+    isDebugFeatureEnabled("equipment-scan"), // '운동 시작' 왼쪽 기구 스캔(디버그 계정)
   ]);
 
   // 본운동: 부위별로 daily_plan override 있으면 그것, 없으면 기본 plan

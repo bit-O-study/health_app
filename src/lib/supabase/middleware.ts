@@ -3,6 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 
 import { isBlocked } from "@/features/admin/ban";
 import { isOAuthCallbackPath } from "@/features/auth/oauth-redirect";
+import { getSigningKeys } from "@/lib/supabase/jwks";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
@@ -60,16 +61,25 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  // getUser() 호출이 만료된 access 토큰을 refresh 토큰으로 갱신합니다.
+  // ⚡ getUser() 대신 getClaims() — getUser() 는 **문서 요청마다** Supabase Auth 로
+  //   HTTP 왕복을 한다(서울 icn1 → 싱가포르 ap-southeast-1, 왕복 70~90ms). 이 왕복은
+  //   Next 가 렌더를 시작하기도 전에 TTFB 에 그대로 얹힌다. 이 프로젝트는 비대칭
+  //   서명키(ES256)를 쓰므로 서명을 로컬(WebCrypto)에서 검증할 수 있고, 공개키는
+  //   모듈 캐시에서 넘긴다 → 워밍된 인스턴스에서 인증 왕복 0회.
+  //   (만료된 토큰은 getClaims 내부의 getSession() 이 refresh 하므로 쿠키 갱신은 그대로.)
+  //
   // 리프레시 토큰이 사라졌거나(Refresh Token Not Found) 손상되면 stale 쿠키를
-  // 정리해 비로그인 처리한다. ⚠ getUser() 는 인증 실패 시 throw 가 아니라
-  // { error } 를 반환하므로 try/catch 만으로는 안 잡힌다 — error 도 함께 검사해
-  // 로컬 signOut 으로 쿠키를 비워야 매 요청 반복되던 에러 로그가 멈춘다(self-heal).
-  let user = null;
+  // 정리해 비로그인 처리한다. ⚠ 인증 실패는 throw 가 아니라 { error } 로 오므로
+  // try/catch 만으로는 안 잡힌다 — error 도 함께 검사해 로컬 signOut 으로 쿠키를
+  // 비워야 매 요청 반복되던 에러 로그가 멈춘다(self-heal).
+  let user: { id: string } | null = null;
   let authErrored = false;
   try {
-    const res = await supabase.auth.getUser();
-    user = res.data.user ?? null;
+    const res = await supabase.auth.getClaims(undefined, {
+      keys: await getSigningKeys(),
+    });
+    const sub = res.data?.claims?.sub;
+    user = sub ? { id: sub } : null;
     authErrored = !!res.error;
   } catch {
     authErrored = true;
@@ -111,9 +121,6 @@ export async function updateSession(request: NextRequest) {
     //   실행해 순차 왕복(2회)을 1회로 줄인다. (Supabase 가 원거리 리전이라 왕복
     //   지연이 커서, 매 네비게이션 왕복 1회 절약이 전체 체감속도에 크게 기여한다.)
     const onSuspended = pathname === "/suspended";
-    // ⚡ 성능: 이 두 조회는 값이 거의 안 바뀌는데 **모든 네비게이션의 TTFB 에 얹힌다**.
-    //   짧은 쿠키 캐시(60초)로 그 사이엔 왕복을 아예 건너뛴다(정지/관리자 변경은
-    //   최대 1분 뒤 반영 — 그 정도 지연은 허용).
     // ⚡ 성능: 관리자여부(admins)는 **/admin 경로에서만** 필요하다(그 외엔 판정에 안 씀).
     //   모든 페이지에서 조회하면 원거리 리전 왕복이 매 네비게이션 TTFB 에 그대로 얹힌다.
     //   정지 여부(profiles)는 즉시 반영돼야 하므로 항상 확인한다(캐시 안 함).

@@ -62,3 +62,6 @@ test-*.mjs
 
 # Capacitor 네이티브 프로젝트(빌드 시 cap add 로 생성 — 스크립트가 재생성)
 /ios/
+
+# 성능 검수 보고서용 별도 Next 앱(431MB, node_modules 포함) — 본 저장소에 커밋하지 않는다
+/performance-report-site/

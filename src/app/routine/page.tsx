@@ -1,5 +1,6 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import {
   ArrowRight,
@@ -25,7 +26,10 @@ import {
 } from "@/features/routine/plan-blocks";
 import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
-import { getDailyPlanForDate } from "@/features/routine/daily-plan";
+import {
+  getDailyPlanForDate,
+  type DailyPlanRow,
+} from "@/features/routine/daily-plan";
 import { todayFocuses } from "@/features/routine/defer-carry";
 import {
   addDaysYmd,
@@ -41,7 +45,6 @@ import {
 } from "@/features/routine/data";
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayFocusMenu } from "@/features/routine/components/today-focus-menu";
@@ -101,16 +104,15 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
 export default async function Home() {
   const user = await getCurrentUser();
 
-  // profile·routine·디버그 플래그는 서로 의존이 없다 → 전부 한 번에 병렬로 받아
-  // 라운드트립을 줄인다. (예전엔 profile/routine 병렬 뒤 디버그 2건을 순차 await 했음)
-  const [profile, routine, equipmentScan, postureEnabled] = user
+  // 오늘 계획도 profile·routine 과 독립적이므로 최초 데이터 왕복에 함께 시작한다.
+  const todayYmd = seoulYmd();
+  const [profile, routine, dailyPlan] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
-        isDebugFeatureEnabled("equipment-scan"), // 기구 스캔 아이콘(디버그)
-        isDebugFeatureEnabled("helssu-coach"), // 자세 분석(디버그)
+        getDailyPlanForDate(todayYmd),
       ])
-    : [null, null, false, false];
+    : [null, null, []];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -141,8 +143,7 @@ export default async function Home() {
           <TodayWorkout
             routine={routine}
             profile={profile}
-            postureEnabled={postureEnabled}
-            equipmentScan={equipmentScan}
+            dailyPlan={dailyPlan}
           />
         )}
       </main>
@@ -220,11 +221,10 @@ function NoRoutinePrompt() {
   );
 }
 
-async function TodayWorkout({
+function TodayWorkout({
   routine,
   profile,
-  postureEnabled = false,
-  equipmentScan = false,
+  dailyPlan,
 }: {
   routine: {
     splits: number;
@@ -240,8 +240,7 @@ async function TodayWorkout({
     todayAddedBlocks: string | null;
   };
   profile: UserProfile | null;
-  postureEnabled?: boolean;
-  equipmentScan?: boolean;
+  dailyPlan: DailyPlanRow[];
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -271,9 +270,9 @@ async function TodayWorkout({
 
   //"오늘만 변경" 으로 저장된 daily_plan 행들의 부위 — 있으면 그것이 오늘의
   // 실제 부위. (routine.overrideBlock 보다 우선, 다중 부위도 지원)
-  const dailyPlan = isRest ? [] : await getDailyPlanForDate(todayYmd);
+  const activeDailyPlan = isRest ? [] : dailyPlan;
   const dailyFocuses = Array.from(
-    new Set(dailyPlan.map((r) => r.focus).filter((f) => isDayBlockId(f))),
+    new Set(activeDailyPlan.map((r) => r.focus).filter((f) => isDayBlockId(f))),
   ) as DayBlockId[];
   const hasDailyOverride = dailyFocuses.length > 0;
 
@@ -473,26 +472,27 @@ async function TodayWorkout({
         {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법. 밀린 빈 날(emptyChangedDay)도
             기존 빈 상태 UI(워밍업/본운동/마무리 각 섹션)를 그대로 띄운다. */}
         {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
-          <TodayExercises
-            tones={
-              (todayTones.length > 0
-                ? todayTones
-                : deferredSectionTones) as import("@/features/routine/exercise-catalog").FocusKey[]
-            }
-            dayIndex={offset}
-            weightKg={profile?.weightKg ?? null}
-            hideVideos={profile?.hideExerciseVideos ?? false}
-            showGuide={profile?.showExerciseGuide ?? true}
-            restSound={profile?.restSound ?? true}
-            restHaptic={profile?.restHaptic ?? true}
-            lockWeightReps={profile?.lockWeightReps ?? false}
-            postureEnabled={postureEnabled}
-            equipmentScan={equipmentScan}
-            blankDefaults={deferredToday}
-            registerHref={deferredToday ? registerHref : undefined}
-            // 오늘 고른 블록(세부근육 포함) — 인라인 '운동 추가'가 그 근육 운동만 보여준다.
-            selectedBlocks={[...deferredFocuses, ...addedBlocksToday]}
-          />
+          <Suspense fallback={<TodayExercisesSkeleton />}>
+            <TodayExercises
+              tones={
+                (todayTones.length > 0
+                  ? todayTones
+                  : deferredSectionTones) as import("@/features/routine/exercise-catalog").FocusKey[]
+              }
+              dayIndex={offset}
+              weightKg={profile?.weightKg ?? null}
+              hideVideos={profile?.hideExerciseVideos ?? false}
+              showGuide={profile?.showExerciseGuide ?? true}
+              restSound={profile?.restSound ?? true}
+              restHaptic={profile?.restHaptic ?? true}
+              lockWeightReps={profile?.lockWeightReps ?? false}
+              dailyPlan={activeDailyPlan}
+              blankDefaults={deferredToday}
+              registerHref={deferredToday ? registerHref : undefined}
+              // 오늘 고른 블록(세부근육 포함) — 인라인 '운동 추가'가 그 근육 운동만 보여준다.
+              selectedBlocks={[...deferredFocuses, ...addedBlocksToday]}
+            />
+          </Suspense>
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도
           // 사라진다 → 아래 '다가오는 7일' 순서를 바꿀 방법이 없어진다. 이때도
@@ -524,6 +524,18 @@ async function TodayWorkout({
         />
       </TodayEditScope>
     </div>
+  );
+}
+
+function TodayExercisesSkeleton() {
+  return (
+    <section
+      aria-label="오늘 운동 불러오는 중"
+      className="space-y-3 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800"
+    >
+      <div className="h-5 w-24 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
+      <div className="h-20 animate-pulse rounded-xl bg-zinc-100 dark:bg-zinc-700/70" />
+    </section>
   );
 }
 

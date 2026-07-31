@@ -21,3 +21,18 @@ export function computeWeightDelta(
     prevKg === null ? null : Math.round((latestKg - prevKg) * 10) / 10;
   return { latestKg, prevKg, deltaKg };
 }
+
+/**
+ * 가장 최근 '체중이 들어간' 기록의 시각(ISO). 없으면 null.
+ * `computeWeightDelta` 는 값만 보므로, "언제 잰 값인지" 표시용으로 따로 찾는다.
+ * (키·체지방만 기록한 로그가 마지막일 수 있어 뒤에서부터 체중 있는 것을 고른다.)
+ */
+export function latestWeightAt(
+  logs: { weightKg: number | null; createdAt: string }[],
+): string | null {
+  for (let i = logs.length - 1; i >= 0; i--) {
+    const w = logs[i].weightKg;
+    if (typeof w === "number" && w > 0) return logs[i].createdAt;
+  }
+  return null;
+}

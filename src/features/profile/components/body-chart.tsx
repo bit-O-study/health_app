@@ -1,14 +1,11 @@
 import type { BodyLog } from "@/features/profile/body-logs";
 import {
   buildBodySeries,
+  dateTickIndexes,
   seriesDelta,
+  shortDateLabel,
   type BodySeries,
 } from "@/features/profile/body-chart-data";
-
-const fmtDate = (iso: string) => {
-  const d = new Date(iso);
-  return `${d.getMonth() + 1}/${d.getDate()}`;
-};
 
 /** 지표 하나의 미니 추이 차트(자체 [min,max] 스케일). */
 function MetricChart({ s }: { s: BodySeries }) {
@@ -28,6 +25,9 @@ function MetricChart({ s }: { s: BodySeries }) {
   const delta = seriesDelta(s);
   const deltaText =
     delta === 0 ? "변화 없음" : `${delta > 0 ? "+" : ""}${delta}${s.unit}`;
+  // x축 날짜 눈금 — 점이 많아도 겹치지 않게 최대 4개(첫·마지막 포함).
+  const ticks = dateTickIndexes(s.points.length);
+  const lastPoint = s.points[s.points.length - 1];
 
   return (
     <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
@@ -50,6 +50,11 @@ function MetricChart({ s }: { s: BodySeries }) {
             {deltaText}
           </span>
         </span>
+      </div>
+
+      {/* 최근 값이 '언제' 잰 것인지 — 그래프만 보면 알 수 없어서 함께 표시. */}
+      <div className="mb-1 text-right text-[10px] text-zinc-400 dark:text-zinc-500">
+        {shortDateLabel(lastPoint.createdAt)} 측정
       </div>
 
       <div className="relative">
@@ -90,12 +95,28 @@ function MetricChart({ s }: { s: BodySeries }) {
         </span>
       </div>
 
-      {s.points.length > 1 ? (
-        <div className="mt-0.5 flex justify-between text-[10px] text-zinc-400 dark:text-zinc-500">
-          <span>{fmtDate(s.points[0].createdAt)}</span>
-          <span>{fmtDate(s.points[s.points.length - 1].createdAt)}</span>
-        </div>
-      ) : null}
+      {/* x축 날짜 — 점 위치에 맞춰 찍는다(양끝은 잘리지 않게 안쪽 정렬). */}
+      <div className="relative mt-0.5 h-3.5">
+        {ticks.map((idx, k) => {
+          const p = s.points[idx];
+          const left = (xFor(p.i) / W) * 100;
+          const align =
+            k === 0 && ticks.length > 1
+              ? "translateX(0)"
+              : k === ticks.length - 1 && ticks.length > 1
+                ? "translateX(-100%)"
+                : "translateX(-50%)";
+          return (
+            <span
+              key={p.i}
+              className="absolute top-0 whitespace-nowrap text-[10px] text-zinc-400 dark:text-zinc-500"
+              style={{ left: `${left}%`, transform: align }}
+            >
+              {shortDateLabel(p.createdAt)}
+            </span>
+          );
+        })}
+      </div>
     </div>
   );
 }

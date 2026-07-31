@@ -1,6 +1,5 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
-import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import {
   ArrowRight,
@@ -45,6 +44,14 @@ import {
 } from "@/features/routine/data";
 import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
+import {
+  getLastExerciseValues,
+  getTodayCompletedItems,
+} from "@/features/routine/exercise-completions";
+import { getTodayCompletedConditioning } from "@/features/routine/conditioning-completions";
+import { getDailyConditioning } from "@/features/routine/daily-conditioning";
+import { getExerciseMediaMapAll } from "@/features/exercises/exercise-media";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { DayMuscleMap } from "@/features/exercises/components/exercise-muscle-map";
 import { ensureDayIndexBackfilled } from "@/features/routine/day-index-migration";
 import { TodayFocusMenu } from "@/features/routine/components/today-focus-menu";
@@ -101,11 +108,36 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   );
 }
 
+/**
+ * '오늘 할 운동'이 늦게 뜨던 원인 제거 — TodayExercises 의 조회 중 **루틴/프로필과 무관한
+ * 것들**(오늘 완료 기록·마지막 실제값·워밍업/마무리·디버그 플래그·시범 미디어)을
+ * 첫 왕복과 **동시에** 시작해 둔다. 전부 요청 단위 `cache()` 라, 나중에 TodayExercises 가
+ * 같은 함수를 부르면 이미 진행 중인 같은 Promise 를 받는다(중복 조회 없음).
+ *
+ * 이걸 안 하면: (① 프로필/루틴) → (② 오늘 운동 8건) → (③ 시범 미디어) 로 왕복이 3번
+ * 직렬로 쌓인다. 서울↔싱가포르는 왕복 1회가 70~90ms 라 이게 그대로 체감 지연이 된다.
+ * 지금은 ①과 동시에 시작해 ②는 부위가 정해져야 하는 2건만, ③은 0건이 된다.
+ *
+ * await 하지 않으므로(불 지피기만), 실패해도 여기서 터지지 않게 catch 를 달아 둔다 —
+ * 실제 오류 처리는 나중에 값을 실제로 기다리는 TodayExercises 쪽에서 한다.
+ */
+function warmTodayExercisesData(todayYmd: string) {
+  const swallow = () => {};
+  void getTodayCompletedItems(todayYmd).catch(swallow);
+  void getTodayCompletedConditioning(todayYmd).catch(swallow);
+  void getLastExerciseValues().catch(swallow);
+  void getDailyConditioning(todayYmd).catch(swallow);
+  void getExerciseMediaMapAll().catch(swallow);
+  void isDebugFeatureEnabled("helssu-coach").catch(swallow);
+  void isDebugFeatureEnabled("equipment-scan").catch(swallow);
+}
+
 export default async function Home() {
   const user = await getCurrentUser();
 
   // 오늘 계획도 profile·routine 과 독립적이므로 최초 데이터 왕복에 함께 시작한다.
   const todayYmd = seoulYmd();
+  if (user) warmTodayExercisesData(todayYmd);
   const [profile, routine, dailyPlan] = user
     ? await Promise.all([
         getUserProfile(),
@@ -471,28 +503,29 @@ function TodayWorkout({
       <TodayEditScope>
         {/* 오늘 할 운동 — 운동별 기구 선택 → 기구별 운동법. 밀린 빈 날(emptyChangedDay)도
             기존 빈 상태 UI(워밍업/본운동/마무리 각 섹션)를 그대로 띄운다. */}
+        {/* Suspense 로 감싸 스켈레톤부터 띄우지 않는다 — 페이지가 반쯤 그려진 채로
+            운동 목록만 나중에 채워지면 화면이 두 번 바뀌어 흐름이 어색하다.
+            라우트 전환 로딩(loading.tsx 스피너)만 보여주고, 완성된 화면을 한 번에 띄운다. */}
         {!isRest && (todayTones.length > 0 || emptyChangedDay) ? (
-          <Suspense fallback={<TodayExercisesSkeleton />}>
-            <TodayExercises
-              tones={
-                (todayTones.length > 0
-                  ? todayTones
-                  : deferredSectionTones) as import("@/features/routine/exercise-catalog").FocusKey[]
-              }
-              dayIndex={offset}
-              weightKg={profile?.weightKg ?? null}
-              hideVideos={profile?.hideExerciseVideos ?? false}
-              showGuide={profile?.showExerciseGuide ?? true}
-              restSound={profile?.restSound ?? true}
-              restHaptic={profile?.restHaptic ?? true}
-              lockWeightReps={profile?.lockWeightReps ?? false}
-              dailyPlan={activeDailyPlan}
-              blankDefaults={deferredToday}
-              registerHref={deferredToday ? registerHref : undefined}
-              // 오늘 고른 블록(세부근육 포함) — 인라인 '운동 추가'가 그 근육 운동만 보여준다.
-              selectedBlocks={[...deferredFocuses, ...addedBlocksToday]}
-            />
-          </Suspense>
+          <TodayExercises
+            tones={
+              (todayTones.length > 0
+                ? todayTones
+                : deferredSectionTones) as import("@/features/routine/exercise-catalog").FocusKey[]
+            }
+            dayIndex={offset}
+            weightKg={profile?.weightKg ?? null}
+            hideVideos={profile?.hideExerciseVideos ?? false}
+            showGuide={profile?.showExerciseGuide ?? true}
+            restSound={profile?.restSound ?? true}
+            restHaptic={profile?.restHaptic ?? true}
+            lockWeightReps={profile?.lockWeightReps ?? false}
+            dailyPlan={activeDailyPlan}
+            blankDefaults={deferredToday}
+            registerHref={deferredToday ? registerHref : undefined}
+            // 오늘 고른 블록(세부근육 포함) — 인라인 '운동 추가'가 그 근육 운동만 보여준다.
+            selectedBlocks={[...deferredFocuses, ...addedBlocksToday]}
+          />
         ) : (
           // 휴식일(또는 오늘 운동이 없는 날)엔 '오늘 할 운동' 섹션이 없어 편집바도
           // 사라진다 → 아래 '다가오는 7일' 순서를 바꿀 방법이 없어진다. 이때도
@@ -524,18 +557,6 @@ function TodayWorkout({
         />
       </TodayEditScope>
     </div>
-  );
-}
-
-function TodayExercisesSkeleton() {
-  return (
-    <section
-      aria-label="오늘 운동 불러오는 중"
-      className="space-y-3 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800"
-    >
-      <div className="h-5 w-24 animate-pulse rounded bg-zinc-200 dark:bg-zinc-700" />
-      <div className="h-20 animate-pulse rounded-xl bg-zinc-100 dark:bg-zinc-700/70" />
-    </section>
   );
 }
 

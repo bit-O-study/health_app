@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export type MediaKind = "video" | "gif" | "image";
@@ -59,36 +61,23 @@ export async function getExerciseMedia(
   return { exerciseId: r.exercise_id, url: r.url, kind: toKind(r.kind) };
 }
 
-/** 여러 운동의 미디어를 한 번에 — 가이드 큐/목록용. exerciseId → media 맵. */
-export async function getExerciseMediaMap(
-  exerciseIds: string[],
-): Promise<Map<string, ExerciseMedia>> {
-  const map = new Map<string, ExerciseMedia>();
-  const ids = Array.from(new Set(exerciseIds)).filter(Boolean);
-  if (ids.length === 0) return map;
-  for (const id of ids) {
-    const builtIn = BUILT_IN_MEDIA[id];
-    if (builtIn) map.set(id, builtIn);
-  }
-  const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("exercise_media")
-    .select("exercise_id, url, kind")
-    .in("exercise_id", ids);
-  if (error || !data) return map;
-  for (const r of data as { exercise_id: string; url: string; kind: unknown }[]) {
-    map.set(r.exercise_id, {
-      exerciseId: r.exercise_id,
-      url: r.url,
-      kind: toKind(r.kind),
-    });
-  }
-  for (const id of ids) {
-    const builtIn = BUILT_IN_MEDIA[id];
-    if (builtIn) map.set(id, builtIn);
-  }
-  return map;
-}
+/**
+ * 등록된 전역 미디어 **전부**를 맵으로 — 요청 단위 캐시(React cache).
+ *
+ * 오늘 화면처럼 "어떤 운동이 뜰지는 앞선 조회가 끝나야 정해지는" 곳에서 id 로 좁혀 받으면,
+ * 목록이 확정된 뒤에야 조회가 시작돼 **왕복이 한 번 더** 붙는다(서울↔싱가포르 70~90ms).
+ * 이 표는 운동당 1행(관리자 등록)이라 전량 조회가 id 필터보다 비싸지 않으므로,
+ * 첫 왕복과 함께 미리 시작해 두고 나중에 맵에서 꺼내 쓴다.
+ */
+export const getExerciseMediaMapAll = cache(
+  async function getExerciseMediaMapAll(): Promise<Map<string, ExerciseMedia>> {
+    const map = new Map<string, ExerciseMedia>();
+    for (const m of await getAllExerciseMedia()) map.set(m.exerciseId, m);
+    // 내장 미디어가 DB 등록분을 덮는다(getExerciseMedia 와 동일한 우선순위).
+    for (const [id, m] of Object.entries(BUILT_IN_MEDIA)) map.set(id, m);
+    return map;
+  },
+);
 
 /** 관리자 페이지용 — 등록된 모든 미디어. */
 export async function getAllExerciseMedia(): Promise<ExerciseMedia[]> {

@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -34,50 +36,52 @@ export type TodayCompletedConditioning = {
   reps: number | null;
 };
 
-export async function getTodayCompletedConditioning(
-  todayYmd: string,
-): Promise<TodayCompletedConditioning[]> {
-  const user = await getCurrentUser();
-  if (!user) return [];
-  const supabase = await createSupabaseServerClient();
+export const getTodayCompletedConditioning = cache(
+  async function getTodayCompletedConditioning(
+    todayYmd: string,
+  ): Promise<TodayCompletedConditioning[]> {
+    const user = await getCurrentUser();
+    if (!user) return [];
+    const supabase = await createSupabaseServerClient();
 
-  const { data, error } = await supabase
-    .from("conditioning_completions")
-    .select(
-      "source_row_id, kind, item_id, status, duration_min, speed, incline, sets, reps",
-    )
-    .eq("user_id", user.id)
-    .eq("for_date", todayYmd);
+    const { data, error } = await supabase
+      .from("conditioning_completions")
+      .select(
+        "source_row_id, kind, item_id, status, duration_min, speed, incline, sets, reps",
+      )
+      .eq("user_id", user.id)
+      .eq("for_date", todayYmd);
 
-  if (error || !data) return [];
-  const out: TodayCompletedConditioning[] = [];
-  for (const r of data as {
-    source_row_id: string | null;
-    kind: string | null;
-    item_id: string | null;
-    status: string;
-    duration_min: number | string | null;
-    speed: number | string | null;
-    incline: number | string | null;
-    sets: number | null;
-    reps: number | null;
-  }[]) {
-    if (!r.source_row_id || !r.item_id || !isConditioningKind(r.kind ?? ""))
-      continue;
-    out.push({
-      sourceRowId: r.source_row_id,
-      kind: r.kind as ConditioningKind,
-      itemId: r.item_id,
-      status: toStatus(r.status),
-      durationMin: numOrNull(r.duration_min),
-      speed: numOrNull(r.speed),
-      incline: numOrNull(r.incline),
-      sets: r.sets ?? null,
-      reps: r.reps ?? null,
-    });
-  }
-  return out;
-}
+    if (error || !data) return [];
+    const out: TodayCompletedConditioning[] = [];
+    for (const r of data as {
+      source_row_id: string | null;
+      kind: string | null;
+      item_id: string | null;
+      status: string;
+      duration_min: number | string | null;
+      speed: number | string | null;
+      incline: number | string | null;
+      sets: number | null;
+      reps: number | null;
+    }[]) {
+      if (!r.source_row_id || !r.item_id || !isConditioningKind(r.kind ?? ""))
+        continue;
+      out.push({
+        sourceRowId: r.source_row_id,
+        kind: r.kind as ConditioningKind,
+        itemId: r.item_id,
+        status: toStatus(r.status),
+        durationMin: numOrNull(r.duration_min),
+        speed: numOrNull(r.speed),
+        incline: numOrNull(r.incline),
+        sets: r.sets ?? null,
+        reps: r.reps ?? null,
+      });
+    }
+    return out;
+  },
+);
 
 /** 워밍업/마무리 완료의 (종류:항목) 키. 본운동과 같은 이유로, 루틴을 바꿔 행 UUID 가
  * 새로 생겨도 오늘 같은 항목이 보이면 완료로 유지되게 한다. */

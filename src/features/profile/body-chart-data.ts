@@ -118,18 +118,56 @@ export function timeLabel(iso: string): string {
 }
 
 /**
- * x축에 날짜를 찍을 점의 위치(인덱스 배열).
- * 점이 많으면 라벨이 서로 겹치므로 **최대 max 개**만, 첫·마지막을 반드시 포함해
- * 균등 간격으로 고른다.
+ * 그래프에 그릴 점 고르기 — 기록이 쌓이면 선이 촘촘해져 그래프가 뭉개진다.
+ * 기록이 `limit`(기본 6)개를 넘으면 **의미 있는 점만** 남긴다:
+ *
+ *   첫 기록 · 최대 · 최소 · 현재 · 직전 · 직직전
+ *
+ * 이 중 같은 기록이 겹치면(예: 최소가 곧 현재, 최대가 곧 첫 기록) 그만큼 비므로
+ * **더 이전 기록**(직직직전 → 직직직직전 …)으로 6개를 채운다.
+ * 최대·최소가 항상 포함되므로 y축 눈금(min~max)과 선이 어긋나지 않는다.
  */
-export function dateTickIndexes(count: number, max = 4): number[] {
-  if (count <= 0) return [];
-  if (max <= 1 || count === 1) return [0];
-  if (count <= max) return Array.from({ length: count }, (_, i) => i);
-  const step = (count - 1) / (max - 1);
-  const out = new Set<number>();
-  for (let k = 0; k < max; k++) out.add(Math.round(k * step));
-  return [...out].sort((a, b) => a - b);
+export function pickChartPoints(
+  points: BodySeriesPoint[],
+  limit = 6,
+): BodySeriesPoint[] {
+  const n = points.length;
+  if (n <= limit) return points;
+
+  let maxAt = 0;
+  let minAt = 0;
+  points.forEach((p, i) => {
+    if (p.v > points[maxAt].v) maxAt = i;
+    if (p.v < points[minAt].v) minAt = i;
+  });
+
+  const keep = new Set<number>();
+  // 첫 기록 · 최대 · 최소 · 현재 · 직전 · 직직전 (겹치면 Set 이 알아서 하나로)
+  for (const i of [0, maxAt, minAt, n - 1, n - 2, n - 3]) {
+    if (i >= 0 && keep.size < limit) keep.add(i);
+  }
+  // 겹쳐서 모자란 만큼 더 이전 기록으로 채운다(직직직전, 직직직직전 …).
+  for (let i = n - 4; i >= 0 && keep.size < limit; i--) keep.add(i);
+
+  return [...keep].sort((a, b) => a - b).map((i) => points[i]);
+}
+
+/**
+ * 날짜 라벨을 찍을 위치(인덱스 배열) — x 좌표가 `minGap` 보다 가까우면 건너뛴다.
+ * 고른 점들은 간격이 제각각이라(현재·직전·직직전은 오른쪽에 몰린다) 균등 배치로는
+ * 라벨이 겹친다. 첫·마지막은 항상 남긴다.
+ */
+export function spacedTickIndexes(xs: number[], minGap: number): number[] {
+  if (xs.length === 0) return [];
+  if (xs.length === 1) return [0];
+  const last = xs.length - 1;
+  const keep = [0];
+  for (let i = 1; i < last; i++) {
+    const prev = keep[keep.length - 1];
+    if (xs[i] - xs[prev] >= minGap && xs[last] - xs[i] >= minGap) keep.push(i);
+  }
+  keep.push(last);
+  return keep;
 }
 
 export type BodyLogRow = {

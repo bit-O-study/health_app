@@ -1,9 +1,10 @@
 import type { BodyLog } from "@/features/profile/body-logs";
 import {
   buildBodySeries,
-  dateTickIndexes,
+  pickChartPoints,
   seriesDelta,
   shortDateLabel,
+  spacedTickIndexes,
   type BodySeries,
 } from "@/features/profile/body-chart-data";
 
@@ -13,21 +14,22 @@ function MetricChart({ s }: { s: BodySeries }) {
   const H = 96;
   const padX = 10;
   const padY = 12;
+  // 기록이 많아도 선이 뭉개지지 않게 대표 6개만(첫·최대·최소·현재·직전·직직전).
+  const pts = pickChartPoints(s.points);
+  const lastI = Math.max(...pts.map((p) => p.i));
   const xFor = (i: number) =>
-    s.points.length === 1
-      ? W / 2
-      : padX + (i * (W - padX * 2)) / (Math.max(...s.points.map((p) => p.i)) || 1);
+    pts.length === 1 ? W / 2 : padX + (i * (W - padX * 2)) / (lastI || 1);
   // 이 지표 값들의 min~max 를 차트 높이에 정규화(값이 하나면 가운데 선).
   const span = s.max - s.min || 1;
   const yFor = (v: number) =>
     s.max === s.min ? H / 2 : H - padY - ((v - s.min) / span) * (H - padY * 2);
-  const poly = s.points.map((p) => `${xFor(p.i)},${yFor(p.v)}`).join(" ");
+  const poly = pts.map((p) => `${xFor(p.i)},${yFor(p.v)}`).join(" ");
   const delta = seriesDelta(s);
   const deltaText =
     delta === 0 ? "변화 없음" : `${delta > 0 ? "+" : ""}${delta}${s.unit}`;
-  // x축 날짜 눈금 — 점이 많아도 겹치지 않게 최대 4개(첫·마지막 포함).
-  const ticks = dateTickIndexes(s.points.length);
-  const lastPoint = s.points[s.points.length - 1];
+  // x축 날짜 — 고른 점들은 간격이 제각각이라, 서로 겹칠 만큼 가까우면 건너뛴다.
+  const ticks = spacedTickIndexes(pts.map((p) => xFor(p.i)), 44);
+  const lastPoint = pts[pts.length - 1];
 
   return (
     <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800">
@@ -64,7 +66,7 @@ function MetricChart({ s }: { s: BodySeries }) {
           role="img"
           aria-label={`${s.label} 추이`}
         >
-          {s.points.length > 1 ? (
+          {pts.length > 1 ? (
             <polyline
               points={poly}
               fill="none"
@@ -74,7 +76,7 @@ function MetricChart({ s }: { s: BodySeries }) {
               strokeLinejoin="round"
             />
           ) : null}
-          {s.points.map((p) => (
+          {pts.map((p) => (
             <circle
               key={p.i}
               cx={xFor(p.i)}
@@ -98,7 +100,7 @@ function MetricChart({ s }: { s: BodySeries }) {
       {/* x축 날짜 — 점 위치에 맞춰 찍는다(양끝은 잘리지 않게 안쪽 정렬). */}
       <div className="relative mt-0.5 h-3.5">
         {ticks.map((idx, k) => {
-          const p = s.points[idx];
+          const p = pts[idx];
           const left = (xFor(p.i) / W) * 100;
           const align =
             k === 0 && ticks.length > 1

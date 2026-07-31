@@ -35,7 +35,7 @@ import {
 } from "@/features/routine/completion-match";
 import { orderMainPlan } from "@/features/routine/plan-order";
 import { isTimedExercise } from "@/features/routine/timed-exercises";
-import { getExerciseMediaMap } from "@/features/exercises/exercise-media";
+import { getExerciseMediaMapAll } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import {
   conditioningCompletionKey,
@@ -267,8 +267,10 @@ export async function TodayExercises({
   const plan = [...activePlan, ...ghostPlan];
   const usingDailyPlan = tones.some((t) => dailyByFocus.has(t));
 
-  // 본운동 시범 미디어(관리자 등록) — 가이드 큐에서 표출
-  const mediaMap = await getExerciseMediaMap(plan.map((p) => p.exerciseId));
+  // 본운동 시범 미디어(관리자 등록) — 가이드 큐에서 표출.
+  // 오늘 목록이 정해진 뒤 id 로 조회하면 왕복이 한 번 더 붙어 '오늘 할 운동'이 늦게 뜬다.
+  // 전량 맵은 페이지가 첫 왕복과 함께 미리 시작해 두므로(page.tsx) 여기선 기다림이 없다.
+  const mediaMap = await getExerciseMediaMapAll();
 
   const baseWarmupRows =
     daily.warmup.length > 0

@@ -3,12 +3,14 @@ import { describe, expect, it } from "vitest";
 import {
   buildBodyLogRows,
   buildBodySeries,
-  dateTickIndexes,
   fullDateLabel,
+  pickChartPoints,
   seriesDelta,
   shortDateLabel,
+  spacedTickIndexes,
   timeLabel,
   type BodyLogLike,
+  type BodySeriesPoint,
 } from "@/features/profile/body-chart-data";
 
 const log = (p: Partial<BodyLogLike>): BodyLogLike => ({
@@ -96,28 +98,64 @@ describe("날짜 라벨 — 서울(Asia/Seoul) 고정", () => {
   });
 });
 
-describe("dateTickIndexes — x축 날짜 눈금 위치", () => {
-  it("점이 없으면 눈금도 없음", () => {
-    expect(dateTickIndexes(0)).toEqual([]);
+describe("pickChartPoints — 기록 많을 때 대표 6개만", () => {
+  const pts = (vals: number[]): BodySeriesPoint[] =>
+    vals.map((v, i) => ({ i, v, createdAt: `2026-07-${String(i + 1).padStart(2, "0")}T00:00:00Z` }));
+
+  it("6개 이하면 그대로(솎아내지 않는다)", () => {
+    const p = pts([70, 71, 72, 73, 74, 75]);
+    expect(pickChartPoints(p)).toEqual(p);
   });
 
-  it("점이 적으면 전부 표시", () => {
-    expect(dateTickIndexes(1)).toEqual([0]);
-    expect(dateTickIndexes(3)).toEqual([0, 1, 2]);
-    expect(dateTickIndexes(4)).toEqual([0, 1, 2, 3]);
+  it("첫 기록 · 최대 · 최소 · 현재 · 직전 · 직직전", () => {
+    //          i=0  1   2   3   4   5   6
+    const p = pts([70, 80, 60, 71, 72, 73, 74]);
+    const got = pickChartPoints(p).map((x) => x.i);
+    expect(got).toEqual([0, 1, 2, 4, 5, 6]); // 첫0 · 최대1 · 최소2 · 직직전4 · 직전5 · 현재6
   });
 
-  it("점이 많으면 최대 개수만, 첫·마지막 포함해 균등 배치", () => {
-    expect(dateTickIndexes(10)).toEqual([0, 3, 6, 9]);
-    const t = dateTickIndexes(120);
-    expect(t).toHaveLength(4);
-    expect(t[0]).toBe(0);
-    expect(t[t.length - 1]).toBe(119);
+  it("시간순으로 정렬돼 있다(선이 지그재그로 꼬이지 않게)", () => {
+    const got = pickChartPoints(pts([70, 80, 60, 71, 72, 73, 74])).map((x) => x.i);
+    expect([...got].sort((a, b) => a - b)).toEqual(got);
   });
 
-  it("max 를 줄이면 그만큼만", () => {
-    expect(dateTickIndexes(9, 2)).toEqual([0, 8]);
-    expect(dateTickIndexes(9, 1)).toEqual([0]);
+  it("최대=현재, 최소=첫 기록처럼 겹치면 더 이전 기록으로 6개를 채운다", () => {
+    // 계속 증가 → 최소=첫(i0), 최대=현재(i7). 겹쳐서 4개뿐 → 직직직전·직직직직전 보충.
+    const got = pickChartPoints(pts([70, 71, 72, 73, 74, 75, 76, 77])).map((x) => x.i);
+    expect(got).toEqual([0, 3, 4, 5, 6, 7]);
+    expect(got).toHaveLength(6);
+  });
+
+  it("기록이 아주 많아도 정확히 6개 + 최대·최소는 반드시 포함", () => {
+    const vals = Array.from({ length: 50 }, (_, i) => 70 + (i % 7));
+    vals[20] = 99; // 최대
+    vals[35] = 41; // 최소
+    const got = pickChartPoints(pts(vals));
+    expect(got).toHaveLength(6);
+    expect(got.map((x) => x.i)).toContain(20);
+    expect(got.map((x) => x.i)).toContain(35);
+    expect(got[0].i).toBe(0);
+    expect(got[got.length - 1].i).toBe(49);
+  });
+});
+
+describe("spacedTickIndexes — 겹치는 날짜 라벨 건너뛰기", () => {
+  it("빈 배열/한 점", () => {
+    expect(spacedTickIndexes([], 40)).toEqual([]);
+    expect(spacedTickIndexes([10], 40)).toEqual([0]);
+  });
+
+  it("충분히 떨어져 있으면 전부 표시", () => {
+    expect(spacedTickIndexes([10, 100, 200, 300], 40)).toEqual([0, 1, 2, 3]);
+  });
+
+  it("오른쪽에 몰린 점들(현재·직전·직직전)은 마지막만 남는다", () => {
+    // 첫 기록 뒤로 세 점이 붙어 있는 상황.
+    expect(spacedTickIndexes([10, 280, 295, 310], 40)).toEqual([0, 3]);
+  });
+
+  it("첫·마지막은 가까워도 항상 남긴다", () => {
+    expect(spacedTickIndexes([10, 20], 40)).toEqual([0, 1]);
   });
 });
 

@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -103,7 +105,7 @@ export type TodayCompletedItem = {
  * 부위를 바꿔(오늘만 변경) 현재 플랜에서 빠진 운동도 '완료'로 계속 보여주기 위해 쓴다.
  * (등 완료 후 가슴으로 바꿔도 등 완료가 사라지지 않게 — 호출부가 plan 에 없는 것만 합친다.)
  */
-export async function getTodayCompletedItems(
+export const getTodayCompletedItems = cache(async function getTodayCompletedItems(
   todayYmd: string,
 ): Promise<TodayCompletedItem[]> {
   const user = await getCurrentUser();
@@ -146,7 +148,7 @@ export async function getTodayCompletedItems(
     });
   }
   return out;
-}
+});
 
 /** 최근 N일의 운동별 완료/스킵 기록(최신→과거) */
 export async function getRecentExerciseCompletions(
@@ -193,7 +195,7 @@ export type LastExerciseValues = {
  * 운동별 '마지막으로 실제 한 값'(가장 최근 done 완료 스냅샷). 운동모드/루틴이 다시 돌아오면
  * 이 값으로 미리 채워, 사용자가 매번 다시 입력하지 않게 한다(비고정 모드). 없으면 맵에 없음.
  */
-export async function getLastExerciseValues(): Promise<
+export const getLastExerciseValues = cache(async function getLastExerciseValues(): Promise<
   Map<string, LastExerciseValues>
 > {
   const out = new Map<string, LastExerciseValues>();
@@ -222,4 +224,4 @@ export async function getLastExerciseValues(): Promise<
     });
   }
   return out;
-}
+});

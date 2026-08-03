@@ -84,6 +84,18 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
     expect(Object.keys(expected.tables).length).toBeGreaterThan(3);
   });
 
+  it("function public.swap_custom_arm_routine(integer,integer,jsonb) exists", async () => {
+    const result = await client.query(
+      `select to_regprocedure(
+       'public.swap_custom_arm_routine(integer,integer,jsonb)'
+     ) is not null as exists`,
+    );
+    expect(
+      result.rows[0]?.exists,
+      "swap_custom_arm_routine RPC missing from live DB",
+    ).toBe(true);
+  });
+
   for (const table of Object.keys(expected.tables).sort()) {
     it(`table public.${table} exists with all declared columns`, async () => {
       expect(liveTables.has(table), `table ${table} missing from live DB`).toBe(true);

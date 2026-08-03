@@ -402,6 +402,167 @@ create policy "Users can delete own routine exercises"
   on public.routine_exercises for delete
   using (auth.uid() = user_id);
 
+create or replace function public.swap_custom_arm_routine(
+  p_source_day_index integer,
+  p_target_day_index integer,
+  p_expected_custom_week jsonb
+) returns void
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_variant_id text;
+  v_raw_week jsonb;
+  v_current_week jsonb;
+  v_next_week jsonb;
+  v_source_arm jsonb;
+  v_target_arm jsonb;
+  v_source_day jsonb;
+  v_target_day jsonb;
+  v_day jsonb;
+  v_source_first integer;
+  v_target_first integer;
+  v_arm_ids constant text[] := array['arm', 'biceps', 'triceps', 'arm-forearm'];
+  v_valid_ids constant text[] := array[
+    'rest', 'fullbody', 'upper', 'lower', 'chest', 'back', 'shoulder',
+    'arm', 'push', 'pull', 'core', 'biceps', 'triceps',
+    'chest-upper', 'chest-mid', 'chest-lower', 'chest-inner',
+    'back-lats', 'back-traps', 'back-rhomboids', 'back-erector',
+    'shoulder-front', 'shoulder-side', 'shoulder-rear', 'arm-forearm',
+    'lower-quads', 'lower-hamstrings', 'lower-glutes',
+    'lower-adductors', 'lower-calves', 'core-upper-abs',
+    'core-lower-abs', 'core-obliques'
+  ];
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+  if p_source_day_index is null
+     or p_target_day_index is null
+     or p_source_day_index not between 0 and 6
+     or p_target_day_index not between 0 and 6
+     or p_source_day_index = p_target_day_index then
+    raise exception using errcode = 'P0001', message = 'INVALID_DAY';
+  end if;
+
+  select variant_id, custom_week
+    into v_variant_id, v_raw_week
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+  if v_variant_id <> 'custom' then
+    raise exception using errcode = 'P0001', message = 'CUSTOM_ROUTINE_REQUIRED';
+  end if;
+  if jsonb_typeof(v_raw_week) <> 'array' or jsonb_array_length(v_raw_week) <> 7 then
+    raise exception using errcode = 'P0001', message = 'INVALID_CUSTOM_WEEK';
+  end if;
+
+  select jsonb_agg(
+           case
+             when jsonb_typeof(item.value) = 'array' then item.value
+             else jsonb_build_array(item.value)
+           end
+           order by item.ordinality
+         )
+    into v_current_week
+    from jsonb_array_elements(v_raw_week) with ordinality as item(value, ordinality);
+
+  for v_day in select value from jsonb_array_elements(v_current_week)
+  loop
+    if jsonb_typeof(v_day) <> 'array'
+       or jsonb_array_length(v_day) < 1
+       or jsonb_array_length(v_day) > 3
+       or exists (
+         select 1
+           from jsonb_array_elements(v_day) as block(value)
+          where jsonb_typeof(block.value) <> 'string'
+             or (block.value #>> '{}') <> all(v_valid_ids)
+       ) then
+      raise exception using errcode = 'P0001', message = 'INVALID_CUSTOM_WEEK';
+    end if;
+  end loop;
+
+  if v_current_week is distinct from p_expected_custom_week then
+    raise exception using errcode = 'P0001', message = 'STALE_ROUTINE';
+  end if;
+
+  select coalesce(jsonb_agg(block.value order by block.ordinality), '[]'::jsonb),
+         min(block.ordinality)::integer
+    into v_source_arm, v_source_first
+    from jsonb_array_elements(v_current_week -> p_source_day_index)
+         with ordinality as block(value, ordinality)
+   where block.value #>> '{}' = any(v_arm_ids);
+  select coalesce(jsonb_agg(block.value order by block.ordinality), '[]'::jsonb),
+         min(block.ordinality)::integer
+    into v_target_arm, v_target_first
+    from jsonb_array_elements(v_current_week -> p_target_day_index)
+         with ordinality as block(value, ordinality)
+   where block.value #>> '{}' = any(v_arm_ids);
+
+  if jsonb_array_length(v_source_arm) = 0 or jsonb_array_length(v_target_arm) = 0 then
+    raise exception using errcode = 'P0001', message = 'ARM_SLOT_NOT_FOUND';
+  end if;
+
+  select jsonb_agg(mixed.value order by mixed.sort_order)
+    into v_source_day
+    from (
+      select block.value, block.ordinality::numeric as sort_order
+        from jsonb_array_elements(v_current_week -> p_source_day_index)
+             with ordinality as block(value, ordinality)
+       where not (block.value #>> '{}' = any(v_arm_ids))
+      union all
+      select block.value,
+             v_source_first::numeric + block.ordinality::numeric / 1000
+        from jsonb_array_elements(v_target_arm)
+             with ordinality as block(value, ordinality)
+    ) as mixed;
+  select jsonb_agg(mixed.value order by mixed.sort_order)
+    into v_target_day
+    from (
+      select block.value, block.ordinality::numeric as sort_order
+        from jsonb_array_elements(v_current_week -> p_target_day_index)
+             with ordinality as block(value, ordinality)
+       where not (block.value #>> '{}' = any(v_arm_ids))
+      union all
+      select block.value,
+             v_target_first::numeric + block.ordinality::numeric / 1000
+        from jsonb_array_elements(v_source_arm)
+             with ordinality as block(value, ordinality)
+    ) as mixed;
+
+  if jsonb_array_length(v_source_day) > 3 or jsonb_array_length(v_target_day) > 3 then
+    raise exception using errcode = 'P0001', message = 'DAY_BLOCK_LIMIT';
+  end if;
+
+  v_next_week := jsonb_set(
+    jsonb_set(v_current_week, array[p_source_day_index::text], v_source_day),
+    array[p_target_day_index::text],
+    v_target_day
+  );
+
+  update public.routine_exercises
+     set day_index = case
+       when day_index = p_source_day_index then p_target_day_index
+       when day_index = p_target_day_index then p_source_day_index
+     end
+   where user_id = v_user_id
+     and focus = 'arm'
+     and day_index in (p_source_day_index, p_target_day_index);
+
+  update public.user_routines
+     set custom_week = v_next_week
+   where user_id = v_user_id;
+end;
+$$;
+
+revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb) from public;
+grant execute on function public.swap_custom_arm_routine(integer, integer, jsonb) to authenticated;
+
 -- Weight log history (one row per weigh-in). The latest also mirrors into
 -- public.profiles.weight_kg. Drives the weight graph on /settings/profile.
 

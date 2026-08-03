@@ -122,6 +122,7 @@ export function PlanEditor({
   const gymSet = toGymEquipmentSet(gymEquipment);
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
+  const [swapInFlight, setSwapInFlight] = useState(false);
   const [addTargetDayIndex, setAddTargetDayIndex] = useState<number | null>(
     null,
   );
@@ -371,17 +372,24 @@ export function PlanEditor({
   function doSwapArmRoutine(sourceDayIndex: number, targetDayIndex: number) {
     if (!customWeek) return;
     setStatus(null);
+    setSwapInFlight(true);
     start(async () => {
-      const result = await swapArmRoutineAction(
-        sourceDayIndex,
-        targetDayIndex,
-        customWeek,
-      );
-      if (!result.ok) {
-        setStatus(result.error);
-        return;
+      try {
+        const result = await swapArmRoutineAction(
+          sourceDayIndex,
+          targetDayIndex,
+          customWeek,
+        );
+        if (!result.ok) {
+          setStatus(result.error);
+          setSwapInFlight(false);
+          return;
+        }
+        window.location.reload();
+      } catch {
+        setStatus("팔 루틴 교환에 실패했습니다.");
+        setSwapInFlight(false);
       }
-      window.location.reload();
     });
   }
 
@@ -440,7 +448,11 @@ export function PlanEditor({
         : "교체하기";
 
   return (
-    <div className="space-y-6">
+    <fieldset
+      disabled={swapInFlight}
+      aria-busy={swapInFlight}
+      className="m-0 min-w-0 space-y-6 border-0 p-0"
+    >
       <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -806,6 +818,6 @@ export function PlanEditor({
         }}
         onCancel={() => setConfirm(null)}
       />
-    </div>
+    </fieldset>
   );
 }

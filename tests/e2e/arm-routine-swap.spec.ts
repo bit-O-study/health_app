@@ -1,4 +1,4 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Page, type Route } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
@@ -304,6 +304,90 @@ test("운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 
   ).toHaveCount(0);
 
   expect(await loadExerciseSnapshot(email)).toEqual(after);
+});
+
+test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 활성화한다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  await page.goto("/plan", { waitUntil: "networkidle" });
+
+  let resolveHeld!: () => void;
+  const requestHeld = new Promise<void>((resolve) => {
+    resolveHeld = resolve;
+  });
+  let releaseRequest!: () => void;
+  const requestReleased = new Promise<void>((resolve) => {
+    releaseRequest = resolve;
+  });
+  let resolveAborted!: () => void;
+  const requestAborted = new Promise<void>((resolve) => {
+    resolveAborted = resolve;
+  });
+  let isRequestHeld = false;
+  const holdServerAction = async (route: Route) => {
+    const request = route.request();
+    if (
+      request.method() !== "POST" ||
+      !request.headers()["next-action"]
+    ) {
+      await route.continue();
+      return;
+    }
+    isRequestHeld = true;
+    resolveHeld();
+    await requestReleased;
+    try {
+      await route.abort();
+    } finally {
+      resolveAborted();
+    }
+  };
+  await page.route("**/*", holdServerAction);
+
+  const day0 = page.locator('[data-plan-day-index="0"]');
+  const addButton = day0.getByRole("button", { name: "운동 추가" });
+  try {
+    await chooseDayOneAsSwapTarget(page);
+    await page.getByRole("button", { name: "교환하기" }).click();
+    await requestHeld;
+
+    await expect(
+      page.locator('fieldset[aria-busy="true"]'),
+    ).toBeVisible();
+    const mutationControls = [
+      addButton,
+      day0.getByRole("button", { name: "추천으로 채우기" }),
+      day0.getByRole("button", { name: "1일차 저장" }),
+      day0.getByTestId("delete-row-0:back-0"),
+      day0.getByRole("button", { name: "드래그로 순서 변경" }).first(),
+      day0.getByLabel("기구").first(),
+      day0.getByTestId("arm-swap-button-0"),
+      page.getByRole("button", { name: "추천으로 등록" }),
+      page.getByTestId("clear-all-exercises"),
+    ];
+    for (const control of mutationControls) {
+      await expect(control).toBeDisabled();
+    }
+
+    await expect(
+      day0.getByRole("group", { name: "1일차 추가할 부위" }),
+    ).toHaveCount(0);
+    await addButton.evaluate((button) => button.click());
+    await expect(
+      day0.getByRole("group", { name: "1일차 추가할 부위" }),
+    ).toHaveCount(0);
+  } finally {
+    releaseRequest();
+    if (isRequestHeld) await requestAborted;
+    await page.unroute("**/*", holdServerAction);
+  }
+
+  await expect(page.getByText("팔 루틴 교환에 실패했습니다.")).toBeVisible();
+  await expect(addButton).toBeEnabled();
 });
 
 const dirtyCases = [

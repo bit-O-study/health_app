@@ -60,10 +60,37 @@ test("운동 등록에서 두 일차의 팔 루틴을 교환한다", async ({ pa
   await expect(day1.getByText("삼두", { exact: true })).toHaveCount(0);
 
   await day0.getByTestId("arm-swap-button-0").click();
-  await day0.getByRole("button", { name: "2일차 · 어깨 + 팔" }).click();
+  const swapTargets = day0.getByRole("group", {
+    name: "1일차 팔 루틴 교환 대상",
+  });
+  await expect(swapTargets).toBeVisible();
+  await swapTargets
+    .getByRole("button", { name: "2일차 · 어깨 + 팔" })
+    .click();
   await expect(page.getByRole("dialog")).toContainText(
     "1일차 팔 루틴과 2일차 팔 루틴을 교환할까요?",
   );
-  await page.getByRole("button", { name: "교환하기" }).click();
+  await Promise.all([
+    page.waitForEvent("framenavigated", {
+      predicate: (frame) => frame === page.mainFrame(),
+    }),
+    page.getByRole("button", { name: "교환하기" }).click(),
+  ]);
   await page.waitForLoadState("networkidle");
+
+  const armRows = await dbQuery<{
+    day_index: number;
+    exercise_id: string;
+  }>(
+    `select day_index, exercise_id
+       from public.routine_exercises
+      where user_id=(select id from auth.users where lower(email)=lower($1))
+        and focus='arm'
+      order by day_index, exercise_id`,
+    [email],
+  );
+  expect(armRows).toEqual([
+    { day_index: 0, exercise_id: "triceps-pushdown" },
+    { day_index: 1, exercise_id: "biceps-curl" },
+  ]);
 });

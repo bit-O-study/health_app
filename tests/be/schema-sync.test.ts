@@ -84,16 +84,30 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
     expect(Object.keys(expected.tables).length).toBeGreaterThan(3);
   });
 
-  it("function public.swap_custom_arm_routine(integer,integer,jsonb) exists", async () => {
+  it("function public.swap_custom_arm_routine(integer,integer,jsonb) has exact metadata", async () => {
     const result = await client.query(
-      `select to_regprocedure(
-       'public.swap_custom_arm_routine(integer,integer,jsonb)'
-     ) is not null as exists`,
+      `select
+         expected.oid is not null as exists,
+         pg_get_function_result(expected.oid) as return_type,
+         language.lanname as language,
+         coalesce(proc.prosecdef, false) as security_definer
+       from (
+         select to_regprocedure(
+           'public.swap_custom_arm_routine(integer,integer,jsonb)'
+         ) as oid
+       ) as expected
+       left join pg_proc as proc on proc.oid = expected.oid
+       left join pg_language as language on language.oid = proc.prolang`,
     );
     expect(
-      result.rows[0]?.exists,
-      "swap_custom_arm_routine RPC missing from live DB",
-    ).toBe(true);
+      result.rows[0],
+      "swap_custom_arm_routine RPC missing or metadata drifted in live DB",
+    ).toEqual({
+      exists: true,
+      return_type: "void",
+      language: "plpgsql",
+      security_definer: false,
+    });
   });
 
   for (const table of Object.keys(expected.tables).sort()) {

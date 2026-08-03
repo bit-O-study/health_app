@@ -458,7 +458,9 @@ begin
   if v_variant_id <> 'custom' then
     raise exception using errcode = 'P0001', message = 'CUSTOM_ROUTINE_REQUIRED';
   end if;
-  if jsonb_typeof(v_raw_week) <> 'array' or jsonb_array_length(v_raw_week) <> 7 then
+  if v_raw_week is null
+     or jsonb_typeof(v_raw_week) <> 'array'
+     or jsonb_array_length(v_raw_week) <> 7 then
     raise exception using errcode = 'P0001', message = 'INVALID_CUSTOM_WEEK';
   end if;
 

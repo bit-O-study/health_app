@@ -34,6 +34,13 @@ describe("planFocusDisplayName", () => {
 });
 
 describe("previewArmRoutineSwap", () => {
+  it("rejects a week that cannot be normalized", () => {
+    expect(previewArmRoutineSwap([], 0, 1)).toEqual({
+      ok: false,
+      reason: "invalid-week",
+    });
+  });
+
   it("팔 블록 전체를 바꾸고 비팔 블록 순서와 입력을 보존한다", () => {
     const input = week(["back", "biceps"], ["shoulder", "triceps"]);
     expect(previewArmRoutineSwap(input, 0, 1)).toEqual({
@@ -72,6 +79,8 @@ describe("previewArmRoutineSwap", () => {
   it.each([
     [-1, 1, "invalid-day"],
     [0, 7, "invalid-day"],
+    [0.5, 1, "invalid-day"],
+    [0, 1.5, "invalid-day"],
     [0, 0, "same-day"],
   ] as const)("잘못된 일차 %s→%s를 %s로 거부한다", (source, target, reason) => {
     expect(
@@ -116,6 +125,12 @@ describe("armSwapRpcErrorMessage", () => {
     );
     expect(armSwapRpcErrorMessage("ARM_SLOT_NOT_FOUND")).toBe(
       "교환할 팔 루틴을 찾을 수 없습니다.",
+    );
+    expect(armSwapRpcErrorMessage("AUTH_REQUIRED")).toBe(
+      "로그인이 필요합니다.",
+    );
+    expect(armSwapRpcErrorMessage("DAY_BLOCK_LIMIT")).toBe(
+      "하루에는 최대 3개 부위까지만 설정할 수 있습니다.",
     );
     expect(armSwapRpcErrorMessage("raw postgres detail")).toBe(
       "팔 루틴 교환에 실패했습니다.",

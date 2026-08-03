@@ -7,11 +7,14 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import {
+  CUSTOM_VARIANT_ID,
   firstDayIndexForFocus,
   focusToDaysMap,
+  normalizeCustomWeek,
   routineDayOffset,
   routineDaySlots,
   seoulYmd,
+  type DayBlockId,
 } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
@@ -40,6 +43,10 @@ import {
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 import { carryOverCompletions } from "@/features/routine/completion-carry";
 import { APPEND_POSITION_BASE } from "@/features/routine/plan-order";
+import {
+  armSwapRpcErrorMessage,
+  previewArmRoutineSwap,
+} from "@/features/routine/arm-routine-swap";
 
 /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째. 없으면 첫 번째. */
 function pickEquipment(
@@ -53,6 +60,60 @@ function pickEquipment(
 }
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
+
+export async function swapArmRoutineAction(
+  sourceDayIndex: number,
+  targetDayIndex: number,
+  expectedCustomWeek: DayBlockId[][],
+): Promise<SavePlanResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const expected = normalizeCustomWeek(expectedCustomWeek);
+  if (!expected) {
+    return { ok: false, error: "루틴 데이터가 올바르지 않습니다." };
+  }
+  const routine = await getUserRoutine();
+  if (
+    !routine ||
+    routine.variantId !== CUSTOM_VARIANT_ID ||
+    !routine.customWeek
+  ) {
+    return { ok: false, error: "커스텀 루틴에서만 교환할 수 있습니다." };
+  }
+  if (JSON.stringify(routine.customWeek) !== JSON.stringify(expected)) {
+    return {
+      ok: false,
+      error: "루틴이 다른 곳에서 변경되었습니다. 새로고침 후 다시 시도해주세요.",
+    };
+  }
+
+  const preview = previewArmRoutineSwap(
+    routine.customWeek,
+    sourceDayIndex,
+    targetDayIndex,
+  );
+  if (!preview.ok) {
+    const error =
+      preview.reason === "day-limit"
+        ? "하루에는 최대 3개 부위까지만 설정할 수 있습니다."
+        : "교환할 팔 루틴을 찾을 수 없습니다.";
+    return { ok: false, error };
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc("swap_custom_arm_routine", {
+    p_source_day_index: sourceDayIndex,
+    p_target_day_index: targetDayIndex,
+    p_expected_custom_week: expected,
+  });
+  if (error) return { ok: false, error: armSwapRpcErrorMessage(error.message) };
+
+  revalidatePath("/plan");
+  revalidatePath("/routine");
+  revalidatePath("/settings/routine");
+  return { ok: true };
+}
 
 export type ManualPlanItem = {
   exerciseId: string;

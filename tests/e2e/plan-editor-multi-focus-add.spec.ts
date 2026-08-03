@@ -41,7 +41,7 @@ test("복합 일차는 선택한 이두 슬롯에 운동 행을 추가한다", a
   });
   await expect(chooser).toBeVisible();
 
-  await chooser.getByRole("button", { name: "이두 운동 추가" }).click();
+  await chooser.getByRole("button", { name: "팔 운동 추가" }).click();
 
   await expect(chooser).toHaveCount(0);
   await expect(day.getByTestId("plan-row-0:arm-0")).toBeVisible();

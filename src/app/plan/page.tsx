@@ -103,6 +103,7 @@ export default async function PlanPage() {
 
       <PlanEditor
         focuses={focuses}
+        customWeek={routine.variantId === "custom" ? routine.customWeek : null}
         gender={profile.gender}
         experience={profile.experience}
         bodyType={profile.bodyType}

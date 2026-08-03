@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
+  ArrowLeftRight,
   GripVertical,
   Loader2,
   Plus,
@@ -12,7 +13,7 @@ import {
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
-import type { FocusTone } from "@/features/routine/data";
+import type { DayBlockId, FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
 import {
   EQUIPMENT_LABELS,
@@ -32,7 +33,12 @@ import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   registerRecommendedPlanAction,
   saveManualPlanAction,
+  swapArmRoutineAction,
 } from "@/features/routine/plan-actions";
+import {
+  eligibleArmSwapTargets,
+  planFocusDisplayName,
+} from "@/features/routine/arm-routine-swap";
 import { resolvePlanAddTarget } from "@/features/routine/plan-order";
 import { clearAllPlanAction } from "@/features/routine/delete-actions";
 import type { SetDetail } from "@/features/routine/set-details";
@@ -65,6 +71,12 @@ type FocusData = {
 /** 한 일차(dayIndex)의 부위들 — 통합 박스 단위. */
 type DayGroup = { dayIndex: number; focuses: FocusData[] };
 
+type ArmSwapConfirm = {
+  kind: "arm-swap";
+  sourceDayIndex: number;
+  targetDayIndex: number;
+};
+
 type Row = {
   exerciseId: string;
   equipment: EquipmentId;
@@ -87,6 +99,7 @@ function toRow(item: PlanExercise): Row {
 
 export function PlanEditor({
   focuses,
+  customWeek,
   gender,
   experience,
   bodyType,
@@ -95,6 +108,7 @@ export function PlanEditor({
   lockWeightReps = false,
 }: {
   focuses: FocusData[];
+  customWeek: DayBlockId[][] | null;
   gender: "male" | "female";
   experience: ExperienceLevel;
   bodyType: BodyType | null;
@@ -111,6 +125,9 @@ export function PlanEditor({
   const [addTargetDayIndex, setAddTargetDayIndex] = useState<number | null>(
     null,
   );
+  const [swapSourceDayIndex, setSwapSourceDayIndex] = useState<number | null>(
+    null,
+  );
   const [plans, setPlans] = useState<Record<string, Row[]>>(() =>
     Object.fromEntries(focuses.map((f) => [f.key, f.items.map(toRow)])),
   );
@@ -122,6 +139,7 @@ export function PlanEditor({
     | { kind: "day"; day: DayGroup }
     | { kind: "all" }
     | { kind: "clear-all" }
+    | ArmSwapConfirm
     | null
   >(null);
 
@@ -306,8 +324,14 @@ export function PlanEditor({
       .sort((a, b) => a[0] - b[0])
       .map(([dayIndex, fs]) => ({ dayIndex, focuses: fs }));
   })();
-  // "N일 · 가슴" 형태 라벨에서 부위 이름만 추출(일차는 그룹 헤더로 따로 표시).
-  const focusName = (label: string) => label.split(" · ").pop() ?? label;
+  const focusName = (focus: FocusData) =>
+    planFocusDisplayName(focus.focus, focus.label);
+  const dayName = (day: DayGroup) =>
+    day.focuses.map(focusName).join(" + ");
+  const armFocus = (dayIndex: number) =>
+    focuses.find((focus) => focus.dayIndex === dayIndex && focus.focus === "arm");
+  const swapTargetsForDay = (dayIndex: number) =>
+    customWeek ? eligibleArmSwapTargets(customWeek, dayIndex) : [];
 
   function requestAddRow(day: DayGroup) {
     const target = resolvePlanAddTarget(day.focuses);
@@ -327,6 +351,40 @@ export function PlanEditor({
     addRow(target);
     setAddTargetDayIndex(null);
   }
+  function requestArmSwap(sourceDayIndex: number, targetDayIndex: number) {
+    setSwapSourceDayIndex(null);
+    const sourceArm = armFocus(sourceDayIndex);
+    const targetArm = armFocus(targetDayIndex);
+    if (!sourceArm || !targetArm) {
+      setStatus("교환할 팔 루틴을 찾을 수 없습니다.");
+      return;
+    }
+    if (dirty.size > 0) {
+      setStatus(
+        "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
+      );
+      return;
+    }
+    setConfirm({ kind: "arm-swap", sourceDayIndex, targetDayIndex });
+  }
+
+  function doSwapArmRoutine(sourceDayIndex: number, targetDayIndex: number) {
+    if (!customWeek) return;
+    setStatus(null);
+    start(async () => {
+      const result = await swapArmRoutineAction(
+        sourceDayIndex,
+        targetDayIndex,
+        customWeek,
+      );
+      if (!result.ok) {
+        setStatus(result.error);
+        return;
+      }
+      window.location.reload();
+    });
+  }
+
   // 그날 모든 부위를 추천으로 채움(행 있으면 확인 후).
   function recommendDay(day: DayGroup) {
     const hasRows = day.focuses.some((f) => (plans[f.key] ?? []).length > 0);
@@ -360,6 +418,26 @@ export function PlanEditor({
       router.refresh();
     });
   }
+  const dialogTitle =
+    confirm?.kind === "arm-swap"
+      ? "팔 루틴을 교환할까요?"
+      : confirm?.kind === "clear-all"
+        ? "전체 운동을 비울까요?"
+        : "추천 운동으로 교체할까요?";
+  const dialogMessage =
+    confirm?.kind === "arm-swap"
+      ? `${confirm.sourceDayIndex + 1}일차 팔 루틴과 ${confirm.targetDayIndex + 1}일차 팔 루틴을 교환할까요?\n운동 목록과 내부 이두·삼두 설정이 함께 이동합니다.`
+      : confirm?.kind === "clear-all"
+        ? "본운동·워밍업·마무리 운동이 모두 즉시 삭제됩니다(저장 안 눌러도 바로 반영). ⚠️ 되돌릴 수 없습니다. (이미 완료한 운동 기록·점수는 그대로 유지됩니다.)"
+        : confirm?.kind === "all"
+          ? "직접 등록·수정한 모든 부위의 운동이 추천 운동으로 교체되고 바로 저장됩니다. 되돌릴 수 없습니다."
+          : "이 부위에서 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)";
+  const dialogConfirmLabel =
+    confirm?.kind === "arm-swap"
+      ? "교환하기"
+      : confirm?.kind === "clear-all"
+        ? "전체 비우기"
+        : "교체하기";
 
   return (
     <div className="space-y-6">
@@ -420,10 +498,57 @@ export function PlanEditor({
             <span className="inline-flex h-7 items-center rounded-full bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
               {day.dayIndex + 1}일차
             </span>
-            <span className="truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-              {day.focuses.map((f) => focusName(f.label)).join(" · ")}
+            <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+              {day.focuses.map(focusName).join(" · ")}
             </span>
+            {swapTargetsForDay(day.dayIndex).length > 0 ? (
+              <button
+                type="button"
+                data-testid={`arm-swap-button-${day.dayIndex}`}
+                disabled={pending}
+                onClick={() => {
+                  setAddTargetDayIndex(null);
+                  setSwapSourceDayIndex((current) =>
+                    current === day.dayIndex ? null : day.dayIndex,
+                  );
+                }}
+                className="inline-flex h-8 shrink-0 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+              >
+                <ArrowLeftRight aria-hidden="true" size={14} />
+                팔 루틴 교환
+              </button>
+            ) : null}
           </div>
+          {swapSourceDayIndex === day.dayIndex ? (
+            <div
+              role="group"
+              aria-label={`${day.dayIndex + 1}일차 팔 루틴 교환 대상`}
+              className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-700 dark:bg-zinc-900/50"
+            >
+              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                교환할 일차
+              </span>
+              {swapTargetsForDay(day.dayIndex).map((targetDayIndex) => {
+                const targetDay = days.find(
+                  (candidate) => candidate.dayIndex === targetDayIndex,
+                );
+                if (!targetDay) return null;
+                const name = `${targetDayIndex + 1}일차 · ${dayName(targetDay)}`;
+                return (
+                  <button
+                    key={targetDayIndex}
+                    type="button"
+                    aria-label={name}
+                    disabled={pending}
+                    onClick={() => requestArmSwap(day.dayIndex, targetDayIndex)}
+                    className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                  >
+                    {name}
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
           {(() => {
             const primary = day.focuses[0];
             const entries = day.focuses.flatMap((f) =>
@@ -467,7 +592,7 @@ export function PlanEditor({
                       추가할 부위
                     </span>
                     {day.focuses.map((focus) => {
-                      const name = focusName(focus.label);
+                      const name = focusName(focus);
                       return (
                         <button
                           key={focus.key}
@@ -661,26 +786,22 @@ export function PlanEditor({
 
       <ConfirmDialog
         open={confirm !== null}
-        tone="danger"
-        title={
-          confirm?.kind === "clear-all"
-            ? "전체 운동을 비울까요?"
-            : "추천 운동으로 교체할까요?"
-        }
-        message={
-          confirm?.kind === "clear-all"
-            ? "본운동·워밍업·마무리 운동이 모두 즉시 삭제됩니다(저장 안 눌러도 바로 반영). ⚠️ 되돌릴 수 없습니다. (이미 완료한 운동 기록·점수는 그대로 유지됩니다.)"
-            : confirm?.kind === "all"
-              ? "직접 등록·수정한 모든 부위의 운동이 추천 운동으로 교체되고 바로 저장됩니다. 되돌릴 수 없습니다."
-              : "이 부위에서 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"
-        }
-        confirmLabel={confirm?.kind === "clear-all" ? "전체 비우기" : "교체하기"}
+        tone={confirm?.kind === "arm-swap" ? "default" : "danger"}
+        title={dialogTitle}
+        message={dialogMessage}
+        confirmLabel={dialogConfirmLabel}
         onConfirm={() => {
-          if (confirm?.kind === "all") doRecommendAll();
-          else if (confirm?.kind === "focus") doRecommendFocus(confirm.section);
-          else if (confirm?.kind === "day")
+          if (confirm?.kind === "arm-swap") {
+            doSwapArmRoutine(confirm.sourceDayIndex, confirm.targetDayIndex);
+          } else if (confirm?.kind === "all") {
+            doRecommendAll();
+          } else if (confirm?.kind === "focus") {
+            doRecommendFocus(confirm.section);
+          } else if (confirm?.kind === "day") {
             confirm.day.focuses.forEach((f) => doRecommendFocus(f));
-          else if (confirm?.kind === "clear-all") doClearAll();
+          } else if (confirm?.kind === "clear-all") {
+            doClearAll();
+          }
           setConfirm(null);
         }}
         onCancel={() => setConfirm(null)}

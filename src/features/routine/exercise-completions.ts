@@ -191,9 +191,18 @@ export type LastExerciseValues = {
   sets: number | null;
 };
 
+/** '마지막 실제값'을 찾아볼 기간(일). 이보다 오래된 기록은 미리채움 근거로 안 쓴다. */
+export const LAST_VALUES_WINDOW_DAYS = 180;
+/** 한 번에 읽을 최대 행 수 — 응답 크기·메모리 상한(기간 안에서도 폭주하지 않게). */
+const LAST_VALUES_MAX_ROWS = 3000;
+
 /**
  * 운동별 '마지막으로 실제 한 값'(가장 최근 done 완료 스냅샷). 운동모드/루틴이 다시 돌아오면
  * 이 값으로 미리 채워, 사용자가 매번 다시 입력하지 않게 한다(비고정 모드). 없으면 맵에 없음.
+ *
+ * ⚠ 예전엔 사용자의 **완료 기록 전체**를 제한 없이 읽어 앱에서 골랐다. 기록이 쌓일수록
+ * 응답 크기와 JSON 처리 비용이 선형으로 늘어나는 구조라, 최근 180일 + 상한 행수로 묶었다.
+ * 반년 넘게 안 한 운동은 지난 무게를 미리 채워도 맞지 않으니 계획값으로 시작하는 게 낫다.
  */
 export const getLastExerciseValues = cache(async function getLastExerciseValues(): Promise<
   Map<string, LastExerciseValues>
@@ -202,12 +211,17 @@ export const getLastExerciseValues = cache(async function getLastExerciseValues(
   const user = await getCurrentUser();
   if (!user) return out;
   const supabase = await createSupabaseServerClient();
+  const since = new Date(Date.now() - LAST_VALUES_WINDOW_DAYS * 86_400_000)
+    .toISOString()
+    .slice(0, 10);
   const { data, error } = await supabase
     .from("exercise_completions")
     .select("exercise_id, sets, reps, weight_kg, for_date")
     .eq("user_id", user.id)
     .eq("status", "done")
-    .order("for_date", { ascending: false });
+    .gte("for_date", since)
+    .order("for_date", { ascending: false })
+    .limit(LAST_VALUES_MAX_ROWS);
   if (error || !data) return out;
   for (const r of data as {
     exercise_id: string | null;

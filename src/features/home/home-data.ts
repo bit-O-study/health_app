@@ -3,11 +3,8 @@ import "server-only";
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { goalProgress } from "@/features/profile/goal";
 import { getMyCommitments } from "@/features/commitments/data-access";
-import type { UserProfile } from "@/features/profile/data-access";
-import type {
-  GoalCardView,
-  MissionCardView,
-} from "@/features/routine/components/today-goal-card";
+import { getUserProfile } from "@/features/profile/data-access";
+import type { GoalCardView } from "@/features/routine/components/today-goal-card";
 import { getDayDetail } from "@/features/calendar/data-access";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { seoulYmd, addDaysYmd } from "@/features/routine/data";
@@ -36,8 +33,6 @@ export type TodayCommitment = {
 
 export type HomeDashboard = {
   goalCard: GoalCardView | null;
-  missionCards: MissionCardView[];
-  totalMissions: number;
   current: {
     weightKg: number | null;
     heightCm: number | null;
@@ -58,10 +53,30 @@ export type HomeDashboard = {
   contributions: ContributionDay[];
 };
 
-/** 홈 대시보드 — 체형 목표 + 오늘의 다짐 체크리스트 + 누적 운동 횟수. */
-export async function getHomeDashboard(
-  profile: UserProfile | null,
-): Promise<HomeDashboard> {
+/**
+ * 홈 대시보드 — 체형 목표 + 오늘의 다짐 체크리스트 + 누적 운동 횟수.
+ *
+ * ⚡ 조회는 **한 묶음(Promise.all)** 으로 동시에 시작한다. 예전엔 페이지가
+ *   `getUserProfile()` 을 먼저 await 하고 그 프로필을 넘겨줘서, 프로필 왕복이
+ *   나머지 전부 앞에 직렬로 붙었다(원거리 리전 왕복 1회 = 70~90ms 손해).
+ *   프로필은 **받은 뒤 산수에만** 쓰이므로 같이 쏘면 된다.
+ *   (프로필은 `React.cache` 라 페이지가 따로 불러도 왕복은 1회.)
+ */
+export async function getHomeDashboard(): Promise<HomeDashboard> {
+  const todayYmd = seoulYmd();
+  // 잔디 조회 창은 **가입일과 무관하게** 최대치(53주)로 고정한다. 가입일에 맞춰
+  // 창을 줄이려면 프로필을 먼저 받아야 해서 왕복이 한 파 늘어난다. 표시할 주 수만
+  // 나중에 가입일로 줄이면 결과는 똑같다 — 운동한 날에만 행이 있어 조회비용도 같다.
+  const maxFromYmd = addDaysYmd(todayYmd, -(CONTRIBUTION_WEEKS * 7 - 1));
+  const [profile, commitments, workoutCount, todayDetail, durationsByDate] =
+    await Promise.all([
+      getUserProfile(),
+      getMyCommitments(),
+      countWorkouts(),
+      getDayDetail(todayYmd),
+      getWorkoutDurationsRange(maxFromYmd, todayYmd),
+    ]);
+
   const gp = goalProgress(
     profile?.goal ?? null,
     {
@@ -86,20 +101,12 @@ export async function getHomeDashboard(
       }
     : null;
 
-  const todayYmd = seoulYmd();
   // 잔디 그래프는 가입일부터만 — 가입한 지 얼마 안 된 사용자에게 대부분 빈 칸인
   // 1년치 그래프를 보여주지 않는다.
   const joinYmd = profile?.createdAt ? seoulYmd(new Date(profile.createdAt)) : null;
   const contributionWeeks = joinYmd
     ? weeksSinceJoin(joinYmd, todayYmd, CONTRIBUTION_WEEKS)
     : CONTRIBUTION_WEEKS;
-  const fromYmd = addDaysYmd(todayYmd, -(contributionWeeks * 7 - 1));
-  const [commitments, workoutCount, todayDetail, durationsByDate] = await Promise.all([
-    getMyCommitments(),
-    countWorkouts(),
-    getDayDetail(todayYmd),
-    getWorkoutDurationsRange(fromYmd, todayYmd),
-  ]);
 
   const target = dailyTarget({
     gender: profile?.gender ?? "male",
@@ -131,27 +138,6 @@ export async function getHomeDashboard(
     joinYmd ?? undefined,
   );
 
-  const missionCards: MissionCardView[] = commitments.slice(0, 4).map((c) => {
-    const p = c.progress;
-    const statusText = p.done
-      ? "달성"
-      : p.expired
-        ? "종료"
-        : p.upcoming
-          ? "예정"
-          : p.daysLeft <= 0
-            ? "오늘 마감"
-            : `D-${p.daysLeft}`;
-    return {
-      id: c.id,
-      title: c.title,
-      valueText: `${p.current}/${p.target}${c.unit}`,
-      pct: p.pct,
-      statusText,
-      done: p.done,
-    };
-  });
-
   // 오늘 진행 중(예정·종료 아님)인 다짐만 체크리스트로.
   const todayCommitments: TodayCommitment[] = commitments
     .filter((c) => !c.progress.expired && !c.progress.upcoming)
@@ -164,8 +150,6 @@ export async function getHomeDashboard(
 
   return {
     goalCard,
-    missionCards,
-    totalMissions: commitments.length,
     current: {
       weightKg: profile?.weightKg ?? null,
       heightCm: profile?.heightCm ?? null,

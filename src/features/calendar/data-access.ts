@@ -162,31 +162,28 @@ export type DayDetail = {
 /** 한 날짜의 상세: 식단 + 완료 운동 + 컨디셔닝 + 운동시간. */
 export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   const user = await getCurrentUser();
-  // 프로필·식단·걸음수는 서로 독립(모두 캐시된 user만 의존) → 병렬로.
-  const [profile, foods, stepsRaw] = await Promise.all([
+  if (!user) {
+    const foods = await getFoodLogsForDate(dateYmd);
+    return {
+      intake: Math.round(foods.reduce((s, f) => s + f.kcal, 0)),
+      burned: 0,
+      durationSec: 0,
+      steps: 0,
+      stepsKcal: 0,
+      foods,
+      workouts: [],
+      conditioning: [],
+    };
+  }
+
+  // ⚡ 왕복 2파 → 1파. 여섯 조회는 서로 **완전히 독립**이다(체중은 받은 뒤 산수에만
+  //   쓰인다). 예전엔 식단·걸음수를 먼저 await 하고 나서 완료기록을 쏴서, 원거리
+  //   리전(싱가포르) 왕복이 두 번 직렬로 쌓였다. 한 묶음으로 동시에 시작한다.
+  const supabase = await createSupabaseServerClient();
+  const [profile, foods, stepsRaw, exRes, condRes, durRes] = await Promise.all([
     getUserProfile(),
     getFoodLogsForDate(dateYmd),
-    user ? getStepsForDate(dateYmd) : Promise.resolve(0),
-  ]);
-  const weight = profile?.weightKg ?? 65;
-  const intake = Math.round(foods.reduce((s, f) => s + f.kcal, 0));
-
-  const empty: DayDetail = {
-    intake,
-    burned: 0,
-    durationSec: 0,
-    steps: 0,
-    stepsKcal: 0,
-    foods,
-    workouts: [],
-    conditioning: [],
-  };
-  if (!user) return empty;
-  const supabase = await createSupabaseServerClient();
-  const steps = stepsRaw ?? 0;
-  const stepsKcal = stepsToKcal(steps, weight);
-
-  const [exRes, condRes, durRes] = await Promise.all([
+    getStepsForDate(dateYmd),
     supabase
       .from("exercise_completions")
       .select("exercise_id, sets, reps, weight_kg")
@@ -206,6 +203,10 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
       .eq("for_date", dateYmd)
       .maybeSingle(),
   ]);
+  const weight = profile?.weightKg ?? 65;
+  const intake = Math.round(foods.reduce((s, f) => s + f.kcal, 0));
+  const steps = stepsRaw ?? 0;
+  const stepsKcal = stepsToKcal(steps, weight);
 
   // 합계는 raw로 누적해 마지막에 한 번만 반올림한다(월간 집계·운동모드 총합과 동일한 방식).
   // 항목별 표시 kcal은 보기 좋게 개별 반올림하되, burned 총합에는 raw를 더한다.

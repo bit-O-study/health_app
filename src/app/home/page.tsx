@@ -30,7 +30,14 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
-  const profile = await getUserProfile();
+
+  // ⚡ 프로필과 대시보드 조회를 **동시에** 시작한다. 예전엔 프로필을 먼저 await 하고
+  //   그 값을 넘겨줘서 원거리 리전(싱가포르) 왕복이 한 파 더 붙었다.
+  //   프로필 조회는 `React.cache` 라 대시보드 안에서 다시 불러도 왕복은 1회다.
+  const [profile, dashboard] = await Promise.all([
+    getUserProfile(),
+    getHomeDashboard(),
+  ]);
   if (!profile) redirect("/onboarding");
 
   const {
@@ -42,7 +49,7 @@ export default async function HomePage() {
     macroRemaining,
     hasFoodLog,
     contributions,
-  } = await getHomeDashboard(profile);
+  } = dashboard;
 
   const doneCount = todayCommitments.filter((c) => c.done).length;
   return (

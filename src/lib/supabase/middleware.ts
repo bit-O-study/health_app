@@ -3,23 +3,11 @@ import { createServerClient } from "@supabase/ssr";
 
 import { isBlocked } from "@/features/admin/ban";
 import { isOAuthCallbackPath } from "@/features/auth/oauth-redirect";
+import { isProtectedPath } from "@/features/auth/protected-paths";
 import { getSigningKeys } from "@/lib/supabase/jwks";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
-
-/** 보호 경로: 로그인하지 않으면 /login 으로 보냄 */
-const PROTECTED_PREFIXES = [
-  "/settings",
-  "/onboarding",
-  "/plan",
-  "/admin",
-  "/change-password",
-  "/exercises", // 운동 찾기(목록·상세) — 로그인 후에만 노출
-  "/commitments", // 다짐 — 개인 목표(로그인 필요)
-  "/coach", // 헬쑤쌤(AI 코치) — 로그인 필요
-  "/pet", // 늑대 키우기 — 로그인 필요
-];
 
 /**
  * 매 요청마다 access/refresh 토큰을 검증·갱신하고 쿠키에 다시 기록합니다.
@@ -95,11 +83,8 @@ export async function updateSession(request: NextRequest) {
   }
 
   const { pathname } = request.nextUrl;
-  const isProtected = PROTECTED_PREFIXES.some(
-    (prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`),
-  );
 
-  if (!user && isProtected) {
+  if (!user && isProtectedPath(pathname)) {
     const redirectUrl = request.nextUrl.clone();
     redirectUrl.pathname = "/login";
     redirectUrl.searchParams.set("redirect", pathname);

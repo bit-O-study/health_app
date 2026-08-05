@@ -144,18 +144,23 @@ export async function pinRoutineFocusesForTodayAction(
         r.id,
       ]),
     );
-    for (let index = 0; index < dayPlan.length; index++) {
-      const oldRowId = dayPlan[index].id;
-      const newRowId = newIdByPos.get(index);
-      if (!newRowId || newRowId === oldRowId) continue;
-      const upd = await supabase
-        .from("exercise_completions")
-        .update({ exercise_row_id: newRowId })
-        .eq("user_id", user.id)
-        .eq("for_date", today)
-        .eq("exercise_row_id", oldRowId);
-      if (upd.error) return { ok: false, error: upd.error.message };
-    }
+    // 운동 하나당 UPDATE 1회지만 서로 다른 행을 건드려 순서 의존이 없다 → 병렬로.
+    // (직렬이면 운동 수에 비례해 저장이 느려진다.)
+    const remaps = dayPlan
+      .map((p, index) => ({ oldRowId: p.id, newRowId: newIdByPos.get(index) }))
+      .filter((r) => r.newRowId && r.newRowId !== r.oldRowId);
+    const updResults = await Promise.all(
+      remaps.map((r) =>
+        supabase
+          .from("exercise_completions")
+          .update({ exercise_row_id: r.newRowId })
+          .eq("user_id", user.id)
+          .eq("for_date", today)
+          .eq("exercise_row_id", r.oldRowId),
+      ),
+    );
+    const failed = updResults.find((u) => u.error);
+    if (failed?.error) return { ok: false, error: failed.error.message };
   }
 
   revalidatePath("/routine");

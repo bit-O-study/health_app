@@ -2,7 +2,11 @@ import "server-only";
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-import { notifyUser } from "@/features/notifications/push-fanout";
+import {
+  loadDevices,
+  notifyDevices,
+} from "@/features/notifications/push-fanout";
+import { chunk, mapWithConcurrency } from "@/lib/batch";
 import {
   strengthKcalForCompletion,
   estimateConditioningKcal,
@@ -23,6 +27,46 @@ const num = (v: number | string | null | undefined): number => {
   const n = Number(v);
   return Number.isFinite(n) ? n : 0;
 };
+
+/** `.in(...)` 한 번에 넣을 최대 개수(PostgREST 는 GET 이라 URL 길이 제한이 있다). */
+const IN_CHUNK = 100;
+/** 발송 동시 실행 수. */
+const SEND_CONCURRENCY = 8;
+
+type ProfileRow = {
+  user_id: string;
+  name: string | null;
+  nickname: string | null;
+  weight_kg: number | string | null;
+};
+type ExRow = { user_id: string; exercise_id: string | null; sets: number | null };
+type CondRow = {
+  user_id: string;
+  item_id: string | null;
+  duration_min: number | null;
+  speed: number | string | null;
+};
+
+/** id 묶음마다 조회해 한 배열로 합친다(대상이 많아도 URL 길이에 안 걸리게). */
+async function batched<T>(
+  idBatches: string[][],
+  query: (ids: string[]) => PromiseLike<{ data: unknown }>,
+): Promise<T[]> {
+  const results = await Promise.all(idBatches.map((ids) => query(ids)));
+  return results.flatMap((r) => (r.data ?? []) as T[]);
+}
+
+/** 배열을 키별로 묶는다(사용자별 기록 나누기용). */
+function groupBy<T>(rows: T[], keyOf: (row: T) => string): Map<string, T[]> {
+  const out = new Map<string, T[]>();
+  for (const r of rows) {
+    const k = keyOf(r);
+    const arr = out.get(k);
+    if (arr) arr.push(r);
+    else out.set(k, [r]);
+  }
+  return out;
+}
 
 /** 랭킹에 필요한 최소 필드만 채운 MemberStat(나머지는 기본값). */
 function baseStat(userId: string, name: string): MemberStat {
@@ -57,42 +101,77 @@ export async function runWeeklyGroupMvp(
   const to = addDaysYmd(thisWeek.from, -1);
 
   const { data: groups } = await admin.from("groups").select("id, name");
+  const groupRows = (groups ?? []) as { id: string; name: string }[];
+  if (groupRows.length === 0) return { groups: 0, notified: 0 };
+
+  // 그룹마다 회원·프로필·기록을 다시 읽지 않는다 — 전체를 한 번에 읽어 메모리에서 나눈다.
+  // (예전엔 그룹 수 × 4회 조회 + 회원별 직렬 푸시라, 그룹이 늘면 그대로 시간이 늘었다.
+  //  여러 그룹에 든 사용자는 같은 완료 기록을 그룹 수만큼 반복해서 읽기까지 했다.)
+  const { data: allMemberRows } = await admin
+    .from("group_members")
+    .select("group_id, user_id, display_name");
+  const memberRowsByGroup = new Map<
+    string,
+    { user_id: string; display_name: string | null }[]
+  >();
+  const allMemberIds = new Set<string>();
+  for (const m of (allMemberRows ?? []) as {
+    group_id: string;
+    user_id: string;
+    display_name: string | null;
+  }[]) {
+    const arr = memberRowsByGroup.get(m.group_id) ?? [];
+    arr.push({ user_id: m.user_id, display_name: m.display_name });
+    memberRowsByGroup.set(m.group_id, arr);
+    allMemberIds.add(m.user_id);
+  }
+  if (allMemberIds.size === 0) return { groups: 0, notified: 0 };
+
+  const idBatches = chunk([...allMemberIds], IN_CHUNK);
+  const [profileRows, exAll, condAll] = await Promise.all([
+    batched<ProfileRow>(idBatches, (ids) =>
+      admin
+        .from("profiles")
+        .select("user_id, name, nickname, weight_kg")
+        .in("user_id", ids),
+    ),
+    batched<ExRow>(idBatches, (ids) =>
+      admin
+        .from("exercise_completions")
+        .select("user_id, exercise_id, sets")
+        .in("user_id", ids)
+        .eq("status", "done")
+        .gte("for_date", from)
+        .lte("for_date", to),
+    ),
+    batched<CondRow>(idBatches, (ids) =>
+      admin
+        .from("conditioning_completions")
+        .select("user_id, item_id, duration_min, speed")
+        .in("user_id", ids)
+        .eq("status", "done")
+        .gte("for_date", from)
+        .lte("for_date", to),
+    ),
+  ]);
+  const exByUser = groupBy(exAll, (r) => r.user_id);
+  const condByUser = groupBy(condAll, (r) => r.user_id);
+
   let groupsNotified = 0;
   let notified = 0;
+  /** 그룹별 발송 대상(멤버 전원) — 기기 조회는 마지막에 한 번에 한다. */
+  const pending: { userId: string; groupName: string; rank: number; total: number; winner: string }[] =
+    [];
 
-  for (const g of (groups ?? []) as { id: string; name: string }[]) {
-    const { data: memberRows } = await admin
-      .from("group_members")
-      .select("user_id, display_name")
-      .eq("group_id", g.id);
-    const members = (memberRows ?? []) as {
-      user_id: string;
-      display_name: string | null;
-    }[];
+  for (const g of groupRows) {
+    const members = memberRowsByGroup.get(g.id) ?? [];
     const memberIds = members.map((m) => m.user_id);
     if (memberIds.length === 0) continue;
 
-    const [{ data: profiles }, { data: exRows }, { data: condRows }] =
-      await Promise.all([
-        admin
-          .from("profiles")
-          .select("user_id, name, nickname, weight_kg")
-          .in("user_id", memberIds),
-        admin
-          .from("exercise_completions")
-          .select("user_id, exercise_id, sets")
-          .in("user_id", memberIds)
-          .eq("status", "done")
-          .gte("for_date", from)
-          .lte("for_date", to),
-        admin
-          .from("conditioning_completions")
-          .select("user_id, item_id, duration_min, speed")
-          .in("user_id", memberIds)
-          .eq("status", "done")
-          .gte("for_date", from)
-          .lte("for_date", to),
-      ]);
+    const memberIdSet = new Set(memberIds);
+    const profiles = profileRows.filter((p) => memberIdSet.has(p.user_id));
+    const exRows = memberIds.flatMap((id) => exByUser.get(id) ?? []);
+    const condRows = memberIds.flatMap((id) => condByUser.get(id) ?? []);
 
     const nameOf = new Map<string, string>();
     const weightOf = new Map<string, number>();
@@ -163,25 +242,37 @@ export async function runWeeklyGroupMvp(
     const winner = ranking[0];
     if (!winner) continue;
 
-    let sentInGroup = false;
     for (const m of ranking) {
-      const { title, body } = buildWeeklyMvpMessage(
-        g.name,
-        winner.name,
-        m.rank,
-        ranking.length,
-      );
-      // 웹푸시 + FCM(네이티브 앱) 양쪽으로.
-      await notifyUser(admin, m.userId, {
-        type: "weekly-mvp",
-        title,
-        body,
+      pending.push({
+        userId: m.userId,
+        groupName: g.name,
+        rank: m.rank,
+        total: ranking.length,
+        winner: winner.name,
       });
-      notified += 1;
-      sentInGroup = true;
     }
-    if (sentInGroup) groupsNotified += 1;
+    if (ranking.length > 0) groupsNotified += 1;
   }
+
+  // 발송 — 대상자 기기를 한 번에 읽고(사용자당 2회 조회 제거), 제한 동시성으로 병렬.
+  const devices = await loadDevices(admin, [
+    ...new Set(pending.map((p) => p.userId)),
+  ]);
+  await mapWithConcurrency(pending, SEND_CONCURRENCY, async (p) => {
+    const { title, body } = buildWeeklyMvpMessage(
+      p.groupName,
+      p.winner,
+      p.rank,
+      p.total,
+    );
+    // 웹푸시 + FCM(네이티브 앱) 양쪽으로.
+    await notifyDevices(admin, devices.get(p.userId), {
+      type: "weekly-mvp",
+      title,
+      body,
+    });
+  });
+  notified = pending.length;
 
   return { groups: groupsNotified, notified };
 }

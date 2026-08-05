@@ -314,12 +314,16 @@ export async function reorderUpcomingSevenDaysAction(
       arr.push(u.id);
       idsByDay.set(u.dayIndex, arr);
     }
-    for (const [dayIndex, ids] of idsByDay) {
-      await supabase
-        .from("routine_exercises")
-        .update({ day_index: dayIndex })
-        .in("id", ids);
-    }
+    // 목적지별 id 묶음은 서로 겹치지 않으므로 순서에 의존하지 않는다 → 병렬로.
+    // (직렬이면 최대 7일치 × 왕복이 그대로 저장 대기시간이 된다.)
+    await Promise.all(
+      [...idsByDay].map(([dayIndex, ids]) =>
+        supabase
+          .from("routine_exercises")
+          .update({ day_index: dayIndex })
+          .in("id", ids),
+      ),
+    );
   }
 
   // 부위 배치가 바뀌었으니 day_index 정합성 보정(비어버린 일차 채우기/드리프트 수리).

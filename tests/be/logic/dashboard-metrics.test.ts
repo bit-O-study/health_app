@@ -119,6 +119,39 @@ describe("buildContributionGrid (잔디 그리드)", () => {
   });
 });
 
+// 홈은 조회 왕복을 줄이려고 잔디 데이터를 **가입일과 무관하게 53주 통째로** 받아
+// 오고, 표시할 주 수만 가입일로 줄인다(getHomeDashboard). 넓게 받아온 데이터가
+// 좁은 그리드로 새지 않아야 예전(가입일 맞춤 조회)과 결과가 같다.
+describe("★ 넓은 조회창 → 좁은 그리드(홈 왕복 축소) 등가성", () => {
+  const wideMap = new Map([
+    ["2025-09-01", 40 * 60], // 53주 창엔 있지만 가입 전 + 표시 창 밖
+    ["2026-07-01", 30 * 60], // 표시 창 밖(가입 전)
+    ["2026-07-15", 25 * 60], // 표시 창 안
+  ]);
+
+  it("표시 창(가입 후 2주) 밖의 날짜는 그리드에 아예 없다", () => {
+    const weeks = weeksSinceJoin("2026-07-10", "2026-07-20", 53); // 2주
+    const grid = buildContributionGrid(wideMap, "2026-07-20", weeks, "2026-07-10");
+    expect(grid).toHaveLength(weeks * 7);
+    expect(grid.some((d) => d.date === "2025-09-01")).toBe(false);
+    expect(grid.some((d) => d.date === "2026-07-01")).toBe(false);
+  });
+
+  it("좁게 받아온 맵과 넓게 받아온 맵의 그리드 결과가 같다", () => {
+    const weeks = weeksSinceJoin("2026-07-10", "2026-07-20", 53);
+    const narrowMap = new Map([["2026-07-15", 25 * 60]]); // 예전 방식(가입일 맞춤 조회)
+    expect(
+      buildContributionGrid(wideMap, "2026-07-20", weeks, "2026-07-10"),
+    ).toEqual(buildContributionGrid(narrowMap, "2026-07-20", weeks, "2026-07-10"));
+  });
+
+  it("표시 창 안의 기록은 그대로 반영된다", () => {
+    const weeks = weeksSinceJoin("2026-07-10", "2026-07-20", 53);
+    const grid = buildContributionGrid(wideMap, "2026-07-20", weeks, "2026-07-10");
+    expect(grid.find((d) => d.date === "2026-07-15")!.minutes).toBe(25);
+  });
+});
+
 describe("weeksSinceJoin (가입일 기준 잔디 그래프 주 수)", () => {
   it("가입 당일이면 최소 1주", () => {
     expect(weeksSinceJoin("2026-07-20", "2026-07-20", 53)).toBe(1);

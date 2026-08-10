@@ -4,6 +4,7 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { getUserProfile } from "@/features/profile/data-access";
 import {
   strengthKcalForCompletion,
   estimateConditioningKcal,
@@ -140,13 +141,12 @@ export async function getMyCommitments(): Promise<CommitmentView[]> {
     commitments[0].start_date,
   );
 
-  const [{ data: profile }, { data: exRows }, { data: condRows }, { data: foodRows }] =
+  // ⚡ 체중은 요청 캐시된 getUserProfile() 에서 가져온다 — 홈·캘린더는 이미 프로필을
+  //   조회 중이라 같은 Promise 를 받아 **왕복 0회**. (예전엔 여기서 profiles 를 또
+  //   따로 조회해 한 화면에서 profiles 를 세 번(미들웨어·페이지·여기) 긁었다.)
+  const [profile, { data: exRows }, { data: condRows }, { data: foodRows }] =
     await Promise.all([
-      supabase
-        .from("profiles")
-        .select("weight_kg")
-        .eq("user_id", user.id)
-        .maybeSingle(),
+      getUserProfile(),
       supabase
         .from("exercise_completions")
         .select("for_date, exercise_id, sets")
@@ -169,7 +169,7 @@ export async function getMyCommitments(): Promise<CommitmentView[]> {
         .lte("for_date", today),
     ]);
 
-  const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
+  const weight = num(profile?.weightKg) || 65;
   const ex = (exRows ?? []) as ExRow[];
   const cond = (condRows ?? []) as CondRow[];
   const food = (foodRows ?? []) as FoodRow[];
@@ -238,9 +238,9 @@ export async function getMissionCalendar(
     .filter((c) => c.missions.length > 0);
   if (surveys.length === 0) return {};
 
-  const [{ data: profile }, { data: exRows }, { data: condRows }, { data: foodRows }] =
+  const [profile, { data: exRows }, { data: condRows }, { data: foodRows }] =
     await Promise.all([
-      supabase.from("profiles").select("weight_kg").eq("user_id", user.id).maybeSingle(),
+      getUserProfile(), // 요청 캐시 — 같은 화면에서 profiles 를 두 번 긁지 않는다.
       supabase
         .from("exercise_completions")
         .select("for_date, exercise_id, sets")
@@ -263,7 +263,7 @@ export async function getMissionCalendar(
         .lte("for_date", to),
     ]);
 
-  const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
+  const weight = num(profile?.weightKg) || 65;
 
   // 날짜별 DayStats 집계.
   const stats = new Map<string, DayStats>();

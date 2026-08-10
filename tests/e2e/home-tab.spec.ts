@@ -22,7 +22,9 @@ test("홈 탭: 체형목표·내다짐·설정이 홈에 있고, 운동탭엔 �
   await expect(page.getByRole("link", { name: /오늘의 다짐/ })).toBeVisible();
   await expect(page.getByRole("link", { name: /설정/ })).toBeVisible();
   // 히어로(누적 운동횟수·인사말·바로가기)는 제거됨 — 잔디 그래프가 누적 운동일수를 대신 보여준다.
-  await expect(page.getByText(/일 운동 · 최근 1년/)).toBeVisible();
+  // 잔디는 **가입일부터**만 그리므로(53주 미만이면 "가입일부터") 갓 가입한 E2E 계정은
+  // "최근 1년" 이 아니다 — 두 라벨 모두 허용해야 한다.
+  await expect(page.getByText(/일 운동 · (최근 1년|가입일부터)/)).toBeVisible();
 
   // 운동탭(/routine) 으로 이동 — 실제 운동탭에 도달했는지 확인.
   await page.goto("/routine", { waitUntil: "networkidle" });

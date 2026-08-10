@@ -16,12 +16,13 @@ import { AppSplash } from "@/features/brand/app-splash";
 import { ThemeScript } from "@/features/theme/theme-script";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
-// ⚡ 서버 함수를 DB(Supabase, ap-southeast-1 싱가포르)와 같은 리전에서 실행한다.
-// 기본 리전(미국)에서 돌면 매 쿼리가 미국↔싱가포르(200ms+)를 왕복해 TTFB 가 수 초까지
-// 치솟는다. DB 와 같은 sin1 에 두면 왕복이 ~5ms 로 줄어 TTFB 가 크게 개선된다.
-// (루트 레이아웃에 두어 전 라우트에 적용. Vercel Project Settings 의 Functions Region
-//  으로도 같이 지정하면 확실하다.)
-export const preferredRegion = "sin1";
+// ⚠ 함수 리전은 **`vercel.json` 의 `regions`** 로만 정한다.
+// 여기에 `export const preferredRegion` 을 써도 **아무 일도 일어나지 않는다** —
+// Vercel 문서상 preferredRegion 은 `runtime = 'edge'` 일 때만 적용되고, 이 앱은
+// Node.js 런타임이다. (예전에 여기에 sin1 을 적어 뒀지만 실제 배포는 계속
+// vercel.json 의 icn1 에서 돌았다 — x-vercel-id 가 `icn1::icn1::…` 로 확인됨.)
+// 지금은 DB(Supabase ap-southeast-1)와 같은 sin1 에 함수를 둔다 → 쿼리 왕복
+// 70~90ms → ~5ms. 되돌리려면 vercel.json 의 "regions" 한 줄만 고치면 된다.
 
 const PWA_ICON_VERSION = "20260702b";
 

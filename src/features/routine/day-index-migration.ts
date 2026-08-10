@@ -203,7 +203,7 @@ export async function syncRoutineExerciseDays(
  * true 로 두어 다음 로드부터는 호출 자체를 건너뛴다. (루틴 변경 액션은 플래그를 false 로
  * 되돌려 다음 진입 때 다시 동기화되게 한다.)
  */
-export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
+export async function ensureDayIndexBackfilled(userId: string): Promise<boolean> {
   const supabase = await createSupabaseServerClient();
 
   // 원자적 claim: false → true 로 바꾼 행이 있을 때만(=내가 잡았을 때만) 진행.
@@ -213,10 +213,10 @@ export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
     .eq("user_id", userId)
     .eq("day_index_migrated", false)
     .select("user_id");
-  if (!claimed || claimed.length === 0) return;
+  if (!claimed || claimed.length === 0) return false;
 
   const routine = await getUserRoutine();
-  if (!routine) return;
+  if (!routine) return false;
 
   await syncRoutineExerciseDays(
     userId,
@@ -224,4 +224,5 @@ export async function ensureDayIndexBackfilled(userId: string): Promise<void> {
     routine.variantId,
     routine.customWeek,
   );
+  return true;
 }

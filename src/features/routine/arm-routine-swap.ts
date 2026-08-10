@@ -1,6 +1,6 @@
 import {
   DAY_BLOCKS,
-  normalizeCustomWeek,
+  isDayBlockId,
   type DayBlockId,
   type FocusKey,
 } from "@/features/routine/data";
@@ -30,12 +30,30 @@ function replaceArmBlocks(
   return next;
 }
 
+export function normalizeArmSwapWeek(rawWeek: unknown): DayBlockId[][] | null {
+  if (!Array.isArray(rawWeek) || rawWeek.length !== 7) return null;
+
+  const week: DayBlockId[][] = [];
+  for (const rawDay of rawWeek) {
+    const day = Array.isArray(rawDay) ? rawDay : [rawDay];
+    if (
+      day.length < 1 ||
+      day.length > 3 ||
+      !day.every((blockId) => isDayBlockId(blockId))
+    ) {
+      return null;
+    }
+    week.push([...day]);
+  }
+  return week;
+}
+
 export function previewArmRoutineSwap(
   rawWeek: unknown,
   sourceDayIndex: number,
   targetDayIndex: number,
 ): ArmSwapPreview {
-  const week = normalizeCustomWeek(rawWeek);
+  const week = normalizeArmSwapWeek(rawWeek);
   if (!week) return { ok: false, reason: "invalid-week" };
   if (
     !Number.isInteger(sourceDayIndex) ||

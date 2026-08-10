@@ -10,11 +10,9 @@ import {
   CUSTOM_VARIANT_ID,
   firstDayIndexForFocus,
   focusToDaysMap,
-  normalizeCustomWeek,
   routineDayOffset,
   routineDaySlots,
   seoulYmd,
-  type DayBlockId,
 } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
@@ -45,8 +43,10 @@ import { carryOverCompletions } from "@/features/routine/completion-carry";
 import { APPEND_POSITION_BASE } from "@/features/routine/plan-order";
 import {
   armSwapRpcErrorMessage,
+  normalizeArmSwapWeek,
   previewArmRoutineSwap,
 } from "@/features/routine/arm-routine-swap";
+import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
 
 /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째. 없으면 첫 번째. */
 function pickEquipment(
@@ -64,13 +64,14 @@ export type SavePlanResult = { ok: true } | { ok: false; error: string };
 export async function swapArmRoutineAction(
   sourceDayIndex: number,
   targetDayIndex: number,
-  expectedCustomWeek: DayBlockId[][],
+  expectedCustomWeek: unknown,
+  expectedRoutineUpdatedAt: string,
 ): Promise<SavePlanResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const expected = normalizeCustomWeek(expectedCustomWeek);
-  if (!expected) {
+  const expected = normalizeArmSwapWeek(expectedCustomWeek);
+  if (!expected || !expectedRoutineUpdatedAt) {
     return { ok: false, error: "루틴 데이터가 올바르지 않습니다." };
   }
   const routine = await getUserRoutine();
@@ -81,7 +82,10 @@ export async function swapArmRoutineAction(
   ) {
     return { ok: false, error: "커스텀 루틴에서만 교환할 수 있습니다." };
   }
-  if (JSON.stringify(routine.customWeek) !== JSON.stringify(expected)) {
+  if (
+    JSON.stringify(routine.customWeek) !== JSON.stringify(expected) ||
+    routine.updatedAt !== expectedRoutineUpdatedAt
+  ) {
     return {
       ok: false,
       error: "루틴이 다른 곳에서 변경되었습니다. 새로고침 후 다시 시도해주세요.",
@@ -106,6 +110,7 @@ export async function swapArmRoutineAction(
     p_source_day_index: sourceDayIndex,
     p_target_day_index: targetDayIndex,
     p_expected_custom_week: expected,
+    p_expected_routine_updated_at: expectedRoutineUpdatedAt,
   });
   if (error) return { ok: false, error: armSwapRpcErrorMessage(error.message) };
 
@@ -125,6 +130,12 @@ export type ManualPlanItem = {
   setDetails?: SetDetail[] | null;
 };
 
+export type ManualPlanGroup = {
+  dayIndex: number;
+  focus: string;
+  items: ManualPlanItem[];
+};
+
 /**
  * 추천 운동들로 등록: 루틴의 각 일차(day_index)·부위에 (성별·경력·체형) 기반
  * 운동/세트/횟수/무게를 채워 넣는다(기존 등록은 전부 대체). 같은 부위가 여러
@@ -141,6 +152,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
     getUserRoutine(),
   ]);
   if (!profile) return { ok: false, error: "프로필이 필요합니다." };
+  if (!routine) return { ok: false, error: "루틴을 찾을 수 없습니다." };
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
 
   const gender = profile.gender;
@@ -151,36 +163,11 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
     weightKg: profile.weightKg ?? 65,
   };
 
-  // 루틴이 있으면 일차별 슬롯으로, 없으면(드뭄) 전 부위를 0일차에 폴백.
-  const slots = routine
-    ? routineDaySlots(routine.splits, routine.variantId, routine.customWeek)
-    : ALL_FOCUSES.map((focus) => ({
-        dayIndex: 0,
-        focus,
-        blockIds: [focus],
-        isSide: false,
-        label: "",
-      }));
-
-  const rows = slots.flatMap((slot) => {
-    const list = slot.isSide
-      ? sideExercisesForSlot(slot.focus, slot.blockIds, gender)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, gender);
-    return list.map((ex, index) => {
-      const p = prescribe(ex.id, opts);
-      return {
-        user_id: user.id,
-        day_index: slot.dayIndex,
-        focus: slot.focus,
-        position: index,
-        exercise_id: ex.id,
-        equipment: pickEquipment(ex, gymSet),
-        sets: p.sets,
-        reps: p.reps,
-        weight_kg: p.weightKg,
-      };
-    });
-  });
+  const slots = routineDaySlots(
+    routine.splits,
+    routine.variantId,
+    routine.customWeek,
+  );
 
   // 완료기록(exercise_completions) 보존을 위해, 기존 행의 UUID 를
   // (day_index, focus, exercise_id) 키로 모아 두고, 같은 운동이면 재등록 시에도
@@ -199,20 +186,37 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
     oldIdByKey.set(`${r.day_index ?? 0}:${r.focus}:${r.exercise_id}`, r.id);
   }
 
-  const del = await supabase
-    .from("routine_exercises")
-    .delete()
-    .eq("user_id", user.id);
-  if (del.error) return { ok: false, error: del.error.message };
-
-  if (rows.length > 0) {
-    const rowsWithId = rows.map((r) => {
-      const id = oldIdByKey.get(`${r.day_index}:${r.focus}:${r.exercise_id}`);
-      return id ? { ...r, id } : r;
-    });
-    const ins = await supabase.from("routine_exercises").insert(rowsWithId);
-    if (ins.error) return { ok: false, error: ins.error.message };
-  }
+  const groups = slots.map((slot) => {
+    const list = slot.isSide
+      ? sideExercisesForSlot(slot.focus, slot.blockIds, gender)
+      : focusExercisesForSlot(slot.focus, slot.blockIds, gender);
+    return {
+      dayIndex: slot.dayIndex,
+      focus: slot.focus,
+      rows: list.map((ex, index) => {
+        const p = prescribe(ex.id, opts);
+        const id = oldIdByKey.get(`${slot.dayIndex}:${slot.focus}:${ex.id}`);
+        return {
+          ...(id ? { id } : {}),
+          position: index,
+          exerciseId: ex.id,
+          equipment: pickEquipment(ex, gymSet),
+          sets: p.sets,
+          reps: p.reps,
+          weightKg: p.weightKg,
+          setDetails: null,
+          memo: null,
+        };
+      }),
+    };
+  });
+  const replacement = await replaceRoutineExerciseGroups(
+    supabase,
+    routine.updatedAt,
+    true,
+    groups,
+  );
+  if (!replacement.ok) return replacement;
 
   // 워밍업·마무리도 기본 추천으로 함께 채운다
   await registerRecommendedConditioningAction();
@@ -264,93 +268,115 @@ export async function reorderPlanAction(
 }
 
 /**
- * 직접 등록: 특정 일차(day_index)·부위의 운동 목록을 통째로 교체한다.
- * 같은 부위가 다른 일차에 있어도 그 일차는 건드리지 않는다(일차별 독립).
+ * 직접 등록: 한 저장 버튼에 속한 일차(day_index)의 부위별 운동 목록을 한
+ * 트랜잭션에서 교체한다. 같은 부위가 다른 일차에 있어도 건드리지 않는다.
  */
 export async function saveManualPlanAction(
-  dayIndex: number,
-  focus: string,
-  items: ManualPlanItem[],
+  groups: ManualPlanGroup[],
+  expectedRoutineUpdatedAt: string,
 ): Promise<SavePlanResult> {
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
-  if (!Number.isInteger(dayIndex) || dayIndex < 0 || dayIndex > 6) {
-    return { ok: false, error: "일차 값이 올바르지 않습니다." };
+  if (!Array.isArray(groups) || groups.length === 0 || !expectedRoutineUpdatedAt) {
+    return { ok: false, error: "루틴 데이터가 올바르지 않습니다." };
   }
 
-  for (const it of items) {
-    if (!getCatalogExercise(it.exerciseId) || !isEquipmentId(it.equipment)) {
-      return { ok: false, error: "운동/기구 값이 올바르지 않습니다." };
-    }
-    if (it.setDetails && it.setDetails.length > 0) {
-      if (!isValidSetDetails(it.setDetails)) {
-        return { ok: false, error: "세트별 무게/횟수 값이 올바르지 않습니다." };
-      }
-    } else if (
-      !Number.isInteger(it.sets) ||
-      it.sets < 1 ||
-      it.sets > 20 ||
-      !Number.isInteger(it.reps) ||
-      it.reps < 1 ||
-      it.reps > 100
+  const groupKeys = new Set<string>();
+  for (const group of groups) {
+    if (
+      !Number.isInteger(group.dayIndex) ||
+      group.dayIndex < 0 ||
+      group.dayIndex > 6
     ) {
-      return { ok: false, error: "세트/횟수 값이 올바르지 않습니다." };
+      return { ok: false, error: "일차 값이 올바르지 않습니다." };
+    }
+    const groupKey = `${group.dayIndex}:${group.focus}`;
+    if (!group.focus || groupKeys.has(groupKey)) {
+      return { ok: false, error: "루틴 데이터가 올바르지 않습니다." };
+    }
+    groupKeys.add(groupKey);
+
+    for (const it of group.items) {
+      if (!getCatalogExercise(it.exerciseId) || !isEquipmentId(it.equipment)) {
+        return { ok: false, error: "운동/기구 값이 올바르지 않습니다." };
+      }
+      if (it.setDetails && it.setDetails.length > 0) {
+        if (!isValidSetDetails(it.setDetails)) {
+          return { ok: false, error: "세트별 무게/횟수 값이 올바르지 않습니다." };
+        }
+      } else if (
+        !Number.isInteger(it.sets) ||
+        it.sets < 1 ||
+        it.sets > 20 ||
+        !Number.isInteger(it.reps) ||
+        it.reps < 1 ||
+        it.reps > 100
+      ) {
+        return { ok: false, error: "세트/횟수 값이 올바르지 않습니다." };
+      }
     }
   }
 
-  // 기존 메모를 운동별로 보존 — 이 액션은 부위 운동을 통째로 지우고 다시 넣기 때문에
-  // 기존 행의 memo 를 exercise_id 기준으로 모아 뒀다가 같은 운동에 다시 붙인다.
-  const { data: prev } = await supabase
-    .from("routine_exercises")
-    .select("exercise_id, memo")
-    .eq("user_id", user.id)
-    .eq("day_index", dayIndex)
-    .eq("focus", focus)
-    .order("position", { ascending: true });
-  const memoByExercise = new Map<string, string>();
-  for (const r of (prev ?? []) as { exercise_id: string; memo?: unknown }[]) {
-    if (typeof r.memo === "string" && r.memo.trim() !== "") {
-      memoByExercise.set(r.exercise_id, r.memo);
-    }
-  }
-
-  const del = await supabase
-    .from("routine_exercises")
-    .delete()
-    .eq("user_id", user.id)
-    .eq("day_index", dayIndex)
-    .eq("focus", focus);
-  if (del.error) return { ok: false, error: del.error.message };
-
-  if (items.length > 0) {
-    const rows = items.map((it, index) => ({
-      user_id: user.id,
-      day_index: dayIndex,
-      focus,
-      position: index,
-      exercise_id: it.exerciseId,
-      equipment: it.equipment,
-      ...toRowFields(it),
-      memo: memoByExercise.get(it.exerciseId) ?? null,
-    }));
-    const ins = await supabase
+  const writeGroups = [];
+  for (const group of groups) {
+    // 기존 메모를 운동별로 보존 — 그룹을 통째로 교체하므로 exercise_id 기준으로
+    // 모아 뒀다가 같은 운동에 다시 붙인다.
+    const { data: prev } = await supabase
       .from("routine_exercises")
-      .insert(rows)
-      .select("id, exercise_id");
-    if (ins.error) return { ok: false, error: ins.error.message };
+      .select("exercise_id, memo")
+      .eq("user_id", user.id)
+      .eq("day_index", group.dayIndex)
+      .eq("focus", group.focus)
+      .order("position", { ascending: true });
+    const memoByExercise = new Map<string, string>();
+    for (const r of (prev ?? []) as { exercise_id: string; memo?: unknown }[]) {
+      if (typeof r.memo === "string" && r.memo.trim() !== "") {
+        memoByExercise.set(r.exercise_id, r.memo);
+      }
+    }
 
+    const rows = group.items.map((it, index) => {
+      const fields = toRowFields(it);
+      return {
+        position: index,
+        exerciseId: it.exerciseId,
+        equipment: it.equipment,
+        sets: fields.sets,
+        reps: fields.reps,
+        weightKg: fields.weight_kg,
+        setDetails: fields.set_details,
+        memo: memoByExercise.get(it.exerciseId) ?? null,
+      };
+    });
+    writeGroups.push({
+      dayIndex: group.dayIndex,
+      focus: group.focus,
+      rows,
+    });
+  }
+
+  const replacement = await replaceRoutineExerciseGroups(
+    supabase,
+    expectedRoutineUpdatedAt,
+    false,
+    writeGroups,
+  );
+  if (!replacement.ok) return replacement;
+
+  for (const group of writeGroups) {
+    const inserted = replacement.inserted.filter(
+      (row) => row.dayIndex === group.dayIndex && row.focus === group.focus,
+    );
+    if (inserted.length === 0) continue;
     // ⚠ 행 id 가 새로 생기므로 오늘 완료기록을 새 행으로 옮긴다 — 안 그러면 운동 중에
     //   루틴을 편집·저장하는 순간 완료한 세트가 다 풀린 것처럼 보인다.
     await carryOverCompletions(
       supabase,
       user.id,
       seoulYmd(),
-      focus,
-      ((ins.data ?? []) as { id: string; exercise_id: string }[]).map((r) => ({
-        id: r.id,
-        exerciseId: r.exercise_id,
-      })),
+      group.focus,
+      inserted,
     );
   }
 
@@ -399,6 +425,7 @@ export async function saveMuscleSelectionAction(
     getUserRoutine(),
   ]);
   if (!profile) return { ok: false, error: "프로필이 필요합니다." };
+  if (!routine) return { ok: false, error: "루틴을 찾을 수 없습니다." };
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
   const opts = {
     gender: profile.gender,
@@ -409,11 +436,24 @@ export async function saveMuscleSelectionAction(
 
   // 부위 → 이 루틴이 그 부위를 쓰는 일차들. 근육별 선택은 "이 부위를 쓰는 모든
   // 일차"에 동일하게 반영한다. 루틴에 없는 부위면 0일차에만 둔다(폴백 노출용).
-  const focusDays = routine
-    ? focusToDaysMap(
-        routineDaySlots(routine.splits, routine.variantId, routine.customWeek),
-      )
-    : new Map<string, number[]>();
+  const focusDays = focusToDaysMap(
+    routineDaySlots(routine.splits, routine.variantId, routine.customWeek),
+  );
+
+  const groups: {
+    dayIndex: number;
+    focus: string;
+    rows: {
+      position: number;
+      exerciseId: string;
+      equipment: EquipmentId;
+      sets: number;
+      reps: number;
+      weightKg: number | null;
+      setDetails: null;
+      memo: string | null;
+    }[];
+  }[] = [];
 
   for (const [focus, exerciseIds] of byFocus) {
     const days = focusDays.get(focus as never) ?? [0];
@@ -432,34 +472,31 @@ export async function saveMuscleSelectionAction(
     }
 
     for (const dayIndex of days) {
-      const del = await supabase
-        .from("routine_exercises")
-        .delete()
-        .eq("user_id", user.id)
-        .eq("day_index", dayIndex)
-        .eq("focus", focus);
-      if (del.error) return { ok: false, error: del.error.message };
-
       const rows = exerciseIds.map((exerciseId, index) => {
         const ex = getCatalogExercise(exerciseId)!;
         const p = prescribe(exerciseId, opts);
         return {
-          user_id: user.id,
-          day_index: dayIndex,
-          focus,
           position: index,
-          exercise_id: exerciseId,
+          exerciseId,
           equipment: pickEquipment(ex, gymSet),
           sets: p.sets,
           reps: p.reps,
-          weight_kg: p.weightKg,
+          weightKg: p.weightKg,
+          setDetails: null,
           memo: memoByExercise.get(exerciseId) ?? null,
         };
       });
-      const ins = await supabase.from("routine_exercises").insert(rows);
-      if (ins.error) return { ok: false, error: ins.error.message };
+      groups.push({ dayIndex, focus, rows });
     }
   }
+
+  const replacement = await replaceRoutineExerciseGroups(
+    supabase,
+    routine.updatedAt,
+    false,
+    groups,
+  );
+  if (!replacement.ok) return replacement;
 
   revalidatePath("/routine");
   revalidatePath("/plan");
@@ -720,26 +757,29 @@ export async function applyTodayRecommendedAction(
     getCurrentGym(),
     getUserRoutine(),
   ]);
-  if (!profile) return;
+  if (!profile || !routine) return;
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
 
-  await supabase
+  const { data: updatedRoutine, error: routineError } = await supabase
     .from("user_routines")
     .update({
       override_date: seoulYmd(),
       override_block: target,
       rest_date: null,
     })
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .select("updated_at")
+    .maybeSingle();
+  if (routineError || !updatedRoutine) return;
 
   // 오늘 화면이 이 부위를 읽을 일차와 같은 곳에 써야 한다 — 그 부위가 루틴에
   // 있으면 첫 등장 일차, 없으면 오늘 일차.
-  const slots = routine
-    ? routineDaySlots(routine.splits, routine.variantId, routine.customWeek)
-    : [];
-  const offsetToday = routine
-    ? routineDayOffset(routine.startDate, seoulYmd())
-    : 0;
+  const slots = routineDaySlots(
+    routine.splits,
+    routine.variantId,
+    routine.customWeek,
+  );
+  const offsetToday = routineDayOffset(routine.startDate, seoulYmd());
   const dayIndex = firstDayIndexForFocus(slots, target) ?? offsetToday;
 
   const opts = {
@@ -751,27 +791,23 @@ export async function applyTodayRecommendedAction(
   const rows = exercisesForFocus(target, profile.gender).map((ex, index) => {
     const p = prescribe(ex.id, opts);
     return {
-      user_id: user.id,
-      day_index: dayIndex,
-      focus: target,
       position: index,
-      exercise_id: ex.id,
+      exerciseId: ex.id,
       equipment: pickEquipment(ex, gymSet),
       sets: p.sets,
       reps: p.reps,
-      weight_kg: p.weightKg,
+      weightKg: p.weightKg,
+      setDetails: null,
+      memo: null,
     };
   });
 
-  await supabase
-    .from("routine_exercises")
-    .delete()
-    .eq("user_id", user.id)
-    .eq("day_index", dayIndex)
-    .eq("focus", target);
-  if (rows.length > 0) {
-    await supabase.from("routine_exercises").insert(rows);
-  }
+  await replaceRoutineExerciseGroups(
+    supabase,
+    (updatedRoutine as { updated_at: string }).updated_at,
+    false,
+    [{ dayIndex, focus: target, rows }],
+  );
 
   revalidatePath("/routine");
 }

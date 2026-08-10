@@ -64,6 +64,50 @@ describe("previewArmRoutineSwap", () => {
     });
   });
 
+  it("양쪽 팔 블록 ID가 같아도 운동 행 교환을 위해 유효하다", () => {
+    const input = week(["back", "biceps"], ["shoulder", "biceps"]);
+    expect(previewArmRoutineSwap(input, 0, 1)).toEqual({
+      ok: true,
+      nextWeek: input,
+    });
+  });
+
+  it("유효한 블록과 잘못된 블록이 섞인 일자를 조용히 정리하지 않는다", () => {
+    const input: unknown = [
+      ["back", "biceps"],
+      ["shoulder", "triceps", "not-a-block"],
+      ["rest"],
+      ["rest"],
+      ["rest"],
+      ["rest"],
+      ["rest"],
+    ];
+
+    expect(previewArmRoutineSwap(input, 0, 1)).toEqual({
+      ok: false,
+      reason: "invalid-week",
+    });
+    expect(eligibleArmSwapTargets(input, 0)).toEqual([]);
+  });
+
+  it("교환하지 않는 일자가 4블록이어도 DB와 같은 규칙으로 거부한다", () => {
+    const input: unknown = [
+      ["back", "biceps"],
+      ["shoulder", "triceps"],
+      ["chest", "back", "shoulder", "core"],
+      ["rest"],
+      ["rest"],
+      ["rest"],
+      ["rest"],
+    ];
+
+    expect(previewArmRoutineSwap(input, 0, 1)).toEqual({
+      ok: false,
+      reason: "invalid-week",
+    });
+    expect(eligibleArmSwapTargets(input, 0)).toEqual([]);
+  });
+
   it("교환 후 한쪽이 4블록이면 거부하고 대상에서도 제외한다", () => {
     const input = week(
       ["back", "biceps", "triceps"],

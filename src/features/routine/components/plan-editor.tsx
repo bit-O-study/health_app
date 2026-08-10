@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeftRight,
@@ -13,7 +19,7 @@ import {
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
-import type { DayBlockId, FocusTone } from "@/features/routine/data";
+import type { FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
 import {
   EQUIPMENT_LABELS,
@@ -45,6 +51,10 @@ import type { SetDetail } from "@/features/routine/set-details";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
+import {
+  armSwapBlockReason,
+  type ConditioningMutationState,
+} from "@/features/routine/plan-editor-mutation-state";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
 import {
   isEquipmentAvailable,
@@ -100,6 +110,7 @@ function toRow(item: PlanExercise): Row {
 export function PlanEditor({
   focuses,
   customWeek,
+  routineUpdatedAt,
   gender,
   experience,
   bodyType,
@@ -108,7 +119,8 @@ export function PlanEditor({
   lockWeightReps = false,
 }: {
   focuses: FocusData[];
-  customWeek: DayBlockId[][] | null;
+  customWeek: unknown;
+  routineUpdatedAt: string;
   gender: "male" | "female";
   experience: ExperienceLevel;
   bodyType: BodyType | null;
@@ -134,6 +146,9 @@ export function PlanEditor({
   );
   // 저장 안 된 섹션들(key) — 페이지를 떠날 때 경고하고, "추천으로 채우기" 덮어쓰기 확인용
   const [dirty, setDirty] = useState<Set<string>>(new Set());
+  const [conditioningStates, setConditioningStates] = useState<
+    Record<string, ConditioningMutationState>
+  >({});
   // 파괴적 동작(추천 덮어쓰기) 확인 모달 상태
   const [confirm, setConfirm] = useState<
     | { kind: "focus"; section: FocusData }
@@ -145,14 +160,43 @@ export function PlanEditor({
   >(null);
 
   // 저장하지 않은 편집이 있는 채로 탭을 닫거나 새로고침하면 브라우저 기본 경고.
+  const updateConditioningState = useCallback(
+    (key: string, state: ConditioningMutationState | null) => {
+      setConditioningStates((current) => {
+        if (state === null) {
+          if (!(key in current)) return current;
+          const next = { ...current };
+          delete next[key];
+          return next;
+        }
+        const previous = current[key];
+        if (
+          previous?.dirty === state.dirty &&
+          previous.pending === state.pending
+        ) {
+          return current;
+        }
+        return { ...current, [key]: state };
+      });
+    },
+    [],
+  );
+  const conditioningDirty = Object.values(conditioningStates).some(
+    (state) => state.dirty,
+  );
+  const conditioningPending = Object.values(conditioningStates).some(
+    (state) => state.pending,
+  );
+  const editorPending = pending || swapInFlight || conditioningPending;
+
   useEffect(() => {
-    if (dirty.size === 0) return;
+    if (dirty.size === 0 && !conditioningDirty) return;
     function onBeforeUnload(e: BeforeUnloadEvent) {
       e.preventDefault();
     }
     window.addEventListener("beforeunload", onBeforeUnload);
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
-  }, [dirty]);
+  }, [conditioningDirty, dirty]);
 
   function update(key: string, next: Row[]) {
     setPlans((prev) => ({ ...prev, [key]: next }));
@@ -360,7 +404,16 @@ export function PlanEditor({
       setStatus("교환할 팔 루틴을 찾을 수 없습니다.");
       return;
     }
-    if (dirty.size > 0) {
+    const blocked = armSwapBlockReason({
+      mainDirtyCount: dirty.size,
+      mainPending: pending,
+      conditioningStates,
+    });
+    if (blocked === "pending") {
+      setStatus("운동 저장이 진행 중입니다. 완료 후 다시 시도해주세요.");
+      return;
+    }
+    if (blocked === "dirty") {
       setStatus(
         "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
       );
@@ -371,6 +424,21 @@ export function PlanEditor({
 
   function doSwapArmRoutine(sourceDayIndex: number, targetDayIndex: number) {
     if (!customWeek) return;
+    const blocked = armSwapBlockReason({
+      mainDirtyCount: dirty.size,
+      mainPending: pending,
+      conditioningStates,
+    });
+    if (blocked === "pending") {
+      setStatus("운동 저장이 진행 중입니다. 완료 후 다시 시도해주세요.");
+      return;
+    }
+    if (blocked === "dirty") {
+      setStatus(
+        "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
+      );
+      return;
+    }
     setStatus(null);
     setSwapInFlight(true);
     start(async () => {
@@ -379,6 +447,7 @@ export function PlanEditor({
           sourceDayIndex,
           targetDayIndex,
           customWeek,
+          routineUpdatedAt,
         );
         if (!result.ok) {
           setStatus(result.error);
@@ -402,20 +471,22 @@ export function PlanEditor({
   // 그날 모든 부위를 한 번에 저장(부위별 슬롯으로 나눠 저장).
   function saveDay(day: DayGroup) {
     start(async () => {
-      for (const f of day.focuses) {
-        const items = (plans[f.key] ?? []).map((r) => ({
+      const groups = day.focuses.map((f) => ({
+        dayIndex: f.dayIndex,
+        focus: f.focus,
+        items: (plans[f.key] ?? []).map((r) => ({
           exerciseId: r.exerciseId,
           equipment: r.equipment,
           sets: r.sets,
           reps: r.reps,
           weightKg: r.weight.trim() === "" ? null : Number(r.weight),
           setDetails: r.setDetails,
-        }));
-        const res = await saveManualPlanAction(f.dayIndex, f.focus, items);
-        if (!res.ok) {
-          setStatus(res.error);
-          return;
-        }
+        })),
+      }));
+      const res = await saveManualPlanAction(groups, routineUpdatedAt);
+      if (!res.ok) {
+        setStatus(res.error);
+        return;
       }
       setStatus(`${day.dayIndex + 1}일차 저장됨`);
       setDirty((prev) => {
@@ -449,8 +520,8 @@ export function PlanEditor({
 
   return (
     <fieldset
-      disabled={swapInFlight}
-      aria-busy={swapInFlight}
+      disabled={editorPending}
+      aria-busy={editorPending}
       className="m-0 min-w-0 space-y-6 border-0 p-0"
     >
       <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -781,12 +852,16 @@ export function PlanEditor({
                       kind="warmup"
                       initial={primary.warmup}
                       lockWeightReps={lockWeightReps}
+                      mutationKey={`${primary.key}:warmup`}
+                      onMutationStateChange={updateConditioningState}
                     />
                     <ConditioningEditor
                       focus={primary.focus}
                       kind="cooldown"
                       initial={primary.cooldown}
                       lockWeightReps={lockWeightReps}
+                      mutationKey={`${primary.key}:cooldown`}
+                      onMutationStateChange={updateConditioningState}
                     />
                   </div>
                 ) : null}

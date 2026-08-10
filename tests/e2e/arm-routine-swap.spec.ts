@@ -1,7 +1,12 @@
 import { expect, test, type Page, type Route } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
-import { dbQuery, hasDb } from "./helpers/db";
+import {
+  dbQuery,
+  hasDb,
+  openAuthenticatedDbClient,
+  openDbClient,
+} from "./helpers/db";
 
 const initialWeek = [
   ["back", "biceps"],
@@ -119,6 +124,22 @@ async function loadCustomWeek(email: string): Promise<unknown> {
   return rows[0]?.custom_week;
 }
 
+async function loadRoutineSnapshot(email: string): Promise<{
+  customWeek: unknown;
+  updatedAt: string;
+}> {
+  const rows = await dbQuery<{ custom_week: unknown; updated_at: string }>(
+    `select custom_week, updated_at::text
+       from public.user_routines
+      where user_id=(select id from auth.users where lower(email)=lower($1))`,
+    [email],
+  );
+  return {
+    customWeek: rows[0]?.custom_week,
+    updatedAt: rows[0]?.updated_at,
+  };
+}
+
 async function loadCompletionSnapshot(
   email: string,
 ): Promise<Record<string, unknown>[]> {
@@ -218,6 +239,24 @@ async function chooseDayOneAsSwapTarget(
     .click();
 }
 
+async function waitForDbLock(
+  observer: Awaited<ReturnType<typeof openDbClient>>,
+  applicationName: string,
+) {
+  for (let attempt = 0; attempt < 80; attempt += 1) {
+    const result = await observer.query<{ wait_event_type: string | null }>(
+      `select wait_event_type
+         from pg_stat_activity
+        where application_name = $1
+          and state = 'active'`,
+      [applicationName],
+    );
+    if (result.rows[0]?.wait_event_type === "Lock") return;
+    await new Promise((resolve) => setTimeout(resolve, 25));
+  }
+  throw new Error(`${applicationName} did not wait on the routine lock`);
+}
+
 test("운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 보존한다", async ({
   page,
 }) => {
@@ -306,6 +345,202 @@ test("운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 
   expect(await loadExerciseSnapshot(email)).toEqual(after);
 });
 
+test("같은 팔 블록을 가진 두 탭의 오래된 교환은 운동 행을 되돌리지 않는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  await dbQuery(
+    `update public.user_routines
+        set custom_week=jsonb_set(custom_week, '{1,1}', '"biceps"'::jsonb)
+      where user_id=(select id from auth.users where lower(email)=lower($1))`,
+    [email],
+  );
+  await dbQuery(
+    `update public.routine_exercises
+        set exercise_id='hammer-curl', equipment='dumbbell'
+      where user_id=(select id from auth.users where lower(email)=lower($1))
+        and focus='arm' and day_index=1`,
+    [email],
+  );
+
+  const stalePage = await page.context().newPage();
+  await Promise.all([
+    page.goto("/plan", { waitUntil: "networkidle" }),
+    stalePage.goto("/plan", { waitUntil: "networkidle" }),
+  ]);
+  const expected = await loadRoutineSnapshot(email);
+  const before = await loadExerciseSnapshot(email);
+
+  await chooseDayOneAsSwapTarget(page);
+  await Promise.all([
+    page.waitForEvent("framenavigated", {
+      predicate: (frame) => frame === page.mainFrame(),
+    }),
+    page.getByRole("button", { name: "교환하기" }).click(),
+  ]);
+  const afterFirstSwap = await loadExerciseSnapshot(email);
+  expectOnlyArmDayIndexesSwapped(before, afterFirstSwap);
+  expect(await loadCustomWeek(email)).toEqual([
+    ["back", "biceps"],
+    ["shoulder", "biceps"],
+    ["rest"],
+    ["rest"],
+    ["rest"],
+    ["rest"],
+    ["rest"],
+  ]);
+
+  const directStale = await openAuthenticatedDbClient(
+    email,
+    "arm-equal-stale-direct",
+  );
+  try {
+    await expect(
+      directStale.query(
+        `select public.swap_custom_arm_routine($1, $2, $3::jsonb, $4::timestamptz)`,
+        [0, 1, JSON.stringify(expected.customWeek), expected.updatedAt],
+      ),
+    ).rejects.toThrow(/STALE_ROUTINE/);
+  } finally {
+    await directStale.query("rollback");
+    await directStale.end();
+  }
+  expect(await loadExerciseSnapshot(email)).toEqual(afterFirstSwap);
+
+  await chooseDayOneAsSwapTarget(stalePage);
+  await stalePage.getByRole("button", { name: "교환하기" }).click();
+  await expect(
+    stalePage.getByText(
+      "루틴이 다른 곳에서 변경되었습니다. 새로고침 후 다시 시도해주세요.",
+    ),
+  ).toBeVisible();
+  expect(await loadExerciseSnapshot(email)).toEqual(afterFirstSwap);
+  await stalePage.close();
+});
+
+test("직접 인증 RPC의 stale revision은 팔 행과 주간을 모두 롤백한다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  const expected = await loadRoutineSnapshot(email);
+  const before = await loadExerciseSnapshot(email);
+  await dbQuery(
+    `update public.user_routines
+        set custom_week=jsonb_set(custom_week, '{6}', '["core"]'::jsonb)
+      where user_id=(select id from auth.users where lower(email)=lower($1))`,
+    [email],
+  );
+
+  const client = await openAuthenticatedDbClient(email, "arm-stale-direct");
+  try {
+    await expect(
+      client.query(
+        `select public.swap_custom_arm_routine($1, $2, $3::jsonb, $4::timestamptz)`,
+        [0, 1, JSON.stringify(expected.customWeek), expected.updatedAt],
+      ),
+    ).rejects.toThrow(/STALE_ROUTINE/);
+  } finally {
+    await client.query("rollback");
+    await client.end();
+  }
+
+  expect(await loadExerciseSnapshot(email)).toEqual(before);
+  expect(await loadCustomWeek(email)).toEqual([
+    ["back", "biceps"],
+    ["shoulder", "triceps"],
+    ["rest"],
+    ["rest"],
+    ["rest"],
+    ["rest"],
+    ["core"],
+  ]);
+});
+
+test("수동 저장과 교환은 부모 잠금 순서대로 직렬화되어 팔 행을 중복하지 않는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  const expected = await loadRoutineSnapshot(email);
+  const observer = await openDbClient("arm-lock-observer");
+  const saver = await openAuthenticatedDbClient(email, "arm-save-waiter");
+  const swapper = await openAuthenticatedDbClient(email, "arm-swap-waiter");
+  try {
+    await observer.query("begin");
+    await observer.query(
+      `select 1
+         from public.user_routines
+        where user_id=(select id from auth.users where lower(email)=lower($1))
+        for update`,
+      [email],
+    );
+
+    const savePromise = saver.query(
+      `select * from public.replace_routine_exercise_groups(
+         $1::timestamptz,
+         false,
+         $2::jsonb
+       )`,
+      [
+        expected.updatedAt,
+        JSON.stringify([
+          {
+            dayIndex: 0,
+            focus: "arm",
+            rows: [
+              {
+                position: 0,
+                exerciseId: "hammer-curl",
+                equipment: "dumbbell",
+                sets: 3,
+                reps: 10,
+                weightKg: 10,
+                setDetails: null,
+                memo: "동시 저장",
+              },
+            ],
+          },
+        ]),
+      ],
+    );
+    await waitForDbLock(observer, "arm-save-waiter");
+
+    const swapPromise = swapper.query(
+      `select public.swap_custom_arm_routine($1, $2, $3::jsonb, $4::timestamptz)`,
+      [0, 1, JSON.stringify(expected.customWeek), expected.updatedAt],
+    );
+    const staleSwap = expect(swapPromise).rejects.toThrow(/STALE_ROUTINE/);
+    await waitForDbLock(observer, "arm-swap-waiter");
+
+    await observer.query("commit");
+    await savePromise;
+    await saver.query("commit");
+    await staleSwap;
+    await swapper.query("rollback");
+  } finally {
+    await Promise.allSettled([
+      observer.query("rollback"),
+      saver.query("rollback"),
+      swapper.query("rollback"),
+    ]);
+    await Promise.all([observer.end(), saver.end(), swapper.end()]);
+  }
+
+  expect(await loadArmDayIndexes(email)).toEqual([
+    { exercise_id: "hammer-curl", day_index: 0 },
+    { exercise_id: "triceps-pushdown", day_index: 1 },
+  ]);
+  expect(await loadCustomWeek(email)).toEqual(initialWeek);
+});
+
 test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 활성화한다", async ({
   page,
 }) => {
@@ -376,7 +611,7 @@ test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 �
     await expect(
       day0.getByRole("group", { name: "1일차 추가할 부위" }),
     ).toHaveCount(0);
-    await addButton.evaluate((button) => button.click());
+    await addButton.evaluate((button) => (button as HTMLElement).click());
     await expect(
       day0.getByRole("group", { name: "1일차 추가할 부위" }),
     ).toHaveCount(0);
@@ -388,6 +623,137 @@ test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 �
 
   await expect(page.getByText("팔 루틴 교환에 실패했습니다.")).toBeVisible();
   await expect(addButton).toBeEnabled();
+});
+
+test("본운동 저장 중에는 새 편집을 만들 수 없어 이전 저장 완료가 dirty를 지우지 않는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  await page.goto("/plan", { waitUntil: "networkidle" });
+  const day0 = page.locator('[data-plan-day-index="0"]');
+
+  let releaseRequest!: () => void;
+  const requestReleased = new Promise<void>((resolve) => {
+    releaseRequest = resolve;
+  });
+  let requestHeldResolve!: () => void;
+  const requestHeld = new Promise<void>((resolve) => {
+    requestHeldResolve = resolve;
+  });
+  const holdSave = async (route: Route) => {
+    const request = route.request();
+    if (request.method() !== "POST" || !request.headers()["next-action"]) {
+      await route.continue();
+      return;
+    }
+    requestHeldResolve();
+    await requestReleased;
+    await route.continue();
+  };
+  await page.route("**/*", holdSave);
+
+  await day0.getByRole("button", { name: "1일차 저장" }).click();
+  await requestHeld;
+  await expect(page.locator('fieldset[aria-busy="true"]')).toBeVisible();
+  const addButton = day0.getByRole("button", { name: "운동 추가" });
+  await expect(addButton).toBeDisabled();
+  await addButton.evaluate((button) => (button as HTMLElement).click());
+  await expect(
+    day0.getByRole("group", { name: "1일차 추가할 부위" }),
+  ).toHaveCount(0);
+
+  releaseRequest();
+  await page.unroute("**/*", holdSave);
+  await expect(page.getByText("1일차 저장됨")).toBeVisible();
+});
+
+test("미저장 워밍업 편집과 워밍업 저장 중 상태는 팔 교환을 차단한다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  const before = await loadExerciseSnapshot(email);
+  await page.goto("/plan", { waitUntil: "networkidle" });
+
+  const warmup = page.getByTestId("conditioning-editor-0:back:warmup");
+  await warmup.getByRole("button", { name: "추가" }).click();
+  await chooseDayOneAsSwapTarget(page);
+  await expect(
+    page.getByText(
+      "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
+    ),
+  ).toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(await loadExerciseSnapshot(email)).toEqual(before);
+
+  let releaseRequest!: () => void;
+  const requestReleased = new Promise<void>((resolve) => {
+    releaseRequest = resolve;
+  });
+  let requestHeldResolve!: () => void;
+  const requestHeld = new Promise<void>((resolve) => {
+    requestHeldResolve = resolve;
+  });
+  const holdConditioningSave = async (route: Route) => {
+    const request = route.request();
+    if (request.method() !== "POST" || !request.headers()["next-action"]) {
+      await route.continue();
+      return;
+    }
+    requestHeldResolve();
+    await requestReleased;
+    await route.continue();
+  };
+  await page.route("**/*", holdConditioningSave);
+  await warmup.getByRole("button", { name: "저장" }).click();
+  await requestHeld;
+  await expect(page.getByTestId("arm-swap-button-0")).toBeDisabled();
+  await expect(page.locator('fieldset[aria-busy="true"]')).toBeVisible();
+  releaseRequest();
+  await page.unroute("**/*", holdConditioningSave);
+  await expect(warmup.getByText("저장됨")).toBeVisible();
+});
+
+test("교환 확인 모달은 배경을 inert 처리하고 실행 시 dirty 상태를 다시 검사한다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  const before = await loadExerciseSnapshot(email);
+  await page.goto("/plan", { waitUntil: "networkidle" });
+  await chooseDayOneAsSwapTarget(page);
+
+  const dialog = page.getByRole("dialog");
+  const confirm = dialog.getByRole("button", { name: "교환하기" });
+  const cancel = dialog.getByRole("button", { name: "취소" });
+  await expect(confirm).toBeFocused();
+  await page.keyboard.press("Tab");
+  await expect(cancel).toBeFocused();
+  await page.keyboard.press("Shift+Tab");
+  await expect(confirm).toBeFocused();
+
+  const backgroundDelete = page.getByTestId("delete-row-0:back-0");
+  expect(
+    await backgroundDelete.evaluate((element) =>
+      Boolean(element.closest("[inert]")),
+    ),
+  ).toBe(true);
+  await backgroundDelete.evaluate((button) => (button as HTMLElement).click());
+  await confirm.click();
+  await expect(
+    page.getByText(
+      "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
+    ),
+  ).toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+  expect(await loadExerciseSnapshot(email)).toEqual(before);
 });
 
 const dirtyCases = [
@@ -488,6 +854,35 @@ test("오래된 화면의 교환 충돌은 팔 행을 부분 변경하지 않는
     ["rest"],
     ["core"],
   ]);
+});
+
+test("손상되었거나 4블록인 원본 주간에는 팔 교환 컨트롤을 표시하지 않는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+
+  await dbQuery(
+    `update public.user_routines
+        set custom_week='[["back","biceps","broken"],["shoulder","triceps"],["rest"],["rest"],["rest"],["rest"],["rest"]]'::jsonb
+      where user_id=(select id from auth.users where lower(email)=lower($1))`,
+    [email],
+  );
+  await page.goto("/plan", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("arm-swap-button-0")).toHaveCount(0);
+  await expect(page.getByTestId("arm-swap-button-1")).toHaveCount(0);
+
+  await dbQuery(
+    `update public.user_routines
+        set custom_week='[["back","biceps"],["shoulder","triceps"],["chest","back","shoulder","core"],["rest"],["rest"],["rest"],["rest"]]'::jsonb
+      where user_id=(select id from auth.users where lower(email)=lower($1))`,
+    [email],
+  );
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(page.getByTestId("arm-swap-button-0")).toHaveCount(0);
+  await expect(page.getByTestId("arm-swap-button-1")).toHaveCount(0);
 });
 
 test("레거시 문자열 주간은 선택한 사용자만 정규화해 팔 행 ID를 보존한다", async ({

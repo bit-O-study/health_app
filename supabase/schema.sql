@@ -239,10 +239,26 @@ begin
 end;
 $$;
 
+-- user_routines.updated_at is also the optimistic-concurrency revision for
+-- routine/exercise writers. A transaction-start timestamp can move backward
+-- after waiting on a lock, so this trigger guarantees strict monotonicity.
+create or replace function public.set_user_routine_revision()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = greatest(
+    clock_timestamp(),
+    old.updated_at + interval '1 microsecond'
+  );
+  return new;
+end;
+$$;
+
 drop trigger if exists user_routines_set_updated_at on public.user_routines;
 create trigger user_routines_set_updated_at
   before update on public.user_routines
-  for each row execute function public.set_updated_at();
+  for each row execute function public.set_user_routine_revision();
 
 alter table public.user_routines enable row level security;
 
@@ -402,10 +418,288 @@ create policy "Users can delete own routine exercises"
   on public.routine_exercises for delete
   using (auth.uid() = user_id);
 
+-- Every authenticated writer takes the same parent-row lock before touching
+-- routine_exercises. Statement-level timing is important: a row trigger could
+-- lock a child row first and deadlock against the arm-swap parent->child order.
+create or replace function public.lock_routine_exercise_write()
+returns trigger
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+begin
+  if v_user_id is not null then
+    perform 1
+      from public.user_routines
+     where user_id = v_user_id
+     for update;
+  end if;
+  return null;
+end;
+$$;
+
+drop trigger if exists routine_exercises_lock_parent on public.routine_exercises;
+create trigger routine_exercises_lock_parent
+  before insert or update or delete on public.routine_exercises
+  for each statement execute function public.lock_routine_exercise_write();
+
+-- Delete-then-insert plan writers use this RPC so the logical replacement and
+-- parent lock share one transaction. The expected routine revision prevents a
+-- writer queued behind a swap from inserting rows into its stale day index.
+create or replace function public.replace_routine_exercise_groups(
+  p_expected_routine_updated_at timestamp with time zone,
+  p_replace_all boolean,
+  p_groups jsonb
+) returns table(
+  inserted_id uuid,
+  inserted_exercise_id text,
+  inserted_day_index integer,
+  inserted_focus text
+)
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_routine_updated_at timestamp with time zone;
+  v_group jsonb;
+  v_row jsonb;
+  v_rows jsonb;
+  v_day_index integer;
+  v_focus text;
+  v_new_id uuid;
+  v_position integer;
+  v_sets integer;
+  v_reps integer;
+  v_weight_kg numeric(5, 1);
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+  if p_expected_routine_updated_at is null
+     or p_replace_all is null
+     or p_groups is null
+     or jsonb_typeof(p_groups) is distinct from 'array' then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  select updated_at
+    into v_routine_updated_at
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+  if v_routine_updated_at is distinct from p_expected_routine_updated_at then
+    raise exception using errcode = 'P0001', message = 'STALE_ROUTINE';
+  end if;
+
+  if exists (
+    select 1
+      from (
+        select item.value ->> 'dayIndex' as day_index,
+               item.value ->> 'focus' as focus,
+               count(*)
+          from jsonb_array_elements(p_groups) as item(value)
+         group by item.value ->> 'dayIndex', item.value ->> 'focus'
+        having count(*) > 1
+      ) as duplicate_group
+  ) then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  -- Validate every group and row before the first destructive statement.
+  for v_group in select value from jsonb_array_elements(p_groups)
+  loop
+    begin
+      if jsonb_typeof(v_group) is distinct from 'object'
+         or jsonb_typeof(v_group -> 'rows') is distinct from 'array' then
+        raise exception using errcode = '22000', message = 'INVALID_GROUP';
+      end if;
+      v_day_index := (v_group ->> 'dayIndex')::integer;
+      v_focus := v_group ->> 'focus';
+      v_rows := v_group -> 'rows';
+      if v_day_index is null
+         or v_day_index not between 0 and 6
+         or v_focus is null
+         or btrim(v_focus) = '' then
+        raise exception using errcode = '22000', message = 'INVALID_GROUP';
+      end if;
+
+      for v_row in select value from jsonb_array_elements(v_rows)
+      loop
+        if jsonb_typeof(v_row) is distinct from 'object'
+           or jsonb_typeof(v_row -> 'exerciseId') is distinct from 'string'
+           or jsonb_typeof(v_row -> 'equipment') is distinct from 'string' then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        v_position := (v_row ->> 'position')::integer;
+        v_sets := (v_row ->> 'sets')::integer;
+        v_reps := (v_row ->> 'reps')::integer;
+        if v_position is null
+           or v_sets is null
+           or v_reps is null
+           or v_position < 0
+           or v_sets not between 1 and 20
+           or v_reps not between 1 and 100
+           or btrim(v_row ->> 'exerciseId') = ''
+           or btrim(v_row ->> 'equipment') = '' then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        if v_row ? 'id' and jsonb_typeof(v_row -> 'id') <> 'null' then
+          v_new_id := (v_row ->> 'id')::uuid;
+        end if;
+        if v_row ? 'weightKg'
+           and jsonb_typeof(v_row -> 'weightKg') not in ('number', 'null') then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        if v_row ? 'memo'
+           and jsonb_typeof(v_row -> 'memo') not in ('string', 'null') then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+      end loop;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  if p_replace_all then
+    delete from public.routine_exercises
+     where user_id = v_user_id;
+  else
+    for v_group in select value from jsonb_array_elements(p_groups)
+    loop
+      delete from public.routine_exercises
+       where user_id = v_user_id
+         and day_index = (v_group ->> 'dayIndex')::integer
+         and focus = v_group ->> 'focus';
+    end loop;
+  end if;
+
+  for v_group in select value from jsonb_array_elements(p_groups)
+  loop
+    v_day_index := (v_group ->> 'dayIndex')::integer;
+    v_focus := v_group ->> 'focus';
+    for v_row in select value from jsonb_array_elements(v_group -> 'rows')
+    loop
+      v_new_id := case
+        when jsonb_typeof(v_row -> 'id') = 'string' then (v_row ->> 'id')::uuid
+        else gen_random_uuid()
+      end;
+      v_weight_kg := case
+        when jsonb_typeof(v_row -> 'weightKg') = 'number'
+          then (v_row ->> 'weightKg')::numeric(5, 1)
+        else null
+      end;
+
+      insert into public.routine_exercises (
+        id, user_id, day_index, focus, position, exercise_id, equipment,
+        sets, reps, weight_kg, set_details, memo
+      ) values (
+        v_new_id,
+        v_user_id,
+        v_day_index,
+        v_focus,
+        (v_row ->> 'position')::integer,
+        v_row ->> 'exerciseId',
+        v_row ->> 'equipment',
+        (v_row ->> 'sets')::integer,
+        (v_row ->> 'reps')::integer,
+        v_weight_kg,
+        case
+          when jsonb_typeof(v_row -> 'setDetails') = 'null' then null
+          else v_row -> 'setDetails'
+        end,
+        case
+          when jsonb_typeof(v_row -> 'memo') = 'string' then v_row ->> 'memo'
+          else null
+        end
+      )
+      returning public.routine_exercises.id,
+                public.routine_exercises.exercise_id
+           into inserted_id, inserted_exercise_id;
+      inserted_day_index := v_day_index;
+      inserted_focus := v_focus;
+      return next;
+    end loop;
+  end loop;
+
+  -- Exercise replacements are part of the routine snapshot too. Advance the
+  -- existing revision while the parent lock is still held so a queued writer
+  -- or arm swap cannot proceed with the pre-replacement snapshot.
+  update public.user_routines
+     set updated_at = clock_timestamp()
+   where user_id = v_user_id;
+end;
+$$;
+
+revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from public;
+grant execute on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) to authenticated;
+
+create or replace function public.restore_routine_preset_with_exercises(
+  p_splits integer,
+  p_variant_id text,
+  p_custom_week jsonb,
+  p_baseline_routine jsonb,
+  p_start_date date,
+  p_groups jsonb
+) returns table(inserted_id uuid, inserted_exercise_id text)
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_routine_updated_at timestamp with time zone;
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+
+  perform 1
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+
+  update public.user_routines
+     set splits = p_splits,
+         variant_id = p_variant_id,
+         custom_week = p_custom_week,
+         baseline_routine = p_baseline_routine,
+         start_date = p_start_date,
+         day_index_migrated = true,
+         rest_date = null,
+         override_date = null,
+         override_block = null
+   where user_id = v_user_id
+  returning updated_at into v_routine_updated_at;
+
+  return query
+    select replacement.inserted_id, replacement.inserted_exercise_id
+      from public.replace_routine_exercise_groups(
+        v_routine_updated_at,
+        true,
+        p_groups
+      ) as replacement;
+end;
+$$;
+
+revoke all on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) from public;
+grant execute on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) to authenticated;
+
+drop function if exists public.swap_custom_arm_routine(integer, integer, jsonb);
 create or replace function public.swap_custom_arm_routine(
   p_source_day_index integer,
   p_target_day_index integer,
-  p_expected_custom_week jsonb
+  p_expected_custom_week jsonb,
+  p_expected_routine_updated_at timestamp with time zone
 ) returns void
 language plpgsql
 security invoker
@@ -415,6 +709,7 @@ declare
   v_user_id uuid := auth.uid();
   v_variant_id text;
   v_raw_week jsonb;
+  v_routine_updated_at timestamp with time zone;
   v_current_week jsonb;
   v_next_week jsonb;
   v_source_arm jsonb;
@@ -447,8 +742,8 @@ begin
     raise exception using errcode = 'P0001', message = 'INVALID_DAY';
   end if;
 
-  select variant_id, custom_week
-    into v_variant_id, v_raw_week
+  select variant_id, custom_week, updated_at
+    into v_variant_id, v_raw_week, v_routine_updated_at
     from public.user_routines
    where user_id = v_user_id
    for update;
@@ -489,7 +784,8 @@ begin
     end if;
   end loop;
 
-  if v_current_week is distinct from p_expected_custom_week then
+  if v_current_week is distinct from p_expected_custom_week
+     or v_routine_updated_at is distinct from p_expected_routine_updated_at then
     raise exception using errcode = 'P0001', message = 'STALE_ROUTINE';
   end if;
 
@@ -562,8 +858,8 @@ begin
 end;
 $$;
 
-revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb) from public;
-grant execute on function public.swap_custom_arm_routine(integer, integer, jsonb) to authenticated;
+revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) from public;
+grant execute on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) to authenticated;
 
 -- Weight log history (one row per weigh-in). The latest also mirrors into
 -- public.profiles.weight_kg. Drives the weight graph on /settings/profile.

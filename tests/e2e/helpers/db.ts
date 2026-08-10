@@ -18,7 +18,9 @@ function loadEnv(): Record<string, string> {
 }
 
 const env = { ...loadEnv(), ...process.env };
-export const hasDb = Boolean(env.SUPA_DB_REF && env.SUPA_DB_HOST && env.SUPA_DB_PW);
+export const hasDb = Boolean(
+  env.SUPA_DB_URL || (env.SUPA_DB_REF && env.SUPA_DB_HOST && env.SUPA_DB_PW),
+);
 
 /**
  * 실계정 스모크 테스트용 자격증명 — .env.test.local 의 E2E_REAL_EMAIL/E2E_REAL_PW.
@@ -31,16 +33,25 @@ export const realAccount =
 
 export async function openDbClient(applicationName?: string) {
   const { default: pg } = await import("pg");
-  const client = new pg.Client({
-    host: env.SUPA_DB_HOST,
-    port: Number(env.SUPA_DB_PORT ?? 5432),
-    user: `postgres.${env.SUPA_DB_REF}`,
-    password: env.SUPA_DB_PW,
-    database: "postgres",
-    ssl: { rejectUnauthorized: false },
-    connectionTimeoutMillis: 10_000,
-    application_name: applicationName,
-  });
+  const client = new pg.Client(
+    env.SUPA_DB_URL
+      ? {
+          connectionString: env.SUPA_DB_URL,
+          ssl: env.SUPA_DB_SSL === "false" ? false : { rejectUnauthorized: false },
+          connectionTimeoutMillis: 10_000,
+          application_name: applicationName,
+        }
+      : {
+          host: env.SUPA_DB_HOST,
+          port: Number(env.SUPA_DB_PORT ?? 5432),
+          user: `postgres.${env.SUPA_DB_REF}`,
+          password: env.SUPA_DB_PW,
+          database: "postgres",
+          ssl: { rejectUnauthorized: false },
+          connectionTimeoutMillis: 10_000,
+          application_name: applicationName,
+        },
+  );
   await client.connect();
   return client;
 }

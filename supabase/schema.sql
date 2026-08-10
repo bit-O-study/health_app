@@ -431,10 +431,9 @@ declare
   v_user_id uuid := auth.uid();
 begin
   if v_user_id is not null then
-    perform 1
-      from public.user_routines
-     where user_id = v_user_id
-     for update;
+    update public.user_routines
+       set updated_at = updated_at
+     where user_id = v_user_id;
   end if;
   return null;
 end;
@@ -639,6 +638,216 @@ $$;
 
 revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from public;
 grant execute on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) to authenticated;
+
+-- Legacy day-index repair and semantic slot remaps are planned from one child
+-- snapshot and applied here as a single revision-checked transaction. This
+-- prevents an arm swap from landing between a move, delete, and copy request.
+create or replace function public.apply_routine_exercise_day_sync(
+  p_expected_routine_updated_at timestamp with time zone,
+  p_updates jsonb,
+  p_delete_ids jsonb,
+  p_insert_rows jsonb,
+  p_mark_day_index_migrated boolean
+) returns timestamp with time zone
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_routine_updated_at timestamp with time zone;
+  v_next_updated_at timestamp with time zone;
+  v_row jsonb;
+  v_id uuid;
+  v_day_index integer;
+  v_position integer;
+  v_sets integer;
+  v_reps integer;
+  v_weight_kg numeric(5, 1);
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+  if p_expected_routine_updated_at is null
+     or p_updates is null
+     or jsonb_typeof(p_updates) is distinct from 'array'
+     or p_delete_ids is null
+     or jsonb_typeof(p_delete_ids) is distinct from 'array'
+     or p_insert_rows is null
+     or jsonb_typeof(p_insert_rows) is distinct from 'array'
+     or p_mark_day_index_migrated is null then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  select updated_at
+    into v_routine_updated_at
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+  if v_routine_updated_at is distinct from p_expected_routine_updated_at then
+    raise exception using errcode = 'P0001', message = 'STALE_ROUTINE';
+  end if;
+
+  if exists (
+    select 1
+      from jsonb_array_elements(p_updates) as item(value)
+     group by item.value ->> 'id'
+    having count(*) > 1
+  ) or exists (
+    select 1
+      from jsonb_array_elements_text(p_delete_ids) as item(value)
+     group by item.value
+    having count(*) > 1
+  ) or exists (
+    select 1
+      from jsonb_array_elements(p_updates) as updated(value)
+      join jsonb_array_elements_text(p_delete_ids) as deleted(value)
+        on updated.value ->> 'id' = deleted.value
+  ) then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  for v_row in select value from jsonb_array_elements(p_updates)
+  loop
+    begin
+      if jsonb_typeof(v_row) is distinct from 'object'
+         or jsonb_typeof(v_row -> 'id') is distinct from 'string'
+         or jsonb_typeof(v_row -> 'dayIndex') is distinct from 'number' then
+        raise exception using errcode = '22000', message = 'INVALID_UPDATE';
+      end if;
+      v_id := (v_row ->> 'id')::uuid;
+      v_day_index := (v_row ->> 'dayIndex')::integer;
+      if v_day_index not between 0 and 6
+         or not exists (
+           select 1
+             from public.routine_exercises
+            where user_id = v_user_id
+              and id = v_id
+         ) then
+        raise exception using errcode = '22000', message = 'INVALID_UPDATE';
+      end if;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  for v_row in select to_jsonb(value) from jsonb_array_elements_text(p_delete_ids)
+  loop
+    begin
+      v_id := (v_row #>> '{}')::uuid;
+      if not exists (
+        select 1
+          from public.routine_exercises
+         where user_id = v_user_id
+           and id = v_id
+      ) then
+        raise exception using errcode = '22000', message = 'INVALID_DELETE';
+      end if;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  for v_row in select value from jsonb_array_elements(p_insert_rows)
+  loop
+    begin
+      if jsonb_typeof(v_row) is distinct from 'object'
+         or jsonb_typeof(v_row -> 'dayIndex') is distinct from 'number'
+         or jsonb_typeof(v_row -> 'focus') is distinct from 'string'
+         or jsonb_typeof(v_row -> 'exerciseId') is distinct from 'string'
+         or jsonb_typeof(v_row -> 'equipment') is distinct from 'string' then
+        raise exception using errcode = '22000', message = 'INVALID_INSERT';
+      end if;
+      v_day_index := (v_row ->> 'dayIndex')::integer;
+      v_position := (v_row ->> 'position')::integer;
+      v_sets := (v_row ->> 'sets')::integer;
+      v_reps := (v_row ->> 'reps')::integer;
+      if v_day_index not between 0 and 6
+         or v_position is null
+         or v_position < 0
+         or v_sets not between 1 and 20
+         or v_reps not between 1 and 100
+         or btrim(v_row ->> 'focus') = ''
+         or btrim(v_row ->> 'exerciseId') = ''
+         or btrim(v_row ->> 'equipment') = ''
+         or (
+           v_row ? 'weightKg'
+           and jsonb_typeof(v_row -> 'weightKg') not in ('number', 'null')
+         )
+         or (
+           v_row ? 'memo'
+           and jsonb_typeof(v_row -> 'memo') not in ('string', 'null')
+         ) then
+        raise exception using errcode = '22000', message = 'INVALID_INSERT';
+      end if;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  update public.routine_exercises as exercise
+     set day_index = requested."dayIndex"
+    from jsonb_to_recordset(p_updates)
+      as requested(id uuid, "dayIndex" integer)
+   where exercise.user_id = v_user_id
+     and exercise.id = requested.id;
+
+  delete from public.routine_exercises
+   where user_id = v_user_id
+     and id in (
+       select value::uuid
+         from jsonb_array_elements_text(p_delete_ids) as deleted(value)
+     );
+
+  for v_row in select value from jsonb_array_elements(p_insert_rows)
+  loop
+    v_weight_kg := case
+      when jsonb_typeof(v_row -> 'weightKg') = 'number'
+        then (v_row ->> 'weightKg')::numeric(5, 1)
+      else null
+    end;
+    insert into public.routine_exercises (
+      user_id, day_index, focus, position, exercise_id, equipment,
+      sets, reps, weight_kg, set_details, memo
+    ) values (
+      v_user_id,
+      (v_row ->> 'dayIndex')::integer,
+      v_row ->> 'focus',
+      (v_row ->> 'position')::integer,
+      v_row ->> 'exerciseId',
+      v_row ->> 'equipment',
+      (v_row ->> 'sets')::integer,
+      (v_row ->> 'reps')::integer,
+      v_weight_kg,
+      case
+        when jsonb_typeof(v_row -> 'setDetails') = 'null' then null
+        else v_row -> 'setDetails'
+      end,
+      case
+        when jsonb_typeof(v_row -> 'memo') = 'string' then v_row ->> 'memo'
+        else null
+      end
+    );
+  end loop;
+
+  update public.user_routines
+     set day_index_migrated = case
+           when p_mark_day_index_migrated then true
+           else day_index_migrated
+         end,
+         updated_at = clock_timestamp()
+   where user_id = v_user_id
+  returning updated_at into v_next_updated_at;
+
+  return v_next_updated_at;
+end;
+$$;
+
+revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from public;
+grant execute on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) to authenticated;
 
 create or replace function public.restore_routine_preset_with_exercises(
   p_splits integer,

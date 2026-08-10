@@ -13,7 +13,6 @@ import {
   isDayBlockId,
   isValidRoutine,
   normalizeCustomWeek,
-  planDayIndexRemap,
   routineDayOffset,
   routineDaySlots,
   seoulYmd,
@@ -28,9 +27,9 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 import {
-  remapRoutineExerciseSlots,
   syncRoutineExerciseDays,
 } from "@/features/routine/day-index-migration";
+import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
 import { shouldAdvanceStartDate } from "@/features/routine/defer-carry";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
@@ -95,25 +94,29 @@ export async function saveRoutineAction(
   // ('오늘부터 다시 시작하기'가 이 기준으로 복원).
   const effSplits = isCustom ? CUSTOM_SPLITS : splits;
   const effCustomWeek = isCustom ? normalized : null;
-  const { error } = await supabase.from("user_routines").upsert(
-    {
-      user_id: user.id,
-      splits: effSplits,
-      variant_id: variantId,
-      custom_week: effCustomWeek,
-      baseline_routine: {
+  const { data: savedRoutine, error } = await supabase
+    .from("user_routines")
+    .upsert(
+      {
+        user_id: user.id,
         splits: effSplits,
         variant_id: variantId,
         custom_week: effCustomWeek,
+        baseline_routine: {
+          splits: effSplits,
+          variant_id: variantId,
+          custom_week: effCustomWeek,
+        },
+        rest_date: null,
+        override_date: null,
+        override_block: null,
+        last_deferred_date: null,
+        deferred_target: null,
       },
-      rest_date: null,
-      override_date: null,
-      override_block: null,
-      last_deferred_date: null,
-      deferred_target: null,
-    },
-    { onConflict: "user_id" },
-  );
+      { onConflict: "user_id" },
+    )
+    .select("updated_at")
+    .single();
 
   if (error) {
     return { ok: false, error: error.message };
@@ -135,29 +138,31 @@ export async function saveRoutineAction(
       .gte("for_date", today),
   ]);
 
-  // 이두/삼두처럼 저장 focus가 같은 세부 슬롯은 새 루틴의 의미가 같은 슬롯으로
-  // 먼저 이동한다. 이 단계가 없으면 날짜를 맞바꿔도 기존 arm 행이 제자리에 남는다.
-  if (previousSlots.length > 0) {
-    await remapRoutineExerciseSlots(
-      user.id,
-      previousSlots,
-      routineDaySlots(effSplits, variantId, normalized),
-    );
-  }
+  const savedRevision = (savedRoutine as { updated_at: string }).updated_at;
+
+  // 의미 슬롯 리맵과 day_index 정렬을 한 revision-checked RPC로 적용한다.
+  const synced = await syncRoutineExerciseDays(
+    user.id,
+    savedRevision,
+    effSplits,
+    variantId,
+    normalized,
+    { previousSlots },
+  );
+  if (!synced.ok) return synced;
 
   //"추천으로 채우기" 선택 시에만 자동 채우기 실행."직접 등록"이면 건드리지 않음.
   if (fillMode === "recommend") {
-    await fillMissingFocusesAction(user.id, splits, variantId, normalized);
+    const filled = await fillMissingFocusesAction(
+      user.id,
+      synced.routineUpdatedAt,
+      effSplits,
+      variantId,
+      normalized,
+    );
+    if (!filled.ok) return filled;
     await registerRecommendedConditioningAction();
   }
-
-  // 루틴 구조가 바뀌었으니 기존 운동의 day_index 를 새 루틴 일차에 맞춰 재정렬.
-  await syncRoutineExerciseDays(
-    user.id,
-    isCustom ? CUSTOM_SPLITS : splits,
-    variantId,
-    normalized,
-  );
 
   revalidatePath("/routine");
   revalidatePath("/settings/routine");
@@ -173,15 +178,16 @@ export async function saveRoutineAction(
  */
 async function fillMissingFocusesAction(
   userId: string,
+  expectedRoutineUpdatedAt: string,
   splits: number,
   variantId: string,
   customWeek: DayBlockId[][] | null,
-): Promise<void> {
+): Promise<SaveRoutineResult> {
   const profile = await getUserProfile();
-  if (!profile) return;
+  if (!profile) return { ok: true };
 
   const slots = routineDaySlots(splits, variantId, customWeek);
-  if (slots.length === 0) return;
+  if (slots.length === 0) return { ok: true };
 
   const supabase = await createSupabaseServerClient();
   // 기존 행의 (day_index, focus) 쌍 조회
@@ -200,7 +206,7 @@ async function fillMissingFocusesAction(
   const missing = slots.filter(
     (s) => !existingPairs.has(`${s.dayIndex}:${s.focus}`),
   );
-  if (missing.length === 0) return;
+  if (missing.length === 0) return { ok: true };
 
   const opts = {
     gender: profile.gender,
@@ -208,28 +214,35 @@ async function fillMissingFocusesAction(
     bodyType: profile.bodyType ?? ("average" as const),
     weightKg: profile.weightKg ?? 65,
   };
-  const rows = missing.flatMap((slot) => {
+  const groups = missing.map((slot) => {
     const list = slot.isSide
       ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender)
       : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender);
-    return list.map((ex, index) => {
-      const p = prescribe(ex.id, opts);
-      return {
-        user_id: userId,
-        day_index: slot.dayIndex,
-        focus: slot.focus,
-        position: index,
-        exercise_id: ex.id,
-        equipment: ex.equipments[0].equipment,
-        sets: p.sets,
-        reps: p.reps,
-        weight_kg: p.weightKg,
-      };
-    });
+    return {
+      dayIndex: slot.dayIndex,
+      focus: slot.focus,
+      rows: list.map((ex, index) => {
+        const p = prescribe(ex.id, opts);
+        return {
+          position: index,
+          exerciseId: ex.id,
+          equipment: ex.equipments[0].equipment,
+          sets: p.sets,
+          reps: p.reps,
+          weightKg: p.weightKg,
+          setDetails: null,
+          memo: null,
+        };
+      }),
+    };
   });
-  if (rows.length > 0) {
-    await supabase.from("routine_exercises").insert(rows);
-  }
+  const replacement = await replaceRoutineExerciseGroups(
+    supabase,
+    expectedRoutineUpdatedAt,
+    false,
+    groups,
+  );
+  return replacement.ok ? { ok: true } : replacement;
 }
 
 /**
@@ -265,21 +278,25 @@ export async function reorderUpcomingSevenDaysAction(
 
   const today = seoulYmd();
 
-  const { error } = await supabase.from("user_routines").upsert(
-    {
-      user_id: user.id,
-      splits: CUSTOM_SPLITS,
-      variant_id: CUSTOM_VARIANT_ID,
-      custom_week: blocks,
-      start_date: today,
-      rest_date: null,
-      override_date: null,
-      override_block: null,
-      last_deferred_date: null,
-      deferred_target: null,
-    },
-    { onConflict: "user_id" },
-  );
+  const { data: savedRoutine, error } = await supabase
+    .from("user_routines")
+    .upsert(
+      {
+        user_id: user.id,
+        splits: CUSTOM_SPLITS,
+        variant_id: CUSTOM_VARIANT_ID,
+        custom_week: blocks,
+        start_date: today,
+        rest_date: null,
+        override_date: null,
+        override_block: null,
+        last_deferred_date: null,
+        deferred_target: null,
+      },
+      { onConflict: "user_id" },
+    )
+    .select("updated_at")
+    .single();
   if (error) return { ok: false, error: error.message };
 
   await Promise.all([
@@ -295,35 +312,15 @@ export async function reorderUpcomingSevenDaysAction(
       .gte("for_date", today),
   ]);
 
-  // 드래그 순열대로 본운동의 day_index 를 카드와 함께 옮긴다. start_date=오늘 이라
-  // 저장 후 (day_index == 화면 위치). order 가 없거나 순열이 아니면 무동작(빈 매핑).
-  if (Array.isArray(order)) {
-    const { data: rows } = await supabase
-      .from("routine_exercises")
-      .select("id, day_index")
-      .eq("user_id", user.id);
-    const remap = planDayIndexRemap(
-      (rows ?? []) as { id: string; day_index: number | null }[],
-      order,
-    );
-    // 목적지 day_index 별로 묶어 id 로 갱신. 원래 스냅샷 기준이라 충돌 없음
-    // (컬럼값으로 필터하면 이미 옮긴 행까지 다시 잡혀 섞인다 — 반드시 id 필터).
-    const idsByDay = new Map<number, string[]>();
-    for (const u of remap) {
-      const arr = idsByDay.get(u.dayIndex) ?? [];
-      arr.push(u.id);
-      idsByDay.set(u.dayIndex, arr);
-    }
-    for (const [dayIndex, ids] of idsByDay) {
-      await supabase
-        .from("routine_exercises")
-        .update({ day_index: dayIndex })
-        .in("id", ids);
-    }
-  }
-
-  // 부위 배치가 바뀌었으니 day_index 정합성 보정(비어버린 일차 채우기/드리프트 수리).
-  await syncRoutineExerciseDays(user.id, CUSTOM_SPLITS, CUSTOM_VARIANT_ID, blocks);
+  const synced = await syncRoutineExerciseDays(
+    user.id,
+    (savedRoutine as { updated_at: string }).updated_at,
+    CUSTOM_SPLITS,
+    CUSTOM_VARIANT_ID,
+    blocks,
+    { dayOrder: Array.isArray(order) ? order : undefined },
+  );
+  if (!synced.ok) return synced;
 
   revalidatePath("/routine");
   revalidatePath("/settings/routine");
@@ -383,10 +380,12 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
     update.custom_week = baseline!.custom_week ?? null;
   }
 
-  await supabase
+  const { data: restoredRoutine } = await supabase
     .from("user_routines")
     .update(update)
-    .eq("user_id", user.id);
+    .eq("user_id", user.id)
+    .select("updated_at")
+    .maybeSingle();
 
   // 오늘 이후의 '오늘만 변경' 오버라이드 제거 → 기본(처음 설정한) 루틴으로 복귀.
   await Promise.all([
@@ -403,9 +402,10 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
   ]);
 
   // 기준 루틴으로 구조가 바뀌었으면 day_index 도 그 루틴에 맞춰 재정렬.
-  if (restoredBaseline) {
+  if (restoredBaseline && restoredRoutine) {
     await syncRoutineExerciseDays(
       user.id,
+      (restoredRoutine as { updated_at: string }).updated_at,
       baseline!.splits as number,
       baseline!.variant_id as string,
       (baseline!.custom_week ?? null) as DayBlockId[][] | null,

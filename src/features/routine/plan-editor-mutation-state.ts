@@ -23,3 +23,10 @@ export function armSwapBlockReason({
   }
   return null;
 }
+
+export function saveSnapshotStillCurrent(
+  savedRevision: number,
+  currentRevision: number,
+): boolean {
+  return savedRevision === currentRevision;
+}

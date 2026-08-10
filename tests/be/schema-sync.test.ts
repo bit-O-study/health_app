@@ -57,6 +57,9 @@ const expected = parseSchema(schemaSql);
 const expectedSwapBody = schemaSql.match(
   /create or replace function public\.swap_custom_arm_routine\([\s\S]*?\) returns void[\s\S]*?as \$\$([\s\S]*?)\$\$;/i,
 )?.[1];
+const expectedDaySyncBody = schemaSql.match(
+  /create or replace function public\.apply_routine_exercise_day_sync\([\s\S]*?\) returns timestamp with time zone[\s\S]*?as \$\$([\s\S]*?)\$\$;/i,
+)?.[1];
 
 function normalizeSql(value: string): string {
   return value.replace(/\s+/g, " ").trim();
@@ -156,6 +159,45 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
       replacement_exists: true,
       lock_trigger_exists: true,
     });
+  });
+
+  it("apply_routine_exercise_day_sync has the exact body, search_path, and ACL", async () => {
+    const result = await client.query(
+      `select
+         expected.oid is not null as exists,
+         pg_get_function_result(expected.oid) as return_type,
+         language.lanname as language,
+         coalesce(proc.prosecdef, false) as security_definer,
+         proc.prosrc as function_body,
+         proc.proconfig as function_config,
+         has_function_privilege('authenticated', expected.oid, 'EXECUTE')
+           as authenticated_execute,
+         has_function_privilege('anon', expected.oid, 'EXECUTE') as anon_execute,
+         coalesce((
+           select bool_or(acl.grantee = 0 and acl.privilege_type = 'EXECUTE')
+             from aclexplode(coalesce(proc.proacl, acldefault('f', proc.proowner))) as acl
+         ), false) as public_execute
+       from (
+         select to_regprocedure(
+           'public.apply_routine_exercise_day_sync(timestamp with time zone,jsonb,jsonb,jsonb,boolean)'
+         ) as oid
+       ) as expected
+       left join pg_proc as proc on proc.oid = expected.oid
+       left join pg_language as language on language.oid = proc.prolang`,
+    );
+    const row = result.rows[0];
+    expect(row, "apply_routine_exercise_day_sync RPC missing in live DB").toMatchObject({
+      exists: true,
+      return_type: "timestamp with time zone",
+      language: "plpgsql",
+      security_definer: false,
+      function_config: ["search_path=public, pg_temp"],
+      authenticated_execute: true,
+      anon_execute: false,
+      public_execute: false,
+    });
+    expect(expectedDaySyncBody, "schema.sql day sync body missing").toBeTruthy();
+    expect(normalizeSql(row.function_body)).toBe(normalizeSql(expectedDaySyncBody!));
   });
 
   for (const table of Object.keys(expected.tables).sort()) {

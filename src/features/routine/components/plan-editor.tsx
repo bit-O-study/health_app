@@ -53,6 +53,7 @@ import { ConditioningEditor } from "@/features/routine/components/conditioning-e
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
 import {
   armSwapBlockReason,
+  saveSnapshotStillCurrent,
   type ConditioningMutationState,
 } from "@/features/routine/plan-editor-mutation-state";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
@@ -146,6 +147,7 @@ export function PlanEditor({
   );
   // 저장 안 된 섹션들(key) — 페이지를 떠날 때 경고하고, "추천으로 채우기" 덮어쓰기 확인용
   const [dirty, setDirty] = useState<Set<string>>(new Set());
+  const editRevisions = useRef<Record<string, number>>({});
   const [conditioningStates, setConditioningStates] = useState<
     Record<string, ConditioningMutationState>
   >({});
@@ -199,6 +201,7 @@ export function PlanEditor({
   }, [conditioningDirty, dirty]);
 
   function update(key: string, next: Row[]) {
+    editRevisions.current[key] = (editRevisions.current[key] ?? 0) + 1;
     setPlans((prev) => ({ ...prev, [key]: next }));
     setDirty((prev) => new Set(prev).add(key));
     setStatus(null);
@@ -470,6 +473,12 @@ export function PlanEditor({
   }
   // 그날 모든 부위를 한 번에 저장(부위별 슬롯으로 나눠 저장).
   function saveDay(day: DayGroup) {
+    const savedRevisions = Object.fromEntries(
+      day.focuses.map((focus) => [
+        focus.key,
+        editRevisions.current[focus.key] ?? 0,
+      ]),
+    );
     start(async () => {
       const groups = day.focuses.map((f) => ({
         dayIndex: f.dayIndex,
@@ -491,7 +500,16 @@ export function PlanEditor({
       setStatus(`${day.dayIndex + 1}일차 저장됨`);
       setDirty((prev) => {
         const next = new Set(prev);
-        day.focuses.forEach((f) => next.delete(f.key));
+        day.focuses.forEach((focus) => {
+          if (
+            saveSnapshotStillCurrent(
+              savedRevisions[focus.key] ?? 0,
+              editRevisions.current[focus.key] ?? 0,
+            )
+          ) {
+            next.delete(focus.key);
+          }
+        });
         return next;
       });
       router.refresh();
@@ -766,6 +784,7 @@ export function PlanEditor({
                             <ExerciseSearchSelect
                               options={options}
                               value={row.exerciseId}
+                              disabled={editorPending}
                               onChange={(id) => {
                                 const nextEx = getCatalogExercise(id);
                                 const next = [...rows];
@@ -853,6 +872,7 @@ export function PlanEditor({
                       initial={primary.warmup}
                       lockWeightReps={lockWeightReps}
                       mutationKey={`${primary.key}:warmup`}
+                      disabled={editorPending}
                       onMutationStateChange={updateConditioningState}
                     />
                     <ConditioningEditor
@@ -861,6 +881,7 @@ export function PlanEditor({
                       initial={primary.cooldown}
                       lockWeightReps={lockWeightReps}
                       mutationKey={`${primary.key}:cooldown`}
+                      disabled={editorPending}
                       onMutationStateChange={updateConditioningState}
                     />
                   </div>

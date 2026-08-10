@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   NULL_DAY_KEY,
   planFocusDaySync,
+  planRoutineExerciseDaySync,
   planRoutineSlotRemap,
   type DaySyncOp,
 } from "@/features/routine/day-sync-plan";
@@ -102,5 +103,79 @@ describe("planFocusDaySync", () => {
     expect(planFocusDaySync([2], [0, 1], isSide)).toEqual<DaySyncOp[]>([
       { type: "move", from: 2, to: 0 },
     ]);
+  });
+});
+
+describe("planRoutineExerciseDaySync", () => {
+  const row = (id: string, dayIndex: number | null, exerciseId: string) => ({
+    id,
+    dayIndex,
+    focus: "arm",
+    position: 0,
+    exerciseId,
+    equipment: "dumbbell",
+    sets: 3,
+    reps: 10,
+    weightKg: 10,
+    setDetails: null,
+    memo: `${exerciseId} memo`,
+  });
+
+  it("이두·삼두 의미 슬롯 교환을 하나의 ID 기반 업데이트 묶음으로 만든다", () => {
+    const previousSlots = [
+      { dayIndex: 0, focus: "arm", blockIds: ["biceps"], isSide: true },
+      { dayIndex: 1, focus: "arm", blockIds: ["triceps"], isSide: true },
+    ];
+    const nextSlots = [
+      { dayIndex: 0, focus: "arm", blockIds: ["triceps"], isSide: true },
+      { dayIndex: 1, focus: "arm", blockIds: ["biceps"], isSide: true },
+    ];
+
+    expect(
+      planRoutineExerciseDaySync({
+        rows: [
+          row("biceps-id", 0, "biceps-curl"),
+          row("triceps-id", 1, "triceps-pushdown"),
+        ],
+        previousSlots,
+        nextSlots,
+      }),
+    ).toEqual({
+      updates: [
+        { id: "biceps-id", dayIndex: 1 },
+        { id: "triceps-id", dayIndex: 0 },
+      ],
+      deleteIds: [],
+      insertRows: [],
+    });
+  });
+
+  it("legacy NULL 묶음을 이동하고 같은 역할의 빈 일차 복사까지 한 payload로 만든다", () => {
+    const source = row("push-id", null, "bench-press");
+    const nextSlots = [
+      { dayIndex: 0, focus: "arm", blockIds: ["arm"], isSide: false },
+      { dayIndex: 3, focus: "arm", blockIds: ["arm"], isSide: false },
+    ];
+
+    expect(
+      planRoutineExerciseDaySync({ rows: [source], nextSlots }),
+    ).toEqual({
+      updates: [{ id: "push-id", dayIndex: 0 }],
+      deleteIds: [],
+      insertRows: [
+        {
+          dayIndex: 3,
+          focus: "arm",
+          position: 0,
+          exerciseId: "bench-press",
+          equipment: "dumbbell",
+          sets: 3,
+          reps: 10,
+          weightKg: 10,
+          setDetails: null,
+          memo: "bench-press memo",
+        },
+      ],
+    });
   });
 });

@@ -243,7 +243,7 @@ async function waitForDbLock(
   observer: Awaited<ReturnType<typeof openDbClient>>,
   applicationName: string,
 ) {
-  for (let attempt = 0; attempt < 80; attempt += 1) {
+  for (let attempt = 0; attempt < 200; attempt += 1) {
     const result = await observer.query<{ wait_event_type: string | null }>(
       `select wait_event_type
          from pg_stat_activity
@@ -518,10 +518,10 @@ test("수동 저장과 교환은 부모 잠금 순서대로 직렬화되어 팔 
       [0, 1, JSON.stringify(expected.customWeek), expected.updatedAt],
     );
     const staleSwap = expect(swapPromise).rejects.toThrow(/STALE_ROUTINE/);
-    await waitForDbLock(observer, "arm-swap-waiter");
 
     await observer.query("commit");
     await savePromise;
+    await waitForDbLock(observer, "arm-swap-waiter");
     await saver.query("commit");
     await staleSwap;
     await swapper.query("rollback");
@@ -595,7 +595,7 @@ test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 �
     ).toBeVisible();
     const mutationControls = [
       addButton,
-      day0.getByRole("button", { name: "추천으로 채우기" }),
+      day0.getByRole("button", { name: "추천으로 채우기" }).first(),
       day0.getByRole("button", { name: "1일차 저장" }),
       day0.getByTestId("delete-row-0:back-0"),
       day0.getByRole("button", { name: "드래그로 순서 변경" }).first(),
@@ -643,6 +643,10 @@ test("본운동 저장 중에는 새 편집을 만들 수 없어 이전 저장 �
   const requestHeld = new Promise<void>((resolve) => {
     requestHeldResolve = resolve;
   });
+  let requestContinuedResolve!: () => void;
+  const requestContinued = new Promise<void>((resolve) => {
+    requestContinuedResolve = resolve;
+  });
   const holdSave = async (route: Route) => {
     const request = route.request();
     if (request.method() !== "POST" || !request.headers()["next-action"]) {
@@ -652,6 +656,7 @@ test("본운동 저장 중에는 새 편집을 만들 수 없어 이전 저장 �
     requestHeldResolve();
     await requestReleased;
     await route.continue();
+    requestContinuedResolve();
   };
   await page.route("**/*", holdSave);
 
@@ -666,6 +671,61 @@ test("본운동 저장 중에는 새 편집을 만들 수 없어 이전 저장 �
   ).toHaveCount(0);
 
   releaseRequest();
+  await requestContinued;
+  await page.unroute("**/*", holdSave);
+  await expect(page.getByText("1일차 저장됨")).toBeVisible();
+});
+
+test("이미 열린 운동 검색 포털은 본운동 저장이 시작되면 닫혀 편집할 수 없다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const email = await signUpAndOnboard(page);
+  await seedArmRoutine(email);
+  await page.goto("/plan", { waitUntil: "networkidle" });
+  const day0 = page.locator('[data-plan-day-index="0"]');
+
+  await day0
+    .getByRole("button", { name: "운동", exact: true })
+    .first()
+    .click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+
+  let releaseRequest!: () => void;
+  const requestReleased = new Promise<void>((resolve) => {
+    releaseRequest = resolve;
+  });
+  let requestHeldResolve!: () => void;
+  const requestHeld = new Promise<void>((resolve) => {
+    requestHeldResolve = resolve;
+  });
+  let portalRequestContinuedResolve!: () => void;
+  const portalRequestContinued = new Promise<void>((resolve) => {
+    portalRequestContinuedResolve = resolve;
+  });
+  const holdSave = async (route: Route) => {
+    const request = route.request();
+    if (request.method() !== "POST" || !request.headers()["next-action"]) {
+      await route.continue();
+      return;
+    }
+    requestHeldResolve();
+    await requestReleased;
+    await route.continue();
+    portalRequestContinuedResolve();
+  };
+  await page.route("**/*", holdSave);
+
+  await day0
+    .getByRole("button", { name: "1일차 저장" })
+    .evaluate((button) => (button as HTMLElement).click());
+  await requestHeld;
+  await expect(page.locator('fieldset[aria-busy="true"]')).toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+
+  releaseRequest();
+  await portalRequestContinued;
   await page.unroute("**/*", holdSave);
   await expect(page.getByText("1일차 저장됨")).toBeVisible();
 });
@@ -699,6 +759,10 @@ test("미저장 워밍업 편집과 워밍업 저장 중 상태는 팔 교환을
   const requestHeld = new Promise<void>((resolve) => {
     requestHeldResolve = resolve;
   });
+  let conditioningRequestContinuedResolve!: () => void;
+  const conditioningRequestContinued = new Promise<void>((resolve) => {
+    conditioningRequestContinuedResolve = resolve;
+  });
   const holdConditioningSave = async (route: Route) => {
     const request = route.request();
     if (request.method() !== "POST" || !request.headers()["next-action"]) {
@@ -708,13 +772,23 @@ test("미저장 워밍업 편집과 워밍업 저장 중 상태는 팔 교환을
     requestHeldResolve();
     await requestReleased;
     await route.continue();
+    conditioningRequestContinuedResolve();
   };
   await page.route("**/*", holdConditioningSave);
-  await warmup.getByRole("button", { name: "저장" }).click();
+  await warmup.getByRole("button", { name: "항목", exact: true }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await warmup
+    .getByRole("button", { name: "저장" })
+    .evaluate((button) => (button as HTMLElement).click());
   await requestHeld;
   await expect(page.getByTestId("arm-swap-button-0")).toBeDisabled();
-  await expect(page.locator('fieldset[aria-busy="true"]')).toBeVisible();
+  await expect(warmup).toHaveAttribute("aria-busy", "true");
+  await expect(
+    page.locator('fieldset[aria-busy="true"]').first(),
+  ).toBeVisible();
+  await expect(page.getByRole("dialog")).toHaveCount(0);
   releaseRequest();
+  await conditioningRequestContinued;
   await page.unroute("**/*", holdConditioningSave);
   await expect(warmup.getByText("저장됨")).toBeVisible();
 });

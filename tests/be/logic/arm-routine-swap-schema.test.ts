@@ -12,6 +12,9 @@ const accessSql = schema.match(
 const replacementSql = schema.match(
   /create or replace function public\.replace_routine_exercise_groups\(\s*p_expected_routine_updated_at timestamp with time zone,\s*p_replace_all boolean,\s*p_groups jsonb\s*\)[\s\S]*?\n\$\$;/i,
 )?.[0] ?? "";
+const daySyncSql = schema.match(
+  /create or replace function public\.apply_routine_exercise_day_sync\([\s\S]*?\n\$\$;/i,
+)?.[0] ?? "";
 const exerciseLockSql = schema.match(
   /create or replace function public\.lock_routine_exercise_write\(\)[\s\S]*?create trigger routine_exercises_lock_parent[\s\S]*?execute function public\.lock_routine_exercise_write\(\);/i,
 )?.[0] ?? "";
@@ -163,7 +166,7 @@ describe("swap_custom_arm_routine schema contract", () => {
 describe("routine exercise writer serialization schema contract", () => {
   it("모든 exercise DML 문장 시작 전에 같은 사용자 루틴 행을 잠근다", () => {
     expect(normalizeSql(exerciseLockSql)).toContain(
-      "perform 1 from public.user_routines where user_id = v_user_id for update;",
+      "update public.user_routines set updated_at = updated_at where user_id = v_user_id;",
     );
     expect(exerciseLockSql).toMatch(
       /create trigger routine_exercises_lock_parent\s+before insert or update or delete on public\.routine_exercises\s+for each statement execute function public\.lock_routine_exercise_write\(\);/i,
@@ -224,6 +227,33 @@ describe("routine exercise writer serialization schema contract", () => {
     expect(sql).toContain("update public.user_routines set splits = p_splits");
     expect(presetRestoreSql).toMatch(
       /from public\.replace_routine_exercise_groups\(\s*v_routine_updated_at,\s*true,\s*p_groups\s*\)/i,
+    );
+  });
+
+  it("일차 리맵·백필의 이동·삭제·복사를 revision 확인 뒤 한 트랜잭션에서 적용한다", () => {
+    const sql = normalizeSql(daySyncSql);
+
+    expect(daySyncSql).toMatch(
+      /language plpgsql\s+security invoker\s+set search_path = public, pg_temp/i,
+    );
+    expect(sql).toContain(
+      "select updated_at into v_routine_updated_at from public.user_routines where user_id = v_user_id for update;",
+    );
+    expect(sql).toContain(
+      "if v_routine_updated_at is distinct from p_expected_routine_updated_at then raise exception using errcode = 'P0001', message = 'STALE_ROUTINE'; end if;",
+    );
+    expect(daySyncSql).toMatch(
+      /update public\.routine_exercises[\s\S]*from jsonb_to_recordset\(p_updates\)/i,
+    );
+    expect(daySyncSql).toMatch(
+      /delete from public\.routine_exercises[\s\S]*jsonb_array_elements_text\(p_delete_ids\)/i,
+    );
+    expect(daySyncSql).toMatch(/insert into public\.routine_exercises/i);
+    expect(sql).toContain(
+      "day_index_migrated = case when p_mark_day_index_migrated then true else day_index_migrated end",
+    );
+    expect(normalizeSql(schema)).toContain(
+      "revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from public; grant execute on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) to authenticated;",
     );
   });
 });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
@@ -22,7 +22,10 @@ import {
 import { saveDailyConditioningAction } from "@/features/routine/daily-conditioning-actions";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
-import type { ConditioningMutationState } from "@/features/routine/plan-editor-mutation-state";
+import {
+  saveSnapshotStillCurrent,
+  type ConditioningMutationState,
+} from "@/features/routine/plan-editor-mutation-state";
 
 type Row = {
   itemId: string;
@@ -83,6 +86,7 @@ export function ConditioningEditor({
   recommendFocuses,
   hideRecommend = false,
   mutationKey,
+  disabled = false,
   onMutationStateChange,
 }: {
   /** 기본값 편집 모드일 때의 부위. dailyDate 가 있으면 사용하지 않음 */
@@ -99,6 +103,8 @@ export function ConditioningEditor({
   hideRecommend?: boolean;
   /** /plan 부모가 팔 교환 전 미저장·저장중 상태를 함께 조정할 때 사용. */
   mutationKey?: string;
+  /** 부모 편집기의 다른 저장/교환이 진행 중이면 포털까지 함께 잠근다. */
+  disabled?: boolean;
   onMutationStateChange?: (
     key: string,
     state: ConditioningMutationState | null,
@@ -110,6 +116,8 @@ export function ConditioningEditor({
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
+  const editRevision = useRef(0);
+  const editorDisabled = disabled || pending;
 
   useEffect(() => {
     if (!mutationKey || !onMutationStateChange) return;
@@ -122,6 +130,7 @@ export function ConditioningEditor({
   }, [mutationKey, onMutationStateChange]);
 
   function update(next: Row[]) {
+    editRevision.current += 1;
     setRows(next);
     setDirty(true);
     if (mutationKey && onMutationStateChange) {
@@ -149,6 +158,7 @@ export function ConditioningEditor({
   }
 
   function save() {
+    const savedRevision = editRevision.current;
     if (mutationKey && onMutationStateChange) {
       onMutationStateChange(mutationKey, { dirty, pending: true });
     }
@@ -159,7 +169,9 @@ export function ConditioningEditor({
         : await saveConditioningAction(focus ?? "", kind, items);
       setMsg(res.ok ? "저장됨" : res.error);
       if (res.ok) {
-        setDirty(false);
+        if (saveSnapshotStillCurrent(savedRevision, editRevision.current)) {
+          setDirty(false);
+        }
         router.refresh();
       }
     });
@@ -192,7 +204,7 @@ export function ConditioningEditor({
 
   return (
     <fieldset
-      disabled={pending}
+      disabled={editorDisabled}
       aria-busy={pending}
       data-testid={mutationKey ? `conditioning-editor-${mutationKey}` : undefined}
       className="m-0 min-w-0 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900"
@@ -244,6 +256,7 @@ export function ConditioningEditor({
                     ariaLabel="항목"
                     options={options}
                     value={row.itemId}
+                    disabled={editorDisabled}
                     onChange={(id) => {
                       const next = [...rows];
                       next[idx] = defaultsRow(id);

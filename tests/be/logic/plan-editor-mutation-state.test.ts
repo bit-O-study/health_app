@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   armSwapBlockReason,
+  saveSnapshotStillCurrent,
   type ConditioningMutationState,
 } from "@/features/routine/plan-editor-mutation-state";
 
@@ -49,5 +50,15 @@ describe("armSwapBlockReason", () => {
         conditioningStates: conditioning({ dirty: false, pending: false }),
       }),
     ).toBeNull();
+  });
+});
+
+describe("saveSnapshotStillCurrent", () => {
+  it("저장 요청 뒤 편집 revision이 바뀌면 dirty를 지우지 않는다", () => {
+    expect(saveSnapshotStillCurrent(3, 4)).toBe(false);
+  });
+
+  it("저장 요청 뒤 추가 편집이 없을 때만 dirty를 지운다", () => {
+    expect(saveSnapshotStillCurrent(3, 3)).toBe(true);
   });
 });

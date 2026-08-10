@@ -1,5 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
+import type { RoutineExerciseDaySyncMutation } from "@/features/routine/day-sync-plan";
+
 export type RoutineExerciseWriteRow = {
   id?: string;
   position: number;
@@ -78,4 +80,32 @@ export async function replaceRoutineExerciseGroups(
       })
     : [];
   return { ok: true, inserted };
+}
+
+export async function applyRoutineExerciseDaySync(
+  supabase: SupabaseClient,
+  expectedRoutineUpdatedAt: string,
+  mutation: RoutineExerciseDaySyncMutation,
+  markDayIndexMigrated: boolean,
+): Promise<
+  | { ok: true; routineUpdatedAt: string }
+  | { ok: false; error: string }
+> {
+  const { data, error } = await supabase.rpc(
+    "apply_routine_exercise_day_sync",
+    {
+      p_expected_routine_updated_at: expectedRoutineUpdatedAt,
+      p_updates: mutation.updates,
+      p_delete_ids: mutation.deleteIds,
+      p_insert_rows: mutation.insertRows,
+      p_mark_day_index_migrated: markDayIndexMigrated,
+    },
+  );
+  if (error) {
+    return { ok: false, error: routineExerciseWriteErrorMessage(error.message) };
+  }
+  if (typeof data !== "string") {
+    return { ok: false, error: "운동 저장에 실패했습니다." };
+  }
+  return { ok: true, routineUpdatedAt: data };
 }

@@ -637,6 +637,7 @@ end;
 $$;
 
 revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from public;
+revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from anon;
 grant execute on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) to authenticated;
 
 -- Legacy day-index repair and semantic slot remaps are planned from one child
@@ -847,6 +848,7 @@ end;
 $$;
 
 revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from public;
+revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from anon;
 grant execute on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) to authenticated;
 
 create or replace function public.restore_routine_preset_with_exercises(
@@ -901,6 +903,7 @@ end;
 $$;
 
 revoke all on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) from public;
+revoke all on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) from anon;
 grant execute on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) to authenticated;
 
 drop function if exists public.swap_custom_arm_routine(integer, integer, jsonb);
@@ -1068,6 +1071,7 @@ end;
 $$;
 
 revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) from public;
+revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) from anon;
 grant execute on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) to authenticated;
 
 -- Weight log history (one row per weigh-in). The latest also mirrors into

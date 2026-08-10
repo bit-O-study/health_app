@@ -7,7 +7,7 @@ const functionSql = schema.match(
   /create or replace function public\.swap_custom_arm_routine\(\s*p_source_day_index integer,\s*p_target_day_index integer,\s*p_expected_custom_week jsonb,\s*p_expected_routine_updated_at timestamp with time zone\s*\) returns void[\s\S]*?\n\$\$;/i,
 )?.[0] ?? "";
 const accessSql = schema.match(
-  /revoke all on function public\.swap_custom_arm_routine\(integer, integer, jsonb, timestamp with time zone\) from public;\s*grant execute on function public\.swap_custom_arm_routine\(integer, integer, jsonb, timestamp with time zone\) to authenticated;/i,
+  /revoke all on function public\.swap_custom_arm_routine\(integer, integer, jsonb, timestamp with time zone\) from public;\s*revoke all on function public\.swap_custom_arm_routine\(integer, integer, jsonb, timestamp with time zone\) from anon;\s*grant execute on function public\.swap_custom_arm_routine\(integer, integer, jsonb, timestamp with time zone\) to authenticated;/i,
 )?.[0] ?? "";
 const replacementSql = schema.match(
   /create or replace function public\.replace_routine_exercise_groups\(\s*p_expected_routine_updated_at timestamp with time zone,\s*p_replace_all boolean,\s*p_groups jsonb\s*\)[\s\S]*?\n\$\$;/i,
@@ -53,6 +53,7 @@ describe("swap_custom_arm_routine schema contract", () => {
   it("public 실행 권한을 회수하고 authenticated에만 부여한다", () => {
     expect(normalizeSql(accessSql)).toBe(
       "revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) from public; " +
+        "revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) from anon; " +
         "grant execute on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) to authenticated;",
     );
   });
@@ -214,7 +215,7 @@ describe("routine exercise writer serialization schema contract", () => {
 
   it("교체 RPC도 public 권한을 회수하고 authenticated에만 부여한다", () => {
     expect(normalizeSql(schema)).toContain(
-      "revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from public; grant execute on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) to authenticated;",
+      "revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from public; revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from anon; grant execute on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) to authenticated;",
     );
   });
 
@@ -253,7 +254,7 @@ describe("routine exercise writer serialization schema contract", () => {
       "day_index_migrated = case when p_mark_day_index_migrated then true else day_index_migrated end",
     );
     expect(normalizeSql(schema)).toContain(
-      "revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from public; grant execute on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) to authenticated;",
+      "revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from public; revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from anon; grant execute on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) to authenticated;",
     );
   });
 });

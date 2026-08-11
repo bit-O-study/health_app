@@ -2,14 +2,19 @@
 
 import { useEffect, useState } from "react";
 
-import { AUTO_RELOAD_KEY, shouldAutoReload } from "@/lib/chunk-recovery";
+import {
+  AUTO_RELOAD_KEY,
+  recordAppErrorDiagnostic,
+  shouldRecoverAppError,
+} from "@/lib/chunk-recovery";
 
 /**
- * 루트 레이아웃까지 터지는 에러의 최종 바운더리 — error.tsx 와 동일하게 자가복구(자동
- * 새로고침)한다. global-error 는 root layout 을 대체하므로 자체 <html>/<body> 를 렌더한다.
- * (다른 앱 갔다 복귀 시 리로드 요구 대신 저절로 복구 — [[error]] 참고.)
+ * 루트 레이아웃까지 터지는 에러의 최종 바운더리 — error.tsx 와 동일하게 복구 가능한
+ * 로드 오류만 자동 새로고침한다. global-error 는 root layout 을 대체하므로 자체
+ * <html>/<body> 를 렌더한다.
  */
 export default function GlobalError({
+  error,
   reset,
 }: {
   error: Error & { digest?: string };
@@ -19,23 +24,26 @@ export default function GlobalError({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const now = Date.now();
+    recordAppErrorDiagnostic(error, window.location.pathname, now);
     let last = 0;
     try {
       last = Number(sessionStorage.getItem(AUTO_RELOAD_KEY) || 0);
     } catch {
       /* noop */
     }
-    if (shouldAutoReload(last, Date.now())) {
+    if (shouldRecoverAppError(error, last, now)) {
       try {
-        sessionStorage.setItem(AUTO_RELOAD_KEY, String(Date.now()));
+        sessionStorage.setItem(AUTO_RELOAD_KEY, String(now));
       } catch {
         /* noop */
       }
       window.location.reload();
       return;
     }
-    setAutoReloading(false);
-  }, []);
+    const id = window.setTimeout(() => setAutoReloading(false), 0);
+    return () => window.clearTimeout(id);
+  }, [error]);
 
   return (
     <html lang="ko">

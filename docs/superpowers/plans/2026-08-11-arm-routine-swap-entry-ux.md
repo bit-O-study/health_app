@@ -22,6 +22,7 @@
 ### Task 1: 단일 팔 루틴 교환 진입 흐름
 
 **Files:**
+- Create: `tests/be/logic/plan-editor-arm-swap-ui.test.ts`
 - Modify: `tests/e2e/arm-routine-swap.spec.ts:225-240, 590-610, 775-790, 940-965`
 - Modify: `src/features/routine/components/plan-editor.tsx:135-150, 375-430, 575-665`
 
@@ -32,7 +33,77 @@
 - Produces: 접근성 이름이 `팔 루틴 교환 첫 번째 일차`, `팔 루틴 교환 두 번째 일차`인 선택 그룹
 - Produces: 첫 일차 칩의 `aria-pressed` 선택 상태
 
-- [ ] **Step 1: E2E 진입 헬퍼를 새 흐름으로 바꿔 실패 테스트 작성**
+- [ ] **Step 1: 실제 PlanEditor 렌더 결과를 검사하는 실패 테스트 작성**
+
+`tests/be/logic/plan-editor-arm-swap-ui.test.ts`를 만들고, 교환 가능한 팔 일차가 두 개인 실제 `PlanEditor`를 `createElement`로 정적 렌더링한다. 여러 일차가 있어도 계획 수준 진입 버튼이 정확히 하나여야 한다.
+
+```ts
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+vi.mock("@/features/routine/plan-actions", () => ({
+  registerRecommendedPlanAction: vi.fn(),
+  saveManualPlanAction: vi.fn(),
+  swapArmRoutineAction: vi.fn(),
+}));
+vi.mock("@/features/routine/delete-actions", () => ({
+  clearAllPlanAction: vi.fn(),
+}));
+vi.mock("@/features/routine/components/conditioning-editor", () => ({
+  ConditioningEditor: () => null,
+}));
+
+import { PlanEditor } from "@/features/routine/components/plan-editor";
+
+describe("PlanEditor 팔 루틴 교환 진입점", () => {
+  it("교환 가능한 팔 일차가 여러 개여도 상단 진입 버튼을 하나만 렌더링한다", () => {
+    const shared = {
+      items: [],
+      warmup: [],
+      cooldown: [],
+      showConditioning: false,
+    };
+    const html = renderToStaticMarkup(
+      createElement(PlanEditor, {
+        focuses: [
+          { key: "0:back", dayIndex: 0, focus: "back", blockIds: ["back"], isSide: false, label: "1일차 · 등", ...shared },
+          { key: "0:arm", dayIndex: 0, focus: "arm", blockIds: ["biceps"], isSide: true, label: "1일차 · 이두", ...shared },
+          { key: "1:shoulder", dayIndex: 1, focus: "shoulder", blockIds: ["shoulder"], isSide: false, label: "2일차 · 어깨", ...shared },
+          { key: "1:arm", dayIndex: 1, focus: "arm", blockIds: ["triceps"], isSide: true, label: "2일차 · 삼두", ...shared },
+        ],
+        customWeek: [
+          ["back", "biceps"],
+          ["shoulder", "triceps"],
+          ["rest"], ["rest"], ["rest"], ["rest"], ["rest"],
+        ],
+        routineUpdatedAt: "2026-08-11T00:00:00.000Z",
+        gender: "male",
+        experience: "beginner",
+        bodyType: "average",
+        weightKg: 70,
+      }),
+    );
+
+    expect(html.match(/data-testid="arm-swap-button"/g) ?? []).toHaveLength(1);
+  });
+});
+```
+
+- [ ] **Step 2: 단위 테스트를 실행해 기존 UI에서 실패하는지 확인**
+
+Run:
+
+```bash
+vitest run tests/be/logic/plan-editor-arm-swap-ui.test.ts
+```
+
+Expected: FAIL. 기존 UI에는 계획 수준 `data-testid="arm-swap-button"`이 없어 실제 개수 0, 기대 개수 1로 실패한다.
+
+- [ ] **Step 3: E2E 진입 헬퍼를 새 흐름으로 변경**
 
 `tests/e2e/arm-routine-swap.spec.ts`의 `chooseDayOneAsSwapTarget`을 다음 흐름으로 변경한다. 첫 일차 이름은 레거시 문자열 주간에서도 동작하도록 정규식으로 찾는다.
 
@@ -108,7 +179,7 @@ await expect(
 await swapButton.click();
 ```
 
-- [ ] **Step 2: 대표 E2E를 실행해 기존 UI에서 실패하는지 확인**
+- [ ] **Step 4: 자격증명이 있는 환경에서는 대표 E2E의 RED를 확인**
 
 Run:
 
@@ -117,9 +188,9 @@ pnpm exec playwright test tests/e2e/arm-routine-swap.spec.ts \
   --grep "운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 보존한다"
 ```
 
-Expected: FAIL. `data-testid="arm-swap-button"`이 없어 개수를 1로 기대하는 검증이 실패한다.
+Expected: DB 자격증명이 있으면 FAIL. `data-testid="arm-swap-button"`이 없어 개수를 1로 기대하는 검증이 실패한다. 자격증명이 없어 skip되면 Step 2의 단위 테스트 실패를 RED 근거로 사용한다.
 
-- [ ] **Step 3: 선택 패널 열림 상태와 상단 후보 목록 계산 추가**
+- [ ] **Step 5: 선택 패널 열림 상태와 상단 후보 목록 계산 추가**
 
 `PlanEditor` 상태에 패널 열림 여부를 추가한다.
 
@@ -173,7 +244,7 @@ function requestAddRow(day: DayGroup) {
 
 `requestArmSwap`의 기존 `setSwapSourceDayIndex(null)`은 제거한다. 확인창 취소 뒤 첫 일차가 유지되어 다른 두 번째 일차를 선택할 수 있어야 한다.
 
-- [ ] **Step 4: 일차별 버튼을 상단 단일 버튼과 인라인 선택 패널로 교체**
+- [ ] **Step 6: 일차별 버튼을 상단 단일 버튼과 인라인 선택 패널로 교체**
 
 `또는 직접 등록` 행 오른쪽을 버튼 그룹으로 만들고, 후보가 있을 때만 단일 버튼을 렌더링한다.
 
@@ -276,29 +347,31 @@ function requestAddRow(day: DayGroup) {
 
 `days.map` 내부 일차 헤더의 기존 교환 버튼과 대상 선택 그룹은 모두 삭제한다.
 
-- [ ] **Step 5: 포맷 및 정적 검증 실행**
+- [ ] **Step 7: 포맷 및 정적 검증 실행**
 
 Run:
 
 ```bash
 pnpm exec eslint src/features/routine/components/plan-editor.tsx \
+  tests/be/logic/plan-editor-arm-swap-ui.test.ts \
   tests/e2e/arm-routine-swap.spec.ts
 ```
 
 Expected: exit 0.
 
-- [ ] **Step 6: 대표 E2E를 다시 실행해 통과 확인**
+- [ ] **Step 8: 단위 테스트와 대표 E2E를 다시 실행해 통과 확인**
 
 Run:
 
 ```bash
+vitest run tests/be/logic/plan-editor-arm-swap-ui.test.ts
 pnpm exec playwright test tests/e2e/arm-routine-swap.spec.ts \
   --grep "운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 보존한다"
 ```
 
-Expected: PASS. 상단 버튼이 하나만 보이고, 첫 일차와 두 번째 일차 선택 후 기존 교환 결과가 보존된다.
+Expected: 단위 테스트 PASS. DB 자격증명이 있으면 대표 E2E도 PASS하고, 없으면 명시적으로 skip된다.
 
-- [ ] **Step 7: 팔 교환 E2E 전체 회귀 실행**
+- [ ] **Step 9: 팔 교환 E2E 전체 회귀 실행**
 
 Run:
 
@@ -308,7 +381,7 @@ pnpm exec playwright test tests/e2e/arm-routine-swap.spec.ts
 
 Expected: 모든 테스트 PASS. DB 자격 증명이 없는 환경에서 명시적으로 skip된 테스트는 실패로 간주하지 않는다.
 
-- [ ] **Step 8: 관련 단위 테스트와 타입 빌드 실행**
+- [ ] **Step 10: 관련 단위 테스트와 타입 빌드 실행**
 
 Run:
 
@@ -319,10 +392,11 @@ pnpm run build
 
 Expected: 두 명령 모두 exit 0.
 
-- [ ] **Step 9: 변경 파일만 커밋**
+- [ ] **Step 11: 변경 파일만 커밋**
 
 ```bash
 git add src/features/routine/components/plan-editor.tsx \
+  tests/be/logic/plan-editor-arm-swap-ui.test.ts \
   tests/e2e/arm-routine-swap.spec.ts \
   docs/superpowers/plans/2026-08-11-arm-routine-swap-entry-ux.md
 git commit -m "refactor(routine): 팔 교환 진입 UX 정리"

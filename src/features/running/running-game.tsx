@@ -37,6 +37,14 @@ const nativeImport = new Function("u", "return import(u)") as (
 
 const HEAD_Y_HISTORY = 18;
 
+/**
+ * 얼굴 감지 최소 간격(ms). 예전엔 **매 프레임(60Hz)** 마다 MediaPipe 추론을 돌려,
+ * 3D 씬(그림자 포함)과 GPU 를 초당 60번씩 나눠 쓰느라 중저가 폰에서 발열·메모리
+ * 압박으로 앱이 튕겼다. 머리 흔들림은 20Hz 로도 충분히 잡힌다(히스토리 18개 ≈ 0.9초).
+ * 씬 애니메이션은 그대로 60fps — 감지만 솎아낸다.
+ */
+const DETECT_INTERVAL_MS = 50; // 20Hz
+
 type Phase = "intro" | "loading" | "playing" | "done" | "error";
 
 /**
@@ -77,6 +85,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
   const targetRef = useRef(0);
   const rafRef = useRef(0);
+  const lastDetectRef = useRef(0); // 얼굴 감지 마지막 시각(ms) — 20Hz 로 솎기
   const phaseRef = useRef<Phase>("intro");
   phaseRef.current = phase;
   const playStartRef = useRef(0);
@@ -230,7 +239,14 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         ts: number,
       ) => { faceLandmarks?: { x: number; y: number }[][] };
     } | null;
-    if (v && landmarker && v.readyState >= 2) {
+    // 추론은 20Hz 로 솎아낸다(팅김 완화). 보간은 아래에서 매 프레임 계속 → 움직임은 그대로 부드럽다.
+    if (
+      v &&
+      landmarker &&
+      v.readyState >= 2 &&
+      ts - lastDetectRef.current >= DETECT_INTERVAL_MS
+    ) {
+      lastDetectRef.current = ts;
       const res = landmarker.detectForVideo(v, ts);
       const lm = res.faceLandmarks?.[0];
       const noseY = lm?.[1]?.y;

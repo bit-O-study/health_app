@@ -156,7 +156,9 @@ export default function ZenScene({
   return (
     <Canvas
       shadows
-      dpr={[1, 2]}
+      /* ⚠ dpr 상한 2 → 1.5. 3배 밀도 폰에서 렌더 픽셀 수가 ~1.8배로 줄어 발열·GPU
+         메모리가 크게 준다(팅김 완화). 스타일이 단순한 씬이라 체감 차이는 거의 없다. */
+      dpr={[1, 1.5]}
       camera={{ position: [0.6, 2.4, 12], fov: 40 }}
       onCreated={({ camera }) => camera.lookAt(3.4, 1.6, -8)}
       className="absolute inset-0"
@@ -168,7 +170,8 @@ export default function ZenScene({
         intensity={1.9}
         color={preset.dirColor}
         castShadow
-        shadow-mapSize={[1024, 1024]}
+        /* 그림자 맵 1024² → 512². 텍스처 메모리 1/4, 매 프레임 그림자 패스도 가벼워진다. */
+        shadow-mapSize={[512, 512]}
         shadow-camera-left={-14}
         shadow-camera-right={14}
         shadow-camera-top={14}

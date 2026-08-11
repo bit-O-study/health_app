@@ -19,6 +19,8 @@ export type UserRoutine = {
   variantId: string;
   /** 멀티 부위 일자 지원 — 각 요일이 1개 이상의 블록 */
   customWeek: DayBlockId[][] | null;
+  /** DB의 원본 JSON. 교환 UI가 손상된 멤버를 정규화로 숨기지 않고 엄격 검증할 때 사용. */
+  customWeekSnapshot: unknown;
   startDate: string;
   /** 오늘 휴식 전환된 날짜(YYYY-MM-DD) 또는 null */
   restDate: string | null;
@@ -97,6 +99,7 @@ export const getUserRoutine = cache(async (): Promise<UserRoutine | null> => {
     splits: row.splits,
     variantId: row.variant_id,
     customWeek,
+    customWeekSnapshot: row.custom_week,
     startDate: row.start_date,
     restDate: row.rest_date ?? null,
     overrideDate: overrideBlock ? (row.override_date ?? null) : null,

@@ -14,7 +14,10 @@ import {
   routineDaySlots,
   seoulYmd,
 } from "@/features/routine/data";
-import { syncRoutineExerciseDays } from "@/features/routine/day-index-migration";
+import {
+  routineExerciseWriteErrorMessage,
+  type RoutineExerciseWriteGroup,
+} from "@/features/routine/routine-exercise-writes";
 
 export type PresetResult = { ok: true } | { ok: false; error: string };
 
@@ -136,39 +139,13 @@ export async function loadRoutinePresetAction(
     return { ok: false, error: "프리셋 루틴 구성이 올바르지 않습니다." };
   }
 
-  // 1) 루틴 설정 교체 (오버라이드 클리어, 기준일 오늘로)
+  // 루틴 설정과 본운동 전체를 한 RPC에서 교체한다. 그래야 팔 교환이 두 단계
+  // 사이에 끼어 custom_week와 운동 일차가 서로 다른 상태로 끝날 수 없다.
   const today = seoulYmd();
-  const up = await supabase.from("user_routines").upsert(
-    {
-      user_id: user.id,
-      splits: p.splits,
-      variant_id: p.variant_id,
-      custom_week: isCustom ? normalized : null,
-      // 프리셋 로드 = 의도적 루틴 선택 → 기준 루틴으로도 기록
-      baseline_routine: {
-        splits: p.splits,
-        variant_id: p.variant_id,
-        custom_week: isCustom ? normalized : null,
-      },
-      start_date: today,
-      rest_date: null,
-      override_date: null,
-      override_block: null,
-    },
-    { onConflict: "user_id" },
-  );
-  if (up.error) return { ok: false, error: up.error.message };
-
-  // 2) 등록 운동 전체 교체
-  const del = await supabase
-    .from("routine_exercises")
-    .delete()
-    .eq("user_id", user.id);
-  if (del.error) return { ok: false, error: del.error.message };
-
   const snapshot = Array.isArray(p.exercises)
     ? (p.exercises as ExerciseSnapshot[])
     : [];
+  const groupMap = new Map<string, RoutineExerciseWriteGroup>();
   if (snapshot.length > 0) {
     // 구버전 스냅샷(day_index 없음)은 로드 루틴의 부위→일차 매핑으로 정규화 —
     // 같은 부위를 여러 일차에 쓰면 그 일차들로 복제한다.
@@ -183,30 +160,57 @@ export async function loadRoutinePresetAction(
         )
       : null;
 
-    const rows = snapshot.flatMap((e) => {
+    for (const e of snapshot) {
       const days =
         e.day_index != null
           ? [e.day_index]
           : (focusDays?.get(e.focus as never) ?? [0]);
-      return days.map((dayIndex) => ({
-        user_id: user.id,
-        day_index: dayIndex,
-        focus: e.focus,
-        position: e.position,
-        exercise_id: e.exercise_id,
-        equipment: e.equipment,
-        sets: e.sets,
-        reps: e.reps,
-        weight_kg: e.weight_kg ?? null,
-        set_details: e.set_details ?? null,
-        memo: e.memo ?? null,
-      }));
-    });
-    const ins = await supabase.from("routine_exercises").insert(rows);
-    if (ins.error) return { ok: false, error: ins.error.message };
+      for (const dayIndex of days) {
+        const key = `${dayIndex}:${e.focus}`;
+        const group = groupMap.get(key) ?? {
+          dayIndex,
+          focus: e.focus,
+          rows: [],
+        };
+        group.rows.push({
+          position: e.position,
+          exerciseId: e.exercise_id,
+          equipment: e.equipment,
+          sets: e.sets,
+          reps: e.reps,
+          weightKg: e.weight_kg ?? null,
+          setDetails: e.set_details ?? null,
+          memo: e.memo ?? null,
+        });
+        groupMap.set(key, group);
+      }
+    }
   }
 
-  // 2-b) 워밍업/마무리(컨디셔닝)도 전체 교체
+  const routineSnapshot = {
+    splits: p.splits,
+    variant_id: p.variant_id,
+    custom_week: isCustom ? normalized : null,
+  };
+  const { error: restoreError } = await supabase.rpc(
+    "restore_routine_preset_with_exercises",
+    {
+      p_splits: p.splits,
+      p_variant_id: p.variant_id,
+      p_custom_week: isCustom ? normalized : null,
+      p_baseline_routine: routineSnapshot,
+      p_start_date: today,
+      p_groups: [...groupMap.values()],
+    },
+  );
+  if (restoreError) {
+    return {
+      ok: false,
+      error: routineExerciseWriteErrorMessage(restoreError.message),
+    };
+  }
+
+  // 워밍업/마무리(컨디셔닝)도 전체 교체
   const delCond = await supabase
     .from("routine_conditioning")
     .delete()
@@ -234,7 +238,7 @@ export async function loadRoutinePresetAction(
     if (insCond.error) return { ok: false, error: insCond.error.message };
   }
 
-  // 3) 미래 오버라이드 정리 (새 루틴과 안 맞을 수 있음)
+  // 미래 오버라이드 정리 (새 루틴과 안 맞을 수 있음)
   await Promise.all([
     supabase.from("daily_plan").delete().eq("user_id", user.id).gte("for_date", today),
     supabase
@@ -243,14 +247,6 @@ export async function loadRoutinePresetAction(
       .eq("user_id", user.id)
       .gte("for_date", today),
   ]);
-
-  // 프리셋 루틴 구조에 맞춰 day_index 재정렬.
-  await syncRoutineExerciseDays(
-    user.id,
-    p.splits,
-    p.variant_id,
-    isCustom ? normalized : null,
-  );
 
   revalidatePath("/routine");
   revalidatePath("/settings/routine");

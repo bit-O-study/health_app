@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
@@ -22,6 +22,10 @@ import {
 import { saveDailyConditioningAction } from "@/features/routine/daily-conditioning-actions";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
+import {
+  saveSnapshotStillCurrent,
+  type ConditioningMutationState,
+} from "@/features/routine/plan-editor-mutation-state";
 
 type Row = {
   itemId: string;
@@ -81,6 +85,9 @@ export function ConditioningEditor({
   lockWeightReps = false,
   recommendFocuses,
   hideRecommend = false,
+  mutationKey,
+  disabled = false,
+  onMutationStateChange,
 }: {
   /** 기본값 편집 모드일 때의 부위. dailyDate 가 있으면 사용하지 않음 */
   focus?: string;
@@ -94,15 +101,41 @@ export function ConditioningEditor({
   recommendFocuses?: FocusTone[];
   /** 직접 담기 등 순수 수동 모드 — '추천으로 채우기' 버튼을 숨긴다. */
   hideRecommend?: boolean;
+  /** /plan 부모가 팔 교환 전 미저장·저장중 상태를 함께 조정할 때 사용. */
+  mutationKey?: string;
+  /** 부모 편집기의 다른 저장/교환이 진행 중이면 포털까지 함께 잠근다. */
+  disabled?: boolean;
+  onMutationStateChange?: (
+    key: string,
+    state: ConditioningMutationState | null,
+  ) => void;
 }) {
   const router = useRouter();
   const options = conditioningOptions(kind);
   const [rows, setRows] = useState<Row[]>(initial.map(toRow));
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
+  const [dirty, setDirty] = useState(false);
+  const editRevision = useRef(0);
+  const editorDisabled = disabled || pending;
+
+  useEffect(() => {
+    if (!mutationKey || !onMutationStateChange) return;
+    onMutationStateChange(mutationKey, { dirty, pending });
+  }, [dirty, mutationKey, onMutationStateChange, pending]);
+
+  useEffect(() => {
+    if (!mutationKey || !onMutationStateChange) return;
+    return () => onMutationStateChange(mutationKey, null);
+  }, [mutationKey, onMutationStateChange]);
 
   function update(next: Row[]) {
+    editRevision.current += 1;
     setRows(next);
+    setDirty(true);
+    if (mutationKey && onMutationStateChange) {
+      onMutationStateChange(mutationKey, { dirty: true, pending });
+    }
     setMsg(null);
   }
 
@@ -125,13 +158,22 @@ export function ConditioningEditor({
   }
 
   function save() {
+    const savedRevision = editRevision.current;
+    if (mutationKey && onMutationStateChange) {
+      onMutationStateChange(mutationKey, { dirty, pending: true });
+    }
     start(async () => {
       const items = rowsToInput(rows);
       const res = dailyDate
         ? await saveDailyConditioningAction(dailyDate, kind, items)
         : await saveConditioningAction(focus ?? "", kind, items);
       setMsg(res.ok ? "저장됨" : res.error);
-      if (res.ok) router.refresh();
+      if (res.ok) {
+        if (saveSnapshotStillCurrent(savedRevision, editRevision.current)) {
+          setDirty(false);
+        }
+        router.refresh();
+      }
     });
   }
 
@@ -161,7 +203,12 @@ export function ConditioningEditor({
   }
 
   return (
-    <div className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-3">
+    <fieldset
+      disabled={editorDisabled}
+      aria-busy={pending}
+      data-testid={mutationKey ? `conditioning-editor-${mutationKey}` : undefined}
+      className="m-0 min-w-0 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900"
+    >
       <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
         <h4 className="text-sm font-bold text-zinc-800 dark:text-zinc-200">
           {KIND_LABEL[kind]}
@@ -209,6 +256,7 @@ export function ConditioningEditor({
                     ariaLabel="항목"
                     options={options}
                     value={row.itemId}
+                    disabled={editorDisabled}
                     onChange={(id) => {
                       const next = [...rows];
                       next[idx] = defaultsRow(id);
@@ -279,6 +327,6 @@ export function ConditioningEditor({
           </span>
         ) : null}
       </div>
-    </div>
+    </fieldset>
   );
 }

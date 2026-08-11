@@ -1,8 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 import {
+  ArrowLeftRight,
   GripVertical,
   Loader2,
   Plus,
@@ -32,13 +39,23 @@ import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   registerRecommendedPlanAction,
   saveManualPlanAction,
+  swapArmRoutineAction,
 } from "@/features/routine/plan-actions";
+import {
+  eligibleArmSwapTargets,
+  planFocusDisplayName,
+} from "@/features/routine/arm-routine-swap";
 import { resolvePlanAddTarget } from "@/features/routine/plan-order";
 import { clearAllPlanAction } from "@/features/routine/delete-actions";
 import type { SetDetail } from "@/features/routine/set-details";
 import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
+import {
+  armSwapBlockReason,
+  saveSnapshotStillCurrent,
+  type ConditioningMutationState,
+} from "@/features/routine/plan-editor-mutation-state";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
 import {
   isEquipmentAvailable,
@@ -66,6 +83,12 @@ type FocusData = {
 /** 한 일차(dayIndex)의 부위들 — 통합 박스 단위. */
 type DayGroup = { dayIndex: number; focuses: FocusData[] };
 
+type ArmSwapConfirm = {
+  kind: "arm-swap";
+  sourceDayIndex: number;
+  targetDayIndex: number;
+};
+
 type Row = {
   exerciseId: string;
   equipment: EquipmentId;
@@ -88,6 +111,8 @@ function toRow(item: PlanExercise): Row {
 
 export function PlanEditor({
   focuses,
+  customWeek,
+  routineUpdatedAt,
   gender,
   experience,
   bodyType,
@@ -97,6 +122,8 @@ export function PlanEditor({
   myGroups = [],
 }: {
   focuses: FocusData[];
+  customWeek: unknown;
+  routineUpdatedAt: string;
   gender: "male" | "female";
   experience: ExperienceLevel;
   bodyType: BodyType | null;
@@ -112,7 +139,11 @@ export function PlanEditor({
   const gymSet = toGymEquipmentSet(gymEquipment);
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
+  const [swapInFlight, setSwapInFlight] = useState(false);
   const [addTargetDayIndex, setAddTargetDayIndex] = useState<number | null>(
+    null,
+  );
+  const [swapSourceDayIndex, setSwapSourceDayIndex] = useState<number | null>(
     null,
   );
   const [plans, setPlans] = useState<Record<string, Row[]>>(() =>
@@ -120,26 +151,61 @@ export function PlanEditor({
   );
   // 저장 안 된 섹션들(key) — 페이지를 떠날 때 경고하고, "추천으로 채우기" 덮어쓰기 확인용
   const [dirty, setDirty] = useState<Set<string>>(new Set());
+  const editRevisions = useRef<Record<string, number>>({});
+  const [conditioningStates, setConditioningStates] = useState<
+    Record<string, ConditioningMutationState>
+  >({});
   // 파괴적 동작(추천 덮어쓰기) 확인 모달 상태
   const [confirm, setConfirm] = useState<
     | { kind: "focus"; section: FocusData }
     | { kind: "day"; day: DayGroup }
     | { kind: "all" }
     | { kind: "clear-all" }
+    | ArmSwapConfirm
     | null
   >(null);
 
   // 저장하지 않은 편집이 있는 채로 탭을 닫거나 새로고침하면 브라우저 기본 경고.
+  const updateConditioningState = useCallback(
+    (key: string, state: ConditioningMutationState | null) => {
+      setConditioningStates((current) => {
+        if (state === null) {
+          if (!(key in current)) return current;
+          const next = { ...current };
+          delete next[key];
+          return next;
+        }
+        const previous = current[key];
+        if (
+          previous?.dirty === state.dirty &&
+          previous.pending === state.pending
+        ) {
+          return current;
+        }
+        return { ...current, [key]: state };
+      });
+    },
+    [],
+  );
+  const conditioningDirty = Object.values(conditioningStates).some(
+    (state) => state.dirty,
+  );
+  const conditioningPending = Object.values(conditioningStates).some(
+    (state) => state.pending,
+  );
+  const editorPending = pending || swapInFlight || conditioningPending;
+
   useEffect(() => {
-    if (dirty.size === 0) return;
+    if (dirty.size === 0 && !conditioningDirty) return;
     function onBeforeUnload(e: BeforeUnloadEvent) {
       e.preventDefault();
     }
     window.addEventListener("beforeunload", onBeforeUnload);
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
-  }, [dirty]);
+  }, [conditioningDirty, dirty]);
 
   function update(key: string, next: Row[]) {
+    editRevisions.current[key] = (editRevisions.current[key] ?? 0) + 1;
     setPlans((prev) => ({ ...prev, [key]: next }));
     setDirty((prev) => new Set(prev).add(key));
     setStatus(null);
@@ -310,8 +376,14 @@ export function PlanEditor({
       .sort((a, b) => a[0] - b[0])
       .map(([dayIndex, fs]) => ({ dayIndex, focuses: fs }));
   })();
-  // "N일 · 가슴" 형태 라벨에서 부위 이름만 추출(일차는 그룹 헤더로 따로 표시).
-  const focusName = (label: string) => label.split(" · ").pop() ?? label;
+  const focusName = (focus: FocusData) =>
+    planFocusDisplayName(focus.focus, focus.label);
+  const dayName = (day: DayGroup) =>
+    day.focuses.map(focusName).join(" + ");
+  const armFocus = (dayIndex: number) =>
+    focuses.find((focus) => focus.dayIndex === dayIndex && focus.focus === "arm");
+  const swapTargetsForDay = (dayIndex: number) =>
+    customWeek ? eligibleArmSwapTargets(customWeek, dayIndex) : [];
 
   function requestAddRow(day: DayGroup) {
     const target = resolvePlanAddTarget(day.focuses);
@@ -331,6 +403,72 @@ export function PlanEditor({
     addRow(target);
     setAddTargetDayIndex(null);
   }
+  function requestArmSwap(sourceDayIndex: number, targetDayIndex: number) {
+    setSwapSourceDayIndex(null);
+    const sourceArm = armFocus(sourceDayIndex);
+    const targetArm = armFocus(targetDayIndex);
+    if (!sourceArm || !targetArm) {
+      setStatus("교환할 팔 루틴을 찾을 수 없습니다.");
+      return;
+    }
+    const blocked = armSwapBlockReason({
+      mainDirtyCount: dirty.size,
+      mainPending: pending,
+      conditioningStates,
+    });
+    if (blocked === "pending") {
+      setStatus("운동 저장이 진행 중입니다. 완료 후 다시 시도해주세요.");
+      return;
+    }
+    if (blocked === "dirty") {
+      setStatus(
+        "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
+      );
+      return;
+    }
+    setConfirm({ kind: "arm-swap", sourceDayIndex, targetDayIndex });
+  }
+
+  function doSwapArmRoutine(sourceDayIndex: number, targetDayIndex: number) {
+    if (!customWeek) return;
+    const blocked = armSwapBlockReason({
+      mainDirtyCount: dirty.size,
+      mainPending: pending,
+      conditioningStates,
+    });
+    if (blocked === "pending") {
+      setStatus("운동 저장이 진행 중입니다. 완료 후 다시 시도해주세요.");
+      return;
+    }
+    if (blocked === "dirty") {
+      setStatus(
+        "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
+      );
+      return;
+    }
+    setStatus(null);
+    setSwapInFlight(true);
+    start(async () => {
+      try {
+        const result = await swapArmRoutineAction(
+          sourceDayIndex,
+          targetDayIndex,
+          customWeek,
+          routineUpdatedAt,
+        );
+        if (!result.ok) {
+          setStatus(result.error);
+          setSwapInFlight(false);
+          return;
+        }
+        window.location.reload();
+      } catch {
+        setStatus("팔 루틴 교환에 실패했습니다.");
+        setSwapInFlight(false);
+      }
+    });
+  }
+
   // 그날 모든 부위를 추천으로 채움(행 있으면 확인 후).
   function recommendDay(day: DayGroup) {
     const hasRows = day.focuses.some((f) => (plans[f.key] ?? []).length > 0);
@@ -339,34 +477,75 @@ export function PlanEditor({
   }
   // 그날 모든 부위를 한 번에 저장(부위별 슬롯으로 나눠 저장).
   function saveDay(day: DayGroup) {
+    const savedRevisions = Object.fromEntries(
+      day.focuses.map((focus) => [
+        focus.key,
+        editRevisions.current[focus.key] ?? 0,
+      ]),
+    );
     start(async () => {
-      for (const f of day.focuses) {
-        const items = (plans[f.key] ?? []).map((r) => ({
+      const groups = day.focuses.map((f) => ({
+        dayIndex: f.dayIndex,
+        focus: f.focus,
+        items: (plans[f.key] ?? []).map((r) => ({
           exerciseId: r.exerciseId,
           equipment: r.equipment,
           sets: r.sets,
           reps: r.reps,
           weightKg: r.weight.trim() === "" ? null : Number(r.weight),
           setDetails: r.setDetails,
-        }));
-        const res = await saveManualPlanAction(f.dayIndex, f.focus, items);
-        if (!res.ok) {
-          setStatus(res.error);
-          return;
-        }
+        })),
+      }));
+      const res = await saveManualPlanAction(groups, routineUpdatedAt);
+      if (!res.ok) {
+        setStatus(res.error);
+        return;
       }
       setStatus(`${day.dayIndex + 1}일차 저장됨`);
       setDirty((prev) => {
         const next = new Set(prev);
-        day.focuses.forEach((f) => next.delete(f.key));
+        day.focuses.forEach((focus) => {
+          if (
+            saveSnapshotStillCurrent(
+              savedRevisions[focus.key] ?? 0,
+              editRevisions.current[focus.key] ?? 0,
+            )
+          ) {
+            next.delete(focus.key);
+          }
+        });
         return next;
       });
       router.refresh();
     });
   }
+  const dialogTitle =
+    confirm?.kind === "arm-swap"
+      ? "팔 루틴을 교환할까요?"
+      : confirm?.kind === "clear-all"
+        ? "전체 운동을 비울까요?"
+        : "추천 운동으로 교체할까요?";
+  const dialogMessage =
+    confirm?.kind === "arm-swap"
+      ? `${confirm.sourceDayIndex + 1}일차 팔 루틴과 ${confirm.targetDayIndex + 1}일차 팔 루틴을 교환할까요?\n운동 목록과 내부 이두·삼두 설정이 함께 이동합니다.`
+      : confirm?.kind === "clear-all"
+        ? "본운동·워밍업·마무리 운동이 모두 즉시 삭제됩니다(저장 안 눌러도 바로 반영). ⚠️ 되돌릴 수 없습니다. (이미 완료한 운동 기록·점수는 그대로 유지됩니다.)"
+        : confirm?.kind === "all"
+          ? "직접 등록·수정한 모든 부위의 운동이 추천 운동으로 교체되고 바로 저장됩니다. 되돌릴 수 없습니다."
+          : "이 부위에서 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)";
+  const dialogConfirmLabel =
+    confirm?.kind === "arm-swap"
+      ? "교환하기"
+      : confirm?.kind === "clear-all"
+        ? "전체 비우기"
+        : "교체하기";
 
   return (
-    <div className="space-y-6">
+    <fieldset
+      disabled={editorPending}
+      aria-busy={editorPending}
+      className="m-0 min-w-0 space-y-6 border-0 p-0"
+    >
       <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -425,19 +604,66 @@ export function PlanEditor({
               {day.dayIndex + 1}일차
             </span>
             <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-              {day.focuses.map((f) => focusName(f.label)).join(" · ")}
+              {day.focuses.map(focusName).join(" · ")}
             </span>
             {/* 이 일차를 커뮤니티 › 루틴에 소개(운동 순서·메모까지 스냅샷으로). */}
             {(plans[day.focuses[0]?.key] ?? []).length > 0 ? (
               <ShareDayButton
                 dayIndex={day.dayIndex}
                 defaultTitle={`${day.dayIndex + 1}일차 · ${day.focuses
-                  .map((f) => focusName(f.label))
+                  .map(focusName)
                   .join(" · ")}`}
                 groups={myGroups}
               />
             ) : null}
+            {swapTargetsForDay(day.dayIndex).length > 0 ? (
+              <button
+                type="button"
+                data-testid={`arm-swap-button-${day.dayIndex}`}
+                disabled={pending}
+                onClick={() => {
+                  setAddTargetDayIndex(null);
+                  setSwapSourceDayIndex((current) =>
+                    current === day.dayIndex ? null : day.dayIndex,
+                  );
+                }}
+                className="inline-flex h-8 shrink-0 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+              >
+                <ArrowLeftRight aria-hidden="true" size={14} />
+                팔 루틴 교환
+              </button>
+            ) : null}
           </div>
+          {swapSourceDayIndex === day.dayIndex ? (
+            <div
+              role="group"
+              aria-label={`${day.dayIndex + 1}일차 팔 루틴 교환 대상`}
+              className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-700 dark:bg-zinc-900/50"
+            >
+              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                교환할 일차
+              </span>
+              {swapTargetsForDay(day.dayIndex).map((targetDayIndex) => {
+                const targetDay = days.find(
+                  (candidate) => candidate.dayIndex === targetDayIndex,
+                );
+                if (!targetDay) return null;
+                const name = `${targetDayIndex + 1}일차 · ${dayName(targetDay)}`;
+                return (
+                  <button
+                    key={targetDayIndex}
+                    type="button"
+                    aria-label={name}
+                    disabled={pending}
+                    onClick={() => requestArmSwap(day.dayIndex, targetDayIndex)}
+                    className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                  >
+                    {name}
+                  </button>
+                );
+              })}
+            </div>
+          ) : null}
           {(() => {
             const primary = day.focuses[0];
             const entries = day.focuses.flatMap((f) =>
@@ -481,7 +707,7 @@ export function PlanEditor({
                       추가할 부위
                     </span>
                     {day.focuses.map((focus) => {
-                      const name = focusName(focus.label);
+                      const name = focusName(focus);
                       return (
                         <button
                           key={focus.key}
@@ -572,6 +798,7 @@ export function PlanEditor({
                             <ExerciseSearchSelect
                               options={options}
                               value={row.exerciseId}
+                              disabled={editorPending}
                               onChange={(id) => {
                                 const nextEx = getCatalogExercise(id);
                                 const next = [...rows];
@@ -658,12 +885,18 @@ export function PlanEditor({
                       kind="warmup"
                       initial={primary.warmup}
                       lockWeightReps={lockWeightReps}
+                      mutationKey={`${primary.key}:warmup`}
+                      disabled={editorPending}
+                      onMutationStateChange={updateConditioningState}
                     />
                     <ConditioningEditor
                       focus={primary.focus}
                       kind="cooldown"
                       initial={primary.cooldown}
                       lockWeightReps={lockWeightReps}
+                      mutationKey={`${primary.key}:cooldown`}
+                      disabled={editorPending}
+                      onMutationStateChange={updateConditioningState}
                     />
                   </div>
                 ) : null}
@@ -675,30 +908,26 @@ export function PlanEditor({
 
       <ConfirmDialog
         open={confirm !== null}
-        tone="danger"
-        title={
-          confirm?.kind === "clear-all"
-            ? "전체 운동을 비울까요?"
-            : "추천 운동으로 교체할까요?"
-        }
-        message={
-          confirm?.kind === "clear-all"
-            ? "본운동·워밍업·마무리 운동이 모두 즉시 삭제됩니다(저장 안 눌러도 바로 반영). ⚠️ 되돌릴 수 없습니다. (이미 완료한 운동 기록·점수는 그대로 유지됩니다.)"
-            : confirm?.kind === "all"
-              ? "직접 등록·수정한 모든 부위의 운동이 추천 운동으로 교체되고 바로 저장됩니다. 되돌릴 수 없습니다."
-              : "이 부위에서 편집 중인 운동들이 추천 운동으로 교체됩니다. (저장 전이면 ‘저장’을 눌러야 반영됩니다.)"
-        }
-        confirmLabel={confirm?.kind === "clear-all" ? "전체 비우기" : "교체하기"}
+        tone={confirm?.kind === "arm-swap" ? "default" : "danger"}
+        title={dialogTitle}
+        message={dialogMessage}
+        confirmLabel={dialogConfirmLabel}
         onConfirm={() => {
-          if (confirm?.kind === "all") doRecommendAll();
-          else if (confirm?.kind === "focus") doRecommendFocus(confirm.section);
-          else if (confirm?.kind === "day")
+          if (confirm?.kind === "arm-swap") {
+            doSwapArmRoutine(confirm.sourceDayIndex, confirm.targetDayIndex);
+          } else if (confirm?.kind === "all") {
+            doRecommendAll();
+          } else if (confirm?.kind === "focus") {
+            doRecommendFocus(confirm.section);
+          } else if (confirm?.kind === "day") {
             confirm.day.focuses.forEach((f) => doRecommendFocus(f));
-          else if (confirm?.kind === "clear-all") doClearAll();
+          } else if (confirm?.kind === "clear-all") {
+            doClearAll();
+          }
           setConfirm(null);
         }}
         onCancel={() => setConfirm(null)}
       />
-    </div>
+    </fieldset>
   );
 }

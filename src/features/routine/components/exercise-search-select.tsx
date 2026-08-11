@@ -48,6 +48,12 @@ export function ExerciseSearchSelect({
   // 포털은 클라이언트에서만 — document 접근 가드.
   useEffect(() => setMounted(true), []);
 
+  useEffect(() => {
+    if (!disabled) return;
+    const closeTimer = window.setTimeout(() => setOpen(false), 0);
+    return () => window.clearTimeout(closeTimer);
+  }, [disabled]);
+
   const selected = options.find((o) => o.id === value);
   const norm = (s: string) => s.toLowerCase().replace(/\s+/g, "");
   const nq = norm(q);
@@ -131,6 +137,7 @@ export function ExerciseSearchSelect({
   }, [subPick, subChips]);
 
   function pick(id: string) {
+    if (disabled) return;
     onChange(id);
     setOpen(false);
     setQ("");
@@ -151,7 +158,7 @@ export function ExerciseSearchSelect({
         <ChevronDown aria-hidden="true" size={15} className="shrink-0 text-zinc-400" />
       </button>
 
-      {open && mounted
+      {open && mounted && !disabled
         ? createPortal(
             <div
               className="fixed inset-0 z-[80] flex flex-col"

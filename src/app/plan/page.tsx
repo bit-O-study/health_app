@@ -27,8 +27,14 @@ export default async function PlanPage() {
 
   if (!profile) redirect("/onboarding");
   if (!routine) redirect("/settings/routine");
-  if (user && routine && !routine.dayIndexMigrated)
-    await ensureDayIndexBackfilled(user.id);
+  if (user && routine && !routine.dayIndexMigrated) {
+    const backfilled = await ensureDayIndexBackfilled(user.id);
+    if (backfilled) {
+      // 백필 claim/update가 routine revision을 올리므로 같은 렌더의 오래된
+      // updatedAt을 편집기에 넘기지 않는다.
+      redirect("/plan");
+    }
+  }
   const gymEquipment = gym?.equipmentIds ?? null;
 
   // 루틴을 일차별 부위 슬롯으로 펼친다. 같은 부위가 여러 일차에 나오면 각각
@@ -106,6 +112,10 @@ export default async function PlanPage() {
 
       <PlanEditor
         focuses={focuses}
+        customWeek={
+          routine.variantId === "custom" ? routine.customWeekSnapshot : null
+        }
+        routineUpdatedAt={routine.updatedAt}
         gender={profile.gender}
         experience={profile.experience}
         bodyType={profile.bodyType}

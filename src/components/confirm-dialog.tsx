@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AlertTriangle } from "lucide-react";
+import { nextDialogFocusIndex } from "@/components/dialog-focus";
 
 /**
  * 인앱 confirm 다이얼로그. 브라우저 네이티브 confirm() 의 'localhost:3000 says'
@@ -40,6 +41,9 @@ export function ConfirmDialog({
   onCancel: () => void;
 }) {
   const [mounted, setMounted] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const confirmButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     // createPortal 은 client only — mount 후 한 번만 활성화. 의도된 setState.
@@ -47,11 +51,53 @@ export function ConfirmDialog({
     setMounted(true);
   }, []);
 
-  // ESC 키 = 취소
+  // 배경은 포커스/포인터/보조기술 탐색 대상에서 제외하고, 닫힐 때 기존
+  // 포커스를 복원한다. 포털 overlay 자체만 body에서 활성 상태로 남긴다.
+  useEffect(() => {
+    if (!mounted || !open || !overlayRef.current) return;
+    const overlay = overlayRef.current;
+    const previousFocus =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null;
+    const background = Array.from(document.body.children)
+      .filter((element): element is HTMLElement =>
+        element instanceof HTMLElement && element !== overlay,
+      )
+      .map((element) => ({ element, inert: element.inert }));
+    background.forEach(({ element }) => {
+      element.inert = true;
+    });
+    confirmButtonRef.current?.focus();
+
+    return () => {
+      background.forEach(({ element, inert }) => {
+        element.inert = inert;
+      });
+      if (previousFocus?.isConnected) previousFocus.focus();
+    };
+  }, [mounted, open]);
+
+  // ESC 키 = 취소, Tab/Shift+Tab = 모달 내부 순환
   useEffect(() => {
     if (!open) return;
     function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") onCancel();
+      if (e.key === "Escape") {
+        onCancel();
+        return;
+      }
+      if (e.key !== "Tab" || !panelRef.current) return;
+      const focusable = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      const current = focusable.indexOf(document.activeElement as HTMLElement);
+      const next = nextDialogFocusIndex(current, focusable.length, e.shiftKey);
+      if (next >= 0) {
+        e.preventDefault();
+        focusable[next].focus();
+      }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -66,12 +112,14 @@ export function ConfirmDialog({
 
   return createPortal(
     <div
+      ref={overlayRef}
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4"
       onClick={onCancel}
       role="dialog"
       aria-modal="true"
     >
       <div
+        ref={panelRef}
         className="w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl dark:border-zinc-700 dark:bg-zinc-900"
         onClick={(e) => e.stopPropagation()}
       >
@@ -109,10 +157,10 @@ export function ConfirmDialog({
             </button>
           ) : null}
           <button
+            ref={confirmButtonRef}
             type="button"
             onClick={onConfirm}
             className={`inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-semibold transition ${confirmBtn}`}
-            autoFocus
           >
             {confirmLabel}
           </button>

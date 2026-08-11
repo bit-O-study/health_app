@@ -28,6 +28,31 @@ export type RoutineSlotRemapOp = {
   to: number | null;
 };
 
+export type RoutineExerciseSyncRow = {
+  id: string;
+  dayIndex: number | null;
+  focus: string;
+  position: number;
+  exerciseId: string;
+  equipment: string;
+  sets: number;
+  reps: number;
+  weightKg: number | null;
+  setDetails: unknown;
+  memo: unknown;
+};
+
+export type RoutineExerciseSyncInsertRow = Omit<
+  RoutineExerciseSyncRow,
+  "id" | "dayIndex"
+> & { dayIndex: number };
+
+export type RoutineExerciseDaySyncMutation = {
+  updates: { id: string; dayIndex: number }[];
+  deleteIds: string[];
+  insertRows: RoutineExerciseSyncInsertRow[];
+};
+
 /** 주/보조와 세부 블록을 합친 슬롯 정체성. */
 export function routineSlotRole(slot: RoutineSlotShape): string {
   return `${slot.isSide ? "side" : "main"}:${slot.blockIds.join("+")}`;
@@ -127,4 +152,118 @@ export function planFocusDaySync(
     // 같은 역할의 채워진 일차가 없으면 비워 둔다(사용자가 직접 등록).
   }
   return ops;
+}
+
+export function planRoutineExerciseDaySync({
+  rows,
+  nextSlots,
+  previousSlots = [],
+  initialUpdates = [],
+}: {
+  rows: RoutineExerciseSyncRow[];
+  nextSlots: RoutineSlotShape[];
+  previousSlots?: RoutineSlotShape[];
+  initialUpdates?: { id: string; dayIndex: number }[];
+}): RoutineExerciseDaySyncMutation {
+  const original = rows.map((row) => ({ ...row }));
+  const working = new Map(original.map((row) => [row.id, { ...row }]));
+
+  for (const update of initialUpdates) {
+    const row = working.get(update.id);
+    if (row) row.dayIndex = update.dayIndex;
+  }
+
+  if (previousSlots.length > 0) {
+    const snapshot = [...working.values()].map((row) => ({ ...row }));
+    for (const op of planRoutineSlotRemap(previousSlots, nextSlots)) {
+      const matching = snapshot.filter(
+        (row) => row.focus === op.focus && row.dayIndex === op.from,
+      );
+      for (const row of matching) {
+        if (op.to === null) working.delete(row.id);
+        else {
+          const current = working.get(row.id);
+          if (current) current.dayIndex = op.to;
+        }
+      }
+    }
+  }
+
+  const targetDays = new Map<string, number[]>();
+  const roleByFocusDay = new Map<string, string>();
+  for (const slot of nextSlots) {
+    const days = targetDays.get(slot.focus) ?? [];
+    if (!days.includes(slot.dayIndex)) days.push(slot.dayIndex);
+    targetDays.set(slot.focus, days);
+    roleByFocusDay.set(
+      `${slot.focus}:${slot.dayIndex}`,
+      routineSlotRole(slot),
+    );
+  }
+  for (const days of targetDays.values()) days.sort((a, b) => a - b);
+
+  const insertRows: RoutineExerciseSyncInsertRow[] = [];
+  const focuses = new Set([...working.values()].map((row) => row.focus));
+  for (const focus of focuses) {
+    const target = targetDays.get(focus) ?? [];
+    const focusRows = () =>
+      [...working.values()].filter((row) => row.focus === focus);
+
+    if (target.length === 0) {
+      for (const row of focusRows()) {
+        if (row.dayIndex === null) row.dayIndex = 0;
+      }
+      continue;
+    }
+
+    const byDay = new Map<number, RoutineExerciseSyncRow[]>();
+    for (const row of focusRows()) {
+      const day = row.dayIndex ?? NULL_DAY_KEY;
+      const grouped = byDay.get(day) ?? [];
+      grouped.push(row);
+      byDay.set(day, grouped);
+    }
+    const slotRole = (day: number) =>
+      roleByFocusDay.get(`${focus}:${day}`) ?? "unknown";
+
+    for (const op of planFocusDaySync([...byDay.keys()], target, slotRole)) {
+      const source = byDay.get(op.from) ?? [];
+      if (op.type === "move") {
+        for (const row of source) row.dayIndex = op.to;
+        byDay.set(op.to, source);
+        byDay.delete(op.from);
+      } else if (op.type === "delete") {
+        for (const row of source) working.delete(row.id);
+        byDay.delete(op.from);
+      } else {
+        insertRows.push(
+          ...source.map((row) => ({
+            dayIndex: op.to,
+            focus: row.focus,
+            position: row.position,
+            exerciseId: row.exerciseId,
+            equipment: row.equipment,
+            sets: row.sets,
+            reps: row.reps,
+            weightKg: row.weightKg,
+            setDetails: row.setDetails,
+            memo: row.memo,
+          })),
+        );
+      }
+    }
+  }
+
+  return {
+    updates: original.flatMap((row) => {
+      const current = working.get(row.id);
+      return current && current.dayIndex !== row.dayIndex && current.dayIndex !== null
+        ? [{ id: row.id, dayIndex: current.dayIndex }]
+        : [];
+    }),
+    deleteIds: original
+      .filter((row) => !working.has(row.id))
+      .map((row) => row.id),
+    insertRows,
+  };
 }

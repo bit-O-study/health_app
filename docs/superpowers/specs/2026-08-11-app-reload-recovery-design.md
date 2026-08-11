@@ -54,7 +54,7 @@
 `localStorage`의 단일 최신 항목에 저장한다.
 
 - 발생 시각
-- 현재 경로
+- 현재 경로명(pathname만 저장하고 query string은 제외)
 - 오류 메시지
 - Next.js 오류 digest(있는 경우)
 - 자동 새로고침 대상으로 분류됐는지 여부

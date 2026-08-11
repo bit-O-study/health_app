@@ -92,6 +92,57 @@ export function reconcileResume(
   return { ...s, startedAt: s.startedAt + gap, lastSeenAt: now };
 }
 
+/**
+ * 앱이 '새로 켜졌을 때'(콜드 스타트) 인정하는 공백(ms). 이보다 길게 하트비트가
+ * 끊겨 있었으면 앱이 죽어 있던(팅김·강제종료) 것으로 보고 그 시간을 빼고 **정지**한다.
+ * 새로고침(F5)·앱 내 탭 이동은 1~2초라 여기 걸리지 않는다.
+ */
+export const COLD_RESUME_GAP_MS = 20_000; // 20초
+
+const DOC_SESSION_KEY = "heltch.workout.doc";
+
+/**
+ * 이번 마운트가 '새 문서'(앱 새로 켜짐 = 콜드 스타트/팅김 복귀)인지 1회만 알려준다.
+ * sessionStorage 는 문서 세션 단위라, 앱 내 화면 이동(같은 문서)에선 false 가 된다.
+ * (앱이 죽었다 켜지면 세션이 새로 시작돼 true.)
+ */
+export function consumeColdStart(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    if (sessionStorage.getItem(DOC_SESSION_KEY) === "1") return false;
+    sessionStorage.setItem(DOC_SESSION_KEY, "1");
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * 팅김/강제종료로 앱이 죽어 있던 동안은 운동시간이 아니다.
+ *
+ * 콜드 스타트에서 실행 중이던 타이머를 발견하면, 경과를 **마지막으로 살아 있던 시각
+ * (lastSeenAt)** 에 얼리고 '일시정지'로 되돌린다. 사용자가 '다시 운동하기'를 누르는
+ * 순간부터 다시 흐르므로, 튕긴 뒤 되돌아왔을 때 죽어 있던 시간이 운동시간에
+ * 얹히지 않는다. 순수 함수 — now·gap 주입으로 테스트 가능.
+ */
+export function freezeOnColdStart(
+  s: TimerState | null,
+  now: number,
+  gapMs: number = COLD_RESUME_GAP_MS,
+): TimerState | null {
+  if (!s) return s;
+  if (s.pausedAt !== null) return s; // 이미 정지 — 시간이 안 흐르니 그대로
+  const seen = s.lastSeenAt ?? s.startedAt;
+  if (now - seen <= gapMs) return s; // 새로고침·탭 이동 수준의 공백은 그대로 진행
+  return {
+    ...s,
+    pausedAt: now,
+    // 마지막으로 살아 있던 시각까지만 누적으로 인정(죽어 있던 구간 제외).
+    accumulated: s.accumulated + Math.max(0, seen - s.startedAt),
+    lastSeenAt: seen,
+  };
+}
+
 // ── 누적 저장 마크 ───────────────────────────────────────────────────────────
 // 운동 1개 완료마다 그날 누적 시간을 갱신한다(addWorkoutDurationAction 은 가산식).
 // 매번 '경과 전체'를 더하면 이중 계산되므로, 직전에 저장한 초(savedSec)를 기억해

@@ -51,6 +51,12 @@ export type TodayConditioningItem = {
   reps: number | null;
   /** 개인 메모. null = 없음. */
   memo: string | null;
+  /**
+   * 이 행을 '완료'로 만든 완료기록의 source_row_id. 보통은 행 id 와 같지만, 런닝모드
+   * 기록처럼 행 id 가 아닌 기록이 (종류:항목) 키로 이 행에 배정됐으면 그 기록의 id 다.
+   * 완료취소 때 **바로 그 기록 1건만** 지우기 위해 서버로 넘긴다. 미완료면 null.
+   */
+  completionRowId?: string | null;
 };
 
 const SWIPE_THRESHOLD = 80;
@@ -166,11 +172,15 @@ export function TodayConditioningList({
     target: CompletionStatus | "clear",
   ) {
     const item = order.find((o) => o.rowId === rowId);
-    // 런닝 '완료취소' = 런닝모드 기록 삭제(+오늘 운동 시간에서 빼기).
+    // 런닝 '완료취소' = 그 행에 배정된 런닝 완료기록 1건 삭제(+그 시간만 오늘 운동
+    // 시간에서 빼기).
     // ⚠ 목록에서 행을 제거하지 않는다 — 목록의 런닝 행은 항상 '플랜 행'(루틴/오늘만에
     //   추가한 마무리 런닝; 런닝모드 완료기록은 고스트에서 제외됨)이라 서버엔 active 로
     //   남는다. 낙관적으로 지우면 사라졌다가 새로고침(다른 탭 왕복) 시 되살아나는
     //   깜빡임이 생긴다. 그래서 done/skipped 만 해제해 active 로 되돌린다.
+    // ⚠ 런닝이 2개 이상일 때 다른 런닝까지 취소되지 않도록 **취소한 행에 배정된 기록의
+    //   id**(completionRowId)를 넘긴다. 쓰기는 다른 완료/취소와 같은 직렬 큐로 — 옆 행
+    //   완료 쓰기와 겹쳐 서로를 지우던 경합을 막는다.
     if (itemId === "running" && target === "clear") {
       const nd = new Set(done);
       const ns = new Set(skipped);
@@ -179,10 +189,9 @@ export function TodayConditioningList({
       setDone(nd);
       setSkipped(ns);
       orderScope?.setCompletion(rowId, "active");
-      startTx(async () => {
-        await removeTodayRunAction();
-        coalescedRefresh();
-      });
+      const recordId = item?.completionRowId ?? rowId;
+      enqueueWrite(() => removeTodayRunAction(recordId));
+      coalescedRefresh();
       return;
     }
     const nextDone = new Set(done);

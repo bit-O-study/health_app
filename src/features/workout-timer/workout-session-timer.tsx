@@ -15,8 +15,10 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
 import {
   clearSavedMark,
+  consumeColdStart,
   elapsedMs,
   formatElapsed,
+  freezeOnColdStart,
   readTimer,
   reconcileResume,
   seoulTodayYmd,
@@ -250,7 +252,13 @@ export function WorkoutSessionTimer({
     // ⚠ 먼저 '안 보던 동안'의 시간을 제외한다(reconcile). 타이머를 켜둔 채 앱을
     //    며칠 닫아두면 그 며칠(어제·그제·일주일)이 경과시간으로 잡히는데, 이를
     //    빼고 나서 롤오버를 판정해야 옛 날짜 캘린더에 그 시간이 잘못 가산되지 않는다.
-    const restored = reconcileResume(raw, Date.now());
+    // ⚠ 앱이 '새로 켜진'(콜드 스타트 = 팅김·강제종료 복귀) 경우엔 더 엄격하게 —
+    //    죽어 있던 구간을 빼고 **정지 상태**로 되살린다. 사용자가 '다시 운동하기'를
+    //    누른 시점부터 다시 흐르므로, 튕긴 시간이 운동시간에 얹히지 않는다.
+    const restored = reconcileResume(
+      consumeColdStart() ? freezeOnColdStart(raw, Date.now()) : raw,
+      Date.now(),
+    );
     if (restored) {
       // forDate 와 오늘이 다르면: 어제까지의 (실제 운동)시간을 저장하고 타이머는 reset
       const today = seoulTodayYmd();

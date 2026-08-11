@@ -3022,4 +3022,99 @@ drop policy if exists "moderator delete reports" on public.post_reports;
 create policy "moderator delete reports" on public.post_reports for delete
   using (public.is_post_moderator());
 
+-- ── 루틴 소개(하루치 루틴 공유) ────────────────────────────────────────────
+-- 내 루틴의 '한 일차'(예: 1일차 등)를 운동 순서·메모까지 스냅샷으로 굳혀 공개한다.
+-- 다른 사람은 이걸 자기 루틴의 한 일차로 담아간다(routine_presets 의 jsonb 모양 재사용).
+-- ⚠ 참조가 아니라 복사 — 올린 뒤 내가 루틴을 고쳐도 이미 올린 글은 안 바뀐다.
+-- 설계: docs/design/routine-share.md
+create table if not exists public.routine_shares (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  -- 작성 시점 표시 이름 스냅샷(공개 피드는 남의 profiles 를 RLS 로 못 읽는다).
+  author_name text not null default '회원',
+  -- 공개범위 기준 그룹(그룹공개/그룹제외 공개일 때). 전체공개면 null.
+  group_id uuid references public.groups(id) on delete set null,
+  visibility text not null default 'public'
+    check (visibility in ('group', 'public', 'public_except_group')),
+  title text not null check (char_length(title) between 1 and 60),
+  caption text check (caption is null or char_length(caption) <= 200),
+  -- 이 일차의 부위 목록(예: ["back"]). 피드 부위 칩 필터용.
+  focus_blocks jsonb not null default '[]'::jsonb,
+  -- routine_exercises / routine_conditioning 행 스냅샷(snake_case 그대로).
+  exercises jsonb not null default '[]'::jsonb,
+  conditioning jsonb not null default '[]'::jsonb,
+  -- 무게 포함 여부. false 면 스냅샷의 weight_kg 가 전부 null(작성자 무게 노출 안 함).
+  include_weight boolean not null default false,
+  -- 남이 '내 루틴에 담기' 한 횟수(정렬·표시용).
+  save_count int not null default 0,
+  created_at timestamptz not null default now()
+);
+create index if not exists routine_shares_created_idx
+  on public.routine_shares (created_at desc);
+-- 부위 칩 필터 — focus_blocks 배열 안에 해당 부위가 있는 글만.
+create index if not exists routine_shares_focus_idx
+  on public.routine_shares using gin (focus_blocks);
+
+alter table public.routine_shares enable row level security;
+
+-- 읽기: teaching_posts 와 동일 — 본인 / 전체 / 그룹 / 그룹제외 + 모더레이터 전체.
+drop policy if exists "read routine shares" on public.routine_shares;
+create policy "read routine shares" on public.routine_shares for select
+  using (
+    user_id = auth.uid()
+    or public.is_post_moderator()
+    or visibility = 'public'
+    or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+    or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+  );
+
+drop policy if exists "insert own routine share" on public.routine_shares;
+create policy "insert own routine share" on public.routine_shares for insert
+  with check (
+    user_id = auth.uid()
+    and (
+      visibility = 'public'
+      or (group_id is not null and public.is_group_member(group_id))
+    )
+  );
+
+drop policy if exists "delete own routine share" on public.routine_shares;
+create policy "delete own routine share" on public.routine_shares for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+-- 수정: 본인/모더레이터. 담긴 수 증가는 아래 rpc(security definer)로만 올린다.
+drop policy if exists "update own routine share" on public.routine_shares;
+create policy "update own routine share" on public.routine_shares for update
+  using (user_id = auth.uid() or public.is_post_moderator())
+  with check (user_id = auth.uid() or public.is_post_moderator());
+
+create table if not exists public.routine_share_likes (
+  share_id uuid not null references public.routine_shares(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (share_id, user_id)
+);
+create index if not exists routine_share_likes_share_idx
+  on public.routine_share_likes (share_id);
+alter table public.routine_share_likes enable row level security;
+drop policy if exists "read routine share likes" on public.routine_share_likes;
+create policy "read routine share likes" on public.routine_share_likes for select using (true);
+drop policy if exists "like routine share" on public.routine_share_likes;
+create policy "like routine share" on public.routine_share_likes for insert
+  with check (user_id = auth.uid());
+drop policy if exists "unlike routine share own" on public.routine_share_likes;
+create policy "unlike routine share own" on public.routine_share_likes for delete
+  using (user_id = auth.uid());
+
+-- 담긴 수 +1 — 담는 사람은 남의 글이라 update 권한이 없으므로 security definer 로.
+create or replace function public.bump_routine_share_saves(p_share_id uuid)
+returns void
+language sql
+security definer
+set search_path = public
+as $$
+  update public.routine_shares set save_count = save_count + 1 where id = p_share_id;
+$$;
+grant execute on function public.bump_routine_share_saves(uuid) to authenticated;
+
 notify pgrst, 'reload schema';

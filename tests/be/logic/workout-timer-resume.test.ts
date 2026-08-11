@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   AWAY_GAP_MS,
   reconcileResume,
+  restoreTimerOnMount,
   type TimerState,
 } from "@/features/workout-timer/timer-store";
 import { normalizeSoundKind } from "@/features/workout-timer/rest-sound";
@@ -41,6 +42,35 @@ describe("reconcileResume — 닫아둔 동안의 시간 제외", () => {
     // 즉 '지금' 시점 경과 = accumulated + (now - startedAt) = 1초 (일주일이 아님).
     expect(r.accumulated + (now - r.startedAt)).toBe(1_000);
     expect(r.lastSeenAt).toBe(now);
+  });
+});
+
+describe("restoreTimerOnMount — 앱 재진입은 명시적 재개까지 정지", () => {
+  it("일반 재진입은 마지막 하트비트까지만 누적하고 일시정지한다", () => {
+    const s = base({
+      startedAt: 1_000,
+      lastSeenAt: 241_000,
+      accumulated: 30_000,
+    });
+    const r = restoreTimerOnMount(s, 541_000)!;
+
+    expect(r.pausedAt).toBe(541_000);
+    expect(r.accumulated).toBe(270_000);
+    expect(r.lastSeenAt).toBe(241_000);
+  });
+
+  it("운동 상세에서 자동복귀하면 실행 상태를 유지한다", () => {
+    const s = base({ startedAt: 1_000, lastSeenAt: 2_000 });
+    const r = restoreTimerOnMount(s, 5_000, true)!;
+
+    expect(r.pausedAt).toBeNull();
+    expect(r.startedAt).toBe(1_000);
+    expect(r.lastSeenAt).toBe(5_000);
+  });
+
+  it("이미 일시정지된 저장본은 그대로 둔다", () => {
+    const s = base({ pausedAt: 4_000, accumulated: 3_000 });
+    expect(restoreTimerOnMount(s, 50_000)).toBe(s);
   });
 });
 

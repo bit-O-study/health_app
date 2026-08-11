@@ -92,6 +92,29 @@ export function reconcileResume(
   return { ...s, startedAt: s.startedAt + gap, lastSeenAt: now };
 }
 
+/**
+ * 앱이 새로 마운트될 때 저장된 실행 중 타이머를 복원한다.
+ * 일반 재진입은 마지막 하트비트까지만 누적하고 멈추며, 운동 상세에서 돌아오는 내부
+ * 전환만 기존 실행 상태를 즉시 이어간다.
+ */
+export function restoreTimerOnMount(
+  s: TimerState | null,
+  now: number,
+  resumeImmediately = false,
+): TimerState | null {
+  if (!s || s.pausedAt !== null) return s;
+  if (resumeImmediately) return reconcileResume(s, now);
+
+  const seen = s.lastSeenAt ?? s.startedAt;
+  const segmentEnd = Math.max(s.startedAt, Math.min(now, seen));
+  return {
+    ...s,
+    pausedAt: now,
+    accumulated: s.accumulated + (segmentEnd - s.startedAt),
+    lastSeenAt: segmentEnd,
+  };
+}
+
 // ── 누적 저장 마크 ───────────────────────────────────────────────────────────
 // 운동 1개 완료마다 그날 누적 시간을 갱신한다(addWorkoutDurationAction 은 가산식).
 // 매번 '경과 전체'를 더하면 이중 계산되므로, 직전에 저장한 초(savedSec)를 기억해

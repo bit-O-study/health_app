@@ -44,6 +44,7 @@ import {
   isEquipmentAvailable,
   toGymEquipmentSet,
 } from "@/features/gym/gym-equipment-mapping";
+import { ShareDayButton } from "@/features/routine-share/components/share-day-button";
 
 type FocusData = {
   /** 일차+부위 고유 키 (예: "3:push") — 반복 부위가 충돌하지 않게 state 키로 사용 */
@@ -93,6 +94,7 @@ export function PlanEditor({
   weightKg,
   gymEquipment = null,
   lockWeightReps = false,
+  myGroups = [],
 }: {
   focuses: FocusData[];
   gender: "male" | "female";
@@ -103,6 +105,8 @@ export function PlanEditor({
   gymEquipment?: readonly string[] | null;
   /** 무게·횟수 고정 설정. false 면 입력란 숨기고 세트 수만(운동모드에서 설정). */
   lockWeightReps?: boolean;
+  /** '이 일차 소개하기' 의 공개범위(그룹만) 선택지. 비면 전체공개만 고를 수 있다. */
+  myGroups?: { id: string; name: string }[];
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
@@ -420,9 +424,19 @@ export function PlanEditor({
             <span className="inline-flex h-7 items-center rounded-full bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
               {day.dayIndex + 1}일차
             </span>
-            <span className="truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
               {day.focuses.map((f) => focusName(f.label)).join(" · ")}
             </span>
+            {/* 이 일차를 커뮤니티 › 루틴에 소개(운동 순서·메모까지 스냅샷으로). */}
+            {(plans[day.focuses[0]?.key] ?? []).length > 0 ? (
+              <ShareDayButton
+                dayIndex={day.dayIndex}
+                defaultTitle={`${day.dayIndex + 1}일차 · ${day.focuses
+                  .map((f) => focusName(f.label))
+                  .join(" · ")}`}
+                groups={myGroups}
+              />
+            ) : null}
           </div>
           {(() => {
             const primary = day.focuses[0];

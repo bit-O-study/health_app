@@ -36,6 +36,11 @@ import {
   toggleLikeAction,
 } from "../community-actions";
 import { deleteTeachingPostAction } from "@/features/teaching/teaching-actions";
+import { RoutineShareBoard } from "@/features/routine-share/components/routine-share-board";
+import type {
+  ApplyTarget,
+  RoutineShareItem,
+} from "@/features/routine-share/share";
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 
 type Group = { id: string; name: string };
@@ -47,10 +52,16 @@ export function CommunityBoard({
   groups,
   initialPosts,
   canModerate,
+  routineShares = [],
+  applyTargets = [],
 }: {
   groups: Group[];
   initialPosts: FeedPost[];
   canModerate: boolean;
+  /** '루틴' 탭 — 소개된 하루치 루틴(상세까지 한 번에). */
+  routineShares?: RoutineShareItem[];
+  /** '루틴' 탭 담기 시트 — 내 루틴의 일차 목록. */
+  applyTargets?: ApplyTarget[];
 }) {
   const router = useRouter();
   const [now] = useState(() => Date.now());
@@ -120,7 +131,10 @@ export function CommunityBoard({
       </div>
 
       {/* 피드 */}
-      {isReels ? (
+      {tab === "routine" ? (
+        // 루틴 소개 — 남의 하루치 루틴을 보고 내 루틴의 한 일차로 담는다.
+        <RoutineShareBoard items={routineShares} targets={applyTargets} />
+      ) : isReels ? (
         // 운동 탭 — 숏츠/릴스 스타일 세로 풀스크린 피드(이 영역만 스냅 스크롤)
         <div className="min-h-0 flex-1">
           <TeachingReels
@@ -155,8 +169,8 @@ export function CommunityBoard({
         </ul>
       )}
 
-      {/* 글쓰기 FAB — 사진 인증(운동 탭은 운동모드에서 촬영하므로 숨김) */}
-      {tab !== "teaching" ? (
+      {/* 글쓰기 FAB — 사진 인증(운동 탭은 운동모드에서 촬영, 루틴 탭은 운동 등록에서 올림) */}
+      {tab !== "teaching" && tab !== "routine" ? (
         <button
           type="button"
           onClick={() => setCompose(true)}

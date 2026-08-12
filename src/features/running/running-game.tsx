@@ -287,11 +287,16 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     void addRunDistanceAction(Math.round(sessionMetersRef.current)).catch(() => {});
   }
 
-  const active = phase === "playing" || phase === "done";
-
   return (
     <div className="fixed inset-0 z-40 w-full overflow-hidden bg-[#bfeaff] text-white">
-      {active ? <ZenScene runRef={runRef} hud={{ map: mapRef }} /> : null}
+      {/* ⚠ 'playing' 일 때만 3D 씬을 띄운다. 예전엔 'done'(종료 화면)에서도 계속 렌더했는데,
+          종료 화면은 화면 전체를 bg-black/70 으로 덮어 **보이지도 않는 씬을 60fps 로 계속
+          그렸다.** 게다가 감지 루프가 멈춰 runRef 가 마지막 강도로 얼어붙는 바람에 풍경이
+          영원히 스크롤 → 250m마다 맵이 계속 바뀌며 캔버스 텍스처를 끝없이 새로 만들었다.
+          사용자가 종료 화면을 켜둔 채 두면 그동안 GPU 가 계속 돌아간다(발열·팅김). */}
+      {phase === "playing" ? (
+        <ZenScene runRef={runRef} hud={{ map: mapRef }} />
+      ) : null}
 
       {/* 카메라 — 화면엔 안 보이게(감지용으로만 사용). display:none 은 일부 브라우저에서
           프레임이 멈춰 감지가 안 되므로 opacity 0 + 1px 로 렌더는 유지한다. */}

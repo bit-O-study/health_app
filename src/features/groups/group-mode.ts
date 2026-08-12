@@ -21,6 +21,15 @@ export const GROUP_MODE_LABEL: Record<GroupMode, string> = {
   proof: "오늘 운동 인증(움짤)",
 };
 
+/**
+ * 초대 카드(카카오톡 공유 · OG 미리보기)에 들어가는 한 줄 설명 — 모드별로 다르다.
+ * 인증 모드인데 "랭킹대전"이라고 초대하면, 들어와서 보는 화면과 말이 안 맞는다.
+ */
+export const GROUP_INVITE_DESCRIPTION: Record<GroupMode, string> = {
+  gym: "운동 랭킹대전에 함께 참여해요 💪 눌러서 그룹에 가입하세요.",
+  proof: "오늘 운동 인증을 서로 남겨요 💪 눌러서 그룹에 가입하세요.",
+};
+
 export const GROUP_MODE_HINT: Record<GroupMode, string> = {
   gym: "기존 그룹 헬스장 — 공유펫·주간 랭킹·챌린지·응원",
   proof: "그룹원이 오늘 운동 인증을 3초 움짤로 올리는 피드",
@@ -28,6 +37,29 @@ export const GROUP_MODE_HINT: Record<GroupMode, string> = {
 
 export function isGroupMode(v: unknown): v is GroupMode {
   return v === "gym" || v === "proof";
+}
+
+/**
+ * 그룹탭 정식 경로 — 여기로 보내면 현재 모드에 맞는 화면(헬스장/인증 피드)이 그려진다.
+ * 그룹 진입은 항상 이 경로를 쓴다(딥링크 `/groups/[id]` 는 헬스장 전용).
+ */
+export function groupTabHref(groupId: string): string {
+  return `/groups?g=${encodeURIComponent(groupId)}`;
+}
+
+/**
+ * `/groups/[id]` 는 **헬스장(공유펫·랭킹) 전용** 화면이다.
+ * 인증 모드에서는 열리면 안 되므로 보낼 곳(그룹탭 정식 경로)을 돌려주고,
+ * 헬스장 모드면 null(그대로 렌더).
+ *
+ * 카카오톡 초대 링크로 들어와 가입하면 `/groups/[id]` 로 이동하는데,
+ * 이 가드가 없으면 인증 모드인데도 '캐릭터 키우기'가 떴다.
+ */
+export function groupDetailRedirect(
+  mode: GroupMode,
+  groupId: string,
+): string | null {
+  return mode === "proof" ? groupTabHref(groupId) : null;
 }
 
 /**

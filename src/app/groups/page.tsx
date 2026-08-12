@@ -31,7 +31,7 @@ export default async function GroupsPage({
             ? "그룹을 만들어 친구와 오늘 운동 인증을 서로 남겨보세요."
             : "그룹을 만들어 친구와 이번 주 운동 랭킹대전을 펼쳐보세요."}
         </p>
-        <GroupsClient groups={groups} />
+        <GroupsClient groups={groups} mode={mode} />
       </main>
     );
   }

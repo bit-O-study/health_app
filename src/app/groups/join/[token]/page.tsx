@@ -4,6 +4,8 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { getGroupMode } from "@/features/groups/group-mode.server";
+import { GROUP_INVITE_DESCRIPTION } from "@/features/groups/group-mode";
 import { JoinConfirm } from "@/features/groups/components/join-confirm";
 
 export const dynamic = "force-dynamic";
@@ -41,12 +43,14 @@ export async function generateMetadata({
   params: Promise<{ token: string }>;
 }): Promise<Metadata> {
   const { token } = await params;
-  const [name, origin] = await Promise.all([
+  const [name, origin, mode] = await Promise.all([
     groupNameByToken(token),
     originFromRequest(),
+    // group_mode() 는 SECURITY DEFINER — 비로그인(카톡 미리보기봇)도 읽는다.
+    getGroupMode(),
   ]);
   const title = name ? `${name} · 운동 그룹 초대` : "운동 그룹 초대";
-  const description = "운동 랭킹대전에 함께 참여해요 💪 눌러서 그룹에 가입하세요.";
+  const description = GROUP_INVITE_DESCRIPTION[mode];
   const image = `${origin}/icon-512.png`;
   return {
     title,

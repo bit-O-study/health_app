@@ -9,6 +9,11 @@ import {
   leaveGroupAction,
 } from "@/features/groups/group-actions";
 import { isNativeApp } from "@/lib/platform/is-native-app";
+import {
+  DEFAULT_GROUP_MODE,
+  GROUP_INVITE_DESCRIPTION,
+  type GroupMode,
+} from "@/features/groups/group-mode";
 
 type KakaoLike = {
   isInitialized: () => boolean;
@@ -43,6 +48,7 @@ export function GroupControls({
   inviteToken,
   isOwner,
   compact = false,
+  mode = DEFAULT_GROUP_MODE,
 }: {
   groupId: string;
   groupName: string;
@@ -50,6 +56,8 @@ export function GroupControls({
   isOwner: boolean;
   /** 관리 목록용 — 작은 아이콘 버튼 한 줄. */
   compact?: boolean;
+  /** 그룹탭 전역 모드 — 초대 카드 문구를 지금 보이는 화면에 맞춘다. */
+  mode?: GroupMode;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -88,6 +96,7 @@ export function GroupControls({
 
   async function doShareKakao() {
     const url = inviteUrl();
+    const cardDescription = GROUP_INVITE_DESCRIPTION[mode];
 
     // 링크는 별도 줄에 두면 카카오톡이 OG 카드로 깔끔하게 펼친다("참여 링크:" 접두 제거).
     const text = `${groupName} 운동 그룹에 초대합니다 💪\n${url}`;
@@ -118,7 +127,7 @@ export function GroupControls({
         };
         await mod.CapacitorKakao.shareDefault({
           title: `${groupName} · 운동 그룹 초대`,
-          description: "운동 랭킹대전에 함께 참여해요 💪",
+          description: cardDescription,
           imageUrl: `${siteBase()}/icon-512.png`,
           imageLinkUrl: url,
           buttonTitle: "그룹 참여하기",
@@ -163,7 +172,7 @@ export function GroupControls({
             objectType: "feed",
             content: {
               title: `${groupName} · 운동 그룹 초대`,
-              description: "운동 랭킹대전에 함께 참여해요 💪",
+              description: cardDescription,
               imageUrl: `${siteBase()}/icon-512.png`,
               link,
             },

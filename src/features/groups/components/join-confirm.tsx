@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Users } from "lucide-react";
 
 import { joinGroupByTokenAction } from "@/features/groups/group-actions";
+import { groupTabHref } from "@/features/groups/group-mode";
 
 export function JoinConfirm({
   token,
@@ -22,7 +23,9 @@ export function JoinConfirm({
     start(async () => {
       const res = await joinGroupByTokenAction(token);
       if (res.ok && res.id) {
-        router.push(`/groups/${res.id}`);
+        // 그룹탭 정식 경로 — 현재 모드(헬스장/인증)에 맞는 화면으로 들어간다.
+        // (`/groups/[id]` 는 헬스장 전용이라 인증 모드에서도 캐릭터 키우기가 떴다.)
+        router.push(groupTabHref(res.id));
         router.refresh();
       } else if (!res.ok) {
         // 비로그인(카톡 인앱 브라우저 등)이면 로그인 후 이 초대로 되돌아오게 한다.

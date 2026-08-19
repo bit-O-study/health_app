@@ -313,7 +313,7 @@ export function DietBoard({
       </div>
 
       {/* 요약 카드 — 칼로리 링 + 탄단지 바 */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-5">
+      <div className="app-card p-4 sm:p-5">
         <div className="flex items-center gap-4">
           <KcalRing consumed={totals.kcal} target={target.kcal} />
           <div className="min-w-0 flex-1 space-y-2.5">
@@ -584,7 +584,7 @@ function MealSection({
   const time = mealTimeOf(items);
   const cover = photos[0] ?? null;
   return (
-    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="app-card overflow-hidden">
       <div className="flex items-center justify-between px-4 pt-4">
         <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
           <span aria-hidden="true">{MEAL_ICON[meal]}</span>
@@ -646,7 +646,7 @@ function MealSection({
                   <li key={it.rowKey ?? it.id}
                     className="flex items-baseline justify-between gap-2 text-sm"
                   >
-                    <span className="min-w-0 flex-1 truncate font-semibold text-zinc-800 dark:text-zinc-100">
+                    <span className="text-safe min-w-0 flex-1 font-semibold leading-5 text-zinc-800 dark:text-zinc-100">
                       {it.name}
                       {it.amount ? (
                         <span className="ml-1.5 text-xs font-normal text-zinc-400">

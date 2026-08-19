@@ -32,7 +32,7 @@ export function DietExerciseCard({
   return (
     <Link
       href="/diet"
-      className="group block rounded-2xl border border-white/70 bg-white/75 p-4 shadow-sm backdrop-blur transition hover:bg-white dark:border-white/[0.07] dark:bg-zinc-900/70 dark:hover:bg-zinc-900 sm:p-5"
+      className="app-card group block p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/20 sm:p-5"
     >
       <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
         오늘 식단 기준 운동량

@@ -4,13 +4,26 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #f8fafc;
-  --foreground: #171717;
+  --background: #f4f7f5;
+  --foreground: #17201b;
+  --surface: rgba(255, 255, 255, 0.88);
+  --surface-strong: #ffffff;
+  --line: rgba(24, 67, 45, 0.1);
+  --muted: #647067;
+  --brand: #087f5b;
+  --brand-soft: #dff7ec;
+  --shadow-card: 0 1px 2px rgba(19, 48, 33, 0.04), 0 12px 32px rgba(19, 48, 33, 0.06);
 }
 
 .dark {
-  --background: #18181b;
-  --foreground: #f4f4f5;
+  --background: #0d1410;
+  --foreground: #f0f7f2;
+  --surface: rgba(22, 32, 26, 0.9);
+  --surface-strong: #16201a;
+  --line: rgba(207, 247, 224, 0.1);
+  --muted: #9ba9a0;
+  --brand: #45d6a0;
+  --brand-soft: #133c2d;
   color-scheme: dark;
 }
 
@@ -34,7 +47,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), "Pretendard Variable", Pretendard, Arial, sans-serif;
   overscroll-behavior: none;
   /* 한국어 줄바꿈: 음절 단위로 끊지 말고(=한 글자씩 줄바꿈 방지) 어절(공백) 단위로.
      단, 한 어절이 칸보다 길면 그때만 분해해 오버플로 방지. */
@@ -43,6 +56,73 @@ body {
   min-width: 0;
   max-width: 100%;
   overflow-x: clip;
+}
+
+/* 리뉴얼 공통 표면. 페이지별 데이터/동작은 유지하고 시각 언어만 한 곳에서 관리한다. */
+@layer components {
+  .app-page {
+    min-height: 100dvh;
+    background:
+      radial-gradient(circle at 8% -8%, rgba(52, 211, 153, 0.12), transparent 27rem),
+      radial-gradient(circle at 96% 12%, rgba(45, 212, 191, 0.08), transparent 24rem),
+      var(--background);
+    color: var(--foreground);
+  }
+
+  .app-container {
+    width: 100%;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding: 1.25rem 1rem 2.5rem;
+  }
+
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--background) 82%, transparent);
+    backdrop-filter: blur(20px) saturate(140%);
+  }
+
+  .app-card {
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    background: var(--surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .text-safe {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    word-break: keep-all;
+  }
+}
+
+@media (min-width: 640px) {
+  .app-container { padding: 2rem 1.5rem 3.5rem; }
+}
+
+@media (max-width: 359px) {
+  .app-container { padding-inline: 0.75rem; }
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--brand) 35%, transparent);
+  outline-offset: 2px;
 }
 
 img,

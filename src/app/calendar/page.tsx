@@ -120,7 +120,7 @@ export default async function CalendarPage({
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
+    <main className="app-page app-container">
       <div className="mb-4 flex items-center justify-between">
         <Link
           href={`/calendar?m=${monthParam(prev)}`}
@@ -156,7 +156,7 @@ export default async function CalendarPage({
       </div>
 
       {/* 캘린더 */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-3">
+      <div className="app-card p-2 sm:p-3">
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div

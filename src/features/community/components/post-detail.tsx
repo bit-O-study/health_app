@@ -325,7 +325,7 @@ export function PostDetail({
       </div>
 
       {/* 댓글 입력 — 하단 고정탭(4rem) + 제스처바(safe-area) 위에 붙게 오프셋. */}
-      <div className="sticky bottom-[calc(4rem+env(safe-area-inset-bottom))] flex items-center gap-2 bg-white py-2 dark:bg-zinc-900">
+      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] flex items-center gap-2 bg-white py-2 dark:bg-zinc-900">
         <input
           value={body}
           onChange={(e) => setBody(e.target.value.slice(0, 300))}

@@ -40,4 +40,22 @@ describe("운동모드 하단 버튼 바 순서", () => {
     expect(completeIdx).toBeLessThan(cancelSetIdx);
     expect(cancelSetIdx).toBeLessThan(completeSetIdx);
   });
+
+  // 각 버튼의 className 은 onClick 바로 다음 줄들에 있다 — 그 조각만 잘라 높이를 본다.
+  const heightOf = (idx: number): string | null =>
+    src.slice(idx, idx + 700).match(/inline-flex h-(\d+)/)?.[1] ?? null;
+
+  it("아래쪽 줄(취소·세트 완료)이 위쪽 줄(넘기기·완료)보다 크다", () => {
+    const top = [skipIdx, completeIdx].map(heightOf);
+    const bottom = [cancelSetIdx, completeSetIdx].map(heightOf);
+    for (const h of [...top, ...bottom]) expect(h).not.toBeNull();
+    // 자주 누르는 '세트 완료' 줄이 더 커야 한다(오조작 방지).
+    for (const b of bottom) {
+      for (const t of top) {
+        expect(Number(b), `아래줄 h-${b} 가 위줄 h-${t} 보다 커야 함`).toBeGreaterThan(
+          Number(t),
+        );
+      }
+    }
+  });
 });

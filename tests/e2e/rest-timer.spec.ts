@@ -22,7 +22,11 @@ test("가이드 화면에서 휴식 시간 설정 + 세트 완료 시 휴식 타
   // 세트 완료 버튼(세트가 여러 개인 본운동)이 나올 때까지 진행
   let found = false;
   for (let i = 0; i < 40; i++) {
-    if (await page.getByRole("button", { name: /세트 완료 · 휴식/ }).count()) {
+    if (
+      await page
+        .getByRole("button", { name: "세트 완료", exact: true })
+        .count()
+    ) {
       found = true;
       break;
     }
@@ -37,7 +41,7 @@ test("가이드 화면에서 휴식 시간 설정 + 세트 완료 시 휴식 타
   await expect(page.getByText(/세트 1\//)).toBeVisible();
 
   // 세트 완료 → 휴식 타이머 카드 등장 + 세트 진행 2/N 로 증가
-  await page.getByRole("button", { name: /세트 완료 · 휴식/ }).click();
+  await page.getByRole("button", { name: "세트 완료", exact: true }).click();
   await expect(page.getByText("휴식 중")).toBeVisible();
   await expect(page.getByText(/세트 2\//)).toBeVisible();
 });

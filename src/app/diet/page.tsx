@@ -40,7 +40,7 @@ export default async function DietPage({
   });
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
+    <main className="app-page app-container">
       <DietBoard
         key={date}
         date={date}

@@ -1227,6 +1227,28 @@ export function GuidedOverlay({
           })}
         </div>
 
+        {/* 넘기기 / 완료 — 위쪽(엄지에서 먼 곳)에 둔다. 아래는 세트 진행. */}
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={skip}
+            disabled={working}
+            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white text-base font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+          >
+            <ChevronRight aria-hidden="true" size={20} />
+            넘기기
+          </button>
+          <button
+            type="button"
+            onClick={complete}
+            disabled={working}
+            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-base font-bold text-white shadow-lg transition hover:bg-emerald-500 disabled:opacity-50"
+          >
+            <Check aria-hidden="true" size={20} />
+            {isLast ? "완료하고 종료" : mainSets > 0 ? "운동 완료" : "완료"}
+          </button>
+        </div>
+
         {/* 본운동 세트 진행 + 세트 완료(휴식) — 세트가 여러 개일 때만 */}
         {mainSets > 0 ? (
           <div className="flex items-center gap-2">
@@ -1265,27 +1287,6 @@ export function GuidedOverlay({
             </button>
           </div>
         ) : null}
-
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={skip}
-            disabled={working}
-            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border border-zinc-300 bg-white text-base font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-          >
-            <ChevronRight aria-hidden="true" size={20} />
-            넘기기
-          </button>
-          <button
-            type="button"
-            onClick={complete}
-            disabled={working}
-            className="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-base font-bold text-white shadow-lg transition hover:bg-emerald-500 disabled:opacity-50"
-          >
-            <Check aria-hidden="true" size={20} />
-            {isLast ? "완료하고 종료" : mainSets > 0 ? "운동 완료" : "완료"}
-          </button>
-        </div>
       </div>
       <ConfirmDialog
         open={closeAsk}

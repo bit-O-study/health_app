@@ -82,23 +82,23 @@ export function CommunityBoard({
     <div
       className={
         isReels
-          ? "mx-auto flex h-[calc(100dvh-4rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-2xl flex-col overflow-hidden"
-          : "mx-auto flex w-full max-w-2xl flex-col"
+          ? "app-page mx-auto flex h-[calc(100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-2xl flex-col overflow-hidden"
+          : "app-page mx-auto flex min-h-screen w-full max-w-2xl flex-col"
       }
     >
-      <div className="sticky top-0 z-10 shrink-0 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-1 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
+      <div className="app-header shrink-0 px-4 pb-0 pt-3">
         <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-black tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
           커뮤니티
         </h1>
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4 overflow-x-auto [scrollbar-width:none] min-[390px]:gap-5">
           {BOARD_TABS.map(({ value, label }) => (
             <button
               key={value}
               type="button"
               onClick={() => setTab(value)}
-              className={`relative pb-2.5 text-[16px] font-bold transition-colors ${
+              className={`relative shrink-0 pb-2.5 text-[15px] font-bold transition-colors min-[390px]:text-base ${
                 tab === value
                   ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"

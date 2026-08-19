@@ -29,7 +29,7 @@ describe("운동모드 하단 버튼 바 순서", () => {
     }
     // 라벨도 그대로인지(E2E 셀렉터가 이름으로 찾는다)
     expect(src).toContain("세트 완료 취소");
-    expect(src).toContain("세트 완료 · 휴식 ");
+    expect(src).toContain("세트 완료");
   });
 
   it("위쪽 줄이 '넘기기 → 완료' 다", () => {

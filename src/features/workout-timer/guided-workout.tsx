@@ -1233,16 +1233,16 @@ export function GuidedOverlay({
             type="button"
             onClick={skip}
             disabled={working}
-            className="inline-flex h-11 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 bg-white text-[13px] font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
-            <ChevronRight aria-hidden="true" size={16} />
+            <ChevronRight aria-hidden="true" size={15} />
             넘기기
           </button>
           <button
             type="button"
             onClick={complete}
             disabled={working}
-            className="inline-flex h-11 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-[13px] font-bold text-white shadow transition hover:bg-emerald-500 disabled:opacity-50"
           >
             <Check aria-hidden="true" size={16} />
             {isLast ? "완료하고 종료" : mainSets > 0 ? "운동 완료" : "완료"}
@@ -1252,7 +1252,7 @@ export function GuidedOverlay({
         {/* 본운동 세트 진행 + 세트 완료(휴식) — 세트가 여러 개일 때만 */}
         {mainSets > 0 ? (
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-14 shrink-0 items-center rounded-lg bg-emerald-50 px-3 text-sm font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <span className="inline-flex h-12 shrink-0 items-center rounded-lg bg-emerald-50 px-2.5 text-[13px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
               {setProgressLabel(setsDone, mainSets)}
             </span>
             {setsDone > 0 ? (
@@ -1261,9 +1261,9 @@ export function GuidedOverlay({
                 onClick={cancelSet}
                 disabled={working}
                 aria-label="세트 완료 취소"
-                className="inline-flex h-14 shrink-0 items-center justify-center gap-1 rounded-xl border border-zinc-300 bg-white px-4 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+                className="inline-flex h-12 shrink-0 items-center justify-center gap-1 rounded-xl border border-zinc-300 bg-white px-3.5 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
               >
-                <ChevronLeft aria-hidden="true" size={18} />
+                <ChevronLeft aria-hidden="true" size={16} />
                 취소
               </button>
             ) : null}
@@ -1271,17 +1271,17 @@ export function GuidedOverlay({
               type="button"
               onClick={completeSet}
               disabled={working}
-              className="inline-flex h-14 flex-1 items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 text-base font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
+              className="inline-flex h-12 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-emerald-300 bg-emerald-50 text-[15px] font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
             >
               {onLastSet ? (
                 <>
-                  <Check aria-hidden="true" size={20} />
+                  <Check aria-hidden="true" size={18} />
                   마지막 세트 완료
                 </>
               ) : (
                 <>
-                  <Timer aria-hidden="true" size={20} />
-                  {`세트 완료 · 휴식 ${formatRest(rest.defaultSec)}`}
+                  <Timer aria-hidden="true" size={18} />
+                  세트 완료
                 </>
               )}
             </button>

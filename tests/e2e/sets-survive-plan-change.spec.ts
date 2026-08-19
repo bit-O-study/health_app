@@ -62,7 +62,9 @@ test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({
 
   // 세트 2개 완료 → "세트 3/4"
   for (let i = 0; i < 2; i++) {
-    await page.getByRole("button", { name: /세트 완료 · 휴식/ }).click();
+    await page
+      .getByRole("button", { name: "세트 완료", exact: true })
+      .click();
     await page.waitForTimeout(600);
   }
   await expect(page.getByText("세트 3/4")).toBeVisible();

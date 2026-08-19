@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import {
   dropIndex,
+  groupByFocusWithGlobalPositions,
+  keepPosition,
   orderMainPlan,
   resolvePlanAddTarget,
 } from "@/features/routine/plan-order";
@@ -200,5 +202,104 @@ describe("resolvePlanAddTarget — 복합 일차 운동 추가 대상", () => {
 
   it("없는 슬롯 키는 추가 대상으로 사용하지 않는다", () => {
     expect(resolvePlanAddTarget([shoulder, arm], "0:back")).toBeNull();
+  });
+});
+
+describe("keepPosition — 행을 옮겨도 순서를 잃지 않는다", () => {
+  it("원본 position 을 그대로 쓴다(재인덱싱 금지)", () => {
+    expect(keepPosition(3, 0)).toBe(3);
+    expect(keepPosition(0, 2)).toBe(0);
+    expect(keepPosition(1000, 0)).toBe(1000); // '추가' 표식(append base)도 보존
+  });
+
+  it("값이 이상하면 배열 순번으로 폴백한다", () => {
+    expect(keepPosition(Number.NaN, 2)).toBe(2);
+    expect(keepPosition(-1, 1)).toBe(1);
+    expect(keepPosition(1.5, 4)).toBe(4);
+  });
+});
+
+describe("회귀: '오늘만 부위 추가'(pin) 후에도 부위 교차 순서가 유지된다", () => {
+  // 루틴(routine_exercises) — 사용자가 부위 경계를 넘어 끌어 전역 0..3 으로 저장한 상태.
+  const routine = [
+    row("hammer", "arm", 0),
+    row("bench", "chest", 1),
+    row("incline", "chest", 2),
+    row("curl", "arm", 3),
+  ];
+  // pin 은 부위별로(getPlanForDay = position 오름차순) daily_plan 에 복사한다.
+  const pin = (usePosition: boolean) =>
+    ["chest", "arm"].flatMap((focus) =>
+      routine
+        .filter((r) => r.focus === focus)
+        .sort((a, b) => a.position - b.position)
+        .map((r, index) => ({
+          ...r,
+          position: usePosition ? keepPosition(r.position, index) : index,
+        })),
+    );
+
+  it("원본 position 을 옮기면 사용자가 만든 순서 그대로", () => {
+    expect(orderMainPlan(pin(true)).map((r) => r.id)).toEqual([
+      "hammer",
+      "bench",
+      "incline",
+      "curl",
+    ]);
+  });
+
+  it("(버그 재현) 부위별 0..n 으로 재인덱싱하면 그룹 순서로 초기화된다", () => {
+    expect(orderMainPlan(pin(false)).map((r) => r.id)).toEqual([
+      "bench",
+      "incline",
+      "hammer",
+      "curl",
+    ]);
+  });
+});
+
+describe("groupByFocusWithGlobalPositions — 부위별 저장에도 전역 순서 보존", () => {
+  const rows = [
+    { id: "hammer", focus: "arm" },
+    { id: "bench", focus: "chest" },
+    { id: "incline", focus: "chest" },
+    { id: "curl", focus: "arm" },
+  ];
+
+  it("부위별로 나누되 position 은 한 목록에서의 전역 index 다", () => {
+    expect(groupByFocusWithGlobalPositions(rows)).toEqual([
+      {
+        focus: "arm",
+        items: [
+          { id: "hammer", focus: "arm", position: 0 },
+          { id: "curl", focus: "arm", position: 3 },
+        ],
+      },
+      {
+        focus: "chest",
+        items: [
+          { id: "bench", focus: "chest", position: 1 },
+          { id: "incline", focus: "chest", position: 2 },
+        ],
+      },
+    ]);
+  });
+
+  it("저장 → 다시 읽기(부위 그룹 순서)로 돌아와도 화면 순서가 복원된다", () => {
+    const groups = groupByFocusWithGlobalPositions(rows);
+    // 다시 읽을 때는 부위 그룹 순서로 이어 붙는다(today-exercises 의 groupedPlan).
+    const reloaded = ["chest", "arm"].flatMap(
+      (f) => groups.find((g) => g.focus === f)?.items ?? [],
+    );
+    expect(orderMainPlan(reloaded).map((r) => r.id)).toEqual([
+      "hammer",
+      "bench",
+      "incline",
+      "curl",
+    ]);
+  });
+
+  it("빈 목록은 빈 배열", () => {
+    expect(groupByFocusWithGlobalPositions([])).toEqual([]);
   });
 });

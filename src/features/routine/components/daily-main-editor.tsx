@@ -34,6 +34,10 @@ import {
   type DailyPlanItem,
 } from "@/features/routine/daily-plan-actions";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
+import {
+  groupByFocusWithGlobalPositions,
+  orderMainPlan,
+} from "@/features/routine/plan-order";
 import type { SetDetail } from "@/features/routine/set-details";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
@@ -159,8 +163,15 @@ export function DailyMainEditor({
       ? allExercisesForFocus(f)
       : allExercisesForSlot(f, blockIdsByFocus.get(f) ?? []);
 
+  // 부위별 섹션을 한 목록으로 잇되, **오늘 화면과 같은 순서**로 정렬한다.
+  // (부위 경계를 넘어 드래그해 둔 순서가 편집기에서 그룹 순서로 되돌아가면,
+  //  저장 시 그 순서가 그대로 굳어져 "순서가 초기화"된다.)
   const [rows, setRows] = useState<Row[]>(() =>
-    sections.flatMap((s) => s.initial.map((r) => toRow(s.focus, r))),
+    orderMainPlan(
+      sections.flatMap((s) =>
+        s.initial.map((r) => ({ position: r.position, row: toRow(s.focus, r) })),
+      ),
+    ).map((x) => x.row),
   );
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
@@ -222,7 +233,7 @@ export function DailyMainEditor({
     update(next);
   }
 
-  function rowsToItems(list: Row[]): DailyPlanItem[] {
+  function rowsToItems(list: (Row & { position?: number })[]): DailyPlanItem[] {
     return list.map((r) => ({
       exerciseId: r.exerciseId,
       equipment: r.equipment,
@@ -230,6 +241,7 @@ export function DailyMainEditor({
       reps: r.reps,
       weightKg: r.weight.trim() === "" ? null : Number(r.weight),
       setDetails: r.setDetails,
+      position: r.position,
     }));
   }
 
@@ -237,8 +249,13 @@ export function DailyMainEditor({
     start(async () => {
       // 오늘 부위 + 행에 실제로 들어있는 부위 전부 저장(비면 그 부위 오버라이드 제거).
       const allFocuses = [...new Set([...focuses, ...rows.map((r) => r.focus)])];
+      // 저장은 부위별로 나뉘지만 position 은 **한 목록에서의 전역 index** 로 실어 보낸다
+      // (부위별 0..n 재인덱싱은 부위 교차 순서를 지운다).
+      const groups = groupByFocusWithGlobalPositions(rows);
       for (const f of allFocuses) {
-        const items = rowsToItems(rows.filter((r) => r.focus === f));
+        const items = rowsToItems(
+          groups.find((g) => g.focus === f)?.items ?? [],
+        );
         const res = await saveDailyPlanAction(dateYmd, f, items);
         if (!res.ok) {
           setMsg(res.error);

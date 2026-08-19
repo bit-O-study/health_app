@@ -82,8 +82,15 @@ describe("safe-area 가드 — 전면 러닝 오버레이는 상·하단 모두"
 });
 
 describe("safe-area 가드 — 커뮤니티 댓글바는 하단탭+제스처바 위로", () => {
-  it("post-detail 댓글 입력바가 4rem(하단탭)+safe-area 오프셋을 쓴다", () => {
+  // 하단탭 높이는 bottom-nav 가 정의한다(3.75rem). 값을 하드코딩하지 않고 거기서 읽어와,
+  // 탭 높이를 바꿔도 '댓글바가 탭에 가려지는지'만 계속 검사하게 한다.
+  it("post-detail 댓글 입력바가 하단탭 높이+safe-area 오프셋을 쓴다", () => {
+    const nav = read("components/bottom-nav.tsx");
+    const navHeight = nav.match(/calc\((\d+(?:\.\d+)?rem) \+ env\(safe-area-inset-bottom\)\)/);
+    expect(navHeight, "bottom-nav 하단탭 높이를 못 찾음").not.toBeNull();
     const src = read("features/community/components/post-detail.tsx");
-    expect(src).toMatch(/bottom-\[calc\(4rem\+env\(safe-area-inset-bottom\)\)\]/);
+    expect(src).toContain(
+      `bottom-[calc(${navHeight![1]}+env(safe-area-inset-bottom))]`,
+    );
   });
 });

@@ -52,6 +52,8 @@ public class MainActivity extends BridgeActivity {
 
         WebView webView = this.getBridge().getWebView();
 
+        loadOAuthCallback(getIntent(), webView);
+
         // 웹에서 OS 설정 화면을 열 수 있는 JS 브릿지(window.HelssuNative).
         // 야외 런닝에서 GPS(위치정보)가 꺼져 있으면 '위치 설정 열기'로 안내한다.
         // ⚠ 웹/WebView 는 위치정보를 코드로 자동 ON 할 수 없어, 설정 화면 열기까지만 지원한다.
@@ -164,6 +166,24 @@ public class MainActivity extends BridgeActivity {
                 return true;
             }
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        loadOAuthCallback(intent, this.getBridge().getWebView());
+    }
+
+    private void loadOAuthCallback(Intent intent, WebView webView) {
+        if (intent == null || webView == null) return;
+        Uri uri = intent.getData();
+        if (uri == null) return;
+        if (!"https".equals(uri.getScheme())
+            || !"health-app-five-iota.vercel.app".equals(uri.getHost())
+            || !"/auth/callback".equals(uri.getPath())) return;
+        webView.loadUrl(uri.toString());
+        intent.setData(null);
     }
 
     /**

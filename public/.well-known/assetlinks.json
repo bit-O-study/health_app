@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "app.helssu.twa",
+      "sha256_cert_fingerprints": [
+        "66:D3:46:C5:95:AC:A1:4A:4E:7E:02:3A:0B:74:96:63:CB:B5:AB:DB:4F:69:3A:49:CA:13:B7:86:D2:C1:58:D2"
+      ]
+    }
+  }
+]

@@ -179,11 +179,32 @@ public class MainActivity extends BridgeActivity {
         if (intent == null || webView == null) return;
         Uri uri = intent.getData();
         if (uri == null) return;
-        if (!"https".equals(uri.getScheme())
-            || !"health-app-five-iota.vercel.app".equals(uri.getHost())
-            || !"/auth/callback".equals(uri.getPath())) return;
-        webView.loadUrl(uri.toString());
+        String callbackUrl;
+        if ("helssu".equals(uri.getScheme())
+            && "auth".equals(uri.getHost())
+            && "/callback".equals(uri.getPath())) {
+            Uri.Builder callback = new Uri.Builder()
+                .scheme("https")
+                .authority("health-app-five-iota.vercel.app")
+                .path("/auth/callback");
+            appendQueryParameter(uri, callback, "code");
+            appendQueryParameter(uri, callback, "next");
+            appendQueryParameter(uri, callback, "error");
+            callbackUrl = callback.build().toString();
+        } else if ("https".equals(uri.getScheme())
+            && "health-app-five-iota.vercel.app".equals(uri.getHost())
+            && "/auth/callback".equals(uri.getPath())) {
+            callbackUrl = uri.toString();
+        } else {
+            return;
+        }
+        webView.loadUrl(callbackUrl);
         intent.setData(null);
+    }
+
+    private void appendQueryParameter(Uri source, Uri.Builder target, String name) {
+        String value = source.getQueryParameter(name);
+        if (value != null) target.appendQueryParameter(name, value);
     }
 
     /**

@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isLocalEnv, normalizePhone } from "@/features/auth/phone";
 import { destinationAfterLogin } from "@/features/auth/actions";
+import { isNativeApp } from "@/lib/platform/is-native-app";
 
 type Mode = "login" | "signup";
 
@@ -161,10 +162,13 @@ export function AuthForm({
     setNotice(null);
     setOauthLoading(provider);
     const supabase = createSupabaseBrowserClient();
+    const callback = new URL("/auth/callback", window.location.origin);
+    callback.searchParams.set("next", redirectTo);
+    if (isNativeApp()) callback.searchParams.set("native", "1");
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+        redirectTo: callback.toString(),
         // ⚠ scopes 옵션은 Supabase 기본 scope 를 '대체'하지 않고 뒤에 덧붙기만 한다.
         // (카카오 기본값 account_email·profile_image·profile_nickname 은 그대로 나감)
         // 따라서 요청 scope 를 줄이려면 여기가 아니라 Kakao Developers 콘솔의

@@ -8,9 +8,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.ViewGroup;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -130,6 +132,36 @@ public class MainActivity extends BridgeActivity {
                 }
                 loadFailed = true;
                 scheduleReload(view);
+            }
+
+            /**
+             * 웹뷰 렌더러 프로세스가 죽었다 — 대개 메모리 부족이거나, 앱이
+             * 백그라운드에 있는 동안 안드로이드가 회수한 경우다.
+             *
+             * 여기서 true 를 돌려주지 않으면 안드로이드가 **앱 프로세스까지 함께
+             * 죽인다.** 사용자에게는 아무 안내 없이 '앱이 그냥 튕기는' 것으로 보인다.
+             * 리모트 URL 웹뷰 앱에서 이 콜백을 비워 두면 언젠가 반드시 겪는다.
+             *
+             * 죽은 WebView 는 되살릴 수 없어 reload() 로는 복구되지 않는다. 화면에서
+             * 떼어내 파괴하고 액티비티를 다시 만들어 새 WebView 로 시작한다.
+             *
+             * 복구는 마지막 페이지가 아니라 시작 URL 로 한다. 렌더러를 터뜨린 바로 그
+             * 페이지로 되돌아가면 같은 자리에서 다시 죽는 crash loop 가 된다.
+             * 세션은 쿠키에 있으므로 로그인 상태는 유지된다.
+             */
+            @Override
+            public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+                if (view != null) {
+                    ViewGroup parent = (ViewGroup) view.getParent();
+                    if (parent != null) parent.removeView(view);
+                    view.destroy();
+                }
+                // 죽은 WebView 를 겨냥한 재시도가 남아 있으면 새 화면을 덮어친다.
+                retryHandler.removeCallbacksAndMessages(null);
+                loadFailed = false;
+                reloadAttempts = 0;
+                retryHandler.post(() -> MainActivity.this.recreate());
+                return true;
             }
         });
     }

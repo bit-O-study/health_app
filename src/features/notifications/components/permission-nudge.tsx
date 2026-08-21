@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import { Bell, Footprints, Loader2 } from "lucide-react";
 
 import { ensurePushSubscribed } from "@/features/notifications/push-client";
-import { registerNativePush } from "@/features/notifications/native-push";
-import { connectSteps } from "@/features/health/steps-native";
+import {
+  hasNativePushPermission,
+  registerNativePush,
+} from "@/features/notifications/native-push";
+import { connectSteps, getStepsState } from "@/features/health/steps-native";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 
 // 알림 권한은 받을 때까지 계속 요청한다 → '나중에'는 이번 세션만 숨김(sessionStorage).
@@ -33,7 +36,13 @@ export function PermissionNudge() {
       // 앱 푸시 알림 — 모바일에서만 넛지.
       try {
         if (native) {
-          if (window.sessionStorage.getItem(PUSH_SNOOZE) !== "1" && !cancelled) {
+          const granted = await hasNativePushPermission();
+          if (granted) {
+            void registerNativePush();
+          } else if (
+            window.sessionStorage.getItem(PUSH_SNOOZE) !== "1" &&
+            !cancelled
+          ) {
             setShowPush(true);
           }
         } else if ("Notification" in window) {
@@ -54,7 +63,8 @@ export function PermissionNudge() {
       // 걸음수(네이티브 앱에서만 의미)
       try {
         if (native && window.localStorage.getItem(STEPS_DISMISS) !== "1") {
-          if (!cancelled) setShowSteps(true);
+          const steps = await getStepsState();
+          if (!cancelled) setShowSteps(steps.status !== "granted");
         }
       } catch {
         /* 무시 */

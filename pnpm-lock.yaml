@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  '@kiwi-health/capacitor-health-connect@0.0.42': 3ccbd03e0e29ab6602fd28f32c4278bbfd2277d9cd0dd48dd4e01d5c41f58d96
+
 importers:
 
   .:
@@ -28,7 +31,7 @@ importers:
         version: 8.0.1(@capacitor/core@8.4.1)
       '@kiwi-health/capacitor-health-connect':
         specifier: ^0.0.42
-        version: 0.0.42(@capacitor/core@8.4.1)
+        version: 0.0.42(patch_hash=3ccbd03e0e29ab6602fd28f32c4278bbfd2277d9cd0dd48dd4e01d5c41f58d96)(@capacitor/core@8.4.1)
       '@react-three/drei':
         specifier: ^10.7.7
         version: 10.7.7(@react-three/fiber@9.6.1(@types/react@19.2.14)(immer@11.1.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.184.0))(@types/react@19.2.14)(@types/three@0.184.1)(immer@11.1.8)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(three@0.184.0)
@@ -5209,7 +5212,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@kiwi-health/capacitor-health-connect@0.0.42(@capacitor/core@8.4.1)':
+  '@kiwi-health/capacitor-health-connect@0.0.42(patch_hash=3ccbd03e0e29ab6602fd28f32c4278bbfd2277d9cd0dd48dd4e01d5c41f58d96)(@capacitor/core@8.4.1)':
     dependencies:
       '@capacitor/core': 8.4.1
 

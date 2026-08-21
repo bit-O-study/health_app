@@ -285,6 +285,18 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
     const now = new Date();
     const start = new Date(now);
     start.setHours(0, 0, 0, 0);
+    if (HC.aggregateSteps) {
+      const res = await withTimeout(
+        HC.aggregateSteps({
+          timeRangeFilter: { type: "between", startTime: start, endTime: now },
+        }),
+        5000,
+        { count: 0 },
+      );
+      d.recordCount = null;
+      d.steps = Math.max(0, Number(res.count) || 0);
+      return d;
+    }
     const res = await withTimeout(
       HC.readRecords({
         type: STEPS_READ,
@@ -337,6 +349,24 @@ async function readStepsByDay(
   const start = new Date(now);
   start.setDate(start.getDate() - (days - 1));
   start.setHours(0, 0, 0, 0);
+  if (HC.aggregateSteps) {
+    const byDay: Record<string, number> = {};
+    for (let day = new Date(start); day < now; day.setDate(day.getDate() + 1)) {
+      const nextDay = new Date(day);
+      nextDay.setDate(nextDay.getDate() + 1);
+      const end = nextDay < now ? nextDay : now;
+      const result = await HC.aggregateSteps({
+        timeRangeFilter: {
+          type: "between",
+          startTime: new Date(day),
+          endTime: end,
+        },
+      });
+      const ymd = seoulYmdOf(day);
+      if (ymd) byDay[ymd] = Math.max(0, Number(result.count) || 0);
+    }
+    return byDay;
+  }
   const res = await HC.readRecords({
     type: STEPS_READ,
     timeRangeFilter: { type: "between", startTime: start, endTime: now },
@@ -356,6 +386,9 @@ type HealthConnectLike = {
     read: string[];
     write: string[];
   }) => Promise<{ grantedPermissions?: string[]; hasAllPermissions?: boolean }>;
+  aggregateSteps?: (opts: {
+    timeRangeFilter: { type: string; startTime: Date; endTime: Date };
+  }) => Promise<{ count?: number | string }>;
   readRecords: (opts: {
     type: string;
     timeRangeFilter: { type: string; startTime: Date; endTime: Date };

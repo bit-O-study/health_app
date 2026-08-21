@@ -156,6 +156,7 @@ export function BottomNav({
             <li key={t.href} className="min-w-0 flex-1">
               <Link
                 href={t.href}
+                prefetch={false}
                 aria-current={active ? "page" : undefined}
                 className="block min-w-0 overflow-hidden transition-transform active:scale-95"
               >

@@ -13,6 +13,12 @@ const saved = (path: string, agoMs = 0): SavedRoute => ({
 });
 
 describe("shouldRestoreRoute — 부팅 후 '보던 화면' 복원 판단", () => {
+  it("WebView 렌더러 사망 복구 부팅에서는 직전 화면을 복원하지 않는다", () => {
+    expect(
+      shouldRestoreRoute(saved("/community"), "/routine", NOW, true),
+    ).toBe(false);
+  });
+
   it("홈(/routine)으로 튕겼고 최근에 다른 화면이면 복원", () => {
     expect(shouldRestoreRoute(saved("/community"), "/routine", NOW)).toBe(true);
     expect(shouldRestoreRoute(saved("/"), "/routine", NOW)).toBe(false); // 저장분이 홈

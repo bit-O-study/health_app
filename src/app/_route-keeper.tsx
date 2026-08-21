@@ -50,6 +50,17 @@ function readSaved(): SavedRoute | null {
   return null;
 }
 
+function consumeRendererRecovery(): boolean {
+  try {
+    const nativeWindow = window as typeof window & {
+      HelssuNative?: { consumeRendererRecovery?: () => boolean };
+    };
+    return nativeWindow.HelssuNative?.consumeRendererRecovery?.() === true;
+  } catch {
+    return false;
+  }
+}
+
 export function RouteKeeper() {
   const pathname = usePathname();
   const router = useRouter();
@@ -61,7 +72,14 @@ export function RouteKeeper() {
     restored.current = true;
     if (!isNativeApp()) return;
     const saved = readSaved();
-    if (shouldRestoreRoute(saved, currentRoute(), Date.now())) {
+    if (
+      shouldRestoreRoute(
+        saved,
+        currentRoute(),
+        Date.now(),
+        consumeRendererRecovery(),
+      )
+    ) {
       router.replace(saved!.path);
     }
   }, [router]);

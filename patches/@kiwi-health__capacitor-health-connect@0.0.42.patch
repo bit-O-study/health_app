@@ -1,0 +1,131 @@
+diff --git a/android/src/main/java/com/ubiehealth/capacitor/healthconnect/HealthConnectPlugin.kt b/android/src/main/java/com/ubiehealth/capacitor/healthconnect/HealthConnectPlugin.kt
+--- a/android/src/main/java/com/ubiehealth/capacitor/healthconnect/HealthConnectPlugin.kt
++++ b/android/src/main/java/com/ubiehealth/capacitor/healthconnect/HealthConnectPlugin.kt
+@@ -18,5 +18,7 @@ import androidx.health.connect.client.records.WeightRecord
+ import androidx.health.connect.client.records.metadata.DataOrigin
+ import androidx.health.connect.client.records.metadata.Metadata
++import androidx.health.connect.client.request.AggregateRequest
+ import androidx.health.connect.client.request.ChangesTokenRequest
+ import androidx.health.connect.client.request.ReadRecordsRequest
+ import androidx.health.connect.client.time.TimeRangeFilter
++import java.time.temporal.ChronoUnit
+@@ -99,28 +101,76 @@ class HealthConnectPlugin : Plugin() {
+     @PluginMethod
+     fun readRecords(call: PluginCall) {
+         this.activity.lifecycleScope.launch {
+-            val typeName = requireNotNull(call.getString("type"))
+-            val type = RecordTypeRegistry.requireClass(typeName)
+-            val allRecords = mutableListOf<Record>()
+-            var pageToken: String? = null
+-            do {
+-                val request = ReadRecordsRequest(
+-                    recordType = type,
+-                    timeRangeFilter = call.data.getTimeRangeFilter("timeRangeFilter"),
+-                    dataOriginFilter = call.data.getDataOriginFilter("dataOriginFilter"),
+-                    ascendingOrder = call.getBoolean("ascendingOrder") ?: true,
+-                    pageSize = call.getInt("pageSize") ?: 1000,
+-                    pageToken = pageToken,
+-                )
+-                val result = healthConnectClient.readRecords(request)
+-                allRecords += result.records
+-                pageToken = result.pageToken
+-            } while (pageToken != null)
+-
+-            val res = JSObject().apply {
+-                val records = allRecords.map { it.toJSONObject() }.toJSONArray()
+-                this.put("records", records)
++            try {
++                val typeName = requireNotNull(call.getString("type"))
++                if (typeName == "Steps") {
++                    val range = requireNotNull(call.getObject("timeRangeFilter"))
++                    val start = Instant.parse(requireNotNull(range.getString("startTime")))
++                    val end = Instant.parse(requireNotNull(range.getString("endTime")))
++                    val records = mutableListOf<JSObject>()
++                    var cursor = start
++                    while (cursor < end) {
++                        val next = minOf(cursor.plus(1, ChronoUnit.DAYS), end)
++                        val result = healthConnectClient.aggregate(
++                            AggregateRequest(
++                                metrics = setOf(StepsRecord.COUNT_TOTAL),
++                                timeRangeFilter = TimeRangeFilter.between(cursor, next),
++                            )
++                        )
++                        records += JSObject().apply {
++                            put("count", result[StepsRecord.COUNT_TOTAL] ?: 0L)
++                            put("startTime", cursor.toString())
++                            put("endTime", next.toString())
++                        }
++                        cursor = next
++                    }
++                    call.resolve(JSObject().apply { put("records", records.toJSONArray()) })
++                    return@launch
++                }
++                val type = RecordTypeRegistry.requireClass(typeName)
++                val allRecords = mutableListOf<Record>()
++                var pageToken: String? = null
++                do {
++                    val request = ReadRecordsRequest(
++                        recordType = type,
++                        timeRangeFilter = call.data.getTimeRangeFilter("timeRangeFilter"),
++                        dataOriginFilter = call.data.getDataOriginFilter("dataOriginFilter"),
++                        ascendingOrder = call.getBoolean("ascendingOrder") ?: true,
++                        pageSize = call.getInt("pageSize") ?: 1000,
++                        pageToken = pageToken,
++                    )
++                    val result = healthConnectClient.readRecords(request)
++                    allRecords += result.records
++                    pageToken = result.pageToken
++                } while (pageToken != null)
++
++                val res = JSObject().apply {
++                    val records = allRecords.map { it.toJSONObject() }.toJSONArray()
++                    this.put("records", records)
++                }
++                call.resolve(res)
++            } catch (error: Exception) {
++                call.reject("Failed to read Health Connect records", error)
+             }
+-            call.resolve(res)
+         }
+     }
++
++    @PluginMethod
++    fun aggregateSteps(call: PluginCall) {
++        this.activity.lifecycleScope.launch {
++            try {
++                val result = healthConnectClient.aggregate(
++                    AggregateRequest(
++                        metrics = setOf(StepsRecord.COUNT_TOTAL),
++                        timeRangeFilter = call.data.getTimeRangeFilter("timeRangeFilter"),
++                    )
++                )
++                val res = JSObject().apply {
++                    put("count", result[StepsRecord.COUNT_TOTAL] ?: 0L)
++                }
++                call.resolve(res)
++            } catch (error: Exception) {
++                call.reject("Failed to aggregate Health Connect steps", error)
++            }
++        }
++    }
+@@ -195,7 +245,14 @@ class HealthConnectPlugin : Plugin() {
+-        val intent = permissionContract.createIntent(
+-            this.context,
+-            readPermissions + writePermissions
+-        )
+-
+-        startActivityForResult(call, intent, "handleRequestPermission")
++        this.activity.lifecycleScope.launch {
++            val requestedPermissions = readPermissions + writePermissions
++            val grantedPermissions = healthConnectClient.permissionController.getGrantedPermissions()
++            if (grantedPermissions.containsAll(requestedPermissions)) {
++                call.resolve(JSObject().apply {
++                    put("grantedPermissions", JSArray(grantedPermissions))
++                    put("hasAllPermissions", true)
++                })
++                return@launch
++            }
++            val intent = permissionContract.createIntent(this@HealthConnectPlugin.context, requestedPermissions)
++            startActivityForResult(call, intent, "handleRequestPermission")
++        }
+     }

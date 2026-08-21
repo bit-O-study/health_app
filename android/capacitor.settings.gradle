@@ -15,7 +15,7 @@ include ':capacitor-share'
 project(':capacitor-share').projectDir = new File('../node_modules/.pnpm/@capacitor+share@8.0.1_@capacitor+core@8.4.1/node_modules/@capacitor/share/android')
 
 include ':kiwi-health-capacitor-health-connect'
-project(':kiwi-health-capacitor-health-connect').projectDir = new File('../node_modules/.pnpm/@kiwi-health+capacitor-heal_b4e7f371191ea6e0cd63640eadfaa9e9/node_modules/@kiwi-health/capacitor-health-connect/android')
+project(':kiwi-health-capacitor-health-connect').projectDir = new File('../node_modules/.pnpm/@kiwi-health+capacitor-heal_89672540cb143162138a122533ea45cf/node_modules/@kiwi-health/capacitor-health-connect/android')
 
 include ':capacitor-kakao-plugin'
 project(':capacitor-kakao-plugin').projectDir = new File('../node_modules/.pnpm/capacitor-kakao-plugin@2.0.6_@capacitor+core@8.4.1/node_modules/capacitor-kakao-plugin/android')

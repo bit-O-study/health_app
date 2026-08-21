@@ -9,6 +9,21 @@ import { saveFcmTokenAction } from "@/features/notifications/push-actions";
  */
 let started = false;
 
+export async function hasNativePushPermission(): Promise<boolean> {
+  if (typeof window === "undefined" || !Capacitor?.isNativePlatform?.()) {
+    return false;
+  }
+  try {
+    const { PushNotifications } = await import(
+      "@capacitor/push-notifications"
+    );
+    const permission = await PushNotifications.checkPermissions();
+    return permission.receive === "granted";
+  } catch {
+    return false;
+  }
+}
+
 export async function registerNativePush(): Promise<void> {
   if (typeof window === "undefined") return;
   try {

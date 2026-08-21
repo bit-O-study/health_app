@@ -20,7 +20,9 @@ export function shouldRestoreRoute(
   saved: SavedRoute | null,
   currentPath: string,
   now: number,
+  recoveringFromRendererCrash = false,
 ): boolean {
+  if (recoveringFromRendererCrash) return false;
   if (!saved) return false;
   const curPathname = currentPath.split("?")[0];
   const savedPathname = saved.path.split("?")[0];

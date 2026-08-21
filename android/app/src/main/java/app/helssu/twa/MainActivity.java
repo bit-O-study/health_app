@@ -33,6 +33,8 @@ public class MainActivity extends BridgeActivity {
 
     private static final int REQ_CAMERA = 9101;
     private static final int REQ_LOCATION = 9102;
+    private static final String RECOVERY_PREFS = "helssu_recovery";
+    private static final String RENDERER_RECOVERY_PENDING = "renderer_recovery_pending";
 
     private PermissionRequest pendingCamera;
     private GeolocationPermissions.Callback pendingGeoCallback;
@@ -156,8 +158,12 @@ public class MainActivity extends BridgeActivity {
                 if (view != null) {
                     ViewGroup parent = (ViewGroup) view.getParent();
                     if (parent != null) parent.removeView(view);
-                    view.destroy();
                 }
+                // Capacitor가 Activity 종료 때 WebView를 파괴하므로 여기서 중복 파괴하지 않는다.
+                getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE)
+                    .edit()
+                    .putBoolean(RENDERER_RECOVERY_PENDING, true)
+                    .apply();
                 // 죽은 WebView 를 겨냥한 재시도가 남아 있으면 새 화면을 덮어친다.
                 retryHandler.removeCallbacksAndMessages(null);
                 loadFailed = false;
@@ -258,6 +264,20 @@ public class MainActivity extends BridgeActivity {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             });
+        }
+
+        /** 렌더러 사망 뒤 새 WebView로 시작한 경우에만 한 번 true를 반환한다. */
+        @JavascriptInterface
+        public boolean consumeRendererRecovery() {
+            boolean pending = getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE)
+                .getBoolean(RENDERER_RECOVERY_PENDING, false);
+            if (pending) {
+                getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE)
+                    .edit()
+                    .remove(RENDERER_RECOVERY_PENDING)
+                    .apply();
+            }
+            return pending;
         }
     }
 

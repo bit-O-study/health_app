@@ -30,18 +30,14 @@ const ALLOWED = new Set([
   // 목록·검색 UI (데이터가 진짜 필요)
   "features/routine/components/daily-main-editor.tsx",
   "features/routine/components/exercise-search-select.tsx",
-  "features/routine/components/muscle-exercise-picker.tsx",
   "features/routine/components/plan-editor.tsx",
   "features/routine/components/today-plan-list.tsx",
   "features/routine/components/exercise-finder.tsx",
   // 중간 모듈(muscle-map / muscle-detail / muscle-balance)을 건너서 닿는 화면
   "features/routine/components/conditioning-editor.tsx",
-  "features/routine/components/muscle-balance-3d.tsx",
-  "features/routine/components/muscle-mannequin-3d.tsx",
   "features/routine/components/today-conditioning-list.tsx",
   "features/workout-timer/guided-workout.tsx",
   "features/workout-timer/muscle-body-view.tsx",
-  "features/workout-timer/workout-session-timer.tsx",
 ]);
 
 const HEAVY = new Set([
@@ -80,8 +76,10 @@ function resolveImport(spec: string): string | null {
 const source = new Map(files.map((f) => [rel(f), readFileSync(f, "utf8")]));
 const importsOf = new Map<string, string[]>();
 for (const [key, text] of source) {
-  const specs = [...text.matchAll(/from\s+"(@\/[^"]+)"/g)]
-    .map((m) => resolveImport(m[1]))
+  // `import type { .. } from ..` 는 컴파일 때 사라진다 — 번들에 안 실리므로 제외한다.
+  const specs = [...text.matchAll(/^[ \t]*import\s+(type\s+)?[^;]*?from\s+"(@\/[^"]+)"/gm)]
+    .filter((m) => m[1] === undefined)
+    .map((m) => resolveImport(m[2]))
     .filter((v): v is string => v !== null);
   importsOf.set(key, [...new Set(specs)]);
 }

@@ -13,6 +13,7 @@
 import {
   Component,
   useMemo,
+  useEffect,
   useState,
   useTransition,
   type ReactNode,
@@ -28,13 +29,17 @@ import {
   muscleGroup,
   type MuscleId,
 } from "@/features/routine/muscle-map";
-import { exercisesForMuscle } from "@/features/routine/muscle-exercises";
+import {
+  exercisesForMuscleAction,
+  type MuscleExerciseOption,
+} from "@/features/routine/muscle-exercise-actions";
+// ⚠ 카탈로그를 안 물고 있는 얇은 모듈만 쓴다 — 목록은 서버에서 받아온다.
 import {
   subMuscle,
   subMusclesFor,
-  subMusclesForExercise,
-} from "@/features/routine/muscle-detail";
-import { majorMuscleTag } from "@/features/routine/exercise-catalog";
+  subMusclesForExerciseData,
+} from "@/features/routine/sub-muscles";
+import { majorMuscleTag } from "@/features/routine/exercise-body-parts";
 import { saveMuscleSelectionAction } from "@/features/routine/plan-actions";
 
 const MuscleMannequin3D = dynamic(
@@ -80,8 +85,29 @@ export function MuscleExercisePicker({
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
   /** 부위(focus)별 선택한 운동 id 목록 */
   const [picked, setPicked] = useState<Record<string, string[]>>({});
+  /**
+   * 부위별 운동 목록 — 서버에서 **누른 부위 것만** 받아 캐시한다.
+   * (예전엔 1,237개 카탈로그를 통째로 번들에 싣고 있었다.)
+   */
+  const [byMuscle, setByMuscle] = useState<
+    Partial<Record<MuscleId, MuscleExerciseOption[]>>
+  >({});
+  /** 담은 운동 이름 — 요약 줄에서 쓰려고 담는 순간 기억해 둔다(목록 재조회 불필요). */
+  const [nameById, setNameById] = useState<Record<string, string>>({});
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+
+  // 선택한 부위의 목록만 서버에서 받아온다. 이미 받은 부위는 다시 안 부른다.
+  useEffect(() => {
+    let alive = true;
+    if (byMuscle[selectedMuscle]) return;
+    void exercisesForMuscleAction(selectedMuscle).then((rows) => {
+      if (alive) setByMuscle((prev) => ({ ...prev, [selectedMuscle]: rows }));
+    });
+    return () => {
+      alive = false;
+    };
+  }, [selectedMuscle, byMuscle]);
 
   // 마네킹에서 하이라이트할 세부근육: 세부 선택이 있으면 그것만, 없으면 부위 전체
   const activeSubs = useMemo(() => {
@@ -115,8 +141,9 @@ export function MuscleExercisePicker({
     setError(null);
   }
 
-  function toggle(focus: MuscleId, exerciseId: string) {
+  function toggle(focus: MuscleId, exerciseId: string, name?: string) {
     setError(null);
+    if (name) setNameById((prev) => ({ ...prev, [exerciseId]: name }));
     setPicked((prev) => {
       const cur = prev[focus] ?? [];
       const next = cur.includes(exerciseId)
@@ -160,13 +187,16 @@ export function MuscleExercisePicker({
   }
 
   // 선택 부위의 운동 — 세부근육 선택 시 그 근육 특화 운동만
+  const base = byMuscle[selectedMuscle] ?? null;
   const list = useMemo(() => {
-    const base = exercisesForMuscle(selectedMuscle);
+    if (!base) return [];
     if (!selectedSub) return base;
     return base.filter((ex) =>
-      subMusclesForExercise(ex.id).some((s) => s.id === selectedSub),
+      subMusclesForExerciseData(ex.id, ex.name, ex.target).some(
+        (s) => s.id === selectedSub,
+      ),
     );
-  }, [selectedMuscle, selectedSub]);
+  }, [base, selectedSub]);
 
   const pickedHere = picked[selectedMuscle] ?? [];
   const subs = subMusclesFor(selectedMuscle);
@@ -244,7 +274,7 @@ export function MuscleExercisePicker({
             {selectedSub ? ` · ${subMuscle(selectedSub)?.label}` : ""} 운동
           </h2>
           <span className="text-sm text-zinc-500 dark:text-zinc-400">
-            {list.length}개
+            {base === null ? "불러오는 중" : `${list.length}개`}
           </span>
         </div>
 
@@ -295,7 +325,7 @@ export function MuscleExercisePicker({
         <ul className="mt-4 grid gap-2 sm:grid-cols-2">
           {list.map((ex) => {
             const on = pickedHere.includes(ex.id);
-            const exSubs = subMusclesForExercise(ex.id);
+            const exSubs = subMusclesForExerciseData(ex.id, ex.name, ex.target);
             return (
               <li
                 key={ex.id}
@@ -310,7 +340,7 @@ export function MuscleExercisePicker({
                   type="button"
                   data-testid={`pick-${ex.id}`}
                   aria-pressed={on}
-                  onClick={() => toggle(selectedMuscle, ex.id)}
+                  onClick={() => toggle(selectedMuscle, ex.id, ex.name)}
                   className={cn(
                     "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition",
                     on
@@ -364,7 +394,15 @@ export function MuscleExercisePicker({
               </li>
             );
           })}
-          {list.length === 0 ? (
+          {base === null ? (
+            <li
+              data-testid="muscle-exercises-loading"
+              className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400"
+            >
+              <Loader2 size={14} className="animate-spin" />
+              운동 목록을 불러오는 중…
+            </li>
+          ) : list.length === 0 ? (
             <li className="text-sm text-zinc-500 dark:text-zinc-400">
               이 세부근육에 매핑된 운동이 없습니다. ‘전체’로 보세요.
             </li>
@@ -406,12 +444,7 @@ export function MuscleExercisePicker({
                   </span>
                   <span className="text-zinc-600 dark:text-zinc-400">
                     {(picked[g.id] ?? [])
-                      .map(
-                        (id) =>
-                          exercisesForMuscle(g.id).find((e) => e.id === id)
-                            ?.name,
-                      )
-                      .filter(Boolean)
+                      .map((id) => nameById[id] ?? id)
                       .join(", ")}
                   </span>
                   <button

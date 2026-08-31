@@ -41,7 +41,8 @@ import {
   type Mesh,
 } from "three";
 
-import { subMuscleColor } from "@/features/routine/muscle-detail";
+// ⚠ 얇은 모듈 — muscle-detail 을 쓰면 운동 목록 274 KiB 가 딸려온다.
+import { subMuscleColor } from "@/features/routine/sub-muscles";
 import type { MuscleId } from "@/features/routine/muscle-map";
 
 /**

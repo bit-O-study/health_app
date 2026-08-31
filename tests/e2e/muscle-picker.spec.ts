@@ -85,6 +85,11 @@ test("온보딩에서 근육별로 운동선택 → 3D 마네킹으로 이동", 
   await page.locator('input[placeholder="65"]').fill("75");
   await page.locator("section button.w-full").first().click();
   await page.getByRole("button", { name: "다음" }).click();
+  // 목표 단계 — 종류 + 목표치를 채워야 '다음'이 열린다.
+  await page.getByRole("button", { name: /근육 증가/ }).click();
+  await page.locator('input[placeholder="35"]').fill("35");
+  await page.getByRole("button", { name: "다음" }).click();
+  // 헬스장 단계 — 이름 없이 건너뛴다.
   await page.getByRole("button", { name: "건너뛰기" }).click();
   await page.waitForTimeout(400);
 

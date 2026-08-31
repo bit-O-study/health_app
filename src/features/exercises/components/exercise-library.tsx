@@ -5,13 +5,15 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+// ⚠ 라벨 계층만 import 한다 — exercise-catalog 를 쓰면 확장 카탈로그 315 KiB 가 딸려온다.
+// (운동 목록 데이터는 서버 페이지에서 props 로 받는다.)
 import {
   BODY_PART_LABEL,
   BODY_PART_ORDER,
   EQUIPMENT_LABELS,
   type BodyPart,
   type CatalogExercise,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
 
 type Section = { part: BodyPart; items: CatalogExercise[] };

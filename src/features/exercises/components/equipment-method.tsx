@@ -3,11 +3,12 @@
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
+// ⚠ 라벨 계층만 import 한다 — exercise-catalog 를 쓰면 확장 카탈로그 315 KiB 가 딸려온다.
 import {
   EQUIPMENT_LABELS,
   type CatalogExercise,
   type EquipmentId,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
 import { exerciseSummary } from "@/features/workout-timer/exercise-guides";
 
 export function EquipmentMethod({

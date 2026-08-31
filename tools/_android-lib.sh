@@ -80,13 +80,23 @@ sdkmanager_bin() {
   # Windows(Git Bash)에선 실행 파일이 sdkmanager.bat 이다. 확장자 없는 이름을 찾으면
   # 이미 설치된 SDK를 "없다"고 오판해 재다운로드 → latest/bin 경로에서 실패한다.
   local ext=""; [ "${OS_KIND:-}" = "windows" ] && ext=".bat"
-  echo "$r/cmdline-tools/latest/bin/sdkmanager$ext"
+  # Git Bash 는 .bat 에 실행 비트를 안 주는 경우가 있어 -x 만으로는 못 찾는다 → -f 도 본다.
+  local p="$r/cmdline-tools/latest/bin/sdkmanager$ext"
+  if [ -f "$p" ]; then echo "$p"; return; fi
+  # 표준 경로에 없으면 PATH 에 깔린 것을 쓴다(직접 설치·안드로이드 스튜디오 동봉분).
+  if have sdkmanager; then command -v sdkmanager; return; fi
+  # 아직 없음 — 호출부가 다운로드하도록 예상 경로를 그대로 돌려준다.
+  echo "$p"
 }
+sdkmanager_ready() { local p="$1"; [ -f "$p" ] || [ -x "$p" ]; }
 ensure_android_sdk() {
   local root; root="$(sdk_root)"
   local sm; sm="$(sdkmanager_bin)"
-  if [ -x "$sm" ] || have sdkmanager; then
-    log "Android SDK 확인: $root"
+  # 예전엔 `[ -x "$sm" ] || have sdkmanager` 였다 — PATH 에만 sdkmanager 가 있으면
+  # "확인" 으로 넘어간 뒤 아래에서 존재하지 않는 "$sm" 을 실행해 죽었다.
+  # 이제 sdkmanager_bin 이 PATH 까지 훑어 실제 실행 가능한 경로를 돌려준다.
+  if sdkmanager_ready "$sm"; then
+    log "Android SDK 확인: $root (sdkmanager: $sm)"
   else
     warn "Android SDK 가 없습니다. cmdline-tools 를 받아 설치합니다 → $root"
     mkdir -p "$root/cmdline-tools"
@@ -106,13 +116,15 @@ ensure_android_sdk() {
     mv "$tmp/cmdline-tools" "$root/cmdline-tools/latest"
     rm -rf "$tmp"
     sm="$(sdkmanager_bin)"
+    sdkmanager_ready "$sm" || { err "cmdline-tools 를 풀었는데도 sdkmanager 가 없습니다: $sm"; exit 1; }
   fi
 
   export ANDROID_SDK_ROOT="$root"
   export ANDROID_HOME="$root"
   export PATH="$root/platform-tools:$root/cmdline-tools/latest/bin:$PATH"
 
-  log "필수 SDK 패키지 설치(platform-tools, platform-34, build-tools)…"
+  # 설치 대상은 android/variables.gradle 의 compileSdk/targetSdk(=36)와 맞춘다.
+  log "필수 SDK 패키지 설치(platform-tools, platforms;android-36, build-tools;36.0.0)…"
   yes | "$sm" --sdk_root="$root" --licenses >/dev/null 2>&1 || true
   # 프로젝트 compileSdk/targetSdk(변수: android/variables.gradle)와 맞춘다 — 현재 36.
   "$sm" --sdk_root="$root" "platform-tools" "platforms;android-36" "build-tools;36.0.0" >/dev/null
@@ -166,6 +178,22 @@ build_apk() {
   fi
 }
 
+# ── 6) 릴리스 보관 — 이름 규칙·중복판정·이력을 release-apk.mjs 가 담당 ──────
+# RELEASE_NOTE 로 파일명에 짧은 메모를 붙일 수 있다(예: RELEASE_NOTE=tab-crash-fix).
+# SKIP_RELEASE=1 이면 건너뛴다(빌드만 확인하고 싶을 때).
+archive_apk() {
+  if [ "${SKIP_RELEASE:-0}" = "1" ]; then
+    warn "SKIP_RELEASE=1 — releases/ 보관을 건너뜁니다."
+    return
+  fi
+  local args=()
+  [ -n "${RELEASE_NOTE:-}" ] && args+=(--note "$RELEASE_NOTE")
+  log "릴리스 보관(releases/apk/<날짜>/)…"
+  node tools/release/release-apk.mjs "${args[@]+"${args[@]}"}" || {
+    warn "릴리스 보관에 실패했습니다 — APK 자체는 정상입니다. 수동: node tools/release/release-apk.mjs"
+  }
+}
+
 # ── 메인 ────────────────────────────────────────────────────────────────────
 run_all() {
   detect_os
@@ -176,5 +204,7 @@ run_all() {
   ensure_android_sdk
   setup_capacitor
   build_apk
+  archive_apk
   log "완료 ✅  (걸음수 실제 동작은 삼성/안드 폰 + Health Connect 에서 확인하세요)"
+  warn "실기기 검증 절차는 tools/RELEASE-CHECKLIST.md — 통과하면 verify 로 기록해야 롤백 후보가 됩니다."
 }

@@ -35,16 +35,25 @@ describe("확장 운동 카탈로그(1,300 CSV) 연결", () => {
     expect(getCatalogExercise(id)?.id).toBe(id);
   });
 
-  it("모든 확장 운동에 부위·로드클래스·기구·운동법이 있음", () => {
+  it("모든 확장 운동에 부위·로드클래스·기구가 있음", () => {
     for (const id of Object.keys(EXTRA_EXERCISES)) {
       expect(EXTRA_BODY_PART[id]).toBeTruthy();
       expect(EXTRA_LOAD_CLASS[id]).toBeTruthy();
       const ex = EXTRA_EXERCISES[id];
       expect(ex.equipments.length).toBeGreaterThan(0);
-      expect(ex.equipments[0].method.length).toBeGreaterThan(0);
       // 접근자가 확장분도 해석
       expect(primaryBodyPart(id)).toBe(EXTRA_BODY_PART[id]);
       expect(loadClassOf(id)).toBe(EXTRA_LOAD_CLASS[id]);
+    }
+  });
+
+  // 운동법 단계는 여기 없다 — 서버 전용 모듈로 뺐다(클라 번들 350KiB 절감).
+  // 단계 자체는 `exercise-methods.test.ts` 가 methodSteps() 로 검증한다.
+  it("확장 카탈로그에 운동법 텍스트가 다시 섞여 들어오지 않는다", () => {
+    for (const ex of Object.values(EXTRA_EXERCISES)) {
+      for (const v of ex.equipments) {
+        expect(v.method).toBeUndefined();
+      }
     }
   });
 });

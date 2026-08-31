@@ -7,6 +7,7 @@ import {
   getCatalogExercise,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
+import { methodSteps } from "@/features/routine/exercise-methods";
 import { getPlanForDayTones } from "@/features/routine/plan";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -503,7 +504,6 @@ export async function TodayExercises({
     if (mainDoneSet.has(p.id) || mainSkipSet.has(p.id))
       doneOrSkippedIds.push(p.id);
     const ex = getCatalogExercise(p.exerciseId);
-    const eq = ex?.equipments.find((e) => e.equipment === p.equipment);
     const repUnit = isTimedExercise(p.exerciseId) ? "초" : "회";
     const subtitle =
       p.setDetails && p.setDetails.length > 0
@@ -519,7 +519,8 @@ export async function TodayExercises({
       focus: p.focus,
       name: ex?.name ?? p.exerciseId,
       subtitle,
-      method: eq?.method ?? [],
+      // 확장 카탈로그(1,237개)의 운동법은 클라 번들에서 뺐다 — 서버에서 붙여 내려보낸다.
+      method: methodSteps(p.exerciseId, p.equipment),
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,

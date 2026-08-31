@@ -54,8 +54,17 @@ export const EQUIPMENT_LABELS: Record<EquipmentId, string> = {
 
 export type EquipmentVariant = {
   equipment: EquipmentId;
-  /** 기구별 운동법 단계 */
-  method: string[];
+  /**
+   * 기구별 운동법 단계.
+   *
+   * ⚠ 기본 카탈로그(이 파일의 `EXERCISES`)에만 들어 있다. 확장 카탈로그
+   * (`exercise-catalog-extra.ts`, 1,237개)는 **단계 텍스트가 빠져 있다** —
+   * 그게 클라이언트 번들에 350KiB 를 얹던 주범이라 서버 전용 모듈
+   * (`exercise-catalog-extra-methods.ts`)로 뺐다.
+   * 그래서 단계를 읽을 땐 이 필드가 아니라 `exercise-methods.ts` 의
+   * `methodSteps(운동id, 기구)` 를 쓴다(둘을 합쳐서 돌려준다).
+   */
+  method?: string[];
 };
 
 export type CatalogExercise = {

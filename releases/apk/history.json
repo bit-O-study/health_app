@@ -100,7 +100,7 @@
     "buildType": "debug",
     "sizeBytes": 14185027,
     "verified": false,
-    "note": "규칙 도입 전 보관분(backfill)",
+    "note": "규칙 도입 전 보관분(backfill) / 내용 동일이라 삭제된 파일 흡수: 2026-07-28/app-debug-2026-07-28-5c5d87c.apk, 2026-08-11/app-debug-2026-08-11-5ea9aee.apk",
     "logcat": "",
     "rebuiltAs": [
       "5c5d87c@2026-07-28T03:23:06.667Z",
@@ -133,7 +133,7 @@
     "buildType": "debug",
     "sizeBytes": 14185027,
     "verified": false,
-    "note": "규칙 도입 전 보관분(backfill)",
+    "note": "규칙 도입 전 보관분(backfill) / 내용 동일이라 삭제된 파일 흡수: 2026-07-15/app-debug-2026-07-15-c5528e1.apk",
     "logcat": "",
     "rebuiltAs": [
       "c5528e1@2026-07-22T06:06:14.254Z"
@@ -165,7 +165,7 @@
     "buildType": "debug",
     "sizeBytes": 10556336,
     "verified": false,
-    "note": "규칙 도입 전 보관분(backfill)",
+    "note": "규칙 도입 전 보관분(backfill) / 내용 동일이라 삭제된 파일 흡수: 2026-07-13/app-debug-2026-07-13-b394822.apk",
     "logcat": "",
     "rebuiltAs": [
       "b394822@2026-07-22T06:06:14.028Z"
@@ -182,7 +182,7 @@
     "buildType": "debug",
     "sizeBytes": 10556336,
     "verified": false,
-    "note": "규칙 도입 전 보관분(backfill)",
+    "note": "규칙 도입 전 보관분(backfill) / 내용 동일이라 삭제된 파일 흡수: 2026-07-06/app-debug-2026-07-06-8c070ea.apk",
     "logcat": "",
     "rebuiltAs": [
       "8c070ea@2026-07-22T04:15:38.603Z"

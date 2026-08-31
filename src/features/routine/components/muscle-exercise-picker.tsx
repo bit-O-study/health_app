@@ -24,11 +24,11 @@ import { ArrowRight, Check, Loader2, Plus, Trash2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
-  exercisesForMuscle,
   MUSCLE_GROUPS,
   muscleGroup,
   type MuscleId,
 } from "@/features/routine/muscle-map";
+import { exercisesForMuscle } from "@/features/routine/muscle-exercises";
 import {
   subMuscle,
   subMusclesFor,

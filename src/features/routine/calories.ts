@@ -4,10 +4,8 @@
  * 정확한 측정값이 아닌 가이드용 수치.
  */
 
-import {
-  loadClassOf,
-  type LoadClass,
-} from "@/features/routine/exercise-catalog";
+// ⚠ 강도 등급만 필요하다 — exercise-catalog 를 쓰면 운동 목록 274 KiB 가 딸려온다.
+import { loadClassOf, type LoadClass } from "@/features/routine/exercise-load";
 
 const STRENGTH_MET: Record<LoadClass, number> = {
   heavy: 6.0,

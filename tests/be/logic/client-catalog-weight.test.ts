@@ -42,8 +42,6 @@ const ALLOWED = new Set([
   "features/workout-timer/guided-workout.tsx",
   "features/workout-timer/muscle-body-view.tsx",
   "features/workout-timer/workout-session-timer.tsx",
-  // dashboard-metrics → calories 를 건너서 닿는다
-  "features/home/components/contribution-graph.tsx",
 ]);
 
 const HEAVY = new Set([

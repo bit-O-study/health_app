@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  exerciseCountForMuscle,
-  exercisesForMuscle,
   isMuscleId,
   MUSCLE_GROUPS,
   MUSCLE_ORDER,
   muscleGroup,
   musclesForExercise,
 } from "@/features/routine/muscle-map";
+// 부위별 운동 목록은 별도 모듈 — muscle-map 은 목록 데이터를 안 물고 있어야 한다.
+import {
+  exerciseCountForMuscle,
+  exercisesForMuscle,
+} from "@/features/routine/muscle-exercises";
 import {
   ALL_EXERCISES,
   ALL_FOCUSES,

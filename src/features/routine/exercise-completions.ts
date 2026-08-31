@@ -10,10 +10,11 @@ import {
   exerciseCompletionKey,
   type CompletionStatus,
 } from "@/features/routine/completion-match";
+// ⚠ 라벨 계층만 필요하다 — exercise-catalog 를 쓰면 운동 목록 274 KiB 가 딸려온다.
 import {
   isEquipmentId,
   type EquipmentId,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
 import { parseSetDetails, type SetDetail } from "@/features/routine/set-details";
 
 // 순수 매칭 로직은 completion-match 로 분리(단위 테스트 가능). 호환을 위해 재노출.

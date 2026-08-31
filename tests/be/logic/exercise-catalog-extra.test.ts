@@ -7,11 +7,12 @@ import {
   primaryBodyPart,
   loadClassOf,
 } from "@/features/routine/exercise-catalog";
+import { EXTRA_EXERCISES } from "@/features/routine/exercise-catalog-extra";
+// 부위·강도 맵은 목록 데이터와 분리돼 있다(배지·칼로리만 쓰는 화면이 목록을 안 끌게).
 import {
-  EXTRA_EXERCISES,
   EXTRA_BODY_PART,
   EXTRA_LOAD_CLASS,
-} from "@/features/routine/exercise-catalog-extra";
+} from "@/features/routine/exercise-catalog-extra-maps";
 
 describe("확장 운동 카탈로그(1,300 CSV) 연결", () => {
   it("확장 세트가 1,000개 이상", () => {

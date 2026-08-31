@@ -12,6 +12,7 @@ export const ADMIN_SECTIONS: AdminSection[] = [
     links: [
       { href: "/admin", label: "대시보드" },
       { href: "/admin/members", label: "회원정보" },
+      { href: "/admin/crons", label: "크론 실행" },
       { href: "/admin/settings", label: "관리자 설정" },
     ],
   },

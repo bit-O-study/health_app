@@ -6,7 +6,13 @@ import {
   loadDevices,
   notifyDevices,
 } from "@/features/notifications/push-fanout";
+import {
+  splitAlreadySent,
+  weeklyMvpKey,
+} from "@/features/notifications/dedup";
+import { loadSentKeys, markSent } from "@/features/notifications/sent-log";
 import { chunk, mapWithConcurrency } from "@/lib/batch";
+import { failureReason } from "@/lib/cron/run-log";
 import {
   strengthKcalForCompletion,
   estimateConditioningKcal,
@@ -90,19 +96,30 @@ function baseStat(userId: string, name: string): MemberStat {
  * 지난주(월~일) 각 그룹의 운동 랭킹을 계산해, 멤버들에게 결과 푸시를 보낸다.
  * - 지난주 활동이 전혀 없는 그룹은 건너뛴다(스팸 방지).
  * - 매주 월요일 cron 에서 호출(지난주 = 오늘이 속한 주의 직전 주).
+ * - **같은 주 결과는 한 번만** 나간다 — 보낸 (사용자, 그룹, 주) 를 기록해 두고
+ *   재실행 시 건너뛴다(월요일에 크론이 두 번 돌아도 랭킹 알림은 1회).
  * 서비스 롤 admin 클라이언트로 RLS 우회(모든 그룹/멤버 조회).
  */
 export async function runWeeklyGroupMvp(
   admin: SupabaseClient,
   todayYmd: string = seoulYmd(),
-): Promise<{ groups: number; notified: number }> {
+): Promise<{
+  groups: number;
+  /** 실제로 푸시가 나간 사람 수(기기가 있어 발송된 대상). */
+  notified: number;
+  /** 중복 제외 후 발송을 시도한 대상 수. */
+  targeted: number;
+  deduped: number;
+  failed: number;
+  reason?: string;
+}> {
   const thisWeek = weekRange(todayYmd);
   const from = addDaysYmd(thisWeek.from, -7);
   const to = addDaysYmd(thisWeek.from, -1);
 
   const { data: groups } = await admin.from("groups").select("id, name");
   const groupRows = (groups ?? []) as { id: string; name: string }[];
-  if (groupRows.length === 0) return { groups: 0, notified: 0 };
+  if (groupRows.length === 0) return { groups: 0, notified: 0, targeted: 0, deduped: 0, failed: 0 };
 
   // 그룹마다 회원·프로필·기록을 다시 읽지 않는다 — 전체를 한 번에 읽어 메모리에서 나눈다.
   // (예전엔 그룹 수 × 4회 조회 + 회원별 직렬 푸시라, 그룹이 늘면 그대로 시간이 늘었다.
@@ -125,7 +142,7 @@ export async function runWeeklyGroupMvp(
     memberRowsByGroup.set(m.group_id, arr);
     allMemberIds.add(m.user_id);
   }
-  if (allMemberIds.size === 0) return { groups: 0, notified: 0 };
+  if (allMemberIds.size === 0) return { groups: 0, notified: 0, targeted: 0, deduped: 0, failed: 0 };
 
   const idBatches = chunk([...allMemberIds], IN_CHUNK);
   const [profileRows, exAll, condAll] = await Promise.all([
@@ -160,8 +177,15 @@ export async function runWeeklyGroupMvp(
   let groupsNotified = 0;
   let notified = 0;
   /** 그룹별 발송 대상(멤버 전원) — 기기 조회는 마지막에 한 번에 한다. */
-  const pending: { userId: string; groupName: string; rank: number; total: number; winner: string }[] =
-    [];
+  const pending: {
+    userId: string;
+    /** 중복 방지 키 — (그룹, 지난주) 단위. */
+    key: string;
+    groupName: string;
+    rank: number;
+    total: number;
+    winner: string;
+  }[] = [];
 
   for (const g of groupRows) {
     const members = memberRowsByGroup.get(g.id) ?? [];
@@ -245,6 +269,7 @@ export async function runWeeklyGroupMvp(
     for (const m of ranking) {
       pending.push({
         userId: m.userId,
+        key: weeklyMvpKey(g.id, from),
         groupName: g.name,
         rank: m.rank,
         total: ranking.length,
@@ -254,25 +279,52 @@ export async function runWeeklyGroupMvp(
     if (ranking.length > 0) groupsNotified += 1;
   }
 
+  // 이미 이번 주 결과를 받은 사람은 제외 — 월요일에 크론이 두 번 돌아도 1회만.
+  const sentKeys = await loadSentKeys(admin, pending);
+  const { fresh: targets, deduped } = splitAlreadySent(pending, sentKeys);
+
   // 발송 — 대상자 기기를 한 번에 읽고(사용자당 2회 조회 제거), 제한 동시성으로 병렬.
   const devices = await loadDevices(admin, [
-    ...new Set(pending.map((p) => p.userId)),
+    ...new Set(targets.map((t) => t.userId)),
   ]);
-  await mapWithConcurrency(pending, SEND_CONCURRENCY, async (p) => {
-    const { title, body } = buildWeeklyMvpMessage(
-      p.groupName,
-      p.winner,
-      p.rank,
-      p.total,
-    );
-    // 웹푸시 + FCM(네이티브 앱) 양쪽으로.
-    await notifyDevices(admin, devices.get(p.userId), {
-      type: "weekly-mvp",
-      title,
-      body,
-    });
-  });
-  notified = pending.length;
+  let failed = 0;
+  let firstFailure: string | undefined;
+  const results = await mapWithConcurrency(
+    targets,
+    SEND_CONCURRENCY,
+    async (p) => {
+      const { title, body } = buildWeeklyMvpMessage(
+        p.groupName,
+        p.winner,
+        p.rank,
+        p.total,
+      );
+      // 웹푸시 + FCM(네이티브 앱) 양쪽으로. 한 명이 터져도 나머지는 계속(부분 실패 격리).
+      try {
+        return await notifyDevices(admin, devices.get(p.userId), {
+          type: "weekly-mvp",
+          title,
+          body,
+        });
+      } catch (err) {
+        failed += 1;
+        firstFailure ??= failureReason(err);
+        return false;
+      }
+    },
+  );
 
-  return { groups: groupsNotified, notified };
+  // 실제로 나간 것만 기록(기기가 없던 사람은 남기지 않는다).
+  const delivered = targets.filter((_, i) => results[i]);
+  await markSent(admin, delivered);
+  notified = delivered.length;
+
+  return {
+    groups: groupsNotified,
+    notified,
+    targeted: targets.length,
+    deduped,
+    failed,
+    ...(firstFailure ? { reason: firstFailure } : {}),
+  };
 }

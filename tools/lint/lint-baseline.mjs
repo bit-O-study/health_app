@@ -28,7 +28,7 @@ export function toRelative(filePath, root) {
 
 /**
  * ESLint JSON 결과 → `{ "경로::규칙": 에러개수 }`.
- * @param {Array<{filePath:string, messages:Array<{ruleId:string|null, severity:number}>}>} results
+ * @param {Array<{filePath:string, messages:Array<{ruleId:string|null, severity:number}>}>} [results]
  * @param {string} root 레포 루트 절대경로
  */
 export function resultsToCounts(results, root) {

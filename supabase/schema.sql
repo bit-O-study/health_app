@@ -3117,4 +3117,50 @@ as $$
 $$;
 grant execute on function public.bump_routine_share_saves(uuid) to authenticated;
 
+-- ── 크론 실행 기록 ────────────────────────────────────────────────
+-- 크론이 "돌긴 도는지" 를 아무도 모르는 게 가장 큰 위험이다(workout-inactivity 는
+-- vercel.json 등록이 빠져 한 번도 안 돌았는데 아무 신호가 없었다).
+-- 매 실행마다 소요시간·상태·발송 수·실패 사유를 남기고 관리자 화면에서 성공률로 본다.
+-- 쓰기는 서비스 롤(크론)만 — RLS 를 켜고 정책은 관리자 읽기만 준다.
+create table if not exists public.cron_runs (
+  id uuid primary key default gen_random_uuid(),
+  -- vercel.json 의 /api/cron/<name>
+  name text not null,
+  started_at timestamptz not null,
+  finished_at timestamptz not null default now(),
+  duration_ms int not null default 0,
+  -- ok=정상 / skipped=사전조건 미충족(푸시 미설정 등, 실패 아님) / error=예외
+  status text not null default 'ok' check (status in ('ok', 'skipped', 'error')),
+  scanned int not null default 0,
+  targeted int not null default 0,
+  sent int not null default 0,
+  deduped int not null default 0,
+  failed int not null default 0,
+  reason text,
+  created_at timestamptz not null default now()
+);
+create index if not exists cron_runs_name_idx
+  on public.cron_runs (name, started_at desc);
+alter table public.cron_runs enable row level security;
+drop policy if exists "admin reads cron runs" on public.cron_runs;
+create policy "admin reads cron runs" on public.cron_runs for select
+  using (public.is_admin());
+
+-- ── 알림 발송 기록(중복 방지) ──────────────────────────────────────
+-- 크론은 재실행된다(재시도·수동 호출·스케줄 변경). 같은 사람에게 같은 알림이
+-- 두 번 가면 그냥 스팸이므로, 보낸 것을 (사용자, 키) 로 남겨 다음 실행에서 건너뛴다.
+-- 키에 기간이 들어간다: 'daily-reminders:diet:2026-08-31', 'weekly-group-mvp:<그룹>:<주월요일>'
+-- → 다음 날/다음 주에는 정상적으로 다시 나간다.
+-- 서비스 롤(크론)만 읽고 쓴다 — 사용자용 정책은 두지 않는다.
+create table if not exists public.notification_sends (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  dedup_key text not null,
+  sent_at timestamptz not null default now(),
+  primary key (user_id, dedup_key)
+);
+-- 보존기간(30일) 지난 행 정리용.
+create index if not exists notification_sends_sent_idx
+  on public.notification_sends (sent_at);
+alter table public.notification_sends enable row level security;
+
 notify pgrst, 'reload schema';

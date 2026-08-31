@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Camera,
+  Clock,
   Dumbbell,
   Film,
   FlaskConical,
@@ -25,6 +26,7 @@ import {
 const ICONS: Record<string, LucideIcon> = {
   "/admin": LayoutDashboard,
   "/admin/members": Users,
+  "/admin/crons": Clock,
   "/admin/settings": ShieldCheck,
   "/admin/exercise-media": Film,
   "/equipment": Camera,

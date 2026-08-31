@@ -1,17 +1,23 @@
-import { NextResponse } from "next/server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import {
   loadDevices,
   notifyDevices,
-  notifyEnabled,
 } from "@/features/notifications/push-fanout";
 import {
   reminderKindFor,
   REMINDER_PAYLOADS,
   type ReminderKind,
 } from "@/features/notifications/daily-reminder";
+import {
+  dailyReminderKey,
+  splitAlreadySent,
+} from "@/features/notifications/dedup";
+import {
+  loadSentKeys,
+  markSent,
+  purgeOldSends,
+} from "@/features/notifications/sent-log";
 import {
   DAY_BLOCKS,
   isDayBlockId,
@@ -21,6 +27,8 @@ import {
   type DayBlockId,
 } from "@/features/routine/data";
 import { fetchAllPages, mapWithConcurrency } from "@/lib/batch";
+import { handleCron } from "@/lib/cron/handler";
+import { failureReason } from "@/lib/cron/run-log";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -52,68 +60,101 @@ type RoutineRow = {
  * 늘면 왕복만으로 크론 제한시간을 넘길 구조였다. 지금은 오늘 치 기록을 한 번에
  * 읽어 Set 으로 판정하고, 기기도 대상자 전체를 모아 읽는다.
  *
- * 보호: Vercel Cron 은 `Authorization: Bearer <CRON_SECRET>` 헤더를 보낸다.
+ * ⚠ **재실행해도 같은 사람에게 두 번 가지 않는다** — 보낸 사람은
+ * `(user_id, 'daily-reminders:<종류>:<날짜>')` 로 기록해 두고 다음 실행에서 건너뛴다.
+ * 날짜가 키에 있으므로 내일은 정상적으로 다시 나간다.
+ *
+ * 인증·실행기록(`cron_runs`)은 `handleCron` 이 담당한다.
  */
 export async function GET(req: Request) {
-  const secret = process.env.CRON_SECRET;
-  const auth = req.headers.get("authorization");
-  if (secret && auth !== `Bearer ${secret}`) {
-    return NextResponse.json({ ok: false }, { status: 401 });
-  }
+  return handleCron(req, "daily-reminders", async (admin) => {
+    const todayYmd = seoulYmd();
 
-  const admin = createSupabaseAdminClient();
-  if (!admin || !notifyEnabled()) {
-    return NextResponse.json(
-      { ok: false, reason: "push/admin not configured" },
-      { status: 200 },
+    const { data: routines } = await admin
+      .from("user_routines")
+      .select(
+        "user_id, splits, variant_id, custom_week, start_date, rest_date, override_date, override_block",
+      );
+    const rows = (routines ?? []) as RoutineRow[];
+
+    // 오늘 식단을 남긴 사용자 / 오늘 본운동을 완료한 사용자 — 각각 한 번에.
+    // (행 상한에 잘리면 '기록 안 했다'고 오판해 잔소리 푸시가 나가므로 페이지로 끝까지 읽는다.)
+    const [dietUsers, doneUsers] = await Promise.all([
+      userIdSet(admin, "food_logs", todayYmd),
+      userIdSet(admin, "exercise_completions", todayYmd, true),
+    ]);
+
+    // 누구에게 무엇을 보낼지 — 여기까지는 DB 없이 메모리 판정.
+    const all: { userId: string; kind: ReminderKind; key: string }[] = [];
+    for (const r of rows) {
+      const isRest = isRestDay(r, todayYmd);
+      const kind = reminderKindFor({
+        isRest,
+        hasDiet: dietUsers.has(r.user_id),
+        hasWorkout: doneUsers.has(r.user_id),
+      });
+      if (kind) {
+        all.push({
+          userId: r.user_id,
+          kind,
+          key: dailyReminderKey(kind, todayYmd),
+        });
+      }
+    }
+
+    // 오늘 이미 받은 사람 제외 — 크론이 두 번 돌아도 잔소리는 하루 한 번.
+    const sentKeys = await loadSentKeys(admin, all);
+    const { fresh: targets, deduped } = splitAlreadySent(all, sentKeys);
+
+    // 대상자 기기를 한 번에 읽고(사용자당 2회 → 전체 몇 회), 발송은 제한 동시성으로.
+    const devices = await loadDevices(
+      admin,
+      targets.map((t) => t.userId),
     );
-  }
-
-  const todayYmd = seoulYmd();
-
-  const { data: routines } = await admin
-    .from("user_routines")
-    .select(
-      "user_id, splits, variant_id, custom_week, start_date, rest_date, override_date, override_block",
+    let failed = 0;
+    let firstFailure: string | null = null;
+    const results = await mapWithConcurrency(
+      targets,
+      USER_CONCURRENCY,
+      async (t) => {
+        // 한 사람 발송이 터져도 나머지는 계속 보낸다(부분 실패 격리).
+        try {
+          return await notifyDevices(
+            admin,
+            devices.get(t.userId),
+            REMINDER_PAYLOADS[t.kind],
+          );
+        } catch (err) {
+          failed += 1;
+          firstFailure ??= failureReason(err);
+          return false;
+        }
+      },
     );
-  const rows = (routines ?? []) as RoutineRow[];
 
-  // 오늘 식단을 남긴 사용자 / 오늘 본운동을 완료한 사용자 — 각각 한 번에.
-  // (행 상한에 잘리면 '기록 안 했다'고 오판해 잔소리 푸시가 나가므로 페이지로 끝까지 읽는다.)
-  const [dietUsers, doneUsers] = await Promise.all([
-    userIdSet(admin, "food_logs", todayYmd),
-    userIdSet(admin, "exercise_completions", todayYmd, true),
-  ]);
+    // 실제로 나간 것만 기록 — 기기가 없던 사람은 남기지 않는다(기기 등록 후 받게).
+    const delivered = targets.filter((_, i) => results[i]);
+    await markSent(admin, delivered);
+    await purgeOldSends(admin);
 
-  // 누구에게 무엇을 보낼지 — 여기까지는 DB 없이 메모리 판정.
-  const targets: { userId: string; kind: ReminderKind }[] = [];
-  for (const r of rows) {
-    const isRest = isRestDay(r, todayYmd);
-    const kind = reminderKindFor({
-      isRest,
-      hasDiet: dietUsers.has(r.user_id),
-      hasWorkout: doneUsers.has(r.user_id),
-    });
-    if (kind) targets.push({ userId: r.user_id, kind });
-  }
-
-  // 대상자 기기를 한 번에 읽고(사용자당 2회 → 전체 몇 회), 발송은 제한 동시성으로.
-  const devices = await loadDevices(
-    admin,
-    targets.map((t) => t.userId),
-  );
-  const results = await mapWithConcurrency(targets, USER_CONCURRENCY, (t) =>
-    notifyDevices(admin, devices.get(t.userId), REMINDER_PAYLOADS[t.kind]),
-  );
-
-  const sent = results.filter(Boolean).length;
-
-  return NextResponse.json({
-    ok: true,
-    date: todayYmd,
-    scanned: rows.length,
-    sent,
-    skipped: rows.length - sent,
+    return {
+      counts: {
+        scanned: rows.length,
+        targeted: targets.length,
+        sent: delivered.length,
+        deduped,
+        failed,
+      },
+      body: {
+        date: todayYmd,
+        scanned: rows.length,
+        sent: delivered.length,
+        deduped,
+        failed,
+        reason: firstFailure ?? undefined,
+        skipped: rows.length - delivered.length,
+      },
+    };
   });
 }
 

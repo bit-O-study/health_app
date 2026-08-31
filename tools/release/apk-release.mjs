@@ -198,7 +198,7 @@ export function commitFromLegacyName(file) {
 
 /**
  * `--key value` / `--flag` 를 걷어내고 위치 인자를 남긴다.
- * @param {string[]} argv
+ * @param {string[]} [argv] 미지정이면 빈 결과.
  */
 export function parseArgs(argv) {
   const opts = {};

@@ -10,6 +10,8 @@
     "prestart": "vitest run",
     "start": "next start",
     "lint": "eslint",
+    "lint:gate": "node tools/lint/check-lint.mjs",
+    "lint:baseline": "node tools/lint/check-lint.mjs --update",
     "test": "vitest run",
     "test:unit": "vitest run tests/be/logic",
     "test:watch": "vitest",

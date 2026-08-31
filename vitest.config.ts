@@ -18,5 +18,17 @@ export default defineConfig({
     environment: "node",
     include: ["tests/be/**/*.test.ts"],
     globals: true,
+    // beforeEach 안에서 무거운 모듈을 동적 import 하는 테스트가 있다
+    // (exercise-catalog-extra 727KB 등). 워커가 여러 개 붙는 순간 기본 10초를
+    // 넘겨 "Hook timed out in 10000ms" 로 간헐 실패했다 — 로직 문제가 아니라
+    // 로딩 시간이라 여유를 준다. (근본 해결은 카탈로그를 서버로 옮기는 1.2)
+    hookTimeout: 30_000,
+    testTimeout: 20_000,
+    // Vitest 4 의 기본 pool 은 forks 다. 무거운 모듈을 물고 있던 자식 프로세스가
+    // 기본 10초 안에 안 죽으면
+    //   `[vitest-pool]: Timeout terminating forks worker for test files …`
+    // 가 뜬다(결과는 통과인데 로그만 지저분해지고, 종료가 늦어진다).
+    // 다른 빌드가 같이 도는 등 CPU 가 붐빌 때 재현된다.
+    teardownTimeout: 30_000,
   },
 });

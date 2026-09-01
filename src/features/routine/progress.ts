@@ -358,12 +358,15 @@ export function shiftYmd(ymd: string, deltaDays: number): string {
   return dt.toISOString().slice(0, 10);
 }
 
-/* ─── 최근 수행 비교 · 다음 권장 중량 ────────────────────────────────── */
+/* ─── 증량 단위 ──────────────────────────────────────────────────────── */
 
 /**
  * 종목별 증량 단위(kg) — 강도 등급으로 정한다.
  * 큰 복합운동은 원판 한 쌍(5kg), 덤벨·머신은 2.5kg, 소근육 고립은 1.25kg.
  * 맨몸은 무게로 올릴 수 없어 `null`(횟수를 늘리는 게 맞다).
+ *
+ * 이 값을 어떻게 쓸지(올릴지·유지할지·낮출지)는 `overload.ts` 가 정한다 — 규칙이
+ * 두 군데로 갈라지면 화면마다 다른 무게를 권하게 된다.
  */
 export function weightStepKg(exerciseId: string): number | null {
   switch (loadClassOf(exerciseId)) {
@@ -376,76 +379,4 @@ export function weightStepKg(exerciseId: string): number | null {
     default:
       return null;
   }
-}
-
-export type NextWeightAdvice = {
-  exerciseId: string;
-  /** 지난번 대표 무게(최고 세트). 맨몸이면 null. */
-  lastWeightKg: number | null;
-  /** 지난번 대표 횟수. */
-  lastReps: number;
-  /** 지난번 대비 추정 1RM 변화(kg). 비교할 이전 기록이 없으면 null. */
-  changeKg: number | null;
-  /** 권장 무게(kg). 근거가 부족하거나 맨몸이면 null. */
-  suggestedKg: number | null;
-  reason: "increase" | "hold" | "first" | "bodyweight" | "none";
-};
-
-/**
- * 최근 수행을 견줘 다음에 들 무게를 제안한다.
- *
- * 여기서는 **직전 두 세션만** 본다 — 정체 감지·디로드처럼 여러 세션을 보는 규칙은
- * 2.2(점진적 과부하 추천)의 일이다. 규칙은 하나뿐이라 사용자가 납득할 수 있다:
- * *지난번보다 떨어지지 않았으면 한 단계 올리고, 떨어졌으면 그대로 간다.*
- *
- * 제안일 뿐이고 실제 무게는 사용자가 정한다 — 그래서 근거(`changeKg`)를 같이 준다.
- */
-export function nextWeightAdvice(
-  records: ProgressRecord[],
-  exerciseId: string,
-): NextWeightAdvice {
-  const sessions = exerciseHistory(records, exerciseId);
-  const none: NextWeightAdvice = {
-    exerciseId,
-    lastWeightKg: null,
-    lastReps: 0,
-    changeKg: null,
-    suggestedKg: null,
-    reason: "none",
-  };
-  const last = sessions[0];
-  if (!last) return none;
-
-  const step = weightStepKg(exerciseId);
-  const base = {
-    exerciseId,
-    lastWeightKg: last.weightKg,
-    lastReps: last.reps,
-  };
-  // 맨몸은 무게 제안이 의미가 없다 — 횟수를 늘리는 종목이다.
-  if (step === null || (last.weightKg ?? 0) <= 0) {
-    return { ...base, changeKg: null, suggestedKg: null, reason: "bodyweight" };
-  }
-
-  const prev = sessions[1];
-  if (!prev || prev.oneRm <= 0) {
-    // 첫 기록 — 비교 대상이 없으니 같은 무게로 한 번 더 해보고 판단한다.
-    return {
-      ...base,
-      changeKg: null,
-      suggestedKg: last.weightKg,
-      reason: "first",
-    };
-  }
-
-  const changeKg = Math.round((last.oneRm - prev.oneRm) * 10) / 10;
-  if (changeKg < 0) {
-    return { ...base, changeKg, suggestedKg: last.weightKg, reason: "hold" };
-  }
-  return {
-    ...base,
-    changeKg,
-    suggestedKg: Math.round(((last.weightKg ?? 0) + step) * 100) / 100,
-    reason: "increase",
-  };
 }

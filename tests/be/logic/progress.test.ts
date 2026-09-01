@@ -4,7 +4,6 @@ import {
   dailyVolumeSeries,
   estimate1RM,
   exerciseHistory,
-  nextWeightAdvice,
   oneRMSeries,
   personalRecords,
   recentPersonalRecords,
@@ -186,7 +185,6 @@ describe("progress — 집계 정확도", () => {
       expect(exerciseHistory([], "bench")).toEqual([]);
       expect(personalRecords([]).size).toBe(0);
       expect(recentPersonalRecords([], "2026-09-01")).toEqual([]);
-      expect(nextWeightAdvice([], "bench").reason).toBe("none");
     });
 
     it("넘긴(skipped) 기록은 어디에도 안 들어간다", () => {
@@ -308,52 +306,11 @@ describe("progress — 개인 기록(PR)", () => {
   });
 });
 
-describe("progress — 다음 권장 중량", () => {
-  it("증량 단위는 강도 등급을 따른다(맨몸은 없음)", () => {
+describe("progress — 증량 단위", () => {
+  it("종목 등급을 따른다(맨몸은 없음)", () => {
+    // 올릴지 말지는 overload.ts 가 정하고, 여기서는 '한 단계'가 얼마인지만 정한다.
     expect(weightStepKg("squat")).toBe(5);
     expect(weightStepKg("lateral-raise")).toBe(1.25);
     expect(weightStepKg("push-up")).toBeNull();
-  });
-
-  it("지난번보다 떨어지지 않았으면 한 단계 올린다", () => {
-    const a = nextWeightAdvice(
-      [
-        rec("2026-06-01", "squat", 5, 5, 100),
-        rec("2026-06-08", "squat", 5, 5, 105),
-      ],
-      "squat",
-    );
-    expect(a.reason).toBe("increase");
-    expect(a.suggestedKg).toBe(110);
-    expect(a.changeKg).toBeGreaterThan(0);
-  });
-
-  it("지난번보다 떨어졌으면 그대로 간다", () => {
-    const a = nextWeightAdvice(
-      [
-        rec("2026-06-01", "squat", 5, 5, 105),
-        rec("2026-06-08", "squat", 5, 5, 100),
-      ],
-      "squat",
-    );
-    expect(a.reason).toBe("hold");
-    expect(a.suggestedKg).toBe(100);
-    expect(a.changeKg).toBeLessThan(0);
-  });
-
-  it("기록이 하나면 같은 무게로 한 번 더 — 근거가 없는데 올리면 안 된다", () => {
-    const a = nextWeightAdvice([rec("2026-06-01", "squat", 5, 5, 100)], "squat");
-    expect(a.reason).toBe("first");
-    expect(a.suggestedKg).toBe(100);
-    expect(a.changeKg).toBeNull();
-  });
-
-  it("맨몸 종목은 무게 제안을 하지 않는다", () => {
-    const a = nextWeightAdvice(
-      [rec("2026-06-01", "push-up", 3, 20, null)],
-      "push-up",
-    );
-    expect(a.reason).toBe("bodyweight");
-    expect(a.suggestedKg).toBeNull();
   });
 });

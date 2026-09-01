@@ -86,23 +86,29 @@ test("단측 운동은 볼륨을 양쪽으로 센다", async ({ page }) => {
   await expect(page.getByText("한쪽 기준").first()).toBeVisible();
 });
 
-test("개인 기록 갱신과 다음 권장 중량이 보인다", async ({ page }) => {
+test("개인 기록 갱신과 증량 추천이 근거와 함께 보인다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
+  // 목표 횟수는 경력에 따라 달라진다 — 추천을 확정적으로 보려면 경력을 고정한다.
+  // 상급자 + heavy 종목이면 목표 6회.
+  await dbQuery(
+    `update public.profiles set experience='advanced' where user_id=${uid}`,
+    [email],
+  );
 
-  // 지난주 100kg → 이번주 105kg. 떨어지지 않았으니 다음은 한 단계(+5kg) 위.
+  // 지난주 100kg → 이번주 105kg, 둘 다 목표(6회)를 채웠다 → 다음은 한 단계(+5kg) 위.
   await seedCompletion(email, {
     daysAgo: 7,
     exerciseId: "squat",
     sets: 5,
-    reps: 5,
+    reps: 6,
     weightKg: 100,
   });
   await seedCompletion(email, {
     daysAgo: 0,
     exerciseId: "squat",
     sets: 5,
-    reps: 5,
+    reps: 6,
     weightKg: 105,
   });
 
@@ -110,9 +116,37 @@ test("개인 기록 갱신과 다음 권장 중량이 보인다", async ({ page 
   await expect(
     page.getByRole("heading", { name: /최근 30일 새 기록/ }),
   ).toBeVisible({ timeout: 8000 });
-  await expect(page.getByText(/다음 권장 110kg/)).toBeVisible();
+  // 추천은 '무엇을' 과 '왜' 가 같이 나와야 한다.
+  await expect(page.getByText(/증량 · 110kg/)).toBeVisible();
+  await expect(page.getByText(/목표\(6회\)를 채웠어요/)).toBeVisible();
+  // 제안일 뿐이라는 안내.
+  await expect(page.getByText(/그대로 따르지 않아도 됩니다/)).toBeVisible();
   // 최근 이력이 날짜별로 보인다.
-  await expect(page.getByText("105kg × 5 × 5세트").first()).toBeVisible();
+  await expect(page.getByText("105kg × 6 × 5세트").first()).toBeVisible();
+});
+
+test("정체하면 디로드를 권한다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await dbQuery(
+    `update public.profiles set experience='advanced' where user_id=${uid}`,
+    [email],
+  );
+
+  // 같은 무게·횟수로 네 번 — 최고치가 세 세션째 그대로다.
+  for (const daysAgo of [21, 14, 7, 0]) {
+    await seedCompletion(email, {
+      daysAgo,
+      exerciseId: "squat",
+      sets: 5,
+      reps: 6,
+      weightKg: 100,
+    });
+  }
+
+  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await expect(page.getByText(/디로드 · 90kg/)).toBeVisible({ timeout: 8000 });
+  await expect(page.getByText(/최고치가 안 늘었어요/)).toBeVisible();
 });
 
 test("기록이 없으면 빈 상태 안내만 보이고 터지지 않는다", async ({ page }) => {

@@ -27,6 +27,22 @@ const REPS: Record<
 
 const SETS = { beginner: 3, intermediate: 4, advanced: 4 } as const;
 
+/**
+ * 이 사람이 이 종목에서 **채워야 하는 목표 횟수**.
+ *
+ * `prescribe` 가 내부에서 쓰던 값과 같은 것을 밖으로 낸다 — 점진적 과부하 추천이
+ * "목표를 채웠나"를 판단하려면 처방과 **같은 기준**을 봐야 한다. 여기가 갈라지면
+ * 계획은 10회를 시키는데 추천은 12회를 기다리는 식으로 어긋난다.
+ */
+export function targetReps(
+  exerciseId: string,
+  experience: "beginner" | "intermediate" | "advanced",
+): number {
+  return loadClassOf(exerciseId) === "heavy"
+    ? REPS[experience].heavy
+    : REPS[experience].other;
+}
+
 /** 체중 대비 기본 부하 비율(중급 남성 기준) */
 const LOAD_FRACTION: Record<LoadClass, number> = {
   heavy: 0.6,

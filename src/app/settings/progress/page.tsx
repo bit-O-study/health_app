@@ -15,15 +15,18 @@ import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import {
   dailyVolumeSeries,
   exerciseHistory,
-  nextWeightAdvice,
   oneRMSeries,
   recentPersonalRecords,
   topExercisesByVolume,
   trendPct,
   weeklyVolumeSeries,
-  type NextWeightAdvice,
   type ProgressRecord,
 } from "@/features/routine/progress";
+import {
+  needsAttention,
+  overloadPlan,
+  type OverloadPlan,
+} from "@/features/routine/overload";
 import { seoulYmd } from "@/features/routine/data";
 import { isUnilateralExercise } from "@/features/routine/unilateral-exercises";
 import { LineChart } from "@/features/routine/components/line-chart";
@@ -52,42 +55,41 @@ function TrendBadge({ pct }: { pct: number | null }) {
   );
 }
 
-/** 다음에 들 무게 제안 — 근거(지난번 대비)를 같이 보여야 사용자가 판단할 수 있다. */
-function AdviceLine({ advice }: { advice: NextWeightAdvice }) {
-  if (advice.reason === "none") return null;
-  if (advice.reason === "bodyweight") {
-    return (
-      <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-        맨몸 종목 — 무게 대신 <strong>횟수</strong>를 늘려 보세요.
-      </p>
-    );
-  }
-  if (advice.reason === "first") {
-    return (
-      <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-        기록이 하나뿐이라 비교할 게 없어요. 다음에도{" "}
-        <strong>{advice.suggestedKg}kg</strong> 로 한 번 더 해보세요.
-      </p>
-    );
-  }
-  const up = advice.reason === "increase";
+/** 종류별 말머리 — 무엇을 하라는 건지 한 눈에. */
+const ACTION_LABEL: Record<OverloadPlan["action"], string> = {
+  increase: "증량",
+  "add-reps": "횟수 채우기",
+  deload: "디로드",
+  rest: "휴식 권장",
+  first: "한 번 더",
+  bodyweight: "횟수·시간",
+  none: "",
+};
+
+/**
+ * 다음 세션 추천 — **근거를 같이** 보여준다.
+ * 숫자만 던지면 왜 그런지 몰라 따르거나 무시할 판단을 못 한다.
+ */
+function OverloadLine({ plan }: { plan: OverloadPlan }) {
+  if (plan.action === "none") return null;
+  const attention = needsAttention(plan);
   return (
-    <p
-      className={`mt-1.5 text-xs ${
-        up
-          ? "text-emerald-700 dark:text-emerald-400"
-          : "text-zinc-600 dark:text-zinc-400"
+    <div
+      className={`mt-2 rounded-lg px-2.5 py-2 text-xs ${
+        attention
+          ? "bg-amber-50 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
+          : plan.action === "increase"
+            ? "bg-emerald-50 text-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"
+            : "bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
       }`}
     >
-      다음 권장 <strong>{advice.suggestedKg}kg</strong>
-      <span className="ml-1 text-zinc-500 dark:text-zinc-500">
-        {up
-          ? advice.changeKg === 0
-            ? "(지난번과 같음 — 올릴 때)"
-            : `(지난번 대비 +${advice.changeKg}kg)`
-          : `(지난번보다 ${Math.abs(advice.changeKg ?? 0)}kg 낮아 유지)`}
-      </span>
-    </p>
+      <p className="font-semibold">
+        {ACTION_LABEL[plan.action]}
+        {plan.suggestedKg !== null ? ` · ${plan.suggestedKg}kg` : ""}
+        {plan.suggestedReps !== null ? ` × ${plan.suggestedReps}회` : ""}
+      </p>
+      <p className="mt-0.5 leading-5 opacity-80">{plan.reason}</p>
+    </div>
   );
 }
 
@@ -121,7 +123,7 @@ export default async function ProgressPage() {
       name: getCatalogExercise(t.exerciseId)?.name ?? t.exerciseId,
       series: oneRMSeries(records, t.exerciseId),
       history: exerciseHistory(records, t.exerciseId).slice(0, 5),
-      advice: nextWeightAdvice(records, t.exerciseId),
+      plan: overloadPlan(records, t.exerciseId, profile.experience),
       unilateral: isUnilateralExercise(t.exerciseId),
     }))
     .filter((e) => e.series.length > 0);
@@ -241,6 +243,10 @@ export default async function ProgressPage() {
               <Dumbbell aria-hidden="true" size={18} className="text-zinc-500" />
               종목별 추정 1RM 추이
             </h2>
+            <p className="-mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+              아래 추천은 완료 기록만 보고 만든 <strong>제안</strong>이에요. 몸 상태에
+              따라 그대로 따르지 않아도 됩니다.
+            </p>
             {exerciseCharts.length === 0 ? (
               <p className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 p-5 text-center text-sm text-zinc-500">
                 중량 기록이 더 쌓이면 종목별 1RM 추이가 표시됩니다.
@@ -269,7 +275,7 @@ export default async function ProgressPage() {
                           </span>
                         ) : null}
                       </p>
-                      <AdviceLine advice={e.advice} />
+                      <OverloadLine plan={e.plan} />
                       {e.history.length > 0 ? (
                         <ul className="mt-2 space-y-0.5 border-t border-zinc-100 pt-2 text-[11px] text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
                           {e.history.map((h) => (

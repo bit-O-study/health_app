@@ -105,6 +105,11 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <!-- 내 데이터 내보내기(CSV/JSON) 저장 — Android 10(API 29)부터는 공용 다운로드 폴더에
+         쓸 때 권한이 필요 없다. 그 이전 기기에서만 요청한다. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <!-- 카메라/GPS 없는 기기도 설치 가능하게(런닝은 선택 기능). -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />

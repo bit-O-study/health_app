@@ -1,21 +1,28 @@
 package app.helssu.twa;
 
 import android.Manifest;
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
 import android.webkit.RenderProcessGoneDetail;
+import android.webkit.URLUtil;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,6 +40,7 @@ public class MainActivity extends BridgeActivity {
 
     private static final int REQ_CAMERA = 9101;
     private static final int REQ_LOCATION = 9102;
+    private static final int REQ_DOWNLOAD_STORAGE = 9103;
     private static final String RECOVERY_PREFS = "helssu_recovery";
     private static final String RENDERER_RECOVERY_PENDING = "renderer_recovery_pending";
     private static final String RENDERER_RECOVERY_COUNT = "renderer_recovery_count";
@@ -42,6 +50,7 @@ public class MainActivity extends BridgeActivity {
     private PermissionRequest pendingCamera;
     private GeolocationPermissions.Callback pendingGeoCallback;
     private String pendingGeoOrigin;
+    private PendingDownload pendingDownload;
 
     // 리모트 URL WebView 라, 다른 앱 갔다 복귀 시 네트워크 순단·WebView 프로세스 종료로
     // 메인 페이지 로드가 실패하면 안드로이드 기본 "페이지를 열 수 없음" 화면이 뜬다.
@@ -63,6 +72,12 @@ public class MainActivity extends BridgeActivity {
         // 야외 런닝에서 GPS(위치정보)가 꺼져 있으면 '위치 설정 열기'로 안내한다.
         // ⚠ 웹/WebView 는 위치정보를 코드로 자동 ON 할 수 없어, 설정 화면 열기까지만 지원한다.
         webView.addJavascriptInterface(new NativeBridge(), "HelssuNative");
+
+        // 내 데이터 내보내기(CSV/JSON) 처럼 서버가 첨부파일로 주는 응답은, 리스너가 없으면
+        // WebView 가 **아무 일도 하지 않는다** — 사용자에겐 버튼이 먹통인 것으로 보인다.
+        // 시스템 다운로드 관리자로 넘겨 '다운로드' 폴더에 저장하고 알림으로 알린다.
+        webView.setDownloadListener((url, userAgent, disposition, mimeType, contentLength) ->
+            startDownload(url, userAgent, disposition, mimeType));
 
         webView.setWebChromeClient(new BridgeWebChromeClient(this.getBridge()) {
             @Override
@@ -249,6 +264,77 @@ public class MainActivity extends BridgeActivity {
         }
     }
 
+    /** 권한을 받고 나서 이어서 받아야 할 다운로드. */
+    private static class PendingDownload {
+        final String url;
+        final String userAgent;
+        final String disposition;
+        final String mimeType;
+
+        PendingDownload(String url, String userAgent, String disposition, String mimeType) {
+            this.url = url;
+            this.userAgent = userAgent;
+            this.disposition = disposition;
+            this.mimeType = mimeType;
+        }
+    }
+
+    /**
+     * WebView 가 못 여는 응답(첨부파일)을 시스템 다운로드 관리자에게 넘긴다.
+     *
+     * 세 가지를 챙긴다 —
+     *  1) **쿠키를 같이 보낸다.** 내보내기 URL 은 로그인 세션이 있어야 열린다.
+     *     다운로드 관리자는 WebView 와 별개 프로세스라 쿠키를 물려받지 못한다.
+     *  2) **http/https 만.** blob:·data: 는 다운로드 관리자가 못 열고 예외를 던진다.
+     *  3) **API 28 이하에서는 저장소 권한.** 29 부터는 필요 없다(공용 다운로드 폴더).
+     */
+    private void startDownload(
+        String url,
+        String userAgent,
+        String disposition,
+        String mimeType
+    ) {
+        if (url == null || !(url.startsWith("http://") || url.startsWith("https://"))) {
+            Toast.makeText(this, "이 파일은 앱에서 받을 수 없습니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q
+            && !hasPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            pendingDownload = new PendingDownload(url, userAgent, disposition, mimeType);
+            ActivityCompat.requestPermissions(
+                this,
+                new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                REQ_DOWNLOAD_STORAGE
+            );
+            return;
+        }
+        try {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+            String cookie = CookieManager.getInstance().getCookie(url);
+            if (cookie != null) request.addRequestHeader("Cookie", cookie);
+            if (userAgent != null) request.addRequestHeader("User-Agent", userAgent);
+            // 서버가 Content-Disposition 으로 준 이름을 그대로 쓴다(한글 이름은 ASCII 이름으로 대체).
+            String name = URLUtil.guessFileName(url, disposition, mimeType);
+            request.setMimeType(mimeType);
+            request.setTitle(name);
+            request.setNotificationVisibility(
+                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED
+            );
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name);
+            DownloadManager manager =
+                (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+            if (manager == null) {
+                Toast.makeText(this, "다운로드를 시작하지 못했습니다.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            manager.enqueue(request);
+            Toast.makeText(this, "다운로드 폴더에 저장 중입니다.", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            // 다운로드 실패로 앱이 죽으면 안 된다 — 알리고 넘어간다.
+            Toast.makeText(this, "다운로드를 시작하지 못했습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private boolean hasPermission(String perm) {
         return ContextCompat.checkSelfPermission(this, perm)
             == PackageManager.PERMISSION_GRANTED;
@@ -343,6 +429,23 @@ public class MainActivity extends BridgeActivity {
             pendingGeoCallback.invoke(pendingGeoOrigin, granted, false);
             pendingGeoCallback = null;
             pendingGeoOrigin = null;
+        } else if (requestCode == REQ_DOWNLOAD_STORAGE && pendingDownload != null) {
+            final PendingDownload queued = pendingDownload;
+            pendingDownload = null;
+            if (granted) {
+                startDownload(
+                    queued.url,
+                    queued.userAgent,
+                    queued.disposition,
+                    queued.mimeType
+                );
+            } else {
+                Toast.makeText(
+                    this,
+                    "저장 권한이 없어 파일을 받을 수 없습니다.",
+                    Toast.LENGTH_SHORT
+                ).show();
+            }
         }
     }
 }

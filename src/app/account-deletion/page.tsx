@@ -49,6 +49,23 @@ export default function AccountDeletionPage() {
         </p>
       </section>
 
+      <section className="mt-8 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30 p-5">
+        <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
+          지우기 전에 — 내 기록 먼저 받아 두기
+        </h2>
+        <p className="mt-2 text-sm leading-7">
+          계정을 삭제하면 아래 데이터가 함께 사라지고 <b>되돌릴 수 없습니다.</b> 운동·체중·
+          식단 기록은 CSV 로, 전체는 JSON 백업으로 언제든 내려받을 수 있으니 탈퇴 전에 먼저
+          챙기세요.
+        </p>
+        <a
+          href="/settings/export"
+          className="mt-3 inline-block text-sm font-semibold text-amber-800 dark:text-amber-300 underline underline-offset-4"
+        >
+          내 데이터 내보내기
+        </a>
+      </section>
+
       <section className="mt-8">
         <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
           삭제되는 데이터

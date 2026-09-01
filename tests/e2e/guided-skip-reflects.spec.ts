@@ -48,10 +48,10 @@ test("가이드에서 전부 넘기면 새로고침 없이 홈에 '오늘 휴식
     await page.waitForTimeout(400);
   }
 
-  // 오버레이가 닫혀 홈으로 복귀했고, '운동 시작' 버튼이 다시 보인다.
-  await expect(page.getByRole("button", { name: "운동 시작" })).toBeVisible({
-    timeout: 8000,
-  });
+  // 오버레이가 닫혀 홈으로 복귀했다. 오늘 할 운동이 전부 완료/스킵되면 시작 버튼
+  // 자리는 '수고하셨습니다'(비활성)로 바뀐다 — `workout-session-timer` 참고.
+  // (예전엔 '운동 시작'이 다시 보이는지 봤는데, 그 문구가 생긴 뒤로 맞지 않는다.)
+  await expect(page.getByText("수고하셨습니다")).toBeVisible({ timeout: 8000 });
 
   // ★ 수동 새로고침(page.reload) 없이 ★ 두 운동이 '오늘 휴식'으로 반영돼야 한다.
   await expect(page.getByText("오늘 휴식", { exact: true })).toHaveCount(2, {

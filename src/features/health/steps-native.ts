@@ -12,6 +12,7 @@ import {
   bucketStepsBySeoulDay,
   seoulYmdOf,
 } from "@/features/health/steps-bucket";
+import { reportAppEvent } from "@/lib/observability/report-client";
 
 const STEPS_READ = "Steps";
 /** 진입/동기화 시 함께 백필할 과거 일수(캘린더가 서울 날짜별로 채워지게). */
@@ -174,8 +175,21 @@ export type ConnectResult =
 /**
  * 사용자 버튼 클릭 시에만 호출 — 권한 요청(액티비티) 후 걸음수 반환.
  * 실패 시 '이유'를 함께 돌려 화면에 표시해 디버깅 가능하게 한다.
+ *
+ * 실패는 **관측에도 남긴다**(로드맵 1.3). 화면에만 띄우면 그 순간 사용자만 보고
+ * 끝나서, 어떤 기기에서 어떤 사유로 못 붙는지 우리가 알 방법이 없었다.
+ * 남기는 건 사용자가 **직접 버튼을 눌렀을 때뿐** — 진입할 때마다 도는 수동 확인
+ * (`getStepsState`)까지 남기면 웹/미지원 기기에서 의미 없는 행만 쌓인다.
  */
 export async function connectSteps(): Promise<ConnectResult> {
+  const res = await connectStepsInner();
+  if (!res.ok) {
+    reportAppEvent("health_permission_failure", { message: res.reason });
+  }
+  return res;
+}
+
+async function connectStepsInner(): Promise<ConnectResult> {
   if (typeof window === "undefined") return { ok: false, reason: "웹 환경" };
   try {
     const { Capacitor } = await import("@capacitor/core");

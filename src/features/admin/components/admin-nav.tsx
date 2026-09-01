@@ -11,6 +11,7 @@ import {
   LayoutDashboard,
   LogOut,
   ShieldCheck,
+  TriangleAlert,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -27,6 +28,7 @@ const ICONS: Record<string, LucideIcon> = {
   "/admin": LayoutDashboard,
   "/admin/members": Users,
   "/admin/crons": Clock,
+  "/admin/events": TriangleAlert,
   "/admin/settings": ShieldCheck,
   "/admin/exercise-media": Film,
   "/equipment": Camera,

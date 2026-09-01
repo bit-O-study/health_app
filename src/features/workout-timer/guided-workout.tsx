@@ -80,6 +80,7 @@ import {
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { reportAppEvent } from "@/lib/observability/report-client";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
 export type GuidedItem =
@@ -684,23 +685,23 @@ export function GuidedOverlay({
    */
   function fireAndTrack(captured: GuidedItem, status: "done" | "skipped") {
     const key = failureKey(captured);
+    /** 운동 기록이 안 남는 건 사용자가 제일 크게 손해 보는 실패다 — 관측에 남긴다. */
+    function noteFailure(error: string) {
+      setFailures((f) => [
+        ...f.filter((x) => x.key !== key),
+        { key, name: captured.name, status, captured, error },
+      ]);
+      reportAppEvent("save_failure", {
+        message: `운동모드 ${status === "done" ? "완료" : "넘기기"} 저장 실패: ${error}`,
+      });
+    }
     const p = runAction(captured, status)
       .then((res) => {
-        if (res && res.ok === false) {
-          setFailures((f) => [
-            ...f.filter((x) => x.key !== key),
-            { key, name: captured.name, status, captured, error: res.error },
-          ]);
-        } else {
-          setFailures((f) => f.filter((x) => x.key !== key));
-        }
+        if (res && res.ok === false) noteFailure(res.error);
+        else setFailures((f) => f.filter((x) => x.key !== key));
       })
       .catch((e: unknown) => {
-        const error = e instanceof Error ? e.message : "알 수 없는 오류";
-        setFailures((f) => [
-          ...f.filter((x) => x.key !== key),
-          { key, name: captured.name, status, captured, error },
-        ]);
+        noteFailure(e instanceof Error ? e.message : "알 수 없는 오류");
       });
     // 닫기/새로고침 전에 이 저장이 끝났는지 기다릴 수 있게 모아둔다.
     pendingRef.current.push(p);

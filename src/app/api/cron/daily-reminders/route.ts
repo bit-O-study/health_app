@@ -18,6 +18,7 @@ import {
   markSent,
   purgeOldSends,
 } from "@/features/notifications/sent-log";
+import { purgeOldAppEvents } from "@/features/observability/purge";
 import {
   DAY_BLOCKS,
   isDayBlockId,
@@ -136,6 +137,8 @@ export async function GET(req: Request) {
     const delivered = targets.filter((_, i) => results[i]);
     await markSent(admin, delivered);
     await purgeOldSends(admin);
+    // 실사용 오류 기록도 같은 자리에서 보존기간을 넘긴 것만 정리한다(로드맵 1.3).
+    await purgeOldAppEvents(admin);
 
     return {
       counts: {

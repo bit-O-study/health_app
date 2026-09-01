@@ -35,6 +35,9 @@ public class MainActivity extends BridgeActivity {
     private static final int REQ_LOCATION = 9102;
     private static final String RECOVERY_PREFS = "helssu_recovery";
     private static final String RENDERER_RECOVERY_PENDING = "renderer_recovery_pending";
+    private static final String RENDERER_RECOVERY_COUNT = "renderer_recovery_count";
+    private static final String RENDERER_RECOVERY_AT = "renderer_recovery_at";
+    private static final long RENDERER_RECOVERY_WINDOW_MS = 2 * 60 * 1000L;
 
     private PermissionRequest pendingCamera;
     private GeolocationPermissions.Callback pendingGeoCallback;
@@ -160,9 +163,17 @@ public class MainActivity extends BridgeActivity {
                     if (parent != null) parent.removeView(view);
                 }
                 // Capacitor가 Activity 종료 때 WebView를 파괴하므로 여기서 중복 파괴하지 않는다.
-                getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE)
-                    .edit()
+                android.content.SharedPreferences recovery =
+                    getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE);
+                long now = System.currentTimeMillis();
+                long previousAt = recovery.getLong(RENDERER_RECOVERY_AT, 0L);
+                int recoveryCount = now - previousAt <= RENDERER_RECOVERY_WINDOW_MS
+                    ? recovery.getInt(RENDERER_RECOVERY_COUNT, 0) + 1
+                    : 1;
+                recovery.edit()
                     .putBoolean(RENDERER_RECOVERY_PENDING, true)
+                    .putInt(RENDERER_RECOVERY_COUNT, recoveryCount)
+                    .putLong(RENDERER_RECOVERY_AT, now)
                     .apply();
                 // 죽은 WebView 를 겨냥한 재시도가 남아 있으면 새 화면을 덮어친다.
                 retryHandler.removeCallbacksAndMessages(null);
@@ -278,6 +289,33 @@ public class MainActivity extends BridgeActivity {
                     .apply();
             }
             return pending;
+        }
+
+        /**
+         * 설치된 앱 버전(versionName). 웹은 원격 URL 이라 자기 APK 버전을 모른다 —
+         * 실사용 오류 관측에서 "어느 앱 버전에서 난 팅김인가"를 가리려면 필요하다.
+         * 못 읽으면 빈 문자열(관측이 앱을 방해하지 않는다).
+         */
+        @JavascriptInterface
+        public String appVersion() {
+            try {
+                return getPackageManager()
+                    .getPackageInfo(getPackageName(), 0)
+                    .versionName;
+            } catch (Exception e) {
+                return "";
+            }
+        }
+
+        /** 2분 안에 이어진 렌더러 복구 횟수. pending 상태일 때 한 번만 반환한다. */
+        @JavascriptInterface
+        public int consumeRendererRecoveryCount() {
+            android.content.SharedPreferences recovery =
+                getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE);
+            if (!recovery.getBoolean(RENDERER_RECOVERY_PENDING, false)) return 0;
+            int count = recovery.getInt(RENDERER_RECOVERY_COUNT, 1);
+            recovery.edit().remove(RENDERER_RECOVERY_PENDING).apply();
+            return count;
         }
     }
 

@@ -7,6 +7,7 @@ import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
 import { RouteKeeper } from "@/app/_route-keeper";
+import { AppEventReporter } from "@/features/observability/components/app-event-reporter";
 import { BottomNav } from "@/components/bottom-nav";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -104,6 +105,8 @@ export default async function RootLayout({
             </Suspense>
           ) : null}
           {isLoggedIn ? <RouteKeeper /> : null}
+          {/* 모아 둔 오류 전송 + 느린 로딩·메모리 경고 수집(관리자 /admin/events). */}
+          {isLoggedIn ? <AppEventReporter /> : null}
         </NotificationCenterProvider>
         <PWARegister />
         <Analytics />

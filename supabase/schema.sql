@@ -3163,4 +3163,48 @@ create index if not exists notification_sends_sent_idx
   on public.notification_sends (sent_at);
 alter table public.notification_sends enable row level security;
 
+-- ── 실사용 오류 관측(app_events) ─────────────────────────────────────
+-- 프로덕션에서 무슨 일이 나는지 볼 방법이 서버 로그밖에 없었다(로드맵 1.3).
+-- WebView 종료·로그인 실패·푸시 등록 실패·저장 실패·느린 화면·메모리 경고를
+-- **정해진 종류만** 남긴다. 원문 대신 세탁한 문자열만 들어온다
+-- (이메일·토큰·uuid·긴 숫자·쿼리스트링 → 자리표시자. src/lib/observability/app-event.ts)
+-- 같은 사건이 연속으로 나면 행을 늘리지 않고 count 를 올린다.
+-- 보존 30일 — 하루 한 번 도는 리마인더 크론이 오래된 행을 지운다.
+create table if not exists public.app_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  kind text not null,
+  severity text not null default 'error' check (severity in ('error', 'warn')),
+  route text,
+  message text,
+  app_version text,
+  platform text not null default 'web' check (platform in ('android', 'web')),
+  device text,
+  value int,
+  count int not null default 1,
+  occurred_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+create index if not exists app_events_occurred_idx
+  on public.app_events (occurred_at desc);
+create index if not exists app_events_kind_idx
+  on public.app_events (kind, occurred_at desc);
+-- 사용량 상한(악용 차단)을 최근 것만 세면 되게.
+create index if not exists app_events_user_idx
+  on public.app_events (user_id, created_at desc);
+alter table public.app_events enable row level security;
+-- 자기 사건만 넣을 수 있다 — 남의 user_id 로는 못 쌓는다.
+drop policy if exists "user inserts own app event" on public.app_events;
+create policy "user inserts own app event" on public.app_events for insert
+  with check (auth.uid() = user_id);
+-- 읽기는 관리자만. 오류 문구에 다른 사용자 상황이 섞일 수 있다.
+drop policy if exists "admin reads app events" on public.app_events;
+create policy "admin reads app events" on public.app_events for select
+  using (public.is_admin());
+-- 상한 검사용 자기 행 개수 조회(select) 는 위 관리자 정책만으로는 안 되므로
+-- 본인 행 읽기를 따로 허용한다(자기가 보낸 것만 보인다).
+drop policy if exists "user reads own app events" on public.app_events;
+create policy "user reads own app events" on public.app_events for select
+  using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

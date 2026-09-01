@@ -33,6 +33,13 @@ export type ExerciseCompletionRow = {
   sets: number | null;
   reps: number | null;
   weightKg: number | null;
+  /**
+   * 완료 시점 세트별 무게·횟수. null = 균일 세트.
+   *
+   * 성장 집계가 이 값을 **반드시 봐야 한다** — 드롭세트·피라미드를 이 앱은 여기에
+   * 저장하는데, 예전엔 조회에서 빠져 있어 균일 세트로만 계산됐다(볼륨·1RM 오차).
+   */
+  setDetails: SetDetail[] | null;
 };
 
 type Row = {
@@ -44,6 +51,7 @@ type Row = {
   sets: number | null;
   reps: number | null;
   weight_kg: number | string | null;
+  set_details?: unknown;
 };
 
 const num = (v: number | string | null | undefined): number | null => {
@@ -168,7 +176,9 @@ export async function getRecentExerciseCompletions(
   // daily_plan 으로 등록된 운동의 완료 행은 routine_exercises 에 매칭되지 않아 점수 누락이 발생했음.
   const { data, error } = await supabase
     .from("exercise_completions")
-    .select("for_date, exercise_row_id, exercise_id, status, focus, sets, reps, weight_kg")
+    .select(
+      "for_date, exercise_row_id, exercise_id, status, focus, sets, reps, weight_kg, set_details",
+    )
     .eq("user_id", user.id)
     .gte("for_date", fromStr)
     .order("for_date", { ascending: false });
@@ -183,6 +193,7 @@ export async function getRecentExerciseCompletions(
     sets: r.sets ?? null,
     reps: r.reps ?? null,
     weightKg: num(r.weight_kg ?? null),
+    setDetails: parseSetDetails(r.set_details),
   }));
 }
 

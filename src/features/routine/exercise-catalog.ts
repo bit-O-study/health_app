@@ -10,7 +10,6 @@ import {
   type BodyPart,
   type CatalogExercise,
 } from "@/features/routine/exercise-catalog-labels";
-import { loadClassOf, type LoadClass } from "@/features/routine/exercise-load";
 import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
 // 표시용 라벨·타입은 얇은 모듈에 있다 — 데이터가 필요 없는 화면은 그쪽만 import 한다.
 // (여기서 재수출하므로 기존 import 경로는 그대로 동작한다.)
@@ -2399,79 +2398,10 @@ export function allExercisesGrouped(): { focus: FocusKey; exercises: CatalogExer
   })).filter((g) => g.exercises.length > 0);
 }
 
-/* ─── 처방(세트×횟수×무게) ──────────────────────────────────────────────── */
+/* ─── 처방(세트×횟수×무게) — `prescription.ts` 로 분리, 여기서 재수출 ────────── */
 
-export type Prescription = {
-  sets: number;
-  reps: number;
-  /** 권장 무게(kg). 맨몸 운동이면 null */
-  weightKg: number | null;
-};
-
-const REPS: Record<
-  "beginner" | "intermediate" | "advanced",
-  { heavy: number; other: number }
-> = {
-  beginner: { heavy: 12, other: 15 },
-  intermediate: { heavy: 10, other: 12 },
-  advanced: { heavy: 6, other: 10 },
-};
-
-const SETS = { beginner: 3, intermediate: 4, advanced: 4 } as const;
-
-/** 체중 대비 기본 부하 비율(중급 남성 기준) */
-const LOAD_FRACTION: Record<LoadClass, number> = {
-  heavy: 0.6,
-  medium: 0.4,
-  light: 0.15,
-  bodyweight: 0,
-};
-
-/**
- * 운동 + 체형/성별/경력 → 권장 세트·횟수·무게.
- * 휴리스틱이며 시작점 제안용(이후 사용자가 직접 조정 가능).
- */
-export function prescribe(
-  exerciseId: string,
-  opts: {
-    gender: "male" | "female";
-    experience: "beginner" | "intermediate" | "advanced";
-    bodyType: "lean" | "average" | "heavy";
-    weightKg: number;
-  },
-): Prescription {
-  const loadClass = loadClassOf(exerciseId);
-  const sets = SETS[opts.experience];
-  const reps =
-    loadClass === "heavy"
-      ? REPS[opts.experience].heavy
-      : REPS[opts.experience].other;
-
-  if (loadClass === "bodyweight") {
-    return { sets, reps, weightKg: null };
-  }
-
-  const expFactor =
-    opts.experience === "beginner"
-      ? 0.7
-      : opts.experience === "advanced"
-        ? 1.3
-        : 1;
-  const genderFactor = opts.gender === "female" ? 0.65 : 1;
-  const bodyFactor =
-    opts.bodyType === "lean" ? 0.9 : opts.bodyType === "heavy" ? 1.05 : 1;
-
-  const raw =
-    opts.weightKg *
-    LOAD_FRACTION[loadClass] *
-    expFactor *
-    genderFactor *
-    bodyFactor;
-
-  // 2.5kg 단위로 반올림, 최소 2.5kg
-  const weightKg = Math.max(2.5, Math.round(raw / 2.5) * 2.5);
-  return { sets, reps, weightKg };
-}
+export { prescribe } from "@/features/routine/prescription";
+export type { Prescription } from "@/features/routine/prescription";
 
 /** 전체 운동(슬러그=운동 id) — 운동 종목 리스트용 */
 export const ALL_EXERCISES: CatalogExercise[] = [
@@ -2504,4 +2434,3 @@ export function groupedByBodyPart(): Record<BodyPart, CatalogExercise[]> {
 export function getCatalogExercise(slug: string): CatalogExercise | undefined {
   return EXERCISES[slug] ?? EXTRA_EXERCISES[slug];
 }
-

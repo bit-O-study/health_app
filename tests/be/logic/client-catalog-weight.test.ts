@@ -20,20 +20,13 @@ import { describe, expect, it } from "vitest";
 const SRC = resolve(dirname(fileURLToPath(import.meta.url)), "../../../src");
 
 /**
- * 아직 카탈로그 데이터에 닿는 클라이언트 화면 — **줄여야 할 목록**이다.
+ * 아직 카탈로그 데이터에 닿는 클라이언트 화면 — **비어 있어야 한다.**
  *
- * 앞 3개는 운동 목록·추천이 실제로 필요한 편집기(4단계에서 서버 조회로 옮길 대상),
- * 뒤 2개는 `muscle-detail` 을 건너서 닿는다(운동 id 만으로 세부 근육을 찾느라
- * 카탈로그를 뒤진다 — 이름·타깃을 같이 넘기면 `sub-muscles.ts` 만으로 된다).
+ * 2026-09-01 번들 다이어트 4단계로 마지막 화면(영구 루틴 편집기)까지 서버 조회로
+ * 옮겨 이 목록이 비었다. 여기에 다시 뭔가 넣어야 할 것 같으면 그건 거의 항상
+ * "라벨만 필요한데 카탈로그에서 import 했다" 이거나 "목록을 서버에서 받아야 한다" 다.
  */
-const ALLOWED = new Set([
-  // 목록·추천 UI (데이터가 진짜 필요)
-  "features/routine/components/daily-main-editor.tsx",
-  "features/routine/components/plan-editor.tsx",
-  // 중간 모듈(muscle-detail)을 건너서 닿는 화면
-  "features/workout-timer/guided-workout.tsx",
-  "features/workout-timer/muscle-body-view.tsx",
-]);
+const ALLOWED = new Set<string>();
 
 const HEAVY = new Set([
   "features/routine/exercise-catalog.ts",
@@ -130,6 +123,13 @@ describe("클라이언트 번들 — 무거운 운동 카탈로그 확산 가드
       return pathToHeavy(f) === null;
     });
     expect(stale).toEqual([]);
+  });
+
+  it("가드가 살아 있다 — 카탈로그를 import 하는 클라 파일을 실제로 잡아낸다", () => {
+    // 목록이 비었으니 "0건 통과"가 가드가 죽어서인지 진짜 깨끗해서인지 구분이 안 된다.
+    // 카탈로그를 쓰는 서버 모듈 하나를 넣어 탐색이 실제로 닿는지 확인한다.
+    expect(pathToHeavy("features/routine/recommend.ts")).not.toBeNull();
+    expect(clientFiles.length).toBeGreaterThan(20);
   });
 
   it("라벨 계층은 어떤 데이터 모듈도 import 하지 않는다", () => {

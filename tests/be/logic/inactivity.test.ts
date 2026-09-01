@@ -77,6 +77,7 @@ describe("queueToRestInputs — 큐 → 휴식처리 입력", () => {
       equipment: "barbell",
       focus: "lower",
       name: "스쿼트",
+      target: "대퇴사두·둔근",
       subtitle: "",
       method: [],
       sets: 4,

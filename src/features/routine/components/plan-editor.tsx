@@ -21,20 +21,22 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 
 import type { FocusTone } from "@/features/routine/data";
 import type { PlanExercise } from "@/features/routine/plan";
+// 카탈로그 **데이터**는 안 끌어온다 — 라벨·부위 매핑·처방만(P0 번들 다이어트).
+// 운동 목록·추천 선정은 `slot-exercise-actions` 로 서버에서 받는다.
 import {
   EQUIPMENT_LABELS,
-  getCatalogExercise,
-  majorMuscleTag,
-  prescribe,
   type EquipmentId,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
+import { majorMuscleTag } from "@/features/routine/exercise-body-parts";
+import { prescribe } from "@/features/routine/prescription";
 import {
-  allExercisesForSlot,
-  focusExercisesForSlot,
-  sideExercisesForSlot,
-} from "@/features/routine/recommend";
+  exerciseOptionsByIdsAction,
+  exercisesForSlotsAction,
+  recommendExercisesAction,
+  type SlotExerciseOption,
+} from "@/features/routine/slot-exercise-actions";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
-import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   registerRecommendedPlanAction,
@@ -61,7 +63,6 @@ import {
   isEquipmentAvailable,
   toGymEquipmentSet,
 } from "@/features/gym/gym-equipment-mapping";
-import { ShareDayButton } from "@/features/routine-share/components/share-day-button";
 
 type FocusData = {
   /** 일차+부위 고유 키 (예: "3:push") — 반복 부위가 충돌하지 않게 state 키로 사용 */
@@ -119,7 +120,6 @@ export function PlanEditor({
   weightKg,
   gymEquipment = null,
   lockWeightReps = false,
-  myGroups = [],
 }: {
   focuses: FocusData[];
   customWeek: unknown;
@@ -133,7 +133,6 @@ export function PlanEditor({
   /** 무게·횟수 고정 설정. false 면 입력란 숨기고 세트 수만(운동모드에서 설정). */
   lockWeightReps?: boolean;
   /** '이 일차 소개하기' 의 공개범위(그룹만) 선택지. 비면 전체공개만 고를 수 있다. */
-  myGroups?: { id: string; name: string }[];
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
@@ -151,6 +150,15 @@ export function PlanEditor({
   );
   // 저장 안 된 섹션들(key) — 페이지를 떠날 때 경고하고, "추천으로 채우기" 덮어쓰기 확인용
   const [dirty, setDirty] = useState<Set<string>>(new Set());
+  // 운동 목록은 **서버에서** 받는다(섹션 키별). 7일치 부위를 한 화면에 펴므로 한 번에
+  // 묶어서 요청하고, 부위·세부블록이 같은 슬롯은 서버가 한 번만 계산해 나눠 준다.
+  const [optionsByKey, setOptionsByKey] = useState<
+    Record<string, SlotExerciseOption[]>
+  >({});
+  /** 행에 저장된 운동의 이름·기구 — 지금 부위 목록에 없을 수도 있다. null = 카탈로그에 없음. */
+  const [detailsById, setDetailsById] = useState<
+    Record<string, SlotExerciseOption | null>
+  >({});
   const editRevisions = useRef<Record<string, number>>({});
   const [conditioningStates, setConditioningStates] = useState<
     Record<string, ConditioningMutationState>
@@ -226,6 +234,74 @@ export function PlanEditor({
   } | null>(null);
   const LONG_PRESS = 180;
 
+  // ── 섹션별 운동 목록 로드(섹션 구성이 바뀔 때만 한 번).
+  const optsOf = (f: FocusData): SlotExerciseOption[] =>
+    optionsByKey[f.key] ?? [];
+  const missingSectionKey = focuses
+    .filter((f) => !optionsByKey[f.key])
+    .map((f) => f.key)
+    .join("|");
+  useEffect(() => {
+    if (missingSectionKey === "") return;
+    const wanted = new Set(missingSectionKey.split("|"));
+    const specs = focuses
+      .filter((f) => wanted.has(f.key))
+      .map((f) => ({ key: f.key, focus: f.focus, blockIds: f.blockIds }));
+    let alive = true;
+    void exercisesForSlotsAction(specs)
+      // 실패해도 빈 목록으로 확정한다 — 안 그러면 매 렌더마다 다시 요청한다.
+      .catch(() => specs.map((sp) => ({ key: sp.key, exercises: [] })))
+      .then((groups) => {
+        if (!alive) return;
+        setOptionsByKey((prev) => {
+          const next = { ...prev };
+          for (const g of groups) next[g.key] = g.exercises;
+          return next;
+        });
+        setDetailsById((prev) => {
+          const next = { ...prev };
+          for (const g of groups) for (const o of g.exercises) next[o.id] = o;
+          return next;
+        });
+      });
+    return () => {
+      alive = false;
+    };
+    // focuses 는 서버 렌더 props — 섹션 키가 바뀔 때만 다시 받는다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [missingSectionKey]);
+
+  // ── 행에 저장된 운동이 그 섹션 목록에 없으면(옛 데이터·부위 이동) id 로 따로 조회.
+  // 못 찾은 id 도 null 로 확정해 둔다 — 없는 운동을 무한히 다시 물어보지 않게.
+  const unknownIds = [
+    ...new Set(
+      Object.values(plans)
+        .flat()
+        .map((r) => r.exerciseId)
+        .filter((id) => id !== "" && !(id in detailsById)),
+    ),
+  ];
+  const unknownIdKey = unknownIds.join("|");
+  useEffect(() => {
+    if (unknownIdKey === "") return;
+    const wanted = unknownIdKey.split("|");
+    let alive = true;
+    void exerciseOptionsByIdsAction(wanted)
+      .catch(() => [] as SlotExerciseOption[])
+      .then((list) => {
+        if (!alive) return;
+        const found = new Map(list.map((o) => [o.id, o]));
+        setDetailsById((prev) => {
+          const next = { ...prev };
+          for (const id of wanted) next[id] = found.get(id) ?? null;
+          return next;
+        });
+      });
+    return () => {
+      alive = false;
+    };
+  }, [unknownIdKey]);
+
   function clearLp() {
     if (lpTimer.current) {
       clearTimeout(lpTimer.current);
@@ -284,18 +360,16 @@ export function PlanEditor({
   }
 
   /** 운동의 기구 옵션 중 헬스장에 있는 첫 번째 */
-  function pickDefaultEquipment(ex: {
-    equipments: { equipment: EquipmentId }[];
-  }): EquipmentId {
+  function pickDefaultEquipment(ex: { equipments: EquipmentId[] }): EquipmentId {
     const available = ex.equipments.find((eq) =>
-      isEquipmentAvailable(eq.equipment, gymSet),
+      isEquipmentAvailable(eq, gymSet),
     );
-    return available?.equipment ?? ex.equipments[0].equipment;
+    return available ?? ex.equipments[0] ?? "barbell";
   }
 
   function addRow(f: FocusData) {
-    const options = allExercisesForSlot(f.focus, f.blockIds);
-    const first = options[0];
+    const first = optsOf(f)[0];
+    // 목록을 아직 못 받았으면 '운동 추가' 버튼이 잠겨 있어 여기 안 온다.
     if (!first) return;
     update(f.key, [
       ...(plans[f.key] ?? []),
@@ -338,30 +412,51 @@ export function PlanEditor({
     });
   }
 
-  /** 한 섹션(일차·부위)만 추천 운동으로 행을 갈아끼움 — 저장은 아래 저장 버튼 담당.
-   * 보조(사이드) 섹션이면 2개만, 주 섹션이면 풀 목록. */
-  function doRecommendFocus(f: FocusData) {
+  /** 섹션(일차·부위)들을 추천 운동으로 갈아끼움 — 저장은 아래 저장 버튼 담당.
+   * 보조(사이드) 섹션이면 2개만, 주 섹션이면 풀 목록.
+   * 운동 **선정**만 서버(카탈로그가 필요해서), 처방·기구는 여기서(목록 없이 된다). */
+  function doRecommendFocuses(list: FocusData[]) {
+    if (list.length === 0) return;
     const opts = {
       gender,
       experience,
       bodyType: bodyType ?? ("average" as const),
       weightKg: weightKg ?? 65,
     };
-    const catalog = f.isSide
-      ? sideExercisesForSlot(f.focus as never, f.blockIds, gender)
-      : focusExercisesForSlot(f.focus as never, f.blockIds, gender);
-    const next: Row[] = catalog.map((ex) => {
-      const p = prescribe(ex.id, opts);
-      return {
-        exerciseId: ex.id,
-        equipment: pickDefaultEquipment(ex),
-        sets: p.sets,
-        reps: p.reps,
-        weight: p.weightKg === null ? "" : String(p.weightKg),
-        setDetails: null,
-      };
+    start(async () => {
+      const groups = await recommendExercisesAction(
+        list.map((f) => ({
+          focus: f.focus,
+          blockIds: f.blockIds,
+          isSide: f.isSide,
+        })),
+        gender,
+      );
+      // 새로 담은 운동의 이름·기구를 바로 그릴 수 있게 캐시에 넣는다.
+      setDetailsById((prev) => {
+        const merged = { ...prev };
+        for (const g of groups) for (const o of g.exercises) merged[o.id] = o;
+        return merged;
+      });
+      // 요청 순서 그대로 돌아온다 — 섹션과 1:1 로 짝지어 넣는다.
+      list.forEach((f, i) => {
+        const next: Row[] = (groups[i]?.exercises ?? []).map((ex) => {
+          const p = prescribe(ex.id, opts);
+          return {
+            exerciseId: ex.id,
+            equipment: pickDefaultEquipment(ex),
+            sets: p.sets,
+            reps: p.reps,
+            weight: p.weightKg === null ? "" : String(p.weightKg),
+            setDetails: null,
+          };
+        });
+        update(f.key, next);
+      });
     });
-    update(f.key, next);
+  }
+  function doRecommendFocus(f: FocusData) {
+    doRecommendFocuses([f]);
   }
 
   // 부위 섹션을 '일차(dayIndex)'별로 묶는다 — 같은 날 부위들을 한 바구니(박스)로.
@@ -473,7 +568,7 @@ export function PlanEditor({
   function recommendDay(day: DayGroup) {
     const hasRows = day.focuses.some((f) => (plans[f.key] ?? []).length > 0);
     if (hasRows) setConfirm({ kind: "day", day });
-    else day.focuses.forEach((f) => doRecommendFocus(f));
+    else doRecommendFocuses(day.focuses);
   }
   // 그날 모든 부위를 한 번에 저장(부위별 슬롯으로 나눠 저장).
   function saveDay(day: DayGroup) {
@@ -606,16 +701,6 @@ export function PlanEditor({
             <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
               {day.focuses.map(focusName).join(" · ")}
             </span>
-            {/* 이 일차를 커뮤니티 › 루틴에 소개(운동 순서·메모까지 스냅샷으로). */}
-            {(plans[day.focuses[0]?.key] ?? []).length > 0 ? (
-              <ShareDayButton
-                dayIndex={day.dayIndex}
-                defaultTitle={`${day.dayIndex + 1}일차 · ${day.focuses
-                  .map(focusName)
-                  .join(" · ")}`}
-                groups={myGroups}
-              />
-            ) : null}
             {swapTargetsForDay(day.dayIndex).length > 0 ? (
               <button
                 type="button"
@@ -669,8 +754,10 @@ export function PlanEditor({
             const entries = day.focuses.flatMap((f) =>
               (plans[f.key] ?? []).map((row, idx) => ({ f, row, idx })),
             );
-            const optsOf = (f: FocusData) =>
-              allExercisesForSlot(f.focus, f.blockIds);
+            // 이 일차의 운동 목록이 아직 안 왔으면 '운동 추가'는 고를 게 없다 — 잠근다.
+            const dayOptionsLoading = day.focuses.some(
+              (f) => !optionsByKey[f.key],
+            );
             return (
               <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -689,9 +776,18 @@ export function PlanEditor({
                     <button
                       type="button"
                       onClick={() => requestAddRow(day)}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                      disabled={dayOptionsLoading}
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 disabled:opacity-60 dark:hover:bg-emerald-950/30"
                     >
-                      <Plus aria-hidden="true" size={14} />
+                      {dayOptionsLoading ? (
+                        <Loader2
+                          aria-hidden="true"
+                          className="animate-spin"
+                          size={14}
+                        />
+                      ) : (
+                        <Plus aria-hidden="true" size={14} />
+                      )}
                       운동 추가
                     </button>
                   </div>
@@ -735,7 +831,7 @@ export function PlanEditor({
                     {entries.map(({ f, row, idx }) => {
                       const options = optsOf(f);
                       const rows = plans[f.key] ?? [];
-                      const ex = getCatalogExercise(row.exerciseId) ?? options[0];
+                      const ex = detailsById[row.exerciseId] ?? options[0];
                       const isDragging = drag?.key === f.key && drag.from === idx;
                       return (
                         <div
@@ -782,7 +878,9 @@ export function PlanEditor({
                               );
                             })()}
                             {(() => {
-                              const sub = subMusclesForExercise(row.exerciseId)[0];
+                              const sub = ex
+                                ? subMusclesForExerciseData(ex.id, ex.name, ex.target)[0]
+                                : undefined;
                               if (!sub) return null;
                               return (
                                 <span
@@ -800,7 +898,7 @@ export function PlanEditor({
                               value={row.exerciseId}
                               disabled={editorPending}
                               onChange={(id) => {
-                                const nextEx = getCatalogExercise(id);
+                                const nextEx = options.find((o) => o.id === id);
                                 const next = [...rows];
                                 next[idx] = {
                                   ...row,
@@ -821,11 +919,11 @@ export function PlanEditor({
                             }}
                             className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
                           >
-                            {ex.equipments.map((eq) => {
-                              const ok = isEquipmentAvailable(eq.equipment, gymSet);
+                            {(ex?.equipments ?? []).map((eq) => {
+                              const ok = isEquipmentAvailable(eq, gymSet);
                               return (
-                                <option key={eq.equipment} value={eq.equipment}>
-                                  {EQUIPMENT_LABELS[eq.equipment]}
+                                <option key={eq} value={eq}>
+                                  {EQUIPMENT_LABELS[eq]}
                                   {ok ? "" : " (헬스장에 없음)"}
                                 </option>
                               );
@@ -920,7 +1018,7 @@ export function PlanEditor({
           } else if (confirm?.kind === "focus") {
             doRecommendFocus(confirm.section);
           } else if (confirm?.kind === "day") {
-            confirm.day.focuses.forEach((f) => doRecommendFocus(f));
+            doRecommendFocuses(confirm.day.focuses);
           } else if (confirm?.kind === "clear-all") {
             doClearAll();
           }

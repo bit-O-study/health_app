@@ -90,6 +90,8 @@ export type GuidedItem =
       equipment: string;
       focus: string;
       name: string;
+      /** 자극 부위 문구 — '자극 부위' 인체 그림이 카탈로그 없이 근육을 찾는 데 쓴다. */
+      target: string;
       subtitle: string;
       method: string[];
       sets: number;
@@ -1004,6 +1006,8 @@ export function GuidedOverlay({
           {item.kind === "main" ? (
             <MuscleBodyInset
               exerciseId={item.exerciseId}
+              name={item.name}
+              target={item.target}
               onOpen={() => setMuscle3dOpen(true)}
             />
           ) : null}
@@ -1181,7 +1185,7 @@ export function GuidedOverlay({
             className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
           >
             <Video aria-hidden="true" size={15} />
-            티칭 영상
+            영상 올리고 티칭받기
           </button>
         </div>
 
@@ -1315,6 +1319,7 @@ export function GuidedOverlay({
         <MuscleBodyModal
           exerciseId={item.exerciseId}
           name={item.name}
+          target={item.target}
           onClose={() => setMuscle3dOpen(false)}
         />
       ) : null}
@@ -1676,5 +1681,4 @@ function ItemVisual({ item }: { item: GuidedItem }) {
   }
   return null;
 }
-
 

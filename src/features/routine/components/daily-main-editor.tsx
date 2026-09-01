@@ -12,22 +12,21 @@ import {
   type DayBlockId,
   type FocusTone,
 } from "@/features/routine/data";
+// 카탈로그 **데이터**는 안 끌어온다 — 라벨·처방만(P0 번들 다이어트).
+// 운동 목록·추천 선정은 `slot-exercise-actions` 로 그때그때 서버에서 받는다.
 import {
-  allExercisesForFocus,
   EQUIPMENT_LABELS,
-  exercisesForFocus,
-  getCatalogExercise,
-  prescribe,
-  type CatalogExercise,
   type EquipmentId,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
+import { prescribe } from "@/features/routine/prescription";
 import {
-  allExercisesForSlot,
-  focusExercisesForSlot,
-  sideExercisesForSlot,
-} from "@/features/routine/recommend";
+  exerciseOptionsByIdsAction,
+  exercisesForSlotAction,
+  recommendExercisesAction,
+  type SlotExerciseOption,
+} from "@/features/routine/slot-exercise-actions";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
-import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   saveDailyPlanAction,
@@ -127,6 +126,13 @@ export function DailyMainEditor({
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
+  /** 기본 기구 — 내 헬스장에 있는 것 우선. */
+  function pickDefaultEquipment(ex: { equipments: EquipmentId[] }): EquipmentId {
+    const available = ex.equipments.find((eq) =>
+      isEquipmentAvailable(eq, gymSet),
+    );
+    return available ?? ex.equipments[0] ?? "barbell";
+  }
   const focuses = sections.map((s) => s.focus);
   // 부위별 세부근육 블록 — '추천으로 채우기'가 세부근육(가슴 상부 등)을 따르게 한다.
   const blockIdsByFocus = new Map<FocusTone, DayBlockId[]>(
@@ -157,11 +163,19 @@ export function DailyMainEditor({
     addableFocuses && addableFocuses.length > 0
       ? [...new Set<FocusTone>([rowFocus, ...addChoices])]
       : focusChoices;
-  // 직접 담기는 부위 전체, 루틴 슬롯 편집은 저장된 세부 블록 범위만 보여준다.
-  const optionsFor = (f: FocusTone): CatalogExercise[] =>
-    allowAllExercises || f === "rest"
-      ? allExercisesForFocus(f)
-      : allExercisesForSlot(f, blockIdsByFocus.get(f) ?? []);
+  // 운동 목록은 **부위별로 서버에서** 받아 캐시한다(직접 담기는 부위 전체, 루틴 슬롯
+  // 편집은 저장된 세부 블록 범위만). 예전엔 카탈로그 1,237개를 클라이언트에서 훑었다.
+  const [optionsByFocus, setOptionsByFocus] = useState<
+    Record<string, SlotExerciseOption[]>
+  >({});
+  /** 행에 저장된 운동의 이름·기구 — 지금 부위 목록에 없을 수도 있다. null = 카탈로그에 없음. */
+  const [detailsById, setDetailsById] = useState<
+    Record<string, SlotExerciseOption | null>
+  >({});
+  const optionsFor = (f: FocusTone): SlotExerciseOption[] =>
+    optionsByFocus[f] ?? [];
+  /** '운동 추가'가 쓸 부위 목록을 아직 못 받았다 — 버튼을 잠근다. */
+  const addOptionsLoading = !optionsByFocus[addChoices[0]];
 
   // 부위별 섹션을 한 목록으로 잇되, **오늘 화면과 같은 순서**로 정렬한다.
   // (부위 경계를 넘어 드래그해 둔 순서가 편집기에서 그룹 순서로 되돌아가면,
@@ -187,24 +201,106 @@ export function DailyMainEditor({
     return () => window.removeEventListener("beforeunload", onBeforeUnload);
   }, [dirty]);
 
+  // ── 필요한 부위의 운동 목록만 받아온다.
+  // 지금 화면에 있는 행들의 부위 + '운동 추가'가 쓸 첫 부위. 사용자가 행의 부위를 바꾸면
+  // 그 부위가 여기 들어와 다음 렌더에 받아온다(부위당 한 번, 그다음은 캐시).
+  const neededFocuses = [
+    ...new Set<FocusTone>([
+      ...rows.map((r) => r.focus),
+      ...(addChoices[0] ? [addChoices[0]] : []),
+    ]),
+  ];
+  const missingFocuses = neededFocuses.filter((f) => !optionsByFocus[f]);
+  const missingFocusKey = missingFocuses.join("|");
+  useEffect(() => {
+    if (missingFocusKey === "") return;
+    const wanted = missingFocusKey.split("|") as FocusTone[];
+    let alive = true;
+    void Promise.all(
+      wanted.map((f) =>
+        exercisesForSlotAction(
+          f,
+          blockIdsByFocus.get(f) ?? [],
+          allowAllExercises || f === "rest",
+        )
+          // 실패해도 빈 목록으로 확정한다 — 안 그러면 매 렌더마다 다시 요청한다.
+          .catch(() => [] as SlotExerciseOption[])
+          .then((list) => [f, list] as const),
+      ),
+    ).then((pairs) => {
+      if (!alive) return;
+      const arrived = new Map(pairs);
+      setOptionsByFocus((prev) => {
+        const next = { ...prev };
+        for (const [f, list] of pairs) next[f] = list;
+        return next;
+      });
+      setDetailsById((prev) => {
+        const next = { ...prev };
+        for (const [, list] of pairs) for (const o of list) next[o.id] = o;
+        return next;
+      });
+      // 부위를 바꾸느라 운동을 비워 둔 행(changeRowFocus 참고)을 여기서 채운다.
+      setRows((prev) =>
+        prev.map((r) => {
+          if (r.exerciseId !== "") return r;
+          const first = arrived.get(r.focus)?.[0];
+          if (!first) return r;
+          return {
+            ...r,
+            exerciseId: first.id,
+            equipment: pickDefaultEquipment(first),
+          };
+        }),
+      );
+    });
+    return () => {
+      alive = false;
+    };
+    // blockIdsByFocus·allowAllExercises 는 props 에서 파생돼 편집 중 안 바뀐다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [missingFocusKey]);
+
+  // ── 행에 저장된 운동이 그 부위 목록에 없으면(부위를 옮겼거나 옛 데이터) id 로 따로 조회.
+  // 못 찾은 id 도 null 로 확정해 둔다 — 안 그러면 없는 운동을 무한히 다시 물어본다.
+  const unknownIds = [
+    ...new Set(
+      rows
+        .map((r) => r.exerciseId)
+        .filter((id) => id !== "" && !(id in detailsById)),
+    ),
+  ];
+  const unknownIdKey = unknownIds.join("|");
+  useEffect(() => {
+    if (unknownIdKey === "") return;
+    const wanted = unknownIdKey.split("|");
+    let alive = true;
+    void exerciseOptionsByIdsAction(wanted)
+      .catch(() => [] as SlotExerciseOption[])
+      .then((list) => {
+        if (!alive) return;
+        const found = new Map(list.map((o) => [o.id, o]));
+        setDetailsById((prev) => {
+          const next = { ...prev };
+          for (const id of wanted) next[id] = found.get(id) ?? null;
+          return next;
+        });
+      });
+    return () => {
+      alive = false;
+    };
+  }, [unknownIdKey]);
+
   function update(next: Row[]) {
     setRows(next);
     setDirty(true);
     setMsg(null);
   }
 
-  function pickDefaultEquipment(ex: {
-    equipments: { equipment: EquipmentId }[];
-  }): EquipmentId {
-    const available = ex.equipments.find((eq) =>
-      isEquipmentAvailable(eq.equipment, gymSet),
-    );
-    return available?.equipment ?? ex.equipments[0].equipment;
-  }
-
   function addRow() {
     const f0 = addChoices[0];
     const first = optionsFor(f0)[0];
+    // 목록을 아직 못 받았으면 버튼이 비활성이라 여기 안 온다(아래 disabled 참고).
     if (!first) return;
     update([
       ...rows,
@@ -220,14 +316,17 @@ export function DailyMainEditor({
     ]);
   }
 
-  /** 행의 부위 변경 — 그 부위 첫 운동으로 초기화(기존 '운동 추가'와 동일 동작). */
+  /** 행의 부위 변경 — 그 부위 첫 운동으로 초기화(기존 '운동 추가'와 동일 동작).
+   * 그 부위 목록을 아직 안 받았으면 운동을 비워 두고, 도착하면 아래 effect 가 채운다
+   * (예전엔 목록이 손 안에 있어 즉시 정해졌다 — 그 동작을 유지하려는 것). */
   function changeRowFocus(idx: number, nextFocus: FocusTone) {
-    const first = optionsFor(nextFocus)[0];
+    const loaded = optionsByFocus[nextFocus];
+    const first = loaded?.[0];
     const next = [...rows];
     next[idx] = {
       ...next[idx],
       focus: nextFocus,
-      exerciseId: first?.id ?? next[idx].exerciseId,
+      exerciseId: loaded ? (first?.id ?? "") : "",
       equipment: first ? pickDefaultEquipment(first) : next[idx].equipment,
     };
     update(next);
@@ -273,7 +372,9 @@ export function DailyMainEditor({
     else doRecommend();
   }
 
-  /** 오늘 각 부위의 추천 운동을 모아 한 목록으로 채운다. */
+  /** 오늘 각 부위의 추천 운동을 모아 한 목록으로 채운다.
+   * 운동 **선정**은 서버(카탈로그가 필요해서), 세트·횟수·무게 처방과 기구 선택
+   * (내 헬스장 우선)은 여기서 — 둘 다 목록 데이터 없이 되고 화면에서 바로 조절한다. */
   function doRecommend() {
     const opts = {
       gender,
@@ -281,7 +382,6 @@ export function DailyMainEditor({
       bodyType: bodyType ?? ("average" as const),
       weightKg: weightKg ?? 65,
     };
-    const next: Row[] = [];
     // 부위 추가 모드면 '추가 요청한 부위'만 추천한다(기존 오늘 부위는 유지). 직접 담기(sections
     // 없음)면 recommendFocuses(오늘 원래 부위)로. 그 외(전체 바꾸기)면 편집기의 부위 전체.
     const addOnly = !!(addableFocuses && addableFocuses.length > 0);
@@ -290,40 +390,49 @@ export function DailyMainEditor({
       : focuses.length > 0
         ? focuses
         : (recommendFocuses ?? []);
-    for (const f of recFocuses) {
-      // 세부근육 블록을 고른 부위면 그 세부근육 운동으로 추천(없으면 부위 전체 추천).
-      const blockIds = blockIdsByFocus.get(f) ?? [];
-      const isSide = sideByFocus.get(f) ?? false;
-      const recExercises =
-        f !== "rest" && isSide
-          ? sideExercisesForSlot(f, blockIds, gender)
-          : blockIds.length > 0 && f !== "rest"
-            ? focusExercisesForSlot(f, blockIds, gender)
-          : exercisesForFocus(f, gender);
-      for (const ex of recExercises) {
-        const p = prescribe(ex.id, opts);
-        next.push({
-          focus: f,
-          exerciseId: ex.id,
-          equipment: pickDefaultEquipment(ex),
-          sets: p.sets,
-          reps: p.reps,
-          weight: p.weightKg === null ? "" : String(p.weightKg),
-          setDetails: null,
-        });
-      }
-    }
-    if (addOnly) {
-      // 기존(핀된 오늘 부위) 행은 유지하고, 추천 요청 부위만 덧붙인다(중복 방지 — 전체 대체 X).
-      const seen = new Set(rows.map((r) => `${r.focus}:${r.exerciseId}`));
-      const appended = next.filter(
-        (r) => !seen.has(`${r.focus}:${r.exerciseId}`),
-      );
-      update([...rows, ...appended]);
-    } else {
-      update(next);
-    }
     setConfirmRecommend(false);
+    start(async () => {
+      const groups = await recommendExercisesAction(
+        recFocuses.map((f) => ({
+          focus: f,
+          // 세부근육 블록을 고른 부위면 그 세부근육 운동으로 추천(없으면 부위 전체 추천).
+          blockIds: blockIdsByFocus.get(f) ?? [],
+          isSide: sideByFocus.get(f) ?? false,
+        })),
+        gender,
+      );
+      const next: Row[] = [];
+      for (const g of groups) {
+        for (const ex of g.exercises) {
+          const p = prescribe(ex.id, opts);
+          next.push({
+            focus: g.focus as FocusTone,
+            exerciseId: ex.id,
+            equipment: pickDefaultEquipment(ex),
+            sets: p.sets,
+            reps: p.reps,
+            weight: p.weightKg === null ? "" : String(p.weightKg),
+            setDetails: null,
+          });
+        }
+      }
+      // 새로 담은 운동의 이름·기구를 바로 그릴 수 있게 캐시에 넣는다(재조회 없이).
+      setDetailsById((prev) => {
+        const merged = { ...prev };
+        for (const g of groups) for (const o of g.exercises) merged[o.id] = o;
+        return merged;
+      });
+      if (addOnly) {
+        // 기존(핀된 오늘 부위) 행은 유지하고, 추천 요청 부위만 덧붙인다(중복 방지 — 전체 대체 X).
+        const seen = new Set(rows.map((r) => `${r.focus}:${r.exerciseId}`));
+        const appended = next.filter(
+          (r) => !seen.has(`${r.focus}:${r.exerciseId}`),
+        );
+        update([...rows, ...appended]);
+      } else {
+        update(next);
+      }
+    });
   }
 
   // ── 드래그 순서 변경 — 그립을 잡으면 바로 이동(롱프레스 없음).
@@ -390,9 +499,14 @@ export function DailyMainEditor({
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+            disabled={addOptionsLoading}
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
           >
-            <Plus aria-hidden="true" size={14} />
+            {addOptionsLoading ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={14} />
+            ) : (
+              <Plus aria-hidden="true" size={14} />
+            )}
             운동 추가
           </button>
         </div>
@@ -409,9 +523,11 @@ export function DailyMainEditor({
             // undefined 이고, 그 부위에 옵션이 없으면 options[0] 도 undefined → 예전엔
             // ex.equipments 에서 크래시. equipments 를 안전하게 비워 크래시를 막는다.
             const rowOptions = optionsFor(row.focus);
-            const ex = getCatalogExercise(row.exerciseId) ?? rowOptions[0];
+            const ex = detailsById[row.exerciseId] ?? rowOptions[0];
             const exEquipments = ex?.equipments ?? [];
-            const sub = subMusclesForExercise(row.exerciseId)[0];
+            const sub = ex
+              ? subMusclesForExerciseData(ex.id, ex.name, ex.target)[0]
+              : undefined;
             return (
               <div
                 key={idx}
@@ -497,7 +613,7 @@ export function DailyMainEditor({
                     muscleFilter
                     value={row.exerciseId}
                     onChange={(id) => {
-                      const nextEx = getCatalogExercise(id);
+                      const nextEx = rowOptions.find((o) => o.id === id);
                       const next = [...rows];
                       next[idx] = {
                         ...row,
@@ -524,10 +640,10 @@ export function DailyMainEditor({
                     className="h-9 max-w-[40%] shrink-0 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
                   >
                     {exEquipments.map((eq) => {
-                      const ok = isEquipmentAvailable(eq.equipment, gymSet);
+                      const ok = isEquipmentAvailable(eq, gymSet);
                       return (
-                        <option key={eq.equipment} value={eq.equipment}>
-                          {EQUIPMENT_LABELS[eq.equipment]}
+                        <option key={eq} value={eq}>
+                          {EQUIPMENT_LABELS[eq]}
                           {ok ? "" : " (헬스장에 없음)"}
                         </option>
                       );

@@ -59,10 +59,7 @@ import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
 
 /** DB row 의 값이 비어 있으면 카탈로그 기본값을 대신 사용(파라미터별, 시간/속도/경사/세트/횟수) */
-function effectiveValues(
-  row: ConditioningRow,
-  _item: ConditioningItem | undefined,
-) {
+function effectiveValues(row: ConditioningRow) {
   const d = conditioningDefaults(row.itemId);
   return {
     duration: row.durationMin ?? d.durationMin,
@@ -77,7 +74,7 @@ function formatDetail(
   row: ConditioningRow,
   item: ConditioningItem | undefined,
 ): string {
-  const v = effectiveValues(row, item);
+  const v = effectiveValues(row);
   const params = item?.params ?? [];
   const valOf = (p: ConditioningParam): number | null =>
     p === "duration"
@@ -405,7 +402,7 @@ export async function TodayExercises({
       const item = getConditioningItem(r.itemId);
       const name = item?.name ?? r.itemId;
       const detail = formatDetail(r, item) || "—";
-      const eff = effectiveValues(r, item);
+      const eff = effectiveValues(r);
       const st = condStatusById.get(r.id);
       // 완료된 컨디셔닝은 운동모드에서 실제 한 시간·속도(스냅샷)로 칼로리 계산(값 일치).
       const snap = condDoneSnap(r.id);
@@ -523,6 +520,7 @@ export async function TodayExercises({
       equipment: p.equipment,
       focus: p.focus,
       name: ex?.name ?? p.exerciseId,
+      target: ex?.target ?? "",
       subtitle,
       // 확장 카탈로그(1,237개)의 운동법은 클라 번들에서 뺐다 — 서버에서 붙여 내려보낸다.
       method: methodSteps(p.exerciseId, p.equipment),

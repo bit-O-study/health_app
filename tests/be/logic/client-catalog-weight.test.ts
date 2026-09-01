@@ -22,20 +22,15 @@ const SRC = resolve(dirname(fileURLToPath(import.meta.url)), "../../../src");
 /**
  * 아직 카탈로그 데이터에 닿는 클라이언트 화면 — **줄여야 할 목록**이다.
  *
- * 위 5개는 운동 목록/검색이 실제로 필요한 편집기·픽커(2단계에서 서버 조회로 옮길 대상),
- * 나머지는 `muscle-map`·`exercise-search`·`calories` 같은 중간 모듈을 건너서 닿는다
- * (그 모듈들은 부위 매핑·칼로리 계산만 쓰는데 전체 카탈로그를 물고 있다 — 같이 쪼갤 대상).
+ * 앞 3개는 운동 목록·추천이 실제로 필요한 편집기(4단계에서 서버 조회로 옮길 대상),
+ * 뒤 2개는 `muscle-detail` 을 건너서 닿는다(운동 id 만으로 세부 근육을 찾느라
+ * 카탈로그를 뒤진다 — 이름·타깃을 같이 넘기면 `sub-muscles.ts` 만으로 된다).
  */
 const ALLOWED = new Set([
-  // 목록·검색 UI (데이터가 진짜 필요)
+  // 목록·추천 UI (데이터가 진짜 필요)
   "features/routine/components/daily-main-editor.tsx",
-  "features/routine/components/exercise-search-select.tsx",
   "features/routine/components/plan-editor.tsx",
-  "features/routine/components/today-plan-list.tsx",
-  "features/routine/components/exercise-finder.tsx",
-  // 중간 모듈(muscle-map / muscle-detail / muscle-balance)을 건너서 닿는 화면
-  "features/routine/components/conditioning-editor.tsx",
-  "features/routine/components/today-conditioning-list.tsx",
+  // 중간 모듈(muscle-detail)을 건너서 닿는 화면
   "features/workout-timer/guided-workout.tsx",
   "features/workout-timer/muscle-body-view.tsx",
 ]);

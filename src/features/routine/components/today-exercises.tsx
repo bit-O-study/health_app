@@ -366,11 +366,15 @@ export async function TodayExercises({
   const w = weightKg ?? 65;
 
   // Main 행 변환
-  const items: TodayPlanItem[] = plan.map((item) => ({
+  const items: TodayPlanItem[] = plan.map((item) => {
+    const catalog = getCatalogExercise(item.exerciseId);
+    return {
     id: item.id,
     exerciseId: item.exerciseId,
     equipment: item.equipment,
-    name: getCatalogExercise(item.exerciseId)?.name ?? item.exerciseId,
+    name: catalog?.name ?? item.exerciseId,
+    // 세부근육 배지를 클라이언트가 카탈로그 없이 뽑게 — 여기서 같이 내려준다.
+    target: catalog?.target ?? "",
     equipmentLabel: EQUIPMENT_LABELS[item.equipment],
     // 완료된 운동은 실제 한 세트수로 표시(칼로리도 그 값으로 계산됨).
     sets: effMainSets(item.id, item.sets),
@@ -379,7 +383,8 @@ export async function TodayExercises({
     setDetails: item.setDetails,
     focus: item.focus,
     memo: item.memo,
-  }));
+    };
+  });
   // 완료 상태 — assignCompletions 로 행에 1:1 배정된 결과(과매칭 없음).
   const mainDoneIds = plan
     .filter((p) => mainStatusById.get(p.id) === "done")

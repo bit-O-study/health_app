@@ -10,7 +10,6 @@
   "src/features/gym/components/gym-place-suggestions.tsx::react-hooks/set-state-in-effect": 1,
   "src/features/gym/gym-form.tsx::react-hooks/set-state-in-effect": 1,
   "src/features/profile/components/rest-sound-picker.tsx::react-hooks/set-state-in-effect": 1,
-  "src/features/routine/components/exercise-search-select.tsx::react-hooks/set-state-in-effect": 2,
   "src/features/routine/components/upcoming-seven-days.tsx::react-hooks/refs": 2,
   "src/features/running/components/run-leaderboard.tsx::react-hooks/refs": 1,
   "src/features/running/running-game.tsx::react-hooks/immutability": 2,

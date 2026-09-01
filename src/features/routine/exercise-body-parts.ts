@@ -145,6 +145,21 @@ export function primaryBodyPart(id: string): BodyPart {
 }
 
 /**
+ * 운동 id → 대표 부위(focus). **목록 데이터 없이** 매핑만으로 답한다.
+ *
+ * `exercise-catalog.focusForExercise()` 와 결과가 같다 — 그쪽은 부위별 운동 목록을
+ * 역인덱싱하는데, 그 목록이 `primaryBodyPart()` 로 만들어지므로 결국 같은 값이다
+ * (합성 focus 인 fullbody/upper/push/pull 보다 기본 6부위를 먼저 매칭하기 때문).
+ * 두 함수가 어긋나지 않는지는 `exercise-focus-map.test.ts` 가 전 종목으로 못 박는다.
+ *
+ * 매핑에 없는 id 는 `null` — `primaryBodyPart()` 의 "core" 폴백과 다르다.
+ * 카탈로그에 없는 운동에 부위 칩을 달면 안 되기 때문(카탈로그 쪽도 null 을 준다).
+ */
+export function focusForExerciseId(id: string): BodyPart | null {
+  return PRIMARY_BODY_PART[id] ?? EXTRA_BODY_PART[id] ?? null;
+}
+
+/**
  * 보조 부위 — 한 운동이 여러 부위를 자극할 때(복합 운동) 추가로 다는 태그.
  * 예: 플랭크=코어+하체, 데드리프트=등+하체, 스쿼트=하체+코어.
  * primary 외에 함께 표시할 부위만 적는다. (조정하려면 여기만 고치면 됨)

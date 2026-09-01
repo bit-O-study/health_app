@@ -2,15 +2,20 @@ package app.helssu.twa;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
+import android.webkit.RenderProcessGoneDetail;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
@@ -22,6 +27,9 @@ import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.BridgeWebChromeClient;
 import com.getcapacitor.BridgeWebViewClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * 런닝(실내=카메라 getUserMedia / 야외=GPS geolocation) 웹 권한을 시스템 권한 다이얼로그로
  * 연결한다. Capacitor 기본 WebChromeClient 는 런타임 권한이 없으면 프롬프트 없이 거부하므로,
@@ -31,6 +39,15 @@ public class MainActivity extends BridgeActivity {
 
     private static final int REQ_CAMERA = 9101;
     private static final int REQ_LOCATION = 9102;
+    private static final String WEBVIEW_LOG_TAG = "HelssuWebView";
+    private static final String RENDERER_RECOVERY_PREFS = "helssu_renderer_recovery";
+    private static final String KEY_LAST_EXIT_AT = "lastExitAt";
+    private static final String KEY_WINDOW_COUNT = "windowCount";
+    private static final String KEY_PENDING = "pending";
+    private static final String KEY_MODE = "mode";
+    private static final String KEY_DID_CRASH = "didCrash";
+    private static final String KEY_RENDERER_PRIORITY = "rendererPriority";
+    private static final String KEY_PATH = "path";
 
     private PermissionRequest pendingCamera;
     private GeolocationPermissions.Callback pendingGeoCallback;
@@ -131,7 +148,66 @@ public class MainActivity extends BridgeActivity {
                 loadFailed = true;
                 scheduleReload(view);
             }
+
+            @Override
+            public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
+                super.onRenderProcessGone(view, detail);
+                recordRendererExit(view, detail);
+                loadFailed = false;
+                retryHandler.removeCallbacksAndMessages(null);
+
+                ViewParent parent = view.getParent();
+                if (parent instanceof ViewGroup) {
+                    ((ViewGroup) parent).removeView(view);
+                }
+                view.destroy();
+
+                retryHandler.post(() -> {
+                    if (!isFinishing() && !isDestroyed()) recreate();
+                });
+                return true;
+            }
         });
+    }
+
+    private SharedPreferences rendererRecoveryPrefs() {
+        return getSharedPreferences(RENDERER_RECOVERY_PREFS, MODE_PRIVATE);
+    }
+
+    private void recordRendererExit(WebView view, RenderProcessGoneDetail detail) {
+        SharedPreferences prefs = rendererRecoveryPrefs();
+        long now = System.currentTimeMillis();
+        RendererRecoveryPolicy.Decision decision = RendererRecoveryPolicy.decide(
+            prefs.getLong(KEY_LAST_EXIT_AT, 0L),
+            prefs.getInt(KEY_WINDOW_COUNT, 0),
+            now
+        );
+
+        String path = "/";
+        String url = view.getUrl();
+        if (url != null) {
+            String parsedPath = Uri.parse(url).getPath();
+            if (parsedPath != null && !parsedPath.isEmpty()) path = parsedPath;
+        }
+
+        prefs.edit()
+            .putLong(KEY_LAST_EXIT_AT, now)
+            .putInt(KEY_WINDOW_COUNT, decision.count)
+            .putBoolean(KEY_PENDING, true)
+            .putString(KEY_MODE, decision.mode)
+            .putBoolean(KEY_DID_CRASH, detail.didCrash())
+            .putInt(KEY_RENDERER_PRIORITY, detail.rendererPriorityAtExit())
+            .putString(KEY_PATH, path)
+            .apply();
+
+        Log.e(
+            WEBVIEW_LOG_TAG,
+            "renderer_gone mode=" + decision.mode
+                + " count=" + decision.count
+                + " didCrash=" + detail.didCrash()
+                + " priority=" + detail.rendererPriorityAtExit()
+                + " path=" + path
+        );
     }
 
     /**
@@ -166,6 +242,28 @@ public class MainActivity extends BridgeActivity {
 
     /** window.HelssuNative — 웹에서 기기 설정 화면을 여는 브릿지. */
     private class NativeBridge {
+        /** WebView renderer 복구 이벤트를 최신 한 건만 반환한다. */
+        @JavascriptInterface
+        public String consumeRendererRecovery() {
+            SharedPreferences prefs = rendererRecoveryPrefs();
+            if (!prefs.getBoolean(KEY_PENDING, false)) return null;
+            prefs.edit().putBoolean(KEY_PENDING, false).apply();
+            try {
+                return new JSONObject()
+                    .put(
+                        "mode",
+                        prefs.getString(KEY_MODE, RendererRecoveryPolicy.MODE_RESTORE_ONCE)
+                    )
+                    .put("occurredAt", prefs.getLong(KEY_LAST_EXIT_AT, 0L))
+                    .put("count", prefs.getInt(KEY_WINDOW_COUNT, 1))
+                    .put("didCrash", prefs.getBoolean(KEY_DID_CRASH, false))
+                    .toString();
+            } catch (JSONException error) {
+                Log.e(WEBVIEW_LOG_TAG, "renderer_recovery_json_failed", error);
+                return null;
+            }
+        }
+
         /** 기기 '위치 정보(GPS)' 설정 화면 열기. */
         @JavascriptInterface
         public void openLocationSettings() {
@@ -186,6 +284,12 @@ public class MainActivity extends BridgeActivity {
                 startActivity(i);
             });
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        retryHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
     @Override

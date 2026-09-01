@@ -80,3 +80,40 @@ export function dropIndex(
   }
   return target;
 }
+
+/**
+ * 행을 다른 테이블로 옮기거나(pin) 통째로 다시 넣을 때 쓸 position — **원본을 지킨다**.
+ *
+ * ⚠ 여기서 0..n 으로 **재인덱싱하면 안 된다**. 부위 경계를 넘어 순서를 바꾼 사용자는
+ * routine_exercises 에 전역 position(0..N-1)을 갖고 있는데, 부위별로 0..n 을 다시 매기면
+ * 부위끼리 position 이 겹쳐(= 서로 다른 부위가 모두 0 을 가짐) orderMainPlan 이
+ * "기본 상태"로 판정하고 그룹 순서로 되돌린다 → "부위 추가하면 운동 순서가 초기화됨" 버그.
+ * 그래서 원본 position 을 그대로 옮긴다(값이 이상한 데이터만 순번으로 폴백).
+ */
+export function keepPosition(
+  sourcePosition: number,
+  indexInFocus: number,
+): number {
+  return Number.isInteger(sourcePosition) && sourcePosition >= 0
+    ? sourcePosition
+    : indexInFocus;
+}
+
+/**
+ * 부위가 섞인 한 목록(오늘만 편집기)을 **부위별 저장**으로 나눈다.
+ *
+ * daily_plan 은 (날짜, 부위) 단위로 통째 교체되는데, 저장할 때 부위별로 0..n 을 다시 매기면
+ * 위와 같은 이유로 부위 교차 순서가 사라진다. 그래서 화면(한 목록)에서의 **전역 index** 를
+ * position 으로 실어 보내, 저장 후에도 orderMainPlan 이 사용자가 만든 순서를 그대로 복원한다.
+ */
+export function groupByFocusWithGlobalPositions<T extends { focus: string }>(
+  rows: readonly T[],
+): { focus: string; items: (T & { position: number })[] }[] {
+  const byFocus = new Map<string, (T & { position: number })[]>();
+  rows.forEach((row, index) => {
+    const arr = byFocus.get(row.focus) ?? [];
+    arr.push({ ...row, position: index });
+    byFocus.set(row.focus, arr);
+  });
+  return [...byFocus.entries()].map(([focus, items]) => ({ focus, items }));
+}

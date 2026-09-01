@@ -67,6 +67,8 @@ public class MainActivity extends BridgeActivity {
 
         WebView webView = this.getBridge().getWebView();
 
+        loadOAuthCallback(getIntent(), webView);
+
         // 웹에서 OS 설정 화면을 열 수 있는 JS 브릿지(window.HelssuNative).
         // 야외 런닝에서 GPS(위치정보)가 꺼져 있으면 '위치 설정 열기'로 안내한다.
         // ⚠ 웹/WebView 는 위치정보를 코드로 자동 ON 할 수 없어, 설정 화면 열기까지만 지원한다.
@@ -154,6 +156,7 @@ public class MainActivity extends BridgeActivity {
                 super.onRenderProcessGone(view, detail);
                 recordRendererExit(view, detail);
                 loadFailed = false;
+                reloadAttempts = 0;
                 retryHandler.removeCallbacksAndMessages(null);
 
                 ViewParent parent = view.getParent();
@@ -208,6 +211,45 @@ public class MainActivity extends BridgeActivity {
                 + " priority=" + detail.rendererPriorityAtExit()
                 + " path=" + path
         );
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        loadOAuthCallback(intent, this.getBridge().getWebView());
+    }
+
+    private void loadOAuthCallback(Intent intent, WebView webView) {
+        if (intent == null || webView == null) return;
+        Uri uri = intent.getData();
+        if (uri == null) return;
+        String callbackUrl;
+        if ("helssu".equals(uri.getScheme())
+            && "auth".equals(uri.getHost())
+            && "/callback".equals(uri.getPath())) {
+            Uri.Builder callback = new Uri.Builder()
+                .scheme("https")
+                .authority("health-app-five-iota.vercel.app")
+                .path("/auth/callback");
+            appendQueryParameter(uri, callback, "code");
+            appendQueryParameter(uri, callback, "next");
+            appendQueryParameter(uri, callback, "error");
+            callbackUrl = callback.build().toString();
+        } else if ("https".equals(uri.getScheme())
+            && "health-app-five-iota.vercel.app".equals(uri.getHost())
+            && "/auth/callback".equals(uri.getPath())) {
+            callbackUrl = uri.toString();
+        } else {
+            return;
+        }
+        webView.loadUrl(callbackUrl);
+        intent.setData(null);
+    }
+
+    private void appendQueryParameter(Uri source, Uri.Builder target, String name) {
+        String value = source.getQueryParameter(name);
+        if (value != null) target.appendQueryParameter(name, value);
     }
 
     /**
@@ -284,6 +326,7 @@ public class MainActivity extends BridgeActivity {
                 startActivity(i);
             });
         }
+
     }
 
     @Override

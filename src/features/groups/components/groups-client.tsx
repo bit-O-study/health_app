@@ -10,6 +10,11 @@ import {
   joinGroupByTokenAction,
 } from "@/features/groups/group-actions";
 import { GroupControls } from "@/features/groups/components/group-controls";
+import {
+  DEFAULT_GROUP_MODE,
+  groupTabHref,
+  type GroupMode,
+} from "@/features/groups/group-mode";
 import type { GroupSummary } from "@/features/groups/data-access";
 
 /** 붙여넣은 값에서 토큰만 추출 — 전체 URL이면 마지막 경로, 아니면 그대로. */
@@ -20,7 +25,14 @@ function extractToken(input: string): string {
   return s.replace(/[/?#\s]/g, "");
 }
 
-export function GroupsClient({ groups }: { groups: GroupSummary[] }) {
+export function GroupsClient({
+  groups,
+  mode = DEFAULT_GROUP_MODE,
+}: {
+  groups: GroupSummary[];
+  /** 그룹탭 전역 모드 — 초대 카드 문구용. */
+  mode?: GroupMode;
+}) {
   const router = useRouter();
   const [pending, start] = useTransition();
   const [name, setName] = useState("");
@@ -31,7 +43,8 @@ export function GroupsClient({ groups }: { groups: GroupSummary[] }) {
     setErr(null);
     start(async () => {
       const res = await createGroupAction(name);
-      if (res.ok && res.id) router.push(`/groups/${res.id}`);
+      // 그룹탭 정식 경로 — 현재 모드(헬스장/인증)에 맞는 화면으로 들어간다.
+      if (res.ok && res.id) router.push(groupTabHref(res.id));
       else if (!res.ok) setErr(res.error);
     });
   }
@@ -42,7 +55,7 @@ export function GroupsClient({ groups }: { groups: GroupSummary[] }) {
     if (!token) return setErr("초대 링크나 코드를 입력하세요.");
     start(async () => {
       const res = await joinGroupByTokenAction(token);
-      if (res.ok && res.id) router.push(`/groups/${res.id}`);
+      if (res.ok && res.id) router.push(groupTabHref(res.id));
       else if (!res.ok) setErr(res.error);
     });
   }
@@ -103,6 +116,7 @@ export function GroupsClient({ groups }: { groups: GroupSummary[] }) {
                     inviteToken={g.inviteToken}
                     isOwner={g.isOwner}
                     compact
+                    mode={mode}
                   />
                 </div>
               </li>

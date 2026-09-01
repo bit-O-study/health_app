@@ -30,6 +30,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- 구글/카카오 OAuth 완료 후 외부 브라우저에서 앱으로 복귀 -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="https"
+                    android:host="health-app-five-iota.vercel.app"
+                    android:pathPrefix="/auth/callback" />
+            </intent-filter>
+
+            <!-- OAuth 외부 브라우저에서 앱으로 확실히 복귀시키는 전용 콜백 -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="helssu"
+                    android:host="auth"
+                    android:path="/callback" />
+            </intent-filter>
+
             <!-- Health Connect 권한 사유(개인정보) 화면 — Android 14+ 통합 HC -->
             <intent-filter>
                 <action android:name="androidx.health.connect.action.SHOW_PERMISSIONS_RATIONALE" />

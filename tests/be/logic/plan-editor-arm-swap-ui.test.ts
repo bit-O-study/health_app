@@ -16,6 +16,9 @@ vi.mock("@/features/routine/delete-actions", () => ({
 vi.mock("@/features/routine/components/conditioning-editor", () => ({
   ConditioningEditor: () => null,
 }));
+vi.mock("@/features/routine-share/components/share-day-button", () => ({
+  ShareDayButton: () => null,
+}));
 
 import { PlanEditor } from "@/features/routine/components/plan-editor";
 

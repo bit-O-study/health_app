@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { Bell, Footprints, Loader2 } from "lucide-react";
 
 import { ensurePushSubscribed } from "@/features/notifications/push-client";
-import { registerNativePush } from "@/features/notifications/native-push";
 import {
-  connectSteps,
-  getStepsState,
-  hasCapacitorBridge,
-} from "@/features/health/steps-native";
+  hasNativePushPermission,
+  registerNativePush,
+} from "@/features/notifications/native-push";
+import { connectSteps, getStepsState } from "@/features/health/steps-native";
+import { isNativeApp } from "@/lib/platform/is-native-app";
 
 // 알림 권한은 받을 때까지 계속 요청한다 → '나중에'는 이번 세션만 숨김(sessionStorage).
 // 새로고침/재접속하면 권한이 아직 없으면 다시 뜬다.
@@ -31,12 +31,21 @@ export function PermissionNudge() {
 
   useEffect(() => {
     let cancelled = false;
-    // 네이티브(안드로이드 앱) — FCM 푸시 등록(상태표시줄 알림). 웹에선 no-op.
-    void registerNativePush();
     (async () => {
+      const native = isNativeApp();
       // 앱 푸시 알림 — 모바일에서만 넛지.
       try {
-        if ("Notification" in window) {
+        if (native) {
+          const granted = await hasNativePushPermission();
+          if (granted) {
+            void registerNativePush();
+          } else if (
+            window.sessionStorage.getItem(PUSH_SNOOZE) !== "1" &&
+            !cancelled
+          ) {
+            setShowPush(true);
+          }
+        } else if ("Notification" in window) {
           const perm = Notification.permission;
           if (perm === "granted") {
             void ensurePushSubscribed(); // 허용돼 있으면 구독만 갱신(배너 X)
@@ -53,12 +62,9 @@ export function PermissionNudge() {
       }
       // 걸음수(네이티브 앱에서만 의미)
       try {
-        if (
-          hasCapacitorBridge() &&
-          window.localStorage.getItem(STEPS_DISMISS) !== "1"
-        ) {
-          const st = await getStepsState();
-          if (!cancelled && st.status !== "granted") setShowSteps(true);
+        if (native && window.localStorage.getItem(STEPS_DISMISS) !== "1") {
+          const steps = await getStepsState();
+          if (!cancelled) setShowSteps(steps.status !== "granted");
         }
       } catch {
         /* 무시 */
@@ -72,8 +78,12 @@ export function PermissionNudge() {
   async function allowPush() {
     setBusy("push");
     try {
-      const p = await Notification.requestPermission();
-      if (p === "granted") await ensurePushSubscribed();
+      if (isNativeApp()) {
+        await registerNativePush();
+      } else {
+        const p = await Notification.requestPermission();
+        if (p === "granted") await ensurePushSubscribed();
+      }
     } catch {
       /* 무시 */
     } finally {

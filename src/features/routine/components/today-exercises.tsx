@@ -403,6 +403,15 @@ export async function TodayExercises({
       const st = condStatusById.get(r.id);
       // 완료된 컨디셔닝은 운동모드에서 실제 한 시간·속도(스냅샷)로 칼로리 계산(값 일치).
       const snap = condDoneSnap(r.id);
+      // 이 행을 완료로 만든 '기록'의 id. 런닝모드 기록처럼 행 id 가 아닌 기록이 키로
+      // 배정됐을 수 있어, 완료취소 때 그 기록 1건만 지우도록 함께 내려보낸다.
+      const recIdx = condRecordIndexById.get(r.id);
+      const completionRowId =
+        st === undefined
+          ? null
+          : recIdx != null
+            ? (completedCond[recIdx]?.sourceRowId ?? r.id)
+            : r.id;
       const kDur = snap?.durationMin ?? eff.duration;
       const kSpeed = snap?.speed ?? eff.speed;
       const kcal = Math.round(
@@ -422,6 +431,7 @@ export async function TodayExercises({
         sets: eff.sets,
         reps: eff.reps,
         memo: r.memo,
+        completionRowId,
       };
     });
     return { items, doneIds, skippedIds };

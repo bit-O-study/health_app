@@ -15,11 +15,12 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
 import {
   clearSavedMark,
+  consumeColdStart,
   elapsedMs,
   formatElapsed,
+  freezeOnColdStart,
   readTimer,
   reconcileResume,
-  restoreTimerOnMount,
   seoulTodayYmd,
   takeUnsavedDelta,
   writeTimer,
@@ -184,9 +185,6 @@ export function WorkoutSessionTimer({
   const [savingErr, setSavingErr] = useState<string | null>(null);
   // 자정 롤오버 중복 방지 — 한 번 처리한 forDate 는 다시 처리 안 함
   const rolledOverRef = useRef<string | null>(null);
-  // 운동 상세에서 돌아오는 내부 라우트 전환은 타이머를 멈추지 않고 바로 이어간다.
-  const resumeFromDetailRef = useRef(false);
-
   // ── 무활동 종료 감지용 refs (콜백에서 최신값을 읽기 위해 ref 로 동기화) ──
   const queueRef = useRef<GuidedItem[]>([]);
   const stateRef = useRef<TimerState | null>(null);
@@ -235,12 +233,11 @@ export function WorkoutSessionTimer({
   // 운동모드에서 운동상세로 갔다가 돌아오면(세션 플래그) 운동모드를 자동 재오픈.
   // (상세 → 뒤로/홈 → /routine 재마운트 시 1회 소비.)
   useEffect(() => {
-    try {
-      if (sessionStorage.getItem("heltch.resumeWorkout") === "1") {
-        sessionStorage.removeItem("heltch.resumeWorkout");
-        resumeFromDetailRef.current = true;
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setGuided(true);
+      try {
+        if (sessionStorage.getItem("heltch.resumeWorkout") === "1") {
+          sessionStorage.removeItem("heltch.resumeWorkout");
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setGuided(true);
       }
     } catch {
       /* noop */
@@ -254,10 +251,12 @@ export function WorkoutSessionTimer({
     // ⚠ 먼저 '안 보던 동안'의 시간을 제외한다(reconcile). 타이머를 켜둔 채 앱을
     //    며칠 닫아두면 그 며칠(어제·그제·일주일)이 경과시간으로 잡히는데, 이를
     //    빼고 나서 롤오버를 판정해야 옛 날짜 캘린더에 그 시간이 잘못 가산되지 않는다.
-    const restored = restoreTimerOnMount(
-      raw,
+    // ⚠ 앱이 '새로 켜진'(콜드 스타트 = 팅김·강제종료 복귀) 경우엔 더 엄격하게 —
+    //    죽어 있던 구간을 빼고 **정지 상태**로 되살린다. 사용자가 '다시 운동하기'를
+    //    누른 시점부터 다시 흐르므로, 튕긴 시간이 운동시간에 얹히지 않는다.
+    const restored = reconcileResume(
+      consumeColdStart() ? freezeOnColdStart(raw, Date.now()) : raw,
       Date.now(),
-      resumeFromDetailRef.current,
     );
     if (restored) {
       // forDate 와 오늘이 다르면: 어제까지의 (실제 운동)시간을 저장하고 타이머는 reset

@@ -8,7 +8,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isLocalEnv, normalizePhone } from "@/features/auth/phone";
-import { destinationAfterLogin } from "@/features/auth/actions";
+import { isNativeApp } from "@/lib/platform/is-native-app";
 
 type Mode = "login" | "signup";
 
@@ -149,10 +149,9 @@ export function AuthForm({
       return;
     }
 
-    const destination = await destinationAfterLogin(redirectTo);
     // ⚠ SPA 전환 대신 하드 네비게이션 — 로그인 직후 미들웨어 왕복과 엉켜 전환이
     //   안 끝나는 무한 로딩을 막는다(로그인은 성공하는데 화면만 안 넘어가던 버그).
-    window.location.assign(destination);
+    window.location.assign(redirectTo);
   }
 
   /** 구글/카카오 로그인 — Supabase 가 provider 인증 페이지로 리다이렉트시킨다. */
@@ -161,10 +160,13 @@ export function AuthForm({
     setNotice(null);
     setOauthLoading(provider);
     const supabase = createSupabaseBrowserClient();
+    const callback = new URL("/auth/callback", window.location.origin);
+    callback.searchParams.set("next", redirectTo);
+    if (isNativeApp()) callback.searchParams.set("native", "1");
     const { error: oauthError } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(redirectTo)}`,
+        redirectTo: callback.toString(),
         // ⚠ scopes 옵션은 Supabase 기본 scope 를 '대체'하지 않고 뒤에 덧붙기만 한다.
         // (카카오 기본값 account_email·profile_image·profile_nickname 은 그대로 나감)
         // 따라서 요청 scope 를 줄이려면 여기가 아니라 Kakao Developers 콘솔의

@@ -36,6 +36,11 @@ import {
   toggleLikeAction,
 } from "../community-actions";
 import { deleteTeachingPostAction } from "@/features/teaching/teaching-actions";
+import { RoutineShareBoard } from "@/features/routine-share/components/routine-share-board";
+import type {
+  ApplyTarget,
+  RoutineShareItem,
+} from "@/features/routine-share/share";
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 
 type Group = { id: string; name: string };
@@ -47,10 +52,16 @@ export function CommunityBoard({
   groups,
   initialPosts,
   canModerate,
+  routineShares = [],
+  applyTargets = [],
 }: {
   groups: Group[];
   initialPosts: FeedPost[];
   canModerate: boolean;
+  /** '루틴' 탭 — 소개된 하루치 루틴(상세까지 한 번에). */
+  routineShares?: RoutineShareItem[];
+  /** '루틴' 탭 담기 시트 — 내 루틴의 일차 목록. */
+  applyTargets?: ApplyTarget[];
 }) {
   const router = useRouter();
   const [now] = useState(() => Date.now());
@@ -71,23 +82,23 @@ export function CommunityBoard({
     <div
       className={
         isReels
-          ? "mx-auto flex h-[calc(100dvh-4rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-2xl flex-col overflow-hidden"
-          : "mx-auto flex w-full max-w-2xl flex-col"
+          ? "app-page mx-auto flex h-[calc(100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-2xl flex-col overflow-hidden"
+          : "app-page mx-auto flex min-h-screen w-full max-w-2xl flex-col"
       }
     >
-      <div className="sticky top-0 z-10 shrink-0 border-b border-zinc-200/70 bg-white/80 px-4 pb-0 pt-1 backdrop-blur-xl dark:border-zinc-800/70 dark:bg-zinc-950/80">
+      <div className="app-header shrink-0 px-4 pb-0 pt-3">
         <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-black tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
           커뮤니티
         </h1>
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4 overflow-x-auto [scrollbar-width:none] min-[390px]:gap-5">
           {BOARD_TABS.map(({ value, label }) => (
             <button
               key={value}
               type="button"
               onClick={() => setTab(value)}
-              className={`relative pb-2.5 text-[16px] font-bold transition-colors ${
+              className={`relative shrink-0 pb-2.5 text-[15px] font-bold transition-colors min-[390px]:text-base ${
                 tab === value
                   ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
@@ -120,7 +131,10 @@ export function CommunityBoard({
       </div>
 
       {/* 피드 */}
-      {isReels ? (
+      {tab === "routine" ? (
+        // 루틴 소개 — 남의 하루치 루틴을 보고 내 루틴의 한 일차로 담는다.
+        <RoutineShareBoard items={routineShares} targets={applyTargets} />
+      ) : isReels ? (
         // 운동 탭 — 숏츠/릴스 스타일 세로 풀스크린 피드(이 영역만 스냅 스크롤)
         <div className="min-h-0 flex-1">
           <TeachingReels
@@ -155,8 +169,8 @@ export function CommunityBoard({
         </ul>
       )}
 
-      {/* 글쓰기 FAB — 사진 인증(운동 탭은 운동모드에서 촬영하므로 숨김) */}
-      {tab !== "teaching" ? (
+      {/* 글쓰기 FAB — 사진 인증(운동 탭은 운동모드에서 촬영, 루틴 탭은 운동 등록에서 올림) */}
+      {tab !== "teaching" && tab !== "routine" ? (
         <button
           type="button"
           onClick={() => setCompose(true)}

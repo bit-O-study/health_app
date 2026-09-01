@@ -24,14 +24,14 @@ export default async function GroupsPage({
   // 그룹이 없으면 만들기/참여 화면.
   if (groups.length === 0) {
     return (
-      <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
+      <main className="app-page app-container">
         <h1 className="mb-1 text-xl font-bold text-zinc-950 dark:text-zinc-50">그룹</h1>
         <p className="mb-5 text-sm text-zinc-500 dark:text-zinc-400">
           {mode === "proof"
             ? "그룹을 만들어 친구와 오늘 운동 인증을 서로 남겨보세요."
             : "그룹을 만들어 친구와 이번 주 운동 랭킹대전을 펼쳐보세요."}
         </p>
-        <GroupsClient groups={groups} />
+        <GroupsClient groups={groups} mode={mode} />
       </main>
     );
   }
@@ -47,7 +47,7 @@ export default async function GroupsPage({
     return (
       // 움짤 인증 피드 — 일반 흐름(문서 스크롤)이라 헤더까지 전체가 함께 스크롤되고,
       // body 의 상단 safe-area 패딩을 그대로 물려받아 상태바와 안 겹친다.
-      <main className="mx-auto w-full max-w-2xl">
+      <main className="app-page mx-auto w-full max-w-2xl">
         <GroupProofBoard board={board} groups={groups} />
       </main>
     );
@@ -63,7 +63,7 @@ export default async function GroupsPage({
   return (
     // 전체화면 헬스장 — 상단~하단탭(4rem+safe) 사이에 fixed 로 고정.
     // dvh 계산/바디 패딩에 의존하지 않아 어떤 기기에서도 스크롤이 생기지 않는다.
-    <main className="fixed inset-x-0 top-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] overflow-hidden">
+    <main className="fixed inset-x-0 top-0 bottom-[calc(3.75rem+env(safe-area-inset-bottom))] overflow-hidden">
       <GroupBoard detail={detail} groups={groups} />
     </main>
   );

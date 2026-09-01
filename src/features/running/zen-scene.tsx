@@ -9,6 +9,10 @@ import {
   CHARACTER_MODEL_URL,
   pickClipName,
 } from "@/features/running/character";
+import {
+  detectSceneQuality,
+  type SceneQuality,
+} from "@/features/running/quality";
 
 /* 캐릭터 모델은 character.ts 한 곳에서 관리(교체 쉽게 — Mixamo 등). 지연 로드라 preload 안전. */
 const ROBOT_URL = CHARACTER_MODEL_URL;
@@ -147,6 +151,13 @@ export default function ZenScene({
 }) {
   const [mapIndex, setMapIndex] = useState(0);
   const preset = MAPS[mapIndex];
+  /**
+   * 기기 성능에 맞춰 그림자·해상도를 정한다(팅김 완화). 마운트 시 한 번만 계산 —
+   * 렌더 도중에 바뀌면 three.js 가 렌더러를 다시 만들어 오히려 끊긴다.
+   * (이 컴포넌트는 양쪽 호출부에서 `dynamic(..., { ssr: false })` 로만 로드되므로
+   *  여기선 항상 브라우저다 — navigator 를 그냥 읽어도 안전하다.)
+   */
+  const quality: SceneQuality = useMemo(() => detectSceneQuality(), []);
 
   // 현재 맵 이름 HUD 갱신.
   useEffect(() => {
@@ -155,8 +166,11 @@ export default function ZenScene({
 
   return (
     <Canvas
-      shadows
-      dpr={[1, 2]}
+      /* 저사양 기기는 그림자를 통째로 끈다 — 매 프레임 그림자 패스(+그림자맵 텍스처)가
+         사라져 GPU 부하가 가장 크게 줄어든다. dpr 상한도 등급별(고사양도 2 → 1.5:
+         3배 밀도 폰에서 렌더 픽셀이 ~1.8배 줄고, 단순한 스타일이라 체감 차이는 거의 없다). */
+      shadows={quality.shadows}
+      dpr={[1, quality.dprMax]}
       camera={{ position: [0.6, 2.4, 12], fov: 40 }}
       onCreated={({ camera }) => camera.lookAt(3.4, 1.6, -8)}
       className="absolute inset-0"
@@ -167,8 +181,8 @@ export default function ZenScene({
         position={[7, 10, 6]}
         intensity={1.9}
         color={preset.dirColor}
-        castShadow
-        shadow-mapSize={[1024, 1024]}
+        castShadow={quality.shadows}
+        shadow-mapSize={[quality.shadowMapSize, quality.shadowMapSize]}
         shadow-camera-left={-14}
         shadow-camera-right={14}
         shadow-camera-top={14}
@@ -178,6 +192,7 @@ export default function ZenScene({
         runRef={runRef}
         hud={hud}
         preset={preset}
+        shadows={quality.shadows}
         onAdvanceMap={() => setMapIndex((i) => (i + 1) % MAPS.length)}
       />
     </Canvas>
@@ -231,11 +246,14 @@ function World({
   runRef,
   hud,
   preset,
+  shadows,
   onAdvanceMap,
 }: {
   runRef: React.MutableRefObject<number>;
   hud: ZenHud;
   preset: MapPreset;
+  /** false 면 나무·꽃·지면·캐릭터의 그림자 플래그도 전부 끈다(패스 자체가 없어지게). */
+  shadows: boolean;
   onAdvanceMap: () => void;
 }) {
   const groundMat = useRef<THREE.MeshStandardMaterial>(null);
@@ -331,12 +349,12 @@ function World({
   return (
     <>
       {/* 지면(풀밭) */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]} receiveShadow={shadows}>
         <planeGeometry args={[140, 40]} />
         <meshStandardMaterial ref={groundMat} map={grassTex} color={preset.ground} />
       </mesh>
       {/* 캐릭터 발밑 오솔길 */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 0]} receiveShadow>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.012, 0]} receiveShadow={shadows}>
         <planeGeometry args={[140, 2.4]} />
         <meshStandardMaterial color={preset.path} />
       </mesh>
@@ -394,15 +412,15 @@ function World({
           position={[t.x, 0, t.z]}
           scale={t.s}
         >
-          <mesh position={[0, 0.7, 0]} castShadow>
+          <mesh position={[0, 0.7, 0]} castShadow={shadows}>
             <cylinderGeometry args={[0.16, 0.22, 1.4, 8]} />
             <meshStandardMaterial color="#c0915f" />
           </mesh>
-          <mesh position={[0, 1.75, 0]} castShadow>
+          <mesh position={[0, 1.75, 0]} castShadow={shadows}>
             <sphereGeometry args={[0.9, 16, 14]} />
             <meshStandardMaterial color={preset.trees[t.ci]} />
           </mesh>
-          <mesh position={[0.5, 1.3, 0.2]} castShadow>
+          <mesh position={[0.5, 1.3, 0.2]} castShadow={shadows}>
             <sphereGeometry args={[0.58, 14, 12]} />
             <meshStandardMaterial color={preset.trees[t.ci]} />
           </mesh>
@@ -422,7 +440,7 @@ function World({
             <cylinderGeometry args={[0.025, 0.025, 0.32, 5]} />
             <meshStandardMaterial color="#6fae54" />
           </mesh>
-          <mesh position={[0, 0.34, 0]} castShadow>
+          <mesh position={[0, 0.34, 0]} castShadow={shadows}>
             <sphereGeometry args={[0.11, 10, 8]} />
             <meshStandardMaterial color={preset.flowers[f.ci]} />
           </mesh>
@@ -452,13 +470,19 @@ function World({
         </group>
       ))}
 
-      <Robot runRef={runRef} />
+      <Robot runRef={runRef} shadows={shadows} />
     </>
   );
 }
 
 /** 로봇 캐릭터 — 달릴 때 Running, 멈추면 Idle. 화면 오른쪽(+X)을 보고 달린다. */
-function Robot({ runRef }: { runRef: React.MutableRefObject<number> }) {
+function Robot({
+  runRef,
+  shadows,
+}: {
+  runRef: React.MutableRefObject<number>;
+  shadows: boolean;
+}) {
   const { scene, animations } = useGLTF(ROBOT_URL);
   const ref = useRef<THREE.Group>(null);
   const { actions } = useAnimations(animations, ref);
@@ -472,10 +496,10 @@ function Robot({ runRef }: { runRef: React.MutableRefObject<number> }) {
     const scale = 1.5 / (size.y || 1);
     scene.traverse((o) => {
       const m = o as THREE.Mesh;
-      if (m.isMesh) m.castShadow = true;
+      if (m.isMesh) m.castShadow = shadows;
     });
     return { scale, yOffset: -box.min.y * (1.5 / (size.y || 1)) };
-  }, [scene]);
+  }, [scene, shadows]);
 
   // 클립 이름은 모델마다 다르므로(Mixamo 등) picker 로 매칭. idle 클립이 없으면
   // run 클립을 정지(timeScale 0)시켜 '가만히' 폴백.

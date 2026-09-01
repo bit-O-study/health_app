@@ -6,3 +6,6 @@ allowBuilds:
   sharp: true
   tesseract.js: true
   unrs-resolver: true
+
+patchedDependencies:
+  '@kiwi-health/capacitor-health-connect@0.0.42': patches/@kiwi-health__capacitor-health-connect@0.0.42.patch

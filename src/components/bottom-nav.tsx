@@ -96,16 +96,18 @@ function TabInner({
     : "text-zinc-500 dark:text-zinc-400";
   return (
     <span
-      className={`flex h-16 min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 text-[10px] font-bold transition-colors min-[380px]:text-[11px] ${
+      className={`relative flex h-[3.75rem] min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 text-[9px] font-bold leading-none transition-colors min-[360px]:text-[10px] min-[430px]:text-[11px] ${
         highlight ? "text-emerald-700 dark:text-emerald-400" : inactive
       }`}
     >
-      {pending ? (
-        <Loader2 aria-hidden="true" size={22} className="animate-spin" />
-      ) : (
-        <Icon aria-hidden="true" size={21} />
-      )}
-      {label}
+      <span className={`flex h-7 min-w-9 items-center justify-center rounded-full px-2 transition-all ${highlight ? "bg-emerald-100 shadow-sm dark:bg-emerald-950" : ""}`}>
+        {pending ? (
+          <Loader2 aria-hidden="true" size={20} className="animate-spin" />
+        ) : (
+          <Icon aria-hidden="true" size={20} strokeWidth={highlight ? 2.5 : 2} />
+        )}
+      </span>
+      <span className="max-w-full truncate px-0.5">{label}</span>
     </span>
   );
 }
@@ -130,7 +132,7 @@ export function BottomNav({
     if (hidden) return;
     const prev = document.body.style.paddingBottom;
     document.body.style.paddingBottom =
-      "calc(4rem + env(safe-area-inset-bottom))";
+      "calc(3.75rem + env(safe-area-inset-bottom))";
     return () => {
       document.body.style.paddingBottom = prev;
     };
@@ -140,19 +142,21 @@ export function BottomNav({
 
   return (
     <nav
-      className={`fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur ${
+      aria-label="주요 메뉴"
+      className={`fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_30px_rgba(18,55,36,0.06)] backdrop-blur-xl ${
         groupTheme
           ? "border-amber-950/15 bg-[#f7c07a]/95 dark:border-amber-800/40 dark:bg-[#5a4326]/95"
-          : "border-zinc-200 bg-white/95 dark:border-zinc-800 dark:bg-zinc-950/95"
+          : "border-emerald-950/10 bg-white/92 dark:border-white/10 dark:bg-[#101713]/94"
       }`}
     >
-      <ul className="mx-auto flex w-full max-w-2xl">
+      <ul className="mx-auto flex w-full max-w-xl px-1">
         {tabs.map((t) => {
           const active = t.match(pathname);
           return (
             <li key={t.href} className="min-w-0 flex-1">
               <Link
                 href={t.href}
+                prefetch={false}
                 aria-current={active ? "page" : undefined}
                 className="block min-w-0 overflow-hidden transition-transform active:scale-95"
               >

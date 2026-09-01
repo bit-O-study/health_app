@@ -19,17 +19,8 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.next({ request });
   }
 
-  // ⚡ 성능: **문서(navigation) 요청에서만** 세션/차단 검사를 한다.
-  //   한 번 화면을 열면 프리페치·RSC·스크립트 요청이 20개 가까이 따라붙는데(하단 탭 6개
-  //   프리페치 등), 예전엔 그 전부가 getUser()+profiles+admins 왕복을 했다
-  //   (측정: /routine 1회 로드에 auth 19회 · profiles 16회 · admins 16회).
-  //   문서 요청만 검사해도 게이트는 그대로 동작한다 — 새로고침·주소 이동·앱 재진입이
-  //   모두 문서 요청이고, 세션 갱신은 페이지 서버 렌더의 supabase 클라이언트가 이어서 한다.
-  const accept = request.headers.get("accept") ?? "";
-  if (!accept.includes("text/html")) {
-    return NextResponse.next({ request });
-  }
-
+  // 정지 여부는 문서·RSC·프리패치·서버 액션 요청에서 모두 확인한다.
+  // 탭 이동과 글쓰기 요청을 건너뛰면 열린 화면에서 정지를 우회할 수 있다.
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(supabaseUrl, supabaseKey, {
@@ -97,7 +88,7 @@ export async function updateSession(request: NextRequest) {
   const isPrefetch =
     request.headers.get("next-router-prefetch") === "1" ||
     request.headers.get("purpose") === "prefetch";
-  if (user && !isPrefetch) {
+  if (user) {
     // 정지/영구정지 차단 — 본인 프로필 상태 확인(RLS: 본인 행 읽기 허용).
     // 차단 상태면 안내 페이지(/suspended)로만 보낸다. 정지 안 된 사용자가
     // /suspended 에 있으면 메인으로 되돌린다.
@@ -116,7 +107,7 @@ export async function updateSession(request: NextRequest) {
         .select("suspended_until, banned_at, withdrawn_at, must_change_password")
         .eq("user_id", user.id)
         .maybeSingle(),
-      isAdminPath
+      isAdminPath && !isPrefetch
         ? supabase.from("admins").select("email").limit(1)
         : Promise.resolve(null),
     ]);

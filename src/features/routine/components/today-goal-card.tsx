@@ -61,7 +61,7 @@ export function TodayGoalCard({
         <button
           type="button"
           onClick={() => setLogOpen(true)}
-          className="w-full rounded-2xl border border-emerald-200 bg-emerald-50/70 p-4 text-left transition active:scale-[0.99] dark:border-emerald-900/50 dark:bg-emerald-950/25"
+          className="app-card w-full bg-emerald-50/70 p-4 text-left transition hover:-translate-y-0.5 active:scale-[0.99] dark:bg-emerald-950/25"
         >
           <div className="flex items-center gap-3">
             <span className="min-w-0 flex-1 text-xs font-bold text-emerald-700 dark:text-emerald-400">
@@ -109,7 +109,7 @@ export function TodayGoalCard({
 
       {/* 다짐 미션 */}
       {missions.length > 0 ? (
-        <div className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+        <div className="app-card p-4">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-950 dark:text-zinc-100">
               <Flag aria-hidden="true" size={15} className="text-emerald-600" />내
@@ -128,7 +128,7 @@ export function TodayGoalCard({
             {missions.map((m) => (
               <li key={m.id}>
                 <div className="flex items-center justify-between gap-2">
-                  <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                  <span className="text-safe min-w-0 flex-1 text-sm font-semibold leading-5 text-zinc-800 dark:text-zinc-100">
                     {m.title}
                   </span>
                   <span

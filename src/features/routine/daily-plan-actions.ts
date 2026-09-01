@@ -13,7 +13,10 @@ import {
   focusForExercise,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
-import { APPEND_POSITION_BASE } from "@/features/routine/plan-order";
+import {
+  APPEND_POSITION_BASE,
+  keepPosition,
+} from "@/features/routine/plan-order";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
   isValidSetDetails,
@@ -39,6 +42,12 @@ export type DailyPlanItem = {
   weightKg: number | null;
   /** 세트별 무게·횟수. 있으면 sets/reps/weightKg 대신 사용. */
   setDetails?: SetDetail[] | null;
+  /**
+   * 저장할 표시 순서. 편집기가 **부위가 섞인 한 목록**의 전역 index 를 실어 보낸다.
+   * 없으면 배열 순번(0..n)을 쓴다. (부위별 0..n 재인덱싱은 부위 교차 순서를 지운다 —
+   * plan-order 의 groupByFocusWithGlobalPositions 주석 참고.)
+   */
+  position?: number;
 };
 
 export type SaveDailyPlanResult = { ok: true } | { ok: false; error: string };
@@ -113,11 +122,13 @@ export async function pinRoutineFocusesForTodayAction(
     if (pinned.has(tone)) continue;
     const dayPlan = await getPlanForDay(offset, tone);
     if (dayPlan.length === 0) continue; // 등록 운동 없는 부위는 고정할 것도 없음
+    // ⚠ position 은 재인덱싱하지 않고 루틴 값을 그대로 옮긴다 — 부위 경계를 넘어 바꾼
+    //   순서(전역 position)가 부위별 0..n 으로 뭉개져 초기화되는 것을 막는다(keepPosition).
     const rows = dayPlan.map((p, index) => ({
       user_id: user.id,
       for_date: today,
       focus: tone,
-      position: index,
+      position: keepPosition(p.position, index),
       exercise_id: p.exerciseId,
       equipment: p.equipment,
       ...toRowFields({
@@ -147,7 +158,10 @@ export async function pinRoutineFocusesForTodayAction(
     // 운동 하나당 UPDATE 1회지만 서로 다른 행을 건드려 순서 의존이 없다 → 병렬로.
     // (직렬이면 운동 수에 비례해 저장이 느려진다.)
     const remaps = dayPlan
-      .map((p, index) => ({ oldRowId: p.id, newRowId: newIdByPos.get(index) }))
+      .map((p, index) => ({
+        oldRowId: p.id,
+        newRowId: newIdByPos.get(keepPosition(p.position, index)),
+      }))
       .filter((r) => r.newRowId && r.newRowId !== r.oldRowId);
     const updResults = await Promise.all(
       remaps.map((r) =>
@@ -295,7 +309,7 @@ export async function saveDailyPlanAction(
       user_id: user.id,
       for_date: dateYmd,
       focus,
-      position: index,
+      position: keepPosition(it.position ?? index, index),
       exercise_id: it.exerciseId,
       equipment: it.equipment,
       ...toRowFields(it),

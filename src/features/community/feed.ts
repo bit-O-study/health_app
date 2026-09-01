@@ -83,11 +83,13 @@ export function forTab<T extends MinItem>(
 }
 
 /** 커뮤니티 게시판 탭 — 오운완(사진) / 그룹(사진) / 운동(티칭) / 내 글. */
-export type BoardTab = "workout" | "teaching" | "mine";
+export type BoardTab = "workout" | "teaching" | "routine" | "mine";
 
 export const BOARD_TABS: { value: BoardTab; label: string }[] = [
   { value: "workout", label: "오운완" },
   { value: "teaching", label: "운동" },
+  // 루틴 소개(하루치 루틴 공유) — 통합 피드가 아니라 routine_shares 를 따로 그린다.
+  { value: "routine", label: "루틴" },
   { value: "mine", label: "내 글" },
 ];
 
@@ -121,6 +123,9 @@ export function forBoard<T extends BoardItem>(
           : false;
       });
     }
+    // 루틴 소개는 통합 피드(사진·티칭)에 안 들어간다 — 별도 컴포넌트가 그린다.
+    case "routine":
+      return [];
     case "mine":
       return items.filter((it) => it.isMine);
   }

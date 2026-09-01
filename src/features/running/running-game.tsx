@@ -37,6 +37,14 @@ const nativeImport = new Function("u", "return import(u)") as (
 
 const HEAD_Y_HISTORY = 18;
 
+/**
+ * 얼굴 감지 최소 간격(ms). 예전엔 **매 프레임(60Hz)** 마다 MediaPipe 추론을 돌려,
+ * 3D 씬(그림자 포함)과 GPU 를 초당 60번씩 나눠 쓰느라 중저가 폰에서 발열·메모리
+ * 압박으로 앱이 튕겼다. 머리 흔들림은 20Hz 로도 충분히 잡힌다(히스토리 18개 ≈ 0.9초).
+ * 씬 애니메이션은 그대로 60fps — 감지만 솎아낸다.
+ */
+const DETECT_INTERVAL_MS = 50; // 20Hz
+
 type Phase = "intro" | "loading" | "playing" | "done" | "error";
 
 /**
@@ -77,6 +85,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
   const targetRef = useRef(0);
   const rafRef = useRef(0);
+  const lastDetectRef = useRef(0); // 얼굴 감지 마지막 시각(ms) — 20Hz 로 솎기
   const phaseRef = useRef<Phase>("intro");
   phaseRef.current = phase;
   const playStartRef = useRef(0);
@@ -230,7 +239,14 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         ts: number,
       ) => { faceLandmarks?: { x: number; y: number }[][] };
     } | null;
-    if (v && landmarker && v.readyState >= 2) {
+    // 추론은 20Hz 로 솎아낸다(팅김 완화). 보간은 아래에서 매 프레임 계속 → 움직임은 그대로 부드럽다.
+    if (
+      v &&
+      landmarker &&
+      v.readyState >= 2 &&
+      ts - lastDetectRef.current >= DETECT_INTERVAL_MS
+    ) {
+      lastDetectRef.current = ts;
       const res = landmarker.detectForVideo(v, ts);
       const lm = res.faceLandmarks?.[0];
       const noseY = lm?.[1]?.y;
@@ -271,11 +287,16 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     void addRunDistanceAction(Math.round(sessionMetersRef.current)).catch(() => {});
   }
 
-  const active = phase === "playing" || phase === "done";
-
   return (
     <div className="fixed inset-0 z-40 w-full overflow-hidden bg-[#bfeaff] text-white">
-      {active ? <ZenScene runRef={runRef} hud={{ map: mapRef }} /> : null}
+      {/* ⚠ 'playing' 일 때만 3D 씬을 띄운다. 예전엔 'done'(종료 화면)에서도 계속 렌더했는데,
+          종료 화면은 화면 전체를 bg-black/70 으로 덮어 **보이지도 않는 씬을 60fps 로 계속
+          그렸다.** 게다가 감지 루프가 멈춰 runRef 가 마지막 강도로 얼어붙는 바람에 풍경이
+          영원히 스크롤 → 250m마다 맵이 계속 바뀌며 캔버스 텍스처를 끝없이 새로 만들었다.
+          사용자가 종료 화면을 켜둔 채 두면 그동안 GPU 가 계속 돌아간다(발열·팅김). */}
+      {phase === "playing" ? (
+        <ZenScene runRef={runRef} hud={{ map: mapRef }} />
+      ) : null}
 
       {/* 카메라 — 화면엔 안 보이게(감지용으로만 사용). display:none 은 일부 브라우저에서
           프레임이 멈춰 감지가 안 되므로 opacity 0 + 1px 로 렌더는 유지한다. */}

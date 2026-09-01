@@ -53,9 +53,9 @@ export default async function HomePage() {
 
   const doneCount = todayCommitments.filter((c) => c.done).length;
   return (
-    <div className="min-h-screen overflow-x-clip text-zinc-900 dark:text-zinc-100">
+    <div className="app-page overflow-x-clip">
       <WeatherBackground />
-      <header className="sticky top-0 z-20 border-b border-zinc-200/70 bg-[#fafaf9]/80 backdrop-blur-xl dark:border-white/[0.06] dark:bg-[#0a0a0b]/80">
+      <header className="app-header">
         <nav className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3 sm:px-6 sm:py-3.5">
           <Link href="/home" className="flex items-center gap-2" aria-label="홈">
             <Logo />
@@ -73,7 +73,7 @@ export default async function HomePage() {
         </nav>
       </header>
 
-      <main className="mx-auto w-full max-w-3xl px-4 pb-10 pt-5 sm:px-6 sm:pt-7">
+      <main className="app-container">
         <PromoBanner />
         <PermissionNudge />
 
@@ -95,7 +95,7 @@ export default async function HomePage() {
           <div className="space-y-3">
             <Link
               href="/commitments"
-              className="group block rounded-2xl border border-white/70 bg-white/75 p-4 shadow-sm backdrop-blur transition hover:bg-white dark:border-white/[0.07] dark:bg-zinc-900/70 dark:hover:bg-zinc-900 sm:p-5"
+              className="app-card group block p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/20 sm:p-5"
             >
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-2">
@@ -121,7 +121,7 @@ export default async function HomePage() {
                       <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${c.done ? "border-emerald-500 bg-emerald-500 text-white" : "border-zinc-300 dark:border-zinc-600"}`}>
                         {c.done ? <Check aria-hidden="true" size={12} strokeWidth={3} /> : null}
                       </span>
-                      <span className={`min-w-0 flex-1 truncate text-sm ${c.done ? "font-medium text-zinc-400 line-through dark:text-zinc-600" : "font-semibold text-zinc-800 dark:text-zinc-200"}`}>
+                      <span className={`text-safe min-w-0 flex-1 text-sm leading-5 ${c.done ? "font-medium text-zinc-400 line-through dark:text-zinc-600" : "font-semibold text-zinc-800 dark:text-zinc-200"}`}>
                         {c.title}
                       </span>
                       <span className="max-w-24 shrink-0 truncate text-xs font-medium tabular-nums text-zinc-400 dark:text-zinc-500">{c.valueText}</span>

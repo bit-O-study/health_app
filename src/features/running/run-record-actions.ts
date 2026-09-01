@@ -111,10 +111,19 @@ export async function recordRunAsCooldownAction(input: {
 }
 
 /**
- * 오늘 런닝모드 기록 삭제 — 런닝 완료기록을 지우고, 그 시간을 오늘 운동 시간에서 뺀다.
- * (예전 데이터 호환: daily_conditioning 에 남아있던 런닝 행도 함께 정리.)
+ * 런닝 완료취소 — **취소한 그 행 1건만** 지우고, 그 기록의 시간만 오늘 운동 시간에서 뺀다.
+ *
+ * ⚠ 예전엔 인자 없이 "오늘 item_id='running' 인 완료기록 전부 + daily_conditioning 의
+ *   런닝 행 전부"를 지웠다. 런닝이 2개(워밍업+마무리, 또는 마무리에 2개)일 때
+ *   하나를 취소하면 **나머지 런닝 완료까지 같이 날아가고**, 사용자가 '오늘만'으로 담아둔
+ *   런닝 **플랜 행 자체가 삭제**돼(그러면 목록이 루틴 기본값으로 되돌아감) 취소가
+ *   안 먹는 것처럼 보였다. 이제 행 단위로만 지운다.
+ *
+ * @param sourceRowId 취소할 완료기록의 source_row_id. 화면의 런닝 행이 '런닝모드 기록'
+ *   (무작위 id)에 매칭돼 완료로 떠 있을 수 있으므로, 클라이언트는 그 행에 **실제로 배정된
+ *   기록의 id**를 넘긴다. (없으면 행 id 로 폴백.)
  */
-export async function removeTodayRunAction(): Promise<{
+export async function removeTodayRunAction(sourceRowId?: string): Promise<{
   ok: boolean;
   error?: string;
 }> {
@@ -123,45 +132,43 @@ export async function removeTodayRunAction(): Promise<{
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  // 오늘 런닝 총 시간 → 완료기록(런닝) 기준으로 합산(런닝모드는 completion 전용).
-  // 예전 daily_conditioning 런닝 행이 있으면 그걸로 폴백(중복 합산 방지).
-  const [compRes, legacyRes] = await Promise.all([
-    supabase
-      .from("conditioning_completions")
-      .select("duration_min")
-      .eq("user_id", user.id)
-      .eq("for_date", today)
-      .eq("item_id", "running"),
-    supabase
-      .from("daily_conditioning")
-      .select("duration_min")
-      .eq("user_id", user.id)
-      .eq("for_date", today)
-      .eq("item_id", "running"),
-  ]);
-  const sumMin = (rows: { duration_min: number | null }[] | null) =>
-    (rows ?? []).reduce((s, r) => s + (Number(r.duration_min) || 0), 0);
-  const compMin = sumMin(compRes.data as { duration_min: number | null }[] | null);
-  const legacyMin = sumMin(
-    legacyRes.data as { duration_min: number | null }[] | null,
-  );
-  const totalMin = compMin > 0 ? compMin : legacyMin;
+  const base = supabase
+    .from("conditioning_completions")
+    .select("source_row_id, duration_min")
+    .eq("user_id", user.id)
+    .eq("for_date", today)
+    .eq("item_id", "running");
+  const { data } = sourceRowId
+    ? await base.eq("source_row_id", sourceRowId)
+    : await base;
+  const rows = (data ?? []) as {
+    source_row_id: string | null;
+    duration_min: number | null;
+  }[];
+  if (rows.length === 0) {
+    // 지울 게 없으면(이미 취소됨) 조용히 성공 — 재시도/연타에도 안전.
+    revalidatePath("/routine");
+    return { ok: true };
+  }
+
+  // 지우는 기록들의 시간만 오늘 운동 시간에서 뺀다(다른 런닝 기록 시간은 그대로).
+  const totalMin = rows.reduce((s, r) => s + (Number(r.duration_min) || 0), 0);
   const sec = Math.round(totalMin * 60);
   if (sec > 0) await adjustWorkoutSeconds(supabase, user.id, today, -sec);
 
-  // 오늘 '러닝' 완료기록 + (레거시) 마무리 행을 item_id 기준으로 모두 삭제.
-  await supabase
+  const del = supabase
     .from("conditioning_completions")
     .delete()
     .eq("user_id", user.id)
     .eq("for_date", today)
     .eq("item_id", "running");
-  await supabase
-    .from("daily_conditioning")
-    .delete()
-    .eq("user_id", user.id)
-    .eq("for_date", today)
-    .eq("item_id", "running");
+  const { error } = sourceRowId
+    ? await del.eq("source_row_id", sourceRowId)
+    : await del;
+  if (error) return { ok: false, error: error.message };
+
+  // ⚠ daily_conditioning(플랜 행)은 건드리지 않는다 — 완료 '기록'만 지운다.
+  //   (예전엔 여기서 오늘 런닝 플랜 행까지 지워, 사용자가 담아둔 런닝이 사라졌다.)
 
   revalidatePath("/routine");
   revalidatePath("/settings/score");

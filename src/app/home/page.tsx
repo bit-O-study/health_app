@@ -18,7 +18,7 @@ import { getHomeDashboard } from "@/features/home/home-data";
 import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
 import { DietExerciseCard } from "@/features/home/components/diet-exercise-card";
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
-import { WeeklyReportCard } from "@/features/home/components/weekly-report-card";
+import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { WeatherBackground } from "@/features/home/components/weather-background";
 

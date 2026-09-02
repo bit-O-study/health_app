@@ -106,3 +106,33 @@ test("기록이 하나도 없으면 카드를 띄우지 않는다 — 홈이 0�
   await page.goto("/home", { waitUntil: "networkidle" });
   await expect(page.getByText("이번 주 요약")).toHaveCount(0);
 });
+
+test("캘린더에도 같은 '이번 주 요약'이 보인다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await seedCompletion(email, monday, "squat", 5, 5, 100);
+
+  await page.goto("/calendar", { waitUntil: "networkidle" });
+  const card = page.locator("section", { hasText: "이번 주 요약" }).first();
+  await expect(card).toBeVisible({ timeout: 10_000 });
+  // 홈과 같은 숫자여야 한다 — 화면마다 따로 세면 두 화면이 다른 말을 한다.
+  await expect(card.getByText("2,500kg", { exact: true })).toBeVisible();
+  // 달 요약보다 위 — 주(週)가 더 가까운 기간이다.
+  await expect(page.getByText("이번 달 요약")).toBeVisible();
+});
+
+test("지난달을 넘겨 보는 중에는 '이번 주 요약'을 띄우지 않는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await seedCompletion(email, monday, "squat", 5, 5, 100);
+
+  const [row] = await dbQuery<{ m: string }>(
+    `select to_char(((now() at time zone 'Asia/Seoul')::date - interval '1 month'), 'YYYY-MM') as m`,
+  );
+  await page.goto(`/calendar?m=${row.m}`, { waitUntil: "networkidle" });
+  // 보고 있는 달과 카드가 말하는 기간이 어긋나면 무슨 숫자인지 알 수 없다.
+  await expect(page.getByText("이번 주 요약")).toHaveCount(0);
+  await expect(page.getByText("이번 달 요약")).toBeVisible();
+});

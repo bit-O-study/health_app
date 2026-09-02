@@ -5,6 +5,7 @@ import {
   formatDistance,
   formatMinutes,
   hasWeeklyActivity,
+  monthContainsToday,
   totalsFor,
   weeklyReport,
   type WeeklyInput,
@@ -291,5 +292,31 @@ describe("표기", () => {
     expect(formatMinutes(45)).toBe("45분");
     expect(formatMinutes(60)).toBe("1시간");
     expect(formatMinutes(95)).toBe("1시간 35분");
+  });
+});
+
+describe("monthContainsToday — 캘린더가 '이번 주 요약'을 띄울 달", () => {
+  it("오늘이 든 달이면 띄운다", () => {
+    expect(monthContainsToday("2026-09-02", 2026, 9)).toBe(true);
+  });
+
+  it("다른 달을 넘겨 보는 중이면 안 띄운다", () => {
+    expect(monthContainsToday("2026-09-02", 2026, 8)).toBe(false);
+    expect(monthContainsToday("2026-09-02", 2026, 10)).toBe(false);
+    expect(monthContainsToday("2026-09-02", 2025, 9)).toBe(false);
+  });
+
+  it("이번 주가 두 달에 걸쳐도 기준은 오늘이 있는 달 하나뿐", () => {
+    // 2026-08-31(월) ~ 09-06(일) 한 주. 오늘이 9/2 면 8월을 봐도 안 띄운다.
+    expect(monthContainsToday("2026-09-02", 2026, 8)).toBe(false);
+    // 오늘이 8/31 이면 9월을 봐도 안 띄운다.
+    expect(monthContainsToday("2026-08-31", 2026, 9)).toBe(false);
+    expect(monthContainsToday("2026-08-31", 2026, 8)).toBe(true);
+  });
+
+  it("한 자리 달도 0을 채워 비교한다 — 자릿수가 다르면 조용히 어긋난다", () => {
+    expect(monthContainsToday("2026-01-15", 2026, 1)).toBe(true);
+    // '2026-1' 로 비교하면 아래가 true 가 되어 12월에도 카드가 뜬다.
+    expect(monthContainsToday("2026-12-15", 2026, 1)).toBe(false);
   });
 });

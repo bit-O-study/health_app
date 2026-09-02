@@ -3278,4 +3278,32 @@ drop policy if exists ai_analyses_own on public.ai_analyses;
 create policy ai_analyses_own on public.ai_analyses
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- ────────────────────────────────────────────────────────────────
+-- 구독(구글 플레이 인앱결제) — 로드맵 7.1. 사용자당 한 행(가장 최근 구매).
+-- 권한은 state 가 아니라 **expires_at** 에서 나온다(코드 주석 참고) — 그래야 해지·
+-- 환불·결제실패를 따로 처리하지 않아도 저절로 맞는다.
+create table if not exists public.subscriptions (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  platform text not null default 'google_play' check (platform in ('google_play')),
+  product_id text not null default '',
+  purchase_token text not null,
+  state text not null check (state in ('active', 'grace', 'canceled', 'on_hold', 'paused', 'expired')),
+  expires_at timestamptz,
+  auto_renewing boolean not null default false,
+  verified_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+-- 🔴 같은 구매를 여러 계정이 나눠 쓰지 못하게. 없으면 구매 토큰 하나로 여러 계정이
+-- 프리미엄이 된다.
+create unique index if not exists subscriptions_token_uniq
+  on public.subscriptions (purchase_token);
+create index if not exists subscriptions_expires_idx
+  on public.subscriptions (expires_at);
+alter table public.subscriptions enable row level security;
+-- 읽기는 본인만. **쓰기 정책은 두지 않는다** — 구독 상태는 서버가 구글에 물어본 결과로만
+-- 바뀐다. 클라이언트가 직접 쓸 수 있으면 스스로 프리미엄이 된다.
+drop policy if exists subscriptions_select_own on public.subscriptions;
+create policy subscriptions_select_own on public.subscriptions
+  for select using (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

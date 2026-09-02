@@ -4,6 +4,8 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { isEntitled } from "@/features/billing/subscription";
+import { getMySubscription } from "@/features/billing/subscription-store";
 import {
   limitFor,
   overLimitMessage,
@@ -21,12 +23,18 @@ import {
 /**
  * 이 사용자의 등급.
  *
- * 🔴 **아직 아무도 프리미엄이 아니다.** 결제가 붙기 전까지 전부 무료 등급이다 —
- * 결제 없이 프리미엄을 나눠 주는 가짜 등급을 만들면, 나중에 결제를 붙일 때
- * "쓰던 게 갑자기 막히는" 경험이 된다. 7.1 의 다음 칸(결제 상태 확인)에서 여기만 고친다.
+ * 🔴 등급은 **구독 만료 시각**에서 나온다(`isEntitled`) — "결제했다" 는 기록이 아니라.
+ * 그래야 해지·환불·결제실패를 따로 처리하지 않아도 저절로 맞는다.
+ *
+ * 조회에 실패하면 **무료**로 본다. 프리미엄을 실수로 주는 쪽보다 안전하고, 사용자는
+ * 한도 안내를 보고 다시 시도할 수 있다(권한을 영영 잃는 게 아니다).
  */
 export async function resolveTier(): Promise<AiTier> {
-  return "free";
+  try {
+    return isEntitled(await getMySubscription()) ? "premium" : "free";
+  } catch {
+    return "free";
+  }
 }
 
 export type ConsumeResult =

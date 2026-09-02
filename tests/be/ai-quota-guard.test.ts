@@ -95,6 +95,33 @@ describe.skipIf(!hasDbCreds)("AI 사용량 한도 가드(라이브 DB)", () => {
     }
   });
 
+  it("🔴 subscriptions 에 사용자 쓰기 정책이 없다 — 있으면 스스로 프리미엄이 된다", async () => {
+    const policies = await rows<{ policyname: string; cmd: string }>(`
+      select policyname, cmd from pg_policies
+       where schemaname = 'public' and tablename = 'subscriptions'`);
+    const writes = policies.filter((p) => p.cmd !== "SELECT");
+    expect(
+      writes,
+      `subscriptions 에 쓰기 정책이 생겼다. 구독 상태는 서버가 구글에 물어본 결과로만 바뀌어야 한다.
+${JSON.stringify(policies)}`,
+    ).toEqual([]);
+    expect(policies.some((p) => p.cmd === "SELECT")).toBe(true);
+  });
+
+  it("🔴 구매 토큰은 전역 유일하다 — 하나를 여러 계정이 나눠 쓰지 못하게", async () => {
+    const idx = await rows<{ indisunique: boolean; cols: string }>(`
+      select i.indisunique, string_agg(a.attname, ',') as cols
+        from pg_index i
+        join pg_attribute a on a.attrelid = i.indrelid and a.attnum = any(i.indkey)
+       where i.indrelid = 'public.subscriptions'::regclass and i.indisunique
+       group by i.indexrelid, i.indisunique`);
+    expect(
+      idx.some((r) => r.cols === "purchase_token"),
+      `purchase_token 유니크 인덱스가 없다 — 구매 토큰 하나로 여러 계정이 프리미엄이 된다.
+${JSON.stringify(idx)}`,
+    ).toBe(true);
+  });
+
   it("한도를 넘으면 -1 을 주고 **더 올리지 않는다**(트랜잭션 안에서 검사 후 롤백)", async () => {
     // 실제 사용자 한 명을 빌려 세어 보고 되돌린다 — 라이브 데이터를 남기지 않는다.
     await client.query("begin");

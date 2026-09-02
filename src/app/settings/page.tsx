@@ -153,6 +153,28 @@ export default async function SettingsPage() {
         </Link>
 
         <Link
+          href="/settings/subscription"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
+            <Trophy aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              구독
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              AI 기능 이용 횟수 · 프리미엄 상태
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        <Link
           href="/settings/health"
           className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
         >

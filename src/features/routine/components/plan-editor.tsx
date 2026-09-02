@@ -35,6 +35,9 @@ import {
   recommendExercisesAction,
   type SlotExerciseOption,
 } from "@/features/routine/slot-exercise-actions";
+import { overloadAdviceAction } from "@/features/routine/overload-actions";
+import type { OverloadAdvice } from "@/features/routine/overload-advice";
+import { OverloadHint } from "@/features/routine/components/overload-hint";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { muscleGroup } from "@/features/routine/muscle-map";
@@ -159,6 +162,10 @@ export function PlanEditor({
   const [detailsById, setDetailsById] = useState<
     Record<string, SlotExerciseOption | null>
   >({});
+  /** 종목별 다음 세션 추천(로드맵 2.2). 기록이 없는 종목은 키가 없다. */
+  const [adviceById, setAdviceById] = useState<Record<string, OverloadAdvice>>(
+    {},
+  );
   const editRevisions = useRef<Record<string, number>>({});
   const [conditioningStates, setConditioningStates] = useState<
     Record<string, ConditioningMutationState>
@@ -301,6 +308,48 @@ export function PlanEditor({
       alive = false;
     };
   }, [unknownIdKey]);
+
+  // ── 과부하 추천 — **무게를 이 화면에서 정할 때만** 받아온다. 비고정 모드는 여기에
+  // 무게·횟수 입력란 자체가 없어(운동모드에서 정한다) 제안을 띄워도 넣을 곳이 없다.
+  //
+  // 목록이 바뀔 때만 다시 물어본다 — 횟수를 한 글자 고칠 때마다 서버를 부르면 편집이
+  // 끊긴다. 같은 운동이 여러 일차에 있으면 판단은 한 번(기록이 같다).
+  const adviceIds = lockWeightReps
+    ? [
+        ...new Set(
+          Object.values(plans)
+            .flat()
+            .map((r) => r.exerciseId)
+            .filter((id) => id !== ""),
+        ),
+      ].sort()
+    : [];
+  const adviceIdKey = adviceIds.join("|");
+  //
+  // 목표 횟수는 **보내는 순간의 값**을 쓴다. 편집 중 바뀐 횟수를 의존성에 넣으면 위 규칙이
+  // 무너지므로, 렌더값을 ref 로 따로 흘려보낸다(이 효과가 아래 조회보다 먼저 돈다).
+  const repsById = Object.fromEntries(
+    Object.values(plans)
+      .flat()
+      .filter((r) => r.exerciseId !== "" && r.reps > 0)
+      .map((r) => [r.exerciseId, r.reps] as const),
+  );
+  const repsByIdRef = useRef<Record<string, number>>(repsById);
+  useEffect(() => {
+    repsByIdRef.current = repsById;
+  });
+  useEffect(() => {
+    if (adviceIdKey === "") return;
+    let alive = true;
+    void overloadAdviceAction(adviceIdKey.split("|"), repsByIdRef.current).then(
+      (map) => {
+        if (alive) setAdviceById(map);
+      },
+    );
+    return () => {
+      alive = false;
+    };
+  }, [adviceIdKey]);
 
   function clearLp() {
     if (lpTimer.current) {
@@ -955,6 +1004,33 @@ export function PlanEditor({
                           >
                             <Trash2 aria-hidden="true" size={16} />
                           </button>
+                          {/* 다음 세션 추천(로드맵 2.2) — 무게를 적는 줄 바로 아래.
+                              세트별로 따로 적는 줄(드롭세트)은 균일 무게 칸이 없어
+                              '적용' 을 달지 않는다 — 눌러도 아무 일이 없는 버튼이 된다. */}
+                          {adviceById[row.exerciseId] ? (
+                            <div className="basis-full">
+                              <OverloadHint
+                                compact
+                                advice={adviceById[row.exerciseId]}
+                                onApply={
+                                  row.setDetails
+                                    ? undefined
+                                    : (v) => {
+                                        const next = [...rows];
+                                        next[idx] = {
+                                          ...row,
+                                          weight:
+                                            v.weightKg === null
+                                              ? row.weight
+                                              : String(v.weightKg),
+                                          reps: v.reps ?? row.reps,
+                                        };
+                                        update(f.key, next);
+                                      }
+                                }
+                              />
+                            </div>
+                          ) : null}
                         </div>
                       );
                     })}

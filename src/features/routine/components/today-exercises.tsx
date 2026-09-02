@@ -29,7 +29,10 @@ import {
 import {
   getTodayCompletedItems,
   getLastExerciseValues,
+  getRecentDoneRecords,
 } from "@/features/routine/exercise-completions";
+import { getUserProfile } from "@/features/profile/data-access";
+import { buildAdviceMap } from "@/features/routine/overload-advice";
 import {
   assignCompletions,
   exerciseCompletionKey,
@@ -141,6 +144,8 @@ export async function TodayExercises({
     completedItems,
     completedCond,
     lastValues,
+    doneRecords,
+    profile,
     postureEnabled,
     equipmentScan,
   ] = await Promise.all([
@@ -153,6 +158,10 @@ export async function TodayExercises({
     getTodayCompletedItems(todayYmd),
     getTodayCompletedConditioning(todayYmd),
     getLastExerciseValues(),
+    // 과부하 추천의 근거. `getLastExerciseValues` 와 **같은 조회**(cache)라 왕복이 안 는다.
+    getRecentDoneRecords(),
+    // 목표 횟수 기준(경력)을 처방과 맞추기 위해. 상위 page 가 이미 부른 cache() 라 왕복 0.
+    getUserProfile(),
     isDebugFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
     isDebugFeatureEnabled("equipment-scan"), // '운동 시작' 왼쪽 기구 스캔(디버그 계정)
   ]);
@@ -203,6 +212,22 @@ export async function TodayExercises({
           sets: last.sets ?? p.sets,
         };
       });
+
+  /**
+   * 종목별 과부하 추천 — 무게를 정하는 그 순간(운동모드)에 보이게 서버에서 미리 만든다.
+   *
+   * ⚠ 목표 횟수는 **미리채움 전(`orderedPlan`)** 의 계획값을 쓴다. `activePlan` 은 지난번
+   * 실제 횟수로 덮여 있어서, 그걸 목표로 넘기면 "지난번 = 목표" 가 되어 매번 '목표 달성 →
+   * 증량' 이 걸린다(스스로를 만족시키는 목표).
+   */
+  const adviceByExercise = buildAdviceMap(
+    doneRecords,
+    orderedPlan.map((p) => ({
+      exerciseId: p.exerciseId,
+      targetReps: lockWeightReps ? p.reps : null,
+    })),
+    profile?.experience ?? "beginner",
+  );
 
   // 완료 판정 + 완료 보존(고스트) — 완료 기록을 행에 1:1 배정해 과매칭을 막는다.
   // (같은 운동이 한 부위에 2개 있어도 완료 기록 수만큼만 done. 1개만 완료하면 1개만 done.)
@@ -528,6 +553,8 @@ export async function TodayExercises({
       reps: p.reps,
       weightKg: p.weightKg,
       memo: p.memo,
+      // 다음 세션 추천(2.2). 기록이 없는 종목은 null — 붙일 말이 없다.
+      advice: adviceByExercise[p.exerciseId] ?? null,
       media: mediaMap.get(p.exerciseId)
         ? {
             url: mediaMap.get(p.exerciseId)!.url,

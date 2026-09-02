@@ -22,11 +22,9 @@ import {
   weeklyVolumeSeries,
   type ProgressRecord,
 } from "@/features/routine/progress";
-import {
-  needsAttention,
-  overloadPlan,
-  type OverloadPlan,
-} from "@/features/routine/overload";
+import { overloadPlan } from "@/features/routine/overload";
+import { toAdvice } from "@/features/routine/overload-advice";
+import { OverloadHint } from "@/features/routine/components/overload-hint";
 import { seoulYmd } from "@/features/routine/data";
 import { isUnilateralExercise } from "@/features/routine/unilateral-exercises";
 import { LineChart } from "@/features/routine/components/line-chart";
@@ -52,44 +50,6 @@ function TrendBadge({ pct }: { pct: number | null }) {
     >
       {up ? "▲" : "▼"} {Math.abs(pct)}%
     </span>
-  );
-}
-
-/** 종류별 말머리 — 무엇을 하라는 건지 한 눈에. */
-const ACTION_LABEL: Record<OverloadPlan["action"], string> = {
-  increase: "증량",
-  "add-reps": "횟수 채우기",
-  deload: "디로드",
-  rest: "휴식 권장",
-  first: "한 번 더",
-  bodyweight: "횟수·시간",
-  none: "",
-};
-
-/**
- * 다음 세션 추천 — **근거를 같이** 보여준다.
- * 숫자만 던지면 왜 그런지 몰라 따르거나 무시할 판단을 못 한다.
- */
-function OverloadLine({ plan }: { plan: OverloadPlan }) {
-  if (plan.action === "none") return null;
-  const attention = needsAttention(plan);
-  return (
-    <div
-      className={`mt-2 rounded-lg px-2.5 py-2 text-xs ${
-        attention
-          ? "bg-amber-50 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
-          : plan.action === "increase"
-            ? "bg-emerald-50 text-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"
-            : "bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
-      }`}
-    >
-      <p className="font-semibold">
-        {ACTION_LABEL[plan.action]}
-        {plan.suggestedKg !== null ? ` · ${plan.suggestedKg}kg` : ""}
-        {plan.suggestedReps !== null ? ` × ${plan.suggestedReps}회` : ""}
-      </p>
-      <p className="mt-0.5 leading-5 opacity-80">{plan.reason}</p>
-    </div>
   );
 }
 
@@ -123,7 +83,8 @@ export default async function ProgressPage() {
       name: getCatalogExercise(t.exerciseId)?.name ?? t.exerciseId,
       series: oneRMSeries(records, t.exerciseId),
       history: exerciseHistory(records, t.exerciseId).slice(0, 5),
-      plan: overloadPlan(records, t.exerciseId, profile.experience),
+      // 성장 그래프·운동모드·계획 편집이 같은 모양으로 보게 — 화면값 변환은 한 곳에서.
+      advice: toAdvice(overloadPlan(records, t.exerciseId, profile.experience)),
       unilateral: isUnilateralExercise(t.exerciseId),
     }))
     .filter((e) => e.series.length > 0);
@@ -275,7 +236,11 @@ export default async function ProgressPage() {
                           </span>
                         ) : null}
                       </p>
-                      <OverloadLine plan={e.plan} />
+                      {e.advice ? (
+                        <div className="mt-2">
+                          <OverloadHint advice={e.advice} />
+                        </div>
+                      ) : null}
                       {e.history.length > 0 ? (
                         <ul className="mt-2 space-y-0.5 border-t border-zinc-100 pt-2 text-[11px] text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
                           {e.history.map((h) => (

@@ -83,6 +83,7 @@ describe("queueToRestInputs — 큐 → 휴식처리 입력", () => {
       sets: 4,
       reps: 8,
       weightKg: 60,
+      advice: null,
       memo: null,
       media: null,
     },

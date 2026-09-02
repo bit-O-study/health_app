@@ -167,3 +167,15 @@ export function pickAutoRenewing(lineItems: unknown): boolean {
         ?.autoRenewingPlan?.autoRenewEnabled === true,
   );
 }
+
+
+/**
+ * 아직 수령 확인이 안 된 구매인가 — `acknowledgementState` 를 본다.
+ * 🔴 모르는 값이면 **확인이 필요하다고 본다.** 한 번 더 확인하는 건 안전하지만
+ * (구글은 이미 확인된 구매를 다시 확인해도 오류로 치지 않는다), 안 하고 넘어가면
+ * 3일 뒤 자동 환불된다.
+ */
+export function needsAcknowledge(raw: unknown): boolean {
+  const v = typeof raw === "string" ? raw.toUpperCase() : "";
+  return v !== "ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED";
+}

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   formatUntil,
+  needsAcknowledge,
   isEntitled,
   mapPlayState,
   pickAutoRenewing,
@@ -167,5 +168,27 @@ describe("구글 응답 읽기", () => {
     expect(pickExpiry([{ expiryTime: "아무말" }])).toBeNull();
     expect(pickProductId(undefined)).toBe("");
     expect(pickAutoRenewing({})).toBe(false);
+  });
+});
+
+describe("needsAcknowledge — 3일 안에 확인 안 하면 자동 환불된다", () => {
+  it("이미 확인된 구매는 다시 안 한다", () => {
+    expect(needsAcknowledge("ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED")).toBe(false);
+  });
+
+  it("확인 대기 상태는 해야 한다", () => {
+    expect(needsAcknowledge("ACKNOWLEDGEMENT_STATE_PENDING")).toBe(true);
+  });
+
+  it("🔴 모르는 값·빈 값이면 **한다** — 한 번 더 하는 건 안전하지만 안 하면 환불된다", () => {
+    expect(needsAcknowledge(undefined)).toBe(true);
+    expect(needsAcknowledge(null)).toBe(true);
+    expect(needsAcknowledge("")).toBe(true);
+    expect(needsAcknowledge("새로생긴상태")).toBe(true);
+    expect(needsAcknowledge(7)).toBe(true);
+  });
+
+  it("대소문자가 달라도 알아본다", () => {
+    expect(needsAcknowledge("acknowledgement_state_acknowledged")).toBe(false);
   });
 });

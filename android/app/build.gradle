@@ -36,6 +36,9 @@ dependencies {
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxCoordinatorLayoutVersion"
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
+    // 구글 플레이 인앱결제(로드맵 7.1). 8.x 는 queryProductDetailsAsync 콜백 모양이
+    // 달라져(QueryProductDetailsResult) 코드가 안 맞는다 — 올릴 때 함께 고쳐야 한다.
+    implementation "com.android.billingclient:billing:$billingVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"

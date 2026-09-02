@@ -3,7 +3,11 @@
 import { revalidatePath } from "next/cache";
 
 import { getCurrentUser } from "@/lib/supabase/server";
-import { billingSetup, verifyPurchase } from "@/features/billing/play-verify";
+import {
+  acknowledgePurchase,
+  billingSetup,
+  verifyPurchase,
+} from "@/features/billing/play-verify";
 import {
   getMySubscription,
   saveSubscription,
@@ -80,6 +84,14 @@ export async function verifyPurchaseAction(
       };
     }
     return { ok: false, error: "구매는 확인했지만 저장하지 못했어요." };
+  }
+
+  // 🔴 수령 확인 — 3일 안에 안 하면 구글이 자동으로 환불한다(돈은 냈는데 며칠 뒤
+  // 환불되고 권한도 사라지는, 원인을 짐작하기 어려운 사고). 저장까지 끝난 뒤에 한다:
+  // 저장에 실패한 구매를 확정해 버리면 돈만 받고 권한은 없는 상태가 된다.
+  // 실패해도 넘어간다 — 3일 안에 다시 열면 재검증이 다시 시도한다.
+  if (res.needsAcknowledge) {
+    await acknowledgePurchase(res.record.productId, token);
   }
 
   // 한도·화면이 곧바로 새 등급을 보게.

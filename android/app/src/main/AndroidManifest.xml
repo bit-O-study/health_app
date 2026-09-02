@@ -93,6 +93,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- 구글 플레이 인앱결제(로드맵 7.1). 이게 없으면 결제창이 아예 안 뜬다. -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <!-- 푸시 알림(Android 13+) — 상태표시줄 알림을 띄우려면 필요. FCM 연동 시 사용. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 

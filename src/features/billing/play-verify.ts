@@ -6,6 +6,7 @@ import {
 } from "@/lib/google/service-account";
 import {
   mapPlayState,
+  needsAcknowledge,
   pickAutoRenewing,
   pickExpiry,
   pickProductId,
@@ -42,7 +43,15 @@ export function playBillingEnabled(): boolean {
 }
 
 export type VerifyResult =
-  | { ok: true; record: SubscriptionRecord }
+  | {
+      ok: true;
+      record: SubscriptionRecord;
+      /**
+       * 아직 '수령 확인'(acknowledge)을 안 한 구매인가.
+       * 🔴 3일 안에 확인하지 않으면 **구글이 자동으로 환불**한다.
+       */
+      needsAcknowledge: boolean;
+    }
   /** 구글이 "그런 구매 없음"(404)이라 답했다 — 가짜 토큰이거나 이미 취소된 것. */
   | { ok: false; reason: "not-found" }
   /** 우리 설정이 안 됐다. 사용자 잘못이 아니다. */
@@ -84,6 +93,7 @@ export async function verifyPurchase(
 
   const body = (await res.json().catch(() => null)) as {
     subscriptionState?: unknown;
+    acknowledgementState?: unknown;
     lineItems?: unknown;
   } | null;
   if (!body) return { ok: false, reason: "unavailable" };
@@ -96,7 +106,48 @@ export async function verifyPurchase(
       expiresAt: pickExpiry(body.lineItems),
       autoRenewing: pickAutoRenewing(body.lineItems),
     },
+    needsAcknowledge: needsAcknowledge(body.acknowledgementState),
   };
+}
+
+/**
+ * 🔴 구매 '수령 확인'(acknowledge) — **3일 안에 안 하면 구글이 자동으로 환불한다.**
+ * 사용자는 돈을 냈는데 며칠 뒤 환불되고 권한도 사라지는, 원인을 짐작하기 어려운 사고다.
+ *
+ * 확인은 **서버가 한다**(앱이 아니라). 검증에 성공한 그 자리가 확인해도 되는지 아는
+ * 유일한 지점이다 — 앱이 먼저 확인해 버리면, 서버가 거절한 구매까지 확정된다.
+ *
+ * 실패해도 던지지 않는다. 확인은 3일 동안 다시 시도할 수 있으므로(앱을 다시 열면
+ * 재검증이 돈다), 이번 한 번 실패로 사용자를 막을 이유가 없다.
+ */
+export async function acknowledgePurchase(
+  productId: string,
+  purchaseToken: string,
+): Promise<boolean> {
+  const sa = loadServiceAccount("GOOGLE_PLAY_SERVICE_ACCOUNT");
+  const pkg = playPackageName();
+  if (!sa || !pkg || !productId || !purchaseToken) return false;
+  const token = await getGoogleAccessToken(sa, SCOPE);
+  if (!token) return false;
+
+  const url =
+    `https://androidpublisher.googleapis.com/androidpublisher/v3/applications/` +
+    `${encodeURIComponent(pkg)}/purchases/subscriptions/` +
+    `${encodeURIComponent(productId)}/tokens/` +
+    `${encodeURIComponent(purchaseToken)}:acknowledge`;
+  try {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "content-type": "application/json",
+      },
+      body: "{}",
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
 }
 
 /** 결제 검증이 실제로 돌 수 있으려면 뭐가 더 필요한지 — 화면이 정확히 안내하도록. */

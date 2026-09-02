@@ -62,6 +62,10 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        // 구글 플레이 인앱결제 브리지(window.Capacitor.Plugins.PlayBilling).
+        // ⚠ 플러그인 등록은 super.onCreate 보다 **먼저** 해야 한다 — 그 뒤에 하면
+        //   브리지가 이미 만들어진 뒤라 웹에서 플러그인을 못 찾는다.
+        registerPlugin(PlayBillingPlugin.class);
         super.onCreate(savedInstanceState);
 
         WebView webView = this.getBridge().getWebView();

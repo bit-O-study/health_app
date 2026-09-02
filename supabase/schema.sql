@@ -3258,4 +3258,24 @@ $$;
 revoke all on function public.consume_ai_quota(text, text, int) from public;
 grant execute on function public.consume_ai_quota(text, text, int) to authenticated;
 
+-- ────────────────────────────────────────────────────────────────
+-- AI 분석 결과 보관 — 로드맵 7.1. 다시 열어 볼 때 **AI 를 또 부르지 않기 위해** 남긴다
+-- (재조회가 공짜여야 사용자가 마음 놓고 다시 본다). 사용자당 종류별 최근 것만 유지.
+create table if not exists public.ai_analyses (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  kind text not null check (kind in ('workout', 'diet', 'posture')),
+  summary text not null,
+  points jsonb not null default '[]'::jsonb check (jsonb_typeof(points) = 'array'),
+  subject text,
+  created_at timestamptz not null default now()
+);
+create index if not exists ai_analyses_user_kind_idx
+  on public.ai_analyses (user_id, kind, created_at desc);
+alter table public.ai_analyses enable row level security;
+-- 내 분석은 나만. 사용량과 달리 사용자가 지울 수 있어야 한다(내 기록이다).
+drop policy if exists ai_analyses_own on public.ai_analyses;
+create policy ai_analyses_own on public.ai_analyses
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
 notify pgrst, 'reload schema';

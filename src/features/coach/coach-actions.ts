@@ -4,6 +4,7 @@ import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { callAI, type ImageInput } from "@/features/coach/ai";
 import { consumeAiQuota } from "@/features/coach/ai-usage";
 import type { AiFeatureId } from "@/features/coach/ai-quota";
+import { saveAnalysis } from "@/features/coach/analysis-store";
 import { buildWorkoutSummary, buildDietSummary } from "@/features/coach/summary";
 import {
   parseCoachAnalysis,
@@ -49,6 +50,8 @@ export async function analyzeWorkoutAction(): Promise<CoachAnalysisResult> {
   if (!res.ok) return { ok: false, error: res.error };
   const analysis = parseCoachAnalysis(res.text);
   if (!analysis) return { ok: false, error: "분석 결과를 이해하지 못했어요. 다시 시도해 주세요." };
+  // 보관해 두면 다시 열어 볼 때 AI 를 또 부르지 않는다(한도를 안 먹는다).
+  await saveAnalysis("workout", analysis);
   return { ok: true, analysis };
 }
 
@@ -64,6 +67,7 @@ export async function analyzeDietAction(): Promise<CoachAnalysisResult> {
   if (!res.ok) return { ok: false, error: res.error };
   const analysis = parseCoachAnalysis(res.text);
   if (!analysis) return { ok: false, error: "분석 결과를 이해하지 못했어요. 다시 시도해 주세요." };
+  await saveAnalysis("diet", analysis);
   return { ok: true, analysis };
 }
 
@@ -106,5 +110,7 @@ export async function analyzePostureAction(input: {
   if (!res.ok) return { ok: false, error: res.error };
   const analysis = parseCoachAnalysis(res.text);
   if (!analysis) return { ok: false, error: "분석 결과를 이해하지 못했어요. 다시 시도해 주세요." };
+  // 어떤 운동을 분석한 것인지 같이 남긴다 — 나중에 보면 종목을 모른다.
+  await saveAnalysis("posture", analysis, name || undefined);
   return { ok: true, analysis };
 }

@@ -6,31 +6,48 @@ import { Loader2, Sparkles } from "lucide-react";
 import type { CoachAnalysisResult } from "@/features/coach/coach-actions";
 import type { CoachAnalysis } from "@/features/coach/parse";
 import { AiDisclaimer } from "@/features/coach/components/ai-disclaimer";
+import {
+  analysisDateLabel,
+  type StoredAnalysis,
+} from "@/features/coach/analysis-history";
 
-/** 분석 실행 버튼 + 결과(총평 + 포인트 카드) 렌더. run 은 서버 액션. */
+/**
+ * 분석 실행 버튼 + 결과(총평 + 포인트 카드) 렌더. run 은 서버 액션.
+ *
+ * 🔴 **지난 분석을 먼저 보여준다**(`saved`). 분석은 한 번에 사용량 한도를 한 칸 먹는데,
+ * 화면을 나갔다 오는 것만으로 다시 부르게 하면 **읽으려고 돈을 내는** 구조가 된다.
+ * 보관해 둔 결과를 그대로 띄우고, 새로 받고 싶을 때만 버튼을 누르게 한다.
+ */
 export function AnalysisSection({
   icon,
   title,
   description,
   cta,
   run,
+  saved = null,
 }: {
   icon: ReactNode;
   title: string;
   description: string;
   cta: string;
   run: () => Promise<CoachAnalysisResult>;
+  /** 서버가 읽어 온 지난 분석. 없으면 null. */
+  saved?: StoredAnalysis | null;
 }) {
   const [pending, start] = useTransition();
-  const [analysis, setAnalysis] = useState<CoachAnalysis | null>(null);
+  const [analysis, setAnalysis] = useState<CoachAnalysis | null>(saved);
+  // 새로 받은 결과에는 날짜표를 안 붙인다 — 방금 것이라 '오늘 분석' 이 군더더기다.
+  const [savedAt, setSavedAt] = useState<string | null>(saved?.createdAt ?? null);
   const [error, setError] = useState<string | null>(null);
 
   function go() {
     setError(null);
     start(async () => {
       const r = await run();
-      if (r.ok) setAnalysis(r.analysis);
-      else setError(r.error);
+      if (r.ok) {
+        setAnalysis(r.analysis);
+        setSavedAt(null);
+      } else setError(r.error);
     });
   }
 
@@ -61,7 +78,7 @@ export function AnalysisSection({
         ) : (
           <Sparkles aria-hidden="true" size={16} />
         )}
-        {pending ? "분석 중…" : cta}
+        {pending ? "분석 중…" : analysis ? "다시 분석하기" : cta}
       </button>
 
       {error ? (
@@ -72,6 +89,14 @@ export function AnalysisSection({
 
       {analysis ? (
         <div className="mt-4 space-y-3">
+          {savedAt ? (
+            <p
+              data-testid="analysis-saved-at"
+              className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500"
+            >
+              {analysisDateLabel(savedAt)}
+            </p>
+          ) : null}
           <p className="rounded-xl bg-emerald-50 p-3 text-sm leading-6 text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
             {analysis.summary}
           </p>

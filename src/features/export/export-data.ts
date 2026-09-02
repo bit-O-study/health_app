@@ -156,6 +156,11 @@ const TABLES: Record<string, TableConfig> = {
     ownerColumn: "created_by",
     order: "id",
   },
+  ai_analyses: {
+    columns: "id, kind, summary, points, subject, created_at",
+    ownerColumn: "user_id",
+    order: "id",
+  },
 };
 
 /** 정책 표(`EXPORT_SCOPE`)와 이 파일이 어긋나지 않았는지 테스트가 볼 수 있게 노출. */

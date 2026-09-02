@@ -80,6 +80,21 @@ describe.skipIf(!hasDbCreds)("AI 사용량 한도 가드(라이브 DB)", () => {
     expect(authed[0]?.granted).toBe(true);
   });
 
+  it("ai_analyses 는 본인만 읽고 쓴다 — 남의 코칭 기록이 보이면 안 된다", async () => {
+    const r = await rows<{ relrowsecurity: boolean }>(
+      `select relrowsecurity from pg_class where oid = 'public.ai_analyses'::regclass`,
+    );
+    expect(r[0]?.relrowsecurity).toBe(true);
+    const policies = await rows<{ qual: string | null; with_check: string | null }>(`
+      select qual, with_check from pg_policies
+       where schemaname = 'public' and tablename = 'ai_analyses'`);
+    expect(policies.length).toBeGreaterThan(0);
+    for (const p of policies) {
+      // 조건이 auth.uid() 에 묶여 있지 않으면 남의 행에 닿을 수 있다.
+      expect(`${p.qual ?? ""}${p.with_check ?? ""}`).toContain("uid()");
+    }
+  });
+
   it("한도를 넘으면 -1 을 주고 **더 올리지 않는다**(트랜잭션 안에서 검사 후 롤백)", async () => {
     // 실제 사용자 한 명을 빌려 세어 보고 되돌린다 — 라이브 데이터를 남기지 않는다.
     await client.query("begin");

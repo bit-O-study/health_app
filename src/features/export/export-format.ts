@@ -263,6 +263,12 @@ export const EXPORT_SCOPE: ScopeEntry[] = [
     reason: "이름·주소·보유 기구",
   },
   {
+    table: "ai_analyses",
+    label: "AI 코치 분석",
+    included: true,
+    reason: "내 기록을 보고 받은 코칭 — 내가 받은 글이다",
+  },
+  {
     table: "push_subscriptions",
     label: "웹푸시 구독",
     included: false,
@@ -291,6 +297,12 @@ export const EXPORT_SCOPE: ScopeEntry[] = [
     label: "남이 쓴 댓글·응원",
     included: false,
     reason: "내 글에 달렸어도 그 사람의 글이다",
+  },
+  {
+    table: "ai_usage",
+    label: "AI 사용량 집계",
+    included: false,
+    reason: "우리가 비용을 세려고 남기는 숫자 — 오류 관측 기록과 같은 이유로 뺀다",
   },
 ];
 

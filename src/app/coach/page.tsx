@@ -9,6 +9,7 @@ import {
   analyzeDietAction,
 } from "@/features/coach/coach-actions";
 import { AnalysisSection } from "@/features/coach/components/analysis-section";
+import { getLatestAnalysis } from "@/features/coach/analysis-store";
 import { CommitmentSuggestions } from "@/features/coach/components/commitment-suggestions";
 import { PostureAnalyzer } from "@/features/coach/components/posture-analyzer";
 import { EquipmentScanner } from "@/features/equipment/components/equipment-scanner";
@@ -21,6 +22,13 @@ export default async function CoachPage() {
   if (!user) redirect("/login?redirect=/coach");
   // 아직 디버그 기능 — 헬쑤쌤이 켜진 계정만.
   if (!(await isDebugFeatureEnabled("helssu-coach"))) notFound();
+
+  // 지난 분석을 먼저 띄운다 — 화면을 다시 여는 것만으로 AI 를 부르면 읽으려고 돈을 낸다.
+  // 둘은 서로 독립이라 한 번에 읽는다(직렬 2파 → 1파).
+  const [lastWorkout, lastDiet] = await Promise.all([
+    getLatestAnalysis("workout"),
+    getLatestAnalysis("diet"),
+  ]);
 
   return (
     <main className="mx-auto w-full max-w-lg px-4 py-6 sm:px-5">
@@ -48,6 +56,7 @@ export default async function CoachPage() {
           description="최근 운동 기록으로 부족한 부위와 다음에 할 운동을 코치."
           cta="내 운동 분석하기"
           run={analyzeWorkoutAction}
+          saved={lastWorkout}
         />
 
         <AnalysisSection
@@ -56,6 +65,7 @@ export default async function CoachPage() {
           description="최근 식단으로 칼로리·영양 균형과 개선점을 코치."
           cta="내 식단 분석하기"
           run={analyzeDietAction}
+          saved={lastDiet}
         />
 
         <CommitmentSuggestions />

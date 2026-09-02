@@ -5,6 +5,7 @@ import { Loader2, Sparkles } from "lucide-react";
 
 import type { CoachAnalysisResult } from "@/features/coach/coach-actions";
 import type { CoachAnalysis } from "@/features/coach/parse";
+import { AiDisclaimer } from "@/features/coach/components/ai-disclaimer";
 
 /** 분석 실행 버튼 + 결과(총평 + 포인트 카드) 렌더. run 은 서버 액션. */
 export function AnalysisSection({
@@ -91,6 +92,8 @@ export function AnalysisSection({
               </li>
             ))}
           </ul>
+          {/* 결과 바로 아래에 — 약관에만 있으면 읽는 사람이 없다. */}
+          <AiDisclaimer />
         </div>
       ) : null}
     </section>

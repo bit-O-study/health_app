@@ -1,6 +1,7 @@
 import "server-only";
 
 import { callAI } from "@/features/coach/ai";
+import { consumeAiQuota } from "@/features/coach/ai-usage";
 import { parseVisionResult, type VisionResult } from "@/features/equipment/parse";
 
 export type VisionCall =
@@ -33,6 +34,9 @@ export async function analyzeEquipmentImage(
   imageBase64: string,
   mediaType: string,
 ): Promise<VisionCall> {
+  const quota = await consumeAiQuota("equipment-scan");
+  if (!quota.ok) return { ok: false, error: quota.message };
+
   const res = await callAI("", PROMPT, {
     images: [{ base64: imageBase64, mediaType }],
     maxTokens: 800,

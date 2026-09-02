@@ -3207,4 +3207,55 @@ drop policy if exists "user reads own app events" on public.app_events;
 create policy "user reads own app events" on public.app_events for select
   using (auth.uid() = user_id);
 
+-- ────────────────────────────────────────────────────────────────
+-- AI 사용량 한도 — 로드맵 7.1. (user_id, month, feature) 당 한 행.
+-- month 는 **서울 기준** 'YYYY-MM' — UTC 로 세면 매월 1일 0~9시가 지난달로 들어간다.
+create table if not exists public.ai_usage (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  month text not null,
+  feature text not null,
+  used int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, month, feature)
+);
+create index if not exists ai_usage_month_idx on public.ai_usage (month);
+alter table public.ai_usage enable row level security;
+-- 읽기는 본인 것만. **쓰기 정책은 두지 않는다** — 사용량은 아래 SECURITY DEFINER 함수로만
+-- 오른다. 클라이언트가 직접 update 할 수 있으면 한도를 스스로 0 으로 되돌린다.
+drop policy if exists ai_usage_select_own on public.ai_usage;
+create policy ai_usage_select_own on public.ai_usage
+  for select using (auth.uid() = user_id);
+
+-- 한도 검사와 증가를 **한 문장으로**. 읽고 나서 올리면 그 사이에 다른 요청이 끼어들어
+-- 한도를 넘길 수 있다(사진 스캔은 연타가 흔하다).
+-- 한도 안이면 올린 뒤의 값을, 넘었으면 -1 을 돌려준다.
+create or replace function public.consume_ai_quota(
+  p_feature text, p_month text, p_limit int)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_used int;
+begin
+  if auth.uid() is null then
+    return -1;
+  end if;
+  insert into public.ai_usage (user_id, month, feature, used, updated_at)
+  values (auth.uid(), p_month, p_feature, 1, now())
+  on conflict (user_id, month, feature) do update
+    set used = public.ai_usage.used + 1, updated_at = now()
+    where public.ai_usage.used < p_limit
+  returning used into v_used;
+
+  if v_used is null then
+    return -1; -- 한도 초과(갱신 대상이 없었다)
+  end if;
+  return v_used;
+end;
+$$;
+revoke all on function public.consume_ai_quota(text, text, int) from public;
+grant execute on function public.consume_ai_quota(text, text, int) to authenticated;
+
 notify pgrst, 'reload schema';

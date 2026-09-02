@@ -2,6 +2,8 @@
 
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { callAI, type ImageInput } from "@/features/coach/ai";
+import { consumeAiQuota } from "@/features/coach/ai-usage";
+import type { AiFeatureId } from "@/features/coach/ai-quota";
 import { buildWorkoutSummary, buildDietSummary } from "@/features/coach/summary";
 import {
   parseCoachAnalysis,
@@ -18,11 +20,18 @@ export type CommitmentSuggestResult =
   | { ok: true; suggestions: SuggestedCommitment[] }
   | { ok: false; error: string };
 
-async function ensureCoach(): Promise<string | null> {
+/**
+ * 부를 자격이 있나 — 기능 게이트 + **이번 달 사용량 한도**(로드맵 7.1).
+ *
+ * 한도 확인이 곧 '한 번 썼다'로 센다. 호출 **직전에** 세야 한다 — 응답을 받고 세면
+ * 도중에 끊긴 호출은 공짜가 되는데, 비용은 이미 나간 뒤다.
+ */
+async function ensureCoach(feature: AiFeatureId): Promise<string | null> {
   if (!(await isDebugFeatureEnabled("helssu-coach"))) {
     return "헬쑤쌤은 아직 사용할 수 없습니다.";
   }
-  return null;
+  const quota = await consumeAiQuota(feature);
+  return quota.ok ? null : quota.message;
 }
 
 const ANALYSIS_JSON =
@@ -30,7 +39,7 @@ const ANALYSIS_JSON =
 
 /** 운동 분석 — 최근 기록으로 부족한 부위·불균형·다음에 할 운동 조언. */
 export async function analyzeWorkoutAction(): Promise<CoachAnalysisResult> {
-  const gate = await ensureCoach();
+  const gate = await ensureCoach("coach");
   if (gate) return { ok: false, error: gate };
   const summary = await buildWorkoutSummary();
   const res = await callAI(
@@ -45,7 +54,7 @@ export async function analyzeWorkoutAction(): Promise<CoachAnalysisResult> {
 
 /** 식단 코칭 — 최근 식단으로 개선점·관리 방법 조언. */
 export async function analyzeDietAction(): Promise<CoachAnalysisResult> {
-  const gate = await ensureCoach();
+  const gate = await ensureCoach("coach");
   if (gate) return { ok: false, error: gate };
   const summary = await buildDietSummary();
   const res = await callAI(
@@ -60,7 +69,7 @@ export async function analyzeDietAction(): Promise<CoachAnalysisResult> {
 
 /** AI 다짐 제안 — 운동·식단 데이터 기반 실천 가능한 다짐 2~3개. */
 export async function suggestCommitmentsAction(): Promise<CommitmentSuggestResult> {
-  const gate = await ensureCoach();
+  const gate = await ensureCoach("coach");
   if (gate) return { ok: false, error: gate };
   const [w, d] = await Promise.all([buildWorkoutSummary(), buildDietSummary()]);
   const res = await callAI(
@@ -83,7 +92,7 @@ export async function analyzePostureAction(input: {
   frames: ImageInput[];
   exerciseName?: string;
 }): Promise<CoachAnalysisResult> {
-  const gate = await ensureCoach();
+  const gate = await ensureCoach("posture");
   if (gate) return { ok: false, error: gate };
   const frames = (input.frames ?? []).slice(0, 6); // 과금·용량 방지 최대 6프레임
   if (frames.length === 0) return { ok: false, error: "영상 프레임이 없습니다." };

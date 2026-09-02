@@ -12,98 +12,27 @@ import {
   bucketStepsBySeoulDay,
   seoulYmdOf,
 } from "@/features/health/steps-bucket";
+// 플러그인 획득·타임아웃·앱 판별은 건강 항목 전체가 함께 쓴다(로드맵 6.1에서 분리).
+// 여기 두면 항목이 늘 때마다 같은 코드가 복사되고, 실기기에서 데여 고친 규칙이 한쪽에만
+// 반영되는 사고가 난다.
+import {
+  getHealthPlugin,
+  hasCapacitorBridge as bridgePresent,
+  hasNativeUa,
+  isNative,
+  lastHealthPluginError,
+  withTimeout,
+  type HealthConnectLike,
+} from "@/features/health/health-plugin";
 import { reportAppEvent } from "@/lib/observability/report-client";
 
 const STEPS_READ = "Steps";
 /** 진입/동기화 시 함께 백필할 과거 일수(캘린더가 서울 날짜별로 채워지게). */
 const BACKFILL_DAYS = 7;
-/**
- * capacitor.config.ts 의 appendUserAgent 로 심는 표식. 외부 server.url 로드 시 안드로이드에서
- * window.Capacitor 주입이 실패하는 버그(ionic-team/capacitor#7269)가 있어, UA 표식으로도
- * '네이티브 앱'인지 판별한다(브리지 없어도 확실히 감지). 값은 config 와 반드시 일치.
- */
-const NATIVE_UA_MARK = "helssu-app";
-
-/** User-Agent 에 네이티브 앱 표식이 있는지(브리지 주입과 무관하게 앱 여부 판별). */
-function hasNativeUa(): boolean {
-  if (typeof navigator === "undefined") return false;
-  return navigator.userAgent.includes(NATIVE_UA_MARK);
-}
-
-/**
- * 플러그인(네이티브) 호출이 콜백을 안 돌려주고 '먹통'이 되면 화면 전체가 멈춘다
- * (버튼·진단칩 둘 다 안 뜸). ms 안에 안 끝나면 fallback 으로 넘어가 UI 가 계속 뜨게 한다.
- */
-function withTimeout<T>(p: Promise<T>, ms: number, fallback: T): Promise<T> {
-  return new Promise<T>((resolve) => {
-    let done = false;
-    const t = setTimeout(() => {
-      if (!done) {
-        done = true;
-        resolve(fallback);
-      }
-    }, ms);
-    p.then(
-      (v) => {
-        if (!done) {
-          done = true;
-          clearTimeout(t);
-          resolve(v);
-        }
-      },
-      () => {
-        if (!done) {
-          done = true;
-          clearTimeout(t);
-          resolve(fallback);
-        }
-      },
-    );
-  });
-}
-
 export type StepsState =
   | { status: "unavailable" }
   | { status: "denied" }
   | { status: "granted"; steps: number; byDay?: Record<string, number> };
-
-/** 마지막 플러그인 획득 실패 사유(진단칩에 그대로 노출). */
-let lastPluginError = "";
-
-async function getPlugin(): Promise<HealthConnectLike | null> {
-  if (typeof window === "undefined") return null;
-  // 동적 import(@capacitor/core)가 앱에서 멈추는(hang) 경우가 있어, 이미 주입된
-  // window.Capacitor 를 직접 쓴다(브릿지:O 면 여기 있음). 네이티브가 등록한 플러그인은
-  // Capacitor.Plugins 아래에 있다.
-  const cap = (
-    window as unknown as {
-      Capacitor?: {
-        Plugins?: Record<string, HealthConnectLike | undefined>;
-        registerPlugin?: (name: string) => HealthConnectLike;
-      };
-    }
-  ).Capacitor;
-  if (!cap) {
-    lastPluginError = "window.Capacitor 없음";
-    return null;
-  }
-  try {
-    const hc =
-      cap.Plugins?.HealthConnect ?? cap.registerPlugin?.("HealthConnect");
-    if (!hc) {
-      lastPluginError =
-        "HealthConnect 미등록 (Plugins: " +
-        Object.keys(cap.Plugins ?? {}).join(",") +
-        ")";
-      return null;
-    }
-    lastPluginError = "";
-    return hc;
-  } catch (e) {
-    lastPluginError = e instanceof Error ? e.message : String(e);
-    return null;
-  }
-}
 
 /**
  * 진입 시 상태 판정의 '순수' 부분(웹/네이티브·플러그인·권한 → 표시상태).
@@ -123,23 +52,11 @@ export function decideStepsState(avail: StepsAvail, steps: number): StepsState {
   return { status: "denied" }; // no-plugin · hc-unavailable · no-perm → 네이티브면 버튼 노출
 }
 
-async function isNative(): Promise<boolean> {
-  if (typeof window === "undefined") return false;
-  // UA 표식이 있으면 네이티브 앱 확정(window.Capacitor 주입 실패해도 앱은 앱).
-  if (hasNativeUa()) return true;
-  try {
-    const { Capacitor } = await import("@capacitor/core");
-    return Capacitor.isNativePlatform();
-  } catch {
-    return false;
-  }
-}
-
 /** Health Connect 사용 가능 + 걸음수 권한 보유 시 오늘 걸음수까지 읽는다. 액티비티는 안 띄움. */
 export async function getStepsState(): Promise<StepsState> {
   if (!(await isNative())) return decideStepsState("web", 0);
 
-  const HC = await withTimeout(getPlugin(), 4000, null);
+  const HC = await withTimeout(getHealthPlugin(), 4000, null);
   if (!HC) return decideStepsState("no-plugin", 0); // 네이티브인데 플러그인 없음/먹통 → 버튼
   try {
     // 각 네이티브 호출에 타임아웃 — 먹통이면 '연동' 버튼이라도 뜨게 한다.
@@ -199,7 +116,7 @@ async function connectStepsInner(): Promise<ConnectResult> {
   } catch {
     return { ok: false, reason: "Capacitor 로드 실패" };
   }
-  const HC = await getPlugin();
+  const HC = await getHealthPlugin();
   if (!HC) return { ok: false, reason: "Health Connect 플러그인 로드 실패" };
 
   try {
@@ -248,13 +165,7 @@ export type StepsDiag = {
 };
 
 /** window.Capacitor 가 주입돼 있나 — 네이티브 WebView(앱) 안인지 빠르게 가린다. */
-export function hasCapacitorBridge(): boolean {
-  if (typeof window === "undefined") return false;
-  // 네이티브 앱이면(UA 표식) 브리지가 없어도 진단칩을 띄운다 — 앱엔 주소창이 없어
-  // ?stepsdebug 로 못 여니, 앱에선 자동으로 진단이 보이게 한다. (웹은 표식 없어 숨김)
-  if (hasNativeUa()) return true;
-  return !!(window as unknown as { Capacitor?: unknown }).Capacitor;
-}
+export const hasCapacitorBridge = bridgePresent;
 
 export async function diagnoseSteps(): Promise<StepsDiag> {
   const d: StepsDiag = {
@@ -274,10 +185,10 @@ export async function diagnoseSteps(): Promise<StepsDiag> {
   try {
     d.native = await isNative();
     if (!d.native) return d;
-    const HC = await withTimeout(getPlugin(), 4000, null);
+    const HC = await withTimeout(getHealthPlugin(), 4000, null);
     d.plugin = !!HC;
     if (!HC) {
-      d.error = "플러그인:" + (lastPluginError || "로드 실패/시간초과");
+      d.error = "플러그인:" + (lastHealthPluginError() || "로드 실패/시간초과");
       return d;
     }
 
@@ -388,29 +299,3 @@ async function readStepsByDay(
   const todayYmd = seoulYmdOf(now) ?? "";
   return bucketStepsBySeoulDay(res?.records ?? [], todayYmd);
 }
-
-// 플러그인 최소 타입(설치 안 돼 있어도 tsc 통과).
-type HealthConnectLike = {
-  checkAvailability?: () => Promise<{ availability: string }>;
-  checkHealthPermissions?: (opts: {
-    read: string[];
-    write: string[];
-  }) => Promise<{ grantedPermissions?: string[]; hasAllPermissions?: boolean }>;
-  requestHealthPermissions?: (opts: {
-    read: string[];
-    write: string[];
-  }) => Promise<{ grantedPermissions?: string[]; hasAllPermissions?: boolean }>;
-  aggregateSteps?: (opts: {
-    timeRangeFilter: { type: string; startTime: Date; endTime: Date };
-  }) => Promise<{ count?: number | string }>;
-  readRecords: (opts: {
-    type: string;
-    timeRangeFilter: { type: string; startTime: Date; endTime: Date };
-  }) => Promise<{
-    records?: {
-      count?: number | string;
-      startTime?: string | number | Date;
-      metadata?: { dataOrigin?: string | null } | null;
-    }[];
-  }>;
-};

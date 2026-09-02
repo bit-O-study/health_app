@@ -1,5 +1,20 @@
 [
   {
+    "file": "helssu-v1.0.3-4-9009110-20260902-1642-dirty-post-billing.apk",
+    "dir": "releases/apk/2026-09-02",
+    "sha256": "7dd6950e8204f0a408975880f81ea28fd71183f6b1db3607e66134633b258d07",
+    "versionName": "1.0.3",
+    "versionCode": 4,
+    "commit": "9009110",
+    "builtAt": "2026-09-02T07:42:54.372Z",
+    "buildType": "debug",
+    "sizeBytes": 13405056,
+    "verified": false,
+    "note": "post-billing",
+    "logcat": "",
+    "rebuiltAs": []
+  },
+  {
     "file": "helssu-v1.0.3-4-f5befd1-20260902-1448-dirty-play-billing.apk",
     "dir": "releases/apk/2026-09-02",
     "sha256": "4de3fef8cc6aa0cafdfc9306faddbef248aadd6273708e32672c638495631924",

@@ -11,6 +11,7 @@
     "start": "next start",
     "lint": "eslint",
     "lint:gate": "node tools/lint/check-lint.mjs",
+    "perf:bundles": "node tools/perf/measure-bundles.mjs",
     "lint:baseline": "node tools/lint/check-lint.mjs --update",
     "test": "vitest run",
     "test:unit": "vitest run tests/be/logic",

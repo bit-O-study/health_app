@@ -10,6 +10,10 @@ import {
   rendererRecoveryDestination,
   type SavedRoute,
 } from "@/lib/platform/route-restore";
+import {
+  readRecoveryCount,
+  type RendererRecoveryBridge,
+} from "@/lib/platform/renderer-recovery";
 
 /**
  * 네이티브 앱(APK)에서 "잠깐 다른 앱 갔다 오면 앱이 초기화되는" 문제 완화.
@@ -52,20 +56,15 @@ function readSaved(): SavedRoute | null {
   return null;
 }
 
+/**
+ * 복구 횟수는 부팅당 **한 번만** 읽는다(네이티브가 읽는 즉시 지운다).
+ * 판단은 순수 모듈로 뺐다 — 옛 APK 폴백이 여기 묻혀 있으면 테스트가 안 된다.
+ */
 function consumeRendererRecovery(): number {
-  try {
-    const nativeWindow = window as typeof window & {
-      HelssuNative?: {
-        consumeRendererRecoveryCount?: () => number;
-        consumeRendererRecovery?: () => boolean;
-      };
-    };
-    const count = nativeWindow.HelssuNative?.consumeRendererRecoveryCount?.();
-    if (typeof count === "number") return count;
-    return nativeWindow.HelssuNative?.consumeRendererRecovery?.() === true ? 1 : 0;
-  } catch {
-    return 0;
-  }
+  const nativeWindow = window as typeof window & {
+    HelssuNative?: RendererRecoveryBridge;
+  };
+  return readRecoveryCount(nativeWindow.HelssuNative);
 }
 
 export function RouteKeeper() {

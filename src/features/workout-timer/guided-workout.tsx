@@ -82,6 +82,7 @@ import type { MediaKind } from "@/features/exercises/exercise-media";
 import { OverloadHint } from "@/features/routine/components/overload-hint";
 import type { OverloadAdvice } from "@/features/routine/overload-advice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { callIdempotentAction } from "@/lib/actions/resilient-action";
 import { reportAppEvent } from "@/lib/observability/report-client";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
@@ -717,8 +718,16 @@ export function GuidedOverlay({
         message: `운동모드 ${status === "done" ? "완료" : "넘기기"} 저장 실패: ${error}`,
       });
     }
-    const p = runAction(captured, status)
-      .then((res) => {
+    // 🔴 서버 액션 응답이 스트리밍 도중 끊기면 **await 가 영원히 안 끝난다**
+    // (2026-09-02 측정: `/routine` 에서 약 30%). 그러면 실패 배너도 안 뜨고,
+    // `refreshAfterPending` 이 이 promise 를 기다리다 새로고침도 영영 안 한다 —
+    // 사용자에겐 "완료를 눌렀는데 아무 일도 안 일어남" 이 된다.
+    // done/skipped 저장은 행 단위 upsert(본운동)·행 지우고 넣기(컨디셔닝)라 다시
+    // 보내도 결과가 같다(멱등) → 안전하게 재시도하고, 그래도 안 되면 실패로 처리한다.
+    const p = callIdempotentAction(() => runAction(captured, status))
+      .then((r) => {
+        if (!r.ok) return noteFailure("응답이 오지 않았어요(연결 끊김)");
+        const res = r.value;
         if (res && res.ok === false) noteFailure(res.error);
         else setFailures((f) => f.filter((x) => x.key !== key));
       })

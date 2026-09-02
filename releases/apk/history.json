@@ -1,5 +1,20 @@
 [
   {
+    "file": "helssu-v1.0.3-4-f5befd1-20260902-1448-dirty-play-billing.apk",
+    "dir": "releases/apk/2026-09-02",
+    "sha256": "4de3fef8cc6aa0cafdfc9306faddbef248aadd6273708e32672c638495631924",
+    "versionName": "1.0.3",
+    "versionCode": 4,
+    "commit": "f5befd1",
+    "builtAt": "2026-09-02T05:48:47.758Z",
+    "buildType": "debug",
+    "sizeBytes": 13405056,
+    "verified": false,
+    "note": "play-billing",
+    "logcat": "",
+    "rebuiltAs": []
+  },
+  {
     "file": "helssu-debug-v4-health-connect-fix.apk",
     "dir": "releases/apk/2026-08-21",
     "sha256": "fc5b7cca609ac3764a242da58b01b9029751ef3ac8db0c4b4954785b54e5784d",

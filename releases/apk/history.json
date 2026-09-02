@@ -9,9 +9,9 @@
     "builtAt": "2026-09-02T07:42:54.372Z",
     "buildType": "debug",
     "sizeBytes": 13405056,
-    "verified": false,
-    "note": "post-billing",
-    "logcat": "",
+    "verified": true,
+    "note": "SM-S911N/Android16: 탭 22회 순회·운동모드 진입/중단 크래시 0, PID 유지",
+    "logcat": "releases/apk/2026-09-02/logcat-9009110-1788336852657.txt",
     "rebuiltAs": []
   },
   {

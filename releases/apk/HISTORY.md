@@ -5,7 +5,7 @@
 
 | 빌드(KST) | 버전 | 커밋 | 파일 | 크기 | 검증 | 비고 |
 | --- | --- | --- | --- | ---: | :---: | --- |
-| 2026-09-02 16:42 | 1.0.3 (4) | `9009110` | `releases/apk/2026-09-02/helssu-v1.0.3-4-9009110-20260902-1642-dirty-post-billing.apk` | 12.8 MB | — | post-billing |
+| 2026-09-02 16:42 | 1.0.3 (4) | `9009110` | `releases/apk/2026-09-02/helssu-v1.0.3-4-9009110-20260902-1642-dirty-post-billing.apk` | 12.8 MB | ✅ | SM-S911N/Android16: 탭 22회 순회·운동모드 진입/중단 크래시 0, PID 유지 / logcat: `releases/apk/2026-09-02/logcat-9009110-1788336852657.txt` |
 | 2026-09-02 14:48 | 1.0.3 (4) | `f5befd1` | `releases/apk/2026-09-02/helssu-v1.0.3-4-f5befd1-20260902-1448-dirty-play-billing.apk` | 12.8 MB | — | play-billing |
 | 2026-08-21 12:20 | 0.0.0 (0) | `nogit` | `releases/apk/2026-08-21/helssu-debug-v4-health-connect-fix.apk` | 9.1 MB | — | 규칙 도입 전 보관분(backfill) |
 | 2026-08-21 10:47 | 0.0.0 (0) | `nogit` | `releases/apk/2026-08-21/helssu-debug-v3-tab-crash-fix.apk` | 9.0 MB | — | 규칙 도입 전 보관분(backfill) |

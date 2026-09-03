@@ -99,6 +99,14 @@ describe("isFeatureGranted — 하나라도 빠지면 '연결됨'이 아니다",
   const body = getHealthFeature("body")!;
   const steps = getHealthFeature("steps")!;
 
+  it.each([
+    ["workout", "android.permission.health.WRITE_EXERCISE"],
+    ["heartRate", "android.permission.health.READ_HEART_RATE"],
+    ["sleep", "android.permission.health.READ_SLEEP"],
+  ] as const)("%s의 Android 권한 이름을 레코드 타입과 대응한다", (id, permission) => {
+    expect(isFeatureGranted(getHealthFeature(id)!, [permission])).toBe(true);
+  });
+
   it("기기가 주는 접두사 붙은 문자열도 알아본다", () => {
     expect(
       isFeatureGranted(steps, ["android.permission.health.READ_STEPS"]),

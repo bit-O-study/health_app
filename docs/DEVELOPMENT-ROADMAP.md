@@ -580,6 +580,11 @@
     동기화가 이 폰의 상태처럼 보인다. 화면에도 "이 기기 기준"이라고 적는다
   - 새 화면 `/settings/health` + 설정 목록 진입점
 - [진행중] 체중·체성분 읽기와 운동 세션 쓰기
+  - [진행중] Android 권한명과 레코드 타입명이 다른 운동·심박수·수면 연결 상태 오판 수정
+    - [완료] ADB로 세 권한 `granted=true`인데 화면은 미연결인 현상 재현
+    - [완료] `WRITE_EXERCISE`·`READ_HEART_RATE`·`READ_SLEEP` 별칭 매핑 및 단위 검증
+      - 관련 단위 테스트 4파일 32개, TypeScript, 대상 ESLint 통과
+    - [대기] 배포 후 연결 화면 실기기 확인
   - [완료] 체중·체지방·근육량 읽어 체형 기록에 반영(`readBodyEntries` →
     `importBodyLogsAction`)
     - 세 값은 **각각 다른 레코드**로 온다 → 같은 분(minute)의 것끼리 한 줄로 합친다.

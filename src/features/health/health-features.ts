@@ -149,6 +149,16 @@ export function isFeatureGranted(
   const norm = granted.map((g) => g.toLowerCase().replace(/[^a-z]/g, ""));
   return need.every((n) => {
     const key = n.toLowerCase().replace(/[^a-z]/g, "");
-    return norm.some((g) => g.includes(key));
+    // 플러그인 요청은 레코드 타입 이름을 쓰지만 Android가 돌려주는 값은 실제
+    // Manifest 권한 이름이다. 이름이 다른 세 타입은 명시적으로 대응시킨다.
+    const permissionKey =
+      key === "exercisesession"
+        ? "exercise"
+        : key === "heartrateseries"
+          ? "heartrate"
+          : key === "sleepsession"
+            ? "sleep"
+            : key;
+    return norm.some((g) => g.includes(permissionKey));
   });
 }

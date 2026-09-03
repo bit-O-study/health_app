@@ -41,6 +41,7 @@ import {
   snoozeActiveAction,
   endActiveSessionAction,
 } from "@/features/workout-timer/active-state-actions";
+import { writeWorkoutSession } from "@/features/health/workout-write";
 
 // 가이드 오버레이(일러스트/플립북 등 ~1.5k줄)는 "운동 시작" 탭 전까지 필요 없으므로
 // 동적 로드해 홈 화면 초기 번들에서 제외한다.
@@ -193,6 +194,7 @@ export function WorkoutSessionTimer({
   const noRespTimerRef = useRef<number | null>(null); // 10분 무응답 타이머
   const prevQueueLenRef = useRef(0);
   const hadItemsRef = useRef(false); // 한 번이라도 남은 운동이 있었는지(자동 종료 판정)
+  const endingRef = useRef(false); // 자동 종료와 버튼 종료가 겹쳐 이중 내보내는 것 방지
   const handlersRef = useRef<{
     endWithRest: () => void;
     snooze: () => void;
@@ -339,6 +341,7 @@ export function WorkoutSessionTimer({
   }, []);
 
   function start() {
+    endingRef.current = false;
     const s: TimerState = {
       startedAt: Date.now(),
       pausedAt: null,
@@ -414,11 +417,18 @@ export function WorkoutSessionTimer({
   async function endSession(): Promise<boolean> {
     const s = stateRef.current;
     if (!s) return true;
+    if (endingRef.current) return false;
+    endingRef.current = true;
+    const durationSec = Math.floor(elapsedMs(s) / 1_000);
+    const endedAtMs = Date.now();
     // 운동 완료마다 이미 누적했을 수 있으니 '아직 안 올린 만큼'만 더한다(이중 가산 방지).
     const d = takeUnsavedDelta(s);
     if (d) {
       const ok = await saveDuration(d.forDate, d.deltaSec);
-      if (!ok) return false; // 실패 시 상태 유지해 재시도 가능
+      if (!ok) {
+        endingRef.current = false;
+        return false; // 실패 시 상태 유지해 재시도 가능
+      }
     }
     clearSavedMark();
     writeTimer(null);
@@ -427,6 +437,9 @@ export function WorkoutSessionTimer({
     clearNoRespTimer();
     clearPrompt();
     void endActiveSessionAction(); // 서버 활성 세션 종료(더 이상 푸시 안 함)
+    // Health Connect 실패는 앱의 운동 기록 저장을 막지 않는다. 사용자가 설정에서
+    // ExerciseSession 쓰기 권한을 연결한 경우에만 네이티브 브리지가 실제로 기록한다.
+    void writeWorkoutSession(endedAtMs, durationSec);
     return true;
   }
 

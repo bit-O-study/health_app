@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { isLocalEnv, normalizePhone } from "@/features/auth/phone";
 import { isNativeApp } from "@/lib/platform/is-native-app";
+import { reportAppEvent } from "@/lib/observability/report-client";
 
 type Mode = "login" | "signup";
 
@@ -97,6 +98,10 @@ export function AuthForm({
 
       if (signUpError) {
         setError(signUpError.message);
+        // 아직 로그인 전이라 지금은 못 보낸다 — 기기에 담아 뒀다가 다음 로그인 때 나간다.
+        reportAppEvent("auth_failure", {
+          message: `가입 실패: ${signUpError.message}`,
+        });
         setIsSubmitting(false);
         return;
       }
@@ -145,6 +150,13 @@ export function AuthForm({
           ? "이메일 또는 비밀번호가 올바르지 않습니다."
           : signInError.message,
       );
+      // 비밀번호 오타(Invalid login credentials)는 사용자 실수라 남기지 않는다.
+      // 설정 오류·서버 장애처럼 **우리가 고쳐야 하는** 실패만 관측 대상이다.
+      if (signInError.message !== "Invalid login credentials") {
+        reportAppEvent("auth_failure", {
+          message: `로그인 실패: ${signInError.message}`,
+        });
+      }
       setIsSubmitting(false);
       return;
     }
@@ -175,6 +187,9 @@ export function AuthForm({
     });
     if (oauthError) {
       setError(oauthError.message);
+      reportAppEvent("auth_failure", {
+        message: `${provider} 로그인 실패: ${oauthError.message}`,
+      });
       setOauthLoading(null);
     }
     // 성공하면 브라우저가 provider 로그인 페이지로 이동하므로 별도 처리 불필요.

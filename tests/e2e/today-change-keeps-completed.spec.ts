@@ -77,12 +77,13 @@ test("부위 추가: 등에 가슴을 더하면 등과 가슴이 함께 보인�
   // "오늘만 운동 바꾸기" 모달 → 가슴 선택 → "오늘만 부위 추가"
   await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘만 운동 바꾸기" }).click();
-  await page.getByRole("button", { name: "가슴" }).click();
+  await page.getByRole("button", { name: "가슴 전체", exact: true }).click();
   await page.getByRole("button", { name: "오늘만 부위 추가" }).click();
 
   // /plan/today 로 이동 — 가슴 섹션을 추천으로 채우고 저장.
   await page.waitForURL("**/plan/today**", { timeout: 30_000 });
   await page.getByRole("button", { name: "추천으로 채우기" }).first().click();
+  await page.getByRole("button", { name: "교체하기" }).click();
   await page.getByRole("button", { name: "저장", exact: true }).first().click();
   await expect(page.getByText("저장됨").first()).toBeVisible({ timeout: 15_000 });
 

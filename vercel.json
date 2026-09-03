@@ -3,6 +3,7 @@
   "regions": ["sin1"],
   "crons": [
     { "path": "/api/cron/weekly-group-mvp", "schedule": "0 0 * * 1" },
-    { "path": "/api/cron/daily-reminders", "schedule": "0 11 * * *" }
+    { "path": "/api/cron/daily-reminders", "schedule": "0 11 * * *" },
+    { "path": "/api/cron/workout-inactivity", "schedule": "*/10 * * * *" }
   ]
 }

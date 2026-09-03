@@ -818,6 +818,25 @@ export function isValidRoutine(splits: number, variantId: string): boolean {
 
 export type FocusKey = Exclude<FocusTone, "rest">;
 
+/** 부위 톤(휴식 제외) 전체 — 런타임 검증용. `FocusKey` 와 항상 같이 간다. */
+export const FOCUS_KEYS: FocusKey[] = [
+  "fullbody",
+  "upper",
+  "lower",
+  "chest",
+  "back",
+  "shoulder",
+  "arm",
+  "push",
+  "pull",
+  "core",
+];
+
+/** 클라이언트가 보낸 값이 진짜 부위 톤인지 — 서버 액션 입력 검증용. */
+export function isFocusKey(value: unknown): value is FocusKey {
+  return typeof value === "string" && (FOCUS_KEYS as string[]).includes(value);
+}
+
 export type DaySlot = {
   /** 주기 일차 0~6 */
   dayIndex: number;

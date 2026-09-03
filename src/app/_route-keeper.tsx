@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { isNativeApp } from "@/lib/platform/is-native-app";
+import { reportAppEvent } from "@/lib/observability/report-client";
 import {
   decideRendererRecovery,
   parseRendererRecovery,
@@ -86,7 +87,15 @@ export function RouteKeeper() {
 
     const now = Date.now();
     const event = parseRendererRecovery(consumeNativeRecovery(), now);
-    const decision = decideRendererRecovery(event, readSaved(), currentRoute(), now);
+    const saved = readSaved();
+    const decision = decideRendererRecovery(event, saved, currentRoute(), now);
+    if (event) {
+      reportAppEvent("webview_recovery", {
+        route: saved?.path,
+        value: event.count,
+        message: `렌더러 복구 ${event.count}회 · ${event.mode}`,
+      });
+    }
     if (decision.clearSavedRoute) clearSaved();
     if (decision.notice) {
       const recoveryNotice = decision.notice;

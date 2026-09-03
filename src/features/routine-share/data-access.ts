@@ -80,6 +80,7 @@ export async function getRoutineShares(limit = 30): Promise<RoutineShareItem[]> 
     const focusBlocks = asFocuses(r.focus_blocks);
     return {
       id: r.id,
+      userId: r.user_id,
       title: r.title,
       caption: r.caption,
       authorName: r.author_name,

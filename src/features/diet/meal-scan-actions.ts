@@ -2,6 +2,7 @@
 
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { callAI } from "@/features/coach/ai";
+import { consumeAiQuota } from "@/features/coach/ai-usage";
 import { parseMealScan, type ScannedFood } from "@/features/diet/meal-scan-parse";
 import { persistScannedFoods } from "@/features/diet/custom-foods";
 import type { Meal } from "@/features/diet/meal";
@@ -49,6 +50,11 @@ export async function scanMealPhotoAction(input: {
       ],
     };
   }
+
+  // 한도는 **호출 직전에** 센다 — 응답을 받고 세면 도중에 끊긴 호출이 공짜가 되는데
+  // 비용은 이미 나간 뒤다. (스텁 경로는 AI 를 안 부르므로 세지 않는다 — 위에서 반환됨)
+  const quota = await consumeAiQuota("meal-scan");
+  if (!quota.ok) return { ok: false, error: quota.message };
 
   const res = await callAI(SYSTEM, "이 사진의 음식을 분석해줘.", {
     images: [{ base64: input.imageBase64, mediaType: input.mediaType }],

@@ -21,7 +21,6 @@ export default async function PlanPage() {
     getUserProfile(),
     getUserRoutine(),
     getCurrentGym(),
-    // '이 일차 소개하기' 의 공개범위(그룹만) 선택지.
     getMyGroups(),
   ]);
 
@@ -122,7 +121,7 @@ export default async function PlanPage() {
         weightKg={profile.weightKg}
         gymEquipment={gymEquipment}
         lockWeightReps={profile.lockWeightReps}
-        myGroups={myGroups.map((g) => ({ id: g.id, name: g.name }))}
+        myGroups={myGroups.map((group) => ({ id: group.id, name: group.name }))}
       />
     </main>
   );

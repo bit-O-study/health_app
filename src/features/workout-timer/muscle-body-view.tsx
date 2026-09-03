@@ -3,7 +3,9 @@
 import Model, { type IExerciseData, type Muscle } from "react-body-highlighter";
 import { X } from "lucide-react";
 
-import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+// 이름·타깃을 인자로 받는 쪽을 쓴다 — id 만으로 찾으면 운동 목록(274 KiB)을 뒤져야 하고,
+// 그러면 이 인체 그림 하나 때문에 운동모드 화면에 카탈로그가 통째로 실린다.
+import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { musclesForKoreanNames } from "@/features/workout-timer/muscle-body-map";
 
 /** 우리 세부 근육 id → react-body-highlighter 의 근육명. */
@@ -39,9 +41,13 @@ const HILITE = ["#34d399"]; // emerald-400 (빈도 1 = index 0)
 const BODY = "#d4d4d8"; // zinc-300 — 비자극 근육 기본색
 
 /** 운동의 자극 근육(react-body-highlighter 명칭, 중복 제거). */
-export function musclesForExerciseBody(exerciseId: string): Muscle[] {
+export function musclesForExerciseBody(
+  exerciseId: string,
+  name: string,
+  target: string,
+): Muscle[] {
   const set = new Set<Muscle>();
-  for (const s of subMusclesForExercise(exerciseId)) {
+  for (const s of subMusclesForExerciseData(exerciseId, name, target)) {
     const m = SUB_TO_MUSCLE[s.id];
     if (m) set.add(m);
   }
@@ -82,13 +88,18 @@ export function MuscleBodyByNames({
 /** 실사풍 인체(정면) 작은 미리보기 — 자극 근육 색칠. 탭하면 앞·뒤 크게. */
 export function MuscleBodyInset({
   exerciseId,
+  name,
+  target,
   onOpen,
 }: {
   exerciseId: string;
+  name: string;
+  /** 자극 부위 문구 — 세부근육 추론에 쓴다(서버가 큐에 넣어 내려준다). */
+  target: string;
   onOpen: () => void;
 }) {
   const data: IExerciseData[] = [
-    { name: "x", muscles: musclesForExerciseBody(exerciseId) },
+    { name: "x", muscles: musclesForExerciseBody(exerciseId, name, target) },
   ];
   return (
     <button
@@ -116,14 +127,17 @@ export function MuscleBodyInset({
 export function MuscleBodyModal({
   exerciseId,
   name,
+  target,
   onClose,
 }: {
   exerciseId: string;
   name: string;
+  /** 자극 부위 문구 — 세부근육 추론에 쓴다(서버가 큐에 넣어 내려준다). */
+  target: string;
   onClose: () => void;
 }) {
   const data: IExerciseData[] = [
-    { name, muscles: musclesForExerciseBody(exerciseId) },
+    { name, muscles: musclesForExerciseBody(exerciseId, name, target) },
   ];
   return (
     <div className="fixed inset-0 z-[80] flex flex-col bg-zinc-950">

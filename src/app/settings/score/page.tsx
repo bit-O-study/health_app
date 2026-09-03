@@ -61,6 +61,8 @@ export default async function ScorePage() {
       sets: c.sets,
       reps: c.reps,
       weightKg: c.weightKg,
+      // 드롭세트·피라미드는 여기에 있다 — 안 넘기면 균일 세트로만 세어 운동량이 틀어진다.
+      setDetails: c.setDetails,
     })),
     userWeight,
   );
@@ -74,6 +76,8 @@ export default async function ScorePage() {
       sets: c.sets,
       reps: c.reps,
       weightKg: c.weightKg,
+      // 드롭세트·피라미드는 여기에 있다 — 안 넘기면 균일 세트로만 세어 운동량이 틀어진다.
+      setDetails: c.setDetails,
     })),
     userWeight,
   );
@@ -109,6 +113,8 @@ export default async function ScorePage() {
       sets: c.sets,
       reps: c.reps,
       weightKg: c.weightKg,
+      // 드롭세트·피라미드는 여기에 있다 — 안 넘기면 균일 세트로만 세어 운동량이 틀어진다.
+      setDetails: c.setDetails,
     })),
     userWeight,
   );

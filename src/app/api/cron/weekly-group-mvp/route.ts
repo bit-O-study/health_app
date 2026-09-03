@@ -1,31 +1,27 @@
-import { NextResponse } from "next/server";
-
-import { createSupabaseAdminClient } from "@/lib/supabase/admin";
-import { pushEnabled } from "@/features/notifications/push";
 import { runWeeklyGroupMvp } from "@/features/groups/weekly-mvp";
+import { handleCron } from "@/lib/cron/handler";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 /**
  * 주간 그룹 MVP 알림 cron — 매주 월요일 호출(지난주 랭킹 결과를 멤버에게 푸시).
- * 보호: `Authorization: Bearer <CRON_SECRET>`.
+ * 인증(`CRON_SECRET`)·실행기록(`cron_runs`)은 `handleCron`,
+ * 같은 주 중복 발송 차단은 `runWeeklyGroupMvp` 가 담당한다.
  */
 export async function GET(req: Request) {
-  const secret = process.env.CRON_SECRET;
-  const auth = req.headers.get("authorization");
-  if (secret && auth !== `Bearer ${secret}`) {
-    return NextResponse.json({ ok: false }, { status: 401 });
-  }
-
-  const admin = createSupabaseAdminClient();
-  if (!admin || !pushEnabled()) {
-    return NextResponse.json(
-      { ok: false, reason: "push/admin not configured" },
-      { status: 200 },
-    );
-  }
-
-  const result = await runWeeklyGroupMvp(admin);
-  return NextResponse.json({ ok: true, ...result });
+  return handleCron(req, "weekly-group-mvp", async (admin) => {
+    const { groups, notified, targeted, deduped, failed, reason } =
+      await runWeeklyGroupMvp(admin);
+    return {
+      counts: {
+        scanned: groups,
+        targeted,
+        sent: notified,
+        deduped,
+        failed,
+      },
+      body: { groups, notified, deduped, failed, reason },
+    };
+  });
 }

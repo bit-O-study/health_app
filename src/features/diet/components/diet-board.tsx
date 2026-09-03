@@ -40,11 +40,11 @@ import {
   removeMealPhotoAction,
 } from "@/features/diet/meal-photo-actions";
 import {
-  searchFoods,
   mergeFoodResults,
   FOOD_CATEGORIES,
   type FoodItem,
-} from "@/features/diet/food-catalog";
+} from "@/features/diet/food-catalog-types";
+import { searchFoodsAction } from "@/features/diet/food-search-actions";
 import { searchCustomFoodsAction } from "@/features/diet/custom-foods";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import { MealScanForm } from "@/features/diet/components/meal-scanner";
@@ -1369,15 +1369,33 @@ function AddFoodDialog({
 }) {
   const [mode, setMode] = useState<"search" | "manual" | "ai">("search");
   const [q, setQ] = useState("");
-  const localResults = useMemo(() => searchFoods(q), [q]);
+  const [localResults, setLocalResults] = useState<FoodItem[]>([]);
+  const [foodSearchLoading, setFoodSearchLoading] = useState(true);
+  // 정적 600+개 카탈로그는 서버에서 검색한다. 빈 검색도 첫 200개를 받아 둘러보기를 유지.
+  useEffect(() => {
+    let alive = true;
+    const timer = setTimeout(() => {
+      searchFoodsAction(q)
+        .then((rows) => {
+          if (alive) setLocalResults(rows);
+        })
+        .catch(() => {
+          if (alive) setLocalResults([]);
+        })
+        .finally(() => {
+          if (alive) setFoodSearchLoading(false);
+        });
+    }, q.trim() ? 200 : 0);
+    return () => {
+      alive = false;
+      clearTimeout(timer);
+    };
+  }, [q]);
   // 자동 성장 카탈로그(custom_foods) 검색 — 디바운스 후 서버 액션. 정적 결과와 합침.
   const [customResults, setCustomResults] = useState<FoodItem[]>([]);
   useEffect(() => {
     const query = q.trim();
-    if (query.length < 1) {
-      setCustomResults([]);
-      return;
-    }
+    if (query.length < 1) return;
     let alive = true;
     const t = setTimeout(() => {
       searchCustomFoodsAction(query)
@@ -1394,8 +1412,9 @@ function AddFoodDialog({
     };
   }, [q]);
   const results = useMemo(
-    () => mergeFoodResults(localResults, customResults).slice(0, 200),
-    [localResults, customResults],
+    () =>
+      mergeFoodResults(localResults, q.trim() ? customResults : []).slice(0, 200),
+    [localResults, customResults, q],
   );
   const [picked, setPicked] = useState<FoodItem | null>(null);
   const [time, setTime] = useState(isToday ? nowSeoulHHMM() : "");
@@ -1493,6 +1512,7 @@ function AddFoodDialog({
         />
       ) : mode === "manual" ? (
         <ManualForm
+          meal={meal}
           onSubmit={(input) => {
             addWithTime(input);
             onClose();
@@ -1515,14 +1535,22 @@ function AddFoodDialog({
             <input
               autoFocus
               value={q}
-              onChange={(e) => setQ(e.target.value)}
+              onChange={(e) => {
+                setFoodSearchLoading(true);
+                setQ(e.target.value);
+              }}
               placeholder="음식 검색 (예: 닭가슴살, 김치찌개)"
               aria-label="음식 검색"
               className="h-11 w-full bg-transparent text-base outline-none placeholder:text-zinc-400 dark:text-zinc-100"
             />
           </div>
           <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] dark:divide-zinc-800">
-            {results.length === 0 ? (
+            {foodSearchLoading && results.length === 0 ? (
+              <li className="flex items-center justify-center gap-2 py-10 text-sm text-zinc-400">
+                <Loader2 aria-hidden="true" size={16} className="animate-spin" />
+                음식 목록 불러오는 중…
+              </li>
+            ) : results.length === 0 ? (
               <li className="py-10 text-center text-sm text-zinc-400">
                 검색 결과가 없어요. ‘직접 입력’으로 추가하세요.
               </li>
@@ -1557,8 +1585,15 @@ function AddFoodDialog({
       )}
     </div>
   );
+}
 
-  function ManualForm({ onSubmit }: { onSubmit: (i: FoodInput) => void }) {
+function ManualForm({
+  meal,
+  onSubmit,
+}: {
+  meal: Meal;
+  onSubmit: (i: FoodInput) => void;
+}) {
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
     const [kcal, setKcal] = useState("");
@@ -1636,5 +1671,4 @@ function AddFoodDialog({
         </button>
       </div>
     );
-  }
 }

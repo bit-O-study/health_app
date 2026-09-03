@@ -7,6 +7,7 @@ import {
   getCatalogExercise,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
+import { methodSteps } from "@/features/routine/exercise-methods";
 import { getPlanForDayTones } from "@/features/routine/plan";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -28,7 +29,10 @@ import {
 import {
   getTodayCompletedItems,
   getLastExerciseValues,
+  getRecentDoneRecords,
 } from "@/features/routine/exercise-completions";
+import { getUserProfile } from "@/features/profile/data-access";
+import { buildAdviceMap } from "@/features/routine/overload-advice";
 import {
   assignCompletions,
   exerciseCompletionKey,
@@ -58,10 +62,7 @@ import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
 
 /** DB row 의 값이 비어 있으면 카탈로그 기본값을 대신 사용(파라미터별, 시간/속도/경사/세트/횟수) */
-function effectiveValues(
-  row: ConditioningRow,
-  _item: ConditioningItem | undefined,
-) {
+function effectiveValues(row: ConditioningRow) {
   const d = conditioningDefaults(row.itemId);
   return {
     duration: row.durationMin ?? d.durationMin,
@@ -76,7 +77,7 @@ function formatDetail(
   row: ConditioningRow,
   item: ConditioningItem | undefined,
 ): string {
-  const v = effectiveValues(row, item);
+  const v = effectiveValues(row);
   const params = item?.params ?? [];
   const valOf = (p: ConditioningParam): number | null =>
     p === "duration"
@@ -143,6 +144,8 @@ export async function TodayExercises({
     completedItems,
     completedCond,
     lastValues,
+    doneRecords,
+    profile,
     postureEnabled,
     equipmentScan,
   ] = await Promise.all([
@@ -155,6 +158,10 @@ export async function TodayExercises({
     getTodayCompletedItems(todayYmd),
     getTodayCompletedConditioning(todayYmd),
     getLastExerciseValues(),
+    // 과부하 추천의 근거. `getLastExerciseValues` 와 **같은 조회**(cache)라 왕복이 안 는다.
+    getRecentDoneRecords(),
+    // 목표 횟수 기준(경력)을 처방과 맞추기 위해. 상위 page 가 이미 부른 cache() 라 왕복 0.
+    getUserProfile(),
     isDebugFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
     isDebugFeatureEnabled("equipment-scan"), // '운동 시작' 왼쪽 기구 스캔(디버그 계정)
   ]);
@@ -205,6 +212,22 @@ export async function TodayExercises({
           sets: last.sets ?? p.sets,
         };
       });
+
+  /**
+   * 종목별 과부하 추천 — 무게를 정하는 그 순간(운동모드)에 보이게 서버에서 미리 만든다.
+   *
+   * ⚠ 목표 횟수는 **미리채움 전(`orderedPlan`)** 의 계획값을 쓴다. `activePlan` 은 지난번
+   * 실제 횟수로 덮여 있어서, 그걸 목표로 넘기면 "지난번 = 목표" 가 되어 매번 '목표 달성 →
+   * 증량' 이 걸린다(스스로를 만족시키는 목표).
+   */
+  const adviceByExercise = buildAdviceMap(
+    doneRecords,
+    orderedPlan.map((p) => ({
+      exerciseId: p.exerciseId,
+      targetReps: lockWeightReps ? p.reps : null,
+    })),
+    profile?.experience ?? "beginner",
+  );
 
   // 완료 판정 + 완료 보존(고스트) — 완료 기록을 행에 1:1 배정해 과매칭을 막는다.
   // (같은 운동이 한 부위에 2개 있어도 완료 기록 수만큼만 done. 1개만 완료하면 1개만 done.)
@@ -365,11 +388,15 @@ export async function TodayExercises({
   const w = weightKg ?? 65;
 
   // Main 행 변환
-  const items: TodayPlanItem[] = plan.map((item) => ({
+  const items: TodayPlanItem[] = plan.map((item) => {
+    const catalog = getCatalogExercise(item.exerciseId);
+    return {
     id: item.id,
     exerciseId: item.exerciseId,
     equipment: item.equipment,
-    name: getCatalogExercise(item.exerciseId)?.name ?? item.exerciseId,
+    name: catalog?.name ?? item.exerciseId,
+    // 세부근육 배지를 클라이언트가 카탈로그 없이 뽑게 — 여기서 같이 내려준다.
+    target: catalog?.target ?? "",
     equipmentLabel: EQUIPMENT_LABELS[item.equipment],
     // 완료된 운동은 실제 한 세트수로 표시(칼로리도 그 값으로 계산됨).
     sets: effMainSets(item.id, item.sets),
@@ -378,7 +405,8 @@ export async function TodayExercises({
     setDetails: item.setDetails,
     focus: item.focus,
     memo: item.memo,
-  }));
+    };
+  });
   // 완료 상태 — assignCompletions 로 행에 1:1 배정된 결과(과매칭 없음).
   const mainDoneIds = plan
     .filter((p) => mainStatusById.get(p.id) === "done")
@@ -399,7 +427,7 @@ export async function TodayExercises({
       const item = getConditioningItem(r.itemId);
       const name = item?.name ?? r.itemId;
       const detail = formatDetail(r, item) || "—";
-      const eff = effectiveValues(r, item);
+      const eff = effectiveValues(r);
       const st = condStatusById.get(r.id);
       // 완료된 컨디셔닝은 운동모드에서 실제 한 시간·속도(스냅샷)로 칼로리 계산(값 일치).
       const snap = condDoneSnap(r.id);
@@ -503,7 +531,6 @@ export async function TodayExercises({
     if (mainDoneSet.has(p.id) || mainSkipSet.has(p.id))
       doneOrSkippedIds.push(p.id);
     const ex = getCatalogExercise(p.exerciseId);
-    const eq = ex?.equipments.find((e) => e.equipment === p.equipment);
     const repUnit = isTimedExercise(p.exerciseId) ? "초" : "회";
     const subtitle =
       p.setDetails && p.setDetails.length > 0
@@ -518,12 +545,16 @@ export async function TodayExercises({
       equipment: p.equipment,
       focus: p.focus,
       name: ex?.name ?? p.exerciseId,
+      target: ex?.target ?? "",
       subtitle,
-      method: eq?.method ?? [],
+      // 확장 카탈로그(1,237개)의 운동법은 클라 번들에서 뺐다 — 서버에서 붙여 내려보낸다.
+      method: methodSteps(p.exerciseId, p.equipment),
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,
       memo: p.memo,
+      // 다음 세션 추천(2.2). 기록이 없는 종목은 null — 붙일 말이 없다.
+      advice: adviceByExercise[p.exerciseId] ?? null,
       media: mediaMap.get(p.exerciseId)
         ? {
             url: mediaMap.get(p.exerciseId)!.url,

@@ -10,6 +10,12 @@ export const HOME_PATHS: ReadonlySet<string> = new Set(["/", "/routine"]);
 
 export type SavedRoute = { path: string; ts: number };
 
+export const REPEATED_RENDERER_RECOVERY_COUNT = 2;
+
+export function rendererRecoveryDestination(recoveryCount: number): string | null {
+  return recoveryCount >= REPEATED_RENDERER_RECOVERY_COUNT ? "/home" : null;
+}
+
 /**
  * 지금(currentPath) 홈으로 튕겼고, 최근(now-저장 < 창) 다른 화면을 보고 있었다면 복원.
  * @param saved 저장된 마지막 경로(없으면 null)

@@ -10,7 +10,16 @@ import {
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { estimateConditioningKcal } from "@/features/routine/calories";
+import {
+  isDuplicateRunSessionError,
+  normalizeRunSession,
+  runSessionDate,
+  type RunSessionInput,
+} from "@/features/running/run-session";
 import type { SupabaseClient } from "@supabase/supabase-js";
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 /** 오늘 누적 운동 시간을 deltaSec 만큼 가감(음수 가능, 0 미만은 0). */
 async function adjustWorkoutSeconds(
@@ -106,6 +115,114 @@ export async function recordRunAsCooldownAction(input: {
   revalidatePath("/routine");
   revalidatePath("/calendar");
   revalidatePath("/settings/score");
+  revalidatePath("/settings/history");
+  return { ok: true };
+}
+
+/** 실내·야외 러닝 한 번의 상세 원본을 중복 없이 저장한다. */
+export async function recordRunSessionAction(input: RunSessionInput & {
+  clientSessionId: string;
+}): Promise<
+  | {
+      ok: true;
+      duplicate?: boolean;
+      health?: { startedAt: string; endedAt: string; distanceM: number; caloriesKcal: number };
+    }
+  | { ok: false; error: string }
+> {
+  if (!UUID_RE.test(input.clientSessionId)) {
+    return { ok: false, error: "잘못된 세션 식별자입니다." };
+  }
+  const normalized = normalizeRunSession(input);
+  if (!normalized.ok) {
+    return { ok: false, error: `저장할 수 없는 러닝 기록입니다: ${normalized.reason}` };
+  }
+
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const session = normalized.session;
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("weight_kg")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  const weightKg = Number(profile?.weight_kg) || 65;
+  const caloriesKcal = Math.max(
+    0,
+    Math.round(
+      estimateConditioningKcal(
+        weightKg,
+        "running",
+        session.durationSec / 60,
+        session.avgKmh,
+        session.incline,
+      ),
+    ),
+  );
+
+  const { error } = await supabase.from("run_sessions").insert({
+    user_id: user.id,
+    client_session_id: input.clientSessionId,
+    for_date: runSessionDate(session.startedAt),
+    mode: session.mode,
+    started_at: session.startedAt,
+    ended_at: session.endedAt,
+    duration_sec: session.durationSec,
+    distance_m: session.distanceM,
+    avg_kmh: session.avgKmh,
+    pace_sec_per_km: session.paceSecPerKm,
+    calories_kcal: caloriesKcal,
+    incline: session.incline,
+    route_points: session.route,
+  });
+  if (isDuplicateRunSessionError(error)) return { ok: true, duplicate: true };
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/settings/history");
+  revalidatePath("/calendar");
+  return {
+    ok: true,
+    health: {
+      startedAt: session.startedAt,
+      endedAt: session.endedAt,
+      distanceM: session.distanceM,
+      caloriesKcal,
+    },
+  };
+}
+
+/** Health Connect에서 러닝 시간 구간의 심박 표본을 읽은 뒤 해당 세션에 붙인다. */
+export async function recordRunHeartRateAction(input: {
+  clientSessionId: string;
+  averageBpm: number;
+  maxBpm: number;
+  sampleCount: number;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!UUID_RE.test(input.clientSessionId)) return { ok: false, error: "잘못된 세션 식별자입니다." };
+  const averageBpm = Math.round(input.averageBpm);
+  const maxBpm = Math.round(input.maxBpm);
+  const sampleCount = Math.round(input.sampleCount);
+  if (
+    averageBpm < 30 || averageBpm > 240 ||
+    maxBpm < averageBpm || maxBpm > 240 ||
+    sampleCount < 1 || sampleCount > 100_000
+  ) return { ok: false, error: "잘못된 심박수 기록입니다." };
+
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const { error } = await supabase
+    .from("run_sessions")
+    .update({
+      average_heart_rate: averageBpm,
+      max_heart_rate: maxBpm,
+      heart_rate_sample_count: sampleCount,
+    })
+    .eq("user_id", user.id)
+    .eq("client_session_id", input.clientSessionId);
+  if (error) return { ok: false, error: error.message };
   revalidatePath("/settings/history");
   return { ok: true };
 }

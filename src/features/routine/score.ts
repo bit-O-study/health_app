@@ -6,9 +6,41 @@
 
 import { seoulYmd } from "@/features/routine/data";
 import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import type { SetDetail } from "@/features/routine/set-details";
 
 const HALF_LIFE_DAYS = 14;
 const VOLUME_PER_POINT = 200; // 200 kg·reps = 1점 (조절 가능)
+
+/** 운동량 계산에 필요한 최소 필드 — 세 종류의 기록이 공유한다. */
+type VolumeInput = {
+  sets?: number | null;
+  reps?: number | null;
+  weightKg?: number | null;
+  /** 세트별 무게·횟수. null/빈 배열 = 균일 세트. */
+  setDetails?: SetDetail[] | null;
+};
+
+/**
+ * 한 기록의 운동량(kg·reps).
+ *
+ * **세트별 기록이 있으면 그걸 쓴다.** 이 앱은 드롭세트·피라미드를 `set_details` 로
+ * 저장하는데, 예전엔 여기서 그걸 안 읽고 균일 세트(sets×reps@weight)로만 계산해
+ * 실제보다 많거나 적게 셌다(성장 그래프에서 같은 문제를 고치며 발견 — 2026-09-01).
+ * 무게가 없는 세트는 맨몸으로 보고 사용자 체중으로 가중하는 기존 규칙을 그대로 따른다.
+ */
+function volumeOf(r: VolumeInput, userWeightKg: number): number {
+  const details = r.setDetails;
+  if (Array.isArray(details) && details.length > 0) {
+    return details.reduce(
+      (sum, d) => sum + d.reps * Math.max(0, d.weightKg ?? userWeightKg),
+      0,
+    );
+  }
+  const sets = r.sets ?? 1;
+  const reps = r.reps ?? 10;
+  const w = r.weightKg ?? userWeightKg;
+  return sets * reps * Math.max(0, w);
+}
 
 function ymdToEpochDay(ymd: string): number {
   const [y, m, d] = ymd.split("-").map(Number);
@@ -23,6 +55,8 @@ export type DoneRecord = {
   reps?: number | null;
   /** 운동 중량(kg). null/없으면 맨몸으로 보고 userWeightKg 사용 */
   weightKg?: number | null;
+  /** 세트별 무게·횟수 스냅샷. 있으면 이걸로 운동량을 센다. */
+  setDetails?: SetDetail[] | null;
 };
 
 export type ScoreSummary = {
@@ -36,10 +70,7 @@ export type ScoreSummary = {
 };
 
 function pointsOf(r: DoneRecord, userWeightKg: number, age: number): number {
-  const sets = r.sets ?? 1;
-  const reps = r.reps ?? 10;
-  const w = r.weightKg ?? userWeightKg;
-  const volume = sets * reps * Math.max(0, w);
+  const volume = volumeOf(r, userWeightKg);
   return (volume / VOLUME_PER_POINT) * Math.pow(0.5, age / HALF_LIFE_DAYS);
 }
 
@@ -150,6 +181,8 @@ export type RegionTrainingRecord = {
   reps?: number | null;
   /** 중량(kg). null/없으면 맨몸 → userWeightKg 가중. */
   weightKg?: number | null;
+  /** 세트별 무게·횟수 스냅샷. 있으면 이걸로 운동량을 센다. */
+  setDetails?: SetDetail[] | null;
 };
 
 /**
@@ -171,10 +204,7 @@ export function regionPointsFromTraining(
     if (!c.focus) continue;
     const regs = FOCUS_TO_REGIONS[c.focus];
     if (!regs) continue;
-    const sets = c.sets ?? 1;
-    const reps = c.reps ?? 10;
-    const w = c.weightKg ?? userWeightKg;
-    const volume = sets * reps * Math.max(0, w);
+    const volume = volumeOf(c, userWeightKg);
     const age = Math.max(0, today - ymdToEpochDay(c.forDate));
     const pts =
       (volume / VOLUME_PER_POINT) * Math.pow(0.5, age / HALF_LIFE_DAYS);
@@ -195,6 +225,8 @@ export type SubMuscleTrainingRecord = {
   sets?: number | null;
   reps?: number | null;
   weightKg?: number | null;
+  /** 세트별 무게·횟수 스냅샷. 있으면 이걸로 운동량을 센다. */
+  setDetails?: SetDetail[] | null;
 };
 
 /**
@@ -214,10 +246,7 @@ export function subMusclePointsFromTraining(
     if (!c.exerciseId) continue;
     const subs = subMusclesForExercise(c.exerciseId);
     if (subs.length === 0) continue;
-    const sets = c.sets ?? 1;
-    const reps = c.reps ?? 10;
-    const w = c.weightKg ?? userWeightKg;
-    const volume = sets * reps * Math.max(0, w);
+    const volume = volumeOf(c, userWeightKg);
     const age = Math.max(0, today - ymdToEpochDay(c.forDate));
     const pts =
       (volume / VOLUME_PER_POINT) * Math.pow(0.5, age / HALF_LIFE_DAYS);

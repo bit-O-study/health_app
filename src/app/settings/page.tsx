@@ -1,9 +1,12 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  Bell,
   Building2,
   ChevronLeft,
   ClipboardList,
+  Download,
+  HeartPulse,
   Scale,
   SlidersHorizontal,
   TrendingUp,
@@ -15,12 +18,16 @@ import { BackLink } from "@/components/back-link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { ThemePicker } from "@/features/theme/theme-picker";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
+import { getUserProfile } from "@/features/profile/data-access";
 
 export const dynamic = "force-dynamic";
 
 export default async function SettingsPage() {
-  const user = await getCurrentUser();
-  const gym = await getCurrentGym();
+  const [user, gym, profile] = await Promise.all([
+    getCurrentUser(),
+    getCurrentGym(),
+    getUserProfile(),
+  ]);
 
   return (
     <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
@@ -151,6 +158,66 @@ export default async function SettingsPage() {
           />
         </Link>
 
+        {profile?.gender === "female" ? (
+          <Link
+            href="/cycle"
+            className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-rose-300 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 sm:gap-4 sm:p-5"
+          >
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-400">
+              <HeartPulse aria-hidden="true" size={22} />
+            </span>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">생리 기록</h2>
+              <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">주기 기록 · 다음 생리 예측</p>
+            </div>
+            <ArrowRight aria-hidden="true" className="shrink-0 text-zinc-400 transition group-hover:translate-x-1 group-hover:text-rose-700" size={18} />
+          </Link>
+        ) : null}
+
+        <Link
+          href="/settings/health"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-400">
+            <Scale aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              건강 연동
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              걸음 수 · 체중/체성분을 Health Connect 에서 가져오기
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        <Link
+          href="/settings/subscription"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
+            <Trophy aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              구독
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              AI 기능 이용 횟수 · 프리미엄 상태
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
         <Link
           href="/settings/score"
           className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
@@ -174,6 +241,28 @@ export default async function SettingsPage() {
         </Link>
 
         <Link
+          href="/settings/notifications"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
+            <Bell aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              알림 설정
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              받을 알림 종류 · 야간 방해 금지
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        <Link
           href="/settings/progress"
           className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
         >
@@ -186,6 +275,28 @@ export default async function SettingsPage() {
             </h2>
             <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
               총 볼륨 추이 · 종목별 추정 1RM 추이
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        <Link
+          href="/settings/export"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+            <Download aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              내 데이터 내보내기
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              운동·체중·식단 CSV · 전체 JSON 백업
             </p>
           </div>
           <ArrowRight

@@ -79,7 +79,11 @@ import {
 } from "@/features/routine/timed-exercises";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
+import { OverloadHint } from "@/features/routine/components/overload-hint";
+import type { OverloadAdvice } from "@/features/routine/overload-advice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { callIdempotentAction } from "@/lib/actions/resilient-action";
+import { reportAppEvent } from "@/lib/observability/report-client";
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
 export type GuidedItem =
@@ -90,6 +94,8 @@ export type GuidedItem =
       equipment: string;
       focus: string;
       name: string;
+      /** 자극 부위 문구 — '자극 부위' 인체 그림이 카탈로그 없이 근육을 찾는 데 쓴다. */
+      target: string;
       subtitle: string;
       method: string[];
       sets: number;
@@ -97,6 +103,11 @@ export type GuidedItem =
       weightKg: number | null;
       /** 개인 메모. null = 없음. */
       memo: string | null;
+      /**
+       * 다음 세션 과부하 추천(로드맵 2.2). 서버가 완료 기록을 보고 미리 만들어 준다.
+       * null = 아직 이 운동 기록이 없어 판단할 게 없다.
+       */
+      advice: OverloadAdvice | null;
       /** 관리자 등록 시범 미디어. null = 없음(기본 일러스트 사용). */
       media: { url: string; kind: MediaKind } | null;
     }
@@ -511,6 +522,21 @@ export function GuidedOverlay({
     if (patch.sets !== undefined) setEditSets(patch.sets);
   }
 
+  /**
+   * 추천값을 스크러버에 넣는다. 사용자가 '적용'을 눌렀을 때만 — 제안이 값을 몰래 바꾸면
+   * 그건 추천이 아니다. 스크러버 범위 밖 값은 잘라 넣는다(입력란이 못 받는 값은 무의미).
+   */
+  function applyAdvice(v: { weightKg: number | null; reps: number | null }) {
+    const patch: { w?: number | null; reps?: number } = {};
+    if (v.weightKg !== null) patch.w = Math.min(500, Math.max(0, v.weightKg));
+    if (v.reps !== null) {
+      patch.reps = timed
+        ? Math.min(600, Math.max(5, v.reps))
+        : Math.min(100, Math.max(1, v.reps));
+    }
+    if (patch.w !== undefined || patch.reps !== undefined) putEdit(patch);
+  }
+
   // 컨디셔닝 스크러버 값 변경 — 화면 state + 그날 보관소 함께 갱신.
   function putCondEdit(patch: {
     duration?: number | null;
@@ -682,23 +708,31 @@ export function GuidedOverlay({
    */
   function fireAndTrack(captured: GuidedItem, status: "done" | "skipped") {
     const key = failureKey(captured);
-    const p = runAction(captured, status)
-      .then((res) => {
-        if (res && res.ok === false) {
-          setFailures((f) => [
-            ...f.filter((x) => x.key !== key),
-            { key, name: captured.name, status, captured, error: res.error },
-          ]);
-        } else {
-          setFailures((f) => f.filter((x) => x.key !== key));
-        }
+    /** 운동 기록이 안 남는 건 사용자가 제일 크게 손해 보는 실패다 — 관측에 남긴다. */
+    function noteFailure(error: string) {
+      setFailures((f) => [
+        ...f.filter((x) => x.key !== key),
+        { key, name: captured.name, status, captured, error },
+      ]);
+      reportAppEvent("save_failure", {
+        message: `운동모드 ${status === "done" ? "완료" : "넘기기"} 저장 실패: ${error}`,
+      });
+    }
+    // 🔴 서버 액션 응답이 스트리밍 도중 끊기면 **await 가 영원히 안 끝난다**
+    // (2026-09-02 측정: `/routine` 에서 약 30%). 그러면 실패 배너도 안 뜨고,
+    // `refreshAfterPending` 이 이 promise 를 기다리다 새로고침도 영영 안 한다 —
+    // 사용자에겐 "완료를 눌렀는데 아무 일도 안 일어남" 이 된다.
+    // done/skipped 저장은 행 단위 upsert(본운동)·행 지우고 넣기(컨디셔닝)라 다시
+    // 보내도 결과가 같다(멱등) → 안전하게 재시도하고, 그래도 안 되면 실패로 처리한다.
+    const p = callIdempotentAction(() => runAction(captured, status))
+      .then((r) => {
+        if (!r.ok) return noteFailure("응답이 오지 않았어요(연결 끊김)");
+        const res = r.value;
+        if (res && res.ok === false) noteFailure(res.error);
+        else setFailures((f) => f.filter((x) => x.key !== key));
       })
       .catch((e: unknown) => {
-        const error = e instanceof Error ? e.message : "알 수 없는 오류";
-        setFailures((f) => [
-          ...f.filter((x) => x.key !== key),
-          { key, name: captured.name, status, captured, error },
-        ]);
+        noteFailure(e instanceof Error ? e.message : "알 수 없는 오류");
       });
     // 닫기/새로고침 전에 이 저장이 끝났는지 기다릴 수 있게 모아둔다.
     pendingRef.current.push(p);
@@ -1004,6 +1038,8 @@ export function GuidedOverlay({
           {item.kind === "main" ? (
             <MuscleBodyInset
               exerciseId={item.exerciseId}
+              name={item.name}
+              target={item.target}
               onOpen={() => setMuscle3dOpen(true)}
             />
           ) : null}
@@ -1152,6 +1188,19 @@ export function GuidedOverlay({
           </div>
         ) : null}
 
+        {/* 다음 세션 추천(로드맵 2.2) — **무게를 정하는 그 자리**에 붙인다.
+            성장 그래프에만 있으면 정작 무게를 정할 때는 안 보인다.
+            고정 모드(스크러버 없음)에서는 근거만 읽기 전용으로 — 여기서 값을 바꿀 수 없으니
+            '적용' 버튼을 달면 눌러도 아무 일이 없는 버튼이 된다. */}
+        {item.kind === "main" && item.advice ? (
+          <div className="mt-3 w-full max-w-xs">
+            <OverloadHint
+              advice={item.advice}
+              onApply={editable ? applyAdvice : undefined}
+            />
+          </div>
+        ) : null}
+
         {/* 운동법·꿀팁(개인설정 가능). 본운동은 상세로, 워밍업·마무리는 방법 다이얼로그로.
             (메모·AI 자세 분석은 상단 태그 오른쪽으로 이동함.) */}
         <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
@@ -1181,7 +1230,7 @@ export function GuidedOverlay({
             className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
           >
             <Video aria-hidden="true" size={15} />
-            티칭 영상
+            영상 올리고 티칭받기
           </button>
         </div>
 
@@ -1315,6 +1364,7 @@ export function GuidedOverlay({
         <MuscleBodyModal
           exerciseId={item.exerciseId}
           name={item.name}
+          target={item.target}
           onClose={() => setMuscle3dOpen(false)}
         />
       ) : null}
@@ -1676,5 +1726,4 @@ function ItemVisual({ item }: { item: GuidedItem }) {
   }
   return null;
 }
-
 

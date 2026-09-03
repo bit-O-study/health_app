@@ -10,14 +10,14 @@
  */
 
 import type { FocusKey } from "@/features/routine/exercise-catalog";
+// ⚠ 라벨·부위 매핑만 쓴다 — exercise-catalog 를 쓰면 운동 목록 274 KiB 가 딸려온다.
+// 부위별 "운동 목록"이 필요한 함수는 muscle-exercises.ts 로 옮겼다.
 import {
   BODY_PART_LABEL,
   BODY_PART_ORDER,
-  bodyPartsFor,
-  groupedByBodyPart,
   type BodyPart,
-  type CatalogExercise,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
+import { bodyPartsFor } from "@/features/routine/exercise-body-parts";
 
 /** 마네킹에서 클릭 가능한 근육 부위 — 카탈로그 BodyPart 와 동일한 6개. */
 export type MuscleId = BodyPart;
@@ -112,18 +112,6 @@ export function muscleGroup(id: MuscleId): MuscleGroup {
   return BY_ID[id];
 }
 
-/**
- * 한 근육 부위에 매핑된 모든 카탈로그 운동.
- * 카탈로그의 1차 부위(primaryBodyPart) 그룹핑을 그대로 사용한다.
- */
-export function exercisesForMuscle(id: MuscleId): CatalogExercise[] {
-  return groupedByBodyPart()[id] ?? [];
-}
-
-/** 한 근육 부위의 운동 개수 */
-export function exerciseCountForMuscle(id: MuscleId): number {
-  return exercisesForMuscle(id).length;
-}
 
 /**
  * 운동 id → 이 운동을 클릭으로 도달할 수 있는 근육 부위들.

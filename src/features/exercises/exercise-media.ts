@@ -38,6 +38,11 @@ const BUILT_IN_MEDIA: Record<string, ExerciseMedia> = {
     url: "/exercise-guides/dumbbell-shoulder-press.mp4",
     kind: "video",
   },
+  "leg-press": {
+    exerciseId: "leg-press",
+    url: "/exercise-guides/leg-press-guide",
+    kind: "video",
+  },
 };
 
 function toKind(v: unknown): MediaKind {

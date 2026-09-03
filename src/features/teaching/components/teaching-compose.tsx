@@ -98,9 +98,9 @@ export function TeachingComposeModal({
 
   return (
     <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50 sm:items-center">
-      <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
+      <div role="dialog" aria-modal="true" aria-labelledby="teaching-upload-title" className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-extrabold">운동 티칭 영상 올리기 🎬</h2>
+          <h2 id="teaching-upload-title" className="text-base font-extrabold">내 운동 영상 올리고 티칭받기 🎬</h2>
           <button
             type="button"
             onClick={onClose}
@@ -187,7 +187,7 @@ export function TeachingComposeModal({
               <Loader2 size={18} className="animate-spin" /> 올리는 중…
             </>
           ) : (
-            "티칭 영상 올리기"
+            "영상 올리고 티칭받기"
           )}
         </button>
       </div>

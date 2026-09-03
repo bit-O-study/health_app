@@ -1,9 +1,10 @@
 /**
- * 자동 생성 파일 — 편집 금지. (생성: scripts/gen-extra-catalog.mjs)
- * data/exercises-1300.csv 의 1,300개 중 기존 카탈로그에 없는 운동을
- * 앱 운동 카탈로그(검색·선택·운동모드)로 변환한 확장 세트. 영상/상세 운동법은 후속.
+ * 자동 생성 파일 — 편집 금지. (생성: scripts/gen-extra-catalog.mjs → scripts/split-extra-maps.mjs)
+ * 확장 세트의 목록/검색용 데이터(운동법·부위·강도 제외).
+ * ⚠ 크다 — 목록·검색 UI 에서만 쓴다. 부위 배지·칼로리만 필요하면
+ * exercise-catalog-extra-maps.ts 쪽을 봐야 한다.
  */
-import type { CatalogExercise, EquipmentId, BodyPart, LoadClass } from "@/features/routine/exercise-catalog";
+import type { CatalogExercise } from "@/features/routine/exercise-catalog-labels";
 
 export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
   "barbell-bench-press": {
@@ -12,12 +13,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -27,12 +23,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -42,12 +33,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -57,12 +43,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -72,12 +53,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -87,12 +63,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -102,12 +73,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -117,12 +83,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -132,12 +93,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 대흉근 상부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -147,12 +103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -162,12 +113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -177,12 +123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -192,12 +133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -207,12 +143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -222,12 +153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -237,12 +163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·둔근 · 햄스트링·승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -252,12 +173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 후면삼각근·이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -267,12 +183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근·능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -282,12 +193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근 상부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -297,12 +203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근 하부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -312,12 +213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -327,12 +223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대원근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -342,12 +233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -357,12 +243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 능형근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 상부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -372,12 +253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·승모근 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘랙풀’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근·승모근의 긴장을 유지한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -387,12 +263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근·햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -402,12 +273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -417,12 +283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -432,12 +293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -447,12 +303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근·광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근·광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -462,12 +313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -477,12 +323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면삼각근 · 삼두근·상부승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면·측면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면·측면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -492,12 +333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -507,12 +343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면·측면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면·측면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -522,12 +353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -537,12 +363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면·후면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 측면·후면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "측면·후면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -552,12 +373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -567,12 +383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -582,12 +393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -597,12 +403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -612,12 +413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -627,12 +423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -642,12 +433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근·회전근개 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근·회전근개를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -657,12 +443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근·승모근 · 이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근·승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -672,12 +453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근·승모근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근·승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -687,12 +463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근·상부가슴",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -702,12 +473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -717,12 +483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링·코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -732,12 +493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -747,12 +503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근·햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -762,12 +513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -777,12 +523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -792,12 +533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -807,12 +543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -822,12 +553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -837,12 +563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -852,12 +573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -867,12 +583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -882,12 +593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -897,12 +603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근·대둔근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근·대둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -912,12 +613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -927,12 +623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -942,12 +633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -957,12 +643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -972,12 +653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -987,12 +663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -1002,12 +673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·상완근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·상완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -1017,12 +683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -1032,12 +693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·상완근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·상완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -1047,12 +703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -1062,12 +713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·전완근 · 상완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·전완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -1077,12 +723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -1092,12 +733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근·전완근 · 이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근·전완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -1107,12 +743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근·전면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -1122,12 +753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "삼두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -1137,12 +763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "삼두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -1152,12 +773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -1167,12 +783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -1182,12 +793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -1197,12 +803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 내측두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 내측두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -1212,12 +813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1227,12 +823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1242,12 +833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -1257,12 +843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -1272,12 +853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -1287,12 +863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 신근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "전완 신근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -1302,12 +873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "전완 굴근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -1317,12 +883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완근·승모근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘파머스 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완근·승모근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -1332,12 +893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플레이트 핀치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근의 긴장을 유지한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -1347,12 +903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근·신근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리스트 롤러’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근·신근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -1362,12 +913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘디클라인 싯업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1377,12 +923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 복직근 하부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1392,12 +933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 복직근 하부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1407,12 +943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 광배근·고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘토즈 투 바’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1422,12 +953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 우드 찹’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -1437,12 +963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복횡근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 복사근·복횡근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "복사근·복횡근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -1452,12 +973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘V업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1467,12 +983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 복직근·복횡근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1482,12 +993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복횡근·복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘데드버그’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복횡근·복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1497,12 +1003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·둔근 · 복횡근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘버드독’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1512,12 +1013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘드래곤 플래그’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -1527,12 +1023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 복직근 하부 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -1542,12 +1033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 코어·승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1557,12 +1043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1572,12 +1053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근·전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1587,12 +1063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1602,12 +1073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 둔근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘터키시 겟업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1617,12 +1083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1632,12 +1093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·어깨 · 햄스트링",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케틀벨 윈드밀’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·어깨의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1647,12 +1103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1662,12 +1113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1677,12 +1123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -1692,12 +1133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1707,12 +1143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1722,12 +1153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘TRX 파이크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1737,12 +1163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1752,12 +1173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 코어",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1767,12 +1183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1782,12 +1193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "햄스트링로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1797,12 +1203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -1812,12 +1213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1827,12 +1223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1842,12 +1233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1857,12 +1243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1872,12 +1253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근·회전근개 · 능형근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근·회전근개를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1887,12 +1263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1902,12 +1273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1917,12 +1283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -1932,12 +1293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·광배근 · 어깨",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 견갑을 모아 고정하고 복직근·광배근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "복직근·광배근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -1947,12 +1303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -1962,12 +1313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘메디신볼 러시안 트위스트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -1977,12 +1323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 어깨",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘월 볼’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -1992,12 +1333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·전완근 · 코어",
     "equipments": [
       {
-        "equipment": "battlerope",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘배틀로프 웨이브’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·전완근의 긴장을 유지한다"
-        ]
+        "equipment": "battlerope"
       }
     ]
   },
@@ -2007,12 +1343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 종아리",
     "equipments": [
       {
-        "equipment": "sled",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슬레드 푸시’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "sled"
       }
     ]
   },
@@ -2022,12 +1353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 등",
     "equipments": [
       {
-        "equipment": "sled",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슬레드 풀’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "sled"
       }
     ]
   },
@@ -2037,12 +1363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bosu",
-        "method": [
-          "보수을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bosu"
       }
     ]
   },
@@ -2052,12 +1373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 복사근",
     "equipments": [
       {
-        "equipment": "ball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘짐볼 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "ball"
       }
     ]
   },
@@ -2067,12 +1383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "ball",
-        "method": [
-          "짐볼을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "햄스트링로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "ball"
       }
     ]
   },
@@ -2082,12 +1393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 어깨",
     "equipments": [
       {
-        "equipment": "ball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘짐볼 플랭크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "ball"
       }
     ]
   },
@@ -2097,12 +1403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근·삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2112,12 +1413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2127,12 +1423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근·대퇴사두 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근·대퇴사두에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근·대퇴사두로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2142,12 +1433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 햄스트링·승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2157,12 +1443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 햄스트링·삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2172,12 +1453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2187,12 +1463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2202,12 +1473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 승모근·삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근·대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2217,12 +1483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근·대퇴사두 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 전면삼각근·대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2232,12 +1493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근·대퇴사두 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 전면삼각근·대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2247,12 +1503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2262,12 +1513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2277,12 +1523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 코어·둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·삼각근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2292,12 +1533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·둔근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 삼각근·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2307,12 +1543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·승모근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·승모근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2322,12 +1553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2337,12 +1563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근·광배근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2352,12 +1573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근 · 대퇴사두·코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2367,12 +1583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2382,12 +1593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·척추기립근 · 이두근·광배근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘아틀라스 스톤 리프트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2397,12 +1603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·코어 · 승모근·대퇴사두",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘요크 워크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근·코어의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2412,12 +1613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근·대퇴사두",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2427,12 +1623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 견갑을 모아 고정하고 둔근·삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "둔근·삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2442,12 +1633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 광배근·이두근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘타이어 플립’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2457,12 +1643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근·전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2472,12 +1653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·승모근 · 전완근·둔근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘샌드백 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·승모근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2487,12 +1663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완근 · 승모근·삼각근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘허큘리스 홀드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2502,12 +1673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 전완근·승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2517,12 +1683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 햄스트링·승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2532,12 +1693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·승모근 · 이두근·전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·승모근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2547,12 +1703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·척추기립근 · 광배근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스톤 오버 바’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2562,12 +1713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘박스 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2577,12 +1723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘브로드 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2592,12 +1733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2607,12 +1743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘뎁스 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2622,12 +1753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·대흉근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘버피’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·대흉근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2637,12 +1763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘박스 점프 오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2652,12 +1773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2667,12 +1783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2682,12 +1793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 둔근·대퇴사두 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2697,12 +1803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스케이터 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2712,12 +1813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘턱 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2727,12 +1823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 어깨·전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘점프 로프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2742,12 +1833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 어깨·전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘더블 언더’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -2757,12 +1843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘월 클라임’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2772,12 +1853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2787,12 +1863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·대흉근 · 이두근·삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·대흉근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2802,12 +1873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 코어·이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2817,12 +1883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 대흉근·코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 둔근·삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "둔근·삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -2832,12 +1893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근·삼각근 · 광배근·코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘맨메이커’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대흉근·삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -2847,12 +1903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 둔근·삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대퇴사두·삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대퇴사두·삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -2862,12 +1913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 햄스트링·코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -2877,12 +1923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘GHD 싯업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -2892,12 +1933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·어깨 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘베어 크롤’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·어깨의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2907,12 +1943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘크랩 워크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼두근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -2922,12 +1953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·대퇴사두 · 둔근·이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘로잉 머신’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -2937,12 +1963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘어썰트 바이크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -2952,12 +1973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·삼두근 · 코어",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스키 에르그’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근·삼두근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -2967,12 +1983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·비복근 · 햄스트링·둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘트레드밀 러닝’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·비복근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -2982,12 +1993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "대퇴사두·둔근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -2997,12 +2003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스테어 클라이머’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3012,12 +2013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근·소원근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘덤벨 익스터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 극하근·소원근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3027,12 +2023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "견갑하근 · 대흉근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘덤벨 인터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 견갑하근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3042,12 +2033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근·소원근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 익스터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 극하근·소원근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3057,12 +2043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극상근 · 측면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 극상근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3072,12 +2053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극상근 · 측면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 극상근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3087,12 +2063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극상근·삼각근 · 전거근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 극상근·삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3102,12 +2073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근·소원근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘밴드 익스터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 극하근·소원근의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -3117,12 +2083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중하부승모근 · 능형근·후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘프론 코브라’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 중하부승모근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3132,12 +2093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중하부승모근 · 전거근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘월 슬라이드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 중하부승모근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3147,12 +2103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "하부승모근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 하부승모근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3162,12 +2113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -3177,12 +2123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3192,12 +2133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3207,12 +2143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘도네키 킥’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3222,12 +2153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 복횡근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘캣 카우’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3237,12 +2163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘차일드 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3252,12 +2173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3267,12 +2183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스탠딩 햄스트링 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3282,12 +2193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 이상근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘피겨4 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3297,12 +2203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘코브라 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3312,12 +2213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·어깨 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘다운독’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링·어깨의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3327,12 +2223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·이상근 · 고관절",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘90/90 힙 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·이상근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3342,12 +2233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "장경인대 · 대퇴근막장근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 IT밴드 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 장경인대의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -3357,12 +2243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉추기립근 · 능형근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 흉추 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 흉추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -3372,12 +2253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 능형근·이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 광배근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3387,12 +2263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3402,12 +2273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3417,12 +2283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3432,12 +2293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근·햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3447,12 +2303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3462,12 +2313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3477,12 +2323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3492,12 +2333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 능형근·이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3507,12 +2343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3522,12 +2353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3537,12 +2363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3552,12 +2373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3567,12 +2383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3582,12 +2393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근·햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3597,12 +2403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘토르소 로테이션 머신’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3612,12 +2413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 복사근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘앱도미널 크런치 머신’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3627,12 +2423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -3642,12 +2433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·전면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -3657,12 +2443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3672,12 +2453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3687,12 +2463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3702,12 +2473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -3717,12 +2483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3732,12 +2493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3747,12 +2503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -3762,12 +2513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -3777,12 +2523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3792,12 +2533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3807,12 +2543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3822,12 +2553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3837,12 +2563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -3852,12 +2573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -3867,12 +2583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·이두근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -3882,12 +2593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3897,12 +2603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3912,12 +2613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3927,12 +2623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근 상부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3942,12 +2633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3957,12 +2643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대원근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 풀오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -3972,12 +2653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대원근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘머신 풀오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -3987,12 +2663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근·광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근·광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4002,12 +2673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -4017,12 +2683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4032,12 +2693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·승모근 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘블록 풀’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근·승모근의 긴장을 유지한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4047,12 +2703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4062,12 +2713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4077,12 +2723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4092,12 +2733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·이두근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4107,12 +2743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 하부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4122,12 +2753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4137,12 +2763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4152,12 +2773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면·측면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면·측면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4167,12 +2783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4182,12 +2793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4197,12 +2803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면·후면삼각근 · 하부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면·후면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4212,12 +2813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4227,12 +2823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 후면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4242,12 +2833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어·전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -4257,12 +2843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4272,12 +2853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면·측면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면·측면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4287,12 +2863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근·회전근개 · 승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 후면삼각근·회전근개에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "후면삼각근·회전근개로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4302,12 +2873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면·측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -4317,12 +2883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4332,12 +2893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근·대퇴사두 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근·대퇴사두에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근·대퇴사두로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4347,12 +2903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4362,12 +2913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4377,12 +2923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4392,12 +2933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4407,12 +2943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4422,12 +2953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4437,12 +2963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·상완근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·상완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4452,12 +2973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4467,12 +2983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근·전완근 · 이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근·전완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4482,12 +2993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4497,12 +3003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 내측두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 내측두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4512,12 +3013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4527,12 +3023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4542,12 +3033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4557,12 +3043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4572,12 +3053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4587,12 +3063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4602,12 +3073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4617,12 +3083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -4632,12 +3093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "전완 굴근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4647,12 +3103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4662,12 +3113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4677,12 +3123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -4692,12 +3133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·내전근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근·내전근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4707,12 +3143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4722,12 +3153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4737,12 +3163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4752,12 +3173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4767,12 +3183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -4782,12 +3193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4797,12 +3203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4812,12 +3213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4827,12 +3223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·둔근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4842,12 +3233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4857,12 +3243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4872,12 +3253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -4887,12 +3263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4902,12 +3273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 상부 · 복사근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘디클라인 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근 상부의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -4917,12 +3283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 복사근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4932,12 +3293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복직근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 복사근·복직근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -4947,12 +3303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 요방형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘덤벨 사이드 벤드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -4962,12 +3313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 요방형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 사이드 벤드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -4977,12 +3323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 상부",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘토 터치 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근 상부의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -4992,12 +3333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플러터 킥’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근 하부의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5007,12 +3343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시저 킥’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근 하부의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5022,12 +3353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 복직근·복횡근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5037,12 +3363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근·삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘L 싯’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5052,12 +3373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 복사근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5067,12 +3383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 복사근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스탠딩 케이블 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5082,12 +3393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5097,12 +3403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5112,12 +3413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -5127,12 +3423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5142,12 +3433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5157,12 +3443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 대둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5172,12 +3453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·내전근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·내전근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -5187,12 +3463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -5202,12 +3473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -5217,12 +3483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -5232,12 +3493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -5247,12 +3503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -5262,12 +3513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5277,12 +3523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5292,12 +3533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5307,12 +3543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5322,12 +3553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전경골근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전경골근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5337,12 +3563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전경골근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전경골근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5352,12 +3573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전경골근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전경골근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -5367,12 +3583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "경판상근 · 승모근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 경판상근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5382,12 +3593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉쇄유돌근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘넥 플렉션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 흉쇄유돌근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5397,12 +3603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉쇄유돌근 · 사각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 흉쇄유돌근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5412,12 +3613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "경판상근 · 승모근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 경판상근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -5427,12 +3623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "경판상근 · 승모근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 경판상근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -5442,12 +3633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "하부승모근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 하부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -5457,12 +3643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중부승모근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 중부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -5472,12 +3653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중하부승모근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 중하부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -5487,12 +3663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근·소원근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 극하근·소원근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -5502,12 +3673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "견갑하근 · 대흉근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘밴드 인터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 견갑하근의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -5517,12 +3683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근·소원근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이드 라잉 익스터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 극하근·소원근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -5532,12 +3693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘90도 익스터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 극하근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5547,12 +3703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근 · 중부승모근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -5562,12 +3713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 전완 굴근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5577,12 +3723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완근·광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 전완근·광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5592,12 +3733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘그립 크러셔’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -5607,12 +3743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5622,12 +3753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 신근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 전완 신근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5637,12 +3763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 전완 굴근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -5652,12 +3773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5667,12 +3783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5682,12 +3793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5697,12 +3803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5712,12 +3813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 복사근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5727,12 +3823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5742,12 +3833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5757,12 +3843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -5772,12 +3853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5787,12 +3863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플랭크 업다운’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5802,12 +3873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 복사근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5817,12 +3883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘RKC 플랭크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5832,12 +3893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슈퍼맨’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5847,12 +3903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·척추기립근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5862,12 +3913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근·햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5877,12 +3923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -5892,12 +3933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플랭크 숄더 탭’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5907,12 +3943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨·대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘베어 플랭크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -5922,12 +3953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근·승모근 · 둔근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 측면삼각근·승모근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -5937,12 +3963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -5952,12 +3973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -5967,12 +3983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -5982,12 +3993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -5997,12 +4003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·코어 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·코어를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -6012,12 +4013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·회전근개 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케틀벨 핼로’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근·회전근개의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -6027,12 +4023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·둔근 · 전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케틀벨 피겨 8’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -6042,12 +4033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6057,12 +4043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6072,12 +4053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6087,12 +4063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6102,12 +4073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6117,12 +4083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6132,12 +4093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘밴드 우드찹’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6147,12 +4103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6162,12 +4113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6177,12 +4123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 대흉근 상부 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6192,12 +4133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 하부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6207,12 +4143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6222,12 +4153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6237,12 +4163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6252,12 +4173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6267,12 +4183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6282,12 +4193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6297,12 +4203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6312,12 +4213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이벡스 아크 트레이너’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6327,12 +4223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6342,12 +4233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -6357,12 +4243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 어깨",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘랜드마인 180’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -6372,12 +4253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -6387,12 +4263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -6402,12 +4273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -6417,12 +4283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6432,12 +4293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -6447,12 +4303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨",
     "equipments": [
       {
-        "equipment": "ball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘짐볼 파이크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "ball"
       }
     ]
   },
@@ -6462,12 +4313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 광배근",
     "equipments": [
       {
-        "equipment": "ball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘짐볼 롤아웃’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "ball"
       }
     ]
   },
@@ -6477,12 +4323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슬라이더 마운틴 클라이머’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -6492,12 +4333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "햄스트링로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -6507,12 +4343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -6522,12 +4353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "bosu",
-        "method": [
-          "보수을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bosu"
       }
     ]
   },
@@ -6537,12 +4363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 어깨",
     "equipments": [
       {
-        "equipment": "bosu",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘보수 플랭크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "bosu"
       }
     ]
   },
@@ -6552,12 +4373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘메디신볼 우드찹’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -6567,12 +4383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘메디신볼 V업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -6582,12 +4393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6597,12 +4403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6612,12 +4413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6627,12 +4423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6642,12 +4433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6657,12 +4443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6672,12 +4453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6687,12 +4463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6702,12 +4473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6717,12 +4483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -6732,12 +4493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 대흉근·전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플란체’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6747,12 +4503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨 · 코어·전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플란체 리닝’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6762,12 +4513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·코어 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·코어를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6777,12 +4523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·대흉근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·대흉근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6792,12 +4533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·코어 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘휴먼 플래그’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근·코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6807,12 +4543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근 · 코어·전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘핸드스탠드 홀드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6822,12 +4553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6837,12 +4563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6852,12 +4573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6867,12 +4583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·이두근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6882,12 +4593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6897,12 +4603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6912,12 +4613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘워리어 1 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6927,12 +4623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘워리어 2 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6942,12 +4633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘워리어 3 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6957,12 +4643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 발목안정근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘트리 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6972,12 +4653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘체어 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -6987,12 +4663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘보트 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7002,12 +4673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 햄스트링·척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘브릿지 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7017,12 +4683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·이상근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘비둘기 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·이상근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7032,12 +4693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 대흉근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘업워드 독’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7047,12 +4703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘트라이앵글 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7062,12 +4713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘캐멀 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7077,12 +4723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 복횡근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 헌드레드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7092,12 +4733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 롤업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7107,12 +4743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링·비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스프린트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7122,12 +4753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 햄스트링·비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘힐 스프린트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7137,12 +4763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘셔틀 런’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7152,12 +4773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘하이 니’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7167,12 +4783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘버트 킥’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7182,12 +4793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘점핑 잭’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7197,12 +4803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "sled",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘프라울러 스프린트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "sled"
       }
     ]
   },
@@ -7212,12 +4813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 능형근·이두근",
     "equipments": [
       {
-        "equipment": "sled",
-        "method": [
-          "슬레드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "sled"
       }
     ]
   },
@@ -7227,12 +4823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 광배근",
     "equipments": [
       {
-        "equipment": "battlerope",
-        "method": [
-          "배틀로프을(를) 세팅한다. 견갑을 모아 고정하고 어깨·코어에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "어깨·코어로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "battlerope"
       }
     ]
   },
@@ -7242,12 +4833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨 · 전완근·코어",
     "equipments": [
       {
-        "equipment": "battlerope",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘배틀로프 얼터네이팅 웨이브’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨의 긴장을 유지한다"
-        ]
+        "equipment": "battlerope"
       }
     ]
   },
@@ -7257,12 +4843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -7272,12 +4853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·어깨 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘크랩 리치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·어깨의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7287,12 +4863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스콜피온 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7302,12 +4873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근·흉추 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘월드 그레이티스트 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근·흉추의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7317,12 +4883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·코어 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘인치웜’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링·코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7332,12 +4893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘힙 서클’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7347,12 +4903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 고관절굴근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7362,12 +4913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근 · 회전근개",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘암 서클’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7377,12 +4923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉추기립근 · 복사근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘토라식 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 흉추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7392,12 +4933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘수파인 스파인 트위스트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7407,12 +4943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절·발목 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 고관절·발목 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7422,12 +4953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘카우치 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7437,12 +4963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근 · 고관절",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 내전근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "내전근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7452,12 +4973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7467,12 +4983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7482,12 +4993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·둔근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7497,12 +5003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7512,12 +5013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7527,12 +5023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7542,12 +5033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "삼두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7557,12 +5043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7572,12 +5053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -7587,12 +5063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·상완근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·상완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7602,12 +5073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근·광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근·광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -7617,12 +5083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7632,12 +5093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7647,12 +5103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근·후면삼각근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7662,12 +5113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7677,12 +5123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7692,12 +5133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7707,12 +5143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7722,12 +5153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7737,12 +5163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 어깨·코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7752,12 +5173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·중둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·중둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7767,12 +5183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근·대둔근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근·대둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7782,12 +5193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7797,12 +5203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7812,12 +5213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7827,12 +5223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7842,12 +5233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -7857,12 +5243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -7872,12 +5253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7887,12 +5263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7902,12 +5273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 둔근·삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대퇴사두·삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대퇴사두·삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -7917,12 +5283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 둔근·삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 대퇴사두·삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대퇴사두·삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -7932,12 +5293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘디클라인 리버스 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근 하부의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7947,12 +5303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 복사근·복직근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -7962,12 +5313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 복사근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -7977,12 +5323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 토르소 트위스트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -7992,12 +5333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘머신 오블리크 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8007,12 +5343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘V 싯 홀드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8022,12 +5353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘잭나이프 싯업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8037,12 +5363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 광배근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 견갑을 모아 고정하고 복사근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "복사근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -8052,12 +5373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘디클라인 트위스팅 싯업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8067,12 +5383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 광배근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스탠딩 앱 휠 롤아웃’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -8082,12 +5393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8097,12 +5403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8112,12 +5413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8127,12 +5423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8142,12 +5433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8157,12 +5443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8172,12 +5453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8187,12 +5463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8202,12 +5473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8217,12 +5483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8232,12 +5493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8247,12 +5503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -8262,12 +5513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 하부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8277,12 +5523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8292,12 +5533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8307,12 +5543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8322,12 +5553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8337,12 +5563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·이두근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8352,12 +5573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8367,12 +5583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근·광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근·광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8382,12 +5593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·이두근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8397,12 +5603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8412,12 +5613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 상부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8427,12 +5623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대원근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8442,12 +5633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대흉근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘인클라인 덤벨 풀오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8457,12 +5643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8472,12 +5653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8487,12 +5663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8502,12 +5673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8517,12 +5683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8532,12 +5693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8547,12 +5703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면·후면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 측면·후면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "측면·후면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -8562,12 +5713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -8577,12 +5723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -8592,12 +5733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -8607,12 +5743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면·후면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면·측면·후면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8622,12 +5753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근·승모근 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근·승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8637,12 +5763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근·승모근 · 둔근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근·승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8652,12 +5773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "승모근·삼각근 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 승모근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8667,12 +5783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8682,12 +5793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8697,12 +5803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8712,12 +5813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8727,12 +5823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8742,12 +5833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8757,12 +5843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8772,12 +5853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근 · 이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8787,12 +5863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·상완근 · 전완근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·상완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8802,12 +5873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8817,12 +5883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8832,12 +5893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8847,12 +5903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8862,12 +5913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -8877,12 +5923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 내측두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 내측두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8892,12 +5933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8907,12 +5943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -8922,12 +5953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -8937,12 +5963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -8952,12 +5973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8967,12 +5983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -8982,12 +5993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 코어·둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -8997,12 +6003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9012,12 +6013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·내전근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근·내전근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9027,12 +6023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9042,12 +6033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9057,12 +6043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -9072,12 +6053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9087,12 +6063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -9102,12 +6073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9117,12 +6083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근 힘으로 일어선다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9132,12 +6093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·둔근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9147,12 +6103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9162,12 +6113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9177,12 +6123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9192,12 +6133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -9207,12 +6143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9222,12 +6153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9237,12 +6163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9252,12 +6173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9267,12 +6183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9282,12 +6193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -9297,12 +6203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9312,12 +6213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9327,12 +6223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -9342,12 +6233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -9357,12 +6243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 어깨",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘위티드 플랭크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -9372,12 +6253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘위티드 싯업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -9387,12 +6263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 상부 · 복사근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘위티드 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근 상부의 긴장을 유지한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -9402,12 +6273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘디클라인 러시안 트위스트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9417,12 +6283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘닐링 케이블 오블리크 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9432,12 +6293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 복직근 하부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9447,12 +6303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 어깨",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슬라이더 바디 쏘’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -9462,12 +6313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘바디 쏘’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9477,12 +6323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복횡근 · 둔근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 복사근·복횡근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "복사근·복횡근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9492,12 +6333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘호리즌탈 케이블 찹’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9507,12 +6343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘메디신볼 싯업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -9522,12 +6353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복횡근·복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘위티드 데드버그’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복횡근·복직근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9537,12 +6363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라잉 윈드쉴드 와이퍼’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -9552,12 +6373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근·복횡근 · 어깨",
     "equipments": [
       {
-        "equipment": "ball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스터 더 팟’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "ball"
       }
     ]
   },
@@ -9567,12 +6383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 상부",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘메디신볼 토 터치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근 상부의 긴장을 유지한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -9582,12 +6393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9597,12 +6403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 대흉근 상부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9612,12 +6413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9627,12 +6423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9642,12 +6433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9657,12 +6443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9672,12 +6453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9687,12 +6463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9702,12 +6473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9717,12 +6483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9732,12 +6493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9747,12 +6503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9762,12 +6513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9777,12 +6523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 외측두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 외측두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9792,12 +6533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -9807,12 +6543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9822,12 +6553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9837,12 +6563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9852,12 +6573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9867,12 +6583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9882,12 +6593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9897,12 +6603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근 · 이두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9912,12 +6613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9927,12 +6623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9942,12 +6633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9957,12 +6643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 광배근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9972,12 +6653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 어깨·코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -9987,12 +6663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10002,12 +6673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10017,12 +6683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10032,12 +6693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·어깨 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘덤벨 윈드밀’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·어깨의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10047,12 +6703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 둔근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘덤벨 터키시 겟업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10062,12 +6713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·코어 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·코어를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10077,12 +6723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10092,12 +6733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10107,12 +6743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·내전근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·내전근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10122,12 +6753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10137,12 +6763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10152,12 +6773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "가자미근 · 비복근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 가자미근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10167,12 +6783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10182,12 +6793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10197,12 +6803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "하부승모근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 하부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10212,12 +6813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중부승모근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 중부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10227,12 +6823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중하부승모근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 중하부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10242,12 +6833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -10257,12 +6843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10272,12 +6853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "승모근·측면삼각근 · 이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 승모근·측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10287,12 +6863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10302,12 +6873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10317,12 +6883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 척추기립근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10332,12 +6893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 광배근·후면삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10347,12 +6903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10362,12 +6913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 신근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "전완 신근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10377,12 +6923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10392,12 +6933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10407,12 +6943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10422,12 +6953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10437,12 +6963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10452,12 +6973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 코어·전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10467,12 +6983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·전완근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘제르커 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·전완근의 긴장을 유지한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -10482,12 +6993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10497,12 +7003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10512,12 +7013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10527,12 +7023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10542,12 +7033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10557,12 +7043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근·햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10572,12 +7053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10587,12 +7063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10602,12 +7073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10617,12 +7083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -10632,12 +7093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘싱글 레그 박스 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10647,12 +7103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘싱글 레그 브로드 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10662,12 +7113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·대흉근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘버피 박스 점프 오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·대흉근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10677,12 +7123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·대흉근 · 대퇴사두·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·대흉근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10692,12 +7133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 어깨·전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘싱글 언더’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -10707,12 +7143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 대퇴사두·둔근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10722,12 +7153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10737,12 +7163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -10752,12 +7173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 견갑을 모아 고정하고 둔근·삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "둔근·삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -10767,12 +7183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 둔근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·삼각근 힘으로 일어선다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -10782,12 +7193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10797,12 +7203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 어깨",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘크리스크로스 점프 로프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -10812,12 +7213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근·코어 · 어깨·햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근·코어에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근·코어로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10827,12 +7223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·대퇴사두 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스프롤’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10842,12 +7233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스타 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10857,12 +7243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉쇄유돌근 · 승모근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘넥 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 흉쇄유돌근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10872,12 +7253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘크로스바디 숄더 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 후면삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10887,12 +7263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘오버헤드 트라이셉스 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼두근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10902,12 +7273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10917,12 +7283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대원근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘래트 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10932,12 +7293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스탠딩 쿼드 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10947,12 +7303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10962,12 +7313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘닐링 힙 플렉서 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10977,12 +7323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 이상근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시티드 글루트 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -10992,12 +7333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시티드 스파인 트위스트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -11007,12 +7343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉추기립근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스레드 더 니들’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 흉추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -11022,12 +7353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리스트 플렉서 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -11037,12 +7363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 신근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리스트 익스텐서 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 신근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -11052,12 +7373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "발목 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘앵클 모빌리티 드릴’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 발목의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -11067,12 +7383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 장경인대",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 쿼드 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -11082,12 +7393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11097,12 +7403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11112,12 +7413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "가자미근 · 비복근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 가자미근 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11127,12 +7423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11142,12 +7433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11157,12 +7443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11172,12 +7453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11187,12 +7463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11202,12 +7473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11217,12 +7483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11232,12 +7493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 햄스트링",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근·대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11247,12 +7503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11262,12 +7513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11277,12 +7523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근·대퇴사두 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근·대퇴사두에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근·대퇴사두로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11292,12 +7533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·대퇴사두 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 삼각근·대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11307,12 +7543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근·전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11322,12 +7553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11337,12 +7563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11352,12 +7573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 능형근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11367,12 +7583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·둔근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11382,12 +7593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·둔근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11397,12 +7603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·삼각근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11412,12 +7613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·코어 · 전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케틀벨 오버헤드 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근·코어의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11427,12 +7623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·전완근 · 승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케틀벨 래크 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·전완근의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11442,12 +7633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11457,12 +7643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대흉근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케틀벨 풀오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11472,12 +7653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11487,12 +7663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "하부승모근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 견갑을 모아 고정하고 하부승모근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "하부승모근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11502,12 +7673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 견갑을 모아 고정하고 후면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "후면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11517,12 +7683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11532,12 +7693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11547,12 +7703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11562,12 +7713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근·복직근 · 삼두근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 견갑을 모아 고정하고 대흉근·복직근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근·복직근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11577,12 +7723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘TRX 마운틴 클라이머’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11592,12 +7733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘TRX 오블리크 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11607,12 +7743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 중둔근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘TRX 사이드 플랭크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -11622,12 +7753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11637,12 +7763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·상완근 · 전완근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·상완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11652,12 +7773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11667,12 +7783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11682,12 +7793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11697,12 +7803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11712,12 +7813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11727,12 +7823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11742,12 +7833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11757,12 +7843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11772,12 +7853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -11787,12 +7863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -11802,12 +7873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -11817,12 +7883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -11832,12 +7893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11847,12 +7903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -11862,12 +7913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -11877,12 +7923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -11892,12 +7933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -11907,12 +7943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -11922,12 +7953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -11937,12 +7963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -11952,12 +7973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -11967,12 +7983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근·햄스트링",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -11982,12 +7993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -11997,12 +8003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -12012,12 +8013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 대둔근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -12027,12 +8023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘멀티 힙 머신 플렉션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -12042,12 +8033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -12057,12 +8043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -12072,12 +8053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 신근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 전완 신근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -12087,12 +8063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "전완 굴근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -12102,12 +8073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 전완 굴근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12117,12 +8083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 전완 굴근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12132,12 +8093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근 · 둔근·승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 전완 굴근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -12147,12 +8103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·전완근 · 상완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·전완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -12162,12 +8113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "회내근·회외근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리스트 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 회내근·회외근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -12177,12 +8123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근·신근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라이스 버킷 트레이닝’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근·신근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -12192,12 +8133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘핸드 그리퍼’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -12207,12 +8143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근·전완근 · 이두근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근·전완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -12222,12 +8153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라잉 햄스트링 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12237,12 +8163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시티드 햄스트링 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12252,12 +8173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스탠딩 사이드 벤드 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12267,12 +8183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스핑크스 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12282,12 +8193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슬리퍼 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 극하근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12297,12 +8203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12312,12 +8213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "견갑거근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘레바터 스캐퓰러 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 견갑거근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12327,12 +8223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 견갑거근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘어퍼 트랩 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 상부승모근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12342,12 +8233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근 · 고관절",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12357,12 +8243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘이글 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 후면삼각근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12372,12 +8253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 고관절굴근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12387,12 +8263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 고관절굴근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12402,12 +8273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·둔근 · 고관절",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘해피 베이비 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 내전근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12417,12 +8283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시티드 포워드 폴드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12432,12 +8293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스탠딩 포워드 폴드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12447,12 +8303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘와이드 레그 포워드 폴드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 내전근·햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12462,12 +8313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라잉 쿼드 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12477,12 +8323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "장경인대 · 대퇴근막장근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘IT밴드 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 장경인대의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12492,12 +8333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이상근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘피리포미스 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 이상근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12507,12 +8343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -12522,12 +8353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 이상근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 글루트 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -12537,12 +8363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 햄스트링 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -12552,12 +8373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대원근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 랫 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -12567,12 +8383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근 · 고관절",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 어덕터 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 내전근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -12582,12 +8393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링·비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘40야드 대시’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12597,12 +8403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근·대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘어질리티 래더 드릴’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12612,12 +8413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘콘 드릴’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12627,12 +8423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘T-드릴’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12642,12 +8433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘5-10-5 프로 어질리티’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12657,12 +8443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·둔근 · 복사근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘카리오카’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 내전근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12672,12 +8453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘백페달’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12687,12 +8463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "대퇴사두·둔근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12702,12 +8473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘뎁스 드롭’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12717,12 +8483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 광배근",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 어깨·코어를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -12732,12 +8493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 둔근·어깨",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 복사근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -12747,12 +8503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘파워 스킵’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12762,12 +8513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 햄스트링",
     "equipments": [
       {
-        "equipment": "sled",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리지스티드 스프린트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "sled"
       }
     ]
   },
@@ -12777,12 +8523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘허들 홉’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12792,12 +8533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘싱글 레그 홉’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12807,12 +8543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 사이드 킥’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 중둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12822,12 +8553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 복직근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 레그 서클’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12837,12 +8563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 티저’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12852,12 +8573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 스완’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12867,12 +8583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 싱글 레그 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12882,12 +8593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 복횡근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 더블 레그 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12897,12 +8603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘필라테스 크리스크로스’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12912,12 +8613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘바레 플리에’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12927,12 +8623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘바레 렐레베’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12942,12 +8633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘바레 아라베스크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12957,12 +8643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘카우 페이스 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 후면삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12972,12 +8653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘댄서 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -12987,12 +8663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근·코어 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘하프 문 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 중둔근·코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13002,12 +8673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·복사근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘익스텐디드 사이드 앵글 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13017,12 +8683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘게이트 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13032,12 +8693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근·후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘로커스트 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13047,12 +8703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘보우 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13062,12 +8713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 흉쇄유돌근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘피쉬 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13077,12 +8723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·둔근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘휠 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13092,12 +8733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·어깨 · 전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 코어·어깨를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13107,12 +8743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·어깨 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 복사근·어깨를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13122,12 +8753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 승모근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘헤드스탠드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13137,12 +8763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어 · 승모근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘숄더스탠드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13152,12 +8773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플라우 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13167,12 +8783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘레그 업 더 월 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13182,12 +8793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리클라인드 스파인 트위스트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13197,12 +8803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘퍼피 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13212,12 +8813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리저드 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13227,12 +8823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·둔근 · 발목",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘가랜드 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 내전근·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13242,12 +8833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·복사근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리버스 워리어’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13257,12 +8843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘90/90 힙 트랜지션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13272,12 +8853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13287,12 +8863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "발목 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘앵클 락’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 발목의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13302,12 +8873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리스트 모빌리티 서클’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13317,12 +8883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·회전근개 · 승모근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘숄더 디스로케이트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근·회전근개의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -13332,12 +8893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근 · 회전근개",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스틱 패스스루’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -13347,12 +8903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉추기립근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘토라식 브릿지’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 흉추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13362,12 +8913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13377,12 +8923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스파이더맨 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13392,12 +8933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 내전근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13407,12 +8943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근·흉추 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 고관절굴근·흉추 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13422,12 +8953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13437,12 +8963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·중둔근 · 고관절",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 내전근·중둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13452,12 +8973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근 · 회전근개",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘백워드 암 서클’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13467,12 +8983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "경부근 · 승모근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘넥 CARs’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 경부근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13482,12 +8993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13497,12 +9003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근·어깨 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근·어깨에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근·어깨로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13512,12 +9013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근·어깨 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근·어깨에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근·어깨로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13527,12 +9023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근·전면삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근·전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근·전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13542,12 +9033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13557,12 +9043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13572,12 +9053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13587,12 +9063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13602,12 +9073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·복직근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·복직근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13617,12 +9083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13632,12 +9093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·이두근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13647,12 +9103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13662,12 +9113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전거근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 전거근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전거근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13677,12 +9123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "하부승모근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 하부승모근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "하부승모근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13692,12 +9133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 어깨·코어 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13707,12 +9143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근 · 코어·전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘프리스탠딩 핸드스탠드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13722,12 +9153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13737,12 +9163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13752,12 +9173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 복직근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13767,12 +9183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·하부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·하부승모근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13782,12 +9193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근·중둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근·중둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -13797,12 +9203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·하부승모근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슈퍼맨 풀’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근·하부승모근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13812,12 +9213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중하부승모근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리버스 스노우 엔젤’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 중하부승모근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13827,12 +9223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "극하근·소원근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘노 머니 익서사이즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 극하근·소원근의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -13842,12 +9233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13857,12 +9243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플랭크 잭’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13872,12 +9253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘크로스바디 마운틴 클라이머’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13887,12 +9263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 어깨·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13902,12 +9273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13917,12 +9283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13932,12 +9293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 종아리",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13947,12 +9303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘백워드 베어 크롤’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13962,12 +9313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 삼두근·둔근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13977,12 +9323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘하이 니 스킵’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -13992,12 +9333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘토 탭’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14007,12 +9343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스텝 잭’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14022,12 +9353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플랭크 토 탭’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14037,12 +9363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이드 플랭크 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14052,12 +9373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘버드독 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14067,12 +9383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근·후면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스위머’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14082,12 +9393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14097,12 +9403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14112,12 +9413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14127,12 +9423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14142,12 +9433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14157,12 +9443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14172,12 +9453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14187,12 +9463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 광배근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘디클라인 바벨 풀오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대흉근의 긴장을 유지한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14202,12 +9473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 광배근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘바벨 풀오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대흉근의 긴장을 유지한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14217,12 +9483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -14232,12 +9493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14247,12 +9503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14262,12 +9513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14277,12 +9523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14292,12 +9533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -14307,12 +9543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근·광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근·광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14322,12 +9553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "능형근·광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 능형근·광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14337,12 +9563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14352,12 +9573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·이두근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14367,12 +9583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 능형근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -14382,12 +9593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -14397,12 +9603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14412,12 +9613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 상부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14427,12 +9623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 하부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14442,12 +9633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근 하부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14457,12 +9643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근 상부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14472,12 +9653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14487,12 +9663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·이두근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14502,12 +9673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근 상부를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14517,12 +9683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14532,12 +9693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면·후면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 측면·후면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "측면·후면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14547,12 +9703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14562,12 +9713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 견갑을 모아 고정하고 전면·측면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면·측면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -14577,12 +9723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -14592,12 +9733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14607,12 +9743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14622,12 +9753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14637,12 +9763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -14652,12 +9773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "하부승모근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 하부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -14667,12 +9783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14682,12 +9793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근·대퇴사두 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 측면삼각근·대퇴사두에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "측면삼각근·대퇴사두로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14697,12 +9803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -14712,12 +9813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "견갑하근 · 대흉근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 인터널 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 견갑하근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14727,12 +9823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -14742,12 +9833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -14757,12 +9843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -14772,12 +9853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14787,12 +9863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근 · 이두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14802,12 +9873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근 · 이두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14817,12 +9883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근·상완근 · 전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근·상완근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -14832,12 +9893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상완요골근 · 이두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "상완요골근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14847,12 +9903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14862,12 +9913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14877,12 +9923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -14892,12 +9933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 외측두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 외측두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14907,12 +9943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -14922,12 +9953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -14937,12 +9963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -14952,12 +9973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근 하부",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14967,12 +9983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근 상부",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 삼두근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "삼두근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14982,12 +9993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -14997,12 +10003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15012,12 +10013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15027,12 +10023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15042,12 +10033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15057,12 +10043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15072,12 +10053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 척추기립근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15087,12 +10063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·내전근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·내전근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15102,12 +10073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15117,12 +10083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15132,12 +10093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15147,12 +10103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15162,12 +10113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15177,12 +10123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·내전근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 둔근·내전근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15192,12 +10133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15207,12 +10143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -15222,12 +10153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15237,12 +10163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15252,12 +10173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -15267,12 +10183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "원판을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 대퇴사두 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -15282,12 +10193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘위티드 토즈 투 바’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15297,12 +10203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 복사근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15312,12 +10213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시티드 케이블 우드찹’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -15327,12 +10223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘위티드 디클라인 싯업’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -15342,12 +10233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨",
     "equipments": [
       {
-        "equipment": "ball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스위스볼 잭나이프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "ball"
       }
     ]
   },
@@ -15357,12 +10243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘드래곤 플래그 네거티브’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15372,12 +10253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복횡근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘안티 로테이션 홀드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·복횡근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -15387,12 +10263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 어깨",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이드 플랭크 위드 리치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15402,12 +10273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플랭크 위드 레그 리프트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15417,12 +10283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 복직근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15432,12 +10293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·전완근 · 승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘수트케이스 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·전완근의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15447,12 +10303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·코어 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘오버헤드 바벨 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근·코어의 긴장을 유지한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15462,12 +10313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·전완근 · 승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘더블 케틀벨 프론트 랙 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·전완근의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -15477,12 +10323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완근·어깨 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘보텀업 케틀벨 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완근·어깨의 긴장을 유지한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -15492,12 +10333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완근·승모근 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘트랩바 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완근·승모근의 긴장을 유지한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15507,12 +10343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근 · 승모근",
     "equipments": [
       {
-        "equipment": "plate",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘플레이트 핀치 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근의 긴장을 유지한다"
-        ]
+        "equipment": "plate"
       }
     ]
   },
@@ -15522,12 +10353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·척추기립근 · 광배근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘샌드백 숄더링’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -15537,12 +10363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -15552,12 +10373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -15567,12 +10383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -15582,12 +10393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 능형근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·이두근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15597,12 +10403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15612,12 +10413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15627,12 +10423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15642,12 +10433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15657,12 +10443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근·둔근 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15672,12 +10453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15687,12 +10463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15702,12 +10473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15717,12 +10483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15732,12 +10493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15747,12 +10503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15762,12 +10513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15777,12 +10523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15792,12 +10533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15807,12 +10543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15822,12 +10553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15837,12 +10563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15852,12 +10573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15867,12 +10583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15882,12 +10593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15897,12 +10603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -15912,12 +10613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15927,12 +10623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 상부승모근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -15942,12 +10633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15957,12 +10643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -15972,12 +10653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -15987,12 +10663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -16002,12 +10673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -16017,12 +10683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -16032,12 +10693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -16047,12 +10703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -16062,12 +10713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -16077,12 +10723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -16092,12 +10733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -16107,12 +10743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "landmine",
-        "method": [
-          "랜드마인을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "landmine"
       }
     ]
   },
@@ -16122,12 +10753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 능형근",
     "equipments": [
       {
-        "equipment": "smith",
-        "method": [
-          "스미스을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "smith"
       }
     ]
   },
@@ -16137,12 +10763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "삼두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -16152,12 +10773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘싱글 암 케이블 크런치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·복직근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -16167,12 +10783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 승모근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -16182,12 +10793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·삼각근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -16197,12 +10803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근·코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16212,12 +10813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -16227,12 +10823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -16242,12 +10833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근·코어 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘싱글 암 오버헤드 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근·코어의 긴장을 유지한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -16257,12 +10843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -16272,12 +10853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -16287,12 +10863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -16302,12 +10873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -16317,12 +10883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -16332,12 +10893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘컨티뉴어스 박스 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16347,12 +10903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·대퇴사두 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘컨티뉴어스 브로드 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16362,12 +10913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 어깨",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘트리플 언더’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16377,12 +10923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·대흉근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘버피 브로드 점프’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·대흉근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16392,12 +10933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근·대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라더 인앤아웃’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 비복근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16407,12 +10943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 내전근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라더 아이키 셔플’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16422,12 +10953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘콘 위브’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16437,12 +10963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘박스 드릴’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16452,12 +10973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 중둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스타 드릴’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16467,12 +10983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근·비복근",
     "equipments": [
       {
-        "equipment": "sled",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘백워드 슬레드 드래그’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "sled"
       }
     ]
   },
@@ -16482,12 +10993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근·내전근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "sled",
-        "method": [
-          "슬레드을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 중둔근·내전근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "sled"
       }
     ]
   },
@@ -16497,12 +11003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨 · 코어·전완근",
     "equipments": [
       {
-        "equipment": "battlerope",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘배틀로프 인앤아웃’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨의 긴장을 유지한다"
-        ]
+        "equipment": "battlerope"
       }
     ]
   },
@@ -16512,12 +11013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·복사근 · 전완근",
     "equipments": [
       {
-        "equipment": "battlerope",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘배틀로프 사이드 투 사이드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·복사근의 긴장을 유지한다"
-        ]
+        "equipment": "battlerope"
       }
     ]
   },
@@ -16527,12 +11023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·대퇴사두 · 코어",
     "equipments": [
       {
-        "equipment": "battlerope",
-        "method": [
-          "배틀로프을(를) 세팅한다. 견갑을 모아 고정하고 어깨·대퇴사두에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "어깨·대퇴사두로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "battlerope"
       }
     ]
   },
@@ -16542,12 +11033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·이두근 · 전완근·코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·이두근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16557,12 +11043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·전완근 · 이두근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·전완근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16572,12 +11053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 비복근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘타이어 점프 인앤아웃’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16587,12 +11063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·대퇴사두 · 어깨",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이드 월 볼’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근·대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -16602,12 +11073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·척추기립근 · 어깨",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 견갑을 모아 고정하고 둔근·척추기립근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "둔근·척추기립근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -16617,12 +11083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·승모근 · 전완근·둔근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘샌드백 캐리 인터벌’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·승모근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16632,12 +11093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘아쿠아 조깅’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16647,12 +11103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 둔근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘풀 워킹’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16662,12 +11113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전신 · 코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘워터 에어로빅’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전신의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16677,12 +11123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16692,12 +11133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 중둔근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16707,12 +11143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 내전근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘밴드 X 워크’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 중둔근의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16722,12 +11153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘글루트 액티베이션 브릿지’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16737,12 +11163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16752,12 +11173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16767,12 +11183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "밴드을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·삼각근 힘으로 일어선다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16782,12 +11193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 이상근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라크로스볼 글루트 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16797,12 +11203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "족저근막 · 발내재근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라크로스볼 풋 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 족저근막의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16812,12 +11213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 소흉근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -16827,12 +11223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "경부근 · 승모근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘넥 아이소메트릭 홀드’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 경부근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16842,12 +11233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전경골근",
     "equipments": [
       {
-        "equipment": "band",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘밴드 앵클 도르시플렉션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전경골근의 긴장을 유지한다"
-        ]
+        "equipment": "band"
       }
     ]
   },
@@ -16857,12 +11243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼각근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘숄더 플렉션 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 삼각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16872,12 +11253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 대흉근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 전면삼각근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16887,12 +11263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "흉추기립근 · 복사근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시티드 흉추 로테이션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 흉추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16902,12 +11273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "경부심부굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘넥 리트랙션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 경부심부굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16917,12 +11283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "경부심부굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘친 턱’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 경부심부굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16932,12 +11293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘프레이어 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16947,12 +11303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 신근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘리버스 프레이어 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 신근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16962,12 +11313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 전완 굴근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16977,12 +11323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘다이나믹 힙 플렉서 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -16992,12 +11333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘다이나믹 햄스트링 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17007,12 +11343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 이상근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘다이나믹 글루트 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17022,12 +11353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "발목 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘앵클 서클’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 발목의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17037,12 +11363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "발내재근 · 전경골근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘풋 아치 도밍’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 발내재근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17052,12 +11373,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "무지신근 · 발내재근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 무지신근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17067,12 +11383,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 복직근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스파인 와브’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17082,12 +11393,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17097,12 +11403,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17112,12 +11413,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17127,12 +11423,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17142,12 +11433,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17157,12 +11443,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17172,12 +11453,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 내측두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 내측두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17187,12 +11463,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17202,12 +11473,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "상부승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 상부승모근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17217,12 +11483,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 대원근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스트레이트 바 케이블 풀오버’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17232,12 +11493,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17247,12 +11503,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "측면삼각근 · 승모근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 측면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17262,12 +11513,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 측면삼각근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17277,12 +11523,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근·햄스트링 · 척추기립근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 둔근·햄스트링 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17292,12 +11533,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "중둔근 · 대둔근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 중둔근 힘으로 일어선다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17307,12 +11543,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근 · 대퇴사두",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 힙 플렉션’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17322,12 +11553,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 복직근 하부 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17337,12 +11563,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 리프트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17352,12 +11573,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케이블 트위스트’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17367,12 +11583,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "cable",
-        "method": [
-          "케이블을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "cable"
       }
     ]
   },
@@ -17382,12 +11593,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어·삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17397,12 +11603,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 코어",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17412,12 +11613,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면·측면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 전면·측면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면·측면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17427,12 +11623,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 장두 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 장두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17442,12 +11633,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17457,12 +11643,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "삼두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17472,12 +11653,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 대흉근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17487,12 +11663,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 광배근·삼두근",
     "equipments": [
       {
-        "equipment": "dumbbell",
-        "method": [
-          "덤벨을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "dumbbell"
       }
     ]
   },
@@ -17502,12 +11673,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근·척추기립근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -17517,12 +11683,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "barbell",
-        "method": [
-          "바벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "barbell"
       }
     ]
   },
@@ -17532,12 +11693,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근·복사근 · 삼두근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근·복사근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근·복사근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -17547,12 +11703,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근·어깨 · 햄스트링",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 견갑을 모아 고정하고 복사근·어깨에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "복사근·어깨로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -17562,12 +11713,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 장두",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근 장두를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -17577,12 +11723,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "kettlebell",
-        "method": [
-          "케틀벨을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "kettlebell"
       }
     ]
   },
@@ -17592,12 +11733,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘메이스 360’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -17607,12 +11743,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·코어 · 전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘메이스 10 투 2’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 어깨·코어의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -17622,12 +11753,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "어깨·전완근 · 코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 어깨·전완근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -17637,12 +11763,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "medicineball",
-        "method": [
-          "메디신볼을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "medicineball"
       }
     ]
   },
@@ -17652,12 +11773,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·승모근 · 전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘통나무 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·승모근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -17667,12 +11783,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "코어·둔근 · 전완근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘케그 캐리’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 코어·둔근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -17682,12 +11793,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 상부 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 상부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 상부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17697,12 +11803,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 하부 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 견갑을 모아 고정하고 대흉근 하부에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근 하부로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17712,12 +11813,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 광배근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17727,12 +11823,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17742,12 +11833,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 전면삼각근 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17757,12 +11843,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17772,12 +11853,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 광배근 하부 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17787,12 +11863,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 상부 · 후면삼각근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 광배근 상부 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17802,12 +11873,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17817,12 +11883,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17832,12 +11893,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링·둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 햄스트링·둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17847,12 +11903,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17862,12 +11913,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "가자미근 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 가자미근 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17877,12 +11923,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 햄스트링 힘으로 일어선다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17892,12 +11933,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17907,12 +11943,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 단두 · 전완근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근 단두로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17922,12 +11953,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17937,12 +11963,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "대흉근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17952,12 +11973,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 하부 · 이두근",
     "equipments": [
       {
-        "equipment": "machine",
-        "method": [
-          "머신을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근 하부를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "machine"
       }
     ]
   },
@@ -17967,12 +11983,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전면삼각근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 전면삼각근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "전면삼각근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17982,12 +11993,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -17997,12 +12003,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 전완근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18012,12 +12013,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18027,12 +12023,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 삼두근·코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -18042,12 +12033,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 코어",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -18057,12 +12043,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 · 어깨",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘슬라이더 니 턱’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복직근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -18072,12 +12053,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·대흉근 · 이두근·삼두근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근·대흉근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -18087,12 +12063,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근·능형근 · 이두근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 광배근·능형근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -18102,12 +12073,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 이두근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 가슴을 들고 견갑을 아래로 내린다",
-          "팔꿈치를 갈비뼈 쪽으로 당겨 광배근를 수축한다",
-          "천천히 신장하며 완전히 늘린다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -18117,12 +12083,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "후면삼각근 · 능형근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 상체를 고정하고 견갑을 아래로 내린다",
-          "팔꿈치를 몸통 뒤로 당겨 후면삼각근를 수축한다",
-          "통제하며 시작 위치까지 신장한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -18132,12 +12093,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "삼두근 · 코어",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 삼두근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -18147,12 +12103,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전완근",
     "equipments": [
       {
-        "equipment": "trx",
-        "method": [
-          "TRX을(를) 세팅한다. 팔꿈치를 옆구리에 고정한다",
-          "이두근로 말아 올리며 손목은 중립을 유지한다",
-          "정점에서 수축 후 천천히 완전히 편다"
-        ]
+        "equipment": "trx"
       }
     ]
   },
@@ -18162,12 +12113,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두·둔근 · 코어",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두·둔근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18177,12 +12123,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 대퇴사두 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18192,12 +12133,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18207,12 +12143,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복직근 하부 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 어깨를 끌어내리고 팔꿈치를 살짝 굽힌다",
-          "반동 없이 복직근 하부 높이까지 들어 올린다",
-          "정점에서 멈춘 뒤 천천히 내린다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18222,12 +12153,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 복직근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘힐 터치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18237,12 +12163,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복횡근·복직근 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 팔꿈치를 고정하고 어깨는 움직이지 않는다",
-          "팔꿈치만 펴 복횡근·복직근를 끝까지 수축한다",
-          "통제하며 굽혀 신장한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18252,12 +12173,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대둔근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 대둔근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18267,12 +12183,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 둔근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "둔근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18282,12 +12193,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 척추기립근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "척추기립근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18297,12 +12203,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "둔근 · 이상근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘라잉 글루트 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 둔근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18312,12 +12213,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "장경인대 · 대퇴근막장근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스탠딩 IT밴드 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 장경인대의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18327,12 +12223,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근·햄스트링 · 고관절",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스트래들 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 내전근·햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18342,12 +12233,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "내전근 · 햄스트링",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이드 스플릿 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 내전근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18357,12 +12243,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "고관절굴근·햄스트링 · 둔근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘프론트 스플릿 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 고관절굴근·햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18372,12 +12253,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "비복근 · 가자미근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 발은 어깨너비, 코어를 단단히 조인다",
-          "고관절과 무릎을 동시에 굽혀 통제하며 내려간다",
-          "발 전체로 밀며 비복근 힘으로 일어선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18387,12 +12263,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "사각근 · 흉쇄유돌근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘스케일렌 넥 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 사각근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18402,12 +12273,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "소흉근 · 대흉근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 견갑을 모아 고정하고 소흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "소흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18417,12 +12283,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "이두근 · 전면삼각근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘바이셉스 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 이두근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18432,12 +12293,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "전완 굴근·신근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘핑거 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 전완 굴근·신근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18447,12 +12303,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 복직근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "맨몸을(를) 세팅한다. 무릎을 살짝 굽힌 채 고관절을 뒤로 민다",
-          "등 중립을 유지하며 척추기립근 신장까지 내린다",
-          "둔근으로 골반을 밀어 곧게 선다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18462,12 +12313,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "광배근 · 척추기립근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이드 리칭 차일드 포즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 광배근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18477,12 +12323,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "복사근 · 광배근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘시티드 사이드 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 복사근의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18492,12 +12333,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "햄스트링 · 비복근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘닐링 햄스트링 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 햄스트링의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18507,12 +12343,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴사두 · 고관절굴근",
     "equipments": [
       {
-        "equipment": "bodyweight",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘사이드 라잉 쿼드 스트레치’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴사두의 긴장을 유지한다"
-        ]
+        "equipment": "bodyweight"
       }
     ]
   },
@@ -18522,12 +12353,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대퇴근막장근 · 장경인대",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 TFL 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 대퇴근막장근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -18537,12 +12363,7 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "대흉근 · 소흉근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "기타을(를) 세팅한다. 견갑을 모아 고정하고 대흉근에 장력을 건다",
-          "팔꿈치를 약 45도로 통제하며 내린다(반동 금지)",
-          "대흉근로 밀어 올리고 정점에서 1초 수축한다"
-        ]
+        "equipment": "other"
       }
     ]
   },
@@ -18552,2493 +12373,8 @@ export const EXTRA_EXERCISES: Record<string, CatalogExercise> = {
     "target": "척추기립근 · 요방형근",
     "equipments": [
       {
-        "equipment": "other",
-        "method": [
-          "바른 자세를 잡고 코어를 조인 뒤 호흡을 고른다",
-          "통제된 가동범위로 ‘폼롤러 척추기립근 릴리즈’ 동작을 수행한다",
-          "정해진 시간·횟수 동안 척추기립근의 긴장을 유지한다"
-        ]
+        "equipment": "other"
       }
     ]
   }
-};
-
-export const EXTRA_BODY_PART: Record<string, BodyPart> = {
-  "barbell-bench-press": "chest",
-  "incline-barbell-bench-press": "chest",
-  "decline-barbell-bench-press": "chest",
-  "dumbbell-bench-press": "chest",
-  "incline-dumbbell-bench-press": "chest",
-  "decline-dumbbell-bench-press": "chest",
-  "dumbbell-fly": "chest",
-  "incline-dumbbell-fly": "chest",
-  "low-cable-fly": "chest",
-  "smith-machine-bench-press": "chest",
-  "incline-push-up": "chest",
-  "decline-push-up": "chest",
-  "chest-dip": "chest",
-  "svend-press": "chest",
-  "floor-press": "chest",
-  "conventional-deadlift": "back",
-  "barbell-bent-over-row": "back",
-  "lat-pulldown-2": "back",
-  "wide-grip-lat-pulldown": "back",
-  "close-grip-lat-pulldown": "back",
-  "assisted-pull-up-2": "back",
-  "straight-arm-pulldown-2": "back",
-  "machine-row": "back",
-  "hammer-strength-high-row": "back",
-  "rack-pull": "back",
-  "back-extension": "back",
-  "barbell-shrug": "back",
-  "dumbbell-shrug": "back",
-  "meadows-row-2": "back",
-  "seal-row": "back",
-  "landmine-row": "back",
-  "barbell-overhead-press": "shoulder",
-  "military-press": "shoulder",
-  "dumbbell-shoulder-press": "shoulder",
-  "smith-machine-shoulder-press": "shoulder",
-  "behind-the-neck-press": "shoulder",
-  "dumbbell-lateral-raise": "shoulder",
-  "cable-lateral-raise-2": "shoulder",
-  "machine-lateral-raise": "shoulder",
-  "dumbbell-front-raise": "shoulder",
-  "dumbbell-rear-delt-fly": "shoulder",
-  "cable-rear-delt-fly-2": "shoulder",
-  "face-pull-2": "shoulder",
-  "barbell-upright-row": "shoulder",
-  "cable-upright-row": "shoulder",
-  "landmine-press": "shoulder",
-  "plate-front-raise": "shoulder",
-  "barbell-back-squat": "lower",
-  "high-bar-squat": "lower",
-  "low-bar-squat": "lower",
-  "leg-press-2": "lower",
-  "lying-leg-curl": "lower",
-  "seated-leg-curl-2": "lower",
-  "dumbbell-lunge": "lower",
-  "barbell-hip-thrust": "lower",
-  "cable-glute-kickback": "lower",
-  "hip-abduction-machine": "lower",
-  "hip-adduction-machine": "lower",
-  "leg-press-calf-raise": "lower",
-  "curtsy-lunge-2": "lower",
-  "nordic-hamstring-curl": "lower",
-  "glute-ham-raise": "lower",
-  "jump-squat": "lower",
-  "barbell-curl": "arm",
-  "ez-bar-curl-2": "arm",
-  "dumbbell-biceps-curl": "arm",
-  "hammer-curl-2": "arm",
-  "machine-preacher-curl": "arm",
-  "cable-rope-hammer-curl-2": "arm",
-  "spider-curl": "arm",
-  "zottman-curl-2": "arm",
-  "21s-barbell-curl": "arm",
-  "reverse-barbell-curl": "arm",
-  "close-grip-bench-press-2": "arm",
-  "lying-triceps-extension": "arm",
-  "ez-bar-skull-crusher": "arm",
-  "dumbbell-overhead-extension": "arm",
-  "triceps-pushdown-2": "arm",
-  "rope-triceps-pushdown": "arm",
-  "reverse-grip-pushdown": "arm",
-  "bench-dip-2": "arm",
-  "triceps-dip": "arm",
-  "jm-press": "arm",
-  "machine-triceps-extension": "arm",
-  "cable-overhead-triceps-extension": "arm",
-  "reverse-wrist-curl": "arm",
-  "behind-the-back-wrist-curl": "arm",
-  "farmer-s-carry": "arm",
-  "plate-pinch": "arm",
-  "wrist-roller": "arm",
-  "decline-sit-up": "core",
-  "hanging-leg-raise-2": "core",
-  "hanging-knee-raise": "core",
-  "toes-to-bar-2": "core",
-  "cable-woodchopper": "core",
-  "pallof-press-2": "core",
-  "v-up-2": "core",
-  "hollow-body-hold": "core",
-  "dead-bug": "core",
-  "bird-dog": "core",
-  "dragon-flag": "core",
-  "captain-s-chair-leg-raise": "core",
-  "kettlebell-swing": "core",
-  "kettlebell-goblet-squat": "lower",
-  "kettlebell-clean": "core",
-  "kettlebell-snatch": "core",
-  "turkish-get-up": "core",
-  "kettlebell-press": "shoulder",
-  "kettlebell-windmill": "core",
-  "kettlebell-deadlift": "lower",
-  "kettlebell-front-squat": "lower",
-  "kettlebell-row": "back",
-  "trx-row": "back",
-  "trx-push-up": "chest",
-  "trx-pike": "core",
-  "trx-biceps-curl": "arm",
-  "trx-triceps-extension": "arm",
-  "trx-lunge": "lower",
-  "trx-hamstring-curl": "lower",
-  "trx-chest-press": "chest",
-  "band-pull-apart": "shoulder",
-  "band-lateral-raise": "shoulder",
-  "band-biceps-curl": "arm",
-  "band-triceps-pushdown": "arm",
-  "band-face-pull": "shoulder",
-  "band-good-morning": "back",
-  "band-monster-walk": "lower",
-  "band-glute-bridge": "lower",
-  "medicine-ball-slam": "core",
-  "medicine-ball-chest-pass": "chest",
-  "medicine-ball-russian-twist": "core",
-  "wall-ball": "core",
-  "battle-rope-wave": "core",
-  "sled-push": "lower",
-  "sled-pull": "lower",
-  "bosu-squat": "lower",
-  "stability-ball-crunch": "core",
-  "stability-ball-hamstring-curl": "lower",
-  "stability-ball-plank": "core",
-  "power-clean": "core",
-  "hang-clean": "core",
-  "push-press": "core",
-  "snatch": "core",
-  "clean-and-jerk": "core",
-  "power-snatch": "core",
-  "hang-snatch": "core",
-  "squat-clean": "core",
-  "split-jerk": "core",
-  "push-jerk": "core",
-  "clean-pull": "core",
-  "snatch-pull": "core",
-  "overhead-squat": "core",
-  "muscle-snatch": "core",
-  "hang-power-clean": "core",
-  "clean-grip-deadlift": "core",
-  "snatch-grip-deadlift": "core",
-  "sots-press": "core",
-  "clean-and-press": "core",
-  "atlas-stone-lift": "core",
-  "yoke-walk": "core",
-  "log-press": "core",
-  "keg-toss": "core",
-  "tire-flip": "core",
-  "car-deadlift": "core",
-  "sandbag-carry": "core",
-  "hercules-hold": "core",
-  "axle-bar-deadlift": "core",
-  "trap-bar-deadlift": "lower",
-  "continental-clean": "core",
-  "stone-over-bar": "core",
-  "box-jump": "core",
-  "broad-jump": "core",
-  "jump-lunge": "core",
-  "depth-jump": "core",
-  "burpee": "core",
-  "box-jump-over": "core",
-  "clap-push-up": "chest",
-  "plyometric-push-up": "chest",
-  "lateral-bound": "core",
-  "skater-jump": "core",
-  "tuck-jump": "core",
-  "jump-rope": "core",
-  "double-under": "core",
-  "wall-climb": "core",
-  "handstand-push-up": "shoulder",
-  "muscle-up": "core",
-  "kipping-pull-up": "back",
-  "devil-press": "core",
-  "man-maker": "core",
-  "thruster": "core",
-  "american-kettlebell-swing": "core",
-  "ghd-sit-up": "core",
-  "bear-crawl": "core",
-  "crab-walk": "core",
-  "rowing-machine": "core",
-  "assault-bike": "core",
-  "ski-erg": "core",
-  "treadmill-running": "core",
-  "elliptical-trainer": "core",
-  "stair-climber": "core",
-  "dumbbell-external-rotation": "shoulder",
-  "dumbbell-internal-rotation": "shoulder",
-  "cable-external-rotation": "shoulder",
-  "empty-can-raise": "shoulder",
-  "full-can-raise": "shoulder",
-  "scaption": "shoulder",
-  "band-external-rotation": "shoulder",
-  "prone-cobra": "back",
-  "wall-slide": "shoulder",
-  "scapular-pull-up": "back",
-  "clamshell": "lower",
-  "fire-hydrant": "lower",
-  "single-leg-glute-bridge": "lower",
-  "donkey-kick": "lower",
-  "cat-cow": "core",
-  "child-s-pose": "back",
-  "calf-stretch": "lower",
-  "standing-hamstring-stretch": "lower",
-  "figure-4-stretch": "lower",
-  "cobra-stretch": "core",
-  "downward-dog": "core",
-  "90-90-hip-stretch": "lower",
-  "foam-roller-it-band": "lower",
-  "foam-roller-thoracic": "back",
-  "hammer-strength-iso-lateral-row": "back",
-  "hammer-strength-chest-press": "chest",
-  "hammer-strength-shoulder-press": "shoulder",
-  "hammer-strength-pulldown": "back",
-  "hammer-strength-leg-press": "lower",
-  "life-fitness-chest-press": "chest",
-  "life-fitness-leg-extension": "lower",
-  "technogym-pectoral-machine": "chest",
-  "matrix-seated-row": "back",
-  "cybex-leg-press": "lower",
-  "pendulum-squat": "lower",
-  "v-squat-machine": "lower",
-  "glute-drive-machine": "lower",
-  "assisted-dip-machine": "arm",
-  "back-extension-machine": "back",
-  "torso-rotation-machine": "core",
-  "abdominal-crunch-machine": "core",
-  "smith-machine-hip-thrust": "lower",
-  "wide-grip-bench-press": "chest",
-  "close-grip-push-up": "chest",
-  "wide-push-up": "chest",
-  "archer-push-up": "chest",
-  "spider-man-push-up": "chest",
-  "high-cable-fly": "chest",
-  "single-arm-cable-crossover": "chest",
-  "smith-machine-incline-press": "chest",
-  "smith-machine-decline-press": "chest",
-  "incline-machine-chest-press": "chest",
-  "single-arm-dumbbell-bench-press": "chest",
-  "neutral-grip-dumbbell-press": "chest",
-  "squeeze-press": "chest",
-  "decline-dumbbell-fly": "chest",
-  "wide-grip-barbell-row": "back",
-  "underhand-barbell-row": "back",
-  "wide-grip-cable-row": "back",
-  "single-arm-cable-row": "back",
-  "neutral-grip-lat-pulldown": "back",
-  "behind-the-neck-pulldown": "back",
-  "single-arm-lat-pulldown": "back",
-  "cable-pullover": "back",
-  "machine-pullover": "back",
-  "incline-bench-dumbbell-row": "back",
-  "smith-machine-bent-over-row": "back",
-  "deficit-deadlift": "back",
-  "block-pull": "back",
-  "behind-the-back-shrug": "back",
-  "cable-shrug": "back",
-  "single-arm-machine-row": "back",
-  "assisted-chin-up": "back",
-  "close-neutral-grip-seated-row": "back",
-  "single-arm-dumbbell-shoulder-press": "shoulder",
-  "seated-barbell-overhead-press": "shoulder",
-  "seated-dumbbell-shoulder-press": "shoulder",
-  "leaning-cable-lateral-raise": "shoulder",
-  "lying-side-lateral-raise": "shoulder",
-  "cable-y-raise": "shoulder",
-  "incline-rear-delt-raise": "shoulder",
-  "seated-bent-over-lateral-raise": "shoulder",
-  "kettlebell-bottoms-up-press": "shoulder",
-  "z-press": "shoulder",
-  "bradford-press": "shoulder",
-  "cuban-press": "shoulder",
-  "plate-around-the-world": "shoulder",
-  "single-arm-cable-lateral-raise": "shoulder",
-  "dumbbell-push-press": "shoulder",
-  "wide-grip-barbell-curl": "arm",
-  "close-grip-barbell-curl": "arm",
-  "cable-ez-bar-curl": "arm",
-  "single-arm-cable-curl": "arm",
-  "high-cable-curl": "arm",
-  "machine-biceps-curl": "arm",
-  "cross-body-hammer-curl": "arm",
-  "seated-dumbbell-curl": "arm",
-  "reverse-ez-bar-curl": "arm",
-  "cable-preacher-curl": "arm",
-  "close-grip-pushdown": "arm",
-  "single-arm-cable-pushdown": "arm",
-  "v-bar-pushdown": "arm",
-  "incline-dumbbell-triceps-extension": "arm",
-  "cable-lying-triceps-extension": "arm",
-  "tate-press": "arm",
-  "close-grip-dumbbell-floor-press": "arm",
-  "incline-cable-curl": "arm",
-  "band-overhead-triceps-extension": "arm",
-  "barbell-wrist-curl": "arm",
-  "pause-squat": "lower",
-  "tempo-squat": "lower",
-  "safety-bar-squat": "lower",
-  "wide-stance-leg-press": "lower",
-  "close-stance-leg-press": "lower",
-  "single-leg-leg-press-2": "lower",
-  "single-leg-extension": "lower",
-  "single-leg-curl": "lower",
-  "standing-single-leg-curl": "lower",
-  "dumbbell-romanian-deadlift": "lower",
-  "single-leg-romanian-deadlift": "lower",
-  "reverse-lunge": "lower",
-  "side-lunge": "lower",
-  "dumbbell-step-down": "lower",
-  "split-squat": "lower",
-  "landmine-squat": "lower",
-  "single-leg-calf-raise": "lower",
-  "decline-crunch": "core",
-  "low-to-high-cable-chop": "core",
-  "hanging-windshield-wiper": "core",
-  "dumbbell-side-bend": "core",
-  "cable-side-bend": "core",
-  "toe-touch-crunch": "core",
-  "flutter-kick": "core",
-  "scissor-kick": "core",
-  "hollow-rock": "core",
-  "l-sit": "core",
-  "hanging-oblique-raise": "core",
-  "standing-cable-crunch": "core",
-  "machine-hip-thrust": "lower",
-  "single-leg-hip-thrust": "lower",
-  "band-hip-thrust": "lower",
-  "frog-pump": "lower",
-  "glute-bridge-march": "lower",
-  "cable-hip-extension": "lower",
-  "kettlebell-sumo-deadlift": "lower",
-  "dumbbell-deadlift": "lower",
-  "trap-bar-squat": "lower",
-  "smith-machine-split-squat": "lower",
-  "kettlebell-lunge": "lower",
-  "step-up-with-knee-drive": "lower",
-  "side-lying-hip-abduction": "lower",
-  "copenhagen-plank": "lower",
-  "calf-press-machine": "lower",
-  "single-leg-calf-press": "lower",
-  "standing-toe-raise": "lower",
-  "seated-toe-raise": "lower",
-  "band-toe-raise": "lower",
-  "neck-extension": "shoulder",
-  "neck-flexion": "shoulder",
-  "neck-lateral-flexion": "shoulder",
-  "neck-harness-extension": "shoulder",
-  "plate-neck-extension": "shoulder",
-  "prone-y-raise": "shoulder",
-  "prone-t-raise": "shoulder",
-  "prone-w-raise": "shoulder",
-  "prone-l-raise": "shoulder",
-  "band-internal-rotation": "shoulder",
-  "side-lying-external-rotation": "shoulder",
-  "90-degree-external-rotation": "shoulder",
-  "standing-band-row": "back",
-  "dead-hang": "arm",
-  "towel-pull-up": "arm",
-  "grip-crusher": "arm",
-  "cable-reverse-curl": "arm",
-  "wrist-extension-machine": "arm",
-  "pinch-grip-deadlift": "arm",
-  "standing-cable-chest-press": "chest",
-  "cable-incline-press": "chest",
-  "cable-decline-press": "chest",
-  "single-arm-cable-chest-press": "chest",
-  "high-to-low-cable-chop": "core",
-  "standing-cable-reverse-fly": "shoulder",
-  "single-arm-cable-front-raise": "shoulder",
-  "behind-the-back-cable-shrug": "back",
-  "wall-sit": "lower",
-  "plank-up-down": "core",
-  "side-plank-hip-raise": "core",
-  "rkc-plank": "core",
-  "superman": "back",
-  "reverse-hyperextension": "lower",
-  "45-degree-hyperextension": "back",
-  "ghd-back-extension": "back",
-  "plank-shoulder-tap": "core",
-  "bear-plank": "core",
-  "kettlebell-high-pull": "shoulder",
-  "kettlebell-clean-and-press": "core",
-  "double-kettlebell-front-squat": "lower",
-  "kettlebell-seesaw-press": "shoulder",
-  "single-arm-kettlebell-swing": "core",
-  "kettlebell-renegade-row": "back",
-  "kettlebell-halo": "shoulder",
-  "kettlebell-figure-8": "core",
-  "band-chest-press": "chest",
-  "band-row": "back",
-  "band-pulldown": "back",
-  "band-shoulder-press": "shoulder",
-  "band-squat": "lower",
-  "band-deadlift": "lower",
-  "band-woodchopper": "core",
-  "band-pull-through": "lower",
-  "hammer-strength-decline-press": "chest",
-  "hammer-strength-iso-lateral-incline-press": "chest",
-  "hammer-strength-low-row": "back",
-  "life-fitness-shoulder-press": "shoulder",
-  "life-fitness-leg-curl": "lower",
-  "life-fitness-lat-pulldown": "back",
-  "technogym-leg-press": "lower",
-  "technogym-shoulder-press": "shoulder",
-  "matrix-leg-extension": "lower",
-  "matrix-chest-press": "chest",
-  "cybex-arc-trainer": "core",
-  "nautilus-leg-extension": "lower",
-  "precor-machine-row": "back",
-  "landmine-180": "core",
-  "landmine-deadlift": "lower",
-  "landmine-seesaw-press": "shoulder",
-  "landmine-lunge": "lower",
-  "zombie-squat": "lower",
-  "spanish-squat": "lower",
-  "stability-ball-pike": "core",
-  "stability-ball-rollout": "core",
-  "slider-mountain-climber": "core",
-  "slider-hamstring-curl": "lower",
-  "slider-reverse-lunge": "lower",
-  "bosu-push-up": "chest",
-  "bosu-plank": "core",
-  "medicine-ball-woodchop": "core",
-  "medicine-ball-v-up": "core",
-  "board-press": "chest",
-  "pin-press": "chest",
-  "spoto-press": "chest",
-  "larsen-press": "chest",
-  "slingshot-bench-press": "chest",
-  "pin-squat": "lower",
-  "safety-bar-good-morning": "back",
-  "chain-bench-press": "chest",
-  "banded-bench-press": "chest",
-  "close-grip-floor-press": "arm",
-  "planche": "core",
-  "planche-lean": "core",
-  "front-lever": "core",
-  "back-lever": "core",
-  "human-flag": "core",
-  "handstand-hold": "shoulder",
-  "pike-push-up": "shoulder",
-  "korean-dip": "arm",
-  "archer-pull-up": "back",
-  "commando-pull-up": "back",
-  "explosive-pull-up": "back",
-  "negative-pull-up": "back",
-  "warrior-i-pose": "lower",
-  "warrior-ii-pose": "lower",
-  "warrior-iii-pose": "lower",
-  "tree-pose": "lower",
-  "chair-pose": "lower",
-  "boat-pose": "core",
-  "bridge-pose": "lower",
-  "pigeon-pose": "lower",
-  "upward-facing-dog": "core",
-  "triangle-pose": "core",
-  "camel-pose": "core",
-  "pilates-hundred": "core",
-  "pilates-roll-up": "core",
-  "sprint": "core",
-  "hill-sprint": "core",
-  "shuttle-run": "core",
-  "high-knees": "core",
-  "butt-kicks": "core",
-  "jumping-jack": "core",
-  "prowler-sprint": "core",
-  "sled-row": "back",
-  "battle-rope-slam": "core",
-  "battle-rope-alternating-wave": "core",
-  "kettlebell-jump-squat": "lower",
-  "crab-reach": "core",
-  "scorpion-stretch": "core",
-  "world-s-greatest-stretch": "core",
-  "inchworm": "core",
-  "hip-circle": "lower",
-  "leg-swing": "lower",
-  "arm-circle": "shoulder",
-  "thoracic-rotation": "back",
-  "supine-spinal-twist": "core",
-  "deep-squat-hold": "lower",
-  "couch-stretch": "lower",
-  "butterfly-stretch": "lower",
-  "pause-bench-press": "chest",
-  "tempo-bench-press": "chest",
-  "pin-deadlift": "back",
-  "pause-deadlift": "back",
-  "tempo-deadlift": "back",
-  "dead-stop-bench-press": "chest",
-  "decline-skull-crusher": "arm",
-  "seated-overhead-barbell-extension": "arm",
-  "cable-spider-curl": "arm",
-  "incline-hammer-curl": "arm",
-  "chest-supported-t-bar-row": "back",
-  "dead-stop-row": "back",
-  "feet-elevated-inverted-row": "back",
-  "wide-grip-inverted-row": "back",
-  "close-grip-incline-press": "chest",
-  "reverse-grip-bench-press": "chest",
-  "dumbbell-floor-press": "chest",
-  "front-foot-elevated-split-squat": "lower",
-  "deficit-reverse-lunge": "lower",
-  "overhead-lunge": "lower",
-  "lateral-step-up": "lower",
-  "crossover-step-up": "lower",
-  "skater-squat": "lower",
-  "goblet-step-up": "lower",
-  "b-stance-romanian-deadlift": "lower",
-  "b-stance-hip-thrust": "lower",
-  "kettlebell-single-leg-deadlift": "lower",
-  "heel-elevated-squat": "lower",
-  "heel-elevated-goblet-squat": "lower",
-  "prisoner-squat": "lower",
-  "dumbbell-thruster": "core",
-  "kettlebell-thruster": "core",
-  "decline-reverse-crunch": "core",
-  "hanging-knee-raise-twist": "core",
-  "captain-s-chair-oblique-raise": "core",
-  "cable-torso-twist": "core",
-  "machine-oblique-crunch": "core",
-  "v-sit-hold": "core",
-  "jackknife-sit-up": "core",
-  "side-medicine-ball-slam": "core",
-  "decline-twisting-sit-up": "core",
-  "standing-ab-wheel-rollout": "core",
-  "single-arm-machine-chest-press": "chest",
-  "decline-cable-fly": "chest",
-  "lying-cable-fly": "chest",
-  "weighted-dip": "chest",
-  "ring-dip": "chest",
-  "ring-push-up": "chest",
-  "staggered-push-up": "chest",
-  "incline-squeeze-press": "chest",
-  "wide-grip-incline-bench-press": "chest",
-  "reverse-grip-incline-press": "chest",
-  "machine-decline-chest-press": "chest",
-  "smith-machine-wide-grip-bench-press": "chest",
-  "close-grip-barbell-row": "back",
-  "wide-grip-machine-row": "back",
-  "neutral-grip-cable-row": "back",
-  "v-bar-lat-pulldown": "back",
-  "kneeling-cable-face-pull": "shoulder",
-  "underhand-inverted-row": "back",
-  "dumbbell-dead-stop-row": "back",
-  "helms-row": "back",
-  "underhand-pendlay-row": "back",
-  "trap-bar-row": "back",
-  "seated-high-row-machine": "back",
-  "single-arm-straight-arm-pulldown": "back",
-  "incline-dumbbell-pullover": "back",
-  "wide-grip-pendlay-row": "back",
-  "seated-cable-lateral-raise": "shoulder",
-  "incline-cable-lateral-raise": "shoulder",
-  "machine-front-raise": "shoulder",
-  "behind-the-back-cable-lateral-raise": "shoulder",
-  "overhead-pin-press": "shoulder",
-  "behind-the-neck-smith-press": "shoulder",
-  "seated-smith-machine-shoulder-press": "shoulder",
-  "single-arm-landmine-press": "shoulder",
-  "half-kneeling-landmine-press": "shoulder",
-  "dumbbell-6-way-raise": "shoulder",
-  "barbell-high-pull": "shoulder",
-  "dumbbell-high-pull": "shoulder",
-  "snatch-grip-high-pull": "shoulder",
-  "seated-dumbbell-lateral-raise": "shoulder",
-  "dumbbell-preacher-curl": "arm",
-  "single-arm-preacher-curl": "arm",
-  "ez-bar-preacher-curl": "arm",
-  "cable-rope-curl": "arm",
-  "cable-drag-curl": "arm",
-  "wide-grip-preacher-curl": "arm",
-  "reverse-preacher-curl": "arm",
-  "machine-hammer-curl": "arm",
-  "wide-grip-cable-curl": "arm",
-  "close-grip-ez-bar-curl": "arm",
-  "overhead-cable-curl": "arm",
-  "decline-cable-triceps-extension": "arm",
-  "single-arm-overhead-dumbbell-extension": "arm",
-  "reverse-grip-triceps-extension": "arm",
-  "incline-cable-triceps-extension": "arm",
-  "weighted-bench-dip": "arm",
-  "machine-dip": "arm",
-  "single-arm-cable-overhead-extension": "arm",
-  "barbell-spider-curl": "arm",
-  "kettlebell-biceps-curl": "arm",
-  "pause-front-squat": "lower",
-  "tempo-front-squat": "lower",
-  "wide-stance-squat": "lower",
-  "close-stance-squat": "lower",
-  "jumping-split-squat": "lower",
-  "smith-machine-reverse-lunge": "lower",
-  "barbell-walking-lunge": "lower",
-  "band-assisted-nordic-curl": "lower",
-  "cable-leg-curl": "lower",
-  "standing-cable-hip-adduction": "lower",
-  "cossack-squat-2": "lower",
-  "assisted-sissy-squat": "lower",
-  "dumbbell-squat": "lower",
-  "barbell-split-squat": "lower",
-  "single-leg-leg-press-calf-raise": "lower",
-  "dumbbell-standing-calf-raise": "lower",
-  "dumbbell-jump-squat": "lower",
-  "weighted-box-step-up": "lower",
-  "reverse-nordic-curl": "lower",
-  "single-leg-wall-sit": "lower",
-  "glute-kickback-machine": "lower",
-  "seated-good-morning": "back",
-  "barbell-glute-bridge": "lower",
-  "pause-hip-thrust": "lower",
-  "kettlebell-goblet-lunge": "lower",
-  "weighted-plank": "core",
-  "weighted-sit-up": "core",
-  "weighted-crunch": "core",
-  "decline-russian-twist": "core",
-  "kneeling-cable-oblique-crunch": "core",
-  "weighted-hanging-leg-raise": "core",
-  "slider-body-saw": "core",
-  "body-saw": "core",
-  "half-kneeling-pallof-press": "core",
-  "horizontal-cable-chop": "core",
-  "medicine-ball-sit-up": "core",
-  "weighted-dead-bug": "core",
-  "lying-windshield-wiper": "core",
-  "stir-the-pot": "core",
-  "medicine-ball-toe-touch": "core",
-  "single-arm-cable-fly": "chest",
-  "single-arm-low-cable-fly": "chest",
-  "single-arm-high-cable-fly": "chest",
-  "single-arm-cable-rear-delt-fly": "shoulder",
-  "single-arm-cable-upright-row": "shoulder",
-  "single-arm-cable-triceps-kickback": "arm",
-  "single-arm-cable-face-pull": "shoulder",
-  "single-arm-cable-shrug": "back",
-  "rope-cable-front-raise": "shoulder",
-  "rope-cable-upright-row": "shoulder",
-  "cable-concentration-curl": "arm",
-  "low-cable-lateral-raise": "shoulder",
-  "cable-21s-curl": "arm",
-  "wide-grip-cable-pushdown": "arm",
-  "cable-bar-incline-curl": "arm",
-  "seated-single-arm-dumbbell-shoulder-press": "shoulder",
-  "single-arm-dumbbell-front-raise": "shoulder",
-  "single-arm-dumbbell-lateral-raise": "shoulder",
-  "alternating-dumbbell-curl": "arm",
-  "alternating-dumbbell-shoulder-press": "shoulder",
-  "alternating-dumbbell-front-raise": "shoulder",
-  "dumbbell-reverse-curl": "arm",
-  "seated-dumbbell-shrug": "back",
-  "single-arm-incline-dumbbell-curl": "arm",
-  "dumbbell-floor-fly": "chest",
-  "cross-bench-dumbbell-pullover": "chest",
-  "dumbbell-swing": "core",
-  "dumbbell-snatch": "core",
-  "dumbbell-clean": "core",
-  "dumbbell-clean-and-press": "core",
-  "dumbbell-windmill": "core",
-  "dumbbell-turkish-get-up": "core",
-  "dumbbell-renegade-row": "back",
-  "dumbbell-pull-through": "lower",
-  "dumbbell-stiff-leg-deadlift": "lower",
-  "dumbbell-sumo-deadlift": "lower",
-  "dumbbell-hip-thrust": "lower",
-  "dumbbell-glute-bridge": "lower",
-  "seated-dumbbell-calf-raise": "lower",
-  "dumbbell-front-squat": "lower",
-  "dumbbell-rear-delt-row": "shoulder",
-  "incline-dumbbell-y-raise": "shoulder",
-  "incline-dumbbell-t-raise": "shoulder",
-  "prone-incline-dumbbell-shrug": "back",
-  "dumbbell-21s-curl": "arm",
-  "wide-grip-upright-row": "shoulder",
-  "close-grip-upright-row": "shoulder",
-  "deficit-pendlay-row": "back",
-  "barbell-hack-lift": "lower",
-  "jefferson-deadlift": "lower",
-  "snatch-grip-row": "back",
-  "barbell-front-raise": "shoulder",
-  "barbell-reverse-wrist-curl": "arm",
-  "barbell-lunge": "lower",
-  "barbell-reverse-lunge": "lower",
-  "barbell-step-up": "lower",
-  "barbell-calf-raise": "lower",
-  "zercher-squat": "lower",
-  "zercher-deadlift": "lower",
-  "zercher-carry": "core",
-  "converging-chest-press-machine": "chest",
-  "converging-shoulder-press-machine": "shoulder",
-  "diverging-lat-pulldown": "back",
-  "standing-leg-curl-machine": "lower",
-  "lying-t-bar-row-machine": "back",
-  "reverse-hack-squat": "lower",
-  "incline-chest-fly-machine": "chest",
-  "decline-chest-fly-machine": "chest",
-  "seated-leg-press-machine": "lower",
-  "horizontal-calf-raise-machine": "lower",
-  "single-leg-box-jump": "core",
-  "single-leg-broad-jump": "core",
-  "burpee-box-jump-over": "core",
-  "burpee-pull-up": "core",
-  "single-under": "core",
-  "lateral-box-shuffle": "core",
-  "step-up-jump": "core",
-  "kettlebell-clean-and-jerk": "core",
-  "medicine-ball-backward-toss": "core",
-  "medicine-ball-squat-to-press": "core",
-  "power-step-up": "core",
-  "criss-cross-jump-rope": "core",
-  "inchworm-push-up": "core",
-  "sprawl": "core",
-  "star-jump": "core",
-  "neck-stretch": "shoulder",
-  "cross-body-shoulder-stretch": "shoulder",
-  "overhead-triceps-stretch": "arm",
-  "doorway-chest-stretch": "chest",
-  "lat-stretch": "back",
-  "standing-quad-stretch": "lower",
-  "wall-calf-stretch": "lower",
-  "kneeling-hip-flexor-stretch": "lower",
-  "seated-glute-stretch": "lower",
-  "seated-spinal-twist": "core",
-  "thread-the-needle": "back",
-  "wrist-flexor-stretch": "arm",
-  "wrist-extensor-stretch": "arm",
-  "ankle-mobility-drill": "lower",
-  "foam-roller-quad-release": "lower",
-  "smith-machine-front-squat": "lower",
-  "smith-machine-bulgarian-split-squat": "lower",
-  "smith-machine-seated-calf-raise": "lower",
-  "smith-machine-deadlift": "lower",
-  "smith-machine-romanian-deadlift": "lower",
-  "smith-machine-good-morning": "back",
-  "smith-machine-shrug": "back",
-  "smith-machine-upright-row": "shoulder",
-  "smith-machine-inverted-row": "back",
-  "smith-machine-close-grip-bench-press": "arm",
-  "smith-machine-box-squat": "lower",
-  "smith-machine-stiff-leg-deadlift": "lower",
-  "kettlebell-dead-clean": "core",
-  "kettlebell-push-press": "shoulder",
-  "kettlebell-jerk": "core",
-  "double-kettlebell-clean": "core",
-  "double-kettlebell-press": "shoulder",
-  "double-kettlebell-snatch": "core",
-  "kettlebell-seesaw-row": "back",
-  "kettlebell-sumo-squat": "lower",
-  "kettlebell-side-lunge": "lower",
-  "kettlebell-overhead-squat": "core",
-  "kettlebell-overhead-carry": "shoulder",
-  "kettlebell-rack-carry": "core",
-  "kettlebell-clean-and-squat": "core",
-  "kettlebell-pullover": "back",
-  "trx-pull-up": "back",
-  "trx-y-fly": "shoulder",
-  "trx-t-fly": "shoulder",
-  "trx-face-pull": "shoulder",
-  "trx-single-leg-squat": "lower",
-  "trx-squat": "lower",
-  "trx-atomic-push-up": "chest",
-  "trx-mountain-climber": "core",
-  "trx-oblique-crunch": "core",
-  "trx-side-plank": "core",
-  "band-seated-row": "back",
-  "band-hammer-curl": "arm",
-  "band-rear-delt-fly": "shoulder",
-  "band-front-raise": "shoulder",
-  "band-upright-row": "shoulder",
-  "band-triceps-kickback": "arm",
-  "band-leg-curl": "lower",
-  "band-leg-extension": "lower",
-  "band-clamshell": "lower",
-  "band-standing-hip-abduction": "lower",
-  "single-leg-deadlift": "lower",
-  "single-leg-hack-squat": "lower",
-  "single-leg-glute-kickback-machine": "lower",
-  "single-leg-smith-calf-raise": "lower",
-  "kettlebell-step-up": "lower",
-  "kettlebell-reverse-lunge": "lower",
-  "trap-bar-romanian-deadlift": "lower",
-  "trap-bar-shrug": "back",
-  "trap-bar-calf-raise": "lower",
-  "hack-squat-calf-raise": "lower",
-  "weighted-sissy-squat": "lower",
-  "band-glute-ham-raise": "lower",
-  "weighted-nordic-curl": "lower",
-  "weighted-back-extension": "back",
-  "weighted-45-degree-hyperextension": "back",
-  "standing-hip-abduction-machine": "lower",
-  "multi-hip-machine-extension": "lower",
-  "multi-hip-machine-flexion": "lower",
-  "multi-hip-machine-abduction": "lower",
-  "multi-hip-machine-adduction": "lower",
-  "dumbbell-wrist-extension": "arm",
-  "cable-wrist-curl": "arm",
-  "parallel-bar-hang": "arm",
-  "towel-hang": "arm",
-  "fat-grip-deadlift": "arm",
-  "fat-grip-curl": "arm",
-  "wrist-rotation": "arm",
-  "rice-bucket-training": "arm",
-  "hand-gripper": "arm",
-  "plate-curl": "arm",
-  "lying-hamstring-stretch": "lower",
-  "seated-hamstring-stretch": "lower",
-  "standing-side-bend-stretch": "core",
-  "sphinx-stretch": "core",
-  "sleeper-stretch": "shoulder",
-  "corner-pec-stretch": "chest",
-  "levator-scapulae-stretch": "shoulder",
-  "upper-trap-stretch": "shoulder",
-  "frog-stretch": "lower",
-  "eagle-pose": "core",
-  "low-lunge-stretch": "lower",
-  "high-lunge-stretch": "lower",
-  "happy-baby-pose": "lower",
-  "seated-forward-fold": "lower",
-  "standing-forward-fold": "lower",
-  "wide-leg-forward-fold": "lower",
-  "lying-quad-stretch": "lower",
-  "it-band-stretch": "lower",
-  "piriformis-stretch": "lower",
-  "foam-roller-calf-release": "lower",
-  "foam-roller-glute-release": "lower",
-  "foam-roller-hamstring-release": "lower",
-  "foam-roller-lat-release": "back",
-  "foam-roller-adductor-release": "lower",
-  "40-yard-dash": "core",
-  "agility-ladder-drill": "core",
-  "cone-drill": "core",
-  "t-drill": "core",
-  "5-10-5-pro-agility": "core",
-  "carioca": "core",
-  "backpedal": "core",
-  "vertical-jump": "core",
-  "depth-drop": "core",
-  "overhead-medicine-ball-throw": "core",
-  "rotational-medicine-ball-throw": "core",
-  "power-skip": "core",
-  "resisted-sprint": "core",
-  "hurdle-hop": "core",
-  "single-leg-hop": "core",
-  "pilates-side-kick": "lower",
-  "pilates-leg-circle": "core",
-  "pilates-teaser": "core",
-  "pilates-swan": "back",
-  "pilates-single-leg-stretch": "core",
-  "pilates-double-leg-stretch": "core",
-  "pilates-criss-cross": "core",
-  "barre-pli": "lower",
-  "barre-relev": "lower",
-  "barre-arabesque": "lower",
-  "cow-face-pose": "shoulder",
-  "dancer-pose": "lower",
-  "half-moon-pose": "lower",
-  "extended-side-angle-pose": "lower",
-  "gate-pose": "core",
-  "locust-pose": "back",
-  "bow-pose": "back",
-  "fish-pose": "core",
-  "wheel-pose": "core",
-  "crow-pose": "core",
-  "side-crow": "core",
-  "headstand": "core",
-  "shoulder-stand": "core",
-  "plow-pose": "back",
-  "legs-up-the-wall-pose": "lower",
-  "reclined-spinal-twist": "core",
-  "puppy-pose": "back",
-  "lizard-pose": "lower",
-  "garland-pose": "lower",
-  "reverse-warrior": "lower",
-  "90-90-hip-transition": "lower",
-  "hip-airplane": "lower",
-  "ankle-rock": "lower",
-  "wrist-mobility-circle": "arm",
-  "shoulder-dislocate": "shoulder",
-  "stick-pass-through": "shoulder",
-  "thoracic-bridge": "back",
-  "fire-hydrant-circle": "lower",
-  "spider-man-stretch": "lower",
-  "cossack-rock": "lower",
-  "deep-lunge-with-twist": "core",
-  "dynamic-calf-stretch": "lower",
-  "lateral-leg-swing": "lower",
-  "backward-arm-circle": "shoulder",
-  "neck-cars": "shoulder",
-  "hand-release-push-up": "chest",
-  "hindu-push-up": "chest",
-  "dive-bomber-push-up": "chest",
-  "pseudo-planche-push-up": "chest",
-  "one-arm-push-up": "chest",
-  "kneeling-push-up": "chest",
-  "tempo-push-up": "chest",
-  "straight-bar-dip": "arm",
-  "l-sit-pull-up": "back",
-  "typewriter-pull-up": "back",
-  "close-grip-chin-up": "back",
-  "single-arm-inverted-row": "back",
-  "scapular-push-up": "back",
-  "scapular-dip": "back",
-  "wall-walk": "core",
-  "freestanding-handstand": "shoulder",
-  "shrimp-squat": "lower",
-  "assisted-pistol-squat": "lower",
-  "hanging-l-sit": "core",
-  "active-hang": "back",
-  "glute-bridge-with-abduction": "lower",
-  "superman-pull": "back",
-  "reverse-snow-angel": "back",
-  "no-money-exercise": "shoulder",
-  "squat-jack": "core",
-  "plank-jack": "core",
-  "cross-body-mountain-climber": "core",
-  "walking-push-up": "chest",
-  "pulse-lunge": "lower",
-  "pulse-squat": "lower",
-  "duck-walk": "lower",
-  "backward-bear-crawl": "core",
-  "lateral-crab-walk": "core",
-  "high-knee-skip": "core",
-  "toe-tap": "core",
-  "step-jack": "core",
-  "plank-toe-tap": "core",
-  "side-plank-rotation": "core",
-  "bird-dog-crunch": "core",
-  "swimmer-exercise": "back",
-  "neutral-grip-incline-dumbbell-press": "chest",
-  "neutral-grip-decline-dumbbell-press": "chest",
-  "swiss-bar-bench-press": "chest",
-  "swiss-bar-overhead-press": "shoulder",
-  "swiss-bar-close-grip-press": "arm",
-  "incline-bench-cable-press": "chest",
-  "seated-cable-chest-press": "chest",
-  "decline-barbell-pullover": "chest",
-  "barbell-pullover": "chest",
-  "smith-machine-floor-press": "chest",
-  "reverse-grip-dumbbell-press": "chest",
-  "wide-grip-dip": "chest",
-  "close-grip-dip": "arm",
-  "forward-lean-dip": "chest",
-  "band-assisted-dip": "chest",
-  "chest-supported-dumbbell-row": "back",
-  "incline-bench-barbell-row": "back",
-  "wide-grip-seated-row": "back",
-  "underhand-seated-cable-row": "back",
-  "kettlebell-bent-over-row": "back",
-  "double-kettlebell-row": "back",
-  "incline-cable-row": "back",
-  "high-cable-row": "back",
-  "low-cable-row": "back",
-  "close-neutral-grip-lat-pulldown": "back",
-  "behind-the-neck-pull-up": "back",
-  "medium-grip-pull-up": "back",
-  "mixed-grip-pull-up": "back",
-  "super-wide-grip-pulldown": "back",
-  "seated-cable-face-pull": "shoulder",
-  "seated-behind-the-neck-press": "shoulder",
-  "pin-shoulder-press": "shoulder",
-  "smith-machine-bradford-press": "shoulder",
-  "seated-kettlebell-press": "shoulder",
-  "chest-supported-rear-delt-raise": "shoulder",
-  "wide-cable-face-pull": "shoulder",
-  "decline-bench-rear-delt-raise": "shoulder",
-  "plate-loaded-lateral-raise-machine": "shoulder",
-  "band-y-raise": "shoulder",
-  "lying-cable-rear-delt-raise": "shoulder",
-  "behind-the-neck-push-press": "shoulder",
-  "kettlebell-front-raise": "shoulder",
-  "cable-internal-rotation": "shoulder",
-  "prone-band-pull-apart": "shoulder",
-  "kettlebell-lateral-raise": "shoulder",
-  "single-arm-machine-curl": "arm",
-  "behind-the-back-cable-curl": "arm",
-  "pronated-dumbbell-curl": "arm",
-  "ez-bar-reverse-curl": "arm",
-  "kettlebell-hammer-curl": "arm",
-  "incline-dumbbell-reverse-curl": "arm",
-  "bar-cable-overhead-triceps-extension": "arm",
-  "dumbbell-lying-triceps-extension": "arm",
-  "single-arm-dumbbell-lying-extension": "arm",
-  "cross-body-cable-extension": "arm",
-  "machine-overhead-extension": "arm",
-  "feet-elevated-bench-dip": "arm",
-  "rope-overhead-triceps-extension": "arm",
-  "decline-close-grip-bench-press": "arm",
-  "incline-close-grip-bench-press": "arm",
-  "1-5-rep-squat": "lower",
-  "1-5-rep-leg-press": "lower",
-  "1-5-rep-lunge": "lower",
-  "pause-leg-extension": "lower",
-  "pause-leg-curl": "lower",
-  "pause-calf-raise": "lower",
-  "behind-the-back-deadlift": "lower",
-  "deficit-sumo-deadlift": "lower",
-  "full-rom-leg-press": "lower",
-  "pause-bulgarian-split-squat": "lower",
-  "tempo-bulgarian-split-squat": "lower",
-  "deficit-split-squat": "lower",
-  "pause-goblet-squat": "lower",
-  "wide-stance-hack-squat": "lower",
-  "close-stance-hack-squat": "lower",
-  "double-kettlebell-romanian-deadlift": "lower",
-  "single-leg-glute-bridge-march": "lower",
-  "sissy-squat-machine": "lower",
-  "weighted-glute-ham-raise": "lower",
-  "weighted-reverse-nordic-curl": "lower",
-  "weighted-toes-to-bar": "core",
-  "captain-s-chair-twisting-raise": "core",
-  "seated-cable-woodchop": "core",
-  "weighted-decline-sit-up": "core",
-  "stability-ball-jackknife": "core",
-  "dragon-flag-negative": "core",
-  "anti-rotation-hold": "core",
-  "side-plank-with-reach": "core",
-  "plank-with-leg-lift": "core",
-  "boat-to-low-boat": "core",
-  "suitcase-carry": "core",
-  "overhead-barbell-carry": "shoulder",
-  "double-kettlebell-front-rack-carry": "core",
-  "bottoms-up-kettlebell-carry": "shoulder",
-  "trap-bar-carry": "core",
-  "plate-pinch-carry": "arm",
-  "sandbag-shouldering": "core",
-  "sandbag-clean": "core",
-  "sandbag-squat": "lower",
-  "sandbag-lunge": "lower",
-  "eccentric-chin-up": "back",
-  "eccentric-bench-press": "chest",
-  "eccentric-squat": "lower",
-  "eccentric-deadlift": "back",
-  "eccentric-leg-curl": "lower",
-  "partial-deadlift": "back",
-  "partial-squat": "lower",
-  "partial-lateral-raise": "shoulder",
-  "partial-barbell-curl": "arm",
-  "top-half-leg-extension": "lower",
-  "bottom-half-squat": "lower",
-  "isometric-bench-hold": "chest",
-  "isometric-squat-hold": "lower",
-  "isometric-deadlift-hold": "back",
-  "isometric-curl-hold": "arm",
-  "isometric-lateral-raise-hold": "shoulder",
-  "isometric-pull-up-hold": "back",
-  "isometric-push-up-hold": "chest",
-  "tempo-pull-up": "back",
-  "tempo-leg-press": "lower",
-  "tempo-row": "back",
-  "tempo-overhead-press": "shoulder",
-  "tempo-curl": "arm",
-  "tempo-lateral-raise": "shoulder",
-  "eccentric-nordic-curl": "lower",
-  "eccentric-calf-raise": "lower",
-  "partial-leg-press": "lower",
-  "partial-pulldown": "back",
-  "1-25-rep-bench-press": "chest",
-  "1-5-rep-shoulder-press": "shoulder",
-  "single-arm-machine-shoulder-press": "shoulder",
-  "single-arm-machine-lat-pulldown": "back",
-  "single-arm-machine-rear-delt": "shoulder",
-  "single-arm-pec-deck-fly": "chest",
-  "single-arm-cable-pulldown": "back",
-  "single-arm-landmine-row": "back",
-  "single-arm-smith-row": "back",
-  "single-arm-dumbbell-skull-crusher": "arm",
-  "single-arm-cable-crunch": "core",
-  "single-arm-kettlebell-clean": "core",
-  "single-arm-kettlebell-snatch": "core",
-  "one-arm-pull-up": "back",
-  "single-leg-machine-hip-thrust": "lower",
-  "single-arm-dumbbell-floor-press": "chest",
-  "single-arm-overhead-carry": "shoulder",
-  "single-arm-dumbbell-deadlift": "lower",
-  "kneeling-single-arm-cable-row": "back",
-  "kneeling-single-arm-lat-pulldown": "back",
-  "barbell-single-leg-romanian-deadlift": "lower",
-  "kneeling-single-arm-cable-curl": "arm",
-  "continuous-box-jump": "core",
-  "continuous-broad-jump": "core",
-  "triple-under": "core",
-  "burpee-broad-jump": "core",
-  "ladder-in-and-out": "core",
-  "ladder-icky-shuffle": "core",
-  "cone-weave": "core",
-  "box-drill": "core",
-  "star-drill": "core",
-  "backward-sled-drag": "lower",
-  "lateral-sled-drag": "lower",
-  "battle-rope-in-and-out": "core",
-  "battle-rope-side-to-side": "core",
-  "battle-rope-jumping-slam": "core",
-  "rope-climb": "core",
-  "pegboard-climb": "core",
-  "tire-jump-in-and-out": "core",
-  "side-wall-ball": "core",
-  "dead-ball-over-shoulder-toss": "core",
-  "sandbag-carry-interval": "core",
-  "aqua-jogging": "core",
-  "pool-walking": "core",
-  "water-aerobics": "core",
-  "backward-monster-walk": "lower",
-  "band-lateral-walk": "lower",
-  "band-x-walk": "lower",
-  "glute-activation-bridge": "lower",
-  "seated-band-abduction": "lower",
-  "seated-band-pull-apart": "shoulder",
-  "band-overhead-squat": "core",
-  "lacrosse-ball-glute-release": "lower",
-  "lacrosse-ball-foot-release": "lower",
-  "lacrosse-ball-pec-release": "chest",
-  "neck-isometric-hold": "shoulder",
-  "band-ankle-dorsiflexion": "lower",
-  "shoulder-flexion-stretch": "shoulder",
-  "shoulder-extension-stretch": "shoulder",
-  "seated-thoracic-rotation": "back",
-  "neck-retraction": "shoulder",
-  "chin-tuck": "shoulder",
-  "prayer-stretch": "arm",
-  "reverse-prayer-stretch": "arm",
-  "finger-extension-stretch": "arm",
-  "dynamic-hip-flexor-stretch": "lower",
-  "dynamic-hamstring-stretch": "lower",
-  "dynamic-glute-stretch": "lower",
-  "ankle-circle": "lower",
-  "foot-arch-doming": "lower",
-  "big-toe-extension": "lower",
-  "spinal-wave": "back",
-  "d-handle-cable-row": "back",
-  "rope-cable-row": "back",
-  "wide-bar-cable-row": "back",
-  "single-rope-cable-curl": "arm",
-  "ez-bar-cable-pushdown": "arm",
-  "rope-cable-kickback": "arm",
-  "reverse-grip-ez-pushdown": "arm",
-  "straight-bar-face-pull": "shoulder",
-  "front-cable-shrug": "back",
-  "straight-bar-cable-pullover": "back",
-  "cable-rear-delt-row": "shoulder",
-  "wide-grip-cable-upright-row": "shoulder",
-  "cross-body-cable-raise": "shoulder",
-  "cable-deadlift": "lower",
-  "ankle-strap-cable-hip-abduction": "lower",
-  "cable-hip-flexion": "lower",
-  "cable-knee-raise": "core",
-  "cable-lift": "core",
-  "cable-twist": "core",
-  "cable-pull-apart": "shoulder",
-  "dumbbell-z-press": "shoulder",
-  "dumbbell-seesaw-press": "shoulder",
-  "seated-arnold-press": "shoulder",
-  "alternating-incline-dumbbell-curl": "arm",
-  "wide-dumbbell-curl": "arm",
-  "dumbbell-skull-crusher": "arm",
-  "dumbbell-jm-press": "arm",
-  "dumbbell-pullover-to-press": "chest",
-  "cheat-curl": "arm",
-  "barbell-7s-curl": "arm",
-  "kettlebell-side-press": "shoulder",
-  "kettlebell-bent-press": "core",
-  "kettlebell-triceps-extension": "arm",
-  "kettlebell-concentration-curl": "arm",
-  "mace-360": "core",
-  "mace-10-to-2": "core",
-  "clubbell-swing": "core",
-  "slam-ball-squat": "lower",
-  "log-carry": "core",
-  "keg-carry": "core",
-  "converging-incline-press-machine": "chest",
-  "converging-decline-press-machine": "chest",
-  "iso-lateral-incline-row": "back",
-  "iso-lateral-front-pulldown": "back",
-  "iso-lateral-shoulder-press": "shoulder",
-  "iso-lateral-leg-press": "lower",
-  "iso-lateral-low-row": "back",
-  "iso-lateral-high-row": "back",
-  "pendulum-leg-press": "lower",
-  "belt-squat-machine": "lower",
-  "glute-ham-developer-machine": "lower",
-  "horizontal-back-extension-machine": "back",
-  "plate-loaded-seated-calf": "lower",
-  "kneeling-leg-curl-machine": "lower",
-  "converging-row-machine": "back",
-  "plate-loaded-preacher-curl": "arm",
-  "machine-lying-triceps-extension": "arm",
-  "vertical-chest-press-machine": "chest",
-  "low-pulley-row-machine": "back",
-  "elevated-pike-push-up": "shoulder",
-  "fingertip-push-up": "chest",
-  "knuckle-push-up": "chest",
-  "typewriter-push-up": "chest",
-  "slider-push-up": "chest",
-  "slider-fly": "chest",
-  "slider-knee-tuck": "core",
-  "ring-muscle-up": "core",
-  "ring-row": "back",
-  "ring-pull-up": "back",
-  "ring-face-pull": "shoulder",
-  "ring-triceps-extension": "arm",
-  "ring-biceps-curl": "arm",
-  "single-leg-box-squat": "lower",
-  "wall-sit-march": "lower",
-  "step-calf-raise": "lower",
-  "lying-leg-raise": "core",
-  "heel-touch": "core",
-  "dead-bug-extension": "core",
-  "quadruped-hip-extension": "lower",
-  "knee-to-chest-stretch": "lower",
-  "double-knee-to-chest": "back",
-  "lying-glute-stretch": "lower",
-  "standing-it-band-stretch": "lower",
-  "straddle-stretch": "lower",
-  "side-split-stretch": "lower",
-  "front-split-stretch": "lower",
-  "step-calf-stretch": "lower",
-  "scalene-neck-stretch": "shoulder",
-  "pec-minor-stretch": "chest",
-  "biceps-stretch": "arm",
-  "finger-stretch": "arm",
-  "standing-back-extension-stretch": "back",
-  "side-reaching-child-s-pose": "back",
-  "seated-side-stretch": "core",
-  "kneeling-hamstring-stretch": "lower",
-  "side-lying-quad-stretch": "lower",
-  "foam-roller-tfl-release": "lower",
-  "foam-roller-pec-release": "chest",
-  "foam-roller-erector-release": "back"
-};
-
-export const EXTRA_LOAD_CLASS: Record<string, LoadClass> = {
-  "barbell-bench-press": "medium",
-  "incline-barbell-bench-press": "medium",
-  "decline-barbell-bench-press": "medium",
-  "dumbbell-bench-press": "medium",
-  "incline-dumbbell-bench-press": "medium",
-  "decline-dumbbell-bench-press": "medium",
-  "dumbbell-fly": "light",
-  "incline-dumbbell-fly": "light",
-  "low-cable-fly": "light",
-  "smith-machine-bench-press": "medium",
-  "incline-push-up": "bodyweight",
-  "decline-push-up": "bodyweight",
-  "chest-dip": "bodyweight",
-  "svend-press": "light",
-  "floor-press": "medium",
-  "conventional-deadlift": "heavy",
-  "barbell-bent-over-row": "medium",
-  "lat-pulldown-2": "medium",
-  "wide-grip-lat-pulldown": "medium",
-  "close-grip-lat-pulldown": "medium",
-  "assisted-pull-up-2": "medium",
-  "straight-arm-pulldown-2": "light",
-  "machine-row": "medium",
-  "hammer-strength-high-row": "medium",
-  "rack-pull": "medium",
-  "back-extension": "bodyweight",
-  "barbell-shrug": "light",
-  "dumbbell-shrug": "light",
-  "meadows-row-2": "heavy",
-  "seal-row": "medium",
-  "landmine-row": "medium",
-  "barbell-overhead-press": "medium",
-  "military-press": "heavy",
-  "dumbbell-shoulder-press": "medium",
-  "smith-machine-shoulder-press": "medium",
-  "behind-the-neck-press": "heavy",
-  "dumbbell-lateral-raise": "light",
-  "cable-lateral-raise-2": "light",
-  "machine-lateral-raise": "light",
-  "dumbbell-front-raise": "light",
-  "dumbbell-rear-delt-fly": "light",
-  "cable-rear-delt-fly-2": "light",
-  "face-pull-2": "light",
-  "barbell-upright-row": "medium",
-  "cable-upright-row": "medium",
-  "landmine-press": "medium",
-  "plate-front-raise": "light",
-  "barbell-back-squat": "medium",
-  "high-bar-squat": "medium",
-  "low-bar-squat": "heavy",
-  "leg-press-2": "medium",
-  "lying-leg-curl": "light",
-  "seated-leg-curl-2": "light",
-  "dumbbell-lunge": "medium",
-  "barbell-hip-thrust": "medium",
-  "cable-glute-kickback": "light",
-  "hip-abduction-machine": "light",
-  "hip-adduction-machine": "light",
-  "leg-press-calf-raise": "light",
-  "curtsy-lunge-2": "medium",
-  "nordic-hamstring-curl": "bodyweight",
-  "glute-ham-raise": "heavy",
-  "jump-squat": "bodyweight",
-  "barbell-curl": "light",
-  "ez-bar-curl-2": "light",
-  "dumbbell-biceps-curl": "light",
-  "hammer-curl-2": "light",
-  "machine-preacher-curl": "light",
-  "cable-rope-hammer-curl-2": "light",
-  "spider-curl": "light",
-  "zottman-curl-2": "light",
-  "21s-barbell-curl": "light",
-  "reverse-barbell-curl": "light",
-  "close-grip-bench-press-2": "medium",
-  "lying-triceps-extension": "light",
-  "ez-bar-skull-crusher": "light",
-  "dumbbell-overhead-extension": "light",
-  "triceps-pushdown-2": "light",
-  "rope-triceps-pushdown": "light",
-  "reverse-grip-pushdown": "light",
-  "bench-dip-2": "bodyweight",
-  "triceps-dip": "bodyweight",
-  "jm-press": "heavy",
-  "machine-triceps-extension": "light",
-  "cable-overhead-triceps-extension": "light",
-  "reverse-wrist-curl": "light",
-  "behind-the-back-wrist-curl": "light",
-  "farmer-s-carry": "medium",
-  "plate-pinch": "light",
-  "wrist-roller": "light",
-  "decline-sit-up": "bodyweight",
-  "hanging-leg-raise-2": "bodyweight",
-  "hanging-knee-raise": "bodyweight",
-  "toes-to-bar-2": "bodyweight",
-  "cable-woodchopper": "medium",
-  "pallof-press-2": "light",
-  "v-up-2": "bodyweight",
-  "hollow-body-hold": "bodyweight",
-  "dead-bug": "bodyweight",
-  "bird-dog": "bodyweight",
-  "dragon-flag": "bodyweight",
-  "captain-s-chair-leg-raise": "light",
-  "kettlebell-swing": "medium",
-  "kettlebell-goblet-squat": "medium",
-  "kettlebell-clean": "medium",
-  "kettlebell-snatch": "heavy",
-  "turkish-get-up": "heavy",
-  "kettlebell-press": "medium",
-  "kettlebell-windmill": "heavy",
-  "kettlebell-deadlift": "medium",
-  "kettlebell-front-squat": "medium",
-  "kettlebell-row": "medium",
-  "trx-row": "medium",
-  "trx-push-up": "medium",
-  "trx-pike": "heavy",
-  "trx-biceps-curl": "light",
-  "trx-triceps-extension": "light",
-  "trx-lunge": "medium",
-  "trx-hamstring-curl": "light",
-  "trx-chest-press": "medium",
-  "band-pull-apart": "light",
-  "band-lateral-raise": "light",
-  "band-biceps-curl": "light",
-  "band-triceps-pushdown": "light",
-  "band-face-pull": "light",
-  "band-good-morning": "medium",
-  "band-monster-walk": "light",
-  "band-glute-bridge": "light",
-  "medicine-ball-slam": "medium",
-  "medicine-ball-chest-pass": "medium",
-  "medicine-ball-russian-twist": "light",
-  "wall-ball": "medium",
-  "battle-rope-wave": "medium",
-  "sled-push": "medium",
-  "sled-pull": "medium",
-  "bosu-squat": "medium",
-  "stability-ball-crunch": "light",
-  "stability-ball-hamstring-curl": "light",
-  "stability-ball-plank": "light",
-  "power-clean": "heavy",
-  "hang-clean": "heavy",
-  "push-press": "medium",
-  "snatch": "heavy",
-  "clean-and-jerk": "heavy",
-  "power-snatch": "heavy",
-  "hang-snatch": "heavy",
-  "squat-clean": "heavy",
-  "split-jerk": "heavy",
-  "push-jerk": "heavy",
-  "clean-pull": "heavy",
-  "snatch-pull": "heavy",
-  "overhead-squat": "heavy",
-  "muscle-snatch": "heavy",
-  "hang-power-clean": "heavy",
-  "clean-grip-deadlift": "medium",
-  "snatch-grip-deadlift": "heavy",
-  "sots-press": "heavy",
-  "clean-and-press": "heavy",
-  "atlas-stone-lift": "heavy",
-  "yoke-walk": "heavy",
-  "log-press": "heavy",
-  "keg-toss": "heavy",
-  "tire-flip": "heavy",
-  "car-deadlift": "heavy",
-  "sandbag-carry": "medium",
-  "hercules-hold": "light",
-  "axle-bar-deadlift": "heavy",
-  "trap-bar-deadlift": "medium",
-  "continental-clean": "heavy",
-  "stone-over-bar": "heavy",
-  "box-jump": "bodyweight",
-  "broad-jump": "bodyweight",
-  "jump-lunge": "bodyweight",
-  "depth-jump": "bodyweight",
-  "burpee": "bodyweight",
-  "box-jump-over": "bodyweight",
-  "clap-push-up": "bodyweight",
-  "plyometric-push-up": "bodyweight",
-  "lateral-bound": "bodyweight",
-  "skater-jump": "bodyweight",
-  "tuck-jump": "bodyweight",
-  "jump-rope": "medium",
-  "double-under": "heavy",
-  "wall-climb": "bodyweight",
-  "handstand-push-up": "bodyweight",
-  "muscle-up": "bodyweight",
-  "kipping-pull-up": "bodyweight",
-  "devil-press": "heavy",
-  "man-maker": "heavy",
-  "thruster": "medium",
-  "american-kettlebell-swing": "medium",
-  "ghd-sit-up": "light",
-  "bear-crawl": "bodyweight",
-  "crab-walk": "bodyweight",
-  "rowing-machine": "medium",
-  "assault-bike": "medium",
-  "ski-erg": "medium",
-  "treadmill-running": "medium",
-  "elliptical-trainer": "medium",
-  "stair-climber": "medium",
-  "dumbbell-external-rotation": "light",
-  "dumbbell-internal-rotation": "light",
-  "cable-external-rotation": "light",
-  "empty-can-raise": "light",
-  "full-can-raise": "light",
-  "scaption": "light",
-  "band-external-rotation": "light",
-  "prone-cobra": "bodyweight",
-  "wall-slide": "bodyweight",
-  "scapular-pull-up": "bodyweight",
-  "clamshell": "light",
-  "fire-hydrant": "bodyweight",
-  "single-leg-glute-bridge": "bodyweight",
-  "donkey-kick": "bodyweight",
-  "cat-cow": "bodyweight",
-  "child-s-pose": "bodyweight",
-  "calf-stretch": "bodyweight",
-  "standing-hamstring-stretch": "bodyweight",
-  "figure-4-stretch": "bodyweight",
-  "cobra-stretch": "bodyweight",
-  "downward-dog": "bodyweight",
-  "90-90-hip-stretch": "bodyweight",
-  "foam-roller-it-band": "light",
-  "foam-roller-thoracic": "light",
-  "hammer-strength-iso-lateral-row": "medium",
-  "hammer-strength-chest-press": "medium",
-  "hammer-strength-shoulder-press": "medium",
-  "hammer-strength-pulldown": "medium",
-  "hammer-strength-leg-press": "medium",
-  "life-fitness-chest-press": "medium",
-  "life-fitness-leg-extension": "light",
-  "technogym-pectoral-machine": "light",
-  "matrix-seated-row": "medium",
-  "cybex-leg-press": "medium",
-  "pendulum-squat": "medium",
-  "v-squat-machine": "medium",
-  "glute-drive-machine": "light",
-  "assisted-dip-machine": "medium",
-  "back-extension-machine": "light",
-  "torso-rotation-machine": "light",
-  "abdominal-crunch-machine": "light",
-  "smith-machine-hip-thrust": "medium",
-  "wide-grip-bench-press": "medium",
-  "close-grip-push-up": "bodyweight",
-  "wide-push-up": "bodyweight",
-  "archer-push-up": "bodyweight",
-  "spider-man-push-up": "bodyweight",
-  "high-cable-fly": "light",
-  "single-arm-cable-crossover": "light",
-  "smith-machine-incline-press": "medium",
-  "smith-machine-decline-press": "medium",
-  "incline-machine-chest-press": "medium",
-  "single-arm-dumbbell-bench-press": "medium",
-  "neutral-grip-dumbbell-press": "medium",
-  "squeeze-press": "medium",
-  "decline-dumbbell-fly": "light",
-  "wide-grip-barbell-row": "medium",
-  "underhand-barbell-row": "medium",
-  "wide-grip-cable-row": "medium",
-  "single-arm-cable-row": "medium",
-  "neutral-grip-lat-pulldown": "medium",
-  "behind-the-neck-pulldown": "heavy",
-  "single-arm-lat-pulldown": "medium",
-  "cable-pullover": "light",
-  "machine-pullover": "light",
-  "incline-bench-dumbbell-row": "medium",
-  "smith-machine-bent-over-row": "medium",
-  "deficit-deadlift": "heavy",
-  "block-pull": "medium",
-  "behind-the-back-shrug": "light",
-  "cable-shrug": "light",
-  "single-arm-machine-row": "medium",
-  "assisted-chin-up": "medium",
-  "close-neutral-grip-seated-row": "medium",
-  "single-arm-dumbbell-shoulder-press": "medium",
-  "seated-barbell-overhead-press": "medium",
-  "seated-dumbbell-shoulder-press": "medium",
-  "leaning-cable-lateral-raise": "light",
-  "lying-side-lateral-raise": "light",
-  "cable-y-raise": "light",
-  "incline-rear-delt-raise": "light",
-  "seated-bent-over-lateral-raise": "light",
-  "kettlebell-bottoms-up-press": "heavy",
-  "z-press": "heavy",
-  "bradford-press": "medium",
-  "cuban-press": "heavy",
-  "plate-around-the-world": "light",
-  "single-arm-cable-lateral-raise": "light",
-  "dumbbell-push-press": "medium",
-  "wide-grip-barbell-curl": "light",
-  "close-grip-barbell-curl": "light",
-  "cable-ez-bar-curl": "light",
-  "single-arm-cable-curl": "light",
-  "high-cable-curl": "light",
-  "machine-biceps-curl": "light",
-  "cross-body-hammer-curl": "light",
-  "seated-dumbbell-curl": "light",
-  "reverse-ez-bar-curl": "light",
-  "cable-preacher-curl": "light",
-  "close-grip-pushdown": "light",
-  "single-arm-cable-pushdown": "light",
-  "v-bar-pushdown": "light",
-  "incline-dumbbell-triceps-extension": "light",
-  "cable-lying-triceps-extension": "light",
-  "tate-press": "light",
-  "close-grip-dumbbell-floor-press": "medium",
-  "incline-cable-curl": "light",
-  "band-overhead-triceps-extension": "light",
-  "barbell-wrist-curl": "light",
-  "pause-squat": "medium",
-  "tempo-squat": "medium",
-  "safety-bar-squat": "medium",
-  "wide-stance-leg-press": "medium",
-  "close-stance-leg-press": "medium",
-  "single-leg-leg-press-2": "medium",
-  "single-leg-extension": "light",
-  "single-leg-curl": "light",
-  "standing-single-leg-curl": "light",
-  "dumbbell-romanian-deadlift": "medium",
-  "single-leg-romanian-deadlift": "heavy",
-  "reverse-lunge": "medium",
-  "side-lunge": "medium",
-  "dumbbell-step-down": "medium",
-  "split-squat": "medium",
-  "landmine-squat": "medium",
-  "single-leg-calf-raise": "light",
-  "decline-crunch": "bodyweight",
-  "low-to-high-cable-chop": "medium",
-  "hanging-windshield-wiper": "bodyweight",
-  "dumbbell-side-bend": "light",
-  "cable-side-bend": "light",
-  "toe-touch-crunch": "bodyweight",
-  "flutter-kick": "bodyweight",
-  "scissor-kick": "bodyweight",
-  "hollow-rock": "bodyweight",
-  "l-sit": "bodyweight",
-  "hanging-oblique-raise": "bodyweight",
-  "standing-cable-crunch": "light",
-  "machine-hip-thrust": "medium",
-  "single-leg-hip-thrust": "bodyweight",
-  "band-hip-thrust": "light",
-  "frog-pump": "bodyweight",
-  "glute-bridge-march": "bodyweight",
-  "cable-hip-extension": "light",
-  "kettlebell-sumo-deadlift": "medium",
-  "dumbbell-deadlift": "medium",
-  "trap-bar-squat": "medium",
-  "smith-machine-split-squat": "medium",
-  "kettlebell-lunge": "medium",
-  "step-up-with-knee-drive": "medium",
-  "side-lying-hip-abduction": "bodyweight",
-  "copenhagen-plank": "bodyweight",
-  "calf-press-machine": "light",
-  "single-leg-calf-press": "light",
-  "standing-toe-raise": "bodyweight",
-  "seated-toe-raise": "light",
-  "band-toe-raise": "light",
-  "neck-extension": "bodyweight",
-  "neck-flexion": "bodyweight",
-  "neck-lateral-flexion": "bodyweight",
-  "neck-harness-extension": "light",
-  "plate-neck-extension": "light",
-  "prone-y-raise": "light",
-  "prone-t-raise": "light",
-  "prone-w-raise": "light",
-  "prone-l-raise": "light",
-  "band-internal-rotation": "light",
-  "side-lying-external-rotation": "light",
-  "90-degree-external-rotation": "light",
-  "standing-band-row": "medium",
-  "dead-hang": "bodyweight",
-  "towel-pull-up": "bodyweight",
-  "grip-crusher": "light",
-  "cable-reverse-curl": "light",
-  "wrist-extension-machine": "light",
-  "pinch-grip-deadlift": "heavy",
-  "standing-cable-chest-press": "medium",
-  "cable-incline-press": "medium",
-  "cable-decline-press": "medium",
-  "single-arm-cable-chest-press": "medium",
-  "high-to-low-cable-chop": "medium",
-  "standing-cable-reverse-fly": "light",
-  "single-arm-cable-front-raise": "light",
-  "behind-the-back-cable-shrug": "light",
-  "wall-sit": "bodyweight",
-  "plank-up-down": "bodyweight",
-  "side-plank-hip-raise": "bodyweight",
-  "rkc-plank": "bodyweight",
-  "superman": "bodyweight",
-  "reverse-hyperextension": "light",
-  "45-degree-hyperextension": "light",
-  "ghd-back-extension": "light",
-  "plank-shoulder-tap": "bodyweight",
-  "bear-plank": "bodyweight",
-  "kettlebell-high-pull": "medium",
-  "kettlebell-clean-and-press": "medium",
-  "double-kettlebell-front-squat": "medium",
-  "kettlebell-seesaw-press": "medium",
-  "single-arm-kettlebell-swing": "medium",
-  "kettlebell-renegade-row": "heavy",
-  "kettlebell-halo": "light",
-  "kettlebell-figure-8": "medium",
-  "band-chest-press": "medium",
-  "band-row": "medium",
-  "band-pulldown": "medium",
-  "band-shoulder-press": "medium",
-  "band-squat": "medium",
-  "band-deadlift": "medium",
-  "band-woodchopper": "medium",
-  "band-pull-through": "medium",
-  "hammer-strength-decline-press": "medium",
-  "hammer-strength-iso-lateral-incline-press": "medium",
-  "hammer-strength-low-row": "medium",
-  "life-fitness-shoulder-press": "medium",
-  "life-fitness-leg-curl": "light",
-  "life-fitness-lat-pulldown": "medium",
-  "technogym-leg-press": "medium",
-  "technogym-shoulder-press": "medium",
-  "matrix-leg-extension": "light",
-  "matrix-chest-press": "medium",
-  "cybex-arc-trainer": "medium",
-  "nautilus-leg-extension": "light",
-  "precor-machine-row": "medium",
-  "landmine-180": "medium",
-  "landmine-deadlift": "medium",
-  "landmine-seesaw-press": "medium",
-  "landmine-lunge": "medium",
-  "zombie-squat": "medium",
-  "spanish-squat": "light",
-  "stability-ball-pike": "heavy",
-  "stability-ball-rollout": "medium",
-  "slider-mountain-climber": "medium",
-  "slider-hamstring-curl": "light",
-  "slider-reverse-lunge": "medium",
-  "bosu-push-up": "medium",
-  "bosu-plank": "light",
-  "medicine-ball-woodchop": "medium",
-  "medicine-ball-v-up": "light",
-  "board-press": "heavy",
-  "pin-press": "heavy",
-  "spoto-press": "heavy",
-  "larsen-press": "heavy",
-  "slingshot-bench-press": "medium",
-  "pin-squat": "heavy",
-  "safety-bar-good-morning": "heavy",
-  "chain-bench-press": "heavy",
-  "banded-bench-press": "heavy",
-  "close-grip-floor-press": "medium",
-  "planche": "bodyweight",
-  "planche-lean": "bodyweight",
-  "front-lever": "bodyweight",
-  "back-lever": "bodyweight",
-  "human-flag": "bodyweight",
-  "handstand-hold": "bodyweight",
-  "pike-push-up": "bodyweight",
-  "korean-dip": "bodyweight",
-  "archer-pull-up": "bodyweight",
-  "commando-pull-up": "bodyweight",
-  "explosive-pull-up": "bodyweight",
-  "negative-pull-up": "bodyweight",
-  "warrior-i-pose": "bodyweight",
-  "warrior-ii-pose": "bodyweight",
-  "warrior-iii-pose": "bodyweight",
-  "tree-pose": "bodyweight",
-  "chair-pose": "bodyweight",
-  "boat-pose": "bodyweight",
-  "bridge-pose": "bodyweight",
-  "pigeon-pose": "bodyweight",
-  "upward-facing-dog": "bodyweight",
-  "triangle-pose": "bodyweight",
-  "camel-pose": "bodyweight",
-  "pilates-hundred": "bodyweight",
-  "pilates-roll-up": "bodyweight",
-  "sprint": "bodyweight",
-  "hill-sprint": "bodyweight",
-  "shuttle-run": "bodyweight",
-  "high-knees": "bodyweight",
-  "butt-kicks": "bodyweight",
-  "jumping-jack": "bodyweight",
-  "prowler-sprint": "heavy",
-  "sled-row": "medium",
-  "battle-rope-slam": "medium",
-  "battle-rope-alternating-wave": "medium",
-  "kettlebell-jump-squat": "medium",
-  "crab-reach": "bodyweight",
-  "scorpion-stretch": "bodyweight",
-  "world-s-greatest-stretch": "bodyweight",
-  "inchworm": "bodyweight",
-  "hip-circle": "bodyweight",
-  "leg-swing": "bodyweight",
-  "arm-circle": "bodyweight",
-  "thoracic-rotation": "bodyweight",
-  "supine-spinal-twist": "bodyweight",
-  "deep-squat-hold": "bodyweight",
-  "couch-stretch": "bodyweight",
-  "butterfly-stretch": "bodyweight",
-  "pause-bench-press": "medium",
-  "tempo-bench-press": "medium",
-  "pin-deadlift": "heavy",
-  "pause-deadlift": "heavy",
-  "tempo-deadlift": "heavy",
-  "dead-stop-bench-press": "heavy",
-  "decline-skull-crusher": "light",
-  "seated-overhead-barbell-extension": "light",
-  "cable-spider-curl": "light",
-  "incline-hammer-curl": "light",
-  "chest-supported-t-bar-row": "medium",
-  "dead-stop-row": "medium",
-  "feet-elevated-inverted-row": "bodyweight",
-  "wide-grip-inverted-row": "bodyweight",
-  "close-grip-incline-press": "medium",
-  "reverse-grip-bench-press": "heavy",
-  "dumbbell-floor-press": "medium",
-  "front-foot-elevated-split-squat": "medium",
-  "deficit-reverse-lunge": "medium",
-  "overhead-lunge": "heavy",
-  "lateral-step-up": "medium",
-  "crossover-step-up": "medium",
-  "skater-squat": "bodyweight",
-  "goblet-step-up": "medium",
-  "b-stance-romanian-deadlift": "medium",
-  "b-stance-hip-thrust": "medium",
-  "kettlebell-single-leg-deadlift": "medium",
-  "heel-elevated-squat": "medium",
-  "heel-elevated-goblet-squat": "medium",
-  "prisoner-squat": "bodyweight",
-  "dumbbell-thruster": "medium",
-  "kettlebell-thruster": "medium",
-  "decline-reverse-crunch": "bodyweight",
-  "hanging-knee-raise-twist": "bodyweight",
-  "captain-s-chair-oblique-raise": "light",
-  "cable-torso-twist": "light",
-  "machine-oblique-crunch": "light",
-  "v-sit-hold": "bodyweight",
-  "jackknife-sit-up": "bodyweight",
-  "side-medicine-ball-slam": "medium",
-  "decline-twisting-sit-up": "bodyweight",
-  "standing-ab-wheel-rollout": "heavy",
-  "single-arm-machine-chest-press": "medium",
-  "decline-cable-fly": "light",
-  "lying-cable-fly": "light",
-  "weighted-dip": "bodyweight",
-  "ring-dip": "bodyweight",
-  "ring-push-up": "bodyweight",
-  "staggered-push-up": "bodyweight",
-  "incline-squeeze-press": "medium",
-  "wide-grip-incline-bench-press": "medium",
-  "reverse-grip-incline-press": "heavy",
-  "machine-decline-chest-press": "medium",
-  "smith-machine-wide-grip-bench-press": "medium",
-  "close-grip-barbell-row": "medium",
-  "wide-grip-machine-row": "medium",
-  "neutral-grip-cable-row": "medium",
-  "v-bar-lat-pulldown": "medium",
-  "kneeling-cable-face-pull": "light",
-  "underhand-inverted-row": "bodyweight",
-  "dumbbell-dead-stop-row": "medium",
-  "helms-row": "medium",
-  "underhand-pendlay-row": "heavy",
-  "trap-bar-row": "medium",
-  "seated-high-row-machine": "medium",
-  "single-arm-straight-arm-pulldown": "light",
-  "incline-dumbbell-pullover": "light",
-  "wide-grip-pendlay-row": "heavy",
-  "seated-cable-lateral-raise": "light",
-  "incline-cable-lateral-raise": "light",
-  "machine-front-raise": "light",
-  "behind-the-back-cable-lateral-raise": "light",
-  "overhead-pin-press": "heavy",
-  "behind-the-neck-smith-press": "heavy",
-  "seated-smith-machine-shoulder-press": "medium",
-  "single-arm-landmine-press": "medium",
-  "half-kneeling-landmine-press": "medium",
-  "dumbbell-6-way-raise": "light",
-  "barbell-high-pull": "medium",
-  "dumbbell-high-pull": "medium",
-  "snatch-grip-high-pull": "heavy",
-  "seated-dumbbell-lateral-raise": "light",
-  "dumbbell-preacher-curl": "light",
-  "single-arm-preacher-curl": "light",
-  "ez-bar-preacher-curl": "light",
-  "cable-rope-curl": "light",
-  "cable-drag-curl": "light",
-  "wide-grip-preacher-curl": "light",
-  "reverse-preacher-curl": "light",
-  "machine-hammer-curl": "light",
-  "wide-grip-cable-curl": "light",
-  "close-grip-ez-bar-curl": "light",
-  "overhead-cable-curl": "light",
-  "decline-cable-triceps-extension": "light",
-  "single-arm-overhead-dumbbell-extension": "light",
-  "reverse-grip-triceps-extension": "light",
-  "incline-cable-triceps-extension": "light",
-  "weighted-bench-dip": "bodyweight",
-  "machine-dip": "medium",
-  "single-arm-cable-overhead-extension": "light",
-  "barbell-spider-curl": "light",
-  "kettlebell-biceps-curl": "light",
-  "pause-front-squat": "heavy",
-  "tempo-front-squat": "heavy",
-  "wide-stance-squat": "medium",
-  "close-stance-squat": "medium",
-  "jumping-split-squat": "bodyweight",
-  "smith-machine-reverse-lunge": "medium",
-  "barbell-walking-lunge": "heavy",
-  "band-assisted-nordic-curl": "light",
-  "cable-leg-curl": "light",
-  "standing-cable-hip-adduction": "light",
-  "cossack-squat-2": "bodyweight",
-  "assisted-sissy-squat": "bodyweight",
-  "dumbbell-squat": "medium",
-  "barbell-split-squat": "medium",
-  "single-leg-leg-press-calf-raise": "light",
-  "dumbbell-standing-calf-raise": "light",
-  "dumbbell-jump-squat": "medium",
-  "weighted-box-step-up": "medium",
-  "reverse-nordic-curl": "bodyweight",
-  "single-leg-wall-sit": "bodyweight",
-  "glute-kickback-machine": "light",
-  "seated-good-morning": "heavy",
-  "barbell-glute-bridge": "medium",
-  "pause-hip-thrust": "medium",
-  "kettlebell-goblet-lunge": "medium",
-  "weighted-plank": "light",
-  "weighted-sit-up": "light",
-  "weighted-crunch": "light",
-  "decline-russian-twist": "bodyweight",
-  "kneeling-cable-oblique-crunch": "light",
-  "weighted-hanging-leg-raise": "bodyweight",
-  "slider-body-saw": "light",
-  "body-saw": "bodyweight",
-  "half-kneeling-pallof-press": "light",
-  "horizontal-cable-chop": "medium",
-  "medicine-ball-sit-up": "light",
-  "weighted-dead-bug": "light",
-  "lying-windshield-wiper": "bodyweight",
-  "stir-the-pot": "light",
-  "medicine-ball-toe-touch": "light",
-  "single-arm-cable-fly": "light",
-  "single-arm-low-cable-fly": "light",
-  "single-arm-high-cable-fly": "light",
-  "single-arm-cable-rear-delt-fly": "light",
-  "single-arm-cable-upright-row": "medium",
-  "single-arm-cable-triceps-kickback": "light",
-  "single-arm-cable-face-pull": "light",
-  "single-arm-cable-shrug": "light",
-  "rope-cable-front-raise": "light",
-  "rope-cable-upright-row": "medium",
-  "cable-concentration-curl": "light",
-  "low-cable-lateral-raise": "light",
-  "cable-21s-curl": "light",
-  "wide-grip-cable-pushdown": "light",
-  "cable-bar-incline-curl": "light",
-  "seated-single-arm-dumbbell-shoulder-press": "medium",
-  "single-arm-dumbbell-front-raise": "light",
-  "single-arm-dumbbell-lateral-raise": "light",
-  "alternating-dumbbell-curl": "light",
-  "alternating-dumbbell-shoulder-press": "medium",
-  "alternating-dumbbell-front-raise": "light",
-  "dumbbell-reverse-curl": "light",
-  "seated-dumbbell-shrug": "light",
-  "single-arm-incline-dumbbell-curl": "light",
-  "dumbbell-floor-fly": "light",
-  "cross-bench-dumbbell-pullover": "light",
-  "dumbbell-swing": "medium",
-  "dumbbell-snatch": "heavy",
-  "dumbbell-clean": "medium",
-  "dumbbell-clean-and-press": "medium",
-  "dumbbell-windmill": "heavy",
-  "dumbbell-turkish-get-up": "heavy",
-  "dumbbell-renegade-row": "heavy",
-  "dumbbell-pull-through": "medium",
-  "dumbbell-stiff-leg-deadlift": "medium",
-  "dumbbell-sumo-deadlift": "medium",
-  "dumbbell-hip-thrust": "medium",
-  "dumbbell-glute-bridge": "light",
-  "seated-dumbbell-calf-raise": "light",
-  "dumbbell-front-squat": "medium",
-  "dumbbell-rear-delt-row": "medium",
-  "incline-dumbbell-y-raise": "light",
-  "incline-dumbbell-t-raise": "light",
-  "prone-incline-dumbbell-shrug": "light",
-  "dumbbell-21s-curl": "light",
-  "wide-grip-upright-row": "medium",
-  "close-grip-upright-row": "medium",
-  "deficit-pendlay-row": "heavy",
-  "barbell-hack-lift": "medium",
-  "jefferson-deadlift": "heavy",
-  "snatch-grip-row": "medium",
-  "barbell-front-raise": "light",
-  "barbell-reverse-wrist-curl": "light",
-  "barbell-lunge": "medium",
-  "barbell-reverse-lunge": "medium",
-  "barbell-step-up": "medium",
-  "barbell-calf-raise": "light",
-  "zercher-squat": "heavy",
-  "zercher-deadlift": "heavy",
-  "zercher-carry": "medium",
-  "converging-chest-press-machine": "medium",
-  "converging-shoulder-press-machine": "medium",
-  "diverging-lat-pulldown": "medium",
-  "standing-leg-curl-machine": "light",
-  "lying-t-bar-row-machine": "medium",
-  "reverse-hack-squat": "medium",
-  "incline-chest-fly-machine": "light",
-  "decline-chest-fly-machine": "light",
-  "seated-leg-press-machine": "medium",
-  "horizontal-calf-raise-machine": "light",
-  "single-leg-box-jump": "bodyweight",
-  "single-leg-broad-jump": "bodyweight",
-  "burpee-box-jump-over": "bodyweight",
-  "burpee-pull-up": "bodyweight",
-  "single-under": "medium",
-  "lateral-box-shuffle": "bodyweight",
-  "step-up-jump": "bodyweight",
-  "kettlebell-clean-and-jerk": "heavy",
-  "medicine-ball-backward-toss": "medium",
-  "medicine-ball-squat-to-press": "medium",
-  "power-step-up": "bodyweight",
-  "criss-cross-jump-rope": "medium",
-  "inchworm-push-up": "bodyweight",
-  "sprawl": "bodyweight",
-  "star-jump": "bodyweight",
-  "neck-stretch": "bodyweight",
-  "cross-body-shoulder-stretch": "bodyweight",
-  "overhead-triceps-stretch": "bodyweight",
-  "doorway-chest-stretch": "bodyweight",
-  "lat-stretch": "bodyweight",
-  "standing-quad-stretch": "bodyweight",
-  "wall-calf-stretch": "bodyweight",
-  "kneeling-hip-flexor-stretch": "bodyweight",
-  "seated-glute-stretch": "bodyweight",
-  "seated-spinal-twist": "bodyweight",
-  "thread-the-needle": "bodyweight",
-  "wrist-flexor-stretch": "bodyweight",
-  "wrist-extensor-stretch": "bodyweight",
-  "ankle-mobility-drill": "bodyweight",
-  "foam-roller-quad-release": "light",
-  "smith-machine-front-squat": "medium",
-  "smith-machine-bulgarian-split-squat": "medium",
-  "smith-machine-seated-calf-raise": "light",
-  "smith-machine-deadlift": "medium",
-  "smith-machine-romanian-deadlift": "medium",
-  "smith-machine-good-morning": "medium",
-  "smith-machine-shrug": "light",
-  "smith-machine-upright-row": "medium",
-  "smith-machine-inverted-row": "medium",
-  "smith-machine-close-grip-bench-press": "medium",
-  "smith-machine-box-squat": "medium",
-  "smith-machine-stiff-leg-deadlift": "medium",
-  "kettlebell-dead-clean": "medium",
-  "kettlebell-push-press": "medium",
-  "kettlebell-jerk": "heavy",
-  "double-kettlebell-clean": "heavy",
-  "double-kettlebell-press": "medium",
-  "double-kettlebell-snatch": "heavy",
-  "kettlebell-seesaw-row": "medium",
-  "kettlebell-sumo-squat": "medium",
-  "kettlebell-side-lunge": "medium",
-  "kettlebell-overhead-squat": "heavy",
-  "kettlebell-overhead-carry": "medium",
-  "kettlebell-rack-carry": "medium",
-  "kettlebell-clean-and-squat": "medium",
-  "kettlebell-pullover": "light",
-  "trx-pull-up": "heavy",
-  "trx-y-fly": "light",
-  "trx-t-fly": "light",
-  "trx-face-pull": "light",
-  "trx-single-leg-squat": "heavy",
-  "trx-squat": "medium",
-  "trx-atomic-push-up": "heavy",
-  "trx-mountain-climber": "medium",
-  "trx-oblique-crunch": "light",
-  "trx-side-plank": "light",
-  "band-seated-row": "medium",
-  "band-hammer-curl": "light",
-  "band-rear-delt-fly": "light",
-  "band-front-raise": "light",
-  "band-upright-row": "medium",
-  "band-triceps-kickback": "light",
-  "band-leg-curl": "light",
-  "band-leg-extension": "light",
-  "band-clamshell": "light",
-  "band-standing-hip-abduction": "light",
-  "single-leg-deadlift": "heavy",
-  "single-leg-hack-squat": "medium",
-  "single-leg-glute-kickback-machine": "light",
-  "single-leg-smith-calf-raise": "light",
-  "kettlebell-step-up": "medium",
-  "kettlebell-reverse-lunge": "medium",
-  "trap-bar-romanian-deadlift": "medium",
-  "trap-bar-shrug": "light",
-  "trap-bar-calf-raise": "light",
-  "hack-squat-calf-raise": "light",
-  "weighted-sissy-squat": "light",
-  "band-glute-ham-raise": "medium",
-  "weighted-nordic-curl": "light",
-  "weighted-back-extension": "light",
-  "weighted-45-degree-hyperextension": "light",
-  "standing-hip-abduction-machine": "light",
-  "multi-hip-machine-extension": "light",
-  "multi-hip-machine-flexion": "light",
-  "multi-hip-machine-abduction": "light",
-  "multi-hip-machine-adduction": "light",
-  "dumbbell-wrist-extension": "light",
-  "cable-wrist-curl": "light",
-  "parallel-bar-hang": "bodyweight",
-  "towel-hang": "bodyweight",
-  "fat-grip-deadlift": "heavy",
-  "fat-grip-curl": "light",
-  "wrist-rotation": "light",
-  "rice-bucket-training": "light",
-  "hand-gripper": "light",
-  "plate-curl": "light",
-  "lying-hamstring-stretch": "bodyweight",
-  "seated-hamstring-stretch": "bodyweight",
-  "standing-side-bend-stretch": "bodyweight",
-  "sphinx-stretch": "bodyweight",
-  "sleeper-stretch": "bodyweight",
-  "corner-pec-stretch": "bodyweight",
-  "levator-scapulae-stretch": "bodyweight",
-  "upper-trap-stretch": "bodyweight",
-  "frog-stretch": "bodyweight",
-  "eagle-pose": "bodyweight",
-  "low-lunge-stretch": "bodyweight",
-  "high-lunge-stretch": "bodyweight",
-  "happy-baby-pose": "bodyweight",
-  "seated-forward-fold": "bodyweight",
-  "standing-forward-fold": "bodyweight",
-  "wide-leg-forward-fold": "bodyweight",
-  "lying-quad-stretch": "bodyweight",
-  "it-band-stretch": "bodyweight",
-  "piriformis-stretch": "bodyweight",
-  "foam-roller-calf-release": "light",
-  "foam-roller-glute-release": "light",
-  "foam-roller-hamstring-release": "light",
-  "foam-roller-lat-release": "light",
-  "foam-roller-adductor-release": "light",
-  "40-yard-dash": "bodyweight",
-  "agility-ladder-drill": "bodyweight",
-  "cone-drill": "bodyweight",
-  "t-drill": "bodyweight",
-  "5-10-5-pro-agility": "bodyweight",
-  "carioca": "bodyweight",
-  "backpedal": "bodyweight",
-  "vertical-jump": "bodyweight",
-  "depth-drop": "bodyweight",
-  "overhead-medicine-ball-throw": "medium",
-  "rotational-medicine-ball-throw": "medium",
-  "power-skip": "bodyweight",
-  "resisted-sprint": "heavy",
-  "hurdle-hop": "bodyweight",
-  "single-leg-hop": "bodyweight",
-  "pilates-side-kick": "bodyweight",
-  "pilates-leg-circle": "bodyweight",
-  "pilates-teaser": "bodyweight",
-  "pilates-swan": "bodyweight",
-  "pilates-single-leg-stretch": "bodyweight",
-  "pilates-double-leg-stretch": "bodyweight",
-  "pilates-criss-cross": "bodyweight",
-  "barre-pli": "bodyweight",
-  "barre-relev": "bodyweight",
-  "barre-arabesque": "bodyweight",
-  "cow-face-pose": "bodyweight",
-  "dancer-pose": "bodyweight",
-  "half-moon-pose": "bodyweight",
-  "extended-side-angle-pose": "bodyweight",
-  "gate-pose": "bodyweight",
-  "locust-pose": "bodyweight",
-  "bow-pose": "bodyweight",
-  "fish-pose": "bodyweight",
-  "wheel-pose": "bodyweight",
-  "crow-pose": "bodyweight",
-  "side-crow": "bodyweight",
-  "headstand": "bodyweight",
-  "shoulder-stand": "bodyweight",
-  "plow-pose": "bodyweight",
-  "legs-up-the-wall-pose": "bodyweight",
-  "reclined-spinal-twist": "bodyweight",
-  "puppy-pose": "bodyweight",
-  "lizard-pose": "bodyweight",
-  "garland-pose": "bodyweight",
-  "reverse-warrior": "bodyweight",
-  "90-90-hip-transition": "bodyweight",
-  "hip-airplane": "bodyweight",
-  "ankle-rock": "bodyweight",
-  "wrist-mobility-circle": "bodyweight",
-  "shoulder-dislocate": "light",
-  "stick-pass-through": "light",
-  "thoracic-bridge": "bodyweight",
-  "fire-hydrant-circle": "bodyweight",
-  "spider-man-stretch": "bodyweight",
-  "cossack-rock": "bodyweight",
-  "deep-lunge-with-twist": "bodyweight",
-  "dynamic-calf-stretch": "bodyweight",
-  "lateral-leg-swing": "bodyweight",
-  "backward-arm-circle": "bodyweight",
-  "neck-cars": "bodyweight",
-  "hand-release-push-up": "bodyweight",
-  "hindu-push-up": "bodyweight",
-  "dive-bomber-push-up": "bodyweight",
-  "pseudo-planche-push-up": "bodyweight",
-  "one-arm-push-up": "bodyweight",
-  "kneeling-push-up": "bodyweight",
-  "tempo-push-up": "bodyweight",
-  "straight-bar-dip": "bodyweight",
-  "l-sit-pull-up": "bodyweight",
-  "typewriter-pull-up": "bodyweight",
-  "close-grip-chin-up": "bodyweight",
-  "single-arm-inverted-row": "bodyweight",
-  "scapular-push-up": "bodyweight",
-  "scapular-dip": "bodyweight",
-  "wall-walk": "bodyweight",
-  "freestanding-handstand": "bodyweight",
-  "shrimp-squat": "bodyweight",
-  "assisted-pistol-squat": "bodyweight",
-  "hanging-l-sit": "bodyweight",
-  "active-hang": "bodyweight",
-  "glute-bridge-with-abduction": "light",
-  "superman-pull": "bodyweight",
-  "reverse-snow-angel": "bodyweight",
-  "no-money-exercise": "light",
-  "squat-jack": "bodyweight",
-  "plank-jack": "bodyweight",
-  "cross-body-mountain-climber": "bodyweight",
-  "walking-push-up": "bodyweight",
-  "pulse-lunge": "bodyweight",
-  "pulse-squat": "bodyweight",
-  "duck-walk": "bodyweight",
-  "backward-bear-crawl": "bodyweight",
-  "lateral-crab-walk": "bodyweight",
-  "high-knee-skip": "bodyweight",
-  "toe-tap": "bodyweight",
-  "step-jack": "bodyweight",
-  "plank-toe-tap": "bodyweight",
-  "side-plank-rotation": "bodyweight",
-  "bird-dog-crunch": "bodyweight",
-  "swimmer-exercise": "bodyweight",
-  "neutral-grip-incline-dumbbell-press": "medium",
-  "neutral-grip-decline-dumbbell-press": "medium",
-  "swiss-bar-bench-press": "medium",
-  "swiss-bar-overhead-press": "medium",
-  "swiss-bar-close-grip-press": "medium",
-  "incline-bench-cable-press": "medium",
-  "seated-cable-chest-press": "medium",
-  "decline-barbell-pullover": "light",
-  "barbell-pullover": "light",
-  "smith-machine-floor-press": "medium",
-  "reverse-grip-dumbbell-press": "medium",
-  "wide-grip-dip": "bodyweight",
-  "close-grip-dip": "bodyweight",
-  "forward-lean-dip": "bodyweight",
-  "band-assisted-dip": "medium",
-  "chest-supported-dumbbell-row": "medium",
-  "incline-bench-barbell-row": "medium",
-  "wide-grip-seated-row": "medium",
-  "underhand-seated-cable-row": "medium",
-  "kettlebell-bent-over-row": "medium",
-  "double-kettlebell-row": "medium",
-  "incline-cable-row": "medium",
-  "high-cable-row": "medium",
-  "low-cable-row": "medium",
-  "close-neutral-grip-lat-pulldown": "medium",
-  "behind-the-neck-pull-up": "bodyweight",
-  "medium-grip-pull-up": "bodyweight",
-  "mixed-grip-pull-up": "bodyweight",
-  "super-wide-grip-pulldown": "medium",
-  "seated-cable-face-pull": "light",
-  "seated-behind-the-neck-press": "heavy",
-  "pin-shoulder-press": "heavy",
-  "smith-machine-bradford-press": "medium",
-  "seated-kettlebell-press": "medium",
-  "chest-supported-rear-delt-raise": "light",
-  "wide-cable-face-pull": "light",
-  "decline-bench-rear-delt-raise": "light",
-  "plate-loaded-lateral-raise-machine": "light",
-  "band-y-raise": "light",
-  "lying-cable-rear-delt-raise": "light",
-  "behind-the-neck-push-press": "heavy",
-  "kettlebell-front-raise": "light",
-  "cable-internal-rotation": "light",
-  "prone-band-pull-apart": "light",
-  "kettlebell-lateral-raise": "light",
-  "single-arm-machine-curl": "light",
-  "behind-the-back-cable-curl": "light",
-  "pronated-dumbbell-curl": "light",
-  "ez-bar-reverse-curl": "light",
-  "kettlebell-hammer-curl": "light",
-  "incline-dumbbell-reverse-curl": "light",
-  "bar-cable-overhead-triceps-extension": "light",
-  "dumbbell-lying-triceps-extension": "light",
-  "single-arm-dumbbell-lying-extension": "light",
-  "cross-body-cable-extension": "light",
-  "machine-overhead-extension": "light",
-  "feet-elevated-bench-dip": "bodyweight",
-  "rope-overhead-triceps-extension": "light",
-  "decline-close-grip-bench-press": "medium",
-  "incline-close-grip-bench-press": "medium",
-  "1-5-rep-squat": "medium",
-  "1-5-rep-leg-press": "medium",
-  "1-5-rep-lunge": "medium",
-  "pause-leg-extension": "light",
-  "pause-leg-curl": "light",
-  "pause-calf-raise": "light",
-  "behind-the-back-deadlift": "heavy",
-  "deficit-sumo-deadlift": "heavy",
-  "full-rom-leg-press": "medium",
-  "pause-bulgarian-split-squat": "medium",
-  "tempo-bulgarian-split-squat": "medium",
-  "deficit-split-squat": "medium",
-  "pause-goblet-squat": "medium",
-  "wide-stance-hack-squat": "medium",
-  "close-stance-hack-squat": "medium",
-  "double-kettlebell-romanian-deadlift": "medium",
-  "single-leg-glute-bridge-march": "bodyweight",
-  "sissy-squat-machine": "light",
-  "weighted-glute-ham-raise": "heavy",
-  "weighted-reverse-nordic-curl": "light",
-  "weighted-toes-to-bar": "bodyweight",
-  "captain-s-chair-twisting-raise": "light",
-  "seated-cable-woodchop": "medium",
-  "weighted-decline-sit-up": "light",
-  "stability-ball-jackknife": "medium",
-  "dragon-flag-negative": "bodyweight",
-  "anti-rotation-hold": "light",
-  "side-plank-with-reach": "bodyweight",
-  "plank-with-leg-lift": "bodyweight",
-  "boat-to-low-boat": "bodyweight",
-  "suitcase-carry": "medium",
-  "overhead-barbell-carry": "heavy",
-  "double-kettlebell-front-rack-carry": "medium",
-  "bottoms-up-kettlebell-carry": "medium",
-  "trap-bar-carry": "medium",
-  "plate-pinch-carry": "medium",
-  "sandbag-shouldering": "heavy",
-  "sandbag-clean": "medium",
-  "sandbag-squat": "medium",
-  "sandbag-lunge": "medium",
-  "eccentric-chin-up": "bodyweight",
-  "eccentric-bench-press": "heavy",
-  "eccentric-squat": "heavy",
-  "eccentric-deadlift": "heavy",
-  "eccentric-leg-curl": "light",
-  "partial-deadlift": "medium",
-  "partial-squat": "medium",
-  "partial-lateral-raise": "light",
-  "partial-barbell-curl": "light",
-  "top-half-leg-extension": "light",
-  "bottom-half-squat": "medium",
-  "isometric-bench-hold": "light",
-  "isometric-squat-hold": "light",
-  "isometric-deadlift-hold": "light",
-  "isometric-curl-hold": "light",
-  "isometric-lateral-raise-hold": "light",
-  "isometric-pull-up-hold": "bodyweight",
-  "isometric-push-up-hold": "bodyweight",
-  "tempo-pull-up": "bodyweight",
-  "tempo-leg-press": "medium",
-  "tempo-row": "medium",
-  "tempo-overhead-press": "medium",
-  "tempo-curl": "light",
-  "tempo-lateral-raise": "light",
-  "eccentric-nordic-curl": "bodyweight",
-  "eccentric-calf-raise": "bodyweight",
-  "partial-leg-press": "medium",
-  "partial-pulldown": "medium",
-  "1-25-rep-bench-press": "medium",
-  "1-5-rep-shoulder-press": "medium",
-  "single-arm-machine-shoulder-press": "medium",
-  "single-arm-machine-lat-pulldown": "medium",
-  "single-arm-machine-rear-delt": "light",
-  "single-arm-pec-deck-fly": "light",
-  "single-arm-cable-pulldown": "medium",
-  "single-arm-landmine-row": "medium",
-  "single-arm-smith-row": "medium",
-  "single-arm-dumbbell-skull-crusher": "light",
-  "single-arm-cable-crunch": "light",
-  "single-arm-kettlebell-clean": "medium",
-  "single-arm-kettlebell-snatch": "heavy",
-  "one-arm-pull-up": "bodyweight",
-  "single-leg-machine-hip-thrust": "light",
-  "single-arm-dumbbell-floor-press": "medium",
-  "single-arm-overhead-carry": "medium",
-  "single-arm-dumbbell-deadlift": "medium",
-  "kneeling-single-arm-cable-row": "medium",
-  "kneeling-single-arm-lat-pulldown": "medium",
-  "barbell-single-leg-romanian-deadlift": "heavy",
-  "kneeling-single-arm-cable-curl": "light",
-  "continuous-box-jump": "bodyweight",
-  "continuous-broad-jump": "bodyweight",
-  "triple-under": "heavy",
-  "burpee-broad-jump": "bodyweight",
-  "ladder-in-and-out": "bodyweight",
-  "ladder-icky-shuffle": "bodyweight",
-  "cone-weave": "bodyweight",
-  "box-drill": "bodyweight",
-  "star-drill": "bodyweight",
-  "backward-sled-drag": "medium",
-  "lateral-sled-drag": "medium",
-  "battle-rope-in-and-out": "medium",
-  "battle-rope-side-to-side": "medium",
-  "battle-rope-jumping-slam": "heavy",
-  "rope-climb": "heavy",
-  "pegboard-climb": "heavy",
-  "tire-jump-in-and-out": "medium",
-  "side-wall-ball": "medium",
-  "dead-ball-over-shoulder-toss": "heavy",
-  "sandbag-carry-interval": "medium",
-  "aqua-jogging": "medium",
-  "pool-walking": "medium",
-  "water-aerobics": "medium",
-  "backward-monster-walk": "light",
-  "band-lateral-walk": "light",
-  "band-x-walk": "light",
-  "glute-activation-bridge": "light",
-  "seated-band-abduction": "light",
-  "seated-band-pull-apart": "light",
-  "band-overhead-squat": "medium",
-  "lacrosse-ball-glute-release": "light",
-  "lacrosse-ball-foot-release": "light",
-  "lacrosse-ball-pec-release": "light",
-  "neck-isometric-hold": "bodyweight",
-  "band-ankle-dorsiflexion": "light",
-  "shoulder-flexion-stretch": "bodyweight",
-  "shoulder-extension-stretch": "bodyweight",
-  "seated-thoracic-rotation": "bodyweight",
-  "neck-retraction": "bodyweight",
-  "chin-tuck": "bodyweight",
-  "prayer-stretch": "bodyweight",
-  "reverse-prayer-stretch": "bodyweight",
-  "finger-extension-stretch": "bodyweight",
-  "dynamic-hip-flexor-stretch": "bodyweight",
-  "dynamic-hamstring-stretch": "bodyweight",
-  "dynamic-glute-stretch": "bodyweight",
-  "ankle-circle": "bodyweight",
-  "foot-arch-doming": "bodyweight",
-  "big-toe-extension": "bodyweight",
-  "spinal-wave": "bodyweight",
-  "d-handle-cable-row": "medium",
-  "rope-cable-row": "medium",
-  "wide-bar-cable-row": "medium",
-  "single-rope-cable-curl": "light",
-  "ez-bar-cable-pushdown": "light",
-  "rope-cable-kickback": "light",
-  "reverse-grip-ez-pushdown": "light",
-  "straight-bar-face-pull": "light",
-  "front-cable-shrug": "light",
-  "straight-bar-cable-pullover": "light",
-  "cable-rear-delt-row": "medium",
-  "wide-grip-cable-upright-row": "medium",
-  "cross-body-cable-raise": "light",
-  "cable-deadlift": "medium",
-  "ankle-strap-cable-hip-abduction": "light",
-  "cable-hip-flexion": "light",
-  "cable-knee-raise": "light",
-  "cable-lift": "medium",
-  "cable-twist": "light",
-  "cable-pull-apart": "light",
-  "dumbbell-z-press": "heavy",
-  "dumbbell-seesaw-press": "medium",
-  "seated-arnold-press": "medium",
-  "alternating-incline-dumbbell-curl": "light",
-  "wide-dumbbell-curl": "light",
-  "dumbbell-skull-crusher": "light",
-  "dumbbell-jm-press": "heavy",
-  "dumbbell-pullover-to-press": "medium",
-  "cheat-curl": "medium",
-  "barbell-7s-curl": "light",
-  "kettlebell-side-press": "heavy",
-  "kettlebell-bent-press": "heavy",
-  "kettlebell-triceps-extension": "light",
-  "kettlebell-concentration-curl": "light",
-  "mace-360": "heavy",
-  "mace-10-to-2": "medium",
-  "clubbell-swing": "medium",
-  "slam-ball-squat": "medium",
-  "log-carry": "medium",
-  "keg-carry": "medium",
-  "converging-incline-press-machine": "medium",
-  "converging-decline-press-machine": "medium",
-  "iso-lateral-incline-row": "medium",
-  "iso-lateral-front-pulldown": "medium",
-  "iso-lateral-shoulder-press": "medium",
-  "iso-lateral-leg-press": "medium",
-  "iso-lateral-low-row": "medium",
-  "iso-lateral-high-row": "medium",
-  "pendulum-leg-press": "medium",
-  "belt-squat-machine": "medium",
-  "glute-ham-developer-machine": "heavy",
-  "horizontal-back-extension-machine": "light",
-  "plate-loaded-seated-calf": "light",
-  "kneeling-leg-curl-machine": "light",
-  "converging-row-machine": "medium",
-  "plate-loaded-preacher-curl": "light",
-  "machine-lying-triceps-extension": "light",
-  "vertical-chest-press-machine": "medium",
-  "low-pulley-row-machine": "medium",
-  "elevated-pike-push-up": "bodyweight",
-  "fingertip-push-up": "bodyweight",
-  "knuckle-push-up": "bodyweight",
-  "typewriter-push-up": "bodyweight",
-  "slider-push-up": "medium",
-  "slider-fly": "light",
-  "slider-knee-tuck": "medium",
-  "ring-muscle-up": "heavy",
-  "ring-row": "medium",
-  "ring-pull-up": "heavy",
-  "ring-face-pull": "light",
-  "ring-triceps-extension": "light",
-  "ring-biceps-curl": "light",
-  "single-leg-box-squat": "bodyweight",
-  "wall-sit-march": "bodyweight",
-  "step-calf-raise": "bodyweight",
-  "lying-leg-raise": "bodyweight",
-  "heel-touch": "bodyweight",
-  "dead-bug-extension": "bodyweight",
-  "quadruped-hip-extension": "bodyweight",
-  "knee-to-chest-stretch": "bodyweight",
-  "double-knee-to-chest": "bodyweight",
-  "lying-glute-stretch": "bodyweight",
-  "standing-it-band-stretch": "bodyweight",
-  "straddle-stretch": "bodyweight",
-  "side-split-stretch": "bodyweight",
-  "front-split-stretch": "bodyweight",
-  "step-calf-stretch": "bodyweight",
-  "scalene-neck-stretch": "bodyweight",
-  "pec-minor-stretch": "bodyweight",
-  "biceps-stretch": "bodyweight",
-  "finger-stretch": "bodyweight",
-  "standing-back-extension-stretch": "bodyweight",
-  "side-reaching-child-s-pose": "bodyweight",
-  "seated-side-stretch": "bodyweight",
-  "kneeling-hamstring-stretch": "bodyweight",
-  "side-lying-quad-stretch": "bodyweight",
-  "foam-roller-tfl-release": "light",
-  "foam-roller-pec-release": "light",
-  "foam-roller-erector-release": "light"
 };

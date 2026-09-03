@@ -26,6 +26,9 @@ import {
 } from "@/features/profile/weight-delta";
 import { shortDateLabel } from "@/features/profile/body-chart-data";
 import { StepsSync } from "@/features/health/components/steps-sync";
+import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
+import { getWeeklyReport } from "@/features/routine/weekly-report-data";
+import { monthContainsToday } from "@/features/routine/weekly-report";
 import { CommitmentSuggestions } from "@/features/coach/components/commitment-suggestions";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getDayMarks, isHoliday } from "@/features/calendar/holidays";
@@ -75,8 +78,11 @@ export default async function CalendarPage({
   const monthParam = (mm: { year: number; month0: number }) =>
     `${mm.year}-${pad(mm.month0 + 1)}`;
   const today = seoulYmd();
+  // '이번 주 요약'은 오늘이 든 달을 보고 있을 때만(`monthContainsToday` 주석 참고).
+  // 안 띄우는 달에서는 조회도 하지 않는다 — 안 보여줄 값을 위해 왕복하지 않는다.
+  const showsThisWeek = monthContainsToday(today, year, month0 + 1);
 
-  // 서로 독립인 세 쿼리는 한 번에(직렬 3파 → 1파). 각 함수는 cache()된 인증을 공유.
+  // 서로 독립인 쿼리는 한 번에(직렬 → 1파). 각 함수는 cache()된 인증을 공유.
   const [
     { byDate, intakeTotal, workoutBurnedTotal },
     bodyLogs,
@@ -84,6 +90,7 @@ export default async function CalendarPage({
     debug,
     coachEnabled,
     missionMarks,
+    weekly,
   ] = await Promise.all([
     getMonthlyCalendar(from, to),
     getBodyLogs(),
@@ -91,6 +98,7 @@ export default async function CalendarPage({
     isDebugFeatureEnabled("steps"),
     isDebugFeatureEnabled("helssu-coach"),
     getMissionCalendar(from, to),
+    showsThisWeek ? getWeeklyReport() : Promise.resolve(null),
   ]);
   const spent = workoutBurnedTotal - intakeTotal;
 
@@ -261,6 +269,13 @@ export default async function CalendarPage({
           })}
         </div>
       </div>
+
+      {/* 이번 주 요약 — 홈과 같은 카드. 이번 주에 아무 것도 없으면 카드가 스스로 안 뜬다. */}
+      {weekly ? (
+        <div className="mt-5">
+          <WeeklyReportCard report={weekly} />
+        </div>
+      ) : null}
 
       {/* 월 요약 */}
       <div className="mt-5 space-y-2">

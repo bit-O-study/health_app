@@ -37,15 +37,18 @@ import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import { useCoalescedRefresh } from "@/features/routine/use-coalesced-refresh";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
-import { DAY_BLOCKS, type FocusTone } from "@/features/routine/data";
+import { DAY_BLOCKS, type FocusKey } from "@/features/routine/data";
+// 카탈로그 **데이터**는 안 끌어온다 — 라벨·부위 매핑만(P0 번들 다이어트).
+// 운동 목록이 필요한 '운동 추가' 폼은 `exercisesForSlotAction` 으로 그때 받아온다.
 import {
-  allExercisesForFocus,
   EQUIPMENT_LABELS,
-  getCatalogExercise,
-  majorMuscleTag,
   type EquipmentId,
-  type FocusKey,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
+import { majorMuscleTag } from "@/features/routine/exercise-body-parts";
+import {
+  exercisesForSlotAction,
+  type SlotExerciseOption,
+} from "@/features/routine/slot-exercise-actions";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import {
   summarizeSetDetails,
@@ -53,8 +56,7 @@ import {
 } from "@/features/routine/set-details";
 import { isTimedExercise } from "@/features/routine/timed-exercises";
 import { dropIndex } from "@/features/routine/plan-order";
-import { subMusclesForExercise } from "@/features/routine/muscle-detail";
-import { allExercisesForSlot } from "@/features/routine/recommend";
+import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { subBlocksForFocus } from "@/features/routine/plan-blocks";
 import { muscleGroup } from "@/features/routine/muscle-map";
 
@@ -66,6 +68,8 @@ export type TodayPlanItem = {
   exerciseId: string;
   equipment: string;
   name: string;
+  /** 자극 부위 문구 — 세부근육 배지를 카탈로그 없이 뽑는 데 쓴다(서버가 채운다). */
+  target: string;
   equipmentLabel: string;
   sets: number;
   reps: number;
@@ -654,7 +658,11 @@ export function TodayPlanList({
                         );
                       })()}
                       {(() => {
-                        const sub = subMusclesForExercise(item.exerciseId)[0];
+                        const sub = subMusclesForExerciseData(
+                          item.exerciseId,
+                          item.name,
+                          item.target,
+                        )[0];
                         if (!sub) return null;
                         return (
                           <span
@@ -1233,38 +1241,56 @@ function AddExerciseSlot({
   const [focus, setFocus] = useState<FocusKey>(
     tones[0] ?? ("chest" as FocusKey),
   );
-  // 고른 세부근육(가슴 상부 등)이 있으면 그 근육을 타깃하는 운동만 보여준다.
-  const exerciseOptions = allExercisesForSlot(
-    focus,
-    subBlocksForFocus(selectedBlocks, focus),
-  );
-  const [exerciseId, setExerciseId] = useState<string>(
-    exerciseOptions[0]?.id ?? "",
-  );
-  const selectedExercise =
-    getCatalogExercise(exerciseId) ?? exerciseOptions[0] ?? null;
-  const [equipment, setEquipment] = useState<EquipmentId>(
-    selectedExercise?.equipments[0].equipment ?? "barbell",
-  );
+  // 운동 목록은 **부위를 고른 뒤 서버에서** 받는다(부위별로 한 번만, 그다음은 캐시).
+  // 고른 세부근육(가슴 상부 등)이 있으면 그 근육을 타깃하는 운동만 내려온다.
+  const [optionsByFocus, setOptionsByFocus] = useState<
+    Record<string, SlotExerciseOption[]>
+  >({});
+  const [exerciseId, setExerciseId] = useState<string>("");
+  const [equipment, setEquipment] = useState<EquipmentId>("barbell");
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
+  const exerciseOptions = optionsByFocus[focus] ?? [];
+  const selectedExercise =
+    exerciseOptions.find((o) => o.id === exerciseId) ?? exerciseOptions[0] ?? null;
+  // 로딩은 파생값 — "열렸는데 이 부위 목록이 아직 없다". 별도 state 를 두면
+  // 응답과 플래그가 어긋날 수 있고, effect 안에서 동기 setState 를 하게 된다.
+  const loading = open && !optionsByFocus[focus];
+
+  // 열려 있고 아직 안 받아온 부위면 지금 받아온다. 받으면 첫 운동을 기본 선택.
+  useEffect(() => {
+    if (!open || optionsByFocus[focus]) return;
+    let alive = true;
+    void exercisesForSlotAction(focus, subBlocksForFocus(selectedBlocks, focus))
+      // 실패해도 빈 목록으로 확정한다 — 안 그러면 스피너가 영원히 돈다.
+      .catch(() => [] as SlotExerciseOption[])
+      .then((rows) => {
+        if (!alive) return;
+        setOptionsByFocus((prev) => ({ ...prev, [focus]: rows }));
+        const first = rows[0];
+        if (first) {
+          setExerciseId(first.id);
+          setEquipment(first.equipments[0] ?? "barbell");
+        }
+      });
+    return () => {
+      alive = false;
+    };
+  }, [open, focus, optionsByFocus, selectedBlocks]);
+
   function changeFocus(next: FocusKey) {
     setFocus(next);
-    const first = allExercisesForSlot(
-      next,
-      subBlocksForFocus(selectedBlocks, next),
-    )[0];
-    if (first) {
-      setExerciseId(first.id);
-      setEquipment(first.equipments[0].equipment);
-    }
+    // 이미 받아둔 부위면 즉시 첫 운동으로, 아니면 위 effect 가 받아온 뒤 정한다.
+    const cached = optionsByFocus[next];
+    setExerciseId(cached?.[0]?.id ?? "");
+    if (cached?.[0]) setEquipment(cached[0].equipments[0] ?? "barbell");
     setError(null);
   }
   function changeExercise(id: string) {
     setExerciseId(id);
-    const ex = getCatalogExercise(id);
-    if (ex) setEquipment(ex.equipments[0].equipment);
+    const ex = exerciseOptions.find((o) => o.id === id);
+    if (ex) setEquipment(ex.equipments[0] ?? "barbell");
     setError(null);
   }
 
@@ -1327,29 +1353,36 @@ function AddExerciseSlot({
             {DAY_BLOCKS[focus].label}
           </span>
         )}
-        <ExerciseSearchSelect
-          options={exerciseOptions}
-          value={exerciseId}
-          onChange={changeExercise}
-          disabled={pending || exerciseOptions.length === 0}
-        />
+        {loading ? (
+          <span className="inline-flex h-9 items-center gap-1.5 rounded-md bg-white px-2.5 text-sm font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+            <Loader2 aria-hidden="true" className="animate-spin" size={14} />
+            운동 불러오는 중…
+          </span>
+        ) : (
+          <ExerciseSearchSelect
+            options={exerciseOptions}
+            value={exerciseId}
+            onChange={changeExercise}
+            disabled={pending || exerciseOptions.length === 0}
+          />
+        )}
         <select
           aria-label="기구"
           value={equipment}
           onChange={(e) => setEquipment(e.target.value as EquipmentId)}
-          disabled={pending || !selectedExercise}
+          disabled={pending || loading || !selectedExercise}
           className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
         >
           {(selectedExercise?.equipments ?? []).map((eq) => (
-            <option key={eq.equipment} value={eq.equipment}>
-              {EQUIPMENT_LABELS[eq.equipment]}
+            <option key={eq} value={eq}>
+              {EQUIPMENT_LABELS[eq]}
             </option>
           ))}
         </select>
         <button
           type="button"
           onClick={submit}
-          disabled={pending || !exerciseId}
+          disabled={pending || loading || !exerciseId}
           className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
         >
           {pending ? (

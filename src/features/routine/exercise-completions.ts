@@ -10,11 +10,13 @@ import {
   exerciseCompletionKey,
   type CompletionStatus,
 } from "@/features/routine/completion-match";
+// ⚠ 라벨 계층만 필요하다 — exercise-catalog 를 쓰면 운동 목록 274 KiB 가 딸려온다.
 import {
   isEquipmentId,
   type EquipmentId,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
 import { parseSetDetails, type SetDetail } from "@/features/routine/set-details";
+import type { ProgressRecord } from "@/features/routine/progress";
 
 // 순수 매칭 로직은 completion-match 로 분리(단위 테스트 가능). 호환을 위해 재노출.
 export {
@@ -32,6 +34,13 @@ export type ExerciseCompletionRow = {
   sets: number | null;
   reps: number | null;
   weightKg: number | null;
+  /**
+   * 완료 시점 세트별 무게·횟수. null = 균일 세트.
+   *
+   * 성장 집계가 이 값을 **반드시 봐야 한다** — 드롭세트·피라미드를 이 앱은 여기에
+   * 저장하는데, 예전엔 조회에서 빠져 있어 균일 세트로만 계산됐다(볼륨·1RM 오차).
+   */
+  setDetails: SetDetail[] | null;
 };
 
 type Row = {
@@ -43,6 +52,7 @@ type Row = {
   sets: number | null;
   reps: number | null;
   weight_kg: number | string | null;
+  set_details?: unknown;
 };
 
 const num = (v: number | string | null | undefined): number | null => {
@@ -167,7 +177,9 @@ export async function getRecentExerciseCompletions(
   // daily_plan 으로 등록된 운동의 완료 행은 routine_exercises 에 매칭되지 않아 점수 누락이 발생했음.
   const { data, error } = await supabase
     .from("exercise_completions")
-    .select("for_date, exercise_row_id, exercise_id, status, focus, sets, reps, weight_kg")
+    .select(
+      "for_date, exercise_row_id, exercise_id, status, focus, sets, reps, weight_kg, set_details",
+    )
     .eq("user_id", user.id)
     .gte("for_date", fromStr)
     .order("for_date", { ascending: false });
@@ -182,6 +194,7 @@ export async function getRecentExerciseCompletions(
     sets: r.sets ?? null,
     reps: r.reps ?? null,
     weightKg: num(r.weight_kg ?? null),
+    setDetails: parseSetDetails(r.set_details),
   }));
 }
 
@@ -197,44 +210,73 @@ export const LAST_VALUES_WINDOW_DAYS = 180;
 const LAST_VALUES_MAX_ROWS = 3000;
 
 /**
- * 운동별 '마지막으로 실제 한 값'(가장 최근 done 완료 스냅샷). 운동모드/루틴이 다시 돌아오면
- * 이 값으로 미리 채워, 사용자가 매번 다시 입력하지 않게 한다(비고정 모드). 없으면 맵에 없음.
+ * 최근 완료(done) 기록 — **미리채움과 과부하 추천이 같이 쓰는 한 번의 조회**.
+ *
+ * 둘 다 "이 운동을 최근에 어떻게 했나"를 본다. 따로 읽으면 같은 표를 같은 조건으로
+ * 두 번 읽게 되는데, 서울↔싱가포르는 왕복 1회가 그대로 체감 지연이라 나눌 이유가 없다.
+ * `cache()` 라 한 요청 안에서 여러 곳이 불러도 DB 콜은 1번.
  *
  * ⚠ 예전엔 사용자의 **완료 기록 전체**를 제한 없이 읽어 앱에서 골랐다. 기록이 쌓일수록
  * 응답 크기와 JSON 처리 비용이 선형으로 늘어나는 구조라, 최근 180일 + 상한 행수로 묶었다.
  * 반년 넘게 안 한 운동은 지난 무게를 미리 채워도 맞지 않으니 계획값으로 시작하는 게 낫다.
+ *
+ * `set_details` 를 **반드시 함께 읽는다** — 드롭세트·피라미드가 거기 있어서, 빼면
+ * 과부하 판단이 균일 세트로만 계산돼 1RM·볼륨이 틀어진다(2.1 에서 겪은 결함).
+ * 최신순(내림차순)이라 운동별 첫 항목이 가장 최근 값이다.
+ */
+export const getRecentDoneRecords = cache(
+  async function getRecentDoneRecords(): Promise<ProgressRecord[]> {
+    const user = await getCurrentUser();
+    if (!user) return [];
+    const supabase = await createSupabaseServerClient();
+    const since = new Date(Date.now() - LAST_VALUES_WINDOW_DAYS * 86_400_000)
+      .toISOString()
+      .slice(0, 10);
+    const { data, error } = await supabase
+      .from("exercise_completions")
+      .select("exercise_id, sets, reps, weight_kg, set_details, for_date")
+      .eq("user_id", user.id)
+      .eq("status", "done")
+      .gte("for_date", since)
+      .order("for_date", { ascending: false })
+      .limit(LAST_VALUES_MAX_ROWS);
+    if (error || !data) return [];
+    return (
+      data as {
+        exercise_id: string | null;
+        sets: number | null;
+        reps: number | null;
+        weight_kg: number | string | null;
+        set_details: unknown;
+        for_date: string;
+      }[]
+    ).map((r) => ({
+      forDate: r.for_date,
+      exerciseId: r.exercise_id ?? null,
+      status: "done" as const,
+      sets: r.sets ?? null,
+      reps: r.reps ?? null,
+      weightKg: num(r.weight_kg ?? null),
+      setDetails: parseSetDetails(r.set_details),
+    }));
+  },
+);
+
+/**
+ * 운동별 '마지막으로 실제 한 값'(가장 최근 done 완료 스냅샷). 운동모드/루틴이 다시 돌아오면
+ * 이 값으로 미리 채워, 사용자가 매번 다시 입력하지 않게 한다(비고정 모드). 없으면 맵에 없음.
  */
 export const getLastExerciseValues = cache(async function getLastExerciseValues(): Promise<
   Map<string, LastExerciseValues>
 > {
   const out = new Map<string, LastExerciseValues>();
-  const user = await getCurrentUser();
-  if (!user) return out;
-  const supabase = await createSupabaseServerClient();
-  const since = new Date(Date.now() - LAST_VALUES_WINDOW_DAYS * 86_400_000)
-    .toISOString()
-    .slice(0, 10);
-  const { data, error } = await supabase
-    .from("exercise_completions")
-    .select("exercise_id, sets, reps, weight_kg, for_date")
-    .eq("user_id", user.id)
-    .eq("status", "done")
-    .gte("for_date", since)
-    .order("for_date", { ascending: false })
-    .limit(LAST_VALUES_MAX_ROWS);
-  if (error || !data) return out;
-  for (const r of data as {
-    exercise_id: string | null;
-    sets: number | null;
-    reps: number | null;
-    weight_kg: number | string | null;
-  }[]) {
-    // desc 정렬 → 운동별 첫 항목이 가장 최근 값.
-    if (!r.exercise_id || out.has(r.exercise_id)) continue;
-    out.set(r.exercise_id, {
-      weightKg: num(r.weight_kg ?? null),
-      reps: r.reps ?? null,
-      sets: r.sets ?? null,
+  for (const r of await getRecentDoneRecords()) {
+    // 최신순 → 운동별 첫 항목이 가장 최근 값.
+    if (!r.exerciseId || out.has(r.exerciseId)) continue;
+    out.set(r.exerciseId, {
+      weightKg: r.weightKg,
+      reps: r.reps,
+      sets: r.sets,
     });
   }
   return out;

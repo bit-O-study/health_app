@@ -43,6 +43,7 @@ export type ShareVisibility = "public" | "group" | "public_except_group";
  */
 export type RoutineShareItem = {
   id: string;
+  userId: string;
   title: string;
   caption: string | null;
   authorName: string;

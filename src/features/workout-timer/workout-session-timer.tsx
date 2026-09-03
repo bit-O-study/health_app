@@ -182,6 +182,7 @@ export function WorkoutSessionTimer({
   }, [queueItems, doneOrSkippedIds, completion, mainOrder, warmupOrder, cooldownOrder]);
   const [state, setState] = useState<TimerState | null>(null);
   const [guided, setGuided] = useState(false);
+  const [sessionFinished, setSessionFinished] = useState(false);
   const [saveAsk, setSaveAsk] = useState(false);
   const [savingErr, setSavingErr] = useState<string | null>(null);
   // 자정 롤오버 중복 방지 — 한 번 처리한 forDate 는 다시 처리 안 함
@@ -271,6 +272,7 @@ export function WorkoutSessionTimer({
         clearSavedMark();
         // 새 세션 시작 (계속 운동 중이라고 가정 — 일시정지 상태였으면 유지)
         const fresh: TimerState = {
+          sessionId: crypto.randomUUID(),
           startedAt: Date.now(),
           pausedAt: restored.pausedAt !== null ? Date.now() : null,
           accumulated: 0,
@@ -304,6 +306,7 @@ export function WorkoutSessionTimer({
           if (d) void saveDuration(d.forDate, d.deltaSec);
           clearSavedMark();
           const fresh: TimerState = {
+            sessionId: crypto.randomUUID(),
             startedAt: Date.now(),
             pausedAt: null,
             accumulated: 0,
@@ -341,8 +344,10 @@ export function WorkoutSessionTimer({
   }, []);
 
   function start() {
+    setSessionFinished(false);
     endingRef.current = false;
     const s: TimerState = {
+      sessionId: crypto.randomUUID(),
       startedAt: Date.now(),
       pausedAt: null,
       accumulated: 0,
@@ -375,6 +380,7 @@ export function WorkoutSessionTimer({
     if (!state || state.pausedAt !== null) return;
     const now = Date.now();
     const s: TimerState = {
+      sessionId: state.sessionId,
       startedAt: state.startedAt,
       pausedAt: now,
       accumulated: state.accumulated + (now - state.startedAt),
@@ -386,6 +392,7 @@ export function WorkoutSessionTimer({
   function resume() {
     if (!state || state.pausedAt === null) return;
     const s: TimerState = {
+      sessionId: state.sessionId,
       startedAt: Date.now(),
       pausedAt: null,
       accumulated: state.accumulated,
@@ -439,7 +446,8 @@ export function WorkoutSessionTimer({
     void endActiveSessionAction(); // 서버 활성 세션 종료(더 이상 푸시 안 함)
     // Health Connect 실패는 앱의 운동 기록 저장을 막지 않는다. 사용자가 설정에서
     // ExerciseSession 쓰기 권한을 연결한 경우에만 네이티브 브리지가 실제로 기록한다.
-    void writeWorkoutSession(endedAtMs, durationSec);
+    const sessionId = s.sessionId ?? `${s.forDate}-${s.startedAt}`;
+    void writeWorkoutSession(endedAtMs, durationSec, sessionId);
     return true;
   }
 
@@ -451,7 +459,9 @@ export function WorkoutSessionTimer({
 
   /** 가이드 완주(마지막 항목까지 처리) 시 자동 종료(기록). */
   async function handleGuidedAllComplete() {
-    await endSession();
+    setGuided(false);
+    const ended = await endSession();
+    if (ended) setSessionFinished(true);
   }
 
   // '예' — 완료 외 남은 운동을 휴식(skip) 처리하고 타이머 종료(기록).
@@ -578,7 +588,7 @@ export function WorkoutSessionTimer({
   if (!state) {
     // 오늘 할 운동이 있었는데 전부 완료/스킵돼 남은 게 없으면 '수고하셨습니다'(비활성).
     // queue 는 로컬 오버라이드(완료/휴식 취소)로 즉시 갱신 → 미완료가 다시 생기면 바로 '운동 시작' 복귀.
-    const allDone = queueItems.length > 0 && queue.length === 0;
+    const allDone = sessionFinished || (queueItems.length > 0 && queue.length === 0);
     if (allDone) {
       return (
         <span className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-100 px-4 text-base font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">

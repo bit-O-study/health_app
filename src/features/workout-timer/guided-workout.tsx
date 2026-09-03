@@ -670,7 +670,6 @@ export function GuidedOverlay({
     const ni = adjacentActiveIndex(rowIds, processedSet, index, 1);
     if (ni === null) {
       clearActiveRow(); // 전부 완료 — 다음에 새로 열면 처음부터
-      onClose();
       // 모든 항목 종료 — 부모(타이머)가 운동시간 저장 처리
       onAllComplete?.();
       // 진행 중인 완료/넘기기 저장이 모두 끝난 뒤 화면 합계를 새로 가져온다.
@@ -1726,4 +1725,3 @@ function ItemVisual({ item }: { item: GuidedItem }) {
   }
   return null;
 }
-

@@ -18,6 +18,7 @@ export const STRENGTH_TRAINING_EXERCISE_TYPE = 70;
 export function workoutSessionRecord(
   endedAtMs: number,
   durationSec: number,
+  sessionId?: string,
 ): HealthWriteRecord | null {
   if (!Number.isFinite(endedAtMs) || !Number.isFinite(durationSec)) return null;
   const seconds = Math.round(durationSec);
@@ -31,6 +32,15 @@ export function workoutSessionRecord(
     endTime: endedAt,
     title: "헬쑤 근력운동",
     exerciseType: STRENGTH_TRAINING_EXERCISE_TYPE,
+    ...(sessionId
+      ? {
+          metadata: {
+            clientRecordId: `helssu-workout-${sessionId}`,
+            clientRecordVersion: 1,
+            recordingMethod: "manualEntry" as const,
+          },
+        }
+      : {}),
   };
 }
 
@@ -42,8 +52,9 @@ export type WorkoutWriteResult =
 export async function writeWorkoutSession(
   endedAtMs: number,
   durationSec: number,
+  sessionId?: string,
 ): Promise<WorkoutWriteResult> {
-  const record = workoutSessionRecord(endedAtMs, durationSec);
+  const record = workoutSessionRecord(endedAtMs, durationSec, sessionId);
   if (!record) return { ok: false, reason: "저장할 수 없는 운동 시간" };
   if (!(await isNative())) return { ok: true, written: false };
   const HC = await withTimeout(getHealthPlugin(), 4_000, null);

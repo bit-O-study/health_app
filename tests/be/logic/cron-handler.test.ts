@@ -18,6 +18,13 @@ vi.mock("@/features/notifications/fcm", () => ({
   fcmEnabled: () => false,
   sendFcm: (...a: unknown[]) => sendFcm(...(a as [])),
 }));
+vi.mock("@/features/notifications/preferences", async (importOriginal) => ({
+  ...(await importOriginal<
+    typeof import("@/features/notifications/preferences")
+  >()),
+  // 실행 시각이 야간 방해 금지에 걸려 발송/중복 테스트가 밤에만 실패하지 않게 고정.
+  seoulHour: () => 12,
+}));
 
 // next/server 는 런타임 전용이라 노드에서 그대로 못 쓴다 — 응답 JSON 만 흉내낸다.
 vi.mock("next/server", () => ({

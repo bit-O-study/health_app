@@ -18,6 +18,7 @@ import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime } from "../community";
 import type { FeedPost } from "../data-access";
 import { ReportButton } from "./report-button";
+import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
 import {
   addTeachingCommentAction,
   deleteTeachingCommentAction,
@@ -54,7 +55,7 @@ export function TeachingReels({
           해당하는 운동 영상이 없어요
         </p>
         <p className="text-xs text-zinc-400">
-          운동모드에서 티칭 영상을 올리면 여기에 숏츠처럼 쌓여요! 🎬
+          내 운동 영상을 올리고 자세 티칭을 받아보세요. 영상은 여기에 모여요! 🎬
         </p>
       </div>
     );
@@ -91,6 +92,7 @@ function ReelSlide({
 }) {
   const slideRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  useReleaseVideoOnUnmount(videoRef);
   const [now] = useState(() => Date.now());
   const [active, setActive] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -243,7 +245,7 @@ function ReelSlide({
           데스크톱 실측 여유가 16px 뿐이라 실기기(safe-area/제스처바)에선 삭제 버튼이
           탭바에 가려진다는 제보가 있어, 기기 inset 만큼 여유를 더 준다.
           (데스크톱은 inset=0 이라 기존과 동일) */}
-      <div className="absolute bottom-[calc(1rem+env(safe-area-inset-bottom))] right-2 flex flex-col items-center gap-4 text-white">
+      <div className="absolute bottom-[calc(6rem+env(safe-area-inset-bottom))] right-2 flex flex-col items-center gap-4 text-white">
         <button
           type="button"
           onClick={() => setComments(true)}

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import type { MediaKind } from "@/features/exercises/exercise-media";
+import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
 
 type Embed = { provider: "youtube" | "vimeo"; id: string };
 
@@ -10,6 +11,7 @@ type Embed = { provider: "youtube" | "vimeo"; id: string };
 const GUIDE_RATE = 0.5;
 
 const BENCH_PRESS_MULTISHOT = "/exercise-guides/bench-press-multishot";
+const LEG_PRESS_GUIDE = "/exercise-guides/leg-press-guide";
 
 const BENCH_CAMERA = [
   { scale: 1.45, origin: "67% 34%" },
@@ -21,6 +23,8 @@ const BENCH_CAMERA = [
 function BenchPressMultiShot({ className }: { className: string }) {
   const [camera, setCamera] = useState(0);
   const [showScapula, setShowScapula] = useState(true);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useReleaseVideoOnUnmount(videoRef, showScapula);
 
   useEffect(() => {
     const introTimer = window.setTimeout(() => {
@@ -44,6 +48,7 @@ function BenchPressMultiShot({ className }: { className: string }) {
     >
       {showScapula ? (
         <video
+          ref={videoRef}
           src="/exercise-guides/bench-press-scapula.mp4"
           playsInline
           autoPlay
@@ -52,6 +57,7 @@ function BenchPressMultiShot({ className }: { className: string }) {
         />
       ) : (
         <video
+          ref={videoRef}
           src="/exercise-guides/bench-press-main-new.mp4"
           playsInline
           autoPlay
@@ -64,6 +70,38 @@ function BenchPressMultiShot({ className }: { className: string }) {
           }}
         />
       )}
+    </div>
+  );
+}
+
+function LegPressGuide({
+  className,
+  autoPlay,
+}: {
+  className: string;
+  autoPlay: boolean;
+}) {
+  const [phase, setPhase] = useState<"setup" | "performance">("setup");
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  useReleaseVideoOnUnmount(videoRef, phase);
+
+  const isPerformance = phase === "performance";
+  return (
+    <div
+      className={`relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 bg-black dark:border-zinc-700 ${className}`}
+    >
+      <video
+        key={phase}
+        ref={videoRef}
+        src={`/exercise-guides/leg-press-${phase}.webm`}
+        controls={!autoPlay}
+        playsInline
+        autoPlay={autoPlay || isPerformance}
+        muted={autoPlay}
+        loop={isPerformance}
+        onEnded={() => setPhase("performance")}
+        className="h-auto max-h-[46vh] w-full object-contain sm:max-h-[24rem]"
+      />
     </div>
   );
 }
@@ -173,8 +211,15 @@ export function MediaEmbed({
   autoPlay?: boolean;
 }) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [videoRetry, setVideoRetry] = useState(0);
+  const [videoError, setVideoError] = useState(false);
+  useReleaseVideoOnUnmount(videoRef);
   if (url === BENCH_PRESS_MULTISHOT) {
     return <BenchPressMultiShot className={className} />;
+  }
+  if (url === LEG_PRESS_GUIDE) {
+    return <LegPressGuide className={className} autoPlay={autoPlay} />;
   }
   const embed = parseEmbed(url);
   const base = `relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
@@ -214,22 +259,38 @@ export function MediaEmbed({
     return (
       <div className={`${base} flex items-center justify-center`}>
         <video
+          key={videoRetry}
+          ref={videoRef}
           src={url}
+          preload="metadata"
           controls={!autoPlay}
           playsInline
           autoPlay={autoPlay}
           muted={autoPlay}
           loop={autoPlay}
           onLoadedMetadata={(e) => {
+            setVideoError(false);
             if (autoPlay) e.currentTarget.playbackRate = GUIDE_RATE;
           }}
-          onPlay={(e) => {
-            // 재생 시작 후 음소거 해제(운동 시작 클릭의 사용자 활성화로 허용됨).
-            if (autoPlay) e.currentTarget.muted = false;
-          }}
+          onError={() => setVideoError(true)}
           className={`h-auto w-full object-contain ${MEDIA_CAP}`}
           style={{ maxHeight: "min(46dvh, 24rem)" }}
         />
+        {videoError ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-zinc-950/90 px-5 text-center text-white">
+            <p className="text-sm font-semibold">영상을 불러오지 못했어요.</p>
+            <button
+              type="button"
+              onClick={() => {
+                setVideoError(false);
+                setVideoRetry((value) => value + 1);
+              }}
+              className="rounded-full bg-white px-4 py-2 text-sm font-bold text-zinc-900"
+            >
+              다시 불러오기
+            </button>
+          </div>
+        ) : null}
       </div>
     );
   }

@@ -4,7 +4,7 @@
  * 값은 1회 제공량 근사치(관용값). 정밀 영양분석용 아님.
  */
 
-import type { FoodItem } from "@/features/diet/food-catalog";
+import type { FoodItem } from "@/features/diet/food-catalog-types";
 
 export const WORLD_FOOD_ITEMS: FoodItem[] = [
   // ── 중식

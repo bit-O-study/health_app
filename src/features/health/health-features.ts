@@ -65,7 +65,7 @@ export const HEALTH_FEATURES: readonly HealthFeature[] = [
     why: "여기서 한 운동을 삼성헬스·구글핏에도 남겨요.",
     read: [],
     write: ["ExerciseSession"],
-    status: "planned",
+    status: "ready",
   },
   {
     id: "run",
@@ -73,23 +73,23 @@ export const HEALTH_FEATURES: readonly HealthFeature[] = [
     why: "런닝모드 기록을 다른 건강 앱에서도 볼 수 있어요.",
     read: [],
     write: ["Distance", "TotalCaloriesBurned"],
-    status: "planned",
+    status: "ready",
   },
   {
     id: "heartRate",
     label: "심박수",
     why: "운동 강도를 실제 심박으로 가늠해요.",
-    read: ["HeartRate"],
+    read: ["HeartRateSeries"],
     write: [],
-    status: "planned",
+    status: "ready",
   },
   {
     id: "sleep",
     label: "수면",
-    why: "잘 못 잔 날은 회복을 우선하도록 추천을 조절해요.",
+    why: "최근 수면 시간으로 오늘의 회복 상태를 확인해요.",
     read: ["SleepSession"],
     write: [],
-    status: "planned",
+    status: "ready",
   },
 ] as const;
 

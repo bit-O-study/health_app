@@ -53,6 +53,11 @@ export async function openDbClient(applicationName?: string) {
         },
   );
   await client.connect();
+  if (applicationName) {
+    await client.query("select set_config('application_name', $1, false)", [
+      applicationName,
+    ]);
+  }
   return client;
 }
 

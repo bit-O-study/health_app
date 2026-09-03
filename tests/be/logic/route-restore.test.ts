@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   RESTORE_WINDOW_MS,
+  rendererRecoveryDestination,
   shouldRestoreRoute,
   type SavedRoute,
 } from "@/lib/platform/route-restore";
@@ -13,6 +14,11 @@ const saved = (path: string, agoMs = 0): SavedRoute => ({
 });
 
 describe("shouldRestoreRoute — 부팅 후 '보던 화면' 복원 판단", () => {
+  it("2분 내 렌더러 복구가 반복되면 안전한 홈으로 보낸다", () => {
+    expect(rendererRecoveryDestination(0)).toBeNull();
+    expect(rendererRecoveryDestination(1)).toBeNull();
+    expect(rendererRecoveryDestination(2)).toBe("/home");
+  });
   it("WebView 렌더러 사망 복구 부팅에서는 직전 화면을 복원하지 않는다", () => {
     expect(
       shouldRestoreRoute(saved("/community"), "/routine", NOW, true),

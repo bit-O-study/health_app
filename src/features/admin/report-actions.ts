@@ -17,6 +17,7 @@ const TABLE: Record<ReportTargetKind, string> = {
   community_comment: "community_comments",
   teaching_post: "teaching_posts",
   teaching_comment: "teaching_comments",
+  routine_share: "routine_shares",
 };
 
 async function requireModerator() {
@@ -81,6 +82,7 @@ export async function deleteReportedContentAction(
 
   revalidatePath("/admin/reports");
   revalidatePath("/community");
+  revalidatePath("/routine");
   return { ok: true };
 }
 

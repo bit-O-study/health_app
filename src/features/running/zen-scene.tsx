@@ -13,6 +13,10 @@ import {
   detectSceneQuality,
   type SceneQuality,
 } from "@/features/running/quality";
+import {
+  disposeThreeObject,
+  retainThreeResource,
+} from "@/lib/media/three-resource";
 
 /* 캐릭터 모델은 character.ts 한 곳에서 관리(교체 쉽게 — Mixamo 등). 지연 로드라 preload 안전. */
 const ROBOT_URL = CHARACTER_MODEL_URL;
@@ -517,6 +521,18 @@ function Robot({
     if (!idleAction && runAction) runAction.timeScale = 0;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions]);
+
+  useEffect(() => {
+    const release = retainThreeResource(ROBOT_URL);
+    return () => {
+      activeRef.current?.stop();
+      for (const action of Object.values(actions)) action?.stop();
+      if (release()) {
+        disposeThreeObject(scene);
+        useGLTF.clear(ROBOT_URL);
+      }
+    };
+  }, [actions, scene]);
 
   useFrame((_, delta) => {
     const run = runRef.current;

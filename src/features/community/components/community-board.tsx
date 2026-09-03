@@ -37,6 +37,7 @@ import {
 } from "../community-actions";
 import { deleteTeachingPostAction } from "@/features/teaching/teaching-actions";
 import { RoutineShareBoard } from "@/features/routine-share/components/routine-share-board";
+import { ShareDayButton } from "@/features/routine-share/components/share-day-button";
 import type {
   ApplyTarget,
   RoutineShareItem,
@@ -68,6 +69,7 @@ export function CommunityBoard({
   const [tab, setTab] = useState<BoardTab>("workout");
   const [search, setSearch] = useState("");
   const [compose, setCompose] = useState(false);
+  const [routineCompose, setRoutineCompose] = useState(false);
 
   // 게시판 탭별 분류. 오운완=사진(그룹글 포함), 운동=티칭(검색), 내 글=내가 쓴 것.
   // (그룹 게시판은 없앰 — 그룹원 공개 글도 오운완/운동에 섞여 그룹명 태그로 구분.)
@@ -169,17 +171,38 @@ export function CommunityBoard({
         </ul>
       )}
 
-      {/* 글쓰기 FAB — 사진 인증(운동 탭은 운동모드에서 촬영, 루틴 탭은 운동 등록에서 올림) */}
-      {tab !== "teaching" && tab !== "routine" ? (
+      {/* 글쓰기 FAB — 루틴 탭에서는 내 영구 루틴의 일차를 골라 추천글을 쓴다. */}
+      {tab !== "teaching" ? (
         <button
           type="button"
-          onClick={() => setCompose(true)}
-          aria-label="오운완 인증하기"
-          className="fixed right-4 z-20 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/60 transition-transform active:scale-95 dark:ring-zinc-950/60"
+          onClick={() => tab === "routine" ? setRoutineCompose(true) : setCompose(true)}
+          aria-label={tab === "routine" ? "루틴 추천글 쓰기" : "오운완 인증하기"}
+          className="fixed right-4 z-20 inline-flex h-14 items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 px-5 text-sm font-black text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/60 transition-transform active:scale-95 dark:ring-zinc-950/60"
           style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
         >
-          <Plus size={28} />
+          <Plus size={22} />
+          글쓰기
         </button>
+      ) : null}
+
+      {routineCompose ? (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center sm:p-4" onClick={() => setRoutineCompose(false)}>
+          <section role="dialog" aria-modal="true" aria-labelledby="routine-compose-title" className="w-full max-w-md rounded-t-2xl bg-white p-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] shadow-2xl dark:bg-zinc-900 sm:rounded-2xl sm:pb-5" onClick={(event) => event.stopPropagation()}>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h2 id="routine-compose-title" className="text-lg font-black">내 루틴 추천글 쓰기</h2>
+                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">내가 설정한 루틴에서 소개할 일차를 골라보세요.</p>
+              </div>
+              <button type="button" aria-label="닫기" onClick={() => setRoutineCompose(false)} className="p-1 text-zinc-400"><X size={20} /></button>
+            </div>
+            <div className="mt-4 flex flex-col gap-2">
+              {applyTargets.map((target) => (
+                <ShareDayButton key={target.dayIndex} dayIndex={target.dayIndex} defaultTitle={target.label} groups={groups} label={`${target.dayIndex + 1}일차 추천글 쓰기`} />
+              ))}
+              {applyTargets.length === 0 ? <p className="py-6 text-center text-sm text-zinc-500">먼저 내 루틴을 설정해주세요.</p> : null}
+            </div>
+          </section>
+        </div>
       ) : null}
 
       {compose ? (
@@ -421,7 +444,7 @@ function PostCard({
             </Link>
           </>
         ) : (
-          <span className="text-xs font-bold text-zinc-400">운동 티칭 영상</span>
+          <span className="text-xs font-bold text-zinc-400">자세 티칭 영상</span>
         )}
         {!post.isMine ? (
           <ReportButton

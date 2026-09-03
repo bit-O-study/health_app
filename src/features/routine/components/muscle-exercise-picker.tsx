@@ -41,6 +41,7 @@ import {
 } from "@/features/routine/sub-muscles";
 import { majorMuscleTag } from "@/features/routine/exercise-body-parts";
 import { saveMuscleSelectionAction } from "@/features/routine/plan-actions";
+import { useLightMode } from "@/features/performance/use-light-mode";
 
 const MuscleMannequin3D = dynamic(
   () => import("@/features/routine/components/muscle-mannequin-3d"),
@@ -81,6 +82,7 @@ export function MuscleExercisePicker({
   gender?: "male" | "female";
 }) {
   const router = useRouter();
+  const lightMode = useLightMode();
   const [selectedMuscle, setSelectedMuscle] = useState<MuscleId>("chest");
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
   /** 부위(focus)별 선택한 운동 id 목록 */
@@ -205,13 +207,22 @@ export function MuscleExercisePicker({
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-3">
-        <Mannequin3DBoundary>
-          <MuscleMannequin3D
-            gender={gender}
-            activeSubs={activeSubs}
-            onSelectSub={selectSub}
-          />
-        </Mannequin3DBoundary>
+        {lightMode ? (
+          <div
+            data-testid="light-mode-mannequin-fallback"
+            className="flex h-24 w-full items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 px-6 text-center text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+          >
+            경량 모드에서는 아래 부위 버튼으로 운동 부위를 선택하세요.
+          </div>
+        ) : (
+          <Mannequin3DBoundary>
+            <MuscleMannequin3D
+              gender={gender}
+              activeSubs={activeSubs}
+              onSelectSub={selectSub}
+            />
+          </Mannequin3DBoundary>
+        )}
 
         {/* 부위 칩 (범례 겸용, 항상 표시) */}
         <div

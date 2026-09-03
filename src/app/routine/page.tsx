@@ -41,8 +41,8 @@ import {
   ymdDisplay,
   type DayBlockId,
   type FocusTone,
+  isDayBlockId,
 } from "@/features/routine/data";
-import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import {
   getLastExerciseValues,
@@ -279,7 +279,6 @@ function TodayWorkout({
     routine.variantId,
     routine.customWeek,
   );
-
   const todayYmd = seoulYmd();
 
   // (체형 목표·내다짐 카드는 홈탭으로 옮김 — 운동탭은 오늘 운동에 집중. #12/#19)

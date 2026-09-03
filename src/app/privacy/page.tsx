@@ -40,8 +40,9 @@ export default function PrivacyPage() {
             <b>계정 정보</b>: 이메일 주소, 닉네임, (카카오 로그인 시) 카카오 계정 식별자.
           </li>
           <li>
-            <b>건강·운동 데이터</b>: 걸음 수(Android Health Connect 를 통해 사용자가 허용한
-            경우에만 읽음), 운동 기록·루틴, 식단 기록, 체성분(인바디) 기록.
+            <b>건강·운동 데이터</b>: 걸음 수·체중·체성분(Android Health Connect 를 통해
+            사용자가 허용한 경우에만 읽음), 운동 기록·루틴, 식단 기록, 체성분(인바디)
+            기록 및 사용자가 허용한 경우 Health Connect 로 내보내는 운동 세션.
           </li>
           <li>
             <b>이미지</b>: 이용자가 촬영/업로드한 식단 사진, 운동 자세 영상, 인바디 결과지
@@ -65,16 +66,17 @@ export default function PrivacyPage() {
 
       <Section title="3. Health Connect(건강 데이터) 처리">
         <p className="leading-7">
-          서비스는 Android Health Connect 로부터 <b>걸음 수</b>를 읽어 운동 기록에 활용합니다.
-          해당 데이터는 이용자가 기기에서 명시적으로 권한을 허용한 경우에만 접근하며, 다음을
-          준수합니다.
+          서비스는 Android Health Connect 로부터 <b>걸음 수·체중·체성분</b>을 읽고,
+          이용자가 별도로 허용하면 완료한 <b>운동 세션</b>을 Health Connect 로 내보냅니다.
+          각 데이터는 이용자가 기기에서 해당 항목의 권한을 명시적으로 허용한 경우에만
+          접근하며, 다음을 준수합니다.
         </p>
         <ul className="mt-2 list-disc space-y-1 pl-5">
           <li>건강 데이터는 오직 이용자에게 서비스를 제공하기 위한 목적으로만 사용합니다.</li>
           <li>건강 데이터를 광고·마케팅 목적으로 사용하거나 제3자에게 판매하지 않습니다.</li>
           <li>
             이용자는 언제든 기기의 Health Connect 설정에서 권한을 철회할 수 있으며, 철회 시
-            더 이상 걸음 수를 읽지 않습니다.
+            해당 건강 데이터를 더 이상 읽거나 쓰지 않습니다.
           </li>
         </ul>
       </Section>

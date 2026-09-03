@@ -47,6 +47,34 @@ describe("permissionsFor — 켠 항목의 권한만", () => {
     expect(permissionsFor(["steps"])).toEqual({ read: ["Steps"], write: [] });
   });
 
+  it("운동 세션은 읽기 없이 ExerciseSession 쓰기 권한만 요청한다", () => {
+    expect(permissionsFor(["workout"])).toEqual({
+      read: [],
+      write: ["ExerciseSession"],
+    });
+  });
+
+  it("러닝은 거리와 총소모칼로리 쓰기 권한만 요청한다", () => {
+    expect(permissionsFor(["run"])).toEqual({
+      read: [],
+      write: ["Distance", "TotalCaloriesBurned"],
+    });
+  });
+
+  it("심박수는 플러그인의 HeartRateSeries 읽기 권한을 요청한다", () => {
+    expect(permissionsFor(["heartRate"])).toEqual({
+      read: ["HeartRateSeries"],
+      write: [],
+    });
+  });
+
+  it("수면은 SleepSession 읽기 권한만 요청한다", () => {
+    expect(permissionsFor(["sleep"])).toEqual({
+      read: ["SleepSession"],
+      write: [],
+    });
+  });
+
   it("체성분은 체지방·근육량까지 함께 — 체중만 받으면 그래프 두 줄이 빈다", () => {
     const p = permissionsFor(["body"]);
     expect(p.read).toEqual(["Weight", "BodyFat", "LeanBodyMass"]);
@@ -56,13 +84,6 @@ describe("permissionsFor — 켠 항목의 권한만", () => {
     const p = permissionsFor(["steps", "body", "steps"]);
     expect(p.read.filter((r) => r === "Steps")).toHaveLength(1);
     expect(new Set(p.read).size).toBe(p.read.length);
-  });
-
-  it("🔴 준비 중인 항목은 조용히 빠진다 — 안 쓰는 권한을 미리 받지 않는다", () => {
-    const planned = HEALTH_FEATURES.filter((f) => f.status === "planned");
-    expect(planned.length).toBeGreaterThan(0); // 표가 비면 이 테스트가 무의미해진다
-    const p = permissionsFor(planned.map((f) => f.id));
-    expect(p).toEqual({ read: [], write: [] });
   });
 
   it("모르는 id 는 무시한다", () => {

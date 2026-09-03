@@ -101,6 +101,9 @@ export type HealthConnectLike = {
     read: string[];
     write: string[];
   }) => Promise<{ grantedPermissions?: string[]; hasAllPermissions?: boolean }>;
+  insertRecords?: (opts: {
+    records: HealthWriteRecord[];
+  }) => Promise<{ recordIds?: string[] }>;
   aggregateSteps?: (opts: {
     timeRangeFilter: { type: string; startTime: Date; endTime: Date };
   }) => Promise<{ count?: number | string }>;
@@ -112,16 +115,43 @@ export type HealthConnectLike = {
   }>;
 };
 
+export type HealthWriteRecord =
+  | {
+      type: "ExerciseSession";
+      startTime: Date;
+      endTime: Date;
+      title?: string;
+      notes?: string;
+      exerciseType: number;
+    }
+  | {
+      type: "Distance";
+      startTime: Date;
+      endTime: Date;
+      distance: { unit: "meter"; value: number };
+    }
+  | {
+      type: "TotalCaloriesBurned";
+      startTime: Date;
+      endTime: Date;
+      energy: { unit: "kcal"; value: number };
+    };
+
 /** 읽어 온 레코드 한 건 — 항목마다 채워지는 필드가 달라 전부 선택 필드다. */
 export type HealthRecord = {
   count?: number | string;
   startTime?: string | number | Date;
+  endTime?: string | number | Date;
   time?: string | number | Date;
   /** 체중·제지방량 등은 `{ inKilograms }` 형태로 온다. */
   weight?: { inKilograms?: number | string } | number | string | null;
   mass?: { inKilograms?: number | string } | number | string | null;
   /** 체지방률(%). */
   percentage?: number | string | null;
+  samples?: Array<{
+    time?: string | number | Date;
+    beatsPerMinute?: number | string;
+  }>;
   metadata?: { dataOrigin?: string | null } | null;
 };
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { RunningMobileGate } from "@/features/running/running-mobile-gate";
+import type { RunningMode } from "@/features/running/run-session";
 
 export const metadata: Metadata = {
   title: "런닝 모드 | HELTCH",
@@ -9,6 +10,14 @@ export const metadata: Metadata = {
 };
 
 // URL(/running) 직접 접속으로만 들어오는 숨은 모드 — 메뉴에는 노출하지 않는다.
-export default function RunningPage() {
-  return <RunningMobileGate />;
+export default async function RunningPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ mode?: string }>;
+}) {
+  const { mode } = await searchParams;
+  const initialMode: RunningMode | null =
+    mode === "indoor" || mode === "outdoor" ? mode : null;
+
+  return <RunningMobileGate initialMode={initialMode} />;
 }

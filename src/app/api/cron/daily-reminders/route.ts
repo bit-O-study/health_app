@@ -20,6 +20,11 @@ import {
 } from "@/features/notifications/sent-log";
 import { purgeOldAppEvents } from "@/features/observability/purge";
 import {
+  filterByPreference,
+  seoulHour,
+} from "@/features/notifications/preferences";
+import { loadPreferences } from "@/features/notifications/preferences-data";
+import {
   DAY_BLOCKS,
   isDayBlockId,
   resolveRoutine,
@@ -105,7 +110,30 @@ export async function GET(req: Request) {
 
     // 오늘 이미 받은 사람 제외 — 크론이 두 번 돌아도 잔소리는 하루 한 번.
     const sentKeys = await loadSentKeys(admin, all);
-    const { fresh: targets, deduped } = splitAlreadySent(all, sentKeys);
+    const { fresh, deduped } = splitAlreadySent(all, sentKeys);
+
+    // 알림 설정(종류별 동의·야간 방해 금지)으로 한 번 더 거른다(로드맵 3.1).
+    // 설정이 없는 사용자는 기본값 = 받는다.
+    const hour = seoulHour();
+    const prefs = await loadPreferences(
+      admin,
+      fresh.map((t) => t.userId),
+    );
+    let optedOut = 0;
+    const targets: typeof fresh = [];
+    // 종류(운동/식단)가 섞여 있어 한 번에 못 거른다 — 종류별로 나눠 판단한다.
+    for (const kind of ["workout", "diet"] as const) {
+      const group = fresh.filter((t) => t.kind === kind);
+      const res = filterByPreference(
+        group,
+        (t) => t.userId,
+        prefs,
+        kind === "workout" ? "workout-reminder" : "diet-reminder",
+        hour,
+      );
+      targets.push(...res.allowed);
+      optedOut += res.blocked;
+    }
 
     // 대상자 기기를 한 번에 읽고(사용자당 2회 → 전체 몇 회), 발송은 제한 동시성으로.
     const devices = await loadDevices(
@@ -145,7 +173,9 @@ export async function GET(req: Request) {
         scanned: rows.length,
         targeted: targets.length,
         sent: delivered.length,
-        deduped,
+        // 설정으로 끈 사람도 '보내지 않음' 이라 중복제외와 같은 칸에 센다
+        // (관리자 화면에서 "왜 안 갔나" 를 볼 때 둘 다 같은 성격이다).
+        deduped: deduped + optedOut,
         failed,
       },
       body: {

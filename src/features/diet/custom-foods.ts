@@ -10,11 +10,11 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { isKnownFood } from "@/features/diet/food-catalog";
 import {
-  isKnownFood,
   normalizeFoodName,
   type FoodItem,
-} from "@/features/diet/food-catalog";
+} from "@/features/diet/food-catalog-types";
 import type { ScannedFood } from "@/features/diet/meal-scan-parse";
 
 type CustomRow = {

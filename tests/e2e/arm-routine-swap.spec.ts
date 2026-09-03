@@ -243,7 +243,9 @@ async function waitForDbLock(
   observer: Awaited<ReturnType<typeof openDbClient>>,
   applicationName: string,
 ) {
-  for (let attempt = 0; attempt < 200; attempt += 1) {
+  // 원격 테스트 DB는 새 인증 연결과 RPC 준비에 5초 이상 걸릴 수 있다.
+  for (let attempt = 0; attempt < 600; attempt += 1) {
+    await observer.query("select pg_stat_clear_snapshot()");
     const result = await observer.query<{ wait_event_type: string | null }>(
       `select wait_event_type
          from pg_stat_activity

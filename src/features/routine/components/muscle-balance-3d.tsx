@@ -16,6 +16,7 @@ import {
   type BodyRegion,
 } from "@/features/routine/components/mannequin";
 import { balanceColorsByMuscle } from "@/features/routine/muscle-balance";
+import { useLightMode } from "@/features/performance/use-light-mode";
 
 const BalanceCanvas = dynamic(
   () =>
@@ -56,6 +57,7 @@ export function MuscleBalance3D({
   /** 세부근육(id) 밸런스 색 — 주어지면 세부근육 토글 노출 */
   subColors?: Partial<Record<string, string>>;
 }) {
+  const lightMode = useLightMode();
   const hasDetail = !!subColors && Object.keys(subColors).length > 0;
   const [detail, setDetail] = useState(false);
   const showDetail = hasDetail && detail;
@@ -95,13 +97,19 @@ export function MuscleBalance3D({
         </div>
       ) : null}
 
-      <Balance3DBoundary fallback={<Mannequin colors={colors} />}>
-        <BalanceCanvas
-          gender={gender ?? "male"}
-          colors={balanceColorsByMuscle(colors)}
-          subColors={showDetail ? subColors : undefined}
-        />
-      </Balance3DBoundary>
+      {lightMode ? (
+        <div data-testid="light-mode-balance-fallback">
+          <Mannequin colors={colors} />
+        </div>
+      ) : (
+        <Balance3DBoundary fallback={<Mannequin colors={colors} />}>
+          <BalanceCanvas
+            gender={gender ?? "male"}
+            colors={balanceColorsByMuscle(colors)}
+            subColors={showDetail ? subColors : undefined}
+          />
+        </Balance3DBoundary>
+      )}
     </div>
   );
 }

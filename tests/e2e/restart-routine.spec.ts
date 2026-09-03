@@ -40,6 +40,7 @@ test("오늘만 변경/휴식을 지우고 현재 일차는 유지한다", async
   await page.waitForTimeout(600);
   await expect(page.getByText("오늘만 변경됨")).toBeVisible();
 
+  await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘부터 다시 시작하기" }).click();
   await page.waitForTimeout(1500);
 
@@ -92,6 +93,7 @@ test("'다가오는 7일' 드래그로 루틴을 바꿔도 → 기준(설정) �
   await expect(page.getByText("팔", { exact: true }).first()).toBeVisible();
 
   // 오늘부터 다시 시작하기 → 기준 루틴(cbl-3)으로 복원
+  await page.locator("[data-today-focus-badge]").first().click();
   await page.getByRole("button", { name: "오늘부터 다시 시작하기" }).click();
   await page.waitForTimeout(1500);
 

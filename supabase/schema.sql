@@ -1541,6 +1541,65 @@ create policy "Users update own workout sessions"
   using (auth.uid() = user_id);
 
 -- ────────────────────────────────────────────────────────────────
+-- 실내·야외 러닝 개별 세션. workout_sessions/conditioning_completions는 일별 합계와
+-- 운동점수 호환용이고, 이 테이블은 상세 기록·야외 경로를 잃지 않기 위한 원본이다.
+-- client_session_id는 종료 저장 재시도 시 같은 세션이 두 번 쌓이는 것을 막는다.
+create table if not exists public.run_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  client_session_id uuid not null,
+  for_date date not null,
+  mode text not null check (mode in ('indoor', 'outdoor')),
+  started_at timestamptz not null,
+  ended_at timestamptz not null,
+  duration_sec integer not null check (duration_sec between 60 and 86400),
+  distance_m integer not null default 0 check (distance_m between 0 and 200000),
+  avg_kmh numeric(5, 1) not null default 0 check (avg_kmh >= 0),
+  pace_sec_per_km integer check (pace_sec_per_km > 0),
+  calories_kcal integer not null default 0 check (calories_kcal >= 0),
+  average_heart_rate integer check (average_heart_rate between 30 and 240),
+  max_heart_rate integer check (max_heart_rate between 30 and 240),
+  heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0),
+  incline integer check (incline between 0 and 15),
+  route_points jsonb not null default '[]'::jsonb check (jsonb_typeof(route_points) = 'array'),
+  created_at timestamptz not null default now(),
+  unique (user_id, client_session_id),
+  check (ended_at > started_at),
+  check (mode = 'outdoor' or jsonb_array_length(route_points) = 0)
+);
+
+alter table public.run_sessions
+  add column if not exists average_heart_rate integer check (average_heart_rate between 30 and 240),
+  add column if not exists max_heart_rate integer check (max_heart_rate between 30 and 240),
+  add column if not exists heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0);
+
+create index if not exists run_sessions_user_date_idx
+  on public.run_sessions (user_id, for_date desc, started_at desc);
+
+alter table public.run_sessions enable row level security;
+
+drop policy if exists "Users read own run sessions" on public.run_sessions;
+create policy "Users read own run sessions"
+  on public.run_sessions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users insert own run sessions" on public.run_sessions;
+create policy "Users insert own run sessions"
+  on public.run_sessions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users update own run sessions" on public.run_sessions;
+create policy "Users update own run sessions"
+  on public.run_sessions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users delete own run sessions" on public.run_sessions;
+create policy "Users delete own run sessions"
+  on public.run_sessions for delete
+  using (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
 -- 헬스장 마스터 (크라우드소싱 시드).
 -- 같은 헬스장이라도 일단은 행 중복 허용 — 사용자가 자기 정보만 관리.
 -- 추후 크라우드소싱으로 확장 시 dedup 로직 추가.
@@ -3206,6 +3265,37 @@ create policy "admin reads app events" on public.app_events for select
 drop policy if exists "user reads own app events" on public.app_events;
 create policy "user reads own app events" on public.app_events for select
   using (auth.uid() = user_id);
+
+-- ── 사용자별 알림 설정(notification_preferences) ────────────────────
+-- 알림이 '전부 아니면 전무' 였다. 밤 11시에 "운동을 종료하시겠습니까?" 가 뜨면
+-- 사람은 알림 자체를 꺼 버리고, 그러면 정작 필요한 것도 못 받는다(로드맵 3.1).
+-- 종류별 동의 + 야간 방해 금지.
+--
+-- 🔴 **행이 없어도 동작해야 한다.** 기존 사용자에게 행을 만들지 않으므로,
+--    읽는 쪽이 기본값(전부 켜짐 + 야간 22~07 금지)으로 메운다
+--    (src/features/notifications/preferences.ts 의 DEFAULT_PREFERENCES).
+--    그래서 컬럼 기본값도 같은 값으로 맞춰 둔다 — 둘이 갈라지면 화면과 발송이 달라진다.
+-- 시각은 **서울 기준 시(0~23)**. 이 앱의 날짜·크론이 전부 서울 기준이다.
+create table if not exists public.notification_preferences (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  workout_reminder boolean not null default true,
+  diet_reminder boolean not null default true,
+  workout_inactivity boolean not null default true,
+  group_activity boolean not null default true,
+  routine_saved boolean not null default true,
+  rest_timer boolean not null default true,
+  quiet_hours boolean not null default true,
+  quiet_start_hour smallint not null default 22
+    check (quiet_start_hour >= 0 and quiet_start_hour <= 23),
+  quiet_end_hour smallint not null default 7
+    check (quiet_end_hour >= 0 and quiet_end_hour <= 23),
+  updated_at timestamptz not null default now()
+);
+alter table public.notification_preferences enable row level security;
+-- 본인만 읽고 쓴다. 크론은 서비스 롤이라 RLS 를 우회한다.
+drop policy if exists "own notification preferences" on public.notification_preferences;
+create policy "own notification preferences" on public.notification_preferences
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
 -- ────────────────────────────────────────────────────────────────
 -- AI 사용량 한도 — 로드맵 7.1. (user_id, month, feature) 당 한 행.

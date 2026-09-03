@@ -37,7 +37,7 @@ import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import { useCoalescedRefresh } from "@/features/routine/use-coalesced-refresh";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
-import { DAY_BLOCKS, type FocusKey, type FocusTone } from "@/features/routine/data";
+import { DAY_BLOCKS, type FocusKey } from "@/features/routine/data";
 // 카탈로그 **데이터**는 안 끌어온다 — 라벨·부위 매핑만(P0 번들 다이어트).
 // 운동 목록이 필요한 '운동 추가' 폼은 `exercisesForSlotAction` 으로 그때 받아온다.
 import {

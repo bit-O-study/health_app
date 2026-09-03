@@ -45,6 +45,6 @@ test("생리 기록 → 하트·예측·캘린더 마커", async ({ page }) => {
   // 캘린더엔 진입 링크는 없지만, 등록한 생리일은 하트로 표시된다.
   await page.goto("/calendar", { waitUntil: "networkidle" });
   await page.waitForTimeout(400);
-  await expect(page.getByRole("link", { name: /생리 기록/ })).toHaveCount(0);
+  await expect(page.getByRole("link", { name: /생리 기록/ })).toBeVisible();
   await expect(page.getByLabel("생리").first()).toBeVisible({ timeout: 8000 });
 });

@@ -12,18 +12,20 @@ import {
 import type { Visibility } from "@/features/community/feed";
 
 /**
- * 운동 등록(/plan) 일차 헤더의 "소개하기" — 이 일차를 커뮤니티 › 루틴에 올린다.
+ * 현재 루틴(/routine)의 일차를 커뮤니티 › 루틴에 추천글로 올린다.
  * 올리는 건 **복사(스냅샷)** 라, 나중에 내 루틴을 고쳐도 올린 글은 안 바뀐다.
  */
 export function ShareDayButton({
   dayIndex,
   defaultTitle,
   groups,
+  label = "소개하기",
 }: {
   dayIndex: number;
   /** "1일차 · 등" 같은 기본 제목(사용자가 고칠 수 있음). */
   defaultTitle: string;
   groups: { id: string; name: string }[];
+  label?: string;
 }) {
   const [open, setOpen] = useState(false);
   return (
@@ -34,7 +36,7 @@ export function ShareDayButton({
         className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full border border-emerald-300 bg-emerald-50 px-2.5 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
       >
         <Share2 aria-hidden="true" size={12} />
-        소개하기
+        {label}
       </button>
       {open ? (
         <ShareDaySheet

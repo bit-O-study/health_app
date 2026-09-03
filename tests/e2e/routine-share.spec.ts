@@ -4,7 +4,7 @@ import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
 
 /**
  * 루틴 소개(하루치 루틴 공유) 왕복 —
- * 운동 등록에서 1일차를 소개 → 커뮤니티 '루틴' 탭에 뜸 → 상세에서 '내 루틴에 담기' →
+ * 커뮤니티 루틴 탭에서 1일차 추천글 작성 → 상세에서 '내 루틴에 담기' →
  * 일차 **줄을 누르면 바로** 담긴다(비어 있으면 즉시, 차 있으면 덮어쓰기 확인 1회).
  */
 test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루틴에 담는다", async ({
@@ -13,12 +13,12 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
   await signUpAndOnboard(page);
   await seedRecommendedExercises(page);
 
-  // ── 1) 운동 등록에서 1일차 소개하기 ──────────────────────────────────
-  await page.goto("/plan", { waitUntil: "networkidle" });
-  const firstDay = page.locator("[data-plan-day-index='0']");
-  await expect(firstDay).toBeVisible();
-
-  await firstDay.getByRole("button", { name: "소개하기" }).click();
+  // ── 1) 커뮤니티 루틴 탭에서 1일차 추천글 쓰기 ───────────────────────
+  await page.goto("/community", { waitUntil: "networkidle" });
+  await page.getByRole("button", { name: "루틴", exact: true }).click();
+  await page.getByRole("button", { name: "루틴 추천글 쓰기" }).click();
+  await expect(page.getByText("내 루틴 추천글 쓰기")).toBeVisible();
+  await page.getByRole("button", { name: "1일차 추천글 쓰기" }).click();
   const sheet = page.locator("div").filter({ hasText: /^이 일차를 소개하기/ }).last();
   await expect(page.getByText("이 일차를 소개하기")).toBeVisible();
 

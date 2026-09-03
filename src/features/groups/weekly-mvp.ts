@@ -7,6 +7,11 @@ import {
   notifyDevices,
 } from "@/features/notifications/push-fanout";
 import {
+  filterByPreference,
+  seoulHour,
+} from "@/features/notifications/preferences";
+import { loadPreferences } from "@/features/notifications/preferences-data";
+import {
   splitAlreadySent,
   weeklyMvpKey,
 } from "@/features/notifications/dedup";
@@ -281,7 +286,20 @@ export async function runWeeklyGroupMvp(
 
   // 이미 이번 주 결과를 받은 사람은 제외 — 월요일에 크론이 두 번 돌아도 1회만.
   const sentKeys = await loadSentKeys(admin, pending);
-  const { fresh: targets, deduped } = splitAlreadySent(pending, sentKeys);
+  const { fresh, deduped } = splitAlreadySent(pending, sentKeys);
+
+  // 알림 설정(그룹 소식 동의·야간 방해 금지)으로 한 번 더 거른다(로드맵 3.1).
+  const prefsByUser = await loadPreferences(
+    admin,
+    fresh.map((t) => t.userId),
+  );
+  const { allowed: targets, blocked: optedOut } = filterByPreference(
+    fresh,
+    (t) => t.userId,
+    prefsByUser,
+    "group-activity",
+    seoulHour(),
+  );
 
   // 발송 — 대상자 기기를 한 번에 읽고(사용자당 2회 조회 제거), 제한 동시성으로 병렬.
   const devices = await loadDevices(admin, [
@@ -323,7 +341,8 @@ export async function runWeeklyGroupMvp(
     groups: groupsNotified,
     notified,
     targeted: targets.length,
-    deduped,
+    // 설정으로 끈 사람도 '보내지 않음' 이라 같은 칸에 센다(관리자 화면에서 함께 보이게).
+    deduped: deduped + optedOut,
     failed,
     ...(firstFailure ? { reason: firstFailure } : {}),
   };

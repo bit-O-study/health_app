@@ -1,4 +1,9 @@
 import {
+  filterByPreference,
+  seoulHour,
+} from "@/features/notifications/preferences";
+import { loadPreferences } from "@/features/notifications/preferences-data";
+import {
   loadDevices,
   notifyDevices,
 } from "@/features/notifications/push-fanout";
@@ -64,11 +69,25 @@ export async function GET(req: Request) {
 
     // 2) 종료 확인 푸시 — 대상자 기기를 한 번에 읽고 제한 동시성으로 발송.
     //    (웹푸시의 예/아니오 액션은 SW 가 처리, FCM 은 기본 알림.)
-    const devices = await loadDevices(admin, toPrompt);
+    //
+    // 알림 설정으로 먼저 거른다(로드맵 3.1). 이 크론은 10분마다 돌아 **한밤중에도**
+    // 뜰 수 있어서, 야간 방해 금지가 가장 크게 작용하는 곳이다.
+    // ⚠ 푸시를 안 보내도 **상태 갱신(prompted_at)은 그대로 한다** — 안 그러면
+    //    10분 뒤에 또 대상이 되고, 아침이 되는 순간 밀린 알림이 한꺼번에 쏟아진다.
+    const hour = seoulHour();
+    const prefsByUser = await loadPreferences(admin, toPrompt);
+    const { allowed: notifyTargets, blocked: optedOut } = filterByPreference(
+      toPrompt,
+      (id) => id,
+      prefsByUser,
+      "workout-inactivity",
+      hour,
+    );
+    const devices = await loadDevices(admin, notifyTargets);
     let failed = 0;
     let firstFailure: string | undefined;
     const results = await mapWithConcurrency(
-      toPrompt,
+      notifyTargets,
       USER_CONCURRENCY,
       async (userId) => {
         // 한 명이 터져도 나머지 발송과 상태 갱신은 계속한다(부분 실패 격리).
@@ -111,6 +130,8 @@ export async function GET(req: Request) {
         scanned: rows.length,
         targeted: toPrompt.length,
         sent,
+        // 설정(야간 금지·종류 끔)으로 안 보낸 수 — 관리자 화면에서 "왜 안 갔나" 가 보이게.
+        deduped: optedOut,
         failed,
       },
       body: {

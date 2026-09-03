@@ -30,16 +30,15 @@ test("설정에서 건강 연동으로 들어가 항목과 이유를 볼 수 있
   await expect(body).toContainText("마지막 동기화 · 아직 없음");
 });
 
-test("아직 안 붙은 항목은 '준비 중' — 권한 버튼을 달지 않는다", async ({ page }) => {
+test("수면 항목은 구현 상태이며 웹에서는 연결 버튼이 잠긴다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await signUpAndOnboard(page);
 
   await page.goto("/settings/health", { waitUntil: "networkidle" });
   const sleep = page.getByTestId("health-feature-sleep");
   await expect(sleep).toBeVisible({ timeout: 10_000 });
-  await expect(sleep).toContainText("준비 중");
-  // 쓰지도 않을 권한을 미리 받지 않는다 → 누를 버튼 자체가 없다.
-  await expect(page.getByTestId("health-connect-sleep")).toHaveCount(0);
+  await expect(sleep).not.toContainText("준비 중");
+  await expect(page.getByTestId("health-connect-sleep")).toBeDisabled();
 });
 
 test("웹에서는 앱에서만 된다고 알리고 연결 버튼이 잠긴다", async ({ page }) => {
@@ -53,6 +52,9 @@ test("웹에서는 앱에서만 된다고 알리고 연결 버튼이 잠긴다",
   // 눌러도 아무 일이 없는 버튼을 만들지 않는다.
   await expect(page.getByTestId("health-connect-steps")).toBeDisabled();
   await expect(page.getByTestId("health-connect-body")).toBeDisabled();
+  await expect(page.getByTestId("health-connect-workout")).toBeDisabled();
+  await expect(page.getByTestId("health-connect-run")).toBeDisabled();
+  await expect(page.getByTestId("health-connect-heartRate")).toBeDisabled();
 });
 
 test("로그인 안 하면 로그인으로 보낸다", async ({ page }) => {

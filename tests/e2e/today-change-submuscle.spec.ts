@@ -63,6 +63,10 @@ test("오늘만 운동 바꾸기에서 세부근육(가슴 상부)까지 고르�
   await expect(page).toHaveURL(/\/plan\/today.*add=1/, { timeout: 30000 });
   await page.waitForTimeout(1000);
 
-  // 편집기에 '가슴 상부' 섹션 라벨이 나와야 한다(세부근육이 흘러왔다는 증거).
-  await expect(page.getByText("가슴 상부").first()).toBeVisible({ timeout: 8000 });
+  // 섹션 제목은 사용자 요청대로 큰 부위명("가슴")만 표시한다. 대신 선택 목록이
+  // 상부 전용 운동으로 좁혀져야 세부근육 blockId가 편집기까지 흘러온 것이다.
+  await page.getByRole("button", { name: "운동", exact: true }).first().click();
+  await expect(page.getByText("인클라인 프레스", { exact: true })).toBeVisible({
+    timeout: 8000,
+  });
 });

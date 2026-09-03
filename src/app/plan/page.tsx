@@ -5,7 +5,6 @@ import { ArrowRight, ChevronLeft } from "lucide-react";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
-import { getMyGroups } from "@/features/groups/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { routineDaySlots } from "@/features/routine/data";
 import { getPlanForDay } from "@/features/routine/plan";
@@ -16,13 +15,11 @@ import { PlanEditor } from "@/features/routine/components/plan-editor";
 export const dynamic = "force-dynamic";
 
 export default async function PlanPage() {
-  const [user, profile, routine, gym, myGroups] = await Promise.all([
+  const [user, profile, routine, gym] = await Promise.all([
     getCurrentUser(),
     getUserProfile(),
     getUserRoutine(),
     getCurrentGym(),
-    // '이 일차 소개하기' 의 공개범위(그룹만) 선택지.
-    getMyGroups(),
   ]);
 
   if (!profile) redirect("/onboarding");
@@ -122,7 +119,6 @@ export default async function PlanPage() {
         weightKg={profile.weightKg}
         gymEquipment={gymEquipment}
         lockWeightReps={profile.lockWeightReps}
-        myGroups={myGroups.map((g) => ({ id: g.id, name: g.name }))}
       />
     </main>
   );

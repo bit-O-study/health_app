@@ -23,6 +23,10 @@ import {
 import { importBodyLogsAction } from "@/features/health/body-actions";
 import { connectSteps } from "@/features/health/steps-native";
 import { saveStepsDaysAction } from "@/features/health/steps-actions";
+import {
+  formatSleepRecovery,
+  readLatestSleepRecovery,
+} from "@/features/health/sleep-recovery";
 
 /**
  * 건강 연동 설정 — 로드맵 6.1.
@@ -120,6 +124,18 @@ export function HealthConnections() {
               saved.skipped > 0
               ? "이미 다 가져온 기록이에요"
               : "가져올 새 기록이 없어요",
+      }));
+      return;
+    }
+    if (id === "sleep") {
+      const result = await readLatestSleepRecovery();
+      if (!result.ok) return setMsg((m) => ({ ...m, [id]: result.reason }));
+      setSync(markSynced("sleep"));
+      setMsg((m) => ({
+        ...m,
+        sleep: result.recovery
+          ? formatSleepRecovery(result.recovery)
+          : "최근 48시간에 완료된 수면 기록이 없어요",
       }));
     }
   }

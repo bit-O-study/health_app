@@ -2,6 +2,7 @@ import { ChevronLeft } from "lucide-react";
 
 import { BackLink } from "@/components/back-link";
 import { getUserProfile } from "@/features/profile/data-access";
+import { LightModeToggle } from "@/features/profile/components/light-mode-toggle";
 import { VideoPrefToggle } from "@/features/profile/components/video-pref-toggle";
 import { PrefToggle } from "@/features/profile/components/pref-toggle";
 import { RestDefaultPicker } from "@/features/profile/components/rest-default-picker";
@@ -34,6 +35,7 @@ export default async function PersonalSettingsPage() {
           운동 화면 표시
         </h2>
         <div className="space-y-4">
+          <LightModeToggle />
           <VideoPrefToggle initialHide={profile?.hideExerciseVideos ?? false} />
           <PrefToggle
             prefKey="lockWeightReps"

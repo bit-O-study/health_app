@@ -26,6 +26,7 @@ const TABLE: Record<ReportTargetKind, string> = {
   community_comment: "community_comments",
   teaching_post: "teaching_posts",
   teaching_comment: "teaching_comments",
+  routine_share: "routine_shares",
 };
 
 /** 신고 목록(모더레이터 전용). 미처리(open) 우선, 최신순. */

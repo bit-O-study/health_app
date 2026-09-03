@@ -481,7 +481,7 @@ export function DailyMainEditor({
   }
 
   return (
-    <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+    <section className="app-card p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">본운동</h2>
         <div className="flex flex-wrap items-center gap-1.5">
@@ -500,7 +500,7 @@ export function DailyMainEditor({
             type="button"
             onClick={addRow}
             disabled={addOptionsLoading}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
           >
             {addOptionsLoading ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -573,7 +573,7 @@ export function DailyMainEditor({
                       onChange={(e) =>
                         changeRowFocus(idx, e.target.value as FocusTone)
                       }
-                      className="h-9 min-w-0 flex-1 rounded-md border border-zinc-300 bg-white px-2 text-sm font-semibold text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+                      className="h-9 min-w-0 flex-1 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
                     >
                       {choices.map((f) => (
                         <option key={f} value={f}>
@@ -583,7 +583,7 @@ export function DailyMainEditor({
                     </select>
                   ) : (
                     <span
-                      className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                      className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-bold text-white"
                       style={{
                         backgroundColor: sub
                           ? muscleGroup(sub.muscle).color
@@ -637,7 +637,7 @@ export function DailyMainEditor({
                       };
                       update(next);
                     }}
-                    className="h-9 max-w-[40%] shrink-0 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+                    className="h-9 max-w-[40%] shrink-0 rounded-md border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
                   >
                     {exEquipments.map((eq) => {
                       const ok = isEquipmentAvailable(eq, gymSet);

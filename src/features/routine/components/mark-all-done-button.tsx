@@ -67,7 +67,7 @@ export function MarkAllDoneButton({
         )}
         오늘 전부 완료
         {total > 0 ? (
-          <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
+          <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-[11px] font-bold text-white">
             {total}
           </span>
         ) : null}

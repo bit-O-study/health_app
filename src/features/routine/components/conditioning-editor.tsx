@@ -229,7 +229,7 @@ export function ConditioningEditor({
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-7 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
           >
             <Plus aria-hidden="true" size={13} />
             추가
@@ -249,7 +249,7 @@ export function ConditioningEditor({
             return (
               <div
                 key={idx}
-                className="flex flex-wrap items-center gap-1.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-2"
+                className="app-field flex flex-wrap items-center gap-1.5 rounded-md border p-2"
               >
                 <div className="basis-full sm:basis-auto sm:flex-1">
                   <ExerciseSearchSelect
@@ -279,7 +279,7 @@ export function ConditioningEditor({
                             update(next);
                           }}
                           placeholder={PARAM_LABEL[p]}
-                          className="h-8 w-16 rounded border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                          className="h-8 w-16 rounded border app-field px-2 text-center text-sm"
                         />
                         <span className="text-xs text-zinc-500 dark:text-zinc-400">
                           {PARAM_UNIT[p]}

@@ -198,7 +198,7 @@ export function RoutinePlanner({
   }
 
   return (
-    <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm sm:p-7">
+    <section className="app-card p-6 sm:p-7">
       <div className="flex flex-col gap-2">
         <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
           <CalendarDays aria-hidden="true" size={20} />
@@ -233,7 +233,7 @@ export function RoutinePlanner({
                   "whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
                   active
                     ? "border-emerald-600 bg-emerald-600 text-white"
-                    : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+                    : "app-field text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
                 )}
               >
                 {item.label}
@@ -247,7 +247,7 @@ export function RoutinePlanner({
               "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
               isCustom
                 ? "border-emerald-600 bg-emerald-600 text-white"
-                : "border-dashed border-zinc-400 dark:border-zinc-500 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+                : "app-field border-dashed text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
             )}
           >
             <Pencil aria-hidden="true" size={14} />
@@ -298,7 +298,7 @@ export function RoutinePlanner({
                     "whitespace-nowrap rounded-md border px-3 py-2 text-left text-sm font-semibold transition",
                     active
                       ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
-                      : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+                      : "app-field text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
                   )}
                 >
                   {item.name}
@@ -429,7 +429,7 @@ export function RoutinePlanner({
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "recommend"
                     ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
-                    : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700",
+                    : "app-field hover:border-emerald-300 dark:hover:border-emerald-700",
                 )}
               >
                 <input
@@ -456,7 +456,7 @@ export function RoutinePlanner({
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "manual"
                     ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
-                    : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700",
+                    : "app-field hover:border-emerald-300 dark:hover:border-emerald-700",
                 )}
               >
                 <input
@@ -483,7 +483,7 @@ export function RoutinePlanner({
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "byMuscle"
                     ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
-                    : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 hover:border-emerald-300 dark:hover:border-emerald-700",
+                    : "app-field hover:border-emerald-300 dark:hover:border-emerald-700",
                 )}
               >
                 <input
@@ -589,7 +589,7 @@ function DayBlockEditor({
           aria-label={`${weekday}요일 첫 부위`}
           value={primary}
           onChange={(e) => onSetPrimary(e.target.value as DayBlockId)}
-          className="h-9 min-w-0 flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-9 min-w-0 flex-1 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
         >
           <option value="rest">휴식</option>
           {MUSCLE_BLOCK_GROUPS.map((g) => (
@@ -680,7 +680,7 @@ function AddBlockMenu({
           setOpen((v) => !v);
           setGroupId(null);
         }}
-        className="inline-flex items-center gap-0.5 rounded-full border border-dashed border-zinc-400 dark:border-zinc-500 bg-white dark:bg-zinc-800 px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
+        className="inline-flex items-center gap-0.5 rounded-full border app-field border-dashed px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
       >
         <Plus aria-hidden="true" size={11} />
         부위 추가
@@ -695,7 +695,7 @@ function AddBlockMenu({
             onClick={reset}
             className="fixed inset-0 z-10 cursor-default"
           />
-          <div className="absolute left-0 top-full z-20 mt-1 flex w-44 flex-col rounded-md border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-1 shadow-lg">
+          <div className="app-field absolute left-0 top-full z-20 mt-1 flex w-44 flex-col rounded-md border p-1 shadow-lg">
             {active === null ? (
               // 1단계: 부위 선택
               groups.map((g) => {

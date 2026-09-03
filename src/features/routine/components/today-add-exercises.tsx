@@ -33,7 +33,7 @@ export function TodayAddExercises() {
       type="button"
       onClick={go}
       disabled={pending}
-      className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 bg-white px-3 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+      className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
     >
       {pending ? (
         <Loader2 aria-hidden="true" size={14} className="animate-spin" />

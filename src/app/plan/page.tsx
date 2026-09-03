@@ -91,7 +91,7 @@ export default async function PlanPage() {
         </Link>
         {/* '루틴 변경' — 메인 헤더에서 이 화면(운동 편집) 안으로 이동. */}
         <Link
-          className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+          className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-md border app-field px-3 text-sm font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
           href="/settings/routine"
         >
           루틴 변경

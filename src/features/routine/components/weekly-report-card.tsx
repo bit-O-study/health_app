@@ -73,15 +73,71 @@ function Stat({
   );
 }
 
-export function WeeklyReportCard({ report }: { report: WeeklyReport }) {
+export function WeeklyReportCard({
+  report,
+  compact = false,
+}: {
+  report: WeeklyReport;
+  /**
+   * 운동탭용 간단형 — 지표 3개(운동한 날·시간·볼륨)만. 운동탭의 주인공은 '오늘'이라
+   * 주간 카드가 오늘 목록만큼 커지면 안 된다. **숫자는 같은 집계**를 쓴다(화면마다
+   * 다른 값을 말하지 않게).
+   */
+  compact?: boolean;
+}) {
   const { current, deltas, partial } = report;
   // 이번 주에 아무 것도 없으면 빈 카드를 띄우지 않는다 — 홈이 0으로 도배된다.
   if (!hasWeeklyActivity(current)) return null;
 
   const topParts = current.bodyParts.slice(0, 4);
 
+  if (compact) {
+    return (
+      <section className="app-card p-4">
+        <div className="flex items-center justify-between gap-2">
+          <h2 className="flex items-center gap-2 text-sm font-bold text-zinc-950 dark:text-zinc-100">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-400">
+              <CalendarRange aria-hidden="true" size={15} />
+            </span>
+            이번 주
+            <span className="font-medium text-[11px] text-zinc-500 dark:text-zinc-400">
+              {partial ? `${current.days}일째` : "한 주 전체"}
+            </span>
+          </h2>
+          <Link
+            href="/settings/progress"
+            className="inline-flex items-center gap-0.5 text-xs font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
+          >
+            성장 그래프
+            <ArrowUpRight aria-hidden="true" size={13} />
+          </Link>
+        </div>
+        <div className="mt-3 grid grid-cols-3 gap-x-3">
+          <Stat
+            label="운동한 날"
+            value={`${current.workoutDays}일`}
+            delta={deltas.workoutDays}
+            unit="일"
+          />
+          <Stat
+            label="운동 시간"
+            value={formatMinutes(current.workoutMinutes)}
+            delta={deltas.workoutMinutes}
+            unit="분"
+          />
+          <Stat
+            label="총 볼륨"
+            value={`${current.volumeKg.toLocaleString()}kg`}
+            delta={deltas.volumeKg}
+            unit="kg"
+          />
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+    <section className="app-card p-5">
       <div className="mb-1 flex items-center justify-between gap-2">
         <h2 className="flex items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
           <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-violet-100 text-violet-700 dark:bg-violet-900/40 dark:text-violet-400">
@@ -147,7 +203,7 @@ export function WeeklyReportCard({ report }: { report: WeeklyReport }) {
       </div>
 
       {topParts.length > 0 ? (
-        <div className="mt-4 border-t border-zinc-100 pt-3 dark:border-zinc-700">
+        <div className="mt-4 border-t border-[var(--line)] pt-3">
           <p className="mb-2 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
             부위 분포 (볼륨 기준)
           </p>

@@ -144,7 +144,7 @@ export function TodayEditBar() {
         type="button"
         disabled={pending}
         onClick={onCancel}
-        className="inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50"
+        className="inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50"
       >
         <X aria-hidden="true" size={13} />
         취소

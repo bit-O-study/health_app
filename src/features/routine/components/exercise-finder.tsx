@@ -83,7 +83,7 @@ export function ExerciseFinder() {
               onClick={() => setOpen(false)}
             >
           <div
-            className="flex h-[80dvh] max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl dark:bg-zinc-900 sm:h-[600px] sm:max-h-[82vh] sm:rounded-2xl"
+            className="flex h-[80dvh] max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-t-2xl bg-[var(--surface-strong)] shadow-2xl sm:h-[600px] sm:max-h-[82vh] sm:rounded-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* 헤더 */}
@@ -146,10 +146,10 @@ export function ExerciseFinder() {
                                 key={h.id}
                                 href={`/exercises/${h.id}`}
                                 onClick={() => setOpen(false)}
-                                className="flex items-center justify-between gap-2 rounded-lg bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm transition hover:bg-emerald-50 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-emerald-950/30"
+                                className="flex items-center justify-between gap-2 rounded-lg bg-[var(--surface-strong)] px-2.5 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm transition hover:bg-emerald-50 dark:text-zinc-100 dark:hover:bg-emerald-950/30"
                               >
                                 <span className="truncate">{h.name}</span>
-                                <span className="shrink-0 text-[10px] font-medium text-zinc-400">
+                                <span className="shrink-0 text-[11px] font-medium text-zinc-400">
                                   {h.target}
                                 </span>
                               </Link>

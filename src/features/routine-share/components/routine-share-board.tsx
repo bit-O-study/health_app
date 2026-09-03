@@ -24,6 +24,7 @@ import {
   type ApplyTarget,
   type RoutineShareItem,
 } from "@/features/routine-share/share";
+import { ReportButton } from "@/features/community/components/report-button";
 
 /**
  * 커뮤니티 '루틴' 세그먼트 — 남이 소개한 **하루치 루틴**을 보고 내 루틴의 한 일차로 담는다.
@@ -83,7 +84,7 @@ export function RoutineShareBoard({
         <div className="rounded-xl border border-dashed border-zinc-300 bg-white px-4 py-10 text-center text-sm font-semibold text-zinc-500 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-400">
           아직 소개된 루틴이 없어요.
           <span className="mt-1 block text-xs font-medium">
-            운동 › 운동 등록에서 “이 일차 소개하기”로 내 루틴을 올려보세요.
+            오른쪽 아래 “글쓰기”에서 내 루틴의 일차를 골라 소개해보세요.
           </span>
         </div>
       ) : (
@@ -300,7 +301,17 @@ function ShareDetailSheet({
               )}
               삭제
             </button>
-          ) : null}
+          ) : (
+            <ReportButton
+              targetKind="routine_share"
+              targetId={item.id}
+              targetUserId={item.userId}
+              targetAuthor={item.authorName}
+              targetPreview={`${item.title} · ${item.caption ?? ""}`}
+              label="신고"
+              className="inline-flex h-11 shrink-0 items-center gap-1.5 px-2 text-sm font-bold text-zinc-500 transition hover:text-rose-600 dark:text-zinc-400"
+            />
+          )}
           <button
             type="button"
             onClick={() => setPicking(true)}

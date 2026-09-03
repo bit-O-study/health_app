@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { Loader2, Sparkles, Video } from "lucide-react";
 
 import { analyzePostureAction } from "@/features/coach/coach-actions";
+import { AiDisclaimer } from "@/features/coach/components/ai-disclaimer";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 import type { CoachAnalysis } from "@/features/coach/parse";
 
@@ -190,6 +191,8 @@ export function PostureAnalyzer({
               </li>
             ))}
           </ul>
+          {/* 자세 조언도 같은 이유로 — 통증이 있는 사람이 "AI 가 괜찮대" 로 받으면 안 된다. */}
+          <AiDisclaimer />
         </div>
       ) : null}
     </section>

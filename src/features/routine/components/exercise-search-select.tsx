@@ -5,8 +5,10 @@ import { createPortal } from "react-dom";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 
 import { DAY_BLOCKS, isDayBlockId } from "@/features/routine/data";
-import { focusForExercise } from "@/features/routine/exercise-catalog";
-import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+// 부위·세부근육은 **매핑 모듈만** 쓴다 — 운동 목록(274 KiB)을 이 선택기 때문에
+// 끌고 오면 이 컴포넌트를 쓰는 화면 전부(오늘 계획·일차 편집·컨디셔닝)가 같이 무거워진다.
+import { focusForExerciseId } from "@/features/routine/exercise-body-parts";
+import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { muscleGroup } from "@/features/routine/muscle-map";
 
 /** 검색 선택 항목 — 본운동(CatalogExercise)·컨디셔닝(ConditioningItem) 공용 최소 형태. */
@@ -46,6 +48,7 @@ export function ExerciseSearchSelect({
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 포털은 클라이언트에서만 — document 접근 가드.
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration 뒤 document portal 허용
   useEffect(() => setMounted(true), []);
 
   useEffect(() => {
@@ -63,8 +66,9 @@ export function ExerciseSearchSelect({
     if (!muscleFilter) return [];
     return options.map((o) => ({
       o,
-      focus: focusForExercise(o.id),
-      subs: subMusclesForExercise(o.id),
+      focus: focusForExerciseId(o.id),
+      // 이름·타깃은 이미 props 로 들어와 있다 — 카탈로그를 다시 뒤질 이유가 없다.
+      subs: subMusclesForExerciseData(o.id, o.name, o.target ?? ""),
     }));
   }, [options, muscleFilter]);
 
@@ -133,6 +137,7 @@ export function ExerciseSearchSelect({
   // 부위(focus)를 바꾸면 그 부위에 없는 세부근육 선택은 해제.
   useEffect(() => {
     if (!subPick) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 상위 필터 변경 시 무효 선택 정리
     if (!subChips.some((s) => s.id === subPick)) setSubPick(null);
   }, [subPick, subChips]);
 
@@ -152,7 +157,7 @@ export function ExerciseSearchSelect({
         aria-expanded={open}
         disabled={disabled}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-full items-center justify-between gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 disabled:opacity-60"
+        className="flex h-9 w-full items-center justify-between gap-1 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 disabled:opacity-60"
       >
         <span className="truncate">{selected?.name ?? "운동 선택"}</span>
         <ChevronDown aria-hidden="true" size={15} className="shrink-0 text-zinc-400" />
@@ -171,7 +176,7 @@ export function ExerciseSearchSelect({
                 onClick={() => setOpen(false)}
                 className="absolute inset-0 h-full w-full cursor-default bg-black/40"
               />
-              <div className="relative mx-auto mt-[max(env(safe-area-inset-top),0.75rem)] flex max-h-[85vh] w-[min(28rem,94vw)] flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
+              <div className="relative mx-auto mt-[max(env(safe-area-inset-top),0.75rem)] flex max-h-[85vh] w-[min(28rem,94vw)] flex-col overflow-hidden app-card bg-[var(--surface-strong)] shadow-2xl">
                 <div className="flex items-center gap-1.5 border-b border-zinc-100 px-3 py-2.5 dark:border-zinc-800">
                   <Search aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
                   <input
@@ -323,7 +328,7 @@ function FilterChip({
       className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold transition ${
         active
           ? "border-transparent text-white"
-          : "border-zinc-300 bg-white text-zinc-600 hover:border-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+          : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300"
       }`}
       style={active ? { backgroundColor: color ?? "#059669" } : undefined}
     >

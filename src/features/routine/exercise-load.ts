@@ -1,0 +1,141 @@
+/**
+ * 운동 강도(로드클래스) — 무게를 크게 다루는 운동인지 등급으로 나눈다.
+ *
+ * 칼로리 추정·권장 중량에서 쓴다. **운동 목록 데이터와 분리해 둔다** —
+ * 칼로리 계산 하나 하자고 1,237개 목록(274 KiB)을 클라이언트로 끌고 오면 안 된다.
+ * (`exercise-catalog.ts` 가 재수출하므로 기존 import 경로는 그대로 동작한다.)
+ */
+
+import { EXTRA_LOAD_CLASS } from "@/features/routine/exercise-catalog-extra-maps";
+
+export type LoadClass = "heavy" | "medium" | "light" | "bodyweight";
+
+const LOAD_CLASS: Record<string, LoadClass> = {
+  // 기본
+  squat: "heavy",
+  deadlift: "heavy",
+  "bench-press": "heavy",
+  ohp: "heavy",
+  "leg-press": "heavy",
+  rdl: "heavy",
+  "hip-thrust": "heavy",
+  "incline-press": "heavy",
+  "barbell-row": "medium",
+  "lat-pulldown": "medium",
+  "chest-fly": "light",
+  "lateral-raise": "light",
+  "face-pull": "light",
+  "biceps-curl": "light",
+  "hammer-curl": "light",
+  "triceps-pushdown": "light",
+  "leg-curl": "light",
+  "cable-crunch": "light",
+  "cable-kickback": "light",
+  "hip-abduction": "light",
+  dips: "bodyweight",
+  "pull-up": "bodyweight",
+  plank: "bodyweight",
+  "hanging-leg-raise": "bodyweight",
+  lunge: "bodyweight",
+  "bulgarian-split-squat": "bodyweight",
+  "glute-bridge": "bodyweight",
+  // 가슴 추가
+  "decline-press": "heavy",
+  "push-up": "bodyweight",
+  "pec-deck": "light",
+  "cable-crossover": "light",
+  "close-grip-bench-press": "medium",
+  // 등 추가
+  "t-bar-row": "heavy",
+  "seated-cable-row": "medium",
+  "one-arm-dumbbell-row": "medium",
+  "straight-arm-pulldown": "light",
+  shrug: "medium",
+  "chin-up": "bodyweight",
+  hyperextension: "bodyweight",
+  // 어깨 추가
+  "arnold-press": "medium",
+  "front-raise": "light",
+  "rear-delt-fly": "light",
+  "upright-row": "light",
+  // 팔 추가
+  "preacher-curl": "light",
+  "ez-bar-curl": "light",
+  "incline-curl": "light",
+  "concentration-curl": "light",
+  "skull-crusher": "medium",
+  "overhead-triceps-extension": "light",
+  "bench-dip": "bodyweight",
+  "reverse-curl": "light",
+  "wrist-curl": "light",
+  // 하체 추가
+  "front-squat": "heavy",
+  "goblet-squat": "medium",
+  "hack-squat": "heavy",
+  "leg-extension": "light",
+  "seated-leg-curl": "light",
+  "standing-calf-raise": "light",
+  "seated-calf-raise": "light",
+  "sumo-deadlift": "heavy",
+  "good-morning": "medium",
+  "step-up": "light",
+  "hip-adduction": "light",
+  "walking-lunge": "bodyweight",
+  "smith-squat": "heavy",
+  // 코어 추가
+  "sit-up": "bodyweight",
+  crunch: "bodyweight",
+  "side-plank": "bodyweight",
+  "russian-twist": "bodyweight",
+  "ab-rollout": "bodyweight",
+  "mountain-climber": "bodyweight",
+  "wood-chopper": "light",
+  "pallof-press": "light",
+  // ── 2차 추가
+  "smith-bench-press": "heavy",
+  "machine-chest-press": "medium",
+  "incline-cable-fly": "light",
+  "dumbbell-pullover": "medium",
+  "pendlay-row": "heavy",
+  "meadows-row": "medium",
+  "reverse-pec-deck": "light",
+  "inverted-row": "bodyweight",
+  "wide-grip-pull-up": "bodyweight",
+  "cable-lateral-raise": "light",
+  "machine-shoulder-press": "medium",
+  "machine-rear-delt-fly": "light",
+  "cable-rear-delt-fly": "light",
+  "cable-front-raise": "light",
+  "cable-fly": "light",
+  "cable-curl": "light",
+  "drag-curl": "medium",
+  "zottman-curl": "light",
+  "cable-rope-hammer-curl": "light",
+  "triceps-kickback": "light",
+  "diamond-pushup": "bodyweight",
+  "stiff-leg-deadlift": "heavy",
+  "pistol-squat": "bodyweight",
+  "sissy-squat": "bodyweight",
+  "cossack-squat": "bodyweight",
+  "box-squat": "heavy",
+  "belt-squat": "heavy",
+  "single-leg-leg-press": "medium",
+  "curtsy-lunge": "light",
+  "sumo-squat": "medium",
+  "donkey-calf-raise": "bodyweight",
+  "reverse-crunch": "bodyweight",
+  "v-up": "bodyweight",
+  "hollow-hold": "bodyweight",
+  "toes-to-bar": "bodyweight",
+  "bicycle-crunch": "bodyweight",
+  // ── 3차 추가
+  "low-row-machine": "medium",
+  "chest-supported-row": "medium",
+  "assisted-pull-up": "medium",
+  "standing-cable-curl": "light",
+  "cable-pull-through": "medium",
+};
+
+export function loadClassOf(id: string): LoadClass {
+  return LOAD_CLASS[id] ?? EXTRA_LOAD_CLASS[id] ?? "medium";
+}

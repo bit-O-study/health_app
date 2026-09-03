@@ -74,3 +74,45 @@ describe("balanceStatusFor (부위 밸런스)", () => {
     expect(balanceStatusFor(0, 0)).toBe("under");
   });
 });
+
+/**
+ * 운동량은 성장 그래프와 **같은 기준**으로 세야 한다(2026-09-01).
+ * 예전엔 여기서도 세트별 기록(드롭세트·피라미드)을 안 읽고 균일 세트로만 계산해,
+ * 실제로 한 것보다 많거나 적게 점수가 붙었다.
+ */
+describe("computeScore — 세트별 기록", () => {
+  it("세트별 기록이 있으면 그걸로 센다(균일 세트 계산과 값이 다르다)", () => {
+    const drop: DoneRecord = {
+      forDate: daysAgo(0),
+      sets: 3,
+      reps: 10,
+      weightKg: 60,
+      setDetails: [
+        { weightKg: 60, reps: 10 }, // 600
+        { weightKg: 50, reps: 10 }, // 500
+        { weightKg: 40, reps: 12 }, // 480
+      ],
+    };
+    const uniform: DoneRecord = { ...drop, setDetails: null }; // 3×10×60 = 1800
+    // 점수 = 운동량/200 × 반감기(오늘이라 1). 1580/200 = 7.9, 1800/200 = 9.
+    expect(computeScore([drop], 70).score).toBe(8);
+    expect(computeScore([uniform], 70).score).toBe(9);
+  });
+
+  it("세트별 기록에 무게가 없으면 맨몸 규칙(사용자 체중)을 그대로 따른다", () => {
+    const bw: DoneRecord = {
+      forDate: daysAgo(0),
+      setDetails: [{ weightKg: null, reps: 10 }],
+    };
+    const same: DoneRecord = { forDate: daysAgo(0), sets: 1, reps: 10, weightKg: null };
+    expect(computeScore([bw], 70).score).toBe(computeScore([same], 70).score);
+  });
+
+  it("세트별 기록이 비어 있으면 균일 세트로 되돌린다", () => {
+    const empty: DoneRecord = {
+      forDate: daysAgo(0), sets: 4, reps: 10, weightKg: 60, setDetails: [],
+    };
+    const uniform: DoneRecord = { ...empty, setDetails: null };
+    expect(computeScore([empty], 70).score).toBe(computeScore([uniform], 70).score);
+  });
+});

@@ -4,12 +4,14 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Camera,
+  Clock,
   Dumbbell,
   Film,
   FlaskConical,
   LayoutDashboard,
   LogOut,
   ShieldCheck,
+  TriangleAlert,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -25,6 +27,8 @@ import {
 const ICONS: Record<string, LucideIcon> = {
   "/admin": LayoutDashboard,
   "/admin/members": Users,
+  "/admin/crons": Clock,
+  "/admin/events": TriangleAlert,
   "/admin/settings": ShieldCheck,
   "/admin/exercise-media": Film,
   "/equipment": Camera,

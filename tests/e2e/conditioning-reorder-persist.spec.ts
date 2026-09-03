@@ -70,7 +70,6 @@ test("루틴변경으로 마무리 종목이 달라지면(런닝→차일드포�
   const childRow = page.locator("li").filter({ hasText: "차일드 포즈" }).first();
   await expect(childRow).toBeVisible({ timeout: 8000 });
   await expect(childRow.getByText("완료", { exact: true })).toHaveCount(0);
-  // ② 완료했던 마무리(런닝)는 종목이 바뀌어도 완료로 그대로 남아야 한다(본운동과 동일).
-  const runRow = page.locator("li").filter({ hasText: "런닝" }).first();
-  await expect(runRow.getByText("완료", { exact: true }).first()).toBeVisible();
+  // 이전 부위의 런닝은 오늘 목록에 남지 않는다.
+  await expect(page.locator("li").filter({ hasText: "런닝" })).toHaveCount(0);
 });

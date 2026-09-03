@@ -41,8 +41,13 @@ import {
   type Mesh,
 } from "three";
 
-import { subMuscleColor } from "@/features/routine/muscle-detail";
+// ⚠ 얇은 모듈 — muscle-detail 을 쓰면 운동 목록 274 KiB 가 딸려온다.
+import { subMuscleColor } from "@/features/routine/sub-muscles";
 import type { MuscleId } from "@/features/routine/muscle-map";
+import {
+  disposeThreeObject,
+  retainThreeResource,
+} from "@/lib/media/three-resource";
 
 /**
  * 해부학 GLB 경로. 이 파일을 public/models/anatomy.glb 로 넣으면 자동으로 그 모델을
@@ -456,6 +461,16 @@ function AnatomyModel({
   const meshInfoRef = useRef<{ sub: string | null; mat: MeshStandardMaterial }[]>(
     [],
   );
+
+  useEffect(() => {
+    const release = retainThreeResource(url);
+    return () => {
+      if (release()) {
+        disposeThreeObject(scene);
+        useGLTF.clear(url);
+      }
+    };
+  }, [scene, url]);
 
   // 모델 로드 시: 우리 제어용 머티리얼로 교체 + 화면 중앙·적정 크기로 자동 정렬
   useEffect(() => {

@@ -1,6 +1,7 @@
 "use server";
 
 import { callAI } from "@/features/coach/ai";
+import { consumeAiQuota } from "@/features/coach/ai-usage";
 import {
   parseBodyCompScan,
   type OcrField,
@@ -27,6 +28,9 @@ export async function scanBodyCompPhotoAction(input: {
   mediaType: string;
 }): Promise<BodyCompScanResult> {
   if (!input.imageBase64) return { ok: false, error: "사진이 없습니다." };
+
+  const quota = await consumeAiQuota("body-scan");
+  if (!quota.ok) return { ok: false, error: quota.message };
 
   const res = await callAI(SYSTEM, "이 체성분 분석지의 수치를 읽어줘.", {
     images: [{ base64: input.imageBase64, mediaType: input.mediaType }],

@@ -5,7 +5,9 @@ import { useRouter } from "next/navigation";
 import {
   ChevronDown,
   Footprints,
+  House,
   Loader2,
+  MapPin,
   RotateCcw,
   Shuffle,
   SlidersHorizontal,
@@ -39,6 +41,7 @@ export function TodayFocusMenu({
   const [adjustOpen, setAdjustOpen] = useState(false);
   // 런닝하기 → '오늘 런닝으로 대체할까요?' 확인.
   const [confirmRun, setConfirmRun] = useState(false);
+  const [runMode, setRunMode] = useState<"indoor" | "outdoor">("indoor");
   const [pending, start] = useTransition();
 
   function restart() {
@@ -50,7 +53,8 @@ export function TodayFocusMenu({
   }
 
   // 런닝하기 — 대체 여부를 먼저 물어본다.
-  function runToday() {
+  function runToday(mode: "indoor" | "outdoor") {
+    setRunMode(mode);
     setMenuOpen(false);
     setConfirmRun(true);
   }
@@ -60,14 +64,14 @@ export function TodayFocusMenu({
     start(async () => {
       await deferRoutineOneDayAction();
       setConfirmRun(false);
-      router.push("/running");
+      router.push(`/running?mode=${runMode}`);
     });
   }
 
   // 아니요 — 기존 운동은 그대로 두고 런닝 모드로(런닝은 마무리운동에 기록).
   function keepAndRun() {
     setConfirmRun(false);
-    router.push("/running");
+    router.push(`/running?mode=${runMode}`);
   }
 
   return (
@@ -90,7 +94,7 @@ export function TodayFocusMenu({
           onClick={() => !pending && setMenuOpen(false)}
         >
           <div
-            className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl dark:bg-zinc-800"
+            className="app-card w-full max-w-md bg-[var(--surface-strong)] p-5 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-3 flex items-center justify-between">
@@ -115,7 +119,7 @@ export function TodayFocusMenu({
                   setMenuOpen(false);
                   router.push("/plan");
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   <SlidersHorizontal aria-hidden="true" size={18} />
@@ -137,7 +141,7 @@ export function TodayFocusMenu({
                   setMenuOpen(false);
                   setAdjustOpen(true);
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
                   <Shuffle aria-hidden="true" size={18} />
@@ -156,7 +160,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={restart}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   {pending ? (
@@ -178,22 +182,37 @@ export function TodayFocusMenu({
               <button
                 type="button"
                 disabled={pending}
-                onClick={runToday}
+                onClick={() => runToday("indoor")}
                 className="flex w-full items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-left transition hover:border-emerald-400 hover:bg-emerald-100 disabled:opacity-60 dark:border-emerald-800 dark:bg-emerald-950/30 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/50"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
-                  {pending ? (
-                    <Loader2 aria-hidden="true" size={18} className="animate-spin" />
-                  ) : (
-                    <Footprints aria-hidden="true" size={18} />
-                  )}
+                  <House aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
-                    런닝하기
+                    실내 런닝
                   </span>
                   <span className="block text-xs text-zinc-500 dark:text-zinc-400">
-                    실내/실외 런닝 (마무리운동에 자동 기록)
+                    카메라로 제자리 달리기 (마무리운동에 자동 기록)
+                  </span>
+                </span>
+              </button>
+
+              <button
+                type="button"
+                disabled={pending}
+                onClick={() => runToday("outdoor")}
+                className="flex w-full items-center gap-3 rounded-xl border border-sky-300 bg-sky-50 px-4 py-3 text-left transition hover:border-sky-400 hover:bg-sky-100 disabled:opacity-60 dark:border-sky-800 dark:bg-sky-950/30 dark:hover:border-sky-700 dark:hover:bg-sky-950/50"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white">
+                  <MapPin aria-hidden="true" size={18} />
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
+                    야외 런닝
+                  </span>
+                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                    GPS로 거리와 페이스 기록 (마무리운동에 자동 기록)
                   </span>
                 </span>
               </button>
@@ -209,7 +228,7 @@ export function TodayFocusMenu({
           onClick={() => !pending && setConfirmRun(false)}
         >
           <div
-            className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl dark:bg-zinc-900"
+            className="app-card w-full max-w-sm bg-[var(--surface-strong)] p-5 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start gap-3">
@@ -218,11 +237,11 @@ export function TodayFocusMenu({
               </span>
               <div className="min-w-0">
                 <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
-                  오늘 런닝으로 대체할까요?
+                  오늘 {runMode === "indoor" ? "실내" : "야외"} 런닝으로 대체할까요?
                 </h3>
                 <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
-                  실내·실외 런닝을 시작합니다. 오늘 예정된 운동을 런닝으로 바꿀지
-                  선택하세요.
+                  {runMode === "indoor" ? "실내" : "야외"} 런닝을 시작합니다. 오늘
+                  예정된 운동을 런닝으로 바꿀지 선택하세요.
                 </p>
               </div>
             </div>
@@ -242,7 +261,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={keepAndRun}
-                className="flex w-full items-center justify-center rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                className="flex w-full items-center justify-center rounded-xl border app-field px-4 py-3 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-60 dark:text-zinc-200 dark:hover:bg-zinc-700"
               >
                 아니요 — 기존 운동은 그대로 두고 런닝
               </button>

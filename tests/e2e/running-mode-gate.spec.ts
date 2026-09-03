@@ -46,7 +46,7 @@ test("모바일(터치)에서는 모드선택(실내/야외)이 뜨고, 실내 �
 
   // 실내 선택 → 카메라 게임 인트로
   await page.getByRole("button", { name: /실내 런닝/ }).click();
-  await expect(page.getByRole("heading", { name: "런닝 모드 🏃" })).toBeVisible({
+  await expect(page.getByRole("heading", { name: "실내 런닝 🏠" })).toBeVisible({
     timeout: 5000,
   });
   await expect(page.getByRole("button", { name: "시작하기" })).toBeVisible();
@@ -60,6 +60,8 @@ test("모바일에서 야외 런닝을 고르면 GPS 인트로가 뜬다", async
     isMobile: true,
     userAgent:
       "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+    permissions: ["geolocation"],
+    geolocation: { latitude: 37.5665, longitude: 126.978 },
   });
   const page = await ctx.newPage();
   await page.goto("/running", { waitUntil: "domcontentloaded" });
@@ -80,6 +82,8 @@ test("시작 화면의 '나가기'로 모드 선택으로 돌아온다(실내/�
     isMobile: true,
     userAgent:
       "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1",
+    permissions: ["geolocation"],
+    geolocation: { latitude: 37.5665, longitude: 126.978 },
   });
   const page = await ctx.newPage();
   await page.goto("/running", { waitUntil: "domcontentloaded" });
@@ -94,7 +98,7 @@ test("시작 화면의 '나가기'로 모드 선택으로 돌아온다(실내/�
 
   // 실내 → 나가기 → 모드 선택
   await page.getByRole("button", { name: /실내 런닝/ }).click();
-  await expect(page.getByRole("heading", { name: "런닝 모드 🏃" })).toBeVisible({
+  await expect(page.getByRole("heading", { name: "실내 런닝 🏠" })).toBeVisible({
     timeout: 5000,
   });
   await page.getByRole("button", { name: /나가기/ }).click();

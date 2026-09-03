@@ -1,0 +1,164 @@
+name: ci
+
+# 푸시·PR 마다 도는 기본 검사. 로컬 pre-스크립트(predev/prebuild/prestart)와 달리
+# 여기서는 각 단계를 따로 돌려 **무엇이 얼마나 걸렸고 무엇이 깨졌는지** 남긴다.
+#
+# 단계
+#   1. 단위 테스트(로직)        — 오프라인, 항상 실행
+#   2. 린트 게이트              — 기준선보다 늘어난 에러만 차단
+#   3. 타입 검사                — tsc --noEmit
+#   4. 스키마 동기화 검사       — DB 시크릿이 있을 때만(없으면 건너뜀)
+#   5. 빌드                     — Next 프로덕션 빌드
+#
+# 검사 시간·실패 로그는 아티팩트(ci-logs)로 보존한다.
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+  workflow_dispatch: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # 로컬과 CI 가 같은 버전에서 돌도록 고정한다. Node 는 .nvmrc,
+  # pnpm 은 package.json 의 packageManager(corepack)가 진짜 기준이다.
+  NODE_VERSION_FILE: .nvmrc
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node (.nvmrc 로 고정)
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      # pnpm 버전은 package.json 의 packageManager 필드가 결정한다(corepack).
+      - name: Enable corepack (pnpm 버전 고정)
+        run: |
+          corepack enable
+          echo "node $(node -v) / pnpm $(corepack pnpm -v)" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.local/share/pnpm/store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: pnpm-${{ runner.os }}-
+
+      - name: Install deps
+        run: corepack pnpm install --frozen-lockfile
+
+      - name: Prepare log dir
+        run: mkdir -p ci-logs
+
+      # 각 단계는 실패해도 계속 가고(continue-on-error), 마지막에 한꺼번에 판정한다.
+      # 첫 실패에서 멈추면 "린트도 깨졌는지" 를 다음 실행까지 기다려야 해서 느리다.
+      - name: Unit tests (로직)
+        id: unit
+        continue-on-error: true
+        run: |
+          start=$(date +%s)
+          corepack pnpm exec vitest run tests/be/logic 2>&1 | tee ci-logs/unit.log
+          code=${PIPESTATUS[0]}
+          echo "unit_seconds=$(( $(date +%s) - start ))" >> "$GITHUB_OUTPUT"
+          exit $code
+
+      - name: Lint gate (기준선 대비 신규 에러만 차단)
+        id: lint
+        continue-on-error: true
+        run: |
+          start=$(date +%s)
+          node tools/lint/check-lint.mjs 2>&1 | tee ci-logs/lint.log
+          code=${PIPESTATUS[0]}
+          echo "lint_seconds=$(( $(date +%s) - start ))" >> "$GITHUB_OUTPUT"
+          exit $code
+
+      - name: Type check
+        id: types
+        continue-on-error: true
+        run: |
+          start=$(date +%s)
+          corepack pnpm exec tsc --noEmit 2>&1 | tee ci-logs/tsc.log
+          code=${PIPESTATUS[0]}
+          echo "tsc_seconds=$(( $(date +%s) - start ))" >> "$GITHUB_OUTPUT"
+          exit $code
+
+      # 스키마 검사는 라이브 DB 를 읽는다. 포크 PR 등 시크릿이 없는 실행에서는
+      # 실패가 아니라 "건너뜀" 이어야 한다.
+      - name: Schema sync (시크릿 있을 때만)
+        id: schema
+        continue-on-error: true
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "$SUPABASE_DB_URL" ]; then
+            echo "SUPABASE_DB_URL 시크릿이 없어 스키마 검사를 건너뜁니다." | tee ci-logs/schema.log
+            exit 0
+          fi
+          corepack pnpm exec vitest run tests/be/schema-sync.test.ts 2>&1 | tee ci-logs/schema.log
+          exit ${PIPESTATUS[0]}
+
+      - name: Build
+        id: build
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+          NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
+        run: |
+          if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ]; then
+            echo "Supabase 환경변수 시크릿이 없어 빌드를 건너뜁니다." | tee ci-logs/build.log
+            exit 0
+          fi
+          start=$(date +%s)
+          # pre-script(prebuild=vitest run)는 위에서 이미 돌렸으니 중복 실행하지 않는다.
+          corepack pnpm exec next build 2>&1 | tee ci-logs/build.log
+          code=${PIPESTATUS[0]}
+          echo "build_seconds=$(( $(date +%s) - start ))" >> "$GITHUB_OUTPUT"
+          exit $code
+
+      - name: 요약
+        if: always()
+        run: |
+          {
+            echo "### 검사 결과"
+            echo ""
+            echo "| 단계 | 결과 | 시간(초) |"
+            echo "| --- | --- | ---: |"
+            echo "| 단위 테스트 | ${{ steps.unit.outcome }} | ${{ steps.unit.outputs.unit_seconds }} |"
+            echo "| 린트 게이트 | ${{ steps.lint.outcome }} | ${{ steps.lint.outputs.lint_seconds }} |"
+            echo "| 타입 검사 | ${{ steps.types.outcome }} | ${{ steps.types.outputs.tsc_seconds }} |"
+            echo "| 스키마 동기화 | ${{ steps.schema.outcome }} | - |"
+            echo "| 빌드 | ${{ steps.build.outcome }} | ${{ steps.build.outputs.build_seconds }} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 로그 보존
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-logs-${{ github.run_number }}
+          path: ci-logs/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: 최종 판정
+        if: always()
+        run: |
+          fail=0
+          for s in "${{ steps.unit.outcome }}" "${{ steps.lint.outcome }}" \
+                   "${{ steps.types.outcome }}" "${{ steps.schema.outcome }}" \
+                   "${{ steps.build.outcome }}"; do
+            [ "$s" = "failure" ] && fail=1
+          done
+          if [ "$fail" = "1" ]; then
+            echo "검사 중 실패한 단계가 있습니다. 위 요약과 ci-logs 아티팩트를 확인하세요." >&2
+            exit 1
+          fi
+          echo "모든 검사 통과."

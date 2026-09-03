@@ -37,15 +37,18 @@ import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import { useCoalescedRefresh } from "@/features/routine/use-coalesced-refresh";
 import { ExerciseIcon } from "@/features/exercises/components/exercise-icon";
-import { DAY_BLOCKS, type FocusTone } from "@/features/routine/data";
+import { DAY_BLOCKS, type FocusKey } from "@/features/routine/data";
+// 카탈로그 **데이터**는 안 끌어온다 — 라벨·부위 매핑만(P0 번들 다이어트).
+// 운동 목록이 필요한 '운동 추가' 폼은 `exercisesForSlotAction` 으로 그때 받아온다.
 import {
-  allExercisesForFocus,
   EQUIPMENT_LABELS,
-  getCatalogExercise,
-  majorMuscleTag,
   type EquipmentId,
-  type FocusKey,
-} from "@/features/routine/exercise-catalog";
+} from "@/features/routine/exercise-catalog-labels";
+import { majorMuscleTag } from "@/features/routine/exercise-body-parts";
+import {
+  exercisesForSlotAction,
+  type SlotExerciseOption,
+} from "@/features/routine/slot-exercise-actions";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import {
   summarizeSetDetails,
@@ -53,8 +56,7 @@ import {
 } from "@/features/routine/set-details";
 import { isTimedExercise } from "@/features/routine/timed-exercises";
 import { dropIndex } from "@/features/routine/plan-order";
-import { subMusclesForExercise } from "@/features/routine/muscle-detail";
-import { allExercisesForSlot } from "@/features/routine/recommend";
+import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { subBlocksForFocus } from "@/features/routine/plan-blocks";
 import { muscleGroup } from "@/features/routine/muscle-map";
 
@@ -66,6 +68,8 @@ export type TodayPlanItem = {
   exerciseId: string;
   equipment: string;
   name: string;
+  /** 자극 부위 문구 — 세부근육 배지를 카탈로그 없이 뽑는 데 쓴다(서버가 채운다). */
+  target: string;
   equipmentLabel: string;
   sets: number;
   reps: number;
@@ -512,7 +516,7 @@ export function TodayPlanList({
             ref={(el) => {
               rowRefs.current[index] = el;
             }}
-            className="relative overflow-hidden rounded-xl"
+            className="relative overflow-hidden rounded-[1.25rem]"
             style={liftStyle}
           >
             {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더.
@@ -565,7 +569,7 @@ export function TodayPlanList({
                 WebkitUserSelect: inlineEditing ? "auto" : "none",
                 userSelect: inlineEditing ? "auto" : "none",
               }}
-              className={`relative flex select-none items-center gap-2 border bg-white dark:bg-zinc-800 p-4 shadow-sm ${
+              className={`app-surface relative flex select-none items-center gap-2 border bg-[var(--surface-strong)] p-4 shadow-sm ${
                 isDragging
                   ? "border-emerald-500 ring-2 ring-emerald-300/70"
                   : inlineEditing
@@ -588,7 +592,7 @@ export function TodayPlanList({
                     isDragging
                       ? "text-emerald-600"
                       : "text-zinc-400 dark:text-zinc-500"
-                  }active:cursor-grabbing`}
+                  } active:cursor-grabbing`}
                   style={{ touchAction: "none" }}
                   title="잡고 위·아래로 순서 변경"
                 >
@@ -647,18 +651,22 @@ export function TodayPlanList({
                         const major = majorMuscleTag(item.exerciseId);
                         return (
                           <span
-                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold ${major.tone}`}
+                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold ${major.tone}`}
                           >
                             {major.label}
                           </span>
                         );
                       })()}
                       {(() => {
-                        const sub = subMusclesForExercise(item.exerciseId)[0];
+                        const sub = subMusclesForExerciseData(
+                          item.exerciseId,
+                          item.name,
+                          item.target,
+                        )[0];
                         if (!sub) return null;
                         return (
                           <span
-                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
+                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold text-white"
                             style={{
                               backgroundColor: muscleGroup(sub.muscle).color,
                             }}
@@ -671,12 +679,12 @@ export function TodayPlanList({
                         {item.equipmentLabel}
                       </span>
                       {isDone ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
                           완료
                         </span>
                       ) : null}
                       {isSkipped ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[10px] font-bold text-zinc-700 dark:text-zinc-300">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300">
                           오늘 휴식
                         </span>
                       ) : null}
@@ -821,7 +829,7 @@ function MemoDialog({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-2xl bg-white dark:bg-zinc-800 p-5 shadow-xl"
+        className="app-card w-full max-w-md bg-[var(--surface-strong)] p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-3 flex items-center gap-2">
@@ -846,7 +854,7 @@ function MemoDialog({
             setError(null);
           }}
           disabled={pending}
-          className="w-full resize-y rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
+          className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
         />
         {error ? (
           <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
@@ -858,7 +866,7 @@ function MemoDialog({
             type="button"
             onClick={onClose}
             disabled={pending}
-            className="inline-flex h-10 items-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
+            className="inline-flex h-10 items-center rounded-md border app-field px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
           >
             취소
           </button>
@@ -1031,7 +1039,7 @@ function ExerciseEditForm({
   }
 
   const inputCls =
-    "h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
+    "h-9 w-16 rounded-md border app-field px-2 text-center text-sm";
 
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -1050,7 +1058,7 @@ function ExerciseEditForm({
             className={`inline-flex h-7 items-center rounded-md border px-2 text-[11px] font-semibold transition ${
               perSet
                 ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
-                : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
+                : "app-field text-zinc-600 dark:text-zinc-300"
             }`}
           >
             세트별 다르게
@@ -1085,7 +1093,7 @@ function ExerciseEditForm({
                 value={row.reps}
                 onChange={(e) => patchDetail(i, "reps", e.target.value)}
                 disabled={pending}
-                className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
               />
               <span className="text-xs text-zinc-500 dark:text-zinc-400">
                 회
@@ -1123,7 +1131,7 @@ function ExerciseEditForm({
               setError(null);
             }}
             disabled={pending}
-            className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+            className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
           />
           <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
           {/* 고정 끔이면 무게·횟수 입력 숨김 — 운동모드에서 그때그때 설정 */}
@@ -1139,7 +1147,7 @@ function ExerciseEditForm({
                   setError(null);
                 }}
                 disabled={pending}
-                className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
               />
               <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
               <input
@@ -1153,7 +1161,7 @@ function ExerciseEditForm({
                   setError(null);
                 }}
                 disabled={pending}
-                className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                className="h-9 w-16 rounded-md border app-field px-2 text-center text-sm"
               />
               <span className="text-xs text-zinc-500 dark:text-zinc-400">
                 kg (빈칸=맨몸)
@@ -1185,7 +1193,7 @@ function ExerciseEditForm({
           type="button"
           onClick={onCancel}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>
@@ -1233,38 +1241,56 @@ function AddExerciseSlot({
   const [focus, setFocus] = useState<FocusKey>(
     tones[0] ?? ("chest" as FocusKey),
   );
-  // 고른 세부근육(가슴 상부 등)이 있으면 그 근육을 타깃하는 운동만 보여준다.
-  const exerciseOptions = allExercisesForSlot(
-    focus,
-    subBlocksForFocus(selectedBlocks, focus),
-  );
-  const [exerciseId, setExerciseId] = useState<string>(
-    exerciseOptions[0]?.id ?? "",
-  );
-  const selectedExercise =
-    getCatalogExercise(exerciseId) ?? exerciseOptions[0] ?? null;
-  const [equipment, setEquipment] = useState<EquipmentId>(
-    selectedExercise?.equipments[0].equipment ?? "barbell",
-  );
+  // 운동 목록은 **부위를 고른 뒤 서버에서** 받는다(부위별로 한 번만, 그다음은 캐시).
+  // 고른 세부근육(가슴 상부 등)이 있으면 그 근육을 타깃하는 운동만 내려온다.
+  const [optionsByFocus, setOptionsByFocus] = useState<
+    Record<string, SlotExerciseOption[]>
+  >({});
+  const [exerciseId, setExerciseId] = useState<string>("");
+  const [equipment, setEquipment] = useState<EquipmentId>("barbell");
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
+  const exerciseOptions = optionsByFocus[focus] ?? [];
+  const selectedExercise =
+    exerciseOptions.find((o) => o.id === exerciseId) ?? exerciseOptions[0] ?? null;
+  // 로딩은 파생값 — "열렸는데 이 부위 목록이 아직 없다". 별도 state 를 두면
+  // 응답과 플래그가 어긋날 수 있고, effect 안에서 동기 setState 를 하게 된다.
+  const loading = open && !optionsByFocus[focus];
+
+  // 열려 있고 아직 안 받아온 부위면 지금 받아온다. 받으면 첫 운동을 기본 선택.
+  useEffect(() => {
+    if (!open || optionsByFocus[focus]) return;
+    let alive = true;
+    void exercisesForSlotAction(focus, subBlocksForFocus(selectedBlocks, focus))
+      // 실패해도 빈 목록으로 확정한다 — 안 그러면 스피너가 영원히 돈다.
+      .catch(() => [] as SlotExerciseOption[])
+      .then((rows) => {
+        if (!alive) return;
+        setOptionsByFocus((prev) => ({ ...prev, [focus]: rows }));
+        const first = rows[0];
+        if (first) {
+          setExerciseId(first.id);
+          setEquipment(first.equipments[0] ?? "barbell");
+        }
+      });
+    return () => {
+      alive = false;
+    };
+  }, [open, focus, optionsByFocus, selectedBlocks]);
+
   function changeFocus(next: FocusKey) {
     setFocus(next);
-    const first = allExercisesForSlot(
-      next,
-      subBlocksForFocus(selectedBlocks, next),
-    )[0];
-    if (first) {
-      setExerciseId(first.id);
-      setEquipment(first.equipments[0].equipment);
-    }
+    // 이미 받아둔 부위면 즉시 첫 운동으로, 아니면 위 effect 가 받아온 뒤 정한다.
+    const cached = optionsByFocus[next];
+    setExerciseId(cached?.[0]?.id ?? "");
+    if (cached?.[0]) setEquipment(cached[0].equipments[0] ?? "barbell");
     setError(null);
   }
   function changeExercise(id: string) {
     setExerciseId(id);
-    const ex = getCatalogExercise(id);
-    if (ex) setEquipment(ex.equipments[0].equipment);
+    const ex = exerciseOptions.find((o) => o.id === id);
+    if (ex) setEquipment(ex.equipments[0] ?? "barbell");
     setError(null);
   }
 
@@ -1295,7 +1321,7 @@ function AddExerciseSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
       >
         <Plus aria-hidden="true" size={18} />
         오늘 루틴에 운동 추가
@@ -1304,7 +1330,7 @@ function AddExerciseSlot({
   }
 
   return (
-    <div className="rounded-xl border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3">
+    <div className="rounded-[1.25rem] border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3 dark:bg-emerald-950/25">
       <div className="flex flex-wrap items-center gap-2">
         {/* 직접 담기(allowAllParts)면 모든 기본 부위에서 고를 수 있게(가슴만 되던 문제
             해결). 일반/부위 바꾸기는 오늘 부위만. 고른 부위 슬롯으로 오늘 저장된다. */}
@@ -1314,7 +1340,7 @@ function AddExerciseSlot({
             value={focus}
             onChange={(e) => changeFocus(e.target.value as FocusKey)}
             disabled={pending}
-            className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
+            className="h-9 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
           >
             {partChoices.map((t) => (
               <option key={t} value={t}>
@@ -1323,33 +1349,40 @@ function AddExerciseSlot({
             ))}
           </select>
         ) : (
-          <span className="inline-flex h-9 items-center rounded-md bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+          <span className="app-field inline-flex h-9 items-center rounded-md border px-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
             {DAY_BLOCKS[focus].label}
           </span>
         )}
-        <ExerciseSearchSelect
-          options={exerciseOptions}
-          value={exerciseId}
-          onChange={changeExercise}
-          disabled={pending || exerciseOptions.length === 0}
-        />
+        {loading ? (
+          <span className="inline-flex h-9 items-center gap-1.5 rounded-md bg-white px-2.5 text-sm font-medium text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+            <Loader2 aria-hidden="true" className="animate-spin" size={14} />
+            운동 불러오는 중…
+          </span>
+        ) : (
+          <ExerciseSearchSelect
+            options={exerciseOptions}
+            value={exerciseId}
+            onChange={changeExercise}
+            disabled={pending || exerciseOptions.length === 0}
+          />
+        )}
         <select
           aria-label="기구"
           value={equipment}
           onChange={(e) => setEquipment(e.target.value as EquipmentId)}
-          disabled={pending || !selectedExercise}
-          className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
+          disabled={pending || loading || !selectedExercise}
+          className="h-9 rounded-md border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
         >
           {(selectedExercise?.equipments ?? []).map((eq) => (
-            <option key={eq.equipment} value={eq.equipment}>
-              {EQUIPMENT_LABELS[eq.equipment]}
+            <option key={eq} value={eq}>
+              {EQUIPMENT_LABELS[eq]}
             </option>
           ))}
         </select>
         <button
           type="button"
           onClick={submit}
-          disabled={pending || !exerciseId}
+          disabled={pending || loading || !exerciseId}
           className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
         >
           {pending ? (
@@ -1366,7 +1399,7 @@ function AddExerciseSlot({
             setError(null);
           }}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { savePushSubscriptionAction } from "@/features/notifications/push-actions";
+import { reportAppEvent } from "@/lib/observability/report-client";
 
 /** VAPID 공개키(base64url) → Uint8Array (pushManager.subscribe 요구 형식). */
 function urlBase64ToUint8Array(base64: string): Uint8Array {
@@ -41,7 +42,11 @@ export async function ensurePushSubscribed(): Promise<void> {
       auth: json.keys.auth,
       userAgent: navigator.userAgent,
     });
-  } catch {
-    /* noop */
+  } catch (e) {
+    // 여기서 실패하면 **알림이 조용히 안 간다** — 사용자는 알 방법이 없고
+    // 우리도 몰랐다. 기능은 그대로 넘어가되(아래 noop) 사실은 남긴다.
+    reportAppEvent("push_register_failure", {
+      message: e instanceof Error ? e.message : "구독 저장 실패",
+    });
   }
 }

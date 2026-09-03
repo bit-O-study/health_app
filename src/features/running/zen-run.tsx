@@ -25,16 +25,10 @@ export function ZenRun() {
   const runRef = useRef(0); // 현재 달리기 강도 0..1 (씬이 매 프레임 읽음)
   const magsRef = useRef<number[]>([]);
   const rafRef = useRef(0);
+  const distanceRef = useRef(0);
+  const lastFrameRef = useRef(0);
   const distRef = useRef<HTMLSpanElement | null>(null);
   const mapRef = useRef<HTMLSpanElement | null>(null);
-
-  useEffect(() => {
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      window.removeEventListener("devicemotion", onMotion);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   function onMotion(e: DeviceMotionEvent) {
     const a = e.accelerationIncludingGravity;
@@ -45,10 +39,25 @@ export function ZenRun() {
     if (arr.length > WINDOW) arr.shift();
   }
 
+  useEffect(() => {
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("devicemotion", onMotion);
+    };
+  }, []);
+
   // 오직 모션 센서(제자리 달리기)로만 전진. 화면 터치로는 움직이지 않는다.
-  function controlLoop() {
+  function controlLoop(now: number) {
     const target = runIntensityFromAccel(magsRef.current);
     runRef.current += (target - runRef.current) * 0.15; // 부드럽게
+    const elapsedSec = lastFrameRef.current
+      ? Math.min((now - lastFrameRef.current) / 1000, 0.1)
+      : 0;
+    lastFrameRef.current = now;
+    distanceRef.current += runRef.current * 2.5 * elapsedSec;
+    if (distRef.current) {
+      distRef.current.textContent = `${Math.round(distanceRef.current)} m`;
+    }
     rafRef.current = requestAnimationFrame(controlLoop);
   }
 
@@ -70,6 +79,8 @@ export function ZenRun() {
     setNoSensor(!hasSensor); // 센서 없으면 안내(터치 조작은 없음 — 센서 전용)
     magsRef.current = [];
     runRef.current = 0;
+    distanceRef.current = 0;
+    lastFrameRef.current = 0;
     setPhase("playing");
     rafRef.current = requestAnimationFrame(controlLoop);
   }

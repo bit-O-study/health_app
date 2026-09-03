@@ -6,7 +6,8 @@ export type ReportTargetKind =
   | "community_post"
   | "community_comment"
   | "teaching_post"
-  | "teaching_comment";
+  | "teaching_comment"
+  | "routine_share";
 
 export const REPORT_REASONS = [
   "스팸/광고",
@@ -21,6 +22,7 @@ const KIND_LABEL: Record<ReportTargetKind, string> = {
   community_comment: "댓글",
   teaching_post: "운동 영상",
   teaching_comment: "운동 영상 댓글",
+  routine_share: "공유 루틴",
 };
 
 export function reportKindLabel(kind: ReportTargetKind): string {

@@ -8,10 +8,23 @@ import {
   runMetersPerSecond,
 } from "@/features/running/controls";
 import { formatDuration } from "@/features/running/geo";
-import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
+import {
+  recordRunAsCooldownAction,
+  recordRunHeartRateAction,
+  recordRunSessionAction,
+} from "@/features/running/run-record-actions";
 import { addRunDistanceAction } from "@/features/running/run-distance-actions";
 import { openAppSettings } from "@/features/running/native";
 import { RunLeaderboard } from "@/features/running/components/run-leaderboard";
+import { MIN_RUN_DURATION_SEC } from "@/features/running/run-session";
+import {
+  newRunCheckpoint,
+  readRunCheckpoint,
+  writeRunCheckpoint,
+  type RunCheckpoint,
+} from "@/features/running/run-checkpoint";
+import { writeRunHealthRecords } from "@/features/health/run-write";
+import { readRunHeartRate } from "@/features/health/heart-rate";
 
 /* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -21,8 +34,6 @@ const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
 
 /* MediaPipe(tasks-vision) 런타임 CDN ESM 로드 — 번들러가 정적분석 못 하게 native import. */
 // 이 시간(초) 미만이면 '실제로 뛰지 않음'으로 보고 기록하지 않는다(잠깐 들어왔다 나간 경우).
-const MIN_RUN_SEC = 60;
-
 const VISION_URL =
   "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.20/vision_bundle.mjs";
 const WASM_URL =
@@ -60,6 +71,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const [elapsedSec, setElapsedSec] = useState(0);
   // 종료 시 실제로 기록했는지(너무 짧으면 기록 안 함) — 완료 문구 분기용.
   const [recorded, setRecorded] = useState(true);
+  const [checkpoint, setCheckpoint] = useState<RunCheckpoint | null>(null);
   const speedRef = useRef(8);
   const inclineRef = useRef(1);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -89,10 +101,13 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const phaseRef = useRef<Phase>("intro");
   phaseRef.current = phase;
   const playStartRef = useRef(0);
+  const sessionIdRef = useRef("");
   const distRef = useRef<HTMLSpanElement | null>(null);
   const mapRef = useRef<HTMLSpanElement | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCheckpoint(readRunCheckpoint("indoor"));
     // 진입 시 카메라 권한이 '거부'면 실내 런닝을 못 들어오게 막는다(에러 화면).
     (async () => {
       try {
@@ -166,7 +181,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     landmarkerRef.current = null;
   }
 
-  async function start() {
+  async function start(restored?: RunCheckpoint) {
     setError(null);
     setPhase("loading");
     try {
@@ -202,9 +217,16 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       headYRef.current = [];
       runRef.current = 0;
       targetRef.current = 0;
-      sessionMetersRef.current = 0;
-      playStartRef.current = Date.now();
-      setElapsedSec(0);
+      sessionMetersRef.current = restored?.distanceM ?? 0;
+      // eslint-disable-next-line react-hooks/purity
+      playStartRef.current = Date.now() - (restored?.elapsedSec ?? 0) * 1_000;
+      sessionIdRef.current = restored?.sessionId ?? crypto.randomUUID();
+      speedRef.current = restored?.speedKmh ?? speedRef.current;
+      inclineRef.current = restored?.incline ?? inclineRef.current;
+      setSpeed(speedRef.current);
+      setIncline(inclineRef.current);
+      setElapsedSec(restored?.elapsedSec ?? 0);
+      setCheckpoint(null);
       setPhase("playing");
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(visionLoop);
@@ -215,6 +237,14 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
           speedRef.current,
           runRef.current,
         );
+        writeRunCheckpoint({
+          ...newRunCheckpoint("indoor", sessionIdRef.current),
+          elapsedSec: (Date.now() - playStartRef.current) / 1000,
+          distanceM: sessionMetersRef.current,
+          speedKmh: speedRef.current,
+          incline: inclineRef.current,
+          updatedAt: Date.now(),
+        });
         // 왼쪽 HUD 도 같은 값으로 갱신 → 순위 오버레이·기록과 항상 일치.
         if (distRef.current)
           distRef.current.textContent = `${Math.round(sessionMetersRef.current)} m`;
@@ -266,10 +296,12 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
   function finish() {
     stopCamera();
-    const sec = (Date.now() - playStartRef.current) / 1000;
+    writeRunCheckpoint(null);
+    const endedAt = Date.now();
+    const sec = (endedAt - playStartRef.current) / 1000;
     // 실제로 뛰지 않고 잠깐 들어왔다 나간 경우(짧은 세션)엔 기록하지 않는다.
     // (예전엔 최소 1분으로 강제 기록돼 안 뛰어도 ~14kcal 가 잡혔다.)
-    if (sec < MIN_RUN_SEC) {
+    if (sec < MIN_RUN_DURATION_SEC) {
       setRecorded(false);
       setPhase("done");
       return;
@@ -282,6 +314,27 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       durationSec: sec,
       avgKmh: speedRef.current,
       incline: inclineRef.current,
+    }).catch(() => {});
+    void recordRunSessionAction({
+      clientSessionId: sessionIdRef.current,
+      mode: "indoor",
+      startedAt: new Date(playStartRef.current).toISOString(),
+      endedAt: new Date(endedAt).toISOString(),
+      distanceM: sessionMetersRef.current,
+      avgKmh: speedRef.current,
+      incline: inclineRef.current,
+    }).then(async (result) => {
+      if (!result.ok || !result.health) return;
+      void writeRunHealthRecords(result.health);
+      const heartRate = await readRunHeartRate(result.health.startedAt, result.health.endedAt);
+      if (heartRate.ok && heartRate.summary) {
+        await recordRunHeartRateAction({
+          clientSessionId: sessionIdRef.current,
+          averageBpm: heartRate.summary.averageBpm,
+          maxBpm: heartRate.summary.maxBpm,
+          sampleCount: heartRate.summary.sampleCount,
+        });
+      }
     }).catch(() => {});
     // 오늘 달린 거리 누적(그룹 순위용).
     void addRunDistanceAction(Math.round(sessionMetersRef.current)).catch(() => {});
@@ -391,6 +444,17 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
             </p>
           ) : null}
 
+          {checkpoint && phase === "intro" ? (
+            <div className="w-full max-w-xs rounded-xl bg-white/80 p-4 text-left shadow">
+              <p className="font-bold">중단된 실내 런닝이 있어요</p>
+              <p className="mt-1 text-xs">{formatDuration(checkpoint.elapsedSec)} · {Math.round(checkpoint.distanceM)}m</p>
+              <div className="mt-3 flex gap-2">
+                <button type="button" onClick={() => void start(checkpoint)} className="flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-bold text-white">이어하기</button>
+                <button type="button" onClick={() => { writeRunCheckpoint(null); setCheckpoint(null); }} className="rounded-lg bg-zinc-200 px-3 py-2 text-sm font-bold text-zinc-700">삭제</button>
+              </div>
+            </div>
+          ) : null}
+
           {/* 카메라 권한이 막힌 경우 앱 설정으로 안내(네이티브 앱). 웹이면 안내 폴백. */}
           {phase === "error" && /권한/.test(error ?? "") ? (
             <button
@@ -408,7 +472,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
           <button
             type="button"
-            onClick={start}
+            onClick={() => void start()}
             className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg active:scale-95"
           >
             {phase === "error" ? "다시 시도" : "시작하기"}

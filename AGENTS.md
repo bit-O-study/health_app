@@ -7,6 +7,27 @@ They are intended to reduce unnecessary changes while preserving the existing
 Codex/OMX autonomy contract: proceed on clear, reversible work; ask only when
 ambiguity, risk, or missing authority would materially change the result.
 
+## 0. Required First Reads and Work Tracking
+
+Before analyzing, planning, or changing this project, read these files in order:
+
+1. `docs/원칙.md` (immutable product rules)
+2. `RULE.md` (required development and test workflow)
+3. `docs/DEVELOPMENT-ROADMAP.md` (the authoritative development backlog)
+
+For work represented in the roadmap:
+
+- Change the selected item from `[대기]` to `[진행중]` before implementation.
+- Add concrete child tasks for investigation, implementation, testing, and any
+  manual/device verification instead of tracking work only in chat.
+- Keep exactly one implementation item `[진행중]` unless the user explicitly
+  requests parallel work.
+- Mark an item `[완료]` only after fresh verification evidence is recorded under
+  that item. If device or production verification remains, keep that child task
+  `[대기]` and do not describe the parent as fully complete.
+- When new work is discovered, place it under the closest existing roadmap item;
+  add a new top-level item only when it does not fit the agreed roadmap.
+
 ## 1. Think Before Coding
 
 Before implementing, state the working assumptions and success criteria briefly.

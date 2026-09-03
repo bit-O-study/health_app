@@ -2,7 +2,7 @@
 
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { GripVertical, Loader2 } from "lucide-react";
+import { CalendarDays, GripVertical, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
@@ -205,9 +205,13 @@ export function UpcomingSevenDaysGrid({
   return (
     <section>
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h2 className="text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+        {/* 제목 위계는 '오늘 할 운동'(h2)과 같은 규칙 — 아이콘칩 + 굵은 글씨. */}
+        <h2 className="flex flex-wrap items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
+          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+            <CalendarDays aria-hidden="true" size={15} />
+          </span>
           다가오는 7일
-          <span className="ml-1.5 normal-case tracking-normal text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
+          <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
             {editMode ? "· 드래그로 순서 변경" : "· '편집하기'에서 순서 변경"}
           </span>
         </h2>
@@ -269,7 +273,7 @@ export function UpcomingSevenDaysGrid({
               onContextMenu={(e) => e.preventDefault()}
               style={liftStyle}
               className={cn(
-                "relative select-none rounded-lg border p-3",
+                "relative select-none rounded-xl border p-3",
                 editMode ? "cursor-grab active:cursor-grabbing" : "",
                 style.card,
                 cell.isToday ? "ring-2 ring-emerald-500 ring-offset-1" : "",
@@ -303,7 +307,7 @@ export function UpcomingSevenDaysGrid({
                   </span>
                 </span>
                 {cell.isToday ? (
-                  <span className="shrink-0 rounded-full bg-emerald-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                  <span className="shrink-0 rounded-full bg-emerald-600 px-1.5 py-0.5 text-[11px] font-bold text-white">
                     오늘
                   </span>
                 ) : null}
@@ -345,7 +349,7 @@ export function UpcomingSevenDaysGrid({
           onClick={cancelExit}
         >
           <div
-            className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-xl dark:bg-zinc-900"
+            className="app-card w-full max-w-sm bg-[var(--surface-strong)] p-5 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">

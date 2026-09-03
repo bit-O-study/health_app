@@ -9,6 +9,8 @@ import {
 } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getWorkoutDurationFor } from "@/features/workout-timer/workout-sessions";
+import { RunHistoryList } from "@/features/running/components/run-history-list";
+import { getRunSessionsRange } from "@/features/running/run-history-data";
 
 function shortDuration(sec: number): string {
   if (sec < 60) return `${sec}초`;
@@ -92,7 +94,7 @@ export default async function HistoryDetailPage({
 
   const supabase = await createSupabaseServerClient();
 
-  const [exRes, condRes, workoutDurationSec] = await Promise.all([
+  const [exRes, condRes, workoutDurationSec, runSessions] = await Promise.all([
     supabase
       .from("exercise_completions")
       // 넓은 스냅샷 테이블 — 매퍼가 쓰는 컬럼만 선택(과다 fetch 방지).
@@ -107,6 +109,7 @@ export default async function HistoryDetailPage({
       .eq("for_date", date)
       .eq("status", "done"),
     getWorkoutDurationFor(date),
+    getRunSessionsRange(date, date),
   ]);
 
   const mainItems = ((exRes.data ?? []) as ExRow[])
@@ -248,6 +251,11 @@ export default async function HistoryDetailPage({
           </div>
         </section>
       ) : null}
+
+      <section id="running" className="mb-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+        <h2 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-100">런닝 세션</h2>
+        <RunHistoryList rows={runSessions} />
+      </section>
 
       <Section title="본운동" icon={<Dumbbell size={15} />} tone="emerald">
         {mainItems.length === 0 ? (

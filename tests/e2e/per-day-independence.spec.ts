@@ -49,19 +49,17 @@ test("같은 부위가 두 일차에 있어도 한 일차 편집이 다른 일�
   // /plan 에서 "4일 · 밀기"(3일차) 섹션에만 운동 1개 추가 후 저장.
   await page.goto("/plan", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
-  const day4 = page.locator("section").filter({
-    has: page.getByRole("heading", { level: 3, name: /4일 · 밀기/ }),
-  });
+  const day4 = page.locator('[data-plan-day-index="3"]');
   await expect(day4).toHaveCount(1);
-  const exSelects = day4.getByRole("combobox", { name: "운동" });
-  const rowsBefore = await exSelects.count();
+  const exerciseRows = day4.locator('[data-testid^="plan-row-3:push-"]');
+  const rowsBefore = await exerciseRows.count();
   expect(rowsBefore).toBeGreaterThan(1);
   await day4.getByRole("button", { name: "운동 추가" }).click();
   // 추가가 React 상태에 반영(행 1개 증가)된 뒤에 저장 — 클릭 경쟁 방지
-  await expect(exSelects).toHaveCount(rowsBefore + 1);
-  await day4.getByRole("button", { name: "저장", exact: true }).click();
+  await expect(exerciseRows).toHaveCount(rowsBefore + 1);
+  await day4.getByRole("button", { name: "4일차 저장" }).click();
   // 서버 액션 완료(저장됨 상태 메시지) 후에 DB 확인
-  await expect(page.getByText("저장됨")).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByText("4일차 저장됨")).toBeVisible({ timeout: 15_000 });
   await page.waitForTimeout(500);
 
   // 3일차는 1개 늘고, 0일차는 그대로여야 한다(일차별 독립).

@@ -51,6 +51,11 @@ test("부위를 바꾸면 다른 워밍업은 완료로 번지지 않는다", as
      values (${uid}, ${today}, 'chest', 0, 'bench-press', 'barbell', 4, 8, 40)`,
     [email],
   );
+  await dbQuery(
+    `insert into public.daily_conditioning (user_id, for_date, kind, position, item_id)
+     values (${uid}, ${today}, 'warmup', 0, 'cat-cow')`,
+    [email],
+  );
 
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);

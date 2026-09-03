@@ -15,7 +15,11 @@ import {
   speedKmh,
   type RunTrack,
 } from "@/features/running/geo";
-import { recordRunAsCooldownAction } from "@/features/running/run-record-actions";
+import {
+  recordRunAsCooldownAction,
+  recordRunHeartRateAction,
+  recordRunSessionAction,
+} from "@/features/running/run-record-actions";
 import {
   startGeoWatch,
   type GeoFix,
@@ -24,6 +28,15 @@ import {
 import { addRunDistanceAction } from "@/features/running/run-distance-actions";
 import { openLocationSettings } from "@/features/running/native";
 import { RunLeaderboard } from "@/features/running/components/run-leaderboard";
+import { MIN_OUTDOOR_DISTANCE_M } from "@/features/running/run-session";
+import {
+  newRunCheckpoint,
+  readRunCheckpoint,
+  writeRunCheckpoint,
+  type RunCheckpoint,
+} from "@/features/running/run-checkpoint";
+import { writeRunHealthRecords } from "@/features/health/run-write";
+import { readRunHeartRate } from "@/features/health/heart-rate";
 
 // 무거운 3D 씬은 '시작' 이후에만 지연 로드(첫 진입 번들 가볍게 — PWA 안전).
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -34,7 +47,6 @@ const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
 type Phase = "checking" | "intro" | "playing" | "done" | "error";
 type Metrics = { meters: number; kmh: number; elapsedSec: number };
 // 이 거리(m) 미만이면 '실제로 달리지 않음'으로 보고 기록하지 않는다(들어왔다 나간 경우).
-const MIN_RUN_METERS = 50;
 // 오류 종류 — 권한 거부 / GPS(위치정보) 꺼짐 / 신호 못찾음 / 기타.
 type ErrKind = "denied" | "gps-off" | "timeout" | "other" | null;
 
@@ -61,12 +73,14 @@ export function OutdoorRun({
   // 종료 시 실제 기록 여부 — 이동이 거의 없으면(안 뜀) 기록하지 않는다.
   const [recorded, setRecorded] = useState(true);
   const [m, setM] = useState<Metrics>({ meters: 0, kmh: 0, elapsedSec: 0 });
+  const [checkpoint, setCheckpoint] = useState<RunCheckpoint | null>(null);
 
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
   const targetRef = useRef(0);
   const trackRef = useRef<RunTrack>(emptyTrack());
   const lastMoveTsRef = useRef(0);
   const startTsRef = useRef(0);
+  const sessionIdRef = useRef("");
   const watchRef = useRef<GeoWatch | null>(null);
   const watchWantedRef = useRef(false); // 추적 유지 의도(async 워처 레이스 방지)
   const rafRef = useRef(0);
@@ -74,6 +88,9 @@ export function OutdoorRun({
   const hiddenDistRef = useRef<HTMLSpanElement | null>(null); // ZenScene 내부 거리(안 씀)
 
   useEffect(() => {
+    // 브라우저 저장소는 마운트 뒤에만 읽을 수 있다.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCheckpoint(readRunCheckpoint("outdoor"));
     // 진입 시 위치 권한 AND 위치(GPS) 켜짐을 먼저 확인 — 하나라도 아니면 진입 차단.
     checkLocation();
     return () => stopAll();
@@ -155,17 +172,43 @@ export function OutdoorRun({
       targetRef.current = 0;
     }
     setM((prev) => ({ ...prev, meters: track.totalMeters, kmh }));
+    persistCheckpoint(kmh);
   }
 
-  function start() {
+  function persistCheckpoint(kmh = m.kmh) {
+    if (!sessionIdRef.current || !startTsRef.current) return;
+    writeRunCheckpoint({
+      ...newRunCheckpoint("outdoor", sessionIdRef.current),
+      elapsedSec: Math.max(0, (Date.now() - startTsRef.current) / 1000),
+      distanceM: trackRef.current.totalMeters,
+      speedKmh: kmh,
+      route: trackRef.current.points,
+      updatedAt: Date.now(),
+    });
+  }
+
+  function start(restored?: RunCheckpoint) {
     setError(null);
     setErrKind(null);
-    trackRef.current = emptyTrack();
+    trackRef.current = restored
+      ? {
+          points: restored.route,
+          totalMeters: restored.distanceM,
+          lastMovingPoint: restored.route.at(-1) ?? null,
+        }
+      : emptyTrack();
     runRef.current = 0;
     targetRef.current = 0;
-    startTsRef.current = Date.now();
+    startTsRef.current = Date.now() - (restored?.elapsedSec ?? 0) * 1_000;
+    sessionIdRef.current = restored?.sessionId ?? crypto.randomUUID();
     lastMoveTsRef.current = Date.now();
-    setM({ meters: 0, kmh: 0, elapsedSec: 0 });
+    setM({
+      meters: restored?.distanceM ?? 0,
+      kmh: restored?.speedKmh ?? 0,
+      elapsedSec: restored?.elapsedSec ?? 0,
+    });
+    setCheckpoint(null);
+    persistCheckpoint(restored?.speedKmh ?? 0);
     setPhase("playing");
     watchWantedRef.current = true;
 
@@ -192,19 +235,22 @@ export function OutdoorRun({
         ...prev,
         elapsedSec: (Date.now() - startTsRef.current) / 1000,
       }));
+      persistCheckpoint();
     }, 1000);
   }
 
   function finish() {
     stopAll();
+    writeRunCheckpoint(null);
+    const endedAt = Date.now();
     const meters = trackRef.current.totalMeters;
-    const elapsedSec = (Date.now() - startTsRef.current) / 1000;
+    const elapsedSec = (endedAt - startTsRef.current) / 1000;
     const durationMin = Math.max(1, Math.round(elapsedSec / 60));
     const distanceKm = meters / 1000;
     const avgKmh = elapsedSec > 0 ? (meters / elapsedSec) * 3.6 : 0;
     setM((prev) => ({ ...prev, elapsedSec }));
     // 실제로 달리지 않아 이동이 거의 없으면 기록하지 않는다(들어왔다 나간 경우 오기록 방지).
-    if (meters < MIN_RUN_METERS) {
+    if (meters < MIN_OUTDOOR_DISTANCE_M) {
       setRecorded(false);
       setPhase("done");
       return;
@@ -213,9 +259,37 @@ export function OutdoorRun({
     setPhase("done");
     onFinish?.({ durationMin, distanceKm, avgKmh });
     // 오늘 마무리 운동에 자동 기록(실패해도 화면엔 영향 없음).
-    void recordRunAsCooldownAction({ durationMin, distanceKm, avgKmh }).catch(
-      () => {},
-    );
+    void recordRunAsCooldownAction({
+      durationMin,
+      durationSec: elapsedSec,
+      distanceKm,
+      avgKmh,
+    }).catch(() => {});
+    void recordRunSessionAction({
+      clientSessionId: sessionIdRef.current,
+      mode: "outdoor",
+      startedAt: new Date(startTsRef.current).toISOString(),
+      endedAt: new Date(endedAt).toISOString(),
+      distanceM: meters,
+      route: trackRef.current.points.map((point) => ({
+        lat: point.lat,
+        lng: point.lng,
+        timestamp: point.t,
+        accuracyM: point.acc,
+      })),
+    }).then(async (result) => {
+      if (!result.ok || !result.health) return;
+      void writeRunHealthRecords(result.health);
+      const heartRate = await readRunHeartRate(result.health.startedAt, result.health.endedAt);
+      if (heartRate.ok && heartRate.summary) {
+        await recordRunHeartRateAction({
+          clientSessionId: sessionIdRef.current,
+          averageBpm: heartRate.summary.averageBpm,
+          maxBpm: heartRate.summary.maxBpm,
+          sampleCount: heartRate.summary.sampleCount,
+        });
+      }
+    }).catch(() => {});
     // 오늘 달린 거리 누적(그룹 순위용) — 야외는 실제 GPS 거리.
     void addRunDistanceAction(Math.round(meters)).catch(() => {});
   }
@@ -292,6 +366,19 @@ export function OutdoorRun({
             </p>
           ) : null}
 
+          {checkpoint ? (
+            <div className="w-full max-w-xs rounded-xl bg-white/80 p-4 text-left shadow">
+              <p className="font-bold text-emerald-950">중단된 야외 런닝이 있어요</p>
+              <p className="mt-1 text-xs text-emerald-800">
+                {formatDuration(checkpoint.elapsedSec)} · {formatDistanceKm(checkpoint.distanceM)}km
+              </p>
+              <div className="mt-3 flex gap-2">
+                <button type="button" onClick={() => start(checkpoint)} className="flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-bold text-white">이어하기</button>
+                <button type="button" onClick={() => { writeRunCheckpoint(null); setCheckpoint(null); }} className="rounded-lg bg-zinc-200 px-3 py-2 text-sm font-bold text-zinc-700">삭제</button>
+              </div>
+            </div>
+          ) : null}
+
           {/* GPS 꺼짐/타임아웃이면 '위치 설정 열기'(네이티브 앱) — 웹이면 안내로 폴백. */}
           {phase === "error" && (errKind === "gps-off" || errKind === "timeout") ? (
             <button
@@ -311,7 +398,7 @@ export function OutdoorRun({
 
           <button
             type="button"
-            onClick={phase === "error" ? checkLocation : start}
+            onClick={phase === "error" ? checkLocation : () => start()}
             className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition active:scale-95"
           >
             {phase === "error" ? "다시 확인" : "시작하기"}

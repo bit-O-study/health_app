@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import { isNativeApp } from "@/lib/platform/is-native-app";
+import { reportAppEvent } from "@/lib/observability/report-client";
 import {
-  shouldRestoreRoute,
-  type SavedRoute,
-} from "@/lib/platform/route-restore";
+  decideRendererRecovery,
+  parseRendererRecovery,
+} from "@/lib/platform/renderer-recovery";
+import type { SavedRoute } from "@/lib/platform/route-restore";
 
 /**
  * 네이티브 앱(APK)에서 "잠깐 다른 앱 갔다 오면 앱이 초기화되는" 문제 완화.
@@ -20,9 +22,12 @@ import {
  *
  * - 웹 브라우저에선 동작 안 함(isNativeApp). 북마크/딥링크로 홈을 여는 웹 사용자에게 방해 X.
  * - 30분 창: '방금 쓰다 튕긴' 경우만 이어보기. 하루 뒤 새로 열면 그냥 홈.
+ * - renderer 종료가 5분 안에 반복되면 문제 경로를 버리고 /home 으로 복구.
  * - 폴더명이 `_` 로 시작해 라우트 대상에서 제외됨.
  */
 const KEY = "heltch.lastRoute";
+
+type RecoveryBridge = { consumeRendererRecovery?: () => string | null };
 
 function currentRoute(): string {
   return window.location.pathname + window.location.search;
@@ -50,14 +55,20 @@ function readSaved(): SavedRoute | null {
   return null;
 }
 
-function consumeRendererRecovery(): boolean {
+function clearSaved() {
   try {
-    const nativeWindow = window as typeof window & {
-      HelssuNative?: { consumeRendererRecovery?: () => boolean };
-    };
-    return nativeWindow.HelssuNative?.consumeRendererRecovery?.() === true;
+    localStorage.removeItem(KEY);
   } catch {
-    return false;
+    /* noop */
+  }
+}
+
+function consumeNativeRecovery(): string | null {
+  try {
+    return (window as unknown as { HelssuNative?: RecoveryBridge })
+      .HelssuNative?.consumeRendererRecovery?.() ?? null;
+  } catch {
+    return null;
   }
 }
 
@@ -65,27 +76,43 @@ export function RouteKeeper() {
   const pathname = usePathname();
   const router = useRouter();
   const restored = useRef(false);
+  const skipSave = useRef(false);
+  const [notice, setNotice] = useState<string | null>(null);
 
-  // 부팅 직후 1회: 홈으로 튕겼고 최근에 보던 화면이 있으면 그리로 복원.
+  // 부팅 직후 1회: renderer 반복 종료면 안전 홈, 아니면 최근 화면을 한 번 복원.
   useEffect(() => {
     if (restored.current) return;
     restored.current = true;
     if (!isNativeApp()) return;
+
+    const now = Date.now();
+    const event = parseRendererRecovery(consumeNativeRecovery(), now);
     const saved = readSaved();
-    if (
-      shouldRestoreRoute(
-        saved,
-        currentRoute(),
-        Date.now(),
-        consumeRendererRecovery(),
-      )
-    ) {
-      router.replace(saved!.path);
+    const decision = decideRendererRecovery(event, saved, currentRoute(), now);
+    if (event) {
+      reportAppEvent("webview_recovery", {
+        route: saved?.path,
+        value: event.count,
+        message: `렌더러 복구 ${event.count}회 · ${event.mode}`,
+      });
+    }
+    if (decision.clearSavedRoute) clearSaved();
+    if (decision.notice) {
+      const recoveryNotice = decision.notice;
+      queueMicrotask(() => setNotice(recoveryNotice));
+    }
+    if (decision.targetPath) {
+      skipSave.current = true;
+      router.replace(decision.targetPath);
     }
   }, [router]);
 
   // 화면 이동 때마다 현재 위치 저장.
   useEffect(() => {
+    if (skipSave.current) {
+      skipSave.current = false;
+      return;
+    }
     save(currentRoute());
   }, [pathname]);
 
@@ -98,5 +125,18 @@ export function RouteKeeper() {
     return () => document.removeEventListener("visibilitychange", onHide);
   }, []);
 
-  return null;
+  useEffect(() => {
+    if (!notice) return;
+    const timer = window.setTimeout(() => setNotice(null), 6_000);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
+
+  return notice ? (
+    <div
+      role="status"
+      className="fixed inset-x-4 top-[calc(env(safe-area-inset-top)+1rem)] z-50 mx-auto max-w-md rounded-2xl bg-zinc-900/95 px-4 py-3 text-center text-sm font-bold text-white shadow-lg"
+    >
+      {notice}
+    </div>
+  ) : null;
 }

@@ -3,24 +3,27 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
-import { Search, Send, Sparkles, X } from "lucide-react";
+import { Loader2, Search, Send, Sparkles, X } from "lucide-react";
 
-import {
-  searchExercises,
-  type SearchHit,
-} from "@/features/routine/exercise-search";
+import { searchExercisesAction } from "@/features/routine/exercise-search-actions";
+import type { SearchHit } from "@/features/routine/exercise-search";
 
-type Turn = { q: string; hits: SearchHit[] };
+/** `hits: null` = 아직 검색 중(말풍선에 스피너). */
+type Turn = { q: string; hits: SearchHit[] | null };
 
 /**
  * 운동 찾기 — 헤더에서 열리는 대화형 검색.
  * 자연어로 묘사("덤벨 쓰고 머리 뒤로 왔다갔다 하는 운동")하면 키워드를 분석해
- * 추론한 운동 목록을 보여준다(로컬 검색, AI 없이).
+ * 추론한 운동 목록을 보여준다(키워드 검색, AI 없이).
+ *
+ * 검색 인덱스는 카탈로그 전체(274 KiB)라 **서버 액션**으로 돌린다 — 이 버튼 하나
+ * 때문에 `/routine` 첫 로드에 운동 목록이 통째로 실리면 안 된다(P0 번들 다이어트).
  */
 export function ExerciseFinder() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
+  const [searching, setSearching] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   // 포털 마운트 가드(SSR 시 document 없음).
   const [mounted, setMounted] = useState(false);
@@ -29,17 +32,35 @@ export function ExerciseFinder() {
     setMounted(true);
   }, []);
 
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    const q = input.trim();
-    if (!q) return;
-    const hits = searchExercises(q, 5);
-    setTurns((t) => [...t, { q, hits }]);
-    setInput("");
+  function scrollToBottom() {
     // 다음 페인트에서 맨 아래로
     requestAnimationFrame(() => {
       scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight });
     });
+  }
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const q = input.trim();
+    if (!q || searching) return;
+    // 먼저 말풍선을 띄우고(빈 화면 대신 스피너) 결과가 오면 그 자리만 채운다.
+    const turn = turns.length;
+    setTurns((t) => [...t, { q, hits: null }]);
+    setInput("");
+    setSearching(true);
+    scrollToBottom();
+    void searchExercisesAction(q, 5)
+      .then((hits) => {
+        setTurns((t) => t.map((v, i) => (i === turn ? { ...v, hits } : v)));
+      })
+      .catch(() => {
+        // 통신 실패도 "못 찾음" 과 같은 안내로 — 대화가 멈춘 것처럼 보이면 안 된다.
+        setTurns((t) => t.map((v, i) => (i === turn ? { ...v, hits: [] } : v)));
+      })
+      .finally(() => {
+        setSearching(false);
+        scrollToBottom();
+      });
   }
 
   return (
@@ -62,7 +83,7 @@ export function ExerciseFinder() {
               onClick={() => setOpen(false)}
             >
           <div
-            className="flex h-[80dvh] max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-t-2xl bg-white shadow-2xl dark:bg-zinc-900 sm:h-[600px] sm:max-h-[82vh] sm:rounded-2xl"
+            className="flex h-[80dvh] max-h-[85dvh] w-full max-w-md flex-col overflow-hidden rounded-t-2xl bg-[var(--surface-strong)] shadow-2xl sm:h-[600px] sm:max-h-[82vh] sm:rounded-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* 헤더 */}
@@ -101,7 +122,16 @@ export function ExerciseFinder() {
                   {/* 응답 */}
                   <div className="flex justify-start">
                     <div className="max-w-[88%] rounded-2xl rounded-bl-sm bg-zinc-100 px-3 py-2 text-sm text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
-                      {t.hits.length > 0 ? (
+                      {t.hits === null ? (
+                        <span className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400">
+                          <Loader2
+                            aria-hidden="true"
+                            size={14}
+                            className="animate-spin"
+                          />
+                          운동을 찾는 중…
+                        </span>
+                      ) : t.hits.length > 0 ? (
                         <>
                           <p className="mb-1.5">
                             추론한 운동은{" "}
@@ -116,10 +146,10 @@ export function ExerciseFinder() {
                                 key={h.id}
                                 href={`/exercises/${h.id}`}
                                 onClick={() => setOpen(false)}
-                                className="flex items-center justify-between gap-2 rounded-lg bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm transition hover:bg-emerald-50 dark:bg-zinc-900 dark:text-zinc-100 dark:hover:bg-emerald-950/30"
+                                className="flex items-center justify-between gap-2 rounded-lg bg-[var(--surface-strong)] px-2.5 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm transition hover:bg-emerald-50 dark:text-zinc-100 dark:hover:bg-emerald-950/30"
                               >
                                 <span className="truncate">{h.name}</span>
-                                <span className="shrink-0 text-[10px] font-medium text-zinc-400">
+                                <span className="shrink-0 text-[11px] font-medium text-zinc-400">
                                   {h.target}
                                 </span>
                               </Link>
@@ -152,7 +182,7 @@ export function ExerciseFinder() {
               <button
                 type="submit"
                 aria-label="검색"
-                disabled={!input.trim()}
+                disabled={!input.trim() || searching}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white transition hover:bg-emerald-500 disabled:opacity-40"
               >
                 <Send aria-hidden="true" size={17} />

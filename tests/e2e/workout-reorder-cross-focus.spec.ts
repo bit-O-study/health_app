@@ -49,6 +49,13 @@ test("부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드�
   // 컨디셔닝(워밍업/마무리) 기본값 + 전 부위 본운동 등록
   await seedRecommendedExercises(page);
 
+  // 아래 daily_plan 두 행만 본운동으로 보이도록 기본 루틴 본운동은 제거한다.
+  await dbQuery(
+    `delete from public.routine_exercises
+      where user_id=(select id from auth.users where lower(email)=lower($1))`,
+    [email],
+  );
+
   // 오늘을 '가슴 + 팔' 멀티 부위로 강제(daily_plan 오버라이드) — 결정적 재현용.
   // focus 오름차순 정렬이라 기본 그룹 순서는 [팔(해머컬), 가슴(벤치프레스)].
   const insert = `insert into public.daily_plan

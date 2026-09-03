@@ -6,68 +6,41 @@
  */
 
 import type { FocusTone } from "@/features/routine/data";
-// 자동 생성 확장 세트(1,300 CSV 중 기존에 없는 운동). 검색·선택·운동모드에서 함께 노출.
 import {
-  EXTRA_EXERCISES,
-  EXTRA_BODY_PART,
-  EXTRA_LOAD_CLASS,
-} from "@/features/routine/exercise-catalog-extra";
+  type BodyPart,
+  type CatalogExercise,
+} from "@/features/routine/exercise-catalog-labels";
+import { primaryBodyPart } from "@/features/routine/exercise-body-parts";
+// 표시용 라벨·타입은 얇은 모듈에 있다 — 데이터가 필요 없는 화면은 그쪽만 import 한다.
+// (여기서 재수출하므로 기존 import 경로는 그대로 동작한다.)
+export {
+  EQUIPMENT_LABELS,
+  BODY_PART_LABEL,
+  BODY_PART_TONE,
+  BODY_PART_ORDER,
+  FULLBODY_TONE,
+  isEquipmentId,
+} from "@/features/routine/exercise-catalog-labels";
+export type {
+  EquipmentId,
+  EquipmentVariant,
+  CatalogExercise,
+  BodyPart,
+} from "@/features/routine/exercise-catalog-labels";
 
-export type EquipmentId =
-  | "barbell"
-  | "dumbbell"
-  | "machine"
-  | "cable"
-  | "bodyweight"
-  | "smith"
-  | "kettlebell"
-  | "band"
-  | "trx"
-  | "medicineball"
-  | "landmine"
-  | "sled"
-  | "battlerope"
-  | "bosu"
-  | "ball"
-  | "plate"
-  | "other";
+// 부위 매핑·강도 등급도 데이터와 분리돼 있다(배지·칼로리만 쓰는 화면이 목록을 안 끌게).
+export { loadClassOf } from "@/features/routine/exercise-load";
+export type { LoadClass } from "@/features/routine/exercise-load";
+export {
+  primaryBodyPart,
+  bodyPartsFor,
+  majorMuscleTag,
+} from "@/features/routine/exercise-body-parts";
 
-export const EQUIPMENT_LABELS: Record<EquipmentId, string> = {
-  barbell: "바벨",
-  dumbbell: "덤벨",
-  machine: "머신",
-  cable: "케이블",
-  bodyweight: "맨몸",
-  smith: "스미스",
-  kettlebell: "케틀벨",
-  band: "밴드",
-  trx: "TRX",
-  medicineball: "메디신볼",
-  landmine: "랜드마인",
-  sled: "슬레드",
-  battlerope: "배틀로프",
-  bosu: "보수",
-  ball: "짐볼",
-  plate: "원판",
-  other: "기타",
-};
+// 자동 생성 확장 세트(1,300 CSV 중 기존에 없는 운동). 검색·선택·운동모드에서 함께 노출.
+import { EXTRA_EXERCISES } from "@/features/routine/exercise-catalog-extra";
 
-export type EquipmentVariant = {
-  equipment: EquipmentId;
-  /** 기구별 운동법 단계 */
-  method: string[];
-};
 
-export type CatalogExercise = {
-  id: string;
-  name: string;
-  /** 자극 부위 요약 */
-  target: string;
-  /** 선택 가능한 기구 (첫 항목이 기본 선택) */
-  equipments: EquipmentVariant[];
-};
-
-/** 운동 마스터 (여러 부위에서 재사용) */
 export const EXERCISES: Record<string, CatalogExercise> = {
   "bench-press": {
     id: "bench-press",
@@ -2425,211 +2398,10 @@ export function allExercisesGrouped(): { focus: FocusKey; exercises: CatalogExer
   })).filter((g) => g.exercises.length > 0);
 }
 
-/* ─── 처방(세트×횟수×무게) ──────────────────────────────────────────────── */
+/* ─── 처방(세트×횟수×무게) — `prescription.ts` 로 분리, 여기서 재수출 ────────── */
 
-export type LoadClass = "heavy" | "medium" | "light" | "bodyweight";
-
-const LOAD_CLASS: Record<string, LoadClass> = {
-  // 기본
-  squat: "heavy",
-  deadlift: "heavy",
-  "bench-press": "heavy",
-  ohp: "heavy",
-  "leg-press": "heavy",
-  rdl: "heavy",
-  "hip-thrust": "heavy",
-  "incline-press": "heavy",
-  "barbell-row": "medium",
-  "lat-pulldown": "medium",
-  "chest-fly": "light",
-  "lateral-raise": "light",
-  "face-pull": "light",
-  "biceps-curl": "light",
-  "hammer-curl": "light",
-  "triceps-pushdown": "light",
-  "leg-curl": "light",
-  "cable-crunch": "light",
-  "cable-kickback": "light",
-  "hip-abduction": "light",
-  dips: "bodyweight",
-  "pull-up": "bodyweight",
-  plank: "bodyweight",
-  "hanging-leg-raise": "bodyweight",
-  lunge: "bodyweight",
-  "bulgarian-split-squat": "bodyweight",
-  "glute-bridge": "bodyweight",
-  // 가슴 추가
-  "decline-press": "heavy",
-  "push-up": "bodyweight",
-  "pec-deck": "light",
-  "cable-crossover": "light",
-  "close-grip-bench-press": "medium",
-  // 등 추가
-  "t-bar-row": "heavy",
-  "seated-cable-row": "medium",
-  "one-arm-dumbbell-row": "medium",
-  "straight-arm-pulldown": "light",
-  shrug: "medium",
-  "chin-up": "bodyweight",
-  hyperextension: "bodyweight",
-  // 어깨 추가
-  "arnold-press": "medium",
-  "front-raise": "light",
-  "rear-delt-fly": "light",
-  "upright-row": "light",
-  // 팔 추가
-  "preacher-curl": "light",
-  "ez-bar-curl": "light",
-  "incline-curl": "light",
-  "concentration-curl": "light",
-  "skull-crusher": "medium",
-  "overhead-triceps-extension": "light",
-  "bench-dip": "bodyweight",
-  "reverse-curl": "light",
-  "wrist-curl": "light",
-  // 하체 추가
-  "front-squat": "heavy",
-  "goblet-squat": "medium",
-  "hack-squat": "heavy",
-  "leg-extension": "light",
-  "seated-leg-curl": "light",
-  "standing-calf-raise": "light",
-  "seated-calf-raise": "light",
-  "sumo-deadlift": "heavy",
-  "good-morning": "medium",
-  "step-up": "light",
-  "hip-adduction": "light",
-  "walking-lunge": "bodyweight",
-  "smith-squat": "heavy",
-  // 코어 추가
-  "sit-up": "bodyweight",
-  crunch: "bodyweight",
-  "side-plank": "bodyweight",
-  "russian-twist": "bodyweight",
-  "ab-rollout": "bodyweight",
-  "mountain-climber": "bodyweight",
-  "wood-chopper": "light",
-  "pallof-press": "light",
-  // ── 2차 추가
-  "smith-bench-press": "heavy",
-  "machine-chest-press": "medium",
-  "incline-cable-fly": "light",
-  "dumbbell-pullover": "medium",
-  "pendlay-row": "heavy",
-  "meadows-row": "medium",
-  "reverse-pec-deck": "light",
-  "inverted-row": "bodyweight",
-  "wide-grip-pull-up": "bodyweight",
-  "cable-lateral-raise": "light",
-  "machine-shoulder-press": "medium",
-  "machine-rear-delt-fly": "light",
-  "cable-rear-delt-fly": "light",
-  "cable-front-raise": "light",
-  "cable-fly": "light",
-  "cable-curl": "light",
-  "drag-curl": "medium",
-  "zottman-curl": "light",
-  "cable-rope-hammer-curl": "light",
-  "triceps-kickback": "light",
-  "diamond-pushup": "bodyweight",
-  "stiff-leg-deadlift": "heavy",
-  "pistol-squat": "bodyweight",
-  "sissy-squat": "bodyweight",
-  "cossack-squat": "bodyweight",
-  "box-squat": "heavy",
-  "belt-squat": "heavy",
-  "single-leg-leg-press": "medium",
-  "curtsy-lunge": "light",
-  "sumo-squat": "medium",
-  "donkey-calf-raise": "bodyweight",
-  "reverse-crunch": "bodyweight",
-  "v-up": "bodyweight",
-  "hollow-hold": "bodyweight",
-  "toes-to-bar": "bodyweight",
-  "bicycle-crunch": "bodyweight",
-  // ── 3차 추가
-  "low-row-machine": "medium",
-  "chest-supported-row": "medium",
-  "assisted-pull-up": "medium",
-  "standing-cable-curl": "light",
-  "cable-pull-through": "medium",
-};
-
-export function loadClassOf(id: string): LoadClass {
-  return LOAD_CLASS[id] ?? EXTRA_LOAD_CLASS[id] ?? "medium";
-}
-
-export type Prescription = {
-  sets: number;
-  reps: number;
-  /** 권장 무게(kg). 맨몸 운동이면 null */
-  weightKg: number | null;
-};
-
-const REPS: Record<
-  "beginner" | "intermediate" | "advanced",
-  { heavy: number; other: number }
-> = {
-  beginner: { heavy: 12, other: 15 },
-  intermediate: { heavy: 10, other: 12 },
-  advanced: { heavy: 6, other: 10 },
-};
-
-const SETS = { beginner: 3, intermediate: 4, advanced: 4 } as const;
-
-/** 체중 대비 기본 부하 비율(중급 남성 기준) */
-const LOAD_FRACTION: Record<LoadClass, number> = {
-  heavy: 0.6,
-  medium: 0.4,
-  light: 0.15,
-  bodyweight: 0,
-};
-
-/**
- * 운동 + 체형/성별/경력 → 권장 세트·횟수·무게.
- * 휴리스틱이며 시작점 제안용(이후 사용자가 직접 조정 가능).
- */
-export function prescribe(
-  exerciseId: string,
-  opts: {
-    gender: "male" | "female";
-    experience: "beginner" | "intermediate" | "advanced";
-    bodyType: "lean" | "average" | "heavy";
-    weightKg: number;
-  },
-): Prescription {
-  const loadClass = loadClassOf(exerciseId);
-  const sets = SETS[opts.experience];
-  const reps =
-    loadClass === "heavy"
-      ? REPS[opts.experience].heavy
-      : REPS[opts.experience].other;
-
-  if (loadClass === "bodyweight") {
-    return { sets, reps, weightKg: null };
-  }
-
-  const expFactor =
-    opts.experience === "beginner"
-      ? 0.7
-      : opts.experience === "advanced"
-        ? 1.3
-        : 1;
-  const genderFactor = opts.gender === "female" ? 0.65 : 1;
-  const bodyFactor =
-    opts.bodyType === "lean" ? 0.9 : opts.bodyType === "heavy" ? 1.05 : 1;
-
-  const raw =
-    opts.weightKg *
-    LOAD_FRACTION[loadClass] *
-    expFactor *
-    genderFactor *
-    bodyFactor;
-
-  // 2.5kg 단위로 반올림, 최소 2.5kg
-  const weightKg = Math.max(2.5, Math.round(raw / 2.5) * 2.5);
-  return { sets, reps, weightKg };
-}
+export { prescribe } from "@/features/routine/prescription";
+export type { Prescription } from "@/features/routine/prescription";
 
 /** 전체 운동(슬러그=운동 id) — 운동 종목 리스트용 */
 export const ALL_EXERCISES: CatalogExercise[] = [
@@ -2642,245 +2414,6 @@ export const ALL_EXERCISES: CatalogExercise[] = [
  * 단일 부위로 노출하기 위해 가장 대표적인 부위 하나만 지정.
  * (fullbody/upper/push/pull 같은 “세션 그룹”은 제외)
  */
-export type BodyPart = "chest" | "back" | "shoulder" | "arm" | "lower" | "core";
-
-export const BODY_PART_LABEL: Record<BodyPart, string> = {
-  chest: "가슴",
-  back: "등",
-  shoulder: "어깨",
-  arm: "팔",
-  lower: "하체",
-  core: "코어",
-};
-
-/** 부위별 배지 색상 (라이트/다크). 운동이 어느 부위인지 한눈에 구분. */
-export const BODY_PART_TONE: Record<BodyPart, string> = {
-  chest: "bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300",
-  back: "bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300",
-  shoulder: "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300",
-  arm: "bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300",
-  lower: "bg-teal-100 text-teal-700 dark:bg-teal-500/20 dark:text-teal-300",
-  core: "bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-500/20 dark:text-fuchsia-300",
-};
-
-export const BODY_PART_ORDER: BodyPart[] = [
-  "chest",
-  "back",
-  "shoulder",
-  "arm",
-  "lower",
-  "core",
-];
-
-const PRIMARY_BODY_PART: Record<string, BodyPart> = {
-  // 가슴
-  "bench-press": "chest",
-  "incline-press": "chest",
-  "decline-press": "chest",
-  "chest-fly": "chest",
-  "pec-deck": "chest",
-  "cable-crossover": "chest",
-  "push-up": "chest",
-  dips: "chest",
-  "close-grip-bench-press": "chest",
-  // 등
-  deadlift: "back",
-  "barbell-row": "back",
-  "t-bar-row": "back",
-  "seated-cable-row": "back",
-  "one-arm-dumbbell-row": "back",
-  "lat-pulldown": "back",
-  "pull-up": "back",
-  "chin-up": "back",
-  "straight-arm-pulldown": "back",
-  shrug: "back",
-  hyperextension: "back",
-  // 어깨
-  ohp: "shoulder",
-  "lateral-raise": "shoulder",
-  "face-pull": "shoulder",
-  "arnold-press": "shoulder",
-  "front-raise": "shoulder",
-  "rear-delt-fly": "shoulder",
-  "upright-row": "shoulder",
-  // 팔
-  "biceps-curl": "arm",
-  "hammer-curl": "arm",
-  "triceps-pushdown": "arm",
-  "preacher-curl": "arm",
-  "ez-bar-curl": "arm",
-  "incline-curl": "arm",
-  "concentration-curl": "arm",
-  "skull-crusher": "arm",
-  "overhead-triceps-extension": "arm",
-  "bench-dip": "arm",
-  "reverse-curl": "arm",
-  "wrist-curl": "arm",
-  // 하체
-  squat: "lower",
-  "leg-press": "lower",
-  rdl: "lower",
-  "leg-curl": "lower",
-  "hip-thrust": "lower",
-  "glute-bridge": "lower",
-  lunge: "lower",
-  "bulgarian-split-squat": "lower",
-  "cable-kickback": "lower",
-  "hip-abduction": "lower",
-  "front-squat": "lower",
-  "goblet-squat": "lower",
-  "hack-squat": "lower",
-  "leg-extension": "lower",
-  "seated-leg-curl": "lower",
-  "standing-calf-raise": "lower",
-  "seated-calf-raise": "lower",
-  "sumo-deadlift": "lower",
-  "good-morning": "lower",
-  "step-up": "lower",
-  "hip-adduction": "lower",
-  "walking-lunge": "lower",
-  "smith-squat": "lower",
-  // 코어
-  plank: "core",
-  "hanging-leg-raise": "core",
-  "cable-crunch": "core",
-  "sit-up": "core",
-  crunch: "core",
-  "side-plank": "core",
-  "russian-twist": "core",
-  "ab-rollout": "core",
-  "mountain-climber": "core",
-  "wood-chopper": "core",
-  "pallof-press": "core",
-  // ── 2차 추가 매핑
-  "smith-bench-press": "chest",
-  "machine-chest-press": "chest",
-  "incline-cable-fly": "chest",
-  "dumbbell-pullover": "chest",
-  "pendlay-row": "back",
-  "meadows-row": "back",
-  "reverse-pec-deck": "back",
-  "inverted-row": "back",
-  "wide-grip-pull-up": "back",
-  "cable-lateral-raise": "shoulder",
-  "machine-shoulder-press": "shoulder",
-  "machine-rear-delt-fly": "shoulder",
-  "cable-rear-delt-fly": "shoulder",
-  "cable-front-raise": "shoulder",
-  "cable-fly": "chest",
-  "cable-curl": "arm",
-  "drag-curl": "arm",
-  "zottman-curl": "arm",
-  "cable-rope-hammer-curl": "arm",
-  "triceps-kickback": "arm",
-  "diamond-pushup": "arm",
-  "stiff-leg-deadlift": "lower",
-  "pistol-squat": "lower",
-  "sissy-squat": "lower",
-  "cossack-squat": "lower",
-  "box-squat": "lower",
-  "belt-squat": "lower",
-  "single-leg-leg-press": "lower",
-  "curtsy-lunge": "lower",
-  "sumo-squat": "lower",
-  "donkey-calf-raise": "lower",
-  "reverse-crunch": "core",
-  "v-up": "core",
-  "hollow-hold": "core",
-  "toes-to-bar": "core",
-  "bicycle-crunch": "core",
-  // ── 3차 추가
-  "low-row-machine": "back",
-  "chest-supported-row": "back",
-  "assisted-pull-up": "back",
-  "standing-cable-curl": "arm",
-  "cable-pull-through": "lower",
-};
-
-export function primaryBodyPart(id: string): BodyPart {
-  return PRIMARY_BODY_PART[id] ?? EXTRA_BODY_PART[id] ?? "core";
-}
-
-/**
- * 보조 부위 — 한 운동이 여러 부위를 자극할 때(복합 운동) 추가로 다는 태그.
- * 예: 플랭크=코어+하체, 데드리프트=등+하체, 스쿼트=하체+코어.
- * primary 외에 함께 표시할 부위만 적는다. (조정하려면 여기만 고치면 됨)
- */
-const EXTRA_BODY_PARTS: Record<string, BodyPart[]> = {
-  // 코어 + 하체
-  plank: ["lower"],
-  "side-plank": ["lower"],
-  "mountain-climber": ["lower"],
-  "hanging-leg-raise": ["lower"],
-  "toes-to-bar": ["lower"],
-  "ab-rollout": ["shoulder"],
-  // 데드리프트 계열 (등 ↔ 하체)
-  deadlift: ["lower"],
-  "sumo-deadlift": ["back"],
-  rdl: ["back"],
-  "stiff-leg-deadlift": ["back"],
-  "good-morning": ["back"],
-  // 스쿼트·런지 계열 (하체 + 코어)
-  squat: ["core"],
-  "front-squat": ["core"],
-  "goblet-squat": ["core"],
-  "hack-squat": ["core"],
-  "bulgarian-split-squat": ["core"],
-  lunge: ["core"],
-  "walking-lunge": ["core"],
-  "curtsy-lunge": ["core"],
-  "step-up": ["core"],
-  "pistol-squat": ["core"],
-  "cossack-squat": ["core"],
-  // 미는 운동 (가슴/어깨 + 삼두)
-  "bench-press": ["arm"],
-  "close-grip-bench-press": ["arm"],
-  dips: ["arm"],
-  "push-up": ["arm"],
-  ohp: ["arm"],
-  "arnold-press": ["arm"],
-  // 당기는 운동 (등 + 이두)
-  "pull-up": ["arm"],
-  "chin-up": ["arm"],
-  "barbell-row": ["arm"],
-  "lat-pulldown": ["arm"],
-  "low-row-machine": ["arm"],
-  "chest-supported-row": ["arm"],
-  "assisted-pull-up": ["arm"],
-  // 풀스루 (하체 + 코어)
-  "cable-pull-through": ["core"],
-};
-
-/**
- * 운동이 자극하는 모든 부위(주 + 보조), BODY_PART_ORDER 순서로 정렬·중복 제거.
- * 배지를 여러 개 달 때 사용.
- */
-export function bodyPartsFor(id: string): BodyPart[] {
-  const set = new Set<BodyPart>([primaryBodyPart(id), ...(EXTRA_BODY_PARTS[id] ?? [])]);
-  return BODY_PART_ORDER.filter((p) => set.has(p));
-}
-
-/** 상체 대근육(전신 판정용) */
-const UPPER_BODY_PARTS: BodyPart[] = ["chest", "back", "shoulder", "arm"];
-
-/** 전신 태그 색(중립 회색) — 특정 부위 색과 구분. */
-export const FULLBODY_TONE =
-  "bg-zinc-200 text-zinc-700 dark:bg-zinc-600 dark:text-zinc-200";
-
-/**
- * 운동이 "제일 영향 많이 받는 대근육" 한 개의 표시용 태그.
- * 상체(가슴/등/어깨/팔) 중 하나와 하체를 **동시에** 쓰면 '전신'(데드리프트 등),
- * 아니면 1차 부위(가슴/팔/하체/코어…). 배지를 1개만 달 때 쓴다.
- */
-export function majorMuscleTag(id: string): { label: string; tone: string } {
-  const parts = bodyPartsFor(id);
-  const isFullBody =
-    parts.includes("lower") && parts.some((p) => UPPER_BODY_PARTS.includes(p));
-  if (isFullBody) return { label: "전신", tone: FULLBODY_TONE };
-  const primary = primaryBodyPart(id);
-  return { label: BODY_PART_LABEL[primary], tone: BODY_PART_TONE[primary] };
-}
-
 /** 부위별로 그룹핑한 카탈로그 — /exercises 페이지에서 사용 */
 export function groupedByBodyPart(): Record<BodyPart, CatalogExercise[]> {
   const grouped: Record<BodyPart, CatalogExercise[]> = {
@@ -2900,8 +2433,4 @@ export function groupedByBodyPart(): Record<BodyPart, CatalogExercise[]> {
 /** 슬러그(=운동 id)로 카탈로그 운동 조회 */
 export function getCatalogExercise(slug: string): CatalogExercise | undefined {
   return EXERCISES[slug] ?? EXTRA_EXERCISES[slug];
-}
-
-export function isEquipmentId(value: unknown): value is EquipmentId {
-  return typeof value === "string" && value in EQUIPMENT_LABELS;
 }

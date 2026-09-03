@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 걸음수 읽기(Health Connect). 삼성헬스가 Health Connect 에 기록한 걸음수를 읽는다. -->
     <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_WEIGHT" />
+    <uses-permission android:name="android.permission.health.READ_BODY_FAT" />
+    <uses-permission android:name="android.permission.health.READ_LEAN_BODY_MASS" />
+    <uses-permission android:name="android.permission.health.WRITE_EXERCISE" />
+    <uses-permission android:name="android.permission.health.WRITE_DISTANCE" />
+    <uses-permission android:name="android.permission.health.WRITE_TOTAL_CALORIES_BURNED" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
 
     <application
         android:name=".GlobalApplication"
@@ -93,6 +101,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!-- 구글 플레이 인앱결제(로드맵 7.1). 이게 없으면 결제창이 아예 안 뜬다. -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+
     <!-- 푸시 알림(Android 13+) — 상태표시줄 알림을 띄우려면 필요. FCM 연동 시 사용. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
@@ -105,6 +116,11 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <!-- 내 데이터 내보내기(CSV/JSON) 저장 — Android 10(API 29)부터는 공용 다운로드 폴더에
+         쓸 때 권한이 필요 없다. 그 이전 기기에서만 요청한다. -->
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
     <!-- 카메라/GPS 없는 기기도 설치 가능하게(런닝은 선택 기능). -->
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />

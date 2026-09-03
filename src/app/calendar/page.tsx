@@ -75,8 +75,7 @@ export default async function CalendarPage({
   const monthParam = (mm: { year: number; month0: number }) =>
     `${mm.year}-${pad(mm.month0 + 1)}`;
   const today = seoulYmd();
-
-  // 서로 독립인 세 쿼리는 한 번에(직렬 3파 → 1파). 각 함수는 cache()된 인증을 공유.
+  // 서로 독립인 쿼리는 한 번에(직렬 → 1파). 각 함수는 cache()된 인증을 공유.
   const [
     { byDate, intakeTotal, workoutBurnedTotal },
     bodyLogs,

@@ -22,11 +22,25 @@ test("랫풀다운 시범 영상이 폰 화면을 넘지 않는다", async ({ pa
     .waitForFunction(
       () => {
         const v = document.querySelector("video");
-        return !!v && v.videoHeight > 0;
+        return !!v && v.readyState >= HTMLMediaElement.HAVE_METADATA && v.videoHeight > 0;
       },
       { timeout: 20_000 },
-    )
-    .catch(() => {});
+    );
+
+  const mediaState = await video.evaluate((v: HTMLVideoElement) => ({
+    error: v.error?.code ?? null,
+    readyState: v.readyState,
+    videoWidth: v.videoWidth,
+    videoHeight: v.videoHeight,
+  }));
+  expect(mediaState).toMatchObject({
+    error: null,
+    videoWidth: expect.any(Number),
+    videoHeight: expect.any(Number),
+  });
+  expect(mediaState.videoWidth).toBeGreaterThan(0);
+  expect(mediaState.videoHeight).toBeGreaterThan(0);
+  expect(mediaState.readyState).toBeGreaterThanOrEqual(1);
 
   const box = (await video.boundingBox())!;
   const vh = page.viewportSize()!.height;

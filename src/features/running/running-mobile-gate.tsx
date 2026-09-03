@@ -6,6 +6,7 @@ import { ChevronLeft } from "lucide-react";
 
 import { RunningGame } from "@/features/running/running-game";
 import { OutdoorRun } from "@/features/running/outdoor-run";
+import type { RunningMode } from "@/features/running/run-session";
 
 /** 휴대폰(터치 + 좁은 화면 / 모바일 UA)에서만 런닝 모드를 띄운다. */
 function isMobileDevice(): boolean {
@@ -17,15 +18,19 @@ function isMobileDevice(): boolean {
   return mobileUa || (touch && narrow);
 }
 
-type Mode = "camera" | "outdoor";
-
-export function RunningMobileGate() {
+export function RunningMobileGate({
+  initialMode = null,
+}: {
+  initialMode?: RunningMode | null;
+}) {
   const router = useRouter();
   const [state, setState] = useState<"checking" | "ok" | "desktop">("checking");
-  const [mode, setMode] = useState<Mode | null>(null);
+  const [mode, setMode] = useState<RunningMode | null>(initialMode);
   const exitToSelect = () => setMode(null); // 시작 화면 '나가기' → 모드 선택으로
 
   useEffect(() => {
+    // SSR에서는 브라우저의 터치·화면 정보를 확인할 수 없다.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setState(isMobileDevice() ? "ok" : "desktop");
   }, []);
 
@@ -50,7 +55,7 @@ export function RunningMobileGate() {
     );
   }
 
-  if (mode === "camera") return <RunningGame onExit={exitToSelect} />;
+  if (mode === "indoor") return <RunningGame onExit={exitToSelect} />;
   if (mode === "outdoor") return <OutdoorRun onExit={exitToSelect} />;
 
   // 모드 선택 화면 — 실내(카메라) / 야외(GPS)
@@ -73,7 +78,7 @@ export function RunningMobileGate() {
       <div className="flex w-full max-w-xs flex-col gap-3">
         <button
           type="button"
-          onClick={() => setMode("camera")}
+          onClick={() => setMode("indoor")}
           className="flex items-center gap-4 rounded-2xl border border-emerald-500/40 bg-emerald-500/10 p-4 text-left transition active:scale-[0.98]"
         >
           <span className="text-4xl">🏠</span>

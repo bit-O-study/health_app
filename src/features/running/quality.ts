@@ -10,6 +10,8 @@
  * 둘 다 없으면(iOS 사파리 등) **중간 등급**으로 본다 — 모르면 안전한 쪽.
  */
 
+import { detectLightMode } from "@/features/performance/light-mode";
+
 export type SceneTier = "low" | "mid" | "high";
 
 export type SceneQuality = {
@@ -61,6 +63,7 @@ export function pickSceneQuality(hints: DeviceHints = {}): SceneQuality {
 /** 브라우저에서 신호를 읽어 품질을 고른다. SSR·미지원이면 mid. */
 export function detectSceneQuality(): SceneQuality {
   if (typeof navigator === "undefined") return QUALITY.mid;
+  if (detectLightMode()) return QUALITY.low;
   const nav = navigator as Navigator & { deviceMemory?: number };
   return pickSceneQuality({
     deviceMemory: typeof nav.deviceMemory === "number" ? nav.deviceMemory : null,

@@ -41,8 +41,8 @@ import {
   ymdDisplay,
   type DayBlockId,
   type FocusTone,
+  isDayBlockId,
 } from "@/features/routine/data";
-import { isDayBlockId } from "@/features/routine/data";
 import { TodayExercises } from "@/features/routine/components/today-exercises";
 import {
   getLastExerciseValues,
@@ -60,6 +60,9 @@ import {
   TodayEditBar,
 } from "@/features/routine/components/today-edit-scope";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
+import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
+import { getWeeklyReport } from "@/features/routine/weekly-report-data";
+import type { WeeklyReport } from "@/features/routine/weekly-report";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -138,13 +141,16 @@ export default async function Home() {
   // 오늘 계획도 profile·routine 과 독립적이므로 최초 데이터 왕복에 함께 시작한다.
   const todayYmd = seoulYmd();
   if (user) warmTodayExercisesData(todayYmd);
-  const [profile, routine, dailyPlan] = user
+  const [profile, routine, dailyPlan, weekly] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
         getDailyPlanForDate(todayYmd),
+        // 주간 요약도 프로필·루틴과 독립이라 **같은 물결**에 실어 보낸다.
+        // 뒤에 따로 부르면 서울↔싱가포르 왕복이 한 번 더 쌓인다.
+        getWeeklyReport(todayYmd),
       ])
-    : [null, null, []];
+    : [null, null, [], null];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -176,18 +182,10 @@ export default async function Home() {
             routine={routine}
             profile={profile}
             dailyPlan={dailyPlan}
+            weekly={weekly}
           />
         )}
       </main>
-
-      <footer className="border-t border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800">
-        <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 px-6 py-8 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between sm:px-10">
-          <span className="font-semibold text-zinc-700 dark:text-zinc-300">
-            HELTCH · Health Platform MVP
-          </span>
-          <span>오늘의 운동 · 루틴 설정 · 익명 피드백</span>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -217,7 +215,7 @@ function LoggedOutHero() {
           <ArrowRight aria-hidden="true" size={17} />
         </Link>
         <Link
-          className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+          className="inline-flex h-12 items-center justify-center rounded-md border app-field px-5 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700"
           href="/exercises"
         >
           운동 리스트 둘러보기
@@ -229,7 +227,7 @@ function LoggedOutHero() {
 
 function NoRoutinePrompt() {
   return (
-    <section className="flex flex-col items-center gap-5 rounded-2xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-6 py-16 text-center">
+    <section className="app-card flex flex-col items-center gap-5 border-dashed px-6 py-16 text-center">
       <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
         <CalendarDays aria-hidden="true" size={28} />
       </span>
@@ -257,6 +255,7 @@ function TodayWorkout({
   routine,
   profile,
   dailyPlan,
+  weekly,
 }: {
   routine: {
     splits: number;
@@ -273,13 +272,14 @@ function TodayWorkout({
   };
   profile: UserProfile | null;
   dailyPlan: DailyPlanRow[];
+  /** 로그인 전/집계 실패 시 null — 없는 카드는 그리지 않는다. */
+  weekly: WeeklyReport | null;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
     routine.variantId,
     routine.customWeek,
   );
-
   const todayYmd = seoulYmd();
 
   // (체형 목표·내다짐 카드는 홈탭으로 옮김 — 운동탭은 오늘 운동에 집중. #12/#19)
@@ -419,11 +419,9 @@ function TodayWorkout({
   return (
     <div className="space-y-6 sm:space-y-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
+        {/* 'Today' 눈썹 라벨은 뺐다 — 바로 아래 h1 이 같은 말을 한다. */}
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400 sm:text-sm">
-            Today
-          </p>
-          <h1 className="mt-1 text-2xl font-bold sm:text-3xl lg:text-4xl">
+          <h1 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
             오늘의 운동
           </h1>
           <p className="mt-1.5 text-xs text-zinc-600 dark:text-zinc-400 sm:mt-2 sm:text-sm">
@@ -432,8 +430,8 @@ function TodayWorkout({
         </div>
       </div>
 
-      {/* 오늘 카드 */}
-      <section className={cnCard(todayStyle.card)}>
+      {/* 오늘 카드 — 바탕은 공통 표면, 부위 색은 배지·점(TodayFocusMenu)에만. */}
+      <section className="app-card p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             {isRest ? (
@@ -475,7 +473,7 @@ function TodayWorkout({
               : planToday.muscles;
             return (
               <div className="mt-6">
-                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                   자극 부위
                 </p>
                 {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트(상단 정렬) */}
@@ -485,7 +483,7 @@ function TodayWorkout({
                     {dayMuscles.map((muscle) => (
                       <span
                         key={muscle}
-                        className="rounded-full bg-white/70 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 ring-1 ring-black/5 dark:bg-zinc-800/70 dark:text-zinc-300 dark:ring-white/15"
+                        className="app-field rounded-full border px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300"
                       >
                         {muscle}
                       </span>
@@ -535,6 +533,10 @@ function TodayWorkout({
           </div>
         )}
 
+        {/* 이번 주 한눈에 — 홈·캘린더와 **같은 카드/같은 집계**의 간단형.
+            운동탭이 '오늘'만 말하고 끝나면 이번 주 흐름이 안 보인다. */}
+        {weekly ? <WeeklyReportCard report={weekly} compact /> : null}
+
         {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
         <UpcomingSevenDaysGrid
         // 루틴이 바뀌면(예: '오늘부터 다시 시작') 그리드를 remount 해 새 7일을 확실히
@@ -558,9 +560,4 @@ function TodayWorkout({
       </TodayEditScope>
     </div>
   );
-}
-
-/** 오늘 카드용 공통 래퍼 클래스 */
-function cnCard(cardTone: string) {
-  return `rounded-2xl border p-6 shadow-sm sm:p-8 ${cardTone}`;
 }

@@ -1541,6 +1541,65 @@ create policy "Users update own workout sessions"
   using (auth.uid() = user_id);
 
 -- ────────────────────────────────────────────────────────────────
+-- 실내·야외 러닝 개별 세션. workout_sessions/conditioning_completions는 일별 합계와
+-- 운동점수 호환용이고, 이 테이블은 상세 기록·야외 경로를 잃지 않기 위한 원본이다.
+-- client_session_id는 종료 저장 재시도 시 같은 세션이 두 번 쌓이는 것을 막는다.
+create table if not exists public.run_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  client_session_id uuid not null,
+  for_date date not null,
+  mode text not null check (mode in ('indoor', 'outdoor')),
+  started_at timestamptz not null,
+  ended_at timestamptz not null,
+  duration_sec integer not null check (duration_sec between 60 and 86400),
+  distance_m integer not null default 0 check (distance_m between 0 and 200000),
+  avg_kmh numeric(5, 1) not null default 0 check (avg_kmh >= 0),
+  pace_sec_per_km integer check (pace_sec_per_km > 0),
+  calories_kcal integer not null default 0 check (calories_kcal >= 0),
+  average_heart_rate integer check (average_heart_rate between 30 and 240),
+  max_heart_rate integer check (max_heart_rate between 30 and 240),
+  heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0),
+  incline integer check (incline between 0 and 15),
+  route_points jsonb not null default '[]'::jsonb check (jsonb_typeof(route_points) = 'array'),
+  created_at timestamptz not null default now(),
+  unique (user_id, client_session_id),
+  check (ended_at > started_at),
+  check (mode = 'outdoor' or jsonb_array_length(route_points) = 0)
+);
+
+alter table public.run_sessions
+  add column if not exists average_heart_rate integer check (average_heart_rate between 30 and 240),
+  add column if not exists max_heart_rate integer check (max_heart_rate between 30 and 240),
+  add column if not exists heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0);
+
+create index if not exists run_sessions_user_date_idx
+  on public.run_sessions (user_id, for_date desc, started_at desc);
+
+alter table public.run_sessions enable row level security;
+
+drop policy if exists "Users read own run sessions" on public.run_sessions;
+create policy "Users read own run sessions"
+  on public.run_sessions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users insert own run sessions" on public.run_sessions;
+create policy "Users insert own run sessions"
+  on public.run_sessions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users update own run sessions" on public.run_sessions;
+create policy "Users update own run sessions"
+  on public.run_sessions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users delete own run sessions" on public.run_sessions;
+create policy "Users delete own run sessions"
+  on public.run_sessions for delete
+  using (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
 -- 헬스장 마스터 (크라우드소싱 시드).
 -- 같은 헬스장이라도 일단은 행 중복 허용 — 사용자가 자기 정보만 관리.
 -- 추후 크라우드소싱으로 확장 시 dedup 로직 추가.
@@ -3116,5 +3175,225 @@ as $$
   update public.routine_shares set save_count = save_count + 1 where id = p_share_id;
 $$;
 grant execute on function public.bump_routine_share_saves(uuid) to authenticated;
+
+-- ── 크론 실행 기록 ────────────────────────────────────────────────
+-- 크론이 "돌긴 도는지" 를 아무도 모르는 게 가장 큰 위험이다(workout-inactivity 는
+-- vercel.json 등록이 빠져 한 번도 안 돌았는데 아무 신호가 없었다).
+-- 매 실행마다 소요시간·상태·발송 수·실패 사유를 남기고 관리자 화면에서 성공률로 본다.
+-- 쓰기는 서비스 롤(크론)만 — RLS 를 켜고 정책은 관리자 읽기만 준다.
+create table if not exists public.cron_runs (
+  id uuid primary key default gen_random_uuid(),
+  -- vercel.json 의 /api/cron/<name>
+  name text not null,
+  started_at timestamptz not null,
+  finished_at timestamptz not null default now(),
+  duration_ms int not null default 0,
+  -- ok=정상 / skipped=사전조건 미충족(푸시 미설정 등, 실패 아님) / error=예외
+  status text not null default 'ok' check (status in ('ok', 'skipped', 'error')),
+  scanned int not null default 0,
+  targeted int not null default 0,
+  sent int not null default 0,
+  deduped int not null default 0,
+  failed int not null default 0,
+  reason text,
+  created_at timestamptz not null default now()
+);
+create index if not exists cron_runs_name_idx
+  on public.cron_runs (name, started_at desc);
+alter table public.cron_runs enable row level security;
+drop policy if exists "admin reads cron runs" on public.cron_runs;
+create policy "admin reads cron runs" on public.cron_runs for select
+  using (public.is_admin());
+
+-- ── 알림 발송 기록(중복 방지) ──────────────────────────────────────
+-- 크론은 재실행된다(재시도·수동 호출·스케줄 변경). 같은 사람에게 같은 알림이
+-- 두 번 가면 그냥 스팸이므로, 보낸 것을 (사용자, 키) 로 남겨 다음 실행에서 건너뛴다.
+-- 키에 기간이 들어간다: 'daily-reminders:diet:2026-08-31', 'weekly-group-mvp:<그룹>:<주월요일>'
+-- → 다음 날/다음 주에는 정상적으로 다시 나간다.
+-- 서비스 롤(크론)만 읽고 쓴다 — 사용자용 정책은 두지 않는다.
+create table if not exists public.notification_sends (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  dedup_key text not null,
+  sent_at timestamptz not null default now(),
+  primary key (user_id, dedup_key)
+);
+-- 보존기간(30일) 지난 행 정리용.
+create index if not exists notification_sends_sent_idx
+  on public.notification_sends (sent_at);
+alter table public.notification_sends enable row level security;
+
+-- ── 실사용 오류 관측(app_events) ─────────────────────────────────────
+-- 프로덕션에서 무슨 일이 나는지 볼 방법이 서버 로그밖에 없었다(로드맵 1.3).
+-- WebView 종료·로그인 실패·푸시 등록 실패·저장 실패·느린 화면·메모리 경고를
+-- **정해진 종류만** 남긴다. 원문 대신 세탁한 문자열만 들어온다
+-- (이메일·토큰·uuid·긴 숫자·쿼리스트링 → 자리표시자. src/lib/observability/app-event.ts)
+-- 같은 사건이 연속으로 나면 행을 늘리지 않고 count 를 올린다.
+-- 보존 30일 — 하루 한 번 도는 리마인더 크론이 오래된 행을 지운다.
+create table if not exists public.app_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  kind text not null,
+  severity text not null default 'error' check (severity in ('error', 'warn')),
+  route text,
+  message text,
+  app_version text,
+  platform text not null default 'web' check (platform in ('android', 'web')),
+  device text,
+  value int,
+  count int not null default 1,
+  occurred_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+create index if not exists app_events_occurred_idx
+  on public.app_events (occurred_at desc);
+create index if not exists app_events_kind_idx
+  on public.app_events (kind, occurred_at desc);
+-- 사용량 상한(악용 차단)을 최근 것만 세면 되게.
+create index if not exists app_events_user_idx
+  on public.app_events (user_id, created_at desc);
+alter table public.app_events enable row level security;
+-- 자기 사건만 넣을 수 있다 — 남의 user_id 로는 못 쌓는다.
+drop policy if exists "user inserts own app event" on public.app_events;
+create policy "user inserts own app event" on public.app_events for insert
+  with check (auth.uid() = user_id);
+-- 읽기는 관리자만. 오류 문구에 다른 사용자 상황이 섞일 수 있다.
+drop policy if exists "admin reads app events" on public.app_events;
+create policy "admin reads app events" on public.app_events for select
+  using (public.is_admin());
+-- 상한 검사용 자기 행 개수 조회(select) 는 위 관리자 정책만으로는 안 되므로
+-- 본인 행 읽기를 따로 허용한다(자기가 보낸 것만 보인다).
+drop policy if exists "user reads own app events" on public.app_events;
+create policy "user reads own app events" on public.app_events for select
+  using (auth.uid() = user_id);
+
+-- ── 사용자별 알림 설정(notification_preferences) ────────────────────
+-- 알림이 '전부 아니면 전무' 였다. 밤 11시에 "운동을 종료하시겠습니까?" 가 뜨면
+-- 사람은 알림 자체를 꺼 버리고, 그러면 정작 필요한 것도 못 받는다(로드맵 3.1).
+-- 종류별 동의 + 야간 방해 금지.
+--
+-- 🔴 **행이 없어도 동작해야 한다.** 기존 사용자에게 행을 만들지 않으므로,
+--    읽는 쪽이 기본값(전부 켜짐 + 야간 22~07 금지)으로 메운다
+--    (src/features/notifications/preferences.ts 의 DEFAULT_PREFERENCES).
+--    그래서 컬럼 기본값도 같은 값으로 맞춰 둔다 — 둘이 갈라지면 화면과 발송이 달라진다.
+-- 시각은 **서울 기준 시(0~23)**. 이 앱의 날짜·크론이 전부 서울 기준이다.
+create table if not exists public.notification_preferences (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  workout_reminder boolean not null default true,
+  diet_reminder boolean not null default true,
+  workout_inactivity boolean not null default true,
+  group_activity boolean not null default true,
+  routine_saved boolean not null default true,
+  rest_timer boolean not null default true,
+  quiet_hours boolean not null default true,
+  quiet_start_hour smallint not null default 22
+    check (quiet_start_hour >= 0 and quiet_start_hour <= 23),
+  quiet_end_hour smallint not null default 7
+    check (quiet_end_hour >= 0 and quiet_end_hour <= 23),
+  updated_at timestamptz not null default now()
+);
+alter table public.notification_preferences enable row level security;
+-- 본인만 읽고 쓴다. 크론은 서비스 롤이라 RLS 를 우회한다.
+drop policy if exists "own notification preferences" on public.notification_preferences;
+create policy "own notification preferences" on public.notification_preferences
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
+-- AI 사용량 한도 — 로드맵 7.1. (user_id, month, feature) 당 한 행.
+-- month 는 **서울 기준** 'YYYY-MM' — UTC 로 세면 매월 1일 0~9시가 지난달로 들어간다.
+create table if not exists public.ai_usage (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  month text not null,
+  feature text not null,
+  used int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, month, feature)
+);
+create index if not exists ai_usage_month_idx on public.ai_usage (month);
+alter table public.ai_usage enable row level security;
+-- 읽기는 본인 것만. **쓰기 정책은 두지 않는다** — 사용량은 아래 SECURITY DEFINER 함수로만
+-- 오른다. 클라이언트가 직접 update 할 수 있으면 한도를 스스로 0 으로 되돌린다.
+drop policy if exists ai_usage_select_own on public.ai_usage;
+create policy ai_usage_select_own on public.ai_usage
+  for select using (auth.uid() = user_id);
+
+-- 한도 검사와 증가를 **한 문장으로**. 읽고 나서 올리면 그 사이에 다른 요청이 끼어들어
+-- 한도를 넘길 수 있다(사진 스캔은 연타가 흔하다).
+-- 한도 안이면 올린 뒤의 값을, 넘었으면 -1 을 돌려준다.
+create or replace function public.consume_ai_quota(
+  p_feature text, p_month text, p_limit int)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_used int;
+begin
+  if auth.uid() is null then
+    return -1;
+  end if;
+  insert into public.ai_usage (user_id, month, feature, used, updated_at)
+  values (auth.uid(), p_month, p_feature, 1, now())
+  on conflict (user_id, month, feature) do update
+    set used = public.ai_usage.used + 1, updated_at = now()
+    where public.ai_usage.used < p_limit
+  returning used into v_used;
+
+  if v_used is null then
+    return -1; -- 한도 초과(갱신 대상이 없었다)
+  end if;
+  return v_used;
+end;
+$$;
+revoke all on function public.consume_ai_quota(text, text, int) from public;
+grant execute on function public.consume_ai_quota(text, text, int) to authenticated;
+
+-- ────────────────────────────────────────────────────────────────
+-- AI 분석 결과 보관 — 로드맵 7.1. 다시 열어 볼 때 **AI 를 또 부르지 않기 위해** 남긴다
+-- (재조회가 공짜여야 사용자가 마음 놓고 다시 본다). 사용자당 종류별 최근 것만 유지.
+create table if not exists public.ai_analyses (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  kind text not null check (kind in ('workout', 'diet', 'posture')),
+  summary text not null,
+  points jsonb not null default '[]'::jsonb check (jsonb_typeof(points) = 'array'),
+  subject text,
+  created_at timestamptz not null default now()
+);
+create index if not exists ai_analyses_user_kind_idx
+  on public.ai_analyses (user_id, kind, created_at desc);
+alter table public.ai_analyses enable row level security;
+-- 내 분석은 나만. 사용량과 달리 사용자가 지울 수 있어야 한다(내 기록이다).
+drop policy if exists ai_analyses_own on public.ai_analyses;
+create policy ai_analyses_own on public.ai_analyses
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
+-- 구독(구글 플레이 인앱결제) — 로드맵 7.1. 사용자당 한 행(가장 최근 구매).
+-- 권한은 state 가 아니라 **expires_at** 에서 나온다(코드 주석 참고) — 그래야 해지·
+-- 환불·결제실패를 따로 처리하지 않아도 저절로 맞는다.
+create table if not exists public.subscriptions (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  platform text not null default 'google_play' check (platform in ('google_play')),
+  product_id text not null default '',
+  purchase_token text not null,
+  state text not null check (state in ('active', 'grace', 'canceled', 'on_hold', 'paused', 'expired')),
+  expires_at timestamptz,
+  auto_renewing boolean not null default false,
+  verified_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+-- 🔴 같은 구매를 여러 계정이 나눠 쓰지 못하게. 없으면 구매 토큰 하나로 여러 계정이
+-- 프리미엄이 된다.
+create unique index if not exists subscriptions_token_uniq
+  on public.subscriptions (purchase_token);
+create index if not exists subscriptions_expires_idx
+  on public.subscriptions (expires_at);
+alter table public.subscriptions enable row level security;
+-- 읽기는 본인만. **쓰기 정책은 두지 않는다** — 구독 상태는 서버가 구글에 물어본 결과로만
+-- 바뀐다. 클라이언트가 직접 쓸 수 있으면 스스로 프리미엄이 된다.
+drop policy if exists subscriptions_select_own on public.subscriptions;
+create policy subscriptions_select_own on public.subscriptions
+  for select using (auth.uid() = user_id);
 
 notify pgrst, 'reload schema';

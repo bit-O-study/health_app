@@ -83,7 +83,7 @@ export function TodayGoalCard({
               {/* 왼쪽 현재값 / 오른쪽 목표값 — 정가운데를 얇은 구분선으로 반씩 나눈다. */}
               <div className="mt-3 grid grid-cols-2">
                 <div className="border-r border-emerald-200/70 pr-2.5 text-center dark:border-emerald-900/50">
-                  <span className="block text-[10px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
                     현재
                   </span>
                   <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
@@ -91,7 +91,7 @@ export function TodayGoalCard({
                   </span>
                 </div>
                 <div className="pl-2.5 text-center">
-                  <span className="block text-[10px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
+                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
                     목표
                   </span>
                   <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
@@ -165,7 +165,7 @@ export function TodayGoalCard({
           onClick={() => setLogOpen(false)}
         >
           <div
-            className="w-full max-w-md rounded-2xl bg-white p-4 shadow-xl dark:bg-zinc-800 sm:p-6"
+            className="app-card w-full max-w-md bg-[var(--surface-strong)] p-4 shadow-xl sm:p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">

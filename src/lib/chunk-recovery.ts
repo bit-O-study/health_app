@@ -13,6 +13,63 @@ export function isChunkLoadError(message: string | null | undefined): boolean {
   return CHUNK_ERROR_RE.test(message);
 }
 
+const NETWORK_LOAD_ERROR_RE =
+  /Failed to fetch|NetworkError|Load failed|net::ERR_(?:INTERNET_DISCONNECTED|NETWORK_CHANGED|CONNECTION_(?:ABORTED|CLOSED|RESET|REFUSED|TIMED_OUT))/i;
+
+export function isRecoverableLoadError(
+  message: string | null | undefined,
+): boolean {
+  if (!message) return false;
+  return isChunkLoadError(message) || NETWORK_LOAD_ERROR_RE.test(message);
+}
+
+export type AppErrorDiagnostic = {
+  occurredAt: number;
+  path: string;
+  message: string;
+  digest: string | null;
+  recoverable: boolean;
+};
+
+type AppErrorLike = { message?: string; digest?: string };
+type DiagnosticStorage = { setItem: (key: string, value: string) => void };
+
+export const LAST_APP_ERROR_KEY = "heltch.lastAppError";
+
+export function createAppErrorDiagnostic(
+  error: AppErrorLike,
+  path: string,
+  occurredAt: number,
+): AppErrorDiagnostic {
+  const message = String(error?.message || "Unknown error").slice(0, 500);
+  return {
+    occurredAt,
+    path: path.slice(0, 500),
+    message,
+    digest:
+      typeof error?.digest === "string" ? error.digest.slice(0, 120) : null,
+    recoverable: isRecoverableLoadError(message),
+  };
+}
+
+export function recordAppErrorDiagnostic(
+  error: AppErrorLike,
+  path: string,
+  occurredAt: number,
+  storage?: DiagnosticStorage,
+): AppErrorDiagnostic {
+  const diagnostic = createAppErrorDiagnostic(error, path, occurredAt);
+  try {
+    const target =
+      storage ??
+      (typeof window !== "undefined" ? window.localStorage : undefined);
+    target?.setItem(LAST_APP_ERROR_KEY, JSON.stringify(diagnostic));
+  } catch {
+    /* diagnostics must never break error recovery */
+  }
+  return diagnostic;
+}
+
 /**
  * 자동 새로고침 루프 방지 판정(순수 — 테스트 가능).
  *
@@ -31,6 +88,17 @@ export function shouldAutoReload(
 ): boolean {
   if (!Number.isFinite(lastReloadAt) || lastReloadAt <= 0) return true;
   return now - lastReloadAt >= windowMs;
+}
+
+export function shouldRecoverAppError(
+  error: AppErrorLike,
+  lastReloadAt: number,
+  now: number,
+): boolean {
+  return (
+    isRecoverableLoadError(error?.message) &&
+    shouldAutoReload(lastReloadAt, now)
+  );
 }
 
 /** 자동 리로드 시각 저장 키(sessionStorage) — 에러 바운더리·PWA 복구가 공유. */

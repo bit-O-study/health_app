@@ -13,6 +13,9 @@ import {
   type FocusTone,
 } from "@/features/routine/data";
 import { getWorkoutDurationsRange } from "@/features/workout-timer/workout-sessions";
+import { RunHistoryList } from "@/features/running/components/run-history-list";
+import { getRecentRunSessions, getRunSessionsRange } from "@/features/running/run-history-data";
+import { summarizeRunWeek } from "@/features/running/run-history-summary";
 
 /** 초 → "m분" 또는 "h시간 m분" 짧은 표기 */
 function shortDuration(sec: number): string {
@@ -91,7 +94,14 @@ export default async function HistoryPage({
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const [exRes, condRes, durationMap] = await Promise.all([
+  const weekStart = (() => {
+    const [y, m, d] = todayYmd.split("-").map(Number);
+    const date = new Date(Date.UTC(y, m - 1, d));
+    const day = date.getUTCDay();
+    date.setUTCDate(date.getUTCDate() + (day === 0 ? -6 : 1 - day));
+    return date.toISOString().slice(0, 10);
+  })();
+  const [exRes, condRes, durationMap, monthRuns, recentRuns, weekRuns] = await Promise.all([
     user
       ? supabase
           .from("exercise_completions")
@@ -111,7 +121,12 @@ export default async function HistoryPage({
           .lte("for_date", monthEnd)
       : Promise.resolve({ data: [] as CondRow[] }),
     getWorkoutDurationsRange(monthStart, monthEnd),
+    getRunSessionsRange(monthStart, monthEnd),
+    getRecentRunSessions(5),
+    getRunSessionsRange(weekStart, todayYmd),
   ]);
+  const weekSummary = summarizeRunWeek(weekRuns, todayYmd);
+  const runActiveDays = new Set(monthRuns.map((run) => run.forDate));
 
   // 일자별 focus 카운트, 월별 focus 누적 카운트
   const dayFocusCounts = new Map<string, Map<string, number>>();
@@ -176,6 +191,21 @@ export default async function HistoryPage({
         </p>
       </div>
 
+      <section className="mb-5 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5 dark:border-emerald-800 dark:bg-emerald-950/20">
+        <p className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">이번 주 런닝</p>
+        <div className="mt-2 grid grid-cols-3 gap-3 text-center">
+          <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{weekSummary.sessions}</p><p className="text-xs text-zinc-500">회</p></div>
+          <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{(weekSummary.distanceM / 1_000).toFixed(2)}</p><p className="text-xs text-zinc-500">km</p></div>
+          <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{shortDuration(weekSummary.durationSec)}</p><p className="text-xs text-zinc-500">총 시간</p></div>
+        </div>
+        <p className="mt-3 text-center text-xs text-zinc-500 dark:text-zinc-400">{weekSummary.from}~{weekSummary.to} · {weekSummary.caloriesKcal}kcal</p>
+      </section>
+
+      <section className="mb-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+        <h2 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-100">최근 런닝 기록</h2>
+        <RunHistoryList rows={recentRuns} />
+      </section>
+
       <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <Link
@@ -215,7 +245,8 @@ export default async function HistoryPage({
             const label = focus ? blockLabel(focus) : hasCond ? "활동" : "";
             const isToday = cell.ymd === todayYmd;
             const durSec = durationMap.get(cell.ymd) ?? 0;
-            const hasActivity = focus !== null || hasCond || durSec > 0;
+            const hasRun = runActiveDays.has(cell.ymd);
+            const hasActivity = focus !== null || hasCond || hasRun || durSec > 0;
             return (
               <Link
                 key={cell.ymd}
@@ -230,7 +261,7 @@ export default async function HistoryPage({
                 <span>{cell.day}</span>
                 {label ? (
                   <span className="mt-0.5 text-[10px] font-bold">{label}</span>
-                ) : null}
+                ) : hasRun ? <span className="mt-0.5 text-[10px] font-bold">런닝</span> : null}
                 {durSec > 0 ? (
                   <span className="mt-0.5 text-[9px] font-bold text-emerald-700 dark:text-emerald-400">
                     {shortDuration(durSec)}

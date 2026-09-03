@@ -34,6 +34,24 @@ export async function reportContentAction(input: {
 
   const supabase = await createSupabaseServerClient();
 
+  let targetUserId = input.targetUserId ?? null;
+  let targetAuthor = input.targetAuthor ?? null;
+  let targetPreview = input.targetPreview ?? null;
+  if (input.targetKind === "routine_share") {
+    const { data: share } = await supabase
+      .from("routine_shares")
+      .select("user_id, author_name, title, caption")
+      .eq("id", input.targetId)
+      .maybeSingle();
+    if (!share) return { ok: false, error: "삭제되었거나 존재하지 않는 루틴이에요." };
+    if (share.user_id === user.id) {
+      return { ok: false, error: "내가 올린 루틴은 신고할 수 없어요." };
+    }
+    targetUserId = share.user_id;
+    targetAuthor = share.author_name;
+    targetPreview = [share.title, share.caption].filter(Boolean).join(" · ");
+  }
+
   // 같은 대상에 대한 내 중복 신고는 막는다(스팸 방지).
   const { data: dup } = await supabase
     .from("post_reports")
@@ -49,12 +67,15 @@ export async function reportContentAction(input: {
   const { error } = await supabase.from("post_reports").insert({
     target_kind: input.targetKind,
     target_id: input.targetId,
-    target_user_id: input.targetUserId ?? null,
-    target_author: input.targetAuthor ?? null,
-    target_preview: (input.targetPreview ?? "").slice(0, 200) || null,
+    target_user_id: targetUserId,
+    target_author: targetAuthor,
+    target_preview: (targetPreview ?? "").slice(0, 200) || null,
     reporter_id: user.id,
     reason: input.reason.trim().slice(0, 500),
   });
+  if (error?.code === "23505") {
+    return { ok: false, error: "이미 신고한 게시물이에요." };
+  }
   if (error) return { ok: false, error: error.message };
   revalidatePath("/admin/reports");
   return { ok: true };

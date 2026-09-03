@@ -53,20 +53,18 @@ test("같은 부위 두 일차 — 한 일차 운동 삭제가 다른 일차에 
   // /plan 에서 "3일 · 하체"(2일차) 섹션에서만 운동 1개 삭제 후 저장.
   await page.goto("/plan", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
-  const day3 = page.locator("section").filter({
-    has: page.getByRole("heading", { level: 3, name: /3일 · 하체/ }),
-  });
+  const day3 = page.locator('[data-plan-day-index="2"]');
   await expect(day3).toHaveCount(1);
-  // 본운동 행만(워밍업/마무리 삭제 버튼 제외) — 운동 combobox 개수로 센다.
-  const exSelects = day3.getByRole("combobox", { name: "운동" });
-  const rowsBefore = await exSelects.count();
+  // 본운동 행만(워밍업/마무리 제외) — 통합 편집기의 안정적인 행 testid로 센다.
+  const exerciseRows = day3.locator('[data-testid^="plan-row-2:lower-"]');
+  const rowsBefore = await exerciseRows.count();
   expect(rowsBefore).toBe(before.get(2));
   // 2일차 lower 의 본운동 삭제 버튼(전용 testid)으로 첫 행 삭제.
   await day3.locator('[data-testid^="delete-row-2:lower-"]').first().click();
-  await expect(exSelects).toHaveCount(rowsBefore - 1);
+  await expect(exerciseRows).toHaveCount(rowsBefore - 1);
   // 섹션엔 본운동/워밍업/마무리 '저장'이 있어 첫 번째(본운동) 저장을 누른다.
-  await day3.getByRole("button", { name: "저장", exact: true }).first().click();
-  await expect(page.getByText("저장됨")).toBeVisible({ timeout: 15_000 });
+  await day3.getByRole("button", { name: "3일차 저장" }).click();
+  await expect(page.getByText("3일차 저장됨")).toBeVisible({ timeout: 15_000 });
   await page.waitForTimeout(500);
 
   // 2일차는 1개 줄고, 3일차는 그대로여야 한다(일차별 독립).

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -12,8 +13,10 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
+import android.view.ViewParent;
 import android.webkit.GeolocationPermissions;
 import android.webkit.JavascriptInterface;
 import android.webkit.PermissionRequest;
@@ -31,6 +34,9 @@ import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.BridgeWebChromeClient;
 import com.getcapacitor.BridgeWebViewClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * 런닝(실내=카메라 getUserMedia / 야외=GPS geolocation) 웹 권한을 시스템 권한 다이얼로그로
  * 연결한다. Capacitor 기본 WebChromeClient 는 런타임 권한이 없으면 프롬프트 없이 거부하므로,
@@ -41,11 +47,15 @@ public class MainActivity extends BridgeActivity {
     private static final int REQ_CAMERA = 9101;
     private static final int REQ_LOCATION = 9102;
     private static final int REQ_DOWNLOAD_STORAGE = 9103;
-    private static final String RECOVERY_PREFS = "helssu_recovery";
-    private static final String RENDERER_RECOVERY_PENDING = "renderer_recovery_pending";
-    private static final String RENDERER_RECOVERY_COUNT = "renderer_recovery_count";
-    private static final String RENDERER_RECOVERY_AT = "renderer_recovery_at";
-    private static final long RENDERER_RECOVERY_WINDOW_MS = 2 * 60 * 1000L;
+    private static final String WEBVIEW_LOG_TAG = "HelssuWebView";
+    private static final String RENDERER_RECOVERY_PREFS = "helssu_renderer_recovery";
+    private static final String KEY_LAST_EXIT_AT = "lastExitAt";
+    private static final String KEY_WINDOW_COUNT = "windowCount";
+    private static final String KEY_PENDING = "pending";
+    private static final String KEY_MODE = "mode";
+    private static final String KEY_DID_CRASH = "didCrash";
+    private static final String KEY_RENDERER_PRIORITY = "rendererPriority";
+    private static final String KEY_PATH = "path";
 
     private PermissionRequest pendingCamera;
     private GeolocationPermissions.Callback pendingGeoCallback;
@@ -160,48 +170,66 @@ public class MainActivity extends BridgeActivity {
                 scheduleReload(view);
             }
 
-            /**
-             * 웹뷰 렌더러 프로세스가 죽었다 — 대개 메모리 부족이거나, 앱이
-             * 백그라운드에 있는 동안 안드로이드가 회수한 경우다.
-             *
-             * 여기서 true 를 돌려주지 않으면 안드로이드가 **앱 프로세스까지 함께
-             * 죽인다.** 사용자에게는 아무 안내 없이 '앱이 그냥 튕기는' 것으로 보인다.
-             * 리모트 URL 웹뷰 앱에서 이 콜백을 비워 두면 언젠가 반드시 겪는다.
-             *
-             * 죽은 WebView 는 되살릴 수 없어 reload() 로는 복구되지 않는다. 화면에서
-             * 떼어내 파괴하고 액티비티를 다시 만들어 새 WebView 로 시작한다.
-             *
-             * 복구는 마지막 페이지가 아니라 시작 URL 로 한다. 렌더러를 터뜨린 바로 그
-             * 페이지로 되돌아가면 같은 자리에서 다시 죽는 crash loop 가 된다.
-             * 세션은 쿠키에 있으므로 로그인 상태는 유지된다.
-             */
             @Override
             public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
-                if (view != null) {
-                    ViewGroup parent = (ViewGroup) view.getParent();
-                    if (parent != null) parent.removeView(view);
-                }
-                // Capacitor가 Activity 종료 때 WebView를 파괴하므로 여기서 중복 파괴하지 않는다.
-                android.content.SharedPreferences recovery =
-                    getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE);
-                long now = System.currentTimeMillis();
-                long previousAt = recovery.getLong(RENDERER_RECOVERY_AT, 0L);
-                int recoveryCount = now - previousAt <= RENDERER_RECOVERY_WINDOW_MS
-                    ? recovery.getInt(RENDERER_RECOVERY_COUNT, 0) + 1
-                    : 1;
-                recovery.edit()
-                    .putBoolean(RENDERER_RECOVERY_PENDING, true)
-                    .putInt(RENDERER_RECOVERY_COUNT, recoveryCount)
-                    .putLong(RENDERER_RECOVERY_AT, now)
-                    .apply();
-                // 죽은 WebView 를 겨냥한 재시도가 남아 있으면 새 화면을 덮어친다.
-                retryHandler.removeCallbacksAndMessages(null);
+                super.onRenderProcessGone(view, detail);
+                recordRendererExit(view, detail);
                 loadFailed = false;
                 reloadAttempts = 0;
-                retryHandler.post(() -> MainActivity.this.recreate());
+                retryHandler.removeCallbacksAndMessages(null);
+
+                ViewParent parent = view.getParent();
+                if (parent instanceof ViewGroup) {
+                    ((ViewGroup) parent).removeView(view);
+                }
+                view.destroy();
+
+                retryHandler.post(() -> {
+                    if (!isFinishing() && !isDestroyed()) recreate();
+                });
                 return true;
             }
         });
+    }
+
+    private SharedPreferences rendererRecoveryPrefs() {
+        return getSharedPreferences(RENDERER_RECOVERY_PREFS, MODE_PRIVATE);
+    }
+
+    private void recordRendererExit(WebView view, RenderProcessGoneDetail detail) {
+        SharedPreferences prefs = rendererRecoveryPrefs();
+        long now = System.currentTimeMillis();
+        RendererRecoveryPolicy.Decision decision = RendererRecoveryPolicy.decide(
+            prefs.getLong(KEY_LAST_EXIT_AT, 0L),
+            prefs.getInt(KEY_WINDOW_COUNT, 0),
+            now
+        );
+
+        String path = "/";
+        String url = view.getUrl();
+        if (url != null) {
+            String parsedPath = Uri.parse(url).getPath();
+            if (parsedPath != null && !parsedPath.isEmpty()) path = parsedPath;
+        }
+
+        prefs.edit()
+            .putLong(KEY_LAST_EXIT_AT, now)
+            .putInt(KEY_WINDOW_COUNT, decision.count)
+            .putBoolean(KEY_PENDING, true)
+            .putString(KEY_MODE, decision.mode)
+            .putBoolean(KEY_DID_CRASH, detail.didCrash())
+            .putInt(KEY_RENDERER_PRIORITY, detail.rendererPriorityAtExit())
+            .putString(KEY_PATH, path)
+            .apply();
+
+        Log.e(
+            WEBVIEW_LOG_TAG,
+            "renderer_gone mode=" + decision.mode
+                + " count=" + decision.count
+                + " didCrash=" + detail.didCrash()
+                + " priority=" + detail.rendererPriorityAtExit()
+                + " path=" + path
+        );
     }
 
     @Override
@@ -346,6 +374,28 @@ public class MainActivity extends BridgeActivity {
 
     /** window.HelssuNative — 웹에서 기기 설정 화면을 여는 브릿지. */
     private class NativeBridge {
+        /** WebView renderer 복구 이벤트를 최신 한 건만 반환한다. */
+        @JavascriptInterface
+        public String consumeRendererRecovery() {
+            SharedPreferences prefs = rendererRecoveryPrefs();
+            if (!prefs.getBoolean(KEY_PENDING, false)) return null;
+            prefs.edit().putBoolean(KEY_PENDING, false).apply();
+            try {
+                return new JSONObject()
+                    .put(
+                        "mode",
+                        prefs.getString(KEY_MODE, RendererRecoveryPolicy.MODE_RESTORE_ONCE)
+                    )
+                    .put("occurredAt", prefs.getLong(KEY_LAST_EXIT_AT, 0L))
+                    .put("count", prefs.getInt(KEY_WINDOW_COUNT, 1))
+                    .put("didCrash", prefs.getBoolean(KEY_DID_CRASH, false))
+                    .toString();
+            } catch (JSONException error) {
+                Log.e(WEBVIEW_LOG_TAG, "renderer_recovery_json_failed", error);
+                return null;
+            }
+        }
+
         /** 기기 '위치 정보(GPS)' 설정 화면 열기. */
         @JavascriptInterface
         public void openLocationSettings() {
@@ -367,20 +417,6 @@ public class MainActivity extends BridgeActivity {
             });
         }
 
-        /** 렌더러 사망 뒤 새 WebView로 시작한 경우에만 한 번 true를 반환한다. */
-        @JavascriptInterface
-        public boolean consumeRendererRecovery() {
-            boolean pending = getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE)
-                .getBoolean(RENDERER_RECOVERY_PENDING, false);
-            if (pending) {
-                getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE)
-                    .edit()
-                    .remove(RENDERER_RECOVERY_PENDING)
-                    .apply();
-            }
-            return pending;
-        }
-
         /**
          * 설치된 앱 버전(versionName). 웹은 원격 URL 이라 자기 APK 버전을 모른다 —
          * 실사용 오류 관측에서 "어느 앱 버전에서 난 팅김인가"를 가리려면 필요하다.
@@ -397,16 +433,12 @@ public class MainActivity extends BridgeActivity {
             }
         }
 
-        /** 2분 안에 이어진 렌더러 복구 횟수. pending 상태일 때 한 번만 반환한다. */
-        @JavascriptInterface
-        public int consumeRendererRecoveryCount() {
-            android.content.SharedPreferences recovery =
-                getSharedPreferences(RECOVERY_PREFS, MODE_PRIVATE);
-            if (!recovery.getBoolean(RENDERER_RECOVERY_PENDING, false)) return 0;
-            int count = recovery.getInt(RENDERER_RECOVERY_COUNT, 1);
-            recovery.edit().remove(RENDERER_RECOVERY_PENDING).apply();
-            return count;
-        }
+    }
+
+    @Override
+    public void onDestroy() {
+        retryHandler.removeCallbacksAndMessages(null);
+        super.onDestroy();
     }
 
     @Override

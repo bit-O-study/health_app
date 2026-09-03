@@ -6,14 +6,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 import { reportAppEvent } from "@/lib/observability/report-client";
 import {
-  shouldRestoreRoute,
-  rendererRecoveryDestination,
-  type SavedRoute,
-} from "@/lib/platform/route-restore";
-import {
-  readRecoveryCount,
-  type RendererRecoveryBridge,
+  decideRendererRecovery,
+  parseRendererRecovery,
 } from "@/lib/platform/renderer-recovery";
+import type { SavedRoute } from "@/lib/platform/route-restore";
 
 /**
  * 네이티브 앱(APK)에서 "잠깐 다른 앱 갔다 오면 앱이 초기화되는" 문제 완화.
@@ -26,9 +22,12 @@ import {
  *
  * - 웹 브라우저에선 동작 안 함(isNativeApp). 북마크/딥링크로 홈을 여는 웹 사용자에게 방해 X.
  * - 30분 창: '방금 쓰다 튕긴' 경우만 이어보기. 하루 뒤 새로 열면 그냥 홈.
+ * - renderer 종료가 5분 안에 반복되면 문제 경로를 버리고 /home 으로 복구.
  * - 폴더명이 `_` 로 시작해 라우트 대상에서 제외됨.
  */
 const KEY = "heltch.lastRoute";
+
+type RecoveryBridge = { consumeRendererRecovery?: () => string | null };
 
 function currentRoute(): string {
   return window.location.pathname + window.location.search;
@@ -56,60 +55,64 @@ function readSaved(): SavedRoute | null {
   return null;
 }
 
-/**
- * 복구 횟수는 부팅당 **한 번만** 읽는다(네이티브가 읽는 즉시 지운다).
- * 판단은 순수 모듈로 뺐다 — 옛 APK 폴백이 여기 묻혀 있으면 테스트가 안 된다.
- */
-function consumeRendererRecovery(): number {
-  const nativeWindow = window as typeof window & {
-    HelssuNative?: RendererRecoveryBridge;
-  };
-  return readRecoveryCount(nativeWindow.HelssuNative);
+function clearSaved() {
+  try {
+    localStorage.removeItem(KEY);
+  } catch {
+    /* noop */
+  }
+}
+
+function consumeNativeRecovery(): string | null {
+  try {
+    return (window as unknown as { HelssuNative?: RecoveryBridge })
+      .HelssuNative?.consumeRendererRecovery?.() ?? null;
+  } catch {
+    return null;
+  }
 }
 
 export function RouteKeeper() {
   const pathname = usePathname();
   const router = useRouter();
   const restored = useRef(false);
-  const [recovered, setRecovered] = useState(false);
+  const skipSave = useRef(false);
+  const [notice, setNotice] = useState<string | null>(null);
 
-  // 부팅 직후 1회: 홈으로 튕겼고 최근에 보던 화면이 있으면 그리로 복원.
+  // 부팅 직후 1회: renderer 반복 종료면 안전 홈, 아니면 최근 화면을 한 번 복원.
   useEffect(() => {
     if (restored.current) return;
     restored.current = true;
     if (!isNativeApp()) return;
+
+    const now = Date.now();
+    const event = parseRendererRecovery(consumeNativeRecovery(), now);
     const saved = readSaved();
-    const recoveryCount = consumeRendererRecovery();
-    const safeDestination = rendererRecoveryDestination(recoveryCount);
-    if (recoveryCount > 0) {
-      queueMicrotask(() => setRecovered(true));
-      // 팅김의 직접 신호 — 어느 화면에서 죽었는지(저장돼 있던 경로)까지 남긴다.
-      // 죽는 순간에는 못 보내므로, 다음 부팅인 지금 대기열에 넣는다.
+    const decision = decideRendererRecovery(event, saved, currentRoute(), now);
+    if (event) {
       reportAppEvent("webview_recovery", {
         route: saved?.path,
-        value: recoveryCount,
-        message: `렌더러 복구 ${recoveryCount}회${safeDestination ? " · 복원 차단" : ""}`,
+        value: event.count,
+        message: `렌더러 복구 ${event.count}회 · ${event.mode}`,
       });
     }
-    if (safeDestination) {
-      save(safeDestination);
-      router.replace(safeDestination);
-      return;
+    if (decision.clearSavedRoute) clearSaved();
+    if (decision.notice) {
+      const recoveryNotice = decision.notice;
+      queueMicrotask(() => setNotice(recoveryNotice));
     }
-    if (
-      shouldRestoreRoute(
-        saved,
-        currentRoute(),
-        Date.now(),
-        recoveryCount > 0,
-      )
-    ) {
-      router.replace(saved!.path);
+    if (decision.targetPath) {
+      skipSave.current = true;
+      router.replace(decision.targetPath);
     }
   }, [router]);
 
   // 화면 이동 때마다 현재 위치 저장.
   useEffect(() => {
+    if (skipSave.current) {
+      skipSave.current = false;
+      return;
+    }
     save(currentRoute());
   }, [pathname]);
 
@@ -122,13 +125,18 @@ export function RouteKeeper() {
     return () => document.removeEventListener("visibilitychange", onHide);
   }, []);
 
-  if (!recovered) return null;
-  return (
-    <div className="fixed inset-x-4 top-[calc(env(safe-area-inset-top)+0.75rem)] z-[100] mx-auto max-w-md rounded-xl bg-zinc-900 px-4 py-3 text-sm font-medium text-white shadow-xl">
-      화면 메모리 문제를 감지해 앱을 안전하게 복구했습니다.
-      <button type="button" onClick={() => setRecovered(false)} className="ml-3 font-bold text-emerald-300">
-        확인
-      </button>
+  useEffect(() => {
+    if (!notice) return;
+    const timer = window.setTimeout(() => setNotice(null), 6_000);
+    return () => window.clearTimeout(timer);
+  }, [notice]);
+
+  return notice ? (
+    <div
+      role="status"
+      className="fixed inset-x-4 top-[calc(env(safe-area-inset-top)+1rem)] z-50 mx-auto max-w-md rounded-2xl bg-zinc-900/95 px-4 py-3 text-center text-sm font-bold text-white shadow-lg"
+    >
+      {notice}
     </div>
-  );
+  ) : null;
 }

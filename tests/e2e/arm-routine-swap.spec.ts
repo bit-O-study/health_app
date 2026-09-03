@@ -228,15 +228,21 @@ async function chooseDayOneAsSwapTarget(
   page: Page,
   targetName = "2일차 · 어깨 + 팔",
 ) {
-  const day0 = page.locator('[data-plan-day-index="0"]');
-  await day0.getByTestId("arm-swap-button-0").click();
-  const swapTargets = day0.getByRole("group", {
-    name: "1일차 팔 루틴 교환 대상",
+  const swapButton = page.getByTestId("arm-swap-button");
+  await expect(swapButton).toHaveCount(1);
+  await swapButton.click();
+
+  const sources = page.getByRole("group", {
+    name: "팔 루틴 교환 첫 번째 일차",
   });
-  await expect(swapTargets).toBeVisible();
-  await swapTargets
-    .getByRole("button", { name: targetName })
-    .click();
+  const source = sources.getByRole("button", { name: /^1일차 ·/ });
+  await source.click();
+  await expect(source).toHaveAttribute("aria-pressed", "true");
+
+  const targets = page.getByRole("group", {
+    name: "팔 루틴 교환 두 번째 일차",
+  });
+  await targets.getByRole("button", { name: targetName }).click();
 }
 
 async function waitForDbLock(
@@ -291,6 +297,43 @@ test("운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 
   await expect(day1).toContainText("어깨 · 팔");
   await expect(day0.getByText("이두", { exact: true })).toHaveCount(0);
   await expect(day1.getByText("삼두", { exact: true })).toHaveCount(0);
+
+  const swapButton = page.getByTestId("arm-swap-button");
+  await expect(swapButton).toHaveCount(1);
+  await expect(page.getByTestId(/arm-swap-button-/)).toHaveCount(0);
+
+  await swapButton.click();
+  const sourceGroup = page.getByRole("group", {
+    name: "팔 루틴 교환 첫 번째 일차",
+  });
+  await expect(sourceGroup).toBeVisible();
+  await expect(
+    page.getByRole("group", { name: "팔 루틴 교환 두 번째 일차" }),
+  ).toHaveCount(0);
+
+  await day0.getByRole("button", { name: "운동 추가" }).click();
+  await expect(sourceGroup).toHaveCount(0);
+  await expect(
+    day0.getByRole("group", { name: "1일차 추가할 부위" }),
+  ).toBeVisible();
+
+  await swapButton.click();
+  await expect(
+    day0.getByRole("group", { name: "1일차 추가할 부위" }),
+  ).toHaveCount(0);
+  const source = sourceGroup.getByRole("button", { name: /^1일차 ·/ });
+  await source.click();
+  await expect(
+    page.getByRole("group", { name: "팔 루틴 교환 두 번째 일차" }),
+  ).toBeVisible();
+
+  await swapButton.click();
+  await expect(sourceGroup).toHaveCount(0);
+  await swapButton.click();
+  await expect(
+    page.getByRole("group", { name: "팔 루틴 교환 두 번째 일차" }),
+  ).toHaveCount(0);
+  await swapButton.click();
 
   await chooseDayOneAsSwapTarget(page);
   await expect(page.getByRole("dialog")).toContainText(
@@ -602,7 +645,7 @@ test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 �
       day0.getByTestId("delete-row-0:back-0"),
       day0.getByRole("button", { name: "드래그로 순서 변경" }).first(),
       day0.getByLabel("기구").first(),
-      day0.getByTestId("arm-swap-button-0"),
+      page.getByTestId("arm-swap-button"),
       page.getByRole("button", { name: "추천으로 등록" }),
       page.getByTestId("clear-all-exercises"),
     ];
@@ -783,7 +826,7 @@ test("미저장 워밍업 편집과 워밍업 저장 중 상태는 팔 교환을
     .getByRole("button", { name: "저장" })
     .evaluate((button) => (button as HTMLElement).click());
   await requestHeld;
-  await expect(page.getByTestId("arm-swap-button-0")).toBeDisabled();
+  await expect(page.getByTestId("arm-swap-button")).toBeDisabled();
   await expect(warmup).toHaveAttribute("aria-busy", "true");
   await expect(
     page.locator('fieldset[aria-busy="true"]').first(),
@@ -947,8 +990,7 @@ test("손상되었거나 4블록인 원본 주간에는 팔 교환 컨트롤을 
     [email],
   );
   await page.goto("/plan", { waitUntil: "networkidle" });
-  await expect(page.getByTestId("arm-swap-button-0")).toHaveCount(0);
-  await expect(page.getByTestId("arm-swap-button-1")).toHaveCount(0);
+  await expect(page.getByTestId("arm-swap-button")).toHaveCount(0);
 
   await dbQuery(
     `update public.user_routines
@@ -957,8 +999,7 @@ test("손상되었거나 4블록인 원본 주간에는 팔 교환 컨트롤을 
     [email],
   );
   await page.reload({ waitUntil: "networkidle" });
-  await expect(page.getByTestId("arm-swap-button-0")).toHaveCount(0);
-  await expect(page.getByTestId("arm-swap-button-1")).toHaveCount(0);
+  await expect(page.getByTestId("arm-swap-button")).toHaveCount(0);
 });
 
 test("레거시 문자열 주간은 선택한 사용자만 정규화해 팔 행 ID를 보존한다", async ({

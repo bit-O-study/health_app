@@ -39,6 +39,7 @@ yarn-error.log*
 
 # codex/omx runtime state
 .omx/
+/.worktrees/
 
 # typescript
 *.tsbuildinfo

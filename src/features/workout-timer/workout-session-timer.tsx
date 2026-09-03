@@ -186,7 +186,6 @@ export function WorkoutSessionTimer({
   const [savingErr, setSavingErr] = useState<string | null>(null);
   // 자정 롤오버 중복 방지 — 한 번 처리한 forDate 는 다시 처리 안 함
   const rolledOverRef = useRef<string | null>(null);
-
   // ── 무활동 종료 감지용 refs (콜백에서 최신값을 읽기 위해 ref 로 동기화) ──
   const queueRef = useRef<GuidedItem[]>([]);
   const stateRef = useRef<TimerState | null>(null);
@@ -236,11 +235,11 @@ export function WorkoutSessionTimer({
   // 운동모드에서 운동상세로 갔다가 돌아오면(세션 플래그) 운동모드를 자동 재오픈.
   // (상세 → 뒤로/홈 → /routine 재마운트 시 1회 소비.)
   useEffect(() => {
-    try {
-      if (sessionStorage.getItem("heltch.resumeWorkout") === "1") {
-        sessionStorage.removeItem("heltch.resumeWorkout");
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setGuided(true);
+      try {
+        if (sessionStorage.getItem("heltch.resumeWorkout") === "1") {
+          sessionStorage.removeItem("heltch.resumeWorkout");
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setGuided(true);
       }
     } catch {
       /* noop */

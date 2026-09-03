@@ -66,6 +66,7 @@ import {
   isEquipmentAvailable,
   toGymEquipmentSet,
 } from "@/features/gym/gym-equipment-mapping";
+import { ShareDayButton } from "@/features/routine-share/components/share-day-button";
 
 type FocusData = {
   /** 일차+부위 고유 키 (예: "3:push") — 반복 부위가 충돌하지 않게 state 키로 사용 */
@@ -123,6 +124,7 @@ export function PlanEditor({
   weightKg,
   gymEquipment = null,
   lockWeightReps = false,
+  myGroups = [],
 }: {
   focuses: FocusData[];
   customWeek: unknown;
@@ -135,6 +137,8 @@ export function PlanEditor({
   gymEquipment?: readonly string[] | null;
   /** 무게·횟수 고정 설정. false 면 입력란 숨기고 세트 수만(운동모드에서 설정). */
   lockWeightReps?: boolean;
+  /** '이 일차 소개하기'에서 선택할 수 있는 내 그룹. */
+  myGroups?: { id: string; name: string }[];
   /** '이 일차 소개하기' 의 공개범위(그룹만) 선택지. 비면 전체공개만 고를 수 있다. */
 }) {
   const router = useRouter();
@@ -145,6 +149,7 @@ export function PlanEditor({
   const [addTargetDayIndex, setAddTargetDayIndex] = useState<number | null>(
     null,
   );
+  const [swapPickerOpen, setSwapPickerOpen] = useState(false);
   const [swapSourceDayIndex, setSwapSourceDayIndex] = useState<number | null>(
     null,
   );
@@ -528,8 +533,13 @@ export function PlanEditor({
     focuses.find((focus) => focus.dayIndex === dayIndex && focus.focus === "arm");
   const swapTargetsForDay = (dayIndex: number) =>
     customWeek ? eligibleArmSwapTargets(customWeek, dayIndex) : [];
+  const swapSourceDayIndexes = days
+    .map((day) => day.dayIndex)
+    .filter((dayIndex) => swapTargetsForDay(dayIndex).length > 0);
 
   function requestAddRow(day: DayGroup) {
+    setSwapPickerOpen(false);
+    setSwapSourceDayIndex(null);
     const target = resolvePlanAddTarget(day.focuses);
     if (target) {
       addRow(target);
@@ -540,6 +550,16 @@ export function PlanEditor({
       current === day.dayIndex ? null : day.dayIndex,
     );
   }
+  function toggleArmSwapPicker() {
+    setAddTargetDayIndex(null);
+    const nextOpen = !swapPickerOpen;
+    setSwapPickerOpen(nextOpen);
+    if (!nextOpen) setSwapSourceDayIndex(null);
+  }
+  function selectArmSwapSource(dayIndex: number) {
+    setAddTargetDayIndex(null);
+    setSwapSourceDayIndex(dayIndex);
+  }
   function addRowToFocus(day: DayGroup, focusKey: string) {
     const target = resolvePlanAddTarget(day.focuses, focusKey);
     if (!target) return;
@@ -548,7 +568,6 @@ export function PlanEditor({
     setAddTargetDayIndex(null);
   }
   function requestArmSwap(sourceDayIndex: number, targetDayIndex: number) {
-    setSwapSourceDayIndex(null);
     const sourceArm = armFocus(sourceDayIndex);
     const targetArm = armFocus(targetDayIndex);
     if (!sourceArm || !targetArm) {
@@ -724,17 +743,105 @@ export function PlanEditor({
         <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
           또는 직접 등록
         </p>
-        <button
-          type="button"
-          data-testid="clear-all-exercises"
-          disabled={pending}
-          onClick={() => setConfirm({ kind: "clear-all" })}
-          className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-800 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-60"
-        >
-          <Trash2 aria-hidden="true" size={14} />
-          전체 운동 초기화
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          {swapSourceDayIndexes.length > 0 ? (
+            <button
+              type="button"
+              data-testid="arm-swap-button"
+              aria-expanded={swapPickerOpen}
+              disabled={pending}
+              onClick={toggleArmSwapPicker}
+              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+            >
+              <ArrowLeftRight aria-hidden="true" size={14} />
+              팔 루틴 교환
+            </button>
+          ) : null}
+          <button
+            type="button"
+            data-testid="clear-all-exercises"
+            disabled={pending}
+            onClick={() => setConfirm({ kind: "clear-all" })}
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-800 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-60"
+          >
+            <Trash2 aria-hidden="true" size={14} />
+            전체 운동 초기화
+          </button>
+        </div>
       </div>
+
+      {swapPickerOpen ? (
+        <div className="space-y-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900/50">
+          <div
+            role="group"
+            aria-label="팔 루틴 교환 첫 번째 일차"
+            className="flex flex-wrap items-center gap-2"
+          >
+            <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+              첫 번째 일차
+            </span>
+            {swapSourceDayIndexes.map((dayIndex) => {
+              const day = days.find(
+                (candidate) => candidate.dayIndex === dayIndex,
+              );
+              if (!day) return null;
+              const selected = swapSourceDayIndex === dayIndex;
+              const name = `${dayIndex + 1}일차 · ${dayName(day)}`;
+              return (
+                <button
+                  key={dayIndex}
+                  type="button"
+                  aria-label={name}
+                  aria-pressed={selected}
+                  disabled={pending}
+                  onClick={() => selectArmSwapSource(dayIndex)}
+                  className={
+                    selected
+                      ? "rounded-full border border-emerald-400 bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-800 transition disabled:opacity-60 dark:border-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300"
+                      : "rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                  }
+                >
+                  {name}
+                </button>
+              );
+            })}
+          </div>
+          {swapSourceDayIndex !== null ? (
+            <div
+              role="group"
+              aria-label="팔 루틴 교환 두 번째 일차"
+              className="flex flex-wrap items-center gap-2"
+            >
+              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                두 번째 일차
+              </span>
+              {swapTargetsForDay(swapSourceDayIndex).map(
+                (targetDayIndex) => {
+                  const targetDay = days.find(
+                    (candidate) => candidate.dayIndex === targetDayIndex,
+                  );
+                  if (!targetDay) return null;
+                  const name = `${targetDayIndex + 1}일차 · ${dayName(targetDay)}`;
+                  return (
+                    <button
+                      key={targetDayIndex}
+                      type="button"
+                      aria-label={name}
+                      disabled={pending}
+                      onClick={() =>
+                        requestArmSwap(swapSourceDayIndex, targetDayIndex)
+                      }
+                      className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                    >
+                      {name}
+                    </button>
+                  );
+                },
+              )}
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       {days.map((day) => (
         <div
@@ -767,37 +874,17 @@ export function PlanEditor({
                 팔 루틴 교환
               </button>
             ) : null}
+            {/* 이 일차를 커뮤니티 › 루틴에 소개(운동 순서·메모까지 스냅샷으로). */}
+            {(plans[day.focuses[0]?.key] ?? []).length > 0 ? (
+              <ShareDayButton
+                dayIndex={day.dayIndex}
+                defaultTitle={`${day.dayIndex + 1}일차 · ${day.focuses
+                  .map(focusName)
+                  .join(" · ")}`}
+                groups={myGroups}
+              />
+            ) : null}
           </div>
-          {swapSourceDayIndex === day.dayIndex ? (
-            <div
-              role="group"
-              aria-label={`${day.dayIndex + 1}일차 팔 루틴 교환 대상`}
-              className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-700 dark:bg-zinc-900/50"
-            >
-              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
-                교환할 일차
-              </span>
-              {swapTargetsForDay(day.dayIndex).map((targetDayIndex) => {
-                const targetDay = days.find(
-                  (candidate) => candidate.dayIndex === targetDayIndex,
-                );
-                if (!targetDay) return null;
-                const name = `${targetDayIndex + 1}일차 · ${dayName(targetDay)}`;
-                return (
-                  <button
-                    key={targetDayIndex}
-                    type="button"
-                    aria-label={name}
-                    disabled={pending}
-                    onClick={() => requestArmSwap(day.dayIndex, targetDayIndex)}
-                    className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
-                  >
-                    {name}
-                  </button>
-                );
-              })}
-            </div>
-          ) : null}
           {(() => {
             const primary = day.focuses[0];
             const entries = day.focuses.flatMap((f) =>

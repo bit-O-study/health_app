@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 
 import {
   AUTO_RELOAD_KEY,
-  shouldAutoReload,
+  recordAppErrorDiagnostic,
+  shouldRecoverAppError,
 } from "@/lib/chunk-recovery";
 
 /**
@@ -14,10 +15,11 @@ import {
  * 배경: 이 앱은 리모트 URL 을 WebView 로 띄우는 구조라, 백그라운드에 오래 있다 돌아오면
  * (새 배포로 사라진 청크·얼어붙은 RSC 등) React 가 렌더 에러를 던진다. React 는 이 에러를
  * 에러 바운더리에 가두므로 window 'error' 리스너(_pwa-register 의 자동복구)로는 안 잡힌다.
- * 그래서 여기서 직접 자가복구한다. 무한 루프 방지: 30초 내 1회만 자동 리로드, 그 뒤엔
- * '다시 시도' 버튼을 보여준다.
+ * 그래서 여기서 복구 가능한 로드 오류만 직접 자가복구한다. 일반 코드 오류와 30초 내
+ * 이미 새로고침한 오류는 자동 리로드하지 않고 '다시 시도' 버튼을 보여준다.
  */
 export default function RouteError({
+  error,
   reset,
 }: {
   error: Error & { digest?: string };
@@ -27,15 +29,17 @@ export default function RouteError({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const now = Date.now();
+    recordAppErrorDiagnostic(error, window.location.pathname, now);
     let last = 0;
     try {
       last = Number(sessionStorage.getItem(AUTO_RELOAD_KEY) || 0);
     } catch {
       /* sessionStorage 불가 — 그냥 진행 */
     }
-    if (shouldAutoReload(last, Date.now())) {
+    if (shouldRecoverAppError(error, last, now)) {
       try {
-        sessionStorage.setItem(AUTO_RELOAD_KEY, String(Date.now()));
+        sessionStorage.setItem(AUTO_RELOAD_KEY, String(now));
       } catch {
         /* noop */
       }
@@ -43,9 +47,10 @@ export default function RouteError({
       window.location.reload();
       return;
     }
-    // 방금 리로드했는데 또 에러 → 진짜 문제. 자동 리로드 멈추고 버튼 표시.
-    setAutoReloading(false);
-  }, []);
+    // 일반 코드 오류 또는 방금 리로드한 오류 → 자동 리로드 멈추고 버튼 표시.
+    const id = window.setTimeout(() => setAutoReloading(false), 0);
+    return () => window.clearTimeout(id);
+  }, [error]);
 
   if (autoReloading) {
     return (

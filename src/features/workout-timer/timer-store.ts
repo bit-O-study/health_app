@@ -11,6 +11,8 @@
 const TIMER_KEY = "heltch.workout.timer";
 
 export type TimerState = {
+  /** Health Connect 중복 방지에 쓰는 운동 세션 고유 ID. 구버전 저장본에는 없을 수 있다. */
+  sessionId?: string;
   /** 현재 구간의 시작 시각 (ms epoch). 일시정지 상태에선 의미 없음. */
   startedAt: number;
   /** 일시정지된 시각 (ms epoch). null 이면 실행 중. */

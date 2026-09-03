@@ -198,7 +198,7 @@ export default async function TodayConditioningPage({
       </div>
 
       {!direct && mainSections.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-card border-dashed p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
           편집할 부위가 없습니다. 메인 화면 “오늘만 운동 바꾸기” 팝업에서 부위를
           선택해 주세요.
         </p>

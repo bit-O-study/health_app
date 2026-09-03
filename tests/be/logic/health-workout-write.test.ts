@@ -8,11 +8,16 @@ import {
 describe("Health Connect ExerciseSession", () => {
   it("종료 시각과 실제 누적 시간으로 근력운동 세션을 만든다", () => {
     const endedAt = Date.parse("2026-09-02T03:00:00.000Z");
-    const record = workoutSessionRecord(endedAt, 3_600);
+    const record = workoutSessionRecord(endedAt, 3_600, "session-123");
     expect(record).toMatchObject({
       type: "ExerciseSession",
       title: "헬쑤 근력운동",
       exerciseType: STRENGTH_TRAINING_EXERCISE_TYPE,
+      metadata: {
+        clientRecordId: "helssu-workout-session-123",
+        clientRecordVersion: 1,
+        recordingMethod: "manualEntry",
+      },
     });
     expect(record?.startTime.toISOString()).toBe("2026-09-02T02:00:00.000Z");
     expect(record?.endTime.toISOString()).toBe("2026-09-02T03:00:00.000Z");

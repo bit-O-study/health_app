@@ -60,7 +60,7 @@ export function OverloadHint({
                 reps: advice.suggestedReps,
               })
             }
-            className="ml-auto shrink-0 rounded-full border border-current/30 bg-white/70 px-2.5 py-0.5 text-[11px] font-bold transition hover:bg-white dark:bg-zinc-900/60 dark:hover:bg-zinc-900"
+            className="ml-auto shrink-0 rounded-full border border-current/30 bg-white/70 px-2.5 py-0.5 text-[11px] font-bold transition hover:bg-white dark:bg-black/30 dark:hover:bg-black/45"
           >
             적용
           </button>

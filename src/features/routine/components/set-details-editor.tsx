@@ -90,9 +90,9 @@ export function SetDetailsEditor({
   }
 
   const numCls =
-    "h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
+    "h-9 w-14 rounded-md border app-field px-2 text-center text-sm";
   const wCls =
-    "h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
+    "h-9 w-16 rounded-md border app-field px-2 text-center text-sm";
 
   // 무게·횟수 고정 끔 → 편집기에선 수치 입력도, 안내 문구도 안 보인다.
   // 세트·무게·횟수 모두 운동모드에서 그때그때 설정·기록한다.
@@ -201,7 +201,7 @@ export function SetDetailsEditor({
             type="button"
             onClick={enable}
             disabled={disabled}
-            className="inline-flex h-7 items-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
+            className="inline-flex h-7 items-center rounded-md border app-field px-2 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
           >
             세트별 다르게
           </button>

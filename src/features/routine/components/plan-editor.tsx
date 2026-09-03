@@ -751,7 +751,7 @@ export function PlanEditor({
               aria-expanded={swapPickerOpen}
               disabled={pending}
               onClick={toggleArmSwapPicker}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
             >
               <ArrowLeftRight aria-hidden="true" size={14} />
               팔 루틴 교환
@@ -762,7 +762,7 @@ export function PlanEditor({
             data-testid="clear-all-exercises"
             disabled={pending}
             onClick={() => setConfirm({ kind: "clear-all" })}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-800 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-60"
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-800 bg-[var(--surface-strong)] px-2.5 text-xs font-semibold text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-60"
           >
             <Trash2 aria-hidden="true" size={14} />
             전체 운동 초기화
@@ -798,7 +798,7 @@ export function PlanEditor({
                   className={
                     selected
                       ? "rounded-full border border-emerald-400 bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-800 transition disabled:opacity-60 dark:border-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300"
-                      : "rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                      : "rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
                   }
                 >
                   {name}
@@ -831,7 +831,7 @@ export function PlanEditor({
                       onClick={() =>
                         requestArmSwap(swapSourceDayIndex, targetDayIndex)
                       }
-                      className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                      className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
                     >
                       {name}
                     </button>
@@ -868,7 +868,7 @@ export function PlanEditor({
                     current === day.dayIndex ? null : day.dayIndex,
                   );
                 }}
-                className="inline-flex h-8 shrink-0 items-center gap-1 rounded-md border border-zinc-300 bg-white px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="inline-flex h-8 shrink-0 items-center gap-1 rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
               >
                 <ArrowLeftRight aria-hidden="true" size={14} />
                 팔 루틴 교환
@@ -895,7 +895,7 @@ export function PlanEditor({
               (f) => !optionsByKey[f.key],
             );
             return (
-              <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+              <section className="app-card p-5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                     본운동
@@ -913,7 +913,7 @@ export function PlanEditor({
                       type="button"
                       onClick={() => requestAddRow(day)}
                       disabled={dayOptionsLoading}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 disabled:opacity-60 dark:hover:bg-emerald-950/30"
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 disabled:opacity-60 dark:hover:bg-emerald-950/30"
                     >
                       {dayOptionsLoading ? (
                         <Loader2
@@ -946,7 +946,7 @@ export function PlanEditor({
                           type="button"
                           aria-label={`${name} 운동 추가`}
                           onClick={() => addRowToFocus(day, focus.key)}
-                          className="rounded-full border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                          className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
                         >
                           {name}
                           {focus.isSide ? (
@@ -1007,7 +1007,7 @@ export function PlanEditor({
                               const major = majorMuscleTag(row.exerciseId);
                               return (
                                 <span
-                                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold ${major.tone}`}
+                                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold ${major.tone}`}
                                 >
                                   {major.label}
                                 </span>
@@ -1020,7 +1020,7 @@ export function PlanEditor({
                               if (!sub) return null;
                               return (
                                 <span
-                                  className="whitespace-nowrap rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                                  className="whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold text-white"
                                   style={{ backgroundColor: muscleGroup(sub.muscle).color }}
                                 >
                                   {sub.label}
@@ -1053,7 +1053,7 @@ export function PlanEditor({
                               next[idx] = { ...row, equipment: e.target.value as EquipmentId };
                               update(f.key, next);
                             }}
-                            className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
+                            className="h-9 rounded-md border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
                           >
                             {(ex?.equipments ?? []).map((eq) => {
                               const ok = isEquipmentAvailable(eq, gymSet);

@@ -15,6 +15,13 @@ vi.mock("@/features/notifications/fcm", () => ({
   fcmEnabled: () => false,
   sendFcm: async () => "ok",
 }));
+vi.mock("@/features/notifications/preferences", async (importOriginal) => ({
+  ...(await importOriginal<
+    typeof import("@/features/notifications/preferences")
+  >()),
+  // MVP 발송 중복 테스트는 실제 실행 시각이 아니라 고정된 허용 시간에 검증한다.
+  seoulHour: () => 12,
+}));
 
 const { runWeeklyGroupMvp } = await import("@/features/groups/weekly-mvp");
 const { weekRange, addDaysYmd } = await import("@/features/groups/ranking");

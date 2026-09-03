@@ -48,7 +48,7 @@ const MuscleMannequin3D = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="flex h-[360px] w-full items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-sm text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400 sm:h-[440px]">
+      <div className="flex h-[360px] w-full items-center justify-center app-field rounded-xl border text-sm text-zinc-500 dark:text-zinc-400 sm:h-[440px]">
         3D 마네킹 불러오는 중…
       </div>
     ),
@@ -67,7 +67,7 @@ class Mannequin3DBoundary extends Component<
   render() {
     if (this.state.failed) {
       return (
-        <div className="flex h-[120px] w-full items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-zinc-50 px-4 text-center text-sm text-zinc-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">
+        <div className="flex h-[120px] w-full items-center justify-center app-field rounded-xl border border-dashed px-4 text-center text-sm text-zinc-500 dark:text-zinc-400">
           3D 마네킹을 표시할 수 없는 환경이에요. 아래 부위 버튼으로 선택하세요.
         </div>
       );
@@ -210,7 +210,7 @@ export function MuscleExercisePicker({
         {lightMode ? (
           <div
             data-testid="light-mode-mannequin-fallback"
-            className="flex h-24 w-full items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 px-6 text-center text-sm text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+            className="flex h-24 w-full items-center justify-center app-field rounded-xl border px-6 text-center text-sm text-zinc-600 dark:text-zinc-300"
           >
             경량 모드에서는 아래 부위 버튼으로 운동 부위를 선택하세요.
           </div>
@@ -244,7 +244,7 @@ export function MuscleExercisePicker({
                   "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition",
                   active
                     ? "border-transparent text-white"
-                    : "border-zinc-300 bg-white text-zinc-700 hover:border-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200",
+                    : "app-field text-zinc-700 hover:border-zinc-400 dark:text-zinc-200",
                 )}
                 style={active ? { backgroundColor: g.color } : undefined}
               >
@@ -257,7 +257,7 @@ export function MuscleExercisePicker({
                 {n > 0 ? (
                   <span
                     className={cn(
-                      "ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold",
+                      "ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[11px] font-bold",
                       active
                         ? "bg-white/25 text-white"
                         : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300",
@@ -273,7 +273,7 @@ export function MuscleExercisePicker({
       </div>
 
       {/* 세부근육 + 운동 목록 */}
-      <section className="rounded-xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="app-card p-5">
         <div className="flex flex-wrap items-center gap-2">
           <span
             aria-hidden
@@ -304,7 +304,7 @@ export function MuscleExercisePicker({
               "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
               selectedSub === null
                 ? "border-transparent text-white"
-                : "border-zinc-300 bg-white text-zinc-600 hover:border-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
+                : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
             )}
             style={selectedSub === null ? { backgroundColor: regionColor } : undefined}
           >
@@ -323,7 +323,7 @@ export function MuscleExercisePicker({
                   "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
                   active
                     ? "border-transparent text-white"
-                    : "border-zinc-300 bg-white text-zinc-600 hover:border-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300",
+                    : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
                 )}
                 style={active ? { backgroundColor: regionColor } : undefined}
               >
@@ -356,7 +356,7 @@ export function MuscleExercisePicker({
                     "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition",
                     on
                       ? "border-emerald-600 bg-emerald-600 text-white"
-                      : "border-zinc-300 bg-white text-transparent hover:border-emerald-400 dark:border-zinc-600 dark:bg-zinc-800",
+                      : "app-field text-transparent hover:border-emerald-400",
                   )}
                 >
                   {on ? (
@@ -376,7 +376,7 @@ export function MuscleExercisePicker({
                       return (
                         <span
                           className={cn(
-                            "rounded-full px-1.5 py-0.5 text-[10px] font-bold",
+                            "rounded-full px-1.5 py-0.5 text-[11px] font-bold",
                             major.tone,
                           )}
                         >
@@ -386,7 +386,7 @@ export function MuscleExercisePicker({
                     })()}
                     {exSubs[0] ? (
                       <span
-                        className="rounded px-1.5 py-0.5 text-[10px] font-semibold text-white"
+                        className="rounded px-1.5 py-0.5 text-[11px] font-semibold text-white"
                         style={{
                           backgroundColor: muscleGroup(exSubs[0].muscle).color,
                         }}

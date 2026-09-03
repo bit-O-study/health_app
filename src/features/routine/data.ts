@@ -62,68 +62,75 @@ export type SplitPreset = {
 };
 
 /** 톤별 색상 (Tailwind 정적 클래스 — 동적 조합 금지) */
+/**
+ * 부위별 시각 토큰.
+ *
+ * `card` 는 **중립 표면**(`app-surface`)이다 — 예전엔 부위마다 파스텔 바탕이라
+ * 초록 브랜드 화면 위에서 히어로 색이 날마다 바뀌었다. 부위 구분은 `badge`·`dot`
+ * (배지 글자색/점)이 맡는다. 그래서 어떤 부위든 카드 바탕은 같고, 색은 라벨에만 붙는다.
+ */
 export const TONE_STYLES: Record<
   FocusTone,
   { card: string; badge: string; dot: string }
 > = {
   fullbody: {
-    card: "border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-950/40",
+    card: "app-surface",
     badge:
       "bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300",
     dot: "bg-violet-500",
   },
   upper: {
-    card: "border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/40",
+    card: "app-surface",
     badge: "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300",
     dot: "bg-sky-500",
   },
   lower: {
-    card: "border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/40",
+    card: "app-surface",
     badge:
       "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300",
     dot: "bg-amber-500",
   },
   chest: {
-    card: "border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40",
+    card: "app-surface",
     badge: "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300",
     dot: "bg-rose-500",
   },
   back: {
-    card: "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40",
+    card: "app-surface",
     badge:
       "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300",
     dot: "bg-emerald-500",
   },
   shoulder: {
-    card: "border-cyan-200 dark:border-cyan-800 bg-cyan-50 dark:bg-cyan-950/40",
+    card: "app-surface",
     badge: "bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300",
     dot: "bg-cyan-500",
   },
   arm: {
-    card: "border-fuchsia-200 dark:border-fuchsia-800 bg-fuchsia-50 dark:bg-fuchsia-950/40",
+    card: "app-surface",
     badge:
       "bg-fuchsia-100 dark:bg-fuchsia-900/40 text-fuchsia-700 dark:text-fuchsia-300",
     dot: "bg-fuchsia-500",
   },
   push: {
-    card: "border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/40",
+    card: "app-surface",
     badge: "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300",
     dot: "bg-rose-500",
   },
   pull: {
-    card: "border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40",
+    card: "app-surface",
     badge:
       "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300",
     dot: "bg-emerald-500",
   },
   core: {
-    card: "border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/40",
+    card: "app-surface",
     badge:
       "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300",
     dot: "bg-indigo-500",
   },
   rest: {
-    card: "border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900",
+    card: "app-surface",
     badge: "bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400",
     dot: "bg-zinc-300",
   },

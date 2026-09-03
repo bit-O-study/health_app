@@ -63,7 +63,7 @@ export function RoutinePresets({
   }
 
   return (
-    <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+    <section className="app-card p-5">
       <div className="mb-3 flex items-center gap-2">
         <Bookmark
           aria-hidden="true"
@@ -92,7 +92,7 @@ export function RoutinePresets({
             setError(null);
           }}
           disabled={pending}
-          className="h-10 min-w-0 flex-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm text-zinc-800 dark:text-zinc-200"
+          className="h-10 min-w-0 flex-1 rounded-md border app-field px-3 text-sm text-zinc-800 dark:text-zinc-200"
         />
         <button
           type="button"

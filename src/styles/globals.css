@@ -92,6 +92,20 @@ body {
     box-shadow: var(--shadow-card);
   }
 
+  /* 톤 카드/셀 표면 — 부위색은 배지·점에만 두고 바탕은 토큰으로 통일한다.
+     (예전엔 부위마다 파스텔 바탕이라 초록 브랜드 화면에서 날마다 색이 튀었다.) */
+  .app-surface {
+    border-color: var(--line);
+    background: var(--surface);
+  }
+
+  /* 입력·셀렉트 표면. dark:bg-zinc-800(무채색)을 쓰면 초록끼 배경 위에서 회색으로 뜬다. */
+  .app-field {
+    border-color: var(--line);
+    background: var(--surface-strong);
+    color: var(--foreground);
+  }
+
   .text-safe {
     min-width: 0;
     overflow-wrap: anywhere;

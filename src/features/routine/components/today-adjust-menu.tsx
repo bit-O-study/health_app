@@ -65,7 +65,7 @@ function FocusToggle({
         whole ? "font-bold" : "font-semibold",
         active
           ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
-          : "border-zinc-200 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30",
+          : "border-zinc-200 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30",
       )}
     >
       <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", style.dot)} />
@@ -165,7 +165,7 @@ export function TodayAdjustMenu({
           <button
             type="button"
             onClick={() => setOpenState(true)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
           >
             <SlidersHorizontal aria-hidden="true" size={14} />
             오늘만 운동 바꾸기
@@ -174,7 +174,7 @@ export function TodayAdjustMenu({
             type="button"
             disabled={pending}
             onClick={() => run(restartRoutineFromTodayAction)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 disabled:opacity-60"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -197,7 +197,7 @@ export function TodayAdjustMenu({
             // ⚠ 폰에서 내용(부위 칩 여러 줄)이 화면보다 길어 시트가 밖으로 잘려
             //   "깨진 것처럼" 보였다 → 부모(패딩 = 상태바·헤더·안전영역)에 꽉 맞추고
             //   내부 스크롤. max-h-full 이라 dvh 지원 여부와 무관하게 동작한다.
-            className="max-h-full w-full max-w-md overflow-y-auto overscroll-contain rounded-2xl bg-white p-4 shadow-xl dark:bg-zinc-800 sm:p-6"
+            className="app-card max-h-full w-full max-w-md overflow-y-auto overscroll-contain bg-[var(--surface-strong)] p-4 shadow-xl sm:p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between">

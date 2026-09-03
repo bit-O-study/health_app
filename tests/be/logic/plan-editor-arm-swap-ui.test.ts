@@ -16,6 +16,11 @@ vi.mock("@/features/routine/delete-actions", () => ({
 vi.mock("@/features/routine/components/conditioning-editor", () => ({
   ConditioningEditor: () => null,
 }));
+// 서버 액션 모듈은 import 만으로 supabase 환경변수를 요구한다(node 테스트엔 없음).
+// 이 테스트는 진입 버튼 렌더링만 보므로 액션은 통째로 갈아끼운다.
+vi.mock("@/features/routine/overload-actions", () => ({
+  overloadAdviceAction: vi.fn(async () => ({})),
+}));
 vi.mock("@/features/routine-share/components/share-day-button", () => ({
   ShareDayButton: () => null,
 }));

@@ -239,18 +239,3 @@ export function formatMinutes(minutes: number): string {
   const m = minutes % 60;
   return m === 0 ? `${h}시간` : `${h}시간 ${m}분`;
 }
-
-/**
- * 그 달(1-based)이 오늘을 품고 있나 — 캘린더가 '이번 주 요약'을 띄울지 정한다.
- *
- * 지난달을 넘겨 보는 중에 "이번 주" 카드가 따라다니면, 화면에 보이는 달과 카드가
- * 말하는 기간이 어긋나 무슨 숫자인지 알 수 없게 된다. 이번 주가 두 달에 걸쳐 있어도
- * (예: 월 8/31 ~ 일 9/6) 기준은 하나로 — **오늘이 있는 달**.
- */
-export function monthContainsToday(
-  todayYmd: string,
-  year: number,
-  month1: number,
-): boolean {
-  return todayYmd.startsWith(`${year}-${String(month1).padStart(2, "0")}-`);
-}

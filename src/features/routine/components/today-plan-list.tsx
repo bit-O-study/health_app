@@ -516,7 +516,7 @@ export function TodayPlanList({
             ref={(el) => {
               rowRefs.current[index] = el;
             }}
-            className="relative overflow-hidden rounded-xl"
+            className="relative overflow-hidden rounded-[1.25rem]"
             style={liftStyle}
           >
             {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더.
@@ -569,7 +569,7 @@ export function TodayPlanList({
                 WebkitUserSelect: inlineEditing ? "auto" : "none",
                 userSelect: inlineEditing ? "auto" : "none",
               }}
-              className={`relative flex select-none items-center gap-2 border bg-white dark:bg-zinc-800 p-4 shadow-sm ${
+              className={`app-surface relative flex select-none items-center gap-2 border bg-[var(--surface-strong)] p-4 shadow-sm ${
                 isDragging
                   ? "border-emerald-500 ring-2 ring-emerald-300/70"
                   : inlineEditing
@@ -592,7 +592,7 @@ export function TodayPlanList({
                     isDragging
                       ? "text-emerald-600"
                       : "text-zinc-400 dark:text-zinc-500"
-                  }active:cursor-grabbing`}
+                  } active:cursor-grabbing`}
                   style={{ touchAction: "none" }}
                   title="잡고 위·아래로 순서 변경"
                 >
@@ -651,7 +651,7 @@ export function TodayPlanList({
                         const major = majorMuscleTag(item.exerciseId);
                         return (
                           <span
-                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold ${major.tone}`}
+                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold ${major.tone}`}
                           >
                             {major.label}
                           </span>
@@ -666,7 +666,7 @@ export function TodayPlanList({
                         if (!sub) return null;
                         return (
                           <span
-                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
+                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold text-white"
                             style={{
                               backgroundColor: muscleGroup(sub.muscle).color,
                             }}
@@ -679,12 +679,12 @@ export function TodayPlanList({
                         {item.equipmentLabel}
                       </span>
                       {isDone ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
                           완료
                         </span>
                       ) : null}
                       {isSkipped ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[10px] font-bold text-zinc-700 dark:text-zinc-300">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300">
                           오늘 휴식
                         </span>
                       ) : null}
@@ -829,7 +829,7 @@ function MemoDialog({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-2xl bg-white dark:bg-zinc-800 p-5 shadow-xl"
+        className="app-card w-full max-w-md bg-[var(--surface-strong)] p-5 shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-3 flex items-center gap-2">
@@ -854,7 +854,7 @@ function MemoDialog({
             setError(null);
           }}
           disabled={pending}
-          className="w-full resize-y rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-900 px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
+          className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
         />
         {error ? (
           <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
@@ -866,7 +866,7 @@ function MemoDialog({
             type="button"
             onClick={onClose}
             disabled={pending}
-            className="inline-flex h-10 items-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
+            className="inline-flex h-10 items-center rounded-md border app-field px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
           >
             취소
           </button>
@@ -1039,7 +1039,7 @@ function ExerciseEditForm({
   }
 
   const inputCls =
-    "h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm";
+    "h-9 w-16 rounded-md border app-field px-2 text-center text-sm";
 
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-2">
@@ -1058,7 +1058,7 @@ function ExerciseEditForm({
             className={`inline-flex h-7 items-center rounded-md border px-2 text-[11px] font-semibold transition ${
               perSet
                 ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
-                : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
+                : "app-field text-zinc-600 dark:text-zinc-300"
             }`}
           >
             세트별 다르게
@@ -1093,7 +1093,7 @@ function ExerciseEditForm({
                 value={row.reps}
                 onChange={(e) => patchDetail(i, "reps", e.target.value)}
                 disabled={pending}
-                className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
               />
               <span className="text-xs text-zinc-500 dark:text-zinc-400">
                 회
@@ -1131,7 +1131,7 @@ function ExerciseEditForm({
               setError(null);
             }}
             disabled={pending}
-            className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+            className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
           />
           <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
           {/* 고정 끔이면 무게·횟수 입력 숨김 — 운동모드에서 그때그때 설정 */}
@@ -1147,7 +1147,7 @@ function ExerciseEditForm({
                   setError(null);
                 }}
                 disabled={pending}
-                className="h-9 w-14 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
               />
               <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
               <input
@@ -1161,7 +1161,7 @@ function ExerciseEditForm({
                   setError(null);
                 }}
                 disabled={pending}
-                className="h-9 w-16 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-center text-sm"
+                className="h-9 w-16 rounded-md border app-field px-2 text-center text-sm"
               />
               <span className="text-xs text-zinc-500 dark:text-zinc-400">
                 kg (빈칸=맨몸)
@@ -1193,7 +1193,7 @@ function ExerciseEditForm({
           type="button"
           onClick={onCancel}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>
@@ -1321,7 +1321,7 @@ function AddExerciseSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
       >
         <Plus aria-hidden="true" size={18} />
         오늘 루틴에 운동 추가
@@ -1330,7 +1330,7 @@ function AddExerciseSlot({
   }
 
   return (
-    <div className="rounded-xl border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3">
+    <div className="rounded-[1.25rem] border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3 dark:bg-emerald-950/25">
       <div className="flex flex-wrap items-center gap-2">
         {/* 직접 담기(allowAllParts)면 모든 기본 부위에서 고를 수 있게(가슴만 되던 문제
             해결). 일반/부위 바꾸기는 오늘 부위만. 고른 부위 슬롯으로 오늘 저장된다. */}
@@ -1340,7 +1340,7 @@ function AddExerciseSlot({
             value={focus}
             onChange={(e) => changeFocus(e.target.value as FocusKey)}
             disabled={pending}
-            className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
+            className="h-9 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
           >
             {partChoices.map((t) => (
               <option key={t} value={t}>
@@ -1349,7 +1349,7 @@ function AddExerciseSlot({
             ))}
           </select>
         ) : (
-          <span className="inline-flex h-9 items-center rounded-md bg-white dark:bg-zinc-800 px-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+          <span className="app-field inline-flex h-9 items-center rounded-md border px-2 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
             {DAY_BLOCKS[focus].label}
           </span>
         )}
@@ -1371,7 +1371,7 @@ function AddExerciseSlot({
           value={equipment}
           onChange={(e) => setEquipment(e.target.value as EquipmentId)}
           disabled={pending || loading || !selectedExercise}
-          className="h-9 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2 text-sm text-zinc-800 dark:text-zinc-200"
+          className="h-9 rounded-md border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
         >
           {(selectedExercise?.equipments ?? []).map((eq) => (
             <option key={eq} value={eq}>
@@ -1399,7 +1399,7 @@ function AddExerciseSlot({
             setError(null);
           }}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>

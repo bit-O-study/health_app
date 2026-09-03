@@ -123,6 +123,11 @@ export type HealthWriteRecord =
       title?: string;
       notes?: string;
       exerciseType: number;
+      metadata?: {
+        clientRecordId: string;
+        clientRecordVersion?: number;
+        recordingMethod?: "manualEntry";
+      };
     }
   | {
       type: "Distance";

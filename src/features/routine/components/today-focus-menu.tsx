@@ -94,7 +94,7 @@ export function TodayFocusMenu({
           onClick={() => !pending && setMenuOpen(false)}
         >
           <div
-            className="w-full max-w-md rounded-2xl bg-white p-5 shadow-xl dark:bg-zinc-800"
+            className="app-card w-full max-w-md bg-[var(--surface-strong)] p-5 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-3 flex items-center justify-between">
@@ -119,7 +119,7 @@ export function TodayFocusMenu({
                   setMenuOpen(false);
                   router.push("/plan");
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   <SlidersHorizontal aria-hidden="true" size={18} />
@@ -141,7 +141,7 @@ export function TodayFocusMenu({
                   setMenuOpen(false);
                   setAdjustOpen(true);
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
                   <Shuffle aria-hidden="true" size={18} />
@@ -160,7 +160,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={restart}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   {pending ? (
@@ -228,7 +228,7 @@ export function TodayFocusMenu({
           onClick={() => !pending && setConfirmRun(false)}
         >
           <div
-            className="w-full max-w-sm rounded-2xl bg-white p-5 shadow-2xl dark:bg-zinc-900"
+            className="app-card w-full max-w-sm bg-[var(--surface-strong)] p-5 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start gap-3">
@@ -261,7 +261,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={keepAndRun}
-                className="flex w-full items-center justify-center rounded-xl border border-zinc-300 bg-white px-4 py-3 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                className="flex w-full items-center justify-center rounded-xl border app-field px-4 py-3 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-60 dark:text-zinc-200 dark:hover:bg-zinc-700"
               >
                 아니요 — 기존 운동은 그대로 두고 런닝
               </button>

@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 import { fileURLToPath } from "node:url";
 
 // BE tests: pure-logic unit tests + read-only schema-sync guard.
@@ -17,6 +17,10 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["tests/be/**/*.test.ts"],
+    // 라이브 Auth **콘솔 설정** 가드는 기본 스위트에서 뺀다 — 거기서 나는 실패는
+    // 코드가 아니라 Supabase 콘솔 설정이라, 빌드 게이트를 막아도 코드로는 못 고친다.
+    // 설정을 만졌을 때 `pnpm test:auth` 로 직접 돌린다.
+    exclude: [...configDefaults.exclude, "tests/be/auth-config.test.ts"],
     globals: true,
     // beforeEach 안에서 무거운 모듈을 동적 import 하는 테스트가 있다
     // (exercise-catalog-extra 727KB 등). 워커가 여러 개 붙는 순간 기본 10초를

@@ -4,7 +4,8 @@ import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 로그인 화면의 아이디 찾기 / 비밀번호 찾기.
-// 로컬(localhost)에선 휴대폰 OTP 를 건너뛰므로 신원 매칭(이름/이메일+휴대폰)만으로 진행.
+// 아이디 찾기는 신원 매칭(이름+휴대폰)만으로 바로 결과를 준다 — 휴대폰 OTP 관문은 없다.
+// (비밀번호 찾기는 여전히 **이메일** 인증번호를 태운다 — 그건 그대로 살아 있다.)
 test.describe.configure({ timeout: 180_000 });
 test.skip(!hasDb, "needs .env.test.local DB creds");
 
@@ -28,9 +29,14 @@ test("아이디 찾기: 이름 + 휴대폰 → 가입 이메일 표시", async (
   await page.fill("#phone", uphone);
   await page.getByRole("button", { name: "아이디 찾기" }).click();
 
+  // 중간에 휴대폰 인증 단계 없이 곧바로 결과가 나와야 한다.
   await expect(page.getByTestId("found-email")).toHaveText(email, {
     timeout: 15_000,
   });
+  await expect(page.getByText("휴대폰 인증")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "인증하고 아이디 찾기" }),
+  ).toHaveCount(0);
 });
 
 test("아이디 찾기: 일치 정보 없으면 안내", async ({ page }) => {

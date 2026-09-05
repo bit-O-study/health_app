@@ -10,7 +10,7 @@ import {
   stalledSessionCount,
 } from "@/features/routine/overload";
 import { exerciseHistory, type ProgressRecord } from "@/features/routine/progress";
-import { targetReps } from "@/features/routine/prescription";
+import { prescribe, targetReps } from "@/features/routine/prescription";
 
 /** 날짜는 최신순 판단에만 쓰이므로 6/01 부터 하루씩 민다. */
 function rec(
@@ -64,6 +64,18 @@ describe("stalledSessionCount — 정체 세션 수", () => {
 });
 
 describe("overloadPlan — 규칙 기반 추천", () => {
+  it("최초 처방 중량도 2kg 단위 정수다", () => {
+    const p = prescribe("bench-press", {
+      gender: "male",
+      experience: "intermediate",
+      bodyType: "average",
+      weightKg: 75,
+    });
+    expect(p.weightKg).not.toBeNull();
+    expect((p.weightKg ?? 0) % 2).toBe(0);
+    expect(Number.isInteger(p.weightKg)).toBe(true);
+  });
+
   it("기록이 없으면 none", () => {
     const p = overloadPlan([], "squat", "intermediate");
     expect(p.action).toBe("none");
@@ -87,7 +99,7 @@ describe("overloadPlan — 규칙 기반 추천", () => {
       "intermediate",
     );
     expect(p.action).toBe("increase");
-    expect(p.suggestedKg).toBe(110); // heavy → 5kg 단위
+    expect(p.suggestedKg).toBe(108); // 모든 중량 운동 → 2kg 단위
     expect(p.suggestedReps).toBe(SQUAT_TARGET);
     expect(p.reason).toContain("목표");
   });
@@ -102,8 +114,18 @@ describe("overloadPlan — 규칙 기반 추천", () => {
       "intermediate",
     );
     expect(p.action).toBe("add-reps");
-    expect(p.suggestedKg).toBe(105);
+    expect(p.suggestedKg).toBe(106);
     expect(p.suggestedReps).toBe(SQUAT_TARGET);
+  });
+
+  it("구버전 소수 중량 기록도 다음 추천에서는 2kg 정수로 보정한다", () => {
+    const p = overloadPlan(
+      [rec(1, "lateral-raise", 3, 10, 20.5)],
+      "lateral-raise",
+      "intermediate",
+    );
+    expect(p.suggestedKg).toBe(20);
+    expect(Number.isInteger(p.suggestedKg)).toBe(true);
   });
 
   it("정체하면 디로드 — 무게를 낮춰 볼륨을 줄인다", () => {
@@ -115,8 +137,8 @@ describe("overloadPlan — 규칙 기반 추천", () => {
     const p = overloadPlan(rows, "squat", "intermediate");
     expect(p.action).toBe("deload");
     expect(p.stalledSessions).toBe(STALL_SESSIONS);
-    // 100 × 0.9 = 90 → 5kg 단위
-    expect(p.suggestedKg).toBe(Math.round((100 * DELOAD_RATIO) / 5) * 5);
+    // 100 × 0.9 = 90 → 2kg 단위
+    expect(p.suggestedKg).toBe(Math.round((100 * DELOAD_RATIO) / 2) * 2);
     expect(needsAttention(p)).toBe(true);
   });
 
@@ -160,17 +182,17 @@ describe("overloadPlan — 규칙 기반 추천", () => {
     expect(p.reason).toContain("시간");
   });
 
-  it("증량 단위는 종목 등급을 따른다 — 고립 운동에 5kg 을 올리지 않는다", () => {
+  it("모든 중량 운동은 2kg 단위 정수로 증량한다", () => {
     const light = overloadPlan(
       [
         rec(1, "lateral-raise", 3, 15, 10),
-        rec(2, "lateral-raise", 3, 15, 12.5),
+        rec(2, "lateral-raise", 3, 15, 12),
       ],
       "lateral-raise",
       "intermediate",
     );
     expect(light.action).toBe("increase");
-    expect(light.suggestedKg).toBe(13.75); // 12.5 + 1.25
+    expect(light.suggestedKg).toBe(14);
     expect(loadClassLabel("lateral-raise")).toBe("고립 저중량");
     expect(loadClassLabel("squat")).toBe("복합 고중량");
   });

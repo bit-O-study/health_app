@@ -11,7 +11,7 @@ export const TEST_PASSWORD = "test123456";
 
 /**
  * Sign up a brand-new account and complete onboarding, landing on the home page.
- * On localhost the signup flow skips phone OTP (see auth-form isLocalEnv).
+ * 전화번호는 선택 입력이고 가입에 OTP 단계가 없다 — 가입하면 곧장 온보딩으로 간다.
  * Returns the email used (for assertions / cleanup).
  *
  * NOTE: onboarding always saves the routine in "manual" fill mode (the onboarding

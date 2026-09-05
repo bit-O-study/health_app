@@ -1,13 +1,13 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
-import { Loader2, LogIn, ShieldCheck, UserPlus } from "lucide-react";
+import { Loader2, LogIn, UserPlus } from "lucide-react";
 
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-import { isLocalEnv, normalizePhone } from "@/features/auth/phone";
+import { normalizePhone } from "@/features/auth/phone";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 import { reportAppEvent } from "@/lib/observability/report-client";
 
@@ -33,15 +33,11 @@ export function AuthForm({
   const [oauthLoading, setOauthLoading] = useState<"google" | "kakao" | null>(
     null,
   );
-  // 핸드폰 OTP 단계 (운영에서 가입 후): 인증번호 입력 화면
-  const [otpStep, setOtpStep] = useState(false);
-  const [otpCode, setOtpCode] = useState("");
 
   function switchMode(next: Mode) {
     setMode(next);
     setError(null);
     setNotice(null);
-    setOtpStep(false);
   }
 
   /**
@@ -76,10 +72,6 @@ export function AuthForm({
         setError("이름을 입력해 주세요.");
         return;
       }
-      if (!phone.trim()) {
-        setError("전화번호를 입력해 주세요.");
-        return;
-      }
     }
 
     setIsSubmitting(true);
@@ -88,6 +80,7 @@ export function AuthForm({
     if (mode === "signup") {
       const normPhone = normalizePhone(phone);
       // 이름·전화번호는 user_metadata 에 저장 → 온보딩 시 프로필로 복사됨.
+      // 전화번호는 선택 — 안 넣으면 빈 문자열로 들어간다(아이디 찾기에서만 쓰인다).
       const { data, error: signUpError } = await supabase.auth.signUp({
         email: email.trim(),
         password,
@@ -115,27 +108,12 @@ export function AuthForm({
         return;
       }
 
-      // 로컬(개발)에서는 핸드폰 인증을 건너뛴다.
-      if (isLocalEnv()) {
-        finishSignup();
-        return;
-      }
-
-      // 운영: 핸드폰 번호로 OTP 발송 (Supabase Phone 공급자 설정 필요).
-      const { error: otpErr } = await supabase.auth.updateUser({
-        phone: normPhone,
-      });
-      if (otpErr) {
-        // SMS 공급자 미설정 등으로 실패하면 인증 없이 진행(가입 자체는 완료).
-        setNotice(
-          "핸드폰 인증을 건너뛰고 진행합니다(SMS 설정 전). 가입은 완료됐습니다.",
-        );
-        finishSignup();
-        return;
-      }
-      setOtpStep(true);
-      setIsSubmitting(false);
-      setNotice("인증번호를 문자로 보냈습니다. 입력해 주세요.");
+      // 가입 끝 → 바로 온보딩. **핸드폰 OTP 단계는 없다.**
+      // Supabase Auth 의 Phone 공급자가 꺼져 있어(`updateUser({phone})` 이
+      // 500 "Unable to get SMS provider") 운영에서도 어차피 항상 건너뛰어졌고,
+      // 검증되지 않는 번호를 필수로 받으면서 한 화면을 더 태울 이유가 없다.
+      // (나중에 Twilio 를 붙일 거면 여기서 다시 OTP 를 태우면 된다.)
+      finishSignup();
       return;
     }
 
@@ -193,83 +171,6 @@ export function AuthForm({
       setOauthLoading(null);
     }
     // 성공하면 브라우저가 provider 로그인 페이지로 이동하므로 별도 처리 불필요.
-  }
-
-  async function verifyOtp(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    if (otpCode.trim().length < 4) {
-      setError("인증번호를 입력해 주세요.");
-      return;
-    }
-    setIsSubmitting(true);
-    const supabase = createSupabaseBrowserClient();
-    const { error: vErr } = await supabase.auth.verifyOtp({
-      phone: normalizePhone(phone),
-      token: otpCode.trim(),
-      type: "phone_change",
-    });
-    if (vErr) {
-      setError("인증번호가 올바르지 않습니다. 다시 확인해 주세요.");
-      setIsSubmitting(false);
-      return;
-    }
-    finishSignup();
-  }
-
-  // ── 핸드폰 OTP 입력 단계 (운영) ──
-  if (otpStep) {
-    return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-        <div className="mb-5 flex items-center gap-2">
-          <ShieldCheck
-            aria-hidden="true"
-            className="text-emerald-600"
-            size={20}
-          />
-          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-            핸드폰 인증
-          </h2>
-        </div>
-        <form className="space-y-4" onSubmit={verifyOtp}>
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
-            {phone} 로 보낸 인증번호를 입력해 주세요.
-          </p>
-          <input
-            id="otp"
-            type="text"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-center text-lg tracking-widest outline-none focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-            placeholder="인증번호"
-            value={otpCode}
-            onChange={(e) => setOtpCode(e.target.value)}
-          />
-          {error ? (
-            <p className="rounded-md bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-400">
-              {error}
-            </p>
-          ) : null}
-          {notice ? (
-            <p className="rounded-md bg-emerald-50 dark:bg-emerald-950/40 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-400">
-              {notice}
-            </p>
-          ) : null}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:bg-zinc-400"
-          >
-            {isSubmitting ? (
-              <Loader2 aria-hidden="true" className="animate-spin" size={17} />
-            ) : (
-              <ShieldCheck aria-hidden="true" size={17} />
-            )}
-            인증하고 시작하기
-          </button>
-        </form>
-      </div>
-    );
   }
 
   return (
@@ -336,7 +237,7 @@ export function AuthForm({
                 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
                 htmlFor="phone"
               >
-                전화번호
+                전화번호 <span className="font-normal text-zinc-400">(선택)</span>
               </label>
               <input
                 id="phone"

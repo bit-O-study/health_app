@@ -361,22 +361,12 @@ export function shiftYmd(ymd: string, deltaDays: number): string {
 /* ─── 증량 단위 ──────────────────────────────────────────────────────── */
 
 /**
- * 종목별 증량 단위(kg) — 강도 등급으로 정한다.
- * 큰 복합운동은 원판 한 쌍(5kg), 덤벨·머신은 2.5kg, 소근육 고립은 1.25kg.
+ * 중량 증감 단위(kg) — 헬스장 기구에서 공통으로 쓰기 쉽게 2kg 로 정한다.
  * 맨몸은 무게로 올릴 수 없어 `null`(횟수를 늘리는 게 맞다).
  *
  * 이 값을 어떻게 쓸지(올릴지·유지할지·낮출지)는 `overload.ts` 가 정한다 — 규칙이
  * 두 군데로 갈라지면 화면마다 다른 무게를 권하게 된다.
  */
 export function weightStepKg(exerciseId: string): number | null {
-  switch (loadClassOf(exerciseId)) {
-    case "heavy":
-      return 5;
-    case "medium":
-      return 2.5;
-    case "light":
-      return 1.25;
-    default:
-      return null;
-  }
+  return loadClassOf(exerciseId) === "bodyweight" ? null : 2;
 }

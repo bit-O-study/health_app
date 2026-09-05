@@ -85,6 +85,13 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import { callIdempotentAction } from "@/lib/actions/resilient-action";
 import { reportAppEvent } from "@/lib/observability/report-client";
 
+const WEIGHT_STEP_KG = 2;
+
+function normalizeWeightKg(value: number | null): number | null {
+  if (value === null) return null;
+  return Math.max(WEIGHT_STEP_KG, Math.round(value / WEIGHT_STEP_KG) * WEIGHT_STEP_KG);
+}
+
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
 export type GuidedItem =
   | {
@@ -456,11 +463,13 @@ export function GuidedOverlay({
     const it = sessionItems[index];
     if (it && it.kind === "main") {
       const saved = getMainEdit(it.rowId);
-      const init = saved ?? {
-        w: it.weightKg,
-        reps: it.reps > 0 ? it.reps : 10,
-        sets: it.sets > 0 ? it.sets : 3,
-      };
+      const init = saved
+        ? { ...saved, w: normalizeWeightKg(saved.w) }
+        : {
+            w: normalizeWeightKg(it.weightKg),
+            reps: it.reps > 0 ? it.reps : 10,
+            sets: it.sets > 0 ? it.sets : 3,
+          };
       if (!saved) setMainEdit(it.rowId, init);
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setEditW(init.w);
@@ -528,7 +537,9 @@ export function GuidedOverlay({
    */
   function applyAdvice(v: { weightKg: number | null; reps: number | null }) {
     const patch: { w?: number | null; reps?: number } = {};
-    if (v.weightKg !== null) patch.w = Math.min(500, Math.max(0, v.weightKg));
+    if (v.weightKg !== null) {
+      patch.w = Math.min(500, normalizeWeightKg(v.weightKg) ?? 0);
+    }
     if (v.reps !== null) {
       patch.reps = timed
         ? Math.min(600, Math.max(5, v.reps))
@@ -1157,7 +1168,7 @@ export function GuidedOverlay({
                 unit="kg"
                 min={0}
                 max={500}
-                step={1}
+                step={WEIGHT_STEP_KG}
                 allowBodyweight
                 onChange={(v) => putEdit({ w: v })}
               />

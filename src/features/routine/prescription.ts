@@ -92,7 +92,7 @@ export function prescribe(
     genderFactor *
     bodyFactor;
 
-  // 2.5kg 단위로 반올림, 최소 2.5kg
-  const weightKg = Math.max(2.5, Math.round(raw / 2.5) * 2.5);
+  // 헬스장 중량 조절 기준에 맞춰 2kg 단위 정수로 반올림한다.
+  const weightKg = Math.max(2, Math.round(raw / 2) * 2);
   return { sets, reps, weightKg };
 }

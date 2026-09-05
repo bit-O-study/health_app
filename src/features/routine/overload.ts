@@ -63,7 +63,7 @@ export type OverloadPlan = {
   reason: string;
 };
 
-/** 증량 단위의 배수로 맞춘다 — 2.5kg 단위 원판에 1.7kg 같은 값을 제안하면 못 든다. */
+/** 증량 단위의 배수로 맞춘다 — 실제 조절할 수 없는 소수 중량을 제안하지 않는다. */
 function roundToStep(kg: number, step: number): number {
   return Math.max(step, Math.round(kg / step) * step);
 }
@@ -131,7 +131,8 @@ export function overloadPlan(
     };
   }
 
-  const lastKg = last.weightKg ?? 0;
+  // 이전 기록이 구버전의 22.5kg 같은 값이어도 다음 제안은 2kg 단위 정수로 맞춘다.
+  const lastKg = roundToStep(last.weightKg ?? 0, step);
   if (sessions.length === 1) {
     return {
       ...base,

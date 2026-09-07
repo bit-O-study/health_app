@@ -50,17 +50,28 @@ function toFoodItem(r: CustomRow): FoodItem {
 /**
  * 커스텀 카탈로그 검색 — 이름 부분일치. 검색 UI가 정적 결과와 합쳐 쓴다.
  * 클라이언트에서 호출하는 서버 액션.
+ *
+ * ## 왜 테이블 조회가 아니라 RPC 인가
+ * 식약처 카탈로그를 적재하면서 이 표가 수십만 행이 됐다. 예전처럼 `hits` 만으로 줄
+ * 세우면 새로 들어온 행은 전부 hits=1 이라 **상위 결과가 사실상 무작위**다 —
+ * "우유" 를 치면 `빙수_팥_우유얼음` 이 먼저 떴다. 순위 규칙은 SQL 한 문장으로
+ * 표현해야 정확하고 빨라서(정렬 기준 4개) `search_custom_foods` 로 옮겼다.
+ *
+ * 순위: ① 이름이 검색어와 같음 ② 검색어로 시작 ③ **이름이 짧은 것**(일반명이 짧다:
+ * '우유' vs '빙수_팥_우유얼음') ④ hits ⑤ 이름 사전순(같은 조건에서 순서가 흔들리지
+ * 않게).
+ *
+ * 🔴 `%`·`_` 는 함수 안에서 이스케이프한다. 예전에는 검색어를 그대로 `ilike` 에
+ * 끼워 넣어서, 사용자가 `%` 한 글자만 쳐도 **전체 표가 걸렸다**.
  */
 export async function searchCustomFoodsAction(query: string): Promise<FoodItem[]> {
   const q = query.trim();
   if (q.length < 1) return [];
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("custom_foods")
-    .select("id, name, category, cuisine, amount, kcal, protein_g, carbs_g, fat_g")
-    .ilike("name", `%${q}%`)
-    .order("hits", { ascending: false })
-    .limit(50);
+  const { data, error } = await supabase.rpc("search_custom_foods", {
+    p_query: q,
+    p_limit: 50,
+  });
   if (error || !data) return [];
   return (data as CustomRow[]).map(toFoodItem);
 }

@@ -2243,13 +2243,47 @@ create table if not exists public.custom_foods (
   hits int not null default 1,
   created_at timestamptz not null default now()
 );
-create index if not exists custom_foods_name_idx on public.custom_foods (norm_name);
+-- ⚠ norm_name 에 btree 인덱스를 따로 만들지 않는다. 컬럼 정의의 unique 가 이미
+-- custom_foods_norm_name_key 를 만든다 — 예전에 있던 custom_foods_name_idx 는 그 중복이라
+-- 한 번도 안 쓰이면서(idx_scan 0 vs 564,066) 자리만 먹어 2026-09-07 제거했다.
 -- 이름 부분검색용. 2026-09-07 식약처 카탈로그를 적재하며 이 표가 0건 → 14,840건이 됐다.
 -- 검색은 `name ilike '%q%'` 라 앞이 열려 있어 B-tree 를 못 쓴다(전체 스캔) — trigram GIN 이
 -- 그 자리다. 실측: 200ms → 0.08ms.
 create extension if not exists pg_trgm;
 create index if not exists custom_foods_name_trgm_idx
   on public.custom_foods using gin (name gin_trgm_ops);
+
+-- 검색 순위. 식약처 카탈로그를 적재하며 이 표가 수십만 행이 됐는데, 새 행은 전부 hits=1 이라
+-- hits 만으로 줄 세우면 **상위 결과가 사실상 무작위**다("우유" → `빙수_팥_우유얼음`이 먼저).
+-- 정렬 기준이 넷이라 PostgREST 로는 표현이 안 돼 함수로 옮겼다.
+-- 🔴 `%`·`_` 를 이스케이프한다. 예전엔 검색어를 그대로 ilike 에 끼워 넣어서 `%` 한 글자로
+--    전체 표가 걸렸다. SECURITY DEFINER 가 **아니다** — RLS(로그인 사용자만 읽기)를 그대로 탄다.
+create or replace function public.search_custom_foods(
+  p_query text, p_limit int default 50)
+returns setof public.custom_foods
+language sql
+stable
+as $$
+  select *
+    from public.custom_foods
+   where p_query is not null
+     and length(btrim(p_query)) > 0
+     and name ilike '%' ||
+         replace(replace(replace(btrim(p_query), '', '\'), '%', '\%'), '_', '\_')
+         || '%'
+   order by
+     (lower(replace(name, ' ', '')) = lower(replace(btrim(p_query), ' ', ''))) desc,
+     (name ilike replace(replace(replace(btrim(p_query), '', '\'), '%', '\%'), '_', '\_') || '%') desc,
+     length(name) asc,
+     hits desc,
+     name asc
+   limit least(coalesce(p_limit, 50), 100)
+$$;
+revoke all on function public.search_custom_foods(text, int) from public;
+-- ⚠ Supabase 는 public 스키마 함수에 anon 실행권한을 기본으로 준다(default privileges).
+--    `from public` 만으로는 안 빠진다 — 명시적으로 회수해야 로그인 전 호출이 막힌다.
+revoke all on function public.search_custom_foods(text, int) from anon;
+grant execute on function public.search_custom_foods(text, int) to authenticated;
 alter table public.custom_foods enable row level security;
 -- 로그인 사용자면 누구나 읽기(공유 카탈로그) + 추가. 수정/삭제는 막는다(관리자 SQL로만).
 drop policy if exists "authed read custom foods" on public.custom_foods;

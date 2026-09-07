@@ -1637,6 +1637,71 @@ create policy "Creator updates gym"
 alter table public.profiles
   add column if not exists gym_id uuid references public.gyms(id) on delete set null;
 
+-- 회원마다 실제로 사용할 수 있는 기구를 따로 보관한다. gyms.equipment_ids 는 이 원본들의
+-- 합집합이며, 다음 회원이 같은 헬스장을 선택할 때 제안하는 기본값으로만 사용한다.
+alter table public.profiles
+  add column if not exists gym_equipment_ids text[];
+
+-- 기존 회원은 예전 공용 설정을 개인 설정으로 한 번 이어받는다.
+update public.profiles as profile
+   set gym_equipment_ids = gym.equipment_ids
+  from public.gyms as gym
+ where profile.gym_id = gym.id
+   and profile.gym_equipment_ids is null;
+
+create or replace function public.refresh_gym_equipment_union()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  old_gym_id uuid;
+  new_gym_id uuid;
+begin
+  if tg_op = 'UPDATE'
+     and old.gym_id is not distinct from new.gym_id
+     and old.gym_equipment_ids is not distinct from new.gym_equipment_ids then
+    return new;
+  end if;
+  if tg_op <> 'INSERT' then old_gym_id := old.gym_id; end if;
+  if tg_op <> 'DELETE' then new_gym_id := new.gym_id; end if;
+
+  if old_gym_id is not null and old_gym_id is distinct from new_gym_id then
+    update public.gyms as gym
+       set equipment_ids = coalesce((
+             select array_agg(distinct equipment_id order by equipment_id)
+               from public.profiles as profile
+               cross join lateral unnest(coalesce(profile.gym_equipment_ids, '{}')) as equipment_id
+              where profile.gym_id = old_gym_id
+           ), '{}'),
+           updated_at = now()
+     where gym.id = old_gym_id;
+  end if;
+
+  if new_gym_id is not null then
+    update public.gyms as gym
+       set equipment_ids = coalesce((
+             select array_agg(distinct equipment_id order by equipment_id)
+               from public.profiles as profile
+               cross join lateral unnest(coalesce(profile.gym_equipment_ids, '{}')) as equipment_id
+              where profile.gym_id = new_gym_id
+           ), '{}'),
+           updated_at = now()
+     where gym.id = new_gym_id;
+  end if;
+  if tg_op = 'DELETE' then return old; end if;
+  return new;
+end;
+$$;
+
+revoke all on function public.refresh_gym_equipment_union() from public, anon, authenticated;
+
+drop trigger if exists profiles_refresh_gym_equipment_union on public.profiles;
+create trigger profiles_refresh_gym_equipment_union
+after insert or update or delete on public.profiles
+for each row execute function public.refresh_gym_equipment_union();
+
 -- ─────────────────────────────────────────────────────────────
 -- 운동별 미디어 (영상/움짤 URL) — 전역 공용. 관리자(어드민 페이지)만 등록.
 -- 운동 시작(가이드)·상세에서 모든 사용자에게 표출. 운동별 1개.

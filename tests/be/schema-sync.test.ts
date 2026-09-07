@@ -161,6 +161,29 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
     });
   });
 
+  it("personal gym equipment union trigger is deployed with restricted function ACL", async () => {
+    const result = await client.query(
+      `select
+         to_regprocedure('public.refresh_gym_equipment_union()') is not null as function_exists,
+         exists (
+           select 1 from pg_trigger
+            where tgrelid='public.profiles'::regclass
+              and tgname='profiles_refresh_gym_equipment_union'
+              and not tgisinternal
+         ) as trigger_exists,
+         has_function_privilege('anon', 'public.refresh_gym_equipment_union()', 'EXECUTE')
+           as anon_execute,
+         has_function_privilege('authenticated', 'public.refresh_gym_equipment_union()', 'EXECUTE')
+           as authenticated_execute`,
+    );
+    expect(result.rows[0]).toEqual({
+      function_exists: true,
+      trigger_exists: true,
+      anon_execute: false,
+      authenticated_execute: false,
+    });
+  });
+
   it("apply_routine_exercise_day_sync has the exact body, search_path, and ACL", async () => {
     const result = await client.query(
       `select

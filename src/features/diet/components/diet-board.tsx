@@ -46,6 +46,8 @@ import {
 } from "@/features/diet/food-catalog-types";
 import { searchFoodsAction } from "@/features/diet/food-search-actions";
 import { searchCustomFoodsAction } from "@/features/diet/custom-foods";
+import { searchFoodDbAction } from "@/features/diet/food-db-actions";
+import { MIN_FOOD_DB_QUERY } from "@/features/diet/food-db";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import { MealScanForm } from "@/features/diet/components/meal-scanner";
 import type { MacroTarget } from "@/features/diet/calorie-target";
@@ -1411,11 +1413,42 @@ function AddFoodDialog({
       clearTimeout(t);
     };
   }, [q]);
-  const results = useMemo(
-    () =>
-      mergeFoodResults(localResults, q.trim() ? customResults : []).slice(0, 200),
-    [localResults, customResults, q],
-  );
+  // 식약처 식품영양성분 DB — 위 둘에 없는 음식(편의점 도시락·가공식품 등)을 채운다.
+  // 이게 없으면 사용자가 그런 음식을 AI 사진분석으로 찍는데, 그건 우리가 돈을 내고
+  // 월 한도를 한 칸 먹는 일이다. 공공데이터는 무료고 숫자도 더 정확하다.
+  //
+  // 외부 왕복이라 **디바운스를 더 길게** 준다(250 → 600ms). 위 둘은 우리 서버 안에서
+  // 끝나지만 이건 공공 API 까지 갔다 온다 — 타이핑마다 부르면 일일 한도를 태운다.
+  // 두 글자 미만은 아예 안 부른다(한 글자로는 수천 건이 걸린다).
+  const [dbResults, setDbResults] = useState<FoodItem[]>([]);
+  useEffect(() => {
+    const query = q.trim();
+    // 짧으면 부르지 않고 **여기서 비우지도 않는다** — 렌더 중 setState 가 되어
+    // 한 번 더 그린다. 짧을 때 감추는 건 아래 합치는 자리에서 조건으로 처리한다.
+    if (query.length < MIN_FOOD_DB_QUERY) return;
+    let alive = true;
+    const t = setTimeout(() => {
+      searchFoodDbAction(query)
+        .then((r) => {
+          if (alive) setDbResults(r);
+        })
+        .catch(() => {
+          if (alive) setDbResults([]);
+        });
+    }, 600);
+    return () => {
+      alive = false;
+      clearTimeout(t);
+    };
+  }, [q]);
+  // 합치는 순서 = 보여주는 순서. 정적(손으로 다듬은 값) → custom(이미 쌓인 것) →
+  // 식약처(방금 받아온 것). 뒤에서 이름이 겹치면 `mergeFoodResults` 가 접는다.
+  const results = useMemo(() => {
+    const typed = q.trim();
+    const merged = mergeFoodResults(localResults, typed ? customResults : []);
+    const fromDb = typed.length >= MIN_FOOD_DB_QUERY ? dbResults : [];
+    return mergeFoodResults(merged, fromDb).slice(0, 200);
+  }, [localResults, customResults, dbResults, q]);
   const [picked, setPicked] = useState<FoodItem | null>(null);
   const [time, setTime] = useState(isToday ? nowSeoulHHMM() : "");
   const addWithTime = (input: FoodInput) =>

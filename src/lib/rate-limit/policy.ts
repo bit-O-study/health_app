@@ -27,7 +27,8 @@ export type RateBucket =
   | "pw-otp:identity"
   | "pw-otp:ip"
   | "pw-verify:ip"
-  | "ai:user";
+  | "ai:user"
+  | "food-db:user";
 
 export type RatePolicy = {
   /** 창(window) 안에 허용할 횟수. */
@@ -82,6 +83,14 @@ export const RATE_POLICIES: Record<RateBucket, RatePolicy> = {
     limit: 6,
     windowSeconds: MINUTE,
     message: "AI 요청이 너무 빨라요. 잠시 뒤에 다시 시도해 주세요.",
+  },
+  // 식약처 식품 DB 조회. 우리 비용은 아니지만 **키 하나를 모두가 나눠 쓰고** 일일 한도가
+  // 있다 — 한 사람의 멈추지 않는 재시도가 그날 남은 조회를 통째로 태울 수 있다.
+  // 검색은 디바운스가 걸려 있어 정상 타이핑은 분당 몇 번을 넘지 않는다.
+  "food-db:user": {
+    limit: 20,
+    windowSeconds: MINUTE,
+    message: "식품 검색이 너무 잦아요. 잠시 뒤에 다시 시도해 주세요.",
   },
 };
 

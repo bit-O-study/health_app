@@ -84,12 +84,11 @@ import type { OverloadAdvice } from "@/features/routine/overload-advice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { callIdempotentAction } from "@/lib/actions/resilient-action";
 import { reportAppEvent } from "@/lib/observability/report-client";
+import { weightStepKg } from "@/features/routine/progress";
 
-const WEIGHT_STEP_KG = 2;
-
-function normalizeWeightKg(value: number | null): number | null {
+function normalizeWeightKg(value: number | null, step: number): number | null {
   if (value === null) return null;
-  return Math.max(WEIGHT_STEP_KG, Math.round(value / WEIGHT_STEP_KG) * WEIGHT_STEP_KG);
+  return Math.max(step, Math.round(value / step) * step);
 }
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
@@ -428,6 +427,10 @@ export function GuidedOverlay({
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
   // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
   const timed = item?.kind === "main" && isTimedExercise(item.exerciseId);
+  const weightStep =
+    item?.kind === "main"
+      ? (weightStepKg(item.exerciseId, item.equipment) ?? 1)
+      : 1;
   const [holdSec, setHoldSec] = useState(0);
   const [holdRunning, setHoldRunning] = useState(false);
   // 운동/세트가 바뀌면 홀드 타이머를 멈추고 0으로. (완료 세트 수·현재 운동 인덱스 기준)
@@ -464,9 +467,9 @@ export function GuidedOverlay({
     if (it && it.kind === "main") {
       const saved = getMainEdit(it.rowId);
       const init = saved
-        ? { ...saved, w: normalizeWeightKg(saved.w) }
+        ? { ...saved, w: normalizeWeightKg(saved.w, weightStepKg(it.exerciseId, it.equipment) ?? 1) }
         : {
-            w: normalizeWeightKg(it.weightKg),
+            w: normalizeWeightKg(it.weightKg, weightStepKg(it.exerciseId, it.equipment) ?? 1),
             reps: it.reps > 0 ? it.reps : 10,
             sets: it.sets > 0 ? it.sets : 3,
           };
@@ -538,7 +541,7 @@ export function GuidedOverlay({
   function applyAdvice(v: { weightKg: number | null; reps: number | null }) {
     const patch: { w?: number | null; reps?: number } = {};
     if (v.weightKg !== null) {
-      patch.w = Math.min(500, normalizeWeightKg(v.weightKg) ?? 0);
+      patch.w = Math.min(500, normalizeWeightKg(v.weightKg, weightStep) ?? 0);
     }
     if (v.reps !== null) {
       patch.reps = timed
@@ -1168,7 +1171,7 @@ export function GuidedOverlay({
                 unit="kg"
                 min={0}
                 max={500}
-                step={WEIGHT_STEP_KG}
+                step={weightStep}
                 allowBodyweight
                 onChange={(v) => putEdit({ w: v })}
               />

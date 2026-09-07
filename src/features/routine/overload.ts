@@ -24,6 +24,7 @@ import {
   type ProgressRecord,
 } from "@/features/routine/progress";
 import { isTimedExercise } from "@/features/routine/timed-exercises";
+import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
 
 /** 최고치가 이 횟수만큼 연속으로 안 늘면 정체로 본다. */
 export const STALL_SESSIONS = 3;
@@ -98,6 +99,7 @@ export function overloadPlan(
   exerciseId: string,
   experience: ExperienceLevel,
   todayTargetReps?: number,
+  equipment?: EquipmentId | string | null,
 ): OverloadPlan {
   const target =
     todayTargetReps && todayTargetReps > 0
@@ -118,7 +120,7 @@ export function overloadPlan(
   }
 
   // 맨몸·시간 종목은 무게로 올릴 수가 없다 — 횟수/시간이 올리는 축이다.
-  const step = weightStepKg(exerciseId);
+  const step = weightStepKg(exerciseId, equipment);
   const timed = isTimedExercise(exerciseId);
   if (timed || step === null || (last.weightKg ?? 0) <= 0) {
     return {
@@ -131,7 +133,7 @@ export function overloadPlan(
     };
   }
 
-  // 이전 기록이 구버전의 22.5kg 같은 값이어도 다음 제안은 2kg 단위 정수로 맞춘다.
+  // 이전 기록이 기구 단위와 달라도 다음 제안은 현재 선택 기구 단위로 맞춘다.
   const lastKg = roundToStep(last.weightKg ?? 0, step);
   if (sessions.length === 1) {
     return {

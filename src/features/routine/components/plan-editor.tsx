@@ -340,13 +340,25 @@ export function PlanEditor({
       .map((r) => [r.exerciseId, r.reps] as const),
   );
   const repsByIdRef = useRef<Record<string, number>>(repsById);
+  const equipmentById = Object.fromEntries(
+    Object.values(plans)
+      .flat()
+      .filter((r) => r.exerciseId !== "")
+      .map((r) => [r.exerciseId, r.equipment] as const),
+  );
+  const equipmentByIdRef = useRef<Record<string, string>>(equipmentById);
   useEffect(() => {
     repsByIdRef.current = repsById;
+    equipmentByIdRef.current = equipmentById;
   });
   useEffect(() => {
     if (adviceIdKey === "") return;
     let alive = true;
-    void overloadAdviceAction(adviceIdKey.split("|"), repsByIdRef.current).then(
+    void overloadAdviceAction(
+      adviceIdKey.split("|"),
+      repsByIdRef.current,
+      equipmentByIdRef.current,
+    ).then(
       (map) => {
         if (alive) setAdviceById(map);
       },

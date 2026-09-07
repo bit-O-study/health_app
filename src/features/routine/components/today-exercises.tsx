@@ -233,6 +233,7 @@ export async function TodayExercises({
     doneRecords,
     orderedPlan.map((p) => ({
       exerciseId: p.exerciseId,
+      equipment: p.equipment,
       targetReps: lockWeightReps ? p.reps : null,
     })),
     profile?.experience ?? "beginner",

@@ -3397,3 +3397,62 @@ create policy subscriptions_select_own on public.subscriptions
   for select using (auth.uid() = user_id);
 
 notify pgrst, 'reload schema';
+
+-- ────────────────────────────────────────────────────────────────
+-- 요청 폭주 제한(rate limit) — 2026-09-07. 한도·창 길이는 코드(`src/lib/rate-limit/policy.ts`)에
+-- 있고, 여기서는 **세는 자리**만 만든다. 아이디 찾기(휴대폰 OTP 를 걷어낸 뒤 관문이 없다)·
+-- 비밀번호 인증번호 메일·AI 분당 폭주를 같은 표로 센다.
+create table if not exists public.rate_limits (
+  bucket text not null,
+  key text not null,
+  window_start bigint not null,
+  count int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (bucket, key, window_start)
+);
+-- 지난 창을 치우는 용도. 창이 지나면 이 행들은 아무 의미가 없다.
+create index if not exists rate_limits_window_idx
+  on public.rate_limits (window_start);
+alter table public.rate_limits enable row level security;
+-- 🔴 정책을 **하나도 두지 않는다** — 읽기조차. 자기 시도 횟수를 읽을 수 있으면
+-- "몇 번 남았나" 를 보며 정확히 한도 직전까지 긁을 수 있고, 쓸 수 있으면 스스로
+-- 0 으로 되돌린다. 오직 아래 SECURITY DEFINER 함수만 이 표를 만진다.
+
+-- 🔴 검사와 증가를 한 문장으로. 읽고 나서 올리면 그 사이에 다른 요청이 끼어드는데,
+-- 막으려는 대상이 바로 그 '동시에 쏟아지는 요청' 이라 틈이 벌어지면 제한이 무의미해진다.
+-- 한도 안이면 true, 넘었으면 false. 넘은 요청은 세지 않는다(계속 두드려도 창은 안 늘어난다).
+create or replace function public.consume_rate_limit(
+  p_bucket text, p_key text, p_window_start bigint, p_limit int)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_count int;
+begin
+  insert into public.rate_limits (bucket, key, window_start, count, updated_at)
+  values (p_bucket, p_key, p_window_start, 1, now())
+  on conflict (bucket, key, window_start) do update
+    set count = public.rate_limits.count + 1, updated_at = now()
+    where public.rate_limits.count < p_limit
+  returning count into v_count;
+
+  -- 지난 창 청소. 쓰는 김에 조금씩 지운다 — 크론에 맡기면 크론이 하루 안 돌 때
+  -- 조용히 쌓인다. 한 번에 다 지우지 않는 건 이 함수가 요청 경로 위에 있어서다.
+  if random() < 0.01 then
+    delete from public.rate_limits
+      where window_start < extract(epoch from now()) - 86400;
+  end if;
+
+  return v_count is not null;
+end;
+$$;
+
+-- 🔴 anon 에게도 실행 권한이 필요하다 — 아이디 찾기·비밀번호 찾기는 **로그인 전** 호출이다.
+-- (표 자체는 정책이 없어 못 만진다. 이 함수만이 유일한 통로다.)
+revoke all on function public.consume_rate_limit(text, text, bigint, int) from public;
+grant execute on function public.consume_rate_limit(text, text, bigint, int)
+  to anon, authenticated;
+
+notify pgrst, 'reload schema';

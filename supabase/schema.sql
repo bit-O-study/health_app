@@ -2253,31 +2253,60 @@ create extension if not exists pg_trgm;
 create index if not exists custom_foods_name_trgm_idx
   on public.custom_foods using gin (name gin_trgm_ops);
 
--- 검색 순위. 식약처 카탈로그를 적재하며 이 표가 수십만 행이 됐는데, 새 행은 전부 hits=1 이라
+-- 🔴 접두사 전용 인덱스. trigram GIN 은 **3글자 미만이면 못 쓴다** — '우유'·'라면' 같은
+-- 두 글자 검색이 전체 스캔으로 떨어져 433ms 가 나왔다(3글자 '도시락'은 12ms).
+-- 한국어 음식은 두 글자가 흔하다(우유·라면·두부·계란·김치). text_pattern_ops btree 는
+-- 글자 수와 무관하게 `lower(name) LIKE 'q%'` 를 범위 스캔한다.
+create index if not exists custom_foods_name_prefix_idx
+  on public.custom_foods (lower(name) text_pattern_ops);
+
+-- 검색 순위. 식약처 카탈로그를 적재하며 이 표가 26만 행이 됐는데, 새 행은 전부 hits=1 이라
 -- hits 만으로 줄 세우면 **상위 결과가 사실상 무작위**다("우유" → `빙수_팥_우유얼음`이 먼저).
--- 정렬 기준이 넷이라 PostgREST 로는 표현이 안 돼 함수로 옮겼다.
+--
+-- 두 단계로 나눈다. 1단계(접두사)는 인덱스 범위 스캔이라 싸고, 사용자가 실제로 치는
+-- 방식이다. 2단계(이름 중간에 낀 것)는 비싼데 **1단계로 못 채웠을 때만** 간다 —
+-- 흔한 검색어에서는 아예 실행되지 않는다. 실측 우유 433ms→10ms, 라면 412ms→1.3ms.
+--
 -- 🔴 `%`·`_` 를 이스케이프한다. 예전엔 검색어를 그대로 ilike 에 끼워 넣어서 `%` 한 글자로
 --    전체 표가 걸렸다. SECURITY DEFINER 가 **아니다** — RLS(로그인 사용자만 읽기)를 그대로 탄다.
 create or replace function public.search_custom_foods(
   p_query text, p_limit int default 50)
 returns setof public.custom_foods
-language sql
+language plpgsql
 stable
 as $$
-  select *
-    from public.custom_foods
-   where p_query is not null
-     and length(btrim(p_query)) > 0
-     and name ilike '%' ||
-         replace(replace(replace(btrim(p_query), '', '\'), '%', '\%'), '_', '\_')
-         || '%'
-   order by
-     (lower(replace(name, ' ', '')) = lower(replace(btrim(p_query), ' ', ''))) desc,
-     (name ilike replace(replace(replace(btrim(p_query), '', '\'), '%', '\%'), '_', '\_') || '%') desc,
-     length(name) asc,
-     hits desc,
-     name asc
-   limit least(coalesce(p_limit, 50), 100)
+declare
+  q text := btrim(p_query);
+  pat text;
+  lim int := least(coalesce(p_limit, 50), 100);
+  got int;
+begin
+  if q is null or length(q) = 0 then
+    return;
+  end if;
+  pat := replace(replace(replace(q, '\', '\'), '%', '\%'), '_', '\_');
+
+  -- 1단계: 접두사.
+  return query
+    select *
+      from public.custom_foods
+     where lower(name) like lower(pat) || '%' escape '\'
+     order by (lower(replace(name, ' ', '')) = lower(replace(q, ' ', ''))) desc,
+              length(name) asc, hits desc, name asc
+     limit lim;
+  get diagnostics got = row_count;
+
+  -- 2단계: 이름 중간에 낀 것. 1단계로 못 채웠을 때만.
+  if got < lim then
+    return query
+      select *
+        from public.custom_foods
+       where name ilike '%' || pat || '%' escape '\'
+         and lower(name) not like lower(pat) || '%' escape '\'
+       order by length(name) asc, hits desc, name asc
+       limit lim - got;
+  end if;
+end
 $$;
 revoke all on function public.search_custom_foods(text, int) from public;
 -- ⚠ Supabase 는 public 스키마 함수에 anon 실행권한을 기본으로 준다(default privileges).

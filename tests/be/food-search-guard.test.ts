@@ -84,6 +84,26 @@ describe.skipIf(!hasDbCreds)("식품 검색 순위(라이브 DB)", () => {
     for (const n of names) expect(n).toContain("_");
   });
 
+  it("🔴 접두사로 한도가 차면 중간에 낀 것은 안 나온다 — 2단계를 건너뛴다", async () => {
+    // 이게 속도의 핵심이다. '우유'처럼 접두사 결과가 많은 검색어에서 비싼 2단계
+    // (이름 중간 포함, 전체 스캔이 될 수 있다)를 아예 실행하지 않는다.
+    // 실측: 우유 433ms → 10ms, 라면 412ms → 1.3ms.
+    const names = await search(TAG, 2);
+    expect(names).toHaveLength(2);
+    // 한도 2를 접두사(TAG, TAG꽃, TAG라면)만으로 채우므로 중간에 낀 것은 안 나온다.
+    expect(names).not.toContain(`빙수_팥_${TAG}얼음`);
+    expect(names).not.toContain(`아주긴이름의${TAG}가들어간제품`);
+  });
+
+  it("접두사로 모자라면 중간에 낀 것으로 채운다", async () => {
+    const names = await search(TAG, 10);
+    // 접두사는 3개뿐이라 나머지는 2단계에서 온다.
+    expect(names).toContain(`빙수_팥_${TAG}얼음`);
+    expect(names).toContain(`아주긴이름의${TAG}가들어간제품`);
+    // 같은 행이 두 단계에서 겹쳐 나오면 안 된다.
+    expect(new Set(names).size).toBe(names.length);
+  });
+
   it("빈 검색어는 아무것도 돌려주지 않는다", async () => {
     expect(await search("")).toEqual([]);
     expect(await search("   ")).toEqual([]);

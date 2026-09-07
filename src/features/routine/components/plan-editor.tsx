@@ -869,23 +869,6 @@ export function PlanEditor({
             <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
               {day.focuses.map(focusName).join(" · ")}
             </span>
-            {swapTargetsForDay(day.dayIndex).length > 0 ? (
-              <button
-                type="button"
-                data-testid={`arm-swap-button-${day.dayIndex}`}
-                disabled={pending}
-                onClick={() => {
-                  setAddTargetDayIndex(null);
-                  setSwapSourceDayIndex((current) =>
-                    current === day.dayIndex ? null : day.dayIndex,
-                  );
-                }}
-                className="inline-flex h-8 shrink-0 items-center gap-1 rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
-              >
-                <ArrowLeftRight aria-hidden="true" size={14} />
-                팔 루틴 교환
-              </button>
-            ) : null}
             {/* 이 일차를 커뮤니티 › 루틴에 소개(운동 순서·메모까지 스냅샷으로). */}
             {(plans[day.focuses[0]?.key] ?? []).length > 0 ? (
               <ShareDayButton

@@ -60,6 +60,15 @@ function pickEquipment(
 }
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
+export type AddedTodayExercise = {
+  id: string;
+  focus: string;
+  exerciseId: string;
+  equipment: EquipmentId;
+  sets: number;
+  reps: number;
+  weightKg: number | null;
+};
 
 export async function swapArmRoutineAction(
   sourceDayIndex: number,
@@ -634,7 +643,10 @@ export async function addExerciseToTodayAction(
   focus: string,
   exerciseId: string,
   equipment: EquipmentId,
-): Promise<SavePlanResult> {
+): Promise<
+  | { ok: true; item: AddedTodayExercise }
+  | { ok: false; error: string }
+> {
   if (!ALL_FOCUSES.includes(focus as (typeof ALL_FOCUSES)[number])) {
     return { ok: false, error: "부위가 올바르지 않습니다." };
   }
@@ -657,6 +669,7 @@ export async function addExerciseToTodayAction(
     experience: profile.experience,
     bodyType: profile.bodyType ?? ("average" as const),
     weightKg: profile.weightKg ?? 65,
+    equipment,
   });
 
   const todayYmd = seoulYmd();
@@ -694,20 +707,26 @@ export async function addExerciseToTodayAction(
     rr?.last_deferred_date === todayYmd ||
     rr?.override_date === todayYmd;
 
+  let insertedId: string;
   if (isTodayChanged) {
     const nextPos = appendPos((dmax?.[0]?.position as number | undefined) ?? -1);
-    const ins = await supabase.from("daily_plan").insert({
-      user_id: user.id,
-      for_date: todayYmd,
-      focus,
-      position: nextPos,
-      exercise_id: exerciseId,
-      equipment,
-      sets: p.sets,
-      reps: p.reps,
-      weight_kg: p.weightKg,
-    });
+    const ins = await supabase
+      .from("daily_plan")
+      .insert({
+        user_id: user.id,
+        for_date: todayYmd,
+        focus,
+        position: nextPos,
+        exercise_id: exerciseId,
+        equipment,
+        sets: p.sets,
+        reps: p.reps,
+        weight_kg: p.weightKg,
+      })
+      .select("id")
+      .single();
     if (ins.error) return { ok: false, error: ins.error.message };
+    insertedId = (ins.data as { id: string }).id;
   } else {
     // 오버라이드 없음 → 기본 루틴의 그 일차에 append (오늘 이후에도 유지).
     // 그 일차 전 부위 통틀어 최대 position 기준으로 맨 아래에 붙인다.
@@ -719,23 +738,39 @@ export async function addExerciseToTodayAction(
       .order("position", { ascending: false })
       .limit(1);
     const nextPos = appendPos((tail?.[0]?.position as number | undefined) ?? -1);
-    const ins = await supabase.from("routine_exercises").insert({
-      user_id: user.id,
-      day_index: dayIndex,
-      focus,
-      position: nextPos,
-      exercise_id: exerciseId,
-      equipment,
-      sets: p.sets,
-      reps: p.reps,
-      weight_kg: p.weightKg,
-    });
+    const ins = await supabase
+      .from("routine_exercises")
+      .insert({
+        user_id: user.id,
+        day_index: dayIndex,
+        focus,
+        position: nextPos,
+        exercise_id: exerciseId,
+        equipment,
+        sets: p.sets,
+        reps: p.reps,
+        weight_kg: p.weightKg,
+      })
+      .select("id")
+      .single();
     if (ins.error) return { ok: false, error: ins.error.message };
+    insertedId = (ins.data as { id: string }).id;
   }
 
   // 신규 행이 추가됐으므로 캐시 무효화는 필요 — 클라이언트가 router.refresh() 호출해 보여줌
   revalidatePath("/routine");
-  return { ok: true };
+  return {
+    ok: true,
+    item: {
+      id: insertedId,
+      focus,
+      exerciseId,
+      equipment,
+      sets: p.sets,
+      reps: p.reps,
+      weightKg: p.weightKg,
+    },
+  };
 }
 
 /**

@@ -59,7 +59,9 @@ test("장기 정체 대체운동은 오늘 계획만 바꾸고 영구 루틴은 
   expect(replacementId).not.toBe("squat");
   await apply.click();
 
-  await expect(page.getByRole("button", { name: "운동 시작" })).toBeVisible();
+  // 이미 시작한 세션을 대체 적용으로 닫았으므로 새 세션의 '운동 시작'이 아니라
+  // 기존 세션을 이어가는 '다시 운동하기'가 정상 상태다.
+  await expect(page.getByRole("button", { name: "다시 운동하기" })).toBeVisible();
   const daily = await dbQuery<{ exercise_id: string }>(
     `select exercise_id from public.daily_plan
       where user_id=${uid} and for_date=${today} order by position`,

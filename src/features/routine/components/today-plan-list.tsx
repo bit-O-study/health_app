@@ -775,7 +775,10 @@ export function TodayPlanList({
           <AddExerciseSlot
             tones={tones}
             dayIndex={dayIndex}
-            onAdded={() => router.refresh()}
+            onAdded={(item) => {
+              setOrder((current) => [...current, item]);
+              router.refresh();
+            }}
             allowAllParts={allowAllParts}
             selectedBlocks={selectedBlocks}
           />
@@ -1228,7 +1231,7 @@ function AddExerciseSlot({
 }: {
   tones: FocusKey[];
   dayIndex: number;
-  onAdded: () => void;
+  onAdded: (item: TodayPlanItem) => void;
   /** 직접 담기면 오늘 부위만이 아니라 전체 기본 부위에서 고를 수 있게. */
   allowAllParts?: boolean;
   /** 오늘 고른 블록(세부근육 포함) — 운동 목록을 그 세부근육으로 좁힌다. */
@@ -1304,9 +1307,18 @@ function AddExerciseSlot({
         equipment,
       );
       if (res.ok) {
+        const exercise = selectedExercise;
+        if (!exercise) return;
         setOpen(false);
         setError(null);
-        onAdded();
+        onAdded({
+          ...res.item,
+          name: exercise.name,
+          target: exercise.target,
+          equipmentLabel: EQUIPMENT_LABELS[res.item.equipment],
+          setDetails: null,
+          memo: null,
+        });
       } else {
         setError(res.error);
       }

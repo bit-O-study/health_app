@@ -2179,6 +2179,12 @@ create table if not exists public.custom_foods (
   created_at timestamptz not null default now()
 );
 create index if not exists custom_foods_name_idx on public.custom_foods (norm_name);
+-- 이름 부분검색용. 2026-09-07 식약처 카탈로그를 적재하며 이 표가 0건 → 14,840건이 됐다.
+-- 검색은 `name ilike '%q%'` 라 앞이 열려 있어 B-tree 를 못 쓴다(전체 스캔) — trigram GIN 이
+-- 그 자리다. 실측: 200ms → 0.08ms.
+create extension if not exists pg_trgm;
+create index if not exists custom_foods_name_trgm_idx
+  on public.custom_foods using gin (name gin_trgm_ops);
 alter table public.custom_foods enable row level security;
 -- 로그인 사용자면 누구나 읽기(공유 카탈로그) + 추가. 수정/삭제는 막는다(관리자 SQL로만).
 drop policy if exists "authed read custom foods" on public.custom_foods;

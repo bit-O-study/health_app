@@ -190,10 +190,13 @@ describe("parseFoodDb — data.go.kr 표준데이터 API 형식(현재 살아 �
     fatce: "5.75",
     fasat: "2.1",
     fatrn: "0.1",
+    servSize: "",
     foodSize: "1640g",
   };
-  const ok = (items: unknown) => ({
-    response: { header: { resultCode: "00", resultMsg: "NORMAL SERVICE." }, body: { items } },
+  // 실제 봉투(2026-09-07 실호출): response 로 감싸지 않고, 목록이 items.item 이다.
+  const ok = (item: unknown) => ({
+    header: { resultCode: "00", resultMsg: "NORMAL SERVICE." },
+    body: { items: { item }, numOfRows: 30, pageNo: 1, totalCount: 1 },
   });
 
   it("영문 약어 열 이름을 읽는다", () => {
@@ -226,9 +229,30 @@ describe("parseFoodDb — data.go.kr 표준데이터 API 형식(현재 살아 �
     expect(res.ok && res.foods).toHaveLength(1);
   });
 
-  it("resultCode 가 00 이 아니면 오류다 — 키 만료·쿼터 초과가 여기로 온다", () => {
+  it("🔴 목록은 items 가 아니라 items.item 이다 — 잘못 짚으면 정상 응답인데 조용히 0건", () => {
+    // items 바로 아래를 읽던 구현은 이 응답에서 아무것도 못 찾았다.
+    const res = parseFoodDb(ok([API_ROW]));
+    expect(res.ok && res.foods).toHaveLength(1);
+  });
+
+  it("response 로 한 겹 더 감싼 API 도 읽는다", () => {
+    const res = parseFoodDb({ response: ok([API_ROW]) });
+    expect(res.ok && res.foods).toHaveLength(1);
+  });
+
+  it("🔴 resultCode '03'(NODATA_ERROR)은 오류가 아니라 '없음'이다", () => {
+    // 이름이 ERROR 지만 foodNm 완전일치가 안 맞으면 늘 이게 온다. 오류로 다루면
+    // 정상적인 '검색 결과 없음'마다 로그가 쌓이고 화면에도 실패로 보인다.
     const res = parseFoodDb({
-      response: { header: { resultCode: "30", resultMsg: "SERVICE_KEY_IS_NOT_REGISTERED_ERROR" } },
+      header: { resultCode: "03", resultMsg: "NODATA_ERROR" },
+      body: null,
+    });
+    expect(res).toEqual({ ok: true, foods: [] });
+  });
+
+  it("resultCode 가 00·03 이 아니면 오류다 — 키 만료·쿼터 초과가 여기로 온다", () => {
+    const res = parseFoodDb({
+      header: { resultCode: "30", resultMsg: "SERVICE_KEY_IS_NOT_REGISTERED_ERROR" },
     });
     expect(res.ok).toBe(false);
     if (res.ok) return;
@@ -237,7 +261,7 @@ describe("parseFoodDb — data.go.kr 표준데이터 API 형식(현재 살아 �
 
   it("빈 목록은 빈 결과", () => {
     expect(parseFoodDb(ok([]))).toEqual({ ok: true, foods: [] });
-    expect(parseFoodDb({ response: { header: { resultCode: "00" }, body: {} } })).toEqual({
+    expect(parseFoodDb({ header: { resultCode: "00" }, body: {} })).toEqual({
       ok: true,
       foods: [],
     });

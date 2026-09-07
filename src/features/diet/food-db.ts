@@ -19,7 +19,13 @@
  *   https://api.data.go.kr/openapi/tn_pubr_public_nutri_food_info_api      (음식·요리)
  *   https://api.data.go.kr/openapi/tn_pubr_public_nutri_material_info_api  (원재료성 식품)
  *
- * 요청: `serviceKey`·`pageNo`·`numOfRows`·`type=json` + `foodNm`(식품명 검색).
+ * 요청: `serviceKey`·`pageNo`·`numOfRows`·`type=json` + `foodNm`.
+ *
+ * 🔴 **`foodNm` 은 부분일치가 아니라 완전일치다**(실측: "피자" → 4건, "김치"·"밥" → NODATA,
+ * "피자_" → NODATA). 그래서 이 실시간 조회만으로는 검색이 거의 쓸모없다 — 사용자가
+ * 카탈로그의 이름을 글자 하나까지 맞춰 칠 리가 없다. **실제 검색은 `scripts/import-food-db.mjs`
+ * 로 전체(음식 19,495건)를 `custom_foods` 에 한 번 받아 두고 우리 DB 에서 한다.**
+ * 여기 실시간 조회는 가져온 뒤 새로 추가된 항목을 주워 오는 보조 경로로만 남긴다.
  *
  * 그래도 주소는 **환경변수 템플릿**(`FOOD_DB_URL`)으로 받는다. 위 실측이 말해 주듯 이
  * 계열 API 는 몇 년 단위로 통째로 갈린다 — 박아 두면 다음에 갈릴 때 코드를 고쳐야 하고,
@@ -27,7 +33,7 @@
  *
  * ## 응답 모양을 세 가지 다 받는다
  * 어느 주소를 넣든 동작하게.
- * - **표준데이터**(현재): `{ response: { header: {resultCode}, body: { items: [{foodNm, nutConSrtrQua, enerc, prot, fatce, chocdf}] } } }`
+ * - **표준데이터**(현재): `{ header:{resultCode}, body:{ items:{ item:[{foodNm, nutConSrtrQua, enerc, prot, fatce, chocdf}] } } }`
  * - **odcloud/파일 미리보기**: `{ data: [{ "식품명", "영양성분함량기준량", "에너지(kcal)", … }] }`
  * - **식품안전나라**(옛 형식): `{ "I0750": { RESULT: {CODE}, row: [{DESC_KOR, SERVING_WT, NUTR_CONT1..4}] } }`
  */
@@ -157,25 +163,35 @@ export function parseFoodDb(data: unknown): FoodDbParse {
     return { ok: false, reason: `${h.errMsg ?? "오류"} ${h.returnAuthMsg ?? ""}`.trim() };
   }
 
-  // ── data.go.kr 표준데이터: { response: { header, body: { items } } } ──
-  const std = root.response as
-    | {
-        header?: { resultCode?: string; resultMsg?: string };
-        body?: { items?: unknown };
-      }
-    | undefined;
-  if (std) {
-    const code = std.header?.resultCode;
-    // '00' 이 정상. 그 외는 전부 오류다(키 만료·쿼터 초과·잘못된 파라미터).
-    if (code && code !== "00") {
-      return { ok: false, reason: `${code} ${std.header?.resultMsg ?? ""}`.trim() };
+  // ── data.go.kr 표준데이터 API ──
+  // 실제 응답(2026-09-07 실호출):
+  //   { header:{resultCode,resultMsg}, body:{ items:{ item:[…] }, totalCount } }
+  // ⚠ `response` 로 한 겹 더 감싸는 API 도 있어 둘 다 본다. 그리고 목록이 `items` 바로
+  //    아래가 아니라 **`items.item`** 이다 — XML 을 JSON 으로 옮긴 흔적이라, 여기를
+  //    잘못 짚으면 정상 응답인데 조용히 0건이 된다.
+  const std = (root.response ?? root) as {
+    header?: { resultCode?: string; resultMsg?: string };
+    body?: { items?: unknown } | null;
+  };
+  if (std.header?.resultCode !== undefined) {
+    const code = std.header.resultCode;
+    // '03' = NODATA_ERROR. 이름이 'ERROR' 지만 **오류가 아니라 '없음'** 이다
+    // (foodNm 은 완전일치 검색이라 조금만 달라도 이게 온다).
+    if (code === "03") return { ok: true, foods: [] };
+    if (code !== "00") {
+      return { ok: false, reason: `${code} ${std.header.resultMsg ?? ""}`.trim() };
     }
-    const items = std.body?.items;
+    const items = std.body?.items as { item?: unknown } | unknown[] | undefined;
+    const raw = Array.isArray(items)
+      ? items
+      : items && typeof items === "object" && "item" in items
+        ? (items as { item?: unknown }).item
+        : items;
     // 결과가 1건일 때 배열이 아니라 객체로 오는 변환기가 있다 — 감싸서 같은 길로 보낸다.
-    const rows = Array.isArray(items)
-      ? (items as Record<string, unknown>[])
-      : items && typeof items === "object"
-        ? [items as Record<string, unknown>]
+    const rows = Array.isArray(raw)
+      ? (raw as Record<string, unknown>[])
+      : raw && typeof raw === "object"
+        ? [raw as Record<string, unknown>]
         : [];
     return collect(rows.map(fromStandardApiRow), null);
   }

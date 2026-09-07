@@ -76,6 +76,25 @@ describe("overloadPlan — 규칙 기반 추천", () => {
     expect(Number.isInteger(p.weightKg)).toBe(true);
   });
 
+  it("최초 처방은 바벨 5kg, 덤벨·머신 1kg 단위이며 소수를 만들지 않는다", () => {
+    const opts = {
+      gender: "male" as const,
+      experience: "intermediate" as const,
+      bodyType: "average" as const,
+      weightKg: 73,
+    };
+    expect(prescribe("bench-press", { ...opts, equipment: "barbell" }).weightKg! % 5).toBe(0);
+    expect(prescribe("bench-press", { ...opts, equipment: "dumbbell" }).weightKg! % 1).toBe(0);
+    expect(prescribe("bench-press", { ...opts, equipment: "machine" }).weightKg! % 1).toBe(0);
+  });
+
+  it("과부하 추천도 선택 기구 단위로만 증량한다", () => {
+    const rows = [rec(1, "bench-press", 4, 10, 42), rec(2, "bench-press", 4, 10, 45)];
+    expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "barbell").suggestedKg).toBe(50);
+    expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "dumbbell").suggestedKg).toBe(46);
+    expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "machine").suggestedKg).toBe(46);
+  });
+
   it("기록이 없으면 none", () => {
     const p = overloadPlan([], "squat", "intermediate");
     expect(p.action).toBe("none");

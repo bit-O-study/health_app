@@ -8,6 +8,8 @@
  */
 
 import { loadClassOf, type LoadClass } from "@/features/routine/exercise-load";
+import { weightStepKg } from "@/features/routine/progress";
+import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
 
 export type Prescription = {
   sets: number;
@@ -62,6 +64,7 @@ export function prescribe(
     experience: "beginner" | "intermediate" | "advanced";
     bodyType: "lean" | "average" | "heavy";
     weightKg: number;
+    equipment?: EquipmentId;
   },
 ): Prescription {
   const loadClass = loadClassOf(exerciseId);
@@ -92,7 +95,7 @@ export function prescribe(
     genderFactor *
     bodyFactor;
 
-  // 헬스장 중량 조절 기준에 맞춰 2kg 단위 정수로 반올림한다.
-  const weightKg = Math.max(2, Math.round(raw / 2) * 2);
+  const step = weightStepKg(exerciseId, opts.equipment) ?? 1;
+  const weightKg = Math.max(step, Math.round(raw / step) * step);
   return { sets, reps, weightKg };
 }

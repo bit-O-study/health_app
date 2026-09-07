@@ -9,6 +9,7 @@ import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import {
   isQueueItemActive,
   shouldAutoEndSession,
+  shouldShowSessionFinished,
 } from "@/features/workout-timer/queue-filter";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -588,7 +589,11 @@ export function WorkoutSessionTimer({
   if (!state) {
     // 오늘 할 운동이 있었는데 전부 완료/스킵돼 남은 게 없으면 '수고하셨습니다'(비활성).
     // queue 는 로컬 오버라이드(완료/휴식 취소)로 즉시 갱신 → 미완료가 다시 생기면 바로 '운동 시작' 복귀.
-    const allDone = sessionFinished || (queueItems.length > 0 && queue.length === 0);
+    const allDone = shouldShowSessionFinished(
+      sessionFinished,
+      queue.length,
+      queueItems.length,
+    );
     if (allDone) {
       return (
         <span className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-100 px-4 text-base font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">

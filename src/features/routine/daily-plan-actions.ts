@@ -387,6 +387,7 @@ export async function addExercisesTodayOnlyAction(
           experience: profile.experience,
           bodyType: profile.bodyType ?? "average",
           weightKg: profile.weightKg ?? 65,
+          equipment: it.equipment,
         })
       : { sets: 3, reps: 10, weightKg: null };
     return {
@@ -405,6 +406,78 @@ export async function addExercisesTodayOnlyAction(
   const ins = await supabase.from("daily_plan").insert(rows);
   if (ins.error) return { ok: false, error: ins.error.message };
 
+  revalidatePath("/routine");
+  revalidatePath("/plan/today");
+  return { ok: true };
+}
+
+/** 정체된 한 운동을 오늘만 다른 운동으로 교체한다. 영구 루틴은 수정하지 않는다. */
+export async function replaceExerciseTodayOnlyAction(input: {
+  rowId: string;
+  exerciseId: string;
+  focus: string;
+  replacementExerciseId: string;
+  equipment: EquipmentId;
+}): Promise<SaveDailyPlanResult> {
+  const replacement = getCatalogExercise(input.replacementExerciseId);
+  if (!replacement || !isEquipmentId(input.equipment)) {
+    return { ok: false, error: "대체 운동이 올바르지 않습니다." };
+  }
+  if (!replacement.equipments.some((e) => e.equipment === input.equipment)) {
+    return { ok: false, error: "선택한 기구로 할 수 없는 운동입니다." };
+  }
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const pin = await pinRoutineFocusesForTodayAction();
+  if (!pin.ok) return pin;
+  const supabase = await createSupabaseServerClient();
+  const today = seoulYmd();
+  const query = supabase
+    .from("daily_plan")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("for_date", today);
+  const byId = await query.eq("id", input.rowId).maybeSingle();
+  let targetId = (byId.data as { id: string } | null)?.id ?? null;
+  if (!targetId) {
+    const fallback = await supabase
+      .from("daily_plan")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("for_date", today)
+      .eq("focus", input.focus)
+      .eq("exercise_id", input.exerciseId)
+      .order("position", { ascending: true })
+      .limit(1)
+      .maybeSingle();
+    targetId = (fallback.data as { id: string } | null)?.id ?? null;
+  }
+  if (!targetId) return { ok: false, error: "바꿀 오늘 운동을 찾지 못했습니다." };
+
+  const profile = await getUserProfile();
+  const p = profile
+    ? prescribe(input.replacementExerciseId, {
+        gender: profile.gender === "female" ? "female" : "male",
+        experience: profile.experience,
+        bodyType: profile.bodyType ?? "average",
+        weightKg: profile.weightKg ?? 65,
+        equipment: input.equipment,
+      })
+    : { sets: 3, reps: 10, weightKg: null };
+  const updated = await supabase
+    .from("daily_plan")
+    .update({
+      exercise_id: input.replacementExerciseId,
+      equipment: input.equipment,
+      sets: p.sets,
+      reps: p.reps,
+      weight_kg: p.weightKg,
+      set_details: null,
+    })
+    .eq("user_id", user.id)
+    .eq("id", targetId);
+  if (updated.error) return { ok: false, error: updated.error.message };
   revalidatePath("/routine");
   revalidatePath("/plan/today");
   return { ok: true };

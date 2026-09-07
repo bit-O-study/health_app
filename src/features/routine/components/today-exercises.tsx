@@ -9,8 +9,10 @@ import {
 } from "lucide-react";
 
 import { seoulYmd } from "@/features/routine/data";
+import type { FocusTone } from "@/features/routine/data";
 import {
   EQUIPMENT_LABELS,
+  allExercisesForFocus,
   getCatalogExercise,
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
@@ -69,6 +71,8 @@ import { SwipeHint } from "@/features/routine/components/swipe-hint";
 import { EquipmentScanButton } from "@/features/equipment/components/equipment-scan-button";
 import { RestTimerProvider } from "@/features/workout-timer/rest-timer";
 import type { GuidedItem } from "@/features/workout-timer/guided-workout";
+import { getCurrentGym } from "@/features/gym/gym-data-access";
+import { recommendExerciseSubstitutes } from "@/features/routine/exercise-substitutes";
 
 /** DB row 의 값이 비어 있으면 카탈로그 기본값을 대신 사용(파라미터별, 시간/속도/경사/세트/횟수) */
 function effectiveValues(row: ConditioningRow) {
@@ -157,6 +161,7 @@ export async function TodayExercises({
     profile,
     postureEnabled,
     equipmentScan,
+    gym,
   ] = await Promise.all([
     // 일차별 독립 — 오늘 일차의 부위 운동만 읽는다. 다른 일차(부위 전체)로 폴백하면
     // 같은 부위가 여러 일차에 있을 때 행을 공유해, 한 일차에서 삭제하면 다른 일차에서도
@@ -173,6 +178,7 @@ export async function TodayExercises({
     getUserProfile(),
     isDebugFeatureEnabled("helssu-coach"), // 운동 모드 안 'AI 자세 분석'(디버그 계정)
     isDebugFeatureEnabled("equipment-scan"), // '운동 시작' 왼쪽 기구 스캔(디버그 계정)
+    getCurrentGym(),
   ]);
 
   // 본운동: 부위별로 daily_plan override 있으면 그것, 없으면 기본 plan
@@ -233,6 +239,7 @@ export async function TodayExercises({
     doneRecords,
     orderedPlan.map((p) => ({
       exerciseId: p.exerciseId,
+      equipment: p.equipment,
       targetReps: lockWeightReps ? p.reps : null,
     })),
     profile?.experience ?? "beginner",
@@ -578,6 +585,15 @@ export async function TodayExercises({
       memo: p.memo,
       // 다음 세션 추천(2.2). 기록이 없는 종목은 null — 붙일 말이 없다.
       advice: adviceByExercise[p.exerciseId] ?? null,
+      substitutes:
+        adviceByExercise[p.exerciseId]?.action === "rest"
+          ? recommendExerciseSubstitutes(
+              p.exerciseId,
+              p.equipment,
+              allExercisesForFocus(p.focus as FocusTone),
+              gym ? new Set(gym.equipmentIds) : null,
+            )
+          : [],
       media: mediaMap.get(p.exerciseId)
         ? {
             url: mediaMap.get(p.exerciseId)!.url,

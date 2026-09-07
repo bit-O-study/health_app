@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { securityHeaders } from "./src/lib/security/headers";
+
 /**
  * 배포본 식별자 — 실사용 오류 관측(1.3)에서 "어느 배포에서 난 오류인가"를 보려면
  * 클라이언트가 자기 빌드를 알아야 한다. 앱(APK)은 원격 웹을 띄우므로 실제로 자주
@@ -24,6 +26,11 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
+      {
+        // 모든 응답에 보안 헤더. HSTS 는 https 환경에서만(로컬 dev 가 안 열린다).
+        source: "/:path*",
+        headers: securityHeaders(process.env.NODE_ENV === "production"),
+      },
       {
         source: "/manifest.webmanifest",
         headers: [

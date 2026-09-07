@@ -6,6 +6,8 @@ import {
 } from "@/lib/supabase/server";
 import { isEntitled } from "@/features/billing/subscription";
 import { getMySubscription } from "@/features/billing/subscription-store";
+import { consumeRate } from "@/lib/rate-limit/consume";
+import { limitMessage } from "@/lib/rate-limit/policy";
 import {
   limitFor,
   overLimitMessage,
@@ -69,6 +71,22 @@ export async function consumeAiQuota(
     // 로그인 안 한 사용자는 AI 기능에 닿을 수 없다 — 여기서 막을 일이 아니라
     // 호출부가 이미 막는다. 세지 못할 뿐이니 통과시킨다.
     if (!user) return passThrough(0);
+
+    // 🔴 분 단위 폭주는 월 한도로 못 막는다. NVIDIA 무료 티어가 **분당 40요청**이라,
+    // 한 사람이 연타하면 자기 월 한도를 다 쓰기도 전에 **모든 사용자의 AI 가 같이
+    // 죽는다.** 월 한도(비용)와 분 한도(가용성)는 막는 대상이 다르다.
+    //
+    // 월 한도보다 **먼저** 본다 — 순서가 반대면 폭주로 막힌 요청이 월 한도를 한 칸씩
+    // 먹는다(사용자는 아무것도 못 받고 잔여만 줄어든다).
+    if (!(await consumeRate("ai:user", user.id, now))) {
+      return {
+        ok: false,
+        // 여기서 막힌 건 '이번 달을 다 썼다' 가 아니다. 잔여는 그대로라 0 을 넘겨
+        // 상태를 만들되(추가 왕복 없이), 문구는 폭주 쪽 말을 쓴다.
+        state: quotaState(feature, tier, 0),
+        message: limitMessage("ai:user"),
+      };
+    }
 
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.rpc("consume_ai_quota", {

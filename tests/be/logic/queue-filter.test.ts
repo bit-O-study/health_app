@@ -4,6 +4,7 @@ import {
   adjacentActiveIndex,
   isQueueItemActive,
   shouldAutoEndSession,
+  shouldShowSessionFinished,
 } from "@/features/workout-timer/queue-filter";
 
 // '운동 시작' 큐 필터 — 로컬 오버라이드(방금 스킵/취소)가 서버 상태보다 우선.
@@ -84,5 +85,19 @@ describe("shouldAutoEndSession", () => {
 
   it("애초에 오늘 운동이 없었음(hadItems=false) → 종료 안 함", () => {
     expect(shouldAutoEndSession(false, 0, 0)).toBe(false);
+  });
+});
+
+describe("shouldShowSessionFinished", () => {
+  it("전체 완료 직후에는 완료 문구를 표시한다", () => {
+    expect(shouldShowSessionFinished(true, 0, 2)).toBe(true);
+  });
+
+  it("★ 완료 취소로 큐가 복원되면 운동 시작 상태로 돌아간다", () => {
+    expect(shouldShowSessionFinished(true, 1, 2)).toBe(false);
+  });
+
+  it("서버 완료 상태만 있어도 남은 큐가 없으면 완료 문구를 표시한다", () => {
+    expect(shouldShowSessionFinished(false, 0, 2)).toBe(true);
   });
 });

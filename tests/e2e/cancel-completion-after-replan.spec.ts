@@ -81,7 +81,11 @@ test("옛 행 id 를 가리키는 완료기록도 완료 취소가 된다", asyn
 
   // 오른쪽으로 스와이프 = 완료 취소.
   await swipeRight(page, row);
-  await page.waitForTimeout(2500);
+
+  // 완료 취소 즉시 타이머 영역도 '수고하셨습니다'에서 다시 시작 상태로 복귀해야 한다.
+  await expect(page.getByRole("button", { name: "운동 시작" })).toBeVisible({
+    timeout: 8000,
+  });
 
   // DB 에서 완료기록이 실제로 지워져야 한다(예전엔 0건 삭제라 그대로 남았다).
   const left = await dbQuery<{ n: string }>(

@@ -12,11 +12,11 @@ import { hasDb } from "./helpers/db";
  * 경우에만 돌린다 — 평소 스위트에서는 건너뛰고, 대신 `diet.spec.ts` 가 **기능이 꺼져 있어도
  * 검색이 멀쩡한지**를 계속 지킨다.
  *
- * 돌리는 법(실제 공공 API 는 활용신청 전에는 주소를 알 수 없어 스텁으로 확인한다):
- *   node <스텁서버>            # 표준데이터 형식으로 응답
- *   FOOD_DB_URL='http://127.0.0.1:3399/?serviceKey={key}&perPage={rows}&cond[식품명::LIKE]={query}' \
- *     FOOD_DB_API_KEY=test pnpm exec next dev -p 3108
- *   E2E_FOOD_DB=1 E2E_BASE_URL=http://localhost:3108 pnpm exec playwright test tests/e2e/food-db-search.spec.ts
+ * 돌리는 법(실 호출에는 공공포털 인증키가 필요해 같은 형식의 스텁으로 확인한다):
+ *   node <스텁서버>   # data.go.kr 표준데이터 API 응답 형식 그대로
+ *   FOOD_DB_URL='http://127.0.0.1:3399/openapi/tn_pubr_public_nutri_food_info_api?serviceKey={key}&pageNo=1&numOfRows={rows}&type=json&foodNm={query}' \
+ *     FOOD_DB_API_KEY=test pnpm exec next dev -p 3110
+ *   E2E_FOOD_DB=1 E2E_BASE_URL=http://localhost:3110 pnpm exec playwright test tests/e2e/food-db-search.spec.ts
  */
 const enabled = process.env.E2E_FOOD_DB === "1";
 

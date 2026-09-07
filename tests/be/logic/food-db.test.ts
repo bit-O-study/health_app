@@ -178,6 +178,72 @@ describe("parseFoodDb — data.go.kr 표준데이터 형식", () => {
   });
 });
 
+describe("parseFoodDb — data.go.kr 표준데이터 API 형식(현재 살아 있는 것)", () => {
+  // 실제 필드명: 2026-09-07 data.go.kr 15100070 명세에서 확인.
+  const API_ROW = {
+    foodCd: "D202-120000000-1180",
+    foodNm: "피자_페퍼로니피자",
+    nutConSrtrQua: "100g",
+    enerc: "240",
+    chocdf: "30.1",
+    prot: "12.47",
+    fatce: "5.75",
+    fasat: "2.1",
+    fatrn: "0.1",
+    foodSize: "1640g",
+  };
+  const ok = (items: unknown) => ({
+    response: { header: { resultCode: "00", resultMsg: "NORMAL SERVICE." }, body: { items } },
+  });
+
+  it("영문 약어 열 이름을 읽는다", () => {
+    const res = parseFoodDb(ok([API_ROW]));
+    expect(res.ok).toBe(true);
+    if (!res.ok) return;
+    expect(res.foods[0]).toMatchObject({
+      name: "피자_페퍼로니피자",
+      amount: "100g",
+      kcal: 240,
+      carbs: 30.1,
+      protein: 12.47,
+      fat: 5.75,
+    });
+  });
+
+  it("🔴 지방은 fatce 다 — fasat(포화)·fatrn(트랜스)과 헷갈리면 값이 통째로 틀린다", () => {
+    const res = parseFoodDb(ok([API_ROW]));
+    expect(res.ok && res.foods[0]!.fat).toBe(5.75);
+    expect(res.ok && res.foods[0]!.fat).not.toBe(2.1);
+  });
+
+  it("⚠ 기준량은 문자열이다 — 숫자로 읽으면 전부 '1회 제공량' 으로 뭉개진다", () => {
+    const res = parseFoodDb(ok([{ ...API_ROW, nutConSrtrQua: "1접시(250g)" }]));
+    expect(res.ok && res.foods[0]!.amount).toBe("1접시(250g)");
+  });
+
+  it("결과가 1건이면 items 가 객체로 오는 변환기가 있다 — 그것도 읽는다", () => {
+    const res = parseFoodDb(ok(API_ROW));
+    expect(res.ok && res.foods).toHaveLength(1);
+  });
+
+  it("resultCode 가 00 이 아니면 오류다 — 키 만료·쿼터 초과가 여기로 온다", () => {
+    const res = parseFoodDb({
+      response: { header: { resultCode: "30", resultMsg: "SERVICE_KEY_IS_NOT_REGISTERED_ERROR" } },
+    });
+    expect(res.ok).toBe(false);
+    if (res.ok) return;
+    expect(res.reason).toContain("SERVICE_KEY_IS_NOT_REGISTERED_ERROR");
+  });
+
+  it("빈 목록은 빈 결과", () => {
+    expect(parseFoodDb(ok([]))).toEqual({ ok: true, foods: [] });
+    expect(parseFoodDb({ response: { header: { resultCode: "00" }, body: {} } })).toEqual({
+      ok: true,
+      foods: [],
+    });
+  });
+});
+
 describe("parseFoodDb — 공통 후처리", () => {
   it("같은 음식이 제조사·조사연도별로 여러 줄 와도 한 줄만 남는다", () => {
     const res = parseFoodDb(

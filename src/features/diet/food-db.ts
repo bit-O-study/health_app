@@ -8,22 +8,28 @@
  * 기능**이고 월 한도(`ai_usage`)를 한 칸 먹는데, 그런 제품은 **이미 공표된 정답이 있다.**
  * 공공데이터라 무료고, AI 추정보다 숫자가 정확하다.
  *
- * ## 🔴 주소를 코드에 박지 않는다 — 서비스가 실제로 갈아엎어졌다
- * 2026-09-07 확인: 인터넷에 흔히 도는 식품안전나라 영양성분 서비스
- * (`I2790`·`I0750`)는 **둘 다 `ERROR-310 해당하는 서비스를 찾을 수 없습니다`** 를
- * 돌려준다. 예전 data.go.kr 경로(`FoodNtrIrdntInfoService1`)도 `NO_OPENAPI_SERVICE_ERROR`
- * (폐기)다. 현재 살아 있는 것은 **전국통합식품영양성분정보 표준데이터**(data.go.kr)인데,
- * 표준데이터 API 주소에는 신청자마다 다른 `uddi` 가 들어가서 **활용신청 전에는 주소를
- * 알 수 없다.**
+ * ## 🔴 흔히 도는 주소는 전부 죽어 있다 (2026-09-07 실측)
+ * - 식품안전나라 `I2790`·`I0750` → `ERROR-310 해당하는 서비스를 찾을 수 없습니다`
+ *   (문서 페이지는 아직 살아 있는데 서비스가 없다)
+ * - data.go.kr `FoodNtrIrdntInfoService1` → `NO_OPENAPI_SERVICE_ERROR`(폐기)
  *
- * 그래서 주소를 **환경변수 템플릿**(`FOOD_DB_URL`)으로 받는다. 사용자가 활용신청 화면에서
- * 받은 주소를 그대로 붙여 넣으면 코드를 안 고치고 붙는다. 지금 죽어 있는 주소를 기본값으로
- * 박아 두면 "붙였는데 아무것도 안 나온다" 가 되고, 그건 안 붙인 것보다 나쁘다.
+ * **지금 살아 있는 것**은 data.go.kr 표준데이터다(빈 키로 불러 `SERVICE_KEY_IS_NOT_
+ * REGISTERED_ERROR` 가 오는 것으로 확인 — 서비스는 있고 키만 없다는 뜻):
  *
- * ## 응답 모양도 두 가지를 다 받는다
- * 두 포털이 형식이 다르다. 어느 쪽 주소를 넣든 동작하게 둘 다 읽는다.
- * - **식품안전나라**: `{ "I0750": { RESULT: {CODE}, row: [{DESC_KOR, SERVING_WT, NUTR_CONT1..4}] } }`
- * - **data.go.kr 표준데이터**: `{ data: [{ "식품명", "영양성분함량기준량", "에너지(kcal)", … }] }`
+ *   https://api.data.go.kr/openapi/tn_pubr_public_nutri_food_info_api      (음식·요리)
+ *   https://api.data.go.kr/openapi/tn_pubr_public_nutri_material_info_api  (원재료성 식품)
+ *
+ * 요청: `serviceKey`·`pageNo`·`numOfRows`·`type=json` + `foodNm`(식품명 검색).
+ *
+ * 그래도 주소는 **환경변수 템플릿**(`FOOD_DB_URL`)으로 받는다. 위 실측이 말해 주듯 이
+ * 계열 API 는 몇 년 단위로 통째로 갈린다 — 박아 두면 다음에 갈릴 때 코드를 고쳐야 하고,
+ * 그 사이 화면에는 "검색 결과 없음"만 조용히 뜬다.
+ *
+ * ## 응답 모양을 세 가지 다 받는다
+ * 어느 주소를 넣든 동작하게.
+ * - **표준데이터**(현재): `{ response: { header: {resultCode}, body: { items: [{foodNm, nutConSrtrQua, enerc, prot, fatce, chocdf}] } } }`
+ * - **odcloud/파일 미리보기**: `{ data: [{ "식품명", "영양성분함량기준량", "에너지(kcal)", … }] }`
+ * - **식품안전나라**(옛 형식): `{ "I0750": { RESULT: {CODE}, row: [{DESC_KOR, SERVING_WT, NUTR_CONT1..4}] } }`
  */
 
 import type { FoodItem } from "@/features/diet/food-catalog-types";
@@ -108,6 +114,24 @@ function fromStandardRow(r: Record<string, unknown>): RawFood {
   };
 }
 
+/**
+ * data.go.kr 표준데이터 API 행. 영문 약어 열 이름이다(공공데이터 공통표준용어).
+ * `nutConSrtrQua`(영양성분함량기준량)는 "100g" 같은 **문자열**이다 — 숫자로 읽으면 0 이 되고
+ * 그 순간 모든 음식이 "1회 제공량" 으로 뭉개진다.
+ * ⚠ `fatce`(지방)를 `fasat`(포화지방)·`fatrn`(트랜스지방)과 헷갈리면 안 된다.
+ */
+function fromStandardApiRow(r: Record<string, unknown>): RawFood {
+  const basis = String(r.nutConSrtrQua ?? "").trim();
+  return {
+    name: String(r.foodNm ?? "").trim(),
+    amount: basis || "1회 제공량",
+    kcal: num(r.enerc),
+    carbs: num(r.chocdf),
+    protein: num(r.prot),
+    fat: num(r.fatce),
+  };
+}
+
 export type FoodDbParse =
   | { ok: true; foods: FoodItem[] }
   /** 부를 수는 있었지만 결과를 못 준 경우. `reason` 은 로그용(화면엔 안 띄운다). */
@@ -131,6 +155,29 @@ export function parseFoodDb(data: unknown): FoodDbParse {
   if (envelope) {
     const h = envelope.cmmMsgHeader ?? {};
     return { ok: false, reason: `${h.errMsg ?? "오류"} ${h.returnAuthMsg ?? ""}`.trim() };
+  }
+
+  // ── data.go.kr 표준데이터: { response: { header, body: { items } } } ──
+  const std = root.response as
+    | {
+        header?: { resultCode?: string; resultMsg?: string };
+        body?: { items?: unknown };
+      }
+    | undefined;
+  if (std) {
+    const code = std.header?.resultCode;
+    // '00' 이 정상. 그 외는 전부 오류다(키 만료·쿼터 초과·잘못된 파라미터).
+    if (code && code !== "00") {
+      return { ok: false, reason: `${code} ${std.header?.resultMsg ?? ""}`.trim() };
+    }
+    const items = std.body?.items;
+    // 결과가 1건일 때 배열이 아니라 객체로 오는 변환기가 있다 — 감싸서 같은 길로 보낸다.
+    const rows = Array.isArray(items)
+      ? (items as Record<string, unknown>[])
+      : items && typeof items === "object"
+        ? [items as Record<string, unknown>]
+        : [];
+    return collect(rows.map(fromStandardApiRow), null);
   }
 
   // ── 식품안전나라: 서비스 id 를 키로 쓰는 블록 하나 ──

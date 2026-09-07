@@ -84,12 +84,13 @@ import type { OverloadAdvice } from "@/features/routine/overload-advice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { callIdempotentAction } from "@/lib/actions/resilient-action";
 import { reportAppEvent } from "@/lib/observability/report-client";
+import { weightStepKg } from "@/features/routine/progress";
+import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
+import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";
 
-const WEIGHT_STEP_KG = 2;
-
-function normalizeWeightKg(value: number | null): number | null {
+function normalizeWeightKg(value: number | null, step: number): number | null {
   if (value === null) return null;
-  return Math.max(WEIGHT_STEP_KG, Math.round(value / WEIGHT_STEP_KG) * WEIGHT_STEP_KG);
+  return Math.max(step, Math.round(value / step) * step);
 }
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
@@ -115,6 +116,8 @@ export type GuidedItem =
        * null = 아직 이 운동 기록이 없어 판단할 게 없다.
        */
       advice: OverloadAdvice | null;
+      /** 장기 정체 시 같은 부위에서 고른 오늘만 대체 후보. */
+      substitutes?: ExerciseSubstitute[];
       /** 관리자 등록 시범 미디어. null = 없음(기본 일러스트 사용). */
       media: { url: string; kind: MediaKind } | null;
     }
@@ -374,6 +377,8 @@ export function GuidedOverlay({
   const [closeAsk, setCloseAsk] = useState(false);
   /** 저장 실패한 항목들 — 사용자에게 배너로 알리고 재시도 제공. */
   const [failures, setFailures] = useState<SaveFailure[]>([]);
+  const [substituteApplying, setSubstituteApplying] = useState<string | null>(null);
+  const [substituteError, setSubstituteError] = useState<string | null>(null);
   /** 워밍업·마무리 운동법(방법) 보기 다이얼로그. */
   const [tipsOpen, setTipsOpen] = useState(false);
   /** 자극 부위 3D 보기 모달. */
@@ -428,6 +433,10 @@ export function GuidedOverlay({
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
   // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
   const timed = item?.kind === "main" && isTimedExercise(item.exerciseId);
+  const weightStep =
+    item?.kind === "main"
+      ? (weightStepKg(item.exerciseId, item.equipment) ?? 1)
+      : 1;
   const [holdSec, setHoldSec] = useState(0);
   const [holdRunning, setHoldRunning] = useState(false);
   // 운동/세트가 바뀌면 홀드 타이머를 멈추고 0으로. (완료 세트 수·현재 운동 인덱스 기준)
@@ -464,9 +473,9 @@ export function GuidedOverlay({
     if (it && it.kind === "main") {
       const saved = getMainEdit(it.rowId);
       const init = saved
-        ? { ...saved, w: normalizeWeightKg(saved.w) }
+        ? { ...saved, w: normalizeWeightKg(saved.w, weightStepKg(it.exerciseId, it.equipment) ?? 1) }
         : {
-            w: normalizeWeightKg(it.weightKg),
+            w: normalizeWeightKg(it.weightKg, weightStepKg(it.exerciseId, it.equipment) ?? 1),
             reps: it.reps > 0 ? it.reps : 10,
             sets: it.sets > 0 ? it.sets : 3,
           };
@@ -538,7 +547,7 @@ export function GuidedOverlay({
   function applyAdvice(v: { weightKg: number | null; reps: number | null }) {
     const patch: { w?: number | null; reps?: number } = {};
     if (v.weightKg !== null) {
-      patch.w = Math.min(500, normalizeWeightKg(v.weightKg) ?? 0);
+      patch.w = Math.min(500, normalizeWeightKg(v.weightKg, weightStep) ?? 0);
     }
     if (v.reps !== null) {
       patch.reps = timed
@@ -546,6 +555,26 @@ export function GuidedOverlay({
         : Math.min(100, Math.max(1, v.reps));
     }
     if (patch.w !== undefined || patch.reps !== undefined) putEdit(patch);
+  }
+
+  async function applySubstitute(substitute: ExerciseSubstitute) {
+    if (item.kind !== "main" || substituteApplying) return;
+    setSubstituteError(null);
+    setSubstituteApplying(substitute.exerciseId);
+    const result = await replaceExerciseTodayOnlyAction({
+      rowId: item.rowId,
+      exerciseId: item.exerciseId,
+      focus: item.focus,
+      replacementExerciseId: substitute.exerciseId,
+      equipment: substitute.equipment,
+    });
+    if (!result.ok) {
+      setSubstituteError(result.error);
+      setSubstituteApplying(null);
+      return;
+    }
+    onClose();
+    router.refresh();
   }
 
   // 컨디셔닝 스크러버 값 변경 — 화면 state + 그날 보관소 함께 갱신.
@@ -1168,7 +1197,7 @@ export function GuidedOverlay({
                 unit="kg"
                 min={0}
                 max={500}
-                step={WEIGHT_STEP_KG}
+                step={weightStep}
                 allowBodyweight
                 onChange={(v) => putEdit({ w: v })}
               />
@@ -1209,6 +1238,52 @@ export function GuidedOverlay({
               onApply={editable ? applyAdvice : undefined}
             />
           </div>
+        ) : null}
+
+        {item.kind === "main" && (item.substitutes?.length ?? 0) > 0 ? (
+          <section
+            aria-label="추천 대체운동"
+            className="mt-3 w-full max-w-xs rounded-2xl border border-amber-200 bg-amber-50 p-3 text-left dark:border-amber-900 dark:bg-amber-950/30"
+          >
+            <p className="text-sm font-bold text-amber-900 dark:text-amber-100">
+              추천 대체운동
+            </p>
+            <p className="mt-0.5 text-xs text-amber-700 dark:text-amber-300">
+              적용해도 오늘 계획만 바뀌고 영구 루틴은 유지돼요.
+            </p>
+            <div className="mt-2 space-y-2">
+              {item.substitutes?.map((substitute) => (
+                <div
+                  key={`${substitute.exerciseId}:${substitute.equipment}`}
+                  data-testid={`substitute-option-${substitute.exerciseId}`}
+                  className="rounded-xl bg-white p-2.5 shadow-sm dark:bg-zinc-900"
+                >
+                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    {substitute.name}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                    {substitute.reason}
+                  </p>
+                  <button
+                    type="button"
+                    data-testid={`substitute-apply-${substitute.exerciseId}`}
+                    disabled={substituteApplying !== null}
+                    onClick={() => void applySubstitute(substitute)}
+                    className="mt-2 w-full rounded-lg bg-amber-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-amber-700 disabled:cursor-wait disabled:opacity-60"
+                  >
+                    {substituteApplying === substitute.exerciseId
+                      ? "오늘 계획 변경 중…"
+                      : "오늘만 이 운동으로 변경"}
+                  </button>
+                </div>
+              ))}
+            </div>
+            {substituteError ? (
+              <p role="alert" className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+                {substituteError}
+              </p>
+            ) : null}
+          </section>
         ) : null}
 
         {/* 운동법·꿀팁(개인설정 가능). 본운동은 상세로, 워밍업·마무리는 방법 다이얼로그로.

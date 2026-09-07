@@ -43,10 +43,14 @@ export const getCurrentGym = cache(async (): Promise<Gym | null> => {
   const supabase = await createSupabaseServerClient();
   const { data: profile } = await supabase
     .from("profiles")
-    .select("gym_id")
+    .select("gym_id, gym_equipment_ids")
     .eq("user_id", user.id)
     .maybeSingle();
-  const gymId = (profile as { gym_id: string | null } | null)?.gym_id ?? null;
+  const profileRow = profile as {
+    gym_id: string | null;
+    gym_equipment_ids: string[] | null;
+  } | null;
+  const gymId = profileRow?.gym_id ?? null;
   if (!gymId) return null;
   const { data } = await supabase
     .from("gyms")
@@ -54,5 +58,12 @@ export const getCurrentGym = cache(async (): Promise<Gym | null> => {
     .eq("id", gymId)
     .maybeSingle();
   if (!data) return null;
-  return rowToGym(data as GymRow);
+  const gym = rowToGym(data as GymRow);
+  const personal = profileRow?.gym_equipment_ids;
+  return personal === null || personal === undefined
+    ? gym
+    : {
+        ...gym,
+        equipmentIds: personal.filter((id) => ALL_GYM_EQUIPMENT_IDS.has(id)),
+      };
 });

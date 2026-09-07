@@ -25,6 +25,7 @@ const MAX_TARGETS = 40;
 export async function overloadAdviceAction(
   exerciseIds: string[],
   targetRepsById?: Record<string, number>,
+  equipmentById?: Record<string, string>,
 ): Promise<Record<string, OverloadAdvice>> {
   try {
     const ids = [...new Set(exerciseIds.filter((id) => typeof id === "string" && id))].slice(
@@ -39,6 +40,7 @@ export async function overloadAdviceAction(
     if (!profile) return {};
     const targets: AdviceTarget[] = ids.map((id) => ({
       exerciseId: id,
+      equipment: equipmentById?.[id] ?? null,
       targetReps: targetRepsById?.[id] ?? null,
     }));
     return buildAdviceMap(records, targets, profile.experience);

@@ -12,6 +12,7 @@
  */
 
 import { loadClassOf } from "@/features/routine/exercise-load";
+import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
 import type { SetDetail } from "@/features/routine/set-details";
 import { volumeSideFactor } from "@/features/routine/unilateral-exercises";
 
@@ -367,6 +368,14 @@ export function shiftYmd(ymd: string, deltaDays: number): string {
  * 이 값을 어떻게 쓸지(올릴지·유지할지·낮출지)는 `overload.ts` 가 정한다 — 규칙이
  * 두 군데로 갈라지면 화면마다 다른 무게를 권하게 된다.
  */
-export function weightStepKg(exerciseId: string): number | null {
-  return loadClassOf(exerciseId) === "bodyweight" ? null : 2;
+export function weightStepKg(
+  exerciseId: string,
+  equipment?: EquipmentId | string | null,
+): number | null {
+  if (loadClassOf(exerciseId) === "bodyweight" || equipment === "bodyweight") {
+    return null;
+  }
+  if (equipment === "barbell") return 5;
+  if (equipment) return 1;
+  return 2;
 }

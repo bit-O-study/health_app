@@ -10,8 +10,10 @@ import { dbQuery, hasDb } from "./helpers/db";
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
 const today = `(now() at time zone 'Asia/Seoul')::date`;
 
-test("가이드에서 완료한 운동은 다시 시작해도 큐에 안 뜬다", async ({ page }) => {
+test("가이드 전체 완료 후 운동 화면을 유지하고 런타임 오류가 없다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
+  const pageErrors: string[] = [];
+  page.on("pageerror", (error) => pageErrors.push(error.message));
   const email = await signUpAndOnboard(page);
 
   await dbQuery(
@@ -53,7 +55,11 @@ test("가이드에서 완료한 운동은 다시 시작해도 큐에 안 뜬다"
     .getByRole("button", { name: "운동 완료" })
     .or(page.getByRole("button", { name: "완료하고 종료" }))
     .click();
-  await page.waitForTimeout(1500);
+  await expect(page).toHaveURL(/\/routine(?:\?|$)/);
+  await expect(page.getByText("수고하셨습니다", { exact: true })).toBeVisible({
+    timeout: 8000,
+  });
+  expect(pageErrors).toEqual([]);
 
   // 다시 운동 시작 — 둘 다 완료라 뜰 게 없어야 한다(헤머컬이 다시 뜨면 버그).
   const startAgain = page.getByRole("button", { name: "운동 시작" });
@@ -63,4 +69,6 @@ test("가이드에서 완료한 운동은 다시 시작해도 큐에 안 뜬다"
   }
   await expect(overlay.getByRole("heading", { name: "해머컬" })).toHaveCount(0);
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toHaveCount(0);
+
+  expect(pageErrors).toEqual([]);
 });

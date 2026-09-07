@@ -70,6 +70,7 @@ export function isApplicable(advice: OverloadAdvice): boolean {
 /** 한 종목에 대한 추천 요청. `targetReps` 는 계획이 시킨 횟수(없으면 처방 기준). */
 export type AdviceTarget = {
   exerciseId: string;
+  equipment?: string | null;
   /**
    * 오늘 계획이 시킨 횟수.
    *
@@ -94,7 +95,13 @@ export function buildAdviceMap(
   for (const t of targets) {
     if (!t.exerciseId || out[t.exerciseId]) continue;
     const advice = toAdvice(
-      overloadPlan(records, t.exerciseId, experience, t.targetReps ?? undefined),
+      overloadPlan(
+        records,
+        t.exerciseId,
+        experience,
+        t.targetReps ?? undefined,
+        t.equipment,
+      ),
     );
     if (advice) out[t.exerciseId] = advice;
   }

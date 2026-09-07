@@ -48,6 +48,19 @@ export function shouldAutoEndSession(
   return hadItems && queueLength === 0 && queueItemsLength > 0;
 }
 
+/**
+ * 완료 문구는 현재 다시 할 운동이 없을 때만 표시한다.
+ * 세션을 완주한 뒤 완료 취소로 큐가 복원되면 `sessionFinished`가 남아 있어도
+ * 사용자가 곧바로 다시 시작할 수 있어야 한다.
+ */
+export function shouldShowSessionFinished(
+  sessionFinished: boolean,
+  queueLength: number,
+  queueItemsLength: number,
+): boolean {
+  return queueLength === 0 && (sessionFinished || queueItemsLength > 0);
+}
+
 export function adjacentActiveIndex(
   rowIds: readonly string[],
   processed: ReadonlySet<string>,

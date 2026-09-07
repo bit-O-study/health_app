@@ -1,14 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowRight, Building2, Check, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRight, Building2, Check, Link2, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Logo } from "@/features/brand/logo";
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { saveRoutineAction } from "@/features/routine/actions";
 import { saveProfileAction } from "@/features/profile/actions";
-import { upsertGymAction } from "@/features/gym/gym-actions";
+import {
+  searchGymsAction,
+  upsertGymAction,
+  type GymSearchHit,
+} from "@/features/gym/gym-actions";
 import { GymPlaceSuggestions } from "@/features/gym/components/gym-place-suggestions";
 import {
   DEFAULT_KOREAN_GYM_EQUIPMENT,
@@ -59,6 +63,8 @@ export function OnboardingFlow({
   // 헬스장 — 선택사항. 비워두면 저장 안 함.
   const [gymName, setGymName] = useState("");
   const [gymAddress, setGymAddress] = useState("");
+  const [gymId, setGymId] = useState<string | null>(null);
+  const [gymHits, setGymHits] = useState<GymSearchHit[]>([]);
   const [gymEquipment, setGymEquipment] = useState<Set<string>>(
     () => new Set(DEFAULT_KOREAN_GYM_EQUIPMENT as readonly string[]),
   );
@@ -70,6 +76,31 @@ export function OnboardingFlow({
       else next.add(id);
       return next;
     });
+  }
+
+  useEffect(() => {
+    const query = gymName.trim();
+    if (step !== "gym" || query.length < 2 || gymId) {
+      return;
+    }
+    const timeout = window.setTimeout(() => {
+      void searchGymsAction(query).then(setGymHits);
+    }, 250);
+    return () => window.clearTimeout(timeout);
+  }, [gymId, gymName, step]);
+
+  function pickRegisteredGym(hit: GymSearchHit) {
+    setGymId(hit.id);
+    setGymName(hit.name);
+    setGymAddress(hit.address ?? "");
+    setGymEquipment(
+      new Set(
+        hit.equipmentIds.length > 0
+          ? hit.equipmentIds
+          : (DEFAULT_KOREAN_GYM_EQUIPMENT as readonly string[]),
+      ),
+    );
+    setGymHits([]);
   }
 
   const heightNum = Number(heightCm);
@@ -143,7 +174,7 @@ export function OnboardingFlow({
     const trimmedGymName = gymName.trim();
     if (trimmedGymName.length > 0) {
       await upsertGymAction({
-        id: null,
+        id: gymId,
         name: trimmedGymName,
         address: gymAddress,
         equipmentIds: Array.from(gymEquipment),
@@ -496,7 +527,11 @@ export function OnboardingFlow({
                 <input
                   type="text"
                   value={gymName}
-                  onChange={(e) => setGymName(e.target.value)}
+                  onChange={(e) => {
+                    setGymId(null);
+                    setGymHits([]);
+                    setGymName(e.target.value);
+                  }}
                   placeholder="예: 강남 OO 헬스"
                   maxLength={100}
                   className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
@@ -504,10 +539,37 @@ export function OnboardingFlow({
                 <GymPlaceSuggestions
                   query={gymName}
                   onPick={(picked, addr) => {
+                    setGymId(null);
+                    setGymHits([]);
                     setGymName(picked);
                     if (addr) setGymAddress(addr);
                   }}
                 />
+                {gymHits.length > 0 ? (
+                  <div className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50 p-2 dark:border-emerald-800 dark:bg-emerald-950/30">
+                    <p className="px-1 pb-1 text-xs font-semibold text-emerald-800 dark:text-emerald-300">
+                      이미 등록된 헬스장 — 선택하면 회원들이 등록한 기구를 불러와요.
+                    </p>
+                    {gymHits.map((hit) => (
+                      <button
+                        key={hit.id}
+                        type="button"
+                        onClick={() => pickRegisteredGym(hit)}
+                        className="mt-1 flex w-full items-center gap-2 rounded-md bg-white px-3 py-2 text-left dark:bg-zinc-900"
+                      >
+                        <Link2 aria-hidden="true" size={14} className="text-emerald-700" />
+                        <span className="min-w-0 flex-1">
+                          <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                            {hit.name}
+                          </span>
+                          <span className="block truncate text-xs text-zinc-500">
+                            {hit.address ?? "주소 미입력"} · 기구 {hit.equipmentCount}종
+                          </span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                ) : null}
               </label>
               <label className="block">
                 <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
@@ -516,7 +578,10 @@ export function OnboardingFlow({
                 <input
                   type="text"
                   value={gymAddress}
-                  onChange={(e) => setGymAddress(e.target.value)}
+                  onChange={(e) => {
+                    setGymId(null);
+                    setGymAddress(e.target.value);
+                  }}
                   placeholder="예: 서울 강남구 ..."
                   maxLength={200}
                   className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"

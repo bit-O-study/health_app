@@ -1637,6 +1637,71 @@ create policy "Creator updates gym"
 alter table public.profiles
   add column if not exists gym_id uuid references public.gyms(id) on delete set null;
 
+-- 회원마다 실제로 사용할 수 있는 기구를 따로 보관한다. gyms.equipment_ids 는 이 원본들의
+-- 합집합이며, 다음 회원이 같은 헬스장을 선택할 때 제안하는 기본값으로만 사용한다.
+alter table public.profiles
+  add column if not exists gym_equipment_ids text[];
+
+-- 기존 회원은 예전 공용 설정을 개인 설정으로 한 번 이어받는다.
+update public.profiles as profile
+   set gym_equipment_ids = gym.equipment_ids
+  from public.gyms as gym
+ where profile.gym_id = gym.id
+   and profile.gym_equipment_ids is null;
+
+create or replace function public.refresh_gym_equipment_union()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  old_gym_id uuid;
+  new_gym_id uuid;
+begin
+  if tg_op = 'UPDATE'
+     and old.gym_id is not distinct from new.gym_id
+     and old.gym_equipment_ids is not distinct from new.gym_equipment_ids then
+    return new;
+  end if;
+  if tg_op <> 'INSERT' then old_gym_id := old.gym_id; end if;
+  if tg_op <> 'DELETE' then new_gym_id := new.gym_id; end if;
+
+  if old_gym_id is not null and old_gym_id is distinct from new_gym_id then
+    update public.gyms as gym
+       set equipment_ids = coalesce((
+             select array_agg(distinct equipment_id order by equipment_id)
+               from public.profiles as profile
+               cross join lateral unnest(coalesce(profile.gym_equipment_ids, '{}')) as equipment_id
+              where profile.gym_id = old_gym_id
+           ), '{}'),
+           updated_at = now()
+     where gym.id = old_gym_id;
+  end if;
+
+  if new_gym_id is not null then
+    update public.gyms as gym
+       set equipment_ids = coalesce((
+             select array_agg(distinct equipment_id order by equipment_id)
+               from public.profiles as profile
+               cross join lateral unnest(coalesce(profile.gym_equipment_ids, '{}')) as equipment_id
+              where profile.gym_id = new_gym_id
+           ), '{}'),
+           updated_at = now()
+     where gym.id = new_gym_id;
+  end if;
+  if tg_op = 'DELETE' then return old; end if;
+  return new;
+end;
+$$;
+
+revoke all on function public.refresh_gym_equipment_union() from public, anon, authenticated;
+
+drop trigger if exists profiles_refresh_gym_equipment_union on public.profiles;
+create trigger profiles_refresh_gym_equipment_union
+after insert or update or delete on public.profiles
+for each row execute function public.refresh_gym_equipment_union();
+
 -- ─────────────────────────────────────────────────────────────
 -- 운동별 미디어 (영상/움짤 URL) — 전역 공용. 관리자(어드민 페이지)만 등록.
 -- 운동 시작(가이드)·상세에서 모든 사용자에게 표출. 운동별 1개.
@@ -2178,7 +2243,76 @@ create table if not exists public.custom_foods (
   hits int not null default 1,
   created_at timestamptz not null default now()
 );
-create index if not exists custom_foods_name_idx on public.custom_foods (norm_name);
+-- ⚠ norm_name 에 btree 인덱스를 따로 만들지 않는다. 컬럼 정의의 unique 가 이미
+-- custom_foods_norm_name_key 를 만든다 — 예전에 있던 custom_foods_name_idx 는 그 중복이라
+-- 한 번도 안 쓰이면서(idx_scan 0 vs 564,066) 자리만 먹어 2026-09-07 제거했다.
+-- 이름 부분검색용. 2026-09-07 식약처 카탈로그를 적재하며 이 표가 0건 → 14,840건이 됐다.
+-- 검색은 `name ilike '%q%'` 라 앞이 열려 있어 B-tree 를 못 쓴다(전체 스캔) — trigram GIN 이
+-- 그 자리다. 실측: 200ms → 0.08ms.
+create extension if not exists pg_trgm;
+create index if not exists custom_foods_name_trgm_idx
+  on public.custom_foods using gin (name gin_trgm_ops);
+
+-- 🔴 접두사 전용 인덱스. trigram GIN 은 **3글자 미만이면 못 쓴다** — '우유'·'라면' 같은
+-- 두 글자 검색이 전체 스캔으로 떨어져 433ms 가 나왔다(3글자 '도시락'은 12ms).
+-- 한국어 음식은 두 글자가 흔하다(우유·라면·두부·계란·김치). text_pattern_ops btree 는
+-- 글자 수와 무관하게 `lower(name) LIKE 'q%'` 를 범위 스캔한다.
+create index if not exists custom_foods_name_prefix_idx
+  on public.custom_foods (lower(name) text_pattern_ops);
+
+-- 검색 순위. 식약처 카탈로그를 적재하며 이 표가 26만 행이 됐는데, 새 행은 전부 hits=1 이라
+-- hits 만으로 줄 세우면 **상위 결과가 사실상 무작위**다("우유" → `빙수_팥_우유얼음`이 먼저).
+--
+-- 두 단계로 나눈다. 1단계(접두사)는 인덱스 범위 스캔이라 싸고, 사용자가 실제로 치는
+-- 방식이다. 2단계(이름 중간에 낀 것)는 비싼데 **1단계로 못 채웠을 때만** 간다 —
+-- 흔한 검색어에서는 아예 실행되지 않는다. 실측 우유 433ms→10ms, 라면 412ms→1.3ms.
+--
+-- 🔴 `%`·`_` 를 이스케이프한다. 예전엔 검색어를 그대로 ilike 에 끼워 넣어서 `%` 한 글자로
+--    전체 표가 걸렸다. SECURITY DEFINER 가 **아니다** — RLS(로그인 사용자만 읽기)를 그대로 탄다.
+create or replace function public.search_custom_foods(
+  p_query text, p_limit int default 50)
+returns setof public.custom_foods
+language plpgsql
+stable
+as $$
+declare
+  q text := btrim(p_query);
+  pat text;
+  lim int := least(coalesce(p_limit, 50), 100);
+  got int;
+begin
+  if q is null or length(q) = 0 then
+    return;
+  end if;
+  pat := replace(replace(replace(q, '\', '\'), '%', '\%'), '_', '\_');
+
+  -- 1단계: 접두사.
+  return query
+    select *
+      from public.custom_foods
+     where lower(name) like lower(pat) || '%' escape '\'
+     order by (lower(replace(name, ' ', '')) = lower(replace(q, ' ', ''))) desc,
+              length(name) asc, hits desc, name asc
+     limit lim;
+  get diagnostics got = row_count;
+
+  -- 2단계: 이름 중간에 낀 것. 1단계로 못 채웠을 때만.
+  if got < lim then
+    return query
+      select *
+        from public.custom_foods
+       where name ilike '%' || pat || '%' escape '\'
+         and lower(name) not like lower(pat) || '%' escape '\'
+       order by length(name) asc, hits desc, name asc
+       limit lim - got;
+  end if;
+end
+$$;
+revoke all on function public.search_custom_foods(text, int) from public;
+-- ⚠ Supabase 는 public 스키마 함수에 anon 실행권한을 기본으로 준다(default privileges).
+--    `from public` 만으로는 안 빠진다 — 명시적으로 회수해야 로그인 전 호출이 막힌다.
+revoke all on function public.search_custom_foods(text, int) from anon;
+grant execute on function public.search_custom_foods(text, int) to authenticated;
 alter table public.custom_foods enable row level security;
 -- 로그인 사용자면 누구나 읽기(공유 카탈로그) + 추가. 수정/삭제는 막는다(관리자 SQL로만).
 drop policy if exists "authed read custom foods" on public.custom_foods;
@@ -3395,5 +3529,64 @@ alter table public.subscriptions enable row level security;
 drop policy if exists subscriptions_select_own on public.subscriptions;
 create policy subscriptions_select_own on public.subscriptions
   for select using (auth.uid() = user_id);
+
+notify pgrst, 'reload schema';
+
+-- ────────────────────────────────────────────────────────────────
+-- 요청 폭주 제한(rate limit) — 2026-09-07. 한도·창 길이는 코드(`src/lib/rate-limit/policy.ts`)에
+-- 있고, 여기서는 **세는 자리**만 만든다. 아이디 찾기(휴대폰 OTP 를 걷어낸 뒤 관문이 없다)·
+-- 비밀번호 인증번호 메일·AI 분당 폭주를 같은 표로 센다.
+create table if not exists public.rate_limits (
+  bucket text not null,
+  key text not null,
+  window_start bigint not null,
+  count int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (bucket, key, window_start)
+);
+-- 지난 창을 치우는 용도. 창이 지나면 이 행들은 아무 의미가 없다.
+create index if not exists rate_limits_window_idx
+  on public.rate_limits (window_start);
+alter table public.rate_limits enable row level security;
+-- 🔴 정책을 **하나도 두지 않는다** — 읽기조차. 자기 시도 횟수를 읽을 수 있으면
+-- "몇 번 남았나" 를 보며 정확히 한도 직전까지 긁을 수 있고, 쓸 수 있으면 스스로
+-- 0 으로 되돌린다. 오직 아래 SECURITY DEFINER 함수만 이 표를 만진다.
+
+-- 🔴 검사와 증가를 한 문장으로. 읽고 나서 올리면 그 사이에 다른 요청이 끼어드는데,
+-- 막으려는 대상이 바로 그 '동시에 쏟아지는 요청' 이라 틈이 벌어지면 제한이 무의미해진다.
+-- 한도 안이면 true, 넘었으면 false. 넘은 요청은 세지 않는다(계속 두드려도 창은 안 늘어난다).
+create or replace function public.consume_rate_limit(
+  p_bucket text, p_key text, p_window_start bigint, p_limit int)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_count int;
+begin
+  insert into public.rate_limits (bucket, key, window_start, count, updated_at)
+  values (p_bucket, p_key, p_window_start, 1, now())
+  on conflict (bucket, key, window_start) do update
+    set count = public.rate_limits.count + 1, updated_at = now()
+    where public.rate_limits.count < p_limit
+  returning count into v_count;
+
+  -- 지난 창 청소. 쓰는 김에 조금씩 지운다 — 크론에 맡기면 크론이 하루 안 돌 때
+  -- 조용히 쌓인다. 한 번에 다 지우지 않는 건 이 함수가 요청 경로 위에 있어서다.
+  if random() < 0.01 then
+    delete from public.rate_limits
+      where window_start < extract(epoch from now()) - 86400;
+  end if;
+
+  return v_count is not null;
+end;
+$$;
+
+-- 🔴 anon 에게도 실행 권한이 필요하다 — 아이디 찾기·비밀번호 찾기는 **로그인 전** 호출이다.
+-- (표 자체는 정책이 없어 못 만진다. 이 함수만이 유일한 통로다.)
+revoke all on function public.consume_rate_limit(text, text, bigint, int) from public;
+grant execute on function public.consume_rate_limit(text, text, bigint, int)
+  to anon, authenticated;
 
 notify pgrst, 'reload schema';

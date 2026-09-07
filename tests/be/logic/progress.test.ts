@@ -307,10 +307,11 @@ describe("progress — 개인 기록(PR)", () => {
 });
 
 describe("progress — 증량 단위", () => {
-  it("모든 중량 운동은 2kg이고 맨몸은 없음", () => {
+  it("기구별로 바벨 5kg, 덤벨·머신 1kg이고 맨몸은 없음", () => {
     // 올릴지 말지는 overload.ts 가 정하고, 여기서는 '한 단계'가 얼마인지만 정한다.
-    expect(weightStepKg("squat")).toBe(2);
-    expect(weightStepKg("lateral-raise")).toBe(2);
-    expect(weightStepKg("push-up")).toBeNull();
+    expect(weightStepKg("squat", "barbell")).toBe(5);
+    expect(weightStepKg("lateral-raise", "dumbbell")).toBe(1);
+    expect(weightStepKg("leg-press", "machine")).toBe(1);
+    expect(weightStepKg("push-up", "bodyweight")).toBeNull();
   });
 });

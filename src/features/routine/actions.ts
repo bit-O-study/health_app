@@ -222,11 +222,12 @@ async function fillMissingFocusesAction(
       dayIndex: slot.dayIndex,
       focus: slot.focus,
       rows: list.map((ex, index) => {
-        const p = prescribe(ex.id, opts);
+        const equipment = ex.equipments[0].equipment;
+        const p = prescribe(ex.id, { ...opts, equipment });
         return {
           position: index,
           exerciseId: ex.id,
-          equipment: ex.equipments[0].equipment,
+          equipment,
           sets: p.sets,
           reps: p.reps,
           weightKg: p.weightKg,

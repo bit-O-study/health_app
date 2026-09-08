@@ -338,7 +338,7 @@ export function GuidedOverlay({
   items: GuidedItem[];
   onClose: () => void;
   /** 마지막 항목까지 완료/넘기기 처리되면 호출. 부모가 운동시간 저장 등 후처리. */
-  onAllComplete?: () => void;
+  onAllComplete?: () => Promise<boolean>;
   /** 세션 경과 시간(mm:ss). 운동 페이지 안에 표시. undefined 면 표시 안 함. */
   elapsedLabel?: ReactNode;
   /** 타이머가 흐르는 중인지 — 버튼이 '중단하기'/'운동 다시 시작하기'로 토글. */
@@ -365,6 +365,9 @@ export function GuidedOverlay({
   });
   const workingRef = useRef(false);
   const [working, setWorking] = useState(false);
+  const [finishing, setFinishing] = useState(false);
+  const [finishError, setFinishError] = useState<string | null>(null);
+  const failedSavesRef = useRef(new Map<string, SaveFailure>());
   const dirtyRef = useRef(false);
   /** 진행 중인 완료/넘기기 저장들 — 화면을 닫고 새로고침하기 전에 모두 끝났는지 기다린다.
    * (백그라운드로 쏘고 곧바로 refresh 하면 저장 전 stale 데이터를 읽어 일부가 반영 안 됨.) */
@@ -416,7 +419,7 @@ export function GuidedOverlay({
   const item = sessionItems[index];
   const total = sessionItems.length;
   // '마지막'은 배열 끝이 아니라 "앞에 남은 활성(미처리) 항목이 없을 때".
-  const isLast = adjacentActiveIndex(rowIds, processed, index, 1) === null;
+  const isLast = rowIds.filter((id) => !processed.has(id)).length === 1;
   const prevIndex = adjacentActiveIndex(rowIds, processed, index, -1);
   const nextIndex = adjacentActiveIndex(rowIds, processed, index, 1);
 
@@ -707,16 +710,34 @@ export function GuidedOverlay({
    * 최신 집합(setState 비동기라 직접 전달). 남은 활성 항목이 없으면 세션 종료.
    */
   function advance(processedSet: ReadonlySet<string>) {
-    const ni = adjacentActiveIndex(rowIds, processedSet, index, 1);
-    if (ni === null) {
-      clearActiveRow(); // 전부 완료 — 다음에 새로 열면 처음부터
-      // 모든 항목 종료 — 부모(타이머)가 운동시간 저장 처리
-      onAllComplete?.();
-      // 진행 중인 완료/넘기기 저장이 모두 끝난 뒤 화면 합계를 새로 가져온다.
-      refreshAfterPending();
+    const ni = adjacentActiveIndex(rowIds, processedSet, index, 1)
+      ?? rowIds.findIndex((id) => !processedSet.has(id));
+    if (ni < 0) {
+      void finishWorkout();
       return;
     }
     setIndex(ni);
+  }
+
+  async function finishWorkout() {
+    setFinishing(true);
+    setFinishError(null);
+    try {
+      await Promise.allSettled(pendingRef.current);
+      pendingRef.current = [];
+      if (failedSavesRef.current.size > 0) {
+        setFinishError("운동 기록을 저장하지 못했어요. 다시 시도해 주세요.");
+        return;
+      }
+      if (await onAllComplete?.() === false) {
+        setFinishError("운동 시간을 저장하지 못했어요. 다시 시도해 주세요.");
+        return;
+      }
+      clearActiveRow();
+      router.refresh();
+    } catch {
+      setFinishError("저장 연결이 끊겼어요. 다시 시도해 주세요.");
+    }
   }
 
   /** 해당 항목의 서버 액션 호출. 성공/실패 결과를 반환. */
@@ -749,6 +770,7 @@ export function GuidedOverlay({
     const key = failureKey(captured);
     /** 운동 기록이 안 남는 건 사용자가 제일 크게 손해 보는 실패다 — 관측에 남긴다. */
     function noteFailure(error: string) {
+      failedSavesRef.current.set(key, { key, name: captured.name, status, captured, error });
       setFailures((f) => [
         ...f.filter((x) => x.key !== key),
         { key, name: captured.name, status, captured, error },
@@ -768,7 +790,10 @@ export function GuidedOverlay({
         if (!r.ok) return noteFailure("응답이 오지 않았어요(연결 끊김)");
         const res = r.value;
         if (res && res.ok === false) noteFailure(res.error);
-        else setFailures((f) => f.filter((x) => x.key !== key));
+        else {
+          failedSavesRef.current.delete(key);
+          setFailures((f) => f.filter((x) => x.key !== key));
+        }
       })
       .catch((e: unknown) => {
         noteFailure(e instanceof Error ? e.message : "알 수 없는 오류");
@@ -820,7 +845,7 @@ export function GuidedOverlay({
    * 더블 탭은 workingRef 로 300ms 차단.
    */
   function dispatch(status: "done" | "skipped") {
-    if (workingRef.current || !item) return;
+    if (workingRef.current || finishing || !item) return;
     workingRef.current = true;
     setWorking(true);
 
@@ -849,7 +874,7 @@ export function GuidedOverlay({
     fireAndTrack(captured, status);
 
     // 2) 완료 면 휴식 타이머 즉시(사용자 설정 휴식 시간)
-    if (status === "done" && isMain) {
+    if (status === "done" && isMain && !isLast) {
       rest.trigger();
     }
 
@@ -921,6 +946,24 @@ export function GuidedOverlay({
     rest.setLifted(true);
     return () => rest.setLifted(false);
   }, [rest]);
+
+  if (finishing) {
+    return (
+      <div className="fixed inset-0 z-[70] flex flex-col items-center justify-center gap-4 bg-zinc-50 px-6 text-center dark:bg-zinc-950" data-testid="workout-finishing">
+        <p role={finishError ? "alert" : "status"} className="text-lg font-bold">
+          {finishError ?? "운동 기록 저장 중…"}
+        </p>
+        {finishError && (
+          <button type="button" className="rounded-xl bg-emerald-600 px-6 py-3 font-bold text-white" onClick={() => {
+            for (const failure of failedSavesRef.current.values()) {
+              fireAndTrack(failure.captured, failure.status);
+            }
+            void finishWorkout();
+          }}>다시 저장</button>
+        )}
+      </div>
+    );
+  }
 
   if (!item) return null;
 

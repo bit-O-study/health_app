@@ -14,6 +14,55 @@
 
 ### 1.1 [보류] Android 탭 이동 중 종료 및 복구 루프 해결
 
+- [진행중] 2026-09-08 실사용 재발 오류 수정(운동 완료·카카오·음식 검색·머신 단위)
+  - [완료] 기존 테스트 범위 조사: 완료 문구는 브라우저 정상 저장만 검사, 카카오는 authorize 요청만 가로채 검사, 머신 1kg은 테스트에도 잘못 고정됨
+  - [완료] 운동 완료 저장 지연·실패 재현 및 완료 화면 유지 수정
+    - 마지막 완료 후 가이드를 즉시 닫지 않고 기록 저장 결과를 확인한다. 실패하면 화면에 남아 다시 저장할 수 있다.
+    - 가이드 완주와 큐 0 자동 종료의 중복 진입 방지, 운동시간 저장 실패 시 원래 가산량을 재시도에 유지.
+    - `guided-complete-reenter.spec.ts`: 정상·3.5초 지연·운동 기록 실패·운동시간 실패 4개 통과. 재시도 가산량/DB 저장값 일치, 새로고침 후 완료 문구 유지 확인.
+  - [완료] 카카오 실패 원인 및 기존 테스트 누락 조사
+    - 사용자 오류 KOE205: 실제 요청 `account_email profile_image profile_nickname`과 Kakao 동의항목 설정 불일치.
+    - 라이브 인증 가드는 기본 단위 검사에서 제외돼 있었고 환경변수·네트워크 실패를 통과로 숨겼음. 설정 파일 로드·실패 보고·native 콜백 검사·CI 별도 단계 추가.
+  - [진행중] 구글·카카오 앱 로그인 복귀 경로 수정
+    - [완료] HTTPS App Link의 native=1 재호출 경로 확인, 콜백 회귀 6개 중 4개 실패 재현
+    - [완료] 앱 안에서 세션 교환 및 외부 브라우저 자동/수동 복귀 구현 — 구글·카카오 공통 콜백, 기존 APK UA/전용 스킴 사용
+    - [완료] 콜백 단위·모바일 브라우저·ESLint·TypeScript·빌드 검증
+      - 콜백 회귀 6개·OAuth 리다이렉트·앱 판별 총 19개 통과. 변경 3파일 ESLint 및 TypeScript 통과, Next.js 16.2.6 운영 빌드 통과.
+      - `http://localhost:3110`, `mobile-chromium`, `social-login.spec.ts`: 최초 7개 통과·자동 앱 전환 페이지 load 대기 1개 시간 초과. 응답 commit 후 수동 복귀 링크를 검사하도록 수정하고 해당 1개 재실행 통과.
+      - 두 공급자 앱 진입에서 native=1·PKCE challenge·verifier 쿠키 확인, 일반 웹 진입·인증 취소·앱 콜백 오류 처리·수동 링크 보존 검사. 실제 외부 앱 실행/세션 지속은 기기 미연결로 미검증.
+    - [대기] 운영 배포 후 두 공급자 인증·앱 복귀·재실행 세션 유지 실기기 검증 — ADB 연결 기기 0대
+    - [완료] 사용자 재지시에 따라 로그인 변경 커밋 준비 — 배포는 사용자 진행
+      - 전체 단위 167파일 1,659개·라이브 스키마 66개 통과. 대상 로그인 19개·모바일 브라우저 8개·대상 ESLint·TypeScript·운영 빌드 통과.
+      - 전체 ESLint는 로그인 변경 외 기존 오류로 exit 1. 전체 E2E 재실행 및 실기기 검증은 미실행. 사용자가 검증 대기보다 즉시 커밋을 재지시하여 이 한계를 기록하고 커밋.
+  - [대기] 카카오/Supabase 관리자 콘솔 설정 변경 및 실제 로그인 성공 확인
+    - [완료] 사용자 제공 관리 토큰 저장 및 설정 조회(HTTP 200), 현재 운영 도메인이 허용목록에서 누락된 상태 확인
+    - [완료] 기존 허용목록 보존·현재 Site URL 및 웹/native 콜백 반영 — 관리 API PATCH HTTP 200, Site URL은 https://health-app-five-iota.vercel.app, 운영/localhost:3000의 정확한 콜백 및 쿼리 허용 패턴 추가
+    - [완료] 라이브 인증 가드 재실행 및 운영 설정 재조회 — 2026-09-08 21:44 KST `node node_modules/vitest/vitest.mjs run --config vitest.auth.config.ts` 4개 전부 통과(이전 3개 실패), 관리 API 재조회 HTTP 200
+      - 운영 native 취소 콜백은 HTTP 307 helssu://auth/callback으로 복귀. 신규 자동/수동 복귀 화면 및 WebView 분기 수정은 아직 웹 미배포.
+      - 관리 토큰은 Git 제외 .env.local에 저장. Supabase 토큰으로 카카오 Developers 동의항목을 수정할 수는 없어 해당 확인은 대기.
+    - [대기] 카카오 동의항목·두 공급자 실제 인증/앱 복귀 검증
+    - 2026-09-08 재신고 재검증: `node node_modules/vitest/vitest.mjs run --config vitest.auth.config.ts` 공급자 1개 통과·콜백 3개 실패(21:24 KST).
+    - 읽기 전용 `/auth/v1/verify` 확인: 운영 콜백 요청이 `https://health-app-bitostudys-projects.vercel.app/`로 반환됨. `/authorize`의 실제 Kakao scope는 `account_email profile_image profile_nickname` 유지.
+    - 비로그인 Kakao 페이지 응답에는 KOE 코드가 없어 현재 KOE205 재현은 미확인. 환경에는 공개 Supabase 키와 Kakao 앱 키만 확인되며 관리 토큰 없음. 콘솔 설정 적용·실계정 로그인은 계속 대기.
+    - 수정 전 `node node_modules/vitest/vitest.mjs run --config vitest.auth.config.ts`: 공급자 1개 통과, 운영·로컬·native 콜백 3개 실패.
+    - 초기 조사에서는 콘솔 관리 인증이 없었음(이후 사용자 토큰으로 Supabase 적용). 동의항목·콜백 주소·검증 절차: `docs/KAKAO-LOGIN-SETUP.md`.
+  - [완료] 음식 검색 요청 대기·이전 검색 결과 노출 제거 및 응답 검증
+    - 세 검색 출처를 서버 액션 큐에서 독립 GET 요청으로 전환. 검색어 변경 시 이전 요청 취소 및 이전 결과 숨김.
+    - 실제 공유 DB `우유` 검색 5,757ms로 성능 E2E 실패 재현. 관리자 조회와 달리 authenticated 권한에서 263,996행 스캔 및 행별 JWT 평가 확인.
+    - `scripts/apply-food-search-rls.mjs --apply` 운영 적용: 동일한 `auth.uid() is not null` 조건을 요청당 1회 계산. 결과 순위 불변, JWT 없는 조회 0행, anon RPC 실행 차단 검증.
+    - 적용 후 DB 직접 조회 392ms. 로컬 HTTP 실제 측정: 기본 `우유` 244ms/`닭가슴살` 304ms, 공유 DB 각각 3,302ms/750ms. 공유 DB 첫 요청 지연은 남지만 기본 결과를 막지 않음.
+    - `food-search-responsiveness.spec.ts` 느린 이전 요청·실제 검색 성능 2개, 검색 API 단위 6개 통과. 기존 식단 추가·수정·삭제 E2E 3개 통과.
+  - [완료] 머신 5kg 증량 단위 수정 및 펙덱 회귀 테스트
+    - 사용자 지정 5kg 적용. 최초 처방·과부하 추천도 공통 단위를 사용. 잘못된 1kg 기대값으로 고정된 테스트 3개 실패를 먼저 확인하고 수정.
+    - 펙덱 실제 버튼 20→25→20kg E2E 검증, 대상 중량·검색·큐 단위 72개 통과.
+  - [완료] 대상 단위·E2E·ESLint·TypeScript·빌드 검증 기록
+    - 전체 단위: `node --env-file=.env --env-file=.env.local node_modules/vitest/vitest.mjs run tests/be/logic` 166파일 1,653개 통과.
+    - 최초 전체 검사는 환경변수 누락 2파일 및 다른 작업 중 사라진 임시 `zz-probe.test.ts` 1파일로 실패. 환경 로드 후 전체 재검증 통과.
+    - 라이브 스키마 66개, TypeScript, Next.js 16.2.6 프로덕션 빌드 통과.
+    - lint gate 기존 20건/신규 0건. 새 API·훅·테스트·마이그레이션 파일 대상 ESLint 통과.
+    - 로컬 `http://localhost:3108`, Playwright `mobile-chromium`: 완료 4개·식단 3개·검색 2개 총 9개 시나리오 검증.
+  - [대기] 웹 변경 운영 배포 및 운영 앱 재검증 — DB 성능 정책만 운영에 반영됨. 웹 코드 미배포, 커밋하지 않음.
+  - [대기] Android 실기기 로그인·운동 완주·logcat 검증 — 2026-09-08 ADB 연결 기기 0대
 - [진행중] 2026-09-04 앱 전체 튕김 회귀 점검
   - [완료] 크래시·ANR·OOM·WebView renderer 종료 경로와 기존 관측 근거 조사
     - 네이티브 renderer 종료 복구, 반복 종료 안전 홈, 전역 JS 오류 관측 경로 유지 확인

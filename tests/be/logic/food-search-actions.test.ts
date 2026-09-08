@@ -16,7 +16,7 @@ describe("식품 카탈로그 서버 검색", () => {
       "utf8",
     );
     expect(board).not.toContain('from "@/features/diet/food-catalog"');
-    expect(board).toContain('from "@/features/diet/food-search-actions"');
+    expect(board).toContain('from "@/features/diet/use-food-search"');
     expect(action.trimStart().startsWith('"use server"')).toBe(true);
   });
 

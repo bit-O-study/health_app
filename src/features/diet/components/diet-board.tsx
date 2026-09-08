@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   Calendar,
@@ -44,9 +44,7 @@ import {
   FOOD_CATEGORIES,
   type FoodItem,
 } from "@/features/diet/food-catalog-types";
-import { searchFoodsAction } from "@/features/diet/food-search-actions";
-import { searchCustomFoodsAction } from "@/features/diet/custom-foods";
-import { searchFoodDbAction } from "@/features/diet/food-db-actions";
+import { useFoodSearch } from "@/features/diet/use-food-search";
 import { MIN_FOOD_DB_QUERY } from "@/features/diet/food-db";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import { MealScanForm } from "@/features/diet/components/meal-scanner";
@@ -1371,76 +1369,13 @@ function AddFoodDialog({
 }) {
   const [mode, setMode] = useState<"search" | "manual" | "ai">("search");
   const [q, setQ] = useState("");
-  const [localResults, setLocalResults] = useState<FoodItem[]>([]);
-  const [foodSearchLoading, setFoodSearchLoading] = useState(true);
-  // 정적 600+개 카탈로그는 서버에서 검색한다. 빈 검색도 첫 200개를 받아 둘러보기를 유지.
-  useEffect(() => {
-    let alive = true;
-    const timer = setTimeout(() => {
-      searchFoodsAction(q)
-        .then((rows) => {
-          if (alive) setLocalResults(rows);
-        })
-        .catch(() => {
-          if (alive) setLocalResults([]);
-        })
-        .finally(() => {
-          if (alive) setFoodSearchLoading(false);
-        });
-    }, q.trim() ? 200 : 0);
-    return () => {
-      alive = false;
-      clearTimeout(timer);
-    };
-  }, [q]);
-  // 자동 성장 카탈로그(custom_foods) 검색 — 디바운스 후 서버 액션. 정적 결과와 합침.
-  const [customResults, setCustomResults] = useState<FoodItem[]>([]);
-  useEffect(() => {
-    const query = q.trim();
-    if (query.length < 1) return;
-    let alive = true;
-    const t = setTimeout(() => {
-      searchCustomFoodsAction(query)
-        .then((r) => {
-          if (alive) setCustomResults(r);
-        })
-        .catch(() => {
-          if (alive) setCustomResults([]);
-        });
-    }, 250);
-    return () => {
-      alive = false;
-      clearTimeout(t);
-    };
-  }, [q]);
-  // 식약처 식품영양성분 DB — 위 둘에 없는 음식(편의점 도시락·가공식품 등)을 채운다.
-  // 이게 없으면 사용자가 그런 음식을 AI 사진분석으로 찍는데, 그건 우리가 돈을 내고
-  // 월 한도를 한 칸 먹는 일이다. 공공데이터는 무료고 숫자도 더 정확하다.
-  //
-  // 외부 왕복이라 **디바운스를 더 길게** 준다(250 → 600ms). 위 둘은 우리 서버 안에서
-  // 끝나지만 이건 공공 API 까지 갔다 온다 — 타이핑마다 부르면 일일 한도를 태운다.
-  // 두 글자 미만은 아예 안 부른다(한 글자로는 수천 건이 걸린다).
-  const [dbResults, setDbResults] = useState<FoodItem[]>([]);
-  useEffect(() => {
-    const query = q.trim();
-    // 짧으면 부르지 않고 **여기서 비우지도 않는다** — 렌더 중 setState 가 되어
-    // 한 번 더 그린다. 짧을 때 감추는 건 아래 합치는 자리에서 조건으로 처리한다.
-    if (query.length < MIN_FOOD_DB_QUERY) return;
-    let alive = true;
-    const t = setTimeout(() => {
-      searchFoodDbAction(query)
-        .then((r) => {
-          if (alive) setDbResults(r);
-        })
-        .catch(() => {
-          if (alive) setDbResults([]);
-        });
-    }, 600);
-    return () => {
-      alive = false;
-      clearTimeout(t);
-    };
-  }, [q]);
+  const local = useFoodSearch("local", q, 200);
+  const custom = useFoodSearch("custom", q, 250, 1);
+  const db = useFoodSearch("db", q, 600, MIN_FOOD_DB_QUERY);
+  const localResults = local.rows;
+  const customResults = custom.rows;
+  const dbResults = db.rows;
+  const foodSearchLoading = local.loading || custom.loading || db.loading;
   // 합치는 순서 = 보여주는 순서. 정적(손으로 다듬은 값) → custom(이미 쌓인 것) →
   // 식약처(방금 받아온 것). 뒤에서 이름이 겹치면 `mergeFoodResults` 가 접는다.
   const results = useMemo(() => {
@@ -1569,7 +1504,6 @@ function AddFoodDialog({
               autoFocus
               value={q}
               onChange={(e) => {
-                setFoodSearchLoading(true);
                 setQ(e.target.value);
               }}
               placeholder="음식 검색 (예: 닭가슴살, 김치찌개)"

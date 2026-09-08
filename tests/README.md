@@ -72,3 +72,9 @@ missing DDL) to the live DB via the Supabase SQL editor or the pooler.
    need a populated workout).
 3. Drive the real UI and assert on what the user sees. Keep accounts throwaway so
    teardown cleans them.
+
+### 소셜 로그인 설정 회귀
+
+- `corepack pnpm test:auth`: 라이브 공급자·운영/로컬/native 콜백 검사. 기본 단위 스위트와 별도로 CI에서 실행한다.
+- 네트워크·환경변수 오류는 통과로 숨기지 않는다. 로컬은 `.env.local`·`.env`를 읽는다.
+- 브라우저 진입 E2E만으로 카카오 KOE205나 Android 복귀 성공을 판단하지 않는다. `docs/KAKAO-LOGIN-SETUP.md`의 실제 로그인 검증이 필요하다.

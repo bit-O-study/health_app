@@ -1,0 +1,62 @@
+[
+  {
+    "id": "bench-press",
+    "width": 960,
+    "height": 720,
+    "seconds": 24,
+    "bytes": 602171,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "decode": "passed"
+  },
+  {
+    "id": "lat-pulldown",
+    "width": 960,
+    "height": 720,
+    "seconds": 24,
+    "bytes": 608919,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "decode": "passed"
+  },
+  {
+    "id": "pull-up",
+    "width": 960,
+    "height": 720,
+    "seconds": 24,
+    "bytes": 546453,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "decode": "passed"
+  },
+  {
+    "id": "smith-squat",
+    "width": 960,
+    "height": 720,
+    "seconds": 24,
+    "bytes": 628352,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "decode": "passed"
+  },
+  {
+    "id": "dumbbell-shoulder-press",
+    "width": 960,
+    "height": 720,
+    "seconds": 24,
+    "bytes": 653245,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "decode": "passed"
+  },
+  {
+    "id": "leg-press",
+    "width": 960,
+    "height": 720,
+    "seconds": 24,
+    "bytes": 691768,
+    "codec": "h264",
+    "pixelFormat": "yuv420p",
+    "decode": "passed"
+  }
+]

@@ -105,6 +105,20 @@ jobs:
           corepack pnpm exec vitest run tests/be/schema-sync.test.ts 2>&1 | tee ci-logs/schema.log
           exit ${PIPESTATUS[0]}
 
+      - name: Auth configuration
+        id: auth
+        continue-on-error: true
+        env:
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+          NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          if [ -z "$NEXT_PUBLIC_SUPABASE_URL" ] || [ -z "$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" ]; then
+            echo "Supabase 환경변수가 없어 인증 검사를 건너뜁니다." | tee ci-logs/auth.log
+            exit 0
+          fi
+          corepack pnpm test:auth 2>&1 | tee ci-logs/auth.log
+          exit ${PIPESTATUS[0]}
+
       - name: Build
         id: build
         continue-on-error: true
@@ -136,6 +150,7 @@ jobs:
             echo "| 린트 게이트 | ${{ steps.lint.outcome }} | ${{ steps.lint.outputs.lint_seconds }} |"
             echo "| 타입 검사 | ${{ steps.types.outcome }} | ${{ steps.types.outputs.tsc_seconds }} |"
             echo "| 스키마 동기화 | ${{ steps.schema.outcome }} | - |"
+            echo "| 인증 설정 | ${{ steps.auth.outcome }} | - |"
             echo "| 빌드 | ${{ steps.build.outcome }} | ${{ steps.build.outputs.build_seconds }} |"
           } >> "$GITHUB_STEP_SUMMARY"
 
@@ -154,7 +169,7 @@ jobs:
           fail=0
           for s in "${{ steps.unit.outcome }}" "${{ steps.lint.outcome }}" \
                    "${{ steps.types.outcome }}" "${{ steps.schema.outcome }}" \
-                   "${{ steps.build.outcome }}"; do
+                   "${{ steps.auth.outcome }}" "${{ steps.build.outcome }}"; do
             [ "$s" = "failure" ] && fail=1
           done
           if [ "$fail" = "1" ]; then

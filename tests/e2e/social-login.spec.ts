@@ -79,17 +79,39 @@ test("★ 공급자 인증이 실패하면 /login 에서 이유를 보여준다"
   await expect(page.getByText("access_denied")).toBeVisible();
 });
 
-test("★ 앱(native)에서 온 콜백은 앱 전용 스킴으로 되돌린다", async ({ page }) => {
-  // WebView 가 아니라 외부 브라우저에서 인증이 끝나므로, code 를 교환하지 않고
-  // helssu:// 로 앱에 먼저 돌려보내야 한다(안 그러면 앱은 로그아웃 상태로 남는다).
-  const res = await page.request.get(
-    "/auth/callback?native=1&code=dummy-code&next=%2Fplan",
-    { maxRedirects: 0 },
-  );
+test("앱 콜백은 자동 복귀가 막혀도 수동 복귀 링크를 보여준다", async ({ page }) => {
+  await page.goto("/auth/callback?native=1&code=dummy-code&next=%2Fplan", { waitUntil: "commit" });
+  const link = page.getByRole("link", { name: "헬쑤 앱으로 돌아가기" });
+  await expect(link).toBeVisible();
+  const target = new URL((await link.getAttribute("href"))!);
+  expect(target.protocol).toBe("helssu:");
+  expect(target.host).toBe("auth");
+  expect(target.pathname).toBe("/callback");
+  expect(target.searchParams.get("code")).toBe("dummy-code");
+  expect(target.searchParams.get("next")).toBe("/plan");
+  expect(target.searchParams.has("native")).toBe(false);
+});
 
-  expect(res.status()).toBe(307);
-  const location = res.headers()["location"] ?? "";
-  expect(location).toContain("helssu://auth/callback");
-  expect(location).toContain("code=dummy-code");
-  expect(location).toContain("next=%2Fplan");
+for (const [provider, label] of [["google", "구글로 계속하기"], ["kakao", "카카오로 계속하기"]]) {
+  test(provider + " 앱 로그인은 앱 복귀 표시와 PKCE 쿠키를 남긴다", async ({ page, context }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, "userAgent", { get: () => "Mozilla/5.0 helssu-app" });
+    });
+    const url = await captureAuthorizeUrl(page, label);
+    expect(url.searchParams.get("provider")).toBe(provider);
+    const callback = new URL(url.searchParams.get("redirect_to")!);
+    expect(callback.searchParams.get("native")).toBe("1");
+    expect(callback.pathname).toBe("/auth/callback");
+    expect(url.searchParams.get("code_challenge")).toBeTruthy();
+    expect((await context.cookies()).some((cookie) => cookie.name.includes("code-verifier"))).toBe(true);
+  });
+}
+
+test("HTTPS App Link가 앱으로 직접 들어오면 취소 오류를 앱 안에서 처리한다", async ({ page }) => {
+  const response = await page.request.get("/auth/callback?native=1&error=access_denied", {
+    headers: { "user-agent": "Mozilla/5.0 helssu-app" }, maxRedirects: 0,
+  });
+  expect(response.status()).toBe(307);
+  expect(new URL(response.headers().location).pathname).toBe("/login");
+  expect(new URL(response.headers().location).searchParams.get("error")).toBe("access_denied");
 });

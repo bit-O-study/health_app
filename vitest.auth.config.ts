@@ -1,10 +1,16 @@
 import { defineConfig } from "vitest/config";
+import { existsSync } from "node:fs";
+
+// CI 환경변수를 우선하고 로컬에서는 Next와 동일한 설정 파일을 읽는다.
+for (const file of [".env.local", ".env"]) {
+  if (existsSync(file)) process.loadEnvFile(file);
+}
 
 /**
  * `pnpm test:auth` 전용 — 라이브 Supabase **Auth 콘솔 설정** 가드.
  *
- * 기본 스위트에서 분리한 이유: 여기서 나는 실패는 코드가 아니라 콘솔 설정이라
- * `pnpm build` 게이트를 막아도 코드로는 못 고친다. 설정을 만졌을 때 직접 돌린다.
+ * 외부 콘솔 상태를 확인하므로 단위 스위트와 분리하고 CI의 별도 단계로 실행한다.
+ * 인증 설정 실패는 CI 최종 판정에도 반영한다.
  */
 export default defineConfig({
   test: {

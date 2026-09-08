@@ -18,12 +18,11 @@ import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import {
-  isEquipmentAvailable,
+  pickAvailableEquipment,
   toGymEquipmentSet,
 } from "@/features/gym/gym-equipment-mapping";
 import {
   ALL_FOCUSES,
-  exercisesForFocus,
   getCatalogExercise,
   isEquipmentId,
   prescribe,
@@ -31,6 +30,7 @@ import {
 } from "@/features/routine/exercise-catalog";
 import {
   focusExercisesForSlot,
+  recommendedExercisesForFocus,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
 import {
@@ -47,17 +47,6 @@ import {
   previewArmRoutineSwap,
 } from "@/features/routine/arm-routine-swap";
 import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
-
-/** 운동의 기구 옵션 중 헬스장에 있는 첫 번째. 없으면 첫 번째. */
-function pickEquipment(
-  ex: { equipments: { equipment: EquipmentId }[] },
-  gymSet: ReadonlySet<string> | null,
-): EquipmentId {
-  const ok = ex.equipments.find((eq) =>
-    isEquipmentAvailable(eq.equipment, gymSet),
-  );
-  return ok?.equipment ?? ex.equipments[0].equipment;
-}
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
 export type AddedTodayExercise = {
@@ -197,8 +186,8 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
 
   const groups = slots.map((slot) => {
     const list = slot.isSide
-      ? sideExercisesForSlot(slot.focus, slot.blockIds, gender)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, gender);
+      ? sideExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet)
+      : focusExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
@@ -209,7 +198,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
           ...(id ? { id } : {}),
           position: index,
           exerciseId: ex.id,
-          equipment: pickEquipment(ex, gymSet),
+          equipment: pickAvailableEquipment(ex, gymSet),
           sets: p.sets,
           reps: p.reps,
           weightKg: p.weightKg,
@@ -487,7 +476,7 @@ export async function saveMuscleSelectionAction(
         return {
           position: index,
           exerciseId,
-          equipment: pickEquipment(ex, gymSet),
+          equipment: pickAvailableEquipment(ex, gymSet),
           sets: p.sets,
           reps: p.reps,
           weightKg: p.weightKg,
@@ -823,12 +812,16 @@ export async function applyTodayRecommendedAction(
     bodyType: profile.bodyType ?? ("average" as const),
     weightKg: profile.weightKg ?? 65,
   };
-  const rows = exercisesForFocus(target, profile.gender).map((ex, index) => {
+  const rows = recommendedExercisesForFocus(
+    target,
+    profile.gender,
+    gymSet,
+  ).map((ex, index) => {
     const p = prescribe(ex.id, opts);
     return {
       position: index,
       exerciseId: ex.id,
-      equipment: pickEquipment(ex, gymSet),
+      equipment: pickAvailableEquipment(ex, gymSet),
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,

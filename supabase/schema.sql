@@ -2316,8 +2316,9 @@ grant execute on function public.search_custom_foods(text, int) to authenticated
 alter table public.custom_foods enable row level security;
 -- 로그인 사용자면 누구나 읽기(공유 카탈로그) + 추가. 수정/삭제는 막는다(관리자 SQL로만).
 drop policy if exists "authed read custom foods" on public.custom_foods;
+-- 요청당 한 번만 인증을 평가한다. 행마다 JWT를 파싱하면 26만 행 검색이 수 초 걸린다.
 create policy "authed read custom foods" on public.custom_foods for select
-  using (auth.uid() is not null);
+  using ((select auth.uid()) is not null);
 drop policy if exists "authed insert custom foods" on public.custom_foods;
 create policy "authed insert custom foods" on public.custom_foods for insert
   with check (auth.uid() is not null);

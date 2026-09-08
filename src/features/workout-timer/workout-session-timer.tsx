@@ -196,6 +196,7 @@ export function WorkoutSessionTimer({
   const noRespTimerRef = useRef<number | null>(null); // 10분 무응답 타이머
   const prevQueueLenRef = useRef(0);
   const hadItemsRef = useRef(false); // 한 번이라도 남은 운동이 있었는지(자동 종료 판정)
+  const pendingDurationRef = useRef<{ forDate: string; deltaSec: number } | null>(null);
   const endingRef = useRef(false); // 자동 종료와 버튼 종료가 겹쳐 이중 내보내는 것 방지
   const handlersRef = useRef<{
     endWithRest: () => void;
@@ -347,6 +348,7 @@ export function WorkoutSessionTimer({
   function start() {
     setSessionFinished(false);
     endingRef.current = false;
+    pendingDurationRef.current = null;
     const s: TimerState = {
       sessionId: crypto.randomUUID(),
       startedAt: Date.now(),
@@ -430,7 +432,8 @@ export function WorkoutSessionTimer({
     const durationSec = Math.floor(elapsedMs(s) / 1_000);
     const endedAtMs = Date.now();
     // 운동 완료마다 이미 누적했을 수 있으니 '아직 안 올린 만큼'만 더한다(이중 가산 방지).
-    const d = takeUnsavedDelta(s);
+    const d = pendingDurationRef.current ?? takeUnsavedDelta(s);
+    pendingDurationRef.current = d;
     if (d) {
       const ok = await saveDuration(d.forDate, d.deltaSec);
       if (!ok) {
@@ -438,8 +441,10 @@ export function WorkoutSessionTimer({
         return false; // 실패 시 상태 유지해 재시도 가능
       }
     }
+    pendingDurationRef.current = null;
     clearSavedMark();
     writeTimer(null);
+    stateRef.current = null;
     setState(null);
     promptedRef.current = false;
     clearNoRespTimer();
@@ -460,9 +465,12 @@ export function WorkoutSessionTimer({
 
   /** 가이드 완주(마지막 항목까지 처리) 시 자동 종료(기록). */
   async function handleGuidedAllComplete() {
-    setGuided(false);
     const ended = await endSession();
-    if (ended) setSessionFinished(true);
+    if (ended) {
+      setSessionFinished(true);
+      setGuided(false);
+    }
+    return ended;
   }
 
   // '예' — 완료 외 남은 운동을 휴식(skip) 처리하고 타이머 종료(기록).
@@ -562,13 +570,12 @@ export function WorkoutSessionTimer({
 
   // 6) 오늘 운동을 전부 끝내면(완료/스킵으로 큐가 0) 타이머 자동 종료(기록).
   useEffect(() => {
-    if (!stateRef.current) return;
+    if (!stateRef.current || guided) return;
     if (shouldAutoEndSession(hadItemsRef.current, queue.length, queueItems.length)) {
       hadItemsRef.current = false;
       void handlersRef.current.endTimerOnly();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queue.length, queueItems.length]);
+  }, [queue.length, queueItems.length, guided]);
 
   // 7) 서비스워커 알림(예/아니오) 클릭 → 앱 내와 동일 처리.
   useEffect(() => {
@@ -626,7 +633,7 @@ export function WorkoutSessionTimer({
   const running = state.pausedAt === null;
 
   const overlay =
-    guided && queue.length > 0 ? (
+    guided ? (
       <GuidedOverlay
         items={queue}
         // 운동모드에서 나오면(X→중단) 시간 정지. '다시 운동하기'로 들어오면 재개.
@@ -717,10 +724,7 @@ export function WorkoutSessionTimer({
       <ConfirmDialog
         open={savingErr !== null}
         title="저장 실패"
-        message={
-          savingErr +
-          "\n\n원인: 'workout_sessions' 테이블이 Supabase 에 없을 가능성이 큽니다. supabase/schema.sql 의 workout_sessions 블록을 실행해주세요."
-        }
+        message="운동 시간을 저장하지 못했어요. 연결 상태를 확인한 뒤 다시 저장해 주세요."
         confirmLabel="확인"
         cancelLabel=""
         tone="danger"

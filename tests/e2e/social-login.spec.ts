@@ -47,6 +47,7 @@ test("카카오 로그인 버튼은 카카오 provider 로 보낸다", async ({ 
   const url = await captureAuthorizeUrl(page, "카카오로 계속하기");
 
   expect(url.searchParams.get("provider")).toBe("kakao");
+  expect(url.searchParams.get("scope")).toBe("profile_nickname profile_image");
   expect(
     new URL(url.searchParams.get("redirect_to") ?? "").pathname,
   ).toBe("/auth/callback");
@@ -99,6 +100,7 @@ for (const [provider, label] of [["google", "구글로 계속하기"], ["kakao",
     });
     const url = await captureAuthorizeUrl(page, label);
     expect(url.searchParams.get("provider")).toBe(provider);
+    expect(url.searchParams.get("scope")).toBe(provider === "kakao" ? "profile_nickname profile_image" : null);
     const callback = new URL(url.searchParams.get("redirect_to")!);
     expect(callback.searchParams.get("native")).toBe("1");
     expect(callback.pathname).toBe("/auth/callback");

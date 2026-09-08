@@ -120,8 +120,9 @@ export type HealthWriteRecord =
       type: "ExerciseSession";
       startTime: Date;
       endTime: Date;
-      title?: string;
-      notes?: string;
+      // 네이티브 Serializer의 getString 계약: 빈 문자열도 반드시 전달한다.
+      title: string;
+      notes: string;
       exerciseType: number;
       metadata?: {
         clientRecordId: string;

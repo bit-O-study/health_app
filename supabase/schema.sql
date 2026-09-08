@@ -308,7 +308,7 @@ alter table public.profiles enable row level security;
 drop policy if exists "Users can read own profile" on public.profiles;
 create policy "Users can read own profile"
   on public.profiles for select
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can insert own profile" on public.profiles;
 create policy "Users can insert own profile"
@@ -1794,8 +1794,10 @@ create policy "admin deletes admins" on public.admins for delete
 
 -- 관리자는 모든 회원 프로필 조회 가능 (회원정보 페이지)
 drop policy if exists "admin reads all profiles" on public.profiles;
+-- 자기 행은 위 "read own" 정책이 이미 허용한다 → 앞에 싼 비교를 둬서 평범한 조회에서
+-- is_admin() 이 행마다 도는 걸 막는다(권한 범위는 그대로).
 create policy "admin reads all profiles" on public.profiles for select
-  using (public.is_admin());
+  using (user_id <> (select auth.uid()) and public.is_admin());
 
 -- exercise_media 쓰기 정책을 is_admin() 기반으로 (하드코딩 이메일 → DB 관리)
 drop policy if exists "admin writes exercise media" on public.exercise_media;
@@ -2204,7 +2206,7 @@ alter table public.food_logs enable row level security;
 drop policy if exists "Users can read own food logs" on public.food_logs;
 create policy "Users can read own food logs"
   on public.food_logs for select
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can insert own food logs" on public.food_logs;
 create policy "Users can insert own food logs"
@@ -2260,6 +2262,36 @@ create index if not exists custom_foods_name_trgm_idx
 create index if not exists custom_foods_name_prefix_idx
   on public.custom_foods (lower(name) text_pattern_ops);
 
+-- 🔴 짧은 검색어의 **이름 중간 포함**(2단계)용 n-gram 인덱스. 2026-09-08.
+--
+-- 위 접두사 인덱스는 '우유로 시작' 만 잡는다. 접두사로 한도를 못 채우면 '중간에 낀 것'
+-- (`name ilike '%우유%'`)으로 채우는데, 이건 **검색어가 3글자 이상일 때만** trigram GIN 을
+-- 탄다. 앞뒤가 열린 패턴에서 인덱스가 쓸 수 있는 건 온전한 3-gram 뿐이라 1~2글자에는
+-- 뽑을 게 없어 26만 행 전체 스캔이 된다 — 실측 219~310ms(최악 1,870ms).
+-- 한국어 검색어는 한두 글자가 기본이고, 1글자 접두사 1,303종 중 756종은 한도(50)를
+-- 못 채워 **실제로 2단계까지 내려간다.** 즉 드문 경우가 아니라 일상 경로였다.
+--
+-- 그래서 이름에서 1글자·2글자 조각을 뽑아 GIN 으로 색인한다. `@> array['우유']` 로
+-- 후보를 인덱스에서 좁힌 뒤 기존 `ilike` 를 그대로 한 번 더 걸어 **의미는 바꾸지 않는다**
+-- (재현율 실측 동일: 자두 248/248 · 우유 2,301/2,301 · 라면 807/807).
+-- 실측: 1글자 224ms → 30ms · 2글자 220ms → 1~9ms. 인덱스 17MB(테이블 41MB).
+--
+-- ⚠ 3글자 이상은 **이 인덱스를 쓰지 않는다.** 조각이 1~2글자뿐이라 후보를 못 좁히고,
+--   그 길이에서는 trigram GIN 이 이미 잘 듣는다(닭가슴살 23ms).
+create or replace function public.name_grams(t text)
+returns text[] language sql immutable strict parallel safe as $$
+  select array(
+    select distinct g
+      from (select lower(t) as s) x,
+           lateral (
+             select substr(s, i, 1) as g from generate_series(1, length(s)) as i
+             union all
+             select substr(s, i, 2) from generate_series(1, greatest(length(s) - 1, 1)) as i
+           ) u)
+$$;
+create index if not exists custom_foods_name_gram_idx
+  on public.custom_foods using gin (public.name_grams(name));
+
 -- 검색 순위. 식약처 카탈로그를 적재하며 이 표가 26만 행이 됐는데, 새 행은 전부 hits=1 이라
 -- hits 만으로 줄 세우면 **상위 결과가 사실상 무작위**다("우유" → `빙수_팥_우유얼음`이 먼저).
 --
@@ -2297,14 +2329,34 @@ begin
   get diagnostics got = row_count;
 
   -- 2단계: 이름 중간에 낀 것. 1단계로 못 채웠을 때만.
+  --
+  -- 🔴 길이로 갈래를 나눈다 — 쓸 수 있는 인덱스가 다르기 때문이다(윗쪽 인덱스 주석 참고).
+  --    3글자 이상: `ilike '%q%'` 가 trigram GIN 을 탄다(닭가슴살 23ms).
+  --    1~2글자   : trigram 은 못 쓴다 → n-gram 인덱스로 후보를 좁힌 뒤 같은 `ilike` 를
+  --                다시 건다. 결과 집합은 그대로고 스캔만 사라진다.
+  --                실측 224ms → 30ms(1글자) · 220ms → 1~9ms(2글자).
+  --    ⚠ 조각 조회에는 이스케이프 안 한 `q` 를 쓴다 — 인덱스에는 이름의 **글자 그대로**가
+  --      들어 있어서 `\%` 같은 이스케이프 문자열로 찾으면 아무것도 안 걸린다.
+  --      와일드카드 방지는 뒤따르는 `ilike … escape '\'` 가 그대로 책임진다.
   if got < lim then
-    return query
-      select *
-        from public.custom_foods
-       where name ilike '%' || pat || '%' escape '\'
-         and lower(name) not like lower(pat) || '%' escape '\'
-       order by length(name) asc, hits desc, name asc
-       limit lim - got;
+    if length(q) >= 3 then
+      return query
+        select *
+          from public.custom_foods
+         where name ilike '%' || pat || '%' escape '\'
+           and lower(name) not like lower(pat) || '%' escape '\'
+         order by length(name) asc, hits desc, name asc
+         limit lim - got;
+    else
+      return query
+        select *
+          from public.custom_foods
+         where public.name_grams(name) @> array[lower(q)]
+           and name ilike '%' || pat || '%' escape '\'
+           and lower(name) not like lower(pat) || '%' escape '\'
+         order by length(name) asc, hits desc, name asc
+         limit lim - got;
+    end if;
   end if;
 end
 $$;
@@ -2457,18 +2509,26 @@ create policy "leave self" on public.group_members for delete
   using (user_id = auth.uid());
 
 -- 그룹원끼리 운동 기록·프로필 열람(랭킹 계산용). 기존 본인 전용 정책과 OR.
+-- 🔴 `user_id <> (select auth.uid()) and …` 의 앞쪽 비교는 **성능 장치**다(권한은 그대로).
+--    허용 정책 여러 개는 OR 로 합쳐지는데, 플래너가 비용을 보고 순서를 정한다 —
+--    실측(EXPLAIN) 결과 `shares_group_with(user_id)` 가 **먼저** 평가돼서, 자기 행만
+--    읽는 평범한 조회에서도 **행마다** group_members 조인이 돌았다(식단 4행 0.30ms,
+--    자기 조건만이면 0.01ms). 앞에 싼 비교를 두면 남의 행일 때만 함수가 돈다.
+--    그룹 랭킹처럼 행이 많은 화면일수록 차이가 커진다.
+--    같은 이유로 `auth.uid()` 는 `(select auth.uid())` 로 감싼다 — 행마다가 아니라
+--    쿼리당 한 번(InitPlan)만 평가된다.
 drop policy if exists "group mates read exercise completions" on public.exercise_completions;
 create policy "group mates read exercise completions" on public.exercise_completions
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 drop policy if exists "group mates read conditioning completions" on public.conditioning_completions;
 create policy "group mates read conditioning completions" on public.conditioning_completions
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 drop policy if exists "group mates read profiles" on public.profiles;
 create policy "group mates read profiles" on public.profiles
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 drop policy if exists "group mates read food logs" on public.food_logs;
 create policy "group mates read food logs" on public.food_logs
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 
 notify pgrst, 'reload schema';
 
@@ -2495,7 +2555,7 @@ alter table public.meal_photos enable row level security;
 
 drop policy if exists "Users can read own meal photos" on public.meal_photos;
 create policy "Users can read own meal photos" on public.meal_photos
-  for select using (auth.uid() = user_id);
+  for select using ((select auth.uid()) = user_id);
 drop policy if exists "Users can insert own meal photos" on public.meal_photos;
 create policy "Users can insert own meal photos" on public.meal_photos
   for insert with check (auth.uid() = user_id);
@@ -2509,7 +2569,7 @@ create policy "Users can delete own meal photos" on public.meal_photos
 -- 그룹원끼리 끼니 사진 열람(오늘 식단 공유)
 drop policy if exists "group mates read meal photos" on public.meal_photos;
 create policy "group mates read meal photos" on public.meal_photos
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 
 -- 그룹 응원 문구(group_cheers) — 그룹원이 다른 멤버의 '그날 기록'에 짧은 응원(≤10자)을 남긴다.
 -- (group_id, from_user, to_user, for_date) 유니크 → 한 사람당 하루 한 문구(수정 가능).

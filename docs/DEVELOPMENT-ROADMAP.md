@@ -50,7 +50,15 @@
     - [완료] 라이브 인증 가드 재실행 및 운영 설정 재조회 — 2026-09-08 21:44 KST `node node_modules/vitest/vitest.mjs run --config vitest.auth.config.ts` 4개 전부 통과(이전 3개 실패), 관리 API 재조회 HTTP 200
       - 운영 native 취소 콜백은 HTTP 307 helssu://auth/callback으로 복귀. 신규 자동/수동 복귀 화면 및 WebView 분기 수정은 아직 웹 미배포.
       - 관리 토큰은 Git 제외 .env.local에 저장. Supabase 토큰으로 카카오 Developers 동의항목을 수정할 수는 없어 해당 확인은 대기.
+    - [진행중] account_email 권한 없는 카카오 앱의 이메일 미요청 로그인 수정
+      - [완료] 실제 authorize의 단수 scope 파라미터로 account_email 제외 확인, Supabase email_optional=true 확인
+      - [완료] 앱 요청·웹/native 회귀 및 라이브 scope 검사 수정 — 카카오만 queryParams.scope로 profile_nickname profile_image 지정
+      - 라이브 인증 가드 5개, localhost:3110 mobile-chromium 소셜 로그인 8개, 변경 파일 ESLint·TypeScript 통과. Next.js 16.2.6 운영 빌드 통과. 사용자 커밋 우선 지시에 따라 대상 검증 후 커밋하며 전체 E2E 미재실행·기존 전체 린트 오류 한계 유지.
+      - 이전 콘솔 수정만 가능하다는 안내 정정: scopes(추가)와 scope(공급자 요청값 지정)의 차이를 라이브 응답으로 확인. 이메일 기반 계정 자동 연결은 제공 이메일이 없으면 되지 않을 수 있음.
+      - [대기] 운영 배포 후 실제 카카오 인증·복귀 검증
     - [대기] 카카오 동의항목·두 공급자 실제 인증/앱 복귀 검증
+      - 재신고 재조회: external_kakao_enabled=true, external_kakao_email_optional=true이며 공급자 REST 키와 로컬 앱 키 일치. 실제 scope는 account_email profile_image profile_nickname 유지. 이메일 선택 설정만으로 요청 scope가 제거되지는 않음.
+      - 비로그인 요청은 accounts.kakao.com 로그인 화면까지 도달하므로 KOE205의 정확한 미설정 항목은 사용자 오류 화면 또는 카카오 관리자 동의항목 확인 필요. 운동 AI 가이드 재제작은 사용자 요청으로 이 오류 확인 후 재개.
     - 2026-09-08 재신고 재검증: `node node_modules/vitest/vitest.mjs run --config vitest.auth.config.ts` 공급자 1개 통과·콜백 3개 실패(21:24 KST).
     - 읽기 전용 `/auth/v1/verify` 확인: 운영 콜백 요청이 `https://health-app-bitostudys-projects.vercel.app/`로 반환됨. `/authorize`의 실제 Kakao scope는 `account_email profile_image profile_nickname` 유지.
     - 비로그인 Kakao 페이지 응답에는 KOE 코드가 없어 현재 KOE205 재현은 미확인. 환경에는 공개 Supabase 키와 Kakao 앱 키만 확인되며 관리 토큰 없음. 콘솔 설정 적용·실계정 로그인은 계속 대기.

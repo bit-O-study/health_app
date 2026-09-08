@@ -84,3 +84,15 @@ describe("Supabase Auth 라이브 설정", () => {
     },
   );
 });
+
+// 기본 scopes가 아니라 앱과 같은 단수 scope가 Kakao까지 전달되는지 검사한다.
+it("카카오 실제 인가 요청에서 이메일 scope를 제외한다", async () => {
+  const url = new URL(SUPABASE_URL + "/auth/v1/authorize");
+  url.searchParams.set("provider", "kakao");
+  url.searchParams.set("scope", "profile_nickname profile_image");
+  const response = await fetch(url, { redirect: "manual", signal: AbortSignal.timeout(10_000) });
+  expect(response.status).toBe(302);
+  const target = new URL(response.headers.get("location")!);
+  expect(target.hostname).toBe("kauth.kakao.com");
+  expect(target.searchParams.get("scope")?.split(" ").sort()).toEqual(["profile_image", "profile_nickname"]);
+});

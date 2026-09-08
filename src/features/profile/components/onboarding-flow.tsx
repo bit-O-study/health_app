@@ -558,7 +558,7 @@ export function OnboardingFlow({
                 onClick={() => setStep("recommend")}
                 className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
               >
-                추천 루틴 보기
+                다음
                 <ArrowRight aria-hidden="true" size={17} />
               </button>
             </div>

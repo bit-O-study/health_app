@@ -70,3 +70,46 @@ export function toGymEquipmentSet(
   if (ids === null) return null;
   return new Set(ids);
 }
+
+/** 기구 옵션만 있으면 되는 최소 모양 — 카탈로그 전체를 끌고 오지 않는다. */
+type WithEquipments = { equipments: readonly { equipment: EquipmentId }[] };
+
+/**
+ * 이 운동을 그 헬스장에서 할 수 있는가.
+ * 운동은 보통 기구 옵션이 여러 개다(예: 프레스 = 바벨/덤벨/머신) — **하나라도**
+ * 되면 할 수 있는 운동이다.
+ */
+export function isExerciseAvailable(
+  ex: WithEquipments,
+  gymEquipment: ReadonlySet<string> | null,
+): boolean {
+  if (gymEquipment === null) return true;
+  return ex.equipments.some((eq) => isEquipmentAvailable(eq.equipment, gymEquipment));
+}
+
+/** 운동의 기구 옵션 중 헬스장에 있는 첫 번째. 없으면 첫 번째(=카탈로그 기본값). */
+export function pickAvailableEquipment(
+  ex: WithEquipments,
+  gymEquipment: ReadonlySet<string> | null,
+): EquipmentId {
+  const ok = ex.equipments.find((eq) =>
+    isEquipmentAvailable(eq.equipment, gymEquipment),
+  );
+  return ok?.equipment ?? ex.equipments[0].equipment;
+}
+
+/**
+ * 헬스장에서 할 수 있는 운동만 남긴다.
+ *
+ * 🔴 **전부 걸러지면 원본을 그대로 돌려준다.** 추천이 비면 그 부위는 빈칸으로
+ * 남는데, 그건 "우리 헬스장엔 없는 운동 하나가 섞여 있다" 보다 훨씬 나쁘다.
+ * (기구 판정 자체가 5종 카테고리라 정확하지 않다 — 확신 없이 지우지 않는다.)
+ */
+export function keepAvailableExercises<T extends WithEquipments>(
+  list: readonly T[],
+  gymEquipment: ReadonlySet<string> | null,
+): T[] {
+  if (gymEquipment === null) return [...list];
+  const doable = list.filter((ex) => isExerciseAvailable(ex, gymEquipment));
+  return doable.length > 0 ? doable : [...list];
+}

@@ -23,6 +23,11 @@ import {
   focusExercisesForSlot,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
+import { getCurrentGym } from "@/features/gym/gym-data-access";
+import {
+  pickAvailableEquipment,
+  toGymEquipmentSet,
+} from "@/features/gym/gym-equipment-mapping";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
@@ -183,8 +188,10 @@ async function fillMissingFocusesAction(
   variantId: string,
   customWeek: DayBlockId[][] | null,
 ): Promise<SaveRoutineResult> {
-  const profile = await getUserProfile();
+  const [profile, gym] = await Promise.all([getUserProfile(), getCurrentGym()]);
   if (!profile) return { ok: true };
+  // 추천 운동도, 그 운동에 붙일 기구도 내 헬스장 보유 기구를 본다.
+  const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
 
   const slots = routineDaySlots(splits, variantId, customWeek);
   if (slots.length === 0) return { ok: true };
@@ -216,13 +223,13 @@ async function fillMissingFocusesAction(
   };
   const groups = missing.map((slot) => {
     const list = slot.isSide
-      ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender);
+      ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet)
+      : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
       rows: list.map((ex, index) => {
-        const equipment = ex.equipments[0].equipment;
+        const equipment = pickAvailableEquipment(ex, gymSet);
         const p = prescribe(ex.id, { ...opts, equipment });
         return {
           position: index,

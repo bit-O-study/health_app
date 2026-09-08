@@ -9,7 +9,12 @@
  * 호출부(3곳)는 모두 여기서 가져온다:
  *  - actions.fillMissingFocusesAction
  *  - plan-actions.registerRecommendedPlanAction
- *  - plan-editor.doRecommendFocus
+ *  - plan-editor.doRecommendFocus (→ slot-exercise-actions.recommendExercisesAction)
+ *
+ * 🔴 **내 헬스장 보유 기구를 반영한다.** 랙이 없는 헬스장에 스쿼트를 추천해두면
+ * 사용자는 그 칸을 매번 손으로 갈아야 한다. 호출부는 `gym` 인자로 보유 기구를
+ * 넘긴다(안 넘기면 미설정 취급 = 필터 없음). 다만 **전부 걸러지면 원본을 쓴다** —
+ * 기구 판정이 5종 카테고리라 정확하지 않아, 빈 추천을 만드느니 남겨 둔다.
  */
 
 import {
@@ -30,6 +35,38 @@ import {
   EXERCISE_SUB_MUSCLES,
   subMusclesForExercise,
 } from "@/features/routine/muscle-detail";
+import {
+  isExerciseAvailable,
+  keepAvailableExercises,
+} from "@/features/gym/gym-equipment-mapping";
+
+/**
+ * 내 헬스장 보유 기구. `null` 이면 미설정 — 필터하지 않는다.
+ * 추천 함수는 전부 이걸 **마지막 선택 인자**로 받는다(안 넘기면 예전과 같은 동작).
+ */
+export type GymEquipmentSet = ReadonlySet<string> | null;
+
+/** 후보 id 목록에서 헬스장에서 할 수 있는 것만. 전부 걸러지면 원본 그대로. */
+function keepDoableIds(ids: readonly string[], gym: GymEquipmentSet): string[] {
+  if (gym === null) return [...ids];
+  const doable = ids.filter((id) => {
+    const ex = EXERCISES[id];
+    return ex ? isExerciseAvailable(ex, gym) : false;
+  });
+  return doable.length > 0 ? doable : [...ids];
+}
+
+/**
+ * 부위 기본 추천 목록을 헬스장 기준으로 거른 것.
+ * 세부근육 블록 없이 부위만으로 추천할 때 쓴다(오늘만 부위 바꾸기 등).
+ */
+export function recommendedExercisesForFocus(
+  focus: FocusKey,
+  gender: "male" | "female" = "male",
+  gym: GymEquipmentSet = null,
+): CatalogExercise[] {
+  return keepAvailableExercises(exercisesForFocus(focus, gender), gym);
+}
 
 /**
  * 전체 부위 블록과 세부 블록을 같이 골랐으면 세부 블록을 우선한다.
@@ -63,13 +100,22 @@ export function sideExercisesForSlot(
   focus: FocusKey,
   blockIds: string[],
   gender: "male" | "female" = "male",
+  gym: GymEquipmentSet = null,
 ): CatalogExercise[] {
   const ids: string[] = [];
   for (const b of specificBlockIds(blockIds)) {
-    const list = SIDE_BLOCK_EXERCISES[b] ?? SIDE_FOCUS_EXERCISES[focus] ?? [];
-    for (const id of list) if (!ids.includes(id)) ids.push(id);
+    // 블록마다 따로 거른다 — 한 블록이 통째로 걸러져도 다른 블록이 자리를 메우지
+    // 않게(이두+삼두인데 삼두만 남는 식으로 쏠리면 안 된다).
+    for (const id of keepDoableIds(
+      SIDE_BLOCK_EXERCISES[b] ?? SIDE_FOCUS_EXERCISES[focus] ?? [],
+      gym,
+    )) {
+      if (!ids.includes(id)) ids.push(id);
+    }
   }
-  if (ids.length === 0) return exercisesForFocus(focus, gender).slice(0, 2);
+  if (ids.length === 0) {
+    return recommendedExercisesForFocus(focus, gender, gym).slice(0, 2);
+  }
   return ids.map((id) => EXERCISES[id]).filter(Boolean);
 }
 
@@ -121,21 +167,25 @@ function balancedFocusExercises(
   focus: FocusKey,
   gender: "male" | "female",
   count: number,
+  gym: GymEquipmentSet = null,
 ): CatalogExercise[] {
   const subs = SUB_MUSCLES[focus as keyof typeof SUB_MUSCLES] as
     | { id: string }[]
     | undefined;
   if (!subs || subs.length === 0) {
-    return exercisesForFocus(focus, gender).slice(0, count);
+    return recommendedExercisesForFocus(focus, gender, gym).slice(0, count);
   }
-  const pool: string[] = [];
+  const all: string[] = [];
   const add = (id: string) => {
-    if (id && EXERCISES[id] && !pool.includes(id)) pool.push(id);
+    if (id && EXERCISES[id] && !all.includes(id)) all.push(id);
   };
   const curated =
     (gender === "female" ? FOCUS_EXERCISES_FEMALE : FOCUS_EXERCISES)[focus] ?? [];
   for (const id of curated) add(id);
   for (const s of subs) for (const id of MAIN_BLOCK_EXERCISES[s.id] ?? []) add(id);
+  // 🔴 세부근육 균형을 잡기 **전에** 거른다. 뽑고 나서 걸러내면 그 자리가 빈칸으로
+  // 남아 추천 개수가 줄고, 남은 자리를 다른 근육이 못 메운다.
+  const pool = keepDoableIds(all, gym);
 
   const picked: string[] = [];
   // 1) 세부 근육마다 1개씩(정의 순서) — 풀 앞쪽(킹) 우선
@@ -168,11 +218,16 @@ export function focusExercisesForSlot(
   focus: FocusKey,
   blockIds: string[],
   gender: "male" | "female" = "male",
+  gym: GymEquipmentSet = null,
 ): CatalogExercise[] {
   const specific = specificBlockIds(blockIds).filter(
     (b) => MAIN_BLOCK_EXERCISES[b],
   );
-  const blockLists = specific.map((b) => MAIN_BLOCK_EXERCISES[b]);
+  // 블록마다 따로 거른다 — 라운드로빈이 블록 간 균형을 잡는 구조라, 합쳐서 거르면
+  // 기구가 부족한 블록이 통째로 밀려난다.
+  const blockLists = specific.map((b) =>
+    keepDoableIds(MAIN_BLOCK_EXERCISES[b], gym),
+  );
   if (blockLists.length > 0) {
     const ids: string[] = [];
     // 여러 세부 블록은 한 목록이 슬롯을 독식하지 않게 라운드로빈으로 뽑는다.
@@ -192,5 +247,5 @@ export function focusExercisesForSlot(
       .slice(0, MAIN_SLOT_COUNT);
   }
   // 주 부위는 세부 근육 균형으로 4개(보조는 sideExercisesForSlot 에서 2개).
-  return balancedFocusExercises(focus, gender, MAIN_SLOT_COUNT);
+  return balancedFocusExercises(focus, gender, MAIN_SLOT_COUNT, gym);
 }

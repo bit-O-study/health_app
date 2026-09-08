@@ -11,8 +11,29 @@ import {
 import {
   allExercisesForSlot,
   focusExercisesForSlot,
+  recommendedExercisesForFocus,
   sideExercisesForSlot,
+  type GymEquipmentSet,
 } from "@/features/routine/recommend";
+import { toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
+
+/**
+ * 추천에 반영할 내 헬스장 보유 기구.
+ *
+ * 못 읽으면 **필터 없이** 추천한다 — 우리 사정으로 추천을 비우지 않는다.
+ * 헬스장 조회는 **호출 시점에** 동적으로 불러온다: 이 파일의 다른 목록 액션들은
+ * Supabase 가 전혀 필요 없는데, 위에서 정적으로 import 하면 그것들까지 DB 설정에
+ * 묶인다(단위테스트에서 모듈 적재부터 터진다).
+ */
+async function currentGymEquipment(): Promise<GymEquipmentSet> {
+  try {
+    const { getCurrentGym } = await import("@/features/gym/gym-data-access");
+    const gym = await getCurrentGym();
+    return toGymEquipmentSet(gym?.equipmentIds ?? null);
+  } catch {
+    return null;
+  }
+}
 
 /**
  * 슬롯(부위 + 세부근육 블록)의 운동 목록을 **서버에서** 준다 — 클라이언트 번들 다이어트.
@@ -120,6 +141,10 @@ export type RecommendSlotSpec = {
 /**
  * '추천으로 채우기' — 부위별 추천 운동을 **서버에서** 고른다.
  *
+ * 어떤 운동을 고를지는 **내 헬스장 보유 기구**를 반영한다. 헬스장은 클라이언트가
+ * 보내는 값이 아니라 여기서 직접 읽는다 — 화면마다 따로 넘기면 한 곳만 빠뜨려도
+ * 그 문으로 들어온 사용자에겐 반영이 안 된다.
+ *
  * 세트·횟수·무게(`prescribe`)와 기구 선택(내 헬스장 우선)은 클라이언트에 남긴다 —
  * 둘 다 목록 데이터가 필요 없고, 사용자가 화면에서 바로 조절하는 값이다.
  * 부위 순서·중복 처리는 호출부가 그대로 하도록 **요청한 순서대로** 돌려준다.
@@ -130,16 +155,17 @@ export async function recommendExercisesAction(
 ): Promise<{ focus: string; exercises: SlotExerciseOption[] }[]> {
   if (!Array.isArray(specs)) return [];
   const g = gender === "female" ? "female" : "male";
+  const gym = await currentGymEquipment();
   return specs.slice(0, MAX_IDS).map((spec) => {
     const focus = spec?.focus;
     // 부위가 아니면(휴식 포함) 추천할 게 없다 — 빈 목록으로 자리는 지킨다.
     if (!isFocusKey(focus)) return { focus: String(focus ?? ""), exercises: [] };
     const blockIds = cleanBlockIds(spec.blockIds);
     const list = spec.isSide
-      ? sideExercisesForSlot(focus, blockIds, g)
+      ? sideExercisesForSlot(focus, blockIds, g, gym)
       : blockIds.length > 0
-        ? focusExercisesForSlot(focus, blockIds, g)
-        : exercisesForFocus(focus, g);
+        ? focusExercisesForSlot(focus, blockIds, g, gym)
+        : recommendedExercisesForFocus(focus, g, gym);
     return { focus, exercises: list.map(toOption) };
   });
 }

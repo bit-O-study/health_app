@@ -34,7 +34,8 @@ export default async function GymSettingsPage() {
           내 헬스장
         </h1>
         <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          헬스장 이름·주소와 보유 기구를 등록해두면 추후 루틴 추천에 반영됩니다.
+          다니는 헬스장을 검색해서 고르면 주소와 보유 기구가 자동으로 채워집니다.
+          등록해두면 추후 루틴 추천에 반영됩니다.
         </p>
       </div>
 

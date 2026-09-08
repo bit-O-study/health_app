@@ -1,23 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ArrowRight, Building2, Check, Link2, Sparkles } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Building2, Sparkles } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Logo } from "@/features/brand/logo";
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { saveRoutineAction } from "@/features/routine/actions";
 import { saveProfileAction } from "@/features/profile/actions";
+import { upsertGymAction } from "@/features/gym/gym-actions";
 import {
-  searchGymsAction,
-  upsertGymAction,
-  type GymSearchHit,
-} from "@/features/gym/gym-actions";
-import { GymPlaceSuggestions } from "@/features/gym/components/gym-place-suggestions";
+  defaultGymEquipment,
+  type GymCandidate,
+} from "@/features/gym/gym-search";
+import { GymPicker } from "@/features/gym/components/gym-picker";
 import {
-  DEFAULT_KOREAN_GYM_EQUIPMENT,
-  GYM_EQUIPMENT_GROUPS,
-} from "@/features/gym/gym-equipment-catalog";
+  GymEquipmentPicker,
+  SelectedGymSummary,
+  type GymEquipmentSource,
+} from "@/features/gym/components/gym-equipment-picker";
 import {
   BODY_TYPE_OPTIONS,
   EXPERIENCE_OPTIONS,
@@ -60,13 +61,16 @@ export function OnboardingFlow({
   const [targetWeight, setTargetWeight] = useState("");
   const [targetBodyFat, setTargetBodyFat] = useState("");
   const [targetMuscle, setTargetMuscle] = useState("");
-  // 헬스장 — 선택사항. 비워두면 저장 안 함.
-  const [gymName, setGymName] = useState("");
-  const [gymAddress, setGymAddress] = useState("");
-  const [gymId, setGymId] = useState<string | null>(null);
-  const [gymHits, setGymHits] = useState<GymSearchHit[]>([]);
+  // 헬스장 — 선택사항. 검색해서 고르기 전엔 null 이고, 그 상태로 넘어가면 저장 안 함.
+  const [gym, setGym] = useState<{
+    gymId: string | null;
+    name: string;
+    address: string;
+    /** 미리 체크된 값의 출처 — 안내 문구가 달라진다. */
+    source: GymEquipmentSource;
+  } | null>(null);
   const [gymEquipment, setGymEquipment] = useState<Set<string>>(
-    () => new Set(DEFAULT_KOREAN_GYM_EQUIPMENT as readonly string[]),
+    () => new Set<string>(),
   );
 
   function toggleEquipment(id: string) {
@@ -78,29 +82,18 @@ export function OnboardingFlow({
     });
   }
 
-  useEffect(() => {
-    const query = gymName.trim();
-    if (step !== "gym" || query.length < 2 || gymId) {
-      return;
-    }
-    const timeout = window.setTimeout(() => {
-      void searchGymsAction(query).then(setGymHits);
-    }, 250);
-    return () => window.clearTimeout(timeout);
-  }, [gymId, gymName, step]);
-
-  function pickRegisteredGym(hit: GymSearchHit) {
-    setGymId(hit.id);
-    setGymName(hit.name);
-    setGymAddress(hit.address ?? "");
-    setGymEquipment(
-      new Set(
-        hit.equipmentIds.length > 0
-          ? hit.equipmentIds
-          : (DEFAULT_KOREAN_GYM_EQUIPMENT as readonly string[]),
-      ),
-    );
-    setGymHits([]);
+  /**
+   * 검색 결과에서 헬스장을 고른 시점에 기구 기본값이 정해진다.
+   * 회원이 있는 헬스장이면 그 합집합, 없으면 평균 한국 헬스장 기본 보유기구.
+   */
+  function pickGym(candidate: GymCandidate) {
+    setGym({
+      gymId: candidate.gymId,
+      name: candidate.name,
+      address: candidate.address,
+      source: candidate.equipmentIds.length > 0 ? "union" : "default",
+    });
+    setGymEquipment(new Set(defaultGymEquipment(candidate.equipmentIds)));
   }
 
   const heightNum = Number(heightCm);
@@ -170,13 +163,12 @@ export function OnboardingFlow({
       return profileResult;
     }
 
-    // 헬스장 정보 입력했으면 저장 — 실패해도 루틴 저장은 계속 (선택사항이라)
-    const trimmedGymName = gymName.trim();
-    if (trimmedGymName.length > 0) {
+    // 헬스장을 골랐으면 저장 — 실패해도 루틴 저장은 계속 (선택사항이라)
+    if (gym && gym.name.trim().length > 0) {
       await upsertGymAction({
-        id: gymId,
-        name: trimmedGymName,
-        address: gymAddress,
+        id: gym.gymId,
+        name: gym.name,
+        address: gym.address,
         equipmentIds: Array.from(gymEquipment),
       });
     }
@@ -512,128 +504,39 @@ export function OnboardingFlow({
               </span>
             </div>
             <h1 className="mt-1 text-2xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-3xl">
-              헬스장 정보 (선택)
+              헬스장 검색
             </h1>
             <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              헬스장 이름·주소와 보유 기구를 등록해두면 추후 루틴 추천에
-              반영됩니다. 나중에 설정에서 입력해도 됩니다.
+              다니는 헬스장을 검색해서 고르면 주소와 보유 기구가 자동으로
+              채워집니다. 나중에 설정에서 입력해도 됩니다.
             </p>
 
-            <div className="mt-6 space-y-3">
-              <label className="block">
-                <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
-                  헬스장 이름
-                </span>
-                <input
-                  type="text"
-                  value={gymName}
-                  onChange={(e) => {
-                    setGymId(null);
-                    setGymHits([]);
-                    setGymName(e.target.value);
-                  }}
-                  placeholder="예: 강남 OO 헬스"
-                  maxLength={100}
-                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-                />
-                <GymPlaceSuggestions
-                  query={gymName}
-                  onPick={(picked, addr) => {
-                    setGymId(null);
-                    setGymHits([]);
-                    setGymName(picked);
-                    if (addr) setGymAddress(addr);
-                  }}
-                />
-                {gymHits.length > 0 ? (
-                  <div className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50 p-2 dark:border-emerald-800 dark:bg-emerald-950/30">
-                    <p className="px-1 pb-1 text-xs font-semibold text-emerald-800 dark:text-emerald-300">
-                      이미 등록된 헬스장 — 선택하면 회원들이 등록한 기구를 불러와요.
-                    </p>
-                    {gymHits.map((hit) => (
-                      <button
-                        key={hit.id}
-                        type="button"
-                        onClick={() => pickRegisteredGym(hit)}
-                        className="mt-1 flex w-full items-center gap-2 rounded-md bg-white px-3 py-2 text-left dark:bg-zinc-900"
-                      >
-                        <Link2 aria-hidden="true" size={14} className="text-emerald-700" />
-                        <span className="min-w-0 flex-1">
-                          <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                            {hit.name}
-                          </span>
-                          <span className="block truncate text-xs text-zinc-500">
-                            {hit.address ?? "주소 미입력"} · 기구 {hit.equipmentCount}종
-                          </span>
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                ) : null}
-              </label>
-              <label className="block">
-                <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
-                  주소
-                </span>
-                <input
-                  type="text"
-                  value={gymAddress}
-                  onChange={(e) => {
-                    setGymId(null);
-                    setGymAddress(e.target.value);
-                  }}
-                  placeholder="예: 서울 강남구 ..."
-                  maxLength={200}
-                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
-                />
-              </label>
-            </div>
-
             <div className="mt-6">
-              <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-                보유 기구
-              </p>
-              <p className="mt-0.5 mb-3 text-xs text-zinc-500 dark:text-zinc-400">
-                평균 한국 헬스장 기준 자주 보이는 기구가 미리 체크돼 있어요.
-                없는 것만 체크 해제해주세요.
-              </p>
-              <div className="space-y-3">
-                {GYM_EQUIPMENT_GROUPS.map((group) => (
-                  <div key={group.label}>
-                    <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                      {group.label}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {group.items.map((it) => {
-                        const on = gymEquipment.has(it.id);
-                        return (
-                          <button
-                            key={it.id}
-                            type="button"
-                            onClick={() => toggleEquipment(it.id)}
-                            aria-pressed={on}
-                            className={cn(
-                              "inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
-                              on
-                                ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200"
-                                : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-400",
-                            )}
-                          >
-                            {on ? <Check aria-hidden="true" size={12} /> : null}
-                            {it.label}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                ))}
-              </div>
+              {gym ? (
+                <div className="space-y-6">
+                  <SelectedGymSummary
+                    name={gym.name}
+                    address={gym.address}
+                    onChange={() => {
+                      setGym(null);
+                      setGymEquipment(new Set());
+                    }}
+                  />
+                  <GymEquipmentPicker
+                    selected={gymEquipment}
+                    onToggle={toggleEquipment}
+                    source={gym.source}
+                  />
+                </div>
+              ) : (
+                <GymPicker onPick={pickGym} />
+              )}
             </div>
 
             <div className="mt-8 flex items-center gap-3">
               <button
                 type="button"
-                onClick={() => setStep("body")}
+                onClick={() => setStep("goal")}
                 className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
               >
                 이전
@@ -641,8 +544,9 @@ export function OnboardingFlow({
               <button
                 type="button"
                 onClick={() => {
-                  // 건너뛰기 = 이름 비우고 다음 단계로
-                  setGymName("");
+                  // 건너뛰기 = 고른 헬스장 없이 다음 단계로 (저장하지 않음)
+                  setGym(null);
+                  setGymEquipment(new Set());
                   setStep("recommend");
                 }}
                 className="inline-flex h-12 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-500 dark:text-zinc-400 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"

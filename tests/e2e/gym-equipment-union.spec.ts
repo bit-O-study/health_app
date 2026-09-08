@@ -34,6 +34,44 @@ async function signUpToGymStep(page: Page) {
   return email;
 }
 
+test("검색에 없는 헬스장은 직접 입력하고 기본 보유기구로 시작한다", async ({
+  page,
+}) => {
+  const gymName = `검색없는 헬스 ${Date.now()}`;
+
+  await signUpAndOnboard(page);
+  await page.goto("/settings/gym", { waitUntil: "networkidle" });
+
+  // 헬스장을 고르기 전에는 기구 목록이 아예 뜨지 않는다 — 기본값이 뭔지 아직 모른다.
+  await expect(page.getByRole("button", { name: "바벨", exact: true })).toHaveCount(
+    0,
+  );
+
+  await page.getByLabel("헬스장 검색").fill(gymName);
+  await expect(
+    page.getByText("검색 결과가 없어요", { exact: false }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "직접 헬스장 입력하기" }).click();
+
+  // 검색어가 이름으로 넘어와 있고, 주소만 직접 넣으면 된다.
+  await expect(page.getByLabel("헬스장 이름")).toHaveValue(gymName);
+  await page.getByLabel("주소").fill("서울 테스트구 99");
+  await page.getByRole("button", { name: "이 헬스장으로 진행" }).click();
+
+  // 정보가 없는 헬스장이라 평균 한국 헬스장 기본 보유기구로 시작한다.
+  await expect(
+    page.getByText("아직 등록된 정보가 없어", { exact: false }),
+  ).toBeVisible();
+  await expect(page.getByRole("button", { name: "바벨", exact: true })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await expect(page.getByRole("button", { name: "덤벨", exact: true })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+});
+
 test("개인 기구는 분리하고 같은 헬스장 기본값은 회원 합집합으로 제공한다", async ({
   page,
   browser,
@@ -44,6 +82,14 @@ test("개인 기구는 분리하고 같은 헬스장 기본값은 회원 합집�
 
   const firstEmail = await signUpAndOnboard(page);
   await page.goto("/settings/gym", { waitUntil: "networkidle" });
+
+  // 검색에 안 나오는 새 헬스장 → 직접 입력.
+  await page.getByLabel("헬스장 검색").fill(gymName);
+  await page.getByRole("button", { name: "직접 헬스장 입력하기" }).click();
+  await page.getByLabel("헬스장 이름").fill(gymName);
+  await page.getByLabel("주소").fill(gymAddress);
+  await page.getByRole("button", { name: "이 헬스장으로 진행" }).click();
+
   // 회원이 없는 새 헬스장은 일반 헬스장 기구가 기본 선택된다.
   await expect(page.getByRole("button", { name: "바벨", exact: true })).toHaveAttribute(
     "aria-pressed",
@@ -53,8 +99,6 @@ test("개인 기구는 분리하고 같은 헬스장 기본값은 회원 합집�
     "aria-pressed",
     "true",
   );
-  await page.getByLabel("헬스장 이름").fill(gymName);
-  await page.getByLabel("주소 (선택)").fill(gymAddress);
   const selected = page.locator('button[aria-pressed="true"]');
   while ((await selected.count()) > 0) await selected.first().click();
   await page.getByRole("button", { name: "바벨", exact: true }).click();
@@ -64,11 +108,16 @@ test("개인 기구는 분리하고 같은 헬스장 기본값은 회원 합집�
   const secondContext = await browser.newContext();
   const secondPage = await secondContext.newPage();
   const secondEmail = await signUpToGymStep(secondPage);
-  await secondPage.getByLabel("헬스장 이름").fill(gymName);
+  // 두 번째 회원은 이름으로 검색해서 고른다 — 주소는 결과에서 따라온다.
+  await secondPage.getByLabel("헬스장 검색").fill(gymName);
   const existing = secondPage.getByRole("button", { name: new RegExp(gymName) });
   await expect(existing).toBeVisible();
+  await expect(existing).toContainText(gymAddress);
   await existing.click();
   // 첫 회원의 개인 목록(현재 합집합)이 가입 기본값으로 들어온다.
+  await expect(
+    secondPage.getByText("회원들이 등록한 기구를 모아", { exact: false }),
+  ).toBeVisible();
   await expect(secondPage.getByRole("button", { name: "바벨", exact: true })).toHaveAttribute(
     "aria-pressed",
     "true",
@@ -96,6 +145,13 @@ test("개인 기구는 분리하고 같은 헬스장 기본값은 회원 합집�
   const byEmail = new Map(personal.map((row) => [row.email, row.gym_equipment_ids]));
   expect(byEmail.get(firstEmail)).toEqual(["barbell"]);
   expect(new Set(byEmail.get(secondEmail))).toEqual(new Set(["barbell", "dumbbell"]));
+
+  // 검색으로 고르면 같은 헬스장 한 행에 모인다(중복 등록으로 합집합이 갈라지지 않는다).
+  const gymRows = await dbQuery<{ id: string }>(
+    `select id from public.gyms where name=$1`,
+    [gymName],
+  );
+  expect(gymRows).toHaveLength(1);
 
   const aggregate = await dbQuery<{ equipment_ids: string[] }>(
     `select gyms.equipment_ids

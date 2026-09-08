@@ -11,20 +11,23 @@ import {
   DEFAULT_KOREAN_GYM_EQUIPMENT,
 } from "@/features/gym/gym-equipment-catalog";
 import { parseKakaoPlaces, type GymPlace } from "@/features/gym/gym-places";
+import {
+  mergeGymCandidates,
+  type GymCandidate,
+  type RegisteredGym,
+} from "@/features/gym/gym-search";
 
 /**
- * 카카오 로컬(키워드) 장소검색으로 실제 헬스장 찾기 — 이름 자동완성용.
- * 무료(developers.kakao.com, REST API 키). 키(KAKAO_REST_API_KEY)가 없으면
- * 빈 배열을 돌려줘 앱은 그대로 수기 입력으로 동작한다.
+ * 카카오 로컬(키워드) 장소검색으로 실제 헬스장 찾기.
+ * 무료(developers.kakao.com, REST API 키). 키(KAKAO_REST_API_KEY)가 없으면 빈 배열을
+ * 돌려줘 검색은 우리 DB 결과만으로 동작한다(그래도 직접 입력은 항상 열려 있다).
  */
-export async function searchGymPlacesAction(query: string): Promise<GymPlace[]> {
-  const q = query.trim();
-  if (q.length < 2) return [];
+async function searchGymPlaces(query: string): Promise<GymPlace[]> {
   const key = process.env.KAKAO_REST_API_KEY;
   if (!key) return [];
   try {
     const url = `https://dapi.kakao.com/v2/local/search/keyword.json?query=${encodeURIComponent(
-      q,
+      query,
     )}&size=8`;
     const res = await fetch(url, {
       headers: { Authorization: `KakaoAK ${key}` },
@@ -37,23 +40,11 @@ export async function searchGymPlacesAction(query: string): Promise<GymPlace[]> 
   }
 }
 
-export type GymSearchHit = {
-  id: string;
-  name: string;
-  address: string | null;
-  equipmentCount: number;
-  equipmentIds: string[];
-};
-
-/** 이름·주소로 헬스장 검색 — 신규 등록 시 중복 방지용 typeahead */
-export async function searchGymsAction(
-  query: string,
-): Promise<GymSearchHit[]> {
-  const q = query.trim();
-  if (q.length < 2) return [];
+/** 이름·주소로 우리 DB(gyms) 검색. equipment_ids 는 그 헬스장 회원들의 합집합이다. */
+async function searchRegisteredGyms(query: string): Promise<RegisteredGym[]> {
   const supabase = await createSupabaseServerClient();
   // ilike 로 부분 일치 검색 — 이름 또는 주소
-  const escaped = q.replace(/[%_]/g, (m) => `\\${m}`);
+  const escaped = query.replace(/[%_]/g, (m) => `\\${m}`);
   const pattern = `%${escaped}%`;
   const { data } = await supabase
     .from("gyms")
@@ -65,52 +56,31 @@ export async function searchGymsAction(
     name: string;
     address: string | null;
     equipment_ids: string[] | null;
-  }[]).map((r) => {
-    const equipmentIds = (r.equipment_ids ?? []).filter((id) =>
+  }[]).map((r) => ({
+    id: r.id,
+    name: r.name,
+    address: r.address,
+    equipmentIds: (r.equipment_ids ?? []).filter((id) =>
       ALL_GYM_EQUIPMENT_IDS.has(id),
-    );
-    return {
-      id: r.id,
-      name: r.name,
-      address: r.address,
-      equipmentCount: equipmentIds.length,
-      equipmentIds,
-    };
-  });
+    ),
+  }));
 }
 
 /**
- * 다른 사용자가 등록한 헬스장을 내 프로필에 연결.
- * gym 자체는 수정하지 않음 (RLS 가 등록자만 update 허용).
+ * 헬스장 검색 — 우리 DB 와 지도를 **한 번에** 훑어 한 목록으로 돌려준다.
+ * 화면은 이 결과에서 하나를 고르기만 하면 이름·주소·기구 기본값이 전부 정해진다.
+ * (두 번 왕복하면 목록이 따로 뜨고, 지도 결과를 골랐을 때 회원 합집합을 놓친다.)
  */
-export async function linkExistingGymAction(
-  gymId: string,
-): Promise<{ ok: true } | { ok: false; error: string }> {
-  const user = await getCurrentUser();
-  if (!user) return { ok: false, error: "로그인이 필요합니다." };
-  const supabase = await createSupabaseServerClient();
-  const { data: gym } = await supabase
-    .from("gyms")
-    .select("equipment_ids")
-    .eq("id", gymId)
-    .maybeSingle();
-  if (!gym) return { ok: false, error: "헬스장을 찾지 못했습니다." };
-  const shared = ((gym as { equipment_ids: string[] | null }).equipment_ids ?? [])
-    .filter((id) => ALL_GYM_EQUIPMENT_IDS.has(id));
-  const equipmentIds =
-    shared.length > 0 ? shared : [...DEFAULT_KOREAN_GYM_EQUIPMENT];
-  const { error } = await supabase
-    .from("profiles")
-    .update({
-      gym_id: gymId,
-      gym_equipment_ids: equipmentIds,
-      updated_at: new Date().toISOString(),
-    })
-    .eq("user_id", user.id);
-  if (error) return { ok: false, error: error.message };
-  revalidatePath("/settings");
-  revalidatePath("/settings/gym");
-  return { ok: true };
+export async function searchGymCandidatesAction(
+  query: string,
+): Promise<GymCandidate[]> {
+  const q = query.trim();
+  if (q.length < 2) return [];
+  const [registered, places] = await Promise.all([
+    searchRegisteredGyms(q),
+    searchGymPlaces(q),
+  ]);
+  return mergeGymCandidates(registered, places);
 }
 
 export type UpsertGymInput = {

@@ -12,6 +12,8 @@ describe("Health Connect ExerciseSession", () => {
     expect(record).toMatchObject({
       type: "ExerciseSession",
       title: "헬쑤 근력운동",
+      // 설치된 Android Serializer.kt는 notes를 getString으로 읽어 누락 시 앱을 종료한다.
+      notes: "",
       exerciseType: STRENGTH_TRAINING_EXERCISE_TYPE,
       metadata: {
         clientRecordId: "helssu-workout-session-123",

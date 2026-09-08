@@ -16,6 +16,16 @@
 
 - [진행중] 2026-09-08 실사용 재발 오류 수정(운동 완료·카카오·음식 검색·머신 단위)
   - [완료] 기존 테스트 범위 조사: 완료 문구는 브라우저 정상 저장만 검사, 카카오는 authorize 요청만 가로채 검사, 머신 1kg은 테스트에도 잘못 고정됨
+  - [진행중] 운동 완료 후 Health Connect 네이티브 종료 수정
+    - [완료] Galaxy S23(SM-S911N), 앱 1.0.3(4) 크래시 로그 확인: 09-08 19:21 및 09-04/07 반복 org.json.JSONException: No value for notes, Serializer.kt:140
+    - [완료] ExerciseSession notes 필수 계약 재현 테스트 및 전송 데이터/타입 수정 — 수정 전 health-workout-write 1개 실패, notes 빈 문자열 전달 및 title/notes 필수 타입 적용
+      - 원인은 @kiwi-health/capacitor-health-connect 0.0.42의 getString("notes")와 예외를 포착하지 않는 insertRecords 코루틴. JS의 withTimeout/catch로 Android 프로세스 종료를 막을 수 없음.
+      - 기존 브라우저 완료 테스트는 60초 미만 운동으로 HC 전송 자체를 건너뛰고, 네이티브도 아니어서 이 오류를 검출하지 못했음.
+      - 앱 크래시 로그 보관: scripts/workout-notes-crash-20260908.log (Git 제외).
+    - [완료] 대상 단위·운동 완료 E2E·린트·타입·빌드 검증
+      - Health Connect 단위 27개, 변경 파일 ESLint 및 TypeScript 통과. 로컬 http://localhost:3110 mobile-chromium 운동 완료 E2E 4개(정상·지연·기록 실패·시간 실패) 통과. Next.js 16.2.6 운영 빌드 통과.
+    - [대기] 사용자 운영 배포 후 실제 운동 완료 및 새 크래시 부재 확인
+      - 사용자 즉시 커밋 지시에 따라 대상 검증 후 별도 수정 커밋. 전체 E2E 및 전체 린트 기존 오류 20건은 앞선 커밋과 동일한 미통과 범위로 남김.
   - [완료] 운동 완료 저장 지연·실패 재현 및 완료 화면 유지 수정
     - 마지막 완료 후 가이드를 즉시 닫지 않고 기록 저장 결과를 확인한다. 실패하면 화면에 남아 다시 저장할 수 있다.
     - 가이드 완주와 큐 0 자동 종료의 중복 진입 방지, 운동시간 저장 실패 시 원래 가산량을 재시도에 유지.
@@ -40,7 +50,15 @@
     - [완료] 라이브 인증 가드 재실행 및 운영 설정 재조회 — 2026-09-08 21:44 KST `node node_modules/vitest/vitest.mjs run --config vitest.auth.config.ts` 4개 전부 통과(이전 3개 실패), 관리 API 재조회 HTTP 200
       - 운영 native 취소 콜백은 HTTP 307 helssu://auth/callback으로 복귀. 신규 자동/수동 복귀 화면 및 WebView 분기 수정은 아직 웹 미배포.
       - 관리 토큰은 Git 제외 .env.local에 저장. Supabase 토큰으로 카카오 Developers 동의항목을 수정할 수는 없어 해당 확인은 대기.
+    - [진행중] account_email 권한 없는 카카오 앱의 이메일 미요청 로그인 수정
+      - [완료] 실제 authorize의 단수 scope 파라미터로 account_email 제외 확인, Supabase email_optional=true 확인
+      - [완료] 앱 요청·웹/native 회귀 및 라이브 scope 검사 수정 — 카카오만 queryParams.scope로 profile_nickname profile_image 지정
+      - 라이브 인증 가드 5개, localhost:3110 mobile-chromium 소셜 로그인 8개, 변경 파일 ESLint·TypeScript 통과. Next.js 16.2.6 운영 빌드 통과. 사용자 커밋 우선 지시에 따라 대상 검증 후 커밋하며 전체 E2E 미재실행·기존 전체 린트 오류 한계 유지.
+      - 이전 콘솔 수정만 가능하다는 안내 정정: scopes(추가)와 scope(공급자 요청값 지정)의 차이를 라이브 응답으로 확인. 이메일 기반 계정 자동 연결은 제공 이메일이 없으면 되지 않을 수 있음.
+      - [대기] 운영 배포 후 실제 카카오 인증·복귀 검증
     - [대기] 카카오 동의항목·두 공급자 실제 인증/앱 복귀 검증
+      - 재신고 재조회: external_kakao_enabled=true, external_kakao_email_optional=true이며 공급자 REST 키와 로컬 앱 키 일치. 실제 scope는 account_email profile_image profile_nickname 유지. 이메일 선택 설정만으로 요청 scope가 제거되지는 않음.
+      - 비로그인 요청은 accounts.kakao.com 로그인 화면까지 도달하므로 KOE205의 정확한 미설정 항목은 사용자 오류 화면 또는 카카오 관리자 동의항목 확인 필요. 운동 AI 가이드 재제작은 사용자 요청으로 이 오류 확인 후 재개.
     - 2026-09-08 재신고 재검증: `node node_modules/vitest/vitest.mjs run --config vitest.auth.config.ts` 공급자 1개 통과·콜백 3개 실패(21:24 KST).
     - 읽기 전용 `/auth/v1/verify` 확인: 운영 콜백 요청이 `https://health-app-bitostudys-projects.vercel.app/`로 반환됨. `/authorize`의 실제 Kakao scope는 `account_email profile_image profile_nickname` 유지.
     - 비로그인 Kakao 페이지 응답에는 KOE 코드가 없어 현재 KOE205 재현은 미확인. 환경에는 공개 Supabase 키와 Kakao 앱 키만 확인되며 관리 토큰 없음. 콘솔 설정 적용·실계정 로그인은 계속 대기.
@@ -61,7 +79,7 @@
     - 라이브 스키마 66개, TypeScript, Next.js 16.2.6 프로덕션 빌드 통과.
     - lint gate 기존 20건/신규 0건. 새 API·훅·테스트·마이그레이션 파일 대상 ESLint 통과.
     - 로컬 `http://localhost:3108`, Playwright `mobile-chromium`: 완료 4개·식단 3개·검색 2개 총 9개 시나리오 검증.
-  - [대기] 웹 변경 운영 배포 및 운영 앱 재검증 — DB 성능 정책만 운영에 반영됨. 웹 코드 미배포, 커밋하지 않음.
+  - [대기] 웹 변경 운영 배포 및 운영 앱 재검증 — DB 성능 정책만 운영에 반영됨. 웹 코드 미배포. 로그인 4f6b147·운동 완료/검색/머신 단위 475764b 커밋 완료.
   - [대기] Android 실기기 로그인·운동 완주·logcat 검증 — 2026-09-08 ADB 연결 기기 0대
 - [진행중] 2026-09-04 앱 전체 튕김 회귀 점검
   - [완료] 크래시·ANR·OOM·WebView renderer 종료 경로와 기존 관측 근거 조사

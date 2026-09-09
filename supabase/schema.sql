@@ -2711,6 +2711,61 @@ revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, 
 revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) from anon;
 grant execute on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) to authenticated;
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 코멘트(trainer_comments) — 2026-09-09. 트레이너가 담당 회원에게 남기는
+-- 피드백. 그룹 응원(group_cheers)과 다르다: 응원은 **10자·하루 한 문구·그룹원 누구나**
+-- 라 "화이팅" 용이고, 이건 **500자·여러 개·트레이너만** 이라 자세를 짚어 줄 수 있다.
+--
+-- 여기는 SECURITY DEFINER 가 필요 없다 — 필요한 판단(그룹장인가·그 그룹 회원인가)이
+-- 전부 **자기 행의 컬럼**으로 표현되어 RLS 로 그대로 쓸 수 있다. 남의 표를 대신 읽어야
+-- 하는 trainer_board 와 다른 점이다.
+--
+-- 읽기는 **당사자 둘만**(회원 본인·쓴 트레이너). 같은 그룹의 다른 회원에게도 안 보인다 —
+-- 자세 지적은 남 앞에서 할 말이 아니다.
+create table if not exists public.trainer_comments (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  trainer_id uuid not null references auth.users(id) on delete cascade,
+  member_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null default (now() at time zone 'Asia/Seoul')::date,
+  body text not null check (char_length(body) between 1 and 500),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists trainer_comments_member_idx
+  on public.trainer_comments (member_id, created_at desc);
+create index if not exists trainer_comments_group_member_idx
+  on public.trainer_comments (group_id, member_id, created_at desc);
+
+alter table public.trainer_comments enable row level security;
+
+drop policy if exists "read own trainer comments" on public.trainer_comments;
+create policy "read own trainer comments" on public.trainer_comments for select
+  using (member_id = (select auth.uid()) or trainer_id = (select auth.uid()));
+
+drop policy if exists "trainer writes comment" on public.trainer_comments;
+create policy "trainer writes comment" on public.trainer_comments for insert
+  with check (
+    trainer_id = (select auth.uid())
+    and member_id <> (select auth.uid())
+    -- 🔴 바깥 행을 **표 이름으로 못 박는다**. `m.group_id = group_id` 라고 쓰면
+    --    `group_id` 가 서브쿼리의 `group_members.group_id` 로 붙어 자기 자신과의 비교가
+    --    되고(항상 참), **아무 그룹에나 속한 사람이면 통과**한다. 실측으로 뚫렸다.
+    and exists (
+      select 1 from public.groups g
+       where g.id = trainer_comments.group_id
+         and g.owner_id = (select auth.uid()))
+    and exists (
+      select 1 from public.group_members m
+       where m.group_id = trainer_comments.group_id
+         and m.user_id = trainer_comments.member_id)
+  );
+
+drop policy if exists "trainer deletes own comment" on public.trainer_comments;
+create policy "trainer deletes own comment" on public.trainer_comments for delete
+  using (trainer_id = (select auth.uid()));
+notify pgrst, 'reload schema';
+
 notify pgrst, 'reload schema';
 
 -- 끼니별 식단 사진(meal_photos) — 끼니(아침/점심/저녁/간식)당 여러 장 가능.
@@ -3663,6 +3718,8 @@ create table if not exists public.notification_preferences (
   -- 그룹 소식(group_activity)에 묶지 않는다 — MVP 알림을 껐다고 남이 내 루틴을 바꾼 걸
   -- 모르게 되면 안 된다.
   routine_assigned boolean not null default true,
+  -- 트레이너가 남긴 코멘트. 배정과 따로 끈다(하나는 루틴 변경, 하나는 말이다).
+  trainer_comment boolean not null default true,
   rest_timer boolean not null default true,
   quiet_hours boolean not null default true,
   quiet_start_hour smallint not null default 22
@@ -3674,6 +3731,8 @@ create table if not exists public.notification_preferences (
 -- 기존 DB 보정 — 표는 이미 있으므로 컬럼만 더한다.
 alter table public.notification_preferences
   add column if not exists routine_assigned boolean not null default true;
+alter table public.notification_preferences
+  add column if not exists trainer_comment boolean not null default true;
 alter table public.notification_preferences enable row level security;
 -- 본인만 읽고 쓴다. 크론은 서비스 롤이라 RLS 를 우회한다.
 drop policy if exists "own notification preferences" on public.notification_preferences;

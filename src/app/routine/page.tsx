@@ -19,6 +19,8 @@ import {
   type UserProfile,
 } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
+import { getMyTrainerComments } from "@/features/groups/trainer-data";
+import { MyTrainerComments } from "@/features/groups/components/my-trainer-comments";
 import {
   baseTonesOfBlocks,
   todayAddedBlocks,
@@ -141,7 +143,7 @@ export default async function Home() {
   // 오늘 계획도 profile·routine 과 독립적이므로 최초 데이터 왕복에 함께 시작한다.
   const todayYmd = seoulYmd();
   if (user) warmTodayExercisesData(todayYmd);
-  const [profile, routine, dailyPlan, weekly] = user
+  const [profile, routine, dailyPlan, weekly, trainerComments] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
@@ -149,8 +151,10 @@ export default async function Home() {
         // 주간 요약도 프로필·루틴과 독립이라 **같은 물결**에 실어 보낸다.
         // 뒤에 따로 부르면 서울↔싱가포르 왕복이 한 번 더 쌓인다.
         getWeeklyReport(todayYmd),
+        // 트레이너 코멘트도 같은 물결에. 대부분 0건이라 화면에 아무것도 안 그린다.
+        getMyTrainerComments(3),
       ])
-    : [null, null, [], null];
+    : [null, null, [], null, []];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -171,6 +175,12 @@ export default async function Home() {
         {user ? (
           <div className="mb-4">
             <PermissionNudge />
+          </div>
+        ) : null}
+        {/* 트레이너가 남긴 말은 **운동 직전에** 읽어야 쓸모가 있다. 없으면 안 그린다. */}
+        {user && trainerComments.length > 0 ? (
+          <div className="mb-4">
+            <MyTrainerComments comments={trainerComments} />
           </div>
         ) : null}
         {!user ? (

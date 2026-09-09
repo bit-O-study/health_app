@@ -14,6 +14,7 @@ import { getUserRoutine } from "@/features/routine/data-access";
 import { resolveMemberName } from "@/features/groups/member-name";
 import { weekRange } from "@/features/groups/ranking";
 import { sortForTrainer, type TrainerMember } from "@/features/groups/trainer-board";
+import type { TrainerComment } from "@/features/groups/trainer-comment";
 
 export type TrainerBoard = {
   groupId: string;
@@ -192,4 +193,74 @@ export async function getAssignOptions(
         )
       : [],
   };
+}
+
+/** 한 회원에게 남긴 코멘트(최신순). 그룹장이 아니면 RLS 가 빈 목록을 준다. */
+export async function getTrainerComments(
+  groupId: string,
+  memberId: string,
+  limit = 50,
+): Promise<TrainerComment[]> {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("trainer_comments")
+    .select("id, body, created_at")
+    .eq("group_id", groupId)
+    .eq("member_id", memberId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  return ((data ?? []) as { id: string; body: string; created_at: string }[]).map((r) => ({
+    id: r.id,
+    body: r.body,
+    createdAt: r.created_at,
+    fromName: "",
+  }));
+}
+
+/**
+ * 내가 **받은** 코멘트(회원 화면용). RLS 가 본인 것만 준다.
+ *
+ * 보낸 사람 이름은 그룹 가입 스냅샷을 쓴다 — 회원이 그룹에서 보던 그 이름이어야
+ * 누가 남겼는지 안다(알림 문구와도 같아진다).
+ */
+export async function getMyTrainerComments(limit = 5): Promise<TrainerComment[]> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("trainer_comments")
+    .select("id, body, created_at, group_id, trainer_id")
+    .eq("member_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  const rows = (data ?? []) as {
+    id: string;
+    body: string;
+    created_at: string;
+    group_id: string;
+    trainer_id: string;
+  }[];
+  if (rows.length === 0) return [];
+
+  // 이름은 한 번에 — 코멘트마다 물으면 코멘트 수만큼 왕복이 는다.
+  const { data: names } = await supabase
+    .from("group_members")
+    .select("group_id, user_id, display_name")
+    .in("group_id", [...new Set(rows.map((r) => r.group_id))])
+    .in("user_id", [...new Set(rows.map((r) => r.trainer_id))]);
+  const nameOf = new Map<string, string>();
+  for (const n of (names ?? []) as {
+    group_id: string;
+    user_id: string;
+    display_name: string | null;
+  }[]) {
+    nameOf.set(`${n.group_id}:${n.user_id}`, (n.display_name ?? "").trim());
+  }
+
+  return rows.map((r) => ({
+    id: r.id,
+    body: r.body,
+    createdAt: r.created_at,
+    fromName: nameOf.get(`${r.group_id}:${r.trainer_id}`) || "트레이너",
+  }));
 }

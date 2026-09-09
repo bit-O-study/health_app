@@ -141,6 +141,9 @@ test("인증 모드: 초대 링크로 가입해도 캐릭터 키우기(헬스장
  */
 test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다", async ({ browser }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
+  // 계정 2개 가입(각 ~20초) + 루틴 시드 + 배정 + 코멘트까지 한 흐름이라 기본 2분으로는
+  // 모자란다. 나눠 쓰면 가입을 또 해야 해서 오히려 더 오래 걸린다.
+  test.setTimeout(300_000);
 
   const name = `E2E 트레이너 ${Date.now().toString(36)}`;
 
@@ -178,7 +181,9 @@ test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다",
   await pageB.goto(`/groups/join/${token}`);
   // 초대 확인 화면 — '확인'을 눌러 가입한다(위 시나리오와 같은 흐름).
   await pageB.getByRole("button", { name: "확인" }).click();
-  await pageB.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 10000 });
+  // ⚠ 가입 후 이동은 클라이언트 내비게이션이라 `waitForURL`(기본 load 대기)이 흔들린다.
+  //    화면에 그룹 이름이 뜨는 걸로 본다.
+  await expect(pageB.getByText(name).first()).toBeVisible({ timeout: 15000 });
 
   // 🔴 멤버에게는 화면이 안 열린다.
   await pageB.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
@@ -216,6 +221,30 @@ test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다",
   );
   expect(Number(assigned[0].n)).toBeGreaterThan(0);
   expect(assigned[0].w).toBeNull();
+
+  // ── 코멘트: 트레이너가 남기면 **회원 화면**에 뜬다.
+  //    🔴 회원이 볼 자리가 없으면 코멘트는 없는 기능이다 — 그래서 회원 쪽까지 본다.
+  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
+  await pageA.getByTestId("comment-link").first().click();
+  await expect(pageA.getByRole("heading", { name: /코멘트/ })).toBeVisible({
+    timeout: 10000,
+  });
+  const note = "스쿼트 무릎이 안으로 모여요";
+  await pageA.getByLabel("코멘트").fill(note);
+  await pageA.getByTestId("comment-submit").click();
+  await expect(pageA.getByTestId("comment-list")).toContainText(note, { timeout: 15000 });
+
+  // 회원의 오늘의 운동 화면에 보인다.
+  await pageB.goto("/routine", { waitUntil: "networkidle" });
+  await expect(pageB.getByTestId("my-trainer-comments")).toContainText(note, {
+    timeout: 15000,
+  });
+
+  // 🔴 트레이너 화면(회원 관리)은 회원에게 안 열린다 — 위에서 이미 확인했다.
+  //    여기서는 **코멘트가 남의 눈에 안 띄는지**를 본다: 트레이너 자신의 오늘의 운동
+  //    화면에는 자기가 쓴 코멘트가 안 뜬다(받은 게 아니라 쓴 것이다).
+  await pageA.goto("/routine", { waitUntil: "networkidle" });
+  await expect(pageA.getByTestId("my-trainer-comments")).toHaveCount(0);
 
   await ctxA.close();
   await ctxB.close();

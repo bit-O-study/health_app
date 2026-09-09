@@ -169,6 +169,13 @@ export function TrainerBoardView({
                   >
                     루틴 배정
                   </Link>
+                  <Link
+                    href={`/groups/${groupId}/trainer/comment/${m.userId}`}
+                    data-testid="comment-link"
+                    className="inline-flex h-8 items-center rounded-lg border border-emerald-600 px-3 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/40"
+                  >
+                    코멘트
+                  </Link>
                 </div>
               </li>
             );

@@ -191,6 +191,116 @@ describe.skipIf(!hasDbCreds)("트레이너 대시보드 권한(라이브 DB)", (
     expect(r.rows[0]?.ok).toBe(false);
   });
 
+  // ── 코멘트 ──────────────────────────────────────────────────────────────────
+  //
+  // 🔴 여기는 RLS 로만 막는다(SECURITY DEFINER 없음). 그래서 정책 한 줄이 곧 보안이다.
+  // 실제로 처음 쓴 정책에는 구멍이 있었다 — `m.group_id = group_id` 라고 쓰면
+  // `group_id` 가 **서브쿼리의 컬럼**으로 붙어 자기 자신과의 비교(항상 참)가 되고,
+  // **아무 그룹에나 속한 사람이면 통과**했다. 실측으로 뚫려서 표 이름으로 못 박았다.
+
+  /** 그 사용자로 코멘트를 남겨 본다. 막히면 false. */
+  async function commentAs(uid: string, member: string): Promise<boolean> {
+    await client.query("begin");
+    try {
+      await client.query(`select set_config('role','authenticated',true)`);
+      await client.query(`select set_config('request.jwt.claims',$1,true)`, [
+        JSON.stringify({ sub: uid, role: "authenticated" }),
+      ]);
+      await client.query(
+        `insert into public.trainer_comments (group_id, trainer_id, member_id, body)
+         values ($1,$2,$3,'스쿼트 무릎 방향 보세요')`,
+        [groupId, uid, member],
+      );
+      return true;
+    } catch {
+      return false;
+    } finally {
+      await client.query("rollback");
+    }
+  }
+
+  it("트레이너는 담당 회원에게 코멘트를 남긴다", async () => {
+    expect(await commentAs(ownerId, memberId)).toBe(true);
+  });
+
+  it("🔴 그룹 밖 사람에게는 못 남긴다", async () => {
+    // 이 검사가 처음에 실패했다(위 주석의 이름 충돌). 다른 그룹에 속한 사람으로 검사해야
+    // 뚫린 게 드러난다 — 아무 그룹에도 없는 사람으로 검사하면 통과해 버린다.
+    const other = await client.query(
+      `select p.user_id from public.profiles p
+        where p.user_id not in (select user_id from public.group_members where group_id = $1)
+          and exists (select 1 from public.group_members m where m.user_id = p.user_id)
+        limit 1`,
+      [groupId],
+    );
+    if (!other.rowCount) return; // 검사할 사람이 없으면 건너뛴다
+    expect(await commentAs(ownerId, other.rows[0].user_id)).toBe(false);
+  });
+
+  it("🔴 일반 멤버는 코멘트를 못 남긴다", async () => {
+    expect(await commentAs(memberId, ownerId)).toBe(false);
+  });
+
+  it("🔴 자기 자신에게는 못 남긴다", async () => {
+    expect(await commentAs(ownerId, ownerId)).toBe(false);
+  });
+
+  it("🔴 같은 그룹의 다른 회원에게는 안 보인다 — 자세 지적은 남 앞에서 할 말이 아니다", async () => {
+    await client.query("begin");
+    try {
+      await client.query(
+        `insert into public.trainer_comments (group_id, trainer_id, member_id, body)
+         values ($1,$2,$3,'검사용')`,
+        [groupId, ownerId, memberId],
+      );
+      async function visibleTo(uid: string): Promise<number> {
+        await client.query(`select set_config('role','authenticated',true)`);
+        await client.query(`select set_config('request.jwt.claims',$1,true)`, [
+          JSON.stringify({ sub: uid, role: "authenticated" }),
+        ]);
+        const r = await client.query(
+          `select count(*)::int n from public.trainer_comments where group_id = $1`,
+          [groupId],
+        );
+        await client.query(`select set_config('role','postgres',true)`);
+        return r.rows[0].n;
+      }
+      expect(await visibleTo(memberId), "회원 본인은 봐야 한다").toBe(1);
+      expect(await visibleTo(ownerId), "쓴 트레이너는 봐야 한다").toBe(1);
+      expect(await visibleTo(STRANGER), "남남에게 보이면 안 된다").toBe(0);
+    } finally {
+      await client.query("rollback");
+    }
+  });
+
+  it("🔴 회원은 받은 코멘트를 지우거나 고칠 수 없다", async () => {
+    await client.query("begin");
+    try {
+      await client.query(
+        `insert into public.trainer_comments (group_id, trainer_id, member_id, body)
+         values ($1,$2,$3,'원본')`,
+        [groupId, ownerId, memberId],
+      );
+      await client.query(`select set_config('role','authenticated',true)`);
+      await client.query(`select set_config('request.jwt.claims',$1,true)`, [
+        JSON.stringify({ sub: memberId, role: "authenticated" }),
+      ]);
+      const del = await client.query(
+        `delete from public.trainer_comments where group_id = $1`,
+        [groupId],
+      );
+      expect(del.rowCount).toBe(0);
+      // update 정책이 아예 없다 → 0행. 있으면 회원이 트레이너 말을 바꿔 쓸 수 있다.
+      const upd = await client.query(
+        `update public.trainer_comments set body = '고침' where group_id = $1`,
+        [groupId],
+      );
+      expect(upd.rowCount).toBe(0);
+    } finally {
+      await client.query("rollback");
+    }
+  });
+
   it("회원 루틴 모양도 그룹장만 읽는다", async () => {
     async function shapeRows(uid: string): Promise<number> {
       await client.query("begin");

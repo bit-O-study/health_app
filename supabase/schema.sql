@@ -4019,3 +4019,41 @@ grant execute on function public.consume_rate_limit(text, text, bigint, int)
   to anon, authenticated;
 
 notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 익명(anon) 실행 권한 정리 — 2026-09-09.
+--
+-- 🔴 Supabase 는 public 스키마 함수에 **anon 실행권한을 기본으로 준다**(default
+--    privileges). 그래서 아무것도 안 적으면 로그인도 안 한 사람이 SECURITY DEFINER
+--    함수를 그대로 부를 수 있다. 아래는 **로그인해야만 쓰는 기능**이라 회수한다.
+--
+-- ⚠ 반대로 **회수하면 안 되는 것들**이 있다. 이유가 두 가지라 헷갈리기 쉽다:
+--    1) 로그인 **전** 흐름이 쓴다 — `find_login_email` · `request_password_otp` ·
+--       `verify_otp_and_reset`(아이디/비번 찾기) · `group_name_by_token`(초대 미리보기) ·
+--       `consume_rate_limit`(그 흐름들을 보호하는 폭주 제한이 로그인 전에 돈다).
+--    2) **RLS 정책 안에서 불린다** — 정책 식은 조회하는 사람의 권한으로 평가되므로,
+--       회수하면 anon 조회가 통째로 오류가 난다:
+--       `is_admin` · `is_group_member` · `is_post_moderator` · `shares_group_with` ·
+--       `can_see_community_post`.
+--    3) `/community` · `/groups` 는 보호 경로가 아니라 비로그인도 닿는다 →
+--       `community_post_counts` · `teaching_post_counts` · `group_mode` 도 남긴다.
+--
+-- (자매앱 함수 `iq_*` 는 이 저장소가 안 쓴다 — 그쪽 저장소에서 판단할 일이라 안 건드린다.)
+-- 🔴 `from anon` 만으로는 **안 빠진다.** 기본 권한은 `PUBLIC` 에 붙어 있어서
+--    anon 은 PUBLIC 을 통해 계속 부를 수 있다(실측으로 확인). PUBLIC 에서 회수한 뒤
+--    로그인 사용자에게 **명시적으로** 다시 줘야 한다 — 안 그러면 로그인 사용자까지 막힌다.
+revoke execute on function public.bump_routine_share_saves(uuid) from public, anon;
+grant execute on function public.bump_routine_share_saves(uuid) to authenticated;
+revoke execute on function public.consume_ai_quota(text, text, int) from public, anon;
+grant execute on function public.consume_ai_quota(text, text, int) to authenticated;
+revoke execute on function public.join_group_by_token(text) from public, anon;
+grant execute on function public.join_group_by_token(text) to authenticated;
+revoke execute on function public.debug_feature_enabled(text) from public, anon;
+grant execute on function public.debug_feature_enabled(text) to authenticated;
+revoke execute on function public.is_debug_account() from public, anon;
+grant execute on function public.is_debug_account() to authenticated;
+
+-- `rls_auto_enable` 은 **유지보수용**이다 — 로그인 사용자도 부를 이유가 없다.
+-- 소유자(service_role)만 남긴다.
+revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
+notify pgrst, 'reload schema';

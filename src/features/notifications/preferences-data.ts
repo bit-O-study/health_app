@@ -3,6 +3,7 @@ import "server-only";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 import {
+  PREFERENCE_ROW_KEYS,
   parsePreferences,
   type NotificationPreferences,
   type PreferenceRow,
@@ -16,9 +17,12 @@ import { chunk } from "@/lib/batch";
  * 로그인 사용자용 조회는 `my-preferences.ts` 에 따로 있다.
  */
 
-/** 조회할 컬럼 — 순수 모듈의 `PreferenceRow` 와 같은 집합. */
-export const PREFERENCE_COLUMNS =
-  "user_id, workout_reminder, diet_reminder, workout_inactivity, group_activity, routine_saved, rest_timer, quiet_hours, quiet_start_hour, quiet_end_hour";
+/**
+ * 조회할 컬럼 — 순수 모듈의 종류 표에서 **뽑아 쓴다**(손으로 적지 않는다).
+ * 손으로 적어 두면 종류를 새로 더할 때 여기만 빠지고, 그러면 그 설정을 꺼도 알림이
+ * 그대로 나간다 — 화면에는 아무 이상이 없어서 아무도 모른다.
+ */
+export const PREFERENCE_COLUMNS = ["user_id", ...PREFERENCE_ROW_KEYS].join(", ");
 
 /** `.in(...)` 한 번에 넣을 최대 개수 — PostgREST 는 GET 쿼리스트링이라 URL 길이 제한이 있다. */
 const IN_CHUNK = 100;
@@ -43,7 +47,9 @@ export async function loadPreferences(
         .from("notification_preferences")
         .select(PREFERENCE_COLUMNS)
         .in("user_id", ids);
-      for (const row of (data ?? []) as (PreferenceRow & {
+      // ⚠ 컬럼 목록이 **계산된 문자열**이라 supabase-js 가 행 타입을 추론하지 못한다
+      //    (리터럴일 때만 추론한다). 어차피 아래에서 캐스팅해 쓰던 값이라 unknown 을 거친다.
+      for (const row of (data ?? []) as unknown as (PreferenceRow & {
         user_id: string;
       })[]) {
         out.set(row.user_id, parsePreferences(row));

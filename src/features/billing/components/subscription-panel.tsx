@@ -12,7 +12,11 @@ import {
   purchaseSubscription,
   restorePurchase,
 } from "@/features/billing/play-billing-native";
-import { PREMIUM_PRODUCT_ID } from "@/features/billing/products";
+import {
+  PREMIUM_PRICE_KRW,
+  PREMIUM_PRODUCT_ID,
+} from "@/features/billing/products";
+import { AI_FEATURES, MONTHLY_LIMITS } from "@/features/coach/ai-quota";
 
 /**
  * 구독 화면 — 로드맵 7.1.
@@ -67,6 +71,50 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         </p>
         <p className="mt-1.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
           {status.label}
+        </p>
+      </section>
+
+      {/*
+        🔴 무엇을 사는지 **여기서** 보여 준다. 예전엔 "프리미엄 구독하기" 버튼만 있어서
+        무료와 뭐가 다른지 알 수 없었다 — 값을 모르는 걸 누가 결제하지 않는다.
+        한도는 `ai-quota.ts` 한 곳에서 읽는다(화면에 숫자를 다시 적으면 조용히 갈린다).
+      */}
+      <section
+        data-testid="premium-benefits"
+        className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800"
+      >
+        <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+          프리미엄으로 달라지는 것
+        </p>
+        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          월 {PREMIUM_PRICE_KRW.toLocaleString("ko-KR")}원 · 언제든 해지
+        </p>
+        <table className="mt-3 w-full text-xs">
+          <thead>
+            <tr className="text-zinc-400">
+              <th className="pb-1.5 text-left font-bold">월 사용량</th>
+              <th className="pb-1.5 text-right font-bold">무료</th>
+              <th className="pb-1.5 text-right font-bold text-amber-600 dark:text-amber-400">
+                프리미엄
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {AI_FEATURES.map((f) => (
+              <tr key={f.id} className="border-t border-zinc-100 dark:border-zinc-700">
+                <td className="py-1.5 text-zinc-700 dark:text-zinc-200">{f.label}</td>
+                <td className="py-1.5 text-right tabular-nums text-zinc-500">
+                  {MONTHLY_LIMITS.free[f.id]}회
+                </td>
+                <td className="py-1.5 text-right font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                  {MONTHLY_LIMITS.premium[f.id]}회
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="mt-2.5 text-[11px] leading-5 text-zinc-400 dark:text-zinc-500">
+          루틴·식단 기록·타이머·러닝·그룹은 무료에서도 전부 그대로 쓸 수 있어요.
         </p>
       </section>
 

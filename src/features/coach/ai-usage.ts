@@ -6,6 +6,7 @@ import {
 } from "@/lib/supabase/server";
 import { isEntitled } from "@/features/billing/subscription";
 import { getMySubscription } from "@/features/billing/subscription-store";
+import { hasTeamPremium } from "@/features/billing/team-store";
 import { consumeRate } from "@/lib/rate-limit/consume";
 import { limitMessage } from "@/lib/rate-limit/policy";
 import {
@@ -27,13 +28,21 @@ import {
  *
  * 🔴 등급은 **구독 만료 시각**에서 나온다(`isEntitled`) — "결제했다" 는 기록이 아니라.
  * 그래야 해지·환불·결제실패를 따로 처리하지 않아도 저절로 맞는다.
+ * 팀 구독(B2B)도 같은 규칙이다 — `has_team_premium()` 이 기간을 같이 본다.
  *
  * 조회에 실패하면 **무료**로 본다. 프리미엄을 실수로 주는 쪽보다 안전하고, 사용자는
  * 한도 안내를 보고 다시 시도할 수 있다(권한을 영영 잃는 게 아니다).
  */
 export async function resolveTier(): Promise<AiTier> {
   try {
-    return isEntitled(await getMySubscription()) ? "premium" : "free";
+    // 🔴 개인 구독(플레이) **또는** 팀 구독(트레이너·헬스장) 둘 중 하나면 프리미엄이다.
+    //    헬스장이 회원 몫을 내는데 회원 화면에서 또 결제하라고 하면 그 계약은 깨진다.
+    //    둘은 서로 모르는 값이라 **한 묶음으로** 물어 왕복을 하나로 유지한다.
+    const [personal, team] = await Promise.all([
+      getMySubscription(),
+      hasTeamPremium(),
+    ]);
+    return isEntitled(personal) || team ? "premium" : "free";
   } catch {
     return "free";
   }

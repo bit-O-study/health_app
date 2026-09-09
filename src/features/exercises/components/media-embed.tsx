@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import type { MediaKind } from "@/features/exercises/exercise-media";
 import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
@@ -9,102 +9,6 @@ type Embed = { provider: "youtube" | "vimeo"; id: string };
 
 /** 가이드(운동 차례) 시범 영상 재생 배속 — 자세 보기 좋게 슬로우. */
 const GUIDE_RATE = 0.5;
-
-const BENCH_PRESS_MULTISHOT = "/exercise-guides/bench-press-multishot";
-const LEG_PRESS_GUIDE = "/exercise-guides/leg-press-guide";
-
-const BENCH_CAMERA = [
-  { scale: 1.45, origin: "67% 34%" },
-  { scale: 1.35, origin: "63% 60%" },
-  { scale: 1.15, origin: "54% 78%" },
-  { scale: 1, origin: "50% 50%" },
-] as const;
-
-function BenchPressMultiShot({ className }: { className: string }) {
-  const [camera, setCamera] = useState(0);
-  const [showScapula, setShowScapula] = useState(true);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  useReleaseVideoOnUnmount(videoRef, showScapula);
-
-  useEffect(() => {
-    const introTimer = window.setTimeout(() => {
-      setCamera(0);
-      setShowScapula(false);
-    }, 5000);
-    const timer = window.setInterval(
-      () => setCamera((current) => (current + 1) % BENCH_CAMERA.length),
-      3500,
-    );
-    return () => {
-      window.clearTimeout(introTimer);
-      window.clearInterval(timer);
-    };
-  }, []);
-
-  const shot = BENCH_CAMERA[camera];
-  return (
-    <div
-      className={`relative aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-black dark:border-zinc-700 ${className}`}
-    >
-      {showScapula ? (
-        <video
-          ref={videoRef}
-          src="/exercise-guides/bench-press-scapula.mp4"
-          playsInline
-          autoPlay
-          muted
-          className="h-full w-full object-cover"
-        />
-      ) : (
-        <video
-          ref={videoRef}
-          src="/exercise-guides/bench-press-main-new.mp4"
-          playsInline
-          autoPlay
-          muted
-          loop
-          className="h-full w-full object-contain transition-transform duration-1000 ease-in-out"
-          style={{
-            transform: `scale(${shot.scale})`,
-            transformOrigin: shot.origin,
-          }}
-        />
-      )}
-    </div>
-  );
-}
-
-function LegPressGuide({
-  className,
-  autoPlay,
-}: {
-  className: string;
-  autoPlay: boolean;
-}) {
-  const [phase, setPhase] = useState<"setup" | "performance">("setup");
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  useReleaseVideoOnUnmount(videoRef, phase);
-
-  const isPerformance = phase === "performance";
-  return (
-    <div
-      className={`relative flex aspect-video w-full items-center justify-center overflow-hidden rounded-2xl border border-zinc-200 bg-black dark:border-zinc-700 ${className}`}
-    >
-      <video
-        key={phase}
-        ref={videoRef}
-        src={`/exercise-guides/leg-press-${phase}.webm`}
-        controls={!autoPlay}
-        playsInline
-        autoPlay={autoPlay || isPerformance}
-        muted={autoPlay}
-        loop={isPerformance}
-        onEnded={() => setPhase("performance")}
-        className="h-auto max-h-[46vh] w-full object-contain sm:max-h-[24rem]"
-      />
-    </div>
-  );
-}
 
 function parseEmbed(url: string): Embed | null {
   try {
@@ -215,12 +119,6 @@ export function MediaEmbed({
   const [videoRetry, setVideoRetry] = useState(0);
   const [videoError, setVideoError] = useState(false);
   useReleaseVideoOnUnmount(videoRef);
-  if (url === BENCH_PRESS_MULTISHOT) {
-    return <BenchPressMultiShot className={className} />;
-  }
-  if (url === LEG_PRESS_GUIDE) {
-    return <LegPressGuide className={className} autoPlay={autoPlay} />;
-  }
   const embed = parseEmbed(url);
   const base = `relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
   // ⚠ 시범 영상 중엔 **세로(1080×1920) 영상**이 있어(랫풀다운 등) 그냥 h-auto 로 두면
@@ -270,7 +168,7 @@ export function MediaEmbed({
           loop={autoPlay}
           onLoadedMetadata={(e) => {
             setVideoError(false);
-            if (autoPlay) e.currentTarget.playbackRate = GUIDE_RATE;
+            if (autoPlay) e.currentTarget.playbackRate = url.startsWith("/exercise-guides/ai-v2/") ? 1 : GUIDE_RATE;
           }}
           onError={() => setVideoError(true)}
           className={`h-auto w-full object-contain ${MEDIA_CAP}`}

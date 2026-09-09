@@ -17,6 +17,11 @@ describe.skipIf(!hasDbCreds)("식품 검색 순위(라이브 DB)", () => {
   let client: ReturnType<typeof makeClient>;
   const TAG = `zzq${Date.now().toString(36)}`;
 
+  // 짧은 검색어(1·2글자) 전용 표식. 실제 카탈로그(26만 행)에 없을 글자를 쓴다 —
+  // 흔한 두 글자로 검사하면 진짜 음식이 섞여 들어와 단언이 흔들린다.
+  const SHORT1 = "Ж";
+  const SHORT2 = "Жq";
+
   // 이름이 짧을수록/정확할수록 위로 와야 한다. 일부러 뒤죽박죽 넣는다.
   const FIXTURES = [
     `빙수_팥_${TAG}얼음`,
@@ -24,6 +29,8 @@ describe.skipIf(!hasDbCreds)("식품 검색 순위(라이브 DB)", () => {
     `${TAG}라면`,
     `아주긴이름의${TAG}가들어간제품`,
     `${TAG}꽃`,
+    `${SHORT2}면`,
+    `빙수_팥_${SHORT2}얼음`,
   ];
 
   beforeAll(async () => {
@@ -102,6 +109,23 @@ describe.skipIf(!hasDbCreds)("식품 검색 순위(라이브 DB)", () => {
     expect(names).toContain(`아주긴이름의${TAG}가들어간제품`);
     // 같은 행이 두 단계에서 겹쳐 나오면 안 된다.
     expect(new Set(names).size).toBe(names.length);
+  });
+
+  it("🔴 두 글자 검색도 접두사로 모자라면 중간에 낀 것으로 채운다", async () => {
+    // 2026-09-08: 짧은 검색어의 2단계는 trigram 을 못 써 26만 행 전체 스캔이었다.
+    // 조각(n-gram) 인덱스로 후보를 좁히게 바꿨는데, 후보를 **너무** 좁히면 중간에 낀 것이
+    // 통째로 사라진다(빠르지만 검색이 망가진다). 그 회귀를 여기서 잡는다.
+    const names = await search(SHORT2, 50);
+    expect(names).toContain(`${SHORT2}면`); // 1단계(접두사)
+    expect(names).toContain(`빙수_팥_${SHORT2}얼음`); // 2단계(중간에 낀 것)
+    for (const n of names) expect(n.toLowerCase()).toContain(SHORT2.toLowerCase());
+  });
+
+  it("🔴 한 글자 검색도 중간에 낀 것을 찾는다", async () => {
+    const names = await search(SHORT1, 50);
+    expect(names).toContain(`${SHORT2}면`); // 접두사
+    expect(names).toContain(`빙수_팥_${SHORT2}얼음`); // 중간에 낀 것
+    for (const n of names) expect(n.toLowerCase()).toContain(SHORT1.toLowerCase());
   });
 
   it("빈 검색어는 아무것도 돌려주지 않는다", async () => {

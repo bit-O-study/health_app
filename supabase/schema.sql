@@ -308,7 +308,7 @@ alter table public.profiles enable row level security;
 drop policy if exists "Users can read own profile" on public.profiles;
 create policy "Users can read own profile"
   on public.profiles for select
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can insert own profile" on public.profiles;
 create policy "Users can insert own profile"
@@ -1794,8 +1794,10 @@ create policy "admin deletes admins" on public.admins for delete
 
 -- 관리자는 모든 회원 프로필 조회 가능 (회원정보 페이지)
 drop policy if exists "admin reads all profiles" on public.profiles;
+-- 자기 행은 위 "read own" 정책이 이미 허용한다 → 앞에 싼 비교를 둬서 평범한 조회에서
+-- is_admin() 이 행마다 도는 걸 막는다(권한 범위는 그대로).
 create policy "admin reads all profiles" on public.profiles for select
-  using (public.is_admin());
+  using (user_id <> (select auth.uid()) and public.is_admin());
 
 -- exercise_media 쓰기 정책을 is_admin() 기반으로 (하드코딩 이메일 → DB 관리)
 drop policy if exists "admin writes exercise media" on public.exercise_media;
@@ -2204,7 +2206,7 @@ alter table public.food_logs enable row level security;
 drop policy if exists "Users can read own food logs" on public.food_logs;
 create policy "Users can read own food logs"
   on public.food_logs for select
-  using (auth.uid() = user_id);
+  using ((select auth.uid()) = user_id);
 
 drop policy if exists "Users can insert own food logs" on public.food_logs;
 create policy "Users can insert own food logs"
@@ -2260,6 +2262,36 @@ create index if not exists custom_foods_name_trgm_idx
 create index if not exists custom_foods_name_prefix_idx
   on public.custom_foods (lower(name) text_pattern_ops);
 
+-- 🔴 짧은 검색어의 **이름 중간 포함**(2단계)용 n-gram 인덱스. 2026-09-08.
+--
+-- 위 접두사 인덱스는 '우유로 시작' 만 잡는다. 접두사로 한도를 못 채우면 '중간에 낀 것'
+-- (`name ilike '%우유%'`)으로 채우는데, 이건 **검색어가 3글자 이상일 때만** trigram GIN 을
+-- 탄다. 앞뒤가 열린 패턴에서 인덱스가 쓸 수 있는 건 온전한 3-gram 뿐이라 1~2글자에는
+-- 뽑을 게 없어 26만 행 전체 스캔이 된다 — 실측 219~310ms(최악 1,870ms).
+-- 한국어 검색어는 한두 글자가 기본이고, 1글자 접두사 1,303종 중 756종은 한도(50)를
+-- 못 채워 **실제로 2단계까지 내려간다.** 즉 드문 경우가 아니라 일상 경로였다.
+--
+-- 그래서 이름에서 1글자·2글자 조각을 뽑아 GIN 으로 색인한다. `@> array['우유']` 로
+-- 후보를 인덱스에서 좁힌 뒤 기존 `ilike` 를 그대로 한 번 더 걸어 **의미는 바꾸지 않는다**
+-- (재현율 실측 동일: 자두 248/248 · 우유 2,301/2,301 · 라면 807/807).
+-- 실측: 1글자 224ms → 30ms · 2글자 220ms → 1~9ms. 인덱스 17MB(테이블 41MB).
+--
+-- ⚠ 3글자 이상은 **이 인덱스를 쓰지 않는다.** 조각이 1~2글자뿐이라 후보를 못 좁히고,
+--   그 길이에서는 trigram GIN 이 이미 잘 듣는다(닭가슴살 23ms).
+create or replace function public.name_grams(t text)
+returns text[] language sql immutable strict parallel safe as $$
+  select array(
+    select distinct g
+      from (select lower(t) as s) x,
+           lateral (
+             select substr(s, i, 1) as g from generate_series(1, length(s)) as i
+             union all
+             select substr(s, i, 2) from generate_series(1, greatest(length(s) - 1, 1)) as i
+           ) u)
+$$;
+create index if not exists custom_foods_name_gram_idx
+  on public.custom_foods using gin (public.name_grams(name));
+
 -- 검색 순위. 식약처 카탈로그를 적재하며 이 표가 26만 행이 됐는데, 새 행은 전부 hits=1 이라
 -- hits 만으로 줄 세우면 **상위 결과가 사실상 무작위**다("우유" → `빙수_팥_우유얼음`이 먼저).
 --
@@ -2297,14 +2329,34 @@ begin
   get diagnostics got = row_count;
 
   -- 2단계: 이름 중간에 낀 것. 1단계로 못 채웠을 때만.
+  --
+  -- 🔴 길이로 갈래를 나눈다 — 쓸 수 있는 인덱스가 다르기 때문이다(윗쪽 인덱스 주석 참고).
+  --    3글자 이상: `ilike '%q%'` 가 trigram GIN 을 탄다(닭가슴살 23ms).
+  --    1~2글자   : trigram 은 못 쓴다 → n-gram 인덱스로 후보를 좁힌 뒤 같은 `ilike` 를
+  --                다시 건다. 결과 집합은 그대로고 스캔만 사라진다.
+  --                실측 224ms → 30ms(1글자) · 220ms → 1~9ms(2글자).
+  --    ⚠ 조각 조회에는 이스케이프 안 한 `q` 를 쓴다 — 인덱스에는 이름의 **글자 그대로**가
+  --      들어 있어서 `\%` 같은 이스케이프 문자열로 찾으면 아무것도 안 걸린다.
+  --      와일드카드 방지는 뒤따르는 `ilike … escape '\'` 가 그대로 책임진다.
   if got < lim then
-    return query
-      select *
-        from public.custom_foods
-       where name ilike '%' || pat || '%' escape '\'
-         and lower(name) not like lower(pat) || '%' escape '\'
-       order by length(name) asc, hits desc, name asc
-       limit lim - got;
+    if length(q) >= 3 then
+      return query
+        select *
+          from public.custom_foods
+         where name ilike '%' || pat || '%' escape '\'
+           and lower(name) not like lower(pat) || '%' escape '\'
+         order by length(name) asc, hits desc, name asc
+         limit lim - got;
+    else
+      return query
+        select *
+          from public.custom_foods
+         where public.name_grams(name) @> array[lower(q)]
+           and name ilike '%' || pat || '%' escape '\'
+           and lower(name) not like lower(pat) || '%' escape '\'
+         order by length(name) asc, hits desc, name asc
+         limit lim - got;
+    end if;
   end if;
 end
 $$;
@@ -2457,18 +2509,365 @@ create policy "leave self" on public.group_members for delete
   using (user_id = auth.uid());
 
 -- 그룹원끼리 운동 기록·프로필 열람(랭킹 계산용). 기존 본인 전용 정책과 OR.
+-- 🔴 `user_id <> (select auth.uid()) and …` 의 앞쪽 비교는 **성능 장치**다(권한은 그대로).
+--    허용 정책 여러 개는 OR 로 합쳐지는데, 플래너가 비용을 보고 순서를 정한다 —
+--    실측(EXPLAIN) 결과 `shares_group_with(user_id)` 가 **먼저** 평가돼서, 자기 행만
+--    읽는 평범한 조회에서도 **행마다** group_members 조인이 돌았다(식단 4행 0.30ms,
+--    자기 조건만이면 0.01ms). 앞에 싼 비교를 두면 남의 행일 때만 함수가 돈다.
+--    그룹 랭킹처럼 행이 많은 화면일수록 차이가 커진다.
+--    같은 이유로 `auth.uid()` 는 `(select auth.uid())` 로 감싼다 — 행마다가 아니라
+--    쿼리당 한 번(InitPlan)만 평가된다.
 drop policy if exists "group mates read exercise completions" on public.exercise_completions;
 create policy "group mates read exercise completions" on public.exercise_completions
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 drop policy if exists "group mates read conditioning completions" on public.conditioning_completions;
 create policy "group mates read conditioning completions" on public.conditioning_completions
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 drop policy if exists "group mates read profiles" on public.profiles;
 create policy "group mates read profiles" on public.profiles
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 drop policy if exists "group mates read food logs" on public.food_logs;
 create policy "group mates read food logs" on public.food_logs
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 대시보드(trainer_board) — 2026-09-09. 그룹장이 담당 회원의 주간 상태를
+-- 한 번에 본다(수행일수·식단기록일수·마지막 운동일·주간 목표일수·체중 변화).
+--
+-- 🔴 **왜 RLS 가 아니라 SECURITY DEFINER 함수인가.**
+--    필요한 값 중 `user_routines`(주간 목표)와 `weight_logs`(체중 추이)는 그룹원에게
+--    열려 있지 않다. 이걸 "그룹원이면 읽기" 정책으로 열면 **트레이너뿐 아니라 같은 그룹의
+--    모든 사람**이 남의 체중 이력을 보게 된다 — 이 앱의 그룹은 친구 모임이기도 하다.
+--    여기서는 `groups.owner_id = auth.uid()` 를 함수 안에서 직접 확인해 **그룹장에게만**
+--    연다. 아니면 조용히 빈 결과다(오류가 아니라 '볼 게 없음'으로 취급).
+--
+-- 🔴 **한 번에 집계해서 준다.** 회원마다 따로 물으면 회원 수만큼 왕복이 는다.
+--    트레이너 화면은 회원이 많을수록 값이 커지는 화면이라 그 반대로 굴면 안 된다.
+--
+-- 주간 목표일수는 `splits`(N분할)가 0 이어도 `custom_week`(직접 짠 한 주)에서 휴식이
+-- 아닌 날을 센다 — 직접 짠 사용자의 목표가 0 으로 보이면 달성률이 항상 0% 가 된다.
+create or replace function public.trainer_board(
+  p_group_id uuid, p_from date, p_to date)
+returns table (
+  user_id uuid,
+  workout_days int,
+  diet_days int,
+  last_workout date,
+  target_days int,
+  weight_first numeric,
+  weight_last numeric
+)
+language sql security definer stable set search_path = public as $$
+  with owner_ok as (
+    select 1 from public.groups g
+     where g.id = p_group_id and g.owner_id = (select auth.uid())
+  ),
+  mem as (
+    select gm.user_id from public.group_members gm
+     where gm.group_id = p_group_id and exists (select 1 from owner_ok)
+  ),
+  did as (
+    select e.user_id, e.for_date from public.exercise_completions e
+      join mem m on m.user_id = e.user_id
+     where e.status = 'done' and e.for_date between p_from and p_to
+    union
+    select c.user_id, c.for_date from public.conditioning_completions c
+      join mem m on m.user_id = c.user_id
+     where c.status = 'done' and c.for_date between p_from and p_to
+  ),
+  ate as (
+    select distinct f.user_id, f.for_date from public.food_logs f
+      join mem m on m.user_id = f.user_id
+     where f.for_date between p_from and p_to
+  ),
+  last_w as (
+    select e.user_id, max(e.for_date) d from public.exercise_completions e
+      join mem m on m.user_id = e.user_id
+     where e.status = 'done'
+     group by e.user_id
+  ),
+  w as (
+    select wl.user_id,
+           (array_agg(wl.weight_kg order by wl.created_at asc))[1] as first_kg,
+           (array_agg(wl.weight_kg order by wl.created_at desc))[1] as last_kg
+      from public.weight_logs wl
+      join mem m on m.user_id = wl.user_id
+     where wl.weight_kg is not null
+       and wl.created_at >= (p_from::timestamptz - interval '28 days')
+     group by wl.user_id
+  )
+  select m.user_id,
+         (select count(distinct d.for_date)::int from did d where d.user_id = m.user_id),
+         (select count(*)::int from ate a where a.user_id = m.user_id),
+         (select l.d from last_w l where l.user_id = m.user_id),
+         coalesce((
+           select case
+                    when r.custom_week is not null then (
+                      select count(*)::int
+                        from jsonb_array_elements(r.custom_week) as d
+                       where not (d @> '["rest"]'::jsonb)
+                    )
+                    else r.splits
+                  end
+             from public.user_routines r where r.user_id = m.user_id), 0)::int,
+         (select x.first_kg from w x where x.user_id = m.user_id),
+         (select x.last_kg from w x where x.user_id = m.user_id)
+    from mem m
+$$;
+revoke all on function public.trainer_board(uuid, date, date) from public;
+revoke all on function public.trainer_board(uuid, date, date) from anon;
+grant execute on function public.trainer_board(uuid, date, date) to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 루틴 배정 — 2026-09-09. 트레이너가 **자기 루틴의 한 일차**를 담당 회원의
+-- 한 일차로 밀어넣는다. `applyRoutineShareAction`(남의 소개 루틴 담기)과 같은 모양이고,
+-- 다른 점은 **쓰는 대상이 남**이라는 것뿐이다 — 그래서 RLS 로는 못 하고 여기로 온다.
+--
+-- 🔴 **무게는 넘기지 않는다.** 트레이너의 100kg 스쿼트가 초보 회원 화면에 그대로 박히면
+--    위험하고, 애초에 남의 신체 수치다. 회원이 운동하며 자기 무게를 넣는다.
+--    (`routine_shares` 의 `include_weights` 가 있는 이유와 같다.)
+--
+-- 🔴 **부위는 받는 쪽으로 통일한다.** 원본 부위를 그대로 쓰면 회원 루틴에 없는 부위의
+--    운동이 생겨 **어느 화면에도 안 뜬다**(공유 루틴 담기에서 이미 겪은 문제).
+--    부위 계산은 TS(`routineDaySlots`)가 하고 여기로 넘겨받는다 — 그 규칙을 SQL 에
+--    다시 구현하면 두 곳이 갈린다.
+--
+-- ⚠ 이건 회원의 **영구 루틴**을 덮어쓴다(docs/원칙.md 2번의 반대 방향). 화면이 회원
+--   이름과 일차를 보여 주고 확인을 받는다. 권한 없으면 -1(아무것도 안 함).
+--
+-- `trainer_member_routine` 은 배정 화면이 **회원의 일차 목록**을 그리는 데 쓴다.
+-- (user_routines 는 그룹원에게 안 열려 있다 — trainer_board 와 같은 이유.)
+create or replace function public.trainer_member_routine(
+  p_group_id uuid, p_member uuid)
+returns table (splits int, variant_id text, custom_week jsonb)
+language sql security definer stable set search_path = public as $$
+  select r.splits, r.variant_id, r.custom_week
+    from public.user_routines r
+   where r.user_id = p_member
+     and exists (
+       select 1 from public.groups g
+        where g.id = p_group_id and g.owner_id = (select auth.uid()))
+     and exists (
+       select 1 from public.group_members m
+        where m.group_id = p_group_id and m.user_id = p_member)
+$$;
+revoke all on function public.trainer_member_routine(uuid, uuid) from public;
+revoke all on function public.trainer_member_routine(uuid, uuid) from anon;
+grant execute on function public.trainer_member_routine(uuid, uuid) to authenticated;
+
+create or replace function public.trainer_assign_routine_day(
+  p_group_id uuid, p_member uuid,
+  p_from_day int, p_from_focus text,
+  p_to_day int, p_to_focus text)
+returns int
+language plpgsql security definer set search_path = public as $$
+declare
+  me uuid := (select auth.uid());
+  n int := 0;
+begin
+  -- 그룹장 + 대상이 그 그룹 회원. 둘 중 하나라도 아니면 아무 일도 안 한다.
+  if not exists (
+    select 1 from public.groups g
+     where g.id = p_group_id and g.owner_id = me
+  ) or not exists (
+    select 1 from public.group_members m
+     where m.group_id = p_group_id and m.user_id = p_member
+  ) then
+    return -1;
+  end if;
+  -- 자기 자신에게 배정하는 건 막는다(트레이너 루틴이 자기 루틴을 덮어쓴다).
+  if p_member = me then
+    return -1;
+  end if;
+
+  delete from public.routine_exercises
+   where user_id = p_member and day_index = p_to_day;
+
+  insert into public.routine_exercises
+    (user_id, focus, position, exercise_id, equipment, sets, reps,
+     weight_kg, set_details, memo, day_index)
+  select p_member, p_to_focus, s.position, s.exercise_id, s.equipment, s.sets, s.reps,
+         -- 🔴 무게는 넘기지 않는다. 트레이너의 100kg 스쿼트가 초보 회원 화면에 박히면
+         --    위험하고, 애초에 남의 신체 수치다. 회원이 운동하며 자기 무게를 넣는다.
+         null, null, s.memo, p_to_day
+    from public.routine_exercises s
+   where s.user_id = me and s.day_index = p_from_day;
+  get diagnostics n = row_count;
+
+  -- 워밍업/마무리는 부위 단위라 대상 부위로 갈아끼운다.
+  delete from public.routine_conditioning
+   where user_id = p_member and focus = p_to_focus;
+
+  insert into public.routine_conditioning
+    (user_id, focus, kind, position, item_id, duration_min, speed, incline)
+  select p_member, p_to_focus, s.kind, s.position, s.item_id, s.duration_min, s.speed, s.incline
+    from public.routine_conditioning s
+   where s.user_id = me and s.focus = p_from_focus;
+
+  return n;
+end
+$$;
+revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) from public;
+revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) from anon;
+grant execute on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 코멘트(trainer_comments) — 2026-09-09. 트레이너가 담당 회원에게 남기는
+-- 피드백. 그룹 응원(group_cheers)과 다르다: 응원은 **10자·하루 한 문구·그룹원 누구나**
+-- 라 "화이팅" 용이고, 이건 **500자·여러 개·트레이너만** 이라 자세를 짚어 줄 수 있다.
+--
+-- 여기는 SECURITY DEFINER 가 필요 없다 — 필요한 판단(그룹장인가·그 그룹 회원인가)이
+-- 전부 **자기 행의 컬럼**으로 표현되어 RLS 로 그대로 쓸 수 있다. 남의 표를 대신 읽어야
+-- 하는 trainer_board 와 다른 점이다.
+--
+-- 읽기는 **당사자 둘만**(회원 본인·쓴 트레이너). 같은 그룹의 다른 회원에게도 안 보인다 —
+-- 자세 지적은 남 앞에서 할 말이 아니다.
+create table if not exists public.trainer_comments (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  trainer_id uuid not null references auth.users(id) on delete cascade,
+  member_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null default (now() at time zone 'Asia/Seoul')::date,
+  body text not null check (char_length(body) between 1 and 500),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists trainer_comments_member_idx
+  on public.trainer_comments (member_id, created_at desc);
+create index if not exists trainer_comments_group_member_idx
+  on public.trainer_comments (group_id, member_id, created_at desc);
+
+alter table public.trainer_comments enable row level security;
+
+drop policy if exists "read own trainer comments" on public.trainer_comments;
+create policy "read own trainer comments" on public.trainer_comments for select
+  using (member_id = (select auth.uid()) or trainer_id = (select auth.uid()));
+
+drop policy if exists "trainer writes comment" on public.trainer_comments;
+create policy "trainer writes comment" on public.trainer_comments for insert
+  with check (
+    trainer_id = (select auth.uid())
+    and member_id <> (select auth.uid())
+    -- 🔴 바깥 행을 **표 이름으로 못 박는다**. `m.group_id = group_id` 라고 쓰면
+    --    `group_id` 가 서브쿼리의 `group_members.group_id` 로 붙어 자기 자신과의 비교가
+    --    되고(항상 참), **아무 그룹에나 속한 사람이면 통과**한다. 실측으로 뚫렸다.
+    and exists (
+      select 1 from public.groups g
+       where g.id = trainer_comments.group_id
+         and g.owner_id = (select auth.uid()))
+    and exists (
+      select 1 from public.group_members m
+       where m.group_id = trainer_comments.group_id
+         and m.user_id = trainer_comments.member_id)
+  );
+
+drop policy if exists "trainer deletes own comment" on public.trainer_comments;
+create policy "trainer deletes own comment" on public.trainer_comments for delete
+  using (trainer_id = (select auth.uid()));
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 팀 구독(team_subscriptions) — 2026-09-09. **트레이너·헬스장이 내는 쪽**(B2B).
+-- 그룹당 한 행. 개인 구독(subscriptions)과 나란히 두고, 둘 중 하나만 살아 있어도
+-- 프리미엄이다.
+--
+-- 🔴 **구글 플레이 결제를 쓰지 않는다.** Play 인앱결제는 개인용이고, 사업자에게는
+--    세금계산서·계좌이체가 필요하다(비용 처리를 해야 한다). 그래서 여기는
+--    **입금 확인형**이다 — 그룹장이 신청하면 관리자가 입금을 확인하고 기간을 넣는다.
+--    자동화할 수 있는 자리가 아니라 일부러 사람이 승인한다.
+--
+-- 🔴 권한은 status 가 아니라 **period_end** 에서 나온다(개인 구독과 같은 규칙).
+--    그래야 해지·연장 실패를 따로 처리하지 않아도 기간이 지나면 저절로 끊긴다.
+--
+-- 정책 요약: 읽기는 그룹장·관리자. 신청(insert)은 그룹장이 **'requested' 로만**.
+-- 승인(active 로 바꾸기)은 **관리자만** — 그룹장이 스스로 프리미엄이 되면 안 된다.
+-- 신청 상태에서는 그룹장이 사업자정보를 고치거나 신청을 취소할 수 있다.
+create table if not exists public.team_subscriptions (
+  group_id uuid primary key references public.groups(id) on delete cascade,
+  plan text not null default 'trainer' check (plan in ('trainer', 'gym')),
+  status text not null default 'requested'
+    check (status in ('requested', 'active', 'expired', 'canceled')),
+  seats int not null default 0,
+  price_krw int not null default 0 check (price_krw >= 0),
+  period_start date,
+  period_end date,
+  biz_name text check (biz_name is null or char_length(biz_name) <= 80),
+  biz_number text check (biz_number is null or char_length(biz_number) <= 20),
+  biz_email text check (biz_email is null or char_length(biz_email) <= 120),
+  requested_by uuid references auth.users(id) on delete set null,
+  requested_at timestamptz not null default now(),
+  approved_at timestamptz,
+  memo text check (memo is null or char_length(memo) <= 500),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists team_subscriptions_status_idx
+  on public.team_subscriptions (status, period_end);
+
+alter table public.team_subscriptions enable row level security;
+
+drop policy if exists "owner or admin reads team sub" on public.team_subscriptions;
+create policy "owner or admin reads team sub" on public.team_subscriptions for select
+  using (
+    public.is_admin()
+    or exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  );
+
+drop policy if exists "owner requests team sub" on public.team_subscriptions;
+create policy "owner requests team sub" on public.team_subscriptions for insert
+  with check (
+    status = 'requested'
+    and requested_by = (select auth.uid())
+    and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  );
+
+drop policy if exists "owner edits pending request" on public.team_subscriptions;
+create policy "owner edits pending request" on public.team_subscriptions for update
+  using (
+    status = 'requested'
+    and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  )
+  with check (status = 'requested');
+
+drop policy if exists "admin manages team sub" on public.team_subscriptions;
+create policy "admin manages team sub" on public.team_subscriptions for update
+  using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "owner cancels pending request" on public.team_subscriptions;
+create policy "owner cancels pending request" on public.team_subscriptions for delete
+  using (
+    public.is_admin()
+    or (status = 'requested' and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid())))
+  );
+
+create or replace function public.has_team_premium()
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1
+      from public.group_members m
+      join public.team_subscriptions t on t.group_id = m.group_id
+     where m.user_id = (select auth.uid())
+       and t.status = 'active'
+       and t.period_end is not null
+       and t.period_end >= (now() at time zone 'Asia/Seoul')::date
+  );
+$$;
+revoke all on function public.has_team_premium() from public;
+revoke all on function public.has_team_premium() from anon;
+grant execute on function public.has_team_premium() to authenticated;
+notify pgrst, 'reload schema';
 
 notify pgrst, 'reload schema';
 
@@ -2495,7 +2894,7 @@ alter table public.meal_photos enable row level security;
 
 drop policy if exists "Users can read own meal photos" on public.meal_photos;
 create policy "Users can read own meal photos" on public.meal_photos
-  for select using (auth.uid() = user_id);
+  for select using ((select auth.uid()) = user_id);
 drop policy if exists "Users can insert own meal photos" on public.meal_photos;
 create policy "Users can insert own meal photos" on public.meal_photos
   for insert with check (auth.uid() = user_id);
@@ -2509,7 +2908,7 @@ create policy "Users can delete own meal photos" on public.meal_photos
 -- 그룹원끼리 끼니 사진 열람(오늘 식단 공유)
 drop policy if exists "group mates read meal photos" on public.meal_photos;
 create policy "group mates read meal photos" on public.meal_photos
-  for select using (public.shares_group_with(user_id));
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 
 -- 그룹 응원 문구(group_cheers) — 그룹원이 다른 멤버의 '그날 기록'에 짧은 응원(≤10자)을 남긴다.
 -- (group_id, from_user, to_user, for_date) 유니크 → 한 사람당 하루 한 문구(수정 가능).
@@ -2609,6 +3008,24 @@ create or replace function public.group_mode() returns text
       else 'gym'
     end;
 $$;
+
+-- 입금 계좌 안내 — `app_settings['billing.deposit']`. 팀 요금제(B2B) 신청자가 본다.
+--
+-- 🔴 app_settings 는 **관리자 전용 RLS** 라 트레이너가 직접 못 읽는다. 그룹탭 모드
+--    (`group_mode()`)와 같은 이유로 SECURITY DEFINER 함수로 그 값 **하나만** 내준다 —
+--    표를 통째로 열면 디버그 계정 목록 같은 다른 설정까지 새어 나간다.
+--
+-- 로그인 사용자에게만 준다. 계좌는 청구서에 적히는 값이라 비밀은 아니지만,
+-- 로그인도 안 한 사람에게 뿌릴 이유는 없다.
+create or replace function public.billing_deposit_info() returns jsonb
+  language sql security definer stable set search_path = public as $$
+  select coalesce(
+    (select value from public.app_settings where key = 'billing.deposit'),
+    'null'::jsonb);
+$$;
+revoke all on function public.billing_deposit_info() from public;
+revoke all on function public.billing_deposit_info() from anon;
+grant execute on function public.billing_deposit_info() to authenticated;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 오늘 운동 인증 움짤(group_proofs) — 그룹원이 '오늘 운동했다'는 3초 무음영상을 올린다.
@@ -3418,6 +3835,12 @@ create table if not exists public.notification_preferences (
   workout_inactivity boolean not null default true,
   group_activity boolean not null default true,
   routine_saved boolean not null default true,
+  -- 트레이너(그룹장)가 내 루틴을 바꿨을 때. 🔴 이건 **내가 안 한 변경**이라
+  -- 그룹 소식(group_activity)에 묶지 않는다 — MVP 알림을 껐다고 남이 내 루틴을 바꾼 걸
+  -- 모르게 되면 안 된다.
+  routine_assigned boolean not null default true,
+  -- 트레이너가 남긴 코멘트. 배정과 따로 끈다(하나는 루틴 변경, 하나는 말이다).
+  trainer_comment boolean not null default true,
   rest_timer boolean not null default true,
   quiet_hours boolean not null default true,
   quiet_start_hour smallint not null default 22
@@ -3426,6 +3849,11 @@ create table if not exists public.notification_preferences (
     check (quiet_end_hour >= 0 and quiet_end_hour <= 23),
   updated_at timestamptz not null default now()
 );
+-- 기존 DB 보정 — 표는 이미 있으므로 컬럼만 더한다.
+alter table public.notification_preferences
+  add column if not exists routine_assigned boolean not null default true;
+alter table public.notification_preferences
+  add column if not exists trainer_comment boolean not null default true;
 alter table public.notification_preferences enable row level security;
 -- 본인만 읽고 쓴다. 크론은 서비스 롤이라 RLS 를 우회한다.
 drop policy if exists "own notification preferences" on public.notification_preferences;

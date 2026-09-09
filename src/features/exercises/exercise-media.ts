@@ -15,32 +15,32 @@ export type ExerciseMedia = {
 const BUILT_IN_MEDIA: Record<string, ExerciseMedia> = {
   "bench-press": {
     exerciseId: "bench-press",
-    url: "/exercise-guides/bench-press-multishot",
+    url: "/exercise-guides/ai-v2/bench-press.mp4",
     kind: "video",
   },
   "lat-pulldown": {
     exerciseId: "lat-pulldown",
-    url: "/exercise-guides/lat-pulldown.mp4",
+    url: "/exercise-guides/ai-v2/lat-pulldown.mp4",
     kind: "video",
   },
   "pull-up": {
     exerciseId: "pull-up",
-    url: "/exercise-guides/pull-up.mp4",
+    url: "/exercise-guides/ai-v2/pull-up.mp4",
     kind: "video",
   },
   "smith-squat": {
     exerciseId: "smith-squat",
-    url: "/exercise-guides/squat.mp4",
+    url: "/exercise-guides/ai-v2/smith-squat.mp4",
     kind: "video",
   },
   "dumbbell-shoulder-press": {
     exerciseId: "dumbbell-shoulder-press",
-    url: "/exercise-guides/dumbbell-shoulder-press.mp4",
+    url: "/exercise-guides/ai-v2/dumbbell-shoulder-press.mp4",
     kind: "video",
   },
   "leg-press": {
     exerciseId: "leg-press",
-    url: "/exercise-guides/leg-press-guide",
+    url: "/exercise-guides/ai-v2/leg-press.mp4",
     kind: "video",
   },
 };

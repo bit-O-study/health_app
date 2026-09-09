@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Calendar,
@@ -148,11 +149,10 @@ export function DietBoard({
   const isToday = date === today;
   const [datePicker, setDatePicker] = useState(false);
 
-  function goDay(delta: number) {
-    if (pending) return;
-    const d = addDaysYmd(date, delta);
-    start(() => router.push(d === today ? "/diet" : `/diet?d=${d}`));
-  }
+  /** 날짜 → 그 날 식단 주소. 오늘은 쿼리 없이 `/diet`(주소가 하루 지나도 안 낡는다). */
+  const dietHref = (d: string) => (d === today ? "/diet" : `/diet?d=${d}`);
+  const prevHref = dietHref(addDaysYmd(date, -1));
+  const nextHref = dietHref(addDaysYmd(date, 1));
 
   /** 특정 날짜(과거)로 이동 — 날짜 선택 팝업에서 호출. 미래는 오늘로 클램프. */
   function goToDate(ymd: string) {
@@ -280,16 +280,32 @@ export function DietBoard({
           <Utensils aria-hidden="true" size={22} className="text-emerald-600" />
           식단
         </h1>
+        {/*
+          🔴 날짜 이동은 **버튼이 아니라 Link** 다(2026-09-08). 이유는 오직 하나 —
+          `prefetch` 를 받으려고. 버튼+`router.push` 는 누른 **다음에야** 서버 렌더를
+          시작해서, 한국에서 싱가포르(sin1)까지 왕복이 그대로 기다리는 시간이 된다.
+          `prefetch`(=true)는 화면에 보이는 순간 어제/내일을 미리 받아 두고,
+          Next 는 그 결과를 `staleTimes.static`(기본 5분) 동안 재사용한다 → 눌렀을 때 즉시.
+          ⚠ `prefetch` 를 생략하면 동적 라우트는 `staleTimes.dynamic`(기본 **0초**)이 걸려
+            받아 두자마자 낡은 것으로 처리된다 — 미리 받는 의미가 사라진다.
+          저장·삭제 뒤에는 `router.refresh()` 가 이 캐시도 같이 무효화한다.
+        */}
         <div className="flex items-center gap-1">
-          <button
-            type="button"
+          <Link
+            href={prevHref}
+            prefetch
             aria-label="이전 날"
-            onClick={() => goDay(-1)}
-            disabled={pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            aria-disabled={pending || undefined}
+            onClick={(e) => {
+              // 저장 중에는 옛 버튼처럼 막는다(낙관적 상태가 화면째 날아가지 않게).
+              if (pending) e.preventDefault();
+            }}
+            className={`flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
+              pending ? "pointer-events-none opacity-30" : ""
+            }`}
           >
             <ChevronLeft aria-hidden="true" size={18} />
-          </button>
+          </Link>
           <button
             type="button"
             onClick={() => setDatePicker(true)}
@@ -300,15 +316,32 @@ export function DietBoard({
             <Calendar aria-hidden="true" size={13} className="text-zinc-400" />
             {isToday ? "오늘" : label}
           </button>
-          <button
-            type="button"
-            aria-label="다음 날"
-            onClick={() => goDay(1)}
-            disabled={isToday || pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
-          >
-            <ChevronRight aria-hidden="true" size={18} />
-          </button>
+          {isToday ? (
+            // 오늘이면 '다음 날'이 없다. 주소가 없으니 Link 가 아니라 비활성 버튼 그대로.
+            <button
+              type="button"
+              aria-label="다음 날"
+              disabled
+              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 opacity-30 dark:text-zinc-400"
+            >
+              <ChevronRight aria-hidden="true" size={18} />
+            </button>
+          ) : (
+            <Link
+              href={nextHref}
+              prefetch
+              aria-label="다음 날"
+              aria-disabled={pending || undefined}
+              onClick={(e) => {
+                if (pending) e.preventDefault();
+              }}
+              className={`flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800 ${
+                pending ? "pointer-events-none opacity-30" : ""
+              }`}
+            >
+              <ChevronRight aria-hidden="true" size={18} />
+            </Link>
+          )}
         </div>
       </div>
 
@@ -1371,7 +1404,21 @@ function AddFoodDialog({
   const [q, setQ] = useState("");
   const local = useFoodSearch("local", q, 200);
   const custom = useFoodSearch("custom", q, 250, 1);
-  const db = useFoodSearch("db", q, 600, MIN_FOOD_DB_QUERY);
+  // 🔴 식약처 실시간 조회는 **앞의 둘이 아무것도 못 찾았을 때만** 부른다(2026-09-08).
+  //
+  //    예전엔 검색어마다 세 출처를 나란히 불렀다. 그런데 이 API 는 `foodNm` 이 **완전일치**라
+  //    (`food-db.ts` 머리말 실측: '김치'·'밥'·'닭가슴살' 전부 NODATA) 사용자가 치는 말에는
+  //    거의 항상 0건이다. 즉 대부분의 검색이 **결과가 나오지도 않는 외부 왕복**을 한 번씩
+  //    더 태우고 있었다 — 검색창은 정적·custom 결과로 이미 채워진 채로.
+  //
+  //    이 출처가 진짜 값을 하는 자리는 "우리 둘 다 모르는 음식"(편의점 도시락·가공식품)이고,
+  //    그건 앞의 둘이 **빈손일 때** 정확히 알 수 있다. 그때만 부르면 AI 한도를 아끼는
+  //    원래 목적은 그대로고(찾으면 `custom_foods` 에 쌓여 다음부턴 우리 DB 에서 나온다),
+  //    평소 검색에서는 요청이 아예 사라진다.
+  const baseSettled = !local.loading && !custom.loading;
+  const baseFoundNothing =
+    baseSettled && local.rows.length === 0 && custom.rows.length === 0;
+  const db = useFoodSearch("db", q, 600, MIN_FOOD_DB_QUERY, baseFoundNothing);
   const localResults = local.rows;
   const customResults = custom.rows;
   const dbResults = db.rows;

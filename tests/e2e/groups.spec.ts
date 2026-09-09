@@ -249,3 +249,65 @@ test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다",
   await ctxA.close();
   await ctxB.close();
 });
+
+/**
+ * 팀 요금제(B2B) — 그룹장이 신청하고 상태를 본다.
+ *
+ * 🔴 **결제창이 없는 흐름**이라 "눌렀는데 아무 일도 안 일어난다"로 보이기 쉽다.
+ * 신청이 실제로 접수되고 그 상태가 화면에 남는지를 여기서 지킨다.
+ * (승인은 관리자만 — 그 경계는 라이브 DB 테스트가 지킨다.)
+ */
+test("그룹장이 팀 요금제를 신청하면 상태가 남는다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(180_000);
+
+  const name = `E2E 요금제 ${Date.now().toString(36)}`;
+  await signUpAndOnboard(page);
+  await page.goto("/groups", { waitUntil: "networkidle" });
+  await page.getByLabel("그룹 이름").fill(name);
+  await page.getByRole("button", { name: "그룹 만들기" }).click();
+  await expect(page.getByText(name).first()).toBeVisible({ timeout: 15000 });
+
+  const groupId = await dbQuery<{ id: string }>(
+    `select id from public.groups where name=$1`,
+    [name],
+  ).then((r) => r[0].id);
+
+  await page.goto(`/groups/${groupId}/trainer/billing`, { waitUntil: "networkidle" });
+  await expect(page.getByRole("heading", { name: "팀 요금제" })).toBeVisible({
+    timeout: 10000,
+  });
+
+  // 헬스장 요금제로 신청 + 세금계산서 정보.
+  await page.getByTestId("plan-gym").click();
+  await page.getByLabel("상호").fill("E2E 피트니스");
+  await page.getByLabel("사업자등록번호").fill("1234567890");
+  await page.getByTestId("team-request").click();
+  await expect(page.getByTestId("team-message")).toContainText("접수", { timeout: 15000 });
+
+  // 상태가 화면에 남고, DB 에는 requested 로만 들어간다(스스로 active 가 되면 안 된다).
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(page.getByTestId("team-status")).toHaveAttribute("data-status", "requested");
+  const row = await dbQuery<{ status: string; plan: string; biz_name: string }>(
+    `select status, plan, biz_name from public.team_subscriptions where group_id=$1`,
+    [groupId],
+  );
+  expect(row[0].status).toBe("requested");
+  expect(row[0].plan).toBe("gym");
+  expect(row[0].biz_name).toBe("E2E 피트니스");
+
+  // 신청 취소 → 행이 사라진다.
+  await page.getByTestId("team-cancel").click();
+  await expect
+    .poll(
+      async () =>
+        (
+          await dbQuery<{ n: string }>(
+            `select count(*)::text n from public.team_subscriptions where group_id=$1`,
+            [groupId],
+          )
+        )[0].n,
+      { timeout: 15000 },
+    )
+    .toBe("0");
+});

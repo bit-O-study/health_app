@@ -2766,6 +2766,109 @@ create policy "trainer deletes own comment" on public.trainer_comments for delet
   using (trainer_id = (select auth.uid()));
 notify pgrst, 'reload schema';
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 팀 구독(team_subscriptions) — 2026-09-09. **트레이너·헬스장이 내는 쪽**(B2B).
+-- 그룹당 한 행. 개인 구독(subscriptions)과 나란히 두고, 둘 중 하나만 살아 있어도
+-- 프리미엄이다.
+--
+-- 🔴 **구글 플레이 결제를 쓰지 않는다.** Play 인앱결제는 개인용이고, 사업자에게는
+--    세금계산서·계좌이체가 필요하다(비용 처리를 해야 한다). 그래서 여기는
+--    **입금 확인형**이다 — 그룹장이 신청하면 관리자가 입금을 확인하고 기간을 넣는다.
+--    자동화할 수 있는 자리가 아니라 일부러 사람이 승인한다.
+--
+-- 🔴 권한은 status 가 아니라 **period_end** 에서 나온다(개인 구독과 같은 규칙).
+--    그래야 해지·연장 실패를 따로 처리하지 않아도 기간이 지나면 저절로 끊긴다.
+--
+-- 정책 요약: 읽기는 그룹장·관리자. 신청(insert)은 그룹장이 **'requested' 로만**.
+-- 승인(active 로 바꾸기)은 **관리자만** — 그룹장이 스스로 프리미엄이 되면 안 된다.
+-- 신청 상태에서는 그룹장이 사업자정보를 고치거나 신청을 취소할 수 있다.
+create table if not exists public.team_subscriptions (
+  group_id uuid primary key references public.groups(id) on delete cascade,
+  plan text not null default 'trainer' check (plan in ('trainer', 'gym')),
+  status text not null default 'requested'
+    check (status in ('requested', 'active', 'expired', 'canceled')),
+  seats int not null default 0,
+  price_krw int not null default 0 check (price_krw >= 0),
+  period_start date,
+  period_end date,
+  biz_name text check (biz_name is null or char_length(biz_name) <= 80),
+  biz_number text check (biz_number is null or char_length(biz_number) <= 20),
+  biz_email text check (biz_email is null or char_length(biz_email) <= 120),
+  requested_by uuid references auth.users(id) on delete set null,
+  requested_at timestamptz not null default now(),
+  approved_at timestamptz,
+  memo text check (memo is null or char_length(memo) <= 500),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists team_subscriptions_status_idx
+  on public.team_subscriptions (status, period_end);
+
+alter table public.team_subscriptions enable row level security;
+
+drop policy if exists "owner or admin reads team sub" on public.team_subscriptions;
+create policy "owner or admin reads team sub" on public.team_subscriptions for select
+  using (
+    public.is_admin()
+    or exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  );
+
+drop policy if exists "owner requests team sub" on public.team_subscriptions;
+create policy "owner requests team sub" on public.team_subscriptions for insert
+  with check (
+    status = 'requested'
+    and requested_by = (select auth.uid())
+    and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  );
+
+drop policy if exists "owner edits pending request" on public.team_subscriptions;
+create policy "owner edits pending request" on public.team_subscriptions for update
+  using (
+    status = 'requested'
+    and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  )
+  with check (status = 'requested');
+
+drop policy if exists "admin manages team sub" on public.team_subscriptions;
+create policy "admin manages team sub" on public.team_subscriptions for update
+  using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "owner cancels pending request" on public.team_subscriptions;
+create policy "owner cancels pending request" on public.team_subscriptions for delete
+  using (
+    public.is_admin()
+    or (status = 'requested' and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid())))
+  );
+
+create or replace function public.has_team_premium()
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1
+      from public.group_members m
+      join public.team_subscriptions t on t.group_id = m.group_id
+     where m.user_id = (select auth.uid())
+       and t.status = 'active'
+       and t.period_end is not null
+       and t.period_end >= (now() at time zone 'Asia/Seoul')::date
+  );
+$$;
+revoke all on function public.has_team_premium() from public;
+revoke all on function public.has_team_premium() from anon;
+grant execute on function public.has_team_premium() to authenticated;
+notify pgrst, 'reload schema';
+
 notify pgrst, 'reload schema';
 
 -- 끼니별 식단 사진(meal_photos) — 끼니(아침/점심/저녁/간식)당 여러 장 가능.

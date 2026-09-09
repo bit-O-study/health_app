@@ -52,13 +52,22 @@ export function TrainerBoardView({
 
   return (
     <section className="space-y-4">
-      <header className="space-y-1">
-        <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-50">
-          {groupName} · 회원 관리
-        </h1>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          {weekFrom.slice(5)} ~ {weekTo.slice(5)} 이번 주
-        </p>
+      <header className="flex items-start justify-between gap-2">
+        <div className="min-w-0 space-y-1">
+          <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-50">
+            {groupName} · 회원 관리
+          </h1>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+            {weekFrom.slice(5)} ~ {weekTo.slice(5)} 이번 주
+          </p>
+        </div>
+        <Link
+          href={`/groups/${groupId}/trainer/billing`}
+          data-testid="billing-link"
+          className="shrink-0 rounded-lg border border-zinc-300 px-3 py-1.5 text-[11px] font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
+        >
+          팀 요금제
+        </Link>
       </header>
 
       {/* 요약 — 트레이너가 이 화면을 여는 이유는 "오늘 누구에게 연락할까" 다. */}

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   Camera,
   Clock,
+  CreditCard,
   Dumbbell,
   Film,
   FlaskConical,
@@ -29,6 +30,7 @@ const ICONS: Record<string, LucideIcon> = {
   "/admin/members": Users,
   "/admin/crons": Clock,
   "/admin/events": TriangleAlert,
+  "/admin/billing": CreditCard,
   "/admin/settings": ShieldCheck,
   "/admin/exercise-media": Film,
   "/equipment": Camera,

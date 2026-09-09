@@ -138,7 +138,9 @@ describe("안내 문구", () => {
   });
 
   it("남은 횟수 안내에 숫자가 들어간다", () => {
-    const s = quotaState("coach", "free", limitFor("free", "coach") - 3);
+    // 한도가 넉넉한 기능으로 잡는다 — 코치는 무료 한도가 3회(맛보기)라
+    // `한도 - 3` 이 0 이 되면서 '남은 3회를 말한다' 는 의도가 흐려진다.
+    const s = quotaState("meal-scan", "free", limitFor("free", "meal-scan") - 3);
     expect(lowQuotaMessage(s)).toContain("3회");
   });
 });

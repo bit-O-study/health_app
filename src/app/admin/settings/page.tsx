@@ -15,19 +15,22 @@ import { AdminSettingsManager } from "@/features/admin/components/admin-settings
 import { DebugAccountsManager } from "@/features/admin/components/debug-accounts-manager";
 import { DebugFeaturesManager } from "@/features/admin/components/debug-features-manager";
 import { GroupModeManager } from "@/features/admin/components/group-mode-manager";
+import { getDepositInfo } from "@/features/billing/team-store";
+import { DepositInfoManager } from "@/features/admin/components/deposit-info-manager";
 import { PostModeratorsManager } from "@/features/admin/components/post-moderators-manager";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminSettingsPage() {
   if (!(await isAdminUser())) notFound();
-  const [admins, debugStates, debugAccounts, moderators, groupMode] =
+  const [admins, debugStates, debugAccounts, moderators, groupMode, deposit] =
     await Promise.all([
       getAdmins(),
       getDebugFeatureStates(),
       getDebugAccounts(),
       getPostModerators(),
       getGroupMode(),
+      getDepositInfo(),
     ]);
   const debugFeatures = DEBUG_FEATURES.map((f) => ({
     id: f.id,
@@ -56,6 +59,18 @@ export default async function AdminSettingsPage() {
           움짤로 올리는 인증 피드입니다.
         </p>
         <GroupModeManager mode={groupMode} />
+      </section>
+
+      <section className="mt-10">
+        <h2 className="mb-1 text-lg font-bold text-zinc-950 dark:text-zinc-100">
+          입금 계좌 안내
+        </h2>
+        <p className="mb-4 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+          팀 요금제(트레이너·헬스장)를 신청한 그룹장에게 보여 줄 계좌입니다.
+          계좌는 바뀌는 값이라 코드가 아니라 여기에 둡니다 — 여기를 안 채우면
+          신청 화면에는 &quot;확인 후 연락드릴게요&quot;만 보입니다.
+        </p>
+        <DepositInfoManager initial={deposit} />
       </section>
 
       <section className="mt-10">

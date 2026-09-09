@@ -43,32 +43,72 @@ export function isAiFeatureId(v: unknown): v is AiFeatureId {
 }
 
 /**
+ * 회당 추정 원가(원) — 2026-09-09. 구독 가격을 정하려면 원가를 알아야 하고, 원가는
+ * 한도표 바로 옆에 있어야 한다(따로 두면 한도만 올리고 원가는 아무도 다시 안 본다).
+ *
+ * 지금은 무료 티어(Gemini·NVIDIA)라 **실제 지출은 0원**이다. 아래 숫자는 그 티어가
+ * 막혔을 때 쓰는 폴백(Claude Haiku 4.5, 입력 $1·출력 $5 / 1M 토큰) 기준의 추정이다.
+ * 코드에서 뽑은 실제 값으로 계산했다:
+ *  - 이미지는 `resizeImageForAI` 가 768px 로 줄인다 → 약 590 토큰
+ *  - 프롬프트는 600~800자(약 800~1,000 토큰), 출력은 max 900~1,000(실제 ~400~600)
+ *  - 환율 1,400원/$ 가정
+ *
+ * ⚠ 추정이다. 실제 청구서가 나오기 시작하면 이 표부터 실측으로 바꿔야 한다.
+ */
+export const COST_PER_CALL_KRW: Record<AiFeatureId, number> = {
+  // 이미지는 없지만 사용자의 운동 기록이 입력에 통째로 들어가 입력이 가장 크다.
+  coach: 7,
+  "meal-scan": 5,
+  // 분석지 표를 다 읽어 내야 해서 출력이 길다.
+  "body-scan": 6,
+  "equipment-scan": 5,
+  posture: 5,
+};
+
+/**
  * 등급별 **월** 한도. 하루 한도로 하면 "오늘 다 썼으니 내일" 이 되는데, 이 앱의 AI 는
  * 매일 쓰는 기능이 아니라 몰아서 쓰는 기능이라(체성분 분석지를 받은 날 한 번에) 월이 맞다.
  *
- * 숫자의 근거: 무료 사용자가 **평범하게 쓰면 절대 안 닿는 선**으로 잡았다. 한도는
- * 정상 사용을 막으려는 게 아니라 폭주를 막으려는 것이다.
- *  - 식단 사진: 하루 세 끼 × 30일 = 90 이 정상 상한 → 100
- *  - AI 코치: 주 2~3회면 넉넉 → 30
- *  - 체성분 분석지: 보통 달에 한두 번 → 10
- *  - 기구 스캔·자세 분석: 헬스장에서 몰아 쓰므로 조금 넉넉히
+ * 🔴 **2026-09-09에 숫자의 목적이 바뀌었다.** 예전 한도는 "폭주만 막는 방어선"이라
+ * 무료가 평범하게 쓰면 절대 안 닿는 선이었다(식단 100·코치 30). 그러면 정상 사용자는
+ * 결제 화면까지 갈 일이 없어 **설계상 아무도 구독하지 않는다.** 지금은 한도가
+ * **상품의 경계**다 — 무료는 맛보기, 프리미엄은 매일 써도 남는 선.
+ *
+ * 프리미엄 숫자의 근거 — **다 써도 적자가 안 나야 한다.**
+ * 위 원가표로 최악을 계산하면 60×7 + 200×5 + 20×6 + 40×5 + 40×5 = **1,940원**이고,
+ * 3,900원 구독의 실수령은 3,013원이다(부가세 10% 빼고 플레이 수수료 15% 뗀 값).
+ * 예전 한도(합계 2,200회)로는 최악 13,200원이라 **얼마를 받아도 적자가 날 수 있었다.**
+ * 이 관계는 `tests/be/logic/pricing.test.ts` 가 지킨다 — 한도만 올리면 실패한다.
+ *
+ * 무료 숫자의 근거 — **맛보기이되 습관은 건드리지 않는다.**
+ *  - 식단 사진 100회는 그대로 둔다. 하루 세 끼 기록이 이 앱의 **매일 쓰는 습관**이고,
+ *    여기를 조이면 결제가 아니라 이탈이 난다. (무료 한 명 최악 원가 604원은 감수한다.)
+ *  - 코치·자세·체성분은 3회 = "어떤 건지 보고 판단할 만큼". 이게 결제 이유가 된다.
  */
 export const MONTHLY_LIMITS: Record<AiTier, Record<AiFeatureId, number>> = {
   free: {
-    coach: 30,
+    coach: 3,
     "meal-scan": 100,
-    "body-scan": 10,
+    "body-scan": 3,
+    "equipment-scan": 10,
+    posture: 3,
+  },
+  premium: {
+    coach: 60, // 하루 2회
+    "meal-scan": 200, // 하루 6끼 이상
+    "body-scan": 20,
     "equipment-scan": 40,
     posture: 40,
   },
-  premium: {
-    coach: 300,
-    "meal-scan": 1000,
-    "body-scan": 100,
-    "equipment-scan": 400,
-    posture: 400,
-  },
 };
+
+/** 그 등급이 한도를 **전부** 썼을 때의 월 원가(원). 가격이 이걸 넘어야 장사가 된다. */
+export function worstCaseMonthlyCostKrw(tier: AiTier): number {
+  return AI_FEATURES.reduce(
+    (sum, f) => sum + MONTHLY_LIMITS[tier][f.id] * COST_PER_CALL_KRW[f.id],
+    0,
+  );
+}
 
 export function limitFor(tier: AiTier, feature: AiFeatureId): number {
   return MONTHLY_LIMITS[tier][feature];

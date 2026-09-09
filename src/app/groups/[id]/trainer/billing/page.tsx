@@ -4,7 +4,7 @@ import { ChevronLeft } from "lucide-react";
 
 import { getCurrentUser, createSupabaseServerClient } from "@/lib/supabase/server";
 import { getTrainerBoard } from "@/features/groups/trainer-data";
-import { getTeamSubscription } from "@/features/billing/team-store";
+import { getDepositInfo, getTeamSubscription } from "@/features/billing/team-store";
 import { TeamPlanForm } from "@/features/billing/components/team-plan-form";
 import { seoulYmd } from "@/features/routine/data";
 
@@ -41,8 +41,9 @@ export default async function TeamBillingPage({
   }
 
   const supabase = await createSupabaseServerClient();
-  const [sub, { count }] = await Promise.all([
+  const [sub, deposit, { count }] = await Promise.all([
     getTeamSubscription(id),
+    getDepositInfo(),
     supabase
       .from("group_members")
       .select("user_id", { count: "exact", head: true })
@@ -70,6 +71,7 @@ export default async function TeamBillingPage({
         today={seoulYmd()}
         memberCount={count ?? 0}
         initial={sub}
+        deposit={deposit}
       />
     </main>
   );

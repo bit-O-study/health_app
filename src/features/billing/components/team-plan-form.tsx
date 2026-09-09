@@ -9,6 +9,11 @@ import {
   requestTeamPlanAction,
 } from "@/features/billing/team-actions";
 import {
+  depositLine,
+  isDepositReady,
+  type DepositInfo,
+} from "@/features/billing/deposit-info";
+import {
   TEAM_PLANS,
   TEAM_PLAN_META,
   TEAM_STATUS_LABEL,
@@ -31,11 +36,13 @@ export function TeamPlanForm({
   today,
   memberCount,
   initial,
+  deposit,
 }: {
   groupId: string;
   today: string;
   memberCount: number;
   initial: TeamSubscription | null;
+  deposit: DepositInfo;
 }) {
   const router = useRouter();
   const [plan, setPlan] = useState<TeamPlan>(initial?.plan ?? "trainer");
@@ -102,9 +109,33 @@ export function TeamPlanForm({
             </p>
           ) : null}
           {requested ? (
-            <p className="mt-2 text-xs leading-5 text-amber-700 dark:text-amber-300">
-              입금 확인 후 이용이 시작돼요. 확인되면 연락드릴게요.
-            </p>
+            <div className="mt-2 space-y-1.5">
+              <p className="text-xs leading-5 text-amber-700 dark:text-amber-300">
+                입금 확인 후 이용이 시작돼요.
+              </p>
+              {/* 🔴 계좌가 다 채워졌을 때만 띄운다 — 반쯤 채운 안내는 없는 것보다 나쁘다
+                  (입금하다 만다). 관리자 설정에서 채우면 여기 뜬다. */}
+              {isDepositReady(deposit) ? (
+                <div
+                  data-testid="deposit-info"
+                  className="rounded-xl bg-zinc-100 p-3 dark:bg-zinc-900"
+                >
+                  <p className="text-[11px] font-bold text-zinc-500">입금 계좌</p>
+                  <p className="mt-0.5 select-all text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    {depositLine(deposit)}
+                  </p>
+                  {deposit.note ? (
+                    <p className="mt-1 text-[11px] leading-5 text-zinc-500 dark:text-zinc-400">
+                      {deposit.note}
+                    </p>
+                  ) : null}
+                </div>
+              ) : (
+                <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                  확인되면 연락드릴게요.
+                </p>
+              )}
+            </div>
           ) : null}
         </section>
       ) : null}

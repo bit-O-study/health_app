@@ -22,6 +22,10 @@ import {
 } from "@/features/groups/group-mode";
 import { genTempPassword, tempPasswordEmail } from "@/features/auth/password-reset";
 import { sendEmail } from "@/lib/email/send";
+import {
+  DEPOSIT_INFO_KEY,
+  parseDepositInfo,
+} from "@/features/billing/deposit-info";
 
 export type AdminActionResult = { ok: true } | { ok: false; error: string };
 
@@ -338,5 +342,26 @@ export async function restoreUserAction(
   });
   if (error) return { ok: false, error: error.message };
   revalidatePath("/admin/members");
+  return { ok: true };
+}
+
+/**
+ * 입금 계좌 안내 저장 — `app_settings['billing.deposit']`. 팀 요금제 신청자가 본다.
+ *
+ * 🔴 계좌를 코드에 박지 않는 이유: 계좌는 바뀌는데(은행 변경·법인 전환) 그때마다
+ * 배포해야 하면 결국 안 바꾼다 — 그러면 사용자가 **없는 계좌로 입금한다.**
+ */
+export async function setDepositInfoAction(
+  input: { bank: string; account: string; holder: string; note: string },
+): Promise<AdminActionResult> {
+  if (!(await isAdminUser())) return { ok: false, error: "관리자만 가능합니다." };
+  const info = parseDepositInfo(input);
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("app_settings").upsert(
+    { key: DEPOSIT_INFO_KEY, value: info, updated_at: new Date().toISOString() },
+    { onConflict: "key" },
+  );
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/admin/settings");
   return { ok: true };
 }

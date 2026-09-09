@@ -3009,6 +3009,24 @@ create or replace function public.group_mode() returns text
     end;
 $$;
 
+-- 입금 계좌 안내 — `app_settings['billing.deposit']`. 팀 요금제(B2B) 신청자가 본다.
+--
+-- 🔴 app_settings 는 **관리자 전용 RLS** 라 트레이너가 직접 못 읽는다. 그룹탭 모드
+--    (`group_mode()`)와 같은 이유로 SECURITY DEFINER 함수로 그 값 **하나만** 내준다 —
+--    표를 통째로 열면 디버그 계정 목록 같은 다른 설정까지 새어 나간다.
+--
+-- 로그인 사용자에게만 준다. 계좌는 청구서에 적히는 값이라 비밀은 아니지만,
+-- 로그인도 안 한 사람에게 뿌릴 이유는 없다.
+create or replace function public.billing_deposit_info() returns jsonb
+  language sql security definer stable set search_path = public as $$
+  select coalesce(
+    (select value from public.app_settings where key = 'billing.deposit'),
+    'null'::jsonb);
+$$;
+revoke all on function public.billing_deposit_info() from public;
+revoke all on function public.billing_deposit_info() from anon;
+grant execute on function public.billing_deposit_info() to authenticated;
+
 -- ─────────────────────────────────────────────────────────────────────────────
 -- 오늘 운동 인증 움짤(group_proofs) — 그룹원이 '오늘 운동했다'는 3초 무음영상을 올린다.
 -- (group_id, user_id, for_date) 유니크 → 멤버당 하루 1개(다시 올리면 교체=upsert).

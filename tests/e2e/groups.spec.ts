@@ -296,7 +296,41 @@ test("그룹장이 팀 요금제를 신청하면 상태가 남는다", async ({ 
   expect(row[0].plan).toBe("gym");
   expect(row[0].biz_name).toBe("E2E 피트니스");
 
+  // 🔴 입금 계좌는 **관리자 설정에 채워졌을 때만** 뜬다. 반쯤 채운 안내는 없는 것보다
+  //    나쁘다(입금하다 만다). 설정을 잠깐 넣었다가 원래대로 돌린다.
+  const before = await dbQuery<{ value: unknown }>(
+    `select value from public.app_settings where key='billing.deposit'`,
+  );
+  await dbQuery(
+    `insert into public.app_settings (key, value) values ('billing.deposit', $1::jsonb)
+       on conflict (key) do update set value = excluded.value`,
+    [JSON.stringify({ bank: "E2E은행", account: "000-11-222333", holder: "검증", note: "" })],
+  );
+  try {
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByTestId("deposit-info")).toContainText("E2E은행", {
+      timeout: 15000,
+    });
+    // 예금주가 비면 안 뜬다(셋 다 있어야 한다).
+    await dbQuery(
+      `update public.app_settings set value = $1::jsonb where key='billing.deposit'`,
+      [JSON.stringify({ bank: "E2E은행", account: "000-11-222333", holder: "", note: "" })],
+    );
+    await page.reload({ waitUntil: "networkidle" });
+    await expect(page.getByTestId("deposit-info")).toHaveCount(0);
+  } finally {
+    if (before.length > 0) {
+      await dbQuery(
+        `update public.app_settings set value = $1::jsonb where key='billing.deposit'`,
+        [JSON.stringify(before[0].value)],
+      );
+    } else {
+      await dbQuery(`delete from public.app_settings where key='billing.deposit'`);
+    }
+  }
+
   // 신청 취소 → 행이 사라진다.
+  await page.reload({ waitUntil: "networkidle" });
   await page.getByTestId("team-cancel").click();
   await expect
     .poll(

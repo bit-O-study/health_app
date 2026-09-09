@@ -11,6 +11,11 @@ import {
   isTeamStatus,
   type TeamSubscription,
 } from "@/features/billing/team-plans";
+import {
+  EMPTY_DEPOSIT,
+  parseDepositInfo,
+  type DepositInfo,
+} from "@/features/billing/deposit-info";
 
 const COLUMNS =
   "group_id, plan, status, seats, price_krw, period_start, period_end, biz_name, biz_number, biz_email, requested_at, approved_at, memo";
@@ -108,3 +113,20 @@ export async function listTeamSubscriptions(
     groupName: nameOf.get(String(r.group_id)) ?? "(삭제된 그룹)",
   }));
 }
+
+/**
+ * 입금 계좌 안내. `app_settings` 는 관리자 전용 RLS 라 SECURITY DEFINER 함수로 받는다
+ * (표를 통째로 열면 다른 설정까지 새어 나간다).
+ *
+ * 실패하면 빈 값 — 계좌를 못 읽었다고 신청 화면이 죽으면 안 된다.
+ */
+export const getDepositInfo = cache(async (): Promise<DepositInfo> => {
+  try {
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase.rpc("billing_deposit_info");
+    if (error) return EMPTY_DEPOSIT;
+    return parseDepositInfo(data);
+  } catch {
+    return EMPTY_DEPOSIT;
+  }
+});

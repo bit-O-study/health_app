@@ -4,7 +4,13 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
-import { seoulYmd } from "@/features/routine/data";
+import {
+  routineDaySlots,
+  seoulYmd,
+  type DayBlockId,
+  type DaySlot,
+} from "@/features/routine/data";
+import { getUserRoutine } from "@/features/routine/data-access";
 import { resolveMemberName } from "@/features/groups/member-name";
 import { weekRange } from "@/features/groups/ranking";
 import { sortForTrainer, type TrainerMember } from "@/features/groups/trainer-board";
@@ -110,5 +116,80 @@ export async function getTrainerBoard(groupId: string): Promise<TrainerBoard | n
     weekTo: to,
     today,
     members: sortForTrainer(rows, today),
+  };
+}
+
+/** 배정 화면이 필요로 하는 것 — 내 일차 목록과 회원의 일차 목록. */
+export type AssignOptions = {
+  memberId: string;
+  memberName: string;
+  /** 트레이너(나)의 요일별 슬롯. 여기서 고른 일차를 회원에게 복사한다. */
+  mine: DaySlot[];
+  /** 회원의 요일별 슬롯. 회원이 루틴을 아직 안 짰으면 빈 배열. */
+  theirs: DaySlot[];
+};
+
+/**
+ * 루틴 배정 화면 데이터. 그룹장이 아니거나 그 회원이 아니면 null.
+ *
+ * 회원의 루틴 모양(`user_routines`)은 그룹원에게 안 열려 있어 RPC 로 받는다.
+ * 일차 계산은 **앱의 `routineDaySlots` 를 그대로** 쓴다 — 규칙을 SQL 에 다시 구현하면
+ * 트레이너가 보는 일차와 회원이 보는 일차가 갈린다.
+ */
+export async function getAssignOptions(
+  groupId: string,
+  memberId: string,
+): Promise<AssignOptions | null> {
+  const user = await getCurrentUser();
+  if (!user || user.id === memberId) return null;
+  const supabase = await createSupabaseServerClient();
+
+  const { data: group } = await supabase
+    .from("groups")
+    .select("owner_id")
+    .eq("id", groupId)
+    .maybeSingle();
+  if ((group as { owner_id: string } | null)?.owner_id !== user.id) return null;
+
+  const [mine, { data: theirRoutine }, { data: members }] = await Promise.all([
+    getUserRoutine(),
+    supabase.rpc("trainer_member_routine", {
+      p_group_id: groupId,
+      p_member: memberId,
+    }),
+    supabase
+      .from("group_members")
+      .select("user_id, display_name")
+      .eq("group_id", groupId)
+      .eq("user_id", memberId),
+  ]);
+
+  const { data: prof } = await supabase
+    .from("profiles")
+    .select("name, nickname")
+    .eq("user_id", memberId)
+    .maybeSingle();
+  const p = prof as { name: string | null; nickname: string | null } | null;
+  const snapshot = ((members ?? [])[0] as { display_name: string | null } | undefined)
+    ?.display_name;
+  if (!members || members.length === 0) return null; // 그 그룹 회원이 아니다
+
+  const their = ((theirRoutine ?? [])[0] ?? null) as
+    | { splits: number; variant_id: string; custom_week: unknown }
+    | null;
+
+  return {
+    memberId,
+    memberName: resolveMemberName(p?.nickname ?? null, p?.name ?? null, snapshot),
+    mine: mine
+      ? routineDaySlots(mine.splits, mine.variantId, mine.customWeek)
+      : [],
+    theirs: their
+      ? routineDaySlots(
+          their.splits,
+          their.variant_id,
+          their.custom_week as DayBlockId[][] | null,
+        )
+      : [],
   };
 }

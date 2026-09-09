@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 그룹: 생성 → 공유 링크로 다른 계정이 참여.
@@ -148,6 +148,9 @@ test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다",
   const ctxA = await browser.newContext();
   const pageA = await ctxA.newPage();
   await signUpAndOnboard(pageA);
+  // ⚠ 시드는 **가입 직후**에 한다. `seedRecommendedExercises` 는 "가장 최근 가입 계정"을
+  //   기준으로 루틴 일차를 맞추기 때문에, B 가 가입한 뒤에 부르면 엉뚱한 계정을 본다.
+  await seedRecommendedExercises(pageA);
   await pageA.goto("/groups", { waitUntil: "networkidle" });
   await pageA.getByLabel("그룹 이름").fill(name);
   await pageA.getByRole("button", { name: "그룹 만들기" }).click();
@@ -186,6 +189,33 @@ test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다",
   await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
   await expect(pageA.getByTestId("trainer-member")).toHaveCount(1);
   await expect(pageA.getByText("아직 운동 기록이 없어요")).toBeVisible();
+
+  // ── 루틴 배정: 트레이너의 한 일차를 회원의 한 일차로(운동은 위에서 시드했다).
+  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
+  await pageA.getByTestId("assign-link").first().click();
+  // ⚠ 클라이언트 내비게이션이라 `waitForURL`(기본 load 대기)은 안 끝난다 — 화면으로 본다.
+  await expect(pageA.getByRole("heading", { name: /루틴 배정/ })).toBeVisible({
+    timeout: 10000,
+  });
+
+  // 🔴 되돌리기 어려운 작업이라 한 번에 안 끝난다 — 무엇이 바뀌는지 보고 확인한다.
+  await expect(pageA.getByText(/운동은 지워지고/)).toBeVisible();
+  await pageA.getByTestId("assign-start").click();
+  await pageA.getByTestId("assign-confirm").click();
+  await expect(pageA.getByTestId("assign-message")).toContainText("배정했어요", {
+    timeout: 15000,
+  });
+
+  // 회원 루틴에 실제로 들어갔고, **트레이너 무게는 안 따라간다**.
+  const assigned = await dbQuery<{ n: string; w: string | null }>(
+    `select count(*)::text n, max(weight_kg)::text w
+       from public.routine_exercises re
+       join public.group_members gm on gm.user_id = re.user_id
+      where gm.group_id = $1 and gm.role = 'member'`,
+    [groupId],
+  );
+  expect(Number(assigned[0].n)).toBeGreaterThan(0);
+  expect(assigned[0].w).toBeNull();
 
   await ctxA.close();
   await ctxB.close();

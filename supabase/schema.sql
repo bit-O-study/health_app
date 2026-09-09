@@ -2618,6 +2618,99 @@ revoke all on function public.trainer_board(uuid, date, date) from public;
 revoke all on function public.trainer_board(uuid, date, date) from anon;
 grant execute on function public.trainer_board(uuid, date, date) to authenticated;
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 루틴 배정 — 2026-09-09. 트레이너가 **자기 루틴의 한 일차**를 담당 회원의
+-- 한 일차로 밀어넣는다. `applyRoutineShareAction`(남의 소개 루틴 담기)과 같은 모양이고,
+-- 다른 점은 **쓰는 대상이 남**이라는 것뿐이다 — 그래서 RLS 로는 못 하고 여기로 온다.
+--
+-- 🔴 **무게는 넘기지 않는다.** 트레이너의 100kg 스쿼트가 초보 회원 화면에 그대로 박히면
+--    위험하고, 애초에 남의 신체 수치다. 회원이 운동하며 자기 무게를 넣는다.
+--    (`routine_shares` 의 `include_weights` 가 있는 이유와 같다.)
+--
+-- 🔴 **부위는 받는 쪽으로 통일한다.** 원본 부위를 그대로 쓰면 회원 루틴에 없는 부위의
+--    운동이 생겨 **어느 화면에도 안 뜬다**(공유 루틴 담기에서 이미 겪은 문제).
+--    부위 계산은 TS(`routineDaySlots`)가 하고 여기로 넘겨받는다 — 그 규칙을 SQL 에
+--    다시 구현하면 두 곳이 갈린다.
+--
+-- ⚠ 이건 회원의 **영구 루틴**을 덮어쓴다(docs/원칙.md 2번의 반대 방향). 화면이 회원
+--   이름과 일차를 보여 주고 확인을 받는다. 권한 없으면 -1(아무것도 안 함).
+--
+-- `trainer_member_routine` 은 배정 화면이 **회원의 일차 목록**을 그리는 데 쓴다.
+-- (user_routines 는 그룹원에게 안 열려 있다 — trainer_board 와 같은 이유.)
+create or replace function public.trainer_member_routine(
+  p_group_id uuid, p_member uuid)
+returns table (splits int, variant_id text, custom_week jsonb)
+language sql security definer stable set search_path = public as $$
+  select r.splits, r.variant_id, r.custom_week
+    from public.user_routines r
+   where r.user_id = p_member
+     and exists (
+       select 1 from public.groups g
+        where g.id = p_group_id and g.owner_id = (select auth.uid()))
+     and exists (
+       select 1 from public.group_members m
+        where m.group_id = p_group_id and m.user_id = p_member)
+$$;
+revoke all on function public.trainer_member_routine(uuid, uuid) from public;
+revoke all on function public.trainer_member_routine(uuid, uuid) from anon;
+grant execute on function public.trainer_member_routine(uuid, uuid) to authenticated;
+
+create or replace function public.trainer_assign_routine_day(
+  p_group_id uuid, p_member uuid,
+  p_from_day int, p_from_focus text,
+  p_to_day int, p_to_focus text)
+returns int
+language plpgsql security definer set search_path = public as $$
+declare
+  me uuid := (select auth.uid());
+  n int := 0;
+begin
+  -- 그룹장 + 대상이 그 그룹 회원. 둘 중 하나라도 아니면 아무 일도 안 한다.
+  if not exists (
+    select 1 from public.groups g
+     where g.id = p_group_id and g.owner_id = me
+  ) or not exists (
+    select 1 from public.group_members m
+     where m.group_id = p_group_id and m.user_id = p_member
+  ) then
+    return -1;
+  end if;
+  -- 자기 자신에게 배정하는 건 막는다(트레이너 루틴이 자기 루틴을 덮어쓴다).
+  if p_member = me then
+    return -1;
+  end if;
+
+  delete from public.routine_exercises
+   where user_id = p_member and day_index = p_to_day;
+
+  insert into public.routine_exercises
+    (user_id, focus, position, exercise_id, equipment, sets, reps,
+     weight_kg, set_details, memo, day_index)
+  select p_member, p_to_focus, s.position, s.exercise_id, s.equipment, s.sets, s.reps,
+         -- 🔴 무게는 넘기지 않는다. 트레이너의 100kg 스쿼트가 초보 회원 화면에 박히면
+         --    위험하고, 애초에 남의 신체 수치다. 회원이 운동하며 자기 무게를 넣는다.
+         null, null, s.memo, p_to_day
+    from public.routine_exercises s
+   where s.user_id = me and s.day_index = p_from_day;
+  get diagnostics n = row_count;
+
+  -- 워밍업/마무리는 부위 단위라 대상 부위로 갈아끼운다.
+  delete from public.routine_conditioning
+   where user_id = p_member and focus = p_to_focus;
+
+  insert into public.routine_conditioning
+    (user_id, focus, kind, position, item_id, duration_min, speed, incline)
+  select p_member, p_to_focus, s.kind, s.position, s.item_id, s.duration_min, s.speed, s.incline
+    from public.routine_conditioning s
+   where s.user_id = me and s.focus = p_from_focus;
+
+  return n;
+end
+$$;
+revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) from public;
+revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) from anon;
+grant execute on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) to authenticated;
+
 notify pgrst, 'reload schema';
 
 -- 끼니별 식단 사진(meal_photos) — 끼니(아침/점심/저녁/간식)당 여러 장 가능.

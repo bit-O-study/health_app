@@ -104,4 +104,111 @@ describe.skipIf(!hasDbCreds)("트레이너 대시보드 권한(라이브 DB)", (
         'public.trainer_board(uuid, date, date)', 'execute') as ok`);
     expect(r.rows[0]?.ok).toBe(false);
   });
+
+  // ── 루틴 배정 ────────────────────────────────────────────────────────────────
+  //
+  // 🔴 이건 **읽기가 아니라 쓰기**다 — 남의 영구 루틴을 덮어쓴다. 권한이 새면
+  // 아무나 남의 루틴을 지울 수 있는데, 당한 사람은 자기가 안 한 변경이라 원인조차
+  // 못 찾는다. 화면은 어느 쪽이든 똑같이 동작한다.
+
+  /** 배정 RPC 를 그 사용자로 호출한다. 반환값: 배정한 행 수, -1 = 권한 없음. */
+  async function assignAs(uid: string, member: string): Promise<number> {
+    await client.query("begin");
+    try {
+      await client.query(`select set_config('role','authenticated',true)`);
+      await client.query(`select set_config('request.jwt.claims',$1,true)`, [
+        JSON.stringify({ sub: uid, role: "authenticated" }),
+      ]);
+      const r = await client.query(
+        `select public.trainer_assign_routine_day($1,$2,0,'chest',3,'back') as n`,
+        [groupId, member],
+      );
+      return Number(r.rows[0].n);
+    } finally {
+      await client.query("rollback");
+    }
+  }
+
+  it("🔴 같은 그룹의 일반 멤버는 남의 루틴을 배정할 수 없다", async () => {
+    expect(await assignAs(memberId, ownerId)).toBe(-1);
+  });
+
+  it("🔴 남남은 배정할 수 없다", async () => {
+    expect(await assignAs(STRANGER, memberId)).toBe(-1);
+  });
+
+  it("🔴 트레이너도 자기 자신에게는 못 한다 — 자기 루틴을 자기가 덮어쓴다", async () => {
+    expect(await assignAs(ownerId, ownerId)).toBe(-1);
+  });
+
+  it("🔴 배정된 운동에 트레이너의 무게가 따라가지 않는다", async () => {
+    // 트레이너의 100kg 스쿼트가 초보 회원 화면에 박히면 위험하고, 남의 신체 수치다.
+    await client.query("begin");
+    try {
+      await client.query(`select set_config('role','authenticated',true)`);
+      await client.query(`select set_config('request.jwt.claims',$1,true)`, [
+        JSON.stringify({ sub: ownerId, role: "authenticated" }),
+      ]);
+      // 트레이너 루틴에 무게가 든 행을 하나 심는다(같은 트랜잭션 — 롤백된다).
+      await client.query(`select set_config('role','postgres',true)`);
+      await client.query(
+        `insert into public.routine_exercises
+           (user_id, focus, position, exercise_id, equipment, sets, reps, weight_kg, day_index)
+         values ($1,'chest',0,'bench-press','barbell',5,5,100,0)`,
+        [ownerId],
+      );
+      await client.query(`select set_config('role','authenticated',true)`);
+      const n = await client.query(
+        `select public.trainer_assign_routine_day($1,$2,0,'chest',3,'back') as n`,
+        [groupId, memberId],
+      );
+      expect(Number(n.rows[0].n)).toBeGreaterThan(0);
+
+      await client.query(`select set_config('role','postgres',true)`);
+      const rows = await client.query(
+        `select weight_kg, set_details, focus, day_index
+           from public.routine_exercises where user_id = $1 and day_index = 3`,
+        [memberId],
+      );
+      expect(rows.rowCount).toBeGreaterThan(0);
+      for (const r of rows.rows) {
+        expect(r.weight_kg, "트레이너 무게가 회원에게 넘어갔다").toBeNull();
+        expect(r.set_details).toBeNull();
+        // 부위는 **받는 쪽**으로 통일된다 — 아니면 회원 화면에 안 뜬다.
+        expect(r.focus).toBe("back");
+        expect(r.day_index).toBe(3);
+      }
+    } finally {
+      await client.query("rollback");
+    }
+  });
+
+  it("배정 RPC 도 익명에게는 실행 권한이 없다", async () => {
+    const r = await client.query(`
+      select has_function_privilege('anon',
+        'public.trainer_assign_routine_day(uuid, uuid, int, text, int, text)',
+        'execute') as ok`);
+    expect(r.rows[0]?.ok).toBe(false);
+  });
+
+  it("회원 루틴 모양도 그룹장만 읽는다", async () => {
+    async function shapeRows(uid: string): Promise<number> {
+      await client.query("begin");
+      try {
+        await client.query(`select set_config('role','authenticated',true)`);
+        await client.query(`select set_config('request.jwt.claims',$1,true)`, [
+          JSON.stringify({ sub: uid, role: "authenticated" }),
+        ]);
+        const r = await client.query(
+          `select * from public.trainer_member_routine($1,$2)`,
+          [groupId, memberId],
+        );
+        return r.rowCount ?? 0;
+      } finally {
+        await client.query("rollback");
+      }
+    }
+    expect(await shapeRows(memberId)).toBe(0);
+    expect(await shapeRows(STRANGER)).toBe(0);
+  });
 });

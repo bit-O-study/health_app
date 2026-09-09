@@ -132,3 +132,61 @@ test("인증 모드: 초대 링크로 가입해도 캐릭터 키우기(헬스장
   await ctxA.close();
   await ctxB.close();
 });
+/**
+ * 트레이너 대시보드 — 그룹장(=트레이너)이 담당 회원의 이번 주 상태를 한 화면에서 본다.
+ *
+ * 🔴 이 화면은 **남의 몸 데이터**(체중 추이·식단 기록·운동 이력)를 보여 준다.
+ * 그룹장이 아닌 사람에게 열리면 안 되는데, 잘못 열려도 **화면은 똑같이 잘 동작한다** —
+ * 그래서 "그룹장은 보이고 멤버는 안 보인다"를 여기서 직접 확인한다.
+ */
+test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다", async ({ browser }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+
+  const name = `E2E 트레이너 ${Date.now().toString(36)}`;
+
+  // ── A: 그룹장(트레이너)
+  const ctxA = await browser.newContext();
+  const pageA = await ctxA.newPage();
+  await signUpAndOnboard(pageA);
+  await pageA.goto("/groups", { waitUntil: "networkidle" });
+  await pageA.getByLabel("그룹 이름").fill(name);
+  await pageA.getByRole("button", { name: "그룹 만들기" }).click();
+  await pageA.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 10000 });
+
+  const groupId = await dbQuery<{ id: string }>(
+    `select id from public.groups where name=$1`,
+    [name],
+  ).then((r) => r[0].id);
+
+  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
+  await expect(pageA.getByRole("heading", { name: /회원 관리/ })).toBeVisible({
+    timeout: 8000,
+  });
+  // '담당 회원' 은 요약 칸 라벨과 빈 안내 문구 양쪽에 나온다 → 요약 칸만 정확히 집는다.
+  await expect(pageA.getByText("담당 회원", { exact: true })).toBeVisible();
+  // 트레이너 자신은 담당 회원이 아니다 — 아직 아무도 없다.
+  await expect(pageA.getByText("아직 담당 회원이 없어요")).toBeVisible();
+
+  // ── B: 초대로 들어온 일반 멤버
+  const token = await inviteToken(name);
+  const ctxB = await browser.newContext();
+  const pageB = await ctxB.newPage();
+  await signUpAndOnboard(pageB);
+  await pageB.goto(`/groups/join/${token}`);
+  // 초대 확인 화면 — '확인'을 눌러 가입한다(위 시나리오와 같은 흐름).
+  await pageB.getByRole("button", { name: "확인" }).click();
+  await pageB.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 10000 });
+
+  // 🔴 멤버에게는 화면이 안 열린다.
+  await pageB.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
+  await expect(pageB.getByText("그룹장만 볼 수 있어요")).toBeVisible({ timeout: 8000 });
+  await expect(pageB.getByTestId("trainer-members")).toHaveCount(0);
+
+  // ── 트레이너 화면에 그 회원이 나타난다(운동 기록이 없으니 챙길 대상으로).
+  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
+  await expect(pageA.getByTestId("trainer-member")).toHaveCount(1);
+  await expect(pageA.getByText("아직 운동 기록이 없어요")).toBeVisible();
+
+  await ctxA.close();
+  await ctxB.close();
+});

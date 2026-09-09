@@ -2,7 +2,16 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Copy, Loader2, LogOut, MessageCircle, Trash2 } from "lucide-react";
+import Link from "next/link";
+import {
+  Check,
+  ClipboardList,
+  Copy,
+  Loader2,
+  LogOut,
+  MessageCircle,
+  Trash2,
+} from "lucide-react";
 
 import {
   deleteGroupAction,
@@ -292,6 +301,17 @@ export function GroupControls({
           </>
         )}
       </button>
+
+      {/* 그룹장 = 트레이너. 담당 회원의 이번 주 상태를 한 화면에서 본다. */}
+      {isOwner ? (
+        <Link
+          href={`/groups/${groupId}/trainer`}
+          data-testid="trainer-board-link"
+          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-zinc-300 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800"
+        >
+          <ClipboardList aria-hidden="true" size={16} /> 회원 관리
+        </Link>
+      ) : null}
 
       {isOwner ? (
         <button

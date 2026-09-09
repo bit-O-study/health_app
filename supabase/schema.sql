@@ -2530,6 +2530,94 @@ drop policy if exists "group mates read food logs" on public.food_logs;
 create policy "group mates read food logs" on public.food_logs
   for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
 
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 대시보드(trainer_board) — 2026-09-09. 그룹장이 담당 회원의 주간 상태를
+-- 한 번에 본다(수행일수·식단기록일수·마지막 운동일·주간 목표일수·체중 변화).
+--
+-- 🔴 **왜 RLS 가 아니라 SECURITY DEFINER 함수인가.**
+--    필요한 값 중 `user_routines`(주간 목표)와 `weight_logs`(체중 추이)는 그룹원에게
+--    열려 있지 않다. 이걸 "그룹원이면 읽기" 정책으로 열면 **트레이너뿐 아니라 같은 그룹의
+--    모든 사람**이 남의 체중 이력을 보게 된다 — 이 앱의 그룹은 친구 모임이기도 하다.
+--    여기서는 `groups.owner_id = auth.uid()` 를 함수 안에서 직접 확인해 **그룹장에게만**
+--    연다. 아니면 조용히 빈 결과다(오류가 아니라 '볼 게 없음'으로 취급).
+--
+-- 🔴 **한 번에 집계해서 준다.** 회원마다 따로 물으면 회원 수만큼 왕복이 는다.
+--    트레이너 화면은 회원이 많을수록 값이 커지는 화면이라 그 반대로 굴면 안 된다.
+--
+-- 주간 목표일수는 `splits`(N분할)가 0 이어도 `custom_week`(직접 짠 한 주)에서 휴식이
+-- 아닌 날을 센다 — 직접 짠 사용자의 목표가 0 으로 보이면 달성률이 항상 0% 가 된다.
+create or replace function public.trainer_board(
+  p_group_id uuid, p_from date, p_to date)
+returns table (
+  user_id uuid,
+  workout_days int,
+  diet_days int,
+  last_workout date,
+  target_days int,
+  weight_first numeric,
+  weight_last numeric
+)
+language sql security definer stable set search_path = public as $$
+  with owner_ok as (
+    select 1 from public.groups g
+     where g.id = p_group_id and g.owner_id = (select auth.uid())
+  ),
+  mem as (
+    select gm.user_id from public.group_members gm
+     where gm.group_id = p_group_id and exists (select 1 from owner_ok)
+  ),
+  did as (
+    select e.user_id, e.for_date from public.exercise_completions e
+      join mem m on m.user_id = e.user_id
+     where e.status = 'done' and e.for_date between p_from and p_to
+    union
+    select c.user_id, c.for_date from public.conditioning_completions c
+      join mem m on m.user_id = c.user_id
+     where c.status = 'done' and c.for_date between p_from and p_to
+  ),
+  ate as (
+    select distinct f.user_id, f.for_date from public.food_logs f
+      join mem m on m.user_id = f.user_id
+     where f.for_date between p_from and p_to
+  ),
+  last_w as (
+    select e.user_id, max(e.for_date) d from public.exercise_completions e
+      join mem m on m.user_id = e.user_id
+     where e.status = 'done'
+     group by e.user_id
+  ),
+  w as (
+    select wl.user_id,
+           (array_agg(wl.weight_kg order by wl.created_at asc))[1] as first_kg,
+           (array_agg(wl.weight_kg order by wl.created_at desc))[1] as last_kg
+      from public.weight_logs wl
+      join mem m on m.user_id = wl.user_id
+     where wl.weight_kg is not null
+       and wl.created_at >= (p_from::timestamptz - interval '28 days')
+     group by wl.user_id
+  )
+  select m.user_id,
+         (select count(distinct d.for_date)::int from did d where d.user_id = m.user_id),
+         (select count(*)::int from ate a where a.user_id = m.user_id),
+         (select l.d from last_w l where l.user_id = m.user_id),
+         coalesce((
+           select case
+                    when r.custom_week is not null then (
+                      select count(*)::int
+                        from jsonb_array_elements(r.custom_week) as d
+                       where not (d @> '["rest"]'::jsonb)
+                    )
+                    else r.splits
+                  end
+             from public.user_routines r where r.user_id = m.user_id), 0)::int,
+         (select x.first_kg from w x where x.user_id = m.user_id),
+         (select x.last_kg from w x where x.user_id = m.user_id)
+    from mem m
+$$;
+revoke all on function public.trainer_board(uuid, date, date) from public;
+revoke all on function public.trainer_board(uuid, date, date) from anon;
+grant execute on function public.trainer_board(uuid, date, date) to authenticated;
+
 notify pgrst, 'reload schema';
 
 -- 끼니별 식단 사진(meal_photos) — 끼니(아침/점심/저녁/간식)당 여러 장 가능.

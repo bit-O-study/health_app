@@ -8,6 +8,12 @@ import {
 } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { notifyUser, notifyEnabled } from "@/features/notifications/push-fanout";
+import { loadPreferences } from "@/features/notifications/preferences-data";
+import {
+  DEFAULT_PREFERENCES,
+  decideSend,
+  seoulHour,
+} from "@/features/notifications/preferences";
 import { getUserProfile } from "@/features/profile/data-access";
 import { isValidCheer, normalizeCheer } from "@/features/groups/cheers";
 import { isChallengeMetric } from "@/features/groups/challenge";
@@ -106,6 +112,14 @@ async function notifyCheerRecipient(
     if (!notifyEnabled()) return;
     const admin = createSupabaseAdminClient();
     if (!admin) return;
+
+    // 🔴 설정을 본다. `notifyUser` 는 설정을 보지 않아서 **부르는 쪽**이 걸러야 하는데,
+    //    이 응원 알림만 그걸 안 하고 있었다(2026-09-09 발견) — 설정에서 '그룹 소식'을
+    //    꺼도 응원 알림은 그대로 갔고, 방해 금지 시간에도 갔다. 크론들은 전부 거른다.
+    const prefs =
+      (await loadPreferences(admin, [toUser])).get(toUser) ?? DEFAULT_PREFERENCES;
+    if (!decideSend(prefs, "group-activity", seoulHour()).allowed) return;
+
     // 상대가 보는 '보낸 사람 이름' = 그룹 가입 스냅샷(display_name).
     const { data: mem } = await supabase
       .from("group_members")

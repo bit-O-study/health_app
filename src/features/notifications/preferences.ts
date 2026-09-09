@@ -94,7 +94,11 @@ export const PUSH_TYPE_TO_KIND: Record<string, NotificationKind> = {
   "reminder-diet": "diet-reminder",
   "workout-end": "workout-inactivity",
   "weekly-mvp": "group-activity",
-  "group-reaction": "group-activity",
+  // 그룹원이 남긴 응원. 여기 없으면 **설정에서 못 끄는 알림**이 된다(2026-09-09 발견).
+  "group-cheer": "group-activity",
+  // (예전에 "group-reaction" 이 있었는데 그런 알림을 보내는 코드가 없었다 —
+  //  안 쓰는 매핑은 "이 알림이 있다"는 오해를 남기므로 지웠다. 반응 알림을 만들면
+  //  그때 다시 넣는다. 전수 가드가 안 넣으면 실패시킨다.)
   "routine-saved": "routine-saved",
   "routine-assigned": "routine-assigned",
   "trainer-comment": "trainer-comment",

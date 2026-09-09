@@ -3659,6 +3659,10 @@ create table if not exists public.notification_preferences (
   workout_inactivity boolean not null default true,
   group_activity boolean not null default true,
   routine_saved boolean not null default true,
+  -- 트레이너(그룹장)가 내 루틴을 바꿨을 때. 🔴 이건 **내가 안 한 변경**이라
+  -- 그룹 소식(group_activity)에 묶지 않는다 — MVP 알림을 껐다고 남이 내 루틴을 바꾼 걸
+  -- 모르게 되면 안 된다.
+  routine_assigned boolean not null default true,
   rest_timer boolean not null default true,
   quiet_hours boolean not null default true,
   quiet_start_hour smallint not null default 22
@@ -3667,6 +3671,9 @@ create table if not exists public.notification_preferences (
     check (quiet_end_hour >= 0 and quiet_end_hour <= 23),
   updated_at timestamptz not null default now()
 );
+-- 기존 DB 보정 — 표는 이미 있으므로 컬럼만 더한다.
+alter table public.notification_preferences
+  add column if not exists routine_assigned boolean not null default true;
 alter table public.notification_preferences enable row level security;
 -- 본인만 읽고 쓴다. 크론은 서비스 롤이라 RLS 를 우회한다.
 drop policy if exists "own notification preferences" on public.notification_preferences;

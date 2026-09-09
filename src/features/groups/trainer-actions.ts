@@ -6,6 +6,14 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { notifyEnabled, notifyUser } from "@/features/notifications/push-fanout";
+import { loadPreferences } from "@/features/notifications/preferences-data";
+import {
+  DEFAULT_PREFERENCES,
+  decideSend,
+  seoulHour,
+} from "@/features/notifications/preferences";
 import { routineDaySlots } from "@/features/routine/data";
 import { getUserRoutine } from "@/features/routine/data-access";
 
@@ -81,6 +89,55 @@ export async function assignRoutineDayAction(
   if (count === 0)
     return { ok: false, error: "내 그 일차에 담긴 운동이 없어요." };
 
+  // 🔴 회원에게 알린다. **회원이 안 한 변경**이라, 안 알리면 어느 날 자기 루틴이
+  //    바뀌어 있는데 왜인지 알 방법이 없다(앱 버그로 읽힌다).
+  await notifyAssigned(supabase, groupId, memberId, user.id, theirTo.label);
+
   revalidatePath(`/groups/${groupId}/trainer`);
   return { ok: true, count };
+}
+
+/**
+ * 배정 알림 — 실패해도 배정 자체는 성공이다(알림은 부가 기능).
+ *
+ * 보낸 사람 이름은 **그룹 가입 스냅샷**을 쓴다(응원 알림과 같은 규칙) — 회원 입장에서
+ * 그룹에서 보던 그 이름이어야 누군지 안다.
+ */
+async function notifyAssigned(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  groupId: string,
+  memberId: string,
+  trainerId: string,
+  dayLabel: string,
+): Promise<void> {
+  try {
+    if (!notifyEnabled()) return;
+    const admin = createSupabaseAdminClient();
+    if (!admin) return;
+
+    // 🔴 설정을 본다. `notifyUser` 는 설정을 안 보므로 **부르는 쪽이** 걸러야 한다
+    //    (크론들도 같은 방식이다). 안 그러면 설정 화면의 스위치가 장식이 된다.
+    const prefs =
+      (await loadPreferences(admin, [memberId])).get(memberId) ?? DEFAULT_PREFERENCES;
+    if (!decideSend(prefs, "routine-assigned", seoulHour()).allowed) return;
+
+    const { data: mem } = await supabase
+      .from("group_members")
+      .select("display_name")
+      .eq("group_id", groupId)
+      .eq("user_id", trainerId)
+      .maybeSingle();
+    const fromName =
+      ((mem as { display_name: string | null } | null)?.display_name ?? "").trim() ||
+      "트레이너";
+
+    await notifyUser(admin, memberId, {
+      type: "routine-assigned",
+      title: "루틴이 바뀌었어요",
+      body: `${fromName}님이 ${dayLabel} 운동을 새로 짜 줬어요`,
+      url: "/routine",
+    });
+  } catch {
+    /* 알림 실패는 무시 — 배정은 이미 됐다 */
+  }
 }

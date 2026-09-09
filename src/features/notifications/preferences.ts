@@ -27,6 +27,8 @@ export const NOTIFICATION_KINDS = [
   "group-activity",
   /** 내가 올린 루틴을 누가 담았을 때. */
   "routine-saved",
+  /** 트레이너(그룹장)가 내 루틴을 바꿨을 때. */
+  "routine-assigned",
   /** 세트 사이 휴식 타이머(기기 로컬 알림). */
   "rest-timer",
 ] as const;
@@ -65,6 +67,10 @@ export const NOTIFICATION_LABEL: Record<
     title: "내 루틴 담김",
     desc: "커뮤니티에 올린 내 루틴을 누가 담으면 알려드려요.",
   },
+  "routine-assigned": {
+    title: "트레이너 루틴 배정",
+    desc: "트레이너가 내 루틴을 바꾸면 알려드려요.",
+  },
   "rest-timer": {
     title: "휴식 타이머",
     desc: "세트 사이 휴식이 끝나면 기기에서 알려줘요.",
@@ -84,6 +90,7 @@ export const PUSH_TYPE_TO_KIND: Record<string, NotificationKind> = {
   "weekly-mvp": "group-activity",
   "group-reaction": "group-activity",
   "routine-saved": "routine-saved",
+  "routine-assigned": "routine-assigned",
 };
 
 export function kindForPushType(type: string): NotificationKind | null {
@@ -115,6 +122,7 @@ export const DEFAULT_PREFERENCES: NotificationPreferences = {
     "workout-inactivity": true,
     "group-activity": true,
     "routine-saved": true,
+    "routine-assigned": true,
     "rest-timer": true,
   },
   quietHours: true,
@@ -129,6 +137,7 @@ export type PreferenceRow = {
   workout_inactivity?: unknown;
   group_activity?: unknown;
   routine_saved?: unknown;
+  routine_assigned?: unknown;
   rest_timer?: unknown;
   quiet_hours?: unknown;
   quiet_start_hour?: unknown;
@@ -141,8 +150,21 @@ const ROW_KEY: Record<NotificationKind, keyof PreferenceRow> = {
   "workout-inactivity": "workout_inactivity",
   "group-activity": "group_activity",
   "routine-saved": "routine_saved",
+  "routine-assigned": "routine_assigned",
   "rest-timer": "rest_timer",
 };
+
+/**
+ * DB 에서 읽어야 하는 컬럼 이름 — **종류 표에서 뽑는다.**
+ * 예전엔 조회 컬럼 목록이 문자열로 따로 적혀 있어서, 종류를 새로 더하면 그 컬럼만
+ * 안 읽혔다(설정을 꺼도 알림이 그대로 왔다 — 화면에는 아무 이상이 없다).
+ */
+export const PREFERENCE_ROW_KEYS: readonly string[] = [
+  ...NOTIFICATION_KINDS.map((k) => ROW_KEY[k] as string),
+  "quiet_hours",
+  "quiet_start_hour",
+  "quiet_end_hour",
+];
 
 function boolOr(v: unknown, fallback: boolean): boolean {
   return typeof v === "boolean" ? v : fallback;
@@ -182,6 +204,7 @@ export function toPreferenceRow(
     workout_inactivity: prefs.kinds["workout-inactivity"],
     group_activity: prefs.kinds["group-activity"],
     routine_saved: prefs.kinds["routine-saved"],
+    routine_assigned: prefs.kinds["routine-assigned"],
     rest_timer: prefs.kinds["rest-timer"],
     quiet_hours: prefs.quietHours,
     quiet_start_hour: prefs.quietStartHour,

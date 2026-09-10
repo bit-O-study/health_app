@@ -85,6 +85,7 @@ import { ConfirmDialog } from "@/components/confirm-dialog";
 import { callIdempotentAction } from "@/lib/actions/resilient-action";
 import { reportAppEvent } from "@/lib/observability/report-client";
 import { weightStepKg } from "@/features/routine/progress";
+import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";
 
@@ -1267,6 +1268,19 @@ export function GuidedOverlay({
             <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
               좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
             </p>
+          </div>
+        ) : null}
+
+        {/* 원판 구성 — 무게를 정하는 **그 자리**에 붙인다. 총중량만 보여 주면 랙 앞에서
+            "한쪽에 뭘 몇 장" 을 매번 암산하게 된다.
+            고정 모드(스크러버 없음)에서도 계획된 무게로 그대로 필요하므로 밖에 둔다. */}
+        {item.kind === "main" ? (
+          <div className="mt-2 w-full max-w-xs">
+            <PlateHint
+              weightKg={editable ? editW : item.weightKg}
+              equipment={item.equipment}
+              compact
+            />
           </div>
         ) : null}
 

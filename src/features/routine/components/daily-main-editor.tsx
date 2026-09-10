@@ -659,6 +659,7 @@ export function DailyMainEditor({
                     reps={row.reps}
                     weight={row.weight}
                     setDetails={row.setDetails}
+                    equipment={row.equipment}
                     onUniformChange={(patch) => {
                       const next = [...rows];
                       next[idx] = { ...row, ...patch };

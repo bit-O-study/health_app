@@ -1065,6 +1065,7 @@ export function PlanEditor({
                             reps={row.reps}
                             weight={row.weight}
                             setDetails={row.setDetails}
+                            equipment={row.equipment}
                             onlySets={!lockWeightReps}
                             onUniformChange={(patch) => {
                               const next = [...rows];

@@ -4053,6 +4053,48 @@ grant execute on function public.debug_feature_enabled(text) to authenticated;
 revoke execute on function public.is_debug_account() from public, anon;
 grant execute on function public.is_debug_account() to authenticated;
 
+-- ─── 수분 섭취 ─────────────────────────────────────────────────────────
+-- 하루 한 행의 **누적 ml**. "몇 시에 얼마 마셨나" 는 아무도 안 보고, 행을 쌓으면
+-- 되돌리기·합계가 전부 왕복 여러 번이 된다. 컵 하나는 upsert 한 번이면 끝난다.
+create table if not exists public.water_logs (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  ml int not null default 0 check (ml >= 0 and ml <= 10000),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+alter table public.water_logs enable row level security;
+drop policy if exists "own water logs" on public.water_logs;
+create policy "own water logs" on public.water_logs
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- 🔴 더하기·빼기를 **한 문장으로**. 읽고 나서 쓰면 컵을 연타할 때 사이에 다른
+-- 요청이 끼어들어 한 잔이 사라진다(같은 하루·같은 행을 두 요청이 동시에 만진다).
+-- 0 아래·하루 최대 위로는 안 나가게 여기서 자른다 — 클라이언트를 믿지 않는다.
+create or replace function public.add_water_ml(p_date date, p_delta int)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_ml int;
+begin
+  if auth.uid() is null then
+    raise exception 'auth required';
+  end if;
+  insert into public.water_logs (user_id, for_date, ml, updated_at)
+  values (auth.uid(), p_date, greatest(0, least(10000, p_delta)), now())
+  on conflict (user_id, for_date) do update
+    set ml = greatest(0, least(10000, public.water_logs.ml + p_delta)),
+        updated_at = now()
+  returning ml into v_ml;
+  return v_ml;
+end;
+$$;
+revoke execute on function public.add_water_ml(date, int) from public, anon;
+grant execute on function public.add_water_ml(date, int) to authenticated;
+
 -- `rls_auto_enable` 은 **유지보수용**이다 — 로그인 사용자도 부를 이유가 없다.
 -- 소유자(service_role)만 남긴다.
 revoke execute on function public.rls_auto_enable() from public, anon, authenticated;

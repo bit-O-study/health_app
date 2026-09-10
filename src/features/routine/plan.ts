@@ -15,6 +15,7 @@ import {
   type SetDetail,
 } from "@/features/routine/set-details";
 import { seoulYmd } from "@/features/routine/data";
+import { isSupersetGroup } from "@/features/workout-timer/superset";
 
 export type PlanExercise = {
   id: string;
@@ -29,6 +30,8 @@ export type PlanExercise = {
   setDetails: SetDetail[] | null;
   /** 개인 메모 (자세 주의점 등). null = 없음. */
   memo: string | null;
+  /** 슈퍼세트 묶음 번호. 같은 값이면 한 묶음, null = 단독. */
+  supersetGroup: number | null;
 };
 
 type PlanRow = {
@@ -42,6 +45,7 @@ type PlanRow = {
   weight_kg: number | null;
   set_details?: unknown;
   memo?: unknown;
+  superset_group?: unknown;
 };
 
 function toPlanExercise(row: PlanRow): PlanExercise {
@@ -56,6 +60,7 @@ function toPlanExercise(row: PlanRow): PlanExercise {
     weightKg: typeof row.weight_kg === "number" ? row.weight_kg : null,
     setDetails: parseSetDetails(row.set_details),
     memo: typeof row.memo === "string" && row.memo.trim() !== "" ? row.memo : null,
+    supersetGroup: isSupersetGroup(row.superset_group) ? row.superset_group : null,
   };
 }
 

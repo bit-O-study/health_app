@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { Fragment, useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { GripVertical, Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
@@ -39,6 +39,16 @@ import {
 } from "@/features/routine/plan-order";
 import type { SetDetail } from "@/features/routine/set-details";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
+import {
+  SupersetBadge,
+  SupersetLink,
+} from "@/features/routine/components/superset-link";
+import {
+  isSupersetGroup,
+  linkWithNext,
+  splitAfter,
+  supersetLabel,
+} from "@/features/workout-timer/superset";
 import type { BodyType, ExperienceLevel } from "@/features/profile/data";
 import {
   isEquipmentAvailable,
@@ -53,6 +63,8 @@ type Row = {
   reps: number;
   weight: string;
   setDetails: SetDetail[] | null;
+  /** 슈퍼세트 묶음 번호. 같은 값이 **붙어 있으면** 한 묶음, null = 단독. */
+  supersetGroup: number | null;
 };
 
 export type MainSection = {
@@ -84,6 +96,7 @@ function toRow(focus: FocusTone, r: DailyPlanRow): Row {
     reps: r.reps,
     weight: r.weightKg === null ? "" : String(r.weightKg),
     setDetails: r.setDetails,
+    supersetGroup: r.supersetGroup,
   };
 }
 
@@ -312,6 +325,7 @@ export function DailyMainEditor({
         reps: 10,
         weight: "",
         setDetails: null,
+        supersetGroup: null,
       },
     ]);
   }
@@ -340,6 +354,7 @@ export function DailyMainEditor({
       reps: r.reps,
       weightKg: r.weight.trim() === "" ? null : Number(r.weight),
       setDetails: r.setDetails,
+      supersetGroup: r.supersetGroup,
       position: r.position,
     }));
   }
@@ -413,6 +428,7 @@ export function DailyMainEditor({
             reps: p.reps,
             weight: p.weightKg === null ? "" : String(p.weightKg),
             setDetails: null,
+            supersetGroup: null,
           });
         }
       }
@@ -528,9 +544,17 @@ export function DailyMainEditor({
             const sub = ex
               ? subMusclesForExerciseData(ex.id, ex.name, ex.target)[0]
               : undefined;
+            // 슈퍼세트는 **붙어 있는 같은 부위** 줄끼리만. 부위가 다르면 저장이 부위별로
+            // 갈리고 큐에서 묶음이 어떻게 붙을지 보장할 수 없다.
+            const canLink =
+              idx + 1 < rows.length && rows[idx + 1].focus === row.focus;
+            const linkedNext =
+              isSupersetGroup(row.supersetGroup) &&
+              rows[idx + 1]?.supersetGroup === row.supersetGroup;
+            const badge = supersetLabel(rows, idx);
             return (
+              <Fragment key={idx}>
               <div
-                key={idx}
                 ref={(el) => {
                   rowRefs.current[idx] = el;
                 }}
@@ -548,8 +572,9 @@ export function DailyMainEditor({
                 }
                 className="flex flex-col gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5 dark:border-zinc-700 dark:bg-zinc-900"
               >
-                {/* 1행: 그립 + 부위 + 삭제 */}
+                {/* 1행: 그립 + 슈퍼세트 배지 + 부위 + 삭제 */}
                 <div className="flex items-center gap-2">
+                  {badge ? <SupersetBadge label={badge} /> : null}
                   <button
                     type="button"
                     aria-label="드래그로 순서 변경"
@@ -673,6 +698,17 @@ export function DailyMainEditor({
                   />
                 </div>
               </div>
+              {canLink ? (
+                <SupersetLink
+                  linked={linkedNext}
+                  onToggle={() =>
+                    update(
+                      linkedNext ? splitAfter(rows, idx) : linkWithNext(rows, idx),
+                    )
+                  }
+                />
+              ) : null}
+              </Fragment>
             );
           })}
         </div>

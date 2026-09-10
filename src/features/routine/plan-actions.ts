@@ -47,6 +47,7 @@ import {
   previewArmRoutineSwap,
 } from "@/features/routine/arm-routine-swap";
 import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
+import { isSupersetGroup } from "@/features/workout-timer/superset";
 
 export type SavePlanResult = { ok: true } | { ok: false; error: string };
 export type AddedTodayExercise = {
@@ -126,6 +127,8 @@ export type ManualPlanItem = {
   weightKg: number | null;
   /** 세트별 무게·횟수. 있으면 sets/reps/weightKg 대신 이걸 사용. */
   setDetails?: SetDetail[] | null;
+  /** 슈퍼세트 묶음 번호(1~99). 같은 값이면 한 묶음, null/생략 = 단독. */
+  supersetGroup?: number | null;
 };
 
 export type ManualPlanGroup = {
@@ -345,6 +348,9 @@ export async function saveManualPlanAction(
         weightKg: fields.weight_kg,
         setDetails: fields.set_details,
         memo: memoByExercise.get(it.exerciseId) ?? null,
+        supersetGroup: isSupersetGroup(it.supersetGroup)
+          ? it.supersetGroup
+          : null,
       };
     });
     writeGroups.push({

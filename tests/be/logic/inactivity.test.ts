@@ -86,6 +86,7 @@ describe("queueToRestInputs — 큐 → 휴식처리 입력", () => {
       advice: null,
       memo: null,
       media: null,
+    supersetGroup: null,
     },
     {
       kind: "cooldown",

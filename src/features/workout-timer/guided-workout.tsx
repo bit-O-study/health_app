@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Gauge,
+  Link2,
   ListChecks,
   Pause,
   Play,
@@ -36,6 +37,11 @@ import {
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
 import { adjacentActiveIndex } from "@/features/workout-timer/queue-filter";
+import {
+  nextInSuperset,
+  restReturnIndex,
+  supersetLabel,
+} from "@/features/workout-timer/superset";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
 import { useRestTimer } from "@/features/workout-timer/rest-timer";
 import {
@@ -121,6 +127,11 @@ export type GuidedItem =
       substitutes?: ExerciseSubstitute[];
       /** 관리자 등록 시범 미디어. null = 없음(기본 일러스트 사용). */
       media: { url: string; kind: MediaKind } | null;
+      /**
+       * 슈퍼세트 묶음 번호(큐 기준으로 정규화된 값). 같은 값이 **붙어 있으면** 한 묶음.
+       * null = 단독 운동.
+       */
+      supersetGroup: number | null;
     }
   | {
       kind: "warmup" | "cooldown";
@@ -407,6 +418,15 @@ export function GuidedOverlay({
    */
   const [sessionItems] = useState(items);
   const rowIds = useMemo(() => sessionItems.map((i) => i.rowId), [sessionItems]);
+  // 묶음 판정 입력 — 큐 스냅샷에서 rowId·묶음번호만 뽑는다(컨디셔닝은 묶음이 없다).
+  const supersetItems = useMemo(
+    () =>
+      sessionItems.map((i) => ({
+        rowId: i.rowId,
+        supersetGroup: i.kind === "main" ? i.supersetGroup : null,
+      })),
+    [sessionItems],
+  );
 
   /**
    * 이번 세션에 완료/스킵 처리한 항목들(rowId). 가이드 큐는 시작 스냅샷이라 처리해도
@@ -638,6 +658,12 @@ export function GuidedOverlay({
   // 본운동이고 세트가 2개 이상이면 세트별 휴식 안내 노출. (고정 끔이면 스크러버 세트수 기준)
   const mainSets = item && item.kind === "main" && effSets > 1 ? effSets : 0;
   const onLastSet = mainSets > 0 ? isLastSet(setsDone, mainSets) : true;
+  // 이번 세트를 끝내면 쉬지 않고 갈 짝(슈퍼세트). null 이면 여기서 쉰다.
+  const partnerIndex =
+    mainSets > 0 && !onLastSet
+      ? nextInSuperset(supersetItems, processed, index)
+      : null;
+  const supersetTag = supersetLabel(supersetItems, index);
 
   /**
    * 세트 완료 — 세트 카운트 +1 저장 후 휴식 시작. 마지막 세트까지 채우면 운동 자동 완료.
@@ -654,10 +680,23 @@ export function GuidedOverlay({
     setSetsDone(next);
     if (next >= mainSets) {
       // 세트를 다 채우면 자동으로 '완료' 처리(운동 넘어감).
+      // 묶음이어도 마찬가지 — 다음 활성 항목이 곧 남은 짝이라 흐름이 그대로 이어진다.
       dispatch("done");
       return;
     }
+
+    // 슈퍼세트: 짝이 남아 있으면 **쉬지 않고** 바로 넘어간다. 그게 슈퍼세트다.
+    const partner = nextInSuperset(supersetItems, processed, index);
+    if (partner !== null) {
+      setIndex(partner);
+      return;
+    }
+
     rest.trigger();
+    // 한 바퀴를 돌았으면 쉬는 동안 묶음의 첫 운동으로 되돌려 둔다 —
+    // 휴식이 끝나고 눈을 들었을 때 다음에 할 운동이 떠 있어야 한다.
+    const back = restReturnIndex(supersetItems, processed, index);
+    if (back !== null) setIndex(back);
   }
 
   /** 세트 완료 취소 — 마지막으로 완료한 세트를 하나 되돌린다(그날 저장에도 반영). */
@@ -1151,6 +1190,17 @@ export function GuidedOverlay({
           ) : null}
         </div>
 
+        {/* 슈퍼세트 표시 — 지금 묶음의 몇 번째인지. 이게 없으면 "왜 휴식이 안 오지" 가 된다. */}
+        {supersetTag ? (
+          <p
+            data-testid="superset-tag"
+            data-label={supersetTag}
+            className="mt-3 inline-flex items-center gap-1 self-center rounded-full bg-violet-100 px-2.5 py-1 text-[11px] font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
+          >
+            <Link2 aria-hidden="true" size={12} />
+            슈퍼세트 {supersetTag}
+          </p>
+        ) : null}
         {/* 이름은 링크가 아니다 — 상세는 오직 아래 '운동법·꿀팁 보기' 버튼으로만. */}
         <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
           {item.name}
@@ -1468,6 +1518,13 @@ export function GuidedOverlay({
                 <>
                   <Check aria-hidden="true" size={18} />
                   마지막 세트 완료
+                </>
+              ) : partnerIndex !== null ? (
+                /* 슈퍼세트 — 여기서 안 쉬고 바로 짝으로 넘어간다. 버튼이 '세트 완료'
+                   라고만 하면 휴식이 올 줄 알고 기다리게 된다. */
+                <>
+                  <Link2 aria-hidden="true" size={18} />
+                  세트 완료 · 바로 다음
                 </>
               ) : (
                 <>

@@ -14,6 +14,7 @@ import {
   parseSetDetails,
   type SetDetail,
 } from "@/features/routine/set-details";
+import { isSupersetGroup } from "@/features/workout-timer/superset";
 
 export type DailyPlanRow = {
   id: string;
@@ -28,6 +29,8 @@ export type DailyPlanRow = {
   setDetails: SetDetail[] | null;
   /** 개인 메모. null = 없음. */
   memo: string | null;
+  /** 슈퍼세트 묶음 번호. 같은 값이면 한 묶음, null = 단독. */
+  supersetGroup: number | null;
 };
 
 type Row = {
@@ -41,6 +44,7 @@ type Row = {
   weight_kg: number | string | null;
   set_details?: unknown;
   memo?: unknown;
+  superset_group?: unknown;
 };
 
 const num = (v: number | string | null): number | null => {
@@ -81,6 +85,7 @@ export const getDailyPlanForDate = cache(
       setDetails: parseSetDetails(r.set_details),
       memo:
         typeof r.memo === "string" && r.memo.trim() !== "" ? r.memo : null,
+      supersetGroup: isSupersetGroup(r.superset_group) ? r.superset_group : null,
     }));
   },
 );

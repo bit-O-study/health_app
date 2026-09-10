@@ -560,6 +560,16 @@ begin
            and jsonb_typeof(v_row -> 'memo') not in ('string', 'null') then
           raise exception using errcode = '22000', message = 'INVALID_ROW';
         end if;
+        -- 슈퍼세트 묶음 번호. 컬럼 제약(1~99)에 맡기지 않고 여기서 걸러 다른 잘못된
+        -- 행들과 같은 INVALID_ROW 로 보고한다(호출부가 메시지 하나만 다루면 된다).
+        if v_row ? 'supersetGroup'
+           and jsonb_typeof(v_row -> 'supersetGroup') not in ('number', 'null') then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        if jsonb_typeof(v_row -> 'supersetGroup') = 'number'
+           and (v_row ->> 'supersetGroup')::integer not between 1 and 99 then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
       end loop;
     exception when others then
       raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
@@ -597,7 +607,7 @@ begin
 
       insert into public.routine_exercises (
         id, user_id, day_index, focus, position, exercise_id, equipment,
-        sets, reps, weight_kg, set_details, memo
+        sets, reps, weight_kg, set_details, memo, superset_group
       ) values (
         v_new_id,
         v_user_id,
@@ -615,6 +625,11 @@ begin
         end,
         case
           when jsonb_typeof(v_row -> 'memo') = 'string' then v_row ->> 'memo'
+          else null
+        end,
+        case
+          when jsonb_typeof(v_row -> 'supersetGroup') = 'number'
+            then (v_row ->> 'supersetGroup')::smallint
           else null
         end
       )
@@ -4052,6 +4067,17 @@ revoke execute on function public.debug_feature_enabled(text) from public, anon;
 grant execute on function public.debug_feature_enabled(text) to authenticated;
 revoke execute on function public.is_debug_account() from public, anon;
 grant execute on function public.is_debug_account() to authenticated;
+
+-- ─── 슈퍼세트 ──────────────────────────────────────────────────────────
+-- 같은 값이면 한 묶음(쉬지 않고 번갈아 한다). null = 단독 운동.
+-- 🔴 묶음은 **붙어 있는 줄끼리만** 성립한다 — 사이에 다른 운동이 끼면 그건 순환이지
+-- 슈퍼세트가 아니다. 붙어 있는지는 앱이 판정한다(position 은 부위 안에서만 유일).
+alter table public.routine_exercises
+  add column if not exists superset_group smallint
+  check (superset_group is null or (superset_group >= 1 and superset_group <= 99));
+alter table public.daily_plan
+  add column if not exists superset_group smallint
+  check (superset_group is null or (superset_group >= 1 and superset_group <= 99));
 
 -- ─── 수분 섭취 ─────────────────────────────────────────────────────────
 -- 하루 한 행의 **누적 ml**. "몇 시에 얼마 마셨나" 는 아무도 안 보고, 행을 쌓으면

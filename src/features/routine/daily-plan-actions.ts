@@ -23,6 +23,7 @@ import {
   toRowFields,
   type SetDetail,
 } from "@/features/routine/set-details";
+import { isSupersetGroup } from "@/features/workout-timer/superset";
 import {
   DAY_BLOCKS,
   resolveRoutine,
@@ -42,6 +43,8 @@ export type DailyPlanItem = {
   weightKg: number | null;
   /** 세트별 무게·횟수. 있으면 sets/reps/weightKg 대신 사용. */
   setDetails?: SetDetail[] | null;
+  /** 슈퍼세트 묶음 번호(1~99). 같은 값이면 한 묶음, null/생략 = 단독. */
+  supersetGroup?: number | null;
   /**
    * 저장할 표시 순서. 편집기가 **부위가 섞인 한 목록**의 전역 index 를 실어 보낸다.
    * 없으면 배열 순번(0..n)을 쓴다. (부위별 0..n 재인덱싱은 부위 교차 순서를 지운다 —
@@ -138,6 +141,9 @@ export async function pinRoutineFocusesForTodayAction(
         setDetails: p.setDetails,
       }),
       memo: p.memo,
+      // 루틴에서 오늘로 옮길 때 묶음도 같이 온다 — 안 옮기면 오늘만 편집에 들어간
+      // 순간 슈퍼세트가 조용히 풀린다.
+      superset_group: p.supersetGroup,
     }));
     const ins = await supabase
       .from("daily_plan")
@@ -313,6 +319,9 @@ export async function saveDailyPlanAction(
       exercise_id: it.exerciseId,
       equipment: it.equipment,
       ...toRowFields(it),
+      superset_group: isSupersetGroup(it.supersetGroup)
+        ? it.supersetGroup
+        : null,
     }));
     const ins = await supabase
       .from("daily_plan")

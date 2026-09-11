@@ -51,6 +51,7 @@ export function WeeklyTrainingCard({
   pushPull,
   upperLower,
   untouchedSubs,
+  synergistOnlySubs,
   /** 트레이너가 회원 화면에서 볼 때 — 2인칭 문구를 안 쓰고 링크도 감춘다. */
   viewerIsOther = false,
 }: {
@@ -61,6 +62,7 @@ export function WeeklyTrainingCard({
   pushPull: Balance;
   upperLower: Balance;
   untouchedSubs: { id: string; label: string }[];
+  synergistOnlySubs: { id: string; label: string }[];
   viewerIsOther?: boolean;
 }) {
   const weekTotal = regions.reduce((s, r) => s + r.sets, 0);
@@ -213,7 +215,7 @@ export function WeeklyTrainingCard({
           </span>
         </p>
         <p className="mt-0.5 text-[11px] leading-5 text-zinc-500 dark:text-zinc-400">
-          세부근육은 <strong>0세트인지 아닌지</strong>만 말합니다. 운동마다 걸리는 세부근육
+          세부근육은 <strong>했는지 안 했는지</strong>만 말합니다. 운동마다 걸리는 세부근육
           수가 크게 달라(상복부 254개 ↔ 하복부 19개) 세트 수끼리 비교하면 내 훈련이 아니라
           매핑의 치우침을 보게 됩니다.
         </p>
@@ -234,6 +236,33 @@ export function WeeklyTrainingCard({
             ))}
           </ul>
         )}
+        {/* 거들기만 한 것 — '했다'와 '안 했다' 사이. 벤치프레스만 하고 하부 대흉근을
+            했다고 세면, 정작 하부를 노린 적은 없는데 채워진 것처럼 보인다. */}
+        {synergistOnlySubs.length > 0 ? (
+          <div className="mt-3">
+            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
+              거들기만 하고 직접 노리진 않은 곳
+              <span className="ml-1 text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
+                {synergistOnlySubs.length}개
+              </span>
+            </p>
+            <ul
+              className="mt-1.5 flex flex-wrap gap-1.5"
+              data-testid="synergist-only-subs"
+            >
+              {synergistOnlySubs.map((s) => (
+                <li
+                  key={s.id}
+                  data-sub={s.id}
+                  className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"
+                >
+                  {s.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
         {!viewerIsOther && untouchedSubs.length > 0 ? (
           <Link
             href="/plan/muscle"

@@ -89,6 +89,11 @@ export function setCountOf(r: SetRecord): number {
 /** 운동 id → 세부근육 id 목록. 호출자가 카탈로그를 아는 쪽에서 넘긴다. */
 export type SubsOf = (exerciseId: string) => string[];
 
+/** 운동 id → 세부근육별 기여도(주동근 1.0, 거드는 쪽은 낮게). */
+export type SubWeightsOf = (
+  exerciseId: string,
+) => { id: string; weight: number }[];
+
 /**
  * 이 기록이 **직접** 때리는 부위 하나.
  *
@@ -145,16 +150,21 @@ export function setsByRegion(
  */
 export function setsBySubMuscle(
   records: readonly SetRecord[],
-  subsOf: SubsOf,
+  subWeightsOf: SubWeightsOf,
   fromYmd: string,
   toYmd: string,
+  /** 이 기여도 이상만 센다. 0 이면 스치기만 한 것도 포함. */
+  minWeight = 0,
 ): Record<string, number> {
   const out: Record<string, number> = {};
   for (const r of records) {
     if (!r.exerciseId || !inRange(r.forDate, fromYmd, toYmd)) continue;
     const n = setCountOf(r);
     // 나눠 담지 않는다 — "몇 세트나 이 근육을 건드렸나"이지 배분이 아니다.
-    for (const s of subsOf(r.exerciseId)) out[s] = (out[s] ?? 0) + n;
+    for (const w of subWeightsOf(r.exerciseId)) {
+      if (w.weight < minWeight) continue;
+      out[w.id] = (out[w.id] ?? 0) + n;
+    }
   }
   return out;
 }

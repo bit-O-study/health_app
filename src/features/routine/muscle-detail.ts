@@ -11,8 +11,10 @@ import {
   getCatalogExercise,
 } from "@/features/routine/exercise-catalog";
 import {
+  subMuscleWeightsForExerciseData,
   subMusclesForExerciseData,
   type SubMuscle,
+  type SubMuscleWeight,
 } from "@/features/routine/sub-muscles";
 
 export * from "@/features/routine/sub-muscles";
@@ -42,4 +44,16 @@ export function exerciseIdsForSubMuscle(subId: string): string[] {
     }
   }
   return ids;
+}
+
+/**
+ * 운동 → 세부근육 **기여도** 목록(주동근 1.0, 거드는 쪽은 낮게).
+ * 운동 id 밖에 없는 호출부용 — 카탈로그에서 이름·타깃을 찾아 넘긴다.
+ */
+export function subMuscleWeightsForExercise(
+  exerciseId: string,
+): SubMuscleWeight[] {
+  const ex = getCatalogExercise(exerciseId);
+  if (!ex) return [];
+  return subMuscleWeightsForExerciseData(exerciseId, ex.name, ex.target);
 }

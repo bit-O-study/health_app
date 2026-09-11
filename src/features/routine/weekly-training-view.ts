@@ -9,8 +9,11 @@
  */
 
 import { REGION_LIST, type Region } from "@/features/routine/score";
-import { subMusclesForExercise } from "@/features/routine/muscle-detail";
-import { ALL_SUB_MUSCLES } from "@/features/routine/sub-muscles";
+import {
+  subMuscleWeightsForExercise,
+  subMusclesForExercise,
+} from "@/features/routine/muscle-detail";
+import { ALL_SUB_MUSCLES, PRIMARY_WEIGHT } from "@/features/routine/sub-muscles";
 import { muscleGroup, type MuscleId } from "@/features/routine/muscle-map";
 import {
   daysAgo,
@@ -53,7 +56,10 @@ export type WeeklyTrainingView = {
   regions: WeeklyRegionRow[];
   pushPull: Balance;
   upperLower: Balance;
+  /** 이번 주 **주동근으로도 협응으로도** 안 나온 세부근육. */
   untouchedSubs: { id: string; label: string }[];
+  /** 거들기만 하고 **주동근으로는 안 노린** 세부근육 — 있는 줄 알았는데 없는 자리다. */
+  synergistOnlySubs: { id: string; label: string }[];
   /** 이번 주 총 직접 세트. 0이면 화면이 "아직 기록 없음"으로 갈 수 있다. */
   weekSets: number;
 };
@@ -99,9 +105,27 @@ export function buildWeeklyTrainingView(
     daysAgo: daysAgo(lastTrained[r], todayYmd),
   }));
 
-  const subSets = setsBySubMuscle(records, subsOf, weekStart, weekEnd);
+  // 🔴 두 번 센다. 벤치프레스의 매핑은 [중부, 하부] 인데 둘을 똑같이 세면 벤치프레스만
+  //    해도 **하부 대흉근을 "했다"** 로 나온다. 실제로는 거들 뿐이라, "하부를 노린 운동이
+  //    있었나" 에는 아니다. 기여도로 갈라서 '아예 안 함' 과 '거들기만 함' 을 나눈다.
+  const subWeightsOf = (id: string) =>
+    subMuscleWeightsForExercise(id).map((w) => ({
+      id: w.sub.id,
+      weight: w.weight,
+    }));
+  const anySets = setsBySubMuscle(records, subWeightsOf, weekStart, weekEnd);
+  const primarySets = setsBySubMuscle(
+    records,
+    subWeightsOf,
+    weekStart,
+    weekEnd,
+    PRIMARY_WEIGHT,
+  );
   const untouchedSubs = ALL_SUB_MUSCLES.filter(
-    (s) => (subSets[s.id] ?? 0) === 0,
+    (s) => (anySets[s.id] ?? 0) === 0,
+  ).map((s) => ({ id: s.id, label: s.label }));
+  const synergistOnlySubs = ALL_SUB_MUSCLES.filter(
+    (s) => (anySets[s.id] ?? 0) > 0 && (primarySets[s.id] ?? 0) === 0,
   ).map((s) => ({ id: s.id, label: s.label }));
 
   return {
@@ -112,6 +136,7 @@ export function buildWeeklyTrainingView(
     pushPull: pushPullBalance(weekRegionSets),
     upperLower: upperLowerBalance(weekRegionSets),
     untouchedSubs,
+    synergistOnlySubs,
     weekSets: REGION_LIST.reduce((sum, r) => sum + weekRegionSets[r], 0),
   };
 }

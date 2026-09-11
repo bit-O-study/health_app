@@ -25,6 +25,11 @@ export type ProgressRecord = {
   weightKg: number | null;
   /** 세트별 무게·횟수 스냅샷. null = 균일 세트(sets×reps@weightKg). */
   setDetails?: SetDetail[] | null;
+  /**
+   * 완료 시점 기구. 증량 단위(`weightStepKg`)가 이걸로 갈리므로 기록에서 같이 들고 온다.
+   * 없으면 호출자가 넘긴 기구를 쓰고, 그것도 없으면 기본 단위(2kg)로 떨어진다.
+   */
+  equipment?: string | null;
 };
 
 export type Point = { date: string; value: number };
@@ -193,6 +198,8 @@ export type ExerciseSession = {
   weightKg: number | null;
   volume: number;
   oneRm: number;
+  /** 그날 쓴 기구(대표 세트 기준). 증량 단위를 정하는 데 쓴다. null = 기록에 없음. */
+  equipment: string | null;
 };
 
 /** 무게가 가장 무거운 세트 — 대표값(무게·횟수) 뽑는 기준. */
@@ -222,6 +229,7 @@ export function exerciseHistory(
       weightKg: top ? top.weightKg : c.weightKg,
       volume: recordVolume(c),
       oneRm: recordOneRM(c),
+      equipment: c.equipment ?? null,
     };
     const cur = byDate.get(c.forDate);
     if (!cur) {
@@ -235,6 +243,8 @@ export function exerciseHistory(
       sets: cur.sets + one.sets,
       reps: heavier ? one.reps : cur.reps,
       weightKg: heavier ? one.weightKg : cur.weightKg,
+      // 기구도 '그날 대표 세트' 를 따라간다 — 같은 날 바벨·덤벨을 섞었으면 무거운 쪽.
+      equipment: heavier ? one.equipment : cur.equipment,
       volume: cur.volume + one.volume,
       oneRm: Math.max(cur.oneRm, one.oneRm),
     });

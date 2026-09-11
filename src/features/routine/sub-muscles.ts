@@ -257,6 +257,48 @@ export function subMusclesForExerciseData(
     .filter(Boolean);
 }
 
+/**
+ * 세부근육 **기여도** — 그 운동에서 주동근인가, 거들기만 하는가.
+ *
+ * 왜 필요한가: 벤치프레스는 `["chest-mid", "chest-lower"]` 인데, 이 둘을 똑같이
+ * 세면 벤치프레스만 해도 **하부 대흉근을 "했다"** 로 표시된다. 실제로는 중부가
+ * 주동근이고 하부는 거들 뿐이라, "이번 주 하부를 노린 운동이 있었나" 에는 아니다.
+ *
+ * 🔴 **가중치를 114개에 손으로 새로 적지 않는다.** 명시 매핑은 이미 **중요한 순서대로**
+ * 큐레이션돼 있다(`bench-press` 의 첫 항목이 중부, `deadlift` 의 첫 항목이 기립근).
+ * 그 순서를 그대로 읽어 쓰는 편이, 114개를 다시 손으로 매기다 틀리는 것보다 정확하다.
+ *
+ * 🔴 **추론 결과는 순위를 못 매긴다** — 규칙이 돌려주는 것은 삼두 세 갈래처럼 **동등한**
+ * 목록이거나("인클라인 플라이" = 상부+내측) 폴백 하나다. 그래서 추론분은 전부 1.0 이다.
+ * 없는 순위를 지어내면 그건 정밀해 보이는 오차일 뿐이다.
+ */
+export type SubMuscleWeight = { sub: SubMuscle; weight: number };
+
+/** 명시 매핑의 자리별 기여도. 넷째부터는 0.25 로 같다. */
+const POSITION_WEIGHT = [1, 0.5, 0.35] as const;
+
+/** 이 값 이상이면 '주동근으로 했다'고 본다. */
+export const PRIMARY_WEIGHT = 0.6;
+
+export function subMuscleWeightsForExerciseData(
+  exerciseId: string,
+  name: string,
+  target: string,
+): SubMuscleWeight[] {
+  const explicit = EXERCISE_SUB_MUSCLES[exerciseId];
+  if (explicit) {
+    return explicit
+      .map((id, i) => ({
+        sub: SUB_BY_ID[id],
+        weight: POSITION_WEIGHT[i] ?? 0.25,
+      }))
+      .filter((w) => Boolean(w.sub));
+  }
+  return inferSubMuscleIds(primaryBodyPart(exerciseId), name, target)
+    .map((id) => ({ sub: SUB_BY_ID[id], weight: 1 }))
+    .filter((w) => Boolean(w.sub));
+}
+
 /** 세부 근육 라벨 도우미 (상위 부위 색을 함께 제공) */
 export function subMuscleColor(id: string): string {
   const s = SUB_BY_ID[id];

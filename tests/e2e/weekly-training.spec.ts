@@ -106,6 +106,13 @@ test("이번 주 안 건드린 세부근육을 짚어 준다", async ({ page }) 
   await expect(list.locator('[data-sub="lower-quads"]')).toHaveCount(1);
   // 실제로 한 것은 목록에 없어야 한다.
   await expect(list.locator('[data-sub="chest-mid"]')).toHaveCount(0);
+
+  // 🔴 하부 대흉근은 '안 함'도 '했음'도 아니다 — 벤치프레스가 거들었을 뿐,
+  //    하부를 노린 운동은 한 적이 없다. 그 중간을 따로 말해 준다.
+  await expect(list.locator('[data-sub="chest-lower"]')).toHaveCount(0);
+  const synergist = page.getByTestId("synergist-only-subs");
+  await expect(synergist.locator('[data-sub="chest-lower"]')).toHaveCount(1);
+  await expect(synergist.locator('[data-sub="chest-mid"]')).toHaveCount(0);
 });
 
 test("🔴 트레이너가 회원 화면에서 같은 숫자를 본다", async ({ browser }) => {

@@ -32,6 +32,9 @@ const SUBS: Record<string, string[]> = {
   unknown: [],
 };
 const subsOf = (id: string) => SUBS[id] ?? [];
+/** 명시 매핑처럼 자리별 기여도를 준다(첫째=주동근 1.0, 둘째 0.5). */
+const subWeightsOf = (id: string) =>
+  (SUBS[id] ?? []).map((sub, i) => ({ id: sub, weight: [1, 0.5, 0.35][i] ?? 0.25 }));
 
 function rec(p: Partial<SetRecord> & { forDate: string }): SetRecord {
   return { sets: 3, ...p };
@@ -169,22 +172,41 @@ describe("setsByRegion", () => {
 });
 
 describe("setsBySubMuscle", () => {
+  const bench = [rec({ forDate: "d", exerciseId: "bench-press", sets: 4 })];
+
   it("걸리는 세부근육 전부에 같은 세트 수를 센다(배분이 아니다)", () => {
-    const s = setsBySubMuscle(
-      [rec({ forDate: "d", exerciseId: "bench-press", sets: 4 })],
-      subsOf,
-      "d",
-      "d",
-    );
+    const s = setsBySubMuscle(bench, subWeightsOf, "d", "d");
     // "이 근육을 몇 세트나 건드렸나" 라서 4를 둘로 쪼개지 않는다.
     expect(s["chest-mid"]).toBe(4);
     expect(s["chest-lower"]).toBe(4);
   });
 
+  it("🔴 기여도 문턱을 주면 주동근만 센다 — 벤치프레스는 '하부를 노린 운동'이 아니다", () => {
+    const s = setsBySubMuscle(bench, subWeightsOf, "d", "d", 0.6);
+    expect(s["chest-mid"]).toBe(4);
+    expect(s["chest-lower"]).toBeUndefined();
+  });
+
+  it("추론분처럼 전부 1.0 이면 문턱을 줘도 다 남는다", () => {
+    const equal = () => [
+      { id: "arm-triceps-long", weight: 1 },
+      { id: "arm-triceps-lateral", weight: 1 },
+    ];
+    const s = setsBySubMuscle(
+      [rec({ forDate: "d", exerciseId: "x", sets: 3 })],
+      equal,
+      "d",
+      "d",
+      0.6,
+    );
+    expect(s["arm-triceps-long"]).toBe(3);
+    expect(s["arm-triceps-lateral"]).toBe(3);
+  });
+
   it("한 번도 안 나온 세부근육은 키 자체가 없다 → 0세트로 읽힌다", () => {
     const s = setsBySubMuscle(
       [rec({ forDate: "d", exerciseId: "bench-press" })],
-      subsOf,
+      subWeightsOf,
       "d",
       "d",
     );

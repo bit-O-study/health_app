@@ -120,7 +120,11 @@ export function overloadPlan(
   }
 
   // 맨몸·시간 종목은 무게로 올릴 수가 없다 — 횟수/시간이 올리는 축이다.
-  const step = weightStepKg(exerciseId, equipment);
+  //
+  // 🔴 기구를 안 받았으면 **마지막 기록의 기구**를 쓴다. 예전엔 그냥 기본값(2kg)으로
+  //    떨어져서, 같은 바벨 스쿼트인데 운동모드는 +5kg(바벨)를, 성장 그래프는 +2kg를
+  //    권했다 — 화면마다 다른 증량을 말하는 셈이었다.
+  const step = weightStepKg(exerciseId, equipment ?? last.equipment);
   const timed = isTimedExercise(exerciseId);
   if (timed || step === null || (last.weightKg ?? 0) <= 0) {
     return {

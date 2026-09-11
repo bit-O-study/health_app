@@ -155,26 +155,32 @@ export default async function ScorePage() {
     userWeight,
   );
   const hasSub = hasSubMuscleTraining(subPoints);
-  const maxSub = Math.max(0, ...ALL_SUB_MUSCLES.map((s) => subPoints[s.id] ?? 0));
-  const subStatus = Object.fromEntries(
-    ALL_SUB_MUSCLES.map((s) => [
-      s.id,
-      balanceStatusFor(subPoints[s.id] ?? 0, maxSub),
-    ]),
-  ) as Record<string, BalanceStatus>;
+  // 🔴 세부근육 칩은 **이번 주 세 단계**로만 칠한다(주동근으로 함 / 거들기만 / 안 함).
+  //    예전엔 '최강 세부근육 대비 비율' 이었는데, 세부근육마다 걸리는 운동 수가 13배까지
+  //    달라서(상복부 254 ↔ 하복부 19) 그 비율은 내 훈련이 아니라 매핑의 치우침이었다.
+  const untouchedThisWeek = new Set(weekly.untouchedSubs.map((u) => u.id));
+  const synergistOnly = new Set(weekly.synergistOnlySubs.map((u) => u.id));
+  function subTier(id: string): "primary" | "synergist" | "none" {
+    if (untouchedThisWeek.has(id)) return "none";
+    return synergistOnly.has(id) ? "synergist" : "primary";
+  }
+  const SUB_TIER_COLOR = {
+    primary: VOLUME_COLOR.optimal,
+    synergist: VOLUME_COLOR.low,
+    none: VOLUME_COLOR.none,
+  } as const;
+  const SUB_TIER_LABEL = {
+    primary: "직접 함",
+    synergist: "거들기만",
+    none: "안 함",
+  } as const;
   // 🔴 세부근육은 **이번 주 했나/안 했나**로만 칠한다.
   //    세트 수끼리 비교하면 내 훈련이 아니라 매핑의 치우침을 보게 된다 —
   //    1,351개 중 명시 매핑이 114개뿐이라 세부근육마다 걸리는 운동 수가 13배 차이다
   //    (상복부 254 ↔ 하복부 19). 0이냐 아니냐는 그 치우침과 무관하게 참이다.
-  const untouchedThisWeek = new Set(weekly.untouchedSubs.map((u) => u.id));
   const subColors: Record<string, string> | undefined = hasSub
     ? (Object.fromEntries(
-        ALL_SUB_MUSCLES.map((s) => [
-          s.id,
-          untouchedThisWeek.has(s.id)
-            ? VOLUME_COLOR.none
-            : VOLUME_COLOR.optimal,
-        ]),
+        ALL_SUB_MUSCLES.map((s) => [s.id, SUB_TIER_COLOR[subTier(s.id)]]),
       ) as Record<string, string>)
     : undefined;
 
@@ -344,6 +350,7 @@ export default async function ScorePage() {
           pushPull={weekly.pushPull}
           upperLower={weekly.upperLower}
           untouchedSubs={weekly.untouchedSubs}
+          synergistOnlySubs={weekly.synergistOnlySubs}
         />
       </div>
 
@@ -527,10 +534,12 @@ export default async function ScorePage() {
             <p className="mb-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">
               세부근육 분포
             </p>
-            <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
-              완료한 운동을 세부근육별로 나눠 본 균형 — 같은 부위라도 이두
-              장두/단두처럼 갈래별로 강·약이 다를 수 있어요. (마네킹 위
-              “세부근육” 토글과 같은 색)
+            <p className="mb-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+              이번 주 각 갈래를 <strong>직접 노렸는지</strong> 봅니다. 벤치프레스처럼
+              한 운동이 여러 갈래에 걸릴 때, 주동근이 아닌 쪽은{" "}
+              <strong>거들기만</strong> 로 구분합니다 — 하부 대흉근을 “했다”로 세면
+              정작 하부를 노린 적은 없는데 채워진 것처럼 보입니다. (마네킹 위 “세부근육”
+              토글과 같은 색)
             </p>
             <div className="space-y-3">
               {MUSCLE_ORDER.map((m) => (
@@ -548,12 +557,13 @@ export default async function ScorePage() {
                       <span
                         key={s.id}
                         className="inline-flex items-center gap-1 rounded-full border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 text-[11px] font-medium text-zinc-700 dark:text-zinc-300"
-                        title={`${Math.round(subPoints[s.id] ?? 0)}점`}
+                        data-sub-tier={subTier(s.id)}
+                        title={`${s.label} · 이번 주 ${SUB_TIER_LABEL[subTier(s.id)]} · 누적 ${Math.round(subPoints[s.id] ?? 0)}점`}
                       >
                         <span
                           aria-hidden
                           className="h-2 w-2 rounded-full"
-                          style={{ backgroundColor: BALANCE_COLOR[subStatus[s.id]] }}
+                          style={{ backgroundColor: SUB_TIER_COLOR[subTier(s.id)] }}
                         />
                         {s.label}
                       </span>

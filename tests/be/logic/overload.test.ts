@@ -248,3 +248,69 @@ describe("overloadPlan — 규칙 기반 추천", () => {
     expect(overloadPlan(rows, "squat", "intermediate").action).toBe("add-reps");
   });
 });
+
+describe("증량 단위는 기록의 기구를 따른다 (화면마다 다른 값을 권하지 않게)", () => {
+  /** 기구까지 담은 기록. */
+  function recEq(
+    day: number,
+    exerciseId: string,
+    weightKg: number,
+    equipment: string | null,
+  ): ProgressRecord {
+    return {
+      forDate: `2026-06-${String(day).padStart(2, "0")}`,
+      exerciseId,
+      status: "done",
+      sets: 5,
+      reps: targetReps(exerciseId, "advanced"),
+      weightKg,
+      setDetails: null,
+      equipment,
+    };
+  }
+
+  it("🔴 호출자가 기구를 안 넘겨도 마지막 기록의 기구로 단위를 정한다", () => {
+    // 바벨 스쿼트 100 → 105, 둘 다 목표 충족 → 다음은 한 단계(바벨 5kg) 위.
+    const records = [
+      recEq(1, "squat", 100, "barbell"),
+      recEq(8, "squat", 105, "barbell"),
+    ];
+    // 성장 그래프처럼 equipment 인자를 안 주는 호출.
+    const plan = overloadPlan(records, "squat", "advanced");
+    expect(plan.action).toBe("increase");
+    expect(plan.suggestedKg).toBe(110);
+  });
+
+  it("기구를 명시하면 그쪽이 이긴다 — 오늘 덤벨로 할 거면 1kg 단위", () => {
+    const records = [
+      recEq(1, "goblet-squat", 20, "dumbbell"),
+      recEq(8, "goblet-squat", 21, "dumbbell"),
+    ];
+    const plan = overloadPlan(records, "goblet-squat", "advanced", undefined, "dumbbell");
+    expect(plan.action).toBe("increase");
+    expect(plan.suggestedKg).toBe(22);
+  });
+
+  it("기록에도 인자에도 기구가 없으면 기본 단위(2kg)로 떨어진다", () => {
+    const records = [
+      recEq(1, "squat", 100, null),
+      recEq(8, "squat", 105, null),
+    ];
+    const plan = overloadPlan(records, "squat", "advanced");
+    // 바벨(5kg)이면 110 인데, 기구를 모르면 2kg 격자로 올라간다(105 → 108).
+    expect(plan.suggestedKg).toBe(108);
+    expect(plan.suggestedKg).not.toBe(110);
+  });
+
+  it("🔴 같은 기록이면 어느 화면에서 불러도 같은 값이 나온다", () => {
+    const records = [
+      recEq(1, "squat", 100, "barbell"),
+      recEq(8, "squat", 105, "barbell"),
+    ];
+    // 운동모드(기구 넘김) vs 성장 그래프(안 넘김) — 이 둘이 갈리던 버그가 있었다.
+    const fromWorkout = overloadPlan(records, "squat", "advanced", undefined, "barbell");
+    const fromProgress = overloadPlan(records, "squat", "advanced");
+    expect(fromProgress.suggestedKg).toBe(fromWorkout.suggestedKg);
+    expect(fromProgress.action).toBe(fromWorkout.action);
+  });
+});

@@ -92,6 +92,7 @@ export default async function GroupMemberPage({
             pushPull={weekly.pushPull}
             upperLower={weekly.upperLower}
             untouchedSubs={weekly.untouchedSubs}
+            synergistOnlySubs={weekly.synergistOnlySubs}
             viewerIsOther
           />
         </div>

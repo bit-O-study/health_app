@@ -24,6 +24,7 @@ function member(over: Partial<TrainerMember> = {}): TrainerMember {
     lastWorkout: TODAY,
     weightFirst: 70,
     weightLast: 70,
+    untouchedRegions: [],
     ...over,
   };
 }
@@ -156,5 +157,73 @@ describe("요약", () => {
       TODAY,
     );
     expect(s).toEqual({ total: 3, needsAttention: 2, workedToday: 1 });
+  });
+});
+
+describe("안 한 부위 — 나오고는 있는데 늘 같은 데만 하는 회원", () => {
+  it("🔴 주 5일 나와도 하체를 안 했으면 챙길 사람이다", () => {
+    // 예전엔 이 화면이 '얼마나 꾸준한가'만 봐서 이런 회원이 우등생으로 보였다.
+    const m = member({ workoutDays: 5, untouchedRegions: ["하체", "코어"] });
+    const labels = attentionOf(m, TODAY).map((a) => a.label);
+    expect(labels).toContain("이번 주 하체·코어 0세트");
+  });
+
+  it("🔴 여러 곳이어도 자르지 않는다 — 찾던 부위가 '외 2'에 묻히면 안 된다", () => {
+    const m = member({
+      workoutDays: 5,
+      untouchedRegions: ["등", "어깨", "팔", "하체", "코어"],
+    });
+    const labels = attentionOf(m, TODAY).map((a) => a.label);
+    expect(labels).toContain("이번 주 등·어깨·팔·하체·코어 0세트");
+  });
+
+  it("🔴 이번 주 아예 안 나온 회원에게는 말하지 않는다", () => {
+    // "가슴 0세트"는 당연한 소리이고, 정작 중요한 '며칠째 기록 없음'을 밀어낸다.
+    const m = member({
+      workoutDays: 0,
+      lastWorkout: "2026-09-01",
+      untouchedRegions: ["가슴", "등", "하체"],
+    });
+    const labels = attentionOf(m, TODAY).map((a) => a.label);
+    expect(labels.some((l) => l.includes("0세트"))).toBe(false);
+    expect(labels.some((l) => l.includes("일째 운동 기록이 없어요"))).toBe(true);
+  });
+
+  it("기록이 아예 없는 회원에게도 말하지 않는다", () => {
+    const m = member({
+      workoutDays: 0,
+      lastWorkout: null,
+      untouchedRegions: ["가슴"],
+    });
+    const labels = attentionOf(m, TODAY).map((a) => a.label);
+    expect(labels).toEqual(["아직 운동 기록이 없어요"]);
+  });
+
+  it("빠짐없이 한 회원은 아무 말도 안 붙는다", () => {
+    const m = member({ workoutDays: 5, untouchedRegions: [] });
+    expect(attentionOf(m, TODAY).map((a) => a.label)).toEqual([]);
+  });
+
+  it("결석보다는 덜 급하고 식단 누락보다는 급하다", () => {
+    const skipped = member({ workoutDays: 5, untouchedRegions: ["하체"] });
+    const absent = member({ workoutDays: 1, lastWorkout: "2026-09-04" });
+    expect(urgencyOf(absent, TODAY)).toBeGreaterThan(urgencyOf(skipped, TODAY));
+
+    const dietOnly = member({ dietDays: 0 });
+    expect(urgencyOf(skipped, TODAY)).toBeGreaterThan(urgencyOf(dietOnly, TODAY));
+  });
+
+  it("정렬에도 반영된다 — 늘 같은 데만 하는 회원이 위로", () => {
+    const ok = member({ userId: "a", name: "가", workoutDays: 5 });
+    const lopsided = member({
+      userId: "b",
+      name: "나",
+      workoutDays: 5,
+      untouchedRegions: ["하체"],
+    });
+    expect(sortForTrainer([ok, lopsided], TODAY).map((m) => m.userId)).toEqual([
+      "b",
+      "a",
+    ]);
   });
 });

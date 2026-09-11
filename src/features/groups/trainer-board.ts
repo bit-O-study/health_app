@@ -21,6 +21,14 @@ export type TrainerMember = {
   /** 최근 4주 첫 체중·마지막 체중(kg). 기록이 없으면 null. */
   weightFirst: number | null;
   weightLast: number | null;
+  /**
+   * 이번 주 **한 세트도 안 한 부위**(라벨).
+   *
+   * 지금까지 이 화면은 "얼마나 꾸준한가"(운동일수·달성률)만 봤다. 그래서 주 5일을
+   * 나와도 매번 상체만 하는 회원을 **여기서는 우등생으로** 보여줬다. 무엇을 했는지
+   * 보려면 회원마다 상세로 들어가야 했다 — 10명이면 10번.
+   */
+  untouchedRegions: string[];
 };
 
 /**
@@ -57,6 +65,16 @@ export type Attention = {
   label: string;
   /** 클수록 급하다 — 정렬 기준. */
   weight: number;
+  /**
+   * 무엇을 해야 하는 신호인가. 화면이 색을 달리 칠하는 데 쓴다.
+   * - `absence` 연락할 때다(안 나온다)
+   * - `program` 나오고는 있는데 **프로그램**을 고쳐야 한다(늘 같은 데만 한다)
+   * - `diet`·`weight` 참고용
+   *
+   * 섞어서 같은 빨강으로 칠하면 "안 나온 회원"과 "하체를 빼먹는 회원"이 같아 보인다 —
+   * 트레이너가 할 일이 전혀 다른데.
+   */
+  kind: "absence" | "program" | "diet" | "weight";
 };
 
 /** 며칠을 쉬면 '연락할 때'로 볼 것인가. 주 3회 회원도 이틀은 정상이라 3일부터 본다. */
@@ -73,18 +91,40 @@ export function attentionOf(m: TrainerMember, todayYmd: string): Attention[] {
   const since = daysSinceWorkout(m, todayYmd);
 
   if (since === null) {
-    out.push({ label: "아직 운동 기록이 없어요", weight: 100 });
+    out.push({ label: "아직 운동 기록이 없어요", weight: 100, kind: "absence" });
   } else if (since >= STALE_DAYS) {
-    out.push({ label: `${since}일째 운동 기록이 없어요`, weight: 50 + since });
+    out.push({
+      label: `${since}일째 운동 기록이 없어요`,
+      weight: 50 + since,
+      kind: "absence",
+    });
   }
 
   const pct = adherencePct(m);
   if (pct !== null && pct < 50 && since !== null) {
-    out.push({ label: `이번 주 목표의 ${pct}%`, weight: 40 - Math.floor(pct / 10) });
+    out.push({
+      label: `이번 주 목표의 ${pct}%`,
+      weight: 40 - Math.floor(pct / 10),
+      kind: "absence",
+    });
+  }
+
+  // 🔴 **운동을 한 회원에게만** 말한다. 이번 주 아예 안 나온 회원에게 "가슴 0세트"는
+  //    당연한 소리이고, 정작 중요한 "며칠째 기록 없음"을 밀어낸다.
+  if (since !== null && m.workoutDays > 0 && m.untouchedRegions.length > 0) {
+    // 🔴 잘라서 "외 2" 로 쓰지 않는다. 부위 이름은 한두 글자라 여섯 개를 다 써도 한 줄이고,
+    //    무엇을 자를지에 정답이 없다 — 트레이너가 정작 찾던 '하체'가 "외 2" 에 묻힌다.
+    out.push({
+      label: `이번 주 ${m.untouchedRegions.join("·")} 0세트`,
+      // 결석(50+)보다는 낮고 식단 누락(10)보다는 높다 — 나오고 있는 회원의 문제라
+      //   연락의 급함은 덜하지만, 프로그램을 고쳐야 한다는 신호다.
+      weight: 20,
+      kind: "program",
+    });
   }
 
   if (m.dietDays === 0) {
-    out.push({ label: "이번 주 식단 기록 없음", weight: 10 });
+    out.push({ label: "이번 주 식단 기록 없음", weight: 10, kind: "diet" });
   }
 
   const delta = weightDelta(m);
@@ -93,6 +133,7 @@ export function attentionOf(m: TrainerMember, todayYmd: string): Attention[] {
     out.push({
       label: `체중 ${delta > 0 ? "+" : ""}${delta}kg`,
       weight: 5,
+      kind: "weight",
     });
   }
   return out;

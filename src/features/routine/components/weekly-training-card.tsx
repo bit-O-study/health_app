@@ -1,12 +1,14 @@
 import Link from "next/link";
-import { AlertTriangle, CalendarDays, Scale } from "lucide-react";
+import { AlertTriangle, ArrowDown, ArrowUp, CalendarDays, Scale } from "lucide-react";
 
 import {
   VOLUME_COLOR,
   VOLUME_LABEL,
+  WEEKLY_FREQ_MIN,
   WEEKLY_SET_MAX,
   WEEKLY_SET_MIN,
   type Balance,
+  type SetsDelta,
   type VolumeStatus,
 } from "@/features/routine/training-volume";
 
@@ -29,6 +31,13 @@ export type WeeklyRegionRow = {
   /** 이번 주 직접 세트 수. */
   sets: number;
   status: VolumeStatus;
+  /** 이번 주 이 부위를 한 날 수. 세트를 몰아쳤는지 보려면 세트와 따로 봐야 한다. */
+  days: number;
+  /** 세트는 채웠는데 하루에 몰아친 경우. */
+  crammed: boolean;
+  /** 지난주 같은 부위 세트 수. */
+  prevSets: number;
+  delta: SetsDelta;
   /** 마지막으로 이 부위를 한 날. null = 조회 기간 안에 없음. */
   lastYmd: string | null;
   daysAgo: number | null;
@@ -90,9 +99,10 @@ export function WeeklyTrainingCard({
         </span>
       </div>
       <p className="mb-4 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-        근육군당 <strong>주당 직접 세트 {WEEKLY_SET_MIN}~{WEEKLY_SET_MAX}</strong>{" "}
-        기준으로 봅니다. 한 운동은 <strong>주동근 한 부위에만</strong> 셉니다 — 벤치프레스는
-        가슴 세트이지 삼두 세트가 아닙니다.
+        근육군당 <strong>주당 직접 세트 {WEEKLY_SET_MIN}~{WEEKLY_SET_MAX}</strong>,{" "}
+        <strong>주 {WEEKLY_FREQ_MIN}회 이상</strong>을 기준으로 봅니다. 한 운동은{" "}
+        <strong>주동근 한 부위에만</strong> 셉니다 — 벤치프레스는 가슴 세트이지 삼두
+        세트가 아닙니다. 화살표는 <strong>지난주 대비</strong>입니다.
       </p>
 
       {/* 요일 히트맵 — 쉰 날도 칸을 남긴다. 빈칸이 보여야 "어디를 안 했는지"가 읽힌다. */}
@@ -161,11 +171,33 @@ export function WeeklyTrainingCard({
                 {VOLUME_LABEL[r.status]}
               </span>
             </div>
-            <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-100">
-              {r.sets}
-              <span className="ml-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                세트
+            <p className="mt-1 flex items-baseline gap-1.5">
+              <span className="text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-100">
+                {r.sets}
+                <span className="ml-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                  세트
+                </span>
               </span>
+              {/* 지난주 대비 — 숫자만 보면 늘고 있는지 줄고 있는지 알 수 없다. */}
+              {r.delta.diff !== 0 ? (
+                <span
+                  data-testid={`region-delta-${r.region}`}
+                  data-diff={r.delta.diff}
+                  className={`inline-flex items-center text-[11px] font-bold tabular-nums ${
+                    r.delta.diff > 0
+                      ? "text-emerald-600 dark:text-emerald-400"
+                      : "text-zinc-400 dark:text-zinc-500"
+                  }`}
+                  title={`지난주 ${r.prevSets}세트`}
+                >
+                  {r.delta.diff > 0 ? (
+                    <ArrowUp aria-hidden="true" size={10} />
+                  ) : (
+                    <ArrowDown aria-hidden="true" size={10} />
+                  )}
+                  {Math.abs(r.delta.diff)}
+                </span>
+              ) : null}
             </p>
             {/* 권장 상한을 100%로 둔 막대 — 어디쯤인지 눈으로 보이게. */}
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
@@ -177,13 +209,27 @@ export function WeeklyTrainingCard({
                 }}
               />
             </div>
-            <p className="mt-1.5 text-[11px] text-zinc-500 dark:text-zinc-400">
-              {r.daysAgo === null
-                ? "최근 기록 없음"
-                : r.daysAgo === 0
-                  ? "오늘 함"
-                  : `${r.daysAgo}일 전`}
+            <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+              <span>
+                {r.daysAgo === null
+                  ? "최근 기록 없음"
+                  : r.daysAgo === 0
+                    ? "오늘 함"
+                    : `${r.daysAgo}일 전`}
+              </span>
+              {r.days > 0 ? <span>· 주 {r.days}회</span> : null}
             </p>
+            {/* 🔴 세트는 채웠는데 하루에 몰아친 경우. 같은 양이면 나눠 하는 쪽이 낫다는 게
+                지금 문헌의 대체적 결론이라, 양과 **따로** 말해 준다. */}
+            {r.crammed ? (
+              <p
+                data-testid={`region-crammed-${r.region}`}
+                className="mt-1 flex items-start gap-1 text-[11px] font-semibold text-amber-700 dark:text-amber-400"
+              >
+                <AlertTriangle aria-hidden="true" size={10} className="mt-0.5 shrink-0" />
+                하루에 몰아침 · 주 {WEEKLY_FREQ_MIN}회로 나누면 더 좋아요
+              </p>
+            ) : null}
           </li>
         ))}
       </ul>

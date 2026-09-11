@@ -19,8 +19,11 @@ import {
   daysAgo,
   lastTrainedByRegion,
   pushPullBalance,
+  isCrammed,
   setsByRegion,
   setsBySubMuscle,
+  setsDelta,
+  trainingDaysByRegion,
   upperLowerBalance,
   volumeStatusFor,
   weekHeatmap,
@@ -92,6 +95,16 @@ export function buildWeeklyTrainingView(
   });
 
   const weekRegionSets = setsByRegion(records, subsOf, weekStart, weekEnd);
+  const weekRegionDays = trainingDaysByRegion(records, subsOf, weekStart, weekEnd);
+  // 지난주는 **같은 함수를 범위만 바꿔** 돌린다 — 비교하는 두 값이 다른 방식으로
+  // 계산되면 그 차이가 내 훈련의 변화인지 계산의 차이인지 알 수 없다.
+  const prevStart = addDays(weekStart, -7);
+  const prevRegionSets = setsByRegion(
+    records,
+    subsOf,
+    prevStart,
+    addDays(prevStart, 6),
+  );
   // 마지막 운동일은 **이번 주로 자르지 않는다** — "등 11일째 안 함"을 말하려면
   // 이번 주 밖까지 봐야 한다(이번 주만 보면 전부 "기록 없음"이 된다).
   const lastTrained = lastTrainedByRegion(records, subsOf);
@@ -101,6 +114,10 @@ export function buildWeeklyTrainingView(
     label: REGION_LABEL_KO[r],
     sets: weekRegionSets[r],
     status: volumeStatusFor(weekRegionSets[r]),
+    days: weekRegionDays[r],
+    crammed: isCrammed(weekRegionSets[r], weekRegionDays[r]),
+    prevSets: prevRegionSets[r],
+    delta: setsDelta(weekRegionSets[r], prevRegionSets[r]),
     lastYmd: lastTrained[r],
     daysAgo: daysAgo(lastTrained[r], todayYmd),
   }));

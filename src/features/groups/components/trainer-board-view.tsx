@@ -110,9 +110,11 @@ export function TrainerBoardView({
                 data-testid="trainer-member"
                 data-user={m.userId}
                 className={`rounded-2xl border bg-white p-4 dark:bg-zinc-800 ${
-                  flags.length > 0
+                  flags.some((f) => f.kind === "absence")
                     ? "border-rose-200 dark:border-rose-900/50"
-                    : "border-zinc-200 dark:border-zinc-700"
+                    : flags.length > 0
+                      ? "border-amber-200 dark:border-amber-900/50"
+                      : "border-zinc-200 dark:border-zinc-700"
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
@@ -146,13 +148,27 @@ export function TrainerBoardView({
                 </div>
 
                 {flags.length > 0 ? (
-                  <ul className="mt-2.5 space-y-1">
+                  <ul className="mt-2.5 flex flex-wrap gap-1.5">
                     {flags.map((f) => (
                       <li
                         key={f.label}
-                        className="inline-flex items-center gap-1 rounded-lg bg-rose-50 px-2 py-1 text-[11px] font-bold text-rose-700 dark:bg-rose-900/30 dark:text-rose-300"
+                        data-kind={f.kind}
+                        /* 색을 신호별로 나눈다 — '안 나온다'(연락할 일)와 '늘 같은 데만
+                           한다'(프로그램을 고칠 일)를 같은 빨강으로 칠하면 트레이너가
+                           할 일이 전혀 다른 둘을 구분할 수 없다. */
+                        className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-bold ${
+                          f.kind === "program"
+                            ? "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
+                            : f.kind === "absence"
+                              ? "bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300"
+                              : "bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300"
+                        }`}
                       >
-                        <AlertTriangle aria-hidden="true" size={11} />
+                        {f.kind === "program" ? (
+                          <Dumbbell aria-hidden="true" size={11} />
+                        ) : (
+                          <AlertTriangle aria-hidden="true" size={11} />
+                        )}
                         {f.label}
                       </li>
                     ))}

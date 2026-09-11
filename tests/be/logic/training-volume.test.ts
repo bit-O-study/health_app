@@ -16,6 +16,10 @@ import {
   volumeStatusFor,
   weekHeatmap,
   weekStartOf,
+  WEEKLY_FREQ_MIN,
+  isCrammed,
+  setsDelta,
+  trainingDaysByRegion,
   type SetRecord,
 } from "@/features/routine/training-volume";
 import { REGION_LIST, type Region } from "@/features/routine/score";
@@ -334,5 +338,57 @@ describe("weekHeatmap", () => {
       "2026-09-07",
     );
     expect(days.every((d) => d.total === 0)).toBe(true);
+  });
+});
+
+describe("trainingDaysByRegion / isCrammed — 몰아쳤나 나눠 했나", () => {
+  it("같은 부위를 여러 날 하면 날 수로 센다", () => {
+    const d = trainingDaysByRegion(
+      [
+        rec({ forDate: "2026-09-07", exerciseId: "bench-press", sets: 4 }),
+        rec({ forDate: "2026-09-10", exerciseId: "bench-press", sets: 4 }),
+        rec({ forDate: "2026-09-10", exerciseId: "incline-press", sets: 4 }),
+      ],
+      subsOf,
+      "2026-09-07",
+      "2026-09-13",
+    );
+    // 9/10 에 두 운동을 했어도 하루다.
+    expect(d.chest).toBe(2);
+    expect(d.back).toBe(0);
+  });
+
+  it("🔴 세트를 아무리 많이 해도 하루에 몰았으면 1회다", () => {
+    const d = trainingDaysByRegion(
+      [rec({ forDate: "2026-09-07", exerciseId: "bench-press", sets: 20 })],
+      subsOf,
+      "2026-09-07",
+      "2026-09-13",
+    );
+    expect(d.chest).toBe(1);
+    expect(isCrammed(20, 1)).toBe(true);
+  });
+
+  it("나눠 했으면 몰아친 게 아니다", () => {
+    expect(isCrammed(20, WEEKLY_FREQ_MIN)).toBe(false);
+    expect(isCrammed(12, 3)).toBe(false);
+  });
+
+  it("🔴 세트가 모자라면 '몰아침'이라고 하지 않는다 — 문제는 빈도가 아니라 양이다", () => {
+    // 두 가지를 한꺼번에 말하면 무엇부터 고칠지 알 수 없다.
+    expect(isCrammed(4, 1)).toBe(false);
+    expect(isCrammed(0, 0)).toBe(false);
+  });
+});
+
+describe("setsDelta — 지난주 대비", () => {
+  it("늘고 줄어든 양과 비율", () => {
+    expect(setsDelta(12, 6)).toEqual({ diff: 6, pct: 100 });
+    expect(setsDelta(6, 12)).toEqual({ diff: -6, pct: -50 });
+    expect(setsDelta(9, 9)).toEqual({ diff: 0, pct: 0 });
+  });
+
+  it("지난주가 0이면 비율은 null — 무한배 늘었다고 말할 수 없다", () => {
+    expect(setsDelta(10, 0)).toEqual({ diff: 10, pct: null });
   });
 });

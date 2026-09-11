@@ -183,3 +183,110 @@ test("🔴 트레이너가 회원 화면에서 같은 숫자를 본다", async (
   await ctxM.close();
   await ctxT.close();
 });
+
+test("🔴 세트를 채워도 하루에 몰아쳤으면 짚어 준다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  // 가슴 16세트를 **하루에** — 세트로만 보면 '적정'이라 아무 말도 안 나왔다.
+  await seedCompletion(email, { dayOfWeek: 0, exerciseId: "bench-press", focus: "chest", sets: 16 });
+  // 등 12세트를 **이틀에 나눠** — 같은 '적정'이지만 여긴 경고가 없어야 한다.
+  await seedCompletion(email, { dayOfWeek: 1, exerciseId: "lat-pulldown", focus: "back", sets: 6 });
+  await seedCompletion(email, { dayOfWeek: 3, exerciseId: "lat-pulldown", focus: "back", sets: 6 });
+
+  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  const card = page.getByTestId("weekly-training-card");
+  await expect(card).toBeVisible({ timeout: 10000 });
+
+  await expect(card.getByTestId("region-volume-chest")).toHaveAttribute("data-status", "optimal");
+  await expect(card.getByTestId("region-crammed-chest")).toBeVisible();
+  await expect(card.getByTestId("region-volume-chest")).toContainText("주 1회");
+
+  await expect(card.getByTestId("region-volume-back")).toHaveAttribute("data-status", "optimal");
+  await expect(card.getByTestId("region-crammed-back")).toHaveCount(0);
+  await expect(card.getByTestId("region-volume-back")).toContainText("주 2회");
+});
+
+test("지난주 대비 증감이 보인다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  // 지난주 가슴 4세트 → 이번 주 10세트.
+  await seedCompletion(email, { dayOfWeek: -7, exerciseId: "bench-press", focus: "chest", sets: 4 });
+  await seedCompletion(email, { dayOfWeek: 0, exerciseId: "bench-press", focus: "chest", sets: 10 });
+
+  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  const card = page.getByTestId("weekly-training-card");
+  await expect(card).toBeVisible({ timeout: 10000 });
+  await expect(card.getByTestId("region-volume-chest")).toHaveAttribute("data-sets", "10");
+  await expect(card.getByTestId("region-delta-chest")).toHaveAttribute("data-diff", "6");
+});
+
+test("🔴 트레이너 목록이 '늘 같은 데만 하는 회원'을 짚어 준다", async ({ browser }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(180_000);
+
+  // ── 회원: 이번 주 5일 나왔지만 **전부 가슴만** 했다.
+  const ctxM = await browser.newContext();
+  const pageM = await ctxM.newPage();
+  const memberEmail = await signUpAndOnboard(pageM);
+  for (const day of [0, 1, 2, 3, 4]) {
+    await seedCompletion(memberEmail, {
+      dayOfWeek: day,
+      exerciseId: "bench-press",
+      focus: "chest",
+      sets: 4,
+    });
+  }
+
+  // ── 트레이너: 그룹 생성
+  const ctxT = await browser.newContext();
+  const pageT = await ctxT.newPage();
+  await signUpAndOnboard(pageT);
+  const name = `E2E 편식 ${Date.now().toString(36)}`;
+  await pageT.goto("/groups", { waitUntil: "networkidle" });
+  await pageT.getByLabel("그룹 이름").fill(name);
+  await pageT.getByRole("button", { name: "그룹 만들기" }).click();
+  await pageT.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 15000 });
+
+  const g = await dbQuery<{ id: string; invite_token: string }>(
+    `select id, invite_token from public.groups where name=$1`,
+    [name],
+  );
+  expect(g.length).toBe(1);
+
+  await pageM.goto(`/groups/join/${g[0].invite_token}`);
+  await pageM.getByRole("button", { name: "확인" }).click();
+  await expect
+    .poll(
+      async () =>
+        (
+          await dbQuery<{ n: string }>(
+            `select count(*)::text n from public.group_members where group_id=$1`,
+            [g[0].id],
+          )
+        )[0].n,
+      { timeout: 20000 },
+    )
+    .toBe("2");
+
+  // ── 목록에서 바로 보인다 — 회원 상세로 들어가지 않고도.
+  await pageT.goto(`/groups/${g[0].id}/trainer`, { waitUntil: "domcontentloaded" });
+  const row = pageT.getByTestId("trainer-member").first();
+  await expect(row).toBeVisible({ timeout: 15000 });
+
+  // 주 5일 나왔으니 '결석' 은 아니다 — 예전엔 이런 회원이 우등생으로 보였다.
+  await expect(row.locator('[data-kind="absence"]')).toHaveCount(0);
+  const program = row.locator('[data-kind="program"]');
+  await expect(program).toHaveCount(1);
+  await expect(program).toContainText("0세트");
+  // 가슴만 했으니 나머지 다섯 부위가 전부 이름으로 나와야 한다 — 잘려서 묻히면 안 된다.
+  for (const label of ["등", "어깨", "팔", "하체", "코어"]) {
+    await expect(program).toContainText(label);
+  }
+  await expect(program).not.toContainText("가슴");
+
+  // 그 자리에서 바로 배정으로 갈 수 있다.
+  await expect(row.getByTestId("assign-link")).toBeVisible();
+
+  await ctxM.close();
+  await ctxT.close();
+});

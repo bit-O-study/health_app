@@ -170,6 +170,59 @@ export function setsBySubMuscle(
 }
 
 /**
+ * 근육군당 **주 최소 빈도**.
+ *
+ * 주당 세트가 같아도 **한 번에 몰아친 20세트**와 **세 번에 나눈 20세트**는 결과가 다르다
+ * — 단백질 합성이 한 자극당 하루 남짓 올라갔다 내려오기 때문에, 같은 양이면 나눠 하는
+ * 쪽이 낫다는 것이 현재 문헌의 대체적 결론이다. 그래서 세트 수와 **따로** 본다.
+ */
+export const WEEKLY_FREQ_MIN = 2;
+
+/**
+ * 기간 안에 그 부위를 **한 번이라도 한 날의 수**.
+ * 세트를 아무리 많이 해도 하루에 몰았으면 1이다 — 그게 이 지표가 말하려는 바다.
+ */
+export function trainingDaysByRegion(
+  records: readonly SetRecord[],
+  subsOf: SubsOf,
+  fromYmd: string,
+  toYmd: string,
+): Record<Region, number> {
+  const days = new Map<Region, Set<string>>();
+  for (const r of records) {
+    if (!inRange(r.forDate, fromYmd, toYmd)) continue;
+    const reg = primaryRegionOf(r, subsOf);
+    if (!reg) continue;
+    const set = days.get(reg) ?? new Set<string>();
+    set.add(r.forDate);
+    days.set(reg, set);
+  }
+  const out = emptyRegions();
+  for (const [reg, set] of days) out[reg] = set.size;
+  return out;
+}
+
+/**
+ * 세트는 채웠는데 **하루에 몰아친** 경우인가.
+ *
+ * 0세트이거나 세트가 모자라면 false — 그땐 "빈도"가 아니라 "양"이 문제이고,
+ * 두 가지를 한꺼번에 말하면 무엇부터 고칠지 알 수 없다.
+ */
+export function isCrammed(sets: number, days: number): boolean {
+  return sets >= WEEKLY_SET_MIN && days > 0 && days < WEEKLY_FREQ_MIN;
+}
+
+/** 지난주 대비 증감. 지난주가 0이면 비율은 null(무한대로 늘었다고 말할 수 없다). */
+export type SetsDelta = { diff: number; pct: number | null };
+
+export function setsDelta(current: number, previous: number): SetsDelta {
+  return {
+    diff: current - previous,
+    pct: previous > 0 ? Math.round(((current - previous) / previous) * 100) : null,
+  };
+}
+
+/**
  * 부위별 **마지막으로 한 날**. 기록이 없으면 null.
  * 밸런스는 "얼마나"만 보는데, 주 1회 몰아치기와 주 3회 분산이 같은 점수로 나온다 —
  * "언제"를 같이 보여줘야 그 둘이 구분된다.

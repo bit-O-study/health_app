@@ -3,7 +3,11 @@ import { redirect } from "next/navigation";
 import { ChevronLeft, Dumbbell, Flame, Utensils } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
-import { getGroupMemberDay } from "@/features/groups/data-access";
+import {
+  getGroupMemberDay,
+  getGroupMemberWeeklyTraining,
+} from "@/features/groups/data-access";
+import { WeeklyTrainingCard } from "@/features/routine/components/weekly-training-card";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "그룹원 오늘 기록" };
@@ -17,7 +21,12 @@ export default async function GroupMemberPage({
   if (!user) redirect("/login");
 
   const { id, uid } = await params;
-  const day = await getGroupMemberDay(id, uid);
+  // 오늘 하루치만으로는 "어디가 모자란지" 를 말할 수 없다 — 주간 분석을 같이 읽는다.
+  // 둘 다 같은 권한 검사를 거치므로 병렬로 부른다(순차로 기다릴 이유가 없다).
+  const [day, weekly] = await Promise.all([
+    getGroupMemberDay(id, uid),
+    getGroupMemberWeeklyTraining(id, uid),
+  ]);
 
   if (!day) {
     return (
@@ -70,6 +79,23 @@ export default async function GroupMemberPage({
           </p>
         </div>
       </div>
+
+      {/* 이번 주 훈련 — 회원이 자기 점수 화면에서 보는 것과 **같은 판정**.
+          트레이너와 회원이 다른 숫자를 보고 이야기하면 안 된다. */}
+      {weekly ? (
+        <div className="mb-5">
+          <WeeklyTrainingCard
+            weekStart={weekly.weekStart}
+            todayYmd={weekly.todayYmd}
+            cells={weekly.cells}
+            regions={weekly.regions}
+            pushPull={weekly.pushPull}
+            upperLower={weekly.upperLower}
+            untouchedSubs={weekly.untouchedSubs}
+            viewerIsOther
+          />
+        </div>
+      ) : null}
 
       {/* 오늘 운동 */}
       <section className="mb-5">

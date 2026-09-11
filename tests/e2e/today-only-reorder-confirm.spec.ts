@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // '오늘만 변경'(daily_plan 오버라이드) 상태에서 하단 '다가오는 7일' 순서를 바꾸려 하면
@@ -39,7 +39,7 @@ async function dragCard(page: Page, from: number, to: number) {
 
 /** 0·1일차 하체 + 오늘 daily_plan 오버라이드('오늘만 변경' 상태)로 세팅 후 /routine. */
 async function setupTodayOnly(page: Page): Promise<string> {
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `update public.user_routines
         set splits=0, variant_id='custom',

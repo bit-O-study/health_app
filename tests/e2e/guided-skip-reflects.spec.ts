@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀 가드: 가이드(운동 모드)에서 '넘기기'로 휴식 처리한 운동은, 사용자가 수동으로
@@ -13,7 +13,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("가이드에서 전부 넘기면 새로고침 없이 홈에 '오늘 휴식'이 반영된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 하체. 본운동 2개(스쿼트·레그프레스), 워밍업·마무리 없음.
   await dbQuery(

@@ -17,7 +17,8 @@ pnpm test:schema          # only the schema drift guard
 
 # FE (needs the dev server running)
 pnpm dev                  # in one terminal
-pnpm test:e2e             # in another
+pnpm test:e2e             # in another (1 worker)
+pnpm test:e2e:parallel    # 4 workers; files run concurrently, tests within each file stay ordered
 pnpm test:e2e:ui          # Playwright UI mode
 ```
 
@@ -53,17 +54,82 @@ missing DDL) to the live DB via the Supabase SQL editor or the pooler.
 
 ## FE: E2E
 
-- `helpers/auth.ts` — `signUpAndOnboard(page)` creates a throwaway account
-  (email prefix `e2e_`) and finishes onboarding; `seedRecommendedExercises(page)`
-  populates the plan via the real `/plan` action.
+- `helpers/auth.ts` — `createOnboardedAccount(page)` creates an independent account
+  without navigation; use it when the test opens its own first page or seeds a workout.
+  `signUpAndOnboard(page)` creates an independent account and
+  UI-equivalent profile/empty default routine through Supabase Auth and authenticated
+  data APIs, installs SDK session cookies, then opens `/routine`.
+  `seedRecommendedExercises(page)` prepares recommended data directly with DB credentials,
+  then opens `/routine`; without DB credentials it retains the UI fallback.
+  `seedRecommendedExercisesViaUI(page)` covers the actual `/plan` recommendation action.
+- `signUpAndOnboardViaUI(page)` keeps the actual signup/onboarding journey for the
+  broad signup smoke and UI/API fixture parity test. Inline signup and onboarding
+  scenarios also retain their UI steps.
 - Specs:
   - `smoke.spec.ts` — every major route renders error-free after signup.
   - `routine-and-plan.spec.ts` — 7일 루틴 저장(splits=7) + 세트별 다른 kg(피라미드) 영속성.
   - `workout-reorder.spec.ts` — 순서 변경 후 운동 시작 시 가이드가 바뀐 순서를 따른다.
   - `score-calendar.spec.ts` — 운동 완료 → 점수/캘린더 반영.
-- `global-teardown.ts` deletes every `e2e_*` (and legacy `full_/vf_/verify_*`)
-  account after the run; app tables cascade from `auth.users`, so their data
-  goes too.
+- `global-setup.ts` generates a fresh `E2E_RUN_ID` per invocation (including each
+  shard) and passes it to all workers. Any inherited ID is replaced.
+- `global-teardown.ts` deletes only accounts with that run's literal email prefix,
+  plus their admin entries; app data cascades from `auth.users`. Other runs and
+  legacy `e2e_/full_/vf_/verify_` accounts are left alone. Missing/invalid run IDs
+  skip cleanup; `freshEmail()` refuses account creation without setup.
+
+### Parallel execution status
+
+`pnpm test:e2e:parallel -- <spec paths>` runs files on four workers; each file keeps
+its test order. The default command remains single-worker. On 2026-09-11, the same
+16-test sample passed in 118.085 seconds with one worker and 64.807 seconds with
+four workers on the warmed local server. Public signup hit the shared Auth rate
+limit during the first full run. With admin account preparation configured, the
+full 231-test run completed in 21.638 minutes (214 passed, 14 failed, 3 skipped),
+compared with the earlier single-worker 44.553 minutes (218 passed, 10 failed,
+3 skipped). No Auth rate-limit errors occurred; all 210 run accounts were cleaned
+up. This is a 51.4% elapsed-time reduction, but includes additional failures and
+is not evidence that four-worker execution is stable. Keep the default single
+worker while investigating concurrency-sensitive failures. Five additional failures
+(append order, workout memo, GPU draw calls, running-session storage and score
+calendar) all passed a subsequent single-worker check in 117.515 seconds; this
+comparison does not establish a root cause or make the full parallel run pass.
+
+### Admin account preparation
+
+Set `E2E_SUPABASE_SECRET_KEY` in the gitignored `.env.test.local` or the test
+process environment to create fixture accounts through the Supabase Admin API.
+Only Auth account creation uses that key; login, profile/routine writes and browser
+session cookies still use the public client and the authenticated test user.
+Without a key, the existing public signup preparation remains available. An admin
+API error fails immediately instead of falling back to signup or retrying.
+Actual UI signup/onboarding tests are unchanged. Never use a `NEXT_PUBLIC_` variable
+for this key or commit it. Live admin preparation, UI parity, authenticated writes
+and account lookup passed a 13-test, four-worker check on 2026-09-11.
+
+### Direct preparation
+
+`helpers/account-fixture.ts` provides independent accounts with the same profile and
+empty manual `fullbody-3` routine as UI onboarding. `account-fixture.spec.ts` compares
+those persisted defaults against an actual UI-created account to catch drift.
+Public Supabase settings come from the process environment or `.env.local`; existing
+DB credentials remain necessary for run-scoped cleanup.
+
+`sets-edit-reflects-in-workout.spec.ts` additionally uses `helpers/workout-fixture.ts`
+to seed only its 4-set squat. Its UI assertions remain unchanged.
+
+`helpers/recommended-fixture.ts` reuses the recommendation/prescription functions and
+existing write RPC in an authenticated transaction scoped to the current run account.
+It preserves matching exercise IDs and prepares warmup/cooldown together.
+`recommended-fixture.spec.ts` compares the persisted result with actual UI registration
+for default and custom side-muscle routines. Recommendation-specific specs keep the UI helper.
+
+### DB query connections
+
+`helpers/db.ts` reuses one connection per worker for ordinary `dbQuery` calls.
+Idle connections expire after 30 seconds and do not keep the worker alive.
+Use `openDbClient` / `openAuthenticatedDbClient` for transactions, locks, or session
+settings: those clients remain independent and must be closed by the caller.
+Query errors propagate without retrying writes.
 
 ### Adding a journey
 

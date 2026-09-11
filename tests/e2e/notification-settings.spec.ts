@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 사용자별 알림 설정(로드맵 3.1) — 종류별 동의 + 야간 방해 금지.
@@ -12,7 +12,7 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
 test("설정에서 들어가 종류를 끄면 바로 저장된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await page.goto("/settings", { waitUntil: "networkidle" });
   await page.getByRole("link", { name: /알림 설정/ }).click();
@@ -47,7 +47,7 @@ test("야간 방해 금지는 기본으로 켜져 있고 시간을 바꿀 수 �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await page.goto("/settings/notifications", { waitUntil: "networkidle" });
   const quiet = page.getByRole("switch", { name: "야간 방해 금지" });
@@ -73,7 +73,7 @@ test("야간 방해 금지는 기본으로 켜져 있고 시간을 바꿀 수 �
 
 test("방해 금지를 끄면 시간 선택이 사라진다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/notifications", { waitUntil: "networkidle" });
   await expect(page.getByLabel("방해 금지 시작 시각")).toBeVisible();
@@ -83,7 +83,7 @@ test("방해 금지를 끄면 시간 선택이 사라진다", async ({ page }) =
 
 test("남의 설정은 못 읽고 못 쓴다(RLS)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await page.goto("/settings/notifications", { waitUntil: "networkidle" });
   await page.getByRole("switch", { name: "식단 리마인더" }).click();
   await expect(page.getByText("저장했습니다.")).toBeVisible({ timeout: 10_000 });

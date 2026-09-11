@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 같은 부위(하체)가 두 일차(수·목)에 있을 때, 한 일차에서 운동을 삭제해도
@@ -24,7 +24,7 @@ test("같은 부위 두 일차 — 한 일차 운동 삭제가 다른 일차에 
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 커스텀: 2일차(3일=수 모사)·3일차(4일=목) 모두 하체.
   const week = [

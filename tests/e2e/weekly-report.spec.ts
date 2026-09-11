@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount, signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 주간 통합 리포트(로드맵 2.3) — 홈의 '이번 주 요약' 카드.
@@ -101,7 +101,7 @@ test("기록이 하나도 없으면 카드를 띄우지 않는다 — 홈이 0�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/home", { waitUntil: "networkidle" });
   await expect(page.getByText("이번 주 요약")).toHaveCount(0);
@@ -109,7 +109,7 @@ test("기록이 하나도 없으면 카드를 띄우지 않는다 — 홈이 0�
 
 test("캘린더에는 '이번 주 요약'을 띄우지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/calendar", { waitUntil: "networkidle" });
   await expect(page.getByText("이번 주 요약")).toHaveCount(0);

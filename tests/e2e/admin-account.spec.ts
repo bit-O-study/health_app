@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회원탈퇴(소프트 자가탈퇴) + 관리자 대시보드.
@@ -9,7 +9,7 @@ test("회원탈퇴: 설정 → 탈퇴 → 로그인화면 + withdrawn_at 기록"
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 회원탈퇴는 마이페이지(설정 > 마이페이지) 하단으로 이동됨.
   await page.goto("/settings/me", { waitUntil: "networkidle" });
@@ -37,7 +37,7 @@ test("관리자 대시보드: 사이드바 메뉴 + 4지표 차트 + 일/월/연
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `insert into public.admins(email) values($1) on conflict (email) do nothing`,
     [email.toLowerCase()],

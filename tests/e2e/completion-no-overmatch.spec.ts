@@ -3,7 +3,7 @@
 // 완료 기록을 행에 1:1 배정하므로 완료 기록 수만큼만 done 이어야 한다.
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("같은 운동 2개 중 1개만 완료하면 나머지는 완료 아님(과매칭 확인)", async ({ page }) => {
   test.skip(!hasDb, "needs db");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `update public.user_routines set splits=0, variant_id='custom',
         custom_week='[["chest"],["rest"],["rest"],["rest"],["rest"],["rest"],["rest"]]'::jsonb,

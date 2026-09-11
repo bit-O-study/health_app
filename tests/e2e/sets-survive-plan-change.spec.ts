@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 /** 알림/걸음수 넛지는 레이아웃을 흔들어 클릭을 방해한다 — 있으면 닫는다. */
@@ -24,7 +24,7 @@ test.describe.configure({ timeout: 180_000 });
 
 test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

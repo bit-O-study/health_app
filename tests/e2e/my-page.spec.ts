@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 마이페이지: 설정 → 마이페이지 카드 → 프로필·신체·식단·운동 요약이 보인다.
@@ -8,7 +8,7 @@ import { hasDb } from "./helpers/db";
 
 test("설정에서 마이페이지로 들어가 프로필·신체 요약 확인", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await page.goto("/settings", { waitUntil: "networkidle" });
   await page.getByRole("link", { name: /마이페이지/ }).click();

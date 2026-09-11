@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 
 // 순서 변경 후 운동 시작 시, 가이드 큐가 세 종류(워밍업/본운동/마무리) 모두에서
 // 바뀐 순서를 따라야 한다. (이전엔 본운동만 반영되고 워밍업·마무리는 누락됐었다.)
@@ -34,7 +34,7 @@ async function dragFirstToLast(page: Page, ul: Locator) {
 }
 
 test("순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두 바뀐 순서를 따른다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   // 순서 변경은 '편집하기' 모드에서만 가능 — 그립 핸들도 편집모드에서만 보인다.

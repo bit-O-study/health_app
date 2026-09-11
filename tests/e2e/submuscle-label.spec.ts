@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 보조로 세부근육(가슴 상부/하부)을 고르면, 운동 등록 화면의 슬롯 라벨이
@@ -10,7 +10,7 @@ test("보조 세부근육 슬롯은 등록 화면에서 세부근육명으로 �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 0일차: 당기기(주) + 가슴 상부·하부(보조), 1일차: 어깨(주) + 햄스트링(보조)
   const week = [

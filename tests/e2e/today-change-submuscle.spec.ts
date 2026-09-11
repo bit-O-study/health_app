@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 원칙 #1: '오늘만 운동 바꾸기'에서 고를 수 있는 부위가 루틴 편집기와 동일해야 한다 —
@@ -21,7 +21,7 @@ test("오늘만 운동 바꾸기에서 세부근육(가슴 상부)까지 고르�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 /**
@@ -11,7 +11,7 @@ import { hasDb } from "./helpers/db";
 test("새 운동 가이드 6종이 모바일에서 재생되고 화면을 넘지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await page.setViewportSize({ width: 390, height: 780 });
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   for (const id of ["bench-press", "lat-pulldown", "pull-up", "smith-squat", "dumbbell-shoulder-press", "leg-press"]) {
     await page.goto(`/exercises/${id}`, { waitUntil: "networkidle" });

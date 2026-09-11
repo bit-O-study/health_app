@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 개인설정 '운동영상 안 보기' + 운동 1개 완료마다 누적 시간 자동저장.
@@ -30,7 +30,7 @@ test("운동영상 안 보기 ON → 가이드 없이 타이머만 + 운동 완�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await seedRecommendedExercises(page); // 오늘 운동 채움(가이드 큐 생성)
 
   // 개인설정에서 '운동영상 안 보기' 켜기
@@ -83,7 +83,7 @@ test("운동영상 안 보기 ON → 가이드 없이 타이머만 + 운동 완�
 test("영상 보기: 운동모드 안엔 시간만, 나오면 '다시 운동하기'만", async ({
   page,
 }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await page.goto("/routine", { waitUntil: "networkidle" });

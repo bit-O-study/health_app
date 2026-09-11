@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 /**
@@ -41,7 +41,7 @@ async function dismissNudges(page: Page) {
 
 test("옛 행 id 를 가리키는 완료기록도 완료 취소가 된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

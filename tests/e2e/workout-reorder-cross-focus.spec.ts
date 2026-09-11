@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 멀티 부위(가슴 + 팔) 일자에서 부위 경계를 넘어 순서를 바꿔도(예: 팔 해머컬을
@@ -45,7 +45,7 @@ test("부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   // 컨디셔닝(워밍업/마무리) 기본값 + 전 부위 본운동 등록
   await seedRecommendedExercises(page);
 

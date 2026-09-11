@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 오늘 완료한 운동은 '사실'이라, 루틴을 옮겨(다가오는 7일 드래그 등) 행 UUID 가
@@ -10,7 +10,7 @@ test("루틴 변경으로 행 UUID 가 새로 생겨도 오늘 완료한 운동�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   // 루틴: 오늘(1일차)=가슴. 마이그레이션 스킵(플래그 true).
@@ -113,7 +113,7 @@ test("부분 완료: 완료한 운동만 루틴 변경 뒤에도 완료로 남�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   await dbQuery(

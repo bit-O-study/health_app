@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 버그4: 워밍업/마무리 완료가 루틴(부위)을 바꿔도 '종류 단위'로 번져, 새 루틴의
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("부위를 바꾸면 다른 워밍업은 완료로 번지지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘=하체. 하체 워밍업=런닝, 가슴 워밍업=캣카우(서로 다른 항목).
   await dbQuery(
@@ -70,7 +70,7 @@ test("같은 종목(런닝)이 여러 개면 하나만 완료해도 나머지는
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘=하체. 마무리(쿨다운)에 '런닝' 2개 — 경사/속도/시간만 다르고 종목(item_id)은 같다.
   // (실제 버그 재현: 하나를 완료하면 (종류:항목) 키 폴백이 형제 런닝까지 완료로 만들거나,
@@ -124,7 +124,7 @@ test("같은 종목(런닝)이 여러 개면 하나만 완료해도 나머지는
 
 test("본운동도 부위를 바꾸면 새 부위 운동은 완료로 안 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

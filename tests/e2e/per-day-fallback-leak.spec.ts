@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀 가드: 월요일(0일차) 하체에만 운동이 등록돼 있고 화요일(1일차) 하체가 비어 있어도,
@@ -12,7 +12,7 @@ test("미등록 일차는 다른 일차 운동을 공유하지 않는다(삭제 
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   // 루틴: 월·화 모두 하체. 기준일을 어제로 → 오늘 = 1일차(화요일).

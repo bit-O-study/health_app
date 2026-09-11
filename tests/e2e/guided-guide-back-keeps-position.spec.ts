@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 재현/회귀: 운동 모드(가이드)에서 두 번째 운동(해머컬)까지 넘긴 뒤 '운동법·꿀팁 보기'로
@@ -14,7 +14,7 @@ test("운동법 보고 뒤로 오면 보던 운동에서 이어본다(첫 운동
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

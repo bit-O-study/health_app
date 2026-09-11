@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 /**
@@ -24,7 +24,7 @@ test("가슴 상부만 고르면 편집기 운동 목록도 상부 운동만 나
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await openAdjust(page);

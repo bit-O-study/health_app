@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 /**
@@ -13,7 +13,7 @@ test("오늘만 바꾸기 시트가 폰 화면 안에 들어오고 맨 아래 �
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await page.setViewportSize({ width: 390, height: 700 }); // 작은 폰
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   const later = page.getByRole("button", { name: "나중에" });

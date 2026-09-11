@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 
 /**
  * 루틴 소개(하루치 루틴 공유) 왕복 —
@@ -10,7 +10,7 @@ import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
 test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루틴에 담는다", async ({
   page,
 }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   // ── 1) 커뮤니티 루틴 탭에서 1일차 추천글 쓰기 ───────────────────────

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 월경(생리) 기록: 여성 프로필에서 날짜 기록 → 하트 표시 + 예측 + 캘린더 마커.
@@ -9,7 +9,7 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
 test("생리 기록 → 하트·예측·캘린더 마커", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(`update public.profiles set gender='female' where user_id=${uid}`, [email]);
 
   await page.goto("/cycle", { waitUntil: "networkidle" });

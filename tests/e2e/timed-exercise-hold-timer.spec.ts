@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // #10: 플랭크 등 시간(초) 기반 운동은 운동모드에서 '초 타이머'(카운트업)를 보여주고,
@@ -23,7 +23,7 @@ test("시간 기반 운동(플랭크)은 운동모드에서 초 타이머가 뜨
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

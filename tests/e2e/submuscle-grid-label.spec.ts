@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 전체 부위 + 그 세부근육을 같이 고르면(예: 어깨 + 후면삼각근), 요일별 루틴
@@ -10,7 +10,7 @@ test("어깨+후면삼각근은 요일별 그리드에 '후면 삼각근'으로 
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const week = [
     ["shoulder", "shoulder-rear"],
     ["biceps"],

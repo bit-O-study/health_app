@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 
 // 지능형 휴식 타이머: 운동 시작 화면(가이드 오버레이)에서 휴식 시간을 설정하고,
 // 세트 완료 버튼을 누르면 자동 카운트다운(휴식 타이머)이 시작되어야 한다.
@@ -8,7 +8,7 @@ import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
 test("가이드 화면에서 휴식 시간 설정 + 세트 완료 시 휴식 타이머가 시작된다", async ({
   page,
 }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await page.getByRole("button", { name: "운동 시작" }).click();
@@ -47,7 +47,7 @@ test("가이드 화면에서 휴식 시간 설정 + 세트 완료 시 휴식 타
 });
 
 test("성장 그래프 페이지가 열린다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/settings/progress", { waitUntil: "networkidle" });
   await expect(
     page.getByRole("heading", { name: "성장 그래프" }),

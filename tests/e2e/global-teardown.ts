@@ -1,11 +1,9 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { runEmailPrefix } from "./helpers/run-scope";
 
-// Self-contained (no cross-dir imports, no import.meta) to stay compatible with
-// Playwright's CJS loader for config-referenced files. Deletes throwaway accounts
-// the suite created on the live Supabase; all app tables cascade from auth.users,
-// so this wipes their data too. No-op when .env.test.local creds are absent.
-const TEST_EMAIL_PREFIXES = ["e2e_", "full_", "vf_", "verify_"];
+// Deletes only this invocation's accounts; app data cascades from auth.users.
+// No-op when run ownership or .env.test.local credentials are absent.
 
 function loadEnv(): Record<string, string> {
   try {
@@ -24,6 +22,11 @@ function loadEnv(): Record<string, string> {
 }
 
 export default async function globalTeardown() {
+  const prefix = runEmailPrefix();
+  if (!prefix) {
+    console.warn("[teardown] missing/invalid E2E_RUN_ID — skipping cleanup");
+    return;
+  }
   const env = { ...loadEnv(), ...process.env };
   const ref = env.SUPA_DB_REF, host = env.SUPA_DB_HOST, password = env.SUPA_DB_PW;
   if (!ref || !host || !password) {
@@ -37,8 +40,9 @@ export default async function globalTeardown() {
   });
   try {
     await client.connect();
-    const where = TEST_EMAIL_PREFIXES.map((_, i) => `email like $${i + 1}`).join(" or ");
-    const params = TEST_EMAIL_PREFIXES.map((p) => `${p}%`);
+    // Literal prefix matching: SQL LIKE would interpret underscores as wildcards.
+    const where = "starts_with(email, $1)";
+    const params = [prefix];
     // admins 는 auth.users 에 FK 가 없어 cascade 안 됨 — 테스트 관리자 이메일 별도 정리.
     await client.query(`delete from public.admins where ${where}`, params).catch(() => {});
     const res = await client.query(`delete from auth.users where ${where}`, params);

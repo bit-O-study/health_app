@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 오늘만 운동 편집기 = '부위 먼저 고르기'(기존 운동 추가 방식): 행마다 부위 드롭다운 →
@@ -24,7 +24,7 @@ test("직접 담기: 부위 드롭다운 → 그 부위 운동 + 세부근육 �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await openAdjust(page);
@@ -61,7 +61,7 @@ test("부위 추가: 편집기에 현재 오늘 운동 + 추가한 부위가 함
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await openAdjust(page);

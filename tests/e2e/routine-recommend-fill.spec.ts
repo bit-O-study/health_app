@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 루틴 설정에서 "추천으로 운동선택" 으로 저장하면 그 루틴의 부위에 추천 운동이
@@ -10,7 +10,7 @@ test("루틴 빌더: 추천으로 저장하면 운동이 등록되고 운동 화
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   // 깨끗한 상태에서 시작

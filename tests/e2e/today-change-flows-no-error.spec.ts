@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 재현/회귀(버그5): '오늘만 운동 바꾸기'의 두 흐름에서 에러가 터지면 안 된다.
@@ -56,7 +56,7 @@ async function openAdjustMenu(page: Page) {
 test("① 직접 담기 흐름은 에러 없이 편집 페이지로 간다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const errors = collectErrors(page);
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await openAdjustMenu(page);
@@ -73,7 +73,7 @@ test("① 직접 담기 흐름은 에러 없이 편집 페이지로 간다", asy
 test("② 전체 바꾸기 후 부위 추가 흐름도 에러 없다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const errors = collectErrors(page);
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   // 전체 바꾸기: 어깨 선택 → 운동 전체 바꾸기

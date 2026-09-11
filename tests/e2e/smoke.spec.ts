@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { signUpAndOnboardViaUI } from "./helpers/auth";
 
 // Broad smoke: after signup, every major route must render without a Next.js
 // runtime-error overlay or pageerror. Catches schema/render regressions cheaply.
@@ -25,7 +25,7 @@ test("주요 페이지가 회원가입 후 에러 없이 렌더된다", async ({
   const pageErrors: string[] = [];
   page.on("pageerror", (e) => pageErrors.push(e.message));
 
-  await signUpAndOnboard(page);
+  await signUpAndOnboardViaUI(page);
 
   const failures: string[] = [];
   for (const r of ROUTES) {

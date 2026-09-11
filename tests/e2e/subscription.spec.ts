@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount, signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 구독(구글 플레이 인앱결제) — 로드맵 7.1.
@@ -30,7 +30,7 @@ async function seedSubscription(
 
 test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings", { waitUntil: "networkidle" });
   await page.getByRole("link", { name: /구독/ }).first().click();
@@ -53,7 +53,7 @@ test("결제 설정이 안 됐으면 오류가 아니라 '준비 중'으로 안�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/subscription", { waitUntil: "networkidle" });
   // 설정이 안 된 걸 오류로 보여주면 사용자가 자기 잘못인 줄 안다.

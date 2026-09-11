@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀: 메인 화면 메모 버튼으로 입력한 메모가 운동모드(가이드)에도 보여야 한다.
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("메인에서 입력한 메모가 운동모드에 보인다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `update public.user_routines set splits=0, variant_id='custom',
         custom_week='[["lower"],["rest"],["rest"],["rest"],["rest"],["rest"],["rest"]]'::jsonb,

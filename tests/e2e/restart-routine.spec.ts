@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // "오늘부터 다시 시작하기": 처음(설정)한 루틴으로 복귀해야 한다.
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("오늘만 변경/휴식을 지우고 현재 일차는 유지한다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   await dbQuery(
@@ -63,7 +63,7 @@ test("'다가오는 7일' 드래그로 루틴을 바꿔도 → 기준(설정) �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   // 기준(설정) 루틴 = cbl-3. active 도 동일하게 두고 시드(오늘=가슴).

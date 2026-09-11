@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 재현/회귀: 운동 모드(가이드)에서 운동을 '완료'한 뒤 다시 운동 시작하면, 완료한
@@ -15,7 +15,7 @@ test("가이드 전체 완료 후 운동 화면 유지: " + scenario, async ({ p
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const pageErrors: string[] = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

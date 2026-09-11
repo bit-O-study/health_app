@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount, signUpAndOnboard } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 운동 탭 진입 흐름 회귀:
@@ -36,7 +36,7 @@ test("운동 탭을 새로 열어도 직전 화면으로 튕기지 않는다", a
 
 test("오늘 할 운동은 첫 응답에 완성된 채로 온다(스켈레톤 없음)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   // 브라우저 컨텍스트의 로그인 쿠키를 그대로 써서 문서 HTML 을 직접 받는다.

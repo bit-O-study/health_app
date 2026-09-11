@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 가이드를 끝까지 "완료"로 진행 (넘기기 아님).
@@ -23,7 +23,7 @@ async function completeWorkout(page: import("@playwright/test").Page) {
 //  - finishing the session writes workout_sessions duration (→ calendar)
 // This also exercises exercise_completions.set_details (another drifted column).
 test("운동 완료 → 점수와 캘린더에 반영된다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   // complete the whole workout through the guide (완료, not 넘기기)
@@ -62,7 +62,7 @@ test("부위별 밸런스 3D 마네킹이 점수 화면에 렌더된다", async 
   });
   page.on("pageerror", (e) => errors.push(String(e)));
 
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/settings/score", { waitUntil: "networkidle" });
 
   const balance = page.locator("section", { hasText: "부위별 밸런스" });
@@ -86,7 +86,7 @@ test("세부근육 단위 밸런스: 토글 + 분포가 운동 기록으로 나�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // incline-curl → 이두 장두, bench-press → 중부·하부 대흉근
   await dbQuery(
@@ -113,7 +113,7 @@ test("세부근육 단위 밸런스: 토글 + 분포가 운동 기록으로 나�
 // (예전엔 체성분이 있으면 부위별을 체성분 기반으로만 계산해 운동이 무시됐음.)
 test("체성분이 있어도 운동 완료가 부위별 점수에 반영된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
   await completeWorkout(page);
 

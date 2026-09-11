@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 검증: '오늘만 부위 추가'는 오늘(daily_plan)만 바꾸고 영구 루틴(routine_exercises)은
@@ -18,7 +18,7 @@ test("오늘만 부위 추가는 daily_plan(오늘)만 — routine_exercises 영
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 가슴만인 루틴. 영구 루틴엔 벤치프레스 1개.
   await dbQuery(

@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀 가드: "다가오는 7일"에서 카드를 드래그해 일차 순서를 바꾸면, 본운동도 카드를
@@ -22,7 +22,7 @@ const has = (names: string[], kw: string) => names.some((n) => n.includes(kw));
 
 /** 0·1일차 모두 하체 — 0일차=RDL, 1일차=스쿼트/레그프레스/레그컬 로 시드 후 /routine. */
 async function setupTwoLowerDays(page: Page): Promise<string> {
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `update public.user_routines
         set splits=0, variant_id='custom',
@@ -122,7 +122,7 @@ test("휴식일에도 '편집하기'가 보이고 7일 순서를 바꿀 수 있�
   test.skip(!hasDb, "needs .env.test.local DB creds");
   // 오늘(0일차)=휴식, 1일차=하체(스쿼트). 과거엔 휴식일이면 '오늘 할 운동' 섹션이
   // 없어 '편집하기' 버튼도 사라져 다가오는 7일 순서를 못 바꿨다(회귀 가드).
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `update public.user_routines
         set splits=0, variant_id='custom',

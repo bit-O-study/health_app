@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 무게·횟수 고정 설정:
@@ -37,11 +37,10 @@ async function seedSquat(email: string, lock: boolean) {
 
 test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로 설정·기록", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await seedSquat(email, false);
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
 
   // 메인 스쿼트 행: 무게·횟수는 물론 세트수도 안 보이고(운동모드에서 설정), 칼로리만.
   const squatRow = page.locator("li").filter({ hasText: "스쿼트" }).first();
@@ -53,7 +52,6 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
 
   // 운동 시작 → 운동모드. 무게/횟수/세트 스크러버 + 운동법 버튼이 뜬다.
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1000);
   const overlay = page.getByTestId("guided-scroll");
   await expect(overlay.getByText("무게", { exact: true }).first()).toBeVisible({ timeout: 8000 });
   await expect(overlay.getByText("횟수", { exact: true }).first()).toBeVisible();
@@ -65,28 +63,27 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
     .or(page.getByRole("button", { name: "운동 완료" }))
     .first()
     .click();
-  await page.waitForTimeout(1500);
 
-  const done = await dbQuery<{ exercise_id: string; sets: string; reps: string; weight_kg: string }>(
-    `select exercise_id, sets::text, reps::text, weight_kg::text
-       from public.exercise_completions where user_id=${uid} and status='done'`,
-    [email],
-  );
-  expect(done.length).toBe(1);
-  expect(done[0].exercise_id).toBe("squat");
-  expect(Number(done[0].sets)).toBe(4);
-  expect(Number(done[0].weight_kg)).toBe(60);
+  await expect(async () => {
+    const done = await dbQuery<{ exercise_id: string; sets: string; reps: string; weight_kg: string }>(
+      `select exercise_id, sets::text, reps::text, weight_kg::text
+         from public.exercise_completions where user_id=${uid} and status='done'`,
+      [email],
+    );
+    expect(done.length).toBe(1);
+    expect(done[0].exercise_id).toBe("squat");
+    expect(Number(done[0].sets)).toBe(4);
+    expect(Number(done[0].weight_kg)).toBe(60);
+  }).toPass({ timeout: 15_000 });
 });
 
 test("고정 끔: 운동모드 무게 더블클릭해 직접 입력한 값이 기록된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await seedSquat(email, false);
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1000);
 
   const overlay = page.getByTestId("guided-scroll");
   // 무게 값(슬라이더)을 더블클릭 → 직접 입력칸이 뜬다. 80 입력 후 Enter.
@@ -102,24 +99,24 @@ test("고정 끔: 운동모드 무게 더블클릭해 직접 입력한 값이 �
     .or(page.getByRole("button", { name: "운동 완료" }))
     .first()
     .click();
-  await page.waitForTimeout(1500);
 
-  const done = await dbQuery<{ weight_kg: string }>(
-    `select weight_kg::text from public.exercise_completions
-       where user_id=${uid} and status='done'`,
-    [email],
-  );
-  expect(done.length).toBe(1);
-  expect(Number(done[0].weight_kg)).toBe(80);
+  await expect(async () => {
+    const done = await dbQuery<{ weight_kg: string }>(
+      `select weight_kg::text from public.exercise_completions
+         where user_id=${uid} and status='done'`,
+      [email],
+    );
+    expect(done.length).toBe(1);
+    expect(Number(done[0].weight_kg)).toBe(80);
+  }).toPass({ timeout: 15_000 });
 });
 
 test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await seedSquat(email, true);
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
 
   // 메인 스쿼트 행: 무게(60kg)가 보인다.
   const squatRow = page.locator("li").filter({ hasText: "스쿼트" }).first();
@@ -127,7 +124,6 @@ test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬�
 
   // 운동 시작 → 스크러버(세트 라벨) 안 뜨고, subtitle 에 무게가 보인다.
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1000);
   const overlay = page.getByTestId("guided-scroll");
   // 이름은 이제 링크가 아니라 제목(heading) — 상세는 '운동법·꿀팁 보기' 버튼으로만.
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible({ timeout: 8000 });
@@ -137,7 +133,7 @@ test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬�
 
 test("고정 끔: 워밍업(런닝) 시간을 운동모드에서 바꿔 기록한다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await seedSquat(email, false); // 본운동 스쿼트 + 고정 끔
   // 워밍업 = 런닝(시간 6분, 속도 9, 경사 2) — 가이드 첫 항목.
   await dbQuery(`delete from public.routine_conditioning where user_id=${uid}`, [email]);
@@ -149,9 +145,7 @@ test("고정 끔: 워밍업(런닝) 시간을 운동모드에서 바꿔 기록�
   );
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1200);
 
   const overlay = page.getByTestId("guided-scroll");
   // 고정 끔 → 워밍업도 스크러버(시간/속도/경사). 시간 더블클릭 직접 입력으로 12분.
@@ -164,14 +158,15 @@ test("고정 끔: 워밍업(런닝) 시간을 운동모드에서 바꿔 기록�
 
   // 워밍업 완료 → 컨디셔닝 완료 기록에 시간 12분이 남는다.
   await page.getByRole("button", { name: "완료", exact: true }).click();
-  await page.waitForTimeout(1500);
 
-  const done = await dbQuery<{ duration_min: string; item_id: string }>(
-    `select duration_min::text, item_id from public.conditioning_completions
-       where user_id=${uid} and status='done'`,
-    [email],
-  );
-  expect(done.length).toBe(1);
-  expect(done[0].item_id).toBe("running");
-  expect(Number(done[0].duration_min)).toBe(12);
+  await expect(async () => {
+    const done = await dbQuery<{ duration_min: string; item_id: string }>(
+      `select duration_min::text, item_id from public.conditioning_completions
+         where user_id=${uid} and status='done'`,
+      [email],
+    );
+    expect(done.length).toBe(1);
+    expect(done[0].item_id).toBe("running");
+    expect(Number(done[0].duration_min)).toBe(12);
+  }).toPass({ timeout: 15_000 });
 });

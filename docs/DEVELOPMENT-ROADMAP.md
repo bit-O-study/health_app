@@ -943,6 +943,148 @@
   - [완료] 생성 행을 즉시 로컬 목록에 합치고 서버 새로고침으로 재동기화
     - `add-to-today-lands-on-today.spec.ts` 모바일 Chromium 3회 연속 통과
   - [진행중] 전체 E2E 재실행 및 커밋
+- [진행중] 공통 E2E 계정 준비 API 전환 확대 (2026-09-08)
+  - [진행중] 실제 E2E 작업자 4개 병렬 검증 (2026-09-11)
+    - [완료] 공유 상태·실행 설정 조사, 대표 DB/UI 테스트 동시 검증
+      - 같은 16개: 최초 workers=4 126.851초, 직렬 118.085초, 준비된 서버 workers=4 64.807초. 세 실행 모두 16통과, 계정 각 16개 정리
+    - [완료] 전체 231개 병렬 완주·직렬 44.553분 비교 — 관리자 계정 준비 적용 후 재측정
+      - 214통과·14실패·3건너뜀, 21.638분. 직렬 44.553분 대비 51.43% 감소. Auth rate-limit 오류 0건, 실행 계정 210개 정리
+      - 로컬 프로덕션 http://127.0.0.1:3108 / mobile-chromium / workers=4 / retries=0. 전체 통과·병렬 안정화 완료를 의미하지 않음
+      - workers=4/retries=0 실제 실행: 로그상 36통과·21실패·1건너뜀 뒤 중단. 실패 중 17건은 AuthApiError: Request rate limit reached. 중단 결과를 전체 시간으로 비교하지 않음
+      - 중단 실행 ID를 해당 트레이스의 세션에서 확인하고 기존 scoped teardown 실행: 계정 42개 및 종속 데이터 정리 완료
+    - [완료] 추가 실패 원인 분리 및 실행 명령·검증 결과 기록
+      - 준비된 서버의 대표 16개는 118.085→64.807초(45.12% 감소), 양쪽 모두 통과. 첫 4-worker 실행은 126.851초로 초기 준비 비용·실행 편차 존재
+      - test:e2e:parallel 명령 추가(파일 간 workers=4). 기본 test:e2e는 workers=1 유지. 초기 전체 실행은 Auth 제한으로 중단, 아래 관리자 준비 적용 결과로 갱신
+      - 전체 TypeScript·git diff --check 통과. 증거 parallel-{pilot,serial-control,pilot-warm,interrupted-summary,checks}.json 및 parallel-full.log
+    - [완료] 병렬 전제조건: 실제 가입 검증 외 테스트 준비에서 공용 Auth signup 호출 제거
+      - [완료] 관리자 Auth API 준비 가능성 조사 및 사용자 E2E_SUPABASE_SECRET_KEY 로컬 설정 완료
+      - [완료] E2E_SUPABASE_SECRET_KEY 설정 시 admin 계정 생성 후 일반 로그인, 사용자 권한 데이터 준비·실제 가입 UI 검증 유지
+      - [완료] 요청 경계 신규 단위 3개: RED 3실패 → GREEN, 기존 준비/정리 포함 24개 통과. 대상 ESLint·TypeScript 통과
+      - [완료] 실제 동등성·전체 병렬 검증
+        - 사용자 로컬 키 입력 완료. 관리자 준비·UI 온보딩 동등성·일반 인증/권한·계정 찾기·운동 저장: 4-worker 13개 통과(138.863초), 계정 12개 정리
+        - 키는 .env.test.local에만 저장, git check-ignore로 제외 확인. 증거 admin-pilot.json
+        - 전체 병렬 231개 완주, Auth 제한 해소 확인. 증거 admin-full.json 및 admin-full-comparison.json
+        - 실패 14개: add-appends-bottom:9, arm-routine-swap:268, diet:11, growth-record:89, guided-prev-next:74, guided-skip-reflects:14, memo-shows-in-workout:12, overload-in-workout:66/:138, restart-routine:62, routine-share:10, running-scene-quality:94, running-session-record:86, score-calendar:25
+        - [완료] 추가 실패 단독 비교: add-appends-bottom:9, memo-shows-in-workout:12, running-scene-quality:94, running-session-record:86, score-calendar:25 모두 workers=1 통과(117.515초), 계정 4개 정리. 증거 admin-serial-recheck.json
+        - 추가 실패 당시: add-appends-bottom DB에 새 운동 미반영, memo 운동모드에 저장 메모 미표시, running-scene/session 및 score-calendar 120초 제한 초과. 단독 통과로 부하/타이밍 영향 가능성을 확인했으나 근본 원인 확정 아님
+        - 나머지 9건은 이전 실행에서도 관측된 화면/DB 불일치 또는 시간 초과. restart:62는 44분 실행에서는 통과했지만 앞선 49분 실행에서 같은 실패
+        - [대기] 추가 실패 안정화 — 기본 test:e2e는 workers=1 유지. 병렬 명령은 명시적으로 선택할 때만 실행
+      - [진행중] 커밋 전 전체 검사 및 커밋·푸시 — 사용자 승인 2026-09-11
+        - 전체 단위 161파일 1,572개·라이브 스키마 64개 통과. pnpm의 자동 재설치 확인은 --config.verify-deps-before-run=false로 끄고 기존 설치에서 동일 명령 실행
+        - 전체 lint가 .verify-shots의 진단 스크립트/산출물까지 순회해 중단. gitignored .verify-shots·.pnpm-store·.worktrees·.omx 검증 산출물/캐시/별도 사본을 제외. .omx 검증 사본에만 TS/JS 631개 확인. 현재 src/tests 검사 유지
+        - 관리자 준비 코드 읽기 전용 리뷰: 수정 필요 사항 없음. 이후 실제 키 파일 설정·13개 대상 검증·231개 전체 실행 완료
+        - 전체 lint: 22오류·33경고로 실패. lint:gate는 기준선 27→22, 신규 오류 없음으로 통과. 전체 TypeScript·최종 git diff --check 통과
+        - lint 실패 범위: validate-equip-map의 require, posture-analyzer/meal-scanner/equipment-scanner/proof-member-sheet/proof-recorder/gym-place-suggestions/gym-form/rest-sound-picker/guided-workout의 effect, upcoming-seven-days/run-leaderboard/running-game의 ref 및 선언 순서, zen-scene의 불변성 규칙. 제품 코드 수정 없이 기존 오류로 기록
+        - 검증 명령: corepack pnpm --config.verify-deps-before-run=false test:unit / test:schema / lint / exec tsc --noEmit; E2E는 동일 Playwright에 --workers=4 --retries=0 지정
+        - 실패한 전체 게이트를 임의로 통과 처리하지 않음. 원격 main(4c4b6ad) 통합 전 전체 측정이며 최신 제품 변경 통합 후 전체 E2E 재실행은 하지 않음. 통합 후 준비/정리 단위 24개·전체 TypeScript·병합된 E2E 3파일 ESLint·git diff --check 통과. 원격의 pageerror 회귀 검사를 유지해 충돌 해결. 전체 E2E 14실패·린트 22오류 보고 후 사용자가 「푸시까지해」로 커밋·푸시 예외 승인(2026-09-11). 증거 push-unit-verified.log, push-schema.log, push-lint.log, push-lint-baseline.json, push-types.log
+    - 실기기 검증: 해당 없음 — 테스트 실행 설정만 변경
+
+  - [완료] 중복 첫 화면 진입과 불필요한 고정 대기 제거 (2026-09-10)
+    - [완료] 계정 준비 후 첫 page 사용 구문 조사, 중복 진입 후보 158호출 확인
+    - [완료] 화면 이동 없는 계정 준비 경로와 회귀 테스트, 안전한 호출만 전환
+      - createOnboardedAccount로 82파일 124호출의 불필요한 첫 /routine 진입 제거. SQL/상수 준비 뒤 직접 이동 또는 추천 준비만 하는 지점 한정
+      - 첫 화면부터 인증 유지·준비 중 탐색 0회 E2E: 구현 전 about:blank 불일치 실패 → 구현 후 통과
+    - [완료] 화면/저장 완료 신호가 있는 고정 대기를 조건 대기로 교체
+      - exercise-photo-guide·weight-reps-lock의 19.9초 고정 대기 제거/대체. 가이드 표시와 실제 DB 저장값을 기다림, 타이머 검증용 대기는 유지
+    - [완료] 대상 검사 후 전체 E2E 재측정, 기존 실패와 구분해 기록
+      - 대상 E2E 12개 통과(1.9분), 계정 12개 정리. 변경 TS 85파일 ESLint·전체 TypeScript·헬퍼 단위 21개 통과
+      - 전체 231개: 218통과·10실패·3건너뜀, 44.553분, 계정 210개 정리. 직전 49.181분 대비 4.628분(9.41%) 감소, 양쪽 통과 212개 시간 합계 10.20% 감소
+      - 로컬 프로덕션 3108 / mobile-chromium / workers=1 / retries=0. 추천 준비·DB 풀·중복 탐색 제거 누적 효과이며 실행별 환경 변동 포함
+      - [완료] guided-skip-reflects는 기존 탐색 방식에서도 동일 실패, 최초 9/7 실패와 같은 오늘 휴식 2개→0개 증상
+      - [완료] running-session-record는 탐색 제거 시 2회 실패/기존 탐색 비교 통과. 해당 1호출만 전환에서 제외하고 원래 준비로 복원: 3시나리오 × 2회 = 6통과(1.4분), 계정 2개 정리. 세부 원인은 미확정이라 보수적으로 제외
+      - 전체 44.553분 측정은 위 1호출 복원 전 결과. 복원 후 전체는 재실행하지 않았으며 대상 반복 검증으로 확인. 전체 성공으로 간주하지 않음
+      - 읽기 전용 코드 리뷰: 수정 필요 사항 없음. 증거 optimized-{full,comparison,recheck}.json
+    - 실기기 검증: 해당 없음 — 테스트 준비·대기만 변경
+
+  - [대기] 기존 실패 9건 안정화: arm-swap 1, diet 1, growth/overload 3, guided-prev-next/skip 2, restart 1, routine-share 1. 이번 성능 변경 범위에서 검증 조건·제품 코드는 변경하지 않음
+
+  - [완료] 일반 E2E DB 조회 연결 재사용 (2026-09-10)
+    - [완료] 고정 대기 227.36초·networkidle 221곳 조사, DB 연결 10회 읽기 전용 비교: 신규 6.188초 / 재사용 1.259초
+    - [완료] 일반 dbQuery만 작업자별 단일 연결 풀로 전환, 인증·트랜잭션 전용 연결 격리 유지
+      - max=1, idle 30초, allowExitOnIdle. 동시 첫 호출에도 단일 풀 생성, 쓰기 오류 자동 재시도 없음
+      - 세션 설정/잠금/인증 트랜잭션은 독립 openDbClient/openAuthenticatedDbClient 유지
+    - [완료] 연결 재사용·오류 전파·독립 인증 연결 회귀 검사, 실제 DB 전후 측정
+      - 신규 단위: 구현 전 3실패 → 구현 후 동시 호출 포함 4통과. 기존 준비/정리 포함 4파일 21개 통과
+      - 같은 실행에서 SELECT 1 10회 × 2회: 신규 연결 5.988/5.931초 → 공통 풀 1.159/0.725초. 평균 5.960 → 0.942초 (84.2% 감소)
+      - 계정/데이터 공유 없이 연결만 재사용. 쿼리 오류 다음 조회·인증 역할 격리는 실제 DB E2E로 확인
+    - [완료] DB 사용 대표 E2E·타입·린트 검증과 한계 기록
+      - 로컬 프로덕션 http://127.0.0.1:3108, mobile-chromium, workers=1/retries=0: DB 격리·팔 교환 stale/잠금·추천 동등성·무게/횟수 기록 E2E 9개 통과 (82.375초), 계정 9개 정리
+      - 대상 ESLint 3파일·전체 TypeScript 통과, git diff --check 통과
+      - 전체 49분 스위트는 재실행하지 않음. 약 400호출에 따른 절감 규모는 수 분 추정이며 실행 간격/연결 재생성/네트워크에 따라 달라짐
+      - 고정 대기/네트워크 로딩 대기는 이번 단계에서 변경하지 않음. 프로브는 기본 E2E에서 제거하고 측정 산출물에 보관
+      - 증거: .verify-shots/e2e-rollout/db-{connection-probe,pool-probe,pool-comparison,pool-regression}.json 및 db-pool-checks.json
+    - 실기기 검증: 해당 없음 — 테스트 DB 연결만 변경
+
+  - [진행중] 공통 추천 운동 준비의 UI 왕복 제거 (2026-09-09)
+    - [완료] 추천/처방·워밍업/마무리 생성 로직과 호출 목적 조사
+    - [완료] 실행 소유 계정에 인증 역할 트랜잭션으로 추천 데이터를 준비, 추천 UI 검증 경로 유지
+      - 기존 추천/처방 함수·저장 RPC 재사용, 워밍업/마무리 함께 준비. 다른 실행 계정은 DB 연결 전에 거절
+      - 18개 spec·23호출 전환. 추천 자체 검증 3파일(5호출)은 `seedRecommendedExercisesViaUI` 유지, DB 자격증명 없으면 기존 UI 폴백
+    - [완료] 실제 UI 생성 데이터와 직접 준비 데이터·기존 운동 ID 동등성 및 준비 시간 비교
+      - 기본/커스텀 사이드 루틴 2개: 미구현 시 무게·메모 불일치 실패 → 구현 후 통과. 영향 재실행에서도 2개 통과
+      - 동등성 검사 안의 준비 단계(데이터 준비+화면 진입) 총 4쌍: UI 14.071/9.339/7.143/7.406초 → 직접 5.054/6.091/3.193/3.483초. 평균 9.490 → 4.455초, 53.1% 감소
+      - 같은 계정에서 UI 후 직접 재준비한 비교이며, 전체 E2E 총시간은 재측정하지 않음. 23호출에 단순 적용한 절감 추정은 약 116초
+    - [완료] 영향 E2E·대상 lint·TypeScript 실행과 시간/한계 기록
+      - 로컬 프로덕션 `http://127.0.0.1:3108`, mobile-chromium, workers=1/retries=0: 22파일 35개, 33통과·2실패, 11.69분. 실행 계정 35개 정리 확인
+      - 실패 2개는 이전 전체 실행과 같은 `restart-routine:62` 화면 갱신·`routine-share:10` 시간 초과. 신규 실패 없음
+      - 준비/정리 회귀 단위 3파일 17개·대상 ESLint 7파일·전체 TypeScript 통과. 동시 실행 TypeScript는 60초 제한으로 중단되어 단독 재실행 통과
+      - 사용자의 재시작 요청 때 첫 영향 실행/서버가 종료된 상태라 새 실행으로 검증함
+      - 증거: `.verify-shots/e2e-rollout/recommend-{red,parity,resumed}.json`, `recommend-checks.json`
+    - [대기] 기존 실패 2개의 안정화는 앞선 E2E 실패 정리 업무에 유지 — 직접 준비 변경은 검증했으나 영향 스위트 전체 통과는 아님
+    - 실기기 검증: 해당 없음 — 테스트 준비만 변경
+  - [완료] 101파일·197호출의 공통 준비와 UI 가입 전용 경로 조사
+  - [완료] 기존 온보딩과 같은 프로필·기본 루틴을 만드는 API 헬퍼 회귀 테스트/구현
+  - [완료] 공통 준비에 연결, 실제 UI 가입·온보딩 검증 유지, 단일 운동 fixture 공통 로직 재사용
+  - [완료] UI/API 생성 데이터 동등성 및 운동·식단·계정 찾기 대상 E2E 실행
+    - mobile-chromium / 로컬 프로덕션 `http://127.0.0.1:3108`: 8통과·1실패 (3.7분)
+    - 실제 UI/API 생성 프로필·기본 루틴 DB 동등성 통과, 운동 재진입·계정 찾기·비밀번호 재설정 통과
+    - 실패: `diet.spec.ts:38` 화면 표시 직후 DB 0행 — 2026-09-07 보고서와 같은 증상
+  - [완료] 단위·대상 lint·TypeScript 및 전체 mobile-chromium E2E 실행
+    - 전체 단위 159파일 1,563개 통과 (117.85초), 대상 ESLint 7파일·전체 TypeScript 통과
+    - 단위와 동시 실행한 첫 정적검사는 60초 프로세스 제한에 걸려 종료되어, 단위 종료 후 재실행해 통과
+    - 전체 227개: 214통과·10실패·3건너뜀, 49.18분. workers=1 / retries=0, 해당 실행 계정 206개 정리 완료
+  - [완료] 기존 실패와 신규 실패 구분·시간 비교·문서 기록
+    - 같은 HEAD `85a8de8`의 2026-09-07 로컬 프로덕션 기준: 226개 209통과·14실패·3건너뜀, 63.27분 → 49.18분 (14.09분·22.3% 감소). 이번에는 UI/API 동등성 검증 1개 추가
+    - 양쪽 모두 통과한 동일 207개 테스트 실행 시간 합: 3,113.94초 → 2,249.05초 (27.8% 감소). 실행일·서버 포트와 외부 서비스 응답 편차가 있어 반복 측정 평균은 아님
+    - 기존 100개 spec의 준비 호출 196곳을 공통 API 헬퍼로 전환. 가입 smoke는 UI 유지, 새 동등성 테스트 포함 시 101파일·197호출
+    - 기존 보고서와 동일한 실패 8개: 팔 루틴 교환 1, 식단 1, 개인 기록 1, 가이드 이동 1, 증량 추천 2, 기준 루틴 복귀 1, 루틴 공유 1
+    - 신규 실패 2개(`add-to-today-with-override:13`, `restart-routine:12`)는 같은 API 준비로 재실행 시 2개 모두 통과(44.2초). 기존 UI 준비로 비교 시 운동 추가 통과·재시작 동일 화면 갱신 실패(1.1분). 비교 후 API 헬퍼 원본 복원 확인
+    - 전체·분리 재실행·UI 비교 증거: `.verify-shots/e2e-rollout/{full,new-failures,ui-compare}.json` 및 대응 로그/결과 폴더
+  - [대기] 기존 실패 8개와 간헐 실패 2개의 별도 안정화 — 준비 전환·측정은 끝났으나 전체 E2E 통과 상태는 아님. 이번 변경에서 제품 코드나 검증 단언은 수정하지 않음
+  - 실기기 검증: 해당 없음 — 테스트 준비만 변경. 커밋은 범위에 없음
+
+
+- [완료] 운동 E2E 한 건의 UI 온보딩 준비 비용 제거 (2026-09-08)
+  - [완료] `sets-edit-reflects-in-workout.spec.ts`의 준비 데이터와 로그인 계약 조사
+  - [완료] 같은 로컬 프로덕션 서버에서 기존 실행 시간 측정
+  - [완료] 독립 계정·프로필·스쿼트 루틴 직접 준비와 세션 쿠키 연결
+    - `workout-fixture.ts`: Auth 가입·인증된 API로 본인 데이터만 생성, SDK 세션 쿠키 연결
+    - 기존 가입·온보딩 E2E 및 세트 편집/운동모드 UI 단언 유지, 다른 spec으로 확대하지 않음
+  - [완료] 대상 E2E 전후 비교·회귀 테스트·대상 lint·TypeScript 검사
+    - `mobile-chromium`, `http://127.0.0.1:3108`, 로컬 프로덕션·workers=1·retries=0
+    - 기존/개선 각각 2회 모두 통과. 준비 21.286/17.350초 → 2.555/2.349초 (평균 약 87% 감소)
+    - 테스트 동작 34.607/27.445초 → 13.116/10.787초 (평균 약 61% 감소)
+    - 실행·정리 포함 전체 51.321/41.849초 → 60.623/17.956초: 첫 개선 실행의 외부 오버헤드가 커 전체 시간 편차는 남음
+    - 두 번째 비교의 teardown 3.490초 → 2.890초. 매 실행 종료에서 해당 계정 1개 삭제 확인
+    - `e2e-workout-fixture.test.ts` 구현 전 3개 실패 → 구현 후 3개 통과, 기존 계정 정리 11개 포함 14개 통과
+    - 변경 TS 3파일 대상 ESLint·전체 TypeScript 통과. 전체 E2E/커밋은 수행하지 않음
+    - 초기 sandbox 실행은 회원가입 Failed to fetch/EACCES로 실패하여 측정에서 제외; 네트워크 허용 환경으로 재실행
+    - 측정 JSON: `.verify-shots/e2e-setup/{before,after,before-2,after-2}.json`
+  - 실기기 검증: 해당 없음 — 테스트 준비 방식만 변경
+
+
+- [완료] E2E 실행별 테스트 계정 정리 격리 (2026-09-08)
+  - [완료] 계정 생성 경로가 `freshEmail`로 모이는지와 기존 접두사 전체 삭제 조사
+  - [완료] 실행별 ID 발급·worker 전달·해당 실행 계정만 삭제 구현
+  - [완료] 다른 실행·과거 계정 보호, ID 누락/오류 회귀 테스트와 대상 lint·TypeScript 검사
+    - `node node_modules/vitest/vitest.mjs run tests/be/logic/e2e-cleanup.test.ts`: 수정 전 10개 실패 → 수정 후 11개 통과
+    - 삭제 SQL과 매개변수 검증: 해당 실행의 문자 그대로의 접두사만 허용, 기존 광역 LIKE 제거
+    - 변경 TS 6파일 대상 ESLint 및 `node node_modules/typescript/bin/tsc --noEmit` 통과
+  - [완료] Playwright 실제 worker에서 실행 ID 전달 확인 (로컬, DB 변경 없는 검증)
+    - 임시 검증 spec: `mobile-chromium`, `--workers=2`, 2개 테스트 × 2회 통과 (2.7초/2.0초)
+    - 실행 내 ID 공유·실행 간 ID 변경 확인. 브라우저/서버 URL 접속과 라이브 DB 삭제 없음
+    - 전체 UI E2E는 재실행하지 않음. 임시 spec 제거, 커밋하지 않음
+  - 실기기 검증: 해당 없음 — 테스트 인프라만 변경
 
 - [완료] ESLint가 `android/app/build`, `.next`, 성능 보고서 산출물을 검사하지 않도록 범위 정리
   - 원인: 기본 무시 목록(`.next/**` 등)이 **레포 루트에만** 걸려 하위 산출물이 그대로 검사됐다

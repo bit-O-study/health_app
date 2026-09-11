@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // #12: 운동탭 왼쪽에 '홈' 탭 신설 — 홈에 체형목표·내다짐·설정. 운동탭에선 설정 제거.
@@ -9,7 +9,7 @@ test("홈 탭: 체형목표·내다짐·설정이 홈에 있고, 운동탭엔 �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   // 홈으로 이동 — 하단탭 '홈' 이 존재해야 한다.
   await page.goto("/home", { waitUntil: "networkidle" });

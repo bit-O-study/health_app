@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 
 test("운동 영상을 올려 티칭받는 동선으로 문구가 안내된다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await page.goto("/routine", { waitUntil: "networkidle" });

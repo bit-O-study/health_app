@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 홈: 오늘 식단 기준 필요 운동량(원형 그래프) + 탄단지 기준 더 먹어야 하는 양.
@@ -12,7 +12,7 @@ test("식단 기록이 없으면 홈에 '기록 없음' 안내가 나오고, 누
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/home", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
@@ -27,7 +27,7 @@ test("식단 기록이 있으면 필요 운동량과 탄단지 남은 양을 보
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 온보딩 값(키175/몸무게75/남자) 기준 목표 kcal=2550, 단백질120g/탄수358g/지방71g.
   // 500kcal(단백질50/탄수60/지방10)만 먹었으면 목표 이내 → 남은 양: 탄수298/단백70/지방61.

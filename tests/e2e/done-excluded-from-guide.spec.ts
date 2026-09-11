@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 재현/회귀: 완료 처리한 운동(헤머컬)은 '운동 시작'(운동 모드) 큐에 뜨면 안 된다.
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("완료 처리한 헤머컬은 운동 모드 큐에 안 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 하체 칸에 스쿼트 + 헤머컬 2개(헤머컬은 완료 처리해 둠).
   await dbQuery(

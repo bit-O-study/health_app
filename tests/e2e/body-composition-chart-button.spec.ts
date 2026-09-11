@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // #13/#15: 체형 추이그래프를 지표별(몸무게·근육량 등)로 분리해 보여준다.
@@ -23,7 +23,7 @@ function seoulToday() {
 
 test("체형정보: 지표별 추이그래프 + 기록은 버튼(#13/14/15)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 체형 기록 2건(몸무게·근육량 변화) — 추이가 그려지게.
   await dbQuery(

@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // #7: '오늘만 부위 추가'로 어깨를 추가하면, 편집기에서 담을 수 있는 부위는 '추가 요청한 부위
@@ -22,7 +22,7 @@ test("오늘만 부위 추가: 편집기 부위 선택지는 추가 요청한 �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

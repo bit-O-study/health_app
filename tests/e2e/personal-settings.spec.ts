@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 개인설정(상세 가이드)을 끄면 운동 모드에서 실제로 숨겨져야 한다.
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("개인설정 페이지가 에러 없이 뜨고 토글이 동작한다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/personal", { waitUntil: "networkidle" });
 
@@ -33,7 +33,7 @@ test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/settings/personal", { waitUntil: "networkidle" });
 
   // 알림음 피커가 뜨고, 종류 3종 + 미리듣기가 있다.
@@ -49,7 +49,7 @@ test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내
 
 test("개인설정으로 상세 가이드를 끄면 운동 모드에서 숨겨진다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 상세 가이드를 끈다(기본은 켜짐).
   await dbQuery(

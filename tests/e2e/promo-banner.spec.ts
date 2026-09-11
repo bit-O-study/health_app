@@ -1,9 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 
 test("메인 광고 배너가 사진 중심 레이아웃과 직접 이동 점을 제공한다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/home", { waitUntil: "networkidle" });
 
   const banner = page.getByRole("region", { name: "함께하는 서비스" });

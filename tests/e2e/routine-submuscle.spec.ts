@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 
 // 루틴 빌더의 "부위 추가"는 2단 드릴다운: 부위(가슴/등/…) → 전체 또는 세부근육
 // (가슴 상부/하부, 이두/삼두 등). 세부근육과 전체를 한꺼번에 늘어놓지 않는다.
@@ -8,7 +8,7 @@ import { signUpAndOnboard } from "./helpers/auth";
 test("루틴 빌더: 부위 추가 → 가슴 → '가슴 상부' 세부근육을 보조로 추가", async ({
   page,
 }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/settings/routine", { waitUntil: "networkidle" });
 
   // 커스텀 빌더 진입
@@ -31,7 +31,7 @@ test("루틴 빌더: 부위 추가 → 가슴 → '가슴 상부' 세부근육�
 });
 
 test("루틴 빌더: 부위 추가 → 팔 → '이두'가 보이고 추가된다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/settings/routine", { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "커스텀" }).click();
 

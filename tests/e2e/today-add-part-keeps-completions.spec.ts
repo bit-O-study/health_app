@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀(#8): '오늘만 부위 추가'로 부위를 더해도, 방금 완료해 둔 세트(운동 완료)는 풀리면 안 된다.
@@ -22,7 +22,7 @@ async function dismissNudge(page: Page) {
 
 test("오늘만 부위 추가해도 방금 완료한 운동은 완료로 유지(#8)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 가슴만인 루틴. 영구 루틴엔 벤치프레스 1개.
   await dbQuery(

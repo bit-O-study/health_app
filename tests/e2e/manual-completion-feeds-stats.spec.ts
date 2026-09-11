@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 수동(메인 리스트 스와이프) 완료도 운동모드(가이드)와 동일하게 완료 기록(스냅샷)을 남겨
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("수동 완료(스와이프)가 완료기록·성장그래프에 반영된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   // 고정 켬: 메인에 무게/세트가 보이고 스냅샷도 계획값으로 확정.
   await dbQuery(`update public.profiles set lock_weight_reps=true where user_id=${uid}`, [email]);
   await dbQuery(

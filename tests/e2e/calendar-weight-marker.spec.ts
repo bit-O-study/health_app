@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 실제로 웨이트(근력 운동)을 완료한 날은 캘린더에 덤벨 마커('웨이트한 날')가 떠야 한다.
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("웨이트 완료한 날은 캘린더에 덤벨 마커가 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(`update public.profiles set lock_weight_reps=true where user_id=${uid}`, [email]);
   await dbQuery(
     `update public.user_routines set splits=0, variant_id='custom',

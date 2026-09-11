@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercisesViaUI, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 일차별 독립: 같은 부위(push)가 1일차·4일차에 모두 나오는 PPL×2 루틴에서,
@@ -25,7 +25,7 @@ test("같은 부위가 두 일차에 있어도 한 일차 편집이 다른 일�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 루틴을 PPL×2(ppl-6) 로 — push 가 0일차·3일차 두 번. 기준일=오늘(0일차=push).
   await dbQuery(
@@ -38,7 +38,7 @@ test("같은 부위가 두 일차에 있어도 한 일차 편집이 다른 일�
   );
 
   // 추천으로 등록 → 일차별로 시드된다.
-  await seedRecommendedExercises(page);
+  await seedRecommendedExercisesViaUI(page);
 
   // push 가 0일차·3일차에 독립 시드됐는지(각각 행이 있고 개수 동일)
   const before = await pushCounts(email);
@@ -72,7 +72,7 @@ test("같은 부위가 두 일차에 있어도 한 일차 편집이 다른 일�
 // 현재 루틴에 맞춰 일차별로 자동 배치되어야 한다. 같은 부위가 여러 일차를 쓰면 복제.
 test("legacy(day_index NULL) 행이 일차별로 자동 백필된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // PPL×2(ppl-6) — push 가 0일차·3일차 두 번.
   await dbQuery(
@@ -83,7 +83,7 @@ test("legacy(day_index NULL) 행이 일차별로 자동 백필된다", async ({ 
       where user_id=(select id from auth.users where lower(email)=lower($1))`,
     [email],
   );
-  await seedRecommendedExercises(page);
+  await seedRecommendedExercisesViaUI(page);
 
   // 과거 상태를 모사: push 를 한 벌(day_index NULL)만 남긴다(부위 단위 공유 시절).
   await dbQuery(

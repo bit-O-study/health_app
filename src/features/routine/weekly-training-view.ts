@@ -9,6 +9,10 @@
  */
 
 import { REGION_LIST, type Region } from "@/features/routine/score";
+import { STALL_SESSIONS, overloadPlan } from "@/features/routine/overload";
+import type { ProgressRecord } from "@/features/routine/progress";
+import { getCatalogExercise } from "@/features/routine/exercise-catalog";
+import type { ExperienceLevel } from "@/features/profile/data";
 import {
   subMuscleWeightsForExercise,
   subMusclesForExercise,
@@ -20,6 +24,7 @@ import {
   lastTrainedByRegion,
   pushPullBalance,
   isCrammed,
+  regionOfSubMuscle,
   setsByRegion,
   setsBySubMuscle,
   setsDelta,
@@ -52,6 +57,24 @@ function regionColor(r: Region): string {
   return muscleGroup(id).color;
 }
 
+/**
+ * 정체 중인 종목 — **무게가 안 오르는 곳**.
+ *
+ * 왜 주간 분석에 끌어오나: `overload.ts` 가 정체를 이미 판정하는데 그 결과가 성장
+ * 그래프에만 있었다. "삼두를 직접 노린 적 없음"(이 카드)과 "벤치프레스 3주째 정체"
+ * (저쪽 화면)는 **같은 원인일 수 있는데** 두 화면에 흩어져 있으면 아무도 잇지 못한다.
+ */
+export type StalledExercise = {
+  exerciseId: string;
+  name: string;
+  region: Region;
+  regionLabel: string;
+  /** 최고치가 안 늘어난 연속 세션 수. */
+  sessions: number;
+  /** 화면에 그대로 쓸 근거 한 줄(성장 그래프와 같은 문구). */
+  reason: string;
+};
+
 export type WeeklyTrainingView = {
   weekStart: string;
   todayYmd: string;
@@ -65,11 +88,22 @@ export type WeeklyTrainingView = {
   synergistOnlySubs: { id: string; label: string }[];
   /** 이번 주 총 직접 세트. 0이면 화면이 "아직 기록 없음"으로 갈 수 있다. */
   weekSets: number;
+  /** 정체 중인 종목. 경력을 안 넘기면 빈 배열(판정 기준이 경력에 달려 있다). */
+  stalled: StalledExercise[];
+};
+
+/** 주간 분석 입력 — 세트 판정에 더해 정체 판정용 무게·횟수까지. */
+export type WeeklyRecord = SetRecord & {
+  reps?: number | null;
+  weightKg?: number | null;
+  equipment?: string | null;
 };
 
 export function buildWeeklyTrainingView(
-  records: readonly SetRecord[],
+  records: readonly WeeklyRecord[],
   todayYmd: string,
+  /** 목표 횟수가 경력에 따라 달라진다 — 없으면 정체 판정을 건너뛴다. */
+  experience?: ExperienceLevel,
 ): WeeklyTrainingView {
   const subsOf = (id: string) => subMusclesForExercise(id).map((s) => s.id);
   const weekStart = weekStartOf(todayYmd);
@@ -155,5 +189,73 @@ export function buildWeeklyTrainingView(
     untouchedSubs,
     synergistOnlySubs,
     weekSets: REGION_LIST.reduce((sum, r) => sum + weekRegionSets[r], 0),
+    stalled: experience ? stalledExercises(records, experience, subsOf) : [],
   };
+}
+
+/**
+ * 무게가 안 오르는 종목들 — 최근에 실제로 한 것만.
+ *
+ * 🔴 **오래 안 한 종목은 정체가 아니다.** 반년 전에 그만둔 운동을 "3주째 정체"라고
+ * 띄우면 지금 할 일과 상관없는 경고가 쌓인다. 최근 4주 안에 한 것만 본다.
+ */
+const STALL_LOOKBACK_DAYS = 28;
+
+function stalledExercises(
+  records: readonly WeeklyRecord[],
+  experience: ExperienceLevel,
+  subsOf: (id: string) => string[],
+): StalledExercise[] {
+  const progress: ProgressRecord[] = records.map((r) => ({
+    forDate: r.forDate,
+    exerciseId: r.exerciseId ?? null,
+    status: "done",
+    sets: r.sets ?? null,
+    reps: r.reps ?? null,
+    weightKg: r.weightKg ?? null,
+    setDetails: r.setDetails ?? null,
+    equipment: r.equipment ?? null,
+  }));
+
+  const cutoff = addDays(
+    records.reduce((max, r) => (r.forDate > max ? r.forDate : max), ""),
+    0,
+  );
+  const recent = new Set(
+    records
+      .filter((r) => r.exerciseId && r.forDate >= addDays(cutoff, -STALL_LOOKBACK_DAYS))
+      .map((r) => r.exerciseId as string),
+  );
+
+  const out: StalledExercise[] = [];
+  for (const exerciseId of recent) {
+    const plan = overloadPlan(progress, exerciseId, experience);
+    if (plan.stalledSessions < STALL_SESSIONS) continue;
+    const region = regionOfExercise(exerciseId, subsOf);
+    if (!region) continue;
+    out.push({
+      exerciseId,
+      name: getCatalogExercise(exerciseId)?.name ?? exerciseId,
+      region,
+      regionLabel: REGION_LABEL_KO[region],
+      sessions: plan.stalledSessions,
+      reason: plan.reason,
+    });
+  }
+  // 오래 막힌 것부터. 같으면 이름순 — 순서가 흔들리면 매번 다른 게 위에 온다.
+  return out.sort(
+    (a, b) => b.sessions - a.sessions || a.name.localeCompare(b.name, "ko"),
+  );
+}
+
+/** 운동 → 부위(주동근 기준). 세트 판정과 같은 규칙을 쓴다. */
+function regionOfExercise(
+  exerciseId: string,
+  subsOf: (id: string) => string[],
+): Region | null {
+  for (const sub of subsOf(exerciseId)) {
+    const reg = regionOfSubMuscle(sub);
+    if (reg) return reg;
+  }
+  return null;
 }

@@ -1,5 +1,12 @@
 import Link from "next/link";
-import { AlertTriangle, ArrowDown, ArrowUp, CalendarDays, Scale } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowDown,
+  ArrowUp,
+  CalendarDays,
+  Scale,
+  TrendingDown,
+} from "lucide-react";
 
 import {
   VOLUME_COLOR,
@@ -43,6 +50,14 @@ export type WeeklyRegionRow = {
   daysAgo: number | null;
 };
 
+export type WeeklyStall = {
+  exerciseId: string;
+  name: string;
+  regionLabel: string;
+  sessions: number;
+  reason: string;
+};
+
 export type WeeklyHeatCell = {
   ymd: string;
   weekday: number;
@@ -61,6 +76,7 @@ export function WeeklyTrainingCard({
   upperLower,
   untouchedSubs,
   synergistOnlySubs,
+  stalled,
   /** 트레이너가 회원 화면에서 볼 때 — 2인칭 문구를 안 쓰고 링크도 감춘다. */
   viewerIsOther = false,
 }: {
@@ -72,6 +88,7 @@ export function WeeklyTrainingCard({
   upperLower: Balance;
   untouchedSubs: { id: string; label: string }[];
   synergistOnlySubs: { id: string; label: string }[];
+  stalled: WeeklyStall[];
   viewerIsOther?: boolean;
 }) {
   const weekTotal = regions.reduce((s, r) => s + r.sets, 0);
@@ -251,6 +268,45 @@ export function WeeklyTrainingCard({
           hint="하체는 빼먹기 쉬운데 전신 근력·대사에 가장 크게 기여합니다."
         />
       </div>
+
+      {/* 🔴 정체를 **같은 화면에** 둔다. "삼두를 직접 노린 적 없음"(아래)과
+          "벤치프레스 3주째 정체"(여기)는 같은 원인일 수 있는데, 두 화면에 흩어져
+          있으면 아무도 잇지 못한다. */}
+      {stalled.length > 0 ? (
+        <div className="mt-5 border-t border-zinc-200 pt-4 dark:border-zinc-700">
+          <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+            <TrendingDown
+              aria-hidden="true"
+              size={14}
+              className="mr-1.5 inline align-[-2px] text-amber-600 dark:text-amber-400"
+            />
+            무게가 안 오르는 종목
+            <span className="ml-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              {stalled.length}개
+            </span>
+          </p>
+          <ul className="mt-2 space-y-1.5" data-testid="stalled-exercises">
+            {stalled.map((st) => (
+              <li
+                key={st.exerciseId}
+                data-exercise={st.exerciseId}
+                data-sessions={st.sessions}
+                className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 rounded-lg bg-amber-50 px-2.5 py-1.5 dark:bg-amber-950/30"
+              >
+                <span className="rounded bg-amber-200/70 px-1 text-[10px] font-bold text-amber-900 dark:bg-amber-900/60 dark:text-amber-200">
+                  {st.regionLabel}
+                </span>
+                <span className="text-xs font-bold text-amber-900 dark:text-amber-200">
+                  {st.name}
+                </span>
+                <span className="text-[11px] text-amber-700 dark:text-amber-300">
+                  {st.reason}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
 
       {/* 이번 주 안 건드린 세부근육 — '몇 세트 부족'이 아니라 0인 것만 말한다(아래 주석). */}
       <div className="mt-5 border-t border-zinc-200 pt-4 dark:border-zinc-700">

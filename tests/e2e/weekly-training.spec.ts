@@ -290,3 +290,62 @@ test("🔴 트레이너 목록이 '늘 같은 데만 하는 회원'을 짚어 �
   await ctxM.close();
   await ctxT.close();
 });
+
+test("홈·운동탭에서 이번 주 요약이 보이고 점수 화면으로 이어진다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await seedCompletion(email, { dayOfWeek: 0, exerciseId: "bench-press", focus: "chest", sets: 8 });
+
+  // 홈 — 전체 분석은 점수 화면에 두고, 여기서는 "어디가 비었나"만.
+  await page.goto("/home", { waitUntil: "networkidle" });
+  const summary = page.getByTestId("weekly-training-summary");
+  await expect(summary).toBeVisible({ timeout: 10000 });
+  await expect(summary).toHaveAttribute("data-week-sets", "8");
+  await expect(summary.getByTestId("summary-region-chest")).toHaveAttribute("data-status", "low");
+  await expect(summary.getByTestId("summary-region-leg")).toHaveAttribute("data-status", "none");
+  await expect(summary).toContainText("0세트");
+
+  // 운동탭에도 같은 카드.
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("weekly-training-summary")).toBeVisible({ timeout: 10000 });
+
+  // 눌러서 전체 분석으로.
+  await page.getByTestId("weekly-training-summary").click();
+  await page.waitForURL("**/settings/score", { timeout: 15000 });
+  await expect(page.getByTestId("weekly-training-card")).toBeVisible({ timeout: 10000 });
+});
+
+test("🔴 이번 주 운동이 없으면 요약을 아예 안 그린다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  await signUpAndOnboard(page);
+
+  // "전부 0세트"는 분석이 아니라 잔소리다 — 오늘 할 운동을 권하는 건 다른 카드의 몫.
+  await page.goto("/home", { waitUntil: "networkidle" });
+  await page.waitForTimeout(1000);
+  await expect(page.getByTestId("weekly-training-summary")).toHaveCount(0);
+});
+
+test("정체 중인 종목이 주간 분석에 같이 보인다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await dbQuery(`update public.profiles set experience='advanced' where user_id=${uid}`, [email]);
+
+  // 같은 무게로 네 세션 — 최고치가 안 늘었다(정체).
+  for (const back of [21, 14, 7, 0]) {
+    await dbQuery(
+      `insert into public.exercise_completions
+         (user_id, for_date, exercise_row_id, status, exercise_id, equipment, focus, sets, reps, weight_kg)
+       values (${uid}, ${today} - $2::int, gen_random_uuid(), 'done', 'squat', 'barbell', 'lower', 5, 6, 100)`,
+      [email, back],
+    );
+  }
+
+  await page.goto("/settings/score", { waitUntil: "networkidle" });
+  const stalls = page.getByTestId("stalled-exercises");
+  await expect(stalls).toBeVisible({ timeout: 10000 });
+  const row = stalls.locator('[data-exercise="squat"]');
+  await expect(row).toHaveCount(1);
+  // 어느 부위 문제인지 같이 말해 준다 — 밸런스와 이어 보라는 뜻이다.
+  await expect(row).toContainText("하체");
+  await expect(row).toContainText("스쿼트");
+});

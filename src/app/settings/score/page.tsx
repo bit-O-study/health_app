@@ -85,10 +85,15 @@ export default async function ScorePage() {
       exerciseId: c.exerciseId,
       focus: c.focus,
       sets: c.sets,
+      // 정체 판정에 필요한 값들 — 안 넘기면 "무게가 안 오르는 종목"이 항상 비어 있다.
+      reps: c.reps,
+      weightKg: c.weightKg,
+      equipment: c.equipment,
       // 드롭세트·피라미드는 여기 길이가 진짜 세트 수다.
       setDetails: c.setDetails,
     })),
     todayYmdForWeek,
+    profile.experience,
   );
   const weeklyByRegion = Object.fromEntries(
     weekly.regions.map((r) => [r.region, r]),
@@ -351,6 +356,7 @@ export default async function ScorePage() {
           upperLower={weekly.upperLower}
           untouchedSubs={weekly.untouchedSubs}
           synergistOnlySubs={weekly.synergistOnlySubs}
+          stalled={weekly.stalled}
         />
       </div>
 

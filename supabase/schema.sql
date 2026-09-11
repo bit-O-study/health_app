@@ -3857,6 +3857,9 @@ create table if not exists public.notification_preferences (
   -- 트레이너가 남긴 코멘트. 배정과 따로 끈다(하나는 루틴 변경, 하나는 말이다).
   trainer_comment boolean not null default true,
   rest_timer boolean not null default true,
+  -- 이번 주 아직 안 한 부위 알림(주말에 한 번). 리마인더와 따로 끈다 —
+  -- 하나는 "오늘 나와라", 하나는 "나오긴 했는데 하체를 빼먹고 있다" 로 성격이 다르다.
+  weekly_balance boolean not null default true,
   quiet_hours boolean not null default true,
   quiet_start_hour smallint not null default 22
     check (quiet_start_hour >= 0 and quiet_start_hour <= 23),
@@ -3865,6 +3868,8 @@ create table if not exists public.notification_preferences (
   updated_at timestamptz not null default now()
 );
 -- 기존 DB 보정 — 표는 이미 있으므로 컬럼만 더한다.
+alter table public.notification_preferences
+  add column if not exists weekly_balance boolean not null default true;
 alter table public.notification_preferences
   add column if not exists routine_assigned boolean not null default true;
 alter table public.notification_preferences

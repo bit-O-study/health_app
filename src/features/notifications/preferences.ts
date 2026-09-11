@@ -33,6 +33,8 @@ export const NOTIFICATION_KINDS = [
   "trainer-comment",
   /** 세트 사이 휴식 타이머(기기 로컬 알림). */
   "rest-timer",
+  /** 이번 주 아직 안 한 부위(주말에 한 번). */
+  "weekly-balance",
 ] as const;
 
 export type NotificationKind = (typeof NOTIFICATION_KINDS)[number];
@@ -60,6 +62,10 @@ export const NOTIFICATION_LABEL: Record<
   "workout-inactivity": {
     title: "운동 종료 확인",
     desc: "운동 중 오래 멈춰 있으면 종료할지 물어봐요.",
+  },
+  "weekly-balance": {
+    title: "주간 부위 균형",
+    desc: "이번 주 아직 안 한 부위가 있으면 주말에 한 번 알려드려요.",
   },
   "group-activity": {
     title: "그룹 소식",
@@ -136,6 +142,7 @@ export const DEFAULT_PREFERENCES: NotificationPreferences = {
     "routine-assigned": true,
     "trainer-comment": true,
     "rest-timer": true,
+    "weekly-balance": true,
   },
   quietHours: true,
   quietStartHour: 22,
@@ -152,6 +159,7 @@ export type PreferenceRow = {
   routine_assigned?: unknown;
   trainer_comment?: unknown;
   rest_timer?: unknown;
+  weekly_balance?: unknown;
   quiet_hours?: unknown;
   quiet_start_hour?: unknown;
   quiet_end_hour?: unknown;
@@ -166,6 +174,7 @@ const ROW_KEY: Record<NotificationKind, keyof PreferenceRow> = {
   "routine-assigned": "routine_assigned",
   "trainer-comment": "trainer_comment",
   "rest-timer": "rest_timer",
+  "weekly-balance": "weekly_balance",
 };
 
 /**
@@ -221,6 +230,7 @@ export function toPreferenceRow(
     routine_assigned: prefs.kinds["routine-assigned"],
     trainer_comment: prefs.kinds["trainer-comment"],
     rest_timer: prefs.kinds["rest-timer"],
+    weekly_balance: prefs.kinds["weekly-balance"],
     quiet_hours: prefs.quietHours,
     quiet_start_hour: prefs.quietStartHour,
     quiet_end_hour: prefs.quietEndHour,

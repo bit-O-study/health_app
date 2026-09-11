@@ -22,6 +22,7 @@ import {
   buildWeeklyTrainingView,
   type WeeklyTrainingView,
 } from "@/features/routine/weekly-training-view";
+import type { ExperienceLevel } from "@/features/profile/data";
 import {
   weekRange,
   addDaysYmd,
@@ -686,31 +687,52 @@ export async function getGroupMemberWeeklyTraining(
 
   const today = seoulYmd();
   const from = addDaysYmd(today, -60);
-  const { data, error } = await supabase
-    .from("exercise_completions")
-    .select("for_date, exercise_id, focus, sets, set_details")
-    .eq("user_id", memberId)
-    .eq("status", "done")
-    .gte("for_date", from)
-    .lte("for_date", today);
+  // 경력은 정체 판정의 목표 횟수를 정한다 — 없으면 그 항목만 비고 나머지는 그대로 나온다.
+  const [{ data, error }, { data: prof }] = await Promise.all([
+    supabase
+      .from("exercise_completions")
+      .select("for_date, exercise_id, focus, equipment, sets, reps, weight_kg, set_details")
+      .eq("user_id", memberId)
+      .eq("status", "done")
+      .gte("for_date", from)
+      .lte("for_date", today),
+    supabase
+      .from("profiles")
+      .select("experience")
+      .eq("user_id", memberId)
+      .maybeSingle(),
+  ]);
   if (error) return null;
 
   const rows = (data ?? []) as {
     for_date: string;
     exercise_id: string | null;
     focus: string | null;
+    equipment?: unknown;
     sets: number | null;
+    reps: number | null;
+    weight_kg: number | string | null;
     set_details?: unknown;
   }[];
+  const experience = (prof as { experience?: unknown } | null)?.experience;
 
   return buildWeeklyTrainingView(
     rows.map((r) => ({
       forDate: r.for_date,
       exerciseId: r.exercise_id,
       focus: r.focus,
+      equipment: typeof r.equipment === "string" ? r.equipment : null,
       sets: r.sets,
+      reps: r.reps,
+      weightKg: num(r.weight_kg),
       setDetails: parseSetDetails(r.set_details),
     })),
     today,
+    isExperienceLevel(experience) ? experience : undefined,
   );
+}
+
+/** 프로필 경력 값인가 — 남의 행이라 형태를 믿지 않는다. */
+function isExperienceLevel(v: unknown): v is ExperienceLevel {
+  return v === "beginner" || v === "intermediate" || v === "advanced";
 }

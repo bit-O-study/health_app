@@ -1,27 +1,117 @@
 /**
- * 최소 service worker.
+ * service worker — 오프라인 셸 캐싱 + 휴식 타이머 알림 + 웹푸시.
  *
- * 안드로이드 Chrome / TWA / PWABuilder 의 PWA 인스톨 기준은
- * "fetch 핸들러를 가진 service worker 가 등록되어 있어야 한다" 이다.
- * 캐싱 전략은 의도적으로 두지 않는다 — Next.js 가 자체 캐시/리벨리데이션을
- * 하고 있고, SW 캐싱과 충돌하면 디버깅이 어려워진다.
- * 필요해지면 offline shell 캐싱은 그때 추가.
+ * ## 무엇을 캐시하고 무엇을 **안** 하는가 (판정은 `sw-strategy.js`)
+ * - `/_next/static/**` : 파일명에 내용해시가 있어 같은 URL 이면 내용이 안 바뀐다.
+ *   → 캐시 우선. 지하 와이파이에서 청크 로드가 실패해 화면이 죽던 것도 같이 줄어든다.
+ * - 화면 이동(navigate) : **네트워크 우선.** 성공하면 항상 서버 응답을 쓴다.
+ *   실패했을 때만 `/offline.html` 로 보낸다.
+ * - 그 밖(POST·API·RSC·외부 출처) : SW 가 손대지 않는다.
+ *
+ * ## 🔴 방문한 화면의 HTML 은 캐시하지 않는다
+ * 예전 이 파일의 주석은 "Next 자체 캐시와 충돌하면 디버깅이 어렵다"며 캐싱을 통째로
+ * 비워 뒀다. 그 걱정의 실체가 바로 이것이다 — 화면 HTML 을 담아 두면 **어제의
+ * 루틴·완료 기록·체중**이 오늘 값인 척 다시 뜬다. 빈 화면보다 나쁘다.
+ * 그래서 화면은 네트워크가 유일한 출처이고, 캐시는 **개인 데이터가 없는 안내 화면**과
+ * **해시 박힌 정적 파일**만 담는다. 이러면 배포 후 옛 화면이 남는 일이 구조적으로 없다.
+ *
+ * ## 새 배포
+ * `install` 에서 `skipWaiting`, `activate` 에서 `clients.claim()` + **다른 이름의 캐시
+ * 전부 삭제**. 규칙이 바뀌면 `sw-strategy.js` 의 `CACHE_NAME` 만 올리면 된다.
  */
-self.addEventListener("install", () => {
-  self.skipWaiting();
+importScripts("/sw-strategy.js");
+
+const { CACHE_NAME, PRECACHE, OFFLINE_URL, MAX_STATIC_ENTRIES, decide } =
+  self.swStrategy;
+
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    (async () => {
+      try {
+        const cache = await caches.open(CACHE_NAME);
+        // 🔴 `reload` — 브라우저 HTTP 캐시에 있던 옛 offline.html 을 그대로 담지 않게.
+        await cache.addAll(
+          PRECACHE.map((u) => new Request(u, { cache: "reload" })),
+        );
+      } catch (e) {
+        // 안내 화면을 못 받아도 SW 설치 자체는 성공시킨다 — 알림·푸시는 계속 돌아야 한다.
+      }
+      await self.skipWaiting();
+    })(),
+  );
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    (async () => {
+      // 이름이 다른 옛 캐시는 전부 버린다(규칙이 바뀌면 옛 규칙으로 담긴 것도 같이 나간다).
+      const names = await caches.keys();
+      await Promise.all(
+        names.map((n) => (n === CACHE_NAME ? null : caches.delete(n))),
+      );
+      await self.clients.claim();
+    })(),
+  );
 });
 
 self.addEventListener("fetch", (event) => {
-  // 같은 출처(자기 사이트) 요청은 그냥 통과 (no respondWith).
-  // 외부 출처(tesseract.js CDN 의 WASM·언어 데이터 등)는 SW 가 손 안 대게
-  // 즉시 return — 브라우저 기본 fetch 가 100% 그대로 동작.
-  const url = new URL(event.request.url);
-  if (url.origin !== self.location.origin) return;
+  const how = decide(event.request);
+  if (how === "bypass") return; // respondWith 안 함 = 브라우저 기본 동작 그대로
+
+  if (how === "immutable") {
+    event.respondWith(cacheFirst(event.request));
+    return;
+  }
+  event.respondWith(networkFirstNavigate(event.request));
 });
+
+/** 해시 박힌 정적 파일 — 캐시에 있으면 네트워크에 가지 않는다. */
+async function cacheFirst(request) {
+  const cache = await caches.open(CACHE_NAME);
+  const hit = await cache.match(request);
+  if (hit) return hit;
+  const res = await fetch(request);
+  // 200 만 담는다. opaque/에러 응답을 담으면 그 URL 이 영영 깨진 채로 굳는다.
+  if (res && res.status === 200 && res.type === "basic") {
+    await cache.put(request, res.clone()).catch(() => {});
+    await trim(cache);
+  }
+  return res;
+}
+
+/**
+ * 오래된 정적 항목부터 버려 캐시 크기를 묶어 둔다.
+ * 배포마다 청크 해시가 바뀌어 옛 항목이 안 지워지고 쌓이는데, 저장공간을 많이 먹으면
+ * 브라우저가 이 캐시를 **통째로** 비워 오프라인 안내 화면까지 같이 날아간다.
+ * `cache.keys()` 는 넣은 순서대로 주므로 앞에서부터 지우면 오래된 것부터 나간다.
+ */
+async function trim(cache) {
+  try {
+    const keys = await cache.keys();
+    // 미리 받아 둔 안내 화면은 세지도, 지우지도 않는다 — 그게 마지막 보루다.
+    const statics = keys.filter((k) => !PRECACHE.includes(new URL(k.url).pathname));
+    const over = statics.length - MAX_STATIC_ENTRIES;
+    for (let i = 0; i < over; i++) await cache.delete(statics[i]);
+  } catch (e) {
+    /* 정리 실패는 치명적이지 않다 — 다음 요청에서 다시 시도된다 */
+  }
+}
+
+/**
+ * 화면 이동 — 네트워크가 유일한 출처. 실패했을 때만 안내 화면.
+ * 🔴 성공 응답을 **캐시에 담지 않는다.** 담는 순간 옛 개인 데이터가 살아난다.
+ */
+async function networkFirstNavigate(request) {
+  try {
+    return await fetch(request);
+  } catch (e) {
+    const cache = await caches.open(CACHE_NAME);
+    const offline = await cache.match(OFFLINE_URL);
+    if (offline) return offline;
+    // 안내 화면조차 없으면(설치 중 실패) 브라우저 기본 오류 화면으로 떨어진다.
+    throw e;
+  }
+}
 
 // ── 휴식 타이머 예약 알림 ──────────────────────────────────────────────
 // 페이지(rest-timer.tsx)가 휴식 시작 시 종료시각을 SW 에 등록한다. 페이지 JS 는

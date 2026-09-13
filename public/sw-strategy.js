@@ -35,6 +35,28 @@
   var MAX_STATIC_ENTRIES = 120;
 
   /**
+   * 운동 시연 영상 캐시. 🔴 **셸 캐시와 다른 통**이다.
+   * 영상은 한 통에 섞기엔 위험하다 — 용량이 커서 정리·퇴출이 자주 일어나는데,
+   * 셸 캐시에 같이 있으면 그 와중에 `offline.html`(마지막 보루)까지 날아간다.
+   */
+  var MEDIA_CACHE = "helssu-media-v1";
+
+  /**
+   * 영상 한 개의 상한. 넘으면 **캐시하지 않고 네트워크로 흘려보낸다**(재생은 정상).
+   * 실측: 181개 중 175개가 0.5MB 미만, 1.5MB 초과는 4개뿐이다. 그 4개를 담겠다고
+   * 예산을 다 쓰면 자주 보는 나머지가 밀려난다.
+   */
+  var MAX_MEDIA_BYTES = 2 * 1024 * 1024;
+
+  /**
+   * 영상 캐시 전체 예산. 개수가 아니라 **바이트**로 묶는다 —
+   * 개수로 묶으면 평균 181KB 와 2MB 짜리가 같은 한 칸을 차지해 실제 용량을 못 정한다.
+   * 24MB 면 자주 보는 100개 남짓이 들어간다(전체 카탈로그는 1,351종이라 다 담을 수 없고,
+   * 담아서도 안 된다 — 저장공간을 많이 먹는 PWA 는 브라우저가 통째로 비워 버린다).
+   */
+  var MEDIA_BUDGET_BYTES = 24 * 1024 * 1024;
+
+  /**
    * @returns {"immutable" | "navigate" | "bypass"}
    *  - `immutable` : 내용해시가 박힌 빌드 산출물 → 캐시 우선(있으면 네트워크 안 감).
    *  - `navigate`  : 화면 이동 → **네트워크 우선**, 실패하면 오프라인 안내.
@@ -69,15 +91,62 @@
     // 그래서 캐시 우선이 안전하고, 지하 와이파이에서 청크 로드 실패도 같이 줄어든다.
     if (url.pathname.startsWith("/_next/static/")) return "immutable";
 
+    // 운동 시연 영상 — 본 것만 담는다(미리 받지 않는다). 1,351종을 다 받으면 200MB 다.
+    // 🔴 Range 요청이 오므로 전용 처리로 보낸다. 그냥 캐시하면 재생이 깨진다.
+    if (
+      url.pathname.startsWith("/exercise-guides/") &&
+      /\.(mp4|webm)$/.test(url.pathname)
+    )
+      return "media";
+
     if (req.mode === "navigate") return "navigate";
 
     return "bypass";
+  }
+
+  /**
+   * `Range: bytes=...` 헤더를 캐시된 전체 응답에 맞춰 해석한다.
+   *
+   * 🔴 이게 왜 필요한가 — `<video preload="metadata">` 는 파일 전체가 아니라
+   * **앞부분만** 달라고 한다(`bytes=0-`). 캐시된 200 응답을 그대로 돌려주면 브라우저가
+   * "Range 를 요청했는데 전체가 왔다" 로 보고 탐색(seek)이 망가지거나 재생이 멈춘다.
+   * 그래서 캐시에는 **전체만** 담고, 요청이 오면 여기서 잘라 206 으로 만들어 준다.
+   *
+   * @returns `null` = Range 가 없거나 우리가 못 다루는 형식(전체를 200 으로 준다)
+   *          `{ok:false}` = 범위가 파일 밖(416 을 줘야 한다)
+   *          `{ok:true, start, end}` = 이 구간을 206 으로
+   */
+  function parseRange(header, size) {
+    if (!header || typeof header !== "string") return null;
+    // 다중 범위(`bytes=0-9,20-29`)는 multipart 응답이 필요해 다루지 않는다.
+    // Range 를 무시하고 전체를 주는 것도 규격상 허용이라 그쪽이 안전하다.
+    var m = /^bytes=(\d*)-(\d*)$/.exec(header.trim());
+    if (!m) return null;
+    var start;
+    var end;
+    if (m[1] === "") {
+      // `bytes=-500` = 끝에서 500바이트.
+      var suffix = Number(m[2]);
+      if (!m[2] || suffix <= 0) return { ok: false };
+      start = Math.max(0, size - suffix);
+      end = size - 1;
+    } else {
+      start = Number(m[1]);
+      end = m[2] === "" ? size - 1 : Number(m[2]);
+      if (end > size - 1) end = size - 1; // 끝을 넘겨 달라고 해도 파일 끝까지만
+    }
+    if (!(start >= 0) || start > end || start >= size) return { ok: false };
+    return { ok: true, start: start, end: end };
   }
 
   root.swStrategy = {
     CACHE_NAME: CACHE_NAME,
     PRECACHE: PRECACHE,
     MAX_STATIC_ENTRIES: MAX_STATIC_ENTRIES,
+    MEDIA_CACHE: MEDIA_CACHE,
+    MAX_MEDIA_BYTES: MAX_MEDIA_BYTES,
+    MEDIA_BUDGET_BYTES: MEDIA_BUDGET_BYTES,
+    parseRange: parseRange,
     OFFLINE_URL: "/offline.html",
     decide: decide,
   };

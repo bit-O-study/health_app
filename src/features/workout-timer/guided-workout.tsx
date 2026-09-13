@@ -89,6 +89,9 @@ import { OverloadHint } from "@/features/routine/components/overload-hint";
 import type { OverloadAdvice } from "@/features/routine/overload-advice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { callIdempotentAction } from "@/lib/actions/resilient-action";
+import { seoulYmd } from "@/features/routine/data";
+import { enqueuePending } from "@/lib/offline/pending-queue";
+import type { PendingWrite } from "@/lib/offline/pending-writes";
 import { reportAppEvent } from "@/lib/observability/report-client";
 import { weightStepKg } from "@/features/routine/progress";
 import { PlateHint } from "@/features/routine/components/plate-hint";
@@ -163,6 +166,55 @@ function failureKey(item: GuidedItem): string {
   return item.kind === "main"
     ? `main:${item.rowId}`
     : `${item.kind}:${item.rowId}:${item.itemId}`;
+}
+
+/**
+ * 오프라인 대기 큐에 담을 모양으로 바꾼다.
+ *
+ * 🔴 `forDate` 를 **여기서** 박는다. 큐는 나중에 올라가는데 날짜를 서버에 맡기면
+ * 자정 넘겨 동기화된 세트가 하루 밀린다(주간 세트·부위 밸런스가 통째로 어긋난다).
+ * 지금 누른 순간의 서울 날짜가 맞는 날짜다.
+ */
+function toPendingWrite(
+  item: GuidedItem,
+  status: "done" | "skipped",
+): PendingWrite {
+  const base = {
+    key: failureKey(item),
+    name: item.name,
+    status,
+    forDate: seoulYmd(),
+    queuedAt: Date.now(),
+  };
+  if (item.kind === "main") {
+    return {
+      ...base,
+      kind: "main",
+      rowId: item.rowId,
+      snapshot: {
+        exerciseId: item.exerciseId,
+        equipment: item.equipment,
+        sets: item.sets,
+        reps: item.reps,
+        weightKg: item.weightKg,
+        focus: item.focus,
+      },
+    };
+  }
+  return {
+    ...base,
+    kind: "conditioning",
+    condKind: item.kind,
+    rowId: item.rowId,
+    itemId: item.itemId,
+    snapshot: {
+      durationMin: item.durationMin,
+      speed: item.speed,
+      incline: item.incline,
+      sets: item.sets,
+      reps: item.reps,
+    },
+  };
 }
 
 /** 항목의 실사 시연 사진(2프레임). 본운동=기구별 매핑, 워밍업·마무리=컨디셔닝 매핑. */
@@ -770,7 +822,14 @@ export function GuidedOverlay({
         return;
       }
       if (await onAllComplete?.() === false) {
-        setFinishError("운동 시간을 저장하지 못했어요. 다시 시도해 주세요.");
+        // 🔴 오프라인이면 "다시 시도해 주세요" 가 거짓말이다 — 세트 기록은 이미
+        //   기기에 담겨 자동으로 올라가고, 지금 사용자가 할 수 있는 건 없다.
+        //   (운동 '시간' 만 못 남는다. 세트가 남으면 기록·통계는 온전하다.)
+        setFinishError(
+          typeof navigator !== "undefined" && navigator.onLine === false
+            ? "오프라인이라 운동 시간은 못 남겼어요. 세트 기록은 저장돼 연결되면 올라갑니다."
+            : "운동 시간을 저장하지 못했어요. 다시 시도해 주세요.",
+        );
         return;
       }
       clearActiveRow();
@@ -810,6 +869,17 @@ export function GuidedOverlay({
     const key = failureKey(captured);
     /** 운동 기록이 안 남는 건 사용자가 제일 크게 손해 보는 실패다 — 관측에 남긴다. */
     function noteFailure(error: string) {
+      // 🔴 **오프라인이면 '실패' 가 아니라 '대기' 다.** 헬스장 지하에서 세트를 치면
+      //   여기로 떨어지는데, 예전엔 빨간 배너로 "다시 시도" 를 시키고 그 기록을
+      //   이 화면 메모리에만 뒀다 — 화면을 벗어나거나 앱이 죽으면 그대로 사라졌다.
+      //   이제 기기에 적어 두고(전역 배너가 비춘다) 연결되면 알아서 올라간다.
+      //   사용자가 할 일이 없는 상태에 빨간 재시도 버튼을 띄우지 않는다.
+      if (typeof navigator !== "undefined" && navigator.onLine === false) {
+        enqueuePending(toPendingWrite(captured, status));
+        failedSavesRef.current.delete(key);
+        setFailures((f) => f.filter((x) => x.key !== key));
+        return;
+      }
       failedSavesRef.current.set(key, { key, name: captured.name, status, captured, error });
       setFailures((f) => [
         ...f.filter((x) => x.key !== key),

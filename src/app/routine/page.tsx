@@ -64,6 +64,9 @@ import {
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
 import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
+import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
+import type { WeeklyTrainingView } from "@/features/routine/weekly-training-view";
+import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
 import type { WeeklyReport } from "@/features/routine/weekly-report";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
@@ -143,7 +146,7 @@ export default async function Home() {
   // 오늘 계획도 profile·routine 과 독립적이므로 최초 데이터 왕복에 함께 시작한다.
   const todayYmd = seoulYmd();
   if (user) warmTodayExercisesData(todayYmd);
-  const [profile, routine, dailyPlan, weekly, trainerComments] = user
+  const [profile, routine, dailyPlan, weekly, trainerComments, training] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
@@ -153,8 +156,10 @@ export default async function Home() {
         getWeeklyReport(todayYmd),
         // 트레이너 코멘트도 같은 물결에. 대부분 0건이라 화면에 아무것도 안 그린다.
         getMyTrainerComments(3),
+        // 훈련 분석은 주간 요약과 같은 완료 기록을 본다(React.cache 로 왕복 1회).
+        getMyWeeklyTraining(),
       ])
-    : [null, null, [], null, []];
+    : [null, null, [], null, [], null];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -193,6 +198,7 @@ export default async function Home() {
             profile={profile}
             dailyPlan={dailyPlan}
             weekly={weekly}
+            training={training}
           />
         )}
       </main>
@@ -266,6 +272,7 @@ function TodayWorkout({
   profile,
   dailyPlan,
   weekly,
+  training,
 }: {
   routine: {
     splits: number;
@@ -284,6 +291,8 @@ function TodayWorkout({
   dailyPlan: DailyPlanRow[];
   /** 로그인 전/집계 실패 시 null — 없는 카드는 그리지 않는다. */
   weekly: WeeklyReport | null;
+  /** 이번 주 부위별 훈련량. 같은 이유로 null 이면 안 그린다. */
+  training: WeeklyTrainingView | null;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -546,6 +555,14 @@ function TodayWorkout({
         {/* 이번 주 한눈에 — 홈·캘린더와 **같은 카드/같은 집계**의 간단형.
             운동탭이 '오늘'만 말하고 끝나면 이번 주 흐름이 안 보인다. */}
         {weekly ? <WeeklyReportCard report={weekly} compact /> : null}
+
+        {/* 어느 부위가 비었는지 — 오늘 무엇을 담을지 정하는 그 자리에 둔다. */}
+        {training ? (
+          <WeeklyTrainingSummary
+            regions={training.regions}
+            weekSets={training.weekSets}
+          />
+        ) : null}
 
         {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
         <UpcomingSevenDaysGrid

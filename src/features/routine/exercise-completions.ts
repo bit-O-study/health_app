@@ -31,6 +31,12 @@ export type ExerciseCompletionRow = {
   exerciseId: string | null;
   status: CompletionStatus;
   focus: string | null;
+  /**
+   * 완료 시점 기구. 🔴 **증량 단위가 이걸로 갈린다** — 바벨·머신 5kg, 덤벨 등 1kg,
+   * 모르면 2kg. 예전엔 이 조회가 기구를 안 읽어서 성장 그래프는 +2kg 를,
+   * 운동모드는 +5kg 를 권했다(같은 운동, 같은 기록인데 화면마다 다른 값).
+   */
+  equipment: string | null;
   sets: number | null;
   reps: number | null;
   weightKg: number | null;
@@ -49,6 +55,7 @@ type Row = {
   exercise_id: string | null;
   status: string;
   focus: string | null;
+  equipment?: unknown;
   sets: number | null;
   reps: number | null;
   weight_kg: number | string | null;
@@ -178,7 +185,7 @@ export async function getRecentExerciseCompletions(
   const { data, error } = await supabase
     .from("exercise_completions")
     .select(
-      "for_date, exercise_row_id, exercise_id, status, focus, sets, reps, weight_kg, set_details",
+      "for_date, exercise_row_id, exercise_id, status, focus, equipment, sets, reps, weight_kg, set_details",
     )
     .eq("user_id", user.id)
     .gte("for_date", fromStr)
@@ -191,6 +198,7 @@ export async function getRecentExerciseCompletions(
     exerciseId: r.exercise_id ?? null,
     status: toStatus(r.status),
     focus: r.focus ?? null,
+    equipment: typeof r.equipment === "string" ? r.equipment : null,
     sets: r.sets ?? null,
     reps: r.reps ?? null,
     weightKg: num(r.weight_kg ?? null),
@@ -234,7 +242,7 @@ export const getRecentDoneRecords = cache(
       .slice(0, 10);
     const { data, error } = await supabase
       .from("exercise_completions")
-      .select("exercise_id, sets, reps, weight_kg, set_details, for_date")
+      .select("exercise_id, equipment, sets, reps, weight_kg, set_details, for_date")
       .eq("user_id", user.id)
       .eq("status", "done")
       .gte("for_date", since)
@@ -244,6 +252,7 @@ export const getRecentDoneRecords = cache(
     return (
       data as {
         exercise_id: string | null;
+        equipment?: unknown;
         sets: number | null;
         reps: number | null;
         weight_kg: number | string | null;
@@ -254,6 +263,8 @@ export const getRecentDoneRecords = cache(
       forDate: r.for_date,
       exerciseId: r.exercise_id ?? null,
       status: "done" as const,
+      // 증량 단위가 기구로 갈린다 — 안 읽으면 과부하 추천이 기본 단위(2kg)로 떨어진다.
+      equipment: typeof r.equipment === "string" ? r.equipment : null,
       sets: r.sets ?? null,
       reps: r.reps ?? null,
       weightKg: num(r.weight_kg ?? null),

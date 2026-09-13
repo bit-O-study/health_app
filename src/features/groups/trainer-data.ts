@@ -14,6 +14,11 @@ import { getUserRoutine } from "@/features/routine/data-access";
 import { resolveMemberName } from "@/features/groups/member-name";
 import { weekRange } from "@/features/groups/ranking";
 import { sortForTrainer, type TrainerMember } from "@/features/groups/trainer-board";
+import { parseSetDetails } from "@/features/routine/set-details";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { REGION_LIST, type Region } from "@/features/routine/score";
+import { setsByRegion, type SetRecord } from "@/features/routine/training-volume";
+import { REGION_LABEL_KO } from "@/features/routine/weekly-training-view";
 import type { TrainerComment } from "@/features/groups/trainer-comment";
 
 export type TrainerBoard = {
@@ -95,6 +100,16 @@ export async function getTrainerBoard(groupId: string): Promise<TrainerBoard | n
     nameOf.set(p.user_id, resolveMemberName(p.nickname, p.name, dispOf.get(p.user_id)));
   }
 
+  // 이번 주 완료 기록을 **회원 전원 한 번에** 읽어 부위별 세트를 센다.
+  // 회원마다 따로 물으면 인원수만큼 왕복이 늘고, 상세 화면에 하나씩 들어가 보는 것과
+  // 다를 게 없어진다(그게 지금 문제다). RLS(group mates read)가 열람을 막아 준다.
+  const untouchedOf = await untouchedRegionsByMember(
+    supabase,
+    memberRows.map((r) => r.user_id),
+    from,
+    to,
+  );
+
   const rows = ((stats ?? []) as Row[])
     // 트레이너 자신은 담당 회원이 아니다 — 자기를 챙기라고 띄울 이유가 없다.
     .filter((r) => r.user_id !== user.id)
@@ -108,6 +123,7 @@ export async function getTrainerBoard(groupId: string): Promise<TrainerBoard | n
       lastWorkout: r.last_workout ? r.last_workout.slice(0, 10) : null,
       weightFirst: dec(r.weight_first),
       weightLast: dec(r.weight_last),
+      untouchedRegions: untouchedOf.get(r.user_id) ?? [],
     }));
 
   return {
@@ -263,4 +279,64 @@ export async function getMyTrainerComments(limit = 5): Promise<TrainerComment[]>
     createdAt: r.created_at,
     fromName: nameOf.get(`${r.group_id}:${r.trainer_id}`) || "트레이너",
   }));
+}
+
+/**
+ * 회원별 **이번 주 한 세트도 안 한 부위** 라벨.
+ *
+ * 판정은 내 점수 화면·회원 상세와 **같은 함수**(`setsByRegion`)를 쓴다 — 목록에서
+ * "하체 0세트"라고 해 놓고 상세에 들어가면 숫자가 다르면 아무도 그 화면을 안 믿는다.
+ *
+ * 기록이 아예 없는 회원은 빈 배열로 둔다. 그런 회원에게 필요한 말은 "가슴 0세트"가
+ * 아니라 "며칠째 기록 없음"이고, 그 판단은 `attentionOf` 가 한다.
+ */
+async function untouchedRegionsByMember(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  memberIds: string[],
+  fromYmd: string,
+  toYmd: string,
+): Promise<Map<string, string[]>> {
+  const out = new Map<string, string[]>();
+  if (memberIds.length === 0) return out;
+
+  const { data, error } = await supabase
+    .from("exercise_completions")
+    .select("user_id, for_date, exercise_id, focus, sets, set_details")
+    .in("user_id", memberIds)
+    .eq("status", "done")
+    .gte("for_date", fromYmd)
+    .lte("for_date", toYmd);
+  if (error || !data) return out;
+
+  const byUser = new Map<string, SetRecord[]>();
+  for (const r of data as {
+    user_id: string;
+    for_date: string;
+    exercise_id: string | null;
+    focus: string | null;
+    sets: number | null;
+    set_details?: unknown;
+  }[]) {
+    const list = byUser.get(r.user_id) ?? [];
+    list.push({
+      forDate: r.for_date,
+      exerciseId: r.exercise_id,
+      focus: r.focus,
+      sets: r.sets,
+      setDetails: parseSetDetails(r.set_details),
+    });
+    byUser.set(r.user_id, list);
+  }
+
+  const subsOf = (id: string) => subMusclesForExercise(id).map((s) => s.id);
+  for (const [userId, records] of byUser) {
+    const sets = setsByRegion(records, subsOf, fromYmd, toYmd);
+    out.set(
+      userId,
+      REGION_LIST.filter((r: Region) => sets[r] === 0).map(
+        (r) => REGION_LABEL_KO[r],
+      ),
+    );
+  }
+  return out;
 }

@@ -30,7 +30,12 @@ export function RunLeaderboard({
   const [board, setBoard] = useState<GroupRunLeaderboard | null>(null);
   const [live, setLive] = useState(0);
   const sessionRef = useRef(getSessionMeters);
-  sessionRef.current = getSessionMeters;
+  // 최신 콜백을 ref 에 담아 두는 건 아래 1초 인터벌을 매 렌더마다 다시 걸지 않기 위해서다.
+  // 대입은 **커밋 후에** 한다 — 렌더 중에 쓰면 버려지는 렌더의 콜백이 남을 수 있고,
+  // 이 ref 는 인터벌(커밋 이후에만 도는 코드)에서만 읽으므로 effect 로 충분하다.
+  useEffect(() => {
+    sessionRef.current = getSessionMeters;
+  }, [getSessionMeters]);
 
   // 그룹 순위 데이터 로드 + 15초마다 갱신(다른 사람도 달릴 수 있으니).
   useEffect(() => {

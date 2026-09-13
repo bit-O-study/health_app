@@ -99,11 +99,91 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const rafRef = useRef(0);
   const lastDetectRef = useRef(0); // 얼굴 감지 마지막 시각(ms) — 20Hz 로 솎기
   const phaseRef = useRef<Phase>("intro");
-  phaseRef.current = phase;
   const playStartRef = useRef(0);
   const sessionIdRef = useRef("");
   const distRef = useRef<HTMLSpanElement | null>(null);
   const mapRef = useRef<HTMLSpanElement | null>(null);
+
+  /** 비전 루프 — 머리 수직 흔들림으로 달리기 강도. 풍경/캐릭터 전진은 ZenScene 이 runRef 로. */
+  function visionLoop(ts: number) {
+    const v = videoRef.current;
+    const landmarker = landmarkerRef.current as {
+      detectForVideo: (
+        v: HTMLVideoElement,
+        ts: number,
+      ) => { faceLandmarks?: { x: number; y: number }[][] };
+    } | null;
+    // 추론은 20Hz 로 솎아낸다(팅김 완화). 보간은 아래에서 매 프레임 계속 → 움직임은 그대로 부드럽다.
+    if (
+      v &&
+      landmarker &&
+      v.readyState >= 2 &&
+      ts - lastDetectRef.current >= DETECT_INTERVAL_MS
+    ) {
+      lastDetectRef.current = ts;
+      const res = landmarker.detectForVideo(v, ts);
+      const lm = res.faceLandmarks?.[0];
+      const noseY = lm?.[1]?.y;
+      if (typeof noseY === "number") {
+        const hist = headYRef.current;
+        hist.push(noseY);
+        if (hist.length > HEAD_Y_HISTORY) hist.shift();
+        targetRef.current = runIntensityFromBounce(hist);
+      }
+    }
+    // 부드럽게 보간 — 달리면 캐릭터가 달리고 멈추면 같이 멈춘다.
+    runRef.current += (targetRef.current - runRef.current) * 0.15;
+    if (phaseRef.current !== "done") {
+      rafRef.current = requestAnimationFrame(visionLoop);
+    }
+  }
+
+  /** 복귀 시 카메라 스트림이 죽었으면 다시 획득하고 감지 루프를 재개(세션은 유지). */
+  async function resumeCamera() {
+    const v = videoRef.current;
+    if (!v) return;
+    try {
+      const cur = v.srcObject as MediaStream | null;
+      const alive = cur?.getTracks().some((t) => t.readyState === "live");
+      if (!alive) {
+        const s = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: 640, height: 480 },
+          audio: false,
+        });
+        v.srcObject = s;
+      }
+      await v.play().catch(() => {});
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(visionLoop);
+    } catch {
+      /* 재획득 실패 — 시간은 계속 흐르고, 사용자가 다시 눌러 복구 가능 */
+    }
+  }
+
+  function stopCamera() {
+    cancelAnimationFrame(rafRef.current);
+    if (tickRef.current) {
+      clearInterval(tickRef.current);
+      tickRef.current = null;
+    }
+    const stream = videoRef.current?.srcObject as MediaStream | null;
+    stream?.getTracks().forEach((t) => t.stop());
+    // MediaPipe FaceLandmarker(WASM+GPU) 해제 — 안 하면 재진입마다 네이티브 메모리 누적(팅김).
+    (landmarkerRef.current as { close?: () => void } | null)?.close?.();
+    landmarkerRef.current = null;
+  }
+
+  // 🔴 phaseRef 는 **렌더 중이 아니라 커밋 후에** 맞춘다.
+  //   이 ref 를 읽는 두 곳은 모두 "지금 화면이 정말 그 상태인가"에 의존한다 —
+  //   visionLoop 는 매 프레임 `phaseRef.current !== "done"` 일 때만 다음 RAF 를 예약하고,
+  //   visibilitychange 는 `"playing"` 일 때만 카메라를 다시 잡는다.
+  //   예전엔 렌더 도중에 대입했는데, 그러면 **버려지는 렌더**(동시성 렌더에서 중단되거나
+  //   StrictMode 가 두 번 호출하는 렌더)의 phase 가 ref 에 남아 커밋된 화면과 어긋난다.
+  //   그 순간 루프가 멈춰야 하는데 안 멈추면 RAF 가 계속 돌아 카메라·WASM 을 붙잡는다
+  //   (재진입마다 쌓이는 그 누수가 '팅김'으로 나타난다).
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -145,41 +225,6 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
     return () => document.removeEventListener("visibilitychange", onVisible);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  /** 복귀 시 카메라 스트림이 죽었으면 다시 획득하고 감지 루프를 재개(세션은 유지). */
-  async function resumeCamera() {
-    const v = videoRef.current;
-    if (!v) return;
-    try {
-      const cur = v.srcObject as MediaStream | null;
-      const alive = cur?.getTracks().some((t) => t.readyState === "live");
-      if (!alive) {
-        const s = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "user", width: 640, height: 480 },
-          audio: false,
-        });
-        v.srcObject = s;
-      }
-      await v.play().catch(() => {});
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(visionLoop);
-    } catch {
-      /* 재획득 실패 — 시간은 계속 흐르고, 사용자가 다시 눌러 복구 가능 */
-    }
-  }
-
-  function stopCamera() {
-    cancelAnimationFrame(rafRef.current);
-    if (tickRef.current) {
-      clearInterval(tickRef.current);
-      tickRef.current = null;
-    }
-    const stream = videoRef.current?.srcObject as MediaStream | null;
-    stream?.getTracks().forEach((t) => t.stop());
-    // MediaPipe FaceLandmarker(WASM+GPU) 해제 — 안 하면 재진입마다 네이티브 메모리 누적(팅김).
-    (landmarkerRef.current as { close?: () => void } | null)?.close?.();
-    landmarkerRef.current = null;
-  }
 
   async function start(restored?: RunCheckpoint) {
     setError(null);
@@ -257,40 +302,6 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
           : `시작 실패: ${msg}`,
       );
       setPhase("error");
-    }
-  }
-
-  /** 비전 루프 — 머리 수직 흔들림으로 달리기 강도. 풍경/캐릭터 전진은 ZenScene 이 runRef 로. */
-  function visionLoop(ts: number) {
-    const v = videoRef.current;
-    const landmarker = landmarkerRef.current as {
-      detectForVideo: (
-        v: HTMLVideoElement,
-        ts: number,
-      ) => { faceLandmarks?: { x: number; y: number }[][] };
-    } | null;
-    // 추론은 20Hz 로 솎아낸다(팅김 완화). 보간은 아래에서 매 프레임 계속 → 움직임은 그대로 부드럽다.
-    if (
-      v &&
-      landmarker &&
-      v.readyState >= 2 &&
-      ts - lastDetectRef.current >= DETECT_INTERVAL_MS
-    ) {
-      lastDetectRef.current = ts;
-      const res = landmarker.detectForVideo(v, ts);
-      const lm = res.faceLandmarks?.[0];
-      const noseY = lm?.[1]?.y;
-      if (typeof noseY === "number") {
-        const hist = headYRef.current;
-        hist.push(noseY);
-        if (hist.length > HEAD_Y_HISTORY) hist.shift();
-        targetRef.current = runIntensityFromBounce(hist);
-      }
-    }
-    // 부드럽게 보간 — 달리면 캐릭터가 달리고 멈추면 같이 멈춘다.
-    runRef.current += (targetRef.current - runRef.current) * 0.15;
-    if (phaseRef.current !== "done") {
-      rafRef.current = requestAnimationFrame(visionLoop);
     }
   }
 

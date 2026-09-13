@@ -17,6 +17,14 @@ describe.skipIf(!hasDbCreds)("폭주 제한 가드(라이브 DB)", () => {
   // 실제 트래픽과 절대 겹치지 않는 열쇠.
   const BUCKET = "test:rate-limit-guard";
   const KEY = `guard-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  /**
+   * 🔴 창(window)은 **지금 시각**으로 잡는다. 고정된 옛 값(2025-09 같은)을 쓰면
+   * `consume_rate_limit` 이 호출마다 1% 확률로 도는 "하루 지난 창 청소"에
+   * **검사 중인 행이 지워진다.** 다른 트래픽(E2E 등)이 같이 돌 때만 터져서
+   * "단독 실행은 통과, 전체 실행은 실패" 로 나타났다(2026-09-09 원인 규명).
+   */
+  const WIN = Math.floor(Date.now() / 1000);
+  const WIN2 = WIN + 600;
 
   beforeAll(async () => {
     client = makeClient();
@@ -82,7 +90,7 @@ describe.skipIf(!hasDbCreds)("폭주 제한 가드(라이브 DB)", () => {
   });
 
   it("한도까지는 통과하고 그 다음부터 막는다", async () => {
-    const win = 1_757_000_000;
+    const win = WIN;
     const limit = 3;
     const call = async () =>
       (
@@ -105,7 +113,7 @@ describe.skipIf(!hasDbCreds)("폭주 제한 가드(라이브 DB)", () => {
     const r = await rows<{ count: number }>(
       `select count from public.rate_limits
         where bucket = $1 and key = $2 and window_start = $3`,
-      [BUCKET, KEY, 1_757_000_000],
+      [BUCKET, KEY, WIN],
     );
     expect(Number(r[0]?.count)).toBe(3);
   });
@@ -113,7 +121,7 @@ describe.skipIf(!hasDbCreds)("폭주 제한 가드(라이브 DB)", () => {
   it("창이 바뀌면 새로 시작한다", async () => {
     const next = await rows<{ consume_rate_limit: boolean }>(
       `select public.consume_rate_limit($1, $2, $3, $4)`,
-      [BUCKET, KEY, 1_757_000_600, 3],
+      [BUCKET, KEY, WIN2, 3],
     );
     expect(next[0]?.consume_rate_limit).toBe(true);
   });
@@ -121,7 +129,7 @@ describe.skipIf(!hasDbCreds)("폭주 제한 가드(라이브 DB)", () => {
   it("열쇠가 다르면 서로의 한도를 갉아먹지 않는다", async () => {
     const other = await rows<{ consume_rate_limit: boolean }>(
       `select public.consume_rate_limit($1, $2, $3, $4)`,
-      [BUCKET, `${KEY}-other`, 1_757_000_000, 3],
+      [BUCKET, `${KEY}-other`, WIN, 3],
     );
     expect(other[0]?.consume_rate_limit).toBe(true);
   });

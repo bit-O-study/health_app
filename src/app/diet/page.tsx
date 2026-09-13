@@ -2,11 +2,17 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
-import { getFoodLogsForDate, getMealPhotosForDate } from "@/features/diet/data-access";
+import {
+  getFoodLogsForDate,
+  getMealPhotosForDate,
+  getWaterForDate,
+} from "@/features/diet/data-access";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { dailyTarget } from "@/features/diet/calorie-target";
 import { seoulYmd } from "@/features/routine/data";
 import { DietBoard } from "@/features/diet/components/diet-board";
+import { WaterCard } from "@/features/diet/components/water-card";
+import { dailyWaterTargetMl } from "@/features/diet/water";
 
 export const dynamic = "force-dynamic";
 
@@ -32,10 +38,11 @@ export default async function DietPage({
   //    시절엔 70~90ms 였다). 큰 값은 아니지만 순차 왕복은 화면마다 쌓이고, 무엇보다
   //    **먼저 기다릴 이유가 없는 걸 기다리는** 모양이라 바로잡는다.
   //    (로그인·온보딩 리다이렉트는 결과를 받은 뒤 판단해도 동작이 같다.)
-  const [profile, logs, mealPhotos, aiScanEnabled] = await Promise.all([
+  const [profile, logs, mealPhotos, waterMl, aiScanEnabled] = await Promise.all([
     getUserProfile(),
     getFoodLogsForDate(date),
     getMealPhotosForDate(date),
+    getWaterForDate(date),
     isDebugFeatureEnabled("diet-photo-ai"),
   ]);
   if (!profile) redirect("/onboarding");
@@ -47,6 +54,16 @@ export default async function DietPage({
 
   return (
     <main className="app-page app-container">
+      {/* 수분은 `DietBoard` 밖에 둔다 — 그쪽 낙관적 상태(수정 중인 음식 줄)와 섞이면
+          예전처럼 편집이 깨진다. 서로 아무것도 공유하지 않는 편이 안전하다. */}
+      <div className="mb-3">
+        <WaterCard
+          key={date}
+          date={date}
+          initialMl={waterMl}
+          targetMl={dailyWaterTargetMl(profile.weightKg)}
+        />
+      </div>
       <DietBoard
         key={date}
         date={date}

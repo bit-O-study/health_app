@@ -66,6 +66,9 @@ export default async function ProgressPage() {
       forDate: c.forDate,
       exerciseId: c.exerciseId,
       status: "done",
+      // 증량 단위(바벨 5kg / 덤벨 1kg)가 기구로 갈린다 — 안 넘기면 기본 2kg 로 떨어져
+      // 운동모드와 다른 증량을 권하게 된다.
+      equipment: c.equipment,
       sets: c.sets,
       reps: c.reps,
       weightKg: c.weightKg,

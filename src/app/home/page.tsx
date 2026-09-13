@@ -20,6 +20,8 @@ import { DietExerciseCard } from "@/features/home/components/diet-exercise-card"
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
 import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
+import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
+import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
 import { WeatherBackground } from "@/features/home/components/weather-background";
 
 export const dynamic = "force-dynamic";
@@ -36,11 +38,13 @@ export default async function HomePage() {
   // ⚡ 프로필과 대시보드 조회를 **동시에** 시작한다. 예전엔 프로필을 먼저 await 하고
   //   그 값을 넘겨줘서 원거리 리전(싱가포르) 왕복이 한 파 더 붙었다.
   //   프로필 조회는 `React.cache` 라 대시보드 안에서 다시 불러도 왕복은 1회다.
-  const [profile, dashboard, weekly] = await Promise.all([
+  const [profile, dashboard, weekly, training] = await Promise.all([
     getUserProfile(),
     getHomeDashboard(),
     // 주간 요약도 같이 시작한다 — 순서대로 기다리면 원거리 리전 왕복이 한 파 늘어난다.
     getWeeklyReport(),
+    // 훈련 분석은 주간 리포트와 **같은 완료 기록**을 본다(React.cache 로 왕복 1회).
+    getMyWeeklyTraining(),
   ]);
   if (!profile) redirect("/onboarding");
 
@@ -136,6 +140,14 @@ export default async function HomePage() {
             </Link>
 
             <WeeklyReportCard report={weekly} />
+
+            {/* 이번 주 어디를 안 했는지 한 줄. 전체 분석은 눌러서 점수 화면으로. */}
+            {training ? (
+              <WeeklyTrainingSummary
+                regions={training.regions}
+                weekSets={training.weekSets}
+              />
+            ) : null}
 
             <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
           </div>

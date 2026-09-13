@@ -14,7 +14,7 @@ import type {
   ShareConditioning,
   ShareExercise,
 } from "@/features/routine-share/share";
-import { previewLine } from "@/features/routine-share/share";
+import { applyTargetLabels, previewLine } from "@/features/routine-share/share";
 
 export type { ApplyTarget, RoutineShareItem };
 
@@ -150,7 +150,7 @@ export async function getApplyTargets(): Promise<ApplyTarget[]> {
     .map(([dayIndex, v]) => ({
       dayIndex,
       focus: v.focus,
-      label: `${dayIndex + 1}일차 · ${v.labels.join(" · ")}`,
+      ...applyTargetLabels(dayIndex, v.labels),
       exerciseCount: countOf.get(dayIndex) ?? 0,
     }));
 }

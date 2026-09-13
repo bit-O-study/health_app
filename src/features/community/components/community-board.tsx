@@ -200,9 +200,6 @@ export function CommunityBoard({
                 <ShareDayButton
                   key={target.dayIndex}
                   dayIndex={target.dayIndex}
-                  // 🔴 제목 기본값에는 일차를 안 넣는다 — "1일차" 는 **쓰는 사람의
-                  //    루틴에서만** 뜻이 있고 읽는 사람에게는 아무 의미가 없다.
-                  defaultTitle={target.title}
                   groups={groups}
                   label={`${target.label} 추천글 쓰기`}
                 />

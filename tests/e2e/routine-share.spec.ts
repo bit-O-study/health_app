@@ -22,10 +22,17 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
   const sheet = page.locator("div").filter({ hasText: /^이 일차를 소개하기/ }).last();
   await expect(page.getByText("이 일차를 소개하기")).toBeVisible();
 
-  // 제목은 "1일차 · <부위>" 로 미리 채워져 있다 — 알아보기 쉽게 바꿔서 올린다.
+  // 제목은 자동으로 채워지지 않고, 비어 있으면 '올리기' 를 못 누른다.
   const title = page.getByLabel(/제목/).or(sheet.locator("input").first());
+  const submit = page.getByRole("button", { name: "올리기" });
+  await expect(title).toHaveValue("");
+  await expect(submit).toBeDisabled();
+  await title.fill("   ");
+  await expect(submit).toBeDisabled();
+
   await title.fill("E2E 소개 루틴");
-  await page.getByRole("button", { name: "올리기" }).click();
+  await expect(submit).toBeEnabled();
+  await submit.click();
 
   await expect(page.getByText("소개글을 올렸어요")).toBeVisible({ timeout: 15_000 });
   await page.getByRole("button", { name: "확인" }).click();

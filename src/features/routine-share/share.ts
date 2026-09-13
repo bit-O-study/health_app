@@ -69,24 +69,18 @@ export type ApplyTarget = {
   focus: string;
   /** 일차 선택 시트에 뜨는 줄 — "1일차 · 등". 여기선 몇 일차인지가 정보다. */
   label: string;
-  /**
-   * 추천글 **제목 기본값** — "등" (일차 없음).
-   *
-   * 🔴 제목에 "1일차" 를 넣으면 안 된다. 그 숫자는 **쓰는 사람의 루틴에서만** 뜻이 있고,
-   * 읽는 사람에게는 아무 의미가 없다(내 3일차가 남의 3일차와 같을 이유가 없다).
-   * 고르는 자리(label)와 남에게 보이는 자리(title)를 나눈다.
-   */
-  title: string;
   exerciseCount: number;
 };
 
-/** 일차 + 부위 이름들 → 화면에 쓰는 두 문구. 순수 함수라 테스트가 잡는다. */
+/**
+ * 일차 + 부위 이름들 → 고르는 줄 문구. 순수 함수라 테스트가 잡는다.
+ * 추천글 제목은 여기서 만들지 않는다 — 사용자가 직접 쓴다(2026-09-13, 자동 제목 제거).
+ */
 export function applyTargetLabels(
   dayIndex: number,
   focusNames: readonly string[],
-): { label: string; title: string } {
-  const title = focusNames.join(" · ");
-  return { label: `${dayIndex + 1}일차 · ${title}`, title };
+): { label: string } {
+  return { label: `${dayIndex + 1}일차 · ${focusNames.join(" · ")}` };
 }
 
 export const MAX_TITLE = 60;

@@ -17,13 +17,10 @@ import type { Visibility } from "@/features/community/feed";
  */
 export function ShareDayButton({
   dayIndex,
-  defaultTitle,
   groups,
   label = "소개하기",
 }: {
   dayIndex: number;
-  /** "1일차 · 등" 같은 기본 제목(사용자가 고칠 수 있음). */
-  defaultTitle: string;
   groups: { id: string; name: string }[];
   label?: string;
 }) {
@@ -41,7 +38,6 @@ export function ShareDayButton({
       {open ? (
         <ShareDaySheet
           dayIndex={dayIndex}
-          defaultTitle={defaultTitle}
           groups={groups}
           onClose={() => setOpen(false)}
         />
@@ -52,16 +48,17 @@ export function ShareDayButton({
 
 function ShareDaySheet({
   dayIndex,
-  defaultTitle,
   groups,
   onClose,
 }: {
   dayIndex: number;
-  defaultTitle: string;
   groups: { id: string; name: string }[];
   onClose: () => void;
 }) {
-  const [title, setTitle] = useState(defaultTitle);
+  // 제목은 비워서 연다 — 자동으로 채우면 그대로 올려 버려 제목이 다 똑같아진다.
+  // 제목이 없으면 '올리기' 를 막는다(서버 validateShareText 도 한 번 더 막는다).
+  const [title, setTitle] = useState("");
+  const titleMissing = title.trim() === "";
   const [caption, setCaption] = useState("");
   const [includeWeight, setIncludeWeight] = useState(false);
   const [visibility, setVisibility] = useState<Visibility>("public");
@@ -129,16 +126,18 @@ function ShareDaySheet({
             </p>
 
             <label className="mt-4 block text-xs font-bold text-zinc-700 dark:text-zinc-300">
-              제목
+              제목 <span className="text-red-500">*</span>
               <input
                 value={title}
                 maxLength={MAX_TITLE}
+                required
+                placeholder="예: 초보자 등 루틴"
                 onChange={(e) => {
                   setTitle(e.target.value);
                   setError(null);
                 }}
                 disabled={pending}
-                className="mt-1 h-11 w-full rounded-lg border border-zinc-300 bg-white px-3 text-sm font-medium text-zinc-800 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+                className="mt-1 h-11 w-full rounded-lg border border-zinc-300 bg-white px-3 text-sm font-medium text-zinc-800 placeholder:text-zinc-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
               />
             </label>
 
@@ -228,7 +227,7 @@ function ShareDaySheet({
               <button
                 type="button"
                 onClick={submit}
-                disabled={pending}
+                disabled={pending || titleMissing}
                 className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-sm font-bold text-white disabled:opacity-60"
               >
                 {pending ? (

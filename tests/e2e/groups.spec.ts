@@ -181,9 +181,22 @@ test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다",
   await pageB.goto(`/groups/join/${token}`);
   // 초대 확인 화면 — '확인'을 눌러 가입한다(위 시나리오와 같은 흐름).
   await pageB.getByRole("button", { name: "확인" }).click();
-  // ⚠ 가입 후 이동은 클라이언트 내비게이션이라 `waitForURL`(기본 load 대기)이 흔들린다.
-  //    화면에 그룹 이름이 뜨는 걸로 본다.
-  await expect(pageB.getByText(name).first()).toBeVisible({ timeout: 15000 });
+  // 🔴 화면으로 기다리면 안 된다. **초대 확인 화면 자체가 그룹 이름을 보여 주기 때문에**
+  //    `getByText(name)` 은 가입이 끝나기 전에 이미 통과한다 — 그러면 뒤따르는
+  //    "회원이 1명 보인다" 가 아직 없는 회원을 찾다가 실패한다(실제로 그렇게 깨졌다).
+  //    가입 여부는 DB 로 본다.
+  await expect
+    .poll(
+      async () =>
+        (
+          await dbQuery<{ n: string }>(
+            `select count(*)::text n from public.group_members where group_id=$1`,
+            [groupId],
+          )
+        )[0].n,
+      { timeout: 20000 },
+    )
+    .toBe("2");
 
   // 🔴 멤버에게는 화면이 안 열린다.
   await pageB.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });

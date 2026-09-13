@@ -12,6 +12,8 @@ export type RoutineExerciseWriteRow = {
   weightKg: number | null;
   setDetails?: unknown;
   memo?: string | null;
+  /** 슈퍼세트 묶음 번호(1~99). null/생략 = 단독. */
+  supersetGroup?: number | null;
 };
 
 export type RoutineExerciseWriteGroup = {

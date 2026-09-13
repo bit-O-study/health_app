@@ -33,6 +33,8 @@ export const NOTIFICATION_KINDS = [
   "trainer-comment",
   /** 세트 사이 휴식 타이머(기기 로컬 알림). */
   "rest-timer",
+  /** 이번 주 아직 안 한 부위(주말에 한 번). */
+  "weekly-balance",
 ] as const;
 
 export type NotificationKind = (typeof NOTIFICATION_KINDS)[number];
@@ -60,6 +62,10 @@ export const NOTIFICATION_LABEL: Record<
   "workout-inactivity": {
     title: "운동 종료 확인",
     desc: "운동 중 오래 멈춰 있으면 종료할지 물어봐요.",
+  },
+  "weekly-balance": {
+    title: "주간 부위 균형",
+    desc: "이번 주 아직 안 한 부위가 있으면 주말에 한 번 알려드려요.",
   },
   "group-activity": {
     title: "그룹 소식",
@@ -94,7 +100,11 @@ export const PUSH_TYPE_TO_KIND: Record<string, NotificationKind> = {
   "reminder-diet": "diet-reminder",
   "workout-end": "workout-inactivity",
   "weekly-mvp": "group-activity",
-  "group-reaction": "group-activity",
+  // 그룹원이 남긴 응원. 여기 없으면 **설정에서 못 끄는 알림**이 된다(2026-09-09 발견).
+  "group-cheer": "group-activity",
+  // (예전에 "group-reaction" 이 있었는데 그런 알림을 보내는 코드가 없었다 —
+  //  안 쓰는 매핑은 "이 알림이 있다"는 오해를 남기므로 지웠다. 반응 알림을 만들면
+  //  그때 다시 넣는다. 전수 가드가 안 넣으면 실패시킨다.)
   "routine-saved": "routine-saved",
   "routine-assigned": "routine-assigned",
   "trainer-comment": "trainer-comment",
@@ -132,6 +142,7 @@ export const DEFAULT_PREFERENCES: NotificationPreferences = {
     "routine-assigned": true,
     "trainer-comment": true,
     "rest-timer": true,
+    "weekly-balance": true,
   },
   quietHours: true,
   quietStartHour: 22,
@@ -148,6 +159,7 @@ export type PreferenceRow = {
   routine_assigned?: unknown;
   trainer_comment?: unknown;
   rest_timer?: unknown;
+  weekly_balance?: unknown;
   quiet_hours?: unknown;
   quiet_start_hour?: unknown;
   quiet_end_hour?: unknown;
@@ -162,6 +174,7 @@ const ROW_KEY: Record<NotificationKind, keyof PreferenceRow> = {
   "routine-assigned": "routine_assigned",
   "trainer-comment": "trainer_comment",
   "rest-timer": "rest_timer",
+  "weekly-balance": "weekly_balance",
 };
 
 /**
@@ -217,6 +230,7 @@ export function toPreferenceRow(
     routine_assigned: prefs.kinds["routine-assigned"],
     trainer_comment: prefs.kinds["trainer-comment"],
     rest_timer: prefs.kinds["rest-timer"],
+    weekly_balance: prefs.kinds["weekly-balance"],
     quiet_hours: prefs.quietHours,
     quiet_start_hour: prefs.quietStartHour,
     quiet_end_hour: prefs.quietEndHour,

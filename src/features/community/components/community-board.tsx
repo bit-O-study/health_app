@@ -197,7 +197,15 @@ export function CommunityBoard({
             </div>
             <div className="mt-4 flex flex-col gap-2">
               {applyTargets.map((target) => (
-                <ShareDayButton key={target.dayIndex} dayIndex={target.dayIndex} defaultTitle={target.label} groups={groups} label={`${target.dayIndex + 1}일차 추천글 쓰기`} />
+                <ShareDayButton
+                  key={target.dayIndex}
+                  dayIndex={target.dayIndex}
+                  // 🔴 제목 기본값에는 일차를 안 넣는다 — "1일차" 는 **쓰는 사람의
+                  //    루틴에서만** 뜻이 있고 읽는 사람에게는 아무 의미가 없다.
+                  defaultTitle={target.title}
+                  groups={groups}
+                  label={`${target.label} 추천글 쓰기`}
+                />
               ))}
               {applyTargets.length === 0 ? <p className="py-6 text-center text-sm text-zinc-500">먼저 내 루틴을 설정해주세요.</p> : null}
             </div>

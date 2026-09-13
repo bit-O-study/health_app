@@ -47,8 +47,9 @@ import {
   exerciseCompletionKey,
 } from "@/features/routine/completion-match";
 import { orderMainPlan } from "@/features/routine/plan-order";
+import { normalizeGroups } from "@/features/workout-timer/superset";
 import { isTimedExercise } from "@/features/routine/timed-exercises";
-import { getExerciseMediaMapAll } from "@/features/exercises/exercise-media";
+import { getExerciseMediaMapAll, selectExerciseMedia } from "@/features/exercises/exercise-media";
 import { summarizeSetDetails } from "@/features/routine/set-details";
 import {
   conditioningCompletionKey,
@@ -204,6 +205,7 @@ export async function TodayExercises({
         weightKg: d.weightKg,
         setDetails: d.setDetails,
         memo: d.memo,
+        supersetGroup: d.supersetGroup,
       }));
     }
     // 밀린 날은 담지 않은 부위의 기본 본운동을 자동으로 채우지 않는다.
@@ -300,6 +302,8 @@ export async function TodayExercises({
         weightKg: c.weightKg,
         setDetails: c.setDetails,
         memo: null as string | null,
+        // 이미 완료해 아래로 내려간 운동 — 묶음 진행은 끝났으니 단독으로 둔다.
+        supersetGroup: null as number | null,
       };
     });
   // 활성 운동(위) + 완료로 남은 운동(아래) 순. 이후 계산은 이 합본을 기준으로 한다.
@@ -557,7 +561,10 @@ export async function TodayExercises({
       memo: wi.memo,
     });
   }
-  for (const p of plan) {
+  // 🔴 묶음 번호는 편집기에서 부위별로 매겨진다 — 저장된 번호를 그대로 믿으면
+  //    가슴 1번과 등 1번이 큐에서 맞닿았을 때 한 묶음으로 보인다. 여기서 다시 매긴다.
+  const supersetIds = normalizeGroups(plan);
+  for (const [planIndex, p] of plan.entries()) {
     if (mainDoneSet.has(p.id) || mainSkipSet.has(p.id))
       doneOrSkippedIds.push(p.id);
     const ex = getCatalogExercise(p.exerciseId);
@@ -594,12 +601,8 @@ export async function TodayExercises({
               gym ? new Set(gym.equipmentIds) : null,
             )
           : [],
-      media: mediaMap.get(p.exerciseId)
-        ? {
-            url: mediaMap.get(p.exerciseId)!.url,
-            kind: mediaMap.get(p.exerciseId)!.kind,
-          }
-        : null,
+      media: selectExerciseMedia(mediaMap.get(p.exerciseId), p.equipment),
+      supersetGroup: supersetIds[planIndex],
     });
   }
   for (const ci2 of cool.items) {

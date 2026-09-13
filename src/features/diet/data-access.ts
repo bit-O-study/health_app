@@ -105,3 +105,22 @@ export const getMealPhotosForDate = cache(async function getMealPhotosForDate(
   }
   return out;
 });
+
+/** 특정 날짜의 누적 수분(ml). 기록이 없으면 0. */
+export const getWaterForDate = cache(async function getWaterForDate(
+  dateYmd: string,
+): Promise<number> {
+  const user = await getCurrentUser();
+  if (!user) return 0;
+  const supabase = await createSupabaseServerClient();
+
+  const { data, error } = await supabase
+    .from("water_logs")
+    .select("ml")
+    .eq("user_id", user.id)
+    .eq("for_date", dateYmd)
+    .maybeSingle();
+  if (error || !data) return 0;
+  const n = Number(data.ml);
+  return Number.isFinite(n) ? n : 0;
+});

@@ -7,6 +7,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
+import { resolveForDate } from "@/lib/offline/queued-date";
 import { isConditioningKind } from "@/features/routine/conditioning-catalog";
 import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import type { StatusActionResult } from "@/features/routine/completion-result";
@@ -29,6 +30,8 @@ export async function setConditioningStatusAction(
   itemId: string,
   status: CompletionStatus | "clear",
   snapshot?: CondSnapshot,
+  /** 오프라인 대기 큐가 나중에 올릴 때 누른 순간의 날짜. 서버가 오늘/어제로 가둔다. */
+  forDate?: string,
 ): Promise<StatusActionResult> {
   if (!isConditioningKind(kind) || !sourceRowId || !itemId) return { ok: true };
 
@@ -36,7 +39,8 @@ export async function setConditioningStatusAction(
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const today = seoulYmd();
+  // 큐가 올린 기록은 올린 날이 아니라 친 날에 들어가야 한다(setExerciseStatusAction 과 동일).
+  const today = resolveForDate(forDate, seoulYmd());
 
   // 이 '행(source_row_id)' 의 기존 기록만 제거하고 새로 넣는다.
   // ⚠ 예전엔 (kind,item_id) 로도 함께 지웠는데, 루틴에 같은 항목(예: 러닝)이 여러 개

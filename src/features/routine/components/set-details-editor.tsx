@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
 
+import { PlateHint } from "@/features/routine/components/plate-hint";
 import type { SetDetail } from "@/features/routine/set-details";
 
 type Draft = { weight: string; reps: string };
@@ -26,6 +27,7 @@ export function SetDetailsEditor({
   reps,
   weight,
   setDetails,
+  equipment,
   disabled = false,
   onlySets = false,
   onUniformChange,
@@ -36,6 +38,8 @@ export function SetDetailsEditor({
   /** 균일 모드 무게 입력값(문자열, 빈칸=맨몸) */
   weight: string;
   setDetails: SetDetail[] | null;
+  /** 원판 안내용 기구. 바벨·스미스·랜드마인이 아니면 안내를 안 그린다. */
+  equipment?: string | null;
   disabled?: boolean;
   /** 무게·횟수 '고정' 끔 — 세트 수만 입력받고 무게/횟수/세트별은 숨긴다(운동모드에서 설정). */
   onlySets?: boolean;
@@ -205,6 +209,16 @@ export function SetDetailsEditor({
           >
             세트별 다르게
           </button>
+          {/* 원판 구성 — 바벨·스미스·랜드마인일 때만. 세트별 모드에서는 안 그린다:
+              세트마다 무게가 다른데 줄마다 안내를 붙이면 20세트에서 화면이 안내로 덮인다.
+              그 경우 필요한 안내는 실제로 끼우는 순간(운동모드)에 나온다. */}
+          <div className="basis-full">
+            <PlateHint
+              weightKg={weight.trim() === "" ? null : Number(weight)}
+              equipment={equipment}
+              compact
+            />
+          </div>
         </div>
       )}
     </div>

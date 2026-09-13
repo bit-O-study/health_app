@@ -560,6 +560,16 @@ begin
            and jsonb_typeof(v_row -> 'memo') not in ('string', 'null') then
           raise exception using errcode = '22000', message = 'INVALID_ROW';
         end if;
+        -- 슈퍼세트 묶음 번호. 컬럼 제약(1~99)에 맡기지 않고 여기서 걸러 다른 잘못된
+        -- 행들과 같은 INVALID_ROW 로 보고한다(호출부가 메시지 하나만 다루면 된다).
+        if v_row ? 'supersetGroup'
+           and jsonb_typeof(v_row -> 'supersetGroup') not in ('number', 'null') then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        if jsonb_typeof(v_row -> 'supersetGroup') = 'number'
+           and (v_row ->> 'supersetGroup')::integer not between 1 and 99 then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
       end loop;
     exception when others then
       raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
@@ -597,7 +607,7 @@ begin
 
       insert into public.routine_exercises (
         id, user_id, day_index, focus, position, exercise_id, equipment,
-        sets, reps, weight_kg, set_details, memo
+        sets, reps, weight_kg, set_details, memo, superset_group
       ) values (
         v_new_id,
         v_user_id,
@@ -615,6 +625,11 @@ begin
         end,
         case
           when jsonb_typeof(v_row -> 'memo') = 'string' then v_row ->> 'memo'
+          else null
+        end,
+        case
+          when jsonb_typeof(v_row -> 'supersetGroup') = 'number'
+            then (v_row ->> 'supersetGroup')::smallint
           else null
         end
       )
@@ -3842,6 +3857,9 @@ create table if not exists public.notification_preferences (
   -- 트레이너가 남긴 코멘트. 배정과 따로 끈다(하나는 루틴 변경, 하나는 말이다).
   trainer_comment boolean not null default true,
   rest_timer boolean not null default true,
+  -- 이번 주 아직 안 한 부위 알림(주말에 한 번). 리마인더와 따로 끈다 —
+  -- 하나는 "오늘 나와라", 하나는 "나오긴 했는데 하체를 빼먹고 있다" 로 성격이 다르다.
+  weekly_balance boolean not null default true,
   quiet_hours boolean not null default true,
   quiet_start_hour smallint not null default 22
     check (quiet_start_hour >= 0 and quiet_start_hour <= 23),
@@ -3850,6 +3868,8 @@ create table if not exists public.notification_preferences (
   updated_at timestamptz not null default now()
 );
 -- 기존 DB 보정 — 표는 이미 있으므로 컬럼만 더한다.
+alter table public.notification_preferences
+  add column if not exists weekly_balance boolean not null default true;
 alter table public.notification_preferences
   add column if not exists routine_assigned boolean not null default true;
 alter table public.notification_preferences
@@ -4018,4 +4038,95 @@ revoke all on function public.consume_rate_limit(text, text, bigint, int) from p
 grant execute on function public.consume_rate_limit(text, text, bigint, int)
   to anon, authenticated;
 
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 익명(anon) 실행 권한 정리 — 2026-09-09.
+--
+-- 🔴 Supabase 는 public 스키마 함수에 **anon 실행권한을 기본으로 준다**(default
+--    privileges). 그래서 아무것도 안 적으면 로그인도 안 한 사람이 SECURITY DEFINER
+--    함수를 그대로 부를 수 있다. 아래는 **로그인해야만 쓰는 기능**이라 회수한다.
+--
+-- ⚠ 반대로 **회수하면 안 되는 것들**이 있다. 이유가 두 가지라 헷갈리기 쉽다:
+--    1) 로그인 **전** 흐름이 쓴다 — `find_login_email` · `request_password_otp` ·
+--       `verify_otp_and_reset`(아이디/비번 찾기) · `group_name_by_token`(초대 미리보기) ·
+--       `consume_rate_limit`(그 흐름들을 보호하는 폭주 제한이 로그인 전에 돈다).
+--    2) **RLS 정책 안에서 불린다** — 정책 식은 조회하는 사람의 권한으로 평가되므로,
+--       회수하면 anon 조회가 통째로 오류가 난다:
+--       `is_admin` · `is_group_member` · `is_post_moderator` · `shares_group_with` ·
+--       `can_see_community_post`.
+--    3) `/community` · `/groups` 는 보호 경로가 아니라 비로그인도 닿는다 →
+--       `community_post_counts` · `teaching_post_counts` · `group_mode` 도 남긴다.
+--
+-- (자매앱 함수 `iq_*` 는 이 저장소가 안 쓴다 — 그쪽 저장소에서 판단할 일이라 안 건드린다.)
+-- 🔴 `from anon` 만으로는 **안 빠진다.** 기본 권한은 `PUBLIC` 에 붙어 있어서
+--    anon 은 PUBLIC 을 통해 계속 부를 수 있다(실측으로 확인). PUBLIC 에서 회수한 뒤
+--    로그인 사용자에게 **명시적으로** 다시 줘야 한다 — 안 그러면 로그인 사용자까지 막힌다.
+revoke execute on function public.bump_routine_share_saves(uuid) from public, anon;
+grant execute on function public.bump_routine_share_saves(uuid) to authenticated;
+revoke execute on function public.consume_ai_quota(text, text, int) from public, anon;
+grant execute on function public.consume_ai_quota(text, text, int) to authenticated;
+revoke execute on function public.join_group_by_token(text) from public, anon;
+grant execute on function public.join_group_by_token(text) to authenticated;
+revoke execute on function public.debug_feature_enabled(text) from public, anon;
+grant execute on function public.debug_feature_enabled(text) to authenticated;
+revoke execute on function public.is_debug_account() from public, anon;
+grant execute on function public.is_debug_account() to authenticated;
+
+-- ─── 슈퍼세트 ──────────────────────────────────────────────────────────
+-- 같은 값이면 한 묶음(쉬지 않고 번갈아 한다). null = 단독 운동.
+-- 🔴 묶음은 **붙어 있는 줄끼리만** 성립한다 — 사이에 다른 운동이 끼면 그건 순환이지
+-- 슈퍼세트가 아니다. 붙어 있는지는 앱이 판정한다(position 은 부위 안에서만 유일).
+alter table public.routine_exercises
+  add column if not exists superset_group smallint
+  check (superset_group is null or (superset_group >= 1 and superset_group <= 99));
+alter table public.daily_plan
+  add column if not exists superset_group smallint
+  check (superset_group is null or (superset_group >= 1 and superset_group <= 99));
+
+-- ─── 수분 섭취 ─────────────────────────────────────────────────────────
+-- 하루 한 행의 **누적 ml**. "몇 시에 얼마 마셨나" 는 아무도 안 보고, 행을 쌓으면
+-- 되돌리기·합계가 전부 왕복 여러 번이 된다. 컵 하나는 upsert 한 번이면 끝난다.
+create table if not exists public.water_logs (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  ml int not null default 0 check (ml >= 0 and ml <= 10000),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+alter table public.water_logs enable row level security;
+drop policy if exists "own water logs" on public.water_logs;
+create policy "own water logs" on public.water_logs
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- 🔴 더하기·빼기를 **한 문장으로**. 읽고 나서 쓰면 컵을 연타할 때 사이에 다른
+-- 요청이 끼어들어 한 잔이 사라진다(같은 하루·같은 행을 두 요청이 동시에 만진다).
+-- 0 아래·하루 최대 위로는 안 나가게 여기서 자른다 — 클라이언트를 믿지 않는다.
+create or replace function public.add_water_ml(p_date date, p_delta int)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_ml int;
+begin
+  if auth.uid() is null then
+    raise exception 'auth required';
+  end if;
+  insert into public.water_logs (user_id, for_date, ml, updated_at)
+  values (auth.uid(), p_date, greatest(0, least(10000, p_delta)), now())
+  on conflict (user_id, for_date) do update
+    set ml = greatest(0, least(10000, public.water_logs.ml + p_delta)),
+        updated_at = now()
+  returning ml into v_ml;
+  return v_ml;
+end;
+$$;
+revoke execute on function public.add_water_ml(date, int) from public, anon;
+grant execute on function public.add_water_ml(date, int) to authenticated;
+
+-- `rls_auto_enable` 은 **유지보수용**이다 — 로그인 사용자도 부를 이유가 없다.
+-- 소유자(service_role)만 남긴다.
+revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
 notify pgrst, 'reload schema';

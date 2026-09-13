@@ -9,6 +9,7 @@ import { PWARegister } from "@/app/_pwa-register";
 import { RouteKeeper } from "@/app/_route-keeper";
 import { AppEventReporter } from "@/features/observability/components/app-event-reporter";
 import { BottomNav } from "@/components/bottom-nav";
+import { OfflineBanner } from "@/components/offline-banner";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
@@ -98,6 +99,9 @@ export default async function RootLayout({
       <body className="min-h-full flex flex-col">
         <NotificationCenterProvider>
           <AppSplash />
+          {/* 오프라인 대기 기록 배너 — 담는 곳은 운동모드지만 올릴 수 있게 되는
+              순간은 어느 화면에서든 온다. 큐가 비어 있으면 아무것도 안 그린다. */}
+          {isLoggedIn ? <OfflineBanner /> : null}
           {children}
           {isLoggedIn ? (
             <Suspense fallback={<BottomNav />}>

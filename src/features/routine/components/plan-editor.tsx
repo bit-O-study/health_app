@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Fragment,
   useCallback,
   useEffect,
   useRef,
@@ -57,6 +58,16 @@ import type { ConditioningRow } from "@/features/routine/conditioning";
 import { ConditioningEditor } from "@/features/routine/components/conditioning-editor";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
 import {
+  SupersetBadge,
+  SupersetLink,
+} from "@/features/routine/components/superset-link";
+import {
+  isSupersetGroup,
+  linkWithNext,
+  splitAfter,
+  supersetLabel,
+} from "@/features/workout-timer/superset";
+import {
   armSwapBlockReason,
   saveSnapshotStillCurrent,
   type ConditioningMutationState,
@@ -101,6 +112,8 @@ type Row = {
   reps: number;
   weight: string;
   setDetails: SetDetail[] | null;
+  /** 슈퍼세트 묶음 번호. 같은 값이 **붙어 있으면** 한 묶음, null = 단독. */
+  supersetGroup: number | null;
 };
 
 function toRow(item: PlanExercise): Row {
@@ -111,6 +124,7 @@ function toRow(item: PlanExercise): Row {
     reps: item.reps,
     weight: item.weightKg === null ? "" : String(item.weightKg),
     setDetails: item.setDetails,
+    supersetGroup: item.supersetGroup,
   };
 }
 
@@ -446,6 +460,7 @@ export function PlanEditor({
         reps: 10,
         weight: "",
         setDetails: null,
+        supersetGroup: null,
       },
     ]);
   }
@@ -515,6 +530,7 @@ export function PlanEditor({
             reps: p.reps,
             weight: p.weightKg === null ? "" : String(p.weightKg),
             setDetails: null,
+            supersetGroup: null,
           };
         });
         update(f.key, next);
@@ -669,6 +685,7 @@ export function PlanEditor({
           reps: r.reps,
           weightKg: r.weight.trim() === "" ? null : Number(r.weight),
           setDetails: r.setDetails,
+          supersetGroup: r.supersetGroup,
         })),
       }));
       const res = await saveManualPlanAction(groups, routineUpdatedAt);
@@ -964,9 +981,14 @@ export function PlanEditor({
                       const rows = plans[f.key] ?? [];
                       const ex = detailsById[row.exerciseId] ?? options[0];
                       const isDragging = drag?.key === f.key && drag.from === idx;
+                      // 슈퍼세트는 **같은 부위 안에서 붙어 있는 줄끼리만** 묶는다.
+                      const linkedNext =
+                        isSupersetGroup(row.supersetGroup) &&
+                        rows[idx + 1]?.supersetGroup === row.supersetGroup;
+                      const badge = supersetLabel(rows, idx);
                       return (
+                        <Fragment key={`${f.key}-${idx}`}>
                         <div
-                          key={`${f.key}-${idx}`}
                           data-testid={`plan-row-${f.key}-${idx}`}
                           ref={(el) => {
                             if (!rowRefs.current[f.key]) rowRefs.current[f.key] = [];
@@ -998,6 +1020,7 @@ export function PlanEditor({
                             <GripVertical aria-hidden="true" size={16} />
                           </button>
                           <span className="flex shrink-0 flex-wrap gap-1">
+                            {badge ? <SupersetBadge label={badge} /> : null}
                             {(() => {
                               const major = majorMuscleTag(row.exerciseId);
                               return (
@@ -1065,6 +1088,7 @@ export function PlanEditor({
                             reps={row.reps}
                             weight={row.weight}
                             setDetails={row.setDetails}
+                            equipment={row.equipment}
                             onlySets={!lockWeightReps}
                             onUniformChange={(patch) => {
                               const next = [...rows];
@@ -1114,6 +1138,20 @@ export function PlanEditor({
                             </div>
                           ) : null}
                         </div>
+                        {idx + 1 < rows.length ? (
+                          <SupersetLink
+                            linked={linkedNext}
+                            onToggle={() =>
+                              update(
+                                f.key,
+                                linkedNext
+                                  ? splitAfter(rows, idx)
+                                  : linkWithNext(rows, idx),
+                              )
+                            }
+                          />
+                        ) : null}
+                        </Fragment>
                       );
                     })}
                   </div>

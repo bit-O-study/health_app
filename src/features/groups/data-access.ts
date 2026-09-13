@@ -17,6 +17,12 @@ import {
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { seoulYmd } from "@/features/routine/data";
 import { resolveMemberName } from "@/features/groups/member-name";
+import { parseSetDetails } from "@/features/routine/set-details";
+import {
+  buildWeeklyTrainingView,
+  type WeeklyTrainingView,
+} from "@/features/routine/weekly-training-view";
+import type { ExperienceLevel } from "@/features/profile/data";
 import {
   weekRange,
   addDaysYmd,
@@ -651,4 +657,82 @@ export async function getGroupMemberDay(
     mealPhotos,
     workouts,
   };
+}
+
+/**
+ * 같은 그룹원의 **이번 주 훈련 분석** — 트레이너가 회원 화면에서 본다.
+ *
+ * 지금까지 트레이너는 회원의 **오늘 하루치**(`getGroupMemberDay`)만 볼 수 있었다.
+ * 어디가 모자란지 말해 주려면 최소한 한 주는 봐야 하고, "등 11일째 안 함" 같은 말을
+ * 하려면 그 주 밖까지 봐야 한다 — 그래서 60일을 읽어 같은 빌더에 넘긴다.
+ *
+ * 내가 그룹원이 아니거나 상대가 멤버가 아니면 null. 실제 열람 권한은 RLS
+ * (`group mates read exercise completions`)가 다시 한 번 막는다 — 여기 검사는
+ * "못 볼 사람에게 빈 화면 대신 안내를 보여주기" 위한 것이지 보안 경계가 아니다.
+ */
+export async function getGroupMemberWeeklyTraining(
+  groupId: string,
+  memberId: string,
+): Promise<WeeklyTrainingView | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+  const supabase = await createSupabaseServerClient();
+
+  const { data: members } = await supabase
+    .from("group_members")
+    .select("user_id")
+    .eq("group_id", groupId);
+  const ids = ((members ?? []) as { user_id: string }[]).map((r) => r.user_id);
+  if (!ids.includes(user.id) || !ids.includes(memberId)) return null;
+
+  const today = seoulYmd();
+  const from = addDaysYmd(today, -60);
+  // 경력은 정체 판정의 목표 횟수를 정한다 — 없으면 그 항목만 비고 나머지는 그대로 나온다.
+  const [{ data, error }, { data: prof }] = await Promise.all([
+    supabase
+      .from("exercise_completions")
+      .select("for_date, exercise_id, focus, equipment, sets, reps, weight_kg, set_details")
+      .eq("user_id", memberId)
+      .eq("status", "done")
+      .gte("for_date", from)
+      .lte("for_date", today),
+    supabase
+      .from("profiles")
+      .select("experience")
+      .eq("user_id", memberId)
+      .maybeSingle(),
+  ]);
+  if (error) return null;
+
+  const rows = (data ?? []) as {
+    for_date: string;
+    exercise_id: string | null;
+    focus: string | null;
+    equipment?: unknown;
+    sets: number | null;
+    reps: number | null;
+    weight_kg: number | string | null;
+    set_details?: unknown;
+  }[];
+  const experience = (prof as { experience?: unknown } | null)?.experience;
+
+  return buildWeeklyTrainingView(
+    rows.map((r) => ({
+      forDate: r.for_date,
+      exerciseId: r.exercise_id,
+      focus: r.focus,
+      equipment: typeof r.equipment === "string" ? r.equipment : null,
+      sets: r.sets,
+      reps: r.reps,
+      weightKg: num(r.weight_kg),
+      setDetails: parseSetDetails(r.set_details),
+    })),
+    today,
+    isExperienceLevel(experience) ? experience : undefined,
+  );
+}
+
+/** 프로필 경력 값인가 — 남의 행이라 형태를 믿지 않는다. */
+function isExperienceLevel(v: unknown): v is ExperienceLevel {
+  return v === "beginner" || v === "intermediate" || v === "advanced";
 }

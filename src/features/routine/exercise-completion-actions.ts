@@ -11,6 +11,7 @@ import type { CompletionStatus } from "@/features/routine/exercise-completions";
 import type { SetDetail } from "@/features/routine/set-details";
 import type { StatusActionResult } from "@/features/routine/completion-result";
 import { pickCompletionToClear } from "@/features/routine/completion-clear";
+import { resolveForDate } from "@/lib/offline/queued-date";
 
 export type CompletionSnapshot = {
   exerciseId: string;
@@ -31,13 +32,20 @@ export async function setExerciseStatusAction(
   exerciseRowId: string,
   status: CompletionStatus | "clear",
   snapshot?: CompletionSnapshot,
+  /**
+   * 오프라인 대기 큐가 나중에 올릴 때 **누른 순간의 날짜**(YYYY-MM-DD).
+   * 안 넘기면 오늘. 넘겨도 서버가 오늘/어제로 가둔다 — `resolveForDate` 참고.
+   */
+  forDate?: string,
 ): Promise<StatusActionResult> {
   if (!exerciseRowId) return { ok: true };
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const today = seoulYmd();
+  // 🔴 큐가 올린 기록은 **올린 날이 아니라 친 날**에 들어가야 한다. 안 그러면
+  //   자정 넘겨 동기화된 세트가 하루 밀려 주간 분석이 어긋난다.
+  const today = resolveForDate(forDate, seoulYmd());
 
   // supabase 클라이언트는 에러를 throw 하지 않고 { error } 로 돌려준다.
   // 이전엔 이를 무시해 RLS/스키마 실패가 조용히 묻혔다 — 반드시 확인해 반환한다.

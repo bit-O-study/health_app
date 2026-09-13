@@ -14,6 +14,22 @@ import {
   splitAlreadySent,
 } from "@/features/notifications/dedup";
 import {
+  balanceNudgeFor,
+  isNudgeDay,
+  weeklyBalanceKey,
+  type BalancePayload,
+} from "@/features/notifications/weekly-balance";
+import { REGION_LIST, type Region } from "@/features/routine/score";
+import { subMusclesForExercise } from "@/features/routine/muscle-detail";
+import { parseSetDetails } from "@/features/routine/set-details";
+import {
+  addDays,
+  setsByRegion,
+  weekStartOf,
+  type SetRecord,
+} from "@/features/routine/training-volume";
+import { REGION_LABEL_KO } from "@/features/routine/weekly-training-view";
+import {
   loadSentKeys,
   markSent,
   purgeOldSends,
@@ -135,10 +151,24 @@ export async function GET(req: Request) {
       optedOut += res.blocked;
     }
 
+    // ── 토요일이면 주간 부위 균형도 같은 실행에서 판정한다(별도 cron 은 못 둔다 —
+    //    Vercel Hobby 는 cron 두 개까지고 두 자리를 이미 쓰고 있다).
+    //    🔴 **리마인더가 나갈 사람에게는 안 보낸다.** 저녁에 알림이 둘 연달아 뜨는 게
+    //       사람들이 알림 자체를 꺼 버리는 바로 그 이유다. 마침 이 알림이 필요한 쪽도
+    //       "나오고는 있는데 한쪽만 하는 사람" 이라 리마인더 대상과 겹치지 않는다.
+    const balance = isNudgeDay(todayYmd)
+      ? await balanceTargets(
+          admin,
+          todayYmd,
+          new Set(targets.map((t) => t.userId)),
+          hour,
+        )
+      : { targets: [] as BalanceTarget[], deduped: 0 };
+
     // 대상자 기기를 한 번에 읽고(사용자당 2회 → 전체 몇 회), 발송은 제한 동시성으로.
     const devices = await loadDevices(
       admin,
-      targets.map((t) => t.userId),
+      [...targets, ...balance.targets].map((t) => t.userId),
     );
     let failed = 0;
     let firstFailure: string | null = null;
@@ -161,8 +191,25 @@ export async function GET(req: Request) {
       },
     );
 
+    const balanceResults = await mapWithConcurrency(
+      balance.targets,
+      USER_CONCURRENCY,
+      async (t) => {
+        try {
+          return await notifyDevices(admin, devices.get(t.userId), t.payload);
+        } catch (err) {
+          failed += 1;
+          firstFailure ??= failureReason(err);
+          return false;
+        }
+      },
+    );
+
     // 실제로 나간 것만 기록 — 기기가 없던 사람은 남기지 않는다(기기 등록 후 받게).
-    const delivered = targets.filter((_, i) => results[i]);
+    const delivered = [
+      ...targets.filter((_, i) => results[i]),
+      ...balance.targets.filter((_, i) => balanceResults[i]),
+    ];
     await markSent(admin, delivered);
     await purgeOldSends(admin);
     // 실사용 오류 기록도 같은 자리에서 보존기간을 넘긴 것만 정리한다(로드맵 1.3).
@@ -171,11 +218,11 @@ export async function GET(req: Request) {
     return {
       counts: {
         scanned: rows.length,
-        targeted: targets.length,
+        targeted: targets.length + balance.targets.length,
         sent: delivered.length,
         // 설정으로 끈 사람도 '보내지 않음' 이라 중복제외와 같은 칸에 센다
         // (관리자 화면에서 "왜 안 갔나" 를 볼 때 둘 다 같은 성격이다).
-        deduped: deduped + optedOut,
+        deduped: deduped + optedOut + balance.deduped,
         failed,
       },
       body: {
@@ -224,4 +271,84 @@ function isRestDay(r: RoutineRow, todayYmd: string): boolean {
   );
   const offset = routineDayOffset(r.start_date, todayYmd);
   return variant.week[offset]?.tone === "rest";
+}
+
+type BalanceTarget = { userId: string; key: string; payload: BalancePayload };
+
+/**
+ * 토요일 주간 부위 균형 알림 대상 — "이번 주 하체를 아직 안 했어요".
+ *
+ * 판정은 점수 화면·트레이너 화면과 **같은 함수**(`setsByRegion`)를 쓴다. 알림이
+ * "하체 0세트" 라고 했는데 앱을 열면 다른 숫자가 있으면 그 알림은 신뢰를 잃는다.
+ *
+ * @param skip 오늘 저녁 하루 리마인더가 나갈 사람들 — 두 번 보내지 않으려고 제외한다.
+ */
+async function balanceTargets(
+  admin: SupabaseClient,
+  todayYmd: string,
+  skip: ReadonlySet<string>,
+  hour: number,
+): Promise<{ targets: BalanceTarget[]; deduped: number }> {
+  const weekStart = weekStartOf(todayYmd);
+  const weekEnd = addDays(weekStart, 6);
+
+  // 이번 주 완료 기록을 한 번에 — 사용자마다 물으면 사람이 늘 때 왕복만으로 제한시간을 넘는다.
+  const rows = await fetchAllPages<{
+    user_id: string;
+    for_date: string;
+    exercise_id: string | null;
+    focus: string | null;
+    sets: number | null;
+    set_details?: unknown;
+  }>((from, to) =>
+    admin
+      .from("exercise_completions")
+      .select("user_id, for_date, exercise_id, focus, sets, set_details")
+      .eq("status", "done")
+      .gte("for_date", weekStart)
+      .lte("for_date", weekEnd)
+      .range(from, to),
+  );
+
+  const byUser = new Map<string, SetRecord[]>();
+  for (const r of rows) {
+    if (skip.has(r.user_id)) continue;
+    const list = byUser.get(r.user_id) ?? [];
+    list.push({
+      forDate: r.for_date,
+      exerciseId: r.exercise_id,
+      focus: r.focus,
+      sets: r.sets,
+      setDetails: parseSetDetails(r.set_details),
+    });
+    byUser.set(r.user_id, list);
+  }
+
+  const subsOf = (id: string) => subMusclesForExercise(id).map((s) => s.id);
+  const key = weeklyBalanceKey(weekStart);
+  const all: BalanceTarget[] = [];
+  for (const [userId, records] of byUser) {
+    const sets = setsByRegion(records, subsOf, weekStart, weekEnd);
+    const payload = balanceNudgeFor({
+      weekSets: REGION_LIST.reduce((sum, r) => sum + sets[r], 0),
+      untouchedLabels: REGION_LIST.filter((r: Region) => sets[r] === 0).map(
+        (r) => REGION_LABEL_KO[r],
+      ),
+    });
+    if (payload) all.push({ userId, key, payload });
+  }
+
+  // 같은 주에 두 번 보내지 않는다 — 크론이 재실행돼도 주당 한 번.
+  const { fresh, deduped } = splitAlreadySent(all, await loadSentKeys(admin, all));
+  const { allowed, blocked } = filterByPreference(
+    fresh,
+    (t) => t.userId,
+    await loadPreferences(
+      admin,
+      fresh.map((t) => t.userId),
+    ),
+    "weekly-balance",
+    hour,
+  );
+  return { targets: allowed, deduped: deduped + blocked };
 }

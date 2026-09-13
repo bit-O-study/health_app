@@ -2,6 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { notifyEnabled, notifyUser } from "@/features/notifications/push-fanout";
+import { loadPreferences } from "@/features/notifications/preferences-data";
+import {
+  DEFAULT_PREFERENCES,
+  decideSend,
+  seoulHour,
+} from "@/features/notifications/preferences";
+
 import {
   createSupabaseServerClient,
   getCurrentUser,
@@ -145,12 +154,17 @@ export async function applyRoutineShareAction(
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("routine_shares")
-    .select("exercises, conditioning")
+    .select("exercises, conditioning, user_id, title")
     .eq("id", shareId)
     .maybeSingle();
   if (error || !data) return { ok: false, error: "소개글을 찾을 수 없습니다." };
 
-  const snap = data as { exercises: unknown; conditioning: unknown };
+  const snap = data as {
+    exercises: unknown;
+    conditioning: unknown;
+    user_id: string;
+    title: string;
+  };
   const exSnap = Array.isArray(snap.exercises)
     ? (snap.exercises as ShareExercise[])
     : [];
@@ -194,6 +208,10 @@ export async function applyRoutineShareAction(
 
   // 담긴 수 +1 — 남의 글이라 update 권한이 없어 security definer rpc 로.
   await supabase.rpc("bump_routine_share_saves", { p_share_id: shareId });
+
+  // 🔴 작성자에게 알린다. 설정 화면에는 '내 루틴 담김' 스위치가 **처음부터 있었는데
+  //    보내는 코드가 없었다**(2026-09-09 발견) — 사용자는 있는 줄 아는 알림이 안 온 것이다.
+  await notifyRoutineSaved(snap.user_id, user.id, snap.title);
 
   revalidatePath("/routine");
   revalidatePath("/plan");
@@ -246,4 +264,37 @@ export async function deleteRoutineShareAction(
   if (error) return { ok: false, error: error.message };
   revalidatePath("/community");
   return { ok: true };
+}
+
+/**
+ * 소개 루틴 작성자에게 "누가 담았어요" 알림.
+ *
+ * 실패는 삼킨다 — 담기는 이미 끝났고, 알림 때문에 되돌릴 일이 아니다.
+ * 자기 글을 자기가 담으면 안 보낸다(자기 행동을 자기에게 알릴 이유가 없다).
+ */
+async function notifyRoutineSaved(
+  authorId: string,
+  saverId: string,
+  title: string,
+): Promise<void> {
+  try {
+    if (authorId === saverId) return;
+    if (!notifyEnabled()) return;
+    const admin = createSupabaseAdminClient();
+    if (!admin) return;
+    const prefs =
+      (await loadPreferences(admin, [authorId])).get(authorId) ?? DEFAULT_PREFERENCES;
+    if (!decideSend(prefs, "routine-saved", seoulHour()).allowed) return;
+
+    await notifyUser(admin, authorId, {
+      type: "routine-saved",
+      title: "내 루틴을 담았어요",
+      // 🔴 담은 사람이 누구인지는 말하지 않는다 — 커뮤니티 글은 익명 열람이 기본이고,
+      //    "누가 봤다"를 알리면 올리기가 부담스러워진다. 무엇이 담겼는지만 말한다.
+      body: `"${title}" 을(를) 누군가 자기 루틴에 담았어요`,
+      url: "/community",
+    });
+  } catch {
+    /* 알림 실패는 무시 */
+  }
 }

@@ -10,6 +10,7 @@ import { DAY_BLOCKS, isDayBlockId } from "@/features/routine/data";
 import { focusForExerciseId } from "@/features/routine/exercise-body-parts";
 import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { muscleGroup } from "@/features/routine/muscle-map";
+import { useBackClose } from "@/lib/platform/use-back-close";
 
 /** 검색 선택 항목 — 본운동(CatalogExercise)·컨디셔닝(ConditioningItem) 공용 최소 형태. */
 export type SearchOption = { id: string; name: string; target?: string };
@@ -41,6 +42,7 @@ export function ExerciseSearchSelect({
   muscleFilter?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  useBackClose(open && !disabled, () => setOpen(false));
   const [mounted, setMounted] = useState(false);
   const [q, setQ] = useState("");
   const [focusPick, setFocusPick] = useState<string | null>(null);

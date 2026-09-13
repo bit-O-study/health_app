@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { Loader2, Video, X } from "lucide-react";
 
 import {
@@ -29,6 +30,7 @@ export function TeachingComposeModal({
   onDone: () => void;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
+  useBackClose(true, onClose);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [tag, setTag] = useState(defaultTag);

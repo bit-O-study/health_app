@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useTransition } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 
@@ -264,6 +265,7 @@ function DayEditor({
   onSave: (patch: CycleLog) => void;
 }) {
   const [isPeriod, setIsPeriod] = useState(log?.isPeriod ?? false);
+  useBackClose(true, onClose);
   const [flow, setFlow] = useState<Flow | null>(log?.flow ?? null);
   const [symptoms, setSymptoms] = useState<string[]>(log?.symptoms ?? []);
   const [note, setNote] = useState(log?.note ?? "");

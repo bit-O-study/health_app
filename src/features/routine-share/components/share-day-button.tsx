@@ -10,6 +10,7 @@ import {
   validateShareText,
 } from "@/features/routine-share/share";
 import type { Visibility } from "@/features/community/feed";
+import { useBackClose } from "@/lib/platform/use-back-close";
 
 /**
  * 현재 루틴(/routine)의 일차를 커뮤니티 › 루틴에 추천글로 올린다.
@@ -59,6 +60,7 @@ function ShareDaySheet({
   // 제목이 없으면 '올리기' 를 막는다(서버 validateShareText 도 한 번 더 막는다).
   const [title, setTitle] = useState("");
   const titleMissing = title.trim() === "";
+  useBackClose(true, onClose);
   const [caption, setCaption] = useState("");
   const [includeWeight, setIncludeWeight] = useState(false);
   const [visibility, setVisibility] = useState<Visibility>("public");

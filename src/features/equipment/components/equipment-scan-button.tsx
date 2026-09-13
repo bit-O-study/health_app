@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ScanSearch, X } from "lucide-react";
 
 import { EquipmentScanner } from "@/features/equipment/components/equipment-scanner";
+import { useBackClose } from "@/lib/platform/use-back-close";
 
 /**
  * '운동 시작' 왼쪽에 놓는 작은 아이콘 버튼 — 누르면 기구 사진 스캐너가 모달로 뜬다.
@@ -11,6 +12,7 @@ import { EquipmentScanner } from "@/features/equipment/components/equipment-scan
  */
 export function EquipmentScanButton() {
   const [open, setOpen] = useState(false);
+  useBackClose(open, () => setOpen(false));
   return (
     <>
       <button

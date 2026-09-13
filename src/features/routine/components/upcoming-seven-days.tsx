@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import { CalendarDays, GripVertical, Loader2 } from "lucide-react";
 
@@ -69,6 +70,7 @@ export function UpcomingSevenDaysGrid({
   const [err, setErr] = useState<string | null>(null);
   // '오늘만 변경' 상태에선 순서변경 불가 — 먼저 '오늘만 해제'를 권하는 확인 모달.
   const [confirmExit, setConfirmExit] = useState(false);
+  useBackClose(confirmExit, () => cancelExit());
 
   function indexFromPoint(clientX: number, clientY: number): number | null {
     const el = document.elementFromPoint(

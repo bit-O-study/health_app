@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Loader2, Search, Send, Sparkles, X } from "lucide-react";
@@ -21,6 +22,7 @@ type Turn = { q: string; hits: SearchHit[] | null };
  */
 export function ExerciseFinder() {
   const [open, setOpen] = useState(false);
+  useBackClose(open, () => setOpen(false));
   const [input, setInput] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [searching, setSearching] = useState(false);

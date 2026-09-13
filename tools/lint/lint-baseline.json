@@ -7,9 +7,6 @@
   "src/features/groups/components/proof-recorder.tsx::react-hooks/set-state-in-effect": 1,
   "src/features/profile/components/rest-sound-picker.tsx::react-hooks/set-state-in-effect": 1,
   "src/features/routine/components/upcoming-seven-days.tsx::react-hooks/refs": 2,
-  "src/features/running/components/run-leaderboard.tsx::react-hooks/refs": 1,
-  "src/features/running/running-game.tsx::react-hooks/immutability": 2,
-  "src/features/running/running-game.tsx::react-hooks/refs": 1,
   "src/features/running/zen-scene.tsx::react-hooks/immutability": 6,
   "src/features/workout-timer/guided-workout.tsx::react-hooks/set-state-in-effect": 1
 }

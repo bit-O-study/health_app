@@ -18,6 +18,19 @@ import {
   retainThreeResource,
 } from "@/lib/media/three-resource";
 
+/**
+ * ⚠ 이 파일에는 린트 기준선(`tools/lint/lint-baseline.json`)에 남은 react-hooks 에러가
+ * 6건 있다 — `scene.background = tex`, `action.timeScale = …`, `hud.map.current.textContent = …`.
+ * **고칠 자리가 아니다.** three.js/r3f 는 객체를 직접 바꾸는 것이 유일한 API 이고,
+ * HUD 도 60fps 로 리렌더하지 않으려고 일부러 DOM 을 직접 쓴다. 린트는 그 객체가
+ * React 상태가 아니라는 걸 모를 뿐이다.
+ *
+ * 🔴 **팅김의 원인은 여기가 아니다.** 실제 누수는 세 가지였고 전부 아래에 고쳐져 있다 —
+ * 수동 생성 텍스처 `dispose`(Sky), GLTF 씬 `disposeThreeObject` + `useGLTF.clear`,
+ * 그리고 `retainThreeResource` 로 마지막 사용자만 해제하기. 린트 6건을 없애겠다고
+ * 이 구조를 건드리면 고쳐 둔 해제 경로가 깨진다.
+ */
+
 /* 캐릭터 모델은 character.ts 한 곳에서 관리(교체 쉽게 — Mixamo 등). 지연 로드라 preload 안전. */
 const ROBOT_URL = CHARACTER_MODEL_URL;
 if (typeof window !== "undefined") useGLTF.preload(ROBOT_URL);

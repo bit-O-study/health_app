@@ -18,7 +18,8 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
   await page.getByRole("button", { name: "루틴", exact: true }).click();
   await page.getByRole("button", { name: "루틴 추천글 쓰기" }).click();
   await expect(page.getByText("내 루틴 추천글 쓰기")).toBeVisible();
-  await page.getByRole("button", { name: "1일차 추천글 쓰기" }).click();
+  // 줄 이름은 "1일차 · <부위> 추천글 쓰기" — 부위는 온보딩 루틴에 따라 달라진다.
+  await page.getByRole("button", { name: /^1일차 · .+ 추천글 쓰기$/ }).click();
   const sheet = page.locator("div").filter({ hasText: /^이 일차를 소개하기/ }).last();
   await expect(page.getByText("이 일차를 소개하기")).toBeVisible();
 
@@ -57,7 +58,11 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
     page.getByRole("button", { name: /^\d+일차에 담기$/ }),
   ).toHaveCount(0);
 
-  const dayRow = page.getByRole("button").filter({ hasText: /^1일차 · / });
+  // 일차 선택 시트 안에서만 찾는다 — 피드 카드 제목도 "1일차 · …" 일 수 있다(라이브 데이터).
+  const picker = page
+    .getByRole("heading", { name: "어느 일차에 담을까요?" })
+    .locator("xpath=..");
+  const dayRow = picker.getByRole("button").filter({ hasText: /^1일차 · / });
   await dayRow.first().click();
 
   // 1일차엔 이미 운동이 있으니 덮어쓰기 확인을 한 번 받는다.

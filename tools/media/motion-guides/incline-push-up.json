@@ -1,0 +1,10 @@
+{
+  "id": "incline-push-up",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/incline-push-up"
+  ],
+  "prompt": "Use case: scientific-educational. Original pearl-gray 3D anatomical mannequin wearing teal shorts gray trainers, plain gray studio, no text/logos/arrows. 16 equal square animation keyframes in strict4columns4rows2048x2048 sheet. Identical fixed three-quarter SIDE camera, all equipment/head/feet within generous margins each panel, same size and coordinates. Sequential phases row-major with no reset on new row. INCLINE PUSH-UP with HANDS elevated on fixed kneeheight sturdy bench, TOES on FLOOR. Side view shows a rigid straight line head/shoulders/hips/heels throughout. Hands just wider than shoulders planted on bench top. Start arms almost straight body diagonal facing bench. Sixteen small successive stages of LOWERING: bend elbows back45degrees from ribs until chest nearly touches bench edge, elbowsabout90degrees. Hands and forefeet remain fixed; body pivots as rigid plank around toes, no hips sag/pike, no knee bend. This is hands-elevated push-up not feet elevated. Entire bench and whole body fit every frame.",
+  "registeredAt": "2026-09-09T07:14:03.310Z"
+}

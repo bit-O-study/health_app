@@ -1,0 +1,10 @@
+{
+  "id": "glute-bridge",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/floor-bridge"
+  ],
+  "prompt": "Exercise animation keyframes16 equal square panels4columns4rows2048x2048. Original pearl gray human mannequin teal shorts and gray shoes. Uniform light gray background, thin exercise mat. Fixed true SIDE camera entire body in each panel, head LEFT feet RIGHT. BODYWEIGHT FLOOR GLUTE BRIDGE: lie supine, knees bent, feet hip width flat, arms extended on mat beside hips palms down. Upper back/head/arms and both feet stay on floor in all16panels. Sixteen evenly spaced progressive HIP LIFTS from hips resting on mat to hips raised forming straight shoulder-hip-knee line. Keep feet directly under knees near top. Do not arch lumbar spine beyond straight line. Head remains relaxed on mat, neck not bearing weight. No bench, no barbell, no raised leg. Both legs work together. Movement is hip extension, not lifting shoulders into a situp. Each successive frame hips only2cm higher, no reset at row boundaries. Identical camera framing and mat coordinates across all16. All limbs visible with slight3quarter side if needed to distinguish both legs. No text labels arrows.",
+  "registeredAt": "2026-09-09T06:01:41.555Z"
+}

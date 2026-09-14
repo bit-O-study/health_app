@@ -127,7 +127,7 @@ export const EXERCISE_PHOTO_DB: Record<string, string> = {
  */
 export const EXERCISE_PHOTO_DB_BY_EQUIP: Record<
   string,
-  Partial<Record<string, string>>
+  Partial<Record<string, string | null>>
 > = {
   "bench-press": { barbell: "Barbell_Bench_Press_-_Medium_Grip", dumbbell: "Dumbbell_Bench_Press_with_Neutral_Grip", machine: "Machine_Bench_Press" },
   "incline-press": { barbell: "Barbell_Incline_Bench_Press_-_Medium_Grip", dumbbell: "Hammer_Grip_Incline_DB_Bench_Press" },
@@ -145,10 +145,10 @@ export const EXERCISE_PHOTO_DB_BY_EQUIP: Record<
   "biceps-curl": { barbell: "Barbell_Curl", dumbbell: "Dumbbell_Bicep_Curl", cable: "Standing_Biceps_Cable_Curl" },
   "preacher-curl": { barbell: "Preacher_Curl", dumbbell: "One_Arm_Dumbbell_Preacher_Curl", machine: "Machine_Bicep_Curl" },
   "reverse-curl": { barbell: "Reverse_Barbell_Curl", dumbbell: "Standing_Dumbbell_Reverse_Curl" },
-  "wrist-curl": { dumbbell: "Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench", barbell: "Palms-Down_Wrist_Curl_Over_A_Bench" },
+  "wrist-curl": { dumbbell: null, barbell: null }, // Wrist extension photos are not wrist flexion.
   "triceps-pushdown": { cable: "Triceps_Pushdown_-_Rope_Attachment", machine: "Machine_Triceps_Extension" },
-  "skull-crusher": { barbell: "Lying_Close-Grip_Barbell_Triceps_Press_To_Chin", dumbbell: "Seated_Triceps_Press" },
-  "overhead-triceps-extension": { dumbbell: "Decline_Dumbbell_Triceps_Extension", cable: "Cable_Rope_Overhead_Triceps_Extension" },
+  "skull-crusher": { barbell: "Lying_Close-Grip_Barbell_Triceps_Press_To_Chin", dumbbell: null },
+  "overhead-triceps-extension": { dumbbell: null, cable: "Cable_Rope_Overhead_Triceps_Extension" },
   squat: { barbell: "Barbell_Squat", machine: "Smith_Machine_Squat", bodyweight: "Bodyweight_Squat" },
   "smith-squat": { machine: "Smith_Machine_Squat" },
   "goblet-squat": { dumbbell: "Dumbbell_Squat" },
@@ -261,8 +261,11 @@ export function exercisePhotoFrames(
   exerciseId: string,
   equipment?: string,
 ): [string, string] | null {
+  const byEquipment = equipment ? EXERCISE_PHOTO_DB_BY_EQUIP[exerciseId]?.[equipment] : undefined;
+  // Explicit null quarantines a mismatched photo; do not fall back to another exercise.
+  if (byEquipment === null) return null;
   const db =
-    (equipment ? EXERCISE_PHOTO_DB_BY_EQUIP[exerciseId]?.[equipment] : undefined) ??
+    byEquipment ??
     PHOTO_CORRECTIONS[exerciseId] ??
     EXERCISE_PHOTO_DB[exerciseId] ??
     // 1,300 확장 운동의 free-exercise-db 매칭(자동 생성). 매칭 없으면 호출부가 튜토리얼 폴백.

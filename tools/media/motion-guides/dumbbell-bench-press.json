@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-bench-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/dumbbell-bench-press/"
+  ],
+  "prompt": "Use case: scientific-educational. Original pearl-gray 3D anatomical mannequin wearing teal shorts gray trainers, plain gray studio, no text/logos/arrows. 16 equal square animation keyframes in strict4columns4rows2048x2048 sheet. Identical fixed three-quarter SIDE camera, all equipment/head/feet within generous margins each panel, same size and coordinates. Sequential phases row-major with no reset on new row. Flat DUMBBELL BENCH PRESS. Man lies face up head fully supported on horizontal flat bench, feet flat floor either side, shoulderblades settled, hips on bench. Two separate black dumbbells, closed pronated grip palms face toward feet. Start elbows bent90degrees and upper arms about45degrees from torso, dumbbells alongside middle chest, wrists over elbows. In16small stages straighten elbows to press dumbbells vertically above chest, not face, until arms nearly straight. Both dumbbells remain distinctly separated, palms orientation unchanged, no fly motion. Bench torso feet absolutely fixed; only shoulders/elbows move.",
+  "registeredAt": "2026-09-09T07:12:29.707Z"
+}

@@ -1,0 +1,11 @@
+{
+  "id": "svend-press",
+  "equipment": "plate",
+  "panels": 16,
+  "sources": [
+    "https://www.youtube.com/watch?v=cIoUZOnypS8",
+    "https://www.youtube.com/watch?v=vNxezQEqy6I"
+  ],
+  "prompt": "Square 2048x2048 opaque solid gray studio image. Exact 4x4 grid of16 equallysized square animation frames, with a thin gray divider. A pearlgray anatomical3D mannequin wearingtealshorts andgrayshoes performs STANDING SVEND PRESS. Background is completely smooth solid gray, NO TRANSPARENCY, NO BLACK AREAS, NO CUTOUTS. Fixedthreequartersidecamera, persononly60% ofeachframeheight centered, entirebody visible. Bothpalms sandwich two small plates tightly atchestheight. Startplatesatsternum elbowsbent; gradual16stages pressplates horizontallyforward untilarmsnearlystraight, palms pressingflatfaces throughout. Upright torso andplantedfeet stayunchanged, no up/down plate movement. No text orlogos.",
+  "registeredAt": "2026-09-09T09:02:12.659Z"
+}

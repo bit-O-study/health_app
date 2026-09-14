@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose bilateral bent-over kettlebell row, two bells, fixed hinge and flat back, elbows pull behind torso, reverse",
+  "equipment": "kettlebell",
+  "sources": [
+    "https://www.muscleandstrength.com/node/49438"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "kettlebell-row",
+  "registeredAt": "2026-09-13T12:54:49.724Z"
+}

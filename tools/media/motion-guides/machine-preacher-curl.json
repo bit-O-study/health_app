@@ -1,0 +1,11 @@
+{
+  "prompt": "Square 4x4 sprite sheet, exactly sixteen equal square panels, realistic 3D gym instructional art. Same gray anatomical muscular male, teal shorts, gray shoes, seated at a MACHINE PREACHER CURL. Smooth gray studio. Side three-quarter fixed camera, whole body and compact machine in each panel with 15 percent margins. Upper arms lie flat against angled preacher pad, elbows fixed in line with machine pivot, feet planted. Both hands use palms-up grip on machine curl handles. Frame1 elbows almost straight, hands low at end of pad. Over sixteen sequential tiny steps forearms rotate up by elbow flexion until handles near shoulders in frame16. Upper arms never lift off pad, torso and head do not rock. Machine lever connected to handles pivots at elbow axis. No dumbbell or free barbell. Consistent geometry, same camera and equal row heights. Read left to right then next row without restarting. No text or borders.",
+  "equipment": "machine",
+  "sources": [
+    "https://weighttraining.guide/exercises/machine-preacher-curl/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "machine-preacher-curl",
+  "registeredAt": "2026-09-11T15:37:37.451Z"
+}

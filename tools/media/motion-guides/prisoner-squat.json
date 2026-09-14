@@ -1,0 +1,10 @@
+{
+  "id": "prisoner-squat",
+  "equipment": "bodyweight",
+  "panels": 16,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/prisoner-squat"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin, tealshorts grayshoes, plain graystudio.16equal square animationkeyframes in4columns4rows2048x2048. FixedthreequarterSIDEcamera, same scale, fullhead/feet/equipmentwithincentral70percent eachcell.16successive small steps ofone half-rep,rowmajor,no resetnewrow. No labels,text,arrows,logos. PRISONER SQUAT. Bothhands lightly behindhead elbowsout; no pullingneck. Feet hip-to-shoulderwidth withslighttoeout, wholefeet flat fixedfloor. Startupright.16incrementalDESCENTstages bendhipsandknees to squat untilthighsparallelground. Hipssitbackanddown betweenfeet, kneestracksecondtoes, knees maytravelnaturallyforward. Chestproud andneutralspine, modestforwardtorsoinclination, no roundinglowback, no heelrise, no collapsingknees. Handsremainbehindhead throughout, no weights.",
+  "registeredAt": "2026-09-09T07:56:34.647Z"
+}

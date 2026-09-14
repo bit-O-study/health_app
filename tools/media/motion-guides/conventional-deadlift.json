@@ -1,0 +1,10 @@
+{
+  "id": "conventional-deadlift",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+  ],
+  "prompt": "Create an original 4x4 contact sheet of SIXTEEN square animation keyframes of one CONVENTIONAL BARBELL DEADLIFT, reading left to right continuously. Gray anatomical mannequin, teal shorts, gray shoes, gray studio. VERY WIDE LOCKED CAMERA: standing full body only occupies 60% of EACH tile height, ample empty space overhead. Identical head size and identical floor position across all tiles. ALL body and bar plates must remain inside every tile with generous margins. No text or logos. Start barbell on floor at mid-shin, feet hip width, both hands overhand outside legs, hips higher than knees, neutral spine, arms straight. Progress gradually across all sixteen panels from floor to standing with bar against thighs. Hips and shoulders rise together, straighten knees then complete hip extension; bar stays close to legs. Final posture upright, no backward lean. Never reset pose at row boundaries. Fixed side three-quarter view. No head crop, no bent arms, no bar floating away from shins. Exact same person, camera, plates, scale and planted feet every frame.",
+  "registeredAt": "2026-09-09T08:17:11.829Z"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "leg-extension",
+  "equipment": "machine",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/leg-extension.html"
+  ],
+  "prompt": "Use case: scientific-educational. Original pearl-gray 3D anatomical mannequin wearing teal shorts gray trainers, plain gray studio, no text/logos/arrows. 16 equal square animation keyframes in strict4columns4rows2048x2048 sheet. Identical fixed three-quarter SIDE camera, all equipment/head/feet within generous margins each panel, same size and coordinates. Sequential phases row-major with no reset on new row. SEATED LEG EXTENSION. Show exact SIDE PROFILE of machine and mannequin facing RIGHT. Seat supported torso stays upright, thigh horizontal to right. Most important: machine lever pivot positioned precisely at same coordinates as KNEE JOINT at seat-front edge, never in front of knee. A single lever of constant length extends from knee axis down to cylindrical ankle roller pressing FRONT OF LOWER SHIN just ABOVE ANKLE. Leg and lever rotate TOGETHER around coincident knee/pivot. Start knee90degrees shinvertical footbelowknee. Finish kneenearly180degrees shin HORIZONTAL forward inline with thigh.16equallyspacedstages from verticalshin to horizontalshin. Thigh/hips/head/seat/axis never move. Handssidehandles; no padunderfoot. Weightstack behindseat LEFT. Correct actual gym mechanism, no invented floating hinges. CRITICAL FRAMING: zoom OUT at least30percent. Entire scene occupies central65percent of each square. Reserve at least15percent clear background margin to RIGHT OF FULLY EXTENDED TOES in last panel, and same framing in all panels. Do not crop toes. Keep the pivot at knee and shin-pad contact. Camera fixed exact side profile.",
+  "registeredAt": "2026-09-09T07:14:58.288Z"
+}

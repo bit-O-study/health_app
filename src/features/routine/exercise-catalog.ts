@@ -1177,8 +1177,8 @@ export const EXERCISES: Record<string, CatalogExercise> = {
       {
         equipment: "machine",
         method: [
-          "발목 패드를 발등 아래에 위치",
-          "무릎 완전 펴며 정점 1초 수축",
+          "무릎을 기구 회전축에 맞추고 패드를 발목 바로 위 정강이 앞에 위치",
+          "허리와 엉덩이를 시트에 붙이고 무릎을 과하게 꺾지 않으며 다리 펴기",
           "반동 없이 통제 복귀",
         ],
       },

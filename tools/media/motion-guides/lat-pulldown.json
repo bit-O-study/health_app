@@ -1,0 +1,10 @@
+{
+  "id": "lat-pulldown",
+  "equipment": "machine",
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/"
+  ],
+  "prompt": "Original 3D-human exercise animation keyframe sheet, exactly SIXTEEN equal square panels in a4-column4-row grid, landscape2048x2048. SAME matte pearl-gray athletic adult humanoid, dark teal shorts, gray shoes, subtle human muscle definition, original generic face. No brand, text, arrows or labels. PLAIN UNIFORM light gray backdrop and floor, no changing shadows or texture. Every panel must have IDENTICAL fixed camera, body scale, apparatus position and framing. Entire person and all equipment stay within frame. No closeups, no view changes. sixteen consecutive EVENLY SPACED phases of ONE movement from start to finish, never jump back to start. Keep stationary body parts at identical image coordinates in every cell. SEATED WIDE OVERHAND LAT PULLDOWN using cable wsixteen-stack lat machine, seat and thigh restraint. Fixed three-quarter FRONT camera with both hands visible. Upright seated torso slightly leaned back10deg, thighs secured under pads, both feet flat. Both hands closed overhand on long lat bar slightly wider than shoulders. Frames1..16 gradually PULL bar DOWN from arms extended overhead to bar in FRONT near upper chest; elbows travel down beside ribs. sixteen evenly spaced bar hsixteens. Cable from central top pulley attaches to bar center and remains straight vertical. Do not pull behind neck. Torso, seat, pad, feet and camera are fixed in all16panels. Whole machine top pulley, entire bar and full body visible; no invented extra cables. SIXTEEN poses in reading order4x4. Never reset pose at row boundary. Keep head feet torso SAME pixel coordinates in ALL rows. Keep each limb clearly solid and each hand attached to its weight. Whole equipment and head stay inside each square with generous margins.",
+  "panels": 16,
+  "registeredAt": "2026-09-09T06:08:27.506Z"
+}

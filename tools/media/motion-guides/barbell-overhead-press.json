@@ -1,0 +1,10 @@
+{
+  "id": "barbell-overhead-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/military-press.html"
+  ],
+  "prompt": "Square2048x2048 opaquegraystudio contact sheet, exact4x4 equallysized squareframes. Originalgray3D anatomical mannequin tealshorts grayshoes. STANDING STRICT BARBELL OVERHEAD PRESS in16successive raisingposes. VERY WIDE VIEW: entire person plus bar raised overhead occupiesonly55% ofeachframeheight. Emptyspaceabove raisedbar20%oftileheight. Fullbarplatesmustneverapproachtopedge. Feetshoulderwidth fixedflat. Startbarfrontshoulders, closedoverhandgrip justoutside shoulders, elbowsunderbar. Graduallypressup pastface, chinretractsforclearance, finishbarovermidfoot witharmsstraight andheadbetweenarms. Neutralspine, nostandingbackbend, nokneebend orlegdrive. Samecamera, bodysize, feetposition everyframe. No text orlogos.",
+  "registeredAt": "2026-09-09T09:02:16.698Z"
+}

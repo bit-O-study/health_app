@@ -1,0 +1,11 @@
+{
+  "equipment": "kettlebell",
+  "panels": 16,
+  "cycle": "reverse",
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/kettlebell-deadlift"
+  ],
+  "prompt": "A clean professional gray3D mannequin in teal athletic shorts and gray sneakers demonstrates a kettlebell deadlift, in sixteen consecutive animation poses. Square sheet exactly four columns four rows, sixteen equally sized square cells. Smooth medium-gray studio background and floor. Full body with ample margin above standing head. Fixed three-quarter side camera, exact same footpositions scale andlighting. One black kettlebell singlehandle gripped by bothhands. First pose bellonfloor between hipwidthfeet, hipshingedback knees moderatelybent spine straight arms straight. Next14poses smoothly extendhips andknees together raisingbell verticallyclosetobody. Lastpose standingtall withstraightarms bellinfrontofthighs, noleanback. EACHPOSE risesby2cm, no abruptjump or repeatedposes. Row1bottom quarterofrise, row2secondquarter, row3thirdquarter,row4finalquarter. No swingarmcurl gripchange orrowreset. Just ascendinghalfrepetition. Clean smoothstudio render without labels numbers gridlines or decorations. Original mannequin facesright, entirefigureandbell insidecentral70%eachcell.",
+  "id": "kettlebell-deadlift",
+  "registeredAt": "2026-09-10T13:17:07.740Z"
+}

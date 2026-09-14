@@ -1,0 +1,11 @@
+{
+  "prompt": "Perfectly square 4x4 sprite sheet of sixteen equal square cells showing BANDED GLUTE BRIDGE. Gray anatomical muscular male mannequin in teal shorts gray shoes. Black mini resistance band loop around both thighs just ABOVE knees. Lying supine on gray floor head at left, knees bent and feet flat at right, arms straight along sides palms down. Camera fixed three-quarter side view so band visible encircling both thighs. Frame1 pelvis on floor. Sixteen small uniform increments raise pelvis until shoulders hips knees form straight diagonal line, shins vertical in final frame. Head shoulders hands and feet remain on floor; knees maintain hip width against band, no inward collapse. No bench, no barbell. Entire body and shoes visible with generous margins. Identical camera body position floor and lighting in all cells across rows. Smooth opaque gray background, realistic 3D instruction, no text no panel lines.",
+  "equipment": "band",
+  "sources": [
+    "https://www.puregym.com/blog/resistance-bands-exercises-for-beginners/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "band-glute-bridge",
+  "registeredAt": "2026-09-11T16:50:25.723Z"
+}

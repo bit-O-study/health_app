@@ -1,0 +1,10 @@
+{
+  "id": "incline-barbell-bench-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/incline-bench-press.html"
+  ],
+  "prompt": "Original gray anatomical 3D mannequin wearing teal shorts and gray shoes in plain gray studio. Create SIXTEEN equal square sequential animation keyframes in an exact 4x4 grid. Fixed three-quarter side camera, identical body scale, bench and foot position in all panels; whole figure and weights within central 75% of each tile, ample margins. No text, numbers, arrows or logos. Continuous small steps across row boundaries. INCLINE BARBELL BENCH PRESS. Lie face-up on a 30-degree incline bench, HEAD higher than HIPS, head on LEFT of frame, feet on floor toward RIGHT. Head, shoulder blades and butt maintain contact with bench. One barbell across chest, both hands closed overhand slightly outside shoulder width, wrists stacked over elbows, elbows moderately tucked. Start bar just above upper/mid sternum below neck, both elbows bent. Sixteen ascending stages press bar vertically upward to straight arms above shoulders; bar NEVER over face/neck, no torso movement or hip lift. Full short bar with two small plates clearly visible.",
+  "registeredAt": "2026-09-09T08:22:31.078Z"
+}

@@ -1,0 +1,10 @@
+{
+  "id": "decline-barbell-bench-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/decline-bench-press.html"
+  ],
+  "prompt": "Create a SQUARE 2048x2048 sheet containing precisely SIXTEEN equal 512x512 SQUARE tiles in exact 4x4 grid. All tile boundaries equally spaced. Original gray anatomical mannequin, teal shorts, gray shoes, gray studio. Fixed camera and scale. All body and equipment inside CENTRAL65% of each tile, ample margins on EVERY SIDE. Sixteen sequential small motion stages without row resets, no text or logos. DECLINE BARBELL BENCH PRESS. Three-quarter side view. Lie faceup on straight bench inclined downward15degrees toward head onLEFT; head lower than hips. Feet secured under ankle rollers at higher right end. Keep head/back/hips on bench and feet fixed. Barbell across lower chest held in both hands closed overhand slightly wider than shoulders. Start elbows bent, wrists above elbows; gradually press upward vertically above chest to straight arms over16frames. Entire bar including plates visible WITH WIDE MARGINS in every tile, bar never covers neck/face. No torso movement or bench changes. Head and feet positions IDENTICAL every tile.",
+  "registeredAt": "2026-09-09T08:47:57.053Z"
+}

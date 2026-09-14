@@ -1,0 +1,10 @@
+{
+  "id": "barbell-shrug",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.puregym.com/exercises/back/shrugs/barbell-shrug/"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin, teal shorts gray shoes, plain gray studio.16equal square animationkeyframes4columns4rows2048x2048. Fixedthree-quartercamera, same scale andbodycoordinates in all16cells. Full head feet weights within central70percent,15percentmarginall sides. Sequential small movement increments no resetatrowboundaries. No text arrows logos labels. Standing BARBELL SHRUG, fullbody FRONTthreequarterview. One rigid straightbarbell with modestplates eachend held infrontofthighs using shoulderwidth closed OVERHANDgrip palmsbackward. Feetshoulderwidthflat kneesextendedsoft torso upright.16tinyascendingincrements raise shoulders straightup towardears about5cm; hanging straightarms carry bar up5cm without elbowbend. Head neutral and fullyvisible, no necktilt/rotation, no shoulderrolling, no uprightrow, no calfraise. Bar stays level, samegripwidth andlength. Fullbarbellfits everycell.",
+  "registeredAt": "2026-09-09T07:40:34.585Z"
+}

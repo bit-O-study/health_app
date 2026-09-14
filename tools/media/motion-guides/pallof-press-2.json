@@ -1,0 +1,11 @@
+{
+  "prompt": "Square animation sprite sheet 4 by 4, sixteen equal square cells. Gray anatomical male, teal shorts, gray shoes performing a standing CABLE PALLOF PRESS. Smooth gray studio, fixed elevated three-quarter camera showing forward arm extension and lateral cable anchor. Man stands with feet shoulder width flat, chest forward and upright. Cable tower is on his LEFT SIDE at chest height, perpendicular to the direction he faces. Both hands clasp ONE D handle at center chest frame1. Sixteen small successive increments extend both arms straight FORWARD away from sternum until elbows straight frame16, same chest height. Torso, shoulders and pelvis remain facing forward without rotation, hips do not move. Taut cable runs diagonally from his left side chest-height pulley to handle throughout. Show entire person and compact tower with generous margins, identical scale and position in all cells. No text, no borders, no restart at new rows. This is anti-rotation pressing, not a cable chest press facing away from tower.",
+  "equipment": "cable",
+  "sources": [
+    "https://blog.nasm.org/progressive-core-training"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "pallof-press-2",
+  "registeredAt": "2026-09-11T15:39:21.627Z"
+}

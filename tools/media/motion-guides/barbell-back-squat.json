@@ -1,0 +1,11 @@
+{
+  "id": "barbell-back-squat",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/squat.html",
+    "https://www.nasm.org/resource-center/blog/training/biomechanics-of-the-squat"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin tealshorts grayshoes, uniformgraystudio.16equal square animationkeyframes4columns4rows2048x2048. FixedthreequarterSIDEcamera, same scale andscene framing, fullheadfeetandallbarbellendsinsidecentral70percent with15percentmargins. Sequential16smallstages,no resetatrowboundaries. No labels,text,arrows,logos. BARBELL BACK SQUAT. Singlebarbell horizontal acrossUPPERTRAPEZIUS muscle behindshoulders, belowneck noton cervicalspine. Handsgripbaroutside shoulders, elbowsangleddown. Feetshoulderwidth slightlytoeout, heelsandforefeetflatfixed. Beginstanding.16DESCENTstages bendhips/knees tothighsparallel, hipsdownandback, kneestracktoes, natural forwardknee travel, modest forwardtorso lean withneutralspine. Barstays overmidfoot atallheights, fixedonupperback, no front squat/no overheadlift/no kneecollapse. Samebarplatesanddimensionsallframes.",
+  "registeredAt": "2026-09-09T08:14:44.289Z"
+}

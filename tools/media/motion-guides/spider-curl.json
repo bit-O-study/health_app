@@ -1,0 +1,10 @@
+{
+  "id": "spider-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.catalystathletics.com/exercise/835/Dumbbell-Spider-Curl/"
+  ],
+  "prompt": "Use case: scientific-educational. Original bald gray anatomical 3D mannequin, teal shorts, gray training shoes, opaque gray studio. Square 2048x2048 sheet, EXACTLY 16 equal SQUARE frames in 4x4 grid. No text, lines, numbers or logos. All frames same fixed camera and body/equipment scale, full body and all equipment fit within central 65% of every tile, ample margins. One progressive half-repetition spread across all 16 frames, NEVER reset at row boundaries. DUMBBELL SPIDER CURL. Chest supported FACE DOWN on 45-degree incline bench, feet planted wide behind bench for stability, face looking down naturally. Arms hang VERTICALLY under shoulders outside bench, upper arms stay vertical and elbows stationary throughout. Both hands supinated palms forward/up, one dumbbell each. Frame1 elbows almost straight. Progressively bend ONLY elbows bringing dumbbells toward front shoulders/chest at frame16, forearms point upward. Chest stays against pad, no rowing elbows backward, no shrugging, no reverse fly. Clear three-quarter side camera shows incline bench and both arms. Not seated incline curl.",
+  "registeredAt": "2026-09-09T12:40:29.089Z"
+}

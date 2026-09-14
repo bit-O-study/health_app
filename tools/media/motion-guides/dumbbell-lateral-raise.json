@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-lateral-raise",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/26/lateral-raise/"
+  ],
+  "prompt": "A precise original exercise animation sprite sheet SIXTEEN square panels4columns4rows at2048x2048. Same original gray human in teal shorts, full body front camera, plain uniform gray background. Every panel identical framing, feet head and torso at exact same pixel location. Both hands each hold one small dumbbell. Standing bilateral lateral raise, body erect feet shoulder width. SIXTEEN progressive poses from arms by thighs to arms shoulder height: arms angle from torso 0,6,12,18,24,30,36,42,48,54,60,66,72,78,84,90degrees in reading order. No reset at row boundaries. Both arms simultaneously move out sideways with fixed15degree elbow bend, wrists straight, palms neutral, no inward thumb tilt. Final hands and elbows no higher than shoulders. All16frames include both weights with consistent proportions. Only arms rotate at shoulders, torso/legs/head remain absolutely fixed. No text or numbers or arrows.",
+  "panels": 16,
+  "registeredAt": "2026-09-09T05:48:36.147Z"
+}

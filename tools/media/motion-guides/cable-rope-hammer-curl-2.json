@@ -1,0 +1,10 @@
+{
+  "id": "cable-rope-hammer-curl-2",
+  "equipment": "cable",
+  "panels": 16,
+  "sources": [
+    "https://www.catalystathletics.com/exercise/881/Rope-Cable-Curl/"
+  ],
+  "prompt": "Scientific-educational. Original gray anatomical 3D male mannequin, teal shorts, gray shoes. Square image divided into16 EXACTLY EQUAL SQUARE cells in4x4 grid. Fixed THREE-QUARTER SIDE CAMERA at same angle in ALL16frames. No front view, no column-angle variations. Full body and small cable tower in central60%eachcell, gray background, no lines/text. ROPE HAMMER CURL: stand facing low cable pulley, one rope end each hand, palms facing each other throughout. Upper arms vertical next to torso, feet flat. Start elbows straight, hands near thighs. Across16 small progressive phases bend elbows only and raise both rope ends toward shoulders. End elbows fully flexed comfortably. Cable connects center rope ring to ankle-height pulley continuously. One fixed view, same head/feet/body/tower pixel positions across ALL rows. No torso turning, no step or lean, no grip rotation. Weight stack enclosed in opaque casing. One ascending half-rep, no resetting at row breaks, no hold repeats.",
+  "registeredAt": "2026-09-09T13:46:48.442Z"
+}

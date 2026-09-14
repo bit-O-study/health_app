@@ -1,0 +1,11 @@
+{
+  "prompt": "4x4 sixteen-panel side-view high-pulley rope cable overhead triceps extension. Gray anatomical man teal shorts gray shoes, split stance and slightly hinged torso, upper arms near ears fixed, forearms extend forward from bent elbows; fixed cable tower left and rope attached taut.",
+  "equipment": "cable",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/overhead-tricep-extension.html"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "cable-overhead-triceps-extension",
+  "registeredAt": "2026-09-13T01:41:34.626Z"
+}

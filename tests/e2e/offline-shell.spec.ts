@@ -141,3 +141,109 @@ test("해시 박힌 빌드 산출물은 캐시에 담긴다 — 약한 회선에
   expect(cached).not.toContain("/login");
   expect(cached).not.toContain("/");
 });
+
+/* ── 운동 시연 영상 캐싱 ────────────────────────────────────────────────
+   🔴 영상은 그냥 캐시하면 재생이 깨진다. `<video preload="metadata">` 가 보내는
+   Range 요청에 캐시된 200(전체)을 그대로 돌려주면 브라우저가 탐색을 못 한다.
+   그래서 캐시엔 전체만 담고 SW 가 잘라 206 으로 준다 — 그게 실제로 되는지 본다. */
+
+const SMALL_VIDEO = "/exercise-guides/ai-v2/bench-press.mp4"; // 실측 ~138KB
+const BIG_VIDEO = "/exercise-guides/bench-press-main-new.mp4"; // 실측 ~6.4MB
+
+test("한 번 본 영상은 오프라인에서도 재생된다", async ({ page, context }) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  await installSw(page);
+
+  // 한 번 본다(= 캐시에 담긴다).
+  const warmed = await page.evaluate(async (url) => {
+    const res = await fetch(url);
+    return { ok: res.ok, type: res.headers.get("content-type") };
+  }, SMALL_VIDEO);
+  expect(warmed.ok).toBe(true);
+
+  await context.setOffline(true);
+
+  // 🔴 여기서 끝내면 "fetch 가 됐다" 까지만 본 것이다. 실제로 **재생 가능한지**
+  //    까지 확인한다 — Range 응답이 틀리면 fetch 는 되는데 영상만 안 나온다.
+  const playable = await page.evaluate(
+    (url) =>
+      new Promise<{ ok: boolean; duration: number }>((resolve) => {
+        const v = document.createElement("video");
+        v.preload = "metadata";
+        v.muted = true;
+        v.src = url;
+        v.onloadedmetadata = () =>
+          resolve({ ok: true, duration: v.duration });
+        v.onerror = () => resolve({ ok: false, duration: 0 });
+        setTimeout(() => resolve({ ok: false, duration: -1 }), 10000);
+        document.body.appendChild(v);
+      }),
+    SMALL_VIDEO,
+  );
+  expect(playable.ok).toBe(true);
+  expect(playable.duration).toBeGreaterThan(0);
+});
+
+test("오프라인에서 Range 요청에 206 을 제대로 돌려준다", async ({
+  page,
+  context,
+}) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  await installSw(page);
+  await page.evaluate((url) => fetch(url), SMALL_VIDEO);
+
+  await context.setOffline(true);
+
+  const r = await page.evaluate(async (url) => {
+    const part = await fetch(url, { headers: { Range: "bytes=0-99" } });
+    const buf = await part.arrayBuffer();
+    return {
+      status: part.status,
+      range: part.headers.get("content-range"),
+      bytes: buf.byteLength,
+    };
+  }, SMALL_VIDEO);
+
+  expect(r.status).toBe(206);
+  expect(r.bytes).toBe(100);
+  expect(r.range).toMatch(/^bytes 0-99\/\d+$/);
+});
+
+test("아직 안 본 영상은 오프라인에서 담겨 있지 않다 — 미리 받지 않는다", async ({
+  page,
+  context,
+}) => {
+  // 1,351종을 미리 받으면 200MB 다. 본 것만 담는 게 이 설계의 전제다.
+  await page.goto("/", { waitUntil: "networkidle" });
+  await installSw(page);
+  await context.setOffline(true);
+
+  const failed = await page.evaluate(
+    (url) => fetch(url).then(() => false).catch(() => true),
+    "/exercise-guides/ai-v2/lat-pulldown.mp4",
+  );
+  expect(failed).toBe(true);
+});
+
+test("너무 큰 영상은 캐시하지 않는다 — 자주 보는 것들이 밀려나지 않게", async ({
+  page,
+}) => {
+  await page.goto("/", { waitUntil: "networkidle" });
+  await installSw(page);
+
+  await page.evaluate((url) => fetch(url), SMALL_VIDEO);
+  await page.evaluate((url) => fetch(url), BIG_VIDEO);
+
+  const cached = await page.evaluate(async () => {
+    const names = await caches.keys();
+    const out: string[] = [];
+    for (const n of names) {
+      const keys = await (await caches.open(n)).keys();
+      for (const k of keys) out.push(new URL(k.url).pathname);
+    }
+    return out;
+  });
+
+  expect(cached).toContain(SMALL_VIDEO);
+  expect(cached).not.toContain(BIG_VIDEO); // 2MB 상한 초과 → 네트워크로 흘려보냄
+});

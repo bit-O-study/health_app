@@ -1,0 +1,11 @@
+{
+  "prompt": "Make a perfectly SQUARE 4x4 sprite sheet. EXACTLY FOUR equal-height rows and FOUR equal-width columns. Each of sixteen cells has identical SQUARE dimensions. 3D gray anatomical man in teal shorts and gray shoes does a landmine T-bar row. Full body and entire bar with rear floor anchor shown at same scale in every cell. Gray studio background. Start with arms down straight, both hands on close V-grip under bar behind one plate, bar between feet. Torso hinged forward, knees softly bent, back neutral. Frames progress smoothly and evenly toward elbows bent backward and plate lifted toward chest. End with full contraction. Keep head, hips and feet stationary in each cell; arms and anchored bar alone move. Leave EMPTY GRAY SPACE 20 percent cell height above head and below feet in every panel. No labels or lines. Equal square cells are essential for automatic cutting: row1 occupies exactly y0-25%, row2 y25-50%, row3 y50-75%, row4 y75-100%. Clean smooth backdrop and fixed side three-quarter view.",
+  "equipment": "landmine",
+  "sources": [
+    "https://www.muscleandfitness.com/workouts/back-exercises/how-t-bar-row/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "landmine-row",
+  "registeredAt": "2026-09-11T15:20:25.246Z"
+}

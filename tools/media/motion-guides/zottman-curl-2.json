@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose bilateral Zottman curl, supinated ascent to shoulders, forearm pronation at top, pronated descent, full cycle",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/zottman-curl.html"
+  ],
+  "panels": 8,
+  "cycle": "full",
+  "id": "zottman-curl-2",
+  "registeredAt": "2026-09-13T13:01:26.752Z"
+}

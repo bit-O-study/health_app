@@ -27,6 +27,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -86,6 +87,25 @@ public class MainActivity extends BridgeActivity {
         // 야외 런닝에서 GPS(위치정보)가 꺼져 있으면 '위치 설정 열기'로 안내한다.
         // ⚠ 웹/WebView 는 위치정보를 코드로 자동 ON 할 수 없어, 설정 화면 열기까지만 지원한다.
         webView.addJavascriptInterface(new NativeBridge(), "HelssuNative");
+
+        // 🔴 안드로이드 뒤로가기 → 웹 화면의 이전 화면으로.
+        // Capacitor 코어는 뒤로가기를 처리하지 않는다(@capacitor/app 플러그인이 하는 일인데
+        // 이 앱엔 없다). 그래서 기본 동작대로 **앱이 통째로 닫혔다.**
+        // 이전 화면이 있으면 WebView 히스토리를 한 칸 되돌리고(= 웹의 history.back →
+        // popstate 라 운동모드의 '뒤로가기 막기'도 그대로 동작), 첫 화면이면 원래대로 닫는다.
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                WebView wv = getBridge() != null ? getBridge().getWebView() : null;
+                if (wv != null && wv.canGoBack()) {
+                    wv.goBack();
+                    return;
+                }
+                setEnabled(false);
+                getOnBackPressedDispatcher().onBackPressed();
+                setEnabled(true);
+            }
+        });
 
         // 내 데이터 내보내기(CSV/JSON) 처럼 서버가 첨부파일로 주는 응답은, 리스너가 없으면
         // WebView 가 **아무 일도 하지 않는다** — 사용자에겐 버튼이 먹통인 것으로 보인다.

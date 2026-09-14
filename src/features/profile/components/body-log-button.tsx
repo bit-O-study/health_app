@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { LineChart, Scale, X } from "lucide-react";
 
@@ -38,6 +39,7 @@ export function BodyLogButton({
   showGraphLink?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  useBackClose(open, () => setOpen(false));
 
   return (
     <>

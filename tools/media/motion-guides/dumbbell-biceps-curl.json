@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-biceps-curl",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/standing-dumbbell-curl.html"
+  ],
+  "prompt": "Use case: scientific-educational. Original gray anatomical 3D athletic mannequin, teal shorts, gray shoes. Opaque uniform gray studio, soft light. SQUARE2048x2048 sheet with EXACT16 equal square animation tiles, precise4x4 grid, NO lines/text/numbers/logos. Same locked three-quarter front camera, body scale and floor height in all tiles. Full body and equipment centered inside central65% of every tile, generous top/side margins. Reading order16 progressively changing poses showing ONLY one raising half-repetition across WHOLEsheet, no reset per row. STANDING BILATERAL SUPINATED DUMBBELL BICEPS CURL. Two identical dumbbells, one in each hand. Feet hipwidth flat, knees soft, torso upright stationary. Palms face FORWARD at start and UP during curl, NOT hammer neutral grip. Upper arms pinned beside torso, elbows fixed, wrists straight. Frame1 arms almost straight dumbbells outside thighs; progressively flex elbows with BOTHforearms to raise dumbbells near front shoulders at frame16. No shoulder raise, no swing, no bent back, no alternatingarms. Maintain underhand palms throughout, clear dumbbell handles and both hands.",
+  "registeredAt": "2026-09-09T11:54:56.718Z"
+}

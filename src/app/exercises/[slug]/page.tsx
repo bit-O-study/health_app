@@ -74,14 +74,14 @@ export default async function ExerciseDetailPage({
     notFound();
   }
 
-  const initialEquipment = isEquipmentId(eq) ? eq : undefined;
+  const initialEquipment = (isEquipmentId(eq) ? exercise.equipments.find((item) => item.equipment === eq)?.equipment : undefined) ?? exercise.equipments[0].equipment;
   const photoFrames = exercisePhotoFrames(slug, initialEquipment);
 
   // 영상/피드백은 Supabase 에 해당 종목 행이 있을 때만 제공
   const supaExercise = await getExerciseBySlug(slug);
   const [videos, media, memo] = await Promise.all([
     supaExercise ? getExerciseVideos(supaExercise.id) : Promise.resolve([]),
-    getExerciseMedia(slug),
+    getExerciseMedia(slug, initialEquipment),
     getMemoForExercise(slug),
   ]);
 

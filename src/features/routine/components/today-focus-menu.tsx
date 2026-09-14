@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import {
   ChevronDown,
@@ -43,6 +44,12 @@ export function TodayFocusMenu({
   const [confirmRun, setConfirmRun] = useState(false);
   const [runMode, setRunMode] = useState<"indoor" | "outdoor">("indoor");
   const [pending, start] = useTransition();
+  useBackClose(menuOpen, () => {
+    if (!pending) setMenuOpen(false);
+  });
+  useBackClose(confirmRun, () => {
+    if (!pending) setConfirmRun(false);
+  });
 
   function restart() {
     start(async () => {

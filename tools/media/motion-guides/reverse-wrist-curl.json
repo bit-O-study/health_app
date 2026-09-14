@@ -1,0 +1,11 @@
+{
+  "equipment": "dumbbell",
+  "panels": 8,
+  "cycle": "reverse",
+  "sources": [
+    "https://www.strengthlog.com/dumbbell-wrist-extension/"
+  ],
+  "prompt": "Scientific educational exercise animation sprite sheet, wide landscape canvas 2:1 ratio, FOUR columns TWO rows, EXACTLY EIGHT equally sized square tiles. Each row exactly half canvas height. No text numbers or dividing lines. Original gray anatomical adult male mannequin teal shorts gray shoes in opaque gray studio. SEATED DUMBBELL REVERSE WRIST CURL. Three quarter side camera fixed. Sit on flat bench, lean slightly forward with BOTH forearms resting along thighs, PALMS FACE DOWN toward floor, hands just beyond knees holding two small dumbbells. Feet flat. Forearms stay fully supported and perfectly still. Across eight consecutive poses ONLY extend wrists, lifting BACKS OF HANDS toward forearms: first wrists gently flexed downward30deg, last extended upward30deg. No elbow flexion, no bicep curl, no supination; palms ALWAYS DOWN. Clearly show knuckles on upper side of both hands and dumbbell heads across each hand, wrists beyond kneecaps. Head shoulders torso forearms bench and feet identical pixel positions in every panel. Whole figure and bench visible within central75percent of each tile. Camera framing close enough for hand position. Same background lighting anatomy equipment all8frames. Small smooth wrist changes, one upward half repetition, no resets across rows.",
+  "id": "reverse-wrist-curl",
+  "registeredAt": "2026-09-10T12:48:24.505Z"
+}

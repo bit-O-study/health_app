@@ -1,0 +1,11 @@
+{
+  "prompt": "Wide 2:1 animation sprite sheet of eight equal square cells, 4 columns and 2 rows. Gray anatomical muscular man, teal shorts, gray shoes, standing upright holding a light straight barbell BEHIND his hips. Rear three-quarter view showing both hands clearly. Behind-the-back WRIST CURL: elbows straight and fixed, upper arms and torso unmoving, only wrists and fingers move. Palms face backward away from glutes. Frame1 wrists gently extended with bar resting in curled fingers behind upper thighs, frame8 fingers close firmly and wrists flex to lift bar a few centimeters upward. Eight small sequential increments of wrist flexion, no elbow curl and no shoulder shrug. Bar remains behind body, hands shoulder width, level small plates on both ends, feet flat hip width apart. Entire body and bar visible with comfortable margins, identical scale and fixed camera. Clean smooth gray studio, professional anatomical 3D exercise illustration, no text or panel lines.",
+  "equipment": "barbell",
+  "sources": [
+    "https://www.strengthlog.com/barbell-wrist-curl-behind-the-back/"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "behind-the-back-wrist-curl",
+  "registeredAt": "2026-09-11T15:22:02.756Z"
+}

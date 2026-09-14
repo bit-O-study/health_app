@@ -1,0 +1,2299 @@
+[
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "양팔 덤벨 레터럴 레이즈 원본 16자세 및 최종 32프레임 확인",
+      "equipment": "두 덤벨이 각 손에 분리 유지됨",
+      "setup": "기립 자세에서 머리·몸통·골반 위치 유지",
+      "hands": "중립 손목과 약간 굽힌 팔꿈치로 옆으로 올림",
+      "feet": "발을 벌려 바닥에 고정, 반동 없음",
+      "movement": "어깨 높이까지 양팔 외전 후 역순 복귀, 16자세 원본으로 주요 기구 잔상 감소"
+    },
+    "note": "renderVersion2 최종 프레임 시각 검토. 전문가 인증/기기 검증은 별도이며 미완료.",
+    "id": "dumbbell-lateral-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/26/lateral-raise/"
+    ],
+    "sourceSha256": "152b3fd069e44ca314650c1d9989e5a5b750a33f026c42baed08301b304b3945",
+    "videoSha256": "0b2553238a99365a2a867455c9fd94e222e7b55f860118a7b90ac38771334ee4",
+    "reviewedAt": "2026-09-09T05:53:05.668Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "시티드 양팔 덤벨 숄더프레스, 원본과 재렌더32프레임 확인",
+      "equipment": "덤벨2개와 수직에 가까운 등받이 벤치",
+      "setup": "등과 엉덩이 벤치 지지, 머리와 상체 안정",
+      "hands": "손목을 팔꿈치 위에 유지하며 양손 덤벨 분리",
+      "feet": "양발 바닥 접촉 유지",
+      "movement": "어깨 높이에서 머리 위로 팔꿈치 펴기 및 복귀, 기구가 합쳐지지 않음"
+    },
+    "note": "renderVersion2 최종 프레임 시각 검토. 전문가 인증/기기 검증은 별도이며 미완료.",
+    "id": "dumbbell-shoulder-press",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/45/seated-overhead-press/"
+    ],
+    "sourceSha256": "3eb5eb236f9dc518fb5cb174bfe6342cf245e405103d0d7a44a3096f06868d2b",
+    "videoSha256": "c953209d5ecb164c9be1e1303a8882e0f437a23efa3fb2c602cdd4a9659f3628",
+    "reviewedAt": "2026-09-09T05:53:09.308Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "맨몸 글루트 브릿지 원본16자세와 최종32프레임 확인",
+      "equipment": "매트 위 맨몸 동작, 벤치나 바벨 없음",
+      "setup": "등 상부와 머리를 바닥에 지지하고 무릎을 세움",
+      "hands": "양팔을 몸 옆 바닥에 두고 손바닥 지지",
+      "feet": "발바닥과 뒤꿈치 바닥 접촉, 상단에서 무릎 아래 발 위치",
+      "movement": "골반을 들어 어깨-골반-무릎을 잇는 선 형성 후 통제 하강, 허리 과신전이나 상체 일으키기 없음"
+    },
+    "note": "renderVersion2,16자세,8초24fps71004bytes. 시각 검토이며 전문가/실기기 검증은 미완료.",
+    "id": "glute-bridge",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/floor-bridge"
+    ],
+    "sourceSha256": "500b4986db425543a61929f885b6a57fa46f321e7e9b4de7a9edfc74ade3c6b2",
+    "videoSha256": "993f9501631fd9e7ba8590436ee8f23ad7edf8a062120ea9e7f37488e8dc5ff7",
+    "reviewedAt": "2026-09-09T06:04:24.141Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "양팔 바벨 컬 16자세와 최종32프레임 확인",
+      "equipment": "직선 바벨과 양쪽 원판 유지",
+      "setup": "몸통을 세우고 큰 반동 없이 양팔을 몸 옆에서 굽힘",
+      "hands": "어깨 너비 언더핸드 그립, 팔꿈치 굽힘에 따라 손목 유지",
+      "feet": "두 발 바닥 접촉과 간격 유지",
+      "movement": "허벅지 앞 시작→상단 컬→복귀. 8자세 대비 중간 바/손 중복 감소, 운동 경로 유지"
+    },
+    "note": "renderVersion2,16자세 최종 시각 검토. 일부 보간 프레임에 가벼운 윤곽 흐림은 남음. 전문가 인증과 실기기 검증은 별도 미완료.",
+    "id": "barbell-curl",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-bicep-curl"
+    ],
+    "sourceSha256": "399c182f37fda356e72797d8743f5d428c8dac9b9109e0e1706ddf51959d23e9",
+    "videoSha256": "8766712dd84cefaac32ebca64cda0c55f1eae537d935dc299f973b7c2ac8cb78",
+    "reviewedAt": "2026-09-09T06:13:33.022Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "머신 시티드 오버핸드 랫풀다운",
+      "equipment": "상단 풀리·중앙 케이블·랫바·시트·허벅지패드 포함",
+      "setup": "허벅지를 패드 아래 고정하고 상체를 세워 약간 뒤로 기울임",
+      "hands": "어깨보다 넓은 오버핸드로 같은 랫바를 양손 유지",
+      "feet": "양발 바닥 지지, 시트에서 몸이 들리지 않음",
+      "movement": "팔을 머리 위에서 펴고 바를 얼굴 앞을 지나 상부 가슴으로 내린 뒤 복귀. 목 뒤로 당기지 않음"
+    },
+    "note": "renderVersion2,16자세 최종 시각 검토. 일부 보간 프레임에 가벼운 윤곽 흐림은 남음. 전문가 인증과 실기기 검증은 별도 미완료.",
+    "id": "lat-pulldown",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/"
+    ],
+    "sourceSha256": "8537cda285ee22159faa290a561132c72903c4f8935ab5192f99b13205f85a3a",
+    "videoSha256": "ec8bc683e4af75ae9aa7287f9b8e97f932834d5106741b20a7be3f30a35a71f5",
+    "reviewedAt": "2026-09-09T06:13:36.665Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "스탠딩 양팔 해머 컬 16자세/최종32프레임",
+      "equipment": "양손에 각각 덤벨 하나 유지",
+      "setup": "상체와 어깨를 안정시킨 기립 자세",
+      "hands": "손바닥이 서로 향하는 중립 그립을 유지하며 팔꿈치 굽힘",
+      "feet": "발을 벌려 바닥에 고정",
+      "movement": "덤벨을 몸 옆에서 어깨 방향으로 들어 올리고 통제 복귀. 어깨 스윙이나 회외 컬로 바뀌지 않음"
+    },
+    "note": "renderVersion2,16자세 최종 시각 검토. 일부 보간 프레임에 가벼운 윤곽 흐림은 남음. 전문가 인증과 실기기 검증은 별도 미완료.",
+    "id": "hammer-curl-2",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/standing-hammer-curl.html"
+    ],
+    "sourceSha256": "15d9b6da3c8afa36ca19b2ba4793b5f20e51d57cc97d591b57ba7d4159c71154",
+    "videoSha256": "20f7220765e46e665c4e8be4a88e78cafd4a2948c977d647456251cbfa36de36",
+    "reviewedAt": "2026-09-09T06:13:40.555Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing machine calf raise, ankle plantarflexion and controlled return visible.",
+      "equipment": "Shoulder-pad calf machine, fixed base and lifting shoulder yoke.",
+      "setup": "Upright torso under shoulder pads, knees remain extended without squat.",
+      "hands": "Hands remain on machine support handles.",
+      "feet": "Forefeet supported on raised platform, heels free and visibly rise.",
+      "movement": "Heel rise and return with stable knees; whole head and feet remain in frame."
+    },
+    "note": "Reviewed corrected 16-pose source and 32-frame rendered contact sheet. 8 seconds 24fps 116280 bytes, decode passed. Minor interpolation blur; not a professional biomechanical certification.",
+    "id": "standing-calf-raise",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/standing-machine-calf-raise"
+    ],
+    "sourceSha256": "29aa01be85b2ca3b2c6a996ac7d77425930e20cad37c4b80bcd9cd0eb5740099",
+    "videoSha256": "dee86f234064e0d7219d1a31416b36fd65daf0319531acb66875b980a1c4d8b3",
+    "reviewedAt": "2026-09-09T07:00:52.292Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral dumbbell front raise to shoulder level and return.",
+      "equipment": "Two separate dumbbells remain held throughout.",
+      "setup": "Upright standing posture and soft constant elbow bend.",
+      "hands": "Closed overhand grip, palms down toward top and wrists aligned.",
+      "feet": "Both feet flat and stationary about shoulder width.",
+      "movement": "Shoulder flexion raises arms forward without elbow curl; controlled reverse returns to thighs."
+    },
+    "note": "16-pose source and final 32-frame contact sheet reviewed; 8s/24fps decode passed. Minor interpolation softness and panel framing drift remain.",
+    "id": "dumbbell-front-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/"
+    ],
+    "sourceSha256": "65d0593dcc2f46c1a13453d6dce4ac4f20a344dedf31f31cec4211603817ad48",
+    "videoSha256": "2f8a970c66aa2895b8a07dccc07c90cccbcd9068e2309be904d36963f6c31e3b",
+    "reviewedAt": "2026-09-09T07:08:14.856Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral plate front raise to shoulder level and return.",
+      "equipment": "One round plate held throughout.",
+      "setup": "Upright standing posture and soft constant elbow bend.",
+      "hands": "Both hands hold opposite plate edges throughout the arc.",
+      "feet": "Both feet flat and stationary about shoulder width.",
+      "movement": "Shoulder flexion raises arms forward without elbow curl; controlled reverse returns to thighs."
+    },
+    "note": "16-pose source and final 32-frame contact sheet reviewed; 8s/24fps decode passed. Minor interpolation softness and panel framing drift remain.",
+    "id": "plate-front-raise",
+    "equipmentIds": [
+      "plate"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/arms-and-shoulders/front-raises/plate-front-raise/"
+    ],
+    "sourceSha256": "f745020c56527ba249804d4926d9b8aa50f42472d63f00c30abd410bb86d194b",
+    "videoSha256": "458d13c049aee9c1e981193b6e8c6ace745ebba176e9845ef3dc597254e98501",
+    "reviewedAt": "2026-09-09T07:08:18.134Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Flat dumbbell bench press with visible elbow extension and flexion.",
+      "equipment": "Two separate dumbbells and horizontal flat bench.",
+      "setup": "Head, upper back and hips supported by bench; no seated or incline variation.",
+      "hands": "Closed palms-forward grip with wrists stacked over elbows at bottom.",
+      "feet": "Visible foot flat on floor; far leg partly occluded by side camera.",
+      "movement": "Dumbbells press above chest then return alongside chest with shoulders supported."
+    },
+    "note": "Source and 32 rendered frames inspected; 8s/24fps decode passed. Minor interpolation contour softness; side-view occlusion noted.",
+    "id": "dumbbell-bench-press",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/dumbbell-bench-press/"
+    ],
+    "sourceSha256": "b442342e2c1957a80bdd5a3f987800eb9d3cd505b9f26706874e7545259b27a8",
+    "videoSha256": "6615dc500a4a34a503b4aa8f20cc49a2c9e43ec67aa4d649331bc14af0789eca",
+    "reviewedAt": "2026-09-09T07:16:04.093Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Hands-elevated incline push-up with lowering and press-back.",
+      "equipment": "Stable raised bench, no external load.",
+      "setup": "Straight extended legs and braced trunk move together toward bench.",
+      "hands": "Both palms remain planted on bench top near shoulder width.",
+      "feet": "Toes remain floor-supported, heels elevated, knees do not rest on floor.",
+      "movement": "Elbows bend backward as chest approaches bench, then extend to return."
+    },
+    "note": "Source and 32 rendered frames inspected; 8s/24fps decode passed. Minor interpolation contour softness; side-view occlusion noted.",
+    "id": "incline-push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/incline-push-up"
+    ],
+    "sourceSha256": "ca88e20d4b4c3ecf57b02bcb18c23f775d92debda4d54fca4228c6eda7da0f9d",
+    "videoSha256": "f0718ac379d03e43adac12dd032aea1f88212234359998e1f604093fd2a478ba",
+    "reviewedAt": "2026-09-09T07:16:07.689Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated machine leg extension from bent knees toward straight legs and back.",
+      "equipment": "Selectorized seated extension machine with lever pivot at visible knee.",
+      "setup": "Back and hips supported, knee aligned with lever axis; corrected source avoids former forward pivot.",
+      "hands": "Hands remain on seat-side handles.",
+      "feet": "Roller contacts anterior lower shin above ankle; feet stay free and fully in frame.",
+      "movement": "Shin and pad rotate together as knees extend then flex, no foot-under-pad setup."
+    },
+    "note": "Corrected wide-framed 16-pose source and 32 final frames reviewed. 480x480 8s24fps 109539bytes decode passed. Minor framing drift and interpolation softness remain.",
+    "id": "leg-extension",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/leg-extension.html"
+    ],
+    "sourceSha256": "2a463ec338635d88e22a687307617038378fc3c9ca2fa94f7df1f6a05afaade6",
+    "videoSha256": "aee0b34bc339f91cb6852c5c627f55fb17ba393546525522c4b8e698172ce2f4",
+    "reviewedAt": "2026-09-09T07:18:53.050Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Feet-elevated decline push-up, lowering toward floor and pressing back.",
+      "equipment": "Low stable bench supports feet, hands directly on floor.",
+      "setup": "Extended knees and aligned hips/trunk with no pike.",
+      "hands": "Hands stay planted slightly outside shoulders, elbows bend backward.",
+      "feet": "Both toes stay on bench throughout.",
+      "movement": "Chest descends close to floor and body rises together through elbow extension."
+    },
+    "note": "16 source poses and 32 rendered frames visually reviewed. 8 seconds24fps98676bytes decode passed. Mild frame interpolation softness.",
+    "id": "decline-push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/decline-push-up"
+    ],
+    "sourceSha256": "fe5d96da65edbd6e00c633e6fb0f1dde23cff6d2c9326a3829fa19a33a05fd5e",
+    "videoSha256": "6625d9ef76d6595a5632777293ca7ea630de1f8da1fe4ce3c4e6a64ec61e505a",
+    "reviewedAt": "2026-09-09T07:32:44.402Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Incline dumbbell chest press, not upright shoulder press.",
+      "equipment": "Inclined adjustable bench and two dumbbells, far dumbbell partly occluded in side view.",
+      "setup": "Head and back remain on inclined support, hips seated.",
+      "hands": "Wrists above elbows at bottom; closed grip remains consistent.",
+      "feet": "Feet stay flat on floor, knees bent.",
+      "movement": "Elbows extend to press weights above upper chest and bend to return without body slide."
+    },
+    "note": "Corrected source and 32 rendered frames visually inspected; 8sec24fps decode passed. Mild interpolation softness and framing drift remain.",
+    "id": "incline-dumbbell-bench-press",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/incline-dumbbell-bench-press.html"
+    ],
+    "sourceSha256": "f4b8e98b57b77a178039fad2759919d7c988ce54cee6dca092190502851563de",
+    "videoSha256": "0109c54ff0a6b5f7ba338c5aa0f2ad2ec22d64d7fe9ca0f1b69658a8ce50b478",
+    "reviewedAt": "2026-09-09T07:35:18.714Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Flat dumbbell chest fly with opening arc and return.",
+      "equipment": "Flat bench with two separate dumbbells.",
+      "setup": "Head, back and hips supported with torso stationary.",
+      "hands": "Neutral facing grip, dumbbells remain separated.",
+      "feet": "Both feet planted flat either side of bench.",
+      "movement": "Arms open laterally with soft elbow bend and return toward chest center; no deep press-like elbow fold."
+    },
+    "note": "Corrected source and 32 rendered frames visually inspected; 8sec24fps decode passed. Mild interpolation softness and framing drift remain.",
+    "id": "dumbbell-fly",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-flys.html"
+    ],
+    "sourceSha256": "e2d8dcd74a30f965da361c27a80cc19f985c8ad43afad24967c35020eee0f5e3",
+    "videoSha256": "39e8d70417c46e3a2bd7c007bb944b6c8fdf2398b90cfc0e2484ac5bba107f11",
+    "reviewedAt": "2026-09-09T07:35:22.360Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing dumbbell shrug.",
+      "equipment": "Two dumbbells alongside thighs.",
+      "setup": "Upright stance, head neutral, knees extended without calf raise.",
+      "hands": "Closed neutral grip beside thighs, elbows extended.",
+      "feet": "Feet remain flat and stationary.",
+      "movement": "Shoulders elevate toward ears then lower; no shoulder roll or elbow fold."
+    },
+    "note": "16-pose source and 32 final frames reviewed. 8s24fps decode passed. Small frame drift and contour softness remain.",
+    "id": "dumbbell-shrug",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/75/standing-shrug/"
+    ],
+    "sourceSha256": "eaf5ceb3fcff1b9c310c84be551f9c3053d88db5016dd0942224ab5c78ac56db",
+    "videoSha256": "b5f901092a55f3247865db2ef32a0eb033eb9a46efca1e69e010581de57dd12c",
+    "reviewedAt": "2026-09-09T07:50:06.092Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing barbell shrug.",
+      "equipment": "Rigid straight barbell with two end plates.",
+      "setup": "Upright stance, head neutral, knees extended without calf raise.",
+      "hands": "Closed overhand grip outside thighs, no curl.",
+      "feet": "Feet remain flat and stationary.",
+      "movement": "Shoulders elevate toward ears then lower; no shoulder roll or elbow fold."
+    },
+    "note": "16-pose source and 32 final frames reviewed. 8s24fps decode passed. Small frame drift and contour softness remain.",
+    "id": "barbell-shrug",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/back/shrugs/barbell-shrug/"
+    ],
+    "sourceSha256": "48d58f21001b56b36b1734c7308fa590b7275d6344cc5a1c898a4fd89c482d6c",
+    "videoSha256": "9227bdcff694ed63a58afd77749cb0669463f05118b034a8f8536c19ef562e18",
+    "reviewedAt": "2026-09-09T07:50:09.815Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standard floor push-up with descent and return.",
+      "equipment": "Bodyweight on floor, no bench.",
+      "setup": "Extended legs, trunk moves as one unit, no hip pike.",
+      "hands": "Hands planted slightly wider than shoulders, elbows track back.",
+      "feet": "Toes stay floor-supported with knees off floor.",
+      "movement": "Chest lowers close to floor and rises via elbow extension."
+    },
+    "note": "16 source poses and32renderedframes inspected;8sec24fps100461bytes decode passed. Minor contour softness.",
+    "id": "push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/push-up"
+    ],
+    "sourceSha256": "0054e3efb074cfcf62ab395d7dbc02c5a446c0557df5ba0e09d3820fddf1afc8",
+    "videoSha256": "4c223431e1849de8d9c40d96ffdca13ad0286c2e6fe6212bafa6f9bfc9479147",
+    "reviewedAt": "2026-09-09T07:51:29.988Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated dumbbell calf raise with heel lift and return.",
+      "equipment": "Two dumbbells resting end-on on distal thighs, bench and forefoot block.",
+      "setup": "Seated upright with bent knees, hips stay on bench.",
+      "hands": "Hands stabilize dumbbells on thighs rather than curl them.",
+      "feet": "Forefeet remain on block edge, heels free and rise visibly.",
+      "movement": "Ankle plantarflexion raises heels with knees and weights moving slightly upward together."
+    },
+    "note": "Source16poses and final32frames inspected;8sec24fps decode passed. Minor interpolation softness.",
+    "id": "seated-dumbbell-calf-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/seated-dumbbell-calf-raise.html"
+    ],
+    "sourceSha256": "d0e01ab467be93304363b62b44cefb2b0b1587796d03ab3d30883cf2555fdd41",
+    "videoSha256": "ddc0ade41ffa7424979eb076d1d0f080e32cca87535cc8d7e86b021343345a9e",
+    "reviewedAt": "2026-09-09T07:55:31.294Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing reverse-grip barbell curl.",
+      "equipment": "Straight barbell with two end plates.",
+      "setup": "Upright torso and upper arms beside ribs.",
+      "hands": "Overhand grip maintained, knuckles remain above/front of bar; no supinated turn.",
+      "feet": "Both feet remain planted and stationary.",
+      "movement": "Elbows flex to curl toward lower chest and extend on return without front raise."
+    },
+    "note": "Source16poses and final32frames inspected;8sec24fps decode passed. Minor interpolation softness.",
+    "id": "reverse-barbell-curl",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/reverse-barbell-curl.html"
+    ],
+    "sourceSha256": "292e5d35f980d8525ba15dcb6b155cfb02d16209a7a4312d0992dea4fc0444f9",
+    "videoSha256": "fb46ebd4e66796a6b98d78af3ccda26a39f4ca505f1640a31bde6394ea4be2e2",
+    "reviewedAt": "2026-09-09T07:55:35.032Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing barbell front raise to shoulder height and return.",
+      "equipment": "Single straight barbell with two end plates.",
+      "setup": "Upright torso without backward lean; softly extended elbows.",
+      "hands": "Closed shoulder-width overhand grip, wrists aligned.",
+      "feet": "Feet remain flat and fixed.",
+      "movement": "Nearly straight arms raise forward in arc, no curl or upright row."
+    },
+    "note": "16sourceposes and32finalframes inspected;8sec24fps102492bytes decode passed. Mild interpolation softness.",
+    "id": "barbell-front-raise",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/barbell-front-raise.html"
+    ],
+    "sourceSha256": "27177a6288befe4e7ee14029c8c910588a857dec062c73d7de4410b2d247697f",
+    "videoSha256": "4e1c1fe0c099b595ada40975b77f78a22121c408745ce7f195c013348ae5b2c4",
+    "reviewedAt": "2026-09-09T07:56:13.139Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bodyweight prisoner squat descending toward parallel and returning.",
+      "equipment": "No external load.",
+      "setup": "Hands behind head, torso braced, no neck pulling visible.",
+      "hands": "Both hands remain behind head with elbows outward.",
+      "feet": "Feet planted with modest toe-out; heels remain down.",
+      "movement": "Hips and knees flex together, knees track toes, neutral back maintained."
+    },
+    "note": "16 source poses and32finalframes inspected;8s24fps decode passed. Small framing drift and interpolation softness.",
+    "id": "prisoner-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/prisoner-squat"
+    ],
+    "sourceSha256": "ffa6c65976341d074ca1ec78e89b1c249d6a57dabf6581c3c232d5026a1d3556",
+    "videoSha256": "10218ff4bb79cf1c5db730561f9815eb94b9c90a78511686339f88330472722f",
+    "reviewedAt": "2026-09-09T08:09:52.290Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Kettlebell goblet squat with controlled descent and return.",
+      "equipment": "One kettlebell held at chest by both hands.",
+      "setup": "Chest stays upright with load close to body.",
+      "hands": "Both hands remain around kettlebell horns, elbows descend between knees.",
+      "feet": "Both whole feet stay planted, knees track outward with toes.",
+      "movement": "Hips descend between feet to around parallel while bell remains at chest."
+    },
+    "note": "16 source poses and32finalframes inspected;8s24fps decode passed. Small framing drift and interpolation softness.",
+    "id": "kettlebell-goblet-squat",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/goblet-squat"
+    ],
+    "sourceSha256": "1a5b32919e66a58c450875f36ac7afd4d95652036119caf1024bda2c35399331",
+    "videoSha256": "6edaeff975c7c50cf7849d21410a99ab168b3787fcad7c776213437a6959d8c1",
+    "reviewedAt": "2026-09-09T08:09:57.394Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Kneeling push-up, knee-supported lowering and press-back.",
+      "equipment": "Thin mat under knees, otherwise bodyweight.",
+      "setup": "Head, torso and thighs remain aligned from shoulders to knees.",
+      "hands": "Hands stay on floor at shoulder width, elbows track back.",
+      "feet": "Knees stay mat-supported and feet together raised behind.",
+      "movement": "Chest lowers toward floor then rises without hip pike or sag."
+    },
+    "note": "16sourceposes and32finalframes reviewed;8sec24fps94385bytes decode passed. Mild interpolation softness.",
+    "id": "kneeling-push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/13/bent-knee-push-up/"
+    ],
+    "sourceSha256": "f566b79850c6f730b00bbee7a8af13b682c32df4ddcd074919dda5bb6b6cf989",
+    "videoSha256": "67b689601dae680a66d2306a26da645c2c8fbe954ca20e292d780f34450429b9",
+    "reviewedAt": "2026-09-09T08:10:35.834Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Barbell back squat descent and return visible across 32 sampled video frames.",
+      "equipment": "Single barbell remains on upper back; plates and shaft remain visible.",
+      "setup": "Upright start, neutral trunk with modest forward lean during descent.",
+      "hands": "Both hands stay outside shoulders holding upper-back bar.",
+      "feet": "Shoulder-width slightly outward feet stay planted; knees track toe direction.",
+      "movement": "Hips and knees bend together to approximately parallel then extend; no knee collapse or back rounding visible."
+    },
+    "note": "Source and final 32-frame contact sheet visually reviewed against NASM squat biomechanics and M&S barbell squat setup. Small framing/contour variation remains; not device or professional biomechanical validation.",
+    "id": "barbell-back-squat",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/squat.html",
+      "https://www.nasm.org/resource-center/blog/training/biomechanics-of-the-squat"
+    ],
+    "sourceSha256": "875d5abe4bd5b922abd2cde94f04ab276e87f829b22df431295b3e9946cd6ab5",
+    "videoSha256": "c461fc55e53d0c1087bc040bf8ed9c895cb03fbc8992c68ce082e126ec6a9fb2",
+    "reviewedAt": "2026-09-09T08:17:06.153Z"
+  },
+  {
+    "id": "barbell-bench-press",
+    "status": "passed",
+    "checks": {
+      "exercise": "Flat barbell chest press in source and 32 sampled output frames.",
+      "equipment": "One barbell with two visible plated ends and flat bench.",
+      "setup": "Head, back and pelvis supported throughout with stable bent-knee position.",
+      "hands": "Two closed overhand grips stay on bar slightly wider than shoulders; elbows flex then extend.",
+      "feet": "Visible near foot stays flat on floor; far foot partially occluded by perspective.",
+      "movement": "Bar rises from sternum region to above shoulder/chest line; no visible hip lift or bar contact with face."
+    },
+    "note": "Original source and final 32 sampled frames reviewed against NASM instructions. Perspective partially obscures far leg; minor contour/framing variation remains.",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-bench-press"
+    ],
+    "sourceSha256": "e6264f54f090bdb8a88ef7a6261ec9ac0127f9f2d7993dc80ecf7980f7c1b7ae",
+    "videoSha256": "901b2078dfa64a69e2f245233d0c643d48bed9766caf6b22873139ffe3f952c8",
+    "reviewedAt": "2026-09-09T08:21:51.704Z"
+  },
+  {
+    "id": "conventional-deadlift",
+    "status": "passed",
+    "checks": {
+      "exercise": "Conventional floor-start barbell deadlift and return.",
+      "equipment": "Single barbell and plates remain attached; no machine or kettlebell substitution.",
+      "setup": "Hinged hips above knees at floor start; neutral trunk and straight arms.",
+      "hands": "Both hands overhand just outside legs and elbows remain extended.",
+      "feet": "Hip-width feet stay flat beneath body throughout.",
+      "movement": "Bar moves close to legs from shin height to thighs as hips/knees extend; finish upright without backward lean."
+    },
+    "note": "Regenerated to remove cropped head. Source and 32 final sampled frames reviewed against NASM. Mild scale/position drift remains; full 8s decode passed. No device or professional biomechanical validation.",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+    ],
+    "sourceSha256": "bb13960355845256d41cd0da0c688795b78a5fd5fac020147ae51a50b065909d",
+    "videoSha256": "ab845932177b54746a31cd7a930f79e3526bf6828b4f646aea9271777a0a7d8b",
+    "reviewedAt": "2026-09-09T08:21:56.579Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Incline barbell bench press distinct from flat press.",
+      "equipment": "Single short plated barbell above inclined backrest.",
+      "setup": "Head above hips on inclined bench, shoulders and hips supported.",
+      "hands": "Closed overhand grip outside shoulders; bar supported over forearms.",
+      "feet": "Both feet planted on floor throughout.",
+      "movement": "Bar travels from chest to extended-arm position and returns while body stays supported."
+    },
+    "note": "Source and final 32 sampled frames reviewed. Full decode 480sq 24fps 8s passed. Minor framing variation remains.",
+    "id": "incline-barbell-bench-press",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/incline-bench-press.html"
+    ],
+    "sourceSha256": "078a5ea682e322fa68ef6959793c1b6467c58e3eecb5ce5b15636520b8114b06",
+    "videoSha256": "d5741ae805e5d98173b3c18e904a6fa913055f3416683ebc8d5ce6c7e0dc3fc3",
+    "reviewedAt": "2026-09-09T08:25:44.427Z"
+  },
+  {
+    "id": "decline-dumbbell-bench-press",
+    "status": "passed",
+    "checks": {
+      "exercise": "Decline dumbbell chest press with head below hips.",
+      "equipment": "Two separate dumbbells and decline bench with leg pads.",
+      "setup": "Head, back and pelvis supported on downward sloping bench.",
+      "hands": "Closed dumbbell grips; weights remain separately visible with gap at top.",
+      "feet": "Both feet stay secured at padded high end and bent knees stay still.",
+      "movement": "Elbows extend from chest-side bottom to above-chest top then return; no fly arc or torso lift."
+    },
+    "note": "Regenerated to separate dumbbells at top. Source and 32 final samples reviewed; full decode 8s/24fps passed. Small framing/contour variation remains.",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/decline-dumbbell-bench-press.html",
+      "https://www.youtube.com/watch?v=Pf1nDoqx_1A"
+    ],
+    "sourceSha256": "a5ca451931b290d494f6bd4701564577f49af2877351afe67a70dc27fb9045ce",
+    "videoSha256": "a2b6e52679d94e95ad941aca32ae25c53c3e3d0fa663527da25a77e15f69ac86",
+    "reviewedAt": "2026-09-09T08:36:20.756Z"
+  },
+  {
+    "id": "incline-dumbbell-fly",
+    "status": "passed",
+    "checks": {
+      "exercise": "Face-up incline chest fly opening arms laterally and returning.",
+      "equipment": "Two compact dumbbells and inclined bench.",
+      "setup": "Reclined torso remains supported, head above hips.",
+      "hands": "Neutral grips with small elbow bend, arms retain long arc instead of deep press bend.",
+      "feet": "Both feet stay flat and separated on floor.",
+      "movement": "Arms open broadly to chest/torso plane and return above chest; no lowering far behind torso."
+    },
+    "note": "First source rejected for deep elbow bend; corrected source and 32 final samples reviewed. Some interpolated dumbbell contours soften mid-motion. Full 8s decode passed, no device verification.",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/incline-dumbbell-flys.html"
+    ],
+    "sourceSha256": "ffe15cac058bcac50b69c9af7de81a318140e896dcee3b5980475c1fb87f169b",
+    "videoSha256": "e06f57973fdf847c663ed632b7aac99efb62041b4a7fb725d13182d4b507fd92",
+    "reviewedAt": "2026-09-09T08:36:26.329Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Barbell floor press, no bench.",
+      "equipment": "Single barbell with plates and thin floor mat.",
+      "setup": "Head, back and hips remain on floor; upper arms meet floor at bottom.",
+      "hands": "Closed overhand grip slightly wider than shoulders, forearms under bar.",
+      "feet": "Bent knees with feet planted and unmoving.",
+      "movement": "Elbows extend to press above chest and return to floor-limited bottom; no bridging."
+    },
+    "note": "Source and 32 final sampled frames reviewed against M&F floor press instructions; 8s/24fps full decode passed. Slight framing drift remains.",
+    "id": "floor-press",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/exercise/workouts/chest-exercises/barbell-floor-press/"
+    ],
+    "sourceSha256": "38205f33c5ad48ecaf65bcbda83d98668c7123ce0fed5d1a586ac9c7bab91434",
+    "videoSha256": "2b7bb472d1d393fcbf3e340c1558bd0b928c01a23a8f05be3094792d46e37531",
+    "reviewedAt": "2026-09-09T08:47:52.051Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Decline barbell bench press, head below hips.",
+      "equipment": "Barbell and decline bench with ankle rollers.",
+      "setup": "Head, back and hips supported on declined pad.",
+      "hands": "Closed overhand bar grip; elbows bend at bottom and straighten on press.",
+      "feet": "Feet remain secured beneath high-end ankle pad.",
+      "movement": "Bar rises from lower chest above torso and returns, no hip lift; corrected square tiles prevent crop."
+    },
+    "note": "First render withheld for unequal tile crop; regenerated square sheet. New source and 32 final frames reviewed; decode 8s 24fps passed.",
+    "id": "decline-barbell-bench-press",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/decline-bench-press.html"
+    ],
+    "sourceSha256": "4f3b1b6dd492dc1f173d63647e775737af83c89a8effd99a1055a340e2014828",
+    "videoSha256": "7de19dd8fdb53482377b6cfc7be955aad13cb9efe3b7fe6cb4a1f6edb0e52d88",
+    "reviewedAt": "2026-09-09T08:52:51.218Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bent-over barbell row pulling toward abdomen and returning.",
+      "equipment": "Single short plated barbell, no machine substitute.",
+      "setup": "Hip hinge and neutral back retained; no standing-up transition.",
+      "hands": "Two overhand grips; elbows travel behind torso at top.",
+      "feet": "Both feet planted with softly bent knees.",
+      "movement": "Bar rises from hanging arms toward belly, then lowers; no jerk or bar passing through knees."
+    },
+    "note": "Initial source returned early and was replaced. Corrected source and 32 final frames reviewed; mild torso-angle/framing variation remains. 8s/24fps full decode passed.",
+    "id": "barbell-bent-over-row",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/bent-over-barbell-row.html"
+    ],
+    "sourceSha256": "bca6732f23cf92494d15219b9123914ac567aef2786d809d624081d7513faf6e",
+    "videoSha256": "1bc1d42645985403b57b4d495f5a5e7c1ea9d4829658aab9922f5a6321aa4112",
+    "reviewedAt": "2026-09-09T08:59:39.899Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bent-over dumbbell rear delt fly, distinct from row.",
+      "equipment": "Two dumbbells, unsupported hip-hinged stance.",
+      "setup": "Neutral hinged torso and softly bent knees; no standing-up movement.",
+      "hands": "Neutral dumbbell grips with near-straight softly bent arms.",
+      "feet": "Shoulder-width feet remain flat throughout.",
+      "movement": "Arms spread laterally to torso level then lower; no deep elbow curl or upper-back overextension visible."
+    },
+    "note": "Source and 32 final video samples reviewed against M&S reverse fly instructions. Full 8s decode passed; mild body/framing variation remains.",
+    "id": "dumbbell-rear-delt-fly",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/bent-over-dumbbell-reverse-fly.html"
+    ],
+    "sourceSha256": "bbed9de6b0e50f88092337dda4d7e27b2fda589bf3e9a257aa84ebe2eb184814",
+    "videoSha256": "aed7d082b0eae7178bb293143d45b860776c9290ee609f2fb3070fd6479251cc",
+    "reviewedAt": "2026-09-09T09:01:03.444Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing Svend plate squeeze press.",
+      "equipment": "Small weight plates held together between palms.",
+      "setup": "Upright standing torso remains stable.",
+      "hands": "Both palms press opposite flat faces of plates; hands stay together.",
+      "feet": "Feet remain planted shoulder-width apart.",
+      "movement": "Elbows extend to move plates forward at chest height and flex on return; no front raise or body swing."
+    },
+    "note": "Earlier sources withheld for borders/background corruption. New opaque source and final32frames reviewed; full8s24fps decode passed.",
+    "id": "svend-press",
+    "equipmentIds": [
+      "plate"
+    ],
+    "sources": [
+      "https://www.youtube.com/watch?v=cIoUZOnypS8",
+      "https://www.youtube.com/watch?v=vNxezQEqy6I"
+    ],
+    "sourceSha256": "5d3aaadb2cfa3b6ca753312669ebcfe106ed0ae047bf6dfe17a3e8d04b176437",
+    "videoSha256": "b91e2a3d5d7725a484b24b57a6ae64031a6dee591d63c766ffb0cca0daea0c0b",
+    "reviewedAt": "2026-09-09T09:07:13.996Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing strict barbell overhead press.",
+      "equipment": "Single barbell and two plates remain inside frame.",
+      "setup": "Upright torso, braced posture; front-shoulder start.",
+      "hands": "Closed overhand shoulder-width grips supporting bar, elbows extend overhead.",
+      "feet": "Both feet stay flat and knees do not dip.",
+      "movement": "Bar rises from shoulders past face to straight arms above body then returns; no leg drive or visible leanback."
+    },
+    "note": "Regenerated wider framing after plate crop. Source and final32frames visually reviewed, full8s24fps decode passed.",
+    "id": "barbell-overhead-press",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/military-press.html"
+    ],
+    "sourceSha256": "64d5a2d47b9f93f6e9df27201df5e22887a860b32434a2731a7e49c82c4c4ea3",
+    "videoSha256": "295c8b284570d8aeed2fa7beb343ed7256d09e413e281b42ddc6b0d77168968e",
+    "reviewedAt": "2026-09-09T09:09:27.515Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Wide overhand lat pulldown to front upper chest.",
+      "equipment": "Cable machine, overhead pulley, central cable-to-bar connector and long angled bar.",
+      "setup": "Seated with thighs restrained and torso slightly reclined.",
+      "hands": "Both hands maintain wide overhand grips outside shoulders.",
+      "feet": "Both feet stay planted on floor.",
+      "movement": "Elbows pull down as bar approaches upper chest, then extend to return; no behind-neck path or large torso swing."
+    },
+    "note": "Regenerated without numbers and with full pulley framing. Source and32 finalframes reviewed; entire8s24fps decode passed. Small silhouette interpolation remains.",
+    "id": "wide-grip-lat-pulldown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/back/lat-exercises/wide-grip-lat-pulldown/"
+    ],
+    "sourceSha256": "276373c711f4bc54dda82c75211c9284ff059933f2b9f38b602053536b5d3d59",
+    "videoSha256": "778bacb60ca98d6d416ded1a869225ef1cb1d3cbc271da09b256b3d3f8cd7bc0",
+    "reviewedAt": "2026-09-09T09:11:32.765Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing straight-arm cable pulldown.",
+      "equipment": "High cable pulley with centered short-bar attachment.",
+      "setup": "Slightly hinged torso and bent knees retained.",
+      "hands": "Two overhand grips and near-straight arms throughout.",
+      "feet": "Both feet flat at shoulder-width stance.",
+      "movement": "Arms arc from forward-up position toward upper thighs; elbows do not bend into triceps pushdown or row."
+    },
+    "note": "Source and final32 samples reviewed. High pulley and handle connection visible though top tower edge cropped. Full8s24fps decode passed.",
+    "id": "straight-arm-pulldown-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/back/lat-exercises/straight-arm-lat-pulldown/"
+    ],
+    "sourceSha256": "230669eaaea0d1ce2339c9e9e13d70ffcc068361c2755a4f8c9dcea4f3237921",
+    "videoSha256": "87b1c4de77bb6649cee449149f3aba53b2da4990055cb435886594b7e2713f3f",
+    "reviewedAt": "2026-09-09T09:23:37.424Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Rack pull from knee-height supports to upright.",
+      "equipment": "Barbell inside rack with fixed safety bars at starting height.",
+      "setup": "Hip hinge above knee height, neutral back and straight arms.",
+      "hands": "Both overhand grips outside legs remain fixed.",
+      "feet": "Both feet planted beneath bar, no stepping.",
+      "movement": "Hips and knees extend while bar rises close to thighs; return stops at safety support height, no elbow curl or backward lean."
+    },
+    "note": "Source and final32frames reviewed; rack top may extend to frame edge but body and working bar/support area visible. Full8s24fps decode passed.",
+    "id": "rack-pull",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/hamstring-exercises/deadlifts/rack-pulls/"
+    ],
+    "sourceSha256": "1d73c14a7e387c4d7ad72b77ec34de1dbb22118bd7a2a4d3df2e5eca9ab37c45",
+    "videoSha256": "724fed4c41c49c8f56a8e2b5d31b3a0b7de1351520966432e352396df87ddaa4",
+    "reviewedAt": "2026-09-09T09:26:04.585Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "중립 V 핸들 클로즈 그립 랫풀다운으로 팔을 위에서 가슴 앞까지 당겼다가 복귀한다.",
+      "equipment": "상단 도르래, 케이블, V 핸들, 좌석과 허벅지 패드가 유지된다.",
+      "setup": "좌석에 앉아 허벅지를 패드 아래 고정하고 몸통의 과한 젖힘 없이 당긴다.",
+      "hands": "두 손이 좁은 중립 그립으로 V 핸들을 계속 잡는다.",
+      "feet": "양발이 바닥에 고정되어 지지한다.",
+      "movement": "팔꿈치가 몸통 옆으로 내려가며 핸들은 턱 아래 상부 가슴까지 이동한다. 당길 때 웨이트가 올라가고 복귀할 때 내려간다."
+    },
+    "note": "수정 원본 및 최종 32프레임 확인. 8초 24fps 전체 decode 통과. 미세한 보간 경계 흐림과 프레이밍 차이는 남는다. 실제 기기 재생 및 전문가 동작 검증은 별도 대기.",
+    "id": "close-grip-lat-pulldown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/back/lat-exercises/close-grip-lat-pulldown/"
+    ],
+    "sourceSha256": "154ebfeb4d67d51a9ee9456dbc0102e138eb979c6128dd116d1232eff3e5163d",
+    "videoSha256": "8bd27b9f12247454e03de798dcb0033f60ee670cd328390634c7b0259f616dbd",
+    "reviewedAt": "2026-09-09T11:32:59.446Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "덤벨을 양옆에 든 전방 런지로 발을 내딛고 양 무릎을 굽힌 뒤 선 자세로 복귀한다.",
+      "equipment": "동일한 덤벨 두 개를 양손에 유지한다.",
+      "setup": "선 자세에서 앞으로 내딛고 몸통을 세워 지지한다.",
+      "hands": "중립 그립으로 덤벨을 몸 옆에 들고 팔꿈치 굽힘 없이 유지한다.",
+      "feet": "앞발 전체 지지와 뒤꿈치가 올라간 뒷발 지지를 확인했다.",
+      "movement": "앞 허벅지가 수평에 가까워지고 뒷무릎이 바닥 위에 머무는 하강 및 복귀를 확인했다."
+    },
+    "note": "수정 원본과 최종32프레임 시각 확인, 8초24fps480square104438bytes전체decode통과. 보간 과정의 약한 경계 흐림과 위치 변화는 남는다. 기기/전문가 검증 별도 대기.",
+    "id": "dumbbell-lunge",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/dumbbell-lunge.html"
+    ],
+    "sourceSha256": "fc587a1ba6db158ffaa21ee50e35514b0369542a30d77f958dcba3c2da223dfb",
+    "videoSha256": "a92679e60bdd04d3de25fbfe232022d22315db59c26f4c7588ea282a6580783f",
+    "reviewedAt": "2026-09-09T11:50:31.265Z"
+  },
+  {
+    "checks": {
+      "exercise": "벤치에 윗등을 댄 바벨 힙 쓰러스트로 골반 상승과 복귀가 보인다.",
+      "equipment": "고정 벤치와 패드가 있는 바벨이 유지된다.",
+      "setup": "어깨뼈 아래를 벤치 끝에 지지하고 바벨을 골반 접힘 부위에 둔다.",
+      "hands": "양손이 골반 양옆에서 바벨을 고정한다.",
+      "feet": "양발 전체가 바닥에 닿고 상단에서 정강이가 수직에 가깝다.",
+      "movement": "골반을 들어 어깨·골반·무릎이 대체로 일직선에 가까워진 후 제어하며 내린다."
+    },
+    "status": "passed",
+    "note": "수정 원본과 최종32프레임 시각 확인. 480x480 8초24fps 전체decode 통과. 보간 경계의 약한 흐림과 프레이밍 변화는 남는다. 전문가·실기기 검증 별도 대기.",
+    "id": "barbell-hip-thrust",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/barbell-hip-thrust"
+    ],
+    "sourceSha256": "a2d7bdbe26c531c717483ae1191ff00500ff13db5e8b393e5d457bdd4306efa4",
+    "videoSha256": "46639c130140701fbb577b6755b0f53d014c12be6d751d8aff2d070491350a61",
+    "reviewedAt": "2026-09-09T11:54:45.910Z"
+  },
+  {
+    "checks": {
+      "exercise": "엎드린 라잉 레그 컬로 무릎을 굽혀 발뒤꿈치를 엉덩이 쪽으로 올린다.",
+      "equipment": "레그 컬 머신의 롤러와 연결 레버, 중량판이 함께 움직인다.",
+      "setup": "가슴과 골반을 시트에 유지하며 무릎을 기구 회전부에 맞춘 자세다.",
+      "hands": "앞쪽 손잡이를 양손으로 고정한다.",
+      "feet": "패드는 발목 바로 위 종아리 뒤에 닿으며 두 발이 함께 이동한다.",
+      "movement": "허벅지와 골반을 들지 않고 무릎 굽힘 및 복귀를 한다. 굽힐 때 선택 중량판이 올라간다."
+    },
+    "status": "passed",
+    "note": "수정 원본과 최종32프레임 시각 확인. 480x480 8초24fps 전체decode 통과. 보간 경계의 약한 흐림과 프레이밍 변화는 남는다. 전문가·실기기 검증 별도 대기.",
+    "id": "lying-leg-curl",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/leg-curl.html"
+    ],
+    "sourceSha256": "40efdbadda073e869585e0804b8e5a10f30028da39e0a9c9aa1ccbe7763f939d",
+    "videoSha256": "99aa9bf8afe7e606ee358c96ed36186c6f692cf06729d348c89abafe1ca1447b",
+    "reviewedAt": "2026-09-09T11:54:50.977Z"
+  },
+  {
+    "checks": {
+      "exercise": "선 자세 양손 덤벨 컬이며 팔꿈치 굽힘과 폄으로 이동한다.",
+      "equipment": "독립된 덤벨 두 개가 유지된다.",
+      "setup": "몸통이 세워지고 상체 반동 없이 서 있다.",
+      "hands": "손바닥이 앞·위쪽을 향하는 회외 그립이며 손목 꺾임이 크지 않다.",
+      "feet": "두 발을 바닥에 고정해 지지한다.",
+      "movement": "위팔을 몸 옆에 유지하며 덤벨을 어깨 앞으로 올리고 내린다."
+    },
+    "status": "passed",
+    "note": "원본 및 최종32프레임 확인, 8초24fps480square전체decode통과. 보간경계흐림과약한프레이밍차이는남음. 기기/전문가검증대기.",
+    "id": "dumbbell-biceps-curl",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/standing-dumbbell-curl.html"
+    ],
+    "sourceSha256": "a3fd6f29ebce69f3b1d6b1b38c445d075ec415ad95eff4ce6d1713a90517d974",
+    "videoSha256": "9ad43310fb66af453e4df51265b090df739c05782cc3c5243aad614843ac7e82",
+    "reviewedAt": "2026-09-09T12:02:58.555Z"
+  },
+  {
+    "checks": {
+      "exercise": "EZ바 컬로 허벅지 앞부터 어깨 앞까지 팔꿈치를 굽혔다 펴는 움직임이다.",
+      "equipment": "굴곡이 있는 EZ바와 양끝 원판이 유지된다.",
+      "setup": "선 자세에서 몸통을 세우고 팔꿈치를 몸 옆에 둔다.",
+      "hands": "굴곡 손잡이의 언더핸드 그립을 양손으로 유지한다.",
+      "feet": "양발이 바닥에 고정된다.",
+      "movement": "상체 반동 없이 바를 상부 가슴 앞까지 올렸다가 제어하며 복귀한다."
+    },
+    "status": "passed",
+    "note": "원본 및 최종32프레임 확인, 8초24fps480square전체decode통과. 보간경계흐림과약한프레이밍차이는남음. 기기/전문가검증대기.",
+    "id": "ez-bar-curl-2",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/ez-bar-curl.html"
+    ],
+    "sourceSha256": "b157838506759df6f5f5bd58ec0e90519786b3f918baae704e5ff5a03731ff87",
+    "videoSha256": "7f8f3a1c239ee7a68d84232bcf35d1207e7f9781a210dc1c15ca59ebb3179d8e",
+    "reviewedAt": "2026-09-09T12:03:04.667Z"
+  },
+  {
+    "checks": {
+      "exercise": "앉아서 덤벨 하나를 양손으로 잡는 오버헤드 삼두 익스텐션이다.",
+      "equipment": "등받이 벤치와 세로 방향 덤벨 하나가 유지된다.",
+      "setup": "등을 세우고 벤치에 앉아 위팔을 귀 옆으로 올린다.",
+      "hands": "덤벨 위쪽 원판을 양손으로 받쳐 잡는다.",
+      "feet": "두 발이 바닥을 지지한다.",
+      "movement": "위팔을 올린 채 팔꿈치를 굽혀 덤벨을 머리 뒤로 내리고 팔을 펴 복귀한다. 수정본 상단 덤벨 잘림 없음."
+    },
+    "status": "passed",
+    "note": "수정원본과최종32프레임확인. 480x4808초24fps전체decode통과. 보간경계흐림/약한프레이밍차이는남음. 전문가/실기기검증대기.",
+    "id": "dumbbell-overhead-extension",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/two-arm-dumbbell-extension.html"
+    ],
+    "sourceSha256": "ca887ecf174459ed029e61c4bd627c6572e7f65ba17f5ca4610005dc32371c35",
+    "videoSha256": "4225e7bff39bf25aaddb315458aab9b57b8e77e2a154fae9fe53e59d973cfcdf",
+    "reviewedAt": "2026-09-09T12:12:34.619Z"
+  },
+  {
+    "checks": {
+      "exercise": "누운 자세 EZ바 스컬크러셔로 팔꿈치 굽힘과 폄이 보인다.",
+      "equipment": "굴곡 EZ바, 양끝 원판, 평평한 벤치가 유지된다.",
+      "setup": "머리·등·엉덩이를 벤치에 지지하고 위팔을 세운다.",
+      "hands": "양손이 EZ바를 어깨너비에 가깝게 잡고 유지한다.",
+      "feet": "두 발이 바닥을 지지한다.",
+      "movement": "위팔을 세운 채 바를 이마 위로 내린 다음 팔꿈치를 펴 복귀한다. 이전 가슴으로 내리던 동작은 수정했다."
+    },
+    "status": "passed",
+    "note": "수정원본과최종32프레임확인. 480x4808초24fps전체decode통과. 보간경계흐림/약한프레이밍차이는남음. 전문가/실기기검증대기.",
+    "id": "ez-bar-skull-crusher",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/exercise/workouts/arm-exercises/lying-ez-bar-triceps-extension/"
+    ],
+    "sourceSha256": "6637681d72a129db632991b0bab37f9ad4ee1b51b6e53c804686dfc75af28a6d",
+    "videoSha256": "eb58cd607914e0325bea1ef9c2c729ae32f4103429bb3bd1a89c2739efb01557",
+    "reviewedAt": "2026-09-09T12:12:43.926Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "리버스 그립 케이블 푸시다운으로 팔꿈치를 펴 손잡이를 내린다.",
+      "equipment": "상단 케이블과 짧은 바 손잡이가 유지된다.",
+      "setup": "몸통을 세우고 약간 기울인 채 위팔을 몸 옆에 고정한다.",
+      "hands": "손바닥을 위로 받친 언더핸드 그립이 시작과 하강 중 유지된다.",
+      "feet": "양발이 바닥을 지지한다.",
+      "movement": "팔꿈치를 굽힌 시작점에서 거의 편 상태까지 손잡이를 내렸다 복귀하며, 중량판은 내릴 때 상승한다."
+    },
+    "note": "원본 및 최종32프레임 검토, 8초24fps480square87355bytes전체decode통과. 약한프레이밍/보간경계변화있음. 전문가/실기기검증대기.",
+    "id": "reverse-grip-pushdown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/878/Reverse-Grip-Tricep-Pushdown/"
+    ],
+    "sourceSha256": "b77f771a31bb6048943dee46cf10e053f90dc1e77ca4c02f9226288fbb6e968d",
+    "videoSha256": "ec44529a4a52e2264071dfae352dacae1fea81416649efe29a2c71a95c24ce7a",
+    "reviewedAt": "2026-09-09T12:21:31.675Z"
+  },
+  {
+    "checks": {
+      "exercise": "직선 바 케이블 푸시다운으로 굽힌 팔꿈치를 펴 바를 내린다.",
+      "equipment": "상단 도르래와 케이블, 직선 바가 연결되고 중량부는 덮개 안에 있다.",
+      "setup": "약간 숙인 몸통과 몸 옆 위팔 위치를 유지한다.",
+      "hands": "바를 양손 오버핸드 그립으로 잡는다.",
+      "feet": "양발이 바닥에 고정된다.",
+      "movement": "팔꿈치 굽힘 시작점에서 바를 허벅지 앞까지 내리고 제어하며 복귀한다."
+    },
+    "status": "passed",
+    "note": "수정원본 및 최종32프레임 시각검토. 8초24fps480square전체decode통과. 약한보간경계흐림/프레이밍변화남음. 실제기기/전문가검증대기.",
+    "id": "triceps-pushdown-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/tricep-extension.html"
+    ],
+    "sourceSha256": "5b20ee035168a5fb71de5a8202c1a551c0bc0f82d511ed6b9811cf5b8cdc33ac",
+    "videoSha256": "d3b5c4a1df15fade896f2d6d16e86645aa4ff5709f10be4fc764ba3f9bf94623",
+    "reviewedAt": "2026-09-09T12:27:27.565Z"
+  },
+  {
+    "checks": {
+      "exercise": "로프 케이블 푸시다운으로 팔꿈치를 펴 양손을 내린다.",
+      "equipment": "두 갈래 로프와 상단 케이블이 연결되며 중량부는 덮개 안에 있다.",
+      "setup": "몸통을 약간 기울이고 위팔을 몸 옆에 유지한다.",
+      "hands": "각 손이 로프 한쪽 끝을 중립 그립으로 잡는다.",
+      "feet": "두 발을 바닥에 고정한다.",
+      "movement": "팔꿈치를 펴 로프를 허벅지 앞으로 내린 후 굽혀 복귀한다. 원본 케이블 연결 유지 확인."
+    },
+    "status": "passed",
+    "note": "수정원본 및 최종32프레임 시각검토. 8초24fps480square전체decode통과. 약한보간경계흐림/프레이밍변화남음. 실제기기/전문가검증대기.",
+    "id": "rope-triceps-pushdown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/rope-tricep-extension.html"
+    ],
+    "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
+    "videoSha256": "9b017ee30f86009de975b11ff96322602858de92e6937345ab5e2a92b2790405",
+    "reviewedAt": "2026-09-09T12:27:36.803Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "덤벨 실 로우로 엎드린 가슴 지지 상태에서 두 덤벨을 당긴다.",
+      "equipment": "높은 수평 벤치와 독립된 덤벨 두 개가 유지된다.",
+      "setup": "가슴과 골반을 벤치에 두고 팔이 바닥에 닿지 않게 늘어진다.",
+      "hands": "양손이 덤벨을 중립 그립으로 유지한다.",
+      "feet": "다리를 벤치 뒤로 뻗은 상태로 유지한다.",
+      "movement": "가슴을 들지 않고 팔꿈치를 뒤·위로 당겨 덤벨을 몸 옆까지 올린 뒤 내린다."
+    },
+    "note": "원본 및 최종32프레임 확인, 8초24fps480square110438bytes전체decode통과. 보간경계흐림과프레이밍차이남음. 전문가/기기검증대기.",
+    "id": "seal-row",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://library.theprehabguys.com/vimeo-video/seal-row-dumbbell/"
+    ],
+    "sourceSha256": "67cf13fc1547e2b4fd3abf5c6caba6dce5dcae220858081fe012b64c9c546da6",
+    "videoSha256": "41b7d4a89c9bf37d9f34984395d5c56f9ca0d7b7cd4f0cd157f7d6b980b53205",
+    "reviewedAt": "2026-09-09T12:33:17.154Z"
+  },
+  {
+    "checks": {
+      "exercise": "앉은 레그 컬로 앞으로 뻗은 다리를 무릎 굽힘으로 아래·뒤로 당긴다.",
+      "equipment": "등받이·허벅지 고정 패드·발목 뒤 롤러와 연결 레버가 유지된다.",
+      "setup": "등과 골반을 시트에 두고 허벅지를 고정한다.",
+      "hands": "양손으로 좌석 옆 손잡이를 유지한다.",
+      "feet": "움직이는 롤러가 발목 위 종아리 뒤를 지지하며 발이 아래로 이동한다.",
+      "movement": "허벅지를 고정한 채 무릎을 굽히고 제어하며 앞으로 복귀한다. 최초 정강이 앞 패드 오류는 수정했다."
+    },
+    "status": "passed",
+    "note": "수정 원본/최종32프레임 확인, 8초24fps480square전체decode통과. 백익스텐션 중간 전환에 머리·팔 윤곽 보간 흐림이 남으나 원본 자세 및 동작 종류를 구분 가능. 실기기·전문가 검증 별도 대기.",
+    "id": "seated-leg-curl-2",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/seated-leg-curl"
+    ],
+    "sourceSha256": "bea603089ed9fee2ef1f10e8727483e8b9536de1bbba5f2e8d621f0bc640bf08",
+    "videoSha256": "55d808d9b13ab0f323efc0a9f3edefc30d9d6b9010756518b1825ecdb186858d",
+    "reviewedAt": "2026-09-09T12:39:06.652Z"
+  },
+  {
+    "checks": {
+      "exercise": "45도 로만 체어 백 익스텐션으로 엉덩이에서 상체를 접고 편다.",
+      "equipment": "상부 허벅지 패드, 발판, 발목 고정 롤러가 유지된다.",
+      "setup": "패드를 고관절 아래에 두고 고관절에서 상체가 접힌다.",
+      "hands": "양팔을 가슴 앞에 교차한다.",
+      "feet": "두 발이 발판을 지지하고 발목이 롤러에 고정된다.",
+      "movement": "몸통을 올려 다리와 일직선에 가깝게 맞춘 뒤 내린다. 일직선 이상으로 크게 젖히지 않는다."
+    },
+    "status": "passed",
+    "note": "수정 원본/최종32프레임 확인, 8초24fps480square전체decode통과. 백익스텐션 중간 전환에 머리·팔 윤곽 보간 흐림이 남으나 원본 자세 및 동작 종류를 구분 가능. 실기기·전문가 검증 별도 대기.",
+    "id": "back-extension",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/hyperextension.html"
+    ],
+    "sourceSha256": "1948eb307083bd2d0a966ded550c2becfb42007b59365d4c07be3d284f0bfabf",
+    "videoSha256": "64741f21fa476768705c22b0d2eb98de66f33ecb17f50ab513df851460ccf28e",
+    "reviewedAt": "2026-09-09T12:39:17.304Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "인클라인 벤치에 엎드린 덤벨 스파이더 컬을 원본 및 최종 32프레임에서 확인",
+      "equipment": "양손 개별 덤벨과 인클라인 벤치",
+      "setup": "가슴을 패드에 붙이고 위팔을 아래로 늘어뜨린 자세 유지",
+      "hands": "양손 회외 그립으로 손목을 꺾지 않고 덤벨을 잡음",
+      "feet": "양발을 벌려 바닥을 지지",
+      "movement": "위팔을 뒤로 당기는 로우 없이 팔꿈치를 굽혀 덤벨을 올렸다가 복귀"
+    },
+    "note": "2026-09-09 원본과 최종 32프레임 직접 확인. 가벼운 프레이밍 변화 및 보간 윤곽 흐림 있음. 전문 운동지도자의 검수 및 실기기 검증은 별도 대기.",
+    "id": "spider-curl",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/835/Dumbbell-Spider-Curl/"
+    ],
+    "sourceSha256": "871316967fccbe4a89bd3f6c5a23a7a80089a05a6c127474958a7fc59364804a",
+    "videoSha256": "fe53314df9ed6205b0108c2de8b624e8db339afcbda20340cf1c339256a78b6c",
+    "reviewedAt": "2026-09-09T12:47:40.740Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "플랫 벤치에서 스트레이트 바벨 스컬크러셔를 수행하는 원본 및 최종 32프레임 확인",
+      "equipment": "직선 바벨과 양쪽 원판, 플랫 벤치",
+      "setup": "머리·등·엉덩이를 벤치에 지지하고 위팔을 어깨 위에 유지",
+      "hands": "양손 어깨너비 오버핸드 그립으로 바벨 유지",
+      "feet": "양발 바닥 지지 유지",
+      "movement": "팔꿈치를 굽혀 이마 위로 바를 내렸다가 펴며 가슴으로 내리는 프레스 동작과 구분됨"
+    },
+    "note": "2026-09-09 원본과 최종 영상 32프레임 확인. 약간의 위팔 각도·화면 배율 변화 및 보간 윤곽 흐림 있음. 8초24fps480 전체decode 통과. 전문지도자/실기기 검증 대기.",
+    "id": "lying-triceps-extension",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/lying-tricep-extension.html"
+    ],
+    "sourceSha256": "b73fee7de01788e9220aeb19e74b1f2af725909cf3bff87b2da81ec1c1c4e1bc",
+    "videoSha256": "667134b84e5f59f9f70f37234329325fe74977a9313001524df0cc062f5feb7e",
+    "reviewedAt": "2026-09-09T12:50:20.955Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "평행봉에서 몸통을 앞으로 기울인 체스트 딥스 원본 및 최종32프레임 확인",
+      "equipment": "체중과 고정 평행봉, 추가 중량 없음",
+      "setup": "몸을 봉 위에 지지하고 가슴을 앞으로 기울여 하강",
+      "hands": "양손이 평행봉의 동일한 지점에서 중립 그립 유지",
+      "feet": "무릎을 굽히고 양발을 바닥에서 띄운 채 유지",
+      "movement": "팔꿈치가 굽혀지며 몸통이 내려가고 위팔이 수평에 가까워진 뒤 밀어 올라옴"
+    },
+    "note": "2026-09-09 원본과 최종32프레임 직접 확인. 일부 머리·팔 보간 흐림과 미세 프레이밍 변화 있음. 8초24fps480 92835bytes 전체decode통과. 실기기/전문지도자 검증대기.",
+    "id": "chest-dip",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/chest-dip.html",
+      "https://www.strengthlog.com/bar-dip/"
+    ],
+    "sourceSha256": "44644735bded62f54e39450f2aa0afde2a3d22914b8a37cbb7544d33e4c5f785",
+    "videoSha256": "8bd795e8886a53c2afb791da6ea76ed79d71c9405518ab5a3b69dd54d526c5f9",
+    "reviewedAt": "2026-09-09T12:59:00.834Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "아래 도르래에서 위쪽 가슴 앞으로 모으는 로우 케이블 플라이",
+      "equipment": "양쪽 저상 도르래 케이블과 개별 D핸들 연결",
+      "setup": "케이블 타워 사이에서 한발 앞으로 둔 스플릿 스탠스와 몸통 지지",
+      "hands": "양손 개별 핸들을 잡고 팔꿈치 약간 굽힘을 유지",
+      "feet": "앞뒤로 벌린 발로 바닥 지지, 과도한 몸통 반동 없음",
+      "movement": "양팔이 아래·바깥에서 위·안쪽 가슴 앞으로 모였다가 복귀, 머리 위 프레스나 컬과 구분됨"
+    },
+    "note": "2026-09-09 원본16자세 및 최종32프레임 직접 대조. 미세 화면배율·보간윤곽변화 있음. 8초24fps480 119292bytes 전체decode통과. 실기기/전문지도자 검증대기.",
+    "id": "low-cable-fly",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/node/3819"
+    ],
+    "sourceSha256": "c5c845a665f1457986da4140a5f905de7dc4854419ec78aedd861db72cdea3a9",
+    "videoSha256": "9d4e92b71a590af5d4d3e102f1b6d02f6c807f849f1c7f9262f2feda388364ef",
+    "reviewedAt": "2026-09-09T13:00:40.768Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "서서 다리 반동 없이 수행하는 바벨 밀리터리 프레스",
+      "equipment": "직선 바벨과 작은 원판, 양손 그립 유지",
+      "setup": "몸통을 지지한 선 자세에서 쇄골 앞 바벨 시작, 머리 위 정렬",
+      "hands": "어깨보다 약간 넓은 오버핸드 그립, 팔꿈치 아래에서 위로 펴짐",
+      "feet": "어깨너비 양발 바닥 지지 유지",
+      "movement": "가슴 앞에서 얼굴 앞을 지나 머리 위로 밀고 돌아옴, 무릎 굽힘 반동이나 목 뒤 내림 없음"
+    },
+    "note": "2026-09-09 수정원본과 최종32프레임 직접 확인. 이전 상단잘림 해결, 8초24fps480 91212bytes 전체decode 통과. 미세 배율·보간 윤곽 변화 있음. 실기기/전문지도자 검증대기.",
+    "id": "military-press",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/military-press.html"
+    ],
+    "sourceSha256": "3ac34824a22908f9f981730c57831ecb8d0d55ab4f225fb90ee962a8c050e203",
+    "videoSha256": "ea27796abc80e43825d9ee7a2c59e5eeb43ccd0509bf0dd58d66019d8588c3b2",
+    "reviewedAt": "2026-09-09T13:13:02.878Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "바벨을 승모근 위쪽에 놓는 하이바 백스쿼트",
+      "equipment": "직선 바벨과 양쪽 원판",
+      "setup": "등 위쪽 바 지지와 비교적 세운 몸통, 중립 척추",
+      "hands": "어깨 바깥에서 양손으로 바벨을 고정하고 팔꿈치를 아래로 유지",
+      "feet": "발을 벌리고 발끝을 바깥으로 향하며 발바닥 전체 지지",
+      "movement": "무릎과 고관절을 함께 굽혀 앉았다가 일어남, 뒤꿈치 들림이나 과도한 등 굽힘 없음"
+    },
+    "note": "2026-09-09 원본16자세 및 최종32프레임 직접 대조, 8초24fps480 전체decode 통과. 미세 프레이밍 변화와 보간 윤곽 흐림 있음. 실기기/전문지도자 검증대기.",
+    "id": "high-bar-squat",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/77/Back-Squat/"
+    ],
+    "sourceSha256": "d6079636b6a1ba4d21aa705839836ba04f81f4b497a923a49eb1acc1b6890515",
+    "videoSha256": "70b014249273b2b1e1c7b5b39d65b2d1203a08a8b8ed74e5021e6b8d1ceeab30",
+    "reviewedAt": "2026-09-09T13:17:38.849Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "한팔이 몸 앞을 가로질러 시작해 옆으로 올라가는 케이블 레터럴 레이즈",
+      "equipment": "저상 케이블 도르래와 D핸들 연결 유지",
+      "setup": "서서 반대 손으로 타워를 지지하고 몸통 고정",
+      "hands": "작업 손으로 핸들 유지, 팔꿈치 약간 굽힌 상태에서 측면으로 듦",
+      "feet": "양발 바닥에 고정하고 다리 반동 없음",
+      "movement": "팔을 옆으로 어깨 높이 부근까지 들고 천천히 복귀, 케이블이 끊기거나 손에서 이탈하지 않음"
+    },
+    "note": "2026-09-09 원본16자세 및 최종32프레임 직접 대조, 8초24fps480 전체decode 통과. 미세 프레이밍 변화와 보간 윤곽 흐림 있음. 실기기/전문지도자 검증대기.",
+    "id": "cable-lateral-raise-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/one-arm-cable-lateral-raise.html"
+    ],
+    "sourceSha256": "7e5c24df26ea861e82a3f8ea49cf5107e44806f6ad917f96901928308e0e03d2",
+    "videoSha256": "ba4ba6028abf9556da590bf94eacce1728e53047cd73bc3a9fc936fa717997b8",
+    "reviewedAt": "2026-09-09T13:17:44.612Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "앉아서 케이블 바를 가슴 앞쪽으로 내리는 랫풀다운",
+      "equipment": "상단 도르래·중앙 케이블·랫바 연결, 허벅지 고정패드와 좌석",
+      "setup": "허벅지를 패드 아래 고정하고 몸통을 약간 뒤로 기울인 자세 유지",
+      "hands": "어깨보다 넓은 오버핸드 양손 그립 유지",
+      "feet": "양발 바닥 지지 유지",
+      "movement": "팔꿈치를 몸 옆 아래로 당겨 바를 윗가슴 앞으로 내리고 복귀, 목 뒤 당김이나 큰 몸통 반동 없음"
+    },
+    "note": "2026-09-09 원본16자세 및 최종32프레임 직접 확인. 일부 이동 프레임에서 손·바 보간 잔상 있음(추후 선명도 개선대상). 8초24fps480 92765bytes 전체decode 통과. 실기기/전문지도자 검증대기.",
+    "id": "lat-pulldown-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/"
+    ],
+    "sourceSha256": "01ca44df630deccccecab07b00e4b2b7e8efafaa68df1a1bfc24f9a9e899c062",
+    "videoSha256": "cbd586aec2b2d616dcb9d93dc5c746d6c3e362e295400c5934a177999b55bc33",
+    "reviewedAt": "2026-09-09T13:25:19.458Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "가슴을 받침에 지지한 시티드 머신 로우",
+      "equipment": "좌석·가슴패드·발받침·중립 핸들과 바닥 회전축 레버 연결",
+      "setup": "가슴을 패드에 유지하고 허리를 중립으로 둔 앉은 자세",
+      "hands": "양손 중립 그립으로 핸들을 잡고 손목 유지",
+      "feet": "발받침에 양발 지지 유지",
+      "movement": "팔을 앞으로 편 상태에서 핸들을 갈비뼈 옆으로 당기고 복귀, 팔꿈치가 몸통 뒤로 이동하며 등받침에서 몸을 젖히지 않음"
+    },
+    "note": "2026-09-09 짧은 당김 범위 원본 교체 후 원본16자세/최종32프레임 직접 대조. 8초24fps480 149343bytes전체decode통과. 미세 배율·보간윤곽변화 있음. 실기기/전문지도자 검증대기.",
+    "id": "machine-row",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/machine-row.html"
+    ],
+    "sourceSha256": "dd1580311935552d0a223aebce9be58011b3162791b15ef8a013496ebda08844",
+    "videoSha256": "d66f6701d240ba18102fcb552d715001d8dae991acc25a93ec7c2f0db5cc8230",
+    "reviewedAt": "2026-09-09T13:34:07.508Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "어깨너비 그립의 클로즈 그립 바벨 벤치프레스",
+      "equipment": "직선 바벨과 양쪽 작은 원판, 플랫 벤치",
+      "setup": "머리·등·엉덩이 벤치 지지, 견갑 안정",
+      "hands": "양손을 어깨너비로 좁혀 잡고 손목 위에 바를 지지",
+      "feet": "양발 바닥 지지 유지",
+      "movement": "팔꿈치를 몸통 가까이 두고 하부 가슴에서 위로 밀고 복귀, 이마로 내리는 스컬크러셔와 구분됨"
+    },
+    "note": "2026-09-09 수정원본16자세와 최종32프레임 직접확인. 8초24fps480 103828bytes 전체decode통과. 미세프레이밍·보간윤곽변화 있음. 실기기/전문지도자 검증대기.",
+    "id": "close-grip-bench-press-2",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/close-grip-bench-press.html"
+    ],
+    "sourceSha256": "f085497c43b058691c13772cc6b04eb02af0ff27c2b661f05ffcf4c4c73f7b5c",
+    "videoSha256": "42201e217b1822fcf84c48375756ac3f3d8e69b5fd5ad5dc588934d6e9416b34",
+    "reviewedAt": "2026-09-09T13:50:51.479Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "로프를 양손 중립 그립으로 잡고 수행하는 케이블 해머 컬",
+      "equipment": "저상 도르래 케이블과 금속 연결부·양갈래 로프",
+      "setup": "서서 위팔을 몸 옆에 두고 몸통 고정",
+      "hands": "양손 손바닥이 서로 마주보는 그립으로 로프 끝을 잡음",
+      "feet": "양발 바닥에 고정하고 반동 없음",
+      "movement": "팔꿈치를 굽혀 로프를 어깨 앞으로 올리고 다시 폄, 몸통 회전이나 손바닥 뒤집음 없음"
+    },
+    "note": "2026-09-09 카메라가 돌던 최초원본 교체후 원본16자세/최종32프레임 확인. 금속연결부는 저해상도에서 옅게 보임. 8초24fps480 83097bytes 전체decode통과. 보간윤곽흐림·실기기/전문지도자 검증대기.",
+    "id": "cable-rope-hammer-curl-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/881/Rope-Cable-Curl/"
+    ],
+    "sourceSha256": "4addd84f5fce7210c1df4e5eb88c25fff8f579fd2e5be2c16caec55a51963b5d",
+    "videoSha256": "449d9efe082bf6edc38924ab1104a18f72857011f73e12732140ffd407bdc15f",
+    "reviewedAt": "2026-09-09T13:52:42.299Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "앉아서 손등을 위로 드는 덤벨 리버스 리스트 컬로 손목 굴곡 컬과 구분",
+      "equipment": "양손에 각각 작은 덤벨을 유지",
+      "setup": "벤치에 앉아 상체를 약간 숙이고 전완을 허벅지에 지지",
+      "hands": "손바닥이 아래를 향한 오버핸드 그립을 유지하며 무릎 앞 손목을 폄",
+      "feet": "양발 바닥 지지 유지",
+      "movement": "손을 아래로 내린 상태에서 손목을 위로 펴고 복귀; 큰 팔꿈치 컬이나 그립 뒤집힘 없음"
+    },
+    "note": "2026-09-10 StrengthLog 지침과 원본8자세 및 최종32프레임 직접 대조. 8초24fps480x480/89781bytes/전체decode통과. 미세 프레이밍·윤곽 변화 있음. 실기기 및 전문가 검증 대기.",
+    "id": "reverse-wrist-curl",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/dumbbell-wrist-extension/"
+    ],
+    "sourceSha256": "43007d27d2d5728a863daf2160efbffa88481b16ebe337631431a0f0a4e1ecf4",
+    "videoSha256": "dc0c679ae469d8e783fcb513294fdc8c8a6de7de6ca65ffc41477317218ff955",
+    "reviewedAt": "2026-09-10T12:49:32.725Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "서서 양손으로 수행하는 랜드마인 프레스",
+      "equipment": "바닥 회전 소켓에 한쪽 끝을 고정한 바벨과 그립 아래 원판",
+      "setup": "몸통을 세운 채 양손을 윗가슴 앞에 두고 시작, 허리 과신전이나 무릎 반동 없음",
+      "hands": "양손이 같은 바벨 슬리브 끝을 감싸고 유지",
+      "feet": "양발 바닥 지지와 발 위치 유지",
+      "movement": "가슴 앞에서 팔꿈치를 펴며 바를 앞·위로 원호를 따라 밀고 복귀; 수정16자세 최종32프레임에서 이전 손·바 대형 잔상 개선"
+    },
+    "note": "2026-09-10 Prehab 양손 지침, 수정원본16자세 및 최종32프레임 대조. 8초24fps480/83520bytes/전체decode통과. 바닥 소켓 일부가 왼쪽 가장자리와 맞닿고 미세 윤곽·프레이밍 변화 있음. 실기기·전문가 확인 대기.",
+    "id": "landmine-press",
+    "equipmentIds": [
+      "landmine"
+    ],
+    "sources": [
+      "https://library.theprehabguys.com/vimeo-video/standing-shoulder-press-landmine/"
+    ],
+    "sourceSha256": "45c6c1892196dfab0b12ae7cb556fb6b4980d22896600d8f9dff299cd506803c",
+    "videoSha256": "ec81dc896de629ef223ff1b02b4d05eb7221a6a83a8671166e548c8e4bcc9e65",
+    "reviewedAt": "2026-09-10T13:00:12.500Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "앉아서 두 허벅지를 바깥으로 벌리는 힙 어브덕션",
+      "equipment": "허벅지 바깥쪽 패드와 발받침이 연결된 머신",
+      "setup": "등받이와 좌석에 몸통·골반을 지지",
+      "hands": "양손 측면 고정 핸들 유지",
+      "feet": "양발을 각 발받침 위에 유지하고 다리와 함께 옆으로 이동",
+      "movement": "무릎을 굽힌 상태로 고관절에서 벌렸다 모음; 수정16자세로 다리·기구의 큰 보간 잔상 감소"
+    },
+    "note": "2026-09-10 StrengthLog 지침·수정원본16자세·최종32프레임 대조. 156680bytes/8초24fps480/전체decode통과. 미세프레이밍 변화 및 이동부 윤곽흐림 있음. 실기기/전문가 검증 대기.",
+    "id": "hip-abduction-machine",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/hip-abduction-machine/"
+    ],
+    "sourceSha256": "97e4c8ea9d6bf9e23841b6aafa95a533709edf64e0cac66714c984d8f8e78a99",
+    "videoSha256": "32f5b178cda47b4fe34ba2717fa140c6b1bc996cd288cd2c77609733c42fcf5e",
+    "reviewedAt": "2026-09-10T13:04:15.947Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "서서 한쪽 다리를 뒤로 보내는 케이블 글루트 킥백",
+      "equipment": "낮은 도르래 케이블과 작업 다리 발목 스트랩",
+      "setup": "몸통을 약간 앞으로 기울이고 양손으로 타워를 지지; 이전 후보보다 골반·몸통 변화 감소",
+      "hands": "양손으로 타워를 지지한 상태 유지",
+      "feet": "지지 발 바닥 고정, 반대 발은 스트랩을 유지하며 뒤로 이동",
+      "movement": "무릎 각도를 크게 바꾸지 않고 고관절에서 다리를 뒤로 뻗었다 복귀, 큰 허리 젖힘이나 다리 컬 없음"
+    },
+    "note": "2026-09-10 수정원본16자세와 최종32프레임을 StrengthLog 지침과 대조. renderVersion3/8초24fps480/전체decode통과. 미세 윤곽·프레이밍 변화와 가장자리 선 있음. 실기기/전문가 검증 대기.",
+    "id": "cable-glute-kickback",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cable-glute-kickback/"
+    ],
+    "sourceSha256": "1bfd6ee727c36a7d6a24d87da3a3d142008cf90d41492854dcba2d6114c68964",
+    "videoSha256": "92b8288592a005b8a8d496599e711af0d4f36d012a11283c0918b02b770d4d15",
+    "reviewedAt": "2026-09-10T13:18:44.058Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "양손으로 한 개의 케틀벨을 바닥에서 드는 데드리프트",
+      "equipment": "검은 케틀벨 한 개와 한 손잡이를 잡은 양손",
+      "setup": "발 사이 케틀벨, 엉덩이를 뒤로 보내고 무릎을 굽힌 상태에서 중립 척추",
+      "hands": "양팔을 편 상태로 양손 그립 유지, 컬이나 스윙 없음",
+      "feet": "양발 바닥 지지와 발 위치 유지",
+      "movement": "고관절·무릎을 펴서 일어서고 힙힌지로 내려놓음; 수정16자세에서 배경 얼룩과 이전 끝프레임 혼입 부재 확인"
+    },
+    "note": "2026-09-10 NASM 지침·새16자세 원본·최종32프레임 대조. renderVersion3/86174bytes/8초24fps480/전체decode통과. 미세 보간윤곽·프레이밍 변화 있음. 실기기/전문가 검증 대기.",
+    "id": "kettlebell-deadlift",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/kettlebell-deadlift"
+    ],
+    "sourceSha256": "92873eab082872841e1935d3af4269902d27e4bf8af6bd170d796550f59b31ec",
+    "videoSha256": "6752cd247116b708faa3e285b3d1e1d00a1e54e6cf871af66ae1f5e849223baa",
+    "reviewedAt": "2026-09-10T13:18:48.449Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "시트에서 양팔을 옆으로 벌리는 머신 레터럴 레이즈를 원본16자세 및 최종32프레임으로 대조.",
+      "equipment": "팔꿈치 바깥 패드·회전 레버·등받이 있는 머신, 카탈로그 machine 일치.",
+      "setup": "시트에 앉아 등받이 지지와 몸통 세움 유지.",
+      "hands": "짧은 손잡이 그립 유지, 팔꿈치 굽힘을 유지하며 전완은 앞쪽.",
+      "feet": "양발 바닥 지지, 다리 반동 없음.",
+      "movement": "팔꿈치가 몸통 옆에서 어깨 높이까지 올라간 뒤 제어하여 복귀. 이전8자세의 큰 팔 잔상이 감소."
+    },
+    "note": "2026-09-12 KST: 최종16자세 source f4305f2a, 8초24fps480,142790bytes 전체decode passed. 약한 외곽 보간 흔들림·초반 짧은 정체는 남으나 동작/기구 식별과 손발 지지 확인. 실기기 검증 전.",
+    "id": "machine-lateral-raise",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/machine-lateral-raise/"
+    ],
+    "sourceSha256": "c53c46d55b3df52414a4e5f4894e8100037a45e7ffc60e9b348e8827bba4cf22",
+    "videoSha256": "6eb4acfa838fd87e49eb7a25334cbd02fe4b16007ae984c23e52f5d279b4b2a6",
+    "reviewedAt": "2026-09-11T15:02:58.083Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "머신 하이 로우의 위앞쪽 손잡이를 옆가슴으로 당기는 동작을 원본16자세 및 최종32프레임으로 확인.",
+      "equipment": "플레이트 로드 양측 회전 레버·가슴 패드·시트가 있는 machine 일치.",
+      "setup": "시트에 앉아 가슴을 앞 패드에 지지한 상태 유지.",
+      "hands": "양손 손잡이 그립과 레버 연결 유지, 팔꿈치는 아래·뒤쪽으로 굽힘.",
+      "feet": "양발 바닥 지지와 앉은 자세 유지.",
+      "movement": "높은 위치의 팔 폄에서 팔꿈치 굽힘으로 당기고 제어 복귀. 이전 큰 머리·팔 잔상 감소, 기구 전체 식별 가능."
+    },
+    "note": "2026-09-12 원본08f0a6ab 재제작. 최종8초24fps480,161805bytes,전체decode passed. 약한 보간 외곽 흐림·패널별 미세 위치 변화는 남음. 이전원본보다 상단원판과 가슴패드 확인 개선. 모바일 확인 예정.",
+    "id": "hammer-strength-high-row",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.youtube.com/watch?v=beKbbq6NhWY"
+    ],
+    "sourceSha256": "7f67d9a21dcf65d7465875cfe3bd8a92a0bf7d7ab7aae5690da7fc0fef27af6a",
+    "videoSha256": "9e6d19bf17de6c28c45c76ace6a40e969dde90985507b740d8cf0e20fa958098",
+    "reviewedAt": "2026-09-11T15:14:16.378Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "양손 V그립 랜드마인 로우의 당김·복귀를 원본16자세와 최종32프레임 확인.",
+      "equipment": "바닥 소켓 고정 바벨과 앞쪽 원판, V그립으로 landmine 일치.",
+      "setup": "바를 양발 사이에 두고 고관절 힌지·중립 등 자세 유지.",
+      "hands": "양손이 앞 원판 뒤 V그립을 잡고 팔꿈치를 뒤로 굽힘.",
+      "feet": "양발 바닥 지지, 바를 사이에 둔 자세 유지.",
+      "movement": "팔 폄에서 손잡이를 배쪽으로 당겨 팔꿈치를 굽힌 뒤 복귀. 이전 머리 잘림 제거."
+    },
+    "note": "2026-09-12 최종6438348e,8초24fps480,134448bytes 전체decode passed. 원본/최종 출처대조. 미세한 외곽 보간흐림·몸통각 변화·배경 경계는 남으나 기구와 핵심 동작 식별 가능.",
+    "id": "landmine-row",
+    "equipmentIds": [
+      "landmine"
+    ],
+    "sources": [
+      "https://www.muscleandfitness.com/workouts/back-exercises/how-t-bar-row/"
+    ],
+    "sourceSha256": "f03e19d0f5e227de09eefc778003fd18ec0c7c5c7b46e5d483e32ac22c23da49",
+    "videoSha256": "9b57b04999460ca2131e0b088fe550b980e623be0e9cce046fca68caca498c8a",
+    "reviewedAt": "2026-09-11T15:22:44.674Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "비하인드 백 바벨 리스트 컬 전용8자세와 최종32프레임 대조.",
+      "equipment": "양쪽 원판이 있는 일자 바벨, barbell 일치.",
+      "setup": "몸통 세움과 팔 폄을 유지하며 바벨이 엉덩이 뒤에 위치.",
+      "hands": "손바닥이 뒤를 향한 그립을 유지, 손목 굽힘으로 바가 소폭 상승.",
+      "feet": "양발 바닥 지지 유지.",
+      "movement": "팔꿈치 컬이나 어깨 으쓱 없이 손목에서 작은 올림·내림 확인."
+    },
+    "note": "2026-09-12 source13d62f50,8초24fps480,86622bytes decode passed. 작은 손목 가동범위 특성상 전체화면에서 움직임은 작음. 큰 보간왜곡 없음, 미세 자세 흔들림 남음.",
+    "id": "behind-the-back-wrist-curl",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/barbell-wrist-curl-behind-the-back/"
+    ],
+    "sourceSha256": "c057e14b37d5a573e30e53256e34229aea89252be732f09258aa880671b341f6",
+    "videoSha256": "e4e1b94c56702e028c90ffd5d3568cc8813eba2f1f9786443f39573ff512294a",
+    "reviewedAt": "2026-09-11T15:26:51.570Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "머신 프리처 컬 원본16자세 및 최종32프레임에서 팔꿈치 굽힘과 복귀 확인.",
+      "equipment": "고정 프리처 패드와 손잡이 연결 회전레버의 machine 일치.",
+      "setup": "시트에 앉고 상완 뒷면을 경사 패드에 지지.",
+      "hands": "양손 손바닥 위 그립 유지, 손잡이가 어깨 쪽으로 이동.",
+      "feet": "양발 바닥 지지, 다리 반동 없음.",
+      "movement": "상완 지지 상태에서 팔꿈치 거의 폄→굽힘→제어 복귀."
+    },
+    "note": "2026-09-12 source763bb9b2,8초24fps480,167456bytes decode passed. 기구 레버 외곽의 약한 보간흐림 및 미세 프레이밍 변화는 남음. 큰 관절 단절 없이 패드와 손잡이 연결 확인.",
+    "id": "machine-preacher-curl",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://weighttraining.guide/exercises/machine-preacher-curl/"
+    ],
+    "sourceSha256": "d2a6b25837e97a9f9534381c133e2f0867ec66442291620284ad9d96a28cba8a",
+    "videoSha256": "4604031cfdb5396d19f2962503c0f7df14b759e5985461451af4ef4c6a2e6cf1",
+    "reviewedAt": "2026-09-11T15:39:54.789Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "팔로프 프레스 원본16자세와 최종32프레임 대조.",
+      "equipment": "옆쪽 가슴높이 도르래에서 손잡이로 연결된 cable 일치.",
+      "setup": "몸통과 골반을 정면으로 세우고 케이블에 옆으로 선 자세.",
+      "hands": "양손으로 같은 손잡이를 잡고 가슴 앞에서 앞으로 밀어 팔을 폄.",
+      "feet": "어깨너비 양발 바닥 지지 유지.",
+      "movement": "몸통 회전 없이 팔을 앞으로 펴고 가슴 앞으로 복귀."
+    },
+    "note": "2026-09-12 sourceab2868bc,8초24fps480,110946bytes 전체decode passed. 정면뷰로 팔길이는 단축되어 보이나 팔꿈치 폄 확인. 약한 외곽 보간흐림 남음.",
+    "id": "pallof-press-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://blog.nasm.org/progressive-core-training"
+    ],
+    "sourceSha256": "57b4cf387639eaade27b191de00a99dbf8a34c4fa73a5addd3b0b29a705438e3",
+    "videoSha256": "61537469b1a3a149e82aa8734ae6a3928d12903041e601f90279bdb3bfd1dd53",
+    "reviewedAt": "2026-09-11T15:40:42.670Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "케이블 업라이트 로우의 원본16자세와 최종32프레임 확인.",
+      "equipment": "낮은 도르래·케이블·일자바 연결, cable 일치.",
+      "setup": "몸통 세움, 머리 중립, 바가 허벅지 앞에서 시작.",
+      "hands": "양손 오버그립 유지, 바 중심 케이블 연결.",
+      "feet": "양발 바닥 지지 유지.",
+      "movement": "팔꿈치를 옆으로 올려 어깨높이에서 멈추고 바를 제어하여 내림. 손목은 팔꿈치보다 아래."
+    },
+    "note": "2026-09-12 source5e10f7ee,8초24fps480,105511bytes decode passed. 이전 흰격자선 제거. 약한 손·어깨 외곽흐림 및 배경 경계 남음, 손잡이와 관절동작 식별 가능.",
+    "id": "cable-upright-row",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/cable-upright-row.html"
+    ],
+    "sourceSha256": "18936563922b546be3b60f5390b44ecdc869dac5960c85a37c5d5fd42623dba3",
+    "videoSha256": "6ac365d368f5394d87f113c549272c7479b249aa7bb53afa3f9d2087b8c4912c",
+    "reviewedAt": "2026-09-11T15:51:31.337Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "힙 어덕션 원본16자세와 최종32프레임 대조.",
+      "equipment": "내측 허벅지 패드와 발받침의 machine 일치.",
+      "setup": "등받이와 시트에 등을 대고 무릎 굽힌 자세 유지.",
+      "hands": "손은 시트 양옆 손잡이 위치에서 지지, 팔 반동 없음.",
+      "feet": "양발이 발받침에 놓인 채 다리와 함께 이동.",
+      "movement": "허벅지 안쪽 패드를 모으며 다리 내전 후 제어하여 벌림. 바깥 패드 미는 어브덕션과 구분."
+    },
+    "note": "2026-09-12 source9dfeefd7,8초24fps480,133937bytes decode passed. 초기 배경얼룩 제거. 약한 손/다리 보간흐림 남으나 패드와 발받침 연결 유지.",
+    "id": "hip-adduction-machine",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/hip-adduction-machine/"
+    ],
+    "sourceSha256": "d104f0eeda75a283aa07ea2ed2bbccce2f28abcf5737559ce5c1fa3f8528a8c8",
+    "videoSha256": "202e6c3479627e3acdce4aa70f730d8d1ac0d29649a596e8f34f2cb1bf63a92f",
+    "reviewedAt": "2026-09-11T15:52:25.696Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "등받이에 앉아 스미스 바를 얼굴 앞에서 머리 위로 미는 숄더 프레스 확인",
+      "equipment": "양쪽 수직 레일과 슬라이딩 바, 원판 및 수직 등받이 벤치 확인",
+      "setup": "벤치에 앉아 등과 골반을 지지하고 정면을 유지",
+      "hands": "어깨보다 넓은 오버핸드 그립을 유지하며 팔꿈치 굽힘에서 머리 위 신전",
+      "feet": "양발이 바닥에 고정되고 다리 반동 없음",
+      "movement": "32개 최종 프레임에서 얼굴 앞 시작점과 수직 상승·복귀 확인, 바가 머리 뒤로 넘어가지 않음"
+    },
+    "note": "8초 24fps 480x480 189279바이트, 디코딩 통과. 레일 상단 가장자리 일부가 화면 경계에 가깝고 중간 손 윤곽에 약한 보간 흐림이 있으나 손·바·몸 전체와 운동 경로 식별 가능.",
+    "id": "smith-machine-shoulder-press",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/node/4046"
+    ],
+    "sourceSha256": "264693486f8f634aa31558b9f82642746e84471a3ae1459fa0af704bf1e7146b",
+    "videoSha256": "a34f465ef79fc5125f6f27efc5316527410345b345177b57a6b9f80a15a4d08f",
+    "reviewedAt": "2026-09-11T15:59:33.429Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "서서 바벨을 허벅지 앞에서 가슴으로 당기는 업라이트 로우",
+      "equipment": "양끝 원판이 있는 자유 바벨, 케이블이나 머신 없음",
+      "setup": "상체를 세운 채 일정한 발 간격을 유지",
+      "hands": "양손 오버핸드 그립으로 바를 잡고 팔꿈치를 옆으로 높임",
+      "feet": "양발 바닥 지지 유지, 무릎 반동 없음",
+      "movement": "최종32프레임에서 바가 몸 가까이 상승·하강하고 팔꿈치는 어깨 높이 이내"
+    },
+    "note": "8초24fps480,117998bytes,전체decode 통과. 어깨·손 주변 약한 보간 흐림과 미세한 크기 변화가 있으나 그립과 바 경로 식별 가능.",
+    "id": "barbell-upright-row",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/arms-and-shoulders/upright-rows/barbell-upright-row/"
+    ],
+    "sourceSha256": "c347b058725fe2351991270f81ebc128cfd33d8e93643a34d4d9c2f27b458641",
+    "videoSha256": "dcbaf7879da2318b4d497f748907c53a34180690b86b15461512b86a25f4674c",
+    "reviewedAt": "2026-09-11T16:02:15.251Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "로프를 얼굴 쪽으로 당기고 양손을 벌리는 케이블 페이스 풀 확인",
+      "equipment": "눈높이 도르래와 케이블·양끝 로프 확인",
+      "setup": "몸통을 세워 케이블을 마주 보고 서며 뒤로 젖히지 않음",
+      "hands": "로프 양끝을 잡고 얼굴 양옆으로 벌려 당김",
+      "feet": "양발 바닥 접촉과 무릎 각도를 유지",
+      "movement": "최종32프레임에서 팔을 앞으로 편 시작점과 팔꿈치를 뒤로 보낸 당김·복귀 확인"
+    },
+    "note": "8초24fps480,110128bytes,전체decode 통과. 측면 원근으로 먼쪽 손이 일부 겹치며 팔 윤곽에 약한 보간 흐림이 있으나 로프 분리와 얼굴 쪽 당김 확인 가능.",
+    "id": "face-pull-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/face-pull"
+    ],
+    "sourceSha256": "345aa2b52d6588b42ff2d6d73ea4baba40d292efe7b022e95781bb8ec33ec63d",
+    "videoSha256": "0b40d6da601ee97d3111d193bd68607edcc2fcba39d308d9c0d3d54e087e79e8",
+    "reviewedAt": "2026-09-11T16:09:27.737Z"
+  },
+  {
+    "status": "pending",
+    "checks": {
+      "exercise": "네발 자세에서 반대쪽 팔과 다리를 뻗는 버드독 원본 확인",
+      "equipment": "맨몸 운동, 별도 저항기구 없음",
+      "setup": "손은 어깨 아래, 지지 무릎은 골반 아래",
+      "hands": "한 손으로 바닥 지지, 반대 팔 앞으로 뻗음",
+      "feet": "반대 다리를 뒤로 뻗으며 지지 무릎 유지",
+      "movement": "8자세 원본의 다리 상승 간격이 커 보간 중 팔·다리 투명 잔상 발생"
+    },
+    "note": "65241bytes/8초24fps480/decode통과. 첫 f20c0745 원본 배경색얼룩 및 피부색 불일치로 미사용. 0f6d65e2 원본 개선했으나 최종 큰 팔다리 잔상으로 통과 보류. 16자세로 균등한 진행 재제작 필요.",
+    "id": "bird-dog",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/bird-dog"
+    ],
+    "sourceSha256": "1244efabe20844a3ffedce96cac7abef6c303916857f783851297be819b3dad9",
+    "videoSha256": "3425f0676837e15b9be5acce24efeb01160711411b771d0abfcf352a4f24c154",
+    "reviewedAt": "2026-09-11T16:37:41.264Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "서서 밴드 손잡이를 어깨 쪽으로 당기는 양팔 비셉스 컬 확인",
+      "equipment": "양발 아래 연결된 탄성 밴드와 두 손잡이, 덤벨 없음",
+      "setup": "상체를 세우고 상완을 몸 옆에 유지",
+      "hands": "양손 손바닥이 위를 향한 그립으로 팔꿈치를 굽힘",
+      "feet": "양발이 밴드를 밟은 채 바닥에 고정",
+      "movement": "원본16자세 및 최종32프레임에서 팔꿈치 굽힘·폄과 밴드 길이 변화 확인"
+    },
+    "note": "82738bytes/8초24fps480/decode통과. 손잡이·손 윤곽에 약한 보간 흐림은 있으나 밴드 고정·당김 경로와 전신 식별 가능.",
+    "id": "band-biceps-curl",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/blog/5067/youth-fitness-movement-speed-and-range/"
+    ],
+    "sourceSha256": "4f7b9e62a3f08df3844e8319207e29e964d66ec2249a090f4975d78390be127c",
+    "videoSha256": "fe547c64f3573da707dafa6018a0cab487b2a8a2eaad20c0f4dad55c98f9e042",
+    "reviewedAt": "2026-09-11T16:43:14.765Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "오른팔로 케틀벨을 어깨 랙에서 머리 위로 미는 스트릭트 프레스 확인",
+      "equipment": "한 개의 케틀벨을 손잡이로 잡고 무게 부분이 손 뒤로 내려옴",
+      "setup": "상체를 세우고 반대 팔은 몸 옆, 몸통 흔들림 없이 프레스",
+      "hands": "오른손 그립 유지, 어깨 높이에서 팔꿈치를 펴 머리 위로 이동",
+      "feet": "양발 고정, 무릎 굽힘이나 다리 반동 없음",
+      "movement": "8자세 원본 및 최종32프레임에서 랙·상승·머리 위 신전·복귀 확인, 손/기구 잘림 없음"
+    },
+    "note": "62685bytes/8초24fps480/decode통과. 일부 중간 손·팔·케틀벨 경계에 약한 보간 흐림이 있으나 전체 경로 식별 가능. 초기16자세 db91ebf2는 손 잘림으로 교체;9872b836도 여백 부족으로 미사용.",
+    "id": "kettlebell-press",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.kettlebellkings.com/pages/the-kettlebell-press"
+    ],
+    "sourceSha256": "77589ca4acc8c5f402bc0a505a7140484f505b48058be0f1f545cb72d5d6047e",
+    "videoSha256": "5b7cb44a70b55d9fa6fe8c4babead6a1c551387769476cdfacb217bebb50da15",
+    "reviewedAt": "2026-09-11T16:48:07.301Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "어깨 높이에서 밴드를 양옆으로 벌리는 풀어파트 확인",
+      "equipment": "양손 사이의 탄성 밴드, 고정 도르래나 덤벨 없음",
+      "setup": "상체를 세우고 팔을 어깨 높이에 유지",
+      "hands": "양손 오버핸드 그립, 팔꿈치 각도를 거의 유지하며 옆으로 벌림",
+      "feet": "양발 바닥 지지와 일정한 간격 유지",
+      "movement": "원본16자세와 최종32프레임에서 앞쪽 시작·가슴 앞 벌림·복귀 확인"
+    },
+    "note": "89704bytes/8초24fps480/decode통과. 정면 원근에 따른 팔 길이 변화와 중간 손 윤곽의 약한 흐림이 있으나 팔꿈치 굽힘 로우가 아닌 수평 벌림 식별 가능.",
+    "id": "band-pull-apart",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://cdn.muscleandstrength.com/exercises/band-pull-apart"
+    ],
+    "sourceSha256": "5f1cc48cb4bd72d06ebfb5e92db1b672dfb3fa083f0a54a907100ac8d0b4295f",
+    "videoSha256": "dad216c20fac4bc53f2eaf6d70800b115c06bf7352fb4f8eae4bf5e391ebf337",
+    "reviewedAt": "2026-09-11T16:48:51.112Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "누운 자세에서 무릎 위 밴드를 유지하며 골반을 올리는 글루트 브리지",
+      "equipment": "양쪽 무릎 위 허벅지에 짧은 루프 밴드, 벤치나 바벨 없음",
+      "setup": "등을 바닥에 대고 무릎을 굽혀 시작, 머리와 어깨 바닥 지지",
+      "hands": "팔을 몸 옆에 두고 손바닥 바닥 지지 유지",
+      "feet": "양발 전체가 바닥에 닿고 무릎 간격 유지",
+      "movement": "원본16자세 및 최종32프레임에서 골반 상승·정점·하강 확인, 과도한 허리 젖힘 없음"
+    },
+    "note": "101069bytes/8초24fps480/decode통과. 중간 허벅지·골반 윤곽에 약한 흐림과 배경 경계 변화가 있으나 밴드·지지점·골반 동작 식별 가능.",
+    "id": "band-glute-bridge",
+    "equipmentIds": [
+      "band"
+    ],
+    "sources": [
+      "https://www.puregym.com/blog/resistance-bands-exercises-for-beginners/"
+    ],
+    "sourceSha256": "6df52b7f9fe24135841bad91ccfdbd9bcf1731b36cc277cd2ad6f1f6d40d8985",
+    "videoSha256": "e335b4b6aa83025556f6d9c8c85b5469a186ecc79f0504e2169b890855008905",
+    "reviewedAt": "2026-09-11T16:52:19.030Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "행잉 니 레이즈 전용 동작이며 다리를 편 레그 레이즈나 풀업이 아님",
+      "equipment": "고정된 풀업 바에 양손으로 매달림",
+      "setup": "팔을 편 채 어깨너비 오버핸드 그립, 발은 바닥에서 떨어짐",
+      "hands": "양손이 바를 잡고 상승·하강 내내 그립 유지",
+      "feet": "두 발이 함께 이동하며 바닥에 닿지 않음",
+      "movement": "고관절·무릎을 굽혀 무릎을 가슴 쪽으로 올리고 통제해 내림; 몸통 큰 반동 없음"
+    },
+    "note": "2026-09-13 원본 16자세와 최종 32프레임 직접 대조. Muscle & Strength 설명(오버핸드·어깨너비·무릎 상승·반동 억제)과 일치. 바/손 위치 미세 보간 흔들림 있으나 동작 이해를 방해하지 않음.",
+    "id": "hanging-knee-raise",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/hanging-knee-raise.html"
+    ],
+    "sourceSha256": "57a7e540f19f403425d7c889cca6c9df1b41a5a76776c3d055d6394b3e64df3a",
+    "videoSha256": "23499930428206d0148f6e7c08f4ea995aaeee0d88f4353cfa91993822352a05",
+    "reviewedAt": "2026-09-13T01:12:08.885Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "노르딕 햄스트링 컬의 무릎 축 전방 하강과 팔 지지 복귀가 보임",
+      "equipment": "체중 운동이며 발목은 고정 앵커, 무릎은 매트로 지지",
+      "setup": "무릎을 매트에 대고 발목 고정, 시작에서 무릎·고관절·어깨 정렬",
+      "hands": "내려갈 때 손을 펴서 바닥을 받치고 복귀 때 팔로 일부 도움",
+      "feet": "두 발목이 앵커 아래 고정되어 위치 유지",
+      "movement": "엉덩이를 펴고 무릎 중심으로 천천히 앞으로 기울여 하강, 손으로 바닥을 받아 통제된 복귀"
+    },
+    "note": "2026-09-13 원본16자세·최종32프레임 직접 확인. Muscle & Strength의 고관절 신전 유지, 느린 하강, 손으로 받치고 밀어 복귀하는 설명과 일치. 측면 동작이며 일부 보간 배경 흐림은 경미함. 8초24fps480/105630bytes/전체decode 통과.",
+    "id": "nordic-hamstring-curl",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/nordic-hamstring-curl-bodyweight"
+    ],
+    "sourceSha256": "0b2d03a3c6b89f27ed8a5475051ed8fc5ab7b6857bfb800f61c24f9589eaeb37",
+    "videoSha256": "f527477325b5a89d0cb864f8af6833ee6a19938668d45c793a5f0997d7f2835c",
+    "reviewedAt": "2026-09-13T01:15:41.214Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "머신 트라이셉스 익스텐션의 팔꿈치 신전 동작 전용 영상",
+      "equipment": "시트·등받이·경사진 상완 패드·회전 레버가 있는 머신 일치",
+      "setup": "앉아 등받이에 몸통을 고정하고 발을 바닥에 두며 상완을 패드에 놓음",
+      "hands": "양손이 레버 손잡이를 잡고 팔꿈치 축을 따라 내려감",
+      "feet": "양발이 바닥에 고정되어 하체 반동 없음",
+      "movement": "상완과 어깨를 고정하고 팔꿈치에서 전완을 내려 거의 펴고 다시 굽힘"
+    },
+    "note": "2026-09-13 새 원본16자세 및 최종32프레임 시각 검토. Weight Training Guide의 패드·팔꿈치 축·전완만 움직이는 설명과 대조. 이전 버전의 배경 얼룩 사라짐. 장비 레버 형태의 패널별 미세한 변화는 있으나 손잡이와 운동 경로 확인 가능. 8초24fps480/126997bytes/전체decode 통과.",
+    "id": "machine-triceps-extension",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://weighttraining.guide/exercises/machine-triceps-extension/"
+    ],
+    "sourceSha256": "3339818480af67cb5835e1dc6f7351305d61dd2c87db28d81591abe589e80329",
+    "videoSha256": "c498432ddc5f22944d25dc84e3bd79ffa99c979fa654c9cf5e2f430d9614e079",
+    "reviewedAt": "2026-09-13T01:18:13.823Z"
+  },
+  {
+    "status": "rejected",
+    "note": "2026-09-13 최종32프레임 시각 검토: 벤치에 누운 인물의 머리가 영상 대부분에서 보이지 않고 바/레일과 겹쳐 자세 확인 불가. 기존 통과 제외 유지, 원본 재제작 필요.",
+    "id": "smith-machine-bench-press",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/smith-machine-bench-press.html"
+    ],
+    "sourceSha256": "c36f24b07305737b72cefba1c3b8bb8c953edaf921ba87711604ca7bee469026",
+    "videoSha256": "03aeeaa2c69573918b2761c1c44ee10e384ece7b7ae726766b916ccba64a1f77",
+    "reviewedAt": "2026-09-13T01:22:06.970Z"
+  },
+  {
+    "status": "rejected",
+    "note": "2026-09-13 최종32프레임 시각 검토: 상단에서 머리가 바를 관통하거나 가려지고 팔/손 보간 잔상 발생. 기존 통과 제외 유지, 원본 재제작 필요.",
+    "id": "assisted-pull-up-2",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://macrosinc.net/exercises/back/assisted-machine-pull-up/"
+    ],
+    "sourceSha256": "85720ce4c7975772ea0ce7df3e2de7602311cd0528540114141b823dc2241ff0",
+    "videoSha256": "33221ce6db8fa99a493e044e6f8a7a54d50b04f8c7beff6d2e13f2deda1d7972",
+    "reviewedAt": "2026-09-13T01:22:09.777Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "케이블 리어 델트 플라이 전용 양팔 후방 벌림 동작",
+      "equipment": "양쪽 어깨 높이 풀리와 양손 손잡이·케이블 확인",
+      "setup": "양쪽 풀리 사이에 서서 발을 고정하고 반대쪽 풀리 손잡이를 잡아 가슴 앞에서 팔을 교차",
+      "hands": "양손이 각 손잡이를 끝까지 잡고 손이 어깨 높이에서 좌우로 벌어짐",
+      "feet": "양발 어깨너비로 바닥에 고정되며 이동 없음",
+      "movement": "몸통을 세운 채 교차한 두 팔을 수평으로 벌려 T자 형태까지 열고 통제해 복귀"
+    },
+    "note": "2026-09-13 원본16자세·최종32프레임 시각 검토. ACE Reverse Fly의 어깨 높이 양쪽 풀리·반대쪽 손잡이 교차·수평 벌림 설명과 일치. 끝범위에서 케이블/손 위치 미세 보간 변화는 있으나 동작·기구 구별 가능. 8초24fps480/165503bytes/전체decode 통과.",
+    "id": "cable-rear-delt-fly-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/353/reverse-fly/"
+    ],
+    "sourceSha256": "2feb3319f85c5a96deaccfa830b596de7eeeb9f22ae04c6d07f553d708846edb",
+    "videoSha256": "e816d9acd3c7df1383717e0f365924a3c3b3d501017dbd3acf15492d06848f25",
+    "reviewedAt": "2026-09-13T01:24:46.271Z"
+  },
+  {
+    "status": "rejected",
+    "note": "2026-09-13 8자세 원본·최종32프레임 검토. 뒤로 교차하는 발과 하강은 보이나 패널별 배경 명도 차이로 세로 경계가 전체 영상에서 반복되고 다리 보간 잔상이 일부 존재해 공개 제외. 8초24fps480/96495bytes/전체decode 통과. 16자세 첫 생성은 4칸 공백으로 미등록 폐기. 깨끗한 통일 배경 원본 재제작 필요.",
+    "id": "curtsy-lunge-2",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/curtsy-lunge",
+      "https://www.acefitness.org/resources/everyone/exercise-library/365/transverse-lunge/"
+    ],
+    "sourceSha256": "afe16ef86160f354127d7336f9c630fc890440e87f763a59c51222b0564f4557",
+    "videoSha256": "308a90251c3faa0fa3de59a76a578a989b258093906105f76e58adeeb2d18976",
+    "reviewedAt": "2026-09-13T01:31:15.095Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "벤치 딥스 전용으로 벤치 앞에서 팔꿈치를 굽혀 몸을 내림",
+      "equipment": "한 개의 고정 벤치와 체중 운동; 바벨·머신 없음",
+      "setup": "양손을 뒤 벤치 앞 모서리에 놓고 몸통을 벤치 가까이, 두 발꿈치를 앞 바닥에 둠",
+      "hands": "양손이 벤치 모서리에 고정되어 내려갔다 올라오는 동안 미끄러지지 않음",
+      "feet": "양발이 바닥에 유지되고 무릎은 굽힌 자세",
+      "movement": "팔꿈치 굽힘으로 엉덩이를 수직 하강, 어깨는 팔꿈치 아래로 과도하게 내려가지 않음"
+    },
+    "note": "2026-09-13 원본16자세·최종32프레임을 Muscle & Strength 벤치 딥 설명과 대조. 벤치/손/발 위치·하강 경로 확인; 원본 격자 경계는 렌더 크롭으로 영상에 남지 않음. 8초24fps480/98198bytes 전체decode 통과.",
+    "id": "bench-dip-2",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/tricep-bench-dip.html"
+    ],
+    "sourceSha256": "1b67f4be19236980c52ab9ad9858746b96fa11794e29fd38d8faf98d61a75cd1",
+    "videoSha256": "97efff0d0a3fbf99c717125f76af08bf5fe616129889c12c1cef158dc6b636e9",
+    "reviewedAt": "2026-09-13T01:37:13.662Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "평행봉 트라이셉스 딥스로 벤치 딥과 다른 전용 동작",
+      "equipment": "양손이 각각 분리된 평행봉 손잡이를 잡고 체중을 지탱",
+      "setup": "몸통을 거의 수직으로 유지하고 발을 바닥에서 뗀 채 팔꿈치를 옆구리에 둠",
+      "hands": "양손 중립 그립이 평행봉에 고정됨",
+      "feet": "다리가 아래로 매달리고 발이 바닥에 닿지 않음",
+      "movement": "팔꿈치를 몸 가까이 굽혀 90도 부근까지 하강하고 통제해 위로 올라옴"
+    },
+    "note": "2026-09-13 첫16자세의 배경 얼룩으로 교체. 새8자세 원본·최종32프레임을 Muscle & Strength Tricep Dip과 대조; 자세·기구 명확, 배경 깨끗함. 8초24fps480/69304bytes 전체decode 통과.",
+    "id": "triceps-dip",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/tricep-dip.html"
+    ],
+    "sourceSha256": "45310a6854b119a5d6823048e65bdacb2c5c2cace432b77bcea9e569b3c9f19f",
+    "videoSha256": "b39975f40ca8006cb1792045a9b106c57eb77f4974aa80337c26fec412ec0b8f",
+    "reviewedAt": "2026-09-13T01:40:34.113Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "케이블 오버헤드 트라이셉스 익스텐션 전용 영상",
+      "equipment": "높은 풀리에서 연결된 케이블과 양손 로프 손잡이, 웨이트 스택 확인",
+      "setup": "머신을 등지고 분할 발 위치로 서서 몸통을 약간 숙이고 상완을 머리 옆에 둠",
+      "hands": "양손이 로프를 잡고 움직임 내내 케이블이 연결됨",
+      "feet": "앞뒤 분할 스탠스를 유지하고 바닥에 고정됨",
+      "movement": "상완·어깨를 거의 고정하고 팔꿈치를 펴 로프를 앞으로 밀고 통제해 굽힘"
+    },
+    "note": "2026-09-13 원본16자세와 최종32프레임을 Muscle & Strength High Pulley Overhead Tricep Extension과 대조. 8초24fps480/129638bytes 전체decode 통과. 측면 시점에서 두 로프 끝이 일부 겹치나 양손/케이블/팔꿈치 경로가 보임.",
+    "id": "cable-overhead-triceps-extension",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/overhead-tricep-extension.html"
+    ],
+    "sourceSha256": "55573b15a985e6782d7fa823d0b559e9c67d5108722b5eb776d78059072cdc1b",
+    "videoSha256": "70b6953c5dbc2f77137f0f8ac520cf338dc14c72b0928df7e1a5ffae47afc819",
+    "reviewedAt": "2026-09-13T01:51:16.509Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Hanging straight-leg raise matches reference; legs raise together to horizontal.",
+      "equipment": "Fixed tall pull-up bar, no added equipment.",
+      "setup": "Overhand shoulder-width hanging grip, feet remain off floor.",
+      "hands": "Both hands stay fixed on bar with arms extended.",
+      "feet": "Both shoes stay above floor; knees stay straight and feet together.",
+      "movement": "Smooth hip flexion and controlled return without visible swing."
+    },
+    "note": "Reference Muscle & Strength hanging leg raise; 8-panel source and full 32-frame render visually reviewed. H264 480x480, 8 s, 24 fps, full decode passed, 84,149 bytes.",
+    "id": "hanging-leg-raise-2",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/hanging-leg-raise.html"
+    ],
+    "sourceSha256": "54077844bb3a5b0b41179946f6f1ed1c870d71b9407edee9869af0bb0ac8db5f",
+    "videoSha256": "7660b845a93de8117437100b0264fc6a21831c2c8183b57e89737c1d2c066045",
+    "reviewedAt": "2026-09-13T01:57:44.743Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Unweighted decline bench sit-up matches reference; trunk curls from reclined to seated.",
+      "equipment": "Stable declined bench with padded ankle rollers; no weights.",
+      "setup": "Feet hook under high-end rollers and back starts along bench.",
+      "hands": "Arms remain crossed over chest throughout.",
+      "feet": "Both feet stay secured under rollers; knees stay flexed.",
+      "movement": "Torso flexes to upright and returns along bench with hips anchored."
+    },
+    "note": "Reference Muscle & Strength decline bench sit-up; 8-pose source and 32-frame render reviewed. Minor interpolation blur at transitions; key postures clear. H264 480x480, 8 s, 24 fps, full decode passed, 62,736 bytes.",
+    "id": "decline-sit-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/node/3617"
+    ],
+    "sourceSha256": "78a3ead6a4db6592107dfb6e1003df9f4d43a2add91c15324bd355601dc2fdb1",
+    "videoSha256": "b507a950e2e43e5e907d853a6cc5678a5e6862fdde5e04ef6c547ec5b4a8bc47",
+    "reviewedAt": "2026-09-13T12:47:16.864Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Single kettlebell front squat, squat depth to parallel and rise.",
+      "equipment": "One kettlebell at right front rack throughout.",
+      "setup": "Shoulder-width stance, upright braced torso.",
+      "hands": "Right hand holds handle and elbow stays near torso; left arm balances.",
+      "feet": "Both feet remain planted and knees flex in line with feet.",
+      "movement": "Hips and knees descend together and extend on return."
+    },
+    "note": "Reference Muscle & Strength offset single kettlebell front squat; source and 32 render frames reviewed. H264 480x480 8 s 24 fps decode passed, 78,301 bytes.",
+    "id": "kettlebell-front-squat",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/offset-single-kettlebell-front-squat"
+    ],
+    "sourceSha256": "977d35238b770f5542df662ea3d4c186cc6aba3cefa8816bb71673d6a4dd7772",
+    "videoSha256": "4482aff41f066509ab88bf948f90b39f9e195f01c05876b780bce3b25852cf03",
+    "reviewedAt": "2026-09-13T12:49:34.625Z"
+  },
+  {
+    "status": "rejected",
+    "note": "Rendered jump phase crops the head in transition frames and shows strong double-image ghosting; requires new source with more vertical headroom and smoother jump phases.",
+    "id": "jump-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/bodyweight-jump-squat.html"
+    ],
+    "sourceSha256": "d9bc12f6fa32e9f3709c6b5e00de4ff58ab61598901cf0a78b38568c7d7bdb83",
+    "videoSha256": "da0db5106db680208127eb17b0516cff9fa4fcf18bdb91d238e95a28462c640e",
+    "reviewedAt": "2026-09-13T12:51:56.932Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Dumbbell farmer carry with controlled forward step.",
+      "equipment": "Two matching dumbbells, one in each hand.",
+      "setup": "Tall neutral trunk with shoulders level.",
+      "hands": "Neutral grip on both dumbbells throughout; arms straight at sides.",
+      "feet": "Walking steps visible with feet contacting floor.",
+      "movement": "Body remains upright while stepping forward under load."
+    },
+    "note": "Reference Muscle & Strength farmer carry; source and 32 rendered frames reviewed. H264 480x480 8 s 24 fps decode passed, 125,363 bytes.",
+    "id": "farmer-s-carry",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://cdn.muscleandstrength.com/exercises/farmers-walk"
+    ],
+    "sourceSha256": "877f35734cc06951edfd2b960e528a525fbcdfe4537d66f6dbac12f6eadd24e2",
+    "videoSha256": "531f97cc32144c4bff147c1ea1d76866dde554b526c2d7f7fa3d48f4e606d9a7",
+    "reviewedAt": "2026-09-13T12:53:50.488Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral bent-over kettlebell row with elbow drive toward ribs.",
+      "equipment": "Two kettlebells, one each hand, no other equipment.",
+      "setup": "Fixed hip hinge with knees softly bent and back flat.",
+      "hands": "Neutral handles held continuously with both hands.",
+      "feet": "Both feet shoulder-width and planted.",
+      "movement": "Both elbows flex and retract together, bells rise to lower ribs and return."
+    },
+    "note": "Reference Muscle & Strength bent over kettlebell row; source and 32 frames reviewed. H264 480x480 8 s 24 fps decode passed, 108,911 bytes.",
+    "id": "kettlebell-row",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/node/49438"
+    ],
+    "sourceSha256": "2d6e75775c482150fe82eb32f473f3bb0f5acc08843df9081955c20505fa9826",
+    "videoSha256": "a243845ba545b3989b2de7b3005d0450d57d88cf1f8c089bcc01c030c29e35ce",
+    "reviewedAt": "2026-09-13T12:55:40.132Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "TRX low row with chest drawing toward the handles.",
+      "equipment": "Two suspension straps from fixed elevated wall anchor, taut throughout.",
+      "setup": "Straight inclined head-to-heel body line and planted heels.",
+      "hands": "Both hands continuously grip separate handles; elbows track back close to ribs.",
+      "feet": "Both heels remain grounded in same positions.",
+      "movement": "Elbows flex to pull body toward anchor and extend under control."
+    },
+    "note": "Reference TRX Training low row; source and 32 frames reviewed. H264 480x480 8 s 24 fps decode passed, 70,565 bytes.",
+    "id": "trx-row",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/four-trx-moves-to-improve-your-rowing-performance"
+    ],
+    "sourceSha256": "fc673ea2390adc917588c891bc06aea2477097a748157b09c35b610c388fd2a9",
+    "videoSha256": "1e30351df2adbee64dadf91bb6d4c36033cba078b8106bd980722dec53752387",
+    "reviewedAt": "2026-09-13T12:57:36.028Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Classic V-up from supine to V seated on hips.",
+      "equipment": "Bodyweight with flat mat only.",
+      "setup": "Starts supine with legs straight and arms overhead.",
+      "hands": "Both arms reach toward feet as torso rises.",
+      "feet": "Both legs stay straight and rise together without floor contact at peak.",
+      "movement": "Torso and legs lift together into V and return under control."
+    },
+    "note": "Reference Verywell Fit V-sit/V-up form; source and 32 frames reviewed. H264 480x480 8 s 24 fps decode passed, 72,614 bytes.",
+    "id": "v-up-2",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.verywellfit.com/v-sit-ab-exercise-3120059"
+    ],
+    "sourceSha256": "193f3afd70ceea8ac401e19d945731036df4733829d9abdb57a45731c858efc8",
+    "videoSha256": "87db31f26a89d15edc603395187041c17db0ccc02bde7d1bf81e46fb15ee7960",
+    "reviewedAt": "2026-09-13T13:00:20.109Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Bilateral Zottman curl with ascent, forearm rotation at top, and lowering.",
+      "equipment": "Matching dumbbells in both hands throughout.",
+      "setup": "Standing shoulder-width with stable upright trunk and elbows near sides.",
+      "hands": "Palms supinated on curl ascent and rotate pronated for lowering.",
+      "feet": "Both feet stay planted, no body swing.",
+      "movement": "Elbows flex to shoulder level then extend on controlled descent."
+    },
+    "note": "Reference Muscle & Strength Zottman curl; eight source poses and 32-frame render reviewed. Rotation is visible in source at top and descent; H264 480x480 8 s 24 fps decode passed, 88,365 bytes.",
+    "id": "zottman-curl-2",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/zottman-curl.html"
+    ],
+    "sourceSha256": "99b4d9562e9604fe97a21ca3cffd0944016a5d2d66e38186f6e2ceef5bc71949",
+    "videoSha256": "5e272fa5b61919e770ad648ea74a88a86acb4a8e030161fd1f9567a7838d7331",
+    "reviewedAt": "2026-09-13T13:02:16.676Z"
+  },
+  {
+    "status": "rejected",
+    "note": "Rendered figure occupies too little vertical frame area to teach the hollow position clearly; regenerate with closer framing while retaining full hands and feet.",
+    "id": "hollow-body-hold",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://assets.crossfit.com/pdfs/seminars/SMERefs/Gymnastics/GymnasticsCourse_SeminarGuide.pdf"
+    ],
+    "sourceSha256": "1aff6df04dcaa5ef05d6aef5a0ca057c3e86a42570fa95473731e31c537adf90",
+    "videoSha256": "ff4736883798b85b034c619c3edd91a4127251ce75cfae305b9d2826935c14c2",
+    "reviewedAt": "2026-09-13T13:04:54.134Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing low-to-high cable woodchop with diagonal crossbody rotation.",
+      "equipment": "Fixed low pulley cable machine and rope attachment stay connected.",
+      "setup": "Athletic wide stance facing across cable line.",
+      "hands": "Both hands grip rope continuously from left hip to high right side.",
+      "feet": "Both feet remain planted as torso rotates.",
+      "movement": "Rope travels diagonally upward across torso and returns under control."
+    },
+    "note": "Reference Muscle & Strength low cable wood chop; 8-pose source and 32 frames reviewed. H264 480x480 8 s 24 fps decode passed, 114,445 bytes.",
+    "id": "cable-woodchopper",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
+    ],
+    "sourceSha256": "0bb557e35890bd488832183bf962935eafe99b7d9516d8b503b069bd0eaaa8d5",
+    "videoSha256": "c948ea07a556c1648329cc490bc75bb91832c392dd74473a69131c57f663d000",
+    "reviewedAt": "2026-09-13T13:07:24.337Z"
+  }
+]

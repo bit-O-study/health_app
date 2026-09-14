@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-rear-delt-fly",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/bent-over-dumbbell-reverse-fly.html"
+  ],
+  "prompt": "SQUARE2048x2048 animation sheet, exact4x4 equal square tiles, NO BORDER LINES or text, uniform gray studio. Original gray anatomical mannequin tealshorts grayshoes. BENT OVER DUMBBELL REAR DELT FLY. Fixed frontthreequarter camera fromslightlyabove tosee botharms. Wholebody andfullarmspan inside central65% of eachtile withlarge margins. Torso hingednearhorizontal, spineandneckneutral, kneeslightlybent, feetshoulderwidthflat. Two small dumbbells hang beneath shoulders withpalms facing eachother atstart.16small ASCENDING stages lift bothnearlystraightarms OUTSIDE inbroadreversefly arc untilupperarms levelwithtorso, fixedsmall20degree elbowbend. No rowing elbowflexion. Torso/hips/knees/head remain atidenticalangle andposition all16frames. No standingup, no shrugorbackarch. Frame16 fullyopenarms, no returnphase.",
+  "registeredAt": "2026-09-09T08:53:00.246Z"
+}

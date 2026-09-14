@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { ArrowRight, Flag, X } from "lucide-react";
 
@@ -51,6 +52,7 @@ export function TodayGoalCard({
   totalMissions: number;
 }) {
   const [logOpen, setLogOpen] = useState(false);
+  useBackClose(logOpen, () => setLogOpen(false));
 
   if (!goal && missions.length === 0) return null;
 

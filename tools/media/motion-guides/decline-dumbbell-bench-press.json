@@ -1,0 +1,11 @@
+{
+  "id": "decline-dumbbell-bench-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/decline-dumbbell-bench-press.html",
+    "https://www.youtube.com/watch?v=Pf1nDoqx_1A"
+  ],
+  "prompt": "Original gray anatomical 3D mannequin wearing teal shorts and gray shoes in plain gray studio. Create SIXTEEN equal square sequential animation keyframes in an exact 4x4 grid. Fixed three-quarter side camera, identical body scale, bench and foot position in all panels; whole figure and weights within central 75% of each tile, ample margins. No text, numbers, arrows or logos. Continuous small steps across row boundaries. DECLINE DUMBBELL BENCH PRESS. Entire straight bench slopes 15 degrees DOWN toward head on LEFT: head LOWER than hips. Feet securely hooked under padded leg brace at higher RIGHT end, both knees bent, lower body immobile. Lie face-up, head back and hips supported. Two separate compact dumbbells held at sides of lower chest, closed semipronated grips, elbows bent about90 degrees and moderately tucked. Sixteen ascending stages extend elbows to bring weights vertically upward above chest, without colliding. Forearms vertical under dumbbells; no fly arc, no head lift, no bench changing angle. Show both weights and complete feet and head all frames. CRITICAL correction: throughout the press, keep a CLEAR GAP of 15 centimetres between the two dumbbells. At top, wrists shoulder-width apart, dumbbells never touch or overlap. Show both arms and weights separately from more frontward three-quarter angle. Bench and mannequin take only 65% of tile width.",
+  "registeredAt": "2026-09-09T08:25:51.910Z"
+}

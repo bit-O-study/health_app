@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
+
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import {
   AlertTriangle,
@@ -47,6 +49,7 @@ export function WithdrawButton() {
   const [reason, setReason] = useState<string | null>(null);
   const [etc, setEtc] = useState("");
   const [agree, setAgree] = useState(false);
+  useBackClose(open, close);
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 

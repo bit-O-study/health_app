@@ -1,0 +1,10 @@
+{
+  "id": "barbell-curl",
+  "equipment": "barbell",
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/barbell-bicep-curl"
+  ],
+  "prompt": "Original 3D-human exercise animation keyframe sheet, exactly SIXTEEN equal square panels in a4-column4-row grid, landscape2048x2048. SAME matte pearl-gray athletic adult humanoid, dark teal shorts, gray shoes, subtle human muscle definition, original generic face. No brand, text, arrows or labels. PLAIN UNIFORM light gray backdrop and floor, no changing shadows or texture. Every panel must have IDENTICAL fixed camera, body scale, apparatus position and framing. Entire person and all equipment stay within frame. No closeups, no view changes. sixteen consecutive EVENLY SPACED phases of ONE movement from start to finish, never jump back to start. Keep stationary body parts at identical image coordinates in every cell. Standing bilateral BARBELL BICEPS CURL, three-quarter side camera. One straight bar with small identical plates. Feet hip-width, torso upright and still. Both hands underhand shoulder-width, wrists straight, upper arms held by ribs, elbows stay beside waist. Frames1..16: elbows gradually flex from arms nearly straight with bar at thighs to fully curled bar near upper chest; gradually increasing from10to130degrees elbow flexion with increments of8degrees. Shoulder and elbow locations DO NOT rise or move forward. Only forearms rotate upward, both hands hold the same bar throughout. No reverse grip, no torso swinging. Both heels stay on floor. SIXTEEN poses in reading order4x4. Never reset pose at row boundary. Keep head feet torso SAME pixel coordinates in ALL rows. Keep each limb clearly solid and each hand attached to its weight. Whole equipment and head stay inside each square with generous margins.",
+  "panels": 16,
+  "registeredAt": "2026-09-09T06:08:22.875Z"
+}

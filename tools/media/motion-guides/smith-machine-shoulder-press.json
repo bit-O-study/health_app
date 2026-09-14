@@ -1,0 +1,11 @@
+{
+  "prompt": "Perfectly square 4x4 sprite sheet with sixteen equal square cells. Gray anatomical muscular man teal shorts gray shoes seated upright on vertical backrest bench inside SMITH MACHINE doing shoulder press. Fixed front three-quarter camera, whole man and machine visible with ample empty space above raised bar. Barbell with small plates connected to sliding carriages on TWO vertical rails. Frame1 bar in front at eye level, elbows bent about90 degrees, overhand grip slightly wider than shoulders. Sixteen small increments press bar VERTICALLY upward on rails until arms straight overhead frame16. Back remains supported, head neutral, feet flat and fixed, no bench reclining or leg drive. Bar does not pass behind head. Same camera, body position and scale across all frames; identical row height; no motion reset at row starts. Smooth gray studio, clean realistic 3D gym instructional render, no text or dividing lines.",
+  "equipment": "smith",
+  "sources": [
+    "https://www.muscleandstrength.com/node/4046"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "smith-machine-shoulder-press",
+  "registeredAt": "2026-09-11T15:55:05.130Z"
+}

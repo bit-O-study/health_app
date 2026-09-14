@@ -22,5 +22,253 @@
   {
     "id": "leg-press",
     "prompt": "Create ONE photorealistic instructional exercise contact sheet, exactly 3 columns by 2 rows of equal 4:3 panels, 3072x1536, no text, no logos, no arrows, no gutters. Same adult male trainer wearing teal shirt charcoal trousers white flat shoes, same clean bright gym and physically consistent equipment in all six panels. Clear anatomy and safe light-load technique. Each panel a distinct instructional photograph. Reading order: 1 standing beside a 45 degree sled leg press machine adjusting seat/backrest with unloaded sled securely on safety catches; 2 seated deeply with whole back and pelvis supported; 3 close view both feet shoulder width centered on large sled footplate, toes slightly out, heels fully touching plate; 4 full side view hands gripping side handles, legs extended without knee hyperextension and sled released; 5 same side view lowering sled with knees tracking toes and pelvis still on seat, comfortable depth around 90 degree knee bend, thighs not crushing abdomen; 6 pressing through whole feet to starting position, back and hips remain supported. Correct machine geometry, sled on inclined rails, footplate attached to sled."
+  },
+  {
+    "id": "incline-barbell-bench-press",
+    "prompt": "Use case scientific-educational. ONE photorealistic exercise guide contact sheet, exactly 3 columns x2 rows equal 4:3 panels, no text no borders no logos. Same adult trainer teal shirt dark pants white shoes, simple clean gym, light weights, consistent anatomy and equipment in all six shots. Include full body and close views as specified. Six frames in reading order: Incline barbell bench press. 1 adjust bench to 30 degrees under rack and safety arms; 2 feet flat wide enough for stable support and back against bench; 3 both hands thumb-wrapped grip slightly wider than shoulders on racked bar; 4 bar above upper chest arms extended; 5 bar lowered to upper chest safely below neck forearms vertical elbows about45degrees to torso; 6 press above shoulders."
+  },
+  {
+    "id": "dumbbell-bench-press",
+    "prompt": "Use case scientific-educational. ONE photorealistic exercise guide contact sheet, exactly 3 columns x2 rows equal 4:3 panels, no text no borders no logos. Same adult trainer teal shirt dark pants white shoes, simple clean gym, light weights, consistent anatomy and equipment in all six shots. Include full body and close views as specified. Six frames in reading order: Flat dumbbell bench press. 1 seated on flat bench holding two small dumbbells resting on thighs; 2 feet planted flat beside bench; 3 close view closed grip straight wrists; 4 lying head back and buttocks on bench holding dumbbells beside chest elbows45degrees to torso; 5 press dumbbells above chest without clanging together; 6 controlled return beside chest."
+  },
+  {
+    "id": "incline-dumbbell-bench-press",
+    "prompt": "Use case scientific-educational. ONE photorealistic exercise guide contact sheet, exactly 3 columns x2 rows equal 4:3 panels, no text no borders no logos. Same adult trainer teal shirt dark pants white shoes, simple clean gym, light weights, consistent anatomy and equipment in all six shots. Include full body and close views as specified. Six frames in reading order: Incline dumbbell bench press. 1 set bench incline to30degrees; 2 seated feet planted back and pelvis supported dumbbells on thighs; 3 grip dumbbells with neutral wrists; 4 reclined supported dumbbells beside upper chest elbows45degrees; 5 press overhead aligned above upper chest; 6 controlled return."
+  },
+  {
+    "id": "dumbbell-fly",
+    "prompt": "Use case scientific-educational. ONE photorealistic exercise guide contact sheet, exactly 3 columns x2 rows equal 4:3 panels, no text no borders no logos. Same adult trainer teal shirt dark pants white shoes, simple clean gym, light weights, consistent anatomy and equipment in all six shots. Include full body and close views as specified. Six frames in reading order: Flat bench dumbbell fly with very light dumbbells. 1 sit on flat bench light dumbbells on thighs; 2 lie back feet flat head back hips supported; 3 grip dumbbells palms facing each other wrists straight; 4 hold dumbbells above chest elbows slightly bent; 5 open arms in controlled arc no lower than torso, elbow angle fixed softly bent; 6 close arc bringing dumbbells above chest without collision. Not a pressing motion."
+  },
+  {
+    "id": "decline-barbell-bench-press",
+    "prompt": "Create a WIDE landscape photographic contact sheet 3 columns x2 rows, exactly six equal photos. Educational decline barbell bench press. Adult trainer teal shirt dark pants white shoes. CRITICAL DECLINE bench geometry: trainer's HEAD on LEFT and LOWER than hips, FEET on RIGHT and HIGHER than head, padded leg restraints at the HIGH RIGHT END. Straight single declined bench from low left to high right. Do not draw incline press with head high. Show full SIDE views with camera perpendicular to bench for ALL panels. 1 empty shallow DECLINE bench low head left high foot right, barbell rack at low head left end and padded leg restraint high right end; 2 seated at high right end securing ankles in pads; 3 lying head LEFT LOW with back and pelvis supported on straight declining pad and feet RIGHT HIGH secured, hands grip racked bar slightly wider than shoulders; 4 unracked light bar held vertically ABOVE lower chest; 5 lower bar to lower chest NOT NECK with wrists stacked on elbows; 6 press bar upward above chest. Same geometry in every panel. Physically correct five-finger closed grip. No text no labels no arrows no extra equipment. 3072x1536."
+  },
+  {
+    "id": "incline-dumbbell-fly",
+    "prompt": "Create one WIDE landscape photorealistic educational six-photo contact sheet 3 columns x2 rows, each panel 4:3. Six distinct steps reading order. Same adult trainer teal shirt charcoal pants white shoes, bright uncluttered gym. Physically correct anatomy and equipment continuity. No text, arrows, borders or logos. Setup hand/foot details and fullbody movement. Incline dumbbell fly. Bench30degrees. 1 adjust backrest; 2 feet flat and back/pelvis supported; 3 close-up palms facing each other wrists straight with light dumbbells; 4 arms above upper chest elbows softly bent; 5 open arms in arc no lower than torso keeping same elbow bend; 6 close arc above chest."
+  },
+  {
+    "id": "low-cable-fly",
+    "prompt": "Create one WIDE landscape photorealistic educational six-photo contact sheet 3 columns x2 rows, each panel 4:3. Six distinct steps reading order. Same adult trainer teal shirt charcoal pants white shoes, bright uncluttered gym. Physically correct anatomy and equipment continuity. No text, arrows, borders or logos. Setup hand/foot details and fullbody movement. Standing low-to-high cable fly. Two LOW pulleys at FLOOR HEIGHT both sides, each cable physically attached to handle. 1 set two pulleys low and light weight; 2 staggered feet stable stance knees soft; 3 grasp two handles palms forward with closed thumbs wrists straight; 4 hands beside hips elbows softly bent torso upright; 5 bring hands forward and upward toward upper chest in arc, elbows stay slightly bent; 6 controlled return beside hips. Cable anchors remain LOW."
+  },
+  {
+    "id": "incline-push-up",
+    "prompt": "Create one WIDE landscape photorealistic educational six-photo contact sheet 3 columns x2 rows, each panel 4:3. Six distinct steps reading order. Same adult trainer teal shirt charcoal pants white shoes, bright uncluttered gym. Physically correct anatomy and equipment continuity. No text, arrows, borders or logos. Setup hand/foot details and fullbody movement. Incline push-up with hands on stable waist-height exercise bench or fixed platform, feet on floor. 1 inspect stable fixed support; 2 palms slightly wider shoulders on top edge fingers spread; 3 feet hip width on floor step backward; 4 fullbody straight line ears shoulders hips heels, arms extended, head ABOVE feet; 5 bend elbows about45degrees and lower chest toward support, torso remains straight; 6 push away from support to extended arms. HANDS ELEVATED, FEET FLOOR in all movement frames."
+  },
+  {
+    "id": "decline-push-up",
+    "prompt": "Create one WIDE landscape photorealistic educational six-photo contact sheet 3 columns x2 rows, each panel 4:3. Six distinct steps reading order. Same adult trainer teal shirt charcoal pants white shoes, bright uncluttered gym. Physically correct anatomy and equipment continuity. No text, arrows, borders or logos. Setup hand/foot details and fullbody movement. Decline push-up with feet on stable LOW bench 30cm and both hands on floor. 1 inspect low bench; 2 palms on floor slightly wider shoulders fingers spread; 3 toes onto bench hip width; 4 plank with head LOWER than feet core braced straight line; 5 bend elbows about45degrees lower chest toward floor without hips sagging; 6 push back up. HANDS FLOOR and FEET ELEVATED throughout all movement frames."
+  },
+  {
+    "id": "push-up",
+    "prompt": "One WIDE landscape photorealistic scientific-educational contact sheet, 3 columns by2rows SIX equal4:3 photographs, no borders text arrows or logos. SAME male adult teal shirt charcoal pants white shoes and bright plain gym, light loads. Show hands feet setup and correct beginning ending positions, continuous correct equipment anatomy. Reading order six scenes: Standard floor push-up. 1 kneel on mat and place palms; 2 closeup palms flat fingers spread slightly wider shoulders; 3 feet hip width toes grounded; 4 full side view high plank body straight ears shoulders hips ankles; 5 lower chest toward floor elbows45degrees torso stays straight; 6 push to high plank."
+  },
+  {
+    "id": "machine-chest-press",
+    "prompt": "One WIDE landscape photorealistic scientific-educational contact sheet, 3 columns by2rows SIX equal4:3 photographs, no borders text arrows or logos. SAME male adult teal shirt charcoal pants white shoes and bright plain gym, light loads. Show hands feet setup and correct beginning ending positions, continuous correct equipment anatomy. Reading order six scenes: Seated machine chest press. Same actual chest press machine with backrest and TWO handles attached to pivot arms. 1 adjust seat so handles at mid chest; 2 feet flat hips and back supported; 3 thumb-wrapped handles wrists straight elbows below shoulders; 4 stable seated start handles beside chest; 5 press handles forward without locking elbows; 6 controlled return. No barbell."
+  },
+  {
+    "id": "pec-deck",
+    "prompt": "One WIDE landscape photorealistic scientific-educational contact sheet, 3 columns by2rows SIX equal4:3 photographs, no borders text arrows or logos. SAME male adult teal shirt charcoal pants white shoes and bright plain gym, light loads. Show hands feet setup and correct beginning ending positions, continuous correct equipment anatomy. Reading order six scenes: Pec deck machine chest fly, seated with backrest and padded vertical forearm levers. 1 adjust seat arms at chest level; 2 feet flat and back supported; 3 forearms against pads elbows softly below shoulders; 4 upright starting with upper arms open no farther back than torso; 5 bring padded levers together before chest; 6 slowly return. Same machine geometry."
+  },
+  {
+    "id": "cable-crossover",
+    "prompt": "One WIDE landscape photorealistic scientific-educational contact sheet, 3 columns by2rows SIX equal4:3 photographs, no borders text arrows or logos. SAME male adult teal shirt charcoal pants white shoes and bright plain gym, light loads. Show hands feet setup and correct beginning ending positions, continuous correct equipment anatomy. Reading order six scenes: Standing high-to-low cable crossover. Two HIGH pulley anchors left/right above shoulder height. 1 set light resistance both high pulleys; 2 stable staggered stance; 3 grip D-handles thumbs closed wrists straight; 4 arms open slightly bent elbows with cables attached; 5 bring hands down and inward in front of lower chest without crossing far beyond midline; 6 controlled open return. Body stable no excessive leaning."
+  },
+  {
+    "id": "barbell-bench-press",
+    "prompt": "Same exercise as bench-press: flat barbell bench press, rack setup, closed grip, foot contact, supported start, lowering to chest, pressing."
+  },
+  {
+    "id": "lat-pulldown-2",
+    "prompt": "Same exercise as lat-pulldown: seat pad setting, feet flat, closed overhand grip, seated overhead start, pull in front to chest, controlled return."
+  },
+  {
+    "id": "leg-press-2",
+    "prompt": "Same exercise as leg-press: backrest setup, supported pelvis, footplate placement, handles start, controlled descent, pressing. Reuse original generated sheet; original prompt under leg-press."
+  },
+  {
+    "id": "close-grip-lat-pulldown",
+    "prompt": "Scientific-educational photorealistic six-step contact sheet, WIDE landscape 3 columns2rows equal4:3 panels, no text borders arrows logos. SAME adult male teal shirt charcoal pants white shoes, clean bright gym. Accurate hands feet apparatus. Six scenes reading order: Close grip neutral lat pulldown with narrow V HANDLE attached to overhead cable. 1 adjust thigh pad and light stack; 2 feet flat thighs beneath pad; 3 close-up both palms facing each other gripping V handle thumbs wrapped; 4 sit tall arms overhead slight torso lean; 5 pull V handle to upper chest in front of face elbows toward ribs; 6 controlled overhead return."
+  },
+  {
+    "id": "machine-row",
+    "prompt": "Scientific-educational photorealistic six-step contact sheet, WIDE landscape 3 columns2rows equal4:3 panels, no text borders arrows logos. SAME adult male teal shirt charcoal pants white shoes, clean bright gym. Accurate hands feet apparatus. Six scenes reading order: Seated chest-supported machine row. 1 set seat and chest pad so handles at lower chest height; 2 feet stable on foot supports and chest against pad; 3 neutral grip handles wrists straight; 4 arms extended shoulders comfortable; 5 pull handles toward lower ribs elbows backward while chest stays on pad; 6 slow return arms extended. Handles physically attached to pivot arms."
+  },
+  {
+    "id": "barbell-shrug",
+    "prompt": "Scientific-educational photorealistic six-step contact sheet, WIDE landscape 3 columns2rows equal4:3 panels, no text borders arrows logos. SAME adult male teal shirt charcoal pants white shoes, clean bright gym. Accurate hands feet apparatus. Six scenes reading order: Standing barbell shrug, light barbell at thighs. 1 set light bar on waist-height rack; 2 feet hip width knees soft; 3 overhand closed grip just outside thighs; 4 stand tall bar hanging in straight arms; 5 raise shoulders vertically toward ears with arms remaining straight and head neutral; 6 lower shoulders slowly. No shoulder rolling or bent elbows."
+  },
+  {
+    "id": "dumbbell-shrug",
+    "prompt": "Scientific-educational photorealistic six-step contact sheet, WIDE landscape 3 columns2rows equal4:3 panels, no text borders arrows logos. SAME adult male teal shirt charcoal pants white shoes, clean bright gym. Accurate hands feet apparatus. Six scenes reading order: Standing dumbbell shrug, light pair. 1 select two light dumbbells from rack; 2 feet hip width knees soft; 3 neutral grip palms facing thighs straight wrists; 4 stand tall weights hanging beside thighs arms straight; 5 lift shoulders vertically toward ears keeping elbows straight head neutral; 6 lower shoulders slowly. No rolling."
+  },
+  {
+    "id": "dumbbell-lateral-raise",
+    "prompt": "Scientific-educational photorealistic six-step contact sheet, WIDE landscape 3 columns2rows equal4:3 panels, no text borders arrows logos. SAME adult male teal shirt charcoal pants white shoes, clean bright gym. Accurate hands feet apparatus. Six scenes reading order: Standing dumbbell lateral raise light weights. 1 select two LIGHT dumbbells; 2 feet hip width knees soft torso upright; 3 closed grip neutral wrists; 4 dumbbells beside hips elbows slightly bent; 5 raise arms out and slightly forward to shoulder height no higher, elbows soft, thumbs neutral or slightly up; 6 lower slowly. No torso swing no thumbs turned sharply down."
+  },
+  {
+    "id": "barbell-overhead-press",
+    "prompt": "Educational photographic contact sheet, WIDE landscape, SIX equal panels 3 columns2 rows. SAME adult trainer teal shirt charcoal pants white shoes, uncluttered well-lit gym, accurate apparatus and anatomy. No text logos arrows borders. Six sequential steps: Standing barbell overhead press. 1 set light bar in rack at upper chest; 2 feet hip width flat knees soft ribs over pelvis; 3 closed grip just outside shoulders wrists over forearms; 4 bar at front upper chest elbows slightly forward; 5 press above shoulders with head moving gently under bar after it passes forehead, torso upright no back arch; 6 controlled return to upper chest. Bar never intersects head."
+  },
+  {
+    "id": "dumbbell-front-raise",
+    "prompt": "Educational photographic contact sheet, WIDE landscape, SIX equal panels 3 columns2 rows. SAME adult trainer teal shirt charcoal pants white shoes, uncluttered well-lit gym, accurate apparatus and anatomy. No text logos arrows borders. Six sequential steps: Standing light dumbbell front raise. 1 select light dumbbells; 2 feet hip width knees soft; 3 neutral wrists closed grip dumbbells in front of thighs; 4 arms hanging with elbows soft torso upright; 5 raise both arms in front to shoulder level no higher, shoulders not shrugged; 6 controlled lower to thighs. No swinging."
+  },
+  {
+    "id": "machine-lateral-raise",
+    "prompt": "Educational photographic contact sheet, WIDE landscape, SIX equal panels 3 columns2 rows. SAME adult trainer teal shirt charcoal pants white shoes, uncluttered well-lit gym, accurate apparatus and anatomy. No text logos arrows borders. Six sequential steps: Seated lateral raise machine with upper arm pads connected to pivot arms. 1 set seat so shoulders align with machine pivot; 2 feet flat back supported; 3 hands hold provided handles forearms relaxed upper arms contact pads; 4 arms at sides; 5 raise elbows out to shoulder height pushing pads without shrugging; 6 controlled lower. Same machine throughout."
+  },
+  {
+    "id": "barbell-back-squat",
+    "prompt": "Educational photographic contact sheet, WIDE landscape, SIX equal panels 3 columns2 rows. SAME adult trainer teal shirt charcoal pants white shoes, uncluttered well-lit gym, accurate apparatus and anatomy. No text logos arrows borders. Six sequential steps: Light high-bar barbell back squat inside power rack with safety arms. 1 set hooks slightly below shoulder and safety arms just below comfortable bottom height; 2 grip closed hands outside shoulders bar on upper traps BELOW neck; 3 feet shoulder width toes slightly out heels planted; 4 side view braced neutral trunk standing; 5 descend hips and knees together to comfortable around thigh parallel, knees follow toes heels remain down; 6 stand tall knees not hyperextended. Entire feet visible."
+  },
+  {
+    "id": "back-extension",
+    "prompt": "Educational photographic contact sheet, WIDE landscape, SIX equal panels 3 columns2 rows. SAME adult trainer teal shirt charcoal pants white shoes, uncluttered well-lit gym, accurate apparatus and anatomy. No text logos arrows borders. Six sequential steps: 45 degree Roman chair back extension bodyweight. 1 adjust hip pad just below pelvis so hips can hinge; 2 feet on platform ankles secured; 3 cross arms over chest no weights; 4 straight body line head neutral from heels through hips to crown; 5 hinge slowly at HIPS lowering torso while spine remains neutral; 6 return only to straight body line no excessive hyperextension. Keep feet secured throughout."
+  },
+  {
+    "id": "lying-leg-curl",
+    "prompt": "Photorealistic scientific exercise guide, one wide sheet exactly six panels in3columns2rows equal sizes. SAME adult teal shirt dark trousers white shoes, clean bright gym, realistic connected machine and anatomy. Setup feet hands and movement visible; no text arrows logos borders. Six scenes: Lying leg curl machine. 1 adjust ankle roller above heels and knee aligned with pivot; 2 lie FACE DOWN on pad with hips and torso supported; 3 hands hold front handles and back of lower legs beneath roller; 4 legs extended without locking knees; 5 bend knees moving heels toward buttocks lifting roller, hips stay on pad; 6 controlled lower. Correct prone orientation all movement frames."
+  },
+  {
+    "id": "dumbbell-lunge",
+    "prompt": "Photorealistic scientific exercise guide, one wide sheet exactly six panels in3columns2rows equal sizes. SAME adult teal shirt dark trousers white shoes, clean bright gym, realistic connected machine and anatomy. Setup feet hands and movement visible; no text arrows logos borders. Six scenes: Standing dumbbell forward lunge light pair. 1 select light pair; 2 stand feet hip width; 3 closed neutral grip dumbbells hanging beside thighs; 4 step one foot forward keeping feet on two hip-width tracks; 5 lower both knees front heel planted knee follows toes back heel raised torso upright; 6 push through front foot to return standing. Full feet visible no knee collapsing."
+  },
+  {
+    "id": "hip-abduction-machine",
+    "prompt": "Photorealistic scientific exercise guide, one wide sheet exactly six panels in3columns2rows equal sizes. SAME adult teal shirt dark trousers white shoes, clean bright gym, realistic connected machine and anatomy. Setup feet hands and movement visible; no text arrows logos borders. Six scenes: Seated hip abduction machine OUTWARD motion. 1 adjust seat and light weight; 2 back supported feet on supports; 3 pads contact OUTSIDE of knees thighs hands on handles; 4 start knees comfortably near each other; 5 spread knees outward against pads without torso rocking; 6 controlled return inward. Pads always OUTSIDE knees."
+  },
+  {
+    "id": "hip-adduction-machine",
+    "prompt": "Photorealistic scientific exercise guide, one wide sheet exactly six panels in3columns2rows equal sizes. SAME adult teal shirt dark trousers white shoes, clean bright gym, realistic connected machine and anatomy. Setup feet hands and movement visible; no text arrows logos borders. Six scenes: Seated hip adduction machine INWARD motion. 1 adjust comfortable starting width and light load; 2 back supported feet on supports; 3 pads touch INSIDE knees thighs hands hold handles; 4 start legs comfortably open; 5 bring knees together against pads while back supported; 6 controlled open return. Pads always BETWEEN legs touching INNER thighs."
+  },
+  {
+    "id": "smith-machine-bench-press",
+    "prompt": "Six photo contact sheet 3columns2rows of Smith machine flat bench press. Light load, adult athlete teal shirt white shoes. SIDE ON CAMERA. Most crucial spatial layout: THE ATHLETE'S HEAD AND NECK PROJECT FAR OUT TO THE LEFT OF THE SMITH MACHINE VERTICAL GUIDE RAILS. The rails are located over the athlete's chest at nipple level about45cm to RIGHT of his face. The bench extends behind the rails far to left supporting the head. The legs extend to RIGHT of rails. NEVER put rails over head. Panels:1 empty bench placed with padded head end extending60cm to LEFT beyond guide rails;2 athlete lying head45cm LEFT of rails, feet right flat floor;3 closeup thumb wrapped grip bar;4 lying supported, guided bar over nipple line, upper arms pointing vertically upward at MID CHEST, NOT above face;5 bar lowered and touching nipples on chest well to RIGHT of face, forearms upright;6 press straight up over chest. Frame5 bar touches shirt at chest nipple level. All panels precise consistent alignment. No text arrows logos. Clean gym no other equipment."
+  },
+  {
+    "id": "decline-dumbbell-bench-press",
+    "prompt": "Photographic exercise storyboard, six equal panels arranged three across two down. ONE declined weight bench in every panel. Geometry fixed: left end of bench cushion is 35cm above floor; right end of cushion is70cm above floor. Cushion is a single straight sloping surface RISING FROM LEFT TO RIGHT. Athlete head rests near LEFT LOW end fully supported with 15cm cushion extending past head. Feet secured on ankle pads at RIGHT HIGH end. DO NOT reverse this incline. Adult teal shirt black pants white shoes. Decline DUMBBELL chest press with two light dumbbells. Panel1 empty bench showing lowleft headrest and highright ankle pads. Panel2 secure ankles. Panel3 lying supported head35cm abovefloor LEFT and legs70cm abovefloor RIGHT dumbbells in hands near chest. Panel4 same side view both dumbbells beside chest. Panel5 press both dumbbells vertically above chest. Panel6 lower to chest. Correct five fingers straight wrists and clear equipment. Bright gym no text."
+  },
+  {
+    "id": "barbell-curl",
+    "prompt": "Scientific instructional PHOTOGRAPHY contact sheet, 3columns2rows SIX equal panels landscape. Same adult trainer teal shirt dark trousers white shoes, clean gym, clear anatomy light weights. Show hand foot setup plus fullbody form. No text arrows logos borders. Reading order: Standing barbell biceps curl. Light straight bar. 1 select light bar; 2 feet hip width knees soft; 3 shoulder width underhand grip thumbs closed wrists neutral; 4 stand bar at thighs elbows beside torso; 5 bend elbows bringing bar toward lower chest without moving shoulders or leaning; 6 slowly extend elbows lowering to thighs."
+  },
+  {
+    "id": "dumbbell-biceps-curl",
+    "prompt": "Scientific instructional PHOTOGRAPHY contact sheet, 3columns2rows SIX equal panels landscape. Same adult trainer teal shirt dark trousers white shoes, clean gym, clear anatomy light weights. Show hand foot setup plus fullbody form. No text arrows logos borders. Reading order: Standing bilateral dumbbell biceps curl. 1 light pair; 2 feet hip width knees soft torso tall; 3 underhand grip palms forward wrists straight; 4 weights beside thighs elbows close; 5 bend elbows weights toward shoulders upper arms stationary; 6 controlled return no swing."
+  },
+  {
+    "id": "hammer-curl-2",
+    "prompt": "Scientific instructional PHOTOGRAPHY contact sheet, 3columns2rows SIX equal panels landscape. Same adult trainer teal shirt dark trousers white shoes, clean gym, clear anatomy light weights. Show hand foot setup plus fullbody form. No text arrows logos borders. Reading order: Standing dumbbell hammer curl. 1 light dumbbells; 2 feet hip width knees soft; 3 NEUTRAL grip palms facing each other thumbs upward; 4 weights at sides elbows fixed; 5 bend elbows raising weights toward shoulders KEEP palms facing inward and dumbbells vertical; 6 controlled return no swing."
+  },
+  {
+    "id": "machine-preacher-curl",
+    "prompt": "Scientific instructional PHOTOGRAPHY contact sheet, 3columns2rows SIX equal panels landscape. Same adult trainer teal shirt dark trousers white shoes, clean gym, clear anatomy light weights. Show hand foot setup plus fullbody form. No text arrows logos borders. Reading order: Machine preacher biceps curl with angled upper-arm support pad. 1 adjust seat armpits near top of pad; 2 feet flat and entire upper arms supported; 3 underhand closed grip on connected machine handles; 4 elbows nearly extended not locked; 5 flex elbows bringing handles toward shoulders without lifting upper arms; 6 slow return."
+  },
+  {
+    "id": "reverse-barbell-curl",
+    "prompt": "Scientific instructional PHOTOGRAPHY contact sheet, 3columns2rows SIX equal panels landscape. Same adult trainer teal shirt dark trousers white shoes, clean gym, clear anatomy light weights. Show hand foot setup plus fullbody form. No text arrows logos borders. Reading order: Standing REVERSE barbell curl. 1 select very light straight bar; 2 feet hip width knees soft; 3 OVERHAND grip palms DOWN thumbs closed shoulder width; 4 bar at thighs upper arms fixed at sides wrists neutral; 5 bend elbows lifting bar toward lower chest maintaining overhand pronated grip; 6 slowly lower. No wrist flexion no swing."
+  },
+  {
+    "id": "rope-triceps-pushdown",
+    "prompt": "Photorealistic educational six panel exercise contact sheet exactly3columns2rows landscape. Adult trainer teal shirt dark pants white shoes, clean gym mat as appropriate, correct anatomy and physically connected cables. No text borders arrows logos. Sequential scenes: Rope triceps pushdown HIGH pulley. 1 set cable pulley overhead with rope attachment light load; 2 feet hip width knees soft; 3 neutral grip rope ends thumbs pointing up wrists neutral; 4 elbows bent90degrees pinned beside torso; 5 extend elbows rope ends move down beside thighs slightly apart, upper arms stay stationary; 6 slowly bend elbows return90degrees. Cable from high pulley stays taut."
+  },
+  {
+    "id": "triceps-pushdown-2",
+    "prompt": "Photorealistic educational six panel exercise contact sheet exactly3columns2rows landscape. Adult trainer teal shirt dark pants white shoes, clean gym mat as appropriate, correct anatomy and physically connected cables. No text borders arrows logos. Sequential scenes: Straight bar cable triceps pushdown HIGH pulley. 1 high pulley attach straight bar and light resistance; 2 feet hip width stable torso upright; 3 overhand closed grip shoulder width wrists neutral; 4 elbows90degrees close to ribs bar near upper abdomen; 5 extend elbows pushing bar to thighs no shoulder swing; 6 controlled return90degrees."
+  },
+  {
+    "id": "reverse-grip-pushdown",
+    "prompt": "Photorealistic educational six panel exercise contact sheet exactly3columns2rows landscape. Adult trainer teal shirt dark pants white shoes, clean gym mat as appropriate, correct anatomy and physically connected cables. No text borders arrows logos. Sequential scenes: Underhand reverse-grip cable triceps pushdown HIGH pulley light weight. 1 attach straight bar to high cable; 2 feet hip width; 3 UNDERHAND grip palms UP thumbs closed; 4 elbows bent90degrees close torso; 5 extend elbows bar toward thighs keeping palms up and wrists straight; 6 controlled return. High cable consistent."
+  },
+  {
+    "id": "bird-dog",
+    "prompt": "Photorealistic educational six panel exercise contact sheet exactly3columns2rows landscape. Adult trainer teal shirt dark pants white shoes, clean gym mat as appropriate, correct anatomy and physically connected cables. No text borders arrows logos. Sequential scenes: Bird dog on mat. 1 kneel on mat; 2 hands flat directly under shoulders fingers spread; 3 knees under hips back neutral neck in line; 4 extend RIGHT arm forward and LEFT leg backward to torso height keeping hips level; 5 return to hands and knees; 6 extend LEFT arm and RIGHT leg. No overextended spine no raised leg above hips, distinct opposite arm leg."
+  },
+  {
+    "id": "seated-leg-curl-2",
+    "prompt": "Six-photo educational storyboard 3columns2rows of SEATED HAMSTRING CURL. SIDE VIEW adult teal shirt dark trousers white shoes. Machine has TWO distinct rollers: FIXED UPPER THIGH RESTRAINT presses DOWN on TOP of thighs near knees, and MOVING LOWER ANKLE ROLLER sits UNDERNEATH the BACKS OF CALVES above heels. The moving ankle roller is BELOW calves when legs extended, never on top of shins. 1 adjust seat knee aligned pivot;2 fasten upper thigh restraint;3 place heels and backs of lower calves ON TOP of lower moving roller with knees extended in front, hands grip handles;4 start extended legs with roller BELOW calves, fixed restraint still ABOVE thighs;5 bend knees pulling LOWER roller DOWN and BACK under seat using hamstrings, roller behind calves, thigh restraint stays on top;6 return slowly extending legs forwards over lower roller. Never depict leg extension machine with roller in front of shins. Correct machine and anatomy, clear contact points. No text logos arrows, bright gym."
+  },
+  {
+    "id": "pallof-press-2",
+    "prompt": "One landscape photographic scientific-educational exercise contact sheet, SIX panels3columns2rows, same adult teal shirt dark pants white shoes. Clean uncluttered gym or mat. Exact apparatus and human anatomy. Setup hands feet and form in six reading-order scenes. No text logos borders arrows. Standing Pallof anti-rotation press at cable machine. 1 pulley at chest height; 2 stand SIDEWAYS to cable feet shoulder width knees soft; 3 both hands hold one handle at sternum; 4 front view torso square facing camera while cable pulls from side; 5 extend both hands straight ahead of sternum resisting rotation, hips shoulders still square; 6 return hands to sternum. Same ONE side cable throughout."
+  },
+  {
+    "id": "farmer-s-carry",
+    "prompt": "One landscape photographic scientific-educational exercise contact sheet, SIX panels3columns2rows, same adult teal shirt dark pants white shoes. Clean uncluttered gym or mat. Exact apparatus and human anatomy. Setup hands feet and form in six reading-order scenes. No text logos borders arrows. Farmer carry walking with pair of moderately light dumbbells. 1 select two dumbbells;2 feet hip width and squat/hinge to safely pick up;3 neutral closed grip weights beside thighs shoulders relaxed;4 stand tall ribs over pelvis;5 walk forward small controlled steps weights hanging straight arms;6 next step same upright posture. No swinging leaning or shrugging. Clear feet."
+  },
+  {
+    "id": "plate-pinch",
+    "prompt": "One landscape photographic scientific-educational exercise contact sheet, SIX panels3columns2rows, same adult teal shirt dark pants white shoes. Clean uncluttered gym or mat. Exact apparatus and human anatomy. Setup hands feet and form in six reading-order scenes. No text logos borders arrows. Standing plate pinch grip exercise. 1 select TWO light smooth weight plates;2 feet hip width upright;3 close-up pinch two plates together with thumb on one OUTSIDE flat face and four fingers on opposite OUTSIDE face, smooth sides facing out;4 hold plates vertically beside thigh with straight wrist and arm;5 close view secure pinch stationary wrist neutral;6 bend hips knees and place plates on ground under control. Do not put fingers through holes."
+  },
+  {
+    "id": "hanging-knee-raise",
+    "prompt": "One landscape photographic scientific-educational exercise contact sheet, SIX panels3columns2rows, same adult teal shirt dark pants white shoes. Clean uncluttered gym or mat. Exact apparatus and human anatomy. Setup hands feet and form in six reading-order scenes. No text logos borders arrows. Hanging knee raise on fixed overhead bar. 1 step on stable box to grasp high bar;2 closed overhand grip shoulder width;3 hang shoulders gently engaged feet off floor;4 side view slowly lift BOTH bent knees toward hip height while torso stable;5 controlled knees near chest comfortable posterior pelvic tilt no swing;6 lower bent legs slowly to hang. Fixed bar remains at same screen height, only legs move."
+  },
+  {
+    "id": "hollow-body-hold",
+    "prompt": "One landscape photographic scientific-educational exercise contact sheet, SIX panels3columns2rows, same adult teal shirt dark pants white shoes. Clean uncluttered gym or mat. Exact apparatus and human anatomy. Setup hands feet and form in six reading-order scenes. No text logos borders arrows. Beginner hollow body hold floor mat. 1 lie on back mat;2 knees bent feet planted hands on thighs;3 gently flatten lowback into mat ribs down;4 lift head shoulders and bent knees into tuck reaching arms forward;5 extend legs only to angle maintaining lowback contact, arms by sides reaching forward, stable hold;6 bend knees and return head shoulders to mat. Neck follows spine no extreme craning, lower back never arched."
+  },
+  {
+    "id": "assisted-pull-up-2",
+    "prompt": "Photoreal educational six-stage contact sheet, wide landscape three columns two rows equal photos, adult teal shirt dark pants white shoes, correct equipment/anatomy. Panels1 setup machine/load,2 feet/body support,3 close hands grip,4 fullbody starting position,5 fullbody contraction,6 controlled return. SAME apparatus throughout. No text borders logos arrows. Exercise details: Counterweighted assisted pullup machine with knee platform. Select sufficient assistance, use steps to grasp fixed overhead bar closed overhand grip, BOTH knees on assistance platform. Start arms extended, pull body upward chin above fixed bar and knee platform rises WITH knees, lower slowly. Hands fixed at top of machine in every fullbody panel."
+  },
+  {
+    "id": "straight-arm-pulldown-2",
+    "prompt": "Photoreal educational six-stage contact sheet, wide landscape three columns two rows equal photos, adult teal shirt dark pants white shoes, correct equipment/anatomy. Panels1 setup machine/load,2 feet/body support,3 close hands grip,4 fullbody starting position,5 fullbody contraction,6 controlled return. SAME apparatus throughout. No text borders logos arrows. Exercise details: Standing straight-arm cable pulldown high pulley bar. Light weight, feet hip width slight hip hinge neutral spine, closed overhand shoulderwidth grip, elbows softly bent and FIXED angle. Start bar at shoulder level in front then sweep arms down toward thighs using shoulders while elbows stay nearly straight, return slowly."
+  },
+  {
+    "id": "hammer-strength-high-row",
+    "prompt": "Photoreal educational six-stage contact sheet, wide landscape three columns two rows equal photos, adult teal shirt dark pants white shoes, correct equipment/anatomy. Panels1 setup machine/load,2 feet/body support,3 close hands grip,4 fullbody starting position,5 fullbody contraction,6 controlled return. SAME apparatus throughout. No text borders logos arrows. Exercise details: Plate-loaded chest-supported HIGH ROW machine. Set seat and chest pad; feet secure chest supported; neutral grip two HIGH handles attached to separate lever arms; start arms diagonally up/front; pull elbows down/back handles toward lower ribs while chest on pad; return overhead diagonal. Not lat pulldown loose cable."
+  },
+  {
+    "id": "rack-pull",
+    "prompt": "Photoreal educational six-stage contact sheet, wide landscape three columns two rows equal photos, adult teal shirt dark pants white shoes, correct equipment/anatomy. Panels1 setup machine/load,2 feet/body support,3 close hands grip,4 fullbody starting position,5 fullbody contraction,6 controlled return. SAME apparatus throughout. No text borders logos arrows. Exercise details: Light barbell rack pull. Set safety pins just BELOW knees inside power rack. Feet hipwidth under bar, closed doubleoverhand grip outside knees. Hip hinge neutral spine braced trunk grasp bar on pins; drive feet floor and extend hips knees until tall bar at thighs; hinge hips backward lowering bar to pins. No leaning backward at top."
+  },
+  {
+    "id": "seal-row",
+    "prompt": "Photoreal educational six-stage contact sheet, wide landscape three columns two rows equal photos, adult teal shirt dark pants white shoes, correct equipment/anatomy. Panels1 setup machine/load,2 feet/body support,3 close hands grip,4 fullbody starting position,5 fullbody contraction,6 controlled return. SAME apparatus throughout. No text borders logos arrows. Exercise details: Prone seal row on HIGH flat bench with barbell below bench. Bench high enough arms can fully extend and bar clear floor. Face down head neck neutral chest hips supported feet relaxed behind; closed overhand bar grip slightly wider shoulders; pull bar vertically toward underside of bench under lower ribs elbowsback; lower slowly. No bentover standing posture."
+  },
+  {
+    "id": "landmine-row",
+    "prompt": "Photoreal educational six-stage contact sheet, wide landscape three columns two rows equal photos, adult teal shirt dark pants white shoes, correct equipment/anatomy. Panels1 setup machine/load,2 feet/body support,3 close hands grip,4 fullbody starting position,5 fullbody contraction,6 controlled return. SAME apparatus throughout. No text borders logos arrows. Exercise details: Two-arm landmine T-bar row. One end of bar SECURELY fixed in floor landmine pivot behind athlete; loaded free end between feet in front of torso with close neutral V handle under bar. Feet shoulderwidth straddling shaft, hips hinged neutralspine kneessoft. Pull handle toward lower ribs elbowsback, then lower arms. Same anchored shaft geometry."
+  },
+  {
+    "id": "smith-machine-shoulder-press",
+    "prompt": "Photoreal educational six-stage contact sheet, wide landscape three columns two rows equal photos, adult teal shirt dark pants white shoes, correct equipment/anatomy. Panels1 setup machine/load,2 feet/body support,3 close hands grip,4 fullbody starting position,5 fullbody contraction,6 controlled return. SAME apparatus throughout. No text borders logos arrows. Exercise details: Seated Smith overhead shoulder press. Bench nearly upright under guided bar, feet flat back and pelvis supported. Set safety stops; closed grip slightly wider shoulders; start bar in FRONT of shoulders at upper chest; press guided bar above shoulders, lower controlled no behindneck pressing. Rails stay fixed correct geometry."
+  },
+  {
+    "id": "dead-bug",
+    "prompt": "Educational exercise photo contact sheet6 panels3columns2rows of dead bug exercise. DIRECTLY OVERHEAD CAMERA LOOKING STRAIGHT DOWN at adult in teal shirt on dark rectangular mat, head at TOP of every panel feet atBOTTOM. This overhead view must clearly show OPPOSITE limbs. 1 lie on back arms down legs straight;2 lift both bent knees90degrees shins parallel floor;3 arms upward toward camera over shoulders, lowback against mat;4 the arm on IMAGE LEFT stretches toward TOP of mat while leg on IMAGE RIGHT extends toward BOTTOM, forming opposite diagonal; the arm on IMAGE RIGHT remains pointing toward camera and knee on IMAGE LEFT stays bent;5 both arms and knees return upright tabletop;6 arm on IMAGE RIGHT reaches TOP while leg on IMAGE LEFT reaches BOTTOM, other limbs remain bent/upright. Exactly two arms two legs no extra joints. Keep head rested pelvis lowback against mat. No text arrows labels borders logos, clean gym floor."
+  },
+  {
+    "id": "wide-grip-lat-pulldown",
+    "prompt": "Scientific educational photo storyboard of WIDE-GRIP FRONT LAT PULLDOWN. One landscape contact sheet with exactly six equally sized photographs arranged 3 columns 2 rows. Adult trainer teal shirt dark trousers white shoes on same seated overhead cable machine. Neutral bright uncluttered gym. Anatomically coherent equipment and hands. No text, arrows, logos. Based on technique: anchor thighs under pad, feet flat, wide closed overhand grip; brace torso with only slight backward lean; pull bar IN FRONT OF FACE toward upper chest, elbows downward; return overhead. CRUCIAL: no behind-neck pull at all. CAMERA FOR ALL MOVEMENT PANELS IS FRONT THREE-QUARTER so the trainer's CHEST and face remain visible. The bar stays BETWEEN CAMERA AND TRAINER, never behind hair/neck. Six stages reading order: 1 adjust thigh restraint with bar racked overhead; 2 seated feet planted with thighs under restraint; 3 closeup both overhand thumb-wrapped hands on wide grip outside shoulders; 4 arms extended overhead slight backward torso lean; 5 same camera bar just in front of UPPER CHEST BELOW CHIN, clearly obscuring front of teal shirt below collar, forearms point upward and elbows down beside torso, no additional lean; 6 same view return overhead. Maintain one central cable attached to midpoint of bar and same machine geometry. Every body contact visible. Photographic instruction not bodybuilding pose."
+  },
+  {
+    "id": "barbell-hip-thrust",
+    "prompt": "Educational photoreal exercise contact sheet, SIX panels3columns2rows wide landscape. Same adult teal shirt charcoal pants white shoes in simple gym. Scenes1equipment setup,2foot/body placement,3close grip,4fullbody start,5fullbody controlled movement,6return. Accurate contacts and connected equipment, no text logos arrows borders. Specific exercise: Light barbell hip thrust. Stable bench braced against wall, upper back rests on bench edge BELOW shoulder blades, thick bar pad over hip crease. Feet shoulderwidth flat knees bent, hands stabilize padded bar. Lift hips until shoulders hips knees form straight line, chin gently tucked ribs down and shins nearvertical; lower hips under control. Bar on hips NEVER abdomen."
+  },
+  {
+    "id": "kettlebell-goblet-squat",
+    "prompt": "Educational photoreal exercise contact sheet, SIX panels3columns2rows wide landscape. Same adult teal shirt charcoal pants white shoes in simple gym. Scenes1equipment setup,2foot/body placement,3close grip,4fullbody start,5fullbody controlled movement,6return. Accurate contacts and connected equipment, no text logos arrows borders. Specific exercise: Goblet squat holding ONE light kettlebell at chest by horns. Feet shoulderwidth toes slightlyout heels planted. Elbows point down, chest tall ribs braced. Descend hips and knees to comfortable depth knees track toes, kettlebell remains close sternum, stand pressing whole feet. Clearly show closed hands on horns."
+  },
+  {
+    "id": "plate-front-raise",
+    "prompt": "Educational photoreal exercise contact sheet, SIX panels3columns2rows wide landscape. Same adult teal shirt charcoal pants white shoes in simple gym. Scenes1equipment setup,2foot/body placement,3close grip,4fullbody start,5fullbody controlled movement,6return. Accurate contacts and connected equipment, no text logos arrows borders. Specific exercise: Standing plate front raise ONE light plate. Feet hipwidth knees soft torso tall. Both hands grip plate at3and9oclock opposite edges thumbs wrapped. Start plate before thighs arms softlybent. Raise plate straight forward to shoulder height no higher; lower slowly. No swinging."
+  },
+  {
+    "id": "cable-lateral-raise-2",
+    "prompt": "Educational photoreal exercise contact sheet, SIX panels3columns2rows wide landscape. Same adult teal shirt charcoal pants white shoes in simple gym. Scenes1equipment setup,2foot/body placement,3close grip,4fullbody start,5fullbody controlled movement,6return. Accurate contacts and connected equipment, no text logos arrows borders. Specific exercise: Single-arm low cable lateral raise. Stand side-on to LOW pulley, working hand on FAR side holding one Dhandle cable passes in FRONT of thighs. Free hand lightly holds machine. Feet hipwidth torso still, elbow soft fixed. Raise working arm out to side to shoulderheight no shrug, lower. Cable attached to low pulley."
+  },
+  {
+    "id": "face-pull-2",
+    "prompt": "Educational photoreal exercise contact sheet, SIX panels3columns2rows wide landscape. Same adult teal shirt charcoal pants white shoes in simple gym. Scenes1equipment setup,2foot/body placement,3close grip,4fullbody start,5fullbody controlled movement,6return. Accurate contacts and connected equipment, no text logos arrows borders. Specific exercise: Cable rope face pull. Pulley at faceheight, closed neutral grip rope ends thumbs near face at finish. Feet stable kneessoft torso upright. Start arms extended toward pulley; pull rope toward forehead while elbows open at shoulderlevel and hands separate beside ears; return controlled. No leaning back or behindneck cable."
+  },
+  {
+    "id": "conventional-deadlift",
+    "prompt": "Original 3D-rendered fitness teaching character, NOT a real-person photograph. Create a clean exercise instruction contact sheet of SIX equal panels, 3 columns and 2 rows, landscape1536x1024. Same original matte pearl-gray athletic humanoid mannequin in all panels, smooth simplified human face without identifiable likeness, anatomically proportioned limbs, subtle sculpted musculature, plain dark teal fitted shorts and simple neutral shoes. Neutral pale gray studio floor, soft shadows, no gym clutter. No brand logos, no text, no numbers, no arrows, no imitation of any existing app character. Exercise is CONVENTIONAL BARBELL DEADLIFT using one straight dark-metal barbell with round thin bumper plates. NOT sumo, NOT Romanian deadlift. Panel1 full-body standing in front of barbell on floor; feet hip-width and bar over midfoot. Panel2 closeup shoes hip-width, toes slightly outward, bar over midfoot with heels flat; plates consistent. Panel3 closeup both hands closed double-overhand grip on bar just outside bent knees, thumbs wrapped. Panel4 full-body three-quarter side start: bar on floor close to shins, hips hinged back above knees but below shoulders, knees bent, arms straight, spine flat neutral, head aligned with spine. Panel5 full-body same camera top of deadlift: stand upright with knees and hips extended, arms remain straight, bar against upper thighs; no backward lean or shrug. Panel6 exactly return to floor setup like panel4, bar and plates touching ground, knees flexed, hips hinged and neutral spine. Full head, torso, hands, legs and both feet visible in panels1,4,5,6. The same two hands must hold the same bar outside the knees in each movement frame. Both feet remain flat and hip-width throughout. This is an original 3D-human character visual style preview for an exercise app."
   }
 ]

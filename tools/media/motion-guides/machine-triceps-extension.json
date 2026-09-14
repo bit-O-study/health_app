@@ -1,0 +1,11 @@
+{
+  "prompt": "Clean opaque light gray studio, fixed side-view 4x4 sixteen-panel machine triceps extension. Gray anatomical man, teal shorts, gray shoes. Upper arms fixed on sloped pad and elbows aligned with lever pivot; forearms and handles rotate down from flexion to almost full extension. Seated torso, machine and feet remain stable. No borders or background stains.",
+  "equipment": "machine",
+  "sources": [
+    "https://weighttraining.guide/exercises/machine-triceps-extension/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "machine-triceps-extension",
+  "registeredAt": "2026-09-13T01:17:27.066Z"
+}

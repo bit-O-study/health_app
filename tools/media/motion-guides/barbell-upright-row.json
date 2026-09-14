@@ -1,0 +1,11 @@
+{
+  "prompt": "Create a perfectly square seamless 4x4 sprite sheet, sixteen equal square cells, each showing successive phases of ONE barbell upright row. Gray anatomical muscular man, teal shorts, gray shoes, clean neutral gray studio. Fixed frontal three-quarter full-body view, entire barbell and shoes within every cell with generous margin. Frame1 stands tall feet shoulder width, barbell with small plates held at thighs with pronated shoulder-width grip. Across frames1 through16 lift bar close to torso to middle chest. Elbows lead outward and upward but NEVER above shoulders; final upper arms horizontal, elbows bent, bar below clavicles. Torso upright, no leaning, feet stationary, wrists below elbows. Precisely identical camera, body size, floor and framing in every cell, continuous small motion increments reading left to right through all rows. No row restart. Clear individual fingers holding straight bar, realistic 3D exercise instruction render, smooth background with no panel borders or text.",
+  "equipment": "barbell",
+  "sources": [
+    "https://www.puregym.com/exercises/arms-and-shoulders/upright-rows/barbell-upright-row/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "barbell-upright-row",
+  "registeredAt": "2026-09-11T15:59:38.576Z"
+}

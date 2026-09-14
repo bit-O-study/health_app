@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import {
   ChevronRight,
@@ -173,6 +174,7 @@ function ShareDetailSheet({
   const [liked, setLiked] = useState(item.likedByMe);
   const [likes, setLikes] = useState(item.likeCount);
   const [picking, setPicking] = useState(false);
+  useBackClose(true, onClose);
   const [pending, start] = useTransition();
 
   const warmup = item.conditioning.filter((c) => c.kind !== "cooldown");
@@ -397,6 +399,9 @@ function ApplyDaySheet({
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   const sorted = useMemo(() => sortApplyTargets(targets), [targets]);
+  useBackClose(true, onClose);
+  // 덮어쓰기 확인이 떠 있으면 뒤로가기는 확인창만 닫는다(일차 시트는 그대로).
+  useBackClose(confirm !== null, () => setConfirm(null));
 
   function apply(t: ApplyTarget) {
     start(async () => {

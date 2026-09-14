@@ -1,0 +1,11 @@
+{
+  "prompt": "A clean 3D fitness animation storyboard, 16 square panels arranged in a precise 4x4 grid, no labels. Same gray muscular anatomical man in teal shorts and gray shoes. Seated CHEST SUPPORTED HIGH ROW machine, neutral handles pulled diagonally from above forward to sides of chest. Rear three quarter view. Full machine, body, all weight plates entirely within each panel, plain uniform gray studio background. Keep identical scale and camera in every panel. Machine and man occupy central 65 percent of panel height. A fixed tall chest pad supports his sternum; feet flat, torso and head fixed. Frame1 arms reach diagonally forward/up; successive small steps across sixteen panels show elbows flexing down and back until handles beside ribs. Chest remains touching pad in all poses. Upper pivoting lever arms and plates rotate following hands. Only arms and connected machine levers move. The sixteenth frame finishes pulling; no return phase. Clean smooth opaque rendering, even light, equal cells, no text, no grid lines.",
+  "equipment": "machine",
+  "sources": [
+    "https://www.youtube.com/watch?v=beKbbq6NhWY"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "hammer-strength-high-row",
+  "registeredAt": "2026-09-11T15:12:05.790Z"
+}

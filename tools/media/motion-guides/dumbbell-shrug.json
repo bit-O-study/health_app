@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-shrug",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/75/standing-shrug/"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin, teal shorts gray shoes, plain gray studio.16equal square animationkeyframes4columns4rows2048x2048. Fixedthree-quartercamera, same scale andbodycoordinates in all16cells. Full head feet weights within central70percent,15percentmarginall sides. Sequential small movement increments no resetatrowboundaries. No text arrows logos labels. Standing DUMBBELL SHRUG. Front threequarter camera. Holds one dumbbell alongside eachthigh, closed NEUTRALgrip palms towardbody, elbowsSTRAIGHT. Slight splitstance feetflat. Head neutral, chinlevel. In16tinyascendingincrements elevate ONLY SHOULDER GIRDLE towardears by about5cm, lifting hanging straightarms/dumbbells by same5cm. Head/neck/hips/knees/feet nevermove, shoulders do NOT roll/rotate. This is shrug, notcurl, no elbowbend, no calfraise. Show subtle butvisible shoulders rising from relaxed down to high final.",
+  "registeredAt": "2026-09-09T07:40:32.093Z"
+}

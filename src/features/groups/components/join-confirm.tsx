@@ -41,12 +41,12 @@ export function JoinConfirm({
   }
 
   return (
-    <div className="mx-auto w-full max-w-sm rounded-2xl border border-zinc-200 bg-white p-6 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="mx-auto w-full max-w-sm app-card p-6 text-center">
       <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
         <Users aria-hidden="true" size={28} />
       </span>
       <p className="text-sm text-zinc-500 dark:text-zinc-400">그룹 초대</p>
-      <h1 className="mt-1 text-xl font-extrabold text-zinc-950 dark:text-zinc-50">
+      <h1 className="mt-1 text-xl font-bold text-zinc-950 dark:text-zinc-50">
         {groupName}
       </h1>
       <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">

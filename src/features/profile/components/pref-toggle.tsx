@@ -55,7 +55,7 @@ export function PrefToggle({
   }
 
   return (
-    <div className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm sm:p-5">
+    <div className="app-card p-4 sm:p-5">
       <div className="flex items-center gap-3 sm:gap-4">
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
           <Icon aria-hidden="true" size={22} />

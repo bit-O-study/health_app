@@ -201,12 +201,12 @@ export default async function HistoryPage({
         <p className="mt-3 text-center text-xs text-zinc-500 dark:text-zinc-400">{weekSummary.from}~{weekSummary.to} · {weekSummary.caloriesKcal}kcal</p>
       </section>
 
-      <section className="mb-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="mb-5 app-card p-5">
         <h2 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-100">최근 런닝 기록</h2>
         <RunHistoryList rows={recentRuns} />
       </section>
 
-      <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+      <section className="app-card p-5">
         <div className="mb-4 flex items-center justify-between">
           <Link
             href={`/settings/history?month=${prev.year}-${pad(prev.month0 + 1)}`}
@@ -231,7 +231,7 @@ export default async function HistoryPage({
           {WEEKDAYS.map((w) => (
             <div
               key={w}
-              className="py-1 text-center text-[11px] font-semibold text-zinc-500 dark:text-zinc-400"
+              className="py-1 text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400"
             >
               {w}
             </div>
@@ -260,10 +260,10 @@ export default async function HistoryPage({
               >
                 <span>{cell.day}</span>
                 {label ? (
-                  <span className="mt-0.5 text-[10px] font-bold">{label}</span>
-                ) : hasRun ? <span className="mt-0.5 text-[10px] font-bold">런닝</span> : null}
+                  <span className="mt-0.5 text-xs font-bold">{label}</span>
+                ) : hasRun ? <span className="mt-0.5 text-xs font-bold">런닝</span> : null}
                 {durSec > 0 ? (
-                  <span className="mt-0.5 text-[9px] font-bold text-emerald-700 dark:text-emerald-400">
+                  <span className="mt-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
                     {shortDuration(durSec)}
                   </span>
                 ) : null}
@@ -289,7 +289,7 @@ export default async function HistoryPage({
                   className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-sm font-semibold text-emerald-800 dark:text-emerald-300"
                 >
                   {blockLabel(focus)}
-                  <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-[11px] font-bold text-white">
+                  <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-bold text-white">
                     {count}회
                   </span>
                 </span>

@@ -43,7 +43,7 @@ export function OverloadHint({
     <div
       data-testid={`overload-hint-${advice.exerciseId}`}
       data-action={advice.action}
-      className={`rounded-lg ${compact ? "px-2 py-1.5 text-[11px]" : "px-2.5 py-2 text-xs"} ${tone}`}
+      className={`rounded-lg ${compact ? "px-2 py-1.5 text-xs" : "px-2.5 py-2 text-xs"} ${tone}`}
     >
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <p className="flex items-center gap-1 font-semibold">
@@ -60,7 +60,7 @@ export function OverloadHint({
                 reps: advice.suggestedReps,
               })
             }
-            className="ml-auto shrink-0 rounded-full border border-current/30 bg-white/70 px-2.5 py-0.5 text-[11px] font-bold transition hover:bg-white dark:bg-black/30 dark:hover:bg-black/45"
+            className="ml-auto shrink-0 rounded-full border border-current/30 bg-white/70 px-2.5 py-0.5 text-xs font-bold transition hover:bg-white dark:bg-black/30 dark:hover:bg-black/45"
           >
             적용
           </button>

@@ -365,7 +365,7 @@ export function RoutinePlanner({
               ) : (
                 <div className="mt-3 space-y-2">
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                       자극 부위
                     </p>
                     <p className="mt-0.5 break-keep text-xs leading-5 text-zinc-700 dark:text-zinc-300">
@@ -373,7 +373,7 @@ export function RoutinePlanner({
                     </p>
                   </div>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                       대표 운동
                     </p>
                     <ul className="mt-0.5 space-y-0.5">
@@ -723,7 +723,7 @@ function AddBlockMenu({
                 <button
                   type="button"
                   onClick={() => setGroupId(null)}
-                  className="mb-0.5 flex items-center gap-1 rounded px-2 py-1.5 text-left text-[11px] font-semibold text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                  className="mb-0.5 flex items-center gap-1 rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
                 >
                   <ChevronLeft aria-hidden="true" size={13} />
                   {active.label}

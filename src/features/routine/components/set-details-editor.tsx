@@ -205,7 +205,7 @@ export function SetDetailsEditor({
             type="button"
             onClick={enable}
             disabled={disabled}
-            className="inline-flex h-7 items-center rounded-md border app-field px-2 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
+            className="inline-flex h-7 items-center rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
           >
             세트별 다르게
           </button>

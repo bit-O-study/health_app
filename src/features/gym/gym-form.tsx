@@ -100,7 +100,7 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
 
   if (!selection) {
     return (
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="app-card p-5">
         <GymPicker onPick={pick} />
       </section>
     );
@@ -108,7 +108,7 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
 
   return (
     <form onSubmit={onSubmit} className="space-y-6">
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="app-card p-5">
         <h2 className="mb-3 text-sm font-bold text-zinc-950 dark:text-zinc-100">
           내 헬스장
         </h2>
@@ -122,7 +122,7 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
         />
       </section>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="app-card p-5">
         <GymEquipmentPicker
           selected={equipment}
           onToggle={toggle}

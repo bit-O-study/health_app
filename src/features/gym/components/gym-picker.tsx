@@ -186,12 +186,12 @@ export function GymPicker({
                   <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     {hit.name}
                   </span>
-                  <span className="block truncate text-[11px] text-zinc-500 dark:text-zinc-400">
+                  <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
                     {hit.address || "주소 정보 없음"}
                   </span>
                 </span>
                 {hit.equipmentIds.length > 0 ? (
-                  <span className="mt-0.5 inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                  <span className="mt-0.5 inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
                     <Users aria-hidden="true" size={11} />
                     기구 {hit.equipmentIds.length}종
                   </span>

@@ -576,12 +576,12 @@ export function TodayConditioningList({
                     <h4 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                       {item.name}
                       {isDone ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
                           완료
                         </span>
                       ) : null}
                       {isSkipped ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-xs font-bold text-zinc-700 dark:text-zinc-300">
                           오늘 휴식
                         </span>
                       ) : null}
@@ -1009,7 +1009,7 @@ function AddConditioningSlot({
           취소
         </button>
       </div>
-      <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
         시간·속도·경사는 카탈로그 기본값으로 자동 설정됩니다. 추가 후 수정에서
         조절하세요.
       </p>

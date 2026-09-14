@@ -151,7 +151,7 @@ export function ExerciseFinder() {
                                 className="flex items-center justify-between gap-2 rounded-lg bg-[var(--surface-strong)] px-2.5 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm transition hover:bg-emerald-50 dark:text-zinc-100 dark:hover:bg-emerald-950/30"
                               >
                                 <span className="truncate">{h.name}</span>
-                                <span className="shrink-0 text-[11px] font-medium text-zinc-400">
+                                <span className="shrink-0 text-xs font-medium text-zinc-400">
                                   {h.target}
                                 </span>
                               </Link>

@@ -1022,7 +1022,7 @@ export function PlanEditor({
                               const major = majorMuscleTag(row.exerciseId);
                               return (
                                 <span
-                                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold ${major.tone}`}
+                                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-bold ${major.tone}`}
                                 >
                                   {major.label}
                                 </span>
@@ -1035,7 +1035,7 @@ export function PlanEditor({
                               if (!sub) return null;
                               return (
                                 <span
-                                  className="whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold text-white"
+                                  className="whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-bold text-white"
                                   style={{ backgroundColor: muscleGroup(sub.muscle).color }}
                                 >
                                   {sub.label}

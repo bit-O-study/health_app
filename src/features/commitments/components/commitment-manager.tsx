@@ -275,7 +275,7 @@ export function CommitmentManager({
                       )}
                       {c.title}
                     </p>
-                    <p className="mt-0.5 flex items-center gap-1 text-[11px] text-zinc-500">
+                    <p className="mt-0.5 flex items-center gap-1 text-xs text-zinc-500">
                       <CalendarClock aria-hidden="true" size={11} />
                       {c.startDate} ~ {c.deadline}
                     </p>
@@ -407,7 +407,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
           <NumRow label="섭취 상한 (kcal 이하)" value={a.intakeMax} onChange={(v) => set("intakeMax", v)} field={numField} />
           <NumRow label="단백질 (g)" value={a.proteinMin} onChange={(v) => set("proteinMin", v)} field={numField} />
         </div>
-        <p className="mt-1 text-[11px] text-zinc-400">숫자 항목은 0으로 두면 미션에서 빠져요.</p>
+        <p className="mt-1 text-xs text-zinc-400">숫자 항목은 0으로 두면 미션에서 빠져요.</p>
       </div>
 
       {/* 미션 미리보기 */}
@@ -422,7 +422,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
             {missions.map((m) => (
               <li
                 key={m.type}
-                className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                className="rounded-full bg-emerald-50 px-2.5 py-1 text-xs font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
               >
                 {missionLabel(m)}
               </li>
@@ -473,7 +473,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
         )}
         이 설문으로 다짐 만들기
       </button>
-      <p className="text-[11px] leading-4 text-zinc-400">
+      <p className="text-xs leading-4 text-zinc-400">
         만든 미션은 매일 운동·식단 기록으로 자동 판정돼요. 달성률에 따라 캘린더에{" "}
         <span className="font-bold text-emerald-500">○</span>{" "}
         <span className="font-bold text-amber-500">△</span>{" "}

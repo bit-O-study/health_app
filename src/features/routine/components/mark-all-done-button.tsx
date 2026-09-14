@@ -67,7 +67,7 @@ export function MarkAllDoneButton({
         )}
         오늘 전부 완료
         {total > 0 ? (
-          <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-[11px] font-bold text-white">
+          <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
             {total}
           </span>
         ) : null}
@@ -82,14 +82,14 @@ export function MarkAllDoneButton({
         <span className="flex max-w-[240px] flex-col items-end gap-1 text-right">
           <span
             data-testid="mark-all-unconfirmed"
-            className="text-[11px] leading-tight text-amber-600 dark:text-amber-400"
+            className="text-xs leading-tight text-amber-600 dark:text-amber-400"
           >
             저장 결과를 확인하지 못했어요. 새로고침해서 확인해 주세요.
           </span>
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="rounded-md border border-amber-300 px-2 py-0.5 text-[11px] font-bold text-amber-700 transition hover:bg-amber-50 dark:border-amber-800 dark:text-amber-300 dark:hover:bg-amber-950/40"
+            className="rounded-md border border-amber-300 px-2 py-0.5 text-xs font-bold text-amber-700 transition hover:bg-amber-50 dark:border-amber-800 dark:text-amber-300 dark:hover:bg-amber-950/40"
           >
             새로고침
           </button>

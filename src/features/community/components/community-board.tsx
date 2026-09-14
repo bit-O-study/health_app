@@ -91,7 +91,7 @@ export function CommunityBoard({
       }
     >
       <div className="app-header shrink-0 px-4 pb-0 pt-3">
-        <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-black tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
+        <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-bold tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
           커뮤니티
         </h1>
 
@@ -102,7 +102,7 @@ export function CommunityBoard({
               key={value}
               type="button"
               onClick={() => setTab(value)}
-              className={`relative shrink-0 pb-2.5 text-[15px] font-bold transition-colors min-[390px]:text-base ${
+              className={`relative shrink-0 pb-2.5 text-base font-bold transition-colors min-[390px]:text-base ${
                 tab === value
                   ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
@@ -179,7 +179,7 @@ export function CommunityBoard({
           type="button"
           onClick={() => tab === "routine" ? setRoutineCompose(true) : setCompose(true)}
           aria-label={tab === "routine" ? "루틴 추천글 쓰기" : "오운완 인증하기"}
-          className="fixed right-4 z-20 inline-flex h-14 items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 px-5 text-sm font-black text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/60 transition-transform active:scale-95 dark:ring-zinc-950/60"
+          className="fixed right-4 z-20 inline-flex h-14 items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 px-5 text-sm font-bold text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/60 transition-transform active:scale-95 dark:ring-zinc-950/60"
           style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
         >
           <Plus size={22} />
@@ -192,7 +192,7 @@ export function CommunityBoard({
           <section role="dialog" aria-modal="true" aria-labelledby="routine-compose-title" className="w-full max-w-md rounded-t-2xl bg-white p-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] shadow-2xl dark:bg-zinc-900 sm:rounded-2xl sm:pb-5" onClick={(event) => event.stopPropagation()}>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h2 id="routine-compose-title" className="text-lg font-black">내 루틴 추천글 쓰기</h2>
+                <h2 id="routine-compose-title" className="text-lg font-bold">내 루틴 추천글 쓰기</h2>
                 <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">내가 설정한 루틴에서 소개할 일차를 골라보세요.</p>
               </div>
               <button type="button" aria-label="닫기" onClick={() => setRoutineCompose(false)} className="p-1 text-zinc-400"><X size={20} /></button>
@@ -322,7 +322,7 @@ function PostCard({
     <li
       onClick={goDetail}
       aria-busy={navPending}
-      className={`relative overflow-hidden rounded-2xl border border-zinc-100 bg-white shadow-sm ring-1 ring-black/[0.02] transition-shadow hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900 dark:ring-white/[0.03] ${
+      className={`relative overflow-hidden app-card ${
         isTeaching ? "" : "cursor-pointer"
       }`}
     >
@@ -344,10 +344,10 @@ function PostCard({
           <p className="truncate text-sm font-bold text-zinc-800 dark:text-zinc-100">
             {post.authorName}
           </p>
-          <p className="text-[11px] text-zinc-400">{when}</p>
+          <p className="text-xs text-zinc-400">{when}</p>
         </div>
         {isTeaching ? (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-fuchsia-50 px-2 py-0.5 text-[10px] font-bold text-fuchsia-700 dark:bg-fuchsia-950/40 dark:text-fuchsia-300">
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-fuchsia-50 px-2 py-0.5 text-xs font-bold text-fuchsia-700 dark:bg-fuchsia-950/40 dark:text-fuchsia-300">
             <Video size={11} /> 티칭
           </span>
         ) : null}
@@ -381,13 +381,13 @@ function PostCard({
           {post.groupName || post.exerciseTag ? (
             <div className="absolute bottom-2 left-2 flex flex-col items-start gap-1">
               {post.groupName ? (
-                <span className="rounded-full bg-emerald-600/80 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur-sm">
+                <span className="rounded-full bg-emerald-600/80 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
                   # {post.groupName}
                   {post.visibility === "public_except_group" ? " 제외" : ""}
                 </span>
               ) : null}
               {post.exerciseTag ? (
-                <span className="rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-bold text-white">
+                <span className="rounded-full bg-black/60 px-2 py-0.5 text-xs font-bold text-white">
                   #{post.exerciseTag}
                 </span>
               ) : null}
@@ -416,7 +416,7 @@ function PostCard({
           ) : null}
           {/* 오운완(사진): 그룹명 태그를 오른쪽 위에 오버레이 */}
           {post.groupName ? (
-            <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-[11px] font-bold text-white backdrop-blur-sm">
+            <span className="absolute right-2 top-2 rounded-full bg-black/60 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
               # {post.groupName}
               {post.visibility === "public_except_group" ? " 제외" : ""}
             </span>
@@ -566,7 +566,7 @@ function ComposeModal({
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
       <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-extrabold">오운완 인증 💪</h2>
+          <h2 className="text-base font-bold">오운완 인증 💪</h2>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
             <X size={20} />
           </button>
@@ -625,12 +625,12 @@ function ComposeModal({
         {/* 그룹 선택(그룹만/그룹제외일 때) */}
         {needsGroup ? (
           groups.length === 0 ? (
-            <p className="mt-2 text-[11px] font-bold text-rose-500">
+            <p className="mt-2 text-xs font-bold text-rose-500">
               속한 그룹이 없어 전체 공개만 가능해요.
             </p>
           ) : (
             <div className="mt-2">
-              <p className="mb-1 text-[11px] font-bold text-zinc-400">
+              <p className="mb-1 text-xs font-bold text-zinc-400">
                 {visibility === "group" ? "이 그룹에만 공개" : "이 그룹만 제외하고 공개"}
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -649,7 +649,7 @@ function ComposeModal({
 
         {error ? <p className="mt-2 text-xs font-bold text-rose-500">{error}</p> : null}
 
-        <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-[11px] leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
+        <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-xs leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
           {RULES}
         </p>
 
@@ -657,7 +657,7 @@ function ComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-emerald-500/25 transition-transform active:scale-[0.99] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/25 transition-transform active:scale-[0.99] disabled:opacity-60"
         >
           {pending ? (
             <>

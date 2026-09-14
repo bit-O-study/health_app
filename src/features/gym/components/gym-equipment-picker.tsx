@@ -31,7 +31,7 @@ export function SelectedGymSummary({
         <p className="truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">
           {name}
         </p>
-        <p className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-zinc-600 dark:text-zinc-400">
+        <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-zinc-600 dark:text-zinc-400">
           <MapPin aria-hidden="true" size={11} className="shrink-0" />
           {address || "주소 정보 없음"}
         </p>
@@ -39,7 +39,7 @@ export function SelectedGymSummary({
       <button
         type="button"
         onClick={onChange}
-        className="shrink-0 rounded-md border border-emerald-300 bg-white px-2.5 py-1 text-[11px] font-semibold text-emerald-800 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-zinc-900 dark:text-emerald-300"
+        className="shrink-0 rounded-md border border-emerald-300 bg-white px-2.5 py-1 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-zinc-900 dark:text-emerald-300"
       >
         {changeLabel}
       </button>
@@ -86,7 +86,7 @@ export function GymEquipmentPicker({
       <div className="space-y-3">
         {GYM_EQUIPMENT_GROUPS.map((group) => (
           <div key={group.label}>
-            <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="mb-1 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               {group.label}
             </p>
             <div className="flex flex-wrap gap-1.5">

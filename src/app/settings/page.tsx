@@ -70,7 +70,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/personal"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
             <SlidersHorizontal aria-hidden="true" size={22} />
@@ -92,7 +92,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/gym"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
             <Building2 aria-hidden="true" size={22} />
@@ -116,7 +116,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/profile"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
             <Scale aria-hidden="true" size={22} />
@@ -138,7 +138,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/body-composition"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
             <ClipboardList aria-hidden="true" size={22} />
@@ -161,7 +161,7 @@ export default async function SettingsPage() {
         {profile?.gender === "female" ? (
           <Link
             href="/cycle"
-            className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-rose-300 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 sm:gap-4 sm:p-5"
+            className="group flex items-center gap-3 app-card p-4 transition hover:border-rose-300 sm:gap-4 sm:p-5"
           >
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-400">
               <HeartPulse aria-hidden="true" size={22} />
@@ -176,7 +176,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/health"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-400">
             <Scale aria-hidden="true" size={22} />
@@ -198,7 +198,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/subscription"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
             <Trophy aria-hidden="true" size={22} />
@@ -220,7 +220,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/score"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
             <Trophy aria-hidden="true" size={22} />
@@ -242,7 +242,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/notifications"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
             <Bell aria-hidden="true" size={22} />
@@ -264,7 +264,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/progress"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400">
             <TrendingUp aria-hidden="true" size={22} />
@@ -286,7 +286,7 @@ export default async function SettingsPage() {
 
         <Link
           href="/settings/export"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+          className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
         >
           <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
             <Download aria-hidden="true" size={22} />

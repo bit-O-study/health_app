@@ -15,7 +15,7 @@ function AdherenceBadge({ m }: { m: TrainerMember }) {
   const pct = adherencePct(m);
   if (pct === null) {
     return (
-      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-bold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
         목표 미설정
       </span>
     );
@@ -27,7 +27,7 @@ function AdherenceBadge({ m }: { m: TrainerMember }) {
         ? "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
         : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300";
   return (
-    <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums ${tone}`}>
+    <span className={`rounded-full px-2 py-0.5 text-xs font-bold tabular-nums ${tone}`}>
       {pct}%
     </span>
   );
@@ -64,7 +64,7 @@ export function TrainerBoardView({
         <Link
           href={`/groups/${groupId}/trainer/billing`}
           data-testid="billing-link"
-          className="shrink-0 rounded-lg border border-zinc-300 px-3 py-1.5 text-[11px] font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          className="shrink-0 rounded-lg border border-zinc-300 px-3 py-1.5 text-xs font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
         >
           팀 요금제
         </Link>
@@ -86,10 +86,10 @@ export function TrainerBoardView({
         ].map((s) => (
           <div
             key={s.label}
-            className="rounded-2xl border border-zinc-200 bg-white p-3 text-center dark:border-zinc-700 dark:bg-zinc-800"
+            className="app-card p-3 text-center"
           >
             <p className={`text-xl font-bold tabular-nums ${s.tone}`}>{s.value}</p>
-            <p className="mt-0.5 text-[11px] font-bold text-zinc-500">{s.label}</p>
+            <p className="mt-0.5 text-xs font-bold text-zinc-500">{s.label}</p>
           </div>
         ))}
       </div>
@@ -124,7 +124,7 @@ export function TrainerBoardView({
                   <AdherenceBadge m={m} />
                 </div>
 
-                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-zinc-600 dark:text-zinc-300">
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-600 dark:text-zinc-300">
                   <span className="inline-flex items-center gap-1">
                     <Dumbbell aria-hidden="true" size={12} className="text-zinc-400" />
                     운동 {m.workoutDays}일
@@ -156,7 +156,7 @@ export function TrainerBoardView({
                         /* 색을 신호별로 나눈다 — '안 나온다'(연락할 일)와 '늘 같은 데만
                            한다'(프로그램을 고칠 일)를 같은 빨강으로 칠하면 트레이너가
                            할 일이 전혀 다른 둘을 구분할 수 없다. */
-                        className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-bold ${
+                        className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold ${
                           f.kind === "program"
                             ? "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
                             : f.kind === "absence"
@@ -174,7 +174,7 @@ export function TrainerBoardView({
                     ))}
                   </ul>
                 ) : (
-                  <p className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                  <p className="mt-2.5 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                     <Check aria-hidden="true" size={12} />잘 하고 있어요
                   </p>
                 )}
@@ -185,21 +185,21 @@ export function TrainerBoardView({
                         (`?member=` 로 적으면 그룹 화면만 뜨고 아무 일도 안 일어난다). */}
                   <Link
                     href={`/groups/${groupId}/member/${m.userId}`}
-                    className="inline-flex h-8 items-center rounded-lg border border-zinc-300 px-3 text-[11px] font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                    className="inline-flex h-8 items-center rounded-lg border border-zinc-300 px-3 text-xs font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
                   >
                     기록 자세히 보기
                   </Link>
                   <Link
                     href={`/groups/${groupId}/trainer/assign/${m.userId}`}
                     data-testid="assign-link"
-                    className="inline-flex h-8 items-center rounded-lg bg-emerald-600 px-3 text-[11px] font-bold text-white transition hover:bg-emerald-500"
+                    className="inline-flex h-8 items-center rounded-lg bg-emerald-600 px-3 text-xs font-bold text-white transition hover:bg-emerald-500"
                   >
                     루틴 배정
                   </Link>
                   <Link
                     href={`/groups/${groupId}/trainer/comment/${m.userId}`}
                     data-testid="comment-link"
-                    className="inline-flex h-8 items-center rounded-lg border border-emerald-600 px-3 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/40"
+                    className="inline-flex h-8 items-center rounded-lg border border-emerald-600 px-3 text-xs font-bold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/40"
                   >
                     코멘트
                   </Link>

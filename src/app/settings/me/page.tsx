@@ -96,9 +96,9 @@ export default async function MyPage() {
       </h1>
 
       {/* 프로필 헤더 */}
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="app-card p-5">
         <div className="flex items-center gap-4">
-          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-2xl font-extrabold text-white">
+          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-2xl font-bold text-white">
             {initial}
           </span>
           <div className="min-w-0 flex-1">
@@ -146,7 +146,7 @@ export default async function MyPage() {
       {/* 오늘 식단 */}
       <section className="mt-6">
         <SectionTitle icon={<Utensils size={16} />} title="오늘 식단" href="/diet" cta="식단" />
-        <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+        <div className="app-card p-4">
           <div className="mb-1.5 flex items-baseline justify-between">
             <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">
               섭취 칼로리
@@ -203,7 +203,7 @@ export default async function MyPage() {
 
 function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
       {children}
     </span>
   );
@@ -258,7 +258,7 @@ function Stat({
     indigo: "text-indigo-600 dark:text-indigo-400",
   } as const;
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+    <div className="app-card p-3">
       <p className="flex items-center gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
         {icon ? <span className={tones[tone]}>{icon}</span> : null}
         {label}

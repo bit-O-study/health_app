@@ -258,14 +258,14 @@ export function TodayAdjustMenu({
             )}
 
             {/* ① 운동 직접 담기 — 전체 운동 검색·다중선택(오늘만) */}
-            <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               운동 직접 담기
             </p>
             <TodayAddExercises />
 
             {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가.
                 루틴 빌더와 동일하게 기본 부위 + 세부근육 블록까지 고를 수 있다(원칙 #1). */}
-            <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               오늘만 부위 바꾸기 — 부위 선택 (세부근육까지, 여러 개)
             </p>
             <div className="space-y-2.5">
@@ -330,7 +330,7 @@ export function TodayAdjustMenu({
               </button>
             </div>
 
-            <p className="mt-3 text-[11px] leading-5 text-zinc-500 dark:text-zinc-400">
+            <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
               <strong>전체 바꾸기</strong>는 오늘 부위를 선택 부위로 바꿉니다(이미
               완료한 운동은 그대로 남아요). <strong>부위 추가</strong>는 오늘
               운동에 선택 부위를 더합니다. 둘 다 <strong>오늘 하루만</strong>{" "}

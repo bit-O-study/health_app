@@ -86,7 +86,7 @@ export function TeamPlanForm({
         <section
           data-testid="team-status"
           data-status={initial.status}
-          className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800"
+          className="app-card p-5"
         >
           <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
             {TEAM_STATUS_LABEL[initial.status]}
@@ -103,7 +103,7 @@ export function TeamPlanForm({
               : ""}
           </p>
           {initial.bizName ? (
-            <p className="mt-1 text-[11px] text-zinc-400">
+            <p className="mt-1 text-xs text-zinc-400">
               {initial.bizName}
               {initial.bizNumber ? ` · ${formatBizNumber(initial.bizNumber)}` : ""}
             </p>
@@ -120,12 +120,12 @@ export function TeamPlanForm({
                   data-testid="deposit-info"
                   className="rounded-xl bg-zinc-100 p-3 dark:bg-zinc-900"
                 >
-                  <p className="text-[11px] font-bold text-zinc-500">입금 계좌</p>
+                  <p className="text-xs font-bold text-zinc-500">입금 계좌</p>
                   <p className="mt-0.5 select-all text-sm font-bold text-zinc-900 dark:text-zinc-100">
                     {depositLine(deposit)}
                   </p>
                   {deposit.note ? (
-                    <p className="mt-1 text-[11px] leading-5 text-zinc-500 dark:text-zinc-400">
+                    <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
                       {deposit.note}
                     </p>
                   ) : null}
@@ -181,19 +181,19 @@ export function TeamPlanForm({
                         월 {meta.monthlyKrw.toLocaleString("ko-KR")}원
                       </span>
                     </span>
-                    <span className="mt-0.5 block text-[11px] text-zinc-500 dark:text-zinc-400">
+                    <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
                       {meta.seatsHint} · {meta.desc}
                     </span>
                   </span>
                 </button>
               );
             })}
-            <p className="px-1 text-[11px] text-zinc-400">
+            <p className="px-1 text-xs text-zinc-400">
               부가세 별도. 실제 청구액은 인원·기간에 따라 협의해요.
             </p>
           </div>
 
-          <div className="space-y-2 rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800">
+          <div className="space-y-2 app-card p-4">
             <p className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
               세금계산서 정보 (선택)
             </p>
@@ -203,7 +203,7 @@ export function TeamPlanForm({
               { v: bizEmail, set: setBizEmail, label: "이메일", ph: "tax@example.com" },
             ].map((f) => (
               <label key={f.label} className="block">
-                <span className="mb-1 block text-[11px] font-bold text-zinc-500">
+                <span className="mb-1 block text-xs font-bold text-zinc-500">
                   {f.label}
                 </span>
                 <input
@@ -215,7 +215,7 @@ export function TeamPlanForm({
                 />
               </label>
             ))}
-            <p className="text-[11px] leading-5 text-zinc-400">
+            <p className="text-xs leading-5 text-zinc-400">
               계산서는 확인 후 사람이 발행해요. 지금 안 적어도 신청은 돼요.
             </p>
           </div>

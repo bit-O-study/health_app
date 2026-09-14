@@ -198,10 +198,10 @@ export function PostDetail({
         </span>
         <div className="min-w-0">
           <p className="truncate text-sm font-bold">{post.authorName}</p>
-          <p className="text-[11px] text-zinc-400">{when}</p>
+          <p className="text-xs text-zinc-400">{when}</p>
         </div>
         {post.groupName ? (
-          <span className="ml-auto rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+          <span className="ml-auto rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
             # {post.groupName}
           </span>
         ) : null}
@@ -238,7 +238,7 @@ export function PostDetail({
           </div>
         </div>
       ) : post.caption ? (
-        <p className="mb-3 whitespace-pre-wrap break-words text-[15px] leading-relaxed">
+        <p className="mb-3 whitespace-pre-wrap break-words text-base leading-relaxed">
           {post.caption}
         </p>
       ) : null}

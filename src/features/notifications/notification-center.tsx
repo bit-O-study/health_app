@@ -120,7 +120,7 @@ export function NotificationBell() {
                   clearPrompt();
                   setOpen(false);
                 }}
-                className="text-[11px] font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
+                className="text-xs font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
               >
                 지우기
               </button>

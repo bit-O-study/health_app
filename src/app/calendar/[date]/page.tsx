@@ -71,38 +71,38 @@ export default async function CalendarDayPage({
 
       {/* 요약 칩 */}
       <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+        <div className="app-card p-3 text-center">
+          <span className="flex items-center justify-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
             <Utensils size={13} /> 섭취
           </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-0.5 font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             +{intake}
           </p>
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+        <div className="app-card p-3 text-center">
+          <span className="flex items-center justify-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
             <Flame size={13} /> 소비
           </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-0.5 font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             -{burned}
           </p>
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-sky-600 dark:text-sky-400">
+        <div className="app-card p-3 text-center">
+          <span className="flex items-center justify-center gap-1 text-xs font-bold text-sky-600 dark:text-sky-400">
             <Footprints size={13} /> 걸음수
           </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-0.5 font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             {steps.toLocaleString()}
           </p>
-          <p className="text-[10px] font-medium text-zinc-400">
+          <p className="text-xs font-medium text-zinc-400">
             {stepsKcal > 0 ? `-${stepsKcal}kcal` : "—"}
           </p>
         </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-zinc-500 dark:text-zinc-400">
+        <div className="app-card p-3 text-center">
+          <span className="flex items-center justify-center gap-1 text-xs font-bold text-zinc-500 dark:text-zinc-400">
             <Timer size={13} /> 운동 시간
           </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-0.5 font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             {shortDuration(durationSec)}
           </p>
         </div>
@@ -144,7 +144,7 @@ export default async function CalendarDayPage({
                           style={{ width: `${p.pct}%` }}
                         />
                       </div>
-                      <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
+                      <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                         {c.metricLabel} {p.current.toLocaleString()} /{" "}
                         {p.target.toLocaleString()} {c.unit}
                         {!p.done && !p.expired ? ` · D-${p.daysLeft}` : ""}
@@ -180,7 +180,7 @@ export default async function CalendarDayPage({
                   <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                     {w.name}
                   </p>
-                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
                     {w.sets}세트 × {w.reps}회
                     {w.weightKg != null ? ` · ${w.weightKg}kg` : " · 맨몸"}
                   </p>
@@ -198,7 +198,7 @@ export default async function CalendarDayPage({
                     {c.name}
                   </p>
                   {c.detail ? (
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
                       {c.detail}
                     </p>
                   ) : null}

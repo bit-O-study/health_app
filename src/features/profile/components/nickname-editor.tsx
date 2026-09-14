@@ -78,7 +78,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           <X aria-hidden="true" size={15} />
         </button>
       </div>
-      {err ? <p className="mt-1 text-[11px] text-red-500">{err}</p> : null}
+      {err ? <p className="mt-1 text-xs text-red-500">{err}</p> : null}
     </div>
   );
 }

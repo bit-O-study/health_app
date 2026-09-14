@@ -41,7 +41,7 @@ export default async function CoachPage() {
       <div className="mb-5 rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 p-5 text-white shadow-sm">
         <div className="flex items-center gap-2">
           <GraduationCap aria-hidden="true" size={26} />
-          <h1 className="text-2xl font-extrabold">헬쑤쌤</h1>
+          <h1 className="text-2xl font-bold">헬쑤쌤</h1>
         </div>
         <p className="mt-1 text-sm leading-6 text-emerald-50">
           AI 코치가 내 운동·식단을 분석해 뭘 해야 할지, 어디가 부족한지, 자세는
@@ -73,7 +73,7 @@ export default async function CoachPage() {
         <PostureAnalyzer />
 
         {/* 기구 검색 */}
-        <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+        <section className="app-card p-4">
           <div className="mb-3 flex items-start gap-3">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
               <Camera aria-hidden="true" size={20} />
@@ -91,7 +91,7 @@ export default async function CoachPage() {
         </section>
       </div>
 
-      <p className="mt-6 text-center text-[11px] text-zinc-400">
+      <p className="mt-6 text-center text-xs text-zinc-400">
         AI 분석은 참고용이에요. 통증이 있으면 전문가와 상담하세요.
       </p>
     </main>

@@ -28,7 +28,7 @@ export function LightModeToggle() {
   }
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-5">
+    <div className="app-card p-4 sm:p-5">
       <div className="flex items-center gap-3 sm:gap-4">
         <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-400">
           <Gauge aria-hidden="true" size={22} />

@@ -82,7 +82,7 @@ export function RestSoundPicker() {
   }
 
   return (
-    <div className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+    <div className="app-card p-4">
       <div className="flex items-start gap-3">
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
           <Bell aria-hidden="true" size={18} />
@@ -120,7 +120,7 @@ export function RestSoundPicker() {
                   >
                     {o.label}
                   </span>
-                  <span className="text-[10px] leading-3 text-zinc-500 dark:text-zinc-400">
+                  <span className="text-xs leading-3 text-zinc-500 dark:text-zinc-400">
                     {o.desc}
                   </span>
                 </button>

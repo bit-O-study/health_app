@@ -89,7 +89,7 @@ export function ReportButton({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="text-base font-extrabold">신고하기</h3>
+              <h3 className="text-base font-bold">신고하기</h3>
               <button
                 type="button"
                 aria-label="닫기"

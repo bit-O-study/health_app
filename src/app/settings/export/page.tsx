@@ -60,7 +60,7 @@ export default async function ExportPage() {
               href={`/api/export/${kind}`}
               download
               data-testid={`export-${kind}`}
-              className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+              className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
             >
               <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
                 <Download aria-hidden="true" size={22} />
@@ -68,7 +68,7 @@ export default async function ExportPage() {
               <div className="min-w-0 flex-1">
                 <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
                   {meta.label}
-                  <span className="ml-2 rounded bg-zinc-100 dark:bg-zinc-700 px-1.5 py-0.5 text-[11px] font-bold uppercase text-zinc-500 dark:text-zinc-300">
+                  <span className="ml-2 rounded bg-zinc-100 dark:bg-zinc-700 px-1.5 py-0.5 text-xs font-bold uppercase text-zinc-500 dark:text-zinc-300">
                     {meta.ext}
                   </span>
                 </h2>

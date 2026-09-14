@@ -74,7 +74,7 @@ export function TrainerCommentForm({
           className="w-full rounded-xl border border-zinc-300 bg-white p-3 text-sm leading-6 outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
         />
         <div className="flex items-center justify-between">
-          <span className="text-[11px] tabular-nums text-zinc-400">
+          <span className="text-xs tabular-nums text-zinc-400">
             {body.trim().length} / {MAX_COMMENT_LEN}
           </span>
           <button
@@ -109,7 +109,7 @@ export function TrainerCommentForm({
           {items.map((c) => (
             <li
               key={c.id}
-              className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800"
+              className="app-card p-4"
             >
               <div className="flex items-start justify-between gap-2">
                 <p className="min-w-0 flex-1 whitespace-pre-wrap text-sm leading-6 text-zinc-800 dark:text-zinc-100">
@@ -125,7 +125,7 @@ export function TrainerCommentForm({
                   <Trash2 aria-hidden="true" size={14} />
                 </button>
               </div>
-              <p className="mt-1.5 text-[11px] text-zinc-400">
+              <p className="mt-1.5 text-xs text-zinc-400">
                 {commentDateLabel(c.createdAt)}
               </p>
             </li>

@@ -174,11 +174,11 @@ export function HealthConnections() {
                   <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     {f.label}
                     {f.status === "planned" ? (
-                      <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-bold text-zinc-500 dark:bg-zinc-700 dark:text-zinc-300">
+                      <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-xs font-bold text-zinc-500 dark:bg-zinc-700 dark:text-zinc-300">
                         준비 중
                       </span>
                     ) : connected ? (
-                      <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-1.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
                         <Check aria-hidden="true" size={10} />
                         연결됨
                       </span>
@@ -189,12 +189,12 @@ export function HealthConnections() {
                     {f.why}
                   </p>
                   {f.status === "ready" ? (
-                    <p className="mt-1 text-[11px] text-zinc-400 dark:text-zinc-500">
+                    <p className="mt-1 text-xs text-zinc-400 dark:text-zinc-500">
                       마지막 동기화 · {formatLastSync(sync[f.id])}
                     </p>
                   ) : null}
                   {msg[f.id] ? (
-                    <p className="mt-1 text-[11px] font-medium text-zinc-600 dark:text-zinc-300">
+                    <p className="mt-1 text-xs font-medium text-zinc-600 dark:text-zinc-300">
                       {msg[f.id]}
                     </p>
                   ) : null}
@@ -228,7 +228,7 @@ export function HealthConnections() {
         })}
       </ul>
 
-      <p className="px-1 text-[11px] leading-5 text-zinc-400 dark:text-zinc-500">
+      <p className="px-1 text-xs leading-5 text-zinc-400 dark:text-zinc-500">
         마지막 동기화 시각은 <strong>이 기기 기준</strong>이에요 — Health Connect 는
         폰에 있는 데이터라, 다른 폰에서는 거기서 따로 연결해야 해요. 연결은 언제든
         Health Connect 앱에서 되돌릴 수 있어요.

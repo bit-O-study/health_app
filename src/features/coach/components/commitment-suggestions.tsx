@@ -61,7 +61,7 @@ export function CommitmentSuggestions() {
   }
 
   return (
-    <section className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <section className="app-card p-4">
       <div className="flex items-start gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
           <Target aria-hidden="true" size={20} />
@@ -110,7 +110,7 @@ export function CommitmentSuggestions() {
                   <p className="truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
                     {s.title}
                   </p>
-                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
                     {meta.label} {s.target.toLocaleString()}
                     {meta.unit} · {s.days}일
                   </p>

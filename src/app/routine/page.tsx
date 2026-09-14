@@ -491,7 +491,7 @@ function TodayWorkout({
               : planToday.muscles;
             return (
               <div className="mt-6">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                   자극 부위
                 </p>
                 {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트(상단 정렬) */}
@@ -501,7 +501,7 @@ function TodayWorkout({
                     {dayMuscles.map((muscle) => (
                       <span
                         key={muscle}
-                        className="app-field rounded-full border px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300"
+                        className="app-field rounded-full border px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300"
                       >
                         {muscle}
                       </span>

@@ -110,7 +110,7 @@ export default async function ExerciseDetailPage({
                   {bodyPartsFor(exercise.id).map((p) => (
                     <span
                       key={p}
-                      className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${BODY_PART_TONE[p]}`}
+                      className={`rounded-full px-2 py-0.5 text-xs font-bold ${BODY_PART_TONE[p]}`}
                     >
                       {BODY_PART_LABEL[p]}
                     </span>

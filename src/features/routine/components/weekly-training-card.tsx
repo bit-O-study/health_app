@@ -100,7 +100,7 @@ export function WeeklyTrainingCard({
       data-testid="weekly-training-card"
       data-week-start={weekStart}
       data-week-sets={weekTotal}
-      className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-800"
+      className="app-card p-6"
     >
       <div className="mb-1 flex flex-wrap items-center gap-2">
         <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -111,7 +111,7 @@ export function WeeklyTrainingCard({
           />
           이번 주 훈련
         </h2>
-        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[10px] font-bold text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
+        <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-bold text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400">
           {trainedDays}일 · {weekTotal}세트
         </span>
       </div>
@@ -144,7 +144,7 @@ export function WeeklyTrainingCard({
                     : undefined
                 }
               >
-                <span className="text-[10px] font-bold text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs font-bold text-zinc-500 dark:text-zinc-400">
                   {WEEKDAY[c.weekday]}
                 </span>
                 {c.total > 0 ? (
@@ -152,12 +152,12 @@ export function WeeklyTrainingCard({
                     <span className="text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-50">
                       {c.total}
                     </span>
-                    <span className="w-full truncate px-0.5 text-[9px] font-semibold text-zinc-600 dark:text-zinc-300">
+                    <span className="w-full truncate px-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
                       {c.topLabel}
                     </span>
                   </>
                 ) : (
-                  <span className="text-[10px] text-zinc-300 dark:text-zinc-600">
+                  <span className="text-xs text-zinc-300 dark:text-zinc-600">
                     —
                   </span>
                 )}
@@ -182,7 +182,7 @@ export function WeeklyTrainingCard({
                 {r.label}
               </p>
               <span
-                className="shrink-0 rounded-full px-1.5 py-0.5 text-[10px] font-bold text-white"
+                className="shrink-0 rounded-full px-1.5 py-0.5 text-xs font-bold text-white"
                 style={{ backgroundColor: VOLUME_COLOR[r.status] }}
               >
                 {VOLUME_LABEL[r.status]}
@@ -200,7 +200,7 @@ export function WeeklyTrainingCard({
                 <span
                   data-testid={`region-delta-${r.region}`}
                   data-diff={r.delta.diff}
-                  className={`inline-flex items-center text-[11px] font-bold tabular-nums ${
+                  className={`inline-flex items-center text-xs font-bold tabular-nums ${
                     r.delta.diff > 0
                       ? "text-emerald-600 dark:text-emerald-400"
                       : "text-zinc-400 dark:text-zinc-500"
@@ -226,7 +226,7 @@ export function WeeklyTrainingCard({
                 }}
               />
             </div>
-            <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1.5 flex flex-wrap items-center gap-x-1.5 text-xs text-zinc-500 dark:text-zinc-400">
               <span>
                 {r.daysAgo === null
                   ? "최근 기록 없음"
@@ -241,7 +241,7 @@ export function WeeklyTrainingCard({
             {r.crammed ? (
               <p
                 data-testid={`region-crammed-${r.region}`}
-                className="mt-1 flex items-start gap-1 text-[11px] font-semibold text-amber-700 dark:text-amber-400"
+                className="mt-1 flex items-start gap-1 text-xs font-semibold text-amber-700 dark:text-amber-400"
               >
                 <AlertTriangle aria-hidden="true" size={10} className="mt-0.5 shrink-0" />
                 하루에 몰아침 · 주 {WEEKLY_FREQ_MIN}회로 나누면 더 좋아요
@@ -293,13 +293,13 @@ export function WeeklyTrainingCard({
                 data-sessions={st.sessions}
                 className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 rounded-lg bg-amber-50 px-2.5 py-1.5 dark:bg-amber-950/30"
               >
-                <span className="rounded bg-amber-200/70 px-1 text-[10px] font-bold text-amber-900 dark:bg-amber-900/60 dark:text-amber-200">
+                <span className="rounded bg-amber-200/70 px-1 text-xs font-bold text-amber-900 dark:bg-amber-900/60 dark:text-amber-200">
                   {st.regionLabel}
                 </span>
                 <span className="text-xs font-bold text-amber-900 dark:text-amber-200">
                   {st.name}
                 </span>
-                <span className="text-[11px] text-amber-700 dark:text-amber-300">
+                <span className="text-xs text-amber-700 dark:text-amber-300">
                   {st.reason}
                 </span>
               </li>
@@ -316,7 +316,7 @@ export function WeeklyTrainingCard({
             {untouchedSubs.length}개
           </span>
         </p>
-        <p className="mt-0.5 text-[11px] leading-5 text-zinc-500 dark:text-zinc-400">
+        <p className="mt-0.5 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
           세부근육은 <strong>했는지 안 했는지</strong>만 말합니다. 운동마다 걸리는 세부근육
           수가 크게 달라(상복부 254개 ↔ 하복부 19개) 세트 수끼리 비교하면 내 훈련이 아니라
           매핑의 치우침을 보게 됩니다.
@@ -331,7 +331,7 @@ export function WeeklyTrainingCard({
               <li
                 key={s.id}
                 data-sub={s.id}
-                className="rounded-full bg-rose-50 px-2 py-0.5 text-[11px] font-semibold text-rose-700 dark:bg-rose-950/40 dark:text-rose-300"
+                className="rounded-full bg-rose-50 px-2 py-0.5 text-xs font-semibold text-rose-700 dark:bg-rose-950/40 dark:text-rose-300"
               >
                 {s.label}
               </li>
@@ -344,7 +344,7 @@ export function WeeklyTrainingCard({
           <div className="mt-3">
             <p className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
               거들기만 하고 직접 노리진 않은 곳
-              <span className="ml-1 text-[11px] font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="ml-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
                 {synergistOnlySubs.length}개
               </span>
             </p>
@@ -356,7 +356,7 @@ export function WeeklyTrainingCard({
                 <li
                   key={s.id}
                   data-sub={s.id}
-                  className="rounded-full bg-amber-50 px-2 py-0.5 text-[11px] font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"
+                  className="rounded-full bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"
                 >
                   {s.label}
                 </li>
@@ -418,12 +418,12 @@ function BalanceRow({
           style={{ width: `${100 - aPct}%` }}
         />
       </div>
-      <p className="mt-1 flex items-center justify-between text-[10px] text-zinc-500 dark:text-zinc-400">
+      <p className="mt-1 flex items-center justify-between text-xs text-zinc-500 dark:text-zinc-400">
         <span>{aLabel}</span>
         <span>{bLabel}</span>
       </p>
       {balance.skewed ? (
-        <p className="mt-1.5 flex items-start gap-1 text-[11px] font-semibold text-amber-700 dark:text-amber-400">
+        <p className="mt-1.5 flex items-start gap-1 text-xs font-semibold text-amber-700 dark:text-amber-400">
           <AlertTriangle aria-hidden="true" size={11} className="mt-0.5 shrink-0" />
           {hint}
         </p>

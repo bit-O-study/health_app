@@ -106,7 +106,7 @@ export function EquipmentScanner() {
             {analysis.equipmentNameEn ? (
               <p className="text-xs text-zinc-500">{analysis.equipmentNameEn}</p>
             ) : null}
-            <p className="mt-0.5 text-[11px] font-semibold text-amber-600 dark:text-amber-400">
+            <p className="mt-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400">
               {CONFIDENCE_LABEL[analysis.confidence] ?? analysis.confidence}
             </p>
             {analysis.summary ? (
@@ -157,7 +157,7 @@ export function EquipmentScanner() {
                                 </p>
                               ) : null}
                             </div>
-                            <span className="shrink-0 rounded bg-emerald-600 px-2 py-1 text-[10px] font-bold text-white">
+                            <span className="shrink-0 rounded bg-emerald-600 px-2 py-1 text-xs font-bold text-white">
                               상세보기
                             </span>
                           </Link>

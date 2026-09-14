@@ -232,7 +232,7 @@ export default async function ScorePage() {
         </p>
       </div>
 
-      <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
+      <section className="app-card p-6">
         <div className="flex flex-col items-center gap-6 sm:flex-row">
           <svg
             viewBox={`0 0 ${W} ${W}`}
@@ -332,7 +332,7 @@ export default async function ScorePage() {
               <div
                 key={cell.ymd}
                 title={cell.ymd}
-                className={`flex h-9 items-center justify-center rounded-md text-[11px] font-semibold ${
+                className={`flex h-9 items-center justify-center rounded-md text-xs font-semibold ${
                   cell.done
                     ? "bg-emerald-600 text-white"
                     : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500"
@@ -361,13 +361,13 @@ export default async function ScorePage() {
       </div>
 
       {/* 부위별 밸런스 마네킹 */}
-      <section className="mt-6 rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
+      <section className="mt-6 app-card p-6">
         <div className="mb-1 flex items-center gap-2">
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
             부위별 밸런스
           </h2>
           <span
-            className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+            className={`rounded-full px-2 py-0.5 text-xs font-bold ${
               balanceSource === "body"
                 ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
                 : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
@@ -423,7 +423,7 @@ export default async function ScorePage() {
                 subColors={subColors}
               />
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-[11px] text-zinc-600 dark:text-zinc-400">
+            <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-600 dark:text-zinc-400">
               {balanceSource === "training" ? (
                 <>
                   <Legend color={VOLUME_COLOR.optimal} label={VOLUME_LABEL.optimal} />
@@ -470,7 +470,7 @@ export default async function ScorePage() {
                     <span className="w-14 shrink-0 text-right text-xs font-bold tabular-nums text-zinc-700 dark:text-zinc-200">
                       {Math.round(regionPoints[r])}점
                     </span>
-                    <span className="w-14 shrink-0 text-right text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
+                    <span className="w-14 shrink-0 text-right text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
                       {weeklyByRegion[r]?.sets ?? 0}세트
                     </span>
                   </li>
@@ -489,7 +489,7 @@ export default async function ScorePage() {
                       {REGION_LABEL[r]}
                     </p>
                     <span
-                      className="rounded-full px-2 py-0.5 text-[10px] font-bold text-white"
+                      className="rounded-full px-2 py-0.5 text-xs font-bold text-white"
                       style={{ backgroundColor: BALANCE_COLOR[regionStatus[r]] }}
                     >
                       {BALANCE_LABEL[regionStatus[r]]}
@@ -562,7 +562,7 @@ export default async function ScorePage() {
                     {SUB_MUSCLES[m].map((s) => (
                       <span
                         key={s.id}
-                        className="inline-flex items-center gap-1 rounded-full border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 text-[11px] font-medium text-zinc-700 dark:text-zinc-300"
+                        className="inline-flex items-center gap-1 rounded-full border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300"
                         data-sub-tier={subTier(s.id)}
                         title={`${s.label} · 이번 주 ${SUB_TIER_LABEL[subTier(s.id)]} · 누적 ${Math.round(subPoints[s.id] ?? 0)}점`}
                       >

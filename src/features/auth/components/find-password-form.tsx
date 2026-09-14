@@ -101,7 +101,7 @@ export function FindPasswordForm() {
 
   if (stage === "done") {
     return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+      <div className="w-full max-w-sm app-card p-7">
         <div className="mb-3 flex items-center gap-2">
           <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={20} />
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -126,7 +126,7 @@ export function FindPasswordForm() {
 
   if (stage === "verify") {
     return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+      <div className="w-full max-w-sm app-card p-7">
         <div className="mb-5 flex items-center gap-2">
           <MailCheck aria-hidden="true" className="text-emerald-600" size={20} />
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -203,7 +203,7 @@ export function FindPasswordForm() {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+    <div className="w-full max-w-sm app-card p-7">
       <form className="space-y-4" onSubmit={handleRequest}>
         <div className="space-y-1.5">
           <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="email">

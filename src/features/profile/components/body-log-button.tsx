@@ -60,7 +60,7 @@ export function BodyLogButton({
             </span>
           ) : (
             <span>
-              <span className="text-base font-black tabular-nums">
+              <span className="text-base font-bold tabular-nums">
                 {goal.remainingText}
               </span>
               <span className="ml-0.5 text-xs font-semibold text-emerald-600/80 dark:text-emerald-400/80">

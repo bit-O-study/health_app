@@ -343,7 +343,7 @@ function NumberScrubber({
               }
             }}
             onPointerDown={(e) => e.stopPropagation()}
-            className="h-9 w-[4.75rem] rounded-lg border border-emerald-400 bg-white px-2 text-center text-xl font-extrabold tabular-nums text-emerald-700 outline-none focus:border-emerald-500 dark:border-emerald-500 dark:bg-zinc-900 dark:text-emerald-300"
+            className="h-9 w-[4.75rem] rounded-lg border border-emerald-400 bg-white px-2 text-center text-xl font-bold tabular-nums text-emerald-700 outline-none focus:border-emerald-500 dark:border-emerald-500 dark:bg-zinc-900 dark:text-emerald-300"
           />
         ) : (
           <div
@@ -362,7 +362,7 @@ function NumberScrubber({
             style={{ touchAction: "none" }}
             className="flex h-9 min-w-[4.75rem] cursor-ew-resize select-none items-center justify-center gap-0.5 rounded-lg bg-emerald-50 px-2 dark:bg-emerald-500/10"
           >
-            <span className="text-xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+            <span className="text-xl font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
               {display}
             </span>
             {value !== null ? (
@@ -1267,7 +1267,7 @@ export function GuidedOverlay({
           <p
             data-testid="superset-tag"
             data-label={supersetTag}
-            className="mt-3 inline-flex items-center gap-1 self-center rounded-full bg-violet-100 px-2.5 py-1 text-[11px] font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
+            className="mt-3 inline-flex items-center gap-1 self-center rounded-full bg-violet-100 px-2.5 py-1 text-xs font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
           >
             <Link2 aria-hidden="true" size={12} />
             슈퍼세트 {supersetTag}
@@ -1294,7 +1294,7 @@ export function GuidedOverlay({
         {timed ? (
           <div className="mt-4 flex flex-col items-center gap-2">
             <div
-              className={`text-6xl font-extrabold tabular-nums ${
+              className={`text-6xl font-bold tabular-nums ${
                 holdSec >= targetHoldSec
                   ? "text-emerald-600 dark:text-emerald-400"
                   : "text-zinc-900 dark:text-zinc-100"
@@ -1355,7 +1355,7 @@ export function GuidedOverlay({
         {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 세로 스택(모바일 폭에서도 안 깨짐).
             좌우로 밀거나 ±로 조절, 더블클릭하면 직접 입력. */}
         {editable ? (
-          <div className="mt-4 w-full max-w-xs rounded-2xl border border-zinc-200 bg-white px-4 py-1 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <div className="mt-4 w-full max-w-xs app-card px-4 py-1">
             <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
               <NumberScrubber
                 label="무게"
@@ -1387,7 +1387,7 @@ export function GuidedOverlay({
                 onChange={(v) => putEdit({ sets: v ?? 1 })}
               />
             </div>
-            <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+            <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
               좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
             </p>
           </div>
@@ -1546,7 +1546,7 @@ export function GuidedOverlay({
             type="button"
             onClick={skip}
             disabled={working}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 bg-white text-[13px] font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
             <ChevronRight aria-hidden="true" size={15} />
             넘기기
@@ -1555,7 +1555,7 @@ export function GuidedOverlay({
             type="button"
             onClick={complete}
             disabled={working}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-[13px] font-bold text-white shadow transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-sm font-bold text-white shadow transition hover:bg-emerald-500 disabled:opacity-50"
           >
             <Check aria-hidden="true" size={16} />
             {isLast ? "완료하고 종료" : mainSets > 0 ? "운동 완료" : "완료"}
@@ -1565,7 +1565,7 @@ export function GuidedOverlay({
         {/* 본운동 세트 진행 + 세트 완료(휴식) — 세트가 여러 개일 때만 */}
         {mainSets > 0 ? (
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-12 shrink-0 items-center rounded-lg bg-emerald-50 px-2.5 text-[13px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <span className="inline-flex h-12 shrink-0 items-center rounded-lg bg-emerald-50 px-2.5 text-sm font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
               {setProgressLabel(setsDone, mainSets)}
             </span>
             {setsDone > 0 ? (
@@ -1584,7 +1584,7 @@ export function GuidedOverlay({
               type="button"
               onClick={completeSet}
               disabled={working}
-              className="inline-flex h-12 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-emerald-300 bg-emerald-50 text-[15px] font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
+              className="inline-flex h-12 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-emerald-300 bg-emerald-50 text-base font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
             >
               {onLastSet ? (
                 <>
@@ -1698,7 +1698,7 @@ function TipsDialog({
         <ol className="space-y-2.5">
           {steps.map((s, i) => (
             <li key={i} className="flex items-start gap-2.5">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-extrabold text-white">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-bold text-white">
                 {i + 1}
               </span>
               <span className="text-sm leading-6 text-zinc-700 dark:text-zinc-200">
@@ -1785,7 +1785,7 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
         : "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300";
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${tone}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${tone}`}
     >
       {label}
     </span>
@@ -1851,10 +1851,10 @@ function ConditioningSettings({
           className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 dark:border-emerald-500/30 dark:bg-emerald-500/10"
         >
           <span className="text-emerald-600 dark:text-emerald-400">{c.icon}</span>
-          <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <span className="text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
             {c.label}
           </span>
-          <span className="text-sm font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+          <span className="text-sm font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
             {c.value}
           </span>
         </span>
@@ -1893,7 +1893,7 @@ function CondScrubbers({
   const params = getConditioningItem(itemId)?.params ?? [];
   if (params.length === 0) return null;
   return (
-    <div className="mt-4 w-full max-w-xs rounded-2xl border border-zinc-200 bg-white px-4 py-1 dark:border-zinc-800 dark:bg-zinc-900/60">
+    <div className="mt-4 w-full max-w-xs app-card px-4 py-1">
       <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
         {params.includes("duration") ? (
           <NumberScrubber
@@ -1951,7 +1951,7 @@ function CondScrubbers({
           />
         ) : null}
       </div>
-      <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+      <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
         좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
       </p>
     </div>

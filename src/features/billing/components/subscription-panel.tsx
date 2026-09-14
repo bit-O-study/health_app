@@ -55,7 +55,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
       <section
         data-testid="subscription-status"
         data-premium={status.premium ? "1" : "0"}
-        className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800"
+        className="app-card p-5"
       >
         <p className="flex items-center gap-2 text-sm font-bold text-zinc-950 dark:text-zinc-100">
           <span
@@ -81,7 +81,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
       */}
       <section
         data-testid="premium-benefits"
-        className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800"
+        className="app-card p-5"
       >
         <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
           프리미엄으로 달라지는 것
@@ -113,7 +113,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             ))}
           </tbody>
         </table>
-        <p className="mt-2.5 text-[11px] leading-5 text-zinc-400 dark:text-zinc-500">
+        <p className="mt-2.5 text-xs leading-5 text-zinc-400 dark:text-zinc-500">
           루틴·식단 기록·타이머·러닝·그룹은 무료에서도 전부 그대로 쓸 수 있어요.
         </p>
       </section>
@@ -165,7 +165,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         </p>
       ) : null}
 
-      <p className="px-1 text-[11px] leading-5 text-zinc-400 dark:text-zinc-500">
+      <p className="px-1 text-xs leading-5 text-zinc-400 dark:text-zinc-500">
         결제·해지·환불은 <strong>구글 플레이</strong>에서 관리해요. 해지해도 이미 결제한
         기간이 끝날 때까지는 그대로 쓸 수 있어요.
       </p>

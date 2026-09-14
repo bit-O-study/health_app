@@ -66,7 +66,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
           메인으로
         </Link>
 
-        <header className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
+        <header className="app-card p-6">
           <div className="flex items-center gap-3">
             <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
               <ConditioningIcon id={item.id} size={36} />
@@ -91,7 +91,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
         </header>
 
         {item.method && item.method.length > 0 ? (
-          <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
+          <section className="app-card p-6">
             <div className="mb-3 flex items-center gap-2">
               <ListChecks
                 aria-hidden="true"
@@ -123,7 +123,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
         )}
 
         {item.params && item.params.length > 0 ? (
-          <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
+          <section className="app-card p-6">
             <h2 className="mb-3 text-base font-bold text-zinc-950 dark:text-zinc-100">
               입력 가능한 항목
             </h2>

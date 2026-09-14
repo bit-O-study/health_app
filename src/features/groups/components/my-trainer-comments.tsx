@@ -32,7 +32,7 @@ export function MyTrainerComments({ comments }: { comments: TrainerComment[] }) 
             <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-800 dark:text-zinc-100">
               {c.body}
             </p>
-            <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+            <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
               {c.fromName} · {commentDateLabel(c.createdAt)}
             </p>
           </li>

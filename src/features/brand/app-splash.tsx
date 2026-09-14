@@ -36,7 +36,7 @@ export function AppSplash() {
             <LogoMark size={52} />
           </span>
         </span>
-        <span className="app-splash-word text-2xl font-extrabold tracking-tight text-zinc-950 dark:text-zinc-100">
+        <span className="app-splash-word text-2xl font-bold tracking-tight text-zinc-950 dark:text-zinc-100">
           {BRAND_NAME}
         </span>
       </div>

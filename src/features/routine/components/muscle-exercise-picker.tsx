@@ -257,7 +257,7 @@ export function MuscleExercisePicker({
                 {n > 0 ? (
                   <span
                     className={cn(
-                      "ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[11px] font-bold",
+                      "ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-xs font-bold",
                       active
                         ? "bg-white/25 text-white"
                         : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300",
@@ -376,7 +376,7 @@ export function MuscleExercisePicker({
                       return (
                         <span
                           className={cn(
-                            "rounded-full px-1.5 py-0.5 text-[11px] font-bold",
+                            "rounded-full px-1.5 py-0.5 text-xs font-bold",
                             major.tone,
                           )}
                         >
@@ -386,7 +386,7 @@ export function MuscleExercisePicker({
                     })()}
                     {exSubs[0] ? (
                       <span
-                        className="rounded px-1.5 py-0.5 text-[11px] font-semibold text-white"
+                        className="rounded px-1.5 py-0.5 text-xs font-semibold text-white"
                         style={{
                           backgroundColor: muscleGroup(exSubs[0].muscle).color,
                         }}

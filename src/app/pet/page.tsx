@@ -24,7 +24,7 @@ export default async function PetPage() {
         <ArrowLeft aria-hidden="true" size={15} />
         그룹으로
       </Link>
-      <h1 className="mb-1 text-xl font-extrabold text-zinc-950 dark:text-zinc-50">
+      <h1 className="mb-1 text-xl font-bold text-zinc-950 dark:text-zinc-50">
         🐺 늑대 키우기
       </h1>
       <p className="mb-4 text-xs leading-5 text-zinc-500 dark:text-zinc-400">

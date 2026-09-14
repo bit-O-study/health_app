@@ -19,13 +19,13 @@ export function PetCard({ pet }: { pet: PetView }) {
           <PetRoom equipped={pet.equipped} level={pet.level.level} size="sm" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="flex items-center gap-1 truncate text-sm font-extrabold text-zinc-900 dark:text-zinc-100">
+          <p className="flex items-center gap-1 truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
             {name}
-            <span className="rounded-full bg-violet-500 px-1.5 text-[10px] font-bold text-white">
+            <span className="rounded-full bg-violet-500 px-1.5 text-xs font-bold text-white">
               Lv.{pet.level.level}
             </span>
           </p>
-          <p className="text-[11px] font-semibold text-violet-600 dark:text-violet-300">
+          <p className="text-xs font-semibold text-violet-600 dark:text-violet-300">
             {stage.title} · 🪙 {pet.points.toLocaleString()}P
           </p>
           <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-violet-100 dark:bg-violet-950/50">

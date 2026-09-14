@@ -77,7 +77,7 @@ export function SwipeHint() {
 
 function Chip({ icon, text }: { icon: React.ReactNode; text: string }) {
   return (
-    <span className="app-field inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+    <span className="app-field inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium text-zinc-500 dark:text-zinc-400">
       <span className="shrink-0 text-zinc-400 dark:text-zinc-500">{icon}</span>
       {text}
     </span>

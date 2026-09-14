@@ -653,7 +653,7 @@ export function TodayPlanList({
                         const major = majorMuscleTag(item.exerciseId);
                         return (
                           <span
-                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold ${major.tone}`}
+                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-xs font-bold ${major.tone}`}
                           >
                             {major.label}
                           </span>
@@ -668,7 +668,7 @@ export function TodayPlanList({
                         if (!sub) return null;
                         return (
                           <span
-                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold text-white"
+                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-xs font-bold text-white"
                             style={{
                               backgroundColor: muscleGroup(sub.muscle).color,
                             }}
@@ -681,12 +681,12 @@ export function TodayPlanList({
                         {item.equipmentLabel}
                       </span>
                       {isDone ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
                           완료
                         </span>
                       ) : null}
                       {isSkipped ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-xs font-bold text-zinc-700 dark:text-zinc-300">
                           오늘 휴식
                         </span>
                       ) : null}
@@ -1061,7 +1061,7 @@ function ExerciseEditForm({
             type="button"
             onClick={perSet ? disablePerSet : enablePerSet}
             disabled={pending}
-            className={`inline-flex h-7 items-center rounded-md border px-2 text-[11px] font-semibold transition ${
+            className={`inline-flex h-7 items-center rounded-md border px-2 text-xs font-semibold transition ${
               perSet
                 ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
                 : "app-field text-zinc-600 dark:text-zinc-300"
@@ -1174,7 +1174,7 @@ function ExerciseEditForm({
               </span>
             </>
           ) : (
-            <span className="text-[11px] text-zinc-400 dark:text-zinc-500">
+            <span className="text-xs text-zinc-400 dark:text-zinc-500">
               무게·횟수는 운동모드에서 설정
             </span>
           )}
@@ -1419,7 +1419,7 @@ function AddExerciseSlot({
           취소
         </button>
       </div>
-      <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
         세트·횟수·무게는 프로필 추천값으로 자동 설정됩니다. 추가 후 운동을 눌러
         상세에서 조절할 수 있어요.
       </p>

@@ -149,12 +149,12 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
       )}
 
       {mode === "synced" && steps === 0 ? (
-        <span className="max-w-[220px] text-right text-[11px] leading-tight text-amber-600 dark:text-amber-400">
+        <span className="max-w-[220px] text-right text-xs leading-tight text-amber-600 dark:text-amber-400">
           걸음수가 0이면 삼성헬스 → Health Connect 의 걸음수 공유를 켜주세요.
         </span>
       ) : null}
       {msg ? (
-        <span className="max-w-[220px] text-right text-[11px] leading-tight text-zinc-500 dark:text-zinc-400">
+        <span className="max-w-[220px] text-right text-xs leading-tight text-zinc-500 dark:text-zinc-400">
           {msg}
         </span>
       ) : null}
@@ -162,7 +162,7 @@ export function StepsSync({ debug = false }: { debug?: boolean }) {
         <button
           type="button"
           onClick={() => window.alert(diag)}
-          className="max-w-[280px] break-all rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-right text-[11px] font-semibold leading-tight text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
+          className="max-w-[280px] break-all rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-right text-xs font-semibold leading-tight text-amber-700 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
         >
           🩺 {diag} (탭하면 전체보기)
         </button>

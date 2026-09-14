@@ -226,10 +226,10 @@ function ReelSlide({
             {characterEmoji(post.authorName)}
           </span>
           <span className="truncate text-sm font-bold">{post.authorName}</span>
-          <span className="text-[11px] text-white/70">{when}</span>
+          <span className="text-xs text-white/70">{when}</span>
         </div>
         {post.exerciseTag ? (
-          <span className="mt-2 inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-[12px] font-bold backdrop-blur">
+          <span className="mt-2 inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-bold backdrop-blur">
             #{post.exerciseTag}
           </span>
         ) : null}
@@ -380,7 +380,7 @@ function CommentSheet({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
-          <span className="text-sm font-extrabold">
+          <span className="text-sm font-bold">
             댓글 {list?.length ?? 0}
           </span>
           <button

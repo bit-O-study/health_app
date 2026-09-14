@@ -45,7 +45,7 @@ export function FindIdForm() {
 
   if (done) {
     return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+      <div className="w-full max-w-sm app-card p-7">
         <h2 className="mb-3 text-base font-bold text-zinc-950 dark:text-zinc-100">
           아이디 찾기 결과
         </h2>
@@ -82,7 +82,7 @@ export function FindIdForm() {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+    <div className="w-full max-w-sm app-card p-7">
       <form className="space-y-4" onSubmit={handleStart}>
         <div className="space-y-1.5">
           <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="name">

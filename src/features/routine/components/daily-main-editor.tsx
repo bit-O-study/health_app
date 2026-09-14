@@ -608,7 +608,7 @@ export function DailyMainEditor({
                     </select>
                   ) : (
                     <span
-                      className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-bold text-white"
+                      className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-xs font-bold text-white"
                       style={{
                         backgroundColor: sub
                           ? muscleGroup(sub.muscle).color

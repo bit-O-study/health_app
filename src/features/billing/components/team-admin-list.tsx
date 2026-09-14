@@ -84,25 +84,25 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
     <li
       data-testid="team-admin-row"
       data-group={row.groupId}
-      className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800"
+      className="app-card p-4"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="truncate text-sm font-bold text-zinc-950 dark:text-zinc-100">
             {row.groupName}
           </p>
-          <p className="mt-0.5 text-[11px] text-zinc-500">
+          <p className="mt-0.5 text-xs text-zinc-500">
             {TEAM_PLAN_META[row.plan].label} · {TEAM_STATUS_LABEL[row.status]}
             {row.periodEnd ? ` · ~${row.periodEnd}` : ""}
           </p>
           {row.bizName ? (
-            <p className="mt-0.5 text-[11px] text-zinc-400">
+            <p className="mt-0.5 text-xs text-zinc-400">
               {row.bizName}
               {row.bizNumber ? ` · ${formatBizNumber(row.bizNumber)}` : ""}
               {row.bizEmail ? ` · ${row.bizEmail}` : ""}
             </p>
           ) : (
-            <p className="mt-0.5 text-[11px] text-zinc-400">사업자 정보 없음</p>
+            <p className="mt-0.5 text-xs text-zinc-400">사업자 정보 없음</p>
           )}
         </div>
       </div>
@@ -115,7 +115,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
           { label: "인원", value: seats, set: setSeats, type: "number" },
         ].map((f) => (
           <label key={f.label} className="block">
-            <span className="mb-1 block text-[11px] font-bold text-zinc-500">
+            <span className="mb-1 block text-xs font-bold text-zinc-500">
               {f.label}
             </span>
             <input

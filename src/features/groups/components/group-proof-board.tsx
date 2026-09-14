@@ -52,7 +52,7 @@ function ProofCard({ member }: { member: ProofMember }) {
         <span className="flex items-center gap-1.5 text-sm font-bold text-white drop-shadow">
           {member.name}
           {member.isMe ? (
-            <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
+            <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-xs font-bold text-white">
               나
             </span>
           ) : null}
@@ -79,7 +79,7 @@ function PendingCard({ member }: { member: ProofMember }) {
       <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
         {member.name}
       </span>
-      <span className="text-[11px] text-zinc-400">아직 인증 전</span>
+      <span className="text-xs text-zinc-400">아직 인증 전</span>
     </div>
   );
 }
@@ -91,10 +91,10 @@ function MyRecordCard() {
       <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white">
         <Camera size={24} />
       </span>
-      <span className="text-sm font-black text-emerald-800 dark:text-emerald-300">
+      <span className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
         탭하여 오늘 인증
       </span>
-      <span className="text-[11px] text-emerald-700/70 dark:text-emerald-400/70">
+      <span className="text-xs text-emerald-700/70 dark:text-emerald-400/70">
         3초 운동 인증
       </span>
     </div>

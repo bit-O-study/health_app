@@ -34,7 +34,7 @@ export const dynamic = "force-dynamic";
 function TrendBadge({ pct }: { pct: number | null }) {
   if (pct === null) {
     return (
-      <span className="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-[11px] font-bold text-zinc-500">
+      <span className="rounded-full bg-zinc-100 dark:bg-zinc-800 px-2 py-0.5 text-xs font-bold text-zinc-500">
         —
       </span>
     );
@@ -42,7 +42,7 @@ function TrendBadge({ pct }: { pct: number | null }) {
   const up = pct >= 0;
   return (
     <span
-      className={`rounded-full px-2 py-0.5 text-[11px] font-bold ${
+      className={`rounded-full px-2 py-0.5 text-xs font-bold ${
         up
           ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
           : "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-400"
@@ -132,7 +132,7 @@ export default async function ProgressPage() {
       ) : (
         <div className="space-y-6">
           {/* 총 볼륨 */}
-          <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+          <section className="app-card p-5">
             <div className="mb-3 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400">
@@ -153,7 +153,7 @@ export default async function ProgressPage() {
 
           {/* 주간 볼륨 — 일별은 운동한 날/쉰 날이 번갈아 톱니처럼 보여 추세가 안 보인다. */}
           {weekly.length >= 2 ? (
-            <section className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+            <section className="app-card p-5">
               <div className="mb-3 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
                   <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-400">
@@ -222,7 +222,7 @@ export default async function ProgressPage() {
                   return (
                     <div
                       key={e.exerciseId}
-                      className="rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm"
+                      className="app-card p-4"
                     >
                       <div className="mb-2 flex items-center justify-between gap-2">
                         <p className="truncate text-sm font-bold text-zinc-950 dark:text-zinc-100">
@@ -234,7 +234,7 @@ export default async function ProgressPage() {
                       <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
                         최고 추정 1RM <strong>{best}kg</strong>
                         {e.unilateral ? (
-                          <span className="ml-1.5 rounded bg-zinc-100 px-1.5 py-0.5 text-[10px] font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                          <span className="ml-1.5 rounded bg-zinc-100 px-1.5 py-0.5 text-xs font-semibold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                             한쪽 기준
                           </span>
                         ) : null}
@@ -245,7 +245,7 @@ export default async function ProgressPage() {
                         </div>
                       ) : null}
                       {e.history.length > 0 ? (
-                        <ul className="mt-2 space-y-0.5 border-t border-zinc-100 pt-2 text-[11px] text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
+                        <ul className="mt-2 space-y-0.5 border-t border-zinc-100 pt-2 text-xs text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
                           {e.history.map((h) => (
                             <li key={h.date} className="flex justify-between gap-2">
                               <span>{h.date.slice(5).replace("-", "/")}</span>

@@ -221,7 +221,7 @@ export function BodyCompForm({
 
   return (
     <div className="space-y-5">
-      <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+      <section className="app-card p-5">
         <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
           체성분 분석지 등록
         </h2>
@@ -247,7 +247,7 @@ export function BodyCompForm({
       {SECTIONS.map((sec) => (
         <section
           key={sec.label}
-          className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
+          className="app-card p-5"
         >
           <h3 className="mb-3 text-sm font-bold text-zinc-950 dark:text-zinc-100">
             {sec.label}
@@ -273,7 +273,7 @@ export function BodyCompForm({
         </section>
       ))}
 
-      <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+      <section className="app-card p-5">
         <h3 className="mb-2 text-sm font-bold text-zinc-950 dark:text-zinc-100">
           분석지 사진 + 자동 추출
         </h3>
@@ -333,7 +333,7 @@ export function BodyCompForm({
                 style={{ width: `${ocrProgress}%` }}
               />
             </div>
-            <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
+            <p className="text-xs text-zinc-400 dark:text-zinc-500">
               첫 실행은 한국어 인식 데이터(~10MB) 를 받아오느라 30초 정도
               걸려요. 다음부터는 빠릅니다.
             </p>
@@ -372,7 +372,7 @@ export function BodyCompForm({
         <p className="font-semibold text-amber-800">
           민감정보(건강) 수집·이용 동의
         </p>
-        <ul className="mt-1 list-disc pl-5 text-[11px] text-zinc-600 dark:text-zinc-400">
+        <ul className="mt-1 list-disc pl-5 text-xs text-zinc-600 dark:text-zinc-400">
           <li>
             수집 항목: 측정일, 체중, 골격근량, 체지방률·량, 부위별 근육·지방
             수치, 분석지 사진

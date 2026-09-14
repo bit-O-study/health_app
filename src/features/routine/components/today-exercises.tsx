@@ -640,7 +640,7 @@ export async function TodayExercises({
               </span>
               오늘 할 운동
               {usingDailyPlan ? (
-                <span className="whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+                <span className="whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
                   오늘만 변경됨
                 </span>
               ) : null}
@@ -655,7 +655,7 @@ export async function TodayExercises({
         <div className="app-card p-4">
           <div className="flex items-center gap-3">
             <div className="min-w-0 flex-1">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
                 오늘 진행
               </p>
               <p className="flex flex-wrap items-baseline gap-x-2 text-xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-2xl">
@@ -873,7 +873,7 @@ function ConditioningSection({
           {label}
         </h3>
         {isDailyOverride ? (
-          <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+          <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
             오늘만
           </span>
         ) : null}

@@ -169,12 +169,12 @@ export function CycleBoard({
       </div>
 
       {/* 달력 */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-3">
+      <div className="app-card p-2 sm:p-3">
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div
               key={w}
-              className={`pb-1 text-center text-[11px] font-bold ${
+              className={`pb-1 text-center text-xs font-bold ${
                 i === 5 ? "text-sky-600" : i === 6 ? "text-rose-500" : "text-zinc-400"
               }`}
             >
@@ -210,7 +210,7 @@ export function CycleBoard({
                 ) : isPredicted ? (
                   <Heart aria-label="생리 예정" size={16} className="text-rose-300 dark:text-rose-500/60" />
                 ) : isOvul ? (
-                  <span className="text-[9px] font-bold text-violet-500">배란</span>
+                  <span className="text-xs font-bold text-violet-500">배란</span>
                 ) : log?.symptoms.length || log?.note ? (
                   <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
                 ) : null}
@@ -218,7 +218,7 @@ export function CycleBoard({
             );
           })}
         </div>
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 border-t border-zinc-100 pt-2 text-[10px] text-zinc-400 dark:border-zinc-800">
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 border-t border-zinc-100 pt-2 text-xs text-zinc-400 dark:border-zinc-800">
           <span className="flex items-center gap-1">
             <Heart size={11} className="fill-rose-500 text-rose-500" /> 생리
           </span>
@@ -246,9 +246,9 @@ export function CycleBoard({
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div>
-      <p className="text-[11px] font-semibold text-rose-700/70 dark:text-rose-300/70">{label}</p>
-      <p className="text-lg font-extrabold text-rose-700 dark:text-rose-300">{value}</p>
-      {sub ? <p className="text-[10px] text-rose-700/60 dark:text-rose-300/50">{sub}</p> : null}
+      <p className="text-xs font-semibold text-rose-700/70 dark:text-rose-300/70">{label}</p>
+      <p className="text-lg font-bold text-rose-700 dark:text-rose-300">{value}</p>
+      {sub ? <p className="text-xs text-rose-700/60 dark:text-rose-300/50">{sub}</p> : null}
     </div>
   );
 }

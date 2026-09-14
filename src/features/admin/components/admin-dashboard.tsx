@@ -18,7 +18,7 @@ import {
 const MetricChart = dynamic(() => import("./metric-chart"), {
   ssr: false,
   loading: () => (
-    <div className="h-[280px] rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-700 dark:bg-zinc-800" />
+    <div className="h-[280px] app-card" />
   ),
 });
 
@@ -120,7 +120,7 @@ function StatCard({
   tone: string;
 }) {
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+    <div className="app-card p-4">
       <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
         {label}
       </p>

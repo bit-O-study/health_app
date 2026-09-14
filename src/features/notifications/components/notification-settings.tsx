@@ -53,7 +53,7 @@ export function NotificationSettings({
 
   return (
     <div className="space-y-6">
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="app-card p-5">
         <h2 className="mb-1 text-base font-bold text-zinc-950 dark:text-zinc-100">
           받을 알림
         </h2>
@@ -85,7 +85,7 @@ export function NotificationSettings({
         </ul>
       </section>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section className="app-card p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <h2 className="flex items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">

@@ -70,7 +70,7 @@ export function AssignRoutineForm({
     <div className="space-y-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-2">
         <label className="block">
-          <span className="mb-1 block text-[11px] font-bold text-zinc-500">내 루틴</span>
+          <span className="mb-1 block text-xs font-bold text-zinc-500">내 루틴</span>
           <select
             aria-label="내 일차"
             value={from ?? ""}
@@ -86,7 +86,7 @@ export function AssignRoutineForm({
         </label>
         <ArrowRight aria-hidden="true" size={16} className="mb-3 text-zinc-400" />
         <label className="block">
-          <span className="mb-1 block text-[11px] font-bold text-zinc-500">
+          <span className="mb-1 block text-xs font-bold text-zinc-500">
             {memberName} 님
           </span>
           <select
@@ -104,7 +104,7 @@ export function AssignRoutineForm({
         </label>
       </div>
 
-      <p className="rounded-xl bg-amber-50 p-3 text-[11px] leading-5 text-amber-800 dark:bg-amber-900/25 dark:text-amber-200">
+      <p className="rounded-xl bg-amber-50 p-3 text-xs leading-5 text-amber-800 dark:bg-amber-900/25 dark:text-amber-200">
         배정하면 {memberName} 님의 <strong>{toSlot?.label ?? "그 일차"}</strong>에 있던
         운동은 지워지고 내 <strong>{fromSlot?.label ?? "일차"}</strong> 운동으로 바뀌어요.
         <br />

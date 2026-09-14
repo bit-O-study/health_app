@@ -303,7 +303,7 @@ export function ConditioningEditor({
       )}
 
       {!lockWeightReps && rows.length > 0 ? (
-        <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
           시간·속도·경사는 <b>운동 모드</b>에서 그때그때 설정해요. (설정 ▸ 무게·횟수
           고정을 켜면 여기서 직접 입력)
         </p>

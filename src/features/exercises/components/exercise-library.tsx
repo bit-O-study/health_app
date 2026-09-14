@@ -88,7 +88,7 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
                       {ex.equipments.map((e) => (
                         <span
                           key={e.equipment}
-                          className="rounded-full bg-zinc-100 dark:bg-zinc-700/50 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300"
+                          className="rounded-full bg-zinc-100 dark:bg-zinc-700/50 px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300"
                         >
                           {EQUIPMENT_LABELS[e.equipment]}
                         </span>
@@ -138,7 +138,7 @@ function FilterChip({
       {label}
       <span
         className={cn(
-          "text-[10px] font-bold",
+          "text-xs font-bold",
           active ? "text-emerald-100" : "text-zinc-400 dark:text-zinc-500",
         )}
       >

@@ -175,7 +175,7 @@ export function MealScanForm({
                         </span>
                       ) : null}
                     </p>
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
                       {Math.round(it.kcal)}kcal
                       {it.protein != null ? ` · 단 ${it.protein}` : ""}
                       {it.carbs != null ? ` · 탄 ${it.carbs}` : ""}
@@ -194,7 +194,7 @@ export function MealScanForm({
           >
             선택한 음식 담기
           </button>
-          <p className="text-center text-[11px] text-zinc-400">
+          <p className="text-center text-xs text-zinc-400">
             AI 추정값이라 정확하지 않을 수 있어요. 담은 뒤 수정할 수 있습니다.
           </p>
         </div>

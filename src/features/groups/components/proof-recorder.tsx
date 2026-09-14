@@ -257,7 +257,7 @@ export function ProofRecorder({
 
         {phase === "recording" ? (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span className="rounded-full bg-red-600/90 px-4 py-1.5 text-2xl font-black tabular-nums text-white shadow-lg">
+            <span className="rounded-full bg-red-600/90 px-4 py-1.5 text-2xl font-bold tabular-nums text-white shadow-lg">
               ● {count}
             </span>
           </div>

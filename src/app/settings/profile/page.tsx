@@ -34,14 +34,14 @@ export default async function ProfileSettingsPage() {
       </div>
 
       <div className="space-y-6">
-        <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+        <section className="app-card p-5">
           <h2 className="mb-3 text-base font-bold text-zinc-950 dark:text-zinc-100">
             추이 그래프
           </h2>
           <BodyChart logs={logs} />
         </section>
 
-        <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+        <section className="app-card p-5">
           <h2 className="mb-1 text-base font-bold text-zinc-950 dark:text-zinc-100">
             측정 기록
           </h2>
@@ -51,7 +51,7 @@ export default async function ProfileSettingsPage() {
           <BodyLogList logs={logs} />
         </section>
 
-        <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+        <section className="app-card p-5">
           <h2 className="mb-1 text-base font-bold text-zinc-950 dark:text-zinc-100">
             체형 기록
           </h2>

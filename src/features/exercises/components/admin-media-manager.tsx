@@ -65,7 +65,7 @@ export function AdminMediaManager({
   return (
     <div className="space-y-8">
       {/* 등록 폼 */}
-      <section className="space-y-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+      <section className="space-y-3 app-card p-5">
         <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
           미디어 등록 / 수정
         </h2>

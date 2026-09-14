@@ -51,7 +51,7 @@ export default async function SubscriptionPage() {
           한 달에 쓸 수 있는 횟수
         </h2>
         <ul className="overflow-hidden rounded-xl border border-zinc-200 dark:border-zinc-700">
-          <li className="flex items-center justify-between gap-2 bg-zinc-50 px-4 py-2 text-[11px] font-bold text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
+          <li className="flex items-center justify-between gap-2 bg-zinc-50 px-4 py-2 text-xs font-bold text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400">
             <span>기능</span>
             <span className="flex gap-6">
               <span className="w-10 text-right">무료</span>

@@ -56,7 +56,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
 
   return (
     <form
-      className="w-full max-w-sm space-y-4 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm"
+      className="w-full max-w-sm space-y-4 app-card p-7"
       onSubmit={handleSubmit}
     >
       <div className="space-y-1.5">

@@ -393,7 +393,7 @@ function RestOverlay({
             ) : null}
           </div>
           <div className="relative z-10 mt-1 text-center">
-            <span className="font-mono text-4xl font-black tabular-nums">
+            <span className="font-mono text-4xl font-bold tabular-nums">
               {done ? "0:00" : formatRest(remainingSec)}
             </span>
             <p className="mt-0.5 text-xs opacity-80">

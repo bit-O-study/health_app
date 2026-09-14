@@ -213,7 +213,7 @@ export function UpcomingSevenDaysGrid({
             <CalendarDays aria-hidden="true" size={15} />
           </span>
           다가오는 7일
-          <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
+          <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
             {editMode ? "· 드래그로 순서 변경" : "· '편집하기'에서 순서 변경"}
           </span>
         </h2>
@@ -309,14 +309,14 @@ export function UpcomingSevenDaysGrid({
                   </span>
                 </span>
                 {cell.isToday ? (
-                  <span className="shrink-0 rounded-full bg-emerald-600 px-1.5 py-0.5 text-[11px] font-bold text-white">
+                  <span className="shrink-0 rounded-full bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
                     오늘
                   </span>
                 ) : null}
               </div>
               <span
                 className={cn(
-                  "mt-2 inline-flex min-w-0 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold",
+                  "mt-2 inline-flex min-w-0 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold",
                   style.badge,
                 )}
               >

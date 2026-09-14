@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 
 /**
@@ -136,6 +136,62 @@ describe("이번 주 카드는 한 장 — 홈과 운동탭이 같은 컴포넌�
     const card = read("src/features/routine/components/weekly-overview-card.tsx");
     expect(card).not.toMatch(/\b(rose|sky|violet|amber|teal|emerald)-\d{3}\b/);
     expect(card).toContain('none: "border border-warn"');
+  });
+});
+
+/** src 아래 모든 .ts/.tsx — [상대경로, 내용]. */
+function sourceFiles(): [string, string][] {
+  const out: [string, string][] = [];
+  const walk = (dir: string) => {
+    for (const name of readdirSync(dir)) {
+      const p = join(dir, name);
+      if (statSync(p).isDirectory()) walk(p);
+      else if (/\.(tsx|ts)$/.test(name)) {
+        out.push([relative(ROOT, p).replace(/\\/g, "/"), readFileSync(p, "utf8")]);
+      }
+    }
+  };
+  walk(resolve(ROOT, "src"));
+  return out;
+}
+
+describe("글자·굵기·카드 규칙 (앱 전체)", () => {
+  const files = sourceFiles();
+  const offenders = (re: RegExp, allow: string[] = []) =>
+    files.flatMap(([rel, src]) =>
+      allow.includes(rel)
+        ? []
+        : src
+            .split("\n")
+            .map((line, i) => (re.test(line) ? `${rel}:${i + 1}` : null))
+            .filter((x): x is string => x !== null),
+    );
+
+  it("임의 글자 크기를 쓰지 않는다 — 12·14·16·20·28(text-xs~) 눈금만", () => {
+    expect(offenders(/(?<![\w-])text-\[(7|8|9|10|12|13|15)px\]/)).toEqual([]);
+  });
+
+  it("11px 은 하단 탭 라벨 하나만 예외", () => {
+    expect(offenders(/(?<![\w-])text-\[11px\]/, ["src/components/bottom-nav.tsx"])).toEqual([]);
+  });
+
+  it("굵기는 400·500·600·700 까지 — black·extrabold 없음", () => {
+    expect(offenders(/(?<![\w-])font-(black|extrabold)(?![\w-])/)).toEqual([]);
+  });
+
+  it("그림자 달린 손카드(rounded + zinc 테두리 + 흰 바탕 + shadow-sm) 대신 .app-card", () => {
+    const handCard = (line: string) =>
+      /(?<![\w-])rounded-(xl|2xl)(?![\w-])/.test(line) &&
+      /(?<![\w-])border-zinc-(100|200)(?![\w-])/.test(line) &&
+      /(?<![\w:-])bg-white(?![\w/-])/.test(line) &&
+      /(?<![\w:-])shadow-sm(?![\w-])/.test(line);
+    const found = files.flatMap(([rel, src]) =>
+      src
+        .split("\n")
+        .map((line, i) => (handCard(line) ? `${rel}:${i + 1}` : null))
+        .filter((x): x is string => x !== null),
+    );
+    expect(found).toEqual([]);
   });
 });
 

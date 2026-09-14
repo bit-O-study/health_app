@@ -160,7 +160,7 @@ export default async function CalendarPage({
           {WEEKDAYS.map((w, i) => (
             <div
               key={w}
-              className={`pb-1 text-center text-[11px] font-bold ${
+              className={`pb-1 text-center text-xs font-bold ${
                 i === 5 ? "text-sky-600" : i === 6 ? "text-rose-500" : "text-zinc-400"
               }`}
             >
@@ -218,7 +218,7 @@ export default async function CalendarPage({
                 {mMark ? (
                   <span
                     aria-label={`미션 달성 ${mMark.pct}%`}
-                    className={`absolute left-0.5 top-0.5 text-[11px] font-black leading-none ${
+                    className={`absolute left-0.5 top-0.5 text-xs font-bold leading-none ${
                       mMark.marker === "circle"
                         ? "text-emerald-500"
                         : mMark.marker === "triangle"
@@ -237,21 +237,21 @@ export default async function CalendarPage({
                   {day}
                 </span>
                 {holiday ? (
-                  <span className="w-full truncate text-center text-[8px] font-semibold leading-tight text-rose-500 dark:text-rose-400">
+                  <span className="w-full truncate text-center text-xs font-semibold leading-tight text-rose-500 dark:text-rose-400">
                     {holiday.name}
                   </span>
                 ) : bok ? (
-                  <span className="w-full truncate text-center text-[8px] font-semibold leading-tight text-orange-500 dark:text-orange-400">
+                  <span className="w-full truncate text-center text-xs font-semibold leading-tight text-orange-500 dark:text-orange-400">
                     {bok.name}
                   </span>
                 ) : null}
                 {s && s.intake > 0 ? (
-                  <span className="mt-0.5 text-[10px] font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                  <span className="mt-0.5 text-xs font-bold tabular-nums text-amber-600 dark:text-amber-400">
                     +{s.intake}
                   </span>
                 ) : null}
                 {s && s.burned > 0 ? (
-                  <span className="text-[10px] font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                  <span className="text-xs font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
                     -{s.burned}
                   </span>
                 ) : null}
@@ -330,23 +330,23 @@ function WeightCard({
       ? "text-rose-600 dark:text-rose-400"
       : "text-zinc-500 dark:text-zinc-400";
   return (
-    <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="flex items-center justify-between gap-2 app-card px-4 py-3">
       <span className="flex items-center gap-1 text-xs font-bold text-zinc-500 dark:text-zinc-400">
         <Weight size={15} className="shrink-0" />
         현재 체중
         {measuredAt ? (
-          <span className="ml-0.5 whitespace-nowrap text-[10px] font-semibold text-zinc-400 dark:text-zinc-500">
+          <span className="ml-0.5 whitespace-nowrap text-xs font-semibold text-zinc-400 dark:text-zinc-500">
             {shortDateLabel(measuredAt)} 측정
           </span>
         ) : null}
       </span>
       <span className="flex items-center gap-2">
-        <span className="whitespace-nowrap text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+        <span className="whitespace-nowrap text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
           {delta.latestKg.toLocaleString()}
           <span className="ml-0.5 text-xs font-semibold text-zinc-400">kg</span>
         </span>
         {d === null ? (
-          <span className="text-[11px] font-semibold text-zinc-400">첫 기록</span>
+          <span className="text-xs font-semibold text-zinc-400">첫 기록</span>
         ) : (
           <span className={`flex items-center gap-0.5 text-xs font-bold tabular-nums ${toneCls}`}>
             {down ? (
@@ -378,12 +378,12 @@ function SummaryCard({
     emerald: "text-emerald-600 dark:text-emerald-400",
   }[tone];
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <span className={`flex items-center gap-1 text-[11px] font-bold ${toneCls}`}>
+    <div className="app-card p-3">
+      <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
         {icon}
         {label}
       </span>
-      <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+      <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
         {value.toLocaleString()}
         <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
       </p>
@@ -403,12 +403,12 @@ function NetCard({ spent }: { spent: number }) {
       : "text-zinc-500 dark:text-zinc-400";
   const label = surplus ? "칼로리 흑자" : deficit ? "칼로리 적자" : "칼로리 균형";
   return (
-    <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
+    <div className="flex items-center justify-between gap-2 app-card px-4 py-3">
       <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
         <Scale size={15} className="shrink-0" />
         {label}
       </span>
-      <span className={`whitespace-nowrap text-lg font-extrabold tabular-nums ${toneCls}`}>
+      <span className={`whitespace-nowrap text-lg font-bold tabular-nums ${toneCls}`}>
         {/* 흑자면 300, 적자면 -300 그대로 표기 */}
         {spent.toLocaleString()}
         <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>

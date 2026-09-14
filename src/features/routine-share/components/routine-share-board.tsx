@@ -95,12 +95,12 @@ export function RoutineShareBoard({
               <button
                 type="button"
                 onClick={() => setOpen(it)}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 text-left shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50/40 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/20"
+                className="flex w-full items-center gap-3 app-card p-4 text-left transition hover:border-emerald-300 hover:bg-emerald-50/40 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/20"
               >
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-base font-bold text-zinc-950 dark:text-zinc-100">
                     {it.title}
-                    <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+                    <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
                       운동 {it.exerciseCount}개
                     </span>
                   </h3>
@@ -110,7 +110,7 @@ export function RoutineShareBoard({
                   <p className="mt-1 truncate text-sm text-zinc-600 dark:text-zinc-300">
                     {it.preview}
                   </p>
-                  <p className="mt-1 text-[11px] font-semibold text-zinc-400 dark:text-zinc-500">
+                  <p className="mt-1 text-xs font-semibold text-zinc-400 dark:text-zinc-500">
                     ♥ {it.likeCount} · 담기 {it.saveCount}
                   </p>
                 </div>

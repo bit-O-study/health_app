@@ -61,19 +61,19 @@ export default async function GroupMemberPage({
 
       <div className="mb-5 grid grid-cols-2 gap-2">
         <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+          <span className="flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
             <Utensils size={14} /> 오늘 섭취
           </span>
-          <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             {day.intake.toLocaleString()}
             <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
           </p>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
             <Flame size={14} /> 오늘 운동 소비
           </span>
-          <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             {day.burned.toLocaleString()}
             <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
           </p>
@@ -143,7 +143,7 @@ export default async function GroupMemberPage({
                   alt={`${p.meal} 사진`}
                   className="h-24 w-24 rounded-xl object-cover"
                 />
-                <figcaption className="mt-0.5 text-[11px] font-semibold text-zinc-500">
+                <figcaption className="mt-0.5 text-xs font-semibold text-zinc-500">
                   {p.meal}
                 </figcaption>
               </figure>
@@ -160,7 +160,7 @@ export default async function GroupMemberPage({
             {day.foods.map((f, i) => (
               <li key={i} className="flex items-center gap-2 px-4 py-2.5">
                 <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                  <span className="mr-1.5 rounded bg-zinc-100 px-1 py-0.5 text-[10px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                  <span className="mr-1.5 rounded bg-zinc-100 px-1 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                     {f.meal}
                   </span>
                   {f.name}

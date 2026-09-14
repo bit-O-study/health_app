@@ -445,7 +445,7 @@ function DatePickerDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-1 flex items-center justify-between">
-          <h2 className="flex items-center gap-1.5 text-base font-extrabold">
+          <h2 className="flex items-center gap-1.5 text-base font-bold">
             <Calendar size={18} className="text-emerald-600" /> 날짜 선택
           </h2>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
@@ -514,16 +514,16 @@ function KcalRing({ consumed, target }: { consumed: number; target: number }) {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-base font-extrabold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
+          <span className="text-base font-bold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
             {consumed}
           </span>
-          <span className="mt-0.5 text-[10px] font-semibold leading-none text-zinc-400">
+          <span className="mt-0.5 text-xs font-semibold leading-none text-zinc-400">
             / {target}
           </span>
         </div>
       </div>
       <span
-        className={`whitespace-nowrap text-[11px] font-bold ${
+        className={`whitespace-nowrap text-xs font-bold ${
           over ? "text-rose-500" : "text-zinc-400"
         }`}
       >
@@ -571,8 +571,8 @@ function MacroChip({
 }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white px-2 py-2 text-center dark:border-zinc-800 dark:bg-zinc-900">
-      <p className="text-[10px] font-bold text-zinc-400">{label}</p>
-      <p className="text-sm font-extrabold tabular-nums" style={{ color }}>
+      <p className="text-xs font-bold text-zinc-400">{label}</p>
+      <p className="text-sm font-bold tabular-nums" style={{ color }}>
         {Math.round(value)}g
       </p>
     </div>
@@ -595,7 +595,7 @@ function DefaultMealPhoto({
       <span className="text-5xl opacity-70" aria-hidden="true">
         {MEAL_ICON[meal]}
       </span>
-      <span className="text-[11px] font-semibold text-zinc-400">사진 없음</span>
+      <span className="text-xs font-semibold text-zinc-400">사진 없음</span>
     </div>
   );
 }
@@ -628,7 +628,7 @@ function MealSection({
             <span className="text-xs font-medium text-zinc-400">· {fmtClock(time)}</span>
           ) : null}
           {sub > 0 ? (
-            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
               {sub} kcal
             </span>
           ) : null}
@@ -668,7 +668,7 @@ function MealSection({
               <DefaultMealPhoto meal={meal} className="h-full w-full" />
             )}
             {photos.length > 1 ? (
-              <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-bold text-white">
+              <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white">
                 <Images aria-hidden="true" size={12} />
                 {photos.length}
               </span>
@@ -689,7 +689,7 @@ function MealSection({
                         </span>
                       ) : null}
                     </span>
-                    <span className="shrink-0 text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
+                    <span className="shrink-0 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
                       {Math.round(it.kcal)}kcal
                     </span>
                   </li>
@@ -766,7 +766,7 @@ function MealDetailDialog({
           <span aria-hidden="true">{MEAL_ICON[meal]}</span>
           {MEAL_LABEL[meal]}
           {sub > 0 ? (
-            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
               {sub} kcal
             </span>
           ) : null}
@@ -890,7 +890,7 @@ function MealDetailDialog({
                   >
                     <ChevronRight aria-hidden="true" size={20} />
                   </button>
-                  <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-bold text-white">
+                  <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white">
                     {wrapIndex(photoIdx, photos.length) + 1}/{photos.length}
                   </span>
                   <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
@@ -908,7 +908,7 @@ function MealDetailDialog({
                 </>
               ) : null}
             </div>
-            <div className="flex items-center justify-between rounded-2xl border border-zinc-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+            <div className="flex items-center justify-between app-card px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl" aria-hidden="true">
                   {MEAL_ICON[meal]}
@@ -923,10 +923,10 @@ function MealDetailDialog({
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xl font-extrabold tabular-nums text-emerald-600 dark:text-emerald-400">
+                <p className="text-xl font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
                   {Math.round(totals.kcal)}
                 </p>
-                <p className="text-[10px] font-semibold text-zinc-400">kcal</p>
+                <p className="text-xs font-semibold text-zinc-400">kcal</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -972,7 +972,7 @@ function MealDetailDialog({
                       <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                         {it.name}
                         {it.category ? (
-                          <span className="ml-1.5 rounded bg-zinc-100 px-1 py-0.5 text-[10px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                          <span className="ml-1.5 rounded bg-zinc-100 px-1 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                             {it.category}
                           </span>
                         ) : null}
@@ -982,7 +982,7 @@ function MealDetailDialog({
                           </span>
                         ) : null}
                       </p>
-                      <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
                         {Math.round(it.kcal)}kcal
                         {it.protein != null ? ` · 단 ${Math.round(it.protein)}` : ""}
                         {it.carbs != null ? ` · 탄 ${Math.round(it.carbs)}` : ""}
@@ -1187,7 +1187,7 @@ function MultiPhotoPicker({
               className="h-24 w-24 rounded-xl object-cover"
             />
             {i === 0 ? (
-              <span className="absolute left-1 top-1 rounded bg-emerald-600 px-1 py-0.5 text-[9px] font-bold text-white">
+              <span className="absolute left-1 top-1 rounded bg-emerald-600 px-1 py-0.5 text-xs font-bold text-white">
                 대표
               </span>
             ) : null}
@@ -1209,7 +1209,7 @@ function MultiPhotoPicker({
             ) : (
               <Camera aria-hidden="true" size={20} />
             )}
-            <span className="text-[11px] font-semibold">
+            <span className="text-xs font-semibold">
               {busy ? "올리는 중" : "촬영"}
             </span>
             <input
@@ -1229,7 +1229,7 @@ function MultiPhotoPicker({
           ) : (
             <Images aria-hidden="true" size={20} />
           )}
-          <span className="text-[11px] font-semibold">
+          <span className="text-xs font-semibold">
             {busy ? "올리는 중" : "앨범"}
           </span>
           <input
@@ -1241,7 +1241,7 @@ function MultiPhotoPicker({
           />
         </label>
       </div>
-      {err ? <p className="mt-1 text-[11px] text-red-500">{err}</p> : null}
+      {err ? <p className="mt-1 text-xs text-red-500">{err}</p> : null}
     </div>
   );
 }
@@ -1366,7 +1366,7 @@ function QuantityEditor({
         <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
           {amountLabel} · 단 {r1(food.protein * factor)} · 탄 {r1(food.carbs * factor)} · 지 {r1(food.fat * factor)}
         </span>
-        <p className="text-2xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+        <p className="text-2xl font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
           {kcal} kcal
         </p>
       </div>
@@ -1485,7 +1485,7 @@ function AddFoodDialog({
       {/* 이미 담은 음식(읽기 전용) — 삭제·수정은 게시물 상세에서 */}
       {items.length > 0 ? (
         <div className="border-b border-zinc-100 px-4 py-2 dark:border-zinc-800">
-          <p className="mb-1 text-[11px] font-bold text-zinc-400">담은 음식</p>
+          <p className="mb-1 text-xs font-bold text-zinc-400">담은 음식</p>
           <ul className="flex flex-col gap-1">
             {items.map((it) => (
               <li key={it.rowKey ?? it.id} className="flex items-center gap-2">
@@ -1587,7 +1587,7 @@ function AddFoodDialog({
                           {f.amount}
                         </span>
                       </p>
-                      <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
                         {f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
                       </p>
                     </div>

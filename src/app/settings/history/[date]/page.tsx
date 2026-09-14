@@ -212,7 +212,7 @@ export default async function HistoryDetailPage({
         </p>
       </div>
 
-      <section className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+      <section className="mb-5 flex items-center gap-3 app-card p-4">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-400">
           <Zap aria-hidden="true" size={20} />
         </span>
@@ -226,7 +226,7 @@ export default async function HistoryDetailPage({
               kcal
             </span>
           </p>
-          <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+          <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
             완료 {totalDone}건{focusLabel ? ` · 대표 부위 ${focusLabel}` : ""}
             {profile.weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
           </p>
@@ -234,7 +234,7 @@ export default async function HistoryDetailPage({
       </section>
 
       {workoutDurationSec > 0 ? (
-        <section className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
+        <section className="mb-5 flex items-center gap-3 app-card p-4">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
             <Timer aria-hidden="true" size={20} />
           </span>
@@ -245,14 +245,14 @@ export default async function HistoryDetailPage({
             <p className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
               {shortDuration(workoutDurationSec)}
             </p>
-            <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+            <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
               스톱워치 기준 누적 시간
             </p>
           </div>
         </section>
       ) : null}
 
-      <section id="running" className="mb-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+      <section id="running" className="mb-5 app-card p-5">
         <h2 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-100">런닝 세션</h2>
         <RunHistoryList rows={runSessions} />
       </section>
@@ -276,7 +276,7 @@ export default async function HistoryDetailPage({
                     <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
                       {it.equipmentLabel}
                     </span>
-                    <span className="ml-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                    <span className="ml-2 text-xs font-bold text-emerald-700 dark:text-emerald-400">
                       {blockLabel(it.focus)}
                     </span>
                   </p>

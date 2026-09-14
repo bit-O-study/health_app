@@ -83,7 +83,7 @@ export function GroupsClient({
             {groups.map((g) => (
               <li
                 key={g.id}
-                className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
+                className="app-card p-3"
               >
                 <Link
                   href={`/groups?g=${g.id}`}
@@ -99,7 +99,7 @@ export function GroupsClient({
                         <Crown aria-hidden="true" size={13} className="text-amber-500" />
                       ) : null}
                     </p>
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
                       멤버 {g.memberCount}명
                     </p>
                   </div>

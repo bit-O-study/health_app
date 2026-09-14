@@ -175,7 +175,7 @@ export function AuthForm({
   }
 
   return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+    <div className="w-full max-w-sm app-card p-7">
       <div className="mb-6 grid grid-cols-2 gap-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 p-1">
         {(["login", "signup"] as const).map((m) => (
           <button

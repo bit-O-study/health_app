@@ -21,7 +21,7 @@ export default async function AdminTestPage() {
 
       <Link
         href="/running"
-        className="block rounded-2xl border border-zinc-200 bg-white p-5 transition hover:border-emerald-400 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+        className="block app-card p-5 transition hover:border-emerald-400"
       >
         <div className="flex items-center gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">
@@ -44,7 +44,7 @@ export default async function AdminTestPage() {
 
       <Link
         href="/jog"
-        className="mt-4 block rounded-2xl border border-zinc-200 bg-white p-5 transition hover:border-emerald-400 hover:shadow-md dark:border-zinc-800 dark:bg-zinc-900"
+        className="mt-4 block app-card p-5 transition hover:border-emerald-400"
       >
         <div className="flex items-center gap-4">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">

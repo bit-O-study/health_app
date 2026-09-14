@@ -65,7 +65,7 @@ export function ThemePicker() {
   const systemNow = mounted ? (systemPrefersDark() ? "다크" : "라이트") : "—";
 
   return (
-    <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
+    <section className="app-card p-5">
       <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
         화면 밝기
       </h2>
@@ -91,7 +91,7 @@ export function ThemePicker() {
             >
               <Icon aria-hidden="true" size={20} />
               <span>{opt.label}</span>
-              <span className="text-[10px] font-normal text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs font-normal text-zinc-500 dark:text-zinc-400">
                 {opt.hint}
               </span>
             </button>

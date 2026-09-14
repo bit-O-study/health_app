@@ -65,7 +65,7 @@ export function WaterCard({
       aria-label="수분 섭취"
       data-testid="water-card"
       data-ml={ml}
-      className="rounded-2xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900/60"
+      className="app-card p-3"
     >
       <div className="flex items-center gap-2">
         <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-800 dark:text-zinc-100">
@@ -87,7 +87,7 @@ export function WaterCard({
             type="button"
             onClick={undo}
             aria-label="마지막 담은 수분 되돌리기"
-            className="ml-auto inline-flex h-7 items-center gap-1 rounded-md px-1.5 text-[11px] font-semibold text-zinc-500 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
+            className="ml-auto inline-flex h-7 items-center gap-1 rounded-md px-1.5 text-xs font-semibold text-zinc-500 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
           >
             <Undo2 aria-hidden="true" size={12} />
             되돌리기

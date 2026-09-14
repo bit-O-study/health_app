@@ -87,9 +87,10 @@ export const metadata: Metadata = {
 function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
     <header className="app-header top-[env(safe-area-inset-top)]">
-      <nav className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-4 sm:px-10">
+      {/* 폭·높이·로고 크기는 홈·다른 탭과 같게(max-w-3xl · h-14 · 28px). */}
+      <nav className="mx-auto flex h-14 w-full max-w-3xl items-center justify-between px-4 sm:px-6">
         <Link className="flex items-center" href="/routine">
-          <Logo size={36} />
+          <Logo size={28} />
         </Link>
 
         <div className="flex items-center gap-2">
@@ -175,7 +176,7 @@ export default async function Home() {
     <div className="app-page">
       <HeaderBar isLoggedIn={Boolean(user)} />
 
-      <main className="app-container max-w-5xl sm:px-10 sm:py-12">
+      <main className="app-container">
         {user ? (
           <div className="mb-4">
             <PermissionNudge />

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
@@ -53,7 +54,9 @@ export default async function DietPage({
   });
 
   return (
-    <main className="app-page app-container">
+    <div className="app-page">
+    <PageHeader title="식단" />
+    <main className="app-container">
       {/* 수분은 `DietBoard` 밖에 둔다 — 그쪽 낙관적 상태(수정 중인 음식 줄)와 섞이면
           예전처럼 편집이 깨진다. 서로 아무것도 공유하지 않는 편이 안전하다. */}
       <div className="mb-3">
@@ -74,5 +77,6 @@ export default async function DietPage({
         aiScanEnabled={aiScanEnabled}
       />
     </main>
+    </div>
   );
 }

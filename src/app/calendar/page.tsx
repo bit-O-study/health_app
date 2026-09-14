@@ -13,6 +13,7 @@ import {
   Weight,
 } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
@@ -119,7 +120,9 @@ export default async function CalendarPage({
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
-    <main className="app-page app-container">
+    <div className="app-page">
+    <PageHeader title="캘린더" />
+    <main className="app-container">
       <div className="mb-4 flex items-center justify-between">
         <Link
           href={`/calendar?m=${monthParam(prev)}`}
@@ -128,9 +131,9 @@ export default async function CalendarPage({
         >
           <ChevronLeft aria-hidden="true" size={20} />
         </Link>
-        <h1 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
+        <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
           {year}년 {month0 + 1}월
-        </h1>
+        </h2>
         <Link
           href={`/calendar?m=${monthParam(next)}`}
           aria-label="다음 달"
@@ -291,6 +294,7 @@ export default async function CalendarPage({
         </div>
       ) : null}
     </main>
+    </div>
   );
 }
 

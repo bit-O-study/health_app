@@ -48,7 +48,7 @@ export function TeachingReels({
   if (posts.length === 0) {
     return (
       <div className="flex flex-col items-center gap-3 px-6 py-24 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-fuchsia-50 text-fuchsia-500 dark:bg-fuchsia-950/40">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-soft text-brand">
           <Search size={28} />
         </div>
         <p className="text-sm font-bold text-zinc-500 dark:text-zinc-300">
@@ -469,7 +469,7 @@ function CommentSheet({
             onClick={submit}
             disabled={pending || !text.trim()}
             aria-label="댓글 등록"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white disabled:opacity-40"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white disabled:opacity-40 dark:text-zinc-950"
           >
             {pending ? (
               <Loader2 size={16} className="animate-spin" />

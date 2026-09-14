@@ -86,12 +86,13 @@ export function CommunityBoard({
     <div
       className={
         isReels
-          ? "app-page mx-auto flex h-[calc(100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-2xl flex-col overflow-hidden"
-          : "app-page mx-auto flex min-h-screen w-full max-w-2xl flex-col"
+          ? "app-page mx-auto flex h-[calc(100dvh-3.75rem-env(safe-area-inset-top)-env(safe-area-inset-bottom))] w-full max-w-3xl flex-col overflow-hidden"
+          : "app-page mx-auto flex min-h-screen w-full max-w-3xl flex-col"
       }
     >
-      <div className="app-header shrink-0 px-4 pb-0 pt-3">
-        <h1 className="mb-2.5 bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-xl font-bold tracking-tight text-transparent dark:from-emerald-400 dark:to-teal-300">
+      <div className="app-header shrink-0 px-4 pb-0 pt-3 sm:px-6">
+        {/* 제목은 다른 탭 머리글(PageHeader)과 같은 모양 — 그라데이션 글자는 뺐다. */}
+        <h1 className="mb-2.5 text-xl font-bold text-zinc-950 dark:text-zinc-50">
           커뮤니티
         </h1>
 
@@ -110,7 +111,7 @@ export function CommunityBoard({
             >
               {label}
               {tab === value ? (
-                <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-400" />
+                <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-brand" />
               ) : null}
             </button>
           ))}
@@ -128,7 +129,7 @@ export function CommunityBoard({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="운동 검색 (예: 스쿼트, 벤치프레스)"
-              className="w-full rounded-full border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-fuchsia-400 dark:border-zinc-700 dark:bg-zinc-800"
+              className="w-full rounded-full border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-brand dark:border-zinc-700 dark:bg-zinc-800"
             />
           </div>
         ) : null}
@@ -179,7 +180,7 @@ export function CommunityBoard({
           type="button"
           onClick={() => tab === "routine" ? setRoutineCompose(true) : setCompose(true)}
           aria-label={tab === "routine" ? "루틴 추천글 쓰기" : "오운완 인증하기"}
-          className="fixed right-4 z-20 inline-flex h-14 items-center justify-center gap-1.5 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 px-5 text-sm font-bold text-white shadow-xl shadow-emerald-500/30 ring-4 ring-white/60 transition-transform active:scale-95 dark:ring-zinc-950/60"
+          className="fixed right-4 z-20 inline-flex h-12 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95 dark:text-zinc-950"
           style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
         >
           <Plus size={22} />
@@ -242,7 +243,7 @@ function Chip({
       onClick={onClick}
       className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition-all active:scale-95 ${
         active
-          ? "border-transparent bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-sm shadow-emerald-500/30"
+          ? "border-transparent bg-brand text-white dark:text-zinc-950"
           : "border-zinc-200 text-zinc-500 hover:border-emerald-300 hover:text-emerald-600 dark:border-zinc-700 dark:hover:border-emerald-800"
       }`}
     >
@@ -347,7 +348,7 @@ function PostCard({
           <p className="text-xs text-zinc-400">{when}</p>
         </div>
         {isTeaching ? (
-          <span className="inline-flex items-center gap-0.5 rounded-full bg-fuchsia-50 px-2 py-0.5 text-xs font-bold text-fuchsia-700 dark:bg-fuchsia-950/40 dark:text-fuchsia-300">
+          <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
             <Video size={11} /> 티칭
           </span>
         ) : null}
@@ -657,7 +658,7 @@ function ComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 py-3.5 text-sm font-bold text-white shadow-lg shadow-emerald-500/25 transition-transform active:scale-[0.99] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-[10px] bg-brand py-3.5 text-sm font-semibold text-white transition-transform active:scale-[0.99] disabled:opacity-60 dark:text-zinc-950"
         >
           {pending ? (
             <>

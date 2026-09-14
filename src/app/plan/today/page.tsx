@@ -165,7 +165,7 @@ export default async function TodayConditioningPage({
   const cooldownInitial = daily.cooldown;
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 pb-10 pt-10 sm:px-8">
+    <main className="mx-auto w-full max-w-3xl px-4 pb-10 pt-10 sm:px-6">
       {/* 상단 인셋은 body(globals.css)가 이미 적용 — 여기선 헤더 여백(pt-10)만. */}
       <Link
         className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
@@ -261,10 +261,10 @@ export default async function TodayConditioningPage({
           href="/plan"
           className="font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300"
         >
-          /plan
+          운동 등록
         </Link>
         {" "}
-        에서 부위별 설정을 바꾸세요.
+        화면에서 부위별 설정을 바꾸세요.
       </div>
     </main>
   );

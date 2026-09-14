@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getMyGroups, getGroupDetail } from "@/features/groups/data-access";
 import { getGroupProofBoard } from "@/features/groups/proof-data";
@@ -24,15 +25,17 @@ export default async function GroupsPage({
   // 그룹이 없으면 만들기/참여 화면.
   if (groups.length === 0) {
     return (
-      <main className="app-page app-container">
-        <h1 className="mb-1 text-xl font-bold text-zinc-950 dark:text-zinc-50">그룹</h1>
-        <p className="mb-5 text-sm text-zinc-500 dark:text-zinc-400">
-          {mode === "proof"
-            ? "그룹을 만들어 친구와 오늘 운동 인증을 서로 남겨보세요."
-            : "그룹을 만들어 친구와 이번 주 운동 랭킹대전을 펼쳐보세요."}
-        </p>
-        <GroupsClient groups={groups} mode={mode} />
-      </main>
+      <div className="app-page">
+        <PageHeader title="그룹" />
+        <main className="app-container">
+          <p className="mb-5 text-sm text-zinc-500 dark:text-zinc-400">
+            {mode === "proof"
+              ? "그룹을 만들어 친구와 오늘 운동 인증을 서로 남겨보세요."
+              : "그룹을 만들어 친구와 이번 주 운동 랭킹대전을 펼쳐보세요."}
+          </p>
+          <GroupsClient groups={groups} mode={mode} />
+        </main>
+      </div>
     );
   }
 
@@ -47,7 +50,7 @@ export default async function GroupsPage({
     return (
       // 움짤 인증 피드 — 일반 흐름(문서 스크롤)이라 헤더까지 전체가 함께 스크롤되고,
       // body 의 상단 safe-area 패딩을 그대로 물려받아 상태바와 안 겹친다.
-      <main className="app-page mx-auto w-full max-w-2xl">
+      <main className="app-page mx-auto w-full max-w-3xl">
         <GroupProofBoard board={board} groups={groups} />
       </main>
     );

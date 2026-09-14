@@ -195,6 +195,62 @@ describe("글자·굵기·카드 규칙 (앱 전체)", () => {
   });
 });
 
+describe("공통 머리글·폭 (4단계)", () => {
+  it("식단·캘린더·설정·그룹(빈 화면)이 PageHeader 를 쓴다", () => {
+    for (const f of [
+      "src/app/diet/page.tsx",
+      "src/app/calendar/page.tsx",
+      "src/app/settings/page.tsx",
+      "src/app/groups/page.tsx",
+    ]) {
+      expect(read(f), f).toContain("<PageHeader");
+    }
+  });
+
+  it("탭 화면 폭은 48rem(max-w-3xl) 하나 — 2xl·5xl 이 섞이지 않는다", () => {
+    for (const f of [
+      "src/app/routine/page.tsx",
+      "src/app/plan/today/page.tsx",
+      "src/app/groups/page.tsx",
+      "src/app/settings/page.tsx",
+      "src/features/community/components/community-board.tsx",
+    ]) {
+      expect(read(f), f).not.toMatch(/(?<![\w-])max-w-(2xl|4xl|5xl)(?![\w-])/);
+    }
+    expect(read("src/components/page-header.tsx")).toContain("max-w-3xl");
+  });
+
+  it("운동탭 로고는 홈과 같은 28px", () => {
+    expect(read("src/app/routine/page.tsx")).toContain("<Logo size={28} />");
+    expect(read("src/app/home/page.tsx")).toContain("<Logo size={28} />");
+  });
+
+  it("링크 글자에 경로(/plan)가 그대로 보이지 않는다", () => {
+    expect(read("src/app/plan/today/page.tsx")).not.toMatch(/>\s*\/plan\s*</);
+  });
+});
+
+describe("커뮤니티·설정 소음 제거 (5단계)", () => {
+  it("커뮤니티에 그라데이션 버튼·제목과 자홍색이 없다(영상 자막 가림막만 예외)", () => {
+    const board = read("src/features/community/components/community-board.tsx");
+    expect(board).not.toContain("gradient");
+    expect(board).not.toContain("fuchsia");
+    const reels = read("src/features/community/components/teaching-reels.tsx");
+    expect(reels).not.toContain("fuchsia");
+    expect(reels.match(/gradient/g)?.length ?? 0).toBe(1);
+    expect(reels).toContain("bg-gradient-to-t from-black/70");
+  });
+
+  it("설정은 공통 행(SettingsRow) 하나로 — 행마다 다른 색 칩이 없다", () => {
+    const settings = read("src/app/settings/page.tsx");
+    expect(settings).toContain("function SettingsRow");
+    expect(settings).not.toMatch(/\b(emerald|rose|amber|indigo)-\d{2,3}\b/);
+    for (const title of ["마이페이지", "개인설정", "건강 연동", "구독", "알림 설정", "내 데이터 내보내기"]) {
+      expect(settings, title).toContain(`title: "${title}"`);
+    }
+  });
+});
+
 describe("하단 탭", () => {
   it("라벨이 11px 고정 — 좁은 폰에서도 9·10px 로 줄지 않는다", () => {
     const nav = read("src/components/bottom-nav.tsx");

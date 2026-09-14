@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 // ⚠ 라벨 계층만 import 한다 — exercise-catalog 를 쓰면 확장 카탈로그 315 KiB 가 딸려온다.
@@ -21,14 +21,16 @@ export function EquipmentMethod({
   const first =
     exercise.equipments.find((e) => e.equipment === initialEquipment)
       ?.equipment ?? exercise.equipments[0].equipment;
-  const [selected, setSelected] = useState<EquipmentId>(first);
+  const selected = first;
 
   const current =
     exercise.equipments.find((e) => e.equipment === selected) ??
     exercise.equipments[0];
 
   // 장황한 단계 나열 대신 한 줄 요약 + 핵심 포인트로 딱딱 간결하게.
-  const summary = exerciseSummary(exercise.id);
+  const summary = current.method?.length
+    ? { oneLiner: current.method[0], cues: current.method.slice(1) }
+    : exerciseSummary(exercise.id);
 
   return (
     <section className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
@@ -41,10 +43,11 @@ export function EquipmentMethod({
         {exercise.equipments.map((e) => {
           const active = e.equipment === current.equipment;
           return (
-            <button
+            <Link
               key={e.equipment}
-              type="button"
-              onClick={() => setSelected(e.equipment)}
+              href={`/exercises/${exercise.id}?eq=${e.equipment}`}
+              scroll={false}
+              aria-current={active ? "page" : undefined}
               className={cn(
                 "rounded-full border px-4 py-1.5 text-sm font-semibold transition",
                 active
@@ -53,7 +56,7 @@ export function EquipmentMethod({
               )}
             >
               {EQUIPMENT_LABELS[e.equipment]}
-            </button>
+            </Link>
           );
         })}
       </div>

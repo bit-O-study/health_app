@@ -1,0 +1,20 @@
+{
+  "exerciseId": "conventional-deadlift",
+  "purpose": "continuous-motion visual prototype; not published in app",
+  "prompt": "Create an ORIGINAL 3D-human animation KEYFRAME SPRITE SHEET. Exactly EIGHT equal panels, 4 columns x 2 rows, landscape2048x1024. Each cell must show EXACT SAME fixed camera angle, scale, character, lighting and barbell; do NOT alternate views or use closeups. Entire humanoid from head to shoes in every cell. Matte pearl gray athletic adult male mannequin with subtle human muscle definition, simple short dark teal shorts, gray shoes, neutral light gray empty floor/background. No text, arrows, numbers, borders, watermarks or logos. Character's two shoes occupy exactly the same screen coordinates within every cell, feet hip-width flat planted. Static three-quarter SIDE camera at hip height, face points to screen RIGHT, camera sees full left side and some front; NO FRONT VIEW IN ANY FRAME. Conventional barbell deadlift slowly RISING in eight consecutive evenly spaced poses, read left-to-right then next row. Frame1 floor start: plates touching floor, bar over midfoot close to shins, hips above knees below shoulders, back flat, knees bent, arms straight. Frame2 bar lifted 4cm, knees and hips just beginning to extend together. Frame3 bar upper-shin height, knees slightly less bent. Frame4 bar at bottom of kneecap. Frame5 bar just above knees, torso still hinged. Frame6 bar low thighs, torso becoming upright. Frame7 bar mid thighs, nearly standing. Frame8 finish upright with hips/knees extended, straight arms holding bar at upper thighs, no leaning back. Feet never move. Hands remain closed double-overhand on the same bar JUST OUTSIDE THE KNEES, elbows never curl. SAME full-size thin round black bumper plates with45cm diameter in all frames, same bar horizontal world orientation in all frames. Bar tracks vertically close to legs. A genuine chronological motion sequence, not eight repetitions of two poses. Same subject size in each cell, same camera distance framing all poses with room above standing head and below floor. Clear joints, anatomical proportions. Unbranded original model, no resemblance to any app asset.",
+  "sourceSha256": "718e92185c87195a651c3a531c00db7acc8ba0c3748790fea3abd664962c5801",
+  "output": "C:\\git\\heltch\\health_app\\public\\exercise-guides\\previews\\conventional-deadlift-smooth.mp4",
+  "seconds": 8,
+  "width": 400,
+  "height": 480,
+  "fps": 24,
+  "bytes": 113793,
+  "method": "motion-compensated interpolation of eight generated poses; not a rigged 3D model",
+  "filter": "scale=in_range=full:out_range=tv,format=yuv420p,tpad=stop_mode=clone:stop_duration=1,minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:mb_size=8:search_param=64:vsbmc=1:scd=none,crop=400:480:60:0",
+  "decode": "passed",
+  "contentReview": "prototype only; interpolation may deform contours; not cleared for instructional publication",
+  "references": [
+    "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift",
+    "https://ffmpeg.org/ffmpeg-filters.html#minterpolate"
+  ]
+}

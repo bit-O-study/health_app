@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, useTransition } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -70,6 +71,7 @@ export function CommunityBoard({
   const [search, setSearch] = useState("");
   const [compose, setCompose] = useState(false);
   const [routineCompose, setRoutineCompose] = useState(false);
+  useBackClose(routineCompose, () => setRoutineCompose(false));
 
   // 게시판 탭별 분류. 오운완=사진(그룹글 포함), 운동=티칭(검색), 내 글=내가 쓴 것.
   // (그룹 게시판은 없앰 — 그룹원 공개 글도 오운완/운동에 섞여 그룹명 태그로 구분.)
@@ -200,9 +202,6 @@ export function CommunityBoard({
                 <ShareDayButton
                   key={target.dayIndex}
                   dayIndex={target.dayIndex}
-                  // 🔴 제목 기본값에는 일차를 안 넣는다 — "1일차" 는 **쓰는 사람의
-                  //    루틴에서만** 뜻이 있고 읽는 사람에게는 아무 의미가 없다.
-                  defaultTitle={target.title}
                   groups={groups}
                   label={`${target.label} 추천글 쓰기`}
                 />
@@ -513,6 +512,7 @@ function ComposeModal({
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [caption, setCaption] = useState("");
+  useBackClose(true, onClose);
   const [visibility, setVisibility] = useState<Visibility>(
     defaultGroupId ? "group" : "public",
   );

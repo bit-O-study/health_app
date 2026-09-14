@@ -1,0 +1,10 @@
+{
+  "id": "barbell-hip-thrust",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/barbell-hip-thrust"
+  ],
+  "prompt": "Use case: scientific-educational. Original gray anatomical 3D athletic mannequin with teal shorts and gray shoes. Opaque uniform medium gray studio background, soft light. Create one SQUARE 2048x2048 animation sprite sheet, EXACTLY 16 equally sized SQUARE frames in a precise 4 by 4 grid. No text, numbers, borders, captions, watermark or logos. Identical locked camera and body/equipment scale across every tile, entire body and all apparatus fit within central 70% of each square with generous margins. Frames in reading order show ONLY a single progressive half repetition, NOT a repeated sequence per row. Smooth small changes across all 16 frames; no reset at row breaks. BARBELL HIP THRUST, three-quarter SIDE view. Fixed sturdy horizontal bench supports LOWER SHOULDER BLADES, feet flat on floor hip width apart in front, barbell with thick black foam pad across HIP CREASE, hands on bar either side of pad preventing rolling. Frame 1 hips lowered toward floor, upper back stays on bench edge. Frames 2-16 progressively extend hips upward. Frame16 torso and thighs form straight horizontal line shoulders to knees, shins vertical, chin slightly tucked, ribs down, no lumbar arch. Feet and bench never move; bar stays touching pelvis and rises with it. NOT bench press, no bar across abdomen or chest, not floor glute bridge. Show whole head, both feet, bench, barbell and plates with generous margins. CRITICAL correction: near exact SIDE profile camera 10 degrees off side so hip extension is unambiguous. At final frame shoulder, hip and knee JOINT CENTERS all at SAME HEIGHT on one straight HORIZONTAL line. Flat torso horizontal from shoulder blade support on 40cm bench to hip, thighs horizontal from hip to knee. Do not leave hips sagging below this line. Head chin tucked looking forward toward knees. Fixed bench and feet same screen coordinates, body and machine within central65% tile. No divider lines.",
+  "registeredAt": "2026-09-09T11:50:37.441Z"
+}

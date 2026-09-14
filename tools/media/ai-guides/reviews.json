@@ -1,0 +1,376 @@
+[
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/"
+    ],
+    "checks": {
+      "exercise": "Seated bilateral lat pulldown, matches catalog",
+      "equipment": "Overhead cable, long bar and thigh restraint",
+      "setup": "Panels 1-2 adjust pad and secure thighs",
+      "hands": "Closed overhand grip; both hands stay on bar",
+      "feet": "Feet planted in panel 2",
+      "movement": "Panels 4-6 extend arms overhead, pull bar in front toward upper chest, return; slight backward torso lean"
+    },
+    "notes": "Six-panel source visually compared with reference and catalog. Technical decoding separate; trainer/device verification remains pending.",
+    "id": "lat-pulldown",
+    "sourceSha256": "4d6e413849f98cf351b9ecaadc1331cc769043187777ac7e6677880436f6e5e5",
+    "videoSha256": "087bf7381d035fef2fa3035d69c493065626df32ddc98ae23450e72edc8d6ca5",
+    "reviewedAt": "2026-09-09T01:40:59.541Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-bench-press"
+    ],
+    "checks": {
+      "exercise": "Flat bilateral barbell bench press",
+      "equipment": "Free barbell and horizontal bench in rack",
+      "setup": "Rack setup, supine back and hips supported",
+      "hands": "Two-handed overhand grip, bar held above chest",
+      "feet": "Both feet flat in setup and movement panels",
+      "movement": "Panels 4-6 extended arms, bar lowered toward chest, press; hips remain on bench"
+    },
+    "notes": "Six-panel source visually compared with reference and catalog. Technical decoding separate; trainer/device verification remains pending.",
+    "id": "bench-press",
+    "sourceSha256": "3fe47bd4adb5625fe333ab79d1fe315ddb02127bbdc4bc606175cb94dbd7ca1c",
+    "videoSha256": "3c72f4bc0f21485ea9c0a0a85c9129a5fc2aaa8a5801f72015c07607f2f792e0",
+    "reviewedAt": "2026-09-09T01:41:02.783Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/leg-press"
+    ],
+    "checks": {
+      "exercise": "Bilateral sled leg press",
+      "equipment": "Angled sled on rails and footplate",
+      "setup": "Backrest adjustment and seated back/pelvis support",
+      "hands": "Both hands on side handles during movement",
+      "feet": "Both feet on footplate, heels supported",
+      "movement": "Panels 4-6 leg extension, controlled bent-knee position, extension; hips stay seated"
+    },
+    "notes": "Six-panel source visually compared with reference and catalog. Technical decoding separate; trainer/device verification remains pending.",
+    "id": "leg-press",
+    "sourceSha256": "3f84cae92ed796ae178b3f7725eabdb29ca750541a87d141f662316c444913e9",
+    "videoSha256": "bc0198f1d55adfff7fc8f6be30650cf8563914a4b1f1d32499db4757ce311ed0",
+    "reviewedAt": "2026-09-09T01:41:06.307Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/pull-up"
+    ],
+    "checks": {
+      "exercise": "Unassisted bilateral pull-up",
+      "equipment": "Fixed overhead pull-up bar",
+      "setup": "Step supports initial grasp, then free hang",
+      "hands": "Overhand grip just outside shoulders",
+      "feet": "Feet clear of floor during pull",
+      "movement": "Body rises as elbows flex, chin clears bar in panel 5; return to extended arms. No visible kipping"
+    },
+    "notes": "Six source panels compared visually to reference. AI photo storyboard; no claim of trainer or device approval.",
+    "id": "pull-up",
+    "sourceSha256": "ce88c9485822718501a36cd21462ce18f7154f7cd6a3769130f308da719d2916",
+    "videoSha256": "3ca2f98a7d30c6cafd6f0c030017f6758dbf97ee1264c0c40698fdf587e8f384",
+    "reviewedAt": "2026-09-09T01:48:18.372Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/45/seated-overhead-press/"
+    ],
+    "checks": {
+      "exercise": "Seated bilateral dumbbell overhead press",
+      "equipment": "Two dumbbells and near-upright backrest",
+      "setup": "Back and pelvis supported, backrest setup in panel 1",
+      "hands": "Closed grip, dumbbells above forearms",
+      "feet": "Both feet flat during press",
+      "movement": "Shoulder-height weights press overhead and return; torso remains against backrest"
+    },
+    "notes": "Six source panels compared visually to reference. AI photo storyboard; no claim of trainer or device approval.",
+    "id": "dumbbell-shoulder-press",
+    "sourceSha256": "dc212144453b08fbabd2683a3248ec996f1ab48dd361f62af35896139cd991ab",
+    "videoSha256": "58fe5eb84ac2e6bb0064c8ae4114121660fb4d8d04c6ffa3d1f3059f61b06334",
+    "reviewedAt": "2026-09-09T01:48:21.938Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.planetfitness.com/blog/articles/overcoming-your-fear-smith-machine"
+    ],
+    "checks": {
+      "exercise": "Smith-machine back squat, not free barbell",
+      "equipment": "Bar connected to Smith guide rails",
+      "setup": "Safety-stop setup then upper-back bar placement",
+      "hands": "Two hands outside shoulders",
+      "feet": "Feet about shoulder width and slightly forward; heels down",
+      "movement": "Stand, bend hips and knees to seated-depth squat, stand. Guided vertical bar and neutral trunk"
+    },
+    "notes": "Six source panels compared visually to reference. AI photo storyboard; no claim of trainer or device approval.",
+    "id": "smith-squat",
+    "sourceSha256": "093736fdb7259d53a887cd3c4788d8ce56c6fadf9a89d8e7c40cc90ca13af511",
+    "videoSha256": "3d9a9eee99ecc4e6a02aa87dd131270b5a89c17f03ae5e509f6b8cd6b7406f83",
+    "reviewedAt": "2026-09-09T01:48:25.541Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/dead-bug"
+    ],
+    "checks": {
+      "exercise": "Alternating contralateral dead bug lying supine",
+      "equipment": "Floor mat, no external resistance",
+      "setup": "Supine start with hips and knees bent and arms upward",
+      "hands": "One arm reaches overhead while opposite arm stays upward",
+      "feet": "Opposite leg extends while other knee stays bent",
+      "movement": "Panels 4 and 6 extend opposite arm/leg on alternating sides; panel 5 resets. No visible torso rotation; overhead view limits depth assessment"
+    },
+    "notes": "Six source panels compared visually to reference. AI photo storyboard; no claim of trainer or device approval.",
+    "id": "dead-bug",
+    "sourceSha256": "8fd622fea9cf00e2c4eb3aa0e1b0619c05e5d93db51e2f71942f3ee9dd78f871",
+    "videoSha256": "bd41f41dcad5c822526c598a88e6bb262e4bc0339e7069c98b8370523e9c0d62",
+    "reviewedAt": "2026-09-09T01:48:28.970Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/"
+    ],
+    "checks": {
+      "exercise": "Wide overhand lat pulldown, not behind-neck variation",
+      "equipment": "High pulley cable, central long-bar attachment and thigh pad",
+      "setup": "Thigh restraint adjusted in panel 1, torso slightly reclined",
+      "hands": "Hands outside shoulders, closed overhand grip",
+      "feet": "Both feet supported on floor",
+      "movement": "Panel 5 bar is clearly in front of upper chest below chin; start and return overhead. Replaces rejected behind-neck draft"
+    },
+    "notes": "Exact generated six-panel sheet visually compared with reference and exercise variant. Decoding passed; trainer/device verification remains pending.",
+    "id": "wide-grip-lat-pulldown",
+    "sourceSha256": "77d72fc370effdc0550d907db1c9cbd0a8c9729a2c039456a2814a6103d2c922",
+    "videoSha256": "4c6e19f9ae6a88a77560469a2896826ebe9cfee5a38eff047600363a1137a54d",
+    "reviewedAt": "2026-09-09T02:09:12.088Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/continuing-education/certified/november-2019/7403/understanding-the-barbell-hip-thrust/"
+    ],
+    "checks": {
+      "exercise": "Barbell hip thrust with bench-supported shoulders",
+      "equipment": "Barbell with hip pad, stable bench against wall",
+      "setup": "Upper back rests against bench, pad across hips",
+      "hands": "Both hands steady the bar outside pad",
+      "feet": "Feet flat with knees bent; shins near vertical at top",
+      "movement": "Hips lift toward shoulder-to-knee alignment, then lower; no change into squat or floor bridge"
+    },
+    "notes": "Exact generated six-panel sheet visually compared with reference and exercise variant. Decoding passed; trainer/device verification remains pending.",
+    "id": "barbell-hip-thrust",
+    "sourceSha256": "474a5271f029253ba5bc9199495cd9abb24a1a317a826b654da1abaaf17e9c57",
+    "videoSha256": "31223783a17e5dec7d7091f3de3125545b6b9cff57e5ed9999611db5e59a4b54",
+    "reviewedAt": "2026-09-09T02:09:16.228Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "kettlebell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/goblet-squat"
+    ],
+    "checks": {
+      "exercise": "Kettlebell goblet squat, bilateral",
+      "equipment": "Single kettlebell held at chest",
+      "setup": "Pick up bell and stand with upright torso",
+      "hands": "Both hands hold horns, weight remains near chest",
+      "feet": "Feet about shoulder width with mild turnout and heels down",
+      "movement": "Squat with hips and knees bending, upright chest, bell stays at chest; return standing"
+    },
+    "notes": "Exact generated six-panel sheet visually compared with reference and exercise variant. Decoding passed; trainer/device verification remains pending.",
+    "id": "kettlebell-goblet-squat",
+    "sourceSha256": "47cee93168913a87199acec827310d14c102b1280d83793e3525f5bfbeff061b",
+    "videoSha256": "53b1ebf2622e20f7aa92809cc5701c0b3468c21190b296d3d72b9814c567ad65",
+    "reviewedAt": "2026-09-09T02:09:20.844Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-bench-press"
+    ],
+    "checks": {
+      "exercise": "Flat bilateral barbell bench press",
+      "equipment": "Free barbell and horizontal bench in rack",
+      "setup": "Rack setup, supine back and hips supported",
+      "hands": "Two-handed overhand grip, bar held above chest",
+      "feet": "Both feet flat in setup and movement panels",
+      "movement": "Panels 4-6 extended arms, bar lowered toward chest, press; hips remain on bench"
+    },
+    "note": "Photo sheet visually re-inspected for this exact catalog alias. Device and trainer verification pending.",
+    "id": "barbell-bench-press",
+    "sourceSha256": "3fe47bd4adb5625fe333ab79d1fe315ddb02127bbdc4bc606175cb94dbd7ca1c",
+    "videoSha256": "3c72f4bc0f21485ea9c0a0a85c9129a5fc2aaa8a5801f72015c07607f2f792e0",
+    "reviewedAt": "2026-09-09T02:38:23.715Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/"
+    ],
+    "checks": {
+      "exercise": "Seated bilateral lat pulldown, matches catalog",
+      "equipment": "Overhead cable, long bar and thigh restraint",
+      "setup": "Panels 1-2 adjust pad and secure thighs",
+      "hands": "Closed overhand grip; both hands stay on bar",
+      "feet": "Feet planted in panel 2",
+      "movement": "Panels 4-6 extend arms overhead, pull bar in front toward upper chest, return; slight backward torso lean"
+    },
+    "note": "Photo sheet visually re-inspected for this exact catalog alias. Device and trainer verification pending.",
+    "id": "lat-pulldown-2",
+    "sourceSha256": "4d6e413849f98cf351b9ecaadc1331cc769043187777ac7e6677880436f6e5e5",
+    "videoSha256": "087bf7381d035fef2fa3035d69c493065626df32ddc98ae23450e72edc8d6ca5",
+    "reviewedAt": "2026-09-09T02:38:27.125Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/leg-press"
+    ],
+    "checks": {
+      "exercise": "Bilateral sled leg press",
+      "equipment": "Angled sled on rails and footplate",
+      "setup": "Backrest adjustment and seated back/pelvis support",
+      "hands": "Both hands on side handles during movement",
+      "feet": "Both feet on footplate, heels supported",
+      "movement": "Panels 4-6 leg extension, controlled bent-knee position, extension; hips stay seated"
+    },
+    "note": "Photo sheet visually re-inspected for this exact catalog alias. Device and trainer verification pending.",
+    "id": "leg-press-2",
+    "sourceSha256": "3f84cae92ed796ae178b3f7725eabdb29ca750541a87d141f662316c444913e9",
+    "videoSha256": "bc0198f1d55adfff7fc8f6be30650cf8563914a4b1f1d32499db4757ce311ed0",
+    "reviewedAt": "2026-09-09T02:38:30.388Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "plate"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/arms-and-shoulders/front-raises/plate-front-raise/"
+    ],
+    "checks": {
+      "exercise": "Standing bilateral plate front raise",
+      "equipment": "One weight plate, no cable or dumbbells",
+      "setup": "Upright trunk with plate initially in front of thighs",
+      "hands": "Both hands grasp opposing sides of plate",
+      "feet": "Both feet flat at approximately hip width",
+      "movement": "Panels 4-6 lift plate forward to shoulder level, then return; torso stays upright"
+    },
+    "note": "Visual source comparison passed; not physical-device or trainer sign-off.",
+    "id": "plate-front-raise",
+    "sourceSha256": "fe64d30d5ebf1002fe8741398530a663f17d5dfa149f8fcf4129119205dfe104",
+    "videoSha256": "b8198059683011bc2146065cbce2edce48594a209fbd0fe921a37ec50a5d745e",
+    "reviewedAt": "2026-09-09T02:38:54.425Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/arms-and-shoulders/lateral-raises/cable-lateral-raise/"
+    ],
+    "checks": {
+      "exercise": "Standing single-arm cable lateral raise",
+      "equipment": "Low pulley with single D-handle",
+      "setup": "Body sideways to stack, free hand supports on upright",
+      "hands": "Far hand holds handle, cable passes in front of hips",
+      "feet": "Both feet planted, balanced upright stance",
+      "movement": "Panels 4-6 raise working arm sideways to shoulder height and return; elbow slightly bent"
+    },
+    "note": "Visual source comparison passed; not physical-device or trainer sign-off.",
+    "id": "cable-lateral-raise-2",
+    "sourceSha256": "6e60a5caa967ec668ea64fbebb8e3c12a97663cb5ecc665fe7011f173917c065",
+    "videoSha256": "654c01e215ab5390d41984d9085caaf91a6f348adbd27af341116a6e0e41d509",
+    "reviewedAt": "2026-09-09T02:38:57.672Z"
+  },
+  {
+    "status": "passed",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/face-pull"
+    ],
+    "checks": {
+      "exercise": "Standing bilateral rope face pull",
+      "equipment": "Cable pulley near eye level and rope attachment",
+      "setup": "Body faces stack with upright trunk",
+      "hands": "Both hands grasp separate rope ends; near hand ends beside face, far hand partially occluded in side view",
+      "feet": "Both feet planted throughout",
+      "movement": "Panels 4-6 extend arms, pull toward face with elbows back, extend again; no downward pushdown"
+    },
+    "note": "Visual source comparison passed; not physical-device or trainer sign-off.",
+    "id": "face-pull-2",
+    "sourceSha256": "a87629abfa20c645ad7d2615f5f5598df20dbe64f5564c713bb91bac6b971369",
+    "videoSha256": "034baf2838be8d3b06c3e7fa7080c6c0606c262e5648af42b4d1fd1b731439a3",
+    "reviewedAt": "2026-09-09T02:39:00.896Z"
+  },
+  {
+    "status": "pending",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/barbell-deadlift"
+    ],
+    "checks": {
+      "exercise": "Conventional barbell deadlift shown from floor to standing and back",
+      "equipment": "Straight free barbell with round plates",
+      "setup": "Hip-width stance and hip/knee flexion, no sumo stance",
+      "hands": "Closed double-overhand grip outside knees",
+      "feet": "Both feet planted; closeup shows bar near midfoot",
+      "movement": "Three poses depict floor start, upright finish and floor return; no continuous movement"
+    },
+    "note": "User requested one original 3D humanoid visual-style example. This is a 9-second six-still slideshow, not a rigged 3D animation. Not published in app manifest; final instructional review pending.",
+    "id": "conventional-deadlift",
+    "sourceSha256": "ebca9f7e81bb18d31c32ea2b61cfd0a8a94a8a7d968a57a48c0dc895e5fca128",
+    "videoSha256": "725bcb0592e4945084721de756a39670a9b7c031aeffe9267db887dd3262a7b8",
+    "reviewedAt": "2026-09-09T03:33:40.550Z"
+  }
+]

@@ -1,0 +1,11 @@
+{
+  "prompt": "Perfect square 4x4 sprite sheet with sixteen equal square cells. Gray anatomical male mannequin in teal shorts and gray shoes doing a standing RESISTANCE BAND BICEPS CURL. Feet shoulder width pin the middle of one black exercise tube firmly beneath both shoes, each hand holds one black handle with palms forward/up. First frame arms nearly straight at sides. Sixteen small equal increments curl both handles toward shoulders, bending only elbows while upper arms stay vertical against ribs. Tube stretches taut from each shoe to corresponding hand. No dumbbells, no machine, no barbell. Torso upright, feet fixed, no swaying. Fixed front three-quarter full-body camera, identical scale and body placement across all rows, ample margins around head feet and handles. Smooth clean opaque gray studio background. Realistic 3D instructional render, no text, no cell borders.",
+  "equipment": "band",
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/blog/5067/youth-fitness-movement-speed-and-range/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "band-biceps-curl",
+  "registeredAt": "2026-09-11T16:41:14.886Z"
+}

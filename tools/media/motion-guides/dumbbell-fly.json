@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-fly",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/dumbbell-flys.html"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin with teal shorts gray shoes, uniform gray studio. 16 equal square animationkeyframes in4columns4rows2048x2048. Fixed three-quarter sidecamera, same scale and coordinates, scene occupies central70percent each square so all apparatus/head/feet/weights fit. Sequential half-repetition in16small stages row-major, no row reset. No text arrows labels logos. FLAT DUMBBELL FLY. Camera from footend slightlyabove and30degrees offcenter so BOTH ARMS visible symmetrical. Man lyingfaceup on flatbench, head back hips supported, bothfeetflatfloor. Two dumbbells neutralgrip palms faceeachother attop. Begin arms above middlechest, elbows slight bend20degrees.16successive OPENING phases: lower botharms wide sideways in a large arc until upperarms aboutlevelwithchest. Keep SAME20degree elbowbend everypanel, this is a fly NOT A PRESS. No weights belowbench, no elbowcurl. Allarmsanddumbbells fit generous margins even fullyopen. Torsofeet fixed. Critical: elbow angle must remain CONSTANT160degrees (20degreeflexion), never bend90degrees as in chestpress. Camera from diagonally SIDE, not directly foot-end, showing depth of wide semicircular arm arc. Both arms softly bent but almoststraight throughout. No progressive elbow bending. Bench/head/hips/feet fixed coordinates.",
+  "registeredAt": "2026-09-09T07:32:50.742Z"
+}

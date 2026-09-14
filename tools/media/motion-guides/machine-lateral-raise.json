@@ -1,0 +1,11 @@
+{
+  "prompt": "One square sprite sheet, 4 columns and 4 rows of exactly equal square animation cells. Sixteen incremental poses of a seated lateral raise machine exercise, left to right then next row. Gray anatomical muscular man wearing teal shorts and gray shoes. Frontal camera, full body and whole compact machine with generous gray margins. Back supported, feet planted. Elbows BENT 90 DEGREES, forearms foreshortened pointing directly at camera, hands on short vertical handles. Pads outside elbows. Frame 1 upper arms vertical against ribs; every subsequent frame elbows rise SIDEWAYS by 6 degrees until frame16 upper arms horizontal. Forearms always point toward viewer and elbows remain bent at right angles. No straightening arms. Head, legs, torso, machine frame and camera stationary. Rotating lever arms and elbow pads follow elbow positions. Same size and position in every cell. Smooth neutral gray studio backdrop. Photorealistic clean 3D exercise teaching keyframes, no text and no separating lines. All rows equal height, do not restart motion at new rows.",
+  "equipment": "machine",
+  "sources": [
+    "https://www.strengthlog.com/machine-lateral-raise/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "machine-lateral-raise",
+  "registeredAt": "2026-09-11T14:51:05.288Z"
+}

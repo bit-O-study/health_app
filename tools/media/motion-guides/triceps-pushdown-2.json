@@ -1,0 +1,10 @@
+{
+  "id": "triceps-pushdown-2",
+  "equipment": "cable",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/tricep-extension.html"
+  ],
+  "prompt": "Scientific exercise animation sprite sheet, exact4x4 equal square tiles, square2048x2048, no text or borders. Original gray3D anatomicalmannequin tealshortsgrayshoes. Fullbody andfullcabletowerincludingtop with10%margin atalltileedges, fixedcamera/scale/floor. CABLETRICEPSPUSHDOWN: standingfacehighpulley, hipsfixedslighthinge, feetflat, upperarmsverticalatbody, elbowsfixed. 16smallprogressivephases extendelbowsfrom90degrees toalmoststraight, handsmovefromabdomenheighttothighs. No reset acrossrows, no torso rock. Cabletower hasopaque dark protectiveSHROUD enclosingALLweightplates throughout, internalweightsNOTVISIBLE. Visiblehighpulley withONE UNBROKEN TAUT STEELCABLE continuouslyconnectedtohandle via metalcarabiner inEVERYframe. Neverfloatinghandle, nocabledisconnection. Frontthreequarterview clearlyshowbothhands grippingaSTRAIGHTSHORTMETALBAR usingOVERHANDpronatedgrip. Palmsdownstart, knucklesontopofbar. Gripstaysidentical. Wholemachineonright, bodyonleft. NOTunderhand.",
+  "registeredAt": "2026-09-09T12:21:36.679Z"
+}

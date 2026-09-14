@@ -1,0 +1,9 @@
+{
+  "id": "dumbbell-shoulder-press",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/45/seated-overhead-press/"
+  ],
+  "prompt": "Original 3D-human exercise animation keyframe sheet, exactly EIGHT equal square panels in a4-column2-row grid, landscape2048x1024. SAME matte pearl-gray athletic adult humanoid, dark teal shorts, gray shoes, subtle human muscle definition, original generic face. No brand, text, arrows or labels. PLAIN UNIFORM light gray backdrop and floor, no changing shadows or texture. Every panel must have IDENTICAL fixed camera, body scale, apparatus position and framing. Entire person and all equipment stay within frame. No closeups, no view changes. Eight consecutive EVENLY SPACED phases of ONE movement from start to finish, never jump back to start. Keep stationary body parts at identical image coordinates in every cell. SEATED DUMBBELL SHOULDER PRESS on near-vertical backrest bench. Fixed three-quarter FRONT camera. Hips and back supported, feet flat slightly apart, torso neutral without arch. Two identical dumbbells in closed hands, palms facing mostly forward, wrists stacked above elbows, elbows slightly forward of frontal plane. Frames1..8 gradually press dumbbells from shoulder-height with elbows bent about90deg to overhead with elbows extended; both arms move together in eight small equal steps. Dumbbells remain distinct and never merge; forearms near vertical, hands above elbows. Head remains still between arms, shoulders not pushed down unnaturally overhead. No behind-neck position. Entire person, shoes, bench and highest dumbbell position fit every panel.",
+  "registeredAt": "2026-09-09T05:49:05.522Z"
+}

@@ -32,6 +32,7 @@ import {
 } from "@/features/routine/daily-plan-actions";
 import { seoulYmd } from "@/features/routine/data";
 import { TodayAddExercises } from "@/features/routine/components/today-add-exercises";
+import { useBackClose } from "@/lib/platform/use-back-close";
 
 // "오늘만 바꾸기" 부위 선택 — 루틴 빌더와 **동일한 집합**을 제시해야 한다(원칙 #1):
 // 기본 부위(전체) + 세부근육 블록 + 세션 묶음. (MUSCLE_BLOCK_GROUPS = 빌더와 공유.)
@@ -91,6 +92,7 @@ export function TodayAdjustMenu({
   const open = embedded ? Boolean(openProp) : openState;
   const [picked, setPicked] = useState<Set<DayBlockId>>(new Set());
   const [pending, start] = useTransition();
+  useBackClose(open, () => close());
 
   const closeSheet = () => {
     if (embedded) onClose?.();

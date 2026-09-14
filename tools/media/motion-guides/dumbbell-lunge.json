@@ -1,0 +1,10 @@
+{
+  "id": "dumbbell-lunge",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/dumbbell-lunge.html"
+  ],
+  "prompt": "Use case: scientific-educational. Original gray anatomical 3D athletic mannequin with teal shorts and gray shoes. Opaque uniform medium gray studio background, soft light. Create one SQUARE 2048x2048 animation sprite sheet, EXACTLY 16 equally sized SQUARE frames in a precise 4 by 4 grid. No text, numbers, borders, captions, watermark or logos. Identical locked camera and body/equipment scale across every tile, entire body and all apparatus fit within central 70% of each square with generous margins. Frames in reading order show ONLY a single progressive half repetition, NOT a repeated sequence per row. Smooth small changes across all 16 frames; no reset at row breaks. DUMBBELL FORWARD LUNGE, three-quarter SIDE view. One dumbbell in each hand, neutral grip, arms hang straight beside hips throughout. Frame 1 stand upright feet hip width side by side. Frames 2-6 step RIGHT foot forward, left foot stays at original location. Frames 7-16 lower by bending both knees until right thigh near horizontal and left knee hovers above floor. Right whole foot planted after landing, left heel naturally raised on forefoot. Feet on two hip-width tracks not tightrope. Torso stable upright with natural slight inclination, spine neutral, right knee follows toes. Frame 16 bottom position, NOT back to standing. Show both dumbbells and both feet. No walking sequence, no squat, no knee touching floor. CRITICAL: make 4x4 tiles EXACTLY equal geometry, every row exactly 512px tall and every column512px wide. Absolutely NO dividing lines. Background continues uniformly between invisible tile edges. Each pose centered in tile with fixed camera, consistent floor height. Keep rear foot anchored spatially once front foot lands.",
+  "registeredAt": "2026-09-09T11:47:31.520Z"
+}

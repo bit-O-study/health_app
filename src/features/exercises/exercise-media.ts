@@ -1,6 +1,10 @@
 import "server-only";
 
 import { cache } from "react";
+import guideIds from "../../../public/exercise-guides/ai-v2/manifest.json";
+import guideReviews from "../../../tools/media/ai-guides/reviews.json";
+import motionIds from "../../../public/exercise-guides/ai-v3/manifest.json";
+import motionReviews from "../../../tools/media/motion-guides/reviews.json";
 
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -10,40 +14,27 @@ export type ExerciseMedia = {
   exerciseId: string;
   url: string;
   kind: MediaKind;
+  equipmentIds?: string[];
 };
 
-const BUILT_IN_MEDIA: Record<string, ExerciseMedia> = {
-  "bench-press": {
-    exerciseId: "bench-press",
-    url: "/exercise-guides/ai-v2/bench-press.mp4",
-    kind: "video",
-  },
-  "lat-pulldown": {
-    exerciseId: "lat-pulldown",
-    url: "/exercise-guides/ai-v2/lat-pulldown.mp4",
-    kind: "video",
-  },
-  "pull-up": {
-    exerciseId: "pull-up",
-    url: "/exercise-guides/ai-v2/pull-up.mp4",
-    kind: "video",
-  },
-  "smith-squat": {
-    exerciseId: "smith-squat",
-    url: "/exercise-guides/ai-v2/smith-squat.mp4",
-    kind: "video",
-  },
-  "dumbbell-shoulder-press": {
-    exerciseId: "dumbbell-shoulder-press",
-    url: "/exercise-guides/ai-v2/dumbbell-shoulder-press.mp4",
-    kind: "video",
-  },
-  "leg-press": {
-    exerciseId: "leg-press",
-    url: "/exercise-guides/ai-v2/leg-press.mp4",
-    kind: "video",
-  },
-};
+const reviewedEquipment = new Map((guideReviews as { id: string; equipmentIds: string[] }[]).map((review) => [review.id, review.equipmentIds]));
+
+const motionEquipment = new Map(motionReviews.filter((review) => review.status === "passed").map((review) => [review.id, review.equipmentIds]));
+
+const BUILT_IN_MEDIA: Record<string, ExerciseMedia> = Object.fromEntries(
+  [...guideIds.map((exerciseId) => [exerciseId, { exerciseId, url: `/exercise-guides/ai-v2/${exerciseId}.mp4`, kind: "video" as const, equipmentIds: reviewedEquipment.get(exerciseId) ?? [] }]),
+  ...motionIds.filter((id) => motionEquipment.has(id)).map((exerciseId) => [exerciseId, { exerciseId, url: `/exercise-guides/ai-v3/${exerciseId}.mp4`, kind: "video" as const, equipmentIds: motionEquipment.get(exerciseId) ?? [] }])],
+);
+
+/** Hide a demonstration when its reviewed equipment differs from the selected variant. */
+export function selectExerciseMedia(
+  media: ExerciseMedia | null | undefined,
+  equipment?: string,
+): ExerciseMedia | null {
+  if (!media) return null;
+  if (equipment && media.equipmentIds && !media.equipmentIds.includes(equipment)) return null;
+  return media;
+}
 
 function toKind(v: unknown): MediaKind {
   return v === "gif" || v === "image" ? v : "video";
@@ -52,9 +43,10 @@ function toKind(v: unknown): MediaKind {
 /** 단일 운동의 전역 미디어(관리자 등록). 없으면 null. */
 export async function getExerciseMedia(
   exerciseId: string,
+  equipment?: string,
 ): Promise<ExerciseMedia | null> {
   const builtIn = BUILT_IN_MEDIA[exerciseId];
-  if (builtIn) return builtIn;
+  if (builtIn) return selectExerciseMedia(builtIn, equipment);
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("exercise_media")

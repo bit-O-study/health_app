@@ -1,0 +1,11 @@
+{
+  "prompt": "3D animation reference sheet with 8 equal square frames in 4 columns and 2 rows. Original gray anatomical male mannequin with teal shorts and gray shoes. Plain clean solid gray studio background. Exercise: bird dog. Full body SIDE VIEW facing left. Frame1 on hands and knees. Each subsequent frame progressively extends the near arm forward and the opposite far leg backward until they are level with torso in frame8. Supporting hand and supporting knee remain on floor. Neutral level spine. All limbs entirely visible with wide margins. Same camera and scale in every frame. Smooth opaque gray background. No text or frame lines.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/bird-dog"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "bird-dog",
+  "registeredAt": "2026-09-11T16:35:56.744Z"
+}

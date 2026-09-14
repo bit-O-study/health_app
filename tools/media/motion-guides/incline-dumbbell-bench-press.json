@@ -1,0 +1,10 @@
+{
+  "id": "incline-dumbbell-bench-press",
+  "equipment": "dumbbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/incline-dumbbell-bench-press.html"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin with teal shorts gray shoes, uniform gray studio. 16 equal square animationkeyframes in4columns4rows2048x2048. Fixed three-quarter sidecamera, same scale and coordinates, scene occupies central70percent each square so all apparatus/head/feet/weights fit. Sequential half-repetition in16small stages row-major, no row reset. No text arrows labels logos. INCLINE DUMBBELL BENCH PRESS. Adjustable bench back30degrees ABOVE HORIZONTAL, notuprightshoulderpress. Head/back/hips fullysupported and feetflat onfloor either side. Two separate dumbbells held closed semipronated grip, elbows45degrees fromtorso. Start dumbbells beside upperchest forearmsvertical elbows90degrees.16ascending phases press UP towardceiling above upperchest until arms nearlystraight. Hands remainaboveelbows, no flyarc, no weights touching. Fixedbench torsofeet, only arms move. Strongly enforce head stays fully supported and clearly visible on backrest throughout. More side-on camera from90degrees along bench SIDE, slightly above. Never slide head/torso down bench or lose head behind weights. Shoulder/torso/head/hips coordinates identical in all16panels.",
+  "registeredAt": "2026-09-09T07:32:47.960Z"
+}

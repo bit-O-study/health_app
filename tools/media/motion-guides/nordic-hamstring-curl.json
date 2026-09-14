@@ -1,0 +1,11 @@
+{
+  "prompt": "Clean opaque smooth uniform gray studio background with NO black blotches, NO transparency, NO decorative effects. Perfect square 4x4 sprite sheet of sixteen equal cells, no borders. Gray muscular anatomical man teal shorts gray shoes performing Nordic hamstring curl descent. Full side view facing right, small subject occupying only 75 percent cell width; generous empty space at every edge, especially in front of hands. Knees planted on thick low mat at left-center, ankles secured beneath fixed padded anchor on floor to left. First pose upright kneeling, knee hip shoulder aligned. Sixteen successive increments lean rigid straight thighs and torso forward around fixed knees toward floor. Feet and knees absolutely fixed throughout. Hips stay extended rather than bending or sitting back. Hands near chest initially, reach toward floor as he lowers, final poses palms catch floor and elbows flex to softly lower chest. Consistent camera and scale through rows; no framing reset; whole head hands and feet visible in every cell. Realistic 3D exercise instructional render.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/nordic-hamstring-curl-bodyweight"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "nordic-hamstring-curl",
+  "registeredAt": "2026-09-11T16:21:24.409Z"
+}

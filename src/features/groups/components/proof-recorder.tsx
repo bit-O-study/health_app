@@ -6,6 +6,7 @@ import { Camera, Loader2, RefreshCw, SwitchCamera, X } from "lucide-react";
 
 import { uploadGroupProof } from "@/features/groups/upload-proof";
 import { setGroupProofAction } from "@/features/groups/proof-actions";
+import { useBackClose } from "@/lib/platform/use-back-close";
 
 const CLIP_MS = 3000;
 
@@ -42,6 +43,7 @@ export function ProofRecorder({
   onClose: () => void;
 }) {
   const router = useRouter();
+  useBackClose(true, onClose);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const previewRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);

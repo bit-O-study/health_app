@@ -1,0 +1,11 @@
+{
+  "prompt": "Square 4x4 sprite sheet, sixteen equal square frames of a BAND PULL APART. Gray anatomical muscular male mannequin in teal shorts gray shoes. Full body frontal three-quarter view, small enough to keep fully outstretched hands inside each cell with ample margins. First frame arms almost straight forward at shoulder height, hands shoulder width apart holding a short black resistance band palms down. Across16 equal small increments open both arms outward horizontally, stretching band across chest until arms form T shape and band nearly touches chest. Elbows stay almost straight, no rowing, no bending elbows. Feet hip width stationary, torso upright, no arching or shrugging. Identical head hip feet positions scale camera and floor in every cell. One continuous opening progression across all rows. Clean smooth gray studio background, realistic 3D exercise instruction, no text no grid lines.",
+  "equipment": "band",
+  "sources": [
+    "https://cdn.muscleandstrength.com/exercises/band-pull-apart"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "band-pull-apart",
+  "registeredAt": "2026-09-11T16:47:26.391Z"
+}

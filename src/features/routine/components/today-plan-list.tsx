@@ -8,6 +8,8 @@ import {
   type PointerEvent,
 } from "react";
 import { useRouter } from "next/navigation";
+
+import { useBackClose } from "@/lib/platform/use-back-close";
 import {
   Check,
   ChevronRight,
@@ -814,6 +816,7 @@ function MemoDialog({
   onSaved: (memo: string | null) => void;
 }) {
   const [memo, setMemo] = useState<string>(item.memo ?? "");
+  useBackClose(true, onClose);
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 

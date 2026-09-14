@@ -8,6 +8,7 @@ import {
   type PointerEvent,
   type ReactNode,
 } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import {
   Check,
@@ -452,6 +453,7 @@ export function GuidedOverlay({
   const [muscle3dOpen, setMuscle3dOpen] = useState(false);
   /** AI 자세 분석 다이얼로그(현재 운동 영상 → 자세 코칭). */
   const [postureOpen, setPostureOpen] = useState(false);
+  useBackClose(postureOpen, () => setPostureOpen(false));
   /** 운동 티칭 영상 올리기 다이얼로그(현재 운동으로 태그). */
   const [teachOpen, setTeachOpen] = useState(false);
   /** 메모 작성 다이얼로그. */
@@ -1680,6 +1682,7 @@ function TipsDialog({
   steps: string[];
   onClose: () => void;
 }) {
+  useBackClose(true, onClose);
   return (
     <div className="fixed inset-0 z-[70] flex items-end justify-center pb-[env(safe-area-inset-bottom)] sm:items-center sm:pb-0">
       <button
@@ -1727,6 +1730,7 @@ function MemoEditDialog({
   onCancel: () => void;
 }) {
   const [text, setText] = useState(initial);
+  useBackClose(true, onCancel);
   return (
     <div className="fixed inset-0 z-[70] flex items-end justify-center pb-[env(safe-area-inset-bottom)] sm:items-center sm:pb-0">
       <button

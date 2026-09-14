@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { Dumbbell, Flame, Loader2, Utensils, X } from "lucide-react";
 
 import type { MemberDay } from "@/features/groups/data-access";
@@ -21,6 +22,7 @@ export function ProofMemberSheet({
 }) {
   const [day, setDay] = useState<MemberDay | null>(null);
   const [loading, setLoading] = useState(true);
+  useBackClose(true, onClose);
 
   useEffect(() => {
     let alive = true;

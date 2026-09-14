@@ -3,6 +3,8 @@
 import Model, { type IExerciseData, type Muscle } from "react-body-highlighter";
 import { X } from "lucide-react";
 
+import { useBackClose } from "@/lib/platform/use-back-close";
+
 // 이름·타깃을 인자로 받는 쪽을 쓴다 — id 만으로 찾으면 운동 목록(274 KiB)을 뒤져야 하고,
 // 그러면 이 인체 그림 하나 때문에 운동모드 화면에 카탈로그가 통째로 실린다.
 import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
@@ -136,6 +138,7 @@ export function MuscleBodyModal({
   target: string;
   onClose: () => void;
 }) {
+  useBackClose(true, onClose);
   const data: IExerciseData[] = [
     { name, muscles: musclesForExerciseBody(exerciseId, name, target) },
   ];

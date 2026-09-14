@@ -890,9 +890,6 @@ export function PlanEditor({
             {(plans[day.focuses[0]?.key] ?? []).length > 0 ? (
               <ShareDayButton
                 dayIndex={day.dayIndex}
-                defaultTitle={`${day.dayIndex + 1}일차 · ${day.focuses
-                  .map(focusName)
-                  .join(" · ")}`}
                 groups={myGroups}
               />
             ) : null}

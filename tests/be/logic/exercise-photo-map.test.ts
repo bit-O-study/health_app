@@ -132,7 +132,7 @@ describe("기구별 시연 사진 (바벨/덤벨/머신이 서로 달라야)", (
 
   it("한 운동의 기구별 슬러그는 서로 중복되지 않는다(같은 사진 금지)", () => {
     for (const [id, m] of Object.entries(EXERCISE_PHOTO_DB_BY_EQUIP)) {
-      const slugs = Object.values(m);
+      const slugs = Object.values(m).filter((slug) => slug !== null);
       expect(new Set(slugs).size, `${id} 기구별 사진 중복`).toBe(slugs.length);
     }
   });
@@ -168,5 +168,20 @@ describe("워밍업·마무리 실사 시연 사진 (conditioningPhotoFrames)", 
       expect(f![1]).toContain(`/${db}/1.jpg`);
       expect(f![0]).toMatch(/^https:\/\/cdn\.jsdelivr\.net\/gh\/yuhonas\/free-exercise-db/);
     }
+  });
+});
+
+
+describe("incorrect equipment-specific photos", () => {
+  it("does not substitute wrist extension or a different triceps exercise", () => {
+    expect(exercisePhotoFrames("wrist-curl", "dumbbell")).toBeNull();
+    expect(exercisePhotoFrames("wrist-curl", "barbell")).toBeNull();
+    expect(exercisePhotoFrames("skull-crusher", "dumbbell")).toBeNull();
+    expect(exercisePhotoFrames("overhead-triceps-extension", "dumbbell")).toBeNull();
+  });
+
+  it("retains the matching barbell and cable variants", () => {
+    expect(exercisePhotoFrames("skull-crusher", "barbell")?.[0]).toContain("Lying_Close-Grip_Barbell_Triceps_Press_To_Chin");
+    expect(exercisePhotoFrames("overhead-triceps-extension", "cable")?.[0]).toContain("Cable_Rope_Overhead_Triceps_Extension");
   });
 });

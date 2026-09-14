@@ -1,0 +1,10 @@
+{
+  "id": "barbell-bench-press",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/barbell-bench-press"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin tealshorts grayshoes, uniformgraystudio.16equal square animationkeyframes4columns4rows2048x2048. FixedthreequarterSIDEcamera, same scale andscene framing, fullheadfeetandallbarbellendsinsidecentral70percent with15percentmargins. Sequential16smallstages,no resetatrowboundaries. No labels,text,arrows,logos. FLAT BARBELL BENCH PRESS. ThreequarterSIDEview withhead LEFT andknees RIGHT; barbellacrossbodywithbothendsclearlyvisible, NOTend-on. Liefaceup onflatbench, headbackhips supported, feetflatfloor. One shortstraightbarbell modestsizedplates ends. Bothhands closedoverhand slightlywiderthanshoulders. BeginbaratLOWER/MIDDLE CHEST aroundsternum wellRIGHTOFCHIN andNECK inimage, elbowsbentabout90degrees tucked45degreesfromtorso, wristsaboveelbows.16ascendingpressstages extendelbows so barfinishesaboveMIDCHEST/shoulders atarmslength. Keepbar CLEAR OF FACE AND NECK allframes. Same head/torso/bench/feetcoordinates fixed, natural smallarch withoutbuttlift. Completebarfits everypanel.",
+  "registeredAt": "2026-09-09T08:14:48.386Z"
+}

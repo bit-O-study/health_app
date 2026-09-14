@@ -21,8 +21,17 @@
  */
 importScripts("/sw-strategy.js");
 
-const { CACHE_NAME, PRECACHE, OFFLINE_URL, MAX_STATIC_ENTRIES, decide } =
-  self.swStrategy;
+const {
+  CACHE_NAME,
+  PRECACHE,
+  OFFLINE_URL,
+  MAX_STATIC_ENTRIES,
+  MEDIA_CACHE,
+  MAX_MEDIA_BYTES,
+  MEDIA_BUDGET_BYTES,
+  decide,
+  parseRange,
+} = self.swStrategy;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -45,9 +54,12 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     (async () => {
       // 이름이 다른 옛 캐시는 전부 버린다(규칙이 바뀌면 옛 규칙으로 담긴 것도 같이 나간다).
+      // 🔴 영상 캐시는 **남긴다.** 배포와 상관없이 같은 URL = 같은 파일이고,
+      //    지우면 사용자가 다시 수십 MB 를 받아야 한다.
+      const keep = [CACHE_NAME, MEDIA_CACHE];
       const names = await caches.keys();
       await Promise.all(
-        names.map((n) => (n === CACHE_NAME ? null : caches.delete(n))),
+        names.map((n) => (keep.includes(n) ? null : caches.delete(n))),
       );
       await self.clients.claim();
     })(),
@@ -60,6 +72,10 @@ self.addEventListener("fetch", (event) => {
 
   if (how === "immutable") {
     event.respondWith(cacheFirst(event.request));
+    return;
+  }
+  if (how === "media") {
+    event.respondWith(mediaWithRange(event.request));
     return;
   }
   event.respondWith(networkFirstNavigate(event.request));
@@ -277,3 +293,88 @@ self.addEventListener("notificationclick", (event) => {
     })(),
   );
 });
+
+/**
+ * 운동 시연 영상 — 본 것만 담고, 담은 건 오프라인에서도 재생된다.
+ *
+ * 🔴 **캐시에는 언제나 전체(200)만 담는다.** `<video preload="metadata">` 는
+ * `bytes=0-` 같은 부분 요청을 보내는데, 그 206 응답을 캐시해 두면 다음에 전체를
+ * 요청했을 때 잘린 조각이 나가 재생이 깨진다. 그래서 캐시 키는 Range 를 뗀 URL 이고,
+ * 부분 요청은 담아 둔 전체를 잘라 206 으로 만들어 준다(`parseRange`).
+ */
+async function mediaWithRange(request) {
+  const range = request.headers.get("range");
+  // 캐시 키·받아올 요청 모두 Range 없는 '전체' 요청이다.
+  const key = new Request(request.url);
+  const cache = await caches.open(MEDIA_CACHE);
+
+  let full = await cache.match(key);
+  if (!full) {
+    let res;
+    try {
+      res = await fetch(key);
+    } catch (e) {
+      // 오프라인인데 담아 둔 것도 없다 — 화면의 '다시 불러오기'가 받아 준다.
+      throw e;
+    }
+    if (!res || res.status !== 200) return range ? fetch(request) : res;
+
+    const len = Number(res.headers.get("content-length") || 0);
+    // 너무 큰 파일은 담지 않는다. 이땐 원래 요청(Range 포함)을 그대로 네트워크에
+    // 넘겨 브라우저가 스트리밍하게 둔다 — 6MB 를 메모리에 통째로 들고 자르지 않으려고.
+    if (!len || len > MAX_MEDIA_BYTES) return range ? fetch(request) : res;
+
+    await cache.put(key, res.clone()).catch(() => {});
+    await trimMedia(cache);
+    full = res;
+  }
+
+  if (!range) return full;
+
+  const buf = await full.arrayBuffer();
+  const r = parseRange(range, buf.byteLength);
+  // 못 다루는 형식이면 전체를 준다(Range 무시는 규격상 허용).
+  if (!r) return new Response(buf, { status: 200, headers: full.headers });
+  if (!r.ok) {
+    return new Response(null, {
+      status: 416,
+      headers: { "Content-Range": `bytes */${buf.byteLength}` },
+    });
+  }
+  return new Response(buf.slice(r.start, r.end + 1), {
+    status: 206,
+    statusText: "Partial Content",
+    headers: {
+      "Content-Type": full.headers.get("content-type") || "video/mp4",
+      "Content-Length": String(r.end - r.start + 1),
+      "Content-Range": `bytes ${r.start}-${r.end}/${buf.byteLength}`,
+      "Accept-Ranges": "bytes",
+    },
+  });
+}
+
+/**
+ * 영상 캐시를 예산(바이트) 안으로 줄인다 — 오래된 것부터.
+ *
+ * 🔴 개수가 아니라 바이트로 재는 이유: 평균 181KB 와 2MB 짜리가 같은 한 칸을 차지하면
+ * 실제 저장량을 정할 수가 없다. 크기는 **헤더만** 읽어 재므로(본문을 안 읽는다) 싸다.
+ */
+async function trimMedia(cache) {
+  try {
+    const keys = await cache.keys(); // 넣은 순서 = 오래된 것이 앞
+    let total = 0;
+    const sizes = [];
+    for (const k of keys) {
+      const res = await cache.match(k);
+      const n = Number(res?.headers.get("content-length") || 0);
+      sizes.push(n);
+      total += n;
+    }
+    for (let i = 0; i < keys.length && total > MEDIA_BUDGET_BYTES; i++) {
+      await cache.delete(keys[i]);
+      total -= sizes[i];
+    }
+  } catch (e) {
+    /* 정리 실패는 치명적이지 않다 — 다음 영상에서 다시 시도된다 */
+  }
+}

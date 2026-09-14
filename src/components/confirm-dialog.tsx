@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { AlertTriangle } from "lucide-react";
 import { nextDialogFocusIndex } from "@/components/dialog-focus";
+import { useBackClose } from "@/lib/platform/use-back-close";
 
 /**
  * 인앱 confirm 다이얼로그. 브라우저 네이티브 confirm() 의 'localhost:3000 says'
@@ -44,6 +45,8 @@ export function ConfirmDialog({
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const confirmButtonRef = useRef<HTMLButtonElement>(null);
+  // 뒤로가기 = 취소(모달만 닫힘).
+  useBackClose(open, onCancel);
 
   useEffect(() => {
     // createPortal 은 client only — mount 후 한 번만 활성화. 의도된 setState.

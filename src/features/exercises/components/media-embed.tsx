@@ -168,7 +168,7 @@ export function MediaEmbed({
           loop={autoPlay}
           onLoadedMetadata={(e) => {
             setVideoError(false);
-            if (autoPlay) e.currentTarget.playbackRate = url.startsWith("/exercise-guides/ai-v2/") ? 1 : GUIDE_RATE;
+            if (autoPlay) e.currentTarget.playbackRate = /^\/exercise-guides\/ai-v[23]\//.test(url) ? 1 : GUIDE_RATE;
           }}
           onError={() => setVideoError(true)}
           className={`h-auto w-full object-contain ${MEDIA_CAP}`}

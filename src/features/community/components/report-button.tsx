@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
+
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { Flag, Loader2, X } from "lucide-react";
 
 import {
@@ -35,6 +37,9 @@ export function ReportButton({
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
   const [pending, start] = useTransition();
+  useBackClose(open, () => {
+    if (!pending) setOpen(false);
+  });
 
   function submit(reason: string) {
     start(async () => {

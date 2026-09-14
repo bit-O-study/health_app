@@ -1,0 +1,10 @@
+{
+  "id": "hammer-curl-2",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/standing-hammer-curl.html"
+  ],
+  "prompt": "Original gray athletic human mannequin in teal shorts, gray shoes, plain uniform light gray studio. Animation sprite sheet exactly8 equal square panels4columns4rows at2048x2048. Identical full-body framing, fixed camera, same floor and stationary body coordinates in every panel. No text, arrows, brands. sixteen evenly spaced progressive poses of ascending half of one repetition, no reset between rows. Standing bilateral hammer curl, fixed three-quarter front view. Two small identical dumbbells with palms facing inward toward one another for entire movement, thumbs uppermost. Elbows stay beside waist and upper arms stay vertical. Only forearms rotate upward from nearly straight elbows beside thighs to elbows flexed about125degrees wsixteens near shoulders. Sixteen evenly spaced elbow flexion angles from0to125degrees. No palms turning up, no arm crossover. Upright torso, feet shoulder width planted, no swinging. SIXTEEN poses in reading order4x4. Never reset pose at row boundary. Keep head feet torso SAME pixel coordinates in ALL rows. Keep each limb clearly solid and each hand attached to its weight. Whole equipment and head stay inside each square with generous margins.",
+  "panels": 16,
+  "registeredAt": "2026-09-09T06:09:11.292Z"
+}

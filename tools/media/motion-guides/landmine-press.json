@@ -1,0 +1,11 @@
+{
+  "equipment": "landmine",
+  "panels": 16,
+  "cycle": "reverse",
+  "sources": [
+    "https://library.theprehabguys.com/vimeo-video/standing-shoulder-press-landmine/"
+  ],
+  "prompt": "Square scientific educational sprite sheet 4x4 EXACT16equal squaretiles. Gray anatomical mannequin tealshorts grayshoes uniform OPAQUE GRAYbackground. 16 frames of standing TWOHANDED LANDMINE PRESS from chest to extendedarms. ManfacesLEFT, fixedside threequarter camera. All head feet and floorpivot within central70% tile. Firsthands atchest, elbows bent. Last botharms extendeddiagonallyforwardup, hands justaboveforeheadheight. Between frame1 and16 hands move2cm perframe steadily, no bigjumps, NO PAUSES, NO RESETS. Frame5 must continueframe4, frame9 continue8, frame13 continue12. Rigid longbar fixedinfloorpivot LEFT, samebarlength, one smallplate below sleevegrip. BOTHhands cup sleeveend. Headtorsohipskneesandfeet samepixelcoordinates inALLframes. No legdrive, backarch or shrug. Onlyarmsandbarrotate. Keep floorpivot samepixelcoordinates. Each row exactly25% canvasheight. Everytile square and sameframing, no extrapadding, no text or lines. Legstance fixed, bell absent. Finishhands aboveforehead andforwardfollowingarc. Important identicalscale andidenticalfloors throughout.",
+  "id": "landmine-press",
+  "registeredAt": "2026-09-10T12:57:51.374Z"
+}

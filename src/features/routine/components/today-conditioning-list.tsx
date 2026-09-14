@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState, useTransition, type PointerEvent } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import {
   Check,
@@ -693,6 +694,7 @@ function CondMemoDialog({
   onSaved: (memo: string | null) => void;
 }) {
   const [memo, setMemo] = useState<string>(item.memo ?? "");
+  useBackClose(true, onClose);
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
 

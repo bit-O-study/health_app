@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -426,6 +427,7 @@ function DatePickerDialog({
   onPick: (ymd: string) => void;
   onClose: () => void;
 }) {
+  useBackClose(true, onClose);
   const quick: Array<{ label: string; ymd: string }> = [
     { label: "오늘", ymd: today },
     { label: "어제", ymd: addDaysYmd(today, -1) },
@@ -731,6 +733,7 @@ function MealDetailDialog({
   onDelete: (id: string) => void;
   onDeleteMeal: () => void;
 }) {
+  useBackClose(true, onClose);
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [confirmDel, setConfirmDel] = useState(false);
@@ -1400,6 +1403,7 @@ function AddFoodDialog({
   onAddPhoto: (url: string) => void;
   onRemovePhoto: (url: string) => void;
 }) {
+  useBackClose(true, onClose);
   const [mode, setMode] = useState<"search" | "manual" | "ai">("search");
   const [q, setQ] = useState("");
   const local = useFoodSearch("local", q, 200);

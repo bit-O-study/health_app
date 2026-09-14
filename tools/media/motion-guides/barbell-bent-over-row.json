@@ -1,0 +1,10 @@
+{
+  "id": "barbell-bent-over-row",
+  "equipment": "barbell",
+  "panels": 16,
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/bent-over-barbell-row.html"
+  ],
+  "prompt": "Create a SQUARE 2048x2048 sheet containing precisely SIXTEEN equal 512x512 SQUARE tiles in exact 4x4 grid. All tile boundaries equally spaced. Original gray anatomical mannequin, teal shorts, gray shoes, gray studio. Fixed camera and scale. All body and equipment inside CENTRAL65% of each tile, ample margins on EVERY SIDE. Sixteen sequential small motion stages without row resets, no text or logos. BENT OVER BARBELL ROW. Side three-quarter view. Torso hinged almostparallel to floor, neutral back and neck, knees slightlybent and feetshoulderwidth planted. Hold one barbell using double overhand grip outside knees, arms hanging straight at start. Across16frames pull bar toward belly button by bending elbows and driving them behind torso. CRITICAL: hips, knees, head and torso keep EXACTLY SAME ANGLE AND POSITION throughout; only arms and shoulder blades move. No standing up, no squat or deadlift, no body swing. Bar never through knees. Smallplates leave arms visible. IMPORTANT: All sixteen frames show ONLY THE PULLING-UP HALF of ONE repetition. Frame1 straight hanging arms; frame16 elbows fully bent and bar touching navel. Intermediate frames increment elbow flexion evenly. DO NOT show lowering or return in any frame. The entire last row must remain near the TOP with bar close to belly. Neutral hinged torso unchanged.",
+  "registeredAt": "2026-09-09T08:48:04.968Z"
+}

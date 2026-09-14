@@ -1,0 +1,11 @@
+{
+  "prompt": "Eight-pose TRX low row, overhead wall anchor and two taut straps, fixed planted heels, rigid inclined body, bend elbows to ribs, reverse",
+  "equipment": "trx",
+  "sources": [
+    "https://www.trxtraining.com/blogs/news/four-trx-moves-to-improve-your-rowing-performance"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "trx-row",
+  "registeredAt": "2026-09-13T12:56:49.525Z"
+}

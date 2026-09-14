@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+
 import { beforeAll, describe, expect, it } from "vitest";
 
 /**
@@ -9,13 +11,20 @@ import { beforeAll, describe, expect, it } from "vitest";
  * 어제 화면이 오늘 것처럼 뜬다(HTML 캐싱).
  */
 
-type Decision = "immutable" | "navigate" | "bypass";
+type Decision = "immutable" | "navigate" | "media" | "bypass";
 type Strategy = {
   CACHE_NAME: string;
   PRECACHE: string[];
   OFFLINE_URL: string;
   MAX_STATIC_ENTRIES: number;
+  MEDIA_CACHE: string;
+  MAX_MEDIA_BYTES: number;
+  MEDIA_BUDGET_BYTES: number;
   decide: (req: FakeRequest) => Decision;
+  parseRange: (
+    header: string | null | undefined,
+    size: number,
+  ) => null | { ok: false } | { ok: true; start: number; end: number };
 };
 
 type FakeRequest = {
@@ -46,14 +55,19 @@ function req(
 
 let strategy: Strategy;
 
-beforeAll(async () => {
-  // `sw-strategy.js` 는 SW 에서 importScripts 로 쓰이는 평범한 스크립트다.
-  // 전역에 자신을 붙이므로, 여기서도 **같은 파일 그대로** 불러 검증한다
-  // (복사본을 테스트하면 실제로 배포되는 코드는 검증되지 않는다).
+beforeAll(() => {
+  // `sw-strategy.js` 는 SW 가 `importScripts` 로 읽는 평범한 스크립트(모듈이 아니다).
+  // 그래서 `import` 대신 **파일을 그대로 읽어 실행**한다 — 복사본을 테스트하면
+  // 정작 배포되는 코드는 검증되지 않는다. (SW 는 잘못 깔리면 사용자 브라우저에
+  // 남아 배포해도 바로 안 고쳐지므로, 여기서만큼은 진짜 파일이어야 한다.)
   (globalThis as unknown as { location: { origin: string } }).location = {
     origin: ORIGIN,
   };
-  await import("../../../public/sw-strategy.js");
+  const src = readFileSync(
+    new URL("../../../public/sw-strategy.js", import.meta.url),
+    "utf8",
+  );
+  new Function(src)();
   strategy = (globalThis as unknown as { swStrategy: Strategy }).swStrategy;
 });
 
@@ -108,10 +122,26 @@ describe("캐시 우선 — 내용해시가 박힌 빌드 산출물만", () => {
     expect(strategy.decide(req("/_next/image?url=%2Fa.png&w=64"))).toBe("bypass");
   });
 
-  it("public 의 일반 정적 파일은 아직 캐시하지 않는다(영상 등 용량이 크다)", () => {
-    expect(strategy.decide(req("/exercise-guides/ai-v3/squat.mp4"))).toBe(
-      "bypass",
+  it("운동 시연 영상은 전용 처리로 보낸다(Range 요청 때문에 일반 캐시로는 안 된다)", () => {
+    expect(strategy.decide(req("/exercise-guides/ai-v3/squat.mp4"))).toBe("media");
+    expect(strategy.decide(req("/exercise-guides/ai-v2/bench-press.mp4"))).toBe(
+      "media",
     );
+    expect(strategy.decide(req("/exercise-guides/previews/a.webm"))).toBe("media");
+  });
+
+  it("영상이 아닌 public 파일은 아직 캐시하지 않는다", () => {
+    expect(strategy.decide(req("/exercise-guides/SOURCES.md"))).toBe("bypass");
+    expect(strategy.decide(req("/icon-192-20260702b.png"))).toBe("bypass");
+  });
+
+  it("영상 캐시는 셸과 **다른 통**이다 — 영상 정리가 오프라인 안내 화면을 날리면 안 된다", () => {
+    expect(strategy.MEDIA_CACHE).not.toBe(strategy.CACHE_NAME);
+  });
+
+  it("영상 상한·예산이 숫자다(undefined 면 NaN 비교로 정리가 조용히 멈춘다)", () => {
+    expect(strategy.MAX_MEDIA_BYTES).toBeGreaterThan(0);
+    expect(strategy.MEDIA_BUDGET_BYTES).toBeGreaterThan(strategy.MAX_MEDIA_BYTES);
   });
 });
 
@@ -161,5 +191,69 @@ describe("망가진 입력", () => {
       method: "GET",
     } as unknown as FakeRequest;
     expect(strategy.decide(bare)).toBe("immutable");
+  });
+});
+
+describe("Range 해석 — 여기가 틀리면 영상이 재생되다 멈춘다", () => {
+  const SIZE = 1000;
+  const pr = (h: string | null | undefined, size = SIZE) =>
+    strategy.parseRange(h, size);
+
+  it("Range 가 없으면 전체를 준다", () => {
+    expect(pr(null)).toBeNull();
+    expect(pr(undefined)).toBeNull();
+    expect(pr("")).toBeNull();
+  });
+
+  it("bytes=0- (preload=metadata 가 실제로 보내는 형태) → 파일 끝까지", () => {
+    expect(pr("bytes=0-")).toEqual({ ok: true, start: 0, end: 999 });
+  });
+
+  it("닫힌 구간", () => {
+    expect(pr("bytes=0-99")).toEqual({ ok: true, start: 0, end: 99 });
+    expect(pr("bytes=500-599")).toEqual({ ok: true, start: 500, end: 599 });
+  });
+
+  it("열린 끝 — 중간부터 끝까지(탐색 seek 이 이 형태다)", () => {
+    expect(pr("bytes=500-")).toEqual({ ok: true, start: 500, end: 999 });
+  });
+
+  it("끝을 넘겨 달라고 하면 파일 끝까지만 준다", () => {
+    expect(pr("bytes=900-99999")).toEqual({ ok: true, start: 900, end: 999 });
+  });
+
+  it("뒤에서 N바이트(bytes=-500) — moov atom 이 끝에 있는 mp4 가 이걸 쓴다", () => {
+    expect(pr("bytes=-500")).toEqual({ ok: true, start: 500, end: 999 });
+  });
+
+  it("파일보다 큰 suffix 는 처음부터", () => {
+    expect(pr("bytes=-99999")).toEqual({ ok: true, start: 0, end: 999 });
+  });
+
+  it("공백이 붙어도 읽는다", () => {
+    expect(pr("  bytes=0-9  ")).toEqual({ ok: true, start: 0, end: 9 });
+  });
+
+  it("파일 밖이면 416 — 전체를 주면 브라우저가 이상한 데이터를 읽는다", () => {
+    expect(pr("bytes=1000-")).toEqual({ ok: false });
+    expect(pr("bytes=2000-3000")).toEqual({ ok: false });
+    expect(pr("bytes=-0")).toEqual({ ok: false });
+    expect(pr("bytes=500-499")).toEqual({ ok: false });
+  });
+
+  it("다중 범위는 다루지 않고 전체를 준다(multipart 응답이 필요 — 규격상 허용)", () => {
+    expect(pr("bytes=0-9,20-29")).toBeNull();
+  });
+
+  it("모르는 단위·깨진 문자열은 전체를 준다", () => {
+    expect(pr("items=0-9")).toBeNull();
+    expect(pr("bytes=abc-def")).toBeNull();
+    expect(pr("bytes=")).toBeNull();
+    expect(pr("garbage")).toBeNull();
+  });
+
+  it("1바이트 파일에서도 깨지지 않는다", () => {
+    expect(pr("bytes=0-", 1)).toEqual({ ok: true, start: 0, end: 0 });
+    expect(pr("bytes=1-", 1)).toEqual({ ok: false });
   });
 });

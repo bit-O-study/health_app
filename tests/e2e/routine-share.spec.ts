@@ -18,14 +18,22 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
   await page.getByRole("button", { name: "루틴", exact: true }).click();
   await page.getByRole("button", { name: "루틴 추천글 쓰기" }).click();
   await expect(page.getByText("내 루틴 추천글 쓰기")).toBeVisible();
-  await page.getByRole("button", { name: "1일차 추천글 쓰기" }).click();
+  // 줄 이름은 "1일차 · <부위> 추천글 쓰기" — 부위는 온보딩 루틴에 따라 달라진다.
+  await page.getByRole("button", { name: /^1일차 · .+ 추천글 쓰기$/ }).click();
   const sheet = page.locator("div").filter({ hasText: /^이 일차를 소개하기/ }).last();
   await expect(page.getByText("이 일차를 소개하기")).toBeVisible();
 
-  // 제목은 "1일차 · <부위>" 로 미리 채워져 있다 — 알아보기 쉽게 바꿔서 올린다.
+  // 제목은 자동으로 채워지지 않고, 비어 있으면 '올리기' 를 못 누른다.
   const title = page.getByLabel(/제목/).or(sheet.locator("input").first());
+  const submit = page.getByRole("button", { name: "올리기" });
+  await expect(title).toHaveValue("");
+  await expect(submit).toBeDisabled();
+  await title.fill("   ");
+  await expect(submit).toBeDisabled();
+
   await title.fill("E2E 소개 루틴");
-  await page.getByRole("button", { name: "올리기" }).click();
+  await expect(submit).toBeEnabled();
+  await submit.click();
 
   await expect(page.getByText("소개글을 올렸어요")).toBeVisible({ timeout: 15_000 });
   await page.getByRole("button", { name: "확인" }).click();
@@ -50,7 +58,11 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
     page.getByRole("button", { name: /^\d+일차에 담기$/ }),
   ).toHaveCount(0);
 
-  const dayRow = page.getByRole("button").filter({ hasText: /^1일차 · / });
+  // 일차 선택 시트 안에서만 찾는다 — 피드 카드 제목도 "1일차 · …" 일 수 있다(라이브 데이터).
+  const picker = page
+    .getByRole("heading", { name: "어느 일차에 담을까요?" })
+    .locator("xpath=..");
+  const dayRow = picker.getByRole("button").filter({ hasText: /^1일차 · / });
   await dayRow.first().click();
 
   // 1일차엔 이미 운동이 있으니 덮어쓰기 확인을 한 번 받는다.

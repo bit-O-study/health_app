@@ -1,0 +1,10 @@
+{
+  "id": "kettlebell-goblet-squat",
+  "equipment": "kettlebell",
+  "panels": 16,
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/goblet-squat"
+  ],
+  "prompt": "Original pearl-gray anatomical3D mannequin, tealshorts grayshoes, plain graystudio.16equal square animationkeyframes in4columns4rows2048x2048. FixedthreequarterSIDEcamera, same scale, fullhead/feet/equipmentwithincentral70percent eachcell.16successive small steps ofone half-rep,rowmajor,no resetnewrow. No labels,text,arrows,logos. KETTLEBELL GOBLET SQUAT. ONE black kettlebell held bybothhorns atchest, bellbodyhangingbelowhandle, elbowsdown. Feetshoulderwidthslighttoeout, heelsflat. Startupright.16DESCENTphases flexhips/knees sohipsdescendbetweenfeet tothighsparallel. Keep kettlebellclosechest samegrip, chestuprightneutralspine, elbowsbetweenkneesatbottom, kneestracktoes, feetfixed. No dumbbell,no swingingbell,no backrounding,no heelslift. Bodyandbell clearlyvisible allpanels.",
+  "registeredAt": "2026-09-09T07:56:37.177Z"
+}

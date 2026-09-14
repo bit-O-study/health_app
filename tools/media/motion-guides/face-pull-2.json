@@ -1,0 +1,11 @@
+{
+  "prompt": "Square 4 by 4 sprite sheet, exactly sixteen equal square frames of a standing cable ROPE FACE PULL. Gray anatomical muscular man in teal shorts and gray shoes, realistic clean 3D instruction. Fixed front-side three-quarter full body camera so both hands remain visible. Cable tower at image left, pulley at man's eye height, man on right facing left. One cable leads to center of a long two-ended rope held one end in each hand. Frame1 arms extended toward pulley at eye level. Across sixteen evenly spaced increments pull rope toward face, separating hands to beside cheeks, elbows moving outward and backward to shoulder height, ending elbows bent90 degrees and hands beside face. Feet remain hip width flat, knees softly bent, torso upright and stationary. Return is not shown; single continuous pull progression across all rows. Keep entire character, cable and tower inside each cell with wide safe margins. Identical body location, camera, scale, floor height across all cells. Gray seamless studio, no text, no dividing lines, no grids.",
+  "equipment": "cable",
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/face-pull"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "face-pull-2",
+  "registeredAt": "2026-09-11T16:02:21.256Z"
+}

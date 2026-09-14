@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
-import { ArrowRight, Flag, X } from "lucide-react";
+import { ChevronRight, Flag, X } from "lucide-react";
 
 import { BodyLogForm } from "@/features/profile/components/body-log-form";
 
@@ -63,47 +63,37 @@ export function TodayGoalCard({
         <button
           type="button"
           onClick={() => setLogOpen(true)}
-          className="app-card w-full bg-emerald-50/70 p-4 text-left transition hover:-translate-y-0.5 active:scale-[0.99] dark:bg-emerald-950/25"
+          className="app-card w-full p-4 text-left transition active:scale-[0.99]"
         >
-          <div className="flex items-center gap-3">
-            <span className="min-w-0 flex-1 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+          <span className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+            <span className="min-w-0 flex-1">
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>
-            <ArrowRight
+            <ChevronRight
               aria-hidden="true"
-              size={18}
-              className="shrink-0 text-emerald-500"
+              size={16}
+              className="shrink-0 text-zinc-400"
             />
-          </div>
+          </span>
 
           {goal.reached ? (
-            <p className="mt-3 text-center text-lg font-black text-emerald-700 dark:text-emerald-300">
+            <span className="mt-1 block text-xl font-bold text-brand">
               목표 달성 🎉
-            </p>
+            </span>
           ) : (
             <>
-              {/* 왼쪽 현재값 / 오른쪽 목표값 — 정가운데를 얇은 구분선으로 반씩 나눈다. */}
-              <div className="mt-3 grid grid-cols-2">
-                <div className="border-r border-emerald-200/70 pr-2.5 text-center dark:border-emerald-900/50">
-                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
-                    현재
-                  </span>
-                  <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
-                    {goal.currentText}
-                  </span>
-                </div>
-                <div className="pl-2.5 text-center">
-                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
-                    목표
-                  </span>
-                  <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
-                    {goal.targetText}
-                  </span>
-                </div>
-              </div>
-              <p className="mt-2 text-center text-sm font-bold text-emerald-600 dark:text-emerald-400">
+              {/* 현재 → 목표 한 줄. 큰 숫자는 지금 값 하나만. */}
+              <span className="mt-1 flex flex-wrap items-baseline gap-x-2 tabular-nums">
+                <span className="text-xl font-bold text-zinc-950 dark:text-zinc-50">
+                  {goal.currentText}
+                </span>
+                <span className="text-sm text-zinc-500 dark:text-zinc-400">
+                  → 목표 {goal.targetText}
+                </span>
+              </span>
+              <span className="mt-0.5 block text-sm text-brand">
                 {goal.remainingText} 남았어요
-              </p>
+              </span>
             </>
           )}
         </button>
@@ -114,7 +104,7 @@ export function TodayGoalCard({
         <div className="app-card p-4">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-              <Flag aria-hidden="true" size={15} className="text-emerald-600" />내
+              <Flag aria-hidden="true" size={15} className="text-brand" />내
               다짐
             </h2>
             <Link
@@ -150,7 +140,7 @@ export function TodayGoalCard({
                       style={{ width: `${Math.min(100, Math.max(0, m.pct))}%` }}
                     />
                   </div>
-                  <span className="w-24 shrink-0 text-right text-[11px] font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="w-24 shrink-0 text-right text-xs font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
                     {m.valueText}
                   </span>
                 </div>

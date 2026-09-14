@@ -12,6 +12,10 @@
   --muted: #647067;
   --brand: #087f5b;
   --brand-soft: #dff7ec;
+  /* 의미색은 두 개뿐 — 주의(부족·미달)와 위험(삭제·오류). 그 밖의 색은 쓰지 않는다. */
+  --warn: #a8650a;
+  --danger: #b4321f;
+  /* 그림자는 떠 있는 것(모달·시트·토스트)에만. 카드는 테두리만 쓴다. */
   --shadow-card: 0 1px 2px rgba(19, 48, 33, 0.04), 0 12px 32px rgba(19, 48, 33, 0.06);
 }
 
@@ -24,13 +28,24 @@
   --muted: #9ba9a0;
   --brand: #45d6a0;
   --brand-soft: #133c2d;
+  --warn: #e0a24a;
+  --danger: #ef7d69;
   color-scheme: dark;
 }
 
+/* 토큰을 Tailwind 클래스로 연결한다(text-brand · bg-brand-soft · border-warn …).
+   예전엔 --brand 가 클래스로 이어져 있지 않아 컴포넌트마다 emerald-* 를 직접 썼고,
+   초록도 토큰 값과 상태바 값 두 가지로 갈렸다(지금은 #087f5b 하나). */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --font-sans: "Pretendard Variable", Pretendard, var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 }
 
@@ -47,7 +62,8 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), "Pretendard Variable", Pretendard, Arial, sans-serif;
+  /* 한글이 기기 기본 폰트로 나오지 않게 Pretendard 를 맨 앞에(layout.tsx 에서 실제로 불러온다). */
+  font-family: "Pretendard Variable", Pretendard, var(--font-geist-sans), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   overscroll-behavior: none;
   /* 한국어 줄바꿈: 음절 단위로 끊지 말고(=한 글자씩 줄바꿈 방지) 어절(공백) 단위로.
      단, 한 어절이 칸보다 길면 그때만 분해해 오버플로 방지. */
@@ -60,12 +76,10 @@ body {
 
 /* 리뉴얼 공통 표면. 페이지별 데이터/동작은 유지하고 시각 언어만 한 곳에서 관리한다. */
 @layer components {
+  /* 바탕은 단색 — 장식 그라데이션은 뺐다(2026-09-14 화면 간결화). */
   .app-page {
     min-height: 100dvh;
-    background:
-      radial-gradient(circle at 8% -8%, rgba(52, 211, 153, 0.12), transparent 27rem),
-      radial-gradient(circle at 96% 12%, rgba(45, 212, 191, 0.08), transparent 24rem),
-      var(--background);
+    background: var(--background);
     color: var(--foreground);
   }
 
@@ -85,11 +99,11 @@ body {
     backdrop-filter: blur(20px) saturate(140%);
   }
 
+  /* 카드는 한 가지 — 모서리 16px, 테두리만(그림자 없음). */
   .app-card {
     border: 1px solid var(--line);
-    border-radius: 1.25rem;
-    background: var(--surface);
-    box-shadow: var(--shadow-card);
+    border-radius: 1rem;
+    background: var(--surface-strong);
   }
 
   /* 톤 카드/셀 표면 — 부위색은 배지·점에만 두고 바탕은 토큰으로 통일한다.
@@ -161,7 +175,7 @@ body::before {
   position: fixed;
   inset: 0 0 auto 0;
   height: env(safe-area-inset-top);
-  background: #059669; /* themeColor 와 동일(에메랄드) — 상태바 띠 */
+  background: #087f5b; /* themeColor 와 동일(브랜드 --brand 라이트 값) — 상태바 띠 */
   z-index: 40;
 }
 

@@ -96,11 +96,12 @@ function TabInner({
     : "text-zinc-500 dark:text-zinc-400";
   return (
     <span
-      className={`relative flex h-[3.75rem] min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 text-[9px] font-bold leading-none transition-colors min-[360px]:text-[10px] min-[430px]:text-[11px] ${
-        highlight ? "text-emerald-700 dark:text-emerald-400" : inactive
+      // 라벨은 11px 고정 — 앱 전체 최소 글자(12px)의 유일한 예외. 예전엔 좁은 폰에서 9px 까지 줄었다.
+      className={`relative flex h-[3.75rem] min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 text-[11px] leading-none transition-colors ${
+        highlight ? "font-semibold text-brand" : `font-medium ${inactive}`
       }`}
     >
-      <span className={`flex h-7 min-w-9 items-center justify-center rounded-full px-2 transition-all ${highlight ? "bg-emerald-100 shadow-sm dark:bg-emerald-950" : ""}`}>
+      <span className={`flex h-7 min-w-9 items-center justify-center rounded-full px-2 transition-colors ${highlight ? "bg-brand-soft" : ""}`}>
         {pending ? (
           <Loader2 aria-hidden="true" size={20} className="animate-spin" />
         ) : (

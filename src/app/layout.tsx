@@ -3,6 +3,9 @@ import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+// 한글 본문 폰트. 글자 범위별로 잘린 woff2 라 화면에 나온 글자 조각만 받는다.
+// (예전엔 globals.css 에 이름만 적고 불러오는 코드가 없어 기기 기본 폰트로 나왔다.)
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
@@ -70,7 +73,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#059669",
+  themeColor: "#087f5b",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,

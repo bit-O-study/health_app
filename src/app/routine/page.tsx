@@ -62,11 +62,10 @@ import {
   TodayEditBar,
 } from "@/features/routine/components/today-edit-scope";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
-import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
 import type { WeeklyTrainingView } from "@/features/routine/weekly-training-view";
-import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
+import { WeeklyOverviewCard } from "@/features/routine/components/weekly-overview-card";
 import type { WeeklyReport } from "@/features/routine/weekly-report";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
@@ -552,17 +551,14 @@ function TodayWorkout({
           </div>
         )}
 
-        {/* 이번 주 한눈에 — 홈·캘린더와 **같은 카드/같은 집계**의 간단형.
-            운동탭이 '오늘'만 말하고 끝나면 이번 주 흐름이 안 보인다. */}
-        {weekly ? <WeeklyReportCard report={weekly} compact /> : null}
-
-        {/* 어느 부위가 비었는지 — 오늘 무엇을 담을지 정하는 그 자리에 둔다. */}
-        {training ? (
-          <WeeklyTrainingSummary
-            regions={training.regions}
-            weekSets={training.weekSets}
-          />
-        ) : null}
+        {/* 이번 주 한눈에 + 어느 부위가 비었는지 — 홈과 **같은 카드/같은 집계** 한 장.
+            운동탭이 '오늘'만 말하고 끝나면 이번 주 흐름이 안 보이고, 빈 부위는
+            오늘 무엇을 담을지 정하는 이 자리에서 봐야 쓸모가 있다. */}
+        <WeeklyOverviewCard
+          report={weekly}
+          regions={training?.regions ?? []}
+          weekSets={training?.weekSets ?? 0}
+        />
 
         {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
         <UpcomingSevenDaysGrid

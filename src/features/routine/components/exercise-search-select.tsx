@@ -332,7 +332,7 @@ function FilterChip({
           ? "border-transparent text-white"
           : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300"
       }`}
-      style={active ? { backgroundColor: color ?? "#059669" } : undefined}
+      style={active ? { backgroundColor: color ?? "#087f5b" } : undefined}
     >
       {color ? (
         <span

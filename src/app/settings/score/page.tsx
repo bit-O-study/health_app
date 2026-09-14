@@ -253,7 +253,7 @@ export default async function ScorePage() {
               cy={C}
               r={R}
               fill="none"
-              stroke="#059669"
+              stroke="#087f5b"
               strokeWidth={14}
               strokeLinecap="round"
               strokeDasharray={circ}

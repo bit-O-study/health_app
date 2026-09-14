@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  ArrowUpRight,
-  Check,
-  Settings,
-  Target,
-} from "lucide-react";
+import { Settings } from "lucide-react";
 
 import { Logo } from "@/features/brand/logo";
 import { PromoBanner } from "@/features/cross-promo/promo-banner";
@@ -16,13 +11,12 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
 import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
-import { DietExerciseCard } from "@/features/home/components/diet-exercise-card";
+import { TodayCard } from "@/features/home/components/today-card";
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
-import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
-import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
-import { WeatherBackground } from "@/features/home/components/weather-background";
+import { WeeklyOverviewCard } from "@/features/routine/components/weekly-overview-card";
+import { seoulYmd } from "@/features/routine/data";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +25,14 @@ export const metadata: Metadata = {
   description: "내 운동 현황과 오늘의 다짐을 한눈에.",
 };
 
+/**
+ * 홈 — 위에서부터 **목표 → 오늘 → 이번 주 → 잔디 → 광고** 한 줄로.
+ *
+ * 2026-09-14 화면 간결화: 광고 배너·권한 배너 2장이 내 정보보다 먼저 뜨고 카드가
+ * 최대 9개였다. 다짐+식단은 '오늘' 한 장, 주간 요약+훈련은 '이번 주' 한 장으로 합치고
+ * 광고는 맨 아래 한 줄로 내렸다. 날씨 배경은 카드에 가려 보이지 않는데 위치 권한만
+ * 묻고 있어서 뺐다.
+ */
 export default async function HomePage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
@@ -59,14 +61,15 @@ export default async function HomePage() {
     contributions,
   } = dashboard;
 
-  const doneCount = todayCommitments.filter((c) => c.done).length;
+  const [, mm, dd] = seoulYmd().split("-");
+  const dateLabel = `${Number(mm)}월 ${Number(dd)}일`;
+
   return (
     <div className="app-page overflow-x-clip">
-      <WeatherBackground />
       <header className="app-header">
-        <nav className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3 sm:px-6 sm:py-3.5">
+        <nav className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
           <Link href="/home" className="flex items-center gap-2" aria-label="홈">
-            <Logo />
+            <Logo size={28} />
           </Link>
           <div className="flex items-center gap-1">
             <NotificationBell />
@@ -81,77 +84,34 @@ export default async function HomePage() {
         </nav>
       </header>
 
-      <main className="app-container">
-        <PromoBanner />
+      <main className="app-container space-y-3">
         <PermissionNudge />
 
-        <div className="grid gap-3 md:grid-cols-2 md:items-start">
-          <div className="space-y-3">
-            <TodayGoalCard
-              goal={goalCard}
-              missions={[]}
-              totalMissions={0}
-              current={current}
-            />
-            <DietExerciseCard
-              need={dietExerciseNeed}
-              macroRemaining={macroRemaining}
-              hasFoodLog={hasFoodLog}
-            />
-          </div>
+        <TodayGoalCard
+          goal={goalCard}
+          missions={[]}
+          totalMissions={0}
+          current={current}
+        />
 
-          <div className="space-y-3">
-            <Link
-              href="/commitments"
-              className="app-card group block p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/20 sm:p-5"
-            >
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <div className="flex min-w-0 items-center gap-2">
-                  <Target aria-hidden="true" size={15} className="shrink-0 text-emerald-500" />
-                  <span className="truncate text-sm font-black text-zinc-900 dark:text-zinc-100">오늘의 다짐</span>
-                  {todayCommitments.length > 0 ? (
-                    <span className="shrink-0 text-[11px] font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
-                      {doneCount}/{todayCommitments.length}
-                    </span>
-                  ) : null}
-                </div>
-                <ArrowUpRight aria-hidden="true" size={16} className="shrink-0 text-zinc-300 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:text-zinc-600" />
-              </div>
+        <TodayCard
+          dateLabel={dateLabel}
+          commitments={todayCommitments}
+          need={dietExerciseNeed}
+          macroRemaining={macroRemaining}
+          hasFoodLog={hasFoodLog}
+        />
 
-              {todayCommitments.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
-                  오늘 진행 중인 다짐이 없어요. 작은 목표부터 만들어 보세요.
-                </p>
-              ) : (
-                <ul className="space-y-2.5">
-                  {todayCommitments.map((c) => (
-                    <li key={c.id} className="flex min-w-0 items-center gap-3">
-                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${c.done ? "border-emerald-500 bg-emerald-500 text-white" : "border-zinc-300 dark:border-zinc-600"}`}>
-                        {c.done ? <Check aria-hidden="true" size={12} strokeWidth={3} /> : null}
-                      </span>
-                      <span className={`text-safe min-w-0 flex-1 text-sm leading-5 ${c.done ? "font-medium text-zinc-400 line-through dark:text-zinc-600" : "font-semibold text-zinc-800 dark:text-zinc-200"}`}>
-                        {c.title}
-                      </span>
-                      <span className="max-w-24 shrink-0 truncate text-xs font-medium tabular-nums text-zinc-400 dark:text-zinc-500">{c.valueText}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Link>
+        <WeeklyOverviewCard
+          report={weekly}
+          regions={training?.regions ?? []}
+          weekSets={training?.weekSets ?? 0}
+        />
 
-            <WeeklyReportCard report={weekly} />
+        <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
 
-            {/* 이번 주 어디를 안 했는지 한 줄. 전체 분석은 눌러서 점수 화면으로. */}
-            {training ? (
-              <WeeklyTrainingSummary
-                regions={training.regions}
-                weekSets={training.weekSets}
-              />
-            ) : null}
-
-            <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
-          </div>
-        </div>
+        {/* 광고는 맨 아래 한 줄 — 내 기록보다 먼저 보이지 않게. */}
+        <PromoBanner />
       </main>
     </div>
   );

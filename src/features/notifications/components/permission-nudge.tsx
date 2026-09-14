@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Bell, Footprints, Loader2 } from "lucide-react";
+import { Bell, Footprints, Loader2, X } from "lucide-react";
 
 import { ensurePushSubscribed } from "@/features/notifications/push-client";
 import {
   hasNativePushPermission,
   registerNativePush,
 } from "@/features/notifications/native-push";
+import { pickNudge } from "@/features/notifications/nudge-pick";
 import { connectSteps, getStepsState } from "@/features/health/steps-native";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 
@@ -19,9 +20,13 @@ const STEPS_DISMISS = "heltch.nudge.steps.dismissed";
 
 /**
  * 권한 넛지 — 접속할 때마다(세션마다) 확인해서:
- * - 앱 푸시 알림 권한이 아직이면 '알림 켜기' 배너
- * - (네이티브) 걸음수(삼성헬스/Health Connect) 권한이 아직이면 '걸음수 연동' 배너
- * 를 띄운다. 이미 허용됐으면 조용히 넘어가고, '다시는 안 보기'를 누르면 영구히 숨긴다.
+ * - 앱 푸시 알림 권한이 아직이면 알림 한 줄
+ * - (네이티브) 걸음수(삼성헬스/Health Connect) 권한이 아직이면 걸음수 한 줄
+ * 을 띄운다. **둘 다 필요해도 한 번에 한 줄만**(pickNudge) — 화면 맨 위를 배너가
+ * 차지하지 않게. 이미 허용됐으면 조용히 넘어간다.
+ *
+ * 닫기(✕) 버튼의 이름은 예전 문구('나중에' / '다시는 안 보기')를 그대로 쓴다 —
+ * 동작이 달라서(세션 스누즈 vs 영구) 스크린리더에도 그 차이가 들려야 한다.
  */
 export function PermissionNudge() {
   const [showPush, setShowPush] = useState(false);
@@ -88,7 +93,7 @@ export function PermissionNudge() {
       /* 무시 */
     } finally {
       setBusy(null);
-      // 허용/거부 상관없이 무조건 배너를 닫는다(안 닫히면 버그로 오해).
+      // 허용/거부 상관없이 무조건 닫는다(안 닫히면 버그로 오해).
       setShowPush(false);
     }
   }
@@ -122,90 +127,49 @@ export function PermissionNudge() {
     setShowSteps(false);
   }
 
-  if (!showPush && !showSteps) return null;
+  const kind = pickNudge({ push: showPush, steps: showSteps });
+  if (!kind) return null;
+
+  const isPush = kind === "push";
+  const Icon = isPush ? Bell : Footprints;
+  const text = isPush
+    ? pushDenied
+      ? "알림이 차단돼 있어요. 기기 설정에서 허용해 주세요."
+      : "알림을 켜면 운동 리마인더를 받아요"
+    : "걸음수를 연동하면 캘린더에 자동으로 기록돼요";
+  const dismissLabel = isPush ? "나중에" : "다시는 안 보기";
 
   return (
-    <div className="space-y-2">
-      {showPush ? (
-        <NudgeCard
-          icon={<Bell aria-hidden="true" size={18} />}
-          title="알림 켜기"
-          desc={
-            pushDenied
-              ? "알림이 차단돼 있어요. 브라우저/앱 설정에서 알림을 허용해 주세요."
-              : "그룹 응원·운동 리마인더를 알림으로 받아보세요."
-          }
-          busy={busy === "push"}
-          onAllow={allowPush}
-          onDismiss={dismissPush}
-          dismissLabel="나중에"
-        />
-      ) : null}
-      {showSteps ? (
-        <NudgeCard
-          icon={<Footprints aria-hidden="true" size={18} />}
-          title="걸음수 연동"
-          desc="삼성헬스(Health Connect) 걸음수를 연동하면 캘린더에 자동 반영돼요."
-          busy={busy === "steps"}
-          onAllow={allowSteps}
-          onDismiss={dismissSteps}
-        />
-      ) : null}
-    </div>
-  );
-}
-
-function NudgeCard({
-  icon,
-  title,
-  desc,
-  busy,
-  onAllow,
-  onDismiss,
-  dismissLabel = "다시는 안 보기",
-}: {
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  busy: boolean;
-  onAllow: () => void;
-  onDismiss: () => void;
-  dismissLabel?: string;
-}) {
-  return (
-    <div className="flex items-center gap-3 rounded-xl border border-emerald-200 bg-emerald-50 p-3 dark:border-emerald-900 dark:bg-emerald-950/40">
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
-        {icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <p className="text-sm font-bold text-emerald-800 dark:text-emerald-200">
-          {title}
-        </p>
-        <p className="text-[11px] leading-4 text-emerald-700/80 dark:text-emerald-300/80">
-          {desc}
-        </p>
-      </div>
-      <div className="flex shrink-0 flex-col items-end gap-1">
-        <button
-          type="button"
-          onClick={onAllow}
-          disabled={busy}
-          className="inline-flex h-8 items-center gap-1 rounded-lg bg-emerald-600 px-3 text-xs font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
-        >
-          {busy ? (
-            <Loader2 aria-hidden="true" size={13} className="animate-spin" />
-          ) : null}
-          허용
-        </button>
-        <button
-          type="button"
-          onClick={onDismiss}
-          disabled={busy}
-          className="text-[10px] font-semibold text-emerald-700/70 underline-offset-2 hover:underline dark:text-emerald-300/70"
-        >
-          {dismissLabel}
-        </button>
-      </div>
+    <div
+      data-testid="permission-nudge"
+      data-kind={kind}
+      className="app-card flex items-center gap-3 py-2 pl-3.5 pr-2"
+    >
+      <Icon aria-hidden="true" size={16} className="shrink-0 text-brand" />
+      <p className="text-safe min-w-0 flex-1 text-sm leading-5 text-zinc-700 dark:text-zinc-300">
+        {text}
+      </p>
+      <button
+        type="button"
+        onClick={isPush ? allowPush : allowSteps}
+        disabled={busy !== null}
+        className="inline-flex h-8 shrink-0 items-center gap-1 rounded-[10px] px-2.5 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-50"
+      >
+        {busy ? (
+          <Loader2 aria-hidden="true" size={14} className="animate-spin" />
+        ) : null}
+        {isPush ? "켜기" : "연동"}
+      </button>
+      <button
+        type="button"
+        onClick={isPush ? dismissPush : dismissSteps}
+        disabled={busy !== null}
+        aria-label={dismissLabel}
+        title={dismissLabel}
+        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 disabled:opacity-50 dark:hover:bg-white/[0.06] dark:hover:text-zinc-200"
+      >
+        <X aria-hidden="true" size={16} />
+      </button>
     </div>
   );
 }

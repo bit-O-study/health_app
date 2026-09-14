@@ -3,7 +3,8 @@ import { expect, test } from "@playwright/test";
 import { createOnboardedAccount, signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
-// 주간 통합 리포트(로드맵 2.3) — 홈의 '이번 주 요약' 카드.
+// 주간 통합 리포트(로드맵 2.3) — 홈·운동탭의 '이번 주' 카드(2026-09-14 요약·훈련 두 장을 한 장으로 합침).
+// 부위 분포는 무지개 막대 대신 "볼륨 비중 하체 51% · 가슴 49%" 한 줄로 남았다.
 //
 // 핵심은 비교 기준이다. 진행 중인 주를 끝난 주와 통째로 견주면 화요일엔 늘 폭락으로
 // 보인다. 그래서 지난주도 **같은 요일까지** 잘라서 비교한다 — 그 규칙이 화면에
@@ -52,7 +53,7 @@ test("이번 주 요약 카드가 운동·볼륨·부위 분포를 보여준다"
   );
 
   await page.goto("/home", { waitUntil: "networkidle" });
-  const card = page.locator("section", { hasText: "이번 주 요약" }).first();
+  const card = page.getByTestId("weekly-report");
   await expect(card).toBeVisible({ timeout: 10_000 });
 
   // exact — 변화 배지("+4,900kg신규")에도 같은 숫자가 들어간다.
@@ -71,7 +72,7 @@ test("진행 중인 주는 지난주 '같은 요일까지'와 비교한다고 �
   await seedCompletion(email, monday, "squat", 5, 5, 100);
 
   await page.goto("/home", { waitUntil: "networkidle" });
-  const card = page.locator("section", { hasText: "이번 주 요약" }).first();
+  const card = page.getByTestId("weekly-report");
   await expect(card).toBeVisible({ timeout: 10_000 });
 
   // 일요일이면 주가 끝나 전체 비교, 그 외에는 같은 요일까지 비교.
@@ -93,7 +94,7 @@ test("지난주 기록이 없으면 '신규'로 표시한다 — 0에서 늘어�
   await seedCompletion(email, monday, "squat", 5, 5, 100);
 
   await page.goto("/home", { waitUntil: "networkidle" });
-  const card = page.locator("section", { hasText: "이번 주 요약" }).first();
+  const card = page.getByTestId("weekly-report");
   await expect(card.getByText("신규").first()).toBeVisible({ timeout: 10_000 });
 });
 
@@ -104,14 +105,14 @@ test("기록이 하나도 없으면 카드를 띄우지 않는다 — 홈이 0�
   await createOnboardedAccount(page);
 
   await page.goto("/home", { waitUntil: "networkidle" });
-  await expect(page.getByText("이번 주 요약")).toHaveCount(0);
+  await expect(page.getByTestId("weekly-report")).toHaveCount(0);
 });
 
-test("캘린더에는 '이번 주 요약'을 띄우지 않는다", async ({ page }) => {
+test("캘린더에는 '이번 주' 카드를 띄우지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
   await page.goto("/calendar", { waitUntil: "networkidle" });
-  await expect(page.getByText("이번 주 요약")).toHaveCount(0);
+  await expect(page.getByTestId("weekly-report")).toHaveCount(0);
   await expect(page.getByText("이번 달 요약")).toBeVisible();
 });

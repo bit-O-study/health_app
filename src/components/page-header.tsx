@@ -30,7 +30,7 @@ export function PageHeader({
             <span className="sr-only">뒤로</span>
           </BackLink>
         ) : null}
-        <h1 className="min-w-0 flex-1 truncate text-xl font-bold text-zinc-950 dark:text-zinc-50">
+        <h1 className="min-w-0 flex-1 truncate text-2xl font-bold text-zinc-950 dark:text-zinc-50">
           {title}
         </h1>
         {children ? (

@@ -101,7 +101,9 @@ function TabInner({
         highlight ? "font-semibold text-brand" : `font-medium ${inactive}`
       }`}
     >
-      <span className={`flex h-7 min-w-9 items-center justify-center rounded-full px-2 transition-colors ${highlight ? "bg-brand-soft" : ""}`}>
+      {/* 아이폰 탭바처럼 알약 배경 없이 색·굵기만으로 현재 탭을 보여준다. */}
+      <span className="flex h-7 min-w-9 items-center justify-center px-2">
+
         {pending ? (
           <Loader2 aria-hidden="true" size={20} className="animate-spin" />
         ) : (
@@ -144,10 +146,10 @@ export function BottomNav({
   return (
     <nav
       aria-label="주요 메뉴"
-      className={`fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_30px_rgba(18,55,36,0.06)] backdrop-blur-xl ${
+      className={`fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] ${
         groupTheme
-          ? "border-amber-950/15 bg-[#f7c07a]/95 dark:border-amber-800/40 dark:bg-[#5a4326]/95"
-          : "border-emerald-950/10 bg-white/92 dark:border-white/10 dark:bg-background/95"
+          ? "border-amber-950/15 bg-[#f7c07a]/95 backdrop-blur-xl dark:border-amber-800/40 dark:bg-[#5a4326]/95"
+          : "app-glass border-black/5 dark:border-white/10"
       }`}
     >
       <ul className="mx-auto flex w-full max-w-xl px-1">
@@ -159,7 +161,11 @@ export function BottomNav({
                 href={t.href}
                 prefetch={false}
                 aria-current={active ? "page" : undefined}
-                className="block min-w-0 overflow-hidden transition-transform active:scale-95"
+                // 탭을 바꿀 때 짧은 진동(안드로이드). 지원 안 하는 기기에선 아무 일 없음.
+                onClick={() => {
+                  if (!active) navigator.vibrate?.(8);
+                }}
+                className="block min-w-0 overflow-hidden transition-transform active:scale-90"
               >
                 <TabInner
                   Icon={t.icon}

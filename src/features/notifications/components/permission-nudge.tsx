@@ -132,11 +132,12 @@ export function PermissionNudge() {
 
   const isPush = kind === "push";
   const Icon = isPush ? Bell : Footprints;
+  // 짧게 — 설명 문장 대신 무엇을 하는 줄인지만(2026-09-15 "글씨가 너무 많아").
   const text = isPush
     ? pushDenied
-      ? "알림이 차단돼 있어요. 기기 설정에서 허용해 주세요."
-      : "알림을 켜면 운동 리마인더를 받아요"
-    : "걸음수를 연동하면 캘린더에 자동으로 기록돼요";
+      ? "알림이 꺼져 있어요"
+      : "운동 알림 받기"
+    : "걸음수 연동";
   const dismissLabel = isPush ? "나중에" : "다시는 안 보기";
 
   return (

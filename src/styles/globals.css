@@ -3,13 +3,14 @@
 /* Tailwind v4 — class 기반 dark 모드. <html> 또는 그 자손에 .dark 가 붙으면 dark: 변형 활성화. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* 아이폰 설정 앱 같은 그룹 배경 — 연회색 바탕 위에 흰 카드(2026-09-15 "아이폰같이 깔끔하게"). */
 :root {
-  --background: #f4f7f5;
-  --foreground: #17201b;
-  --surface: rgba(255, 255, 255, 0.88);
+  --background: #f2f2f7;
+  --foreground: #111113;
+  --surface: rgba(255, 255, 255, 0.9);
   --surface-strong: #ffffff;
-  --line: rgba(24, 67, 45, 0.1);
-  --muted: #647067;
+  --line: rgba(60, 60, 67, 0.1);
+  --muted: #8a8a8e;
   --brand: #087f5b;
   --brand-soft: #dff7ec;
   /* 의미색은 두 개뿐 — 주의(부족·미달)와 위험(삭제·오류). 그 밖의 색은 쓰지 않는다. */
@@ -20,13 +21,13 @@
 }
 
 .dark {
-  /* 다크 바탕은 초록기 없는 중립 차콜 — 컴포넌트가 쓰는 dark:bg-zinc-900(#18181b)와 톤이 맞고,
-     카드(#18191c)가 바탕(#0c0d0f)보다 한 단계 밝아 경계가 보인다. 초록은 브랜드색에만. */
-  --background: #0c0d0f;
+  /* 다크 바탕은 완전 블랙(OLED) — 사용자 선택(2026-09-15). 카드(#141414)는 바탕보다
+     한 단계 밝고 선은 흰색 12%라 경계가 또렷하다. 초록은 브랜드색에만. */
+  --background: #000000;
   --foreground: #eceef0;
-  --surface: rgba(24, 25, 28, 0.92);
-  --surface-strong: #18191c;
-  --line: rgba(255, 255, 255, 0.09);
+  --surface: rgba(20, 20, 20, 0.92);
+  --surface-strong: #141414;
+  --line: rgba(255, 255, 255, 0.12);
   --muted: #9aa0a6;
   --brand: #45d6a0;
   --brand-soft: #133c2d;
@@ -89,7 +90,8 @@ body {
     width: 100%;
     max-width: 48rem;
     margin-inline: auto;
-    padding: 1.25rem 1rem 2.5rem;
+    padding: 1rem 1rem 2.5rem;
+    animation: app-fade-in 240ms ease-out both;
   }
 
   .app-header {
@@ -97,8 +99,9 @@ body {
     top: 0;
     z-index: 20;
     border-bottom: 1px solid var(--line);
-    background: color-mix(in srgb, var(--background) 82%, transparent);
-    backdrop-filter: blur(20px) saturate(140%);
+    background: color-mix(in srgb, var(--background) 78%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
   }
 
   /* 카드는 한 가지 — 모서리 16px, 테두리만(그림자 없음). */
@@ -120,6 +123,35 @@ body {
     border-color: var(--line);
     background: var(--surface-strong);
     color: var(--foreground);
+  }
+
+  /* 누르면 살짝 눌리는 반응(아이폰 느낌). 링크·버튼 카드에 붙인다. */
+  .app-press {
+    transition: transform 160ms ease, opacity 160ms ease;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .app-press:active {
+    transform: scale(0.98);
+    opacity: 0.85;
+  }
+
+  /* 그룹 목록(아이폰 설정 앱) — 카드 안에서 줄 사이 선을 아이콘 오른쪽부터 긋는다. */
+  .app-list {
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: var(--surface-strong);
+    overflow: hidden;
+  }
+  .app-list > li + li {
+    box-shadow: inset 3.75rem 1px 0 var(--surface-strong), inset 0 1px 0 var(--line);
+  }
+
+  /* 반투명 블러 막대(하단 탭·머리글). */
+  .app-glass {
+    background: color-mix(in srgb, var(--background) 78%, transparent);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
   }
 
   .text-safe {
@@ -191,6 +223,17 @@ body::before {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* 화면이 바뀔 때 내용이 살짝 떠오르며 나타난다(동작 줄이기 설정이면 위 규칙으로 꺼진다). */
+@keyframes app-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 제목은 아이폰처럼 자간을 조금 좁힌다. */
+h1, h2 {
+  letter-spacing: -0.02em;
 }
 
 /* ── 실사 시연 사진 교차 재생(시작 ↔ 끝 프레임) ─────────────────────────── */

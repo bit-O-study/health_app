@@ -46,10 +46,18 @@ describe("디자인 토큰", () => {
     expect(card.reduce((a, b) => a + b)).toBeGreaterThan(bg.reduce((a, b) => a + b) + 30);
   });
 
-  it("하단 탭 다크 바탕도 토큰을 쓴다(옛 초록 hex 없음)", () => {
+  it("하단 탭은 토큰 기반 반투명 블러(app-glass) — 옛 초록 hex·알약 배경 없음", () => {
     const nav = read("src/components/bottom-nav.tsx");
-    expect(nav).toContain("dark:bg-background/95");
+    expect(nav).toContain("app-glass");
     expect(nav).not.toContain("#101713");
+    expect(nav).not.toContain("bg-brand-soft");
+    expect(css).toMatch(/\.app-glass \{[^}]*backdrop-filter/);
+  });
+
+  it("아이폰 느낌 공통 클래스(누름 반응·그룹 목록·등장 효과)가 있다", () => {
+    expect(css).toMatch(/\.app-press:active \{[^}]*transform: scale\(0\.98\)/);
+    expect(css).toContain(".app-list {");
+    expect(css).toContain("@keyframes app-fade-in");
   });
 
   it(".app-card 는 모서리 16px · 테두리만(그림자 없음)", () => {
@@ -262,6 +270,20 @@ describe("커뮤니티·설정 소음 제거 (5단계)", () => {
     expect(reels).not.toContain("fuchsia");
     expect(reels.match(/gradient/g)?.length ?? 0).toBe(1);
     expect(reels).toContain("bg-gradient-to-t from-black/70");
+  });
+
+  it("화면 밝기는 설명 문구 없는 세그먼트 한 줄(권장·어두운 배경 같은 글 없음)", () => {
+    const picker = read("src/features/theme/theme-picker.tsx");
+    expect(picker).toContain('role="radiogroup"');
+    for (const noisy of ["권장", "어두운 배경", "밝은 배경", "OS 설정", "현재 적용"]) {
+      expect(picker, noisy).not.toContain(noisy);
+    }
+  });
+
+  it("설정은 아이폰식 그룹 목록 — 행에 설명 문구가 없다", () => {
+    const settings = read("src/app/settings/page.tsx");
+    expect(settings).toContain('className="app-list"');
+    expect(settings).not.toContain("desc:");
   });
 
   it("설정은 공통 행(SettingsRow) 하나로 — 행마다 다른 색 칩이 없다", () => {

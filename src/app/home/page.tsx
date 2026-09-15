@@ -26,12 +26,12 @@ export const metadata: Metadata = {
 };
 
 /**
- * 홈 — 위에서부터 **목표 → 오늘 → 이번 주 → 잔디 → 광고** 한 줄로.
+ * 홈 — 위에서부터 **광고 배너 → 목표 → 오늘 → 이번 주 → 잔디**.
  *
- * 2026-09-14 화면 간결화: 광고 배너·권한 배너 2장이 내 정보보다 먼저 뜨고 카드가
- * 최대 9개였다. 다짐+식단은 '오늘' 한 장, 주간 요약+훈련은 '이번 주' 한 장으로 합치고
- * 광고는 맨 아래 한 줄로 내렸다. 날씨 배경은 카드에 가려 보이지 않는데 위치 권한만
- * 묻고 있어서 뺐다.
+ * 2026-09-14 화면 간결화: 카드가 최대 9개였다. 다짐+식단은 '오늘' 한 장, 주간 요약+훈련은
+ * '이번 주' 한 장으로 합치고, 권한 배너는 한 번에 한 줄만. 날씨 배경은 카드에 가려 보이지
+ * 않는데 위치 권한만 묻고 있어서 뺐다.
+ * 광고 배너는 한때 맨 아래 한 줄로 내렸다가 사용자 요청으로 **맨 위 사진 배너로 원상복구**했다.
  */
 export default async function HomePage() {
   const user = await getCurrentUser();
@@ -85,6 +85,8 @@ export default async function HomePage() {
       </header>
 
       <main className="app-container space-y-3">
+        {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
+        <PromoBanner />
         <PermissionNudge />
 
         <TodayGoalCard
@@ -109,9 +111,6 @@ export default async function HomePage() {
         />
 
         <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
-
-        {/* 광고는 맨 아래 한 줄 — 내 기록보다 먼저 보이지 않게. */}
-        <PromoBanner />
       </main>
     </div>
   );

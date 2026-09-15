@@ -147,7 +147,7 @@ export function BottomNav({
       className={`fixed inset-x-0 bottom-0 z-30 border-t pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_30px_rgba(18,55,36,0.06)] backdrop-blur-xl ${
         groupTheme
           ? "border-amber-950/15 bg-[#f7c07a]/95 dark:border-amber-800/40 dark:bg-[#5a4326]/95"
-          : "border-emerald-950/10 bg-white/92 dark:border-white/10 dark:bg-[#101713]/94"
+          : "border-emerald-950/10 bg-white/92 dark:border-white/10 dark:bg-background/95"
       }`}
     >
       <ul className="mx-auto flex w-full max-w-xl px-1">

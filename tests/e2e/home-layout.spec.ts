@@ -3,10 +3,10 @@ import { expect, test } from "@playwright/test";
 import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
-// 2026-09-14 화면 간결화 — 홈은 목표 → 오늘 → 이번 주 → 잔디 → 광고(맨 아래) 한 줄.
+// 2026-09-14 화면 간결화 — 홈은 광고 배너(맨 위, 원상복구) → 목표 → 오늘 → 이번 주 → 잔디.
 // 날씨 배경은 카드에 가려 안 보이는데 위치 권한만 물어서 뺐다.
 
-test("홈: 블록 순서가 오늘 → 잔디 → 광고이고, 권한 줄은 하나뿐이다", async ({ page }) => {
+test("홈: 블록 순서가 광고 배너 → 오늘 → 잔디이고, 권한 줄은 하나뿐이다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
   await page.goto("/home", { waitUntil: "networkidle" });
@@ -28,12 +28,12 @@ test("홈: 블록 순서가 오늘 → 잔디 → 광고이고, 권한 줄은 �
           /일 운동 ·/.test(p.textContent ?? ""),
         ) ?? null,
       ),
-      promo: at(document.querySelector('[data-testid="promo-banner"]')),
+      promo: at(document.querySelector('section[aria-label="함께하는 서비스"]')),
     };
   });
-  expect(order.today).toBeGreaterThanOrEqual(0);
+  expect(order.promo).toBeGreaterThanOrEqual(0);
+  expect(order.today).toBeGreaterThan(order.promo);
   expect(order.grass).toBeGreaterThan(order.today);
-  expect(order.promo).toBeGreaterThan(order.grass);
 
   // 알림·걸음수 배너가 두 장 겹쳐 뜨지 않는다.
   expect(await page.getByTestId("permission-nudge").count()).toBeLessThanOrEqual(1);

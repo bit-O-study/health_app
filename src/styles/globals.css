@@ -20,12 +20,14 @@
 }
 
 .dark {
-  --background: #0d1410;
-  --foreground: #f0f7f2;
-  --surface: rgba(22, 32, 26, 0.9);
-  --surface-strong: #16201a;
-  --line: rgba(207, 247, 224, 0.1);
-  --muted: #9ba9a0;
+  /* 다크 바탕은 초록기 없는 중립 차콜 — 컴포넌트가 쓰는 dark:bg-zinc-900(#18181b)와 톤이 맞고,
+     카드(#18191c)가 바탕(#0c0d0f)보다 한 단계 밝아 경계가 보인다. 초록은 브랜드색에만. */
+  --background: #0c0d0f;
+  --foreground: #eceef0;
+  --surface: rgba(24, 25, 28, 0.92);
+  --surface-strong: #18191c;
+  --line: rgba(255, 255, 255, 0.09);
+  --muted: #9aa0a6;
   --brand: #45d6a0;
   --brand-soft: #133c2d;
   --warn: #e0a24a;

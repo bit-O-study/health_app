@@ -31,6 +31,27 @@ describe("디자인 토큰", () => {
     }
   });
 
+  it("다크 바탕은 초록기 없는 중립색이고, 카드가 바탕보다 밝다", () => {
+    const dark = css.slice(css.indexOf(".dark {"), css.indexOf("@theme inline"));
+    const hex = (name: string) => {
+      const m = dark.match(new RegExp(`--${name}: #([0-9a-f]{6});`));
+      expect(m, name).not.toBeNull();
+      return [0, 2, 4].map((i) => parseInt(m![1].slice(i, i + 2), 16));
+    };
+    const bg = hex("background");
+    const card = hex("surface-strong");
+    // R·G·B 차이가 작다 = 색이 끼지 않은 회색 계열.
+    expect(Math.max(...bg) - Math.min(...bg)).toBeLessThanOrEqual(4);
+    expect(Math.max(...card) - Math.min(...card)).toBeLessThanOrEqual(6);
+    expect(card.reduce((a, b) => a + b)).toBeGreaterThan(bg.reduce((a, b) => a + b) + 30);
+  });
+
+  it("하단 탭 다크 바탕도 토큰을 쓴다(옛 초록 hex 없음)", () => {
+    const nav = read("src/components/bottom-nav.tsx");
+    expect(nav).toContain("dark:bg-background/95");
+    expect(nav).not.toContain("#101713");
+  });
+
   it(".app-card 는 모서리 16px · 테두리만(그림자 없음)", () => {
     const card = css.slice(css.indexOf(".app-card {"));
     const body = card.slice(0, card.indexOf("}"));
@@ -79,13 +100,13 @@ describe("한글 폰트", () => {
 describe("홈 구성", () => {
   const home = read("src/app/home/page.tsx");
 
-  it("목표 → 오늘 → 이번 주 → 잔디 → 광고 순서", () => {
+  it("광고 배너(맨 위) → 목표 → 오늘 → 이번 주 → 잔디 순서", () => {
     const order = [
+      "<PromoBanner",
       "<TodayGoalCard",
       "<TodayCard",
       "<WeeklyOverviewCard",
       "<ContributionGraph",
-      "<PromoBanner",
     ].map((tag) => home.indexOf(tag));
     expect(order.every((i) => i >= 0), order.join(",")).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
@@ -106,10 +127,10 @@ describe("홈 구성", () => {
     );
   });
 
-  it("광고는 사진 배너가 아니라 카드 모양 한 줄", () => {
+  it("광고 배너는 원래 사진 배너 그대로(사용자 요청 원상복구)", () => {
     const promo = read("src/features/cross-promo/promo-banner.tsx");
-    expect(promo).toContain("app-card");
-    expect(promo).not.toMatch(/min-h-\[1\d\dpx\]/);
+    expect(promo).toContain("min-h-[154px]");
+    expect(promo).toContain('aria-label="광고 배너 선택"');
   });
 });
 
@@ -157,9 +178,11 @@ function sourceFiles(): [string, string][] {
 
 describe("글자·굵기·카드 규칙 (앱 전체)", () => {
   const files = sourceFiles();
+  // 광고 배너는 사용자 요청으로 원래 모양 그대로 둔다(2026-09-15) — 글자·굵기 규칙 예외.
+  const ORIGINAL_PROMO = "src/features/cross-promo/promo-banner.tsx";
   const offenders = (re: RegExp, allow: string[] = []) =>
     files.flatMap(([rel, src]) =>
-      allow.includes(rel)
+      allow.includes(rel) || rel === ORIGINAL_PROMO
         ? []
         : src
             .split("\n")

@@ -103,7 +103,7 @@ export function FindPasswordForm() {
     return (
       <div className="w-full max-w-sm app-card p-7">
         <div className="mb-3 flex items-center gap-2">
-          <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={20} />
+          <CheckCircle2 aria-hidden="true" className="text-brand" size={20} />
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
             비밀번호 변경 완료
           </h2>
@@ -116,7 +116,7 @@ export function FindPasswordForm() {
         </p>
         <Link
           href="/login"
-          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500"
+          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
         >
           로그인하기
         </Link>
@@ -128,7 +128,7 @@ export function FindPasswordForm() {
     return (
       <div className="w-full max-w-sm app-card p-7">
         <div className="mb-5 flex items-center gap-2">
-          <MailCheck aria-hidden="true" className="text-emerald-600" size={20} />
+          <MailCheck aria-hidden="true" className="text-brand" size={20} />
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
             인증번호 입력 & 새 비밀번호
           </h2>

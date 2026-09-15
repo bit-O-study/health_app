@@ -101,7 +101,7 @@ export function ReportButton({
             </div>
 
             {done ? (
-              <p className="py-8 text-center text-sm font-bold text-emerald-600 dark:text-emerald-400">
+              <p className="py-8 text-center text-sm font-bold text-brand">
                 신고가 접수되었어요. 감사합니다 🙏
               </p>
             ) : (

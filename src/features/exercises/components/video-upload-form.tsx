@@ -99,7 +99,7 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
           <input
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            className="h-11 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-11 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
             placeholder="예: 스쿼트 측면 자세"
             type="text"
           />
@@ -118,7 +118,7 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
 
       <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-300"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-brand/60"
           disabled={isUploading}
           type="submit"
         >

@@ -153,14 +153,14 @@ export function MealScanForm({
                   aria-pressed={!!checked[i]}
                   className={`flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition ${
                     checked[i]
-                      ? "border-emerald-400 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950/30"
+                      ? "border-brand/40 bg-brand-soft"
                       : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
                   }`}
                 >
                   <span
                     className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
                       checked[i]
-                        ? "border-emerald-500 bg-emerald-500 text-white"
+                        ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                         : "border-zinc-300 dark:border-zinc-600"
                     }`}
                   >
@@ -190,7 +190,7 @@ export function MealScanForm({
             type="button"
             disabled={!anyChecked}
             onClick={addSelected}
-            className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             선택한 음식 담기
           </button>

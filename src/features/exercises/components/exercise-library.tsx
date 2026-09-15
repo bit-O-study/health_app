@@ -72,9 +72,9 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
                 <Link
                   key={ex.id}
                   href={`/exercises/${ex.id}`}
-                  className="group rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md"
+                  className="group rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-brand/40 hover:shadow-md"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-brand-soft text-brand">
                     <ExerciseIcon id={ex.id} size={28} />
                   </div>
                   <div className="mt-5 space-y-3">
@@ -94,7 +94,7 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
                         </span>
                       ))}
                     </div>
-                    <div className="flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                    <div className="flex items-center gap-1 text-xs font-semibold text-brand">
                       운동법 보기
                       <ArrowRight
                         aria-hidden="true"
@@ -131,15 +131,15 @@ function FilterChip({
       className={cn(
         "inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full border px-3 text-xs font-semibold transition",
         active
-          ? "border-emerald-600 bg-emerald-600 text-white"
-          : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400",
+          ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
+          : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft hover:text-brand",
       )}
     >
       {label}
       <span
         className={cn(
           "text-xs font-bold",
-          active ? "text-emerald-100" : "text-zinc-400 dark:text-zinc-500",
+          active ? "text-white/90" : "text-zinc-400 dark:text-zinc-500",
         )}
       >
         {count}

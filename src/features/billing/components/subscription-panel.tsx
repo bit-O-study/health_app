@@ -133,7 +133,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             data-testid="subscribe-button"
             disabled={pending || status.premium}
             onClick={() => run(() => purchaseSubscription(PREMIUM_PRODUCT_ID))}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             {pending ? (
               <Loader2 aria-hidden="true" size={15} className="animate-spin" />

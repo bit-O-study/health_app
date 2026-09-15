@@ -111,7 +111,7 @@ export function ExerciseTutorial({
             key={`focus-${active}`}
             data-testid="ex-focus-marker"
             data-part={focus.part}
-            className="ex-cap absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-500/95 px-2.5 py-1 text-xs font-bold text-white shadow-lg backdrop-blur-sm"
+            className="ex-cap absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-white dark:text-zinc-950 shadow-lg backdrop-blur-sm"
           >
             <Eye size={12} aria-hidden="true" />
             {focus.part}
@@ -141,7 +141,7 @@ export function ExerciseTutorial({
                     ? "bg-violet-500"
                     : kind === "tip"
                       ? "bg-amber-500"
-                      : "bg-emerald-500";
+                      : "bg-brand";
               const dot =
                 kind === "setup"
                   ? "bg-sky-400"
@@ -149,7 +149,7 @@ export function ExerciseTutorial({
                     ? "bg-violet-400"
                     : kind === "tip"
                       ? "bg-amber-400"
-                      : "bg-emerald-400";
+                      : "bg-brand/60";
               return (
                 <div key={active} className="ex-cap absolute inset-x-0 bottom-0 p-4">
                   <div className="flex items-start gap-2.5">

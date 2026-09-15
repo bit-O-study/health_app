@@ -29,7 +29,7 @@ export default async function AssignRoutinePage({
         <p className="text-center">
           <Link
             href={`/groups/${id}/trainer`}
-            className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-brand"
           >
             <ChevronLeft aria-hidden="true" size={16} /> 회원 관리
           </Link>

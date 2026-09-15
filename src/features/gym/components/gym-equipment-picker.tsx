@@ -21,11 +21,11 @@ export function SelectedGymSummary({
   changeLabel?: string;
 }) {
   return (
-    <div className="flex items-start gap-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5 dark:border-emerald-800 dark:bg-emerald-950/30">
+    <div className="flex items-start gap-2 rounded-lg border border-brand/40 bg-brand-soft px-3 py-2.5">
       <Building2
         aria-hidden="true"
         size={16}
-        className="mt-0.5 shrink-0 text-emerald-700 dark:text-emerald-400"
+        className="mt-0.5 shrink-0 text-brand"
       />
       <div className="min-w-0 flex-1">
         <p className="truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">
@@ -39,7 +39,7 @@ export function SelectedGymSummary({
       <button
         type="button"
         onClick={onChange}
-        className="shrink-0 rounded-md border border-emerald-300 bg-white px-2.5 py-1 text-xs font-semibold text-emerald-800 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-zinc-900 dark:text-emerald-300"
+        className="shrink-0 rounded-md border border-brand/40 bg-white px-2.5 py-1 text-xs font-semibold text-brand transition hover:bg-brand-soft dark:bg-zinc-900"
       >
         {changeLabel}
       </button>
@@ -101,7 +101,7 @@ export function GymEquipmentPicker({
                     className={cn(
                       "inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
                       on
-                        ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-200"
+                        ? "border-brand/40 bg-brand-soft text-brand"
                         : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-400",
                     )}
                   >

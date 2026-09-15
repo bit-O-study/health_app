@@ -200,7 +200,7 @@ export function RoutinePlanner({
   return (
     <section className="app-card p-6 sm:p-7">
       <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+        <div className="flex items-center gap-2 text-brand">
           <CalendarDays aria-hidden="true" size={20} />
           <p className="text-sm font-semibold uppercase tracking-wide">
             My routine
@@ -232,8 +232,8 @@ export function RoutinePlanner({
                 className={cn(
                   "whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
                   active
-                    ? "border-emerald-600 bg-emerald-600 text-white"
-                    : "app-field text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+                    ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
+                    : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
                 )}
               >
                 {item.label}
@@ -246,8 +246,8 @@ export function RoutinePlanner({
             className={cn(
               "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
               isCustom
-                ? "border-emerald-600 bg-emerald-600 text-white"
-                : "app-field border-dashed text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+                ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
+                : "app-field border-dashed text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
             )}
           >
             <Pencil aria-hidden="true" size={14} />
@@ -297,8 +297,8 @@ export function RoutinePlanner({
                   className={cn(
                     "whitespace-nowrap rounded-md border px-3 py-2 text-left text-sm font-semibold transition",
                     active
-                      ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
-                      : "app-field text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+                      ? "border-brand/40 bg-brand-soft text-brand"
+                      : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
                   )}
                 >
                   {item.name}
@@ -428,8 +428,8 @@ export function RoutinePlanner({
                 className={cn(
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "recommend"
-                    ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
-                    : "app-field hover:border-emerald-300 dark:hover:border-emerald-700",
+                    ? "border-brand/40 bg-brand-soft"
+                    : "app-field hover:border-brand/40",
                 )}
               >
                 <input
@@ -438,7 +438,7 @@ export function RoutinePlanner({
                   value="recommend"
                   checked={fillMode === "recommend"}
                   onChange={() => setFillMode("recommend")}
-                  className="mt-0.5 accent-emerald-600"
+                  className="mt-0.5 accent-brand"
                 />
                 <span className="min-w-0">
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
@@ -455,8 +455,8 @@ export function RoutinePlanner({
                 className={cn(
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "manual"
-                    ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
-                    : "app-field hover:border-emerald-300 dark:hover:border-emerald-700",
+                    ? "border-brand/40 bg-brand-soft"
+                    : "app-field hover:border-brand/40",
                 )}
               >
                 <input
@@ -465,7 +465,7 @@ export function RoutinePlanner({
                   value="manual"
                   checked={fillMode === "manual"}
                   onChange={() => setFillMode("manual")}
-                  className="mt-0.5 accent-emerald-600"
+                  className="mt-0.5 accent-brand"
                 />
                 <span className="min-w-0">
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
@@ -482,8 +482,8 @@ export function RoutinePlanner({
                 className={cn(
                   "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
                   fillMode === "byMuscle"
-                    ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-950/40"
-                    : "app-field hover:border-emerald-300 dark:hover:border-emerald-700",
+                    ? "border-brand/40 bg-brand-soft"
+                    : "app-field hover:border-brand/40",
                 )}
               >
                 <input
@@ -492,7 +492,7 @@ export function RoutinePlanner({
                   value="byMuscle"
                   checked={fillMode === "byMuscle"}
                   onChange={() => setFillMode("byMuscle")}
-                  className="mt-0.5 accent-emerald-600"
+                  className="mt-0.5 accent-brand"
                 />
                 <span className="min-w-0">
                   <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
@@ -514,7 +514,7 @@ export function RoutinePlanner({
                   className={cn(
                     "font-medium",
                     saveStatus.ok
-                      ? "text-emerald-700 dark:text-emerald-400"
+                      ? "text-brand"
                       : "text-red-600 dark:text-red-400",
                   )}
                 >
@@ -534,7 +534,7 @@ export function RoutinePlanner({
               type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
+              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
             >
               {isSaving ? (
                 <Loader2
@@ -589,7 +589,7 @@ function DayBlockEditor({
           aria-label={`${weekday}요일 첫 부위`}
           value={primary}
           onChange={(e) => onSetPrimary(e.target.value as DayBlockId)}
-          className="h-9 min-w-0 flex-1 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-9 min-w-0 flex-1 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200 outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
         >
           <option value="rest">휴식</option>
           {MUSCLE_BLOCK_GROUPS.map((g) => (
@@ -617,14 +617,14 @@ function DayBlockEditor({
           {extras.map((b) => (
             <span
               key={b}
-              className="inline-flex items-center gap-1 rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-xs font-semibold text-emerald-800 dark:text-emerald-300"
+              className="inline-flex items-center gap-1 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand"
             >
               + {DAY_BLOCKS[b].label}
               <button
                 type="button"
                 aria-label={`${DAY_BLOCKS[b].label} 제거`}
                 onClick={() => onRemove(b)}
-                className="ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-200"
+                className="ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
               >
                 <X aria-hidden="true" size={11} />
               </button>
@@ -680,7 +680,7 @@ function AddBlockMenu({
           setOpen((v) => !v);
           setGroupId(null);
         }}
-        className="inline-flex items-center gap-0.5 rounded-full border app-field border-dashed px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
+        className="inline-flex items-center gap-0.5 rounded-full border app-field border-dashed px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:text-brand"
       >
         <Plus aria-hidden="true" size={11} />
         부위 추가
@@ -708,7 +708,7 @@ function AddBlockMenu({
                     onClick={() =>
                       hasSubs ? setGroupId(g.whole) : pick(g.whole)
                     }
-                    className="flex items-center justify-between rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+                    className="flex items-center justify-between rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-brand-soft hover:text-brand"
                   >
                     {g.label}
                     {hasSubs ? (
@@ -732,7 +732,7 @@ function AddBlockMenu({
                   <button
                     type="button"
                     onClick={() => pick(active.whole)}
-                    className="rounded px-2 py-1.5 text-left text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                    className="rounded px-2 py-1.5 text-left text-xs font-semibold text-brand transition hover:bg-brand-soft"
                   >
                     {active.label} 전체
                   </button>
@@ -744,7 +744,7 @@ function AddBlockMenu({
                       key={s}
                       type="button"
                       onClick={() => pick(s)}
-                      className="rounded px-2 py-1.5 text-left text-xs font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+                      className="rounded px-2 py-1.5 text-left text-xs font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-brand-soft hover:text-brand"
                     >
                       {DAY_BLOCKS[s].label}
                     </button>

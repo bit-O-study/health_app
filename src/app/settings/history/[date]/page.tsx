@@ -213,7 +213,7 @@ export default async function HistoryDetailPage({
       </div>
 
       <section className="mb-5 flex items-center gap-3 app-card p-4">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-400">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-300">
           <Zap aria-hidden="true" size={20} />
         </span>
         <div className="min-w-0 flex-1">
@@ -235,7 +235,7 @@ export default async function HistoryDetailPage({
 
       {workoutDurationSec > 0 ? (
         <section className="mb-5 flex items-center gap-3 app-card p-4">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
             <Timer aria-hidden="true" size={20} />
           </span>
           <div className="min-w-0 flex-1">
@@ -267,7 +267,7 @@ export default async function HistoryDetailPage({
                 key={i}
                 className="flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
                   <Dumbbell aria-hidden="true" size={18} />
                 </span>
                 <div className="min-w-0 flex-1">
@@ -276,7 +276,7 @@ export default async function HistoryDetailPage({
                     <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
                       {it.equipmentLabel}
                     </span>
-                    <span className="ml-2 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                    <span className="ml-2 text-xs font-bold text-brand">
                       {blockLabel(it.focus)}
                     </span>
                   </p>
@@ -335,7 +335,7 @@ function Section({
 }) {
   const badge =
     tone === "emerald"
-      ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
+      ? "bg-brand-soft text-brand"
       : tone === "amber"
         ? "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
         : "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400";

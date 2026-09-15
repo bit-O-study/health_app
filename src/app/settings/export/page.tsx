@@ -60,9 +60,9 @@ export default async function ExportPage() {
               href={`/api/export/${kind}`}
               download
               data-testid={`export-${kind}`}
-              className="group flex items-center gap-3 app-card p-4 transition hover:border-emerald-300 dark:hover:border-emerald-700 sm:gap-4 sm:p-5"
+              className="group flex items-center gap-3 app-card p-4 transition hover:border-brand/40 sm:gap-4 sm:p-5"
             >
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
                 <Download aria-hidden="true" size={22} />
               </span>
               <div className="min-w-0 flex-1">
@@ -91,7 +91,7 @@ export default async function ExportPage() {
           <ShieldCheck
             aria-hidden="true"
             size={18}
-            className="text-emerald-600 dark:text-emerald-400"
+            className="text-brand"
           />
           무엇이 담기고, 무엇이 빠지나
         </h2>

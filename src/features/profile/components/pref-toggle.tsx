@@ -57,7 +57,7 @@ export function PrefToggle({
   return (
     <div className="app-card p-4 sm:p-5">
       <div className="flex items-center gap-3 sm:gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
           <Icon aria-hidden="true" size={22} />
         </span>
         <div className="min-w-0 flex-1">
@@ -81,7 +81,7 @@ export function PrefToggle({
           disabled={pending}
           onClick={toggle}
           className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-60 ${
-            on ? "bg-emerald-600" : "bg-zinc-300 dark:bg-zinc-600"
+            on ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
           }`}
         >
           <span

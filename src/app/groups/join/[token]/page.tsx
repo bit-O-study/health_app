@@ -92,7 +92,7 @@ export default async function JoinGroupPage({
           </p>
           <Link
             href="/groups"
-            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
+            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand"
           >
             <ChevronLeft size={16} /> 그룹 목록
           </Link>

@@ -80,7 +80,7 @@ export default async function CalendarDayPage({
           </p>
         </div>
         <div className="app-card p-3 text-center">
-          <span className="flex items-center justify-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center justify-center gap-1 text-xs font-bold text-brand">
             <Flame size={13} /> 소비
           </span>
           <p className="mt-0.5 font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
@@ -112,7 +112,7 @@ export default async function CalendarDayPage({
       {dayCommitments.length > 0 ? (
         <section className="mt-6">
           <h2 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-            <Flag size={16} className="text-emerald-600" /> 진행 중인 다짐
+            <Flag size={16} className="text-brand" /> 진행 중인 다짐
           </h2>
           <ul className="space-y-2">
             {dayCommitments.map((c) => {
@@ -121,13 +121,13 @@ export default async function CalendarDayPage({
                 <li key={c.id}>
                   <Link
                     href="/commitments"
-                    className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-3 transition hover:border-emerald-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700"
+                    className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-3 transition hover:border-brand/40 dark:border-zinc-800 dark:bg-zinc-900"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                         {c.title}
                         {p.done ? (
-                          <span className="ml-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                          <span className="ml-1 text-xs font-bold text-brand">
                             달성 ✓
                           </span>
                         ) : c.deadline === date ? (
@@ -139,7 +139,7 @@ export default async function CalendarDayPage({
                       <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
                         <div
                           className={`h-full rounded-full ${
-                            p.done ? "bg-emerald-500" : "bg-emerald-400"
+                            p.done ? "bg-brand" : "bg-brand/60"
                           }`}
                           style={{ width: `${p.pct}%` }}
                         />
@@ -166,7 +166,7 @@ export default async function CalendarDayPage({
       {/* 한 운동 */}
       <section className="mt-6">
         <h2 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-          <Dumbbell size={16} className="text-emerald-600" /> 한 운동
+          <Dumbbell size={16} className="text-brand" /> 한 운동
         </h2>
         {workouts.length === 0 && conditioning.length === 0 ? (
           <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-4 text-center text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900">
@@ -185,7 +185,7 @@ export default async function CalendarDayPage({
                     {w.weightKg != null ? ` · ${w.weightKg}kg` : " · 맨몸"}
                   </p>
                 </div>
-                <span className="shrink-0 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="shrink-0 text-xs font-bold text-brand">
                   -{w.kcal}
                 </span>
               </li>
@@ -203,7 +203,7 @@ export default async function CalendarDayPage({
                     </p>
                   ) : null}
                 </div>
-                <span className="shrink-0 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="shrink-0 text-xs font-bold text-brand">
                   -{c.kcal}
                 </span>
               </li>

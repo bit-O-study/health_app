@@ -116,7 +116,7 @@ export function PlateHint({
         type="button"
         onClick={cycleBar}
         aria-label={`봉 무게 바꾸기 (현재 ${barLabel})`}
-        className="ml-auto rounded-md border border-zinc-300 px-1.5 py-0.5 text-xs font-semibold text-zinc-500 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-emerald-400"
+        className="ml-auto rounded-md border border-zinc-300 px-1.5 py-0.5 text-xs font-semibold text-zinc-500 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:text-zinc-400"
       >
         {barLabel}
       </button>

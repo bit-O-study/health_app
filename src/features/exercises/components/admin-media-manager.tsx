@@ -109,7 +109,7 @@ export function AdminMediaManager({
               type="button"
               onClick={save}
               disabled={pending || !exerciseId || url.trim() === ""}
-              className="inline-flex h-10 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+              className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -132,7 +132,7 @@ export function AdminMediaManager({
           </p>
         ) : null}
         {okMsg ? (
-          <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+          <p className="text-xs font-semibold text-brand">
             {okMsg}
           </p>
         ) : null}
@@ -173,7 +173,7 @@ export function AdminMediaManager({
                       href={m.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="block truncate text-xs text-emerald-700 dark:text-emerald-400 hover:underline"
+                      className="block truncate text-xs text-brand hover:underline"
                     >
                       {m.url}
                     </a>

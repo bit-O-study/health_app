@@ -197,7 +197,7 @@ export function OnboardingFlow({
                 key={s}
                 className={cn(
                   "h-1.5 flex-1 rounded-full transition-colors",
-                  reached ? "bg-emerald-600" : "bg-zinc-200 dark:bg-zinc-700",
+                  reached ? "bg-brand" : "bg-zinc-200 dark:bg-zinc-700",
                 )}
               />
             );
@@ -226,7 +226,7 @@ export function OnboardingFlow({
                       active
                         ? option.id === "female"
                           ? "border-pink-400 bg-pink-100 text-pink-700"
-                          : "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
+                          : "border-brand/40 bg-brand-soft text-brand"
                         : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-500",
                     )}
                   >
@@ -240,7 +240,7 @@ export function OnboardingFlow({
               type="button"
               disabled={!gender}
               onClick={() => setStep("experience")}
-              className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+              className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
             >
               다음
               <ArrowRight aria-hidden="true" size={17} />
@@ -268,7 +268,7 @@ export function OnboardingFlow({
                     className={cn(
                       "flex w-full flex-col gap-1 rounded-xl border-2 px-5 py-4 text-left transition",
                       active
-                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+                        ? "border-brand/40 bg-brand-soft"
                         : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-500",
                     )}
                   >
@@ -295,7 +295,7 @@ export function OnboardingFlow({
                 type="button"
                 disabled={!experience}
                 onClick={() => setStep("body")}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
               >
                 다음
                 <ArrowRight aria-hidden="true" size={17} />
@@ -324,7 +324,7 @@ export function OnboardingFlow({
                   value={heightCm}
                   onChange={(e) => setHeightCm(e.target.value)}
                   placeholder="170"
-                  className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 />
               </label>
               <label className="space-y-1.5">
@@ -337,7 +337,7 @@ export function OnboardingFlow({
                   value={weightKg}
                   onChange={(e) => setWeightKg(e.target.value)}
                   placeholder="65"
-                  className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 />
               </label>
             </div>
@@ -356,7 +356,7 @@ export function OnboardingFlow({
                     className={cn(
                       "flex w-full flex-col gap-1 rounded-xl border-2 px-5 py-4 text-left transition",
                       active
-                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+                        ? "border-brand/40 bg-brand-soft"
                         : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-500",
                     )}
                   >
@@ -383,7 +383,7 @@ export function OnboardingFlow({
                 type="button"
                 disabled={!bodyValid}
                 onClick={() => setStep("goal")}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
               >
                 다음
                 <ArrowRight aria-hidden="true" size={17} />
@@ -412,7 +412,7 @@ export function OnboardingFlow({
                     className={cn(
                       "flex w-full flex-col gap-1 rounded-xl border-2 px-5 py-4 text-left transition",
                       active
-                        ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
+                        ? "border-brand/40 bg-brand-soft"
                         : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-500",
                     )}
                   >
@@ -439,7 +439,7 @@ export function OnboardingFlow({
                   value={targetWeight}
                   onChange={(e) => setTargetWeight(e.target.value)}
                   placeholder={weightKg || "60"}
-                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 />
               </label>
             ) : null}
@@ -454,7 +454,7 @@ export function OnboardingFlow({
                   value={targetBodyFat}
                   onChange={(e) => setTargetBodyFat(e.target.value)}
                   placeholder="15"
-                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 />
               </label>
             ) : null}
@@ -469,7 +469,7 @@ export function OnboardingFlow({
                   value={targetMuscle}
                   onChange={(e) => setTargetMuscle(e.target.value)}
                   placeholder="35"
-                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="mt-1 h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 />
               </label>
             ) : null}
@@ -486,7 +486,7 @@ export function OnboardingFlow({
                 type="button"
                 disabled={!goalValid}
                 onClick={() => setStep("gym")}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
               >
                 다음
                 <ArrowRight aria-hidden="true" size={17} />
@@ -497,7 +497,7 @@ export function OnboardingFlow({
 
         {step === "gym" ? (
           <section className="mt-10">
-            <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+            <div className="flex items-center gap-2 text-brand">
               <Building2 aria-hidden="true" size={18} />
               <span className="text-xs font-semibold uppercase tracking-wide">
                 Optional
@@ -556,7 +556,7 @@ export function OnboardingFlow({
               <button
                 type="button"
                 onClick={() => setStep("recommend")}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
               >
                 다음
                 <ArrowRight aria-hidden="true" size={17} />
@@ -567,8 +567,8 @@ export function OnboardingFlow({
 
         {step === "recommend" && recommendation ? (
           <section className="mt-10 space-y-6">
-            <div className="rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-6">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
+            <div className="rounded-xl border border-brand/40 bg-brand-soft p-6">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white dark:text-zinc-950">
                 <Sparkles aria-hidden="true" size={13} />
                 추천 루틴
               </span>
@@ -578,7 +578,7 @@ export function OnboardingFlow({
               <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
                 {recommendation.reason}
               </p>
-              <p className="mt-3 text-xs text-emerald-700 dark:text-emerald-400">
+              <p className="mt-3 text-xs text-brand">
                 마음에 안 들면 아래에서 루틴을 바꾸거나 커스텀으로 직접 짤 수
                 있어요.
               </p>

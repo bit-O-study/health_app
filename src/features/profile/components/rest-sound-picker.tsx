@@ -84,7 +84,7 @@ export function RestSoundPicker() {
   return (
     <div className="app-card p-4">
       <div className="flex items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
           <Bell aria-hidden="true" size={18} />
         </span>
         <div className="min-w-0 flex-1">
@@ -107,14 +107,14 @@ export function RestSoundPicker() {
                   onClick={() => choose(o.kind)}
                   className={`flex flex-col items-center gap-0.5 rounded-lg border px-2 py-2 text-center transition ${
                     active
-                      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
-                      : "border-zinc-200 dark:border-zinc-700 hover:border-emerald-300"
+                      ? "border-brand/40 bg-brand-soft"
+                      : "border-zinc-200 dark:border-zinc-700 hover:border-brand/40"
                   }`}
                 >
                   <span
                     className={`text-sm font-bold ${
                       active
-                        ? "text-emerald-700 dark:text-emerald-300"
+                        ? "text-brand"
                         : "text-zinc-700 dark:text-zinc-300"
                     }`}
                   >
@@ -158,7 +158,7 @@ export function RestSoundPicker() {
             <button
               type="button"
               onClick={() => void playRestAlert(ctxRef, kind)}
-              className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
+              className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
             >
               <Play aria-hidden="true" size={13} />
               미리듣기

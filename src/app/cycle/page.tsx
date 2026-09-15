@@ -45,7 +45,7 @@ export default async function CyclePage({
         </p>
         <Link
           href="/calendar"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand"
         >
           <ChevronLeft size={16} /> 캘린더로
         </Link>

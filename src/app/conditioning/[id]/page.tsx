@@ -68,7 +68,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
 
         <header className="app-card p-6">
           <div className="flex items-center gap-3">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
               <ConditioningIcon id={item.id} size={36} />
             </span>
             <div className="min-w-0">
@@ -95,7 +95,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
             <div className="mb-3 flex items-center gap-2">
               <ListChecks
                 aria-hidden="true"
-                className="text-emerald-700 dark:text-emerald-400"
+                className="text-brand"
                 size={18}
               />
               <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -105,7 +105,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
             <ol className="space-y-3">
               {item.method.map((step, i) => (
                 <li key={i} className="flex gap-3">
-                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-soft text-xs font-bold text-brand">
                     {i + 1}
                   </span>
                   <span className="flex-1 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
@@ -145,7 +145,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
             <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
               <Link
                 href="/plan"
-                className="font-semibold text-emerald-700 dark:text-emerald-400"
+                className="font-semibold text-brand"
               >
                 /plan
               </Link>
@@ -153,7 +153,7 @@ export default async function ConditioningDetailPage({ params }: Props) {
               에서 부위별 기본값을,{" "}
               <Link
                 href="/plan/today"
-                className="font-semibold text-emerald-700 dark:text-emerald-400"
+                className="font-semibold text-brand"
               >
                 /plan/today
               </Link>

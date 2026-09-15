@@ -55,7 +55,7 @@ export default function RouteError({
   if (autoReloading) {
     return (
       <main className="flex min-h-[60vh] flex-col items-center justify-center gap-3 p-8 text-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-emerald-500/40 border-t-emerald-500" />
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-brand/40 border-t-brand" />
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           다시 불러오는 중…
         </p>
@@ -83,7 +83,7 @@ export default function RouteError({
         <button
           type="button"
           onClick={() => window.location.reload()}
-          className="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-500"
+          className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
         >
           새로고침
         </button>

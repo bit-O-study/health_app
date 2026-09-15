@@ -360,6 +360,52 @@ describe("다른 탭도 같은 규칙 (2026-09-15 '다른 탭들도 똑같이')"
   });
 });
 
+describe("남은 화면 색 정리 (2026-09-15 '이대로 계속 진행')", () => {
+  // 테마 색이 의미인 곳(러닝 게임·펫·그룹 헬스장·관리자)과 원상복구한 광고 배너는 예외.
+  const EXEMPT = [
+    /^src\/features\/(running|pet|admin)\//,
+    /^src\/app\/(admin|running|jog)\//,
+    /gym-room\.tsx$|group-board\.tsx$|group-leaderboard\.tsx$|group-switcher\.tsx$/,
+    /promo-banner\.tsx$|bottom-nav\.tsx$/,
+    // 그룹 멤버 아바타 팔레트 — 사람마다 다른 색을 주는 데이터라 브랜드색으로 합치면 안 된다.
+    /^src\/features\/groups\/avatar\.ts$/,
+  ];
+
+  it("옛 초록(emerald-*) 클래스를 쓰지 않는다 — 브랜드 토큰(text-brand·bg-brand·bg-brand-soft)만", () => {
+    const found = sourceFiles()
+      .filter(([rel]) => !EXEMPT.some((re) => re.test(rel)))
+      .flatMap(([rel, src]) =>
+        src
+          .split("\n")
+          .map((line, i) =>
+            /(?<![\w-])(?:[a-z-]+:)*(bg|text|border(?:-[tblrxy])?|ring|stroke|fill|accent|from|via|to|shadow|divide|outline)-emerald-\d{2,3}/.test(line)
+              ? `${rel}:${i + 1}`
+              : null,
+          )
+          .filter((x): x is string => x !== null),
+      );
+    expect(found).toEqual([]);
+  });
+
+  it("브랜드 바탕 버튼의 흰 글씨는 다크에서 어두운 글씨로 바뀐다(민트 바탕 대비)", () => {
+    const bad = sourceFiles()
+      .filter(([rel]) => !EXEMPT.some((re) => re.test(rel)))
+      .flatMap(([rel, src]) =>
+        src
+          .split("\n")
+          .map((line, i) =>
+            /(?<![\w:/-])bg-brand(?![\w/-])/.test(line) &&
+            /(?<![\w:-])text-white(?![\w/-])/.test(line) &&
+            !/dark:text-/.test(line)
+              ? `${rel}:${i + 1}`
+              : null,
+          )
+          .filter((x): x is string => x !== null),
+      );
+    expect(bad).toEqual([]);
+  });
+});
+
 describe("하단 탭", () => {
   it("라벨이 11px 고정 — 좁은 폰에서도 9·10px 로 줄지 않는다", () => {
     const nav = read("src/components/bottom-nav.tsx");

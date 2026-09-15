@@ -369,7 +369,7 @@ export function UpcomingSevenDaysGrid({
               <button
                 type="button"
                 onClick={acceptExit}
-                className="h-10 rounded-lg bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-500"
+                className="h-10 rounded-lg bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
               >
                 예, 오늘만 해제
               </button>

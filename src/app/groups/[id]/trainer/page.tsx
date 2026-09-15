@@ -31,7 +31,7 @@ export default async function TrainerPage({
         <p className="text-center">
           <Link
             href={`/groups/${id}`}
-            className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
+            className="inline-flex items-center gap-1 text-sm font-semibold text-brand"
           >
             <ChevronLeft aria-hidden="true" size={16} /> 그룹으로
           </Link>

@@ -259,7 +259,7 @@ export default async function TodayConditioningPage({
         기본 루틴을 수정하려면{" "}
         <Link
           href="/plan"
-          className="font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300"
+          className="font-semibold text-brand hover:text-brand"
         >
           운동 등록
         </Link>

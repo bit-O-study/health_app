@@ -22,7 +22,7 @@ function AdherenceBadge({ m }: { m: TrainerMember }) {
   }
   const tone =
     pct >= 80
-      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+      ? "bg-brand-soft text-brand"
       : pct >= 50
         ? "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
         : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300";
@@ -82,7 +82,7 @@ export function TrainerBoardView({
                 ? "text-rose-600 dark:text-rose-400"
                 : "text-zinc-900 dark:text-zinc-100",
           },
-          { label: "오늘 운동", value: summary.workedToday, tone: "text-emerald-600 dark:text-emerald-400" },
+          { label: "오늘 운동", value: summary.workedToday, tone: "text-brand" },
         ].map((s) => (
           <div
             key={s.label}
@@ -174,7 +174,7 @@ export function TrainerBoardView({
                     ))}
                   </ul>
                 ) : (
-                  <p className="mt-2.5 inline-flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                  <p className="mt-2.5 inline-flex items-center gap-1 text-xs font-bold text-brand">
                     <Check aria-hidden="true" size={12} />잘 하고 있어요
                   </p>
                 )}
@@ -192,14 +192,14 @@ export function TrainerBoardView({
                   <Link
                     href={`/groups/${groupId}/trainer/assign/${m.userId}`}
                     data-testid="assign-link"
-                    className="inline-flex h-8 items-center rounded-lg bg-emerald-600 px-3 text-xs font-bold text-white transition hover:bg-emerald-500"
+                    className="inline-flex h-8 items-center rounded-lg bg-brand px-3 text-xs font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
                   >
                     루틴 배정
                   </Link>
                   <Link
                     href={`/groups/${groupId}/trainer/comment/${m.userId}`}
                     data-testid="comment-link"
-                    className="inline-flex h-8 items-center rounded-lg border border-emerald-600 px-3 text-xs font-bold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/40"
+                    className="inline-flex h-8 items-center rounded-lg border border-brand/40 px-3 text-xs font-bold text-brand transition hover:bg-brand-soft"
                   >
                     코멘트
                   </Link>

@@ -70,7 +70,7 @@ export function ExerciseFinder() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-emerald-300 bg-emerald-50 px-3 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
+        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-brand/40 bg-brand-soft px-3 text-sm font-semibold text-brand transition hover:bg-brand-soft"
       >
         <Search aria-hidden="true" size={15} />
         운동 찾기
@@ -91,7 +91,7 @@ export function ExerciseFinder() {
             {/* 헤더 */}
             <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
               <span className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-                <Sparkles aria-hidden="true" size={16} className="text-emerald-500" />
+                <Sparkles aria-hidden="true" size={16} className="text-brand" />
                 운동 찾기
               </span>
               <button
@@ -117,7 +117,7 @@ export function ExerciseFinder() {
                 <div key={i} className="space-y-2">
                   {/* 사용자 */}
                   <div className="flex justify-end">
-                    <span className="max-w-[80%] rounded-2xl rounded-br-sm bg-emerald-600 px-3 py-2 text-sm text-white">
+                    <span className="max-w-[80%] rounded-2xl rounded-br-sm bg-brand px-3 py-2 text-sm text-white dark:text-zinc-950">
                       {t.q}
                     </span>
                   </div>
@@ -148,7 +148,7 @@ export function ExerciseFinder() {
                                 key={h.id}
                                 href={`/exercises/${h.id}`}
                                 onClick={() => setOpen(false)}
-                                className="flex items-center justify-between gap-2 rounded-lg bg-[var(--surface-strong)] px-2.5 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm transition hover:bg-emerald-50 dark:text-zinc-100 dark:hover:bg-emerald-950/30"
+                                className="flex items-center justify-between gap-2 rounded-lg bg-[var(--surface-strong)] px-2.5 py-1.5 text-xs font-semibold text-zinc-800 shadow-sm transition hover:bg-brand-soft dark:text-zinc-100"
                               >
                                 <span className="truncate">{h.name}</span>
                                 <span className="shrink-0 text-xs font-medium text-zinc-400">
@@ -179,13 +179,13 @@ export function ExerciseFinder() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="메시지를 입력하세요"
-                className="h-10 flex-1 rounded-full border border-zinc-300 bg-zinc-50 px-4 text-sm text-zinc-900 outline-none transition focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+                className="h-10 flex-1 rounded-full border border-zinc-300 bg-zinc-50 px-4 text-sm text-zinc-900 outline-none transition focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
               />
               <button
                 type="submit"
                 aria-label="검색"
                 disabled={!input.trim() || searching}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white transition hover:bg-emerald-500 disabled:opacity-40"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-40"
               >
                 <Send aria-hidden="true" size={17} />
               </button>

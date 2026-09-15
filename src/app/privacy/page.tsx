@@ -109,7 +109,7 @@ export default function PrivacyPage() {
           확인 후 지체 없이 복구 불가능한 방식으로 파기합니다. 다만 부정 이용 방지·분쟁 대응 또는
           관련 법령상 보관이 필요한 정보는 해당 목적/기간에 한해 보관될 수 있습니다. 삭제 요청
           방법은{" "}
-          <a href="/account-deletion" className="text-emerald-600 underline">
+          <a href="/account-deletion" className="text-brand underline">
             계정 삭제 안내
           </a>
           를 참고하세요.
@@ -127,7 +127,7 @@ export default function PrivacyPage() {
           </li>
           <li>
             <b>웹/이메일 요청</b>: 계정 삭제 안내는{" "}
-            <a href="/account-deletion" className="text-emerald-600 underline">
+            <a href="/account-deletion" className="text-brand underline">
               계정 삭제 페이지
             </a>
             를 참고하거나 {CONTACT_EMAIL} 로 요청할 수 있습니다.

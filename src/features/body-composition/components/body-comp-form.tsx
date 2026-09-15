@@ -239,7 +239,7 @@ export function BodyCompForm({
             type="date"
             value={measuredAt}
             onChange={(e) => setMeasuredAt(e.target.value)}
-            className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
           />
         </label>
       </section>
@@ -265,7 +265,7 @@ export function BodyCompForm({
                   onChange={(e) =>
                     setValues((p) => ({ ...p, [f.key]: e.target.value }))
                   }
-                  className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 />
               </label>
             ))}
@@ -310,7 +310,7 @@ export function BodyCompForm({
             type="button"
             disabled={ocrRunning || !imageFile}
             onClick={runOcr}
-            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
           >
             {ocrRunning ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -329,7 +329,7 @@ export function BodyCompForm({
             </p>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
               <div
-                className="h-full rounded-full bg-emerald-500 transition-all"
+                className="h-full rounded-full bg-brand transition-all"
                 style={{ width: `${ocrProgress}%` }}
               />
             </div>
@@ -341,7 +341,7 @@ export function BodyCompForm({
         ) : null}
 
         {imagePath ? (
-          <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-400">
+          <p className="mt-2 text-xs text-brand">
             업로드 완료 · {imagePath.split("/").pop()}
           </p>
         ) : hasExistingImage ? (
@@ -359,7 +359,7 @@ export function BodyCompForm({
             className={cn(
               "mt-2 text-xs",
               ocrMsg.ok
-                ? "text-emerald-700 dark:text-emerald-400"
+                ? "text-brand"
                 : "text-red-600 dark:text-red-400",
             )}
           >
@@ -392,7 +392,7 @@ export function BodyCompForm({
             type="checkbox"
             checked={consented}
             onChange={(e) => setConsented(e.target.checked)}
-            className="h-4 w-4 accent-emerald-600"
+            className="h-4 w-4 accent-brand"
           />
           <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
             위 사항에 동의합니다 (필수)
@@ -405,7 +405,7 @@ export function BodyCompForm({
           type="button"
           disabled={pending || !consented}
           onClick={submit}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -416,7 +416,7 @@ export function BodyCompForm({
           <span
             className={`text-sm font-medium ${
               msg.ok
-                ? "text-emerald-700 dark:text-emerald-400"
+                ? "text-brand"
                 : "text-red-600 dark:text-red-400"
             }`}
           >

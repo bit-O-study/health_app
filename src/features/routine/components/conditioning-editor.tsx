@@ -220,7 +220,7 @@ export function ConditioningEditor({
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
+              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-brand/40 bg-brand-soft px-2 text-xs font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-60"
             >
               <Sparkles aria-hidden="true" size={13} />
               추천으로 채우기
@@ -229,7 +229,7 @@ export function ConditioningEditor({
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft"
           >
             <Plus aria-hidden="true" size={13} />
             추가

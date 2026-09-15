@@ -67,7 +67,7 @@ export function RoutinePresets({
       <div className="mb-3 flex items-center gap-2">
         <Bookmark
           aria-hidden="true"
-          className="text-emerald-600 dark:text-emerald-400"
+          className="text-brand"
           size={18}
         />
         <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -98,7 +98,7 @@ export function RoutinePresets({
           type="button"
           onClick={save}
           disabled={pending || name.trim() === ""}
-          className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -132,7 +132,7 @@ export function RoutinePresets({
                 type="button"
                 onClick={() => setLoadTarget(p)}
                 disabled={pending}
-                className="inline-flex h-9 shrink-0 items-center gap-1 rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-3 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 disabled:opacity-50"
+                className="inline-flex h-9 shrink-0 items-center gap-1 rounded-md border border-brand/40 bg-brand-soft px-3 text-xs font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-50"
               >
                 <Download aria-hidden="true" size={14} />
                 불러오기

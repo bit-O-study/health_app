@@ -353,14 +353,14 @@ function RestOverlay({
           {...cardDragProps}
           className={`pointer-events-auto relative w-full max-w-md touch-none overflow-hidden rounded-2xl px-5 py-4 shadow-2xl ring-1 ${
             done
-              ? "bg-emerald-600 text-white ring-emerald-400/50"
+              ? "bg-brand text-white dark:text-zinc-950 ring-brand/40"
               : "bg-zinc-900 text-white ring-white/10 dark:bg-zinc-800"
           }`}
         >
           {/* 진행률 바 */}
           <div
             aria-hidden="true"
-            className="absolute inset-y-0 left-0 bg-emerald-500/25"
+            className="absolute inset-y-0 left-0 bg-brand"
             style={{ width: `${progress * 100}%`, transition: "width 250ms linear" }}
           />
           <div className="relative z-10 flex items-center justify-between gap-3">
@@ -412,14 +412,14 @@ function RestOverlay({
         {...cardDragProps}
         className={`pointer-events-auto relative flex touch-none items-center gap-2 overflow-hidden rounded-full px-3 py-2.5 shadow-lg ${
           done
-            ? "bg-emerald-600 text-white"
+            ? "bg-brand text-white dark:text-zinc-950"
             : "bg-zinc-900 text-white dark:bg-zinc-800"
         }`}
       >
         {/* 진행률 바 — 뒤에 깔리는 그라데이션 */}
         <div
           aria-hidden="true"
-          className="absolute inset-y-0 left-0 bg-emerald-500/30"
+          className="absolute inset-y-0 left-0 bg-brand"
           style={{ width: `${progress * 100}%`, transition: "width 250ms linear" }}
         />
         {Grip}

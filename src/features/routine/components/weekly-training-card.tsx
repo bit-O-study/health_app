@@ -107,7 +107,7 @@ export function WeeklyTrainingCard({
           <CalendarDays
             aria-hidden="true"
             size={16}
-            className="mr-1.5 inline align-[-2px] text-emerald-600 dark:text-emerald-400"
+            className="mr-1.5 inline align-[-2px] text-brand"
           />
           이번 주 훈련
         </h2>
@@ -135,7 +135,7 @@ export function WeeklyTrainingCard({
                 title={`${c.ymd} · ${c.total}세트${c.topLabel ? ` · ${c.topLabel}` : ""}`}
                 className={`flex h-16 flex-col items-center justify-center gap-0.5 rounded-lg border text-center ${
                   isToday
-                    ? "border-emerald-400 dark:border-emerald-500"
+                    ? "border-brand/40"
                     : "border-zinc-200 dark:border-zinc-700"
                 }`}
                 style={
@@ -202,7 +202,7 @@ export function WeeklyTrainingCard({
                   data-diff={r.delta.diff}
                   className={`inline-flex items-center text-xs font-bold tabular-nums ${
                     r.delta.diff > 0
-                      ? "text-emerald-600 dark:text-emerald-400"
+                      ? "text-brand"
                       : "text-zinc-400 dark:text-zinc-500"
                   }`}
                   title={`지난주 ${r.prevSets}세트`}
@@ -322,7 +322,7 @@ export function WeeklyTrainingCard({
           매핑의 치우침을 보게 됩니다.
         </p>
         {untouchedSubs.length === 0 ? (
-          <p className="mt-2 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+          <p className="mt-2 text-xs font-semibold text-brand">
             이번 주 모든 세부근육을 한 번 이상 건드렸습니다.
           </p>
         ) : (
@@ -368,7 +368,7 @@ export function WeeklyTrainingCard({
         {!viewerIsOther && untouchedSubs.length > 0 ? (
           <Link
             href="/plan/muscle"
-            className="mt-3 inline-flex text-xs font-bold text-emerald-700 dark:text-emerald-400"
+            className="mt-3 inline-flex text-xs font-bold text-brand"
           >
             부위별로 운동 찾아보기 →
           </Link>
@@ -410,11 +410,11 @@ function BalanceRow({
       </div>
       <div className="mt-2 flex h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
         <div
-          className={balance.skewed ? "bg-amber-500" : "bg-emerald-500"}
+          className={balance.skewed ? "bg-amber-500" : "bg-brand"}
           style={{ width: `${aPct}%` }}
         />
         <div
-          className={balance.skewed ? "bg-amber-300" : "bg-emerald-300"}
+          className={balance.skewed ? "bg-amber-300" : "bg-brand/60"}
           style={{ width: `${100 - aPct}%` }}
         />
       </div>

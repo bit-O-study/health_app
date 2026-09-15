@@ -87,7 +87,7 @@ export default function AccountDeletionPage() {
           및 이용자 콘텐츠의 <b>완전 삭제를 원하시면</b> 위 이메일로 요청해 주시면 본인 확인 후
           영구 삭제 처리해 드립니다. 부정 이용 방지·분쟁 대응 또는 관련 법령상 보관이 필요한
           정보는 해당 목적/기간에 한해 보관될 수 있습니다. 자세한 내용은{" "}
-          <a href="/privacy" className="text-emerald-600 underline">
+          <a href="/privacy" className="text-brand underline">
             개인정보처리방침
           </a>
           을 참고하세요.

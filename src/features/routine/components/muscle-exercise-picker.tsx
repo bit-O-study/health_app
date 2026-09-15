@@ -260,7 +260,7 @@ export function MuscleExercisePicker({
                       "ml-0.5 inline-flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-xs font-bold",
                       active
                         ? "bg-white/25 text-white"
-                        : "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300",
+                        : "bg-brand-soft text-brand",
                     )}
                   >
                     {n}
@@ -343,7 +343,7 @@ export function MuscleExercisePicker({
                 className={cn(
                   "flex items-start gap-2 rounded-lg border p-3 transition",
                   on
-                    ? "border-emerald-500 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950/40"
+                    ? "border-brand/40 bg-brand-soft"
                     : "border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900",
                 )}
               >
@@ -355,8 +355,8 @@ export function MuscleExercisePicker({
                   className={cn(
                     "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition",
                     on
-                      ? "border-emerald-600 bg-emerald-600 text-white"
-                      : "app-field text-transparent hover:border-emerald-400",
+                      ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
+                      : "app-field text-transparent hover:border-brand/40",
                   )}
                 >
                   {on ? (
@@ -397,7 +397,7 @@ export function MuscleExercisePicker({
                   </div>
                   <Link
                     href={`/exercises/${ex.id}`}
-                    className="mt-1 inline-flex items-center gap-0.5 text-xs font-semibold text-emerald-700 hover:underline dark:text-emerald-400"
+                    className="mt-1 inline-flex items-center gap-0.5 text-xs font-semibold text-brand hover:underline"
                   >
                     자세히 <ArrowRight size={12} />
                   </Link>
@@ -423,7 +423,7 @@ export function MuscleExercisePicker({
 
       {/* 담은 운동 요약 */}
       {totalPicked > 0 ? (
-        <section className="rounded-xl border border-emerald-200 bg-emerald-50/60 p-5 dark:border-emerald-800 dark:bg-emerald-950/30">
+        <section className="rounded-xl border border-brand/40 bg-brand-soft p-5">
           <div className="flex items-center justify-between gap-2">
             <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
               담은 운동 {totalPicked}개
@@ -488,7 +488,7 @@ export function MuscleExercisePicker({
           data-testid="save-muscle-selection"
           onClick={handleSave}
           disabled={pending || totalPicked === 0}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
+          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
         >
           {pending ? (
             <Loader2 className="animate-spin" size={17} />

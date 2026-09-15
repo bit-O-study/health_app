@@ -90,7 +90,7 @@ export function GymPicker({
             onChange={(e) => setManualName(e.target.value)}
             placeholder="예: 강남 OO 헬스"
             maxLength={100}
-            className="mt-1 h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm text-zinc-950 outline-none transition focus:border-emerald-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
+            className="mt-1 h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm text-zinc-950 outline-none transition focus:border-brand/40 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
           />
         </label>
         <label className="block">
@@ -103,7 +103,7 @@ export function GymPicker({
             onChange={(e) => setManualAddress(e.target.value)}
             placeholder="예: 서울 강남구 테헤란로 1"
             maxLength={200}
-            className="mt-1 h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm text-zinc-950 outline-none transition focus:border-emerald-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
+            className="mt-1 h-11 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm text-zinc-950 outline-none transition focus:border-brand/40 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
           />
         </label>
         <div className="flex flex-wrap gap-2 pt-1">
@@ -111,7 +111,7 @@ export function GymPicker({
             type="button"
             onClick={() => onPick(manualGymCandidate(manualName, manualAddress))}
             disabled={!nameOk}
-            className="inline-flex h-11 items-center justify-center rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             이 헬스장으로 진행
           </button>
@@ -145,7 +145,7 @@ export function GymPicker({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="헬스장 이름으로 검색 (2글자 이상)"
             maxLength={100}
-            className="h-11 w-full rounded-md border border-zinc-300 bg-white pl-9 pr-9 text-sm text-zinc-950 outline-none transition focus:border-emerald-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
+            className="h-11 w-full rounded-md border border-zinc-300 bg-white pl-9 pr-9 text-sm text-zinc-950 outline-none transition focus:border-brand/40 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-100"
           />
           {ready && !fresh ? (
             <Loader2
@@ -167,13 +167,13 @@ export function GymPicker({
               <button
                 type="button"
                 onClick={() => onPick(hit)}
-                className="flex w-full items-start gap-2 px-3 py-2.5 text-left transition hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-start gap-2 px-3 py-2.5 text-left transition hover:bg-brand-soft"
               >
                 {hit.gymId ? (
                   <Building2
                     aria-hidden="true"
                     size={15}
-                    className="mt-0.5 shrink-0 text-emerald-600 dark:text-emerald-400"
+                    className="mt-0.5 shrink-0 text-brand"
                   />
                 ) : (
                   <MapPin
@@ -191,7 +191,7 @@ export function GymPicker({
                   </span>
                 </span>
                 {hit.equipmentIds.length > 0 ? (
-                  <span className="mt-0.5 inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                  <span className="mt-0.5 inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
                     <Users aria-hidden="true" size={11} />
                     기구 {hit.equipmentIds.length}종
                   </span>

@@ -29,7 +29,7 @@ export function OverloadHint({
   const tone = advice.attention
     ? "bg-amber-50 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
     : advice.action === "increase"
-      ? "bg-emerald-50 text-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"
+      ? "bg-brand-soft text-brand"
       : "bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300";
   const headline = [
     advice.label,

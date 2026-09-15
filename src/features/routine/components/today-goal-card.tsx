@@ -109,7 +109,7 @@ export function TodayGoalCard({
             </h2>
             <Link
               href="/commitments"
-              className="text-xs font-semibold text-emerald-700 dark:text-emerald-400"
+              className="text-xs font-semibold text-brand"
             >
               {totalMissions > missions.length
                 ? `전체 ${totalMissions}개 보기`
@@ -126,7 +126,7 @@ export function TodayGoalCard({
                   <span
                     className={`shrink-0 text-xs font-bold ${
                       m.done
-                        ? "text-emerald-600 dark:text-emerald-400"
+                        ? "text-brand"
                         : "text-zinc-400"
                     }`}
                   >
@@ -136,7 +136,7 @@ export function TodayGoalCard({
                 <div className="mt-1 flex items-center gap-2">
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
                     <div
-                      className={`h-full rounded-full ${m.done ? "bg-emerald-500" : "bg-emerald-400"}`}
+                      className={`h-full rounded-full ${m.done ? "bg-brand" : "bg-brand/60"}`}
                       style={{ width: `${Math.min(100, Math.max(0, m.pct))}%` }}
                     />
                   </div>

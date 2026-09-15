@@ -70,7 +70,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
           id="new-password"
           type="password"
           autoComplete="new-password"
-          className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
           placeholder="6자 이상"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -87,7 +87,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
           id="confirm-password"
           type="password"
           autoComplete="new-password"
-          className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
           placeholder="다시 입력"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
@@ -104,7 +104,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
         type="submit"
         disabled={isSubmitting}
         data-testid="change-password-submit"
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
+        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
       >
         {isSubmitting ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={17} />

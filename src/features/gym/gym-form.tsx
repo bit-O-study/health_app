@@ -139,7 +139,7 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         <Save aria-hidden="true" size={16} />
         {pending ? "저장 중…" : initial?.id ? "저장" : "등록"}

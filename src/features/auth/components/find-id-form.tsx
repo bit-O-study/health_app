@@ -73,7 +73,7 @@ export function FindIdForm() {
         )}
         <Link
           href="/login"
-          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500"
+          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
         >
           로그인하기
         </Link>

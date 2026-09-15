@@ -40,7 +40,7 @@ export default function ExercisesPage() {
       <section className="mx-auto w-full max-w-5xl space-y-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
               Exercise library
             </p>
             <h1 className="mt-2 text-3xl font-bold sm:text-4xl">

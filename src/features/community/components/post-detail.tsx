@@ -201,7 +201,7 @@ export function PostDetail({
           <p className="text-xs text-zinc-400">{when}</p>
         </div>
         {post.groupName ? (
-          <span className="ml-auto rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+          <span className="ml-auto rounded-full bg-brand-soft px-2 py-0.5 text-xs font-bold text-brand">
             # {post.groupName}
           </span>
         ) : null}
@@ -214,7 +214,7 @@ export function PostDetail({
             value={caption}
             onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
             rows={2}
-            className="w-full resize-none rounded-xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="w-full resize-none rounded-xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
           />
           <div className="mt-1 flex justify-end gap-2">
             <button
@@ -231,7 +231,7 @@ export function PostDetail({
               type="button"
               onClick={saveCaption}
               disabled={pending}
-              className="rounded-lg bg-emerald-500 px-3 py-1 text-xs font-bold text-white disabled:opacity-60"
+              className="rounded-lg bg-brand px-3 py-1 text-xs font-bold text-white dark:text-zinc-950 disabled:opacity-60"
             >
               저장
             </button>
@@ -333,13 +333,13 @@ export function PostDetail({
             if (e.key === "Enter" && !e.nativeEvent.isComposing) addComment();
           }}
           placeholder="댓글 달기…"
-          className="h-10 min-w-0 flex-1 rounded-full border border-zinc-200 px-4 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="h-10 min-w-0 flex-1 rounded-full border border-zinc-200 px-4 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
         />
         <button
           type="button"
           onClick={addComment}
           disabled={pending || !body.trim()}
-          className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+          className="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand px-4 py-2 text-sm font-bold text-white dark:text-zinc-950 disabled:opacity-50"
         >
           {pending ? <Loader2 size={14} className="animate-spin" /> : null}등록
         </button>

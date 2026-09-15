@@ -22,7 +22,7 @@ export default async function CommitmentsPage() {
         뒤로
       </BackLink>
       <h1 className="mb-1 flex items-center gap-2 text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-        <Flag aria-hidden="true" size={22} className="text-emerald-600" />
+        <Flag aria-hidden="true" size={22} className="text-brand" />
         나의 다짐
       </h1>
       <p className="mb-6 text-sm leading-6 text-zinc-600 dark:text-zinc-400">

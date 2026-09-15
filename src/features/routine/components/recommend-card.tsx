@@ -36,14 +36,14 @@ export function RecommendRoutineCard({
       : "체형·경력 기반 추천";
 
   return (
-    <section className="rounded-2xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 shadow-sm">
+    <section className="rounded-2xl border border-brand/40 bg-brand-soft p-5 shadow-sm">
       {/*
  모바일에서는 세로 스택 — 뱃지·헤드라인·이유 위, 적용 버튼은 풀폭 아래.
  sm+ 부터 좌우 분할 (뱃지 그룹 vs 버튼).
  */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0 flex-1">
-          <span className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1 text-xs font-semibold text-white">
+          <span className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white dark:text-zinc-950">
             <Sparkles aria-hidden="true" size={13} />
             <span className="truncate">{sourceLabel}</span>
           </span>
@@ -58,7 +58,7 @@ export function RecommendRoutineCard({
           type="button"
           disabled={pending}
           onClick={apply}
-          className="inline-flex h-11 w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60 sm:w-auto"
+          className="inline-flex h-11 w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60 sm:w-auto"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />

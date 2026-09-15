@@ -209,7 +209,7 @@ export function AuthForm({
                 type="text"
                 autoComplete="name"
                 required
-                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 placeholder="홍길동"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -227,7 +227,7 @@ export function AuthForm({
                 type="text"
                 autoComplete="nickname"
                 maxLength={20}
-                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 placeholder="그룹·랭킹에 보일 이름 (미입력 시 이름 사용)"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
@@ -244,7 +244,7 @@ export function AuthForm({
                 id="phone"
                 type="tel"
                 autoComplete="tel"
-                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
                 placeholder="010-1234-5678"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -264,7 +264,7 @@ export function AuthForm({
             id="email"
             type="email"
             autoComplete="email"
-            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -281,7 +281,7 @@ export function AuthForm({
             id="password"
             type="password"
             autoComplete={mode === "login" ? "current-password" : "new-password"}
-            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
             placeholder="6자 이상"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -294,7 +294,7 @@ export function AuthForm({
           </p>
         ) : null}
         {notice ? (
-          <p className="rounded-md bg-emerald-50 dark:bg-emerald-950/40 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-400">
+          <p className="rounded-md bg-brand-soft px-3 py-2 text-sm text-brand">
             {notice}
           </p>
         ) : null}
@@ -302,7 +302,7 @@ export function AuthForm({
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
+          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
         >
           {isSubmitting ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />

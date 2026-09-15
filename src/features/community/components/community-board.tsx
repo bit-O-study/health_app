@@ -239,7 +239,7 @@ function Chip({
       className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition-all active:scale-95 ${
         active
           ? "border-transparent bg-brand text-white dark:text-zinc-950"
-          : "border-zinc-200 text-zinc-500 hover:border-emerald-300 hover:text-emerald-600 dark:border-zinc-700 dark:hover:border-emerald-800"
+          : "border-zinc-200 text-zinc-500 hover:border-brand/40 hover:text-brand dark:border-zinc-700"
       }`}
     >
       {label}
@@ -324,7 +324,7 @@ function PostCard({
     >
       {navPending ? (
         <span className="pointer-events-none absolute inset-0 z-30 flex items-center justify-center bg-white/60 backdrop-blur-[1px] dark:bg-zinc-900/60">
-          <Loader2 aria-hidden="true" size={28} className="animate-spin text-emerald-500" />
+          <Loader2 aria-hidden="true" size={28} className="animate-spin text-brand" />
         </span>
       ) : null}
       {/* 헤더: 아바타 + 이름 + 시간 + 배지 */}
@@ -368,7 +368,7 @@ function PostCard({
               aria-label="영상 재생"
               className="flex h-full w-full items-center justify-center"
             >
-              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-emerald-700 shadow-lg">
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-brand shadow-lg">
                 <Play size={26} className="translate-x-0.5 fill-current" />
               </span>
             </button>
@@ -377,7 +377,7 @@ function PostCard({
           {post.groupName || post.exerciseTag ? (
             <div className="absolute bottom-2 left-2 flex flex-col items-start gap-1">
               {post.groupName ? (
-                <span className="rounded-full bg-emerald-600/80 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
+                <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold text-white dark:text-zinc-950 backdrop-blur-sm">
                   # {post.groupName}
                   {post.visibility === "public_except_group" ? " 제외" : ""}
                 </span>
@@ -556,7 +556,7 @@ function ComposeModal({
   }
 
   const field =
-    "mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800";
+    "mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800";
 
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">

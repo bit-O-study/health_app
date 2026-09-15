@@ -209,7 +209,7 @@ export default async function Home() {
 function LoggedOutHero() {
   return (
     <section className="flex flex-col items-start gap-6 py-10">
-      <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+      <span className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand">
         <Sparkles aria-hidden="true" size={14} />
         Personalized workout
       </span>
@@ -224,7 +224,7 @@ function LoggedOutHero() {
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <Link
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
           href="/login"
         >
           로그인하고 시작하기
@@ -244,7 +244,7 @@ function LoggedOutHero() {
 function NoRoutinePrompt() {
   return (
     <section className="app-card flex flex-col items-center gap-5 border-dashed px-6 py-16 text-center">
-      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-soft text-brand">
         <CalendarDays aria-hidden="true" size={28} />
       </span>
       <div className="space-y-2">
@@ -257,7 +257,7 @@ function NoRoutinePrompt() {
         </p>
       </div>
       <Link
-        className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
+        className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
         href="/settings/routine"
       >
         <Sparkles aria-hidden="true" size={17} />

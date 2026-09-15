@@ -44,7 +44,7 @@ function TrendBadge({ pct }: { pct: number | null }) {
     <span
       className={`rounded-full px-2 py-0.5 text-xs font-bold ${
         up
-          ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
+          ? "bg-brand-soft text-brand"
           : "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-400"
       }`}
     >
@@ -135,7 +135,7 @@ export default async function ProgressPage() {
           <section className="app-card p-5">
             <div className="mb-3 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400">
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-300">
                   <TrendingUp aria-hidden="true" size={18} />
                 </span>
                 <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -156,7 +156,7 @@ export default async function ProgressPage() {
             <section className="app-card p-5">
               <div className="mb-3 flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-400">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-zinc-100 dark:bg-white/[0.08] text-zinc-600 dark:text-zinc-300">
                     <CalendarRange aria-hidden="true" size={18} />
                   </span>
                   <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">

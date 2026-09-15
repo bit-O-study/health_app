@@ -54,7 +54,7 @@ export function AnalysisSection({
   return (
     <section className="app-card p-4">
       <div className="flex items-start gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
           {icon}
         </span>
         <div className="min-w-0 flex-1">
@@ -71,7 +71,7 @@ export function AnalysisSection({
         type="button"
         onClick={go}
         disabled={pending}
-        className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+        className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -97,7 +97,7 @@ export function AnalysisSection({
               {analysisDateLabel(savedAt)}
             </p>
           ) : null}
-          <p className="rounded-xl bg-emerald-50 p-3 text-sm leading-6 text-emerald-900 dark:bg-emerald-950/30 dark:text-emerald-100">
+          <p className="rounded-xl bg-brand-soft p-3 text-sm leading-6 text-brand">
             {analysis.summary}
           </p>
           <ul className="space-y-2">

@@ -38,12 +38,13 @@ export default async function CoachPage() {
       </BackLink>
 
       {/* 히어로 */}
-      <div className="mb-5 rounded-3xl bg-gradient-to-br from-emerald-500 to-teal-600 p-5 text-white shadow-sm">
+      {/* 초록 그라데이션 박스 대신 다른 화면과 같은 카드(2026-09-15 화면 간결화). */}
+      <div className="app-card mb-5 p-5">
         <div className="flex items-center gap-2">
-          <GraduationCap aria-hidden="true" size={26} />
-          <h1 className="text-2xl font-bold">헬쑤쌤</h1>
+          <GraduationCap aria-hidden="true" size={24} className="text-brand" />
+          <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-50">헬쑤쌤</h1>
         </div>
-        <p className="mt-1 text-sm leading-6 text-emerald-50">
+        <p className="mt-1 text-sm leading-6 text-zinc-500 dark:text-zinc-400">
           AI 코치가 내 운동·식단을 분석해 뭘 해야 할지, 어디가 부족한지, 자세는
           어떻게 고칠지 알려드려요.
         </p>
@@ -75,7 +76,7 @@ export default async function CoachPage() {
         {/* 기구 검색 */}
         <section className="app-card p-4">
           <div className="mb-3 flex items-start gap-3">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
               <Camera aria-hidden="true" size={20} />
             </span>
             <div className="min-w-0 flex-1">

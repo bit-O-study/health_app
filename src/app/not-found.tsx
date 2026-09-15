@@ -37,7 +37,7 @@ export default function NotFound() {
         </BackLink>
         <Link
           href="/"
-          className="flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white"
+          className="flex items-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white dark:text-zinc-950"
         >
           <House size={16} aria-hidden="true" />
           홈으로

@@ -51,7 +51,7 @@ export function ProofMemberSheet({
         {/* 헤더 */}
         <div className="flex shrink-0 items-center justify-between border-b border-zinc-100 px-5 py-4 dark:border-zinc-800">
           <div className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-sm font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-sm font-bold text-brand">
               {member.name.slice(0, 1)}
             </span>
             <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
@@ -94,8 +94,8 @@ export function ProofMemberSheet({
                   </span>
                 </p>
               </div>
-              <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-3 dark:border-emerald-900/40 dark:bg-emerald-950/20">
-                <span className="flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+              <div className="rounded-2xl border border-brand/40 bg-brand-soft p-3">
+                <span className="flex items-center gap-1 text-xs font-bold text-brand">
                   <Flame size={13} /> 오늘 소비
                 </span>
                 <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
@@ -131,7 +131,7 @@ export function ProofMemberSheet({
                           </span>
                         ) : null}
                       </span>
-                      <span className="shrink-0 text-xs font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                      <span className="shrink-0 text-xs font-bold tabular-nums text-brand">
                         {w.kcal}kcal
                       </span>
                     </li>

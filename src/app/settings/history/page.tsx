@@ -191,8 +191,8 @@ export default async function HistoryPage({
         </p>
       </div>
 
-      <section className="mb-5 rounded-2xl border border-emerald-200 bg-emerald-50/60 p-5 dark:border-emerald-800 dark:bg-emerald-950/20">
-        <p className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">이번 주 런닝</p>
+      <section className="mb-5 rounded-2xl border border-brand/40 bg-brand-soft p-5">
+        <p className="text-xs font-bold uppercase tracking-wide text-brand">이번 주 런닝</p>
         <div className="mt-2 grid grid-cols-3 gap-3 text-center">
           <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{weekSummary.sessions}</p><p className="text-xs text-zinc-500">회</p></div>
           <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{(weekSummary.distanceM / 1_000).toFixed(2)}</p><p className="text-xs text-zinc-500">km</p></div>
@@ -254,16 +254,16 @@ export default async function HistoryPage({
                 title={`${cell.ymd} 상세 보기${durSec > 0 ? ` · ${shortDuration(durSec)}` : ""}`}
                 className={`flex h-16 flex-col items-center justify-center rounded-md text-xs font-semibold transition ${
                   hasActivity
-                    ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-200"
+                    ? "bg-brand-soft text-brand hover:bg-brand-soft"
                     : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 hover:bg-zinc-200"
-                } ${isToday ? "ring-2 ring-emerald-600 ring-offset-1" : ""}`}
+                } ${isToday ? "ring-2 ring-brand/40 ring-offset-1" : ""}`}
               >
                 <span>{cell.day}</span>
                 {label ? (
                   <span className="mt-0.5 text-xs font-bold">{label}</span>
                 ) : hasRun ? <span className="mt-0.5 text-xs font-bold">런닝</span> : null}
                 {durSec > 0 ? (
-                  <span className="mt-0.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+                  <span className="mt-0.5 text-xs font-bold text-brand">
                     {shortDuration(durSec)}
                   </span>
                 ) : null}
@@ -286,10 +286,10 @@ export default async function HistoryPage({
               {focusStats.map(([focus, count]) => (
                 <span
                   key={focus}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-sm font-semibold text-emerald-800 dark:text-emerald-300"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-sm font-semibold text-brand"
                 >
                   {blockLabel(focus)}
-                  <span className="rounded-full bg-emerald-600 px-2 py-0.5 text-xs font-bold text-white">
+                  <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold text-white dark:text-zinc-950">
                     {count}회
                   </span>
                 </span>

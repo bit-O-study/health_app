@@ -141,7 +141,7 @@ export function TeamPlanForm({
       ) : null}
 
       {active ? (
-        <p className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-800 dark:border-emerald-900/50 dark:bg-emerald-950/30 dark:text-emerald-200">
+        <p className="rounded-2xl border border-brand/40 bg-brand-soft p-4 text-sm leading-6 text-brand">
           이용 중이에요. 이 그룹의 회원 {memberCount}명이 프리미엄으로 쓰고 있어요.
           연장·변경은 관리자에게 문의해 주세요.
         </p>
@@ -159,14 +159,14 @@ export function TeamPlanForm({
                   onClick={() => setPlan(id)}
                   className={`flex w-full items-start gap-3 rounded-2xl border p-4 text-left transition ${
                     on
-                      ? "border-emerald-500 bg-emerald-50/60 dark:border-emerald-600 dark:bg-emerald-950/20"
+                      ? "border-brand/40 bg-brand-soft"
                       : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800"
                   }`}
                 >
                   <span
                     className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
                       on
-                        ? "border-emerald-600 bg-emerald-600 text-white"
+                        ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                         : "border-zinc-300 dark:border-zinc-600"
                     }`}
                   >
@@ -177,7 +177,7 @@ export function TeamPlanForm({
                       <span className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
                         {meta.label}
                       </span>
-                      <span className="text-sm font-bold tabular-nums text-emerald-700 dark:text-emerald-400">
+                      <span className="text-sm font-bold tabular-nums text-brand">
                         월 {meta.monthlyKrw.toLocaleString("ko-KR")}원
                       </span>
                     </span>
@@ -211,7 +211,7 @@ export function TeamPlanForm({
                   value={f.v}
                   onChange={(e) => f.set(e.target.value)}
                   placeholder={f.ph}
-                  className="h-10 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+                  className="h-10 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
                 />
               </label>
             ))}
@@ -225,7 +225,7 @@ export function TeamPlanForm({
             data-testid="team-request"
             disabled={pending}
             onClick={submit}
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
             {requested ? "신청 내용 수정" : "이용 신청"}

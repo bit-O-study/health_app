@@ -63,7 +63,7 @@ export function CommitmentSuggestions() {
   return (
     <section className="app-card p-4">
       <div className="flex items-start gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
           <Target aria-hidden="true" size={20} />
         </span>
         <div className="min-w-0 flex-1">
@@ -80,7 +80,7 @@ export function CommitmentSuggestions() {
         type="button"
         onClick={suggest}
         disabled={pending && addingIdx === null}
-        className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+        className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         {pending && addingIdx === null ? (
           <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -121,8 +121,8 @@ export function CommitmentSuggestions() {
                   disabled={pending || done}
                   className={`inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-3 text-xs font-bold transition disabled:opacity-60 ${
                     done
-                      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-                      : "bg-emerald-600 text-white hover:bg-emerald-500"
+                      ? "bg-brand-soft text-brand"
+                      : "bg-brand text-white dark:text-zinc-950 hover:bg-brand/90"
                   }`}
                 >
                   {addingIdx === i ? (

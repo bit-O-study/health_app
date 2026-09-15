@@ -217,7 +217,7 @@ export default async function CalendarPage({
                     aria-label={`미션 달성 ${mMark.pct}%`}
                     className={`absolute left-0.5 top-0.5 text-xs font-bold leading-none ${
                       mMark.marker === "circle"
-                        ? "text-emerald-500"
+                        ? "text-brand"
                         : mMark.marker === "triangle"
                           ? "text-amber-500"
                           : "text-rose-400"

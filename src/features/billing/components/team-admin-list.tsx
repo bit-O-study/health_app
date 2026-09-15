@@ -123,7 +123,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
               type={f.type}
               value={f.value}
               onChange={(e) => f.set(e.target.value)}
-              className="h-10 w-full rounded-xl border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+              className="h-10 w-full rounded-xl border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             />
           </label>
         ))}
@@ -133,7 +133,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
         value={memo}
         onChange={(e) => setMemo(e.target.value)}
         placeholder="입금 확인 메모(입금자명·계좌 등)"
-        className="mt-2 h-10 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+        className="mt-2 h-10 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
       />
 
       <div className="mt-3 flex gap-2">
@@ -142,7 +142,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
           data-testid="team-approve"
           disabled={pending}
           onClick={approve}
-          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           {pending ? <Loader2 aria-hidden="true" size={14} className="animate-spin" /> : null}
           {row.status === "active" ? "기간 연장·수정" : "입금 확인 · 이용 시작"}

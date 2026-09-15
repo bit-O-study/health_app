@@ -70,7 +70,7 @@ export function GroupChallenge({
     <section className="mb-4 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-          <Target aria-hidden="true" size={16} className="text-emerald-600" />
+          <Target aria-hidden="true" size={16} className="text-brand" />
           이번 주 그룹 목표
         </span>
         {isOwner ? (
@@ -80,7 +80,7 @@ export function GroupChallenge({
               setEditing((v) => !v);
               setError(null);
             }}
-            className="text-xs font-semibold text-emerald-600 hover:underline"
+            className="text-xs font-semibold text-brand hover:underline"
           >
             {editing ? "닫기" : challenge ? "수정" : "목표 설정"}
           </button>
@@ -93,7 +93,7 @@ export function GroupChallenge({
             <span className="text-xs font-semibold text-zinc-600 dark:text-zinc-400">
               {metricLabel(challenge.metric)}
               {challenge.done ? (
-                <span className="ml-1 inline-flex items-center gap-0.5 text-emerald-600 dark:text-emerald-400">
+                <span className="ml-1 inline-flex items-center gap-0.5 text-brand">
                   <Trophy aria-hidden="true" size={12} /> 달성!
                 </span>
               ) : null}
@@ -106,7 +106,7 @@ export function GroupChallenge({
           <div className="h-2.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
             <div
               className={`h-full rounded-full transition-all ${
-                challenge.done ? "bg-emerald-500" : "bg-emerald-400"
+                challenge.done ? "bg-brand" : "bg-brand/60"
               }`}
               style={{ width: `${challenge.pct}%` }}
             />
@@ -157,7 +157,7 @@ export function GroupChallenge({
               type="button"
               onClick={save}
               disabled={pending || target.trim() === ""}
-              className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+              className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" size={15} className="animate-spin" />

@@ -334,7 +334,7 @@ export default async function ScorePage() {
                 title={cell.ymd}
                 className={`flex h-9 items-center justify-center rounded-md text-xs font-semibold ${
                   cell.done
-                    ? "bg-emerald-600 text-white"
+                    ? "bg-brand text-white dark:text-zinc-950"
                     : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500"
                 }`}
               >
@@ -369,7 +369,7 @@ export default async function ScorePage() {
           <span
             className={`rounded-full px-2 py-0.5 text-xs font-bold ${
               balanceSource === "body"
-                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
+                ? "bg-brand-soft text-brand"
                 : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
             }`}
           >
@@ -396,7 +396,7 @@ export default async function ScorePage() {
               {" "}체성분 분석지 등록값을 사용 중입니다.
               <Link
                 href="/settings/body-composition"
-                className="ml-1 font-semibold text-emerald-700 dark:text-emerald-400"
+                className="ml-1 font-semibold text-brand"
               >
                 갱신
               </Link>
@@ -406,7 +406,7 @@ export default async function ScorePage() {
               {" "}체성분이 없어 운동 기록 기반으로 추정합니다.
               <Link
                 href="/settings/body-composition"
-                className="ml-1 font-semibold text-emerald-700 dark:text-emerald-400"
+                className="ml-1 font-semibold text-brand"
               >
                 체성분 등록
               </Link>
@@ -603,8 +603,8 @@ function MetricCard({
       text: "text-amber-700 dark:text-amber-400",
     },
     emerald: {
-      bg: "bg-emerald-100 dark:bg-emerald-900/40",
-      text: "text-emerald-700 dark:text-emerald-400",
+      bg: "bg-brand-soft",
+      text: "text-brand",
     },
     indigo: { bg: "bg-indigo-100", text: "text-indigo-700" },
   } as const;

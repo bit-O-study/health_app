@@ -143,14 +143,14 @@ function CommentForm({ videoId }: { videoId: string }) {
     <form className="grid gap-3" onSubmit={handleSubmit}>
       <div className="grid gap-3 sm:grid-cols-[180px_1fr]">
         <input
-          className="h-11 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-11 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
           onChange={(event) => setNickname(event.target.value)}
           placeholder="닉네임(선택)"
           type="text"
           value={nickname}
         />
         <textarea
-          className="min-h-24 resize-y rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 py-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="min-h-24 resize-y rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 py-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
           onChange={(event) => setBody(event.target.value)}
           placeholder="자세 피드백을 남겨주세요."
           value={body}

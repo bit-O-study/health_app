@@ -442,7 +442,7 @@ function DatePickerDialog({
       >
         <div className="mb-1 flex items-center justify-between">
           <h2 className="flex items-center gap-1.5 text-base font-bold">
-            <Calendar size={18} className="text-emerald-600" /> 날짜 선택
+            <Calendar size={18} className="text-brand" /> 날짜 선택
           </h2>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
             <X size={20} />
@@ -461,7 +461,7 @@ function DatePickerDialog({
           onChange={(e) => {
             if (e.target.value) onPick(e.target.value);
           }}
-          className="mt-1 h-12 w-full rounded-2xl border border-zinc-200 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+          className="mt-1 h-12 w-full rounded-2xl border border-zinc-200 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
         />
 
         {/* 빠른 선택 */}
@@ -473,7 +473,7 @@ function DatePickerDialog({
               onClick={() => onPick(q.ymd)}
               className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${
                 date === q.ymd
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                  ? "border-brand/40 bg-brand-soft text-brand"
                   : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
               }`}
             >
@@ -586,7 +586,7 @@ function DefaultMealPhoto({
   return (
     <div
       aria-label={`${MEAL_LABEL[meal]} 기본 사진`}
-      className={`flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-emerald-50 to-zinc-100 dark:from-emerald-950/40 dark:to-zinc-800 ${className}`}
+      className={`flex flex-col items-center justify-center gap-1 bg-zinc-100 dark:bg-zinc-800 ${className}`}
     >
       <span className="text-5xl opacity-70" aria-hidden="true">
         {MEAL_ICON[meal]}
@@ -758,7 +758,7 @@ function MealDetailDialog({
           <span aria-hidden="true">{MEAL_ICON[meal]}</span>
           {MEAL_LABEL[meal]}
           {sub > 0 ? (
-            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <span className="ml-1 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-bold text-brand">
               {sub} kcal
             </span>
           ) : null}
@@ -844,7 +844,7 @@ function MealDetailDialog({
                 type="time"
                 value={time ?? ""}
                 onChange={(e) => onSetTime(e.target.value)}
-                className="h-11 w-40 rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+                className="h-11 w-40 rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
               />
             </label>
           </>
@@ -915,7 +915,7 @@ function MealDetailDialog({
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xl font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                <p className="text-xl font-bold tabular-nums text-brand">
                   {Math.round(totals.kcal)}
                 </p>
                 <p className="text-xs font-semibold text-zinc-400">kcal</p>
@@ -1000,7 +1000,7 @@ function MealDetailDialog({
             <button
               type="button"
               onClick={onAdd}
-              className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+              className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-brand/40 bg-brand-soft text-sm font-bold text-brand transition hover:bg-brand-soft"
             >
               <Plus aria-hidden="true" size={16} />
               음식 추가
@@ -1046,9 +1046,9 @@ function EditFoodForm({
   const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
   const valid = name.trim() !== "" && kcal.trim() !== "" && Number(kcal) >= 0;
   const field =
-    "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+    "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
   return (
-    <div className="space-y-3 rounded-xl border border-emerald-300 bg-white p-3 dark:border-emerald-700 dark:bg-zinc-900">
+    <div className="space-y-3 rounded-xl border border-brand/40 bg-white p-3 dark:bg-zinc-900">
       <label className="block">
         <span className="mb-1 block text-xs font-bold text-zinc-500">음식 이름</span>
         <input value={name} onChange={(e) => setName(e.target.value)} className={field} />
@@ -1119,7 +1119,7 @@ function EditFoodForm({
               category: category || null,
             })
           }
-          className="h-11 flex-1 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           저장
         </button>
@@ -1179,7 +1179,7 @@ function MultiPhotoPicker({
               className="h-24 w-24 rounded-xl object-cover"
             />
             {i === 0 ? (
-              <span className="absolute left-1 top-1 rounded bg-emerald-600 px-1 py-0.5 text-xs font-bold text-white">
+              <span className="absolute left-1 top-1 rounded bg-brand px-1 py-0.5 text-xs font-bold text-white dark:text-zinc-950">
                 대표
               </span>
             ) : null}
@@ -1315,7 +1315,7 @@ function QuantityEditor({
               inputMode="numeric"
               value={grams}
               onChange={(e) => setGrams(e.target.value)}
-              className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-lg font-bold outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+              className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-lg font-bold outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             />
             <span className="text-sm font-semibold text-zinc-500">g</span>
           </div>
@@ -1343,7 +1343,7 @@ function QuantityEditor({
                 onClick={() => setQty(n)}
                 className={`h-10 min-w-[3rem] rounded-xl px-3 text-sm font-bold transition ${
                   qty === n
-                    ? "bg-emerald-600 text-white"
+                    ? "bg-brand text-white dark:text-zinc-950"
                     : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
                 }`}
               >
@@ -1354,11 +1354,11 @@ function QuantityEditor({
         </div>
       )}
 
-      <div className="rounded-xl bg-emerald-50 p-3 text-center dark:bg-emerald-950/30">
-        <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+      <div className="rounded-xl bg-brand-soft p-3 text-center">
+        <span className="text-xs font-semibold text-brand">
           {amountLabel} · 단 {r1(food.protein * factor)} · 탄 {r1(food.carbs * factor)} · 지 {r1(food.fat * factor)}
         </span>
-        <p className="text-2xl font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
+        <p className="text-2xl font-bold tabular-nums text-brand">
           {kcal} kcal
         </p>
       </div>
@@ -1366,7 +1366,7 @@ function QuantityEditor({
       <button
         type="button"
         onClick={confirm}
-        className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500"
+        className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
       >
         담기
       </button>
@@ -1470,7 +1470,7 @@ function AddFoodDialog({
           value={time}
           onChange={(e) => setTime(e.target.value)}
           aria-label="먹은 시간"
-          className="h-9 rounded-lg border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+          className="h-9 rounded-lg border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
         />
       </div>
 
@@ -1505,7 +1505,7 @@ function AddFoodDialog({
             }}
             className={`h-9 flex-1 rounded-lg text-sm font-bold transition ${
               mode === m
-                ? "bg-emerald-600 text-white"
+                ? "bg-brand text-white dark:text-zinc-950"
                 : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
             }`}
           >
@@ -1583,7 +1583,7 @@ function AddFoodDialog({
                         {f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
                       </p>
                     </div>
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950">
                       <Plus aria-hidden="true" size={16} />
                     </span>
                   </button>
@@ -1614,7 +1614,7 @@ function ManualForm({
     const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
     const valid = name.trim() !== "" && kcal.trim() !== "" && Number(kcal) >= 0;
     const field =
-      "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+      "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
     return (
       <div className="flex-1 space-y-3 overflow-y-auto px-4 pt-3 pb-[calc(6rem+env(safe-area-inset-bottom,0px))]">
         <label className="block">
@@ -1675,7 +1675,7 @@ function ManualForm({
               category: category || null,
             })
           }
-          className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           추가하기
         </button>

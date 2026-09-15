@@ -32,7 +32,7 @@ export default async function BodyCompositionPage() {
           피트니스 가이드 목적입니다.
         </p>
         {latest ? (
-          <p className="text-xs text-emerald-700 dark:text-emerald-400">
+          <p className="text-xs text-brand">
             가장 최근 측정: {latest.measuredAt}
           </p>
         ) : (

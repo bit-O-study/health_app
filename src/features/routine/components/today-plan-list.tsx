@@ -872,7 +872,7 @@ function MemoDialog({
             type="button"
             onClick={save}
             disabled={pending}
-            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -1055,7 +1055,7 @@ function ExerciseEditForm({
             disabled={pending}
             className={`inline-flex h-7 items-center rounded-md border px-2 text-xs font-semibold transition ${
               perSet
-                ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
+                ? "border-brand/40 bg-brand-soft text-brand"
                 : "app-field text-zinc-600 dark:text-zinc-300"
             }`}
           >
@@ -1111,7 +1111,7 @@ function ExerciseEditForm({
             type="button"
             onClick={addDetail}
             disabled={pending || detailRows.length >= 20}
-            className="inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400 disabled:opacity-50"
+            className="inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
           >
             <Plus aria-hidden="true" size={13} />
             세트 추가
@@ -1178,7 +1178,7 @@ function ExerciseEditForm({
           type="button"
           onClick={save}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -1328,7 +1328,7 @@ function AddExerciseSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
       >
         <Plus aria-hidden="true" size={18} />
         오늘 루틴에 운동 추가
@@ -1337,7 +1337,7 @@ function AddExerciseSlot({
   }
 
   return (
-    <div className="rounded-[1.25rem] border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3 dark:bg-emerald-950/25">
+    <div className="rounded-[1.25rem] border-2 border-dashed border-brand/40 bg-brand-soft p-3">
       <div className="flex flex-wrap items-center gap-2">
         {/* 직접 담기(allowAllParts)면 모든 기본 부위에서 고를 수 있게(가슴만 되던 문제
             해결). 일반/부위 바꾸기는 오늘 부위만. 고른 부위 슬롯으로 오늘 저장된다. */}
@@ -1390,7 +1390,7 @@ function AddExerciseSlot({
           type="button"
           onClick={submit}
           disabled={pending || loading || !exerciseId}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />

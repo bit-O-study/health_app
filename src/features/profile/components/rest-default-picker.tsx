@@ -41,7 +41,7 @@ export function RestDefaultPicker() {
   return (
     <div className="app-card p-4 sm:p-5">
       <div className="flex items-start gap-3 sm:gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
           <Timer aria-hidden="true" size={22} />
         </span>
         <div className="min-w-0 flex-1">

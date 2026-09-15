@@ -738,7 +738,7 @@ export function PlanEditor({
       aria-busy={editorPending}
       className="m-0 min-w-0 space-y-6 border-0 p-0"
     >
-      <div className="flex flex-col gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 p-5 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-xl border border-brand/40 bg-brand-soft p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
             추천 운동들로 등록
@@ -751,7 +751,7 @@ export function PlanEditor({
           type="button"
           disabled={pending}
           onClick={() => setConfirm({ kind: "all" })}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={16} />
@@ -780,7 +780,7 @@ export function PlanEditor({
               aria-expanded={swapPickerOpen}
               disabled={pending}
               onClick={toggleArmSwapPicker}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:text-zinc-300"
             >
               <ArrowLeftRight aria-hidden="true" size={14} />
               팔 루틴 교환
@@ -826,8 +826,8 @@ export function PlanEditor({
                   onClick={() => selectArmSwapSource(dayIndex)}
                   className={
                     selected
-                      ? "rounded-full border border-emerald-400 bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-800 transition disabled:opacity-60 dark:border-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300"
-                      : "rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                      ? "rounded-full border border-brand/40 bg-brand-soft px-3 py-1.5 text-xs font-semibold text-brand transition disabled:opacity-60"
+                      : "rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:text-zinc-300"
                   }
                 >
                   {name}
@@ -860,7 +860,7 @@ export function PlanEditor({
                       onClick={() =>
                         requestArmSwap(swapSourceDayIndex, targetDayIndex)
                       }
-                      className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                      className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:text-zinc-300"
                     >
                       {name}
                     </button>
@@ -913,7 +913,7 @@ export function PlanEditor({
                     <button
                       type="button"
                       onClick={() => recommendDay(day)}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2.5 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-brand/40 bg-brand-soft px-2.5 text-xs font-semibold text-brand transition hover:bg-brand-soft"
                     >
                       <Sparkles aria-hidden="true" size={14} />
                       추천으로 채우기
@@ -922,7 +922,7 @@ export function PlanEditor({
                       type="button"
                       onClick={() => requestAddRow(day)}
                       disabled={dayOptionsLoading}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 disabled:opacity-60 dark:hover:bg-emerald-950/30"
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
                     >
                       {dayOptionsLoading ? (
                         <Loader2
@@ -955,7 +955,7 @@ export function PlanEditor({
                           type="button"
                           aria-label={`${name} 운동 추가`}
                           onClick={() => addRowToFocus(day, focus.key)}
-                          className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                          className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft dark:text-zinc-300"
                         >
                           {name}
                           {focus.isSide ? (

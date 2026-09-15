@@ -51,8 +51,8 @@ export function EquipmentMethod({
               className={cn(
                 "rounded-full border px-4 py-1.5 text-sm font-semibold transition",
                 active
-                  ? "border-emerald-600 bg-emerald-600 text-white"
-                  : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30",
+                  ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
+                  : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
               )}
             >
               {EQUIPMENT_LABELS[e.equipment]}
@@ -62,7 +62,7 @@ export function EquipmentMethod({
       </div>
 
       {/* 한 줄 요약 — 핵심 자세/그립 → 타겟 */}
-      <p className="mt-5 rounded-xl border border-emerald-300 dark:border-emerald-500/40 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-3 text-base font-bold leading-7 text-emerald-900 dark:text-emerald-100">
+      <p className="mt-5 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-base font-bold leading-7 text-brand">
         {summary.oneLiner}
       </p>
 
@@ -74,7 +74,7 @@ export function EquipmentMethod({
               key={i}
               className="flex gap-2.5 text-sm leading-6 text-zinc-700 dark:text-zinc-300"
             >
-              <span aria-hidden="true" className="shrink-0 text-emerald-500">
+              <span aria-hidden="true" className="shrink-0 text-brand">
                 •
               </span>
               {c}

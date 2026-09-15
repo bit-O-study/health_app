@@ -42,7 +42,7 @@ export function JoinConfirm({
 
   return (
     <div className="mx-auto w-full max-w-sm app-card p-6 text-center">
-      <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+      <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft text-brand">
         <Users aria-hidden="true" size={28} />
       </span>
       <p className="text-sm text-zinc-500 dark:text-zinc-400">그룹 초대</p>
@@ -72,7 +72,7 @@ export function JoinConfirm({
           type="button"
           disabled={pending}
           onClick={accept}
-          className="h-11 flex-1 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           {pending ? "가입 중…" : "확인"}
         </button>

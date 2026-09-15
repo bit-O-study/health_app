@@ -148,7 +148,7 @@ export function NotificationSettings({
           </span>
         ) : savedAt > 0 ? (
           <>
-            <Check aria-hidden="true" size={13} className="text-emerald-500" />
+            <Check aria-hidden="true" size={13} className="text-brand" />
             저장했습니다.
           </>
         ) : (
@@ -179,7 +179,7 @@ function Toggle({
       disabled={disabled}
       onClick={onToggle}
       className={`relative h-6 w-11 shrink-0 rounded-full transition disabled:opacity-60 ${
-        on ? "bg-emerald-500" : "bg-zinc-300 dark:bg-zinc-600"
+        on ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
       }`}
     >
       <span

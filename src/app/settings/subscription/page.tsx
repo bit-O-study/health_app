@@ -66,7 +66,7 @@ export default async function SubscriptionPage() {
               <span className="min-w-0 truncate">{f.label}</span>
               <span className="flex shrink-0 gap-6 tabular-nums">
                 <span className="w-10 text-right">{MONTHLY_LIMITS.free[f.id]}</span>
-                <span className="w-12 text-right font-bold text-emerald-700 dark:text-emerald-400">
+                <span className="w-12 text-right font-bold text-brand">
                   {MONTHLY_LIMITS.premium[f.id]}
                 </span>
               </span>

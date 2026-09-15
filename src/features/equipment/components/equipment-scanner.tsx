@@ -65,7 +65,7 @@ export function EquipmentScanner() {
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={pending}
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={17} className="animate-spin" />
@@ -97,7 +97,7 @@ export function EquipmentScanner() {
               <Dumbbell
                 aria-hidden="true"
                 size={18}
-                className="text-emerald-600 dark:text-emerald-400"
+                className="text-brand"
               />
               <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
                 {analysis.equipmentName}
@@ -137,7 +137,7 @@ export function EquipmentScanner() {
                 {/* 앱에 등록된 운동 — 눌러서 상세로. "어떤 운동을 할 수 있는지" 안내의 핵심 */}
                 {registered.length > 0 ? (
                   <div>
-                    <h3 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-emerald-700 dark:text-emerald-300">
+                    <h3 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-brand">
                       <Dumbbell aria-hidden="true" size={15} />앱에 등록된 운동 · 눌러서 상세보기
                     </h3>
                     <ul className="space-y-2">
@@ -145,7 +145,7 @@ export function EquipmentScanner() {
                         <li key={`reg-${ex.name}-${i}`}>
                           <Link
                             href={`/exercises/${ex.catalog!.slug}`}
-                            className="flex items-center gap-2 rounded-lg border border-emerald-300 bg-emerald-50 p-3 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/30 dark:hover:bg-emerald-950/50"
+                            className="flex items-center gap-2 rounded-lg border border-brand/40 bg-brand-soft p-3 transition hover:bg-brand-soft"
                           >
                             <div className="min-w-0 flex-1">
                               <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -157,7 +157,7 @@ export function EquipmentScanner() {
                                 </p>
                               ) : null}
                             </div>
-                            <span className="shrink-0 rounded bg-emerald-600 px-2 py-1 text-xs font-bold text-white">
+                            <span className="shrink-0 rounded bg-brand px-2 py-1 text-xs font-bold text-white dark:text-zinc-950">
                               상세보기
                             </span>
                           </Link>

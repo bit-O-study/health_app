@@ -36,7 +36,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           setErr(null);
           setEditing(true);
         }}
-        className="mt-2 inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 text-xs font-semibold text-zinc-600 transition hover:border-emerald-300 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:text-emerald-400"
+        className="mt-2 inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:text-zinc-300"
       >
         <Pencil aria-hidden="true" size={12} />
         {initial ? "닉네임 수정" : "닉네임 설정"}
@@ -54,14 +54,14 @@ export function NicknameEditor({ initial }: { initial: string }) {
           onChange={(e) => setValue(e.target.value)}
           placeholder="닉네임 (미설정 시 이름)"
           aria-label="닉네임"
-          className="h-9 w-44 rounded-lg border border-zinc-300 bg-white px-2.5 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+          className="h-9 w-44 rounded-lg border border-zinc-300 bg-white px-2.5 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
         />
         <button
           type="button"
           aria-label="저장"
           onClick={save}
           disabled={pending}
-          className="flex h-9 w-9 items-center justify-center rounded-lg bg-emerald-600 text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" size={15} className="animate-spin" />

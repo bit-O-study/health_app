@@ -98,7 +98,7 @@ export default async function MyPage() {
       {/* 프로필 헤더 */}
       <section className="app-card p-5">
         <div className="flex items-center gap-4">
-          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-2xl font-bold text-white">
+          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand text-2xl font-bold text-white dark:text-zinc-950">
             {initial}
           </span>
           <div className="min-w-0 flex-1">
@@ -158,7 +158,7 @@ export default async function MyPage() {
           </div>
           <div className="h-2.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-700">
             <div
-              className="h-full rounded-full bg-emerald-500"
+              className="h-full rounded-full bg-brand"
               style={{ width: `${kcalPct}%` }}
             />
           </div>
@@ -223,12 +223,12 @@ function SectionTitle({
   return (
     <div className="mb-2 flex items-center justify-between">
       <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-        <span className="text-emerald-600 dark:text-emerald-400">{icon}</span>
+        <span className="text-brand">{icon}</span>
         {title}
       </h2>
       <Link
         href={href}
-        className="inline-flex items-center gap-0.5 text-xs font-semibold text-zinc-400 transition hover:text-emerald-600 dark:hover:text-emerald-400"
+        className="inline-flex items-center gap-0.5 text-xs font-semibold text-zinc-400 transition hover:text-brand"
       >
         {cta}
         <ArrowRight aria-hidden="true" size={13} />
@@ -254,7 +254,7 @@ function Stat({
     zinc: "text-zinc-400",
     amber: "text-amber-600 dark:text-amber-400",
     rose: "text-rose-500",
-    emerald: "text-emerald-600 dark:text-emerald-400",
+    emerald: "text-brand",
     indigo: "text-indigo-600 dark:text-indigo-400",
   } as const;
   return (

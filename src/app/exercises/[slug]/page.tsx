@@ -96,7 +96,7 @@ export default async function ExerciseDetailPage({
 
           <header className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-6 shadow-sm">
             <div className="flex items-center gap-3">
-              <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+              <span className="flex h-14 w-14 items-center justify-center rounded-lg bg-brand-soft text-brand">
                 <ExerciseIcon id={exercise.id} size={36} />
               </span>
               <div>
@@ -125,7 +125,7 @@ export default async function ExerciseDetailPage({
               <div className="mb-3 flex items-center gap-2">
                 <PlayCircle
                   aria-hidden="true"
-                  className="text-emerald-600 dark:text-emerald-400"
+                  className="text-brand"
                   size={20}
                 />
                 <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
@@ -139,7 +139,7 @@ export default async function ExerciseDetailPage({
               <div className="mb-3 flex items-center gap-2">
                 <PlayCircle
                   aria-hidden="true"
-                  className="text-emerald-600 dark:text-emerald-400"
+                  className="text-brand"
                   size={20}
                 />
                 <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
@@ -154,7 +154,7 @@ export default async function ExerciseDetailPage({
               href={`https://www.youtube.com/results?search_query=${encodeURIComponent(`${exercise.name} 운동법`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700"
+              className="flex items-center justify-between gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm transition hover:border-brand/40"
             >
               <span className="flex items-center gap-2 text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                 <PlayCircle

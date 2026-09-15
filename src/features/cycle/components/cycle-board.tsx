@@ -198,7 +198,7 @@ export function CycleBoard({
                 onClick={() => setEditing(date)}
                 className={`flex min-h-[52px] flex-col items-center gap-0.5 rounded-lg border p-1 transition hover:border-rose-300 ${
                   isToday
-                    ? "border-emerald-400 dark:border-emerald-600"
+                    ? "border-brand/40"
                     : "border-transparent"
                 }`}
               >
@@ -330,7 +330,7 @@ function DayEditor({
                 onClick={() => toggle(s)}
                 className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   symptoms.includes(s)
-                    ? "bg-emerald-600 text-white"
+                    ? "bg-brand text-white dark:text-zinc-950"
                     : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
                 }`}
               >

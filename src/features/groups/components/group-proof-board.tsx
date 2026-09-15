@@ -52,7 +52,7 @@ function ProofCard({ member }: { member: ProofMember }) {
         <span className="flex items-center gap-1.5 text-sm font-bold text-white drop-shadow">
           {member.name}
           {member.isMe ? (
-            <span className="rounded-full bg-emerald-500 px-1.5 py-0.5 text-xs font-bold text-white">
+            <span className="rounded-full bg-brand px-1.5 py-0.5 text-xs font-bold text-white dark:text-zinc-950">
               나
             </span>
           ) : null}
@@ -87,14 +87,14 @@ function PendingCard({ member }: { member: ProofMember }) {
 /** 내 카드(아직 인증 전) — 탭하면 카메라를 열어 인증한다. */
 function MyRecordCard() {
   return (
-    <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-emerald-400 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950/30">
-      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-600 text-white">
+    <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-brand/40 bg-brand-soft">
+      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950">
         <Camera size={24} />
       </span>
-      <span className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
+      <span className="text-sm font-bold text-brand">
         탭하여 오늘 인증
       </span>
-      <span className="text-xs text-emerald-700/70 dark:text-emerald-400/70">
+      <span className="text-xs text-brand">
         3초 운동 인증
       </span>
     </div>

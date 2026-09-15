@@ -118,7 +118,7 @@ export function AssignRoutineForm({
             data-testid="assign-confirm"
             disabled={pending}
             onClick={submit}
-            className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
             네, 배정할게요
@@ -138,7 +138,7 @@ export function AssignRoutineForm({
           data-testid="assign-start"
           disabled={!ready || pending}
           onClick={() => setConfirming(true)}
-          className="h-11 w-full rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="h-11 w-full rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           루틴 배정하기
         </button>

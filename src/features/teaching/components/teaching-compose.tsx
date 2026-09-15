@@ -157,7 +157,7 @@ export function TeachingComposeModal({
           value={tag}
           onChange={(e) => setTag(e.target.value.slice(0, MAX_TAG))}
           placeholder="예: 스쿼트, 벤치프레스"
-          className="mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
         />
 
         {/* 한마디 */}
@@ -166,7 +166,7 @@ export function TeachingComposeModal({
           onChange={(e) => setCaption(e.target.value.slice(0, MAX_TEACHING_CAPTION))}
           rows={2}
           placeholder="자세 팁 한마디 (선택)"
-          className="mt-3 w-full resize-none rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="mt-3 w-full resize-none rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
         />
 
         {error ? (
@@ -182,7 +182,7 @@ export function TeachingComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-500 py-3 text-sm font-bold text-white active:scale-[0.99] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-[0.99] disabled:opacity-60"
         >
           {pending ? (
             <>

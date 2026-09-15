@@ -36,7 +36,7 @@ export default async function GroupMemberPage({
         </p>
         <Link
           href={`/groups/${id}`}
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand"
         >
           <ChevronLeft size={16} /> 그룹으로
         </Link>
@@ -70,7 +70,7 @@ export default async function GroupMemberPage({
           </p>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1 text-xs font-bold text-brand">
             <Flame size={14} /> 오늘 운동 소비
           </span>
           <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
@@ -118,7 +118,7 @@ export default async function GroupMemberPage({
                     <span className="ml-1.5 text-xs font-normal text-zinc-400">{w.detail}</span>
                   ) : null}
                 </span>
-                <span className="shrink-0 text-xs font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                <span className="shrink-0 text-xs font-bold tabular-nums text-brand">
                   {w.kcal}kcal
                 </span>
               </li>

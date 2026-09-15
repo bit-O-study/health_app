@@ -752,7 +752,7 @@ function CondMemoDialog({
             type="button"
             onClick={save}
             disabled={pending}
-            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -868,7 +868,7 @@ function ConditioningEditForm({
           type="button"
           onClick={save}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -961,7 +961,7 @@ function AddConditioningSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-4 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-4 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
       >
         <Plus aria-hidden="true" size={16} />
         {label} 항목 추가
@@ -970,7 +970,7 @@ function AddConditioningSlot({
   }
 
   return (
-    <div className="rounded-[1.25rem] border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3 dark:bg-emerald-950/25">
+    <div className="rounded-[1.25rem] border-2 border-dashed border-brand/40 bg-brand-soft p-3">
       <div className="flex flex-wrap items-center gap-2">
         <ExerciseSearchSelect
           ariaLabel="항목"
@@ -986,7 +986,7 @@ function AddConditioningSlot({
           type="button"
           onClick={submit}
           disabled={pending || !itemId}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />

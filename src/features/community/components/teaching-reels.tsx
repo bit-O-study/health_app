@@ -462,7 +462,7 @@ function CommentSheet({
               if (e.key === "Enter" && !e.nativeEvent.isComposing) submit();
             }}
             placeholder="댓글 달기…"
-            className="h-10 flex-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="h-10 flex-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
           />
           <button
             type="button"

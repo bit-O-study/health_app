@@ -65,8 +65,8 @@ function FocusToggle({
         "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition",
         whole ? "font-bold" : "font-semibold",
         active
-          ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
-          : "border-zinc-200 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30",
+          ? "border-brand/40 bg-brand-soft text-brand"
+          : "border-zinc-200 bg-white text-zinc-700 hover:border-brand/40 hover:bg-brand-soft dark:text-zinc-300",
       )}
     >
       <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", style.dot)} />
@@ -167,7 +167,7 @@ export function TodayAdjustMenu({
           <button
             type="button"
             onClick={() => setOpenState(true)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft"
           >
             <SlidersHorizontal aria-hidden="true" size={14} />
             오늘만 운동 바꾸기
@@ -176,7 +176,7 @@ export function TodayAdjustMenu({
             type="button"
             disabled={pending}
             onClick={() => run(restartRoutineFromTodayAction)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 disabled:opacity-60"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -222,9 +222,9 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => run(undoTodayRestAction)}
-                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 px-4 py-3 text-left transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
+                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-200 text-emerald-700 dark:text-emerald-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
                   <Play aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
@@ -314,7 +314,7 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending || picked.size === 0}
                 onClick={replaceAndGo}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
               >
                 운동 전체 바꾸기
                 <ArrowRight aria-hidden="true" size={15} />
@@ -323,7 +323,7 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending || picked.size === 0}
                 onClick={addAndGo}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-emerald-500 bg-white px-4 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 disabled:cursor-not-allowed disabled:border-zinc-200 disabled:text-zinc-300 dark:bg-zinc-800 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-brand/40 bg-white px-4 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:border-zinc-200 disabled:text-zinc-300 dark:bg-zinc-800"
               >
                 <Plus aria-hidden="true" size={15} />
                 오늘만 부위 추가

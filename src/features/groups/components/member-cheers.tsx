@@ -48,7 +48,7 @@ export function MemberCheers({
               key={c.fromUser}
               className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold ${
                 c.mine
-                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                  ? "bg-brand-soft text-brand"
                   : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
               }`}
             >
@@ -79,7 +79,7 @@ export function MemberCheers({
             onClick={submit}
             disabled={pending}
             aria-label="응원 남기기"
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-emerald-600 text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             {pending ? (
               <Loader2 aria-hidden="true" size={14} className="animate-spin" />
@@ -92,7 +92,7 @@ export function MemberCheers({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:underline dark:text-emerald-400"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
         >
           <MessageCircleHeart aria-hidden="true" size={12} />
           {mine ? "응원 수정" : "응원 남기기"}

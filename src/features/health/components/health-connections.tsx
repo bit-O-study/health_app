@@ -178,7 +178,7 @@ export function HealthConnections() {
                         준비 중
                       </span>
                     ) : connected ? (
-                      <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-1.5 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                      <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-soft px-1.5 py-0.5 text-xs font-bold text-brand">
                         <Check aria-hidden="true" size={10} />
                         연결됨
                       </span>
@@ -208,8 +208,8 @@ export function HealthConnections() {
                     onClick={() => (connected ? resync(f.id) : connect(f.id))}
                     className={`inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-xs font-bold transition disabled:opacity-50 ${
                       connected
-                        ? "border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300"
-                        : "bg-emerald-600 text-white hover:bg-emerald-500"
+                        ? "border border-brand/40 bg-brand-soft text-brand hover:bg-brand-soft"
+                        : "bg-brand text-white dark:text-zinc-950 hover:bg-brand/90"
                     }`}
                   >
                     {busy ? (

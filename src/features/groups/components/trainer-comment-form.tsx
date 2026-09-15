@@ -71,7 +71,7 @@ export function TrainerCommentForm({
           onChange={(e) => setBody(e.target.value.slice(0, MAX_COMMENT_LEN))}
           rows={4}
           placeholder={`${memberName} 님에게 남길 말 — 자세, 무게, 이번 주 목표 등`}
-          className="w-full rounded-xl border border-zinc-300 bg-white p-3 text-sm leading-6 outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+          className="w-full rounded-xl border border-zinc-300 bg-white p-3 text-sm leading-6 outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
         />
         <div className="flex items-center justify-between">
           <span className="text-xs tabular-nums text-zinc-400">
@@ -82,7 +82,7 @@ export function TrainerCommentForm({
             data-testid="comment-submit"
             disabled={pending || body.trim().length === 0}
             onClick={submit}
-            className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             {pending ? (
               <Loader2 aria-hidden="true" size={14} className="animate-spin" />

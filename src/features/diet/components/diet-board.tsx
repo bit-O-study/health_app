@@ -341,21 +341,20 @@ export function DietBoard({
         </div>
       </div>
 
-      {/* 요약 카드 — 칼로리 링 + 탄단지 바 */}
-      <div className="app-card p-4 sm:p-5">
-        <div className="flex items-center gap-4">
+      {/* 히어로 — 큰 칼로리 링 하나 + 탄단지 작은 링 3개(아이폰 피트니스 느낌, 2026-09-15 구조 재설계). */}
+      <div className="app-card p-5">
+        <div className="flex items-center gap-5">
           <KcalRing consumed={totals.kcal} target={target.kcal} />
-          <div className="min-w-0 flex-1 space-y-2.5">
-            {/* 탄단지 막대는 색 하나(브랜드) — 세 가지 색은 이름이 이미 구분해 준다. */}
+          <div className="grid min-w-0 flex-1 grid-cols-3 gap-2">
             <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="var(--brand)" />
-            <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="var(--brand)" />
-            <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--brand)" />
+            <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="var(--warn)" />
+            <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--info)" />
           </div>
         </div>
       </div>
 
-      {/* 끼니별 게시물 카드 */}
-      <div className="space-y-3">
+      {/* 끼니 — 큰 사진 카드 4장 대신 한 장짜리 그룹 목록(썸네일 · 이름 · kcal · 추가) */}
+      <div className="app-list divide-y divide-[var(--line)]">
         {MEALS.map((meal) => (
           <MealSection
             key={meal}
@@ -489,46 +488,42 @@ function DatePickerDialog({
 function KcalRing({ consumed, target }: { consumed: number; target: number }) {
   const pct = target > 0 ? Math.min(1, consumed / target) : 0;
   const over = target > 0 && consumed > target;
-  const R = 34;
+  const R = 52;
   const C = 2 * Math.PI * R;
   const remain = Math.max(0, target - consumed);
   return (
-    <div className="flex shrink-0 flex-col items-center gap-1">
-      <div className="relative h-20 w-20">
-        <svg viewBox="0 0 80 80" className="h-20 w-20 -rotate-90">
-          <circle cx="40" cy="40" r={R} fill="none" stroke="currentColor" strokeWidth="8" className="text-zinc-200 dark:text-zinc-800" />
-          <circle
-            cx="40"
-            cy="40"
-            r={R}
-            fill="none"
-            stroke={over ? "var(--danger)" : "var(--brand)"}
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeDasharray={C}
-            strokeDashoffset={C * (1 - pct)}
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-base font-bold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
-            {consumed}
-          </span>
-          <span className="mt-0.5 text-xs font-semibold leading-none text-zinc-400">
-            / {target}
-          </span>
-        </div>
+    <div className="relative h-32 w-32 shrink-0">
+      <svg viewBox="0 0 120 120" className="h-32 w-32 -rotate-90">
+        <circle cx="60" cy="60" r={R} fill="none" stroke="var(--brand)" strokeOpacity={0.15} strokeWidth="12" />
+        <circle
+          cx="60"
+          cy="60"
+          r={R}
+          fill="none"
+          stroke={over ? "var(--danger)" : "var(--brand)"}
+          strokeWidth="12"
+          strokeLinecap="round"
+          strokeDasharray={C}
+          strokeDashoffset={C * (1 - pct)}
+          className="transition-[stroke-dashoffset] duration-700"
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+        <span className="text-2xl font-bold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
+          {over ? `+${consumed - target}` : remain}
+        </span>
+        <span className={`mt-1 text-xs font-semibold ${over ? "text-danger" : "text-zinc-500 dark:text-zinc-400"}`}>
+          {over ? "kcal 초과" : "kcal 남음"}
+        </span>
+        <span className="mt-0.5 text-xs tabular-nums text-zinc-400">
+          {consumed} / {target}
+        </span>
       </div>
-      <span
-        className={`whitespace-nowrap text-xs font-semibold ${
-          over ? "text-danger" : "text-zinc-400"
-        }`}
-      >
-        {over ? `+${consumed - target} 초과` : `${remain} 남음`}
-      </span>
     </div>
   );
 }
 
+/** 탄단지 작은 링 — 링 안에 퍼센트, 아래에 이름과 g. */
 function MacroBar({
   label,
   consumed,
@@ -541,17 +536,35 @@ function MacroBar({
   color: string;
 }) {
   const pct = target > 0 ? Math.min(100, (consumed / target) * 100) : 0;
+  const R = 20;
+  const C = 2 * Math.PI * R;
   return (
-    <div>
-      <div className="mb-0.5 flex items-baseline justify-between text-xs">
-        <span className="font-semibold text-zinc-600 dark:text-zinc-300">{label}</span>
-        <span className="tabular-nums text-zinc-500 dark:text-zinc-400">
-          {consumed} / {target}g
+    <div className="flex min-w-0 flex-col items-center text-center">
+      <div className="relative h-14 w-14">
+        <svg viewBox="0 0 48 48" className="h-14 w-14 -rotate-90">
+          <circle cx="24" cy="24" r={R} fill="none" stroke={color} strokeOpacity={0.18} strokeWidth="5" />
+          <circle
+            cx="24"
+            cy="24"
+            r={R}
+            fill="none"
+            stroke={color}
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeDasharray={C}
+            strokeDashoffset={C * (1 - pct / 100)}
+          />
+        </svg>
+        <span className="absolute inset-0 flex items-center justify-center text-xs font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
+          {Math.round(pct)}%
         </span>
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-        <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
-      </div>
+      <span className="mt-1 text-xs font-semibold" style={{ color }}>
+        {label}
+      </span>
+      <span className="truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+        {consumed}/{target}g
+      </span>
     </div>
   );
 }
@@ -614,85 +627,71 @@ function MealSection({
   const empty = items.length === 0 && photos.length === 0;
   const time = mealTimeOf(items);
   const cover = photos[0] ?? null;
-  return (
-    <div className="app-card overflow-hidden">
-      {/* 끼니 머리 한 줄 — 이모지·색 배지·빈 안내 문장 없이 이름 · 시간 · kcal · 추가만. */}
-      <div className="flex items-center gap-2 px-4 py-3">
-        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
-          {MEAL_LABEL[meal]}
-        </h2>
-        {time ? (
-          <span className="text-sm text-zinc-500 dark:text-zinc-400">{fmtClock(time)}</span>
-        ) : null}
-        {sub > 0 ? (
-          <span className="text-sm tabular-nums text-zinc-500 dark:text-zinc-400">
-            {sub} kcal
+  // 한 줄 목록 행 — 썸네일 · 끼니 이름(+시간) · 담은 음식 요약 · kcal · 추가.
+  // 기록이 있으면 왼쪽 영역 전체가 '게시물 열기' 버튼(상세에서 수정·삭제).
+  const summary = items.length > 0 ? items.map((it) => it.name).join(", ") : photos.length > 0 ? "사진만 기록됨" : "";
+  const body = (
+    <>
+      <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800">
+        {cover ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={cover}
+            alt={`${MEAL_LABEL[meal]} 대표사진`}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <span aria-hidden="true" className="flex h-full w-full items-center justify-center text-2xl">
+            {MEAL_ICON[meal]}
+          </span>
+        )}
+        {photos.length > 1 ? (
+          <span className="absolute bottom-0.5 right-0.5 flex items-center gap-0.5 rounded-full bg-black/60 px-1 text-xs font-bold text-white">
+            <Images aria-hidden="true" size={10} />
+            {photos.length}
           </span>
         ) : null}
-        <button
-          type="button"
-          onClick={onAdd}
-          className="app-press ml-auto inline-flex h-8 items-center gap-1 rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
-        >
-          <Plus aria-hidden="true" size={14} />
-          추가
-        </button>
-      </div>
-
-      {empty ? null : (
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex items-baseline gap-2">
+          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">{MEAL_LABEL[meal]}</h2>
+          {time ? <span className="text-xs text-zinc-500 dark:text-zinc-400">{fmtClock(time)}</span> : null}
+        </span>
+        <span className="block truncate text-sm text-zinc-500 dark:text-zinc-400">
+          {summary || "기록 없음"}
+        </span>
+      </span>
+      {sub > 0 ? (
+        <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+          {`${sub} kcal`}
+        </span>
+      ) : null}
+    </>
+  );
+  return (
+    <div className="flex items-center gap-2 py-2.5 pl-3 pr-3">
+      {empty ? (
+        <div className="flex min-w-0 flex-1 items-center gap-3">{body}</div>
+      ) : (
         <button
           type="button"
           onClick={onOpen}
           aria-label={`${MEAL_LABEL[meal]} 게시물 열기`}
-          className="block w-full border-t border-[var(--line)] text-left transition active:opacity-80"
+          className="flex min-w-0 flex-1 items-center gap-3 text-left transition active:opacity-70"
         >
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-            {cover ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={cover}
-                alt={`${MEAL_LABEL[meal]} 대표사진`}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <DefaultMealPhoto meal={meal} className="h-full w-full" />
-            )}
-            {photos.length > 1 ? (
-              <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white">
-                <Images aria-hidden="true" size={12} />
-                {photos.length}
-              </span>
-            ) : null}
-          </div>
-          <div className="px-4 py-3">
-            {items.length > 0 ? (
-              <ul className="space-y-1">
-                {items.map((it) => (
-                  <li key={it.rowKey ?? it.id}
-                    className="flex items-baseline justify-between gap-2 text-sm"
-                  >
-                    <span className="text-safe min-w-0 flex-1 font-semibold leading-5 text-zinc-800 dark:text-zinc-100">
-                      {it.name}
-                      {it.amount ? (
-                        <span className="ml-1.5 text-xs font-normal text-zinc-400">
-                          {it.amount}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="shrink-0 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
-                      {Math.round(it.kcal)}kcal
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs text-zinc-400">사진만 기록됨</p>
-            )}
-          </div>
+          {body}
         </button>
       )}
+      <button
+        type="button"
+        onClick={onAdd}
+        className="app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
+      >
+        <Plus aria-hidden="true" size={14} />
+        추가
+      </button>
     </div>
   );
 }

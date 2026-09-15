@@ -172,7 +172,8 @@ export default async function Home() {
       <HeaderBar isLoggedIn={Boolean(user)} />
 
       <main className="app-container">
-        {user ? (
+        {/* 권한 한 줄은 큰 제목 아래로 옮겼다(TodayWorkout 안) — 제목보다 먼저 보이지 않게. */}
+        {user && !routine ? (
           <div className="mb-4">
             <PermissionNudge />
           </div>
@@ -441,6 +442,8 @@ function TodayWorkout({
           오늘의 운동
         </h1>
       </div>
+
+      <PermissionNudge />
 
       {/* 오늘 카드 — 바탕은 공통 표면, 부위 색은 배지·점(TodayFocusMenu)에만. */}
       <section className="app-card p-5">

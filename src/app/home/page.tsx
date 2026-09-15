@@ -9,8 +9,6 @@ import { PermissionNudge } from "@/features/notifications/components/permission-
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
-import { activityRings } from "@/features/home/activity-rings";
-import { ActivityRings, RING_COLOR } from "@/features/home/components/activity-rings";
 import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
 import { TodayCard } from "@/features/home/components/today-card";
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
@@ -27,9 +25,9 @@ export const metadata: Metadata = {
 };
 
 /**
- * 홈 — 아이폰 피트니스 앱 구조(2026-09-15 "전체적으로 싹 바꿔 달라, 기능만 살아 있게").
- * 큰 제목 → 광고 배너(사용자 요청으로 맨 위 유지) → 활동 링 히어로 → 오늘 위젯 2칸
- * → 체형 목표 → 이번 주 → 운동 기록. 데이터·링크·기능은 그대로다.
+ * 홈 — 깔끔·촘촘하게(2026-09-15). 큰 제목 → 광고 배너(사용자 요청으로 맨 위 유지)
+ * → 오늘(다짐·식단 두 줄 목록) → 체형 목표 → 이번 주 → 운동 기록.
+ * 같은 숫자를 두 번 늘어놓던 활동 링 카드는 사용자 요청으로 뺐다("짜치니까 없애 달라").
  */
 export default async function HomePage() {
   const user = await getCurrentUser();
@@ -58,13 +56,6 @@ export default async function HomePage() {
   const todayYmd = seoulYmd();
   const [, mm, dd] = todayYmd.split("-");
   const { weekday } = ymdDisplay(todayYmd);
-  const rings = activityRings({
-    workoutDays: weekly?.current.workoutDays ?? 0,
-    eatenKcal: dietExerciseNeed.eatenKcal,
-    targetKcal: dietExerciseNeed.targetKcal,
-    commitDone: todayCommitments.filter((c) => c.done).length,
-    commitTotal: todayCommitments.length,
-  });
 
   return (
     <div className="app-page overflow-x-clip">
@@ -92,23 +83,6 @@ export default async function HomePage() {
         {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
         <PromoBanner />
         <PermissionNudge />
-
-        {/* 활동 링 히어로 */}
-        <section aria-label="오늘 활동" data-testid="activity-rings" className="app-card flex items-center gap-4 p-3">
-          <ActivityRings rings={rings} size={88} />
-          <ul className="min-w-0 flex-1 divide-y divide-[var(--line)]">
-            {rings.map((r) => (
-              <li key={r.key} className="flex min-w-0 items-baseline justify-between gap-2 py-1.5">
-                <span className="shrink-0 text-xs font-semibold" style={{ color: RING_COLOR[r.key] }}>
-                  {r.label}
-                </span>
-                <span className="truncate text-sm font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
-                  {r.valueText}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
 
         <TodayCard
           commitments={todayCommitments}

@@ -206,10 +206,10 @@ export function UpcomingSevenDaysGrid({
 
   return (
     <section>
-      <div className="mb-3 flex items-center justify-between gap-2">
+      <div className="mb-1.5 flex items-center justify-between gap-2">
         {/* 제목 위계는 '오늘 할 운동'(h2)과 같은 규칙 — 색 아이콘칩·보조 설명 없이 제목만.
             드래그 안내는 편집 모드일 때만 짧게. */}
-        <h2 className="flex flex-wrap items-center gap-2 text-lg font-bold text-zinc-950 dark:text-zinc-100">
+        <h2 className="flex flex-wrap items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
           다가오는 7일
           {editMode ? (
             <span className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
@@ -285,8 +285,8 @@ export function UpcomingSevenDaysGrid({
               onContextMenu={(e) => e.preventDefault()}
               style={liftStyle}
               className={cn(
-                "relative select-none rounded-2xl border p-3",
-                editMode ? "cursor-grab active:cursor-grabbing" : "w-32 shrink-0 snap-start",
+                "relative select-none rounded-xl border px-2.5 py-2",
+                editMode ? "cursor-grab active:cursor-grabbing" : "w-28 shrink-0 snap-start",
                 style.card,
                 cell.isToday ? "border-brand" : "",
                 isDragged ? "ring-2 ring-brand/50" : "",
@@ -322,7 +322,7 @@ export function UpcomingSevenDaysGrid({
               </div>
               <span
                 className={cn(
-                  "mt-2 inline-flex min-w-0 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold",
+                  "mt-1 inline-flex min-w-0 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold",
                   style.badge,
                 )}
               >

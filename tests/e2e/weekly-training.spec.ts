@@ -291,7 +291,7 @@ test("🔴 트레이너 목록이 '늘 같은 데만 하는 회원'을 짚어 �
   await ctxT.close();
 });
 
-test("홈·운동탭에서 이번 주 요약이 보이고 점수 화면으로 이어진다", async ({ page }) => {
+test("홈에서 이번 주 요약이 보이고 점수 화면으로 이어진다 — 운동탭엔 같은 카드를 두지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
   await seedCompletion(email, { dayOfWeek: 0, exerciseId: "bench-press", focus: "chest", sets: 8 });
@@ -305,11 +305,13 @@ test("홈·운동탭에서 이번 주 요약이 보이고 점수 화면으로 �
   await expect(summary.getByTestId("summary-region-leg")).toHaveAttribute("data-status", "none");
   await expect(summary).toContainText("0세트");
 
-  // 운동탭에도 같은 카드.
+  // 운동탭엔 같은 카드를 두지 않는다(2026-09-15 깔끔·촘촘 — 홈과 중복 제거).
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await expect(page.getByTestId("weekly-training-summary")).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole("heading", { name: "오늘의 운동" })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByTestId("weekly-training-summary")).toHaveCount(0);
 
-  // 눌러서 전체 분석으로.
+  // 홈 카드를 눌러서 전체 분석으로.
+  await page.goto("/home", { waitUntil: "networkidle" });
   await page.getByTestId("weekly-training-summary").click();
   await page.waitForURL("**/settings/score", { timeout: 15000 });
   await expect(page.getByTestId("weekly-training-card")).toBeVisible({ timeout: 10000 });

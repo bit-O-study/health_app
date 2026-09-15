@@ -572,7 +572,7 @@ export function TodayPlanList({
                 userSelect: inlineEditing ? "auto" : "none",
               }}
               // 아이폰 목록 행 — 그림자 없이 카드 모양 하나. 완료/휴식은 흐리게만(색 칠 X).
-              className={`relative flex select-none items-center gap-3 bg-[var(--surface-strong)] px-4 py-3 ${
+              className={`relative flex select-none items-center gap-2.5 bg-[var(--surface-strong)] px-3 py-2 ${
                 isDragging
                   ? "ring-2 ring-brand/50"
                   : inlineEditing
@@ -616,8 +616,8 @@ export function TodayPlanList({
               ) : null}
 
               {inlineEditing ? null : (
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300">
-                  <ExerciseIcon id={item.exerciseId} size={22} />
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300">
+                  <ExerciseIcon id={item.exerciseId} size={18} />
                 </span>
               )}
 
@@ -645,7 +645,7 @@ export function TodayPlanList({
  onPointerUp 에서 router.push 로 직접 이동. */
                 <div className="group flex min-w-0 flex-1 items-center gap-2">
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+                    <h3 className="text-sm font-semibold leading-5 text-zinc-950 dark:text-zinc-100">
                       {item.name}
                       {/* 대근육 부위 1개 + 세부근육 1개 — 가장 영향 큰 것만. 색 알약 대신 회색 글자
                           (부위마다 분홍·파랑·주황으로 칠하던 것 제거, 2026-09-15). */}
@@ -684,7 +684,7 @@ export function TodayPlanList({
                         </span>
                       ) : null}
                     </h3>
-                    <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400">
                       {/* 무게·횟수 고정 켬일 때만 세트·횟수·무게 표시. 끔이면 운동모드에서
                           정하므로 메인엔 칼로리만(세트수도 안 보임). */}
                       {lockWeightReps

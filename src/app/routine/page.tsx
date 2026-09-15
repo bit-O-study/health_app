@@ -61,11 +61,6 @@ import {
   TodayEditBar,
 } from "@/features/routine/components/today-edit-scope";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
-import { getWeeklyReport } from "@/features/routine/weekly-report-data";
-import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
-import type { WeeklyTrainingView } from "@/features/routine/weekly-training-view";
-import { WeeklyOverviewCard } from "@/features/routine/components/weekly-overview-card";
-import type { WeeklyReport } from "@/features/routine/weekly-report";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -141,20 +136,16 @@ export default async function Home() {
   // 오늘 계획도 profile·routine 과 독립적이므로 최초 데이터 왕복에 함께 시작한다.
   const todayYmd = seoulYmd();
   if (user) warmTodayExercisesData(todayYmd);
-  const [profile, routine, dailyPlan, weekly, trainerComments, training] = user
+  // '이번 주' 카드는 홈에만 둔다(2026-09-15 깔끔·촘촘 — 운동탭에서 같은 카드를 두 번 보지 않게).
+  const [profile, routine, dailyPlan, trainerComments] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
         getDailyPlanForDate(todayYmd),
-        // 주간 요약도 프로필·루틴과 독립이라 **같은 물결**에 실어 보낸다.
-        // 뒤에 따로 부르면 서울↔싱가포르 왕복이 한 번 더 쌓인다.
-        getWeeklyReport(todayYmd),
         // 트레이너 코멘트도 같은 물결에. 대부분 0건이라 화면에 아무것도 안 그린다.
         getMyTrainerComments(3),
-        // 훈련 분석은 주간 요약과 같은 완료 기록을 본다(React.cache 로 왕복 1회).
-        getMyWeeklyTraining(),
       ])
-    : [null, null, [], null, [], null];
+    : [null, null, [], []];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -193,8 +184,6 @@ export default async function Home() {
             routine={routine}
             profile={profile}
             dailyPlan={dailyPlan}
-            weekly={weekly}
-            training={training}
           />
         )}
       </main>
@@ -267,8 +256,6 @@ function TodayWorkout({
   routine,
   profile,
   dailyPlan,
-  weekly,
-  training,
 }: {
   routine: {
     splits: number;
@@ -285,10 +272,6 @@ function TodayWorkout({
   };
   profile: UserProfile | null;
   dailyPlan: DailyPlanRow[];
-  /** 로그인 전/집계 실패 시 null — 없는 카드는 그리지 않는다. */
-  weekly: WeeklyReport | null;
-  /** 이번 주 부위별 훈련량. 같은 이유로 null 이면 안 그린다. */
-  training: WeeklyTrainingView | null;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -432,10 +415,10 @@ function TodayWorkout({
   });
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       {/* 아이폰 큰 제목 — 날짜·루틴 한 줄이 위, 제목이 아래 */}
       <div className="px-1">
-        <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+        <p className="truncate text-xs font-semibold text-zinc-500 dark:text-zinc-400">
           {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
         </p>
         <h1 className="app-title">
@@ -446,8 +429,8 @@ function TodayWorkout({
       <PermissionNudge />
 
       {/* 오늘 카드 — 바탕은 공통 표면, 부위 색은 배지·점(TodayFocusMenu)에만. */}
-      <section className="app-card p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <section className="app-card px-3 py-2.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             {isRest ? (
               <Moon
@@ -472,7 +455,7 @@ function TodayWorkout({
         </div>
 
         {isRest ? (
-          <p className="mt-5 text-base leading-7 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1.5 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
             {restedToday
               ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
@@ -487,18 +470,18 @@ function TodayWorkout({
                 )
               : planToday.muscles;
             return (
-              <div className="mt-6">
-                <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                  자극 부위
-                </p>
-                {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트(상단 정렬) */}
-                <div className="mt-3 flex items-start gap-3">
-                  <DayMuscleMap names={dayMuscles} width={44} />
-                  <div className="flex flex-1 flex-wrap gap-1.5">
+              <div className="mt-1.5">
+                {/* 촘촘하게 — 작은 인체 그림 + 라벨·부위 이름을 한 덩어리로(자극 부위 글자는 유지). */}
+                <div className="flex items-center gap-3">
+                  <DayMuscleMap names={dayMuscles} width={30} />
+                  <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
+                    <span className="mr-0.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                      자극 부위
+                    </span>
                     {dayMuscles.map((muscle) => (
                       <span
                         key={muscle}
-                        className="app-field rounded-full border px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300"
+                        className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300"
                       >
                         {muscle}
                       </span>
@@ -547,15 +530,6 @@ function TodayWorkout({
             <TodayEditBar />
           </div>
         )}
-
-        {/* 이번 주 한눈에 + 어느 부위가 비었는지 — 홈과 **같은 카드/같은 집계** 한 장.
-            운동탭이 '오늘'만 말하고 끝나면 이번 주 흐름이 안 보이고, 빈 부위는
-            오늘 무엇을 담을지 정하는 이 자리에서 봐야 쓸모가 있다. */}
-        <WeeklyOverviewCard
-          report={weekly}
-          regions={training?.regions ?? []}
-          weekSets={training?.weekSets ?? 0}
-        />
 
         {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
         <UpcomingSevenDaysGrid

@@ -24,10 +24,7 @@ import {
   type ConditioningParam,
 } from "@/features/routine/conditioning-catalog";
 import type { ConditioningRow } from "@/features/routine/conditioning";
-import {
-  estimateConditioningKcal,
-  estimateStrengthKcal,
-} from "@/features/routine/calories";
+import { estimateConditioningKcal } from "@/features/routine/calories";
 import {
   getTodayCompletedItems,
   getLastExerciseValues,
@@ -484,38 +481,6 @@ export async function TodayExercises({
   const warmDoneSet = new Set(warm.doneIds);
   const coolDoneSet = new Set(cool.doneIds);
 
-  // 칼로리 합산 — 스킵 제외
-  const totalWarm = warm.items
-    .filter((i) => !warmSkipSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const totalCool = cool.items
-    .filter((i) => !coolSkipSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const totalMain = plan
-    .filter((p) => !mainSkipSet.has(p.id))
-    .reduce(
-      (s, p) =>
-        s + estimateStrengthKcal(w, p.exerciseId, effMainSets(p.id, p.sets)),
-      0,
-    );
-  const totalKcal = Math.round(totalWarm + totalMain + totalCool);
-
-  // 완료 칼로리 — done 만 합산
-  const doneWarm = warm.items
-    .filter((i) => warmDoneSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const doneCool = cool.items
-    .filter((i) => coolDoneSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const doneMain = plan
-    .filter((p) => mainDoneSet.has(p.id))
-    .reduce(
-      (s, p) =>
-        s + estimateStrengthKcal(w, p.exerciseId, effMainSets(p.id, p.sets)),
-      0,
-    );
-  const completedKcal = Math.round(doneWarm + doneMain + doneCool);
-
   // 오늘 진행률(개수 기준). kcal 은 종목마다 무게가 달라 "몇 개 남았나"를 못 말한다 —
   // 사람이 보는 값은 개수다. 세는 규칙은 순수 모듈(today-progress)에만 둔다.
   const progress = todayProgress({
@@ -623,11 +588,11 @@ export async function TodayExercises({
     // '편집하기' 하나로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
     <RestTimerProvider sound={restSound} haptic={restHaptic}>
       <TodayOrderScope>
-        <section className="space-y-5">
+        <section className="space-y-3">
           {/* 섹션 제목 위계: h2(아이콘칩 + 굵게) → 하위 섹션 h3(같은 모양, 한 단계 작게).
               예전엔 여기만 회색 대문자 라벨이라 아래 '본운동/워밍업' 과 규칙이 달랐다. */}
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h2 className="flex flex-wrap items-center gap-2 text-lg font-bold text-zinc-950 dark:text-zinc-100">
+            <h2 className="flex flex-wrap items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
               오늘 할 운동
               {usingDailyPlan ? (
                 <span className="whitespace-nowrap rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
@@ -643,29 +608,20 @@ export async function TodayExercises({
 
         {/* 오늘 진행 + 운동 시작을 **한 장**에 — 진행 링이 주인공, 시작 버튼이 바로 아래.
             (2026-09-15 "싹 바꿔 달라": 진행 카드와 시작 버튼이 따로 떨어져 있던 구조를 합쳤다.) */}
-        <div className="app-card space-y-4 p-5">
-          <div className="flex items-center gap-4">
+        <div className="app-card space-y-2.5 p-3">
+          <div className="flex items-center gap-3">
             <ProgressRing
               pct={progress.donePct}
               skippedPct={progress.skippedPct}
               label={`${progress.label}${progress.skippedLabel ? ` · ${progress.skippedLabel}` : ""}`}
             />
+            {/* 진행은 숫자 한 줄만 — '오늘 진행' 라벨·kcal 줄은 뺐다(깔끔·촘촘, 2026-09-15). */}
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">오늘 진행</p>
-              <p className="flex flex-wrap items-baseline gap-x-2 text-2xl font-bold text-zinc-950 dark:text-zinc-50">
-                <span className="tabular-nums">{progress.label}</span>
-              </p>
+              <p className="text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">{progress.label}</p>
               {progress.skippedLabel ? (
                 <p className="text-xs text-zinc-500 dark:text-zinc-400">{progress.skippedLabel}</p>
               ) : null}
-              <p className="mt-0.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
-                <span className="font-semibold text-zinc-900 dark:text-zinc-100">{completedKcal}</span>
-                {" / "}
-                {totalKcal} kcal
-              </p>
             </div>
-          </div>
-          <div className="flex justify-end">
             <MarkAllDoneButton
               planRows={plan
                 .filter((p) => !mainSkipSet.has(p.id) && !mainDoneSet.has(p.id))
@@ -741,7 +697,7 @@ export async function TodayExercises({
           본운동
         </h3>
         {plan.length === 0 ? (
-          <div className="app-card p-5 text-center">
+          <div className="app-card p-3 text-center">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">
               등록된 본운동이 없습니다
             </p>
@@ -809,8 +765,8 @@ function ProgressRing({
   skippedPct: number;
   label: string;
 }) {
-  const size = 84;
-  const stroke = 10;
+  const size = 64;
+  const stroke = 8;
   const r = (size - stroke) / 2;
   const len = 2 * Math.PI * r;
   const donePart = (len * Math.min(100, Math.max(0, pct))) / 100;
@@ -845,7 +801,7 @@ function ProgressRing({
           />
         ) : null}
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
+      <span className="absolute inset-0 flex items-center justify-center text-sm font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
         {Math.round(pct)}%
       </span>
     </div>

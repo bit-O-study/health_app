@@ -505,7 +505,7 @@ export function TodayConditioningList({
                 userSelect: inlineEditing ? "auto" : "none",
               }}
               // 본운동 목록과 같은 아이폰 행 — 그림자 없이, 완료/휴식은 흐리게만.
-              className={`relative flex select-none items-center gap-3 bg-[var(--surface-strong)] px-4 py-3 ${
+              className={`relative flex select-none items-center gap-2.5 bg-[var(--surface-strong)] px-3 py-2 ${
                 isDragging
                   ? "ring-2 ring-brand/50"
                   : inlineEditing
@@ -550,9 +550,9 @@ export function TodayConditioningList({
 
               {inlineEditing ? null : (
                 <span
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconBg}`}
+                  className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${iconBg}`}
                 >
-                  <ConditioningIcon id={item.itemId} size={22} />
+                  <ConditioningIcon id={item.itemId} size={18} />
                 </span>
               )}
               {inlineEditing ? (
@@ -572,7 +572,7 @@ export function TodayConditioningList({
               ) : (
                 <div className="group flex min-w-0 flex-1 items-center gap-2">
                   <div className="min-w-0 flex-1">
-                    <h4 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+                    <h4 className="text-sm font-semibold leading-5 text-zinc-950 dark:text-zinc-100">
                       {item.name}
                       {isDone ? (
                         <span className="ml-2 whitespace-nowrap rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
@@ -585,7 +585,7 @@ export function TodayConditioningList({
                         </span>
                       ) : null}
                     </h4>
-                    <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400">
                       {lockWeightReps ? <>{item.detail} · </> : null}
                       <span className="text-xs text-zinc-500 dark:text-zinc-400">
                         약 {item.kcal}kcal

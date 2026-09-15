@@ -108,11 +108,11 @@ describe("한글 폰트", () => {
 describe("홈 구성", () => {
   const home = read("src/app/home/page.tsx");
 
-  it("큰 제목 → 광고 배너 → 활동 링 → 오늘 위젯 → 목표 → 이번 주 → 잔디 순서(아이폰 피트니스 구조)", () => {
+  it("큰 제목 → 광고 배너 → 오늘(두 줄 목록) → 목표 → 이번 주 → 잔디 순서 — 활동 링 카드 없음", () => {
+    expect(home).not.toContain("ActivityRings");
     const order = [
       "<h1",
       "<PromoBanner",
-      "<ActivityRings",
       "<TodayCard",
       "<TodayGoalCard",
       "<WeeklyOverviewCard",
@@ -155,12 +155,10 @@ describe("이번 주 카드는 한 장 — 홈과 운동탭이 같은 컴포넌�
     }
   });
 
-  it("홈·운동탭 모두 WeeklyOverviewCard 를 쓴다", () => {
-    for (const f of ["src/app/home/page.tsx", "src/app/routine/page.tsx"]) {
-      const src = read(f);
-      expect(src, f).toContain("<WeeklyOverviewCard");
-      expect(src.match(/<WeeklyOverviewCard/g)?.length, f).toBe(1);
-    }
+  it("이번 주 카드는 홈에만 한 장 — 운동탭엔 중복으로 두지 않는다", () => {
+    const home = read("src/app/home/page.tsx");
+    expect(home.match(/<WeeklyOverviewCard/g)?.length).toBe(1);
+    expect(read("src/app/routine/page.tsx")).not.toContain("WeeklyOverviewCard");
   });
 
   it("부위 막대는 무지개가 아니라 브랜드 진하기 + 안 한 부위만 주의색", () => {

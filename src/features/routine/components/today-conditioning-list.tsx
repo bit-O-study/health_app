@@ -415,7 +415,8 @@ export function TodayConditioningList({
 
   return (
     <>
-    <ul className="space-y-2">
+    {/* 본운동과 같은 아이폰 그룹 목록 — 한 장 안에 줄 구분선. */}
+    <ul className="divide-y divide-[var(--line)] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)]">
       {order.map((item, index) => {
         const isDone = done.has(item.rowId);
         const isSkipped = skipped.has(item.rowId);
@@ -453,7 +454,7 @@ export function TodayConditioningList({
             ref={(el) => {
               rowRefs.current[index] = el;
             }}
-            className="relative overflow-hidden rounded-[1.25rem]"
+            className="relative overflow-hidden"
             style={liftStyle}
           >
             {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더 — 완료/휴식
@@ -504,7 +505,7 @@ export function TodayConditioningList({
                 userSelect: inlineEditing ? "auto" : "none",
               }}
               // 본운동 목록과 같은 아이폰 행 — 그림자 없이, 완료/휴식은 흐리게만.
-              className={`app-surface relative flex select-none items-center gap-3 rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)] px-4 py-3 ${
+              className={`relative flex select-none items-center gap-3 bg-[var(--surface-strong)] px-4 py-3 ${
                 isDragging
                   ? "ring-2 ring-brand/50"
                   : inlineEditing

@@ -10,7 +10,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { Logo } from "@/features/brand/logo";
 import { NotificationBell } from "@/features/notifications/notification-center";
 import { PermissionNudge } from "@/features/notifications/components/permission-nudge";
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -85,14 +84,10 @@ export const metadata: Metadata = {
 };
 
 function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
+  // 아이폰 큰 제목 구조 — 로고 막대 대신 오른쪽 위 버튼만 두고, 제목은 본문 맨 위 큰 글씨(2026-09-15).
   return (
-    <header className="app-header top-[env(safe-area-inset-top)]">
-      {/* 폭·높이·로고 크기는 홈·다른 탭과 같게(max-w-3xl · h-14 · 28px). */}
-      <nav className="mx-auto flex h-14 w-full max-w-3xl items-center justify-between px-4 sm:px-6">
-        <Link className="flex items-center" href="/routine">
-          <Logo size={28} />
-        </Link>
-
+    <header className="mx-auto w-full max-w-3xl px-4 pt-3 sm:px-6">
+      <nav className="flex h-10 items-center justify-end">
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
@@ -436,21 +431,19 @@ function TodayWorkout({
   });
 
   return (
-    <div className="space-y-6 sm:space-y-8">
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
-        {/* 'Today' 눈썹 라벨은 뺐다 — 바로 아래 h1 이 같은 말을 한다. */}
-        <div>
-          <h1 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
-            오늘의 운동
-          </h1>
-          <p className="mt-1.5 text-xs text-zinc-600 dark:text-zinc-400 sm:mt-2 sm:text-sm">
-            {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
-          </p>
-        </div>
+    <div className="space-y-5">
+      {/* 아이폰 큰 제목 — 날짜·루틴 한 줄이 위, 제목이 아래 */}
+      <div className="px-1">
+        <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+          {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
+        </p>
+        <h1 className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">
+          오늘의 운동
+        </h1>
       </div>
 
       {/* 오늘 카드 — 바탕은 공통 표면, 부위 색은 배지·점(TodayFocusMenu)에만. */}
-      <section className="app-card p-6 sm:p-8">
+      <section className="app-card p-5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             {isRest ? (

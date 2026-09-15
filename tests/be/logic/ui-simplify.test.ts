@@ -108,11 +108,13 @@ describe("한글 폰트", () => {
 describe("홈 구성", () => {
   const home = read("src/app/home/page.tsx");
 
-  it("광고 배너(맨 위) → 목표 → 오늘 → 이번 주 → 잔디 순서", () => {
+  it("큰 제목 → 광고 배너 → 활동 링 → 오늘 위젯 → 목표 → 이번 주 → 잔디 순서(아이폰 피트니스 구조)", () => {
     const order = [
+      "<h1",
       "<PromoBanner",
-      "<TodayGoalCard",
+      "<ActivityRings",
       "<TodayCard",
+      "<TodayGoalCard",
       "<WeeklyOverviewCard",
       "<ContributionGraph",
     ].map((tag) => home.indexOf(tag));
@@ -251,9 +253,25 @@ describe("공통 머리글·폭 (4단계)", () => {
     expect(read("src/components/page-header.tsx")).toContain("max-w-3xl");
   });
 
-  it("운동탭 로고는 홈과 같은 28px", () => {
-    expect(read("src/app/routine/page.tsx")).toContain("<Logo size={28} />");
-    expect(read("src/app/home/page.tsx")).toContain("<Logo size={28} />");
+  it("홈·운동탭은 아이폰 큰 제목(text-3xl h1) 구조 — 로고 막대 없음", () => {
+    for (const f of ["src/app/home/page.tsx", "src/app/routine/page.tsx"]) {
+      const src = read(f);
+      expect(src, f).toMatch(/<h1 className="text-3xl font-bold/);
+      expect(src, f).not.toContain("<Logo");
+    }
+  });
+
+  it("운동탭: 진행 링과 운동 시작이 한 카드, 목록은 그룹 목록, 7일은 평소 가로 스크롤", () => {
+    const ex = read("src/features/routine/components/today-exercises.tsx");
+    expect(ex).toContain("function ProgressRing");
+    expect(ex.indexOf("<ProgressRing")).toBeLessThan(ex.indexOf("<WorkoutSessionTimer"));
+    for (const f of [
+      "src/features/routine/components/today-plan-list.tsx",
+      "src/features/routine/components/today-conditioning-list.tsx",
+    ]) {
+      expect(read(f), f).toContain('<ul className="divide-y divide-[var(--line)]');
+    }
+    expect(read("src/features/routine/components/upcoming-seven-days.tsx")).toContain("overflow-x-auto");
   });
 
   it("링크 글자에 경로(/plan)가 그대로 보이지 않는다", () => {

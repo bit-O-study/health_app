@@ -3,20 +3,21 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Settings } from "lucide-react";
 
-import { Logo } from "@/features/brand/logo";
 import { PromoBanner } from "@/features/cross-promo/promo-banner";
 import { NotificationBell } from "@/features/notifications/notification-center";
 import { PermissionNudge } from "@/features/notifications/components/permission-nudge";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
+import { activityRings } from "@/features/home/activity-rings";
+import { ActivityRings, RING_COLOR } from "@/features/home/components/activity-rings";
 import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
 import { TodayCard } from "@/features/home/components/today-card";
 import { ContributionGraph } from "@/features/home/components/contribution-graph";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
 import { WeeklyOverviewCard } from "@/features/routine/components/weekly-overview-card";
-import { seoulYmd } from "@/features/routine/data";
+import { seoulYmd, ymdDisplay } from "@/features/routine/data";
 
 export const dynamic = "force-dynamic";
 
@@ -26,26 +27,19 @@ export const metadata: Metadata = {
 };
 
 /**
- * 홈 — 위에서부터 **광고 배너 → 목표 → 오늘 → 이번 주 → 잔디**.
- *
- * 2026-09-14 화면 간결화: 카드가 최대 9개였다. 다짐+식단은 '오늘' 한 장, 주간 요약+훈련은
- * '이번 주' 한 장으로 합치고, 권한 배너는 한 번에 한 줄만. 날씨 배경은 카드에 가려 보이지
- * 않는데 위치 권한만 묻고 있어서 뺐다.
- * 광고 배너는 한때 맨 아래 한 줄로 내렸다가 사용자 요청으로 **맨 위 사진 배너로 원상복구**했다.
+ * 홈 — 아이폰 피트니스 앱 구조(2026-09-15 "전체적으로 싹 바꿔 달라, 기능만 살아 있게").
+ * 큰 제목 → 광고 배너(사용자 요청으로 맨 위 유지) → 활동 링 히어로 → 오늘 위젯 2칸
+ * → 체형 목표 → 이번 주 → 운동 기록. 데이터·링크·기능은 그대로다.
  */
 export default async function HomePage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
-  // ⚡ 프로필과 대시보드 조회를 **동시에** 시작한다. 예전엔 프로필을 먼저 await 하고
-  //   그 값을 넘겨줘서 원거리 리전(싱가포르) 왕복이 한 파 더 붙었다.
-  //   프로필 조회는 `React.cache` 라 대시보드 안에서 다시 불러도 왕복은 1회다.
+  // ⚡ 프로필과 대시보드·주간 집계를 **동시에** 시작한다(원거리 리전 왕복 줄이기).
   const [profile, dashboard, weekly, training] = await Promise.all([
     getUserProfile(),
     getHomeDashboard(),
-    // 주간 요약도 같이 시작한다 — 순서대로 기다리면 원거리 리전 왕복이 한 파 늘어난다.
     getWeeklyReport(),
-    // 훈련 분석은 주간 리포트와 **같은 완료 기록**을 본다(React.cache 로 왕복 1회).
     getMyWeeklyTraining(),
   ]);
   if (!profile) redirect("/onboarding");
@@ -61,47 +55,73 @@ export default async function HomePage() {
     contributions,
   } = dashboard;
 
-  const [, mm, dd] = seoulYmd().split("-");
-  const dateLabel = `${Number(mm)}월 ${Number(dd)}일`;
+  const todayYmd = seoulYmd();
+  const [, mm, dd] = todayYmd.split("-");
+  const { weekday } = ymdDisplay(todayYmd);
+  const rings = activityRings({
+    workoutDays: weekly?.current.workoutDays ?? 0,
+    eatenKcal: dietExerciseNeed.eatenKcal,
+    targetKcal: dietExerciseNeed.targetKcal,
+    commitDone: todayCommitments.filter((c) => c.done).length,
+    commitTotal: todayCommitments.length,
+  });
 
   return (
     <div className="app-page overflow-x-clip">
-      <header className="app-header">
-        <nav className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
-          <Link href="/home" className="flex items-center gap-2" aria-label="홈">
-            <Logo size={28} />
-          </Link>
-          <div className="flex items-center gap-1">
+      <main className="app-container space-y-4 pt-3">
+        {/* 아이폰 큰 제목 — 날짜 한 줄 + 제목, 오른쪽에 알림·설정 */}
+        <header className="flex items-end justify-between gap-3 px-1">
+          <div>
+            <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+              {Number(mm)}월 {Number(dd)}일 {weekday}요일
+            </p>
+            <h1 className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">홈</h1>
+          </div>
+          <div className="flex items-center gap-1 pb-1">
             <NotificationBell />
             <Link
               aria-label="설정"
               href="/settings"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-zinc-100"
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200/60 text-zinc-700 transition active:scale-95 dark:bg-white/[0.1] dark:text-zinc-200"
             >
               <Settings aria-hidden="true" size={18} />
             </Link>
           </div>
-        </nav>
-      </header>
+        </header>
 
-      <main className="app-container space-y-3">
         {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
         <PromoBanner />
         <PermissionNudge />
+
+        {/* 활동 링 히어로 */}
+        <section aria-label="오늘 활동" data-testid="activity-rings" className="app-card flex items-center gap-5 p-5">
+          <ActivityRings rings={rings} />
+          <ul className="min-w-0 flex-1 space-y-3">
+            {rings.map((r) => (
+              <li key={r.key} className="min-w-0">
+                <p className="text-xs font-semibold" style={{ color: RING_COLOR[r.key] }}>
+                  {r.label}
+                </p>
+                <p className="truncate text-lg font-bold tabular-nums leading-tight text-zinc-950 dark:text-zinc-50">
+                  {r.valueText}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <TodayCard
+          commitments={todayCommitments}
+          need={dietExerciseNeed}
+          macroRemaining={macroRemaining}
+          hasFoodLog={hasFoodLog}
+        />
 
         <TodayGoalCard
           goal={goalCard}
           missions={[]}
           totalMissions={0}
           current={current}
-        />
-
-        <TodayCard
-          dateLabel={dateLabel}
-          commitments={todayCommitments}
-          need={dietExerciseNeed}
-          macroRemaining={macroRemaining}
-          hasFoodLog={hasFoodLog}
         />
 
         <WeeklyOverviewCard

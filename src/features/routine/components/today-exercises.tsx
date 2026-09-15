@@ -641,20 +641,31 @@ export async function TodayExercises({
             </div>
         </div>
 
-        {/* 오늘 진행 — 개수(사람이 보는 값)가 주인공, 칼로리는 곁다리 한 줄. */}
-        <div className="app-card p-4">
-          <div className="flex items-center gap-3">
+        {/* 오늘 진행 + 운동 시작을 **한 장**에 — 진행 링이 주인공, 시작 버튼이 바로 아래.
+            (2026-09-15 "싹 바꿔 달라": 진행 카드와 시작 버튼이 따로 떨어져 있던 구조를 합쳤다.) */}
+        <div className="app-card space-y-4 p-5">
+          <div className="flex items-center gap-4">
+            <ProgressRing
+              pct={progress.donePct}
+              skippedPct={progress.skippedPct}
+              label={`${progress.label}${progress.skippedLabel ? ` · ${progress.skippedLabel}` : ""}`}
+            />
             <div className="min-w-0 flex-1">
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">오늘 진행</p>
-              <p className="flex flex-wrap items-baseline gap-x-2 text-xl font-bold text-zinc-950 dark:text-zinc-100">
+              <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">오늘 진행</p>
+              <p className="flex flex-wrap items-baseline gap-x-2 text-2xl font-bold text-zinc-950 dark:text-zinc-50">
                 <span className="tabular-nums">{progress.label}</span>
-                {progress.skippedLabel ? (
-                  <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                    {progress.skippedLabel}
-                  </span>
-                ) : null}
+              </p>
+              {progress.skippedLabel ? (
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">{progress.skippedLabel}</p>
+              ) : null}
+              <p className="mt-0.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                <span className="font-semibold text-zinc-900 dark:text-zinc-100">{completedKcal}</span>
+                {" / "}
+                {totalKcal} kcal
               </p>
             </div>
+          </div>
+          <div className="flex justify-end">
             <MarkAllDoneButton
               planRows={plan
                 .filter((p) => !mainSkipSet.has(p.id) && !mainDoneSet.has(p.id))
@@ -699,43 +710,16 @@ export async function TodayExercises({
             />
           </div>
 
-          {/* 진행 막대 — 완료(초록) / 오늘 안 함(회색). 1개라도 있으면 보이게 최소폭. */}
-          <div
-            className="mt-3 flex h-2 w-full overflow-hidden rounded-full bg-zinc-200/80 dark:bg-zinc-700/70"
-            role="img"
-            aria-label={`${progress.label}${progress.skippedLabel ? ` · ${progress.skippedLabel}` : ""}`}
-          >
-            <span
-              className="h-full bg-brand transition-[width] duration-300"
-              style={{
-                width: `${progress.done > 0 ? Math.max(3, progress.donePct) : 0}%`,
-              }}
-            />
-            <span
-              className="h-full bg-zinc-400/80 transition-[width] duration-300 dark:bg-zinc-500/80"
-              style={{
-                width: `${progress.skipped > 0 ? Math.max(3, progress.skippedPct) : 0}%`,
-              }}
-            />
-          </div>
-
-          <p className="mt-2 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
-            <span className="font-semibold text-zinc-900 dark:text-zinc-100">{completedKcal}</span>
-            {" / "}
-            {totalKcal} kcal
-          </p>
+          {/* 운동 시작 — 이 탭의 주 행동. 진행 카드 안 맨 아래, 폭을 다 쓴다. */}
+          <WorkoutSessionTimer
+            queueItems={queueItems}
+            doneOrSkippedIds={doneOrSkippedIds}
+            hideVideos={hideVideos}
+            showGuide={showGuide}
+            lockWeightReps={lockWeightReps}
+            postureEnabled={postureEnabled}
+          />
         </div>
-
-        {/* 운동 시작 — 이 탭의 주 행동이라 폭을 다 쓴다.
-            (예전엔 '편집하기'·'기구 스캔' 과 같은 줄, 같은 크기의 작은 알약이었다.) */}
-        <WorkoutSessionTimer
-          queueItems={queueItems}
-          doneOrSkippedIds={doneOrSkippedIds}
-          hideVideos={hideVideos}
-          showGuide={showGuide}
-          lockWeightReps={lockWeightReps}
-          postureEnabled={postureEnabled}
-        />
 
         {/* 워밍업 */}
         <ConditioningSection
@@ -809,6 +793,62 @@ export async function TodayExercises({
         </section>
       </TodayOrderScope>
     </RestTimerProvider>
+  );
+}
+
+/**
+ * 오늘 진행 링(아이폰 활동 링 느낌) — 완료(브랜드) 위에 오늘 안 함(회색)을 이어 그린다.
+ * 가운데 큰 숫자는 완료 비율(%).
+ */
+function ProgressRing({
+  pct,
+  skippedPct,
+  label,
+}: {
+  pct: number;
+  skippedPct: number;
+  label: string;
+}) {
+  const size = 84;
+  const stroke = 10;
+  const r = (size - stroke) / 2;
+  const len = 2 * Math.PI * r;
+  const donePart = (len * Math.min(100, Math.max(0, pct))) / 100;
+  const skipPart = (len * Math.min(100 - pct, Math.max(0, skippedPct))) / 100;
+  return (
+    <div className="relative shrink-0" role="img" aria-label={label}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--brand)" strokeOpacity={0.15} strokeWidth={stroke} />
+        {skipPart > 0 ? (
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={r}
+            fill="none"
+            stroke="currentColor"
+            className="text-zinc-400 dark:text-zinc-600"
+            strokeWidth={stroke}
+            strokeDasharray={`0 ${donePart} ${skipPart} ${len}`}
+          />
+        ) : null}
+        {donePart > 0 ? (
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={r}
+            fill="none"
+            stroke="var(--brand)"
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeDasharray={`${donePart} ${len}`}
+            className="transition-[stroke-dasharray] duration-500"
+          />
+        ) : null}
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
+        {Math.round(pct)}%
+      </span>
+    </div>
   );
 }
 

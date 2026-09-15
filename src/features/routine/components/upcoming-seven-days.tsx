@@ -225,7 +225,16 @@ export function UpcomingSevenDaysGrid({
         ) : null}
       </div>
 
-      <div className="relative grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+      {/* 평소엔 가로로 넘기는 한 줄(아이폰 위젯 줄), 편집 중엔 7일이 한눈에 보이는 격자 —
+          드래그로 먼 날에 놓으려면 전부 화면에 보여야 한다. */}
+      <div
+        className={cn(
+          "relative",
+          editMode
+            ? "grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7"
+            : "-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0",
+        )}
+      >
         {blocks.map((dayBlocks, i) => {
           const cell = cells[i];
           const dayPlan = composeDayPlan(dayBlocks);
@@ -261,7 +270,8 @@ export function UpcomingSevenDaysGrid({
               : {
                   transform: "scale(1)",
                   transition: "transform 180ms ease",
-                  touchAction: "none",
+                  // 편집 중이 아니면 손가락으로 줄을 가로로 넘길 수 있어야 한다.
+                  touchAction: editMode ? "none" : "pan-x",
                 };
 
           return (
@@ -276,7 +286,7 @@ export function UpcomingSevenDaysGrid({
               style={liftStyle}
               className={cn(
                 "relative select-none rounded-2xl border p-3",
-                editMode ? "cursor-grab active:cursor-grabbing" : "",
+                editMode ? "cursor-grab active:cursor-grabbing" : "w-32 shrink-0 snap-start",
                 style.card,
                 cell.isToday ? "border-brand" : "",
                 isDragged ? "ring-2 ring-brand/50" : "",

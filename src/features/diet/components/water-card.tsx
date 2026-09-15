@@ -68,15 +68,11 @@ export function WaterCard({
       className="app-card p-3"
     >
       <div className="flex items-center gap-2">
-        <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-800 dark:text-zinc-100">
-          <Droplet
-            aria-hidden="true"
-            size={15}
-            className="text-sky-500 dark:text-sky-400"
-          />
+        <p className="flex items-center gap-1.5 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          <Droplet aria-hidden="true" size={15} className="text-brand" />
           수분
         </p>
-        <p className="text-sm font-bold tabular-nums text-sky-600 dark:text-sky-400">
+        <p className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
           {formatWater(ml)}
         </p>
         <p className="text-xs text-zinc-400 dark:text-zinc-500">
@@ -104,23 +100,22 @@ export function WaterCard({
         className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
       >
         <div
-          className={`h-full rounded-full transition-[width] ${
-            reached ? "bg-emerald-500" : "bg-sky-400"
-          }`}
+          className={`h-full rounded-full bg-brand transition-[width] ${reached ? "" : "opacity-70"}`}
           style={{ width: `${Math.min(100, pct)}%` }}
         />
       </div>
 
+      {/* 컵 버튼 — 색 알약 대신 회색 알약(아이폰 느낌). 누르면 살짝 눌린다. */}
       <div className="mt-2.5 flex flex-wrap gap-1.5">
         {WATER_CUPS.map((cup) => (
           <button
             key={cup.ml}
             type="button"
             onClick={() => addCup(cup.ml)}
-            className="inline-flex h-8 items-center gap-1 rounded-full border border-sky-200 bg-sky-50 px-3 text-xs font-bold text-sky-700 transition hover:bg-sky-100 dark:border-sky-900 dark:bg-sky-950/40 dark:text-sky-300 dark:hover:bg-sky-900/40"
+            className="app-press inline-flex h-8 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             +{cup.ml}ml
-            <span className="font-medium opacity-70">{cup.label}</span>
+            <span className="font-normal text-zinc-500 dark:text-zinc-400">{cup.label}</span>
           </button>
         ))}
       </div>

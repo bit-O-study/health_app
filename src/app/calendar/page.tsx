@@ -6,7 +6,6 @@ import {
   Dumbbell,
   Flame,
   Heart,
-  Scale,
   TrendingDown,
   TrendingUp,
   Utensils,
@@ -148,7 +147,7 @@ export default async function CalendarPage({
         {profile?.gender === "female" ? (
           <Link
             href="/cycle"
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3 text-xs font-bold text-rose-600 transition hover:bg-rose-100 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300"
+            className="app-press inline-flex h-8 items-center gap-1.5 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             <Heart aria-hidden="true" size={13} />
             생리 기록
@@ -163,8 +162,8 @@ export default async function CalendarPage({
           {WEEKDAYS.map((w, i) => (
             <div
               key={w}
-              className={`pb-1 text-center text-xs font-bold ${
-                i === 5 ? "text-sky-600" : i === 6 ? "text-rose-500" : "text-zinc-400"
+              className={`pb-1 text-center text-xs ${
+                i === 6 ? "text-danger" : "text-zinc-400 dark:text-zinc-500"
               }`}
             >
               {w}
@@ -185,20 +184,15 @@ export default async function CalendarPage({
             const isPeriod = periodDays.has(date);
             const isPredicted = predictedDays.has(date);
             const mMark = missionMarks[date];
+            // 일요일·공휴일만 빨강. 토요일 파랑은 뺐다(색을 줄여 날짜 기록이 먼저 보이게).
             const dayColor = isHol || col === 6
-              ? "text-rose-500 dark:text-rose-400"
-              : col === 5
-                ? "text-sky-600 dark:text-sky-400"
-                : "text-zinc-700 dark:text-zinc-300";
+              ? "text-danger"
+              : "text-zinc-800 dark:text-zinc-200";
             return (
               <Link
                 key={date}
                 href={`/calendar/${date}`}
-                className={`relative flex min-h-[64px] flex-col items-center rounded-lg border p-1 transition hover:border-emerald-300 dark:hover:border-emerald-700 ${
-                  isToday
-                    ? "border-emerald-400 bg-emerald-50/50 dark:border-emerald-600 dark:bg-emerald-950/30"
-                    : "border-transparent"
-                }`}
+                className="relative flex min-h-[64px] flex-col items-center rounded-lg p-1 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
               >
                 {(isPeriod || isPredicted) && (
                   <Heart
@@ -214,7 +208,7 @@ export default async function CalendarPage({
                 {s?.didWeight ? (
                   <Dumbbell
                     aria-label="웨이트한 날"
-                    className="absolute bottom-0.5 right-0.5 text-emerald-500 dark:text-emerald-400"
+                    className="absolute bottom-0.5 right-0.5 text-brand"
                     size={11}
                   />
                 ) : null}
@@ -232,29 +226,30 @@ export default async function CalendarPage({
                     {MARKER_SYMBOL[mMark.marker]}
                   </span>
                 ) : null}
+                {/* 오늘은 아이폰 달력처럼 브랜드색 동그라미 안에 흰 숫자. */}
                 <span
-                  className={`text-xs font-bold ${
-                    isToday ? "text-emerald-700 dark:text-emerald-400" : dayColor
+                  className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold tabular-nums ${
+                    isToday ? "bg-brand text-white dark:text-zinc-950" : dayColor
                   }`}
                 >
                   {day}
                 </span>
                 {holiday ? (
-                  <span className="w-full truncate text-center text-xs font-semibold leading-tight text-rose-500 dark:text-rose-400">
+                  <span className="w-full truncate text-center text-xs leading-tight text-danger">
                     {holiday.name}
                   </span>
                 ) : bok ? (
-                  <span className="w-full truncate text-center text-xs font-semibold leading-tight text-orange-500 dark:text-orange-400">
+                  <span className="w-full truncate text-center text-xs leading-tight text-zinc-500 dark:text-zinc-400">
                     {bok.name}
                   </span>
                 ) : null}
                 {s && s.intake > 0 ? (
-                  <span className="mt-0.5 text-xs font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                  <span className="mt-0.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
                     +{s.intake}
                   </span>
                 ) : null}
                 {s && s.burned > 0 ? (
-                  <span className="text-xs font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                  <span className="text-xs tabular-nums text-brand">
                     -{s.burned}
                   </span>
                 ) : null}
@@ -314,13 +309,12 @@ function WeightCard({
     return (
       <Link
         href="/settings/profile"
-        className="flex items-center justify-between gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
+        className="app-card flex items-center gap-2 px-4 py-3 text-sm transition active:opacity-70"
       >
-        <span className="flex items-center gap-1">
-          <Weight size={15} className="shrink-0" />
-          체중 기록이 없어요
-        </span>
-        <span className="whitespace-nowrap">체형 기록하러 가기 →</span>
+        <Weight size={15} className="shrink-0 text-zinc-400" />
+        <span className="flex-1 text-zinc-500 dark:text-zinc-400">체중 기록이 없어요</span>
+        <span className="whitespace-nowrap font-semibold text-brand">기록하기</span>
+        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
       </Link>
     );
   }
@@ -329,17 +323,16 @@ function WeightCard({
   const down = d !== null && d < 0;
   const up = d !== null && d > 0;
   const toneCls = down
-    ? "text-emerald-600 dark:text-emerald-400"
+    ? "text-brand"
     : up
-      ? "text-rose-600 dark:text-rose-400"
+      ? "text-danger"
       : "text-zinc-500 dark:text-zinc-400";
   return (
     <div className="flex items-center justify-between gap-2 app-card px-4 py-3">
-      <span className="flex items-center gap-1 text-xs font-bold text-zinc-500 dark:text-zinc-400">
-        <Weight size={15} className="shrink-0" />
+      <span className="flex items-center gap-1 text-sm text-zinc-500 dark:text-zinc-400">
         현재 체중
         {measuredAt ? (
-          <span className="ml-0.5 whitespace-nowrap text-xs font-semibold text-zinc-400 dark:text-zinc-500">
+          <span className="ml-0.5 whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500">
             {shortDateLabel(measuredAt)} 측정
           </span>
         ) : null}
@@ -377,16 +370,12 @@ function SummaryCard({
   label: string;
   value: number;
 }) {
-  const toneCls = {
-    amber: "text-amber-600 dark:text-amber-400",
-    emerald: "text-emerald-600 dark:text-emerald-400",
-  }[tone];
+  // 라벨은 회색 하나로 — 아이콘 색으로 구분하던 주황/초록은 뺐다(tone 은 호출부 호환용).
+  void tone;
+  void icon;
   return (
     <div className="app-card p-3">
-      <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
-        {icon}
-        {label}
-      </span>
+      <span className="text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
       <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
         {value.toLocaleString()}
         <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
@@ -401,17 +390,14 @@ function NetCard({ spent }: { spent: number }) {
   const surplus = spent > 0; // 소비 > 섭취 → 흑자
   const deficit = spent < 0; // 섭취 > 소비 → 적자
   const toneCls = surplus
-    ? "text-emerald-600 dark:text-emerald-400"
+    ? "text-brand"
     : deficit
-      ? "text-rose-600 dark:text-rose-400"
+      ? "text-danger"
       : "text-zinc-500 dark:text-zinc-400";
   const label = surplus ? "칼로리 흑자" : deficit ? "칼로리 적자" : "칼로리 균형";
   return (
     <div className="flex items-center justify-between gap-2 app-card px-4 py-3">
-      <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
-        <Scale size={15} className="shrink-0" />
-        {label}
-      </span>
+      <span className="text-sm text-zinc-500 dark:text-zinc-400">{label}</span>
       <span className={`whitespace-nowrap text-lg font-bold tabular-nums ${toneCls}`}>
         {/* 흑자면 300, 적자면 -300 그대로 표기 */}
         {spent.toLocaleString()}

@@ -27,12 +27,8 @@ export default async function GroupsPage({
     return (
       <div className="app-page">
         <PageHeader title="그룹" />
+        {/* 설명 문장은 뺐다 — 아래 '새 그룹 만들기'가 할 일을 이미 말해 준다(2026-09-15). */}
         <main className="app-container">
-          <p className="mb-5 text-sm text-zinc-500 dark:text-zinc-400">
-            {mode === "proof"
-              ? "그룹을 만들어 친구와 오늘 운동 인증을 서로 남겨보세요."
-              : "그룹을 만들어 친구와 이번 주 운동 랭킹대전을 펼쳐보세요."}
-          </p>
           <GroupsClient groups={groups} mode={mode} />
         </main>
       </div>

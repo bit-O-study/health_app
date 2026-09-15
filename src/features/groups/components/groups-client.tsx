@@ -60,25 +60,23 @@ export function GroupsClient({
     });
   }
 
+  // 아이폰 입력칸 느낌 — 테두리 대신 옅은 회색 바탕.
   const field =
-    "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+    "h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
   return (
     <div className="space-y-6">
       {err ? (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600 dark:bg-red-950/40">
+        <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm text-danger">
           {err}
         </p>
       ) : null}
 
-      {/* 내 그룹 */}
+      {/* 내 그룹 — 없으면 섹션째 숨긴다(빈 안내 문장 대신 아래 만들기/참여가 바로 보이게). */}
+      {groups.length === 0 ? null : (
       <section className="space-y-2">
-        <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">내 그룹</h2>
-        {groups.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-6 text-center text-sm text-zinc-400 dark:border-zinc-700">
-            아직 그룹이 없어요. 그룹을 만들거나 초대 링크로 참여하세요.
-          </p>
-        ) : (
+        <h2 className="px-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">내 그룹</h2>
+        {(
           <ul className="space-y-2">
             {groups.map((g) => (
               <li
@@ -89,7 +87,7 @@ export function GroupsClient({
                   href={`/groups?g=${g.id}`}
                   className="group flex items-center gap-3"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
                     <Users aria-hidden="true" size={18} />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -124,10 +122,11 @@ export function GroupsClient({
           </ul>
         )}
       </section>
+      )}
 
       {/* 그룹 만들기 */}
-      <section className="space-y-2 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-sm font-bold text-zinc-700 dark:text-zinc-200">새 그룹 만들기</h2>
+      <section className="app-card space-y-2 p-4">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">새 그룹 만들기</h2>
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}
@@ -139,15 +138,15 @@ export function GroupsClient({
           type="button"
           disabled={pending || name.trim() === ""}
           onClick={create}
-          className="flex h-11 w-full items-center justify-center gap-1 rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="app-press flex h-11 w-full items-center justify-center gap-1 rounded-full bg-brand text-base font-semibold text-white disabled:opacity-40 dark:text-zinc-950"
         >
           <Plus aria-hidden="true" size={18} /> 그룹 만들기
         </button>
       </section>
 
       {/* 초대 링크로 참여 */}
-      <section className="space-y-2 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-sm font-bold text-zinc-700 dark:text-zinc-200">초대 링크로 참여</h2>
+      <section className="app-card space-y-2 p-4">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">초대 링크로 참여</h2>
         <input
           value={invite}
           onChange={(e) => setInvite(e.target.value)}
@@ -159,7 +158,7 @@ export function GroupsClient({
           type="button"
           disabled={pending || invite.trim() === ""}
           onClick={join}
-          className="h-11 w-full rounded-xl border border-emerald-300 bg-emerald-50 text-base font-bold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-50 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+          className="app-press h-11 w-full rounded-full bg-zinc-100 text-base font-semibold text-brand disabled:opacity-40 dark:bg-white/[0.08]"
         >
           참여하기
         </button>

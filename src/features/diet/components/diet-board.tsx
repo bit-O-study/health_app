@@ -16,7 +16,6 @@ import {
   Plus,
   Search,
   Trash2,
-  Utensils,
   X,
 } from "lucide-react";
 
@@ -275,12 +274,8 @@ export function DietBoard({
 
   return (
     <section className="space-y-5">
-      {/* 헤더 + 날짜 네비 */}
-      <div className="flex items-center justify-between">
-        <h1 className="flex items-center gap-2 text-xl font-bold text-zinc-950 dark:text-zinc-50">
-          <Utensils aria-hidden="true" size={22} className="text-emerald-600" />
-          식단
-        </h1>
+      {/* 날짜 네비 — 제목("식단")은 공통 머리글(PageHeader)이 이미 보여준다. */}
+      <div className="flex items-center justify-center">
         {/*
           🔴 날짜 이동은 **버튼이 아니라 Link** 다(2026-09-08). 이유는 오직 하나 —
           `prefetch` 를 받으려고. 버튼+`router.push` 는 누른 **다음에야** 서버 렌더를
@@ -351,9 +346,10 @@ export function DietBoard({
         <div className="flex items-center gap-4">
           <KcalRing consumed={totals.kcal} target={target.kcal} />
           <div className="min-w-0 flex-1 space-y-2.5">
-            <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="#10b981" />
-            <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="#f59e0b" />
-            <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="#ef4444" />
+            {/* 탄단지 막대는 색 하나(브랜드) — 세 가지 색은 이름이 이미 구분해 준다. */}
+            <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="var(--brand)" />
+            <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="var(--brand)" />
+            <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--brand)" />
           </div>
         </div>
       </div>
@@ -506,7 +502,7 @@ function KcalRing({ consumed, target }: { consumed: number; target: number }) {
             cy="40"
             r={R}
             fill="none"
-            stroke={over ? "#ef4444" : "#10b981"}
+            stroke={over ? "var(--danger)" : "var(--brand)"}
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={C}
@@ -523,8 +519,8 @@ function KcalRing({ consumed, target }: { consumed: number; target: number }) {
         </div>
       </div>
       <span
-        className={`whitespace-nowrap text-xs font-bold ${
-          over ? "text-rose-500" : "text-zinc-400"
+        className={`whitespace-nowrap text-xs font-semibold ${
+          over ? "text-danger" : "text-zinc-400"
         }`}
       >
         {over ? `+${consumed - target} 초과` : `${remain} 남음`}
@@ -620,39 +616,35 @@ function MealSection({
   const cover = photos[0] ?? null;
   return (
     <div className="app-card overflow-hidden">
-      <div className="flex items-center justify-between px-4 pt-4">
-        <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-          <span aria-hidden="true">{MEAL_ICON[meal]}</span>
+      {/* 끼니 머리 한 줄 — 이모지·색 배지·빈 안내 문장 없이 이름 · 시간 · kcal · 추가만. */}
+      <div className="flex items-center gap-2 px-4 py-3">
+        <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
           {MEAL_LABEL[meal]}
-          {time ? (
-            <span className="text-xs font-medium text-zinc-400">· {fmtClock(time)}</span>
-          ) : null}
-          {sub > 0 ? (
-            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
-              {sub} kcal
-            </span>
-          ) : null}
         </h2>
+        {time ? (
+          <span className="text-sm text-zinc-500 dark:text-zinc-400">{fmtClock(time)}</span>
+        ) : null}
+        {sub > 0 ? (
+          <span className="text-sm tabular-nums text-zinc-500 dark:text-zinc-400">
+            {sub} kcal
+          </span>
+        ) : null}
         <button
           type="button"
           onClick={onAdd}
-          className="inline-flex h-7 items-center gap-1 rounded-md border border-emerald-300 bg-emerald-50 px-2 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+          className="app-press ml-auto inline-flex h-8 items-center gap-1 rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
         >
-          <Plus aria-hidden="true" size={13} />
+          <Plus aria-hidden="true" size={14} />
           추가
         </button>
       </div>
 
-      {empty ? (
-        <p className="px-4 py-5 text-center text-xs text-zinc-400 dark:text-zinc-500">
-          아직 기록이 없어요 · ‘추가’로 식단을 올려보세요
-        </p>
-      ) : (
+      {empty ? null : (
         <button
           type="button"
           onClick={onOpen}
           aria-label={`${MEAL_LABEL[meal]} 게시물 열기`}
-          className="mt-3 block w-full text-left transition hover:bg-zinc-50 dark:hover:bg-zinc-800/40"
+          className="block w-full border-t border-[var(--line)] text-left transition active:opacity-80"
         >
           <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
             {cover ? (
@@ -930,9 +922,9 @@ function MealDetailDialog({
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2">
-              <MacroChip label="단백질" value={totals.protein} color="#10b981" />
-              <MacroChip label="탄수화물" value={totals.carbs} color="#f59e0b" />
-              <MacroChip label="지방" value={totals.fat} color="#ef4444" />
+              <MacroChip label="단백질" value={totals.protein} color="var(--foreground)" />
+              <MacroChip label="탄수화물" value={totals.carbs} color="var(--foreground)" />
+              <MacroChip label="지방" value={totals.fat} color="var(--foreground)" />
             </div>
           </>
         )}

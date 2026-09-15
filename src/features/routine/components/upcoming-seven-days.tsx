@@ -3,7 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
-import { CalendarDays, GripVertical, Loader2 } from "lucide-react";
+import { GripVertical, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
@@ -207,15 +207,15 @@ export function UpcomingSevenDaysGrid({
   return (
     <section>
       <div className="mb-3 flex items-center justify-between gap-2">
-        {/* 제목 위계는 '오늘 할 운동'(h2)과 같은 규칙 — 아이콘칩 + 굵은 글씨. */}
-        <h2 className="flex flex-wrap items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
-            <CalendarDays aria-hidden="true" size={15} />
-          </span>
+        {/* 제목 위계는 '오늘 할 운동'(h2)과 같은 규칙 — 색 아이콘칩·보조 설명 없이 제목만.
+            드래그 안내는 편집 모드일 때만 짧게. */}
+        <h2 className="flex flex-wrap items-center gap-2 text-lg font-bold text-zinc-950 dark:text-zinc-100">
           다가오는 7일
-          <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
-            {editMode ? "· 드래그로 순서 변경" : "· '편집하기'에서 순서 변경"}
-          </span>
+          {editMode ? (
+            <span className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
+              드래그로 순서 변경
+            </span>
+          ) : null}
         </h2>
         {pending ? (
           <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
@@ -275,16 +275,12 @@ export function UpcomingSevenDaysGrid({
               onContextMenu={(e) => e.preventDefault()}
               style={liftStyle}
               className={cn(
-                "relative select-none rounded-xl border p-3",
+                "relative select-none rounded-2xl border p-3",
                 editMode ? "cursor-grab active:cursor-grabbing" : "",
                 style.card,
-                cell.isToday ? "ring-2 ring-emerald-500 ring-offset-1" : "",
-                isDragged
-                  ? "border-emerald-500 ring-2 ring-emerald-300/70"
-                  : "",
-                isHoverTarget
-                  ? "border-emerald-400 ring-2 ring-emerald-400/60"
-                  : "",
+                cell.isToday ? "border-brand" : "",
+                isDragged ? "ring-2 ring-brand/50" : "",
+                isHoverTarget ? "ring-2 ring-brand/40" : "",
               )}
             >
               <div className="flex items-center justify-between gap-1">
@@ -295,7 +291,7 @@ export function UpcomingSevenDaysGrid({
                       className={cn(
                         "shrink-0 transition-colors",
                         isDragged
-                          ? "text-emerald-600"
+                          ? "text-brand"
                           : "text-zinc-400 dark:text-zinc-500",
                       )}
                       size={13}
@@ -309,7 +305,7 @@ export function UpcomingSevenDaysGrid({
                   </span>
                 </span>
                 {cell.isToday ? (
-                  <span className="shrink-0 rounded-full bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
+                  <span className="shrink-0 text-xs font-semibold text-brand">
                     오늘
                   </span>
                 ) : null}

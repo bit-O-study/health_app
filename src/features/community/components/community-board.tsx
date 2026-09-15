@@ -149,15 +149,10 @@ export function CommunityBoard({
           />
         </div>
       ) : visible.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 px-6 py-20 text-center">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-500 dark:bg-emerald-950/40">
-            <Camera size={30} />
-          </div>
-          <p className="text-sm font-bold text-zinc-500 dark:text-zinc-300">
+        <div className="flex flex-col items-center gap-2 px-6 py-24 text-center">
+          <Camera aria-hidden="true" size={32} className="text-zinc-300 dark:text-zinc-600" />
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
             {tab === "mine" ? "아직 내가 쓴 글이 없어요" : "아직 글이 없어요"}
-          </p>
-          <p className="text-xs text-zinc-400">
-            오늘 운동 인증 첫 타자가 되어보세요! 💪
           </p>
         </div>
       ) : (

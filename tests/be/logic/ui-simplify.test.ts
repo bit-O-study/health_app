@@ -296,6 +296,70 @@ describe("커뮤니티·설정 소음 제거 (5단계)", () => {
   });
 });
 
+describe("다른 탭도 같은 규칙 (2026-09-15 '다른 탭들도 똑같이')", () => {
+  const RAINBOW = /(?<![\w:-])(bg|text|border|ring)-(emerald|amber|sky|rose|violet|indigo|orange|fuchsia|teal|cyan|pink)-\d{2,3}/;
+
+  it("부위 배지는 한 모양(회색 알약 + 브랜드 점) — 부위마다 다른 색이 없다", () => {
+    const data = read("src/features/routine/data.ts");
+    const block = data.slice(data.indexOf("export const TONE_STYLES"), data.indexOf("};", data.indexOf("export const TONE_STYLES")));
+    expect(block).not.toMatch(RAINBOW);
+    expect(data).toContain('dot: "bg-brand"');
+  });
+
+  it("운동 목록 행·7일 그리드·전부 완료 버튼에 무지개 색 클래스가 없다", () => {
+    for (const f of [
+      "src/features/routine/components/today-plan-list.tsx",
+      "src/features/routine/components/today-conditioning-list.tsx",
+      "src/features/routine/components/upcoming-seven-days.tsx",
+      "src/features/routine/components/mark-all-done-button.tsx",
+      "src/features/routine/components/today-exercises.tsx",
+    ]) {
+      // 행 본문(스와이프 영역~목록 끝)만 본다 — 편집 폼·경고 문구의 red 는 위험색이라 허용.
+      const src = read(f);
+      const lines = src.split("\n").filter((l) => RAINBOW.test(l) && !/red-|amber-(6|7)00 dark:text-amber-(3|4)00"?\s*$/.test(l));
+      const rowLines = lines.filter((l) =>
+        /완료|오늘 휴식|kcal|StickyNote|GripVertical|ExerciseIcon|ConditioningIcon|오늘 전부 완료|다가오는 7일|오늘<|passedRight|isDragging|iconBg/.test(l),
+      );
+      expect(rowLines, f).toEqual([]);
+    }
+  });
+
+  it("운동탭 섹션 제목에 색 아이콘 칩이 없고, 빈 안내는 짧다", () => {
+    const ex = read("src/features/routine/components/today-exercises.tsx");
+    expect(ex).not.toContain("ListChecks");
+    expect(ex).not.toContain("headerBadge");
+    expect(ex).not.toContain("또는 “추천으로 채우기”를 사용하세요");
+    expect(ex).toContain("등록된 본운동이 없습니다");
+  });
+
+  it("식단: 머리글과 겹치는 '식단' 제목·끼니 이모지·빈 안내 문장·탄단지 3색이 없다", () => {
+    const diet = read("src/features/diet/components/diet-board.tsx");
+    expect(diet).not.toContain("아직 기록이 없어요 · ‘추가’로 식단을 올려보세요");
+    expect(diet).not.toContain('color="#10b981"');
+    expect(diet).not.toContain('color="#f59e0b"');
+    expect(diet).not.toMatch(/<h1[^>]*>\s*<Utensils/);
+    const water = read("src/features/diet/components/water-card.tsx");
+    expect(water).not.toMatch(RAINBOW);
+  });
+
+  it("캘린더: 토요일 파랑·요약 카드 색 라벨이 없다", () => {
+    const cal = read("src/app/calendar/page.tsx");
+    expect(cal).not.toContain("text-sky-600");
+    expect(cal).not.toContain('amber: "text-amber-600');
+    expect(cal).toContain("이번 달 요약");
+  });
+
+  it("그룹·커뮤니티: 설명 문장·이모지 응원 문구가 없다", () => {
+    expect(read("src/app/groups/page.tsx")).not.toContain("친구와 오늘 운동 인증을 서로 남겨보세요");
+    expect(read("src/features/groups/components/groups-client.tsx")).not.toContain(
+      "아직 그룹이 없어요. 그룹을 만들거나 초대 링크로 참여하세요.",
+    );
+    expect(read("src/features/community/components/community-board.tsx")).not.toContain(
+      "오늘 운동 인증 첫 타자가 되어보세요",
+    );
+  });
+});
+
 describe("하단 탭", () => {
   it("라벨이 11px 고정 — 좁은 폰에서도 9·10px 로 줄지 않는다", () => {
     const nav = read("src/components/bottom-nav.tsx");

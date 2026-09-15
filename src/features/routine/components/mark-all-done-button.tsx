@@ -58,18 +58,16 @@ export function MarkAllDoneButton({
         disabled={busy || total === 0}
         onClick={run}
         title={total === 0 ? "완료 처리할 운동이 없습니다" : undefined}
-        className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-3 text-xs font-semibold text-emerald-800 dark:text-emerald-300 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
+        className="app-press inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-200"
       >
         {busy ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={14} />
         ) : (
-          <CheckCheck aria-hidden="true" size={14} />
+          <CheckCheck aria-hidden="true" size={14} className="text-brand" />
         )}
         오늘 전부 완료
         {total > 0 ? (
-          <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-xs font-bold text-white">
-            {total}
-          </span>
+          <span className="tabular-nums text-zinc-500 dark:text-zinc-400">{total}</span>
         ) : null}
       </button>
       {failed ? (

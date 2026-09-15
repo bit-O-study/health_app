@@ -68,16 +68,16 @@ export default async function HomePage() {
 
   return (
     <div className="app-page overflow-x-clip">
-      <main className="app-container space-y-4 pt-3">
+      <main className="app-container space-y-3">
         {/* 아이폰 큰 제목 — 날짜 한 줄 + 제목, 오른쪽에 알림·설정 */}
         <header className="flex items-end justify-between gap-3 px-1">
           <div>
-            <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+            <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
               {Number(mm)}월 {Number(dd)}일 {weekday}요일
             </p>
-            <h1 className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">홈</h1>
+            <h1 className="app-title">홈</h1>
           </div>
-          <div className="flex items-center gap-1 pb-1">
+          <div className="flex items-center gap-1 pb-0.5">
             <NotificationBell />
             <Link
               aria-label="설정"
@@ -94,17 +94,17 @@ export default async function HomePage() {
         <PermissionNudge />
 
         {/* 활동 링 히어로 */}
-        <section aria-label="오늘 활동" data-testid="activity-rings" className="app-card flex items-center gap-5 p-5">
-          <ActivityRings rings={rings} />
-          <ul className="min-w-0 flex-1 space-y-3">
+        <section aria-label="오늘 활동" data-testid="activity-rings" className="app-card flex items-center gap-4 p-3">
+          <ActivityRings rings={rings} size={88} />
+          <ul className="min-w-0 flex-1 divide-y divide-[var(--line)]">
             {rings.map((r) => (
-              <li key={r.key} className="min-w-0">
-                <p className="text-xs font-semibold" style={{ color: RING_COLOR[r.key] }}>
+              <li key={r.key} className="flex min-w-0 items-baseline justify-between gap-2 py-1.5">
+                <span className="shrink-0 text-xs font-semibold" style={{ color: RING_COLOR[r.key] }}>
                   {r.label}
-                </p>
-                <p className="truncate text-lg font-bold tabular-nums leading-tight text-zinc-950 dark:text-zinc-50">
+                </span>
+                <span className="truncate text-sm font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {r.valueText}
-                </p>
+                </span>
               </li>
             ))}
           </ul>

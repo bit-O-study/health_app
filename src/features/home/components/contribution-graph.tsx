@@ -81,8 +81,8 @@ export function ContributionGraph({
   const gridCols = `repeat(${weeks.length}, ${CELL_PX}px)`;
 
   return (
-    <div className="app-card min-w-0 p-4">
-      <p className="mb-3 text-sm">
+    <div className="app-card min-w-0 px-3 py-2.5">
+      <p className="mb-2 text-sm">
         <span className="text-base font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
           {totalWorkoutDays}
         </span>

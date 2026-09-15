@@ -68,7 +68,7 @@ function Stat({
   return (
     <div className="min-w-0">
       <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
-      <p className="truncate text-lg font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
+      <p className="truncate text-base font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
         {value}
       </p>
       <DeltaText delta={delta} unit={unit} />
@@ -95,9 +95,9 @@ export function WeeklyOverviewCard({
   const untouched = regions.filter((r) => r.status === "none");
 
   return (
-    <section data-testid="weekly-report" className="app-card p-4">
+    <section data-testid="weekly-report" className="app-card px-3 py-2.5">
       <div className="flex items-center gap-2">
-        <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">이번 주</h2>
+        <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">이번 주</h2>
         {active ? (
           <Link
             href="/settings/progress"
@@ -110,7 +110,7 @@ export function WeeklyOverviewCard({
       </div>
 
       {active && report ? (
-        <div className="mt-2 grid grid-cols-3 gap-3">
+        <div className="mt-1 grid grid-cols-3 gap-2">
           <Stat
             label="운동한 날"
             value={`${report.current.workoutDays}일`}
@@ -137,7 +137,7 @@ export function WeeklyOverviewCard({
           href="/settings/score"
           data-testid="weekly-training-summary"
           data-week-sets={weekSets}
-          className={`block transition active:opacity-60 ${active ? "mt-4 border-t border-[var(--line)] pt-3" : "mt-2"}`}
+          className={`block transition active:opacity-60 ${active ? "mt-2 border-t border-[var(--line)] pt-2" : "mt-1"}`}
         >
           <span className="flex items-center gap-2 text-sm">
             <span className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">

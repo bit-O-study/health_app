@@ -35,7 +35,7 @@ export function PageHeader({
             <div className="ml-auto flex shrink-0 items-center gap-1">{children}</div>
           ) : null}
         </div>
-        <h1 className="truncate px-1 text-3xl font-bold text-zinc-950 dark:text-zinc-50">
+        <h1 className="app-title truncate px-1">
           {title}
         </h1>
       </div>

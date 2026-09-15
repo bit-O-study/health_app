@@ -89,12 +89,41 @@ body {
     color: var(--foreground);
   }
 
+  /* 촘촘한 밀도(2026-09-15 "전체적으로 컴팩트하게 완전히") — 좌우 16px, 위 8px. */
   .app-container {
     width: 100%;
     max-width: 48rem;
     margin-inline: auto;
-    padding: 1rem 1rem 2.5rem;
+    padding: 0.5rem 1rem 2rem;
     animation: app-fade-in 240ms ease-out both;
+  }
+
+  /* 아이폰 큰 제목 — 28px/700. 모든 탭 화면이 같은 크기. */
+  .app-title {
+    font-size: 1.75rem;
+    line-height: 2.125rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--foreground);
+  }
+
+  /* 섹션 라벨 — 목록 위 작은 회색 글자(아이폰 설정 앱). */
+  .app-section-label {
+    padding-inline: 0.25rem;
+    margin-bottom: 0.375rem;
+    font-size: 0.8125rem;
+    line-height: 1.125rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  /* 목록 한 줄 — 최소 높이 48px, 좌우 12px. */
+  .app-row {
+    display: flex;
+    min-height: 3rem;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
   }
 
   .app-header {
@@ -107,10 +136,10 @@ body {
     -webkit-backdrop-filter: blur(24px) saturate(180%);
   }
 
-  /* 카드는 한 가지 — 모서리 16px, 테두리만(그림자 없음). */
+  /* 카드는 한 가지 — 모서리 14px, 테두리만(그림자 없음). */
   .app-card {
     border: 1px solid var(--line);
-    border-radius: 1rem;
+    border-radius: 0.875rem;
     background: var(--surface-strong);
   }
 
@@ -142,12 +171,14 @@ body {
   /* 그룹 목록(아이폰 설정 앱) — 카드 안에서 줄 사이 선을 아이콘 오른쪽부터 긋는다. */
   .app-list {
     border: 1px solid var(--line);
-    border-radius: 1rem;
+    border-radius: 0.875rem;
     background: var(--surface-strong);
     overflow: hidden;
   }
-  .app-list > li + li {
-    box-shadow: inset 3.75rem 1px 0 var(--surface-strong), inset 0 1px 0 var(--line);
+  .app-list > li + li,
+  .app-list > a + a,
+  .app-list > div + div {
+    box-shadow: inset 3.25rem 1px 0 var(--surface-strong), inset 0 1px 0 var(--line);
   }
 
   /* 반투명 블러 막대(하단 탭·머리글). */
@@ -165,7 +196,7 @@ body {
 }
 
 @media (min-width: 640px) {
-  .app-container { padding: 2rem 1.5rem 3.5rem; }
+  .app-container { padding: 1rem 1.5rem 3rem; }
 }
 
 @media (max-width: 359px) {

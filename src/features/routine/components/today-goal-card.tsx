@@ -63,39 +63,32 @@ export function TodayGoalCard({
         <button
           type="button"
           onClick={() => setLogOpen(true)}
-          className="app-card w-full p-4 text-left transition active:scale-[0.99]"
+          className="app-card app-row w-full text-left transition active:scale-[0.99]"
         >
-          <span className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-            <span className="min-w-0 flex-1">
+          {/* 촘촘한 한 줄 — 목표 이름 · 현재→목표 · 남은 양 · › */}
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>
-            <ChevronRight
-              aria-hidden="true"
-              size={16}
-              className="shrink-0 text-zinc-400"
-            />
-          </span>
-
-          {goal.reached ? (
-            <span className="mt-1 block text-xl font-bold text-brand">
-              목표 달성 🎉
-            </span>
-          ) : (
-            <>
-              {/* 현재 → 목표 한 줄. 큰 숫자는 지금 값 하나만. */}
-              <span className="mt-1 flex flex-wrap items-baseline gap-x-2 tabular-nums">
-                <span className="text-xl font-bold text-zinc-950 dark:text-zinc-50">
+            {goal.reached ? (
+              <span className="block text-base font-bold text-brand">목표 달성 🎉</span>
+            ) : (
+              <span className="flex flex-wrap items-baseline gap-x-1.5 tabular-nums">
+                <span className="text-base font-bold text-zinc-950 dark:text-zinc-50">
                   {goal.currentText}
                 </span>
-                <span className="text-sm text-zinc-500 dark:text-zinc-400">
-                  → 목표 {goal.targetText}
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  → {goal.targetText}
                 </span>
               </span>
-              <span className="mt-0.5 block text-sm text-brand">
-                {goal.remainingText} 남았어요
-              </span>
-            </>
+            )}
+          </span>
+          {goal.reached ? null : (
+            <span className="shrink-0 text-xs font-semibold text-brand">
+              {goal.remainingText} 남았어요
+            </span>
           )}
+          <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
         </button>
       ) : null}
 

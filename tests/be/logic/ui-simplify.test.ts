@@ -60,10 +60,10 @@ describe("디자인 토큰", () => {
     expect(css).toContain("@keyframes app-fade-in");
   });
 
-  it(".app-card 는 모서리 16px · 테두리만(그림자 없음)", () => {
+  it(".app-card 는 모서리 14px · 테두리만(그림자 없음) — 촘촘한 밀도", () => {
     const card = css.slice(css.indexOf(".app-card {"));
     const body = card.slice(0, card.indexOf("}"));
-    expect(body).toContain("border-radius: 1rem;");
+    expect(body).toContain("border-radius: 0.875rem;");
     expect(body).toContain("border: 1px solid var(--line);");
     expect(body).not.toContain("box-shadow");
   });
@@ -253,12 +253,21 @@ describe("공통 머리글·폭 (4단계)", () => {
     expect(read("src/components/page-header.tsx")).toContain("max-w-3xl");
   });
 
-  it("홈·운동탭은 아이폰 큰 제목(text-3xl h1) 구조 — 로고 막대 없음", () => {
-    for (const f of ["src/app/home/page.tsx", "src/app/routine/page.tsx"]) {
+  it("홈·운동탭·공통 머리글은 같은 큰 제목(.app-title, 28px) — 로고 막대 없음", () => {
+    for (const f of ["src/app/home/page.tsx", "src/app/routine/page.tsx", "src/components/page-header.tsx"]) {
       const src = read(f);
-      expect(src, f).toMatch(/<h1 className="text-3xl font-bold/);
+      expect(src, f).toMatch(/<h1 className="[^"]*app-title/);
       expect(src, f).not.toContain("<Logo");
     }
+    expect(read("src/styles/globals.css")).toMatch(/\.app-title \{[^}]*font-size: 1\.75rem/);
+  });
+
+  it("촘촘한 공통 조각(Section·List·Row·Tile)이 있다", () => {
+    const ui = read("src/components/ui/compact.tsx");
+    for (const name of ["export function Section", "export function List", "export function Row", "export function Tile"]) {
+      expect(ui, name).toContain(name);
+    }
+    expect(read("src/styles/globals.css")).toMatch(/\.app-row \{[^}]*min-height: 3rem/);
   });
 
   it("운동탭: 진행 링과 운동 시작이 한 카드, 목록은 그룹 목록, 7일은 평소 가로 스크롤", () => {

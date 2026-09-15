@@ -438,7 +438,7 @@ function TodayWorkout({
         <p className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
           {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
         </p>
-        <h1 className="text-3xl font-bold text-zinc-950 dark:text-zinc-50">
+        <h1 className="app-title">
           오늘의 운동
         </h1>
       </div>

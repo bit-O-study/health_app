@@ -65,7 +65,7 @@ export function WaterCard({
       aria-label="수분 섭취"
       data-testid="water-card"
       data-ml={ml}
-      className="app-card p-3"
+      className="app-card px-3 py-2.5"
     >
       <div className="flex items-center gap-2">
         <p className="flex items-center gap-1.5 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -76,7 +76,7 @@ export function WaterCard({
           {formatWater(ml)}
         </p>
         <p className="text-xs text-zinc-400 dark:text-zinc-500">
-          / {formatWater(targetMl)} · {pct}%
+          / {formatWater(targetMl)}
         </p>
         {added.length > 0 ? (
           <button
@@ -106,13 +106,13 @@ export function WaterCard({
       </div>
 
       {/* 컵 버튼 — 색 알약 대신 회색 알약(아이폰 느낌). 누르면 살짝 눌린다. */}
-      <div className="mt-2.5 flex flex-wrap gap-1.5">
+      <div className="mt-2 flex gap-1.5">
         {WATER_CUPS.map((cup) => (
           <button
             key={cup.ml}
             type="button"
             onClick={() => addCup(cup.ml)}
-            className="app-press inline-flex h-8 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-200"
+            className="app-press inline-flex h-7 flex-1 items-center justify-center gap-1 rounded-full bg-zinc-100 px-2 text-xs font-semibold text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             +{cup.ml}ml
             <span className="font-normal text-zinc-500 dark:text-zinc-400">{cup.label}</span>

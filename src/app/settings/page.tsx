@@ -33,7 +33,7 @@ function SettingsRow({ href, title, icon: Icon }: Row) {
     <li>
       <Link
         href={href}
-        className="flex h-12 items-center gap-3 px-4 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+        className="flex h-11 items-center gap-3 px-3 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
       >
         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
           <Icon aria-hidden="true" size={16} />
@@ -50,7 +50,7 @@ function SettingsRow({ href, title, icon: Icon }: Row) {
 function Group({ label, rows }: { label: string; rows: Row[] }) {
   return (
     <section>
-      <p className="mb-1.5 px-4 text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="app-section-label">{label}</p>
       <ul className="app-list">
         {rows.map((r) => (
           <SettingsRow key={r.href} {...r} />
@@ -87,8 +87,9 @@ export default async function SettingsPage() {
   return (
     <div className="app-page">
       <PageHeader title="설정" back />
-      <main data-testid="settings-rows" className="app-container space-y-6">
-        <p className="truncate px-4 text-sm text-zinc-500 dark:text-zinc-400">{user?.email}</p>
+      <main data-testid="settings-rows" className="app-container space-y-4">
+        {/* 계정은 제목 바로 아래 작은 한 줄 — 그룹 사이 간격도 24px → 16px(2026-09-16 촘촘하게). */}
+        <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">{user?.email}</p>
         <Group label="내 정보" rows={me} />
         <Group label="운동" rows={workout} />
         <Group label="앱" rows={app} />

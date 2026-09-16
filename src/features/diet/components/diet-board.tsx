@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ import {
   X,
 } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { addDaysYmd, ymdDisplay } from "@/features/routine/data";
 import {
   MEALS,
@@ -89,6 +90,7 @@ export function DietBoard({
   target,
   mealPhotos,
   aiScanEnabled = false,
+  footer,
 }: {
   date: string;
   today: string;
@@ -96,6 +98,8 @@ export function DietBoard({
   target: MacroTarget;
   mealPhotos: Record<Meal, string[]>;
   aiScanEnabled?: boolean;
+  /** 끼니 목록 아래 카드(수분) — 상태를 나누지 않게 밖에서 만든 요소를 그대로 끼운다. */
+  footer?: ReactNode;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -273,9 +277,9 @@ export function DietBoard({
   }
 
   return (
-    <section className="space-y-5">
-      {/* 날짜 네비 — 제목("식단")은 공통 머리글(PageHeader)이 이미 보여준다. */}
-      <div className="flex items-center justify-center">
+    <>
+    {/* 날짜 이동은 큰 제목 줄 오른쪽 — 따로 한 줄을 쓰지 않는다(2026-09-16 촘촘하게, 캘린더와 같은 자리). */}
+    <PageHeader title="식단">
         {/*
           🔴 날짜 이동은 **버튼이 아니라 Link** 다(2026-09-08). 이유는 오직 하나 —
           `prefetch` 를 받으려고. 버튼+`router.push` 는 누른 **다음에야** 서버 렌더를
@@ -339,13 +343,14 @@ export function DietBoard({
             </Link>
           )}
         </div>
-      </div>
+    </PageHeader>
+    <main className="app-container space-y-3">
 
       {/* 히어로 — 큰 칼로리 링 하나 + 탄단지 작은 링 3개(아이폰 피트니스 느낌, 2026-09-15 구조 재설계). */}
-      <div className="app-card p-5">
-        <div className="flex items-center gap-5">
+      <div className="app-card px-3 py-3">
+        <div className="flex items-center gap-4">
           <KcalRing consumed={totals.kcal} target={target.kcal} />
-          <div className="grid min-w-0 flex-1 grid-cols-3 gap-2">
+          <div className="grid min-w-0 flex-1 grid-cols-3 gap-1">
             <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="var(--brand)" />
             <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="var(--warn)" />
             <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--info)" />
@@ -406,7 +411,9 @@ export function DietBoard({
           onClose={() => setDatePicker(false)}
         />
       ) : null}
-    </section>
+      {footer}
+    </main>
+    </>
   );
 }
 
@@ -492,8 +499,8 @@ function KcalRing({ consumed, target }: { consumed: number; target: number }) {
   const C = 2 * Math.PI * R;
   const remain = Math.max(0, target - consumed);
   return (
-    <div className="relative h-32 w-32 shrink-0">
-      <svg viewBox="0 0 120 120" className="h-32 w-32 -rotate-90">
+    <div className="relative h-24 w-24 shrink-0">
+      <svg viewBox="0 0 120 120" className="h-24 w-24 -rotate-90">
         <circle cx="60" cy="60" r={R} fill="none" stroke="var(--brand)" strokeOpacity={0.15} strokeWidth="12" />
         <circle
           cx="60"
@@ -508,15 +515,13 @@ function KcalRing({ consumed, target }: { consumed: number; target: number }) {
           className="transition-[stroke-dashoffset] duration-700"
         />
       </svg>
+      {/* 가운데는 남은(또는 넘친) kcal 하나만 — 먹은/목표 숫자 줄은 뺐다(깔끔·촘촘). */}
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className="text-2xl font-bold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
+        <span className="text-xl font-bold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
           {over ? `+${consumed - target}` : remain}
         </span>
-        <span className={`mt-1 text-xs font-semibold ${over ? "text-danger" : "text-zinc-500 dark:text-zinc-400"}`}>
-          {over ? "kcal 초과" : "kcal 남음"}
-        </span>
-        <span className="mt-0.5 text-xs tabular-nums text-zinc-400">
-          {consumed} / {target}
+        <span className={`mt-0.5 text-xs ${over ? "text-danger" : "text-zinc-500 dark:text-zinc-400"}`}>
+          {over ? "초과" : "남음"}
         </span>
       </div>
     </div>
@@ -540,31 +545,23 @@ function MacroBar({
   const C = 2 * Math.PI * R;
   return (
     <div className="flex min-w-0 flex-col items-center text-center">
-      <div className="relative h-14 w-14">
-        <svg viewBox="0 0 48 48" className="h-14 w-14 -rotate-90">
-          <circle cx="24" cy="24" r={R} fill="none" stroke={color} strokeOpacity={0.18} strokeWidth="5" />
-          <circle
-            cx="24"
-            cy="24"
-            r={R}
-            fill="none"
-            stroke={color}
-            strokeWidth="5"
-            strokeLinecap="round"
-            strokeDasharray={C}
-            strokeDashoffset={C * (1 - pct / 100)}
-          />
-        </svg>
-        <span className="absolute inset-0 flex items-center justify-center text-xs font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
-          {Math.round(pct)}%
-        </span>
-      </div>
-      <span className="mt-1 text-xs font-semibold" style={{ color }}>
-        {label}
-      </span>
-      <span className="truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
-        {consumed}/{target}g
-      </span>
+      <svg viewBox="0 0 48 48" className="h-10 w-10 -rotate-90" role="img" aria-label={`${label} ${consumed}/${target}g`}>
+        <circle cx="24" cy="24" r={R} fill="none" stroke={color} strokeOpacity={0.18} strokeWidth="6" />
+        <circle
+          cx="24"
+          cy="24"
+          r={R}
+          fill="none"
+          stroke={color}
+          strokeWidth="6"
+          strokeLinecap="round"
+          strokeDasharray={C}
+          strokeDashoffset={C * (1 - pct / 100)}
+        />
+      </svg>
+      {/* 링 아래는 이름과 먹은 g 한 줄씩 — 퍼센트·목표 숫자는 뺐다(깔끔·촘촘). */}
+      <span className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
+      <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{consumed}g</span>
     </div>
   );
 }
@@ -632,7 +629,7 @@ function MealSection({
   const summary = items.length > 0 ? items.map((it) => it.name).join(", ") : photos.length > 0 ? "사진만 기록됨" : "";
   const body = (
     <>
-      <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-800">
+      <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
         {cover ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -643,7 +640,7 @@ function MealSection({
             className="h-full w-full object-cover"
           />
         ) : (
-          <span aria-hidden="true" className="flex h-full w-full items-center justify-center text-2xl">
+          <span aria-hidden="true" className="flex h-full w-full items-center justify-center text-xl">
             {MEAL_ICON[meal]}
           </span>
         )}
@@ -656,12 +653,12 @@ function MealSection({
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline gap-2">
-          <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">{MEAL_LABEL[meal]}</h2>
+          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{MEAL_LABEL[meal]}</h2>
           {time ? <span className="text-xs text-zinc-500 dark:text-zinc-400">{fmtClock(time)}</span> : null}
         </span>
-        <span className="block truncate text-sm text-zinc-500 dark:text-zinc-400">
-          {summary || "기록 없음"}
-        </span>
+        {summary ? (
+          <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">{summary}</span>
+        ) : null}
       </span>
       {sub > 0 ? (
         <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
@@ -671,7 +668,7 @@ function MealSection({
     </>
   );
   return (
-    <div className="flex items-center gap-2 py-2.5 pl-3 pr-3">
+    <div className="flex min-h-[3.25rem] items-center gap-2 px-3 py-1.5">
       {empty ? (
         <div className="flex min-w-0 flex-1 items-center gap-3">{body}</div>
       ) : (
@@ -687,9 +684,9 @@ function MealSection({
       <button
         type="button"
         onClick={onAdd}
-        className="app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
+        className="app-press inline-flex h-7 shrink-0 items-center gap-0.5 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
       >
-        <Plus aria-hidden="true" size={14} />
+        <Plus aria-hidden="true" size={13} />
         추가
       </button>
     </div>

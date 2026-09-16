@@ -36,6 +36,8 @@ test("설정 행은 한 모양 — 누르면 해당 화면으로 가고, 뒤로�
   await page.waitForURL("**/settings");
 
   const rows = page.getByTestId("settings-rows").getByRole("link");
+  // URL 은 화면이 그려지기 전에 먼저 바뀐다 — 첫 행이 보인 뒤에 센다(count 는 기다리지 않는다).
+  await expect(rows.first()).toBeVisible({ timeout: 15_000 });
   expect(await rows.count()).toBeGreaterThanOrEqual(11);
   await expect(rows.filter({ hasText: "알림 설정" })).toBeVisible();
 

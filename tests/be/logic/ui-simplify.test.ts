@@ -229,7 +229,8 @@ describe("글자·굵기·카드 규칙 (앱 전체)", () => {
 describe("공통 머리글·폭 (4단계)", () => {
   it("식단·캘린더·설정·그룹(빈 화면)이 PageHeader 를 쓴다", () => {
     for (const f of [
-      "src/app/diet/page.tsx",
+      // 식단은 날짜 이동이 보드 상태를 봐서 머리글을 DietBoard 가 그린다(2026-09-16).
+      "src/features/diet/components/diet-board.tsx",
       "src/app/calendar/page.tsx",
       "src/app/settings/page.tsx",
       "src/app/groups/page.tsx",
@@ -428,6 +429,53 @@ describe("남은 화면 색 정리 (2026-09-15 '이대로 계속 진행')", () =
           .filter((x): x is string => x !== null),
       );
     expect(bad).toEqual([]);
+  });
+});
+
+describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
+  const between = (src: string, open: string, close: string) =>
+    src.slice(src.indexOf(open), src.indexOf(close));
+
+  it("공통 머리글: 뒤로가 없으면 빈 윗줄을 그리지 않고, 버튼은 큰 제목 줄 오른쪽", () => {
+    const header = read("src/components/page-header.tsx");
+    expect(header).not.toContain('"flex h-10 items-center');
+    expect(header).toMatch(/\{back \? \(/);
+    expect(header.indexOf("app-title")).toBeLessThan(header.indexOf("{children}"));
+  });
+
+  it("캘린더: 달 이동이 머리글 안, 요약은 카드 4장 대신 한 장(세 칸 + 체중 한 줄)", () => {
+    const cal = read("src/app/calendar/page.tsx");
+    const header = between(cal, "<PageHeader", "</PageHeader>");
+    expect(header).toContain('aria-label="이전 달"');
+    expect(header).toContain('aria-label="다음 달"');
+    for (const gone of ["function SummaryCard", "function NetCard", "function WeightCard"]) {
+      expect(cal, gone).not.toContain(gone);
+    }
+    expect(cal).toContain('<div className="grid grid-cols-3 divide-x');
+    expect(cal).toContain("<WeightRow");
+  });
+
+  it("식단: 날짜 이동이 머리글 안(보드가 머리글을 그린다), 수분은 끼니 아래", () => {
+    const board = read("src/features/diet/components/diet-board.tsx");
+    const header = between(board, "<PageHeader", "</PageHeader>");
+    expect(header).toContain('aria-label="이전 날"');
+    expect(header).toContain('aria-label="다음 날"');
+    const page = read("src/app/diet/page.tsx");
+    expect(page).toContain("footer={");
+    expect(page.indexOf("<DietBoard")).toBeLessThan(page.indexOf("<WaterCard"));
+  });
+
+  it("그룹: 만들기·참여는 입력칸과 버튼이 한 줄(전체 폭 큰 버튼 없음), 관리 화면도 큰 제목", () => {
+    const groups = read("src/features/groups/components/groups-client.tsx");
+    expect(groups).not.toContain("h-11 w-full");
+    expect(groups.match(/app-card flex items-center gap-2 p-2/g)?.length).toBe(2);
+    expect(read("src/app/groups/manage/page.tsx")).toMatch(/<h1 className="[^"]*app-title/);
+  });
+
+  it("커뮤니티: 제목이 다른 탭과 같은 큰 제목(.app-title)", () => {
+    expect(read("src/features/community/components/community-board.tsx")).toMatch(
+      /<h1 className="[^"]*app-title/,
+    );
   });
 });
 

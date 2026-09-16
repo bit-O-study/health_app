@@ -4,12 +4,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Dumbbell,
-  Flame,
   Heart,
   TrendingDown,
   TrendingUp,
-  Utensils,
-  Weight,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
@@ -120,44 +117,43 @@ export default async function CalendarPage({
 
   return (
     <div className="app-page">
-    <PageHeader title="캘린더" />
-    <main className="app-container">
-      <div className="mb-4 flex items-center justify-between">
-        <Link
-          href={`/calendar?m=${monthParam(prev)}`}
-          aria-label="이전 달"
-          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-        >
-          <ChevronLeft aria-hidden="true" size={20} />
-        </Link>
-        <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
-          {year}년 {month0 + 1}월
-        </h2>
-        <Link
-          href={`/calendar?m=${monthParam(next)}`}
-          aria-label="다음 달"
-          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-        >
-          <ChevronRight aria-hidden="true" size={20} />
-        </Link>
-      </div>
-
-      {/* 걸음수 동기화(네이티브) + 생리 기록(여성, 설정에서 캘린더로 이동). */}
-      <div className="mb-3 flex items-center justify-end gap-2">
+    {/* 달 이동은 큰 제목 줄 오른쪽으로 — 따로 한 줄을 쓰지 않는다(2026-09-16 촘촘하게). */}
+    <PageHeader title="캘린더">
+      <Link
+        href={`/calendar?m=${monthParam(prev)}`}
+        aria-label="이전 달"
+        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+      >
+        <ChevronLeft aria-hidden="true" size={18} />
+      </Link>
+      <h2 className="min-w-[5.5rem] text-center text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+        {year}년 {month0 + 1}월
+      </h2>
+      <Link
+        href={`/calendar?m=${monthParam(next)}`}
+        aria-label="다음 달"
+        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+      >
+        <ChevronRight aria-hidden="true" size={18} />
+      </Link>
+    </PageHeader>
+    <main className="app-container space-y-3">
+      {/* 걸음수 동기화(네이티브) + 생리 기록(여성). 둘 다 없으면 줄째 숨긴다. */}
+      <div className="flex items-center justify-end gap-2 empty:hidden">
         {profile?.gender === "female" ? (
           <Link
             href="/cycle"
-            className="app-press inline-flex h-8 items-center gap-1.5 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+            className="app-press inline-flex h-7 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
-            <Heart aria-hidden="true" size={13} />
+            <Heart aria-hidden="true" size={12} />
             생리 기록
           </Link>
         ) : null}
         <StepsSync debug={debug} />
       </div>
 
-      {/* 캘린더 */}
-      <div className="app-card p-2 sm:p-3">
+      {/* 캘린더 — 칸 높이 52px(날짜 + 섭취/소비 두 줄이 딱 들어가는 높이) */}
+      <div className="app-card px-1.5 py-2">
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div
@@ -170,7 +166,7 @@ export default async function CalendarPage({
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-0.5">
+        <div className="grid grid-cols-7">
           {cells.map((day, idx) => {
             if (day === null) return <div key={`e${idx}`} />;
             const date = ymd(year, month0 + 1, day);
@@ -192,7 +188,7 @@ export default async function CalendarPage({
               <Link
                 key={date}
                 href={`/calendar/${date}`}
-                className="relative flex min-h-[64px] flex-col items-center rounded-lg p-1 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+                className="relative flex min-h-[3.25rem] flex-col items-center rounded-lg px-0.5 py-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
               >
                 {(isPeriod || isPredicted) && (
                   <Heart
@@ -209,7 +205,7 @@ export default async function CalendarPage({
                   <Dumbbell
                     aria-label="웨이트한 날"
                     className="absolute bottom-0.5 right-0.5 text-brand"
-                    size={11}
+                    size={10}
                   />
                 ) : null}
                 {mMark ? (
@@ -226,7 +222,7 @@ export default async function CalendarPage({
                     {MARKER_SYMBOL[mMark.marker]}
                   </span>
                 ) : null}
-                {/* 오늘은 아이폰 달력처럼 브랜드색 동그라미 안에 흰 숫자. */}
+                {/* 오늘은 아이폰 달력처럼 브랜드색 동그라미 안에 숫자. */}
                 <span
                   className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold tabular-nums ${
                     isToday ? "bg-brand text-white dark:text-zinc-950" : dayColor
@@ -235,21 +231,21 @@ export default async function CalendarPage({
                   {day}
                 </span>
                 {holiday ? (
-                  <span className="w-full truncate text-center text-xs leading-tight text-danger">
+                  <span className="w-full truncate text-center text-xs leading-4 text-danger">
                     {holiday.name}
                   </span>
                 ) : bok ? (
-                  <span className="w-full truncate text-center text-xs leading-tight text-zinc-500 dark:text-zinc-400">
+                  <span className="w-full truncate text-center text-xs leading-4 text-zinc-500 dark:text-zinc-400">
                     {bok.name}
                   </span>
                 ) : null}
                 {s && s.intake > 0 ? (
-                  <span className="mt-0.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="text-xs leading-4 tabular-nums text-zinc-500 dark:text-zinc-400">
                     +{s.intake}
                   </span>
                 ) : null}
                 {s && s.burned > 0 ? (
-                  <span className="text-xs tabular-nums text-brand">
+                  <span className="text-xs leading-4 tabular-nums text-brand">
                     -{s.burned}
                   </span>
                 ) : null}
@@ -259,45 +255,33 @@ export default async function CalendarPage({
         </div>
       </div>
 
-      {/* 월 요약 */}
-      <div className="mt-5 space-y-2">
-        <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
-          이번 달 요약
-        </h2>
-        <div className="grid grid-cols-2 gap-2">
-          <SummaryCard
-            icon={<Utensils size={16} />}
-            tone="amber"
-            label="총 섭취"
-            value={intakeTotal}
-          />
-          <SummaryCard
-            icon={<Flame size={16} />}
-            tone="emerald"
-            label="운동 소비"
-            value={workoutBurnedTotal}
-          />
+      {/* 월 요약 — 카드 4장을 한 장으로: 섭취·소비·수지 세 칸 + 체중 한 줄 */}
+      <section>
+        <h2 className="app-section-label">이번 달 요약</h2>
+        <div className="app-list">
+          <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5">
+            <SummaryStat label="총 섭취" value={intakeTotal} />
+            <SummaryStat label="운동 소비" value={workoutBurnedTotal} />
+            <NetStat spent={spent} />
+          </div>
+          <div>
+            <WeightRow delta={weightDelta} measuredAt={weightMeasuredAt} />
+          </div>
         </div>
-        <NetCard spent={spent} />
-        <WeightCard delta={weightDelta} measuredAt={weightMeasuredAt} />
-      </div>
+      </section>
 
       {/* AI 다짐 짜주기 — 디버그 계정(헬쑤쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
-      {coachEnabled ? (
-        <div className="mt-4">
-          <CommitmentSuggestions />
-        </div>
-      ) : null}
+      {coachEnabled ? <CommitmentSuggestions /> : null}
     </main>
     </div>
   );
 }
 
 /**
- * 체중 카드 — 데이터 있으면 현재 체중 + 직전 대비 증감(+ 언제 잰 값인지),
- * 없으면 기록하러 가기 버튼.
+ * 체중 한 줄 — 데이터 있으면 현재 체중 + 직전 대비 증감(+ 언제 잰 값인지),
+ * 없으면 기록하러 가기.
  */
-function WeightCard({
+function WeightRow({
   delta,
   measuredAt,
 }: {
@@ -309,12 +293,11 @@ function WeightCard({
     return (
       <Link
         href="/settings/profile"
-        className="app-card flex items-center gap-2 px-4 py-3 text-sm transition active:opacity-70"
+        className="app-row text-sm transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
       >
-        <Weight size={15} className="shrink-0 text-zinc-400" />
         <span className="flex-1 text-zinc-500 dark:text-zinc-400">체중 기록이 없어요</span>
         <span className="whitespace-nowrap font-semibold text-brand">기록하기</span>
-        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-zinc-400" />
       </Link>
     );
   }
@@ -328,81 +311,68 @@ function WeightCard({
       ? "text-danger"
       : "text-zinc-500 dark:text-zinc-400";
   return (
-    <div className="flex items-center justify-between gap-2 app-card px-4 py-3">
-      <span className="flex items-center gap-1 text-sm text-zinc-500 dark:text-zinc-400">
+    <div className="app-row justify-between">
+      <span className="flex items-baseline gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
         현재 체중
         {measuredAt ? (
-          <span className="ml-0.5 whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500">
+          <span className="whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500">
             {shortDateLabel(measuredAt)} 측정
           </span>
         ) : null}
       </span>
       <span className="flex items-center gap-2">
-        <span className="whitespace-nowrap text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
-          {delta.latestKg.toLocaleString()}
-          <span className="ml-0.5 text-xs font-semibold text-zinc-400">kg</span>
-        </span>
         {d === null ? (
           <span className="text-xs font-semibold text-zinc-400">첫 기록</span>
         ) : (
-          <span className={`flex items-center gap-0.5 text-xs font-bold tabular-nums ${toneCls}`}>
+          <span className={`flex items-center gap-0.5 text-xs font-semibold tabular-nums ${toneCls}`}>
             {down ? (
-              <TrendingDown size={14} />
+              <TrendingDown aria-hidden="true" size={13} />
             ) : up ? (
-              <TrendingUp size={14} />
+              <TrendingUp aria-hidden="true" size={13} />
             ) : null}
             {d === 0 ? "변화 없음" : `${Math.abs(d)}kg ${down ? "감량" : "증가"}`}
           </span>
         )}
+        <span className="whitespace-nowrap text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
+          {delta.latestKg.toLocaleString()}
+          <span className="ml-0.5 text-xs font-medium text-zinc-400">kg</span>
+        </span>
       </span>
     </div>
   );
 }
 
-function SummaryCard({
-  icon,
-  tone,
+/** 요약 한 칸 — 라벨 위, 숫자 아래(kcal). */
+function SummaryStat({
   label,
   value,
+  tone = "text-zinc-950 dark:text-zinc-50",
 }: {
-  icon: React.ReactNode;
-  tone: "amber" | "emerald";
   label: string;
   value: number;
+  tone?: string;
 }) {
-  // 라벨은 회색 하나로 — 아이콘 색으로 구분하던 주황/초록은 뺐다(tone 은 호출부 호환용).
-  void tone;
-  void icon;
   return (
-    <div className="app-card p-3">
-      <span className="text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
-      <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
+    <div className="min-w-0 px-2 text-center">
+      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {value.toLocaleString()}
-        <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+        <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
       </p>
     </div>
   );
 }
 
 /** 칼로리 흑자/적자 = 운동 소비 − 총 섭취.
- *  소비가 더 많으면 '흑자'(초록, 양수), 섭취가 더 많으면 '적자'(빨강, 음수). 전체 너비 카드. */
-function NetCard({ spent }: { spent: number }) {
+ *  소비가 더 많으면 '흑자'(브랜드색, 양수), 섭취가 더 많으면 '적자'(위험색, 음수). */
+function NetStat({ spent }: { spent: number }) {
   const surplus = spent > 0; // 소비 > 섭취 → 흑자
   const deficit = spent < 0; // 섭취 > 소비 → 적자
-  const toneCls = surplus
+  const tone = surplus
     ? "text-brand"
     : deficit
       ? "text-danger"
       : "text-zinc-500 dark:text-zinc-400";
   const label = surplus ? "칼로리 흑자" : deficit ? "칼로리 적자" : "칼로리 균형";
-  return (
-    <div className="flex items-center justify-between gap-2 app-card px-4 py-3">
-      <span className="text-sm text-zinc-500 dark:text-zinc-400">{label}</span>
-      <span className={`whitespace-nowrap text-lg font-bold tabular-nums ${toneCls}`}>
-        {/* 흑자면 300, 적자면 -300 그대로 표기 */}
-        {spent.toLocaleString()}
-        <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
-      </span>
-    </div>
-  );
+  return <SummaryStat label={label} value={spent} tone={tone} />;
 }

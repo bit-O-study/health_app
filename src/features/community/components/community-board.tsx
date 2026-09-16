@@ -90,20 +90,20 @@ export function CommunityBoard({
           : "app-page mx-auto flex min-h-screen w-full max-w-3xl flex-col"
       }
     >
-      <div className="app-header shrink-0 px-4 pb-0 pt-3 sm:px-6">
-        {/* 제목은 다른 탭 머리글(PageHeader)과 같은 모양 — 그라데이션 글자는 뺐다. */}
-        <h1 className="mb-2.5 text-xl font-bold text-zinc-950 dark:text-zinc-50">
+      <div className="app-header shrink-0 px-4 pb-0 pt-2 sm:px-6">
+        {/* 제목은 다른 탭 머리글(PageHeader)과 같은 큰 제목(.app-title) — 2026-09-16 촘촘하게. */}
+        <h1 className="app-title mb-1 px-1">
           커뮤니티
         </h1>
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
-        <div className="flex items-center gap-4 overflow-x-auto [scrollbar-width:none] min-[390px]:gap-5">
+        <div className="flex items-center gap-5 overflow-x-auto px-1 [scrollbar-width:none]">
           {BOARD_TABS.map(({ value, label }) => (
             <button
               key={value}
               type="button"
               onClick={() => setTab(value)}
-              className={`relative shrink-0 pb-2.5 text-base font-bold transition-colors min-[390px]:text-base ${
+              className={`relative shrink-0 pb-2 text-sm font-semibold transition-colors ${
                 tab === value
                   ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
@@ -119,7 +119,7 @@ export function CommunityBoard({
 
         {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
         {tab === "teaching" ? (
-          <div className="relative mb-2.5 mt-2">
+          <div className="relative mb-2 mt-1.5">
             <Search
               size={15}
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -129,7 +129,7 @@ export function CommunityBoard({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="운동 검색 (예: 스쿼트, 벤치프레스)"
-              className="w-full rounded-full border border-zinc-200 bg-zinc-50 py-2 pl-9 pr-3 text-sm outline-none focus:border-brand dark:border-zinc-700 dark:bg-zinc-800"
+              className="h-9 w-full rounded-[10px] bg-zinc-100 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
             />
           </div>
         ) : null}
@@ -149,14 +149,14 @@ export function CommunityBoard({
           />
         </div>
       ) : visible.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 px-6 py-24 text-center">
-          <Camera aria-hidden="true" size={32} className="text-zinc-300 dark:text-zinc-600" />
+        <div className="flex flex-col items-center gap-2 px-6 py-20 text-center">
+          <Camera aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
             {tab === "mine" ? "아직 내가 쓴 글이 없어요" : "아직 글이 없어요"}
           </p>
         </div>
       ) : (
-        <ul className="flex flex-col gap-3 px-2 py-3 sm:px-0">
+        <ul className="flex flex-col gap-3 px-4 py-3 sm:px-6">
           {visible.map((p) => (
             <PostCard
               key={`${p.kind}:${p.id}`}
@@ -175,10 +175,10 @@ export function CommunityBoard({
           type="button"
           onClick={() => tab === "routine" ? setRoutineCompose(true) : setCompose(true)}
           aria-label={tab === "routine" ? "루틴 추천글 쓰기" : "오운완 인증하기"}
-          className="fixed right-4 z-20 inline-flex h-12 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95 dark:text-zinc-950"
+          className="fixed right-4 z-20 inline-flex h-11 items-center justify-center gap-1 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95 dark:text-zinc-950"
           style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
         >
-          <Plus size={22} />
+          <Plus aria-hidden="true" size={18} />
           글쓰기
         </button>
       ) : null}
@@ -236,7 +236,7 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-bold transition-all active:scale-95 ${
+      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
         active
           ? "border-transparent bg-brand text-white dark:text-zinc-950"
           : "border-zinc-200 text-zinc-500 hover:border-brand/40 hover:text-brand dark:border-zinc-700"
@@ -328,19 +328,19 @@ function PostCard({
         </span>
       ) : null}
       {/* 헤더: 아바타 + 이름 + 시간 + 배지 */}
-      <div className="flex items-center gap-2 px-3 pt-3">
+      <div className="flex items-center gap-2 px-3 pt-2.5">
         <span
-          className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg ${pastelClass(
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-base ${pastelClass(
             post.authorName,
           )}`}
         >
           {characterEmoji(post.authorName)}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-bold text-zinc-800 dark:text-zinc-100">
+          <p className="truncate text-sm font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
             {post.authorName}
           </p>
-          <p className="text-xs text-zinc-400">{when}</p>
+          <p className="text-xs leading-4 text-zinc-400">{when}</p>
         </div>
         {isTeaching ? (
           <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
@@ -351,7 +351,7 @@ function PostCard({
 
       {/* 미디어 */}
       {isTeaching ? (
-        <div className="relative mt-2 aspect-square w-full bg-black">
+        <div className="relative mt-2.5 aspect-square w-full bg-black">
           {showVideo ? (
             <video
               src={post.videoUrl ?? undefined}
@@ -392,7 +392,7 @@ function PostCard({
         </div>
       ) : (
         <div
-          className="relative mt-2 aspect-square w-full bg-zinc-100 dark:bg-zinc-800"
+          className="relative mt-2.5 aspect-square w-full bg-zinc-100 dark:bg-zinc-800"
           onDoubleClick={doubleTapLike}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -423,7 +423,7 @@ function PostCard({
       {/* 액션 — 버튼 클릭은 카드 이동(상세)으로 전파되지 않게 막는다. */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex items-center gap-4 px-3 pt-2.5 text-zinc-500 dark:text-zinc-400"
+        className="flex items-center gap-4 px-3 pt-2 text-zinc-500 dark:text-zinc-400"
       >
         {!isTeaching ? (
           <>
@@ -431,18 +431,18 @@ function PostCard({
               type="button"
               onClick={toggleLike}
               disabled={pending}
-              className="inline-flex items-center gap-1.5 text-sm font-bold transition-transform active:scale-125 disabled:opacity-60"
+              className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums transition-transform active:scale-125 disabled:opacity-60"
               aria-label="좋아요"
             >
-              <Heart size={22} className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"} />
+              <Heart size={20} className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"} />
               {likeCount}
             </button>
             <Link
               href={`/community/${post.id}`}
-              className="inline-flex items-center gap-1.5 text-sm font-bold"
+              className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums"
               aria-label="댓글"
             >
-              <MessageCircle size={22} className="text-zinc-400" />
+              <MessageCircle size={20} className="text-zinc-400" />
               {post.commentCount}
             </Link>
           </>
@@ -475,18 +475,18 @@ function PostCard({
 
       {/* 캡션 — 카드 전체가 상세로 이동하므로 별도 링크 없이 텍스트만. */}
       {post.caption ? (
-        <div className="px-3 pb-3 pt-1.5">
+        <div className="px-3 pb-2.5 pt-1">
           <p
             className={`whitespace-pre-wrap break-words text-sm leading-relaxed ${
               isTeaching ? "" : "line-clamp-3"
             }`}
           >
-            <span className="mr-1.5 font-bold">{post.authorName}</span>
+            <span className="mr-1.5 font-semibold">{post.authorName}</span>
             {post.caption}
           </p>
         </div>
       ) : (
-        <div className="pb-3" />
+        <div className="pb-2.5" />
       )}
     </li>
   );
@@ -562,7 +562,7 @@ function ComposeModal({
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
       <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-bold">오운완 인증 💪</h2>
+          <h2 className="text-base font-semibold">오운완 인증</h2>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
             <X size={20} />
           </button>

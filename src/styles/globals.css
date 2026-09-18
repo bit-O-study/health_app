@@ -5,12 +5,12 @@
 
 /* 아이폰 설정 앱 같은 그룹 배경 — 연회색 바탕 위에 흰 카드(2026-09-15 "아이폰같이 깔끔하게"). */
 :root {
-  --background: #f2f2f7;
+  --background: #f4f5f4;
   --foreground: #111113;
   --surface: rgba(255, 255, 255, 0.9);
   --surface-strong: #ffffff;
   --line: rgba(60, 60, 67, 0.1);
-  --muted: #8a8a8e;
+  --muted: #626b65;
   --brand: #087f5b;
   --brand-soft: #dff7ec;
   /* 의미색은 두 개뿐 — 주의(부족·미달)와 위험(삭제·오류). 그 밖의 색은 쓰지 않는다. */
@@ -94,14 +94,14 @@ body {
     width: 100%;
     max-width: 48rem;
     margin-inline: auto;
-    padding: 0.5rem 1rem 2rem;
+    padding: 1rem 1rem 2rem;
     animation: app-fade-in 240ms ease-out both;
   }
 
-  /* 아이폰 큰 제목 — 28px/700. 모든 탭 화면이 같은 크기. */
+  /* 탭과 상세 화면의 제목은 30px/700으로 통일한다. */
   .app-title {
-    font-size: 1.75rem;
-    line-height: 2.125rem;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--foreground);
@@ -110,7 +110,7 @@ body {
   /* 섹션 라벨 — 목록 위 작은 회색 글자(아이폰 설정 앱). */
   .app-section-label {
     padding-inline: 0.25rem;
-    margin-bottom: 0.375rem;
+    margin-bottom: 0.625rem;
     font-size: 0.8125rem;
     line-height: 1.125rem;
     font-weight: 600;
@@ -123,7 +123,56 @@ body {
     min-height: 3rem;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
+    padding: 0.875rem 1rem;
+  }
+
+  /* 화면의 역할과 주 행동을 구분하는 공통 위계. */
+  .app-eyebrow {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
+
+  .app-hero {
+    border: 1px solid var(--line);
+    border-radius: 1.5rem;
+    background: var(--foreground);
+    color: var(--background);
+    padding: 1.5rem;
+  }
+
+  .app-action {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.875rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    background: var(--brand);
+    color: #ffffff;
+  }
+
+  .dark .app-action { color: #071b12; }
+
+  .app-shortcut {
+    display: flex;
+    min-width: 0;
+    min-height: 5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    padding: 1rem;
+    background: var(--surface-strong);
+    font-size: 0.875rem;
+    font-weight: 600;
   }
 
   .app-header {
@@ -136,10 +185,10 @@ body {
     -webkit-backdrop-filter: blur(24px) saturate(180%);
   }
 
-  /* 카드는 한 가지 — 모서리 14px, 테두리만(그림자 없음). */
+  /* 공통 카드는 20px 모서리와 얇은 테두리. */
   .app-card {
     border: 1px solid var(--line);
-    border-radius: 0.875rem;
+    border-radius: 1.25rem;
     background: var(--surface-strong);
   }
 
@@ -171,7 +220,7 @@ body {
   /* 그룹 목록(아이폰 설정 앱) — 카드 안에서 줄 사이 선을 아이콘 오른쪽부터 긋는다. */
   .app-list {
     border: 1px solid var(--line);
-    border-radius: 0.875rem;
+    border-radius: 1.25rem;
     background: var(--surface-strong);
     overflow: hidden;
   }

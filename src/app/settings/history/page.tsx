@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ChevronLeft, ChevronRight as ChevronRightIcon } from "lucide-react";
 
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
@@ -174,130 +174,141 @@ export default async function HistoryPage({
     (a, b) => b[1] - a[1],
   );
 
+  // 공통 머리글(달 이동은 제목 줄 오른쪽 — 캘린더와 같은 자리) + 섹션 라벨 + 카드(2026-09-16 8단계).
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        설정
-      </BackLink>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          운동 기록
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          <strong>완료 처리한 운동만</strong> 표시합니다. 날짜를 누르면 그 날의
-          완료 운동·총 칼로리 상세를 볼 수 있어요.
-        </p>
-      </div>
-
-      <section className="mb-5 rounded-2xl border border-brand/40 bg-brand-soft p-5">
-        <p className="text-xs font-bold uppercase tracking-wide text-brand">이번 주 런닝</p>
-        <div className="mt-2 grid grid-cols-3 gap-3 text-center">
-          <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{weekSummary.sessions}</p><p className="text-xs text-zinc-500">회</p></div>
-          <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{(weekSummary.distanceM / 1_000).toFixed(2)}</p><p className="text-xs text-zinc-500">km</p></div>
-          <div><p className="text-xl font-bold text-zinc-950 dark:text-zinc-100">{shortDuration(weekSummary.durationSec)}</p><p className="text-xs text-zinc-500">총 시간</p></div>
-        </div>
-        <p className="mt-3 text-center text-xs text-zinc-500 dark:text-zinc-400">{weekSummary.from}~{weekSummary.to} · {weekSummary.caloriesKcal}kcal</p>
-      </section>
-
-      <section className="mb-5 app-card p-5">
-        <h2 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-100">최근 런닝 기록</h2>
-        <RunHistoryList rows={recentRuns} />
-      </section>
-
-      <section className="app-card p-5">
-        <div className="mb-4 flex items-center justify-between">
-          <Link
-            href={`/settings/history?month=${prev.year}-${pad(prev.month0 + 1)}`}
-            className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800"
-          >
-            <ChevronLeft aria-hidden="true" size={15} />
-            이전
-          </Link>
-          <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
-            {monthLabel}
-          </h2>
-          <Link
-            href={`/settings/history?month=${next.year}-${pad(next.month0 + 1)}`}
-            className="inline-flex h-9 items-center gap-1 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800"
-          >
-            다음
-            <ChevronRightIcon aria-hidden="true" size={15} />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-7 gap-1.5">
-          {WEEKDAYS.map((w) => (
-            <div
-              key={w}
-              className="py-1 text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400"
-            >
-              {w}
-            </div>
-          ))}
-          {cells.map((cell, i) => {
-            if (cell === null) {
-              return <div key={`pad-${i}`} className="h-16" />;
-            }
-            const focus = dominantFocus(cell.ymd);
-            const hasCond = condActiveDays.has(cell.ymd);
-            const label = focus ? blockLabel(focus) : hasCond ? "활동" : "";
-            const isToday = cell.ymd === todayYmd;
-            const durSec = durationMap.get(cell.ymd) ?? 0;
-            const hasRun = runActiveDays.has(cell.ymd);
-            const hasActivity = focus !== null || hasCond || hasRun || durSec > 0;
-            return (
-              <Link
-                key={cell.ymd}
-                href={`/settings/history/${cell.ymd}`}
-                title={`${cell.ymd} 상세 보기${durSec > 0 ? ` · ${shortDuration(durSec)}` : ""}`}
-                className={`flex h-16 flex-col items-center justify-center rounded-md text-xs font-semibold transition ${
-                  hasActivity
-                    ? "bg-brand-soft text-brand hover:bg-brand-soft"
-                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500 hover:bg-zinc-200"
-                } ${isToday ? "ring-2 ring-brand/40 ring-offset-1" : ""}`}
+    <div className="app-page">
+      <PageHeader title="운동 기록" back="설정">
+        <Link
+          href={`/settings/history?month=${prev.year}-${pad(prev.month0 + 1)}`}
+          aria-label="이전 달"
+          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        >
+          <ChevronLeft aria-hidden="true" size={18} />
+        </Link>
+        <h2 className="min-w-[5.5rem] text-center text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+          {monthLabel}
+        </h2>
+        <Link
+          href={`/settings/history?month=${next.year}-${pad(next.month0 + 1)}`}
+          aria-label="다음 달"
+          className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        >
+          <ChevronRightIcon aria-hidden="true" size={18} />
+        </Link>
+      </PageHeader>
+      <main className="app-container space-y-4">
+        {/* 완료한 운동만 칠한다 — 날짜를 누르면 그날 상세. */}
+        <section className="app-card px-1.5 py-2">
+          <div className="grid grid-cols-7 gap-1">
+            {WEEKDAYS.map((w) => (
+              <div
+                key={w}
+                className="py-1 text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400"
               >
-                <span>{cell.day}</span>
-                {label ? (
-                  <span className="mt-0.5 text-xs font-bold">{label}</span>
-                ) : hasRun ? <span className="mt-0.5 text-xs font-bold">런닝</span> : null}
-                {durSec > 0 ? (
-                  <span className="mt-0.5 text-xs font-bold text-brand">
-                    {shortDuration(durSec)}
-                  </span>
-                ) : null}
-              </Link>
-            );
-          })}
-        </div>
+                {w}
+              </div>
+            ))}
+            {cells.map((cell, i) => {
+              if (cell === null) {
+                return <div key={`pad-${i}`} className="h-14" />;
+              }
+              const focus = dominantFocus(cell.ymd);
+              const hasCond = condActiveDays.has(cell.ymd);
+              const label = focus ? blockLabel(focus) : hasCond ? "활동" : "";
+              const isToday = cell.ymd === todayYmd;
+              const durSec = durationMap.get(cell.ymd) ?? 0;
+              const hasRun = runActiveDays.has(cell.ymd);
+              const hasActivity = focus !== null || hasCond || hasRun || durSec > 0;
+              return (
+                <Link
+                  key={cell.ymd}
+                  href={`/settings/history/${cell.ymd}`}
+                  title={`${cell.ymd} 상세 보기${durSec > 0 ? ` · ${shortDuration(durSec)}` : ""}`}
+                  className={`flex h-14 min-w-0 flex-col items-center justify-center rounded-lg text-xs font-semibold tabular-nums transition ${
+                    hasActivity
+                      ? "bg-brand-soft text-brand"
+                      : "text-zinc-400 active:bg-zinc-100 dark:text-zinc-500 dark:active:bg-white/[0.06]"
+                  } ${isToday ? "ring-2 ring-brand/40" : ""}`}
+                >
+                  <span>{cell.day}</span>
+                  {label ? (
+                    <span className="w-full truncate text-center text-xs leading-4">{label}</span>
+                  ) : hasRun ? (
+                    <span className="text-xs leading-4">런닝</span>
+                  ) : null}
+                  {durSec > 0 ? (
+                    <span className="w-full truncate text-center text-xs leading-4 text-brand">
+                      {shortDuration(durSec)}
+                    </span>
+                  ) : null}
+                </Link>
+              );
+            })}
+          </div>
+        </section>
 
         {/* 부위별 통계 */}
-        <div className="mt-5">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-            이 달 부위별 완료
-          </p>
+        <section>
+          <h2 className="app-section-label">이 달 부위별 완료</h2>
           {focusStats.length === 0 ? (
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="app-card px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400">
               아직 이 달 완료된 운동이 없습니다.
             </p>
           ) : (
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5">
               {focusStats.map(([focus, count]) => (
                 <span
                   key={focus}
-                  className="inline-flex items-center gap-1.5 rounded-full bg-brand-soft px-3 py-1 text-sm font-semibold text-brand"
+                  className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2.5 py-1 text-sm text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                 >
                   {blockLabel(focus)}
-                  <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold text-white dark:text-zinc-950">
-                    {count}회
-                  </span>
+                  <span className="text-xs font-semibold tabular-nums text-brand">{count}회</span>
                 </span>
               ))}
             </div>
           )}
-        </div>
-      </section>
-    </main>
+        </section>
+
+        <section>
+          <h2 className="app-section-label">이번 주 런닝</h2>
+          <div className="app-list">
+            <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5 text-center">
+              <div className="min-w-0 px-2">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">횟수</p>
+                <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
+                  {weekSummary.sessions}
+                  <span className="ml-0.5 text-xs font-medium text-zinc-400">회</span>
+                </p>
+              </div>
+              <div className="min-w-0 px-2">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">거리</p>
+                <p className="mt-0.5 text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
+                  {(weekSummary.distanceM / 1_000).toFixed(2)}
+                  <span className="ml-0.5 text-xs font-medium text-zinc-400">km</span>
+                </p>
+              </div>
+              <div className="min-w-0 px-2">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">총 시간</p>
+                <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
+                  {shortDuration(weekSummary.durationSec)}
+                </p>
+              </div>
+            </div>
+            <div>
+              <p className="px-3 py-2 text-center text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                {weekSummary.from}~{weekSummary.to} · {weekSummary.caloriesKcal}kcal
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 className="app-section-label">최근 런닝 기록</h2>
+          <div className="app-card overflow-hidden">
+            <RunHistoryList rows={recentRuns} />
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }

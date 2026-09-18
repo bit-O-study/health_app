@@ -100,18 +100,18 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
 
   if (!selection) {
     return (
-      <section className="app-card p-5">
+      <section className="app-card p-3">
         <GymPicker onPick={pick} />
       </section>
     );
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
-      <section className="app-card p-5">
-        <h2 className="mb-3 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-          내 헬스장
-        </h2>
+    // 촘촘한 폼(2026-09-16 8단계) — 섹션 라벨은 카드 밖.
+    <form onSubmit={onSubmit} className="space-y-4">
+      <section>
+        <h2 className="app-section-label">내 헬스장</h2>
+        <div className="app-card p-3">
         <SelectedGymSummary
           name={selection.name}
           address={selection.address}
@@ -120,9 +120,10 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
             setEquipment(new Set());
           }}
         />
+        </div>
       </section>
 
-      <section className="app-card p-5">
+      <section className="app-card p-3">
         <GymEquipmentPicker
           selected={equipment}
           onToggle={toggle}
@@ -131,7 +132,7 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
       </section>
 
       {err ? (
-        <p className="rounded-md border border-red-300 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-800 dark:bg-red-950/40 dark:text-red-300">
+        <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm text-danger">
           {err}
         </p>
       ) : null}
@@ -139,7 +140,7 @@ export function GymForm({ initial }: { initial: GymFormInitial | null }) {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+        className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         <Save aria-hidden="true" size={16} />
         {pending ? "저장 중…" : initial?.id ? "저장" : "등록"}

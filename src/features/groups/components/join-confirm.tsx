@@ -41,30 +41,30 @@ export function JoinConfirm({
   }
 
   return (
-    <div className="mx-auto w-full max-w-sm app-card p-6 text-center">
-      <span className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-brand-soft text-brand">
-        <Users aria-hidden="true" size={28} />
+    <div className="mx-auto w-full max-w-sm app-card p-4 text-center">
+      <span className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-soft text-brand">
+        <Users aria-hidden="true" size={24} />
       </span>
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">그룹 초대</p>
-      <h1 className="mt-1 text-xl font-bold text-zinc-950 dark:text-zinc-50">
+      <p className="text-xs text-zinc-500 dark:text-zinc-400">그룹 초대</p>
+      <h1 className="mt-0.5 text-xl font-semibold text-zinc-950 dark:text-zinc-50">
         {groupName}
       </h1>
-      <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-300">
+      <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
         이 그룹에 가입하시겠어요?
       </p>
 
       {err ? (
-        <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600 dark:bg-red-950/40">
+        <p className="mt-3 rounded-[10px] bg-danger/10 px-3 py-2 text-sm text-danger">
           {err}
         </p>
       ) : null}
 
-      <div className="mt-5 flex gap-2">
+      <div className="mt-4 flex gap-2">
         <button
           type="button"
           disabled={pending}
           onClick={() => router.push("/groups")}
-          className="h-11 flex-1 rounded-xl border border-zinc-300 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          className="app-press h-11 flex-1 rounded-xl bg-zinc-100 text-base font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
         >
           거절
         </button>
@@ -72,7 +72,7 @@ export function JoinConfirm({
           type="button"
           disabled={pending}
           onClick={accept}
-          className="h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+          className="app-press h-11 flex-1 rounded-xl bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
         >
           {pending ? "가입 중…" : "확인"}
         </button>

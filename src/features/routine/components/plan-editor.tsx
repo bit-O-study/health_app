@@ -41,7 +41,6 @@ import type { OverloadAdvice } from "@/features/routine/overload-advice";
 import { OverloadHint } from "@/features/routine/components/overload-hint";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
-import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   registerRecommendedPlanAction,
   saveManualPlanAction,
@@ -736,22 +735,23 @@ export function PlanEditor({
     <fieldset
       disabled={editorPending}
       aria-busy={editorPending}
-      className="m-0 min-w-0 space-y-6 border-0 p-0"
+      className="m-0 min-w-0 space-y-4 border-0 p-0"
     >
-      <div className="flex flex-col gap-3 rounded-xl border border-brand/40 bg-brand-soft p-5 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+      {/* 추천 등록 — 옅은 초록 상자 대신 일반 카드 한 줄 + 브랜드 알약 버튼(2026-09-16 8단계). */}
+      <div className="app-card flex items-center justify-between gap-3 p-3">
+        <div className="min-w-0">
+          <h2 className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
             추천 운동들로 등록
           </h2>
-          <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-            체형·성별·경력에 맞춰 모든 부위를 자동으로 채웁니다.
+          <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
+            체형·성별·경력에 맞춰 자동으로 채워요
           </p>
         </div>
         <button
           type="button"
           disabled={pending}
           onClick={() => setConfirm({ kind: "all" })}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="app-press inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={16} />
@@ -763,13 +763,13 @@ export function PlanEditor({
       </div>
 
       {status ? (
-        <p className="rounded-md bg-zinc-100 dark:bg-zinc-800 px-3 py-2 text-sm font-medium text-zinc-700 dark:text-zinc-300">
+        <p className="rounded-[10px] bg-zinc-100 px-3 py-2 text-sm text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300">
           {status}
         </p>
       ) : null}
 
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+        <p className="px-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
           또는 직접 등록
         </p>
         <div className="flex flex-wrap items-center gap-2">
@@ -780,7 +780,7 @@ export function PlanEditor({
               aria-expanded={swapPickerOpen}
               disabled={pending}
               onClick={toggleArmSwapPicker}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:text-zinc-300"
+              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
             >
               <ArrowLeftRight aria-hidden="true" size={14} />
               팔 루틴 교환
@@ -791,7 +791,7 @@ export function PlanEditor({
             data-testid="clear-all-exercises"
             disabled={pending}
             onClick={() => setConfirm({ kind: "clear-all" })}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-800 bg-[var(--surface-strong)] px-2.5 text-xs font-semibold text-red-600 dark:text-red-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 disabled:opacity-60"
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-3 text-xs font-semibold text-danger transition active:opacity-70 disabled:opacity-60"
           >
             <Trash2 aria-hidden="true" size={14} />
             전체 운동 초기화
@@ -800,13 +800,13 @@ export function PlanEditor({
       </div>
 
       {swapPickerOpen ? (
-        <div className="space-y-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3 dark:border-zinc-700 dark:bg-zinc-900/50">
+        <div className="space-y-2 rounded-[10px] bg-zinc-100 p-2.5 dark:bg-white/[0.06]">
           <div
             role="group"
             aria-label="팔 루틴 교환 첫 번째 일차"
             className="flex flex-wrap items-center gap-2"
           >
-            <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
               첫 번째 일차
             </span>
             {swapSourceDayIndexes.map((dayIndex) => {
@@ -826,8 +826,8 @@ export function PlanEditor({
                   onClick={() => selectArmSwapSource(dayIndex)}
                   className={
                     selected
-                      ? "rounded-full border border-brand/40 bg-brand-soft px-3 py-1.5 text-xs font-semibold text-brand transition disabled:opacity-60"
-                      : "rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:text-zinc-300"
+                      ? "rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white transition disabled:opacity-60 dark:text-zinc-950"
+                      : "rounded-full bg-[var(--surface-strong)] px-3 py-1.5 text-xs font-semibold text-zinc-700 transition active:opacity-70 disabled:opacity-60 dark:text-zinc-300"
                   }
                 >
                   {name}
@@ -841,7 +841,7 @@ export function PlanEditor({
               aria-label="팔 루틴 교환 두 번째 일차"
               className="flex flex-wrap items-center gap-2"
             >
-              <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">
                 두 번째 일차
               </span>
               {swapTargetsForDay(swapSourceDayIndex).map(
@@ -860,7 +860,7 @@ export function PlanEditor({
                       onClick={() =>
                         requestArmSwap(swapSourceDayIndex, targetDayIndex)
                       }
-                      className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:text-zinc-300"
+                      className="rounded-full bg-[var(--surface-strong)] px-3 py-1.5 text-xs font-semibold text-zinc-700 transition active:opacity-70 disabled:opacity-60 dark:text-zinc-300"
                     >
                       {name}
                     </button>
@@ -876,14 +876,14 @@ export function PlanEditor({
         <div
           key={`day-${day.dayIndex}`}
           data-plan-day-index={day.dayIndex}
-          className="space-y-3"
+          className="space-y-2"
         >
           {/* 일차 그룹 헤더 — 같은 날 부위들을 묶어 보여준다. */}
-          <div className="flex items-center gap-2 pt-1">
-            <span className="inline-flex h-7 items-center rounded-full bg-zinc-900 px-3 text-xs font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+          <div className="flex items-center gap-2 px-1 pt-1">
+            <span className="inline-flex h-6 items-center rounded-full bg-brand-soft px-2.5 text-xs font-semibold text-brand">
               {day.dayIndex + 1}일차
             </span>
-            <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="min-w-0 flex-1 truncate text-sm text-zinc-500 dark:text-zinc-400">
               {day.focuses.map(focusName).join(" · ")}
             </span>
             {/* 이 일차를 커뮤니티 › 루틴에 소개(운동 순서·메모까지 스냅샷으로). */}
@@ -904,16 +904,16 @@ export function PlanEditor({
               (f) => !optionsByKey[f.key],
             );
             return (
-              <section className="app-card p-5">
+              <section className="app-card p-3">
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+                  <h3 className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
                     본운동
                   </h3>
                   <div className="flex flex-wrap items-center gap-1.5">
                     <button
                       type="button"
                       onClick={() => recommendDay(day)}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-brand/40 bg-brand-soft px-2.5 text-xs font-semibold text-brand transition hover:bg-brand-soft"
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 dark:bg-white/[0.08]"
                     >
                       <Sparkles aria-hidden="true" size={14} />
                       추천으로 채우기
@@ -922,7 +922,7 @@ export function PlanEditor({
                       type="button"
                       onClick={() => requestAddRow(day)}
                       disabled={dayOptionsLoading}
-                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
+                      className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
                     >
                       {dayOptionsLoading ? (
                         <Loader2
@@ -942,9 +942,9 @@ export function PlanEditor({
                   <div
                     role="group"
                     aria-label={`${day.dayIndex + 1}일차 추가할 부위`}
-                    className="mt-3 flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2 dark:border-zinc-700 dark:bg-zinc-900/50"
+                    className="mt-2 flex flex-wrap items-center gap-2 rounded-[10px] bg-zinc-100 p-2 dark:bg-white/[0.06]"
                   >
-                    <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">
+                    <span className="text-xs text-zinc-500 dark:text-zinc-400">
                       추가할 부위
                     </span>
                     {day.focuses.map((focus) => {
@@ -955,7 +955,7 @@ export function PlanEditor({
                           type="button"
                           aria-label={`${name} 운동 추가`}
                           onClick={() => addRowToFocus(day, focus.key)}
-                          className="rounded-full border app-field px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft dark:text-zinc-300"
+                          className="rounded-full bg-[var(--surface-strong)] px-3 py-1.5 text-xs font-semibold text-zinc-700 transition active:opacity-70 dark:text-zinc-300"
                         >
                           {name}
                           {focus.isSide ? (
@@ -968,11 +968,11 @@ export function PlanEditor({
                 ) : null}
 
                 {entries.length === 0 ? (
-                  <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
-                    등록된 운동이 없습니다. 위 버튼으로 추가하거나 추천으로 채우세요.
+                  <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    운동 없음
                   </p>
                 ) : (
-                  <div className="mt-4 space-y-2">
+                  <div className="mt-2 space-y-1.5">
                     {entries.map(({ f, row, idx }) => {
                       const options = optsOf(f);
                       const rows = plans[f.key] ?? [];
@@ -1003,7 +1003,7 @@ export function PlanEditor({
                                 }
                               : { transition: "transform 160ms ease" }
                           }
-                          className="flex flex-wrap items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-2.5"
+                          className="flex flex-wrap items-center gap-2 rounded-[10px] bg-zinc-50 p-2 dark:bg-white/[0.04]"
                         >
                           <button
                             type="button"
@@ -1022,7 +1022,7 @@ export function PlanEditor({
                               const major = majorMuscleTag(row.exerciseId);
                               return (
                                 <span
-                                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-bold ${major.tone}`}
+                                  className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-semibold ${major.tone}`}
                                 >
                                   {major.label}
                                 </span>
@@ -1034,10 +1034,8 @@ export function PlanEditor({
                                 : undefined;
                               if (!sub) return null;
                               return (
-                                <span
-                                  className="whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-bold text-white"
-                                  style={{ backgroundColor: muscleGroup(sub.muscle).color }}
-                                >
+                                // 세부근육은 색 알약 대신 회색 글자(운동탭 목록과 같은 모양).
+                                <span className="whitespace-nowrap px-1 py-0.5 text-xs text-zinc-500 dark:text-zinc-400">
                                   {sub.label}
                                 </span>
                               );
@@ -1068,7 +1066,7 @@ export function PlanEditor({
                               next[idx] = { ...row, equipment: e.target.value as EquipmentId };
                               update(f.key, next);
                             }}
-                            className="h-9 rounded-md border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
+                            className="h-9 rounded-[10px] border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
                           >
                             {(ex?.equipments ?? []).map((eq) => {
                               const ok = isEquipmentAvailable(eq, gymSet);
@@ -1103,7 +1101,7 @@ export function PlanEditor({
                             aria-label="삭제"
                             data-testid={`delete-row-${f.key}-${idx}`}
                             onClick={() => update(f.key, rows.filter((_, i) => i !== idx))}
-                            className="flex h-9 w-9 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
+                            className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger dark:text-zinc-500"
                           >
                             <Trash2 aria-hidden="true" size={16} />
                           </button>
@@ -1158,7 +1156,7 @@ export function PlanEditor({
                   type="button"
                   disabled={pending}
                   onClick={() => saveDay(day)}
-                  className="mt-4 inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-4 text-sm font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
+                  className="app-press mt-3 inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:opacity-60 dark:text-zinc-950"
                 >
                   {pending ? (
                     <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -1167,8 +1165,8 @@ export function PlanEditor({
                 </button>
 
                 {primary ? (
-                  <div className="mt-5 space-y-3 border-t border-zinc-200 dark:border-zinc-700 pt-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                  <div className="mt-3 space-y-2 border-t border-[var(--line)] pt-3">
+                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
                       워밍업 / 마무리
                     </p>
                     <ConditioningEditor

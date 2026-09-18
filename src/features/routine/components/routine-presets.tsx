@@ -63,21 +63,18 @@ export function RoutinePresets({
   }
 
   return (
-    <section className="app-card p-5">
-      <div className="mb-3 flex items-center gap-2">
+    <section className="app-card p-3">
+      {/* 설명 문단은 뺐다(2026-09-16 촘촘하게) — 입력칸 + '현재 루틴 저장' 버튼이 스스로 설명한다. */}
+      <div className="mb-2 flex items-center gap-1.5">
         <Bookmark
           aria-hidden="true"
-          className="text-brand"
-          size={18}
+          className="text-zinc-500 dark:text-zinc-400"
+          size={16}
         />
-        <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+        <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
           루틴 프리셋
         </h2>
       </div>
-      <p className="mb-3 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-        지금 짠 루틴(분할·운동 구성)을 이름 붙여 저장해 두고, 나중에 그대로
-        불러올 수 있어요. 새 구성을 시도하기 전에 저장해 두면 안전합니다.
-      </p>
 
       {/* 현재 루틴 저장 */}
       <div className="flex items-center gap-2">
@@ -92,13 +89,13 @@ export function RoutinePresets({
             setError(null);
           }}
           disabled={pending}
-          className="h-10 min-w-0 flex-1 rounded-md border app-field px-3 text-sm text-zinc-800 dark:text-zinc-200"
+          className="h-10 min-w-0 flex-1 rounded-[10px] bg-zinc-100 px-3 text-sm text-zinc-800 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-200"
         />
         <button
           type="button"
           onClick={save}
           disabled={pending || name.trim() === ""}
-          className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+          className="app-press inline-flex h-10 shrink-0 items-center gap-1 rounded-[10px] bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -116,11 +113,11 @@ export function RoutinePresets({
 
       {/* 저장된 프리셋 목록 */}
       {presets.length > 0 ? (
-        <ul className="mt-4 space-y-2">
+        <ul className="mt-2 divide-y divide-[var(--line)]">
           {presets.map((p) => (
             <li
               key={p.id}
-              className="flex items-center gap-2 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-3"
+              className="flex items-center gap-2 py-2"
             >
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
@@ -132,7 +129,7 @@ export function RoutinePresets({
                 type="button"
                 onClick={() => setLoadTarget(p)}
                 disabled={pending}
-                className="inline-flex h-9 shrink-0 items-center gap-1 rounded-md border border-brand/40 bg-brand-soft px-3 text-xs font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-50"
+                className="app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand disabled:opacity-50 dark:bg-white/[0.08]"
               >
                 <Download aria-hidden="true" size={14} />
                 불러오기
@@ -150,7 +147,7 @@ export function RoutinePresets({
           ))}
         </ul>
       ) : (
-        <p className="mt-4 text-xs text-zinc-500">아직 저장된 프리셋이 없습니다.</p>
+        <p className="mt-2 text-xs text-zinc-500">아직 저장된 프리셋이 없습니다.</p>
       )}
 
       <ConfirmDialog

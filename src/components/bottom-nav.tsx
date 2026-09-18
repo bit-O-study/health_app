@@ -101,8 +101,8 @@ function TabInner({
         highlight ? "font-semibold text-brand" : `font-medium ${inactive}`
       }`}
     >
-      {/* 아이폰 탭바처럼 알약 배경 없이 색·굵기만으로 현재 탭을 보여준다. */}
-      <span className="flex h-7 min-w-9 items-center justify-center px-2">
+      {/* 현재 탭은 색·굵기와 아이콘 배경으로 구분한다. */}
+      <span className={`flex h-7 min-w-9 items-center justify-center rounded-lg px-2 ${highlight ? "bg-brand/10" : ""}`}>
 
         {pending ? (
           <Loader2 aria-hidden="true" size={20} className="animate-spin" />
@@ -152,7 +152,7 @@ export function BottomNav({
           : "app-glass border-black/5 dark:border-white/10"
       }`}
     >
-      <ul className="mx-auto flex w-full max-w-xl px-1">
+      <ul className="mx-auto flex w-full max-w-3xl px-1 sm:px-6">
         {tabs.map((t) => {
           const active = t.match(pathname);
           return (

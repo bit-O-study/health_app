@@ -36,7 +36,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           setErr(null);
           setEditing(true);
         }}
-        className="mt-2 inline-flex items-center gap-1 rounded-md border border-zinc-200 px-2 py-1 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:text-zinc-300"
+        className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-brand transition active:opacity-60"
       >
         <Pencil aria-hidden="true" size={12} />
         {initial ? "닉네임 수정" : "닉네임 설정"}
@@ -45,7 +45,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
   }
 
   return (
-    <div className="mt-2">
+    <div className="mt-1.5">
       <div className="flex items-center gap-1.5">
         <input
           autoFocus
@@ -54,14 +54,14 @@ export function NicknameEditor({ initial }: { initial: string }) {
           onChange={(e) => setValue(e.target.value)}
           placeholder="닉네임 (미설정 시 이름)"
           aria-label="닉네임"
-          className="h-9 w-44 rounded-lg border border-zinc-300 bg-white px-2.5 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+          className="h-9 w-44 rounded-[10px] bg-zinc-100 px-2.5 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
         />
         <button
           type="button"
           aria-label="저장"
           onClick={save}
           disabled={pending}
-          className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+          className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-brand text-white dark:text-zinc-950 transition active:opacity-80 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -73,12 +73,12 @@ export function NicknameEditor({ initial }: { initial: string }) {
           type="button"
           aria-label="취소"
           onClick={() => setEditing(false)}
-          className="flex h-9 w-9 items-center justify-center rounded-lg text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+          className="flex h-9 w-9 items-center justify-center rounded-[10px] text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
         >
           <X aria-hidden="true" size={15} />
         </button>
       </div>
-      {err ? <p className="mt-1 text-xs text-red-500">{err}</p> : null}
+      {err ? <p className="mt-1 text-xs text-danger">{err}</p> : null}
     </div>
   );
 }

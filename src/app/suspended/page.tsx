@@ -41,51 +41,54 @@ export default async function SuspendedPage() {
 
   const isBan = state === "banned";
 
+  // 입구 화면과 같은 촘촘한 한 줄기(2026-09-16 8단계) — 상태 아이콘은 의미색(위험·주의) 옅은 칩.
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 bg-zinc-50 dark:bg-zinc-900 px-6 py-12 text-center">
-      <span
-        className={`flex h-16 w-16 items-center justify-center rounded-2xl ${
-          withdrawn
-            ? "bg-zinc-200 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300"
-            : isBan
-              ? "bg-red-100 dark:bg-red-950/40 text-red-600 dark:text-red-400"
-              : "bg-amber-100 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400"
-        }`}
-      >
-        {withdrawn ? (
-          <UserX size={32} aria-hidden="true" />
-        ) : isBan ? (
-          <Ban size={32} aria-hidden="true" />
-        ) : (
-          <Clock size={32} aria-hidden="true" />
-        )}
-      </span>
+    <div className="app-page">
+      <main className="app-container flex min-h-dvh max-w-sm flex-col justify-center gap-4 py-10">
+        <span
+          className={`flex h-12 w-12 items-center justify-center rounded-[14px] ${
+            withdrawn
+              ? "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
+              : isBan
+                ? "bg-danger/10 text-danger"
+                : "bg-warn/10 text-warn"
+          }`}
+        >
+          {withdrawn ? (
+            <UserX size={24} aria-hidden="true" />
+          ) : isBan ? (
+            <Ban size={24} aria-hidden="true" />
+          ) : (
+            <Clock size={24} aria-hidden="true" />
+          )}
+        </span>
 
-      <div className="space-y-2">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          {withdrawn
-            ? "탈퇴한 계정입니다"
-            : isBan
-              ? "이용이 영구 정지된 계정입니다"
-              : "이용이 정지된 계정입니다"}
-        </h1>
-        <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          {withdrawn
-            ? "회원탈퇴가 완료되었습니다. 데이터는 일정 기간 보관되며, 복구를 원하시면 운영팀에 문의해 주세요."
-            : isBan
-              ? "관리자에 의해 계정이 영구 정지되었습니다. 문의가 필요하면 운영팀에 연락해 주세요."
-              : prof?.suspended_until
-                ? `${fmt(prof.suspended_until)} 까지 이용이 제한됩니다. 기간이 지나면 자동으로 해제됩니다.`
-                : "관리자에 의해 계정 이용이 제한되었습니다."}
-        </p>
+        <div className="space-y-1 px-1">
+          <h1 className="app-title">
+            {withdrawn
+              ? "탈퇴한 계정입니다"
+              : isBan
+                ? "이용이 영구 정지된 계정입니다"
+                : "이용이 정지된 계정입니다"}
+          </h1>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            {withdrawn
+              ? "회원탈퇴가 완료되었습니다. 데이터는 일정 기간 보관되며, 복구를 원하시면 운영팀에 문의해 주세요."
+              : isBan
+                ? "관리자에 의해 계정이 영구 정지되었습니다. 문의가 필요하면 운영팀에 연락해 주세요."
+                : prof?.suspended_until
+                  ? `${fmt(prof.suspended_until)} 까지 이용이 제한됩니다. 기간이 지나면 자동으로 해제됩니다.`
+                  : "관리자에 의해 계정 이용이 제한되었습니다."}
+          </p>
+        </div>
         {prof?.ban_reason ? (
-          <p className="mx-auto max-w-md rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-4 py-3 text-sm text-zinc-700 dark:text-zinc-300">
+          <p className="app-card px-3 py-2.5 text-sm text-zinc-700 dark:text-zinc-300">
             <span className="font-semibold">사유:</span> {prof.ban_reason}
           </p>
         ) : null}
-      </div>
 
-      <SuspendedLogout />
-    </main>
+        <SuspendedLogout />
+      </main>
+    </div>
   );
 }

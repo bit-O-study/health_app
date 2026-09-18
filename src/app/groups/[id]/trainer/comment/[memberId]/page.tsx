@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import {
   getAssignOptions,
@@ -25,39 +24,26 @@ export default async function TrainerCommentPage({
   const who = await getAssignOptions(id, memberId);
   if (!who) {
     return (
-      <main className="app-page app-container">
-        <p className="py-16 text-center text-sm text-zinc-600 dark:text-zinc-400">
-          이 회원에게는 코멘트를 남길 수 없어요.
-        </p>
-        <p className="text-center">
-          <Link
-            href={`/groups/${id}/trainer`}
-            className="inline-flex items-center gap-1 text-sm font-semibold text-brand"
-          >
-            <ChevronLeft aria-hidden="true" size={16} /> 회원 관리
-          </Link>
-        </p>
-      </main>
+      <div className="app-page">
+        <PageHeader title="코멘트" back="회원 관리" backHref={`/groups/${id}/trainer`} />
+        <main className="app-container">
+          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            이 회원에게는 코멘트를 남길 수 없어요.
+          </p>
+        </main>
+      </div>
     );
   }
 
   const comments = await getTrainerComments(id, memberId);
 
   return (
-    <main className="app-page app-container">
-      <Link
-        href={`/groups/${id}/trainer`}
-        className="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-      >
-        <ChevronLeft aria-hidden="true" size={16} />
-        회원 관리
-      </Link>
-
-      <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-50">
-        {who.memberName} 님에게 코멘트
-      </h1>
-      <p className="mb-5 mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-        남긴 코멘트는 그 회원만 봐요. 다른 그룹원에게는 안 보여요.
+    <div className="app-page">
+      <PageHeader title="코멘트" back="회원 관리" backHref={`/groups/${id}/trainer`} />
+      <main className="app-container space-y-3">
+      {/* 누가 보는지는 실수를 막는 안내라 한 줄로 남긴다. */}
+      <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">
+        {who.memberName} 님만 볼 수 있어요
       </p>
 
       <TrainerCommentForm
@@ -66,6 +52,7 @@ export default async function TrainerCommentPage({
         memberName={who.memberName}
         initial={comments}
       />
-    </main>
+      </main>
+    </div>
   );
 }

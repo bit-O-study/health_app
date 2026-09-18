@@ -14,9 +14,9 @@ const MACROS: { key: keyof MacroRemaining; label: string }[] = [
 ];
 
 const ROW =
-  "flex min-h-[3rem] items-center gap-3 px-3 py-2 transition active:bg-zinc-100 dark:active:bg-white/[0.06]";
+  "flex min-h-[4.5rem] items-center gap-3 px-4 py-3 transition active:bg-zinc-100 dark:active:bg-white/[0.06]";
 const ICON =
-  "flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300";
+  "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand";
 
 /**
  * 홈 '오늘' — 오늘의 다짐 · 식단 **두 줄 목록**(깔끔·촘촘, 2026-09-15).
@@ -58,7 +58,7 @@ export function TodayCard({
         <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
       </Link>
 
-      <div className="ml-[3.25rem] border-t border-[var(--line)]" />
+      <div className="ml-[4.25rem] border-t border-[var(--line)]" />
 
       <Link href="/diet" aria-label={hasFoodLog ? "식단" : "오늘 식단 기록이 없어요"} className={ROW}>
         <span className={ICON}>

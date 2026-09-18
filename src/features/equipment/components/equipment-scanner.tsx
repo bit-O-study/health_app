@@ -65,7 +65,7 @@ export function EquipmentScanner() {
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={pending}
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+        className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={17} className="animate-spin" />
@@ -85,28 +85,28 @@ export function EquipmentScanner() {
       ) : null}
 
       {error ? (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-600 dark:bg-red-950/40 dark:text-red-400">
+        <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm font-semibold text-danger">
           {error}
         </p>
       ) : null}
 
       {analysis ? (
         <div className="space-y-4">
-          <div className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800">
+          <div className="app-card p-3">
             <div className="flex items-center gap-2">
               <Dumbbell
                 aria-hidden="true"
                 size={18}
                 className="text-brand"
               />
-              <h2 className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
                 {analysis.equipmentName}
               </h2>
             </div>
             {analysis.equipmentNameEn ? (
               <p className="text-xs text-zinc-500">{analysis.equipmentNameEn}</p>
             ) : null}
-            <p className="mt-0.5 text-xs font-semibold text-amber-600 dark:text-amber-400">
+            <p className="mt-0.5 text-xs font-semibold text-warn">
               {CONFIDENCE_LABEL[analysis.confidence] ?? analysis.confidence}
             </p>
             {analysis.summary ? (
@@ -137,7 +137,7 @@ export function EquipmentScanner() {
                 {/* 앱에 등록된 운동 — 눌러서 상세로. "어떤 운동을 할 수 있는지" 안내의 핵심 */}
                 {registered.length > 0 ? (
                   <div>
-                    <h3 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-brand">
+                    <h3 className="mb-2 flex items-center gap-1.5 text-sm font-semibold text-brand">
                       <Dumbbell aria-hidden="true" size={15} />앱에 등록된 운동 · 눌러서 상세보기
                     </h3>
                     <ul className="space-y-2">
@@ -157,7 +157,7 @@ export function EquipmentScanner() {
                                 </p>
                               ) : null}
                             </div>
-                            <span className="shrink-0 rounded bg-brand px-2 py-1 text-xs font-bold text-white dark:text-zinc-950">
+                            <span className="shrink-0 rounded-full bg-brand px-2 py-0.5 text-xs font-semibold text-white dark:text-zinc-950">
                               상세보기
                             </span>
                           </Link>
@@ -170,7 +170,7 @@ export function EquipmentScanner() {
                 {/* 카탈로그에 없는 추천 운동 — 링크 없이 안내만 */}
                 {others.length > 0 ? (
                   <div>
-                    <h3 className="mb-2 text-sm font-bold text-zinc-800 dark:text-zinc-200">
+                    <h3 className="mb-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200">
                       {registered.length > 0 ? "그 외 추천 운동" : "할 수 있는 운동"}
                     </h3>
                     <ul className="space-y-2">

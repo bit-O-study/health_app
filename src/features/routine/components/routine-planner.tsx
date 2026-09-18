@@ -198,27 +198,18 @@ export function RoutinePlanner({
   }
 
   return (
-    <section className="app-card p-6 sm:p-7">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-2 text-brand">
-          <CalendarDays aria-hidden="true" size={20} />
-          <p className="text-sm font-semibold uppercase tracking-wide">
-            My routine
-          </p>
-        </div>
-        <h2 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-3xl">
+    <section className="app-card p-4">
+      {/* 제목 한 줄만 — 영문 머리표·설명 문단은 뺐다(2026-09-16 촘촘하게). 버튼 이름이 스스로 설명한다. */}
+      <div className="flex items-center gap-1.5">
+        <CalendarDays aria-hidden="true" size={16} className="text-zinc-500 dark:text-zinc-400" />
+        <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
           나의 루틴
         </h2>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          주당 운동 일수를 고르면 7일 주기 계획이 자동으로 채워집니다. 1·2일
-          루틴이나 원하는 구성이 없으면 <strong>커스텀</strong>으로 직접 정할 수
-          있어요.
-        </p>
       </div>
 
       {/* 루틴 선택 */}
-      <div className="mt-6">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+      <div className="mt-3">
+        <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
           루틴 선택
         </p>
         <div className="flex flex-wrap gap-2">
@@ -230,7 +221,7 @@ export function RoutinePlanner({
                 type="button"
                 onClick={() => handleSelectSplit(item.splits)}
                 className={cn(
-                  "whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
+                  "whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-semibold transition",
                   active
                     ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                     : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
@@ -244,7 +235,7 @@ export function RoutinePlanner({
             type="button"
             onClick={handleSelectCustom}
             className={cn(
-              "inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border px-4 py-2 text-sm font-semibold transition",
+              "inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-semibold transition",
               isCustom
                 ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                 : "app-field border-dashed text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
@@ -254,7 +245,7 @@ export function RoutinePlanner({
             커스텀
           </button>
         </div>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
           {isCustom
             ? "7일 주기를 직접 부위별로 채우는 나만의 루틴"
             : preset.tagline}
@@ -263,9 +254,9 @@ export function RoutinePlanner({
 
       {isCustom ? (
         /* 커스텀 빌더 — 주기 일자별 부위 (1개 이상) 지정. 멀티 부위 = "가슴 + 팔" 같은 묶음 */
-        <div className="mt-5">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-            일자별 부위 지정 — 한 날에 부위 여러 개 묶기 가능 (최대 3)
+        <div className="mt-3">
+          <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            일자별 부위 (하루 최대 3개)
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
             {DAY_LABELS.map((dayLabel, index) => (
@@ -282,8 +273,8 @@ export function RoutinePlanner({
         </div>
       ) : (
         /* 변형 선택 */
-        <div className="mt-5">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+        <div className="mt-3">
+          <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
             나누는 방식
           </p>
           <div className="flex flex-wrap gap-2">
@@ -295,7 +286,7 @@ export function RoutinePlanner({
                   type="button"
                   onClick={() => handleSelectVariant(item.id)}
                   className={cn(
-                    "whitespace-nowrap rounded-md border px-3 py-2 text-left text-sm font-semibold transition",
+                    "whitespace-nowrap rounded-full border px-3 py-1.5 text-left text-sm font-semibold transition",
                     active
                       ? "border-brand/40 bg-brand-soft text-brand"
                       : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
@@ -306,14 +297,14 @@ export function RoutinePlanner({
               );
             })}
           </div>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
             {variant.description}
           </p>
         </div>
       )}
 
       {/* 주기 그리드 (프리셋·커스텀 공통 미리보기) */}
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-7">
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
         {DAY_LABELS.map((dayLabel, index) => {
           const day = previewWeek[index];
           const style = TONE_STYLES[day.tone];
@@ -322,10 +313,10 @@ export function RoutinePlanner({
           return (
             <div
               key={dayLabel}
-              className={cn("flex flex-col rounded-lg border p-3", style.card)}
+              className={cn("flex flex-col rounded-[10px] border p-2.5", style.card)}
             >
               <div className="flex items-center justify-between">
-                <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                   {dayLabel}
                 </span>
                 {isRest ? (
@@ -345,7 +336,7 @@ export function RoutinePlanner({
 
               <span
                 className={cn(
-                  "mt-2 inline-flex max-w-full items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold",
+                  "mt-1.5 inline-flex max-w-full items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-semibold",
                   style.badge,
                 )}
               >
@@ -359,13 +350,13 @@ export function RoutinePlanner({
               </span>
 
               {isRest ? (
-                <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-                  근육 회복일 — 가벼운 스트레칭이나 걷기 권장
+                <p className="mt-2 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                  회복일
                 </p>
               ) : (
-                <div className="mt-3 space-y-2">
+                <div className="mt-2 space-y-1.5">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
                       자극 부위
                     </p>
                     <p className="mt-0.5 break-keep text-xs leading-5 text-zinc-700 dark:text-zinc-300">
@@ -373,7 +364,7 @@ export function RoutinePlanner({
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
                       대표 운동
                     </p>
                     <ul className="mt-0.5 space-y-0.5">
@@ -394,7 +385,7 @@ export function RoutinePlanner({
         })}
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400">
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400">
         <span>
           주{" "}
           <strong className="text-zinc-900 dark:text-zinc-100">
@@ -417,7 +408,7 @@ export function RoutinePlanner({
       </div>
 
       {saveAction ? (
-        <div className="mt-6 flex flex-col gap-4 border-t border-zinc-200 dark:border-zinc-700 pt-5">
+        <div className="mt-4 flex flex-col gap-3 border-t border-[var(--line)] pt-4">
           <fieldset>
             <legend className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">
               운동 선택 방식
@@ -426,7 +417,7 @@ export function RoutinePlanner({
               <label
                 data-testid="fillmode-recommend"
                 className={cn(
-                  "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
+                  "flex cursor-pointer items-start gap-2 rounded-[10px] border p-2.5 text-sm transition",
                   fillMode === "recommend"
                     ? "border-brand/40 bg-brand-soft"
                     : "app-field hover:border-brand/40",
@@ -445,15 +436,14 @@ export function RoutinePlanner({
                     추천으로 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-                    체형·성별·경력에 맞춘 본운동과 워밍업/마무리까지 한 번에
-                    채웁니다.
+                    워밍업·본운동·마무리까지 한 번에
                   </span>
                 </span>
               </label>
               <label
                 data-testid="fillmode-manual"
                 className={cn(
-                  "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
+                  "flex cursor-pointer items-start gap-2 rounded-[10px] border p-2.5 text-sm transition",
                   fillMode === "manual"
                     ? "border-brand/40 bg-brand-soft"
                     : "app-field hover:border-brand/40",
@@ -472,15 +462,14 @@ export function RoutinePlanner({
                     직접 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-                    아무것도 자동으로 채우지 않습니다. 운동 등록 화면에서 직접
-                    골라 넣습니다.
+                    운동 등록 화면에서 직접 고르기
                   </span>
                 </span>
               </label>
               <label
                 data-testid="fillmode-byMuscle"
                 className={cn(
-                  "flex cursor-pointer items-start gap-2 rounded-lg border p-3 text-sm transition",
+                  "flex cursor-pointer items-start gap-2 rounded-[10px] border p-2.5 text-sm transition",
                   fillMode === "byMuscle"
                     ? "border-brand/40 bg-brand-soft"
                     : "app-field hover:border-brand/40",
@@ -499,8 +488,7 @@ export function RoutinePlanner({
                     근육별로 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-                    3D 마네킹을 돌려 근육 부위를 누르고 그 부위 운동을 직접
-                    골라 담습니다.
+                    3D 마네킹에서 근육을 눌러 고르기
                   </span>
                 </span>
               </label>
@@ -534,7 +522,7 @@ export function RoutinePlanner({
               type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
+              className="app-press inline-flex h-10 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:bg-zinc-400"
             >
               {isSaving ? (
                 <Loader2
@@ -579,9 +567,9 @@ function DayBlockEditor({
   const style = TONE_STYLES[DAY_BLOCKS[primary].day.tone];
 
   return (
-    <div className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-900 p-3">
+    <div className="rounded-[10px] border border-[var(--line)] bg-zinc-50 p-2.5 dark:bg-white/[0.04]">
       <div className="flex items-center gap-2">
-        <span className="w-6 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+        <span className="w-6 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
           {weekday}
         </span>
         <span className={cn("h-2 w-2 shrink-0 rounded-full", style.dot)} />

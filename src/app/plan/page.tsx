@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ArrowRight, ChevronLeft } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
@@ -78,37 +79,20 @@ export default async function PlanPage() {
     }),
   );
 
+  // 공통 머리글 + '루틴 변경'은 큰 제목 줄 오른쪽 작은 알약(2026-09-16 8단계) — 설명 문장은 뺐다.
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 pb-10 pt-10 sm:px-8">
-      {/* 상단 인셋은 body(globals.css)가 이미 적용 — 여기선 헤더 여백(pt-10)만. */}
-      <div className="flex items-center justify-between gap-2">
-        <Link
-          className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-          href="/routine"
-        >
-          <ChevronLeft aria-hidden="true" size={16} />
-          메인으로
-        </Link>
-        {/* '루틴 변경' — 메인 헤더에서 이 화면(운동 편집) 안으로 이동. */}
-        <Link
-          className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-md border app-field px-3 text-sm font-semibold text-zinc-700 transition hover:border-brand/40 hover:bg-brand-soft dark:text-zinc-300"
-          href="/settings/routine"
-        >
-          루틴 변경
-          <ArrowRight aria-hidden="true" size={15} />
-        </Link>
-      </div>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          운동 등록
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          체형·성별·경력에 맞춘 추천으로 한 번에 등록하거나, 부위별로 직접
-          운동을 추가하세요. 메인 “오늘의 운동”에 등록한 운동이 표시됩니다.
-        </p>
-      </div>
-
+    <div className="app-page">
+    <PageHeader title="운동 등록" back="운동" backHref="/routine">
+      {/* '루틴 변경' — 메인 헤더에서 이 화면(운동 편집) 안으로 이동. */}
+      <Link
+        className="app-press inline-flex h-8 items-center gap-0.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
+        href="/settings/routine"
+      >
+        루틴 변경
+        <ChevronRight aria-hidden="true" size={15} />
+      </Link>
+    </PageHeader>
+    <main className="app-container">
       <PlanEditor
         focuses={focuses}
         customWeek={
@@ -124,5 +108,6 @@ export default async function PlanPage() {
         myGroups={myGroups.map((group) => ({ id: group.id, name: group.name }))}
       />
     </main>
+    </div>
   );
 }

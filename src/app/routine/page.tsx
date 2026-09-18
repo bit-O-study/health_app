@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -81,8 +81,9 @@ export const metadata: Metadata = {
 function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
   // 아이폰 큰 제목 구조 — 로고 막대 대신 오른쪽 위 버튼만 두고, 제목은 본문 맨 위 큰 글씨(2026-09-15).
   return (
-    <header className="mx-auto w-full max-w-3xl px-4 pt-3 sm:px-6">
-      <nav className="flex h-10 items-center justify-end">
+    <header className="mx-auto w-full max-w-3xl px-4 pt-4 sm:px-6">
+      <nav aria-label="운동 도구" className="flex min-h-11 items-center justify-between">
+        <span className="app-eyebrow">나의 트레이닝</span>
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
@@ -415,7 +416,7 @@ function TodayWorkout({
   });
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-5">
       {/* 아이폰 큰 제목 — 날짜·루틴 한 줄이 위, 제목이 아래 */}
       <div className="px-1">
         <p className="truncate text-xs font-semibold text-zinc-500 dark:text-zinc-400">
@@ -429,7 +430,7 @@ function TodayWorkout({
       <PermissionNudge />
 
       {/* 오늘 카드 — 바탕은 공통 표면, 부위 색은 배지·점(TodayFocusMenu)에만. */}
-      <section className="app-card px-3 py-2.5">
+      <section className="app-card border-t-4 border-t-brand p-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             {isRest ? (

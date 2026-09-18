@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 import {
   BODY_PART_ORDER,
   groupedByBodyPart,
@@ -35,29 +35,13 @@ export default function ExercisesPage() {
   const sections: { part: BodyPart; items: CatalogExercise[] }[] =
     BODY_PART_ORDER.map((part) => ({ part, items: grouped[part] }));
 
+  // 공통 머리글 + 부위 칩 + 부위별 그룹 목록(2026-09-16 8단계) — 영문 머리말·설명 문장은 뺐다.
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-900 px-6 py-10 text-zinc-950 dark:text-zinc-100 sm:px-10">
-      <section className="mx-auto w-full max-w-5xl space-y-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-brand">
-              Exercise library
-            </p>
-            <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
-              운동 종목 리스트
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400 sm:text-base">
-              부위별로 정리한 운동 카탈로그. 상단 부위 칩으로 필터링하고, 운동을
-              누르면 기구별 운동법을 확인할 수 있습니다.
-            </p>
-          </div>
-          <BackLink className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-            뒤로
-          </BackLink>
-        </div>
-
+    <div className="app-page">
+      <PageHeader title="운동 종목" back />
+      <main className="app-container space-y-4">
         <ExerciseLibrary sections={sections} />
-      </section>
-    </main>
+      </main>
+    </div>
   );
 }

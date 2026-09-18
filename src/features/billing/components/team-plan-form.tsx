@@ -86,9 +86,9 @@ export function TeamPlanForm({
         <section
           data-testid="team-status"
           data-status={initial.status}
-          className="app-card p-5"
+          className="app-card p-3"
         >
-          <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+          <p className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
             {TEAM_STATUS_LABEL[initial.status]}
             {active && left !== null ? (
               <span className="ml-2 text-xs font-normal text-zinc-500">
@@ -110,7 +110,7 @@ export function TeamPlanForm({
           ) : null}
           {requested ? (
             <div className="mt-2 space-y-1.5">
-              <p className="text-xs leading-5 text-amber-700 dark:text-amber-300">
+              <p className="text-xs leading-5 text-warn">
                 입금 확인 후 이용이 시작돼요.
               </p>
               {/* 🔴 계좌가 다 채워졌을 때만 띄운다 — 반쯤 채운 안내는 없는 것보다 나쁘다
@@ -118,10 +118,10 @@ export function TeamPlanForm({
               {isDepositReady(deposit) ? (
                 <div
                   data-testid="deposit-info"
-                  className="rounded-xl bg-zinc-100 p-3 dark:bg-zinc-900"
+                  className="rounded-[10px] bg-zinc-100 p-3 dark:bg-white/[0.06]"
                 >
-                  <p className="text-xs font-bold text-zinc-500">입금 계좌</p>
-                  <p className="mt-0.5 select-all text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <p className="text-xs font-semibold text-zinc-500">입금 계좌</p>
+                  <p className="mt-0.5 select-all text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                     {depositLine(deposit)}
                   </p>
                   {deposit.note ? (
@@ -141,7 +141,7 @@ export function TeamPlanForm({
       ) : null}
 
       {active ? (
-        <p className="rounded-2xl border border-brand/40 bg-brand-soft p-4 text-sm leading-6 text-brand">
+        <p className="rounded-[14px] bg-brand-soft p-3 text-sm text-brand">
           이용 중이에요. 이 그룹의 회원 {memberCount}명이 프리미엄으로 쓰고 있어요.
           연장·변경은 관리자에게 문의해 주세요.
         </p>
@@ -157,10 +157,10 @@ export function TeamPlanForm({
                   type="button"
                   data-testid={`plan-${id}`}
                   onClick={() => setPlan(id)}
-                  className={`flex w-full items-start gap-3 rounded-2xl border p-4 text-left transition ${
+                  className={`flex w-full items-start gap-3 rounded-[14px] border p-3 text-left transition ${
                     on
                       ? "border-brand/40 bg-brand-soft"
-                      : "border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-800"
+                      : "border-[var(--line)] bg-white dark:bg-zinc-900"
                   }`}
                 >
                   <span
@@ -174,10 +174,10 @@ export function TeamPlanForm({
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="flex items-baseline justify-between gap-2">
-                      <span className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+                      <span className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
                         {meta.label}
                       </span>
-                      <span className="text-sm font-bold tabular-nums text-brand">
+                      <span className="text-sm font-semibold tabular-nums text-brand">
                         월 {meta.monthlyKrw.toLocaleString("ko-KR")}원
                       </span>
                     </span>
@@ -193,8 +193,8 @@ export function TeamPlanForm({
             </p>
           </div>
 
-          <div className="space-y-2 app-card p-4">
-            <p className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
+          <div className="space-y-2 app-card p-3">
+            <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">
               세금계산서 정보 (선택)
             </p>
             {[
@@ -203,7 +203,7 @@ export function TeamPlanForm({
               { v: bizEmail, set: setBizEmail, label: "이메일", ph: "tax@example.com" },
             ].map((f) => (
               <label key={f.label} className="block">
-                <span className="mb-1 block text-xs font-bold text-zinc-500">
+                <span className="mb-1 block text-xs font-semibold text-zinc-500">
                   {f.label}
                 </span>
                 <input
@@ -211,7 +211,7 @@ export function TeamPlanForm({
                   value={f.v}
                   onChange={(e) => f.set(e.target.value)}
                   placeholder={f.ph}
-                  className="h-10 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+                  className="h-10 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
                 />
               </label>
             ))}
@@ -225,7 +225,7 @@ export function TeamPlanForm({
             data-testid="team-request"
             disabled={pending}
             onClick={submit}
-            className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
           >
             {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
             {requested ? "신청 내용 수정" : "이용 신청"}
@@ -237,7 +237,7 @@ export function TeamPlanForm({
               data-testid="team-cancel"
               disabled={pending}
               onClick={cancel}
-              className="h-10 w-full rounded-xl border border-zinc-300 text-xs font-bold text-zinc-600 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300"
+              className="h-10 w-full rounded-xl bg-zinc-100 text-sm font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
             >
               신청 취소
             </button>

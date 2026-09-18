@@ -65,7 +65,14 @@ export function GroupsClient({
     "h-10 min-w-0 flex-1 rounded-[10px] bg-zinc-100 px-3 text-base outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
+      {groups.length === 0 ? (
+        <section className="app-card p-5">
+          <Users aria-hidden="true" size={28} className="text-brand" />
+          <h2 className="mt-3 text-xl font-bold">함께 쌓는 운동 습관</h2>
+          <p className="mt-1 text-sm text-muted">그룹을 만들거나 초대 링크로 시작하세요.</p>
+        </section>
+      ) : null}
       {err ? (
         <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm text-danger">
           {err}

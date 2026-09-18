@@ -109,10 +109,10 @@ export function CommitmentManager({
               setMode(k);
               setError(null);
             }}
-            className={`h-10 flex-1 rounded-xl text-sm font-bold transition ${
+            className={`h-9 flex-1 rounded-full text-sm font-semibold transition ${
               mode === k
                 ? "bg-brand text-white dark:text-zinc-950"
-                : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
             }`}
           >
             {label}
@@ -147,7 +147,7 @@ export function CommitmentManager({
               setOpen((v) => !v);
               setError(null);
             }}
-            className="inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1.5 text-xs font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
+            className="inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
           >
             직접 입력
           </button>
@@ -214,7 +214,7 @@ export function CommitmentManager({
             </label>
           </div>
           {error ? (
-            <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+            <p className="text-xs font-semibold text-danger">
               {error}
             </p>
           ) : null}
@@ -223,7 +223,7 @@ export function CommitmentManager({
               type="button"
               onClick={save}
               disabled={pending || title.trim() === ""}
-              className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-md bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+              className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -248,26 +248,26 @@ export function CommitmentManager({
 
       {/* 목록 */}
       {commitments.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-zinc-300 p-6 text-center text-sm text-zinc-500 dark:border-zinc-700">
-          아직 다짐이 없어요. 위에서 하나 추가해보세요.
+        <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          아직 다짐이 없어요
         </p>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-2">
           {commitments.map((c) => {
             const p = c.progress;
             const barColor = p.done
               ? "bg-brand"
               : p.expired
-                ? "bg-red-400"
+                ? "bg-danger"
                 : "bg-brand/60";
             return (
               <li
                 key={c.id}
-                className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900"
+                className="app-card p-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    <p className="flex items-center gap-1.5 text-base font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
                       {c.kind === "diet" ? (
                         <Salad aria-hidden="true" size={14} className="text-brand" />
                       ) : (
@@ -285,7 +285,7 @@ export function CommitmentManager({
                     aria-label="다짐 삭제"
                     onClick={() => remove(c.id)}
                     disabled={pending}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-40 dark:hover:bg-red-950/40"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                   >
                     <Trash2 aria-hidden="true" size={14} />
                   </button>
@@ -296,13 +296,13 @@ export function CommitmentManager({
                     <span className="font-semibold text-zinc-600 dark:text-zinc-400">
                       {c.metricLabel}
                       {p.done ? (
-                        <span className="ml-1 font-bold text-brand">
+                        <span className="ml-1 font-semibold text-brand">
                           달성 ✓
                         </span>
                       ) : p.upcoming ? (
                         <span className="ml-1 text-zinc-400">시작 전</span>
                       ) : p.expired ? (
-                        <span className="ml-1 font-bold text-red-500">기간 종료</span>
+                        <span className="ml-1 font-semibold text-danger">기간 종료</span>
                       ) : (
                         <span className="ml-1 text-zinc-400">D-{p.daysLeft}</span>
                       )}
@@ -311,7 +311,7 @@ export function CommitmentManager({
                       {p.current.toLocaleString()} / {p.target.toLocaleString()} {c.unit}
                     </span>
                   </div>
-                  <div className="h-2.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
                     <div
                       className={`h-full rounded-full transition-all ${barColor}`}
                       style={{ width: `${p.pct}%` }}
@@ -375,7 +375,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
     <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
       {/* 목표 */}
       <div>
-        <p className="mb-1.5 text-xs font-bold text-zinc-500">1. 목표가 뭐예요?</p>
+        <p className="mb-1.5 text-xs font-semibold text-zinc-500">1. 목표가 뭐예요?</p>
         <div className="grid grid-cols-2 gap-2">
           {GOALS.map((g) => (
             <button
@@ -396,7 +396,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
 
       {/* 항목 */}
       <div>
-        <p className="mb-1.5 text-xs font-bold text-zinc-500">2. 하루 미션 (켤 것만)</p>
+        <p className="mb-1.5 text-xs font-semibold text-zinc-500">2. 하루 미션 (켤 것만)</p>
         <div className="space-y-1.5">
           <SwitchRow label="매일 운동하기" on={a.workoutDaily} onToggle={(v) => set("workoutDaily", v)} />
           <SwitchRow label="근력 운동하기" on={a.strengthDaily} onToggle={(v) => set("strengthDaily", v)} />
@@ -412,7 +412,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
 
       {/* 미션 미리보기 */}
       <div>
-        <p className="mb-1.5 text-xs font-bold text-zinc-500">
+        <p className="mb-1.5 text-xs font-semibold text-zinc-500">
           3. 생성될 하루 미션 ({missions.length}개)
         </p>
         {missions.length === 0 ? (
@@ -422,7 +422,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
             {missions.map((m) => (
               <li
                 key={m.type}
-                className="rounded-full bg-brand-soft px-2.5 py-1 text-xs font-bold text-brand"
+                className="rounded-full bg-brand-soft px-2.5 py-1 text-xs font-semibold text-brand"
               >
                 {missionLabel(m)}
               </li>
@@ -457,14 +457,14 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
       </div>
 
       {error ? (
-        <p className="text-xs font-semibold text-red-600 dark:text-red-400">{error}</p>
+        <p className="text-xs font-semibold text-danger">{error}</p>
       ) : null}
 
       <button
         type="button"
         onClick={save}
         disabled={pending || missions.length === 0}
-        className="inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-md bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+        className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={15} className="animate-spin" />

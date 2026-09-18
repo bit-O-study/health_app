@@ -117,15 +117,15 @@ export function PostureAnalyzer({
 
   return (
     <section className="app-card p-4">
-      <div className="flex items-start gap-3">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
-          <Video aria-hidden="true" size={20} />
+      <div className="flex items-center gap-2.5">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
+          <Video aria-hidden="true" size={18} />
         </span>
         <div className="min-w-0 flex-1">
-          <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-base font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
             자세 분석
           </h2>
-          <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+          <p className="truncate text-xs leading-4 text-zinc-500 dark:text-zinc-400">
             10~30초 운동 영상을 촬영/업로드하면 자세를 분석해 교정점을 알려드려요.
           </p>
         </div>
@@ -152,7 +152,7 @@ export function PostureAnalyzer({
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={busy}
-        className="mt-2 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+        className="app-press mt-2 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {busy ? (
           <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -167,7 +167,7 @@ export function PostureAnalyzer({
       </button>
 
       {error ? (
-        <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 dark:bg-red-950/40 dark:text-red-400">
+        <p className="mt-3 rounded-[10px] bg-danger/10 px-3 py-2 text-xs font-semibold text-danger">
           {error}
         </p>
       ) : null}
@@ -180,7 +180,7 @@ export function PostureAnalyzer({
           <ul className="space-y-2">
             {analysis.points.map((p, i) => (
               <li key={i} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
-                <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                   {p.title}
                 </p>
                 {p.detail ? (

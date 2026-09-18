@@ -82,19 +82,19 @@ export default async function JoinGroupPage({
   const name = await groupNameByToken(token);
 
   return (
-    <main className="mx-auto flex min-h-[70vh] w-full max-w-md flex-col items-center justify-center px-4 py-10">
+    <main className="app-page app-container flex min-h-[70vh] flex-col items-center justify-center">
       {name ? (
         <JoinConfirm token={token} groupName={name} />
       ) : (
         <div className="text-center">
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
             유효하지 않거나 만료된 초대 링크예요.
           </p>
           <Link
             href="/groups"
-            className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand"
+            className="mt-3 inline-flex items-center gap-0.5 text-base text-brand"
           >
-            <ChevronLeft size={16} /> 그룹 목록
+            <ChevronLeft aria-hidden="true" size={18} /> 그룹 목록
           </Link>
         </div>
       )}

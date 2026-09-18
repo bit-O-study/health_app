@@ -24,34 +24,35 @@ function timeLabel(iso: string): string {
 export function RunHistoryList({ rows }: { rows: RunHistoryRow[] }) {
   if (rows.length === 0) {
     return (
-      <p className="rounded-xl bg-zinc-50 p-4 text-sm text-zinc-500 dark:bg-zinc-900/50 dark:text-zinc-400">
+      <p className="px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400">
         저장된 런닝 기록이 없습니다.
       </p>
     );
   }
 
   return (
-    <ul className="space-y-2">
+    // 카드 안 줄 목록(2026-09-16 촘촘하게) — 바깥 .app-card 가 테두리를 맡고, 줄마다 선으로만 나눈다.
+    <ul className="divide-y divide-[var(--line)]">
       {rows.map((row) => (
         <li key={row.id}>
           <Link
             href={`/settings/history/${row.forDate}#running`}
-            className="block rounded-xl border border-zinc-200 p-4 transition hover:border-emerald-300 hover:bg-emerald-50/50 dark:border-zinc-700 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/20"
+            className="block px-3 py-2.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-bold text-zinc-950 dark:text-zinc-100">
+                <p className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">
                   {row.mode === "outdoor" ? "야외 런닝" : "실내 런닝"}
                 </p>
-                <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
                   {row.forDate} · {timeLabel(row.startedAt)}
                 </p>
               </div>
-              <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
+              <span className="shrink-0 text-base font-semibold tabular-nums text-brand">
                 {(row.distanceM / 1_000).toFixed(2)}km
               </span>
             </div>
-            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-zinc-600 dark:text-zinc-300">
+            <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
               <span className="inline-flex items-center gap-1"><Timer size={13} />{duration(row.durationSec)}</span>
               <span>{formatRunPace(row.paceSecPerKm)}</span>
               <span className="inline-flex items-center gap-1"><Zap size={13} />{row.caloriesKcal}kcal</span>

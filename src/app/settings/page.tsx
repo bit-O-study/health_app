@@ -33,9 +33,9 @@ function SettingsRow({ href, title, icon: Icon }: Row) {
     <li>
       <Link
         href={href}
-        className="flex h-11 items-center gap-3 px-3 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+        className="app-row transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
       >
-        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
           <Icon aria-hidden="true" size={16} />
         </span>
         <h2 className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
@@ -87,9 +87,18 @@ export default async function SettingsPage() {
   return (
     <div className="app-page">
       <PageHeader title="설정" back />
-      <main data-testid="settings-rows" className="app-container space-y-4">
+      <main data-testid="settings-rows" className="app-container space-y-6">
         {/* 계정은 제목 바로 아래 작은 한 줄 — 그룹 사이 간격도 24px → 16px(2026-09-16 촘촘하게). */}
-        <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">{user?.email}</p>
+        <Link href="/settings/me" className="app-card app-press flex items-center gap-3 p-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+            <UserRound aria-hidden="true" size={24} />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-base font-semibold">내 프로필</span>
+            <span className="mt-0.5 block truncate text-sm text-muted">{user?.email}</span>
+          </span>
+          <ChevronRight aria-hidden="true" size={18} className="text-muted" />
+        </Link>
         <Group label="내 정보" rows={me} />
         <Group label="운동" rows={workout} />
         <Group label="앱" rows={app} />

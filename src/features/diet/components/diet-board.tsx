@@ -344,19 +344,17 @@ export function DietBoard({
           )}
         </div>
     </PageHeader>
-    <main className="app-container space-y-3">
+    <main className="app-container space-y-5">
 
-      {/* 히어로 — 큰 칼로리 링 하나 + 탄단지 작은 링 3개(아이폰 피트니스 느낌, 2026-09-15 구조 재설계). */}
-      <div className="app-card px-3 py-3">
-        <div className="flex items-center gap-4">
-          <KcalRing consumed={totals.kcal} target={target.kcal} />
-          <div className="grid min-w-0 flex-1 grid-cols-3 gap-1">
-            <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="var(--brand)" />
-            <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="var(--warn)" />
-            <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--info)" />
-          </div>
+      <section aria-label="섭취 영양 요약" className="app-card p-5">
+        <EnergySummary consumed={totals.kcal} target={target.kcal} />
+        <div className="mt-5 grid grid-cols-3 gap-4 border-t border-line pt-4">
+          <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="var(--brand)" />
+          <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="var(--brand)" />
+          <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--brand)" />
         </div>
-      </div>
+      </section>
+      <h2 className="app-section-label">끼니별 기록</h2>
 
       {/* 끼니 — 큰 사진 카드 4장 대신 한 장짜리 그룹 목록(썸네일 · 이름 · kcal · 추가) */}
       <div className="app-list divide-y divide-[var(--line)]">
@@ -492,48 +490,32 @@ function DatePickerDialog({
   );
 }
 
-function KcalRing({ consumed, target }: { consumed: number; target: number }) {
-  const pct = target > 0 ? Math.min(1, consumed / target) : 0;
+function EnergySummary({ consumed, target }: { consumed: number; target: number }) {
+  const pct = target > 0 ? Math.min(100, (consumed / target) * 100) : 0;
   const over = target > 0 && consumed > target;
-  const R = 52;
-  const C = 2 * Math.PI * R;
-  const remain = Math.max(0, target - consumed);
   return (
-    <div className="relative h-24 w-24 shrink-0">
-      <svg viewBox="0 0 120 120" className="h-24 w-24 -rotate-90">
-        <circle cx="60" cy="60" r={R} fill="none" stroke="var(--brand)" strokeOpacity={0.15} strokeWidth="12" />
-        <circle
-          cx="60"
-          cy="60"
-          r={R}
-          fill="none"
-          stroke={over ? "var(--danger)" : "var(--brand)"}
-          strokeWidth="12"
-          strokeLinecap="round"
-          strokeDasharray={C}
-          strokeDashoffset={C * (1 - pct)}
-          className="transition-[stroke-dashoffset] duration-700"
-        />
-      </svg>
-      {/* 가운데는 남은(또는 넘친) kcal 하나만 — 먹은/목표 숫자 줄은 뺐다(깔끔·촘촘). */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className="text-xl font-bold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
-          {over ? `+${consumed - target}` : remain}
-        </span>
-        <span className={`mt-0.5 text-xs ${over ? "text-danger" : "text-zinc-500 dark:text-zinc-400"}`}>
-          {over ? "초과" : "남음"}
-        </span>
+    <div>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <p className="app-eyebrow">섭취 칼로리</p>
+        <p className={`text-sm font-semibold ${over ? "text-danger" : "text-brand"}`}>
+          {over ? `${consumed - target} kcal 초과` : `${Math.max(0, target - consumed)} kcal 남음`}
+        </p>
+      </div>
+      <p className="mt-2 flex flex-wrap items-baseline gap-2 tabular-nums">
+        <span className="text-4xl font-bold tracking-tight">{consumed.toLocaleString()}</span>
+        <span className="text-sm text-muted">/ {target.toLocaleString()} kcal</span>
+      </p>
+      <div role="progressbar" aria-label="섭취 칼로리" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}
+        aria-valuetext={`${consumed} / ${target} kcal`}
+        className="mt-4 h-2 overflow-hidden rounded-full bg-brand/10">
+        <div className={`h-full rounded-full ${over ? "bg-danger" : "bg-brand"}`} style={{ width: `${pct}%` }} />
       </div>
     </div>
   );
 }
 
-/** 탄단지 작은 링 — 링 안에 퍼센트, 아래에 이름과 g. */
 function MacroBar({
-  label,
-  consumed,
-  target,
-  color,
+  label, consumed, target, color,
 }: {
   label: string;
   consumed: number;
@@ -541,27 +523,16 @@ function MacroBar({
   color: string;
 }) {
   const pct = target > 0 ? Math.min(100, (consumed / target) * 100) : 0;
-  const R = 20;
-  const C = 2 * Math.PI * R;
   return (
-    <div className="flex min-w-0 flex-col items-center text-center">
-      <svg viewBox="0 0 48 48" className="h-10 w-10 -rotate-90" role="img" aria-label={`${label} ${consumed}/${target}g`}>
-        <circle cx="24" cy="24" r={R} fill="none" stroke={color} strokeOpacity={0.18} strokeWidth="6" />
-        <circle
-          cx="24"
-          cy="24"
-          r={R}
-          fill="none"
-          stroke={color}
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeDasharray={C}
-          strokeDashoffset={C * (1 - pct / 100)}
-        />
-      </svg>
-      {/* 링 아래는 이름과 먹은 g 한 줄씩 — 퍼센트·목표 숫자는 뺐다(깔끔·촘촘). */}
-      <span className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
-      <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{consumed}g</span>
+    <div className="min-w-0">
+      <p className="text-xs text-muted">{label}</p>
+      <p className="mt-1 text-base font-semibold tabular-nums">{consumed}g</p>
+      <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}
+        aria-valuetext={`${consumed} / ${target}g`}
+        className="mt-2 h-1 overflow-hidden rounded-full bg-brand/10">
+        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
+      </div>
+      <p className="mt-1.5 text-xs tabular-nums text-muted">목표 {target}g</p>
     </div>
   );
 }

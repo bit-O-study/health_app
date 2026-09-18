@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Settings } from "lucide-react";
+import { ArrowUpRight, Dumbbell, Settings, TrendingUp, UtensilsCrossed, CalendarDays } from "lucide-react";
 
 import { PromoBanner } from "@/features/cross-promo/promo-banner";
 import { NotificationBell } from "@/features/notifications/notification-center";
@@ -59,11 +59,11 @@ export default async function HomePage() {
 
   return (
     <div className="app-page overflow-x-clip">
-      <main className="app-container space-y-3">
+      <main className="app-container space-y-5">
         {/* 아이폰 큰 제목 — 날짜 한 줄 + 제목, 오른쪽에 알림·설정 */}
-        <header className="flex items-end justify-between gap-3 px-1">
+        <header className="flex items-end justify-between gap-3 pb-1">
           <div>
-            <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <p className="app-eyebrow">
               {Number(mm)}월 {Number(dd)}일 {weekday}요일
             </p>
             <h1 className="app-title">홈</h1>
@@ -83,6 +83,31 @@ export default async function HomePage() {
         {/* 광고 배너는 맨 위 사진 배너 그대로(사용자 요청으로 원상복구, 2026-09-15). */}
         <PromoBanner />
         <PermissionNudge />
+
+        <section className="app-hero" aria-label="오늘의 운동 바로가기">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-medium opacity-70">오늘의 트레이닝</p>
+              <h2 className="mt-2 text-2xl font-bold leading-tight">나의 페이스로,<br />오늘도 한 걸음.</h2>
+            </div>
+            <Dumbbell aria-hidden="true" size={32} className="shrink-0 opacity-70" />
+          </div>
+          <Link href="/routine" className="app-action app-press mt-5 w-full">
+            오늘 운동 보기 <ArrowUpRight aria-hidden="true" size={18} />
+          </Link>
+        </section>
+
+        <nav aria-label="기록 바로가기" className="grid grid-cols-3 gap-2">
+          <Link href="/diet" className="app-shortcut app-press">
+            <UtensilsCrossed aria-hidden="true" size={20} className="text-brand" />식단 기록
+          </Link>
+          <Link href="/calendar" className="app-shortcut app-press">
+            <CalendarDays aria-hidden="true" size={20} className="text-brand" />캘린더
+          </Link>
+          <Link href="/settings/progress" className="app-shortcut app-press">
+            <TrendingUp aria-hidden="true" size={20} className="text-brand" />성장 기록
+          </Link>
+        </nav>
 
         <TodayCard
           commitments={todayCommitments}

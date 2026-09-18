@@ -60,10 +60,10 @@ describe("디자인 토큰", () => {
     expect(css).toContain("@keyframes app-fade-in");
   });
 
-  it(".app-card 는 모서리 14px · 테두리만(그림자 없음) — 촘촘한 밀도", () => {
+  it(".app-card 는 모서리 20px · 테두리만(그림자 없음)", () => {
     const card = css.slice(css.indexOf(".app-card {"));
     const body = card.slice(0, card.indexOf("}"));
-    expect(body).toContain("border-radius: 0.875rem;");
+    expect(body).toContain("border-radius: 1.25rem;");
     expect(body).toContain("border: 1px solid var(--line);");
     expect(body).not.toContain("box-shadow");
   });
@@ -439,7 +439,9 @@ describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
   it("공통 머리글: 뒤로가 없으면 빈 윗줄을 그리지 않고, 버튼은 큰 제목 줄 오른쪽", () => {
     const header = read("src/components/page-header.tsx");
     expect(header).not.toContain('"flex h-10 items-center');
-    expect(header).toMatch(/\{back \? \(/);
+    expect(header).toMatch(/\{back \|\| backHref \? \(/);
+    // 하위 화면은 `‹ 설정` 처럼 돌아갈 화면 이름을 보여 줄 수 있다(8단계).
+    expect(header).toContain("back?: boolean | string");
     expect(header.indexOf("app-title")).toBeLessThan(header.indexOf("{children}"));
   });
 
@@ -469,13 +471,98 @@ describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
     const groups = read("src/features/groups/components/groups-client.tsx");
     expect(groups).not.toContain("h-11 w-full");
     expect(groups.match(/app-card flex items-center gap-2 p-2/g)?.length).toBe(2);
-    expect(read("src/app/groups/manage/page.tsx")).toMatch(/<h1 className="[^"]*app-title/);
+    expect(read("src/app/groups/manage/page.tsx")).toContain("<PageHeader");
   });
 
   it("커뮤니티: 제목이 다른 탭과 같은 큰 제목(.app-title)", () => {
     expect(read("src/features/community/components/community-board.tsx")).toMatch(
       /<h1 className="[^"]*app-title/,
     );
+  });
+});
+
+describe("하위 화면도 같은 머리글 (2026-09-16 8단계 '싹다 바꿔줘')", () => {
+  const SUB_PAGES = [
+    "settings/me", "settings/personal", "settings/health", "settings/subscription",
+    "settings/notifications", "settings/export", "settings/gym", "settings/body-composition",
+    "settings/profile", "settings/score", "settings/progress", "settings/history",
+    "settings/history/[date]", "settings/routine", "change-password", "account-deletion",
+    "exercises", "exercises/[slug]", "conditioning/[id]", "plan", "plan/today", "plan/muscle",
+    "equipment", "commitments", "coach", "calendar/[date]", "groups/manage",
+    "groups/[id]/member/[uid]", "groups/[id]/trainer", "groups/[id]/trainer/assign/[memberId]",
+    "groups/[id]/trainer/billing", "groups/[id]/trainer/comment/[memberId]",
+    "find-id", "find-password", "privacy", "pet",
+  ].map((p) => `src/app/${p}/page.tsx`);
+  // 머리글을 상태 있는 보드가 그리는 화면(날짜·달 이동이 보드 상태를 본다).
+  const BOARD_HEADERS = [
+    "src/features/community/components/post-detail.tsx",
+    "src/features/cycle/components/cycle-board.tsx",
+  ];
+
+  it("하위 화면은 모두 공통 머리글(PageHeader) + .app-page 바탕", () => {
+    for (const f of [...SUB_PAGES, ...BOARD_HEADERS]) expect(read(f), f).toContain("<PageHeader");
+    for (const f of SUB_PAGES) expect(read(f), f).toContain("app-page");
+  });
+
+  it("옛 틀(넓은 폭·위아래 40px 여백·회색 바탕 main·글자 뒤로 줄)이 남지 않는다", () => {
+    for (const f of SUB_PAGES) {
+      const src = read(f);
+      expect(src, f).not.toMatch(/(?<![\w-])max-w-(2xl|4xl|5xl)(?![\w-])/);
+      expect(src, f).not.toMatch(/(?<![\w-])py-10(?![\w-])/);
+      expect(src, f).not.toContain("min-h-screen bg-zinc-50");
+      expect(src, f).not.toContain("<BackLink");
+    }
+  });
+
+  it("공통 머리글은 돌아갈 화면 이름(‹ 설정)과 고정 경로(backHref)를 받는다", () => {
+    expect(read("src/app/settings/me/page.tsx")).toContain('back="설정"');
+    expect(read("src/app/groups/manage/page.tsx")).toContain('backHref="/groups"');
+  });
+});
+
+describe("남은 화면까지 전부 (2026-09-18 8단계 마무리)", () => {
+  /** src/app 아래 모든 page.tsx (관리자 화면은 사이드바 대시보드 — 따로 본다). */
+  const APP_PAGES = (function walk(dir: string, out: string[] = []): string[] {
+    for (const name of readdirSync(resolve(ROOT, dir))) {
+      const rel = join(dir, name);
+      if (statSync(resolve(ROOT, rel)).isDirectory()) walk(rel, out);
+      else if (name === "page.tsx") out.push(rel.split("\\").join("/"));
+    }
+    return out;
+  })("src/app").filter((f) => !f.startsWith("src/app/admin/"));
+
+  it("사용자 화면에는 옛 뒤로 줄(BackLink)·옛 넓은 폭 틀이 한 군데도 남지 않았다", () => {
+    expect(APP_PAGES.length).toBeGreaterThan(30);
+    for (const f of APP_PAGES) {
+      const src = read(f);
+      expect(src, f).not.toContain("<BackLink");
+      // 옛 틀 = `mx-auto w-full max-w-… px-6 py-10`(공통 머리글 이전의 넓은 여백).
+      expect(src, f).not.toMatch(/mx-auto w-full max-w-[\w-]+ px-6 py-10/);
+    }
+  });
+
+  it("늑대 키우기도 공통 머리글 — 설명 문장 없이 그룹으로 돌아간다", () => {
+    const pet = read("src/app/pet/page.tsx");
+    expect(pet).toContain('<PageHeader title="늑대 키우기" back="그룹" backHref="/groups" />');
+    expect(pet).not.toContain("운동할수록 Lv이 오르고");
+    // 방·아이템 칸도 다른 화면과 같은 카드 토큰(따로 만든 흰 카드가 아니다).
+    const studio = read("src/features/pet/components/pet-studio.tsx");
+    expect(studio).not.toContain("shadow-sm");
+    expect(studio).not.toContain("bg-white dark:bg-zinc-900");
+    expect(studio).toContain("app-card");
+  });
+
+  it("관리자 화면은 사이드바 대시보드 한 틀 — 화면마다 다른 뒤로 줄이 없다", () => {
+    const ADMIN = [
+      "billing", "crons", "events", "exercise-media", "members", "reports", "settings", "test",
+    ].map((p) => `src/app/admin/${p}/page.tsx`);
+    for (const f of ADMIN) {
+      const src = read(f);
+      expect(src, f).toMatch(/<main className="mx-auto w-full max-w-\w+ px-6 py-10 sm:px-8">/);
+      expect(src, f).toMatch(/<h1 className="mb-1 text-2xl font-bold/);
+      expect(src, f).not.toContain("ChevronLeft");
+      expect(src, f).not.toContain("<BackLink");
+    }
   });
 });
 

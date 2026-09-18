@@ -36,21 +36,21 @@ export function RecommendRoutineCard({
       : "체형·경력 기반 추천";
 
   return (
-    <section className="rounded-2xl border border-brand/40 bg-brand-soft p-5 shadow-sm">
+    <section className="rounded-[0.875rem] border border-brand/30 bg-brand-soft p-3">
       {/*
  모바일에서는 세로 스택 — 뱃지·헤드라인·이유 위, 적용 버튼은 풀폭 아래.
- sm+ 부터 좌우 분할 (뱃지 그룹 vs 버튼).
+ sm+ 부터 좌우 분할 (뱃지 그룹 vs 버튼). 2026-09-16 촘촘하게 — 여백·글자 한 단계씩 줄임.
  */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1">
-          <span className="inline-flex max-w-full items-center gap-1.5 rounded-full bg-brand px-3 py-1 text-xs font-semibold text-white dark:text-zinc-950">
+          <span className="inline-flex max-w-full items-center gap-1 text-xs font-semibold text-brand">
             <Sparkles aria-hidden="true" size={13} />
             <span className="truncate">{sourceLabel}</span>
           </span>
-          <h2 className="mt-3 text-lg font-bold text-zinc-950 dark:text-zinc-100 sm:text-xl">
+          <h2 className="mt-1 text-base font-semibold text-zinc-950 dark:text-zinc-100">
             {recommendation.headline}
           </h2>
-          <p className="mt-2 text-sm leading-6 text-zinc-700 dark:text-zinc-300">
+          <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-300">
             {recommendation.reason}
           </p>
         </div>
@@ -58,7 +58,7 @@ export function RecommendRoutineCard({
           type="button"
           disabled={pending}
           onClick={apply}
-          className="inline-flex h-11 w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60 sm:w-auto"
+          className="app-press inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-60 sm:w-auto"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />

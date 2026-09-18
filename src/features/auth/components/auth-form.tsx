@@ -6,6 +6,13 @@ import { Loader2, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import {
+  Err,
+  Notice,
+  inputCls,
+  labelCls,
+  primaryBtnCls,
+} from "@/features/auth/components/recover-ui";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { normalizePhone } from "@/features/auth/phone";
 import { isNativeApp } from "@/lib/platform/is-native-app";
@@ -175,18 +182,19 @@ export function AuthForm({
   }
 
   return (
-    <div className="w-full max-w-sm app-card p-7">
-      <div className="mb-6 grid grid-cols-2 gap-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 p-1">
+    <div className="w-full">
+      {/* 아이폰 세그먼트 — 로그인/회원가입 전환 */}
+      <div className="mb-4 grid grid-cols-2 gap-0.5 rounded-[10px] bg-zinc-100 p-0.5 dark:bg-white/[0.08]">
         {(["login", "signup"] as const).map((m) => (
           <button
             key={m}
             type="button"
             onClick={() => switchMode(m)}
             className={cn(
-              "rounded-md py-2 text-sm font-semibold transition",
+              "h-8 rounded-lg text-sm font-semibold transition",
               mode === m
-                ? "bg-white dark:bg-zinc-800 text-zinc-950 dark:text-zinc-100 shadow-sm"
-                : "text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200",
+                ? "bg-white text-zinc-950 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
+                : "text-zinc-500 dark:text-zinc-400",
             )}
           >
             {m === "login" ? "로그인" : "회원가입"}
@@ -194,14 +202,11 @@ export function AuthForm({
         ))}
       </div>
 
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form className="space-y-3" onSubmit={handleSubmit}>
         {mode === "signup" ? (
           <>
-            <div className="space-y-1.5">
-              <label
-                className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-                htmlFor="name"
-              >
+            <div>
+              <label className={labelCls} htmlFor="name">
                 이름
               </label>
               <input
@@ -209,17 +214,14 @@ export function AuthForm({
                 type="text"
                 autoComplete="name"
                 required
-                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
+                className={inputCls}
                 placeholder="홍길동"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
-            <div className="space-y-1.5">
-              <label
-                className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-                htmlFor="nickname"
-              >
+            <div>
+              <label className={labelCls} htmlFor="nickname">
                 닉네임 <span className="font-normal text-zinc-400">(선택)</span>
               </label>
               <input
@@ -227,24 +229,21 @@ export function AuthForm({
                 type="text"
                 autoComplete="nickname"
                 maxLength={20}
-                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
+                className={inputCls}
                 placeholder="그룹·랭킹에 보일 이름 (미입력 시 이름 사용)"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
               />
             </div>
-            <div className="space-y-1.5">
-              <label
-                className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-                htmlFor="phone"
-              >
+            <div>
+              <label className={labelCls} htmlFor="phone">
                 전화번호 <span className="font-normal text-zinc-400">(선택)</span>
               </label>
               <input
                 id="phone"
                 type="tel"
                 autoComplete="tel"
-                className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
+                className={inputCls}
                 placeholder="010-1234-5678"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
@@ -253,57 +252,39 @@ export function AuthForm({
           </>
         ) : null}
 
-        <div className="space-y-1.5">
-          <label
-            className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-            htmlFor="email"
-          >
+        <div>
+          <label className={labelCls} htmlFor="email">
             이메일
           </label>
           <input
             id="email"
             type="email"
             autoComplete="email"
-            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
+            className={inputCls}
             placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="space-y-1.5">
-          <label
-            className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-            htmlFor="password"
-          >
+        <div>
+          <label className={labelCls} htmlFor="password">
             비밀번호
           </label>
           <input
             id="password"
             type="password"
             autoComplete={mode === "login" ? "current-password" : "new-password"}
-            className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
+            className={inputCls}
             placeholder="6자 이상"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        {error ? (
-          <p className="rounded-md bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-400">
-            {error}
-          </p>
-        ) : null}
-        {notice ? (
-          <p className="rounded-md bg-brand-soft px-3 py-2 text-sm text-brand">
-            {notice}
-          </p>
-        ) : null}
+        {error ? <Err>{error}</Err> : null}
+        {notice ? <Notice>{notice}</Notice> : null}
 
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
-        >
+        <button type="submit" disabled={isSubmitting} className={primaryBtnCls}>
           {isSubmitting ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />
           ) : mode === "login" ? (
@@ -315,20 +296,18 @@ export function AuthForm({
         </button>
       </form>
 
-      <div className="mt-5 flex items-center gap-3">
-        <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-700" />
-        <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
-          또는
-        </span>
-        <div className="h-px flex-1 bg-zinc-200 dark:bg-zinc-700" />
+      <div className="my-4 flex items-center gap-3">
+        <div className="h-px flex-1 bg-[var(--line)]" />
+        <span className="text-xs text-zinc-400 dark:text-zinc-500">또는</span>
+        <div className="h-px flex-1 bg-[var(--line)]" />
       </div>
 
-      <div className="mt-4 space-y-2.5">
+      <div className="space-y-2">
         <button
           type="button"
           disabled={oauthLoading !== null}
           onClick={() => handleOAuth("google")}
-          className="inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-md border border-zinc-300 bg-white text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+          className="app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-zinc-100 text-base font-semibold text-zinc-800 transition disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white/[0.08] dark:text-zinc-100"
         >
           {oauthLoading === "google" ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />
@@ -337,11 +316,12 @@ export function AuthForm({
           )}
           구글로 계속하기
         </button>
+        {/* 카카오 노랑(#FEE500)은 카카오 로그인 버튼 가이드 필수색이라 그대로 둔다. */}
         <button
           type="button"
           disabled={oauthLoading !== null}
           onClick={() => handleOAuth("kakao")}
-          className="inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-md bg-[#FEE500] text-sm font-semibold text-[#191919] transition hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
+          className="app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-[#FEE500] text-base font-semibold text-[#191919] transition disabled:cursor-not-allowed disabled:opacity-60"
         >
           {oauthLoading === "kakao" ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />
@@ -353,17 +333,14 @@ export function AuthForm({
       </div>
 
       {mode === "login" ? (
-        <div className="mt-4 flex items-center justify-center gap-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-          <Link href="/find-id" className="transition hover:text-zinc-800 dark:hover:text-zinc-200">
+        <div className="mt-3 flex items-center justify-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+          <Link href="/find-id" className="px-1 py-2 transition active:opacity-60">
             아이디 찾기
           </Link>
           <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
             |
           </span>
-          <Link
-            href="/find-password"
-            className="transition hover:text-zinc-800 dark:hover:text-zinc-200"
-          >
+          <Link href="/find-password" className="px-1 py-2 transition active:opacity-60">
             비밀번호 찾기
           </Link>
         </div>

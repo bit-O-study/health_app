@@ -273,14 +273,14 @@ export function MuscleExercisePicker({
       </div>
 
       {/* 세부근육 + 운동 목록 */}
-      <section className="app-card p-5">
+      <section className="app-card p-3">
         <div className="flex flex-wrap items-center gap-2">
           <span
             aria-hidden
             className="h-3 w-3 rounded-full"
             style={{ backgroundColor: regionColor }}
           />
-          <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
+          <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
             {muscleGroup(selectedMuscle).label}
             {selectedSub ? ` · ${subMuscle(selectedSub)?.label}` : ""} 운동
           </h2>
@@ -423,16 +423,16 @@ export function MuscleExercisePicker({
 
       {/* 담은 운동 요약 */}
       {totalPicked > 0 ? (
-        <section className="rounded-xl border border-brand/40 bg-brand-soft p-5">
+        <section className="rounded-[14px] border border-brand/40 bg-brand-soft p-3">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
               담은 운동 {totalPicked}개
             </h3>
             <button
               type="button"
               data-testid="clear-all-picked"
               onClick={clearAll}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 px-2 text-xs font-semibold text-red-600 transition hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/40"
+              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-2.5 text-xs font-semibold text-danger transition active:opacity-70"
             >
               <Trash2 size={13} />
               전체 초기화
@@ -462,7 +462,7 @@ export function MuscleExercisePicker({
                     type="button"
                     onClick={() => removeMuscle(g.id)}
                     aria-label={`${g.label} 전체 비우기`}
-                    className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/40"
+                    className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
                   >
                     <Trash2 size={15} />
                   </button>
@@ -474,7 +474,7 @@ export function MuscleExercisePicker({
       ) : null}
 
       {error ? (
-        <p className="rounded-md bg-red-50 px-3 py-2 text-sm font-medium text-red-700 dark:bg-red-950/40 dark:text-red-300">
+        <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm font-medium text-danger">
           {error}
         </p>
       ) : null}

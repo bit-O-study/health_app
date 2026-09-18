@@ -137,7 +137,7 @@ export default async function CalendarPage({
         <ChevronRight aria-hidden="true" size={18} />
       </Link>
     </PageHeader>
-    <main className="app-container space-y-3">
+    <main className="app-container space-y-5">
       {/* 걸음수 동기화(네이티브) + 생리 기록(여성). 둘 다 없으면 줄째 숨긴다. */}
       <div className="flex items-center justify-end gap-2 empty:hidden">
         {profile?.gender === "female" ? (
@@ -153,7 +153,7 @@ export default async function CalendarPage({
       </div>
 
       {/* 캘린더 — 칸 높이 52px(날짜 + 섭취/소비 두 줄이 딱 들어가는 높이) */}
-      <div className="app-card px-1.5 py-2">
+      <div className="app-card px-2 py-4">
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div

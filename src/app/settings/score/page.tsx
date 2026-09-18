@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Activity, ChevronLeft, Flame, Trophy } from "lucide-react";
-
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getLatestBodyComposition } from "@/features/body-composition/data-access";
 import { regionScoresFromBodyComp } from "@/features/body-composition/data";
@@ -214,139 +212,74 @@ export default async function ScorePage() {
     (r) => regionStatus[r] === "balanced",
   ).length;
 
+  // 공통 머리글 + 요약 한 장 + 섹션 라벨·카드(2026-09-16 8단계) — 긴 설명 문단·색 칩은 뺐다.
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        설정
-      </BackLink>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          내 운동 점수
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          완료된 운동의 실제 운동량(세트×횟수×무게)을 누적합니다. 오래된
-          기록일수록 가중치가 줄고(반감기 14일), 아래 마네킹은 부위 간 균형이
-          깨진 곳을 보여줍니다.
-        </p>
-      </div>
-
-      <section className="app-card p-6">
-        <div className="flex flex-col items-center gap-6 sm:flex-row">
-          <svg
-            viewBox={`0 0 ${W} ${W}`}
-            className="h-44 w-44 shrink-0"
-            role="img"
-            aria-label="운동 점수 게이지"
-          >
-            <circle
-              cx={C}
-              cy={C}
-              r={R}
-              fill="none"
-              stroke="#e4e4e7"
-              strokeWidth={14}
-            />
-            <circle
-              cx={C}
-              cy={C}
-              r={R}
-              fill="none"
-              stroke="#087f5b"
-              strokeWidth={14}
-              strokeLinecap="round"
-              strokeDasharray={circ}
-              strokeDashoffset={offset}
-              transform={`rotate(-90 ${C} ${C})`}
-            />
-            <text
-              x={C}
-              y={C - 6}
-              textAnchor="middle"
-              fontSize={42}
-              fontWeight={700}
-              fill="#18181b"
+    <div className="app-page">
+      <PageHeader title="내 운동 점수" back="설정" />
+      <main className="app-container space-y-4">
+        <section className="app-card p-3">
+          <div className="flex items-center gap-4">
+            <svg
+              viewBox={`0 0 ${W} ${W}`}
+              className="h-28 w-28 shrink-0 text-zinc-950 dark:text-zinc-50"
+              role="img"
+              aria-label="운동 점수 게이지"
             >
-              {s.score}
-            </text>
-            <text
-              x={C}
-              y={C + 22}
-              textAnchor="middle"
-              fontSize={12}
-              fill="#71717a"
-            >
-              점 · {s.normalized}%
-            </text>
-          </svg>
+              <circle cx={C} cy={C} r={R} fill="none" stroke="var(--line)" strokeWidth={16} />
+              <circle
+                cx={C}
+                cy={C}
+                r={R}
+                fill="none"
+                stroke="var(--brand)"
+                strokeWidth={16}
+                strokeLinecap="round"
+                strokeDasharray={circ}
+                strokeDashoffset={offset}
+                transform={`rotate(-90 ${C} ${C})`}
+              />
+              <text x={C} y={C + 4} textAnchor="middle" fontSize={48} fontWeight={700} fill="currentColor">
+                {s.score}
+              </text>
+              <text x={C} y={C + 36} textAnchor="middle" fontSize={20} fill="var(--muted)">
+                점 · {s.normalized}%
+              </text>
+            </svg>
 
-          <div className="min-w-0 flex-1 space-y-1">
-            <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              운동량 가중합계: <strong>{s.score}점</strong>
-            </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              마지막 완료: {s.lastCompletedYmd ?? "—"} · 최근 7일{" "}
-              {s.last7DayCount}일 활동
-            </p>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400">
-              체중 기준: <strong>{userWeight}kg</strong>
-              {profile.weightKg === null ? " (미입력 · 65kg 가정)" : ""}
-            </p>
+            <div className="min-w-0 flex-1 space-y-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="truncate">마지막 완료 {s.lastCompletedYmd ?? "—"}</p>
+              <p className="truncate">
+                체중 기준 {userWeight}kg{profile.weightKg === null ? " (65kg 가정)" : ""}
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <MetricCard
-            icon={<Flame size={18} />}
-            label="연속"
-            value={`${s.currentStreak}일`}
-            tone="rose"
-          />
-          <MetricCard
-            icon={<Trophy size={18} />}
-            label="최장 연속"
-            value={`${s.longestStreak}일`}
-            tone="amber"
-          />
-          <MetricCard
-            icon={<Activity size={18} />}
-            label="최근 7일"
-            value={`${s.last7DayCount}일`}
-            tone="emerald"
-          />
-          <MetricCard
-            icon={<Activity size={18} />}
-            label="총 완료"
-            value={`${s.totalCount}건`}
-            tone="indigo"
-          />
-        </div>
+          <div className="mt-3 grid grid-cols-4 divide-x divide-[var(--line)] border-t border-[var(--line)] pt-2.5 text-center">
+            <Stat label="연속" value={`${s.currentStreak}일`} />
+            <Stat label="최장 연속" value={`${s.longestStreak}일`} />
+            <Stat label="최근 7일" value={`${s.last7DayCount}일`} />
+            <Stat label="총 완료" value={`${s.totalCount}건`} />
+          </div>
 
-        <div className="mt-6">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-            최근 21일 활동
-          </p>
-          <div className="grid grid-cols-7 gap-1.5">
+          <p className="mb-1.5 mt-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400">최근 21일 활동</p>
+          <div className="grid grid-cols-7 gap-1">
             {grid.map((cell) => (
               <div
                 key={cell.ymd}
                 title={cell.ymd}
-                className={`flex h-9 items-center justify-center rounded-md text-xs font-semibold ${
+                className={`flex h-7 items-center justify-center rounded-md text-xs font-semibold tabular-nums ${
                   cell.done
                     ? "bg-brand text-white dark:text-zinc-950"
-                    : "bg-zinc-100 dark:bg-zinc-800 text-zinc-400 dark:text-zinc-500"
+                    : "bg-zinc-100 text-zinc-400 dark:bg-white/[0.06] dark:text-zinc-500"
                 }`}
               >
                 {cell.day}
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 이번 주 훈련 — 요일 히트맵 + 부위별 주당 세트 + 균형 경고 */}
-      <div className="mt-6">
+        {/* 이번 주 훈련 — 요일 히트맵 + 부위별 주당 세트 + 균형 경고 */}
         <WeeklyTrainingCard
           weekStart={weekly.weekStart}
           todayYmd={weekly.todayYmd}
@@ -358,270 +291,200 @@ export default async function ScorePage() {
           synergistOnlySubs={weekly.synergistOnlySubs}
           stalled={weekly.stalled}
         />
-      </div>
 
-      {/* 부위별 밸런스 마네킹 */}
-      <section className="mt-6 app-card p-6">
-        <div className="mb-1 flex items-center gap-2">
-          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-            부위별 밸런스
-          </h2>
-          <span
-            className={`rounded-full px-2 py-0.5 text-xs font-bold ${
-              balanceSource === "body"
-                ? "bg-brand-soft text-brand"
-                : "bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
-            }`}
-          >
-            {balanceSource === "body" ? "체성분 기반" : "운동량 기반"}
-          </span>
-        </div>
-        <p className="mb-4 text-xs text-zinc-500 dark:text-zinc-400">
-          {balanceSource === "training" ? (
-            <>
-              이번 주 <strong>직접 세트 {WEEKLY_SET_MIN}~{WEEKLY_SET_MAX}</strong> 기준 —{" "}
-              <strong>{VOLUME_LABEL.low} &lt;{WEEKLY_SET_MIN}</strong>,{" "}
-              <strong>{VOLUME_LABEL.optimal} {WEEKLY_SET_MIN}~{WEEKLY_SET_MAX}</strong>,{" "}
-              <strong>{VOLUME_LABEL.high} &gt;{WEEKLY_SET_MAX}</strong>. 세부근육은 이번 주
-              건드렸는지만 칠합니다.
-            </>
-          ) : (
-            <>
-              가장 강한 부위 대비 비율 — <strong>균형 ≥70%</strong>,{" "}
-              <strong>부족 40~70%</strong>, <strong>심하게 부족 &lt;40%</strong>.
-            </>
-          )}
-          {balanceSource === "body" ? (
-            <>
-              {" "}체성분 분석지 등록값을 사용 중입니다.
-              <Link
-                href="/settings/body-composition"
-                className="ml-1 font-semibold text-brand"
-              >
-                갱신
+        {/* 부위별 밸런스 마네킹 — E2E 가 이 <section>(글자 "부위별 밸런스") 안에서 배지·점수·토글을 찾는다. */}
+        <section>
+          <div className="flex items-center gap-1.5">
+            <h2 className="app-section-label">부위별 밸런스</h2>
+            <span
+              className={`mb-1.5 rounded-full px-2 py-0.5 text-xs font-semibold ${
+                balanceSource === "body"
+                  ? "bg-brand-soft text-brand"
+                  : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-400"
+              }`}
+            >
+              {balanceSource === "body" ? "체성분 기반" : "운동량 기반"}
+            </span>
+          </div>
+          <div className="app-card p-3">
+            <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+              {balanceSource === "training"
+                ? `이번 주 직접 세트 ${WEEKLY_SET_MIN}~${WEEKLY_SET_MAX} = ${VOLUME_LABEL.optimal}`
+                : "가장 강한 부위 대비 비율"}
+              <Link href="/settings/body-composition" className="ml-1.5 font-semibold text-brand">
+                {balanceSource === "body" ? "체성분 갱신" : "체성분 등록"}
               </Link>
-            </>
-          ) : (
-            <>
-              {" "}체성분이 없어 운동 기록 기반으로 추정합니다.
-              <Link
-                href="/settings/body-composition"
-                className="ml-1 font-semibold text-brand"
-              >
-                체성분 등록
-              </Link>
-            </>
-          )}
-        </p>
+            </p>
 
-        <div className="flex flex-col gap-6 md:flex-row">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-full sm:w-72">
-              <MuscleBalance3D
-                gender={profile.gender}
-                colors={regionColors}
-                subColors={subColors}
-              />
+            <div className="flex flex-col gap-4 md:flex-row">
+              <div className="flex flex-col items-center gap-2">
+                <div className="w-full sm:w-72">
+                  <MuscleBalance3D
+                    gender={profile.gender}
+                    colors={regionColors}
+                    subColors={subColors}
+                  />
+                </div>
+                <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-600 dark:text-zinc-400">
+                  {balanceSource === "training" ? (
+                    <>
+                      <Legend color={VOLUME_COLOR.optimal} label={VOLUME_LABEL.optimal} />
+                      <Legend color={VOLUME_COLOR.low} label={VOLUME_LABEL.low} />
+                      <Legend color={VOLUME_COLOR.high} label={VOLUME_LABEL.high} />
+                      <Legend color={VOLUME_COLOR.none} label={VOLUME_LABEL.none} />
+                    </>
+                  ) : (
+                    <>
+                      <Legend color={BALANCE_COLOR.balanced} label="균형" />
+                      <Legend color={BALANCE_COLOR.low} label="부족" />
+                      <Legend color={BALANCE_COLOR.under} label="심하게 부족" />
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* 운동 기록이 있으면 부위별 이번 주 세트는 위 카드가 이미 보여준다 —
+                  여기서 또 그리면 같은 화면에 같은 표가 둘이 된다. 대신 성격이 다른 값
+                  (90일 누적, 반감기 14일)을 짧게 곁들인다. 체성분 기반일 때만 예전 표를 쓴다. */}
+              {balanceSource === "training" ? (
+                <div className="flex-1 self-start">
+                  <p className="mb-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    90일 누적 점수
+                  </p>
+                  <ul className="space-y-1.5">
+                    {REGIONS.map((r) => (
+                      <li key={r} className="flex items-center gap-2">
+                        <span className="w-10 shrink-0 text-xs text-zinc-600 dark:text-zinc-300">
+                          {REGION_LABEL[r]}
+                        </span>
+                        <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
+                          <span
+                            className="block h-full rounded-full"
+                            style={{
+                              width: `${maxRegion > 0 ? Math.round((regionPoints[r] / maxRegion) * 100) : 0}%`,
+                              backgroundColor: regionColors[r],
+                            }}
+                          />
+                        </span>
+                        <span className="w-14 shrink-0 text-right text-xs font-semibold tabular-nums text-zinc-700 dark:text-zinc-200">
+                          {Math.round(regionPoints[r])}점
+                        </span>
+                        <span className="w-12 shrink-0 text-right text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                          {weeklyByRegion[r]?.sets ?? 0}세트
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div className="grid flex-1 grid-cols-2 gap-2 self-start">
+                  {REGIONS.map((r) => (
+                    <div key={r} className="rounded-[10px] bg-zinc-50 p-2.5 dark:bg-white/[0.04]">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                          {REGION_LABEL[r]}
+                        </p>
+                        <span
+                          className="rounded-full px-2 py-0.5 text-xs font-semibold text-white"
+                          style={{ backgroundColor: BALANCE_COLOR[regionStatus[r]] }}
+                        >
+                          {BALANCE_LABEL[regionStatus[r]]}
+                        </span>
+                      </div>
+                      <p className="mt-0.5 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-100">
+                        {Math.round(regionPoints[r])}
+                        <span className="ml-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                          점
+                        </span>
+                      </p>
+                      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
+                        <div
+                          className="h-full rounded-full"
+                          style={{
+                            width: `${maxRegion > 0 ? Math.round((regionPoints[r] / maxRegion) * 100) : 0}%`,
+                            backgroundColor: BALANCE_COLOR[regionStatus[r]],
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-xs text-zinc-600 dark:text-zinc-400">
+
+            <p className="mt-3 text-sm text-zinc-700 dark:text-zinc-300">
               {balanceSource === "training" ? (
                 <>
-                  <Legend color={VOLUME_COLOR.optimal} label={VOLUME_LABEL.optimal} />
-                  <Legend color={VOLUME_COLOR.low} label={VOLUME_LABEL.low} />
-                  <Legend color={VOLUME_COLOR.high} label={VOLUME_LABEL.high} />
-                  <Legend color={VOLUME_COLOR.none} label={VOLUME_LABEL.none} />
+                  이번 주 — {VOLUME_LABEL.optimal}{" "}
+                  {weekly.regions.filter((r) => r.status === "optimal").length} ·{" "}
+                  {VOLUME_LABEL.low}{" "}
+                  {weekly.regions.filter((r) => r.status === "low").length} ·{" "}
+                  {VOLUME_LABEL.none}{" "}
+                  {weekly.regions.filter((r) => r.status === "none").length}
                 </>
               ) : (
                 <>
-                  <Legend color={BALANCE_COLOR.balanced} label="균형" />
-                  <Legend color={BALANCE_COLOR.low} label="부족" />
-                  <Legend color={BALANCE_COLOR.under} label="심하게 부족" />
+                  균형 {balancedCount} · 부족 {lowCount} · 심하게 부족 {underCount}
                 </>
               )}
-            </div>
-          </div>
-
-          {/* 운동 기록이 있으면 부위별 '이번 주 세트' 는 위 카드가 이미 보여준다 —
-              여기서 또 그리면 같은 화면에 같은 표가 둘이 된다. 대신 성격이 다른 값
-              (90일 누적, 반감기 14일)을 짧게 곁들인다. 체성분 기반일 때만 예전 표를 쓴다. */}
-          {balanceSource === "training" ? (
-            <div className="flex-1 self-start">
-              <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                부위별 누적 점수
-                <span className="ml-1 font-normal">
-                  (90일, 오래된 기록일수록 가중치 ↓)
-                </span>
-              </p>
-              <ul className="space-y-1.5">
-                {REGIONS.map((r) => (
-                  <li key={r} className="flex items-center gap-2">
-                    <span className="w-10 shrink-0 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
-                      {REGION_LABEL[r]}
-                    </span>
-                    <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-900">
-                      <span
-                        className="block h-full rounded-full"
-                        style={{
-                          width: `${maxRegion > 0 ? Math.round((regionPoints[r] / maxRegion) * 100) : 0}%`,
-                          backgroundColor: regionColors[r],
-                        }}
-                      />
-                    </span>
-                    <span className="w-14 shrink-0 text-right text-xs font-bold tabular-nums text-zinc-700 dark:text-zinc-200">
-                      {Math.round(regionPoints[r])}점
-                    </span>
-                    <span className="w-14 shrink-0 text-right text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
-                      {weeklyByRegion[r]?.sets ?? 0}세트
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : (
-            <div className="grid flex-1 grid-cols-2 gap-2 self-start">
-              {REGIONS.map((r) => (
-                <div
-                  key={r}
-                  className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3 shadow-sm"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                      {REGION_LABEL[r]}
-                    </p>
-                    <span
-                      className="rounded-full px-2 py-0.5 text-xs font-bold text-white"
-                      style={{ backgroundColor: BALANCE_COLOR[regionStatus[r]] }}
-                    >
-                      {BALANCE_LABEL[regionStatus[r]]}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xl font-bold text-zinc-950 dark:text-zinc-100">
-                    {Math.round(regionPoints[r])}
-                    <span className="ml-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                      점
-                    </span>
-                  </p>
-                  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        width: `${maxRegion > 0 ? Math.round((regionPoints[r] / maxRegion) * 100) : 0}%`,
-                        backgroundColor: BALANCE_COLOR[regionStatus[r]],
-                      }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <p className="mt-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300">
-          {balanceSource === "training" ? (
-            <>
-              이번 주 요약 — {VOLUME_LABEL.optimal}{" "}
-              {weekly.regions.filter((r) => r.status === "optimal").length} ·{" "}
-              {VOLUME_LABEL.low}{" "}
-              {weekly.regions.filter((r) => r.status === "low").length} ·{" "}
-              {VOLUME_LABEL.none}{" "}
-              {weekly.regions.filter((r) => r.status === "none").length}
-            </>
-          ) : (
-            <>
-              밸런스 요약 — 균형 {balancedCount} · 부족 {lowCount} · 심하게 부족{" "}
-              {underCount}
-            </>
-          )}
-        </p>
-
-        {/* 세부근육 분포 — 같은 부위라도 어느 갈래가 강/약한지 (운동 기록 기반) */}
-        {hasSub ? (
-          <div className="mt-6 border-t border-zinc-200 dark:border-zinc-700 pt-5">
-            <p className="mb-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-              세부근육 분포
             </p>
-            <p className="mb-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-              이번 주 각 갈래를 <strong>직접 노렸는지</strong> 봅니다. 벤치프레스처럼
-              한 운동이 여러 갈래에 걸릴 때, 주동근이 아닌 쪽은{" "}
-              <strong>거들기만</strong> 로 구분합니다 — 하부 대흉근을 “했다”로 세면
-              정작 하부를 노린 적은 없는데 채워진 것처럼 보입니다. (마네킹 위 “세부근육”
-              토글과 같은 색)
-            </p>
-            <div className="space-y-3">
-              {MUSCLE_ORDER.map((m) => (
-                <div key={m}>
-                  <p className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
-                    <span
-                      aria-hidden
-                      className="h-2 w-2 rounded-full"
-                      style={{ backgroundColor: muscleGroup(m).color }}
-                    />
-                    {muscleGroup(m).label}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {SUB_MUSCLES[m].map((s) => (
-                      <span
-                        key={s.id}
-                        className="inline-flex items-center gap-1 rounded-full border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300"
-                        data-sub-tier={subTier(s.id)}
-                        title={`${s.label} · 이번 주 ${SUB_TIER_LABEL[subTier(s.id)]} · 누적 ${Math.round(subPoints[s.id] ?? 0)}점`}
-                      >
+
+            {/* 세부근육 분포 — 같은 부위라도 어느 갈래를 직접 노렸는지(운동 기록 기반).
+                벤치프레스처럼 여러 갈래에 걸리는 운동은 주동근이 아닌 쪽을 거들기만으로 센다. */}
+            {hasSub ? (
+              <div className="mt-3 border-t border-[var(--line)] pt-3">
+                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  세부근육 분포
+                </p>
+                <p className="mb-2 text-xs text-zinc-500 dark:text-zinc-400">
+                  이번 주 직접 노렸는지 · 주동근이 아니면 거들기만
+                </p>
+                <div className="space-y-2">
+                  {MUSCLE_ORDER.map((m) => (
+                    <div key={m}>
+                      <p className="mb-1 flex items-center gap-1.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
                         <span
                           aria-hidden
                           className="h-2 w-2 rounded-full"
-                          style={{ backgroundColor: SUB_TIER_COLOR[subTier(s.id)] }}
+                          style={{ backgroundColor: muscleGroup(m).color }}
                         />
-                        {s.label}
-                      </span>
-                    ))}
-                  </div>
+                        {muscleGroup(m).label}
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {SUB_MUSCLES[m].map((s) => (
+                          <span
+                            key={s.id}
+                            className="inline-flex items-center gap-1 rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300"
+                            data-sub-tier={subTier(s.id)}
+                            title={`${s.label} · 이번 주 ${SUB_TIER_LABEL[subTier(s.id)]} · 누적 ${Math.round(subPoints[s.id] ?? 0)}점`}
+                          >
+                            <span
+                              aria-hidden
+                              className="h-2 w-2 rounded-full"
+                              style={{ backgroundColor: SUB_TIER_COLOR[subTier(s.id)] }}
+                            />
+                            {s.label}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ) : null}
           </div>
-        ) : null}
-      </section>
-    </main>
+        </section>
+      </main>
+    </div>
   );
 }
 
-function MetricCard({
-  icon,
-  label,
-  value,
-  tone,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  tone: "rose" | "amber" | "emerald" | "indigo";
-}) {
-  const tones = {
-    rose: { bg: "bg-rose-100", text: "text-rose-700" },
-    amber: {
-      bg: "bg-amber-100 dark:bg-amber-900/40",
-      text: "text-amber-700 dark:text-amber-400",
-    },
-    emerald: {
-      bg: "bg-brand-soft",
-      text: "text-brand",
-    },
-    indigo: { bg: "bg-indigo-100", text: "text-indigo-700" },
-  } as const;
-  const t = tones[tone];
+/** 요약 한 칸 — 라벨 위, 값 아래. */
+function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3 shadow-sm">
-      <div className="flex items-center gap-2">
-        <span
-          className={`flex h-7 w-7 items-center justify-center rounded-md ${t.bg} ${t.text}`}
-        >
-          {icon}
-        </span>
-        <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-          {label}
-        </p>
-      </div>
-      <p className="mt-1.5 text-xl font-bold text-zinc-950 dark:text-zinc-100">
+    <div className="min-w-0 px-1">
+      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
         {value}
       </p>
     </div>

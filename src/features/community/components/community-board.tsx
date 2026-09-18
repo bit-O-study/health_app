@@ -90,20 +90,21 @@ export function CommunityBoard({
           : "app-page mx-auto flex min-h-screen w-full max-w-3xl flex-col"
       }
     >
-      <div className="app-header shrink-0 px-4 pb-0 pt-2 sm:px-6">
+      <div className="app-header shrink-0 px-4 pb-0 pt-5 sm:px-6">
         {/* 제목은 다른 탭 머리글(PageHeader)과 같은 큰 제목(.app-title) — 2026-09-16 촘촘하게. */}
-        <h1 className="app-title mb-1 px-1">
+        <h1 className="app-title mb-4">
           커뮤니티
         </h1>
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
-        <div className="flex items-center gap-5 overflow-x-auto px-1 [scrollbar-width:none]">
+        <div className="flex items-center gap-5 overflow-x-auto [scrollbar-width:none]">
           {BOARD_TABS.map(({ value, label }) => (
             <button
               key={value}
               type="button"
               onClick={() => setTab(value)}
-              className={`relative shrink-0 pb-2 text-sm font-semibold transition-colors ${
+              aria-pressed={tab === value}
+              className={`relative min-h-11 shrink-0 pb-3 text-sm font-semibold transition-colors ${
                 tab === value
                   ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"

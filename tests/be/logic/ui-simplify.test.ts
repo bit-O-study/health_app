@@ -252,13 +252,13 @@ describe("공통 머리글·폭 (4단계)", () => {
     expect(read("src/components/page-header.tsx")).toContain("max-w-3xl");
   });
 
-  it("홈·운동탭·공통 머리글은 같은 큰 제목(.app-title, 28px) — 로고 막대 없음", () => {
+  it("홈·운동탭·공통 머리글은 같은 큰 제목(.app-title, 30px) — 로고 막대 없음", () => {
     for (const f of ["src/app/home/page.tsx", "src/app/routine/page.tsx", "src/components/page-header.tsx"]) {
       const src = read(f);
       expect(src, f).toMatch(/<h1 className="[^"]*app-title/);
       expect(src, f).not.toContain("<Logo");
     }
-    expect(read("src/styles/globals.css")).toMatch(/\.app-title \{[^}]*font-size: 1\.75rem/);
+    expect(read("src/styles/globals.css")).toMatch(/\.app-title \{[^}]*font-size: 1\.875rem/);
   });
 
   it("촘촘한 공통 조각(Section·List·Row·Tile)이 있다", () => {

@@ -95,7 +95,8 @@ body {
     max-width: 48rem;
     margin-inline: auto;
     padding: 1rem 1rem 2rem;
-    animation: app-fade-in 240ms ease-out both;
+    /* 종료 후 transform을 남기면 내부 fixed 시트가 화면 대신 본문에 갇힌다. */
+    animation: app-fade-in 240ms ease-out;
   }
 
   /* 탭과 상세 화면의 제목은 30px/700으로 통일한다. */
@@ -268,6 +269,14 @@ a {
 :focus-visible {
   outline: 3px solid color-mix(in srgb, var(--brand) 35%, transparent);
   outline-offset: 2px;
+}
+
+/* 음식 검색은 안쪽의 초록 사각 포커스 대신 바깥 필드의 중립 테두리로 표시한다. */
+.food-search-input:focus-visible {
+  outline: none;
+}
+.food-search-field:focus-within {
+  border-color: var(--muted);
 }
 
 img,

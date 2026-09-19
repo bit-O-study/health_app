@@ -47,6 +47,7 @@ import {
   type FoodItem,
 } from "@/features/diet/food-catalog-types";
 import { useFoodSearch } from "@/features/diet/use-food-search";
+import { getEggServing, getEggPortion } from "@/features/diet/food-serving";
 import { MIN_FOOD_DB_QUERY } from "@/features/diet/food-db";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import { MealScanForm } from "@/features/diet/components/meal-scanner";
@@ -1227,18 +1228,25 @@ function QuantityEditor({
   const baseG = parseGrams(food.amount);
   const [grams, setGrams] = useState(String(baseG ?? 100));
   const [qty, setQty] = useState(1);
+  const eggServing = getEggServing(food);
+  const [eggGrams, setEggGrams] = useState(String(eggServing?.unitGrams ?? 50));
+  const eggPortion = eggServing ? getEggPortion(eggServing, qty, Number(eggGrams)) : null;
 
   // 배율: 그램 모드면 g/기준g, 인분 모드면 qty.
-  const factor = baseG
-    ? (Number(grams) > 0 ? Number(grams) / baseG : 0)
-    : qty;
+  const factor = eggServing
+    ? (eggPortion?.factor ?? 0)
+    : baseG
+      ? (Number(grams) > 0 ? Number(grams) / baseG : 0)
+      : qty;
   const r1 = (n: number) => Math.round(n * 10) / 10;
   const kcal = Math.round(food.kcal * factor);
-  const amountLabel = baseG
-    ? `${Number(grams) || 0}g`
-    : qty === 1
-      ? food.amount
-      : `${food.amount} ×${qty}`;
+  const amountLabel = eggServing
+    ? (eggPortion?.amount ?? "개수를 입력하세요")
+    : baseG
+      ? `${Number(grams) || 0}g`
+      : qty === 1
+        ? food.amount
+        : `${food.amount} ×${qty}`;
 
   function confirm() {
     onConfirm({
@@ -1270,7 +1278,54 @@ function QuantityEditor({
         </p>
       </div>
 
-      {baseG ? (
+      {eggServing ? (
+        <div className="space-y-3">
+          <label className="block text-sm font-semibold">
+            개수
+            <input
+              aria-label="계란 개수"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              step={1}
+              value={qty || ""}
+              onChange={(e) => setQty(Number(e.target.value))}
+              className="app-field mt-2 h-12 w-full rounded-xl border px-3 text-lg"
+            />
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {[1, 2, 3, 4, 5].map((count) => (
+              <button
+                key={count}
+                type="button"
+                aria-pressed={qty === count}
+                onClick={() => setQty(count)}
+                className={`min-h-11 rounded-xl border px-4 text-sm font-semibold ${qty === count ? "border-brand bg-brand-soft text-brand" : "border-line text-muted"}`}
+              >
+                {count}개
+              </button>
+            ))}
+          </div>
+          {eggServing.unitGrams !== null ? (
+            <label className="block text-sm text-muted">
+              1개 중량(g)
+              <input
+                aria-label="1개 중량(g)"
+                type="number"
+                inputMode="decimal"
+                min={0.1}
+                step={0.1}
+                value={eggGrams}
+                onChange={(e) => setEggGrams(e.target.value)}
+                className="app-field mt-2 h-11 w-full rounded-xl border px-3 text-base"
+              />
+              {eggServing.estimated ? (
+                <span className="mt-1.5 block text-xs">1개 약 50g 기준 · 제품 중량에 맞게 조절하세요.</span>
+              ) : null}
+            </label>
+          ) : null}
+        </div>
+      ) : baseG ? (
         <label className="block">
           <span className="mb-1 block text-xs font-bold text-zinc-500">
             그램(g) 입력 — 양에 맞춰 칼로리 자동 계산
@@ -1333,7 +1388,8 @@ function QuantityEditor({
       <button
         type="button"
         onClick={confirm}
-        className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
+        disabled={Boolean(eggServing && !eggPortion)}
+        className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         담기
       </button>
@@ -1403,7 +1459,7 @@ function AddFoodDialog({
     : ["search", "manual"];
 
   return (
-    <div className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div role="dialog" aria-modal="true" aria-label={`${MEAL_LABEL[meal]} 추가`} className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
       <div className="flex items-center justify-between border-b border-zinc-200 px-4 pb-2 pt-[max(env(safe-area-inset-top),0.75rem)] dark:border-zinc-800">
         <span className="text-base font-bold text-zinc-900 dark:text-zinc-100">
           {MEAL_LABEL[meal]} 추가
@@ -1470,10 +1526,11 @@ function AddFoodDialog({
               setMode(m);
               setPicked(null);
             }}
-            className={`h-9 flex-1 rounded-lg text-sm font-bold transition ${
+            aria-pressed={mode === m}
+            className={`min-h-11 flex-1 border-b-2 text-sm font-semibold transition ${
               mode === m
-                ? "bg-brand text-white dark:text-zinc-950"
-                : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                ? "border-foreground text-foreground"
+                : "border-transparent text-muted"
             }`}
           >
             {m === "search" ? "검색" : m === "manual" ? "직접 입력" : "✨ AI 사진"}
@@ -1508,7 +1565,7 @@ function AddFoodDialog({
         />
       ) : (
         <>
-          <div className="mx-4 mt-3 flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3 dark:border-zinc-700 dark:bg-zinc-900">
+          <div className="food-search-field mx-4 mt-3 flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3 dark:border-zinc-700 dark:bg-zinc-900">
             <Search aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
             <input
               autoFocus
@@ -1518,7 +1575,7 @@ function AddFoodDialog({
               }}
               placeholder="음식 검색 (예: 닭가슴살, 김치찌개)"
               aria-label="음식 검색"
-              className="h-11 w-full bg-transparent text-base outline-none placeholder:text-zinc-400 dark:text-zinc-100"
+              className="food-search-input h-11 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-zinc-400 dark:text-zinc-100"
             />
           </div>
           <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] dark:divide-zinc-800">
@@ -1543,11 +1600,11 @@ function AddFoodDialog({
                       <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                         {f.name}
                         <span className="ml-1.5 text-xs font-normal text-zinc-400">
-                          {f.amount}
+                          {getEggServing(f) ? "개수로 선택" : f.amount}
                         </span>
                       </p>
                       <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                        {f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
+                        {getEggServing(f) ? `${f.amount} 기준 · ` : ""}{f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
                       </p>
                     </div>
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950">

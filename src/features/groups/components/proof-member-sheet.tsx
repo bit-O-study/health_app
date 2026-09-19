@@ -26,6 +26,8 @@ export function ProofMemberSheet({
 
   useEffect(() => {
     let alive = true;
+    // A new member request must show loading before its async result arrives.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLoading(true);
     getGroupMemberDayAction(groupId, member.userId)
       .then((d) => {

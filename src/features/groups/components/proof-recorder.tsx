@@ -71,6 +71,8 @@ export function ProofRecorder({
   useEffect(() => {
     if (phase !== "live") return;
     let cancelled = false;
+    // A new camera stream is not ready until getUserMedia resolves.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCamReady(false);
     (async () => {
       try {

@@ -41,6 +41,10 @@ test("모든 응답에 보안 헤더가 붙는다", async ({ page }) => {
   // 쓰는 권한만 self, 안 쓰는 마이크는 닫혀 있다.
   expect(h["permissions-policy"]).toContain("camera=(self)");
   expect(h["permissions-policy"]).toContain("microphone=()");
-  // 로컬 dev(http)에는 HSTS 를 붙이지 않는다 — 붙으면 localhost 가 https 로만 열린다.
-  expect(h["strict-transport-security"]).toBeUndefined();
+  // 관리 서버는 production 빌드이므로 HSTS 를 포함한다. dev 서버에서는 제외한다.
+  if (process.env.E2E_MANAGED_SERVER) {
+    expect(h["strict-transport-security"]).toContain("max-age=63072000");
+  } else {
+    expect(h["strict-transport-security"]).toBeUndefined();
+  }
 });

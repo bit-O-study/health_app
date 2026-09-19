@@ -33,6 +33,8 @@ export function RestSoundPicker() {
   const fileRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
+    // Local-only preferences are read after hydration to keep server markup stable.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setKind(readSoundKind());
     setHasCustom(hasCustomSound());
   }, []);

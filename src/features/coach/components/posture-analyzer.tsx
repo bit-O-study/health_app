@@ -88,6 +88,8 @@ export function PostureAnalyzer({
   const [exerciseName, setExerciseName] = useState(defaultExerciseName);
   // 앱(APK)에선 카메라로 촬영, 웹에선 영상 파일 업로드만.
   const [isApp, setIsApp] = useState(false);
+  // Native detection must happen after hydration; SSR always renders the web input.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => setIsApp(isNativeApp()), []);
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {

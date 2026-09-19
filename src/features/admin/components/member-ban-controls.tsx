@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Ban, Clock, Loader2, RotateCcw } from "lucide-react";
 
@@ -21,20 +21,25 @@ export function MemberBanControls({
   state: BanState;
 }) {
   const router = useRouter();
-  const [pending, start] = useTransition();
+  const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [askBan, setAskBan] = useState(false);
   const [reason, setReason] = useState("");
+  const [updatedState, setUpdatedState] = useState<BanState | null>(null);
 
-  function run(fn: () => Promise<AdminActionResult>) {
+  async function run(fn: () => Promise<AdminActionResult>, nextState: BanState) {
     setError(null);
-    start(async () => {
+    setPending(true);
+    try {
       const res = await fn();
       if (res.ok) {
         setReason("");
+        setUpdatedState(nextState);
         router.refresh();
       } else setError(res.error);
-    });
+    } finally {
+      setPending(false);
+    }
   }
 
   const r = () => reason.trim() || undefined;
@@ -59,7 +64,7 @@ export function MemberBanControls({
         <button
           type="button"
           disabled={pending}
-          onClick={() => run(() => suspendUserAction(userId, 7, r()))}
+          onClick={() => run(() => suspendUserAction(userId, 7, r()), "suspended")}
           className={`${btn} border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 hover:bg-amber-100`}
         >
           <Clock aria-hidden="true" size={12} />
@@ -68,7 +73,7 @@ export function MemberBanControls({
         <button
           type="button"
           disabled={pending}
-          onClick={() => run(() => suspendUserAction(userId, 30, r()))}
+          onClick={() => run(() => suspendUserAction(userId, 30, r()), "suspended")}
           className={`${btn} border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 hover:bg-amber-100`}
         >
           <Clock aria-hidden="true" size={12} />
@@ -83,11 +88,11 @@ export function MemberBanControls({
           <Ban aria-hidden="true" size={12} />
           영구정지
         </button>
-        {state !== "active" ? (
+        {(updatedState ?? state) !== "active" ? (
           <button
             type="button"
             disabled={pending}
-            onClick={() => run(() => unbanUserAction(userId))}
+            onClick={() => run(() => unbanUserAction(userId), "active")}
             className={`${btn} border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100`}
           >
             <RotateCcw aria-hidden="true" size={12} />
@@ -109,7 +114,7 @@ export function MemberBanControls({
         tone="danger"
         onConfirm={() => {
           setAskBan(false);
-          run(() => banUserAction(userId, r()));
+          run(() => banUserAction(userId, r()), "banned");
         }}
         onCancel={() => setAskBan(false)}
       />

@@ -6,8 +6,8 @@ import { hasDbCreds, makeClient } from "./db";
  * DATA INTEGRITY GUARD — "화면엔 보이는데 조작이 안 되는" 부류의 버그를 잡는다.
  *
  * 오늘 실제로 터진 버그들이 전부 같은 모양이었다:
- *  - 완료기록이 **사라진 계획 행 id** 를 가리킴 → 화면은 완료로 보이는데 완료 취소가 0건 삭제.
- *  - 계획을 통째로 다시 저장하면서 행 UUID 만 바뀌고 기록이 안 따라옴.
+ *  - 계획에서 빠진 완료기록은 고스트로 남을 수 있으므로 표시용 스냅샷을 검사한다.
+ *  - 같은 운동을 다시 담으면 행 UUID 를 새 행으로 옮기고, 빠진 운동은 고스트로 보존한다.
  * 스키마(컬럼 존재)만 보는 schema-sync 가드로는 못 잡히는, **데이터 정합성** 문제라
  * 여기서 라이브 DB 를 읽어 불변식(invariant)을 검사한다. 읽기 전용.
  *
@@ -32,27 +32,11 @@ describe.skipIf(!hasDbCreds)("데이터 정합성(라이브 DB, 읽기 전용)",
     return res.rows as T[];
   }
 
-  it("오늘 완료기록은 모두 살아있는 계획 행을 가리킨다(완료 취소가 먹어야 함)", async () => {
-    const dangling = await rows(`
-      select ec.user_id, ec.focus, ec.exercise_id
-        from public.exercise_completions ec
-       where ec.for_date = ${SEOUL_TODAY}
-         and not exists (select 1 from public.daily_plan dp where dp.id = ec.exercise_row_id)
-         and not exists (select 1 from public.routine_exercises re where re.id = ec.exercise_row_id)
-       limit 20`);
-    expect(
-      dangling,
-      `완료기록이 사라진 행 id 를 가리킨다(= 완료 취소 0건 삭제 버그).\n` +
-        `계획 저장 시 carryOverCompletions 로 새 행 id 에 이어줘야 한다.\n` +
-        JSON.stringify(dangling, null, 2),
-    ).toEqual([]);
-  });
-
-  it("오늘 완료기록에는 표시용 스냅샷(운동/부위)이 들어있다", async () => {
+  it("최근 7일 완료기록에는 표시용 스냅샷(운동/부위)이 들어있다", async () => {
     const missing = await rows(`
       select user_id, exercise_row_id
         from public.exercise_completions
-       where for_date = ${SEOUL_TODAY}
+       where for_date >= ${SEOUL_TODAY} - interval '6 days'
          and (exercise_id is null or focus is null)
        limit 20`);
     expect(
@@ -62,16 +46,17 @@ describe.skipIf(!hasDbCreds)("데이터 정합성(라이브 DB, 읽기 전용)",
     ).toEqual([]);
   });
 
-  it("오늘 워밍업/마무리 완료기록도 살아있는 행을 가리킨다", async () => {
-    const dangling = await rows(`
-      select cc.user_id, cc.kind, cc.item_id
+  it("최근 7일 고스트 워밍업/마무리 완료기록에는 표시용 스냅샷이 있다", async () => {
+    const missing = await rows(`
+      select cc.user_id, cc.source_row_id
         from public.conditioning_completions cc
-       where cc.for_date = ${SEOUL_TODAY}
+       where cc.for_date >= ${SEOUL_TODAY} - interval '6 days'
          and cc.source_row_id is not null
          and not exists (select 1 from public.daily_conditioning dc where dc.id = cc.source_row_id)
          and not exists (select 1 from public.routine_conditioning rc where rc.id = cc.source_row_id)
+         and (cc.kind is null or cc.item_id is null)
        limit 20`);
-    expect(dangling, JSON.stringify(dangling, null, 2)).toEqual([]);
+    expect(missing, JSON.stringify(missing, null, 2)).toEqual([]);
   });
 
   it("daily_plan/routine_exercises 의 부위(focus)는 알려진 값만 쓴다", async () => {

@@ -1231,6 +1231,7 @@ function QuantityEditor({
   const eggServing = getEggServing(food);
   const [eggGrams, setEggGrams] = useState(String(eggServing?.unitGrams ?? 50));
   const eggPortion = eggServing ? getEggPortion(eggServing, qty, Number(eggGrams)) : null;
+  const eggUnit = eggServing ? getEggPortion(eggServing, 1, Number(eggGrams)) : null;
 
   // 배율: 그램 모드면 g/기준g, 인분 모드면 qty.
   const factor = eggServing
@@ -1274,7 +1275,11 @@ function QuantityEditor({
       <div>
         <p className="text-lg font-bold text-zinc-950 dark:text-zinc-50">{food.name}</p>
         <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          기준 {food.amount} · {food.kcal}kcal
+          {eggServing
+            ? eggUnit
+              ? `기준 ${eggUnit.amount} · ${Math.round(food.kcal * eggUnit.factor)}kcal`
+              : "1개 중량을 입력하세요"
+            : `기준 ${food.amount} · ${food.kcal}kcal`}
         </p>
       </div>
 
@@ -1589,30 +1594,41 @@ function AddFoodDialog({
                 검색 결과가 없어요. ‘직접 입력’으로 추가하세요.
               </li>
             ) : (
-              results.map((f) => (
-                <li key={f.id}>
-                  <button
-                    type="button"
-                    onClick={() => setPicked(f)}
-                    className="flex w-full items-center gap-2 py-2.5 text-left"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                        {f.name}
-                        <span className="ml-1.5 text-xs font-normal text-zinc-400">
-                          {getEggServing(f) ? "개수로 선택" : f.amount}
-                        </span>
-                      </p>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
-                        {getEggServing(f) ? `${f.amount} 기준 · ` : ""}{f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
-                      </p>
-                    </div>
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950">
-                      <Plus aria-hidden="true" size={16} />
-                    </span>
-                  </button>
-                </li>
-              ))
+              results.map((f) => {
+                const serving = getEggServing(f);
+                const portion = serving ? getEggPortion(serving, 1) : null;
+                const shown = portion ? {
+                  amount: portion.amount,
+                  kcal: Math.round(f.kcal * portion.factor),
+                  protein: Math.round(f.protein * portion.factor * 10) / 10,
+                  carbs: Math.round(f.carbs * portion.factor * 10) / 10,
+                  fat: Math.round(f.fat * portion.factor * 10) / 10,
+                } : f;
+                return (
+                  <li key={f.id}>
+                    <button
+                      type="button"
+                      onClick={() => setPicked(f)}
+                      className="flex min-h-16 w-full items-center gap-3 py-3 text-left"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="break-words text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                          {f.name}
+                        </p>
+                        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                          {shown.amount} · <span className="font-semibold text-foreground">{shown.kcal}kcal</span>
+                        </p>
+                        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                          단 {shown.protein}g · 탄 {shown.carbs}g · 지 {shown.fat}g
+                        </p>
+                      </div>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950">
+                        <Plus aria-hidden="true" size={16} />
+                      </span>
+                    </button>
+                  </li>
+                );
+              })
             )}
           </ul>
         </>

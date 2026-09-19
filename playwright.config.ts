@@ -15,6 +15,14 @@ export default defineConfig({
   retries: 0,
   reporter: [["list"], ["html", { open: "never" }]],
   globalTeardown: "./tests/e2e/global-teardown.ts",
+  webServer: process.env.E2E_MANAGED_SERVER
+    ? {
+        command: "corepack pnpm exec next start -p 3110",
+        url: BASE_URL,
+        timeout: 120_000,
+        reuseExistingServer: false,
+      }
+    : undefined,
   use: {
     baseURL: BASE_URL,
     viewport: { width: 430, height: 920 },

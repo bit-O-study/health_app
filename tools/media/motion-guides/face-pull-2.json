@@ -7,5 +7,6 @@
   "panels": 16,
   "cycle": "reverse",
   "id": "face-pull-2",
-  "registeredAt": "2026-09-11T16:02:21.256Z"
+  "registeredAt": "2026-09-11T16:02:21.256Z",
+  "cutout": false
 }

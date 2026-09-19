@@ -130,7 +130,7 @@ export type GuidedItem =
       /** 장기 정체 시 같은 부위에서 고른 오늘만 대체 후보. */
       substitutes?: ExerciseSubstitute[];
       /** 관리자 등록 시범 미디어. null = 없음(기본 일러스트 사용). */
-      media: { url: string; kind: MediaKind } | null;
+      media: { url: string; kind: MediaKind; darkUrl?: string } | null;
       /**
        * 슈퍼세트 묶음 번호(큐 기준으로 정규화된 값). 같은 값이 **붙어 있으면** 한 묶음.
        * null = 단독 운동.
@@ -519,6 +519,8 @@ export function GuidedOverlay({
   const [holdRunning, setHoldRunning] = useState(false);
   // 운동/세트가 바뀌면 홀드 타이머를 멈추고 0으로. (완료 세트 수·현재 운동 인덱스 기준)
   useEffect(() => {
+    // Changing exercise or set invalidates the previous hold timer immediately.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setHoldSec(0);
     setHoldRunning(false);
   }, [index, setsDone]);
@@ -1970,7 +1972,7 @@ function ItemVisual({ item }: { item: GuidedItem }) {
       return (
         <div className="w-full max-w-md">
           {/* 운동 차례가 되면 자동 재생(음소거). 버튼 안 눌러도 실행됨. */}
-          <MediaEmbed url={item.media.url} kind={item.media.kind} autoPlay />
+          <MediaEmbed url={item.media.url} darkUrl={item.media.darkUrl} kind={item.media.kind} autoPlay />
         </div>
       );
     }

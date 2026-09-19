@@ -7,5 +7,6 @@
   ],
   "prompt": "Clean professional animation sheet, square 4 columns 4 rows, sixteen equally sized square cells. A gray anatomical 3D adult man in teal shorts and gray shoes demonstrates a cable glute kickback. Fixed side camera, man faces left, cable tower at left. Full body comfortably inside every cell. Torso leans forward slightly and stays absolutely motionless, both hands hold tower at chest height, supporting foot stays flat at identical pixel location. Ankle strap on the other leg attaches by a taut cable to the LOW pulley. Begin both feet next to each other. Across all sixteen successive poses extend working leg backward just 25 degrees from vertical at the hip, knee stays softly bent with same angle. Last foot behind body about40cm. Neither pelvis nor chest moves, no back arch, no torso rotation. Cable follows ankle continuously, remains attached. Single smooth outward half-repetition, no return and no resets at row breaks. Machine, head, arms, torso, pelvis, supporting leg, background and camera remain identical in all cells. Smooth gray studio background. No text labels lines or borders.",
   "id": "cable-glute-kickback",
-  "registeredAt": "2026-09-10T13:16:17.690Z"
+  "registeredAt": "2026-09-10T13:16:17.690Z",
+  "cutout": false
 }

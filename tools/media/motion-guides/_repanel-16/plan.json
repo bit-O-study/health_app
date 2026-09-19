@@ -1,0 +1,253 @@
+{
+  "createdAt": "2026-09-18",
+  "note": "8패널 원본을 16패널로 재생성하기 위한 작업 지시서. prompt 는 imagegen 으로 2048x2048 4x4 PNG 를 만들 때 그대로 쓴다. 생성한 PNG 를 ~/.codex/generated_images/<any>/<id>.png 로 두고 `node tools/media/repanel-16.mjs <PNG 디렉터리>` 실행하면 등록·렌더까지 자동. 시각 재검토는 사람이 한다. 2026-09-18 갱신: 도구가 16패널 full-cycle 을 지원하게 되어 기존 B군 5종을 A군으로 옮겼다(cycle:\"full\", 16칸이 한 주기 전체).",
+  "groupA_convert": [
+    {
+      "id": "behind-the-back-wrist-curl",
+      "equipment": "barbell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.strengthlog.com/barbell-wrist-curl-behind-the-back/"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed rear three-quarter camera, same scale and body coordinates in all 16 cells. Full body and both bar ends within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. BEHIND-THE-BACK BARBELL WRIST CURL. Stands upright holding a light straight barbell behind the hips, hands shoulder width, small level plates on both ends, palms facing backward away from the glutes, feet flat hip width. Elbows STRAIGHT and fixed, upper arms and torso completely unmoving. In 16 tiny ascending increments ONLY the wrists and fingers move: cell 1 wrists gently extended with the bar rolled out into the curled fingertips behind the upper thighs, cell 16 fingers closed firmly and wrists flexed to lift the bar a few centimetres upward. Show the bar height rising a little in every single cell. This is a wrist curl, NOT an elbow curl and NOT a shrug: no elbow bend, no shoulder elevation, no torso lean, bar never leaves the area behind the body."
+    },
+    {
+      "id": "behind-the-neck-press",
+      "equipment": "barbell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/military-press-behind-neck.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed rear camera, same scale and body coordinates in all 16 cells. Full body and both bar ends within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. STANDING BEHIND-THE-NECK BARBELL PRESS. Wide overhand grip on one straight barbell, feet planted shoulder width and flat, torso upright and braced, no knee dip. Cell 1 the bar rests across the upper trapezius behind the head with elbows under the bar. In 16 small evenly spaced increments the bar travels straight up to a full overhead lockout with the elbows extended and the bar over the mid-foot. Both hands stay closed on the bar at the same width in every cell and the bar stays perfectly level. Head stays still and the bar clears it without touching. No leg drive, no back arch, no forward bar drift."
+    },
+    {
+      "id": "bird-dog",
+      "equipment": "bodyweight",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.nasm.org/resource-center/exercise-library/bird-dog"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed full-body side camera facing left, same scale and body coordinates in all 16 cells. Entire body including the extended hand and foot within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. BIRD DOG. Quadruped start: hands under shoulders, knees under hips, spine long and level, head in line with the spine. Cell 1 on hands and knees with all four points down. In 16 small evenly spaced increments the near arm reaches progressively forward and the OPPOSITE far leg reaches progressively backward until both are level with the torso in cell 16. The supporting hand and supporting knee stay on the floor at identical image coordinates in every cell. The pelvis stays square and level, no hip hike, no lumbar arch, no head lift. Only the reaching arm and the opposite leg change; everything else is frozen."
+    },
+    {
+      "id": "cable-woodchopper",
+      "equipment": "cable",
+      "cycle": "reverse",
+      "cutout": false,
+      "sources": [
+        "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front three-quarter camera, same scale and body coordinates in all 16 cells. Whole cable column, the full cable line and the entire body within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. LOW-TO-HIGH CABLE WOODCHOP. A low pulley on a weight-stack column stands at the left edge; a single visible cable runs from that pulley to a rope handle held in BOTH hands. Wide athletic stance, feet flat and planted at the same spot in every cell. Cell 1 both hands hold the rope low outside the left hip with the torso rotated left and the arms nearly straight. In 16 small evenly spaced increments the torso rotates and the arms sweep diagonally up and across to finish above the right shoulder with the arms extended in cell 16. The cable stays taut and unbroken from pulley to rope in EVERY cell and the pulley, cable and column never disappear. Hands stay together on the rope. Rotation comes from the trunk and hips, arms do not curl."
+    },
+    {
+      "id": "curtsy-lunge-2",
+      "equipment": "dumbbell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/curtsy-lunge",
+        "https://www.acefitness.org/resources/everyone/exercise-library/365/transverse-lunge/"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front three-quarter camera, same scale and body coordinates in all 16 cells. Full body and both dumbbells within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. DUMBBELL CURTSY LUNGE. One small dumbbell hangs in each hand at the sides with closed neutral grips and straight arms for the whole sequence. The RIGHT foot stays planted at exactly the same image coordinates in all 16 cells. Cell 1 stands tall with both feet together. In 16 small evenly spaced increments the LEFT foot steps diagonally behind and across the planted right foot and then both knees bend vertically to lower the rear left knee close to the floor in cell 16. Torso stays upright and square, chest tall, no forward collapse and no torso twist. Both arms hang still throughout; the dumbbells do not swing or curl."
+    },
+    {
+      "id": "decline-sit-up",
+      "equipment": "bodyweight",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/node/3617"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side camera, same scale and body coordinates in all 16 cells. Whole decline bench and entire body within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. UNWEIGHTED DECLINE BENCH SIT-UP. The decline bench, its frame, its floor feet and its top ankle rollers stay at identical image coordinates in every cell. Shins hooked under the paired top rollers, knees bent, both arms crossed over the chest and staying crossed throughout. Cell 1 lies supine along the decline pad with the head lowest. In 16 small evenly spaced increments the torso curls up segment by segment to finish upright with the trunk near vertical in cell 16. Keep the head and neck in line with the spine, no chin jut and no arm swing. Hips and shins never leave the bench. Show a clearly different trunk angle in every single cell so no two cells repeat."
+    },
+    {
+      "id": "dumbbell-front-raise",
+      "equipment": "dumbbell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/",
+        "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed orthographic three-quarter side camera facing right, same scale and body coordinates in all 16 cells. Full body and both dumbbells within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. BILATERAL DUMBBELL FRONT RAISE, ascending half repetition only. Two small dark dumbbells held with closed overhand grips, elbows nearly straight, wrists neutral, torso upright, feet planted and identical in every cell. Sixteen evenly spaced shoulder-flexion angles measured from the downward vertical: cell 1 = 0 degrees with the arms hanging beside the thighs, then 6, 12, 18, 24, 30, 36, 42, 48, 54, 60, 66, 72, 78, 84 degrees, and cell 16 = exactly 90 degrees with both arms horizontal forward at shoulder height. Do NOT reach horizontal before cell 16 and do NOT plateau at shoulder height across the last cells. No repeated poses. Only the shoulders rotate: no body lean, no elbow curl, no shrug. Both weights stay separate and firmly in the hands."
+    },
+    {
+      "id": "dumbbell-shoulder-press",
+      "equipment": "dumbbell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.acefitness.org/resources/everyone/exercise-library/45/seated-overhead-press/"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front three-quarter camera, same scale and body coordinates in all 16 cells. Whole bench, entire person and the highest dumbbell position within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. SEATED DUMBBELL SHOULDER PRESS on a near-vertical backrest bench. The bench pad, seat, frame and floor feet stay at identical image coordinates in every cell. Back and hips supported against the upright pad, feet flat and slightly apart and fixed, torso neutral without arch. Two identical dumbbells in closed hands, palms facing mostly forward, wrists stacked above the elbows, elbows slightly forward of the frontal plane. Cell 1 dumbbells at shoulder height with the elbows bent about 90 degrees. In 16 small equal increments both arms press together to a full overhead lockout with the elbows extended in cell 16. Dumbbells stay distinct and never merge; forearms stay near vertical with the hands above the elbows. Head stays still between the arms. No behind-the-neck position, no bridging off the bench."
+    },
+    {
+      "id": "glute-ham-raise",
+      "equipment": "machine",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/glute-ham-raise"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side camera, same scale and body coordinates in all 16 cells. Whole GHD machine and entire body within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. GLUTE-HAM RAISE. The black GHD machine - curved knee pad, paired ankle rollers, frame and floor feet - stays at identical image coordinates in every cell. Knees on the curved pad, lower shins and ankles trapped between the paired rollers, arms crossed over the chest and staying crossed. Cell 1 the torso is upright with the knees fully flexed. In 16 small evenly spaced increments the knees extend while the hips and spine stay in ONE straight rigid line from shoulders to knees, lowering the body forward until it is horizontal in cell 16. There is no hip hinge at any point: the angle between torso and thigh never changes. Feet and machine are fixed. No arm swing, no lumbar rounding."
+    },
+    {
+      "id": "hanging-leg-raise-2",
+      "equipment": "bodyweight",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/hanging-leg-raise.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side camera, same scale and body coordinates in all 16 cells. The complete pull-up bar with BOTH uprights meeting it, and the whole body including the feet, within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. HANGING STRAIGHT-LEG RAISE. A single horizontal pull-up bar is solidly joined to an upright at each end; the bar is thick enough to read clearly and is drawn as one unbroken piece in every cell. Both hands hang from the bar at shoulder width with a closed overhand grip at the same fixed points throughout. Shoulders stay packed, arms straight, body hanging free with the shoes well above the floor in every cell. Cell 1 a dead hang with both legs straight and together and vertical. In 16 small evenly spaced increments both straight legs rise together until they are horizontal at hip height in cell 16, with the pelvis tilting back at the top. No knee bend, no swinging or kipping, no torso rotation. The hands and the bar never move."
+    },
+    {
+      "id": "kettlebell-front-squat",
+      "equipment": "kettlebell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/offset-single-kettlebell-front-squat"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front camera, same scale and body coordinates in all 16 cells. Full body and the whole kettlebell within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. OFFSET SINGLE KETTLEBELL FRONT SQUAT. One kettlebell is racked on the RIGHT shoulder for the entire sequence: the bell body rests against the chest and shoulder, the right hand is closed through the handle with the forearm vertical, and the bell never shifts position relative to the shoulder. The left arm is held out to the side as a counterbalance. Shoulder-width stance, both feet flat and fixed at identical image coordinates in every cell. Cell 1 stands tall. In 16 small evenly spaced increments the hips and knees bend together to descend to a squat with the hip crease at or just below the knee in cell 16. The torso stays tall, the heels stay down, the knees track over the toes without collapsing inward, and the head stays level and still."
+    },
+    {
+      "id": "kettlebell-press",
+      "equipment": "kettlebell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.kettlebellkings.com/pages/the-kettlebell-press"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front camera, same scale and body coordinates in all 16 cells. Full body and the whole kettlebell including the overhead lockout within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. RIGHT-ARM KETTLEBELL SHOULDER PRESS. Cell 1 the kettlebell is in the rack position at the right shoulder with the bell body resting behind the wrist and against the forearm, the right hand closed through the handle. In 16 small evenly spaced increments the right elbow extends to press the bell straight overhead until the arm is locked out with the bell stacked over the shoulder in cell 16. Give every cell a visibly different elbow angle so no two cells repeat, especially in the first quarter of the press. The left arm hangs still at the side, the torso and legs are absolutely still, both feet flat at identical image coordinates. The bell stays a single solid object resting on the forearm and never separates from the hand. No side lean, no leg drive."
+    },
+    {
+      "id": "kettlebell-row",
+      "equipment": "kettlebell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/node/49438"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side three-quarter camera, same scale and body coordinates in all 16 cells. Full body and both kettlebells within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. BILATERAL BENT-OVER KETTLEBELL ROW. Two kettlebells, one in each hand with a closed neutral grip through the handle. The hip hinge is FIXED for the entire sequence: flat back, soft knees, head in line with the spine, torso angle identical in every cell. Both feet flat and planted at identical image coordinates. Cell 1 both arms hang straight down with the bells at shin height. In 16 small evenly spaced increments both elbows drive back past the ribs and the shoulder blades retract, raising the bells to hip and lower-rib height in cell 16. Both sides move together and stay level. The torso NEVER rises as the bells come up, there is no jerk or hip extension, and the handle openings stay visible and unobstructed."
+    },
+    {
+      "id": "leg-press-2",
+      "equipment": "machine",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/45-degree-leg-press.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side camera, same scale and body coordinates in all 16 cells. The whole 45-degree plate-loaded leg press - seat, back pad, diagonal rails, sled, footplate and loaded plates - plus the entire body, within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. 45-DEGREE LEG PRESS. The machine frame, rails, seat and handles stay at identical image coordinates in every cell; ONLY the sled and the legs move. Back and hips flat against the seat, both hands closed on the side handles, both feet shoulder width and flat on the sled footplate at the same spot throughout. Cell 1 the legs are nearly extended with the sled high on the rails. In 16 small evenly spaced increments the knees flex and the sled travels down the same diagonal rail line until the knees reach about 90 degrees in cell 16. Knees track in line with the feet, hips never curl off the seat, and the legs never snap into a forced locked-out knee extension."
+    },
+    {
+      "id": "low-bar-squat",
+      "equipment": "barbell",
+      "cycle": "reverse",
+      "sources": [
+        "https://cdn.muscleandstrength.com/exercises/low-bar-back-squat"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed rear three-quarter camera, same scale and body coordinates in all 16 cells. Full body and BOTH loaded bar ends within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. LOW-BAR BACK SQUAT. One straight loaded barbell rests across the REAR DELTOIDS, clearly BELOW the upper trapezius, in all 16 cells - this is the low-bar position, not high-bar. Both hands closed on the bar just outside the shoulders at a fixed width, elbows tucked under the bar. Feet planted shoulder width and flat at identical image coordinates. Cell 1 stands tall at lockout. In 16 small evenly spaced increments the hips and knees bend together with a moderate forward torso lean until the hip crease is just below the knee in cell 16, and the bar stays tracking over the mid-foot the whole way down. The bar is one unbroken piece from sleeve to sleeve in every cell. Heels stay down, knees track over the toes."
+    },
+    {
+      "id": "reverse-wrist-curl",
+      "equipment": "dumbbell",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.strengthlog.com/dumbbell-wrist-extension/"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed three-quarter side camera, same scale and body coordinates in all 16 cells. Whole figure and bench within central 70 percent, 15 percent margin all sides, framed close enough to read the hand position clearly. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. SEATED DUMBBELL REVERSE WRIST CURL. Seated on a flat bench leaning slightly forward with BOTH forearms resting along the thighs, hands just beyond the knees, PALMS FACING DOWN toward the floor, one small dumbbell in each hand. Feet flat. The bench, head, shoulders, torso, forearms and feet stay at identical image coordinates in every cell and the forearms stay fully supported and perfectly still. In 16 small evenly spaced increments ONLY the wrists extend, lifting the BACKS OF THE HANDS toward the forearms: cell 1 wrists gently flexed about 30 degrees downward, cell 16 wrists extended about 30 degrees upward. The knuckles stay on the upper side of both hands and the dumbbell heads sit across each hand. No elbow flexion, no biceps curl, no supination - the palms are ALWAYS down."
+    },
+    {
+      "id": "triceps-dip",
+      "equipment": "bodyweight",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/tricep-dip.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side three-quarter camera, same scale and body coordinates in all 16 cells. Both parallel bars with their supports, and the whole body including the feet, within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. PARALLEL BAR TRICEPS DIP. Two parallel bars and their frame stay at identical image coordinates in every cell and each bar is drawn as one unbroken piece. Both hands grip the bars at fixed points throughout, arms at the sides, feet off the ground with the knees slightly bent and the ankles crossed. Torso stays UPRIGHT and vertical - this is the triceps version, not a forward-leaning chest dip - and the elbows stay tucked close to the ribs pointing straight back. Cell 1 supports at the top with the elbows nearly straight. In 16 small evenly spaced increments the elbows bend to lower the body until they reach about 90 degrees in cell 16. Shoulders stay down and packed, no forward torso lean, no leg swing."
+    },
+    {
+      "id": "trx-row",
+      "equipment": "trx",
+      "cycle": "reverse",
+      "cutout": false,
+      "sources": [
+        "https://www.trxtraining.com/blogs/news/four-trx-moves-to-improve-your-rowing-performance"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side camera, same scale and body coordinates in all 16 cells. The overhead anchor point, BOTH full-length straps and the entire body within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. TRX LOW ROW. A wall anchor sits high at the left edge with TWO taut suspension straps running down to a handle in each hand; the anchor and both straps are clearly visible and unbroken in every cell. Both heels are planted at exactly the same image coordinates throughout. The body stays a RIGID straight line from head through hips to heels, leaning back at a fixed angle - the hips never sag or pike. Cell 1 hangs back with both arms fully extended and the straps taut. In 16 small evenly spaced increments both elbows bend and drive back along the ribs, pulling the chest up toward the handles until the hands reach the ribs in cell 16. Both sides move together, shoulder blades retract, wrists stay neutral and closed on the handles."
+    },
+    {
+      "id": "v-up-2",
+      "equipment": "bodyweight",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.verywellfit.com/v-sit-ab-exercise-3120059"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side camera, same scale and body coordinates in all 16 cells. Entire body from fingertips to toes within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. SUPINE V-UP. Cell 1 lies supine and long on the floor with both legs straight and together and both arms straight overhead beside the ears. In 16 small evenly spaced increments the straight legs and the straight torso rise SIMULTANEOUSLY toward each other, the hands reaching toward the ankles, folding into a sharp V balanced on the glutes in cell 16. Legs stay straight and pressed together the whole way and the arms stay straight - no knee bend, no elbow bend, no rolling onto one hip. The contact point on the floor stays in the same place. Show a clearly different fold angle in every single cell so no two cells repeat."
+    },
+    {
+      "id": "wrist-roller",
+      "equipment": "other",
+      "cycle": "reverse",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/wrist-rollers.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front camera, same scale and body coordinates in all 16 cells. The roller bar, the full length of the rope and the hanging plate, plus the whole body, within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. WRIST ROLLER. Both hands are pronated on a short horizontal roller bar held at chest height with the arms extended forward; a single rope runs from the centre of the roller down to one small plate hanging below. Torso, shoulders, elbows and both feet stay at identical image coordinates in every cell - only the wrists rotate and the plate rises. In 16 small evenly spaced increments the rope winds onto the roller and the plate rises MONOTONICALLY from mid-shin height in cell 1 to upper-thigh height in cell 16, gaining a little height in every single cell. The rope stays a single continuous line from roller to plate at all times and the plate never swings sideways. No elbow bend, no shoulder shrug, no torso lean."
+    },
+    {
+      "id": "dead-bug",
+      "equipment": "bodyweight",
+      "cycle": "full",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/dead-bug"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed elevated side camera, same scale and body coordinates in all 16 cells. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. THESE 16 CELLS ARE ONE COMPLETE CYCLE that loops: cell 16 must lead straight back into cell 1 with no jump. DEAD BUG on a mat. Supine with the lower back flat on the floor and the ribs down for every cell; the head, pelvis and floor contact never move. Start and end position: both arms vertical over the shoulders and both knees in tabletop at 90 degrees. Cells 1 to 4 the RIGHT arm reaches back overhead and the LEFT leg extends toward the floor together, reaching full extension just above the floor at cell 4. Cells 5 to 8 that arm and leg return to the tabletop start. Cells 9 to 12 the LEFT arm and the RIGHT leg extend the same way to full reach at cell 12. Cells 13 to 16 they return to the tabletop start so cell 16 matches cell 1. The non-working arm and leg stay frozen in the tabletop position while the other pair moves. The lumbar spine never arches off the floor and the extended limbs never touch it."
+    },
+    {
+      "id": "farmer-s-carry",
+      "equipment": "dumbbell",
+      "cycle": "full",
+      "sources": [
+        "https://cdn.muscleandstrength.com/exercises/farmers-walk"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front camera, same scale and body coordinates in all 16 cells. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. THESE 16 CELLS ARE ONE COMPLETE CYCLE that loops: cell 16 must lead straight back into cell 1 with no jump. DUMBBELL FARMER CARRY, one complete walking gait cycle. One dumbbell hangs in each hand at the sides with a closed neutral grip and a straight arm for the whole sequence; the trunk stays tall, the shoulders stay packed and level, and the dumbbells never swing forward or backward. The body stays centred at the same image coordinates - the camera travels with the walker, so the torso does not drift across the frame. Cell 1 both feet together in a neutral stance. Cells 2 to 8 the LEFT leg swings through and plants, moving through a full step. Cells 9 to 15 the RIGHT leg swings through and plants the same way. Cell 16 returns to feet together so it leads straight back into cell 1. Show a clearly different leg position in every cell with no two cells alike. No torso twist, no side lean, no forward hunch."
+    },
+    {
+      "id": "jump-squat",
+      "equipment": "bodyweight",
+      "cycle": "full",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/bodyweight-jump-squat.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front three-quarter camera, same scale and body coordinates in all 16 cells. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. THESE 16 CELLS ARE ONE COMPLETE CYCLE that loops: cell 16 must lead straight back into cell 1 with no jump. BODYWEIGHT JUMP SQUAT, one complete repetition. Arms crossed over the chest and staying crossed throughout. Shoulder-width stance; the landing spot on the floor is the same in every cell. Cell 1 stands tall. Cells 2 to 5 descend into a squat until the thighs are parallel at cell 5, heels down, chest tall. Cells 6 to 8 drive up explosively through full hip and knee extension. Cells 9 and 10 both feet are clearly OFF THE FLOOR at the peak of the jump with the legs extended and the toes pointed down. Cells 11 to 13 descend back toward the floor and the toes make contact. Cells 14 and 15 absorb the landing by bending the hips and knees into a soft partial squat. Cell 16 returns to standing tall so it leads straight back into cell 1. The airborne cells must show real daylight under both shoes."
+    },
+    {
+      "id": "meadows-row-2",
+      "equipment": "landmine",
+      "cycle": "full",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/meadows-row"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed side three-quarter camera, same scale and body coordinates in all 16 cells. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. THESE 16 CELLS ARE ONE COMPLETE CYCLE that loops: cell 16 must lead straight back into cell 1 with no jump. UNILATERAL MEADOWS ROW on a landmine, one complete repetition. A barbell sits in a floor landmine anchor; the anchor and the bar line stay solid and unbroken in every cell. Staggered planted stance with the outside foot forward, a neutral hip hinge with a flat back, and the free hand braced on the forward thigh - the hinge angle and both feet never change. The working hand is closed in an overhand grip around the loaded barbell SLEEVE. Cell 1 the working arm hangs at full extension with the sleeve low. Cells 2 to 8 the elbow drives up and back along the ribs until the sleeve reaches the hip at cell 8. Cells 9 to 15 the sleeve lowers under control back to full extension. Cell 16 sits at the bottom stretch so it leads straight back into cell 1. The torso never rotates or rises to help the pull."
+    },
+    {
+      "id": "zottman-curl-2",
+      "equipment": "dumbbell",
+      "cycle": "full",
+      "sources": [
+        "https://www.muscleandstrength.com/exercises/zottman-curl.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front camera, same scale and body coordinates in all 16 cells. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. THESE 16 CELLS ARE ONE COMPLETE CYCLE that loops: cell 16 must lead straight back into cell 1 with no jump. BILATERAL ZOTTMAN CURL, one complete repetition including both grip changes. Two dumbbells, upright torso, elbows pinned at the ribs and never drifting forward, feet planted and identical in every cell. Cell 1 arms hang at the thighs with a SUPINATED grip, palms facing forward. Cells 2 to 6 curl both dumbbells up to shoulder height keeping the palms supinated. Cells 7 and 8 at the top the forearms ROTATE so the palms turn over into a PRONATED grip, palms facing down and knuckles up. Cells 9 to 14 lower both dumbbells all the way back to the thighs keeping the palms PRONATED. Cells 15 and 16 at the bottom the forearms rotate back to supinated so cell 16 leads straight back into cell 1. The grip in the lifting half and the lowering half must be visibly different - that contrast is the whole point of this exercise. The two rotations happen only at the top and only at the bottom."
+    }
+  ],
+  "groupB_blocked_fullCycle": [],
+  "groupC_skip_isometric": [
+    {
+      "id": "hollow-body-hold",
+      "status": "passed",
+      "reason": "등척성 홀드. 16패널이어도 모든 칸이 같은 자세라 얻는 게 없고, 재등록하면 통과한 리뷰만 무효화된다."
+    },
+    {
+      "id": "plate-pinch",
+      "status": "passed",
+      "reason": "등척성 홀드. 위와 같음."
+    },
+    {
+      "id": "stability-ball-plank",
+      "status": "passed",
+      "reason": "등척성 홀드. 위와 같음."
+    }
+  ]
+}

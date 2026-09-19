@@ -7,5 +7,6 @@
   "panels": 16,
   "cycle": "reverse",
   "id": "band-biceps-curl",
-  "registeredAt": "2026-09-11T16:41:14.886Z"
+  "registeredAt": "2026-09-11T16:41:14.886Z",
+  "cutout": false
 }

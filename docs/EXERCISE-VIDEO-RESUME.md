@@ -56,7 +56,7 @@ git status를 새로 확인한다. 다른 작업의 변경을 지우지 않는�
 
 PowerShell에서는 JSON 인수를 encodeURIComponent(JSON.stringify(spec)) 후 작은따옴표로 감싸야 한다.
 등록/빌드/검토는 공유 JSON을 쓰므로 순차 실행하고 실행 중 세션을 끝까지 기다린다.
-등록 spec: {prompt, equipment, sources:[https URL], panels?:8|16, cycle?:reverse}.
+등록 spec: {prompt, equipment, sources:[https URL], panels?:8|16, cycle?:'reverse'|'full', cutout?:false}.
 passed review: {status:"passed", checks:{exercise,equipment,setup,hands,feet,movement}, note}.
 모든 체크에 구체적인 관찰을 쓰고 원본·영상 hash 일치 시에만 manifest에 공개한다.
 
@@ -67,7 +67,77 @@ passed review: {status:"passed", checks:{exercise,equipment,setup,hands,feet,mov
 기술 결과: verification.json. 현재 renderVersion 2: obmc/bidir/mb16/search32/vsbmc0.
 v1은 aobmc/bidir/mb8/search64/vsbmc1. 버전 변경으로 렌더 캐시 구분.
 8자세 4x2, 16자세 4x4. 480정사각, 8초24fps, H264 main/yuv420p/CRF28/무음/faststart.
-16자세는 reverse만 지원. 자체 생체역학 3D 리깅이 아닌 AI 이미지 보간이다.
+cycle 은 8자세·16자세 모두 reverse/full 지원(2026-09-18 추가).
+reverse = 원본이 전진 구간만 담고 왕복 재생, full = 원본 16칸이 한 주기 전체를 담고 되감지 않고 2회 재생.
+전반부와 후반부가 다른 동작(점프·보행·좌우 교대·그립 전환)은 반드시 full 을 쓴다. 둘 다 40프레임/8초.
+자체 생체역학 3D 리깅이 아닌 AI 이미지 보간이다.
+
+## 2026-09-15 누끼(배경 제거) 방식 — 사용자 결정, 이후 모든 v3 기본값
+
+- 사용자 결정: 운동모드 화면에 녹아들게(플랜핏처럼) **누끼 + 운동모드 배경색**. 라이트 #fafafa(bg-zinc-50), 다크 #09090b(dark:bg-zinc-950) + 옅은 윤곽광.
+- `motion-build` 가 자동 처리: `tools/media/motion-cutout.py`(rembg birefnet-general)로 패널 누끼 → 8/16장 공통 영역 크롭 → 두 벌 렌더.
+  출력 `ai-v3/ID.mp4` + `ai-v3/ID-dark.mp4`, 접촉시트 `contact-sheet.jpg` + `contact-sheet-dark.jpg`(`motion-inspect ID dark`).
+- 파이썬 환경: `tools/media/.venv-cutout`(Git 제외). 없으면 `python -m venv tools/media/.venv-cutout` 후 `-m pip install -r tools/media/requirements-cutout.txt`.
+- renderVersion 5. 리뷰는 라이트·다크 해시 둘 다 일치해야 공개(`guide-review.mjs`). 검토 시 **두 접촉시트 모두** 확인: 기구(케이블·바)가 누끼로 잘려 나가지 않았는지, 배경 잔여물, 가장자리 번짐.
+- 누끼가 기구를 망가뜨리는 종목만 spec 에 `cutout:false`(예전 회색 여백 한 벌).
+- 앱: `manifest-dark.json` 종목만 `darkUrl` → `MediaEmbed` 가 테마별 영상 + 박스 없이 표시.
+- 기존 통과 101종 재렌더: `node tools/media/rebuild-cutout-guides.mjs`(중단 후 재실행하면 이어서). 목록·로그 `motion-guides/_cutout-rebuild/`. 재렌더 후 재검토 전까지 manifest 에서 빠진다.
+
+## 2026-09-18 케이블 기구는 누끼 금지 — 재검토에서 확인
+
+- 누끼(rembg)는 **도르래에서 손잡이로 이어지는 가는 케이블 선을 통째로 지운다.** 케이블 없이 손잡이만 공중에 뜬 영상이 된다.
+  웨이트 스택 기둥도 프레임마다 흰 유령으로 변하거나 사라진다. cable-rope-hammer-curl-2 · face-pull-2 · cable-woodchopper 에서 직접 확인.
+- 해결은 기존 방침 그대로 **spec 에 `cutout:false`**(예전 회색 여백 한 벌, 다크 영상 없음). 9/14 에 close-grip-lat-pulldown 등 6종에 이미 적용돼 있었다.
+- 2026-09-18 에 `cutout:false` 를 추가한 종목(13):
+  cable-rope-hammer-curl-2, face-pull-2, cable-woodchopper(재렌더 완료) /
+  lat-pulldown, lat-pulldown-2, wide-grip-lat-pulldown, low-cable-fly, straight-arm-pulldown-2,
+  rope-triceps-pushdown, triceps-pushdown-2, reverse-grip-pushdown, pallof-press-2, trx-row
+  (뒤 10종은 원본에 케이블/스트랩이 보이는 것을 확인하고 재렌더 큐에 도달하기 전에 미리 적용 — 헛돌린 누끼 시간 절약).
+- 선별 기준: **원본에 가는 케이블·스트랩 선이 보이면 cutout:false.** 케이블이 노출되지 않은 셀렉토라이즈 머신
+  (hip-abduction-machine, hip-adduction-machine, hammer-strength-high-row 등)은 누끼로도 멀쩡하니 기본값 유지.
+- `cutout:false` 로 재렌더하면 도구가 기존 `ID-dark.mp4` 를 지운다(manage-motion-guides.mjs). manifest-dark 에서 자동으로 빠진다.
+
+## 2026-09-18 보간 잔상 — 8패널 원본이 주원인
+
+- 재검토에서 불합격한 잔상 사례는 거의 전부 **8패널 원본**이거나 구간 이동거리가 큰 종목이다:
+  kettlebell-press, decline-sit-up, farmer-s-carry, cable-woodchopper(모두 8패널),
+  hip-adduction-machine, kettlebell-front-squat, hanging-leg-raise-2.
+- 대응: 해당 종목은 **16패널로 재생성**하거나 빠른 구간의 포즈 간격을 좁힌다. 렌더 설정(renderVersion 5)은 건드리지 않는다.
+- 별개 유형: **가는 수평 부재가 끊어지는 문제**. ez-bar-skull-crusher 의 벤치 앞다리,
+  hanging-knee-raise 의 철봉이 점선처럼 끊긴다. 원본에서 해당 부재를 패널마다 고정하거나 굵게 만들어야 한다.
+
+## 2026-09-18 8패널 → 16패널 재생성 (사용자 지시: "8패널 원본 전부")
+
+작업 지시서: `tools/media/motion-guides/_repanel-16/plan.json` (프롬프트·출처·기구 전부 포함)
+자동 등록·렌더 드라이버: `node tools/media/repanel-16.mjs <PNG 디렉터리>`
+
+- 등록된 8패널 원본은 **총 28종**. 세 갈래로 나뉜다.
+- **A군 20종 — 16패널 프롬프트 작성 완료, 이미지 생성만 남음.**
+  plan.json 의 `groupA_convert`. 각 프롬프트는 통과본 dumbbell-shrug 의 16패널 서식을 따르고
+  (4x4 2048x2048 · 고정 카메라 · 행 경계 리셋 금지 · 중앙 70% 안에 전신과 기구),
+  기존 8패널 프롬프트의 출처 기반 자세 설명을 16단계로 다시 쪼갰다.
+  `motion-register` 의 검증 규칙(프롬프트 길이·https 출처·카탈로그 기구 일치·panels16+cycle reverse)을 미리 통과시켜 둬서
+  PNG 만 있으면 등록에서 튕기지 않는다.
+- **B군 5종 → 2026-09-18 사용자 지시로 도구에 16패널 full-cycle 지원을 추가해 A군에 합류(총 25종).**
+  dead-bug(좌우 교대), farmer-s-carry(보행), jump-squat(점프·착지), meadows-row-2(비대칭), zottman-curl-2(그립 전환)은
+  `cycle:'full'` 로 등록하고, 프롬프트에 **16칸이 한 주기 전체**이며 cell16 이 cell1 로 이어져야 한다고 명시했다.
+- **C군 3종 — 변환 무의미, 제외 권장.** hollow-body-hold · plate-pinch · stability-ball-plank 은 등척성 홀드라
+  16칸이 전부 같은 자세다. 재등록하면 통과한 리뷰만 무효화된다.
+- 🔴 **이 세션에서는 이미지를 만들 수 없다.** imagegen 은 Codex 세션의 도구이고,
+  `motion-register` 는 `~/.codex/generated_images` 아래 PNG 만 받는다. 생성은 imagegen 이 있는 세션에서 해야 한다.
+- 재등록하면 기존 원본 JPG·spec 을 덮어쓰므로 **해시 불일치로 기존 리뷰가 자동 비공개**된다.
+  A군 20종의 현재 상태는 passed 9 / pending 7 / rejected 4 이고,
+  passed 9종(behind-the-back-wrist-curl, dumbbell-shoulder-press, kettlebell-row, leg-press-2,
+  low-bar-squat, reverse-wrist-curl, triceps-dip, trx-row, v-up-2)은 재렌더 후 재검토 전까지 manifest 에서 빠진다.
+  즉 A군을 한꺼번에 등록하면 공개 수가 일시적으로 90 → 81 로 떨어진다.
+- 덤으로 해결되는 것: A군에 있는 실사 스타일 원본 4종(cable-woodchopper, decline-sit-up,
+  hanging-leg-raise-2, kettlebell-front-squat)은 새 프롬프트가 승인된 회색 캐릭터를 명시하므로 스타일 문제도 같이 정리된다.
+
+## 2026-09-18 캐릭터 스타일이 다른 원본 6종
+
+승인된 회색 캐릭터/청록 반바지가 아니라 **실사 사진 스타일**인 원본이 섞여 있다. 카탈로그 통일성 문제라 사용자 결정 필요:
+cable-woodchopper, decline-sit-up, hanging-leg-raise-2, kettlebell-front-squat, farmer-s-carry, kettlebell-row.
+이 중 kettlebell-row 만 렌더 품질에 문제가 없어 passed 로 두었다(스타일은 리뷰 note 에 기록).
 
 ## 재사용할 생성 이미지
 
@@ -131,12 +201,8 @@ public/exercise-guides/previews/conventional-deadlift-smooth.mp4
 
 ## 최신 체크포인트
 
-2026-09-13T13:15:47.444Z
+2026-09-18T02:56:22.157Z
 
-등록 106 / 렌더 106 / 시각 검토 통과 100 / 대상 1351
+등록 117 / 렌더 132 / 시각 검토 통과 87 / 대상 1351
 
-2026-09-13 첫 100개 달성: 등록106/렌더106/시각 검토 통과 및 앱 v3 manifest 100/전체1351. 이번 구간 신규 통과: bench-dip-2, triceps-dip, cable-overhead-triceps-extension, hanging-leg-raise-2, decline-sit-up, kettlebell-front-squat, farmer-s-carry, kettlebell-row, trx-row, v-up-2, zottman-curl-2, cable-woodchopper. 각 원본과 최종32프레임을 출처에 대조하고 480x480·8초·24fps 전체 decode 확인. 바닥 접촉 행잉 레그 레이즈는 재제작 후 통과, 첫 트라이셉스 딥은 배경 얼룩으로 교체. jump-squat 머리 잘림/잔상 및 hollow-body-hold 인물 축소는 rejected·공개 제외. manifest 100개 ID 고유, 100개 파일·원본 SHA256가 각 passed 리뷰와 전부 일치. 영상 도구 테스트3, 앱 연결/리소스 Vitest7, 전체 unit 186파일1930, schema69 통과; 영상 범위 ESLint 통과, git diff --check 통과. 전체 lint는 기존 16 errors/38 warnings, 전체 tsc는 tests/be/logic/sw-strategy.test.ts:56 public/sw-strategy.js not a module로 실패. mobile-chromium demo-video-fits-phone E2E는 localhost:3000 기존 Next dev 서버의 Jest worker child process exceptions Runtime Error로 첫2묶음 실패해 중단. 실기기·전체 E2E·전체 커밋 게이트 미완료이므로 커밋하지 않음. 다음 작업: 개발 서버 복구 후 모바일 E2E, 실기기 확인, 기존 lint/tsc 실패 해결 또는 범위 분리 검토, 사용자 지시대로 이후 영상 추가 제작.
-
-2026-09-14 커밋 게이트 재검증: unit 186파일/1947개, schema 69개, 전체 ESLint 오류0/경고39, tsc --noEmit 및 직접 next build 통과. localhost:3110 프로덕션 서버 mobile-chromium 영상 104종 재생 E2E 9개 통과. pnpm build 사전 전체 Vitest는 라이브 DB 정합성 2개 실패(2119/2121 통과). 전체 E2E는 서버 복구 후 23개 중 21개 통과/관리자 정지 2개 실패로 중단; 단독 재현에서 정지 후 해제 버튼 미표시. 커밋 게이트 미통과, 커밋 보류.
-
-2026-09-14 커밋 게이트 실패 수정: 이전 data-integrity 2개 실패는 의도된 고스트 완료기록을 살아 있는 계획 행 필수로 판정한 가드 오류. 최근7일 스냅샷 검사로 교정해 과거 기록 포함 통과. 관리자 정지 2개 실패는 DB 저장 성공 후 UI 갱신 지연; 성공 즉시 행 상태/pending 갱신으로 수정해 mobile-chromium 영구/7일 정지·해제 E2E 2개 원래10초 조건 통과. pnpm build 전체 Vitest 197파일/2154개 및 Next 빌드, 전체 ESLint 오류0/경고39, tsc --noEmit 통과. 전체 E2E 292개는 아직 완료하지 않아 커밋 보류.
+2026-09-18 로우바 스쿼트 후속: 내장imagegen 16자세 하강 원본 생성·등록 완료, 정확한 프롬프트/출처 tools/media/motion-guides/low-bar-squat.json, 저장 JPG 직접 재확인하여 배경 얼룩 부재/하강 진행 확인. 기존 8자세 원본/명세/양쪽MP4는 imports/low-bar-before-20260918-16poses/에 보관. 그러나 motion-build low-bar-squat는 두 번 모두 배경제거 단계 ONNXRuntime BFCArena 822083584bytes 메모리 할당 실패. 다른 누끼 Python(lying-triceps-extension) 동시 실행 및 조회 당시 4.7GiB free/31.7GiB total 확인. 새MP4 미생성, 보류 유지, 이전MP4는 새원본에 맞는 결과가 아니므로 검토 승인 금지. 다음 최우선: 동시 추론 종료/메모리 회복 후 node tools/media/manage-ai-guides.mjs motion-build low-bar-squat 순차 재실행 → source/양쪽 contact sheet 비교 → node tools/media/imports/verify-low-bar-20260918.mjs → 현재 해시 검토. 앱 연결 Vitest2파일10개, 대상문서 diff--check 통과. low-cable-fly 원본/현재 회색배경 접촉시트 예비열람만 함(판정 미갱신). 직전 랜드마인 로우 passed/로우바 pending 및 힙어덕션 후보2장 미채택 사유는 로드맵/후보폴더 보존. 누적200종/앱화면/Android 실기기 미완료; 백그라운드 재렌더로 전체집계 변동. 원본 등록이 곧 운동 정확성/영상 통과를 뜻하지 않음.

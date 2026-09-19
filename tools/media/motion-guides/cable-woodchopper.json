@@ -7,5 +7,6 @@
   "panels": 8,
   "cycle": "reverse",
   "id": "cable-woodchopper",
-  "registeredAt": "2026-09-13T13:06:05.631Z"
+  "registeredAt": "2026-09-13T13:06:05.631Z",
+  "cutout": false
 }

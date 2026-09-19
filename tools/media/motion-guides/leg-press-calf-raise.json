@@ -1,0 +1,12 @@
+{
+  "prompt": "Use case: scientific-educational. Asset type: 16-pose sprite contact sheet for an exercise demonstration video. Create one perfectly regular 4-column x 4-row square contact sheet, sixteen equal square panels separated only by thin white gutters. Same realistic grey athletic male anatomy mannequin in teal shorts and grey shoes in every panel, same seated 45-degree leg press machine, same fixed near-side three-quarter camera that clearly reveals both feet and their contact with the lower footplate edge. Full person and full machine visible with safe margins in each panel, neutral plain grey studio backdrop, crisp clean educational 3D rendering, no text, no labels, no watermarks. Exercise: leg press calf raise, NOT a leg press squat. Back and head continuously supported on reclined seat, both hands hold the side handles, knees nearly extended with constant slight bend. Balls of BOTH feet shoulder width apart planted on LOWER EDGE of footplate, heels extend beyond the edge and stay free. Panels row-major depict one slow incremental upward calf raise: panel 1 heels lowered in dorsiflexion, panels 2-15 progressively plantarflex both ankles, panel 16 fully raised heels, no return sequence. Only ankles change angle; upper body, hips, knees, seat, machine structure, camera scale remain IDENTICAL. Footplate/sled translates only a very small distance along fixed rails as forefeet push, no shape changes. Both forefeet maintain contact in every panel, feet never float or penetrate plate. Smooth tiny equal increments for interpolation. Mechanically plausible 45-degree leg press with coherent rails, two weight horns with plates, rectangular footplate, side handles and safety structure. Avoid disconnected machinery, duplicate limbs, extra hands, head movement, perspective drift, bent-knee squat motion, feet resting flat entirely on plate.",
+  "equipment": "machine",
+  "sources": [
+    "https://www.nasm.org/resource-center/exercise-library/leg-press-calf-raise",
+    "https://www.puregym.com/exercises/legs/calf-exercises/leg-press-calf-raises/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "leg-press-calf-raise",
+  "registeredAt": "2026-09-15T12:53:39.111Z"
+}

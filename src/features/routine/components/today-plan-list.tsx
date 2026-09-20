@@ -475,7 +475,9 @@ export function TodayPlanList({
   return (
     <>
     {/* 아이폰 그룹 목록 — 행을 떨어진 카드로 늘어놓지 않고 한 장 안에 줄 구분선으로 잇는다. */}
-    <ul className="divide-y divide-[var(--line)] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)]">
+    {/* 테스트가 잡는 이름 — 예전엔 `ul.space-y-2` 순서로 찾았는데, 촘촘하게 바꾸며
+        여백 클래스가 사라져 목록을 못 찾았다(2026-09-19). 모양이 아니라 이름으로 잡는다. */}
+    <ul data-testid="today-main-list" className="divide-y divide-[var(--line)] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)]">
       {order.map((item, index) => {
         const isDone = done.has(item.id);
         const isSkipped = skipped.has(item.id);

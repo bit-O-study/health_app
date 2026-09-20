@@ -37,10 +37,7 @@ async function dismissNudge(page: Page) {
 
 /** 오늘 본운동 목록(부위 배지가 붙어 이름이 이어져 나오므로 startsWith 로 비교). */
 async function mainOrder(page: Page): Promise<string[]> {
-  const ul = page
-    .locator("ul.space-y-2")
-    .filter({ hasText: "벤치프레스" })
-    .first();
+  const ul = page.locator('[data-testid="today-main-list"]').first();
   return names(ul);
 }
 

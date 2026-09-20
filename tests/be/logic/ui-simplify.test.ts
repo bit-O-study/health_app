@@ -277,7 +277,8 @@ describe("공통 머리글·폭 (4단계)", () => {
       "src/features/routine/components/today-plan-list.tsx",
       "src/features/routine/components/today-conditioning-list.tsx",
     ]) {
-      expect(read(f), f).toContain('<ul className="divide-y divide-[var(--line)]');
+      // 목록에는 테스트가 잡을 이름(data-testid)도 붙는다 — 클래스만 찾지 않는다(2026-09-19).
+      expect(read(f), f).toMatch(/<ul data-testid=[^>]*className="divide-y divide-\[var\(--line\)\]/);
     }
     expect(read("src/features/routine/components/upcoming-seven-days.tsx")).toContain("overflow-x-auto");
   });

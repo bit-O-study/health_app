@@ -416,7 +416,7 @@ export function TodayConditioningList({
   return (
     <>
     {/* 본운동과 같은 아이폰 그룹 목록 — 한 장 안에 줄 구분선. */}
-    <ul className="divide-y divide-[var(--line)] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)]">
+    <ul data-testid={`today-${kind}-list`} className="divide-y divide-[var(--line)] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)]">
       {order.map((item, index) => {
         const isDone = done.has(item.rowId);
         const isSkipped = skipped.has(item.rowId);

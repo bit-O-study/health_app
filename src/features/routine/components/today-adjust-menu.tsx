@@ -134,9 +134,13 @@ export function TodayAdjustMenu({
       // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
       await deferRoutineOneDayAction(focuses);
       await clearDailyPlanForDateAction(seoulYmd());
-      closeSheet();
-      setPicked(new Set());
-      // push 뒤 refresh 는 넣지 않는다 — /plan/today 이동 시 서버 컴포넌트가 새로 렌더되고,
+      // 🔴 이동할 땐 시트를 **직접 닫지 않는다.** 닫으면 useBackClose 가 쌓아 둔 히스토리
+      //    항목을 빼려고 다음 틱에 history.back() 을 예약하는데, 그게 아직 커밋되지 않은
+      //    router.push 와 경쟁해 이동을 되돌린다(부위만 바뀌고 /routine 에 머물렀다).
+      //    화면이 바뀌면 시트는 어차피 언마운트되고, 그때는 히스토리 항목이 이미 내 것이
+      //    아니라 back() 을 건너뛴다. '운동 직접 담기'(TodayAddExercises)가 원래 이 방식이라
+      //    혼자 멀쩡했다 — 같은 방식으로 맞춘다.
+      // push 뒤 refresh 도 넣지 않는다 — /plan/today 이동 시 서버 컴포넌트가 새로 렌더되고,
       // push 직후 refresh 는 (현재 /routine 을 리페치해) push 를 취소하는 레이스가 있다.
       router.push(`/plan/today?focus=${focuses}`);
     });
@@ -151,8 +155,7 @@ export function TodayAdjustMenu({
       if (isRestToday) await undoTodayRestAction();
       // 고른 부위/세부근육을 오늘 한정으로 기억(아직 안 담아도 '운동 추가'에서 고를 수 있게).
       await pinRoutineFocusesForTodayAction(focuses);
-      closeSheet();
-      setPicked(new Set());
+      // 🔴 이동할 땐 시트를 직접 닫지 않는다(위 replaceAndGo 주석 참고 — history.back() 경쟁).
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
       // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(부위 추가가
       // /plan/today 로 이동 안 하고 /routine 에 머물던 원인). 이동 시 새로 렌더됨.

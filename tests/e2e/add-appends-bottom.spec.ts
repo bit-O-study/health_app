@@ -61,7 +61,7 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   // 화면에서도 본운동 리스트의 마지막 항목이 펙덱 플라이여야 한다.
   // 서버 액션 직후 RSC 갱신이 끝났는지 명시적으로 다시 읽어 확인한다.
   await page.reload({ waitUntil: "networkidle" });
-  const mainUl = page.locator("ul.space-y-2").nth(1);
+  const mainUl = page.locator('[data-testid="today-main-list"]');
   await expect(mainUl.locator("li h3").last()).toContainText("펙덱 플라이", {
     timeout: 10000,
   });

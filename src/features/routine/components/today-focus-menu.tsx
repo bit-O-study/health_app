@@ -70,14 +70,16 @@ export function TodayFocusMenu({
   function replaceAndRun() {
     start(async () => {
       await deferRoutineOneDayAction();
-      setConfirmRun(false);
+      // 🔴 이동할 땐 모달을 직접 닫지 않는다 — useBackClose 가 쌓아 둔 히스토리 항목을
+      //    빼려고 예약하는 history.back() 이 아직 커밋 안 된 router.push 와 경쟁해
+      //    이동을 되돌린다. 화면이 바뀌면 모달은 어차피 언마운트된다(2026-09-19).
       router.push(`/running?mode=${runMode}`);
     });
   }
 
   // 아니요 — 기존 운동은 그대로 두고 런닝 모드로(런닝은 마무리운동에 기록).
   function keepAndRun() {
-    setConfirmRun(false);
+    // 모달을 닫지 않고 바로 이동한다(위 replaceAndRun 주석 — history.back() 경쟁).
     router.push(`/running?mode=${runMode}`);
   }
 
@@ -123,7 +125,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => {
-                  setMenuOpen(false);
+                  // 닫지 않고 바로 이동한다(history.back() 경쟁 — 위 주석 참고).
                   router.push("/plan");
                 }}
                 className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"

@@ -6,6 +6,8 @@ import { BackLink } from "@/components/back-link";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getTrainerBoard } from "@/features/groups/trainer-data";
 import { TrainerBoardView } from "@/features/groups/components/trainer-board-view";
+import { TrainerModeSwitch } from "@/features/groups/components/trainer-mode-switch";
+import { getOwnedGroupsForSwitch } from "@/features/groups/trainer-switch.server";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "회원 관리" };
@@ -19,7 +21,10 @@ export default async function TrainerPage({
   if (!user) redirect("/login");
 
   const { id } = await params;
-  const board = await getTrainerBoard(id);
+  const [board, ownedGroups] = await Promise.all([
+    getTrainerBoard(id),
+    getOwnedGroupsForSwitch(),
+  ]);
 
   // 그룹장이 아니면 화면 자체를 안 준다(회원 목록은 트레이너만 본다).
   if (!board) {
@@ -42,10 +47,15 @@ export default async function TrainerPage({
 
   return (
     <main className="app-page app-container">
-      <BackLink className="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        그룹
-      </BackLink>
+      {/* 복귀 스위치 — 트레이너 화면에서 '내 운동' 으로 돌아가는 길. 홈 헤더와 같은
+          컴포넌트라 체크 위치(지금 어느 모드인지)가 두 화면에서 어긋나지 않는다. */}
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
+          <ChevronLeft aria-hidden="true" size={16} />
+          그룹
+        </BackLink>
+        <TrainerModeSwitch groups={ownedGroups} />
+      </div>
       <TrainerBoardView {...board} />
     </main>
   );

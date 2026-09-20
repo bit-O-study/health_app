@@ -179,7 +179,11 @@ export function TrainerBoardView({
                   </p>
                 )}
 
-                <div className="mt-3 flex gap-2">
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Link href={`/groups/${groupId}/trainer/members/${m.userId}`}
+                    className="inline-flex h-8 items-center rounded-lg bg-zinc-900 px-3 text-[11px] font-bold text-white dark:bg-zinc-100 dark:text-zinc-900">
+                    통계 · 운동 처방
+                  </Link>
                   {/* 그룹원 상세(그날 운동·식단)는 이미 있는 화면을 그대로 쓴다.
                       ⚠ 경로는 `/groups/<id>/member/<uid>` 다 — 쿼리 파라미터가 아니다
                         (`?member=` 로 적으면 그룹 화면만 뜨고 아무 일도 안 일어난다). */}

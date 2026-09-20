@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft, Dumbbell, Flame, Utensils } from "lucide-react";
+import { ChevronLeft, Dumbbell, EyeOff, Flame, Utensils } from "lucide-react";
 
 import { getCurrentUser } from "@/lib/supabase/server";
 import {
@@ -44,6 +44,10 @@ export default async function GroupMemberPage({
     );
   }
 
+  // 회원이 끈 항목 — '기록 없음' 과 **다른 말**을 해야 한다(트레이너가 헛걸음한다).
+  const hideWorkout = day.hidden.includes("workout");
+  const hideDiet = day.hidden.includes("diet");
+
   return (
     <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
       <div className="mb-4 flex items-center gap-2">
@@ -65,8 +69,14 @@ export default async function GroupMemberPage({
             <Utensils size={14} /> 오늘 섭취
           </span>
           <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-            {day.intake.toLocaleString()}
-            <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+            {hideDiet ? (
+              <span className="text-sm font-bold text-zinc-400">비공개</span>
+            ) : (
+              <>
+                {day.intake.toLocaleString()}
+                <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+              </>
+            )}
           </p>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
@@ -74,8 +84,14 @@ export default async function GroupMemberPage({
             <Flame size={14} /> 오늘 운동 소비
           </span>
           <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-            {day.burned.toLocaleString()}
-            <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+            {hideWorkout ? (
+              <span className="text-sm font-bold text-zinc-400">비공개</span>
+            ) : (
+              <>
+                {day.burned.toLocaleString()}
+                <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+              </>
+            )}
           </p>
         </div>
       </div>
@@ -104,7 +120,15 @@ export default async function GroupMemberPage({
         <h2 className="mb-2 flex items-center gap-1 text-sm font-bold text-zinc-500 dark:text-zinc-400">
           <Dumbbell size={15} /> 오늘 운동
         </h2>
-        {day.workouts.length === 0 ? (
+        {hideWorkout ? (
+          <p
+            data-testid="hidden-workout"
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-zinc-400 dark:border-zinc-700"
+          >
+            <EyeOff aria-hidden="true" size={14} />
+            회원이 운동 기록 제공을 꺼 뒀어요.
+          </p>
+        ) : day.workouts.length === 0 ? (
           <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-zinc-400 dark:border-zinc-700">
             오늘 완료한 운동이 없어요.
           </p>
@@ -151,7 +175,15 @@ export default async function GroupMemberPage({
           </div>
         ) : null}
 
-        {day.foods.length === 0 ? (
+        {hideDiet ? (
+          <p
+            data-testid="hidden-diet"
+            className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-zinc-400 dark:border-zinc-700"
+          >
+            <EyeOff aria-hidden="true" size={14} />
+            회원이 식단 기록 제공을 꺼 뒀어요.
+          </p>
+        ) : day.foods.length === 0 ? (
           <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-4 text-center text-sm text-zinc-400 dark:border-zinc-700">
             오늘 기록한 식단이 없어요.
           </p>

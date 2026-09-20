@@ -23,6 +23,8 @@ import { getWeeklyReport } from "@/features/routine/weekly-report-data";
 import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
 import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
 import { WeatherBackground } from "@/features/home/components/weather-background";
+import { TrainerModeSwitch } from "@/features/groups/components/trainer-mode-switch";
+import { getOwnedGroupsForSwitch } from "@/features/groups/trainer-switch.server";
 
 export const dynamic = "force-dynamic";
 
@@ -38,13 +40,15 @@ export default async function HomePage() {
   // ⚡ 프로필과 대시보드 조회를 **동시에** 시작한다. 예전엔 프로필을 먼저 await 하고
   //   그 값을 넘겨줘서 원거리 리전(싱가포르) 왕복이 한 파 더 붙었다.
   //   프로필 조회는 `React.cache` 라 대시보드 안에서 다시 불러도 왕복은 1회다.
-  const [profile, dashboard, weekly, training] = await Promise.all([
+  const [profile, dashboard, weekly, training, ownedGroups] = await Promise.all([
     getUserProfile(),
     getHomeDashboard(),
     // 주간 요약도 같이 시작한다 — 순서대로 기다리면 원거리 리전 왕복이 한 파 늘어난다.
     getWeeklyReport(),
     // 훈련 분석은 주간 리포트와 **같은 완료 기록**을 본다(React.cache 로 왕복 1회).
     getMyWeeklyTraining(),
+    // 헤더 모드 전환용 — 내가 그룹장인 그룹만. 일반 회원은 빈 배열이라 스위치가 안 그려진다.
+    getOwnedGroupsForSwitch(),
   ]);
   if (!profile) redirect("/onboarding");
 
@@ -65,9 +69,13 @@ export default async function HomePage() {
       <WeatherBackground />
       <header className="app-header">
         <nav className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3 sm:px-6 sm:py-3.5">
-          <Link href="/home" className="flex items-center gap-2" aria-label="홈">
-            <Logo />
-          </Link>
+          <div className="flex min-w-0 items-center gap-2">
+            <Link href="/home" className="flex items-center gap-2" aria-label="홈">
+              <Logo />
+            </Link>
+            {/* 트레이너만 보이는 모드 전환(내 운동 ↔ 회원 관리). 일반 회원에겐 null. */}
+            <TrainerModeSwitch groups={ownedGroups} />
+          </div>
           <div className="flex items-center gap-1">
             <NotificationBell />
             <Link

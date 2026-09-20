@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-09-18T02:32:50.099Z",
+  "scope": "Frozen local MP4 buffers on loopback HTTP, mobile Chromium; not app layout or physical Android",
+  "results": [
+    {
+      "name": "/landmine-row.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "bb83517935999b34222592fd419162584c7b990734980bde0c96b2ed7ceca1ab",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/landmine-row-dark.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "865b379f0aac84e7afe4f17c2cc48dfd25ae99013380f3ab40947e0c8aefdf71",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/low-bar-squat.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "aebe934fdcb3896af89b0d88ba3764421deff8321cdeb7f8c0451251decbf338",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/low-bar-squat-dark.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "4edc7461b626ddbe65341d63397e09b8298d937391888b0b812d54c2aca77738",
+      "play": "passed",
+      "seek": "passed"
+    }
+  ]
+}

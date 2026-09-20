@@ -1,204 +1,5 @@
 [
   {
-    "status": "passed",
-    "checks": {
-      "exercise": "Standing machine calf raise, ankle plantarflexion and controlled return visible.",
-      "equipment": "Shoulder-pad calf machine, fixed base and lifting shoulder yoke.",
-      "setup": "Upright torso under shoulder pads, knees remain extended without squat.",
-      "hands": "Hands remain on machine support handles.",
-      "feet": "Forefeet supported on raised platform, heels free and visibly rise.",
-      "movement": "Heel rise and return with stable knees; whole head and feet remain in frame."
-    },
-    "note": "Reviewed corrected 16-pose source and 32-frame rendered contact sheet. 8 seconds 24fps 116280 bytes, decode passed. Minor interpolation blur; not a professional biomechanical certification.",
-    "id": "standing-calf-raise",
-    "equipmentIds": [
-      "machine"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/standing-machine-calf-raise"
-    ],
-    "sourceSha256": "29aa01be85b2ca3b2c6a996ac7d77425930e20cad37c4b80bcd9cd0eb5740099",
-    "videoSha256": "dee86f234064e0d7219d1a31416b36fd65daf0319531acb66875b980a1c4d8b3",
-    "reviewedAt": "2026-09-09T07:00:52.292Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Seated dumbbell calf raise with heel lift and return.",
-      "equipment": "Two dumbbells resting end-on on distal thighs, bench and forefoot block.",
-      "setup": "Seated upright with bent knees, hips stay on bench.",
-      "hands": "Hands stabilize dumbbells on thighs rather than curl them.",
-      "feet": "Forefeet remain on block edge, heels free and rise visibly.",
-      "movement": "Ankle plantarflexion raises heels with knees and weights moving slightly upward together."
-    },
-    "note": "Source16poses and final32frames inspected;8sec24fps decode passed. Minor interpolation softness.",
-    "id": "seated-dumbbell-calf-raise",
-    "equipmentIds": [
-      "dumbbell"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/seated-dumbbell-calf-raise.html"
-    ],
-    "sourceSha256": "d0e01ab467be93304363b62b44cefb2b0b1587796d03ab3d30883cf2555fdd41",
-    "videoSha256": "ddc0ade41ffa7424979eb076d1d0f080e32cca87535cc8d7e86b021343345a9e",
-    "reviewedAt": "2026-09-09T07:55:31.294Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Standing Svend plate squeeze press.",
-      "equipment": "Small weight plates held together between palms.",
-      "setup": "Upright standing torso remains stable.",
-      "hands": "Both palms press opposite flat faces of plates; hands stay together.",
-      "feet": "Feet remain planted shoulder-width apart.",
-      "movement": "Elbows extend to move plates forward at chest height and flex on return; no front raise or body swing."
-    },
-    "note": "Earlier sources withheld for borders/background corruption. New opaque source and final32frames reviewed; full8s24fps decode passed.",
-    "id": "svend-press",
-    "equipmentIds": [
-      "plate"
-    ],
-    "sources": [
-      "https://www.youtube.com/watch?v=cIoUZOnypS8",
-      "https://www.youtube.com/watch?v=vNxezQEqy6I"
-    ],
-    "sourceSha256": "5d3aaadb2cfa3b6ca753312669ebcfe106ed0ae047bf6dfe17a3e8d04b176437",
-    "videoSha256": "b91e2a3d5d7725a484b24b57a6ae64031a6dee591d63c766ffb0cca0daea0c0b",
-    "reviewedAt": "2026-09-09T09:07:13.996Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Wide overhand lat pulldown to front upper chest.",
-      "equipment": "Cable machine, overhead pulley, central cable-to-bar connector and long angled bar.",
-      "setup": "Seated with thighs restrained and torso slightly reclined.",
-      "hands": "Both hands maintain wide overhand grips outside shoulders.",
-      "feet": "Both feet stay planted on floor.",
-      "movement": "Elbows pull down as bar approaches upper chest, then extend to return; no behind-neck path or large torso swing."
-    },
-    "note": "Regenerated without numbers and with full pulley framing. Source and32 finalframes reviewed; entire8s24fps decode passed. Small silhouette interpolation remains.",
-    "id": "wide-grip-lat-pulldown",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://www.puregym.com/exercises/back/lat-exercises/wide-grip-lat-pulldown/"
-    ],
-    "sourceSha256": "276373c711f4bc54dda82c75211c9284ff059933f2b9f38b602053536b5d3d59",
-    "videoSha256": "778bacb60ca98d6d416ded1a869225ef1cb1d3cbc271da09b256b3d3f8cd7bc0",
-    "reviewedAt": "2026-09-09T09:11:32.765Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Standing straight-arm cable pulldown.",
-      "equipment": "High cable pulley with centered short-bar attachment.",
-      "setup": "Slightly hinged torso and bent knees retained.",
-      "hands": "Two overhand grips and near-straight arms throughout.",
-      "feet": "Both feet flat at shoulder-width stance.",
-      "movement": "Arms arc from forward-up position toward upper thighs; elbows do not bend into triceps pushdown or row."
-    },
-    "note": "Source and final32 samples reviewed. High pulley and handle connection visible though top tower edge cropped. Full8s24fps decode passed.",
-    "id": "straight-arm-pulldown-2",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://www.puregym.com/exercises/back/lat-exercises/straight-arm-lat-pulldown/"
-    ],
-    "sourceSha256": "230669eaaea0d1ce2339c9e9e13d70ffcc068361c2755a4f8c9dcea4f3237921",
-    "videoSha256": "87b1c4de77bb6649cee449149f3aba53b2da4990055cb435886594b7e2713f3f",
-    "reviewedAt": "2026-09-09T09:23:37.424Z"
-  },
-  {
-    "checks": {
-      "exercise": "직선 바 케이블 푸시다운으로 굽힌 팔꿈치를 펴 바를 내린다.",
-      "equipment": "상단 도르래와 케이블, 직선 바가 연결되고 중량부는 덮개 안에 있다.",
-      "setup": "약간 숙인 몸통과 몸 옆 위팔 위치를 유지한다.",
-      "hands": "바를 양손 오버핸드 그립으로 잡는다.",
-      "feet": "양발이 바닥에 고정된다.",
-      "movement": "팔꿈치 굽힘 시작점에서 바를 허벅지 앞까지 내리고 제어하며 복귀한다."
-    },
-    "status": "passed",
-    "note": "수정원본 및 최종32프레임 시각검토. 8초24fps480square전체decode통과. 약한보간경계흐림/프레이밍변화남음. 실제기기/전문가검증대기.",
-    "id": "triceps-pushdown-2",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/tricep-extension.html"
-    ],
-    "sourceSha256": "5b20ee035168a5fb71de5a8202c1a551c0bc0f82d511ed6b9811cf5b8cdc33ac",
-    "videoSha256": "d3b5c4a1df15fade896f2d6d16e86645aa4ff5709f10be4fc764ba3f9bf94623",
-    "reviewedAt": "2026-09-09T12:27:27.565Z"
-  },
-  {
-    "checks": {
-      "exercise": "앉은 레그 컬로 앞으로 뻗은 다리를 무릎 굽힘으로 아래·뒤로 당긴다.",
-      "equipment": "등받이·허벅지 고정 패드·발목 뒤 롤러와 연결 레버가 유지된다.",
-      "setup": "등과 골반을 시트에 두고 허벅지를 고정한다.",
-      "hands": "양손으로 좌석 옆 손잡이를 유지한다.",
-      "feet": "움직이는 롤러가 발목 위 종아리 뒤를 지지하며 발이 아래로 이동한다.",
-      "movement": "허벅지를 고정한 채 무릎을 굽히고 제어하며 앞으로 복귀한다. 최초 정강이 앞 패드 오류는 수정했다."
-    },
-    "status": "passed",
-    "note": "수정 원본/최종32프레임 확인, 8초24fps480square전체decode통과. 백익스텐션 중간 전환에 머리·팔 윤곽 보간 흐림이 남으나 원본 자세 및 동작 종류를 구분 가능. 실기기·전문가 검증 별도 대기.",
-    "id": "seated-leg-curl-2",
-    "equipmentIds": [
-      "machine"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/seated-leg-curl"
-    ],
-    "sourceSha256": "bea603089ed9fee2ef1f10e8727483e8b9536de1bbba5f2e8d621f0bc640bf08",
-    "videoSha256": "55d808d9b13ab0f323efc0a9f3edefc30d9d6b9010756518b1825ecdb186858d",
-    "reviewedAt": "2026-09-09T12:39:06.652Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "인클라인 벤치에 엎드린 덤벨 스파이더 컬을 원본 및 최종 32프레임에서 확인",
-      "equipment": "양손 개별 덤벨과 인클라인 벤치",
-      "setup": "가슴을 패드에 붙이고 위팔을 아래로 늘어뜨린 자세 유지",
-      "hands": "양손 회외 그립으로 손목을 꺾지 않고 덤벨을 잡음",
-      "feet": "양발을 벌려 바닥을 지지",
-      "movement": "위팔을 뒤로 당기는 로우 없이 팔꿈치를 굽혀 덤벨을 올렸다가 복귀"
-    },
-    "note": "2026-09-09 원본과 최종 32프레임 직접 확인. 가벼운 프레이밍 변화 및 보간 윤곽 흐림 있음. 전문 운동지도자의 검수 및 실기기 검증은 별도 대기.",
-    "id": "spider-curl",
-    "equipmentIds": [
-      "dumbbell"
-    ],
-    "sources": [
-      "https://www.catalystathletics.com/exercise/835/Dumbbell-Spider-Curl/"
-    ],
-    "sourceSha256": "871316967fccbe4a89bd3f6c5a23a7a80089a05a6c127474958a7fc59364804a",
-    "videoSha256": "fe53314df9ed6205b0108c2de8b624e8db339afcbda20340cf1c339256a78b6c",
-    "reviewedAt": "2026-09-09T12:47:40.740Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "등받이에 앉아 스미스 바를 얼굴 앞에서 머리 위로 미는 숄더 프레스 확인",
-      "equipment": "양쪽 수직 레일과 슬라이딩 바, 원판 및 수직 등받이 벤치 확인",
-      "setup": "벤치에 앉아 등과 골반을 지지하고 정면을 유지",
-      "hands": "어깨보다 넓은 오버핸드 그립을 유지하며 팔꿈치 굽힘에서 머리 위 신전",
-      "feet": "양발이 바닥에 고정되고 다리 반동 없음",
-      "movement": "32개 최종 프레임에서 얼굴 앞 시작점과 수직 상승·복귀 확인, 바가 머리 뒤로 넘어가지 않음"
-    },
-    "note": "8초 24fps 480x480 189279바이트, 디코딩 통과. 레일 상단 가장자리 일부가 화면 경계에 가깝고 중간 손 윤곽에 약한 보간 흐림이 있으나 손·바·몸 전체와 운동 경로 식별 가능.",
-    "id": "smith-machine-shoulder-press",
-    "equipmentIds": [
-      "smith"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/node/4046"
-    ],
-    "sourceSha256": "264693486f8f634aa31558b9f82642746e84471a3ae1459fa0af704bf1e7146b",
-    "videoSha256": "a34f465ef79fc5125f6f27efc5316527410345b345177b57a6b9f80a15a4d08f",
-    "reviewedAt": "2026-09-11T15:59:33.429Z"
-  },
-  {
     "status": "pending",
     "checks": {
       "exercise": "네발 자세에서 반대쪽 팔과 다리를 뻗는 버드독 원본 확인",
@@ -264,28 +65,6 @@
     "reviewedAt": "2026-09-13T01:31:15.095Z"
   },
   {
-    "status": "passed",
-    "checks": {
-      "exercise": "평행봉 트라이셉스 딥스로 벤치 딥과 다른 전용 동작",
-      "equipment": "양손이 각각 분리된 평행봉 손잡이를 잡고 체중을 지탱",
-      "setup": "몸통을 거의 수직으로 유지하고 발을 바닥에서 뗀 채 팔꿈치를 옆구리에 둠",
-      "hands": "양손 중립 그립이 평행봉에 고정됨",
-      "feet": "다리가 아래로 매달리고 발이 바닥에 닿지 않음",
-      "movement": "팔꿈치를 몸 가까이 굽혀 90도 부근까지 하강하고 통제해 위로 올라옴"
-    },
-    "note": "2026-09-13 첫16자세의 배경 얼룩으로 교체. 새8자세 원본·최종32프레임을 Muscle & Strength Tricep Dip과 대조; 자세·기구 명확, 배경 깨끗함. 8초24fps480/69304bytes 전체decode 통과.",
-    "id": "triceps-dip",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/tricep-dip.html"
-    ],
-    "sourceSha256": "45310a6854b119a5d6823048e65bdacb2c5c2cace432b77bcea9e569b3c9f19f",
-    "videoSha256": "b39975f40ca8006cb1792045a9b106c57eb77f4974aa80337c26fec412ec0b8f",
-    "reviewedAt": "2026-09-13T01:40:34.113Z"
-  },
-  {
     "status": "rejected",
     "note": "Rendered jump phase crops the head in transition frames and shows strong double-image ghosting; requires new source with more vertical headroom and smoother jump phases.",
     "id": "jump-squat",
@@ -298,72 +77,6 @@
     "sourceSha256": "d9bc12f6fa32e9f3709c6b5e00de4ff58ab61598901cf0a78b38568c7d7bdb83",
     "videoSha256": "da0db5106db680208127eb17b0516cff9fa4fcf18bdb91d238e95a28462c640e",
     "reviewedAt": "2026-09-13T12:51:56.932Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "TRX low row with chest drawing toward the handles.",
-      "equipment": "Two suspension straps from fixed elevated wall anchor, taut throughout.",
-      "setup": "Straight inclined head-to-heel body line and planted heels.",
-      "hands": "Both hands continuously grip separate handles; elbows track back close to ribs.",
-      "feet": "Both heels remain grounded in same positions.",
-      "movement": "Elbows flex to pull body toward anchor and extend under control."
-    },
-    "note": "Reference TRX Training low row; source and 32 frames reviewed. H264 480x480 8 s 24 fps decode passed, 70,565 bytes.",
-    "id": "trx-row",
-    "equipmentIds": [
-      "trx"
-    ],
-    "sources": [
-      "https://www.trxtraining.com/blogs/news/four-trx-moves-to-improve-your-rowing-performance"
-    ],
-    "sourceSha256": "fc673ea2390adc917588c891bc06aea2477097a748157b09c35b610c388fd2a9",
-    "videoSha256": "1e30351df2adbee64dadf91bb6d4c36033cba078b8106bd980722dec53752387",
-    "reviewedAt": "2026-09-13T12:57:36.028Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Classic V-up from supine to V seated on hips.",
-      "equipment": "Bodyweight with flat mat only.",
-      "setup": "Starts supine with legs straight and arms overhead.",
-      "hands": "Both arms reach toward feet as torso rises.",
-      "feet": "Both legs stay straight and rise together without floor contact at peak.",
-      "movement": "Torso and legs lift together into V and return under control."
-    },
-    "note": "Reference Verywell Fit V-sit/V-up form; source and 32 frames reviewed. H264 480x480 8 s 24 fps decode passed, 72,614 bytes.",
-    "id": "v-up-2",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.verywellfit.com/v-sit-ab-exercise-3120059"
-    ],
-    "sourceSha256": "193f3afd70ceea8ac401e19d945731036df4733829d9abdb57a45731c858efc8",
-    "videoSha256": "87db31f26a89d15edc603395187041c17db0ccc02bde7d1bf81e46fb15ee7960",
-    "reviewedAt": "2026-09-13T13:00:20.109Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Bilateral Zottman curl with ascent, forearm rotation at top, and lowering.",
-      "equipment": "Matching dumbbells in both hands throughout.",
-      "setup": "Standing shoulder-width with stable upright trunk and elbows near sides.",
-      "hands": "Palms supinated on curl ascent and rotate pronated for lowering.",
-      "feet": "Both feet stay planted, no body swing.",
-      "movement": "Elbows flex to shoulder level then extend on controlled descent."
-    },
-    "note": "Reference Muscle & Strength Zottman curl; eight source poses and 32-frame render reviewed. Rotation is visible in source at top and descent; H264 480x480 8 s 24 fps decode passed, 88,365 bytes.",
-    "id": "zottman-curl-2",
-    "equipmentIds": [
-      "dumbbell"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/zottman-curl.html"
-    ],
-    "sourceSha256": "99b4d9562e9604fe97a21ca3cffd0944016a5d2d66e38186f6e2ceef5bc71949",
-    "videoSha256": "5e272fa5b61919e770ad648ea74a88a86acb4a8e030161fd1f9567a7838d7331",
-    "reviewedAt": "2026-09-13T13:02:16.676Z"
   },
   {
     "status": "rejected",
@@ -2402,5 +2115,285 @@
     "videoSha256": "5db618a56c03c9f889b936641a69850bdadaece05e437619965963d3d713953c",
     "darkVideoSha256": "5c7589698c3beaf94bc33a50f6b89ca37ac98f2e94a9ea4346bda3ca0f054abb",
     "reviewedAt": "2026-09-20T00:05:16.800Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated dumbbell calf raise: 16 source poses drive the heels up into plantarflexion with the balls of the feet on a raised block, and the video reverses to let the heels drop below block level - ankle movement only.",
+      "equipment": "Flat bench, a raised calf block and two dumbbells. The cutout keeps the bench pad and legs, the block and both dumbbells intact in light and dark, with no dropout across the 32 frames.",
+      "setup": "Seated upright with the knees at about 90 degrees and both dumbbells resting on the lower thighs just above the knees, which is what loads the movement; the torso stays still throughout.",
+      "hands": "Both hands stay closed over the dumbbell handles holding them down on the thighs in every frame; neither bell rolls off or detaches.",
+      "feet": "Both forefeet stay on the block at the same spot for all 32 frames while the heels travel; the block never shifts.",
+      "movement": "Heels rise and lower through a small but visible range with the knees staying at a fixed angle - the drive comes from the ankles, not from bouncing the thighs. Neither theme sheet shows duplicated legs, a smeared block or bench dropout."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 앉은 종목이라 벤치가 몸에 가려지는 lying-triceps-extension 류의 벤치 소실을 의심했는데, 여기선 벤치가 옆에서 충분히 보여 누끼로도 온전하다. 종아리 운동 특성상 가동범위가 작지만 발뒤꿈치 이동이 프레임마다 식별된다. 앱 화면 E2E·실기기 미실행.",
+    "id": "seated-dumbbell-calf-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/seated-dumbbell-calf-raise.html"
+    ],
+    "sourceSha256": "d0e01ab467be93304363b62b44cefb2b0b1587796d03ab3d30883cf2555fdd41",
+    "videoSha256": "e587541f70ede8b83aebc9a3e86bc774600964adaca6b312da61e3a180dd0366",
+    "darkVideoSha256": "aa1fca336fd285de5ae56cdbeb40856bed79e2788db295e9280974deea69050f",
+    "reviewedAt": "2026-09-20T00:17:06.615Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated leg curl machine: 16 source poses flex both knees to drive the ankle roller down and back from a straight-leg start, and the video reverses to the extended position - knee flexion only.",
+      "equipment": "Selectorised seated leg curl machine. The cutout keeps the whole unit intact in light and dark - back pad, seat, the thigh restraint pad across the legs, the ankle roller, the side frame and the weight-stack column - with no dropout across the 32 frames.",
+      "setup": "Back stays against the pad and the thigh restraint stays clamped over the legs for the whole rep; the hips never lift off the seat to help the curl, which is the usual fault here.",
+      "hands": "Both hands stay closed on the side handles beside the hips in every frame, anchoring the torso.",
+      "feet": "Both Achilles stay against the ankle roller at the same contact point through all 32 frames; the two legs stay together and level rather than one leading.",
+      "movement": "Both knees flex together at an even speed, the roller travels down and slightly back, and the legs return to full extension along the same arc. The thighs stay pinned under the restraint pad. Neither theme sheet shows duplicated legs, a smeared roller or a torn frame edge."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 빌드 락이 풀린 것을 확인한 뒤 검토했다 — 라이트만 먼저 렌더된 중간 상태에서 보면 미완성 파일을 판정하게 된다. 노출 케이블이 없는 셀렉토라이즈 머신이라 누끼로도 기구가 온전하다. 앱 화면 E2E·실기기 미실행.",
+    "id": "seated-leg-curl-2",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/seated-leg-curl"
+    ],
+    "sourceSha256": "bea603089ed9fee2ef1f10e8727483e8b9536de1bbba5f2e8d621f0bc640bf08",
+    "videoSha256": "86218055fc775fd8e0f47dafc3e3352bca31fa656ea2559933c3ba13629a1d72",
+    "darkVideoSha256": "501dff4e10254c7f0fbab1081bfa28b1eef8b5a4553cdf96104de27d4147ed15",
+    "reviewedAt": "2026-09-20T00:40:03.829Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated Smith machine shoulder press: 16 source poses drive the bar from shoulder height straight up the rails to lockout, and the video reverses for the lowering half.",
+      "equipment": "Smith machine plus an upright bench. The cutout keeps the whole rig intact in light and dark - BOTH vertical rails continuous from base to top crossbar, the hook pattern along them, the top and bottom crossmembers, the floor feet, the loaded bar with both plates, and the bench.",
+      "setup": "Back stays against the upright pad and the hips stay seated for the whole rep; no bridging off the bench as the bar rises.",
+      "hands": "Both hands keep a closed pronated grip just outside shoulder width in every frame; the bar stays level and never passes through a hand.",
+      "feet": "Both shoes stay flat on the floor at the same spot through all 32 frames of both sheets.",
+      "movement": "The bar travels straight up and down the fixed rail line - the Smith machine's defining constraint - from shoulder height to full elbow lockout and back, with the forearms staying vertical. Neither theme sheet shows a duplicated bar, a broken rail or arm smearing."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 가늘고 긴 수직 레일이 hanging-knee-raise 철봉처럼 점선으로 끊길까 봐 특히 확인했는데, 스미스 레일은 굵기가 충분해 두 테마 모두 위아래로 끊김 없이 이어진다. 앱 화면 E2E·실기기 미실행.",
+    "id": "smith-machine-shoulder-press",
+    "equipmentIds": [
+      "smith"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/node/4046"
+    ],
+    "sourceSha256": "264693486f8f634aa31558b9f82642746e84471a3ae1459fa0af704bf1e7146b",
+    "videoSha256": "6b4e3758ce0bead4f38bf0b187a095397a717e4472f14a40aa1a5d8c87345812",
+    "darkVideoSha256": "851145d603a9dab45f48a60e95418129bb5ffdeb0b7c3f5ea4509601adc0412b",
+    "reviewedAt": "2026-09-20T00:56:04.387Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Spider curl: 16 source poses curl both dumbbells from a dead hang up toward the shoulders while the chest stays supported on the incline pad, and the video reverses to the hang.",
+      "equipment": "Incline bench plus two dumbbells. The cutout keeps the inclined pad, the frame legs and the floor feet intact in light and dark, and both dumbbells stay whole at every height.",
+      "setup": "Chest and torso stay pressed against the inclined pad for the whole rep with the feet braced behind; because the torso is supported there is no swing or hip drive, which is the point of this variation.",
+      "hands": "Both hands stay closed on the dumbbell handles with a supinated grip throughout; the two sides stay level and neither bell detaches.",
+      "feet": "Both shoes stay planted at the same spot behind the bench through all 32 frames of both sheets.",
+      "movement": "The upper arms hang vertically off the pad and stay there while only the forearms travel - the elbows do not drift forward or back, which is what makes this a spider curl. Both bells rise together to the top and lower along the same arc. Neither theme sheet shows duplicated arms, a smeared bell or bench dropout."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 상체를 패드에 엎드리는 종목이라 lying-triceps-extension 류의 벤치 소실을 의심했는데, 인클라인 패드가 몸 반대쪽에서 충분히 드러나 누끼로도 온전하다. 앱 화면 E2E·실기기 미실행.",
+    "id": "spider-curl",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/835/Dumbbell-Spider-Curl/"
+    ],
+    "sourceSha256": "871316967fccbe4a89bd3f6c5a23a7a80089a05a6c127474958a7fc59364804a",
+    "videoSha256": "1932fe098e3a7c3fd86ca6b348d3c5e466d6323f71f3c971c1b805cdaba355c6",
+    "darkVideoSha256": "2ba8f4ac78bf25af7897ec64c588d37c6714e2d4e8731963f1da84cbaece60bc",
+    "reviewedAt": "2026-09-20T01:10:57.929Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing calf raise machine: 16 source poses drive the heels up into plantarflexion with the shoulders under the pads, and the video reverses to let the heels drop below the platform edge - ankle movement only.",
+      "equipment": "Selectorised standing calf raise machine. The cutout keeps the whole unit intact in light and dark - both shoulder pads, the upright frame, the weight-stack column and its guide rods, the raised foot platform and the floor base.",
+      "setup": "Shoulders stay wedged under the pads and the torso stays upright with the knees near-straight for the whole rep; no knee bend turning it into a partial squat, which is the usual fault.",
+      "hands": "Both hands stay closed on the frame handles in front of the shoulders in every frame, steadying the torso without pulling.",
+      "feet": "The balls of both feet stay on the platform edge at the same spot through all 32 frames while the heels travel below and above it; the platform never shifts.",
+      "movement": "Heels drop below the platform for a stretch then rise into full plantarflexion, with the whole body translating vertically and the knees staying extended. Neither theme sheet shows duplicated legs, a smeared platform or frame dropout."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 종아리 운동이라 가동범위가 작지만 발판 모서리 기준으로 뒤꿈치가 아래로 내려갔다 올라오는 것이 프레임마다 식별된다. 셀렉토라이즈 머신이라 노출 케이블이 없어 누끼로도 기구가 온전하다. 앱 화면 E2E·실기기 미실행.",
+    "id": "standing-calf-raise",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/standing-machine-calf-raise"
+    ],
+    "sourceSha256": "29aa01be85b2ca3b2c6a996ac7d77425930e20cad37c4b80bcd9cd0eb5740099",
+    "videoSha256": "c46e4d99f70ec25d41ecb2a0690d5cc40f87d63ec9564b6e4902e164460a1b75",
+    "darkVideoSha256": "70f0f1ff6e603700e880087522325e28926f4bc9e3ad9aea1378259f6d9abb4f",
+    "reviewedAt": "2026-09-20T01:26:23.163Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Straight-arm pulldown: 16 source poses sweep the bar in a wide arc from an overhead-forward reach down to the thighs with the elbows locked, and the video reverses to the stretch - shoulder extension, not a pulldown or a row.",
+      "equipment": "High-pulley cable station with a straight bar. With cutout:false the cable runs unbroken from the pulley to the bar in every frame and the weight-stack column, guide rods, pulley and base all stay solid.",
+      "setup": "Slight hip hinge with a flat back and soft knees held constant; the torso angle does not change to help the bar down, and the feet stay fixed.",
+      "hands": "Both hands keep a closed pronated grip on the bar at a fixed shoulder-width spacing; the bar stays level and never separates from the cable.",
+      "feet": "Both shoes stay planted at the same spot through all 32 frames.",
+      "movement": "The ELBOWS STAY EXTENDED for the entire arc - this is what separates it from a lat pulldown - while the shoulders extend to bring the bar from overhead-forward down to the thighs, then return along the same arc. No duplicated arms, no broken cable, no stack smearing."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 9/18 에 케이블 종목으로 미리 cutout:false 를 걸어둔 덕에 62초 만에 렌더됐고 케이블이 온전하다. 팔꿈치가 전 구간 펴져 있는지(랫풀다운과의 구분점)를 특히 확인했고 문제없다. 다크 영상은 없다(cutout:false 의 정상 동작). 앱 화면 E2E·실기기 미실행.",
+    "id": "straight-arm-pulldown-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/back/lat-exercises/straight-arm-lat-pulldown/"
+    ],
+    "sourceSha256": "230669eaaea0d1ce2339c9e9e13d70ffcc068361c2755a4f8c9dcea4f3237921",
+    "videoSha256": "31d003c0fb95cac4861d5ad34da8fc18395f74c82eaa7f9c13044e7c0fc85e78",
+    "reviewedAt": "2026-09-20T01:27:24.022Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Svend press: 16 source poses press a weight plate squeezed between the palms straight out from the chest to full arm extension, and the video reverses back to the chest.",
+      "equipment": "One weight plate. The cutout keeps the plate disc whole at every arm position in both themes; it never thins or loses its edge as it moves away from the body.",
+      "setup": "Trunk stays upright with a fixed stance and the shoulders down; no leaning back as the arms extend.",
+      "hands": "Both palms stay pressed flat against the two faces of the plate for every frame - the inward squeeze is what holds the plate up and is the defining feature of this press. Neither hand slides toward the rim or lets the plate tip.",
+      "feet": "Both shoes stay planted and unchanged through all 32 frames of both sheets.",
+      "movement": "The plate travels straight forward at chest height to full elbow extension and returns along the same line, staying level the whole way; the elbows finish extended without the plate dropping. Neither theme sheet shows duplicated arms, a smeared plate or torso ghosting."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 손바닥으로 원판을 안쪽으로 눌러 잡는 것이 이 종목의 핵심이라 그 접촉을 특히 확인했고, 팔이 완전히 펴지는 구간에서도 원판이 기울거나 얇아지지 않는다. 앱 화면 E2E·실기기 미실행.",
+    "id": "svend-press",
+    "equipmentIds": [
+      "plate"
+    ],
+    "sources": [
+      "https://www.youtube.com/watch?v=cIoUZOnypS8",
+      "https://www.youtube.com/watch?v=vNxezQEqy6I"
+    ],
+    "sourceSha256": "5d3aaadb2cfa3b6ca753312669ebcfe106ed0ae047bf6dfe17a3e8d04b176437",
+    "videoSha256": "d4658876e0e9635fbd8ff50ee371988f7b981478871ee2dec0a3166ed8596060",
+    "darkVideoSha256": "31d5ece90f54535bd66e720ec9641b840abb9d38ebc6afa42534c5e1332fab5d",
+    "reviewedAt": "2026-09-20T01:42:18.948Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Parallel bar triceps dip: 16 source poses lower the body by bending the elbows from a supported lockout, and the video reverses to press back up - the upright-torso triceps version, not a forward-leaning chest dip.",
+      "equipment": "Parallel dip bars. The cutout keeps BOTH bars continuous end to end with their vertical supports and floor feet in light and dark - no dashing or breakage anywhere in the 32 frames.",
+      "setup": "Torso stays vertical and the elbows stay tucked close to the ribs pointing straight back for the whole rep; there is no forward lean, which is what would turn it into a chest dip.",
+      "hands": "Both hands stay closed on the bars at the same fixed points throughout; neither hand shifts along a bar.",
+      "feet": "The legs hang with the toes pointed and stay clear of the floor above the frame's base in every frame; no pushing off the ground and no leg swing to generate momentum.",
+      "movement": "Elbows bend to about 90 degrees at the bottom and extend back to lockout along the same path, with the shoulders staying down and packed rather than shrugging up at the bottom. Neither theme sheet shows duplicated limbs, a broken bar or torso smearing."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. hanging-knee-raise 의 철봉이 누끼로 점선처럼 끊긴 전례가 있어 평행봉을 특히 확인했는데, 이쪽은 봉이 더 굵고 짧아 두 테마 모두 온전하다. 즉 가는 수평 부재라고 전부 끊기는 게 아니라 굵기에 달렸다 — 스미스 레일도 같은 이유로 버텼다. 앱 화면 E2E·실기기 미실행.",
+    "id": "triceps-dip",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/tricep-dip.html"
+    ],
+    "sourceSha256": "45310a6854b119a5d6823048e65bdacb2c5c2cace432b77bcea9e569b3c9f19f",
+    "videoSha256": "d000f4aafdb72181d55f15337359395b20e2e679aeaffd42ecc1633a14253362",
+    "darkVideoSha256": "ef7b90562a2c31e4810be1dac41bf72d84e96e095ff022018f388cdc60132ad5",
+    "reviewedAt": "2026-09-20T01:50:42.801Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Cable triceps pushdown with a bar: 16 source poses extend both elbows to drive the handle from chest height down to full extension at the thighs, and the video reverses for the return - elbow extension only.",
+      "equipment": "High-pulley cable station with a short straight bar. With cutout:false the cable runs unbroken from the pulley down to the bar in every frame and the weight-stack column, pulley and base stay solid.",
+      "setup": "Upright stance with a slight forward lean held constant and the feet fixed a set distance from the stack; no torso dip driving the weight down.",
+      "hands": "Both hands keep a closed pronated grip on the bar at a fixed narrow spacing throughout; the bar stays level and attached to the cable.",
+      "feet": "Both shoes stay planted at the same spot through all 32 frames.",
+      "movement": "Upper arms stay pinned at the ribs while only the forearms travel; the elbows extend fully at the bottom and return to about 90 degrees without drifting forward or flaring out. No duplicated arms, no broken cable, no stack smearing."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 9/18 에 미리 cutout:false 를 걸어둔 덕에 59초 만에 렌더됐고 케이블이 온전하다. 같은 계열인 rope-triceps-pushdown 과 동일하게 깨끗하다. 다크 영상은 없다(cutout:false 의 정상 동작). 앱 화면 E2E·실기기 미실행.",
+    "id": "triceps-pushdown-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/tricep-extension.html"
+    ],
+    "sourceSha256": "5b20ee035168a5fb71de5a8202c1a551c0bc0f82d511ed6b9811cf5b8cdc33ac",
+    "videoSha256": "f2529e136a24741f46227d845429eb4ce0e83299c6d1e23cfd7e21c7af8b831a",
+    "reviewedAt": "2026-09-20T01:51:29.354Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "TRX low row: 16 source poses pull the chest up toward the handles by bending the elbows from a hanging-back start, and the video reverses to the extended hang.",
+      "equipment": "Suspension trainer. With cutout:false the wall anchor and BOTH straps survive unbroken from anchor to handle in every frame - this is exactly the thin-strap case the cutout deletes, so the flag is doing its job.",
+      "setup": "The body holds a rigid straight line from head through hips to heels at a fixed lean angle for the whole rep; no hip sag or pike, which is the usual fault.",
+      "hands": "Both hands stay closed on the handles with a neutral grip throughout; the handles stay attached to the straps and the two sides stay level.",
+      "feet": "Both heels stay planted at exactly the same floor position through all 32 frames; no stepping in to cheat the angle.",
+      "movement": "Elbows bend and drive back along the ribs as the shoulder blades retract, bringing the chest to the handles, then return to a full arm extension along the same path. No duplicated arms, no broken strap, no anchor dropout."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 9/18 에 스트랩 종목으로 미리 cutout:false 를 걸어둔 덕에 60초 만에 렌더됐고 앵커·스트랩이 온전하다. 별도 사항: 원본이 승인된 회색 캐릭터가 아니라 실사 사진 스타일이다 — 렌더 결함은 아니지만 카탈로그 통일성 이슈로 기존 6종(cable-woodchopper·decline-sit-up·hanging-leg-raise-2·kettlebell-front-squat·farmer-s-carry·kettlebell-row)에 이어 7번째다. 앱 화면 E2E·실기기 미실행.",
+    "id": "trx-row",
+    "equipmentIds": [
+      "trx"
+    ],
+    "sources": [
+      "https://www.trxtraining.com/blogs/news/four-trx-moves-to-improve-your-rowing-performance"
+    ],
+    "sourceSha256": "fc673ea2390adc917588c891bc06aea2477097a748157b09c35b610c388fd2a9",
+    "videoSha256": "66a189e8e2e0f3a70a7be6358c3bce0168bb95b07a16e91c58b4e49c809b1f95",
+    "reviewedAt": "2026-09-20T01:52:33.599Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-20 재렌더 직후 재검토 — 공개 금지. 동작은 맞다(바닥에 누운 상태에서 곧은 다리와 상체가 동시에 올라와 V 자를 만들고 손이 발목 쪽으로 향했다가 되돌아옴, 무릎·팔꿈치 굽힘 없음). 맨몸 종목이라 누끼가 지울 기구도 없다. 막는 것은 접는 구간 전반의 보간 잔상이다: 라이트 32프레임 시트 row1 col3-4 와 col6-7 에서 다리와 머리가 반투명하게 겹쳐 두 겹으로 보이고, row2 col5·col8, row3 col5-8, row4 col1 에도 같은 유령이 있다. 다크 시트도 같은 위치에서 동일하다. 원인은 자세 밀도다 — 8패널 원본인데 V 접기는 이동 거리가 커서 minterpolate 가 못 따라간다. decline-sit-up·farmer-s-carry 와 같은 유형. 이 종목은 이미 16패널 재생성 대상(_repanel-16/plan.json A군)에 들어 있으므로 그 작업으로 해결한다. 별도 사항: 원본이 승인된 회색 캐릭터가 아닌 실사 스타일이다(통일성 이슈 8번째). 재생만으로 통과 금지.",
+    "id": "v-up-2",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.verywellfit.com/v-sit-ab-exercise-3120059"
+    ],
+    "sourceSha256": "193f3afd70ceea8ac401e19d945731036df4733829d9abdb57a45731c858efc8",
+    "videoSha256": "650d19df5d3761f6a802fdb36064e08d67ffdbcabe0576b741e3a51b4259f360",
+    "darkVideoSha256": "288ec7786ee6977930466782de0e3df9c907f4a15a925d3a66550855a9cd14c3",
+    "reviewedAt": "2026-09-20T02:01:46.694Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Wide-grip lat pulldown from the rear view: 16 source poses pull the bar from a full overhead stretch down toward the upper chest, and the video reverses to the stretch for one full repetition.",
+      "equipment": "Lat pulldown station. With cutout:false the whole machine survives - weight stack and guide rods, the top pulley, the cable running unbroken from pulley to bar, the thigh pad, seat and frame. The long angled bar is one solid piece end to end.",
+      "setup": "Thighs stay locked under the pad and the hips stay seated in every frame; the torso holds a small fixed backward lean without rocking to generate momentum.",
+      "hands": "Both hands keep a closed overhand grip well outside shoulder width - the wide grip that names this variation - at a fixed spacing, and neither hand slides along the bar.",
+      "feet": "Both shoes stay flat on the floor at the same spot through all 32 frames.",
+      "movement": "Elbows drive down and back as the shoulder blades depress and retract, and the bar descends in FRONT of the head toward the upper chest - it stays clearly below and separate from the head rather than converging behind the neck - then returns to a full overhead stretch. No duplicated bar, no broken cable, no stack smearing."
+    },
+    "note": "2026-09-20 재렌더 직후 재검토. 9/18 에 미리 cutout:false 를 걸어둔 덕에 57초 만에 렌더됐고 케이블이 온전하다. 후면 카메라라 바가 앞으로 내려오는지 목 뒤로 내려오는지 오독할 수 있어 특히 확인했는데, 바가 머리 아래로 분리돼 지나가고 상체가 살짝 뒤로 기운 전형적인 프런트 풀다운 패턴이다. 다크 영상은 없다(cutout:false 의 정상 동작). 앱 화면 E2E·실기기 미실행.",
+    "id": "wide-grip-lat-pulldown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/back/lat-exercises/wide-grip-lat-pulldown/"
+    ],
+    "sourceSha256": "276373c711f4bc54dda82c75211c9284ff059933f2b9f38b602053536b5d3d59",
+    "videoSha256": "c9fd0ae9b98b0357a9010e11481e36522800f5d95a80361fe78463bf66081265",
+    "reviewedAt": "2026-09-20T02:02:53.581Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-20 재렌더 직후 재검토 — 공개 금지. 중요한 확인: 등록된 8패널 원본은 Zottman 컬의 핵심인 그립 전환을 제대로 담고 있다 — 패널1~4 는 손바닥이 위(supinated)로 어깨까지 올리고, 패널5 상단에서 회내되어, 패널6~8 은 손등이 위(pronated)인 채로 내려온다. cycle:'full' 설정도 이 비대칭 동작에 맞다. 막는 것은 보간 잔상이다: 라이트 32프레임 시트 row1 col3, row2 col1-2, row3 col3-5, row4 col1-2 에서 덤벨과 전완이 반투명하게 두 겹으로 겹쳐 보인다. 원인은 자세 밀도 — 8패널로 '올리고·회전하고·내리는' 한 주기 전체를 담다 보니 칸 사이 이동 거리가 커서 minterpolate 가 못 따라간다. 해결책은 이미 준비돼 있다: 2026-09-18 에 도구에 16패널 full-cycle 지원을 넣었고(manage-motion-guides.mjs), 이 종목은 _repanel-16/plan.json A군에 cycle:'full' 16패널 프롬프트로 들어가 있다. 16칸이면 상승 6칸·상단 회내 2칸·하강 6칸·하단 회외 2칸으로 나눌 수 있어 잔상과 그립 전환을 동시에 해결한다. 재생만으로 통과 금지.",
+    "id": "zottman-curl-2",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/zottman-curl.html"
+    ],
+    "sourceSha256": "99b4d9562e9604fe97a21ca3cffd0944016a5d2d66e38186f6e2ceef5bc71949",
+    "videoSha256": "b8a7e065c4cf466b9a5c1efea12e56fb615f478e821fca531795dd65fe732623",
+    "darkVideoSha256": "f1b168f44add15f229e6b85d9b18b98db91d20a187bbb9e6ec762ebd1e0d8ac2",
+    "reviewedAt": "2026-09-20T02:11:01.773Z"
   }
 ]

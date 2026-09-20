@@ -201,19 +201,8 @@ public/exercise-guides/previews/conventional-deadlift-smooth.mp4
 
 ## 최신 체크포인트
 
-2026-09-19T23:59:44.662Z
+2026-09-20T02:11:58.064Z
 
-등록 117 / 렌더 132 / 시각 검토 통과 80 / 대상 1351
+등록 117 / 렌더 132 / 시각 검토 통과 82 / 대상 1351
 
-2026-09-20: reverse-grip-pushdown source and final32-frame sheet rechecked against Catalyst Athletics; cable and underhand grip preserved with cutout:false. Current hash passed after mobile Chromium loopback playback and7.5s seek (imports/playback-pushdown-20260920.json),480x480/8s. Low-bar-squat default16-pose render retried with14GiB free but system free RAM fell to0.8GiB with severe delays; manually interrupted, process termination confirmed. No new low-bar video approved; pending retained. Next: resolve peak inference memory before retry, inspect bar contact and both theme frames, then playback. u2netp preview remains unadopted. App layout/Android/200-guide target remain incomplete.
-
-## 2026-09-20 작업 중단 및 커밋 정리
-
-- 사용자 요청에 따라 현재 상태를 체크포인트로 저장한다. 추가 제작은 다음 작업으로 남긴다.
-- 리버스 그립 푸시다운: 원본/최종 프레임 검토와 모바일 재생·탐색 통과, 현재 해시 승인. 재생 결과와 실행 스크립트는 tools/media/imports/playback-pushdown-20260920.json 및 verify-pushdown-20260920.mjs에 보관한다.
-- 로우바 스쿼트: 기본 모델 렌더 중 메모리 압박으로 수동 중단. 16자세 원본은 저장됐으나 새 영상 검토는 미완료이며 pending을 유지한다. u2netp 비교본은 미채택이다.
-- 다음 작업: 추론 최대 메모리 문제 해결 후 로우바 재렌더 → 원본/양쪽 테마 시각 검토 → 재생 검사. 이후 나머지 재렌더 영상의 해시 재검토.
-- 검증: guide-review.test.mjs 3개 통과 및 푸시다운 재생·탐색 결과 확인. 전체 단위/스키마/린트/타입/E2E/빌드/실기기 검증은 이번 중간 저장에서 재실행하지 않았다. 메모리 제약·미검증 상태를 보고한 뒤 사용자가 중단·정리·커밋을 요청했으므로 그 상태를 명시해 저장한다.
-- 임시 모델·미채택 후보·실험 출력·크래시 덤프는 커밋하지 않는다. 별도 세션의 백그라운드 렌더는 이 커밋 이후에도 작업 트리를 바꿀 수 있다.
-
-커밋 스냅샷 검사: 스테이징된 라이트 공개84종/다크58종의 원본·MP4 해시가 각각 passed 리뷰와 모두 일치함을 git cat-file 기반으로 확인했다. 위 체크포인트80종 이후 다른 작업의 재검토가 포함된 현재 스냅샷 수치다.
+2026-09-20: 누끼 재렌더 104종 전량 완료(failed 0). 재렌더로 해시가 무효화된 분량을 전부 재검토해 재검토 대기 0. 현재 공개 82(다크 65 + cutout:false 회색박스 17), pending 23, rejected 12. 누끼 파손 유형이 네 갈래로 정리됐다: (1) 케이블·스트랩은 굵기와 무관하게 무조건 지워짐 → cutout:false (총 16종 적용). (2) 누운 벤치는 몸에 가려 배경으로 판정됨 → cutout:false 로 lying-triceps-extension·ez-bar-skull-crusher·nordic-hamstring-curl 복구. (3) 가는 수평 부재 끊김은 굵기 문제 — hanging-knee-raise 철봉만 해당하고 스미스 레일·평행봉·랙 기둥은 멀쩡. (4) 빠른 구간 보간 뭉개짐은 누끼와 무관하며 대부분 8패널 원본이라 16패널 재생성으로만 해결된다. 원본 자체가 틀린 것도 둘 발견: pallof-press-2 는 16칸 전부 손이 가슴에 붙어 프레스 구간이 없고, reverse-grip-pushdown 은 완전 측면 카메라라 언더핸드 그립을 판별할 수 없다(Codex 세션은 passed 로 봤으나 사용자 결정으로 pending 유지). 다음: _repanel-16/plan.json 의 A군 25종 16패널 이미지 생성(이 세션 불가, imagegen 필요) → repanel-16.mjs 로 등록·렌더 → 재검토. 앱 화면 E2E·실기기 재생은 여전히 미실행.

@@ -201,8 +201,19 @@ public/exercise-guides/previews/conventional-deadlift-smooth.mp4
 
 ## 최신 체크포인트
 
-2026-09-18T02:56:22.157Z
+2026-09-19T23:59:44.662Z
 
-등록 117 / 렌더 132 / 시각 검토 통과 87 / 대상 1351
+등록 117 / 렌더 132 / 시각 검토 통과 80 / 대상 1351
 
-2026-09-18 로우바 스쿼트 후속: 내장imagegen 16자세 하강 원본 생성·등록 완료, 정확한 프롬프트/출처 tools/media/motion-guides/low-bar-squat.json, 저장 JPG 직접 재확인하여 배경 얼룩 부재/하강 진행 확인. 기존 8자세 원본/명세/양쪽MP4는 imports/low-bar-before-20260918-16poses/에 보관. 그러나 motion-build low-bar-squat는 두 번 모두 배경제거 단계 ONNXRuntime BFCArena 822083584bytes 메모리 할당 실패. 다른 누끼 Python(lying-triceps-extension) 동시 실행 및 조회 당시 4.7GiB free/31.7GiB total 확인. 새MP4 미생성, 보류 유지, 이전MP4는 새원본에 맞는 결과가 아니므로 검토 승인 금지. 다음 최우선: 동시 추론 종료/메모리 회복 후 node tools/media/manage-ai-guides.mjs motion-build low-bar-squat 순차 재실행 → source/양쪽 contact sheet 비교 → node tools/media/imports/verify-low-bar-20260918.mjs → 현재 해시 검토. 앱 연결 Vitest2파일10개, 대상문서 diff--check 통과. low-cable-fly 원본/현재 회색배경 접촉시트 예비열람만 함(판정 미갱신). 직전 랜드마인 로우 passed/로우바 pending 및 힙어덕션 후보2장 미채택 사유는 로드맵/후보폴더 보존. 누적200종/앱화면/Android 실기기 미완료; 백그라운드 재렌더로 전체집계 변동. 원본 등록이 곧 운동 정확성/영상 통과를 뜻하지 않음.
+2026-09-20: reverse-grip-pushdown source and final32-frame sheet rechecked against Catalyst Athletics; cable and underhand grip preserved with cutout:false. Current hash passed after mobile Chromium loopback playback and7.5s seek (imports/playback-pushdown-20260920.json),480x480/8s. Low-bar-squat default16-pose render retried with14GiB free but system free RAM fell to0.8GiB with severe delays; manually interrupted, process termination confirmed. No new low-bar video approved; pending retained. Next: resolve peak inference memory before retry, inspect bar contact and both theme frames, then playback. u2netp preview remains unadopted. App layout/Android/200-guide target remain incomplete.
+
+## 2026-09-20 작업 중단 및 커밋 정리
+
+- 사용자 요청에 따라 현재 상태를 체크포인트로 저장한다. 추가 제작은 다음 작업으로 남긴다.
+- 리버스 그립 푸시다운: 원본/최종 프레임 검토와 모바일 재생·탐색 통과, 현재 해시 승인. 재생 결과와 실행 스크립트는 tools/media/imports/playback-pushdown-20260920.json 및 verify-pushdown-20260920.mjs에 보관한다.
+- 로우바 스쿼트: 기본 모델 렌더 중 메모리 압박으로 수동 중단. 16자세 원본은 저장됐으나 새 영상 검토는 미완료이며 pending을 유지한다. u2netp 비교본은 미채택이다.
+- 다음 작업: 추론 최대 메모리 문제 해결 후 로우바 재렌더 → 원본/양쪽 테마 시각 검토 → 재생 검사. 이후 나머지 재렌더 영상의 해시 재검토.
+- 검증: guide-review.test.mjs 3개 통과 및 푸시다운 재생·탐색 결과 확인. 전체 단위/스키마/린트/타입/E2E/빌드/실기기 검증은 이번 중간 저장에서 재실행하지 않았다. 메모리 제약·미검증 상태를 보고한 뒤 사용자가 중단·정리·커밋을 요청했으므로 그 상태를 명시해 저장한다.
+- 임시 모델·미채택 후보·실험 출력·크래시 덤프는 커밋하지 않는다. 별도 세션의 백그라운드 렌더는 이 커밋 이후에도 작업 트리를 바꿀 수 있다.
+
+커밋 스냅샷 검사: 스테이징된 라이트 공개84종/다크58종의 원본·MP4 해시가 각각 passed 리뷰와 모두 일치함을 git cat-file 기반으로 확인했다. 위 체크포인트80종 이후 다른 작업의 재검토가 포함된 현재 스냅샷 수치다.

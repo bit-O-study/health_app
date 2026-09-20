@@ -24,50 +24,6 @@
   {
     "status": "passed",
     "checks": {
-      "exercise": "Bilateral plate front raise to shoulder level and return.",
-      "equipment": "One round plate held throughout.",
-      "setup": "Upright standing posture and soft constant elbow bend.",
-      "hands": "Both hands hold opposite plate edges throughout the arc.",
-      "feet": "Both feet flat and stationary about shoulder width.",
-      "movement": "Shoulder flexion raises arms forward without elbow curl; controlled reverse returns to thighs."
-    },
-    "note": "16-pose source and final 32-frame contact sheet reviewed; 8s/24fps decode passed. Minor interpolation softness and panel framing drift remain.",
-    "id": "plate-front-raise",
-    "equipmentIds": [
-      "plate"
-    ],
-    "sources": [
-      "https://www.puregym.com/exercises/arms-and-shoulders/front-raises/plate-front-raise/"
-    ],
-    "sourceSha256": "f745020c56527ba249804d4926d9b8aa50f42472d63f00c30abd410bb86d194b",
-    "videoSha256": "458d13c049aee9c1e981193b6e8c6ace745ebba176e9845ef3dc597254e98501",
-    "reviewedAt": "2026-09-09T07:08:18.134Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Standard floor push-up with descent and return.",
-      "equipment": "Bodyweight on floor, no bench.",
-      "setup": "Extended legs, trunk moves as one unit, no hip pike.",
-      "hands": "Hands planted slightly wider than shoulders, elbows track back.",
-      "feet": "Toes stay floor-supported with knees off floor.",
-      "movement": "Chest lowers close to floor and rises via elbow extension."
-    },
-    "note": "16 source poses and32renderedframes inspected;8sec24fps100461bytes decode passed. Minor contour softness.",
-    "id": "push-up",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.nasm.org/resource-center/exercise-library/push-up"
-    ],
-    "sourceSha256": "0054e3efb074cfcf62ab395d7dbc02c5a446c0557df5ba0e09d3820fddf1afc8",
-    "videoSha256": "4c223431e1849de8d9c40d96ffdca13ad0286c2e6fe6212bafa6f9bfc9479147",
-    "reviewedAt": "2026-09-09T07:51:29.988Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
       "exercise": "Seated dumbbell calf raise with heel lift and return.",
       "equipment": "Two dumbbells resting end-on on distal thighs, bench and forefoot block.",
       "setup": "Seated upright with bent knees, hips stay on bench.",
@@ -86,50 +42,6 @@
     "sourceSha256": "d0e01ab467be93304363b62b44cefb2b0b1587796d03ab3d30883cf2555fdd41",
     "videoSha256": "ddc0ade41ffa7424979eb076d1d0f080e32cca87535cc8d7e86b021343345a9e",
     "reviewedAt": "2026-09-09T07:55:31.294Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Standing reverse-grip barbell curl.",
-      "equipment": "Straight barbell with two end plates.",
-      "setup": "Upright torso and upper arms beside ribs.",
-      "hands": "Overhand grip maintained, knuckles remain above/front of bar; no supinated turn.",
-      "feet": "Both feet remain planted and stationary.",
-      "movement": "Elbows flex to curl toward lower chest and extend on return without front raise."
-    },
-    "note": "Source16poses and final32frames inspected;8sec24fps decode passed. Minor interpolation softness.",
-    "id": "reverse-barbell-curl",
-    "equipmentIds": [
-      "barbell"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/reverse-barbell-curl.html"
-    ],
-    "sourceSha256": "292e5d35f980d8525ba15dcb6b155cfb02d16209a7a4312d0992dea4fc0444f9",
-    "videoSha256": "fb46ebd4e66796a6b98d78af3ccda26a39f4ca505f1640a31bde6394ea4be2e2",
-    "reviewedAt": "2026-09-09T07:55:35.032Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "Bodyweight prisoner squat descending toward parallel and returning.",
-      "equipment": "No external load.",
-      "setup": "Hands behind head, torso braced, no neck pulling visible.",
-      "hands": "Both hands remain behind head with elbows outward.",
-      "feet": "Feet planted with modest toe-out; heels remain down.",
-      "movement": "Hips and knees flex together, knees track toes, neutral back maintained."
-    },
-    "note": "16 source poses and32finalframes inspected;8s24fps decode passed. Small framing drift and interpolation softness.",
-    "id": "prisoner-squat",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.nasm.org/resource-center/exercise-library/prisoner-squat"
-    ],
-    "sourceSha256": "ffa6c65976341d074ca1ec78e89b1c249d6a57dabf6581c3c232d5026a1d3556",
-    "videoSha256": "10218ff4bb79cf1c5db730561f9815eb94b9c90a78511686339f88330472722f",
-    "reviewedAt": "2026-09-09T08:09:52.290Z"
   },
   {
     "status": "passed",
@@ -199,50 +111,6 @@
     "reviewedAt": "2026-09-09T09:23:37.424Z"
   },
   {
-    "status": "passed",
-    "checks": {
-      "exercise": "Rack pull from knee-height supports to upright.",
-      "equipment": "Barbell inside rack with fixed safety bars at starting height.",
-      "setup": "Hip hinge above knee height, neutral back and straight arms.",
-      "hands": "Both overhand grips outside legs remain fixed.",
-      "feet": "Both feet planted beneath bar, no stepping.",
-      "movement": "Hips and knees extend while bar rises close to thighs; return stops at safety support height, no elbow curl or backward lean."
-    },
-    "note": "Source and final32frames reviewed; rack top may extend to frame edge but body and working bar/support area visible. Full8s24fps decode passed.",
-    "id": "rack-pull",
-    "equipmentIds": [
-      "barbell"
-    ],
-    "sources": [
-      "https://www.puregym.com/exercises/legs/hamstring-exercises/deadlifts/rack-pulls/"
-    ],
-    "sourceSha256": "1d73c14a7e387c4d7ad72b77ec34de1dbb22118bd7a2a4d3df2e5eca9ab37c45",
-    "videoSha256": "724fed4c41c49c8f56a8e2b5d31b3a0b7de1351520966432e352396df87ddaa4",
-    "reviewedAt": "2026-09-09T09:26:04.585Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "리버스 그립 케이블 푸시다운으로 팔꿈치를 펴 손잡이를 내린다.",
-      "equipment": "상단 케이블과 짧은 바 손잡이가 유지된다.",
-      "setup": "몸통을 세우고 약간 기울인 채 위팔을 몸 옆에 고정한다.",
-      "hands": "손바닥을 위로 받친 언더핸드 그립이 시작과 하강 중 유지된다.",
-      "feet": "양발이 바닥을 지지한다.",
-      "movement": "팔꿈치를 굽힌 시작점에서 거의 편 상태까지 손잡이를 내렸다 복귀하며, 중량판은 내릴 때 상승한다."
-    },
-    "note": "원본 및 최종32프레임 검토, 8초24fps480square87355bytes전체decode통과. 약한프레이밍/보간경계변화있음. 전문가/실기기검증대기.",
-    "id": "reverse-grip-pushdown",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://www.catalystathletics.com/exercise/878/Reverse-Grip-Tricep-Pushdown/"
-    ],
-    "sourceSha256": "b77f771a31bb6048943dee46cf10e053f90dc1e77ca4c02f9226288fbb6e968d",
-    "videoSha256": "ec44529a4a52e2264071dfae352dacae1fea81416649efe29a2c71a95c24ce7a",
-    "reviewedAt": "2026-09-09T12:21:31.675Z"
-  },
-  {
     "checks": {
       "exercise": "직선 바 케이블 푸시다운으로 굽힌 팔꿈치를 펴 바를 내린다.",
       "equipment": "상단 도르래와 케이블, 직선 바가 연결되고 중량부는 덮개 안에 있다.",
@@ -263,50 +131,6 @@
     "sourceSha256": "5b20ee035168a5fb71de5a8202c1a551c0bc0f82d511ed6b9811cf5b8cdc33ac",
     "videoSha256": "d3b5c4a1df15fade896f2d6d16e86645aa4ff5709f10be4fc764ba3f9bf94623",
     "reviewedAt": "2026-09-09T12:27:27.565Z"
-  },
-  {
-    "checks": {
-      "exercise": "로프 케이블 푸시다운으로 팔꿈치를 펴 양손을 내린다.",
-      "equipment": "두 갈래 로프와 상단 케이블이 연결되며 중량부는 덮개 안에 있다.",
-      "setup": "몸통을 약간 기울이고 위팔을 몸 옆에 유지한다.",
-      "hands": "각 손이 로프 한쪽 끝을 중립 그립으로 잡는다.",
-      "feet": "두 발을 바닥에 고정한다.",
-      "movement": "팔꿈치를 펴 로프를 허벅지 앞으로 내린 후 굽혀 복귀한다. 원본 케이블 연결 유지 확인."
-    },
-    "status": "passed",
-    "note": "수정원본 및 최종32프레임 시각검토. 8초24fps480square전체decode통과. 약한보간경계흐림/프레이밍변화남음. 실제기기/전문가검증대기.",
-    "id": "rope-triceps-pushdown",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/rope-tricep-extension.html"
-    ],
-    "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
-    "videoSha256": "9b017ee30f86009de975b11ff96322602858de92e6937345ab5e2a92b2790405",
-    "reviewedAt": "2026-09-09T12:27:36.803Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "덤벨 실 로우로 엎드린 가슴 지지 상태에서 두 덤벨을 당긴다.",
-      "equipment": "높은 수평 벤치와 독립된 덤벨 두 개가 유지된다.",
-      "setup": "가슴과 골반을 벤치에 두고 팔이 바닥에 닿지 않게 늘어진다.",
-      "hands": "양손이 덤벨을 중립 그립으로 유지한다.",
-      "feet": "다리를 벤치 뒤로 뻗은 상태로 유지한다.",
-      "movement": "가슴을 들지 않고 팔꿈치를 뒤·위로 당겨 덤벨을 몸 옆까지 올린 뒤 내린다."
-    },
-    "note": "원본 및 최종32프레임 확인, 8초24fps480square110438bytes전체decode통과. 보간경계흐림과프레이밍차이남음. 전문가/기기검증대기.",
-    "id": "seal-row",
-    "equipmentIds": [
-      "dumbbell"
-    ],
-    "sources": [
-      "https://library.theprehabguys.com/vimeo-video/seal-row-dumbbell/"
-    ],
-    "sourceSha256": "67cf13fc1547e2b4fd3abf5c6caba6dce5dcae220858081fe012b64c9c546da6",
-    "videoSha256": "41b7d4a89c9bf37d9f34984395d5c56f9ca0d7b7cd4f0cd157f7d6b980b53205",
-    "reviewedAt": "2026-09-09T12:33:17.154Z"
   },
   {
     "checks": {
@@ -355,72 +179,6 @@
   {
     "status": "passed",
     "checks": {
-      "exercise": "서서 다리 반동 없이 수행하는 바벨 밀리터리 프레스",
-      "equipment": "직선 바벨과 작은 원판, 양손 그립 유지",
-      "setup": "몸통을 지지한 선 자세에서 쇄골 앞 바벨 시작, 머리 위 정렬",
-      "hands": "어깨보다 약간 넓은 오버핸드 그립, 팔꿈치 아래에서 위로 펴짐",
-      "feet": "어깨너비 양발 바닥 지지 유지",
-      "movement": "가슴 앞에서 얼굴 앞을 지나 머리 위로 밀고 돌아옴, 무릎 굽힘 반동이나 목 뒤 내림 없음"
-    },
-    "note": "2026-09-09 수정원본과 최종32프레임 직접 확인. 이전 상단잘림 해결, 8초24fps480 91212bytes 전체decode 통과. 미세 배율·보간 윤곽 변화 있음. 실기기/전문지도자 검증대기.",
-    "id": "military-press",
-    "equipmentIds": [
-      "barbell"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/military-press.html"
-    ],
-    "sourceSha256": "3ac34824a22908f9f981730c57831ecb8d0d55ab4f225fb90ee962a8c050e203",
-    "videoSha256": "ea27796abc80e43825d9ee7a2c59e5eeb43ccd0509bf0dd58d66019d8588c3b2",
-    "reviewedAt": "2026-09-09T13:13:02.878Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "앉아서 손등을 위로 드는 덤벨 리버스 리스트 컬로 손목 굴곡 컬과 구분",
-      "equipment": "양손에 각각 작은 덤벨을 유지",
-      "setup": "벤치에 앉아 상체를 약간 숙이고 전완을 허벅지에 지지",
-      "hands": "손바닥이 아래를 향한 오버핸드 그립을 유지하며 무릎 앞 손목을 폄",
-      "feet": "양발 바닥 지지 유지",
-      "movement": "손을 아래로 내린 상태에서 손목을 위로 펴고 복귀; 큰 팔꿈치 컬이나 그립 뒤집힘 없음"
-    },
-    "note": "2026-09-10 StrengthLog 지침과 원본8자세 및 최종32프레임 직접 대조. 8초24fps480x480/89781bytes/전체decode통과. 미세 프레이밍·윤곽 변화 있음. 실기기 및 전문가 검증 대기.",
-    "id": "reverse-wrist-curl",
-    "equipmentIds": [
-      "dumbbell"
-    ],
-    "sources": [
-      "https://www.strengthlog.com/dumbbell-wrist-extension/"
-    ],
-    "sourceSha256": "43007d27d2d5728a863daf2160efbffa88481b16ebe337631431a0f0a4e1ecf4",
-    "videoSha256": "dc0c679ae469d8e783fcb513294fdc8c8a6de7de6ca65ffc41477317218ff955",
-    "reviewedAt": "2026-09-10T12:49:32.725Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "팔로프 프레스 원본16자세와 최종32프레임 대조.",
-      "equipment": "옆쪽 가슴높이 도르래에서 손잡이로 연결된 cable 일치.",
-      "setup": "몸통과 골반을 정면으로 세우고 케이블에 옆으로 선 자세.",
-      "hands": "양손으로 같은 손잡이를 잡고 가슴 앞에서 앞으로 밀어 팔을 폄.",
-      "feet": "어깨너비 양발 바닥 지지 유지.",
-      "movement": "몸통 회전 없이 팔을 앞으로 펴고 가슴 앞으로 복귀."
-    },
-    "note": "2026-09-12 sourceab2868bc,8초24fps480,110946bytes 전체decode passed. 정면뷰로 팔길이는 단축되어 보이나 팔꿈치 폄 확인. 약한 외곽 보간흐림 남음.",
-    "id": "pallof-press-2",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://blog.nasm.org/progressive-core-training"
-    ],
-    "sourceSha256": "57b4cf387639eaade27b191de00a99dbf8a34c4fa73a5addd3b0b29a705438e3",
-    "videoSha256": "61537469b1a3a149e82aa8734ae6a3928d12903041e601f90279bdb3bfd1dd53",
-    "reviewedAt": "2026-09-11T15:40:42.670Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
       "exercise": "등받이에 앉아 스미스 바를 얼굴 앞에서 머리 위로 미는 숄더 프레스 확인",
       "equipment": "양쪽 수직 레일과 슬라이딩 바, 원판 및 수직 등받이 벤치 확인",
       "setup": "벤치에 앉아 등과 골반을 지지하고 정면을 유지",
@@ -461,50 +219,6 @@
     "sourceSha256": "1244efabe20844a3ffedce96cac7abef6c303916857f783851297be819b3dad9",
     "videoSha256": "3425f0676837e15b9be5acce24efeb01160711411b771d0abfcf352a4f24c154",
     "reviewedAt": "2026-09-11T16:37:41.264Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "노르딕 햄스트링 컬의 무릎 축 전방 하강과 팔 지지 복귀가 보임",
-      "equipment": "체중 운동이며 발목은 고정 앵커, 무릎은 매트로 지지",
-      "setup": "무릎을 매트에 대고 발목 고정, 시작에서 무릎·고관절·어깨 정렬",
-      "hands": "내려갈 때 손을 펴서 바닥을 받치고 복귀 때 팔로 일부 도움",
-      "feet": "두 발목이 앵커 아래 고정되어 위치 유지",
-      "movement": "엉덩이를 펴고 무릎 중심으로 천천히 앞으로 기울여 하강, 손으로 바닥을 받아 통제된 복귀"
-    },
-    "note": "2026-09-13 원본16자세·최종32프레임 직접 확인. Muscle & Strength의 고관절 신전 유지, 느린 하강, 손으로 받치고 밀어 복귀하는 설명과 일치. 측면 동작이며 일부 보간 배경 흐림은 경미함. 8초24fps480/105630bytes/전체decode 통과.",
-    "id": "nordic-hamstring-curl",
-    "equipmentIds": [
-      "bodyweight"
-    ],
-    "sources": [
-      "https://www.muscleandstrength.com/exercises/nordic-hamstring-curl-bodyweight"
-    ],
-    "sourceSha256": "0b2d03a3c6b89f27ed8a5475051ed8fc5ab7b6857bfb800f61c24f9589eaeb37",
-    "videoSha256": "f527477325b5a89d0cb864f8af6833ee6a19938668d45c793a5f0997d7f2835c",
-    "reviewedAt": "2026-09-13T01:15:41.214Z"
-  },
-  {
-    "status": "passed",
-    "checks": {
-      "exercise": "머신 트라이셉스 익스텐션의 팔꿈치 신전 동작 전용 영상",
-      "equipment": "시트·등받이·경사진 상완 패드·회전 레버가 있는 머신 일치",
-      "setup": "앉아 등받이에 몸통을 고정하고 발을 바닥에 두며 상완을 패드에 놓음",
-      "hands": "양손이 레버 손잡이를 잡고 팔꿈치 축을 따라 내려감",
-      "feet": "양발이 바닥에 고정되어 하체 반동 없음",
-      "movement": "상완과 어깨를 고정하고 팔꿈치에서 전완을 내려 거의 펴고 다시 굽힘"
-    },
-    "note": "2026-09-13 새 원본16자세 및 최종32프레임 시각 검토. Weight Training Guide의 패드·팔꿈치 축·전완만 움직이는 설명과 대조. 이전 버전의 배경 얼룩 사라짐. 장비 레버 형태의 패널별 미세한 변화는 있으나 손잡이와 운동 경로 확인 가능. 8초24fps480/126997bytes/전체decode 통과.",
-    "id": "machine-triceps-extension",
-    "equipmentIds": [
-      "machine"
-    ],
-    "sources": [
-      "https://weighttraining.guide/exercises/machine-triceps-extension/"
-    ],
-    "sourceSha256": "3339818480af67cb5835e1dc6f7351305d61dd2c87db28d81591abe589e80329",
-    "videoSha256": "c498432ddc5f22944d25dc84e3bd79ffa99c979fa654c9cf5e2f430d9614e079",
-    "reviewedAt": "2026-09-13T01:18:13.823Z"
   },
   {
     "status": "rejected",
@@ -2425,5 +2139,268 @@
     "videoSha256": "13799ce110f478a4761d3e8cc5e56edd25a4760f87f5cc3a6586c79b6509eea4",
     "darkVideoSha256": "938d6ba5e42d636e16c358bf67d131db40b6da69d394592828a11244ac7a334c",
     "reviewedAt": "2026-09-18T03:56:31.765Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seated machine triceps extension: 16 source poses extend both elbows from a flexed start until the arms are straight along the pad, and the video reverses to the start - elbow extension only.",
+      "equipment": "Selectorised triceps extension machine. The cutout keeps the whole unit intact in light and dark - weight stack and guide rods, back pad, seat, the angled forearm pad and the lever - with no dropped or ghosted section across the 32 frames.",
+      "setup": "Back stays against the pad and the hips stay seated for the whole rep; the upper arms stay supported on the pad and never lift off it.",
+      "hands": "Both hands stay closed on the handles throughout and track symmetrically; neither hand slips as the elbows extend.",
+      "feet": "Both shoes stay flat on the floor at the same spot through all 32 frames.",
+      "movement": "Only the forearms travel while the upper arms stay pinned to the pad; both sides extend together at an even speed and return along the same arc. Neither theme sheet shows duplicated arms, a smeared lever or a torn frame edge."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 노출 케이블이 없는 셀렉토라이즈 머신이라 누끼로도 기구가 온전하다. 원본이 승인된 회색 캐릭터가 아니라 실사 스타일인 점은 렌더 결함이 아니라 카탈로그 통일성 이슈로 별도 기록. 앱 화면 E2E·실기기 미실행.",
+    "id": "machine-triceps-extension",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://weighttraining.guide/exercises/machine-triceps-extension/"
+    ],
+    "sourceSha256": "3339818480af67cb5835e1dc6f7351305d61dd2c87db28d81591abe589e80329",
+    "videoSha256": "459e87c9f291d28abc90d8c7cff670f4a42b0f2cce73fa21256987eb122df980",
+    "darkVideoSha256": "d12a62826d259d02e966535e228282040e77c749143560554a5d05841651a0f2",
+    "reviewedAt": "2026-09-19T23:48:34.682Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing military press: 16 source poses drive the barbell from the front-rack position at the clavicle straight overhead to lockout, and the video reverses for the lowering half.",
+      "equipment": "Loaded barbell. The cutout keeps the bar continuous from sleeve to sleeve with both plate stacks intact in light and dark; no part of the bar is clipped at the frame edge at lockout.",
+      "setup": "Feet stay planted at a fixed narrow stance with the torso upright and braced; no knee dip and no backward lean to turn it into an incline press.",
+      "hands": "Both hands keep a closed grip just outside shoulder width in every frame; the bar stays level and never passes through a hand.",
+      "feet": "Both shoes stay flat and fixed through all 32 frames; no leg drive, which is what separates this from a push press.",
+      "movement": "The bar travels close to the face then straight up over the mid-foot to a full elbow lockout, and returns along the same path to the clavicle. Neither theme sheet shows a duplicated bar, a bent sleeve or torso smearing."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 승인된 회색 캐릭터/청록 반바지 스타일이고, 다크에서도 윤곽광으로 검은 원판이 배경과 분리된다. 앱 화면 E2E·실기기 미실행.",
+    "id": "military-press",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/military-press.html"
+    ],
+    "sourceSha256": "3ac34824a22908f9f981730c57831ecb8d0d55ab4f225fb90ee962a8c050e203",
+    "videoSha256": "5470773523240644081cb6ae82c60ccc2e1ef8253f8265d80ebf15b7d6acb05c",
+    "darkVideoSha256": "ac0d0a3bf900f210c7bf46035e713851000c6a1e968ed31e2bce660cfeb48a89",
+    "reviewedAt": "2026-09-19T23:49:19.820Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-19 재렌더 재검토 — 공개 금지. 이건 렌더가 아니라 원본 자체의 문제다. Pallof 프레스는 케이블 장력에 저항하면서 손잡이를 가슴에서 정면으로 쭉 밀어냈다가 되돌리는 동작인데, 등록된 16패널 원본이 모든 칸에서 손을 가슴에 붙인 채로 있다 — 프레스 구간이 아예 없다. 그래서 영상도 32프레임 내내 거의 정지 화면처럼 보인다. 기구는 cutout:false 덕에 온전하다(스택·도르래·케이블·손잡이 모두 유지). 다음: 손잡이를 가슴에서 완전 신전까지 밀어내는 16단계가 보이도록 원본을 다시 만든 뒤 재렌더·재검토. 재생만으로 통과 금지.",
+    "id": "pallof-press-2",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://blog.nasm.org/progressive-core-training"
+    ],
+    "sourceSha256": "57b4cf387639eaade27b191de00a99dbf8a34c4fa73a5addd3b0b29a705438e3",
+    "videoSha256": "3b87074b5101481550dbe16fa5878c426b578abb0e0bc61522012428afbc3b0f",
+    "reviewedAt": "2026-09-19T23:50:16.664Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-19 재렌더 재검토 — 공개 금지. 기구 문제는 해결했다: 누끼 상태에서는 무릎 패드와 발목 고정대가 프레임마다 통째로 사라져(2.2-3.2s 확대 타일에서 흰 유령으로 변함) 운동 자체가 성립하지 않았는데, cutout:false 로 재렌더하니 패드·고정대가 모든 프레임에서 단단히 남는다. 동작도 맞다(무릎 꿇은 자세에서 무릎-어깨 일직선을 유지한 채 앞으로 내려가 손으로 받고 되돌아옴, 고관절 굴곡 없음). 남은 blocker 는 머리 유령이다: 0.3-0.9s 확대 8fps 타일에서 하강 시작 구간에 반투명한 두 번째 머리가 실제 머리 옆에 겹쳐 보이고, 확대하지 않은 32프레임 시트 row1 col3 과 row4 col4 에도 같은 흰 잔상이 보인다. 빠른 구간 보간 문제 유형(kettlebell-press·machine-preacher-curl 과 동일). 다음: 하강 시작 구간 자세 간격을 좁힌 원본으로 재생성 후 재렌더·재검토. 재생만으로 통과 금지.",
+    "id": "nordic-hamstring-curl",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/nordic-hamstring-curl-bodyweight"
+    ],
+    "sourceSha256": "0b2d03a3c6b89f27ed8a5475051ed8fc5ab7b6857bfb800f61c24f9589eaeb37",
+    "videoSha256": "1b604c8f05919206f04ced2729d6b3553116d1d89632e26ba426e88e8f5d3cc4",
+    "reviewedAt": "2026-09-19T23:57:56.257Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standard push-up: 16 source poses lower the chest toward the floor from a high plank and the video reverses to lockout, giving one full repetition rather than a plank hold.",
+      "equipment": "Bodyweight only; no apparatus to preserve, and the cutout leaves hands, feet and the whole figure complete in both themes.",
+      "setup": "A straight line runs from head through hips to heels in every frame - no hip sag and no pike - and the shoulders stay stacked over the hands at the top.",
+      "hands": "Both hands stay flat on the floor at a fixed slightly-wider-than-shoulder spacing; fingers stay complete and neither hand slides.",
+      "feet": "Both shoes stay on the balls of the feet at the same spot through all 32 frames of both sheets.",
+      "movement": "Elbows bend back at roughly 45 degrees to the trunk rather than flaring to 90, the chest descends close to the floor and presses back along the same path. Neither theme sheet shows duplicated limbs, torso smearing or torn contours."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 맨몸 종목이라 누끼가 지울 기구가 없고 두 테마 모두 깨끗하다. 앱 화면 E2E·실기기 미실행.",
+    "id": "push-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/push-up"
+    ],
+    "sourceSha256": "0054e3efb074cfcf62ab395d7dbc02c5a446c0557df5ba0e09d3820fddf1afc8",
+    "videoSha256": "caa8682b80e7d79afc6fd6404aa2143dc0964fae90008d420b9cd4e55119ec06",
+    "darkVideoSha256": "63dafffa274b1aea0f66ddcf524a2acc9045db2b501779df023b55912b58a29f",
+    "reviewedAt": "2026-09-19T23:58:42.609Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Rack pull: 16 source poses pull the barbell from the rack pins at knee height up to a standing lockout, and the video reverses to set it back down - the shortened-range deadlift that defines this lift.",
+      "equipment": "Power rack plus a loaded barbell. The cutout keeps the whole rack - both uprights with their hole pattern, the crossmembers, the safety pins and the floor feet - and the bar with both plate stacks intact in light and dark.",
+      "setup": "Starting position has the bar at knee height on the pins with a flat back, hips higher than in a floor deadlift, and shins near vertical; no rounding at any point.",
+      "hands": "Both hands stay closed on the bar just outside the knees for every frame; the bar never passes through a hand and stays level.",
+      "feet": "Both shoes stay flat and fixed under the bar through all 32 frames of both sheets; no heel lift or stance shift.",
+      "movement": "Hips and shoulders rise together, the bar tracks up the thighs to a locked-out standing finish with the shoulders back, then lowers along the same path to the pins. Neither theme sheet shows a duplicated bar, a broken rack upright or torso smearing."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 구멍이 촘촘한 랙 기둥은 누끼가 망가뜨리기 쉬운 구조인데 두 테마 모두 온전하게 남았고, 바와 원판도 끊김이 없다. 앱 화면 E2E·실기기 미실행.",
+    "id": "rack-pull",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/hamstring-exercises/deadlifts/rack-pulls/"
+    ],
+    "sourceSha256": "1d73c14a7e387c4d7ad72b77ec34de1dbb22118bd7a2a4d3df2e5eca9ab37c45",
+    "videoSha256": "74f47a5f8a886955972de7bf51003a7dc35f302b2a25384e1d7c091937bafe60",
+    "darkVideoSha256": "3b0ec2a7e9eeb984ae6c1546cad36b849478045ac223b6729d6aa3e5f1ac67e9",
+    "reviewedAt": "2026-09-19T23:59:24.569Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Prisoner squat: 16 source poses descend from standing into a bodyweight squat with the hands laced behind the head, and the video reverses to the stand for one full repetition.",
+      "equipment": "Bodyweight only; the prisoner hand position is the defining feature and the cutout leaves the laced hands, elbows and whole figure complete in both themes.",
+      "setup": "Hands stay laced behind the head with the elbows held wide and the chest tall for every frame - the elbows never collapse forward, which is the usual fault.",
+      "hands": "Both hands stay interlocked at the back of the head throughout; they never come apart or drift onto the neck to pull the head forward.",
+      "feet": "Both shoes stay flat and fixed at a shoulder-width stance through all 32 frames of both sheets; heels stay down at depth.",
+      "movement": "Hips and knees bend together to about parallel and drive back up along the same path with the torso staying upright; knees track over the toes. Neither theme sheet shows duplicated limbs, a doubled head or torso smearing."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 맨몸 종목이라 누끼가 지울 기구가 없고, 머리 뒤로 깍지 낀 손처럼 실루엣이 겹치는 부위도 두 테마 모두 깨끗하게 유지된다. 앱 화면 E2E·실기기 미실행.",
+    "id": "prisoner-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.nasm.org/resource-center/exercise-library/prisoner-squat"
+    ],
+    "sourceSha256": "ffa6c65976341d074ca1ec78e89b1c249d6a57dabf6581c3c232d5026a1d3556",
+    "videoSha256": "c39433df593dc5d410800a0085677d9bbe8ea61d4729e61514a0cb003c6ce687",
+    "darkVideoSha256": "96b1d415c2600fdc3a0e4a3e4ab1c319a11fdeedff5e11c963235da70991553c",
+    "reviewedAt": "2026-09-20T00:00:05.892Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Plate front raise: 16 source poses raise a weight plate held in both hands from the thighs forward and up to shoulder height, and the video reverses for the lowering half.",
+      "equipment": "One weight plate. The cutout keeps the plate disc and its centre hole whole in both themes at every height; the hands gripping the rim stay complete.",
+      "setup": "Trunk stays upright with a fixed narrow stance; no backward lean or hip drive to throw the plate up.",
+      "hands": "Both hands stay closed on the plate rim at roughly 3 and 9 o'clock for every frame; the plate never slips or separates from a hand.",
+      "feet": "Both shoes stay planted and unchanged through all 32 frames of both sheets.",
+      "movement": "Elbows stay nearly straight while the shoulders flex, carrying the plate through evenly spaced heights from the thighs to shoulder level and back. The source spreads its 16 poses evenly with no plateau at the top - unlike dumbbell-front-raise, where the late poses clustered at shoulder height. Neither theme sheet shows duplicated arms, a smeared plate or torso ghosting."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 같은 프런트 레이즈 계열인 dumbbell-front-raise 가 후반 자세 몰림으로 pending 인 상태라 원본 자세 분포를 특히 확인했는데, 이 원본은 16칸이 고르게 상승해 문제가 없다. 앱 화면 E2E·실기기 미실행.",
+    "id": "plate-front-raise",
+    "equipmentIds": [
+      "plate"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/arms-and-shoulders/front-raises/plate-front-raise/"
+    ],
+    "sourceSha256": "f745020c56527ba249804d4926d9b8aa50f42472d63f00c30abd410bb86d194b",
+    "videoSha256": "8016bbed214ae5de8ee0da2bc79c4d838e8ba234791c7e68983f7fb33b4e3491",
+    "darkVideoSha256": "b80232bec431e217407c4bf153e769ca1ecc3b11256f992453dc6341cb71c993",
+    "reviewedAt": "2026-09-20T00:01:12.857Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Rope triceps pushdown: 16 source poses extend both elbows to drive the rope from chest height down to full extension at the thighs, and the video reverses for the return - elbow extension only.",
+      "equipment": "High-pulley cable station with a rope attachment. With cutout:false the cable runs unbroken from the pulley to the rope carabiner in every frame and the weight-stack column, pulley and base all stay solid.",
+      "setup": "Upright stance with a slight forward lean held constant and the feet fixed; no torso dip to push the weight down, which is the usual fault.",
+      "hands": "Both hands stay closed on the rope ends with a neutral grip throughout; the rope stays hooked to the cable and neither hand slips off.",
+      "feet": "Both shoes stay planted at the same spot through all 32 frames.",
+      "movement": "Upper arms stay pinned at the ribs while only the forearms travel; the elbows extend fully at the bottom and return to about 90 degrees without drifting forward. No duplicated arms, no broken cable, no stack smearing."
+    },
+    "note": "2026-09-19 재렌더 재검토. 9/18 에 케이블 종목으로 미리 cutout:false 를 걸어둔 덕에 50초 만에 렌더됐고 케이블이 온전하다. 다크 영상은 없다(cutout:false 의 정상 동작) — 앱에서는 예전 회색 여백 박스로 보인다. 앱 화면 E2E·실기기 미실행.",
+    "id": "rope-triceps-pushdown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/rope-tricep-extension.html"
+    ],
+    "sourceSha256": "1bd92cd19948593169671a13613bd6d7ebcceed0c5100e9a72f5f815b784e67f",
+    "videoSha256": "3b4fcfc61d75e94279d43761b09a7185b60f56fe1de2e463abbd7205901ca70f",
+    "reviewedAt": "2026-09-20T00:01:51.271Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-19 재렌더 재검토 — 공개 금지. 기구와 렌더 품질은 문제없다: cutout:false 덕에 도르래~손잡이 케이블, 웨이트 스택, 프레임이 모두 온전하고 잔상도 없다. 동작 경로(위팔 고정, 팔꿈치만 신전)도 맞다. 막는 것은 이 종목을 정의하는 그립을 확인할 수 없다는 점이다. 리버스 그립 푸시다운은 손바닥이 위를 향하는 언더핸드(supinated) 그립이어야 하는데, 등록된 원본이 완전 측면 카메라라 손등/손바닥 방향이 가려진다. 3.5-4.0s 확대 프레임으로도 판별이 안 됐고, 원본 고해상도에서 하단 패널(row3-4)의 손 실루엣은 오히려 손가락이 바 위를 감싸는 오버핸드처럼 읽힌다. 그립이 확인 안 되면 일반 푸시다운과 구분되지 않으므로 hands 체크를 '확인했다'고 쓸 수 없다. 다음: 손바닥 방향이 보이는 전면 3/4 카메라로 원본을 다시 만든 뒤 재렌더·재검토. 재생만으로 통과 금지.",
+    "id": "reverse-grip-pushdown",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/878/Reverse-Grip-Tricep-Pushdown/"
+    ],
+    "sourceSha256": "b77f771a31bb6048943dee46cf10e053f90dc1e77ca4c02f9226288fbb6e968d",
+    "videoSha256": "3c6e211ab422f06ca70c5d83bdc2f4020cba3a42e449fc3ec23cc742a23a92eb",
+    "reviewedAt": "2026-09-20T00:03:04.731Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Seal row: 16 source poses row both dumbbells from a dead hang below the bench up to the underside of the bench, and the video reverses to the hang - a strictly chest-supported row with no body english possible.",
+      "equipment": "Elevated flat bench on risers plus two dumbbells. The cutout keeps the whole bench - pad, both riser legs and their floor feet - and both dumbbells intact in light and dark, with no dropout in any of the 32 frames.",
+      "setup": "Chest and hips stay flat on the pad for the whole rep with the head off the end; because the torso is supported there is no hip drive or swing, which is the point of this variation.",
+      "hands": "Both hands stay closed on the dumbbell handles with a neutral grip throughout; the two sides stay level and neither bell separates from a hand.",
+      "feet": "The legs stay extended with the feet hanging or lightly braced at the same position through all 32 frames; no pushing off the floor.",
+      "movement": "Both elbows drive up and back past the ribs as the shoulder blades retract, the bells reach the underside of the bench, then lower to a full stretch along the same path. Neither theme sheet shows duplicated arms, a smeared bell or a broken bench leg."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 누운 벤치 종목은 누끼가 벤치를 먹는 사례(lying-triceps-extension·ez-bar-skull-crusher)가 있어 특히 확인했는데, 이 종목은 벤치가 높게 올라가 있어 몸에 가려지지 않아 두 테마 모두 온전하다. 앱 화면 E2E·실기기 미실행.",
+    "id": "seal-row",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://library.theprehabguys.com/vimeo-video/seal-row-dumbbell/"
+    ],
+    "sourceSha256": "67cf13fc1547e2b4fd3abf5c6caba6dce5dcae220858081fe012b64c9c546da6",
+    "videoSha256": "fbcd68c83630858a6d757e9d2dcfe77cd3b6c9833e67772d2ccc8232b7f055dc",
+    "darkVideoSha256": "47ed0ea35bbceb661bc29c7efae1fbad0038ac853151ecf3a9e13cfd822e08e0",
+    "reviewedAt": "2026-09-20T00:03:48.978Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "Standing reverse barbell curl: 16 source poses flex both elbows to curl the bar from the thighs up to chest height, and the video reverses for the lowering half.",
+      "equipment": "Straight barbell with plates. The cutout keeps the bar continuous from sleeve to sleeve with both plate stacks intact in light and dark.",
+      "setup": "Trunk stays upright with a fixed narrow stance; no backward lean or hip swing to start the curl.",
+      "hands": "PRONATED (overhand) grip confirmed - the front camera clearly shows the knuckles on top of the bar and the thumbs underneath in every frame, which is what separates this from a standard curl. The grip width stays fixed and neither hand rolls into supination at the top.",
+      "feet": "Both shoes stay planted and unchanged through all 32 frames of both sheets.",
+      "movement": "Upper arms stay at the ribs while the forearms travel; the wrists stay neutral-to-slightly-extended rather than collapsing, and the bar arcs to chest height and back. Neither theme sheet shows a duplicated bar, a bent sleeve or torso smearing."
+    },
+    "note": "2026-09-19 재렌더 재검토. 원본 + 라이트/다크 32프레임 접촉시트 확인. 인계 문서에 예전 원본이 '상단 그립이 뒤집혀 보임'으로 보류됐다고 적혀 있어 그립을 특히 확인했는데, 현재 등록된 원본은 전면 카메라라 오버핸드 그립이 전 구간에서 명확히 보이고 상단에서도 뒤집히지 않는다. 앱 화면 E2E·실기기 미실행.",
+    "id": "reverse-barbell-curl",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/reverse-barbell-curl.html"
+    ],
+    "sourceSha256": "292e5d35f980d8525ba15dcb6b155cfb02d16209a7a4312d0992dea4fc0444f9",
+    "videoSha256": "b2b1fac607e1554584cb09148f9599c3da303e9e108b8e5b45f253fe31fba696",
+    "darkVideoSha256": "6eda30ec905d174ce292627d9dd02081c992ccf1c595f9389f4350f23d7ce887",
+    "reviewedAt": "2026-09-20T00:04:37.845Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-19 재렌더 재검토 — 공개 금지. 앉은 자세·벤치·덤벨 배치와 팔뚝을 허벅지에 얹는 세팅은 맞다. 막는 것은 앞쪽 손과 덤벨이 녹아 사라지는 것이다: 0.2-0.8s 확대 5fps 타일의 앞 3프레임에서 앞쪽 손과 그 덤벨이 흰 공백으로 무너져 손 자체가 보이지 않다가 4프레임째부터 복구된다. 확대하지 않은 32프레임 시트에서도 row2 col3-4, row3 col1 에 벤치 가장자리와 손 부근의 흰 결손이 보인다. 덧붙여 이 종목은 손바닥이 아래를 향하는 것(palms down)이 리버스 손목컬의 정의인데, 현재 3/4 전면 카메라에서는 손등/손바닥 방향을 확실히 판별하기 어려워 hands 체크를 '확인했다'고 쓸 수 없다. 다음: 손 결손은 cutout:false 재렌더로 우선 시험하고, 손바닥 방향이 보이는 측면 근접 구도로 원본을 다시 만드는 쪽이 확실하다. 재생만으로 통과 금지.",
+    "id": "reverse-wrist-curl",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/dumbbell-wrist-extension/"
+    ],
+    "sourceSha256": "43007d27d2d5728a863daf2160efbffa88481b16ebe337631431a0f0a4e1ecf4",
+    "videoSha256": "5db618a56c03c9f889b936641a69850bdadaece05e437619965963d3d713953c",
+    "darkVideoSha256": "5c7589698c3beaf94bc33a50f6b89ca37ac98f2e94a9ea4346bda3ca0f054abb",
+    "reviewedAt": "2026-09-20T00:05:16.800Z"
   }
 ]

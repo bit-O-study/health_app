@@ -1,0 +1,12 @@
+{
+  "prompt": "Inverted bodyweight row under fixed rack bar, both hands remain gripping, heels fixed, rigid body pulled chest to bar",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.strengthlog.com/inverted-row/",
+    "https://www.tbs.marines.mil/Portals/230/Force%20Fitness%20Exercise%20Guidebook.pdf?ver=eGNb828lVw2cF1Ji_XVUsg%3D%3D"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "inverted-row",
+  "registeredAt": "2026-09-15T02:01:14.866Z"
+}

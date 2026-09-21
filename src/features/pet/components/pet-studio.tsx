@@ -124,7 +124,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
       ) : null}
 
       {/* 상점 카테고리 */}
-      <div className="flex gap-1.5">
+      <div id="pet-rewards" className="flex scroll-mt-6 gap-1.5">
         {ROOM_CATS.map((c) => (
           <button
             key={c.cat}

@@ -1197,3 +1197,27 @@
 - 2026-09-01: P0 번들 다이어트 4단계 — 루틴·오늘 계획·영구 플랜 편집기의 운동 목록/추천과 자연어 검색을 서버 액션으로 전환. 무거운 카탈로그에 닿는 클라이언트 화면 0개. `/routine` 459.1, `/plan` 281.4, `/plan/today` 272.2 KiB. 대상 단위 23개·서버 조회 6개, 대상 ESLint·TypeScript·프로덕션 빌드, 모바일 Chromium E2E 4개 통과.
 - 2026-09-01: P0 식품 카탈로그 분리 — 120.5 KiB 정적 데이터를 서버 검색으로 전환하고 타입·카테고리 계층 분리. `/diet` 508.7→411.7 KiB(-97.0). 식품 대상 단위 33개·ESLint·TypeScript·프로덕션 빌드·모바일 Chromium 검색/추가 E2E 통과.
 - 2026-08-31: P2.1 크론 운영화 — `cron_runs` 실행 기록 + `handleCron` 공통 껍데기, `notification_sends` 재실행 중복 차단, 발송 부분 실패 격리, 관리자 `/admin/crons`. DDL 라이브 적용, 단위 124파일 1181개 통과(스키마 동기화 green). 배포 후 실제 기록 확인 대기.
+
+### P1.5 [진행중] 런처형 홈·앱별 탐색 및 기능 연결 (2026-09-20~21)
+
+- [완료] 지정 UI 검수보고서 조사. 추천안 적용: 고정 앱 격자, 위젯 3개, 기존 URL 유지, 운동 기록 메뉴.
+- [완료] 앱 레지스트리·실제 집계 홈·앱 검색·기존 헤더 알림 유지 (5칸 메뉴·가운데 홈 고정은 요청으로 제거)
+- [완료] 식단 검색/사진/영양·날짜 유지·주간 캘린더·목표·커뮤니티 인기/내 글/작성·그룹 랭킹·코칭/펫 기능 연결
+- [완료] 운동 기능 34개 소스 경로 대조 및 기록·근육별·오늘만·프리셋 진입점 정리
+- [완료] 초기 자동 검증 (5칸 메뉴 제거 전, 2026-09-21): 전체 단위 198파일 2,154개, 신규 런처 56개 포함. Chromium 컴포넌트 50개(로컬 임시 HTTP·320/393/768px·라이트/다크·서버 액션 stub), 대상 ESLint 오류 0/기존 경고 1, TypeScript 통과.
+  - 댓글 입력바 높이 회귀 1개 재현 → 돌출 홈을 포함한 4.5rem 오프셋으로 수정 → 전체 재검증 통과.
+  - 검증 스크립트: tools/testing/verify-launcher-ui.mjs. 스크린샷·결과: .verify-shots/launcher/.
+- [완료] 공개 Supabase 설정으로 로컬 실행 및 next build 통과. 전체 E2E 실패는 아래 기록.
+- [대기] Android 실기기·전체 E2E 통과. 신규 런처 E2E는 실제 테스트 계정으로 2개 통과. 부모 항목은 완료 처리하지 않음.
+- 상세·34개 대조: docs/LAUNCHER-IMPLEMENTATION.md. 화면 보고서: docs/ui-launcher-implementation-2026-09-21.html.
+- 트레이너 변경 보존. 사용자 요청으로 런처 변경 커밋 준비. 푸시·배포 없음.
+
+- [완료] 사용자 요청: 앱별 5칸 메뉴·가운데 홈 고정 제거. 공통 메뉴·댓글 오프셋·헤더 알림 복원, 미사용 탐색 로직·테스트 정리.
+- [완료] 사용자 승인으로 전체 검증 실패를 기록한 채 본 작업만 커밋. 전체 단위 198파일/2,106개 및 Chromium 컴포넌트 50개 통과, TypeScript 통과.
+  - corepack pnpm test:schema: 69개 통과, public.member_share_prefs 라이브 DB 누락 1개 실패.
+  - corepack pnpm lint: 기존 파일 오류 14개·경고 39개.
+
+  - 대상 ESLint 오류 0(기존 경고 1), 최종 TypeScript 및 next build 통과.
+  - E2E_BASE_URL=http://127.0.0.1:3010 corepack pnpm test:e2e --max-failures=1: 302개 중 6개 통과·1개 실패·295개 미실행. added-part-available-in-inline-add.spec.ts의 /plan/today?add=1 이동 기대 실패(실제 /routine). 정리 단계 DB 연결 timeout으로 해당 실행 테스트 계정 정리는 확인하지 못함.
+  - 신규 런처 E2E: 개발 서버에서는 Next.js 개발 도구 버튼이 첫 홈 클릭을 가로챔. 이동 완료 URL 확인 보완 후 E2E_BASE_URL=http://127.0.0.1:3011 corepack pnpm test:e2e tests/e2e/launcher.spec.ts: mobile-chromium 2개 통과(41.7초), 테스트 계정 2개 정리 완료.
+  - Android 실기기 미검증. 전체 게이트 실패를 보고한 뒤 사용자가 "너작업만 커밋해"로 예외 커밋 승인(2026-09-21, RULE.md 3절).

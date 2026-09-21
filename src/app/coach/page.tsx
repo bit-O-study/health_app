@@ -17,7 +17,8 @@ import { EquipmentScanner } from "@/features/equipment/components/equipment-scan
 export const dynamic = "force-dynamic";
 export const metadata = { title: "헬쑤쌤" };
 
-export default async function CoachPage() {
+export default async function CoachPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
+  const { view } = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/coach");
   // 아직 디버그 기능 — 헬쑤쌤이 켜진 계정만.
@@ -50,6 +51,7 @@ export default async function CoachPage() {
       </div>
 
       <div className="space-y-4">
+        {view !== "recommend" && <>
         <AnalysisSection
           icon={<Dumbbell aria-hidden="true" size={20} />}
           title="운동 분석"
@@ -68,7 +70,8 @@ export default async function CoachPage() {
           saved={lastDiet}
         />
 
-        <CommitmentSuggestions />
+        </>}
+        {view !== "analysis" && <section aria-label="추천 다짐"><CommitmentSuggestions /></section>}
 
         <PostureAnalyzer />
 

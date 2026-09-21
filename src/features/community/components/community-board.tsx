@@ -56,8 +56,10 @@ export function CommunityBoard({
   canModerate,
   routineShares = [],
   applyTargets = [],
+  initialView,
 }: {
   groups: Group[];
+  initialView?: string;
   initialPosts: FeedPost[];
   canModerate: boolean;
   /** '루틴' 탭 — 소개된 하루치 루틴(상세까지 한 번에). */
@@ -67,9 +69,9 @@ export function CommunityBoard({
 }) {
   const router = useRouter();
   const [now] = useState(() => Date.now());
-  const [tab, setTab] = useState<BoardTab>("workout");
+  const [tab, setTab] = useState<BoardTab>(BOARD_TABS.find(tab => tab.value === initialView)?.value ?? "workout");
   const [search, setSearch] = useState("");
-  const [compose, setCompose] = useState(false);
+  const [compose, setCompose] = useState(initialView === "compose");
   const [routineCompose, setRoutineCompose] = useState(false);
   useBackClose(routineCompose, () => setRoutineCompose(false));
 
@@ -101,7 +103,7 @@ export function CommunityBoard({
             <button
               key={value}
               type="button"
-              onClick={() => setTab(value)}
+              onClick={() => { setTab(value); router.replace(value === "workout" ? "/community" : "/community?view=" + value, { scroll: false }); }}
               className={`relative shrink-0 pb-2.5 text-[15px] font-bold transition-colors min-[390px]:text-base ${
                 tab === value
                   ? "text-zinc-900 dark:text-zinc-50"
@@ -134,6 +136,7 @@ export function CommunityBoard({
         ) : null}
       </div>
 
+      {tab === "popular" && <p className="px-4 pt-3 text-xs text-zinc-500">현재 공개 범위에서 볼 수 있는 최근 게시물을 좋아요 많은 순으로 보여드려요.</p>}
       {/* 피드 */}
       {tab === "routine" ? (
         // 루틴 소개 — 남의 하루치 루틴을 보고 내 루틴의 한 일차로 담는다.
@@ -216,9 +219,10 @@ export function CommunityBoard({
         <ComposeModal
           groups={groups}
           defaultGroupId={null}
-          onClose={() => setCompose(false)}
+          onClose={() => { setCompose(false); if (initialView === "compose") router.replace("/community", { scroll: false }); }}
           onDone={() => {
             setCompose(false);
+            if (initialView === "compose") router.replace("/community", { scroll: false });
             router.refresh();
           }}
         />

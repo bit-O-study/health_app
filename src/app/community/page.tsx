@@ -13,7 +13,8 @@ import { CommunityBoard } from "@/features/community/components/community-board"
 export const dynamic = "force-dynamic";
 export const metadata = { title: "커뮤니티" };
 
-export default async function CommunityPage() {
+export default async function CommunityPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
+  const { view } = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/community");
 
@@ -30,6 +31,8 @@ export default async function CommunityPage() {
   return (
     <main className="w-full">
       <CommunityBoard
+        key={view ?? "feed"}
+        initialView={view}
         groups={groups.map((g) => ({ id: g.id, name: g.name }))}
         initialPosts={posts}
         canModerate={canModerate}

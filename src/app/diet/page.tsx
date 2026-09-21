@@ -1,3 +1,5 @@
+import { getHomeDashboard } from "@/features/home/home-data";
+import { DietExerciseCard } from "@/features/home/components/diet-exercise-card";
 import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -21,7 +23,7 @@ export const metadata = { title: "식단" };
 export default async function DietPage({
   searchParams,
 }: {
-  searchParams: Promise<{ d?: string }>;
+  searchParams: Promise<{ d?: string; view?: string }>;
 }) {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
@@ -30,6 +32,9 @@ export default async function DietPage({
   const today = seoulYmd();
   const date =
     typeof sp?.d === "string" && /^\d{4}-\d{2}-\d{2}$/.test(sp.d) ? sp.d : today;
+
+  const view = ["search", "photos", "nutrition"].includes(sp.view ?? "") ? sp.view : undefined;
+  const dashboard = view === "nutrition" && date === today ? await getHomeDashboard() : null;
 
   // 🔴 프로필도 **같은 묶음**으로 병렬 조회한다. 예전엔 `await getUserProfile()` 을
   //    먼저 하고 나머지 셋을 병렬로 돌려서, Supabase 왕복이 순차 2회였다. 프로필은
@@ -67,12 +72,14 @@ export default async function DietPage({
       <DietBoard
         key={date}
         date={date}
+        view={view}
         today={today}
         logs={logs}
         target={target}
         mealPhotos={mealPhotos}
         aiScanEnabled={aiScanEnabled}
       />
+      {dashboard && <div className="mt-4"><DietExerciseCard need={dashboard.dietExerciseNeed} macroRemaining={dashboard.macroRemaining} hasFoodLog={dashboard.hasFoodLog} /></div>}
     </main>
   );
 }

@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  ArrowUpRight,
-  Check,
-  Settings,
-  Target,
-} from "lucide-react";
-
+import { Settings } from "lucide-react";
 import { Logo } from "@/features/brand/logo";
 import { PromoBanner } from "@/features/cross-promo/promo-banner";
 import { NotificationBell } from "@/features/notifications/notification-center";
@@ -15,152 +9,25 @@ import { PermissionNudge } from "@/features/notifications/components/permission-
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
-import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
-import { DietExerciseCard } from "@/features/home/components/diet-exercise-card";
-import { ContributionGraph } from "@/features/home/components/contribution-graph";
-import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
-import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
-import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
-import { WeatherBackground } from "@/features/home/components/weather-background";
 import { TrainerModeSwitch } from "@/features/groups/components/trainer-mode-switch";
 import { getOwnedGroupsForSwitch } from "@/features/groups/trainer-switch.server";
-
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
+import { seoulYmd } from "@/features/routine/data";
+import { LauncherHome } from "@/features/launcher/launcher-home";
 export const dynamic = "force-dynamic";
-
-export const metadata: Metadata = {
-  title: "홈 · 헬쑤",
-  description: "내 운동 현황과 오늘의 다짐을 한눈에.",
-};
-
-export default async function HomePage() {
-  const user = await getCurrentUser();
-  if (!user) redirect("/login");
-
-  // ⚡ 프로필과 대시보드 조회를 **동시에** 시작한다. 예전엔 프로필을 먼저 await 하고
-  //   그 값을 넘겨줘서 원거리 리전(싱가포르) 왕복이 한 파 더 붙었다.
-  //   프로필 조회는 `React.cache` 라 대시보드 안에서 다시 불러도 왕복은 1회다.
-  const [profile, dashboard, weekly, training, ownedGroups] = await Promise.all([
-    getUserProfile(),
-    getHomeDashboard(),
-    // 주간 요약도 같이 시작한다 — 순서대로 기다리면 원거리 리전 왕복이 한 파 늘어난다.
-    getWeeklyReport(),
-    // 훈련 분석은 주간 리포트와 **같은 완료 기록**을 본다(React.cache 로 왕복 1회).
-    getMyWeeklyTraining(),
-    // 헤더 모드 전환용 — 내가 그룹장인 그룹만. 일반 회원은 빈 배열이라 스위치가 안 그려진다.
-    getOwnedGroupsForSwitch(),
+export const metadata: Metadata = { title: "홈 · 헬쑤", description: "운동, 식단, 일상의 기록을 한곳에서 시작하세요." };
+export default async function HomePage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
+  if (!await getCurrentUser()) redirect("/login");
+  const [profile, dashboard, weekly, ownedGroups, showCoach, query] = await Promise.all([
+    getUserProfile(), getHomeDashboard(), getWeeklyReport(), getOwnedGroupsForSwitch(), isDebugFeatureEnabled("helssu-coach"), searchParams,
   ]);
   if (!profile) redirect("/onboarding");
-
-  const {
-    goalCard,
-    current,
-    todayCommitments,
-    workoutCount,
-    dietExerciseNeed,
-    macroRemaining,
-    hasFoodLog,
-    contributions,
-  } = dashboard;
-
-  const doneCount = todayCommitments.filter((c) => c.done).length;
-  return (
-    <div className="app-page overflow-x-clip">
-      <WeatherBackground />
-      <header className="app-header">
-        <nav className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3 sm:px-6 sm:py-3.5">
-          <div className="flex min-w-0 items-center gap-2">
-            <Link href="/home" className="flex items-center gap-2" aria-label="홈">
-              <Logo />
-            </Link>
-            {/* 트레이너만 보이는 모드 전환(내 운동 ↔ 회원 관리). 일반 회원에겐 null. */}
-            <TrainerModeSwitch groups={ownedGroups} />
-          </div>
-          <div className="flex items-center gap-1">
-            <NotificationBell />
-            <Link
-              aria-label="설정"
-              href="/settings"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-200/60 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-white/[0.06] dark:hover:text-zinc-100"
-            >
-              <Settings aria-hidden="true" size={18} />
-            </Link>
-          </div>
-        </nav>
-      </header>
-
-      <main className="app-container">
-        <PromoBanner />
-        <PermissionNudge />
-
-        <div className="grid gap-3 md:grid-cols-2 md:items-start">
-          <div className="space-y-3">
-            <TodayGoalCard
-              goal={goalCard}
-              missions={[]}
-              totalMissions={0}
-              current={current}
-            />
-            <DietExerciseCard
-              need={dietExerciseNeed}
-              macroRemaining={macroRemaining}
-              hasFoodLog={hasFoodLog}
-            />
-          </div>
-
-          <div className="space-y-3">
-            <Link
-              href="/commitments"
-              className="app-card group block p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/20 sm:p-5"
-            >
-              <div className="mb-3 flex items-center justify-between gap-3">
-                <div className="flex min-w-0 items-center gap-2">
-                  <Target aria-hidden="true" size={15} className="shrink-0 text-emerald-500" />
-                  <span className="truncate text-sm font-black text-zinc-900 dark:text-zinc-100">오늘의 다짐</span>
-                  {todayCommitments.length > 0 ? (
-                    <span className="shrink-0 text-[11px] font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
-                      {doneCount}/{todayCommitments.length}
-                    </span>
-                  ) : null}
-                </div>
-                <ArrowUpRight aria-hidden="true" size={16} className="shrink-0 text-zinc-300 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:text-zinc-600" />
-              </div>
-
-              {todayCommitments.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
-                  오늘 진행 중인 다짐이 없어요. 작은 목표부터 만들어 보세요.
-                </p>
-              ) : (
-                <ul className="space-y-2.5">
-                  {todayCommitments.map((c) => (
-                    <li key={c.id} className="flex min-w-0 items-center gap-3">
-                      <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${c.done ? "border-emerald-500 bg-emerald-500 text-white" : "border-zinc-300 dark:border-zinc-600"}`}>
-                        {c.done ? <Check aria-hidden="true" size={12} strokeWidth={3} /> : null}
-                      </span>
-                      <span className={`text-safe min-w-0 flex-1 text-sm leading-5 ${c.done ? "font-medium text-zinc-400 line-through dark:text-zinc-600" : "font-semibold text-zinc-800 dark:text-zinc-200"}`}>
-                        {c.title}
-                      </span>
-                      <span className="max-w-24 shrink-0 truncate text-xs font-medium tabular-nums text-zinc-400 dark:text-zinc-500">{c.valueText}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </Link>
-
-            <WeeklyReportCard report={weekly} />
-
-            {/* 이번 주 어디를 안 했는지 한 줄. 전체 분석은 눌러서 점수 화면으로. */}
-            {training ? (
-              <WeeklyTrainingSummary
-                regions={training.regions}
-                weekSets={training.weekSets}
-              />
-            ) : null}
-
-            <ContributionGraph days={contributions} totalWorkoutDays={workoutCount} />
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+  return <div className="app-page min-h-screen bg-[#f4f6f5] dark:bg-[#0d1310]">
+    <header className="app-header"><nav aria-label="홈 도구" className="mx-auto flex w-full max-w-3xl items-center justify-between px-4 py-3 sm:px-6">
+      <div className="flex min-w-0 items-center gap-2"><Link href="/home" aria-label="헬쑤 홈"><Logo /></Link><TrainerModeSwitch groups={ownedGroups} /></div>
+      <div className="flex items-center gap-1"><NotificationBell /><Link href="/settings" aria-label="설정" className="flex h-10 w-10 items-center justify-center rounded-full text-zinc-500"><Settings size={18} aria-hidden="true" /></Link></div>
+    </nav></header>
+    <main className="app-container space-y-5"><LauncherHome dashboard={dashboard} weekly={weekly} showCoach={showCoach} searching={query.view === "search"} today={seoulYmd()} /><PermissionNudge /><PromoBanner /></main>
+  </div>;
 }

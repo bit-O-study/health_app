@@ -1,3 +1,6 @@
+import { calendarWeek } from "@/features/launcher/calendar-range";
+import { getHomeDashboard } from "@/features/home/home-data";
+import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -60,21 +63,31 @@ const leadDays = (jsDay: number) => (jsDay === 0 ? 6 : jsDay - 1);
 export default async function CalendarPage({
   searchParams,
 }: {
-  searchParams: Promise<{ m?: string }>;
+  searchParams: Promise<{ m?: string; view?: string; d?: string }>;
 }) {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
 
-  const { m } = await searchParams;
+  const { m, view, d } = await searchParams;
+  const today = seoulYmd();
+  if (view === "goals") {
+    const dashboard = await getHomeDashboard();
+    return <main className="app-page app-container space-y-4"><h1 className="text-2xl font-bold">나의 목표</h1>
+      <TodayGoalCard goal={dashboard.goalCard} missions={[]} totalMissions={0} current={dashboard.current} />
+      <Link href="/settings/profile" className="app-card block p-4 font-semibold">체형 목표 설정·기록 →</Link>
+      <Link href="/commitments" className="app-card block p-4"><h2 className="font-bold">오늘의 다짐</h2><p className="mt-2 text-sm text-zinc-500">{dashboard.todayCommitments.filter(item => item.done).length} / {dashboard.todayCommitments.length}개 달성 · 다짐 관리 →</p></Link>
+    </main>;
+  }
+  const isWeek = view === "week";
+  const week = calendarWeek(d, today);
   const { year, month0 } = parseMonth(m);
   const dim = daysInMonth(year, month0);
-  const from = ymd(year, month0 + 1, 1);
-  const to = ymd(year, month0 + 1, dim);
+  const from = isWeek ? week.from : ymd(year, month0 + 1, 1);
+  const to = isWeek ? week.to : ymd(year, month0 + 1, dim);
   const prev = shiftMonth(year, month0, -1);
   const next = shiftMonth(year, month0, +1);
   const monthParam = (mm: { year: number; month0: number }) =>
     `${mm.year}-${pad(mm.month0 + 1)}`;
-  const today = seoulYmd();
   // 서로 독립인 쿼리는 한 번에(직렬 → 1파). 각 함수는 cache()된 인증을 공유.
   const [
     { byDate, intakeTotal, workoutBurnedTotal },
@@ -112,28 +125,28 @@ export default async function CalendarPage({
 
   // 셀 구성(월요일 시작)
   const firstJsDay = new Date(Date.UTC(year, month0, 1)).getUTCDay();
-  const lead = leadDays(firstJsDay);
+  const lead = isWeek ? 0 : leadDays(firstJsDay);
   const cells: (number | null)[] = [];
   for (let i = 0; i < lead; i++) cells.push(null);
-  for (let d = 1; d <= dim; d++) cells.push(d);
+  for (let day = 1; day <= (isWeek ? 7 : dim); day++) cells.push(day);
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
     <main className="app-page app-container">
       <div className="mb-4 flex items-center justify-between">
         <Link
-          href={`/calendar?m=${monthParam(prev)}`}
-          aria-label="이전 달"
+          href={isWeek ? `/calendar?view=week&d=${week.previous}` : `/calendar?m=${monthParam(prev)}${view === "stats" ? "&view=stats" : ""}`}
+          aria-label={isWeek ? "이전 주" : "이전 달"}
           className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
         >
           <ChevronLeft aria-hidden="true" size={20} />
         </Link>
         <h1 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
-          {year}년 {month0 + 1}월
+          {isWeek ? `${week.from} ~ ${week.to}` : `${year}년 ${month0 + 1}월`}
         </h1>
         <Link
-          href={`/calendar?m=${monthParam(next)}`}
-          aria-label="다음 달"
+          href={isWeek ? `/calendar?view=week&d=${week.next}` : `/calendar?m=${monthParam(next)}${view === "stats" ? "&view=stats" : ""}`}
+          aria-label={isWeek ? "다음 주" : "다음 달"}
           className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
         >
           <ChevronRight aria-hidden="true" size={20} />
@@ -155,7 +168,7 @@ export default async function CalendarPage({
       </div>
 
       {/* 캘린더 */}
-      <div className="app-card p-2 sm:p-3">
+      <div className={view === "stats" ? "hidden" : "app-card p-2 sm:p-3"}>
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div
@@ -171,7 +184,7 @@ export default async function CalendarPage({
         <div className="grid grid-cols-7 gap-0.5">
           {cells.map((day, idx) => {
             if (day === null) return <div key={`e${idx}`} />;
-            const date = ymd(year, month0 + 1, day);
+            const date = isWeek ? week.dates[idx] : ymd(year, month0 + 1, day);
             const s = byDate.get(date);
             const isToday = date === today;
             const marks = getDayMarks(date);
@@ -234,7 +247,7 @@ export default async function CalendarPage({
                     isToday ? "text-emerald-700 dark:text-emerald-400" : dayColor
                   }`}
                 >
-                  {day}
+                  {isWeek ? Number(date.slice(8)) : day}
                 </span>
                 {holiday ? (
                   <span className="w-full truncate text-center text-[8px] font-semibold leading-tight text-rose-500 dark:text-rose-400">
@@ -264,7 +277,7 @@ export default async function CalendarPage({
       {/* 월 요약 */}
       <div className="mt-5 space-y-2">
         <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
-          이번 달 요약
+          {isWeek ? "이번 주 요약" : "이번 달 요약"}
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <SummaryCard

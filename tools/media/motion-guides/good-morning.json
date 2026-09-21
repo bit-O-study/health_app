@@ -1,0 +1,11 @@
+{
+  "prompt": "Scientific educational animation sprite sheet for BARBELL GOOD MORNING. Exactly 16 square cells in a4x4 grid, no labels, borders, numbers or arrows. Uniform pale gray opaque studio background. Original bald athletic male mannequin with neutral GRAY skin, teal shorts, bare feet. Consistent realistic 3D anatomical illustration. Fixed SIDE THREE-QUARTER camera facing athlete's right side, athlete faces right; show both hands and ends of bar clearly. Full body plus full bar inside each cell with generous margin, same scale and floor line. A light straight barbell with ONE small dark round weight plate at EACH end rests across upper TRAPEZIUS behind shoulders, NOT on neck, NOT front rack. Both hands hold bar slightly wider than shoulders and never release. Start upright with feet hip-width flat and knees softly bent. Across all16 cells show ONE continuous descending hip hinge: push hips backwards while the flat neutral torso inclines forwards from vertical to about25degrees above horizontal; knees remain only softly bent, shins nearly vertical. Back and head aligned as one unit, no spinal rounding, no squat. Torso inclination increases a little in every successive cell; do NOT reset at row boundaries. Last cell deepest controlled hinge, not upright. Bar stays secured to the same spot on upper back throughout and travels with shoulders. Feet remain exactly in same floor locations in every cell. Proportions, plate diameter, bar length, hand spacing, perspective and lighting all identical. Crisp single silhouettes, simple subtle contact shadow. This sprite sheet is interpolated then reversed for a complete good morning repetition.",
+  "equipment": "barbell",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/good-mornings.html"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "good-morning",
+  "registeredAt": "2026-09-16T08:18:28.250Z"
+}

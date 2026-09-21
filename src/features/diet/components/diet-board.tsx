@@ -1532,7 +1532,7 @@ function AddFoodDialog({
               setPicked(null);
             }}
             aria-pressed={mode === m}
-            className={`min-h-11 flex-1 border-b-2 text-sm font-semibold transition ${
+            className={`food-entry-mode min-h-11 flex-1 border-b-2 text-sm font-semibold transition ${
               mode === m
                 ? "border-foreground text-foreground"
                 : "border-transparent text-muted"

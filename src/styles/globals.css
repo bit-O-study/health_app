@@ -275,6 +275,13 @@ a {
 .food-search-input:focus-visible {
   outline: none;
 }
+/* 검색 모드 토글의 키보드 포커스는 사각 테두리 대신 글자 밑줄로 표시한다. */
+.food-entry-mode:focus-visible {
+  outline: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .food-search-field:focus-within {
   border-color: var(--muted);
 }

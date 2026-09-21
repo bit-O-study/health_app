@@ -25,6 +25,13 @@
   E2E 계정 헬퍼가 `.env.local` 만 읽어 Supabase 키를 못 찾던 것도 같이 고침(`.env` 병합).
 - [대기] 밝은/어두운 테마 눈 확인 · Android 실기기 터치·안전 영역 확인 (사용자)
 - [진행중] 2026-09-18 추가 요청: 음식 검색창 초록 포커스 네모 제거·구운계란 개수 선택
+  - [진행중] 2026-09-21 검색 토글의 초록 포커스 박스 제거 (Codex)
+    - [완료] 입력에만 예외가 있고 모드 토글에는 공통 초록 outline이 적용되는 소스 확인
+    - [완료] 모드 토글에 한정해 outline 제거, 키보드 포커스는 글자 밑줄로 표시
+    - [완료] food-search-toggle-focus.spec.ts 1개 통과 (2026-09-21, localhost:3000/mobile-chromium): 밝은·어두운 테마 검색/직접 입력 키보드 포커스 밑줄, 클릭 후 outline 없음·검색 전환 확인. 대상 ESLint 및 TypeScript 통과.
+    - 개발 서버 Turbopack이 변경 전 CSS를 재시작 후에도 제공하여 next dev --webpack --port 3000으로 재기동. 생성 CSS에 신규 규칙 포함 및 E2E 통과 확인. 소스 설정 변경 없음.
+    - [대기] 기존 food-search-egg-serving.spec.ts는 토글 검사 전 팝업 높이 819px/기대 839px 차이로 실패. 이번 수정 범위 밖이며 별도 확인 필요. 전체 빌드·실기기 미실행.
+    - [대기] Android 실기기 터치 확인
   - [진행중] 2026-09-20 이어서: 검색 결과도 계란 1개 기준 양·영양값으로 표시하고 긴 제품명/기준량 줄바꿈 정리
     - [완료] 검색 결과는 100g 기준, 개수 편집기는 1개 기준인 표시 불일치 소스 확인
     - [완료] 기존 환산 함수로 검색/수량 화면의 1개 기준 양·칼로리·탄단지 표시 통일 및 긴 제품명 줄바꿈 구현. 소스 대조로 선택 시 원본 음식 전달·저장 계산 보존 확인
@@ -371,6 +378,44 @@
 ## P1 — 콘텐츠 작성 동선
 
 ### P1.4 [진행중] 운동모드 기구 세팅 가이드 영상
+
+- [진행중] 카탈로그 뒷번호부터 운동별 연속 동작 영상 추가 제작 (2026-09-14)
+  - [진행중] 2026-09-15 사용자 지정 범위: 맨 뒤부터 역순 100번째 항목까지 종목별 전용 영상 제작
+    - [완료] 조사: 마지막 100개 구간의 미등록 목록 및 기구 확인
+    - [완료] 사용자 요청 Heltch 복사: 신규 통과 15개 MP4와 원본·설정·검사표 45개를 D:/git/heltch/health_app에 복사, 기존 파일 덮어쓰기 없음. 총 60개 SHA-256 재검증 및 15개 리뷰·렌더 기록 보관. 파일 복사 완료, 대상 앱 manifest 연결은 별도.
+    - [진행중] 역순 원본 생성·등록·렌더·32프레임 시각 검토
+      - [진행중] 2026-09-16 재개: crunch부터 역순 제작 계속.
+        - [진행중] 추가 재개: good-morning·sumo-deadlift 중복/출처 조사, 원본 제작·렌더·프레임 검토.
+          - [진행중] 구분선 위치 오차로 잘림 재현: 실제 흰 구분선을 검출하는 프레임 분할·회귀 테스트 추가 및 두 영상 재렌더.
+          - [대기] 대상 검사 및 제작 결과 기록.
+          - [대기] 모바일·실기기 재생 확인.
+        - [완료] crunch·sit-up Heltch 중복 조사, ACE 크런치·PureGym 싯업 동작 설명 비교.
+        - [완료] crunch·sit-up 원본/32프레임 검토 및 렌더: 480x480·8초24fps·전체 디코딩 통과, 각 57836/74113bytes. 누적117/1351. 싯업 첫 렌더는 거부 후 원본 재제작·재검토.
+        - [대기] walking-lunge 두 원본 좌우 교대 오류, step-up 두 원본 박스 위치·인물 비율/스타일 불일치로 미등록 재제작. 다음 역순54 good-morning 조사 가능.
+        - [완료] Node 영상 도구 테스트 2파일3개·Vitest 앱 기구 연결 1파일5개 통과. 대상 도구 ESLint·tsc --noEmit·git diff --check 통과. 새 통과 리소스 해시 일치 manifest/coverage 재생성 확인.
+        - [대기] 모바일 화면·실기기 재생 확인. 이번 회차 Heltch 복사·배포 미실행.
+      - [완료] low-row-machine 신규 passed: 원본8컷·32프레임 직접 검토, 480x480·8초·24fps·전체 디코딩 통과. 기존 standing-cable-curl과 함께 이번 구간 중복 없는 신규 통과 2종; 누적 102/1351.
+      - [완료] sumo-squat 신규 passed: heltch의 kettlebell-goblet-squat와 기구 위치·스탠스를 대조해 비중복 확인, 덤벨을 다리 사이에 수직으로 드는 16컷 전용 원본과 32프레임 영상 검토 및 480x480·8초·24fps·전체 디코딩 통과. 누적 103/1351.
+      - [완료] belt-squat·cossack-squat 신규 passed: heltch 선대조 후 비중복 확인, 각 16컷 원본·32프레임 영상과 480x480·8초·24fps·전체 디코딩 통과. cossack 첫 얼룩 원본은 폐기 후 재생성. 누적 105/1351.
+      - [완료] sissy-squat·pistol-squat·triceps-kickback 신규 passed: heltch 선대조 후 비중복 확인, 원본·렌더·내용 검수 및 형식 검증 통과. kickback 첫 중복 덤벨 원본은 폐기 후 재생성. 누적 108/1351.
+      - [완료] drag-curl·cable-front-raise·machine-rear-delt-fly 신규 passed: heltch 선대조 후 동작·기구 차이 확인, 원본·렌더·내용 검수와 480x480·8초·24fps·전체 디코딩 통과. 누적 111/1351.
+      - [완료] inverted-row·dumbbell-pullover 신규 passed: heltch 선대조 후 비중복 확인, 불량 inverted-row 손 분리 원본 폐기·재생성, 원본·렌더·내용 검수와 형식 검증 통과. 누적 113/1351.
+      - [완료] ab-rollout: heltch 비중복 확인, 8컷 잔상 반려 후 16컷 재생성·렌더 완료·32프레임 직접 검토·형식 및 전체 디코딩 통과. 누적 114/1351.
+      - [완료] side-plank: heltch 비중복 확인, 8초 정적 유지 영상 렌더 완료·32프레임 직접 검토·형식 및 디코딩 통과. 누적 115/1351.
+      - [대기] russian-twist: 16컷 회전 방향 불명확으로 미등록, 재제작 필요.
+      - [대기] mountain-climber: 두 원본의 좌우 교대 실패로 미등록, 재제작 필요.
+      - [완료] D:/git/heltch/health_app 기존 영상 대조: 마지막 100종 중 같은 ID 10종, -2/기구 이름 변형 17종 확인. assisted-pull-up(기존 assisted-pull-up-2)·chest-supported-row(기존 machine-row)는 신규 통과를 취소하고 manifest에서 제외.
+      - [진행중] 새 원본 등록 전 heltch의 mp4 ID·운동명·기구·동작을 대조해 중복 제작 방지.
+      - [진행중] bicycle-crunch 원본 좌우 교대 오류로 렌더 보류; reverse-crunch·donkey-calf-raise·toes-to-bar·hollow-hold·v-up 렌더 잔상/잘림으로 rejected 및 manifest 제외.
+      - [완료] 영상 도구·앱 연결·리소스 Vitest 4파일 11개 통과 (2026-09-15).
+    - [완료] 새 영상 앱 연결·규격 검사 (2026-09-16): manifest 115개 ID 고유, 115개 영상·원본 SHA-256이 각 passed 리뷰와 일치. 신규 15종 ffprobe h264 480x480·8초·24fps. 영상 도구 node 테스트 3개·Vitest 2파일 9개 통과
+    - [완료] 모바일 화면 재생: mobile-chromium demo-video-fits-phone E2E 10묶음(가이드 120개) 전부 통과 (2026-09-16)
+    - [대기] 실기기 재생·동작 확인 (사용자)
+  - [완료] 미완료 목록 조사: 1351종 중 100종 검토 통과에서 시작, 마지막 항목 cable-pull-through
+  - [완료] standing-cable-curl 원본8컷·영상 제작, 원본/32프레임 시각 검토 통과; 480x480·8초·24fps·82854B·전체 디코딩 통과
+  - [완료] 영상 도구·앱 연결·리소스 대상 Vitest 4파일 11개 통과, 통과 영상 누적 101종
+  - [진행중] cable-pull-through 재제작: 16컷 영상은 머리 잔상, 8컷 영상은 손·로프 경로 부정확으로 rejected 및 공개 제외
+  - [대기] 새 영상의 모바일 화면·실기기 재생 및 운동 내용 확인
 
 - [진행중] 2026-09-08 기존 운동 가이드 6종 전체 AI 사진 영상 재제작
   - [완료] 연결 범위 조사: 내장 6종, exercise_media DB 등록 0건
@@ -1190,6 +1235,11 @@
 10. AI 코치 구독화
 
 ## 진행 기록
+
+- 2026-09-21: 사용자 미커밋 변경 전체 커밋 요청 및 검증 한계 고지 후 「커밋해줘」 재지시에 따라 현재 99개 파일 커밋. 검색 토글 포커스 수정, 운동 가이드 영상·원본·검토 기록·프레임 분리 도구 및 문서 포함. 테스트 결과 폴더와 커밋 제외 표시된 임시 화면 캡처 스크립트는 제외.
+  - 통과: corepack pnpm test:unit 198파일 2,192개, corepack pnpm test:schema 69개, corepack pnpm exec tsc --noEmit, node --test tools/media/motion-panel-bounds.test.mjs 2개, git diff --cached --check.
+  - 실패: corepack pnpm lint 기존 오류 13건·경고 39건. 이번 변경 밖의 set-state-in-effect/immutability 및 scripts/validate-equip-map.js require 규칙 등이며 수정하지 않음.
+  - corepack pnpm test:e2e --grep-invert "화면 캡처": localhost:3000/mobile-chromium 311개 실행 중 사용자 즉시 커밋 재지시로 중단. 중단 전 출력 기준 6개 통과, add-appends-bottom.spec.ts 1개 실패(2분). 전체 통과 아님. 이번 회차 빌드·Android 실기기 미실행. 앞선 검색 토글 대상 E2E 1개 통과 근거는 UI.1에 기록.
 
 - 2026-09-01: 5.1 사용자 데이터 내보내기 — 운동·체중체성분·식단 CSV + 전체 JSON 백업.
   정책을 데이터(`EXPORT_SCOPE`)로 두고 화면·파일·테스트가 같은 표를 읽게 함. 서버에 파일을

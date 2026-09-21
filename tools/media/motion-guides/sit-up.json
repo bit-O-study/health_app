@@ -1,0 +1,11 @@
+{
+  "prompt": "Create a scientific educational animation sprite sheet of a bent-knee bodyweight SIT-UP. Exact 4x4 grid of sixteen SQUARE cells, no dividing lines, numbers, text or gaps. Uniform solid pale gray #dddddd background in EVERY cell, NO gradients and NO vignette. Original athletic gray male mannequin, bald, teal shorts, bare feet. Strict side camera head left feet right. CRITICAL MARGINS: figure including toes must occupy ONLY middle 70% of cell width, leaving 15% empty left and 15% empty right in every single cell. Figure stays the SAME SMALL SCALE throughout all 16 cells. Floor baseline 80% cell height. Hips and feet locked in the same position throughout. Knees bent, feet flat at hip-width, both legs discernible. Arms crossed securely on the chest (hands touch opposite shoulders), NO hands behind head. This fixed arm position must stay identical relative to torso throughout. Show ONE gradual upward sit-up motion across all sixteen cells in row-major order, never reset between rows: upper torso angles above floor 0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75 degrees. Lie fully supine in cell 1 and finish sitting upright in cell 16; lift ribcage then torso towards knees, head aligned with spine. No hip lift, no leg lifting, no rocking and no twisting. Whole person clearly visible inside each cell, upright head also needs generous top margin. Identical anatomy, camera, scale, floor line and exposure. Crisp realistic anatomical 3D illustration with diffuse shadowless lighting. This is intended for optical flow interpolation, so intermediate poses should differ only slightly; no duplicate silhouettes or floating limbs.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.puregym.com/exercises/abs/sit-ups/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "sit-up",
+  "registeredAt": "2026-09-16T07:51:26.270Z"
+}

@@ -131,12 +131,22 @@ public/exercise-guides/previews/conventional-deadlift-smooth.mp4
 
 ## 최신 체크포인트
 
-2026-09-13T13:15:47.444Z
+2026-09-16T08:39:02.568Z
 
-등록 106 / 렌더 106 / 시각 검토 통과 100 / 대상 1351
+등록 135 / 렌더 134 / 시각 검토 통과 120 / 대상 1351
 
-2026-09-13 첫 100개 달성: 등록106/렌더106/시각 검토 통과 및 앱 v3 manifest 100/전체1351. 이번 구간 신규 통과: bench-dip-2, triceps-dip, cable-overhead-triceps-extension, hanging-leg-raise-2, decline-sit-up, kettlebell-front-squat, farmer-s-carry, kettlebell-row, trx-row, v-up-2, zottman-curl-2, cable-woodchopper. 각 원본과 최종32프레임을 출처에 대조하고 480x480·8초·24fps 전체 decode 확인. 바닥 접촉 행잉 레그 레이즈는 재제작 후 통과, 첫 트라이셉스 딥은 배경 얼룩으로 교체. jump-squat 머리 잘림/잔상 및 hollow-body-hold 인물 축소는 rejected·공개 제외. manifest 100개 ID 고유, 100개 파일·원본 SHA256가 각 passed 리뷰와 전부 일치. 영상 도구 테스트3, 앱 연결/리소스 Vitest7, 전체 unit 186파일1930, schema69 통과; 영상 범위 ESLint 통과, git diff --check 통과. 전체 lint는 기존 16 errors/38 warnings, 전체 tsc는 tests/be/logic/sw-strategy.test.ts:56 public/sw-strategy.js not a module로 실패. mobile-chromium demo-video-fits-phone E2E는 localhost:3000 기존 Next dev 서버의 Jest worker child process exceptions Runtime Error로 첫2묶음 실패해 중단. 실기기·전체 E2E·전체 커밋 게이트 미완료이므로 커밋하지 않음. 다음 작업: 개발 서버 복구 후 모바일 E2E, 실기기 확인, 기존 lint/tsc 실패 해결 또는 범위 분리 검토, 사용자 지시대로 이후 영상 추가 제작.
+역순 진행 유지. 2026-09-16 추가 재개: 54 good-morning·55 sumo-deadlift·56 seated-calf-raise 신규 통과. 각각101550/114002/122556bytes, 480x480/8초24fps/무음H264, ffprobe·전체 디코딩·원본/32프레임 직접 검토. 누적120/1351.
 
-2026-09-14 커밋 게이트 재검증: unit 186파일/1947개, schema 69개, 전체 ESLint 오류0/경고39, tsc --noEmit 및 직접 next build 통과. localhost:3110 프로덕션 서버 mobile-chromium 영상 104종 재생 E2E 9개 통과. pnpm build 사전 전체 Vitest는 라이브 DB 정합성 2개 실패(2119/2121 통과). 전체 E2E는 서버 복구 후 23개 중 21개 통과/관리자 정지 2개 실패로 중단; 단독 재현에서 정지 후 해제 버튼 미표시. 커밋 게이트 미통과, 커밋 보류.
+원본의 흰 구분선이 정확한 등분 경계와 어긋나 잘림/흰 테두리가 생기는 문제를 수정. motion-panel-bounds.mjs가 좁은 흰 선을 찾아 프레임을 나누며, 회색/넓은 흰 배경은 기존 등분 유지. renderVersion4. 기존 통과 영상 일괄 재렌더하지 않음. 구분선 위치 회귀 테스트 최초1실패 후 탐색범위 수정, 최종2통과.
 
-2026-09-14 커밋 게이트 실패 수정: 이전 data-integrity 2개 실패는 의도된 고스트 완료기록을 살아 있는 계획 행 필수로 판정한 가드 오류. 최근7일 스냅샷 검사로 교정해 과거 기록 포함 통과. 관리자 정지 2개 실패는 DB 저장 성공 후 UI 갱신 지연; 성공 즉시 행 상태/pending 갱신으로 수정해 mobile-chromium 영구/7일 정지·해제 E2E 2개 원래10초 조건 통과. pnpm build 전체 Vitest 197파일/2154개 및 Next 빌드, 전체 ESLint 오류0/경고39, tsc --noEmit 통과. 전체 E2E 292개는 아직 완료하지 않아 커밋 보류.
+검증: Node test(guide-review/manage-motion-guides/motion-panel-bounds)3파일5개, Vitest exercise-media-equipment5개·video-resource2개, 총12개 통과. 변경 도구3파일 ESLint·전체tsc --noEmit·git diff --check 통과. 모바일 화면/실기기·전체E2E·커밋·배포·Heltch 복사 이번 회차 미실행.
+
+다음 역순57 standing-calf-raise,58 seated-leg-curl,59 leg-extension은 Heltch 동일ID/-2 파일 존재(각 기구 재확인 후 건너뛰기). 다음 새 후보60 hack-squat,61 goblet-squat,62 front-squat. 누락 항목을 완료 처리하지 않음.
+
+보류 유지: walking-lunge·step-up·russian-twist·mountain-climber 및 기존 rejected. walking-lunge51·step-up53은 이전2개 원본씩 실패했고 재제작 필요.
+
+이번 최종 PNG 루트 C:/Users/admin/.codex/generated_images/01a0a91d-fcae-7ab0-ad2f-af38d3a9633e/: good-morning exec-bd53c56a-24d7-4939-a4a6-4531f3dd2ffa.png, sumo-deadlift exec-1bac8438-4085-4c71-b32b-fce3718f1502.png, seated-calf-raise exec-4da89e18-5219-4da7-8864-23f2d73686ef.png. 내장 imagegen 사용, 프롬프트/출처는 각 motion-guides/{id}.json.
+
+굿모닝: 첫16컷을 보정 렌더로 통과. 8컷 exec-c2c456f3-da70-41b9-a99b-51059103a413.png는 머리 잔상,16컷 exec-b67f2f04-2c26-4581-98e6-ebbd2ee7abbe.png는 검은배경/손상으로 폐기. 스모8컷 exec-d4645746-e5b2-4ddb-9d50-9f4d31ce8869.png는 머리여백 부족으로 미등록. 카프 최초 exec-edf0ed6f-ae39-4bcb-92f3-42037498d01d.png는 지렛대구조 불명확으로 미등록.
+
+이전 완료: crunch48·sit-up49 신규통과. 이전 Heltch복사:2026-09-15 통과15종·관련60파일 복사/해시확인, tools/media/imports/health-app-ui-2026-09-15/import.json, target manifest미변경. 이후 신규5종(crunch,sit-up,good-morning,sumo-deadlift,seated-calf-raise)은 아직Heltch미복사.

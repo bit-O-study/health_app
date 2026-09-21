@@ -1,0 +1,12 @@
+{
+  "prompt": "Eight-panel 4x2 sequence of one grey mannequin with teal shorts performing cable pull-through from upright to hip hinge; low pulley behind and rope between legs; fixed side camera, with head margin.",
+  "equipment": "cable",
+  "sources": [
+    "https://www.strengthlog.com/cable-pull-through/",
+    "https://barbend.com/cable-pull-through/"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "cable-pull-through",
+  "registeredAt": "2026-09-15T00:00:09.521Z"
+}

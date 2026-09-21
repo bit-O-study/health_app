@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync, statSync } from 'no
 import { resolve, join, relative, isAbsolute, extname } from 'node:path';
 import sharp from 'sharp';
 import { selectReviewedGuides, REVIEW_CHECKS } from './guide-review.mjs';
+import { motionPanelBounds } from './motion-panel-bounds.mjs';
 
 const root=resolve('tools/media/motion-guides');
 const out=resolve('public/exercise-guides/ai-v3');
@@ -15,7 +16,7 @@ const specPath=id=>join(root,id+'.json');
 const imagePath=id=>join(root,id+'.jpg');
 const moviePath=id=>join(out,id+'.mp4');
 const reviewPath=join(root,'reviews.json');
-const renderVersion=3;
+const renderVersion=4;
 const verifyPath=join(root,'verification.json');
 const binDir=join(process.env.LOCALAPPDATA??'','Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-9.0.1-full_build/bin');
 const bin=name=>existsSync(join(binDir,name+'.exe'))?join(binDir,name+'.exe'):name;
@@ -48,12 +49,11 @@ async function build(id) {
  const previous=read(verifyPath);
  const cached=previous.find(x=>x.id===id&&x.renderVersion===renderVersion&&x.sourceSha256===sourceSha256&&(x.panels??8)===panelCount&&existsSync(moviePath(id))&&x.videoSha256===sha(moviePath(id)));
  if(cached) return console.log(id+': verified movie already current');
- const {width,height}=await sharp(imagePath(id)).metadata();
+ const {data,info}=await sharp(imagePath(id)).removeAlpha().raw().toBuffer({resolveWithObject:true});
+ const bounds=motionPanelBounds(data,info.width,info.height,info.channels,rows);
  const poses=[];
  for(let i=0;i<panelCount;i++){
-  const left=Math.round(i%4*width/4)+4,top=Math.round(Math.floor(i/4)*height/rows)+4;
-  const right=Math.round((i%4+1)*width/4)-4,bottom=Math.round((Math.floor(i/4)+1)*height/rows)-4;
-  poses.push(await sharp(imagePath(id)).extract({left,top,width:right-left,height:bottom-top})
+  poses.push(await sharp(imagePath(id)).extract(bounds[i])
    .resize(480,480,{fit:'contain',background:'#b6b6b6'}).jpeg({quality:94}).toBuffer());
  }
  const order=panelCount===16?[0,0,...Array.from({length:16},(_,i)=>i),15,15,...Array.from({length:16},(_,i)=>15-i),0,0,0,0]:spec.cycle==='full'?[0,0,1,2,3,4,5,6,7,7,0,0,1,2,3,4,5,6,7,7]:[0,0,1,2,3,4,5,6,7,7,6,5,4,3,2,1,0,0,0,0];

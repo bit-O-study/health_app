@@ -2295,5 +2295,622 @@
     "sourceSha256": "0bb557e35890bd488832183bf962935eafe99b7d9516d8b503b069bd0eaaa8d5",
     "videoSha256": "c948ea07a556c1648329cc490bc75bb91832c392dd74473a69131c57f663d000",
     "reviewedAt": "2026-09-13T13:07:24.337Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "힙 힌지는 보이나 실제 케이블 풀스루 손 위치가 부정확",
+      "equipment": "낮은 케이블 풀리와 로프 확인",
+      "setup": "기구를 등지고 선 발 위치 확인",
+      "hands": "양손이 둔부 뒤에 고정되어 로프가 다리 사이를 충분히 통과하지 않음",
+      "feet": "발바닥 고정 확인",
+      "movement": "영상 전체 프레임은 안정적이나 손·로프 경로가 실제 운동 설명과 불일치"
+    },
+    "note": "8컷 재제작 480x480/8초/24fps/78169B 전체 decode 통과, 32프레임 잔상 없음. 그러나 손 위치가 계속 엉덩이 뒤에 있어 실제 풀스루를 정확히 보여주지 못해 공개 제외.",
+    "id": "cable-pull-through",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cable-pull-through/",
+      "https://barbend.com/cable-pull-through/"
+    ],
+    "sourceSha256": "f9d1e0b872531ed6c08b2cc8d6a8dffd59bb53ad703ab32f85c9b49052f4763b",
+    "videoSha256": "8a207a2f36fa6a75903185945800e4e9b3ce386803e9ba0fa7dbe1d8458ed60e",
+    "reviewedAt": "2026-09-14T14:07:30.092Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "스탠딩 케이블 컬: 직립 자세에서 팔꿈치 굽힘·복귀가 연속적으로 보임",
+      "equipment": "로우 풀리 1개와 짧은 스트레이트 바가 모든 프레임에서 연결됨",
+      "setup": "기구를 향해 서고 팔은 몸통 앞쪽으로 내림",
+      "hands": "양손 어깨너비 언더핸드 그립으로 같은 바를 잡고 가슴 가까이 올림",
+      "feet": "양발은 바닥에 고정되고 하체 반동 없음",
+      "movement": "상완은 몸통 가까이 두고 팔꿈치 굽힘으로 바를 올렸다 천천히 내림"
+    },
+    "note": "2026-09-14 원본8컷과 최종32프레임 직접 검토. 480x480/8초/24fps/82854B, ffprobe 및 전체 decode 통과. 케이블 연결·그립·발 고정 확인.",
+    "id": "standing-cable-curl",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cable-biceps-workout/",
+      "https://www.acefitness.org/resources/everyone/exercise-library/322/standing-bicep-curl/"
+    ],
+    "sourceSha256": "7f4ff7ea3f58ad4a6e37abf5be551e3b63e5a96e663d22d4f80f343cda66fc75",
+    "videoSha256": "7bdcf1bfacbd62b11fce697fbc46a99a3445060f34a6f72176f67e34a6410fde",
+    "reviewedAt": "2026-09-14T14:09:56.892Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "로우 로우 머신: 앉아 낮은 손잡이를 배꼽 쪽으로 당기는 동작 확인",
+      "equipment": "낮은 풀리·양손 손잡이·시트·발판·중량 스택이 유지됨",
+      "setup": "시트에 앉아 발판에 양발을 고정하고 몸통 세움",
+      "hands": "양손이 낮은 중립 손잡이를 잡음",
+      "feet": "양발이 발판에 계속 접촉",
+      "movement": "팔을 편 위치에서 팔꿈치를 뒤로 당겨 하복부로 이동하고 천천히 복귀; 몸통 반동 없음"
+    },
+    "note": "2026-09-15 흰 배경 재제작 원본 8컷과 최종 32프레임 직접 검토. 480x480, 8초, 24fps, 70350B, 전체 디코딩 통과.",
+    "id": "low-row-machine",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cable-close-grip-seated-row/"
+    ],
+    "sourceSha256": "febe2bd2d8fe311e80c53cc9b5c3695fea6bd3ab81e31e7a176dd61210195fce",
+    "videoSha256": "970d066bfc78e5f796696d4c245fb20cf4ed84dfbf2d9b49cc35128fff6de164",
+    "reviewedAt": "2026-09-14T23:27:38.985Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "리버스 크런치 골반 말아올림 자체는 정확히 보임",
+      "equipment": "맨몸·매트 일치",
+      "setup": "누워서 무릎 90도·팔 옆 고정",
+      "hands": "손바닥 바닥 지지",
+      "feet": "발은 바닥에서 떨어져 있음",
+      "movement": "중간 프레임 발목·발끝 부위 보간 잔상이 남음"
+    },
+    "note": "2026-09-15 480x480/8초/24fps/44458B 전체 decode 통과. 32프레임 2행 2~3열 발끝 잔상으로 공개 제외, 보간 또는 원본 재작업 필요.",
+    "id": "reverse-crunch",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/76/reverse-crunch/"
+    ],
+    "sourceSha256": "d8629de21b8e3a60900a7db2e07e025da641b02af4cc45999265c6637a9e0238",
+    "videoSha256": "4edd960568d8961ae744fc42a6ac09261cbf9207d336d129535c4ba3ac5a1ff4",
+    "reviewedAt": "2026-09-14T23:32:16.068Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "발꿈치 상승은 보이나 마지막 복귀 프레임의 머리 잘림·프레임 경계 잔상",
+      "equipment": "종목별 원본의 기구·매트는 맞음",
+      "setup": "원본 시작 자세는 확인",
+      "hands": "원본 손 위치는 확인",
+      "feet": "원본 발 위치는 확인",
+      "movement": "발꿈치 상승은 보이나 마지막 복귀 프레임의 머리 잘림·프레임 경계 잔상"
+    },
+    "note": "2026-09-15 원본8컷 및 렌더32프레임 시각 검토. 480x480·8초·24fps·전체 decode 통과, 보간 잔상/잘림 때문에 공개 제외.",
+    "id": "donkey-calf-raise",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/donkey-calf-raises/"
+    ],
+    "sourceSha256": "17101c32ade53978cca9addf416b343b1c7f065d241af65d4887a9661dbde0be",
+    "videoSha256": "458ddd66ebd514d850e26402bf34596f704d7b5a217d057b4e82c5e601e0cf0e",
+    "reviewedAt": "2026-09-14T23:39:00.249Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "다리 상승 중 여러 프레임에서 다리·발 심한 보간 잔상",
+      "equipment": "종목별 원본의 기구·매트는 맞음",
+      "setup": "원본 시작 자세는 확인",
+      "hands": "원본 손 위치는 확인",
+      "feet": "원본 발 위치는 확인",
+      "movement": "다리 상승 중 여러 프레임에서 다리·발 심한 보간 잔상"
+    },
+    "note": "2026-09-15 원본8컷 및 렌더32프레임 시각 검토. 480x480·8초·24fps·전체 decode 통과, 보간 잔상/잘림 때문에 공개 제외.",
+    "id": "toes-to-bar",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/strength-training-for-sprinting/"
+    ],
+    "sourceSha256": "95a6a52daa780faa72934d91b27980eefd5e36f39d516510568f334110e889cf",
+    "videoSha256": "d756e49c7103d21760eaec1b672ff1cd77edd78dac274a3b95f50d4fbee48ee6",
+    "reviewedAt": "2026-09-14T23:39:05.266Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "자세 전환과 복귀 구간에서 팔·다리 보간 잔상",
+      "equipment": "종목별 원본의 기구·매트는 맞음",
+      "setup": "원본 시작 자세는 확인",
+      "hands": "원본 손 위치는 확인",
+      "feet": "원본 발 위치는 확인",
+      "movement": "자세 전환과 복귀 구간에서 팔·다리 보간 잔상"
+    },
+    "note": "2026-09-15 원본8컷 및 렌더32프레임 시각 검토. 480x480·8초·24fps·전체 decode 통과, 보간 잔상/잘림 때문에 공개 제외.",
+    "id": "hollow-hold",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/hollow-hold/"
+    ],
+    "sourceSha256": "c383af275de08c4b614ea0d54a9c48c2efb8f6d6a50b07be71264df65d38683d",
+    "videoSha256": "e08c71189489383a1a831ba2bc3a2d00b403603702ba2e48f0fb92dcedb43d11",
+    "reviewedAt": "2026-09-14T23:39:09.470Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "V-up 원본에서 동시 상체·양다리 상승은 보임",
+      "equipment": "맨몸·매트 일치",
+      "setup": "누워서 팔·다리 뻗은 자세 확인",
+      "hands": "손은 발끝 쪽으로 이동",
+      "feet": "양다리 함께 상승",
+      "movement": "16컷 재제작 영상에도 손·발 주변 보간 잔상과 경계 부자연스러움"
+    },
+    "note": "2026-09-15 16컷 재제작 480x480·8초·24fps·91819B 전체 디코딩 통과, 32프레임 시트에서 잔상 확인으로 공개 제외.",
+    "id": "v-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/242/v-ups/"
+    ],
+    "sourceSha256": "26252130212b485fad788a11b82110be1ad29cec9b5dd41228037f9b5ebea535",
+    "videoSha256": "f7a53685cc14e2db0789489d0399bd315fbd7d93887b6102f7b5ac907706a898",
+    "reviewedAt": "2026-09-14T23:44:13.034Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "D:/git/heltch/health_app에 assisted-pull-up-2 동일 운동 영상이 있어 중복 제외",
+      "equipment": "기구 동일",
+      "setup": "세팅 동일",
+      "hands": "손 위치 동일",
+      "feet": "발/패드 위치 동일",
+      "movement": "동작 유형 동일"
+    },
+    "note": "2026-09-15 사용자 중복 금지 지시에 따라 D:/git/heltch/health_app/public/exercise-guides/ai-v3/assisted-pull-up-2.mp4와 동작 중복 확인. 이 프로젝트 manifest 공개 제외.",
+    "id": "assisted-pull-up",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/assisted-pull-up/"
+    ],
+    "sourceSha256": "904c81194c38c882e055018096c0657cef7aa3b15ff9aba563ff4ae309a63f0a",
+    "videoSha256": "cca7835a1f9b83fd2b774022d482971117b0b08138efe4108b21408654564db0",
+    "reviewedAt": "2026-09-14T23:56:01.198Z"
+  },
+  {
+    "status": "rejected",
+    "checks": {
+      "exercise": "D:/git/heltch/health_app에 machine-row 동일 운동 영상이 있어 중복 제외",
+      "equipment": "기구 동일",
+      "setup": "세팅 동일",
+      "hands": "손 위치 동일",
+      "feet": "발/패드 위치 동일",
+      "movement": "동작 유형 동일"
+    },
+    "note": "2026-09-15 사용자 중복 금지 지시에 따라 D:/git/heltch/health_app/public/exercise-guides/ai-v3/machine-row.mp4와 동작 중복 확인. 이 프로젝트 manifest 공개 제외.",
+    "id": "chest-supported-row",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/seated-machine-row/",
+      "https://www.strengthlog.com/back-exercises/"
+    ],
+    "sourceSha256": "a3a92efe1f52b7c016c8ee0d972767529db9ee4a1442857920a763b8e5a71bea",
+    "videoSha256": "7ec801e89ef2781fc169eaa6a3474ee3b154655855f43d9cbbabf3c0ba047cd7",
+    "reviewedAt": "2026-09-14T23:56:07.311Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "덤벨 스모 스쿼트가 와이드 스탠스의 서기-하강-서기 한 사이클로 명확히 표현됨",
+      "equipment": "단일 덤벨이 전 프레임에서 양손 아래 다리 사이에 수직으로 유지됨",
+      "setup": "발이 어깨보다 넓고 발끝이 바깥을 향하며 상체와 머리가 화면 안에 유지됨",
+      "hands": "양손이 덤벨 상단을 잡은 상태로 전 구간에서 분리나 위치 도약 없이 유지됨",
+      "feet": "양발과 뒤꿈치가 바닥에 고정되고 무릎이 발끝 방향으로 굽혀짐",
+      "movement": "엉덩이가 양 무릎 사이로 점진적으로 내려갔다 같은 경로로 복귀하며 보간 흐름이 연속적임"
+    },
+    "id": "sumo-squat",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/sumo-squat/",
+      "https://www.acefitness.org/resources/everyone/blog/5564/squat-variations-6-effective-squat-variations-to-try/"
+    ],
+    "sourceSha256": "c6bbf09d36f6a61b8984a36626e22ee4fafc4a2d39861a8f4bef31d2c55e46b2",
+    "videoSha256": "1b3deeca1e87e137edb47cf69dd212ab65888337a689cde5d86029214cb1595b",
+    "reviewedAt": "2026-09-15T00:11:18.255Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "전용 벨트 스쿼트 머신에서 서기-깊은 스쿼트-서기 동작이 명확함",
+      "equipment": "발판·허리 벨트·체인·플레이트가 장착된 하부 레버 머신이 전 구간 유지됨",
+      "setup": "양발은 발판에 고정되고 벨트는 골반에 체결되며 양손은 지지 손잡이를 잡음",
+      "hands": "양손이 같은 손잡이에 유지되고 팔이나 손의 누락·중복이 없음",
+      "feet": "양발이 발판에서 움직이지 않고 무릎이 발끝 방향으로 굽혀짐",
+      "movement": "골반이 수직으로 점진 하강한 뒤 같은 경로로 복귀하며 장비 연결과 신체 흐름이 연속적임"
+    },
+    "id": "belt-squat",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/belt-squats/",
+      "https://www.movement.com.br/wp-content/uploads/2024/11/MU_-BELT-SQUAT-NEXT_TRI.pdf"
+    ],
+    "sourceSha256": "df65fb52bdb6939c01f37a8a4ad848d8ed3ce122886821a400815cfdf17071bd",
+    "videoSha256": "2452ebb8e809279088d8814ea3b0ef032dabdfa72711ccc3a50e68b9008512fa",
+    "reviewedAt": "2026-09-15T00:21:43.192Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "고정된 와이드 스탠스에서 한쪽으로 깊게 이동하는 코사크 스쿼트가 명확함",
+      "equipment": "맨몸 동작이며 불필요한 기구가 등장하지 않음",
+      "setup": "정면 전신 구도에서 양팔을 앞으로 들고 넓은 발 간격을 유지함",
+      "hands": "양손과 양팔이 전 구간 동일한 앞으로 뻗은 자세로 유지됨",
+      "feet": "굽히는 쪽 발은 지면에 고정되고 반대쪽 다리는 곧게 펴지며 발끝이 위로 회전함",
+      "movement": "중앙 선 자세에서 한쪽 골반으로 점진 하강한 뒤 같은 순서로 복귀하며 프레임 연결이 연속적임"
+    },
+    "id": "cossack-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cossack-squat/",
+      "https://fitwell.recreation.ucla.edu/file/a6080b05-ec33-4e68-81eb-df30a07d82df"
+    ],
+    "sourceSha256": "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+    "videoSha256": "38cba3e73da8b183bdeeeb6f42d9be88aa351e0421f95a0ce900b323c4755f6a",
+    "reviewedAt": "2026-09-15T00:29:35.972Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "발앞꿈치를 축으로 무릎을 전진시키고 몸 전체를 뒤로 기울이는 보조 시시 스쿼트가 일반 스쿼트와 구분됨",
+      "equipment": "맨몸 운동이며 균형 보조용 단일 수직 지지대만 전 프레임에 유지됨",
+      "setup": "고정 측면 전신 구도에서 한 손은 지지대, 다른 손은 골반에 놓임",
+      "hands": "지지 손과 반대 손의 위치가 끊김이나 중복 없이 유지됨",
+      "feet": "양발 위치가 고정되고 뒤꿈치가 들린 발앞꿈치 지지가 전 구간 표현됨",
+      "movement": "무릎 굴곡과 후방 기울기가 단계적으로 증가하고 허리 접힘 없이 허벅지와 몸통 정렬이 유지됨"
+    },
+    "id": "sissy-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://workoutlabs.com/exercise-guide/sissy-squats/",
+      "https://ayanetwork.com/aya/180/Home%20exercise%20YOU%20ARE%20YOUR%20OWN%20GYM-MANTESHWER.pdf"
+    ],
+    "sourceSha256": "d5832aa12cea1fc6389de47a9ea1a7a2658b412511f3b193ed2df06f07aa71d3",
+    "videoSha256": "2d283a6851a587ee3e6ff7a2da81f86a83862a44e13fcd87b4c273fd89a69f02",
+    "reviewedAt": "2026-09-15T00:36:09.425Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "한쪽 다리로 깊게 앉고 반대 다리를 앞으로 편 피스톨 스쿼트가 명확함",
+      "equipment": "맨몸 동작이며 보조물이나 추가 기구가 없음",
+      "setup": "측면 전신 구도에서 양팔과 유리 다리를 앞으로 편 균형 자세가 유지됨",
+      "hands": "양팔과 양손이 어깨 높이 전방에서 일관되게 유지됨",
+      "feet": "지지발 위치와 뒤꿈치가 고정되고 반대 발은 바닥에 닿지 않음",
+      "movement": "지지 무릎과 골반이 점진적으로 낮아져 깊은 한발 스쿼트에 도달한 뒤 같은 경로로 복귀함"
+    },
+    "id": "pistol-squat",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/pistol-squat/",
+      "https://activelaunceston.com.au/Portals/0/Active%20Tasmania%20Meeting%20Activites%20%28FINAL%29.pdf"
+    ],
+    "sourceSha256": "b1d53a9b0551a950535dc19c8ce56e7d35d09e2e3a47a6583cb1000d0f32213c",
+    "videoSha256": "6bd13fdad6fe6fd3b898f8fa505d543e240c6baf4ede713fced4947b21512d0a",
+    "reviewedAt": "2026-09-15T00:45:04.881Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "상완을 몸통 옆에 고정하고 팔꿈치만 펴는 원암 덤벨 트라이셉스 킥백이 명확함",
+      "equipment": "오른손의 단일 덤벨이 전 프레임에서 같은 형태와 그립으로 유지됨",
+      "setup": "스플릿 스탠스와 전방 힌지, 반대 손의 허벅지 지지 자세가 고정됨",
+      "hands": "지지 손은 앞 허벅지에 있고 운동 손은 덤벨을 놓치거나 중복 없이 유지함",
+      "feet": "앞뒤 양발이 같은 위치에 고정되어 안정된 지지 기반을 유지함",
+      "movement": "오른 상완과 팔꿈치 위치는 유지되고 전완만 점진적으로 뒤로 펴졌다 복귀함"
+    },
+    "id": "triceps-kickback",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/55/triceps-kickback/",
+      "https://contentcdn.eacefitness.com/certifiednews/images/article/pdfs/ACETricepsStudy.pdf"
+    ],
+    "sourceSha256": "56b4457fe4b7e3837f16e91c86a962221715b2b919de8bd38eaa4d32c71a79e0",
+    "videoSha256": "d612d0fc38883d2a92a36370b0fadaf91b755d3501964e26281afbb0a775ff46",
+    "reviewedAt": "2026-09-15T00:52:09.213Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "바벨을 몸통 가까이 수직으로 끌어올리며 팔꿈치를 뒤로 보내는 드래그 컬이 일반 컬과 구분됨",
+      "equipment": "단일 직선 바벨과 양쪽 동일 원판이 모든 프레임에 유지됨",
+      "setup": "전신 사선 구도에서 몸통과 양발이 고정되고 언더그립으로 바를 잡음",
+      "hands": "양손 그립 간격과 바 연결이 끊기거나 중복되지 않음",
+      "feet": "양발이 같은 위치에서 바닥에 고정되어 반동 없는 자세를 유지함",
+      "movement": "바가 허벅지에서 하부 가슴까지 몸을 따라 상승하고 양 팔꿈치가 점진적으로 몸 뒤로 이동함"
+    },
+    "id": "drag-curl",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/drag-curl/",
+      "https://exercisesforfree.com/pdf/261.pdf"
+    ],
+    "sourceSha256": "3b7376ab5b5ca43ca4af236c9931b2d3b33983ead727a8cfc0f42c03b584bb92",
+    "videoSha256": "56f7dabc75902ad8a4ad5b3d52d91328577b412dfc559402c654b31578665aea",
+    "reviewedAt": "2026-09-15T01:00:46.916Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "낮은 풀리의 스트레이트 바를 허벅지 앞에서 어깨 높이까지 드는 케이블 프런트 레이즈가 명확함",
+      "equipment": "단일 케이블 타워·하부 풀리·케이블·스트레이트 바가 전 프레임에서 연결됨",
+      "setup": "머신 앞에 선 전신 구도에서 양발과 몸통을 고정하고 양손 오버그립을 유지함",
+      "hands": "양손이 같은 바를 동일 간격으로 잡고 누락이나 중복 없이 상승함",
+      "feet": "양발이 같은 위치에 평평하게 고정되어 반동 없는 자세를 유지함",
+      "movement": "거의 편 양팔이 전방 호를 따라 어깨 높이까지 점진 상승하고 같은 경로로 복귀함"
+    },
+    "id": "cable-front-raise",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cable-front-raise/",
+      "https://www.puregym.com/exercises/arms-and-shoulders/front-raises/cable-front-raise/"
+    ],
+    "sourceSha256": "239b4583cff39116b1756f98faa02f5bff32031802df5d9fd9c0cf305ec04660",
+    "videoSha256": "fc0a16c9de269bb28dd5439ece3de2a44f5a43aab02d37dffacb0aed17d43750",
+    "reviewedAt": "2026-09-15T01:08:30.204Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "가슴 패드를 향해 앉아 손잡이를 어깨 높이로 벌리는 머신 리어 델트 플라이가 명확함",
+      "equipment": "좌석·가슴 패드·대칭 회전암·양쪽 손잡이가 전 프레임에서 일관되게 유지됨",
+      "setup": "후면 사선 구도에서 가슴을 패드에 붙이고 양발을 바닥에 둔 자세가 고정됨",
+      "hands": "양손이 각각 같은 수직 손잡이를 놓치거나 중복 없이 잡고 있음",
+      "feet": "양발이 같은 위치에 평평하게 고정되어 몸통 반동을 막음",
+      "movement": "양쪽 머신 암이 전방 가까운 위치에서 어깨 높이의 넓은 수평선까지 대칭으로 열렸다 복귀함"
+    },
+    "id": "machine-rear-delt-fly",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.your-pt.com/exercises/reverse-pec-deck/",
+      "https://www.ironmaster.com/mm5/pdf/MU_04_05_147-154-sm.pdf"
+    ],
+    "sourceSha256": "4751926b2fffd1d256d68fcffb02429087cb747870bb3324e63442b16bec0076",
+    "videoSha256": "31ec92f3eac66f6292da0db0cd74b41e38c69b72723312cb58180b46e33f608d",
+    "reviewedAt": "2026-09-15T01:12:47.255Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "고정 바 아래에서 몸을 일직선으로 유지하며 가슴을 바까지 당기는 인버티드 로우가 명확함",
+      "equipment": "단일 고정 수평 바와 양쪽 랙 기둥이 전 프레임에서 같은 위치에 유지됨",
+      "setup": "양손 오버그립·고정된 뒤꿈치·머리부터 발까지 일직선 자세가 유지됨",
+      "hands": "양손이 모든 프레임에서 바를 감싸 잡고 분리되거나 뒤로 사라지지 않음",
+      "feet": "양발 뒤꿈치가 같은 바닥 위치에서 몸의 회전축 역할을 함",
+      "movement": "팔꿈치가 점진적으로 굽혀지며 강체로 유지된 몸 전체와 가슴이 바 쪽으로 상승한 뒤 복귀함"
+    },
+    "id": "inverted-row",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/inverted-row/",
+      "https://www.tbs.marines.mil/Portals/230/Force%20Fitness%20Exercise%20Guidebook.pdf?ver=eGNb828lVw2cF1Ji_XVUsg%3D%3D"
+    ],
+    "sourceSha256": "6f2be15318064c862f12f717dda4756254869e712d5101574a57288ae7bdf628",
+    "videoSha256": "ae38107b97a02dcbf06d96b54701fac00a722deb00086a6b954a4642db2ced50",
+    "reviewedAt": "2026-09-15T02:02:13.765Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "평벤치에 누워 단일 덤벨을 가슴 위에서 머리 뒤로 내리는 덤벨 풀오버가 명확함",
+      "equipment": "단일 육각 덤벨과 평벤치가 전 프레임에서 같은 형태로 유지됨",
+      "setup": "머리·등·골반을 벤치에 지지하고 무릎을 굽혀 양발을 바닥에 둔 측면 자세가 고정됨",
+      "hands": "양손이 같은 덤벨 끝을 함께 잡고 중량 분리나 추가 덤벨이 없음",
+      "feet": "양발이 바닥의 같은 위치에 평평하게 고정됨",
+      "movement": "고정된 팔꿈치 굽힘으로 양팔이 가슴 위에서 머리 뒤까지 어깨 중심의 호를 따라 이동하고 복귀함"
+    },
+    "id": "dumbbell-pullover",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.healthline.com/health/fitness/dumbbell-pullover",
+      "https://s1.thcdn.com/design-assets/documents/myprotein/myprotein-build-muscle-guide-US.pdf"
+    ],
+    "sourceSha256": "0f4d6e7c65630b12c9e7ca1fd404057bbbd4ef855e6fc9ad9158ea7393785c72",
+    "videoSha256": "7e711a5ba32bbd71c2e751900ccefc5ac8e0a76caa2722d63bdeafb3e1e1c26d",
+    "reviewedAt": "2026-09-15T02:05:07.744Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "무릎 지지에서 휠을 앞으로 굴리고 몸통을 낮췄다 복귀하는 앱 휠 롤아웃이 명확함",
+      "equipment": "단일 휠과 양손 손잡이 연결이 유지됨",
+      "setup": "측면 전신 구도에서 고정된 무릎·발과 중립 몸통 정렬을 유지함",
+      "hands": "양손이 휠 손잡이에 유지되며 32프레임에 손 분리나 중복 없음",
+      "feet": "무릎과 발이 같은 지면 위치에 유지됨",
+      "movement": "16단계 재생성본의 32프레임에서 전진·복귀 경로가 연속되고 8컷본의 머리 잔상이 해소됨"
+    },
+    "id": "ab-rollout",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/kneeling-ab-wheel-roll-out/"
+    ],
+    "sourceSha256": "a3cbf26badd56a0a51130fc673cab7a545bf7d622e7e720991c83cbbbb48b077",
+    "videoSha256": "82ce3cf2da88c366217ffe2f02c02ff3dc017a15529b2e56a504f704066b8f97",
+    "reviewedAt": "2026-09-15T10:48:30.959Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "팔꿈치 지지 사이드 플랭크의 골반을 든 정적 유지 자세가 명확함",
+      "equipment": "맨몸 동작이며 추가 기구 없음",
+      "setup": "전신 구도에서 지지 팔꿈치가 어깨 아래 있고 몸통·다리가 정렬됨",
+      "hands": "지지 전완과 반대 손의 골반 위치가 32프레임 동안 유지됨",
+      "feet": "양발이 포개진 같은 위치에 유지됨",
+      "movement": "정적 운동 특성에 따라 8초 동안 같은 자세를 유지하며 잔상이나 신체 중복 없음"
+    },
+    "id": "side-plank",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/blog/5602/10-minute-core-workout/"
+    ],
+    "sourceSha256": "506f301e93e99b9b968de9c1b4ff91245c8438eb6df712b93dc15fa1f3d7eb2d",
+    "videoSha256": "29fd52f0ab4b1a1c4a6c3338c23aab68ca08926d865e5e20f975a83172758de6",
+    "reviewedAt": "2026-09-15T10:58:37.675Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "8컷 원본과 32프레임에서 누운 자세부터 견갑을 들어 올리는 크런치 후 복귀 확인. 앉는 싯업과 구별됨.",
+      "equipment": "맨몸, 웨이트와 기구 없음.",
+      "setup": "옆면 고정 시점. 무릎 굽힘, 골반과 허리 하부 바닥 접촉 유지.",
+      "hands": "두 손은 머리 뒤에 유지. 팔꿈치 위치가 몸통 상승을 따라가고 별도 팔 스윙 없음.",
+      "feet": "두 발은 바닥에 붙고 무릎 각도 유지. 다리 들어올림 없음.",
+      "movement": "상체 상승·하강 연속 경로와 시작 자세 복귀 확인. 주요 윤곽 이중 잔상 및 프레임 잘림 없음."
+    },
+    "note": "2026-09-16: ACE 크런치 기준 비교. Heltch 전체 exercise-guides 이름 대조상 동일 영상 없음. 원본 JPG 및 32프레임 접촉시트 직접 검토. 480x480, 8초24fps, 57836bytes, ffprobe 및 전체 디코딩 통과. 모바일/실기기 미검증.",
+    "id": "crunch",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.acefitness.org/resources/everyone/exercise-library/52/crunch/"
+    ],
+    "sourceSha256": "b080d733615e0ee63920351655735437902a3859b74df40b40b6228bd6bbf8a2",
+    "videoSha256": "ac69aaaa4709422a59649cece440511a86c42c5d554f3729072538997c8346b9",
+    "reviewedAt": "2026-09-16T07:40:47.977Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "16컷 원본과 32프레임에서 누움→상체를 무릎 방향으로 들어 앉음→통제 하강 확인. 바닥 싯업이며 경사 벤치 없음.",
+      "equipment": "맨몸, 바닥 수행. 바벨·덤벨·벤치 없음.",
+      "setup": "무릎 굽히고 골반 지지. 같은 측면과 비율로 전신 표시, 발끝·머리 크롭 여백 확보.",
+      "hands": "양팔을 가슴 앞에서 교차해 고정. 목 당김·팔 스윙 없음.",
+      "feet": "양발 바닥 접촉 및 무릎 굽힘 유지. 다리 들기·차기 없음.",
+      "movement": "복부 굴곡 후 몸통 상승과 역순 복귀가 연속적. 첫 원본의 손·머리 잔상과 발끝 잘림이 재생성본 32프레임에서 해소됨."
+    },
+    "note": "첫 렌더 rejected 후 팔을 가슴에 교차하고 여백 확보한 원본으로 재제작. JPG 원본과 32프레임 직접 검토, 480x480/8초24fps/74113bytes, 전체 디코딩 통과. Heltch의 decline-sit-up과 기구·경사 다른 전용 종목. 모바일/실기기 미검증.",
+    "id": "sit-up",
+    "equipmentIds": [
+      "bodyweight"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/abs/sit-ups/"
+    ],
+    "sourceSha256": "5d722dc5ef25e8be5c6d7392039a11aa8f3d11559b7aa5509fbe7440a7383d45",
+    "videoSha256": "2da0135b058bd1b5574a31ed6c284b2e812e3c1ef8a750157b4d18e2b19228b3",
+    "reviewedAt": "2026-09-16T07:53:44.248Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "16자세 원본·32프레임에서 바벨 굿모닝의 고관절 접힘과 복귀 확인. 스쿼트처럼 깊은 무릎 굽힘 없음.",
+      "equipment": "양끝 원판이 있는 바벨 1개가 등 위에 놓임. 머리 앞으로 드는 동작 없음.",
+      "setup": "상부 등 위 바 지지, 뒤로 움직이는 골반과 비교적 곧은 등 유지. 구분선 위치 보정 후 머리·발·원판 잘림 없음.",
+      "hands": "양손이 어깨 바깥에서 바를 계속 지지하고 손을 놓거나 그립을 바꾸지 않음.",
+      "feet": "두 발 바닥 접촉 유지. 뒤꿈치 들림·발 이동 없이 무릎 약간 굽힘.",
+      "movement": "점진적 힌지·역순 복귀 연속. renderVersion4에서 흰 경계선 제거 확인, 바와 손의 지속적 접촉 확인."
+    },
+    "note": "Heltch 동일 굿모닝 없음. 출처 설명과 원본/32프레임 대조. 처음16컷은 분할선 잔여로 거부, 8컷은 머리 보간 잔상, 세번째16컷은 배경 손상으로 사용하지 않음. 최초16컷을 구분선 검출 renderVersion4로 재렌더·재검토. 101550bytes/8초24fps/전체 디코딩 통과. 모바일·실기기 대기.",
+    "id": "good-morning",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/good-mornings.html"
+    ],
+    "sourceSha256": "f60d91f5fd03ab1e51783f6a9b4294f70128e485d5719db1e016239727be42b1",
+    "videoSha256": "0bf9aa46c2b1265840d3b4d118c2a68b664d741cdaf317fb688aa8d47f6cffaf",
+    "reviewedAt": "2026-09-16T08:19:46.921Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "16자세 및 32프레임에서 넓은 스탠스 스모 데드리프트의 바닥 출발·서기·복귀 확인.",
+      "equipment": "양끝 대형 원판 바벨 1개. 덤벨 스모 스쿼트 및 컨벤셔널 데드리프트와 구별.",
+      "setup": "상체를 세우며 고관절·무릎을 함께 펴고, 완료시 과도한 뒤로 젖힘 없음. renderVersion4로 흰 구분선과 머리 잘림 해소.",
+      "hands": "두 손은 무릎 안쪽 어깨너비 오버그립. 팔꿈치 펴고 바를 놓지 않음.",
+      "feet": "넓게 벌린 양발과 바깥쪽 발끝 유지. 무릎이 발끝 방향으로 벌어지고 발바닥 지지 유지.",
+      "movement": "바가 정강이·무릎 근처에서 허벅지까지 연속 상승 후 하강. 판·손이 이어지고 큰 보간 잔상 없음."
+    },
+    "note": "Heltch sumo-squat는 다리 사이 덤벨 스쿼트로 비중복. PureGym 기준과 JPG/32프레임 대조, 최초16컷을 구분선 검출 후 재렌더. 두번째8컷은 상단 여백 부족으로 미등록. 480x480·8초24fps·114002bytes·전체 디코딩 통과. 모바일/실기기 대기.",
+    "id": "sumo-deadlift",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.puregym.com/exercises/legs/hamstring-exercises/deadlifts/sumo-deadlift/"
+    ],
+    "sourceSha256": "446c88b56c3daef840100fe2ebb27fc9f9d3668f12ac702968929797bf739bc5",
+    "videoSha256": "826bed2ebf477cea55153f888a9e0033668277778eb9bb1caf9c44c836eb33d6",
+    "reviewedAt": "2026-09-16T08:22:11.671Z"
+  },
+  {
+    "status": "passed",
+    "checks": {
+      "exercise": "원본8컷과32프레임에서 앉은 상태의 발목 저측굴곡·뒤꿈치 상승 후 복귀 확인.",
+      "equipment": "시트·무릎 위 패드·손잡이·발판·원판 레버를 갖춘 시티드 카프 머신. 기존 덤벨 카프와 다른 기구.",
+      "setup": "엉덩이는 좌석에 유지하고 무릎 약90도 굽힘. 패드가 허벅지 끝부분에 닿고 발판은 고정.",
+      "hands": "두 손이 패드 손잡이를 계속 잡고 별도 당기기·그립 이동 없음.",
+      "feet": "양발 앞꿈치가 발판에 남고 뒤꿈치가 아래에서 위로 올라감. 발 전체 들림이나 무릎 펴기 없음.",
+      "movement": "뒤꿈치 상승과 패드·레버의 작은 상승이 연동되고 역순 복귀. 머신 바닥 프레임 고정, 주요 윤곽 이중상·잘림 없음."
+    },
+    "note": "첫 원본은 레버 지지 구조 불명확으로 미등록, 뒤쪽 축 구조 명시해 재생성. Heltch seated-dumbbell-calf-raise와 기구 비중복. JPG·32프레임 대조, renderVersion4·480x480·8초24fps·122556bytes·전체 디코딩 통과. 모바일·실기기 대기.",
+    "id": "seated-calf-raise",
+    "equipmentIds": [
+      "machine"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/seated-calf-raise.html"
+    ],
+    "sourceSha256": "ef304ade05065553710f585a8525cbf96b35fe66300ae73931b4d831124c53db",
+    "videoSha256": "1ec3dd954bb33c604f2ae2ab41aeb96990d396c30860aa02244365c8b79fe307",
+    "reviewedAt": "2026-09-16T08:35:50.561Z"
   }
 ]

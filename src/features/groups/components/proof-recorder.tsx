@@ -71,7 +71,6 @@ export function ProofRecorder({
   useEffect(() => {
     if (phase !== "live") return;
     let cancelled = false;
-    setCamReady(false);
     (async () => {
       try {
         stopStream();
@@ -166,6 +165,7 @@ export function ProofRecorder({
     if (clip) URL.revokeObjectURL(clip.url);
     setClip(null);
     setError(null);
+    setCamReady(false);
     setPhase("live");
   }
 
@@ -207,7 +207,10 @@ export function ProofRecorder({
         {phase === "live" && canRecord ? (
           <button
             type="button"
-            onClick={() => setFacing((f) => (f === "user" ? "environment" : "user"))}
+            onClick={() => {
+              setCamReady(false);
+              setFacing((f) => (f === "user" ? "environment" : "user"));
+            }}
             aria-label="카메라 전환"
             className="rounded-full bg-white/10 p-2 text-white active:scale-95"
           >

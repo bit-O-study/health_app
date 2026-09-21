@@ -54,8 +54,8 @@ export function TodayFocusMenu({
   function restart() {
     start(async () => {
       await restartRoutineFromTodayAction();
-      setMenuOpen(false);
-      router.refresh();
+      // 모달 back()이 갱신된 서버 화면을 이전 상태로 되돌리지 않도록 문서를 다시 읽는다.
+      window.location.reload();
     });
   }
 
@@ -70,14 +70,12 @@ export function TodayFocusMenu({
   function replaceAndRun() {
     start(async () => {
       await deferRoutineOneDayAction();
-      setConfirmRun(false);
       router.push(`/running?mode=${runMode}`);
     });
   }
 
   // 아니요 — 기존 운동은 그대로 두고 런닝 모드로(런닝은 마무리운동에 기록).
   function keepAndRun() {
-    setConfirmRun(false);
     router.push(`/running?mode=${runMode}`);
   }
 
@@ -123,7 +121,8 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => {
-                  setMenuOpen(false);
+                  // 먼저 닫으면 모달의 history.back()이 진행 중인 이동을 취소한다.
+                  // 이동이 완료되어 메뉴가 unmount될 때 히스토리를 정리한다.
                   router.push("/plan");
                 }}
                 className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"

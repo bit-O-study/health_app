@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Camera, Check, Loader2, Sparkles } from "lucide-react";
 
 import { resizeImageForAI } from "@/lib/image/resize-for-ai";
-import { isNativeApp } from "@/lib/platform/is-native-app";
+import { useNativeApp } from "@/lib/platform/use-native-app";
 import { scanMealPhotoAction } from "@/features/diet/meal-scan-actions";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import type { ScannedFood } from "@/features/diet/meal-scan-parse";
@@ -35,8 +35,7 @@ export function MealScanForm({
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   // 앱(APK)에선 사진앱/카메라를 열고, 웹에선 파일 업로드만.
-  const [isApp, setIsApp] = useState(false);
-  useEffect(() => setIsApp(isNativeApp()), []);
+  const isApp = useNativeApp();
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const picked = e.target.files?.[0];

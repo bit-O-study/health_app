@@ -40,7 +40,12 @@ export function MarkAllDoneButton({
       const res = await callIdempotentAction(() =>
         markAllTodayCompleteAction({ planRows, warmup, cooldown }),
       );
-      setFailed(!res.ok);
+      if (res.ok) {
+        // 성공 응답 뒤 추가 RSC 갱신이 이전 완료 상태를 복원하지 않게 한다.
+        window.location.reload();
+        return;
+      }
+      setFailed(true);
     } catch {
       setFailed(true);
     } finally {

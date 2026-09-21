@@ -88,4 +88,8 @@ test("시간 기반 운동(플랭크)은 운동모드에서 초 타이머가 뜨
   await page.getByRole("button", { name: /세트 완료/ }).first().click();
   await page.waitForTimeout(500);
   await expect(page.getByText(/세트 2\/3/)).toBeVisible({ timeout: 8000 });
+  await expect(timer).toHaveText("0:00");
+  await page.waitForTimeout(1200);
+  await expect(timer).toHaveText("0:00");
+  await expect(overlay.getByRole("button", { name: "시작", exact: true })).toBeVisible();
 });

@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Loader2, Sparkles, Video } from "lucide-react";
 
 import { analyzePostureAction } from "@/features/coach/coach-actions";
 import { AiDisclaimer } from "@/features/coach/components/ai-disclaimer";
-import { isNativeApp } from "@/lib/platform/is-native-app";
+import { useNativeApp } from "@/lib/platform/use-native-app";
 import type { CoachAnalysis } from "@/features/coach/parse";
 
 /**
@@ -87,8 +87,7 @@ export function PostureAnalyzer({
   const [error, setError] = useState<string | null>(null);
   const [exerciseName, setExerciseName] = useState(defaultExerciseName);
   // 앱(APK)에선 카메라로 촬영, 웹에선 영상 파일 업로드만.
-  const [isApp, setIsApp] = useState(false);
-  useEffect(() => setIsApp(isNativeApp()), []);
+  const isApp = useNativeApp();
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];

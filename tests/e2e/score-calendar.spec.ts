@@ -131,8 +131,10 @@ test("체성분이 있어도 운동 완료가 부위별 점수에 반영된다",
   await expect(balance.getByText("운동량 기반")).toBeVisible();
   await expect(balance.getByText("체성분 기반")).toHaveCount(0);
   // 부위별 점수 중 0보다 큰 값이 하나 이상 있어야 한다(운동 반영).
-  const nums = await balance
-    .locator("p.text-xl")
-    .evaluateAll((els) => els.map((e) => parseInt(e.textContent || "0", 10)));
+  const scores = balance.getByText(/^\d+점$/);
+  await expect(scores).toHaveCount(6);
+  const nums = await scores.evaluateAll((els) =>
+    els.map((e) => parseInt(e.textContent || "0", 10)),
+  );
   expect(nums.some((n) => n > 0)).toBe(true);
 });

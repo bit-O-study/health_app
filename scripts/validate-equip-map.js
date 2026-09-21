@@ -2,7 +2,7 @@
  * 존재하는지 검증한다. 데이터셋은 jsdelivr 에서 직접 받는다(오프라인이면 실패).
  *   node scripts/validate-equip-map.js
  * 매핑을 바꾸면 이걸 돌려서 깨진 슬러그가 없는지 확인할 것. */
-const fs = require("node:fs");
+import fs from "node:fs";
 
 const SRC = "src/features/workout-timer/exercise-photo-map.ts";
 const DATASET =

@@ -108,9 +108,8 @@ export function TodayAdjustMenu({
   function run(action: () => Promise<void>) {
     start(async () => {
       await action();
-      closeSheet();
-      setPicked(new Set());
-      router.refresh();
+      // 모달 back()이 갱신된 서버 화면을 이전 상태로 되돌리지 않도록 문서를 다시 읽는다.
+      window.location.reload();
     });
   }
 
@@ -134,7 +133,7 @@ export function TodayAdjustMenu({
       // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
       await deferRoutineOneDayAction(focuses);
       await clearDailyPlanForDateAction(seoulYmd());
-      closeSheet();
+      // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
       setPicked(new Set());
       // push 뒤 refresh 는 넣지 않는다 — /plan/today 이동 시 서버 컴포넌트가 새로 렌더되고,
       // push 직후 refresh 는 (현재 /routine 을 리페치해) push 를 취소하는 레이스가 있다.
@@ -151,7 +150,7 @@ export function TodayAdjustMenu({
       if (isRestToday) await undoTodayRestAction();
       // 고른 부위/세부근육을 오늘 한정으로 기억(아직 안 담아도 '운동 추가'에서 고를 수 있게).
       await pinRoutineFocusesForTodayAction(focuses);
-      closeSheet();
+      // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
       setPicked(new Set());
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
       // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(부위 추가가

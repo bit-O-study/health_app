@@ -129,7 +129,8 @@ test("🔴 트레이너가 회원 화면에서 같은 숫자를 본다", async (
     sets: 12,
   });
   await seedCompletion(memberEmail, {
-    dayOfWeek: 2,
+    // 월·화 실행에서도 미래 기록이 되지 않게 이번 주 월요일에 넣는다.
+    dayOfWeek: 0,
     exerciseId: "lat-pulldown",
     focus: "back",
     sets: 3,

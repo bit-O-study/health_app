@@ -45,6 +45,8 @@ test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내
   await expect
     .poll(() => page.evaluate(() => localStorage.getItem("heltch.rest.sound.kind")))
     .toBe("beep");
+  await page.reload();
+  await expect(page.getByRole("button", { name: /비프/ })).toHaveClass(/border-emerald-500/);
 });
 
 test("개인설정으로 상세 가이드를 끄면 운동 모드에서 숨겨진다", async ({ page }) => {

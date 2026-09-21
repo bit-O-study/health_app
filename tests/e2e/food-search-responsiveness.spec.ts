@@ -42,12 +42,16 @@ test("이전 음식 검색이 느려도 새 검색 결과를 표시하고 이전
   }
 });
 
-test("실제 음식 검색 응답 시간과 결과를 확인한다", async ({ page }) => {
+test("워밍업 후 실제 음식 검색 응답 시간과 결과를 확인한다", async ({ page }) => {
   test.skip(!hasDb, "needs test DB credentials");
   await signUpAndOnboard(page);
-  // 첫 라우트 컴파일은 미리 끝내고 실제 검색 왕복을 측정한다.
-  const warmup = await page.request.get("/api/foods/search?source=local&q=");
-  expect(warmup.status()).toBe(200);
+  // 두 출처를 모두 준비한다. local만 호출하면 custom의 DB 첫 실행 비용까지 섞인다.
+  // 측정 검색어와 다른 값으로 준비하고, 실제 검색의 기존 4초 기준은 유지한다.
+  for (const source of ["local", "custom"]) {
+    const warmup = await page.request.get("/api/foods/search?" + new URLSearchParams({ source, q: "라면" }));
+    expect(warmup.status()).toBe(200);
+    expect(Array.isArray(await warmup.json())).toBe(true);
+  }
   for (const q of ["우유", "닭가슴살"]) {
     const results = await Promise.all(["local", "custom"].map(async (source) => {
       const started = Date.now();

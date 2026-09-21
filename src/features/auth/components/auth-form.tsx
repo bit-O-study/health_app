@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import { Loader2, LogIn, UserPlus } from "lucide-react";
 
 import Link from "next/link";
@@ -10,6 +10,8 @@ import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { normalizePhone } from "@/features/auth/phone";
 import { isNativeApp } from "@/lib/platform/is-native-app";
 import { reportAppEvent } from "@/lib/observability/report-client";
+import { withPrefilled } from "@/lib/forms/prefilled";
+import { usePrefilledInputs } from "@/lib/forms/use-prefilled-inputs";
 
 type Mode = "login" | "signup";
 
@@ -33,6 +35,17 @@ export function AuthForm({
   const [oauthLoading, setOauthLoading] = useState<"google" | "kakao" | null>(
     null,
   );
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // 하이드레이션 전에 타이핑·자동완성된 값이 DOM 에만 남아 state 가 빈 채로 있으면
+  // "이메일과 비밀번호를 입력해 주세요" 가 뜨며 로그인이 안 된다 → 마운트 때 끌어올린다.
+  usePrefilledInputs(formRef, { email, password, name, nickname, phone }, (v) => {
+    if (v.email !== undefined) setEmail(v.email);
+    if (v.password !== undefined) setPassword(v.password);
+    if (v.name !== undefined) setName(v.name);
+    if (v.nickname !== undefined) setNickname(v.nickname);
+    if (v.phone !== undefined) setPhone(v.phone);
+  });
 
   function switchMode(next: Mode) {
     setMode(next);
@@ -59,16 +72,26 @@ export function AuthForm({
     setError(null);
     setNotice(null);
 
-    if (!email.trim() || !password) {
+    // state 대신 **폼 DOM 의 실제 값**을 쓴다 — 하이드레이션 직전에 들어온 입력·
+    // 자동완성이 state 에 안 올라왔을 수 있다(그때 로그인이 통째로 막혔다).
+    const filled = withPrefilled(event.currentTarget, {
+      email,
+      password,
+      name,
+      nickname,
+      phone,
+    });
+
+    if (!filled.email.trim() || !filled.password) {
       setError("이메일과 비밀번호를 입력해 주세요.");
       return;
     }
-    if (password.length < 6) {
+    if (filled.password.length < 6) {
       setError("비밀번호는 6자 이상이어야 합니다.");
       return;
     }
     if (mode === "signup") {
-      if (!name.trim()) {
+      if (!filled.name.trim()) {
         setError("이름을 입력해 주세요.");
         return;
       }
@@ -78,14 +101,18 @@ export function AuthForm({
     const supabase = createSupabaseBrowserClient();
 
     if (mode === "signup") {
-      const normPhone = normalizePhone(phone);
+      const normPhone = normalizePhone(filled.phone);
       // 이름·전화번호는 user_metadata 에 저장 → 온보딩 시 프로필로 복사됨.
       // 전화번호는 선택 — 안 넣으면 빈 문자열로 들어간다(아이디 찾기에서만 쓰인다).
       const { data, error: signUpError } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
+        email: filled.email.trim(),
+        password: filled.password,
         options: {
-          data: { name: name.trim(), nickname: nickname.trim(), phone: normPhone },
+          data: {
+            name: filled.name.trim(),
+            nickname: filled.nickname.trim(),
+            phone: normPhone,
+          },
         },
       });
 
@@ -118,8 +145,8 @@ export function AuthForm({
     }
 
     const { error: signInError } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
+      email: filled.email.trim(),
+      password: filled.password,
     });
 
     if (signInError) {
@@ -194,7 +221,7 @@ export function AuthForm({
         ))}
       </div>
 
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form ref={formRef} className="space-y-4" onSubmit={handleSubmit}>
         {mode === "signup" ? (
           <>
             <div className="space-y-1.5">

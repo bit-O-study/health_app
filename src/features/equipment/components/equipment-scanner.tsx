@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { Camera, Dumbbell, Loader2, Target } from "lucide-react";
 
@@ -9,7 +9,7 @@ import {
   type EquipmentAnalysis,
 } from "@/features/equipment/analyze-actions";
 import { resizeImageForAI } from "@/lib/image/resize-for-ai";
-import { isNativeApp } from "@/lib/platform/is-native-app";
+import { useNativeApp } from "@/lib/platform/use-native-app";
 
 const CONFIDENCE_LABEL: Record<string, string> = {
   high: "정확도 높음",
@@ -24,8 +24,7 @@ export function EquipmentScanner() {
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   // 앱(APK)에선 사진앱/카메라를 열고, 웹에선 파일 업로드만.
-  const [isApp, setIsApp] = useState(false);
-  useEffect(() => setIsApp(isNativeApp()), []);
+  const isApp = useNativeApp();
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];

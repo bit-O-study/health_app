@@ -22,6 +22,10 @@ pnpm test:e2e:parallel    # 4 workers; files run concurrently, tests within each
 pnpm test:e2e:ui          # Playwright UI mode
 ```
 
+For a local `pnpm build` + `pnpm start` server, run E2E with
+`E2E_SERVER_MODE=production pnpm test:e2e` so the security-header test expects
+production HSTS. Leave this variable unset for `pnpm dev`.
+
 ## Secrets — `.env.test.local` (gitignored)
 
 The schema-sync guard and the E2E cleanup connect to the live Supabase **DB**

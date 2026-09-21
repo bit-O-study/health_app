@@ -23,10 +23,16 @@ export function ProofMemberSheet({
   const [day, setDay] = useState<MemberDay | null>(null);
   const [loading, setLoading] = useState(true);
   useBackClose(true, onClose);
+  const requestKey = JSON.stringify([groupId, member.userId]);
+  const [previousRequest, setPreviousRequest] = useState(requestKey);
+  if (previousRequest !== requestKey) {
+    setPreviousRequest(requestKey);
+    setDay(null);
+    setLoading(true);
+  }
 
   useEffect(() => {
     let alive = true;
-    setLoading(true);
     getGroupMemberDayAction(groupId, member.userId)
       .then((d) => {
         if (alive) setDay(d);

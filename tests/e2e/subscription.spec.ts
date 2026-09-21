@@ -40,7 +40,7 @@ test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", asyn
 
   // 낼 만한지 판단하려면 숫자가 보여야 한다.
   await expect(page.getByText("한 달에 쓸 수 있는 횟수")).toBeVisible();
-  await expect(page.getByText("식단 사진 분석")).toBeVisible();
+  await expect(page.getByRole("cell", { name: "식단 사진 분석", exact: true })).toBeVisible();
   await expect(page.getByText("100", { exact: true }).first()).toBeVisible();
 
   // 아직 아무것도 안 샀으면 무료.

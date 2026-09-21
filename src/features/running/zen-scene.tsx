@@ -178,7 +178,7 @@ export default function ZenScene({
 
   // 현재 맵 이름 HUD 갱신.
   useEffect(() => {
-    if (hud.map?.current) hud.map.current.textContent = preset.name;
+    if (hud.map?.current) hud.map.current.replaceChildren(preset.name);
   }, [preset, hud]);
 
   return (
@@ -218,7 +218,7 @@ export default function ZenScene({
 
 /** 부드러운 그라데이션 하늘 + 해/달(은은한 글로우) + 옅은 안개. 맵 프리셋에 따라 색이 바뀐다. */
 function Sky({ preset }: { preset: MapPreset }) {
-  const { scene } = useThree();
+  const getThree = useThree((state) => state.get);
   const tex = useMemo(() => {
     const c = document.createElement("canvas");
     c.width = 16;
@@ -234,6 +234,7 @@ function Sky({ preset }: { preset: MapPreset }) {
     return new THREE.CanvasTexture(c);
   }, [preset]);
   useEffect(() => {
+    const { scene } = getThree();
     const prev = scene.background;
     const prevFog = scene.fog;
     scene.background = tex;
@@ -243,7 +244,7 @@ function Sky({ preset }: { preset: MapPreset }) {
       scene.fog = prevFog;
       tex.dispose(); // 수동 생성 텍스처 GPU 메모리 해제
     };
-  }, [scene, tex, preset.fog]);
+  }, [getThree, tex, preset.fog]);
   return (
     <group position={[11, 7.5, -34]}>
       {/* 글로우 */}
@@ -531,7 +532,7 @@ function Robot({
     first?.reset().play();
     activeRef.current = first;
     // idle 이 없어 run 으로 시작하면 멈춘 상태이니 정지.
-    if (!idleAction && runAction) runAction.timeScale = 0;
+    if (!idleAction && runAction) runAction.setEffectiveTimeScale(0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [actions]);
 
@@ -558,7 +559,7 @@ function Robot({
     }
     if (runAction) {
       // 달리면 속도 비례, 멈추면(idle 없을 때) 정지.
-      runAction.timeScale = running ? 0.7 + run * 1.4 : idleAction ? 1 : 0;
+      runAction.setEffectiveTimeScale(running ? 0.7 + run * 1.4 : idleAction ? 1 : 0);
     }
     bobRef.current += running ? delta * (6 + run * 6) : 0;
     if (ref.current) {

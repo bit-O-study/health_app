@@ -1,6 +1,6 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import { CheckCircle2, MailCheck } from "lucide-react";
 
@@ -14,6 +14,8 @@ import {
   Submit,
   inputCls,
 } from "@/features/auth/components/recover-ui";
+import { withPrefilled } from "@/lib/forms/prefilled";
+import { usePrefilledInputs } from "@/lib/forms/use-prefilled-inputs";
 
 type Stage = "form" | "verify" | "done";
 
@@ -34,17 +36,29 @@ export function FindPasswordForm() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // 하이드레이션 전에 채워진 값(빠른 타이핑·자동완성)을 state 로 끌어올린다.
+  usePrefilledInputs(formRef, { email, phone }, (v) => {
+    if (v.email !== undefined) setEmail(v.email);
+    if (v.phone !== undefined) setPhone(v.phone);
+  });
 
   async function handleRequest(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     setNotice(null);
-    if (!email.trim() || !phone.trim()) {
+    // state 가 아직 비어 있을 수 있어 폼 DOM 의 실제 값을 쓴다(하이드레이션 경합).
+    const filled = withPrefilled(event.currentTarget, { email, phone });
+    if (!filled.email.trim() || !filled.phone.trim()) {
       setError("이메일과 휴대폰 번호를 입력해 주세요.");
       return;
     }
+    // 다음 단계(인증번호 확인)에서 같은 값을 다시 쓰므로 state 도 맞춰 둔다.
+    setEmail(filled.email);
+    setPhone(filled.phone);
     setBusy(true);
-    const res = await requestEmailOtpAction(email, phone);
+    const res = await requestEmailOtpAction(filled.email, filled.phone);
     setBusy(false);
     if (!res.ok) {
       setError(res.error);
@@ -55,7 +69,7 @@ export function FindPasswordForm() {
       return;
     }
     setStage("verify");
-    setNotice(`${email} 로 인증번호를 보냈습니다. 메일을 확인해 주세요.`);
+    setNotice(`${filled.email} 로 인증번호를 보냈습니다. 메일을 확인해 주세요.`);
   }
 
   async function handleResend() {
@@ -204,7 +218,7 @@ export function FindPasswordForm() {
 
   return (
     <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-      <form className="space-y-4" onSubmit={handleRequest}>
+      <form ref={formRef} className="space-y-4" onSubmit={handleRequest}>
         <div className="space-y-1.5">
           <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="email">
             아이디(이메일)

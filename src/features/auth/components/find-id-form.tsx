@@ -1,10 +1,12 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 
 import { findLoginEmailAction } from "@/features/auth/recover-actions";
 import { Err, Submit, inputCls } from "@/features/auth/components/recover-ui";
+import { withPrefilled } from "@/lib/forms/prefilled";
+import { usePrefilledInputs } from "@/lib/forms/use-prefilled-inputs";
 
 export function FindIdForm() {
   const [name, setName] = useState("");
@@ -13,9 +15,16 @@ export function FindIdForm() {
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  async function runFind() {
-    const res = await findLoginEmailAction(name, phone);
+  // 하이드레이션 전에 채워진 값(빠른 타이핑·자동완성)을 state 로 끌어올린다.
+  usePrefilledInputs(formRef, { name, phone }, (v) => {
+    if (v.name !== undefined) setName(v.name);
+    if (v.phone !== undefined) setPhone(v.phone);
+  });
+
+  async function runFind(findName: string, findPhone: string) {
+    const res = await findLoginEmailAction(findName, findPhone);
     setBusy(false);
     if (!res.ok) {
       setError(res.error);
@@ -35,12 +44,14 @@ export function FindIdForm() {
   async function handleStart(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
-    if (!name.trim() || !phone.trim()) {
+    // state 가 아직 비어 있을 수 있어 폼 DOM 의 실제 값을 쓴다(하이드레이션 경합).
+    const filled = withPrefilled(event.currentTarget, { name, phone });
+    if (!filled.name.trim() || !filled.phone.trim()) {
       setError("이름과 휴대폰 번호를 입력해 주세요.");
       return;
     }
     setBusy(true);
-    await runFind();
+    await runFind(filled.name, filled.phone);
   }
 
   if (done) {
@@ -83,7 +94,7 @@ export function FindIdForm() {
 
   return (
     <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-      <form className="space-y-4" onSubmit={handleStart}>
+      <form ref={formRef} className="space-y-4" onSubmit={handleStart}>
         <div className="space-y-1.5">
           <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="name">
             이름

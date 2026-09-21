@@ -113,8 +113,8 @@ export default async function RootLayout({
           {isLoggedIn ? <AppEventReporter /> : null}
         </NotificationCenterProvider>
         <PWARegister />
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL === "1" ? <Analytics /> : null}
+        {process.env.VERCEL === "1" ? <SpeedInsights /> : null}
       </body>
     </html>
   );

@@ -54,7 +54,10 @@ for (let offset = 0; offset < guideIds.length; offset += 12) {
     await video.evaluate(async (v: HTMLVideoElement) => { v.muted = true; await v.play(); });
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeGreaterThan(0);
     await video.evaluate((v: HTMLVideoElement) => { v.pause(); v.currentTime = 7.5; });
-    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);
+    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => ({
+      ready: v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA,
+      error: v.error?.message ?? null,
+    }))).toEqual({ ready: true, error: null });
     const box = (await video.boundingBox())!;
     const vh = page.viewportSize()!.height;
     expect(box.height).toBeGreaterThan(0);

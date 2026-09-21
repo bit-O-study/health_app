@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import { Bell, Play, Upload, Volume2 } from "lucide-react";
 
 import {
@@ -12,6 +12,11 @@ import {
   writeSoundKind,
   type RestSoundKind,
 } from "@/features/workout-timer/rest-sound";
+
+function subscribeStorage(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  return () => window.removeEventListener("storage", onChange);
+}
 
 const OPTIONS: { kind: RestSoundKind; label: string; desc: string }[] = [
   { kind: "voice", label: "음성", desc: '"운동 시작하세요" 음성 안내' },
@@ -25,17 +30,17 @@ const OPTIONS: { kind: RestSoundKind; label: string; desc: string }[] = [
  * 실제로 소리가 난다.
  */
 export function RestSoundPicker() {
-  const [kind, setKind] = useState<RestSoundKind>("voice");
-  const [hasCustom, setHasCustom] = useState(false);
+  const storedKind = useSyncExternalStore(subscribeStorage, readSoundKind, () => "voice" as RestSoundKind);
+  const storedCustom = useSyncExternalStore(subscribeStorage, hasCustomSound, () => false);
+  const [selectedKind, setKind] = useState<RestSoundKind | null>(null);
+  const [customOverride, setHasCustom] = useState<boolean | null>(null);
+  const kind = selectedKind ?? storedKind;
+  const hasCustom = customOverride ?? storedCustom;
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const ctxRef = useRef<AudioContext | null>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    setKind(readSoundKind());
-    setHasCustom(hasCustomSound());
-  }, []);
 
   function choose(next: RestSoundKind) {
     if (next === "custom" && !hasCustomSound()) {

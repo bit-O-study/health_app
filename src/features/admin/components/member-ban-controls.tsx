@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import { Ban, Clock, Loader2, RotateCcw } from "lucide-react";
 
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -20,20 +19,22 @@ export function MemberBanControls({
   userId: string;
   state: BanState;
 }) {
-  const router = useRouter();
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const [askBan, setAskBan] = useState(false);
   const [reason, setReason] = useState("");
 
   function run(fn: () => Promise<AdminActionResult>) {
+    if (pending) return;
     setError(null);
     start(async () => {
       const res = await fn();
       if (res.ok) {
-        setReason("");
-        router.refresh();
-      } else setError(res.error);
+        window.location.reload();
+      } else {
+        setAskBan(false);
+        setError(res.error);
+      }
     });
   }
 
@@ -105,13 +106,12 @@ export function MemberBanControls({
         open={askBan}
         title="영구 정지"
         message="이 회원을 영구 정지할까요? 해제 전까지 앱을 이용할 수 없습니다."
-        confirmLabel="영구 정지"
+        confirmLabel={pending ? "처리 중…" : "영구 정지"}
         tone="danger"
         onConfirm={() => {
-          setAskBan(false);
           run(() => banUserAction(userId, r()));
         }}
-        onCancel={() => setAskBan(false)}
+        onCancel={() => { if (!pending) setAskBan(false); }}
       />
     </div>
   );

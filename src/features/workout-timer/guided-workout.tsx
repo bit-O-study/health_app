@@ -518,10 +518,13 @@ export function GuidedOverlay({
   const [holdSec, setHoldSec] = useState(0);
   const [holdRunning, setHoldRunning] = useState(false);
   // 운동/세트가 바뀌면 홀드 타이머를 멈추고 0으로. (완료 세트 수·현재 운동 인덱스 기준)
-  useEffect(() => {
+  const holdSetKey = `${index}:${setsDone}`;
+  const [previousHoldSet, setPreviousHoldSet] = useState(holdSetKey);
+  if (previousHoldSet !== holdSetKey) {
+    setPreviousHoldSet(holdSetKey);
     setHoldSec(0);
     setHoldRunning(false);
-  }, [index, setsDone]);
+  }
   // 시간 운동이고 '시작'을 눌러 실행 중일 때만 1초마다 카운트업.
   useEffect(() => {
     if (!timed || !holdRunning) return;

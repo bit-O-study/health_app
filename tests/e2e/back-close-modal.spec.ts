@@ -46,7 +46,11 @@ test("모달이 떠 있을 때 뒤로가기는 모달만 닫고, 화면은 그�
   await expect(compose).toBeVisible();
 
   // ── 3) X 로 닫은 뒤 뒤로가기는 헛돌지 않고 바로 이전 화면으로 ─────
-  await compose.getByRole("button", { name: "닫기" }).click();
+  // X 닫기의 비동기 history.back()이 완료된 뒤 다음 뒤로가기를 누른다.
+  await Promise.all([
+    page.waitForEvent("framenavigated", (frame) => frame === page.mainFrame()),
+    compose.getByRole("button", { name: "닫기" }).click(),
+  ]);
   await expect(compose).toBeHidden();
 
   await back();

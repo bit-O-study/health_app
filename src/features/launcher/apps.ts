@@ -13,6 +13,7 @@ import {
   Newspaper,
   NotebookPen,
   PawPrint,
+  Scale,
   Search,
   Settings,
   Sparkles,
@@ -197,14 +198,23 @@ export const LAUNCHER_APPS: LauncherApp[] = [
       { href: "/pet", label: "펫", icon: PawPrint, match: (p) => p.startsWith("/pet") },
       { href: "/commitments", label: "다짐", icon: Target },
       { href: "/settings/score", label: "보상", icon: Trophy },
-      { href: "/calendar", label: "기록", icon: CalendarDays },
+      // 🔴 여기에 /calendar 를 두면 캘린더 앱으로 넘어가 하단바가 통째로 갈린다.
+      { href: "/settings/history", label: "기록", icon: NotebookPen },
     ],
   },
 ];
 
-/** 런처(홈) 자신의 4칸 — 어느 앱에도 속하지 않는 화면에서 쓰인다. */
+/**
+ * 런처(홈) 자신의 4칸 — 어느 앱에도 속하지 않는 화면에서 쓰인다.
+ *
+ * 🔴 **런처 칸은 런처가 소유한 경로만 가리킨다**(2026-09-21).
+ * 예전엔 '검색'이 `/exercises` 를 가리켰는데, 거기는 운동 앱 땅이라 누르는 순간
+ * 하단바가 운동 앱 것으로 통째로 갈렸다 — 런처에서 눌렀는데 남의 앱 안에 들어가
+ * 있는 꼴이라 "눌러도 엉뚱한 화면이 나온다"로 느껴졌다.
+ * 운동 종목 찾기는 운동 앱의 '운동찾기' 칸이 담당한다.
+ */
 export const LAUNCHER_TABS: [AppTab, AppTab, AppTab, AppTab] = [
-  { href: "/exercises", label: "검색", icon: Search },
+  { href: "/settings/body-composition", label: "체형", icon: Scale },
   { href: "/settings/progress", label: "기록", icon: TrendingUp },
   { href: "/settings/notifications", label: "알림", icon: Bell },
   { href: "/settings", label: "나", icon: UserRound, match: (p) => p.startsWith("/settings") || p.startsWith("/account") },

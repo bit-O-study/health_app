@@ -24,9 +24,18 @@ test("런처: 앱을 누르면 하단바가 그 앱 메뉴로 갈린다", async 
   const nav = page.getByRole("navigation", { name: "주요 메뉴" });
   await expect(grid).toBeVisible({ timeout: 10_000 });
 
-  // 런처 자신의 4칸 — 검색·기록·[홈]·알림·나
+  // 런처 자신의 4칸 — 체형·기록·[홈]·알림·나
   await expect(nav.getByRole("link")).toHaveCount(5);
   await expect(nav.getByRole("link").nth(2)).toHaveText("홈");
+
+  // 🔴 런처 칸은 남의 앱으로 넘어가지 않는다 — 눌러도 하단바가 그대로여야 한다
+  //    (예전 '검색'이 /exercises 로 가서 운동 앱 바로 갈리던 회귀).
+  const launcherLabels = await nav.getByRole("link").allInnerTexts();
+  await nav.getByRole("link").nth(0).click();
+  await expect(nav.getByRole("link").nth(2)).toHaveText("홈");
+  expect(await nav.getByRole("link").allInnerTexts()).toEqual(launcherLabels);
+  await nav.getByRole("link").nth(2).click();
+  await expect(page).toHaveURL(/\/home$/);
 
   await grid.getByRole("link", { name: "운동", exact: true }).click();
   await expect(page).toHaveURL(/\/routine$/);

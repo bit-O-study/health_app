@@ -109,6 +109,27 @@ describe("경로 → 앱 매칭", () => {
     }
   });
 
+  it("🔴 런처 칸은 남의 앱으로 넘어가지 않는다", () => {
+    // 예전엔 '검색'이 /exercises(운동 앱 땅)를 가리켜, 누르는 순간 하단바가
+    // 운동 앱 것으로 갈렸다 — 런처에서 눌렀는데 남의 앱 안에 있는 꼴.
+    for (const tab of LAUNCHER_TABS) {
+      const owner = appForPath(tab.href.split("?")[0]);
+      expect(owner?.id, `런처 '${tab.label}' 칸이 ${owner?.id} 앱으로 넘어간다`).toBeUndefined();
+    }
+  });
+
+  it("앱 칸은 자기 앱이나 런처 땅만 가리킨다", () => {
+    for (const app of LAUNCHER_APPS) {
+      for (const tab of app.tabs) {
+        const owner = appForPath(tab.href.split("?")[0]);
+        expect(
+          owner === null || owner.id === app.id,
+          `${app.id} 의 '${tab.label}' 칸이 ${owner?.id} 앱으로 넘어간다`,
+        ).toBe(true);
+      }
+    }
+  });
+
   it("런처 자신의 화면은 어느 앱도 아니다", () => {
     for (const path of ["/home", "/", "/settings", "/settings/profile", "/equipment"]) {
       expect(appForPath(path), path).toBeNull();

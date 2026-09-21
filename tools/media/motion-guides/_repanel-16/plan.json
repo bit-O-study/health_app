@@ -1,6 +1,6 @@
 {
   "createdAt": "2026-09-18",
-  "note": "8패널 원본을 16패널로 재생성하기 위한 작업 지시서. prompt 는 imagegen 으로 2048x2048 4x4 PNG 를 만들 때 그대로 쓴다. 생성한 PNG 를 ~/.codex/generated_images/<any>/<id>.png 로 두고 `node tools/media/repanel-16.mjs <PNG 디렉터리>` 실행하면 등록·렌더까지 자동. 시각 재검토는 사람이 한다. 2026-09-18 갱신: 도구가 16패널 full-cycle 을 지원하게 되어 기존 B군 5종을 A군으로 옮겼다(cycle:\"full\", 16칸이 한 주기 전체).",
+  "note": "8패널 원본을 16패널로 재생성하기 위한 작업 지시서. prompt 는 imagegen 으로 2048x2048 4x4 PNG 를 만들 때 그대로 쓴다. 생성한 PNG 를 ~/.codex/generated_images/<any>/<id>.png 로 두고 `node tools/media/repanel-16.mjs <PNG 디렉터리>` 실행하면 등록·렌더까지 자동. 시각 재검토는 사람이 한다. 2026-09-18 갱신: 도구가 16패널 full-cycle 을 지원하게 되어 기존 B군 5종을 A군으로 옮겼다(cycle:\"full\", 16칸이 한 주기 전체). 2026-09-20: cable-woodchopper 는 다른 세션이 16패널로 재등록(cutout:false)해 done_regenerated 로 옮겼다 — 여기 남겨 두면 repanel-16.mjs 가 옛 프롬프트로 덮어쓴다.",
   "groupA_convert": [
     {
       "id": "behind-the-back-wrist-curl",
@@ -28,16 +28,6 @@
         "https://www.nasm.org/resource-center/exercise-library/bird-dog"
       ],
       "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed full-body side camera facing left, same scale and body coordinates in all 16 cells. Entire body including the extended hand and foot within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. BIRD DOG. Quadruped start: hands under shoulders, knees under hips, spine long and level, head in line with the spine. Cell 1 on hands and knees with all four points down. In 16 small evenly spaced increments the near arm reaches progressively forward and the OPPOSITE far leg reaches progressively backward until both are level with the torso in cell 16. The supporting hand and supporting knee stay on the floor at identical image coordinates in every cell. The pelvis stays square and level, no hip hike, no lumbar arch, no head lift. Only the reaching arm and the opposite leg change; everything else is frozen."
-    },
-    {
-      "id": "cable-woodchopper",
-      "equipment": "cable",
-      "cycle": "reverse",
-      "cutout": false,
-      "sources": [
-        "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
-      ],
-      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front three-quarter camera, same scale and body coordinates in all 16 cells. Whole cable column, the full cable line and the entire body within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. LOW-TO-HIGH CABLE WOODCHOP. A low pulley on a weight-stack column stands at the left edge; a single visible cable runs from that pulley to a rope handle held in BOTH hands. Wide athletic stance, feet flat and planted at the same spot in every cell. Cell 1 both hands hold the rope low outside the left hip with the torso rotated left and the arms nearly straight. In 16 small evenly spaced increments the torso rotates and the arms sweep diagonally up and across to finish above the right shoulder with the arms extended in cell 16. The cable stays taut and unbroken from pulley to rope in EVERY cell and the pulley, cable and column never disappear. Hands stay together on the rope. Rotation comes from the trunk and hips, arms do not curl."
     },
     {
       "id": "curtsy-lunge-2",
@@ -230,6 +220,18 @@
         "https://www.muscleandstrength.com/exercises/zottman-curl.html"
       ],
       "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front camera, same scale and body coordinates in all 16 cells. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. THESE 16 CELLS ARE ONE COMPLETE CYCLE that loops: cell 16 must lead straight back into cell 1 with no jump. BILATERAL ZOTTMAN CURL, one complete repetition including both grip changes. Two dumbbells, upright torso, elbows pinned at the ribs and never drifting forward, feet planted and identical in every cell. Cell 1 arms hang at the thighs with a SUPINATED grip, palms facing forward. Cells 2 to 6 curl both dumbbells up to shoulder height keeping the palms supinated. Cells 7 and 8 at the top the forearms ROTATE so the palms turn over into a PRONATED grip, palms facing down and knuckles up. Cells 9 to 14 lower both dumbbells all the way back to the thighs keeping the palms PRONATED. Cells 15 and 16 at the bottom the forearms rotate back to supinated so cell 16 leads straight back into cell 1. The grip in the lifting half and the lowering half must be visibly different - that contrast is the whole point of this exercise. The two rotations happen only at the top and only at the bottom."
+    }
+  ],
+  "done_regenerated": [
+    {
+      "id": "cable-woodchopper",
+      "equipment": "cable",
+      "cycle": "reverse",
+      "cutout": false,
+      "sources": [
+        "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
+      ],
+      "prompt": "Original pearl-gray anatomical 3D mannequin, teal shorts gray shoes, plain gray studio. 16 equal square animation keyframes 4 columns 4 rows 2048x2048. Fixed front three-quarter camera, same scale and body coordinates in all 16 cells. Whole cable column, the full cable line and the entire body within central 70 percent, 15 percent margin all sides. Sequential small movement increments, no reset at row boundaries. No text arrows logos labels. LOW-TO-HIGH CABLE WOODCHOP. A low pulley on a weight-stack column stands at the left edge; a single visible cable runs from that pulley to a rope handle held in BOTH hands. Wide athletic stance, feet flat and planted at the same spot in every cell. Cell 1 both hands hold the rope low outside the left hip with the torso rotated left and the arms nearly straight. In 16 small evenly spaced increments the torso rotates and the arms sweep diagonally up and across to finish above the right shoulder with the arms extended in cell 16. The cable stays taut and unbroken from pulley to rope in EVERY cell and the pulley, cable and column never disappear. Hands stay together on the rope. Rotation comes from the trunk and hips, arms do not curl."
     }
   ],
   "groupB_blocked_fullCycle": [],

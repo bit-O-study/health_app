@@ -28,12 +28,14 @@ for (const { scheme, width } of [
     await page.screenshot({ path: testInfo.outputPath("home.png"), fullPage: true });
 
     // 앱 타일 → 그 앱. 하단바가 그 앱 메뉴로 갈리고, **가운데 칸은 어디서나 홈**이다.
-    for (const [app, path, firstTab] of [
-      ["운동", "/routine", "오늘"],
-      ["식단", "/diet", "오늘"],
-      ["캘린더", "/calendar", "달력"],
-      ["그룹", "/groups", "내 그룹"],
-      ["커뮤니티", "/community", "피드"],
+    // 칸 수는 앱이 실제로 가진 화면 수에 따라 3칸·5칸이다. 화면이 하나뿐인
+    // 앱(식단·커뮤니티)은 없는 칸을 만들지 않고 런처 바(5칸)를 그대로 쓴다.
+    for (const [app, path, firstTab, slots] of [
+      ["운동", "/routine", "오늘", 5],
+      ["식단", "/diet", "체형", 5],
+      ["캘린더", "/calendar", "달력", 3],
+      ["그룹", "/groups", "내 그룹", 3],
+      ["커뮤니티", "/community", "체형", 5],
     ] as const) {
       const nav = page.getByRole("navigation", { name: "주요 메뉴" });
       await page.getByRole("navigation", { name: "앱" })
@@ -42,10 +44,10 @@ for (const { scheme, width } of [
       await expect(page).toHaveURL(new RegExp(`${path}$`));
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 
-      // 하단바 5칸 · 3번째가 홈 — 앱이 바뀌어도 이 자리는 안 움직인다.
+      // 홈은 언제나 한가운데 — 3칸이면 1번, 5칸이면 2번.
       const tabs = nav.getByRole("link");
-      await expect(tabs).toHaveCount(5);
-      await expect(tabs.nth(2)).toHaveText("홈");
+      await expect(tabs).toHaveCount(slots);
+      await expect(tabs.nth((slots - 1) / 2)).toHaveText("홈");
       await expect(tabs.first()).toHaveText(firstTab);
 
       const outside = await page.locator('[data-testid="page-header"] a, [data-testid="page-header"] button, nav[aria-label="주요 메뉴"] a, nav[aria-label="앱"] a').evaluateAll((elements) =>
@@ -65,11 +67,15 @@ for (const { scheme, width } of [
       await page.screenshot({ path: testInfo.outputPath(`${path.slice(1)}.png`), fullPage: true });
 
       // 가운데 홈으로 런처 복귀 — 어느 앱에서든 1탭.
-      await tabs.nth(2).click();
+      await tabs.nth((slots - 1) / 2).click();
       await expect(page).toHaveURL(/\/home$/);
     }
 
-    await page.getByRole("link", { name: "설정", exact: true }).click();
+    // 설정은 하단바 '나' 칸 하나로 들어간다(2026-09-21 중복 버튼 정리).
+    await page
+      .getByRole("navigation", { name: "주요 메뉴" })
+      .getByRole("link", { name: "나", exact: true })
+      .click();
     await expect(page.getByRole("heading", { name: "설정", exact: true })).toBeVisible();
     await page.getByRole("link", { name: "체형 정보", exact: true }).click();
     await expect(page).toHaveURL(/\/settings\/profile$/);

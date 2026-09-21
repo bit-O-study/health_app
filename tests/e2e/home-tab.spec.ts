@@ -23,8 +23,11 @@ test("홈: 가운데 홈 칸과 설정이 있고, 운동탭엔 설정이 없다(
   // 홈에 있을 땐 그 칸이 현재 위치로 표시된다.
   await expect(nav.getByRole("link").nth(2)).toHaveAttribute("aria-current", "page");
 
-  // 설정 진입점은 홈 머리글에 그대로 있다.
-  await expect(page.getByRole("link", { name: "설정", exact: true })).toBeVisible();
+  // 설정 진입점은 하단바 '나' 칸 하나다(2026-09-21) — 예전엔 머리글 설정 아이콘과
+  // 겹쳐 한 화면에 같은 곳으로 가는 버튼이 둘이었다.
+  const me = nav.getByRole("link", { name: "나", exact: true });
+  await expect(me).toHaveAttribute("href", "/settings");
+  await expect(page.getByRole("link", { name: "설정", exact: true })).toHaveCount(0);
 
   // 운동탭(/routine) 으로 이동 — 실제 운동탭에 도달했는지 확인.
   await page.goto("/routine", { waitUntil: "networkidle" });

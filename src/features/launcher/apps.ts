@@ -1,11 +1,9 @@
 import {
   Apple,
   Bell,
-  Camera,
   CalendarDays,
   CalendarHeart,
   ChartColumn,
-  ChartLine,
   Flame,
   GraduationCap,
   House,
@@ -15,15 +13,10 @@ import {
   PawPrint,
   Scale,
   Search,
-  Settings,
-  Sparkles,
   Target,
-  TrendingUp,
-  Trophy,
   UserRound,
   Users,
   UsersRound,
-  Utensils,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -65,8 +58,17 @@ export type LauncherApp = {
    * 순서가 곧 우선순위 — 먼저 걸리는 앱이 이긴다(`/plan` 이 `/pet` 보다 앞).
    */
   owns: string[];
-  /** 양옆 4칸. 가운데 홈은 여기 넣지 않는다. */
-  tabs: [AppTab, AppTab, AppTab, AppTab];
+  /**
+   * 양옆 칸 — **그 앱이 실제로 가진 화면만** 적는다(가운데 홈은 여기 넣지 않는다).
+   *
+   * 🔴 **없는 화면을 만들어 넣지 않는다**(2026-09-21). 예전엔 칸을 4개로 맞추려고
+   * `/diet?tab=search` 같은 걸 넣었는데, 그 페이지는 `tab` 을 읽지도 않아서
+   * **버튼 4개가 전부 같은 화면**으로 갔다. 화면 안에 이미 있는 탭·버튼과도 겹쳤다.
+   *
+   * 0·2·4개만 허용한다 — 홈이 언제나 정확히 한가운데 오게(3칸 또는 5칸).
+   * **0개면 런처 바를 그대로 쓴다**(화면이 하나뿐인 앱).
+   */
+  tabs: AppTab[];
   /** 이 디버그 기능이 켜진 사용자에게만 런처에 보인다. */
   debugFlag?: string;
 };
@@ -79,10 +81,14 @@ export const HOME_TAB: AppTab = {
   match: (p) => p === "/" || p.startsWith("/home"),
 };
 
-/** 하단바 칸 수 — 양옆 4 + 가운데 홈 1. */
-export const BOTTOM_SLOT_COUNT = 5;
-/** 가운데 홈이 들어가는 자리(0-based). */
-export const HOME_SLOT_INDEX = 2;
+/** 하단바에 올 수 있는 칸 수 — 양옆 2칸(+홈) 또는 4칸(+홈). */
+export const BOTTOM_SLOT_COUNTS = [3, 5] as const;
+/** 앱이 가질 수 있는 양옆 칸 수. */
+export const SIDE_TAB_COUNTS = [0, 2, 4] as const;
+/** 가운데 홈이 들어가는 자리 — 양옆 칸 수의 절반(2칸→1, 4칸→2). */
+export function homeSlotIndex(sideTabCount: number): number {
+  return sideTabCount / 2;
+}
 
 export const LAUNCHER_APPS: LauncherApp[] = [
   {
@@ -123,12 +129,9 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tone: "bg-gradient-to-br from-green-400 to-green-600",
     home: "/diet",
     owns: ["/diet"],
-    tabs: [
-      { href: "/diet", label: "오늘", icon: Utensils, match: (p) => p === "/diet" },
-      { href: "/diet?tab=search", label: "음식검색", icon: Search },
-      { href: "/diet?tab=photo", label: "사진기록", icon: Camera },
-      { href: "/diet?tab=nutrition", label: "영양", icon: ChartLine },
-    ],
+    // 화면이 `/diet` 하나뿐이다 — 음식검색·사진기록·영양은 **그 화면 안에 이미 버튼이 있다.**
+    // 하단바에 또 넣으면 같은 화면으로 가는 버튼만 넷이 된다.
+    tabs: [],
   },
   {
     id: "calendar",
@@ -140,8 +143,6 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tabs: [
       { href: "/calendar", label: "달력", icon: CalendarDays, match: (p) => p.startsWith("/calendar") },
       { href: "/cycle", label: "주기", icon: CalendarHeart },
-      { href: "/settings/history", label: "지난 기록", icon: NotebookPen },
-      { href: "/settings/score", label: "통계", icon: TrendingUp },
     ],
   },
   {
@@ -151,10 +152,9 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tone: "bg-gradient-to-br from-amber-400 to-yellow-600",
     home: "/groups",
     owns: ["/groups"],
+    // 찾기·랭킹은 `/groups` 화면 안에 있다 — 하단바엔 실제 화면 둘만.
     tabs: [
       { href: "/groups", label: "내 그룹", icon: UsersRound, match: (p) => p === "/groups" },
-      { href: "/groups?tab=find", label: "찾기", icon: Search },
-      { href: "/groups?tab=rank", label: "랭킹", icon: Trophy },
       { href: "/groups/manage", label: "관리", icon: Users },
     ],
   },
@@ -165,12 +165,8 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tone: "bg-gradient-to-br from-violet-400 to-purple-600",
     home: "/community",
     owns: ["/community"],
-    tabs: [
-      { href: "/community", label: "피드", icon: Newspaper, match: (p) => p === "/community" },
-      { href: "/community?sort=hot", label: "인기", icon: Sparkles },
-      { href: "/community?write=1", label: "글쓰기", icon: NotebookPen },
-      { href: "/community?mine=1", label: "내 글", icon: UserRound },
-    ],
+    // 오운완·운동·내 글 탭은 **화면 위쪽에 이미 있다**(community-board 상단 탭).
+    tabs: [],
   },
   {
     id: "coach",
@@ -180,12 +176,8 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     home: "/coach",
     owns: ["/coach"],
     debugFlag: "helssu-coach",
-    tabs: [
-      { href: "/coach", label: "대화", icon: GraduationCap, match: (p) => p === "/coach" },
-      { href: "/coach?tab=plan", label: "추천", icon: Sparkles },
-      { href: "/coach?tab=report", label: "분석", icon: ChartColumn },
-      { href: "/settings", label: "설정", icon: Settings },
-    ],
+    // 화면이 `/coach` 하나뿐이다.
+    tabs: [],
   },
   {
     id: "pet",
@@ -197,9 +189,6 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tabs: [
       { href: "/pet", label: "펫", icon: PawPrint, match: (p) => p.startsWith("/pet") },
       { href: "/commitments", label: "다짐", icon: Target },
-      { href: "/settings/score", label: "보상", icon: Trophy },
-      // 🔴 여기에 /calendar 를 두면 캘린더 앱으로 넘어가 하단바가 통째로 갈린다.
-      { href: "/settings/history", label: "기록", icon: NotebookPen },
     ],
   },
 ];
@@ -215,8 +204,9 @@ export const LAUNCHER_APPS: LauncherApp[] = [
  */
 export const LAUNCHER_TABS: [AppTab, AppTab, AppTab, AppTab] = [
   { href: "/settings/body-composition", label: "체형", icon: Scale },
-  { href: "/settings/progress", label: "기록", icon: TrendingUp },
-  { href: "/settings/notifications", label: "알림", icon: Bell },
+  { href: "/settings/history", label: "기록", icon: NotebookPen },
+  // 라벨이 '알림'이면 알림 **목록**을 여는 벨과 구분이 안 된다 — 여기는 설정 화면이다.
+  { href: "/settings/notifications", label: "알림설정", icon: Bell },
   { href: "/settings", label: "나", icon: UserRound, match: (p) => p.startsWith("/settings") || p.startsWith("/account") },
 ];
 
@@ -250,8 +240,10 @@ export function isTabActive(tab: AppTab, pathname: string): boolean {
  */
 export function bottomTabsForPath(pathname: string): AppTab[] {
   const app = appForPath(pathname);
-  const side = app ? app.tabs : LAUNCHER_TABS;
-  return [...side.slice(0, HOME_SLOT_INDEX), HOME_TAB, ...side.slice(HOME_SLOT_INDEX)];
+  // 화면이 하나뿐인 앱(탭 0개)은 런처 바를 그대로 쓴다 — 없는 화면을 만들어 채우지 않는다.
+  const side: readonly AppTab[] = app && app.tabs.length > 0 ? app.tabs : LAUNCHER_TABS;
+  const mid = homeSlotIndex(side.length);
+  return [...side.slice(0, mid), HOME_TAB, ...side.slice(mid)];
 }
 
 /** 런처 격자에 보일 앱들 — 디버그 기능이 꺼져 있으면 그 앱은 빠진다. */

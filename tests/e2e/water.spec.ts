@@ -36,7 +36,8 @@ test("컵을 누르면 수분이 쌓이고 DB 에 남는다", async ({ page }) =
   await expect(card).toHaveAttribute("data-ml", "350", { timeout: 8000 });
   await expect(card).toContainText("350ml");
 
-  expect(await waterMl(email)).toBe(350);
+  // 화면이 먼저 바뀌고 DB 가 조금 늦게 따라온다 — 한 번만 읽으면 0을 보고 실패한다.
+  await expect.poll(() => waterMl(email), { timeout: 15_000 }).toBe(350);
 
   // 새로고침해도 남아 있다(화면 상태가 아니라 기록이다).
   await page.reload({ waitUntil: "networkidle" });

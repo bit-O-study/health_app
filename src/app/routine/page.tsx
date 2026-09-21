@@ -24,7 +24,6 @@ import {
   baseTonesOfBlocks,
   todayAddedBlocks,
 } from "@/features/routine/plan-blocks";
-import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
 import {
   getDailyPlanForDate,
@@ -89,8 +88,9 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
-              {/* 운동 찾기(자연어 운동 검색) — 로그인 후에만 노출. */}
-              <ExerciseFinder />
+              {/* 운동 찾기(자연어 검색)는 하단 '운동찾기' 칸이 가리키는 `/exercises` 로
+                  옮겼다(2026-09-21) — 여기에 두면 같은 화면에 이름이 거의 같은 버튼이
+                  둘이 돼서 어느 쪽이 무엇인지 알 수 없었다. */}
               <NotificationBell />
               {/* 설정·다짐은 홈탭으로 이동함(운동탭은 오늘 운동에 집중). */}
             </>

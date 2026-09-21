@@ -7,6 +7,7 @@ import {
   type BodyPart,
   type CatalogExercise,
 } from "@/features/routine/exercise-catalog";
+import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { ExerciseLibrary } from "@/features/exercises/components/exercise-library";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -40,6 +41,11 @@ export default function ExercisesPage() {
     <div className="app-page">
       <PageHeader title="운동 종목" back />
       <main className="app-container space-y-4">
+        {/* 자연어로 찾기 — 예전엔 운동탭 머리글에 있었는데, 하단 '운동찾기' 칸과
+            이름이 거의 같아 헷갈렸다. 찾는 곳을 여기 하나로 모았다(2026-09-21). */}
+        <div className="flex justify-end">
+          <ExerciseFinder />
+        </div>
         <ExerciseLibrary sections={sections} />
       </main>
     </div>

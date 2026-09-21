@@ -31,11 +31,14 @@ test("런처에서 식단 앱으로 들어가 음식 추가→칼로리 반영�
   await expect(page.getByText("닭가슴살").first()).toBeVisible({ timeout: 8000 });
   await expect(page.getByText("110 kcal")).toBeVisible();
 
-  // DB 에 저장됐는지
-  const rows = await dbQuery<{ name: string; meal: string; kcal: string }>(
-    `select name, meal, kcal::text from public.food_logs where user_id=${uid}`,
-    [email],
-  );
+  // DB 에 저장됐는지 — 화면이 먼저 바뀌고 DB 가 조금 늦게 따라오므로 될 때까지 다시 읽는다.
+  const readFoodLogs = () =>
+    dbQuery<{ name: string; meal: string; kcal: string }>(
+      `select name, meal, kcal::text from public.food_logs where user_id=${uid}`,
+      [email],
+    );
+  await expect.poll(async () => (await readFoodLogs()).length, { timeout: 15_000 }).toBe(1);
+  const rows = await readFoodLogs();
   expect(rows.length).toBe(1);
   expect(rows[0].name).toBe("닭가슴살");
   expect(rows[0].meal).toBe("lunch");
@@ -92,15 +95,19 @@ test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) 
   const kcal = page.getByLabel("칼로리(kcal)");
   await kcal.fill("450");
   await page.getByRole("button", { name: "저장" }).click();
-  await page.waitForTimeout(1000);
 
-  const rows = await dbQuery<{ name: string; kcal: string }>(
-    `select name, kcal::text from public.food_logs where user_id=${uid}`,
-    [email],
-  );
+  // 고정 대기(1초)로는 모자랄 때가 있다 — 바뀔 때까지 다시 읽는다.
+  const readEdited = () =>
+    dbQuery<{ name: string; kcal: string }>(
+      `select name, kcal::text from public.food_logs where user_id=${uid}`,
+      [email],
+    );
+  await expect
+    .poll(async () => Number((await readEdited())[0]?.kcal), { timeout: 15_000 })
+    .toBe(450);
+  const rows = await readEdited();
   expect(rows.length).toBe(1);
   expect(rows[0].name).toBe("오트밀");
-  expect(Number(rows[0].kcal)).toBe(450);
 });
 
 test("직접 입력으로 음식 종류(category) 지정해 추가", async ({ page }) => {

@@ -42,13 +42,23 @@ test("런처: 앱을 누르면 하단바가 그 앱 메뉴로 갈린다", async 
   await expect(nav.getByRole("link").nth(0)).toHaveText("오늘");
   await expect(nav.getByRole("link").nth(3)).toHaveText("운동찾기");
 
-  // 식단으로 갈아타면 또 다른 4칸.
+  // 캘린더로 갈아타면 또 다른 칸 구성(3칸 — 달력·[홈]·주기).
   await nav.getByRole("link").nth(2).click();
   await expect(page).toHaveURL(/\/home$/);
+  await grid.getByRole("link", { name: "캘린더", exact: true }).click();
+  await expect(page).toHaveURL(/\/calendar$/);
+  await expect(nav.getByRole("link")).toHaveCount(3);
+  await expect(nav.getByRole("link").nth(0)).toHaveText("달력");
+  await expect(nav.getByRole("link").nth(1)).toHaveText("홈");
+  await expect(nav.getByRole("link").nth(2)).toHaveText("주기");
+
+  // 🔴 화면이 하나뿐인 앱(식단)은 없는 칸을 만들지 않고 런처 바를 그대로 쓴다.
+  await nav.getByRole("link", { name: "홈", exact: true }).click();
+  await expect(page).toHaveURL(/\/home$/);
+  const launcherBar = await nav.getByRole("link").allInnerTexts();
   await grid.getByRole("link", { name: "식단", exact: true }).click();
   await expect(page).toHaveURL(/\/diet$/);
-  await expect(nav.getByRole("link").nth(1)).toHaveText("음식검색");
-  await expect(nav.getByRole("link").nth(2)).toHaveText("홈");
+  expect(await nav.getByRole("link").allInnerTexts()).toEqual(launcherBar);
 });
 
 test("가운데 홈은 어느 앱에서도 같은 자리·같은 모양이다", async ({ page }) => {
@@ -58,20 +68,22 @@ test("가운데 홈은 어느 앱에서도 같은 자리·같은 모양이다", 
   await createOnboardedAccount(page);
 
   const nav = page.getByRole("navigation", { name: "주요 메뉴" });
-  const boxes: { x: number; w: number }[] = [];
+  const centers: number[] = [];
 
+  // 앱마다 칸 수가 다르다(3칸·5칸) — 그래도 홈은 언제나 한가운데여야 한다.
   for (const path of ["/home", "/routine", "/diet", "/calendar", "/community"]) {
     await page.goto(path, { waitUntil: "networkidle" });
-    const home = nav.getByRole("link").nth(2);
-    await expect(home).toHaveText("홈");
+    const count = await nav.getByRole("link").count();
+    expect([3, 5], `${path} 칸 수 ${count}`).toContain(count);
+    const home = nav.getByRole("link").nth((count - 1) / 2);
+    await expect(home, path).toHaveText("홈");
     const box = (await home.boundingBox())!;
-    boxes.push({ x: Math.round(box.x), w: Math.round(box.width) });
+    centers.push(Math.round(box.x + box.width / 2));
   }
 
-  // 다섯 화면 모두 가운데 홈의 가로 위치가 같아야 한다(1px 오차 허용).
-  for (const b of boxes) {
-    expect(Math.abs(b.x - boxes[0].x)).toBeLessThanOrEqual(1);
-    expect(Math.abs(b.w - boxes[0].w)).toBeLessThanOrEqual(1);
+  // 다섯 화면 모두 홈 버튼의 한가운데가 같은 가로 위치여야 한다(1px 오차 허용).
+  for (const c of centers) {
+    expect(Math.abs(c - centers[0])).toBeLessThanOrEqual(1);
   }
 });
 
@@ -93,7 +105,9 @@ test("운동 기능이 새 구조에서 하나도 사라지지 않는다", async
   await expect(page.getByRole("heading", { name: "운동 등록" })).toBeVisible();
 
   await nav.getByRole("link", { name: "운동찾기", exact: true }).click();
-  await expect(page).toHaveURL(/\/exercises$/);
+  // dev 서버는 이 라우트를 처음 들어갈 때 그 자리에서 컴파일한다(운동 카탈로그 + 자연어
+  // 찾기까지 들어 있어 몇십 초 걸릴 수 있다). 기본 15초로는 모자라 가끔 빨갰다.
+  await expect(page).toHaveURL(/\/exercises$/, { timeout: 60_000 });
   await expect(page.getByRole("heading", { name: "운동 종목" })).toBeVisible();
 
   await nav.getByRole("link", { name: "기록", exact: true }).click();

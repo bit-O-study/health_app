@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Settings } from "lucide-react";
 
 import { PromoBanner } from "@/features/cross-promo/promo-banner";
 import { NotificationBell } from "@/features/notifications/notification-center";
@@ -32,7 +30,7 @@ export const metadata: Metadata = {
  * (운동·식단·캘린더 고정 — 사용자 결정). 자세한 내용은 각 앱 안으로 옮겨 갔고,
  * 위젯을 누르면 그 앱으로 바로 가므로 매일 쓰는 기능은 홈에서 1탭을 유지한다.
  *
- * 하단바도 여기선 런처 자신의 4칸(검색·기록·알림·나)을 쓰고, 앱에 들어가면
+ * 하단바도 여기선 런처 자신의 4칸(체형·기록·알림설정·나)을 쓰고, 앱에 들어가면
  * 그 앱 메뉴로 바뀐다. 가운데 홈 칸만은 어디서나 그대로다.
  */
 export default async function HomePage() {
@@ -69,7 +67,7 @@ export default async function HomePage() {
   return (
     <div className="app-page overflow-x-clip">
       <main className="app-container space-y-4">
-        {/* 아이폰 큰 제목 — 날짜 한 줄 + 제목, 오른쪽에 알림·설정 */}
+        {/* 아이폰 큰 제목 — 날짜 한 줄 + 제목, 오른쪽에 알림 */}
         <header className="flex items-end justify-between gap-3 pb-1">
           <div>
             <p className="app-eyebrow">
@@ -77,15 +75,11 @@ export default async function HomePage() {
             </p>
             <h1 className="app-title">홈</h1>
           </div>
+          {/* 설정 아이콘은 뺐다(2026-09-21) — 하단바 '나' 칸이 같은 /settings 로 가서
+              한 화면에 같은 곳으로 가는 버튼이 둘이었다. 알림 벨은 목록을 여는 것이라
+              '알림설정' 칸과 하는 일이 다르다. */}
           <div className="flex items-center gap-1 pb-0.5">
             <NotificationBell />
-            <Link
-              aria-label="설정"
-              href="/settings"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200/60 text-zinc-700 transition active:scale-95 dark:bg-white/[0.1] dark:text-zinc-200"
-            >
-              <Settings aria-hidden="true" size={18} />
-            </Link>
           </div>
         </header>
 

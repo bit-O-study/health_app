@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  BOTTOM_SLOT_COUNT,
-  HOME_SLOT_INDEX,
+  BOTTOM_SLOT_COUNTS,
+  SIDE_TAB_COUNTS,
+  homeSlotIndex,
   HOME_TAB,
   LAUNCHER_APPS,
   LAUNCHER_TABS,
@@ -22,14 +23,32 @@ import {
  *     전부 운동 앱으로 잡히는지 여기서 못 박는다(사용자 요구 2026-09-20).
  */
 describe("런처 앱 레지스트리", () => {
-  it("모든 앱은 양옆 4칸만 갖는다 — 홈은 앱이 적지 않는다", () => {
+  it("앱의 양옆 칸은 0·2·4개뿐 — 홈은 앱이 적지 않는다", () => {
     for (const app of LAUNCHER_APPS) {
-      expect(app.tabs, `${app.id} 의 칸 수`).toHaveLength(4);
+      expect(SIDE_TAB_COUNTS, `${app.id} 의 칸 수 ${app.tabs.length}`).toContain(
+        app.tabs.length,
+      );
       for (const tab of app.tabs) {
         expect(tab.href, `${app.id} 가 홈을 직접 넣었다`).not.toBe(HOME_TAB.href);
       }
     }
     expect(LAUNCHER_TABS).toHaveLength(4);
+  });
+
+  it("🔴 같은 화면으로 가는 칸이 두 개 있으면 안 된다", () => {
+    // 예전엔 칸 수를 4개로 맞추려고 /diet?tab=search 같은 걸 넣었는데, 그 페이지는
+    // tab 을 읽지도 않아 **버튼 넷이 전부 같은 화면**으로 갔다(2026-09-21).
+    const all = [
+      ...LAUNCHER_APPS.flatMap((a) => a.tabs.map((t) => ({ who: a.id, t }))),
+      ...LAUNCHER_TABS.map((t) => ({ who: "launcher", t })),
+    ];
+    const seen = new Map<string, string>();
+    for (const { who, t } of all) {
+      const path = t.href.split("?")[0];
+      const prev = seen.get(path);
+      expect(prev, `${path} 를 ${prev} 와 ${who}:${t.label} 가 함께 가리킨다`).toBeUndefined();
+      seen.set(path, `${who}:${t.label}`);
+    }
   });
 
   it("어느 앱에서든 하단바는 5칸이고, 가운데가 홈이다", () => {
@@ -50,9 +69,12 @@ describe("런처 앱 레지스트리", () => {
     ];
     for (const path of paths) {
       const tabs = bottomTabsForPath(path);
-      expect(tabs, `${path} 칸 수`).toHaveLength(BOTTOM_SLOT_COUNT);
-      expect(tabs[HOME_SLOT_INDEX].href, `${path} 가운데 칸`).toBe(HOME_TAB.href);
-      expect(tabs[HOME_SLOT_INDEX].label).toBe("홈");
+      expect(BOTTOM_SLOT_COUNTS, `${path} 칸 수 ${tabs.length}`).toContain(tabs.length);
+      // 홈은 언제나 **정확히 한가운데** — 3칸이면 1번, 5칸이면 2번.
+      const mid = (tabs.length - 1) / 2;
+      expect(Number.isInteger(mid), `${path} 칸 수가 홀수가 아니다`).toBe(true);
+      expect(tabs[mid].href, `${path} 가운데 칸`).toBe(HOME_TAB.href);
+      expect(tabs[mid].label).toBe("홈");
     }
   });
 
@@ -163,12 +185,18 @@ describe("탭 활성 판정", () => {
     expect(isTabActive(record, "/settings/score")).toBe(true);
   });
 
-  it("쿼리스트링이 붙은 탭도 경로로 판단한다", () => {
-    const diet = LAUNCHER_APPS.find((a) => a.id === "diet")!;
-    const search = diet.tabs[1];
-    expect(search.href).toContain("?");
-    expect(isTabActive(search, "/diet")).toBe(true);
-    expect(isTabActive(search, "/calendar")).toBe(false);
+  it("화면이 하나뿐인 앱은 런처 바를 그대로 쓴다", () => {
+    // 없는 화면을 만들어 칸을 채우지 않는다(2026-09-21).
+    for (const id of ["diet", "community", "coach"]) {
+      const app = LAUNCHER_APPS.find((a) => a.id === id)!;
+      expect(app.tabs, `${id} 가 가짜 칸을 갖고 있다`).toHaveLength(0);
+      expect(bottomTabsForPath(app.home)[0].href).toBe(LAUNCHER_TABS[0].href);
+    }
+  });
+
+  it("홈 자리는 양옆 칸 수의 절반이다", () => {
+    expect(homeSlotIndex(2)).toBe(1);
+    expect(homeSlotIndex(4)).toBe(2);
   });
 
   it("홈 칸은 / 와 /home 에서 켜진다", () => {

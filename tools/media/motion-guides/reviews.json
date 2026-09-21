@@ -1486,20 +1486,6 @@
     "reviewedAt": "2026-09-18T01:38:21.461Z"
   },
   {
-    "status": "pending",
-    "note": "2026-09-18: re-rendered with cutout:false, which fixed the equipment - the functional trainer, low pulley, weight stack and the cable to the rope handle are all back and solid, and the detached floating pulley blob is gone. Still DO NOT PUBLISH: the interpolation ghosting remains. Duplicated translucent hands and forearms across the fast diagonal on the 32-frame sheet at row1 col3, row2 col1-3 and row3 col2-3, plus head smearing at row1 col3. Root cause is pose density - an 8-panel source cannot carry a full diagonal chop through minterpolate. Separate from that, the source is a photorealistic woman in black sportswear rather than the approved grey character, so it is off-style for the catalogue. Next: regenerate at 16 panels in the approved style, re-render (keep cutout:false) and re-review. Do not pass on playback alone.",
-    "id": "cable-woodchopper",
-    "equipmentIds": [
-      "cable"
-    ],
-    "sources": [
-      "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
-    ],
-    "sourceSha256": "0bb557e35890bd488832183bf962935eafe99b7d9516d8b503b069bd0eaaa8d5",
-    "videoSha256": "dbb32a850e755a9b40095be77c6d6ec09a6ff89fb92d78daa6dd4f09d6334d96",
-    "reviewedAt": "2026-09-18T01:38:28.096Z"
-  },
-  {
     "status": "passed",
     "checks": {
       "exercise": "Kneeling (modified) push-up: 16 source poses lower the chest toward the floor with the knees as the pivot, and the video reverses to lockout for one full repetition.",
@@ -2395,5 +2381,20 @@
     "videoSha256": "b8a7e065c4cf466b9a5c1efea12e56fb615f478e821fca531795dd65fe732623",
     "darkVideoSha256": "f1b168f44add15f229e6b85d9b18b98db91d20a187bbb9e6ec762ebd1e0d8ac2",
     "reviewedAt": "2026-09-20T02:11:01.773Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-20 후속 재개: 후보6 채택, 기구 쪽 골반 바깥 시작으로 수정. 후보7은 변화 부족, 후보8은 시작 자세/마지막 케이블 연결 문제로 미채택. 원본16칸과 최종32프레임 대조: 기구·케이블 보존, 대각선 상승/복귀 확인. 그러나 중간 손·머리 잔상과 불균일한 자세 간격이 남아 공개 보류. 480x480/8초/24fps/282968bytes 전체decode 통과. Pixel7 모바일 Chromium loopback HTML video 재생 및7.5초 seek 통과, 정상 종료. imports/woodchopper-16-20260920/playback.json은 현재 영상SHA256에 묶인 증거. 앱 UI·Android 실기기 미검증.",
+    "id": "cable-woodchopper",
+    "equipmentIds": [
+      "cable"
+    ],
+    "sources": [
+      "https://www.strengthlog.com/cable-machine-wood-chop-low-to-high/",
+      "https://cdn.muscleandstrength.com/exercises/low-wood-chop.html"
+    ],
+    "sourceSha256": "85695873e166007b135258463768730d581afde4022f57663dcbe86c1a0440d7",
+    "videoSha256": "28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff",
+    "reviewedAt": "2026-09-20T14:30:17.262Z"
   }
 ]

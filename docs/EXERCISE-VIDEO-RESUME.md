@@ -201,8 +201,10 @@ public/exercise-guides/previews/conventional-deadlift-smooth.mp4
 
 ## 최신 체크포인트
 
-2026-09-20T02:11:58.064Z
+2026-09-20T14:34:59.022Z
 
 등록 117 / 렌더 132 / 시각 검토 통과 82 / 대상 1351
 
-2026-09-20: 누끼 재렌더 104종 전량 완료(failed 0). 재렌더로 해시가 무효화된 분량을 전부 재검토해 재검토 대기 0. 현재 공개 82(다크 65 + cutout:false 회색박스 17), pending 23, rejected 12. 누끼 파손 유형이 네 갈래로 정리됐다: (1) 케이블·스트랩은 굵기와 무관하게 무조건 지워짐 → cutout:false (총 16종 적용). (2) 누운 벤치는 몸에 가려 배경으로 판정됨 → cutout:false 로 lying-triceps-extension·ez-bar-skull-crusher·nordic-hamstring-curl 복구. (3) 가는 수평 부재 끊김은 굵기 문제 — hanging-knee-raise 철봉만 해당하고 스미스 레일·평행봉·랙 기둥은 멀쩡. (4) 빠른 구간 보간 뭉개짐은 누끼와 무관하며 대부분 8패널 원본이라 16패널 재생성으로만 해결된다. 원본 자체가 틀린 것도 둘 발견: pallof-press-2 는 16칸 전부 손이 가슴에 붙어 프레스 구간이 없고, reverse-grip-pushdown 은 완전 측면 카메라라 언더핸드 그립을 판별할 수 없다(Codex 세션은 passed 로 봤으나 사용자 결정으로 pending 유지). 다음: _repanel-16/plan.json 의 A군 25종 16패널 이미지 생성(이 세션 불가, imagegen 필요) → repanel-16.mjs 로 등록·렌더 → 재검토. 앱 화면 E2E·실기기 재생은 여전히 미실행.
+2026-09-20 후속 재개: cable-woodchopper 후보6을 등록·렌더해 기구 쪽 골반 바깥 시작 자세로 수정. 생성PNG tools/media/imports/woodchopper-16-20260920/candidate-6.png, 정확한 내장 image_gen 편집 프롬프트는 motion-guides/cable-woodchopper.json 및 imports/woodchopper-16-20260920/candidate-spec.json. 후보7은 간격 개선 부족, 후보8은 시작자세/케이블 연결 문제로 미채택. 최종480x480/8초/24fps/282968bytes 전체decode 통과. 원본16칸·영상32프레임 비교했으나 중간 손/머리 잔상·간격 불균일이 남아 pending 유지. 현재 공개82종. 모바일 검사 정체 해소: verify-woodchopper-20260920.mjs를 loopback HTML video/Range 응답/단계 로그/제한시간 방식으로 변경, Pixel7 모바일 Chromium 재생·7.5초 탐색 통과 및 정상 종료. 증거playback.json의 SHA256 28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff가 현재영상과 일치. guide-review.test.mjs 3개, 대상ESLint, tsc --noEmit, git diff --check 통과. 이전후보로 되돌리는 임시 resume-woodchopper-20260920.mjs 삭제. 앱 UI/Android 실기기 미검증. 다음은 손/머리 잔상이 생기는 자세 간격 수정과 재검토 후 _repanel-16/plan.json 나머지 미변환 종목 진행. 재렌더104종 완료 기록 유지, pallof-press-2 프레스 부재 및 reverse-grip-pushdown 언더핸드 판별 불가로 pending 유지. OS ACL 오류 반복, 파일 편집 승인 실행 필요.
+
+2026-09-21 커밋 전 검증: 단위1986개·스키마69개·리뷰3개·린트(오류0/경고40)·타입·빌드 통과. 전체E2E는84통과/3실패/3skip/203미실행. 인증 폼 수화 전 조작 문제를 수정하여 기존실패3개+신규회귀2개 통과. 우드초퍼 재생·7.5초 탐색 재검증 통과, 영상시각검토 pending 유지. 전체E2E 재실행·Android 실기기 미완료. 상세는 imports/woodchopper-16-20260920/commit-verification-20260921.md.

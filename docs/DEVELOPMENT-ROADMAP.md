@@ -341,6 +341,16 @@
 
 ### P1.4 [진행중] 운동모드 기구 세팅 가이드 영상
 
+- [진행중] 2026-09-20 16자세 재생성 재개: cable-woodchopper부터 순차 처리.
+  - [완료] coverage 재확인: 등록117 / 렌더132 / 검토통과82. 기존8패널·cutout:false 및 출처 확인.
+  - [완료] 내장 image_gen 후보5회 생성·수정. 최종 케이블 연결 수정, PNG와 이전 원본/명세/영상은 tools/media/imports/woodchopper-16-20260920/ 보관.
+  - [완료] 16패널 등록·렌더·전체 decode 통과: 480x480,8초,24fps,282225bytes. 32프레임 시트 확인. guide-review.test.mjs 3개 통과.
+  - [진행중] 후보6에서 기구 쪽 골반 바깥 시작으로 수정. 중간 손·머리 잔상과 불균일한 자세 간격은 남아 pending 유지, 공개82종. 후보7·8은 개선 부족으로 미채택.
+  - [완료] 후속 모바일 검사: MP4 직접 탐색 대신 HTML video 페이지·Range 응답·단계 로그·제한 시간 적용 후 정상 종료. 후보6 최종영상 SHA256 28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff 기준 Pixel7 모바일 Chromium 재생·7.5초 탐색 통과. 480x480/8초/24fps/282968bytes 전체decode 통과. 증거: imports/woodchopper-16-20260920/playback.json.
+  - [완료] 후속 검증: guide-review.test.mjs 3개, verify-woodchopper-20260920.mjs ESLint, tsc --noEmit 통과. 앱 UI/Android 미검증.
+  - [대기] 앱 화면·Android 실기기 재생 검증.
+
+
 - [완료] 2026-09-20 누끼 재렌더 104종 전량 완료(`done; failed 0`) 및 재검토 대기 해소: 재렌더로 해시가 무효화된 분량을 전부 원본 + 라이트/다크 32프레임 접촉시트로 재검토하고 의심 구간은 ffmpeg 확대 타일로 추가 확인했다. 최종 등록 117 / 렌더 132 / 공개 82(다크 65 + cutout:false 회색박스 17) / pending 23 / rejected 12 / 대상 1351, 재검토 대기 0. 누끼 파손 유형 4가지 확정: (a) 케이블·스트랩은 굵기 무관 무조건 소실 → `cutout:false` 누적 16종, (b) 누운 벤치는 몸에 가려 배경 판정 → lying-triceps-extension·ez-bar-skull-crusher·nordic-hamstring-curl 복구(9/18 의 "누끼 탓 아님" 판단은 오진이었고 정정함), (c) 가는 수평 부재 끊김은 굵기 문제로 hanging-knee-raise 철봉만 해당하며 스미스 레일·평행봉·랙 기둥은 멀쩡, (d) 빠른 구간 보간 뭉개짐은 누끼와 무관하고 대부분 8패널 원본이라 16패널 재생성으로만 해결. 원본 자체 오류 2종 발견: pallof-press-2 는 프레스 구간이 아예 없고, reverse-grip-pushdown 은 측면 카메라라 언더핸드 그립 판별 불가(동시 작업 중인 Codex 세션은 passed 로 봤으나 사용자 결정으로 pending 유지). 진행 중 약 23시간 정체는 노트북 절전 때문이며 `keep-awake.ps1` 은 덮개 닫기를 막지 못한다. 앱 화면 E2E·실기기 재생은 여전히 미실행.
 
 - [진행중] 2026-09-18 로우바 스쿼트 개선
@@ -1056,6 +1066,11 @@
 - [보류] 배포 후 `/admin/crons` 에서 실제 실행 기록 확인 — **Vercel 배포 필요**
 
 ### P2.2 [진행중] CI와 정적 검사 신뢰성
+- [진행중] 2026-09-21 커밋 검증 중 인증 화면 E2E 실패 수정.
+  - [완료] 회원가입 클릭 무시 및 아이디 찾기의 `/find-id?` 기본 GET 전송 확인. 별도 재실행에서는 외부 인증 연결 시간 초과도 관찰.
+  - [완료] JavaScript 지연 회귀2개에서 수화 전 활성 입력 재현. useHydrated + fieldset disabled로 로그인/가입·아이디 찾기의 초기 조작 차단, 준비 후 정상 조작 확인.
+  - [완료] localhost:3110 mobile-chromium 회귀2개+기존실패3개 모두 통과. 전체 단위189파일1986개·스키마69개·린트(오류0/경고40)·타입·프로덕션 빌드 통과.
+  - [대기] 전체 E2E는 수정 전84통과/3실패/3skip/203미실행. 수정 후 전체295개 재실행 및 Android 실기기 미완료. 사용자 재지시에 따라 실패 수정·대상 재검증 결과와 한계를 기록해 커밋 준비. 상세: tools/media/imports/woodchopper-16-20260920/commit-verification-20260921.md.
 
 - [진행중] 전체 E2E에서 발견한 운동 편집 회귀 제거
   - [완료] 전역 교환 버튼 통합 뒤 병합으로 예전 일차별 죽은 버튼이 복원된 원인 조사

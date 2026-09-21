@@ -1271,21 +1271,6 @@
     "verifiedAt": "2026-09-18T01:36:06.903Z"
   },
   {
-    "id": "cable-woodchopper",
-    "renderVersion": 5,
-    "panels": 8,
-    "cutout": false,
-    "sourceSha256": "0bb557e35890bd488832183bf962935eafe99b7d9516d8b503b069bd0eaaa8d5",
-    "videoSha256": "dbb32a850e755a9b40095be77c6d6ec09a6ff89fb92d78daa6dd4f09d6334d96",
-    "width": 480,
-    "height": 480,
-    "seconds": 8,
-    "fps": 24,
-    "bytes": 259230,
-    "decode": "passed",
-    "verifiedAt": "2026-09-18T01:36:38.956Z"
-  },
-  {
     "id": "landmine-row",
     "renderVersion": 5,
     "panels": 16,
@@ -1921,5 +1906,20 @@
     "bytes": 211222,
     "decode": "passed",
     "verifiedAt": "2026-09-20T02:10:03.837Z"
+  },
+  {
+    "id": "cable-woodchopper",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": false,
+    "sourceSha256": "85695873e166007b135258463768730d581afde4022f57663dcbe86c1a0440d7",
+    "videoSha256": "28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff",
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 282968,
+    "decode": "passed",
+    "verifiedAt": "2026-09-20T14:25:29.430Z"
   }
 ]

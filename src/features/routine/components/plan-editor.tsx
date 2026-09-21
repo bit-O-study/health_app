@@ -464,46 +464,79 @@ export function PlanEditor({
     ]);
   }
 
+  /**
+   * 🔴 확인 모달의 작업은 **끝날 때까지 기다릴 수 있어야 한다**(2026-09-21).
+   *
+   * 예전엔 모달이 작업을 시작시키자마자 닫혔다. 닫히면 useBackClose 가 쌓아 둔
+   * 히스토리 항목을 history.back() 으로 빼는데, 그 이동이 **아직 날아가는 중인
+   * 서버액션 POST 를 끊었다**(net::ERR_ABORTED) — 팔 교환이 조용히 안 먹던 원인.
+   * 그래서 작업이 끝난 뒤에 닫도록, 여기서 끝을 알 수 있는 Promise 를 돌려준다.
+   *
+   * 🔴 **화면을 통째로 바꾸는 성공 경로에서는 일부러 resolve 하지 않는다.**
+   * 새로고침(`window.location.reload()`)이나 이동(`router.push`)이 걸린 뒤에 모달을
+   * 닫으면, 이번엔 그 `history.back()` 이 **새로고침·이동을 취소**한다(버튼이 계속
+   * 비활성으로 남는 증상). 어차피 화면이 갈리므로 닫을 필요가 없다.
+   */
+  function runConfirmed(work: () => Promise<void>): Promise<void> {
+    return new Promise<void>((resolve) => {
+      start(async () => {
+        try {
+          await work();
+        } finally {
+          resolve();
+        }
+      });
+    });
+  }
+
   // 모든 부위를 추천으로 덮어쓰고 홈으로 이동 — 직접 등록한 운동이 전부 사라지므로 확인 후 실행
-  function doRecommendAll() {
-    start(async () => {
-      const res = await registerRecommendedPlanAction();
-      if (res.ok) {
+  function doRecommendAll(): Promise<void> {
+    return new Promise<void>((resolve) => {
+      start(async () => {
+        const res = await registerRecommendedPlanAction();
+        if (!res.ok) {
+          setStatus(res.error);
+          resolve();
+          return;
+        }
         setDirty(new Set());
+        // 이동이 걸렸으므로 모달을 닫지 않는다(위 runConfirmed 주석 참고).
         router.push("/routine");
         router.refresh();
-      } else {
-        setStatus(res.error);
-      }
+      });
     });
   }
 
   // 전체 운동 비우기 — 본운동·워밍업·마무리를 즉시 DB 에서 삭제(저장 불필요).
   // 컨디셔닝 에디터는 prop 변경에 재동기화되지 않으므로 하드 새로고침으로 반영.
-  function doClearAll() {
+  function doClearAll(): Promise<void> {
     setStatus(null);
-    start(async () => {
-      const res = await clearAllPlanAction();
-      if (res.ok) {
+    return new Promise<void>((resolve) => {
+      start(async () => {
+        const res = await clearAllPlanAction();
+        if (!res.ok) {
+          setStatus(res.error ?? "전체 비우기에 실패했습니다.");
+          resolve();
+          return;
+        }
+        // 새로고침이 걸렸으므로 모달을 닫지 않는다.
         window.location.reload();
-      } else {
-        setStatus(res.error ?? "전체 비우기에 실패했습니다.");
-      }
+      });
     });
   }
 
   /** 섹션(일차·부위)들을 추천 운동으로 갈아끼움 — 저장은 아래 저장 버튼 담당.
    * 보조(사이드) 섹션이면 2개만, 주 섹션이면 풀 목록.
    * 운동 **선정**만 서버(카탈로그가 필요해서), 처방·기구는 여기서(목록 없이 된다). */
-  function doRecommendFocuses(list: FocusData[]) {
-    if (list.length === 0) return;
+  function doRecommendFocuses(list: FocusData[]): Promise<void> {
+    if (list.length === 0) return Promise.resolve();
     const opts = {
       gender,
       experience,
       bodyType: bodyType ?? ("average" as const),
       weightKg: weightKg ?? 65,
     };
-    start(async () => {
+    return runConfirmed(async () => {
       const groups = await recommendExercisesAction(
         list.map((f) => ({
           focus: f.focus,
@@ -536,8 +569,8 @@ export function PlanEditor({
       });
     });
   }
-  function doRecommendFocus(f: FocusData) {
-    doRecommendFocuses([f]);
+  function doRecommendFocus(f: FocusData): Promise<void> {
+    return doRecommendFocuses([f]);
   }
 
   // 부위 섹션을 '일차(dayIndex)'별로 묶는다 — 같은 날 부위들을 한 바구니(박스)로.
@@ -608,19 +641,22 @@ export function PlanEditor({
     });
     if (blocked === "pending") {
       setStatus("운동 저장이 진행 중입니다. 완료 후 다시 시도해주세요.");
-      return;
+      return Promise.resolve();
     }
     if (blocked === "dirty") {
       setStatus(
         "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
       );
-      return;
+      return Promise.resolve();
     }
     setConfirm({ kind: "arm-swap", sourceDayIndex, targetDayIndex });
   }
 
-  function doSwapArmRoutine(sourceDayIndex: number, targetDayIndex: number) {
-    if (!customWeek) return;
+  function doSwapArmRoutine(
+    sourceDayIndex: number,
+    targetDayIndex: number,
+  ): Promise<void> {
+    if (!customWeek) return Promise.resolve();
     const blocked = armSwapBlockReason({
       mainDirtyCount: dirty.size,
       mainPending: pending,
@@ -628,34 +664,39 @@ export function PlanEditor({
     });
     if (blocked === "pending") {
       setStatus("운동 저장이 진행 중입니다. 완료 후 다시 시도해주세요.");
-      return;
+      return Promise.resolve();
     }
     if (blocked === "dirty") {
       setStatus(
         "저장하지 않은 운동 변경이 있습니다. 먼저 각 일차를 저장해주세요.",
       );
-      return;
+      return Promise.resolve();
     }
     setStatus(null);
     setSwapInFlight(true);
-    start(async () => {
-      try {
-        const result = await swapArmRoutineAction(
-          sourceDayIndex,
-          targetDayIndex,
-          customWeek,
-          routineUpdatedAt,
-        );
-        if (!result.ok) {
-          setStatus(result.error);
+    return new Promise<void>((resolve) => {
+      start(async () => {
+        try {
+          const result = await swapArmRoutineAction(
+            sourceDayIndex,
+            targetDayIndex,
+            customWeek,
+            routineUpdatedAt,
+          );
+          if (!result.ok) {
+            setStatus(result.error);
+            setSwapInFlight(false);
+            resolve();
+            return;
+          }
+          // 새로고침이 걸렸으므로 모달을 닫지 않는다.
+          window.location.reload();
+        } catch {
+          setStatus("팔 루틴 교환에 실패했습니다.");
           setSwapInFlight(false);
-          return;
+          resolve();
         }
-        window.location.reload();
-      } catch {
-        setStatus("팔 루틴 교환에 실패했습니다.");
-        setSwapInFlight(false);
-      }
+      });
     });
   }
 
@@ -1201,17 +1242,22 @@ export function PlanEditor({
         title={dialogTitle}
         message={dialogMessage}
         confirmLabel={dialogConfirmLabel}
-        onConfirm={() => {
-          if (confirm?.kind === "arm-swap") {
-            doSwapArmRoutine(confirm.sourceDayIndex, confirm.targetDayIndex);
-          } else if (confirm?.kind === "all") {
-            doRecommendAll();
-          } else if (confirm?.kind === "focus") {
-            doRecommendFocus(confirm.section);
-          } else if (confirm?.kind === "day") {
-            doRecommendFocuses(confirm.day.focuses);
-          } else if (confirm?.kind === "clear-all") {
-            doClearAll();
+        onConfirm={async () => {
+          const pick = confirm;
+          if (!pick) return;
+          // 🔴 작업이 끝난 뒤에 닫는다. 먼저 닫으면 useBackClose 의 history.back() 이
+          //    아직 날아가는 중인 서버액션 POST 를 끊는다(2026-09-21 ERR_ABORTED).
+          //    막힌 경우(미저장 편집 등)는 곧바로 resolve 되므로 바로 닫힌다.
+          if (pick.kind === "arm-swap") {
+            await doSwapArmRoutine(pick.sourceDayIndex, pick.targetDayIndex);
+          } else if (pick.kind === "all") {
+            await doRecommendAll();
+          } else if (pick.kind === "focus") {
+            await doRecommendFocus(pick.section);
+          } else if (pick.kind === "day") {
+            await doRecommendFocuses(pick.day.focuses);
+          } else if (pick.kind === "clear-all") {
+            await doClearAll();
           }
           setConfirm(null);
         }}

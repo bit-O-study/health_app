@@ -586,3 +586,33 @@ describe("하단 탭", () => {
     expect(nav).not.toMatch(/text-\[(9|10)px\]/);
   });
 });
+
+describe("확인 모달과 서버액션 경쟁 (2026-09-21)", () => {
+  // 모달이 작업보다 먼저 닫히면 useBackClose 의 history.back() 이 아직 날아가는 중인
+  // 서버액션 POST 를 끊는다(ERR_ABORTED). 팔 교환이 조용히 안 먹던 원인.
+  const editor = read("src/features/routine/components/plan-editor.tsx");
+
+  it("확인 모달은 작업을 기다린 뒤에 닫는다", () => {
+    expect(editor).toMatch(/onConfirm=\{async \(\) => \{/);
+    for (const call of [
+      "await doSwapArmRoutine(",
+      "await doRecommendAll()",
+      "await doRecommendFocus(",
+      "await doRecommendFocuses(",
+      "await doClearAll()",
+    ]) {
+      expect(editor, `${call} 를 기다리지 않는다`).toContain(call);
+    }
+  });
+
+  it("화면을 통째로 바꾸는 성공 경로에선 모달을 닫지 않는다", () => {
+    // reload/push 뒤에 닫으면 이번엔 그 back() 이 새로고침·이동을 취소한다.
+    // 그래서 성공 경로는 resolve 하지 않고 화면 전환에 맡긴다.
+    const reloadBlocks = editor.split("window.location.reload();");
+    expect(reloadBlocks.length).toBeGreaterThan(1);
+    for (const before of reloadBlocks.slice(0, -1)) {
+      const tail = before.slice(-400);
+      expect(tail, "새로고침 직전에 resolve 하면 안 된다").not.toMatch(/resolve\(\);\s*$/);
+    }
+  });
+});

@@ -626,12 +626,15 @@ test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 �
       resolveAborted();
     }
   };
-  await page.route("**/*", holdServerAction);
-
   const day0 = page.locator('[data-plan-day-index="0"]');
   const addButton = day0.getByRole("button", { name: "운동 추가" });
   try {
+    // 🔴 붙잡기는 **교환을 누르기 직전에만** 건다(2026-09-21).
+    //    페이지가 살아 있는 동안 다른 서버액션(예: 앱 이벤트 보고)이 먼저 날아가는데,
+    //    처음부터 걸어 두면 그 엉뚱한 요청을 붙잡고 화면이 멈춰 확인 모달조차 안 뜬다.
     await chooseDayOneAsSwapTarget(page);
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.route("**/*", holdServerAction);
     await page.getByRole("button", { name: "교환하기" }).click();
     await requestHeld;
 

@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
+import { openApp } from "./helpers/launcher";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 식단 기능: 하단 탭 → /diet, 끼니별(아침/점심/저녁/간식) 음식 추가/수정/삭제, 칼로리 합계.
@@ -8,12 +9,12 @@ import { dbQuery, hasDb } from "./helpers/db";
 
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
-test("하단 식단 탭에서 음식 추가→칼로리 반영→게시물 상세에서 삭제", async ({ page }) => {
+test("런처에서 식단 앱으로 들어가 음식 추가→칼로리 반영→게시물 상세에서 삭제", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  // 하단 네비의 '식단' 탭으로 이동
-  await page.getByRole("link", { name: "식단" }).click();
+  // 런처(홈)에서 '식단' 앱으로 들어간다 — 하단바는 이제 앱마다 다르다(2026-09-20).
+  await openApp(page, "식단");
   await page.waitForURL("**/diet", { timeout: 10000 });
   await page.waitForTimeout(500);
 
@@ -57,7 +58,7 @@ test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) 
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.getByRole("link", { name: "식단" }).click();
+  await openApp(page, "식단");
   await page.waitForURL("**/diet", { timeout: 10000 });
   await page.waitForTimeout(500);
 
@@ -106,7 +107,7 @@ test("직접 입력으로 음식 종류(category) 지정해 추가", async ({ pa
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.getByRole("link", { name: "식단" }).click();
+  await openApp(page, "식단");
   await page.waitForURL("**/diet", { timeout: 10000 });
   await page.waitForTimeout(500);
 

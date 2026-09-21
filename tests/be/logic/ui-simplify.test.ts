@@ -108,18 +108,20 @@ describe("한글 폰트", () => {
 describe("홈 구성", () => {
   const home = read("src/app/home/page.tsx");
 
-  it("큰 제목 → 광고 배너 → 오늘(두 줄 목록) → 목표 → 이번 주 → 잔디 순서 — 활동 링 카드 없음", () => {
+  // 2026-09-20 런처 전환 — 홈은 카드를 세로로 쌓지 않는다. 큰 제목 → 광고 배너 →
+  // 앱 아이콘 판 → 앱별 요약 위젯 3개. 자세한 내용은 각 앱 안으로 옮겨 갔다.
+  it("큰 제목 → 광고 배너 → 앱 격자 → 위젯 순서 — 활동 링 카드 없음", () => {
     expect(home).not.toContain("ActivityRings");
-    const order = [
-      "<h1",
-      "<PromoBanner",
-      "<TodayCard",
-      "<TodayGoalCard",
-      "<WeeklyOverviewCard",
-      "<ContributionGraph",
-    ].map((tag) => home.indexOf(tag));
+    const order = ["<h1", "<PromoBanner", "<AppGrid", "<AppWidget"].map((tag) =>
+      home.indexOf(tag),
+    );
     expect(order.every((i) => i >= 0), order.join(",")).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
+  });
+
+  it("홈 위젯은 운동·식단·캘린더 3개 고정", () => {
+    const ids = [...home.matchAll(/appId="([a-z]+)"/g)].map((m) => m[1]);
+    expect(ids).toEqual(["workout", "diet", "calendar"]);
   });
 
   it("날씨 배경과 위치 권한 요청이 사라졌다", () => {
@@ -155,10 +157,20 @@ describe("이번 주 카드는 한 장 — 홈과 운동탭이 같은 컴포넌�
     }
   });
 
-  it("이번 주 카드는 홈에만 한 장 — 운동탭엔 중복으로 두지 않는다", () => {
+  // 2026-09-20 런처 전환 — 이번 주 카드는 홈에서 빠지고 요약만 운동 위젯으로 내려왔다.
+  // 카드 자체는 운동 앱(기록)이 한 장만 갖는다. 두 곳에 동시에 있으면 안 된다는 약속은 그대로.
+  it("이번 주 카드를 홈과 운동탭이 동시에 갖지 않는다", () => {
     const home = read("src/app/home/page.tsx");
-    expect(home.match(/<WeeklyOverviewCard/g)?.length).toBe(1);
-    expect(read("src/app/routine/page.tsx")).not.toContain("WeeklyOverviewCard");
+    const routine = read("src/app/routine/page.tsx");
+    const onHome = home.includes("<WeeklyOverviewCard");
+    const onRoutine = routine.includes("<WeeklyOverviewCard");
+    expect(onHome && onRoutine, "이번 주 카드가 두 곳에 중복").toBe(false);
+    // 홈에서 뺐다면 정보가 사라지면 안 된다 — 홈엔 운동 위젯 한 줄,
+    // 카드 자체는 운동 앱의 '기록' 칸(/settings/progress)이 한 장 갖는다.
+    if (!onHome) {
+      expect(home).toContain('appId="workout"');
+      expect(read("src/app/settings/progress/page.tsx")).toContain("<WeeklyOverviewCard");
+    }
   });
 
   it("부위 막대는 무지개가 아니라 브랜드 진하기 + 안 한 부위만 주의색", () => {

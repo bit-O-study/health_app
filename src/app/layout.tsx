@@ -14,7 +14,6 @@ import { AppEventReporter } from "@/features/observability/components/app-event-
 import { BottomNav } from "@/components/bottom-nav";
 import { OfflineBanner } from "@/components/offline-banner";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
@@ -124,9 +123,8 @@ export default async function RootLayout({
 }
 
 async function ConfiguredBottomNav() {
-  const [showCoach, groupMode] = await Promise.all([
-    isDebugFeatureEnabled("helssu-coach"),
-    getGroupMode(),
-  ]);
-  return <BottomNav showCoach={showCoach} groupTheme={groupMode === "gym"} />;
+  // 헬쑤쌤은 이제 하단바 칸이 아니라 **런처 격자의 앱**이다(2026-09-20) —
+  // 그래서 여기선 더 이상 디버그 플래그를 읽지 않는다. 홈(런처)이 직접 읽는다.
+  const groupMode = await getGroupMode();
+  return <BottomNav groupTheme={groupMode === "gym"} />;
 }

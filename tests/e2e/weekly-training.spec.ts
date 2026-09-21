@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
+import { scopedName } from "./helpers/run-scope";
 
 // 이번 주 훈련 — 주당 직접 세트 기준의 부위 판정 + 요일 히트맵 + 균형 + 안 한 세부근육.
 // 여기서 확인하는 것:
@@ -128,8 +129,13 @@ test("🔴 트레이너가 회원 화면에서 같은 숫자를 본다", async (
     focus: "chest",
     sets: 12,
   });
+  // 🔴 미래 날짜로 심지 않는다(2026-09-21). `dayOfWeek: 2` 는 이번 주 수요일이라,
+  // **오늘이 월·화면 미래**가 된다. 트레이너 쪽 조회에는 `.lte("for_date", today)` 가
+  // 있어(`getGroupMemberWeeklyTraining`) 미래 기록이 빠지는데, 회원 본인 화면엔 그 필터가
+  // 없어 3세트가 보인다 → 같은 주 월·화에만 이 테스트가 깨졌다.
+  // 애초에 "미래에 완료한 운동"은 있을 수 없는 상태라, 월요일(0)로 심어 날짜에 안 흔들리게 한다.
   await seedCompletion(memberEmail, {
-    dayOfWeek: 2,
+    dayOfWeek: 0,
     exerciseId: "lat-pulldown",
     focus: "back",
     sets: 3,
@@ -140,12 +146,15 @@ test("🔴 트레이너가 회원 화면에서 같은 숫자를 본다", async (
   const pageT = await ctxT.newPage();
   await signUpAndOnboard(pageT);
   await pageT.goto("/groups", { waitUntil: "networkidle" });
-  await pageT.getByLabel("그룹 이름").fill("E2E 주간분석");
+  // 이름으로 되찾을 것이라 실행별로 유일해야 한다 — 동시 실행과 안 섞이게.
+  const groupName = scopedName("E2E 주간분석");
+  await pageT.getByLabel("그룹 이름").fill(groupName);
   await pageT.getByRole("button", { name: "그룹 만들기" }).click();
   await pageT.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 10000 });
 
   const g = await dbQuery<{ id: string; invite_token: string }>(
-    `select id, invite_token from public.groups where name='E2E 주간분석'`,
+    `select id, invite_token from public.groups where name=$1`,
+    [groupName],
   );
   expect(g.length).toBe(1);
 
@@ -291,13 +300,15 @@ test("🔴 트레이너 목록이 '늘 같은 데만 하는 회원'을 짚어 �
   await ctxT.close();
 });
 
-test("홈에서 이번 주 요약이 보이고 점수 화면으로 이어진다 — 운동탭엔 같은 카드를 두지 않는다", async ({ page }) => {
+// 2026-09-20 런처 전환 — 이번 주 요약은 홈에서 **운동 앱의 '기록' 칸**(/settings/progress)으로
+// 내려왔다. 홈엔 위젯 한 줄만 남는다. "한 장만 둔다"는 약속(2026-09-15)은 그대로다.
+test("기록 칸에서 이번 주 요약이 보이고 점수 화면으로 이어진다 — 홈·운동탭엔 같은 카드를 두지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
   await seedCompletion(email, { dayOfWeek: 0, exerciseId: "bench-press", focus: "chest", sets: 8 });
 
-  // 홈 — 전체 분석은 점수 화면에 두고, 여기서는 "어디가 비었나"만.
-  await page.goto("/home", { waitUntil: "networkidle" });
+  // 기록 칸 — 전체 분석은 점수 화면에 두고, 여기서는 "어디가 비었나"만.
+  await page.goto("/settings/progress", { waitUntil: "networkidle" });
   const summary = page.getByTestId("weekly-training-summary");
   await expect(summary).toBeVisible({ timeout: 10000 });
   await expect(summary).toHaveAttribute("data-week-sets", "8");
@@ -305,13 +316,16 @@ test("홈에서 이번 주 요약이 보이고 점수 화면으로 이어진다 
   await expect(summary.getByTestId("summary-region-leg")).toHaveAttribute("data-status", "none");
   await expect(summary).toContainText("0세트");
 
-  // 운동탭엔 같은 카드를 두지 않는다(2026-09-15 깔끔·촘촘 — 홈과 중복 제거).
+  // 홈·운동탭엔 같은 카드를 두지 않는다 — 홈은 요약 위젯 한 줄만.
+  await page.goto("/home", { waitUntil: "networkidle" });
+  await expect(page.getByRole("navigation", { name: "앱" })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByTestId("weekly-training-summary")).toHaveCount(0);
   await page.goto("/routine", { waitUntil: "networkidle" });
   await expect(page.getByRole("heading", { name: "오늘의 운동" })).toBeVisible({ timeout: 10000 });
   await expect(page.getByTestId("weekly-training-summary")).toHaveCount(0);
 
-  // 홈 카드를 눌러서 전체 분석으로.
-  await page.goto("/home", { waitUntil: "networkidle" });
+  // 요약 카드를 눌러서 전체 분석으로.
+  await page.goto("/settings/progress", { waitUntil: "networkidle" });
   await page.getByTestId("weekly-training-summary").click();
   await page.waitForURL("**/settings/score", { timeout: 15000 });
   await expect(page.getByTestId("weekly-training-card")).toBeVisible({ timeout: 10000 });

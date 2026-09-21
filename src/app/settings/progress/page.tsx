@@ -22,6 +22,9 @@ import { OverloadHint } from "@/features/routine/components/overload-hint";
 import { seoulYmd } from "@/features/routine/data";
 import { isUnilateralExercise } from "@/features/routine/unilateral-exercises";
 import { LineChart } from "@/features/routine/components/line-chart";
+import { WeeklyOverviewCard } from "@/features/routine/components/weekly-overview-card";
+import { getWeeklyReport } from "@/features/routine/weekly-report-data";
+import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
 
 export const dynamic = "force-dynamic";
 
@@ -46,9 +49,12 @@ function TrendBadge({ pct }: { pct: number | null }) {
 }
 
 export default async function ProgressPage() {
-  const [profile, completions] = await Promise.all([
+  const [profile, completions, weeklyReport, training] = await Promise.all([
     getUserProfile(),
     getRecentExerciseCompletions(180),
+    // 이번 주 요약도 같은 왕복에 실어 보낸다 — 직렬로 쌓으면 그만큼 늦어진다.
+    getWeeklyReport(),
+    getMyWeeklyTraining(),
   ]);
   if (!profile) redirect("/onboarding");
 
@@ -96,6 +102,14 @@ export default async function ProgressPage() {
     <div className="app-page">
       <PageHeader title="성장 그래프" back="설정" />
       <main className="app-container space-y-4">
+        {/* 이번 주 요약 — 런처 전환(2026-09-20)으로 홈에서 내려왔다. 홈엔 위젯 한 줄만
+            남기고, "어디가 비었나" 판정은 운동 앱의 '기록' 칸인 여기서 본다.
+            같은 카드를 홈·운동탭에 중복으로 두지 않는다는 약속은 그대로다. */}
+        <WeeklyOverviewCard
+          report={weeklyReport}
+          regions={training?.regions ?? []}
+          weekSets={training?.weekSets ?? 0}
+        />
         {!hasData ? (
           <div className="app-card p-6 text-center">
             <p className="text-sm text-zinc-500 dark:text-zinc-400">

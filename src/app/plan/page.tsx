@@ -109,6 +109,12 @@ export default async function PlanPage() {
         </p>
       </div>
 
+      <nav aria-label="루틴 도구" className="mb-5 flex flex-wrap gap-2 text-sm font-semibold">
+        <Link href="/plan/muscle" className="rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">근육별 운동 선택</Link>
+        <Link href="/plan/today" className="rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">오늘만 운동 변경</Link>
+        <Link href="/settings/routine" className="rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">루틴 설정 · 프리셋</Link>
+      </nav>
+
       <PlanEditor
         focuses={focuses}
         customWeek={

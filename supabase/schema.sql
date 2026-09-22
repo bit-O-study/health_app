@@ -2694,6 +2694,11 @@ begin
   if p_member = me then
     return -1;
   end if;
+  -- 🔴 회원이 '운동 처방 허용' 을 끄면(설정 → 트레이너 연결) 루틴을 못 바꾼다.
+  --    화면에서만 막으면 주소를 아는 사람은 그대로 부를 수 있다 — 동의는 여기서 지킨다.
+  if not public.member_shares(p_member, p_group_id, 'prescription') then
+    return -1;
+  end if;
 
   delete from public.routine_exercises
    where user_id = p_member and day_index = p_to_day;
@@ -4129,4 +4134,400 @@ grant execute on function public.add_water_ml(date, int) to authenticated;
 -- `rls_auto_enable` 은 **유지보수용**이다 — 로그인 사용자도 부를 이유가 없다.
 -- 소유자(service_role)만 남긴다.
 revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
+notify pgrst, 'reload schema';
+
+-- ─── 처방 패치 검증(한 곳) ──────────────────────────────────────────────────
+-- 영구 루틴 처방과 오늘만 처방이 **같은 판정**을 쓰도록 꺼내 둔다. 두 함수에 각각
+-- 복사해 두면 기구 목록 하나만 늘어나도 한쪽이 조용히 뒤처진다.
+create or replace function public.valid_prescription_patch(p_patch jsonb)
+returns boolean language sql immutable set search_path = public as $fn$
+  select p_patch is not null
+    and jsonb_typeof(p_patch) = 'object'
+    and (p_patch ?& array['exerciseId','equipment','sets','reps','weightKg'])
+    and jsonb_typeof(p_patch->'exerciseId') = 'string'
+    and length(trim(p_patch->>'exerciseId')) between 1 and 200
+    and jsonb_typeof(p_patch->'equipment') = 'string'
+    and (p_patch->>'equipment') in ('barbell','dumbbell','machine','cable','bodyweight','smith','kettlebell','band','trx','medicineball','landmine','sled','battlerope','bosu','ball','plate','other')
+    and jsonb_typeof(p_patch->'sets') = 'number'
+    and (p_patch->>'sets')::numeric between 1 and 20
+    and (p_patch->>'sets')::numeric = trunc((p_patch->>'sets')::numeric)
+    and jsonb_typeof(p_patch->'reps') = 'number'
+    and (p_patch->>'reps')::numeric between 1 and 100
+    and (p_patch->>'reps')::numeric = trunc((p_patch->>'reps')::numeric)
+    and jsonb_typeof(p_patch->'weightKg') in ('null','number')
+    and (jsonb_typeof(p_patch->'weightKg') = 'null' or (
+      (p_patch->>'weightKg')::numeric between 0 and 9999.9
+      and (p_patch->>'weightKg')::numeric = round((p_patch->>'weightKg')::numeric, 1)));
+$fn$;
+revoke all on function public.valid_prescription_patch(jsonb) from public, anon;
+grant execute on function public.valid_prescription_patch(jsonb) to authenticated;
+
+-- ─── 영구 루틴 처방 — 검증만 위 함수로 옮긴다(동작 동일) ────────────────────
+create or replace function public.trainer_prescribe_exercise(
+  p_group_id uuid, p_member uuid, p_row uuid, p_expected_updated_at timestamptz,
+  p_patch jsonb, p_note text)
+returns boolean language plpgsql security definer set search_path = public as $fn$
+declare
+  current_row public.routine_exercises%rowtype;
+  next_id uuid;
+begin
+  if auth.uid() is null or p_member = auth.uid() then return false; end if;
+  -- Hold the relationship while changing the prescription; removal/ownership transfer waits.
+  perform 1 from public.groups where id = p_group_id and owner_id = auth.uid() for share;
+  if not found then return false; end if;
+  perform 1 from public.group_members where group_id = p_group_id and user_id = p_member for share;
+  if not found then return false; end if;
+  perform 1 from public.member_share_prefs where user_id = p_member and group_id = p_group_id for share;
+  if not public.member_shares(p_member, p_group_id, 'prescription') then return false; end if;
+  select * into current_row from public.routine_exercises
+    where id = p_row and user_id = p_member for update;
+  if not found or p_expected_updated_at is null or current_row.updated_at <> p_expected_updated_at then return false; end if;
+  if p_note is null or length(trim(p_note)) = 0 or length(p_note) > 500 then raise exception 'Invalid note'; end if;
+  if p_patch is null then
+    delete from public.routine_exercises where id = p_row and user_id = p_member;
+  else
+    if not public.valid_prescription_patch(p_patch) then raise exception 'Invalid prescription'; end if;
+    -- A replaced exercise must not inherit the previous exercise's completion for today.
+    next_id := case when current_row.exercise_id <> p_patch->>'exerciseId'
+      or current_row.equipment <> p_patch->>'equipment' then gen_random_uuid() else current_row.id end;
+    update public.routine_exercises set id = next_id,
+      exercise_id = p_patch->>'exerciseId', equipment = p_patch->>'equipment',
+      sets = (p_patch->>'sets')::int, reps = (p_patch->>'reps')::int,
+      weight_kg = (p_patch->>'weightKg')::numeric, set_details = null, updated_at = clock_timestamp()
+      where id = p_row and user_id = p_member;
+  end if;
+  -- An in-app record visible to both parties, committed together with the prescription.
+  insert into public.trainer_comments (group_id, trainer_id, member_id, body)
+    values (p_group_id, auth.uid(), p_member, p_note);
+  -- Never edit daily_plan, daily_conditioning or completion snapshots here.
+  return true;
+end $fn$;
+revoke all on function public.trainer_prescribe_exercise(uuid, uuid, uuid, timestamptz, jsonb, text) from public, anon;
+grant execute on function public.trainer_prescribe_exercise(uuid, uuid, uuid, timestamptz, jsonb, text) to authenticated;
+
+-- Trainer member reports and permanent routine prescriptions.
+-- Requires member_share_prefs/member_shares from schema.sql. No broad cross-member RLS grants.
+create or replace function public.trainer_member_report(
+  p_group_id uuid, p_member uuid, p_from date, p_to date)
+returns jsonb language plpgsql security definer stable set search_path = public as $$
+declare share_workout boolean; share_diet boolean; share_body boolean; can_prescribe boolean;
+begin
+  if auth.uid() is null or p_member = auth.uid() or not exists (
+    select 1 from public.groups where id = p_group_id and owner_id = auth.uid()
+  ) or not exists (
+    select 1 from public.group_members where group_id = p_group_id and user_id = p_member
+  ) then return null; end if;
+  if p_from is null or p_to is null or p_to < p_from or p_to - p_from > 365 then
+    raise exception 'Invalid report period';
+  end if;
+  share_workout := public.member_shares(p_member, p_group_id, 'workout');
+  share_diet := public.member_shares(p_member, p_group_id, 'diet');
+  share_body := public.member_shares(p_member, p_group_id, 'body');
+  can_prescribe := public.member_shares(p_member, p_group_id, 'prescription');
+  return jsonb_build_object(
+    'sharing', jsonb_build_object('workout', share_workout, 'diet', share_diet, 'body', share_body, 'prescription', can_prescribe),
+    'name', coalesce((select coalesce(nullif(trim(p.nickname), ''), nullif(trim(p.name), '')) from public.profiles p where p.user_id = p_member),
+      (select nullif(trim(m.display_name), '') from public.group_members m where m.group_id = p_group_id and m.user_id = p_member), '회원'),
+    'exercises', coalesce((select jsonb_agg(jsonb_build_object(
+      'id', r.id, 'day_index', r.day_index, 'focus', r.focus, 'exercise_id', r.exercise_id,
+      'equipment', r.equipment, 'sets', r.sets, 'reps', r.reps, 'weight_kg', r.weight_kg,
+      'set_details', r.set_details, 'updated_at', r.updated_at) order by r.day_index, r.position, r.id)
+      from public.routine_exercises r where r.user_id = p_member and can_prescribe), '[]'::jsonb),
+    'completions', coalesce((select jsonb_agg(jsonb_build_object(
+      'for_date', e.for_date, 'exercise_id', e.exercise_id, 'sets', e.sets, 'reps', e.reps,
+      'weight_kg', e.weight_kg, 'set_details', e.set_details))
+      from public.exercise_completions e where e.user_id = p_member and share_workout and e.status = 'done'
+      and e.for_date between p_from and p_to), '[]'::jsonb),
+    'conditioning', coalesce((select jsonb_agg(jsonb_build_object('for_date', c.for_date))
+      from (select distinct for_date from public.conditioning_completions where user_id = p_member and share_workout
+      and status = 'done' and for_date between p_from and p_to) c), '[]'::jsonb),
+    'sessions', coalesce((select jsonb_agg(jsonb_build_object('for_date', s.for_date, 'duration_sec', s.duration_sec))
+      from public.workout_sessions s where s.user_id = p_member and share_workout and s.for_date between p_from and p_to), '[]'::jsonb),
+    'diet', coalesce((select jsonb_agg(jsonb_build_object('for_date', f.for_date))
+      from (select distinct for_date from public.food_logs where user_id = p_member and share_diet and for_date between p_from and p_to) f), '[]'::jsonb),
+    'weights', coalesce((select jsonb_agg(jsonb_build_object('date', (w.created_at at time zone 'Asia/Seoul')::date, 'weight_kg', w.weight_kg) order by w.created_at)
+      from public.weight_logs w where w.user_id = p_member and share_body and w.weight_kg is not null
+      and w.created_at >= (p_from::timestamp at time zone 'Asia/Seoul')
+      and w.created_at < ((p_to + 1)::timestamp at time zone 'Asia/Seoul')), '[]'::jsonb)
+  );
+end $$;
+revoke all on function public.trainer_member_report(uuid, uuid, date, date) from public, anon;
+grant execute on function public.trainer_member_report(uuid, uuid, date, date) to authenticated;
+
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 회원의 정보 제공 동의(member_share_prefs) — 2026-09-20.
+-- 트레이너(그룹장)에게 **무엇을 보여줄지 회원이 정한다.** 항목별 on/off + 처방 허용.
+--
+-- 🔴 **왜 그룹별인가.** 한 사람이 헬스장 그룹과 친구 그룹에 동시에 있을 수 있다.
+--    "식단은 헬스장 트레이너에게만" 같은 선택이 되어야 하므로 (user_id, group_id) 단위다.
+--
+-- 🔴 **기본값은 전부 true(= 지금까지의 동작).** 행이 없으면 켜진 것으로 본다.
+--    기존 회원 수만큼 행을 미리 만들지 않아도 되고, 끄는 사람만 행이 생긴다.
+--
+-- 🔴 **이건 트레이너 전용 화면에만 적용한다.** 그룹 랭킹(운동 kcal·일수)은 그룹원
+--    전체가 서로 보는 기능이라 여기서 끄지 않는다 — 끄고 싶으면 그룹을 나가면 된다
+--    (그게 아래 '트레이너 제거' 다). 랭킹까지 이 스위치로 막으면 남들 화면에서 이 사람만
+--    사라져 "버그" 로 읽힌다.
+create table if not exists public.member_share_prefs (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  group_id uuid not null references public.groups(id) on delete cascade,
+  -- 운동 기록(완료 종목·세트·시간). 끄면 트레이너 화면에서 '비공개' 로 보인다.
+  share_workout boolean not null default true,
+  -- 식단 기록(먹은 것·사진).
+  share_diet boolean not null default true,
+  -- 체중·체성분.
+  share_body boolean not null default true,
+  -- 트레이너가 내 루틴(운동 처방)을 바꿀 수 있는가.
+  allow_prescription boolean not null default true,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, group_id)
+);
+
+create index if not exists member_share_prefs_group_idx
+  on public.member_share_prefs (group_id, user_id);
+
+drop trigger if exists member_share_prefs_set_updated_at on public.member_share_prefs;
+create trigger member_share_prefs_set_updated_at
+  before update on public.member_share_prefs
+  for each row execute function public.set_updated_at();
+
+alter table public.member_share_prefs enable row level security;
+
+-- 본인은 읽고 쓴다.
+drop policy if exists "member reads own share prefs" on public.member_share_prefs;
+create policy "member reads own share prefs" on public.member_share_prefs for select
+  using (user_id = (select auth.uid()));
+drop policy if exists "member writes own share prefs" on public.member_share_prefs;
+create policy "member writes own share prefs" on public.member_share_prefs for insert
+  with check (user_id = (select auth.uid()));
+drop policy if exists "member updates own share prefs" on public.member_share_prefs;
+create policy "member updates own share prefs" on public.member_share_prefs for update
+  using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
+drop policy if exists "member deletes own share prefs" on public.member_share_prefs;
+create policy "member deletes own share prefs" on public.member_share_prefs for delete
+  using (user_id = (select auth.uid()));
+
+-- 그룹장(트레이너)은 **읽기만** — 화면에 '회원이 식단을 비공개로 했어요' 를 띄우려면
+-- 필요하다. 쓰기는 못 한다(트레이너가 남의 동의를 대신 켜면 동의가 아니다).
+drop policy if exists "trainer reads member share prefs" on public.member_share_prefs;
+create policy "trainer reads member share prefs" on public.member_share_prefs for select
+  using (exists (
+    select 1 from public.groups g
+     where g.id = member_share_prefs.group_id
+       and g.owner_id = (select auth.uid())));
+
+/**
+ * 이 회원이 이 그룹의 트레이너에게 해당 항목을 제공하는가. **행이 없으면 true.**
+ *
+ * 트레이너 화면·처방 함수는 남의 표를 대신 읽는 SECURITY DEFINER 라 RLS 가 안 걸린다 —
+ * 그래서 동의 확인은 **부르는 쪽이 이 함수로 직접** 해야 한다. 한 곳에 모아 두면
+ * 새 트레이너 기능이 늘어도 같은 판정을 쓴다.
+ */
+create or replace function public.member_shares(
+  p_member uuid, p_group uuid, p_kind text)
+returns boolean language sql security definer stable set search_path = public as $$
+  select coalesce((
+    select case p_kind
+             when 'workout' then s.share_workout
+             when 'diet' then s.share_diet
+             when 'body' then s.share_body
+             when 'prescription' then s.allow_prescription
+           end
+      from public.member_share_prefs s
+     where s.user_id = p_member and s.group_id = p_group
+  ), true);
+$$;
+revoke all on function public.member_shares(uuid, uuid, text) from public;
+revoke all on function public.member_shares(uuid, uuid, text) from anon;
+grant execute on function public.member_shares(uuid, uuid, text) to authenticated;
+
+/**
+ * 트레이너 연결 끊기(= 그룹 탈퇴) — 회원이 자기 손으로 트레이너를 제거한다.
+ *
+ * `group_members` 의 "leave self" 정책으로도 지울 수 있지만, 여기로 모으는 이유는
+ * **같이 지워야 할 것**이 있기 때문이다: 그 그룹에서 받은 트레이너 코멘트와 동의 설정.
+ * 나간 뒤에도 코멘트가 남으면 "연결을 끊었는데 그 사람 글이 내 화면에 있다" 가 된다.
+ *
+ * ⚠ 그룹장 자신은 못 나간다(그룹이 주인 없이 남는다). 그룹을 지우는 건 그룹 관리 화면.
+ * 루틴은 건드리지 않는다 — 트레이너가 짜 준 운동이라도 **이미 내 루틴**이다.
+ */
+create or replace function public.leave_trainer_group(p_group_id uuid)
+returns boolean language plpgsql security definer set search_path = public as $$
+declare
+  me uuid := (select auth.uid());
+begin
+  if me is null then return false; end if;
+  if exists (select 1 from public.groups where id = p_group_id and owner_id = me) then
+    return false; -- 그룹장은 탈퇴가 아니라 그룹 삭제다.
+  end if;
+  if not exists (
+    select 1 from public.group_members
+     where group_id = p_group_id and user_id = me) then
+    return false;
+  end if;
+
+  delete from public.trainer_comments
+   where group_id = p_group_id and member_id = me;
+  delete from public.member_share_prefs
+   where group_id = p_group_id and user_id = me;
+  delete from public.group_members
+   where group_id = p_group_id and user_id = me;
+  return true;
+end $$;
+revoke all on function public.leave_trainer_group(uuid) from public;
+revoke all on function public.leave_trainer_group(uuid) from anon;
+grant execute on function public.leave_trainer_group(uuid) to authenticated;
+
+notify pgrst, 'reload schema';
+
+-- ─── 회원의 '오늘' 운동(트레이너가 오늘만 고칠 대상) ────────────────────────
+/**
+ * 회원의 오늘 본운동 — 오늘만 오버라이드(daily_plan)가 있으면 그것, 없으면 루틴의 오늘 일차.
+ *
+ * 🔴 **일차 계산은 `routineDayOffset` 와 같은 식**이다: (오늘 - start_date) mod 7.
+ *    (앱: `src/features/routine/data.ts`)
+ *
+ * 🔴 **손대면 안 되는 날이 둘 있다.**
+ *    - `rest_date = 오늘`  → 회원이 오늘을 휴식으로 바꿨다. 오늘 할 운동이 없다.
+ *    - `override_date = 오늘` → 회원이 오늘만 **부위를 갈아끼웠다**. 이 경우 루틴에서
+ *      부위를 복사해 오면 회원이 고른 부위를 덮어쓴다. 그래서 그런 날은 이미 고정된
+ *      (daily_plan 에 있는) 운동만 보여주고 고친다.
+ *
+ * 반환: null = 권한 없음/동의 없음. 그 외 { date, dayIndex, rest, swapped, rows[] }.
+ */
+create or replace function public.trainer_member_today_plan(
+  p_group_id uuid, p_member uuid)
+returns jsonb language plpgsql security definer stable set search_path = public as $fn$
+declare
+  today date := (now() at time zone 'Asia/Seoul')::date;
+  r public.user_routines%rowtype;
+  d_index int;
+  is_rest boolean := false;
+  swapped boolean := false;
+  rows_json jsonb;
+begin
+  if auth.uid() is null or p_member = auth.uid()
+     or not exists (select 1 from public.groups where id = p_group_id and owner_id = auth.uid())
+     or not exists (select 1 from public.group_members where group_id = p_group_id and user_id = p_member)
+  then return null; end if;
+  if not public.member_shares(p_member, p_group_id, 'prescription') then return null; end if;
+
+  select * into r from public.user_routines where user_id = p_member;
+  if found then
+    d_index := ((today - r.start_date) % 7 + 7) % 7;
+    -- 🔴 `=` 로 비교하면 값이 없을 때(NULL) 결과가 NULL 이 되고, 뒤의 `not is_rest` 가
+    --    NULL 이 되어 **오늘 운동이 통째로 사라진다**(실제로 그랬다). null-safe 비교로 둔다.
+    is_rest := (r.rest_date is not distinct from today);
+    swapped := (r.override_date is not distinct from today);
+  end if;
+
+  select coalesce(jsonb_agg(to_jsonb(t) order by t.focus, t.position), '[]'::jsonb)
+    into rows_json
+    from (
+      select d.focus, d.position, d.exercise_id, d.equipment, d.sets, d.reps,
+             d.weight_kg, 'daily'::text as source
+        from public.daily_plan d
+       where d.user_id = p_member and d.for_date = today
+      union all
+      select e.focus, e.position, e.exercise_id, e.equipment, e.sets, e.reps,
+             e.weight_kg, 'routine'::text as source
+        from public.routine_exercises e
+       where not is_rest and not swapped and d_index is not null
+         and e.user_id = p_member and e.day_index = d_index
+         and not exists (
+           select 1 from public.daily_plan x
+            where x.user_id = p_member and x.for_date = today and x.focus = e.focus)
+    ) t;
+
+  return jsonb_build_object(
+    'date', today, 'dayIndex', d_index, 'rest', is_rest, 'swapped', swapped,
+    'rows', case when is_rest then '[]'::jsonb else rows_json end);
+end $fn$;
+revoke all on function public.trainer_member_today_plan(uuid, uuid) from public, anon;
+grant execute on function public.trainer_member_today_plan(uuid, uuid) to authenticated;
+
+-- ─── 오늘만 처방 ────────────────────────────────────────────────────────────
+/**
+ * 오늘 하루치 운동 하나를 바꾸거나(p_patch) 뺀다(p_patch = null).
+ *
+ * 대상은 `(부위, position)` 으로 찾는다 — 루틴에서 온 줄은 아직 daily_plan 에 id 가
+ * 없기 때문이다(고정되는 순간 생긴다). 트레이너가 화면에서 본 것과 같은 줄인지는
+ * `p_expected_exercise_id` 로 확인한다(그 사이 회원이 오늘 운동을 바꿨으면 실패).
+ *
+ * 🔴 `routine_exercises` 는 한 줄도 안 건드린다(원칙 #2).
+ */
+create or replace function public.trainer_prescribe_today(
+  p_group_id uuid, p_member uuid, p_focus text, p_position int,
+  p_expected_exercise_id text, p_patch jsonb, p_note text)
+returns boolean language plpgsql security definer set search_path = public as $fn$
+declare
+  today date := (now() at time zone 'Asia/Seoul')::date;
+  r public.user_routines%rowtype;
+  d_index int;
+  copied int := 0;
+  target uuid;
+begin
+  if auth.uid() is null or p_member = auth.uid() then return false; end if;
+  perform 1 from public.groups where id = p_group_id and owner_id = auth.uid() for share;
+  if not found then return false; end if;
+  perform 1 from public.group_members where group_id = p_group_id and user_id = p_member for share;
+  if not found then return false; end if;
+  perform 1 from public.member_share_prefs where user_id = p_member and group_id = p_group_id for share;
+  if not public.member_shares(p_member, p_group_id, 'prescription') then return false; end if;
+  if p_note is null or length(trim(p_note)) = 0 or length(p_note) > 500 then raise exception 'Invalid note'; end if;
+  if p_patch is not null and not public.valid_prescription_patch(p_patch) then
+    raise exception 'Invalid prescription';
+  end if;
+  if p_focus is null or length(trim(p_focus)) = 0 or length(p_focus) > 50
+     or p_position is null or p_position < 0 or p_expected_exercise_id is null then
+    return false;
+  end if;
+
+  select * into r from public.user_routines where user_id = p_member;
+  -- null-safe — 휴식일이 아닌 날(rest_date is null)에 NULL 로 흘러가지 않게.
+  if not found or r.rest_date is not distinct from today then return false; end if;
+
+  -- 이 부위가 아직 '오늘만' 으로 고정되지 않았으면 **부위 전체**를 루틴에서 복사해 고정한다.
+  if not exists (select 1 from public.daily_plan
+                  where user_id = p_member and for_date = today and focus = p_focus) then
+    -- 회원이 오늘 부위를 갈아끼운 날은 루틴에서 복사하면 그 선택을 덮어쓴다 → 손대지 않는다.
+    if r.override_date is not distinct from today then return false; end if;
+    d_index := ((today - r.start_date) % 7 + 7) % 7;
+    insert into public.daily_plan
+      (user_id, for_date, focus, position, exercise_id, equipment, sets, reps,
+       weight_kg, set_details, memo, superset_group)
+    select p_member, today, e.focus, e.position, e.exercise_id, e.equipment, e.sets, e.reps,
+           e.weight_kg, e.set_details, e.memo, e.superset_group
+      from public.routine_exercises e
+     where e.user_id = p_member and e.day_index = d_index and e.focus = p_focus;
+    get diagnostics copied = row_count;
+    if copied = 0 then return false; end if;
+  end if;
+
+  select id into target from public.daily_plan
+   where user_id = p_member and for_date = today and focus = p_focus
+     and position = p_position and exercise_id = p_expected_exercise_id
+   order by id limit 1
+   for update;
+  if not found then return false; end if;
+
+  if p_patch is null then
+    delete from public.daily_plan where id = target;
+  else
+    update public.daily_plan
+       set exercise_id = p_patch->>'exerciseId', equipment = p_patch->>'equipment',
+           sets = (p_patch->>'sets')::int, reps = (p_patch->>'reps')::int,
+           weight_kg = (p_patch->>'weightKg')::numeric, set_details = null
+     where id = target;
+  end if;
+
+  insert into public.trainer_comments (group_id, trainer_id, member_id, body)
+    values (p_group_id, auth.uid(), p_member, p_note);
+  return true;
+end $fn$;
+revoke all on function public.trainer_prescribe_today(uuid, uuid, text, int, text, jsonb, text) from public, anon;
+grant execute on function public.trainer_prescribe_today(uuid, uuid, text, int, text, jsonb, text) to authenticated;
+
 notify pgrst, 'reload schema';

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { BackLink } from "@/components/back-link";
 import {
   BODY_PART_ORDER,
@@ -56,6 +57,7 @@ export default function ExercisesPage() {
           </BackLink>
         </div>
 
+        <div className="flex items-center gap-3 rounded-xl border border-zinc-200 p-4 dark:border-zinc-700"><ExerciseFinder /><span className="text-sm">이름이 기억나지 않으면 동작으로 운동을 찾아보세요.</span></div>
         <ExerciseLibrary sections={sections} />
       </section>
     </main>

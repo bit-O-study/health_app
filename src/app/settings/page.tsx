@@ -12,6 +12,7 @@ import {
   TrendingUp,
   Trophy,
   UserRound,
+  UsersRound,
 } from "lucide-react";
 
 import { BackLink } from "@/components/back-link";
@@ -231,6 +232,30 @@ export default async function SettingsPage() {
             </h2>
             <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
               완료 기반 점수 · 연속 일수 · 최근 활동
+            </p>
+          </div>
+          <ArrowRight
+            aria-hidden="true"
+            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
+            size={18}
+          />
+        </Link>
+
+        {/* 트레이너 연결 — 나를 보는 트레이너와 제공 항목(회원 본인이 정한다). */}
+        <Link
+          href="/settings/trainers"
+          data-testid="settings-trainers"
+          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
+        >
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+            <UsersRound aria-hidden="true" size={22} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              트레이너 연결
+            </h2>
+            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
+              트레이너 제거 · 운동/식단/체중 제공 켜고 끄기
             </p>
           </div>
           <ArrowRight

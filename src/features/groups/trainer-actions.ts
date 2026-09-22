@@ -16,6 +16,7 @@ import {
 } from "@/features/notifications/preferences";
 import { checkComment } from "@/features/groups/trainer-comment";
 import { routineDaySlots } from "@/features/routine/data";
+import { getGroupSharePrefs } from "@/features/groups/share-prefs.server";
 import { getUserRoutine } from "@/features/routine/data-access";
 
 export type AssignResult = { ok: true; count: number } | { ok: false; error: string };
@@ -44,6 +45,13 @@ export async function assignRoutineDayAction(
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   if (user.id === memberId)
     return { ok: false, error: "자기 자신에게는 배정할 수 없어요." };
+
+  // 🔴 회원이 '운동 처방 허용' 을 껐으면 여기서 **이유를 말하고** 멈춘다.
+  //    DB 함수도 같은 확인을 하지만(그쪽이 진짜 경계다), 거기서 막히면 -1 로만 와서
+  //    "왜 안 되는지" 를 트레이너가 알 수 없다.
+  const prefs = (await getGroupSharePrefs(groupId)).get(memberId);
+  if (prefs && !prefs.prescription)
+    return { ok: false, error: "회원이 운동 처방을 허용하지 않았어요." };
 
   const mine = await getUserRoutine();
   if (!mine) return { ok: false, error: "먼저 내 루틴을 만들어 주세요." };

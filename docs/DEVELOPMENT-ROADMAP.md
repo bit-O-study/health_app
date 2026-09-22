@@ -932,6 +932,12 @@
 - [보류] 배포 후 `/admin/crons` 에서 실제 실행 기록 확인 — **Vercel 배포 필요**
 
 ### P2.2 [진행중] CI와 정적 검사 신뢰성
+- [진행중] 2026-09-22 미병합 브랜치 통합 (integration/pending-branches)
+  - [완료] origin/main d3cc07c 기준 원격·로컬 조사: dev 제외 미병합 5개, 로컬 전용 추가 커밋 없음
+  - [진행중] dark-mode-timer-perf, main-page-routine, full-ui-renewal, trainer-member-management, ui-simplify 병합 및 충돌 해결
+  - [대기] 통합 결과 단위·타입·린트·빌드 및 영향 화면 검증 (사용자 지시에 따라 무관한 전체 E2E 재실행 제외)
+  - [대기] 브랜치 포함 관계 확인 및 원격 통합 브랜치 push
+  - 실기기/운영 검증은 이번 중간 통합 범위 밖이며 main 병합·배포는 하지 않음
 
 - [완료] 2026-09-22 로컬 운동 편집 진입 및 관련 회귀 수정
   - [완료] 실계정 운동 탭→오늘 운동 관리→운동 편집 진입 실패 재현: 메뉴 닫기의 history.back()이 /plan 이동을 취소

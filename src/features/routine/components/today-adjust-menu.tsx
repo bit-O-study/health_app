@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Loader2,
@@ -87,7 +86,6 @@ export function TodayAdjustMenu({
   open?: boolean;
   onClose?: () => void;
 }) {
-  const router = useRouter();
   const [openState, setOpenState] = useState(false);
   const open = embedded ? Boolean(openProp) : openState;
   const [picked, setPicked] = useState<Set<DayBlockId>>(new Set());
@@ -133,11 +131,8 @@ export function TodayAdjustMenu({
       // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
       await deferRoutineOneDayAction(focuses);
       await clearDailyPlanForDateAction(seoulYmd());
-      // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
-      setPicked(new Set());
-      // push 뒤 refresh 는 넣지 않는다 — /plan/today 이동 시 서버 컴포넌트가 새로 렌더되고,
-      // push 직후 refresh 는 (현재 /routine 을 리페치해) push 를 취소하는 레이스가 있다.
-      router.push(`/plan/today?focus=${focuses}`);
+      // 서버 액션의 revalidate 와 클라이언트 push 가 경합하면 /routine 에 남을 수 있다.
+      window.location.assign(`/plan/today?focus=${focuses}`);
     });
   }
 
@@ -153,9 +148,8 @@ export function TodayAdjustMenu({
       // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
       setPicked(new Set());
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
-      // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(부위 추가가
-      // /plan/today 로 이동 안 하고 /routine 에 머물던 원인). 이동 시 새로 렌더됨.
-      router.push(`/plan/today?focus=${focuses}&add=1`);
+      // 서버 액션의 revalidate 와 경합하지 않도록 저장 후 새 문서로 이동한다.
+      window.location.assign(`/plan/today?focus=${focuses}&add=1`);
     });
   }
 

@@ -53,9 +53,9 @@ export function UpcomingSevenDaysGrid({
   // 부위가 같은 두 일차를 바꾸면 initialBlocks 는 그대로여도 initialDayIndexes 는
   // 바뀌므로(저장 후 0~6 정규화) 키에 둘 다 포함해 order 도 확실히 리셋한다.
   const initialKey = JSON.stringify([initialBlocks, initialDayIndexes]);
-  const seenKeyRef = useRef(initialKey);
-  if (seenKeyRef.current !== initialKey) {
-    seenKeyRef.current = initialKey;
+  const [seenKey, setSeenKey] = useState(initialKey);
+  if (seenKey !== initialKey) {
+    setSeenKey(initialKey);
     setBlocks(initialBlocks);
     setOrder(initialDayIndexes);
   }

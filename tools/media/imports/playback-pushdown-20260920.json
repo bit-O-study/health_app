@@ -1,0 +1,15 @@
+{
+  "checkedAt": "2026-09-19T23:55:54.241Z",
+  "scope": "Frozen local MP4 buffers on loopback HTTP, mobile Chromium; not app layout or physical Android",
+  "results": [
+    {
+      "name": "/reverse-grip-pushdown.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "3c6e211ab422f06ca70c5d83bdc2f4020cba3a42e449fc3ec23cc742a23a92eb",
+      "play": "passed",
+      "seek": "passed"
+    }
+  ]
+}

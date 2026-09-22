@@ -1,0 +1,11 @@
+{
+  "prompt": "Scientific educational exercise pose sheet. Exact 4x2 grid, fixed camera, blue shirt and black shorts. Eight sequential poses of a unilateral Meadows row on a landmine: neutral hip hinge, staggered planted stance, one hand on barbell sleeve, bar travels from arm extension toward hip then lowers under control. Same athlete and landmine anchor throughout, no labels.",
+  "equipment": "landmine",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/meadows-row"
+  ],
+  "panels": 8,
+  "cycle": "full",
+  "id": "meadows-row-2",
+  "registeredAt": "2026-09-14T13:28:39.058Z"
+}

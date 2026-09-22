@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-09-18T02:15:58.882Z",
+  "scope": "Frozen local MP4 buffers on loopback HTTP, mobile Chromium; not app layout or physical Android",
+  "results": [
+    {
+      "name": "/hip-abduction-machine.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "3769be2a405f355f23c55a30a066dbf66f16a6ebdb8af6bd89367a9235cc21e7",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/hip-abduction-machine-dark.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "a35b70f546146e0a4ace09e356ec231f0130732dfe4133aa59bf0405d0f897b1",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/hip-adduction-machine.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "a31871b23a71bfa7887b44b27ce3f37c6aa064f1031371f18652901bace6c3f8",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/hip-adduction-machine-dark.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "b933989c4a462ae14957115e7d74dd3d9e6c0f8e436193a71e75e27b30f6d48b",
+      "play": "passed",
+      "seek": "passed"
+    }
+  ]
+}

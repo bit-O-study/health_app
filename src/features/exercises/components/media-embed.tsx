@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 
 import type { MediaKind } from "@/features/exercises/exercise-media";
+import { pickMotionSource } from "@/features/exercises/motion-variant";
+import { useIsDark } from "@/features/theme/use-is-dark";
 import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
 
 type Embed = { provider: "youtube" | "vimeo"; id: string };
@@ -105,11 +107,14 @@ function tuneIframe(iframe: HTMLIFrameElement | null, provider: "youtube" | "vim
  */
 export function MediaEmbed({
   url,
+  darkUrl,
   kind,
   className = "",
   autoPlay = false,
 }: {
   url: string;
+  /** 누끼 영상의 다크 테마 버전 — 있으면 테마별로 고르고 박스 없이 화면 배경에 녹인다. */
+  darkUrl?: string;
   kind: MediaKind;
   className?: string;
   autoPlay?: boolean;
@@ -119,8 +124,13 @@ export function MediaEmbed({
   const [videoRetry, setVideoRetry] = useState(0);
   const [videoError, setVideoError] = useState(false);
   useReleaseVideoOnUnmount(videoRef);
+  const isDark = useIsDark();
   const embed = parseEmbed(url);
-  const base = `relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
+  const cutout = kind === "video" && Boolean(darkUrl);
+  // 누끼 영상은 배경이 운동모드 화면색(#fafafa / #09090b)이라 검은 박스·테두리를 두르지 않는다.
+  const base = cutout
+    ? `relative w-full overflow-hidden ${className}`
+    : `relative w-full overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-700 bg-black ${className}`;
   // ⚠ 시범 영상 중엔 **세로(1080×1920) 영상**이 있어(랫풀다운 등) 그냥 h-auto 로 두면
   //   폰에서 높이가 화면을 넘겨 "한눈에" 안 들어온다. 화면의 절반 이하로 상한을 두고
   //   object-contain 으로 (검은 배경 위에) 담는다. 가로 영상은 상한에 안 걸려 그대로.
@@ -159,7 +169,7 @@ export function MediaEmbed({
         <video
           key={videoRetry}
           ref={videoRef}
-          src={url}
+          src={pickMotionSource(url, darkUrl, isDark)}
           preload="metadata"
           controls={!autoPlay}
           playsInline

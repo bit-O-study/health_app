@@ -6,6 +6,7 @@ import { Loader2, LogIn, UserPlus } from "lucide-react";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
+import { useHydrated } from "@/lib/use-hydrated";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { normalizePhone } from "@/features/auth/phone";
 import { isNativeApp } from "@/lib/platform/is-native-app";
@@ -23,6 +24,7 @@ export function AuthForm({
   /** OAuth 콜백에서 실패하고 돌아온 경우의 에러 메시지(쿼리로 전달됨). */
   initialError?: string | null;
 }) {
+  const hydrated = useHydrated();
   const [mode, setMode] = useState<Mode>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -202,7 +204,7 @@ export function AuthForm({
   }
 
   return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+    <fieldset disabled={!hydrated} className="min-w-0 w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
       <div className="mb-6 grid grid-cols-2 gap-1 rounded-lg bg-zinc-100 dark:bg-zinc-900 p-1">
         {(["login", "signup"] as const).map((m) => (
           <button
@@ -395,7 +397,7 @@ export function AuthForm({
           </Link>
         </div>
       ) : null}
-    </div>
+    </fieldset>
   );
 }
 

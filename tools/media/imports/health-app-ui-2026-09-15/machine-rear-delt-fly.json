@@ -1,0 +1,12 @@
+{
+  "prompt": "Machine rear delt fly facing chest pad, fixed handles move from forward to wide shoulder-level arc, chest supported",
+  "equipment": "machine",
+  "sources": [
+    "https://www.your-pt.com/exercises/reverse-pec-deck/",
+    "https://www.ironmaster.com/mm5/pdf/MU_04_05_147-154-sm.pdf"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "machine-rear-delt-fly",
+  "registeredAt": "2026-09-15T01:11:28.126Z"
+}

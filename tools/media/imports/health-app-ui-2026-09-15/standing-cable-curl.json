@@ -1,0 +1,12 @@
+{
+  "prompt": "Eight-panel 4x2 standing cable biceps curl; grey mannequin teal shorts; low pulley short straight bar, palms up; fixed camera, elbows pinned; one-way curl from extended to flexed.",
+  "equipment": "cable",
+  "sources": [
+    "https://www.strengthlog.com/cable-biceps-workout/",
+    "https://www.acefitness.org/resources/everyone/exercise-library/322/standing-bicep-curl/"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "standing-cable-curl",
+  "registeredAt": "2026-09-14T14:09:04.478Z"
+}

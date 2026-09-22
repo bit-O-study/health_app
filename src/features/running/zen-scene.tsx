@@ -1,5 +1,8 @@
 "use client";
 
+// Three.js scene objects and animation actions are intentionally mutated outside React render.
+/* eslint-disable react-hooks/immutability */
+
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useAnimations, useGLTF } from "@react-three/drei";

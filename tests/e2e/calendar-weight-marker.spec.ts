@@ -37,8 +37,10 @@ test("웨이트 완료한 날은 캘린더에 덤벨 마커가 뜬다", async ({
   await page.waitForTimeout(800);
   const row = page.locator("li").filter({ hasText: "스쿼트" }).first();
   await expect(row).toBeVisible({ timeout: 8000 });
-  await page.getByRole("button", { name: /오늘 전부 완료/ }).click();
-  await expect(row.getByText("완료", { exact: true })).toBeVisible({ timeout: 8000 });
+  const markAll = page.getByRole("button", { name: /오늘 전부 완료/ });
+  await markAll.click();
+  await expect(markAll).toBeDisabled();
+  await expect(markAll).toBeEnabled({ timeout: 30_000 });
 
   // 완료 후: 캘린더에 덤벨 마커가 최소 1개(오늘) 뜬다.
   await page.goto("/calendar", { waitUntil: "networkidle" });

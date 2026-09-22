@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-09-16T08:38:17.703Z",
+  "scope": "Direct MP4 playback on mobile Chromium; not app layout or physical Android",
+  "results": [
+    {
+      "id": "decline-dumbbell-bench-press",
+      "theme": "light",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "error": null,
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "id": "decline-dumbbell-bench-press",
+      "theme": "dark",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "error": null,
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "id": "hollow-body-hold",
+      "theme": "light",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "error": null,
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "id": "hollow-body-hold",
+      "theme": "dark",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "error": null,
+      "play": "passed",
+      "seek": "passed"
+    }
+  ]
+}

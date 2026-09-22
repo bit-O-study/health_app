@@ -2,6 +2,7 @@
 
 import { type FormEvent, useRef, useState } from "react";
 import Link from "next/link";
+import { useHydrated } from "@/lib/use-hydrated";
 
 import { findLoginEmailAction } from "@/features/auth/recover-actions";
 import { Err, Submit, inputCls } from "@/features/auth/components/recover-ui";
@@ -9,6 +10,7 @@ import { withPrefilled } from "@/lib/forms/prefilled";
 import { usePrefilledInputs } from "@/lib/forms/use-prefilled-inputs";
 
 export function FindIdForm() {
+  const hydrated = useHydrated();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [foundEmail, setFoundEmail] = useState<string | null>(null);
@@ -93,7 +95,7 @@ export function FindIdForm() {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
+    <fieldset disabled={!hydrated} className="min-w-0 w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
       <form ref={formRef} className="space-y-4" onSubmit={handleStart}>
         <div className="space-y-1.5">
           <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="name">
@@ -126,6 +128,6 @@ export function FindIdForm() {
         {error ? <Err>{error}</Err> : null}
         <Submit busy={busy} label="아이디 찾기" icon="search" />
       </form>
-    </div>
+    </fieldset>
   );
 }

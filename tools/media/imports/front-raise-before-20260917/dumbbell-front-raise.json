@@ -1,0 +1,11 @@
+{
+  "prompt": "Scientific educational exercise animation sheet, square image, 4 by 4 grid with exactly sixteen equally sized square panels, NO dividing lines, no text. Same grey muscular mannequin, teal shorts, grey trainers, TWO small black dumbbells. Static orthographic three-quarter side view facing right. Entire body and weights visible with margins. IDENTICAL head, torso, feet, camera and scale in all panels. Upright standing bilateral dumbbell front raise, closed overhand grip, nearly straight elbows, neutral wrists. Only arms rotate forward at shoulders. SINGLE ascending half-repetition over the WHOLE sheet, no restart between rows, no descending pose anywhere. Reading order: first row arms 0,6,12,18 degrees forward from vertical; second row 24,30,36,42; third row 48,54,60,66; final row 72,78,84,90. LAST panel shows arms exactly horizontal FORWARD at shoulder height. No arms above shoulder height in ANY panel. No outward lateral raises, no curls, no shrug, no torso lean. Both dumbbells clearly separate, attached to both hands, never merging. Both feet flat shoulder-width apart. Light uniform grey background. Sharp outlines without motion blur or ghosts. Every panel uses identical floor baseline and body position; smooth small change at row transitions. No captions numbers borders logos.",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "dumbbell-front-raise",
+  "registeredAt": "2026-09-16T08:08:55.527Z"
+}

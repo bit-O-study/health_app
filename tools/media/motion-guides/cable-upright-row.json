@@ -7,5 +7,6 @@
   "panels": 16,
   "cycle": "reverse",
   "id": "cable-upright-row",
-  "registeredAt": "2026-09-11T15:49:19.768Z"
+  "registeredAt": "2026-09-11T15:49:19.768Z",
+  "cutout": false
 }

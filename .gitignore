@@ -56,6 +56,10 @@ test-*.mjs
 # IDE
 /.idea/
 
+# 운동 영상 누끼용 파이썬 환경(tools/media/requirements-cutout.txt 로 재생성)
+/tools/media/.venv-cutout/
+/tools/media/.venv-cutout-gpu/
+
 # dev scratch / logs
 /scripts/
 *.log

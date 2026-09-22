@@ -1,12 +1,5 @@
 import Link from "next/link";
-import {
-  Dumbbell,
-  Flame,
-  ListChecks,
-  Plus,
-  Wind,
-  Zap,
-} from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { seoulYmd } from "@/features/routine/data";
 import type { FocusTone } from "@/features/routine/data";
@@ -31,10 +24,7 @@ import {
   type ConditioningParam,
 } from "@/features/routine/conditioning-catalog";
 import type { ConditioningRow } from "@/features/routine/conditioning";
-import {
-  estimateConditioningKcal,
-  estimateStrengthKcal,
-} from "@/features/routine/calories";
+import { estimateConditioningKcal } from "@/features/routine/calories";
 import {
   getTodayCompletedItems,
   getLastExerciseValues,
@@ -491,38 +481,6 @@ export async function TodayExercises({
   const warmDoneSet = new Set(warm.doneIds);
   const coolDoneSet = new Set(cool.doneIds);
 
-  // 칼로리 합산 — 스킵 제외
-  const totalWarm = warm.items
-    .filter((i) => !warmSkipSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const totalCool = cool.items
-    .filter((i) => !coolSkipSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const totalMain = plan
-    .filter((p) => !mainSkipSet.has(p.id))
-    .reduce(
-      (s, p) =>
-        s + estimateStrengthKcal(w, p.exerciseId, effMainSets(p.id, p.sets)),
-      0,
-    );
-  const totalKcal = Math.round(totalWarm + totalMain + totalCool);
-
-  // 완료 칼로리 — done 만 합산
-  const doneWarm = warm.items
-    .filter((i) => warmDoneSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const doneCool = cool.items
-    .filter((i) => coolDoneSet.has(i.rowId))
-    .reduce((s, i) => s + i.kcal, 0);
-  const doneMain = plan
-    .filter((p) => mainDoneSet.has(p.id))
-    .reduce(
-      (s, p) =>
-        s + estimateStrengthKcal(w, p.exerciseId, effMainSets(p.id, p.sets)),
-      0,
-    );
-  const completedKcal = Math.round(doneWarm + doneMain + doneCool);
-
   // 오늘 진행률(개수 기준). kcal 은 종목마다 무게가 달라 "몇 개 남았나"를 못 말한다 —
   // 사람이 보는 값은 개수다. 세는 규칙은 순수 모듈(today-progress)에만 둔다.
   const progress = todayProgress({
@@ -630,17 +588,14 @@ export async function TodayExercises({
     // '편집하기' 하나로 본운동·컨디셔닝·하단 7일 순서변경을 모두 제어.
     <RestTimerProvider sound={restSound} haptic={restHaptic}>
       <TodayOrderScope>
-        <section className="space-y-5">
+        <section className="space-y-3">
           {/* 섹션 제목 위계: h2(아이콘칩 + 굵게) → 하위 섹션 h3(같은 모양, 한 단계 작게).
               예전엔 여기만 회색 대문자 라벨이라 아래 '본운동/워밍업' 과 규칙이 달랐다. */}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h2 className="flex flex-wrap items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
-              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
-                <ListChecks aria-hidden="true" size={15} />
-              </span>
               오늘 할 운동
               {usingDailyPlan ? (
-                <span className="whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+                <span className="whitespace-nowrap rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
                   오늘만 변경됨
                 </span>
               ) : null}
@@ -651,21 +606,21 @@ export async function TodayExercises({
             </div>
         </div>
 
-        {/* 오늘 진행 — 개수(사람이 보는 값)가 주인공, 칼로리는 곁다리 한 줄. */}
-        <div className="app-card p-4">
+        {/* 오늘 진행 + 운동 시작을 **한 장**에 — 진행 링이 주인공, 시작 버튼이 바로 아래.
+            (2026-09-15 "싹 바꿔 달라": 진행 카드와 시작 버튼이 따로 떨어져 있던 구조를 합쳤다.) */}
+        <div className="app-card space-y-2.5 p-3">
           <div className="flex items-center gap-3">
+            <ProgressRing
+              pct={progress.donePct}
+              skippedPct={progress.skippedPct}
+              label={`${progress.label}${progress.skippedLabel ? ` · ${progress.skippedLabel}` : ""}`}
+            />
+            {/* 진행은 숫자 한 줄만 — '오늘 진행' 라벨·kcal 줄은 뺐다(깔끔·촘촘, 2026-09-15). */}
             <div className="min-w-0 flex-1">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                오늘 진행
-              </p>
-              <p className="flex flex-wrap items-baseline gap-x-2 text-xl font-bold text-zinc-950 dark:text-zinc-100 sm:text-2xl">
-                <span className="tabular-nums">{progress.label}</span>
-                {progress.skippedLabel ? (
-                  <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                    {progress.skippedLabel}
-                  </span>
-                ) : null}
-              </p>
+              <p className="text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">{progress.label}</p>
+              {progress.skippedLabel ? (
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">{progress.skippedLabel}</p>
+              ) : null}
             </div>
             <MarkAllDoneButton
               planRows={plan
@@ -711,48 +666,16 @@ export async function TodayExercises({
             />
           </div>
 
-          {/* 진행 막대 — 완료(초록) / 오늘 안 함(회색). 1개라도 있으면 보이게 최소폭. */}
-          <div
-            className="mt-3 flex h-2 w-full overflow-hidden rounded-full bg-zinc-200/80 dark:bg-zinc-700/70"
-            role="img"
-            aria-label={`${progress.label}${progress.skippedLabel ? ` · ${progress.skippedLabel}` : ""}`}
-          >
-            <span
-              className="h-full bg-emerald-500 transition-[width] duration-300"
-              style={{
-                width: `${progress.done > 0 ? Math.max(3, progress.donePct) : 0}%`,
-              }}
-            />
-            <span
-              className="h-full bg-zinc-400/80 transition-[width] duration-300 dark:bg-zinc-500/80"
-              style={{
-                width: `${progress.skipped > 0 ? Math.max(3, progress.skippedPct) : 0}%`,
-              }}
-            />
-          </div>
-
-          <p className="mt-2.5 flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400">
-            <Zap aria-hidden="true" size={14} className="shrink-0 text-orange-500" />
-            <span className="text-safe">
-              <span className="font-bold text-emerald-700 dark:text-emerald-400">
-                {completedKcal}
-              </span>
-              {" kcal 완료 · 예상 "}
-              {totalKcal} kcal
-            </span>
-          </p>
+          {/* 운동 시작 — 이 탭의 주 행동. 진행 카드 안 맨 아래, 폭을 다 쓴다. */}
+          <WorkoutSessionTimer
+            queueItems={queueItems}
+            doneOrSkippedIds={doneOrSkippedIds}
+            hideVideos={hideVideos}
+            showGuide={showGuide}
+            lockWeightReps={lockWeightReps}
+            postureEnabled={postureEnabled}
+          />
         </div>
-
-        {/* 운동 시작 — 이 탭의 주 행동이라 폭을 다 쓴다.
-            (예전엔 '편집하기'·'기구 스캔' 과 같은 줄, 같은 크기의 작은 알약이었다.) */}
-        <WorkoutSessionTimer
-          queueItems={queueItems}
-          doneOrSkippedIds={doneOrSkippedIds}
-          hideVideos={hideVideos}
-          showGuide={showGuide}
-          lockWeightReps={lockWeightReps}
-          postureEnabled={postureEnabled}
-        />
 
         {/* 워밍업 */}
         <ConditioningSection
@@ -769,22 +692,18 @@ export async function TodayExercises({
         />
 
         {/* 본운동 */}
-        <div className="mb-2 flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
-            <Dumbbell aria-hidden="true" size={15} />
-          </span>
-          <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-            본운동
-          </h3>
-        </div>
+        {/* 섹션 제목은 아이폰 그룹 목록처럼 작은 회색 글자 — 색 아이콘 칩은 뺐다. */}
+        <h3 className="mb-1.5 px-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">
+          본운동
+        </h3>
         {plan.length === 0 ? (
-          <div className="app-card border-dashed p-6 text-center">
-            <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              오늘 부위에 등록된 본운동이 없습니다.
+          <div className="app-card p-3 text-center">
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              등록된 본운동이 없습니다
             </p>
             <Link
               href={registerHref}
-              className="mt-3 inline-flex h-10 items-center justify-center gap-1.5 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500"
+              className="app-press mt-3 inline-flex h-10 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950"
             >
               <Plus aria-hidden="true" size={16} />
               운동 등록하기
@@ -833,6 +752,62 @@ export async function TodayExercises({
   );
 }
 
+/**
+ * 오늘 진행 링(아이폰 활동 링 느낌) — 완료(브랜드) 위에 오늘 안 함(회색)을 이어 그린다.
+ * 가운데 큰 숫자는 완료 비율(%).
+ */
+function ProgressRing({
+  pct,
+  skippedPct,
+  label,
+}: {
+  pct: number;
+  skippedPct: number;
+  label: string;
+}) {
+  const size = 64;
+  const stroke = 8;
+  const r = (size - stroke) / 2;
+  const len = 2 * Math.PI * r;
+  const donePart = (len * Math.min(100, Math.max(0, pct))) / 100;
+  const skipPart = (len * Math.min(100 - pct, Math.max(0, skippedPct))) / 100;
+  return (
+    <div className="relative shrink-0" role="img" aria-label={label}>
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="-rotate-90">
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--brand)" strokeOpacity={0.15} strokeWidth={stroke} />
+        {skipPart > 0 ? (
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={r}
+            fill="none"
+            stroke="currentColor"
+            className="text-zinc-400 dark:text-zinc-600"
+            strokeWidth={stroke}
+            strokeDasharray={`0 ${donePart} ${skipPart} ${len}`}
+          />
+        ) : null}
+        {donePart > 0 ? (
+          <circle
+            cx={size / 2}
+            cy={size / 2}
+            r={r}
+            fill="none"
+            stroke="var(--brand)"
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeDasharray={`${donePart} ${len}`}
+            className="transition-[stroke-dasharray] duration-500"
+          />
+        ) : null}
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center text-sm font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
+        {Math.round(pct)}%
+      </span>
+    </div>
+  );
+}
+
 function ConditioningSection({
   kind,
   rowsCount,
@@ -857,39 +832,27 @@ function ConditioningSection({
   registerHref?: string;
 }) {
   const isWarm = kind === "warmup";
-  const HeaderIcon = isWarm ? Flame : Wind;
   const label = isWarm ? "워밍업" : "마무리 운동";
-  const headerBadge = isWarm
-    ? "flex h-7 w-7 items-center justify-center rounded-md bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
-    : "flex h-7 w-7 items-center justify-center rounded-md bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400";
 
   return (
     <section>
-      <div className="mb-2 flex items-center gap-2">
-        <span className={headerBadge}>
-          <HeaderIcon aria-hidden="true" size={15} />
-        </span>
-        <h3 className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
+      <div className="mb-1.5 flex items-center gap-2 px-1">
+        <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
           {label}
         </h3>
         {isDailyOverride ? (
-          <span className="rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+          <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
             오늘만
           </span>
         ) : null}
       </div>
 
       {rowsCount === 0 ? (
-        <p className="app-card border-dashed p-4 text-center text-xs text-zinc-500 dark:text-zinc-400">
-          등록된 항목이 없습니다.{" "}
-          <Link
-            href={registerHref}
-            className="font-semibold text-emerald-700 dark:text-emerald-400"
-          >
+        <p className="app-card flex items-center justify-between px-4 py-3 text-sm text-zinc-500 dark:text-zinc-400">
+          비어 있어요
+          <Link href={registerHref} className="font-semibold text-brand">
             운동 등록하기
           </Link>
-          {" "}
-          또는 “추천으로 채우기”를 사용하세요.
         </p>
       ) : (
         <TodayConditioningList

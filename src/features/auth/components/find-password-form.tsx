@@ -2,7 +2,7 @@
 
 import { type FormEvent, useRef, useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, MailCheck } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 import {
   requestEmailOtpAction,
@@ -13,6 +13,8 @@ import {
   Notice,
   Submit,
   inputCls,
+  labelCls,
+  primaryBtnCls,
 } from "@/features/auth/components/recover-ui";
 import { withPrefilled } from "@/lib/forms/prefilled";
 import { usePrefilledInputs } from "@/lib/forms/use-prefilled-inputs";
@@ -115,23 +117,22 @@ export function FindPasswordForm() {
 
   if (stage === "done") {
     return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-        <div className="mb-3 flex items-center gap-2">
-          <CheckCircle2 aria-hidden="true" className="text-emerald-600" size={20} />
-          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-            비밀번호 변경 완료
-          </h2>
+      <div className="w-full space-y-3">
+        <div className="app-card flex items-start gap-2 px-3 py-3">
+          <CheckCircle2 aria-hidden="true" className="mt-0.5 shrink-0 text-brand" size={18} />
+          <div className="min-w-0">
+            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
+              비밀번호 변경 완료
+            </h2>
+            <p
+              data-testid="find-pw-done"
+              className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400"
+            >
+              새 비밀번호로 변경되었습니다. 변경한 비밀번호로 로그인해 주세요.
+            </p>
+          </div>
         </div>
-        <p
-          data-testid="find-pw-done"
-          className="mb-5 text-sm leading-6 text-zinc-600 dark:text-zinc-400"
-        >
-          새 비밀번호로 변경되었습니다. 변경한 비밀번호로 로그인해 주세요.
-        </p>
-        <Link
-          href="/login"
-          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500"
-        >
+        <Link href="/login" className={primaryBtnCls}>
           로그인하기
         </Link>
       </div>
@@ -140,117 +141,98 @@ export function FindPasswordForm() {
 
   if (stage === "verify") {
     return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-        <div className="mb-5 flex items-center gap-2">
-          <MailCheck aria-hidden="true" className="text-emerald-600" size={20} />
-          <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-            인증번호 입력 & 새 비밀번호
-          </h2>
-        </div>
-        <form className="space-y-4" onSubmit={handleVerify}>
-          <div className="space-y-1.5">
-            <label
-              className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-              htmlFor="otp-code"
-            >
-              이메일 인증번호
-            </label>
-            <input
-              id="otp-code"
-              type="text"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              className={`${inputCls} text-center text-lg tracking-widest`}
-              placeholder="6자리"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label
-              className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-              htmlFor="new-password"
-            >
-              새 비밀번호
-            </label>
-            <input
-              id="new-password"
-              type="password"
-              autoComplete="new-password"
-              className={inputCls}
-              placeholder="6자 이상"
-              value={newPw}
-              onChange={(e) => setNewPw(e.target.value)}
-            />
-          </div>
-          <div className="space-y-1.5">
-            <label
-              className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
-              htmlFor="confirm-password"
-            >
-              새 비밀번호 확인
-            </label>
-            <input
-              id="confirm-password"
-              type="password"
-              autoComplete="new-password"
-              className={inputCls}
-              placeholder="다시 입력"
-              value={confirmPw}
-              onChange={(e) => setConfirmPw(e.target.value)}
-            />
-          </div>
-          {error ? <Err>{error}</Err> : null}
-          {notice ? <Notice>{notice}</Notice> : null}
-          <Submit busy={busy} label="비밀번호 변경" />
-          <button
-            type="button"
-            disabled={busy}
-            onClick={handleResend}
-            className="w-full text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 transition hover:text-zinc-800 dark:hover:text-zinc-200 disabled:opacity-50"
-          >
-            인증번호 다시 받기
-          </button>
-        </form>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-      <form ref={formRef} className="space-y-4" onSubmit={handleRequest}>
-        <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="email">
-            아이디(이메일)
+      <form className="w-full space-y-3" onSubmit={handleVerify}>
+        <div>
+          <label className={labelCls} htmlFor="otp-code">
+            이메일 인증번호
           </label>
           <input
-            id="email"
-            type="email"
-            autoComplete="email"
-            className={inputCls}
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="otp-code"
+            type="text"
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            className={`${inputCls} text-center text-lg tracking-widest`}
+            placeholder="6자리"
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
           />
         </div>
-        <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="phone">
-            전화번호
+        <div>
+          <label className={labelCls} htmlFor="new-password">
+            새 비밀번호
           </label>
           <input
-            id="phone"
-            type="tel"
-            autoComplete="tel"
+            id="new-password"
+            type="password"
+            autoComplete="new-password"
             className={inputCls}
-            placeholder="010-1234-5678"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            placeholder="6자 이상"
+            value={newPw}
+            onChange={(e) => setNewPw(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className={labelCls} htmlFor="confirm-password">
+            새 비밀번호 확인
+          </label>
+          <input
+            id="confirm-password"
+            type="password"
+            autoComplete="new-password"
+            className={inputCls}
+            placeholder="다시 입력"
+            value={confirmPw}
+            onChange={(e) => setConfirmPw(e.target.value)}
           />
         </div>
         {error ? <Err>{error}</Err> : null}
         {notice ? <Notice>{notice}</Notice> : null}
-        <Submit busy={busy} label="인증번호 받기" icon="search" />
+        <Submit busy={busy} label="비밀번호 변경" />
+        <button
+          type="button"
+          disabled={busy}
+          onClick={handleResend}
+          className="h-9 w-full text-center text-sm font-semibold text-brand transition active:opacity-60 disabled:opacity-50"
+        >
+          인증번호 다시 받기
+        </button>
       </form>
-    </div>
+    );
+  }
+
+  return (
+    <form ref={formRef} className="w-full space-y-3" onSubmit={handleRequest}>
+      <div>
+        <label className={labelCls} htmlFor="email">
+          아이디(이메일)
+        </label>
+        <input
+          id="email"
+          type="email"
+          autoComplete="email"
+          className={inputCls}
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <div>
+        <label className={labelCls} htmlFor="phone">
+          전화번호
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          autoComplete="tel"
+          className={inputCls}
+          placeholder="010-1234-5678"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </div>
+      {error ? <Err>{error}</Err> : null}
+      {notice ? <Notice>{notice}</Notice> : null}
+      <Submit busy={busy} label="인증번호 받기" icon="search" />
+    </form>
   );
 }

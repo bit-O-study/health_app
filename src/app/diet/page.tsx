@@ -58,17 +58,8 @@ export default async function DietPage({
   });
 
   return (
-    <main className="app-page app-container">
-      {/* 수분은 `DietBoard` 밖에 둔다 — 그쪽 낙관적 상태(수정 중인 음식 줄)와 섞이면
-          예전처럼 편집이 깨진다. 서로 아무것도 공유하지 않는 편이 안전하다. */}
-      <div className="mb-3">
-        <WaterCard
-          key={date}
-          date={date}
-          initialMl={waterMl}
-          targetMl={dailyWaterTargetMl(profile.weightKg)}
-        />
-      </div>
+    <div className="app-page">
+      {/* 머리글(제목 + 날짜 이동)과 본문은 DietBoard 가 그린다 — 날짜 이동이 보드 상태(저장 중)를 봐서. */}
       <DietBoard
         key={date}
         date={date}
@@ -78,8 +69,18 @@ export default async function DietPage({
         target={target}
         mealPhotos={mealPhotos}
         aiScanEnabled={aiScanEnabled}
+        footer={
+          // 수분은 `DietBoard` 상태 밖에서 만든다 — 그쪽 낙관적 상태(수정 중인 음식 줄)와 섞이면
+          // 예전처럼 편집이 깨진다. 칼로리·끼니가 주인공이라 맨 아래 한 장(2026-09-15 촘촘하게).
+          <WaterCard
+            key={date}
+            date={date}
+            initialMl={waterMl}
+            targetMl={dailyWaterTargetMl(profile.weightKg)}
+          />
+        }
       />
       {dashboard && <div className="mt-4"><DietExerciseCard need={dashboard.dietExerciseNeed} macroRemaining={dashboard.macroRemaining} hasFoodLog={dashboard.hasFoodLog} /></div>}
-    </main>
+    </div>
   );
 }

@@ -98,13 +98,11 @@ test("루틴 변경으로 행 UUID 가 새로 생겨도 오늘 완료한 운동�
 
   // 본운동(벤치프레스가 든 리스트)에 '완료' 배지가 보여야 한다 — 행 id 가 바뀌었어도
   // (부위:운동) 키로 매칭돼 완료 유지.
-  const mainUl = page
-    .locator("ul.space-y-2")
-    .filter({ hasText: "벤치프레스" });
+  const mainUl = page.locator('[data-testid="today-main-list"]');
   await expect(mainUl.getByText("완료", { exact: true }).first()).toBeVisible();
 
   // 워밍업(런닝)도 행 id 가 바뀌었지만 완료 유지돼야 한다 (kind:item 키 매칭).
-  const warmUl = page.locator("ul.space-y-2").filter({ hasText: "런닝" });
+  const warmUl = page.locator('[data-testid="today-warmup-list"]');
   await expect(warmUl.getByText("완료", { exact: true }).first()).toBeVisible();
 });
 

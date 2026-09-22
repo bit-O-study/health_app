@@ -3,7 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
-import { CalendarDays, GripVertical, Loader2 } from "lucide-react";
+import { GripVertical, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import {
@@ -206,16 +206,16 @@ export function UpcomingSevenDaysGrid({
 
   return (
     <section>
-      <div className="mb-3 flex items-center justify-between gap-2">
-        {/* 제목 위계는 '오늘 할 운동'(h2)과 같은 규칙 — 아이콘칩 + 굵은 글씨. */}
+      <div className="mb-1.5 flex items-center justify-between gap-2">
+        {/* 제목 위계는 '오늘 할 운동'(h2)과 같은 규칙 — 색 아이콘칩·보조 설명 없이 제목만.
+            드래그 안내는 편집 모드일 때만 짧게. */}
         <h2 className="flex flex-wrap items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
-            <CalendarDays aria-hidden="true" size={15} />
-          </span>
           다가오는 7일
-          <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
-            {editMode ? "· 드래그로 순서 변경" : "· '편집하기'에서 순서 변경"}
-          </span>
+          {editMode ? (
+            <span className="text-xs font-normal text-zinc-400 dark:text-zinc-500">
+              드래그로 순서 변경
+            </span>
+          ) : null}
         </h2>
         {pending ? (
           <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
@@ -225,7 +225,16 @@ export function UpcomingSevenDaysGrid({
         ) : null}
       </div>
 
-      <div className="relative grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
+      {/* 평소엔 가로로 넘기는 한 줄(아이폰 위젯 줄), 편집 중엔 7일이 한눈에 보이는 격자 —
+          드래그로 먼 날에 놓으려면 전부 화면에 보여야 한다. */}
+      <div
+        className={cn(
+          "relative",
+          editMode
+            ? "grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7"
+            : "-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:px-0",
+        )}
+      >
         {blocks.map((dayBlocks, i) => {
           const cell = cells[i];
           const dayPlan = composeDayPlan(dayBlocks);
@@ -261,7 +270,8 @@ export function UpcomingSevenDaysGrid({
               : {
                   transform: "scale(1)",
                   transition: "transform 180ms ease",
-                  touchAction: "none",
+                  // 편집 중이 아니면 손가락으로 줄을 가로로 넘길 수 있어야 한다.
+                  touchAction: editMode ? "none" : "pan-x",
                 };
 
           return (
@@ -275,16 +285,12 @@ export function UpcomingSevenDaysGrid({
               onContextMenu={(e) => e.preventDefault()}
               style={liftStyle}
               className={cn(
-                "relative select-none rounded-xl border p-3",
-                editMode ? "cursor-grab active:cursor-grabbing" : "",
+                "relative select-none rounded-xl border px-2.5 py-2",
+                editMode ? "cursor-grab active:cursor-grabbing" : "w-28 shrink-0 snap-start",
                 style.card,
-                cell.isToday ? "ring-2 ring-emerald-500 ring-offset-1" : "",
-                isDragged
-                  ? "border-emerald-500 ring-2 ring-emerald-300/70"
-                  : "",
-                isHoverTarget
-                  ? "border-emerald-400 ring-2 ring-emerald-400/60"
-                  : "",
+                cell.isToday ? "border-brand" : "",
+                isDragged ? "ring-2 ring-brand/50" : "",
+                isHoverTarget ? "ring-2 ring-brand/40" : "",
               )}
             >
               <div className="flex items-center justify-between gap-1">
@@ -295,7 +301,7 @@ export function UpcomingSevenDaysGrid({
                       className={cn(
                         "shrink-0 transition-colors",
                         isDragged
-                          ? "text-emerald-600"
+                          ? "text-brand"
                           : "text-zinc-400 dark:text-zinc-500",
                       )}
                       size={13}
@@ -309,14 +315,14 @@ export function UpcomingSevenDaysGrid({
                   </span>
                 </span>
                 {cell.isToday ? (
-                  <span className="shrink-0 rounded-full bg-emerald-600 px-1.5 py-0.5 text-[11px] font-bold text-white">
+                  <span className="shrink-0 text-xs font-semibold text-brand">
                     오늘
                   </span>
                 ) : null}
               </div>
               <span
                 className={cn(
-                  "mt-2 inline-flex min-w-0 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold",
+                  "mt-1 inline-flex min-w-0 max-w-full items-center gap-1 rounded-full px-2 py-0.5 text-xs font-semibold",
                   style.badge,
                 )}
               >
@@ -373,7 +379,7 @@ export function UpcomingSevenDaysGrid({
               <button
                 type="button"
                 onClick={acceptExit}
-                className="h-10 rounded-lg bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-500"
+                className="h-10 rounded-lg bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
               >
                 예, 오늘만 해제
               </button>

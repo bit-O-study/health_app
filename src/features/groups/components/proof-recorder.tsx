@@ -260,7 +260,7 @@ export function ProofRecorder({
 
         {phase === "recording" ? (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span className="rounded-full bg-red-600/90 px-4 py-1.5 text-2xl font-black tabular-nums text-white shadow-lg">
+            <span className="rounded-full bg-red-600/90 px-4 py-1.5 text-2xl font-bold tabular-nums text-white shadow-lg">
               ● {count}
             </span>
           </div>
@@ -286,7 +286,7 @@ export function ProofRecorder({
               <Camera size={30} />
             </button>
           ) : (
-            <label className="flex cursor-pointer items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-bold text-white active:scale-95">
+            <label className="flex cursor-pointer items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-95">
               <Camera size={18} /> 카메라로 촬영
               <input
                 type="file"
@@ -317,7 +317,7 @@ export function ProofRecorder({
             <button
               type="button"
               onClick={save}
-              className="flex items-center gap-2 rounded-full bg-emerald-600 px-7 py-3 text-sm font-bold text-white active:scale-95"
+              className="flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-95"
             >
               인증 올리기
             </button>

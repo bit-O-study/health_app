@@ -125,7 +125,7 @@ export function TodayFocusMenu({
                   // 이동이 완료되어 메뉴가 unmount될 때 히스토리를 정리한다.
                   router.push("/plan");
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   <SlidersHorizontal aria-hidden="true" size={18} />
@@ -147,9 +147,9 @@ export function TodayFocusMenu({
                   setMenuOpen(false);
                   setAdjustOpen(true);
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
                   <Shuffle aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
@@ -166,7 +166,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={restart}
-                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   {pending ? (
@@ -189,9 +189,9 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => runToday("indoor")}
-                className="flex w-full items-center gap-3 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-left transition hover:border-emerald-400 hover:bg-emerald-100 disabled:opacity-60 dark:border-emerald-800 dark:bg-emerald-950/30 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/50"
+                className="flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950">
                   <House aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
@@ -238,7 +238,7 @@ export function TodayFocusMenu({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-soft text-brand">
                 <Footprints aria-hidden="true" size={20} />
               </span>
               <div className="min-w-0">
@@ -256,7 +256,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={replaceAndRun}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
               >
                 {pending ? (
                   <Loader2 aria-hidden="true" size={16} className="animate-spin" />

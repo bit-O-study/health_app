@@ -50,28 +50,29 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
     });
   }
 
+  // 촘촘한 목록(2026-09-16 8단계) — 상태 한 줄 · 한도 표 한 장 · 버튼. 한도 표는 이 한 곳에만 둔다(화면에 중복 없음).
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <section
         data-testid="subscription-status"
         data-premium={status.premium ? "1" : "0"}
-        className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800"
+        className="app-card flex items-center gap-3 p-3"
       >
-        <p className="flex items-center gap-2 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-          <span
-            className={`flex h-7 w-7 items-center justify-center rounded-lg ${
-              status.premium
-                ? "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
-                : "bg-zinc-100 text-zinc-500 dark:bg-zinc-700 dark:text-zinc-300"
-            }`}
-          >
-            <Crown aria-hidden="true" size={15} />
+        <span
+          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
+            status.premium
+              ? "bg-brand-soft text-brand"
+              : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-300"
+          }`}
+        >
+          <Crown aria-hidden="true" size={16} />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-base font-semibold text-zinc-950 dark:text-zinc-100">
+            {status.premium ? "프리미엄" : "무료"}
           </span>
-          {status.premium ? "프리미엄" : "무료"}
-        </p>
-        <p className="mt-1.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-          {status.label}
-        </p>
+          <span className="block text-xs text-zinc-500 dark:text-zinc-400">{status.label}</span>
+        </span>
       </section>
 
       {/*
@@ -79,52 +80,45 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         무료와 뭐가 다른지 알 수 없었다 — 값을 모르는 걸 누가 결제하지 않는다.
         한도는 `ai-quota.ts` 한 곳에서 읽는다(화면에 숫자를 다시 적으면 조용히 갈린다).
       */}
-      <section
-        data-testid="premium-benefits"
-        className="rounded-2xl border border-zinc-200 bg-white p-5 dark:border-zinc-700 dark:bg-zinc-800"
-      >
-        <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-          프리미엄으로 달라지는 것
-        </p>
-        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
-          월 {PREMIUM_PRICE_KRW.toLocaleString("ko-KR")}원 · 언제든 해지
-        </p>
-        <table className="mt-3 w-full text-xs">
-          <thead>
-            <tr className="text-zinc-400">
-              <th className="pb-1.5 text-left font-bold">월 사용량</th>
-              <th className="pb-1.5 text-right font-bold">무료</th>
-              <th className="pb-1.5 text-right font-bold text-amber-600 dark:text-amber-400">
-                프리미엄
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {AI_FEATURES.map((f) => (
-              <tr key={f.id} className="border-t border-zinc-100 dark:border-zinc-700">
-                <td className="py-1.5 text-zinc-700 dark:text-zinc-200">{f.label}</td>
-                <td className="py-1.5 text-right tabular-nums text-zinc-500">
-                  {MONTHLY_LIMITS.free[f.id]}회
-                </td>
-                <td className="py-1.5 text-right font-bold tabular-nums text-amber-600 dark:text-amber-400">
-                  {MONTHLY_LIMITS.premium[f.id]}회
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <p className="mt-2.5 text-[11px] leading-5 text-zinc-400 dark:text-zinc-500">
-          루틴·식단 기록·타이머·러닝·그룹은 무료에서도 전부 그대로 쓸 수 있어요.
-        </p>
+      <section data-testid="premium-benefits">
+        <div className="flex items-baseline justify-between">
+          <h2 className="app-section-label">한 달에 쓸 수 있는 횟수</h2>
+          <span className="mb-1.5 px-1 text-xs text-zinc-500 dark:text-zinc-400">
+            월 {PREMIUM_PRICE_KRW.toLocaleString("ko-KR")}원 · 언제든 해지
+          </span>
+        </div>
+        <ul className="app-list">
+          <li className="flex items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+            <span>기능</span>
+            <span className="flex gap-6">
+              <span className="w-10 text-right">무료</span>
+              <span className="w-12 text-right text-brand">프리미엄</span>
+            </span>
+          </li>
+          {AI_FEATURES.map((f) => (
+            <li
+              key={f.id}
+              className="flex min-h-10 items-center justify-between gap-2 px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200"
+            >
+              <span className="min-w-0 truncate">{f.label}</span>
+              <span className="flex shrink-0 gap-6 tabular-nums">
+                <span className="w-10 text-right text-zinc-500">{MONTHLY_LIMITS.free[f.id]}</span>
+                <span className="w-12 text-right font-semibold text-brand">
+                  {MONTHLY_LIMITS.premium[f.id]}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       {!status.ready ? (
         // 설정이 안 된 걸 오류처럼 보여주면 사용자가 자기 잘못인 줄 안다.
         <p
           data-testid="subscription-not-ready"
-          className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm leading-6 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+          className="app-card p-3 text-sm text-zinc-600 dark:text-zinc-300"
         >
-          구독은 아직 준비 중이에요. 지금은 모든 기능을 무료 한도 안에서 쓸 수 있어요.
+          구독은 아직 준비 중이에요.
         </p>
       ) : (
         <div className="flex flex-col gap-2">
@@ -133,12 +127,12 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             data-testid="subscribe-button"
             disabled={pending || status.premium}
             onClick={() => run(() => purchaseSubscription(PREMIUM_PRODUCT_ID))}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
           >
             {pending ? (
-              <Loader2 aria-hidden="true" size={15} className="animate-spin" />
+              <Loader2 aria-hidden="true" size={16} className="animate-spin" />
             ) : (
-              <Crown aria-hidden="true" size={15} />
+              <Crown aria-hidden="true" size={16} />
             )}
             {status.premium ? "이미 구독 중이에요" : "프리미엄 구독하기"}
           </button>
@@ -148,9 +142,9 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             data-testid="restore-button"
             disabled={pending}
             onClick={() => run(restorePurchase)}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 text-xs font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            className="inline-flex h-9 items-center justify-center gap-1 text-sm font-semibold text-brand disabled:opacity-50"
           >
-            <RotateCcw aria-hidden="true" size={13} />
+            <RotateCcw aria-hidden="true" size={14} />
             구매 복원
           </button>
         </div>
@@ -159,15 +153,14 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
       {msg ? (
         <p
           data-testid="subscription-message"
-          className="text-xs leading-5 text-zinc-600 dark:text-zinc-300"
+          className="px-1 text-xs text-zinc-600 dark:text-zinc-300"
         >
           {msg}
         </p>
       ) : null}
 
-      <p className="px-1 text-[11px] leading-5 text-zinc-400 dark:text-zinc-500">
-        결제·해지·환불은 <strong>구글 플레이</strong>에서 관리해요. 해지해도 이미 결제한
-        기간이 끝날 때까지는 그대로 쓸 수 있어요.
+      <p className="px-1 text-xs text-zinc-400 dark:text-zinc-500">
+        결제·해지·환불은 구글 플레이에서 관리해요.
       </p>
     </div>
   );

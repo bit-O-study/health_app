@@ -154,7 +154,7 @@ export function SetDetailsEditor({
               type="button"
               onClick={addRow}
               disabled={disabled || rows.length >= 20}
-              className="inline-flex h-8 items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400 disabled:opacity-50"
+              className="inline-flex h-8 items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
             >
               <Plus aria-hidden="true" size={13} />
               세트 추가
@@ -205,7 +205,7 @@ export function SetDetailsEditor({
             type="button"
             onClick={enable}
             disabled={disabled}
-            className="inline-flex h-7 items-center rounded-md border app-field px-2 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400"
+            className="inline-flex h-7 items-center rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand"
           >
             세트별 다르게
           </button>

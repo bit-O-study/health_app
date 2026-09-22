@@ -79,60 +79,50 @@ export function VideoUploadForm({ exerciseId }: VideoUploadFormProps) {
     }
   }
 
+  // 섹션 라벨 + 카드(2026-09-16 8단계 촘촘하게) — 형식 안내 문장은 파일 선택 칸의 accept 로 충분해 뺐다.
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
-    >
-      <div className="space-y-1">
-        <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
-          자세 영상 업로드
-        </h2>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          MP4, MOV, WebM 형식의 운동 영상을 올려 피드백을 받을 수 있습니다.
-        </p>
-      </div>
-
-      <div className="mt-5 grid gap-4">
-        <label className="grid gap-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+    <section>
+      <h2 className="app-section-label">자세 영상 업로드</h2>
+      <form onSubmit={handleSubmit} className="app-card space-y-2.5 p-3">
+        <label className="grid gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
           영상 제목
           <input
             value={title}
             onChange={(event) => setTitle(event.target.value)}
-            className="h-11 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-10 rounded-[10px] bg-zinc-100 px-3 text-sm font-normal text-zinc-900 outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
             placeholder="예: 스쿼트 측면 자세"
             type="text"
           />
         </label>
 
-        <label className="grid gap-2 text-sm font-medium text-zinc-800 dark:text-zinc-200">
+        <label className="grid gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
           영상 파일
           <input
             ref={fileInputRef}
             accept="video/mp4,video/quicktime,video/webm"
-            className="block w-full rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 px-3 py-3 text-sm text-zinc-700 dark:text-zinc-300 file:mr-4 file:rounded-md file:border-0 file:bg-zinc-900 file:px-3 file:py-2 file:text-sm file:font-medium file:text-white"
+            className="block w-full rounded-[10px] bg-zinc-100 px-3 py-2 text-sm font-normal text-zinc-700 file:mr-3 file:rounded-full file:border-0 file:bg-zinc-200 file:px-3 file:py-1 file:text-sm file:font-semibold file:text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-300 dark:file:bg-white/[0.12] dark:file:text-zinc-100"
             type="file"
           />
         </label>
-      </div>
 
-      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <button
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:bg-emerald-300"
-          disabled={isUploading}
-          type="submit"
-        >
-          {isUploading ? (
-            <Loader2 aria-hidden="true" className="animate-spin" size={18} />
-          ) : (
-            <Upload aria-hidden="true" size={18} />
-          )}
-          업로드
-        </button>
-        {status ? (
-          <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p>
-        ) : null}
-      </div>
-    </form>
+        <div className="flex items-center gap-3">
+          <button
+            className="app-press inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60 dark:text-zinc-950"
+            disabled={isUploading}
+            type="submit"
+          >
+            {isUploading ? (
+              <Loader2 aria-hidden="true" className="animate-spin" size={16} />
+            ) : (
+              <Upload aria-hidden="true" size={16} />
+            )}
+            업로드
+          </button>
+          {status ? (
+            <p className="text-sm text-zinc-600 dark:text-zinc-400">{status}</p>
+          ) : null}
+        </div>
+      </form>
+    </section>
   );
 }

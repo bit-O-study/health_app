@@ -5,16 +5,16 @@ test("런처 앱 이동·공통 메뉴·운동 기능 진입", async ({ page }) 
   await signUpAndOnboard(page);
   await page.goto("/home");
   const nav = page.getByRole("navigation", { name: "주요 메뉴" });
-  await expect(page.getByRole("region", { name: "오늘의 요약" }).getByRole("link")).toHaveCount(3);
+  await expect(page.getByRole("region", { name: "오늘 요약" }).getByRole("link")).toHaveCount(3);
   for (const [name, path] of [["운동","/routine"],["식단","/diet"],["캘린더","/calendar"],["그룹","/groups"],["커뮤니티","/community"],["펫","/pet"]]) {
-    await page.getByRole("link", { name: name + " 앱 열기", exact: true }).click();
+    await page.getByRole("navigation", { name: "앱", exact: true }).getByRole("link", { name, exact: true }).click();
     await expect(page).toHaveURL(url => url.pathname === path);
-    await expect(nav.getByRole("link").first()).toHaveText("홈");
-    await expect(nav.locator("li").first().getByRole("link")).toHaveAttribute("href", "/home");
+    await expect(nav.getByRole("link", { name: "홈", exact: true })).toBeVisible();
+    await expect(nav.getByRole("link", { name: "홈", exact: true })).toHaveAttribute("href", "/home");
     await nav.getByRole("link", {name:"홈",exact:true}).click();
-    await expect(page.getByRole("region",{name:"앱 런처"})).toBeVisible();
+    await expect(page.getByRole("navigation",{name:"앱",exact:true})).toBeVisible();
   }
-  await page.getByRole("link",{name:"운동 앱 열기",exact:true}).click();
+  await page.getByRole("navigation",{name:"앱",exact:true}).getByRole("link",{name:"운동",exact:true}).click();
   await page.goto("/routine/records");
   await expect(page.getByRole("link",{name:"성장 그래프 →",exact:true})).toBeVisible();
   await expect(page.getByRole("link",{name:"운동 점수 · 근육 밸런스 →",exact:true})).toBeVisible();
@@ -23,7 +23,7 @@ test("런처 앱 이동·공통 메뉴·운동 기능 진입", async ({ page }) 
   await expect(page.getByRole("navigation",{name:"루틴 도구"}).getByRole("link",{name:"오늘만 운동 변경",exact:true})).toBeVisible();
   await expect(page.getByRole("navigation",{name:"루틴 도구"}).getByRole("link",{name:"루틴 설정 · 프리셋",exact:true})).toBeVisible();
   await page.goto("/exercises");
-  await expect(page.getByRole("heading",{name:"운동 종목 리스트",exact:true})).toBeVisible();
+  await expect(page.getByRole("heading",{name:"운동 종목",exact:true})).toBeVisible();
 });
 
 test("식단·주간·커뮤니티 기능 진입", async ({ page }) => {

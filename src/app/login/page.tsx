@@ -32,23 +32,16 @@ export default async function LoginPage({
     redirect(await destinationAfterLogin(redirectTo));
   }
 
+  // 촘촘한 입구 화면(2026-09-16 8단계) — 로고 + 큰 제목 + 폼 한 줄기. 설명 문장은 뺐다.
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-8 bg-zinc-50 dark:bg-zinc-900 px-6 py-12">
-      <Link className="flex items-center" href="/">
-        <Logo size={44} wordClassName="text-lg" />
-      </Link>
-
-      <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          로그인하고 내 루틴 시작하기
-        </h1>
-        <p className="max-w-sm text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          회원별로 루틴을 저장하면 매일 그날 해야 할 운동을 메인에서 바로 확인할
-          수 있습니다.
-        </p>
-      </div>
-
-      <AuthForm redirectTo={redirectTo} initialError={oauthError ?? null} />
-    </main>
+    <div className="app-page">
+      <main className="app-container flex min-h-dvh max-w-sm flex-col justify-center gap-5 py-10">
+        <Link className="flex items-center self-start px-1" href="/">
+          <Logo size={36} wordClassName="text-lg" />
+        </Link>
+        <h1 className="app-title px-1">내 루틴 시작하기</h1>
+        <AuthForm redirectTo={redirectTo} initialError={oauthError ?? null} />
+      </main>
+    </div>
   );
 }

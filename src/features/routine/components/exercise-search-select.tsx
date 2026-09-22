@@ -267,9 +267,9 @@ export function ExerciseSearchSelect({
                         <button
                           type="button"
                           onClick={() => pick(o.id)}
-                          className={`flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left transition hover:bg-emerald-50 dark:hover:bg-emerald-950/30 ${
+                          className={`flex w-full items-center justify-between gap-2 px-3 py-2.5 text-left transition hover:bg-brand-soft ${
                             o.id === value
-                              ? "bg-emerald-50/60 dark:bg-emerald-950/20"
+                              ? "bg-brand-soft"
                               : ""
                           }`}
                         >
@@ -285,7 +285,7 @@ export function ExerciseSearchSelect({
                             <Check
                               aria-hidden="true"
                               size={16}
-                              className="shrink-0 text-emerald-600"
+                              className="shrink-0 text-brand"
                             />
                           ) : null}
                         </button>
@@ -332,7 +332,7 @@ function FilterChip({
           ? "border-transparent text-white"
           : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300"
       }`}
-      style={active ? { backgroundColor: color ?? "#059669" } : undefined}
+      style={active ? { backgroundColor: color ?? "#087f5b" } : undefined}
     >
       {color ? (
         <span

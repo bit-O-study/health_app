@@ -20,9 +20,9 @@ export function MyTrainerComments({ comments }: { comments: TrainerComment[] }) 
   return (
     <section
       data-testid="my-trainer-comments"
-      className="rounded-2xl border border-emerald-200 bg-emerald-50/60 p-4 dark:border-emerald-900/50 dark:bg-emerald-950/20"
+      className="rounded-2xl border border-brand/40 bg-brand-soft p-4"
     >
-      <p className="flex items-center gap-1.5 text-xs font-bold text-emerald-800 dark:text-emerald-300">
+      <p className="flex items-center gap-1.5 text-xs font-bold text-brand">
         <MessageSquareQuote aria-hidden="true" size={14} />
         트레이너 코멘트
       </p>
@@ -32,7 +32,7 @@ export function MyTrainerComments({ comments }: { comments: TrainerComment[] }) 
             <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-800 dark:text-zinc-100">
               {c.body}
             </p>
-            <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
+            <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
               {c.fromName} · {commentDateLabel(c.createdAt)}
             </p>
           </li>

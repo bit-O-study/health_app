@@ -41,7 +41,7 @@ test("미등록 일차는 다른 일차 운동을 공유하지 않는다(삭제 
   // 오늘(화요일/1일차) 메인 화면 — 1일차 하체는 비어 있는데 폴백으로 월요일 운동이 뜬다.
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(800);
-  const main = page.locator("ul.space-y-2").filter({ hasText: "레그프레스" });
+  const main = page.locator('[data-testid="today-main-list"]').filter({ hasText: "레그프레스" });
   // 폴백이 살아있으면 화요일에 월요일의 레그프레스가 보인다(= 공유 = 누수 원인).
   const legPressVisible = await main.count();
   console.log("화요일 화면에 월요일 레그프레스 표시(폴백):", legPressVisible);

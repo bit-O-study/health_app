@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -10,7 +10,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { Logo } from "@/features/brand/logo";
 import { NotificationBell } from "@/features/notifications/notification-center";
 import { PermissionNudge } from "@/features/notifications/components/permission-nudge";
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -25,7 +24,6 @@ import {
   baseTonesOfBlocks,
   todayAddedBlocks,
 } from "@/features/routine/plan-blocks";
-import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { routineDisplayLabel } from "@/features/routine/routine-label";
 import {
   getDailyPlanForDate,
@@ -62,12 +60,6 @@ import {
   TodayEditBar,
 } from "@/features/routine/components/today-edit-scope";
 import { UpcomingSevenDaysGrid } from "@/features/routine/components/upcoming-seven-days";
-import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
-import { getWeeklyReport } from "@/features/routine/weekly-report-data";
-import { getMyWeeklyTraining } from "@/features/routine/weekly-training-data";
-import type { WeeklyTrainingView } from "@/features/routine/weekly-training-view";
-import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
-import type { WeeklyReport } from "@/features/routine/weekly-report";
 import { absoluteUrl, siteConfig } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -86,18 +78,19 @@ export const metadata: Metadata = {
 };
 
 function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
+  // 아이폰 큰 제목 구조 — 로고 막대 대신 오른쪽 위 버튼만 두고, 제목은 본문 맨 위 큰 글씨(2026-09-15).
   return (
-    <header className="app-header top-[env(safe-area-inset-top)]">
-      <nav className="mx-auto flex h-16 w-full max-w-5xl items-center justify-between px-4 sm:px-10">
-        <Link className="flex items-center" href="/routine">
-          <Logo size={36} />
-        </Link>
-
+    <header className="mx-auto w-full max-w-3xl px-4 pt-4 sm:px-6">
+      {/* 랜드마크 이름에 "운동"을 쓰지 않는다 — 운동 고르기 목록의 aria-label="운동"과
+          겹쳐 접근성 트리에서 두 개로 잡힌다(2026-09-19 E2E 회귀). */}
+      <nav aria-label="트레이닝 도구" className="flex min-h-11 items-center justify-between">
+        <span className="app-eyebrow">나의 트레이닝</span>
         <div className="flex items-center gap-2">
           {isLoggedIn ? (
             <>
-              {/* 운동 찾기(자연어 운동 검색) — 로그인 후에만 노출. */}
-              <ExerciseFinder />
+              {/* 운동 찾기(자연어 검색)는 하단 '운동찾기' 칸이 가리키는 `/exercises` 로
+                  옮겼다(2026-09-21) — 여기에 두면 같은 화면에 이름이 거의 같은 버튼이
+                  둘이 돼서 어느 쪽이 무엇인지 알 수 없었다. */}
               <NotificationBell />
               {/* 설정·다짐은 홈탭으로 이동함(운동탭은 오늘 운동에 집중). */}
             </>
@@ -146,20 +139,16 @@ export default async function Home() {
   // 오늘 계획도 profile·routine 과 독립적이므로 최초 데이터 왕복에 함께 시작한다.
   const todayYmd = seoulYmd();
   if (user) warmTodayExercisesData(todayYmd);
-  const [profile, routine, dailyPlan, weekly, trainerComments, training] = user
+  // '이번 주' 카드는 홈에만 둔다(2026-09-15 깔끔·촘촘 — 운동탭에서 같은 카드를 두 번 보지 않게).
+  const [profile, routine, dailyPlan, trainerComments] = user
     ? await Promise.all([
         getUserProfile(),
         getUserRoutine(),
         getDailyPlanForDate(todayYmd),
-        // 주간 요약도 프로필·루틴과 독립이라 **같은 물결**에 실어 보낸다.
-        // 뒤에 따로 부르면 서울↔싱가포르 왕복이 한 번 더 쌓인다.
-        getWeeklyReport(todayYmd),
         // 트레이너 코멘트도 같은 물결에. 대부분 0건이라 화면에 아무것도 안 그린다.
         getMyTrainerComments(3),
-        // 훈련 분석은 주간 요약과 같은 완료 기록을 본다(React.cache 로 왕복 1회).
-        getMyWeeklyTraining(),
       ])
-    : [null, null, [], null, [], null];
+    : [null, null, [], []];
 
   // 로그인했는데 온보딩 전이면 성별·경력 → 추천 루틴 단계로.
   if (user && !profile) {
@@ -176,8 +165,9 @@ export default async function Home() {
     <div className="app-page">
       <HeaderBar isLoggedIn={Boolean(user)} />
 
-      <main className="app-container max-w-5xl sm:px-10 sm:py-12">
-        {user ? (
+      <main className="app-container">
+        {/* 권한 한 줄은 큰 제목 아래로 옮겼다(TodayWorkout 안) — 제목보다 먼저 보이지 않게. */}
+        {user && !routine ? (
           <div className="mb-4">
             <PermissionNudge />
           </div>
@@ -197,8 +187,6 @@ export default async function Home() {
             routine={routine}
             profile={profile}
             dailyPlan={dailyPlan}
-            weekly={weekly}
-            training={training}
           />
         )}
       </main>
@@ -209,7 +197,7 @@ export default async function Home() {
 function LoggedOutHero() {
   return (
     <section className="flex flex-col items-start gap-6 py-10">
-      <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
+      <span className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand">
         <Sparkles aria-hidden="true" size={14} />
         Personalized workout
       </span>
@@ -224,7 +212,7 @@ function LoggedOutHero() {
       </p>
       <div className="flex flex-wrap items-center gap-3">
         <Link
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
           href="/login"
         >
           로그인하고 시작하기
@@ -244,7 +232,7 @@ function LoggedOutHero() {
 function NoRoutinePrompt() {
   return (
     <section className="app-card flex flex-col items-center gap-5 border-dashed px-6 py-16 text-center">
-      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
+      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-brand-soft text-brand">
         <CalendarDays aria-hidden="true" size={28} />
       </span>
       <div className="space-y-2">
@@ -257,7 +245,7 @@ function NoRoutinePrompt() {
         </p>
       </div>
       <Link
-        className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-emerald-600 px-6 text-sm font-semibold text-white transition hover:bg-emerald-500"
+        className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-6 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
         href="/settings/routine"
       >
         <Sparkles aria-hidden="true" size={17} />
@@ -271,8 +259,6 @@ function TodayWorkout({
   routine,
   profile,
   dailyPlan,
-  weekly,
-  training,
 }: {
   routine: {
     splits: number;
@@ -289,10 +275,6 @@ function TodayWorkout({
   };
   profile: UserProfile | null;
   dailyPlan: DailyPlanRow[];
-  /** 로그인 전/집계 실패 시 null — 없는 카드는 그리지 않는다. */
-  weekly: WeeklyReport | null;
-  /** 이번 주 부위별 훈련량. 같은 이유로 null 이면 안 그린다. */
-  training: WeeklyTrainingView | null;
 }) {
   const { preset, variant } = resolveRoutine(
     routine.splits,
@@ -436,22 +418,22 @@ function TodayWorkout({
   });
 
   return (
-    <div className="space-y-6 sm:space-y-8">
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
-        {/* 'Today' 눈썹 라벨은 뺐다 — 바로 아래 h1 이 같은 말을 한다. */}
-        <div>
-          <h1 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
-            오늘의 운동
-          </h1>
-          <p className="mt-1.5 text-xs text-zinc-600 dark:text-zinc-400 sm:mt-2 sm:text-sm">
-            {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
-          </p>
-        </div>
+    <div className="space-y-5">
+      {/* 아이폰 큰 제목 — 날짜·루틴 한 줄이 위, 제목이 아래 */}
+      <div className="px-1">
+        <p className="truncate text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
+        </p>
+        <h1 className="app-title">
+          오늘의 운동
+        </h1>
       </div>
 
+      <PermissionNudge />
+
       {/* 오늘 카드 — 바탕은 공통 표면, 부위 색은 배지·점(TodayFocusMenu)에만. */}
-      <section className="app-card p-6 sm:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <section className="app-card border-t-4 border-t-brand p-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             {isRest ? (
               <Moon
@@ -476,7 +458,7 @@ function TodayWorkout({
         </div>
 
         {isRest ? (
-          <p className="mt-5 text-base leading-7 text-zinc-600 dark:text-zinc-400">
+          <p className="mt-1.5 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
             {restedToday
               ? "오늘은 휴식으로 전환했습니다. 루틴이 하루씩 미뤄져 내일 이어집니다."
               : "오늘은 휴식일입니다. 가벼운 스트레칭이나 걷기로 회복에 집중하세요."}
@@ -491,18 +473,18 @@ function TodayWorkout({
                 )
               : planToday.muscles;
             return (
-              <div className="mt-6">
-                <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                  자극 부위
-                </p>
-                {/* 왼쪽: 자극 부위를 인체(앞·뒤)에 색칠 / 오른쪽: 부위 이름 텍스트(상단 정렬) */}
-                <div className="mt-3 flex items-start gap-3">
-                  <DayMuscleMap names={dayMuscles} width={44} />
-                  <div className="flex flex-1 flex-wrap gap-1.5">
+              <div className="mt-1.5">
+                {/* 촘촘하게 — 작은 인체 그림 + 라벨·부위 이름을 한 덩어리로(자극 부위 글자는 유지). */}
+                <div className="flex items-center gap-3">
+                  <DayMuscleMap names={dayMuscles} width={30} />
+                  <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
+                    <span className="mr-0.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                      자극 부위
+                    </span>
                     {dayMuscles.map((muscle) => (
                       <span
                         key={muscle}
-                        className="app-field rounded-full border px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300"
+                        className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300"
                       >
                         {muscle}
                       </span>
@@ -551,18 +533,6 @@ function TodayWorkout({
             <TodayEditBar />
           </div>
         )}
-
-        {/* 이번 주 한눈에 — 홈·캘린더와 **같은 카드/같은 집계**의 간단형.
-            운동탭이 '오늘'만 말하고 끝나면 이번 주 흐름이 안 보인다. */}
-        {weekly ? <WeeklyReportCard report={weekly} compact /> : null}
-
-        {/* 어느 부위가 비었는지 — 오늘 무엇을 담을지 정하는 그 자리에 둔다. */}
-        {training ? (
-          <WeeklyTrainingSummary
-            regions={training.regions}
-            weekSets={training.weekSets}
-          />
-        ) : null}
 
         {/* 다가오는 7일 — 드래그앤드랍으로 순서 변경, 변경 즉시 루틴에 저장 */}
         <UpcomingSevenDaysGrid

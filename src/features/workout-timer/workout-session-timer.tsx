@@ -603,7 +603,7 @@ export function WorkoutSessionTimer({
     );
     if (allDone) {
       return (
-        <span className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-100 px-4 text-base font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+        <span className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-brand-soft px-4 text-base font-bold text-brand">
           <CheckCircle2 aria-hidden="true" size={16} />
           수고하셨습니다
         </span>
@@ -622,7 +622,7 @@ export function WorkoutSessionTimer({
       <button
         type="button"
         onClick={start}
-        className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-500 active:scale-[0.99]"
+        className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
       >
         <Play aria-hidden="true" size={18} />
         운동 시작
@@ -655,15 +655,15 @@ export function WorkoutSessionTimer({
     <>
       {hideVideos ? (
         /* 영상 끄기 모드: 운동모드(가이드)가 없으니 시간 + 중지/시작/저장을 밖에 표시. */
-        <div className="flex w-full items-center gap-2 rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/40">
+        <div className="flex w-full items-center gap-2 rounded-2xl border border-brand/40 bg-brand-soft px-4 py-3 shadow-sm">
           <Timer
             aria-hidden="true"
             size={16}
-            className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
+            className={`text-brand ${running ? "animate-pulse" : ""}`}
           />
           <LiveElapsed
             state={state}
-            className="flex-1 font-mono text-base font-bold tabular-nums text-emerald-900 dark:text-emerald-100"
+            className="flex-1 font-mono text-base font-bold tabular-nums text-brand"
           />
           {running ? (
             <button
@@ -671,7 +671,7 @@ export function WorkoutSessionTimer({
               aria-label="일시정지"
               title="일시정지"
               onClick={pause}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Pause aria-hidden="true" size={14} />
             </button>
@@ -681,7 +681,7 @@ export function WorkoutSessionTimer({
               aria-label="재개"
               title="재개"
               onClick={resume}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Play aria-hidden="true" size={14} />
             </button>
@@ -691,7 +691,7 @@ export function WorkoutSessionTimer({
             aria-label="정지하고 시간 저장"
             title="정지하고 시간 저장"
             onClick={requestSave}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+            className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
           >
             <Save aria-hidden="true" size={13} />
           </button>
@@ -705,7 +705,7 @@ export function WorkoutSessionTimer({
             resume();
             setGuided(true);
           }}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-500 active:scale-[0.99]"
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
         >
           <Play aria-hidden="true" size={18} />
           다시 운동하기

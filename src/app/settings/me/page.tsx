@@ -1,18 +1,8 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import {
-  Activity,
-  ArrowRight,
-  ChevronLeft,
-  Dumbbell,
-  Flame,
-  LogOut,
-  Scale,
-  Trophy,
-  Utensils,
-} from "lucide-react";
+import { LogOut } from "lucide-react";
 
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
+import { Section } from "@/components/ui/compact";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { signOut } from "@/features/auth/actions";
 import { WithdrawButton } from "@/features/account/components/withdraw-button";
@@ -84,31 +74,22 @@ export default async function MyPage() {
     .charAt(0)
     .toUpperCase();
 
+  // 공통 머리글 + 촘촘한 카드(2026-09-16 8단계) — 섹션 라벨은 카드 밖, 숫자 칸은 한 장 안에.
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        설정
-      </BackLink>
-
-      <h1 className="mt-6 mb-6 text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-        마이페이지
-      </h1>
-
-      {/* 프로필 헤더 */}
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-        <div className="flex items-center gap-4">
-          <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 text-2xl font-extrabold text-white">
+    <div className="app-page">
+      <PageHeader title="마이페이지" back="설정" />
+      <main className="app-container space-y-4">
+        {/* 프로필 */}
+        <section className="app-card flex items-center gap-3 p-3">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand text-xl font-bold text-white dark:text-zinc-950">
             {initial}
           </span>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-lg font-bold text-zinc-950 dark:text-zinc-100">
+            <p className="truncate text-base font-semibold text-zinc-950 dark:text-zinc-100">
               {displayName}
             </p>
-            <p className="truncate text-sm text-zinc-500 dark:text-zinc-400">
-              {user.email}
-            </p>
-            <div className="mt-1.5 flex flex-wrap gap-1.5">
+            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{user.email}</p>
+            <div className="mt-1 flex flex-wrap gap-1">
               {genderLabel ? <Badge>{genderLabel}</Badge> : null}
               {expLabel ? <Badge>{expLabel}</Badge> : null}
               {bodyTypeLabel ? <Badge>{bodyTypeLabel}</Badge> : null}
@@ -116,160 +97,100 @@ export default async function MyPage() {
             </div>
             <NicknameEditor initial={profile.nickname ?? ""} />
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* 신체 정보 */}
-      <section className="mt-6">
-        <SectionTitle icon={<Scale size={16} />} title="신체 정보" href="/settings/profile" cta="기록" />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="키" value={profile.heightCm != null ? `${profile.heightCm}` : "—"} unit="cm" />
-          <Stat label="몸무게" value={profile.weightKg != null ? `${profile.weightKg}` : "—"} unit="kg" />
-          <Stat
-            label="BMI"
-            value={bmi != null ? bmi.toFixed(1) : "—"}
-            unit={bmi != null ? bmiCategory(bmi) : ""}
-          />
-          <Stat
-            label="체지방률"
-            value={profile.bodyFatPct != null ? `${profile.bodyFatPct}` : "—"}
-            unit="%"
-          />
-          <Stat
-            label="근육량"
-            value={profile.muscleMassKg != null ? `${profile.muscleMassKg}` : "—"}
-            unit="kg"
-          />
-        </div>
-      </section>
-
-      {/* 오늘 식단 */}
-      <section className="mt-6">
-        <SectionTitle icon={<Utensils size={16} />} title="오늘 식단" href="/diet" cta="식단" />
-        <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-          <div className="mb-1.5 flex items-baseline justify-between">
-            <span className="text-sm font-semibold text-zinc-600 dark:text-zinc-300">
-              섭취 칼로리
-            </span>
-            <span className="text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
-              {consumed}
-              <span className="text-xs font-medium text-zinc-400"> / {target.kcal} kcal</span>
-            </span>
-          </div>
-          <div className="h-2.5 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-700">
-            <div
-              className="h-full rounded-full bg-emerald-500"
-              style={{ width: `${kcalPct}%` }}
+        {/* 신체 정보 */}
+        <Section label="신체 정보" action={{ href: "/settings/profile", label: "기록" }}>
+          <div className="app-card grid grid-cols-3 gap-y-2 py-2.5">
+            <Stat label="키" value={profile.heightCm != null ? `${profile.heightCm}` : "—"} unit="cm" />
+            <Stat label="몸무게" value={profile.weightKg != null ? `${profile.weightKg}` : "—"} unit="kg" />
+            <Stat
+              label="BMI"
+              value={bmi != null ? bmi.toFixed(1) : "—"}
+              unit={bmi != null ? bmiCategory(bmi) : ""}
+            />
+            <Stat
+              label="체지방률"
+              value={profile.bodyFatPct != null ? `${profile.bodyFatPct}` : "—"}
+              unit="%"
+            />
+            <Stat
+              label="근육량"
+              value={profile.muscleMassKg != null ? `${profile.muscleMassKg}` : "—"}
+              unit="kg"
             />
           </div>
-          <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
-            {logs.length > 0
-              ? `오늘 ${logs.length}개 기록 · 목표까지 ${Math.max(0, target.kcal - consumed)} kcal`
-              : "아직 오늘 기록이 없어요 — 식단을 올려보세요"}
-          </p>
-        </div>
-      </section>
+        </Section>
 
-      {/* 운동 요약 */}
-      <section className="mt-6">
-        <SectionTitle icon={<Dumbbell size={16} />} title="운동 요약" href="/settings/score" cta="운동 점수" />
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="운동 점수" value={`${score.score}`} unit="점" icon={<Trophy size={15} />} tone="amber" />
-          <Stat label="연속" value={`${score.currentStreak}`} unit="일" icon={<Flame size={15} />} tone="rose" />
-          <Stat label="최근 7일" value={`${score.last7DayCount}`} unit="일" icon={<Activity size={15} />} tone="emerald" />
-          <Stat label="총 완료" value={`${score.totalCount}`} unit="건" icon={<Activity size={15} />} tone="indigo" />
-        </div>
-      </section>
+        {/* 오늘 식단 */}
+        <Section label="오늘 식단" action={{ href: "/diet", label: "식단" }}>
+          <div className="app-card p-3">
+            <div className="mb-1.5 flex items-baseline justify-between">
+              <span className="text-sm text-zinc-600 dark:text-zinc-300">섭취 칼로리</span>
+              <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+                {consumed}
+                <span className="text-xs font-medium text-zinc-400"> / {target.kcal} kcal</span>
+              </span>
+            </div>
+            <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
+              <div className="h-full rounded-full bg-brand" style={{ width: `${kcalPct}%` }} />
+            </div>
+            <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+              {logs.length > 0
+                ? `${logs.length}개 기록 · ${Math.max(0, target.kcal - consumed)} kcal 남음`
+                : "기록 없음"}
+            </p>
+          </div>
+        </Section>
 
-      {/* 계정 — 하단에 조용히(로그아웃·회원탈퇴), 양옆으로 나란히 */}
-      <section className="mt-12 flex items-center justify-center gap-3 border-t border-zinc-100 pt-6 dark:border-zinc-800">
-        <form action={signOut}>
-          <button
-            type="submit"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 underline-offset-2 transition hover:text-zinc-600 hover:underline dark:text-zinc-500 dark:hover:text-zinc-300"
-          >
-            <LogOut aria-hidden="true" size={13} />
-            로그아웃
-          </button>
-        </form>
-        <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
-          |
-        </span>
-        <WithdrawButton />
-      </section>
-    </main>
+        {/* 운동 요약 */}
+        <Section label="운동 요약" action={{ href: "/settings/score", label: "운동 점수" }}>
+          <div className="app-card grid grid-cols-4 divide-x divide-[var(--line)] py-2.5">
+            <Stat label="운동 점수" value={`${score.score}`} unit="점" />
+            <Stat label="연속" value={`${score.currentStreak}`} unit="일" />
+            <Stat label="최근 7일" value={`${score.last7DayCount}`} unit="일" />
+            <Stat label="총 완료" value={`${score.totalCount}`} unit="건" />
+          </div>
+        </Section>
+
+        {/* 계정 — 하단에 조용히(로그아웃·회원탈퇴), 양옆으로 나란히 */}
+        <section className="flex items-center justify-center gap-3 pt-4">
+          <form action={signOut}>
+            <button
+              type="submit"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 underline-offset-2 transition hover:text-zinc-600 hover:underline dark:text-zinc-500 dark:hover:text-zinc-300"
+            >
+              <LogOut aria-hidden="true" size={13} />
+              로그아웃
+            </button>
+          </form>
+          <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
+            |
+          </span>
+          <WithdrawButton />
+        </section>
+      </main>
+    </div>
   );
 }
 
 function Badge({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+    <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
       {children}
     </span>
   );
 }
 
-function SectionTitle({
-  icon,
-  title,
-  href,
-  cta,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  href: string;
-  cta: string;
-}) {
+/** 숫자 한 칸 — 라벨 위, 숫자 아래. 한 장짜리 카드 격자 안에 놓는다. */
+function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
-    <div className="mb-2 flex items-center justify-between">
-      <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-        <span className="text-emerald-600 dark:text-emerald-400">{icon}</span>
-        {title}
-      </h2>
-      <Link
-        href={href}
-        className="inline-flex items-center gap-0.5 text-xs font-semibold text-zinc-400 transition hover:text-emerald-600 dark:hover:text-emerald-400"
-      >
-        {cta}
-        <ArrowRight aria-hidden="true" size={13} />
-      </Link>
-    </div>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  unit,
-  icon,
-  tone = "zinc",
-}: {
-  label: string;
-  value: string;
-  unit?: string;
-  icon?: React.ReactNode;
-  tone?: "zinc" | "amber" | "rose" | "emerald" | "indigo";
-}) {
-  const tones = {
-    zinc: "text-zinc-400",
-    amber: "text-amber-600 dark:text-amber-400",
-    rose: "text-rose-500",
-    emerald: "text-emerald-600 dark:text-emerald-400",
-    indigo: "text-indigo-600 dark:text-indigo-400",
-  } as const;
-  return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-      <p className="flex items-center gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-        {icon ? <span className={tones[tone]}>{icon}</span> : null}
-        {label}
-      </p>
-      <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-100">
+    <div className="min-w-0 px-2 text-center">
+      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-100">
         {value}
-        {unit ? (
-          <span className="ml-1 text-xs font-medium text-zinc-400">{unit}</span>
-        ) : null}
+        {unit ? <span className="ml-0.5 text-xs font-medium text-zinc-400">{unit}</span> : null}
       </p>
     </div>
   );
 }
-

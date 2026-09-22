@@ -111,7 +111,7 @@ export function ConfirmDialog({
   const confirmBtn =
     tone === "danger"
       ? "bg-red-600 text-white hover:bg-red-500"
-      : "bg-emerald-600 text-white hover:bg-emerald-500";
+      : "bg-brand text-white dark:text-zinc-950 hover:bg-brand/90";
 
   return createPortal(
     <div

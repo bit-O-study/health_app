@@ -7,15 +7,12 @@ import {
   ChevronLeft,
   ChevronRight,
   Dumbbell,
-  Flame,
   Heart,
-  Scale,
   TrendingDown,
   TrendingUp,
-  Utensils,
-  Weight,
 } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
@@ -132,56 +129,57 @@ export default async function CalendarPage({
   while (cells.length % 7 !== 0) cells.push(null);
 
   return (
-    <main className="app-page app-container">
-      <div className="mb-4 flex items-center justify-between">
-        <Link
-          href={isWeek ? `/calendar?view=week&d=${week.previous}` : `/calendar?m=${monthParam(prev)}${view === "stats" ? "&view=stats" : ""}`}
-          aria-label={isWeek ? "이전 주" : "이전 달"}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-        >
-          <ChevronLeft aria-hidden="true" size={20} />
-        </Link>
-        <h1 className="text-lg font-bold text-zinc-950 dark:text-zinc-50">
-          {isWeek ? `${week.from} ~ ${week.to}` : `${year}년 ${month0 + 1}월`}
-        </h1>
-        <Link
-          href={isWeek ? `/calendar?view=week&d=${week.next}` : `/calendar?m=${monthParam(next)}${view === "stats" ? "&view=stats" : ""}`}
-          aria-label={isWeek ? "다음 주" : "다음 달"}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-        >
-          <ChevronRight aria-hidden="true" size={20} />
-        </Link>
-      </div>
-
-      {/* 걸음수 동기화(네이티브) + 생리 기록(여성, 설정에서 캘린더로 이동). */}
-      <div className="mb-3 flex items-center justify-end gap-2">
+    <div className="app-page">
+    {/* 달 이동은 큰 제목 줄 오른쪽으로 — 따로 한 줄을 쓰지 않는다(2026-09-16 촘촘하게). */}
+    <PageHeader title="캘린더">
+      <Link
+        href={isWeek ? `/calendar?view=week&d=${week.previous}` : `/calendar?m=${monthParam(prev)}${view === "stats" ? "&view=stats" : ""}`}
+        aria-label={isWeek ? "이전 주" : "이전 달"}
+        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+      >
+        <ChevronLeft aria-hidden="true" size={18} />
+      </Link>
+      <h2 className="min-w-[5.5rem] text-center text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+        {isWeek ? `${week.from} ~ ${week.to}` : `${year}년 ${month0 + 1}월`}
+      </h2>
+      <Link
+        href={isWeek ? `/calendar?view=week&d=${week.next}` : `/calendar?m=${monthParam(next)}${view === "stats" ? "&view=stats" : ""}`}
+        aria-label={isWeek ? "다음 주" : "다음 달"}
+        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+      >
+        <ChevronRight aria-hidden="true" size={18} />
+      </Link>
+    </PageHeader>
+    <main className="app-container space-y-5">
+      {/* 걸음수 동기화(네이티브) + 생리 기록(여성). 둘 다 없으면 줄째 숨긴다. */}
+      <div className="flex items-center justify-end gap-2 empty:hidden">
         {profile?.gender === "female" ? (
           <Link
             href="/cycle"
-            className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3 text-xs font-bold text-rose-600 transition hover:bg-rose-100 dark:border-rose-900 dark:bg-rose-950/40 dark:text-rose-300"
+            className="app-press inline-flex h-7 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
-            <Heart aria-hidden="true" size={13} />
+            <Heart aria-hidden="true" size={12} />
             생리 기록
           </Link>
         ) : null}
         <StepsSync debug={debug} />
       </div>
 
-      {/* 캘린더 */}
-      <div className={view === "stats" ? "hidden" : "app-card p-2 sm:p-3"}>
+      {/* 캘린더 — 칸 높이 52px(날짜 + 섭취/소비 두 줄이 딱 들어가는 높이) */}
+      <div className={view === "stats" ? "hidden" : "app-card px-2 py-4"}>
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div
               key={w}
-              className={`pb-1 text-center text-[11px] font-bold ${
-                i === 5 ? "text-sky-600" : i === 6 ? "text-rose-500" : "text-zinc-400"
+              className={`pb-1 text-center text-xs ${
+                i === 6 ? "text-danger" : "text-zinc-400 dark:text-zinc-500"
               }`}
             >
               {w}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-0.5">
+        <div className="grid grid-cols-7">
           {cells.map((day, idx) => {
             if (day === null) return <div key={`e${idx}`} />;
             const date = isWeek ? week.dates[idx] : ymd(year, month0 + 1, day);
@@ -195,20 +193,15 @@ export default async function CalendarPage({
             const isPeriod = periodDays.has(date);
             const isPredicted = predictedDays.has(date);
             const mMark = missionMarks[date];
+            // 일요일·공휴일만 빨강. 토요일 파랑은 뺐다(색을 줄여 날짜 기록이 먼저 보이게).
             const dayColor = isHol || col === 6
-              ? "text-rose-500 dark:text-rose-400"
-              : col === 5
-                ? "text-sky-600 dark:text-sky-400"
-                : "text-zinc-700 dark:text-zinc-300";
+              ? "text-danger"
+              : "text-zinc-800 dark:text-zinc-200";
             return (
               <Link
                 key={date}
                 href={`/calendar/${date}`}
-                className={`relative flex min-h-[64px] flex-col items-center rounded-lg border p-1 transition hover:border-emerald-300 dark:hover:border-emerald-700 ${
-                  isToday
-                    ? "border-emerald-400 bg-emerald-50/50 dark:border-emerald-600 dark:bg-emerald-950/30"
-                    : "border-transparent"
-                }`}
+                className="relative flex min-h-[3.25rem] flex-col items-center rounded-lg px-0.5 py-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
               >
                 {(isPeriod || isPredicted) && (
                   <Heart
@@ -224,16 +217,16 @@ export default async function CalendarPage({
                 {s?.didWeight ? (
                   <Dumbbell
                     aria-label="웨이트한 날"
-                    className="absolute bottom-0.5 right-0.5 text-emerald-500 dark:text-emerald-400"
-                    size={11}
+                    className="absolute bottom-0.5 right-0.5 text-brand"
+                    size={10}
                   />
                 ) : null}
                 {mMark ? (
                   <span
                     aria-label={`미션 달성 ${mMark.pct}%`}
-                    className={`absolute left-0.5 top-0.5 text-[11px] font-black leading-none ${
+                    className={`absolute left-0.5 top-0.5 text-xs font-bold leading-none ${
                       mMark.marker === "circle"
-                        ? "text-emerald-500"
+                        ? "text-brand"
                         : mMark.marker === "triangle"
                           ? "text-amber-500"
                           : "text-rose-400"
@@ -242,29 +235,30 @@ export default async function CalendarPage({
                     {MARKER_SYMBOL[mMark.marker]}
                   </span>
                 ) : null}
+                {/* 오늘은 아이폰 달력처럼 브랜드색 동그라미 안에 숫자. */}
                 <span
-                  className={`text-xs font-bold ${
-                    isToday ? "text-emerald-700 dark:text-emerald-400" : dayColor
+                  className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold tabular-nums ${
+                    isToday ? "bg-brand text-white dark:text-zinc-950" : dayColor
                   }`}
                 >
                   {isWeek ? Number(date.slice(8)) : day}
                 </span>
                 {holiday ? (
-                  <span className="w-full truncate text-center text-[8px] font-semibold leading-tight text-rose-500 dark:text-rose-400">
+                  <span className="w-full truncate text-center text-xs leading-4 text-danger">
                     {holiday.name}
                   </span>
                 ) : bok ? (
-                  <span className="w-full truncate text-center text-[8px] font-semibold leading-tight text-orange-500 dark:text-orange-400">
+                  <span className="w-full truncate text-center text-xs leading-4 text-zinc-500 dark:text-zinc-400">
                     {bok.name}
                   </span>
                 ) : null}
                 {s && s.intake > 0 ? (
-                  <span className="mt-0.5 text-[10px] font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                  <span className="text-xs leading-4 tabular-nums text-zinc-500 dark:text-zinc-400">
                     +{s.intake}
                   </span>
                 ) : null}
                 {s && s.burned > 0 ? (
-                  <span className="text-[10px] font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                  <span className="text-xs leading-4 tabular-nums text-brand">
                     -{s.burned}
                   </span>
                 ) : null}
@@ -274,44 +268,33 @@ export default async function CalendarPage({
         </div>
       </div>
 
-      {/* 월 요약 */}
-      <div className="mt-5 space-y-2">
-        <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
-          {isWeek ? "이번 주 요약" : "이번 달 요약"}
-        </h2>
-        <div className="grid grid-cols-2 gap-2">
-          <SummaryCard
-            icon={<Utensils size={16} />}
-            tone="amber"
-            label="총 섭취"
-            value={intakeTotal}
-          />
-          <SummaryCard
-            icon={<Flame size={16} />}
-            tone="emerald"
-            label="운동 소비"
-            value={workoutBurnedTotal}
-          />
+      {/* 월 요약 — 카드 4장을 한 장으로: 섭취·소비·수지 세 칸 + 체중 한 줄 */}
+      <section>
+        <h2 className="app-section-label">{isWeek ? "이번 주 요약" : "이번 달 요약"}</h2>
+        <div className="app-list">
+          <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5">
+            <SummaryStat label="총 섭취" value={intakeTotal} />
+            <SummaryStat label="운동 소비" value={workoutBurnedTotal} />
+            <NetStat spent={spent} />
+          </div>
+          <div>
+            <WeightRow delta={weightDelta} measuredAt={weightMeasuredAt} />
+          </div>
         </div>
-        <NetCard spent={spent} />
-        <WeightCard delta={weightDelta} measuredAt={weightMeasuredAt} />
-      </div>
+      </section>
 
       {/* AI 다짐 짜주기 — 디버그 계정(헬쑤쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
-      {coachEnabled ? (
-        <div className="mt-4">
-          <CommitmentSuggestions />
-        </div>
-      ) : null}
+      {coachEnabled ? <CommitmentSuggestions /> : null}
     </main>
+    </div>
   );
 }
 
 /**
- * 체중 카드 — 데이터 있으면 현재 체중 + 직전 대비 증감(+ 언제 잰 값인지),
- * 없으면 기록하러 가기 버튼.
+ * 체중 한 줄 — 데이터 있으면 현재 체중 + 직전 대비 증감(+ 언제 잰 값인지),
+ * 없으면 기록하러 가기.
  */
-function WeightCard({
+function WeightRow({
   delta,
   measuredAt,
 }: {
@@ -323,13 +306,11 @@ function WeightCard({
     return (
       <Link
         href="/settings/profile"
-        className="flex items-center justify-between gap-2 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
+        className="app-row text-sm transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
       >
-        <span className="flex items-center gap-1">
-          <Weight size={15} className="shrink-0" />
-          체중 기록이 없어요
-        </span>
-        <span className="whitespace-nowrap">체형 기록하러 가기 →</span>
+        <span className="flex-1 text-zinc-500 dark:text-zinc-400">체중 기록이 없어요</span>
+        <span className="whitespace-nowrap font-semibold text-brand">기록하기</span>
+        <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-zinc-400" />
       </Link>
     );
   }
@@ -338,94 +319,73 @@ function WeightCard({
   const down = d !== null && d < 0;
   const up = d !== null && d > 0;
   const toneCls = down
-    ? "text-emerald-600 dark:text-emerald-400"
+    ? "text-brand"
     : up
-      ? "text-rose-600 dark:text-rose-400"
+      ? "text-danger"
       : "text-zinc-500 dark:text-zinc-400";
   return (
-    <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <span className="flex items-center gap-1 text-xs font-bold text-zinc-500 dark:text-zinc-400">
-        <Weight size={15} className="shrink-0" />
+    <div className="app-row justify-between">
+      <span className="flex items-baseline gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
         현재 체중
         {measuredAt ? (
-          <span className="ml-0.5 whitespace-nowrap text-[10px] font-semibold text-zinc-400 dark:text-zinc-500">
+          <span className="whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500">
             {shortDateLabel(measuredAt)} 측정
           </span>
         ) : null}
       </span>
       <span className="flex items-center gap-2">
-        <span className="whitespace-nowrap text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-          {delta.latestKg.toLocaleString()}
-          <span className="ml-0.5 text-xs font-semibold text-zinc-400">kg</span>
-        </span>
         {d === null ? (
-          <span className="text-[11px] font-semibold text-zinc-400">첫 기록</span>
+          <span className="text-xs font-semibold text-zinc-400">첫 기록</span>
         ) : (
-          <span className={`flex items-center gap-0.5 text-xs font-bold tabular-nums ${toneCls}`}>
+          <span className={`flex items-center gap-0.5 text-xs font-semibold tabular-nums ${toneCls}`}>
             {down ? (
-              <TrendingDown size={14} />
+              <TrendingDown aria-hidden="true" size={13} />
             ) : up ? (
-              <TrendingUp size={14} />
+              <TrendingUp aria-hidden="true" size={13} />
             ) : null}
             {d === 0 ? "변화 없음" : `${Math.abs(d)}kg ${down ? "감량" : "증가"}`}
           </span>
         )}
+        <span className="whitespace-nowrap text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
+          {delta.latestKg.toLocaleString()}
+          <span className="ml-0.5 text-xs font-medium text-zinc-400">kg</span>
+        </span>
       </span>
     </div>
   );
 }
 
-function SummaryCard({
-  icon,
-  tone,
+/** 요약 한 칸 — 라벨 위, 숫자 아래(kcal). */
+function SummaryStat({
   label,
   value,
+  tone = "text-zinc-950 dark:text-zinc-50",
 }: {
-  icon: React.ReactNode;
-  tone: "amber" | "emerald";
   label: string;
   value: number;
+  tone?: string;
 }) {
-  const toneCls = {
-    amber: "text-amber-600 dark:text-amber-400",
-    emerald: "text-emerald-600 dark:text-emerald-400",
-  }[tone];
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <span className={`flex items-center gap-1 text-[11px] font-bold ${toneCls}`}>
-        {icon}
-        {label}
-      </span>
-      <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+    <div className="min-w-0 px-2 text-center">
+      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {value.toLocaleString()}
-        <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
+        <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
       </p>
     </div>
   );
 }
 
 /** 칼로리 흑자/적자 = 운동 소비 − 총 섭취.
- *  소비가 더 많으면 '흑자'(초록, 양수), 섭취가 더 많으면 '적자'(빨강, 음수). 전체 너비 카드. */
-function NetCard({ spent }: { spent: number }) {
+ *  소비가 더 많으면 '흑자'(브랜드색, 양수), 섭취가 더 많으면 '적자'(위험색, 음수). */
+function NetStat({ spent }: { spent: number }) {
   const surplus = spent > 0; // 소비 > 섭취 → 흑자
   const deficit = spent < 0; // 섭취 > 소비 → 적자
-  const toneCls = surplus
-    ? "text-emerald-600 dark:text-emerald-400"
+  const tone = surplus
+    ? "text-brand"
     : deficit
-      ? "text-rose-600 dark:text-rose-400"
+      ? "text-danger"
       : "text-zinc-500 dark:text-zinc-400";
   const label = surplus ? "칼로리 흑자" : deficit ? "칼로리 적자" : "칼로리 균형";
-  return (
-    <div className="flex items-center justify-between gap-2 rounded-xl border border-zinc-200 bg-white px-4 py-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-      <span className={`flex items-center gap-1 text-xs font-bold ${toneCls}`}>
-        <Scale size={15} className="shrink-0" />
-        {label}
-      </span>
-      <span className={`whitespace-nowrap text-lg font-extrabold tabular-nums ${toneCls}`}>
-        {/* 흑자면 300, 적자면 -300 그대로 표기 */}
-        {spent.toLocaleString()}
-        <span className="ml-0.5 text-xs font-semibold text-zinc-400">kcal</span>
-      </span>
-    </div>
-  );
+  return <SummaryStat label={label} value={spent} tone={tone} />;
 }

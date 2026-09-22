@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
@@ -164,46 +164,30 @@ export default async function TodayConditioningPage({
   const warmupInitial = daily.warmup;
   const cooldownInitial = daily.cooldown;
 
+  // 공통 머리글(2026-09-16 8단계) — 긴 설명 두 문단은 "날짜 · 부위 · 오늘만" 한 줄로 줄였다.
+  // 오늘만 변경이 루틴에 영향이 없다는 안내(원칙 #2)는 실수를 막는 말이라 짧게 남긴다.
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 pb-10 pt-10 sm:px-8">
-      {/* 상단 인셋은 body(globals.css)가 이미 적용 — 여기선 헤더 여백(pt-10)만. */}
-      <Link
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-        href="/routine"
-      >
-        <ChevronLeft aria-hidden="true" size={16} />
-        메인으로
-      </Link>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          오늘만 운동 바꾸기
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          {dateLabel} ·{" "}
-          <strong>
-            {direct
-              ? "전체 운동에서 직접 담기"
-              : mainSections.length > 0
-                ? mainSections.map((s) => s.label).join(",")
-                : "선택 없음"}
-          </strong>
-          . 저장한 내용은 <strong>오늘만</strong> 반영되고 내일부터는 기본
-          루틴으로 돌아갑니다. 이미 완료 처리한 운동은 그대로 남습니다.
-        </p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          본운동 / 워밍업 / 마무리를 항목 비우고 저장하면 그 부위의 오늘
-          오버라이드가 제거됩니다.
-        </p>
-      </div>
+    <div className="app-page">
+    <PageHeader title="오늘만 운동 바꾸기" back="운동" backHref="/routine" />
+    <main className="app-container space-y-4">
+      <p className="px-1 text-sm text-zinc-500 dark:text-zinc-400">
+        {dateLabel} ·{" "}
+        <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+          {direct
+            ? "전체 운동에서 직접 담기"
+            : mainSections.length > 0
+              ? mainSections.map((s) => s.label).join(",")
+              : "선택 없음"}
+        </span>
+        {" "}· 오늘만 반영, 내일은 원래 루틴
+      </p>
 
       {!direct && mainSections.length === 0 ? (
-        <p className="app-card border-dashed p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
-          편집할 부위가 없습니다. 메인 화면 “오늘만 운동 바꾸기” 팝업에서 부위를
-          선택해 주세요.
+        <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          편집할 부위가 없습니다. 운동탭 “오늘만 운동 바꾸기”에서 부위를 선택해 주세요.
         </p>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {/* 본운동 — 오늘 선택 부위를 한 편집기에(부위는 태그로 구분, 추천/추가 버튼 1개) */}
           <DailyMainEditor
             sections={mainSections.map((s) => ({
@@ -255,17 +239,14 @@ export default async function TodayConditioningPage({
         </div>
       )}
 
-      <div className="mt-6 text-sm text-zinc-500 dark:text-zinc-400">
-        기본 루틴을 수정하려면{" "}
-        <Link
-          href="/plan"
-          className="font-semibold text-emerald-700 dark:text-emerald-400 hover:text-emerald-600 dark:hover:text-emerald-300"
-        >
-          /plan
+      <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">
+        기본 루틴은{" "}
+        <Link href="/plan" className="font-semibold text-brand">
+          운동 등록
         </Link>
-        {" "}
-        에서 부위별 설정을 바꾸세요.
-      </div>
+        에서 바꿔요.
+      </p>
     </main>
+    </div>
   );
 }

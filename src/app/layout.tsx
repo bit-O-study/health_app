@@ -3,6 +3,9 @@ import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+// 한글 본문 폰트. 글자 범위별로 잘린 woff2 라 화면에 나온 글자 조각만 받는다.
+// (예전엔 globals.css 에 이름만 적고 불러오는 코드가 없어 기기 기본 폰트로 나왔다.)
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
@@ -11,7 +14,6 @@ import { AppEventReporter } from "@/features/observability/components/app-event-
 import { BottomNav } from "@/components/bottom-nav";
 import { OfflineBanner } from "@/components/offline-banner";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
 import { AppSplash } from "@/features/brand/app-splash";
@@ -70,7 +72,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#059669",
+  themeColor: "#087f5b",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -121,9 +123,8 @@ export default async function RootLayout({
 }
 
 async function ConfiguredBottomNav() {
-  const [showCoach, groupMode] = await Promise.all([
-    isDebugFeatureEnabled("helssu-coach"),
-    getGroupMode(),
-  ]);
-  return <BottomNav showCoach={showCoach} groupTheme={groupMode === "gym"} />;
+  // 헬쑤쌤은 이제 하단바 칸이 아니라 **런처 격자의 앱**이다(2026-09-20) —
+  // 그래서 여기선 더 이상 디버그 플래그를 읽지 않는다. 홈(런처)이 직접 읽는다.
+  const groupMode = await getGroupMode();
+  return <BottomNav groupTheme={groupMode === "gym"} />;
 }

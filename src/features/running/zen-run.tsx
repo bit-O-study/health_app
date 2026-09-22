@@ -104,7 +104,7 @@ export function ZenRun() {
           <div className="pointer-events-none absolute left-4 top-[max(env(safe-area-inset-top),1rem)] z-20 flex flex-col items-start gap-1">
             <span
               ref={distRef}
-              className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-black text-emerald-700 shadow"
+              className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-bold text-emerald-700 shadow"
             >
               0 m
             </span>
@@ -127,7 +127,7 @@ export function ZenRun() {
         </>
       ) : (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 bg-gradient-to-b from-sky-300 to-amber-100 px-6 text-center text-emerald-900">
-          <h1 className="text-3xl font-extrabold drop-shadow-sm">힐링 러닝 🌿</h1>
+          <h1 className="text-3xl font-bold drop-shadow-sm">힐링 러닝 🌿</h1>
           <p className="max-w-xs text-sm font-medium leading-6">
             카메라 없이, <b>제자리에서 달리기만</b> 하면 돼요. 폰이 흔들림을
             느껴 캐릭터가 같이 달리고, 멈추면 함께 쉽니다. 조작(터치)은 없어요 —

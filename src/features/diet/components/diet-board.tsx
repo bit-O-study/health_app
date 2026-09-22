@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { useMemo, useState, useTransition, type ReactNode } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -16,10 +16,10 @@ import {
   Plus,
   Search,
   Trash2,
-  Utensils,
   X,
 } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { addDaysYmd, ymdDisplay } from "@/features/routine/data";
 import {
   MEALS,
@@ -47,6 +47,7 @@ import {
   type FoodItem,
 } from "@/features/diet/food-catalog-types";
 import { useFoodSearch } from "@/features/diet/use-food-search";
+import { getEggServing, getEggPortion } from "@/features/diet/food-serving";
 import { MIN_FOOD_DB_QUERY } from "@/features/diet/food-db";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import { MealScanForm } from "@/features/diet/components/meal-scanner";
@@ -91,6 +92,7 @@ export function DietBoard({
   mealPhotos,
   aiScanEnabled = false,
   view,
+  footer,
 }: {
   date: string;
   view?: string;
@@ -99,6 +101,8 @@ export function DietBoard({
   target: MacroTarget;
   mealPhotos: Record<Meal, string[]>;
   aiScanEnabled?: boolean;
+  /** 끼니 목록 아래 카드(수분) — 상태를 나누지 않게 밖에서 만든 요소를 그대로 끼운다. */
+  footer?: ReactNode;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -276,13 +280,9 @@ export function DietBoard({
   }
 
   return (
-    <section className="space-y-5">
-      {/* 헤더 + 날짜 네비 */}
-      <div className="flex items-center justify-between">
-        <h1 className="flex items-center gap-2 text-xl font-bold text-zinc-950 dark:text-zinc-50">
-          <Utensils aria-hidden="true" size={22} className="text-emerald-600" />
-          식단
-        </h1>
+    <>
+    {/* 날짜 이동은 큰 제목 줄 오른쪽 — 따로 한 줄을 쓰지 않는다(2026-09-16 촘촘하게, 캘린더와 같은 자리). */}
+    <PageHeader title="식단">
         {/*
           🔴 날짜 이동은 **버튼이 아니라 Link** 다(2026-09-08). 이유는 오직 하나 —
           `prefetch` 를 받으려고. 버튼+`router.push` 는 누른 **다음에야** 서버 렌더를
@@ -346,7 +346,8 @@ export function DietBoard({
             </Link>
           )}
         </div>
-      </div>
+    </PageHeader>
+    <main className="app-container space-y-5">
 
       {(view === "search" || view === "photos") && <section className="app-card space-y-3 p-4" aria-label={view === "search" ? "음식검색" : "사진기록"}>
         <h2 className="font-bold">{view === "search" ? "어느 끼니에 추가할까요?" : "끼니별 사진 기록"}</h2>
@@ -354,20 +355,18 @@ export function DietBoard({
         {MEALS.map(meal => view === "search" ? <button key={meal} type="button" onClick={() => setAdding(meal)} className="mr-2 rounded-xl border border-emerald-200 px-4 py-3 text-sm font-semibold text-emerald-700 dark:border-emerald-800 dark:text-emerald-400">{MEAL_LABEL[meal]} 음식 찾기</button> : <MultiPhotoPicker key={meal} photos={photos[meal]} isToday={isToday} label={MEAL_LABEL[meal] + " 사진"} onAdd={url => addPhoto(meal, url)} onRemove={url => removePhoto(meal, url)} />)}
       </section>}
       {view === "nutrition" && <h2 className="text-lg font-bold">하루 영양 현황</h2>}
-      {/* 요약 카드 — 칼로리 링 + 탄단지 바 */}
-      <div className="app-card p-4 sm:p-5">
-        <div className="flex items-center gap-4">
-          <KcalRing consumed={totals.kcal} target={target.kcal} />
-          <div className="min-w-0 flex-1 space-y-2.5">
-            <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="#10b981" />
-            <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="#f59e0b" />
-            <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="#ef4444" />
-          </div>
+      <section aria-label="섭취 영양 요약" className="app-card p-5">
+        <EnergySummary consumed={totals.kcal} target={target.kcal} />
+        <div className="mt-5 grid grid-cols-3 gap-4 border-t border-line pt-4">
+          <MacroBar label="단백질" consumed={totals.protein} target={target.protein} color="var(--brand)" />
+          <MacroBar label="탄수화물" consumed={totals.carbs} target={target.carbs} color="var(--brand)" />
+          <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--brand)" />
         </div>
-      </div>
+      </section>
+      <h2 className="app-section-label">끼니별 기록</h2>
 
-      {/* 끼니별 게시물 카드 */}
-      <div className="space-y-3">
+      {/* 끼니 — 큰 사진 카드 4장 대신 한 장짜리 그룹 목록(썸네일 · 이름 · kcal · 추가) */}
+      <div className="app-list divide-y divide-[var(--line)]">
         {MEALS.map((meal) => (
           <MealSection
             key={meal}
@@ -419,7 +418,9 @@ export function DietBoard({
           onClose={() => setDatePicker(false)}
         />
       ) : null}
-    </section>
+      {footer}
+    </main>
+    </>
   );
 }
 
@@ -453,8 +454,8 @@ function DatePickerDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-1 flex items-center justify-between">
-          <h2 className="flex items-center gap-1.5 text-base font-extrabold">
-            <Calendar size={18} className="text-emerald-600" /> 날짜 선택
+          <h2 className="flex items-center gap-1.5 text-base font-bold">
+            <Calendar size={18} className="text-brand" /> 날짜 선택
           </h2>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
             <X size={20} />
@@ -473,7 +474,7 @@ function DatePickerDialog({
           onChange={(e) => {
             if (e.target.value) onPick(e.target.value);
           }}
-          className="mt-1 h-12 w-full rounded-2xl border border-zinc-200 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+          className="mt-1 h-12 w-full rounded-2xl border border-zinc-200 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
         />
 
         {/* 빠른 선택 */}
@@ -485,7 +486,7 @@ function DatePickerDialog({
               onClick={() => onPick(q.ymd)}
               className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${
                 date === q.ymd
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                  ? "border-brand/40 bg-brand-soft text-brand"
                   : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
               }`}
             >
@@ -498,54 +499,32 @@ function DatePickerDialog({
   );
 }
 
-function KcalRing({ consumed, target }: { consumed: number; target: number }) {
-  const pct = target > 0 ? Math.min(1, consumed / target) : 0;
+function EnergySummary({ consumed, target }: { consumed: number; target: number }) {
+  const pct = target > 0 ? Math.min(100, (consumed / target) * 100) : 0;
   const over = target > 0 && consumed > target;
-  const R = 34;
-  const C = 2 * Math.PI * R;
-  const remain = Math.max(0, target - consumed);
   return (
-    <div className="flex shrink-0 flex-col items-center gap-1">
-      <div className="relative h-20 w-20">
-        <svg viewBox="0 0 80 80" className="h-20 w-20 -rotate-90">
-          <circle cx="40" cy="40" r={R} fill="none" stroke="currentColor" strokeWidth="8" className="text-zinc-200 dark:text-zinc-800" />
-          <circle
-            cx="40"
-            cy="40"
-            r={R}
-            fill="none"
-            stroke={over ? "#ef4444" : "#10b981"}
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeDasharray={C}
-            strokeDashoffset={C * (1 - pct)}
-          />
-        </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-base font-extrabold leading-none tabular-nums text-zinc-950 dark:text-zinc-50">
-            {consumed}
-          </span>
-          <span className="mt-0.5 text-[10px] font-semibold leading-none text-zinc-400">
-            / {target}
-          </span>
-        </div>
+    <div>
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <p className="app-eyebrow">섭취 칼로리</p>
+        <p className={`text-sm font-semibold ${over ? "text-danger" : "text-brand"}`}>
+          {over ? `${consumed - target} kcal 초과` : `${Math.max(0, target - consumed)} kcal 남음`}
+        </p>
       </div>
-      <span
-        className={`whitespace-nowrap text-[11px] font-bold ${
-          over ? "text-rose-500" : "text-zinc-400"
-        }`}
-      >
-        {over ? `+${consumed - target} 초과` : `${remain} 남음`}
-      </span>
+      <p className="mt-2 flex flex-wrap items-baseline gap-2 tabular-nums">
+        <span className="text-4xl font-bold tracking-tight">{consumed.toLocaleString()}</span>
+        <span className="text-sm text-muted">/ {target.toLocaleString()} kcal</span>
+      </p>
+      <div role="progressbar" aria-label="섭취 칼로리" aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}
+        aria-valuetext={`${consumed} / ${target} kcal`}
+        className="mt-4 h-2 overflow-hidden rounded-full bg-brand/10">
+        <div className={`h-full rounded-full ${over ? "bg-danger" : "bg-brand"}`} style={{ width: `${pct}%` }} />
+      </div>
     </div>
   );
 }
 
 function MacroBar({
-  label,
-  consumed,
-  target,
-  color,
+  label, consumed, target, color,
 }: {
   label: string;
   consumed: number;
@@ -554,16 +533,15 @@ function MacroBar({
 }) {
   const pct = target > 0 ? Math.min(100, (consumed / target) * 100) : 0;
   return (
-    <div>
-      <div className="mb-0.5 flex items-baseline justify-between text-xs">
-        <span className="font-semibold text-zinc-600 dark:text-zinc-300">{label}</span>
-        <span className="tabular-nums text-zinc-500 dark:text-zinc-400">
-          {consumed} / {target}g
-        </span>
+    <div className="min-w-0">
+      <p className="text-xs text-muted">{label}</p>
+      <p className="mt-1 text-base font-semibold tabular-nums">{consumed}g</p>
+      <div role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={pct}
+        aria-valuetext={`${consumed} / ${target}g`}
+        className="mt-2 h-1 overflow-hidden rounded-full bg-brand/10">
+        <div className="h-full rounded-full" style={{ width: `${pct}%`, background: color }} />
       </div>
-      <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-        <div className="h-full rounded-full" style={{ width: `${pct}%`, backgroundColor: color }} />
-      </div>
+      <p className="mt-1.5 text-xs tabular-nums text-muted">목표 {target}g</p>
     </div>
   );
 }
@@ -579,8 +557,8 @@ function MacroChip({
 }) {
   return (
     <div className="rounded-xl border border-zinc-200 bg-white px-2 py-2 text-center dark:border-zinc-800 dark:bg-zinc-900">
-      <p className="text-[10px] font-bold text-zinc-400">{label}</p>
-      <p className="text-sm font-extrabold tabular-nums" style={{ color }}>
+      <p className="text-xs font-bold text-zinc-400">{label}</p>
+      <p className="text-sm font-bold tabular-nums" style={{ color }}>
         {Math.round(value)}g
       </p>
     </div>
@@ -598,12 +576,12 @@ function DefaultMealPhoto({
   return (
     <div
       aria-label={`${MEAL_LABEL[meal]} 기본 사진`}
-      className={`flex flex-col items-center justify-center gap-1 bg-gradient-to-br from-emerald-50 to-zinc-100 dark:from-emerald-950/40 dark:to-zinc-800 ${className}`}
+      className={`flex flex-col items-center justify-center gap-1 bg-zinc-100 dark:bg-zinc-800 ${className}`}
     >
       <span className="text-5xl opacity-70" aria-hidden="true">
         {MEAL_ICON[meal]}
       </span>
-      <span className="text-[11px] font-semibold text-zinc-400">사진 없음</span>
+      <span className="text-xs font-semibold text-zinc-400">사진 없음</span>
     </div>
   );
 }
@@ -626,89 +604,71 @@ function MealSection({
   const empty = items.length === 0 && photos.length === 0;
   const time = mealTimeOf(items);
   const cover = photos[0] ?? null;
+  // 한 줄 목록 행 — 썸네일 · 끼니 이름(+시간) · 담은 음식 요약 · kcal · 추가.
+  // 기록이 있으면 왼쪽 영역 전체가 '게시물 열기' 버튼(상세에서 수정·삭제).
+  const summary = items.length > 0 ? items.map((it) => it.name).join(", ") : photos.length > 0 ? "사진만 기록됨" : "";
+  const body = (
+    <>
+      <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-zinc-100 dark:bg-zinc-800">
+        {cover ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={cover}
+            alt={`${MEAL_LABEL[meal]} 대표사진`}
+            loading="lazy"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        ) : (
+          <span aria-hidden="true" className="flex h-full w-full items-center justify-center text-xl">
+            {MEAL_ICON[meal]}
+          </span>
+        )}
+        {photos.length > 1 ? (
+          <span className="absolute bottom-0.5 right-0.5 flex items-center gap-0.5 rounded-full bg-black/60 px-1 text-xs font-bold text-white">
+            <Images aria-hidden="true" size={10} />
+            {photos.length}
+          </span>
+        ) : null}
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="flex items-baseline gap-2">
+          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{MEAL_LABEL[meal]}</h2>
+          {time ? <span className="text-xs text-zinc-500 dark:text-zinc-400">{fmtClock(time)}</span> : null}
+        </span>
+        {summary ? (
+          <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">{summary}</span>
+        ) : null}
+      </span>
+      {sub > 0 ? (
+        <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+          {`${sub} kcal`}
+        </span>
+      ) : null}
+    </>
+  );
   return (
-    <div className="app-card overflow-hidden">
-      <div className="flex items-center justify-between px-4 pt-4">
-        <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-          <span aria-hidden="true">{MEAL_ICON[meal]}</span>
-          {MEAL_LABEL[meal]}
-          {time ? (
-            <span className="text-xs font-medium text-zinc-400">· {fmtClock(time)}</span>
-          ) : null}
-          {sub > 0 ? (
-            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
-              {sub} kcal
-            </span>
-          ) : null}
-        </h2>
-        <button
-          type="button"
-          onClick={onAdd}
-          className="inline-flex h-7 items-center gap-1 rounded-md border border-emerald-300 bg-emerald-50 px-2 text-xs font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-        >
-          <Plus aria-hidden="true" size={13} />
-          추가
-        </button>
-      </div>
-
+    <div className="flex min-h-[3.25rem] items-center gap-2 px-3 py-1.5">
       {empty ? (
-        <p className="px-4 py-5 text-center text-xs text-zinc-400 dark:text-zinc-500">
-          아직 기록이 없어요 · ‘추가’로 식단을 올려보세요
-        </p>
+        <div className="flex min-w-0 flex-1 items-center gap-3">{body}</div>
       ) : (
         <button
           type="button"
           onClick={onOpen}
           aria-label={`${MEAL_LABEL[meal]} 게시물 열기`}
-          className="mt-3 block w-full text-left transition hover:bg-zinc-50 dark:hover:bg-zinc-800/40"
+          className="flex min-w-0 flex-1 items-center gap-3 text-left transition active:opacity-70"
         >
-          <div className="relative aspect-[4/3] w-full overflow-hidden bg-zinc-100 dark:bg-zinc-800">
-            {cover ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={cover}
-                alt={`${MEAL_LABEL[meal]} 대표사진`}
-                loading="lazy"
-                decoding="async"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <DefaultMealPhoto meal={meal} className="h-full w-full" />
-            )}
-            {photos.length > 1 ? (
-              <span className="absolute right-2 top-2 flex items-center gap-1 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-bold text-white">
-                <Images aria-hidden="true" size={12} />
-                {photos.length}
-              </span>
-            ) : null}
-          </div>
-          <div className="px-4 py-3">
-            {items.length > 0 ? (
-              <ul className="space-y-1">
-                {items.map((it) => (
-                  <li key={it.rowKey ?? it.id}
-                    className="flex items-baseline justify-between gap-2 text-sm"
-                  >
-                    <span className="text-safe min-w-0 flex-1 font-semibold leading-5 text-zinc-800 dark:text-zinc-100">
-                      {it.name}
-                      {it.amount ? (
-                        <span className="ml-1.5 text-xs font-normal text-zinc-400">
-                          {it.amount}
-                        </span>
-                      ) : null}
-                    </span>
-                    <span className="shrink-0 text-[11px] tabular-nums text-zinc-500 dark:text-zinc-400">
-                      {Math.round(it.kcal)}kcal
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-xs text-zinc-400">사진만 기록됨</p>
-            )}
-          </div>
+          {body}
         </button>
       )}
+      <button
+        type="button"
+        onClick={onAdd}
+        className="app-press inline-flex h-7 shrink-0 items-center gap-0.5 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
+      >
+        <Plus aria-hidden="true" size={13} />
+        추가
+      </button>
     </div>
   );
 }
@@ -774,7 +734,7 @@ function MealDetailDialog({
           <span aria-hidden="true">{MEAL_ICON[meal]}</span>
           {MEAL_LABEL[meal]}
           {sub > 0 ? (
-            <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <span className="ml-1 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-bold text-brand">
               {sub} kcal
             </span>
           ) : null}
@@ -860,7 +820,7 @@ function MealDetailDialog({
                 type="time"
                 value={time ?? ""}
                 onChange={(e) => onSetTime(e.target.value)}
-                className="h-11 w-40 rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+                className="h-11 w-40 rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
               />
             </label>
           </>
@@ -898,7 +858,7 @@ function MealDetailDialog({
                   >
                     <ChevronRight aria-hidden="true" size={20} />
                   </button>
-                  <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[11px] font-bold text-white">
+                  <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white">
                     {wrapIndex(photoIdx, photos.length) + 1}/{photos.length}
                   </span>
                   <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2 gap-1">
@@ -916,7 +876,7 @@ function MealDetailDialog({
                 </>
               ) : null}
             </div>
-            <div className="flex items-center justify-between rounded-2xl border border-zinc-200 bg-white px-4 py-3 dark:border-zinc-800 dark:bg-zinc-900">
+            <div className="flex items-center justify-between app-card px-4 py-3">
               <div className="flex items-center gap-2.5">
                 <span className="text-2xl" aria-hidden="true">
                   {MEAL_ICON[meal]}
@@ -931,16 +891,16 @@ function MealDetailDialog({
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-xl font-extrabold tabular-nums text-emerald-600 dark:text-emerald-400">
+                <p className="text-xl font-bold tabular-nums text-brand">
                   {Math.round(totals.kcal)}
                 </p>
-                <p className="text-[10px] font-semibold text-zinc-400">kcal</p>
+                <p className="text-xs font-semibold text-zinc-400">kcal</p>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-2">
-              <MacroChip label="단백질" value={totals.protein} color="#10b981" />
-              <MacroChip label="탄수화물" value={totals.carbs} color="#f59e0b" />
-              <MacroChip label="지방" value={totals.fat} color="#ef4444" />
+              <MacroChip label="단백질" value={totals.protein} color="var(--foreground)" />
+              <MacroChip label="탄수화물" value={totals.carbs} color="var(--foreground)" />
+              <MacroChip label="지방" value={totals.fat} color="var(--foreground)" />
             </div>
           </>
         )}
@@ -980,7 +940,7 @@ function MealDetailDialog({
                       <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                         {it.name}
                         {it.category ? (
-                          <span className="ml-1.5 rounded bg-zinc-100 px-1 py-0.5 text-[10px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                          <span className="ml-1.5 rounded bg-zinc-100 px-1 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                             {it.category}
                           </span>
                         ) : null}
@@ -990,7 +950,7 @@ function MealDetailDialog({
                           </span>
                         ) : null}
                       </p>
-                      <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
                         {Math.round(it.kcal)}kcal
                         {it.protein != null ? ` · 단 ${Math.round(it.protein)}` : ""}
                         {it.carbs != null ? ` · 탄 ${Math.round(it.carbs)}` : ""}
@@ -1016,7 +976,7 @@ function MealDetailDialog({
             <button
               type="button"
               onClick={onAdd}
-              className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-emerald-300 bg-emerald-50 text-sm font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+              className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-brand/40 bg-brand-soft text-sm font-bold text-brand transition hover:bg-brand-soft"
             >
               <Plus aria-hidden="true" size={16} />
               음식 추가
@@ -1062,9 +1022,9 @@ function EditFoodForm({
   const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
   const valid = name.trim() !== "" && kcal.trim() !== "" && Number(kcal) >= 0;
   const field =
-    "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+    "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
   return (
-    <div className="space-y-3 rounded-xl border border-emerald-300 bg-white p-3 dark:border-emerald-700 dark:bg-zinc-900">
+    <div className="space-y-3 rounded-xl border border-brand/40 bg-white p-3 dark:bg-zinc-900">
       <label className="block">
         <span className="mb-1 block text-xs font-bold text-zinc-500">음식 이름</span>
         <input value={name} onChange={(e) => setName(e.target.value)} className={field} />
@@ -1135,7 +1095,7 @@ function EditFoodForm({
               category: category || null,
             })
           }
-          className="h-11 flex-1 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           저장
         </button>
@@ -1195,7 +1155,7 @@ function MultiPhotoPicker({
               className="h-24 w-24 rounded-xl object-cover"
             />
             {i === 0 ? (
-              <span className="absolute left-1 top-1 rounded bg-emerald-600 px-1 py-0.5 text-[9px] font-bold text-white">
+              <span className="absolute left-1 top-1 rounded bg-brand px-1 py-0.5 text-xs font-bold text-white dark:text-zinc-950">
                 대표
               </span>
             ) : null}
@@ -1217,7 +1177,7 @@ function MultiPhotoPicker({
             ) : (
               <Camera aria-hidden="true" size={20} />
             )}
-            <span className="text-[11px] font-semibold">
+            <span className="text-xs font-semibold">
               {busy ? "올리는 중" : "촬영"}
             </span>
             <input
@@ -1237,7 +1197,7 @@ function MultiPhotoPicker({
           ) : (
             <Images aria-hidden="true" size={20} />
           )}
-          <span className="text-[11px] font-semibold">
+          <span className="text-xs font-semibold">
             {busy ? "올리는 중" : "앨범"}
           </span>
           <input
@@ -1249,7 +1209,7 @@ function MultiPhotoPicker({
           />
         </label>
       </div>
-      {err ? <p className="mt-1 text-[11px] text-red-500">{err}</p> : null}
+      {err ? <p className="mt-1 text-xs text-red-500">{err}</p> : null}
     </div>
   );
 }
@@ -1276,18 +1236,26 @@ function QuantityEditor({
   const baseG = parseGrams(food.amount);
   const [grams, setGrams] = useState(String(baseG ?? 100));
   const [qty, setQty] = useState(1);
+  const eggServing = getEggServing(food);
+  const [eggGrams, setEggGrams] = useState(String(eggServing?.unitGrams ?? 50));
+  const eggPortion = eggServing ? getEggPortion(eggServing, qty, Number(eggGrams)) : null;
+  const eggUnit = eggServing ? getEggPortion(eggServing, 1, Number(eggGrams)) : null;
 
   // 배율: 그램 모드면 g/기준g, 인분 모드면 qty.
-  const factor = baseG
-    ? (Number(grams) > 0 ? Number(grams) / baseG : 0)
-    : qty;
+  const factor = eggServing
+    ? (eggPortion?.factor ?? 0)
+    : baseG
+      ? (Number(grams) > 0 ? Number(grams) / baseG : 0)
+      : qty;
   const r1 = (n: number) => Math.round(n * 10) / 10;
   const kcal = Math.round(food.kcal * factor);
-  const amountLabel = baseG
-    ? `${Number(grams) || 0}g`
-    : qty === 1
-      ? food.amount
-      : `${food.amount} ×${qty}`;
+  const amountLabel = eggServing
+    ? (eggPortion?.amount ?? "개수를 입력하세요")
+    : baseG
+      ? `${Number(grams) || 0}g`
+      : qty === 1
+        ? food.amount
+        : `${food.amount} ×${qty}`;
 
   function confirm() {
     onConfirm({
@@ -1315,11 +1283,62 @@ function QuantityEditor({
       <div>
         <p className="text-lg font-bold text-zinc-950 dark:text-zinc-50">{food.name}</p>
         <p className="text-xs text-zinc-500 dark:text-zinc-400">
-          기준 {food.amount} · {food.kcal}kcal
+          {eggServing
+            ? eggUnit
+              ? `기준 ${eggUnit.amount} · ${Math.round(food.kcal * eggUnit.factor)}kcal`
+              : "1개 중량을 입력하세요"
+            : `기준 ${food.amount} · ${food.kcal}kcal`}
         </p>
       </div>
 
-      {baseG ? (
+      {eggServing ? (
+        <div className="space-y-3">
+          <label className="block text-sm font-semibold">
+            개수
+            <input
+              aria-label="계란 개수"
+              type="number"
+              inputMode="numeric"
+              min={1}
+              step={1}
+              value={qty || ""}
+              onChange={(e) => setQty(Number(e.target.value))}
+              className="app-field mt-2 h-12 w-full rounded-xl border px-3 text-lg"
+            />
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {[1, 2, 3, 4, 5].map((count) => (
+              <button
+                key={count}
+                type="button"
+                aria-pressed={qty === count}
+                onClick={() => setQty(count)}
+                className={`min-h-11 rounded-xl border px-4 text-sm font-semibold ${qty === count ? "border-brand bg-brand-soft text-brand" : "border-line text-muted"}`}
+              >
+                {count}개
+              </button>
+            ))}
+          </div>
+          {eggServing.unitGrams !== null ? (
+            <label className="block text-sm text-muted">
+              1개 중량(g)
+              <input
+                aria-label="1개 중량(g)"
+                type="number"
+                inputMode="decimal"
+                min={0.1}
+                step={0.1}
+                value={eggGrams}
+                onChange={(e) => setEggGrams(e.target.value)}
+                className="app-field mt-2 h-11 w-full rounded-xl border px-3 text-base"
+              />
+              {eggServing.estimated ? (
+                <span className="mt-1.5 block text-xs">1개 약 50g 기준 · 제품 중량에 맞게 조절하세요.</span>
+              ) : null}
+            </label>
+          ) : null}
+        </div>
+      ) : baseG ? (
         <label className="block">
           <span className="mb-1 block text-xs font-bold text-zinc-500">
             그램(g) 입력 — 양에 맞춰 칼로리 자동 계산
@@ -1331,7 +1350,7 @@ function QuantityEditor({
               inputMode="numeric"
               value={grams}
               onChange={(e) => setGrams(e.target.value)}
-              className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-lg font-bold outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+              className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-lg font-bold outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             />
             <span className="text-sm font-semibold text-zinc-500">g</span>
           </div>
@@ -1359,7 +1378,7 @@ function QuantityEditor({
                 onClick={() => setQty(n)}
                 className={`h-10 min-w-[3rem] rounded-xl px-3 text-sm font-bold transition ${
                   qty === n
-                    ? "bg-emerald-600 text-white"
+                    ? "bg-brand text-white dark:text-zinc-950"
                     : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
                 }`}
               >
@@ -1370,11 +1389,11 @@ function QuantityEditor({
         </div>
       )}
 
-      <div className="rounded-xl bg-emerald-50 p-3 text-center dark:bg-emerald-950/30">
-        <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300">
+      <div className="rounded-xl bg-brand-soft p-3 text-center">
+        <span className="text-xs font-semibold text-brand">
           {amountLabel} · 단 {r1(food.protein * factor)} · 탄 {r1(food.carbs * factor)} · 지 {r1(food.fat * factor)}
         </span>
-        <p className="text-2xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+        <p className="text-2xl font-bold tabular-nums text-brand">
           {kcal} kcal
         </p>
       </div>
@@ -1382,7 +1401,8 @@ function QuantityEditor({
       <button
         type="button"
         onClick={confirm}
-        className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500"
+        disabled={Boolean(eggServing && !eggPortion)}
+        className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         담기
       </button>
@@ -1452,7 +1472,7 @@ function AddFoodDialog({
     : ["search", "manual"];
 
   return (
-    <div className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div role="dialog" aria-modal="true" aria-label={`${MEAL_LABEL[meal]} 추가`} className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
       <div className="flex items-center justify-between border-b border-zinc-200 px-4 pb-2 pt-[max(env(safe-area-inset-top),0.75rem)] dark:border-zinc-800">
         <span className="text-base font-bold text-zinc-900 dark:text-zinc-100">
           {MEAL_LABEL[meal]} 추가
@@ -1486,14 +1506,14 @@ function AddFoodDialog({
           value={time}
           onChange={(e) => setTime(e.target.value)}
           aria-label="먹은 시간"
-          className="h-9 rounded-lg border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+          className="h-9 rounded-lg border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
         />
       </div>
 
       {/* 이미 담은 음식(읽기 전용) — 삭제·수정은 게시물 상세에서 */}
       {items.length > 0 ? (
         <div className="border-b border-zinc-100 px-4 py-2 dark:border-zinc-800">
-          <p className="mb-1 text-[11px] font-bold text-zinc-400">담은 음식</p>
+          <p className="mb-1 text-xs font-bold text-zinc-400">담은 음식</p>
           <ul className="flex flex-col gap-1">
             {items.map((it) => (
               <li key={it.rowKey ?? it.id} className="flex items-center gap-2">
@@ -1519,10 +1539,11 @@ function AddFoodDialog({
               setMode(m);
               setPicked(null);
             }}
-            className={`h-9 flex-1 rounded-lg text-sm font-bold transition ${
+            aria-pressed={mode === m}
+            className={`food-entry-mode min-h-11 flex-1 border-b-2 text-sm font-semibold transition ${
               mode === m
-                ? "bg-emerald-600 text-white"
-                : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                ? "border-foreground text-foreground"
+                : "border-transparent text-muted"
             }`}
           >
             {m === "search" ? "검색" : m === "manual" ? "직접 입력" : "✨ AI 사진"}
@@ -1557,7 +1578,7 @@ function AddFoodDialog({
         />
       ) : (
         <>
-          <div className="mx-4 mt-3 flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3 dark:border-zinc-700 dark:bg-zinc-900">
+          <div className="food-search-field mx-4 mt-3 flex items-center gap-1.5 rounded-xl border border-zinc-300 bg-white px-3 dark:border-zinc-700 dark:bg-zinc-900">
             <Search aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
             <input
               autoFocus
@@ -1567,7 +1588,7 @@ function AddFoodDialog({
               }}
               placeholder="음식 검색 (예: 닭가슴살, 김치찌개)"
               aria-label="음식 검색"
-              className="h-11 w-full bg-transparent text-base outline-none placeholder:text-zinc-400 dark:text-zinc-100"
+              className="food-search-input h-11 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-zinc-400 dark:text-zinc-100"
             />
           </div>
           <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] dark:divide-zinc-800">
@@ -1581,30 +1602,41 @@ function AddFoodDialog({
                 검색 결과가 없어요. ‘직접 입력’으로 추가하세요.
               </li>
             ) : (
-              results.map((f) => (
-                <li key={f.id}>
-                  <button
-                    type="button"
-                    onClick={() => setPicked(f)}
-                    className="flex w-full items-center gap-2 py-2.5 text-left"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                        {f.name}
-                        <span className="ml-1.5 text-xs font-normal text-zinc-400">
-                          {f.amount}
-                        </span>
-                      </p>
-                      <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                        {f.kcal}kcal · 단 {f.protein} · 탄 {f.carbs} · 지 {f.fat}
-                      </p>
-                    </div>
-                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white">
-                      <Plus aria-hidden="true" size={16} />
-                    </span>
-                  </button>
-                </li>
-              ))
+              results.map((f) => {
+                const serving = getEggServing(f);
+                const portion = serving ? getEggPortion(serving, 1) : null;
+                const shown = portion ? {
+                  amount: portion.amount,
+                  kcal: Math.round(f.kcal * portion.factor),
+                  protein: Math.round(f.protein * portion.factor * 10) / 10,
+                  carbs: Math.round(f.carbs * portion.factor * 10) / 10,
+                  fat: Math.round(f.fat * portion.factor * 10) / 10,
+                } : f;
+                return (
+                  <li key={f.id}>
+                    <button
+                      type="button"
+                      onClick={() => setPicked(f)}
+                      className="flex min-h-16 w-full items-center gap-3 py-3 text-left"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <p className="break-words text-sm font-semibold text-zinc-800 dark:text-zinc-100">
+                          {f.name}
+                        </p>
+                        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                          {shown.amount} · <span className="font-semibold text-foreground">{shown.kcal}kcal</span>
+                        </p>
+                        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                          단 {shown.protein}g · 탄 {shown.carbs}g · 지 {shown.fat}g
+                        </p>
+                      </div>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950">
+                        <Plus aria-hidden="true" size={16} />
+                      </span>
+                    </button>
+                  </li>
+                );
+              })
             )}
           </ul>
         </>
@@ -1630,7 +1662,7 @@ function ManualForm({
     const numOrNull = (s: string) => (s.trim() === "" ? null : Number(s));
     const valid = name.trim() !== "" && kcal.trim() !== "" && Number(kcal) >= 0;
     const field =
-      "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+      "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
     return (
       <div className="flex-1 space-y-3 overflow-y-auto px-4 pt-3 pb-[calc(6rem+env(safe-area-inset-bottom,0px))]">
         <label className="block">
@@ -1691,7 +1723,7 @@ function ManualForm({
               category: category || null,
             })
           }
-          className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           추가하기
         </button>

@@ -343,7 +343,7 @@ function NumberScrubber({
               }
             }}
             onPointerDown={(e) => e.stopPropagation()}
-            className="h-9 w-[4.75rem] rounded-lg border border-emerald-400 bg-white px-2 text-center text-xl font-extrabold tabular-nums text-emerald-700 outline-none focus:border-emerald-500 dark:border-emerald-500 dark:bg-zinc-900 dark:text-emerald-300"
+            className="h-9 w-[4.75rem] rounded-lg border border-brand/40 bg-white px-2 text-center text-xl font-bold tabular-nums text-brand outline-none focus:border-brand/40 dark:bg-zinc-900"
           />
         ) : (
           <div
@@ -360,13 +360,13 @@ function NumberScrubber({
               setEditing(true);
             }}
             style={{ touchAction: "none" }}
-            className="flex h-9 min-w-[4.75rem] cursor-ew-resize select-none items-center justify-center gap-0.5 rounded-lg bg-emerald-50 px-2 dark:bg-emerald-500/10"
+            className="flex h-9 min-w-[4.75rem] cursor-ew-resize select-none items-center justify-center gap-0.5 rounded-lg bg-brand-soft px-2"
           >
-            <span className="text-xl font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+            <span className="text-xl font-bold tabular-nums text-brand">
               {display}
             </span>
             {value !== null ? (
-              <span className="text-xs font-semibold text-emerald-700/70 dark:text-emerald-300/70">
+              <span className="text-xs font-semibold text-brand">
                 {unit}
               </span>
             ) : null}
@@ -1069,7 +1069,7 @@ export function GuidedOverlay({
           {finishError ?? "운동 기록 저장 중…"}
         </p>
         {finishError && (
-          <button type="button" className="rounded-xl bg-emerald-600 px-6 py-3 font-bold text-white" onClick={() => {
+          <button type="button" className="rounded-xl bg-brand px-6 py-3 font-bold text-white dark:text-zinc-950" onClick={() => {
             for (const failure of failedSavesRef.current.values()) {
               fireAndTrack(failure.captured, failure.status);
             }
@@ -1103,7 +1103,7 @@ export function GuidedOverlay({
         </span>
         <div className="mx-3 h-1 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
           <div
-            className="h-full bg-emerald-500 transition-all duration-300"
+            className="h-full bg-brand transition-all duration-300"
             style={{ width: `${((index + 1) / total) * 100}%` }}
           />
         </div>
@@ -1120,13 +1120,13 @@ export function GuidedOverlay({
       {/* 세션 운동 시간 — 운동 페이지 안에서 보여준다(+ 중단하기/다시 시작하기). */}
       {elapsedLabel !== undefined ? (
         <div className="flex items-center justify-center gap-2 px-4 pb-1">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1 dark:border-emerald-800 dark:bg-emerald-950/40">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft px-3 py-1">
             <Timer
               aria-hidden="true"
               size={14}
-              className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
+              className={`text-brand ${running ? "animate-pulse" : ""}`}
             />
-            <span className="font-mono text-sm font-bold tabular-nums text-emerald-900 dark:text-emerald-100">
+            <span className="font-mono text-sm font-bold tabular-nums text-brand">
               {elapsedLabel}
             </span>
           </span>
@@ -1134,7 +1134,7 @@ export function GuidedOverlay({
             <button
               type="button"
               onClick={onPauseResume}
-              className="inline-flex h-8 items-center gap-1 rounded-full border border-emerald-300 bg-white px-3 text-xs font-bold text-emerald-700 transition hover:bg-emerald-50 dark:border-emerald-700 dark:bg-zinc-900 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
+              className="inline-flex h-8 items-center gap-1 rounded-full border border-brand/40 bg-white px-3 text-xs font-bold text-brand transition hover:bg-brand-soft dark:bg-zinc-900"
             >
               {running ? (
                 <>
@@ -1270,7 +1270,7 @@ export function GuidedOverlay({
           <p
             data-testid="superset-tag"
             data-label={supersetTag}
-            className="mt-3 inline-flex items-center gap-1 self-center rounded-full bg-violet-100 px-2.5 py-1 text-[11px] font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
+            className="mt-3 inline-flex items-center gap-1 self-center rounded-full bg-violet-100 px-2.5 py-1 text-xs font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
           >
             <Link2 aria-hidden="true" size={12} />
             슈퍼세트 {supersetTag}
@@ -1297,9 +1297,9 @@ export function GuidedOverlay({
         {timed ? (
           <div className="mt-4 flex flex-col items-center gap-2">
             <div
-              className={`text-6xl font-extrabold tabular-nums ${
+              className={`text-6xl font-bold tabular-nums ${
                 holdSec >= targetHoldSec
-                  ? "text-emerald-600 dark:text-emerald-400"
+                  ? "text-brand"
                   : "text-zinc-900 dark:text-zinc-100"
               }`}
               aria-label={`경과 ${holdSec}초`}
@@ -1358,7 +1358,7 @@ export function GuidedOverlay({
         {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 세로 스택(모바일 폭에서도 안 깨짐).
             좌우로 밀거나 ±로 조절, 더블클릭하면 직접 입력. */}
         {editable ? (
-          <div className="mt-4 w-full max-w-xs rounded-2xl border border-zinc-200 bg-white px-4 py-1 dark:border-zinc-800 dark:bg-zinc-900/60">
+          <div className="mt-4 w-full max-w-xs app-card px-4 py-1">
             <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
               <NumberScrubber
                 label="무게"
@@ -1390,7 +1390,7 @@ export function GuidedOverlay({
                 onChange={(v) => putEdit({ sets: v ?? 1 })}
               />
             </div>
-            <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+            <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
               좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
             </p>
           </div>
@@ -1475,7 +1475,7 @@ export function GuidedOverlay({
             <button
               type="button"
               onClick={viewDetail}
-              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-emerald-400"
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
             >
               <ListChecks aria-hidden="true" size={15} />
               운동법·꿀팁 보기
@@ -1484,7 +1484,7 @@ export function GuidedOverlay({
             <button
               type="button"
               onClick={() => setTipsOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-emerald-400"
+              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
             >
               <ListChecks aria-hidden="true" size={15} />
               운동법 보기
@@ -1494,7 +1494,7 @@ export function GuidedOverlay({
           <button
             type="button"
             onClick={() => setTeachOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+            className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft px-4 py-2 text-sm font-semibold text-brand transition hover:bg-brand-soft"
           >
             <Video aria-hidden="true" size={15} />
             영상 올리고 티칭받기
@@ -1549,7 +1549,7 @@ export function GuidedOverlay({
             type="button"
             onClick={skip}
             disabled={working}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 bg-white text-[13px] font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
             <ChevronRight aria-hidden="true" size={15} />
             넘기기
@@ -1558,7 +1558,7 @@ export function GuidedOverlay({
             type="button"
             onClick={complete}
             disabled={working}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-[13px] font-bold text-white shadow transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 shadow transition hover:bg-brand/90 disabled:opacity-50"
           >
             <Check aria-hidden="true" size={16} />
             {isLast ? "완료하고 종료" : mainSets > 0 ? "운동 완료" : "완료"}
@@ -1568,7 +1568,7 @@ export function GuidedOverlay({
         {/* 본운동 세트 진행 + 세트 완료(휴식) — 세트가 여러 개일 때만 */}
         {mainSets > 0 ? (
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-12 shrink-0 items-center rounded-lg bg-emerald-50 px-2.5 text-[13px] font-bold text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+            <span className="inline-flex h-12 shrink-0 items-center rounded-lg bg-brand-soft px-2.5 text-sm font-bold text-brand">
               {setProgressLabel(setsDone, mainSets)}
             </span>
             {setsDone > 0 ? (
@@ -1587,7 +1587,7 @@ export function GuidedOverlay({
               type="button"
               onClick={completeSet}
               disabled={working}
-              className="inline-flex h-12 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-emerald-300 bg-emerald-50 text-[15px] font-bold text-emerald-700 shadow-sm transition hover:bg-emerald-100 disabled:opacity-40 dark:border-emerald-500/40 dark:bg-emerald-500/10 dark:text-emerald-300 dark:hover:bg-emerald-500/20"
+              className="inline-flex h-12 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-brand/40 bg-brand-soft text-base font-bold text-brand shadow-sm transition hover:bg-brand-soft disabled:opacity-40"
             >
               {onLastSet ? (
                 <>
@@ -1701,7 +1701,7 @@ function TipsDialog({
         <ol className="space-y-2.5">
           {steps.map((s, i) => (
             <li key={i} className="flex items-start gap-2.5">
-              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-extrabold text-white">
+              <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand text-xs font-bold text-white dark:text-zinc-950">
                 {i + 1}
               </span>
               <span className="text-sm leading-6 text-zinc-700 dark:text-zinc-200">
@@ -1754,7 +1754,7 @@ function MemoEditDialog({
           rows={4}
           maxLength={1000}
           placeholder="예: 마지막 세트 천천히, 무릎 안쪽으로 모이지 않게"
-          className="w-full resize-none rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 outline-none focus:border-emerald-400 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
+          className="w-full resize-none rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 outline-none focus:border-brand/40 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
         />
         <div className="mt-3 grid grid-cols-2 gap-2">
           <button
@@ -1767,7 +1767,7 @@ function MemoEditDialog({
           <button
             type="button"
             onClick={() => onSave(text)}
-            className="h-10 rounded-xl bg-emerald-600 text-sm font-bold text-white"
+            className="h-10 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950"
           >
             저장
           </button>
@@ -1785,10 +1785,10 @@ function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
       ? "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
       : kind === "cooldown"
         ? "bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300"
-        : "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300";
+        : "bg-brand-soft text-brand";
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide ${tone}`}
+      className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${tone}`}
     >
       {label}
     </span>
@@ -1851,13 +1851,13 @@ function ConditioningSettings({
       {chips.map((c) => (
         <span
           key={c.key}
-          className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 dark:border-emerald-500/30 dark:bg-emerald-500/10"
+          className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft px-3 py-1.5"
         >
-          <span className="text-emerald-600 dark:text-emerald-400">{c.icon}</span>
-          <span className="text-[11px] font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <span className="text-brand">{c.icon}</span>
+          <span className="text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
             {c.label}
           </span>
-          <span className="text-sm font-extrabold tabular-nums text-emerald-700 dark:text-emerald-300">
+          <span className="text-sm font-bold tabular-nums text-brand">
             {c.value}
           </span>
         </span>
@@ -1896,7 +1896,7 @@ function CondScrubbers({
   const params = getConditioningItem(itemId)?.params ?? [];
   if (params.length === 0) return null;
   return (
-    <div className="mt-4 w-full max-w-xs rounded-2xl border border-zinc-200 bg-white px-4 py-1 dark:border-zinc-800 dark:bg-zinc-900/60">
+    <div className="mt-4 w-full max-w-xs app-card px-4 py-1">
       <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
         {params.includes("duration") ? (
           <NumberScrubber
@@ -1954,7 +1954,7 @@ function CondScrubbers({
           />
         ) : null}
       </div>
-      <p className="py-2 text-center text-[11px] text-zinc-400 dark:text-zinc-500">
+      <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
         좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
       </p>
     </div>

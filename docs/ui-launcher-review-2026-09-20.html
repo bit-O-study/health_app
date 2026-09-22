@@ -1,0 +1,533 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>헬쑤 런처형 홈 검수보고서</title>
+<meta name="description" content="홈을 앱 런처로 바꾸고, 앱마다 하단바가 바뀌되 가운데 칸은 항상 홈으로 고정되는 구조 — 화면 시안과 결정사항">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f4f6f5; --surface:#ffffff; --sunk:#eff3f1; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dde4e0; --line-2:#eaefec; --brand:#0b7a5a; --brand-soft:#e4f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ground:#0d1310; --surface:#141c18; --sunk:#101814; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#41c496; --brand-soft:#123529;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16; color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --ground:#0d1310; --surface:#141c18; --sunk:#101814; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#41c496; --brand-soft:#123529;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding:0 20px 90px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+code{font-family:var(--mono);font-size:.84em;color:var(--ink-2);background:var(--line-2);padding:1px 5px;border-radius:4px}
+
+/* ── 라인 아이콘 (lucide 계열 · 앱에서 쓰는 세트와 동일) ── */
+.i{width:1em;height:1em;flex:none;stroke:currentColor;fill:none;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.125em}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding:28px 0 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.top b{color:var(--ink);font-weight:600}
+.lede{padding:40px 0 30px;display:grid;gap:16px;max-width:760px}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--brand);font-weight:600}
+.lede h1{font-size:clamp(26px,4vw,34px);font-weight:700;letter-spacing:-.015em}
+.lede p{color:var(--ink-2);max-width:64ch}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--brand-soft);color:var(--brand)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+section{padding:52px 0 0}
+.sec-head{display:grid;gap:6px;margin-bottom:22px;max-width:700px}
+.sec-head h2{font-size:22px;font-weight:700;letter-spacing:-.01em}
+.sec-head p{color:var(--muted);font-size:14px}
+.num-tag{font-family:var(--mono);font-size:12px;color:var(--brand);letter-spacing:.06em}
+
+.gist{display:grid;gap:12px;grid-template-columns:repeat(4,minmax(0,1fr))}
+.gist>div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:6px;align-content:start}
+.gist>div.hl{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand) inset}
+.gist b{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px}
+.gist b .i{font-size:16px;color:var(--brand)}
+.gist span{font-size:13.5px;color:var(--ink-2)}
+.gist i{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--brand);letter-spacing:.07em}
+@media(max-width:900px){.gist{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.gist{grid-template-columns:1fr}}
+
+/* ── 폰 목업 ── */
+.stage{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start}
+.slot{display:grid;gap:10px;justify-items:center;width:284px}
+.slot .cap{font-size:13px;color:var(--muted);text-align:center}
+.slot .cap b{display:block;color:var(--ink);font-size:14px;font-weight:600}
+.phone{width:284px;border:1px solid var(--line);border-radius:30px;background:var(--surface);overflow:hidden;box-shadow:0 20px 44px -28px rgba(0,0,0,.5)}
+.screen{height:545px;display:flex;flex-direction:column;background:var(--ground)}
+.ph-head{padding:16px 16px 10px;display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.ph-head .eb{font-size:10px;color:var(--muted);letter-spacing:.04em}
+.ph-head h4{margin:0;font-size:21px;font-weight:700;letter-spacing:-.025em}
+.ph-head .ic{display:flex;gap:6px}
+.dot{width:25px;height:25px;border-radius:999px;background:var(--sunk);border:1px solid var(--line);display:grid;place-items:center;font-size:13px;color:var(--ink-2)}
+.ph-body{flex:1;overflow:hidden;padding:2px 14px 10px;display:grid;gap:9px;align-content:start}
+.ph-bar{display:flex;align-items:flex-start;border-top:1px solid var(--line);background:var(--surface);padding:7px 2px 9px}
+.ph-bar a{flex:1;display:grid;justify-items:center;gap:3px;font-size:9.5px;color:var(--muted);text-decoration:none;font-weight:500;min-width:0}
+.ph-bar a>span:first-child{width:28px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:16px}
+.ph-bar a.on{color:var(--brand);font-weight:700}
+.ph-bar a.on>span:first-child{background:var(--brand-soft)}
+.ph-bar a.on .i{stroke-width:2.1}
+.ph-bar a>span:last-child{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* 가운데 고정 홈 — 어느 앱에서도 3번째 칸은 항상 이것 */
+.ph-bar a.home{color:var(--brand);font-weight:700}
+.ph-bar a.home>span:first-child{width:40px;height:40px;border-radius:999px;background:var(--brand);color:#fff;font-size:18px;margin-top:-16px;border:3px solid var(--surface);box-shadow:0 9px 18px -9px rgba(11,122,90,.85)}
+.ph-bar a.home .i{stroke-width:2}
+
+.grid-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 6px;padding:13px 4px 8px;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.app{display:grid;justify-items:center;gap:5px;font-size:9.5px;color:var(--ink-2);font-weight:500}
+.app .sq{width:41px;height:41px;border-radius:13px;display:grid;place-items:center;font-size:20px;color:#fff;box-shadow:inset 0 -10px 16px -12px rgba(0,0,0,.55),0 4px 10px -6px rgba(0,0,0,.4)}
+.app .sq .i{stroke-width:1.7}
+.c1{background:linear-gradient(145deg,#f08a72,#cf4b34)}
+.c2{background:linear-gradient(145deg,#6cc08c,#1f8b52)}
+.c3{background:linear-gradient(145deg,#79aef0,#2a63bd)}
+.c4{background:linear-gradient(145deg,#efc06d,#c28a1d)}
+.c5{background:linear-gradient(145deg,#ab8ce8,#6f45bb)}
+.c6{background:linear-gradient(145deg,#5cc0c4,#1a838a)}
+.c7{background:linear-gradient(145deg,#ee9bbb,#bd4f7f)}
+.app .sq.ghost{background:var(--sunk);border:1px dashed var(--line);color:var(--muted);box-shadow:none}
+
+.w{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:10px 12px;display:grid;gap:5px}
+.w .wt{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:10px;color:var(--muted);font-weight:600}
+.w .wt em{font-style:normal;display:inline-flex;align-items:center;gap:5px}
+.w .wt em i{font-style:normal;width:16px;height:16px;border-radius:5px;display:grid;place-items:center;font-size:10px;color:#fff}
+.w .ws{font-size:10.5px;color:var(--muted)}
+.w .wv{font-size:13.5px;font-weight:700;letter-spacing:-.015em}
+.w .chips{display:flex;gap:4px;flex-wrap:wrap}
+.chip{font-size:9.5px;padding:2px 7px;border-radius:999px;background:var(--sunk);border:1px solid var(--line);color:var(--ink-2)}
+.chip.on{background:var(--brand-soft);border-color:transparent;color:var(--brand);font-weight:600}
+.bar{height:5px;border-radius:999px;background:var(--sunk);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--brand);border-radius:999px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px}
+.row+.row{border-top:1px solid var(--line-2);padding-top:5px}
+.row b{font-weight:600}
+.row span{color:var(--muted);font-family:var(--mono);font-size:10px}
+.appbar{display:flex;align-items:center;gap:8px;padding:2px 0 4px}
+.appbar .sq{width:27px;height:27px;border-radius:9px;display:grid;place-items:center;font-size:14px;color:#fff}
+.appbar b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.flow{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--brand);padding-top:236px}
+@media(max-width:980px){.flow{display:none}}
+
+/* ── 하단바 규칙 ── */
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:20px}
+.rulebar{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;max-width:620px;margin:0 auto;width:100%;align-items:stretch}
+.rs{border:1px dashed var(--line);border-radius:12px;padding:14px 6px;text-align:center;font-size:12px;color:var(--muted);background:var(--sunk)}
+.rs b{display:block;font-size:13px;color:var(--ink);font-weight:600}
+.rs.fix{border:2px solid var(--brand);background:var(--brand-soft);color:var(--brand)}
+.rs.fix b{color:var(--brand);display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.rs.fix b .i{font-size:15px}
+.rulenote{display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:13.5px}
+.rulenote>div{display:grid;gap:4px}
+.rulenote b{font-size:13.5px;display:flex;align-items:center;gap:7px}
+.rulenote b .i{font-size:16px;color:var(--brand)}
+.rulenote p{color:var(--ink-2)}
+@media(max-width:700px){.rulenote{grid-template-columns:1fr}}
+
+table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:13.5px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line-2);vertical-align:middle}
+th{background:var(--sunk);font-size:12px;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+.tw{overflow-x:auto}
+.hm{display:inline-flex;align-items:center;gap:5px;background:var(--brand);color:#fff;font-weight:700;font-size:11.5px;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.hm .i{font-size:13px;stroke-width:2.1}
+td .appname{display:inline-flex;align-items:center;gap:7px;font-weight:600}
+td .appname i{font-style:normal;width:22px;height:22px;border-radius:7px;display:grid;place-items:center;color:#fff;font-size:13px;flex:none}
+/* 기능 대조표 */
+.parity td{padding:8px 13px;font-size:13px}
+.parity .grp td{background:var(--sunk);font-weight:700;font-size:12.5px;color:var(--ink)}
+.parity .grp td span{display:inline-flex;align-items:center;gap:7px}
+.parity .grp td .i{font-size:15px;color:var(--brand)}
+.st{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.st.keep{background:var(--brand-soft);color:var(--brand)}
+.st.move{background:var(--line-2);color:var(--ink-2)}
+.st.up{background:var(--warn-soft);color:var(--warn)}
+.tally{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;margin-bottom:18px}
+.tally div{padding:16px 18px;display:grid;gap:2px}
+.tally div+div{border-left:1px solid var(--line)}
+.tally strong{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.25}
+.tally strong small{font-size:14px;color:var(--muted);font-weight:500}
+.tally span{font-size:12.5px;color:var(--muted)}
+.tally div.zero strong{color:var(--brand)}
+@media(max-width:720px){.tally{grid-template-columns:repeat(2,1fr)}.tally div:nth-child(3){border-left:0}.tally div:nth-child(n+3){border-top:1px solid var(--line)}}
+
+.qs{display:grid;gap:12px}
+.q{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--warn);border-radius:12px;padding:15px 17px;display:grid;gap:6px}
+.q b{font-size:14.5px;font-weight:600}
+.q p{font-size:13.5px;color:var(--ink-2)}
+.q .opt{font-size:13px;color:var(--muted)}
+.rec{color:var(--brand);font-weight:600}
+.q.done{border-left-color:var(--brand)}
+.q.note{border-left-color:var(--crit)}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--brand-soft);color:var(--brand);margin-left:6px;vertical-align:middle}
+.tag .i{font-size:12px;stroke-width:2.4}
+
+.steps{display:grid;gap:10px}
+.step{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:15px 17px}
+.step .n{width:26px;height:26px;border-radius:999px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-size:12px;font-weight:700;font-family:var(--mono)}
+.step b{font-size:14.5px;font-weight:600;display:block}
+.step p{font-size:13.5px;color:var(--ink-2)}
+.step .meta{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:4px}
+.foot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style></head><body>
+
+<svg class="sprite" aria-hidden="true"><defs>
+<symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5"/></symbol>
+<symbol id="i-apple" viewBox="0 0 24 24"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06"/><path d="M10 2c1 .5 2 2 2 5"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 10h18"/><rect width="18" height="18" x="3" y="4" rx="2"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M18 21a8 8 0 0 0-16 0"/><circle cx="10" cy="8" r="5"/><path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3"/></symbol>
+<symbol id="i-news" viewBox="0 0 24 24"><path d="M15 18h-5M18 14h-8"/><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path d="M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0z"/><path d="M22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+<symbol id="i-paw" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.05Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M10.27 21a2 2 0 0 0 3.46 0"/><path d="M3.26 15.33A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.67C19.41 13.96 18 12.5 18 8A6 6 0 0 0 6 8c0 4.5-1.41 5.96-2.74 7.33"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><path d="M20 7h-9M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+<symbol id="i-trending" viewBox="0 0 24 24"><path d="M16 7h6v6"/><path d="m22 7-8.5 8.5-5-5L2 17"/></symbol>
+<symbol id="i-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .71-1.53l7-6a2 2 0 0 1 2.58 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+<symbol id="i-list" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/><path d="M14 4h7M14 9h7M14 15h7M14 20h7"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9M13 17V5M8 17v-3"/></symbol>
+<symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+<symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+<symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+<symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 2 9 5-9 5-9-5z"/><path d="m3 12 9 5 9-5M3 17l9 5 9-5"/></symbol>
+<symbol id="i-grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1.5"/><rect width="7" height="7" x="14" y="3" rx="1.5"/><rect width="7" height="7" x="3" y="14" rx="1.5"/><rect width="7" height="7" x="14" y="14" rx="1.5"/></symbol>
+<symbol id="i-swap" viewBox="0 0 24 24"><path d="m16 3 4 4-4 4"/><path d="M20 7H4M8 21l-4-4 4-4"/><path d="M4 17h16"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 17v5"/><path d="M9 10.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24V16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V7a1 1 0 0 1 1-1 2 2 0 0 0 0-4H8a2 2 0 0 0 0 4 1 1 0 0 1 1 1z"/></symbol>
+<symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+<symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C11 3 12 8 12 8s1-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol>
+<symbol id="i-message" viewBox="0 0 24 24"><path d="M12 20a8 8 0 1 0-6.93-4L4 20l4-1.07A8 8 0 0 0 12 20"/></symbol>
+<symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5.6 5.6l2.8 2.8M15.6 15.6l2.8 2.8M18.4 5.6l-2.8 2.8M8.4 15.6l-2.8 2.8"/></symbol>
+<symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M6 2h12v7a6 6 0 0 1-12 0z"/><path d="M9 22h6M12 15v7"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"/></symbol>
+</defs></svg>
+
+<div class="wrap">
+
+<div class="top"><span>헬쑤 · UI 구조 검수보고서 <b>v2</b></span><span>2026-09-20 · 브랜치 <b>feat/ui-simplify</b></span></div>
+
+<div class="lede">
+  <p class="eyebrow">v2 — "가운데는 홈으로 고정" 반영본 · 코드는 아직 안 건드렸습니다</p>
+  <h1>홈은 앱 런처. 하단바는 앱마다 바뀌되,<br>가운데 한 칸은 언제나 홈.</h1>
+  <p>앱마다 하단 메뉴가 갈아끼워지는 건 그대로 두고, <b>3번째(가운데) 칸만 어느 앱에서도 홈</b>으로
+     못 박았습니다. 어디서 길을 잃어도 엄지 바로 밑에 돌아올 곳이 항상 같은 자리에 있습니다.</p>
+  <div><span class="pill ok"><svg class="i"><use href="#i-check"/></svg>Q1 · Q2 확정</span>
+       <span class="pill ok"><svg class="i"><use href="#i-check"/></svg>운동 기능 34개 전수 대조 · 빠짐 0</span>
+       <span class="pill warn">남은 결정 5건</span></div>
+</div>
+
+<section>
+  <div class="sec-head"><span class="num-tag">01</span><h2>구조 — 네 줄</h2></div>
+  <div class="gist">
+    <div><i>HOME = LAUNCHER</i><b><svg class="i"><use href="#i-grid"/></svg>홈 위쪽은 앱 아이콘 판</b>
+      <span>홈이 모든 정보를 길게 쌓지 않습니다. 상단에 <b>작은 앱 아이콘 여러 개</b>가 격자로.</span></div>
+    <div><i>INFO PER APP</i><b><svg class="i"><use href="#i-layers"/></svg>정보는 앱 단위로 쪼갠다</b>
+      <span>운동 정보는 운동 앱이, 식단 정보는 식단 앱이. 홈에는 <b>요약 한 줄</b>(위젯)만.</span></div>
+    <div><i>SWAP, NOT PUSH</i><b><svg class="i"><use href="#i-swap"/></svg>앱을 누르면 홈이 그 앱으로</b>
+      <span>홈 자리가 그 앱의 홈으로 바뀌고, <b>하단 메뉴바도 그 앱 전용으로</b> 갈아끼워집니다.</span></div>
+    <div class="hl"><i>CENTER = HOME</i><b><svg class="i"><use href="#i-pin"/></svg>가운데 칸은 항상 홈</b>
+      <span>앱마다 바뀌는 건 <b>양옆 4칸</b>뿐. <b>3번째 칸은 어느 앱에서도 홈</b>이고, 위로 살짝 솟은 원형 버튼으로 둡니다.</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">02</span><h2>하단바 규칙</h2>
+    <p>5칸 중 가운데 하나는 고정석입니다. 앱이 바뀌어도 이 칸만은 절대 안 움직입니다.</p></div>
+  <div class="rule">
+    <div class="rulebar">
+      <div class="rs"><b>앱 메뉴 1</b>앱마다 다름</div>
+      <div class="rs"><b>앱 메뉴 2</b>앱마다 다름</div>
+      <div class="rs fix"><b><svg class="i"><use href="#i-home"/></svg>홈</b>모든 앱 공통 · 고정</div>
+      <div class="rs"><b>앱 메뉴 3</b>앱마다 다름</div>
+      <div class="rs"><b>앱 메뉴 4</b>앱마다 다름</div>
+    </div>
+    <div class="rulenote">
+      <div><b><svg class="i"><use href="#i-target"/></svg>왜 가운데인가</b>
+        <p>엄지가 제일 편하게 닿는 자리입니다. 앱을 옮겨 다녀도 "돌아가기"는 늘 같은 좌표라, 헤매다가도 한 번에 나옵니다.</p></div>
+      <div><b><svg class="i"><use href="#i-sparkle"/></svg>어떻게 구분되게 하나</b>
+        <p>원형 + 브랜드색 + 살짝 솟은 형태. 옆 4칸(아이콘＋글자)과 모양부터 다르게 해서, 앱 메뉴가 통째로 바뀌어도 이 칸만은 한눈에 같은 것임을 알게 합니다.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">03</span><h2>화면 시안</h2>
+    <p>세 화면의 하단바를 비교해 보세요. <b>양옆 4칸은 전부 다른데, 가운데 원형 홈만 똑같은 자리</b>에 있습니다.</p></div>
+  <div class="stage">
+
+    <div class="slot">
+      <div class="phone"><div class="screen">
+        <div class="ph-head"><div><p class="eb">9월 20일 토요일</p><h4>헬쑤</h4></div>
+          <div class="ic"><span class="dot"><svg class="i"><use href="#i-bell"/></svg></span><span class="dot"><svg class="i"><use href="#i-settings"/></svg></span></div></div>
+        <div class="ph-body">
+          <div class="grid-apps">
+            <div class="app"><span class="sq c1"><svg class="i"><use href="#i-flame"/></svg></span>운동</div>
+            <div class="app"><span class="sq c2"><svg class="i"><use href="#i-apple"/></svg></span>식단</div>
+            <div class="app"><span class="sq c3"><svg class="i"><use href="#i-calendar"/></svg></span>캘린더</div>
+            <div class="app"><span class="sq c4"><svg class="i"><use href="#i-users"/></svg></span>그룹</div>
+            <div class="app"><span class="sq c5"><svg class="i"><use href="#i-news"/></svg></span>커뮤니티</div>
+            <div class="app"><span class="sq c6"><svg class="i"><use href="#i-cap"/></svg></span>헬쑤쌤</div>
+            <div class="app"><span class="sq c7"><svg class="i"><use href="#i-paw"/></svg></span>펫</div>
+            <div class="app"><span class="sq ghost"><svg class="i"><use href="#i-plus"/></svg></span>편집</div>
+          </div>
+          <div class="w"><div class="wt"><em><i class="c1"><svg class="i"><use href="#i-flame"/></svg></i>운동</em><span>오늘 · 가슴</span></div>
+            <div class="wv">벤치프레스 외 2종 · 45분</div>
+            <div class="bar"><i style="width:35%"></i></div>
+            <div class="ws">1/3 완료 · 워밍업까지 끝냈어요</div></div>
+          <div class="w"><div class="wt"><em><i class="c2"><svg class="i"><use href="#i-apple"/></svg></i>식단</em><span>1,240 / 2,100 kcal</span></div>
+            <div class="bar"><i style="width:59%"></i></div>
+            <div class="ws">단백질 62g 남음 · 저녁 전 기록</div></div>
+          <div class="w"><div class="wt"><em><i class="c3"><svg class="i"><use href="#i-calendar"/></svg></i>캘린더</em><span>연속 12일</span></div>
+            <div class="ws">이번 주 4회 / 목표 5회</div></div>
+        </div>
+        <div class="ph-bar">
+          <a><span><svg class="i"><use href="#i-search"/></svg></span><span>검색</span></a>
+          <a><span><svg class="i"><use href="#i-trending"/></svg></span><span>기록</span></a>
+          <a class="home"><span><svg class="i"><use href="#i-home"/></svg></span><span>홈</span></a>
+          <a><span><svg class="i"><use href="#i-bell"/></svg></span><span>알림</span></a>
+          <a><span><svg class="i"><use href="#i-user"/></svg></span><span>나</span></a>
+        </div>
+      </div></div>
+      <p class="cap"><b>① 홈 = 런처</b>아이콘 판 + 앱별 요약 위젯<br>가운데 홈은 <b>지금 여기</b> 표시</p>
+    </div>
+
+    <div class="flow"><svg class="i"><use href="#i-arrow"/></svg></div>
+
+    <div class="slot">
+      <div class="phone"><div class="screen">
+        <div class="ph-head"><div><p class="eb">9월 20일 토요일 · 가슴</p><h4>운동</h4></div>
+          <div class="ic"><span class="dot"><svg class="i"><use href="#i-more"/></svg></span></div></div>
+        <div class="ph-body">
+          <div class="appbar"><span class="sq c1"><svg class="i"><use href="#i-flame"/></svg></span><b>오늘 루틴</b></div>
+          <div class="w"><div class="wt"><em>본운동</em><span>45분</span></div>
+            <div class="row"><b>벤치프레스</b><span>4×8 · 60kg</span></div>
+            <div class="row"><b>인클라인 덤벨프레스</b><span>3×10 · 18kg</span></div>
+            <div class="row"><b>케이블 플라이</b><span>3×12 · 15kg</span></div></div>
+          <div class="w"><div class="wt"><em>오늘만 바꾸기</em></div>
+            <div class="chips"><span class="chip on">가슴</span><span class="chip">등</span><span class="chip">하체</span><span class="chip">＋부위</span></div>
+            <div class="ws">루틴은 안 건드리고 오늘만 바뀝니다</div></div>
+          <div class="w"><div class="wt"><em>이번 주</em><span>4 / 5회</span></div>
+            <div class="bar"><i style="width:80%"></i></div></div>
+        </div>
+        <div class="ph-bar">
+          <a class="on"><span><svg class="i"><use href="#i-flame"/></svg></span><span>오늘</span></a>
+          <a><span><svg class="i"><use href="#i-list"/></svg></span><span>루틴</span></a>
+          <a class="home"><span><svg class="i"><use href="#i-home"/></svg></span><span>홈</span></a>
+          <a><span><svg class="i"><use href="#i-search"/></svg></span><span>운동찾기</span></a>
+          <a><span><svg class="i"><use href="#i-chart"/></svg></span><span>기록</span></a>
+        </div>
+      </div></div>
+      <p class="cap"><b>② 운동 앱</b>양옆 4칸이 운동 메뉴로 교체<br>가운데 홈은 <b>그 자리 그대로</b></p>
+    </div>
+
+    <div class="flow"><svg class="i"><use href="#i-arrow"/></svg></div>
+
+    <div class="slot">
+      <div class="phone"><div class="screen">
+        <div class="ph-head"><div><p class="eb">9월 20일 토요일</p><h4>식단</h4></div>
+          <div class="ic"><span class="dot"><svg class="i"><use href="#i-more"/></svg></span></div></div>
+        <div class="ph-body">
+          <div class="appbar"><span class="sq c2"><svg class="i"><use href="#i-apple"/></svg></span><b>오늘 먹은 것</b></div>
+          <div class="w"><div class="wt"><em>섭취</em><span>1,240 / 2,100 kcal</span></div>
+            <div class="bar"><i style="width:59%"></i></div>
+            <div class="chips"><span class="chip">탄 118g</span><span class="chip on">단 62g 남음</span><span class="chip">지 34g</span></div></div>
+          <div class="w"><div class="wt"><em>아침</em><span>420 kcal</span></div>
+            <div class="row"><b>계란 2개</b><span>140 kcal</span></div>
+            <div class="row"><b>현미밥 1공기</b><span>280 kcal</span></div></div>
+          <div class="w"><div class="wt"><em>점심</em><span>820 kcal</span></div>
+            <div class="row"><b>닭가슴살 샐러드</b><span>820 kcal</span></div></div>
+          <div class="w"><div class="wt"><em>저녁</em><span>미기록</span></div>
+            <div class="ws">＋ 눌러서 추가</div></div>
+        </div>
+        <div class="ph-bar">
+          <a class="on"><span><svg class="i"><use href="#i-utensils"/></svg></span><span>오늘</span></a>
+          <a><span><svg class="i"><use href="#i-search"/></svg></span><span>음식검색</span></a>
+          <a class="home"><span><svg class="i"><use href="#i-home"/></svg></span><span>홈</span></a>
+          <a><span><svg class="i"><use href="#i-camera"/></svg></span><span>사진기록</span></a>
+          <a><span><svg class="i"><use href="#i-chart"/></svg></span><span>영양</span></a>
+        </div>
+      </div></div>
+      <p class="cap"><b>③ 식단 앱</b>또 다른 4칸, 같은 가운데 홈<br>홈까지 <b>언제나 1탭</b></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">04</span><h2>지금 구조와 뭐가 달라지나</h2>
+    <p>핵심은 "하단바가 전 화면 고정이냐, 앱마다 바뀌되 가운데만 고정이냐"입니다.</p></div>
+  <div class="tw"><table>
+    <tr><th style="width:14%"></th><th style="width:41%">지금 (2026-09-20 기준)</th><th>새 구조</th></tr>
+    <tr><td><b>홈</b></td>
+      <td>다짐·식단·체형목표·이번주·운동기록 카드를 <b>세로로 전부</b> 쌓음 (<code>src/app/home/page.tsx</code>)</td>
+      <td>앱 아이콘 격자 + 앱별 <b>요약 위젯 한 줄씩</b>. 자세한 건 앱 안으로</td></tr>
+    <tr><td><b>하단바</b></td>
+      <td><b>전 화면 동일한 6칸 고정</b> (홈·운동·식단·캘린더·그룹·커뮤니티 +헬쑤쌤) — <code>bottom-nav.tsx</code> 의 <code>TABS</code> 상수 하나</td>
+      <td><b>양옆 4칸은 앱마다 교체</b>, <b>가운데 1칸은 <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> 으로 전 앱 고정</b></td></tr>
+    <tr><td><b>홈 가는 법</b></td>
+      <td>맨 왼쪽 칸 — 화면에 따라 활성 표시가 헷갈림</td>
+      <td>어느 앱이든 <b>가운데 원형 버튼 1탭</b>. 좌표가 절대 안 바뀜</td></tr>
+    <tr><td><b>확장</b></td>
+      <td>기능 추가 = 6칸 자리 경쟁. 이미 꽉 참</td>
+      <td>기능 추가 = 아이콘 하나 추가. 하단바 안 건드림</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">05</span><h2>앱별 하단바 확정안</h2>
+    <p>현재 라우트 40여 개를 앱 8개로 묶고, 각 앱의 4칸 + 가운데 홈을 배치한 안입니다.</p></div>
+  <div class="tw"><table>
+    <tr><th style="width:15%">앱</th><th style="width:36%">들어가는 화면</th><th>하단바 (가운데 = 홈 고정)</th></tr>
+    <tr><td><span class="appname"><i class="c1"><svg class="i"><use href="#i-flame"/></svg></i>운동</span></td>
+      <td><code>/routine</code> <code>/plan</code> <code>/plan/today</code> <code>/plan/muscle</code> <code>/exercises</code> <code>/conditioning</code> <code>/jog</code> <code>/running</code></td>
+      <td>오늘 · 루틴 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 운동찾기 · 기록</td></tr>
+    <tr><td><span class="appname"><i class="c2"><svg class="i"><use href="#i-apple"/></svg></i>식단</span></td>
+      <td><code>/diet</code></td>
+      <td>오늘 · 음식검색 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 사진기록 · 영양</td></tr>
+    <tr><td><span class="appname"><i class="c3"><svg class="i"><use href="#i-calendar"/></svg></i>캘린더</span></td>
+      <td><code>/calendar</code> <code>/calendar/[date]</code> <code>/cycle</code></td>
+      <td>월 · 주 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 통계 · 목표</td></tr>
+    <tr><td><span class="appname"><i class="c4"><svg class="i"><use href="#i-users"/></svg></i>그룹</span></td>
+      <td><code>/groups</code> <code>/groups/[id]</code> <code>/groups/manage</code></td>
+      <td>내 그룹 · 찾기 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 랭킹 · 알림</td></tr>
+    <tr><td><span class="appname"><i class="c5"><svg class="i"><use href="#i-news"/></svg></i>커뮤니티</span></td>
+      <td><code>/community</code> <code>/community/[id]</code></td>
+      <td>피드 · 인기 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 글쓰기 · 내 글</td></tr>
+    <tr><td><span class="appname"><i class="c6"><svg class="i"><use href="#i-cap"/></svg></i>헬쑤쌤</span></td>
+      <td><code>/coach</code></td>
+      <td>대화 · 추천 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 분석 · 설정</td></tr>
+    <tr><td><span class="appname"><i class="c7"><svg class="i"><use href="#i-paw"/></svg></i>펫</span></td>
+      <td><code>/pet</code> <code>/commitments</code></td>
+      <td>펫 · 다짐 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 보상 · 기록</td></tr>
+    <tr><td><span class="appname"><i style="background:var(--muted)"><svg class="i"><use href="#i-grid"/></svg></i>런처</span></td>
+      <td><code>/home</code> <code>/settings</code> <code>/equipment</code></td>
+      <td>검색 · 기록 · <span class="hm"><svg class="i"><use href="#i-home"/></svg>홈</span> · 알림 · 나</td></tr>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">06</span><h2>운동 앱 기능 전수 대조 — 빠지는 것 없음</h2>
+    <p>"운동탭 지금 기능은 다 있어야 한다" — 코드에서 운동 관련 기능 <b>34개를 전부 뽑아</b> 새 구조 어디로 가는지 하나씩 대조했습니다.
+       <b>하단바 4칸은 '입구'일 뿐</b>이고, 기능은 화면 안에 그대로 있습니다. (지금도 <code>/jog</code>·<code>/plan/muscle</code> 은 하단바에 없고 화면 안에서 들어갑니다 — 그 방식 그대로입니다.)</p></div>
+  <div class="tally">
+    <div class="zero"><strong>0<small>개</small></strong><span>없어지는 기능</span></div>
+    <div><strong>27<small>개</small></strong><span>그대로 — 손 안 댐</span></div>
+    <div><strong>5<small>개</small></strong><span>자리만 이동</span></div>
+    <div><strong>2<small>개</small></strong><span>묻혀 있던 걸 꺼냄</span></div>
+  </div>
+  <div class="tw"><table class="parity">
+    <tr><th style="width:31%">기능</th><th style="width:26%">지금 어디</th><th style="width:28%">새 구조 어디</th><th>상태</th></tr>
+
+    <tr class="grp"><td colspan="4"><span><svg class="i"><use href="#i-flame"/></svg>1번 칸「오늘」— <code>/routine</code> 화면 그대로</span></td></tr>
+    <tr><td>오늘 부위 배지 · 자극부위 인체그림</td><td>운동탭 오늘 카드</td><td>오늘 탭 오늘 카드</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>워밍업 / 본운동 / 마무리 3섹션</td><td><code>TodayExercises</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>세트 · 무게 · 횟수 입력</td><td><code>SetDetailsEditor</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>스와이프 완료 / 탭 = 상세</td><td><code>SwipeHint</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>전체 완료 버튼</td><td><code>MarkAllDoneButton</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>과부하 힌트</td><td><code>OverloadHint</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>원판 계산 힌트</td><td><code>PlateHint</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>슈퍼세트 묶기</td><td><code>SupersetLink</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>휴식 타이머 (소리 · 진동)</td><td><code>rest-timer</code> <code>rest-sound</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>가이드 운동 진행 모드</td><td><code>guided-workout</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>시범 영상 · 사진 · 동작 안내</td><td><code>exercise-motion</code> 외</td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>기구 선택 → 기구별 운동법</td><td><code>equipment-method</code></td><td>오늘 탭 / 찾기 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>오늘만 바꾸기 (전체 바꾸기 · 부위 추가 · 오늘 하루만)</td><td><code>TodayAdjustMenu</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>운동 직접 담기</td><td><code>TodayAddExercises</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>휴식일 전환</td><td>오늘 카드</td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>편집모드 — 순서변경 · 삭제</td><td><code>TodayEditScope</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>다가오는 7일 드래그 순서변경</td><td><code>UpcomingSevenDaysGrid</code></td><td>오늘 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>컨디셔닝(유산소) 목록 · 상세</td><td><code>TodayConditioningList</code> → <code>/conditioning/[id]</code></td><td>오늘 탭 안에서 진입</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>힐링 러닝 <code>/jog</code> · 런닝 모드 <code>/running</code></td><td>컨디셔닝에서 진입 (하단바에 없음)</td><td>똑같이 오늘 탭 컨디셔닝에서 진입</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>알림 벨</td><td>운동탭 머리글</td><td>런처 머리글 + 오늘 탭 머리글</td><td><span class="st keep">그대로</span></td></tr>
+
+    <tr class="grp"><td colspan="4"><span><svg class="i"><use href="#i-list"/></svg>2번 칸「루틴」— 지금은 링크로만 들어가던 것들</span></td></tr>
+    <tr><td>운동 등록 — 커스텀 루틴 · 세션 그룹 · 묶음 · 휴식</td><td><code>/plan</code> <code>RoutinePlanner</code></td><td>루틴 탭 (1탭)</td><td><span class="st move">자리 이동</span></td></tr>
+    <tr><td>프리셋 저장 · 불러오기 · 삭제</td><td><code>RoutinePresets</code></td><td>루틴 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>근육별로 운동선택 (3D 마네킹)</td><td><code>/plan/muscle</code> — 하단바에 없음</td><td>루틴 탭 안에서 진입</td><td><span class="st move">자리 이동</span></td></tr>
+    <tr><td>오늘만 운동 바꾸기 (전용 화면)</td><td><code>/plan/today</code></td><td>오늘 탭 / 루틴 탭 양쪽에서</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>루틴 설정</td><td><code>/settings/routine</code></td><td>루틴 탭 안에서 진입</td><td><span class="st move">자리 이동</span></td></tr>
+    <tr><td>루틴 공유</td><td><code>routine-share</code></td><td>루틴 탭</td><td><span class="st keep">그대로</span></td></tr>
+
+    <tr class="grp"><td colspan="4"><span><svg class="i"><use href="#i-search"/></svg>4번 칸「운동찾기」</span></td></tr>
+    <tr><td>운동 찾기 (자연어 검색)</td><td>운동탭 머리글 아이콘 <code>ExerciseFinder</code></td><td>찾기 탭 (1탭) + 머리글에도 유지</td><td><span class="st move">자리 이동</span></td></tr>
+    <tr><td>운동 종목 리스트 (부위별 카탈로그)</td><td><code>/exercises</code> — 하단바에 없음</td><td>찾기 탭</td><td><span class="st move">자리 이동</span></td></tr>
+    <tr><td>운동 상세 (기구별 운동법 · 피드백)</td><td><code>/exercises/[slug]</code></td><td>찾기 탭에서 진입</td><td><span class="st keep">그대로</span></td></tr>
+
+    <tr class="grp"><td colspan="4"><span><svg class="i"><use href="#i-chart"/></svg>5번 칸「기록」— 설정 속에 묻혀 있던 화면을 꺼냅니다</span></td></tr>
+    <tr><td>성장 그래프</td><td><code>/settings/progress</code> — 설정 깊숙이</td><td>기록 탭 (1탭)</td><td><span class="st up">꺼내 옴</span></td></tr>
+    <tr><td>내 운동 점수</td><td><code>/settings/score</code> — 설정 깊숙이</td><td>기록 탭</td><td><span class="st up">꺼내 옴</span></td></tr>
+    <tr><td>이번 주 현황 (주간 카드)</td><td>홈 + 운동탭</td><td>기록 탭 + 홈 위젯</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>근육 밸런스 3D</td><td><code>muscle-balance-3d</code></td><td>기록 탭</td><td><span class="st keep">그대로</span></td></tr>
+    <tr><td>운동 기록 그래프</td><td><code>line-chart</code></td><td>기록 탭</td><td><span class="st keep">그대로</span></td></tr>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">07</span><h2>결정 현황</h2>
+    <p>확정 2건 / 남은 4건. 남은 것은 추천안(<span class="rec">초록</span>)대로 가도 되고, 다르게 말씀하셔도 됩니다.</p></div>
+  <div class="qs">
+    <div class="q done"><b>Q1. 하단바는 앱마다 바뀐다 <span class="tag"><svg class="i"><use href="#i-check"/></svg>확정</span></b>
+      <p>앱에 들어가면 그 앱 메뉴로 <b>자동 교체</b>. (사용자가 칸을 직접 고르는 편집 기능은 넣지 않습니다.)</p></div>
+    <div class="q done"><b>Q2. 홈은 모든 메뉴의 <u>가운데</u>에 고정 <span class="tag"><svg class="i"><use href="#i-check"/></svg>확정</span></b>
+      <p>3번째 칸 = 언제나 홈. 앱이 바뀌어도 이 칸만은 자리·모양이 그대로. 원형 + 브랜드색으로 띄웁니다.</p></div>
+    <div class="q"><b>Q3. 기존 6칸 하단바는 없애나요?</b>
+      <p class="opt"><span class="rec">없앤다</span> — 런처가 그 역할을 대신함 (안 그러면 런처 + 6칸이 겹쳐 더 복잡해집니다)
+        &nbsp;/&nbsp; 남긴다</p></div>
+    <div class="q"><b>Q4. 홈 위젯은 몇 개 보이나요?</b>
+      <p class="opt"><span class="rec">3개 고정(운동·식단·캘린더)</span> &nbsp;/&nbsp; 전체 앱 다 &nbsp;/&nbsp; 사용자가 고름</p></div>
+    <div class="q"><b>Q5. 앱 격자를 사용자가 편집(순서·숨김)할 수 있게?</b>
+      <p class="opt">1차는 <span class="rec">고정</span>으로 내고 반응 보고 붙이기 &nbsp;/&nbsp; 처음부터 편집 가능</p></div>
+    <div class="q"><b>Q6. URL 구조는?</b>
+      <p class="opt"><span class="rec">그대로</span> — <code>/routine</code> 등 유지하고 껍데기만 앱 레이아웃으로 감싸기 (E2E 파손 최소)
+        &nbsp;/&nbsp; <code>/app/workout/...</code> 전면 개편 (테스트 대부분 수정)</p></div>
+    <div class="q"><b>Q7. 운동 앱 5번째 칸 — 「기록」이냐 「러닝」이냐?</b>
+      <p>어느 쪽을 골라도 <b>기능이 없어지지는 않습니다</b>. 칸에 없는 쪽은 지금처럼 화면 안에서 들어갑니다.</p>
+      <p class="opt"><span class="rec">기록</span> — 설정 깊숙이 묻힌 성장 그래프·운동 점수를 꺼냄. 러닝은 지금처럼 오늘 탭의 컨디셔닝에서 진입
+        &nbsp;/&nbsp; 러닝 — 힐링 러닝·런닝 모드를 1탭으로. 기록은 홈 위젯·캘린더에서</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">08</span><h2>OK 주시면 이 순서로</h2>
+    <p>단계마다 테스트를 같이 씁니다(원칙). 커밋만 하고 푸시는 안 합니다.</p></div>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><div><b>앱 레지스트리 한 곳 만들기</b>
+      <p>앱 8개의 아이콘·색·소속 경로·양옆 4칸 메뉴를 <code>src/features/launcher/apps.ts</code> 한 파일에 정의. 가운데 홈은 <b>레지스트리가 아니라 하단바가 항상 끼워 넣는</b> 고정석으로 둡니다 — 앱이 실수로 홈을 빼먹는 일이 구조적으로 불가능해집니다.</p>
+      <p class="meta">+ tests/be/logic/launcher-apps.test.ts (경로→앱 매칭 / 4칸 초과·부족 가드 / 홈이 항상 3번째)</p></div></div>
+    <div class="step"><span class="n">2</span><div><b>하단바를 경로에 따라 바뀌게</b>
+      <p><code>bottom-nav.tsx</code> 의 고정 <code>TABS</code> 를 "현재 경로가 속한 앱의 4칸 + 가운데 홈"으로 교체. 기존 <code>HIDDEN_PREFIXES</code>(로그인·온보딩·관리자·런닝)와 헬쑤쌤 조건부 노출은 그대로 살립니다.</p>
+      <p class="meta">⚠ E2E 다수를 건드립니다 — 접근성 이름 충돌 재발 주의(9/20 원인 A)</p></div></div>
+    <div class="step"><span class="n">3</span><div><b>홈을 런처로 교체</b>
+      <p><code>src/app/home/page.tsx</code> 의 카드 스택을 아이콘 격자 + 위젯 3개로. 걷어낸 카드는 삭제가 아니라 <b>각 앱 홈으로 이사</b>합니다.</p>
+      <p class="meta">+ tests/e2e 런처 스펙 (아이콘 보임 / 탭하면 앱 홈 / 하단바 교체 / 가운데 홈 1탭 복귀)</p></div></div>
+    <div class="step"><span class="n">4</span><div><b>앱별 홈 채우기 + 운동 기능 34개 전수 대조</b>
+      <p>운동·식단부터. 나머지는 기존 화면을 앱 홈으로 지정만 합니다. 운동 앱은 <b>06장 표 34줄을 체크리스트로 삼아</b> 하나씩 눌러 확인하고, 없어진 게 있으면 그 자리에서 되살립니다.</p>
+      <p class="meta">+ tests/e2e 운동 기능 도달성 스펙 (오늘 3섹션 · 오늘만 바꾸기 3종 · 7일 드래그 · 컨디셔닝→러닝 · 루틴 등록/프리셋 · 근육별 선택 · 운동 종목/상세 · 성장 그래프/점수)</p></div></div>
+    <div class="step"><span class="n">5</span><div><b>직렬 E2E 전체 + 커밋</b>
+      <p><code>corepack pnpm test</code> → <code>test:e2e</code> 를 <b>직렬로</b>(병렬은 못 믿습니다 — 9/20 기록).</p></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="num-tag">09</span><h2>미리 말씀드리는 걱정</h2></div>
+  <div class="qs">
+    <div class="q note"><b>가운데 홈이 "추가" 버튼 자리를 먹습니다</b>
+      <p>가운데 솟은 원형 버튼은 보통 <b>＋(빠른 기록)</b> 자리로 쓰는 관습이 있습니다. 홈을 거기 두면 나중에 "운동 빠른 기록 / 식단 빠른 추가" 를 넣을 때 자리가 없습니다. 지금은 말씀대로 <b>홈을 가운데</b>로 갑니다 — 나중에 ＋ 가 필요해지면 앱 화면 안의 떠 있는 버튼으로 빼면 됩니다.</p></div>
+    <div class="q note"><b>9/18 8단계 재설계와 9단계가 아직 OK 대기 중입니다</b>
+      <p>런처는 그 위에 얹히는 더 큰 변경이라 <b>그 둘을 먼저 확정</b>하고 시작하는 게 안전합니다. 아니면 런처를 먼저 하고 9단계(표면 토큰 93곳)를 새 구조 기준으로 다시 잡아도 됩니다.</p></div>
+  </div>
+</section>
+
+<p class="foot">헬쑤 · 런처형 홈 + 가운데 고정 홈 · 검수보고서 v2 · 2026-09-20 · 코드 변경 없음</p>
+</div></body></html>

@@ -232,7 +232,7 @@ export function GroupControls({
           type="button"
           onClick={shareKakao}
           disabled={sharing}
-          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-[11px] font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
+          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-xs font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
         >
           {sharing ? (
             <Loader2 aria-hidden="true" size={13} className="animate-spin" />
@@ -244,7 +244,7 @@ export function GroupControls({
         <button
           type="button"
           onClick={copyLink}
-          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-emerald-300 bg-emerald-50 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-brand/40 bg-brand-soft text-xs font-bold text-brand transition hover:bg-brand-soft"
         >
           {copied ? (
             <Check aria-hidden="true" size={13} />
@@ -289,7 +289,7 @@ export function GroupControls({
       <button
         type="button"
         onClick={copyLink}
-        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-emerald-300 bg-emerald-50 text-base font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-brand/40 bg-brand-soft text-base font-bold text-brand transition hover:bg-brand-soft"
       >
         {copied ? (
           <>

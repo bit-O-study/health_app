@@ -22,18 +22,17 @@ const ICONS = {
 /**
  * 개인설정 boolean 토글(범용). 상세 가이드·휴식 소리·휴식 진동 등에 재사용.
  * 낙관적 반영 + 실패 시 롤백 + 에러 표시.
+ * 목록 한 줄(아이콘 · 제목 · 스위치) — 설명 문장은 뺐다(2026-09-16 8단계).
  */
 export function PrefToggle({
   prefKey,
   initial,
   title,
-  description,
   icon,
 }: {
   prefKey: PersonalBoolKey;
   initial: boolean;
   title: string;
-  description: string;
   icon: keyof typeof ICONS;
 }) {
   const Icon = ICONS[icon];
@@ -55,50 +54,43 @@ export function PrefToggle({
   }
 
   return (
-    <div className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm sm:p-5">
-      <div className="flex items-center gap-3 sm:gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-          <Icon aria-hidden="true" size={22} />
+    <div className="app-row">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+        <Icon aria-hidden="true" size={16} />
+      </span>
+      <span className="min-w-0 flex-1">
+        <span className="block truncate text-base text-zinc-900 dark:text-zinc-100">
+          {title}
         </span>
-        <div className="min-w-0 flex-1">
-          <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-            {title}
-          </h2>
-          <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-            {description}
-          </p>
-          {error ? (
-            <p className="mt-1 text-xs font-medium text-red-600 dark:text-red-400">
-              저장 실패 — {error}
-            </p>
-          ) : null}
-        </div>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={on}
-          aria-label={title}
-          disabled={pending}
-          onClick={toggle}
-          className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-60 ${
-            on ? "bg-emerald-600" : "bg-zinc-300 dark:bg-zinc-600"
+        {error ? (
+          <span className="block text-xs text-danger">저장 실패 — {error}</span>
+        ) : null}
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on}
+        aria-label={title}
+        disabled={pending}
+        onClick={toggle}
+        className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-60 ${
+          on ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
+        }`}
+      >
+        <span
+          className={`inline-flex h-5 w-5 items-center justify-center rounded-full bg-white shadow transition-transform ${
+            on ? "translate-x-6" : "translate-x-1"
           }`}
         >
-          <span
-            className={`inline-flex h-5 w-5 items-center justify-center rounded-full bg-white shadow transition-transform ${
-              on ? "translate-x-6" : "translate-x-1"
-            }`}
-          >
-            {pending ? (
-              <Loader2
-                aria-hidden="true"
-                size={12}
-                className="animate-spin text-zinc-500"
-              />
-            ) : null}
-          </span>
-        </button>
-      </div>
+          {pending ? (
+            <Loader2
+              aria-hidden="true"
+              size={12}
+              className="animate-spin text-zinc-500"
+            />
+          ) : null}
+        </span>
+      </button>
     </div>
   );
 }

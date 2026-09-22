@@ -60,7 +60,6 @@ import { isTimedExercise } from "@/features/routine/timed-exercises";
 import { dropIndex } from "@/features/routine/plan-order";
 import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { subBlocksForFocus } from "@/features/routine/plan-blocks";
-import { muscleGroup } from "@/features/routine/muscle-map";
 
 /** 행 높이를 못 잰 경우의 폴백 평균 높이 (px) */
 const ROW_HEIGHT_PX = 80;
@@ -475,7 +474,10 @@ export function TodayPlanList({
 
   return (
     <>
-    <ul className="space-y-2">
+    {/* 아이폰 그룹 목록 — 행을 떨어진 카드로 늘어놓지 않고 한 장 안에 줄 구분선으로 잇는다. */}
+    {/* 테스트가 잡는 이름 — 예전엔 `ul.space-y-2` 순서로 찾았는데, 촘촘하게 바꾸며
+        여백 클래스가 사라져 목록을 못 찾았다(2026-09-19). 모양이 아니라 이름으로 잡는다. */}
+    <ul data-testid="today-main-list" className="divide-y divide-[var(--line)] overflow-hidden rounded-2xl border border-[var(--line)] bg-[var(--surface-strong)]">
       {order.map((item, index) => {
         const isDone = done.has(item.id);
         const isSkipped = skipped.has(item.id);
@@ -518,7 +520,7 @@ export function TodayPlanList({
             ref={(el) => {
               rowRefs.current[index] = el;
             }}
-            className="relative overflow-hidden rounded-[1.25rem]"
+            className="relative overflow-hidden"
             style={liftStyle}
           >
             {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더.
@@ -530,8 +532,8 @@ export function TodayPlanList({
                 <div
                   className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
                     passedRight
-                      ? "bg-emerald-600 text-white"
-                      : "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
+                      ? "bg-brand text-white dark:text-zinc-950"
+                      : "bg-brand-soft text-brand"
                   }`}
                 >
                   <Check aria-hidden="true" size={18} />
@@ -571,16 +573,15 @@ export function TodayPlanList({
                 WebkitUserSelect: inlineEditing ? "auto" : "none",
                 userSelect: inlineEditing ? "auto" : "none",
               }}
-              className={`app-surface relative flex select-none items-center gap-2 border bg-[var(--surface-strong)] p-4 shadow-sm ${
+              // 아이폰 목록 행 — 그림자 없이 카드 모양 하나. 완료/휴식은 흐리게만(색 칠 X).
+              className={`relative flex select-none items-center gap-2.5 bg-[var(--surface-strong)] px-3 py-2 ${
                 isDragging
-                  ? "border-emerald-500 ring-2 ring-emerald-300/70"
+                  ? "ring-2 ring-brand/50"
                   : inlineEditing
-                    ? "border-emerald-400 ring-1 ring-emerald-200"
-                    : isDone
-                      ? "border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950"
-                      : isSkipped
-                        ? "border-zinc-300 dark:border-zinc-600 bg-zinc-100 dark:bg-zinc-900"
-                        : "border-zinc-200 dark:border-zinc-700"
+                    ? "ring-1 ring-brand/40"
+                    : isDone || isSkipped
+                      ? "opacity-60"
+                      : ""
               }`}
             >
               {!editMode || inlineEditing ? null : (
@@ -592,7 +593,7 @@ export function TodayPlanList({
                   aria-hidden="true"
                   className={`flex h-10 w-8 shrink-0 cursor-grab touch-none items-center justify-center transition-colors ${
                     isDragging
-                      ? "text-emerald-600"
+                      ? "text-brand"
                       : "text-zinc-400 dark:text-zinc-500"
                   } active:cursor-grabbing`}
                   style={{ touchAction: "none" }}
@@ -617,8 +618,8 @@ export function TodayPlanList({
               ) : null}
 
               {inlineEditing ? null : (
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-                  <ExerciseIcon id={item.exerciseId} size={22} />
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300">
+                  <ExerciseIcon id={item.exerciseId} size={18} />
                 </span>
               )}
 
@@ -646,15 +647,14 @@ export function TodayPlanList({
  onPointerUp 에서 router.push 로 직접 이동. */
                 <div className="group flex min-w-0 flex-1 items-center gap-2">
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
+                    <h3 className="text-sm font-semibold leading-5 text-zinc-950 dark:text-zinc-100">
                       {item.name}
-                      {/* 대근육 부위 1개 + 세부근육 1개 — 가장 영향 큰 것만 */}
+                      {/* 대근육 부위 1개 + 세부근육 1개 — 가장 영향 큰 것만. 색 알약 대신 회색 글자
+                          (부위마다 분홍·파랑·주황으로 칠하던 것 제거, 2026-09-15). */}
                       {(() => {
                         const major = majorMuscleTag(item.exerciseId);
                         return (
-                          <span
-                            className={`ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold ${major.tone}`}
-                          >
+                          <span className="ml-1.5 whitespace-nowrap text-xs font-normal text-zinc-500 dark:text-zinc-400">
                             {major.label}
                           </span>
                         );
@@ -667,31 +667,26 @@ export function TodayPlanList({
                         )[0];
                         if (!sub) return null;
                         return (
-                          <span
-                            className="ml-1 whitespace-nowrap rounded-full px-1.5 py-0.5 text-[11px] font-bold text-white"
-                            style={{
-                              backgroundColor: muscleGroup(sub.muscle).color,
-                            }}
-                          >
-                            {sub.label}
+                          <span className="ml-1 whitespace-nowrap text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                            · {sub.label}
                           </span>
                         );
                       })()}
-                      <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                        {item.equipmentLabel}
+                      <span className="ml-1 text-xs font-normal text-zinc-400 dark:text-zinc-500">
+                        · {item.equipmentLabel}
                       </span>
                       {isDone ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
                           완료
                         </span>
                       ) : null}
                       {isSkipped ? (
-                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-200 dark:bg-zinc-700 px-2 py-0.5 text-[11px] font-bold text-zinc-700 dark:text-zinc-300">
+                        <span className="ml-2 whitespace-nowrap rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
                           오늘 휴식
                         </span>
                       ) : null}
                     </h3>
-                    <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-600 dark:text-zinc-400">
                       {/* 무게·횟수 고정 켬일 때만 세트·횟수·무게 표시. 끔이면 운동모드에서
                           정하므로 메인엔 칼로리만(세트수도 안 보임). */}
                       {lockWeightReps
@@ -705,7 +700,7 @@ export function TodayPlanList({
                                 : " · 맨몸"
                             }`
                         : null}
-                      <span className="text-xs text-orange-700 dark:text-orange-400">
+                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
                         {lockWeightReps ? " · " : ""}약 {kcal}kcal
                       </span>
                     </p>
@@ -714,7 +709,7 @@ export function TodayPlanList({
                         <StickyNote
                           aria-hidden="true"
                           size={12}
-                          className="mt-0.5 shrink-0 text-amber-500"
+                          className="mt-0.5 shrink-0 text-zinc-400"
                         />
                         <span className="whitespace-pre-wrap">{item.memo}</span>
                       </p>
@@ -732,7 +727,7 @@ export function TodayPlanList({
                         e.stopPropagation();
                         setEditingId(item.id);
                       }}
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-emerald-700 dark:text-emerald-400 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30"
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-brand transition active:bg-zinc-100 dark:active:bg-white/[0.08]"
                     >
                       <Pencil aria-hidden="true" size={16} />
                     </button>
@@ -751,17 +746,17 @@ export function TodayPlanList({
                           e.stopPropagation();
                           setMemoTarget(item);
                         }}
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-md transition ${
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
                           item.memo
-                            ? "text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/30"
-                            : "text-zinc-400 dark:text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                            ? "text-zinc-700 dark:text-zinc-200"
+                            : "text-zinc-300 dark:text-zinc-600"
                         }`}
                       >
                         <StickyNote aria-hidden="true" size={16} />
                       </button>
                       <ChevronRight
                         aria-hidden="true"
-                        className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-0.5 group-hover:text-emerald-700"
+                        className="shrink-0 text-zinc-300 dark:text-zinc-600"
                         size={18}
                       />
                     </>
@@ -880,7 +875,7 @@ function MemoDialog({
             type="button"
             onClick={save}
             disabled={pending}
-            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -1061,9 +1056,9 @@ function ExerciseEditForm({
             type="button"
             onClick={perSet ? disablePerSet : enablePerSet}
             disabled={pending}
-            className={`inline-flex h-7 items-center rounded-md border px-2 text-[11px] font-semibold transition ${
+            className={`inline-flex h-7 items-center rounded-md border px-2 text-xs font-semibold transition ${
               perSet
-                ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400"
+                ? "border-brand/40 bg-brand-soft text-brand"
                 : "app-field text-zinc-600 dark:text-zinc-300"
             }`}
           >
@@ -1119,7 +1114,7 @@ function ExerciseEditForm({
             type="button"
             onClick={addDetail}
             disabled={pending || detailRows.length >= 20}
-            className="inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-400 disabled:opacity-50"
+            className="inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
           >
             <Plus aria-hidden="true" size={13} />
             세트 추가
@@ -1174,7 +1169,7 @@ function ExerciseEditForm({
               </span>
             </>
           ) : (
-            <span className="text-[11px] text-zinc-400 dark:text-zinc-500">
+            <span className="text-xs text-zinc-400 dark:text-zinc-500">
               무게·횟수는 운동모드에서 설정
             </span>
           )}
@@ -1186,7 +1181,7 @@ function ExerciseEditForm({
           type="button"
           onClick={save}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -1336,7 +1331,7 @@ function AddExerciseSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400"
+        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
       >
         <Plus aria-hidden="true" size={18} />
         오늘 루틴에 운동 추가
@@ -1345,7 +1340,7 @@ function AddExerciseSlot({
   }
 
   return (
-    <div className="rounded-[1.25rem] border-2 border-dashed border-emerald-400 bg-emerald-50/40 p-3 dark:bg-emerald-950/25">
+    <div className="rounded-[1.25rem] border-2 border-dashed border-brand/40 bg-brand-soft p-3">
       <div className="flex flex-wrap items-center gap-2">
         {/* 직접 담기(allowAllParts)면 모든 기본 부위에서 고를 수 있게(가슴만 되던 문제
             해결). 일반/부위 바꾸기는 오늘 부위만. 고른 부위 슬롯으로 오늘 저장된다. */}
@@ -1398,7 +1393,7 @@ function AddExerciseSlot({
           type="button"
           onClick={submit}
           disabled={pending || loading || !exerciseId}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-emerald-600 px-3 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -1419,7 +1414,7 @@ function AddExerciseSlot({
           취소
         </button>
       </div>
-      <p className="mt-2 text-[11px] text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
         세트·횟수·무게는 프로필 추천값으로 자동 설정됩니다. 추가 후 운동을 눌러
         상세에서 조절할 수 있어요.
       </p>

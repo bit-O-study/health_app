@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
+import { openApp } from "./helpers/launcher";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 식단 기능: 하단 탭 → /diet, 끼니별(아침/점심/저녁/간식) 음식 추가/수정/삭제, 칼로리 합계.
@@ -8,12 +9,12 @@ import { dbQuery, hasDb } from "./helpers/db";
 
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
-test("하단 식단 탭에서 음식 추가→칼로리 반영→게시물 상세에서 삭제", async ({ page }) => {
+test("런처에서 식단 앱으로 들어가 음식 추가→칼로리 반영→게시물 상세에서 삭제", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  // 하단 네비의 '식단' 탭으로 이동
-  await page.getByRole("link", { name: "식단" }).click();
+  // 런처(홈)에서 '식단' 앱으로 들어간다 — 하단바는 이제 앱마다 다르다(2026-09-20).
+  await openApp(page, "식단");
   await page.waitForURL("**/diet", { timeout: 10000 });
   await page.waitForTimeout(500);
 
@@ -30,11 +31,14 @@ test("하단 식단 탭에서 음식 추가→칼로리 반영→게시물 상�
   await expect(page.getByText("닭가슴살").first()).toBeVisible({ timeout: 8000 });
   await expect(page.getByText("110 kcal")).toBeVisible();
 
-  // DB 에 저장됐는지
-  const rows = await dbQuery<{ name: string; meal: string; kcal: string }>(
-    `select name, meal, kcal::text from public.food_logs where user_id=${uid}`,
-    [email],
-  );
+  // DB 에 저장됐는지 — 화면이 먼저 바뀌고 DB 가 조금 늦게 따라오므로 될 때까지 다시 읽는다.
+  const readFoodLogs = () =>
+    dbQuery<{ name: string; meal: string; kcal: string }>(
+      `select name, meal, kcal::text from public.food_logs where user_id=${uid}`,
+      [email],
+    );
+  await expect.poll(async () => (await readFoodLogs()).length, { timeout: 15_000 }).toBe(1);
+  const rows = await readFoodLogs();
   expect(rows.length).toBe(1);
   expect(rows[0].name).toBe("닭가슴살");
   expect(rows[0].meal).toBe("lunch");
@@ -57,7 +61,7 @@ test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) 
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.getByRole("link", { name: "식단" }).click();
+  await openApp(page, "식단");
   await page.waitForURL("**/diet", { timeout: 10000 });
   await page.waitForTimeout(500);
 
@@ -91,22 +95,26 @@ test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) 
   const kcal = page.getByLabel("칼로리(kcal)");
   await kcal.fill("450");
   await page.getByRole("button", { name: "저장" }).click();
-  await page.waitForTimeout(1000);
 
-  const rows = await dbQuery<{ name: string; kcal: string }>(
-    `select name, kcal::text from public.food_logs where user_id=${uid}`,
-    [email],
-  );
+  // 고정 대기(1초)로는 모자랄 때가 있다 — 바뀔 때까지 다시 읽는다.
+  const readEdited = () =>
+    dbQuery<{ name: string; kcal: string }>(
+      `select name, kcal::text from public.food_logs where user_id=${uid}`,
+      [email],
+    );
+  await expect
+    .poll(async () => Number((await readEdited())[0]?.kcal), { timeout: 15_000 })
+    .toBe(450);
+  const rows = await readEdited();
   expect(rows.length).toBe(1);
   expect(rows[0].name).toBe("오트밀");
-  expect(Number(rows[0].kcal)).toBe(450);
 });
 
 test("직접 입력으로 음식 종류(category) 지정해 추가", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.getByRole("link", { name: "식단" }).click();
+  await openApp(page, "식단");
   await page.waitForURL("**/diet", { timeout: 10000 });
   await page.waitForTimeout(500);
 

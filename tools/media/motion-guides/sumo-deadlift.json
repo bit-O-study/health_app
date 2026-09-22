@@ -1,0 +1,11 @@
+{
+  "prompt": "Scientific educational 3D animation sprite sheet of BARBELL SUMO DEADLIFT, sixteen square panels in precisely4 columns4rows. Original bald male athletic GRAY mannequin wearing teal shorts and barefoot. Plain uniform light gray opaque backdrop, no markings, text or grid borders. Full person and complete barbell in each panel with 12% margins, identical fixed front THREE-QUARTER camera, same proportions and scale and floor location. Barbell has full-size round black bumper plate at each end, same diameter and bar length across all frames. Feet substantially wider than shoulders, toes turned out about35 degrees, stance FIXED throughout. Both hands grasp straight bar double OVERHAND at shoulder width INSIDE knees, elbows completely straight. Show one ascending half repetition in sixteen small consecutive increments reading across rows. Panel1 bar plates on floor, bar shaft over midfoot near shins, hips higher than knees, knees point out over toes, back neutral, chest raised. Panels2-15: push ground away with both feet, hips and knees extend together gradually while bar rises in a vertical path CLOSE to legs, first past shins then knees then thighs. Final16 stand tall knees and hips extended, bar rests against upper thighs, shoulders above hips, NO leaning backward. Never reset at row boundaries. Hands never release or widen, elbows never curl, bar never changes shape. Head follows spine, feet fully flat and never slide. No squat with bar on back, no kettlebell, no narrow stance. Crisp single silhouette, no limb doubling; diffuse lighting, very subtle floor shadow. This is for optical-flow interpolation and reversed lowering.",
+  "equipment": "barbell",
+  "sources": [
+    "https://www.puregym.com/exercises/legs/hamstring-exercises/deadlifts/sumo-deadlift/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "sumo-deadlift",
+  "registeredAt": "2026-09-16T08:06:45.940Z"
+}

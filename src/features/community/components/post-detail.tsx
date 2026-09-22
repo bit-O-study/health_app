@@ -2,9 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import {
-  ChevronLeft,
   Heart,
   Loader2,
   MessageCircle,
@@ -13,6 +11,7 @@ import {
   Trash2,
 } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime, MAX_CAPTION } from "../community";
 import type { CommunityComment, CommunityPost } from "../data-access";
@@ -26,7 +25,10 @@ import {
   toggleLikeAction,
 } from "../community-actions";
 
-/** 게시물 상세 — 좌상단 이름·작성시간 → 글내용 → 사진 → 좋아요/댓글. */
+/**
+ * 게시물 상세 — 좌상단 이름·작성시간 → 글내용 → 사진 → 좋아요/댓글.
+ * 공통 큰 제목 머리글(‹ 커뮤니티) + 더보기 버튼은 제목 줄 오른쪽(2026-09-16 8단계).
+ */
 export function PostDetail({
   post,
   initialComments,
@@ -112,14 +114,8 @@ export function PostDetail({
   }
 
   return (
-    <div className="mx-auto w-full max-w-lg px-4 py-4">
-      <div className="mb-3 flex items-center justify-between">
-        <Link
-          href="/community"
-          className="inline-flex items-center gap-1 text-sm text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200"
-        >
-          <ChevronLeft size={16} /> 커뮤니티
-        </Link>
+    <div className="app-page">
+      <PageHeader title="게시물" back="커뮤니티" backHref="/community">
         {canManage || !post.isMine ? (
           <div className="relative">
             <button
@@ -127,9 +123,9 @@ export function PostDetail({
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="더보기"
               aria-expanded={menuOpen}
-              className="rounded-full p-1 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
             >
-              <MoreVertical size={18} />
+              <MoreVertical aria-hidden="true" size={18} />
             </button>
             {menuOpen ? (
               <>
@@ -140,7 +136,7 @@ export function PostDetail({
                   onClick={() => setMenuOpen(false)}
                   className="fixed inset-0 z-10 cursor-default"
                 />
-                <div className="absolute right-0 top-9 z-20 w-28 overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-lg dark:border-zinc-700 dark:bg-zinc-800">
+                <div className="absolute right-0 top-9 z-20 w-28 overflow-hidden rounded-xl border border-[var(--line)] bg-white shadow-lg dark:bg-zinc-900">
                   {canManage ? (
                     <>
                       <button
@@ -149,7 +145,7 @@ export function PostDetail({
                           setMenuOpen(false);
                           setEditing(true);
                         }}
-                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm hover:bg-zinc-50 dark:hover:bg-white/[0.06]"
                       >
                         <Pencil size={14} /> 수정
                       </button>
@@ -160,7 +156,7 @@ export function PostDetail({
                           removePost();
                         }}
                         disabled={pending}
-                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold text-rose-600 hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-zinc-700"
+                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-danger hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-white/[0.06]"
                       >
                         <Trash2 size={14} /> 삭제
                       </button>
@@ -176,7 +172,7 @@ export function PostDetail({
                         targetPreview={post.caption}
                         label="신고"
                         iconSize={14}
-                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm font-semibold text-rose-600 hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-danger hover:bg-zinc-50 dark:hover:bg-white/[0.06]"
                       />
                     </div>
                   ) : null}
@@ -185,23 +181,24 @@ export function PostDetail({
             ) : null}
           </div>
         ) : null}
-      </div>
+      </PageHeader>
 
+      <main className="app-container">
       {/* 좌상단: 이름 + 작성시간 */}
       <div className="mb-2 flex items-center gap-2">
         <span
-          className={`flex h-9 w-9 items-center justify-center rounded-full text-lg ${pastelClass(
+          className={`flex h-8 w-8 items-center justify-center rounded-full text-base ${pastelClass(
             post.authorName,
           )}`}
         >
           {characterEmoji(post.authorName)}
         </span>
         <div className="min-w-0">
-          <p className="truncate text-sm font-bold">{post.authorName}</p>
-          <p className="text-[11px] text-zinc-400">{when}</p>
+          <p className="truncate text-sm font-semibold leading-5">{post.authorName}</p>
+          <p className="text-xs leading-4 text-zinc-400">{when}</p>
         </div>
         {post.groupName ? (
-          <span className="ml-auto rounded-full bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300">
+          <span className="ml-auto rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
             # {post.groupName}
           </span>
         ) : null}
@@ -214,7 +211,7 @@ export function PostDetail({
             value={caption}
             onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
             rows={2}
-            className="w-full resize-none rounded-xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="w-full resize-none rounded-[10px] bg-zinc-100 p-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
           />
           <div className="mt-1 flex justify-end gap-2">
             <button
@@ -223,7 +220,7 @@ export function PostDetail({
                 setEditing(false);
                 setCaption(post.caption ?? "");
               }}
-              className="rounded-lg px-3 py-1 text-xs font-bold text-zinc-500"
+              className="rounded-lg px-3 py-1 text-sm font-semibold text-zinc-500"
             >
               취소
             </button>
@@ -231,14 +228,14 @@ export function PostDetail({
               type="button"
               onClick={saveCaption}
               disabled={pending}
-              className="rounded-lg bg-emerald-500 px-3 py-1 text-xs font-bold text-white disabled:opacity-60"
+              className="rounded-lg bg-brand px-3 py-1 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-60"
             >
               저장
             </button>
           </div>
         </div>
       ) : post.caption ? (
-        <p className="mb-3 whitespace-pre-wrap break-words text-[15px] leading-relaxed">
+        <p className="mb-2 whitespace-pre-wrap break-words text-base leading-relaxed">
           {post.caption}
         </p>
       ) : null}
@@ -248,16 +245,16 @@ export function PostDetail({
       <img
         src={post.photoUrl}
         alt="오운완 인증"
-        className="w-full rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
+        className="w-full rounded-[14px] bg-zinc-100 object-cover dark:bg-zinc-800"
       />
 
       {/* 좋아요 / 댓글 수 */}
-      <div className="mt-3 flex items-center gap-4 border-b border-zinc-100 pb-3 dark:border-zinc-800">
+      <div className="mt-2 flex items-center gap-4 border-b border-[var(--line)] pb-2">
         <button
           type="button"
           onClick={toggleLike}
           disabled={pending}
-          className="inline-flex items-center gap-1.5 text-sm font-bold disabled:opacity-60"
+          className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums disabled:opacity-60"
         >
           <Heart
             size={20}
@@ -265,17 +262,17 @@ export function PostDetail({
           />
           {likeCount}
         </button>
-        <span className="inline-flex items-center gap-1.5 text-sm font-bold text-zinc-500">
+        <span className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums text-zinc-500">
           <MessageCircle size={20} className="text-zinc-400" />
           {comments.length}
         </span>
       </div>
 
       {/* 댓글 */}
-      <div className="space-y-3 py-3">
+      <div className="space-y-2.5 py-2.5">
         {comments.length === 0 ? (
-          <p className="py-4 text-center text-sm text-zinc-400">
-            첫 댓글을 남겨보세요!
+          <p className="py-3 text-center text-sm text-zinc-400">
+            아직 댓글이 없어요
           </p>
         ) : (
           comments.map((c) => (
@@ -288,7 +285,7 @@ export function PostDetail({
                 {characterEmoji(c.authorName)}
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-bold text-zinc-700 dark:text-zinc-200">
+                <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">
                   {c.authorName}
                   <span className="ml-1.5 font-normal text-zinc-400">
                     {relativeTime(new Date(c.createdAt).getTime(), now)}
@@ -304,13 +301,13 @@ export function PostDetail({
                   onClick={() => removeComment(c.id)}
                   disabled={pending}
                   aria-label="댓글 삭제"
-                  className="shrink-0 text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+                  className="shrink-0 text-zinc-300 hover:text-danger disabled:opacity-50"
                 >
                   <Trash2 size={13} />
                 </button>
               ) : (
                 <ReportButton
-                  className="shrink-0 text-zinc-300 hover:text-rose-500"
+                  className="shrink-0 text-zinc-300 hover:text-danger"
                   targetKind="community_comment"
                   targetId={c.id}
                   targetUserId={c.userId}
@@ -325,7 +322,7 @@ export function PostDetail({
       </div>
 
       {/* 댓글 입력 — 하단 고정탭(4rem) + 제스처바(safe-area) 위에 붙게 오프셋. */}
-      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] flex items-center gap-2 bg-white py-2 dark:bg-zinc-900">
+      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] flex items-center gap-2 bg-background py-2">
         <input
           value={body}
           onChange={(e) => setBody(e.target.value.slice(0, 300))}
@@ -333,17 +330,18 @@ export function PostDetail({
             if (e.key === "Enter" && !e.nativeEvent.isComposing) addComment();
           }}
           placeholder="댓글 달기…"
-          className="h-10 min-w-0 flex-1 rounded-full border border-zinc-200 px-4 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="h-10 min-w-0 flex-1 rounded-full bg-zinc-100 px-4 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
         />
         <button
           type="button"
           onClick={addComment}
           disabled={pending || !body.trim()}
-          className="inline-flex shrink-0 items-center gap-1 rounded-full bg-emerald-500 px-4 py-2 text-sm font-bold text-white disabled:opacity-50"
+          className="inline-flex h-10 shrink-0 items-center gap-1 rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
         >
           {pending ? <Loader2 size={14} className="animate-spin" /> : null}등록
         </button>
       </div>
+      </main>
     </div>
   );
 }

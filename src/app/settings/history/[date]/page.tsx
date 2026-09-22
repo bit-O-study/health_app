@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
-import { ChevronLeft, Dumbbell, Flame, Timer, Wind, Zap } from "lucide-react";
+import { Dumbbell, Timer, Zap } from "lucide-react";
 
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 
 import {
   createSupabaseServerClient,
@@ -195,162 +195,111 @@ export default async function HistoryDetailPage({
   const totalDone =
     mainItems.length + warmupItems.length + cooldownItems.length;
 
+  // 공통 머리글 + 요약 한 장 + 섹션 라벨·그룹 목록(2026-09-16 8단계) — 설명 문단·색 칩은 뺐다.
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        뒤로
-      </BackLink>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          {dateLabel}
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          이 날 완료 처리한 운동만 표시합니다. 완료 취소하면 이 페이지에서도
-          제거됩니다.
-        </p>
-      </div>
-
-      <section className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-400">
-          <Zap aria-hidden="true" size={20} />
-        </span>
-        <div className="min-w-0 flex-1">
-          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-            이 날 총 소모 칼로리
-          </p>
-          <p className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-            {totalKcal}
-            <span className="ml-1 text-sm font-medium text-zinc-500 dark:text-zinc-400">
-              kcal
-            </span>
-          </p>
-          <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
-            완료 {totalDone}건{focusLabel ? ` · 대표 부위 ${focusLabel}` : ""}
-            {profile.weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
-          </p>
-        </div>
-      </section>
-
-      {workoutDurationSec > 0 ? (
-        <section className="mb-5 flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <Timer aria-hidden="true" size={20} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-              이 날 총 운동 시간
-            </p>
-            <p className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-              {shortDuration(workoutDurationSec)}
-            </p>
-            <p className="mt-0.5 text-[11px] text-zinc-500 dark:text-zinc-400">
-              스톱워치 기준 누적 시간
+    <div className="app-page">
+      <PageHeader title={dateLabel} back />
+      <main className="app-container space-y-4">
+        {/* 요약 — 칼로리·운동 시간을 한 장에 두 칸으로 */}
+        <section className="app-list">
+          <div className="grid grid-cols-2 divide-x divide-[var(--line)] py-2.5 text-center">
+            <div className="min-w-0 px-2">
+              <p className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+                <Zap aria-hidden="true" size={12} />
+                총 소모 칼로리
+              </p>
+              <p className="mt-0.5 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
+                {totalKcal}
+                <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+              </p>
+            </div>
+            <div className="min-w-0 px-2">
+              <p className="flex items-center justify-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+                <Timer aria-hidden="true" size={12} />
+                총 운동 시간
+              </p>
+              <p className="mt-0.5 truncate text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
+                {workoutDurationSec > 0 ? shortDuration(workoutDurationSec) : "—"}
+              </p>
+            </div>
+          </div>
+          <div>
+            <p className="px-3 py-2 text-center text-xs text-zinc-500 dark:text-zinc-400">
+              완료 {totalDone}건{focusLabel ? ` · 대표 부위 ${focusLabel}` : ""}
+              {profile.weightKg === null ? " · 체중 미입력(65kg 가정)" : ""}
             </p>
           </div>
         </section>
-      ) : null}
 
-      <section id="running" className="mb-5 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-        <h2 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-100">런닝 세션</h2>
-        <RunHistoryList rows={runSessions} />
-      </section>
+        <Section title="본운동">
+          {mainItems.length === 0 ? (
+            <Empty text="완료된 본운동이 없습니다." />
+          ) : (
+            <ul className="app-list">
+              {mainItems.map((it, i) => (
+                <li key={i} className="flex min-h-12 items-center gap-3 px-3 py-2">
+                  <Dumbbell aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm text-zinc-950 dark:text-zinc-100">
+                      {it.name}
+                      <span className="ml-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+                        {it.equipmentLabel} · {blockLabel(it.focus)}
+                      </span>
+                    </p>
+                    <p className="truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                      {it.setDetails && it.setDetails.length > 0
+                        ? `${it.setDetails.length}세트 · ${summarizeSetDetails(it.setDetails)}`
+                        : `${it.sets}세트 × ${it.reps}회${
+                            it.weightKg !== null ? ` · ${it.weightKg}kg` : " · 맨몸"
+                          }`}
+                    </p>
+                  </div>
+                  <span className="shrink-0 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                    약 {it.kcal}kcal
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Section>
 
-      <Section title="본운동" icon={<Dumbbell size={15} />} tone="emerald">
-        {mainItems.length === 0 ? (
-          <Empty text="완료된 본운동이 없습니다." />
-        ) : (
-          <ul className="space-y-2">
-            {mainItems.map((it, i) => (
-              <li
-                key={i}
-                className="flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3"
-              >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-                  <Dumbbell aria-hidden="true" size={18} />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-                    {it.name}
-                    <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
-                      {it.equipmentLabel}
-                    </span>
-                    <span className="ml-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
-                      {blockLabel(it.focus)}
-                    </span>
-                  </p>
-                  <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
-                    {it.setDetails && it.setDetails.length > 0
-                      ? `${it.setDetails.length}세트 · ${summarizeSetDetails(it.setDetails)}`
-                      : `${it.sets}세트 × ${it.reps}회${
-                          it.weightKg !== null ? ` · ${it.weightKg}kg` : " · 맨몸"
-                        }`}
-                    <span className="ml-2 text-orange-700 dark:text-orange-400">
-                      · 약 {it.kcal}kcal
-                    </span>
-                  </p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Section>
+        <Section title="워밍업">
+          {warmupItems.length === 0 ? (
+            <Empty text="완료된 워밍업이 없습니다." />
+          ) : (
+            <CondList items={warmupItems} />
+          )}
+        </Section>
 
-      <Section title="워밍업" icon={<Flame size={15} />} tone="amber">
-        {warmupItems.length === 0 ? (
-          <Empty text="완료된 워밍업이 없습니다." />
-        ) : (
-          <CondList
-            items={warmupItems}
-            bg="bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
-          />
-        )}
-      </Section>
+        <Section title="마무리">
+          {cooldownItems.length === 0 ? (
+            <Empty text="완료된 마무리가 없습니다." />
+          ) : (
+            <CondList items={cooldownItems} />
+          )}
+        </Section>
 
-      <Section title="마무리" icon={<Wind size={15} />} tone="sky">
-        {cooldownItems.length === 0 ? (
-          <Empty text="완료된 마무리가 없습니다." />
-        ) : (
-          <CondList
-            items={cooldownItems}
-            bg="bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400"
-          />
-        )}
-      </Section>
-    </main>
+        <section id="running">
+          <h2 className="app-section-label">런닝 세션</h2>
+          <div className="app-card overflow-hidden">
+            <RunHistoryList rows={runSessions} />
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
 
 function Section({
   title,
-  icon,
-  tone,
   children,
 }: {
   title: string;
-  icon: React.ReactNode;
-  tone: "emerald" | "amber" | "sky";
   children: React.ReactNode;
 }) {
-  const badge =
-    tone === "emerald"
-      ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400"
-      : tone === "amber"
-        ? "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400"
-        : "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-400";
   return (
-    <section className="mb-5">
-      <div className="mb-2 flex items-center gap-2">
-        <span
-          className={`flex h-7 w-7 items-center justify-center rounded-md ${badge}`}
-        >
-          {icon}
-        </span>
-        <h2 className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-          {title}
-        </h2>
-      </div>
+    <section>
+      <h2 className="app-section-label">{title}</h2>
       {children}
     </section>
   );
@@ -358,7 +307,7 @@ function Section({
 
 function Empty({ text }: { text: string }) {
   return (
-    <p className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 p-3 text-xs text-zinc-500 dark:text-zinc-400">
+    <p className="app-card px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400">
       {text}
     </p>
   );
@@ -366,34 +315,20 @@ function Empty({ text }: { text: string }) {
 
 function CondList({
   items,
-  bg,
 }: {
   items: { name: string; detail: string; kcal: number }[];
-  bg: string;
 }) {
   return (
-    <ul className="space-y-2">
+    <ul className="app-list">
       {items.map((it, i) => (
-        <li
-          key={i}
-          className="flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3"
-        >
-          <span
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${bg}`}
-          >
-            <Dumbbell aria-hidden="true" size={18} />
-          </span>
+        <li key={i} className="flex min-h-12 items-center gap-3 px-3 py-2">
           <div className="min-w-0 flex-1">
-            <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-              {it.name}
-            </p>
-            <p className="mt-0.5 text-xs text-zinc-600 dark:text-zinc-400">
-              {it.detail}
-              <span className="ml-2 text-orange-700 dark:text-orange-400">
-                · 약 {it.kcal}kcal
-              </span>
-            </p>
+            <p className="truncate text-sm text-zinc-950 dark:text-zinc-100">{it.name}</p>
+            <p className="truncate text-xs tabular-nums text-zinc-500 dark:text-zinc-400">{it.detail}</p>
           </div>
+          <span className="shrink-0 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+            약 {it.kcal}kcal
+          </span>
         </li>
       ))}
     </ul>

@@ -29,7 +29,7 @@ export function OverloadHint({
   const tone = advice.attention
     ? "bg-amber-50 text-amber-900 dark:bg-amber-950/40 dark:text-amber-200"
     : advice.action === "increase"
-      ? "bg-emerald-50 text-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-200"
+      ? "bg-brand-soft text-brand"
       : "bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300";
   const headline = [
     advice.label,
@@ -43,7 +43,7 @@ export function OverloadHint({
     <div
       data-testid={`overload-hint-${advice.exerciseId}`}
       data-action={advice.action}
-      className={`rounded-lg ${compact ? "px-2 py-1.5 text-[11px]" : "px-2.5 py-2 text-xs"} ${tone}`}
+      className={`rounded-lg ${compact ? "px-2 py-1.5 text-xs" : "px-2.5 py-2 text-xs"} ${tone}`}
     >
       <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <p className="flex items-center gap-1 font-semibold">
@@ -60,7 +60,7 @@ export function OverloadHint({
                 reps: advice.suggestedReps,
               })
             }
-            className="ml-auto shrink-0 rounded-full border border-current/30 bg-white/70 px-2.5 py-0.5 text-[11px] font-bold transition hover:bg-white dark:bg-black/30 dark:hover:bg-black/45"
+            className="ml-auto shrink-0 rounded-full border border-current/30 bg-white/70 px-2.5 py-0.5 text-xs font-bold transition hover:bg-white dark:bg-black/30 dark:hover:bg-black/45"
           >
             적용
           </button>

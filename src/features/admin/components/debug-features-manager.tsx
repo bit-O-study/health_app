@@ -105,7 +105,7 @@ export function DebugFeaturesManager({
                   );
                 })}
               </div>
-              <p className="mt-1.5 text-[11px] text-zinc-500">{HINT[f.visibility]}</p>
+              <p className="mt-1.5 text-xs text-zinc-500">{HINT[f.visibility]}</p>
             </li>
           );
         })}

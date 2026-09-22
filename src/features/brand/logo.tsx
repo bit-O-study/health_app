@@ -68,7 +68,7 @@ export function Logo({
       <LogoMark size={size} />
       <span
         className={cn(
-          "text-base font-extrabold tracking-tight text-zinc-950 dark:text-zinc-100",
+          "text-base font-bold tracking-tight text-zinc-950 dark:text-zinc-100",
           wordClassName,
         )}
       >

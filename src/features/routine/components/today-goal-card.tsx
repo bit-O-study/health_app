@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
-import { ArrowRight, Flag, X } from "lucide-react";
+import { ChevronRight, Flag, X } from "lucide-react";
 
 import { BodyLogForm } from "@/features/profile/components/body-log-form";
 
@@ -63,49 +63,32 @@ export function TodayGoalCard({
         <button
           type="button"
           onClick={() => setLogOpen(true)}
-          className="app-card w-full bg-emerald-50/70 p-4 text-left transition hover:-translate-y-0.5 active:scale-[0.99] dark:bg-emerald-950/25"
+          className="app-card app-row w-full text-left transition active:scale-[0.99]"
         >
-          <div className="flex items-center gap-3">
-            <span className="min-w-0 flex-1 text-xs font-bold text-emerald-700 dark:text-emerald-400">
+          {/* 촘촘한 한 줄 — 목표 이름 · 현재→목표 · 남은 양 · › */}
+          <span className="min-w-0 flex-1">
+            <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>
-            <ArrowRight
-              aria-hidden="true"
-              size={18}
-              className="shrink-0 text-emerald-500"
-            />
-          </div>
-
-          {goal.reached ? (
-            <p className="mt-3 text-center text-lg font-black text-emerald-700 dark:text-emerald-300">
-              목표 달성 🎉
-            </p>
-          ) : (
-            <>
-              {/* 왼쪽 현재값 / 오른쪽 목표값 — 정가운데를 얇은 구분선으로 반씩 나눈다. */}
-              <div className="mt-3 grid grid-cols-2">
-                <div className="border-r border-emerald-200/70 pr-2.5 text-center dark:border-emerald-900/50">
-                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
-                    현재
-                  </span>
-                  <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
-                    {goal.currentText}
-                  </span>
-                </div>
-                <div className="pl-2.5 text-center">
-                  <span className="block text-[11px] font-semibold uppercase tracking-wide text-zinc-400 dark:text-zinc-500">
-                    목표
-                  </span>
-                  <span className="block text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
-                    {goal.targetText}
-                  </span>
-                </div>
-              </div>
-              <p className="mt-2 text-center text-sm font-bold text-emerald-600 dark:text-emerald-400">
-                {goal.remainingText} 남았어요
-              </p>
-            </>
+            {goal.reached ? (
+              <span className="block text-base font-bold text-brand">목표 달성 🎉</span>
+            ) : (
+              <span className="flex flex-wrap items-baseline gap-x-1.5 tabular-nums">
+                <span className="text-base font-bold text-zinc-950 dark:text-zinc-50">
+                  {goal.currentText}
+                </span>
+                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                  → {goal.targetText}
+                </span>
+              </span>
+            )}
+          </span>
+          {goal.reached ? null : (
+            <span className="shrink-0 text-xs font-semibold text-brand">
+              {goal.remainingText} 남았어요
+            </span>
           )}
+          <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
         </button>
       ) : null}
 
@@ -114,12 +97,12 @@ export function TodayGoalCard({
         <div className="app-card p-4">
           <div className="mb-3 flex items-center justify-between">
             <h2 className="flex items-center gap-1.5 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-              <Flag aria-hidden="true" size={15} className="text-emerald-600" />내
+              <Flag aria-hidden="true" size={15} className="text-brand" />내
               다짐
             </h2>
             <Link
               href="/commitments"
-              className="text-xs font-semibold text-emerald-700 dark:text-emerald-400"
+              className="text-xs font-semibold text-brand"
             >
               {totalMissions > missions.length
                 ? `전체 ${totalMissions}개 보기`
@@ -136,7 +119,7 @@ export function TodayGoalCard({
                   <span
                     className={`shrink-0 text-xs font-bold ${
                       m.done
-                        ? "text-emerald-600 dark:text-emerald-400"
+                        ? "text-brand"
                         : "text-zinc-400"
                     }`}
                   >
@@ -146,11 +129,11 @@ export function TodayGoalCard({
                 <div className="mt-1 flex items-center gap-2">
                   <div className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
                     <div
-                      className={`h-full rounded-full ${m.done ? "bg-emerald-500" : "bg-emerald-400"}`}
+                      className={`h-full rounded-full ${m.done ? "bg-brand" : "bg-brand/60"}`}
                       style={{ width: `${Math.min(100, Math.max(0, m.pct))}%` }}
                     />
                   </div>
-                  <span className="w-24 shrink-0 text-right text-[11px] font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="w-24 shrink-0 text-right text-xs font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
                     {m.valueText}
                   </span>
                 </div>

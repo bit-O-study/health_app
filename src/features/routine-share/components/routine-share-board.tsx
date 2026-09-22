@@ -95,12 +95,12 @@ export function RoutineShareBoard({
               <button
                 type="button"
                 onClick={() => setOpen(it)}
-                className="flex w-full items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 text-left shadow-sm transition hover:border-emerald-300 hover:bg-emerald-50/40 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/20"
+                className="flex w-full items-center gap-3 app-card p-4 text-left transition hover:border-brand/40 hover:bg-brand-soft"
               >
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-base font-bold text-zinc-950 dark:text-zinc-100">
                     {it.title}
-                    <span className="ml-2 whitespace-nowrap rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400">
+                    <span className="ml-2 whitespace-nowrap rounded-full bg-brand-soft px-2 py-0.5 text-xs font-bold text-brand">
                       운동 {it.exerciseCount}개
                     </span>
                   </h3>
@@ -110,7 +110,7 @@ export function RoutineShareBoard({
                   <p className="mt-1 truncate text-sm text-zinc-600 dark:text-zinc-300">
                     {it.preview}
                   </p>
-                  <p className="mt-1 text-[11px] font-semibold text-zinc-400 dark:text-zinc-500">
+                  <p className="mt-1 text-xs font-semibold text-zinc-400 dark:text-zinc-500">
                     ♥ {it.likeCount} · 담기 {it.saveCount}
                   </p>
                 </div>
@@ -151,8 +151,8 @@ function Chip({
       onClick={onClick}
       className={`h-8 rounded-full border px-3 text-xs font-bold transition ${
         active
-          ? "border-emerald-600 bg-emerald-600 text-white"
-          : "border-zinc-300 bg-white text-zinc-600 hover:border-emerald-300 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+          ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
+          : "border-zinc-300 bg-white text-zinc-600 hover:border-brand/40 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
       }`}
     >
       {children}
@@ -237,7 +237,7 @@ function ShareDetailSheet({
           ) : null}
 
           <h4 className="mb-1.5 mt-3 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-            <Dumbbell aria-hidden="true" size={14} className="text-emerald-600" />
+            <Dumbbell aria-hidden="true" size={14} className="text-brand" />
             본운동
           </h4>
           <ol className="flex flex-col gap-1.5">
@@ -247,7 +247,7 @@ function ShareDetailSheet({
                 className="rounded-lg border border-zinc-200 px-3 py-2 dark:border-zinc-700"
               >
                 <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-                  <span className="mr-1.5 text-emerald-700 dark:text-emerald-400">
+                  <span className="mr-1.5 text-brand">
                     {i + 1}
                   </span>
                   {e.name}
@@ -317,7 +317,7 @@ function ShareDetailSheet({
           <button
             type="button"
             onClick={() => setPicking(true)}
-            className="inline-flex h-11 flex-1 items-center justify-center rounded-xl bg-emerald-600 px-4 text-sm font-bold text-white transition hover:bg-emerald-500"
+            className="inline-flex h-11 flex-1 items-center justify-center rounded-xl bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
           >
             내 루틴에 담기
           </button>
@@ -446,7 +446,7 @@ function ApplyDaySheet({
                     type="button"
                     disabled={pending}
                     onClick={() => pick(t)}
-                    className="flex w-full items-center justify-between gap-2 rounded-xl border border-zinc-300 bg-white px-3 py-3 text-left transition hover:border-emerald-400 hover:bg-emerald-50 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+                    className="flex w-full items-center justify-between gap-2 rounded-xl border border-zinc-300 bg-white px-3 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800"
                   >
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-bold text-zinc-950 dark:text-zinc-100">

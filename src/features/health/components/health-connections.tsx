@@ -140,24 +140,22 @@ export function HealthConnections() {
     }
   }
 
+  // 그룹 목록 한 장(2026-09-16 8단계) — 항목마다 이름·이유·마지막 동기화 + 오른쪽 버튼.
   return (
     <div className="space-y-3">
       {avail?.kind === "web" ? (
         <p
           data-testid="health-web-notice"
-          className="rounded-xl border border-zinc-200 bg-zinc-50 p-4 text-sm leading-6 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+          className="app-card p-3 text-sm text-zinc-600 dark:text-zinc-300"
         >
-          건강 연동은 <strong>앱(안드로이드)</strong>에서만 동작해요. 아래 항목이
-          무엇을 가져오는지 미리 확인할 수 있어요.
+          건강 연동은 앱(안드로이드)에서만 동작해요.
         </p>
       ) : null}
       {avail?.kind === "unavailable" ? (
-        <p className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-amber-800 dark:border-amber-800 dark:bg-amber-950/40 dark:text-amber-200">
-          {avail.reason}
-        </p>
+        <p className="app-card p-3 text-sm text-warn">{avail.reason}</p>
       ) : null}
 
-      <ul className="space-y-2">
+      <ul className="app-list">
         {HEALTH_FEATURES.map((f) => {
           const connected = grantedIds.has(f.id);
           const busy = busyId === f.id && pending;
@@ -167,71 +165,65 @@ export function HealthConnections() {
               key={f.id}
               data-testid={`health-feature-${f.id}`}
               data-connected={connected ? "1" : "0"}
-              className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800"
+              className="flex items-center gap-3 px-3 py-2.5"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-                    {f.label}
-                    {f.status === "planned" ? (
-                      <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-[10px] font-bold text-zinc-500 dark:bg-zinc-700 dark:text-zinc-300">
-                        준비 중
-                      </span>
-                    ) : connected ? (
-                      <span className="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
-                        <Check aria-hidden="true" size={10} />
-                        연결됨
-                      </span>
-                    ) : null}
-                  </p>
-                  {/* 동의를 구하려면 이유를 먼저 말해야 한다. */}
-                  <p className="mt-0.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-                    {f.why}
-                  </p>
-                  {f.status === "ready" ? (
-                    <p className="mt-1 text-[11px] text-zinc-400 dark:text-zinc-500">
-                      마지막 동기화 · {formatLastSync(sync[f.id])}
-                    </p>
+              <div className="min-w-0 flex-1">
+                <p className="flex items-center gap-1.5 text-base text-zinc-900 dark:text-zinc-100">
+                  {f.label}
+                  {f.status === "planned" ? (
+                    <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-xs font-medium text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-300">
+                      준비 중
+                    </span>
+                  ) : connected ? (
+                    <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-soft px-1.5 py-0.5 text-xs font-semibold text-brand">
+                      <Check aria-hidden="true" size={10} />
+                      연결됨
+                    </span>
                   ) : null}
-                  {msg[f.id] ? (
-                    <p className="mt-1 text-[11px] font-medium text-zinc-600 dark:text-zinc-300">
-                      {msg[f.id]}
-                    </p>
-                  ) : null}
-                </div>
-
+                </p>
+                {/* 동의를 구하려면 이유를 먼저 말해야 한다. */}
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">{f.why}</p>
                 {f.status === "ready" ? (
-                  <button
-                    type="button"
-                    data-testid={`health-connect-${f.id}`}
-                    disabled={!canAct || busy}
-                    onClick={() => (connected ? resync(f.id) : connect(f.id))}
-                    className={`inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg px-3 text-xs font-bold transition disabled:opacity-50 ${
-                      connected
-                        ? "border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 dark:border-emerald-900 dark:bg-emerald-950/40 dark:text-emerald-300"
-                        : "bg-emerald-600 text-white hover:bg-emerald-500"
-                    }`}
-                  >
-                    {busy ? (
-                      <Loader2 aria-hidden="true" size={13} className="animate-spin" />
-                    ) : connected ? (
-                      <RefreshCw aria-hidden="true" size={13} />
-                    ) : (
-                      <Plug aria-hidden="true" size={13} />
-                    )}
-                    {connected ? "다시 동기화" : "연결"}
-                  </button>
+                  <p className="text-xs text-zinc-400 dark:text-zinc-500">
+                    마지막 동기화 · {formatLastSync(sync[f.id])}
+                  </p>
+                ) : null}
+                {msg[f.id] ? (
+                  <p className="text-xs font-medium text-zinc-600 dark:text-zinc-300">
+                    {msg[f.id]}
+                  </p>
                 ) : null}
               </div>
+
+              {f.status === "ready" ? (
+                <button
+                  type="button"
+                  data-testid={`health-connect-${f.id}`}
+                  disabled={!canAct || busy}
+                  onClick={() => (connected ? resync(f.id) : connect(f.id))}
+                  className={`app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
+                    connected
+                      ? "bg-zinc-100 text-brand dark:bg-white/[0.08]"
+                      : "bg-brand text-white dark:text-zinc-950"
+                  }`}
+                >
+                  {busy ? (
+                    <Loader2 aria-hidden="true" size={13} className="animate-spin" />
+                  ) : connected ? (
+                    <RefreshCw aria-hidden="true" size={13} />
+                  ) : (
+                    <Plug aria-hidden="true" size={13} />
+                  )}
+                  {connected ? "다시 동기화" : "연결"}
+                </button>
+              ) : null}
             </li>
           );
         })}
       </ul>
 
-      <p className="px-1 text-[11px] leading-5 text-zinc-400 dark:text-zinc-500">
-        마지막 동기화 시각은 <strong>이 기기 기준</strong>이에요 — Health Connect 는
-        폰에 있는 데이터라, 다른 폰에서는 거기서 따로 연결해야 해요. 연결은 언제든
-        Health Connect 앱에서 되돌릴 수 있어요.
+      <p className="px-1 text-xs text-zinc-400 dark:text-zinc-500">
+        동기화 시각은 이 기기 기준이에요. 연결은 Health Connect 앱에서 되돌릴 수 있어요.
       </p>
     </div>
   );

@@ -1,338 +1,114 @@
 import Link from "next/link";
 import {
-  ArrowRight,
   Bell,
   Building2,
-  ChevronLeft,
+  ChevronRight,
   ClipboardList,
   Download,
   HeartPulse,
   Scale,
   SlidersHorizontal,
+  Smartphone,
   TrendingUp,
   Trophy,
   UserRound,
   UsersRound,
+  type LucideIcon,
 } from "lucide-react";
 
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { ThemePicker } from "@/features/theme/theme-picker";
-import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { getUserProfile } from "@/features/profile/data-access";
 
 export const dynamic = "force-dynamic";
 
+type Row = { href: string; title: string; icon: LucideIcon };
+
+/**
+ * 설정 한 줄 — 아이폰 설정 앱처럼 아이콘 · 제목 · › 만. 설명 문구는 뺐다
+ * (2026-09-15 "글씨가 너무 많아, 간결하게").
+ */
+function SettingsRow({ href, title, icon: Icon }: Row) {
+  return (
+    <li>
+      <Link
+        href={href}
+        data-testid={href === "/settings/trainers" ? "settings-trainers" : undefined}
+        className="app-row transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+      >
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
+          <Icon aria-hidden="true" size={16} />
+        </span>
+        <h2 className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+          {title}
+        </h2>
+        <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+      </Link>
+    </li>
+  );
+}
+
+function Group({ label, rows }: { label: string; rows: Row[] }) {
+  return (
+    <section>
+      <p className="app-section-label">{label}</p>
+      <ul className="app-list">
+        {rows.map((r) => (
+          <SettingsRow key={r.href} {...r} />
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 export default async function SettingsPage() {
-  const [user, gym, profile] = await Promise.all([
-    getCurrentUser(),
-    getCurrentGym(),
-    getUserProfile(),
-  ]);
+  const [user, profile] = await Promise.all([getCurrentUser(), getUserProfile()]);
+
+  const me: Row[] = [
+    { href: "/settings/me", title: "마이페이지", icon: UserRound },
+    { href: "/settings/profile", title: "체형 정보", icon: Scale },
+    { href: "/settings/body-composition", title: "체성분 결과 등록", icon: ClipboardList },
+    ...(profile?.gender === "female"
+      ? [{ href: "/cycle", title: "생리 기록", icon: HeartPulse }]
+      : []),
+  ];
+  const workout: Row[] = [
+    { href: "/settings/trainers", title: "트레이너 연결", icon: UsersRound },
+    { href: "/settings/gym", title: "내 헬스장", icon: Building2 },
+    { href: "/settings/score", title: "운동 점수", icon: Trophy },
+    { href: "/settings/progress", title: "성장 그래프", icon: TrendingUp },
+  ];
+  const app: Row[] = [
+    { href: "/settings/personal", title: "개인설정", icon: SlidersHorizontal },
+    { href: "/settings/notifications", title: "알림 설정", icon: Bell },
+    { href: "/settings/health", title: "건강 연동", icon: Smartphone },
+    { href: "/settings/subscription", title: "구독", icon: Trophy },
+    { href: "/settings/export", title: "내 데이터 내보내기", icon: Download },
+  ];
 
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        뒤로
-      </BackLink>
-
-      <div className="mt-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          설정
-        </h1>
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          {user?.email}
-        </p>
-      </div>
-
-      <div className="mt-8 space-y-4">
-        <Link
-          href="/settings/me"
-          className="group flex items-center gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/30 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-white">
-            <UserRound aria-hidden="true" size={22} />
+    <div className="app-page">
+      <PageHeader title="설정" back />
+      <main data-testid="settings-rows" className="app-container space-y-6">
+        {/* 계정은 제목 바로 아래 작은 한 줄 — 그룹 사이 간격도 24px → 16px(2026-09-16 촘촘하게). */}
+        <Link href="/settings/me" className="app-card app-press flex items-center gap-3 p-4">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand/10 text-brand">
+            <UserRound aria-hidden="true" size={24} />
           </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              마이페이지
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              내 프로필·신체·식단·운동을 한눈에
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/personal"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <SlidersHorizontal aria-hidden="true" size={22} />
+          <span className="min-w-0 flex-1">
+            <span className="block text-base font-semibold">내 프로필</span>
+            <span className="mt-0.5 block truncate text-sm text-muted">{user?.email}</span>
           </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              개인설정
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              운동영상 보기/숨기기 등 화면 동작 설정
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
+          <ChevronRight aria-hidden="true" size={18} className="text-muted" />
         </Link>
-
-        <Link
-          href="/settings/gym"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <Building2 aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              내 헬스장
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              {gym
-                ? `${gym.name} · 기구 ${gym.equipmentIds.length}종`
-                : "헬스장 이름·주소·보유 기구 등록"}
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/profile"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <Scale aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              체형 정보
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              키·몸무게·체지방률·근육량 기록과 추이 그래프
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/body-composition"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <ClipboardList aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              체성분 결과 등록
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              분석지 수치·사진 등록 → 밸런스·추천 루틴에 반영
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        {profile?.gender === "female" ? (
-          <Link
-            href="/cycle"
-            className="group flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition hover:border-rose-300 hover:shadow-md dark:border-zinc-700 dark:bg-zinc-800 sm:gap-4 sm:p-5"
-          >
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-400">
-              <HeartPulse aria-hidden="true" size={22} />
-            </span>
-            <div className="min-w-0 flex-1">
-              <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">생리 기록</h2>
-              <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">주기 기록 · 다음 생리 예측</p>
-            </div>
-            <ArrowRight aria-hidden="true" className="shrink-0 text-zinc-400 transition group-hover:translate-x-1 group-hover:text-rose-700" size={18} />
-          </Link>
-        ) : null}
-
-        <Link
-          href="/settings/health"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-400">
-            <Scale aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              건강 연동
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              걸음 수 · 체중/체성분을 Health Connect 에서 가져오기
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/subscription"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
-            <Trophy aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              구독
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              AI 기능 이용 횟수 · 프리미엄 상태
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/score"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <Trophy aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              운동 점수
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              완료 기반 점수 · 연속 일수 · 최근 활동
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        {/* 트레이너 연결 — 나를 보는 트레이너와 제공 항목(회원 본인이 정한다). */}
-        <Link
-          href="/settings/trainers"
-          data-testid="settings-trainers"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <UsersRound aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              트레이너 연결
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              트레이너 제거 · 운동/식단/체중 제공 켜고 끄기
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/notifications"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400">
-            <Bell aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              알림 설정
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              받을 알림 종류 · 야간 방해 금지
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/progress"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400">
-            <TrendingUp aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              성장 그래프
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              총 볼륨 추이 · 종목별 추정 1RM 추이
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <Link
-          href="/settings/export"
-          className="group flex items-center gap-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md sm:gap-4 sm:p-5"
-        >
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-            <Download aria-hidden="true" size={22} />
-          </span>
-          <div className="min-w-0 flex-1">
-            <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-              내 데이터 내보내기
-            </h2>
-            <p className="mt-0.5 truncate text-sm text-zinc-600 dark:text-zinc-400">
-              운동·체중·식단 CSV · 전체 JSON 백업
-            </p>
-          </div>
-          <ArrowRight
-            aria-hidden="true"
-            className="shrink-0 text-zinc-400 dark:text-zinc-500 transition group-hover:translate-x-1 group-hover:text-emerald-700"
-            size={18}
-          />
-        </Link>
-
-        <ThemePicker />
-      </div>
-    </main>
+        <Group label="내 정보" rows={me} />
+        <Group label="운동" rows={workout} />
+        <Group label="앱" rows={app} />
+        <div className="app-list">
+          <ThemePicker />
+        </div>
+      </main>
+    </div>
   );
 }

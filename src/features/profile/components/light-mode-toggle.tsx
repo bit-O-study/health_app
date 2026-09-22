@@ -9,6 +9,7 @@ import {
   saveLightModePreference,
 } from "@/features/performance/light-mode";
 
+/** 개인설정 목록 한 줄 — 아이폰 설정처럼 아이콘 · 제목 · 스위치(설명 문장 없음, 2026-09-16 8단계). */
 export function LightModeToggle() {
   const [enabled, setEnabled] = useState(false);
 
@@ -28,36 +29,29 @@ export function LightModeToggle() {
   }
 
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800 sm:p-5">
-      <div className="flex items-center gap-3 sm:gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-400">
-          <Gauge aria-hidden="true" size={22} />
-        </span>
-        <div className="min-w-0 flex-1">
-          <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-            경량 모드
-          </h2>
-          <p className="mt-0.5 text-sm text-zinc-600 dark:text-zinc-400">
-            3D 효과를 줄여 배터리와 메모리 사용량을 낮춥니다. 저사양 기기에서는 자동 적용됩니다.
-          </p>
-        </div>
-        <button
-          type="button"
-          role="switch"
-          aria-checked={enabled}
-          aria-label="경량 모드"
-          onClick={toggle}
-          className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${
-            enabled ? "bg-sky-600" : "bg-zinc-300 dark:bg-zinc-600"
+    <div className="app-row">
+      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+        <Gauge aria-hidden="true" size={16} />
+      </span>
+      <span className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+        경량 모드
+      </span>
+      <button
+        type="button"
+        role="switch"
+        aria-checked={enabled}
+        aria-label="경량 모드"
+        onClick={toggle}
+        className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${
+          enabled ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
+        }`}
+      >
+        <span
+          className={`h-5 w-5 rounded-full bg-white shadow transition-transform ${
+            enabled ? "translate-x-6" : "translate-x-1"
           }`}
-        >
-          <span
-            className={`h-5 w-5 rounded-full bg-white shadow transition-transform ${
-              enabled ? "translate-x-6" : "translate-x-1"
-            }`}
-          />
-        </button>
-      </div>
+        />
+      </button>
     </div>
   );
 }

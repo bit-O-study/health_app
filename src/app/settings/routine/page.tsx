@@ -1,6 +1,4 @@
-import { ChevronLeft } from "lucide-react";
-
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 import { RoutinePlanner } from "@/features/routine/components/routine-planner";
 import { RecommendRoutineCard } from "@/features/routine/components/recommend-card";
 import { RoutinePresets } from "@/features/routine/components/routine-presets";
@@ -31,41 +29,26 @@ export default async function RoutineSettingsPage() {
       ? recommendByProfile(profile.gender, profile.experience)
       : null;
 
+  // 공통 머리글 + 카드(2026-09-16 8단계) — 설명 문단은 뺐다. 운동탭·설정 어디서든 들어오므로 뒤로는 router.back.
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        뒤로
-      </BackLink>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          루틴 설정
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          체성분이 등록돼 있으면 약한 부위를 보강하는 추천 루틴이 위에 뜹니다.
-          아래에서 루틴/변형을 직접 고르거나 커스텀으로 만들 수도 있어요.
-        </p>
-      </div>
-
-      {recommendation ? (
-        <div className="mb-6">
+    <div className="app-page">
+      <PageHeader title="루틴 설정" back />
+      <main className="app-container space-y-4">
+        {recommendation ? (
           <RecommendRoutineCard recommendation={recommendation} />
-        </div>
-      ) : null}
+        ) : null}
 
-      <div className="mb-6">
         <RoutinePresets presets={presets} />
-      </div>
 
-      <RoutinePlanner
-        initialSplits={routine?.splits ?? DEFAULT_SPLITS}
-        initialVariantId={routine?.variantId ?? DEFAULT_VARIANT_ID}
-        initialCustomWeek={routine?.customWeek ?? null}
-        saveAction={saveRoutineAction}
-        /* 저장 후 운동 등록 페이지로 — 추천으로 한 번에 채우기 vs 내가 직접 고르기 선택 */
-        redirectOnSuccess="/plan"
-      />
-    </main>
+        <RoutinePlanner
+          initialSplits={routine?.splits ?? DEFAULT_SPLITS}
+          initialVariantId={routine?.variantId ?? DEFAULT_VARIANT_ID}
+          initialCustomWeek={routine?.customWeek ?? null}
+          saveAction={saveRoutineAction}
+          /* 저장 후 운동 등록 페이지로 — 추천으로 한 번에 채우기 vs 내가 직접 고르기 선택 */
+          redirectOnSuccess="/plan"
+        />
+      </main>
+    </div>
   );
 }

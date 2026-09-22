@@ -48,14 +48,14 @@ function MetricChart({ s }: { s: BodySeries }) {
               {s.unit}
             </span>
           </span>
-          <span className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500">
+          <span className="text-xs font-semibold text-zinc-400 dark:text-zinc-500">
             {deltaText}
           </span>
         </span>
       </div>
 
       {/* 최근 값이 '언제' 잰 것인지 — 그래프만 보면 알 수 없어서 함께 표시. */}
-      <div className="mb-1 text-right text-[10px] text-zinc-400 dark:text-zinc-500">
+      <div className="mb-1 text-right text-xs text-zinc-400 dark:text-zinc-500">
         {shortDateLabel(lastPoint.createdAt)} 측정
       </div>
 
@@ -87,11 +87,11 @@ function MetricChart({ s }: { s: BodySeries }) {
           ))}
         </svg>
         {/* y축 범위(최소~최대) — 스케일이 명확하게 */}
-        <span className="pointer-events-none absolute right-1 top-0 text-[10px] text-zinc-400 dark:text-zinc-500">
+        <span className="pointer-events-none absolute right-1 top-0 text-xs text-zinc-400 dark:text-zinc-500">
           {s.max}
           {s.unit}
         </span>
-        <span className="pointer-events-none absolute bottom-0 right-1 text-[10px] text-zinc-400 dark:text-zinc-500">
+        <span className="pointer-events-none absolute bottom-0 right-1 text-xs text-zinc-400 dark:text-zinc-500">
           {s.min}
           {s.unit}
         </span>
@@ -111,7 +111,7 @@ function MetricChart({ s }: { s: BodySeries }) {
           return (
             <span
               key={p.i}
-              className="absolute top-0 whitespace-nowrap text-[10px] text-zinc-400 dark:text-zinc-500"
+              className="absolute top-0 whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500"
               style={{ left: `${left}%`, transform: align }}
             >
               {shortDateLabel(p.createdAt)}

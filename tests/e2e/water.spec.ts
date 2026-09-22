@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
+import { openApp } from "./helpers/launcher";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 수분 섭취 — 식단 화면에서 컵을 누르면 그만큼 쌓이고, DB 에 하루 한 행으로 남는다.
@@ -24,7 +25,7 @@ test("컵을 누르면 수분이 쌓이고 DB 에 남는다", async ({ page }) =
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
-  await page.getByRole("link", { name: "식단" }).click();
+  await openApp(page, "식단");
   await page.waitForURL("**/diet", { timeout: 10000 });
 
   const card = page.getByTestId("water-card");

@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser, createSupabaseServerClient } from "@/lib/supabase/server";
 import { getTrainerBoard } from "@/features/groups/trainer-data";
 import { getDepositInfo, getTeamSubscription } from "@/features/billing/team-store";
@@ -24,19 +23,14 @@ export default async function TeamBillingPage({
   const board = await getTrainerBoard(id);
   if (!board) {
     return (
-      <main className="app-page app-container">
-        <p className="py-16 text-center text-sm text-zinc-600 dark:text-zinc-400">
-          팀 요금제는 그룹장만 볼 수 있어요.
-        </p>
-        <p className="text-center">
-          <Link
-            href={`/groups/${id}`}
-            className="inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
-          >
-            <ChevronLeft aria-hidden="true" size={16} /> 그룹으로
-          </Link>
-        </p>
-      </main>
+      <div className="app-page">
+        <PageHeader title="팀 요금제" back="그룹으로" backHref={`/groups/${id}`} />
+        <main className="app-container">
+          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            팀 요금제는 그룹장만 볼 수 있어요.
+          </p>
+        </main>
+      </div>
     );
   }
 
@@ -51,19 +45,11 @@ export default async function TeamBillingPage({
   ]);
 
   return (
-    <main className="app-page app-container">
-      <Link
-        href={`/groups/${id}/trainer`}
-        className="mb-4 inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-      >
-        <ChevronLeft aria-hidden="true" size={16} />
-        회원 관리
-      </Link>
-
-      <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-50">팀 요금제</h1>
-      <p className="mb-5 mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-        이용 중에는 <strong>{board.groupName}</strong> 회원 전원이 프리미엄으로 써요.
-        회원이 따로 결제하지 않아요.
+    <div className="app-page">
+      <PageHeader title="팀 요금제" back="회원 관리" backHref={`/groups/${id}/trainer`} />
+      <main className="app-container space-y-3">
+      <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">
+        {board.groupName} 회원 전원 프리미엄 · 회원 결제 없음
       </p>
 
       <TeamPlanForm
@@ -73,6 +59,7 @@ export default async function TeamBillingPage({
         initial={sub}
         deposit={deposit}
       />
-    </main>
+      </main>
+    </div>
   );
 }

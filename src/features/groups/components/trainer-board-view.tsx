@@ -15,24 +15,28 @@ function AdherenceBadge({ m }: { m: TrainerMember }) {
   const pct = adherencePct(m);
   if (pct === null) {
     return (
-      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-[11px] font-bold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+      <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400">
         목표 미설정
       </span>
     );
   }
   const tone =
     pct >= 80
-      ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300"
+      ? "bg-brand-soft text-brand"
       : pct >= 50
-        ? "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300"
-        : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300";
+        ? "bg-warn/10 text-warn"
+        : "bg-danger/10 text-danger";
   return (
-    <span className={`rounded-full px-2 py-0.5 text-[11px] font-bold tabular-nums ${tone}`}>
+    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold tabular-nums ${tone}`}>
       {pct}%
     </span>
   );
 }
 
+/**
+ * 회원 관리 본문 — 제목("회원 관리")과 팀 요금제 링크는 페이지 머리글(PageHeader)이 그린다
+ * (2026-09-16 8단계). 여기선 그룹 이름·이번 주 한 줄 → 요약 한 장 → 회원 카드.
+ */
 export function TrainerBoardView({
   groupId,
   groupName,
@@ -51,27 +55,14 @@ export function TrainerBoardView({
   const summary = trainerSummary(members, today);
 
   return (
-    <section className="space-y-4">
-      <header className="flex items-start justify-between gap-2">
-        <div className="min-w-0 space-y-1">
-          <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-50">
-            {groupName} · 회원 관리
-          </h1>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            {weekFrom.slice(5)} ~ {weekTo.slice(5)} 이번 주
-          </p>
-        </div>
-        <Link
-          href={`/groups/${groupId}/trainer/billing`}
-          data-testid="billing-link"
-          className="shrink-0 rounded-lg border border-zinc-300 px-3 py-1.5 text-[11px] font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
-        >
-          팀 요금제
-        </Link>
-      </header>
+    <section className="space-y-3">
+      <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">
+        {groupName} · {weekFrom.slice(5)} ~ {weekTo.slice(5)} 이번 주
+      </p>
 
-      {/* 요약 — 트레이너가 이 화면을 여는 이유는 "오늘 누구에게 연락할까" 다. */}
-      <div className="grid grid-cols-3 gap-2">
+      {/* 요약 한 장 세 칸 — 트레이너가 이 화면을 여는 이유는 "오늘 누구에게 연락할까" 다. */}
+      <div className="app-list">
+      <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5">
         {[
           { label: "담당 회원", value: summary.total, tone: "text-zinc-900 dark:text-zinc-100" },
           {
@@ -79,24 +70,22 @@ export function TrainerBoardView({
             value: summary.needsAttention,
             tone:
               summary.needsAttention > 0
-                ? "text-rose-600 dark:text-rose-400"
+                ? "text-danger"
                 : "text-zinc-900 dark:text-zinc-100",
           },
-          { label: "오늘 운동", value: summary.workedToday, tone: "text-emerald-600 dark:text-emerald-400" },
+          { label: "오늘 운동", value: summary.workedToday, tone: "text-brand" },
         ].map((s) => (
-          <div
-            key={s.label}
-            className="rounded-2xl border border-zinc-200 bg-white p-3 text-center dark:border-zinc-700 dark:bg-zinc-800"
-          >
+          <div key={s.label} className="min-w-0 px-1 text-center">
             <p className={`text-xl font-bold tabular-nums ${s.tone}`}>{s.value}</p>
-            <p className="mt-0.5 text-[11px] font-bold text-zinc-500">{s.label}</p>
+            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{s.label}</p>
           </div>
         ))}
       </div>
+      </div>
 
       {members.length === 0 ? (
-        <p className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm leading-6 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
-          아직 담당 회원이 없어요. 그룹 초대 링크를 회원에게 보내면 여기에 나타나요.
+        <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          아직 담당 회원이 없어요 · 초대 링크를 보내면 나타나요
         </p>
       ) : (
         <ul className="space-y-2" data-testid="trainer-members">
@@ -109,22 +98,22 @@ export function TrainerBoardView({
                 key={m.userId}
                 data-testid="trainer-member"
                 data-user={m.userId}
-                className={`rounded-2xl border bg-white p-4 dark:bg-zinc-800 ${
+                className={`app-card p-3 ${
                   flags.some((f) => f.kind === "absence")
-                    ? "border-rose-200 dark:border-rose-900/50"
+                    ? "border-danger/40"
                     : flags.length > 0
-                      ? "border-amber-200 dark:border-amber-900/50"
-                      : "border-zinc-200 dark:border-zinc-700"
+                      ? "border-warn/40"
+                      : ""
                 }`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <p className="min-w-0 flex-1 truncate text-sm font-bold text-zinc-950 dark:text-zinc-100">
+                  <p className="min-w-0 flex-1 truncate text-base font-semibold text-zinc-950 dark:text-zinc-100">
                     {m.name}
                   </p>
                   <AdherenceBadge m={m} />
                 </div>
 
-                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-zinc-600 dark:text-zinc-300">
+                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400">
                   <span className="inline-flex items-center gap-1">
                     <Dumbbell aria-hidden="true" size={12} className="text-zinc-400" />
                     운동 {m.workoutDays}일
@@ -148,7 +137,7 @@ export function TrainerBoardView({
                 </div>
 
                 {flags.length > 0 ? (
-                  <ul className="mt-2.5 flex flex-wrap gap-1.5">
+                  <ul className="mt-2 flex flex-wrap gap-1.5">
                     {flags.map((f) => (
                       <li
                         key={f.label}
@@ -156,12 +145,12 @@ export function TrainerBoardView({
                         /* 색을 신호별로 나눈다 — '안 나온다'(연락할 일)와 '늘 같은 데만
                            한다'(프로그램을 고칠 일)를 같은 빨강으로 칠하면 트레이너가
                            할 일이 전혀 다른 둘을 구분할 수 없다. */
-                        className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[11px] font-bold ${
+                        className={`inline-flex items-center gap-1 rounded-lg px-2 py-0.5 text-xs font-semibold ${
                           f.kind === "program"
-                            ? "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300"
+                            ? "bg-warn/10 text-warn"
                             : f.kind === "absence"
-                              ? "bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-300"
-                              : "bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300"
+                              ? "bg-danger/10 text-danger"
+                              : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
                         }`}
                       >
                         {f.kind === "program" ? (
@@ -174,7 +163,7 @@ export function TrainerBoardView({
                     ))}
                   </ul>
                 ) : (
-                  <p className="mt-2.5 inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                  <p className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand">
                     <Check aria-hidden="true" size={12} />잘 하고 있어요
                   </p>
                 )}
@@ -189,21 +178,21 @@ export function TrainerBoardView({
                         (`?member=` 로 적으면 그룹 화면만 뜨고 아무 일도 안 일어난다). */}
                   <Link
                     href={`/groups/${groupId}/member/${m.userId}`}
-                    className="inline-flex h-8 items-center rounded-lg border border-zinc-300 px-3 text-[11px] font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                    className="app-press inline-flex h-8 items-center rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                   >
                     기록 자세히 보기
                   </Link>
                   <Link
                     href={`/groups/${groupId}/trainer/assign/${m.userId}`}
                     data-testid="assign-link"
-                    className="inline-flex h-8 items-center rounded-lg bg-emerald-600 px-3 text-[11px] font-bold text-white transition hover:bg-emerald-500"
+                    className="app-press inline-flex h-8 items-center rounded-full bg-brand px-3 text-xs font-semibold text-white dark:text-zinc-950"
                   >
                     루틴 배정
                   </Link>
                   <Link
                     href={`/groups/${groupId}/trainer/comment/${m.userId}`}
                     data-testid="comment-link"
-                    className="inline-flex h-8 items-center rounded-lg border border-emerald-600 px-3 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-50 dark:text-emerald-400 dark:hover:bg-emerald-950/40"
+                    className="app-press inline-flex h-8 items-center rounded-full bg-brand-soft px-3 text-xs font-semibold text-brand"
                   >
                     코멘트
                   </Link>

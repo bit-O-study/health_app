@@ -128,14 +128,14 @@ export function WithdrawButton() {
                         key={r}
                         className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-sm font-semibold transition ${
                           reason === r
-                            ? "border-emerald-400 bg-emerald-50 text-emerald-800 dark:border-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-200"
+                            ? "border-brand/40 bg-brand-soft text-brand"
                             : "border-zinc-200 text-zinc-700 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-300"
                         }`}
                       >
                         <input
                           type="radio"
                           name="withdraw-reason"
-                          className="h-4 w-4 accent-emerald-600"
+                          className="h-4 w-4 accent-brand"
                           checked={reason === r}
                           onChange={() => setReason(r)}
                         />
@@ -148,34 +148,34 @@ export function WithdrawButton() {
                         onChange={(e) => setEtc(e.target.value)}
                         rows={3}
                         placeholder="자세한 이유를 들려주세요 (선택)"
-                        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+                        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
                       />
                     ) : null}
                   </div>
                 </>
               ) : (
                 <>
-                  <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+                  <div className="flex items-center gap-2 text-brand">
                     <CheckCircle2 aria-hidden="true" size={22} />
                     <h3 className="text-lg font-bold">
                       그동안 이용해 주셔서 감사합니다 🙏
                     </h3>
                   </div>
 
-                  <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-900 dark:bg-emerald-950/30">
-                    <p className="text-xs font-bold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
+                  <div className="mt-4 rounded-xl border border-brand/40 bg-brand-soft p-4">
+                    <p className="text-xs font-bold uppercase tracking-wide text-brand">
                       헬쑤와 함께라면
                     </p>
                     <ul className="mt-2 space-y-1.5">
                       {BENEFITS.map((b) => (
                         <li
                           key={b}
-                          className="flex gap-2 text-sm text-emerald-900 dark:text-emerald-100"
+                          className="flex gap-2 text-sm text-brand"
                         >
                           <CheckCircle2
                             aria-hidden="true"
                             size={15}
-                            className="mt-0.5 shrink-0 text-emerald-500"
+                            className="mt-0.5 shrink-0 text-brand"
                           />
                           {b}
                         </li>
@@ -252,7 +252,7 @@ export function WithdrawButton() {
                   <button
                     type="button"
                     onClick={() => router.push("/routine")}
-                    className="h-11 flex-1 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500"
+                    className="h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
                   >
                     다시 사용하기
                   </button>

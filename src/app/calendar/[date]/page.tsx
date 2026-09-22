@@ -1,17 +1,8 @@
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Flag,
-  Flame,
-  Footprints,
-  Utensils,
-  Timer,
-  Dumbbell,
-  Wind,
-} from "lucide-react";
+import { ChevronRight, Wind } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getDayDetail } from "@/features/calendar/data-access";
 import { getMyCommitments } from "@/features/commitments/data-access";
@@ -55,204 +46,163 @@ export default async function CalendarDayPage({
 
   const foodsByMeal = (meal: Meal) => foods.filter((f) => f.meal === meal);
 
+  const empty = (text: string) => (
+    <p className="app-card p-3 text-center text-sm text-zinc-400">{text}</p>
+  );
+
+  // 공통 머리글 + 섹션 라벨 + 그룹 목록(2026-09-16 8단계). 요약 카드 4장 → 한 장 네 칸.
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
-      <Link
-        href="/calendar"
-        className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200"
-      >
-        <ChevronLeft aria-hidden="true" size={16} />
-        캘린더
-      </Link>
+    <div className="app-page">
+      <PageHeader title={`${label} (${weekday})`} back="캘린더" backHref="/calendar" />
+      <main className="app-container space-y-4">
+        {/* 요약 — 섭취·소비·걸음수·운동 시간 네 칸 */}
+        <div className="app-list">
+        <div className="grid grid-cols-4 divide-x divide-[var(--line)] py-2.5">
+          <DayStat label="섭취" value={`+${intake}`} />
+          <DayStat label="소비" value={`-${burned}`} tone="text-brand" />
+          <DayStat
+            label="걸음수"
+            value={steps.toLocaleString()}
+            sub={stepsKcal > 0 ? `-${stepsKcal}kcal` : undefined}
+          />
+          <DayStat label="운동 시간" value={shortDuration(durationSec)} />
+        </div>
+        </div>
 
-      <h1 className="mt-4 text-xl font-bold text-zinc-950 dark:text-zinc-50">
-        {label} ({weekday})
-      </h1>
+        {/* 이 날짜에 진행 중인 다짐 — 누르면 다짐 관리로 이동 */}
+        {dayCommitments.length > 0 ? (
+          <section>
+            <h2 className="app-section-label">진행 중인 다짐</h2>
+            <ul className="app-list">
+              {dayCommitments.map((c) => {
+                const p = c.progress;
+                return (
+                  <li key={c.id}>
+                    <Link
+                      href="/commitments"
+                      className="app-row py-2 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+                    >
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                          {c.title}
+                          {p.done ? (
+                            <span className="ml-1 text-xs font-semibold text-brand">달성 ✓</span>
+                          ) : c.deadline === date ? (
+                            <span className="ml-1 text-xs font-semibold text-danger">오늘 데드라인</span>
+                          ) : null}
+                        </span>
+                        <span className="mt-1 block h-1 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
+                          <span
+                            className={`block h-full rounded-full ${p.done ? "bg-brand" : "bg-brand/60"}`}
+                            style={{ width: `${p.pct}%` }}
+                          />
+                        </span>
+                        <span className="mt-0.5 block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                          {c.metricLabel} {p.current.toLocaleString()} / {p.target.toLocaleString()} {c.unit}
+                          {!p.done && !p.expired ? ` · D-${p.daysLeft}` : ""}
+                        </span>
+                      </span>
+                      <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        ) : null}
 
-      {/* 요약 칩 */}
-      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
-            <Utensils size={13} /> 섭취
-          </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-            +{intake}
-          </p>
-        </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
-            <Flame size={13} /> 소비
-          </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-            -{burned}
-          </p>
-        </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-sky-600 dark:text-sky-400">
-            <Footprints size={13} /> 걸음수
-          </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-            {steps.toLocaleString()}
-          </p>
-          <p className="text-[10px] font-medium text-zinc-400">
-            {stepsKcal > 0 ? `-${stepsKcal}kcal` : "—"}
-          </p>
-        </div>
-        <div className="rounded-xl border border-zinc-200 bg-white p-3 text-center shadow-sm dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center justify-center gap-1 text-[11px] font-bold text-zinc-500 dark:text-zinc-400">
-            <Timer size={13} /> 운동 시간
-          </span>
-          <p className="mt-0.5 font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
-            {shortDuration(durationSec)}
-          </p>
-        </div>
-      </div>
-
-      {/* 이 날짜에 진행 중인 다짐 — 클릭하면 다짐 관리로 이동 */}
-      {dayCommitments.length > 0 ? (
-        <section className="mt-6">
-          <h2 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-            <Flag size={16} className="text-emerald-600" /> 진행 중인 다짐
-          </h2>
-          <ul className="space-y-2">
-            {dayCommitments.map((c) => {
-              const p = c.progress;
-              return (
-                <li key={c.id}>
-                  <Link
-                    href="/commitments"
-                    className="flex items-center gap-3 rounded-xl border border-zinc-200 bg-white p-3 transition hover:border-emerald-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                        {c.title}
-                        {p.done ? (
-                          <span className="ml-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                            달성 ✓
-                          </span>
-                        ) : c.deadline === date ? (
-                          <span className="ml-1 text-xs font-bold text-red-500">
-                            오늘 데드라인
-                          </span>
-                        ) : null}
-                      </p>
-                      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
-                        <div
-                          className={`h-full rounded-full ${
-                            p.done ? "bg-emerald-500" : "bg-emerald-400"
-                          }`}
-                          style={{ width: `${p.pct}%` }}
-                        />
-                      </div>
-                      <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
-                        {c.metricLabel} {p.current.toLocaleString()} /{" "}
-                        {p.target.toLocaleString()} {c.unit}
-                        {!p.done && !p.expired ? ` · D-${p.daysLeft}` : ""}
-                      </p>
-                    </div>
-                    <ChevronRight
-                      aria-hidden="true"
-                      size={16}
-                      className="shrink-0 text-zinc-400"
-                    />
-                  </Link>
+        {/* 한 운동 */}
+        <section>
+          <h2 className="app-section-label">한 운동</h2>
+          {workouts.length === 0 && conditioning.length === 0 ? (
+            empty("완료한 운동이 없어요.")
+          ) : (
+            <ul className="app-list">
+              {workouts.map((w, i) => (
+                <li key={`w${i}`} className="app-row justify-between py-1.5">
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                      {w.name}
+                    </span>
+                    <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                      {w.sets}세트 × {w.reps}회
+                      {w.weightKg != null ? ` · ${w.weightKg}kg` : " · 맨몸"}
+                    </span>
+                  </span>
+                  <span className="shrink-0 text-sm tabular-nums text-brand">-{w.kcal}</span>
                 </li>
-              );
-            })}
-          </ul>
+              ))}
+              {conditioning.map((c, i) => (
+                <li key={`c${i}`} className="app-row justify-between py-1.5">
+                  <span className="min-w-0">
+                    <span className="flex items-center gap-1 truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                      <Wind aria-hidden="true" size={13} className="shrink-0 text-zinc-400" />
+                      {c.name}
+                    </span>
+                    {c.detail ? (
+                      <span className="block text-xs text-zinc-500 dark:text-zinc-400">{c.detail}</span>
+                    ) : null}
+                  </span>
+                  <span className="shrink-0 text-sm tabular-nums text-brand">-{c.kcal}</span>
+                </li>
+              ))}
+            </ul>
+          )}
         </section>
-      ) : null}
 
-      {/* 한 운동 */}
-      <section className="mt-6">
-        <h2 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-          <Dumbbell size={16} className="text-emerald-600" /> 한 운동
-        </h2>
-        {workouts.length === 0 && conditioning.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-4 text-center text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900">
-            완료한 운동이 없어요.
-          </p>
-        ) : (
-          <ul className="divide-y divide-zinc-100 overflow-hidden rounded-xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
-            {workouts.map((w, i) => (
-              <li key={`w${i}`} className="flex items-center justify-between gap-2 p-3">
-                <div className="min-w-0">
-                  <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                    {w.name}
-                  </p>
-                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                    {w.sets}세트 × {w.reps}회
-                    {w.weightKg != null ? ` · ${w.weightKg}kg` : " · 맨몸"}
-                  </p>
+        {/* 식단 — 끼니마다 "식단 · 아침" 라벨 한 줄 + 목록 한 장.
+            (라벨 두 줄을 겹쳐 두면 "식단/아침" 이 한 덩어리로 찌그러져 보였다 — 2026-09-16 캡처) */}
+        <section className="space-y-3">
+          {foods.length === 0 ? (
+            <div>
+              <h2 className="app-section-label">식단</h2>
+              {empty("기록한 식단이 없어요.")}
+            </div>
+          ) : (
+            MEALS.filter((m) => foodsByMeal(m).length > 0).map((meal) => (
+                <div key={meal}>
+                  <h2 className="app-section-label">식단 · {MEAL_LABEL[meal]}</h2>
+                  <ul className="app-list">
+                    {foodsByMeal(meal).map((f) => (
+                      <li key={f.id} className="app-row min-h-[2.75rem] justify-between">
+                        <span className="min-w-0 truncate text-sm text-zinc-900 dark:text-zinc-100">
+                          {f.name}
+                          {f.amount ? (
+                            <span className="ml-1 text-xs text-zinc-400">{f.amount}</span>
+                          ) : null}
+                        </span>
+                        <span className="shrink-0 text-sm tabular-nums text-zinc-500 dark:text-zinc-400">
+                          +{Math.round(f.kcal)}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <span className="shrink-0 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  -{w.kcal}
-                </span>
-              </li>
-            ))}
-            {conditioning.map((c, i) => (
-              <li key={`c${i}`} className="flex items-center justify-between gap-2 p-3">
-                <div className="min-w-0">
-                  <p className="flex items-center gap-1 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                    <Wind size={13} className="shrink-0 text-sky-500" />
-                    {c.name}
-                  </p>
-                  {c.detail ? (
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
-                      {c.detail}
-                    </p>
-                  ) : null}
-                </div>
-                <span className="shrink-0 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  -{c.kcal}
-                </span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
+              ))
+          )}
+        </section>
+      </main>
+    </div>
+  );
+}
 
-      {/* 식단 */}
-      <section className="mt-6">
-        <h2 className="mb-2 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
-          <Utensils size={16} className="text-amber-600" /> 식단
-        </h2>
-        {foods.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-zinc-300 bg-white p-4 text-center text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-900">
-            기록한 식단이 없어요.
-          </p>
-        ) : (
-          <div className="space-y-3">
-            {MEALS.filter((m) => foodsByMeal(m).length > 0).map((meal) => (
-              <div
-                key={meal}
-                className="overflow-hidden rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
-              >
-                <div className="border-b border-zinc-100 px-3 py-1.5 text-xs font-bold text-zinc-600 dark:border-zinc-800 dark:text-zinc-300">
-                  {MEAL_LABEL[meal]}
-                </div>
-                <ul className="divide-y divide-zinc-100 dark:divide-zinc-800">
-                  {foodsByMeal(meal).map((f) => (
-                    <li key={f.id} className="flex items-center justify-between gap-2 p-3">
-                      <span className="min-w-0 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                        {f.name}
-                        {f.amount ? (
-                          <span className="ml-1 text-xs font-normal text-zinc-400">
-                            {f.amount}
-                          </span>
-                        ) : null}
-                      </span>
-                      <span className="shrink-0 text-xs font-bold text-amber-600 dark:text-amber-400">
-                        +{Math.round(f.kcal)}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        )}
-      </section>
-    </main>
+/** 요약 한 칸 — 라벨 위, 값 아래. */
+function DayStat({
+  label,
+  value,
+  sub,
+  tone = "text-zinc-950 dark:text-zinc-50",
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+  tone?: string;
+}) {
+  return (
+    <div className="min-w-0 px-1 text-center">
+      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className={`mt-0.5 truncate text-sm font-semibold tabular-nums ${tone}`}>{value}</p>
+      {sub ? <p className="truncate text-xs tabular-nums text-zinc-400">{sub}</p> : null}
+    </div>
   );
 }

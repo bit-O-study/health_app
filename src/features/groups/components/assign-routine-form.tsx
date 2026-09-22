@@ -40,14 +40,14 @@ export function AssignRoutineForm({
 
   if (mine.length === 0) {
     return (
-      <p className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm leading-6 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+      <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
         먼저 내 루틴을 만들어야 회원에게 배정할 수 있어요.
       </p>
     );
   }
   if (theirs.length === 0) {
     return (
-      <p className="rounded-2xl border border-zinc-200 bg-zinc-50 p-5 text-sm leading-6 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300">
+      <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
         {memberName} 님이 아직 루틴을 만들지 않았어요. 회원이 루틴을 만든 뒤에 배정할 수
         있어요.
       </p>
@@ -70,12 +70,12 @@ export function AssignRoutineForm({
     <div className="space-y-4">
       <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-2">
         <label className="block">
-          <span className="mb-1 block text-[11px] font-bold text-zinc-500">내 루틴</span>
+          <span className="mb-1 block text-xs font-semibold text-zinc-500">내 루틴</span>
           <select
             aria-label="내 일차"
             value={from ?? ""}
             onChange={(e) => setFrom(Number(e.target.value))}
-            className="h-11 w-full rounded-xl border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className="h-11 w-full rounded-[10px] bg-zinc-100 px-2 text-base dark:bg-white/[0.08] dark:text-zinc-100"
           >
             {mine.map((s) => (
               <option key={`${s.dayIndex}-${s.focus}`} value={s.dayIndex}>
@@ -86,14 +86,14 @@ export function AssignRoutineForm({
         </label>
         <ArrowRight aria-hidden="true" size={16} className="mb-3 text-zinc-400" />
         <label className="block">
-          <span className="mb-1 block text-[11px] font-bold text-zinc-500">
+          <span className="mb-1 block text-xs font-semibold text-zinc-500">
             {memberName} 님
           </span>
           <select
             aria-label="회원 일차"
             value={to ?? ""}
             onChange={(e) => setTo(Number(e.target.value))}
-            className="h-11 w-full rounded-xl border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+            className="h-11 w-full rounded-[10px] bg-zinc-100 px-2 text-base dark:bg-white/[0.08] dark:text-zinc-100"
           >
             {theirs.map((s) => (
               <option key={`${s.dayIndex}-${s.focus}`} value={s.dayIndex}>
@@ -104,7 +104,7 @@ export function AssignRoutineForm({
         </label>
       </div>
 
-      <p className="rounded-xl bg-amber-50 p-3 text-[11px] leading-5 text-amber-800 dark:bg-amber-900/25 dark:text-amber-200">
+      <p className="rounded-[10px] bg-warn/10 p-3 text-xs leading-5 text-warn">
         배정하면 {memberName} 님의 <strong>{toSlot?.label ?? "그 일차"}</strong>에 있던
         운동은 지워지고 내 <strong>{fromSlot?.label ?? "일차"}</strong> 운동으로 바뀌어요.
         <br />
@@ -118,7 +118,7 @@ export function AssignRoutineForm({
             data-testid="assign-confirm"
             disabled={pending}
             onClick={submit}
-            className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
           >
             {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
             네, 배정할게요
@@ -127,7 +127,7 @@ export function AssignRoutineForm({
             type="button"
             disabled={pending}
             onClick={() => setConfirming(false)}
-            className="h-11 rounded-xl border border-zinc-300 px-4 text-sm font-bold text-zinc-600 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300"
+            className="h-11 rounded-xl bg-zinc-100 px-4 text-sm font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
           >
             취소
           </button>
@@ -138,7 +138,7 @@ export function AssignRoutineForm({
           data-testid="assign-start"
           disabled={!ready || pending}
           onClick={() => setConfirming(true)}
-          className="h-11 w-full rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="h-11 w-full rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
         >
           루틴 배정하기
         </button>

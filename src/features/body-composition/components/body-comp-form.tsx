@@ -220,42 +220,30 @@ export function BodyCompForm({
   }
 
   return (
-    <div className="space-y-5">
-      <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
-        <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
-          체성분 분석지 등록
-        </h2>
-        <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-          체성분 분석지(예: 가까운 헬스장의 체성분 측정 결과지)를 보고 아래
-          항목을 입력하세요. 사진은 선택입니다. 입력값은 가까운 부위별 밸런스
-          분석과 추천 루틴 기반으로만 사용되며 의학적 진단을 제공하지 않습니다.
-        </p>
-
-        <label className="mt-4 block space-y-1">
-          <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
+    // 촘촘한 폼(2026-09-16 8단계) — 섹션 라벨은 카드 밖, 입력칸은 폰에서도 두 칸씩.
+    <div className="space-y-4">
+      <section>
+        <h2 className="app-section-label">체성분 분석지 등록</h2>
+        <label className="app-card block space-y-1 p-3">
+          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
             측정일
           </span>
           <input
             type="date"
             value={measuredAt}
             onChange={(e) => setMeasuredAt(e.target.value)}
-            className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+            className="h-10 w-full rounded-[10px] bg-zinc-100 px-3 text-base tabular-nums outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
           />
         </label>
       </section>
 
       {SECTIONS.map((sec) => (
-        <section
-          key={sec.label}
-          className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm"
-        >
-          <h3 className="mb-3 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-            {sec.label}
-          </h3>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <section key={sec.label}>
+          <h3 className="app-section-label">{sec.label}</h3>
+          <div className="app-card grid grid-cols-2 gap-x-2 gap-y-2.5 p-3 sm:grid-cols-3">
             {sec.fields.map((f) => (
-              <label key={f.key} className="space-y-1">
-                <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-300">
+              <label key={f.key} className="min-w-0 space-y-1">
+                <span className="block truncate text-xs font-medium text-zinc-500 dark:text-zinc-400">
                   {f.label} ({f.unit})
                 </span>
                 <input
@@ -265,7 +253,7 @@ export function BodyCompForm({
                   onChange={(e) =>
                     setValues((p) => ({ ...p, [f.key]: e.target.value }))
                   }
-                  className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+                  className="h-10 w-full rounded-[10px] bg-zinc-100 px-3 text-base tabular-nums outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
                 />
               </label>
             ))}
@@ -273,21 +261,13 @@ export function BodyCompForm({
         </section>
       ))}
 
-      <section className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm">
-        <h3 className="mb-2 text-sm font-bold text-zinc-950 dark:text-zinc-100">
-          분석지 사진 + 자동 추출
-        </h3>
-        <p className="mb-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-          사진을 선택한 다음 ‘사진에서 자동 추출’ 을 누르면 브라우저 안에서
-          글자를 읽어 위 입력칸을 채워줍니다 (외부 서버로 전송 안 됨, 무료).
-          잘못 읽은 값은 직접 고치고 ‘체성분 저장’ 을 누르면 돼요. 사진 자체는
-          본인만 볼 수 있는 비공개 폴더에 저장됩니다. 최대 10MB · PNG/JPG/WEBP.
-        </p>
-
+      <section>
+        <h3 className="app-section-label">분석지 사진 + 자동 추출</h3>
+        <div className="app-card p-3">
         <div className="flex flex-wrap items-center gap-2">
           <label
             className={cn(
-              "inline-flex h-10 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800",
+              "app-press inline-flex h-9 cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3.5 text-sm font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200",
               uploading && "opacity-60",
             )}
           >
@@ -310,7 +290,7 @@ export function BodyCompForm({
             type="button"
             disabled={ocrRunning || !imageFile}
             onClick={runOcr}
-            className="inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+            className="app-press inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-3.5 text-sm font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {ocrRunning ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -329,19 +309,18 @@ export function BodyCompForm({
             </p>
             <div className="h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
               <div
-                className="h-full rounded-full bg-emerald-500 transition-all"
+                className="h-full rounded-full bg-brand transition-all"
                 style={{ width: `${ocrProgress}%` }}
               />
             </div>
-            <p className="text-[11px] text-zinc-400 dark:text-zinc-500">
-              첫 실행은 한국어 인식 데이터(~10MB) 를 받아오느라 30초 정도
-              걸려요. 다음부터는 빠릅니다.
+            <p className="text-xs text-zinc-400 dark:text-zinc-500">
+              첫 실행은 30초쯤 걸려요.
             </p>
           </div>
         ) : null}
 
         {imagePath ? (
-          <p className="mt-2 text-xs text-emerald-700 dark:text-emerald-400">
+          <p className="mt-2 text-xs text-brand">
             업로드 완료 · {imagePath.split("/").pop()}
           </p>
         ) : hasExistingImage ? (
@@ -350,7 +329,7 @@ export function BodyCompForm({
           </p>
         ) : null}
         {uploadErr ? (
-          <p className="mt-2 text-xs text-red-600 dark:text-red-400">
+          <p className="mt-2 text-xs text-danger">
             {uploadErr}
           </p>
         ) : null}
@@ -359,20 +338,24 @@ export function BodyCompForm({
             className={cn(
               "mt-2 text-xs",
               ocrMsg.ok
-                ? "text-emerald-700 dark:text-emerald-400"
-                : "text-red-600 dark:text-red-400",
+                ? "text-brand"
+                : "text-danger",
             )}
           >
             {ocrMsg.text}
           </p>
         ) : null}
+        <p className="mt-2 text-xs text-zinc-400 dark:text-zinc-500">
+          사진은 기기 안에서 읽고 비공개로 저장돼요 · 최대 10MB
+        </p>
+        </div>
       </section>
 
-      <section className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-xs leading-5 text-zinc-700 dark:text-zinc-300">
-        <p className="font-semibold text-amber-800">
+      <section className="app-card p-3 text-xs leading-5 text-zinc-700 dark:text-zinc-300">
+        <p className="font-semibold text-zinc-900 dark:text-zinc-100">
           민감정보(건강) 수집·이용 동의
         </p>
-        <ul className="mt-1 list-disc pl-5 text-[11px] text-zinc-600 dark:text-zinc-400">
+        <ul className="mt-1 list-disc pl-5 text-xs text-zinc-600 dark:text-zinc-400">
           <li>
             수집 항목: 측정일, 체중, 골격근량, 체지방률·량, 부위별 근육·지방
             수치, 분석지 사진
@@ -392,7 +375,7 @@ export function BodyCompForm({
             type="checkbox"
             checked={consented}
             onChange={(e) => setConsented(e.target.checked)}
-            className="h-4 w-4 accent-emerald-600"
+            className="h-4 w-4 accent-brand"
           />
           <span className="text-xs font-semibold text-zinc-800 dark:text-zinc-200">
             위 사항에 동의합니다 (필수)
@@ -405,7 +388,7 @@ export function BodyCompForm({
           type="button"
           disabled={pending || !consented}
           onClick={submit}
-          className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+          className="app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -416,8 +399,8 @@ export function BodyCompForm({
           <span
             className={`text-sm font-medium ${
               msg.ok
-                ? "text-emerald-700 dark:text-emerald-400"
-                : "text-red-600 dark:text-red-400"
+                ? "text-brand"
+                : "text-danger"
             }`}
           >
             {msg.text}

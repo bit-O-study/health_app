@@ -35,7 +35,7 @@ export function ExercisePhotoDemo({
       >
         <img src={a} alt="" loading="eager" decoding="async" className="ex-photo-a absolute inset-0 h-full w-full object-cover" />
         <img src={b} alt="" loading="eager" decoding="async" className="ex-photo-b absolute inset-0 h-full w-full object-cover" />
-        <span className="absolute bottom-2 right-2 rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
+        <span className="absolute bottom-2 right-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
           실제 동작
         </span>
       </div>
@@ -111,7 +111,7 @@ export function ExerciseTutorial({
             key={`focus-${active}`}
             data-testid="ex-focus-marker"
             data-part={focus.part}
-            className="ex-cap absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-emerald-500/95 px-2.5 py-1 text-[11px] font-extrabold text-white shadow-lg backdrop-blur-sm"
+            className="ex-cap absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-full bg-brand px-2.5 py-1 text-xs font-bold text-white dark:text-zinc-950 shadow-lg backdrop-blur-sm"
           >
             <Eye size={12} aria-hidden="true" />
             {focus.part}
@@ -141,7 +141,7 @@ export function ExerciseTutorial({
                     ? "bg-violet-500"
                     : kind === "tip"
                       ? "bg-amber-500"
-                      : "bg-emerald-500";
+                      : "bg-brand";
               const dot =
                 kind === "setup"
                   ? "bg-sky-400"
@@ -149,12 +149,12 @@ export function ExerciseTutorial({
                     ? "bg-violet-400"
                     : kind === "tip"
                       ? "bg-amber-400"
-                      : "bg-emerald-400";
+                      : "bg-brand/60";
               return (
                 <div key={active} className="ex-cap absolute inset-x-0 bottom-0 p-4">
                   <div className="flex items-start gap-2.5">
                     <span
-                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-extrabold text-white shadow ${badge}`}
+                      className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white shadow ${badge}`}
                     >
                       {kind === "setup" ? (
                         <Footprints aria-hidden="true" size={13} />
@@ -166,13 +166,13 @@ export function ExerciseTutorial({
                         active + 1
                       )}
                     </span>
-                    <p className="text-[15px] font-semibold leading-snug text-white drop-shadow sm:text-base">
+                    <p className="text-base font-semibold leading-snug text-white drop-shadow sm:text-base">
                       {kind === "setup" ? (
-                        <span className="font-extrabold text-sky-200">준비 · </span>
+                        <span className="font-bold text-sky-200">준비 · </span>
                       ) : kind === "pro" ? (
-                        <span className="font-extrabold text-violet-200">꿀팁 · </span>
+                        <span className="font-bold text-violet-200">꿀팁 · </span>
                       ) : kind === "tip" ? (
-                        <span className="font-extrabold text-amber-300">초보 팁 · </span>
+                        <span className="font-bold text-amber-300">초보 팁 · </span>
                       ) : null}
                       {text}
                     </p>
@@ -194,7 +194,7 @@ export function ExerciseTutorial({
           : null}
 
         {/* 자세 단계 — 2프레임(시작/끝)이 무슨 자세인지 명확히 라벨링. */}
-        <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
+        <span className="absolute right-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
           {frames ? (useEnd ? "② 마무리 자세" : "① 시작 자세") : "동작 가이드"}
         </span>
       </div>

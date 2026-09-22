@@ -99,7 +99,7 @@ export function PlateHint({
       data-per-side={result.perSide.join(",")}
       data-bar-kg={barKg}
       className={`flex flex-wrap items-center gap-x-2 gap-y-1 rounded-lg bg-zinc-50 text-zinc-700 dark:bg-zinc-900 dark:text-zinc-300 ${
-        compact ? "px-2 py-1.5 text-[11px]" : "px-2.5 py-2 text-xs"
+        compact ? "px-2 py-1.5 text-xs" : "px-2.5 py-2 text-xs"
       }`}
     >
       <p className="flex items-center gap-1 font-semibold">
@@ -116,7 +116,7 @@ export function PlateHint({
         type="button"
         onClick={cycleBar}
         aria-label={`봉 무게 바꾸기 (현재 ${barLabel})`}
-        className="ml-auto rounded-md border border-zinc-300 px-1.5 py-0.5 text-[10px] font-semibold text-zinc-500 transition hover:border-emerald-400 hover:text-emerald-700 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-emerald-400"
+        className="ml-auto rounded-md border border-zinc-300 px-1.5 py-0.5 text-xs font-semibold text-zinc-500 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:text-zinc-400"
       >
         {barLabel}
       </button>

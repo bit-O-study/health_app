@@ -51,26 +51,19 @@ export function NotificationSettings({
 
   const nowQuiet = isQuietHour(seoulHour(), prefs);
 
+  // 아이폰 설정식 그룹 목록 두 장(2026-09-16 8단계) — 섹션 설명 문장은 뺐다.
   return (
-    <div className="space-y-6">
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-        <h2 className="mb-1 text-base font-bold text-zinc-950 dark:text-zinc-100">
-          받을 알림
-        </h2>
-        <p className="mb-4 text-sm text-zinc-600 dark:text-zinc-400">
-          끄면 그 종류만 안 와요. 나머지는 그대로 받습니다.
-        </p>
-        <ul className="divide-y divide-zinc-100 dark:divide-zinc-700">
+    <div className="space-y-4">
+      <section>
+        <h2 className="app-section-label">받을 알림</h2>
+        <ul className="app-list">
           {NOTIFICATION_KINDS.map((kind) => (
-            <li
-              key={kind}
-              className="flex items-center justify-between gap-3 py-3"
-            >
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+            <li key={kind} className="app-row">
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-base text-zinc-900 dark:text-zinc-100">
                   {NOTIFICATION_LABEL[kind].title}
                 </p>
-                <p className="mt-0.5 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   {NOTIFICATION_LABEL[kind].desc}
                 </p>
               </div>
@@ -85,56 +78,56 @@ export function NotificationSettings({
         </ul>
       </section>
 
-      <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <h2 className="flex items-center gap-2 text-base font-bold text-zinc-950 dark:text-zinc-100">
-              <Moon aria-hidden="true" size={16} className="text-indigo-500" />
+      <section>
+        <h2 className="app-section-label">방해 금지</h2>
+        <div className="app-list">
+          <div className="app-row">
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+              <Moon aria-hidden="true" size={16} />
+            </span>
+            <span className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
               야간 방해 금지
-            </h2>
-            <p className="mt-1 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-              이 시간에는 알림을 보내지 않아요. 한국 시간 기준입니다.
-            </p>
+            </span>
+            <Toggle
+              on={prefs.quietHours}
+              disabled={pending}
+              label="야간 방해 금지"
+              onToggle={() => save({ ...prefs, quietHours: !prefs.quietHours })}
+            />
           </div>
-          <Toggle
-            on={prefs.quietHours}
-            disabled={pending}
-            label="야간 방해 금지"
-            onToggle={() => save({ ...prefs, quietHours: !prefs.quietHours })}
-          />
-        </div>
 
-        {prefs.quietHours ? (
-          <div className="mt-4 flex flex-wrap items-center gap-3">
-            <HourSelect
-              label="시작"
-              value={prefs.quietStartHour}
-              disabled={pending}
-              onChange={(h) => save({ ...prefs, quietStartHour: h })}
-            />
-            <span className="text-sm text-zinc-400">~</span>
-            <HourSelect
-              label="종료"
-              value={prefs.quietEndHour}
-              disabled={pending}
-              onChange={(h) => save({ ...prefs, quietEndHour: h })}
-            />
-            {prefs.quietStartHour === prefs.quietEndHour ? (
-              <p className="basis-full text-xs text-amber-600 dark:text-amber-400">
-                시작과 종료가 같아 방해 금지 시간이 없어요.
-              </p>
-            ) : nowQuiet ? (
-              <p className="basis-full text-xs text-indigo-600 dark:text-indigo-400">
-                지금은 방해 금지 시간이에요.
-              </p>
-            ) : null}
-          </div>
-        ) : null}
+          {prefs.quietHours ? (
+            <div className="flex flex-wrap items-center gap-3 px-3 py-2.5">
+              <HourSelect
+                label="시작"
+                value={prefs.quietStartHour}
+                disabled={pending}
+                onChange={(h) => save({ ...prefs, quietStartHour: h })}
+              />
+              <span className="text-sm text-zinc-400">~</span>
+              <HourSelect
+                label="종료"
+                value={prefs.quietEndHour}
+                disabled={pending}
+                onChange={(h) => save({ ...prefs, quietEndHour: h })}
+              />
+              {prefs.quietStartHour === prefs.quietEndHour ? (
+                <p className="basis-full text-xs text-warn">
+                  시작과 종료가 같아 방해 금지 시간이 없어요.
+                </p>
+              ) : nowQuiet ? (
+                <p className="basis-full text-xs text-zinc-500 dark:text-zinc-400">
+                  지금은 방해 금지 시간이에요.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
       </section>
 
       <p
         aria-live="polite"
-        className="flex items-center gap-1.5 text-xs text-zinc-500 dark:text-zinc-400"
+        className="flex items-center gap-1.5 px-1 text-xs text-zinc-500 dark:text-zinc-400"
       >
         {pending ? (
           <>
@@ -142,18 +135,16 @@ export function NotificationSettings({
             저장 중…
           </>
         ) : error ? (
-          <span className="flex items-center gap-1.5 text-rose-600 dark:text-rose-400">
+          <span className="flex items-center gap-1.5 text-danger">
             <BellOff aria-hidden="true" size={13} />
             {error} 다시 시도해 주세요.
           </span>
         ) : savedAt > 0 ? (
           <>
-            <Check aria-hidden="true" size={13} className="text-emerald-500" />
+            <Check aria-hidden="true" size={13} className="text-brand" />
             저장했습니다.
           </>
-        ) : (
-          "바꾸면 바로 저장됩니다."
-        )}
+        ) : null}
       </p>
     </div>
   );
@@ -178,14 +169,14 @@ function Toggle({
       aria-label={label}
       disabled={disabled}
       onClick={onToggle}
-      className={`relative h-6 w-11 shrink-0 rounded-full transition disabled:opacity-60 ${
-        on ? "bg-emerald-500" : "bg-zinc-300 dark:bg-zinc-600"
+      className={`relative h-7 w-12 shrink-0 rounded-full transition disabled:opacity-60 ${
+        on ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
       }`}
     >
       <span
         aria-hidden="true"
-        className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${
-          on ? "left-[1.375rem]" : "left-0.5"
+        className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-all ${
+          on ? "left-6" : "left-1"
         }`}
       />
     </button>
@@ -211,7 +202,7 @@ function HourSelect({
         value={value}
         disabled={disabled}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-9 rounded-md border border-zinc-300 bg-white px-2 text-sm text-zinc-800 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+        className="h-9 rounded-[10px] bg-zinc-100 px-2 text-sm text-zinc-800 disabled:opacity-60 dark:bg-white/[0.08] dark:text-zinc-200"
       >
         {Array.from({ length: 24 }, (_, h) => (
           <option key={h} value={h}>

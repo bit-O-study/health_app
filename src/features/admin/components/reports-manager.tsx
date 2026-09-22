@@ -69,7 +69,7 @@ export function ReportsManager({ reports }: { reports: ReportRow[] }) {
             }`}
           >
             <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-[11px] font-bold text-white dark:bg-zinc-200 dark:text-zinc-900">
+              <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs font-bold text-white dark:bg-zinc-200 dark:text-zinc-900">
                 {reportKindLabel(r.targetKind)}
               </span>
               {r.targetAuthor ? (
@@ -77,24 +77,24 @@ export function ReportsManager({ reports }: { reports: ReportRow[] }) {
                   작성자: {r.targetAuthor}
                 </span>
               ) : null}
-              <span className="ml-auto text-[11px] text-zinc-400">
+              <span className="ml-auto text-xs text-zinc-400">
                 {formatReportTime(r.createdAt)}
               </span>
             </div>
 
             <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
               {s.resolved ? (
-                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
+                <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300">
                   처리완료
                 </span>
               ) : null}
               {s.contentDeleted ? (
-                <span className="rounded-full bg-zinc-200 px-2 py-0.5 text-[11px] font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                <span className="rounded-full bg-zinc-200 px-2 py-0.5 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   {reportKindLabel(r.targetKind)} 삭제됨
                 </span>
               ) : null}
               {banBadge ? (
-                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-bold text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-700 dark:bg-amber-950/50 dark:text-amber-300">
                   {banBadge}
                 </span>
               ) : null}

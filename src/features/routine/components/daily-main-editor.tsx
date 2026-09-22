@@ -27,7 +27,6 @@ import {
 } from "@/features/routine/slot-exercise-actions";
 import { ExerciseSearchSelect } from "@/features/routine/components/exercise-search-select";
 import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
-import { muscleGroup } from "@/features/routine/muscle-map";
 import {
   saveDailyPlanAction,
   type DailyPlanItem,
@@ -497,16 +496,16 @@ export function DailyMainEditor({
   }
 
   return (
-    <section className="app-card p-5">
+    <section className="app-card p-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">본운동</h2>
+        <h2 className="text-sm font-semibold text-zinc-950 dark:text-zinc-100">본운동</h2>
         <div className="flex flex-wrap items-center gap-1.5">
           {!hideRecommend ? (
             <button
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border border-emerald-300 bg-emerald-50 px-2.5 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-60 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
+              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
             >
               <Sparkles aria-hidden="true" size={14} />
               추천으로 채우기
@@ -516,7 +515,7 @@ export function DailyMainEditor({
             type="button"
             onClick={addRow}
             disabled={addOptionsLoading}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:bg-emerald-50 disabled:opacity-60 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
           >
             {addOptionsLoading ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -529,11 +528,9 @@ export function DailyMainEditor({
       </div>
 
       {rows.length === 0 ? (
-        <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
-          등록된 운동이 없습니다. “추천으로 채우기” 또는 “운동 추가”로 넣으세요.
-        </p>
+        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">운동 없음</p>
       ) : (
-        <div className="mt-4 space-y-2">
+        <div className="mt-2 space-y-1.5">
           {rows.map((row, idx) => {
             // 카탈로그에서 사라진 운동 id(옛 데이터·AI 커스텀 등)면 getCatalogExercise 가
             // undefined 이고, 그 부위에 옵션이 없으면 options[0] 도 undefined → 예전엔
@@ -570,7 +567,7 @@ export function DailyMainEditor({
                       }
                     : { transition: "transform 160ms ease" }
                 }
-                className="flex flex-col gap-2 rounded-lg border border-zinc-200 bg-zinc-50 p-2.5 dark:border-zinc-700 dark:bg-zinc-900"
+                className="flex flex-col gap-2 rounded-[10px] bg-zinc-50 p-2 dark:bg-white/[0.04]"
               >
                 {/* 1행: 그립 + 슈퍼세트 배지 + 부위 + 삭제 */}
                 <div className="flex items-center gap-2">
@@ -598,7 +595,7 @@ export function DailyMainEditor({
                       onChange={(e) =>
                         changeRowFocus(idx, e.target.value as FocusTone)
                       }
-                      className="h-9 min-w-0 flex-1 rounded-md border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
+                      className="h-9 min-w-0 flex-1 rounded-[10px] border app-field px-2 text-sm font-semibold text-zinc-800 dark:text-zinc-200"
                     >
                       {choices.map((f) => (
                         <option key={f} value={f}>
@@ -607,14 +604,8 @@ export function DailyMainEditor({
                       ))}
                     </select>
                   ) : (
-                    <span
-                      className="inline-flex shrink-0 items-center rounded-full px-2 py-0.5 text-[11px] font-bold text-white"
-                      style={{
-                        backgroundColor: sub
-                          ? muscleGroup(sub.muscle).color
-                          : "#71717a",
-                      }}
-                    >
+                    // 부위 알약은 근육색 대신 회색 한 모양(운동탭 목록과 같게, 2026-09-16 8단계).
+                    <span className="inline-flex shrink-0 items-center rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-300">
                       {labelOf(row.focus)}
                       {sub ? `(${sub.label})` : ""}
                     </span>
@@ -625,7 +616,7 @@ export function DailyMainEditor({
                     type="button"
                     aria-label="삭제"
                     onClick={() => update(rows.filter((_, i) => i !== idx))}
-                    className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 dark:text-zinc-500 dark:hover:bg-red-950/40"
+                    className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger dark:text-zinc-500"
                   >
                     <Trash2 aria-hidden="true" size={16} />
                   </button>
@@ -662,7 +653,7 @@ export function DailyMainEditor({
                       };
                       update(next);
                     }}
-                    className="h-9 max-w-[40%] shrink-0 rounded-md border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
+                    className="h-9 max-w-[40%] shrink-0 rounded-[10px] border app-field px-2 text-sm text-zinc-800 dark:text-zinc-200"
                   >
                     {exEquipments.map((eq) => {
                       const ok = isEquipmentAvailable(eq, gymSet);
@@ -714,18 +705,18 @@ export function DailyMainEditor({
         </div>
       )}
 
-      <div className="mt-4 flex items-center gap-3">
+      <div className="mt-3 flex items-center gap-3">
         <button
           type="button"
           disabled={pending}
           onClick={save}
-          className="inline-flex h-10 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-zinc-900 px-4 text-sm font-semibold text-white transition hover:bg-zinc-700 disabled:opacity-60 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+          className="app-press inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:opacity-60 dark:text-zinc-950"
         >
           {pending ? <Loader2 aria-hidden="true" className="animate-spin" size={15} /> : null}
           저장
         </button>
         {msg ? (
-          <span className="text-xs font-medium text-zinc-600 dark:text-zinc-400">{msg}</span>
+          <span className="text-xs text-zinc-500 dark:text-zinc-400">{msg}</span>
         ) : null}
       </div>
 

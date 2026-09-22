@@ -54,9 +54,9 @@ export function PetStudio({ pet }: { pet: PetView }) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* 방 무대 */}
-      <div className="rounded-2xl border border-zinc-200 p-2 shadow-sm dark:border-zinc-800">
+      <div className="app-card p-2">
         <div className="h-52 w-full">
           <PetRoom equipped={pet.equipped} level={pet.level.level} size="lg" />
         </div>
@@ -72,7 +72,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
               maxLength={12}
               onChange={(e) => setName(e.target.value)}
               placeholder="늑대 이름 (12자)"
-              className="h-9 flex-1 rounded-lg border border-zinc-300 bg-white px-2 text-sm dark:border-zinc-600 dark:bg-zinc-800"
+              className="app-field h-9 flex-1 rounded-lg border px-2 text-sm"
             />
             <button
               type="button"
@@ -94,7 +94,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
               setName(pet.name);
               setEditing(true);
             }}
-            className="inline-flex items-center gap-1 text-lg font-extrabold text-zinc-900 dark:text-zinc-100"
+            className="inline-flex items-center gap-1 text-lg font-bold text-zinc-900 dark:text-zinc-100"
           >
             {pet.name || "늑대 이름 짓기"}
             <Pencil aria-hidden="true" size={14} className="text-zinc-400" />
@@ -109,10 +109,10 @@ export function PetStudio({ pet }: { pet: PetView }) {
             style={{ width: `${pet.level.pct}%` }}
           />
         </div>
-        <p className="mt-1 text-[11px] text-zinc-500">
+        <p className="mt-1 text-xs text-zinc-500">
           다음 Lv까지 운동 {pet.level.need - pet.level.intoLevel}회 · 총 {pet.totalWorkouts}회
         </p>
-        <p className="mt-2 inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-black text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
+        <p className="mt-2 inline-block rounded-full bg-amber-100 px-3 py-1 text-sm font-bold text-amber-700 dark:bg-amber-950/40 dark:text-amber-300">
           🪙 {pet.points.toLocaleString()} P
         </p>
       </div>
@@ -133,7 +133,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
             className={`h-8 flex-1 rounded-lg text-xs font-bold transition ${
               cat === c.cat
                 ? "bg-violet-600 text-white"
-                : "border border-zinc-200 bg-white text-zinc-600 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+                : "app-card text-zinc-600 dark:text-zinc-300"
             }`}
           >
             {c.label}
@@ -153,11 +153,11 @@ export function PetStudio({ pet }: { pet: PetView }) {
               className={`flex flex-col items-center gap-1 rounded-xl border p-2 text-center ${
                 active
                   ? "border-violet-400 bg-violet-50 dark:border-violet-500 dark:bg-violet-950/30"
-                  : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
+                  : "app-surface"
               }`}
             >
               <span className="text-2xl">{it.emoji}</span>
-              <span className="truncate text-[11px] font-bold text-zinc-800 dark:text-zinc-100">
+              <span className="truncate text-xs font-bold text-zinc-800 dark:text-zinc-100">
                 {it.name}
               </span>
               {!has ? (
@@ -165,7 +165,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
                   type="button"
                   onClick={() => run(() => buyItemAction(it.id))}
                   disabled={pending}
-                  className="w-full rounded-lg bg-amber-500 py-1 text-[10px] font-black text-white transition hover:bg-amber-400 disabled:opacity-50"
+                  className="w-full rounded-lg bg-amber-500 py-1 text-xs font-bold text-white transition hover:bg-amber-400 disabled:opacity-50"
                 >
                   🪙 {it.price}P
                 </button>
@@ -174,7 +174,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
                   type="button"
                   onClick={() => run(() => toggleDecorAction(it.id))}
                   disabled={pending}
-                  className={`w-full rounded-lg py-1 text-[10px] font-black disabled:opacity-50 ${
+                  className={`w-full rounded-lg py-1 text-xs font-bold disabled:opacity-50 ${
                     active
                       ? "bg-violet-600 text-white"
                       : "border border-violet-300 text-violet-700 dark:border-violet-700 dark:text-violet-300"
@@ -187,7 +187,7 @@ export function PetStudio({ pet }: { pet: PetView }) {
                   type="button"
                   onClick={() => run(() => equipRoomAction(cat, it.id))}
                   disabled={pending || active}
-                  className={`w-full rounded-lg py-1 text-[10px] font-black disabled:opacity-60 ${
+                  className={`w-full rounded-lg py-1 text-xs font-bold disabled:opacity-60 ${
                     active
                       ? "bg-violet-600 text-white"
                       : "border border-violet-300 text-violet-700 dark:border-violet-700 dark:text-violet-300"

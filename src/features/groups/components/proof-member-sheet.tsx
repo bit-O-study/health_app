@@ -57,10 +57,10 @@ export function ProofMemberSheet({
         {/* 헤더 */}
         <div className="flex shrink-0 items-center justify-between border-b border-zinc-100 px-5 py-4 dark:border-zinc-800">
           <div className="flex items-center gap-2">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100 text-sm font-black text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-soft text-sm font-bold text-brand">
               {member.name.slice(0, 1)}
             </span>
-            <h2 className="text-base font-black text-zinc-950 dark:text-zinc-50">
+            <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
               {member.name}
               <span className="ml-1.5 text-sm font-semibold text-zinc-400">
                 오늘
@@ -90,21 +90,21 @@ export function ProofMemberSheet({
             {/* 섭취 / 소비 요약 */}
             <div className="mb-5 grid grid-cols-2 gap-2">
               <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-3 dark:border-amber-900/40 dark:bg-amber-950/20">
-                <span className="flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+                <span className="flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
                   <Utensils size={13} /> 오늘 섭취
                 </span>
-                <p className="mt-1 text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
+                <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {day.intake.toLocaleString()}
                   <span className="ml-0.5 text-xs font-semibold text-zinc-400">
                     kcal
                   </span>
                 </p>
               </div>
-              <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 p-3 dark:border-emerald-900/40 dark:bg-emerald-950/20">
-                <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+              <div className="rounded-2xl border border-brand/40 bg-brand-soft p-3">
+                <span className="flex items-center gap-1 text-xs font-bold text-brand">
                   <Flame size={13} /> 오늘 소비
                 </span>
-                <p className="mt-1 text-xl font-black tabular-nums text-zinc-950 dark:text-zinc-50">
+                <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {day.burned.toLocaleString()}
                   <span className="ml-0.5 text-xs font-semibold text-zinc-400">
                     kcal
@@ -123,7 +123,7 @@ export function ProofMemberSheet({
                   오늘 완료한 운동이 없어요.
                 </p>
               ) : (
-                <ul className="divide-y divide-zinc-100 overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
+                <ul className="divide-y divide-zinc-100 overflow-hidden app-card dark:divide-zinc-800">
                   {day.workouts.map((w, i) => (
                     <li
                       key={i}
@@ -137,7 +137,7 @@ export function ProofMemberSheet({
                           </span>
                         ) : null}
                       </span>
-                      <span className="shrink-0 text-xs font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                      <span className="shrink-0 text-xs font-bold tabular-nums text-brand">
                         {w.kcal}kcal
                       </span>
                     </li>
@@ -161,7 +161,7 @@ export function ProofMemberSheet({
                         alt={`${p.meal} 사진`}
                         className="h-20 w-20 rounded-xl object-cover"
                       />
-                      <figcaption className="mt-0.5 text-[11px] font-semibold text-zinc-500">
+                      <figcaption className="mt-0.5 text-xs font-semibold text-zinc-500">
                         {p.meal}
                       </figcaption>
                     </figure>
@@ -174,11 +174,11 @@ export function ProofMemberSheet({
                   오늘 기록한 식단이 없어요.
                 </p>
               ) : (
-                <ul className="divide-y divide-zinc-100 overflow-hidden rounded-2xl border border-zinc-200 bg-white dark:divide-zinc-800 dark:border-zinc-800 dark:bg-zinc-900">
+                <ul className="divide-y divide-zinc-100 overflow-hidden app-card dark:divide-zinc-800">
                   {day.foods.map((f, i) => (
                     <li key={i} className="flex items-center gap-2 px-4 py-2.5">
                       <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                        <span className="mr-1.5 rounded bg-zinc-100 px-1 py-0.5 text-[10px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                        <span className="mr-1.5 rounded bg-zinc-100 px-1 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                           {f.meal}
                         </span>
                         {f.name}

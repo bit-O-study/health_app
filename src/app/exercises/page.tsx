@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 
-import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
-import { BackLink } from "@/components/back-link";
+
+import { PageHeader } from "@/components/page-header";
 import {
   BODY_PART_ORDER,
   groupedByBodyPart,
   type BodyPart,
   type CatalogExercise,
 } from "@/features/routine/exercise-catalog";
+import { ExerciseFinder } from "@/features/routine/components/exercise-finder";
 import { ExerciseLibrary } from "@/features/exercises/components/exercise-library";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -36,30 +37,18 @@ export default function ExercisesPage() {
   const sections: { part: BodyPart; items: CatalogExercise[] }[] =
     BODY_PART_ORDER.map((part) => ({ part, items: grouped[part] }));
 
+  // 공통 머리글 + 부위 칩 + 부위별 그룹 목록(2026-09-16 8단계) — 영문 머리말·설명 문장은 뺐다.
   return (
-    <main className="min-h-screen bg-zinc-50 dark:bg-zinc-900 px-6 py-10 text-zinc-950 dark:text-zinc-100 sm:px-10">
-      <section className="mx-auto w-full max-w-5xl space-y-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-400">
-              Exercise library
-            </p>
-            <h1 className="mt-2 text-3xl font-bold sm:text-4xl">
-              운동 종목 리스트
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-zinc-600 dark:text-zinc-400 sm:text-base">
-              부위별로 정리한 운동 카탈로그. 상단 부위 칩으로 필터링하고, 운동을
-              누르면 기구별 운동법을 확인할 수 있습니다.
-            </p>
-          </div>
-          <BackLink className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-4 text-sm font-semibold text-zinc-800 dark:text-zinc-200 transition hover:border-zinc-400 dark:hover:border-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700">
-            뒤로
-          </BackLink>
+    <div className="app-page">
+      <PageHeader title="운동 종목" back />
+      <main className="app-container space-y-4">
+        {/* 자연어로 찾기 — 예전엔 운동탭 머리글에 있었는데, 하단 '운동찾기' 칸과
+            이름이 거의 같아 헷갈렸다. 찾는 곳을 여기 하나로 모았다(2026-09-21). */}
+        <div className="flex justify-end">
+          <ExerciseFinder />
         </div>
-
-        <div className="flex items-center gap-3 rounded-xl border border-zinc-200 p-4 dark:border-zinc-700"><ExerciseFinder /><span className="text-sm">이름이 기억나지 않으면 동작으로 운동을 찾아보세요.</span></div>
         <ExerciseLibrary sections={sections} />
-      </section>
-    </main>
+      </main>
+    </div>
   );
 }

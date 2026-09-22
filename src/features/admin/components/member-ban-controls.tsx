@@ -97,7 +97,7 @@ export function MemberBanControls({
         ) : null}
       </div>
       {error ? (
-        <span className="text-[11px] font-semibold text-red-600 dark:text-red-400">
+        <span className="text-xs font-semibold text-red-600 dark:text-red-400">
           {error}
         </span>
       ) : null}

@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getGroupDetail, getMyGroups } from "@/features/groups/data-access";
 import { getGroupMode } from "@/features/groups/group-mode.server";
@@ -34,17 +33,14 @@ export default async function GroupDetailPage({
 
   if (!detail) {
     return (
-      <main className="mx-auto w-full max-w-md px-4 py-16 text-center">
-        <p className="text-sm text-zinc-600 dark:text-zinc-400">
-          그룹을 찾을 수 없거나 멤버가 아니에요.
-        </p>
-        <Link
-          href="/groups"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
-        >
-          <ChevronLeft size={16} /> 그룹 목록
-        </Link>
-      </main>
+      <div className="app-page">
+        <PageHeader title="그룹" back="그룹 목록" backHref="/groups" />
+        <main className="app-container">
+          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            그룹을 찾을 수 없거나 멤버가 아니에요.
+          </p>
+        </main>
+      </div>
     );
   }
 

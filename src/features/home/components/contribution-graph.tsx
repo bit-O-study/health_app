@@ -4,12 +4,13 @@ import { useRef, type PointerEvent } from "react";
 
 import type { ContributionDay } from "@/features/home/dashboard-metrics";
 
+// 브랜드색 하나의 진하기로만 단계를 나눈다(다크모드는 --brand 토큰이 알아서 바뀐다).
 const LEVEL_CLASS: Record<0 | 1 | 2 | 3 | 4, string> = {
   0: "bg-zinc-100 dark:bg-zinc-800/70",
-  1: "bg-emerald-200 dark:bg-emerald-900/60",
-  2: "bg-emerald-400 dark:bg-emerald-700",
-  3: "bg-emerald-500 dark:bg-emerald-600",
-  4: "bg-emerald-700 dark:bg-emerald-400",
+  1: "bg-brand/25",
+  2: "bg-brand/50",
+  3: "bg-brand/75",
+  4: "bg-brand",
 };
 
 const MONTH_LABEL = [
@@ -80,12 +81,12 @@ export function ContributionGraph({
   const gridCols = `repeat(${weeks.length}, ${CELL_PX}px)`;
 
   return (
-    <div className="app-card min-w-0 p-4 sm:p-5">
-      <p className="mb-4 text-sm">
-        <span className="font-black tabular-nums text-zinc-900 dark:text-zinc-50">
+    <div className="app-card min-w-0 px-3 py-2.5">
+      <p className="mb-2 text-sm">
+        <span className="text-base font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
           {totalWorkoutDays}
         </span>
-        <span className="font-semibold text-zinc-500 dark:text-zinc-400">
+        <span className="text-zinc-500 dark:text-zinc-400">
           일 운동 · {weeks.length >= 52 ? "최근 1년" : "가입일부터"}
         </span>
       </p>
@@ -103,7 +104,7 @@ export function ContributionGraph({
             {monthLabels.map((label, i) => (
               <span
                 key={i}
-                className="whitespace-nowrap text-[10px] font-medium text-zinc-400 dark:text-zinc-500"
+                className="whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500"
               >
                 {label ?? ""}
               </span>

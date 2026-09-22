@@ -5,6 +5,7 @@ import { resolve, join, relative, isAbsolute, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import { selectReviewedDarkGuides, selectReviewedGuides, REVIEW_CHECKS } from './guide-review.mjs';
+import { motionPanelBounds } from "./motion-panel-bounds.mjs";
 
 const root=resolve('tools/media/motion-guides');
 const out=resolve('public/exercise-guides/ai-v3');
@@ -89,12 +90,11 @@ async function buildLocked(id,spec,frames) {
   execFileSync(cutoutPython,[cutoutScript,imagePath(id),String(panelCount),frames],{stdio:'inherit',env:{...process.env,PYTHONIOENCODING:'utf-8'}});
   for(const theme of ['light','dark'])posesByTheme[theme]=Array.from({length:panelCount},(_,i)=>readFileSync(join(frames,'poses-'+theme,(i+1)+'.jpg')));
  }else{
-  const {width,height}=await sharp(imagePath(id)).metadata();
+  const {data,info}=await sharp(imagePath(id)).removeAlpha().raw().toBuffer({resolveWithObject:true});
+  const bounds=motionPanelBounds(data,info.width,info.height,info.channels,rows);
   posesByTheme.light=[];
   for(let i=0;i<panelCount;i++){
-   const left=Math.round(i%4*width/4)+4,top=Math.round(Math.floor(i/4)*height/rows)+4;
-   const right=Math.round((i%4+1)*width/4)-4,bottom=Math.round((Math.floor(i/4)+1)*height/rows)-4;
-   posesByTheme.light.push(await sharp(imagePath(id)).extract({left,top,width:right-left,height:bottom-top})
+   posesByTheme.light.push(await sharp(imagePath(id)).extract(bounds[i])
     .resize(480,480,{fit:'contain',background:'#b6b6b6'}).jpeg({quality:94}).toBuffer());
   }
   rmSync(darkMoviePath(id),{force:true});

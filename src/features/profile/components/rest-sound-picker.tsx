@@ -86,97 +86,84 @@ export function RestSoundPicker() {
     }
   }
 
+  // 목록 한 줄(아이콘 · 제목 · 미리듣기) 아래 세그먼트 — 설명 문장은 뺐다(2026-09-16 8단계).
   return (
-    <div className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm">
-      <div className="flex items-start gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-          <Bell aria-hidden="true" size={18} />
+    <div className="px-3 py-2.5">
+      <div className="flex items-center gap-3">
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+          <Bell aria-hidden="true" size={16} />
         </span>
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-            휴식 종료 알림음
-          </p>
-          <p className="mt-0.5 text-xs leading-5 text-zinc-600 dark:text-zinc-400">
-            휴식이 끝나면 어떤 소리로 알릴지 고릅니다. (위 ‘소리’ 스위치가 켜져
-            있을 때 납니다.)
-          </p>
+        <span className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+          휴식 종료 알림음
+        </span>
+        <button
+          type="button"
+          onClick={() => void playRestAlert(ctxRef, kind)}
+          className="app-press inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
+        >
+          <Play aria-hidden="true" size={12} />
+          미리듣기
+        </button>
+      </div>
 
-          {/* 종류 선택 */}
-          <div className="mt-3 grid grid-cols-3 gap-2">
-            {OPTIONS.map((o) => {
-              const active = kind === o.kind;
-              return (
-                <button
-                  key={o.kind}
-                  type="button"
-                  onClick={() => choose(o.kind)}
-                  className={`flex flex-col items-center gap-0.5 rounded-lg border px-2 py-2 text-center transition ${
-                    active
-                      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40"
-                      : "border-zinc-200 dark:border-zinc-700 hover:border-emerald-300"
-                  }`}
-                >
-                  <span
-                    className={`text-sm font-bold ${
-                      active
-                        ? "text-emerald-700 dark:text-emerald-300"
-                        : "text-zinc-700 dark:text-zinc-300"
-                    }`}
-                  >
-                    {o.label}
-                  </span>
-                  <span className="text-[10px] leading-3 text-zinc-500 dark:text-zinc-400">
-                    {o.desc}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* 업로드 / 미리듣기 */}
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            <input
-              ref={fileRef}
-              type="file"
-              accept="audio/*"
-              className="hidden"
-              onChange={onFile}
-            />
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              disabled={busy}
-              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 dark:border-zinc-600 px-3 py-1.5 text-xs font-semibold text-zinc-700 dark:text-zinc-200 transition hover:bg-zinc-50 dark:hover:bg-zinc-700/50 disabled:opacity-50"
-            >
-              <Upload aria-hidden="true" size={13} />
-              {hasCustom ? "내 소리 변경" : "내 소리 올리기"}
-            </button>
-            {hasCustom ? (
+      <div className="mt-2 pl-10">
+        {/* 종류 선택 — 아이폰 세그먼트 */}
+        <div className="grid grid-cols-3 gap-1 rounded-[10px] bg-zinc-100 p-0.5 dark:bg-white/[0.08]">
+          {OPTIONS.map((o) => {
+            const active = kind === o.kind;
+            return (
               <button
+                key={o.kind}
                 type="button"
-                onClick={removeCustom}
-                className="inline-flex items-center rounded-full border border-zinc-300 dark:border-zinc-600 px-3 py-1.5 text-xs font-semibold text-zinc-500 transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/30"
+                onClick={() => choose(o.kind)}
+                aria-pressed={active}
+                className={`h-7 rounded-lg text-xs font-semibold transition ${
+                  active
+                    ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
+                    : "text-zinc-500 dark:text-zinc-400"
+                }`}
               >
-                삭제
+                {o.label}
               </button>
-            ) : null}
+            );
+          })}
+        </div>
+
+        {/* 업로드 / 삭제 */}
+        <div className="mt-2 flex flex-wrap items-center gap-3">
+          <input
+            ref={fileRef}
+            type="file"
+            accept="audio/*"
+            className="hidden"
+            onChange={onFile}
+          />
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={busy}
+            className="inline-flex items-center gap-1 text-xs font-semibold text-brand disabled:opacity-50"
+          >
+            <Upload aria-hidden="true" size={12} />
+            {hasCustom ? "내 소리 변경" : "내 소리 올리기"}
+          </button>
+          {hasCustom ? (
             <button
               type="button"
-              onClick={() => void playRestAlert(ctxRef, kind)}
-              className="ml-auto inline-flex items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
+              onClick={removeCustom}
+              className="text-xs font-semibold text-danger"
             >
-              <Play aria-hidden="true" size={13} />
-              미리듣기
+              삭제
             </button>
-          </div>
-
-          {err ? (
-            <p className="mt-2 flex items-center gap-1 text-xs font-semibold text-red-600 dark:text-red-400">
-              <Volume2 aria-hidden="true" size={12} />
-              {err}
-            </p>
           ) : null}
         </div>
+
+        {err ? (
+          <p className="mt-1.5 flex items-center gap-1 text-xs text-danger">
+            <Volume2 aria-hidden="true" size={12} />
+            {err}
+          </p>
+        ) : null}
       </div>
     </div>
   );

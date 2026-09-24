@@ -29,6 +29,7 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog-labels";
 import { majorMuscleTag } from "@/features/routine/exercise-body-parts";
+import { setPersonalPrefAction } from "@/features/profile/actions";
 import { prescribe } from "@/features/routine/prescription";
 import {
   exerciseOptionsByIdsAction,
@@ -156,6 +157,20 @@ export function PlanEditor({
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
+
+  /**
+   * 세트 방식을 쓰려면 계획에 기준 무게가 있어야 한다 — '무게·횟수 고정'을 켜고
+   * 서버 렌더를 새로 받아 입력칸이 나오게 한다(설정에서 다시 끌 수 있다).
+   */
+  async function enableWeightReps() {
+    const res = await setPersonalPrefAction("lockWeightReps", true);
+    if (!res.ok) {
+      setStatus(res.error);
+      return;
+    }
+    router.refresh();
+  }
+
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
   const [swapInFlight, setSwapInFlight] = useState(false);
@@ -1127,6 +1142,7 @@ export function PlanEditor({
                             exerciseId={row.exerciseId}
                             equipment={row.equipment}
                             onlySets={!lockWeightReps}
+                            onEnableWeightReps={enableWeightReps}
                             onUniformChange={(patch) => {
                               const next = [...rows];
                               next[idx] = { ...row, ...patch };

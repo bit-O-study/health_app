@@ -1,3 +1,6 @@
+import fs from "node:fs";
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import { isValidSetDetails } from "@/features/routine/set-details";
@@ -320,5 +323,42 @@ describe("describeSetPattern — 저장된 숫자에서 방식 되짚기", () =>
 
   it("맨몸 세트가 섞이면 무게 흐름을 읽을 수 없다", () => {
     expect(describeSetPattern([{ weightKg: null, reps: 10 }, d(60, 10)])).toBeNull();
+  });
+});
+
+/**
+ * 가드 — 세트 방식은 **두 편집 경로 모두**에 있어야 한다.
+ * (루틴 계획 편집 / 오늘만 본운동 편집. 한 곳만 고치면 다른 경로로 들어온
+ *  사용자에게는 기능이 통째로 빠진다 — 과거에 반복된 실수다.)
+ */
+describe("세트 방식 적용 경로 가드", () => {
+  const read = (rel: string) =>
+    fs.readFileSync(path.join(process.cwd(), rel), "utf8");
+
+  for (const file of [
+    "src/features/routine/components/plan-editor.tsx",
+    "src/features/routine/components/daily-main-editor.tsx",
+  ]) {
+    it(`${file} 는 세트 방식 입구를 연결한다`, () => {
+      const src = read(file);
+      // 증량 단위를 종목 크기로 정하려면 exerciseId 가 필요하다.
+      expect(src).toContain("exerciseId={row.exerciseId}");
+      // 고정이 꺼져 있어도 방식을 쓸 수 있게 켜 주는 경로.
+      expect(src).toContain("onEnableWeightReps={enableWeightReps}");
+      expect(src).toContain('setPersonalPrefAction("lockWeightReps", true)');
+    });
+  }
+
+  it("무게·횟수 고정을 바꾸면 계획 화면 캐시도 무효화한다", () => {
+    // 켠 직후 같은 화면에서 이어서 편집해야 하는데, /plan 을 안 지우면 옛 화면이 남는다.
+    const src = read("src/features/profile/actions.ts");
+    expect(src).toContain('revalidatePath("/plan")');
+    expect(src).toContain('revalidatePath("/plan/today")');
+  });
+
+  it("세트 방식 고르기 화면은 기구 증량 단위를 쓴다", () => {
+    const src = read("src/features/routine/components/set-scheme-picker.tsx");
+    expect(src).toContain("weightStepKg(");
+    expect(src).toContain("buildSetDetails(");
   });
 });

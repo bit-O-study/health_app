@@ -210,6 +210,10 @@ export async function setPersonalPrefAction(
   revalidatePath("/routine");
   revalidatePath("/settings");
   revalidatePath("/settings/personal");
+  // 무게·횟수 고정은 계획 편집 화면의 입력칸 유무를 바꾼다 — 계획 화면에서 켠 직후
+  // 그대로 이어서 편집할 수 있어야 하므로 같이 무효화한다(안 하면 캐시된 옛 화면이 남는다).
+  revalidatePath("/plan");
+  revalidatePath("/plan/today");
   return { ok: true };
 }
 

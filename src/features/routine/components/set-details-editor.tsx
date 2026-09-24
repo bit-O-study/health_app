@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, Wand2, X } from "lucide-react";
 
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { SetSchemePicker } from "@/features/routine/components/set-scheme-picker";
@@ -9,6 +9,71 @@ import { describeSetPattern } from "@/features/routine/set-scheme";
 import type { SetDetail } from "@/features/routine/set-details";
 
 type Draft = { weight: string; reps: string };
+
+/**
+ * 무게·횟수 고정이 꺼진 상태에서 세트 방식을 쓰려 할 때의 입구.
+ *
+ * 고정은 **개인설정 전체에 걸리는 값**이라(운동모드에서 무게를 정하던 흐름이 바뀐다)
+ * 말없이 켜지 않는다 — 무엇이 바뀌는지 알리고 한 번 더 누르게 한다.
+ */
+function EnableWeightsPrompt({
+  disabled,
+  onEnable,
+}: {
+  disabled: boolean;
+  onEnable: () => void | Promise<void>;
+}) {
+  const [asking, setAsking] = useState(false);
+  const [busy, setBusy] = useState(false);
+
+  if (!asking) {
+    return (
+      <button
+        type="button"
+        onClick={() => setAsking(true)}
+        disabled={disabled}
+        className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand disabled:opacity-50 dark:text-zinc-300"
+      >
+        <Wand2 aria-hidden="true" size={12} />
+        세트 방식
+      </button>
+    );
+  }
+
+  return (
+    <div className="basis-full rounded-[10px] bg-zinc-100 p-2 dark:bg-white/[0.06]">
+      <p className="text-xs text-zinc-600 dark:text-zinc-300">
+        드롭세트·피라미드는 기준 무게가 있어야 만들 수 있어요. 계획에서 무게·횟수를
+        정하도록 <b>무게·횟수 고정</b>을 켤까요? (설정에서 다시 끌 수 있어요)
+      </p>
+      <div className="mt-2 flex items-center gap-2">
+        <button
+          type="button"
+          disabled={busy}
+          onClick={async () => {
+            setBusy(true);
+            try {
+              await onEnable();
+            } finally {
+              setBusy(false);
+            }
+          }}
+          className="inline-flex h-8 items-center rounded-full bg-brand px-3 text-xs font-semibold text-white transition disabled:opacity-50 dark:text-zinc-950"
+        >
+          {busy ? "켜는 중…" : "켜고 계속"}
+        </button>
+        <button
+          type="button"
+          onClick={() => setAsking(false)}
+          disabled={busy}
+          className="text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
+        >
+          취소
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function draftsToDetails(rows: Draft[]): SetDetail[] {
   return rows.map((r) => ({
@@ -33,6 +98,7 @@ export function SetDetailsEditor({
   equipment,
   disabled = false,
   onlySets = false,
+  onEnableWeightReps,
   onUniformChange,
   onSetDetailsChange,
 }: {
@@ -48,6 +114,11 @@ export function SetDetailsEditor({
   disabled?: boolean;
   /** 무게·횟수 '고정' 끔 — 세트 수만 입력받고 무게/횟수/세트별은 숨긴다(운동모드에서 설정). */
   onlySets?: boolean;
+  /**
+   * 고정이 꺼진 상태에서 세트 방식을 쓰려 할 때 — 무게·횟수 고정을 켠다.
+   * 넘기지 않으면 예전처럼 아무것도 그리지 않는다.
+   */
+  onEnableWeightReps?: () => void | Promise<void>;
   onUniformChange: (patch: {
     sets?: number;
     reps?: number;
@@ -118,8 +189,12 @@ export function SetDetailsEditor({
 
   // 무게·횟수 고정 끔 → 편집기에선 수치 입력도, 안내 문구도 안 보인다.
   // 세트·무게·횟수 모두 운동모드에서 그때그때 설정·기록한다.
+  //
+  // 다만 **세트 방식(드롭·피라미드…)은 기준 무게가 있어야 성립한다.** 그래서 이 모드에서도
+  // 입구만 열어 두고, 누르면 "무게·횟수 고정을 켤까요?" 를 물어본 뒤 켠다.
   if (onlySets) {
-    return null;
+    if (!onEnableWeightReps) return null;
+    return <EnableWeightsPrompt disabled={disabled} onEnable={onEnableWeightReps} />;
   }
 
   return (

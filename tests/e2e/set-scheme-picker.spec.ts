@@ -96,3 +96,35 @@ test.describe("세트 방식 채우기", () => {
     ).toBeVisible();
   });
 });
+
+test("무게·횟수 고정이 꺼져 있어도 세트 방식으로 들어갈 수 있다 (켜고 계속)", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await createOnboardedAccount(page);
+  await seedRecommendedExercises(page);
+  // 기본값 = 고정 꺼짐(무게는 운동모드에서 정한다). 계획 화면엔 무게 칸이 없다.
+  await dbQuery(
+    `update public.profiles set lock_weight_reps=false where user_id=${uid}`,
+    [email],
+  );
+
+  await page.goto("/plan", { waitUntil: "networkidle" });
+  const row = page.locator("[data-testid^='plan-row-']").first();
+  await expect(row).toBeVisible({ timeout: 15_000 });
+  await expect(row.locator('input[aria-label="무게(kg)"]')).toHaveCount(0);
+
+  await row.getByRole("button", { name: "세트 방식" }).click();
+  await expect(row.getByText("무게·횟수 고정", { exact: false })).toBeVisible();
+  await row.getByRole("button", { name: "켜고 계속" }).click();
+
+  // 설정이 실제로 켜지고, 화면에 무게 칸이 나타난다.
+  await expect(
+    page.locator('input[aria-label="무게(kg)"]').first(),
+  ).toBeVisible({ timeout: 20_000 });
+  const saved = await dbQuery<{ lock_weight_reps: boolean }>(
+    `select lock_weight_reps from public.profiles where user_id=${uid}`,
+    [email],
+  );
+  expect(saved[0]?.lock_weight_reps).toBe(true);
+});

@@ -38,6 +38,7 @@ import {
 } from "@/features/routine/plan-order";
 import type { SetDetail } from "@/features/routine/set-details";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
+import { setPersonalPrefAction } from "@/features/profile/actions";
 import {
   SupersetBadge,
   SupersetLink,
@@ -138,6 +139,16 @@ export function DailyMainEditor({
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
+
+  /**
+   * 세트 방식(드롭·피라미드)은 기준 무게가 있어야 만들 수 있다 — '무게·횟수 고정'을
+   * 켜고 서버 렌더를 새로 받는다. 계획 편집(`plan-editor`)과 같은 동작이어야 한다.
+   */
+  async function enableWeightReps() {
+    const res = await setPersonalPrefAction("lockWeightReps", true);
+    if (res.ok) router.refresh();
+  }
+
   /** 기본 기구 — 내 헬스장에 있는 것 우선. */
   function pickDefaultEquipment(ex: { equipments: EquipmentId[] }): EquipmentId {
     const available = ex.equipments.find((eq) =>
@@ -677,6 +688,7 @@ export function DailyMainEditor({
                     setDetails={row.setDetails}
                     exerciseId={row.exerciseId}
                     equipment={row.equipment}
+                    onEnableWeightReps={enableWeightReps}
                     onUniformChange={(patch) => {
                       const next = [...rows];
                       next[idx] = { ...row, ...patch };

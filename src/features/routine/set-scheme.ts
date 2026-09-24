@@ -294,6 +294,71 @@ export function plannedVolumeKg(sets: readonly PlannedSet[]): number {
   return Math.round(total * 10) / 10;
 }
 
+/* ─── 저장 형태(set_details)와의 다리 ───────────────────────────────────
+ *
+ * 세트 방식은 **컬럼을 새로 만들지 않는다.** `routine_exercises`·`daily_plan`·
+ * `exercise_completions` 에 이미 `set_details`(세트별 무게·횟수)가 있고, 운동모드·
+ * 기록·볼륨 계산이 전부 그걸 읽는다. 방식은 "그 배열을 채워 주는 방법"일 뿐이다.
+ * → 스키마 변경 0, 옛 데이터 그대로, 새 화면만 붙으면 끝난다.
+ */
+
+import type { SetDetail } from "@/features/routine/set-details";
+
+/** set_details 가 허용하는 최대 세트 수(`isValidSetDetails`). */
+const MAX_DETAIL_SETS = 20;
+
+/**
+ * 세트 방식 → `set_details` 배열.
+ * AMRAP·레스트포즈처럼 횟수가 정해지지 않은 세트는 **기준 횟수**로 적어 둔다
+ * (계획은 숫자가 있어야 하고, 실제 수행 횟수는 운동모드에서 기록된다).
+ */
+export function buildSetDetails(input: ExpandInput): SetDetail[] {
+  const fallbackReps = Math.max(1, Math.trunc(input.reps));
+  return expandSets(input)
+    .slice(0, MAX_DETAIL_SETS)
+    .map((s) => ({
+      weightKg: s.weightKg,
+      reps: Math.min(100, Math.max(1, s.reps ?? fallbackReps)),
+    }));
+}
+
+/**
+ * 세트별 무게 흐름을 보고 방식 이름을 되짚는다 — 저장된 건 숫자뿐이라
+ * 편집 화면에서 "이건 드롭세트였다"를 보여주려면 패턴으로 읽어야 한다.
+ * 애매하면 null(= 그냥 '세트별 다르게').
+ */
+export function describeSetPattern(
+  details: readonly SetDetail[] | null | undefined,
+): string | null {
+  if (!details || details.length < 2) return null;
+  const w = details.map((d) => d.weightKg);
+  if (w.some((x) => x === null)) return null;
+  const kg = w as number[];
+  const reps = details.map((d) => d.reps);
+
+  const same = kg.every((x) => x === kg[0]);
+  if (same) return reps.every((r) => r === reps[0]) ? null : "횟수 변화";
+
+  const down = kg.every((x, i) => i === 0 || x <= kg[i - 1]);
+  const up = kg.every((x, i) => i === 0 || x >= kg[i - 1]);
+
+  if (up) return SET_SCHEME_LABELS.pyramid.name;
+  if (down) {
+    // 첫 세트만 무겁고 나머지가 같은 무게면 탑세트 + 백오프.
+    const rest = kg.slice(1);
+    if (rest.length >= 2 && rest.every((x) => x === rest[0]) && kg[0] > rest[0]) {
+      return SET_SCHEME_LABELS.top_backoff.name;
+    }
+    // 무게가 내려가는데 횟수는 그대로면 드롭세트, 늘어나면 역피라미드.
+    const repsUp = reps.every((r, i) => i === 0 || r >= reps[i - 1]);
+    const repsSame = reps.every((r) => r === reps[0]);
+    if (repsSame) return SET_SCHEME_LABELS.drop.name;
+    if (repsUp) return SET_SCHEME_LABELS.reverse_pyramid.name;
+    return SET_SCHEME_LABELS.drop.name;
+  }
+  return null;
+}
+
 /** 스킴 이름이 우리가 아는 값인지(DB·외부 입력 방어). */
 export function isSetScheme(value: unknown): value is SetScheme {
   return typeof value === "string" && (SET_SCHEMES as readonly string[]).includes(value);

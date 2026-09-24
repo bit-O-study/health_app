@@ -1,7 +1,10 @@
 import { describe, expect, it } from "vitest";
 
+import { isValidSetDetails } from "@/features/routine/set-details";
 import {
   DEFAULTS,
+  buildSetDetails,
+  describeSetPattern,
   GROUP_LABELS,
   SET_SCHEMES,
   SET_SCHEME_LABELS,
@@ -233,5 +236,89 @@ describe("스킴 이름 방어 · 묶음", () => {
     expect(groupKindFor(3)).toBe("triset");
     expect(groupKindFor(5)).toBe("giant");
     expect(GROUP_LABELS.superset).toBe("슈퍼세트");
+  });
+});
+
+describe("buildSetDetails — set_details 로 저장되는 모양", () => {
+  it("드롭세트가 세트별 무게·횟수 배열이 된다", () => {
+    const sd = buildSetDetails({
+      scheme: "drop",
+      sets: 2,
+      reps: 10,
+      weightKg: 100,
+      params: { dropCount: 1, dropPct: 20, plateStepKg: 2.5 },
+    });
+    expect(sd).toEqual([
+      { weightKg: 100, reps: 10 },
+      { weightKg: 100, reps: 10 },
+      { weightKg: 80, reps: 10 },
+    ]);
+    expect(isValidSetDetails(sd)).toBe(true);
+  });
+
+  it("AMRAP·레스트포즈처럼 횟수가 열린 세트는 기준 횟수로 적는다", () => {
+    const sd = buildSetDetails({
+      scheme: "rest_pause",
+      sets: 1,
+      reps: 12,
+      weightKg: 40,
+      params: { pauseCount: 2 },
+    });
+    expect(sd.every((s) => Number.isInteger(s.reps) && s.reps >= 1)).toBe(true);
+    expect(isValidSetDetails(sd)).toBe(true);
+  });
+
+  it("20세트를 넘지 않는다 — set_details 가 받는 한도", () => {
+    const sd = buildSetDetails({
+      scheme: "cluster",
+      sets: 20,
+      reps: 12,
+      weightKg: 60,
+      params: { clusterReps: 2 },
+    });
+    expect(sd.length).toBeLessThanOrEqual(20);
+    expect(isValidSetDetails(sd)).toBe(true);
+  });
+
+  it("기구 증량 단위를 넘기면 그 격자로만 무게가 나온다", () => {
+    const sd = buildSetDetails({
+      scheme: "pyramid",
+      sets: 3,
+      reps: 10,
+      weightKg: 40,
+      params: { stepPct: 7, plateStepKg: 5 },
+    });
+    expect(sd.every((s) => (s.weightKg ?? 0) % 5 === 0)).toBe(true);
+  });
+});
+
+describe("describeSetPattern — 저장된 숫자에서 방식 되짚기", () => {
+  const d = (w: number, r: number) => ({ weightKg: w, reps: r });
+
+  it("무게가 내려가고 횟수가 같으면 드롭세트", () => {
+    expect(describeSetPattern([d(100, 10), d(80, 10), d(65, 10)])).toBe("드롭세트");
+  });
+
+  it("무게가 오르고 횟수가 줄면 피라미드", () => {
+    expect(describeSetPattern([d(50, 12), d(55, 10), d(60, 8)])).toBe("피라미드");
+  });
+
+  it("무게가 내려가고 횟수가 늘면 역피라미드", () => {
+    expect(describeSetPattern([d(100, 6), d(90, 8), d(80, 10)])).toBe("역피라미드");
+  });
+
+  it("첫 세트만 무겁고 나머지가 같으면 탑세트+백오프", () => {
+    expect(describeSetPattern([d(120, 5), d(105, 8), d(105, 8)])).toBe("탑세트+백오프");
+  });
+
+  it("균일하거나 애매하면 이름을 붙이지 않는다", () => {
+    expect(describeSetPattern([d(60, 10), d(60, 10)])).toBeNull();
+    expect(describeSetPattern([d(60, 10), d(80, 10), d(70, 10)])).toBeNull();
+    expect(describeSetPattern([d(60, 10)])).toBeNull();
+    expect(describeSetPattern(null)).toBeNull();
+  });
+
+  it("맨몸 세트가 섞이면 무게 흐름을 읽을 수 없다", () => {
+    expect(describeSetPattern([{ weightKg: null, reps: 10 }, d(60, 10)])).toBeNull();
   });
 });

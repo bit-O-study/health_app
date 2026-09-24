@@ -1124,6 +1124,7 @@ export function PlanEditor({
                             reps={row.reps}
                             weight={row.weight}
                             setDetails={row.setDetails}
+                            exerciseId={row.exerciseId}
                             equipment={row.equipment}
                             onlySets={!lockWeightReps}
                             onUniformChange={(patch) => {

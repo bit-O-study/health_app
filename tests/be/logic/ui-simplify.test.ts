@@ -110,18 +110,19 @@ describe("홈 구성", () => {
 
   // 2026-09-20 런처 전환 — 홈은 카드를 세로로 쌓지 않는다. 큰 제목 → 광고 배너 →
   // 앱 아이콘 판 → 앱별 요약 위젯 3개. 자세한 내용은 각 앱 안으로 옮겨 갔다.
-  it("큰 제목 → 광고 배너 → 앱 격자 → 위젯 순서 — 활동 링 카드 없음", () => {
+  it("로고 → 광고 → 앱 → 주간 요약 → 잔디 순서", () => {
     expect(home).not.toContain("ActivityRings");
-    const order = ["<h1", "<PromoBanner", "<AppGrid", "<AppWidget"].map((tag) =>
+    const order = ["<Logo", "<PromoBanner", "<AppGrid", "<WeeklyReportCard", "<ContributionGraph"].map((tag) =>
       home.indexOf(tag),
     );
     expect(order.every((i) => i >= 0), order.join(",")).toBe(true);
     expect([...order].sort((a, b) => a - b)).toEqual(order);
   });
 
-  it("홈 위젯은 운동·식단·캘린더 3개 고정", () => {
-    const ids = [...home.matchAll(/appId="([a-z]+)"/g)].map((m) => m[1]);
-    expect(ids).toEqual(["workout", "diet", "calendar"]);
+  it("요약 위젯 3개 대신 다짐·주간 요약·훈련을 복원한다", () => {
+    expect(home).not.toContain("<AppWidget");
+    for (const text of ["오늘의 다짐", "<WeeklyReportCard", "<WeeklyTrainingSummary"]) expect(home).toContain(text);
+    expect(home).toContain('href="/settings"');
   });
 
   it("날씨 배경과 위치 권한 요청이 사라졌다", () => {
@@ -147,30 +148,11 @@ describe("홈 구성", () => {
 });
 
 describe("이번 주 카드는 한 장 — 홈과 운동탭이 같은 컴포넌트", () => {
-  it("옛 카드 두 장(요약·훈련)이 남아 있지 않다", () => {
-    for (const f of [
-      "src/features/routine/components/weekly-report-card.tsx",
-      "src/features/routine/components/weekly-training-summary.tsx",
-      "src/features/home/components/diet-exercise-card.tsx",
-    ]) {
-      expect(existsSync(resolve(ROOT, f)), f).toBe(false);
-    }
-  });
-
-  // 2026-09-20 런처 전환 — 이번 주 카드는 홈에서 빠지고 요약만 운동 위젯으로 내려왔다.
-  // 카드 자체는 운동 앱(기록)이 한 장만 갖는다. 두 곳에 동시에 있으면 안 된다는 약속은 그대로.
-  it("이번 주 카드를 홈과 운동탭이 동시에 갖지 않는다", () => {
+  it("홈에는 요청한 주간 요약과 훈련 카드, 기록 화면에는 상세 통계를 유지한다", () => {
     const home = read("src/app/home/page.tsx");
-    const routine = read("src/app/routine/page.tsx");
-    const onHome = home.includes("<WeeklyOverviewCard");
-    const onRoutine = routine.includes("<WeeklyOverviewCard");
-    expect(onHome && onRoutine, "이번 주 카드가 두 곳에 중복").toBe(false);
-    // 홈에서 뺐다면 정보가 사라지면 안 된다 — 홈엔 운동 위젯 한 줄,
-    // 카드 자체는 운동 앱의 '기록' 칸(/settings/progress)이 한 장 갖는다.
-    if (!onHome) {
-      expect(home).toContain('appId="workout"');
-      expect(read("src/app/settings/progress/page.tsx")).toContain("<WeeklyOverviewCard");
-    }
+    expect(home).toContain("<WeeklyReportCard");
+    expect(home).toContain("<WeeklyTrainingSummary");
+    expect(read("src/app/settings/progress/page.tsx")).toContain("<WeeklyOverviewCard");
   });
 
   it("부위 막대는 무지개가 아니라 브랜드 진하기 + 안 한 부위만 주의색", () => {
@@ -264,8 +246,8 @@ describe("공통 머리글·폭 (4단계)", () => {
     expect(read("src/components/page-header.tsx")).toContain("max-w-3xl");
   });
 
-  it("홈·운동탭·공통 머리글은 같은 큰 제목(.app-title, 30px) — 로고 막대 없음", () => {
-    for (const f of ["src/app/home/page.tsx", "src/app/routine/page.tsx", "src/components/page-header.tsx"]) {
+  it("운동탭·공통 머리글은 큰 제목, 홈은 로고 사용", () => {
+    for (const f of ["src/app/routine/page.tsx", "src/components/page-header.tsx"]) {
       const src = read(f);
       expect(src, f).toMatch(/<h1 className="[^"]*app-title/);
       expect(src, f).not.toContain("<Logo");
@@ -461,8 +443,10 @@ describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
   it("캘린더: 달 이동이 머리글 안, 요약은 카드 4장 대신 한 장(세 칸 + 체중 한 줄)", () => {
     const cal = read("src/app/calendar/page.tsx");
     const header = between(cal, "<PageHeader", "</PageHeader>");
-    expect(header).toContain('aria-label="이전 달"');
-    expect(header).toContain('aria-label="다음 달"');
+    // 주간 보기가 생기면서 라벨이 조건부가 됐다(`{isWeek ? "이전 주" : "이전 달"}`).
+    // 가드가 지키려는 건 "달 이동이 머리글 안에 있다" 이지 문자열 형태가 아니다.
+    expect(header).toMatch(/aria-label=(?:"이전 달"|\{[^}]*"이전 달"[^}]*\})/);
+    expect(header).toMatch(/aria-label=(?:"다음 달"|\{[^}]*"다음 달"[^}]*\})/);
     for (const gone of ["function SummaryCard", "function NetCard", "function WeightCard"]) {
       expect(cal, gone).not.toContain(gone);
     }

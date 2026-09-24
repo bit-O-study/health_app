@@ -104,7 +104,7 @@ export function TrainerConnections({ initial }: { initial: TrainerConnection[] }
               onClick={() => setLeaving(c)}
               busy={pending}
               data-testid="remove-trainer"
-              className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-rose-300 px-2.5 py-1.5 text-[11px] font-bold text-rose-600 transition hover:bg-rose-50 disabled:opacity-50 dark:border-rose-900 dark:text-rose-400 dark:hover:bg-rose-950/40"
+              className="inline-flex shrink-0 items-center gap-1 rounded-lg border border-rose-300 px-2.5 py-1.5 text-xs font-bold text-rose-600 transition hover:bg-rose-50 disabled:opacity-50 dark:border-rose-900 dark:text-rose-400 dark:hover:bg-rose-950/40"
             >
               <UserMinus aria-hidden="true" size={13} />
               제거
@@ -118,7 +118,7 @@ export function TrainerConnections({ initial }: { initial: TrainerConnection[] }
                   <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                     {SHARE_LABEL[k]}
                   </p>
-                  <p className="text-[11px] leading-4 text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs leading-4 text-zinc-500 dark:text-zinc-400">
                     {SHARE_HINT[k]}
                   </p>
                 </div>
@@ -134,7 +134,7 @@ export function TrainerConnections({ initial }: { initial: TrainerConnection[] }
                   onClick={() => toggle(c.groupId, k, !c.prefs[k])}
                   className={`relative h-6 w-11 shrink-0 rounded-full transition ${
                     c.prefs[k]
-                      ? "bg-emerald-500"
+                      ? "bg-brand"
                       : "bg-zinc-300 dark:bg-zinc-600"
                   }`}
                 >
@@ -149,7 +149,7 @@ export function TrainerConnections({ initial }: { initial: TrainerConnection[] }
           </ul>
 
           {!c.prefs.prescription ? (
-            <p className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+            <p className="mt-2 inline-flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
               <ShieldOff aria-hidden="true" size={12} />
               트레이너가 내 루틴을 바꿀 수 없어요
             </p>

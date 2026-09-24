@@ -32,9 +32,9 @@ export function DietExerciseCard({
   return (
     <Link
       href="/diet"
-      className="app-card group block p-4 transition hover:-translate-y-0.5 hover:border-emerald-500/20 sm:p-5"
+      className="app-card group block p-4 transition hover:-translate-y-0.5 hover:border-brand/20 sm:p-5"
     >
-      <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
+      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400 dark:text-zinc-500">
         오늘 식단 기준 운동량
       </p>
       <div className="flex min-h-[104px] items-center">
@@ -80,22 +80,22 @@ export function DietExerciseCard({
                   strokeDasharray={`${dash} ${CIRCUMFERENCE - dash}`}
                   className={
                     noExtraNeeded
-                      ? "stroke-emerald-500"
-                      : "stroke-emerald-500 transition-[stroke-dasharray] duration-500"
+                      ? "stroke-brand"
+                      : "stroke-brand transition-[stroke-dasharray] duration-500"
                   }
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 {noExtraNeeded ? (
-                  <span className="text-sm font-bold text-emerald-700 dark:text-emerald-400">
+                  <span className="text-sm font-bold text-brand">
                     목표 이내
                   </span>
                 ) : (
                   <>
-                    <span className="text-xl font-black tabular-nums text-zinc-900 dark:text-zinc-50">
+                    <span className="text-xl font-bold tabular-nums text-zinc-900 dark:text-zinc-50">
                       {need.remainingMinutes}
                     </span>
-                    <span className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500">
+                    <span className="text-xs font-semibold text-zinc-400 dark:text-zinc-500">
                       분 더
                     </span>
                   </>
@@ -105,7 +105,7 @@ export function DietExerciseCard({
 
             {/* 탄단지 — 더 먹어야 하는 양 */}
             <div className="min-w-0 flex-1 space-y-2">
-              <p className="text-[11px] font-semibold text-zinc-400 dark:text-zinc-500">
+              <p className="text-xs font-semibold text-zinc-400 dark:text-zinc-500">
                 탄단지 기준 더 먹을 수 있어요
               </p>
               <ul className="space-y-1.5">

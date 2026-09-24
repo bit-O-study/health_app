@@ -45,9 +45,9 @@ export default async function GroupsPage({
     if (!ranking) redirect("/groups");
     return <main className="app-page app-container space-y-4">
       <h1 className="text-2xl font-bold">이번 주 그룹 랭킹</h1>
-      <nav aria-label="랭킹 그룹 선택" className="flex flex-wrap gap-2">{groups.map(group => <Link key={group.id} href={`/groups?view=ranking&g=${group.id}`} aria-current={group.id === selectedId ? "page" : undefined} className={"rounded-full border px-3 py-2 text-sm " + (group.id === selectedId ? "border-emerald-600 bg-emerald-50 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300" : "border-zinc-300")}>{group.name}</Link>)}</nav>
+      <nav aria-label="랭킹 그룹 선택" className="flex flex-wrap gap-2">{groups.map(group => <Link key={group.id} href={`/groups?view=ranking&g=${group.id}`} aria-current={group.id === selectedId ? "page" : undefined} className={"rounded-full border px-3 py-2 text-sm " + (group.id === selectedId ? "border-brand bg-brand-soft text-brand" : "border-zinc-300")}>{group.name}</Link>)}</nav>
       <p className="text-sm text-zinc-500">{ranking.weekFrom} ~ {ranking.weekTo} · 운동 소비 칼로리 순</p>
-      <ol className="space-y-2">{ranking.ranking.map(member => <li key={member.userId} className="app-card flex items-center gap-3 p-4"><span className="text-xl font-bold text-emerald-600">{member.rank}</span><div className="min-w-0 flex-1"><p className="truncate font-semibold">{member.name}{member.isMe ? " · 나" : ""}</p><p className="text-xs text-zinc-500">운동 {member.days}일 · {member.workouts}개</p></div><span className="text-sm font-semibold">{Math.round(member.kcal).toLocaleString()} kcal</span></li>)}</ol>
+      <ol className="space-y-2">{ranking.ranking.map(member => <li key={member.userId} className="app-card flex items-center gap-3 p-4"><span className="text-xl font-bold text-brand">{member.rank}</span><div className="min-w-0 flex-1"><p className="truncate font-semibold">{member.name}{member.isMe ? " · 나" : ""}</p><p className="text-xs text-zinc-500">운동 {member.days}일 · {member.workouts}개</p></div><span className="text-sm font-semibold">{Math.round(member.kcal).toLocaleString()} kcal</span></li>)}</ol>
     </main>;
   }
   // ── 오늘 운동 인증(움짤) 모드 ──────────────────────────────────────

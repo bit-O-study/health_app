@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/supabase/server";
+import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import { DAY_BLOCKS, isDayBlockId, seoulYmd } from "@/features/routine/data";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { getMemberReport, getMemberTodayPlan } from "@/features/trainer/member-report-data";
@@ -12,11 +12,15 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "회원 통계 · 운동 처방" };
 const periods: { id: ReportPeriod; label: string }[] = [{ id: "week", label: "주간" }, { id: "month", label: "월간" }, { id: "year", label: "연간" }];
 export default async function MemberManagementPage({ params, searchParams }: {
-  params: Promise<{ id: string; memberId: string }>;
+  params: Promise<{ id: string }>;
   searchParams: Promise<{ period?: string; date?: string }>;
 }) {
   if (!await getCurrentUser()) redirect("/login");
-  const { id, memberId } = await params;
+  const { id } = await params;
+  const db = await createSupabaseServerClient();
+  const { data: connection } = await db.from("pt_links").select("member_id").eq("id", id).eq("trainer_id", (await getCurrentUser())!.id).eq("active", true).maybeSingle();
+  if (!connection) notFound();
+  const memberId = connection.member_id;
   const query = await searchParams;
   const period = periods.find(p => p.id === query.period)?.id ?? "week";
   let date = typeof query.date === "string" ? query.date : seoulYmd();
@@ -30,7 +34,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
   if (!data) notFound();
   const sharing = data.sharing;
   const stats = summarizeMember(data, period, range.from, range.to);
-  const url = `/groups/${id}/trainer/members/${memberId}`;
+  const url = `/trainer/members/${id}`;
   const shift = (day: string, delta: number) => {
     const d = new Date(`${day}T00:00:00Z`); d.setUTCDate(d.getUTCDate() + delta); return d.toISOString().slice(0, 10);
   };
@@ -57,7 +61,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
     focusLabel: isDayBlockId(row.focus) ? DAY_BLOCKS[row.focus].label : row.focus,
   }));
   return <main className="app-page app-container space-y-6">
-    <Link href={`/groups/${id}/trainer`} className="text-sm text-brand">← 회원 관리</Link>
+    <Link href={`/trainer`} className="text-sm text-brand">← 회원 관리</Link>
     <header><h1 className="text-xl font-bold">{data.name} 님 관리</h1><p className="mt-1 text-sm text-zinc-500">운동 통계와 운동 처방을 한곳에서 확인하세요.</p></header>
     <nav aria-label="통계 기간" className="flex gap-2">{periods.map(p => <Link key={p.id} href={`${url}?period=${p.id}&date=${date}`} aria-current={period === p.id ? "page" : undefined} className={`rounded-lg px-4 py-2 text-sm font-semibold ${period === p.id ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 dark:bg-zinc-800"}`}>{p.label}</Link>)}</nav>
     <form className="flex flex-wrap items-end gap-2">
@@ -83,7 +87,6 @@ export default async function MemberManagementPage({ params, searchParams }: {
       <h2 id="trend-title" className="text-lg font-bold">{period === "year" ? "월별" : "일별"} 운동 추이</h2>
       <div className="overflow-x-auto"><table className="w-full text-right text-xs"><caption className="sr-only">선택 기간의 운동일, 완료 세트, 운동 시간과 총 볼륨</caption><thead><tr className="border-b"><th className="p-2 text-left" scope="col">기간</th><th scope="col">운동일</th><th scope="col">세트</th><th scope="col">분</th><th className="min-w-24" scope="col">볼륨(kg)</th></tr></thead><tbody>{stats.series.map(s => <tr key={s.label} className="border-b border-zinc-100 dark:border-zinc-800"><th scope="row" className="p-2 text-left font-normal">{s.label.slice(5)}</th><td>{s.workoutDays}</td><td>{s.sets}</td><td>{s.minutes}</td><td className="py-2 pl-3">{n(s.volume)}<div aria-hidden="true" className="mt-1 h-1 bg-brand" style={{ width: `${s.volume / maxVolume * 100}%` }} /></td></tr>)}</tbody></table></div>
     </section>}
-    <div className="flex flex-wrap gap-3 text-sm font-semibold text-brand">{sharing.prescription && <Link href={`/groups/${id}/trainer/assign/${memberId}`}>루틴 배정</Link>}<Link href={`/groups/${id}/trainer/comment/${memberId}`}>코멘트 · 처방 변경 내역</Link><Link href={`/groups/${id}/member/${memberId}`}>일별 상세 기록</Link></div>
     {sharing.prescription ? <>
       <MemberTodayPrescription connectionId={id} memberId={memberId} memberName={data.name} dateLabel={todayLabel} rows={todayRows} notice={today.notice} />
       <MemberPrescription connectionId={id} memberId={memberId} memberName={data.name} exercises={rows} />

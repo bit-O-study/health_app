@@ -8,6 +8,7 @@ import {
   getGroupMemberWeeklyTraining,
 } from "@/features/groups/data-access";
 import { WeeklyTrainingCard } from "@/features/routine/components/weekly-training-card";
+import { PageHeader } from "@/components/page-header";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "그룹원 오늘 기록" };
@@ -36,7 +37,7 @@ export default async function GroupMemberPage({
         </p>
         <Link
           href={`/groups/${id}`}
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
+          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand"
         >
           <ChevronLeft size={16} /> 그룹으로
         </Link>
@@ -48,27 +49,17 @@ export default async function GroupMemberPage({
   const hideWorkout = day.hidden.includes("workout");
   const hideDiet = day.hidden.includes("diet");
 
+  // 다른 하위 화면과 같은 공통 머리글 + .app-page 바탕(2026-09-16 8단계).
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
-      <div className="mb-4 flex items-center gap-2">
-        <Link
-          href={`/groups/${id}`}
-          aria-label="그룹으로"
-          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
-        >
-          <ChevronLeft aria-hidden="true" size={20} />
-        </Link>
-        <h1 className="truncate text-lg font-bold text-zinc-950 dark:text-zinc-50">
-          {day.name} · 오늘
-        </h1>
-      </div>
-
+    <div className="app-page">
+      <PageHeader title={`${day.name} · 오늘`} back="그룹" backHref={`/groups/${id}`} />
+      <main className="app-container">
       <div className="mb-5 grid grid-cols-2 gap-2">
         <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
+          <span className="flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
             <Utensils size={14} /> 오늘 섭취
           </span>
-          <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             {hideDiet ? (
               <span className="text-sm font-bold text-zinc-400">비공개</span>
             ) : (
@@ -80,10 +71,10 @@ export default async function GroupMemberPage({
           </p>
         </div>
         <div className="rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900">
-          <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+          <span className="flex items-center gap-1 text-xs font-bold text-brand">
             <Flame size={14} /> 오늘 운동 소비
           </span>
-          <p className="mt-1 text-lg font-extrabold tabular-nums text-zinc-950 dark:text-zinc-50">
+          <p className="mt-1 text-lg font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
             {hideWorkout ? (
               <span className="text-sm font-bold text-zinc-400">비공개</span>
             ) : (
@@ -142,7 +133,7 @@ export default async function GroupMemberPage({
                     <span className="ml-1.5 text-xs font-normal text-zinc-400">{w.detail}</span>
                   ) : null}
                 </span>
-                <span className="shrink-0 text-xs font-bold tabular-nums text-emerald-600 dark:text-emerald-400">
+                <span className="shrink-0 text-xs font-bold tabular-nums text-brand">
                   {w.kcal}kcal
                 </span>
               </li>
@@ -167,7 +158,7 @@ export default async function GroupMemberPage({
                   alt={`${p.meal} 사진`}
                   className="h-24 w-24 rounded-xl object-cover"
                 />
-                <figcaption className="mt-0.5 text-[11px] font-semibold text-zinc-500">
+                <figcaption className="mt-0.5 text-xs font-semibold text-zinc-500">
                   {p.meal}
                 </figcaption>
               </figure>
@@ -192,7 +183,7 @@ export default async function GroupMemberPage({
             {day.foods.map((f, i) => (
               <li key={i} className="flex items-center gap-2 px-4 py-2.5">
                 <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
-                  <span className="mr-1.5 rounded bg-zinc-100 px-1 py-0.5 text-[10px] font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                  <span className="mr-1.5 rounded bg-zinc-100 px-1 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
                     {f.meal}
                   </span>
                   {f.name}
@@ -205,6 +196,7 @@ export default async function GroupMemberPage({
           </ul>
         )}
       </section>
-    </main>
+      </main>
+    </div>
   );
 }

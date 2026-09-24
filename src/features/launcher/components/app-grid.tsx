@@ -1,45 +1,108 @@
+"use client";
+
 import Link from "next/link";
-
+import { useState, useSyncExternalStore } from "react";
+import { Minus, Plus } from "lucide-react";
 import { visibleApps } from "@/features/launcher/apps";
+import { useHomeDock } from "@/features/launcher/use-home-dock";
+import { useHydrated } from "@/lib/use-hydrated";
 
-/**
- * 런처 격자 — 홈 맨 위의 앱 아이콘 판 (2026-09-20).
- *
- * 스마트폰 홈처럼, 작은 아이콘을 눌러 그 앱으로 들어간다. 들어가면 화면도
- * 하단 메뉴바도 그 앱 것으로 바뀐다(가운데 홈 칸만 그대로).
- *
- * 순서·숨김을 사용자가 편집하는 기능은 **1차엔 없다**(사용자 결정 2026-09-20).
- * 어떤 앱이 보일지는 `visibleApps()` 한 곳이 정한다.
- */
-export function AppGrid({ enabledFlags = [] }: { enabledFlags?: readonly string[] }) {
-  const apps = visibleApps(enabledFlags);
+const CHANGE_EVENT = "launcher-apps-changed";
+const serverSnapshot = () => "";
+function subscribe(onChange: () => void) {
+  window.addEventListener("storage", onChange);
+  window.addEventListener(CHANGE_EVENT, onChange);
+  return () => {
+    window.removeEventListener("storage", onChange);
+    window.removeEventListener(CHANGE_EVENT, onChange);
+  };
+}
+
+/** 홈 아이콘 선택은 계정별로 이 브라우저에 저장한다. 권한은 visibleApps가 결정한다. */
+export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: { userId: string; enabledFlags?: readonly string[]; initialEditing?: boolean }) {
+  const [editing, setEditing] = useState(initialEditing);
+  const [addingOpen, setAddingOpen] = useState(false);
+  const dock = useHomeDock(userId);
+  const [error, setError] = useState<string | null>(null);
+  const hydrated = useHydrated();
+  const storageKey = `helssu:home-hidden-apps:${userId}`;
+  const stored = useSyncExternalStore(subscribe, () => {
+    try { return localStorage.getItem(storageKey) ?? ""; } catch { return ""; }
+  }, serverSnapshot);
+  let hidden: string[] = [];
+  try {
+    const value: unknown = JSON.parse(stored);
+    if (Array.isArray(value)) hidden = value.filter((id): id is string => typeof id === "string");
+  } catch { /* 저장값이 없거나 손상됐으면 기본 앱 목록을 보여준다. */ }
+  const available = visibleApps(enabledFlags);
+  const apps = available.filter(app => !hidden.includes(app.id));
+  const removed = available.filter(app => hidden.includes(app.id) || app.id === "trainer");
+
+  function toggle(id: string, hide: boolean) {
+    const next = hide ? [...new Set([...hidden, id])] : hidden.filter(value => value !== id);
+    try {
+      localStorage.setItem(storageKey, JSON.stringify(next));
+      setError(null);
+      window.dispatchEvent(new Event(CHANGE_EVENT));
+    } catch {
+      setError("앱 구성을 저장하지 못했어요. 브라우저 저장 공간 설정을 확인해 주세요.");
+    }
+  }
+
+  function tile(app: (typeof available)[number], adding = false) {
+    const Icon = app.icon;
+    const content = <>
+      <span aria-hidden="true" className={`relative flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm ${app.tone}`}>
+        <Icon size={22} strokeWidth={1.9} />
+        {(editing || adding) && <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-zinc-800 text-white ring-2 ring-white dark:bg-zinc-200 dark:text-zinc-900 dark:ring-zinc-900">
+          {adding ? <Plus size={14} /> : <Minus size={14} />}
+        </span>}
+      </span>
+      <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">{adding && app.id === "trainer" ? "트레이너 대시보드" : app.label}</span>
+    </>;
+    const className = "flex w-full flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90";
+    return <li key={app.id}>
+      {adding && app.id === "trainer" ? <Link href={app.home} prefetch={false} className={className} aria-label="트레이너 대시보드" onClick={() => toggle(app.id, false)}>{content}</Link> : editing || adding ? <button type="button" className={className} aria-label={`${app.label} ${adding ? "추가" : "숨기기"}`} onClick={() => toggle(app.id, !adding)}>{content}</button>
+        : <Link href={app.home} prefetch={false} data-app={app.id} className={className}>{content}</Link>}
+    </li>;
+  }
+
   return (
-    <nav aria-label="앱" className="app-card p-3">
-      <ul className="grid grid-cols-4 gap-x-1 gap-y-3">
-        {apps.map((app) => {
-          const Icon = app.icon;
-          return (
-            <li key={app.id}>
-              <Link
-                href={app.home}
-                prefetch={false}
-                data-app={app.id}
-                className="flex flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90"
-              >
-                <span
-                  aria-hidden="true"
-                  className={`flex h-12 w-12 items-center justify-center rounded-2xl text-white shadow-sm ${app.tone}`}
-                >
-                  <Icon size={22} strokeWidth={1.9} />
-                </span>
-                <span className="max-w-full truncate px-0.5 text-xs font-medium text-zinc-700 dark:text-zinc-300">
-                  {app.label}
-                </span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
+    <nav id="home-apps" aria-label="앱" className="app-card space-y-3 p-3">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">내 앱</span>
+        <button type="button" disabled={!hydrated} aria-pressed={editing} onClick={() => { setEditing(!editing); setAddingOpen(false); }} className="min-h-11 rounded-lg px-3 text-sm font-semibold text-brand disabled:opacity-50">{editing ? "완료" : "편집"}</button>
+      </div>
+      {apps.length > 0 || editing ? <ul className="grid grid-cols-4 gap-x-1 gap-y-3">
+        {apps.map(app => tile(app))}
+        {editing && <li>
+          <button type="button" aria-label="앱 추가" aria-expanded={addingOpen} aria-controls="home-add-apps" onClick={() => setAddingOpen(!addingOpen)} className="flex w-full flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90">
+            <span aria-hidden="true" className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand shadow-sm ring-1 ring-inset ring-brand/20"><Plus size={24} strokeWidth={1.9} /></span>
+          </button>
+        </li>}
+      </ul> : <p className="py-3 text-center text-sm text-muted">편집을 눌러 홈에 앱을 추가해 보세요.</p>}
+      {editing && <p className="text-xs text-muted">아이콘을 눌러 홈에서 숨길 수 있어요. + 아이콘으로 다시 추가할 수 있어요.</p>}
+      {editing && addingOpen && <section id="home-add-apps" aria-label="추가할 앱" className="space-y-3 border-t border-line pt-3">
+        <h2 className="text-sm font-semibold">홈에 추가할 앱</h2>
+        {removed.length > 0
+          ? <ul className="grid grid-cols-4 gap-x-1 gap-y-3">{removed.map(app => tile(app, true))}</ul>
+          : <p className="text-sm text-muted">추가할 수 있는 앱이 모두 홈에 있어요.</p>}
+      </section>}
+      {editing && <fieldset className="space-y-3 border-t border-line pt-3">
+        <legend className="pt-3 text-sm font-semibold">하단 바로가기</legend>
+        <p className="text-xs text-muted">가운데 홈 양옆에 둘 앱을 선택하세요. 이 브라우저에 저장돼요.</p>
+        <div className="grid grid-cols-2 gap-3">
+          {dock.ids.map((id, index) => <label key={index} className="space-y-1 text-xs text-muted">
+            <span>{index < 2 ? "왼쪽" : "오른쪽"} {index % 2 + 1}번째 앱</span>
+            <select aria-label={"하단 " + (index + 1) + "번 앱"} value={available.some(app => app.id === id) ? id! : ""} onChange={event => dock.setSlot(index, event.target.value || null)} className="min-h-11 w-full rounded-xl border border-line bg-surface px-2 text-sm text-foreground">
+              <option value="">비워두기</option>
+              {available.map(app => <option key={app.id} value={app.id}>{app.label}</option>)}
+            </select>
+          </label>)}
+        </div>
+        {dock.error && <p role="alert" className="text-sm text-danger">{dock.error}</p>}
+      </fieldset>}
+      {error && <p role="alert" className="text-sm text-danger">{error}</p>}
     </nav>
   );
 }

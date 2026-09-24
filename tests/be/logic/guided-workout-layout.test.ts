@@ -59,3 +59,19 @@ describe("운동모드 하단 버튼 바 순서", () => {
     }
   });
 });
+
+// 2026-09-25 몰입형: 운동모드는 항상 어두운 무대 + 세트 완료는 밀어서.
+describe("운동모드 몰입형", () => {
+  it("루트에 dark 를 걸어 안쪽 컴포넌트가 다크 토큰을 쓴다", () => {
+    expect(src).toContain('className="dark fixed inset-0 z-40');
+  });
+
+  it("세트 완료는 밀어서 완료(SlideToConfirm)로 — 오누름 방지", () => {
+    expect(src).toMatch(/<SlideToConfirm\s+onClick=\{completeSet\}/);
+  });
+
+  it("상단 n/m 은 남은 운동 기준(activeProgress)", () => {
+    expect(src).toContain("activeProgress(rowIds, processed, index)");
+    expect(src).not.toContain("{index + 1} / {total}");
+  });
+});

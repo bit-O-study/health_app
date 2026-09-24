@@ -372,8 +372,20 @@ export function shiftYmd(ymd: string, deltaDays: number): string {
 /* ─── 증량 단위 ──────────────────────────────────────────────────────── */
 
 /**
- * 중량 증감 단위(kg) — 바벨·머신 5kg, 덤벨 등 1kg, 기구 미지정 2kg.
- * 맨몸은 무게로 올릴 수 없어 `null`(횟수를 늘리는 게 맞다).
+ * 중량 증감 단위(kg) — **기구와 종목 크기**로 정한다.
+ *
+ * 예전엔 "바벨·머신 5kg, 나머지 1kg" 이었는데 실제 헬스장과 안 맞았다.
+ *  - 바벨은 1.25kg 원판 한 쌍 = **2.5kg** 씩 올릴 수 있다. 컬·업라이트로우 같은
+ *    작은 종목에서 5kg 은 한 번에 너무 크다(자세가 먼저 무너진다).
+ *  - 반대로 스쿼트·데드처럼 큰 종목은 2.5kg 씩 가면 진도가 안 나간다 → 5kg.
+ *  - 머신·케이블 핀 스택은 보통 5kg 이지만 펙덱·레터럴레이즈처럼 작은 기구는
+ *    2.5kg(보조추 포함) 단위가 흔하다.
+ *  - 덤벨 랙은 보통 2kg 간격(한 짝 1kg 차이), 케틀벨은 4kg 간격(8·12·16·20·24)이다.
+ *
+ * 그래도 헬스장마다 스택이 달라(1kg 짜리 머신도 있다) **종목별 사용자 지정**을
+ * `overrideKg` 로 받는다 — 지정이 있으면 그 값이 이긴다.
+ *
+ * 맨몸·밴드처럼 무게로 올릴 수 없는 건 `null`(횟수·시간을 늘리는 게 맞다).
  *
  * 이 값을 어떻게 쓸지(올릴지·유지할지·낮출지)는 `overload.ts` 가 정한다 — 규칙이
  * 두 군데로 갈라지면 화면마다 다른 무게를 권하게 된다.
@@ -381,11 +393,45 @@ export function shiftYmd(ymd: string, deltaDays: number): string {
 export function weightStepKg(
   exerciseId: string,
   equipment?: EquipmentId | string | null,
+  overrideKg?: number | null,
 ): number | null {
-  if (loadClassOf(exerciseId) === "bodyweight" || equipment === "bodyweight") {
+  // 사용자가 그 종목의 단위를 직접 정했으면 그게 우선이다(내 헬스장 기준).
+  if (typeof overrideKg === "number" && overrideKg > 0 && overrideKg <= 25) {
+    return Math.round(overrideKg * 100) / 100;
+  }
+
+  const load = loadClassOf(exerciseId);
+  if (load === "bodyweight" || equipment === "bodyweight") return null;
+  // 밴드·TRX·보수·짐볼은 무게 눈금 자체가 없다 — 횟수·템포로 올린다.
+  if (
+    equipment === "band" ||
+    equipment === "trx" ||
+    equipment === "bosu" ||
+    equipment === "ball"
+  ) {
     return null;
   }
-  if (equipment === "barbell" || equipment === "machine") return 5;
-  if (equipment) return 1;
-  return 2;
+
+  // 원판을 직접 끼우는 기구 — 1.25kg 한 쌍이 최소 단위.
+  if (
+    equipment === "barbell" ||
+    equipment === "smith" ||
+    equipment === "landmine" ||
+    equipment === "plate"
+  ) {
+    return load === "heavy" ? 5 : 2.5;
+  }
+
+  // 핀 스택 — 큰 기구는 5kg, 작은 기구는 2.5kg 이 보통이다.
+  if (equipment === "machine" || equipment === "cable") {
+    return load === "light" ? 2.5 : 5;
+  }
+
+  if (equipment === "dumbbell") return 2;
+  if (equipment === "kettlebell") return 4;
+  if (equipment === "medicineball") return 1;
+  if (equipment === "sled") return 5;
+
+  // 기구를 모르면 원판 기준으로 안전하게.
+  return 2.5;
 }

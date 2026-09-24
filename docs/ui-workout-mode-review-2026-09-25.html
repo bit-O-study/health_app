@@ -196,6 +196,54 @@ section{padding-block:52px 0}
 .opt.rec{border-color:var(--brand);background:var(--brand-soft)}
 .opt.rec b::after{content:" · 추천";color:var(--brand);font-size:12px}
 .foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+.compare4{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px 22px;align-items:start}
+.dir .phone{max-width:300px}
+.verdict2{margin-top:10px;font-size:13px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.p-scrub .pm.lg{width:28px;height:28px}
+.p-scrub .v.lg{font-size:15px;min-width:60px;padding:3px 4px}
+.p-note.brand{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);color:var(--brand)}
+.p-note.brand b{border:1px solid currentColor;border-radius:99px;padding:0 6px;font-size:9.5px}
+.p-media.wide{aspect-ratio:16/9}
+.log{width:100%;border:1px solid var(--phone-line);border-radius:12px;overflow:hidden;font-variant-numeric:tabular-nums}
+.lh,.lr{display:grid;grid-template-columns:34px 1fr 1fr 44px;align-items:center;text-align:center}
+.lh{font-size:10px;color:var(--phone-mute);font-weight:600;padding:4px 0;background:var(--phone-2)}
+.lr{font-size:13px;font-weight:600;padding:5px 0;border-top:1px solid var(--phone-line)}
+.lr.done{color:var(--phone-mute)}
+.lr.now{background:var(--brand-soft);font-size:16px;font-weight:700}
+.lr .cell{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);border-radius:6px;margin:0 6px;background:var(--phone)}
+.ck{font-style:normal;justify-self:center;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--phone-line);display:grid;place-items:center;font-size:12px;color:var(--phone-mute)}
+.ck.on{background:var(--phone-mute);color:var(--phone);border-color:transparent}
+.ck.big{width:32px;height:32px;background:var(--brand);color:var(--on-brand);border-color:transparent;font-size:15px}
+.ladd{font-size:11px;color:var(--brand);font-weight:600;text-align:center;padding:6px 0;border-top:1px solid var(--phone-line)}
+.dark-stage{background:#0b0b0c;color:#f4f4f5;border-color:#27272a}
+.vid{position:relative;height:300px;background:linear-gradient(170deg,#2a2d2b,#121413);display:grid;place-items:center}
+.vtop{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:8px;align-items:center}
+.vtop .p-seg i{background:rgba(255,255,255,.25)}
+.vtop .p-seg i.d{background:#3cc394}.vtop .p-seg i.c{background:#3cc394;opacity:.5}
+.vx{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center;font-size:12px}
+.vchip{background:rgba(0,0,0,.45);border-radius:99px;padding:2px 8px;font-family:var(--mono);font-size:11px;font-weight:600}
+.varrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
+.varrow.l{left:8px}.varrow.r{right:8px}
+.vlabel{font-size:11px;color:rgba(255,255,255,.55)}
+.vfoot{position:absolute;left:0;right:0;bottom:0;padding:24px 12px 10px;background:linear-gradient(transparent,rgba(0,0,0,.7));display:grid;gap:1px}
+.vfoot b{font-size:18px}
+.vtag{font-size:10px;color:rgba(255,255,255,.75)}
+.sheet{background:#18181b;border-radius:16px 16px 0 0;margin-top:-12px;position:relative;padding:8px 10px 12px;display:grid;gap:7px}
+.sheet .btn{background:#18181b;border-color:#3f3f46;color:#f4f4f5}
+.sheet .btn.solid{background:#3cc394;color:#06140e;border-color:transparent}
+.grab{justify-self:center;width:36px;height:4px;border-radius:99px;background:#3f3f46}
+.sline{display:flex;align-items:baseline;gap:8px}
+.sset{font-size:18px;font-weight:700;color:#3cc394}
+.sval{font-size:14px;font-weight:600;flex:1}
+.sedit{font-size:10.5px;color:#a1a1aa}
+.shint{font-size:9.5px;color:#a1a1aa;text-align:center}
+.table-wrap{overflow-x:auto;margin-top:30px}
+.cmp{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;background:var(--surface)}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.cmp thead th{font-size:12.5px;color:var(--muted);font-weight:600}
+.cmp tbody th{font-weight:600;color:var(--ink);white-space:nowrap}
+.cmp td{color:var(--ink-2)}
 </style>
 
 <div class="wrap">
@@ -207,7 +255,7 @@ section{padding-block:52px 0}
   <div class="lede">
     <span class="eyebrow">만들기 전 현황 검수 · 구현은 결정 후 시작</span>
     <h1>운동 중에 누를 건 “세트 완료” 하나인데, 화면에는 누를 곳이 28개 있습니다.</h1>
-    <p>운동 모드는 헬스장에서 팔 길이만큼 떨어진 폰을 땀 난 손으로 누르는 화면입니다. 그런데 가장 자주 누르는 <b>세트 완료</b>가 하단 셋째 줄에 연한 색으로 있고, 그 위에 더 진한 <b>운동 완료</b>가 있어 남은 세트를 통째로 건너뛰는 오누름이 쉽습니다. 기능(저장·오프라인·슈퍼세트)은 튼튼하니 그대로 두고, <b>화면 배치와 위계만</b> 바꾸는 안입니다.</p>
+    <p>운동 모드는 헬스장에서 팔 길이만큼 떨어진 폰을 땀 난 손으로 누르는 화면입니다. 그런데 가장 자주 누르는 <b>세트 완료</b>가 하단 셋째 줄에 연한 색으로 있고, 그 위에 더 진한 <b>운동 완료</b>가 있어 남은 세트를 통째로 건너뛰는 오누름이 쉽습니다. 기능(저장·오프라인·슈퍼세트)은 튼튼하니 그대로 두고, 현재 화면을 기준으로 <b>성격이 다른 세 방향</b>(손질 · 세트 기록표 · 영상+시트)을 비교합니다.</p>
     <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill crit">심각 3</span><span class="pill warn">주의 4</span><span class="pill ok">유지 6</span></div>
   </div>
 
@@ -351,14 +399,15 @@ section{padding-block:52px 0}
   </section>
 
   <!-- 비교 -->
-  <section>
+  <section id="directions">
     <div class="sec-head">
-      <h2>본운동 화면 — 현재와 변경 시안</h2>
-      <p>같은 상태(벤치프레스, 4세트 중 1세트 끝냄, 무게·횟수 고정 끔, 추천 있음)를 나란히 그렸습니다.</p>
+      <h2>세 가지 방향 — 현재 화면을 기준으로</h2>
+      <p>1차 시안(버튼 하나·더보기 시트)은 “지금이 더 낫다”는 판단으로 보류했습니다. 지금 화면의 장점(값이 다 보이고, 바로 누를 수 있음)을 살리는 쪽으로 성격이 서로 다른 세 안을 그렸습니다. 상태는 모두 같습니다: 벤치프레스, 4세트 중 1세트 끝냄, 고정 끔, 추천 있음.</p>
     </div>
-    <div class="compare">
-      <div>
-        <div class="col-head"><h3>현재</h3><span>조작 28 · 색 5계열</span></div>
+    <div class="compare4">
+
+      <div class="dir">
+        <div class="col-head"><h3>현재</h3><span>기준</span></div>
         <div class="stage">
           <div class="phone" aria-label="현재 운동 모드 화면 모형">
             <div class="p-top"><span class="mono" style="font-weight:700">3 / 8</span><div class="p-track"><i></i></div><span class="p-x">✕</span></div>
@@ -384,136 +433,154 @@ section{padding-block:52px 0}
             </div>
           </div>
         </div>
-        <ul class="notes">
-          <li>진한 초록은 “운동 완료” — 눈이 먼저 가는 버튼이 잘못된 버튼.</li>
-          <li>세트 진행은 하단 작은 칩에만.</li>
-          <li>호박색(추천)·초록 채움(티칭)이 본문에서 경쟁.</li>
-        </ul>
       </div>
 
-      <div>
-        <div class="col-head"><h3>변경 시안</h3><span>조작 15 · 채운 버튼 1 · 브랜드 + 의미색</span></div>
+      <div class="dir">
+        <div class="col-head"><h3>B · 지금 그대로, 손질만</h3><span>배치 유지</span></div>
         <div class="stage">
-          <div class="phone" aria-label="변경 시안 운동 모드 화면 모형">
-            <div class="p-top"><span class="p-x">✕</span><div class="p-seg"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i></div><span class="p-chip">12:34 ❚❚</span></div>
+          <div class="phone" aria-label="B안 모형">
+            <div class="p-top"><span class="p-x">✕</span><div class="p-seg"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i></div><span class="mono" style="font-weight:700">3/8</span></div>
+            <div class="p-row"><span class="p-chip">⏱ 12:34</span><span class="p-ghost" style="color:var(--brand)">❚❚ 일시정지</span></div>
             <div class="p-body">
+              <div class="p-tags"><span class="t brand">본운동</span><span class="p-ghost">메모</span></div>
               <div class="p-media">시연 영상<span class="arrow big l">‹</span><span class="arrow big r">›</span><span class="inset">자극 부위</span></div>
-              <div style="display:grid;gap:2px;justify-items:center"><span class="t neutral">본운동 3 / 8</span><div class="p-name">벤치프레스</div></div>
-              <div class="p-sets">
-                <div class="big">2세트째 <small>/ 4</small></div>
-                <div class="dots"><i class="d"></i><i></i><i></i><i></i><em>＋ 세트</em></div>
+              <div class="p-name">벤치프레스</div>
+              <div class="p-card">
+                <div class="p-scrub"><span>무게</span><div class="ctl"><i class="pm lg">−</i><b class="v lg">60kg</b><i class="pm lg">+</i></div></div>
+                <div class="p-scrub"><span>횟수</span><div class="ctl"><i class="pm lg">−</i><b class="v lg">10회</b><i class="pm lg">+</i></div></div>
+                <div class="p-scrub"><span>세트</span><div class="ctl"><i class="pm lg">−</i><b class="v lg">4세트</b><i class="pm lg">+</i></div></div>
+                <div class="p-hint">숫자를 탭하면 직접 입력</div>
               </div>
-              <div class="p-vals">
-                <div class="p-val"><span>무게</span><div class="n">60<small>kg</small></div><div class="pm2"><i>−</i><i>+</i></div></div>
-                <div class="p-val"><span>횟수</span><div class="n">10<small>회</small></div><div class="pm2"><i>−</i><i>+</i></div></div>
-              </div>
-              <div class="p-line"><span>원판 한쪽 20 + 5</span><span>추천 62.5kg <b>적용</b></span></div>
-              <div class="p-more">운동법 · 메모 · 대체운동 · 휴식 1분<span>더보기 ›</span></div>
+              <div class="p-note plate"><span>원판 20 + 5 (한쪽)</span><span class="p-ghost">20kg 봉</span></div>
+              <div class="p-note brand"><span>다음엔 62.5kg 도전</span><b>적용</b></div>
+              <div class="p-actions"><span class="p-ghost">운동법·꿀팁 보기</span><span class="p-ghost">영상 티칭</span></div>
             </div>
             <div class="p-bottom">
-              <span class="btn solid hero">✓ 2세트 완료 · 휴식 1분</span>
-              <div class="p-under"><u>‹ 되돌리기</u><u>이 운동 넘기기 ›</u></div>
+              <div class="p-rest">⏱ 휴식 <i>30초</i><i class="on">1분</i><i>1분30</i><i>2분</i><i>3분</i></div>
+              <div class="p-2"><span class="btn">› 넘기기</span><span class="btn">✓ 운동 완료</span></div>
+              <div class="p-3"><span class="lbl">세트 2/4</span><span class="btn">‹ 취소</span><span class="btn solid">⏱ 세트 완료</span></div>
             </div>
           </div>
         </div>
         <ul class="notes">
-          <li>주 버튼은 하나, 엄지 자리에 48px, 버튼 문구에 몇 세트째·휴식 시간.</li>
-          <li>“몇 세트째”가 화면 중앙의 가장 큰 글자. 세트 추가는 점 옆 “＋ 세트”.</li>
-          <li>숫자를 <b>탭하면 키패드</b>(더블클릭 제거), ±는 44px.</li>
-          <li>상단 막대는 운동별 칸: 끝냄 · 지금 · 넘김 · 남음이 구분됨.</li>
+          <li>자리는 하나도 안 옮김. <b>채운 색만</b> “운동 완료” → “세트 완료”로.</li>
+          <li>“중단하기” → “일시정지”, 닫기 확인 → “운동 끝내기”.</li>
+          <li>±·화살표 44px, 값 글자 크게, 탭하면 직접 입력.</li>
+          <li>진행 막대는 운동별 칸(끝냄·지금·남음).</li>
+          <li>추천은 호박색 → 브랜드 테두리, 티칭은 회색 버튼.</li>
         </ul>
+        <p class="verdict2"><span class="pill ok">작업 작음</span> 하루 · 익숙함 그대로 · 누를 곳 수는 그대로 28</p>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>C · 세트 기록표</h3><span>새 구조</span></div>
+        <div class="stage">
+          <div class="phone" aria-label="C안 모형">
+            <div class="p-top"><span class="p-x">✕</span><div class="p-seg"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i></div><span class="p-chip">12:34 ❚❚</span></div>
+            <div class="p-body">
+              <div class="p-media wide">시연 영상<span class="arrow big l">‹</span><span class="arrow big r">›</span><span class="inset">자극 부위</span></div>
+              <div class="p-tags"><div class="p-name" style="font-size:16px">벤치프레스</div><span class="p-ghost">메모</span></div>
+              <div class="p-line"><span>지난번 57.5kg × 10</span><span>추천 62.5kg <b>적용</b></span></div>
+              <div class="log">
+                <div class="lh"><span>세트</span><span>kg</span><span>회</span><span></span></div>
+                <div class="lr done"><span>1</span><span>60</span><span>10</span><i class="ck on">✓</i></div>
+                <div class="lr now"><span>2</span><span class="cell">60</span><span class="cell">10</span><i class="ck big">✓</i></div>
+                <div class="lr"><span>3</span><span>60</span><span>10</span><i class="ck">✓</i></div>
+                <div class="lr"><span>4</span><span>60</span><span>10</span><i class="ck">✓</i></div>
+                <div class="ladd">＋ 세트 추가</div>
+              </div>
+              <div class="p-note plate"><span>원판 20 + 5 (한쪽)</span><span class="p-ghost">20kg 봉</span></div>
+              <div class="p-actions"><span class="p-ghost">운동법·꿀팁</span><span class="p-ghost">영상 티칭</span></div>
+            </div>
+            <div class="p-bottom">
+              <div class="p-rest">⏱ 휴식 <i>30초</i><i class="on">1분</i><i>1분30</i><i>2분</i><i>3분</i></div>
+              <div class="p-2"><span class="btn">› 넘기기</span><span class="btn">✓ 운동 완료</span></div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>세트가 줄로 보여 “몇 세트째”가 한눈에. 지금 줄의 ✓가 세트 완료.</li>
+          <li>kg·회 칸을 탭하면 키패드 — 무게·횟수·세트 스크러버 3줄이 표 하나로.</li>
+          <li>“지난번 기록”을 표 바로 위에(성장 그래프에서 가져옴).</li>
+          <li>세트별로 무게를 다르게 치는 사람(피라미드·드롭세트)에게 맞는 모양.</li>
+        </ul>
+        <p class="verdict2"><span class="pill warn">작업 큼</span> 세트별 기록을 저장하려면 스키마 변경 — 지금 <code>exercise_completions</code>는 운동당 한 줄(세트·횟수·무게 한 값)</p>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>D · 영상 크게 + 아래 시트</h3><span>보는 화면</span></div>
+        <div class="stage">
+          <div class="phone dark-stage" aria-label="D안 모형">
+            <div class="vid">
+              <div class="vtop"><span class="vx">✕</span><div class="p-seg"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i></div><span class="vchip">12:34 ❚❚</span></div>
+              <span class="varrow l">‹</span><span class="varrow r">›</span>
+              <span class="vlabel">시연 영상 (화면 60%)</span>
+              <div class="vfoot"><span class="vtag">본운동 · 자극 부위 가슴</span><b>벤치프레스</b></div>
+            </div>
+            <div class="sheet">
+              <i class="grab"></i>
+              <div class="sline"><span class="sset">세트 2/4</span><span class="sval">60kg × 10회</span><span class="sedit">수정 ⌃</span></div>
+              <span class="btn solid hero">⏱ 세트 완료 · 휴식 1분</span>
+              <div class="p-2"><span class="btn">‹ 취소</span><span class="btn">› 넘기기</span></div>
+              <p class="shint">위로 올리면: 무게·횟수·세트 스크러버 · 원판 · 추천 · 메모 · 운동법 · 휴식 · 티칭 · 운동 완료</p>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>자세를 보며 따라 하는 화면. 영상이 절반 이상.</li>
+          <li>닫힌 시트에는 지금 세트·값·세트 완료만. 값 수정은 시트를 올려서.</li>
+          <li>지금 스크러버·원판·추천 컴포넌트는 시트 안에 그대로 재사용.</li>
+          <li>영상이 없는 운동(신규 1,200여 종)은 운동법 자막 튜토리얼이 그 자리를 채움.</li>
+        </ul>
+        <p class="verdict2"><span class="pill warn">작업 중간</span> 레이아웃만 바뀌고 데이터·저장 로직은 그대로</p>
       </div>
     </div>
+
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>B 손질</th><th>C 기록표</th><th>D 영상+시트</th></tr></thead>
+        <tbody>
+          <tr><th>지금 화면과 닮음</th><td>거의 같음</td><td>위쪽만 같음</td><td>다름</td></tr>
+          <tr><th>세트 완료 누르기</th><td>하단 채운 버튼</td><td>표의 지금 줄 ✓</td><td>시트 채운 버튼(가장 큼)</td></tr>
+          <tr><th>값 한눈에 보기</th><td>스크러버 3줄</td><td>세트마다 보임</td><td>한 줄 요약, 수정은 시트</td></tr>
+          <tr><th>W1 오누름 해결</th><td>✓ 색 교환</td><td>✓ 운동 완료가 보조로</td><td>✓ 운동 완료는 시트 안</td></tr>
+          <tr><th>W2 “중단” 혼동</th><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><th>W3 누를 곳 수</th><td>그대로 28</td><td>약 22</td><td>닫힌 시트 약 9</td></tr>
+          <tr><th>DB 변경</th><td>없음</td><td>세트별 기록이면 필요</td><td>없음</td></tr>
+          <tr><th>테스트 영향</th><td><code>guided-workout-layout</code> 1건 문구</td><td>세트 관련 E2E 대부분</td><td>하단 바 가드 + 스크러버 E2E(시트 열기 추가)</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <section>
     <div class="sec-head">
-      <h2>“더보기”로 옮기는 것</h2>
-      <p>없애는 기능은 없습니다. 한 번 쓰는 것과 운동 흐름 밖의 것을 한 시트로 모읍니다.</p>
-    </div>
-    <div class="keep">
-      <div><b>운동법·꿀팁 / 운동법 보기</b>그대로 상세 페이지·다이얼로그로 연결.</div>
-      <div><b>메모</b>메모가 있으면 이름 아래 한 줄로 미리보기(중립색), 편집은 시트에서.</div>
-      <div><b>추천 대체운동</b>정체 때만 “대체운동 2” 배지로 알리고, 목록·적용은 시트에서. “오늘만” 안내 문구 유지(원칙 2).</div>
-      <div><b>휴식 시간</b>현재 값만 한 줄에 표시, 바꾸는 칩은 시트 안. 휴식 카드 안의 ±30초는 그대로.</div>
-      <div><b>영상 올리고 티칭받기</b>시트 맨 아래 보조 항목.</div>
-      <div><b>AI 자세 분석</b>(디버그 계정) 시트 항목.</div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <h2>운동 모드에 정할 규칙 네 가지</h2>
-      <p>정하면 <code>ui-simplify.test.ts</code> 처럼 소스 가드 테스트로 막아 다시 흐트러지지 않게 합니다.</p>
+      <h2>어느 안이든 같이 할 것</h2>
+      <p>방향과 상관없이 진단 W1·W2·W5·W6·W7 은 해결해야 합니다. B안이 곧 이 목록입니다.</p>
     </div>
     <div class="rules">
-      <div class="rule"><h3>1. 채운 버튼은 한 화면에 하나</h3><p>“세트 완료”(세트가 없는 운동은 “완료”)만 <code>bg-brand</code>. 나머지는 테두리나 글자 버튼.</p><span class="mono">가드: 하단 바의 bg-brand 개수 = 1</span></div>
-      <div class="rule"><h3>2. 누르는 곳은 44px 이상</h3><p>±, 닫기, 이전/다음, 시트 항목 전부. 주 버튼은 48px.</p><span class="mono">가드: 운동 모드 안 h-8 · h-9 버튼 금지</span></div>
-      <div class="rule"><h3>3. 운동 중 숫자는 24px 이상</h3><p>현재 세트·무게·횟수·경과 시간. 라벨은 12px 이상, 한글에 대문자·자간 변환 금지.</p><span class="mono">가드: text-xs 안내 문구 · uppercase 제거</span></div>
-      <div class="rule"><h3>4. 색은 브랜드 + 주의 + 위험</h3><p>호박색은 원판을 못 맞출 때 같은 진짜 주의에만(<code>warn</code>), 저장 실패는 <code>danger</code>. 슈퍼세트·워밍업·마무리는 중립 배지.</p><span class="mono">가드: amber · violet · sky · red-* 클래스 0</span></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="sec-head">
-      <h2>적용 순서</h2>
-      <p>효과가 크고 위험이 낮은 것부터. 각 단계는 따로 커밋하고, 단계마다 테스트를 같이 고칩니다.</p>
-    </div>
-    <div class="steps">
-      <div class="step"><span class="k">1단계</span>
-        <div><h3>하단 바와 문구</h3><ul>
-          <li>“세트 완료”를 채운 주 버튼(48px)으로, 문구에 세트 번호·휴식 시간.</li>
-          <li>“운동 완료” 버튼 정리(결정 1), 넘기기·되돌리기는 글자 버튼.</li>
-          <li>“중단하기” → <b>일시정지</b>, 닫기 확인 → <b>운동 끝내기</b>.</li>
-          <li>휴식 칩 줄 제거(값은 더보기로).</li></ul></div>
-        <div class="t2"><span><code>guided-workout-layout.test.ts</code> 4건을 새 배치로 다시 씀</span><span>E2E: <code>rest-timer</code> · <code>guided-skip-reflects</code> · <code>superset</code> · <code>weight-reps-lock</code> 등 버튼 문구 참조 갱신</span></div>
-      </div>
-      <div class="step"><span class="k">2단계</span>
-        <div><h3>세트 진행을 화면 중심으로</h3><ul>
-          <li>“2세트째 / 4” 큰 글자 + 세트 점. 세트 수 조절은 점 옆 “＋ 세트”.</li>
-          <li>무게·횟수 2칸 큰 숫자, 탭하면 숫자 키패드 시트(더블클릭·드래그 대체).</li>
-          <li>워밍업·마무리(<code>CondScrubbers</code>)도 같은 칸 모양으로 — 경로 두 곳 모두.</li></ul></div>
-        <div class="t2"><span>단위: 세트 점 상태 계산 · 키패드 입력 반올림(<code>weightStepKg</code>)</span><span>E2E: <code>sets-survive-plan-change</code> · <code>timed-exercise-hold-timer</code></span></div>
-      </div>
-      <div class="step"><span class="k">3단계</span>
-        <div><h3>상단 한 줄 + 운동별 진행 칸</h3><ul>
-          <li>닫기 · 진행 칸 · 경과 시간(탭하면 일시정지)을 한 줄로.</li>
-          <li>칸 상태를 <code>processed</code>와 완료/넘김 기록으로 계산하는 순수 함수.</li></ul></div>
-        <div class="t2"><span>단위: 새 <code>progress-segments.test.ts</code></span><span>E2E: <code>guided-prev-next</code> · <code>done-excluded-from-guide</code></span></div>
-      </div>
-      <div class="step"><span class="k">4단계</span>
-        <div><h3>더보기 시트</h3><ul>
-          <li>운동법 · 메모 · 대체운동 · 휴식 시간 · 티칭 · AI 자세를 한 시트로.</li>
-          <li>메모 미리보기 한 줄, 대체운동 배지.</li></ul></div>
-        <div class="t2"><span>E2E: <code>memo-shows-in-workout</code> · <code>personal-settings-video</code> · 대체운동 적용 경로</span></div>
-      </div>
-      <div class="step"><span class="k">5단계</span>
-        <div><h3>색 정리 + 가드</h3><ul>
-          <li>amber·violet·sky·red → 브랜드 / <code>warn</code> / <code>danger</code> / 중립. <code>overload-hint</code> · <code>plate-hint</code> · <code>exercise-photo-demo</code> 포함.</li>
-          <li><code>ui-simplify.test.ts</code>에 운동 모드 파일 추가(규칙 1–4).</li></ul></div>
-        <div class="t2"><span>전체 <code>pnpm test</code> + 운동 모드 E2E 전부</span></div>
-      </div>
+      <div class="rule"><h3>채운 버튼은 “세트 완료” 하나</h3><p>“운동 완료”는 테두리 버튼. 마지막 세트는 지금처럼 자동 완료.</p><span class="mono">가드: 하단 바 bg-brand 개수 = 1</span></div>
+      <div class="rule"><h3>“일시정지” / “운동 끝내기”</h3><p>가벼운 동작과 되돌릴 수 없는 동작의 단어를 분리.</p><span class="mono">가드: 운동 모드에 “중단” 문구 0</span></div>
+      <div class="rule"><h3>누르는 곳 44px, 탭하면 직접 입력</h3><p>더블클릭 입력은 탭으로. 드래그는 남겨도 됨.</p><span class="mono">가드: 운동 모드 h-8 · h-9 버튼 금지</span></div>
+      <div class="rule"><h3>색은 브랜드 + 주의 + 위험</h3><p>호박·보라·하늘 → 브랜드/중립, 저장 실패만 <code>danger</code>.</p><span class="mono">가드: <code>ui-simplify.test.ts</code>에 운동 모드 추가</span></div>
     </div>
   </section>
 
   <section>
     <div class="sec-head">
       <h2>진행 전에 정해 주실 것</h2>
-      <p>추천을 표시해 두었습니다. 답을 주시면 1단계부터 시작합니다.</p>
+      <p>추천을 표시해 두었습니다.</p>
     </div>
     <div class="qs">
-      <div class="q"><h3>1. “운동 완료” 버튼</h3><div class="opts">
-        <div class="opt rec"><b>더보기로 옮김</b>“남은 세트 건너뛰고 완료”로 이름을 바꿔 시트에. 마지막 세트는 지금처럼 자동 완료.</div>
-        <div class="opt"><b>하단에 작게 유지</b>글자 버튼으로 남기되 누르면 확인창.</div></div></div>
-      <div class="q"><h3>2. 무게·횟수 입력 방식</h3><div class="opts">
-        <div class="opt rec"><b>± + 탭하면 키패드</b>좌우 드래그는 없앰(화면 스와이프와 헷갈림).</div>
-        <div class="opt"><b>드래그 유지 + 키패드 추가</b>지금 익숙한 사용자를 배려. 규칙이 하나 더 늘어남.</div></div></div>
-      <div class="q"><h3>3. 휴식 중 화면</h3><div class="opts">
-        <div class="opt rec"><b>주 버튼 자리를 휴식 카드가 대신</b>남은 시간 · +30초 · 건너뛰기. 지금은 알약이 하단 바 위에 떠 있음.</div>
-        <div class="opt"><b>지금처럼 떠 있는 알약</b>휴식 타이머(<code>rest-timer.tsx</code>)는 손대지 않음.</div></div></div>
-      <div class="q"><h3>4. “영상 올리고 티칭받기”</h3><div class="opts">
-        <div class="opt rec"><b>더보기 시트 맨 아래</b>운동 모드 안에 남기되 본문에서 뺌.</div>
-        <div class="opt"><b>운동 상세 페이지로만</b>운동 모드에서는 완전히 뺌.</div></div></div>
+      <div class="q"><h3>1. 방향</h3><div class="opts">
+        <div class="opt rec"><b>B 먼저, 그다음 D 검토</b>B는 하루 작업이고 지금 느낌 그대로. D는 B 위에 레이아웃만 얹을 수 있음.</div>
+        <div class="opt"><b>C 세트 기록표</b>세트별 무게 기록까지 가려면 스키마·통계 경로 변경이 같이 들어감.</div></div></div>
+      <div class="q"><h3>2. (C를 고르면) 세트별 값 저장</h3><div class="opts">
+        <div class="opt rec"><b>화면에서만 세트별, 기록은 지금처럼</b>DB 변경 없음. 마지막(또는 최고) 세트 값으로 기록.</div>
+        <div class="opt"><b>세트별 기록 테이블 추가</b>1RM·볼륨 통계가 정확해짐. 스키마·라이브 DB 적용 필요.</div></div></div>
+      <div class="q"><h3>3. 무게 입력 드래그</h3><div class="opts">
+        <div class="opt rec"><b>드래그 유지 + 탭하면 입력</b>지금 쓰는 방식 그대로에 입력만 쉽게.</div>
+        <div class="opt"><b>드래그 없앰</b>화면 스와이프와 헷갈릴 일이 없어짐.</div></div></div>
     </div>
   </section>
 

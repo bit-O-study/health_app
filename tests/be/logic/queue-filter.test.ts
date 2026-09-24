@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  activeProgress,
   adjacentActiveIndex,
   isQueueItemActive,
   shouldAutoEndSession,
@@ -99,5 +100,31 @@ describe("shouldShowSessionFinished", () => {
 
   it("서버 완료 상태만 있어도 남은 큐가 없으면 완료 문구를 표시한다", () => {
     expect(shouldShowSessionFinished(false, 0, 2)).toBe(true);
+  });
+});
+
+// 회귀: 첫 운동을 완료하면 ‹ 로 갈 곳이 없는데도 "2 / 6" 이 떴다(다시 열면 "1 / 5").
+describe("activeProgress (상단 n / m)", () => {
+  const rowIds = ["a", "b", "c", "d", "e", "f"];
+
+  it("처리한 게 없으면 index+1 / 전체", () => {
+    expect(activeProgress(rowIds, new Set(), 0)).toEqual({ position: 1, count: 6 });
+    expect(activeProgress(rowIds, new Set(), 2)).toEqual({ position: 3, count: 6 });
+  });
+
+  it("★ 첫 운동 완료 후 다음 운동은 1 / 5 (다시 열었을 때와 같다)", () => {
+    expect(activeProgress(rowIds, new Set(["a"]), 1)).toEqual({ position: 1, count: 5 });
+  });
+
+  it("중간을 넘기고 뒤를 보면 남은 것 기준 위치", () => {
+    // b·d 처리, 지금 e → 남은 a,c,e,f 중 3번째
+    expect(activeProgress(rowIds, new Set(["b", "d"]), 4)).toEqual({ position: 3, count: 4 });
+  });
+
+  it("마지막 하나만 남으면 1 / 1", () => {
+    expect(activeProgress(rowIds, new Set(["a", "b", "c", "d", "e"]), 5)).toEqual({
+      position: 1,
+      count: 1,
+    });
   });
 });

@@ -37,7 +37,10 @@ import {
   PARAM_LABEL,
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
-import { adjacentActiveIndex } from "@/features/workout-timer/queue-filter";
+import {
+  activeProgress,
+  adjacentActiveIndex,
+} from "@/features/workout-timer/queue-filter";
 import {
   nextInSuperset,
   restReturnIndex,
@@ -493,6 +496,8 @@ export function GuidedOverlay({
 
   const item = sessionItems[index];
   const total = sessionItems.length;
+  // 상단 "n / m" 은 남은 운동 기준 — 완료한 운동은 ‹ 로도 못 가니 세지 않는다.
+  const progress = activeProgress(rowIds, processed, index);
   // '마지막'은 배열 끝이 아니라 "앞에 남은 활성(미처리) 항목이 없을 때".
   const isLast = rowIds.filter((id) => !processed.has(id)).length === 1;
   const prevIndex = adjacentActiveIndex(rowIds, processed, index, -1);
@@ -1098,13 +1103,16 @@ export function GuidedOverlay({
     <div className="fixed inset-0 z-40 flex flex-col bg-zinc-50 dark:bg-zinc-950">
       {/* 상단 바 — 진행률 + 닫기 */}
       <div className="flex items-center justify-between px-4 pb-2 pt-[max(env(safe-area-inset-top),1rem)]">
-        <span className="font-mono text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
-          {index + 1} / {total}
+        <span
+          data-testid="guided-progress"
+          className="font-mono text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-100"
+        >
+          {progress.position} / {progress.count}
         </span>
         <div className="mx-3 h-1 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
           <div
             className="h-full bg-brand transition-all duration-300"
-            style={{ width: `${((index + 1) / total) * 100}%` }}
+            style={{ width: `${(progress.position / progress.count) * 100}%` }}
           />
         </div>
         <button

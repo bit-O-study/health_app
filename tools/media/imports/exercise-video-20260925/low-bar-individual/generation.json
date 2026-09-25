@@ -1,0 +1,86 @@
+{
+  "tool": "built-in image_gen",
+  "frames": [
+    {
+      "n": 1,
+      "path": "C:/Users/admin/.codex/generated_images/01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5/exec-691bfa07-74e0-4042-abc6-3af99cd4a176.png",
+      "prompt": "Single animation keyframe, not a grid. Use this gray mannequin/teal shorts/low posterior shoulder bar position as reference. Show him STANDING at the start of a low-bar squat, knees straight but not hyperextended, hips extended, torso slightly forward to balance low bar above midfoot. Same rear three-quarter camera and same barbell. Full body framed with generous margins: entire character from head to shoes inside central 65 percent of a square canvas, entire bar within central 80 percent. Shoes firmly planted, shoulder-width, rear view left shoe at x=43% bottom y=83%, right shoe at x=59% bottom y=86%. Plain opaque uniform light gray background. Head must have plenty of space above. Both hands wrap bar just outside shoulders, shaft clearly across back of deltoids BELOW top of shoulders, not neck. One person, one bar, no text no rack. This will be fixed-camera frame 1 of sixteen."
+    },
+    {
+      "n": 2,
+      "path": "C:/Users/admin/.codex/generated_images/01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5/exec-0ed12680-6cd4-49b5-a09a-4b565697d040.png",
+      "prompt": "Create ONE intermediate animation frame between reference image1 STANDING and image2 BOTTOM SQUAT. This frame is 1/15 (6.67%) of descent from image1 toward image2. Body only begins to bend knees and move hips slightly backward/down. Bar center moves about 18 pixels downward from image1 (on a 1254px canvas), not halfway down. Preserve exact image1 camera, canvas, background, body proportions and BOTH SHOES pixel-for-pixel: fixed floor positions, orientation and size. Bar length/plates/grip unchanged; bar remains supported on posterior shoulders. Keep same gray character teal shorts. No recentering, no cropping, no zoom, no new objects. Render only this single early-descent pose, square image."
+    },
+    {
+      "n": 13,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-2702126a-6a4e-42a8-8f3d-f2c36ece555d.png",
+      "prompt": "Make the tiniest possible next-frame edit: keep this full-body pose almost identical but bend knees 2 degrees more and lower bar/shoulders by just 8 pixels. Do NOT make a quarter squat. Keep shoe pixels, camera, scale, equipment and entire gray background unchanged. Single low bar squat animation frame, gray man teal shorts."
+    },
+    {
+      "n": 3.1,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-5d38142c-0839-4c68-b9e2-18a18a739fc1.png",
+      "prompt": "Precise subtle pose edit of this single frame. Lower the shoulders, hands and entire barbell by ONLY about 20 pixels (1.6 percent of full image height), and hips by a similarly small amount, by bending both knees just a little more. This is the NEXT animation frame, so the change must be tiny, NOT a half squat. Keep both shoes exactly unchanged and fixed to same pixels. Keep same anatomy, equipment, camera, image dimensions, background, scale, low-bar shoulder contact, and grip. No zoom or recentering. Return one frame."
+    },
+    {
+      "n": 12,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-49b9df18-40b2-47fe-a9c5-f7e8ebfc1d08.png",
+      "prompt": "One animation in-between pose exactly halfway between these two shallow squat frames. Interpolate head, bar, shoulders, hips and knee bend halfway. Preserve exact shoes, canvas, camera, background, equipment scale and grip. Very shallow low-bar squat, NOT a deep squat. Gray mannequin teal shorts. No zoom, recentering or cropping. Single frame only."
+    },
+    {
+      "n": 4,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-18c11bd5-e1f0-49da-910b-d6a5b0f1f09e.png",
+      "prompt": "ONE intermediate low-bar squat animation frame. Image1 is fixed STANDING reference; image2 is BOTTOM reference. Frame 4 of16: 3/15 descent (20%). Bar shaft center at y=336 on the 1254px square canvas. Hips descend gradually, knees bend, neutral spine and slight forward torso lean increasing with depth. Preserve image1 BOTH SHOES pixel-for-pixel, exact size, positions, orientation. Preserve camera, canvas, framing, equipment dimensions, grip, gray character teal shorts and plain gray background. NO zoom, NO recentering. Bar stays across rear deltoids; hands attached. Single full body pose, not grid. Only body above ankles changes to requested intermediate depth, never bottom yet."
+    },
+    {
+      "n": 3,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-efd9d599-1bef-447b-ab04-2a17691aba46.png",
+      "prompt": "ONE intermediate low-bar squat animation frame. Image1 is fixed STANDING reference; image2 is BOTTOM reference. Frame 3 of16: 2/15 descent (13%). Bar shaft center at y=318 on the 1254px square canvas. Hips descend gradually, knees bend, neutral spine and slight forward torso lean increasing with depth. Preserve image1 BOTH SHOES pixel-for-pixel, exact size, positions, orientation. Preserve camera, canvas, framing, equipment dimensions, grip, gray character teal shorts and plain gray background. NO zoom, NO recentering. Bar stays across rear deltoids; hands attached. Single full body pose, not grid. Only body above ankles changes to requested intermediate depth, never bottom yet."
+    },
+    {
+      "n": 7,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-1cb16214-f1f2-4be5-81ad-4fc0024252a7.png",
+      "prompt": "Single animation keyframe. Edit image1 standing pose toward image2 bottom squat, at 40% descent. Preserve both shoes pixel-for-pixel and exact frame/camera/body scale/equipment. Moderately bend hips and knees, hips backward/down; neutral spine, low bar across rear deltoids and firm grip. Target bar shaft around 390px from top of 1254px image. Upper legs still slope down toward knees; not parallel yet. Fixed full-body framing, no zoom/recenter. Same gray skin teal shorts gray background. One pose only."
+    },
+    {
+      "n": 6,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-7d5bc12e-ff47-4beb-b660-1a563d7076f2.png",
+      "prompt": "ONE full body low-bar squat animation keyframe. Same exact person, equipment, camera, canvas and SHOES as image1. Image2 shows maximum depth. Set squat depth to 33 percent of full descent: a one-third squat. Lower hips and shoulders partway, knees moderately bent, no bottom squat yet. Keep soles at exactly the same pixels as reference1. Bar/plates keep exact size, grip and low rear-shoulder contact, torso hinges naturally with neutral spine. Do not zoom or recenter. Plain gray background, gray mannequin teal shorts. Only one intermediate pose."
+    },
+    {
+      "n": 5,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-c58246d3-1af1-4e87-b153-d0c8e396d58b.png",
+      "prompt": "ONE full body low-bar squat animation keyframe. Same exact person, equipment, camera, canvas and SHOES as image1. Image2 shows maximum depth. Set squat depth to 27 percent of full descent: a shallow quarter squat. Lower hips and shoulders partway, knees moderately bent, no bottom squat yet. Keep soles at exactly the same pixels as reference1. Bar/plates keep exact size, grip and low rear-shoulder contact, torso hinges naturally with neutral spine. Do not zoom or recenter. Plain gray background, gray mannequin teal shorts. Only one intermediate pose."
+    },
+    {
+      "n": 8,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-73257719-4157-4071-bcb9-bf5e7ab54884.png",
+      "prompt": "Single animation keyframe. Edit image1 standing pose toward image2 bottom squat, at 47% descent. Preserve both shoes pixel-for-pixel and exact frame/camera/body scale/equipment. Moderately bend hips and knees, hips backward/down; neutral spine, low bar across rear deltoids and firm grip. Target bar shaft around 408px from top of 1254px image. Upper legs still slope down toward knees; not parallel yet. Fixed full-body framing, no zoom/recenter. Same gray skin teal shorts gray background. One pose only."
+    },
+    {
+      "n": 10,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-9462e29f-976b-4dc4-9290-86ba443c42f9.png",
+      "prompt": "Create one intermediate low-bar squat pose between these two reference poses. Image1 is a shallower squat and image2 is deeper. Place hips, head, shoulders and bar one-third of the way from image1 toward image2. Keep both shoes pixel-for-pixel at same floor positions. Keep exact camera scale, grip, plate size, body proportions, gray mannequin teal shorts and background. No zoom or recentering. Bar on rear shoulder shelf and neutral spine. Single pose only."
+    },
+    {
+      "n": 14,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-400f0857-d7e1-4383-91c4-755c51ff2eac.png",
+      "prompt": "Make the previous frame just BEFORE this bottom squat: raise hips and entire bar/shoulders by about 15 pixels, extend knees very slightly. Keep shoe pixels identical, camera/scale/equipment/grip/background unchanged. Still close to parallel squat, just a little shallower. Single gray mannequin teal shorts frame. No zoom."
+    },
+    {
+      "n": 9,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-090a50f3-2788-4b3b-a7a0-c72a77181ee1.png",
+      "prompt": "One fixed-camera animation pose halfway down a low-bar squat between image1 standing and image2 bottom. Shoes pixel-identical to image1. Bar shaft and shoulders at midpoint of their two heights. Hips halfway lowered, thighs slant toward knees, torso inclines forward with neutral spine. Preserve exact character proportions, equipment, grip, gray mannequin teal shorts, background, camera, scale and framing. No zoom or recentering, no text or grid. Single pose."
+    },
+    {
+      "n": 11,
+      "path": "C:\\Users\\admin\\.codex\\generated_images\\01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5\\exec-adfcde39-622e-45b6-a242-aff502fcc7e8.png",
+      "prompt": "Create one intermediate low-bar squat pose between these two reference poses. Image1 is a shallower squat and image2 is deeper. Place hips, head, shoulders and bar two-thirds of the way from image1 toward image2. Keep both shoes pixel-for-pixel at same floor positions. Keep exact camera scale, grip, plate size, body proportions, gray mannequin teal shorts and background. No zoom or recentering. Bar on rear shoulder shelf and neutral spine. Single pose only."
+    },
+    {
+      "n": 16,
+      "path": "C:/Users/admin/.codex/generated_images/01a0d7f1-8c6e-71d0-a12b-85e8b9a90fc5/exec-b046ecef-efcb-49e6-9540-3fd3b5591c42.png",
+      "prompt": "Edit ONLY pose above the ankles: make this same person descend to bottom of a LOW BAR squat, thighs parallel to ground, hips back, torso inclined forward with neutral spine and bar over midfoot. Preserve BOTH SHOES and their positions PIXEL-FOR-PIXEL; do not move, resize or rotate the feet. Preserve exact camera, canvas, background, character size, bar length, plates, grip spacing. No recentering or zoom. The bar stays in contact with rear deltoids below tops of shoulders. Head, shoulders, bar and hips move downward naturally, knees bend outward in line with toes. Single full-body keyframe; everything above shoes adapts to squat while shoes remain anchored. Keep generous space above head resulting from descent. Do not fill the empty space by enlarging the person."
+    }
+  ],
+  "note": "Ordered after visual comparison of bar height and squat depth. All poses independently generated; no synthetic duplicate poses. Anatomical and video review pending."
+}

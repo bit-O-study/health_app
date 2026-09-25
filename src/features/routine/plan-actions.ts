@@ -15,6 +15,7 @@ import {
   seoulYmd,
 } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
+import { getRecommendSignals } from "@/features/routine/recommend-signals";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import {
@@ -30,6 +31,7 @@ import {
 } from "@/features/routine/exercise-catalog";
 import {
   focusExercisesForSlot,
+  focusVariantIndex,
   recommendedExercisesForFocus,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
@@ -147,10 +149,11 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const [profile, gym, routine] = await Promise.all([
+  const [profile, gym, routine, signals] = await Promise.all([
     getUserProfile(),
     getCurrentGym(),
     getUserRoutine(),
+    getRecommendSignals(),
   ]);
   if (!profile) return { ok: false, error: "프로필이 필요합니다." };
   if (!routine) return { ok: false, error: "루틴을 찾을 수 없습니다." };
@@ -190,7 +193,12 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   const groups = slots.map((slot) => {
     const list = slot.isSide
       ? sideExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet);
+      : focusExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet, {
+          experience: profile.experience,
+          // 같은 주에 같은 부위가 또 나오면 A/B 로 번갈아(전신×3 이 3일 모두 같지 않게).
+          variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
+          ...signals,
+        });
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
@@ -782,10 +790,11 @@ export async function applyTodayRecommendedAction(
   const user = await getCurrentUser();
   if (!user) return;
 
-  const [profile, gym, routine] = await Promise.all([
+  const [profile, gym, routine, signals] = await Promise.all([
     getUserProfile(),
     getCurrentGym(),
     getUserRoutine(),
+    getRecommendSignals(),
   ]);
   if (!profile || !routine) return;
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
@@ -818,11 +827,10 @@ export async function applyTodayRecommendedAction(
     bodyType: profile.bodyType ?? ("average" as const),
     weightKg: profile.weightKg ?? 65,
   };
-  const rows = recommendedExercisesForFocus(
-    target,
-    profile.gender,
-    gymSet,
-  ).map((ex, index) => {
+  const rows = recommendedExercisesForFocus(target, profile.gender, gymSet, {
+    experience: profile.experience,
+    ...signals,
+  }).map((ex, index) => {
     const p = prescribe(ex.id, opts);
     return {
       position: index,

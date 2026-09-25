@@ -1,0 +1,17 @@
+import {mkdirSync,readFileSync,writeFileSync} from 'node:fs';
+import {resolve,join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import sharp from 'sharp';
+const project=resolve('.');
+const out=resolve('tools/media/imports/exercise-video-20260925/low-bar-reference');
+const guides=join(out,'tools/media/motion-guides');
+mkdirSync(guides,{recursive:true});
+mkdirSync(join(out,'tools/media/ai-guides'),{recursive:true});
+mkdirSync(join(out,'public/exercise-guides/ai-v3'),{recursive:true});
+const catalog=JSON.parse(readFileSync('tools/media/ai-guides/catalog.json','utf8'));
+writeFileSync(join(out,'tools/media/ai-guides/catalog.json'),JSON.stringify(catalog.filter(x=>x.id==='low-bar-squat')));
+await sharp(join(out,'sheet.png')).removeAlpha().jpeg({quality:96}).toFile(join(guides,'low-bar-squat.jpg'));
+writeFileSync(join(guides,'low-bar-squat.json'),JSON.stringify({"prompt":"Use this image as exact character, equipment, camera and LOW BAR placement reference. Create a 2048x2048 animation source sheet of precisely 4 columns x 4 rows equal square cells. 16 consecutive evenly spaced DESCENT poses only, row-major: cell1 standing with braced slight forward lean; cell16 matches reference bottom squat. Bar must stay at reference low posterior-deltoid level clearly BELOW the tops of shoulders in every cell. Keep the same rear three-quarter camera throughout, gray mannequin teal shorts black shoes, same straight barbell and plates. Feet remain planted at identical positions within each cell, same camera scale; hips back and knees bend gradually, torso inclines naturally, neutral spine, thighs reach parallel in final cell. Pose progress per cell: 0, 7, 13, 20, 27, 33, 40, 47, 53, 60, 67, 73, 80, 87, 93, 100 percent descent. No reset between rows, no ascending poses, no repeated bottom poses. Each figure and entire bar fits within CENTRAL 72% of its cell, ample top/bottom/side margin. Uniform solid light gray background with no seams, no transparency, no labels or grid lines. Exact equal 4x4 layout essential. Preserve the low bar placement achieved in this reference, not upper trapezius.","equipment":["barbell"],"sources":["https://www.muscleandstrength.com/exercises/low-bar-back-squat"],"panels":16,"cycle":"reverse","cutout":true}));
+process.chdir(out);
+const {manageMotionGuides}=await import(pathToFileURL(join(project,'tools/media/manage-motion-guides.mjs')));
+await manageMotionGuides('motion-build','low-bar-squat');

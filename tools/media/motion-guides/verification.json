@@ -867,23 +867,6 @@
     "verifiedAt": "2026-09-16T08:49:01.964Z"
   },
   {
-    "id": "dumbbell-front-raise",
-    "renderVersion": 5,
-    "panels": 8,
-    "cutout": true,
-    "sourceSha256": "a6c872198fa6b0abec9d540238a4bc88b67dd122d2adedf34ae4b4dbd22c4cec",
-    "videoSha256": "4bc642adb6ffdde4eaa3c8ff61a66e45f32eefb48fb79316902353c44ea22472",
-    "darkVideoSha256": "24a954f08d6d778c410678a1c504f411b9f178a83eb9e486afc2327297fc3519",
-    "darkBytes": 144887,
-    "width": 480,
-    "height": 480,
-    "seconds": 8,
-    "fps": 24,
-    "bytes": 162254,
-    "decode": "passed",
-    "verifiedAt": "2026-09-17T08:53:54.025Z"
-  },
-  {
     "id": "farmer-s-carry",
     "renderVersion": 5,
     "panels": 8,
@@ -1350,23 +1333,6 @@
     "bytes": 339679,
     "decode": "passed",
     "verifiedAt": "2026-09-18T02:08:26.330Z"
-  },
-  {
-    "id": "low-bar-squat",
-    "renderVersion": 5,
-    "panels": 8,
-    "cutout": true,
-    "sourceSha256": "5a7a8b4d279b5d91556e70d0f844724c58944a368d077121b0f93a6989d21620",
-    "videoSha256": "aebe934fdcb3896af89b0d88ba3764421deff8321cdeb7f8c0451251decbf338",
-    "darkVideoSha256": "4edc7461b626ddbe65341d63397e09b8298d937391888b0b812d54c2aca77738",
-    "darkBytes": 211182,
-    "width": 480,
-    "height": 480,
-    "seconds": 8,
-    "fps": 24,
-    "bytes": 211621,
-    "decode": "passed",
-    "verifiedAt": "2026-09-18T02:17:25.819Z"
   },
   {
     "id": "low-cable-fly",
@@ -2313,5 +2279,39 @@
     "bytes": 122556,
     "decode": "passed",
     "verifiedAt": "2026-09-16T08:24:35.753Z"
+  },
+  {
+    "id": "low-bar-squat",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "0e7da2b0ae4719558dacfe0abfe7f57bb78ba74a53f3b1f8a7652b54c584038b",
+    "videoSha256": "b57a2519e3f89d58680a3a5094ee285a194fa48d09a7bc443ba1bc2631b4972c",
+    "darkVideoSha256": "2084f46eb278b2f8135112780edf9601cdd45792804aca7a8dcc3177a140df87",
+    "darkBytes": 197106,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 201934,
+    "decode": "passed",
+    "verifiedAt": "2026-09-24T17:05:59.444Z"
+  },
+  {
+    "id": "dumbbell-front-raise",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "673166f5115d17a4f9a4d4dcb77c29c442fe944cc7ca75b576a73439f15196ae",
+    "videoSha256": "bae2b164e06dad132b970ab611d96880d4ad09a11c4123ee625aa9c057a4cba6",
+    "darkVideoSha256": "721446c9321276051dfde6caee5c48611bcc7f4e6793ea329a3d14d14527569b",
+    "darkBytes": 166742,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 157177,
+    "decode": "passed",
+    "verifiedAt": "2026-09-24T17:17:17.175Z"
   }
 ]

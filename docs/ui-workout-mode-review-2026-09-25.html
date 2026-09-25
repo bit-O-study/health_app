@@ -1,0 +1,588 @@
+<title>운동 모드 검수보고서</title>
+<meta name="description" content="운동 모드(가이드 오버레이) 화면을 코드 수치로 진단하고, 변경 시안·적용 순서·결정 사항을 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb; --on-brand:#ffffff;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --stray-a:#d97706; --stray-v:#7c3aed; --stray-s:#0284c7; --stray-r:#dc2626;
+  --phone:#fafafa; --phone-2:#f1f2f1; --phone-ink:#18181b; --phone-mute:#71717a; --phone-line:#e4e4e7;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --stray-a:#f59e0b; --stray-v:#a78bfa; --stray-s:#38bdf8; --stray-r:#f87171;
+    --phone:#0b0b0c; --phone-2:#18181b; --phone-ink:#f4f4f5; --phone-mute:#a1a1aa; --phone-line:#27272a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --stray-a:#f59e0b; --stray-v:#a78bfa; --stray-s:#38bdf8; --stray-r:#f87171;
+  --phone:#0b0b0c; --phone-2:#18181b; --phone-ink:#f4f4f5; --phone-mute:#a1a1aa; --phone-line:#27272a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.84em}
+code{color:var(--ink-2);background:var(--line-2);padding:1px 5px;border-radius:4px;word-break:break-all}
+
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-block:28px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.top b{color:var(--ink);font-weight:600}
+.lede{padding-block:40px 32px;display:grid;gap:18px;max-width:740px}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--brand);font-weight:600}
+.lede h1{font-size:clamp(25px,4vw,33px);font-weight:700;letter-spacing:-.01em}
+.lede p{color:var(--ink-2);max-width:62ch}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.crit{background:var(--crit-soft);color:var(--crit)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.ok{background:var(--brand-soft);color:var(--brand)}
+
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.num{padding:18px 20px;display:grid;gap:2px;align-content:start}
+.num+.num{border-left:1px solid var(--line)}
+.num strong{font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
+.num strong small{font-size:15px;color:var(--muted);font-weight:500}
+.num span{font-size:13px;color:var(--muted)}
+@media (max-width:720px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}.num:nth-child(3){border-left:0}.num:nth-child(n+3){border-top:1px solid var(--line)}}
+
+section{padding-block:52px 0}
+.sec-head{display:grid;gap:6px;margin-bottom:22px;max-width:680px}
+.sec-head h2{font-size:22px;font-weight:700}
+.sec-head p{color:var(--muted);font-size:14px}
+
+.findings{border-top:1px solid var(--line)}
+.f{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,300px);gap:8px 24px;padding-block:22px;border-bottom:1px solid var(--line)}
+.f .code{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:2px}
+.f h3{font-size:17px;font-weight:600;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.f .body{display:grid;gap:8px}
+.f .body p{color:var(--ink-2);font-size:14.5px;max-width:62ch}
+.f ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px;display:grid;gap:3px}
+.f .ev{font-size:13px;color:var(--muted);display:grid;gap:6px;align-content:start;border-left:1px solid var(--line-2);padding-left:18px}
+.f .ev b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:820px){.f{grid-template-columns:40px minmax(0,1fr)}.f .ev{grid-column:2;border-left:0;padding-left:0}}
+
+.bars{display:grid;gap:5px;margin-top:2px}
+.bar{display:grid;grid-template-columns:56px minmax(0,1fr) 30px;align-items:center;gap:8px;font-size:12px}
+.bar i{display:block;height:8px;border-radius:2px}
+.bar span:first-child{font-family:var(--mono);color:var(--muted)}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+
+.keep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px;border-top:1px solid var(--line);padding-top:18px}
+.keep div{display:grid;gap:2px;font-size:14px;color:var(--ink-2)}
+.keep b{color:var(--ink);font-weight:600;font-size:14.5px}
+@media (max-width:720px){.keep{grid-template-columns:1fr}}
+
+/* 비교 */
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+@media (max-width:760px){.compare{grid-template-columns:1fr}}
+.col-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.col-head h3{font-size:16px;font-weight:600}
+.col-head span{font-size:13px;color:var(--muted)}
+.stage{background:var(--line-2);border-radius:14px;padding:22px 14px;display:flex;justify-content:center}
+.notes{margin:14px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink-2);display:grid;gap:4px}
+
+/* 폰 목업 */
+.phone{width:100%;max-width:330px;background:var(--phone);color:var(--phone-ink);border:1px solid var(--phone-line);border-radius:26px;overflow:hidden;display:flex;flex-direction:column;font-size:12px;line-height:1.35}
+.p-top{display:flex;align-items:center;gap:8px;padding:12px 12px 6px}
+.p-x{width:26px;height:26px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-size:13px;flex:none;color:var(--phone-mute)}
+.p-track{flex:1;height:4px;border-radius:99px;background:var(--phone-line);overflow:hidden}
+.p-track i{display:block;height:100%;width:37%;background:var(--brand)}
+.p-seg{flex:1;display:flex;gap:3px}
+.p-seg i{flex:1;height:5px;border-radius:99px;background:var(--phone-line)}
+.p-seg i.d{background:var(--brand)}
+.p-seg i.s{background:var(--phone-mute);opacity:.5}
+.p-seg i.c{background:var(--brand);opacity:.45}
+.p-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--brand) 40%,transparent);background:var(--brand-soft);color:var(--brand);border-radius:99px;padding:2px 8px;font-family:var(--mono);font-weight:600;font-size:11px;white-space:nowrap}
+.p-row{display:flex;justify-content:center;gap:6px;padding:0 12px 6px}
+.p-ghost{border:1px solid var(--phone-line);background:var(--phone);border-radius:99px;padding:2px 9px;font-weight:600;font-size:11px;white-space:nowrap}
+.p-body{padding:4px 14px 10px;display:grid;gap:8px;justify-items:center}
+.p-tags{width:100%;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.t{border-radius:99px;padding:2px 8px;font-weight:700;font-size:10.5px;white-space:nowrap}
+.t.brand{background:var(--brand-soft);color:var(--brand)}
+.t.amber{color:var(--stray-a);border:1px solid var(--stray-a)}
+.t.violet{color:var(--stray-v);border:1px solid var(--stray-v)}
+.t.neutral{background:var(--phone-2);color:var(--phone-mute)}
+.p-media{width:100%;aspect-ratio:4/3;border-radius:14px;background:linear-gradient(160deg,var(--phone-2),var(--phone-line));position:relative;display:grid;place-items:center;color:var(--phone-mute);font-size:11px}
+.p-media .arrow{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;font-size:13px}
+.p-media .arrow.l{left:6px}.p-media .arrow.r{right:6px}
+.p-media .arrow.big{width:32px;height:32px}
+.p-media .inset{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.55);color:#fff;border-radius:8px;padding:2px 6px;font-size:9.5px;font-weight:700}
+.p-name{font-size:17px;font-weight:700;text-align:center}
+.p-card{width:100%;border:1px solid var(--phone-line);border-radius:12px;padding:2px 10px}
+.p-scrub{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+.p-scrub+.p-scrub{border-top:1px solid var(--phone-line)}
+.p-scrub>span{font-size:10px;font-weight:700;color:var(--phone-mute)}
+.p-scrub .ctl{display:flex;align-items:center;gap:4px}
+.p-scrub .pm{width:22px;height:22px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-weight:700;color:var(--phone-mute)}
+.p-scrub .v{min-width:52px;text-align:center;background:var(--brand-soft);color:var(--brand);border-radius:6px;padding:2px 4px;font-weight:700;font-size:13px}
+.p-hint{font-size:9.5px;color:var(--phone-mute);text-align:center;padding:3px 0 4px}
+.p-note{width:100%;border-radius:8px;padding:5px 8px;font-size:10.5px;display:flex;gap:6px;align-items:center;justify-content:space-between}
+.p-note.plate{background:var(--phone-2)}
+.p-note.amber{border:1px solid var(--stray-a);color:var(--stray-a)}
+.p-note.amber b{border:1px solid currentColor;border-radius:99px;padding:0 6px;font-size:9.5px}
+.p-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
+.p-actions .p-ghost.brand{color:var(--brand);background:var(--brand-soft);border-color:transparent}
+.p-bottom{margin-top:auto;border-top:1px solid var(--phone-line);padding:8px 10px 12px;display:grid;gap:6px;background:var(--phone)}
+.p-rest{display:flex;gap:4px;align-items:center;font-size:10px;color:var(--phone-mute);overflow:hidden}
+.p-rest i{font-style:normal;background:var(--phone-2);border-radius:99px;padding:1px 6px;font-weight:700}
+.p-rest i.on{background:var(--phone-ink);color:var(--phone)}
+.p-2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.btn{border-radius:10px;display:grid;place-items:center;font-weight:700;height:30px;font-size:11.5px;border:1px solid var(--phone-line);background:var(--phone)}
+.btn.solid{background:var(--brand);color:var(--on-brand);border-color:transparent}
+.btn.soft{background:var(--brand-soft);color:var(--brand);border-color:color-mix(in srgb,var(--brand) 40%,transparent)}
+.p-3{display:grid;grid-template-columns:auto auto 1fr;gap:5px}
+.p-3 .btn{height:38px;padding:0 8px}
+.lbl{display:grid;place-items:center;background:var(--brand-soft);color:var(--brand);border-radius:8px;padding:0 7px;font-weight:700;font-size:11px}
+/* 시안 전용 */
+.p-sets{width:100%;display:grid;gap:6px;justify-items:center}
+.p-sets .big{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.p-sets .big small{font-size:14px;color:var(--phone-mute);font-weight:600}
+.dots{display:flex;gap:6px;align-items:center}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--brand)}
+.dots i.d{background:var(--brand)}
+.dots em{font-style:normal;font-size:10px;color:var(--phone-mute);margin-left:4px;border:1px solid var(--phone-line);border-radius:99px;padding:0 6px}
+.p-vals{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.p-val{border:1px solid var(--phone-line);border-radius:12px;padding:6px 6px 7px;display:grid;gap:3px;justify-items:center}
+.p-val>span{font-size:10px;color:var(--phone-mute);font-weight:600}
+.p-val .n{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.p-val .n small{font-size:12px;color:var(--phone-mute);font-weight:600}
+.p-val .pm2{display:flex;gap:6px}
+.p-val .pm2 i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-weight:700;font-size:15px}
+.p-line{width:100%;font-size:10.5px;color:var(--phone-mute);display:flex;justify-content:space-between;gap:6px}
+.p-line b{color:var(--brand)}
+.p-more{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--phone-line);border-radius:10px;padding:6px 9px;font-size:11px;font-weight:600}
+.p-more span{color:var(--phone-mute);font-weight:500}
+.btn.hero{height:48px;font-size:14px}
+.p-under{display:flex;justify-content:space-between;font-size:10.5px;color:var(--phone-mute);padding:0 2px}
+.p-under u{text-decoration:none;font-weight:600}
+
+/* 규칙 */
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:720px){.rules{grid-template-columns:1fr}}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.rule h3{font-size:15.5px;font-weight:600}
+.rule p{font-size:14px;color:var(--ink-2)}
+.rule .mono{color:var(--muted);font-size:12.5px}
+
+/* 단계 */
+.steps{border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,280px);gap:8px 24px;padding-block:20px;border-bottom:1px solid var(--line)}
+.step .k{font-family:var(--mono);font-size:13px;color:var(--brand);font-weight:500;padding-top:2px}
+.step h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.step ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2);display:grid;gap:3px}
+.step .t2{font-size:13px;color:var(--muted);display:grid;gap:4px;align-content:start;border-left:1px solid var(--line-2);padding-left:18px}
+@media (max-width:820px){.step{grid-template-columns:40px minmax(0,1fr)}.step .t2{grid-column:2;border-left:0;padding-left:0}}
+
+.qs{display:grid;gap:12px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:10px}
+.q h3{font-size:15.5px;font-weight:600}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.opts{grid-template-columns:1fr}}
+.opt{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--ink-2);display:grid;gap:2px}
+.opt b{color:var(--ink);font-weight:600;font-size:14px}
+.opt.rec{border-color:var(--brand);background:var(--brand-soft)}
+.opt.rec b::after{content:" · 추천";color:var(--brand);font-size:12px}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+.compare4{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px 22px;align-items:start}
+.dir .phone{max-width:300px}
+.verdict2{margin-top:10px;font-size:13px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.p-scrub .pm.lg{width:28px;height:28px}
+.p-scrub .v.lg{font-size:15px;min-width:60px;padding:3px 4px}
+.p-note.brand{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);color:var(--brand)}
+.p-note.brand b{border:1px solid currentColor;border-radius:99px;padding:0 6px;font-size:9.5px}
+.p-media.wide{aspect-ratio:16/9}
+.log{width:100%;border:1px solid var(--phone-line);border-radius:12px;overflow:hidden;font-variant-numeric:tabular-nums}
+.lh,.lr{display:grid;grid-template-columns:34px 1fr 1fr 44px;align-items:center;text-align:center}
+.lh{font-size:10px;color:var(--phone-mute);font-weight:600;padding:4px 0;background:var(--phone-2)}
+.lr{font-size:13px;font-weight:600;padding:5px 0;border-top:1px solid var(--phone-line)}
+.lr.done{color:var(--phone-mute)}
+.lr.now{background:var(--brand-soft);font-size:16px;font-weight:700}
+.lr .cell{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);border-radius:6px;margin:0 6px;background:var(--phone)}
+.ck{font-style:normal;justify-self:center;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--phone-line);display:grid;place-items:center;font-size:12px;color:var(--phone-mute)}
+.ck.on{background:var(--phone-mute);color:var(--phone);border-color:transparent}
+.ck.big{width:32px;height:32px;background:var(--brand);color:var(--on-brand);border-color:transparent;font-size:15px}
+.ladd{font-size:11px;color:var(--brand);font-weight:600;text-align:center;padding:6px 0;border-top:1px solid var(--phone-line)}
+.dark-stage{background:#0b0b0c;color:#f4f4f5;border-color:#27272a}
+.vid{position:relative;height:300px;background:linear-gradient(170deg,#2a2d2b,#121413);display:grid;place-items:center}
+.vtop{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:8px;align-items:center}
+.vtop .p-seg i{background:rgba(255,255,255,.25)}
+.vtop .p-seg i.d{background:#3cc394}.vtop .p-seg i.c{background:#3cc394;opacity:.5}
+.vx{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center;font-size:12px}
+.vchip{background:rgba(0,0,0,.45);border-radius:99px;padding:2px 8px;font-family:var(--mono);font-size:11px;font-weight:600}
+.varrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
+.varrow.l{left:8px}.varrow.r{right:8px}
+.vlabel{font-size:11px;color:rgba(255,255,255,.55)}
+.vfoot{position:absolute;left:0;right:0;bottom:0;padding:24px 12px 10px;background:linear-gradient(transparent,rgba(0,0,0,.7));display:grid;gap:1px}
+.vfoot b{font-size:18px}
+.vtag{font-size:10px;color:rgba(255,255,255,.75)}
+.sheet{background:#18181b;border-radius:16px 16px 0 0;margin-top:-12px;position:relative;padding:8px 10px 12px;display:grid;gap:7px}
+.sheet .btn{background:#18181b;border-color:#3f3f46;color:#f4f4f5}
+.sheet .btn.solid{background:#3cc394;color:#06140e;border-color:transparent}
+.grab{justify-self:center;width:36px;height:4px;border-radius:99px;background:#3f3f46}
+.sline{display:flex;align-items:baseline;gap:8px}
+.sset{font-size:18px;font-weight:700;color:#3cc394}
+.sval{font-size:14px;font-weight:600;flex:1}
+.sedit{font-size:10.5px;color:#a1a1aa}
+.shint{font-size:9.5px;color:#a1a1aa;text-align:center}
+.table-wrap{overflow-x:auto;margin-top:30px}
+.cmp{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;background:var(--surface)}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.cmp thead th{font-size:12.5px;color:var(--muted);font-weight:600}
+.cmp tbody th{font-weight:600;color:var(--ink);white-space:nowrap}
+.cmp td{color:var(--ink-2)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span><b>헬쑤</b> · 운동 모드 UI 검수보고서</span>
+    <span>2026-09-25 · 대상 <code>src/features/workout-timer/guided-workout.tsx</code> (2,005줄)</span>
+  </header>
+
+  <div class="lede">
+    <span class="eyebrow">만들기 전 현황 검수 · 구현은 결정 후 시작</span>
+    <h1>운동 중에 누를 건 “세트 완료” 하나인데, 화면에는 누를 곳이 28개 있습니다.</h1>
+    <p>운동 모드는 헬스장에서 팔 길이만큼 떨어진 폰을 땀 난 손으로 누르는 화면입니다. 그런데 가장 자주 누르는 <b>세트 완료</b>가 하단 셋째 줄에 연한 색으로 있고, 그 위에 더 진한 <b>운동 완료</b>가 있어 남은 세트를 통째로 건너뛰는 오누름이 쉽습니다. 기능(저장·오프라인·슈퍼세트)은 튼튼하니 그대로 두고, 현재 화면을 기준으로 <b>성격이 다른 세 방향</b>(손질 · 세트 기록표 · 영상+시트)을 비교합니다.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill crit">심각 3</span><span class="pill warn">주의 4</span><span class="pill ok">유지 6</span></div>
+  </div>
+
+  <div class="nums">
+    <div class="num"><strong>28<small>개</small></strong><span>한 화면 탭 가능한 요소<br>(본운동·고정 끔·1세트 후)</span></div>
+    <div class="num"><strong>3<small>번째 줄</small></strong><span>“세트 완료” 위치<br>(하단 바 맨 아래)</span></div>
+    <div class="num"><strong>5<small>색</small></strong><span>브랜드 외 색 계열<br>(규칙은 의미색 2)</span></div>
+    <div class="num"><strong>36<small>px</small></strong><span>±·닫기·이전/다음 크기<br>(권장 44px)</span></div>
+  </div>
+
+  <!-- 진단 -->
+  <section>
+    <div class="sec-head">
+      <h2>진단</h2>
+      <p>코드에서 직접 센 수치입니다. 줄 번호는 <code>guided-workout.tsx</code> 기준.</p>
+    </div>
+    <div class="findings">
+
+      <div class="f">
+        <span class="code">W1</span>
+        <div class="body">
+          <h3>주 버튼 위계가 거꾸로 — “운동 완료”가 “세트 완료”보다 진함 <span class="pill crit">심각</span></h3>
+          <p>하단 바는 <b>휴식 칩 → 넘기기·운동 완료 → 취소·세트 완료</b> 세 줄입니다. 채워진 초록(<code>bg-brand</code>)은 “운동 완료”이고, 세트마다 누르는 “세트 완료”는 연한 초록(<code>bg-brand-soft</code>)입니다.</p>
+          <ul>
+            <li>“운동 완료”는 남은 세트를 무시하고 바로 다음 운동으로 넘어갑니다(<code>dispatch("done")</code>). 4세트 중 2세트째에 잘못 누르면 되돌릴 방법이 없습니다.</li>
+            <li>마지막 세트를 채우면 이미 자동 완료되므로(<code>completeSet</code> 738행) 이 버튼이 꼭 필요한 순간은 드뭅니다.</li>
+          </ul>
+        </div>
+        <div class="ev">
+          <span>하단 바 1520–1613행</span>
+          <span>운동 완료 <b>h-10 · 채움</b></span>
+          <span>세트 완료 <b>h-12 · 연한 채움</b></span>
+          <span>가드 테스트 <code>guided-workout-layout.test.ts</code>가 이 배치를 고정하고 있음</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">W2</span>
+        <div class="body">
+          <h3>“중단”이 서로 다른 두 동작을 뜻함 <span class="pill crit">심각</span></h3>
+          <p>경과 시간 옆 <b>“중단하기”</b>는 타이머 일시정지이고, X를 누르면 뜨는 확인창 제목도 <b>“운동 중단”</b>(버튼 “중단”)인데 이쪽은 운동 모드를 닫습니다. 같은 단어가 가벼운 동작과 되돌릴 수 없는 동작에 같이 쓰입니다.</p>
+        </div>
+        <div class="ev">
+          <span>일시정지 1142행 “중단하기” / “운동 다시 시작하기”</span>
+          <span>닫기 확인 1616행 “운동 중단”</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">W3</span>
+        <div class="body">
+          <h3>누를 곳이 너무 많고, 운동과 상관없는 기능이 본문에 있음 <span class="pill crit">심각</span></h3>
+          <p>본운동 한 화면에 조작 요소가 28개입니다. 이 중 세트 진행에 쓰는 건 4개(무게·횟수 조절, 세트 완료, 취소)이고 나머지는 한 세션에 한 번 쓰거나 아예 안 쓰는 것들입니다.</p>
+          <ul>
+            <li><b>영상 올리고 티칭받기</b> — 업로드 기능이 브랜드색 버튼으로 매 운동마다 노출.</li>
+            <li><b>휴식 시간 칩 5개</b> — 세션에 한 번 정하는 설정이 하단 바 첫 줄을 늘 차지.</li>
+            <li><b>추천 대체운동</b> — 호박색 상자 안에 후보마다 큰 버튼, 스크롤을 밀어냄.</li>
+          </ul>
+        </div>
+        <div class="ev">
+          <span>상단 <b>2</b> · 태그 줄 <b>1–2</b> · 시연 <b>3</b></span>
+          <span>무게·횟수·세트 <b>9</b> (± 6 + 드래그 3)</span>
+          <span>원판·추천 <b>2</b> · 운동법·티칭 <b>2</b></span>
+          <span>휴식 칩 <b>5</b> · 하단 버튼 <b>4</b></span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">W4</span>
+        <div class="body">
+          <h3>운동 중 봐야 할 숫자가 작음 <span class="pill warn">주의</span></h3>
+          <p>무게·횟수 값은 20px(<code>text-xl</code>), 폭 320px 카드 안에 라벨·±와 한 줄로 들어가 있습니다. “지금 몇 세트째인가”는 하단 작은 칩(<code>세트 2/4</code>, 14px)에만 있습니다. 반면 시간 운동 타이머는 60px라 같은 화면 안에서 크기 기준이 없습니다.</p>
+        </div>
+        <div class="ev">
+          <span>값 <b>20px</b> · 세트 진행 <b>14px</b> · 홀드 타이머 <b>60px</b></span>
+          <span>글자 크기 8단계(xs~6xl), 굵기 bold 36곳</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">W5</span>
+        <div class="body">
+          <h3>9/14 색 규칙 위반 — 브랜드 + 의미색 2 이어야 하는데 5계열 <span class="pill warn">주의</span></h3>
+          <p>호박색은 메모·대체운동·추천·원판 경고·워밍업 배지에 두루 쓰여 “주의”라는 의미가 사라졌고, 보라(슈퍼세트·AI 자세)와 하늘(마무리 배지)은 규칙에 없는 색입니다.</p>
+          <div class="bars" aria-label="색 계열별 클래스 사용 횟수">
+            <div class="bar"><span>amber</span><i style="width:100%;background:var(--stray-a)"></i><span>25</span></div>
+            <div class="bar"><span>red</span><i style="width:56%;background:var(--stray-r)"></i><span>14</span></div>
+            <div class="bar"><span>violet</span><i style="width:48%;background:var(--stray-v)"></i><span>12</span></div>
+            <div class="bar"><span>sky</span><i style="width:16%;background:var(--stray-s)"></i><span>4</span></div>
+          </div>
+        </div>
+        <div class="ev">
+          <span><code>bg|text|border-*</code> 클래스 수</span>
+          <span>brand <b>41</b> · zinc <b>137</b></span>
+          <span><code>ui-simplify.test.ts</code> 가드 대상에 운동 모드가 없음</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">W6</span>
+        <div class="body">
+          <h3>터치 영역이 작고, 직접 입력이 숨겨져 있음 <span class="pill warn">주의</span></h3>
+          <ul>
+            <li>±, 닫기, 이전/다음 화살표가 36px(<code>h-9</code>), 휴식 칩은 약 24px.</li>
+            <li>숫자 직접 입력은 <b>더블클릭</b>으로만 열림 — 폰에서는 알기 어렵고 더블탭이 확대로 먹히기도 합니다. 안내 문구가 11px 회색(<code>text-zinc-400</code>)이라 잘 안 보입니다.</li>
+          </ul>
+        </div>
+        <div class="ev">
+          <span>NumberScrubber 234–386행</span>
+          <span>안내 “좌우로 끌거나 ± · 더블클릭해 직접 입력” 1394행</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">W7</span>
+        <div class="body">
+          <h3>진행 막대가 실제 진행과 다름 <span class="pill warn">주의</span></h3>
+          <p>막대 폭이 <code>(index+1)/total</code>, 즉 “지금 보는 위치”입니다. ‹ 로 앞 운동을 보면 막대가 줄고, 넘기기한 운동도 끝낸 것처럼 칠해집니다. 끝낸 것 · 넘긴 것 · 남은 것이 구분되지 않습니다.</p>
+        </div>
+        <div class="ev">
+          <span>1102–1108행 “3 / 8” + 막대</span>
+          <span>완료 집합 <code>processed</code>는 이미 있음 — 표시만 안 씀</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>유지할 것</h2>
+      <p>바꾸는 과정에서 깨지면 안 되는, 잘 되어 있는 부분입니다.</p>
+    </div>
+    <div class="keep">
+      <div><b>낙관적 저장 + 오프라인 대기</b>누르면 바로 넘어가고, 지하 헬스장에서도 기록이 기기에 남음.</div>
+      <div><b>뒤로가기로 안 꺼짐</b>닫기는 X → 확인창으로만.</div>
+      <div><b>슈퍼세트 버튼 문구</b>“세트 완료 · 바로 다음” — 휴식이 안 오는 이유를 버튼이 설명.</div>
+      <div><b>원판·추천을 무게 옆에</b>무게를 정하는 그 자리에 근거가 있음.</div>
+      <div><b>시간 운동은 직접 시작</b>플랭크 타이머가 들어오자마자 흐르지 않음.</div>
+      <div><b>끝낸 운동은 다시 안 보임</b>‹ › 이동 시 완료·넘김 항목을 건너뜀.</div>
+    </div>
+  </section>
+
+  <!-- 비교 -->
+  <section id="directions">
+    <div class="sec-head">
+      <h2>세 가지 방향 — 현재 화면을 기준으로</h2>
+      <p>1차 시안(버튼 하나·더보기 시트)은 “지금이 더 낫다”는 판단으로 보류했습니다. 지금 화면의 장점(값이 다 보이고, 바로 누를 수 있음)을 살리는 쪽으로 성격이 서로 다른 세 안을 그렸습니다. 상태는 모두 같습니다: 벤치프레스, 4세트 중 1세트 끝냄, 고정 끔, 추천 있음.</p>
+    </div>
+    <div class="compare4">
+
+      <div class="dir">
+        <div class="col-head"><h3>현재</h3><span>기준</span></div>
+        <div class="stage">
+          <div class="phone" aria-label="현재 운동 모드 화면 모형">
+            <div class="p-top"><span class="mono" style="font-weight:700">3 / 8</span><div class="p-track"><i></i></div><span class="p-x">✕</span></div>
+            <div class="p-row"><span class="p-chip">⏱ 12:34</span><span class="p-ghost" style="color:var(--brand)">❚❚ 중단하기</span></div>
+            <div class="p-body">
+              <div class="p-tags"><span class="t brand">본운동</span><span class="p-ghost">메모</span></div>
+              <div class="p-media">시연 영상<span class="arrow l">‹</span><span class="arrow r">›</span><span class="inset">자극 부위</span></div>
+              <div class="p-name">벤치프레스</div>
+              <div class="p-card">
+                <div class="p-scrub"><span>무게</span><div class="ctl"><i class="pm">−</i><b class="v">60kg</b><i class="pm">+</i></div></div>
+                <div class="p-scrub"><span>횟수</span><div class="ctl"><i class="pm">−</i><b class="v">10회</b><i class="pm">+</i></div></div>
+                <div class="p-scrub"><span>세트</span><div class="ctl"><i class="pm">−</i><b class="v">4세트</b><i class="pm">+</i></div></div>
+                <div class="p-hint">좌우로 끌거나 ± · 더블클릭해 직접 입력</div>
+              </div>
+              <div class="p-note plate"><span>원판 20 + 5 (한쪽)</span><span class="p-ghost">20kg 봉</span></div>
+              <div class="p-note amber"><span>다음엔 62.5kg 도전</span><b>적용</b></div>
+              <div class="p-actions"><span class="p-ghost">운동법·꿀팁 보기</span><span class="p-ghost brand">영상 올리고 티칭받기</span></div>
+            </div>
+            <div class="p-bottom">
+              <div class="p-rest">⏱ 휴식 <i>30초</i><i class="on">1분</i><i>1분30</i><i>2분</i><i>3분</i></div>
+              <div class="p-2"><span class="btn">› 넘기기</span><span class="btn solid">✓ 운동 완료</span></div>
+              <div class="p-3"><span class="lbl">세트 2/4</span><span class="btn">‹ 취소</span><span class="btn soft">⏱ 세트 완료</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>B · 지금 그대로, 손질만</h3><span>배치 유지</span></div>
+        <div class="stage">
+          <div class="phone" aria-label="B안 모형">
+            <div class="p-top"><span class="p-x">✕</span><div class="p-seg"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i></div><span class="mono" style="font-weight:700">3/8</span></div>
+            <div class="p-row"><span class="p-chip">⏱ 12:34</span><span class="p-ghost" style="color:var(--brand)">❚❚ 일시정지</span></div>
+            <div class="p-body">
+              <div class="p-tags"><span class="t brand">본운동</span><span class="p-ghost">메모</span></div>
+              <div class="p-media">시연 영상<span class="arrow big l">‹</span><span class="arrow big r">›</span><span class="inset">자극 부위</span></div>
+              <div class="p-name">벤치프레스</div>
+              <div class="p-card">
+                <div class="p-scrub"><span>무게</span><div class="ctl"><i class="pm lg">−</i><b class="v lg">60kg</b><i class="pm lg">+</i></div></div>
+                <div class="p-scrub"><span>횟수</span><div class="ctl"><i class="pm lg">−</i><b class="v lg">10회</b><i class="pm lg">+</i></div></div>
+                <div class="p-scrub"><span>세트</span><div class="ctl"><i class="pm lg">−</i><b class="v lg">4세트</b><i class="pm lg">+</i></div></div>
+                <div class="p-hint">숫자를 탭하면 직접 입력</div>
+              </div>
+              <div class="p-note plate"><span>원판 20 + 5 (한쪽)</span><span class="p-ghost">20kg 봉</span></div>
+              <div class="p-note brand"><span>다음엔 62.5kg 도전</span><b>적용</b></div>
+              <div class="p-actions"><span class="p-ghost">운동법·꿀팁 보기</span><span class="p-ghost">영상 티칭</span></div>
+            </div>
+            <div class="p-bottom">
+              <div class="p-rest">⏱ 휴식 <i>30초</i><i class="on">1분</i><i>1분30</i><i>2분</i><i>3분</i></div>
+              <div class="p-2"><span class="btn">› 넘기기</span><span class="btn">✓ 운동 완료</span></div>
+              <div class="p-3"><span class="lbl">세트 2/4</span><span class="btn">‹ 취소</span><span class="btn solid">⏱ 세트 완료</span></div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>자리는 하나도 안 옮김. <b>채운 색만</b> “운동 완료” → “세트 완료”로.</li>
+          <li>“중단하기” → “일시정지”, 닫기 확인 → “운동 끝내기”.</li>
+          <li>±·화살표 44px, 값 글자 크게, 탭하면 직접 입력.</li>
+          <li>진행 막대는 운동별 칸(끝냄·지금·남음).</li>
+          <li>추천은 호박색 → 브랜드 테두리, 티칭은 회색 버튼.</li>
+        </ul>
+        <p class="verdict2"><span class="pill ok">작업 작음</span> 하루 · 익숙함 그대로 · 누를 곳 수는 그대로 28</p>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>C · 세트 기록표</h3><span>새 구조</span></div>
+        <div class="stage">
+          <div class="phone" aria-label="C안 모형">
+            <div class="p-top"><span class="p-x">✕</span><div class="p-seg"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i></div><span class="p-chip">12:34 ❚❚</span></div>
+            <div class="p-body">
+              <div class="p-media wide">시연 영상<span class="arrow big l">‹</span><span class="arrow big r">›</span><span class="inset">자극 부위</span></div>
+              <div class="p-tags"><div class="p-name" style="font-size:16px">벤치프레스</div><span class="p-ghost">메모</span></div>
+              <div class="p-line"><span>지난번 57.5kg × 10</span><span>추천 62.5kg <b>적용</b></span></div>
+              <div class="log">
+                <div class="lh"><span>세트</span><span>kg</span><span>회</span><span></span></div>
+                <div class="lr done"><span>1</span><span>60</span><span>10</span><i class="ck on">✓</i></div>
+                <div class="lr now"><span>2</span><span class="cell">60</span><span class="cell">10</span><i class="ck big">✓</i></div>
+                <div class="lr"><span>3</span><span>60</span><span>10</span><i class="ck">✓</i></div>
+                <div class="lr"><span>4</span><span>60</span><span>10</span><i class="ck">✓</i></div>
+                <div class="ladd">＋ 세트 추가</div>
+              </div>
+              <div class="p-note plate"><span>원판 20 + 5 (한쪽)</span><span class="p-ghost">20kg 봉</span></div>
+              <div class="p-actions"><span class="p-ghost">운동법·꿀팁</span><span class="p-ghost">영상 티칭</span></div>
+            </div>
+            <div class="p-bottom">
+              <div class="p-rest">⏱ 휴식 <i>30초</i><i class="on">1분</i><i>1분30</i><i>2분</i><i>3분</i></div>
+              <div class="p-2"><span class="btn">› 넘기기</span><span class="btn">✓ 운동 완료</span></div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>세트가 줄로 보여 “몇 세트째”가 한눈에. 지금 줄의 ✓가 세트 완료.</li>
+          <li>kg·회 칸을 탭하면 키패드 — 무게·횟수·세트 스크러버 3줄이 표 하나로.</li>
+          <li>“지난번 기록”을 표 바로 위에(성장 그래프에서 가져옴).</li>
+          <li>세트별로 무게를 다르게 치는 사람(피라미드·드롭세트)에게 맞는 모양.</li>
+        </ul>
+        <p class="verdict2"><span class="pill warn">작업 큼</span> 세트별 기록을 저장하려면 스키마 변경 — 지금 <code>exercise_completions</code>는 운동당 한 줄(세트·횟수·무게 한 값)</p>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>D · 영상 크게 + 아래 시트</h3><span>보는 화면</span></div>
+        <div class="stage">
+          <div class="phone dark-stage" aria-label="D안 모형">
+            <div class="vid">
+              <div class="vtop"><span class="vx">✕</span><div class="p-seg"><i class="d"></i><i class="d"></i><i class="c"></i><i></i><i></i><i></i><i></i><i></i></div><span class="vchip">12:34 ❚❚</span></div>
+              <span class="varrow l">‹</span><span class="varrow r">›</span>
+              <span class="vlabel">시연 영상 (화면 60%)</span>
+              <div class="vfoot"><span class="vtag">본운동 · 자극 부위 가슴</span><b>벤치프레스</b></div>
+            </div>
+            <div class="sheet">
+              <i class="grab"></i>
+              <div class="sline"><span class="sset">세트 2/4</span><span class="sval">60kg × 10회</span><span class="sedit">수정 ⌃</span></div>
+              <span class="btn solid hero">⏱ 세트 완료 · 휴식 1분</span>
+              <div class="p-2"><span class="btn">‹ 취소</span><span class="btn">› 넘기기</span></div>
+              <p class="shint">위로 올리면: 무게·횟수·세트 스크러버 · 원판 · 추천 · 메모 · 운동법 · 휴식 · 티칭 · 운동 완료</p>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>자세를 보며 따라 하는 화면. 영상이 절반 이상.</li>
+          <li>닫힌 시트에는 지금 세트·값·세트 완료만. 값 수정은 시트를 올려서.</li>
+          <li>지금 스크러버·원판·추천 컴포넌트는 시트 안에 그대로 재사용.</li>
+          <li>영상이 없는 운동(신규 1,200여 종)은 운동법 자막 튜토리얼이 그 자리를 채움.</li>
+        </ul>
+        <p class="verdict2"><span class="pill warn">작업 중간</span> 레이아웃만 바뀌고 데이터·저장 로직은 그대로</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>B 손질</th><th>C 기록표</th><th>D 영상+시트</th></tr></thead>
+        <tbody>
+          <tr><th>지금 화면과 닮음</th><td>거의 같음</td><td>위쪽만 같음</td><td>다름</td></tr>
+          <tr><th>세트 완료 누르기</th><td>하단 채운 버튼</td><td>표의 지금 줄 ✓</td><td>시트 채운 버튼(가장 큼)</td></tr>
+          <tr><th>값 한눈에 보기</th><td>스크러버 3줄</td><td>세트마다 보임</td><td>한 줄 요약, 수정은 시트</td></tr>
+          <tr><th>W1 오누름 해결</th><td>✓ 색 교환</td><td>✓ 운동 완료가 보조로</td><td>✓ 운동 완료는 시트 안</td></tr>
+          <tr><th>W2 “중단” 혼동</th><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><th>W3 누를 곳 수</th><td>그대로 28</td><td>약 22</td><td>닫힌 시트 약 9</td></tr>
+          <tr><th>DB 변경</th><td>없음</td><td>세트별 기록이면 필요</td><td>없음</td></tr>
+          <tr><th>테스트 영향</th><td><code>guided-workout-layout</code> 1건 문구</td><td>세트 관련 E2E 대부분</td><td>하단 바 가드 + 스크러버 E2E(시트 열기 추가)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>어느 안이든 같이 할 것</h2>
+      <p>방향과 상관없이 진단 W1·W2·W5·W6·W7 은 해결해야 합니다. B안이 곧 이 목록입니다.</p>
+    </div>
+    <div class="rules">
+      <div class="rule"><h3>채운 버튼은 “세트 완료” 하나</h3><p>“운동 완료”는 테두리 버튼. 마지막 세트는 지금처럼 자동 완료.</p><span class="mono">가드: 하단 바 bg-brand 개수 = 1</span></div>
+      <div class="rule"><h3>“일시정지” / “운동 끝내기”</h3><p>가벼운 동작과 되돌릴 수 없는 동작의 단어를 분리.</p><span class="mono">가드: 운동 모드에 “중단” 문구 0</span></div>
+      <div class="rule"><h3>누르는 곳 44px, 탭하면 직접 입력</h3><p>더블클릭 입력은 탭으로. 드래그는 남겨도 됨.</p><span class="mono">가드: 운동 모드 h-8 · h-9 버튼 금지</span></div>
+      <div class="rule"><h3>색은 브랜드 + 주의 + 위험</h3><p>호박·보라·하늘 → 브랜드/중립, 저장 실패만 <code>danger</code>.</p><span class="mono">가드: <code>ui-simplify.test.ts</code>에 운동 모드 추가</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>진행 전에 정해 주실 것</h2>
+      <p>추천을 표시해 두었습니다.</p>
+    </div>
+    <div class="qs">
+      <div class="q"><h3>1. 방향</h3><div class="opts">
+        <div class="opt rec"><b>B 먼저, 그다음 D 검토</b>B는 하루 작업이고 지금 느낌 그대로. D는 B 위에 레이아웃만 얹을 수 있음.</div>
+        <div class="opt"><b>C 세트 기록표</b>세트별 무게 기록까지 가려면 스키마·통계 경로 변경이 같이 들어감.</div></div></div>
+      <div class="q"><h3>2. (C를 고르면) 세트별 값 저장</h3><div class="opts">
+        <div class="opt rec"><b>화면에서만 세트별, 기록은 지금처럼</b>DB 변경 없음. 마지막(또는 최고) 세트 값으로 기록.</div>
+        <div class="opt"><b>세트별 기록 테이블 추가</b>1RM·볼륨 통계가 정확해짐. 스키마·라이브 DB 적용 필요.</div></div></div>
+      <div class="q"><h3>3. 무게 입력 드래그</h3><div class="opts">
+        <div class="opt rec"><b>드래그 유지 + 탭하면 입력</b>지금 쓰는 방식 그대로에 입력만 쉽게.</div>
+        <div class="opt"><b>드래그 없앰</b>화면 스와이프와 헷갈릴 일이 없어짐.</div></div></div>
+    </div>
+  </section>
+
+  <p class="foot">수치 출처: <code>guided-workout.tsx</code> 렌더 부분(1097–1613행) 클래스 집계, <code>rest-logic.ts</code>(휴식 프리셋 5개), <code>plate-hint.tsx</code> · <code>overload-hint.tsx</code>. 조작 요소 28개 = 닫기·일시정지·메모·이전·다음·자극 부위·(±·값)×3·봉 무게·추천 적용·운동법·티칭·휴식 5·넘기기·운동 완료·취소·세트 완료. 원칙 1·2(오늘만 변경 ↔ 영구 루틴)는 이 변경과 무관하며 대체운동의 “오늘만” 동작은 그대로 둡니다.</p>
+</div>

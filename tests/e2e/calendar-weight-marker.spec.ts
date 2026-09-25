@@ -39,8 +39,9 @@ test("웨이트 완료한 날은 캘린더에 덤벨 마커가 뜬다", async ({
   await expect(row).toBeVisible({ timeout: 8000 });
   const markAll = page.getByRole("button", { name: /오늘 전부 완료/ });
   await markAll.click();
-  await expect(markAll).toBeDisabled();
-  await expect(markAll).toBeEnabled({ timeout: 30_000 });
+  // 저장이 끝나면 남은 운동이 없어 버튼은 꺼진 채 '완료 처리할 운동이 없습니다' 로 바뀐다
+  // (예전엔 저장 후 다시 켜졌다 — 지금은 다 끝낸 날 다시 누를 이유가 없다).
+  await expect(markAll).toHaveAttribute("title", "완료 처리할 운동이 없습니다", { timeout: 30_000 });
 
   // 완료 후: 캘린더에 덤벨 마커가 최소 1개(오늘) 뜬다.
   await page.goto("/calendar", { waitUntil: "networkidle" });

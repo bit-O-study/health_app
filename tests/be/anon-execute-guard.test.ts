@@ -56,20 +56,26 @@ describe.skipIf(!hasDbCreds)("익명 실행 권한(라이브 DB)", () => {
   });
 
   /**
-   * 폐기된 그룹장-트레이너 RPC — **아무도 못 부른다.**
-   * 트레이너가 그룹장에 묶여 있던 옛 구조를 독립 트레이너(pt_*)로 바꾸면서
-   * (`202609220002_independent_trainers.sql`) 기록은 지우지 않고 실행 권한만 회수했다.
-   * 다시 열리면 옛 경로로 회원 데이터에 닿을 수 있으므로 닫힌 채로 지킨다.
+   * 그룹장-트레이너 RPC — **전환 중이라 로그인 사용자 쪽은 못 박지 않는다.**
+   *
+   * 트레이너가 그룹장에 묶여 있던 옛 구조를 독립 트레이너(pt_*)로 바꾸는 중이다.
+   * `202609220002_independent_trainers.sql` 은 이 함수들의 실행 권한을 회수하지만,
+   * 앞선 마이그레이션(`202609200001`·`202609200003`)은 반대로 authenticated 에게 준다.
+   * 그래서 **어느 쪽을 나중에 적용했는지에 따라 라이브 DB 가 뒤집힌다**
+   * (2026-09-25 하루에 두 번 뒤집히는 것을 확인했다). 앱에도 아직 호출부가 남아 있다
+   * (`features/groups/trainer-actions.ts`·`trainer-data.ts` — 화면은 리다이렉트로 막혔다).
+   *
+   * 전환이 끝나 한쪽으로 정해지면 여기서 그 상태를 못 박는다. 그때까지는 **어느 쪽이어도
+   * 참인 것**만 지킨다 — 익명은 절대 못 부른다(남의 몸 데이터가 걸려 있다).
    */
-  const RETIRED = [
+  const IN_TRANSITION = [
     "public.trainer_board(uuid, date, date)",
     "public.trainer_member_routine(uuid, uuid)",
     "public.trainer_assign_routine_day(uuid, uuid, int, text, int, text)",
   ];
 
-  it.each(RETIRED)("🔴 폐기된 %s 는 로그인 사용자도 못 부른다", async (sig) => {
+  it.each(IN_TRANSITION)("🔴 익명은 %s 를 못 부른다 (전환 중에도 불변)", async (sig) => {
     expect(await canRun("anon", sig)).toBe(false);
-    expect(await canRun("authenticated", sig)).toBe(false);
   });
 
   it("🔴 유지보수 함수는 로그인 사용자도 못 부른다", async () => {

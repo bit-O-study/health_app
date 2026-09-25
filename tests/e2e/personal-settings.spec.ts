@@ -46,7 +46,12 @@ test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내
     .poll(() => page.evaluate(() => localStorage.getItem("heltch.rest.sound.kind")))
     .toBe("beep");
   await page.reload();
-  await expect(page.getByRole("button", { name: /비프/ })).toHaveClass(/border-emerald-500/);
+  // 8단계 재설계로 선택 표시가 **초록 테두리 → aria-pressed + 흰 배경**으로 바뀌었다.
+  // 색 클래스를 단언하면 디자인이 바뀔 때마다 깨진다 — 상태로 본다.
+  await expect(page.getByRole("button", { name: /비프/ })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
 });
 
 test("개인설정으로 상세 가이드를 끄면 운동 모드에서 숨겨진다", async ({ page }) => {

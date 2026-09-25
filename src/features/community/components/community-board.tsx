@@ -73,6 +73,16 @@ export function CommunityBoard({
   const [search, setSearch] = useState("");
   const [compose, setCompose] = useState(initialView === "compose");
   const [routineCompose, setRoutineCompose] = useState(false);
+  // 밖에서 주소로 view 가 바뀌면(하단 메뉴·런처의 ?view= 링크) 그때만 탭을 맞춘다.
+  // 예전엔 페이지가 key={view} 로 게시판을 통째로 새로 붙였는데, 탭 전환으로 바뀐 주소가
+  // 다음 새로고침(글 올린 뒤 revalidate 등)에 실려 오면 게시판이 다시 붙으며 열린 창이 닫혔다.
+  const [seenView, setSeenView] = useState(initialView);
+  if (initialView !== seenView) {
+    setSeenView(initialView);
+    const next = BOARD_TABS.find((t) => t.value === initialView)?.value;
+    if (next && next !== tab) setTab(next);
+    if (initialView === "compose") setCompose(true);
+  }
   useBackClose(routineCompose, () => setRoutineCompose(false));
 
   // 게시판 탭별 분류. 오운완=사진(그룹글 포함), 운동=티칭(검색), 내 글=내가 쓴 것.
@@ -104,7 +114,10 @@ export function CommunityBoard({
             <button
               key={value}
               type="button"
-              onClick={() => { setTab(value); router.replace(value === "workout" ? "/community" : "/community?view=" + value, { scroll: false }); }}
+              // 탭 데이터는 이미 다 받아 왔다 — 주소만 바꾼다(서버 왕복 없음).
+              // router.replace 는 서버 렌더를 다시 받고, 페이지가 key={view} 로 게시판을 새로 붙여
+              // 그 사이 열어 둔 창(루틴 소개 '올렸어요' 등)이 닫혔다(2026-09-25 routine-share E2E).
+              onClick={() => { setTab(value); window.history.replaceState(null, "", value === "workout" ? "/community" : "/community?view=" + value); }}
               aria-pressed={tab === value}
               className={`relative min-h-11 shrink-0 pb-3 text-sm font-semibold transition-colors ${
                 tab === value

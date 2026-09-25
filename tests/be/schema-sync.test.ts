@@ -254,6 +254,22 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
     expect(missing, `authenticated cannot execute: ${missing.join(", ")}`).toEqual([]);
   });
 
+  // RLS 정책이 빠지면 쓰기가 조용히 막힌다(호출부는 '권한 없음' 을 일반 오류로 보여 준다).
+  // 2026-09-25: trainer_comments 의 INSERT 정책이 라이브에 없어 트레이너 코멘트가 안 남았다.
+  it("policies declared on public tables in schema.sql exist on live DB", async () => {
+    const declared = [
+      ...schemaSql.matchAll(/create policy "([^"]+)"\s+on\s+public\.(\w+)/gi),
+    ].map((m) => ({ name: m[1], table: m[2] }));
+    expect(declared.length).toBeGreaterThan(0);
+    const r = await client.query<{ policyname: string; tablename: string }>(
+      `select policyname, tablename from pg_policies where schemaname = 'public'`,
+    );
+    const missing = declared
+      .filter((d) => !r.rows.some((l) => l.policyname === d.name && l.tablename === d.table))
+      .map((d) => `${d.table}: ${d.name}`);
+    expect(missing, `missing policies: ${missing.join(", ")}`).toEqual([]);
+  });
+
   for (const [name, def] of Object.entries(expected.checks)) {
     it(`check constraint ${name} is present on live DB`, async () => {
       const r = await client.query(

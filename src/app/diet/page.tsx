@@ -7,6 +7,7 @@ import { getUserProfile } from "@/features/profile/data-access";
 import {
   getFoodLogsForDate,
   getMealPhotosForDate,
+  getWaterEntries,
   getWaterForDate,
 } from "@/features/diet/data-access";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -43,13 +44,15 @@ export default async function DietPage({
   //    시절엔 70~90ms 였다). 큰 값은 아니지만 순차 왕복은 화면마다 쌓이고, 무엇보다
   //    **먼저 기다릴 이유가 없는 걸 기다리는** 모양이라 바로잡는다.
   //    (로그인·온보딩 리다이렉트는 결과를 받은 뒤 판단해도 동작이 같다.)
-  const [profile, logs, mealPhotos, waterMl, aiScanEnabled] = await Promise.all([
-    getUserProfile(),
-    getFoodLogsForDate(date),
-    getMealPhotosForDate(date),
-    getWaterForDate(date),
-    isDebugFeatureEnabled("diet-photo-ai"),
-  ]);
+  const [profile, logs, mealPhotos, waterMl, waterEntries, aiScanEnabled] =
+    await Promise.all([
+      getUserProfile(),
+      getFoodLogsForDate(date),
+      getMealPhotosForDate(date),
+      getWaterForDate(date),
+      getWaterEntries(date),
+      isDebugFeatureEnabled("diet-photo-ai"),
+    ]);
   if (!profile) redirect("/onboarding");
   const target = dailyTarget({
     gender: profile.gender === "female" ? "female" : "male",
@@ -76,6 +79,7 @@ export default async function DietPage({
             key={date}
             date={date}
             initialMl={waterMl}
+            initialEntries={waterEntries}
             targetMl={dailyWaterTargetMl(profile.weightKg)}
           />
         }

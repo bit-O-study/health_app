@@ -124,3 +124,28 @@ export const getWaterForDate = cache(async function getWaterForDate(
   const n = Number(data.ml);
   return Number.isFinite(n) ? n : 0;
 });
+
+/**
+ * 그날 마신 기록(최신순) — 수분 카드의 목록·되돌리기에 쓴다.
+ * 합계는 `water_logs` 가 캐시로 들고 있어 기존 화면·통계는 그대로 쓴다.
+ */
+export const getWaterEntries = cache(
+  async (dateYmd: string): Promise<{ id: string; ml: number; at: string }[]> => {
+    const user = await getCurrentUser();
+    if (!user) return [];
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("water_entries")
+      .select("id, ml, at")
+      .eq("user_id", user.id)
+      .eq("for_date", dateYmd)
+      .order("at", { ascending: false })
+      .limit(50);
+    if (error || !data) return [];
+    return (data as { id: string; ml: number; at: string }[]).map((r) => ({
+      id: r.id,
+      ml: Number(r.ml),
+      at: r.at,
+    }));
+  },
+);

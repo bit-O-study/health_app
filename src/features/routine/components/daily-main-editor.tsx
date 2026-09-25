@@ -38,6 +38,7 @@ import {
 } from "@/features/routine/plan-order";
 import type { SetDetail } from "@/features/routine/set-details";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
+import { setPersonalPrefAction } from "@/features/profile/actions";
 import { getSetsDone } from "@/features/workout-timer/workout-edit-store";
 import { useHydrated } from "@/lib/use-hydrated";
 import { exerciseCompletionKey } from "@/features/routine/completion-match";
@@ -143,6 +144,16 @@ export function DailyMainEditor({
   const hydrated = useHydrated();
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
+
+  /**
+   * 세트 방식(드롭·피라미드)은 기준 무게가 있어야 만들 수 있다 — '무게·횟수 고정'을
+   * 켜고 서버 렌더를 새로 받는다. 계획 편집(`plan-editor`)과 같은 동작이어야 한다.
+   */
+  async function enableWeightReps() {
+    const res = await setPersonalPrefAction("lockWeightReps", true);
+    if (res.ok) router.refresh();
+  }
+
   /** 기본 기구 — 내 헬스장에 있는 것 우선. */
   function pickDefaultEquipment(ex: { equipments: EquipmentId[] }): EquipmentId {
     const available = ex.equipments.find((eq) =>
@@ -422,14 +433,16 @@ export function DailyMainEditor({
         })),
         gender,
       );
+      if (groups.some(group => group.exercises.length === 0)) { setMsg("보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 직접 운동을 선택해 주세요."); return; }
       const next: Row[] = [];
       for (const g of groups) {
         for (const ex of g.exercises) {
-          const p = prescribe(ex.id, opts);
+          const equipment = pickDefaultEquipment(ex);
+          const p = prescribe(ex.id, {...opts,equipment});
           next.push({
             focus: g.focus as FocusTone,
             exerciseId: ex.id,
-            equipment: pickDefaultEquipment(ex),
+            equipment,
             sets: p.sets,
             reps: p.reps,
             weight: p.weightKg === null ? "" : String(p.weightKg),
@@ -696,7 +709,9 @@ export function DailyMainEditor({
                     reps={row.reps}
                     weight={row.weight}
                     setDetails={row.setDetails}
+                    exerciseId={row.exerciseId}
                     equipment={row.equipment}
+                    onEnableWeightReps={enableWeightReps}
                     onUniformChange={(patch) => {
                       const next = [...rows];
                       next[idx] = { ...row, ...patch };

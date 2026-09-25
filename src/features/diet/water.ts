@@ -49,3 +49,59 @@ export function formatWater(ml: number): string {
   const l = Math.round(ml / 100) / 10;
   return `${l}L`;
 }
+
+/* ── 기록 단위 보조(2026-09-25) ───────────────────────────────────────── */
+
+/** 직접 입력으로 받을 수 있는 한 번 양(ml). */
+export const WATER_ONE_MIN_ML = 1;
+export const WATER_ONE_MAX_ML = 3000;
+
+/** 직접 입력 값 검증 — 화면과 서버가 같은 기준을 쓴다. */
+export function isValidOneShotMl(ml: number): boolean {
+  return (
+    Number.isFinite(ml) &&
+    Number.isInteger(ml) &&
+    ml >= WATER_ONE_MIN_ML &&
+    ml <= WATER_ONE_MAX_ML
+  );
+}
+
+/**
+ * "방금" · "20분 전" · "3시간 전" — 마지막으로 마신 지 얼마나 됐는지.
+ * 물은 몰아 마시는 것보다 나눠 마시는 게 중요해서, 총량보다 이 문장이 더 도움이 된다.
+ */
+export function sinceLabel(atIso: string, nowMs = Date.now()): string {
+  const t = Date.parse(atIso);
+  if (!Number.isFinite(t)) return "";
+  const min = Math.floor((nowMs - t) / 60000);
+  if (min < 1) return "방금";
+  if (min < 60) return `${min}분 전`;
+  const hour = Math.floor(min / 60);
+  if (hour < 24) return `${hour}시간 전`;
+  return `${Math.floor(hour / 24)}일 전`;
+}
+
+/** "오후 3:20" — 기록 목록의 시각 표시(한국 시간). */
+export function timeLabel(atIso: string): string {
+  const t = new Date(atIso);
+  if (Number.isNaN(t.getTime())) return "";
+  return new Intl.DateTimeFormat("ko-KR", {
+    timeZone: "Asia/Seoul",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(t);
+}
+
+/**
+ * 남은 양과 컵 수 — "1.1L 남음 · 컵 6잔" 처럼 **무엇을 더 하면 되는지**로 바꿔 준다.
+ * 목표를 채웠으면 남은 양은 0.
+ */
+export function remainingBy(
+  ml: number,
+  targetMl: number,
+  cupMl: number,
+): { ml: number; cups: number } {
+  const left = Math.max(0, targetMl - ml);
+  const cups = cupMl > 0 ? Math.ceil(left / cupMl) : 0;
+  return { ml: left, cups };
+}

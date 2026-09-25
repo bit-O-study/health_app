@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getPet } from "@/features/pet/data-access";
@@ -12,6 +13,7 @@ export default async function PetPage({ searchParams }: { searchParams: Promise<
   const { view } = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/pet");
+  if (!(await isDebugFeatureEnabled("pet"))) redirect("/home");
   const pet = await getPet();
   if (!pet) redirect("/login");
 

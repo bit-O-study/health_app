@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+vi.mock("@/features/routine/recommendation-data", () => ({getRecommendationContext: vi.fn(async () => null)}));
+import { describe, expect, it, vi } from "vitest";
 
 import {
   exerciseOptionsByIdsAction,

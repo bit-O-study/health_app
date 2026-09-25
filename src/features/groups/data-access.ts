@@ -17,8 +17,8 @@ import {
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { seoulYmd } from "@/features/routine/data";
 import { resolveMemberName } from "@/features/groups/member-name";
-import { hiddenKindsOf, type ShareKind } from "@/features/groups/share-prefs";
-import { trainerMaskFor } from "@/features/groups/share-prefs.server";
+import { type ShareKind } from "@/features/groups/share-prefs";
+
 import { parseSetDetails } from "@/features/routine/set-details";
 import {
   buildWeeklyTrainingView,
@@ -585,12 +585,7 @@ export async function getGroupMemberDay(
       .eq("for_date", date),
   ]);
 
-  // 🔴 보는 사람이 **트레이너(그룹장)일 때만** 회원의 제공 설정을 적용한다.
-  //    그룹원끼리 서로 보는 화면은 이 스위치의 대상이 아니다(랭킹과 같은 성격).
-  const mask = await trainerMaskFor(groupId, memberId);
-  const hidden = mask ? hiddenKindsOf(mask) : [];
-  const hideWorkout = hidden.includes("workout");
-  const hideDiet = hidden.includes("diet");
+  // 그룹 공개 기록은 그룹의 공유 정책을 따르며 트레이너 연결과 독립적이다.
 
   const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
   const prof = profile as { name?: string | null; nickname?: string | null } | null;
@@ -666,13 +661,13 @@ export async function getGroupMemberDay(
   // `hidden` 이 한다). 화면이 '비공개' 라고 말해 준다.
   return {
     name: displayName,
-    hidden,
+    hidden: [],
     date,
-    intake: hideDiet ? 0 : foods.reduce((s, f) => s + f.kcal, 0),
-    burned: hideWorkout ? 0 : Math.round(burnedRaw),
-    foods: hideDiet ? [] : foods,
-    mealPhotos: hideDiet ? [] : mealPhotos,
-    workouts: hideWorkout ? [] : workouts,
+    intake: foods.reduce((s, f) => s + f.kcal, 0),
+    burned: Math.round(burnedRaw),
+    foods,
+    mealPhotos,
+    workouts,
   };
 }
 
@@ -702,9 +697,6 @@ export async function getGroupMemberWeeklyTraining(
   const ids = ((members ?? []) as { user_id: string }[]).map((r) => r.user_id);
   if (!ids.includes(user.id) || !ids.includes(memberId)) return null;
 
-  // 운동 기록 제공을 끈 회원의 훈련 분석은 트레이너에게 주지 않는다(같은 기록이다).
-  const mask = await trainerMaskFor(groupId, memberId);
-  if (mask && !mask.workout) return null;
 
   const today = seoulYmd();
   const from = addDaysYmd(today, -60);

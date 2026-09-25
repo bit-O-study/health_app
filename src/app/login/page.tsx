@@ -41,6 +41,7 @@ export default async function LoginPage({
         </Link>
         <h1 className="app-title px-1">내 루틴 시작하기</h1>
         <AuthForm redirectTo={redirectTo} initialError={oauthError ?? null} />
+        <Link href="/help" className="py-2 text-center text-sm text-muted underline">로그인 도움말·고객센터</Link>
       </main>
     </div>
   );

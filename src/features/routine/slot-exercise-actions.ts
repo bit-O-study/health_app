@@ -1,10 +1,11 @@
 "use server";
 
+import { personalizeExercises } from "./recommend-personalization";
+
 import { isFocusKey } from "@/features/routine/data";
 import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
 import {
   allExercisesForFocus,
-  exercisesForFocus,
   getCatalogExercise,
   type CatalogExercise,
 } from "@/features/routine/exercise-catalog";
@@ -178,7 +179,8 @@ export async function recommendExercisesAction(
 ): Promise<{ focus: string; exercises: SlotExerciseOption[] }[]> {
   if (!Array.isArray(specs)) return [];
   const g = gender === "female" ? "female" : "male";
-  const [gym, base] = await Promise.all([currentGymEquipment(), currentRecommendContext()]);
+  const { getRecommendationContext } = await import("./recommendation-data");
+  const [gym, base, recommendationContext] = await Promise.all([currentGymEquipment(), currentRecommendContext(), getRecommendationContext()]);
   return specs.slice(0, MAX_IDS).map((spec) => {
     const focus = spec?.focus;
     // 부위가 아니면(휴식 포함) 추천할 게 없다 — 빈 목록으로 자리는 지킨다.
@@ -186,13 +188,11 @@ export async function recommendExercisesAction(
     const blockIds = cleanBlockIds(spec.blockIds);
     const variant = Number.isInteger(spec.variant) && spec.variant! >= 0 ? spec.variant : 0;
     const ctx: RecommendContext = { ...base, variant };
-    if (spec.isSide) {
-      return { focus, exercises: sideExercisesForSlot(focus, blockIds, g, gym).map(toOption) };
-    }
-    const list =
+    const ranked = spec.isSide ? sideExercisesForSlot(focus, blockIds, g, gym) :
       blockIds.length > 0
         ? focusExercisesForSlot(focus, blockIds, g, gym, ctx)
         : recommendedExercisesForFocus(focus, g, gym, ctx);
+    const list = personalizeExercises(ranked, allExercisesForSlot(focus, blockIds), gym, recommendationContext, spec.isSide, focus);
     // 추천 이유 — 필수 동작·세부근육 칸(앞 4개)에만 붙는다. 뒤에 붙는 나머지 큐레이션은 이유 없음.
     const reasonOf = new Map(
       focusPicksForSlot(focus, blockIds, g, gym, ctx).map((p) => [p.exercise.id, p.reason]),

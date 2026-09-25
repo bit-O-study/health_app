@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   Bell,
+  MessageCircle,
   Building2,
   ChevronRight,
   ClipboardList,
@@ -74,12 +75,14 @@ export default async function SettingsPage() {
       : []),
   ];
   const workout: Row[] = [
+    { href: "/settings/trainer-pass", title: "트레이너 정액권", icon: UsersRound },
     { href: "/settings/trainers", title: "트레이너 연결", icon: UsersRound },
     { href: "/settings/gym", title: "내 헬스장", icon: Building2 },
     { href: "/settings/score", title: "운동 점수", icon: Trophy },
     { href: "/settings/progress", title: "성장 그래프", icon: TrendingUp },
   ];
   const app: Row[] = [
+    { href: "/support", title: "고객센터", icon: MessageCircle },
     { href: "/settings/personal", title: "개인설정", icon: SlidersHorizontal },
     { href: "/settings/notifications", title: "알림 설정", icon: Bell },
     { href: "/settings/health", title: "건강 연동", icon: Smartphone },

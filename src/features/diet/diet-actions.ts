@@ -162,3 +162,74 @@ export async function deleteFoodLogAction(id: string): Promise<DietActionResult>
   revalidatePath("/diet");
   return { ok: true };
 }
+
+/**
+ * 지난 끼니를 **그대로 오늘로 복사**(2026-09-25).
+ *
+ * 매일 아침 같은 걸 먹는 사람에게 검색을 다시 시키지 않는다. 대상 끼니에 이미 담긴
+ * 게 있어도 지우지 않고 **뒤에 덧붙인다** — 복사가 기존 기록을 날리면 되돌릴 방법이 없다.
+ */
+export type CopyMealResult =
+  | { ok: true; ids: string[] }
+  | { ok: false; error: string };
+
+export async function copyMealAction(
+  meal: Meal,
+  fromYmd: string,
+  toYmd?: string,
+): Promise<CopyMealResult> {
+  if (!MEALS.includes(meal)) return { ok: false, error: "끼니 값이 올바르지 않습니다." };
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(fromYmd))
+    return { ok: false, error: "날짜가 올바르지 않습니다." };
+
+  const supabase = await createSupabaseServerClient();
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const date = toYmd ?? seoulYmd();
+  if (date === fromYmd) return { ok: false, error: "같은 날짜로는 복사할 수 없습니다." };
+
+  const { data: src, error: readErr } = await supabase
+    .from("food_logs")
+    .select("name, kcal, protein_g, carbs_g, fat_g, amount, category, eaten_at")
+    .eq("user_id", user.id)
+    .eq("for_date", fromYmd)
+    .eq("meal", meal)
+    .order("position", { ascending: true });
+  if (readErr) return { ok: false, error: readErr.message };
+  if (!src || src.length === 0)
+    return { ok: false, error: "복사할 기록이 없습니다." };
+
+  const { data: tail } = await supabase
+    .from("food_logs")
+    .select("position")
+    .eq("user_id", user.id)
+    .eq("for_date", date)
+    .eq("meal", meal)
+    .order("position", { ascending: false })
+    .limit(1);
+  let pos = ((tail?.[0]?.position as number | undefined) ?? -1) + 1;
+
+  const rows = (src as Record<string, unknown>[]).map((r) => ({
+    user_id: user.id,
+    for_date: date,
+    meal,
+    position: pos++,
+    name: String(r.name).slice(0, 60),
+    kcal: r.kcal,
+    protein_g: r.protein_g,
+    carbs_g: r.carbs_g,
+    fat_g: r.fat_g,
+    amount: r.amount,
+    category: r.category,
+    eaten_at: r.eaten_at,
+  }));
+
+  const { data: made, error } = await supabase
+    .from("food_logs")
+    .insert(rows)
+    .select("id");
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/diet");
+  return { ok: true, ids: ((made ?? []) as { id: string }[]).map((r) => r.id) };
+}

@@ -21,6 +21,10 @@ vi.mock("@/features/routine/components/conditioning-editor", () => ({
 vi.mock("@/features/routine/overload-actions", () => ({
   overloadAdviceAction: vi.fn(async () => ({})),
 }));
+// 같은 이유로 하나 더(2026-09-25): 무게·횟수 고정을 켜는 개인설정 액션이 들어왔다.
+vi.mock("@/features/profile/actions", () => ({
+  setPersonalPrefAction: vi.fn(async () => ({ ok: true })),
+}));
 vi.mock("@/features/routine-share/components/share-day-button", () => ({
   ShareDayButton: () => null,
 }));

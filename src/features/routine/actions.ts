@@ -1,5 +1,8 @@
 "use server";
 
+import { getRecommendationContext } from "./recommendation-data";
+import { personalizeExercises } from "./recommend-personalization";
+
 import { revalidatePath } from "next/cache";
 
 import {
@@ -20,6 +23,7 @@ import {
 } from "@/features/routine/data";
 import { prescribe } from "@/features/routine/exercise-catalog";
 import {
+  allExercisesForSlot,
   focusExercisesForSlot,
   focusVariantIndex,
   sideExercisesForSlot,
@@ -190,11 +194,7 @@ async function fillMissingFocusesAction(
   variantId: string,
   customWeek: DayBlockId[][] | null,
 ): Promise<SaveRoutineResult> {
-  const [profile, gym, signals] = await Promise.all([
-    getUserProfile(),
-    getCurrentGym(),
-    getRecommendSignals(),
-  ]);
+  const [profile, gym, recommendationContext, signals] = await Promise.all([getUserProfile(), getCurrentGym(), getRecommendationContext(), getRecommendSignals()]);
   if (!profile) return { ok: true };
   // 추천 운동도, 그 운동에 붙일 기구도 내 헬스장 보유 기구를 본다.
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
@@ -228,7 +228,7 @@ async function fillMissingFocusesAction(
     weightKg: profile.weightKg ?? 65,
   };
   const groups = missing.map((slot) => {
-    const list = slot.isSide
+    const base = slot.isSide
       ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet)
       : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet, {
           experience: profile.experience,
@@ -236,6 +236,7 @@ async function fillMissingFocusesAction(
           variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
           ...signals,
         });
+    const list = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, recommendationContext, slot.isSide, slot.focus);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
@@ -255,6 +256,7 @@ async function fillMissingFocusesAction(
       }),
     };
   });
+  if (groups.some(group => group.rows.length === 0)) return {ok:false,error:"보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 운동을 직접 선택해 주세요."};
   const replacement = await replaceRoutineExerciseGroups(
     supabase,
     expectedRoutineUpdatedAt,

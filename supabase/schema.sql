@@ -347,6 +347,12 @@ alter table public.profiles
 -- 무게/횟수 숨기고 운동모드에서 그때그때 설정. true 면 미리 정해 메인에 표시/수정.
 alter table public.profiles
   add column if not exists lock_weight_reps boolean not null default false;
+-- weight_steps: 종목별 증량 단위(kg) — {"pec-deck": 1, "squat": 2.5}.
+-- 기본 단위는 기구·종목 크기로 정하지만(src/features/routine/progress.ts) 헬스장마다
+-- 스택이 달라(1kg 씩 올라가는 머신도 있다) 사용자가 종목별로 덮어쓸 수 있어야 한다.
+-- 비어 있으면 {} — 전부 기본 규칙을 쓴다.
+alter table public.profiles
+  add column if not exists weight_steps jsonb not null default '{}'::jsonb;
 
 -- Registered workout plan per user, grouped by focus (DayPlan tone).
 --
@@ -1864,7 +1870,9 @@ create or replace function public.debug_feature_enabled(p_feature text) returns 
     when '"public"'::jsonb then true
     when 'false'::jsonb then false
     when '"hidden"'::jsonb then false
-    else public.is_debug_account()
+    else case when p_feature = 'pet' and not exists (
+      select 1 from public.app_settings where key = 'debug.pet'
+    ) then false else public.is_debug_account() end
   end;
 $$;
 
@@ -3158,6 +3166,48 @@ alter table public.commitments add column if not exists mode text
   not null default 'manual' check (mode in ('manual', 'survey'));
 alter table public.commitments add column if not exists missions jsonb
   not null default '[]'::jsonb;
+-- 하루 약속 + 주간 리듬(2026-09-25). 매일 100% 를 요구하지 않는다.
+--  weekly_target      : 이번 주 며칠 달성이 목표인지
+--  rest_pass_per_week : '오늘 쉼' 주 N회 — 아픈 날을 실패로 기록하지 않으려고
+--  remind_at          : 그 시각에 아직 못 한 것만 알린다. null = 알림 없음
+alter table public.commitments add column if not exists weekly_target int
+  not null default 5 check (weekly_target between 1 and 7);
+alter table public.commitments add column if not exists rest_pass_per_week int
+  not null default 1 check (rest_pass_per_week between 0 and 3);
+alter table public.commitments add column if not exists remind_at time;
+
+-- 다짐의 하루 한 행 — 앱이 판정할 수 없는 미션(물·술·수면)의 체크와 '오늘 쉼'.
+-- ⚠ 자동 판정은 여기 저장하지 않는다. 기록이 수정되면 결과도 바뀌어야 하므로 매번 계산한다.
+create table if not exists public.commitment_days (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  commitment_id uuid not null references public.commitments(id) on delete cascade,
+  for_date date not null,
+  checked_ids text[] not null default '{}',
+  rest_pass boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, commitment_id, for_date)
+);
+create index if not exists commitment_days_lookup
+  on public.commitment_days (user_id, commitment_id, for_date desc);
+alter table public.commitment_days enable row level security;
+drop policy if exists "own commitment days read" on public.commitment_days;
+create policy "own commitment days read" on public.commitment_days
+  for select to authenticated using (user_id = auth.uid());
+drop policy if exists "own commitment days insert" on public.commitment_days;
+create policy "own commitment days insert" on public.commitment_days
+  for insert to authenticated with check (user_id = auth.uid());
+drop policy if exists "own commitment days update" on public.commitment_days;
+create policy "own commitment days update" on public.commitment_days
+  for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists "own commitment days delete" on public.commitment_days;
+create policy "own commitment days delete" on public.commitment_days
+  for delete to authenticated using (user_id = auth.uid());
+drop trigger if exists commitment_days_updated_at on public.commitment_days;
+create trigger commitment_days_updated_at
+  before update on public.commitment_days
+  for each row execute function public.set_updated_at();
 create index if not exists commitments_user_idx on public.commitments (user_id);
 alter table public.commitments enable row level security;
 drop policy if exists "own commitments" on public.commitments;
@@ -4104,6 +4154,50 @@ drop policy if exists "own water logs" on public.water_logs;
 create policy "own water logs" on public.water_logs
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
+-- 마신 기록 하나하나(2026-09-25). 하루 합계 한 숫자로는 되돌리기도, '언제 마셨나'도,
+-- 컵 크기가 다른 사람의 정확한 기록도 안 된다. water_logs 는 **합계 캐시**로 남기고
+-- (기존 화면·통계가 그걸 읽는다) 트리거가 둘을 맞춘다.
+create table if not exists public.water_entries (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  ml int not null check (ml > 0 and ml <= 3000),
+  at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+create index if not exists water_entries_day
+  on public.water_entries (user_id, for_date, at desc);
+alter table public.water_entries enable row level security;
+drop policy if exists "own water entries read" on public.water_entries;
+create policy "own water entries read" on public.water_entries
+  for select to authenticated using (user_id = auth.uid());
+drop policy if exists "own water entries insert" on public.water_entries;
+create policy "own water entries insert" on public.water_entries
+  for insert to authenticated with check (user_id = auth.uid());
+drop policy if exists "own water entries delete" on public.water_entries;
+create policy "own water entries delete" on public.water_entries
+  for delete to authenticated using (user_id = auth.uid());
+
+create or replace function public.sync_water_log() returns trigger
+language plpgsql security definer set search_path = public as $$
+declare
+  v_user uuid := coalesce(new.user_id, old.user_id);
+  v_date date := coalesce(new.for_date, old.for_date);
+  v_sum int;
+begin
+  select coalesce(sum(ml), 0) into v_sum
+    from public.water_entries where user_id = v_user and for_date = v_date;
+  insert into public.water_logs (user_id, for_date, ml, updated_at)
+       values (v_user, v_date, least(v_sum, 10000), now())
+  on conflict (user_id, for_date)
+    do update set ml = least(excluded.ml, 10000), updated_at = now();
+  return null;
+end $$;
+drop trigger if exists water_entries_sync on public.water_entries;
+create trigger water_entries_sync
+  after insert or delete on public.water_entries
+  for each row execute function public.sync_water_log();
+
 -- 🔴 더하기·빼기를 **한 문장으로**. 읽고 나서 쓰면 컵을 연타할 때 사이에 다른
 -- 요청이 끼어들어 한 잔이 사라진다(같은 하루·같은 행을 두 요청이 동시에 만진다).
 -- 0 아래·하루 최대 위로는 안 나가게 여기서 자른다 — 클라이언트를 믿지 않는다.
@@ -4531,3 +4625,643 @@ revoke all on function public.trainer_prescribe_today(uuid, uuid, text, int, tex
 grant execute on function public.trainer_prescribe_today(uuid, uuid, text, int, text, jsonb, text) to authenticated;
 
 notify pgrst, 'reload schema';
+
+
+-- Independent trainer access (2026-09-25). Supersedes legacy group-owner trainer permissions.
+-- Independent trainer passes and explicitly accepted member connections. No group membership grants access.
+create table if not exists public.pt_passes (
+  trainer_id uuid primary key references auth.users(id) on delete cascade,
+  name text not null check (length(name) between 1 and 80),
+  phone text not null check (phone ~ '^01[0-9]{8,9}$'),
+  status text not null default 'requested' check (status in ('requested','active','canceled')),
+  starts_on date, ends_on date, seats integer not null default 15 check (seats between 1 and 1000),
+  updated_at timestamptz not null default now(),
+  check (ends_on >= starts_on)
+);
+create table if not exists public.pt_links (
+  id uuid primary key default gen_random_uuid(),
+  trainer_id uuid not null references public.pt_passes(trainer_id) on delete cascade,
+  member_id uuid not null references auth.users(id) on delete cascade,
+  member_name text not null,
+  active boolean not null default true,
+  share_workout boolean not null default false,
+  share_diet boolean not null default false,
+  share_body boolean not null default false,
+  allow_prescription boolean not null default false,
+  created_at timestamptz not null default now(),
+  revoked_at timestamptz,
+  unique(trainer_id,member_id), check(trainer_id <> member_id)
+);
+create table if not exists public.pt_invites (
+  id uuid primary key default gen_random_uuid(),
+  trainer_id uuid not null references public.pt_passes(trainer_id) on delete cascade,
+  token_hash text not null unique check(token_hash ~ '^[a-f0-9]{64}$'),
+  phone text not null check(phone ~ '^01[0-9]{8,9}$'),
+  expires_at timestamptz not null default now() + interval '7 days',
+  accepted_by uuid references auth.users(id) on delete cascade,
+  canceled boolean not null default false,
+  created_at timestamptz not null default now()
+);
+create table if not exists public.pt_notifications (
+  id uuid primary key default gen_random_uuid(),
+  created_by uuid not null references auth.users(id) on delete cascade,
+  trainer_id uuid not null references public.pt_passes(trainer_id) on delete cascade,
+  invite_id uuid references public.pt_invites(id) on delete cascade,
+  kind text not null check(kind in ('invite','disconnect')),
+  channel text not null check(channel in ('ATA','LMS')),
+  phone text not null,
+  payload jsonb not null,
+  status text not null default 'queued' check(status in ('queued','processing','submitted','failed','unknown')),
+  provider_id text,
+  created_at timestamptz not null default now()
+);
+create index if not exists pt_links_member_idx on public.pt_links(member_id);
+create index if not exists pt_invites_trainer_idx on public.pt_invites(trainer_id,created_at);
+alter table public.pt_passes enable row level security;
+alter table public.pt_links enable row level security;
+alter table public.pt_invites enable row level security;
+alter table public.pt_notifications enable row level security;
+revoke all on public.pt_passes, public.pt_links, public.pt_invites, public.pt_notifications from anon, authenticated;
+grant select on public.pt_passes, public.pt_links, public.pt_notifications to authenticated;
+grant all on public.pt_passes, public.pt_links, public.pt_invites, public.pt_notifications to service_role;
+
+create or replace function public.pt_has_pass(p_trainer uuid default auth.uid()) returns boolean
+language sql stable security definer set search_path=public as $$
+ select exists(select 1 from pt_passes where trainer_id=p_trainer and status='active'
+ and (now() at time zone 'Asia/Seoul')::date between starts_on and ends_on);
+$$;
+drop policy if exists "pt pass owner or admin" on public.pt_passes;
+create policy "pt pass owner or admin" on public.pt_passes for select to authenticated
+ using(trainer_id=auth.uid() or public.is_admin() or exists(select 1 from pt_links where trainer_id=pt_passes.trainer_id and member_id=auth.uid() and active));
+drop policy if exists "pt accepted connections" on public.pt_links;
+create policy "pt accepted connections" on public.pt_links for select to authenticated
+ using(member_id=auth.uid() or (trainer_id=auth.uid() and active and public.pt_has_pass()));
+drop policy if exists "pt own notification status" on public.pt_notifications;
+create policy "pt own notification status" on public.pt_notifications for select to authenticated
+ using(created_by=auth.uid() or public.is_admin());
+
+create or replace function public.pt_request_pass(p_name text,p_phone text) returns void
+language plpgsql security definer set search_path=public as $$
+begin
+ if auth.uid() is null then raise exception '로그인이 필요해요.'; end if;
+ if length(trim(p_name)) not between 1 and 80 or p_phone !~ '^01[0-9]{8,9}$' then raise exception '이름과 휴대폰 번호를 확인해 주세요.'; end if;
+ insert into pt_passes(trainer_id,name,phone) values(auth.uid(),trim(p_name),p_phone)
+ on conflict(trainer_id) do update set name=excluded.name,phone=excluded.phone,status='requested',updated_at=now()
+ where pt_passes.status <> 'active' or pt_passes.ends_on < (now() at time zone 'Asia/Seoul')::date;
+ if not found then raise exception '이미 이용 중인 정액권이 있어요.'; end if;
+end $$;
+create or replace function public.pt_admin_pass(p_trainer uuid,p_start date,p_end date,p_seats integer,p_active boolean) returns void
+language plpgsql security definer set search_path=public as $$
+begin
+ if not public.is_admin() then raise exception '관리자만 변경할 수 있어요.'; end if;
+ if p_start is null or p_end is null or p_end<p_start or p_seats is null or p_seats not between 1 and 1000 then raise exception '기간과 회원 수를 확인해 주세요.'; end if;
+ update pt_passes set status=case when p_active then 'active' else 'canceled' end,starts_on=p_start,ends_on=p_end,seats=p_seats,updated_at=now() where trainer_id=p_trainer;
+ if not found then raise exception '신청 내역이 없어요.'; end if;
+end $$;
+create or replace function public.pt_create_invite(p_hash text,p_phone text,p_channel text,p_url text) returns uuid
+language plpgsql security definer set search_path=public as $$
+declare v_pass pt_passes; v_invite uuid; v_notification uuid;
+begin
+ select * into v_pass from pt_passes where trainer_id=auth.uid() for update;
+ if not public.pt_has_pass() then raise exception '활성 정액권이 필요해요.'; end if;
+ if p_phone !~ '^01[0-9]{8,9}$' or p_channel not in ('ATA','LMS') or length(p_url)>600 or p_url !~ '^https?://' then raise exception '초대 정보를 확인해 주세요.'; end if;
+ if (select count(*) from pt_invites where trainer_id=auth.uid() and created_at>now()-interval '1 day') >= 50 then raise exception '오늘 초대 한도를 넘었어요.'; end if;
+ if (select count(*) from pt_links where trainer_id=auth.uid() and active)>=v_pass.seats then raise exception '정액권의 회원 수 한도에 도달했어요.'; end if;
+ update pt_invites set canceled=true where trainer_id=auth.uid() and phone=p_phone and accepted_by is null;
+ insert into pt_invites(trainer_id,token_hash,phone) values(auth.uid(),p_hash,p_phone) returning id into v_invite;
+ insert into pt_notifications(created_by,trainer_id,invite_id,kind,channel,phone,payload)
+ values(auth.uid(),auth.uid(),v_invite,'invite',p_channel,p_phone,jsonb_build_object('trainer',v_pass.name,'url',p_url)) returning id into v_notification;
+ return v_notification;
+end $$;
+create or replace function public.pt_preview_invite(p_hash text) returns jsonb
+language sql stable security definer set search_path=public as $$
+ select jsonb_build_object('trainer',p.name,'expires_at',i.expires_at) from pt_invites i join pt_passes p on p.trainer_id=i.trainer_id
+ where auth.uid() is not null and i.token_hash=p_hash and i.accepted_by is null and not i.canceled and i.expires_at>now() and public.pt_has_pass(i.trainer_id);
+$$;
+create or replace function public.pt_accept_invite(p_hash text,p_workout boolean,p_diet boolean,p_body boolean,p_prescription boolean) returns uuid
+language plpgsql security definer set search_path=public as $$
+declare v_i pt_invites; v_pass pt_passes; v_id uuid; v_name text;
+begin
+ if auth.uid() is null then raise exception '로그인이 필요해요.'; end if;
+ select * into v_i from pt_invites where token_hash=p_hash;
+ if v_i.id is null then raise exception '유효하지 않은 초대예요.'; end if;
+ -- All changes lock the pass first, then invitation/link, preventing acceptance/disconnect races.
+ select * into v_pass from pt_passes where trainer_id=v_i.trainer_id for update;
+ select * into v_i from pt_invites where token_hash=p_hash for update;
+ if v_i.canceled or v_i.accepted_by is not null or v_i.expires_at<=now() or not public.pt_has_pass(v_i.trainer_id) or v_i.trainer_id=auth.uid() then raise exception '만료되었거나 사용할 수 없는 초대예요.'; end if;
+ if exists(select 1 from pt_links where trainer_id=v_i.trainer_id and member_id=auth.uid() and active) then raise exception '이미 연결된 트레이너예요.'; end if;
+ if (select count(*) from pt_links where trainer_id=v_i.trainer_id and active)>=v_pass.seats then raise exception '트레이너의 회원 수 한도가 찼어요.'; end if;
+ select coalesce(nullif(nickname,''),nullif(name,''),'회원') into v_name from profiles where user_id=auth.uid();
+ insert into pt_links(trainer_id,member_id,member_name,share_workout,share_diet,share_body,allow_prescription)
+ values(v_i.trainer_id,auth.uid(),coalesce(v_name,'회원'),p_workout,p_diet,p_body,p_prescription)
+ on conflict(trainer_id,member_id) do update set active=true,revoked_at=null,member_name=excluded.member_name,
+ share_workout=excluded.share_workout,share_diet=excluded.share_diet,share_body=excluded.share_body,allow_prescription=excluded.allow_prescription
+ returning id into v_id;
+ update pt_invites set accepted_by=auth.uid() where id=v_i.id;
+ return v_id;
+end $$;
+create or replace function public.pt_update_sharing(p_link uuid,p_workout boolean,p_diet boolean,p_body boolean,p_prescription boolean) returns void
+language plpgsql security definer set search_path=public as $$
+begin
+ update pt_links set share_workout=p_workout,share_diet=p_diet,share_body=p_body,allow_prescription=p_prescription
+ where id=p_link and member_id=auth.uid() and active;
+ if not found then raise exception '내 트레이너 연결만 변경할 수 있어요.'; end if;
+end $$;
+create or replace function public.pt_disconnect(p_link uuid) returns uuid
+language plpgsql security definer set search_path=public as $$
+declare v_link pt_links; v_pass pt_passes; v_id uuid;
+begin
+ select * into v_link from pt_links where id=p_link and member_id=auth.uid();
+ if not found then raise exception '연결을 찾을 수 없어요.'; end if;
+ select * into v_pass from pt_passes where trainer_id=v_link.trainer_id for update;
+ update pt_links set active=false,revoked_at=now(),share_workout=false,share_diet=false,share_body=false,allow_prescription=false
+ where id=p_link and member_id=auth.uid() and active returning * into v_link;
+ if not found then return null; end if;
+ -- Invalidate earlier outstanding invitations to the phone used by this member.
+ update pt_invites set canceled=true where trainer_id=v_link.trainer_id and accepted_by is null
+ and phone in (select phone from pt_invites where trainer_id=v_link.trainer_id and accepted_by=auth.uid());
+ insert into pt_notifications(created_by,trainer_id,kind,channel,phone,payload)
+ values(auth.uid(),v_link.trainer_id,'disconnect','ATA',v_pass.phone,jsonb_build_object('member',v_link.member_name,'trainer',v_pass.name)) returning id into v_id;
+ return v_id;
+end $$;
+create or replace function public.pt_member_report(p_link uuid) returns jsonb
+language plpgsql stable security definer set search_path=public as $$
+declare l pt_links; since date := (now() at time zone 'Asia/Seoul')::date - 29;
+begin
+ select * into l from pt_links where id=p_link and trainer_id=auth.uid() and active;
+ if not found or not public.pt_has_pass() then return null; end if;
+ return jsonb_build_object('name',l.member_name,
+ 'workout',case when l.share_workout then jsonb_build_object(
+ 'days',(select count(distinct for_date) from exercise_completions where user_id=l.member_id and status='done' and for_date>=since),
+ 'sets',(select coalesce(sum(sets),0) from exercise_completions where user_id=l.member_id and status='done' and for_date>=since),
+ 'minutes',(select coalesce(sum(duration_sec),0)/60 from workout_sessions where user_id=l.member_id and for_date>=since)) else null end,
+ 'diet',case when l.share_diet then (select count(distinct for_date) from food_logs where user_id=l.member_id and for_date>=since) else null end,
+ 'body',case when l.share_body then jsonb_build_object('weight_kg',(select weight_kg from weight_logs where user_id=l.member_id order by created_at desc limit 1),
+ 'body_fat_pct',(select body_fat_pct from body_compositions where user_id=l.member_id order by measured_at desc limit 1)) else null end,
+ 'prescription',l.allow_prescription);
+end $$;
+
+create table if not exists public.pt_notes (
+ id uuid primary key default gen_random_uuid(), link_id uuid not null references public.pt_links(id) on delete cascade,
+ body text not null check(length(body) between 1 and 500), created_at timestamptz not null default now()
+);
+alter table public.pt_notes enable row level security;
+revoke all on public.pt_notes from anon,authenticated;
+grant select on public.pt_notes to authenticated;
+grant all on public.pt_notes to service_role;
+drop policy if exists "pt notes for accepted participants" on public.pt_notes;
+create policy "pt notes for accepted participants" on public.pt_notes for select to authenticated using(exists(
+ select 1 from pt_links where id=pt_notes.link_id and (member_id=auth.uid() or (trainer_id=auth.uid() and active and public.pt_has_pass()))));
+create or replace function public.valid_prescription_patch(p_patch jsonb)
+returns boolean language sql immutable set search_path = public as $fn$
+  select p_patch is not null
+    and jsonb_typeof(p_patch) = 'object'
+    and (p_patch ?& array['exerciseId','equipment','sets','reps','weightKg'])
+    and jsonb_typeof(p_patch->'exerciseId') = 'string'
+    and length(trim(p_patch->>'exerciseId')) between 1 and 200
+    and jsonb_typeof(p_patch->'equipment') = 'string'
+    and (p_patch->>'equipment') in ('barbell','dumbbell','machine','cable','bodyweight','smith','kettlebell','band','trx','medicineball','landmine','sled','battlerope','bosu','ball','plate','other')
+    and jsonb_typeof(p_patch->'sets') = 'number'
+    and (p_patch->>'sets')::numeric between 1 and 20
+    and (p_patch->>'sets')::numeric = trunc((p_patch->>'sets')::numeric)
+    and jsonb_typeof(p_patch->'reps') = 'number'
+    and (p_patch->>'reps')::numeric between 1 and 100
+    and (p_patch->>'reps')::numeric = trunc((p_patch->>'reps')::numeric)
+    and jsonb_typeof(p_patch->'weightKg') in ('null','number')
+    and (jsonb_typeof(p_patch->'weightKg') = 'null' or (
+      (p_patch->>'weightKg')::numeric between 0 and 9999.9
+      and (p_patch->>'weightKg')::numeric = round((p_patch->>'weightKg')::numeric, 1)));
+$fn$;
+revoke all on function public.valid_prescription_patch(jsonb) from public, anon;
+grant execute on function public.valid_prescription_patch(jsonb) to authenticated;
+
+-- ─── 영구 루틴 처방 — 검증만 위 함수로 옮긴다(동작 동일) ────────────────────
+
+create or replace function public.pt_prescribe_exercise(
+  p_link uuid, p_member uuid, p_row uuid, p_expected_updated_at timestamptz,
+  p_patch jsonb, p_note text)
+returns boolean language plpgsql security definer set search_path = public as $fn$
+declare
+  current_row public.routine_exercises%rowtype;
+  next_id uuid;
+begin
+  perform 1 from public.pt_passes where trainer_id=auth.uid() for share;
+  if not found or not public.pt_has_pass() then return false; end if;
+  perform 1 from public.pt_links where id=p_link and trainer_id=auth.uid() and member_id=p_member and active and allow_prescription for share;
+  if not found then return false; end if;
+  select * into current_row from public.routine_exercises
+    where id = p_row and user_id = p_member for update;
+  if not found or p_expected_updated_at is null or current_row.updated_at <> p_expected_updated_at then return false; end if;
+  if p_note is null or length(trim(p_note)) = 0 or length(p_note) > 500 then raise exception 'Invalid note'; end if;
+  if p_patch is null then
+    delete from public.routine_exercises where id = p_row and user_id = p_member;
+  else
+    if not public.valid_prescription_patch(p_patch) then raise exception 'Invalid prescription'; end if;
+    -- A replaced exercise must not inherit the previous exercise's completion for today.
+    next_id := case when current_row.exercise_id <> p_patch->>'exerciseId'
+      or current_row.equipment <> p_patch->>'equipment' then gen_random_uuid() else current_row.id end;
+    update public.routine_exercises set id = next_id,
+      exercise_id = p_patch->>'exerciseId', equipment = p_patch->>'equipment',
+      sets = (p_patch->>'sets')::int, reps = (p_patch->>'reps')::int,
+      weight_kg = (p_patch->>'weightKg')::numeric, set_details = null, updated_at = clock_timestamp()
+      where id = p_row and user_id = p_member;
+  end if;
+  -- An in-app record visible to both parties, committed together with the prescription.
+  insert into public.pt_notes(link_id,body) values(p_link,p_note);
+  -- Never edit daily_plan, daily_conditioning or completion snapshots here.
+  return true;
+end $fn$;
+
+create or replace function public.pt_prescribe_today(
+  p_link uuid, p_member uuid, p_focus text, p_position int,
+  p_expected_exercise_id text, p_patch jsonb, p_note text)
+returns boolean language plpgsql security definer set search_path = public as $fn$
+declare
+  today date := (now() at time zone 'Asia/Seoul')::date;
+  r public.user_routines%rowtype;
+  d_index int;
+  copied int := 0;
+  target uuid;
+begin
+  perform 1 from public.pt_passes where trainer_id=auth.uid() for share;
+  if not found or not public.pt_has_pass() then return false; end if;
+  perform 1 from public.pt_links where id=p_link and trainer_id=auth.uid() and member_id=p_member and active and allow_prescription for share;
+  if not found then return false; end if;
+  if p_note is null or length(trim(p_note)) = 0 or length(p_note) > 500 then raise exception 'Invalid note'; end if;
+  if p_patch is not null and not public.valid_prescription_patch(p_patch) then
+    raise exception 'Invalid prescription';
+  end if;
+  if p_focus is null or length(trim(p_focus)) = 0 or length(p_focus) > 50
+     or p_position is null or p_position < 0 or p_expected_exercise_id is null then
+    return false;
+  end if;
+
+  select * into r from public.user_routines where user_id = p_member;
+  -- null-safe — 휴식일이 아닌 날(rest_date is null)에 NULL 로 흘러가지 않게.
+  if not found or r.rest_date is not distinct from today then return false; end if;
+
+  -- 이 부위가 아직 '오늘만' 으로 고정되지 않았으면 **부위 전체**를 루틴에서 복사해 고정한다.
+  if not exists (select 1 from public.daily_plan
+                  where user_id = p_member and for_date = today and focus = p_focus) then
+    -- 회원이 오늘 부위를 갈아끼운 날은 루틴에서 복사하면 그 선택을 덮어쓴다 → 손대지 않는다.
+    if r.override_date is not distinct from today then return false; end if;
+    d_index := ((today - r.start_date) % 7 + 7) % 7;
+    insert into public.daily_plan
+      (user_id, for_date, focus, position, exercise_id, equipment, sets, reps,
+       weight_kg, set_details, memo, superset_group)
+    select p_member, today, e.focus, e.position, e.exercise_id, e.equipment, e.sets, e.reps,
+           e.weight_kg, e.set_details, e.memo, e.superset_group
+      from public.routine_exercises e
+     where e.user_id = p_member and e.day_index = d_index and e.focus = p_focus;
+    get diagnostics copied = row_count;
+    if copied = 0 then return false; end if;
+  end if;
+
+  select id into target from public.daily_plan
+   where user_id = p_member and for_date = today and focus = p_focus
+     and position = p_position and exercise_id = p_expected_exercise_id
+   order by id limit 1
+   for update;
+  if not found then return false; end if;
+
+  if p_patch is null then
+    delete from public.daily_plan where id = target;
+  else
+    update public.daily_plan
+       set exercise_id = p_patch->>'exerciseId', equipment = p_patch->>'equipment',
+           sets = (p_patch->>'sets')::int, reps = (p_patch->>'reps')::int,
+           weight_kg = (p_patch->>'weightKg')::numeric, set_details = null
+     where id = target;
+  end if;
+
+  insert into public.pt_notes(link_id,body) values(p_link,p_note);
+  return true;
+end $fn$;
+
+create or replace function public.pt_member_today_plan(
+  p_link uuid, p_member uuid)
+returns jsonb language plpgsql security definer stable set search_path = public as $fn$
+declare
+  today date := (now() at time zone 'Asia/Seoul')::date;
+  r public.user_routines%rowtype;
+  d_index int;
+  is_rest boolean := false;
+  swapped boolean := false;
+  rows_json jsonb;
+begin
+  if not public.pt_has_pass() or not exists(select 1 from pt_links where id=p_link and trainer_id=auth.uid() and member_id=p_member and active and allow_prescription) then return null; end if;
+
+  select * into r from public.user_routines where user_id = p_member;
+  if found then
+    d_index := ((today - r.start_date) % 7 + 7) % 7;
+    -- 🔴 `=` 로 비교하면 값이 없을 때(NULL) 결과가 NULL 이 되고, 뒤의 `not is_rest` 가
+    --    NULL 이 되어 **오늘 운동이 통째로 사라진다**(실제로 그랬다). null-safe 비교로 둔다.
+    is_rest := (r.rest_date is not distinct from today);
+    swapped := (r.override_date is not distinct from today);
+  end if;
+
+  select coalesce(jsonb_agg(to_jsonb(t) order by t.focus, t.position), '[]'::jsonb)
+    into rows_json
+    from (
+      select d.focus, d.position, d.exercise_id, d.equipment, d.sets, d.reps,
+             d.weight_kg, 'daily'::text as source
+        from public.daily_plan d
+       where d.user_id = p_member and d.for_date = today
+      union all
+      select e.focus, e.position, e.exercise_id, e.equipment, e.sets, e.reps,
+             e.weight_kg, 'routine'::text as source
+        from public.routine_exercises e
+       where not is_rest and not swapped and d_index is not null
+         and e.user_id = p_member and e.day_index = d_index
+         and not exists (
+           select 1 from public.daily_plan x
+            where x.user_id = p_member and x.for_date = today and x.focus = e.focus)
+    ) t;
+
+  return jsonb_build_object(
+    'date', today, 'dayIndex', d_index, 'rest', is_rest, 'swapped', swapped,
+    'rows', case when is_rest then '[]'::jsonb else rows_json end);
+end $fn$;
+
+create or replace function public.pt_member_detail(
+  p_link uuid, p_member uuid, p_from date, p_to date)
+returns jsonb language plpgsql security definer stable set search_path = public as $$
+declare share_workout boolean; share_diet boolean; share_body boolean; can_prescribe boolean;
+begin
+  if not public.pt_has_pass() or not exists(select 1 from pt_links where id=p_link and trainer_id=auth.uid() and member_id=p_member and active) then return null; end if;
+  if p_from is null or p_to is null or p_to < p_from or p_to - p_from > 365 then
+    raise exception 'Invalid report period';
+  end if;
+  share_workout := (select l.share_workout from pt_links l where l.id=p_link);
+  share_diet := (select l.share_diet from pt_links l where l.id=p_link);
+  share_body := (select l.share_body from pt_links l where l.id=p_link);
+  can_prescribe := (select l.allow_prescription from pt_links l where l.id=p_link);
+  return jsonb_build_object(
+    'sharing', jsonb_build_object('workout', share_workout, 'diet', share_diet, 'body', share_body, 'prescription', can_prescribe),
+    'name', coalesce((select coalesce(nullif(trim(p.nickname), ''), nullif(trim(p.name), '')) from public.profiles p where p.user_id = p_member),
+      (select member_name from pt_links where id=p_link), '회원'),
+    'exercises', coalesce((select jsonb_agg(jsonb_build_object(
+      'id', r.id, 'day_index', r.day_index, 'focus', r.focus, 'exercise_id', r.exercise_id,
+      'equipment', r.equipment, 'sets', r.sets, 'reps', r.reps, 'weight_kg', r.weight_kg,
+      'set_details', r.set_details, 'updated_at', r.updated_at) order by r.day_index, r.position, r.id)
+      from public.routine_exercises r where r.user_id = p_member and can_prescribe), '[]'::jsonb),
+    'completions', coalesce((select jsonb_agg(jsonb_build_object(
+      'for_date', e.for_date, 'exercise_id', e.exercise_id, 'sets', e.sets, 'reps', e.reps,
+      'weight_kg', e.weight_kg, 'set_details', e.set_details))
+      from public.exercise_completions e where e.user_id = p_member and share_workout and e.status = 'done'
+      and e.for_date between p_from and p_to), '[]'::jsonb),
+    'conditioning', coalesce((select jsonb_agg(jsonb_build_object('for_date', c.for_date))
+      from (select distinct for_date from public.conditioning_completions where user_id = p_member and share_workout
+      and status = 'done' and for_date between p_from and p_to) c), '[]'::jsonb),
+    'sessions', coalesce((select jsonb_agg(jsonb_build_object('for_date', s.for_date, 'duration_sec', s.duration_sec))
+      from public.workout_sessions s where s.user_id = p_member and share_workout and s.for_date between p_from and p_to), '[]'::jsonb),
+    'diet', coalesce((select jsonb_agg(jsonb_build_object('for_date', f.for_date))
+      from (select distinct for_date from public.food_logs where user_id = p_member and share_diet and for_date between p_from and p_to) f), '[]'::jsonb),
+    'weights', coalesce((select jsonb_agg(jsonb_build_object('date', (w.created_at at time zone 'Asia/Seoul')::date, 'weight_kg', w.weight_kg) order by w.created_at)
+      from public.weight_logs w where w.user_id = p_member and share_body and w.weight_kg is not null
+      and w.created_at >= (p_from::timestamp at time zone 'Asia/Seoul')
+      and w.created_at < ((p_to + 1)::timestamp at time zone 'Asia/Seoul')), '[]'::jsonb)
+  );
+end $$;
+
+-- Only explicitly exposed RPCs. Direct writes cannot bypass consent or entitlement.
+do $$ declare f record; begin
+ for f in select oid::regprocedure as signature from pg_proc where pronamespace='public'::regnamespace and proname like 'pt\_%' escape '\' loop
+ execute format('revoke all on function %s from public, anon',f.signature);
+ execute format('grant execute on function %s to authenticated, service_role',f.signature);
+ end loop;
+ -- Disable legacy group-owner trainer RPCs without deleting historical data or social groups.
+ for f in select oid::regprocedure as signature from pg_proc where pronamespace='public'::regnamespace and proname in
+ ('leave_trainer_group','trainer_board','trainer_member_routine','trainer_assign_routine_day','trainer_prescribe_exercise','trainer_member_report','trainer_member_today_plan','trainer_prescribe_today') loop
+ execute format('revoke all on function %s from public, anon, authenticated',f.signature);
+ end loop;
+end $$;
+drop policy if exists "trainer writes comment" on public.trainer_comments;
+notify pgrst, 'reload schema';
+
+create table if not exists public.recommendation_preferences (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  days integer not null check (days between 2 and 6),
+  minutes integer not null check (minutes in (30,45,60,75)),
+  priority text not null check (priority in ('balanced','upper','lower')),
+  equipment text not null check (equipment in ('mixed','machine','freeweight')),
+  variety text not null check (variety in ('familiar','balanced'))
+);
+alter table public.recommendation_preferences enable row level security;
+drop policy if exists "Users manage own recommendation preferences" on public.recommendation_preferences;
+create policy "Users manage own recommendation preferences" on public.recommendation_preferences
+  for all to authenticated using (auth.uid()=user_id) with check (auth.uid()=user_id);
+revoke all on public.recommendation_preferences from anon;
+grant select,insert,update,delete on public.recommendation_preferences to authenticated;
+
+-- Customer support: owner/admin access, atomic ticket/outbox, free Kakao memo.
+create table public.support_tickets (
+ id uuid primary key default gen_random_uuid(), number bigint generated always as identity unique,
+ user_id uuid not null references auth.users(id) on delete cascade,
+ request_id uuid not null, category text not null check(category in ('bug','feedback','idea','other')),
+ title text not null check(length(trim(title)) between 1 and 100),
+ status text not null default 'new' check(status in ('new','in_progress','waiting_user','resolved','closed')),
+ priority text not null default 'normal' check(priority in ('normal','high','urgent')),
+ assignee uuid references auth.users(id) on delete set null,
+ diagnostics jsonb not null default '{}', created_at timestamptz not null default now(),
+ updated_at timestamptz not null default now(), admin_read_at timestamptz, user_read_at timestamptz,
+ unique(user_id,request_id)
+);
+create table public.support_messages (
+ id uuid primary key default gen_random_uuid(), ticket_id uuid not null references public.support_tickets(id) on delete cascade,
+ author_id uuid references auth.users(id) on delete set null, request_id uuid not null,
+ body text not null check(length(trim(body)) between 1 and 5000), is_admin boolean not null default false,
+ created_at timestamptz not null default now(), unique(ticket_id,request_id)
+);
+create table public.support_internal_notes (
+ id uuid primary key default gen_random_uuid(), ticket_id uuid not null references public.support_tickets(id) on delete cascade,
+ author_id uuid references auth.users(id) on delete set null, request_id uuid not null, body text not null check(length(trim(body)) between 1 and 5000), created_at timestamptz not null default now(), unique(ticket_id,request_id)
+);
+create table public.support_events (
+ id uuid primary key default gen_random_uuid(), ticket_id uuid not null references public.support_tickets(id) on delete cascade,
+ actor_id uuid references auth.users(id) on delete set null, kind text not null, detail text, created_at timestamptz not null default now()
+);
+create table public.support_attachments (
+ id uuid primary key default gen_random_uuid(), ticket_id uuid not null references public.support_tickets(id) on delete cascade,
+ user_id uuid not null references auth.users(id) on delete cascade, path text not null unique,
+ bytes integer not null check(bytes between 1 and 512000), ready boolean not null default false, created_at timestamptz not null default now()
+);
+create table public.support_kakao_connections (
+ user_id uuid primary key references auth.users(id) on delete cascade, kakao_id text,
+ tokens text, state text not null default 'disconnected' check(state in ('connected','disconnected','needs_reconnect')),
+ enabled boolean not null default true, push_enabled boolean not null default false,
+ token_expires_at timestamptz, refresh_expires_at timestamptz,
+ lease_id uuid, lease_until timestamptz, updated_at timestamptz not null default now()
+);
+create table public.support_oauth_states (
+ hash text primary key, user_id uuid not null references auth.users(id) on delete cascade,
+ expires_at timestamptz not null, created_at timestamptz not null default now()
+);
+create table public.support_notification_outbox (
+ id uuid primary key default gen_random_uuid(), ticket_id uuid references public.support_tickets(id) on delete cascade,
+ event_id uuid not null, recipient_id uuid not null references auth.users(id) on delete cascade,
+ kind text not null check(kind in ('new','reply','test')),
+ status text not null default 'queued' check(status in ('queued','processing','api_succeeded','failed','unknown','quota_deferred','needs_reconnect','canceled')),
+ error_code text, batch_id uuid, push_attempted_at timestamptz, created_at timestamptz not null default now(), attempted_at timestamptz,
+ unique(event_id,recipient_id)
+);
+create table public.support_notification_attempts (
+ id uuid primary key, recipient_id uuid not null references auth.users(id) on delete cascade,
+ created_at timestamptz not null default now()
+);
+create index support_tickets_updated on public.support_tickets(updated_at desc);
+create index support_messages_ticket on public.support_messages(ticket_id,created_at);
+create index support_outbox_status on public.support_notification_outbox(recipient_id,status,created_at);
+
+alter table public.support_tickets enable row level security;
+alter table public.support_messages enable row level security;
+alter table public.support_internal_notes enable row level security;
+alter table public.support_events enable row level security;
+alter table public.support_attachments enable row level security;
+alter table public.support_kakao_connections enable row level security;
+alter table public.support_oauth_states enable row level security;
+alter table public.support_notification_outbox enable row level security;
+alter table public.support_notification_attempts enable row level security;
+revoke all on public.support_tickets, public.support_messages, public.support_internal_notes, public.support_events, public.support_attachments, public.support_kakao_connections, public.support_oauth_states, public.support_notification_outbox, public.support_notification_attempts from anon,authenticated;
+grant select on public.support_tickets, public.support_messages, public.support_internal_notes, public.support_events, public.support_attachments, public.support_notification_outbox to authenticated;
+grant all on public.support_tickets, public.support_messages, public.support_internal_notes, public.support_events, public.support_attachments, public.support_kakao_connections, public.support_oauth_states, public.support_notification_outbox, public.support_notification_attempts to service_role;
+grant usage,select on sequence public.support_tickets_number_seq to service_role;
+create policy support_ticket_read on public.support_tickets for select to authenticated using(user_id=(select auth.uid()) or public.is_admin());
+create policy support_message_read on public.support_messages for select to authenticated using(exists(select 1 from public.support_tickets t where t.id=ticket_id));
+create policy support_attachment_read on public.support_attachments for select to authenticated using(ready and exists(select 1 from public.support_tickets t where t.id=ticket_id));
+create policy support_note_read on public.support_internal_notes for select to authenticated using(public.is_admin());
+create policy support_event_read on public.support_events for select to authenticated using(public.is_admin());
+create policy support_outbox_read on public.support_notification_outbox for select to authenticated using(public.is_admin());
+
+create or replace function public.support_create(p_request uuid,p_category text,p_title text,p_body text,p_diagnostics jsonb default '{}') returns uuid
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare v_id uuid; v_event uuid:=gen_random_uuid(); v_user uuid:=auth.uid();
+begin
+ if v_user is null then raise exception '로그인이 필요해요.'; end if;
+ perform pg_advisory_xact_lock(hashtextextended('support:'||v_user::text,0));
+ select id into v_id from support_tickets where user_id=v_user and request_id=p_request;
+ if v_id is not null then return v_id; end if;
+ if (select count(*) from support_tickets where user_id=v_user and created_at>now()-interval '1 minute')>=3 or
+ (select count(*) from support_tickets where user_id=v_user and created_at>now()-interval '24 hours')>=20 then raise exception '잠시 후 다시 접수해 주세요.'; end if;
+ if jsonb_typeof(p_diagnostics)<>'object' or length(p_diagnostics::text)>2000 then raise exception '진단 정보가 올바르지 않아요.'; end if;
+ insert into support_tickets(user_id,request_id,category,title,diagnostics) values(v_user,p_request,p_category,trim(p_title),p_diagnostics) returning id into v_id;
+ insert into support_messages(ticket_id,author_id,request_id,body) values(v_id,v_user,p_request,trim(p_body));
+ insert into support_events(id,ticket_id,actor_id,kind) values(v_event,v_id,v_user,'created');
+ insert into support_notification_outbox(ticket_id,event_id,recipient_id,kind)
+ select v_id,v_event,u.id,'new' from auth.users u join admins a on lower(a.email)=lower(u.email);
+ return v_id;
+end $$;
+
+create or replace function public.support_reply(p_ticket uuid,p_request uuid,p_body text,p_internal boolean default false) returns void
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare t support_tickets; v_admin boolean:=public.is_admin(); v_event uuid:=gen_random_uuid();
+begin
+ select * into t from support_tickets where id=p_ticket for update;
+ if auth.uid() is null or t.id is null or (t.user_id<>auth.uid() and not v_admin) or (p_internal and not v_admin) then raise exception '접근할 수 없어요.'; end if;
+ if exists(select 1 from support_messages where ticket_id=p_ticket and request_id=p_request) or exists(select 1 from support_internal_notes where ticket_id=p_ticket and request_id=p_request) then return; end if;
+ if (select count(*) from support_messages where ticket_id=p_ticket)>=200 then raise exception '대화가 많아 새 문의로 이어 주세요.'; end if;
+ if (select count(*) from support_messages where author_id=auth.uid() and created_at>now()-interval '1 minute')>=10 then raise exception '잠시 후 다시 보내 주세요.'; end if;
+ if p_internal then
+ insert into support_internal_notes(ticket_id,author_id,request_id,body) values(p_ticket,auth.uid(),p_request,trim(p_body));
+ else
+ insert into support_messages(ticket_id,author_id,request_id,body,is_admin) values(p_ticket,auth.uid(),p_request,trim(p_body),v_admin);
+ update support_tickets set updated_at=now(),admin_read_at=case when v_admin then now() else null end,user_read_at=case when v_admin then null else now() end,
+ status=case when not v_admin and status in ('resolved','closed','waiting_user') then 'in_progress' else status end where id=p_ticket;
+ end if;
+ insert into support_events(id,ticket_id,actor_id,kind) values(v_event,p_ticket,auth.uid(),case when p_internal then 'note' else 'reply' end);
+ if not v_admin then
+ insert into support_notification_outbox(ticket_id,event_id,recipient_id,kind)
+ select p_ticket,v_event,u.id,'reply' from auth.users u join admins a on lower(a.email)=lower(u.email);
+ end if;
+end $$;
+create or replace function public.support_manage(p_ticket uuid,p_status text,p_priority text,p_assign boolean default false) returns void
+language plpgsql security definer set search_path=public,pg_temp as $$
+begin
+ if not public.is_admin() then raise exception '관리자만 변경할 수 있어요.'; end if;
+ update support_tickets set status=p_status,priority=p_priority,assignee=case when p_assign then auth.uid() else assignee end,updated_at=now() where id=p_ticket;
+ insert into support_events(ticket_id,actor_id,kind,detail) values(p_ticket,auth.uid(),'status',p_status||' / '||p_priority);
+end $$;
+create or replace function public.support_read(p_ticket uuid) returns void
+language plpgsql security definer set search_path=public,pg_temp as $$
+begin
+ if public.is_admin() then update support_tickets set admin_read_at=now() where id=p_ticket;
+ else update support_tickets set user_read_at=now() where id=p_ticket and user_id=auth.uid(); end if;
+end $$;
+
+-- Service-only worker: recipient lock serializes token refresh and reserves rolling budget.
+create or replace function public.support_claim(p_user uuid,p_test boolean default false) returns jsonb
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare c support_kakao_connections; b uuid:=gen_random_uuid(); ids uuid[]; n integer;
+begin
+ select * into c from support_kakao_connections where user_id=p_user for update;
+ if not exists(select 1 from auth.users u join admins a on lower(a.email)=lower(u.email) where u.id=p_user) then
+ delete from support_kakao_connections where user_id=p_user;
+ update support_notification_outbox set status='canceled' where recipient_id=p_user and status in ('queued','quota_deferred','needs_reconnect'); return null; end if;
+ if c.user_id is null or not c.enabled or c.state<>'connected' then return null; end if;
+ if c.lease_until>now() then return null; end if;
+ update support_notification_outbox set status='unknown',error_code='worker_interrupted' where recipient_id=p_user and status='processing';
+ update support_notification_outbox o set status='canceled' where recipient_id=p_user and status in ('queued','quota_deferred','needs_reconnect') and exists(select 1 from support_tickets t where t.id=o.ticket_id and t.status in ('resolved','closed'));
+ if (select count(*) from support_notification_attempts where recipient_id=p_user and created_at>now()-interval '24 hours')>=15 then
+ update support_notification_outbox set status='quota_deferred' where recipient_id=p_user and status in ('queued','needs_reconnect'); return null; end if;
+ -- A provider quota error blocks the entire recipient for 24 hours.
+ if exists(select 1 from support_notification_outbox where recipient_id=p_user and error_code='quota' and attempted_at>now()-interval '24 hours') then return null; end if;
+ select array_agg(id) into ids from (select id from support_notification_outbox where recipient_id=p_user and status in ('queued','quota_deferred','needs_reconnect') and (not p_test or kind='test') order by created_at limit 100) q;
+ n:=coalesce(array_length(ids,1),0); if n=0 then return null; end if;
+ update support_kakao_connections set lease_id=b,lease_until=now()+interval '2 minutes' where user_id=p_user;
+ insert into support_notification_attempts(id,recipient_id) values(b,p_user);
+ update support_notification_outbox set status='processing',batch_id=b,attempted_at=now(),error_code=null where id=any(ids);
+ return jsonb_build_object('batch',b,'count',n,'connection',to_jsonb(c));
+end $$;
+create or replace function public.support_reserve_attachment(p_user uuid,p_ticket uuid,p_path text,p_bytes integer,p_limit bigint) returns uuid
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare v_id uuid;
+begin
+ perform pg_advisory_xact_lock(hashtextextended('support_storage',0));
+ if not exists(select 1 from support_tickets where id=p_ticket and user_id=p_user) then raise exception '접근할 수 없어요.'; end if;
+ if (select count(*) from support_attachments where ticket_id=p_ticket)>=3 then raise exception '사진은 최대 3장이에요.'; end if;
+ if p_limit<=0 or (select coalesce(sum(bytes),0) from support_attachments)+p_bytes>least(p_limit,104857600) then raise exception '사진 저장 공간이 부족해요. 내용은 정상 접수됐어요.'; end if;
+ insert into support_attachments(ticket_id,user_id,path,bytes) values(p_ticket,p_user,p_path,p_bytes) returning id into v_id; return v_id;
+end $$;
+
+revoke all on function public.support_create(uuid,text,text,text,jsonb),public.support_reply(uuid,uuid,text,boolean),public.support_manage(uuid,text,text,boolean),public.support_read(uuid),public.support_claim(uuid,boolean),public.support_reserve_attachment(uuid,uuid,text,integer,bigint) from public,anon,authenticated;
+grant execute on function public.support_create(uuid,text,text,text,jsonb),public.support_reply(uuid,uuid,text,boolean),public.support_manage(uuid,text,text,boolean),public.support_read(uuid) to authenticated;
+grant execute on function public.support_claim(uuid,boolean),public.support_reserve_attachment(uuid,uuid,text,integer,bigint) to service_role;
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('support-private','support-private',false,512000,array['image/webp']) on conflict(id) do nothing;
+
+-- Follow-up support guarantees: orphan cleanup and project storage safety ceiling.
+create or replace function public.support_reserve_attachment(p_user uuid,p_ticket uuid,p_path text,p_bytes integer,p_limit bigint) returns uuid
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare v_id uuid; v_total bigint;
+begin
+ perform pg_advisory_xact_lock(hashtextextended('support_storage',0));
+ if not exists(select 1 from support_tickets where id=p_ticket and user_id=p_user) then raise exception '접근할 수 없어요.'; end if;
+ if (select count(*) from support_attachments where ticket_id=p_ticket)>=3 then raise exception '사진은 최대 3장이에요.'; end if;
+ select coalesce(sum(coalesce((metadata->>'size')::bigint,0)),0) into v_total from storage.objects;
+ if p_limit<=0 or v_total+(select coalesce(sum(bytes),0) from support_attachments where not ready)+p_bytes>900000000 or
+ (select coalesce(sum(bytes),0) from support_attachments)+p_bytes>least(p_limit,104857600) then raise exception '사진 저장 공간이 부족해요. 내용은 정상 접수됐어요.'; end if;
+ insert into support_attachments(ticket_id,user_id,path,bytes) values(p_ticket,p_user,p_path,p_bytes) returning id into v_id; return v_id;
+end $$;
+create or replace function public.support_storage_garbage() returns table(path text)
+language sql security definer set search_path=public,pg_temp as $$
+ select o.name from storage.objects o where o.bucket_id='support-private' and (
+ o.created_at<now()-interval '30 days' or
+ (o.created_at<now()-interval '1 day' and not exists(select 1 from support_attachments a where a.path=o.name and a.ready))) limit 100;
+$$;
+revoke all on function public.support_storage_garbage() from public,anon,authenticated;
+grant execute on function public.support_storage_garbage() to service_role;
+
+-- Explicit manual retry preserves the old attempt and records a new event.
+create or replace function public.support_retry(p_id uuid) returns void
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare n support_notification_outbox; e uuid:=gen_random_uuid();
+begin
+ if not public.is_admin() then raise exception '관리자 권한이 필요해요.'; end if;
+ select * into n from support_notification_outbox where id=p_id and recipient_id=auth.uid() for update;
+ if n.id is null or n.status not in ('failed','unknown') then raise exception '재전송 대상이 아니에요.'; end if;
+ if n.ticket_id is not null and exists(select 1 from support_tickets where id=n.ticket_id and status in ('resolved','closed')) then raise exception '처리된 문의예요.'; end if;
+ update support_notification_outbox set status='canceled',error_code='manual_retry:'||n.status where id=n.id;
+ insert into support_notification_outbox(ticket_id,event_id,recipient_id,kind) values(n.ticket_id,e,n.recipient_id,n.kind);
+ if n.ticket_id is not null then insert into support_events(ticket_id,actor_id,kind,detail) values(n.ticket_id,auth.uid(),'notification_retry',n.status); end if;
+end $$;
+revoke all on function public.support_retry(uuid) from public,anon;
+grant execute on function public.support_retry(uuid) to authenticated;

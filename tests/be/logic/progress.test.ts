@@ -307,13 +307,53 @@ describe("progress — 개인 기록(PR)", () => {
 });
 
 describe("progress — 증량 단위", () => {
-  it("기구별로 바벨·머신 5kg, 덤벨 1kg이고 맨몸은 없음", () => {
-    // 올릴지 말지는 overload.ts 가 정하고, 여기서는 '한 단계'가 얼마인지만 정한다.
+  // 올릴지 말지는 overload.ts 가 정하고, 여기서는 '한 단계'가 얼마인지만 정한다.
+
+  it("원판 기구는 큰 종목 5kg, 작은 종목 2.5kg (1.25kg 한 쌍)", () => {
     expect(weightStepKg("squat", "barbell")).toBe(5);
-    expect(weightStepKg("lateral-raise", "dumbbell")).toBe(1);
+    expect(weightStepKg("deadlift", "barbell")).toBe(5);
+    expect(weightStepKg("bench-press", "barbell")).toBe(5);
+    // 작은 바벨 종목에 5kg 은 한 번에 너무 크다 — 2.5kg.
+    expect(weightStepKg("biceps-curl", "barbell")).toBe(2.5);
+    expect(weightStepKg("upright-row", "barbell")).toBe(2.5);
+    expect(weightStepKg("squat", "smith")).toBe(5);
+    expect(weightStepKg("biceps-curl", "smith")).toBe(2.5);
+  });
+
+  it("핀 스택은 큰 기구 5kg, 작은 기구 2.5kg", () => {
     expect(weightStepKg("leg-press", "machine")).toBe(5);
-    expect(weightStepKg("pec-deck", "machine")).toBe(5);
-    expect(weightStepKg("reverse-pec-deck", "machine")).toBe(5);
+    expect(weightStepKg("lat-pulldown", "machine")).toBe(5);
+    expect(weightStepKg("pec-deck", "machine")).toBe(2.5);
+    expect(weightStepKg("reverse-pec-deck", "machine")).toBe(2.5);
+    expect(weightStepKg("triceps-pushdown", "cable")).toBe(2.5);
+    expect(weightStepKg("seated-cable-row", "cable")).toBe(5);
+  });
+
+  it("덤벨 2kg · 케틀벨 4kg — 랙에 있는 간격 그대로", () => {
+    expect(weightStepKg("lateral-raise", "dumbbell")).toBe(2);
+    expect(weightStepKg("one-arm-dumbbell-row", "dumbbell")).toBe(2);
+    expect(weightStepKg("kettlebell-swing", "kettlebell")).toBe(4);
+  });
+
+  it("무게 눈금이 없는 것은 null — 맨몸·밴드·TRX", () => {
     expect(weightStepKg("push-up", "bodyweight")).toBeNull();
+    expect(weightStepKg("band-pull-apart", "band")).toBeNull();
+    expect(weightStepKg("trx-row", "trx")).toBeNull();
+  });
+
+  it("기구를 모르면 2.5kg 로 안전하게", () => {
+    expect(weightStepKg("some-unknown-lift", null)).toBe(2.5);
+  });
+
+  it("사용자가 정한 종목별 단위가 기본값을 이긴다 — 헬스장마다 스택이 다르다", () => {
+    // 1kg 씩 올라가는 머신이 있는 헬스장.
+    expect(weightStepKg("pec-deck", "machine", 1)).toBe(1);
+    expect(weightStepKg("squat", "barbell", 2.5)).toBe(2.5);
+    // 말이 안 되는 값은 무시하고 기본 규칙으로.
+    expect(weightStepKg("squat", "barbell", 0)).toBe(5);
+    expect(weightStepKg("squat", "barbell", 999)).toBe(5);
+    // 맨몸은 사용자 지정이 있어도 무게로 올리지 않는다… 가 아니라,
+    // 지정이 있으면 가중(웨이트 벨트) 상황이므로 그 값을 쓴다.
+    expect(weightStepKg("pull-up", "bodyweight", 2.5)).toBe(2.5);
   });
 });

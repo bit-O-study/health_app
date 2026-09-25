@@ -9,6 +9,7 @@ import {
   useTransition,
 } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   ArrowLeftRight,
   GripVertical,
@@ -29,6 +30,7 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog-labels";
 import { majorMuscleTag } from "@/features/routine/exercise-body-parts";
+import { setPersonalPrefAction } from "@/features/profile/actions";
 import { prescribe } from "@/features/routine/prescription";
 import {
   exerciseOptionsByIdsAction,
@@ -156,6 +158,20 @@ export function PlanEditor({
 }) {
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
+
+  /**
+   * 세트 방식을 쓰려면 계획에 기준 무게가 있어야 한다 — '무게·횟수 고정'을 켜고
+   * 서버 렌더를 새로 받아 입력칸이 나오게 한다(설정에서 다시 끌 수 있다).
+   */
+  async function enableWeightReps() {
+    const res = await setPersonalPrefAction("lockWeightReps", true);
+    if (!res.ok) {
+      setStatus(res.error);
+      return;
+    }
+    router.refresh();
+  }
+
   const [pending, start] = useTransition();
   const [status, setStatus] = useState<string | null>(null);
   const [swapInFlight, setSwapInFlight] = useState(false);
@@ -555,6 +571,7 @@ export function PlanEditor({
         })),
         gender,
       );
+      if (groups.some(group => group.exercises.length === 0)) { setStatus("보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 직접 운동을 선택해 주세요."); return; }
       setReasonsByKey((prev) => {
         const next = { ...prev };
         list.forEach((f, i) => {
@@ -575,10 +592,11 @@ export function PlanEditor({
       // 요청 순서 그대로 돌아온다 — 섹션과 1:1 로 짝지어 넣는다.
       list.forEach((f, i) => {
         const next: Row[] = (groups[i]?.exercises ?? []).map((ex) => {
-          const p = prescribe(ex.id, opts);
+          const equipment = pickDefaultEquipment(ex);
+          const p = prescribe(ex.id, {...opts,equipment});
           return {
             exerciseId: ex.id,
-            equipment: pickDefaultEquipment(ex),
+            equipment,
             sets: p.sets,
             reps: p.reps,
             weight: p.weightKg === null ? "" : String(p.weightKg),
@@ -806,8 +824,9 @@ export function PlanEditor({
             추천 운동들로 등록
           </h2>
           <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
-            체형·성별·경력에 맞춰 자동으로 채워요
+            선호·목표·경력·최근 기록과 보유 기구를 반영해요
           </p>
+          <Link href="/settings/routine" className="mt-1 inline-block text-xs font-semibold text-brand">추천 선호 조정</Link>
         </div>
         <button
           type="button"
@@ -1150,8 +1169,10 @@ export function PlanEditor({
                             reps={row.reps}
                             weight={row.weight}
                             setDetails={row.setDetails}
+                            exerciseId={row.exerciseId}
                             equipment={row.equipment}
                             onlySets={!lockWeightReps}
+                            onEnableWeightReps={enableWeightReps}
                             onUniformChange={(patch) => {
                               const next = [...rows];
                               next[idx] = { ...row, ...patch };

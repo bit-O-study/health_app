@@ -87,6 +87,7 @@ export default async function SuspendedPage() {
           </p>
         ) : null}
 
+        {process.env.SUPPORT_CONTACT_EMAIL && <a className="py-3 text-center text-sm underline" href={`mailto:${process.env.SUPPORT_CONTACT_EMAIL}`}>고객센터 이메일 문의</a>}
         <SuspendedLogout />
       </main>
     </div>

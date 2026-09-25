@@ -1,6 +1,5 @@
 import {
   Apple,
-  Bell,
   CalendarDays,
   CalendarHeart,
   ChartColumn,
@@ -9,12 +8,9 @@ import {
   House,
   ListChecks,
   Newspaper,
-  NotebookPen,
   PawPrint,
-  Scale,
   Search,
   Target,
-  UserRound,
   Users,
   UsersRound,
 } from "lucide-react";
@@ -91,6 +87,7 @@ export function homeSlotIndex(sideTabCount: number): number {
 }
 
 export const LAUNCHER_APPS: LauncherApp[] = [
+  { id: "trainer", label: "헬스 트레이너", icon: Users, tone: "bg-gradient-to-br from-teal-400 to-brand", home: "/trainer", owns: ["/trainer"], tabs: [], debugFlag: "trainer-pass" },
   {
     id: "workout",
     label: "운동",
@@ -181,11 +178,12 @@ export const LAUNCHER_APPS: LauncherApp[] = [
   },
   {
     id: "pet",
+    debugFlag: "pet",
     label: "펫",
     icon: PawPrint,
     tone: "bg-gradient-to-br from-pink-400 to-rose-600",
     home: "/pet",
-    owns: ["/pet", "/commitments"],
+    owns: ["/pet"],
     tabs: [
       { href: "/pet", label: "펫", icon: PawPrint, match: (p) => p.startsWith("/pet") },
       { href: "/commitments", label: "다짐", icon: Target },
@@ -193,22 +191,11 @@ export const LAUNCHER_APPS: LauncherApp[] = [
   },
 ];
 
-/**
- * 런처(홈) 자신의 4칸 — 어느 앱에도 속하지 않는 화면에서 쓰인다.
- *
- * 🔴 **런처 칸은 런처가 소유한 경로만 가리킨다**(2026-09-21).
- * 예전엔 '검색'이 `/exercises` 를 가리켰는데, 거기는 운동 앱 땅이라 누르는 순간
- * 하단바가 운동 앱 것으로 통째로 갈렸다 — 런처에서 눌렀는데 남의 앱 안에 들어가
- * 있는 꼴이라 "눌러도 엉뚱한 화면이 나온다"로 느껴졌다.
- * 운동 종목 찾기는 운동 앱의 '운동찾기' 칸이 담당한다.
- */
-export const LAUNCHER_TABS: [AppTab, AppTab, AppTab, AppTab] = [
-  { href: "/settings/body-composition", label: "체형", icon: Scale },
-  { href: "/settings/history", label: "기록", icon: NotebookPen },
-  // 라벨이 '알림'이면 알림 **목록**을 여는 벨과 구분이 안 된다 — 여기는 설정 화면이다.
-  { href: "/settings/notifications", label: "알림설정", icon: Bell },
-  { href: "/settings", label: "나", icon: UserRound, match: (p) => p.startsWith("/settings") || p.startsWith("/account") },
-];
+/** 홈 하단 기본 앱 바로가기 — 사용자 편집값이 있으면 교체한다. */
+export const LAUNCHER_TABS: AppTab[] = ["workout", "diet", "calendar", "groups"].map(id => {
+  const app = LAUNCHER_APPS.find(app => app.id === id)!;
+  return { href: app.home, label: app.label, icon: app.icon };
+});
 
 /** 홈 위젯으로 요약을 내려 보내는 앱 — 3개 고정(사용자 결정 2026-09-20). */
 export const WIDGET_APP_IDS = ["workout", "diet", "calendar"] as const;
@@ -238,10 +225,10 @@ export function isTabActive(tab: AppTab, pathname: string): boolean {
  * 하단바 5칸 — 현재 경로가 속한 앱의 4칸 사이에 **홈을 한가운데로** 끼워 넣는다.
  * 앱에 속하지 않으면 런처 자신의 4칸을 쓴다.
  */
-export function bottomTabsForPath(pathname: string): AppTab[] {
+export function bottomTabsForPath(pathname: string, launcherTabs: readonly AppTab[] = LAUNCHER_TABS): AppTab[] {
   const app = appForPath(pathname);
   // 화면이 하나뿐인 앱(탭 0개)은 런처 바를 그대로 쓴다 — 없는 화면을 만들어 채우지 않는다.
-  const side: readonly AppTab[] = app && app.tabs.length > 0 ? app.tabs : LAUNCHER_TABS;
+  const side: readonly AppTab[] = app && app.tabs.length > 0 ? app.tabs : launcherTabs;
   const mid = homeSlotIndex(side.length);
   return [...side.slice(0, mid), HOME_TAB, ...side.slice(mid)];
 }

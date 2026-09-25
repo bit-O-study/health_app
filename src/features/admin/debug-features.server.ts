@@ -19,7 +19,7 @@ export async function getDebugFeatureStates(): Promise<
   Record<string, DebugVisibility>
 > {
   const out: Record<string, DebugVisibility> = {};
-  for (const f of DEBUG_FEATURES) out[f.id] = "debug"; // 기본: 디버그 계정만
+  for (const f of DEBUG_FEATURES) out[f.id] = f.id === "pet" ? "hidden" : "debug"; // 기본: 디버그 계정만
   if (!(await isAdminUser())) return out;
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase

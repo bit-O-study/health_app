@@ -124,3 +124,80 @@ export const getWaterForDate = cache(async function getWaterForDate(
   const n = Number(data.ml);
   return Number.isFinite(n) ? n : 0;
 });
+
+/**
+ * 그날 마신 기록(최신순) — 수분 카드의 목록·되돌리기에 쓴다.
+ * 합계는 `water_logs` 가 캐시로 들고 있어 기존 화면·통계는 그대로 쓴다.
+ */
+export const getWaterEntries = cache(
+  async (dateYmd: string): Promise<{ id: string; ml: number; at: string }[]> => {
+    const user = await getCurrentUser();
+    if (!user) return [];
+    const supabase = await createSupabaseServerClient();
+    const { data, error } = await supabase
+      .from("water_entries")
+      .select("id, ml, at")
+      .eq("user_id", user.id)
+      .eq("for_date", dateYmd)
+      .order("at", { ascending: false })
+      .limit(50);
+    if (error || !data) return [];
+    return (data as { id: string; ml: number; at: string }[]).map((r) => ({
+      id: r.id,
+      ml: Number(r.ml),
+      at: r.at,
+    }));
+  },
+);
+
+/**
+ * 최근 N일 식단 기록 — **빠른 기록**(자주 먹는 것) 후보.
+ *
+ * 화면은 칩 몇 개만 쓰지만 집계는 서버에서 한다(무엇을 자주 먹는지는 그날 기록만
+ * 봐서는 알 수 없다). `beforeYmd` 는 포함하지 않는다 — 오늘 이미 담은 걸 다시
+ * 추천하면 중복 기록을 부른다.
+ */
+export const getRecentFoodLogs = cache(async function getRecentFoodLogs(
+  sinceYmd: string,
+  beforeYmd: string,
+): Promise<
+  {
+    name: string;
+    kcal: number;
+    protein: number | null;
+    carbs: number | null;
+    fat: number | null;
+    amount: string | null;
+    category: string | null;
+    meal: Meal;
+    date: string;
+    eatenAt: string | null;
+  }[]
+> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("food_logs")
+    .select("meal, name, kcal, protein_g, carbs_g, fat_g, amount, category, eaten_at, for_date")
+    .eq("user_id", user.id)
+    .gte("for_date", sinceYmd)
+    .lt("for_date", beforeYmd)
+    .order("for_date", { ascending: false })
+    .limit(300);
+  if (error || !data) return [];
+  return (data as (Row & { for_date: string })[])
+    .filter((r) => isMeal(r.meal))
+    .map((r) => ({
+      name: r.name,
+      kcal: num(r.kcal) ?? 0,
+      protein: num(r.protein_g),
+      carbs: num(r.carbs_g),
+      fat: num(r.fat_g),
+      amount: r.amount,
+      category: r.category,
+      meal: r.meal as Meal,
+      date: r.for_date,
+      eatenAt: r.eaten_at ? r.eaten_at.slice(0, 5) : null,
+    }));
+});

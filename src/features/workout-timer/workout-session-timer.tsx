@@ -132,6 +132,7 @@ export function WorkoutSessionTimer({
   showGuide = true,
   lockWeightReps = false,
   postureEnabled = false,
+  weightSteps = {},
 }: {
   /** 워밍업·본운동·마무리 '모든' 항목(완료/스킵 포함). 필터는 아래에서. */
   queueItems?: GuidedItem[];
@@ -145,6 +146,8 @@ export function WorkoutSessionTimer({
   lockWeightReps?: boolean;
   /** 운동 모드 안 'AI 자세 분석' 노출(디버그 계정). */
   postureEnabled?: boolean;
+  /** 종목별 증량 단위(kg). 운동모드의 ± 폭과 '증량 단위' 바꾸기에 쓴다. */
+  weightSteps?: Record<string, number>;
 }) {
   const router = useRouter();
   const { showPrompt, clearPrompt } = useNotificationCenter();
@@ -660,6 +663,7 @@ export function WorkoutSessionTimer({
         showGuide={showGuide}
         lockWeightReps={lockWeightReps}
         postureEnabled={postureEnabled}
+        weightSteps={weightSteps}
       />
     ) : null;
 

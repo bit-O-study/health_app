@@ -146,7 +146,7 @@ export function TodayGoalCard({
       {/* 체형 기록 모달 */}
       {logOpen ? (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:items-center sm:pb-4"
+          className="fixed inset-0 z-50 m-0 flex items-end justify-center bg-black/40 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:items-center sm:pb-4"
           onClick={() => setLogOpen(false)}
         >
           <div

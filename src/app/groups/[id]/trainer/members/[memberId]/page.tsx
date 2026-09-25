@@ -3,9 +3,9 @@ import { notFound, redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { DAY_BLOCKS, isDayBlockId, seoulYmd } from "@/features/routine/data";
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
-import { getMemberReport, getMemberTodayPlan } from "@/features/groups/member-report-data";
-import { reportRange, summarizeMember, todayPlanState, type ReportPeriod } from "@/features/groups/member-report";
-import { MemberPrescription, MemberTodayPrescription } from "@/features/groups/components/member-prescription";
+import { getMemberReport, getMemberTodayPlan } from "@/features/trainer/member-report-data";
+import { reportRange, summarizeMember, todayPlanState, type ReportPeriod } from "@/features/trainer/member-report";
+import { MemberPrescription, MemberTodayPrescription } from "@/features/trainer/components/member-prescription";
 import { EQUIPMENT_LABELS, type EquipmentId } from "@/features/routine/exercise-catalog-labels";
 
 export const dynamic = "force-dynamic";
@@ -85,8 +85,8 @@ export default async function MemberManagementPage({ params, searchParams }: {
     </section>}
     <div className="flex flex-wrap gap-3 text-sm font-semibold text-brand">{sharing.prescription && <Link href={`/groups/${id}/trainer/assign/${memberId}`}>루틴 배정</Link>}<Link href={`/groups/${id}/trainer/comment/${memberId}`}>코멘트 · 처방 변경 내역</Link><Link href={`/groups/${id}/member/${memberId}`}>일별 상세 기록</Link></div>
     {sharing.prescription ? <>
-      <MemberTodayPrescription groupId={id} memberId={memberId} memberName={data.name} dateLabel={todayLabel} rows={todayRows} notice={today.notice} />
-      <MemberPrescription groupId={id} memberId={memberId} memberName={data.name} exercises={rows} />
+      <MemberTodayPrescription connectionId={id} memberId={memberId} memberName={data.name} dateLabel={todayLabel} rows={todayRows} notice={today.notice} />
+      <MemberPrescription connectionId={id} memberId={memberId} memberName={data.name} exercises={rows} />
     </> : <p className="text-sm">회원이 운동 처방을 허용하지 않았어요.</p>}
   </main>;
 }

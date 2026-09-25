@@ -61,7 +61,7 @@ test("연타해도 잔이 사라지지 않는다", async ({ page }) => {
   await expect.poll(() => waterMl(email), { timeout: 10000 }).toBe(1000);
 });
 
-test("되돌리기는 마지막 잔만 빼고, 0 아래로 안 내려간다", async ({ page }) => {
+test("기록 목록에서 잘못 담은 잔만 골라 지운다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await signUpAndOnboard(page);
 
@@ -69,23 +69,51 @@ test("되돌리기는 마지막 잔만 빼고, 0 아래로 안 내려간다", as
   const card = page.getByTestId("water-card");
   await expect(card).toBeVisible({ timeout: 8000 });
 
-  // 담은 게 없으면 되돌리기 버튼 자체가 없다 — 눌러도 아무 일 없는 버튼을 두지 않는다.
-  await expect(card.getByRole("button", { name: /되돌리기/ })).toHaveCount(0);
+  // 담은 게 없으면 목록 자체가 없다 — 빈 목록을 두지 않는다.
+  await expect(card.getByTestId("water-entries")).toHaveCount(0);
 
   await card.getByRole("button", { name: "+200ml 컵" }).click();
   await expect(card).toHaveAttribute("data-ml", "200", { timeout: 8000 });
   await card.getByRole("button", { name: "+500ml 생수" }).click();
   await expect(card).toHaveAttribute("data-ml", "700", { timeout: 8000 });
 
-  // 마지막에 담은 500만 빠진다.
-  await card.getByRole("button", { name: /되돌리기/ }).click();
-  await expect(card).toHaveAttribute("data-ml", "200", { timeout: 8000 });
-  await card.getByRole("button", { name: /되돌리기/ }).click();
-  await expect(card).toHaveAttribute("data-ml", "0", { timeout: 8000 });
+  // 🔴 예전엔 '마지막 것 되돌리기' 뿐이었고 그 기억은 화면을 떠나면 사라졌다.
+  //    이제 기록이 남으므로 **원하는 줄**을 골라 지운다.
+  const list = card.getByTestId("water-entries");
+  await expect(list.getByRole("listitem")).toHaveCount(2, { timeout: 8000 });
+  await list.getByRole("button", { name: /200ml 기록 지우기/ }).click();
+  await expect(card).toHaveAttribute("data-ml", "500", { timeout: 8000 });
+  await expect.poll(() => waterMl(email), { timeout: 10000 }).toBe(500);
 
-  // 되돌릴 게 없으면 버튼이 다시 사라진다.
-  await expect(card.getByRole("button", { name: /되돌리기/ })).toHaveCount(0);
+  await list.getByRole("button", { name: /500ml 기록 지우기/ }).click();
+  await expect(card).toHaveAttribute("data-ml", "0", { timeout: 8000 });
+  await expect(card.getByTestId("water-entries")).toHaveCount(0);
   await expect.poll(() => waterMl(email), { timeout: 10000 }).toBe(0);
+});
+
+test("컵에 없는 양은 직접 입력해 담는다 — 그리고 새로고침해도 남는다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+
+  await page.goto("/diet", { waitUntil: "networkidle" });
+  const card = page.getByTestId("water-card");
+  await expect(card).toBeVisible({ timeout: 8000 });
+
+  await card.getByTestId("water-custom-open").click();
+  await card.getByRole("spinbutton", { name: "마신 양(ml)" }).fill("620");
+  await card.getByTestId("water-custom-add").click();
+
+  await expect(card).toHaveAttribute("data-ml", "620", { timeout: 8000 });
+  await expect.poll(() => waterMl(email), { timeout: 10000 }).toBe(620);
+
+  // 기록에 '언제 얼마' 가 남는다.
+  await page.reload({ waitUntil: "networkidle" });
+  const back = page.getByTestId("water-card");
+  await expect(back).toHaveAttribute("data-ml", "620", { timeout: 8000 });
+  await expect(back.getByTestId("water-entries")).toContainText("620ml");
+  await expect(back.getByTestId("water-since")).toBeVisible();
 });
 
 test("목표는 체중에서 계산한다 — 70kg면 2.3L", async ({ page }) => {

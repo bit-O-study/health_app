@@ -519,6 +519,7 @@ function TodayWorkout({
             restSound={profile?.restSound ?? true}
             restHaptic={profile?.restHaptic ?? true}
             lockWeightReps={profile?.lockWeightReps ?? false}
+            weightSteps={profile?.weightSteps ?? {}}
             dailyPlan={activeDailyPlan}
             blankDefaults={deferredToday}
             registerHref={deferredToday ? registerHref : undefined}

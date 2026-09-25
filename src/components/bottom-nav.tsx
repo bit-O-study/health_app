@@ -3,14 +3,17 @@
 import { useEffect } from "react";
 import Link, { useLinkStatus } from "next/link";
 import { usePathname } from "next/navigation";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 
 import {
   HOME_TAB,
+  visibleApps,
   bottomTabsForPath,
   isTabActive,
   type AppTab,
 } from "@/features/launcher/apps";
+
+import { useHomeDock } from "@/features/launcher/use-home-dock";
 
 // 로그인/온보딩 등 앱 외 화면 + 관리자 전용 화면(관리자 콘솔·기구분석)에선 숨긴다.
 // (관리자 계정은 이 화면들에서 활동하고, 관리자 콘솔엔 자체 사이드 네비가 있어 하단탭이 방해된다.)
@@ -98,13 +101,25 @@ function HomeTabInner({ active }: { active: boolean }) {
  */
 export function BottomNav({
   groupTheme: groupThemeEnabled = true,
+  userId = "",
+  enabledFlags = [],
 }: {
   /** 그룹탭이 헬스장 모드일 때만 앰버 톤 적용(움짤 인증 모드에선 끈다). */
   groupTheme?: boolean;
+  userId?: string;
+  enabledFlags?: readonly string[];
 }) {
   const pathname = usePathname() ?? "/";
   const hidden = HIDDEN_PREFIXES.some((h) => pathname.startsWith(h));
-  const tabs = bottomTabsForPath(pathname);
+  const { ids } = useHomeDock(userId);
+  const available = visibleApps(enabledFlags);
+  const dockTabs = ids.map((id, index): AppTab => {
+    const app = available.find(app => app.id === id);
+    return app ? { href: app.home, label: app.label, icon: app.icon } : {
+      href: "/home?edit=apps&slot=" + index + "#home-apps", label: "앱 추가", icon: Plus, match: () => false,
+    };
+  });
+  const tabs = bottomTabsForPath(pathname, dockTabs);
   // 그룹 헬스장 화면(정확히 /groups + gym 모드)에선 하단 탭도 헬스장 앰버 톤으로 이어 붙인다.
   const groupTheme = groupThemeEnabled && pathname === "/groups";
 

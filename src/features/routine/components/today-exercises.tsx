@@ -110,6 +110,7 @@ export async function TodayExercises({
   restSound = true,
   restHaptic = true,
   lockWeightReps = false,
+  weightSteps = {},
   dailyPlan,
   blankDefaults = false,
   registerHref = "/plan",
@@ -129,6 +130,8 @@ export async function TodayExercises({
   restHaptic?: boolean;
   /** 개인설정: 무게·횟수 고정. false 면 메인에 무게/횟수 숨기고 운동모드에서 설정. */
   lockWeightReps?: boolean;
+  /** 종목별 증량 단위(kg) — 운동모드 ± 폭과 '증량 단위' 바꾸기에 쓴다. */
+  weightSteps?: Record<string, number>;
   /** 오늘의 daily_plan 행 — 상위(page)가 이미 읽은 것을 그대로 받는다(중복 조회 방지). */
   dailyPlan: DailyPlanRow[];
   /** '오늘만 변경'으로 하루 밀린 날 — 담지 않은 본운동/워밍업/마무리 기본값(러닝 등)을
@@ -235,6 +238,7 @@ export async function TodayExercises({
       targetReps: lockWeightReps ? p.reps : null,
     })),
     profile?.experience ?? "beginner",
+    weightSteps,
   );
 
   // 완료 판정 + 완료 보존(고스트) — 완료 기록을 행에 1:1 배정해 과매칭을 막는다.
@@ -547,6 +551,8 @@ export async function TodayExercises({
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,
+      // 세트별 무게 — 드롭세트면 운동모드가 휴식을 건너뛴다.
+      setDetails: p.setDetails,
       memo: p.memo,
       // 다음 세션 추천(2.2). 기록이 없는 종목은 null — 붙일 말이 없다.
       advice: adviceByExercise[p.exerciseId] ?? null,
@@ -673,6 +679,7 @@ export async function TodayExercises({
             hideVideos={hideVideos}
             showGuide={showGuide}
             lockWeightReps={lockWeightReps}
+            weightSteps={weightSteps}
             postureEnabled={postureEnabled}
           />
         </div>

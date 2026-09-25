@@ -1,93 +1,138 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { Droplet, Undo2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Droplet, Plus, X } from "lucide-react";
 
-import { addWaterAction } from "@/features/diet/water-actions";
+import {
+  deleteWaterEntryAction,
+  logWaterAction,
+  type WaterEntry,
+} from "@/features/diet/water-actions";
 import {
   WATER_CUPS,
-  clampWaterMl,
+  WATER_ONE_MAX_ML,
   formatWater,
+  isValidOneShotMl,
+  remainingBy,
+  sinceLabel,
+  timeLabel,
   waterPercent,
 } from "@/features/diet/water";
 
 /**
- * 수분 섭취 카드 — 식단 화면 맨 위. 컵을 누르면 그만큼 쌓인다.
+ * 수분 섭취 — **마신 기록 하나하나**로 남긴다(2026-09-25 리뉴얼).
  *
- * 🔴 **PendingButton 을 쓰지 않는다.** 컵 담기는 "연타가 정상"인 버튼이라(두 잔 연속)
- * 누를 때마다 잠그면 오히려 못 쓴다. 대신 화면은 즉시 올리고(낙관적), 합산은 DB 함수가
- * 한 문장으로 처리한다 — 요청이 겹쳐도 잔이 사라지지 않는다.
+ * 예전엔 하루 합계 한 숫자만 있어서
+ *  - 잘못 담은 걸 되돌리려면 그 화면을 안 떠나야 했고(되돌릴 대상이 기억에만 있었다)
+ *  - 컵 크기가 다른 사람(텀블러 600·물병 1L)은 정확히 기록할 수 없었고
+ *  - 언제 마셨는지 남지 않아 "몰아 마시기"를 알아채지 못했다.
  *
- * 서버가 돌려준 값은 **가장 나중에 보낸 요청의 응답만** 반영한다. 응답이 순서를 바꿔
- * 도착하면(연타하면 흔하다) 오래된 값이 최신 화면을 덮어 숫자가 튄다.
- *
- * `DietBoard` 와 상태를 섞지 않으려고 별도 컴포넌트로 둔다 — 그쪽 낙관적 상태에
- * 재동기화를 얹으면 식단 수정이 깨진다(과거 사고).
+ * 이제 컵 버튼·직접 입력 모두 기록 한 줄을 남기고, 목록에서 하나씩 지울 수 있다.
  */
 export function WaterCard({
-  date,
   initialMl,
+  initialEntries = [],
   targetMl,
+  date,
 }: {
-  date: string;
   initialMl: number;
+  /** 그날 기록(최신순). 없으면 목록을 접어 둔다. */
+  initialEntries?: WaterEntry[];
   targetMl: number;
+  date?: string;
 }) {
   const [ml, setMl] = useState(initialMl);
-  // 되돌리기용 — 이 화면에서 담은 양만 쌓는다(새로고침하면 비워진다).
-  const [added, setAdded] = useState<number[]>([]);
+  const [entries, setEntries] = useState<WaterEntry[]>(initialEntries);
+  const [custom, setCustom] = useState(false);
+  const [draft, setDraft] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  /** 마지막 요청 번호 — 늦게 온 옛 응답이 합계를 되돌리지 않게. */
   const seq = useRef(0);
+  // '방금 / 20분 전' 은 시간이 흐르면 틀려진다 — 1분마다 다시 그린다.
+  const [, tick] = useState(0);
 
-  async function apply(delta: number) {
-    setMl((prev) => clampWaterMl(prev + delta));
-    const mine = ++seq.current;
-    const r = await addWaterAction(delta, date);
-    if (r.ok && mine === seq.current) setMl(r.ml);
-  }
+  useEffect(() => {
+    if (entries.length === 0) return;
+    const t = setInterval(() => tick((n) => n + 1), 60_000);
+    return () => clearInterval(t);
+  }, [entries.length]);
 
-  function addCup(cupMl: number) {
-    setAdded((prev) => [...prev, cupMl]);
-    void apply(cupMl);
-  }
-
-  function undo() {
-    const last = added[added.length - 1];
-    if (last === undefined) return;
-    setAdded((prev) => prev.slice(0, -1));
-    void apply(-last);
-  }
+  useEffect(() => {
+    if (custom) inputRef.current?.focus();
+  }, [custom]);
 
   const pct = waterPercent(ml, targetMl);
   const reached = pct >= 100;
+  const left = remainingBy(ml, targetMl, WATER_CUPS[0].ml);
+  const last = entries[0];
+
+  /**
+   * 🔴 담기는 **막지 않는다.** 컵을 빠르게 두세 번 누르는 건 정상 사용인데,
+   * 요청 중이라고 버튼을 잠그면 그 잔들이 조용히 사라진다.
+   * 대신 응답은 **가장 마지막 요청의 것만** 반영한다(먼저 보낸 응답이 늦게 와서
+   * 합계를 과거 값으로 되돌리지 않게).
+   */
+  async function add(amount: number) {
+    setError(null);
+    const mine = ++seq.current;
+    // 낙관적 — 누르고 반응이 없으면 사람은 또 누른다.
+    setMl((v) => v + amount);
+    const res = await logWaterAction(amount, date);
+    if (!res.ok) {
+      setMl((v) => v - amount);
+      setError(res.error);
+      return;
+    }
+    if (mine !== seq.current) return; // 더 최근 요청이 있다 — 그쪽 결과를 쓴다.
+    setMl(res.ml);
+    setEntries(res.entries);
+  }
+
+  async function remove(id: string) {
+    if (busy) return;
+    setError(null);
+    setBusy(true);
+    const res = await deleteWaterEntryAction(id, date);
+    setBusy(false);
+    if (!res.ok) {
+      setError(res.error);
+      return;
+    }
+    setMl(res.ml);
+    setEntries(res.entries);
+  }
+
+  function submitCustom() {
+    const amount = Number(draft);
+    if (!isValidOneShotMl(amount)) {
+      setError(`1~${WATER_ONE_MAX_ML}ml 사이로 입력해 주세요.`);
+      return;
+    }
+    setDraft("");
+    setCustom(false);
+    void add(amount);
+  }
 
   return (
     <section
       aria-label="수분 섭취"
       data-testid="water-card"
       data-ml={ml}
-      className="app-card px-3 py-2.5"
+      className="app-card px-3 py-3"
     >
-      <div className="flex items-center gap-2">
-        <p className="flex items-center gap-1.5 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+      <div className="flex items-baseline gap-2">
+        <p className="flex items-center gap-1.5 text-sm font-semibold">
           <Droplet aria-hidden="true" size={15} className="text-brand" />
           수분
         </p>
-        <p className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
-          {formatWater(ml)}
-        </p>
-        <p className="text-xs text-zinc-400 dark:text-zinc-500">
-          / {formatWater(targetMl)}
-        </p>
-        {added.length > 0 ? (
-          <button
-            type="button"
-            onClick={undo}
-            aria-label="마지막 담은 수분 되돌리기"
-            className="ml-auto inline-flex h-7 items-center gap-1 rounded-md px-1.5 text-xs font-semibold text-zinc-500 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-100"
-          >
-            <Undo2 aria-hidden="true" size={12} />
-            되돌리기
-          </button>
+        <p className="text-base font-bold tabular-nums">{formatWater(ml)}</p>
+        <p className="text-xs text-zinc-400">/ {formatWater(targetMl)}</p>
+        {last ? (
+          <p className="ml-auto text-xs text-zinc-400" data-testid="water-since">
+            마지막 {sinceLabel(last.at)}
+          </p>
         ) : null}
       </div>
 
@@ -100,25 +145,101 @@ export function WaterCard({
         className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800"
       >
         <div
-          className={`h-full rounded-full bg-brand transition-[width] ${reached ? "" : "opacity-70"}`}
+          className="h-full rounded-full bg-brand transition-[width]"
           style={{ width: `${Math.min(100, pct)}%` }}
         />
       </div>
 
-      {/* 컵 버튼 — 색 알약 대신 회색 알약(아이폰 느낌). 누르면 살짝 눌린다. */}
-      <div className="mt-2 flex gap-1.5">
+      {/* 남은 양을 '무엇을 더 하면 되는지' 로 바꿔 말한다. */}
+      <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+        {reached
+          ? "오늘 목표를 채웠어요 👏"
+          : `${formatWater(left.ml)} 남음 · ${WATER_CUPS[0].label} ${left.cups}잔`}
+      </p>
+
+      <div className="mt-2.5 flex flex-wrap gap-1.5">
         {WATER_CUPS.map((cup) => (
           <button
             key={cup.ml}
             type="button"
-            onClick={() => addCup(cup.ml)}
-            className="app-press inline-flex h-7 flex-1 items-center justify-center gap-1 rounded-full bg-zinc-100 px-2 text-xs font-semibold text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-200"
+            onClick={() => void add(cup.ml)}
+            className="app-press inline-flex h-9 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             +{cup.ml}ml
-            <span className="font-normal text-zinc-500 dark:text-zinc-400">{cup.label}</span>
+            <span className="text-zinc-400">{cup.label}</span>
           </button>
         ))}
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() => setCustom((v) => !v)}
+          aria-expanded={custom}
+          aria-label="마신 양 직접 입력"
+          data-testid="water-custom-open"
+          className="app-press inline-flex h-9 items-center gap-1 rounded-full border border-dashed border-zinc-300 px-3 text-xs font-semibold text-zinc-600 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-300"
+        >
+          <Plus aria-hidden="true" size={12} />
+          직접 입력
+        </button>
       </div>
+
+      {custom ? (
+        <div className="mt-2 flex items-center gap-1.5">
+          <input
+            ref={inputRef}
+            type="number"
+            inputMode="numeric"
+            aria-label="마신 양(ml)"
+            placeholder="예: 600"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") submitCustom();
+              if (e.key === "Escape") setCustom(false);
+            }}
+            className="h-9 w-24 rounded-md border app-field px-2 text-center text-sm"
+          />
+          <span className="text-xs text-zinc-500">ml</span>
+          <button
+            type="button"
+            onClick={submitCustom}
+            disabled={busy}
+            data-testid="water-custom-add"
+            className="app-press h-9 rounded-full bg-brand px-3.5 text-xs font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
+          >
+            담기
+          </button>
+        </div>
+      ) : null}
+
+      {error ? <p className="mt-2 text-xs text-danger">{error}</p> : null}
+
+      {entries.length > 0 ? (
+        <ul className="mt-3 border-t border-[var(--line)] pt-2" data-testid="water-entries">
+          {entries.slice(0, 8).map((e) => (
+            <li key={e.id} className="flex items-center gap-2 py-1 text-xs">
+              <span className="w-16 shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
+                {timeLabel(e.at)}
+              </span>
+              <span className="font-semibold tabular-nums">{e.ml}ml</span>
+              <button
+                type="button"
+                onClick={() => void remove(e.id)}
+                disabled={busy}
+                aria-label={`${timeLabel(e.at)} ${e.ml}ml 기록 지우기`}
+                className="ml-auto grid h-7 w-7 place-items-center rounded-md text-zinc-400 transition hover:text-danger disabled:opacity-40"
+              >
+                <X aria-hidden="true" size={13} />
+              </button>
+            </li>
+          ))}
+          {entries.length > 8 ? (
+            <li className="py-1 text-xs text-zinc-400">
+              외 {entries.length - 8}건
+            </li>
+          ) : null}
+        </ul>
+      ) : null}
     </section>
   );
 }

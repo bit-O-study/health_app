@@ -23,6 +23,8 @@ import {
   type SurveyGoal,
 } from "@/features/commitments/missions";
 import type { CommitmentView } from "@/features/commitments/data-access";
+import { SurveySteps } from "@/features/commitments/components/survey-steps";
+import type { KnownProfile } from "@/features/commitments/survey";
 
 function ymd(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
@@ -36,8 +38,14 @@ function addDays(base: string, n: number): string {
 
 export function CommitmentManager({
   commitments,
+  me,
+  defaultPerWeek = 5,
 }: {
   commitments: CommitmentView[];
+  /** 온보딩·프로필에서 온 값 — 새 설문이 숫자를 계산할 때 쓴다. 없으면 옛 설문. */
+  me?: KnownProfile;
+  /** 주 며칠의 기본값(루틴의 주당 운동일). */
+  defaultPerWeek?: number;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -121,10 +129,17 @@ export function CommitmentManager({
       </div>
 
       {mode === "survey" ? (
-        <SurveyForm
-          today={today}
-          onDone={() => router.refresh()}
-        />
+        me ? (
+          <SurveySteps
+            me={me}
+            defaultPerWeek={defaultPerWeek}
+            today={today}
+            onDone={() => router.refresh()}
+          />
+        ) : (
+          // 프로필이 없으면 숫자를 계산할 수 없다 — 옛 설문으로 받는다.
+          <SurveyForm today={today} onDone={() => router.refresh()} />
+        )
       ) : (
       <>
       {/* 태그 체크식 빠른 추가 */}

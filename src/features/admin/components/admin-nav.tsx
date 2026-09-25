@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Camera,
+  MessageCircle,
   Clock,
   CreditCard,
   Dumbbell,
@@ -30,7 +31,9 @@ const ICONS: Record<string, LucideIcon> = {
   "/admin/members": Users,
   "/admin/crons": Clock,
   "/admin/events": TriangleAlert,
+  "/admin/support": MessageCircle,
   "/admin/billing": CreditCard,
+  "/admin/trainers": Users,
   "/admin/settings": ShieldCheck,
   "/admin/exercise-media": Film,
   "/equipment": Camera,

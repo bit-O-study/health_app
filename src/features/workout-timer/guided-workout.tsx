@@ -56,6 +56,10 @@ import {
   minSelectableSets,
   clampTotalSets,
 } from "@/features/workout-timer/rest-logic";
+import { restSecAfterSet } from "@/features/routine/set-scheme";
+import type { SetDetail } from "@/features/routine/set-details";
+import { stepOverrideFor } from "@/features/routine/weight-steps";
+import { WeightStepPicker } from "@/features/routine/components/weight-step-picker";
 import {
   ExercisePhotoDemo,
   ExerciseTutorial,
@@ -124,6 +128,11 @@ export type GuidedItem =
       sets: number;
       reps: number;
       weightKg: number | null;
+      /**
+       * 세트별 무게·횟수(드롭세트·피라미드 등). null = 균일 세트.
+       * 휴식 판단에 쓴다 — 드롭세트는 쉬지 않고 이어 가야 한다.
+       */
+      setDetails?: SetDetail[] | null;
       /** 개인 메모. null = 없음. */
       memo: string | null;
       /**
@@ -393,6 +402,7 @@ export function GuidedOverlay({
   showGuide = true,
   lockWeightReps = false,
   postureEnabled = false,
+  weightSteps = {},
 }: {
   items: GuidedItem[];
   onClose: () => void;
@@ -410,6 +420,11 @@ export function GuidedOverlay({
   lockWeightReps?: boolean;
   /** 'AI 자세 분석' 버튼 노출(디버그 계정). 현재 운동 영상을 찍어 자세 코칭. */
   postureEnabled?: boolean;
+  /**
+   * 종목별 증량 단위(kg). 비어 있으면 기구·종목 크기로 정한 기본값을 쓴다.
+   * 헬스장마다 스택이 달라(1kg 씩 올라가는 머신 등) 사용자가 덮어쓸 수 있다.
+   */
+  weightSteps?: Record<string, number>;
 }) {
   const router = useRouter();
   const rest = useRestTimer();
@@ -507,9 +522,12 @@ export function GuidedOverlay({
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
   // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
   const timed = item?.kind === "main" && isTimedExercise(item.exerciseId);
+  // 사용자가 그 종목의 단위를 정해 뒀으면 그 값이 기본 규칙을 이긴다(내 헬스장 기준).
+  const weightStepOverride =
+    item?.kind === "main" ? stepOverrideFor(weightSteps, item.exerciseId) : null;
   const weightStep =
     item?.kind === "main"
-      ? (weightStepKg(item.exerciseId, item.equipment) ?? 1)
+      ? (weightStepKg(item.exerciseId, item.equipment, weightStepOverride) ?? 1)
       : 1;
   const [holdSec, setHoldSec] = useState(0);
   const [holdRunning, setHoldRunning] = useState(false);
@@ -745,7 +763,12 @@ export function GuidedOverlay({
       return;
     }
 
-    rest.trigger();
+    // 드롭세트는 무게만 내리고 **곧바로** 이어 간다 — 여기서 쉬면 그냥 가벼운 세트를
+    // 하나 더 한 것이 된다(위 슈퍼세트와 같은 이유). 세트별 무게 흐름으로 판단한다.
+    const restSec = restSecAfterSet(item.setDetails, next, rest.defaultSec);
+    if (restSec === null) return;
+
+    rest.trigger(restSec);
     // 한 바퀴를 돌았으면 쉬는 동안 묶음의 첫 운동으로 되돌려 둔다 —
     // 휴식이 끝나고 눈을 들었을 때 다음에 할 운동이 떠 있어야 한다.
     const back = restReturnIndex(supersetItems, processed, index);
@@ -1405,6 +1428,12 @@ export function GuidedOverlay({
                     onChange={(v) => putEdit({ sets: v ?? 1 })}
                   />
                 </div>
+              </div>
+            ) : null}
+
+            {editable && item.kind === "main" && !timed ? (
+              <div className="mt-2 w-full">
+                <WeightStepPicker exerciseId={item.exerciseId} currentStepKg={weightStep} isOverridden={weightStepOverride !== null} onSaved={() => router.refresh()} />
               </div>
             ) : null}
 

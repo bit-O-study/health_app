@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 그룹: 생성 → 공유 링크로 다른 계정이 참여.
@@ -133,134 +133,49 @@ test("인증 모드: 초대 링크로 가입해도 캐릭터 키우기(헬스장
   await ctxB.close();
 });
 /**
- * 트레이너 대시보드 — 그룹장(=트레이너)이 담당 회원의 이번 주 상태를 한 화면에서 본다.
+ * 옛 그룹장-트레이너 URL.
  *
- * 🔴 이 화면은 **남의 몸 데이터**(체중 추이·식단 기록·운동 이력)를 보여 준다.
- * 그룹장이 아닌 사람에게 열리면 안 되는데, 잘못 열려도 **화면은 똑같이 잘 동작한다** —
- * 그래서 "그룹장은 보이고 멤버는 안 보인다"를 여기서 직접 확인한다.
+ * 그룹장이 곧 트레이너이던 구조는 **폐기됐다** — 독립 트레이너(pt_*)로 바뀌면서
+ * `/groups/[id]/trainer/**` 는 리다이렉트만 남았고(`LegacyTrainerLayout`),
+ * 옛 RPC 들도 실행 권한이 회수됐다(`202609220002_independent_trainers`).
+ * 그래서 예전의 회원 관리·루틴 배정·코멘트 시나리오는 이 경로로 더 이상 열리지 않는다.
+ * 새 흐름은 `independent-trainer.spec.ts` 가 본다.
+ *
+ * 🔴 여기서 지키는 것은 둘이다.
+ *  1) **그룹 소속만으로는** 남의 몸 데이터(회원 관리)가 열리지 않는다.
+ *  2) 옛 링크가 **죽지 않고** 독립 트레이너 앱으로 이어진다.
  */
-test("그룹장은 회원 관리 화면을 보고, 일반 멤버는 못 본다", async ({ browser }) => {
+test("옛 그룹장-트레이너 URL 은 회원 관리를 열지 않고 독립 트레이너 앱으로 보낸다", async ({
+  page,
+}) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  // 계정 2개 가입(각 ~20초) + 루틴 시드 + 배정 + 코멘트까지 한 흐름이라 기본 2분으로는
-  // 모자란다. 나눠 쓰면 가입을 또 해야 해서 오히려 더 오래 걸린다.
-  test.setTimeout(300_000);
+  test.setTimeout(120_000);
 
-  const name = `E2E 트레이너 ${Date.now().toString(36)}`;
-
-  // ── A: 그룹장(트레이너)
-  const ctxA = await browser.newContext();
-  const pageA = await ctxA.newPage();
-  await signUpAndOnboard(pageA);
-  // ⚠ 시드는 **가입 직후**에 한다. `seedRecommendedExercises` 는 "가장 최근 가입 계정"을
-  //   기준으로 루틴 일차를 맞추기 때문에, B 가 가입한 뒤에 부르면 엉뚱한 계정을 본다.
-  await seedRecommendedExercises(pageA);
-  await pageA.goto("/groups", { waitUntil: "networkidle" });
-  await pageA.getByLabel("그룹 이름").fill(name);
-  await pageA.getByRole("button", { name: "그룹 만들기" }).click();
-  await pageA.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 10000 });
+  const name = `E2E 옛트레이너 ${Date.now().toString(36)}`;
+  await signUpAndOnboard(page);
+  await page.goto("/groups", { waitUntil: "networkidle" });
+  await page.getByLabel("그룹 이름").fill(name);
+  await page.getByRole("button", { name: "그룹 만들기" }).click();
+  await page.waitForURL(/\/groups\?g=[0-9a-f-]{8,}/, { timeout: 10000 });
 
   const groupId = await dbQuery<{ id: string }>(
     `select id from public.groups where name=$1`,
     [name],
   ).then((r) => r[0].id);
 
-  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
-  await expect(pageA.getByRole("heading", { name: /회원 관리/ })).toBeVisible({
-    timeout: 8000,
-  });
-  // '담당 회원' 은 요약 칸 라벨과 빈 안내 문구 양쪽에 나온다 → 요약 칸만 정확히 집는다.
-  await expect(pageA.getByText("담당 회원", { exact: true })).toBeVisible();
-  // 트레이너 자신은 담당 회원이 아니다 — 아직 아무도 없다.
-  await expect(pageA.getByText("아직 담당 회원이 없어요")).toBeVisible();
-
-  // ── B: 초대로 들어온 일반 멤버
-  const token = await inviteToken(name);
-  const ctxB = await browser.newContext();
-  const pageB = await ctxB.newPage();
-  await signUpAndOnboard(pageB);
-  await pageB.goto(`/groups/join/${token}`);
-  // 초대 확인 화면 — '확인'을 눌러 가입한다(위 시나리오와 같은 흐름).
-  await pageB.getByRole("button", { name: "확인" }).click();
-  // 🔴 화면으로 기다리면 안 된다. **초대 확인 화면 자체가 그룹 이름을 보여 주기 때문에**
-  //    `getByText(name)` 은 가입이 끝나기 전에 이미 통과한다 — 그러면 뒤따르는
-  //    "회원이 1명 보인다" 가 아직 없는 회원을 찾다가 실패한다(실제로 그렇게 깨졌다).
-  //    가입 여부는 DB 로 본다.
-  await expect
-    .poll(
-      async () =>
-        (
-          await dbQuery<{ n: string }>(
-            `select count(*)::text n from public.group_members where group_id=$1`,
-            [groupId],
-          )
-        )[0].n,
-      { timeout: 20000 },
-    )
-    .toBe("2");
-
-  // 🔴 멤버에게는 화면이 안 열린다.
-  await pageB.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
-  await expect(pageB.getByText("그룹장만 볼 수 있어요")).toBeVisible({ timeout: 8000 });
-  await expect(pageB.getByTestId("trainer-members")).toHaveCount(0);
-
-  // ── 트레이너 화면에 그 회원이 나타난다(운동 기록이 없으니 챙길 대상으로).
-  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
-  await expect(pageA.getByTestId("trainer-member")).toHaveCount(1);
-  await expect(pageA.getByText("아직 운동 기록이 없어요")).toBeVisible();
-
-  // ── 루틴 배정: 트레이너의 한 일차를 회원의 한 일차로(운동은 위에서 시드했다).
-  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
-  await pageA.getByTestId("assign-link").first().click();
-  // ⚠ 클라이언트 내비게이션이라 `waitForURL`(기본 load 대기)은 안 끝난다 — 화면으로 본다.
-  await expect(pageA.getByRole("heading", { name: /루틴 배정/ })).toBeVisible({
-    timeout: 10000,
-  });
-
-  // 🔴 되돌리기 어려운 작업이라 한 번에 안 끝난다 — 무엇이 바뀌는지 보고 확인한다.
-  await expect(pageA.getByText(/운동은 지워지고/)).toBeVisible();
-  await pageA.getByTestId("assign-start").click();
-  await pageA.getByTestId("assign-confirm").click();
-  await expect(pageA.getByTestId("assign-message")).toContainText("배정했어요", {
-    timeout: 15000,
-  });
-
-  // 회원 루틴에 실제로 들어갔고, **트레이너 무게는 안 따라간다**.
-  const assigned = await dbQuery<{ n: string; w: string | null }>(
-    `select count(*)::text n, max(weight_kg)::text w
-       from public.routine_exercises re
-       join public.group_members gm on gm.user_id = re.user_id
-      where gm.group_id = $1 and gm.role = 'member'`,
-    [groupId],
-  );
-  expect(Number(assigned[0].n)).toBeGreaterThan(0);
-  expect(assigned[0].w).toBeNull();
-
-  // ── 코멘트: 트레이너가 남기면 **회원 화면**에 뜬다.
-  //    🔴 회원이 볼 자리가 없으면 코멘트는 없는 기능이다 — 그래서 회원 쪽까지 본다.
-  await pageA.goto(`/groups/${groupId}/trainer`, { waitUntil: "networkidle" });
-  await pageA.getByTestId("comment-link").first().click();
-  await expect(pageA.getByRole("heading", { name: /코멘트/ })).toBeVisible({
-    timeout: 10000,
-  });
-  const note = "스쿼트 무릎이 안으로 모여요";
-  await pageA.getByLabel("코멘트").fill(note);
-  await pageA.getByTestId("comment-submit").click();
-  await expect(pageA.getByTestId("comment-list")).toContainText(note, { timeout: 15000 });
-
-  // 회원의 오늘의 운동 화면에 보인다.
-  await pageB.goto("/routine", { waitUntil: "networkidle" });
-  await expect(pageB.getByTestId("my-trainer-comments")).toContainText(note, {
-    timeout: 15000,
-  });
-
-  // 🔴 트레이너 화면(회원 관리)은 회원에게 안 열린다 — 위에서 이미 확인했다.
-  //    여기서는 **코멘트가 남의 눈에 안 띄는지**를 본다: 트레이너 자신의 오늘의 운동
-  //    화면에는 자기가 쓴 코멘트가 안 뜬다(받은 게 아니라 쓴 것이다).
-  await pageA.goto("/routine", { waitUntil: "networkidle" });
-  await expect(pageA.getByTestId("my-trainer-comments")).toHaveCount(0);
-
-  await ctxA.close();
-  await ctxB.close();
+  // ⚠ 실제로 있는 경로만 고른다 — 없는 URL(`/trainer/members` 처럼 인덱스 페이지가
+  //   없는 곳)은 404 라 주소가 그대로 남아, 리다이렉트가 안 된 것처럼 보인다.
+  const member = "00000000-0000-0000-0000-000000000000";
+  for (const path of ["", "/billing", `/members/${member}`, `/assign/${member}`]) {
+    await page.goto(`/groups/${groupId}/trainer${path}`, {
+      waitUntil: "networkidle",
+    });
+    // 그룹을 만든 사람이어도 회원 관리 화면은 열리지 않는다.
+    await expect(page.getByRole("heading", { name: /회원 관리/ })).toHaveCount(0);
+    await expect(page.getByTestId("trainer-members")).toHaveCount(0);
+    // 404 로 죽지 않고 그룹 밖(독립 트레이너 쪽)으로 이어진다.
+    expect(new URL(page.url()).pathname).not.toContain(`/groups/${groupId}/trainer`);
+  }
 });
 
 /**

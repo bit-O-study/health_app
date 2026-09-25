@@ -41,9 +41,6 @@ describe.skipIf(!hasDbCreds)("익명 실행 권한(라이브 DB)", () => {
     "public.debug_feature_enabled(text)",
     "public.is_debug_account()",
     // 트레이너·B2B (이번에 만든 것들)
-    "public.trainer_board(uuid, date, date)",
-    "public.trainer_member_routine(uuid, uuid)",
-    "public.trainer_assign_routine_day(uuid, uuid, int, text, int, text)",
     "public.has_team_premium()",
     "public.billing_deposit_info()",
     "public.search_custom_foods(text, int)",
@@ -56,6 +53,29 @@ describe.skipIf(!hasDbCreds)("익명 실행 권한(라이브 DB)", () => {
   it.each(LOGGED_IN_ONLY)("로그인 사용자는 %s 를 부를 수 있다", async (sig) => {
     // 회수만 하고 다시 주는 걸 잊으면 **기능이 통째로 죽는다**(PUBLIC 에서 뺐으니까).
     expect(await canRun("authenticated", sig)).toBe(true);
+  });
+
+  /**
+   * 그룹장-트레이너 RPC — **전환 중이라 로그인 사용자 쪽은 못 박지 않는다.**
+   *
+   * 트레이너가 그룹장에 묶여 있던 옛 구조를 독립 트레이너(pt_*)로 바꾸는 중이다.
+   * `202609220002_independent_trainers.sql` 은 이 함수들의 실행 권한을 회수하지만,
+   * 앞선 마이그레이션(`202609200001`·`202609200003`)은 반대로 authenticated 에게 준다.
+   * 그래서 **어느 쪽을 나중에 적용했는지에 따라 라이브 DB 가 뒤집힌다**
+   * (2026-09-25 하루에 두 번 뒤집히는 것을 확인했다). 앱에도 아직 호출부가 남아 있다
+   * (`features/groups/trainer-actions.ts`·`trainer-data.ts` — 화면은 리다이렉트로 막혔다).
+   *
+   * 전환이 끝나 한쪽으로 정해지면 여기서 그 상태를 못 박는다. 그때까지는 **어느 쪽이어도
+   * 참인 것**만 지킨다 — 익명은 절대 못 부른다(남의 몸 데이터가 걸려 있다).
+   */
+  const IN_TRANSITION = [
+    "public.trainer_board(uuid, date, date)",
+    "public.trainer_member_routine(uuid, uuid)",
+    "public.trainer_assign_routine_day(uuid, uuid, int, text, int, text)",
+  ];
+
+  it.each(IN_TRANSITION)("🔴 익명은 %s 를 못 부른다 (전환 중에도 불변)", async (sig) => {
+    expect(await canRun("anon", sig)).toBe(false);
   });
 
   it("🔴 유지보수 함수는 로그인 사용자도 못 부른다", async () => {
@@ -92,9 +112,14 @@ describe.skipIf(!hasDbCreds)("익명 실행 권한(라이브 DB)", () => {
 
   it("정책이 참조하는 함수는 전부 익명에게 열려 있다 — 빠지면 조회가 통째로 죽는다", async () => {
     // 위 목록을 손으로 관리하다 빠뜨릴 수 있어, 정책 식에서 직접 뽑아 한 번 더 본다.
+    // ⚠ **익명에게 적용되는 정책만** 본다. `to authenticated` 로 못 박은 정책은
+    //   익명이 평가할 일이 없어, 그 안에서 부르는 함수까지 익명에게 열어 주면
+    //   오히려 필요 없는 문을 여는 셈이다(독립 트레이너 pt_* 가 그런 경우다).
     const pol = await client.query(
       `select coalesce(qual,'') || ' ' || coalesce(with_check,'') as expr
-         from pg_policies where schemaname = 'public'`,
+         from pg_policies
+        where schemaname = 'public'
+          and (roles = '{public}' or 'anon' = any(roles))`,
     );
     const exprs = pol.rows.map((r) => r.expr as string).join(" ");
     const fns = await client.query(

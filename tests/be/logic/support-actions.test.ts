@@ -1,0 +1,17 @@
+﻿import {beforeEach,afterEach,it,expect,vi} from 'vitest';
+const mocks=vi.hoisted(()=>({rpc:vi.fn(),user:vi.fn(),after:vi.fn(),dispatch:vi.fn(),push:vi.fn()}));
+vi.mock('@/lib/supabase/server',()=>({getCurrentUser:mocks.user,createSupabaseServerClient:async()=>({rpc:mocks.rpc})}));
+vi.mock('@/lib/supabase/admin',()=>({createSupabaseAdminClient:()=>null}));
+vi.mock('@/features/admin/admin',()=>({isAdminUser:async()=>false}));
+vi.mock('@/features/support/messaging.server',()=>({dispatchSupport:mocks.dispatch,pushSupport:mocks.push}));
+vi.mock('next/server',()=>({after:mocks.after}));
+vi.mock('next/cache',()=>({revalidatePath:vi.fn()}));
+import {createTicket,manageTicket,replyTicket} from '@/features/support/actions';
+const input={requestId:'c432b98c-51b6-49eb-9172-5b55553f883c',category:'bug',title:'오류',body:'내용',diagnostic:{token:'SECRET',platform:'Android'}};
+beforeEach(()=>{vi.resetAllMocks();mocks.user.mockResolvedValue({id:'user'});mocks.rpc.mockResolvedValue({data:input.requestId,error:null});mocks.dispatch.mockRejectedValue(new Error('unavailable'));mocks.push.mockRejectedValue(new Error('unavailable'));});
+afterEach(()=>vi.restoreAllMocks());
+it('returns stored ticket without awaiting provider, and isolates after failures',async()=>{const result=await createTicket(input);expect(result.id).toBe(input.requestId);expect(mocks.dispatch).not.toHaveBeenCalled();await expect(mocks.after.mock.calls[0][0]()).resolves.toBeUndefined();expect(mocks.rpc.mock.calls[0][1].p_diagnostics).toEqual({platform:'Android'});});
+it('never schedules notification after DB failure',async()=>{mocks.rpc.mockResolvedValue({error:{message:'private internals'}});const r=await createTicket(input);expect(r.error).toBeTruthy();expect(r.error).not.toContain('private');expect(mocks.after).not.toHaveBeenCalled();});
+it('requires auth and valid input before RPC',async()=>{mocks.user.mockResolvedValue(null);expect((await createTicket(input)).error).toBeTruthy();expect(mocks.rpc).not.toHaveBeenCalled();});
+it('denies member admin operations',async()=>{expect((await manageTicket(input.requestId,'closed','urgent',true)).error).toBeTruthy();expect(mocks.rpc).not.toHaveBeenCalled();});
+it('rejects oversized reply before RPC',async()=>{expect((await replyTicket(input.requestId,input.requestId,'x'.repeat(5001))).error).toBeTruthy();expect(mocks.rpc).not.toHaveBeenCalled();});

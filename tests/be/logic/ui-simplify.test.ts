@@ -461,8 +461,9 @@ describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
   it("캘린더: 달 이동이 머리글 안, 요약은 카드 4장 대신 한 장(세 칸 + 체중 한 줄)", () => {
     const cal = read("src/app/calendar/page.tsx");
     const header = between(cal, "<PageHeader", "</PageHeader>");
-    expect(header).toContain('aria-label="이전 달"');
-    expect(header).toContain('aria-label="다음 달"');
+    // 2026-09-20 주 보기 추가 — 같은 버튼이 주 보기에선 '이전 주/다음 주' 가 된다(여전히 머리글 안).
+    expect(header).toMatch(/aria-label=\{isWeek \? "이전 주" : "이전 달"\}|aria-label="이전 달"/);
+    expect(header).toMatch(/aria-label=\{isWeek \? "다음 주" : "다음 달"\}|aria-label="다음 달"/);
     for (const gone of ["function SummaryCard", "function NetCard", "function WeightCard"]) {
       expect(cal, gone).not.toContain(gone);
     }

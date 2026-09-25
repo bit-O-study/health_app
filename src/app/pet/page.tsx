@@ -20,7 +20,7 @@ export default async function PetPage({ searchParams }: { searchParams: Promise<
     <div className="app-page">
       <PageHeader title="늑대 키우기" back="그룹" backHref="/groups" />
       <main className="app-container">
-      {view === "rewards" && <section className="app-card mb-4 p-4"><h2 className="font-bold">운동으로 모은 보상</h2><p className="mt-2 text-sm">보유 포인트 {pet.points.toLocaleString()} P · 아래 상점에서 펫의 방을 꾸며보세요.</p><a href="#pet-rewards" className="mt-2 block text-sm text-emerald-600">보상 상점으로 →</a></section>}
+      {view === "rewards" && <section className="app-card mb-4 p-4"><h2 className="font-bold">운동으로 모은 보상</h2><p className="mt-2 text-sm">보유 포인트 {pet.points.toLocaleString()} P · 아래 상점에서 펫의 방을 꾸며보세요.</p><a href="#pet-rewards" className="mt-2 block text-sm text-brand">보상 상점으로 →</a></section>}
         <PetStudio pet={pet} />
       </main>
     </div>

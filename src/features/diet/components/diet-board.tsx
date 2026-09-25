@@ -352,7 +352,7 @@ export function DietBoard({
       {(view === "search" || view === "photos") && <section className="app-card space-y-3 p-4" aria-label={view === "search" ? "음식검색" : "사진기록"}>
         <h2 className="font-bold">{view === "search" ? "어느 끼니에 추가할까요?" : "끼니별 사진 기록"}</h2>
         <p className="text-sm text-zinc-500">{view === "search" ? "끼니를 선택하면 음식 검색과 직접 입력을 할 수 있어요." : "사진을 올릴 끼니를 선택하세요. 기존 식단과 함께 저장됩니다."}</p>
-        {MEALS.map(meal => view === "search" ? <button key={meal} type="button" onClick={() => setAdding(meal)} className="mr-2 rounded-xl border border-emerald-200 px-4 py-3 text-sm font-semibold text-emerald-700 dark:border-emerald-800 dark:text-emerald-400">{MEAL_LABEL[meal]} 음식 찾기</button> : <MultiPhotoPicker key={meal} photos={photos[meal]} isToday={isToday} label={MEAL_LABEL[meal] + " 사진"} onAdd={url => addPhoto(meal, url)} onRemove={url => removePhoto(meal, url)} />)}
+        {MEALS.map(meal => view === "search" ? <button key={meal} type="button" onClick={() => setAdding(meal)} className="mr-2 rounded-xl border border-brand/40 px-4 py-3 text-sm font-semibold text-brand">{MEAL_LABEL[meal]} 음식 찾기</button> : <MultiPhotoPicker key={meal} photos={photos[meal]} isToday={isToday} label={MEAL_LABEL[meal] + " 사진"} onAdd={url => addPhoto(meal, url)} onRemove={url => removePhoto(meal, url)} />)}
       </section>}
       {view === "nutrition" && <h2 className="text-lg font-bold">하루 영양 현황</h2>}
       <section aria-label="섭취 영양 요약" className="app-card p-5">

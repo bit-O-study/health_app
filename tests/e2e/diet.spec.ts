@@ -67,7 +67,10 @@ test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) 
 
   // 아침(첫 끼니)에 직접 입력으로 한 건 추가
   await page.getByRole("button", { name: "추가" }).first().click();
-  await page.getByRole("button", { name: "직접 입력" }).click();
+  await page
+    .getByLabel("아침 추가")
+    .getByRole("button", { name: "직접 입력" })
+    .click();
   await page.getByPlaceholder("예: 직접 만든 도시락").fill("오트밀");
   await page.getByPlaceholder("0").fill("300");
   await page.getByRole("button", { name: "추가하기" }).click();
@@ -120,7 +123,10 @@ test("직접 입력으로 음식 종류(category) 지정해 추가", async ({ pa
 
   // 아침(첫 끼니) 추가 → '직접 입력' 탭
   await page.getByRole("button", { name: "추가" }).first().click();
-  await page.getByRole("button", { name: "직접 입력" }).click();
+  await page
+    .getByLabel("아침 추가")
+    .getByRole("button", { name: "직접 입력" })
+    .click();
 
   await page.getByPlaceholder("예: 직접 만든 도시락").fill("엄마표 도시락");
   await page.getByRole("combobox").selectOption({ label: "고기·계란" });
@@ -138,4 +144,46 @@ test("직접 입력으로 음식 종류(category) 지정해 추가", async ({ pa
   expect(rows[0].name).toBe("엄마표 도시락");
   expect(rows[0].category).toBe("고기·계란");
   expect(rows[0].meal).toBe("breakfast");
+});
+
+test("🔴 담자마자 바로 수정해도 저장된다 — 임시 id 로 새는 구멍", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+
+  await page.goto("/diet", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("quick-add")).toBeVisible({ timeout: 8000 });
+
+  await page.getByRole("button", { name: "추가" }).first().click();
+  await page
+    .getByLabel("아침 추가")
+    .getByRole("button", { name: "직접 입력" })
+    .click();
+  await page.getByPlaceholder("예: 직접 만든 도시락").fill("급한오트밀");
+  await page.getByPlaceholder("0").fill("300");
+  await page.getByRole("button", { name: "추가하기" }).click();
+
+  // 🔴 여기서 **기다리지 않는다.** 예전엔 인서트 응답이 오기 전에 수정하면
+  //    화면은 저장한 것처럼 보이는데 서버는 0행만 바뀌고 값이 그대로였다.
+  await page.getByRole("button", { name: "아침 게시물 열기" }).click();
+  await page.getByRole("button", { name: "더보기" }).click();
+  await page.getByRole("button", { name: "수정", exact: true }).click();
+  await page.getByRole("button", { name: "급한오트밀 수정" }).click();
+  await page.getByLabel("칼로리(kcal)").fill("450");
+  await page.getByRole("button", { name: "저장" }).click();
+
+  await expect
+    .poll(
+      async () =>
+        Number(
+          (
+            await dbQuery<{ kcal: string }>(
+              `select kcal::text from public.food_logs
+                where user_id=${uid} and name='급한오트밀'`,
+              [email],
+            )
+          )[0]?.kcal,
+        ),
+      { timeout: 20_000 },
+    )
+    .toBe(450);
 });

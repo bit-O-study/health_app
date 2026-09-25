@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useTransition, type ReactNode } from "react";
+import { useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -34,6 +34,7 @@ import {
   deleteFoodLogAction,
   deleteMealAction,
   updateFoodLogAction,
+  copyMealAction,
   type FoodInput,
 } from "@/features/diet/diet-actions";
 import {
@@ -52,6 +53,32 @@ import { MIN_FOOD_DB_QUERY } from "@/features/diet/food-db";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import { MealScanForm } from "@/features/diet/components/meal-scanner";
 import type { MacroTarget } from "@/features/diet/calorie-target";
+import { QuickAddBar } from "@/features/diet/components/quick-add-bar";
+import {
+  lastMealOf,
+  nowSeoulHHMM,
+  quickFoodInput,
+  rankQuickFoods,
+  type RecentFood,
+} from "@/features/diet/quick-add";
+
+/**
+ * 아직 서버에 없는 줄(낙관적으로 먼저 그린 것)인가.
+ *
+ * 🔴 담기는 낙관적이라 목록에 먼저 그려지고, 진짜 id 는 인서트 응답이 와야 생긴다.
+ * 그 사이에 수정·삭제를 누르면 예전엔 임시 id 로 서버를 불러 **0행이 바뀌고 조용히
+ * 사라졌다**(저장한 줄 알았는데 값이 그대로). 담자마자 고치는 건 드문 일이 아니다 —
+ * 특히 서버가 느릴 때. 그래서 화면은 절대 안 바뀌는 rowKey 로 줄을 가리키고,
+ * 서버를 부르는 순간에 그 rowKey 의 **지금 id** 를 다시 찾는다.
+ */
+function isPendingId(id: string): boolean {
+  return id.startsWith("tmp-") || id.startsWith("cp-");
+}
+
+/** 목록 줄의 불변 식별자 — 서버 id 가 바뀌어도 이건 그대로다. */
+function keyOf(l: FoodLog): string {
+  return l.rowKey ?? l.id;
+}
 
 const MEAL_ICON: Record<Meal, string> = {
   breakfast: "🌅",
@@ -74,22 +101,13 @@ function mealTimeOf(items: FoodLog[]): string | null {
   return ts.length ? ts.slice().sort()[0] : null;
 }
 
-/** 서울 기준 현재 "HH:MM"(24h). */
-function nowSeoulHHMM(): string {
-  return new Date().toLocaleTimeString("en-GB", {
-    timeZone: "Asia/Seoul",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-}
-
 export function DietBoard({
   date,
   today,
   logs: initial,
   target,
   mealPhotos,
+  recent,
   aiScanEnabled = false,
   view,
   footer,
@@ -100,6 +118,8 @@ export function DietBoard({
   logs: FoodLog[];
   target: MacroTarget;
   mealPhotos: Record<Meal, string[]>;
+  /** 최근 2주 식단 — '자주 먹는 것' 칩과 '그대로 담기' 의 재료. */
+  recent: RecentFood[];
   aiScanEnabled?: boolean;
   /** 끼니 목록 아래 카드(수분) — 상태를 나누지 않게 밖에서 만든 요소를 그대로 끼운다. */
   footer?: ReactNode;
@@ -110,6 +130,21 @@ export function DietBoard({
   const [photos, setPhotos] = useState<Record<Meal, string[]>>(mealPhotos);
   const [adding, setAdding] = useState<Meal | null>(null);
   const [detail, setDetail] = useState<Meal | null>(null);
+  const [quickError, setQuickError] = useState<string | null>(null);
+  // 서버를 부르는 시점의 최신 목록 — 콜백이 가둔 옛 logs 로는 방금 확정된 id 를 못 본다.
+  const logsRef = useRef<FoodLog[]>(initial);
+  logsRef.current = logs;
+
+  /** rowKey → 서버 id. 아직 인서트 중이면 잠깐(최대 3초) 기다렸다 준다. */
+  async function serverIdOf(key: string): Promise<string | null> {
+    for (let i = 0; i < 30; i += 1) {
+      const row = logsRef.current.find((l) => keyOf(l) === key);
+      if (!row) return null;
+      if (!isPendingId(row.id)) return row.id;
+      await new Promise((r) => setTimeout(r, 100));
+    }
+    return null;
+  }
 
   // 사진 1장 추가(맨 뒤) — 먼저 등록한 게 대표사진.
   function addPhoto(meal: Meal, url: string) {
@@ -204,10 +239,64 @@ export function DietBoard({
     });
   }
 
-  function removeFood(id: string) {
-    const prev = logs;
-    setLogs((cur) => cur.filter((l) => l.id !== id));
+  /**
+   * 지난 끼니를 그대로 오늘로 — 빠른 기록의 '그대로 담기'.
+   *
+   * 여러 줄이 한 번에 들어오지만 `addFood` 와 같은 방식으로 **낙관적으로** 먼저 그린다.
+   * (여기서 router.refresh() 를 부르면 서버가 준 같은 항목이 낙관적 항목과 겹쳐
+   *  잠깐 두 배로 보인다 — addFood 주석의 그 버그와 같은 것.)
+   */
+  function copyMeal(meal: Meal, fromYmd: string) {
+    const src = lastMealOf(recent, meal);
+    if (!src || src.date !== fromYmd) return;
+    setQuickError(null);
+    const stamp = Date.now();
+    const temp: FoodLog[] = src.items.map((it, i) => {
+      const tempId = `cp-${stamp}-${i}`;
+      return {
+        id: tempId,
+        rowKey: tempId,
+        meal,
+        position: 1_000_000 + i,
+        name: it.name,
+        kcal: it.kcal,
+        protein: it.protein,
+        carbs: it.carbs,
+        fat: it.fat,
+        amount: it.amount,
+        category: it.category,
+        photoUrl: null,
+        eatenAt: it.eatenAt,
+      };
+    });
+    setLogs((prev) => [...prev, ...temp]);
     start(async () => {
+      const res = await copyMealAction(meal, fromYmd, date);
+      if (!res.ok) {
+        setLogs((prev) => prev.filter((l) => !temp.some((t) => t.id === l.id)));
+        setQuickError(res.error);
+        return;
+      }
+      // 임시 id → 실제 id (여기서 안 바꾸면 방금 담은 줄을 지울 수 없다).
+      setLogs((prev) =>
+        prev.map((l) => {
+          const at = temp.findIndex((t) => t.id === l.id);
+          return at >= 0 && res.ids[at] ? { ...l, id: res.ids[at] } : l;
+        }),
+      );
+    });
+  }
+
+  function removeFood(key: string) {
+    const prev = logs;
+    setLogs((cur) => cur.filter((l) => keyOf(l) !== key));
+    start(async () => {
+      const id = await serverIdOf(key);
+      if (!id) {
+        setLogs(prev);
+        setQuickError("아직 저장 중이에요. 잠시 뒤 다시 해주세요.");
+        return;
+      }
       const res = await deleteFoodLogAction(id);
       if (!res.ok) setLogs(prev);
       else router.refresh();
@@ -217,11 +306,11 @@ export function DietBoard({
   // 주의: 예전 `if (pending) return`을 붙이지 말 것. 담기의 router.refresh()가 pending을
   // 붙잡는 동안 수정/삭제 클릭이 조용히 무시돼(느린 기기에서 자주) 저장이 사라졌다.
   // 수정·삭제는 낙관적 롤백이 있어 중복 실행돼도 안전하다.
-  function editFood(id: string, patch: Partial<Omit<FoodInput, "meal">>) {
+  function editFood(key: string, patch: Partial<Omit<FoodInput, "meal">>) {
     const prev = logs;
     setLogs((cur) =>
       cur.map((l) =>
-        l.id === id
+        keyOf(l) === key
           ? {
               ...l,
               ...(patch.name !== undefined ? { name: patch.name } : {}),
@@ -237,6 +326,12 @@ export function DietBoard({
       ),
     );
     start(async () => {
+      const id = await serverIdOf(key);
+      if (!id) {
+        setLogs(prev);
+        setQuickError("아직 저장 중이에요. 잠시 뒤 다시 해주세요.");
+        return;
+      }
       const res = await updateFoodLogAction(id, patch);
       if (!res.ok) setLogs(prev);
       else router.refresh();
@@ -246,12 +341,20 @@ export function DietBoard({
   // 게시물(끼니)의 먹은 시간 변경 — 그 끼니의 모든 음식에 동일 적용.
   function setMealTime(meal: Meal, hhmm: string) {
     const time = hhmm || null;
-    const ids = logs.filter((l) => l.meal === meal).map((l) => l.id);
+    const keys = logs.filter((l) => l.meal === meal).map(keyOf);
     const prev = logs;
     setLogs((cur) =>
       cur.map((l) => (l.meal === meal ? { ...l, eatenAt: time } : l)),
     );
     start(async () => {
+      const ids = (await Promise.all(keys.map(serverIdOf))).filter(
+        (id): id is string => id !== null,
+      );
+      if (ids.length !== keys.length) {
+        setLogs(prev);
+        setQuickError("아직 저장 중이에요. 잠시 뒤 다시 해주세요.");
+        return;
+      }
       const results = await Promise.all(
         ids.map((id) => updateFoodLogAction(id, { eatenAt: time })),
       );
@@ -264,10 +367,14 @@ export function DietBoard({
   function deleteMeal(meal: Meal) {
     const prevLogs = logs;
     const prevPhotos = photos[meal];
+    const keys = logs.filter((l) => l.meal === meal).map(keyOf);
     setLogs((cur) => cur.filter((l) => l.meal !== meal));
     setPhotos((p) => ({ ...p, [meal]: [] }));
     setDetail(null);
     start(async () => {
+      // 아직 인서트 중인 줄이 있으면 그게 끝난 뒤에 지운다 — 먼저 지우면 뒤늦게
+      // 도착한 인서트가 살아남아 '지웠는데 다시 생기는' 줄이 된다.
+      await Promise.all(keys.map(serverIdOf));
       const res = await deleteMealAction(meal, date);
       if (prevPhotos.length) await clearMealPhotosAction(meal, date);
       if (!res.ok) {
@@ -363,6 +470,22 @@ export function DietBoard({
           <MacroBar label="지방" consumed={totals.fat} target={target.fat} color="var(--brand)" />
         </div>
       </section>
+      {/* 🔴 빠른 기록이 **요약 바로 다음**에 온다(2026-09-25). 기록하러 들어온 사람이
+          가장 먼저 만나야 하는 건 '어제와 같은 걸 또 먹었다' 를 한 번에 남기는 길이다.
+          과거 날짜에서도 쓸 수 있다(그날 먹은 걸 나중에 채워 넣는 게 흔한 사용법). */}
+      <QuickAddBar
+        recent={recent}
+        today={today}
+        date={date}
+        onAdd={addFood}
+        onCopy={copyMeal}
+      />
+      {quickError ? (
+        <p className="text-xs text-danger" role="alert">
+          {quickError}
+        </p>
+      ) : null}
+
       <h2 className="app-section-label">끼니별 기록</h2>
 
       {/* 끼니 — 큰 사진 카드 4장 대신 한 장짜리 그룹 목록(썸네일 · 이름 · kcal · 추가) */}
@@ -401,6 +524,8 @@ export function DietBoard({
           meal={adding}
           items={logs.filter((l) => l.meal === adding)}
           photos={photos[adding]}
+          recent={recent}
+          date={date}
           isToday={isToday}
           aiScanEnabled={aiScanEnabled}
           onAddPhoto={(url) => addPhoto(adding, url)}
@@ -697,15 +822,16 @@ function MealDetailDialog({
   onSetTime: (hhmm: string) => void;
   onClose: () => void;
   onAdd: () => void;
-  onUpdate: (id: string, patch: Partial<Omit<FoodInput, "meal">>) => void;
-  onDelete: (id: string) => void;
+  /** 넘기는 건 서버 id 가 아니라 **목록 줄 식별자(rowKey)** 다 — 위 isPendingId 주석 참고. */
+  onUpdate: (key: string, patch: Partial<Omit<FoodInput, "meal">>) => void;
+  onDelete: (key: string) => void;
   onDeleteMeal: () => void;
 }) {
   useBackClose(true, onClose);
   const [menuOpen, setMenuOpen] = useState(false);
   const [editing, setEditing] = useState(false);
   const [confirmDel, setConfirmDel] = useState(false);
-  const [editId, setEditId] = useState<string | null>(null);
+  const [editKey, setEditKey] = useState<string | null>(null);
   const [photoIdx, setPhotoIdx] = useState(0);
   const sub = Math.round(items.reduce((s, i) => s + i.kcal, 0));
   const time = mealTimeOf(items);
@@ -912,18 +1038,18 @@ function MealDetailDialog({
         ) : (
           <ul className="space-y-2">
             {items.map((it) =>
-              editing && editId === it.id ? (
+              editing && editKey === (it.rowKey ?? it.id) ? (
                 <li key={it.rowKey ?? it.id}>
                   <EditFoodForm
                     item={it}
-                    onCancel={() => setEditId(null)}
+                    onCancel={() => setEditKey(null)}
                     onSave={(patch) => {
-                      onUpdate(it.id, patch);
-                      setEditId(null);
+                      onUpdate(it.rowKey ?? it.id, patch);
+                      setEditKey(null);
                     }}
                     onDelete={() => {
-                      onDelete(it.id);
-                      setEditId(null);
+                      onDelete(it.rowKey ?? it.id);
+                      setEditKey(null);
                     }}
                   />
                 </li>
@@ -933,7 +1059,7 @@ function MealDetailDialog({
                     type="button"
                     disabled={!editing}
                     aria-label={editing ? `${it.name} 수정` : undefined}
-                    onClick={editing ? () => setEditId(it.id) : undefined}
+                    onClick={editing ? () => setEditKey(it.rowKey ?? it.id) : undefined}
                     className="flex w-full items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-left dark:border-zinc-800 dark:bg-zinc-900"
                   >
                     <div className="min-w-0 flex-1">
@@ -985,7 +1111,7 @@ function MealDetailDialog({
               type="button"
               onClick={() => {
                 setEditing(false);
-                setEditId(null);
+                setEditKey(null);
               }}
               className="h-11 w-full rounded-xl bg-zinc-900 text-sm font-bold text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900"
             >
@@ -1414,6 +1540,8 @@ function AddFoodDialog({
   meal,
   items,
   photos,
+  recent,
+  date,
   isToday,
   aiScanEnabled = false,
   onClose,
@@ -1424,6 +1552,8 @@ function AddFoodDialog({
   meal: Meal;
   items: FoodLog[];
   photos: string[];
+  recent: RecentFood[];
+  date: string;
   isToday: boolean;
   aiScanEnabled?: boolean;
   onClose: () => void;
@@ -1465,6 +1595,11 @@ function AddFoodDialog({
   }, [localResults, customResults, dbResults, q]);
   const [picked, setPicked] = useState<FoodItem | null>(null);
   const [time, setTime] = useState(isToday ? nowSeoulHHMM() : "");
+  // 이 끼니에 어울리는 '내가 먹던 것' — 빈 검색어일 때 목록 맨 위에 둔다.
+  const mine = useMemo(
+    () => rankQuickFoods(recent, { meal, today: date, limit: 6 }),
+    [recent, meal, date],
+  );
   const addWithTime = (input: FoodInput) =>
     onAdd({ ...input, eatenAt: time || null });
   const modes: Array<"search" | "manual" | "ai"> = aiScanEnabled
@@ -1591,6 +1726,33 @@ function AddFoodDialog({
               className="food-search-input h-11 min-w-0 flex-1 bg-transparent text-base outline-none placeholder:text-zinc-400 dark:text-zinc-100"
             />
           </div>
+          {/* 🔴 검색창을 열자마자 보이는 건 **내가 실제로 먹던 것**이어야 한다(2026-09-25).
+              예전엔 빈 검색어에 정적 음식 사전이 그대로 쏟아져서, 매일 같은 걸 먹는
+              사람도 그 안에서 자기 음식을 다시 찾아내야 했다. */}
+          {q.trim() === "" && mine.length > 0 ? (
+            <div className="mx-4 mt-3">
+              <p className="mb-1.5 text-xs font-bold text-zinc-400">최근 먹은 것</p>
+              <ul className="flex flex-wrap gap-1.5" data-testid="recent-foods">
+                {mine.map((f) => (
+                  <li key={f.key}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        addWithTime(quickFoodInput(f, meal, time || null));
+                        onClose();
+                      }}
+                      aria-label={`${f.name} 담기`}
+                      className="app-press inline-flex h-9 max-w-[15rem] items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                    >
+                      <Plus aria-hidden="true" size={13} className="text-zinc-400" />
+                      <span className="truncate">{f.name}</span>
+                      <span className="text-zinc-400">{Math.round(f.kcal)}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
           <ul className="mt-2 flex-1 divide-y divide-zinc-100 overflow-y-auto px-4 pb-[calc(6rem+env(safe-area-inset-bottom,0px))] dark:divide-zinc-800">
             {foodSearchLoading && results.length === 0 ? (
               <li className="flex items-center justify-center gap-2 py-10 text-sm text-zinc-400">

@@ -174,6 +174,7 @@ export function WaterCard({
           disabled={busy}
           onClick={() => setCustom((v) => !v)}
           aria-expanded={custom}
+          aria-label="마신 양 직접 입력"
           data-testid="water-custom-open"
           className="app-press inline-flex h-9 items-center gap-1 rounded-full border border-dashed border-zinc-300 px-3 text-xs font-semibold text-zinc-600 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-300"
         >

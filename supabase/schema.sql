@@ -3166,6 +3166,48 @@ alter table public.commitments add column if not exists mode text
   not null default 'manual' check (mode in ('manual', 'survey'));
 alter table public.commitments add column if not exists missions jsonb
   not null default '[]'::jsonb;
+-- 하루 약속 + 주간 리듬(2026-09-25). 매일 100% 를 요구하지 않는다.
+--  weekly_target      : 이번 주 며칠 달성이 목표인지
+--  rest_pass_per_week : '오늘 쉼' 주 N회 — 아픈 날을 실패로 기록하지 않으려고
+--  remind_at          : 그 시각에 아직 못 한 것만 알린다. null = 알림 없음
+alter table public.commitments add column if not exists weekly_target int
+  not null default 5 check (weekly_target between 1 and 7);
+alter table public.commitments add column if not exists rest_pass_per_week int
+  not null default 1 check (rest_pass_per_week between 0 and 3);
+alter table public.commitments add column if not exists remind_at time;
+
+-- 다짐의 하루 한 행 — 앱이 판정할 수 없는 미션(물·술·수면)의 체크와 '오늘 쉼'.
+-- ⚠ 자동 판정은 여기 저장하지 않는다. 기록이 수정되면 결과도 바뀌어야 하므로 매번 계산한다.
+create table if not exists public.commitment_days (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  commitment_id uuid not null references public.commitments(id) on delete cascade,
+  for_date date not null,
+  checked_ids text[] not null default '{}',
+  rest_pass boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (user_id, commitment_id, for_date)
+);
+create index if not exists commitment_days_lookup
+  on public.commitment_days (user_id, commitment_id, for_date desc);
+alter table public.commitment_days enable row level security;
+drop policy if exists "own commitment days read" on public.commitment_days;
+create policy "own commitment days read" on public.commitment_days
+  for select to authenticated using (user_id = auth.uid());
+drop policy if exists "own commitment days insert" on public.commitment_days;
+create policy "own commitment days insert" on public.commitment_days
+  for insert to authenticated with check (user_id = auth.uid());
+drop policy if exists "own commitment days update" on public.commitment_days;
+create policy "own commitment days update" on public.commitment_days
+  for update to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists "own commitment days delete" on public.commitment_days;
+create policy "own commitment days delete" on public.commitment_days
+  for delete to authenticated using (user_id = auth.uid());
+drop trigger if exists commitment_days_updated_at on public.commitment_days;
+create trigger commitment_days_updated_at
+  before update on public.commitment_days
+  for each row execute function public.set_updated_at();
 create index if not exists commitments_user_idx on public.commitments (user_id);
 alter table public.commitments enable row level security;
 drop policy if exists "own commitments" on public.commitments;
@@ -4952,3 +4994,18 @@ do $$ declare f record; begin
 end $$;
 drop policy if exists "trainer writes comment" on public.trainer_comments;
 notify pgrst, 'reload schema';
+
+create table if not exists public.recommendation_preferences (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  days integer not null check (days between 2 and 6),
+  minutes integer not null check (minutes in (30,45,60,75)),
+  priority text not null check (priority in ('balanced','upper','lower')),
+  equipment text not null check (equipment in ('mixed','machine','freeweight')),
+  variety text not null check (variety in ('familiar','balanced'))
+);
+alter table public.recommendation_preferences enable row level security;
+drop policy if exists "Users manage own recommendation preferences" on public.recommendation_preferences;
+create policy "Users manage own recommendation preferences" on public.recommendation_preferences
+  for all to authenticated using (auth.uid()=user_id) with check (auth.uid()=user_id);
+revoke all on public.recommendation_preferences from anon;
+grant select,insert,update,delete on public.recommendation_preferences to authenticated;

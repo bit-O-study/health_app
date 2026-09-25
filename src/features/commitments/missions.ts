@@ -36,14 +36,17 @@ export type MissionType =
   | "intake_max"
   | "protein_min"
   | "strength_today"
-  | "no_late_snack";
+  | "no_late_snack"
+  /** 앱이 판정 못 하는 다짐 — 사용자가 직접 체크한다(물·술·수면 등). */
+  | "manual_check";
 
 /** 미션 정의(카탈로그). check(day, target) → 그날 달성 여부. */
 export type MissionDef = {
   type: MissionType;
   /** {n} 자리에 target 을 넣어 라벨 완성. */
   label: (target: number) => string;
-  kind: "workout" | "diet";
+  /** habit = 앱이 판정 못 하는 것(수동 체크). */
+  kind: "workout" | "diet" | "habit";
   /** 목표 수치가 필요한가(false 면 존재 자체가 미션). */
   needsTarget: boolean;
   defaultTarget: number;
@@ -155,51 +158,125 @@ export const MISSION_CATALOG: Record<MissionType, MissionDef> = {
     dir: "atmost",
     check: (d, t) => d.loggedDiet && d.intakeKcal <= t,
   },
+  /**
+   * 앱이 판정할 수 없는 다짐 — 물 2L·술 안 마시기·12시 전에 자기 같은 것.
+   *
+   * 🔴 `check` 는 언제나 false 다. 기록만 보고는 알 수 없기 때문이다. 달성 여부는
+   * 사용자가 그날 체크했는지(`commitment_days.checked_ids`)로 정해지고, 그 판단은
+   * `achievementForDay` 가 체크 목록을 받아서 한다. 여기서 true 를 돌려주면
+   * **체크하지 않아도 달성**이 되어 버린다.
+   */
+  manual_check: {
+    type: "manual_check",
+    label: () => "직접 체크",
+    kind: "habit",
+    needsTarget: false,
+    defaultTarget: 0,
+    unit: "",
+    dir: "atleast",
+    check: () => false,
+  },
 };
 
 export const MISSION_TYPES = Object.keys(MISSION_CATALOG) as MissionType[];
 
-/** 다짐에 저장되는 미션 스펙(설문 결과). */
-export type MissionSpec = { type: MissionType; target: number };
+/**
+ * 다짐에 저장되는 미션 스펙(설문 결과).
+ *
+ * `id` 는 수동 체크가 어느 미션인지 가리키는 열쇠다 — 순번으로 가리키면 사용자가
+ * 미션을 지우거나 순서를 바꿨을 때 과거 체크가 **다른 미션에 붙는다**.
+ * 옛 데이터에는 id 가 없어 `sanitizeMissions` 가 읽을 때 `m1`·`m2`… 로 채워 준다.
+ */
+export type MissionSpec = {
+  type: MissionType;
+  target: number;
+  /** 미션 식별자. 수동 체크(`commitment_days.checked_ids`)가 이 값을 쓴다. */
+  id?: string;
+  /** manual_check 의 사용자 문구("물 2L 마시기"). 자동 미션은 카탈로그 라벨을 쓴다. */
+  label?: string;
+  /** 왜 이 숫자인지 — 만들 때 한 번 쓰고 모든 화면이 읽는다. */
+  why?: string;
+};
 
 export function missionLabel(spec: MissionSpec): string {
+  if (spec.type === "manual_check") return spec.label?.trim() || "직접 체크";
   return MISSION_CATALOG[spec.type].label(spec.target);
 }
+
+/** 미션 문구 최대 길이 — 화면 한 줄에 들어가야 한다. */
+const MAX_LABEL = 30;
+const MAX_WHY = 60;
 
 /** 유효한 미션 스펙만 정규화(알 수 없는 타입/음수 목표 제거). */
 export function sanitizeMissions(raw: unknown): MissionSpec[] {
   if (!Array.isArray(raw)) return [];
   const out: MissionSpec[] = [];
-  const seen = new Set<MissionType>();
+  const seen = new Set<string>();
   for (const r of raw) {
     if (!r || typeof r !== "object") continue;
     const type = (r as { type?: unknown }).type;
     if (typeof type !== "string" || !(type in MISSION_CATALOG)) continue;
     const mt = type as MissionType;
-    if (seen.has(mt)) continue;
     const def = MISSION_CATALOG[mt];
+
+    const rawLabel = (r as { label?: unknown }).label;
+    const label =
+      typeof rawLabel === "string" && rawLabel.trim()
+        ? rawLabel.trim().slice(0, MAX_LABEL)
+        : undefined;
+    // 자동 미션은 종류가 같으면 중복이지만, 수동은 **문구가 다르면 다른 미션**이다
+    // (물 2L / 술 안 마시기 / 12시 전에 자기는 전부 manual_check 다).
+    const key = mt === "manual_check" ? `manual:${label ?? ""}` : mt;
+    if (seen.has(key)) continue;
+    if (mt === "manual_check" && !label) continue; // 문구 없는 수동 미션은 버린다
+
     const t = Number((r as { target?: unknown }).target);
     const target = def.needsTarget
       ? Number.isFinite(t) && t > 0
         ? Math.round(t)
         : def.defaultTarget
       : 0;
-    seen.add(mt);
-    out.push({ type: mt, target });
+    const rawId = (r as { id?: unknown }).id;
+    const rawWhy = (r as { why?: unknown }).why;
+    seen.add(key);
+    out.push({
+      type: mt,
+      target,
+      id:
+        typeof rawId === "string" && rawId.trim()
+          ? rawId.trim().slice(0, 24)
+          : `m${out.length + 1}`,
+      ...(label ? { label } : {}),
+      ...(typeof rawWhy === "string" && rawWhy.trim()
+        ? { why: rawWhy.trim().slice(0, MAX_WHY) }
+        : {}),
+    });
   }
   return out;
 }
 
-/** 하루 달성 판정 — done/total/pct. 미션 없으면 pct 0. */
+/**
+ * 하루 달성 판정 — done/total/pct.
+ *
+ * 자동 미션은 그날 기록(`day`)으로, **수동 미션은 사용자가 체크했는지**(`checkedIds`)로
+ * 판정한다. 체크 목록을 안 넘기면 수동 미션은 전부 미달성이다 — 기록만 보고는
+ * 알 수 없기 때문이지, 안 한 게 확실해서가 아니다.
+ */
 export function achievementForDay(
   missions: MissionSpec[],
   day: DayStats,
+  checkedIds: readonly string[] = [],
 ): { done: number; total: number; pct: number } {
   const total = missions.length;
   if (total === 0) return { done: 0, total: 0, pct: 0 };
+  const checked = new Set(checkedIds);
   let done = 0;
   for (const m of missions) {
-    if (MISSION_CATALOG[m.type].check(day, m.target)) done += 1;
+    const ok =
+      m.type === "manual_check"
+        ? !!m.id && checked.has(m.id)
+        : MISSION_CATALOG[m.type].check(day, m.target);
+    if (ok) done += 1;
   }
   return { done, total, pct: Math.round((done / total) * 100) };
 }

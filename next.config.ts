@@ -16,6 +16,10 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 일주일
   },
+  // 개발 서버 전용 — Next 16 은 localhost 가 아닌 주소(127.0.0.1·같은 와이파이의 폰)에서 온
+  // 개발 리소스 요청(HMR 등)을 막아, 화면은 떠도 JS 가 붙지 않아 버튼이 안 눌린다.
+  // E2E·실기기 확인에 쓰는 주소를 허용한다(프로덕션 빌드에는 영향 없음).
+  allowedDevOrigins: ["127.0.0.1", "192.168.*.*", "10.*.*.*"],
   // 압축은 기본 활성화이지만 명시
   compress: true,
   // X-Powered-By 헤더 제거 — 보안·바이트 절감

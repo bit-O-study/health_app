@@ -1,1 +1,7 @@
 *-frames/
+
+# Recreated render workspace; keep prompts and verification at candidate root.
+/low-bar-individual/tools/
+/low-bar-individual/public/
+/wrist-curl-16/tools/
+/wrist-curl-16/public/

@@ -1,0 +1,279 @@
+{
+  "url": "http://127.0.0.1:3188/",
+  "checkedAt": "2026-09-25T13:27:45.414Z",
+  "results": [
+    {
+      "id": "barbell-bench-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "incline-barbell-bench-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "decline-barbell-bench-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "incline-dumbbell-bench-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "decline-dumbbell-bench-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "incline-dumbbell-fly",
+      "metadata": "passed"
+    },
+    {
+      "id": "incline-push-up",
+      "metadata": "passed"
+    },
+    {
+      "id": "svend-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "floor-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "barbell-bent-over-row",
+      "metadata": "passed"
+    },
+    {
+      "id": "machine-row",
+      "metadata": "passed"
+    },
+    {
+      "id": "hammer-strength-high-row",
+      "metadata": "passed"
+    },
+    {
+      "id": "rack-pull",
+      "metadata": "passed"
+    },
+    {
+      "id": "back-extension",
+      "metadata": "passed"
+    },
+    {
+      "id": "barbell-shrug",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-shrug",
+      "metadata": "passed"
+    },
+    {
+      "id": "seal-row",
+      "metadata": "passed"
+    },
+    {
+      "id": "landmine-row",
+      "metadata": "passed"
+    },
+    {
+      "id": "military-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-shoulder-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "smith-machine-shoulder-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-lateral-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "machine-lateral-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-front-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-rear-delt-fly",
+      "metadata": "passed"
+    },
+    {
+      "id": "barbell-upright-row",
+      "metadata": "passed"
+    },
+    {
+      "id": "landmine-press",
+      "metadata": "passed"
+    },
+    {
+      "id": "plate-front-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "barbell-back-squat",
+      "metadata": "passed"
+    },
+    {
+      "id": "high-bar-squat",
+      "metadata": "passed"
+    },
+    {
+      "id": "leg-press-2",
+      "metadata": "passed"
+    },
+    {
+      "id": "lying-leg-curl",
+      "metadata": "passed"
+    },
+    {
+      "id": "seated-leg-curl-2",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-lunge",
+      "metadata": "passed"
+    },
+    {
+      "id": "barbell-hip-thrust",
+      "metadata": "passed"
+    },
+    {
+      "id": "hip-abduction-machine",
+      "metadata": "passed"
+    },
+    {
+      "id": "leg-press-calf-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "barbell-curl",
+      "metadata": "passed"
+    },
+    {
+      "id": "ez-bar-curl-2",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-biceps-curl",
+      "metadata": "passed"
+    },
+    {
+      "id": "hammer-curl-2",
+      "metadata": "passed"
+    },
+    {
+      "id": "spider-curl",
+      "metadata": "passed"
+    },
+    {
+      "id": "reverse-barbell-curl",
+      "metadata": "passed"
+    },
+    {
+      "id": "close-grip-bench-press-2",
+      "metadata": "passed"
+    },
+    {
+      "id": "dumbbell-overhead-extension",
+      "metadata": "passed"
+    },
+    {
+      "id": "bench-dip-2",
+      "metadata": "passed"
+    },
+    {
+      "id": "triceps-dip",
+      "metadata": "passed"
+    },
+    {
+      "id": "machine-triceps-extension",
+      "metadata": "passed"
+    },
+    {
+      "id": "behind-the-back-wrist-curl",
+      "metadata": "passed"
+    },
+    {
+      "id": "plate-pinch",
+      "metadata": "passed"
+    },
+    {
+      "id": "hollow-body-hold",
+      "metadata": "passed"
+    },
+    {
+      "id": "kettlebell-goblet-squat",
+      "metadata": "passed"
+    },
+    {
+      "id": "kettlebell-deadlift",
+      "metadata": "passed"
+    },
+    {
+      "id": "kettlebell-row",
+      "metadata": "passed"
+    },
+    {
+      "id": "band-pull-apart",
+      "metadata": "passed"
+    },
+    {
+      "id": "band-glute-bridge",
+      "metadata": "passed"
+    },
+    {
+      "id": "stability-ball-crunch",
+      "metadata": "passed"
+    },
+    {
+      "id": "stability-ball-plank",
+      "metadata": "passed"
+    },
+    {
+      "id": "prisoner-squat",
+      "metadata": "passed"
+    },
+    {
+      "id": "seated-dumbbell-calf-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "barbell-front-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "kneeling-push-up",
+      "metadata": "passed"
+    },
+    {
+      "id": "glute-bridge",
+      "metadata": "passed"
+    },
+    {
+      "id": "push-up",
+      "metadata": "passed"
+    },
+    {
+      "id": "leg-extension",
+      "metadata": "passed"
+    },
+    {
+      "id": "standing-calf-raise",
+      "metadata": "passed"
+    },
+    {
+      "id": "candidate",
+      "metadata": "passed"
+    },
+    {
+      "id": "wrist-candidate",
+      "metadata": "passed"
+    }
+  ],
+  "playSeek": "front raise, low-bar candidate and wrist candidate, both themes passed"
+}

@@ -387,6 +387,38 @@
 ## P1 — 콘텐츠 작성 동선
 
 ### P1.4 [진행중] 운동모드 기구 세팅 가이드 영상
+  - [완료] 2026-09-25 영상 작업 Git 정리 및 커밋 준비
+    - [완료] 본 세션 변경과 별도 bash.exe.stackdump 구분, 기존 바이너리 제외 유지 및 새 후보 tools/public 작업 폴더 제외.
+    - [완료] 프롬프트·스크립트·검토/재생 기록 보존, 렌더 verification.json을 후보 루트에 보관, 로컬 자산 재개 README 추가.
+    - [완료] 커밋 검증: corepack pnpm test:unit 210파일2359개, test:schema 72개, lint 0오류41기존경고, exec tsc --noEmit 통과. 영상 관련31파일만 스테이징·diff --cached --check 통과.
+    - 사용자 「e2e안해도되니까 그냥 커밋」 지시로 corepack pnpm test:e2e --max-failures=1 중단: localhost:3000/mobile-chromium 319개 중26개 통과 확인, 전체 E2E 미완료. 테스트 계정 자동정리 완료는 확인 못함. 영상 자세 보류·앱/Android 미검증은 별도 유지.
+  - [진행중] 2026-09-25 후속: 비하인드 백 리스트 컬 16자세 제작
+    - [완료] 로우바 확대 프레임 재검토: 발 높이 안정화 확인, 후면 시점만으로 바 접촉·전경 판정 불충분하여 공개 보류 유지.
+    - [완료] StrengthLog 출처·기존 8자세 확인, 내장 image_gen 16자세 생성 및 잘림/배경 수정 1회. 원본·정확한 프롬프트 generation.json은 imports/exercise-video-20260925/wrist-curl-16/.
+    - [완료] birefnet-general 누끼 및 양쪽 MP4 제작. 480×480·8초·24fps, light 170238B·dark 171181B 전체 디코딩 통과. 양쪽32프레임과 확대4프레임 검토, 발바닥 높이 최대4px 변화.
+    - [대기] 공개 판정 pending: 시작 손가락이 바를 받치는 모양 불명확, 마지막 행 발높이·몸통 미세변화 보정. 기존 승인8자세는 보존, 공개103 유지. review.json에 해시·근거·다음 작업 기록.
+    - [완료] Pixel7 Chromium loopback 양쪽 재생·7.5초 탐색 통과. HTTP3188 미리보기 68항목·136영상 로드, 프런트레이즈/로우바/리스트컬 양쪽6영상 재생·탐색 통과. 대상 ESLint·tsc, guide-review3개·exercise-media-equipment6개 통과. 신규 후보 바로열기 ?exercise=wrist-candidate 제공.
+    - [대기] 앱 화면·Android 실기기 확인.
+  - [진행중] 2026-09-25 로우바 개별 자세 제작 방식 전환
+    - [완료] 기준 시작/최저점과 중간 자세 16장 내장 image_gen 생성·검토, 바 높이 순서로 512px 균등칸 시트 조립. 정확한 프롬프트와 각 PNG는 imports/exercise-video-20260925/low-bar-individual/.
+    - [완료] 기본 birefnet-general 누끼 및 양쪽 영상 렌더. 480×480·8초·24fps 전체 디코딩 통과, light 228813B·dark 217602B.
+    - [완료] 도구 ESLint·tsc, guide-review 3개·누끼 캐시 1개·앱 영상 기구 연결 Vitest 6개 통과.
+    - [완료] 발 바닥 높이 변화 왼발 0px·오른발 1px(수평이동은 미측정), 양쪽 접촉시트·확대 8프레임 검토, Pixel7 Chromium 양쪽 재생/탐색 통과. review.json·foot-anchors.json·playback JSON에 증거 저장.
+    - [완료] HTTP 미리보기 최신 후보 연결 후 67항목·134영상 로드, 후보/프런트레이즈 양쪽 재생·탐색 재검증 통과.
+    - [대기] 후면 어깨의 로우바 위치·운동 자세 최종 판정. 가장자리 일부 흐림 확인, 공개 승인 103개 유지.
+    - [대기] 앱 화면·Android 실기기 확인.
+  - [완료] 누끼 미리보기 열기 오류 대응: 원본 file URL은 Chromium 정상 로드(사용자 오류 직접 재현 못함). http://127.0.0.1:3188 HTTP/Range 서버 제공, 실제 페이지 67항목·134영상 메타데이터 로드 통과, 프런트레이즈/로우바 후보 양쪽4영상 재생·7.5초 탐색 통과. 대상 ESLint 통과. 증거 imports/exercise-video-20260925/gallery-verification.json 및 gallery-preview.png. 로컬 미리보기이며 앱·Android 검증과 별개.
+  - [완료] 2026-09-25 누끼 후속 비교: low-bar-anchored 후보2개·기본 birefnet16패널·양쪽MP4 생성. 라이트255012B/다크253709B,480x480/8초/24fps 전체decode·Pixel7 Chromium loopback 재생/탐색 통과. guide-review3개·대상ESLint·tsc 통과. 프롬프트/측정/리뷰는 imports/exercise-video-20260925/low-bar-anchored/.
+  - [진행중] 로우바 보정 후보 rejected: 발이동24/19px(기존22/21px), 일부신발 크롭경계 접촉·최종행 하강역전. 다음 개별자세 고정구도·발좌표·깊이 검증 후 시트 구성. 공개103 유지, 앱/Android 대기.
+
+  - [완료] 2026-09-25 기준자세 기반 로우바 후보: 내장 image_gen 기준2장·16자세 생성, 기본 birefnet CPU 누끼 및 양쪽 렌더 완료. 480x480/8초/24fps, 라이트240240B·다크241705B 전체decode 및 Pixel7 Chromium loopback 재생·7.5초 탐색 각각 통과. 양쪽32프레임·다크480px8프레임 직접 검토, guide-review 3개·대상ESLint·tsc 통과. 증거 imports/exercise-video-20260925/low-bar-reference/.
+  - [진행중] 로우바 바 위치는 개선됐으나 하강 중 발 기준점 이동으로 pending. 발 고정 보정 후 재렌더·재검토 필요. 우드초퍼 추가 후보는 머리 방향 급변 유지로 rejected. 신규 공개 승인 없음, 앱/Android 검증 대기.
+
+  - [완료] 2026-09-25 Codex 후속 원본 검토: 누끼 캐시 회귀 1개 재통과, 실파일 coverage 146/145/103 확인. 로우바 image_gen 후보3개는 바 접촉·구도 문제로 rejected; 프롬프트와 근거는 imports/exercise-video-20260925/low-bar-correction/review.json. 새 등록·렌더·공개 승인 없음.
+  - [진행중] 후측면 로우바 단일 기준자세 생성·바 접촉 검토 후 16자세 확장.
+    - [대기] 원본 통과 후 양쪽 렌더·전체 디코딩·중간 프레임·모바일 재생 검사.
+    - [대기] 우드초퍼 보정 및 앱/Android 검증.
+
 
 - [진행중] 2026-09-25 feat/exercise-video 영상 제작·누끼 작업 재개
   - [완료] 후속 속도 개선: 부분 누끼 캐시 재사용·손상 캐시 복구·원자적 저장(`motion-cutout.py`), 회귀 테스트 `tools/media/test_motion_cutout.py` 통과.

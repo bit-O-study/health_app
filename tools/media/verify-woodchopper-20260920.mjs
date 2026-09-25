@@ -2,8 +2,10 @@ import {createServer} from 'node:http';
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {chromium,devices} from 'playwright';
-const output='tools/media/imports/woodchopper-16-20260920/playback.json';
-const media=readFileSync('public/exercise-guides/ai-v3/cable-woodchopper.mp4');
+const id=process.argv[2]??'cable-woodchopper';
+if(!/^[a-z0-9-]+$/.test(id))throw Error('Expected an exercise video ID');
+const output=process.argv[2]?`tools/media/imports/exercise-video-20260925/playback-${id}.json`:'tools/media/imports/woodchopper-16-20260920/playback.json';
+const media=readFileSync(`public/exercise-guides/ai-v3/${id}.mp4`);
 let stage='server',browser;
 const log=s=>{stage=s;console.log(new Date().toISOString(),s);};
 const server=createServer((req,res)=>{

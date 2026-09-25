@@ -1,12 +1,12 @@
 {
-  "prompt": "Create a precise 4 columns by 2 rows animation sprite sheet, eight equal square cells, landscape 2:1 canvas. Grey muscular adult male mannequin in teal shorts and grey shoes performs a bilateral DUMBBELL FRONT RAISE. Orthographic three-quarter side view facing right, full body with ample margins. Identical body position, scale, head, upright torso and planted feet in every cell. Two small black dumbbells held with closed overhand grips, elbows nearly straight and wrists neutral. EIGHT DISTINCT poses of only the ASCENDING half repetition, read left to right across top row then bottom row. Cell 1 arms hang vertically beside thighs (0 degrees from downward vertical). Cell 2 arms angle forward 13 degrees. Cell 3 forward 26 degrees, hands below hips. Cell 4 forward 39 degrees, hands at hips. Cell 5 forward 51 degrees, hands above hips but well below chest. Cell 6 forward 64 degrees, hands lower chest height. Cell 7 forward 77 degrees, hands upper chest height but below shoulders. Cell 8 exactly 90 degrees, both arms horizontal forward at shoulder height. Do not reach horizontal before the final cell. No repeated poses. Both weights remain separate and firmly in hands. Only shoulders rotate, no body lean, no elbow curling. Uniform solid light grey background, no grid lines, no numbers, no text, no shadows extending to adjacent cells. Crisp clean 3D educational illustration, no motion blur, no ghost limbs.",
+  "prompt": "Scientific educational 3D exercise animation sprite sheet. Use attached image ONLY as reference for gray mannequin, teal shorts and dumbbells. Create a NEW SQUARE sheet exactly FOUR columns FOUR rows, 16 equal square cells, 2048x2048. Keep every entire figure and both dumbbells inside central 70 percent of EACH cell, with 15 percent empty margin on all sides, no body parts crossing cell edges. Fixed three-quarter side view facing right; head torso hips feet fixed identically every cell. Bilateral DUMBBELL FRONT RAISE ascending half repetition, elbows nearly straight, hands closed on two separate black dumbbells, overhand grip palms initially facing back then down at top. Read row-major: 16 shoulder-flexion angles from downward vertical = 0,6,12,18 / 24,30,36,42 / 48,54,60,66 / 72,78,84,90 degrees. Each pose progresses a small equal amount, no reset on new row, no repeated end poses. Only both shoulders rotate; feet planted, trunk upright braced, no elbow curl, no lean or shrug. Final cell only has arms horizontal at shoulder height. Same subject scale and feet coordinates in all cells. Flat opaque light gray background, crisp clean 3D educational form, NO transparency, NO gradients, no floor shadow, NO lines text labels arrows. The 4x4 geometry and margins are essential for animation cropping.",
   "equipment": "dumbbell",
   "sources": [
     "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/",
     "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"
   ],
-  "panels": 8,
+  "panels": 16,
   "cycle": "reverse",
   "id": "dumbbell-front-raise",
-  "registeredAt": "2026-09-17T08:37:25.324Z"
+  "registeredAt": "2026-09-24T17:07:00.266Z"
 }

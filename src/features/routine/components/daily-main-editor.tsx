@@ -208,6 +208,8 @@ export function DailyMainEditor({
   const [msg, setMsg] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
   const [confirmRecommend, setConfirmRecommend] = useState(false);
+  /** '추천으로 채우기' 로 들어온 운동의 추천 이유 — `부위:운동` → 한 줄. 운동을 바꾸면 안 보인다. */
+  const [reasons, setReasons] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (!dirty) return;
@@ -442,6 +444,12 @@ export function DailyMainEditor({
         for (const g of groups) for (const o of g.exercises) merged[o.id] = o;
         return merged;
       });
+      setReasons((prev) => {
+        const merged = { ...prev };
+        for (const g of groups)
+          for (const o of g.exercises) if (o.reason) merged[`${g.focus}:${o.id}`] = o.reason;
+        return merged;
+      });
       if (addOnly) {
         // 기존(핀된 오늘 부위) 행은 유지하고, 추천 요청 부위만 덧붙인다(중복 방지 — 전체 대체 X).
         const seen = new Set(rows.map((r) => `${r.focus}:${r.exerciseId}`));
@@ -671,6 +679,12 @@ export function DailyMainEditor({
                     })}
                   </select>
                 </div>
+
+                {reasons[`${row.focus}:${row.exerciseId}`] ? (
+                  <p data-testid="recommend-reason" className="pl-8 text-xs text-brand">
+                    추천 · {reasons[`${row.focus}:${row.exerciseId}`]}
+                  </p>
+                ) : null}
 
                 {/* 3행: 세트/무게/횟수 */}
                 <div className="pl-8">

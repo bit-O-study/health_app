@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState, useSyncExternalStore } from "react";
 import { Minus, Plus } from "lucide-react";
 import { visibleApps } from "@/features/launcher/apps";
-import { useHomeDock } from "@/features/launcher/use-home-dock";
+import { AppPickerDialog } from "@/features/launcher/app-picker-dialog";
+import { HomeDockEditor } from "@/features/launcher/home-dock-editor";
 import { useHydrated } from "@/lib/use-hydrated";
 
 const CHANGE_EVENT = "launcher-apps-changed";
@@ -22,7 +23,7 @@ function subscribe(onChange: () => void) {
 export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: { userId: string; enabledFlags?: readonly string[]; initialEditing?: boolean }) {
   const [editing, setEditing] = useState(initialEditing);
   const [addingOpen, setAddingOpen] = useState(false);
-  const dock = useHomeDock(userId);
+
   const [error, setError] = useState<string | null>(null);
   const hydrated = useHydrated();
   const storageKey = `helssu:home-hidden-apps:${userId}`;
@@ -44,8 +45,10 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
       localStorage.setItem(storageKey, JSON.stringify(next));
       setError(null);
       window.dispatchEvent(new Event(CHANGE_EVENT));
+      return true;
     } catch {
       setError("앱 구성을 저장하지 못했어요. 브라우저 저장 공간 설정을 확인해 주세요.");
+      return false;
     }
   }
 
@@ -62,7 +65,7 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
     </>;
     const className = "flex w-full flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90";
     return <li key={app.id}>
-      {adding && app.id === "trainer" ? <Link href={app.home} prefetch={false} className={className} aria-label="트레이너 대시보드" onClick={() => toggle(app.id, false)}>{content}</Link> : editing || adding ? <button type="button" className={className} aria-label={`${app.label} ${adding ? "추가" : "숨기기"}`} onClick={() => toggle(app.id, !adding)}>{content}</button>
+      {adding && app.id === "trainer" ? <Link href={app.home} prefetch={false} className={className} aria-label="트레이너 대시보드" onClick={() => toggle(app.id, false)}>{content}</Link> : editing || adding ? <button type="button" className={className} aria-label={`${app.label} ${adding ? "추가" : "숨기기"}`} onClick={() => { if (toggle(app.id, !adding) && adding) setAddingOpen(false); }}>{content}</button>
         : <Link href={app.home} prefetch={false} data-app={app.id} className={className}>{content}</Link>}
     </li>;
   }
@@ -76,32 +79,19 @@ export function AppGrid({ userId, enabledFlags = [], initialEditing = false }: {
       {apps.length > 0 || editing ? <ul className="grid grid-cols-4 gap-x-1 gap-y-3">
         {apps.map(app => tile(app))}
         {editing && <li>
-          <button type="button" aria-label="앱 추가" aria-expanded={addingOpen} aria-controls="home-add-apps" onClick={() => setAddingOpen(!addingOpen)} className="flex w-full flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90">
+          <button type="button" aria-label="앱 추가" aria-expanded={addingOpen} aria-haspopup="dialog" onClick={() => setAddingOpen(!addingOpen)} className="flex w-full flex-col items-center gap-1.5 rounded-xl py-1 transition-transform active:scale-90">
             <span aria-hidden="true" className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/10 text-brand shadow-sm ring-1 ring-inset ring-brand/20"><Plus size={24} strokeWidth={1.9} /></span>
           </button>
         </li>}
       </ul> : <p className="py-3 text-center text-sm text-muted">편집을 눌러 홈에 앱을 추가해 보세요.</p>}
       {editing && <p className="text-xs text-muted">아이콘을 눌러 홈에서 숨길 수 있어요. + 아이콘으로 다시 추가할 수 있어요.</p>}
-      {editing && addingOpen && <section id="home-add-apps" aria-label="추가할 앱" className="space-y-3 border-t border-line pt-3">
-        <h2 className="text-sm font-semibold">홈에 추가할 앱</h2>
+      {editing && addingOpen && <AppPickerDialog onClose={() => setAddingOpen(false)}>
         {removed.length > 0
           ? <ul className="grid grid-cols-4 gap-x-1 gap-y-3">{removed.map(app => tile(app, true))}</ul>
-          : <p className="text-sm text-muted">추가할 수 있는 앱이 모두 홈에 있어요.</p>}
-      </section>}
-      {editing && <fieldset className="space-y-3 border-t border-line pt-3">
-        <legend className="pt-3 text-sm font-semibold">하단 바로가기</legend>
-        <p className="text-xs text-muted">가운데 홈 양옆에 둘 앱을 선택하세요. 이 브라우저에 저장돼요.</p>
-        <div className="grid grid-cols-2 gap-3">
-          {dock.ids.map((id, index) => <label key={index} className="space-y-1 text-xs text-muted">
-            <span>{index < 2 ? "왼쪽" : "오른쪽"} {index % 2 + 1}번째 앱</span>
-            <select aria-label={"하단 " + (index + 1) + "번 앱"} value={available.some(app => app.id === id) ? id! : ""} onChange={event => dock.setSlot(index, event.target.value || null)} className="min-h-11 w-full rounded-xl border border-line bg-surface px-2 text-sm text-foreground">
-              <option value="">비워두기</option>
-              {available.map(app => <option key={app.id} value={app.id}>{app.label}</option>)}
-            </select>
-          </label>)}
-        </div>
-        {dock.error && <p role="alert" className="text-sm text-danger">{dock.error}</p>}
-      </fieldset>}
+          : <p className="py-5 text-center text-sm text-muted">추가할 수 있는 앱이 모두 홈에 있어요.</p>}
+        {error && <p role="alert" className="mt-3 text-sm text-danger">{error}</p>}
+      </AppPickerDialog>}
+      {editing && <HomeDockEditor userId={userId} apps={available} />}
       {error && <p role="alert" className="text-sm text-danger">{error}</p>}
     </nav>
   );

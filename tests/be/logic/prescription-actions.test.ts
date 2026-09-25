@@ -3,8 +3,8 @@ const mock = vi.hoisted(() => ({ user: vi.fn(), rpc: vi.fn(), revalidate: vi.fn(
 vi.mock("@/lib/supabase/server", () => ({ getCurrentUser: mock.user, createSupabaseServerClient: async () => ({ rpc: mock.rpc }) }));
 vi.mock("next/cache", () => ({ revalidatePath: mock.revalidate }));
 vi.mock("@/features/routine/exercise-catalog", () => ({ ALL_EXERCISES: [], getCatalogExercise: (id: string) => id === "squat" ? { name: "스쿼트", equipments: [{ equipment: "barbell" }] } : undefined }));
-import { prescribeMemberExercise, prescribeMemberToday } from "@/features/groups/prescription-actions";
-import { getMemberReport, getMemberTodayPlan } from "@/features/groups/member-report-data";
+import { prescribeMemberExercise, prescribeMemberToday } from "@/features/trainer/prescription-actions";
+import { getMemberReport, getMemberTodayPlan } from "@/features/trainer/member-report-data";
 const input = { exerciseId: "squat", equipment: "barbell", sets: 3, reps: 10, weightKg: 20 };
 beforeEach(() => { vi.clearAllMocks(); mock.user.mockResolvedValue({ id: "trainer" }); mock.rpc.mockResolvedValue({ data: true, error: null }); });
 describe("운동 처방 서버 액션", () => {
@@ -13,12 +13,12 @@ describe("운동 처방 서버 액션", () => {
   it("종목에 없는 기구 거절", async () => { expect((await prescribeMemberExercise("g", "m", "r", "v", { ...input, equipment: "cable" })).ok).toBe(false); expect(mock.rpc).not.toHaveBeenCalled(); });
   it("없는 종목 거절", async () => { expect((await prescribeMemberExercise("g", "m", "r", "v", { ...input, exerciseId: "missing" })).ok).toBe(false); expect(mock.rpc).not.toHaveBeenCalled(); });
   it("범위 밖 값 거절", async () => { expect((await prescribeMemberExercise("g", "m", "r", "v", { ...input, sets: 0 })).ok).toBe(false); expect(mock.rpc).not.toHaveBeenCalled(); });
-  it("그룹·회원·행·버전을 DB에 넘기고 성공 후 재검증", async () => {
+  it("연결·회원·행·버전을 DB에 넘기고 성공 후 재검증", async () => {
     expect(await prescribeMemberExercise("g", "m", "r", "v", input)).toEqual({ ok: true });
-    expect(mock.rpc).toHaveBeenCalledWith("trainer_prescribe_exercise", expect.objectContaining({ p_group_id: "g", p_member: "m", p_row: "r", p_expected_updated_at: "v", p_patch: input }));
+    expect(mock.rpc).toHaveBeenCalledWith("pt_prescribe_exercise", expect.objectContaining({ p_link: "g", p_member: "m", p_row: "r", p_expected_updated_at: "v", p_patch: input }));
     expect(mock.revalidate).toHaveBeenCalledWith("/routine");
   });
-  it("삭제도 같은 권한 RPC로 처리", async () => { await prescribeMemberExercise("g", "m", "r", "v", null); expect(mock.rpc).toHaveBeenCalledWith("trainer_prescribe_exercise", expect.objectContaining({ p_patch: null })); });
+  it("삭제도 같은 권한 RPC로 처리", async () => { await prescribeMemberExercise("g", "m", "r", "v", null); expect(mock.rpc).toHaveBeenCalledWith("pt_prescribe_exercise", expect.objectContaining({ p_patch: null })); });
   it("권한 거절/수정 충돌은 성공 처리하지 않음", async () => { mock.rpc.mockResolvedValue({ data: false, error: null }); expect((await prescribeMemberExercise("g", "m", "r", "v", input)).ok).toBe(false); expect(mock.revalidate).not.toHaveBeenCalled(); });
   it("DB 실패 내용을 노출하지 않음", async () => { mock.rpc.mockResolvedValue({ data: null, error: { message: "secret" } }); const result = await prescribeMemberExercise("g", "m", "r", "v", input); expect(result.ok).toBe(false); expect(result.error).not.toContain("secret"); });
 });
@@ -49,11 +49,11 @@ describe("오늘만 처방 서버 액션", () => {
   it("영구 루틴 RPC 가 아니라 오늘만 RPC 를 부른다", async () => {
     expect(await prescribeMemberToday("g", "m", "chest", 2, "squat", input)).toEqual({ ok: true });
     expect(mock.rpc).toHaveBeenCalledTimes(1);
-    expect(mock.rpc).toHaveBeenCalledWith("trainer_prescribe_today", expect.objectContaining({
-      p_group_id: "g", p_member: "m", p_focus: "chest", p_position: 2,
+    expect(mock.rpc).toHaveBeenCalledWith("pt_prescribe_today", expect.objectContaining({
+      p_link: "g", p_member: "m", p_focus: "chest", p_position: 2,
       p_expected_exercise_id: "squat", p_patch: input,
     }));
-    expect(mock.rpc).not.toHaveBeenCalledWith("trainer_prescribe_exercise", expect.anything());
+    expect(mock.rpc).not.toHaveBeenCalledWith("pt_prescribe_exercise", expect.anything());
   });
   it("코멘트 문구에 '오늘' 축이 박힌다(회원이 루틴 변경으로 오해하지 않게)", async () => {
     await prescribeMemberToday("g", "m", "chest", 0, "squat", input);
@@ -63,7 +63,7 @@ describe("오늘만 처방 서버 액션", () => {
   });
   it("삭제도 같은 RPC 로 처리", async () => {
     await prescribeMemberToday("g", "m", "chest", 0, "squat", null);
-    expect(mock.rpc).toHaveBeenCalledWith("trainer_prescribe_today", expect.objectContaining({ p_patch: null }));
+    expect(mock.rpc).toHaveBeenCalledWith("pt_prescribe_today", expect.objectContaining({ p_patch: null }));
   });
   it("권한 거절/충돌은 성공 처리하지 않음", async () => {
     mock.rpc.mockResolvedValue({ data: false, error: null });

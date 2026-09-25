@@ -33,6 +33,7 @@ const ICONS: Record<string, LucideIcon> = {
   "/admin/events": TriangleAlert,
   "/admin/support": MessageCircle,
   "/admin/billing": CreditCard,
+  "/admin/trainers": Users,
   "/admin/settings": ShieldCheck,
   "/admin/exercise-media": Film,
   "/equipment": Camera,

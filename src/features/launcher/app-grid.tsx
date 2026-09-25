@@ -14,7 +14,7 @@ export function AppGrid({ showCoach, searching = false }: { showCoach: boolean; 
       <input autoFocus type="search" aria-label="앱 검색" placeholder="어떤 앱을 찾으세요?" value={query} onChange={e => setQuery(e.target.value)} className="h-12 w-full bg-transparent text-sm outline-none" />
     </label>}
     <div className="grid grid-cols-4 gap-x-2 gap-y-6 rounded-[24px] border border-zinc-200/80 bg-white px-3 py-6 dark:border-zinc-800 dark:bg-[#141c18]">
-      {apps.map(app => { const Icon = app.icon; return <Link key={app.id} href={app.home} prefetch={false} aria-label={app.label + " 앱 열기"} className="group flex min-h-20 flex-col items-center gap-2 rounded-xl focus-visible:outline-2 focus-visible:outline-emerald-600">
+      {apps.map(app => { const Icon = app.icon; return <Link key={app.id} href={app.home} prefetch={false} aria-label={app.label + " 앱 열기"} className="group flex min-h-20 flex-col items-center gap-2 rounded-xl focus-visible:outline-2 focus-visible:outline-brand">
         <span className={"flex h-14 w-14 items-center justify-center rounded-[18px] bg-gradient-to-br text-white shadow-md transition-transform group-active:scale-95 " + app.tone}><Icon aria-hidden="true" size={28} strokeWidth={1.7} /></span>
         <span className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{app.label}</span>
       </Link>; })}

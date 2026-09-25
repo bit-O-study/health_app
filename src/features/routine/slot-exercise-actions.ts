@@ -1,10 +1,11 @@
 "use server";
 
+import { personalizeExercises } from "./recommend-personalization";
+
 import { isFocusKey } from "@/features/routine/data";
 import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
 import {
   allExercisesForFocus,
-  exercisesForFocus,
   getCatalogExercise,
   type CatalogExercise,
 } from "@/features/routine/exercise-catalog";
@@ -155,17 +156,19 @@ export async function recommendExercisesAction(
 ): Promise<{ focus: string; exercises: SlotExerciseOption[] }[]> {
   if (!Array.isArray(specs)) return [];
   const g = gender === "female" ? "female" : "male";
-  const gym = await currentGymEquipment();
+  const { getRecommendationContext } = await import("./recommendation-data");
+  const [gym, recommendationContext] = await Promise.all([currentGymEquipment(), getRecommendationContext()]);
   return specs.slice(0, MAX_IDS).map((spec) => {
     const focus = spec?.focus;
     // 부위가 아니면(휴식 포함) 추천할 게 없다 — 빈 목록으로 자리는 지킨다.
     if (!isFocusKey(focus)) return { focus: String(focus ?? ""), exercises: [] };
     const blockIds = cleanBlockIds(spec.blockIds);
-    const list = spec.isSide
+    const base = spec.isSide
       ? sideExercisesForSlot(focus, blockIds, g, gym)
       : blockIds.length > 0
         ? focusExercisesForSlot(focus, blockIds, g, gym)
         : recommendedExercisesForFocus(focus, g, gym);
+    const list = personalizeExercises(base, allExercisesForSlot(focus, blockIds), gym, recommendationContext, spec.isSide, focus);
     return { focus, exercises: list.map(toOption) };
   });
 }

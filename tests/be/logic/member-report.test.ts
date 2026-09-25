@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { groupTodayRowsByFocus, prescriptionNote, reportRange, summarizeMember, todayPlanState, validPrescription, type MemberReportData, type MemberTodayPlan, type TodayPlanRow } from "@/features/groups/member-report";
+import { groupTodayRowsByFocus, prescriptionNote, reportRange, summarizeMember, todayPlanState, validPrescription, type MemberReportData, type MemberTodayPlan, type TodayPlanRow } from "@/features/trainer/member-report";
 
 const empty = (): MemberReportData => ({ sharing: { workout: true, diet: true, body: true, prescription: true }, name: "회원", exercises: [], completions: [], conditioning: [], sessions: [], diet: [], weights: [] });
 describe("회원 통계 기간", () => {

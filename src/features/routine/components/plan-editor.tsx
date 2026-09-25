@@ -9,6 +9,7 @@ import {
   useTransition,
 } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   ArrowLeftRight,
   GripVertical,
@@ -560,6 +561,7 @@ export function PlanEditor({
         })),
         gender,
       );
+      if (groups.some(group => group.exercises.length === 0)) { setStatus("보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 직접 운동을 선택해 주세요."); return; }
       // 새로 담은 운동의 이름·기구를 바로 그릴 수 있게 캐시에 넣는다.
       setDetailsById((prev) => {
         const merged = { ...prev };
@@ -569,10 +571,11 @@ export function PlanEditor({
       // 요청 순서 그대로 돌아온다 — 섹션과 1:1 로 짝지어 넣는다.
       list.forEach((f, i) => {
         const next: Row[] = (groups[i]?.exercises ?? []).map((ex) => {
-          const p = prescribe(ex.id, opts);
+          const equipment = pickDefaultEquipment(ex);
+          const p = prescribe(ex.id, {...opts,equipment});
           return {
             exerciseId: ex.id,
-            equipment: pickDefaultEquipment(ex),
+            equipment,
             sets: p.sets,
             reps: p.reps,
             weight: p.weightKg === null ? "" : String(p.weightKg),
@@ -800,8 +803,9 @@ export function PlanEditor({
             추천 운동들로 등록
           </h2>
           <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">
-            체형·성별·경력에 맞춰 자동으로 채워요
+            선호·목표·경력·최근 기록과 보유 기구를 반영해요
           </p>
+          <Link href="/settings/routine" className="mt-1 inline-block text-xs font-semibold text-brand">추천 선호 조정</Link>
         </div>
         <button
           type="button"

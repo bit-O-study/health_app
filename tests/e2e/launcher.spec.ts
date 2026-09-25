@@ -5,8 +5,8 @@ test("런처 앱 이동·공통 메뉴·운동 기능 진입", async ({ page }) 
   await signUpAndOnboard(page);
   await page.goto("/home");
   const nav = page.getByRole("navigation", { name: "주요 메뉴" });
-  await expect(page.getByRole("region", { name: "오늘 요약" }).getByRole("link")).toHaveCount(3);
-  for (const [name, path] of [["운동","/routine"],["식단","/diet"],["캘린더","/calendar"],["그룹","/groups"],["커뮤니티","/community"],["펫","/pet"]]) {
+  await expect(page.getByRole("region", { name: "운동 잔디" })).toBeVisible();
+  for (const [name, path] of [["운동","/routine"],["식단","/diet"],["캘린더","/calendar"],["그룹","/groups"],["커뮤니티","/community"]]) {
     await page.getByRole("navigation", { name: "앱", exact: true }).getByRole("link", { name, exact: true }).click();
     await expect(page).toHaveURL(url => url.pathname === path);
     await expect(nav.getByRole("link", { name: "홈", exact: true })).toBeVisible();
@@ -32,6 +32,8 @@ test("식단·주간·커뮤니티 기능 진입", async ({ page }) => {
   await page.getByRole("button",{name:"아침 음식 찾기",exact:true}).click();
   await expect(page.getByText("아침 추가",{exact:true})).toBeVisible();
   await page.getByRole("button",{name:"닫기",exact:true}).click();
+  await expect(page).toHaveURL(/\/diet\?view=search$/);
+  await expect(page.getByText("아침 추가", { exact: true })).toHaveCount(0);
   await page.goto("/diet?view=photos");
   await expect(page.getByRole("region",{name:"사진기록"})).toBeVisible();
   await page.goto("/calendar?view=week&d=2027-01-01");

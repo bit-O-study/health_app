@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type PointerEvent } from "react";
+import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 import type { ContributionDay } from "@/features/home/dashboard-metrics";
 
@@ -30,7 +30,7 @@ const MONTH_LABEL = [
 
 /** 셀 한 칸의 실제 픽셀 크기 — grid-template-columns 를 이 값으로 고정해 좁은 화면에서도
  * 찌부러지지 않게 한다(53주 전체는 가로 스크롤/드래그로 본다). */
-const CELL_PX = 11;
+const CELL_PX = 13;
 
 function monthLabelsFor(weeks: ContributionDay[][]): (string | null)[] {
   let prevMonth = -1;
@@ -57,6 +57,11 @@ export function ContributionGraph({
   const monthLabels = monthLabelsFor(weeks);
 
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [selected, setSelected] = useState<ContributionDay | null>(null);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (el) el.scrollLeft = el.scrollWidth;
+  }, []);
   const dragRef = useRef<{ x: number; scrollLeft: number } | null>(null);
 
   // 마우스 드래그로 좌우 스크롤(터치는 브라우저 기본 스와이프 스크롤을 그대로 쓴다).
@@ -81,15 +86,12 @@ export function ContributionGraph({
   const gridCols = `repeat(${weeks.length}, ${CELL_PX}px)`;
 
   return (
-    <div className="app-card min-w-0 px-3 py-2.5">
-      <p className="mb-2 text-sm">
-        <span className="text-base font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
-          {totalWorkoutDays}
-        </span>
-        <span className="text-zinc-500 dark:text-zinc-400">
-          일 운동 · {weeks.length >= 52 ? "최근 1년" : "가입일부터"}
-        </span>
-      </p>
+    <section aria-label="운동 잔디" className="app-card min-w-0 space-y-4 p-5">
+      <div className="flex items-center justify-between gap-3">
+        <div><h2 className="text-base font-bold">차곡차곡, 운동 잔디</h2><p className="mt-1 text-xs text-muted">꾸준히 쌓인 나의 움직임</p></div>
+        <span className="rounded-full bg-brand/10 px-3 py-1 text-sm font-semibold tabular-nums text-brand">{totalWorkoutDays}일 기록</span>
+      </div>
+
       <div
         ref={scrollRef}
         className="max-w-full cursor-grab touch-pan-x select-none overflow-x-auto overscroll-x-contain active:cursor-grabbing [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
@@ -117,12 +119,17 @@ export function ContributionGraph({
             {weeks.map((week, wi) =>
               week.map((day, di) =>
                 day.level === -1 ? (
-                  <span key={`${wi}-${di}`} className="h-2.5 w-2.5" />
+                  <span key={`${wi}-${di}`} className="h-[13px] w-[13px]" />
                 ) : (
-                  <span
+                  <button
+                    type="button"
                     key={`${wi}-${di}`}
+                    aria-label={`${day.date} · ${day.minutes}분`}
+                    aria-pressed={selected?.date === day.date}
+                    onPointerDown={event => event.stopPropagation()}
+                    onClick={() => setSelected(day)}
                     title={`${day.date} · ${day.minutes}분`}
-                    className={`h-2.5 w-2.5 rounded-[2px] ${LEVEL_CLASS[day.level]}`}
+                    className={`h-[13px] w-[13px] rounded-[3px] ring-inset ring-black/5 transition hover:scale-125 focus-visible:outline-2 focus-visible:outline-brand ${LEVEL_CLASS[day.level]}`}
                   />
                 ),
               ),
@@ -130,6 +137,10 @@ export function ContributionGraph({
           </div>
         </div>
       </div>
-    </div>
+      <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
+        <p role="status">{selected ? `${selected.date} · ${selected.minutes}분 운동` : "날짜를 누르면 운동 시간을 볼 수 있어요"}</p>
+        <div className="flex items-center gap-1.5" aria-label="운동 시간이 많을수록 진한 색"><span>적음</span>{([0, 1, 2, 3, 4] as const).map(level => <span key={level} className={`h-3 w-3 rounded-[3px] ${LEVEL_CLASS[level]}`} />)}<span>많음</span></div>
+      </div>
+    </section>
   );
 }

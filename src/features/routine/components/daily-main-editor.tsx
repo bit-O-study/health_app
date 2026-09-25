@@ -426,14 +426,16 @@ export function DailyMainEditor({
         })),
         gender,
       );
+      if (groups.some(group => group.exercises.length === 0)) { setMsg("보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 직접 운동을 선택해 주세요."); return; }
       const next: Row[] = [];
       for (const g of groups) {
         for (const ex of g.exercises) {
-          const p = prescribe(ex.id, opts);
+          const equipment = pickDefaultEquipment(ex);
+          const p = prescribe(ex.id, {...opts,equipment});
           next.push({
             focus: g.focus as FocusTone,
             exerciseId: ex.id,
-            equipment: pickDefaultEquipment(ex),
+            equipment,
             sets: p.sets,
             reps: p.reps,
             weight: p.weightKg === null ? "" : String(p.weightKg),

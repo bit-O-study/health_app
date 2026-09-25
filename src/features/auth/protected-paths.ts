@@ -8,6 +8,7 @@ export const PROTECTED_PREFIXES = [
   // 이미 200 으로 흘려보낸 뒤라 '소프트 리다이렉트'(클라이언트 스크립트)가 된다.
   // 미들웨어에서 먼저 걸러야 비로그인 사용자가 깔끔하게 307 로 /login 에 간다.
   "/home",
+  "/trainer",
   "/settings",
   "/support",
   "/onboarding",

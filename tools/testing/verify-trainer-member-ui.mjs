@@ -12,9 +12,9 @@ await mkdir(dir, { recursive: true });
 const outfile = resolve(dir, "component.js");
 await build({
   stdin: { contents: `import React from 'react'; import { createRoot } from 'react-dom/client';
-    import { MemberPrescription } from './src/features/groups/components/member-prescription';
+    import { MemberPrescription } from './src/features/trainer/components/member-prescription';
     window.__calls = []; window.__fail = false; window.__refreshes = 0;
-    createRoot(document.getElementById('root')).render(<MemberPrescription groupId="group" memberId="member" memberName="테스트 회원"
+    createRoot(document.getElementById('root')).render(<MemberPrescription connectionId="connection" memberId="member" memberName="테스트 회원"
       exercises={[{id:'row', day_index:0, focus:'lower', exercise_id:'squat', equipment:'barbell', sets:3, reps:10, weight_kg:20,
         updated_at:'2026-09-20T00:00:00Z', set_details:[{weightKg:20,reps:10}], name:'스쿼트', equipments:['barbell','bodyweight'], dayLabel:'1일차'}]} />);`,
     loader: "tsx", resolveDir: process.cwd() },

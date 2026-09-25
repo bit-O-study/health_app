@@ -31,15 +31,15 @@ function checkPrescriptionInput(
 }
 
 /** 처방이 닿는 화면들 — 트레이너 쪽과 **회원 쪽 오늘 화면**을 같이 새로 그린다. */
-function revalidatePrescription(groupId: string, memberId: string) {
-  revalidatePath(`/groups/${groupId}/trainer`);
-  revalidatePath(`/groups/${groupId}/trainer/members/${memberId}`);
-  revalidatePath(`/groups/${groupId}/trainer/comment/${memberId}`);
+function revalidatePrescription(connectionId: string) {
+  revalidatePath("/trainer");
+  revalidatePath(`/trainer/members/${connectionId}`);
+  revalidatePath(`/settings/trainers`);
   revalidatePath("/routine"); revalidatePath("/plan"); revalidatePath("/home");
 }
 
 export async function prescribeMemberExercise(
-  groupId: string, memberId: string, rowId: string, expectedUpdatedAt: string,
+  connectionId: string, memberId: string, rowId: string, expectedUpdatedAt: string,
   input: PrescriptionInput | null,
 ): Promise<{ ok: boolean; error?: string }> {
   const user = await getCurrentUser();
@@ -49,13 +49,13 @@ export async function prescribeMemberExercise(
   if ("error" in checked) return { ok: false, error: checked.error };
   const note = prescriptionNote("routine", checked.name, input);
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.rpc("trainer_prescribe_exercise", {
-    p_group_id: groupId, p_member: memberId, p_row: rowId,
+  const { data, error } = await supabase.rpc("pt_prescribe_exercise", {
+    p_link: connectionId, p_member: memberId, p_row: rowId,
     p_expected_updated_at: expectedUpdatedAt, p_patch: input, p_note: note,
   });
   if (error) return { ok: false, error: "처방을 저장하지 못했어요. 잠시 후 다시 시도해 주세요." };
   if (data !== true) return { ok: false, error: "권한이 없거나 회원의 운동이 변경됐어요. 새로고침 후 다시 확인해 주세요." };
-  revalidatePrescription(groupId, memberId);
+  revalidatePrescription(connectionId);
   return { ok: true };
 }
 
@@ -67,7 +67,7 @@ export async function prescribeMemberExercise(
  *    아직 daily_plan 에 id 가 없기 때문(처방하는 순간 그 부위가 통째로 고정된다).
  */
 export async function prescribeMemberToday(
-  groupId: string, memberId: string, focus: string, position: number,
+  connectionId: string, memberId: string, focus: string, position: number,
   expectedExerciseId: string, input: PrescriptionInput | null,
 ): Promise<{ ok: boolean; error?: string }> {
   const user = await getCurrentUser();
@@ -77,13 +77,13 @@ export async function prescribeMemberToday(
   if ("error" in checked) return { ok: false, error: checked.error };
   const note = prescriptionNote("today", checked.name, input);
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase.rpc("trainer_prescribe_today", {
-    p_group_id: groupId, p_member: memberId, p_focus: focus, p_position: position,
+  const { data, error } = await supabase.rpc("pt_prescribe_today", {
+    p_link: connectionId, p_member: memberId, p_focus: focus, p_position: position,
     p_expected_exercise_id: expectedExerciseId, p_patch: input, p_note: note,
   });
   if (error) return { ok: false, error: "처방을 저장하지 못했어요. 잠시 후 다시 시도해 주세요." };
   if (data !== true)
     return { ok: false, error: "권한이 없거나 회원이 오늘 운동을 바꿨어요. 새로고침 후 다시 확인해 주세요." };
-  revalidatePrescription(groupId, memberId);
+  revalidatePrescription(connectionId);
   return { ok: true };
 }

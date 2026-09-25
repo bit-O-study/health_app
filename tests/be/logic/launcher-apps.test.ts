@@ -40,7 +40,7 @@ describe("런처 앱 레지스트리", () => {
     // tab 을 읽지도 않아 **버튼 넷이 전부 같은 화면**으로 갔다(2026-09-21).
     const all = [
       ...LAUNCHER_APPS.flatMap((a) => a.tabs.map((t) => ({ who: a.id, t }))),
-      ...LAUNCHER_TABS.map((t) => ({ who: "launcher", t })),
+
     ];
     const seen = new Map<string, string>();
     for (const { who, t } of all) {
@@ -131,13 +131,9 @@ describe("경로 → 앱 매칭", () => {
     }
   });
 
-  it("🔴 런처 칸은 남의 앱으로 넘어가지 않는다", () => {
-    // 예전엔 '검색'이 /exercises(운동 앱 땅)를 가리켜, 누르는 순간 하단바가
-    // 운동 앱 것으로 갈렸다 — 런처에서 눌렀는데 남의 앱 안에 있는 꼴.
-    for (const tab of LAUNCHER_TABS) {
-      const owner = appForPath(tab.href.split("?")[0]);
-      expect(owner?.id, `런처 '${tab.label}' 칸이 ${owner?.id} 앱으로 넘어간다`).toBeUndefined();
-    }
+  it("홈 하단 기본 바로가기는 실제 앱 입구이며 설정 메뉴가 아니다", () => {
+    expect(LAUNCHER_TABS.map(tab => tab.label)).toEqual(["운동", "식단", "캘린더", "그룹"]);
+    for (const tab of LAUNCHER_TABS) expect(appForPath(tab.href)).not.toBeNull();
   });
 
   it("앱 칸은 자기 앱이나 런처 땅만 가리킨다", () => {
@@ -207,6 +203,11 @@ describe("탭 활성 판정", () => {
 });
 
 describe("런처 격자", () => {
+  it("펫은 관리자가 공개해야 나타나며 다짐은 펫에 속하지 않는다", () => {
+    expect(visibleApps().some((a) => a.id === "pet")).toBe(false);
+    expect(visibleApps(["pet"]).some((a) => a.id === "pet")).toBe(true);
+    expect(appForPath("/commitments")).toBeNull();
+  });
   it("헬쑤쌤은 디버그 기능이 켜진 사용자에게만 보인다", () => {
     expect(visibleApps().some((a) => a.id === "coach")).toBe(false);
     expect(visibleApps(["helssu-coach"]).some((a) => a.id === "coach")).toBe(true);

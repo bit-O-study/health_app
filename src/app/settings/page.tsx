@@ -75,6 +75,7 @@ export default async function SettingsPage() {
       : []),
   ];
   const workout: Row[] = [
+    { href: "/settings/trainer-pass", title: "트레이너 정액권", icon: UsersRound },
     { href: "/settings/trainers", title: "트레이너 연결", icon: UsersRound },
     { href: "/settings/gym", title: "내 헬스장", icon: Building2 },
     { href: "/settings/score", title: "운동 점수", icon: Trophy },

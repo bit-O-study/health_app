@@ -1,4 +1,5 @@
 import "server-only";
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 
 import {
   createSupabaseServerClient,
@@ -33,7 +34,7 @@ type PetRow = {
  */
 export async function getPet(): Promise<PetView | null> {
   const user = await getCurrentUser();
-  if (!user) return null;
+  if (!user || !(await isDebugFeatureEnabled("pet"))) return null;
   const supabase = await createSupabaseServerClient();
 
   const [{ count: exC }, { count: condC }, { data: petRow }] = await Promise.all([

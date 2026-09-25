@@ -9,6 +9,7 @@ export const PROTECTED_PREFIXES = [
   // 미들웨어에서 먼저 걸러야 비로그인 사용자가 깔끔하게 307 로 /login 에 간다.
   "/home",
   "/settings",
+  "/support",
   "/onboarding",
   "/plan",
   "/admin",

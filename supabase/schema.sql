@@ -5227,3 +5227,41 @@ revoke all on function public.support_create(uuid,text,text,text,jsonb),public.s
 grant execute on function public.support_create(uuid,text,text,text,jsonb),public.support_reply(uuid,uuid,text,boolean),public.support_manage(uuid,text,text,boolean),public.support_read(uuid) to authenticated;
 grant execute on function public.support_claim(uuid,boolean),public.support_reserve_attachment(uuid,uuid,text,integer,bigint) to service_role;
 insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('support-private','support-private',false,512000,array['image/webp']) on conflict(id) do nothing;
+
+-- Follow-up support guarantees: orphan cleanup and project storage safety ceiling.
+create or replace function public.support_reserve_attachment(p_user uuid,p_ticket uuid,p_path text,p_bytes integer,p_limit bigint) returns uuid
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare v_id uuid; v_total bigint;
+begin
+ perform pg_advisory_xact_lock(hashtextextended('support_storage',0));
+ if not exists(select 1 from support_tickets where id=p_ticket and user_id=p_user) then raise exception '접근할 수 없어요.'; end if;
+ if (select count(*) from support_attachments where ticket_id=p_ticket)>=3 then raise exception '사진은 최대 3장이에요.'; end if;
+ select coalesce(sum(coalesce((metadata->>'size')::bigint,0)),0) into v_total from storage.objects;
+ if p_limit<=0 or v_total+(select coalesce(sum(bytes),0) from support_attachments where not ready)+p_bytes>900000000 or
+ (select coalesce(sum(bytes),0) from support_attachments)+p_bytes>least(p_limit,104857600) then raise exception '사진 저장 공간이 부족해요. 내용은 정상 접수됐어요.'; end if;
+ insert into support_attachments(ticket_id,user_id,path,bytes) values(p_ticket,p_user,p_path,p_bytes) returning id into v_id; return v_id;
+end $$;
+create or replace function public.support_storage_garbage() returns table(path text)
+language sql security definer set search_path=public,pg_temp as $$
+ select o.name from storage.objects o where o.bucket_id='support-private' and (
+ o.created_at<now()-interval '30 days' or
+ (o.created_at<now()-interval '1 day' and not exists(select 1 from support_attachments a where a.path=o.name and a.ready))) limit 100;
+$$;
+revoke all on function public.support_storage_garbage() from public,anon,authenticated;
+grant execute on function public.support_storage_garbage() to service_role;
+
+-- Explicit manual retry preserves the old attempt and records a new event.
+create or replace function public.support_retry(p_id uuid) returns void
+language plpgsql security definer set search_path=public,pg_temp as $$
+declare n support_notification_outbox; e uuid:=gen_random_uuid();
+begin
+ if not public.is_admin() then raise exception '관리자 권한이 필요해요.'; end if;
+ select * into n from support_notification_outbox where id=p_id and recipient_id=auth.uid() for update;
+ if n.id is null or n.status not in ('failed','unknown') then raise exception '재전송 대상이 아니에요.'; end if;
+ if n.ticket_id is not null and exists(select 1 from support_tickets where id=n.ticket_id and status in ('resolved','closed')) then raise exception '처리된 문의예요.'; end if;
+ update support_notification_outbox set status='canceled',error_code='manual_retry:'||n.status where id=n.id;
+ insert into support_notification_outbox(ticket_id,event_id,recipient_id,kind) values(n.ticket_id,e,n.recipient_id,n.kind);
+ if n.ticket_id is not null then insert into support_events(ticket_id,actor_id,kind,detail) values(n.ticket_id,auth.uid(),'notification_retry',n.status); end if;
+end $$;
+revoke all on function public.support_retry(uuid) from public,anon;
+grant execute on function public.support_retry(uuid) to authenticated;

@@ -1,0 +1,60 @@
+import { randomUUID } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { test, expect } from 'vitest';
+import { hasDbCreds, makeClient } from './db';
+test.skipIf(!hasDbCreds)('support: owner isolation, atomic/idempotent submission, admin-only notes and state, free worker cap',async()=>{
+ const db=makeClient();await db.connect();
+ const member=randomUUID(),other=randomUUID(),admin=randomUUID();const email=`support-${admin}@example.com`;
+ async function as(id:string,mail:string){await db.query('reset role');await db.query("select set_config('request.jwt.claims',$1,true)",[JSON.stringify({sub:id,email:mail,role:'authenticated'})]);await db.query('set local role authenticated');}
+ async function denied(sql:string,params:unknown[]=[]){await db.query('savepoint denied');await expect(db.query(sql,params)).rejects.toThrow();await db.query('rollback to savepoint denied');}
+ try{
+  await db.query('begin');if (!(await db.query("select to_regclass('public.support_tickets') as t")).rows[0].t) await db.query(readFileSync('supabase/migrations/202609250004_customer_support.sql','utf8'));
+  await db.query('insert into auth.users(id,email) values($1,$2),($3,$4),($5,$6)',[member,`support-${member}@example.com`,other,`support-${other}@example.com`,admin,email]);
+  await db.query('insert into admins(email) values($1)',[email]);
+  await as(member,`support-${member}@example.com`);
+  const request=randomUUID();const args=[request,'bug','운동 편집 오류','저장 버튼이 반응하지 않아요.'];
+  const ticket=(await db.query('select support_create($1,$2,$3,$4) as id',args)).rows[0].id;
+  expect((await db.query('select support_create($1,$2,$3,$4) as id',args)).rows[0].id).toBe(ticket);
+  expect((await db.query('select * from support_messages where ticket_id=$1',[ticket])).rowCount).toBe(1);
+  await denied("update support_tickets set status='closed' where id=$1",[ticket]);
+  await denied("select support_manage($1,'closed','urgent')",[ticket]);
+  await denied('select * from support_kakao_connections');
+  await denied('select support_claim($1)',[admin]);
+  await denied("select support_reply($1,$2,'private',true)",[ticket,randomUUID()]);
+  await as(other,`support-${other}@example.com`);
+  expect((await db.query('select * from support_tickets where id=$1',[ticket])).rows).toEqual([]);
+  expect((await db.query('select * from support_messages where ticket_id=$1',[ticket])).rows).toEqual([]);
+  await denied("select support_reply($1,$2,'attack')",[ticket,randomUUID()]);
+  await as(admin,email);
+  await db.query("select support_reply($1,$2,'비공개 내부 메모',true)",[ticket,randomUUID()]);
+  await db.query("select support_reply($1,$2,'문제를 확인했습니다.')",[ticket,randomUUID()]);
+  await db.query("select support_manage($1,'resolved','high',true)",[ticket]);
+  expect((await db.query('select * from support_internal_notes where ticket_id=$1',[ticket])).rowCount).toBe(1);
+  await as(member,`support-${member}@example.com`);
+  expect((await db.query('select * from support_internal_notes')).rowCount).toBe(0);
+  await db.query("select support_reply($1,$2,'여전히 문제가 있어요.')",[ticket,randomUUID()]);
+  expect((await db.query('select status from support_tickets where id=$1',[ticket])).rows[0].status).toBe('in_progress');
+  await db.query('reset role');
+  expect((await db.query('select * from support_notification_outbox where ticket_id=$1 and recipient_id=$2',[ticket,admin])).rowCount).toBe(2);
+  await db.query("insert into support_kakao_connections(user_id,state,tokens) values($1,'connected','encrypted')",[admin]);
+  const claim=(await db.query('select support_claim($1) as job',[admin])).rows[0].job;
+  expect(claim.count).toBe(2);
+  expect((await db.query('select support_claim($1) as job',[admin])).rows[0].job).toBeNull();
+  await db.query("update support_kakao_connections set lease_until=now()-interval '1 second' where user_id=$1",[admin]);
+  await db.query('select support_claim($1)',[admin]);
+  expect((await db.query("select status from support_notification_outbox where batch_id=$1",[claim.batch])).rows.every(r=>r.status==='unknown')).toBe(true);
+  const retryId=(await db.query('select id from support_notification_outbox where batch_id=$1 limit 1',[claim.batch])).rows[0].id;
+  await as(member,`support-${member}@example.com`);
+  await denied('select support_retry($1)',[retryId]);
+  await as(admin,email);
+  await db.query('select support_retry($1)',[retryId]);
+  expect((await db.query('select status from support_notification_outbox where id=$1',[retryId])).rows[0].status).toBe('canceled');
+  await denied('select support_retry($1)',[retryId]);
+  await db.query('reset role');
+  await db.query("insert into support_notification_attempts(id,recipient_id) select gen_random_uuid(),$1 from generate_series(1,14)",[admin]);
+  await db.query("insert into support_notification_outbox(event_id,recipient_id,kind) values(gen_random_uuid(),$1,'test')",[admin]);
+  expect((await db.query('select support_claim($1) as job',[admin])).rows[0].job).toBeNull();
+  expect((await db.query("select status from support_notification_outbox where recipient_id=$1 and kind='test'",[admin])).rows[0].status).toBe('quota_deferred');
+  await denied('select support_reserve_attachment($1,$2,$3,2000,1000)',[member,ticket,`${member}/large.webp`]);
+ } finally {await db.query('rollback');await db.end();}
+},60000);

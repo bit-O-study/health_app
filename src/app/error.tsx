@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import {
   AUTO_RELOAD_KEY,
@@ -88,6 +89,7 @@ export default function RouteError({
           새로고침
         </button>
       </div>
+      <Link href="/support/new" className="p-3 text-sm underline">고객센터에 문제 신고</Link>
     </main>
   );
 }

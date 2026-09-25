@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   Bell,
+  MessageCircle,
   Building2,
   ChevronRight,
   ClipboardList,
@@ -80,6 +81,7 @@ export default async function SettingsPage() {
     { href: "/settings/progress", title: "성장 그래프", icon: TrendingUp },
   ];
   const app: Row[] = [
+    { href: "/support", title: "고객센터", icon: MessageCircle },
     { href: "/settings/personal", title: "개인설정", icon: SlidersHorizontal },
     { href: "/settings/notifications", title: "알림 설정", icon: Bell },
     { href: "/settings/health", title: "건강 연동", icon: Smartphone },

@@ -359,6 +359,41 @@ export function describeSetPattern(
   return null;
 }
 
+/**
+ * 다음 세트가 **쉬지 않고 이어 가는** 세트인지 — 드롭세트 판별.
+ *
+ * 운동모드는 세트를 끝낼 때마다 휴식 타이머를 돌린다. 그런데 드롭세트는
+ * "무게를 내리고 **곧바로** 이어서" 가 전부라, 여기서 90초를 쉬면 그냥 가벼운
+ * 세트를 하나 더 한 것이 된다(슈퍼세트를 쉬지 않고 넘기는 것과 같은 이유).
+ *
+ * 저장된 건 숫자뿐이라 무게·횟수 흐름으로 읽는다.
+ *  - 무게가 내려가고 **횟수는 그대로** → 드롭세트. 쉬지 않는다.
+ *  - 무게가 내려가고 **횟수가 늘면** → 역피라미드. 이건 쉬어야 한다.
+ */
+export function isDropContinuation(
+  current: SetDetail | undefined,
+  next: SetDetail | undefined,
+): boolean {
+  if (!current || !next) return false;
+  if (current.weightKg === null || next.weightKg === null) return false;
+  return next.weightKg < current.weightKg && next.reps <= current.reps;
+}
+
+/**
+ * 방금 끝낸 세트 뒤에 쉴 시간(초). `null` = 쉬지 않고 바로 다음 세트.
+ * `doneCount` 는 끝낸 세트 수(1부터).
+ */
+export function restSecAfterSet(
+  details: readonly SetDetail[] | null | undefined,
+  doneCount: number,
+  defaultSec: number,
+): number | null {
+  if (!details || details.length === 0) return defaultSec;
+  const current = details[doneCount - 1];
+  const next = details[doneCount];
+  return isDropContinuation(current, next) ? null : defaultSec;
+}
+
 /** 스킴 이름이 우리가 아는 값인지(DB·외부 입력 방어). */
 export function isSetScheme(value: unknown): value is SetScheme {
   return typeof value === "string" && (SET_SCHEMES as readonly string[]).includes(value);

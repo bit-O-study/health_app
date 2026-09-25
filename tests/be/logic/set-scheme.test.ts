@@ -15,6 +15,7 @@ import {
   groupKindFor,
   isSetScheme,
   plannedVolumeKg,
+  restSecAfterSet,
   roundToPlate,
   toSetScheme,
   type PlannedSet,
@@ -360,5 +361,51 @@ describe("세트 방식 적용 경로 가드", () => {
     const src = read("src/features/routine/components/set-scheme-picker.tsx");
     expect(src).toContain("weightStepKg(");
     expect(src).toContain("buildSetDetails(");
+  });
+});
+
+describe("운동모드 휴식 — 드롭세트는 쉬지 않는다", () => {
+  const d = (w: number | null, r: number) => ({ weightKg: w, reps: r });
+
+  it("무게가 내려가고 횟수가 같으면 다음 세트로 바로 간다", () => {
+    const drop = [d(100, 10), d(80, 10), d(65, 10)];
+    expect(restSecAfterSet(drop, 1, 90)).toBeNull();
+    expect(restSecAfterSet(drop, 2, 90)).toBeNull();
+    // 마지막 세트 뒤에는 다음이 없다 — 기본 휴식(운동 자체가 끝난다).
+    expect(restSecAfterSet(drop, 3, 90)).toBe(90);
+  });
+
+  it("역피라미드는 무게가 내려가도 쉰다 — 횟수가 늘어난다", () => {
+    const rev = [d(100, 6), d(90, 8), d(80, 10)];
+    expect(restSecAfterSet(rev, 1, 90)).toBe(90);
+    expect(restSecAfterSet(rev, 2, 90)).toBe(90);
+  });
+
+  it("피라미드·균일 세트는 그대로 쉰다", () => {
+    expect(restSecAfterSet([d(50, 12), d(55, 10)], 1, 120)).toBe(120);
+    expect(restSecAfterSet([d(60, 10), d(60, 10)], 1, 60)).toBe(60);
+  });
+
+  it("세트별 값이 없으면(균일) 기본 휴식", () => {
+    expect(restSecAfterSet(null, 1, 90)).toBe(90);
+    expect(restSecAfterSet([], 1, 90)).toBe(90);
+  });
+
+  it("맨몸 세트는 무게로 판단할 수 없어 쉰다", () => {
+    expect(restSecAfterSet([d(null, 12), d(null, 12)], 1, 90)).toBe(90);
+  });
+
+  it("운동모드가 세트별 무게를 실제로 넘겨받는다", () => {
+    // 큐에 안 실리면 위 판단이 영영 돌지 않는다(예전엔 요약 문구로만 썼다).
+    const src = fs.readFileSync(
+      path.join(process.cwd(), "src/features/routine/components/today-exercises.tsx"),
+      "utf8",
+    );
+    expect(src).toContain("setDetails: p.setDetails");
+    const guided = fs.readFileSync(
+      path.join(process.cwd(), "src/features/workout-timer/guided-workout.tsx"),
+      "utf8",
+    );
+    expect(guided).toContain("restSecAfterSet(");
   });
 });

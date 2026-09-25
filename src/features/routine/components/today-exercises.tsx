@@ -547,6 +547,8 @@ export async function TodayExercises({
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,
+      // 세트별 무게 — 드롭세트면 운동모드가 휴식을 건너뛴다.
+      setDetails: p.setDetails,
       memo: p.memo,
       // 다음 세션 추천(2.2). 기록이 없는 종목은 null — 붙일 말이 없다.
       advice: adviceByExercise[p.exerciseId] ?? null,

@@ -53,6 +53,8 @@ import {
   minSelectableSets,
   clampTotalSets,
 } from "@/features/workout-timer/rest-logic";
+import { restSecAfterSet } from "@/features/routine/set-scheme";
+import type { SetDetail } from "@/features/routine/set-details";
 import {
   ExercisePhotoDemo,
   ExerciseTutorial,
@@ -120,6 +122,11 @@ export type GuidedItem =
       sets: number;
       reps: number;
       weightKg: number | null;
+      /**
+       * 세트별 무게·횟수(드롭세트·피라미드 등). null = 균일 세트.
+       * 휴식 판단에 쓴다 — 드롭세트는 쉬지 않고 이어 가야 한다.
+       */
+      setDetails?: SetDetail[] | null;
       /** 개인 메모. null = 없음. */
       memo: string | null;
       /**
@@ -749,7 +756,12 @@ export function GuidedOverlay({
       return;
     }
 
-    rest.trigger();
+    // 드롭세트는 무게만 내리고 **곧바로** 이어 간다 — 여기서 쉬면 그냥 가벼운 세트를
+    // 하나 더 한 것이 된다(위 슈퍼세트와 같은 이유). 세트별 무게 흐름으로 판단한다.
+    const restSec = restSecAfterSet(item.setDetails, next, rest.defaultSec);
+    if (restSec === null) return;
+
+    rest.trigger(restSec);
     // 한 바퀴를 돌았으면 쉬는 동안 묶음의 첫 운동으로 되돌려 둔다 —
     // 휴식이 끝나고 눈을 들었을 때 다음에 할 운동이 떠 있어야 한다.
     const back = restReturnIndex(supersetItems, processed, index);

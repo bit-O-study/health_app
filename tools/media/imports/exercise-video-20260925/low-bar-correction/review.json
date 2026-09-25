@@ -1,0 +1,26 @@
+{
+  "createdAt": "2026-09-25T09:58:37.003Z",
+  "tool": "built-in image_gen",
+  "status": "rejected",
+  "published": false,
+  "source": "https://www.muscleandstrength.com/exercises/low-bar-back-squat",
+  "candidates": [
+    {
+      "file": "rear-v1.png",
+      "prompt": "Use case: scientific-educational. Create a 2048x2048 exercise animation source sheet, precisely 4 columns by 4 rows of equal square cells, no borders, no text. Sixteen consecutive poses of the DESCENT ONLY of a LOW BAR back squat, row-major 1 through 16. Same gray faceless athletic male mannequin, teal shorts, black flat shoes, single straight silver barbell with black plates in every panel. Fixed three-quarter REAR-SIDE camera so rear deltoid bar contact and torso inclination are clearly visible. Bar sits across REAR DELTOIDS, clearly below upper trapezius and well below neck, never on top of shoulders. Hands grasp bar outside shoulders, elbows behind and down, wrists near neutral. Shoulder-width stance and feet fixed at identical coordinates in each cell, whole feet planted. Hips move back as knees bend, torso progressively inclines forward with neutral spine, bar balanced above midfoot. Cell1 standing braced with slight forward lean, cell16 thighs parallel to floor with torso around 40 degrees forward from vertical. All 16 cells evenly spaced in squat depth; each row continues previous row without restarting or ascending. Identical scale, camera and lighting; no equipment morphing. Full body plus entire bar and both plates within central 75% of every cell, generous margins. Plain uniform light gray background, clean softly shaded 3D instructional character style, no labels, arrows, rack or scenery. This sheet is for interpolation so strict equal cells, fixed feet and smoothly changing joints matter. Anatomical emphasis: low bar supported on rear deltoids, not high-bar neck placement.",
+      "finding": "Rear deltoid contact unclear; bar appears high."
+    },
+    {
+      "file": "rear-v2.png",
+      "prompt": "Correct this 4x4 exercise sheet. Primary correction: the bar is still sitting too high on the upper trapezius. Move the bar down approximately one bar diameter plus 5cm onto the posterior deltoid shelf in EVERY panel. There must be visible upper shoulder/trapezius above the shaft. Use a more side-on rear three-quarter camera, about 65 degrees away from straight rear, to make the bar contacting the back of the shoulders and the forward torso inclination unmistakable. Maintain neutral spine, bar over midfoot, heels planted, hips moving back. Sixteen evenly spaced descent poses only, stand to parallel thighs; torso at bottom leans about 40 degrees from vertical. Keep exact 4x4 equal cells, same gray mannequin teal shorts black shoes, identical equipment, consistent camera and scale across cells, both hands on bar, all bar ends and feet inside cell with margins. No text. Plain gray background. This is specifically LOW BAR squat, not high bar.",
+      "finding": "Camera correction not achieved; low-bar position ambiguous."
+    },
+    {
+      "file": "side-v3.png",
+      "prompt": "Scientific exercise animation sprite sheet. 4x4 exact equal square cells, 16 poses row-major, no borders or labels. Gray faceless muscular mannequin teal shorts black shoes doing LOW BAR squat descent. CAMERA: near LEFT SIDE profile with only 15 degrees of rear view, facing RIGHT, completely fixed camera in all cells. A silver barbell with black plates rests LOW ACROSS THE POSTERIOR DELTOIDS, below the spine of the scapula, NOT above shoulders. Show a clear gap in height between top of shoulders and bar shaft. Upper back tight, elbows drawn back, hands holding bar just outside shoulders. Torso visibly inclines forward so the low bar is vertically over mid-foot. Feet shoulder width, entire soles fixed on ground, knees track toes, neutral spine. Start fully standing in cell1 and progressively descend in 16 evenly spaced tiny steps to thighs parallel in cell16, with hips pushed backward and chest leaned forward about 40 degrees from vertical. No ascent, no row reset. Orthographic view, same character size, same foot positions within every cell, entire head feet bar and plates within central 75 percent of each cell. Plain uniform light gray background. High quality softly shaded 3D instructional style. 2048x2048. Crucial anatomy: this is low-bar squat; bar borne by back of deltoids below shoulder tops; never on neck or upper traps.",
+      "finding": "Wrong front view; bar contact occluded; background artifacts and insufficient head margin."
+    }
+  ],
+  "tests": "Partial cache regression: 1 passed",
+  "next": "Single rear-side reference pose first, then 16 poses. Woodchopper and app/Android checks pending."
+}

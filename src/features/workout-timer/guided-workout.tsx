@@ -55,6 +55,8 @@ import {
 } from "@/features/workout-timer/rest-logic";
 import { restSecAfterSet } from "@/features/routine/set-scheme";
 import type { SetDetail } from "@/features/routine/set-details";
+import { stepOverrideFor } from "@/features/routine/weight-steps";
+import { WeightStepPicker } from "@/features/routine/components/weight-step-picker";
 import {
   ExercisePhotoDemo,
   ExerciseTutorial,
@@ -406,6 +408,7 @@ export function GuidedOverlay({
   showGuide = true,
   lockWeightReps = false,
   postureEnabled = false,
+  weightSteps = {},
 }: {
   items: GuidedItem[];
   onClose: () => void;
@@ -423,6 +426,11 @@ export function GuidedOverlay({
   lockWeightReps?: boolean;
   /** 'AI 자세 분석' 버튼 노출(디버그 계정). 현재 운동 영상을 찍어 자세 코칭. */
   postureEnabled?: boolean;
+  /**
+   * 종목별 증량 단위(kg). 비어 있으면 기구·종목 크기로 정한 기본값을 쓴다.
+   * 헬스장마다 스택이 달라(1kg 씩 올라가는 머신 등) 사용자가 덮어쓸 수 있다.
+   */
+  weightSteps?: Record<string, number>;
 }) {
   const router = useRouter();
   const rest = useRestTimer();
@@ -518,9 +526,12 @@ export function GuidedOverlay({
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
   // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
   const timed = item?.kind === "main" && isTimedExercise(item.exerciseId);
+  // 사용자가 그 종목의 단위를 정해 뒀으면 그 값이 기본 규칙을 이긴다(내 헬스장 기준).
+  const weightStepOverride =
+    item?.kind === "main" ? stepOverrideFor(weightSteps, item.exerciseId) : null;
   const weightStep =
     item?.kind === "main"
-      ? (weightStepKg(item.exerciseId, item.equipment) ?? 1)
+      ? (weightStepKg(item.exerciseId, item.equipment, weightStepOverride) ?? 1)
       : 1;
   const [holdSec, setHoldSec] = useState(0);
   const [holdRunning, setHoldRunning] = useState(false);
@@ -1405,6 +1416,15 @@ export function GuidedOverlay({
             <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
               좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
             </p>
+            {/* ± 폭이 내 헬스장과 안 맞을 때 바로 고친다 — 무게를 실제로 정하는 자리다. */}
+            {item?.kind === "main" && !timed ? (
+              <WeightStepPicker
+                exerciseId={item.exerciseId}
+                currentStepKg={weightStep}
+                isOverridden={weightStepOverride !== null}
+                onSaved={() => router.refresh()}
+              />
+            ) : null}
           </div>
         ) : null}
 

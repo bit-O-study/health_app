@@ -15,6 +15,7 @@ import {
   type Gender,
 } from "@/features/profile/data";
 import { isGoal, type Goal } from "@/features/profile/goal";
+import { parseWeightSteps } from "@/features/routine/weight-steps";
 
 export type UserProfile = {
   gender: Gender;
@@ -46,6 +47,11 @@ export type UserProfile = {
   /** 무게·횟수를 미리 '고정'으로 정할지. 기본 false(끔) = 메인·편집·등록에서 숨기고
    *  운동모드에서 그때그때 설정. true 면 미리 정해 메인에 표시/수정(운동모드 조절 X). */
   lockWeightReps: boolean;
+  /**
+   * 종목별 증량 단위(kg) — `{"pec-deck": 1}`. 비어 있으면 기구·종목 크기로 정한
+   * 기본값(`weightStepKg`)을 쓴다. 헬스장마다 스택이 달라 필요한 덮어쓰기다.
+   */
+  weightSteps: Record<string, number>;
   /** 가입일(프로필 생성 시각, ISO). 잔디 그래프 시작 기준 등에 사용. */
   createdAt: string;
 };
@@ -70,6 +76,7 @@ type ProfileRow = {
   rest_sound: unknown;
   rest_haptic: unknown;
   lock_weight_reps: unknown;
+  weight_steps: unknown;
   created_at: unknown;
 };
 
@@ -87,7 +94,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
   const { data, error } = await supabase
     .from("profiles")
     .select(
-      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, goal, target_weight_kg, target_body_fat_pct, target_muscle_kg, name, nickname, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic, lock_weight_reps, created_at",
+      "gender, experience, height_cm, weight_kg, body_type, body_fat_pct, muscle_mass_kg, goal, target_weight_kg, target_body_fat_pct, target_muscle_kg, name, nickname, phone, hide_exercise_videos, show_exercise_guide, rest_sound, rest_haptic, lock_weight_reps, weight_steps, created_at",
     )
     .eq("user_id", user.id)
     .maybeSingle();
@@ -134,6 +141,7 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     restHaptic: row.rest_haptic !== false,
     // 기본 false(컬럼 default) — 명시적으로 true 일 때만 고정.
     lockWeightReps: row.lock_weight_reps === true,
+    weightSteps: parseWeightSteps(row.weight_steps),
     createdAt:
       typeof row.created_at === "string" ? row.created_at : new Date(0).toISOString(),
   };

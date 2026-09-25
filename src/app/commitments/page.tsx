@@ -2,7 +2,12 @@ import { redirect } from "next/navigation";
 
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { getMyCommitments } from "@/features/commitments/data-access";
+import {
+  getMyCommitments,
+  getTodayChecklist,
+} from "@/features/commitments/data-access";
+import { TodayChecklist } from "@/features/commitments/components/today-checklist";
+import { seoulYmd } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { dailyTarget } from "@/features/diet/calorie-target";
@@ -18,10 +23,11 @@ export default async function CommitmentsPage() {
 
   // 설문이 숫자를 계산하려면 프로필이 필요하다 — 설문에서 다시 묻지 않기 위해서다.
   // 루틴의 주당 운동일은 '주 며칠' 의 기본값이 된다.
-  const [commitments, profile, routine] = await Promise.all([
+  const [commitments, profile, routine, todayItems] = await Promise.all([
     getMyCommitments(),
     getUserProfile(),
     getUserRoutine(),
+    getTodayChecklist(),
   ]);
   const me = profile
     ? ({
@@ -42,7 +48,9 @@ export default async function CommitmentsPage() {
   return (
     <div className="app-page">
       <PageHeader title="나의 다짐" back />
-      <main className="app-container">
+      <main className="app-container space-y-5">
+        {/* 오늘 지킬 것부터 — 관리 화면을 찾아 들어가지 않아도 되게. */}
+        <TodayChecklist items={todayItems} today={seoulYmd()} />
         <CommitmentManager
           commitments={commitments}
           me={me}

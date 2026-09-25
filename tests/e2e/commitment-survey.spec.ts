@@ -100,3 +100,51 @@ test("설문을 건너뛰어도 목표에 맞는 미션 하나는 들어간다",
   // '알림 안 받을래요' 를 고르면 알림 시각이 비어 있어야 한다.
   expect(rows[0].remind_at).toBeNull();
 });
+
+test("수동 미션은 오늘 화면에서 체크되고, 자동 미션은 눌러도 안 바뀐다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await createOnboardedAccount(page);
+
+  // 설문으로 수동 미션이 든 다짐을 만든다(물 = 앱이 판정 못 함).
+  await page.goto("/commitments", { waitUntil: "networkidle" });
+  const survey = page.getByTestId("commitment-survey");
+  await expect(survey).toBeVisible({ timeout: 15_000 });
+  await survey.getByRole("button", { name: /^4주/ }).click();
+  await survey.getByRole("button", { name: /물 안 마심/ }).click();
+  await survey.getByRole("button", { name: /다음 · 1개 선택함/ }).click();
+  await survey.getByRole("button", { name: /^30분/ }).click();
+  await survey.getByRole("button", { name: /^저녁/ }).click();
+  await survey.getByRole("button", { name: /^주 \d일/ }).first().click();
+  await survey.getByTestId("survey-submit").click();
+
+  // 오늘 체크리스트가 뜬다.
+  const list = page.getByTestId("today-checklist");
+  await expect(list).toBeVisible({ timeout: 20_000 });
+
+  // 자동 미션은 눌러도 안 바뀐다 — 기록에서 판정되기 때문.
+  await expect(list.getByTestId("auto-check").first()).toBeDisabled();
+
+  // 수동 미션을 체크하면 진행이 올라가고 DB 에 남는다.
+  const manual = list.getByTestId("manual-check").first();
+  await expect(manual).toHaveAttribute("aria-pressed", "false");
+  await manual.click();
+  await expect(manual).toHaveAttribute("aria-pressed", "true", { timeout: 15_000 });
+
+  const read = () =>
+    dbQuery<{ checked_ids: string[] }>(
+      `select checked_ids from public.commitment_days
+        where user_id=${uid} and for_date=(now() at time zone 'Asia/Seoul')::date`,
+      [email],
+    );
+  await expect
+    .poll(async () => (await read())[0]?.checked_ids?.length ?? 0, { timeout: 20_000 })
+    .toBe(1);
+
+  // 새로고침해도 체크가 남아 있다(로컬 상태가 아니라 기록이다).
+  await page.reload({ waitUntil: "networkidle" });
+  await expect(
+    page.getByTestId("today-checklist").getByTestId("manual-check").first(),
+  ).toHaveAttribute("aria-pressed", "true", { timeout: 15_000 });
+});

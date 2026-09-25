@@ -1,0 +1,103 @@
+{
+  "scope": "Alpha silhouette bottom in lower left/right shoe regions; does not prove anatomical accuracy",
+  "rows": [
+    {
+      "panel": 1,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 2,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 3,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 4,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 5,
+      "leftBottom": 432,
+      "rightBottom": 442,
+      "height": 504
+    },
+    {
+      "panel": 6,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 7,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 8,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 9,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 10,
+      "leftBottom": 432,
+      "rightBottom": 442,
+      "height": 504
+    },
+    {
+      "panel": 11,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 12,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 13,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 14,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 15,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    },
+    {
+      "panel": 16,
+      "leftBottom": 432,
+      "rightBottom": 441,
+      "height": 504
+    }
+  ],
+  "leftSpanPx": 0,
+  "rightSpanPx": 1
+}

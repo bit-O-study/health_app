@@ -21,9 +21,13 @@ import {
   formatElapsed,
   freezeOnColdStart,
   readTimer,
+  readFinished,
   reconcileResume,
   seoulTodayYmd,
+  setSavedMark,
+  startSessionState,
   takeUnsavedDelta,
+  writeFinished,
   writeTimer,
   type TimerState,
 } from "@/features/workout-timer/timer-store";
@@ -352,15 +356,17 @@ export function WorkoutSessionTimer({
     setSessionFinished(false);
     endingRef.current = false;
     pendingDurationRef.current = null;
-    const s: TimerState = {
-      sessionId: crypto.randomUUID(),
-      startedAt: Date.now(),
-      pausedAt: null,
-      accumulated: 0,
-      forDate: seoulTodayYmd(),
-      lastSeenAt: Date.now(),
-    };
-    clearSavedMark(); // 새 세션은 0 부터 누적
+    // 같은 날 전체 완료 후 완료를 취소하고 다시 시작하면, 끝낸 시간에서 이어 간다
+    // (예전엔 00:00 부터 다시 흘러 "운동시간이 초기화"된 것처럼 보였다).
+    // 이미 DB 에 올린 초는 저장 마크로 맞춰 두어 두 번 더하지 않는다.
+    const { state: s, savedMark } = startSessionState(
+      readFinished(),
+      seoulTodayYmd(),
+      Date.now(),
+      crypto.randomUUID(),
+    );
+    clearSavedMark();
+    if (savedMark) setSavedMark(savedMark);
     writeTimer(s);
     setState(s);
     lastActivityRef.current = Date.now();
@@ -391,6 +397,7 @@ export function WorkoutSessionTimer({
       pausedAt: now,
       accumulated: state.accumulated + (now - state.startedAt),
       forDate: state.forDate,
+      baseSec: state.baseSec,
     };
     writeTimer(s);
     setState(s);
@@ -404,6 +411,7 @@ export function WorkoutSessionTimer({
       accumulated: state.accumulated,
       forDate: state.forDate,
       lastSeenAt: Date.now(),
+      baseSec: state.baseSec,
     };
     writeTimer(s);
     setState(s);
@@ -432,7 +440,9 @@ export function WorkoutSessionTimer({
     if (!s) return true;
     if (endingRef.current) return false;
     endingRef.current = true;
-    const durationSec = Math.floor(elapsedMs(s) / 1_000);
+    const totalSec = Math.floor(elapsedMs(s) / 1_000);
+    // Health Connect 에는 이번 세션 길이만 — 같은 날 이어받은 초는 이미 앞 세션으로 기록됐다.
+    const durationSec = Math.max(0, totalSec - (s.baseSec ?? 0));
     const endedAtMs = Date.now();
     // 운동 완료마다 이미 누적했을 수 있으니 '아직 안 올린 만큼'만 더한다(이중 가산 방지).
     const d = pendingDurationRef.current ?? takeUnsavedDelta(s);
@@ -446,6 +456,8 @@ export function WorkoutSessionTimer({
     }
     pendingDurationRef.current = null;
     clearSavedMark();
+    // 같은 날 다시 시작하면 여기서 이어 가도록 그날 누적 초를 남긴다.
+    writeFinished({ forDate: s.forDate, totalSec });
     writeTimer(null);
     stateRef.current = null;
     setState(null);
@@ -719,7 +731,7 @@ export function WorkoutSessionTimer({
       <ConfirmDialog
         open={saveAsk}
         title="운동 정지 + 저장"
-        message={`${formatElapsed(elapsedMs(state))} 만큼 ${state.forDate} 에 누적합니다.`}
+        message={`운동 시간을 캘린더에 저장합니다 (${state.forDate} · ${formatElapsed(elapsedMs(state))}).`}
         confirmLabel="저장"
         tone="default"
         onConfirm={confirmSave}

@@ -37,7 +37,10 @@ import {
   PARAM_LABEL,
   PARAM_UNIT,
 } from "@/features/routine/conditioning-catalog";
-import { adjacentActiveIndex } from "@/features/workout-timer/queue-filter";
+import {
+  activeProgress,
+  adjacentActiveIndex,
+} from "@/features/workout-timer/queue-filter";
 import {
   nextInSuperset,
   restReturnIndex,
@@ -88,6 +91,7 @@ import {
   holdSecondsFromReps,
   formatHold,
 } from "@/features/routine/timed-exercises";
+import { SlideToConfirm } from "@/features/workout-timer/slide-to-confirm";
 import { MediaEmbed } from "@/features/exercises/components/media-embed";
 import type { MediaKind } from "@/features/exercises/exercise-media";
 import { OverloadHint } from "@/features/routine/components/overload-hint";
@@ -235,7 +239,7 @@ function framesForItem(item: GuidedItem): [string, string] | null {
 }
 
 /**
- * 무게/횟수/세트 스크러버 — 한 줄(full-width) 행: 라벨 + [− 값 +].
+ * 무게/횟수/세트 스크러버 — 타일 한 칸: 라벨 · 값 · [− +]. (2026-09-25 몰입형: 세 칸 가로 배치)
  * 값은 좌우로 밀거나 ±로 조절하고, **더블클릭하면 직접 숫자 입력**도 된다.
  * (예전엔 3개를 가로로 나란히 둬서 모바일 폭에서 넘쳐 레이아웃이 깨졌다 → 세로 스택.)
  * 손가락을 가로로 끌면 값이 오르내린다(맨몸 허용 시 최소 아래로 더 내리면 '맨몸').
@@ -318,75 +322,65 @@ function NumberScrubber({
   }
   const display = value === null ? "맨몸" : String(value);
 
+  const btn =
+    "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg text-zinc-600 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15";
+
+  // 타일 한 칸 — 라벨 · 값(끌기/더블클릭) · ± . 세 칸을 가로로 나란히 둔다(영상 자리를 넓게).
   return (
-    <div className="flex items-center justify-between gap-2 py-2">
-      <span className="text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-        {label}
-      </span>
-      <div className="flex items-center gap-1.5">
-        <button
-          type="button"
-          aria-label={`${label} 줄이기`}
-          onClick={dec}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-xl font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
+    <div className="flex min-w-0 flex-col items-center gap-1.5 rounded-2xl border border-zinc-200 bg-zinc-50 px-2 pb-2.5 pt-2 dark:border-white/10 dark:bg-white/5">
+      <span className="text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
+      {editing ? (
+        <input
+          ref={inputRef}
+          type="number"
+          inputMode="decimal"
+          aria-label={`${label} 직접 입력`}
+          autoFocus
+          defaultValue={value ?? ""}
+          onFocus={(e) => e.currentTarget.select()}
+          onBlur={commitInput}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              commitInput();
+            } else if (e.key === "Escape") {
+              e.preventDefault();
+              setEditing(false);
+            }
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          className="h-9 w-full rounded-xl border border-brand/40 bg-white px-1 text-center text-xl font-semibold tabular-nums text-brand outline-none focus:border-brand/40 dark:bg-zinc-900"
+        />
+      ) : (
+        <div
+          role="slider"
+          aria-label={label}
+          aria-valuenow={value ?? 0}
+          title="좌우로 끌거나 더블클릭해 직접 입력"
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          onPointerCancel={onUp}
+          onDoubleClick={(e) => {
+            e.stopPropagation();
+            setEditing(true);
+          }}
+          style={{ touchAction: "none" }}
+          className="flex h-9 w-full cursor-ew-resize select-none items-baseline justify-center gap-0.5 pt-0.5"
         >
+          <span className="text-2xl font-semibold tabular-nums tracking-tight text-zinc-900 dark:text-zinc-50">
+            {display}
+          </span>
+          {value !== null ? (
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">{unit}</span>
+          ) : null}
+        </div>
+      )}
+      <div className="flex items-center gap-2">
+        <button type="button" aria-label={`${label} 줄이기`} onClick={dec} className={btn}>
           −
         </button>
-        {editing ? (
-          <input
-            ref={inputRef}
-            type="number"
-            inputMode="decimal"
-            aria-label={`${label} 직접 입력`}
-            autoFocus
-            defaultValue={value ?? ""}
-            onFocus={(e) => e.currentTarget.select()}
-            onBlur={commitInput}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                commitInput();
-              } else if (e.key === "Escape") {
-                e.preventDefault();
-                setEditing(false);
-              }
-            }}
-            onPointerDown={(e) => e.stopPropagation()}
-            className="h-9 w-[4.75rem] rounded-lg border border-brand/40 bg-white px-2 text-center text-xl font-bold tabular-nums text-brand outline-none focus:border-brand/40 dark:bg-zinc-900"
-          />
-        ) : (
-          <div
-            role="slider"
-            aria-label={label}
-            aria-valuenow={value ?? 0}
-            title="좌우로 끌거나 더블클릭해 직접 입력"
-            onPointerDown={onDown}
-            onPointerMove={onMove}
-            onPointerUp={onUp}
-            onPointerCancel={onUp}
-            onDoubleClick={(e) => {
-              e.stopPropagation();
-              setEditing(true);
-            }}
-            style={{ touchAction: "none" }}
-            className="flex h-9 min-w-[4.75rem] cursor-ew-resize select-none items-center justify-center gap-0.5 rounded-lg bg-brand-soft px-2"
-          >
-            <span className="text-xl font-bold tabular-nums text-brand">
-              {display}
-            </span>
-            {value !== null ? (
-              <span className="text-xs font-semibold text-brand">
-                {unit}
-              </span>
-            ) : null}
-          </div>
-        )}
-        <button
-          type="button"
-          aria-label={`${label} 늘리기`}
-          onClick={inc}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-xl font-bold text-zinc-600 transition hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300"
-        >
+        <button type="button" aria-label={`${label} 늘리기`} onClick={inc} className={btn}>
           +
         </button>
       </div>
@@ -508,6 +502,8 @@ export function GuidedOverlay({
 
   const item = sessionItems[index];
   const total = sessionItems.length;
+  // 상단 "n / m" 은 남은 운동 기준 — 완료한 운동은 ‹ 로도 못 가니 세지 않는다.
+  const progress = activeProgress(rowIds, processed, index);
   // '마지막'은 배열 끝이 아니라 "앞에 남은 활성(미처리) 항목이 없을 때".
   const isLast = rowIds.filter((id) => !processed.has(id)).length === 1;
   const prevIndex = adjacentActiveIndex(rowIds, processed, index, -1);
@@ -1087,7 +1083,7 @@ export function GuidedOverlay({
 
   if (finishing) {
     return (
-      <div className="fixed inset-0 z-[70] flex flex-col items-center justify-center gap-4 bg-zinc-50 px-6 text-center dark:bg-zinc-950" data-testid="workout-finishing">
+      <div className="dark fixed inset-0 z-[70] flex flex-col items-center justify-center gap-4 bg-zinc-950 px-6 text-center text-zinc-100" data-testid="workout-finishing">
         <p role={finishError ? "alert" : "status"} className="text-lg font-bold">
           {finishError ?? "운동 기록 저장 중…"}
         </p>
@@ -1117,47 +1113,69 @@ export function GuidedOverlay({
     router.push(`/exercises/${item.exerciseId}?eq=${item.equipment}&from=workout`);
   }
 
+  // 몰입형(2026-09-25 사용자 선택 '몰입') — 운동모드는 항상 어두운 무대.
+  // `dark` 를 루트에 걸어 안쪽 컴포넌트(스크러버·원판·추천·다이얼로그)가 전부 다크 토큰을 쓴다.
+  const glass =
+    "border border-white/10 bg-white/5 backdrop-blur-md";
   return (
-    <div className="fixed inset-0 z-40 flex flex-col bg-zinc-50 dark:bg-zinc-950">
-      {/* 상단 바 — 진행률 + 닫기 */}
-      <div className="flex items-center justify-between px-4 pb-2 pt-[max(env(safe-area-inset-top),1rem)]">
-        <span className="font-mono text-sm font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
-          {index + 1} / {total}
-        </span>
-        <div className="mx-3 h-1 flex-1 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
-          <div
-            className="h-full bg-brand transition-all duration-300"
-            style={{ width: `${((index + 1) / total) * 100}%` }}
-          />
-        </div>
+    <div className="dark fixed inset-0 z-40 flex flex-col bg-zinc-950 text-zinc-100">
+      {/* 상단 — 닫기 · 운동별 진행 칸 · 남은 운동 n/m */}
+      <div className="flex items-center gap-3 px-4 pb-2 pt-[max(env(safe-area-inset-top),0.875rem)]">
         <button
           type="button"
           aria-label="닫기"
           onClick={requestClose}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 transition hover:bg-zinc-300 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-zinc-200 transition hover:bg-white/15"
         >
           <X aria-hidden="true" size={18} />
         </button>
+        <div aria-hidden="true" className="flex h-1.5 flex-1 gap-1">
+          {total <= 24 ? (
+            sessionItems.map((it, i) => (
+              <span
+                key={it.rowId}
+                className={`min-w-0 flex-1 rounded-full transition-colors duration-300 ${
+                  processed.has(it.rowId)
+                    ? "bg-brand"
+                    : i === index
+                      ? "bg-brand/50"
+                      : "bg-white/15"
+                }`}
+              />
+            ))
+          ) : (
+            <span className="relative flex-1 overflow-hidden rounded-full bg-white/15">
+              <span
+                className="absolute inset-y-0 left-0 bg-brand transition-all duration-300"
+                style={{ width: `${(progress.position / progress.count) * 100}%` }}
+              />
+            </span>
+          )}
+        </div>
+        <span
+          data-testid="guided-progress"
+          className="shrink-0 font-mono text-xs font-medium tabular-nums text-zinc-400"
+        >
+          {progress.position} / {progress.count}
+        </span>
       </div>
 
-      {/* 세션 운동 시간 — 운동 페이지 안에서 보여준다(+ 중단하기/다시 시작하기). */}
+      {/* 세션 운동 시간 + 중단하기/다시 시작 — 조용한 한 줄 */}
       {elapsedLabel !== undefined ? (
-        <div className="flex items-center justify-center gap-2 px-4 pb-1">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft px-3 py-1">
+        <div className="flex items-center justify-center gap-2 px-4 pb-2">
+          <span className="inline-flex items-center gap-1.5 text-sm font-medium tabular-nums text-zinc-300">
             <Timer
               aria-hidden="true"
               size={14}
-              className={`text-brand ${running ? "animate-pulse" : ""}`}
+              className={running ? "text-brand" : "text-zinc-500"}
             />
-            <span className="font-mono text-sm font-bold tabular-nums text-brand">
-              {elapsedLabel}
-            </span>
+            {elapsedLabel}
           </span>
           {onPauseResume ? (
             <button
               type="button"
               onClick={onPauseResume}
-              className="inline-flex h-8 items-center gap-1 rounded-full border border-brand/40 bg-white px-3 text-xs font-bold text-brand transition hover:bg-brand-soft dark:bg-zinc-900"
+              className="inline-flex h-8 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
             >
               {running ? (
                 <>
@@ -1179,18 +1197,18 @@ export function GuidedOverlay({
       {failures.length > 0 && (
         <div
           role="alert"
-          className="mx-4 mb-1 space-y-1.5 rounded-xl border border-red-300 bg-red-50 p-3 text-sm dark:border-red-500/40 dark:bg-red-500/10"
+          className="mx-4 mb-2 space-y-1.5 rounded-2xl border border-red-500/30 bg-red-500/10 p-3 text-sm"
         >
           {failures.map((f) => (
             <div key={f.key} className="flex items-center gap-2">
-              <span className="flex-1 text-red-800 dark:text-red-200">
-                <strong className="font-bold">{f.name}</strong> 저장 실패 —{" "}
+              <span className="flex-1 text-red-200">
+                <strong className="font-semibold">{f.name}</strong> 저장 실패 —{" "}
                 {f.status === "done" ? "완료" : "넘기기"}가 기록되지 않았습니다.
               </span>
               <button
                 type="button"
                 onClick={() => retryFailure(f)}
-                className="shrink-0 rounded-lg bg-red-600 px-3 py-1 text-xs font-bold text-white transition hover:bg-red-500"
+                className="shrink-0 rounded-lg bg-red-500 px-3 py-1 text-xs font-semibold text-white transition hover:bg-red-400"
               >
                 다시 시도
               </button>
@@ -1198,7 +1216,7 @@ export function GuidedOverlay({
                 type="button"
                 aria-label="닫기"
                 onClick={() => dismissFailure(f.key)}
-                className="shrink-0 rounded-lg p-1 text-red-700 transition hover:bg-red-100 dark:text-red-300 dark:hover:bg-red-500/20"
+                className="shrink-0 rounded-lg p-1 text-red-300 transition hover:bg-red-500/20"
               >
                 <X aria-hidden="true" size={14} />
               </button>
@@ -1207,8 +1225,7 @@ export function GuidedOverlay({
         </div>
       )}
 
-      {/* 본문 — 스크롤 가능. justify-center 는 내용이 길면 위쪽이 잘려 스크롤이 막히므로
-          (flexbox 한계), m-auto 래퍼로 대체 — 짧으면 가운데, 길면 위부터 끝까지 스크롤. */}
+      {/* 본문 — 영상이 주인공. 스크롤 가능(길면 위부터 끝까지). */}
       <div
         data-testid="guided-scroll"
         onPointerDown={onSwipeDown}
@@ -1216,391 +1233,379 @@ export function GuidedOverlay({
         onPointerUp={onSwipeEnd}
         onPointerCancel={onSwipeEnd}
         style={{ touchAction: "pan-y" }}
-        className="flex flex-1 flex-col overflow-y-auto px-6 py-4"
+        className="flex flex-1 flex-col overflow-y-auto"
       >
         <div
-          className="m-auto flex w-full flex-col items-center"
+          className="flex w-full flex-col items-center"
           style={{
             transform: dragDx ? `translateX(${dragDx}px)` : undefined,
             transition: dragDx ? "none" : "transform 200ms ease-out",
           }}
         >
-        {/* 상단 태그(본운동/워밍업/마무리) + 오른쪽 끝에 메모·AI 자세 분석 */}
-        <div className="mb-3 flex w-full items-center justify-between gap-2">
-          <KindBadge kind={item.kind} />
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={() => setMemoOpen(true)}
-              className="inline-flex items-center gap-1 rounded-full border border-zinc-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-amber-400 hover:text-amber-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:text-amber-400"
-            >
-              <StickyNote aria-hidden="true" size={14} />
-              {currentMemo(item) ? "메모 수정" : "메모"}
-            </button>
-            {postureEnabled && item.kind === "main" ? (
-              <button
-                type="button"
-                onClick={() => setPostureOpen(true)}
-                className="inline-flex items-center gap-1 rounded-full border border-violet-300 bg-violet-50 px-2.5 py-1.5 text-xs font-semibold text-violet-700 transition hover:border-violet-400 hover:bg-violet-100 dark:border-violet-700 dark:bg-violet-950/40 dark:text-violet-300"
-              >
-                <ScanLine aria-hidden="true" size={14} />
-                AI 자세
-              </button>
-            ) : null}
-          </div>
-        </div>
-        {/* 시연(사진/영상). 좌우 화살표(‹ ›)로 운동 이동(탭/스와이프 보조).
-            본운동·워밍업·마무리 모두 방법 자막(문구)을 빼고 사진/영상만 — 워밍업·마무리는
-            설정값(시간·속도·경사) 칩을 이름 아래에 보여주고, 본운동은 상세 페이지로. */}
-        <div className="relative w-full max-w-lg">
-          <ItemVisual item={item} />
-          {/* 자극 부위 — 실사풍 인체에 타깃 근육 색칠. 탭하면 앞·뒤 크게. (본운동) */}
-          {item.kind === "main" ? (
-            <MuscleBodyInset
-              exerciseId={item.exerciseId}
-              name={item.name}
-              target={item.target}
-              onOpen={() => setMuscle3dOpen(true)}
-            />
-          ) : null}
-
-          {total > 1 ? (
-            <>
-              <button
-                type="button"
-                aria-label="이전 운동"
-                onClick={() => goTo(-1)}
-                disabled={prevIndex === null}
-                className="absolute left-1.5 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md backdrop-blur-sm transition hover:bg-black/65 disabled:pointer-events-none disabled:opacity-0"
-              >
-                <ChevronLeft aria-hidden="true" size={22} />
-              </button>
-              <button
-                type="button"
-                aria-label="다음 운동"
-                onClick={() => goTo(1)}
-                disabled={nextIndex === null}
-                className="absolute right-1.5 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white shadow-md backdrop-blur-sm transition hover:bg-black/65 disabled:pointer-events-none disabled:opacity-0"
-              >
-                <ChevronRight aria-hidden="true" size={22} />
-              </button>
-            </>
-          ) : null}
-        </div>
-
-        {/* 슈퍼세트 표시 — 지금 묶음의 몇 번째인지. 이게 없으면 "왜 휴식이 안 오지" 가 된다. */}
-        {supersetTag ? (
-          <p
-            data-testid="superset-tag"
-            data-label={supersetTag}
-            className="mt-3 inline-flex items-center gap-1 self-center rounded-full bg-violet-100 px-2.5 py-1 text-xs font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
-          >
-            <Link2 aria-hidden="true" size={12} />
-            슈퍼세트 {supersetTag}
-          </p>
-        ) : null}
-        {/* 이름은 링크가 아니다 — 상세는 오직 아래 '운동법·꿀팁 보기' 버튼으로만. */}
-        <h2 className="mt-4 text-center text-2xl font-bold text-zinc-950 dark:text-zinc-50 sm:text-3xl">
-          {item.name}
-        </h2>
-        {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 고정 켬이면
-            설정값 칩, 고정 끔이면 아래 스크러버에서 설정(칩 숨김). 본운동(고정 켬)은 subtitle. */}
-        {editable || condEditable ? null : item.kind === "main" ? (
-          <p className="mt-1.5 text-center text-sm text-zinc-600 dark:text-zinc-300">
-            {item.subtitle}
-          </p>
-        ) : (
-          <ConditioningSettings item={item} />
-        )}
-
-        {/* 시간(초) 기반 운동(플랭크 등) — 큰 초 타이머(카운트업). 진입 시 자동시작하지
-            않고 '시작' 버튼을 눌러야 흐른다(명시적 시작/중지/초기화, 요청 #29).
-            세트마다 0부터 다시. 완료를 누르면(하단 '세트 완료') 세트가 완료되고
-            다음 세트에서 리셋된다. 목표 시간을 넘기면 초록 색으로 도달 표시. */}
-        {timed ? (
-          <div className="mt-4 flex flex-col items-center gap-2">
-            <div
-              className={`text-6xl font-bold tabular-nums ${
-                holdSec >= targetHoldSec
-                  ? "text-brand"
-                  : "text-zinc-900 dark:text-zinc-100"
-              }`}
-              aria-label={`경과 ${holdSec}초`}
-            >
-              {formatHold(holdSec)}
-            </div>
-            <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-              목표 {targetHoldSec}초 버티기 · 완료를 누르면 이 세트 완료
-            </p>
-            <div className="mt-1 flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setHoldRunning((r) => !r)}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full bg-zinc-900 px-4 text-sm font-bold text-white transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
-              >
-                {holdRunning ? (
-                  <>
-                    <Pause aria-hidden="true" size={15} />
-                    중지
-                  </>
-                ) : (
-                  <>
-                    <Play aria-hidden="true" size={15} />
-                    {holdSec > 0 ? "계속" : "시작"}
-                  </>
-                )}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setHoldRunning(false);
-                  setHoldSec(0);
-                }}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
-              >
-                <RotateCcw aria-hidden="true" size={15} />
-                초기화
-              </button>
-            </div>
-          </div>
-        ) : null}
-
-        {/* 컨디셔닝 시간·속도·경사 스크러버 (고정 끔, 워밍업/마무리) */}
-        {condEditable ? (
-          <CondScrubbers
-            itemId={item.itemId}
-            duration={editDuration}
-            speed={editSpeed}
-            incline={editIncline}
-            sets={editCondSets}
-            reps={editCondReps}
-            onChange={putCondEdit}
-          />
-        ) : null}
-
-        {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 세로 스택(모바일 폭에서도 안 깨짐).
-            좌우로 밀거나 ±로 조절, 더블클릭하면 직접 입력. */}
-        {editable ? (
-          <div className="mt-4 w-full max-w-xs app-card px-4 py-1">
-            <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
-              <NumberScrubber
-                label="무게"
-                value={editW}
-                unit="kg"
-                min={0}
-                max={500}
-                step={weightStep}
-                allowBodyweight
-                onChange={(v) => putEdit({ w: v })}
-              />
-              {/* 시간 운동(플랭크 등)은 '횟수' 대신 '목표 시간(초)'로 다룬다 — reps 칸 재사용. */}
-              <NumberScrubber
-                label={timed ? "시간" : "횟수"}
-                value={editReps}
-                unit={timed ? "초" : "회"}
-                min={timed ? 5 : 1}
-                max={timed ? 600 : 100}
-                step={timed ? 5 : 1}
-                onChange={(v) => putEdit({ reps: v ?? (timed ? 30 : 1) })}
-              />
-              <NumberScrubber
-                label="세트"
-                value={editSets}
-                unit="세트"
-                min={minSelectableSets(setsDone)}
-                max={20}
-                step={1}
-                onChange={(v) => putEdit({ sets: v ?? 1 })}
-              />
-            </div>
-            <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
-              좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
-            </p>
-            {/* ± 폭이 내 헬스장과 안 맞을 때 바로 고친다 — 무게를 실제로 정하는 자리다. */}
-            {item?.kind === "main" && !timed ? (
-              <WeightStepPicker
+          {/* 운동 영상 — 폭 가득. 좌우 화살표로 운동 이동(스와이프 보조). */}
+          {/* 운동 영상 — 화면 끝까지(시연 컴포넌트의 둥근 모서리·테두리는 여기서만 지운다). */}
+          <div className="w-full max-w-lg sm:px-3">
+          <div className="relative w-full [&_.border]:border-0 [&_.rounded-2xl]:rounded-none sm:[&_.rounded-2xl]:rounded-2xl">
+            <ItemVisual item={item} />
+            {item.kind === "main" ? (
+              <MuscleBodyInset
                 exerciseId={item.exerciseId}
-                currentStepKg={weightStep}
-                isOverridden={weightStepOverride !== null}
-                onSaved={() => router.refresh()}
+                name={item.name}
+                target={item.target}
+                onOpen={() => setMuscle3dOpen(true)}
               />
             ) : null}
-          </div>
-        ) : null}
 
-        {/* 원판 구성 — 무게를 정하는 **그 자리**에 붙인다. 총중량만 보여 주면 랙 앞에서
-            "한쪽에 뭘 몇 장" 을 매번 암산하게 된다.
-            고정 모드(스크러버 없음)에서도 계획된 무게로 그대로 필요하므로 밖에 둔다. */}
-        {item.kind === "main" ? (
-          <div className="mt-2 w-full max-w-xs">
-            <PlateHint
-              weightKg={editable ? editW : item.weightKg}
-              equipment={item.equipment}
-              compact
-            />
-          </div>
-        ) : null}
-
-        {/* 다음 세션 추천(로드맵 2.2) — **무게를 정하는 그 자리**에 붙인다.
-            성장 그래프에만 있으면 정작 무게를 정할 때는 안 보인다.
-            고정 모드(스크러버 없음)에서는 근거만 읽기 전용으로 — 여기서 값을 바꿀 수 없으니
-            '적용' 버튼을 달면 눌러도 아무 일이 없는 버튼이 된다. */}
-        {item.kind === "main" && item.advice ? (
-          <div className="mt-3 w-full max-w-xs">
-            <OverloadHint
-              advice={item.advice}
-              onApply={editable ? applyAdvice : undefined}
-            />
-          </div>
-        ) : null}
-
-        {item.kind === "main" && (item.substitutes?.length ?? 0) > 0 ? (
-          <section
-            aria-label="추천 대체운동"
-            className="mt-3 w-full max-w-xs rounded-2xl border border-amber-200 bg-amber-50 p-3 text-left dark:border-amber-900 dark:bg-amber-950/30"
-          >
-            <p className="text-sm font-bold text-amber-900 dark:text-amber-100">
-              추천 대체운동
-            </p>
-            <p className="mt-0.5 text-xs text-amber-700 dark:text-amber-300">
-              적용해도 오늘 계획만 바뀌고 영구 루틴은 유지돼요.
-            </p>
-            <div className="mt-2 space-y-2">
-              {item.substitutes?.map((substitute) => (
-                <div
-                  key={`${substitute.exerciseId}:${substitute.equipment}`}
-                  data-testid={`substitute-option-${substitute.exerciseId}`}
-                  className="rounded-xl bg-white p-2.5 shadow-sm dark:bg-zinc-900"
+            {total > 1 ? (
+              <>
+                <button
+                  type="button"
+                  aria-label="이전 운동"
+                  onClick={() => goTo(-1)}
+                  disabled={prevIndex === null}
+                  className="absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
                 >
-                  <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-                    {substitute.name}
-                  </p>
-                  <p className="mt-0.5 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-                    {substitute.reason}
-                  </p>
+                  <ChevronLeft aria-hidden="true" size={22} />
+                </button>
+                <button
+                  type="button"
+                  aria-label="다음 운동"
+                  onClick={() => goTo(1)}
+                  disabled={nextIndex === null}
+                  className="absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
+                >
+                  <ChevronRight aria-hidden="true" size={22} />
+                </button>
+              </>
+            ) : null}
+          </div>
+          </div>
+
+          <div className="flex w-full max-w-lg flex-col items-center px-5">
+            {/* 이름 줄 — 왼쪽: 종류·슈퍼세트 + 이름, 오른쪽: 메모·AI 자세 */}
+            <div className="mt-4 flex w-full items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <KindBadge kind={item.kind} />
+                  {/* 슈퍼세트 표시 — 지금 묶음의 몇 번째인지. 이게 없으면 "왜 휴식이 안 오지" 가 된다. */}
+                  {supersetTag ? (
+                    <span
+                      data-testid="superset-tag"
+                      data-label={supersetTag}
+                      className="inline-flex items-center gap-1 rounded-full border border-brand/40 px-2 py-0.5 text-xs font-medium text-brand"
+                    >
+                      <Link2 aria-hidden="true" size={12} />
+                      슈퍼세트 {supersetTag}
+                    </span>
+                  ) : null}
+                </div>
+                {/* 이름은 링크가 아니다 — 상세는 오직 아래 '운동법·꿀팁 보기' 버튼으로만. */}
+                <h2 className="mt-1.5 truncate text-xl font-semibold tracking-tight text-zinc-50">
+                  {item.name}
+                </h2>
+              </div>
+              <div className="flex shrink-0 items-center gap-1.5 pt-0.5">
+                <button
+                  type="button"
+                  onClick={() => setMemoOpen(true)}
+                  className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                >
+                  <StickyNote aria-hidden="true" size={13} />
+                  {currentMemo(item) ? "메모 수정" : "메모"}
+                </button>
+                {postureEnabled && item.kind === "main" ? (
                   <button
                     type="button"
-                    data-testid={`substitute-apply-${substitute.exerciseId}`}
-                    disabled={substituteApplying !== null}
-                    onClick={() => void applySubstitute(substitute)}
-                    className="mt-2 w-full rounded-lg bg-amber-600 px-3 py-2 text-xs font-bold text-white transition hover:bg-amber-700 disabled:cursor-wait disabled:opacity-60"
+                    onClick={() => setPostureOpen(true)}
+                    className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
                   >
-                    {substituteApplying === substitute.exerciseId
-                      ? "오늘 계획 변경 중…"
-                      : "오늘만 이 운동으로 변경"}
+                    <ScanLine aria-hidden="true" size={13} />
+                    AI 자세
+                  </button>
+                ) : null}
+              </div>
+            </div>
+            {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 고정 켬이면
+                설정값 칩, 고정 끔이면 아래 스크러버에서 설정(칩 숨김). 본운동(고정 켬)은 subtitle. */}
+            {editable || condEditable ? null : item.kind === "main" ? (
+              <p className="mt-1 w-full text-sm text-zinc-400">{item.subtitle}</p>
+            ) : (
+              <ConditioningSettings item={item} />
+            )}
+
+            {/* 시간(초) 기반 운동(플랭크 등) — 카운트업. 진입 시 자동시작하지 않고 '시작'을
+                눌러야 흐른다(요청 #29). 세트마다 0부터. 목표 시간을 넘기면 브랜드색. */}
+            {timed ? (
+              <div className={`mt-4 flex w-full flex-col items-center gap-2 rounded-3xl px-4 py-4 ${glass}`}>
+                <div
+                  className={`text-5xl font-medium tabular-nums tracking-tight ${
+                    holdSec >= targetHoldSec ? "text-brand" : "text-zinc-50"
+                  }`}
+                  aria-label={`경과 ${holdSec}초`}
+                >
+                  {formatHold(holdSec)}
+                </div>
+                <p className="text-xs text-zinc-400">
+                  목표 {targetHoldSec}초 버티기 · 완료를 누르면 이 세트 완료
+                </p>
+                <div className="mt-1 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setHoldRunning((r) => !r)}
+                    className="inline-flex h-10 items-center gap-1.5 rounded-full bg-white px-5 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-200"
+                  >
+                    {holdRunning ? (
+                      <>
+                        <Pause aria-hidden="true" size={15} />
+                        중지
+                      </>
+                    ) : (
+                      <>
+                        <Play aria-hidden="true" size={15} />
+                        {holdSec > 0 ? "계속" : "시작"}
+                      </>
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setHoldRunning(false);
+                      setHoldSec(0);
+                    }}
+                    className="inline-flex h-10 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                  >
+                    <RotateCcw aria-hidden="true" size={15} />
+                    초기화
                   </button>
                 </div>
-              ))}
-            </div>
-            {substituteError ? (
-              <p role="alert" className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
-                {substituteError}
-              </p>
+              </div>
             ) : null}
-          </section>
-        ) : null}
 
-        {/* 운동법·꿀팁(개인설정 가능). 본운동은 상세로, 워밍업·마무리는 방법 다이얼로그로.
-            (메모·AI 자세 분석은 상단 태그 오른쪽으로 이동함.) */}
-        <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-          {showGuide && item.kind === "main" ? (
-            <button
-              type="button"
-              onClick={viewDetail}
-              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
-            >
-              <ListChecks aria-hidden="true" size={15} />
-              운동법·꿀팁 보기
-            </button>
-          ) : showGuide && item.method.length > 0 ? (
-            <button
-              type="button"
-              onClick={() => setTipsOpen(true)}
-              className="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200"
-            >
-              <ListChecks aria-hidden="true" size={15} />
-              운동법 보기
-            </button>
-          ) : null}
-          {/* 운동 티칭 영상 올리기 — 현재 운동을 태그로. 30초 시범 영상 공유. */}
-          <button
-            type="button"
-            onClick={() => setTeachOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft px-4 py-2 text-sm font-semibold text-brand transition hover:bg-brand-soft"
-          >
-            <Video aria-hidden="true" size={15} />
-            영상 올리고 티칭받기
-          </button>
-        </div>
+            {/* 컨디셔닝 시간·속도·경사 스크러버 (고정 끔, 워밍업/마무리) */}
+            {condEditable ? (
+              <CondScrubbers
+                itemId={item.itemId}
+                duration={editDuration}
+                speed={editSpeed}
+                incline={editIncline}
+                sets={editCondSets}
+                reps={editCondReps}
+                onChange={putCondEdit}
+              />
+            ) : null}
 
-        {/* 개인 메모 — 있으면 표시 (본운동·워밍업·마무리 공통) */}
-        {currentMemo(item) ? (
-          <div className="mt-6 w-full max-w-md rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3 dark:border-amber-500/40 dark:bg-amber-500/10">
-            <p className="mb-1 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-300">
-              <StickyNote aria-hidden="true" size={13} />
-              메모
-            </p>
-            <p className="whitespace-pre-wrap text-sm leading-6 text-amber-900 dark:text-amber-100">
-              {currentMemo(item)}
-            </p>
+            {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 좌우로 밀거나 ±, 더블클릭하면 직접 입력. */}
+            {editable ? (
+              <div className="mt-4 w-full">
+                <div className="grid grid-cols-3 gap-2">
+                  <NumberScrubber
+                    label="무게"
+                    value={editW}
+                    unit="kg"
+                    min={0}
+                    max={500}
+                    step={weightStep}
+                    allowBodyweight
+                    onChange={(v) => putEdit({ w: v })}
+                  />
+                  {/* 시간 운동(플랭크 등)은 '횟수' 대신 '목표 시간(초)'로 다룬다 — reps 칸 재사용. */}
+                  <NumberScrubber
+                    label={timed ? "시간" : "횟수"}
+                    value={editReps}
+                    unit={timed ? "초" : "회"}
+                    min={timed ? 5 : 1}
+                    max={timed ? 600 : 100}
+                    step={timed ? 5 : 1}
+                    onChange={(v) => putEdit({ reps: v ?? (timed ? 30 : 1) })}
+                  />
+                  <NumberScrubber
+                    label="세트"
+                    value={editSets}
+                    unit="세트"
+                    min={minSelectableSets(setsDone)}
+                    max={20}
+                    step={1}
+                    onChange={(v) => putEdit({ sets: v ?? 1 })}
+                  />
+                </div>
+              </div>
+            ) : null}
+
+            {editable && item.kind === "main" && !timed ? (
+              <div className="mt-2 w-full">
+                <WeightStepPicker exerciseId={item.exerciseId} currentStepKg={weightStep} isOverridden={weightStepOverride !== null} onSaved={() => router.refresh()} />
+              </div>
+            ) : null}
+
+            {/* 원판 구성 — 무게를 정하는 **그 자리**에 붙인다(고정 모드에서도 계획 무게로). */}
+            {item.kind === "main" ? (
+              <div className="mt-2 w-full">
+                <PlateHint
+                  weightKg={editable ? editW : item.weightKg}
+                  equipment={item.equipment}
+                  compact
+                />
+              </div>
+            ) : null}
+
+            {/* 다음 세션 추천(로드맵 2.2) — 무게를 정하는 그 자리. 고정 모드에선 읽기 전용. */}
+            {item.kind === "main" && item.advice ? (
+              <div className="mt-2 w-full">
+                <OverloadHint
+                  advice={item.advice}
+                  onApply={editable ? applyAdvice : undefined}
+                />
+              </div>
+            ) : null}
+
+            {item.kind === "main" && (item.substitutes?.length ?? 0) > 0 ? (
+              <section
+                aria-label="추천 대체운동"
+                className={`mt-3 w-full rounded-3xl p-4 text-left ${glass}`}
+              >
+                <p className="text-sm font-semibold text-zinc-100">추천 대체운동</p>
+                <p className="mt-0.5 text-xs text-zinc-400">
+                  적용해도 오늘 계획만 바뀌고 영구 루틴은 유지돼요.
+                </p>
+                <div className="mt-3 space-y-2">
+                  {item.substitutes?.map((substitute) => (
+                    <div
+                      key={`${substitute.exerciseId}:${substitute.equipment}`}
+                      data-testid={`substitute-option-${substitute.exerciseId}`}
+                      className="rounded-2xl bg-white/5 p-3"
+                    >
+                      <p className="text-sm font-medium text-zinc-100">{substitute.name}</p>
+                      <p className="mt-0.5 text-xs leading-5 text-zinc-400">{substitute.reason}</p>
+                      <button
+                        type="button"
+                        data-testid={`substitute-apply-${substitute.exerciseId}`}
+                        disabled={substituteApplying !== null}
+                        onClick={() => void applySubstitute(substitute)}
+                        className="mt-2 h-10 w-full rounded-xl bg-white/10 px-3 text-sm font-medium text-zinc-100 transition hover:bg-white/15 disabled:cursor-wait disabled:opacity-60"
+                      >
+                        {substituteApplying === substitute.exerciseId
+                          ? "오늘 계획 변경 중…"
+                          : "오늘만 이 운동으로 변경"}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+                {substituteError ? (
+                  <p role="alert" className="mt-2 text-xs font-medium text-red-300">
+                    {substituteError}
+                  </p>
+                ) : null}
+              </section>
+            ) : null}
+
+            {/* 운동법·꿀팁(개인설정 가능) · 티칭 영상 — 조용한 보조 버튼 */}
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              {showGuide && item.kind === "main" ? (
+                <button
+                  type="button"
+                  onClick={viewDetail}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                >
+                  <ListChecks aria-hidden="true" size={15} />
+                  운동법·꿀팁 보기
+                </button>
+              ) : showGuide && item.method.length > 0 ? (
+                <button
+                  type="button"
+                  onClick={() => setTipsOpen(true)}
+                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                >
+                  <ListChecks aria-hidden="true" size={15} />
+                  운동법 보기
+                </button>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => setTeachOpen(true)}
+                className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+              >
+                <Video aria-hidden="true" size={15} />
+                영상 올리고 티칭받기
+              </button>
+            </div>
+
+            {/* 개인 메모 — 있으면 표시 */}
+            {currentMemo(item) ? (
+              <div className={`mt-4 w-full rounded-2xl px-4 py-3 ${glass}`}>
+                <p className="mb-1 flex items-center gap-1.5 text-xs font-medium text-zinc-400">
+                  <StickyNote aria-hidden="true" size={13} />
+                  메모
+                </p>
+                <p className="whitespace-pre-wrap text-sm leading-6 text-zinc-200">
+                  {currentMemo(item)}
+                </p>
+              </div>
+            ) : null}
+            <div className="h-4 shrink-0" />
           </div>
-        ) : null}
         </div>
       </div>
 
-      {/* 하단 버튼 */}
-      <div className="space-y-2.5 border-t border-zinc-200 bg-white/95 backdrop-blur dark:border-zinc-800 dark:bg-zinc-950/95 p-4 pb-[max(env(safe-area-inset-bottom),1rem)]">
-        {/* 휴식 시간 설정 — 운동 시작 화면에서 바로 조절 */}
-        <div className="flex items-center gap-2 overflow-x-auto">
-          <span className="flex shrink-0 items-center gap-1 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+      {/* 하단 유리 패널 — 휴식 · 넘기기/운동 완료 · 세트(밀어서 완료) */}
+      <div className="space-y-2.5 rounded-t-3xl border-t border-white/10 bg-zinc-900/80 p-4 pb-[max(env(safe-area-inset-bottom),1rem)] backdrop-blur-xl">
+        {/* 휴식 시간 — 운동 화면에서 바로 조절 */}
+        <div className="flex items-center gap-2">
+          <span className="flex shrink-0 items-center gap-1 text-xs text-zinc-500">
             <Timer aria-hidden="true" size={13} />
             휴식
           </span>
-          {REST_PRESETS.map((sec) => {
-            const active = rest.defaultSec === sec;
-            return (
-              <button
-                key={sec}
-                type="button"
-                onClick={() => rest.setDefaultSec(sec)}
-                className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-bold transition ${
-                  active
-                    ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                    : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
-                }`}
-              >
-                {formatRest(sec)}
-              </button>
-            );
-          })}
+          <div className="flex flex-1 rounded-full bg-white/5 p-1">
+            {REST_PRESETS.map((sec) => {
+              const active = rest.defaultSec === sec;
+              return (
+                <button
+                  key={sec}
+                  type="button"
+                  onClick={() => rest.setDefaultSec(sec)}
+                  aria-pressed={active}
+                  className={`h-8 flex-1 rounded-full text-xs font-medium tabular-nums transition ${
+                    active
+                      ? "bg-white/15 text-zinc-50"
+                      : "text-zinc-500 hover:text-zinc-200"
+                  }`}
+                >
+                  {formatRest(sec)}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* 넘기기 / 완료 — 위쪽에 '작게'. 자주 누르는 세트 진행이 아래에서 더 크다. */}
+        {/* 넘기기 / 운동 완료 — 작게. 세트가 없는 운동(워밍업 등)은 아래 밀어서 '완료'. */}
         <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
             onClick={skip}
             disabled={working}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-200 dark:hover:bg-zinc-800"
+            className={`inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50 ${
+              mainSets > 0 ? "" : "col-span-2"
+            }`}
           >
             <ChevronRight aria-hidden="true" size={15} />
             넘기기
           </button>
-          <button
-            type="button"
-            onClick={complete}
-            disabled={working}
-            className="inline-flex h-10 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 shadow transition hover:bg-brand/90 disabled:opacity-50"
-          >
-            <Check aria-hidden="true" size={16} />
-            {isLast ? "완료하고 종료" : mainSets > 0 ? "운동 완료" : "완료"}
-          </button>
+          {mainSets > 0 ? (
+            <button
+              type="button"
+              onClick={complete}
+              disabled={working}
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50"
+            >
+              <Check aria-hidden="true" size={15} />
+              {isLast ? "완료하고 종료" : "운동 완료"}
+            </button>
+          ) : null}
         </div>
 
-        {/* 본운동 세트 진행 + 세트 완료(휴식) — 세트가 여러 개일 때만 */}
+        {/* 본운동 세트 진행 + 밀어서 세트 완료(휴식) — 세트가 여러 개일 때만 */}
         {mainSets > 0 ? (
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-12 shrink-0 items-center rounded-lg bg-brand-soft px-2.5 text-sm font-bold text-brand">
+            <span className="inline-flex h-14 shrink-0 items-center rounded-full bg-white/5 px-3.5 text-sm font-medium tabular-nums text-zinc-200">
               {setProgressLabel(setsDone, mainSets)}
             </span>
             {setsDone > 0 ? (
@@ -1609,39 +1614,36 @@ export function GuidedOverlay({
                 onClick={cancelSet}
                 disabled={working}
                 aria-label="세트 완료 취소"
-                className="inline-flex h-12 shrink-0 items-center justify-center gap-1 rounded-xl border border-zinc-300 bg-white px-3.5 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+                className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/5 text-zinc-300 transition hover:bg-white/10 disabled:opacity-40"
               >
-                <ChevronLeft aria-hidden="true" size={16} />
-                취소
+                <RotateCcw aria-hidden="true" size={18} />
               </button>
             ) : null}
-            <button
-              type="button"
+            <SlideToConfirm
               onClick={completeSet}
               disabled={working}
-              className="inline-flex h-12 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-xl border border-brand/40 bg-brand-soft text-base font-bold text-brand shadow-sm transition hover:bg-brand-soft disabled:opacity-40"
+              className="inline-flex h-14 flex-1 items-center bg-white/10 text-zinc-50"
             >
               {onLastSet ? (
-                <>
-                  <Check aria-hidden="true" size={18} />
-                  마지막 세트 완료
-                </>
+                "마지막 세트 완료"
               ) : partnerIndex !== null ? (
                 /* 슈퍼세트 — 여기서 안 쉬고 바로 짝으로 넘어간다. 버튼이 '세트 완료'
                    라고만 하면 휴식이 올 줄 알고 기다리게 된다. */
-                <>
-                  <Link2 aria-hidden="true" size={18} />
-                  세트 완료 · 바로 다음
-                </>
+                "세트 완료 · 바로 다음"
               ) : (
-                <>
-                  <Timer aria-hidden="true" size={18} />
-                  세트 완료
-                </>
+                "세트 완료"
               )}
-            </button>
+            </SlideToConfirm>
           </div>
-        ) : null}
+        ) : (
+          <SlideToConfirm
+            onClick={complete}
+            disabled={working}
+            className="inline-flex h-14 w-full items-center bg-white/10 text-zinc-50"
+          >
+            {isLast ? "완료하고 종료" : "완료"}
+          </SlideToConfirm>
+        )}
       </div>
       <ConfirmDialog
         open={closeAsk}
@@ -1812,16 +1814,8 @@ function MemoEditDialog({
 function KindBadge({ kind }: { kind: GuidedItem["kind"] }) {
   const label =
     kind === "warmup" ? "워밍업" : kind === "cooldown" ? "마무리" : "본운동";
-  const tone =
-    kind === "warmup"
-      ? "bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
-      : kind === "cooldown"
-        ? "bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300"
-        : "bg-brand-soft text-brand";
   return (
-    <span
-      className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${tone}`}
-    >
+    <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-medium text-zinc-600 dark:bg-white/10 dark:text-zinc-300">
       {label}
     </span>
   );
@@ -1928,8 +1922,11 @@ function CondScrubbers({
   const params = getConditioningItem(itemId)?.params ?? [];
   if (params.length === 0) return null;
   return (
-    <div className="mt-4 w-full max-w-xs app-card px-4 py-1">
-      <div className="divide-y divide-zinc-100 dark:divide-zinc-800">
+    <div className="mt-4 w-full">
+      <div
+        className="grid gap-2"
+        style={{ gridTemplateColumns: `repeat(${Math.min(3, params.length)}, minmax(0, 1fr))` }}
+      >
         {params.includes("duration") ? (
           <NumberScrubber
             label={PARAM_LABEL.duration}
@@ -1986,9 +1983,6 @@ function CondScrubbers({
           />
         ) : null}
       </div>
-      <p className="py-2 text-center text-xs text-zinc-400 dark:text-zinc-500">
-        좌우로 끌거나 ± · 더블클릭해 직접 입력 · 완료 시 이 값으로 기록
-      </p>
     </div>
   );
 }

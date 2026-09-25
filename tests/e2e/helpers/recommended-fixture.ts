@@ -1,6 +1,6 @@
 import { routineDaySlots, type DayBlockId } from "@/features/routine/data";
 import { ALL_FOCUSES, prescribe } from "@/features/routine/exercise-catalog";
-import { focusExercisesForSlot, sideExercisesForSlot } from "@/features/routine/recommend";
+import { focusExercisesForSlot, focusVariantIndex, sideExercisesForSlot } from "@/features/routine/recommend";
 import { conditioningDefaults, defaultsFor } from "@/features/routine/conditioning-catalog";
 import { ALL_GYM_EQUIPMENT_IDS } from "@/features/gym/gym-equipment-catalog";
 import { isEquipmentAvailable, toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
@@ -37,10 +37,16 @@ export async function prepareRecommendedExercises(email: string): Promise<void> 
     );
     const key = (day: number | null, focus: string, exercise: string) => [day ?? 0, focus, exercise].join(":");
     const oldIds = new Map(oldRows.map(r => [key(r.day_index, r.focus, r.exercise_id), r.id]));
-    const groups = routineDaySlots(setup.splits, setup.variant_id, setup.custom_week).map(slot => {
+    const slots = routineDaySlots(setup.splits, setup.variant_id, setup.custom_week);
+    // UI(registerRecommendedPlanAction)와 같은 입력 — 경력 + 같은 부위 A/B 번호.
+    // 새 테스트 계정은 기록이 없어 2단계 신호(0세트 세부근육·건너뛴 운동)가 비어 있다 — UI 도 같다.
+    const groups = slots.map(slot => {
       const exercises = slot.isSide
         ? sideExercisesForSlot(slot.focus, slot.blockIds, setup.gender)
-        : focusExercisesForSlot(slot.focus, slot.blockIds, setup.gender);
+        : focusExercisesForSlot(slot.focus, slot.blockIds, setup.gender, null, {
+            experience: setup.experience,
+            variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
+          });
       return { dayIndex: slot.dayIndex, focus: slot.focus, rows: exercises.map((ex, position) => {
         const p = prescribe(ex.id, opts);
         const id = oldIds.get(key(slot.dayIndex, slot.focus, ex.id));

@@ -968,22 +968,6 @@
     "reviewedAt": "2026-09-17T08:53:29.465Z"
   },
   {
-    "status": "pending",
-    "note": "2026-09-17: generated a new 8-pose ascending source to replace the previous 16-pose sheet whose latter panels clustered at shoulder height. New source has clearer progression; both light/dark renders inspected at 32 sampled frames each. Persistent duplicated/warped hands and dumbbells near peak transition, particularly row2 columns5 and8 of contact sheets; dark rim accentuates ghosts. Do not publish. 480x480 8s24fps full decode passed, light162254/dark144887bytes. Source prompt and ACE/Catalyst sources in spec. Prior files saved imports/front-raise-before-20260917. Next: improve intermediate-frame interpolation or source pose density without repeating the late shoulder-height plateau; do not pass based on playback.",
-    "id": "dumbbell-front-raise",
-    "equipmentIds": [
-      "dumbbell"
-    ],
-    "sources": [
-      "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/",
-      "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"
-    ],
-    "sourceSha256": "a6c872198fa6b0abec9d540238a4bc88b67dd122d2adedf34ae4b4dbd22c4cec",
-    "videoSha256": "4bc642adb6ffdde4eaa3c8ff61a66e45f32eefb48fb79316902353c44ea22472",
-    "darkVideoSha256": "24a954f08d6d778c410678a1c504f411b9f178a83eb9e486afc2327297fc3519",
-    "reviewedAt": "2026-09-17T09:05:18.108Z"
-  },
-  {
     "status": "passed",
     "checks": {
       "exercise": "Seated dumbbell shoulder press: 8 source poses press from shoulder height to lockout, video adds the return so one full repetition is shown.",
@@ -1568,21 +1552,6 @@
     "videoSha256": "3769be2a405f355f23c55a30a066dbf66f16a6ebdb8af6bd89367a9235cc21e7",
     "darkVideoSha256": "a35b70f546146e0a4ace09e356ec231f0130732dfe4133aa59bf0405d0f897b1",
     "reviewedAt": "2026-09-18T02:19:03.031Z"
-  },
-  {
-    "status": "pending",
-    "note": "2026-09-18 original eight poses and both current 32-frame theme sheets inspected against Muscle and Strength low-bar squat. Rising transition, especially light row3 column8, contains duplicated head/neck outline and bar/shoulder smearing; dark descending row1 column5 also smears the head. Keep excluded. Regenerate evenly spaced 16 poses with stable low-bar contact and inspect full-resolution transition frames before reapproval.",
-    "id": "low-bar-squat",
-    "equipmentIds": [
-      "barbell"
-    ],
-    "sources": [
-      "https://cdn.muscleandstrength.com/exercises/low-bar-back-squat"
-    ],
-    "sourceSha256": "5a7a8b4d279b5d91556e70d0f844724c58944a368d077121b0f93a6989d21620",
-    "videoSha256": "aebe934fdcb3896af89b0d88ba3764421deff8321cdeb7f8c0451251decbf338",
-    "darkVideoSha256": "4edc7461b626ddbe65341d63397e09b8298d937391888b0b812d54c2aca77738",
-    "reviewedAt": "2026-09-18T02:27:34.118Z"
   },
   {
     "status": "passed",
@@ -3013,5 +2982,44 @@
     "sourceSha256": "ef304ade05065553710f585a8525cbf96b35fe66300ae73931b4d831124c53db",
     "videoSha256": "1ec3dd954bb33c604f2ae2ab41aeb96990d396c30860aa02244365c8b79fe307",
     "reviewedAt": "2026-09-16T08:35:50.561Z"
+  },
+  {
+    "status": "passed",
+    "note": "2026-09-25 16-pose ascending source (0-90deg, 6deg steps), reverse cycle. Light/dark 32-frame sheets plus full-res frames 0/8/50-57/72-96/170/191 inspected against ACE/Catalyst front raise. No hand/dumbbell duplication or limb ghosting; loop start/end match. H264 480x480 8s 24fps full decode passed, light 157177 / dark 166742 bytes; Pixel7 mobile Chromium play+seek passed (imports/exercise-video-20260925/playback-dumbbell-front-raise*.json). Replaces the 2026-09-17 8-pose pending render.",
+    "checks": {
+      "exercise": "Bilateral dumbbell front raise, ascending to shoulder height and back down; not a lateral raise or curl.",
+      "equipment": "Two separate black dumbbells, one per hand, stay in hand throughout.",
+      "setup": "Upright standing, three-quarter right view, torso braced without lean or shrug.",
+      "hands": "Closed overhand grip, elbows nearly straight, wrists neutral.",
+      "feet": "Both feet planted hip width; stance unchanged across frames.",
+      "movement": "Only shoulder flexion from arms at thighs to horizontal at shoulder height, even progression, no elbow curl."
+    },
+    "id": "dumbbell-front-raise",
+    "equipmentIds": [
+      "dumbbell"
+    ],
+    "sources": [
+      "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/",
+      "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"
+    ],
+    "sourceSha256": "673166f5115d17a4f9a4d4dcb77c29c442fe944cc7ca75b576a73439f15196ae",
+    "videoSha256": "bae2b164e06dad132b970ab611d96880d4ad09a11c4123ee625aa9c057a4cba6",
+    "darkVideoSha256": "721446c9321276051dfde6caee5c48611bcc7f4e6793ea329a3d14d14527569b",
+    "reviewedAt": "2026-09-25T09:45:25.897Z"
+  },
+  {
+    "status": "pending",
+    "note": "2026-09-25 16-pose re-render inspected (light/dark 32-frame sheets, full-res frames 0/40/80/100). Transitions clean, no head/bar ghosting, feet and bar ends stay in frame. Still held: rear view shows the bar resting at the base of the neck/top of traps with an upright torso, which reads as high-bar rather than low-bar (bar on rear delts). Regenerate with bar lower on the rear delts and visible forward torso lean (three-quarter rear view) before approval.",
+    "id": "low-bar-squat",
+    "equipmentIds": [
+      "barbell"
+    ],
+    "sources": [
+      "https://www.muscleandstrength.com/exercises/low-bar-back-squat"
+    ],
+    "sourceSha256": "0e7da2b0ae4719558dacfe0abfe7f57bb78ba74a53f3b1f8a7652b54c584038b",
+    "videoSha256": "b57a2519e3f89d58680a3a5094ee285a194fa48d09a7bc443ba1bc2631b4972c",
+    "darkVideoSha256": "2084f46eb278b2f8135112780edf9601cdd45792804aca7a8dcc3177a140df87",
+    "reviewedAt": "2026-09-25T09:45:27.289Z"
   }
 ]

@@ -31,7 +31,6 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
   return (
     <main className="w-full">
       <CommunityBoard
-        key={view ?? "feed"}
         initialView={view}
         groups={groups.map((g) => ({ id: g.id, name: g.name }))}
         initialPosts={posts}

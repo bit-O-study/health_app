@@ -12,9 +12,11 @@ import {
 import {
   allExercisesForSlot,
   focusExercisesForSlot,
+  focusPicksForSlot,
   recommendedExercisesForFocus,
   sideExercisesForSlot,
   type GymEquipmentSet,
+  type RecommendContext,
 } from "@/features/routine/recommend";
 import { toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
 
@@ -37,6 +39,23 @@ async function currentGymEquipment(): Promise<GymEquipmentSet> {
 }
 
 /**
+ * 추천을 사람·기록에 맞추는 정보 — 경력(프로필) + 이번 주 0세트 세부근육 + 자주 건너뛴 운동.
+ * 헬스장과 같은 이유로 **호출 시점에** 동적으로 불러오고, 못 읽으면 빈 정보로 추천한다.
+ */
+async function currentRecommendContext(): Promise<RecommendContext> {
+  try {
+    const [{ getUserProfile }, { getRecommendSignals }] = await Promise.all([
+      import("@/features/profile/data-access"),
+      import("@/features/routine/recommend-signals"),
+    ]);
+    const [profile, signals] = await Promise.all([getUserProfile(), getRecommendSignals()]);
+    return { experience: profile?.experience, ...signals };
+  } catch {
+    return {};
+  }
+}
+
+/**
  * 슬롯(부위 + 세부근육 블록)의 운동 목록을 **서버에서** 준다 — 클라이언트 번들 다이어트.
  *
  * 예전엔 '운동 추가' 폼이 `allExercisesForSlot` 을 직접 불러서, 오늘 계획 화면을 여는
@@ -52,6 +71,8 @@ export type SlotExerciseOption = {
   target: string;
   /** 기구 드롭다운용 — 순서 그대로(첫 번째가 기본값). */
   equipments: EquipmentId[];
+  /** 추천으로 골랐을 때만 — 왜 골랐는지 한 줄(예: '수직 당기기 · 광배근 이번 주 0세트'). */
+  reason?: string;
 };
 
 function toOption(ex: CatalogExercise): SlotExerciseOption {
@@ -137,6 +158,8 @@ export type RecommendSlotSpec = {
   blockIds?: string[];
   /** 보조 슬롯이면 추천 개수를 보조 볼륨으로 제한한다. */
   isSide?: boolean;
+  /** 같은 주에서 이 부위가 몇 번째인지(0=A, 1=B …) — 같은 부위 날마다 운동을 번갈아. */
+  variant?: number;
 };
 
 /**
@@ -157,18 +180,29 @@ export async function recommendExercisesAction(
   if (!Array.isArray(specs)) return [];
   const g = gender === "female" ? "female" : "male";
   const { getRecommendationContext } = await import("./recommendation-data");
-  const [gym, recommendationContext] = await Promise.all([currentGymEquipment(), getRecommendationContext()]);
+  const [gym, base, recommendationContext] = await Promise.all([currentGymEquipment(), currentRecommendContext(), getRecommendationContext()]);
   return specs.slice(0, MAX_IDS).map((spec) => {
     const focus = spec?.focus;
     // 부위가 아니면(휴식 포함) 추천할 게 없다 — 빈 목록으로 자리는 지킨다.
     if (!isFocusKey(focus)) return { focus: String(focus ?? ""), exercises: [] };
     const blockIds = cleanBlockIds(spec.blockIds);
-    const base = spec.isSide
-      ? sideExercisesForSlot(focus, blockIds, g, gym)
-      : blockIds.length > 0
-        ? focusExercisesForSlot(focus, blockIds, g, gym)
-        : recommendedExercisesForFocus(focus, g, gym);
-    const list = personalizeExercises(base, allExercisesForSlot(focus, blockIds), gym, recommendationContext, spec.isSide, focus);
-    return { focus, exercises: list.map(toOption) };
+    const variant = Number.isInteger(spec.variant) && spec.variant! >= 0 ? spec.variant : 0;
+    const ctx: RecommendContext = { ...base, variant };
+    const ranked = spec.isSide ? sideExercisesForSlot(focus, blockIds, g, gym) :
+      blockIds.length > 0
+        ? focusExercisesForSlot(focus, blockIds, g, gym, ctx)
+        : recommendedExercisesForFocus(focus, g, gym, ctx);
+    const list = personalizeExercises(ranked, allExercisesForSlot(focus, blockIds), gym, recommendationContext, spec.isSide, focus);
+    // 추천 이유 — 필수 동작·세부근육 칸(앞 4개)에만 붙는다. 뒤에 붙는 나머지 큐레이션은 이유 없음.
+    const reasonOf = new Map(
+      focusPicksForSlot(focus, blockIds, g, gym, ctx).map((p) => [p.exercise.id, p.reason]),
+    );
+    return {
+      focus,
+      exercises: list.map((ex) => {
+        const reason = reasonOf.get(ex.id);
+        return reason ? { ...toOption(ex), reason } : toOption(ex);
+      }),
+    };
   });
 }

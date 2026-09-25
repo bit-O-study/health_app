@@ -201,30 +201,8 @@ public/exercise-guides/previews/conventional-deadlift-smooth.mp4
 
 ## 최신 체크포인트
 
-2026-09-20T14:34:59.022Z
+2026-09-25T14:37:01.494Z
 
-등록 117 / 렌더 132 / 시각 검토 통과 82 / 대상 1351
+등록 146 / 렌더 145 / 시각 검토 통과 103 / 대상 1351
 
-2026-09-20 후속 재개: cable-woodchopper 후보6을 등록·렌더해 기구 쪽 골반 바깥 시작 자세로 수정. 생성PNG tools/media/imports/woodchopper-16-20260920/candidate-6.png, 정확한 내장 image_gen 편집 프롬프트는 motion-guides/cable-woodchopper.json 및 imports/woodchopper-16-20260920/candidate-spec.json. 후보7은 간격 개선 부족, 후보8은 시작자세/케이블 연결 문제로 미채택. 최종480x480/8초/24fps/282968bytes 전체decode 통과. 원본16칸·영상32프레임 비교했으나 중간 손/머리 잔상·간격 불균일이 남아 pending 유지. 현재 공개82종. 모바일 검사 정체 해소: verify-woodchopper-20260920.mjs를 loopback HTML video/Range 응답/단계 로그/제한시간 방식으로 변경, Pixel7 모바일 Chromium 재생·7.5초 탐색 통과 및 정상 종료. 증거playback.json의 SHA256 28871e7d7a11c53fe4b79552e42f1f7eb4c14a2e3f1b0dcebb92d1905159b3ff가 현재영상과 일치. guide-review.test.mjs 3개, 대상ESLint, tsc --noEmit, git diff --check 통과. 이전후보로 되돌리는 임시 resume-woodchopper-20260920.mjs 삭제. 앱 UI/Android 실기기 미검증. 다음은 손/머리 잔상이 생기는 자세 간격 수정과 재검토 후 _repanel-16/plan.json 나머지 미변환 종목 진행. 재렌더104종 완료 기록 유지, pallof-press-2 프레스 부재 및 reverse-grip-pushdown 언더핸드 판별 불가로 pending 유지. OS ACL 오류 반복, 파일 편집 승인 실행 필요.
-
-2026-09-21 커밋 전 검증: 단위1986개·스키마69개·리뷰3개·린트(오류0/경고40)·타입·빌드 통과. 전체E2E는84통과/3실패/3skip/203미실행. 인증 폼 수화 전 조작 문제를 수정하여 기존실패3개+신규회귀2개 통과. 우드초퍼 재생·7.5초 탐색 재검증 통과, 영상시각검토 pending 유지. 전체E2E 재실행·Android 실기기 미완료. 상세는 imports/woodchopper-16-20260920/commit-verification-20260921.md.
-
-2026-09-16T08:39:02.568Z
-
-등록 135 / 렌더 134 / 시각 검토 통과 120 / 대상 1351
-
-역순 진행 유지. 2026-09-16 추가 재개: 54 good-morning·55 sumo-deadlift·56 seated-calf-raise 신규 통과. 각각101550/114002/122556bytes, 480x480/8초24fps/무음H264, ffprobe·전체 디코딩·원본/32프레임 직접 검토. 누적120/1351.
-
-원본의 흰 구분선이 정확한 등분 경계와 어긋나 잘림/흰 테두리가 생기는 문제를 수정. motion-panel-bounds.mjs가 좁은 흰 선을 찾아 프레임을 나누며, 회색/넓은 흰 배경은 기존 등분 유지. renderVersion4. 기존 통과 영상 일괄 재렌더하지 않음. 구분선 위치 회귀 테스트 최초1실패 후 탐색범위 수정, 최종2통과.
-
-검증: Node test(guide-review/manage-motion-guides/motion-panel-bounds)3파일5개, Vitest exercise-media-equipment5개·video-resource2개, 총12개 통과. 변경 도구3파일 ESLint·전체tsc --noEmit·git diff --check 통과. 모바일 화면/실기기·전체E2E·커밋·배포·Heltch 복사 이번 회차 미실행.
-
-다음 역순57 standing-calf-raise,58 seated-leg-curl,59 leg-extension은 Heltch 동일ID/-2 파일 존재(각 기구 재확인 후 건너뛰기). 다음 새 후보60 hack-squat,61 goblet-squat,62 front-squat. 누락 항목을 완료 처리하지 않음.
-
-보류 유지: walking-lunge·step-up·russian-twist·mountain-climber 및 기존 rejected. walking-lunge51·step-up53은 이전2개 원본씩 실패했고 재제작 필요.
-
-이번 최종 PNG 루트 C:/Users/admin/.codex/generated_images/01a0a91d-fcae-7ab0-ad2f-af38d3a9633e/: good-morning exec-bd53c56a-24d7-4939-a4a6-4531f3dd2ffa.png, sumo-deadlift exec-1bac8438-4085-4c71-b32b-fce3718f1502.png, seated-calf-raise exec-4da89e18-5219-4da7-8864-23f2d73686ef.png. 내장 imagegen 사용, 프롬프트/출처는 각 motion-guides/{id}.json.
-
-굿모닝: 첫16컷을 보정 렌더로 통과. 8컷 exec-c2c456f3-da70-41b9-a99b-51059103a413.png는 머리 잔상,16컷 exec-b67f2f04-2c26-4581-98e6-ebbd2ee7abbe.png는 검은배경/손상으로 폐기. 스모8컷 exec-d4645746-e5b2-4ddb-9d50-9f4d31ce8869.png는 머리여백 부족으로 미등록. 카프 최초 exec-edf0ed6f-ae39-4bcb-92f3-42037498d01d.png는 지렛대구조 불명확으로 미등록.
-
-이전 완료: crunch48·sit-up49 신규통과. 이전 Heltch복사:2026-09-15 통과15종·관련60파일 복사/해시확인, tools/media/imports/health-app-ui-2026-09-15/import.json, target manifest미변경. 이후 신규5종(crunch,sit-up,good-morning,sumo-deadlift,seated-calf-raise)은 아직Heltch미복사.
+2026-09-25 사용자 요청으로 영상 작업 Git 정리. 새 후보 tools/public 재생성 폴더 Git 제외, 바이너리 로컬 보존, 프롬프트·스크립트·리뷰·검증31파일 커밋 대상. 단위210파일2359개·스키마72개·전체린트0오류41경고·tsc 통과. 전체 E2E localhost:3000/mobile-chromium 319개 중26개 통과 확인 후 사용자 e2e안해도되니까 그냥 커밋 지시로 중단. 나머지 E2E·실기기 미검증, 중단 실행 테스트 계정 자동정리 완료는 확인 못함. 영상 품질 보류는 유지: 리스트컬 시작그립/발변동, 로우바 바접촉/전경. 공개103 유지. 새 영상 재개 경로와 로컬 자산 정책은 imports/exercise-video-20260925/README.md.

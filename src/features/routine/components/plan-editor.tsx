@@ -196,6 +196,10 @@ export function PlanEditor({
   const [detailsById, setDetailsById] = useState<
     Record<string, SlotExerciseOption | null>
   >({});
+  /** '추천으로 채우기' 로 들어온 운동의 추천 이유 — 섹션 키 → 운동 id → 한 줄. 운동을 바꾸면 안 보인다. */
+  const [reasonsByKey, setReasonsByKey] = useState<
+    Record<string, Record<string, string>>
+  >({});
   /** 종목별 다음 세션 추천(로드맵 2.2). 기록이 없는 종목은 키가 없다. */
   const [adviceById, setAdviceById] = useState<Record<string, OverloadAdvice>>(
     {},
@@ -558,10 +562,27 @@ export function PlanEditor({
           focus: f.focus,
           blockIds: f.blockIds,
           isSide: f.isSide,
+          // 같은 주에 같은 부위가 앞 일차에 또 있으면 B(1)·C(2)… — 운동을 번갈아 추천받는다.
+          variant: f.isSide
+            ? 0
+            : focuses.filter(
+                (o) => !o.isSide && o.focus === f.focus && o.dayIndex < f.dayIndex,
+              ).length,
         })),
         gender,
       );
       if (groups.some(group => group.exercises.length === 0)) { setStatus("보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 직접 운동을 선택해 주세요."); return; }
+      setReasonsByKey((prev) => {
+        const next = { ...prev };
+        list.forEach((f, i) => {
+          next[f.key] = Object.fromEntries(
+            (groups[i]?.exercises ?? [])
+              .filter((o) => o.reason)
+              .map((o) => [o.id, o.reason as string]),
+          );
+        });
+        return next;
+      });
       // 새로 담은 운동의 이름·기구를 바로 그릴 수 있게 캐시에 넣는다.
       setDetailsById((prev) => {
         const merged = { ...prev };
@@ -1117,6 +1138,11 @@ export function PlanEditor({
                                 update(f.key, next);
                               }}
                             />
+                            {reasonsByKey[f.key]?.[row.exerciseId] ? (
+                              <p data-testid="recommend-reason" className="mt-1 text-xs text-brand">
+                                추천 · {reasonsByKey[f.key][row.exerciseId]}
+                              </p>
+                            ) : null}
                           </div>
                           <select
                             aria-label="기구"

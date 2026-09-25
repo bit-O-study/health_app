@@ -11,6 +11,7 @@ import json
 import os
 import shutil
 import sys
+import time
 from pathlib import Path
 
 from PIL import Image, ImageChops, ImageFilter
@@ -37,7 +38,21 @@ def cutouts(sheet_path, panels, out):
     # 모델이 다르면 누끼 결과도 다르므로 캐시를 섞지 않는다(기본 모델은 기존 경로 유지)
     cut_dir = out / "cut" / (sha if MODEL == DEFAULT_MODEL else f"{MODEL}-{sha}")
     paths = [cut_dir / f"{i + 1}.png" for i in range(panels)]
-    if not all(p.exists() for p in paths):
+    with Image.open(sheet_path) as sheet:
+        boxes = list(panel_boxes(*sheet.size, panels))
+    pending = []
+    for index, (path, box) in enumerate(zip(paths, boxes)):
+        try:
+            with Image.open(path) as cached:
+                valid = cached.format == 'PNG' and cached.mode == 'RGBA' and cached.size == (box[2] - box[0], box[3] - box[1])
+                cached.verify()
+            if valid:
+                continue
+        except (OSError, SyntaxError):
+            pass
+        pending.append((index, path, box))
+    print(json.dumps({'cachedPanels': panels - len(pending), 'pendingPanels': len(pending)}), flush=True)
+    if pending:
         import onnxruntime
 
         # GPU 환경(onnxruntime-gpu[cuda,cudnn])은 pip 로 받은 CUDA/cuDNN DLL 을 먼저 올려야 CUDA 로 돈다
@@ -55,9 +70,14 @@ def cutouts(sheet_path, panels, out):
         cut_dir.mkdir(parents=True, exist_ok=True)
         session = new_session(MODEL, providers=providers)
         print(json.dumps({"providers": session.inner_session.get_providers()}), flush=True)
-        sheet = Image.open(sheet_path).convert("RGB")
-        for path, box in zip(paths, panel_boxes(*sheet.size, panels)):
-            remove(sheet.crop(box), session=session, post_process_mask=True).save(path)
+        with Image.open(sheet_path) as source:
+            sheet = source.convert("RGB")
+        for index, path, box in pending:
+            started = time.monotonic()
+            temporary = path.with_suffix('.tmp.png')
+            remove(sheet.crop(box), session=session, post_process_mask=True).save(temporary)
+            temporary.replace(path)
+            print(json.dumps({'panel': index + 1, 'seconds': round(time.monotonic() - started, 2)}), flush=True)
     return sha, [Image.open(p).convert("RGBA") for p in paths]
 
 

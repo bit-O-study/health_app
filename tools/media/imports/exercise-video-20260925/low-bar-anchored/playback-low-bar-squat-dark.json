@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-09-25T11:44:47.225Z",
+  "scope": "Loopback HTML video; mobile Chromium Pixel 7; app UI and physical Android not tested",
+  "url": "http://127.0.0.1:53616/",
+  "videoSha256": "d27339baf39affae3e70a81c0765e802eacf7eea3f2b8061b5b7e2c2fe389c67",
+  "width": 480,
+  "height": 480,
+  "seconds": 8,
+  "error": null,
+  "play": "passed",
+  "seek": "passed"
+}

@@ -59,3 +59,41 @@ describe("운동모드 하단 버튼 바 순서", () => {
     }
   });
 });
+
+// 2026-09-25 몰입형: 운동모드는 항상 어두운 무대 + 세트 완료는 밀어서.
+describe("운동모드 몰입형", () => {
+  it("루트에 dark 를 걸어 안쪽 컴포넌트가 다크 토큰을 쓴다", () => {
+    expect(src).toContain('className="dark fixed inset-0 z-40');
+  });
+
+  it("세트 완료는 밀어서 완료(SlideToConfirm)로 — 오누름 방지", () => {
+    expect(src).toMatch(/<SlideToConfirm\s+onClick=\{completeSet\}/);
+  });
+
+  it("상단 n/m 은 남은 운동 기준(activeProgress)", () => {
+    expect(src).toContain("activeProgress(rowIds, processed, index)");
+    expect(src).not.toContain("{index + 1} / {total}");
+  });
+});
+
+describe("운동모드 몰입형 2차 — 타일·휴식 카드", () => {
+  const restSrc = readFileSync(
+    resolve(SRC, "features/workout-timer/rest-timer.tsx"),
+    "utf8",
+  );
+
+  it("무게·횟수·세트는 세 칸 타일(grid-cols-3) — 영상 자리를 넓게", () => {
+    expect(src).toContain('<div className="grid grid-cols-3 gap-2">');
+  });
+
+  it("운동모드 휴식 카드는 위쪽(영상 위)에 떠서 타일·세트 버튼을 가리지 않는다", () => {
+    expect(restSrc).toContain('{ top: "calc(env(safe-area-inset-top, 0px) + 6.5rem)" }');
+    expect(restSrc).not.toContain("5.75rem");
+  });
+
+  it("휴식 카드 문구·버튼 이름은 그대로(E2E 셀렉터)", () => {
+    for (const t of ["휴식 중", "휴식 완료", "휴식 건너뛰기", "30초"]) {
+      expect(restSrc).toContain(t);
+    }
+  });
+});

@@ -1,0 +1,32 @@
+{
+  "checkedAt": "2026-09-25T11:13:53.023Z",
+  "status": "pending",
+  "published": false,
+  "tool": "built-in image_gen",
+  "checks": {
+    "bar": "Lower posterior shoulder placement improved over previous rejected source.",
+    "equipment": "Bar shaft, both plates, hands and both shoes preserved in light and dark.",
+    "motion": "Descent and return present; no large duplicated heads or bar in inspected frames.",
+    "problem": "Foot positions drift upward between standing and bottom pose; ground anchoring is not stable. Fix source before public approval."
+  },
+  "evidence": [
+    "tools/media/motion-guides/low-bar-squat/contact-sheet.jpg",
+    "tools/media/motion-guides/low-bar-squat/contact-sheet-dark.jpg",
+    "full-frames-dark.jpg",
+    "playback-low-bar-squat.json",
+    "playback-low-bar-squat-dark.json"
+  ],
+  "verification": {
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "lightBytes": 240240,
+    "darkBytes": 241705,
+    "decode": "both passed",
+    "mobilePlayback": "both passed; Chromium Pixel 7 loopback",
+    "tests": "guide-review 3 passed; TypeScript passed; targeted ESLint passed before final verify argument update"
+  },
+  "limitations": "App UI and physical Android not verified; no app media or review entry replaced.",
+  "next": "Lock both shoe soles to fixed per-cell coordinates while preserving corrected low bar contact; then rerender and repeat both theme checks."
+}

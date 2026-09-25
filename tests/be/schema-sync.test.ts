@@ -232,6 +232,44 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
     });
   }
 
+  // 함수는 있는데 실행 권한이 빠지면 앱은 조용히 빈 결과를 받는다(에러를 삼키는 호출부가 많다).
+  // 2026-09-25: 트레이너 함수 8개가 authenticated 실행 권한 없이 올라가 회원 관리 목록이 늘 비어 있었다.
+  it("functions granted to authenticated in schema.sql are executable by authenticated on live DB", async () => {
+    const granted = [
+      ...new Set(
+        [...schemaSql.matchAll(/grant execute on function public\.(\w+)\([^)]*\) to [^;]*\bauthenticated\b/gi)].map(
+          (m) => m[1],
+        ),
+      ),
+    ];
+    expect(granted.length).toBeGreaterThan(0);
+    const r = await client.query<{ proname: string; ok: boolean }>(
+      `select p.proname, bool_and(has_function_privilege('authenticated', p.oid, 'EXECUTE')) ok
+         from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+        where n.nspname = 'public' and p.proname = any($1)
+        group by p.proname`,
+      [granted],
+    );
+    const missing = granted.filter((name) => !r.rows.some((row) => row.proname === name && row.ok));
+    expect(missing, `authenticated cannot execute: ${missing.join(", ")}`).toEqual([]);
+  });
+
+  // RLS 정책이 빠지면 쓰기가 조용히 막힌다(호출부는 '권한 없음' 을 일반 오류로 보여 준다).
+  // 2026-09-25: trainer_comments 의 INSERT 정책이 라이브에 없어 트레이너 코멘트가 안 남았다.
+  it("policies declared on public tables in schema.sql exist on live DB", async () => {
+    const declared = [
+      ...schemaSql.matchAll(/create policy "([^"]+)"\s+on\s+public\.(\w+)/gi),
+    ].map((m) => ({ name: m[1], table: m[2] }));
+    expect(declared.length).toBeGreaterThan(0);
+    const r = await client.query<{ policyname: string; tablename: string }>(
+      `select policyname, tablename from pg_policies where schemaname = 'public'`,
+    );
+    const missing = declared
+      .filter((d) => !r.rows.some((l) => l.policyname === d.name && l.tablename === d.table))
+      .map((d) => `${d.table}: ${d.name}`);
+    expect(missing, `missing policies: ${missing.join(", ")}`).toEqual([]);
+  });
+
   for (const [name, def] of Object.entries(expected.checks)) {
     it(`check constraint ${name} is present on live DB`, async () => {
       const r = await client.query(

@@ -230,7 +230,7 @@ function framesForItem(item: GuidedItem): [string, string] | null {
 }
 
 /**
- * 무게/횟수/세트 스크러버 — 한 줄(full-width) 행: 라벨 + [− 값 +].
+ * 무게/횟수/세트 스크러버 — 타일 한 칸: 라벨 · 값 · [− +]. (2026-09-25 몰입형: 세 칸 가로 배치)
  * 값은 좌우로 밀거나 ±로 조절하고, **더블클릭하면 직접 숫자 입력**도 된다.
  * (예전엔 3개를 가로로 나란히 둬서 모바일 폭에서 넘쳐 레이아웃이 깨졌다 → 세로 스택.)
  * 손가락을 가로로 끌면 값이 오르내린다(맨몸 허용 시 최소 아래로 더 내리면 '맨몸').
@@ -313,73 +313,65 @@ function NumberScrubber({
   }
   const display = value === null ? "맨몸" : String(value);
 
+  const btn =
+    "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg text-zinc-600 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15";
+
+  // 타일 한 칸 — 라벨 · 값(끌기/더블클릭) · ± . 세 칸을 가로로 나란히 둔다(영상 자리를 넓게).
   return (
-    <div className="flex items-center justify-between gap-2 py-2">
-      <span className="text-sm text-zinc-500 dark:text-zinc-400">{label}</span>
-      <div className="flex items-center gap-1.5">
-        <button
-          type="button"
-          aria-label={`${label} 줄이기`}
-          onClick={dec}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg font-medium text-zinc-600 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15"
+    <div className="flex min-w-0 flex-col items-center gap-1.5 rounded-2xl border border-zinc-200 bg-zinc-50 px-2 pb-2.5 pt-2 dark:border-white/10 dark:bg-white/5">
+      <span className="text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
+      {editing ? (
+        <input
+          ref={inputRef}
+          type="number"
+          inputMode="decimal"
+          aria-label={`${label} 직접 입력`}
+          autoFocus
+          defaultValue={value ?? ""}
+          onFocus={(e) => e.currentTarget.select()}
+          onBlur={commitInput}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              commitInput();
+            } else if (e.key === "Escape") {
+              e.preventDefault();
+              setEditing(false);
+            }
+          }}
+          onPointerDown={(e) => e.stopPropagation()}
+          className="h-9 w-full rounded-xl border border-brand/40 bg-white px-1 text-center text-xl font-semibold tabular-nums text-brand outline-none focus:border-brand/40 dark:bg-zinc-900"
+        />
+      ) : (
+        <div
+          role="slider"
+          aria-label={label}
+          aria-valuenow={value ?? 0}
+          title="좌우로 끌거나 더블클릭해 직접 입력"
+          onPointerDown={onDown}
+          onPointerMove={onMove}
+          onPointerUp={onUp}
+          onPointerCancel={onUp}
+          onDoubleClick={(e) => {
+            e.stopPropagation();
+            setEditing(true);
+          }}
+          style={{ touchAction: "none" }}
+          className="flex h-9 w-full cursor-ew-resize select-none items-baseline justify-center gap-0.5 pt-0.5"
         >
+          <span className="text-2xl font-semibold tabular-nums tracking-tight text-zinc-900 dark:text-zinc-50">
+            {display}
+          </span>
+          {value !== null ? (
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">{unit}</span>
+          ) : null}
+        </div>
+      )}
+      <div className="flex items-center gap-2">
+        <button type="button" aria-label={`${label} 줄이기`} onClick={dec} className={btn}>
           −
         </button>
-        {editing ? (
-          <input
-            ref={inputRef}
-            type="number"
-            inputMode="decimal"
-            aria-label={`${label} 직접 입력`}
-            autoFocus
-            defaultValue={value ?? ""}
-            onFocus={(e) => e.currentTarget.select()}
-            onBlur={commitInput}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                commitInput();
-              } else if (e.key === "Escape") {
-                e.preventDefault();
-                setEditing(false);
-              }
-            }}
-            onPointerDown={(e) => e.stopPropagation()}
-            className="h-10 w-[5.5rem] rounded-xl border border-brand/40 bg-white px-2 text-center text-lg font-semibold tabular-nums text-brand outline-none focus:border-brand/40 dark:bg-zinc-900"
-          />
-        ) : (
-          <div
-            role="slider"
-            aria-label={label}
-            aria-valuenow={value ?? 0}
-            title="좌우로 끌거나 더블클릭해 직접 입력"
-            onPointerDown={onDown}
-            onPointerMove={onMove}
-            onPointerUp={onUp}
-            onPointerCancel={onUp}
-            onDoubleClick={(e) => {
-              e.stopPropagation();
-              setEditing(true);
-            }}
-            style={{ touchAction: "none" }}
-            className="flex h-10 min-w-[5.5rem] cursor-ew-resize select-none items-baseline justify-center gap-1 rounded-xl px-2 pt-1.5"
-          >
-            <span className="text-lg font-semibold tabular-nums text-zinc-900 dark:text-zinc-50">
-              {display}
-            </span>
-            {value !== null ? (
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
-                {unit}
-              </span>
-            ) : null}
-          </div>
-        )}
-        <button
-          type="button"
-          aria-label={`${label} 늘리기`}
-          onClick={inc}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg font-medium text-zinc-600 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15"
-        >
+        <button type="button" aria-label={`${label} 늘리기`} onClick={inc} className={btn}>
           +
         </button>
       </div>
@@ -1148,7 +1140,7 @@ export function GuidedOverlay({
       {/* 세션 운동 시간 + 중단하기/다시 시작 — 조용한 한 줄 */}
       {elapsedLabel !== undefined ? (
         <div className="flex items-center justify-center gap-2 px-4 pb-2">
-          <span className="inline-flex items-center gap-1.5 font-mono text-sm font-medium tabular-nums text-zinc-300">
+          <span className="inline-flex items-center gap-1.5 text-sm font-medium tabular-nums text-zinc-300">
             <Timer
               aria-hidden="true"
               size={14}
@@ -1228,8 +1220,9 @@ export function GuidedOverlay({
           }}
         >
           {/* 운동 영상 — 폭 가득. 좌우 화살표로 운동 이동(스와이프 보조). */}
-          <div className="w-full max-w-lg px-3">
-          <div className="relative w-full">
+          {/* 운동 영상 — 화면 끝까지(시연 컴포넌트의 둥근 모서리·테두리는 여기서만 지운다). */}
+          <div className="w-full max-w-lg sm:px-3">
+          <div className="relative w-full [&_.border]:border-0 [&_.rounded-2xl]:rounded-none sm:[&_.rounded-2xl]:rounded-2xl">
             <ItemVisual item={item} />
             {item.kind === "main" ? (
               <MuscleBodyInset
@@ -1266,27 +1259,33 @@ export function GuidedOverlay({
           </div>
 
           <div className="flex w-full max-w-lg flex-col items-center px-5">
-            {/* 종류 · 슈퍼세트 · 메모 · AI 자세 — 이름 위 한 줄, 작고 조용하게 */}
-            <div className="mt-4 flex w-full items-center justify-between gap-2">
-              <div className="flex min-w-0 items-center gap-1.5">
-                <KindBadge kind={item.kind} />
-                {/* 슈퍼세트 표시 — 지금 묶음의 몇 번째인지. 이게 없으면 "왜 휴식이 안 오지" 가 된다. */}
-                {supersetTag ? (
-                  <span
-                    data-testid="superset-tag"
-                    data-label={supersetTag}
-                    className="inline-flex items-center gap-1 rounded-full border border-brand/40 px-2 py-0.5 text-xs font-medium text-brand"
-                  >
-                    <Link2 aria-hidden="true" size={12} />
-                    슈퍼세트 {supersetTag}
-                  </span>
-                ) : null}
+            {/* 이름 줄 — 왼쪽: 종류·슈퍼세트 + 이름, 오른쪽: 메모·AI 자세 */}
+            <div className="mt-4 flex w-full items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <KindBadge kind={item.kind} />
+                  {/* 슈퍼세트 표시 — 지금 묶음의 몇 번째인지. 이게 없으면 "왜 휴식이 안 오지" 가 된다. */}
+                  {supersetTag ? (
+                    <span
+                      data-testid="superset-tag"
+                      data-label={supersetTag}
+                      className="inline-flex items-center gap-1 rounded-full border border-brand/40 px-2 py-0.5 text-xs font-medium text-brand"
+                    >
+                      <Link2 aria-hidden="true" size={12} />
+                      슈퍼세트 {supersetTag}
+                    </span>
+                  ) : null}
+                </div>
+                {/* 이름은 링크가 아니다 — 상세는 오직 아래 '운동법·꿀팁 보기' 버튼으로만. */}
+                <h2 className="mt-1.5 truncate text-xl font-semibold tracking-tight text-zinc-50">
+                  {item.name}
+                </h2>
               </div>
-              <div className="flex shrink-0 items-center gap-1.5">
+              <div className="flex shrink-0 items-center gap-1.5 pt-0.5">
                 <button
                   type="button"
                   onClick={() => setMemoOpen(true)}
-                  className="inline-flex h-8 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                  className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
                 >
                   <StickyNote aria-hidden="true" size={13} />
                   {currentMemo(item) ? "메모 수정" : "메모"}
@@ -1295,7 +1294,7 @@ export function GuidedOverlay({
                   <button
                     type="button"
                     onClick={() => setPostureOpen(true)}
-                    className="inline-flex h-8 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                    className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
                   >
                     <ScanLine aria-hidden="true" size={13} />
                     AI 자세
@@ -1303,11 +1302,6 @@ export function GuidedOverlay({
                 ) : null}
               </div>
             </div>
-
-            {/* 이름은 링크가 아니다 — 상세는 오직 아래 '운동법·꿀팁 보기' 버튼으로만. */}
-            <h2 className="mt-2 w-full text-xl font-semibold tracking-tight text-zinc-50">
-              {item.name}
-            </h2>
             {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 고정 켬이면
                 설정값 칩, 고정 끔이면 아래 스크러버에서 설정(칩 숨김). 본운동(고정 켬)은 subtitle. */}
             {editable || condEditable ? null : item.kind === "main" ? (
@@ -1321,7 +1315,7 @@ export function GuidedOverlay({
             {timed ? (
               <div className={`mt-4 flex w-full flex-col items-center gap-2 rounded-3xl px-4 py-4 ${glass}`}>
                 <div
-                  className={`font-mono text-5xl font-medium tabular-nums tracking-tight ${
+                  className={`text-5xl font-medium tabular-nums tracking-tight ${
                     holdSec >= targetHoldSec ? "text-brand" : "text-zinc-50"
                   }`}
                   aria-label={`경과 ${holdSec}초`}
@@ -1379,8 +1373,8 @@ export function GuidedOverlay({
 
             {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 좌우로 밀거나 ±, 더블클릭하면 직접 입력. */}
             {editable ? (
-              <div className={`mt-4 w-full rounded-3xl px-4 py-1 ${glass}`}>
-                <div className="divide-y divide-white/10">
+              <div className="mt-4 w-full">
+                <div className="grid grid-cols-3 gap-2">
                   <NumberScrubber
                     label="무게"
                     value={editW}
@@ -1526,28 +1520,31 @@ export function GuidedOverlay({
       {/* 하단 유리 패널 — 휴식 · 넘기기/운동 완료 · 세트(밀어서 완료) */}
       <div className="space-y-2.5 rounded-t-3xl border-t border-white/10 bg-zinc-900/80 p-4 pb-[max(env(safe-area-inset-bottom),1rem)] backdrop-blur-xl">
         {/* 휴식 시간 — 운동 화면에서 바로 조절 */}
-        <div className="flex items-center gap-1.5 overflow-x-auto">
-          <span className="flex shrink-0 items-center gap-1 pr-1 text-xs text-zinc-500">
+        <div className="flex items-center gap-2">
+          <span className="flex shrink-0 items-center gap-1 text-xs text-zinc-500">
             <Timer aria-hidden="true" size={13} />
             휴식
           </span>
-          {REST_PRESETS.map((sec) => {
-            const active = rest.defaultSec === sec;
-            return (
-              <button
-                key={sec}
-                type="button"
-                onClick={() => rest.setDefaultSec(sec)}
-                className={`h-8 shrink-0 rounded-full px-3 text-xs font-medium transition ${
-                  active
-                    ? "bg-white text-zinc-950"
-                    : "bg-white/5 text-zinc-400 hover:bg-white/10"
-                }`}
-              >
-                {formatRest(sec)}
-              </button>
-            );
-          })}
+          <div className="flex flex-1 rounded-full bg-white/5 p-1">
+            {REST_PRESETS.map((sec) => {
+              const active = rest.defaultSec === sec;
+              return (
+                <button
+                  key={sec}
+                  type="button"
+                  onClick={() => rest.setDefaultSec(sec)}
+                  aria-pressed={active}
+                  className={`h-8 flex-1 rounded-full text-xs font-medium tabular-nums transition ${
+                    active
+                      ? "bg-white/15 text-zinc-50"
+                      : "text-zinc-500 hover:text-zinc-200"
+                  }`}
+                >
+                  {formatRest(sec)}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* 넘기기 / 운동 완료 — 작게. 세트가 없는 운동(워밍업 등)은 아래 밀어서 '완료'. */}
@@ -1556,7 +1553,7 @@ export function GuidedOverlay({
             type="button"
             onClick={skip}
             disabled={working}
-            className={`inline-flex h-10 items-center justify-center gap-1.5 rounded-full bg-white/5 text-sm font-medium text-zinc-300 transition hover:bg-white/10 disabled:opacity-50 ${
+            className={`inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50 ${
               mainSets > 0 ? "" : "col-span-2"
             }`}
           >
@@ -1568,7 +1565,7 @@ export function GuidedOverlay({
               type="button"
               onClick={complete}
               disabled={working}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full bg-white/5 text-sm font-medium text-zinc-300 transition hover:bg-white/10 disabled:opacity-50"
+              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50"
             >
               <Check aria-hidden="true" size={15} />
               {isLast ? "완료하고 종료" : "운동 완료"}
@@ -1579,7 +1576,7 @@ export function GuidedOverlay({
         {/* 본운동 세트 진행 + 밀어서 세트 완료(휴식) — 세트가 여러 개일 때만 */}
         {mainSets > 0 ? (
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-14 shrink-0 items-center rounded-full bg-white/5 px-3.5 font-mono text-sm font-medium tabular-nums text-zinc-200">
+            <span className="inline-flex h-14 shrink-0 items-center rounded-full bg-white/5 px-3.5 text-sm font-medium tabular-nums text-zinc-200">
               {setProgressLabel(setsDone, mainSets)}
             </span>
             {setsDone > 0 ? (
@@ -1896,8 +1893,11 @@ function CondScrubbers({
   const params = getConditioningItem(itemId)?.params ?? [];
   if (params.length === 0) return null;
   return (
-    <div className="mt-4 w-full rounded-3xl border border-white/10 bg-white/5 px-4 py-1 backdrop-blur-md">
-      <div className="divide-y divide-white/10">
+    <div className="mt-4 w-full">
+      <div
+        className="grid gap-2"
+        style={{ gridTemplateColumns: `repeat(${Math.min(3, params.length)}, minmax(0, 1fr))` }}
+      >
         {params.includes("duration") ? (
           <NumberScrubber
             label={PARAM_LABEL.duration}

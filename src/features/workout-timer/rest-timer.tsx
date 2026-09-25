@@ -322,11 +322,10 @@ function RestOverlay({
     : "pointer-events-none fixed inset-x-0 z-50 flex justify-center px-4";
   const outerStyle: React.CSSProperties = anchored
     ? { left: pos.x, top: pos.y }
-    : {
-        bottom: lifted
-          ? "calc(env(safe-area-inset-bottom, 0px) + 5.75rem)"
-          : "calc(env(safe-area-inset-bottom, 0px) + 5rem)",
-      };
+    : lifted
+      ? // 운동모드(몰입형): 영상 위쪽에 띄운다 — 아래 무게·횟수 타일과 세트 버튼을 가리지 않게.
+        { top: "calc(env(safe-area-inset-top, 0px) + 6.5rem)" }
+      : { bottom: "calc(env(safe-area-inset-bottom, 0px) + 5rem)" };
   // 위젯 전체에 붙는 드래그(롱프레스) 이벤트. 카드 컨테이너에 spread.
   const cardDragProps = {
     onPointerDown: onCardDown,
@@ -344,39 +343,27 @@ function RestOverlay({
     </span>
   );
 
-  // 가이드 화면(lifted)에서는 더 크고 눈에 띄는 카드, 그 외에는 컴팩트 알약.
+  // 가이드 화면(lifted) — 몰입형 운동모드에 맞춘 어두운 유리 카드. 그 외에는 컴팩트 알약.
   if (lifted) {
     return (
       <div className={outerClass} style={outerStyle}>
         <div
           ref={cardRef}
           {...cardDragProps}
-          className={`pointer-events-auto relative w-full max-w-md touch-none overflow-hidden rounded-2xl px-5 py-4 shadow-2xl ring-1 ${
-            done
-              ? "bg-brand text-white dark:text-zinc-950 ring-brand/40"
-              : "bg-zinc-900 text-white ring-white/10 dark:bg-zinc-800"
-          }`}
+          className="pointer-events-auto relative w-full max-w-md touch-none overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/90 px-4 pb-3.5 pt-3 text-zinc-100 shadow-2xl shadow-black/50 backdrop-blur-xl"
         >
-          {/* 진행률 바 */}
-          <div
-            aria-hidden="true"
-            className="absolute inset-y-0 left-0 bg-brand"
-            style={{ width: `${progress * 100}%`, transition: "width 250ms linear" }}
-          />
-          <div className="relative z-10 flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-1.5 text-sm text-zinc-400">
               {Grip}
-              <Clock aria-hidden="true" size={18} className="shrink-0 opacity-90" />
-              <span className="text-xs font-semibold uppercase tracking-wide opacity-80">
-                {done ? "휴식 완료" : "휴식 중"}
-              </span>
+              <Clock aria-hidden="true" size={15} className="shrink-0" />
+              <span>{done ? "휴식 완료" : "휴식 중"}</span>
             </div>
             {!done ? (
               <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => onAdd(30)}
-                  className="inline-flex h-8 items-center gap-0.5 rounded-full bg-white/10 px-2.5 text-xs font-bold transition hover:bg-white/20"
+                  className="inline-flex h-9 items-center gap-0.5 rounded-full bg-white/10 px-3 text-xs font-medium transition hover:bg-white/15"
                 >
                   <Plus aria-hidden="true" size={13} />
                   30초
@@ -385,20 +372,31 @@ function RestOverlay({
                   type="button"
                   aria-label="휴식 건너뛰기"
                   onClick={onSkip}
-                  className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/15"
                 >
                   <X aria-hidden="true" size={15} />
                 </button>
               </div>
             ) : null}
           </div>
-          <div className="relative z-10 mt-1 text-center">
-            <span className="font-mono text-4xl font-bold tabular-nums">
+          <div className="mt-1 flex items-baseline justify-between gap-3">
+            <span
+              className={`text-4xl font-medium tabular-nums tracking-tight ${
+                done ? "text-brand" : "text-zinc-50"
+              }`}
+            >
               {done ? "0:00" : formatRest(remainingSec)}
             </span>
-            <p className="mt-0.5 text-xs opacity-80">
-              {done ? "다음 세트를 시작하세요 💪" : "충분히 쉬고 다음 세트로"}
+            <p className="text-xs text-zinc-400">
+              {done ? "다음 세트를 시작하세요" : "충분히 쉬고 다음 세트로"}
             </p>
+          </div>
+          {/* 진행 — 가는 한 줄 */}
+          <div aria-hidden="true" className="mt-3 h-1 overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-brand"
+              style={{ width: `${progress * 100}%`, transition: "width 250ms linear" }}
+            />
           </div>
         </div>
       </div>

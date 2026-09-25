@@ -446,7 +446,7 @@ function DatePickerDialog({
   ];
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 sm:items-center"
+      className="fixed inset-0 z-50 m-0 flex items-end justify-center bg-black/50 sm:items-center"
       onClick={onClose}
     >
       <div
@@ -720,7 +720,7 @@ function MealDetailDialog({
   );
 
   return (
-    <div className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div className="fixed inset-0 z-[70] m-0 flex flex-col bg-zinc-50 dark:bg-zinc-950">
       <div className="flex items-center justify-between border-b border-zinc-200 px-2 pb-2 pt-[max(env(safe-area-inset-top),0.75rem)] dark:border-zinc-800">
         <button
           type="button"
@@ -1472,7 +1472,7 @@ function AddFoodDialog({
     : ["search", "manual"];
 
   return (
-    <div role="dialog" aria-modal="true" aria-label={`${MEAL_LABEL[meal]} 추가`} className="fixed inset-0 z-[70] flex flex-col bg-zinc-50 dark:bg-zinc-950">
+    <div role="dialog" aria-modal="true" aria-label={`${MEAL_LABEL[meal]} 추가`} className="fixed inset-0 z-[70] m-0 flex flex-col bg-zinc-50 dark:bg-zinc-950">
       <div className="flex items-center justify-between border-b border-zinc-200 px-4 pb-2 pt-[max(env(safe-area-inset-top),0.75rem)] dark:border-zinc-800">
         <span className="text-base font-bold text-zinc-900 dark:text-zinc-100">
           {MEAL_LABEL[meal]} 추가

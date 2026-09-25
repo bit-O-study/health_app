@@ -30,6 +30,12 @@ import {
 import { estimateStrengthKcal } from "@/features/routine/calories";
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { addWorkoutDurationAction } from "@/features/workout-timer/workout-session-actions";
+import { getSetsDone } from "@/features/workout-timer/workout-edit-store";
+import {
+  minEditableSets,
+  setsBelowDoneMessage,
+} from "@/features/workout-timer/sets-done";
+import { exerciseCompletionKey } from "@/features/routine/completion-match";
 import {
   readTimer,
   takeUnsavedDelta,
@@ -627,6 +633,11 @@ export function TodayPlanList({
                 <ExerciseEditForm
                   item={item}
                   lockWeightReps={lockWeightReps}
+                  exerciseDone={isDone}
+                  setsDone={getSetsDone(
+                    item.id,
+                    exerciseCompletionKey(item.focus, item.exerciseId),
+                  )}
                   onCancel={() => setEditingId(null)}
                   onSaved={(next) => {
                     setOrder((prev) =>
@@ -896,10 +907,16 @@ function MemoDialog({
 function ExerciseEditForm({
   item,
   lockWeightReps = false,
+  exerciseDone = false,
+  setsDone = 0,
   onCancel,
   onSaved,
 }: {
   item: TodayPlanItem;
+  /** 이 운동을 오늘 '완료' 처리했는지 — 완료 취소 전엔 세트를 못 줄인다. */
+  exerciseDone?: boolean;
+  /** 운동모드에서 오늘 완료한 세트 수 — 이 아래로는 못 줄인다(운동모드와 같은 규칙). */
+  setsDone?: number;
   /** 무게·횟수 고정 끔 → 세트 수만 수정(무게/횟수/세트별 숨김). */
   lockWeightReps?: boolean;
   onCancel: () => void;
@@ -931,6 +948,8 @@ function ExerciseEditForm({
   );
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const minSets = minEditableSets(setsDone, exerciseDone, item.sets);
+  const belowDone = setsBelowDoneMessage(minSets, exerciseDone);
 
   // 균일 → 세트별 전환 시 현재 세트 수만큼 균일값으로 채워 시작
   function enablePerSet() {
@@ -953,6 +972,10 @@ function ExerciseEditForm({
     setError(null);
   }
   function removeDetail(i: number) {
+    if (detailRows.length <= minSets) {
+      setError(belowDone);
+      return;
+    }
     setDetailRows((prev) => prev.filter((_, idx) => idx !== i));
     setError(null);
   }
@@ -967,6 +990,10 @@ function ExerciseEditForm({
     if (perSet) {
       if (detailRows.length < 1 || detailRows.length > 20) {
         setError("세트는 1~20개로 입력하세요.");
+        return;
+      }
+      if (detailRows.length < minSets) {
+        setError(belowDone);
         return;
       }
       const parsed: SetDetail[] = [];
@@ -1016,6 +1043,10 @@ function ExerciseEditForm({
       r > 100
     ) {
       setError("세트는 1~20, 횟수는 1~100 으로 입력하세요.");
+      return;
+    }
+    if (s < minSets) {
+      setError(belowDone);
       return;
     }
     const w = weight.trim() === "" ? null : Number(weight);
@@ -1103,7 +1134,7 @@ function ExerciseEditForm({
                 type="button"
                 aria-label="세트 삭제"
                 onClick={() => removeDetail(i)}
-                disabled={pending || detailRows.length <= 1}
+                disabled={pending || detailRows.length <= minSets}
                 className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
               >
                 <X aria-hidden="true" size={15} />
@@ -1126,6 +1157,7 @@ function ExerciseEditForm({
             aria-label="세트"
             type="number"
             inputMode="numeric"
+            min={minSets}
             value={sets}
             onChange={(e) => {
               setSets(e.target.value);
@@ -1202,6 +1234,10 @@ function ExerciseEditForm({
       {error ? (
         <p className="text-xs font-semibold text-red-600 dark:text-red-400">
           {error}
+        </p>
+      ) : minSets > 1 && (exerciseDone || setsDone > 0) ? (
+        <p data-testid="sets-min-hint" className="text-xs text-zinc-500 dark:text-zinc-400">
+          {exerciseDone ? "완료한 운동" : `${minSets}세트 완료`} — 완료를 취소하기 전엔 {minSets}세트 아래로 못 줄여요.
         </p>
       ) : null}
     </div>

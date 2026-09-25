@@ -38,6 +38,9 @@ import {
 } from "@/features/routine/plan-order";
 import type { SetDetail } from "@/features/routine/set-details";
 import { SetDetailsEditor } from "@/features/routine/components/set-details-editor";
+import { getSetsDone } from "@/features/workout-timer/workout-edit-store";
+import { useHydrated } from "@/lib/use-hydrated";
+import { exerciseCompletionKey } from "@/features/routine/completion-match";
 import {
   SupersetBadge,
   SupersetLink,
@@ -136,6 +139,8 @@ export function DailyMainEditor({
    * (기존 today 부위는 그대로 보이되, 새 운동 추가/부위 전환은 이 부위들로 한정.) */
   addableFocuses?: FocusTone[];
 }) {
+  // 완료 세트 수는 이 기기 localStorage 에만 있다 — 서버 HTML 과 어긋나지 않게 하이드레이션 뒤에 읽는다.
+  const hydrated = useHydrated();
   const router = useRouter();
   const gymSet = toGymEquipmentSet(gymEquipment);
   /** 기본 기구 — 내 헬스장에 있는 것 우선. */
@@ -671,6 +676,8 @@ export function DailyMainEditor({
                 <div className="pl-8">
                   <SetDetailsEditor
                     onlySets={!lockWeightReps}
+                    // 오늘 운동모드에서 이미 완료한 세트 아래로는 못 줄인다(행 id 가 없어 (부위:운동) 키로 찾는다).
+                    minSets={hydrated ? getSetsDone("", exerciseCompletionKey(row.focus, row.exerciseId)) : 1}
                     sets={row.sets}
                     reps={row.reps}
                     weight={row.weight}

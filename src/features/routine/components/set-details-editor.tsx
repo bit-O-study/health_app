@@ -30,6 +30,7 @@ export function SetDetailsEditor({
   equipment,
   disabled = false,
   onlySets = false,
+  minSets = 1,
   onUniformChange,
   onSetDetailsChange,
 }: {
@@ -43,6 +44,11 @@ export function SetDetailsEditor({
   disabled?: boolean;
   /** 무게·횟수 '고정' 끔 — 세트 수만 입력받고 무게/횟수/세트별은 숨긴다(운동모드에서 설정). */
   onlySets?: boolean;
+  /**
+   * 고를 수 있는 총 세트 수의 하한 — 오늘 이미 완료한 세트 수(운동모드와 같은 규칙).
+   * 세트 완료를 취소하기 전엔 이 아래로 못 줄인다. 기본 1.
+   */
+  minSets?: number;
   onUniformChange: (patch: {
     sets?: number;
     reps?: number;
@@ -86,7 +92,7 @@ export function SetDetailsEditor({
     emit([...rows, last ? { ...last } : { weight: "", reps: "10" }]);
   }
   function removeRow(i: number) {
-    if (rows.length <= 1) return;
+    if (rows.length <= Math.max(1, minSets)) return;
     emit(rows.filter((_, idx) => idx !== i));
   }
   function patch(i: number, key: keyof Draft, val: string) {
@@ -106,6 +112,11 @@ export function SetDetailsEditor({
 
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5 basis-full sm:basis-auto">
+      {minSets > 1 ? (
+        <p data-testid="sets-min-hint" className="text-xs text-zinc-500 dark:text-zinc-400">
+          {minSets}세트 완료 — 완료를 취소하기 전엔 {minSets}세트 아래로 못 줄여요.
+        </p>
+      ) : null}
       {perSet ? (
         <>
           {rows.map((row, i) => (
@@ -142,7 +153,7 @@ export function SetDetailsEditor({
                 type="button"
                 aria-label="세트 삭제"
                 onClick={() => removeRow(i)}
-                disabled={disabled || rows.length <= 1}
+                disabled={disabled || rows.length <= Math.max(1, minSets)}
                 className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
               >
                 <X aria-hidden="true" size={15} />
@@ -175,8 +186,13 @@ export function SetDetailsEditor({
             aria-label="세트"
             type="number"
             inputMode="numeric"
+            min={Math.max(1, minSets)}
             value={sets}
-            onChange={(e) => onUniformChange({ sets: Number(e.target.value) })}
+            // 완료한 세트 아래로는 못 내린다 — 입력하면 하한으로 올린다(운동모드 clampTotalSets 와 같은 규칙).
+            onChange={(e) => {
+              const v = Number(e.target.value);
+              onUniformChange({ sets: minSets > 1 && v < minSets ? minSets : v });
+            }}
             disabled={disabled}
             className={numCls}
           />

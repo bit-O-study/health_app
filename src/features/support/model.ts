@@ -1,3 +1,5 @@
+import { ADMIN_CONSOLE_URL } from "@/features/auth/oauth-redirect";
+
 export const CATEGORIES = { bug: "버그 신고", feedback: "불편 신고", idea: "기능 제안", other: "기타 문의" };
 export const STATUSES = { new: "접수", in_progress: "확인 중", waiting_user: "답변 대기", resolved: "해결", closed: "종료" };
 export const DELIVERY = { queued: "발송 대기", processing: "처리 중", api_succeeded: "카카오 API 전송 성공", failed: "실패", unknown: "전송 여부 확인 필요", quota_deferred: "무료 한도 대기", needs_reconnect: "카카오 재연결 필요", canceled: "취소" };
@@ -35,4 +37,9 @@ export function isSupportOrigin(origin: string | null, host: string | null) {
     const local = ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname);
     return url.host === host && (url.protocol === "https:" || (local && url.protocol === "http:"));
   } catch { return false; }
+}
+
+/** 문의 관리는 통합 관리자 콘솔(heltch-admin)에서 한다 — 카카오/푸시 알림 링크와 옛 /admin/support 이동에 쓴다. */
+export function supportConsoleUrl(ticketId?: string | null) {
+  return `${ADMIN_CONSOLE_URL}/health/support${ticketId && uuid(ticketId) ? `/${ticketId}` : ""}`;
 }

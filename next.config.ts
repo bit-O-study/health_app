@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 import { securityHeaders } from "./src/lib/security/headers";
+import { supportConsoleRedirects } from "./src/features/support/console-redirects";
 
 /**
  * 배포본 식별자 — 실사용 오류 관측(1.3)에서 "어느 배포에서 난 오류인가"를 보려면
@@ -27,6 +28,9 @@ const nextConfig: NextConfig = {
   // 배럴 import 트리셰이킹 — 아이콘 등에서 쓰는 만큼만 번들(동작 동일, JS만 축소).
   experimental: {
     optimizePackageImports: ["lucide-react"],
+  },
+  async redirects() {
+    return supportConsoleRedirects();
   },
   async headers() {
     return [

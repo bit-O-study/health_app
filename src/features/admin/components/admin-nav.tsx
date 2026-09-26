@@ -31,7 +31,7 @@ const ICONS: Record<string, LucideIcon> = {
   "/admin/members": Users,
   "/admin/crons": Clock,
   "/admin/events": TriangleAlert,
-  "/admin/support": MessageCircle,
+  "/admin/support/notifications": MessageCircle,
   "/admin/billing": CreditCard,
   "/admin/trainers": Users,
   "/admin/settings": ShieldCheck,

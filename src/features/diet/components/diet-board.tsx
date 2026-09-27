@@ -1,10 +1,14 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition, type ReactNode } from "react";
+import { useLayoutEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
+  Sunrise,
+  Sun,
+  Moon,
+  Apple,
   Calendar,
   Camera,
   ChevronLeft,
@@ -80,11 +84,11 @@ function keyOf(l: FoodLog): string {
   return l.rowKey ?? l.id;
 }
 
-const MEAL_ICON: Record<Meal, string> = {
-  breakfast: "🌅",
-  lunch: "🍱",
-  dinner: "🍽️",
-  snack: "🍎",
+const MEAL_ICON: Record<Meal, ReactNode> = {
+  breakfast: <Sunrise size="1em" strokeWidth={1.75} aria-hidden="true" className="inline-block text-brand" />,
+  lunch: <Sun size="1em" strokeWidth={1.75} aria-hidden="true" className="inline-block text-brand" />,
+  dinner: <Moon size="1em" strokeWidth={1.75} aria-hidden="true" className="inline-block text-brand" />,
+  snack: <Apple size="1em" strokeWidth={1.75} aria-hidden="true" className="inline-block text-brand" />,
 };
 
 /** "08:30" → "오전 8:30". */
@@ -128,12 +132,15 @@ export function DietBoard({
   const [pending, start] = useTransition();
   const [logs, setLogs] = useState<FoodLog[]>(initial);
   const [photos, setPhotos] = useState<Record<Meal, string[]>>(mealPhotos);
+  const [choosingMeal, setChoosingMeal] = useState(false);
   const [adding, setAdding] = useState<Meal | null>(null);
   const [detail, setDetail] = useState<Meal | null>(null);
   const [quickError, setQuickError] = useState<string | null>(null);
   // 서버를 부르는 시점의 최신 목록 — 콜백이 가둔 옛 logs 로는 방금 확정된 id 를 못 본다.
   const logsRef = useRef<FoodLog[]>(initial);
-  logsRef.current = logs;
+  useLayoutEffect(() => {
+    logsRef.current = logs;
+  }, [logs]);
 
   /** rowKey → 서버 id. 아직 인서트 중이면 잠깐(최대 3초) 기다렸다 준다. */
   async function serverIdOf(key: string): Promise<string | null> {
@@ -389,7 +396,7 @@ export function DietBoard({
   return (
     <>
     {/* 날짜 이동은 큰 제목 줄 오른쪽 — 따로 한 줄을 쓰지 않는다(2026-09-16 촘촘하게, 캘린더와 같은 자리). */}
-    <PageHeader title="식단">
+    <PageHeader branded title="식단">
         {/*
           🔴 날짜 이동은 **버튼이 아니라 Link** 다(2026-09-08). 이유는 오직 하나 —
           `prefetch` 를 받으려고. 버튼+`router.push` 는 누른 **다음에야** 서버 렌더를
@@ -486,7 +493,17 @@ export function DietBoard({
         </p>
       ) : null}
 
-      <h2 className="app-section-label">끼니별 기록</h2>
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="app-section-label">끼니별 기록</h2>
+        <button type="button" aria-expanded={choosingMeal} aria-controls="meal-record-picker" onClick={() => setChoosingMeal(value => !value)} className="inline-flex min-h-11 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950">
+          <Plus size={18} aria-hidden="true" />음식 기록하기
+        </button>
+      </div>
+      {choosingMeal ? <div id="meal-record-picker" role="group" aria-label="기록할 끼니" className="app-card grid grid-cols-4 gap-2 p-3">
+        {MEALS.map(meal => <button key={meal} type="button" onClick={() => { setChoosingMeal(false); setAdding(meal); }} className="flex min-h-16 flex-col items-center justify-center gap-2 rounded-xl bg-brand-soft p-2 text-sm font-semibold text-brand">
+          <span className="text-2xl">{MEAL_ICON[meal]}</span>{MEAL_LABEL[meal]}
+        </button>)}
+      </div> : null}
 
       {/* 끼니 — 큰 사진 카드 4장 대신 한 장짜리 그룹 목록(썸네일 · 이름 · kcal · 추가) */}
       <div className="app-list divide-y divide-[var(--line)]">
@@ -496,7 +513,6 @@ export function DietBoard({
             meal={meal}
             items={logs.filter((l) => l.meal === meal)}
             photos={photos[meal]}
-            onAdd={() => setAdding(meal)}
             onOpen={() => setDetail(meal)}
           />
         ))}
@@ -716,13 +732,11 @@ function MealSection({
   meal,
   items,
   photos,
-  onAdd,
   onOpen,
 }: {
   meal: Meal;
   items: FoodLog[];
   photos: string[];
-  onAdd: () => void;
   onOpen: () => void;
 }) {
   const sub = Math.round(items.reduce((s, i) => s + i.kcal, 0));
@@ -786,14 +800,7 @@ function MealSection({
           {body}
         </button>
       )}
-      <button
-        type="button"
-        onClick={onAdd}
-        className="app-press inline-flex h-7 shrink-0 items-center gap-0.5 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
-      >
-        <Plus aria-hidden="true" size={13} />
-        추가
-      </button>
+      {empty ? <span className="text-xs text-muted">기록 없음</span> : <ChevronRight size={16} aria-hidden="true" className="shrink-0 text-muted" />}
     </div>
   );
 }

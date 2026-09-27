@@ -2,7 +2,7 @@ import {expect,test} from '@playwright/test';
 import sharp from 'sharp';
 import {createOnboardedAccount} from './helpers/auth';
 import {dbQuery,hasDb} from './helpers/db';
-test('고객센터 접수·회원 격리·관리자 답변·메모·해결 후 재문의',async({page,browser})=>{
+test('고객센터 접수·회원 격리·콘솔 이전·관리자 답변·메모·해결 후 재문의',async({page,browser})=>{
  test.skip(!hasDb,'DB fixtures required');test.setTimeout(300000);
  await createOnboardedAccount(page);
  await page.goto('/settings');await page.getByRole('link',{name:'고객센터',exact:true}).click();
@@ -17,14 +17,17 @@ test('고객센터 접수·회원 격리·관리자 답변·메모·해결 후 �
  try{
   const other=await otherContext.newPage();await createOnboardedAccount(other);await other.goto(`/support/${ticket}`);await expect(other.getByText('운동 편집 저장 버튼을 눌렀는데 반응이 없어요.')).toHaveCount(0);
   const admin=await adminContext.newPage();const adminEmail=await createOnboardedAccount(admin);await dbQuery('insert into admins(email) values($1)',[adminEmail]);
-  await admin.goto('/admin/support');await admin.getByLabel('문의 검색').fill('고객센터 검증: 운동 편집');await admin.getByRole('button',{name:'검색',exact:true}).click();await admin.locator(`a[href="/admin/support/${ticket}"]`).click();
-  await admin.getByLabel('답변 작성',{exact:true}).fill('관리자 내부 검토 기록');await admin.getByLabel('관리자 전용 메모 (회원에게 보이지 않음)').check();await admin.getByRole('button',{name:'내부 메모 저장'}).click();await expect(admin.getByLabel('내부 메모')).toContainText('관리자 내부 검토 기록');
-  await admin.getByLabel('관리자 전용 메모 (회원에게 보이지 않음)').uncheck();await admin.getByLabel('답변 작성',{exact:true}).fill('오류를 확인했습니다. 수정 후 안내드릴게요.');await admin.getByRole('button',{name:'답변 보내기',exact:true}).click();await expect(admin.getByLabel('문의 대화')).toContainText('오류를 확인했습니다.');
-  await admin.locator('select[name=status]').selectOption('resolved');await admin.getByRole('button',{name:'처리 정보 저장'}).click();await expect(admin.getByRole('status').first()).toContainText('변경했어요');
+  // 문의 관리는 통합 관리자 콘솔(heltch-admin /admin/health/support)로 이전 — 앱의 옛 관리 경로는 콘솔로 보낸다.
+  for(const path of ['/admin/support',`/admin/support/${ticket}`]){const r=await admin.request.get(path,{maxRedirects:0});expect([307,308]).toContain(r.status());expect(r.headers().location).toBe(`https://heltch-admin.vercel.app/admin/health/support${path==='/admin/support'?'':`/${ticket}`}`);}
+  // 콘솔에서 하는 관리자 답변·내부 메모·해결 처리를 같은 테이블에 기록해 회원 화면을 검증한다.
+  const [adminUser]=await dbQuery<{id:string}>('select id from auth.users where lower(email)=lower($1)',[adminEmail]);
+  await dbQuery('insert into support_internal_notes(ticket_id,author_id,request_id,body) values($1,$2,gen_random_uuid(),$3)',[ticket,adminUser.id,'관리자 내부 검토 기록']);
+  await dbQuery('insert into support_messages(ticket_id,author_id,request_id,body,is_admin) values($1,$2,gen_random_uuid(),$3,true)',[ticket,adminUser.id,'오류를 확인했습니다. 수정 후 안내드릴게요.']);
+  await dbQuery("update support_tickets set status='resolved',updated_at=now(),user_read_at=null where id=$1",[ticket]);
   await page.reload();await expect(page.getByLabel('문의 대화')).toContainText('오류를 확인했습니다.');await expect(page.getByText('관리자 내부 검토 기록')).toHaveCount(0);
   await page.getByLabel('추가 문의',{exact:true}).fill('다시 확인했지만 같은 오류가 있어요.');await page.getByRole('button',{name:'답변 보내기',exact:true}).click();await expect(page.getByLabel('문의 대화')).toContainText('다시 확인했지만');
   const [row]=await dbQuery<{status:string}>('select status from support_tickets where id=$1',[ticket]);expect(row.status).toBe('in_progress');
-  await admin.goto('/admin/support/notifications');await expect(admin.getByRole('heading',{name:'내 카카오톡 연결'})).toBeVisible();
+  await admin.goto('/admin/support/notifications');await expect(admin.getByRole('heading',{name:'내 카카오톡 연결'})).toBeVisible();await expect(admin.getByRole('link',{name:'문의 관리는 통합 관리자 콘솔에서 →'})).toHaveAttribute('href','https://heltch-admin.vercel.app/admin/health/support');
   const photo=await sharp({create:{width:80,height:80,channels:3,background:'#36a878'}}).png().toBuffer();
   await page.getByLabel('스크린샷 첨부',{exact:true}).setInputFiles({name:'support.png',mimeType:'image/png',buffer:photo});
   await page.getByRole('button',{name:'사진 첨부',exact:true}).click();

@@ -82,7 +82,7 @@ export default async function PlanPage() {
   // 공통 머리글 + '루틴 변경'은 큰 제목 줄 오른쪽 작은 알약(2026-09-16 8단계) — 설명 문장은 뺐다.
   return (
     <div className="app-page">
-    <PageHeader title="운동 등록" back="운동" backHref="/routine">
+    <PageHeader branded title="운동 등록" back="운동" backHref="/routine">
       {/* '루틴 변경' — 메인 헤더에서 이 화면(운동 편집) 안으로 이동. */}
       <Link
         className="app-press inline-flex h-8 items-center gap-0.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"

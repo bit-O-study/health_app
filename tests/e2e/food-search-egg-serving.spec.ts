@@ -17,7 +17,7 @@ test("모든 끼니 검색창 포커스와 구운계란 개수·중량 저장", 
   for (const scheme of ["light", "dark"]) {
     await page.evaluate((s) => document.documentElement.classList.toggle("dark", s === "dark"), scheme);
     for (let meal = 0; meal < 4; meal++) {
-      await page.getByRole("button", { name: "추가", exact: true }).nth(meal).click();
+      await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: ["아침", "점심", "저녁", "간식"][meal], exact: true }).click();
       const dialog = page.getByRole("dialog", { name: ["아침 추가", "점심 추가", "저녁 추가", "간식 추가"][meal] });
       await expect(dialog).toBeVisible();
       await expect.poll(async () => {
@@ -33,7 +33,7 @@ test("모든 끼니 검색창 포커스와 구운계란 개수·중량 저장", 
       await page.getByRole("button", { name: "닫기", exact: true }).click();
     }
   }
-  await page.getByRole("button", { name: "추가", exact: true }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page.getByRole("textbox", { name: "음식 검색", exact: true }).fill("맥반석");
   await page.getByRole("button", { name: /맥반석으로 맛있게 구운계란/ }).click();
   await expect(page.getByRole("spinbutton", { name: "계란 개수" })).toHaveValue("1");

@@ -246,12 +246,16 @@ describe("공통 머리글·폭 (4단계)", () => {
     expect(read("src/components/page-header.tsx")).toContain("max-w-3xl");
   });
 
-  it("운동탭·공통 머리글은 큰 제목, 홈은 로고 사용", () => {
+  it("운동탭·브랜드 머리글은 홈 로고를 사용하고 하위 화면의 제목은 유지", () => {
     for (const f of ["src/app/routine/page.tsx", "src/components/page-header.tsx"]) {
       const src = read(f);
       expect(src, f).toMatch(/<h1 className="[^"]*app-title/);
-      expect(src, f).not.toContain("<Logo");
+      expect(src, f).toContain("<Logo");
+      expect(src, f).toContain('aria-label="헬쑤 홈"');
     }
+    const header = read("src/components/page-header.tsx");
+    expect(header).toContain("branded = false");
+    expect(header).toContain('<h1 className="sr-only">{title}</h1>');
     expect(read("src/styles/globals.css")).toMatch(/\.app-title \{[^}]*font-size: 1\.875rem/);
   });
 
@@ -471,10 +475,11 @@ describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
     expect(read("src/app/groups/manage/page.tsx")).toContain("<PageHeader");
   });
 
-  it("커뮤니티: 제목이 다른 탭과 같은 큰 제목(.app-title)", () => {
-    expect(read("src/features/community/components/community-board.tsx")).toMatch(
-      /<h1 className="[^"]*app-title/,
-    );
+  it("커뮤니티: 다른 탭과 같은 홈 로고와 접근 가능한 제목", () => {
+    const community = read("src/features/community/components/community-board.tsx");
+    expect(community).toContain("<Logo");
+    expect(community).toContain('aria-label="헬쑤 홈"');
+    expect(community).toMatch(/<h1 className="sr-only"/);
   });
 });
 
@@ -540,7 +545,7 @@ describe("남은 화면까지 전부 (2026-09-18 8단계 마무리)", () => {
 
   it("늑대 키우기도 공통 머리글 — 설명 문장 없이 그룹으로 돌아간다", () => {
     const pet = read("src/app/pet/page.tsx");
-    expect(pet).toContain('<PageHeader title="늑대 키우기" back="그룹" backHref="/groups" />');
+    expect(pet).toContain('<PageHeader branded title="늑대 키우기" back="그룹" backHref="/groups" />');
     expect(pet).not.toContain("운동할수록 Lv이 오르고");
     // 방·아이템 칸도 다른 화면과 같은 카드 토큰(따로 만든 흰 카드가 아니다).
     const studio = read("src/features/pet/components/pet-studio.tsx");

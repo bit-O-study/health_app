@@ -9,8 +9,8 @@ import { diagnostics, uuid, validateTicket } from "./model";
 import { dispatchSupport, pushSupport } from "./messaging.server";
 
 function refresh(id?: string) {
-  revalidatePath("/support"); revalidatePath("/admin/support");
-  if (id) { revalidatePath(`/support/${id}`); revalidatePath(`/admin/support/${id}`); }
+  revalidatePath("/support");
+  if (id) revalidatePath(`/support/${id}`);
 }
 export async function createTicket(input: { requestId: string; category: string; title: string; body: string; diagnostic: unknown }) {
   if (!(await getCurrentUser())) return { error: "로그인이 필요해요." };
@@ -22,18 +22,12 @@ export async function createTicket(input: { requestId: string; category: string;
   after(async () => { await Promise.allSettled([dispatchSupport({ ticketId: result.data }), pushSupport(result.data)]); });
   refresh(); return { id: result.data as string };
 }
-export async function replyTicket(id: string, requestId: string, body: string, internal = false) {
+/** 회원 추가 문의. 관리자 답변·내부 메모·처리 상태 변경은 통합 관리자 콘솔(heltch-admin)에서 한다. */
+export async function replyTicket(id: string, requestId: string, body: string) {
   if (!uuid(id) || !uuid(requestId) || !body.trim() || body.length > 5000) return { error: "내용은 1~5000자로 입력해 주세요." };
   const db = await createSupabaseServerClient();
-  const { error } = await db.rpc("support_reply", { p_ticket: id, p_request: requestId, p_body: body, p_internal: internal });
+  const { error } = await db.rpc("support_reply", { p_ticket: id, p_request: requestId, p_body: body, p_internal: false });
   if (error) return { error: "저장하지 못했어요. 권한과 접속 상태를 확인해 주세요." };
-  refresh(id); return { ok: true };
-}
-export async function manageTicket(id: string, status: string, priority: string, assign: boolean) {
-  if (!uuid(id) || !(await isAdminUser())) return { error: "관리자 권한이 필요해요." };
-  const db = await createSupabaseServerClient();
-  const { error } = await db.rpc("support_manage", { p_ticket: id, p_status: status, p_priority: priority, p_assign: assign });
-  if (error) return { error: "변경하지 못했어요." };
   refresh(id); return { ok: true };
 }
 export async function readTicket(id: string) {

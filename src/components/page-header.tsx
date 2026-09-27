@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
+import { Logo } from "@/features/brand/logo";
 import { BackLink } from "@/components/back-link";
 
 /**
@@ -17,11 +18,14 @@ import { BackLink } from "@/components/back-link";
  */
 export function PageHeader({
   title,
+  branded = false,
   back = false,
   backHref,
   children,
 }: {
   title: string;
+  /** 앱 탭에서는 제목 대신 홈과 동일한 브랜드를 표시한다. */
+  branded?: boolean;
   /**
    * 들어온 화면으로 되돌아가는 '뒤로' 버튼(router.back).
    * 문자열이면 그 글자를 화살표 옆에 보여 준다(버튼 이름도 그 글자).
@@ -56,9 +60,9 @@ export function PageHeader({
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <h1 className="app-title min-w-0 flex-1 basis-auto break-words">
+          {branded ? <div className="min-w-0 flex-1"><Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">{title}</h1></div> : <h1 className="app-title min-w-0 flex-1 basis-auto break-words">
             {title}
-          </h1>
+          </h1>}
           {children ? (
             <div className="flex shrink-0 items-center gap-1">{children}</div>
           ) : null}

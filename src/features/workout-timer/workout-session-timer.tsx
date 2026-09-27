@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createWorkoutSessionId } from "./session-id";
 import dynamic from "next/dynamic";
 import { CheckCircle2, Pause, Play, Plus, Save, Timer } from "lucide-react";
 
@@ -281,7 +282,7 @@ export function WorkoutSessionTimer({
         clearSavedMark();
         // 새 세션 시작 (계속 운동 중이라고 가정 — 일시정지 상태였으면 유지)
         const fresh: TimerState = {
-          sessionId: crypto.randomUUID(),
+          sessionId: createWorkoutSessionId(),
           startedAt: Date.now(),
           pausedAt: restored.pausedAt !== null ? Date.now() : null,
           accumulated: 0,
@@ -315,7 +316,7 @@ export function WorkoutSessionTimer({
           if (d) void saveDuration(d.forDate, d.deltaSec);
           clearSavedMark();
           const fresh: TimerState = {
-            sessionId: crypto.randomUUID(),
+            sessionId: createWorkoutSessionId(),
             startedAt: Date.now(),
             pausedAt: null,
             accumulated: 0,
@@ -363,7 +364,7 @@ export function WorkoutSessionTimer({
       readFinished(),
       seoulTodayYmd(),
       Date.now(),
-      crypto.randomUUID(),
+      createWorkoutSessionId(),
     );
     clearSavedMark();
     if (savedMark) setSavedMark(savedMark);

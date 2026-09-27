@@ -25,7 +25,7 @@ test("이전 음식 검색이 느려도 새 검색 결과를 표시하고 이전
     await route.fulfill({ json: rows });
   });
   try {
-    await page.getByRole("button", { name: "추가", exact: true }).first().click();
+    await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
     const search = page.getByLabel("음식 검색");
     await search.fill("바나나");
     await expect(page.getByRole("button").filter({ hasText: "바나나" })).toBeVisible();
@@ -92,7 +92,7 @@ test("결과가 있으면 식약처 실시간 조회를 안 부른다", async ({
     await route.fulfill({ json: rows });
   });
 
-  await page.getByRole("button", { name: "추가", exact: true }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page.getByLabel("음식 검색").fill("바나나");
   await expect(page.getByRole("button").filter({ hasText: "바나나" })).toBeVisible();
   // 디바운스(db 는 600ms)를 넉넉히 넘겨도 안 나가야 한다.
@@ -112,7 +112,7 @@ test("아무 데서도 못 찾으면 그때 식약처 실시간 조회를 부른
     await route.fulfill({ json: [] }); // 세 출처 모두 빈손
   });
 
-  await page.getByRole("button", { name: "추가", exact: true }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page.getByLabel("음식 검색").fill("없는음식이름asdf");
   await expect.poll(() => sources.includes("db"), { timeout: 5_000 }).toBe(true);
 });

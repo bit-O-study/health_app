@@ -14,6 +14,34 @@
 ## 1순위: 앱 안정성
 
 ### UI.1 [진행중] 앱 전체 화면 재설계 (2026-09-18)
+- [진행중] 2026-09-27 GitHub CI 식단 ref 린트 오류 수정
+  - [완료] Actions 36326835392 로그에서 diet-board react-hooks/refs 1건이 최종 판정 실패 원인임을 확인
+  - [완료] logsRef 갱신을 useLayoutEffect로 옮겨 커밋된 최신 식단을 유지하고 렌더 중 ref 변경 제거
+  - [완료] 2026-09-27 Git 추적 소스 전체 ESLint 오류 0건·동일 lint gate 통과. pnpm run build: 전체 Vitest 240파일 2729개·타입·프로덕션 빌드 통과. 식단 추가 직후 수정 E2E 1개(40.3초, mobile-chromium, http://127.0.0.1:3110) 통과, 테스트 계정 정리. 증거 scripts/ci-ref-{lint,build,e2e}.log. 전체 E2E/실기기는 미실행.
+  - [대기] 수정 푸시 후 GitHub Actions·Vercel·Supabase 상태 확인
+- [완료] 2026-09-27 Supabase Preview 초기 마이그레이션 복원
+  - [완료] Preview public 테이블 0개·마이그레이션 이력 0개, 운영 routine_exercises 존재·public 79개 확인. 최초 migration의 선행 스키마 누락 및 버전 중복 2쌍 발견
+  - [완료] 최초 증분 이전 1a121a7^ 스키마 baseline 복원. 모더레이터 함수 선행 생성·선택적 유지보수 함수 권한 조건 처리. 기존 DB 건너뛰기·부분 초기화 차단. 미적용 중복 버전 2개를 202609250010/011로 변경.
+  - [완료] 2026-09-27 Preview(mvkohidhkekmpiywqygo)에서 18개 SQL 전체 실행·schema.sql의 모든 테이블 존재·baseline 재실행 시 함수 불변 검증 통과 후 ROLLBACK, public 테이블 0개 확인. 단위 2파일 13개·대상 ESLint·tsc --noEmit 통과. 운영 DB 변경 없음. 증거 scripts/verify-preview-migrations.cjs 및 scripts/preview-migration-types.log.
+  - [완료] 35dd434 푸시 후 Preview FUNCTIONS_DEPLOYED 확인. 실제 public 테이블 79개·마이그레이션 이력 18개 확인, routine_exercises 누락 오류 해결. 운영 main 상태 유지. 확인 스크립트 scripts/check-supabase-preview.cjs.
+- [완료] 2026-09-27 Vercel prebuild 실패 수정
+  - [완료] 배포 로그 확인: 신규 13개 라우트 로딩 누락 1건, 변경 전 머리글을 기대하는 UI 가드 3건 실패
+  - [완료] 공통 RouteLoading 13개 추가 및 브랜드 머리글·홈 링크·접근 가능한 제목을 검사하도록 UI 가드 수정
+  - [완료] 2026-09-27 대상 테스트 57개·대상 ESLint 통과. Node 24 / pnpm 11.1.2의 pnpm run build 종료 코드 0: 전체 Vitest 239파일 2726개(실제 DB 스키마 가드 포함)·TypeScript·프로덕션 빌드 통과. 증거 scripts/deploy-fix-build.log. 사용자 기존 지시에 따라 전체 E2E/실기기 검증은 이번 커밋에서 생략.
+  - [완료] 7785544 푸시 후 Vercel dpl_HCaRE3PBgeDtCkrTPwZqgrGncWrc READY / GitHub success 확인.
+- [대기] 2026-09-27 나머지 앱 전용 메뉴·로고 및 트레이너 발송 상태 — 웹 반영 완료, 발송 설정·실기기 대기
+  - 커밋 검증: 사용자 지시(간단한 테스트 후 커밋, 통합 브랜치에서 전체 테스트)에 따라 전체 게이트 대신 관련 단위 6파일 39개를 2026-09-27 재실행해 통과. 기존 타입·빌드·대상 E2E 증거는 아래 기록 참조. 전체 게이트·실기기 검증은 미완료.
+  - [완료] 식단/트레이너/커뮤니티 홈 메뉴 대체 필요, 그룹 가입 후 헤더·코치/펫 브랜드 누락 조사
+  - [완료] 식단 기록·브라우저 즐겨찾기·영양 분석, 트레이너 회원/처방/알림, 그룹 찾기/소식/내 활동·커뮤니티 전용 메뉴 및 로고 구현
+  - [완료] 2026-09-27 단위 4파일 34개(앱 경로 활성·발송 누락 설정/저장 보존·식단 1001행 집계) 통과. 타입·대상 ESLint·프로덕션 빌드 통과. remaining-app-tabs.spec.ts LAN HTTP/mobile-chromium 2개 통과: 즐겨찾기 저장/재접속/실제 점심 담기, 식단 평균·그룹 소식·가입 후 로고·앱별 메뉴, 트레이너 처방 미동의 차단/다른 트레이너 알림 비노출/회원이 생성한 해제 알림/이용권 해지 차단 확인. 실제 발송 없음. 증거 scripts/remaining-tabs-{unit,types,lint,build,e2e}.log 및 test-results/remaining-tabs. 실행 서버 3000 반영. 전체 E2E 미실행.
+  - [대기] SOLAPI 키/시크릿/발신번호/채널/초대·해제 템플릿 미설정. 사용자 설정 후 실제 수신 확인
+  - [대기] Android 실기기 확인
+- [대기] 2026-09-27 탭 머리글·식단 기록 통합·런닝 기록·캘린더 메뉴 개선 — 웹 반영 완료, 실기기 대기
+  - [완료] 홈 Logo·PageHeader·운동/트레이너 별도 머리글·식단 이모지 사용 위치 조사
+  - [완료] 탭 머리글 로고/헬쑤 적용 및 끼니 목록·상세·기본 사진 선형 아이콘 통일, 목록 추가 버튼을 음식 기록하기→끼니 선택으로 통합
+  - [완료] 런닝 기록 전용 월별 페이지 및 운동 하단바 연결, 캘린더 월간/홈/주간 전용 메뉴 연결
+  - [완료] 2026-09-27 검증: launcher-apps/run-history-summary 단위 22개, LAN HTTP/mobile-chromium E2E 2개(1.1분) 통과. 주요 탭 브랜드, 네 끼니 통합 입력 및 실제 음식 저장, 런닝 월별 집계/빈 달, 캘린더 전용 하단바·주간 활성 확인. 타입·빌드 통과, 새 파일 린트 통과. 대상 린트는 기존 diet-board 렌더 중 ref 쓰기 오류 1개 및 기존 타이머 경고 4개 유지. 실행 서버 재시작 반영. 증거: scripts/brand-meal-*.log, test-results/brand-meal 식단·런닝·주간 캡처. 전체 E2E 미실행.
+  - [대기] 사용자 휴대폰 확인
 
 - [완료] 기존 화면 구조·디자인 토큰·미커밋 변경·회귀 테스트 조사
 - [완료] 1~7단계 — 공통 표면·큰 제목·탐색과 홈·운동·식단·캘린더·그룹·커뮤니티 위계 재설계
@@ -52,6 +80,17 @@
 
 
 ### 1.1 [보류] Android 탭 이동 중 종료 및 복구 루프 해결
+
+- [대기] 2026-09-26 오늘 운동 완료·휴식 취소 시 배경 동작 문구 노출 — 웹 수정·검증 완료, 실기기 대기
+  - [완료] 본운동/컨디셔닝 행 전체 opacity 및 포인터 누름 즉시 reveal 렌더 경로 확인
+  - [완료] 행 배경 불투명 유지(내용만 흐리게)·실제 스와이프 중에만 안내 표시
+  - [완료] 수정 전 정지 상태에서 숨겨진 문구 2개 노출 실패 재현. 수정 후 workout-swipe-background.spec.ts: LAN HTTP/mobile-chromium 밝은·어두운 테마 2개 통과(51.8초), 본운동 완료 취소·워밍업 휴식 취소 DB 삭제/새로고침 유지·배경 불투명 검증. 타입·대상 린트·프로덕션 빌드 통과, 서버 재시작 및 HTTP 200 확인. 증거: scripts/swipe-background-{red,green,types,lint,build}.log
+  - [대기] 사용자 휴대폰 확인
+- [대기] 2026-09-26 같은 네트워크 HTTP 접속에서 운동 시작 무반응 — 수정 반영, 실기기 확인 대기
+  - [완료] LAN HTTP 브라우저에서 재현: 운동 시작 시 `crypto.randomUUID is not a function` 발생 및 회귀 테스트 실패 확인
+  - [완료] UUID 생성 공통 함수에 `crypto.getRandomValues` 기반 UUID v4 대체 경로 추가·시작/복원 경로 적용
+  - [완료] 2026-09-26 검증: 단위 12개, LAN HTTP mobile-chromium 운동 시작·새로고침 복원 E2E 1개 통과(29.9초). 타입 검사·빌드 통과, 대상 린트 오류 0개/기존 경고 4개. 실행 서버 재시작·반영 완료. 증거: `scripts/workout-http-{unit,green,types,lint,build}.log`
+  - [대기] 사용자 휴대폰에서 재접속 확인
 
 - [진행중] 2026-09-08 실사용 재발 오류 수정(운동 완료·카카오·음식 검색·머신 단위)
   - [완료] 기존 테스트 범위 조사: 완료 문구는 브라우저 정상 저장만 검사, 카카오는 authorize 요청만 가로채 검사, 머신 1kg은 테스트에도 잘못 고정됨

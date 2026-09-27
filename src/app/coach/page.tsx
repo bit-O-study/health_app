@@ -34,7 +34,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
   // 공통 머리글(2026-09-16 8단계) — 소개 카드는 뺐다(각 분석 카드 제목이 곧 설명).
   return (
     <div className="app-page">
-    <PageHeader title="헬쑤쌤" back />
+    <PageHeader branded title="헬쑤쌤" back />
     <main className="app-container">
       <div className="space-y-3">
         {view !== "recommend" && <>

@@ -532,7 +532,7 @@ export function TodayPlanList({
             {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더.
                 항상 렌더하면 완료(emerald-950/40)·휴식(zinc-800/60) 행의 반투명
                 배경 뒤로 "완료"/"취소" 글씨가 비쳐 보인다. */}
-            {swipe?.id !== item.id || isDragging || inlineEditing ? null : (
+            {!isSwiping || isDragging || inlineEditing ? null : (
               <>
                 {/* 왼쪽: 오른쪽으로 끌면 노출되는"완료" 영역 */}
                 <div
@@ -586,7 +586,7 @@ export function TodayPlanList({
                   : inlineEditing
                     ? "ring-1 ring-brand/40"
                     : isDone || isSkipped
-                      ? "opacity-60"
+                      ? "[&>*]:opacity-60"
                       : ""
               }`}
             >

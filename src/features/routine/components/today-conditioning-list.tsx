@@ -459,7 +459,7 @@ export function TodayConditioningList({
           >
             {/* reveal 패널은 이 행을 실제로 스와이프하는 동안에만 렌더 — 완료/휴식
                 행의 반투명 배경 뒤로 "완료"/"취소" 가 비쳐 보이는 것 방지. */}
-            {swipe?.id !== item.rowId || isDragging || inlineEditing ? null : (
+            {!isSwiping || isDragging || inlineEditing ? null : (
               <>
                 <div
                   className={`pointer-events-none absolute inset-y-0 left-0 flex w-1/2 items-center pl-5 text-sm font-bold transition-colors ${
@@ -511,7 +511,7 @@ export function TodayConditioningList({
                   : inlineEditing
                     ? "ring-1 ring-brand/40"
                     : isDone || isSkipped
-                      ? "opacity-60"
+                      ? "[&>*]:opacity-60"
                       : ""
               }`}
             >

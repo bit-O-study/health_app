@@ -1,0 +1,4378 @@
+-- Baseline preceding the first incremental migration (source: 1a121a7^).
+-- Existing installations already have this schema; never replay legacy policies there.
+-- Only bootstrap an empty public schema. A partially initialized DB needs inspection.
+do $bootstrap$
+begin
+  if to_regclass('public.routine_exercises') is not null then return; end if;
+  if exists (select 1 from information_schema.tables where table_schema = 'public' and table_type = 'BASE TABLE') then
+    raise exception 'Initial schema requires an empty public schema; inspect partial initialization';
+  end if;
+  execute $schema$
+-- Health Platform MVP Supabase schema.
+--
+-- Applied on 2026-05-18 with the Supabase connection pooler from the local
+-- development machine. This file is intentionally idempotent: it can be run
+-- again to recreate policies, upsert the Storage bucket configuration, and
+-- refresh the seeded exercise records without duplicating them.
+--
+-- Creates:
+-- - public.exercises
+-- - public.exercise_videos
+-- - public.video_comments
+-- - storage bucket: exercise-videos
+-- - public read policies plus anonymous insert policies for MVP testing
+
+create extension if not exists "pgcrypto";
+
+create table if not exists public.exercises (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,
+  name text not null,
+  summary text not null,
+  difficulty text not null check (difficulty in ('beginner', 'intermediate', 'advanced')),
+  equipment text not null,
+  target_muscles text[] not null default '{}',
+  cues text[] not null default '{}',
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.exercise_videos (
+  id uuid primary key default gen_random_uuid(),
+  exercise_id uuid not null references public.exercises(id) on delete cascade,
+  title text not null,
+  video_url text not null,
+  storage_path text not null,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.video_comments (
+  id uuid primary key default gen_random_uuid(),
+  video_id uuid not null references public.exercise_videos(id) on delete cascade,
+  nickname text not null default '익명',
+  body text not null,
+  created_at timestamptz not null default now()
+);
+
+alter table public.exercises enable row level security;
+alter table public.exercise_videos enable row level security;
+alter table public.video_comments enable row level security;
+
+drop policy if exists "Exercises are publicly readable" on public.exercises;
+create policy "Exercises are publicly readable"
+  on public.exercises for select
+  using (true);
+
+drop policy if exists "Videos are publicly readable" on public.exercise_videos;
+create policy "Videos are publicly readable"
+  on public.exercise_videos for select
+  using (true);
+
+drop policy if exists "Anyone can add exercise videos" on public.exercise_videos;
+create policy "Anyone can add exercise videos"
+  on public.exercise_videos for insert
+  with check (true);
+
+drop policy if exists "Comments are publicly readable" on public.video_comments;
+create policy "Comments are publicly readable"
+  on public.video_comments for select
+  using (true);
+
+drop policy if exists "Anyone can add comments" on public.video_comments;
+create policy "Anyone can add comments"
+  on public.video_comments for insert
+  with check (length(trim(body)) > 0);
+
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'exercise-videos',
+  'exercise-videos',
+  true,
+  104857600,
+  array['video/mp4', 'video/quicktime', 'video/webm']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Exercise videos are publicly readable" on storage.objects;
+create policy "Exercise videos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'exercise-videos');
+
+drop policy if exists "Anyone can upload exercise videos" on storage.objects;
+create policy "Anyone can upload exercise videos"
+  on storage.objects for insert
+  with check (bucket_id = 'exercise-videos');
+
+-- 음식 사진 버킷(food-photos) — 식단 기록에 사진 첨부.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'food-photos',
+  'food-photos',
+  true,
+  10485760,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/heic']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Food photos are publicly readable" on storage.objects;
+create policy "Food photos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'food-photos');
+
+drop policy if exists "Users can upload own food photos" on storage.objects;
+create policy "Users can upload own food photos"
+  on storage.objects for insert
+  with check (bucket_id = 'food-photos' and owner = auth.uid());
+
+drop policy if exists "Users can delete own food photos" on storage.objects;
+create policy "Users can delete own food photos"
+  on storage.objects for delete
+  using (bucket_id = 'food-photos' and owner = auth.uid());
+
+insert into public.exercises
+  (slug, name, summary, difficulty, equipment, target_muscles, cues)
+values
+  (
+    'squat',
+    '스쿼트',
+    '하체 전반과 코어 안정성을 함께 확인하기 좋은 기본 운동입니다.',
+    'beginner',
+    '바벨 또는 맨몸',
+    array['대퇴사두근', '둔근', '햄스트링', '코어'],
+    array['무릎과 발끝 방향을 맞추기', '허리를 과하게 꺾지 않기', '발 전체로 바닥 밀기']
+  ),
+  (
+    'deadlift',
+    '데드리프트',
+    '힙 힌지와 등 고정, 바 경로를 점검하기 좋은 전신 근력 운동입니다.',
+    'intermediate',
+    '바벨',
+    array['둔근', '햄스트링', '척추기립근', '광배근'],
+    array['바를 몸 가까이 유지하기', '등을 먼저 말아 올리지 않기', '엉덩이와 가슴을 함께 세우기']
+  ),
+  (
+    'bench-press',
+    '벤치프레스',
+    '상체 밀기 패턴과 견갑 안정성을 확인하는 대표적인 가슴 운동입니다.',
+    'intermediate',
+    '바벨, 벤치',
+    array['대흉근', '삼두근', '전면 삼각근'],
+    array['견갑을 고정하기', '손목을 세워 바를 받치기', '가슴 위에서 일정한 경로 유지하기']
+  )
+on conflict (slug) do update set
+  name = excluded.name,
+  summary = excluded.summary,
+  difficulty = excluded.difficulty,
+  equipment = excluded.equipment,
+  target_muscles = excluded.target_muscles,
+  cues = excluded.cues;
+
+-- Per-user weekly routine selection.
+--
+-- One row per user (upsert on user_id). `splits` + `variant_id` reference the
+-- preset catalog in src/features/routine/data.ts. `start_date` records when the
+-- routine began; the home page maps the current date's weekday onto the
+-- variant's Mon~Sun plan. Protected by Supabase Auth (email/password) RLS so a
+-- user can only read/write their own routine.
+--
+-- Custom split: when `variant_id = 'custom'`, `splits = 0` and `custom_week`
+-- holds 7 block ids (Mon~Sun) from DAY_BLOCKS in src/features/routine/data.ts.
+
+create table if not exists public.user_routines (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references auth.users(id) on delete cascade,
+  splits int not null check (splits between 0 and 6),
+  variant_id text not null,
+  custom_week jsonb,
+  start_date date not null default current_date,
+  rest_date date,
+  override_date date,
+  override_block text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- Idempotent migration for tables created before later features.
+-- `start_date` is the routine anchor (day 0). `rest_date` = the date the user
+-- converted "today" to rest; converting also bumps start_date +1 so the missed
+-- workout slides to the next day. `override_date`/`override_block` = a
+-- today-only focus swap (does NOT shift the routine).
+alter table public.user_routines
+  add column if not exists custom_week jsonb;
+alter table public.user_routines
+  add column if not exists rest_date date;
+alter table public.user_routines
+  add column if not exists override_date date;
+alter table public.user_routines
+  add column if not exists override_block text;
+-- 기준(설정) 루틴 스냅샷 {splits, variant_id, custom_week}. '설정>루틴 설정'/온보딩/
+-- 프리셋 로드에서만 갱신되고, '다가오는 7일' 드래그/오늘만 변경 같은 임시 변경은
+-- 건드리지 않는다. '오늘부터 다시 시작하기'가 이걸로 루틴을 복원한다.
+alter table public.user_routines
+  add column if not exists baseline_routine jsonb;
+-- 일차별(day_index) 마이그레이션 완료 플래그. true 면 매 페이지 로드마다 돌던
+-- 백필 count 쿼리를 건너뛴다(성능). 마이그레이션이 끝나면 true 로 세팅.
+alter table public.user_routines
+  add column if not exists day_index_migrated boolean not null default false;
+-- '오늘만 변경(전체 바꾸기/직접 담기)'으로 하루 민 날짜. 이 날짜가 오늘이면 화면에서
+-- 원래 루틴 운동을 숨긴다(변경된 빈 날). 재클릭해도 하루만 밀리게 하는 멱등 마커.
+alter table public.user_routines
+  add column if not exists last_deferred_date date;
+-- 그 날 defer 를 만든 방식 — 'direct'(직접 담기) 또는 부위 목록('chest,back').
+-- 밀린 빈 날의 '운동 등록하기' 링크를 원래 흐름(직접/부위)으로 되돌려주기 위함.
+alter table public.user_routines
+  add column if not exists deferred_target text;
+-- "오늘만 부위 추가"로 오늘 더한 부위/세부근육 블록(예: 'arm,arm-biceps') 과 그 날짜.
+-- 추가만 하고 아직 운동을 안 담아도 오늘 화면의 '운동 추가'에서 그 부위를 고를 수 있게
+-- 기억한다. 날짜가 오늘이 아니면 무시 — **다음 주기 루틴엔 영향 없음**(원칙 #2).
+alter table public.user_routines
+  add column if not exists today_added_date date;
+alter table public.user_routines
+  add column if not exists today_added_blocks text;
+alter table public.user_routines
+  drop constraint if exists user_routines_splits_check;
+alter table public.user_routines
+  add constraint user_routines_splits_check check (splits between 0 and 7);
+
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
+
+-- user_routines.updated_at is also the optimistic-concurrency revision for
+-- routine/exercise writers. A transaction-start timestamp can move backward
+-- after waiting on a lock, so this trigger guarantees strict monotonicity.
+create or replace function public.set_user_routine_revision()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = greatest(
+    clock_timestamp(),
+    old.updated_at + interval '1 microsecond'
+  );
+  return new;
+end;
+$$;
+
+drop trigger if exists user_routines_set_updated_at on public.user_routines;
+create trigger user_routines_set_updated_at
+  before update on public.user_routines
+  for each row execute function public.set_user_routine_revision();
+
+alter table public.user_routines enable row level security;
+
+drop policy if exists "Users can read own routine" on public.user_routines;
+create policy "Users can read own routine"
+  on public.user_routines for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own routine" on public.user_routines;
+create policy "Users can insert own routine"
+  on public.user_routines for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own routine" on public.user_routines;
+create policy "Users can update own routine"
+  on public.user_routines for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own routine" on public.user_routines;
+create policy "Users can delete own routine"
+  on public.user_routines for delete
+  using (auth.uid() = user_id);
+
+-- Onboarding profile.
+--
+-- One row per user (upsert on user_id), written right after sign-up. `gender`
+-- and `experience` drive the code-based routine recommendation in
+-- src/features/profile/data.ts. RLS so a user only reads/writes their own row.
+
+create table if not exists public.profiles (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  gender text not null check (gender in ('male', 'female')),
+  experience text not null
+    check (experience in ('beginner', 'intermediate', 'advanced')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+drop trigger if exists profiles_set_updated_at on public.profiles;
+create trigger profiles_set_updated_at
+  before update on public.profiles
+  for each row execute function public.set_updated_at();
+
+alter table public.profiles enable row level security;
+
+drop policy if exists "Users can read own profile" on public.profiles;
+create policy "Users can read own profile"
+  on public.profiles for select
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "Users can insert own profile" on public.profiles;
+create policy "Users can insert own profile"
+  on public.profiles for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own profile" on public.profiles;
+create policy "Users can update own profile"
+  on public.profiles for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+-- Body metrics for personalized set/rep/weight prescription.
+-- body_type: 'lean' | 'average' | 'heavy' (validated in code).
+alter table public.profiles add column if not exists height_cm int;
+alter table public.profiles add column if not exists weight_kg numeric(5, 1);
+alter table public.profiles add column if not exists body_type text;
+alter table public.profiles add column if not exists body_fat_pct numeric(4, 1);
+alter table public.profiles add column if not exists muscle_mass_kg numeric(5, 1);
+
+-- 개인설정: 운동영상(가이드 오버레이) 안 보기. true 면 '운동 시작' 시 영상 가이드 대신
+-- 타이머(중지/시작/저장)만 표시. 기본 false(영상 보기).
+alter table public.profiles
+  add column if not exists hide_exercise_videos boolean not null default false;
+
+-- 개인설정(운동 모드 표시·휴식 알림). 모두 기본 켜짐.
+-- show_exercise_guide:     자세 잡기·자극 부위·핵심 포인트·초보 팁 상세 카드 표시.
+-- rest_sound / rest_haptic: 휴식 종료 시 비프음 / 진동.
+alter table public.profiles
+  add column if not exists show_exercise_guide boolean not null default true;
+alter table public.profiles
+  add column if not exists rest_sound boolean not null default true;
+alter table public.profiles
+  add column if not exists rest_haptic boolean not null default true;
+-- lock_weight_reps: 무게·횟수를 미리 '고정'으로 정할지. 기본 false(끔) = 메인·편집·등록에
+-- 무게/횟수 숨기고 운동모드에서 그때그때 설정. true 면 미리 정해 메인에 표시/수정.
+alter table public.profiles
+  add column if not exists lock_weight_reps boolean not null default false;
+
+-- Registered workout plan per user, grouped by focus (DayPlan tone).
+--
+-- "추천 운동들로 등록" fills this from the recommendation; "직접 등록" lets the
+-- user add rows manually. The home "오늘의 운동" reads the rows for today's
+-- focus. exercise_id/equipment reference src/features/routine/exercise-catalog.ts.
+
+create table if not exists public.routine_exercises (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  focus text not null,
+  position int not null default 0,
+  exercise_id text not null,
+  equipment text not null,
+  sets int not null default 3 check (sets between 1 and 20),
+  reps int not null default 10 check (reps between 1 and 100),
+  weight_kg numeric(5, 1),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+-- 세트별 무게·횟수(드롭세트·피라미드). null = 균일(sets×reps@weight_kg). 하위호환.
+-- 형식: [{"weightKg": 15, "reps": 12}, {"weightKg": 20, "reps": 10}, ...]
+alter table public.routine_exercises add column if not exists set_details jsonb;
+
+-- 운동별 메모 (자세 주의점 등). 운동별 고정 — 매일 같은 메모가 표시된다.
+alter table public.routine_exercises add column if not exists memo text;
+
+-- 주기 N일차(0~6). 같은 focus 가 여러 일차에 나와도(PPL×2 등) 일차별로 독립
+-- 보관해 한 일차 편집이 다른 날에 새지 않게 한다. NULL = 미마이그레이션(앱이 백필).
+alter table public.routine_exercises add column if not exists day_index int;
+alter table public.routine_exercises
+  drop constraint if exists routine_exercises_day_index_check;
+alter table public.routine_exercises
+  add constraint routine_exercises_day_index_check
+  check (day_index is null or day_index between 0 and 6);
+
+create index if not exists routine_exercises_user_focus_idx
+  on public.routine_exercises (user_id, focus, position);
+
+create index if not exists routine_exercises_user_day_focus_idx
+  on public.routine_exercises (user_id, day_index, focus, position);
+
+drop trigger if exists routine_exercises_set_updated_at on public.routine_exercises;
+create trigger routine_exercises_set_updated_at
+  before update on public.routine_exercises
+  for each row execute function public.set_updated_at();
+
+alter table public.routine_exercises enable row level security;
+
+drop policy if exists "Users can read own routine exercises" on public.routine_exercises;
+create policy "Users can read own routine exercises"
+  on public.routine_exercises for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own routine exercises" on public.routine_exercises;
+create policy "Users can insert own routine exercises"
+  on public.routine_exercises for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own routine exercises" on public.routine_exercises;
+create policy "Users can update own routine exercises"
+  on public.routine_exercises for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own routine exercises" on public.routine_exercises;
+create policy "Users can delete own routine exercises"
+  on public.routine_exercises for delete
+  using (auth.uid() = user_id);
+
+-- Every authenticated writer takes the same parent-row lock before touching
+-- routine_exercises. Statement-level timing is important: a row trigger could
+-- lock a child row first and deadlock against the arm-swap parent->child order.
+create or replace function public.lock_routine_exercise_write()
+returns trigger
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+begin
+  if v_user_id is not null then
+    update public.user_routines
+       set updated_at = updated_at
+     where user_id = v_user_id;
+  end if;
+  return null;
+end;
+$$;
+
+drop trigger if exists routine_exercises_lock_parent on public.routine_exercises;
+create trigger routine_exercises_lock_parent
+  before insert or update or delete on public.routine_exercises
+  for each statement execute function public.lock_routine_exercise_write();
+
+-- Delete-then-insert plan writers use this RPC so the logical replacement and
+-- parent lock share one transaction. The expected routine revision prevents a
+-- writer queued behind a swap from inserting rows into its stale day index.
+create or replace function public.replace_routine_exercise_groups(
+  p_expected_routine_updated_at timestamp with time zone,
+  p_replace_all boolean,
+  p_groups jsonb
+) returns table(
+  inserted_id uuid,
+  inserted_exercise_id text,
+  inserted_day_index integer,
+  inserted_focus text
+)
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_routine_updated_at timestamp with time zone;
+  v_group jsonb;
+  v_row jsonb;
+  v_rows jsonb;
+  v_day_index integer;
+  v_focus text;
+  v_new_id uuid;
+  v_position integer;
+  v_sets integer;
+  v_reps integer;
+  v_weight_kg numeric(5, 1);
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+  if p_expected_routine_updated_at is null
+     or p_replace_all is null
+     or p_groups is null
+     or jsonb_typeof(p_groups) is distinct from 'array' then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  select updated_at
+    into v_routine_updated_at
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+  if v_routine_updated_at is distinct from p_expected_routine_updated_at then
+    raise exception using errcode = 'P0001', message = 'STALE_ROUTINE';
+  end if;
+
+  if exists (
+    select 1
+      from (
+        select item.value ->> 'dayIndex' as day_index,
+               item.value ->> 'focus' as focus,
+               count(*)
+          from jsonb_array_elements(p_groups) as item(value)
+         group by item.value ->> 'dayIndex', item.value ->> 'focus'
+        having count(*) > 1
+      ) as duplicate_group
+  ) then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  -- Validate every group and row before the first destructive statement.
+  for v_group in select value from jsonb_array_elements(p_groups)
+  loop
+    begin
+      if jsonb_typeof(v_group) is distinct from 'object'
+         or jsonb_typeof(v_group -> 'rows') is distinct from 'array' then
+        raise exception using errcode = '22000', message = 'INVALID_GROUP';
+      end if;
+      v_day_index := (v_group ->> 'dayIndex')::integer;
+      v_focus := v_group ->> 'focus';
+      v_rows := v_group -> 'rows';
+      if v_day_index is null
+         or v_day_index not between 0 and 6
+         or v_focus is null
+         or btrim(v_focus) = '' then
+        raise exception using errcode = '22000', message = 'INVALID_GROUP';
+      end if;
+
+      for v_row in select value from jsonb_array_elements(v_rows)
+      loop
+        if jsonb_typeof(v_row) is distinct from 'object'
+           or jsonb_typeof(v_row -> 'exerciseId') is distinct from 'string'
+           or jsonb_typeof(v_row -> 'equipment') is distinct from 'string' then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        v_position := (v_row ->> 'position')::integer;
+        v_sets := (v_row ->> 'sets')::integer;
+        v_reps := (v_row ->> 'reps')::integer;
+        if v_position is null
+           or v_sets is null
+           or v_reps is null
+           or v_position < 0
+           or v_sets not between 1 and 20
+           or v_reps not between 1 and 100
+           or btrim(v_row ->> 'exerciseId') = ''
+           or btrim(v_row ->> 'equipment') = '' then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        if v_row ? 'id' and jsonb_typeof(v_row -> 'id') <> 'null' then
+          v_new_id := (v_row ->> 'id')::uuid;
+        end if;
+        if v_row ? 'weightKg'
+           and jsonb_typeof(v_row -> 'weightKg') not in ('number', 'null') then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        if v_row ? 'memo'
+           and jsonb_typeof(v_row -> 'memo') not in ('string', 'null') then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        -- 슈퍼세트 묶음 번호. 컬럼 제약(1~99)에 맡기지 않고 여기서 걸러 다른 잘못된
+        -- 행들과 같은 INVALID_ROW 로 보고한다(호출부가 메시지 하나만 다루면 된다).
+        if v_row ? 'supersetGroup'
+           and jsonb_typeof(v_row -> 'supersetGroup') not in ('number', 'null') then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+        if jsonb_typeof(v_row -> 'supersetGroup') = 'number'
+           and (v_row ->> 'supersetGroup')::integer not between 1 and 99 then
+          raise exception using errcode = '22000', message = 'INVALID_ROW';
+        end if;
+      end loop;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  if p_replace_all then
+    delete from public.routine_exercises
+     where user_id = v_user_id;
+  else
+    for v_group in select value from jsonb_array_elements(p_groups)
+    loop
+      delete from public.routine_exercises
+       where user_id = v_user_id
+         and day_index = (v_group ->> 'dayIndex')::integer
+         and focus = v_group ->> 'focus';
+    end loop;
+  end if;
+
+  for v_group in select value from jsonb_array_elements(p_groups)
+  loop
+    v_day_index := (v_group ->> 'dayIndex')::integer;
+    v_focus := v_group ->> 'focus';
+    for v_row in select value from jsonb_array_elements(v_group -> 'rows')
+    loop
+      v_new_id := case
+        when jsonb_typeof(v_row -> 'id') = 'string' then (v_row ->> 'id')::uuid
+        else gen_random_uuid()
+      end;
+      v_weight_kg := case
+        when jsonb_typeof(v_row -> 'weightKg') = 'number'
+          then (v_row ->> 'weightKg')::numeric(5, 1)
+        else null
+      end;
+
+      insert into public.routine_exercises (
+        id, user_id, day_index, focus, position, exercise_id, equipment,
+        sets, reps, weight_kg, set_details, memo, superset_group
+      ) values (
+        v_new_id,
+        v_user_id,
+        v_day_index,
+        v_focus,
+        (v_row ->> 'position')::integer,
+        v_row ->> 'exerciseId',
+        v_row ->> 'equipment',
+        (v_row ->> 'sets')::integer,
+        (v_row ->> 'reps')::integer,
+        v_weight_kg,
+        case
+          when jsonb_typeof(v_row -> 'setDetails') = 'null' then null
+          else v_row -> 'setDetails'
+        end,
+        case
+          when jsonb_typeof(v_row -> 'memo') = 'string' then v_row ->> 'memo'
+          else null
+        end,
+        case
+          when jsonb_typeof(v_row -> 'supersetGroup') = 'number'
+            then (v_row ->> 'supersetGroup')::smallint
+          else null
+        end
+      )
+      returning public.routine_exercises.id,
+                public.routine_exercises.exercise_id
+           into inserted_id, inserted_exercise_id;
+      inserted_day_index := v_day_index;
+      inserted_focus := v_focus;
+      return next;
+    end loop;
+  end loop;
+
+  -- Exercise replacements are part of the routine snapshot too. Advance the
+  -- existing revision while the parent lock is still held so a queued writer
+  -- or arm swap cannot proceed with the pre-replacement snapshot.
+  update public.user_routines
+     set updated_at = clock_timestamp()
+   where user_id = v_user_id;
+end;
+$$;
+
+revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from public;
+revoke all on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) from anon;
+grant execute on function public.replace_routine_exercise_groups(timestamp with time zone, boolean, jsonb) to authenticated;
+
+-- Legacy day-index repair and semantic slot remaps are planned from one child
+-- snapshot and applied here as a single revision-checked transaction. This
+-- prevents an arm swap from landing between a move, delete, and copy request.
+create or replace function public.apply_routine_exercise_day_sync(
+  p_expected_routine_updated_at timestamp with time zone,
+  p_updates jsonb,
+  p_delete_ids jsonb,
+  p_insert_rows jsonb,
+  p_mark_day_index_migrated boolean
+) returns timestamp with time zone
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_routine_updated_at timestamp with time zone;
+  v_next_updated_at timestamp with time zone;
+  v_row jsonb;
+  v_id uuid;
+  v_day_index integer;
+  v_position integer;
+  v_sets integer;
+  v_reps integer;
+  v_weight_kg numeric(5, 1);
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+  if p_expected_routine_updated_at is null
+     or p_updates is null
+     or jsonb_typeof(p_updates) is distinct from 'array'
+     or p_delete_ids is null
+     or jsonb_typeof(p_delete_ids) is distinct from 'array'
+     or p_insert_rows is null
+     or jsonb_typeof(p_insert_rows) is distinct from 'array'
+     or p_mark_day_index_migrated is null then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  select updated_at
+    into v_routine_updated_at
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+  if v_routine_updated_at is distinct from p_expected_routine_updated_at then
+    raise exception using errcode = 'P0001', message = 'STALE_ROUTINE';
+  end if;
+
+  if exists (
+    select 1
+      from jsonb_array_elements(p_updates) as item(value)
+     group by item.value ->> 'id'
+    having count(*) > 1
+  ) or exists (
+    select 1
+      from jsonb_array_elements_text(p_delete_ids) as item(value)
+     group by item.value
+    having count(*) > 1
+  ) or exists (
+    select 1
+      from jsonb_array_elements(p_updates) as updated(value)
+      join jsonb_array_elements_text(p_delete_ids) as deleted(value)
+        on updated.value ->> 'id' = deleted.value
+  ) then
+    raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+  end if;
+
+  for v_row in select value from jsonb_array_elements(p_updates)
+  loop
+    begin
+      if jsonb_typeof(v_row) is distinct from 'object'
+         or jsonb_typeof(v_row -> 'id') is distinct from 'string'
+         or jsonb_typeof(v_row -> 'dayIndex') is distinct from 'number' then
+        raise exception using errcode = '22000', message = 'INVALID_UPDATE';
+      end if;
+      v_id := (v_row ->> 'id')::uuid;
+      v_day_index := (v_row ->> 'dayIndex')::integer;
+      if v_day_index not between 0 and 6
+         or not exists (
+           select 1
+             from public.routine_exercises
+            where user_id = v_user_id
+              and id = v_id
+         ) then
+        raise exception using errcode = '22000', message = 'INVALID_UPDATE';
+      end if;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  for v_row in select to_jsonb(value) from jsonb_array_elements_text(p_delete_ids)
+  loop
+    begin
+      v_id := (v_row #>> '{}')::uuid;
+      if not exists (
+        select 1
+          from public.routine_exercises
+         where user_id = v_user_id
+           and id = v_id
+      ) then
+        raise exception using errcode = '22000', message = 'INVALID_DELETE';
+      end if;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  for v_row in select value from jsonb_array_elements(p_insert_rows)
+  loop
+    begin
+      if jsonb_typeof(v_row) is distinct from 'object'
+         or jsonb_typeof(v_row -> 'dayIndex') is distinct from 'number'
+         or jsonb_typeof(v_row -> 'focus') is distinct from 'string'
+         or jsonb_typeof(v_row -> 'exerciseId') is distinct from 'string'
+         or jsonb_typeof(v_row -> 'equipment') is distinct from 'string' then
+        raise exception using errcode = '22000', message = 'INVALID_INSERT';
+      end if;
+      v_day_index := (v_row ->> 'dayIndex')::integer;
+      v_position := (v_row ->> 'position')::integer;
+      v_sets := (v_row ->> 'sets')::integer;
+      v_reps := (v_row ->> 'reps')::integer;
+      if v_day_index not between 0 and 6
+         or v_position is null
+         or v_position < 0
+         or v_sets not between 1 and 20
+         or v_reps not between 1 and 100
+         or btrim(v_row ->> 'focus') = ''
+         or btrim(v_row ->> 'exerciseId') = ''
+         or btrim(v_row ->> 'equipment') = ''
+         or (
+           v_row ? 'weightKg'
+           and jsonb_typeof(v_row -> 'weightKg') not in ('number', 'null')
+         )
+         or (
+           v_row ? 'memo'
+           and jsonb_typeof(v_row -> 'memo') not in ('string', 'null')
+         ) then
+        raise exception using errcode = '22000', message = 'INVALID_INSERT';
+      end if;
+    exception when others then
+      raise exception using errcode = 'P0001', message = 'INVALID_ROUTINE_EXERCISES';
+    end;
+  end loop;
+
+  update public.routine_exercises as exercise
+     set day_index = requested."dayIndex"
+    from jsonb_to_recordset(p_updates)
+      as requested(id uuid, "dayIndex" integer)
+   where exercise.user_id = v_user_id
+     and exercise.id = requested.id;
+
+  delete from public.routine_exercises
+   where user_id = v_user_id
+     and id in (
+       select value::uuid
+         from jsonb_array_elements_text(p_delete_ids) as deleted(value)
+     );
+
+  for v_row in select value from jsonb_array_elements(p_insert_rows)
+  loop
+    v_weight_kg := case
+      when jsonb_typeof(v_row -> 'weightKg') = 'number'
+        then (v_row ->> 'weightKg')::numeric(5, 1)
+      else null
+    end;
+    insert into public.routine_exercises (
+      user_id, day_index, focus, position, exercise_id, equipment,
+      sets, reps, weight_kg, set_details, memo
+    ) values (
+      v_user_id,
+      (v_row ->> 'dayIndex')::integer,
+      v_row ->> 'focus',
+      (v_row ->> 'position')::integer,
+      v_row ->> 'exerciseId',
+      v_row ->> 'equipment',
+      (v_row ->> 'sets')::integer,
+      (v_row ->> 'reps')::integer,
+      v_weight_kg,
+      case
+        when jsonb_typeof(v_row -> 'setDetails') = 'null' then null
+        else v_row -> 'setDetails'
+      end,
+      case
+        when jsonb_typeof(v_row -> 'memo') = 'string' then v_row ->> 'memo'
+        else null
+      end
+    );
+  end loop;
+
+  update public.user_routines
+     set day_index_migrated = case
+           when p_mark_day_index_migrated then true
+           else day_index_migrated
+         end,
+         updated_at = clock_timestamp()
+   where user_id = v_user_id
+  returning updated_at into v_next_updated_at;
+
+  return v_next_updated_at;
+end;
+$$;
+
+revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from public;
+revoke all on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) from anon;
+grant execute on function public.apply_routine_exercise_day_sync(timestamp with time zone, jsonb, jsonb, jsonb, boolean) to authenticated;
+
+create or replace function public.restore_routine_preset_with_exercises(
+  p_splits integer,
+  p_variant_id text,
+  p_custom_week jsonb,
+  p_baseline_routine jsonb,
+  p_start_date date,
+  p_groups jsonb
+) returns table(inserted_id uuid, inserted_exercise_id text)
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_routine_updated_at timestamp with time zone;
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+
+  perform 1
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+
+  update public.user_routines
+     set splits = p_splits,
+         variant_id = p_variant_id,
+         custom_week = p_custom_week,
+         baseline_routine = p_baseline_routine,
+         start_date = p_start_date,
+         day_index_migrated = true,
+         rest_date = null,
+         override_date = null,
+         override_block = null
+   where user_id = v_user_id
+  returning updated_at into v_routine_updated_at;
+
+  return query
+    select replacement.inserted_id, replacement.inserted_exercise_id
+      from public.replace_routine_exercise_groups(
+        v_routine_updated_at,
+        true,
+        p_groups
+      ) as replacement;
+end;
+$$;
+
+revoke all on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) from public;
+revoke all on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) from anon;
+grant execute on function public.restore_routine_preset_with_exercises(integer, text, jsonb, jsonb, date, jsonb) to authenticated;
+
+drop function if exists public.swap_custom_arm_routine(integer, integer, jsonb);
+create or replace function public.swap_custom_arm_routine(
+  p_source_day_index integer,
+  p_target_day_index integer,
+  p_expected_custom_week jsonb,
+  p_expected_routine_updated_at timestamp with time zone
+) returns void
+language plpgsql
+security invoker
+set search_path = public, pg_temp
+as $$
+declare
+  v_user_id uuid := auth.uid();
+  v_variant_id text;
+  v_raw_week jsonb;
+  v_routine_updated_at timestamp with time zone;
+  v_current_week jsonb;
+  v_next_week jsonb;
+  v_source_arm jsonb;
+  v_target_arm jsonb;
+  v_source_day jsonb;
+  v_target_day jsonb;
+  v_day jsonb;
+  v_source_first integer;
+  v_target_first integer;
+  v_arm_ids constant text[] := array['arm', 'biceps', 'triceps', 'arm-forearm'];
+  v_valid_ids constant text[] := array[
+    'rest', 'fullbody', 'upper', 'lower', 'chest', 'back', 'shoulder',
+    'arm', 'push', 'pull', 'core', 'biceps', 'triceps',
+    'chest-upper', 'chest-mid', 'chest-lower', 'chest-inner',
+    'back-lats', 'back-traps', 'back-rhomboids', 'back-erector',
+    'shoulder-front', 'shoulder-side', 'shoulder-rear', 'arm-forearm',
+    'lower-quads', 'lower-hamstrings', 'lower-glutes',
+    'lower-adductors', 'lower-calves', 'core-upper-abs',
+    'core-lower-abs', 'core-obliques'
+  ];
+begin
+  if v_user_id is null then
+    raise exception using errcode = 'P0001', message = 'AUTH_REQUIRED';
+  end if;
+  if p_source_day_index is null
+     or p_target_day_index is null
+     or p_source_day_index not between 0 and 6
+     or p_target_day_index not between 0 and 6
+     or p_source_day_index = p_target_day_index then
+    raise exception using errcode = 'P0001', message = 'INVALID_DAY';
+  end if;
+
+  select variant_id, custom_week, updated_at
+    into v_variant_id, v_raw_week, v_routine_updated_at
+    from public.user_routines
+   where user_id = v_user_id
+   for update;
+  if not found then
+    raise exception using errcode = 'P0001', message = 'ROUTINE_NOT_FOUND';
+  end if;
+  if v_variant_id <> 'custom' then
+    raise exception using errcode = 'P0001', message = 'CUSTOM_ROUTINE_REQUIRED';
+  end if;
+  if v_raw_week is null
+     or jsonb_typeof(v_raw_week) <> 'array'
+     or jsonb_array_length(v_raw_week) <> 7 then
+    raise exception using errcode = 'P0001', message = 'INVALID_CUSTOM_WEEK';
+  end if;
+
+  select jsonb_agg(
+           case
+             when jsonb_typeof(item.value) = 'array' then item.value
+             else jsonb_build_array(item.value)
+           end
+           order by item.ordinality
+         )
+    into v_current_week
+    from jsonb_array_elements(v_raw_week) with ordinality as item(value, ordinality);
+
+  for v_day in select value from jsonb_array_elements(v_current_week)
+  loop
+    if jsonb_typeof(v_day) <> 'array'
+       or jsonb_array_length(v_day) < 1
+       or jsonb_array_length(v_day) > 3
+       or exists (
+         select 1
+           from jsonb_array_elements(v_day) as block(value)
+          where jsonb_typeof(block.value) <> 'string'
+             or (block.value #>> '{}') <> all(v_valid_ids)
+       ) then
+      raise exception using errcode = 'P0001', message = 'INVALID_CUSTOM_WEEK';
+    end if;
+  end loop;
+
+  if v_current_week is distinct from p_expected_custom_week
+     or v_routine_updated_at is distinct from p_expected_routine_updated_at then
+    raise exception using errcode = 'P0001', message = 'STALE_ROUTINE';
+  end if;
+
+  select coalesce(jsonb_agg(block.value order by block.ordinality), '[]'::jsonb),
+         min(block.ordinality)::integer
+    into v_source_arm, v_source_first
+    from jsonb_array_elements(v_current_week -> p_source_day_index)
+         with ordinality as block(value, ordinality)
+   where block.value #>> '{}' = any(v_arm_ids);
+  select coalesce(jsonb_agg(block.value order by block.ordinality), '[]'::jsonb),
+         min(block.ordinality)::integer
+    into v_target_arm, v_target_first
+    from jsonb_array_elements(v_current_week -> p_target_day_index)
+         with ordinality as block(value, ordinality)
+   where block.value #>> '{}' = any(v_arm_ids);
+
+  if jsonb_array_length(v_source_arm) = 0 or jsonb_array_length(v_target_arm) = 0 then
+    raise exception using errcode = 'P0001', message = 'ARM_SLOT_NOT_FOUND';
+  end if;
+
+  select jsonb_agg(mixed.value order by mixed.sort_order)
+    into v_source_day
+    from (
+      select block.value, block.ordinality::numeric as sort_order
+        from jsonb_array_elements(v_current_week -> p_source_day_index)
+             with ordinality as block(value, ordinality)
+       where not (block.value #>> '{}' = any(v_arm_ids))
+      union all
+      select block.value,
+             v_source_first::numeric + block.ordinality::numeric / 1000
+        from jsonb_array_elements(v_target_arm)
+             with ordinality as block(value, ordinality)
+    ) as mixed;
+  select jsonb_agg(mixed.value order by mixed.sort_order)
+    into v_target_day
+    from (
+      select block.value, block.ordinality::numeric as sort_order
+        from jsonb_array_elements(v_current_week -> p_target_day_index)
+             with ordinality as block(value, ordinality)
+       where not (block.value #>> '{}' = any(v_arm_ids))
+      union all
+      select block.value,
+             v_target_first::numeric + block.ordinality::numeric / 1000
+        from jsonb_array_elements(v_source_arm)
+             with ordinality as block(value, ordinality)
+    ) as mixed;
+
+  if jsonb_array_length(v_source_day) > 3 or jsonb_array_length(v_target_day) > 3 then
+    raise exception using errcode = 'P0001', message = 'DAY_BLOCK_LIMIT';
+  end if;
+
+  v_next_week := jsonb_set(
+    jsonb_set(v_current_week, array[p_source_day_index::text], v_source_day),
+    array[p_target_day_index::text],
+    v_target_day
+  );
+
+  update public.routine_exercises
+     set day_index = case
+       when day_index = p_source_day_index then p_target_day_index
+       when day_index = p_target_day_index then p_source_day_index
+     end
+   where user_id = v_user_id
+     and focus = 'arm'
+     and day_index in (p_source_day_index, p_target_day_index);
+
+  update public.user_routines
+     set custom_week = v_next_week
+   where user_id = v_user_id;
+end;
+$$;
+
+revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) from public;
+revoke all on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) from anon;
+grant execute on function public.swap_custom_arm_routine(integer, integer, jsonb, timestamp with time zone) to authenticated;
+
+-- Weight log history (one row per weigh-in). The latest also mirrors into
+-- public.profiles.weight_kg. Drives the weight graph on /settings/profile.
+
+create table if not exists public.weight_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  weight_kg numeric(5, 1) check (weight_kg between 30 and 250),
+  height_cm int,
+  body_fat_pct numeric(4, 1),
+  muscle_mass_kg numeric(5, 1),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists weight_logs_user_idx
+  on public.weight_logs (user_id, created_at);
+
+-- Idempotent: original table had only a NOT NULL weight_kg.
+alter table public.weight_logs alter column weight_kg drop not null;
+alter table public.weight_logs add column if not exists height_cm int;
+alter table public.weight_logs add column if not exists body_fat_pct numeric(4, 1);
+alter table public.weight_logs
+  add column if not exists muscle_mass_kg numeric(5, 1);
+
+alter table public.weight_logs enable row level security;
+
+drop policy if exists "Users can read own weight logs" on public.weight_logs;
+create policy "Users can read own weight logs"
+  on public.weight_logs for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own weight logs" on public.weight_logs;
+create policy "Users can insert own weight logs"
+  on public.weight_logs for insert
+  with check (auth.uid() = user_id);
+
+-- Per-user warmup/cooldown selection per focus (running/stairs/stretches).
+-- item_id references src/features/routine/conditioning-catalog.ts.
+-- speed/incline carry meaning per item (e.g., 런닝 km/h, 천국의 계단 단계).
+
+create table if not exists public.routine_conditioning (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  focus text not null,
+  kind text not null check (kind in ('warmup', 'cooldown')),
+  position int not null default 0,
+  item_id text not null,
+  duration_min int check (duration_min between 0 and 300),
+  speed numeric(5, 1),
+  incline numeric(4, 1),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists routine_conditioning_user_idx
+  on public.routine_conditioning (user_id, focus, kind, position);
+
+-- 워밍업/마무리 개인 메모
+alter table public.routine_conditioning add column if not exists memo text;
+-- 비유산소(모빌리티·스트레칭)는 시간 대신 세트/횟수로 입력 — 유산소는 그대로 시간/속도/경사.
+alter table public.routine_conditioning add column if not exists sets int check (sets between 1 and 20);
+alter table public.routine_conditioning add column if not exists reps int check (reps between 1 and 100);
+
+alter table public.routine_conditioning enable row level security;
+
+drop policy if exists "Users can read own conditioning" on public.routine_conditioning;
+create policy "Users can read own conditioning"
+  on public.routine_conditioning for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own conditioning" on public.routine_conditioning;
+create policy "Users can insert own conditioning"
+  on public.routine_conditioning for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own conditioning" on public.routine_conditioning;
+create policy "Users can update own conditioning"
+  on public.routine_conditioning for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own conditioning" on public.routine_conditioning;
+create policy "Users can delete own conditioning"
+  on public.routine_conditioning for delete
+  using (auth.uid() = user_id);
+
+-- Per-date main-exercise override (오늘만 본운동 변경).
+-- When present for today, home uses these rows instead of routine_exercises.
+create table if not exists public.daily_plan (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  focus text not null,
+  position int not null default 0,
+  exercise_id text not null,
+  equipment text not null,
+  sets int not null default 3 check (sets between 1 and 20),
+  reps int not null default 10 check (reps between 1 and 100),
+  weight_kg numeric(5, 1),
+  created_at timestamptz not null default now()
+);
+
+-- 세트별 무게·횟수 오버라이드 (routine_exercises.set_details 와 동일 형식)
+alter table public.daily_plan add column if not exists set_details jsonb;
+
+-- 운동별 메모 (오늘만 오버라이드 행에도 보존)
+alter table public.daily_plan add column if not exists memo text;
+
+create index if not exists daily_plan_user_date_idx
+  on public.daily_plan (user_id, for_date, focus, position);
+
+alter table public.daily_plan enable row level security;
+
+drop policy if exists "Users can read own daily plan" on public.daily_plan;
+create policy "Users can read own daily plan"
+  on public.daily_plan for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own daily plan" on public.daily_plan;
+create policy "Users can insert own daily plan"
+  on public.daily_plan for insert
+  with check (auth.uid() = user_id);
+
+-- ⚠ UPDATE 정책 필수 — updateExerciseAction(메모/세트/무게 수정)·reorderPlanAction(순서)
+-- 이 daily_plan(오늘만 변경 오버라이드) 행을 update 한다. 없으면 RLS 가 조용히 막아
+-- 오버라이드 행의 인라인 수정·정렬이 반영 안 됨.
+drop policy if exists "Users can update own daily plan" on public.daily_plan;
+create policy "Users can update own daily plan"
+  on public.daily_plan for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own daily plan" on public.daily_plan;
+create policy "Users can delete own daily plan"
+  on public.daily_plan for delete
+  using (auth.uid() = user_id);
+
+-- Per-date warmup/cooldown override. When present for today, the home screen
+-- uses these instead of the per-focus default in routine_conditioning. Lets
+-- the user vary today's conditioning without changing the default.
+
+create table if not exists public.daily_conditioning (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  kind text not null check (kind in ('warmup', 'cooldown')),
+  position int not null default 0,
+  item_id text not null,
+  duration_min int check (duration_min between 0 and 300),
+  speed numeric(5, 1),
+  incline numeric(4, 1),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists daily_conditioning_user_date_idx
+  on public.daily_conditioning (user_id, for_date, kind, position);
+
+-- 워밍업/마무리 개인 메모 (오늘만 오버라이드 행에도 보존)
+alter table public.daily_conditioning add column if not exists memo text;
+alter table public.daily_conditioning add column if not exists sets int check (sets between 1 and 20);
+alter table public.daily_conditioning add column if not exists reps int check (reps between 1 and 100);
+
+alter table public.daily_conditioning enable row level security;
+
+drop policy if exists "Users can read own daily conditioning" on public.daily_conditioning;
+create policy "Users can read own daily conditioning"
+  on public.daily_conditioning for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own daily conditioning" on public.daily_conditioning;
+create policy "Users can insert own daily conditioning"
+  on public.daily_conditioning for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own daily conditioning" on public.daily_conditioning;
+create policy "Users can update own daily conditioning"
+  on public.daily_conditioning for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own daily conditioning" on public.daily_conditioning;
+create policy "Users can delete own daily conditioning"
+  on public.daily_conditioning for delete
+  using (auth.uid() = user_id);
+
+-- Workout completions (one row per user per date). Used to score 운동 점수
+-- with time decay on /settings/score.
+
+create table if not exists public.workout_completions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  focus text not null,
+  calories int,
+  created_at timestamptz not null default now(),
+  unique (user_id, for_date)
+);
+
+create index if not exists workout_completions_user_date_idx
+  on public.workout_completions (user_id, for_date desc);
+
+alter table public.workout_completions enable row level security;
+
+drop policy if exists "Users can read own completions" on public.workout_completions;
+create policy "Users can read own completions"
+  on public.workout_completions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own completions" on public.workout_completions;
+create policy "Users can insert own completions"
+  on public.workout_completions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own completions" on public.workout_completions;
+create policy "Users can update own completions"
+  on public.workout_completions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own completions" on public.workout_completions;
+create policy "Users can delete own completions"
+  on public.workout_completions for delete
+  using (auth.uid() = user_id);
+
+-- Per-exercise completion log. One row per (user, date, routine_exercise).
+-- Drives both the per-row checkbox and the decayed score on /settings/score.
+
+create table if not exists public.exercise_completions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  exercise_row_id uuid not null references public.routine_exercises(id) on delete cascade,
+  status text not null default 'done',
+  created_at timestamptz not null default now(),
+  unique (user_id, for_date, exercise_row_id)
+);
+
+-- Idempotent: add status column for older databases + ensure check constraint
+alter table public.exercise_completions add column if not exists status text not null default 'done';
+alter table public.exercise_completions drop constraint if exists exercise_completions_status_check;
+alter table public.exercise_completions
+  add constraint exercise_completions_status_check check (status in ('done', 'skipped'));
+
+-- exercise_row_id 는 routine_exercises.id 또는 daily_plan.id 를 모두 가리킬 수
+-- 있어야 하므로 외래키 제약을 제거하고 앱에서 처리한다.
+alter table public.exercise_completions
+  drop constraint if exists exercise_completions_exercise_row_id_fkey;
+
+-- 완료 시점 스냅샷 (계획이 바뀌어도 기록 손실 없이 표시 가능)
+alter table public.exercise_completions add column if not exists exercise_id text;
+alter table public.exercise_completions add column if not exists equipment text;
+alter table public.exercise_completions add column if not exists sets int;
+alter table public.exercise_completions add column if not exists reps int;
+alter table public.exercise_completions add column if not exists weight_kg numeric(5, 1);
+alter table public.exercise_completions add column if not exists focus text;
+-- 완료 시점 세트별 무게·횟수 스냅샷 (set_details, null = 균일)
+alter table public.exercise_completions add column if not exists set_details jsonb;
+
+-- Per-day done/skipped status for warmup/cooldown items.
+-- Keyed by source_row_id (routine_conditioning.id 또는 daily_conditioning.id)
+-- 동일 item 이 두 번 들어 있어도 행별로 독립 추적 가능.
+create table if not exists public.conditioning_completions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  kind text not null check (kind in ('warmup', 'cooldown')),
+  item_id text not null,
+  source_row_id uuid,
+  status text not null default 'done' check (status in ('done', 'skipped')),
+  created_at timestamptz not null default now()
+);
+
+-- 마이그레이션: 옛 (item_id) 유니크 제거 후, (source_row_id) 기반 유니크
+alter table public.conditioning_completions
+  add column if not exists source_row_id uuid;
+-- 완료 시점 스냅샷 (시간/속도/경사)
+alter table public.conditioning_completions
+  add column if not exists duration_min int;
+alter table public.conditioning_completions
+  add column if not exists speed numeric(5, 1);
+alter table public.conditioning_completions
+  add column if not exists incline numeric(4, 1);
+alter table public.conditioning_completions
+  add column if not exists sets int;
+alter table public.conditioning_completions
+  add column if not exists reps int;
+alter table public.conditioning_completions
+  drop constraint if exists conditioning_completions_user_id_for_date_kind_item_id_key;
+create unique index if not exists conditioning_completions_by_source_row_idx
+  on public.conditioning_completions (user_id, for_date, kind, source_row_id)
+  where source_row_id is not null;
+
+create index if not exists conditioning_completions_user_date_idx
+  on public.conditioning_completions (user_id, for_date desc);
+-- 그룹 랭킹 카운트(status='done' 만 스캔) 가속용 부분 인덱스.
+create index if not exists conditioning_completions_done_idx
+  on public.conditioning_completions (user_id, for_date) where status = 'done';
+
+alter table public.conditioning_completions enable row level security;
+
+drop policy if exists "Users can read own conditioning completions" on public.conditioning_completions;
+create policy "Users can read own conditioning completions"
+  on public.conditioning_completions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own conditioning completions" on public.conditioning_completions;
+create policy "Users can insert own conditioning completions"
+  on public.conditioning_completions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own conditioning completions" on public.conditioning_completions;
+create policy "Users can update own conditioning completions"
+  on public.conditioning_completions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own conditioning completions" on public.conditioning_completions;
+create policy "Users can delete own conditioning completions"
+  on public.conditioning_completions for delete
+  using (auth.uid() = user_id);
+
+create index if not exists exercise_completions_user_date_idx
+  on public.exercise_completions (user_id, for_date desc);
+-- 그룹 랭킹 카운트(status='done' 만 스캔) 가속용 부분 인덱스.
+create index if not exists exercise_completions_done_idx
+  on public.exercise_completions (user_id, for_date) where status = 'done';
+
+alter table public.exercise_completions enable row level security;
+
+drop policy if exists "Users can read own exercise completions" on public.exercise_completions;
+create policy "Users can read own exercise completions"
+  on public.exercise_completions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own exercise completions" on public.exercise_completions;
+create policy "Users can insert own exercise completions"
+  on public.exercise_completions for insert
+  with check (auth.uid() = user_id);
+
+-- upsert(onConflict) 가 conflict 시 UPDATE 경로를 타므로 update 정책 필수.
+-- 누락 시 이미 완료 행이 있는 운동의 재완료/상태변경이 RLS 에 막혀 "완료 안 됨" 증상.
+drop policy if exists "Users can update own exercise completions" on public.exercise_completions;
+create policy "Users can update own exercise completions"
+  on public.exercise_completions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own exercise completions" on public.exercise_completions;
+create policy "Users can delete own exercise completions"
+  on public.exercise_completions for delete
+  using (auth.uid() = user_id);
+
+-- Body composition snapshots (체성분 분석지 등록).
+-- 민감정보(건강) 수집에 대한 별도 동의(consent_at)를 행마다 기록한다.
+-- image_path 는 storage 버킷 body-composition-images 안의 private 경로.
+
+create table if not exists public.body_compositions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  measured_at date not null default current_date,
+  weight_kg numeric(5, 1),
+  skeletal_muscle_kg numeric(5, 1),
+  body_fat_kg numeric(5, 1),
+  body_fat_pct numeric(4, 1),
+  muscle_right_arm numeric(4, 1),
+  muscle_left_arm numeric(4, 1),
+  muscle_trunk numeric(4, 1),
+  muscle_right_leg numeric(4, 1),
+  muscle_left_leg numeric(4, 1),
+  fat_right_arm numeric(4, 1),
+  fat_left_arm numeric(4, 1),
+  fat_trunk numeric(4, 1),
+  fat_right_leg numeric(4, 1),
+  fat_left_leg numeric(4, 1),
+  image_path text,
+  consent_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists body_compositions_user_idx
+  on public.body_compositions (user_id, measured_at desc);
+
+alter table public.body_compositions enable row level security;
+
+drop policy if exists "Users can read own body composition" on public.body_compositions;
+create policy "Users can read own body composition"
+  on public.body_compositions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users can insert own body composition" on public.body_compositions;
+create policy "Users can insert own body composition"
+  on public.body_compositions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own body composition" on public.body_compositions;
+create policy "Users can delete own body composition"
+  on public.body_compositions for delete
+  using (auth.uid() = user_id);
+
+-- Storage bucket — private, 사용자 자신의 폴더(<userId>/...) 에만 접근.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'body-composition-images',
+  'body-composition-images',
+  false,
+  10485760,
+  array['image/png', 'image/jpeg', 'image/webp']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Users read own body comp images" on storage.objects;
+create policy "Users read own body comp images"
+  on storage.objects for select
+  using (
+    bucket_id = 'body-composition-images'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists "Users upload own body comp images" on storage.objects;
+create policy "Users upload own body comp images"
+  on storage.objects for insert
+  with check (
+    bucket_id = 'body-composition-images'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+drop policy if exists "Users delete own body comp images" on storage.objects;
+create policy "Users delete own body comp images"
+  on storage.objects for delete
+  using (
+    bucket_id = 'body-composition-images'
+    and (storage.foldername(name))[1] = auth.uid()::text
+  );
+
+-- ────────────────────────────────────────────────────────────────
+-- 일자별 누적 운동 시간. 운동시작 → 정지/일시정지/저장 사이 경과 시간을 누적.
+-- 같은 날 여러 세션 가능(오전+저녁 등) → 같은 (user, for_date) 행에 누적.
+create table if not exists public.workout_sessions (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  duration_sec integer not null default 0 check (duration_sec >= 0),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+
+create index if not exists workout_sessions_date_idx
+  on public.workout_sessions (user_id, for_date desc);
+
+alter table public.workout_sessions enable row level security;
+
+drop policy if exists "Users read own workout sessions" on public.workout_sessions;
+create policy "Users read own workout sessions"
+  on public.workout_sessions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users insert own workout sessions" on public.workout_sessions;
+create policy "Users insert own workout sessions"
+  on public.workout_sessions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users update own workout sessions" on public.workout_sessions;
+create policy "Users update own workout sessions"
+  on public.workout_sessions for update
+  using (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
+-- 실내·야외 러닝 개별 세션. workout_sessions/conditioning_completions는 일별 합계와
+-- 운동점수 호환용이고, 이 테이블은 상세 기록·야외 경로를 잃지 않기 위한 원본이다.
+-- client_session_id는 종료 저장 재시도 시 같은 세션이 두 번 쌓이는 것을 막는다.
+create table if not exists public.run_sessions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  client_session_id uuid not null,
+  for_date date not null,
+  mode text not null check (mode in ('indoor', 'outdoor')),
+  started_at timestamptz not null,
+  ended_at timestamptz not null,
+  duration_sec integer not null check (duration_sec between 60 and 86400),
+  distance_m integer not null default 0 check (distance_m between 0 and 200000),
+  avg_kmh numeric(5, 1) not null default 0 check (avg_kmh >= 0),
+  pace_sec_per_km integer check (pace_sec_per_km > 0),
+  calories_kcal integer not null default 0 check (calories_kcal >= 0),
+  average_heart_rate integer check (average_heart_rate between 30 and 240),
+  max_heart_rate integer check (max_heart_rate between 30 and 240),
+  heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0),
+  incline integer check (incline between 0 and 15),
+  route_points jsonb not null default '[]'::jsonb check (jsonb_typeof(route_points) = 'array'),
+  created_at timestamptz not null default now(),
+  unique (user_id, client_session_id),
+  check (ended_at > started_at),
+  check (mode = 'outdoor' or jsonb_array_length(route_points) = 0)
+);
+
+alter table public.run_sessions
+  add column if not exists average_heart_rate integer check (average_heart_rate between 30 and 240),
+  add column if not exists max_heart_rate integer check (max_heart_rate between 30 and 240),
+  add column if not exists heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0);
+
+create index if not exists run_sessions_user_date_idx
+  on public.run_sessions (user_id, for_date desc, started_at desc);
+
+alter table public.run_sessions enable row level security;
+
+drop policy if exists "Users read own run sessions" on public.run_sessions;
+create policy "Users read own run sessions"
+  on public.run_sessions for select
+  using (auth.uid() = user_id);
+
+drop policy if exists "Users insert own run sessions" on public.run_sessions;
+create policy "Users insert own run sessions"
+  on public.run_sessions for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users update own run sessions" on public.run_sessions;
+create policy "Users update own run sessions"
+  on public.run_sessions for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users delete own run sessions" on public.run_sessions;
+create policy "Users delete own run sessions"
+  on public.run_sessions for delete
+  using (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
+-- 헬스장 마스터 (크라우드소싱 시드).
+-- 같은 헬스장이라도 일단은 행 중복 허용 — 사용자가 자기 정보만 관리.
+-- 추후 크라우드소싱으로 확장 시 dedup 로직 추가.
+create table if not exists public.gyms (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  address text,
+  equipment_ids text[] not null default '{}',
+  created_by uuid references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists gyms_name_idx on public.gyms (lower(name));
+
+alter table public.gyms enable row level security;
+
+-- 헬스장은 공개 정보 — 누구나 읽음 (나중에 다른 사용자가 같은 헬스장 찾을 수 있게)
+drop policy if exists "Anyone reads gyms" on public.gyms;
+create policy "Anyone reads gyms"
+  on public.gyms for select using (true);
+
+drop policy if exists "Authenticated insert gyms" on public.gyms;
+create policy "Authenticated insert gyms"
+  on public.gyms for insert
+  with check (auth.uid() is not null);
+
+-- 본인이 등록한 헬스장만 수정 가능
+drop policy if exists "Creator updates gym" on public.gyms;
+create policy "Creator updates gym"
+  on public.gyms for update
+  using (auth.uid() = created_by);
+
+-- 사용자 프로필에 현재 헬스장 연결
+alter table public.profiles
+  add column if not exists gym_id uuid references public.gyms(id) on delete set null;
+
+-- 회원마다 실제로 사용할 수 있는 기구를 따로 보관한다. gyms.equipment_ids 는 이 원본들의
+-- 합집합이며, 다음 회원이 같은 헬스장을 선택할 때 제안하는 기본값으로만 사용한다.
+alter table public.profiles
+  add column if not exists gym_equipment_ids text[];
+
+-- 기존 회원은 예전 공용 설정을 개인 설정으로 한 번 이어받는다.
+update public.profiles as profile
+   set gym_equipment_ids = gym.equipment_ids
+  from public.gyms as gym
+ where profile.gym_id = gym.id
+   and profile.gym_equipment_ids is null;
+
+create or replace function public.refresh_gym_equipment_union()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  old_gym_id uuid;
+  new_gym_id uuid;
+begin
+  if tg_op = 'UPDATE'
+     and old.gym_id is not distinct from new.gym_id
+     and old.gym_equipment_ids is not distinct from new.gym_equipment_ids then
+    return new;
+  end if;
+  if tg_op <> 'INSERT' then old_gym_id := old.gym_id; end if;
+  if tg_op <> 'DELETE' then new_gym_id := new.gym_id; end if;
+
+  if old_gym_id is not null and old_gym_id is distinct from new_gym_id then
+    update public.gyms as gym
+       set equipment_ids = coalesce((
+             select array_agg(distinct equipment_id order by equipment_id)
+               from public.profiles as profile
+               cross join lateral unnest(coalesce(profile.gym_equipment_ids, '{}')) as equipment_id
+              where profile.gym_id = old_gym_id
+           ), '{}'),
+           updated_at = now()
+     where gym.id = old_gym_id;
+  end if;
+
+  if new_gym_id is not null then
+    update public.gyms as gym
+       set equipment_ids = coalesce((
+             select array_agg(distinct equipment_id order by equipment_id)
+               from public.profiles as profile
+               cross join lateral unnest(coalesce(profile.gym_equipment_ids, '{}')) as equipment_id
+              where profile.gym_id = new_gym_id
+           ), '{}'),
+           updated_at = now()
+     where gym.id = new_gym_id;
+  end if;
+  if tg_op = 'DELETE' then return old; end if;
+  return new;
+end;
+$$;
+
+revoke all on function public.refresh_gym_equipment_union() from public, anon, authenticated;
+
+drop trigger if exists profiles_refresh_gym_equipment_union on public.profiles;
+create trigger profiles_refresh_gym_equipment_union
+after insert or update or delete on public.profiles
+for each row execute function public.refresh_gym_equipment_union();
+
+-- ─────────────────────────────────────────────────────────────
+-- 운동별 미디어 (영상/움짤 URL) — 전역 공용. 관리자(어드민 페이지)만 등록.
+-- 운동 시작(가이드)·상세에서 모든 사용자에게 표출. 운동별 1개.
+-- url 은 youtube/vimeo 링크 또는 직접 mp4/gif/이미지 URL.
+create table if not exists public.exercise_media (
+  exercise_id text primary key,
+  url text not null,
+  kind text not null default 'video' check (kind in ('video', 'gif', 'image')),
+  updated_by uuid references auth.users(id) on delete set null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.exercise_media enable row level security;
+
+-- 운동 미디어는 공용 정보 — 로그인 사용자 누구나 읽음
+drop policy if exists "anyone reads exercise media" on public.exercise_media;
+create policy "anyone reads exercise media" on public.exercise_media
+  for select using (true);
+
+-- 쓰기는 관리자 이메일만 (JWT email 클레임 기준). 새 관리자 추가 시 이 목록을 갱신.
+drop policy if exists "admin writes exercise media" on public.exercise_media;
+create policy "admin writes exercise media" on public.exercise_media
+  for all
+  using (lower(auth.jwt() ->> 'email') in ('jyg@elonsoft.co.kr', 'bong94688@gmail.com'))
+  with check (lower(auth.jwt() ->> 'email') in ('jyg@elonsoft.co.kr', 'bong94688@gmail.com'));
+
+-- ─────────────────────────────────────────────────────────────
+-- 루틴 프리셋 (이름 붙여 저장 → 루틴설정에서 불러오기).
+-- exercises: routine_exercises 스냅샷 배열.
+create table if not exists public.routine_presets (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  name text not null,
+  splits int not null,
+  variant_id text not null,
+  custom_week jsonb,
+  exercises jsonb not null default '[]'::jsonb,
+  conditioning jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now()
+);
+-- 기존 DB 호환: 컬럼 없으면 추가
+alter table public.routine_presets add column if not exists conditioning jsonb not null default '[]'::jsonb;
+
+create index if not exists routine_presets_user_idx
+  on public.routine_presets (user_id, created_at desc);
+
+alter table public.routine_presets enable row level security;
+
+drop policy if exists "read own routine presets" on public.routine_presets;
+create policy "read own routine presets" on public.routine_presets
+  for select using (auth.uid() = user_id);
+drop policy if exists "insert own routine presets" on public.routine_presets;
+create policy "insert own routine presets" on public.routine_presets
+  for insert with check (auth.uid() = user_id);
+drop policy if exists "update own routine presets" on public.routine_presets;
+create policy "update own routine presets" on public.routine_presets
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "delete own routine presets" on public.routine_presets;
+create policy "delete own routine presets" on public.routine_presets
+  for delete using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────
+-- 관리자 — 이메일 기반. 회원 중에서 지정 가능(런타임 관리).
+-- 첫 관리자: simbonggyo@gmail.com (seed). 관리자는 일반 화면 접근 차단, /admin 만.
+create table if not exists public.admins (
+  email text primary key,
+  created_at timestamptz not null default now()
+);
+insert into public.admins (email) values ('simbonggyo@gmail.com')
+  on conflict (email) do nothing;
+
+-- SECURITY DEFINER — admins RLS 재귀를 피하면서 현재 사용자가 관리자인지 판정.
+create or replace function public.is_admin() returns boolean
+  language sql security definer stable set search_path = public as $$
+  select exists(
+    select 1 from public.admins where lower(email) = lower(auth.jwt() ->> 'email')
+  );
+$$;
+
+alter table public.admins enable row level security;
+drop policy if exists "read admins" on public.admins;
+create policy "read admins" on public.admins for select
+  using (public.is_admin() or lower(email) = lower(auth.jwt() ->> 'email'));
+drop policy if exists "admin inserts admins" on public.admins;
+create policy "admin inserts admins" on public.admins for insert
+  with check (public.is_admin());
+drop policy if exists "admin deletes admins" on public.admins;
+create policy "admin deletes admins" on public.admins for delete
+  using (public.is_admin());
+
+-- 관리자는 모든 회원 프로필 조회 가능 (회원정보 페이지)
+drop policy if exists "admin reads all profiles" on public.profiles;
+-- 자기 행은 위 "read own" 정책이 이미 허용한다 → 앞에 싼 비교를 둬서 평범한 조회에서
+-- is_admin() 이 행마다 도는 걸 막는다(권한 범위는 그대로).
+create policy "admin reads all profiles" on public.profiles for select
+  using (user_id <> (select auth.uid()) and public.is_admin());
+
+-- exercise_media 쓰기 정책을 is_admin() 기반으로 (하드코딩 이메일 → DB 관리)
+drop policy if exists "admin writes exercise media" on public.exercise_media;
+create policy "admin writes exercise media" on public.exercise_media for all
+  using (public.is_admin()) with check (public.is_admin());
+
+-- 앱 설정(key-value). 관리자만 읽고 쓴다.
+--   key='debug.<featureId>'  value=jsonb(boolean)  → 디버그 기능 '기능별 온오프'
+--   key='debug.accounts'     value=jsonb(string[]) → '디버그 계정'(이메일) 목록
+create table if not exists public.app_settings (
+  key text primary key,
+  value jsonb not null default 'null'::jsonb,
+  updated_at timestamptz not null default now()
+);
+alter table public.app_settings enable row level security;
+drop policy if exists "admin reads app settings" on public.app_settings;
+create policy "admin reads app settings" on public.app_settings for select
+  using (public.is_admin());
+drop policy if exists "admin writes app settings" on public.app_settings;
+create policy "admin writes app settings" on public.app_settings for all
+  using (public.is_admin()) with check (public.is_admin());
+
+-- 디버그 계정 — 관리자(is_admin) 이거나 app_settings['debug.accounts'](이메일 배열)에 든 계정.
+-- SECURITY DEFINER 라 비관리자 테스트 계정도 '자기 자신'이 디버그 계정인지 확인 가능(목록 자체는 노출 안 됨).
+create or replace function public.is_debug_account() returns boolean
+  language sql security definer stable set search_path = public as $$
+  select public.is_admin() or exists(
+    select 1
+    from public.app_settings s
+    cross join lateral jsonb_array_elements_text(
+      case when jsonb_typeof(s.value) = 'array' then s.value else '[]'::jsonb end
+    ) as e(email)
+    where s.key = 'debug.accounts'
+      and lower(e.email) = lower(auth.jwt() ->> 'email')
+  );
+$$;
+
+-- 특정 기능이 '이 사용자에게' 보이나 — 노출 범위 3단계로 판정.
+--   app_settings['debug.<id>'] 값:
+--     '"public"'          → 전체 공개(모든 사용자 true)
+--     'false' / '"hidden"' → 숨김(모두 false)
+--     그 외/미설정         → 디버그 계정만(is_debug_account)  ← 기본
+-- SECURITY DEFINER 라 비관리자 디버그 계정도 debug.<id> 상태를 확인할 수 있다.
+create or replace function public.debug_feature_enabled(p_feature text) returns boolean
+  language sql security definer stable set search_path = public as $$
+  select case (
+      select value from public.app_settings where key = 'debug.' || p_feature
+    )
+    when '"public"'::jsonb then true
+    when 'false'::jsonb then false
+    when '"hidden"'::jsonb then false
+    else public.is_debug_account()
+  end;
+$$;
+
+-- 회원 이름/전화번호 (회원가입 시 수집). 회원정보(관리자) 화면에 표시.
+alter table public.profiles add column if not exists name text;
+alter table public.profiles add column if not exists phone text;
+-- 닉네임(선택) — 그룹·마이페이지 등 공개 표시 이름. 없으면 이름으로 폴백.
+alter table public.profiles add column if not exists nickname text;
+
+-- 운동 목표(회원가입 설문) + 목표치 — 운동탭 체형기록 '남은 양' 표시에 사용.
+--   weight_loss(체중감량)  → target_weight_kg 까지 몇 kg 남음
+--   fat_loss(체지방감소)   → target_body_fat_pct 까지 몇 % 남음
+--   muscle_gain(근육증가)  → target_muscle_kg 까지 몇 kg 남음
+--   maintain(유지)         → 목표치 없음
+alter table public.profiles add column if not exists goal text
+  check (goal is null or goal in ('weight_loss', 'fat_loss', 'muscle_gain', 'maintain'));
+alter table public.profiles add column if not exists target_weight_kg numeric;
+alter table public.profiles add column if not exists target_body_fat_pct numeric;
+alter table public.profiles add column if not exists target_muscle_kg numeric;
+
+-- 회원 정지/영구정지 (관리자). suspended_until = 기간정지 만료시각(지나면 자동 해제),
+-- banned_at = 영구정지 시각(수동 해제 전까지), ban_reason = 사유.
+alter table public.profiles add column if not exists suspended_until timestamptz;
+alter table public.profiles add column if not exists banned_at timestamptz;
+alter table public.profiles add column if not exists ban_reason text;
+
+-- 회원탈퇴(소프트). withdrawn_at 이 있으면 탈퇴 상태 — 데이터는 유지하되 앱 접근 차단.
+-- 본인이 자기 프로필을 update(본인-only RLS)로 설정. 관리자가 null 로 되돌리면 복구.
+alter table public.profiles add column if not exists withdrawn_at timestamptz;
+
+-- 관리자 전용 회원 목록 — 이메일은 auth.users 소관이라 SECURITY DEFINER 로 join.
+-- 내부 is_admin() 게이트로 비관리자는 0행. authenticated 만 execute.
+-- 반환 타입에 정지/차단 컬럼을 추가하므로 기존 함수를 drop 후 재생성한다.
+drop function if exists public.admin_members();
+create or replace function public.admin_members()
+returns table(
+  user_id uuid, email text, name text, phone text,
+  gender text, experience text, height_cm int,
+  weight_kg numeric, created_at timestamptz,
+  suspended_until timestamptz, banned_at timestamptz, ban_reason text,
+  withdrawn_at timestamptz
+)
+language sql security definer stable set search_path = public, auth as $$
+  select p.user_id, u.email::text, p.name, p.phone, p.gender, p.experience,
+         p.height_cm, p.weight_kg, p.created_at,
+         p.suspended_until, p.banned_at, p.ban_reason, p.withdrawn_at
+  from public.profiles p
+  join auth.users u on u.id = p.user_id
+  where public.is_admin()
+  order by p.created_at desc
+$$;
+revoke all on function public.admin_members() from public, anon;
+grant execute on function public.admin_members() to authenticated;
+
+-- 관리자 전용: 특정 회원의 정지/차단 값 설정 (profiles 의 본인-only UPDATE RLS 우회).
+-- 내부 is_admin() 게이트로 비관리자는 예외 발생.
+create or replace function public.admin_set_user_ban(
+  p_user_id uuid,
+  p_suspended_until timestamptz,
+  p_banned_at timestamptz,
+  p_reason text
+) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'forbidden: admin only';
+  end if;
+  update public.profiles
+    set suspended_until = p_suspended_until,
+        banned_at = p_banned_at,
+        ban_reason = p_reason
+    where user_id = p_user_id;
+end;
+$$;
+revoke all on function public.admin_set_user_ban(uuid, timestamptz, timestamptz, text) from public, anon;
+grant execute on function public.admin_set_user_ban(uuid, timestamptz, timestamptz, text) to authenticated;
+
+-- 관리자 전용: 회원 탈퇴 복구(withdrawn_at = null). 본인 자가탈퇴는 본인-only update RLS 로.
+create or replace function public.admin_restore_user(p_user_id uuid)
+returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'forbidden: admin only';
+  end if;
+  update public.profiles set withdrawn_at = null where user_id = p_user_id;
+end;
+$$;
+revoke all on function public.admin_restore_user(uuid) from public, anon;
+grant execute on function public.admin_restore_user(uuid) to authenticated;
+
+-- 일별 활동(접속) 로그 — 접속유저수 통계용. 하루에 한 번 (user_id, active_date) 1행.
+-- 미들웨어가 로그인 사용자의 매 네비게이션마다 upsert(on conflict do nothing) 한다.
+create table if not exists public.user_activity (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  active_date date not null,
+  primary key (user_id, active_date)
+);
+alter table public.user_activity enable row level security;
+
+drop policy if exists "Users insert own activity" on public.user_activity;
+create policy "Users insert own activity"
+  on public.user_activity for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users read own activity" on public.user_activity;
+create policy "Users read own activity"
+  on public.user_activity for select
+  using (auth.uid() = user_id);
+
+-- 관리자 전용: 활동(접속) 유저수 시계열. p_gran = 'day'|'month'|'year'.
+-- distinct 는 버킷 단위로 DB 에서 계산해야 정확하다(월 distinct ≠ 일 distinct 합).
+drop function if exists public.admin_active_users(text);
+create or replace function public.admin_active_users(p_gran text)
+returns table(bucket date, users int)
+language sql security definer stable set search_path = public as $$
+  select date_trunc(
+           case when p_gran in ('day','month','year') then p_gran else 'day' end,
+           a.active_date
+         )::date as bucket,
+         count(distinct a.user_id)::int as users
+  from public.user_activity a
+  where public.is_admin()
+  group by 1
+  order by 1
+$$;
+revoke all on function public.admin_active_users(text) from public, anon;
+grant execute on function public.admin_active_users(text) to authenticated;
+
+-- ─────────────────────────────────────────────────────────────
+-- 비밀번호 초기화 / 아이디·비밀번호 찾기
+--   • 관리자: 회원 비밀번호 초기화(임시 비번 발급) → 이메일 발송 + 화면 표시
+--   • 임시 비번으로 로그인하면 must_change_password=true 라 강제로 변경 화면으로
+--   • 아이디 찾기: 이름 + 휴대폰 → 이메일 반환
+--   • 비밀번호 찾기: 이메일 + 휴대폰 OTP 인증 후 화면에서 새 비번 직접 설정
+--     (이메일/임시비번 발송 없음 — 도메인·비용 불필요)
+-- ⚠ service_role 키 없이 동작하도록 SECURITY DEFINER 함수로 auth.users 를 직접
+--   갱신한다(pgcrypto bcrypt). 익명 호출 함수(find/ reset_by_identity)는 휴대폰
+--   OTP 인증을 실질적 게이트로 사용한다 — 운영에선 Supabase SMS OTP 활성화 권장.
+-- ─────────────────────────────────────────────────────────────
+
+-- 임시 비밀번호로 로그인하면 강제로 비밀번호 변경 화면으로 보내기 위한 플래그.
+alter table public.profiles
+  add column if not exists must_change_password boolean not null default false;
+
+-- 휴대폰 정규화 — auth-form 의 normalizePhone 과 동일 규칙(0→+82, 기호 제거).
+-- 가입 시 +82… 로 저장되지만 찾기 화면 입력은 010-… 일 수 있어 양쪽을 맞춘다.
+create or replace function public.norm_phone(p text) returns text
+  language sql immutable set search_path = public as $$
+  select case
+    when p is null then null
+    when regexp_replace(p, '[^0-9+]', '', 'g') like '+%'
+      then regexp_replace(p, '[^0-9+]', '', 'g')
+    when regexp_replace(p, '[^0-9]', '', 'g') like '0%'
+      then '+82' || substring(regexp_replace(p, '[^0-9]', '', 'g') from 2)
+    else regexp_replace(p, '[^0-9]', '', 'g')
+  end;
+$$;
+
+-- 관리자 전용: 회원 비밀번호를 임시 비밀번호로 초기화.
+-- auth.users.encrypted_password 를 bcrypt(pgcrypto) 로 갱신 + must_change_password=true.
+create or replace function public.admin_reset_user_password(
+  p_user_id uuid, p_password text
+) returns void
+language plpgsql security definer set search_path = public, auth, extensions as $$
+begin
+  if not public.is_admin() then
+    raise exception 'forbidden: admin only';
+  end if;
+  if length(coalesce(p_password, '')) < 6 then
+    raise exception 'password too short';
+  end if;
+  update auth.users
+    set encrypted_password = crypt(p_password, gen_salt('bf')),
+        updated_at = now()
+    where id = p_user_id;
+  if not found then
+    raise exception 'user not found';
+  end if;
+  update public.profiles set must_change_password = true where user_id = p_user_id;
+end;
+$$;
+revoke all on function public.admin_reset_user_password(uuid, text) from public, anon;
+grant execute on function public.admin_reset_user_password(uuid, text) to authenticated;
+
+-- 아이디(이메일) 찾기: 이름 + 휴대폰 일치 시 이메일 반환(없으면 null). 탈퇴 회원 제외.
+-- 익명 호출 허용 — 로그인 전 화면에서 사용. 휴대폰 OTP 가 실질적 게이트.
+create or replace function public.find_login_email(p_name text, p_phone text)
+returns text
+language plpgsql security definer stable set search_path = public, auth as $$
+declare v_email text;
+begin
+  select u.email::text into v_email
+  from public.profiles p
+  join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(btrim(coalesce(p.name, ''))) = lower(btrim(coalesce(p_name, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  return v_email;
+end;
+$$;
+revoke all on function public.find_login_email(text, text) from public;
+grant execute on function public.find_login_email(text, text) to anon, authenticated;
+
+-- 비밀번호 찾기: 이메일 + 휴대폰 일치 시 사용자가 화면에서 입력한 새 비번으로 설정
+-- (성공 시 true). 탈퇴 회원 제외. 본인이 정한 진짜 비번이므로 강제변경 플래그는 내린다
+-- (관리자 임시비번으로 true 였더라도 여기서 해제). 익명 호출 허용 — 휴대폰 OTP 가 게이트.
+create or replace function public.reset_password_by_identity(
+  p_email text, p_phone text, p_new_password text
+) returns boolean
+language plpgsql security definer set search_path = public, auth, extensions as $$
+declare v_uid uuid;
+begin
+  if length(coalesce(p_new_password, '')) < 6 then
+    raise exception 'password too short';
+  end if;
+  select p.user_id into v_uid
+  from public.profiles p
+  join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(u.email) = lower(btrim(coalesce(p_email, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  if v_uid is null then
+    return false;
+  end if;
+  update auth.users
+    set encrypted_password = crypt(p_new_password, gen_salt('bf')),
+        updated_at = now()
+    where id = v_uid;
+  update public.profiles set must_change_password = false where user_id = v_uid;
+  return true;
+end;
+$$;
+revoke all on function public.reset_password_by_identity(text, text, text) from public;
+-- 직접 초기화는 이메일 인증번호(OTP) 흐름으로 대체 — 익명/로그인 클라이언트 호출 차단해
+-- 계정 탈취 표면을 줄인다(관리자용 admin_reset_user_password 와는 별개로 유지).
+revoke execute on function public.reset_password_by_identity(text, text, text)
+  from anon, authenticated;
+
+-- ─────────────────────────────────────────────────────────────
+-- 비밀번호 찾기 — 이메일 인증번호(OTP). 휴대폰 SMS 없이 무료(Gmail/Resend)로 본인확인.
+--   1) request_password_otp: 이메일+휴대폰 일치 시 6자리 코드 생성·저장(5분) → 코드 반환
+--      (서버 액션이 이메일로 발송)
+--   2) verify_otp_and_reset: 코드 검증(5회 제한) 통과 시 새 비번 설정
+-- RLS 로 잠근 password_otps 테이블에 코드를 두고 SECURITY DEFINER 함수로만 접근.
+-- ─────────────────────────────────────────────────────────────
+create table if not exists public.password_otps (
+  email text primary key,
+  code text not null,
+  expires_at timestamptz not null,
+  attempts int not null default 0
+);
+alter table public.password_otps enable row level security;
+-- 정책 없음 → anon/authenticated 직접 접근 불가(아래 SECURITY DEFINER 함수로만).
+
+-- 인증번호 발급: 이메일+휴대폰 일치 시 6자리 코드 생성·저장 후 반환(불일치 null).
+-- ⚠ 익명 호출 함수라 코드가 호출자에게 반환된다 — service_role 키 없이 동작시키기 위한
+--    절충. 완전 차단하려면 추후 service_role 로 서버에서만 코드를 다루도록 변경 권장.
+create or replace function public.request_password_otp(p_email text, p_phone text)
+returns text
+language plpgsql security definer set search_path = public, auth as $$
+declare v_uid uuid; v_code text;
+begin
+  select p.user_id into v_uid
+  from public.profiles p join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(u.email) = lower(btrim(coalesce(p_email, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  if v_uid is null then return null; end if;
+  v_code := lpad((floor(random() * 1000000))::int::text, 6, '0');
+  insert into public.password_otps(email, code, expires_at, attempts)
+    values (lower(btrim(p_email)), v_code, now() + interval '5 minutes', 0)
+    on conflict (email) do update
+      set code = excluded.code, expires_at = excluded.expires_at, attempts = 0;
+  return v_code;
+end;
+$$;
+revoke all on function public.request_password_otp(text, text) from public;
+grant execute on function public.request_password_otp(text, text) to anon, authenticated;
+
+-- 인증번호 검증 + 새 비밀번호 설정. 반환: 'ok'|'invalid'|'expired'|'locked'|'nomatch'.
+create or replace function public.verify_otp_and_reset(
+  p_email text, p_phone text, p_code text, p_new_password text
+) returns text
+language plpgsql security definer set search_path = public, auth, extensions as $$
+declare v_uid uuid; v_code text; v_exp timestamptz; v_att int; v_key text;
+begin
+  if length(coalesce(p_new_password, '')) < 6 then
+    raise exception 'password too short';
+  end if;
+  select p.user_id into v_uid
+  from public.profiles p join auth.users u on u.id = p.user_id
+  where p.withdrawn_at is null
+    and lower(u.email) = lower(btrim(coalesce(p_email, '')))
+    and public.norm_phone(p.phone) = public.norm_phone(p_phone)
+  limit 1;
+  if v_uid is null then return 'nomatch'; end if;
+  v_key := lower(btrim(coalesce(p_email, '')));
+  select code, expires_at, attempts into v_code, v_exp, v_att
+    from public.password_otps where email = v_key;
+  if not found then return 'invalid'; end if;
+  if v_att >= 5 then return 'locked'; end if;
+  if v_exp < now() then return 'expired'; end if;
+  if v_code <> btrim(coalesce(p_code, '')) then
+    update public.password_otps set attempts = attempts + 1 where email = v_key;
+    return 'invalid';
+  end if;
+  update auth.users
+    set encrypted_password = crypt(p_new_password, gen_salt('bf')), updated_at = now()
+    where id = v_uid;
+  update public.profiles set must_change_password = false where user_id = v_uid;
+  delete from public.password_otps where email = v_key;
+  return 'ok';
+end;
+$$;
+revoke all on function public.verify_otp_and_reset(text, text, text, text) from public;
+grant execute on function public.verify_otp_and_reset(text, text, text, text) to anon, authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 식단 기록(food_logs) — 날짜·끼니별 음식 + 칼로리/탄단지. 끼니: 아침/점심/저녁/간식.
+-- 같은 음식 중복 로깅 허용(유니크 없음).
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.food_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  meal text not null check (meal in ('breakfast', 'lunch', 'dinner', 'snack')),
+  position int not null default 0,
+  name text not null,
+  kcal numeric(7, 1) not null default 0,
+  protein_g numeric(6, 1),
+  carbs_g numeric(6, 1),
+  fat_g numeric(6, 1),
+  amount text,
+  category text,
+  photo_url text,
+  eaten_at time,
+  created_at timestamptz not null default now()
+);
+
+-- 기존 DB 보정(컬럼 추가)
+alter table public.food_logs add column if not exists category text;
+alter table public.food_logs add column if not exists photo_url text;
+alter table public.food_logs add column if not exists eaten_at time;
+
+create index if not exists food_logs_user_date_idx
+  on public.food_logs (user_id, for_date desc, meal, position);
+
+alter table public.food_logs enable row level security;
+
+drop policy if exists "Users can read own food logs" on public.food_logs;
+create policy "Users can read own food logs"
+  on public.food_logs for select
+  using ((select auth.uid()) = user_id);
+
+drop policy if exists "Users can insert own food logs" on public.food_logs;
+create policy "Users can insert own food logs"
+  on public.food_logs for insert
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can update own food logs" on public.food_logs;
+create policy "Users can update own food logs"
+  on public.food_logs for update
+  using (auth.uid() = user_id)
+  with check (auth.uid() = user_id);
+
+drop policy if exists "Users can delete own food logs" on public.food_logs;
+create policy "Users can delete own food logs"
+  on public.food_logs for delete
+  using (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 커스텀 음식(custom_foods) — 자동 성장 카탈로그. 정적 카탈로그(food-catalog.ts)에
+-- 없는 음식을 AI 사진분석이 감지하면 여기에 자동 저장 → 다음부터 검색으로 잡힌다.
+-- 전역 공유(누가 올리든 모두 검색 가능). norm_name(공백·소문자 정규화)로 중복 방지.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.custom_foods (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  norm_name text not null unique,
+  category text,
+  cuisine text,
+  amount text not null default '1인분',
+  kcal numeric(7, 1) not null default 0,
+  protein_g numeric(6, 1) not null default 0,
+  carbs_g numeric(6, 1) not null default 0,
+  fat_g numeric(6, 1) not null default 0,
+  source text not null default 'ai',
+  created_by uuid references auth.users(id) on delete set null,
+  hits int not null default 1,
+  created_at timestamptz not null default now()
+);
+-- ⚠ norm_name 에 btree 인덱스를 따로 만들지 않는다. 컬럼 정의의 unique 가 이미
+-- custom_foods_norm_name_key 를 만든다 — 예전에 있던 custom_foods_name_idx 는 그 중복이라
+-- 한 번도 안 쓰이면서(idx_scan 0 vs 564,066) 자리만 먹어 2026-09-07 제거했다.
+-- 이름 부분검색용. 2026-09-07 식약처 카탈로그를 적재하며 이 표가 0건 → 14,840건이 됐다.
+-- 검색은 `name ilike '%q%'` 라 앞이 열려 있어 B-tree 를 못 쓴다(전체 스캔) — trigram GIN 이
+-- 그 자리다. 실측: 200ms → 0.08ms.
+create extension if not exists pg_trgm;
+create index if not exists custom_foods_name_trgm_idx
+  on public.custom_foods using gin (name gin_trgm_ops);
+
+-- 🔴 접두사 전용 인덱스. trigram GIN 은 **3글자 미만이면 못 쓴다** — '우유'·'라면' 같은
+-- 두 글자 검색이 전체 스캔으로 떨어져 433ms 가 나왔다(3글자 '도시락'은 12ms).
+-- 한국어 음식은 두 글자가 흔하다(우유·라면·두부·계란·김치). text_pattern_ops btree 는
+-- 글자 수와 무관하게 `lower(name) LIKE 'q%'` 를 범위 스캔한다.
+create index if not exists custom_foods_name_prefix_idx
+  on public.custom_foods (lower(name) text_pattern_ops);
+
+-- 🔴 짧은 검색어의 **이름 중간 포함**(2단계)용 n-gram 인덱스. 2026-09-08.
+--
+-- 위 접두사 인덱스는 '우유로 시작' 만 잡는다. 접두사로 한도를 못 채우면 '중간에 낀 것'
+-- (`name ilike '%우유%'`)으로 채우는데, 이건 **검색어가 3글자 이상일 때만** trigram GIN 을
+-- 탄다. 앞뒤가 열린 패턴에서 인덱스가 쓸 수 있는 건 온전한 3-gram 뿐이라 1~2글자에는
+-- 뽑을 게 없어 26만 행 전체 스캔이 된다 — 실측 219~310ms(최악 1,870ms).
+-- 한국어 검색어는 한두 글자가 기본이고, 1글자 접두사 1,303종 중 756종은 한도(50)를
+-- 못 채워 **실제로 2단계까지 내려간다.** 즉 드문 경우가 아니라 일상 경로였다.
+--
+-- 그래서 이름에서 1글자·2글자 조각을 뽑아 GIN 으로 색인한다. `@> array['우유']` 로
+-- 후보를 인덱스에서 좁힌 뒤 기존 `ilike` 를 그대로 한 번 더 걸어 **의미는 바꾸지 않는다**
+-- (재현율 실측 동일: 자두 248/248 · 우유 2,301/2,301 · 라면 807/807).
+-- 실측: 1글자 224ms → 30ms · 2글자 220ms → 1~9ms. 인덱스 17MB(테이블 41MB).
+--
+-- ⚠ 3글자 이상은 **이 인덱스를 쓰지 않는다.** 조각이 1~2글자뿐이라 후보를 못 좁히고,
+--   그 길이에서는 trigram GIN 이 이미 잘 듣는다(닭가슴살 23ms).
+create or replace function public.name_grams(t text)
+returns text[] language sql immutable strict parallel safe as $$
+  select array(
+    select distinct g
+      from (select lower(t) as s) x,
+           lateral (
+             select substr(s, i, 1) as g from generate_series(1, length(s)) as i
+             union all
+             select substr(s, i, 2) from generate_series(1, greatest(length(s) - 1, 1)) as i
+           ) u)
+$$;
+create index if not exists custom_foods_name_gram_idx
+  on public.custom_foods using gin (public.name_grams(name));
+
+-- 검색 순위. 식약처 카탈로그를 적재하며 이 표가 26만 행이 됐는데, 새 행은 전부 hits=1 이라
+-- hits 만으로 줄 세우면 **상위 결과가 사실상 무작위**다("우유" → `빙수_팥_우유얼음`이 먼저).
+--
+-- 두 단계로 나눈다. 1단계(접두사)는 인덱스 범위 스캔이라 싸고, 사용자가 실제로 치는
+-- 방식이다. 2단계(이름 중간에 낀 것)는 비싼데 **1단계로 못 채웠을 때만** 간다 —
+-- 흔한 검색어에서는 아예 실행되지 않는다. 실측 우유 433ms→10ms, 라면 412ms→1.3ms.
+--
+-- 🔴 `%`·`_` 를 이스케이프한다. 예전엔 검색어를 그대로 ilike 에 끼워 넣어서 `%` 한 글자로
+--    전체 표가 걸렸다. SECURITY DEFINER 가 **아니다** — RLS(로그인 사용자만 읽기)를 그대로 탄다.
+create or replace function public.search_custom_foods(
+  p_query text, p_limit int default 50)
+returns setof public.custom_foods
+language plpgsql
+stable
+as $$
+declare
+  q text := btrim(p_query);
+  pat text;
+  lim int := least(coalesce(p_limit, 50), 100);
+  got int;
+begin
+  if q is null or length(q) = 0 then
+    return;
+  end if;
+  pat := replace(replace(replace(q, '\', '\'), '%', '\%'), '_', '\_');
+
+  -- 1단계: 접두사.
+  return query
+    select *
+      from public.custom_foods
+     where lower(name) like lower(pat) || '%' escape '\'
+     order by (lower(replace(name, ' ', '')) = lower(replace(q, ' ', ''))) desc,
+              length(name) asc, hits desc, name asc
+     limit lim;
+  get diagnostics got = row_count;
+
+  -- 2단계: 이름 중간에 낀 것. 1단계로 못 채웠을 때만.
+  --
+  -- 🔴 길이로 갈래를 나눈다 — 쓸 수 있는 인덱스가 다르기 때문이다(윗쪽 인덱스 주석 참고).
+  --    3글자 이상: `ilike '%q%'` 가 trigram GIN 을 탄다(닭가슴살 23ms).
+  --    1~2글자   : trigram 은 못 쓴다 → n-gram 인덱스로 후보를 좁힌 뒤 같은 `ilike` 를
+  --                다시 건다. 결과 집합은 그대로고 스캔만 사라진다.
+  --                실측 224ms → 30ms(1글자) · 220ms → 1~9ms(2글자).
+  --    ⚠ 조각 조회에는 이스케이프 안 한 `q` 를 쓴다 — 인덱스에는 이름의 **글자 그대로**가
+  --      들어 있어서 `\%` 같은 이스케이프 문자열로 찾으면 아무것도 안 걸린다.
+  --      와일드카드 방지는 뒤따르는 `ilike … escape '\'` 가 그대로 책임진다.
+  if got < lim then
+    if length(q) >= 3 then
+      return query
+        select *
+          from public.custom_foods
+         where name ilike '%' || pat || '%' escape '\'
+           and lower(name) not like lower(pat) || '%' escape '\'
+         order by length(name) asc, hits desc, name asc
+         limit lim - got;
+    else
+      return query
+        select *
+          from public.custom_foods
+         where public.name_grams(name) @> array[lower(q)]
+           and name ilike '%' || pat || '%' escape '\'
+           and lower(name) not like lower(pat) || '%' escape '\'
+         order by length(name) asc, hits desc, name asc
+         limit lim - got;
+    end if;
+  end if;
+end
+$$;
+revoke all on function public.search_custom_foods(text, int) from public;
+-- ⚠ Supabase 는 public 스키마 함수에 anon 실행권한을 기본으로 준다(default privileges).
+--    `from public` 만으로는 안 빠진다 — 명시적으로 회수해야 로그인 전 호출이 막힌다.
+revoke all on function public.search_custom_foods(text, int) from anon;
+grant execute on function public.search_custom_foods(text, int) to authenticated;
+alter table public.custom_foods enable row level security;
+-- 로그인 사용자면 누구나 읽기(공유 카탈로그) + 추가. 수정/삭제는 막는다(관리자 SQL로만).
+drop policy if exists "authed read custom foods" on public.custom_foods;
+-- 요청당 한 번만 인증을 평가한다. 행마다 JWT를 파싱하면 26만 행 검색이 수 초 걸린다.
+create policy "authed read custom foods" on public.custom_foods for select
+  using ((select auth.uid()) is not null);
+drop policy if exists "authed insert custom foods" on public.custom_foods;
+create policy "authed insert custom foods" on public.custom_foods for insert
+  with check (auth.uid() is not null);
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 월경(생리) 기록(cycle_logs) — 날짜별 생리여부·출혈량·증상·메모. 예측은 앱에서 계산.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.cycle_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  is_period boolean not null default false,
+  flow text check (flow in ('spotting', 'light', 'medium', 'heavy')),
+  symptoms text[] not null default '{}',
+  note text,
+  created_at timestamptz not null default now(),
+  unique (user_id, for_date)
+);
+
+create index if not exists cycle_logs_user_date_idx
+  on public.cycle_logs (user_id, for_date desc);
+
+alter table public.cycle_logs enable row level security;
+
+drop policy if exists "Users can read own cycle logs" on public.cycle_logs;
+create policy "Users can read own cycle logs"
+  on public.cycle_logs for select using (auth.uid() = user_id);
+drop policy if exists "Users can insert own cycle logs" on public.cycle_logs;
+create policy "Users can insert own cycle logs"
+  on public.cycle_logs for insert with check (auth.uid() = user_id);
+drop policy if exists "Users can update own cycle logs" on public.cycle_logs;
+create policy "Users can update own cycle logs"
+  on public.cycle_logs for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "Users can delete own cycle logs" on public.cycle_logs;
+create policy "Users can delete own cycle logs"
+  on public.cycle_logs for delete using (auth.uid() = user_id);
+
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 그룹(groups) + 멤버(group_members) — 운동 랭킹대전. 공유 링크(invite_token)로 참여.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.post_moderators (
+  email text primary key,
+  created_at timestamptz not null default now()
+);
+alter table public.post_moderators enable row level security;
+drop policy if exists "read post_moderators" on public.post_moderators;
+create policy "read post_moderators" on public.post_moderators for select
+  using (public.is_admin() or lower(email) = lower(auth.jwt() ->> 'email'));
+drop policy if exists "admin inserts post_moderators" on public.post_moderators;
+create policy "admin inserts post_moderators" on public.post_moderators for insert
+  with check (public.is_admin());
+drop policy if exists "admin deletes post_moderators" on public.post_moderators;
+create policy "admin deletes post_moderators" on public.post_moderators for delete
+  using (public.is_admin());
+
+-- 게시물 모더레이터 — 디버그 계정(is_debug_account, admin 포함) 이거나 post_moderators.
+-- 디버그 계정도 커뮤니티 전체(미가입 그룹글 포함) 열람·정리할 수 있어야 한다.
+create or replace function public.is_post_moderator() returns boolean
+  language sql security definer stable set search_path = public as $$
+  select public.is_debug_account() or exists(
+    select 1 from public.post_moderators
+    where lower(email) = lower(auth.jwt() ->> 'email')
+  );
+$$;
+
+
+create table if not exists public.groups (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  owner_id uuid not null references auth.users(id) on delete cascade,
+  invite_token text not null unique default encode(gen_random_bytes(9), 'hex'),
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.group_members (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  role text not null default 'member' check (role in ('owner', 'member')),
+  joined_at timestamptz not null default now(),
+  display_name text,
+  unique (group_id, user_id)
+);
+
+alter table public.group_members add column if not exists display_name text;
+
+create index if not exists group_members_user_idx on public.group_members (user_id);
+create index if not exists group_members_group_idx on public.group_members (group_id);
+
+-- 보안 정의자 헬퍼 — group_members RLS 재귀 방지용.
+create or replace function public.is_group_member(gid uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.group_members
+    where group_id = gid and user_id = auth.uid()
+  );
+$$;
+
+create or replace function public.shares_group_with(other uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.group_members a
+    join public.group_members b on a.group_id = b.group_id
+    where a.user_id = auth.uid() and b.user_id = other
+  );
+$$;
+
+-- 토큰으로 그룹 참여(보안 정의자) / 가입 전 이름 미리보기.
+create or replace function public.join_group_by_token(token text)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare gid uuid; nm text;
+begin
+  select id into gid from public.groups where invite_token = token;
+  if gid is null then raise exception 'invalid_token'; end if;
+  -- 표시 이름: 닉네임 → 이름 → 메타데이터 → 이메일 앞부분 → '회원'.
+  select coalesce(
+    nullif((select nickname from public.profiles where user_id = auth.uid()), ''),
+    nullif((select name from public.profiles where user_id = auth.uid()), ''),
+    nullif((select raw_user_meta_data->>'nickname' from auth.users where id = auth.uid()), ''),
+    nullif((select raw_user_meta_data->>'name' from auth.users where id = auth.uid()), ''),
+    nullif(split_part((select email from auth.users where id = auth.uid()), '@', 1), ''),
+    '회원'
+  ) into nm;
+  insert into public.group_members (group_id, user_id, role, display_name)
+    values (gid, auth.uid(), 'member', nm)
+    on conflict (group_id, user_id) do nothing;
+  return gid;
+end; $$;
+
+create or replace function public.group_name_by_token(token text)
+returns text language sql security definer stable set search_path = public as $$
+  select name from public.groups where invite_token = token;
+$$;
+
+alter table public.groups enable row level security;
+alter table public.group_members enable row level security;
+
+drop policy if exists "members read groups" on public.groups;
+create policy "members read groups" on public.groups for select
+  using (public.is_group_member(id) or owner_id = auth.uid() or public.is_post_moderator());
+drop policy if exists "owner creates group" on public.groups;
+create policy "owner creates group" on public.groups for insert
+  with check (owner_id = auth.uid());
+drop policy if exists "owner updates group" on public.groups;
+create policy "owner updates group" on public.groups for update
+  using (owner_id = auth.uid()) with check (owner_id = auth.uid());
+drop policy if exists "owner deletes group" on public.groups;
+create policy "owner deletes group" on public.groups for delete
+  using (owner_id = auth.uid());
+
+drop policy if exists "members read members" on public.group_members;
+create policy "members read members" on public.group_members for select
+  using (public.is_group_member(group_id));
+drop policy if exists "join self" on public.group_members;
+create policy "join self" on public.group_members for insert
+  with check (user_id = auth.uid());
+drop policy if exists "leave self" on public.group_members;
+create policy "leave self" on public.group_members for delete
+  using (user_id = auth.uid());
+
+-- 그룹원끼리 운동 기록·프로필 열람(랭킹 계산용). 기존 본인 전용 정책과 OR.
+-- 🔴 `user_id <> (select auth.uid()) and …` 의 앞쪽 비교는 **성능 장치**다(권한은 그대로).
+--    허용 정책 여러 개는 OR 로 합쳐지는데, 플래너가 비용을 보고 순서를 정한다 —
+--    실측(EXPLAIN) 결과 `shares_group_with(user_id)` 가 **먼저** 평가돼서, 자기 행만
+--    읽는 평범한 조회에서도 **행마다** group_members 조인이 돌았다(식단 4행 0.30ms,
+--    자기 조건만이면 0.01ms). 앞에 싼 비교를 두면 남의 행일 때만 함수가 돈다.
+--    그룹 랭킹처럼 행이 많은 화면일수록 차이가 커진다.
+--    같은 이유로 `auth.uid()` 는 `(select auth.uid())` 로 감싼다 — 행마다가 아니라
+--    쿼리당 한 번(InitPlan)만 평가된다.
+drop policy if exists "group mates read exercise completions" on public.exercise_completions;
+create policy "group mates read exercise completions" on public.exercise_completions
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
+drop policy if exists "group mates read conditioning completions" on public.conditioning_completions;
+create policy "group mates read conditioning completions" on public.conditioning_completions
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
+drop policy if exists "group mates read profiles" on public.profiles;
+create policy "group mates read profiles" on public.profiles
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
+drop policy if exists "group mates read food logs" on public.food_logs;
+create policy "group mates read food logs" on public.food_logs
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 대시보드(trainer_board) — 2026-09-09. 그룹장이 담당 회원의 주간 상태를
+-- 한 번에 본다(수행일수·식단기록일수·마지막 운동일·주간 목표일수·체중 변화).
+--
+-- 🔴 **왜 RLS 가 아니라 SECURITY DEFINER 함수인가.**
+--    필요한 값 중 `user_routines`(주간 목표)와 `weight_logs`(체중 추이)는 그룹원에게
+--    열려 있지 않다. 이걸 "그룹원이면 읽기" 정책으로 열면 **트레이너뿐 아니라 같은 그룹의
+--    모든 사람**이 남의 체중 이력을 보게 된다 — 이 앱의 그룹은 친구 모임이기도 하다.
+--    여기서는 `groups.owner_id = auth.uid()` 를 함수 안에서 직접 확인해 **그룹장에게만**
+--    연다. 아니면 조용히 빈 결과다(오류가 아니라 '볼 게 없음'으로 취급).
+--
+-- 🔴 **한 번에 집계해서 준다.** 회원마다 따로 물으면 회원 수만큼 왕복이 는다.
+--    트레이너 화면은 회원이 많을수록 값이 커지는 화면이라 그 반대로 굴면 안 된다.
+--
+-- 주간 목표일수는 `splits`(N분할)가 0 이어도 `custom_week`(직접 짠 한 주)에서 휴식이
+-- 아닌 날을 센다 — 직접 짠 사용자의 목표가 0 으로 보이면 달성률이 항상 0% 가 된다.
+create or replace function public.trainer_board(
+  p_group_id uuid, p_from date, p_to date)
+returns table (
+  user_id uuid,
+  workout_days int,
+  diet_days int,
+  last_workout date,
+  target_days int,
+  weight_first numeric,
+  weight_last numeric
+)
+language sql security definer stable set search_path = public as $$
+  with owner_ok as (
+    select 1 from public.groups g
+     where g.id = p_group_id and g.owner_id = (select auth.uid())
+  ),
+  mem as (
+    select gm.user_id from public.group_members gm
+     where gm.group_id = p_group_id and exists (select 1 from owner_ok)
+  ),
+  did as (
+    select e.user_id, e.for_date from public.exercise_completions e
+      join mem m on m.user_id = e.user_id
+     where e.status = 'done' and e.for_date between p_from and p_to
+    union
+    select c.user_id, c.for_date from public.conditioning_completions c
+      join mem m on m.user_id = c.user_id
+     where c.status = 'done' and c.for_date between p_from and p_to
+  ),
+  ate as (
+    select distinct f.user_id, f.for_date from public.food_logs f
+      join mem m on m.user_id = f.user_id
+     where f.for_date between p_from and p_to
+  ),
+  last_w as (
+    select e.user_id, max(e.for_date) d from public.exercise_completions e
+      join mem m on m.user_id = e.user_id
+     where e.status = 'done'
+     group by e.user_id
+  ),
+  w as (
+    select wl.user_id,
+           (array_agg(wl.weight_kg order by wl.created_at asc))[1] as first_kg,
+           (array_agg(wl.weight_kg order by wl.created_at desc))[1] as last_kg
+      from public.weight_logs wl
+      join mem m on m.user_id = wl.user_id
+     where wl.weight_kg is not null
+       and wl.created_at >= (p_from::timestamptz - interval '28 days')
+     group by wl.user_id
+  )
+  select m.user_id,
+         (select count(distinct d.for_date)::int from did d where d.user_id = m.user_id),
+         (select count(*)::int from ate a where a.user_id = m.user_id),
+         (select l.d from last_w l where l.user_id = m.user_id),
+         coalesce((
+           select case
+                    when r.custom_week is not null then (
+                      select count(*)::int
+                        from jsonb_array_elements(r.custom_week) as d
+                       where not (d @> '["rest"]'::jsonb)
+                    )
+                    else r.splits
+                  end
+             from public.user_routines r where r.user_id = m.user_id), 0)::int,
+         (select x.first_kg from w x where x.user_id = m.user_id),
+         (select x.last_kg from w x where x.user_id = m.user_id)
+    from mem m
+$$;
+revoke all on function public.trainer_board(uuid, date, date) from public;
+revoke all on function public.trainer_board(uuid, date, date) from anon;
+grant execute on function public.trainer_board(uuid, date, date) to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 루틴 배정 — 2026-09-09. 트레이너가 **자기 루틴의 한 일차**를 담당 회원의
+-- 한 일차로 밀어넣는다. `applyRoutineShareAction`(남의 소개 루틴 담기)과 같은 모양이고,
+-- 다른 점은 **쓰는 대상이 남**이라는 것뿐이다 — 그래서 RLS 로는 못 하고 여기로 온다.
+--
+-- 🔴 **무게는 넘기지 않는다.** 트레이너의 100kg 스쿼트가 초보 회원 화면에 그대로 박히면
+--    위험하고, 애초에 남의 신체 수치다. 회원이 운동하며 자기 무게를 넣는다.
+--    (`routine_shares` 의 `include_weights` 가 있는 이유와 같다.)
+--
+-- 🔴 **부위는 받는 쪽으로 통일한다.** 원본 부위를 그대로 쓰면 회원 루틴에 없는 부위의
+--    운동이 생겨 **어느 화면에도 안 뜬다**(공유 루틴 담기에서 이미 겪은 문제).
+--    부위 계산은 TS(`routineDaySlots`)가 하고 여기로 넘겨받는다 — 그 규칙을 SQL 에
+--    다시 구현하면 두 곳이 갈린다.
+--
+-- ⚠ 이건 회원의 **영구 루틴**을 덮어쓴다(docs/원칙.md 2번의 반대 방향). 화면이 회원
+--   이름과 일차를 보여 주고 확인을 받는다. 권한 없으면 -1(아무것도 안 함).
+--
+-- `trainer_member_routine` 은 배정 화면이 **회원의 일차 목록**을 그리는 데 쓴다.
+-- (user_routines 는 그룹원에게 안 열려 있다 — trainer_board 와 같은 이유.)
+create or replace function public.trainer_member_routine(
+  p_group_id uuid, p_member uuid)
+returns table (splits int, variant_id text, custom_week jsonb)
+language sql security definer stable set search_path = public as $$
+  select r.splits, r.variant_id, r.custom_week
+    from public.user_routines r
+   where r.user_id = p_member
+     and exists (
+       select 1 from public.groups g
+        where g.id = p_group_id and g.owner_id = (select auth.uid()))
+     and exists (
+       select 1 from public.group_members m
+        where m.group_id = p_group_id and m.user_id = p_member)
+$$;
+revoke all on function public.trainer_member_routine(uuid, uuid) from public;
+revoke all on function public.trainer_member_routine(uuid, uuid) from anon;
+grant execute on function public.trainer_member_routine(uuid, uuid) to authenticated;
+
+create or replace function public.trainer_assign_routine_day(
+  p_group_id uuid, p_member uuid,
+  p_from_day int, p_from_focus text,
+  p_to_day int, p_to_focus text)
+returns int
+language plpgsql security definer set search_path = public as $$
+declare
+  me uuid := (select auth.uid());
+  n int := 0;
+begin
+  -- 그룹장 + 대상이 그 그룹 회원. 둘 중 하나라도 아니면 아무 일도 안 한다.
+  if not exists (
+    select 1 from public.groups g
+     where g.id = p_group_id and g.owner_id = me
+  ) or not exists (
+    select 1 from public.group_members m
+     where m.group_id = p_group_id and m.user_id = p_member
+  ) then
+    return -1;
+  end if;
+  -- 자기 자신에게 배정하는 건 막는다(트레이너 루틴이 자기 루틴을 덮어쓴다).
+  if p_member = me then
+    return -1;
+  end if;
+  -- 🔴 회원이 '운동 처방 허용' 을 끄면(설정 → 트레이너 연결) 루틴을 못 바꾼다.
+  --    화면에서만 막으면 주소를 아는 사람은 그대로 부를 수 있다 — 동의는 여기서 지킨다.
+  if not public.member_shares(p_member, p_group_id, 'prescription') then
+    return -1;
+  end if;
+
+  delete from public.routine_exercises
+   where user_id = p_member and day_index = p_to_day;
+
+  insert into public.routine_exercises
+    (user_id, focus, position, exercise_id, equipment, sets, reps,
+     weight_kg, set_details, memo, day_index)
+  select p_member, p_to_focus, s.position, s.exercise_id, s.equipment, s.sets, s.reps,
+         -- 🔴 무게는 넘기지 않는다. 트레이너의 100kg 스쿼트가 초보 회원 화면에 박히면
+         --    위험하고, 애초에 남의 신체 수치다. 회원이 운동하며 자기 무게를 넣는다.
+         null, null, s.memo, p_to_day
+    from public.routine_exercises s
+   where s.user_id = me and s.day_index = p_from_day;
+  get diagnostics n = row_count;
+
+  -- 워밍업/마무리는 부위 단위라 대상 부위로 갈아끼운다.
+  delete from public.routine_conditioning
+   where user_id = p_member and focus = p_to_focus;
+
+  insert into public.routine_conditioning
+    (user_id, focus, kind, position, item_id, duration_min, speed, incline)
+  select p_member, p_to_focus, s.kind, s.position, s.item_id, s.duration_min, s.speed, s.incline
+    from public.routine_conditioning s
+   where s.user_id = me and s.focus = p_from_focus;
+
+  return n;
+end
+$$;
+revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) from public;
+revoke all on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) from anon;
+grant execute on function public.trainer_assign_routine_day(uuid, uuid, int, text, int, text) to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 트레이너 코멘트(trainer_comments) — 2026-09-09. 트레이너가 담당 회원에게 남기는
+-- 피드백. 그룹 응원(group_cheers)과 다르다: 응원은 **10자·하루 한 문구·그룹원 누구나**
+-- 라 "화이팅" 용이고, 이건 **500자·여러 개·트레이너만** 이라 자세를 짚어 줄 수 있다.
+--
+-- 여기는 SECURITY DEFINER 가 필요 없다 — 필요한 판단(그룹장인가·그 그룹 회원인가)이
+-- 전부 **자기 행의 컬럼**으로 표현되어 RLS 로 그대로 쓸 수 있다. 남의 표를 대신 읽어야
+-- 하는 trainer_board 와 다른 점이다.
+--
+-- 읽기는 **당사자 둘만**(회원 본인·쓴 트레이너). 같은 그룹의 다른 회원에게도 안 보인다 —
+-- 자세 지적은 남 앞에서 할 말이 아니다.
+create table if not exists public.trainer_comments (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  trainer_id uuid not null references auth.users(id) on delete cascade,
+  member_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null default (now() at time zone 'Asia/Seoul')::date,
+  body text not null check (char_length(body) between 1 and 500),
+  created_at timestamptz not null default now()
+);
+
+create index if not exists trainer_comments_member_idx
+  on public.trainer_comments (member_id, created_at desc);
+create index if not exists trainer_comments_group_member_idx
+  on public.trainer_comments (group_id, member_id, created_at desc);
+
+alter table public.trainer_comments enable row level security;
+
+drop policy if exists "read own trainer comments" on public.trainer_comments;
+create policy "read own trainer comments" on public.trainer_comments for select
+  using (member_id = (select auth.uid()) or trainer_id = (select auth.uid()));
+
+drop policy if exists "trainer writes comment" on public.trainer_comments;
+create policy "trainer writes comment" on public.trainer_comments for insert
+  with check (
+    trainer_id = (select auth.uid())
+    and member_id <> (select auth.uid())
+    -- 🔴 바깥 행을 **표 이름으로 못 박는다**. `m.group_id = group_id` 라고 쓰면
+    --    `group_id` 가 서브쿼리의 `group_members.group_id` 로 붙어 자기 자신과의 비교가
+    --    되고(항상 참), **아무 그룹에나 속한 사람이면 통과**한다. 실측으로 뚫렸다.
+    and exists (
+      select 1 from public.groups g
+       where g.id = trainer_comments.group_id
+         and g.owner_id = (select auth.uid()))
+    and exists (
+      select 1 from public.group_members m
+       where m.group_id = trainer_comments.group_id
+         and m.user_id = trainer_comments.member_id)
+  );
+
+drop policy if exists "trainer deletes own comment" on public.trainer_comments;
+create policy "trainer deletes own comment" on public.trainer_comments for delete
+  using (trainer_id = (select auth.uid()));
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 팀 구독(team_subscriptions) — 2026-09-09. **트레이너·헬스장이 내는 쪽**(B2B).
+-- 그룹당 한 행. 개인 구독(subscriptions)과 나란히 두고, 둘 중 하나만 살아 있어도
+-- 프리미엄이다.
+--
+-- 🔴 **구글 플레이 결제를 쓰지 않는다.** Play 인앱결제는 개인용이고, 사업자에게는
+--    세금계산서·계좌이체가 필요하다(비용 처리를 해야 한다). 그래서 여기는
+--    **입금 확인형**이다 — 그룹장이 신청하면 관리자가 입금을 확인하고 기간을 넣는다.
+--    자동화할 수 있는 자리가 아니라 일부러 사람이 승인한다.
+--
+-- 🔴 권한은 status 가 아니라 **period_end** 에서 나온다(개인 구독과 같은 규칙).
+--    그래야 해지·연장 실패를 따로 처리하지 않아도 기간이 지나면 저절로 끊긴다.
+--
+-- 정책 요약: 읽기는 그룹장·관리자. 신청(insert)은 그룹장이 **'requested' 로만**.
+-- 승인(active 로 바꾸기)은 **관리자만** — 그룹장이 스스로 프리미엄이 되면 안 된다.
+-- 신청 상태에서는 그룹장이 사업자정보를 고치거나 신청을 취소할 수 있다.
+create table if not exists public.team_subscriptions (
+  group_id uuid primary key references public.groups(id) on delete cascade,
+  plan text not null default 'trainer' check (plan in ('trainer', 'gym')),
+  status text not null default 'requested'
+    check (status in ('requested', 'active', 'expired', 'canceled')),
+  seats int not null default 0,
+  price_krw int not null default 0 check (price_krw >= 0),
+  period_start date,
+  period_end date,
+  biz_name text check (biz_name is null or char_length(biz_name) <= 80),
+  biz_number text check (biz_number is null or char_length(biz_number) <= 20),
+  biz_email text check (biz_email is null or char_length(biz_email) <= 120),
+  requested_by uuid references auth.users(id) on delete set null,
+  requested_at timestamptz not null default now(),
+  approved_at timestamptz,
+  memo text check (memo is null or char_length(memo) <= 500),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists team_subscriptions_status_idx
+  on public.team_subscriptions (status, period_end);
+
+alter table public.team_subscriptions enable row level security;
+
+drop policy if exists "owner or admin reads team sub" on public.team_subscriptions;
+create policy "owner or admin reads team sub" on public.team_subscriptions for select
+  using (
+    public.is_admin()
+    or exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  );
+
+drop policy if exists "owner requests team sub" on public.team_subscriptions;
+create policy "owner requests team sub" on public.team_subscriptions for insert
+  with check (
+    status = 'requested'
+    and requested_by = (select auth.uid())
+    and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  );
+
+drop policy if exists "owner edits pending request" on public.team_subscriptions;
+create policy "owner edits pending request" on public.team_subscriptions for update
+  using (
+    status = 'requested'
+    and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid()))
+  )
+  with check (status = 'requested');
+
+drop policy if exists "admin manages team sub" on public.team_subscriptions;
+create policy "admin manages team sub" on public.team_subscriptions for update
+  using (public.is_admin()) with check (public.is_admin());
+
+drop policy if exists "owner cancels pending request" on public.team_subscriptions;
+create policy "owner cancels pending request" on public.team_subscriptions for delete
+  using (
+    public.is_admin()
+    or (status = 'requested' and exists (
+      select 1 from public.groups g
+       where g.id = team_subscriptions.group_id
+         and g.owner_id = (select auth.uid())))
+  );
+
+create or replace function public.has_team_premium()
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1
+      from public.group_members m
+      join public.team_subscriptions t on t.group_id = m.group_id
+     where m.user_id = (select auth.uid())
+       and t.status = 'active'
+       and t.period_end is not null
+       and t.period_end >= (now() at time zone 'Asia/Seoul')::date
+  );
+$$;
+revoke all on function public.has_team_premium() from public;
+revoke all on function public.has_team_premium() from anon;
+grant execute on function public.has_team_premium() to authenticated;
+notify pgrst, 'reload schema';
+
+notify pgrst, 'reload schema';
+
+-- 끼니별 식단 사진(meal_photos) — 끼니(아침/점심/저녁/간식)당 여러 장 가능.
+-- position 오름차순이 등록 순서이며, 가장 앞(=먼저 등록한) 사진이 대표사진.
+create table if not exists public.meal_photos (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  meal text not null check (meal in ('breakfast', 'lunch', 'dinner', 'snack')),
+  photo_url text not null,
+  position int not null default 0,
+  created_at timestamptz not null default now()
+);
+
+-- 기존 DB 보정: 끼니당 1장 유니크 제거 + 정렬용 position 추가(여러 장 허용)
+alter table public.meal_photos drop constraint if exists meal_photos_user_id_for_date_meal_key;
+alter table public.meal_photos add column if not exists position int not null default 0;
+
+create index if not exists meal_photos_user_date_idx
+  on public.meal_photos (user_id, for_date);
+
+alter table public.meal_photos enable row level security;
+
+drop policy if exists "Users can read own meal photos" on public.meal_photos;
+create policy "Users can read own meal photos" on public.meal_photos
+  for select using ((select auth.uid()) = user_id);
+drop policy if exists "Users can insert own meal photos" on public.meal_photos;
+create policy "Users can insert own meal photos" on public.meal_photos
+  for insert with check (auth.uid() = user_id);
+drop policy if exists "Users can update own meal photos" on public.meal_photos;
+create policy "Users can update own meal photos" on public.meal_photos
+  for update using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists "Users can delete own meal photos" on public.meal_photos;
+create policy "Users can delete own meal photos" on public.meal_photos
+  for delete using (auth.uid() = user_id);
+
+-- 그룹원끼리 끼니 사진 열람(오늘 식단 공유)
+drop policy if exists "group mates read meal photos" on public.meal_photos;
+create policy "group mates read meal photos" on public.meal_photos
+  for select using (user_id <> (select auth.uid()) and public.shares_group_with(user_id));
+
+-- 그룹 응원 문구(group_cheers) — 그룹원이 다른 멤버의 '그날 기록'에 짧은 응원(≤10자)을 남긴다.
+-- (group_id, from_user, to_user, for_date) 유니크 → 한 사람당 하루 한 문구(수정 가능).
+create table if not exists public.group_cheers (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  from_user uuid not null references auth.users(id) on delete cascade,
+  to_user uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  message text not null check (char_length(message) between 1 and 10),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (group_id, from_user, to_user, for_date)
+);
+create index if not exists group_cheers_group_date_idx
+  on public.group_cheers (group_id, for_date);
+alter table public.group_cheers enable row level security;
+drop policy if exists "members read cheers" on public.group_cheers;
+create policy "members read cheers" on public.group_cheers for select
+  using (public.is_group_member(group_id));
+drop policy if exists "cheer mates" on public.group_cheers;
+create policy "cheer mates" on public.group_cheers for insert
+  with check (
+    from_user = auth.uid()
+    and public.is_group_member(group_id)
+    and public.shares_group_with(to_user)
+  );
+drop policy if exists "edit own cheer" on public.group_cheers;
+create policy "edit own cheer" on public.group_cheers for update
+  using (from_user = auth.uid()) with check (from_user = auth.uid());
+drop policy if exists "delete own cheer" on public.group_cheers;
+create policy "delete own cheer" on public.group_cheers for delete
+  using (from_user = auth.uid());
+
+-- 주간 그룹 챌린지/목표(group_challenges) — 그룹장이 주간 목표 설정, 그룹 합산 진행률.
+-- 주(week_from=월요일)당 하나. metric: 합산 kcal / 합산 운동횟수 / 합산 운동일수.
+create table if not exists public.group_challenges (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  metric text not null check (metric in ('kcal', 'workouts', 'days')),
+  target int not null check (target > 0),
+  week_from date not null,
+  created_by uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (group_id, week_from)
+);
+alter table public.group_challenges enable row level security;
+drop policy if exists "members read challenge" on public.group_challenges;
+create policy "members read challenge" on public.group_challenges for select
+  using (public.is_group_member(group_id));
+drop policy if exists "owner writes challenge" on public.group_challenges;
+create policy "owner writes challenge" on public.group_challenges for all
+  using (
+    exists (select 1 from public.groups g where g.id = group_id and g.owner_id = auth.uid())
+  )
+  with check (
+    exists (select 1 from public.groups g where g.id = group_id and g.owner_id = auth.uid())
+  );
+notify pgrst, 'reload schema';
+
+-- 그룹 공유 펫(group_pets) — 그룹당 1마리(늑대/강아지). 그룹원들이 운동으로 코인을 모아
+-- 함께 레벨업시킨다. Lv0 시작. coins: 사용가능 코인, synced_workouts: 코인 환산 완료한 그룹 누적 운동 수.
+create table if not exists public.group_pets (
+  group_id uuid primary key references public.groups(id) on delete cascade,
+  name text not null default '',
+  level int not null default 0,
+  coins int not null default 0,
+  progress int not null default 0, -- 다음 레벨에 넣은(투입한) 코인
+  synced_workouts int not null default 0,
+  owned jsonb not null default '[]'::jsonb,     -- 보유 꾸미기 아이템 id[]
+  equipped jsonb not null default '{}'::jsonb,  -- slot -> itemId
+  updated_at timestamptz not null default now()
+);
+alter table public.group_pets add column if not exists progress int not null default 0;
+alter table public.group_pets add column if not exists owned jsonb not null default '[]'::jsonb;
+alter table public.group_pets add column if not exists equipped jsonb not null default '{}'::jsonb;
+alter table public.group_pets enable row level security;
+drop policy if exists "members read group pet" on public.group_pets;
+create policy "members read group pet" on public.group_pets for select
+  using (public.is_group_member(group_id));
+drop policy if exists "members write group pet" on public.group_pets;
+create policy "members write group pet" on public.group_pets for all
+  using (public.is_group_member(group_id)) with check (public.is_group_member(group_id));
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 그룹탭 전역 모드(group.mode) — 관리자가 /admin/settings 에서 전환.
+--   'gym'   → 기존 공유펫 헬스장(랭킹/챌린지/응원)  ← 기본
+--   'proof' → 오늘 운동 인증 움짤(3초 무음영상) 피드
+-- app_settings['group.mode'] 는 관리자만 read/write(RLS) 라, 일반 사용자도 현재 모드를
+-- 읽을 수 있도록 SECURITY DEFINER 함수로 노출한다(값 미설정이면 'gym').
+create or replace function public.group_mode() returns text
+  language sql security definer stable set search_path = public as $$
+  select case (select value from public.app_settings where key = 'group.mode')
+      when '"proof"'::jsonb then 'proof'
+      else 'gym'
+    end;
+$$;
+
+-- 입금 계좌 안내 — `app_settings['billing.deposit']`. 팀 요금제(B2B) 신청자가 본다.
+--
+-- 🔴 app_settings 는 **관리자 전용 RLS** 라 트레이너가 직접 못 읽는다. 그룹탭 모드
+--    (`group_mode()`)와 같은 이유로 SECURITY DEFINER 함수로 그 값 **하나만** 내준다 —
+--    표를 통째로 열면 디버그 계정 목록 같은 다른 설정까지 새어 나간다.
+--
+-- 로그인 사용자에게만 준다. 계좌는 청구서에 적히는 값이라 비밀은 아니지만,
+-- 로그인도 안 한 사람에게 뿌릴 이유는 없다.
+create or replace function public.billing_deposit_info() returns jsonb
+  language sql security definer stable set search_path = public as $$
+  select coalesce(
+    (select value from public.app_settings where key = 'billing.deposit'),
+    'null'::jsonb);
+$$;
+revoke all on function public.billing_deposit_info() from public;
+revoke all on function public.billing_deposit_info() from anon;
+grant execute on function public.billing_deposit_info() to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 오늘 운동 인증 움짤(group_proofs) — 그룹원이 '오늘 운동했다'는 3초 무음영상을 올린다.
+-- (group_id, user_id, for_date) 유니크 → 멤버당 하루 1개(다시 올리면 교체=upsert).
+create table if not exists public.group_proofs (
+  id uuid primary key default gen_random_uuid(),
+  group_id uuid not null references public.groups(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  media_url text not null,
+  -- 'video'(무음 루프 영상, 기본) / 'gif'(정적 gif) — 표시 방식 구분용.
+  media_type text not null default 'video' check (media_type in ('video', 'gif')),
+  caption text check (caption is null or char_length(caption) <= 40),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (group_id, user_id, for_date)
+);
+create index if not exists group_proofs_group_date_idx
+  on public.group_proofs (group_id, for_date);
+alter table public.group_proofs enable row level security;
+drop policy if exists "members read proofs" on public.group_proofs;
+create policy "members read proofs" on public.group_proofs for select
+  using (public.is_group_member(group_id));
+drop policy if exists "insert own proof" on public.group_proofs;
+create policy "insert own proof" on public.group_proofs for insert
+  with check (user_id = auth.uid() and public.is_group_member(group_id));
+drop policy if exists "update own proof" on public.group_proofs;
+create policy "update own proof" on public.group_proofs for update
+  using (user_id = auth.uid()) with check (user_id = auth.uid());
+drop policy if exists "delete own proof" on public.group_proofs;
+create policy "delete own proof" on public.group_proofs for delete
+  using (user_id = auth.uid());
+
+-- 인증 움짤 버킷(group-proofs) — 공개 읽기, 본인만 업로드/삭제. (URL은 추측불가 UUID)
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'group-proofs',
+  'group-proofs',
+  true,
+  20971520,
+  array['video/mp4', 'video/webm', 'video/quicktime', 'image/gif']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Group proofs are publicly readable" on storage.objects;
+create policy "Group proofs are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'group-proofs');
+
+drop policy if exists "Users can upload own group proofs" on storage.objects;
+create policy "Users can upload own group proofs"
+  on storage.objects for insert
+  with check (bucket_id = 'group-proofs' and owner = auth.uid());
+
+drop policy if exists "Users can delete own group proofs" on storage.objects;
+create policy "Users can delete own group proofs"
+  on storage.objects for delete
+  using (bucket_id = 'group-proofs' and owner = auth.uid());
+notify pgrst, 'reload schema';
+
+-- 오늘 누적 달린 거리(daily_run_distance) — 실내 러닝 그룹 순위(오늘 달린 m)용.
+-- 실내는 속도×시간 추정, 야외는 GPS 거리. 러닝 종료 시 그날 값에 누적.
+create table if not exists public.daily_run_distance (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  meters int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+create index if not exists daily_run_distance_date_idx
+  on public.daily_run_distance (for_date);
+alter table public.daily_run_distance enable row level security;
+drop policy if exists "own run distance" on public.daily_run_distance;
+create policy "own run distance" on public.daily_run_distance for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+-- 그룹원끼리 오늘 달린 거리 열람(러닝 순위).
+drop policy if exists "group mates read run distance" on public.daily_run_distance;
+create policy "group mates read run distance" on public.daily_run_distance
+  for select using (public.shares_group_with(user_id));
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 다짐(commitments) — 사용자가 정한 목표. 시작일~데드라인 기간 동안 기존 운동/식단
+-- 기록으로 진행률을 '자동 집계'한다. 캘린더에 기간·데드라인을 표시.
+-- metric: 운동한 날/운동 횟수/소비 kcal/식단기록한 날(이상 달성), 하루평균섭취(이하 달성).
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.commitments (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  title text not null,
+  tag text not null default 'custom',
+  metric text not null check (metric in (
+    'workout_days', 'workout_count', 'burn_kcal', 'diet_days', 'intake_avg_max'
+  )),
+  target numeric not null check (target > 0),
+  start_date date not null,
+  deadline date not null,
+  archived boolean not null default false,
+  -- 생성 방식: manual(직접 설정) / survey(설문 기반 미션).
+  mode text not null default 'manual' check (mode in ('manual', 'survey')),
+  -- 설문 기반 다짐의 하루 미션 목록(MissionSpec[] JSON). 캘린더 ○△✕ 자동 판정에 씀.
+  missions jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now()
+);
+-- 기존 DB 보정
+alter table public.commitments add column if not exists mode text
+  not null default 'manual' check (mode in ('manual', 'survey'));
+alter table public.commitments add column if not exists missions jsonb
+  not null default '[]'::jsonb;
+create index if not exists commitments_user_idx on public.commitments (user_id);
+alter table public.commitments enable row level security;
+drop policy if exists "own commitments" on public.commitments;
+create policy "own commitments" on public.commitments for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 늑대 펫(pets) — 운동으로 Lv업 + 포인트 획득 → 아이템(옷) 구매/착용(싸이월드 미니미).
+--   points: 사용가능 포인트, synced_workouts: 이미 포인트로 환산한 누적 운동 수(중복지급 방지)
+--   owned: 보유 아이템 id[], equipped: slot→itemId
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.pets (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  name text not null default '',
+  points int not null default 0,
+  synced_workouts int not null default 0,
+  owned jsonb not null default '[]'::jsonb,
+  equipped jsonb not null default '{}'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+alter table public.pets enable row level security;
+drop policy if exists "own pet" on public.pets;
+create policy "own pet" on public.pets for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 웹푸시 구독(push_subscriptions) — 사용자별 브라우저 푸시 엔드포인트(여러 기기 가능).
+-- 앱이 닫혀 있어도 30분 무활동 종료 알림을 보내기 위함(Vercel Cron + web-push).
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.push_subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  endpoint text not null unique,
+  p256dh text not null,
+  auth text not null,
+  user_agent text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists push_subscriptions_user_idx
+  on public.push_subscriptions (user_id);
+
+alter table public.push_subscriptions enable row level security;
+
+drop policy if exists "Users manage own push subs (select)" on public.push_subscriptions;
+create policy "Users manage own push subs (select)" on public.push_subscriptions
+  for select using (auth.uid() = user_id);
+drop policy if exists "Users manage own push subs (insert)" on public.push_subscriptions;
+create policy "Users manage own push subs (insert)" on public.push_subscriptions
+  for insert with check (auth.uid() = user_id);
+drop policy if exists "Users manage own push subs (delete)" on public.push_subscriptions;
+create policy "Users manage own push subs (delete)" on public.push_subscriptions
+  for delete using (auth.uid() = user_id);
+
+-- 네이티브 푸시 토큰(fcm_tokens) — 안드로이드 WebView 앱은 Web Push 미지원이라 FCM 토큰으로 보낸다.
+create table if not exists public.fcm_tokens (
+  token text primary key,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  platform text not null default 'android',
+  updated_at timestamptz not null default now()
+);
+create index if not exists fcm_tokens_user_idx on public.fcm_tokens (user_id);
+alter table public.fcm_tokens enable row level security;
+drop policy if exists "own fcm tokens" on public.fcm_tokens;
+create policy "own fcm tokens" on public.fcm_tokens for all
+  using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 진행 중 운동 세션 상태(workout_active_state) — 서버가 '무활동'을 판정하기 위한 1인 1행.
+-- 클라이언트가 시작/활동/스누즈/종료 때 갱신한다. remaining 에 '남은 운동' 스냅샷을 담아
+-- 앱이 닫혀 있어도(푸시 버튼/cron) 휴식 처리를 할 수 있게 한다.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.workout_active_state (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  for_date date not null,
+  active boolean not null default true,
+  started_at timestamptz not null default now(),
+  last_activity_at timestamptz not null default now(),
+  prompted_at timestamptz,
+  remaining jsonb not null default '{"planRows":[],"warmup":[],"cooldown":[]}'::jsonb,
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists workout_active_state_scan_idx
+  on public.workout_active_state (active, last_activity_at);
+
+alter table public.workout_active_state enable row level security;
+
+drop policy if exists "Users manage own active state (select)" on public.workout_active_state;
+create policy "Users manage own active state (select)" on public.workout_active_state
+  for select using (auth.uid() = user_id);
+drop policy if exists "Users manage own active state (write)" on public.workout_active_state;
+create policy "Users manage own active state (write)" on public.workout_active_state
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 일일 걸음수(daily_steps) — 네이티브 앱(Health Connect/HealthKit)에서 읽어 동기화.
+-- 1인 1일 1행(upsert). source = 'health-connect' | 'healthkit' | 'manual'.
+-- ─────────────────────────────────────────────────────────────────────────────
+create table if not exists public.daily_steps (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  steps int not null default 0 check (steps >= 0 and steps <= 200000),
+  source text,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+
+alter table public.daily_steps enable row level security;
+
+drop policy if exists "Users manage own steps (select)" on public.daily_steps;
+create policy "Users manage own steps (select)" on public.daily_steps
+  for select using (auth.uid() = user_id);
+drop policy if exists "Users manage own steps (write)" on public.daily_steps;
+create policy "Users manage own steps (write)" on public.daily_steps
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 커뮤니티(오운완 인증) — 사진 + 한 줄 캡션. group_id 가 null 이면 전체 공개,
+-- 값이 있으면 그 그룹 멤버에게만 보인다(그룹별 탭에서 그룹 이름 태그와 함께).
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 인증 사진 버킷(community-photos) — 공개 읽기, 본인만 업로드/삭제.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'community-photos',
+  'community-photos',
+  true,
+  10485760,
+  array['image/jpeg', 'image/png', 'image/webp', 'image/heic']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Community photos are publicly readable" on storage.objects;
+create policy "Community photos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'community-photos');
+
+drop policy if exists "Users can upload own community photos" on storage.objects;
+create policy "Users can upload own community photos"
+  on storage.objects for insert
+  with check (bucket_id = 'community-photos' and owner = auth.uid());
+
+drop policy if exists "Users can delete own community photos" on storage.objects;
+create policy "Users can delete own community photos"
+  on storage.objects for delete
+  using (bucket_id = 'community-photos' and owner = auth.uid());
+
+-- 게시물 관리자(모더레이터) — 관리자가 이메일로 지정. 모든 게시물 삭제/수정 가능.
+create table if not exists public.community_posts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  group_id uuid references public.groups(id) on delete cascade,
+  -- 공개범위: group(그 그룹만) / public(전체) / public_except_group(그룹 제외 전체).
+  -- group·public_except_group 은 group_id(기준 그룹) 필수.
+  visibility text not null default 'public'
+    check (visibility in ('group', 'public', 'public_except_group')),
+  -- 작성 시점 표시 이름 스냅샷(공개 피드엔 모르는 사람 글도 떠서 프로필 조인이 RLS로 막힘).
+  author_name text not null default '회원',
+  photo_url text not null,
+  caption text check (caption is null or char_length(caption) <= 200),
+  created_at timestamptz not null default now()
+);
+-- 기존 DB 보정 + 백필(group_id 있으면 group, 없으면 public).
+alter table public.community_posts add column if not exists visibility text
+  not null default 'public'
+  check (visibility in ('group', 'public', 'public_except_group'));
+update public.community_posts
+  set visibility = case when group_id is not null then 'group' else 'public' end
+  where visibility is null or visibility = 'public' and group_id is not null;
+create index if not exists community_posts_created_idx
+  on public.community_posts (created_at desc);
+create index if not exists community_posts_group_idx
+  on public.community_posts (group_id, created_at desc);
+
+alter table public.community_posts enable row level security;
+
+-- 읽기: 본인 글 / 전체공개 / (그룹공개 & 그룹멤버) / (그룹제외공개 & 그룹멤버 아님).
+-- 게시물 관리자(디버깅 계정)는 모든 그룹 글을 볼 수 있다.
+drop policy if exists "read visible community posts" on public.community_posts;
+create policy "read visible community posts" on public.community_posts for select
+  using (
+    user_id = auth.uid()
+    or public.is_post_moderator()
+    or visibility = 'public'
+    or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+    or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+  );
+
+-- 쓰기: 본인 글. 전체공개면 그룹 불필요, 그 외(group/except)는 기준 그룹 멤버여야 한다.
+drop policy if exists "insert own community post" on public.community_posts;
+create policy "insert own community post" on public.community_posts for insert
+  with check (
+    user_id = auth.uid()
+    and (
+      visibility = 'public'
+      or (group_id is not null and public.is_group_member(group_id))
+    )
+  );
+
+-- 삭제/수정: 본인 글 또는 게시물 관리자(모더레이터).
+drop policy if exists "delete own community post" on public.community_posts;
+create policy "delete own community post" on public.community_posts for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+drop policy if exists "update own or moderator community post" on public.community_posts;
+create policy "update own or moderator community post" on public.community_posts for update
+  using (user_id = auth.uid() or public.is_post_moderator())
+  with check (user_id = auth.uid() or public.is_post_moderator());
+
+-- 글을 볼 수 있는지(좋아요/댓글 RLS 공통) — 공개글이거나 그 그룹 멤버.
+create or replace function public.can_see_community_post(pid uuid)
+returns boolean language sql security definer stable set search_path = public as $$
+  select exists (
+    select 1 from public.community_posts p
+    where p.id = pid
+      and (
+        p.user_id = auth.uid()
+        or public.is_post_moderator()
+        or p.visibility = 'public'
+        or (p.visibility = 'group' and public.is_group_member(p.group_id))
+        or (p.visibility = 'public_except_group' and (p.group_id is null or not public.is_group_member(p.group_id)))
+      )
+  );
+$$;
+
+-- 좋아요(한 사람당 글 하나에 하나).
+create table if not exists public.community_likes (
+  post_id uuid not null references public.community_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (post_id, user_id)
+);
+create index if not exists community_likes_post_idx
+  on public.community_likes (post_id);
+alter table public.community_likes enable row level security;
+drop policy if exists "read likes on visible posts" on public.community_likes;
+create policy "read likes on visible posts" on public.community_likes for select
+  using (public.can_see_community_post(post_id));
+drop policy if exists "like visible post" on public.community_likes;
+create policy "like visible post" on public.community_likes for insert
+  with check (user_id = auth.uid() and public.can_see_community_post(post_id));
+drop policy if exists "unlike own" on public.community_likes;
+create policy "unlike own" on public.community_likes for delete
+  using (user_id = auth.uid());
+
+-- 댓글.
+create table if not exists public.community_comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid not null references public.community_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  author_name text not null default '회원',
+  body text not null check (char_length(body) between 1 and 300),
+  created_at timestamptz not null default now()
+);
+create index if not exists community_comments_post_idx
+  on public.community_comments (post_id, created_at);
+alter table public.community_comments enable row level security;
+drop policy if exists "read comments on visible posts" on public.community_comments;
+create policy "read comments on visible posts" on public.community_comments for select
+  using (public.can_see_community_post(post_id));
+drop policy if exists "comment on visible post" on public.community_comments;
+create policy "comment on visible post" on public.community_comments for insert
+  with check (user_id = auth.uid() and public.can_see_community_post(post_id));
+drop policy if exists "delete own comment" on public.community_comments;
+create policy "delete own comment" on public.community_comments for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+-- 피드 카운트 집계 RPC — 여러 글의 좋아요/댓글 수를 한 번에(행 전체를 안 가져옴).
+create or replace function public.community_post_counts(pids uuid[])
+returns table(post_id uuid, like_count int, comment_count int)
+language sql stable security definer set search_path = public as $$
+  select x.pid,
+    coalesce(l.n, 0)::int,
+    coalesce(cm.n, 0)::int
+  from unnest(pids) as x(pid)
+  left join (
+    select post_id, count(*) n from public.community_likes
+    where post_id = any(pids) group by post_id
+  ) l on l.post_id = x.pid
+  left join (
+    select post_id, count(*) n from public.community_comments
+    where post_id = any(pids) group by post_id
+  ) cm on cm.post_id = x.pid;
+$$;
+grant execute on function public.community_post_counts(uuid[]) to authenticated;
+
+-- ── 운동 티칭 커뮤니티 ─────────────────────────────────────────────
+-- 운동모드에서 30초씩 찍은 시범 영상을 운동별 태그로 올려 공유. 공개 피드(전체 열람).
+-- 상단에서 태그(운동명)로 검색, 게시물 하단에 태그 노출.
+
+-- 티칭 영상 버킷(teaching-videos) — 공개 읽기, 본인만 업로드/삭제.
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'teaching-videos',
+  'teaching-videos',
+  true,
+  62914560,
+  array['video/mp4', 'video/webm', 'video/quicktime', 'video/3gpp', 'video/x-matroska']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Teaching videos are publicly readable" on storage.objects;
+create policy "Teaching videos are publicly readable"
+  on storage.objects for select
+  using (bucket_id = 'teaching-videos');
+
+drop policy if exists "Users can upload own teaching videos" on storage.objects;
+create policy "Users can upload own teaching videos"
+  on storage.objects for insert
+  with check (bucket_id = 'teaching-videos' and owner = auth.uid());
+
+drop policy if exists "Users can delete own teaching videos" on storage.objects;
+create policy "Users can delete own teaching videos"
+  on storage.objects for delete
+  using (bucket_id = 'teaching-videos' and owner = auth.uid());
+
+create table if not exists public.teaching_posts (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  -- 공개범위 기준 그룹(그룹공개/그룹제외 공개일 때). 전체공개면 null.
+  group_id uuid references public.groups(id) on delete set null,
+  -- 공개범위: group / public / public_except_group (community_posts 와 동일 규칙).
+  visibility text not null default 'public'
+    check (visibility in ('group', 'public', 'public_except_group')),
+  author_name text not null default '회원',
+  -- 앱 카탈로그 운동 slug(있으면). 검색/필터의 태그는 exercise_tag(운동 이름).
+  exercise_slug text,
+  exercise_tag text not null check (char_length(exercise_tag) between 1 and 40),
+  video_url text not null,
+  caption text check (caption is null or char_length(caption) <= 200),
+  created_at timestamptz not null default now()
+);
+-- 기존 DB 보정(컬럼 추가). 기존 티칭 글은 전체공개로 둔다.
+alter table public.teaching_posts add column if not exists group_id uuid
+  references public.groups(id) on delete set null;
+alter table public.teaching_posts add column if not exists visibility text
+  not null default 'public'
+  check (visibility in ('group', 'public', 'public_except_group'));
+create index if not exists teaching_posts_created_idx
+  on public.teaching_posts (created_at desc);
+create index if not exists teaching_posts_tag_idx
+  on public.teaching_posts (lower(exercise_tag), created_at desc);
+
+alter table public.teaching_posts enable row level security;
+
+-- 읽기: community_posts 와 동일 — 본인 / 전체 / 그룹 / 그룹제외 + 관리자(디버깅) 전체.
+drop policy if exists "read teaching posts" on public.teaching_posts;
+create policy "read teaching posts" on public.teaching_posts for select
+  using (
+    user_id = auth.uid()
+    or public.is_post_moderator()
+    or visibility = 'public'
+    or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+    or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+  );
+
+-- 쓰기: 본인 글. 전체공개면 그룹 불필요, 그 외는 기준 그룹 멤버여야 한다.
+drop policy if exists "insert own teaching post" on public.teaching_posts;
+create policy "insert own teaching post" on public.teaching_posts for insert
+  with check (
+    user_id = auth.uid()
+    and (
+      visibility = 'public'
+      or (group_id is not null and public.is_group_member(group_id))
+    )
+  );
+
+-- 삭제/수정: 본인 또는 게시물 관리자(모더레이터).
+drop policy if exists "delete own teaching post" on public.teaching_posts;
+create policy "delete own teaching post" on public.teaching_posts for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+drop policy if exists "update own or moderator teaching post" on public.teaching_posts;
+create policy "update own or moderator teaching post" on public.teaching_posts for update
+  using (user_id = auth.uid() or public.is_post_moderator())
+  with check (user_id = auth.uid() or public.is_post_moderator());
+
+-- ── 운동(티칭) 게시판 소셜 — 좋아요/댓글 ──────────────────────────────
+-- community_* 는 community_posts(id) FK 라 티칭 글에 못 쓴다. 티칭 전용 테이블.
+create table if not exists public.teaching_likes (
+  post_id uuid not null references public.teaching_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (post_id, user_id)
+);
+create index if not exists teaching_likes_post_idx
+  on public.teaching_likes (post_id);
+alter table public.teaching_likes enable row level security;
+drop policy if exists "read teaching likes" on public.teaching_likes;
+create policy "read teaching likes" on public.teaching_likes for select using (true);
+drop policy if exists "like teaching" on public.teaching_likes;
+create policy "like teaching" on public.teaching_likes for insert
+  with check (user_id = auth.uid());
+drop policy if exists "unlike teaching own" on public.teaching_likes;
+create policy "unlike teaching own" on public.teaching_likes for delete
+  using (user_id = auth.uid());
+
+create table if not exists public.teaching_comments (
+  id uuid primary key default gen_random_uuid(),
+  post_id uuid not null references public.teaching_posts(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  author_name text not null default '회원',
+  body text not null check (char_length(body) between 1 and 300),
+  created_at timestamptz not null default now()
+);
+create index if not exists teaching_comments_post_idx
+  on public.teaching_comments (post_id, created_at);
+alter table public.teaching_comments enable row level security;
+drop policy if exists "read teaching comments" on public.teaching_comments;
+create policy "read teaching comments" on public.teaching_comments for select using (true);
+drop policy if exists "comment teaching" on public.teaching_comments;
+create policy "comment teaching" on public.teaching_comments for insert
+  with check (user_id = auth.uid());
+drop policy if exists "delete teaching comment own" on public.teaching_comments;
+create policy "delete teaching comment own" on public.teaching_comments for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+create or replace function public.teaching_post_counts(pids uuid[])
+returns table(post_id uuid, like_count int, comment_count int, liked_by_me boolean)
+language sql stable security definer set search_path = public as $$
+  select x.pid,
+    coalesce(l.n, 0)::int,
+    coalesce(cm.n, 0)::int,
+    coalesce(me.mine, false)
+  from unnest(pids) as x(pid)
+  left join (select post_id, count(*) n from public.teaching_likes where post_id = any(pids) group by post_id) l on l.post_id = x.pid
+  left join (select post_id, count(*) n from public.teaching_comments where post_id = any(pids) group by post_id) cm on cm.post_id = x.pid
+  left join (select post_id, true mine from public.teaching_likes where post_id = any(pids) and user_id = auth.uid()) me on me.post_id = x.pid;
+$$;
+grant execute on function public.teaching_post_counts(uuid[]) to authenticated;
+
+-- ── 게시판/댓글 신고 ──────────────────────────────────────────────
+-- 누구나 신고 등록(본인 명의). 모더레이터만 열람/처리(글·댓글 삭제, 작성자 정지).
+create table if not exists public.post_reports (
+  id uuid primary key default gen_random_uuid(),
+  target_kind text not null check (target_kind in ('community_post','community_comment','teaching_post','teaching_comment')),
+  target_id uuid not null,
+  target_user_id uuid,
+  target_author text,
+  target_preview text,
+  reporter_id uuid not null references auth.users(id) on delete cascade,
+  reason text not null check (char_length(reason) between 1 and 500),
+  status text not null default 'open' check (status in ('open','resolved')),
+  created_at timestamptz not null default now()
+);
+create index if not exists post_reports_status_idx
+  on public.post_reports (status, created_at desc);
+alter table public.post_reports enable row level security;
+drop policy if exists "insert own report" on public.post_reports;
+create policy "insert own report" on public.post_reports for insert
+  with check (reporter_id = auth.uid());
+drop policy if exists "moderator read reports" on public.post_reports;
+create policy "moderator read reports" on public.post_reports for select
+  using (public.is_post_moderator());
+drop policy if exists "moderator update reports" on public.post_reports;
+create policy "moderator update reports" on public.post_reports for update
+  using (public.is_post_moderator());
+drop policy if exists "moderator delete reports" on public.post_reports;
+create policy "moderator delete reports" on public.post_reports for delete
+  using (public.is_post_moderator());
+
+-- ── 루틴 소개(하루치 루틴 공유) ────────────────────────────────────────────
+-- 내 루틴의 '한 일차'(예: 1일차 등)를 운동 순서·메모까지 스냅샷으로 굳혀 공개한다.
+-- 다른 사람은 이걸 자기 루틴의 한 일차로 담아간다(routine_presets 의 jsonb 모양 재사용).
+-- ⚠ 참조가 아니라 복사 — 올린 뒤 내가 루틴을 고쳐도 이미 올린 글은 안 바뀐다.
+-- 설계: docs/design/routine-share.md
+create table if not exists public.routine_shares (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  -- 작성 시점 표시 이름 스냅샷(공개 피드는 남의 profiles 를 RLS 로 못 읽는다).
+  author_name text not null default '회원',
+  -- 공개범위 기준 그룹(그룹공개/그룹제외 공개일 때). 전체공개면 null.
+  group_id uuid references public.groups(id) on delete set null,
+  visibility text not null default 'public'
+    check (visibility in ('group', 'public', 'public_except_group')),
+  title text not null check (char_length(title) between 1 and 60),
+  caption text check (caption is null or char_length(caption) <= 200),
+  -- 이 일차의 부위 목록(예: ["back"]). 피드 부위 칩 필터용.
+  focus_blocks jsonb not null default '[]'::jsonb,
+  -- routine_exercises / routine_conditioning 행 스냅샷(snake_case 그대로).
+  exercises jsonb not null default '[]'::jsonb,
+  conditioning jsonb not null default '[]'::jsonb,
+  -- 무게 포함 여부. false 면 스냅샷의 weight_kg 가 전부 null(작성자 무게 노출 안 함).
+  include_weight boolean not null default false,
+  -- 남이 '내 루틴에 담기' 한 횟수(정렬·표시용).
+  save_count int not null default 0,
+  created_at timestamptz not null default now()
+);
+create index if not exists routine_shares_created_idx
+  on public.routine_shares (created_at desc);
+-- 부위 칩 필터 — focus_blocks 배열 안에 해당 부위가 있는 글만.
+create index if not exists routine_shares_focus_idx
+  on public.routine_shares using gin (focus_blocks);
+
+alter table public.routine_shares enable row level security;
+
+-- 읽기: teaching_posts 와 동일 — 본인 / 전체 / 그룹 / 그룹제외 + 모더레이터 전체.
+drop policy if exists "read routine shares" on public.routine_shares;
+create policy "read routine shares" on public.routine_shares for select
+  using (
+    user_id = auth.uid()
+    or public.is_post_moderator()
+    or visibility = 'public'
+    or (visibility = 'group' and group_id is not null and public.is_group_member(group_id))
+    or (visibility = 'public_except_group' and (group_id is null or not public.is_group_member(group_id)))
+  );
+
+drop policy if exists "insert own routine share" on public.routine_shares;
+create policy "insert own routine share" on public.routine_shares for insert
+  with check (
+    user_id = auth.uid()
+    and (
+      visibility = 'public'
+      or (group_id is not null and public.is_group_member(group_id))
+    )
+  );
+
+drop policy if exists "delete own routine share" on public.routine_shares;
+create policy "delete own routine share" on public.routine_shares for delete
+  using (user_id = auth.uid() or public.is_post_moderator());
+
+-- 수정: 본인/모더레이터. 담긴 수 증가는 아래 rpc(security definer)로만 올린다.
+drop policy if exists "update own routine share" on public.routine_shares;
+create policy "update own routine share" on public.routine_shares for update
+  using (user_id = auth.uid() or public.is_post_moderator())
+  with check (user_id = auth.uid() or public.is_post_moderator());
+
+create table if not exists public.routine_share_likes (
+  share_id uuid not null references public.routine_shares(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  created_at timestamptz not null default now(),
+  primary key (share_id, user_id)
+);
+create index if not exists routine_share_likes_share_idx
+  on public.routine_share_likes (share_id);
+alter table public.routine_share_likes enable row level security;
+drop policy if exists "read routine share likes" on public.routine_share_likes;
+create policy "read routine share likes" on public.routine_share_likes for select using (true);
+drop policy if exists "like routine share" on public.routine_share_likes;
+create policy "like routine share" on public.routine_share_likes for insert
+  with check (user_id = auth.uid());
+drop policy if exists "unlike routine share own" on public.routine_share_likes;
+create policy "unlike routine share own" on public.routine_share_likes for delete
+  using (user_id = auth.uid());
+
+-- 담긴 수 +1 — 담는 사람은 남의 글이라 update 권한이 없으므로 security definer 로.
+create or replace function public.bump_routine_share_saves(p_share_id uuid)
+returns void
+language sql
+security definer
+set search_path = public
+as $$
+  update public.routine_shares set save_count = save_count + 1 where id = p_share_id;
+$$;
+grant execute on function public.bump_routine_share_saves(uuid) to authenticated;
+
+-- ── 크론 실행 기록 ────────────────────────────────────────────────
+-- 크론이 "돌긴 도는지" 를 아무도 모르는 게 가장 큰 위험이다(workout-inactivity 는
+-- vercel.json 등록이 빠져 한 번도 안 돌았는데 아무 신호가 없었다).
+-- 매 실행마다 소요시간·상태·발송 수·실패 사유를 남기고 관리자 화면에서 성공률로 본다.
+-- 쓰기는 서비스 롤(크론)만 — RLS 를 켜고 정책은 관리자 읽기만 준다.
+create table if not exists public.cron_runs (
+  id uuid primary key default gen_random_uuid(),
+  -- vercel.json 의 /api/cron/<name>
+  name text not null,
+  started_at timestamptz not null,
+  finished_at timestamptz not null default now(),
+  duration_ms int not null default 0,
+  -- ok=정상 / skipped=사전조건 미충족(푸시 미설정 등, 실패 아님) / error=예외
+  status text not null default 'ok' check (status in ('ok', 'skipped', 'error')),
+  scanned int not null default 0,
+  targeted int not null default 0,
+  sent int not null default 0,
+  deduped int not null default 0,
+  failed int not null default 0,
+  reason text,
+  created_at timestamptz not null default now()
+);
+create index if not exists cron_runs_name_idx
+  on public.cron_runs (name, started_at desc);
+alter table public.cron_runs enable row level security;
+drop policy if exists "admin reads cron runs" on public.cron_runs;
+create policy "admin reads cron runs" on public.cron_runs for select
+  using (public.is_admin());
+
+-- ── 알림 발송 기록(중복 방지) ──────────────────────────────────────
+-- 크론은 재실행된다(재시도·수동 호출·스케줄 변경). 같은 사람에게 같은 알림이
+-- 두 번 가면 그냥 스팸이므로, 보낸 것을 (사용자, 키) 로 남겨 다음 실행에서 건너뛴다.
+-- 키에 기간이 들어간다: 'daily-reminders:diet:2026-08-31', 'weekly-group-mvp:<그룹>:<주월요일>'
+-- → 다음 날/다음 주에는 정상적으로 다시 나간다.
+-- 서비스 롤(크론)만 읽고 쓴다 — 사용자용 정책은 두지 않는다.
+create table if not exists public.notification_sends (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  dedup_key text not null,
+  sent_at timestamptz not null default now(),
+  primary key (user_id, dedup_key)
+);
+-- 보존기간(30일) 지난 행 정리용.
+create index if not exists notification_sends_sent_idx
+  on public.notification_sends (sent_at);
+alter table public.notification_sends enable row level security;
+
+-- ── 실사용 오류 관측(app_events) ─────────────────────────────────────
+-- 프로덕션에서 무슨 일이 나는지 볼 방법이 서버 로그밖에 없었다(로드맵 1.3).
+-- WebView 종료·로그인 실패·푸시 등록 실패·저장 실패·느린 화면·메모리 경고를
+-- **정해진 종류만** 남긴다. 원문 대신 세탁한 문자열만 들어온다
+-- (이메일·토큰·uuid·긴 숫자·쿼리스트링 → 자리표시자. src/lib/observability/app-event.ts)
+-- 같은 사건이 연속으로 나면 행을 늘리지 않고 count 를 올린다.
+-- 보존 30일 — 하루 한 번 도는 리마인더 크론이 오래된 행을 지운다.
+create table if not exists public.app_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  kind text not null,
+  severity text not null default 'error' check (severity in ('error', 'warn')),
+  route text,
+  message text,
+  app_version text,
+  platform text not null default 'web' check (platform in ('android', 'web')),
+  device text,
+  value int,
+  count int not null default 1,
+  occurred_at timestamptz not null default now(),
+  created_at timestamptz not null default now()
+);
+create index if not exists app_events_occurred_idx
+  on public.app_events (occurred_at desc);
+create index if not exists app_events_kind_idx
+  on public.app_events (kind, occurred_at desc);
+-- 사용량 상한(악용 차단)을 최근 것만 세면 되게.
+create index if not exists app_events_user_idx
+  on public.app_events (user_id, created_at desc);
+alter table public.app_events enable row level security;
+-- 자기 사건만 넣을 수 있다 — 남의 user_id 로는 못 쌓는다.
+drop policy if exists "user inserts own app event" on public.app_events;
+create policy "user inserts own app event" on public.app_events for insert
+  with check (auth.uid() = user_id);
+-- 읽기는 관리자만. 오류 문구에 다른 사용자 상황이 섞일 수 있다.
+drop policy if exists "admin reads app events" on public.app_events;
+create policy "admin reads app events" on public.app_events for select
+  using (public.is_admin());
+-- 상한 검사용 자기 행 개수 조회(select) 는 위 관리자 정책만으로는 안 되므로
+-- 본인 행 읽기를 따로 허용한다(자기가 보낸 것만 보인다).
+drop policy if exists "user reads own app events" on public.app_events;
+create policy "user reads own app events" on public.app_events for select
+  using (auth.uid() = user_id);
+
+-- ── 사용자별 알림 설정(notification_preferences) ────────────────────
+-- 알림이 '전부 아니면 전무' 였다. 밤 11시에 "운동을 종료하시겠습니까?" 가 뜨면
+-- 사람은 알림 자체를 꺼 버리고, 그러면 정작 필요한 것도 못 받는다(로드맵 3.1).
+-- 종류별 동의 + 야간 방해 금지.
+--
+-- 🔴 **행이 없어도 동작해야 한다.** 기존 사용자에게 행을 만들지 않으므로,
+--    읽는 쪽이 기본값(전부 켜짐 + 야간 22~07 금지)으로 메운다
+--    (src/features/notifications/preferences.ts 의 DEFAULT_PREFERENCES).
+--    그래서 컬럼 기본값도 같은 값으로 맞춰 둔다 — 둘이 갈라지면 화면과 발송이 달라진다.
+-- 시각은 **서울 기준 시(0~23)**. 이 앱의 날짜·크론이 전부 서울 기준이다.
+create table if not exists public.notification_preferences (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  workout_reminder boolean not null default true,
+  diet_reminder boolean not null default true,
+  workout_inactivity boolean not null default true,
+  group_activity boolean not null default true,
+  routine_saved boolean not null default true,
+  -- 트레이너(그룹장)가 내 루틴을 바꿨을 때. 🔴 이건 **내가 안 한 변경**이라
+  -- 그룹 소식(group_activity)에 묶지 않는다 — MVP 알림을 껐다고 남이 내 루틴을 바꾼 걸
+  -- 모르게 되면 안 된다.
+  routine_assigned boolean not null default true,
+  -- 트레이너가 남긴 코멘트. 배정과 따로 끈다(하나는 루틴 변경, 하나는 말이다).
+  trainer_comment boolean not null default true,
+  rest_timer boolean not null default true,
+  -- 이번 주 아직 안 한 부위 알림(주말에 한 번). 리마인더와 따로 끈다 —
+  -- 하나는 "오늘 나와라", 하나는 "나오긴 했는데 하체를 빼먹고 있다" 로 성격이 다르다.
+  weekly_balance boolean not null default true,
+  quiet_hours boolean not null default true,
+  quiet_start_hour smallint not null default 22
+    check (quiet_start_hour >= 0 and quiet_start_hour <= 23),
+  quiet_end_hour smallint not null default 7
+    check (quiet_end_hour >= 0 and quiet_end_hour <= 23),
+  updated_at timestamptz not null default now()
+);
+-- 기존 DB 보정 — 표는 이미 있으므로 컬럼만 더한다.
+alter table public.notification_preferences
+  add column if not exists weekly_balance boolean not null default true;
+alter table public.notification_preferences
+  add column if not exists routine_assigned boolean not null default true;
+alter table public.notification_preferences
+  add column if not exists trainer_comment boolean not null default true;
+alter table public.notification_preferences enable row level security;
+-- 본인만 읽고 쓴다. 크론은 서비스 롤이라 RLS 를 우회한다.
+drop policy if exists "own notification preferences" on public.notification_preferences;
+create policy "own notification preferences" on public.notification_preferences
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
+-- AI 사용량 한도 — 로드맵 7.1. (user_id, month, feature) 당 한 행.
+-- month 는 **서울 기준** 'YYYY-MM' — UTC 로 세면 매월 1일 0~9시가 지난달로 들어간다.
+create table if not exists public.ai_usage (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  month text not null,
+  feature text not null,
+  used int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, month, feature)
+);
+create index if not exists ai_usage_month_idx on public.ai_usage (month);
+alter table public.ai_usage enable row level security;
+-- 읽기는 본인 것만. **쓰기 정책은 두지 않는다** — 사용량은 아래 SECURITY DEFINER 함수로만
+-- 오른다. 클라이언트가 직접 update 할 수 있으면 한도를 스스로 0 으로 되돌린다.
+drop policy if exists ai_usage_select_own on public.ai_usage;
+create policy ai_usage_select_own on public.ai_usage
+  for select using (auth.uid() = user_id);
+
+-- 한도 검사와 증가를 **한 문장으로**. 읽고 나서 올리면 그 사이에 다른 요청이 끼어들어
+-- 한도를 넘길 수 있다(사진 스캔은 연타가 흔하다).
+-- 한도 안이면 올린 뒤의 값을, 넘었으면 -1 을 돌려준다.
+create or replace function public.consume_ai_quota(
+  p_feature text, p_month text, p_limit int)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_used int;
+begin
+  if auth.uid() is null then
+    return -1;
+  end if;
+  insert into public.ai_usage (user_id, month, feature, used, updated_at)
+  values (auth.uid(), p_month, p_feature, 1, now())
+  on conflict (user_id, month, feature) do update
+    set used = public.ai_usage.used + 1, updated_at = now()
+    where public.ai_usage.used < p_limit
+  returning used into v_used;
+
+  if v_used is null then
+    return -1; -- 한도 초과(갱신 대상이 없었다)
+  end if;
+  return v_used;
+end;
+$$;
+revoke all on function public.consume_ai_quota(text, text, int) from public;
+grant execute on function public.consume_ai_quota(text, text, int) to authenticated;
+
+-- ────────────────────────────────────────────────────────────────
+-- AI 분석 결과 보관 — 로드맵 7.1. 다시 열어 볼 때 **AI 를 또 부르지 않기 위해** 남긴다
+-- (재조회가 공짜여야 사용자가 마음 놓고 다시 본다). 사용자당 종류별 최근 것만 유지.
+create table if not exists public.ai_analyses (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  kind text not null check (kind in ('workout', 'diet', 'posture')),
+  summary text not null,
+  points jsonb not null default '[]'::jsonb check (jsonb_typeof(points) = 'array'),
+  subject text,
+  created_at timestamptz not null default now()
+);
+create index if not exists ai_analyses_user_kind_idx
+  on public.ai_analyses (user_id, kind, created_at desc);
+alter table public.ai_analyses enable row level security;
+-- 내 분석은 나만. 사용량과 달리 사용자가 지울 수 있어야 한다(내 기록이다).
+drop policy if exists ai_analyses_own on public.ai_analyses;
+create policy ai_analyses_own on public.ai_analyses
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- ────────────────────────────────────────────────────────────────
+-- 구독(구글 플레이 인앱결제) — 로드맵 7.1. 사용자당 한 행(가장 최근 구매).
+-- 권한은 state 가 아니라 **expires_at** 에서 나온다(코드 주석 참고) — 그래야 해지·
+-- 환불·결제실패를 따로 처리하지 않아도 저절로 맞는다.
+create table if not exists public.subscriptions (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  platform text not null default 'google_play' check (platform in ('google_play')),
+  product_id text not null default '',
+  purchase_token text not null,
+  state text not null check (state in ('active', 'grace', 'canceled', 'on_hold', 'paused', 'expired')),
+  expires_at timestamptz,
+  auto_renewing boolean not null default false,
+  verified_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+-- 🔴 같은 구매를 여러 계정이 나눠 쓰지 못하게. 없으면 구매 토큰 하나로 여러 계정이
+-- 프리미엄이 된다.
+create unique index if not exists subscriptions_token_uniq
+  on public.subscriptions (purchase_token);
+create index if not exists subscriptions_expires_idx
+  on public.subscriptions (expires_at);
+alter table public.subscriptions enable row level security;
+-- 읽기는 본인만. **쓰기 정책은 두지 않는다** — 구독 상태는 서버가 구글에 물어본 결과로만
+-- 바뀐다. 클라이언트가 직접 쓸 수 있으면 스스로 프리미엄이 된다.
+drop policy if exists subscriptions_select_own on public.subscriptions;
+create policy subscriptions_select_own on public.subscriptions
+  for select using (auth.uid() = user_id);
+
+notify pgrst, 'reload schema';
+
+-- ────────────────────────────────────────────────────────────────
+-- 요청 폭주 제한(rate limit) — 2026-09-07. 한도·창 길이는 코드(`src/lib/rate-limit/policy.ts`)에
+-- 있고, 여기서는 **세는 자리**만 만든다. 아이디 찾기(휴대폰 OTP 를 걷어낸 뒤 관문이 없다)·
+-- 비밀번호 인증번호 메일·AI 분당 폭주를 같은 표로 센다.
+create table if not exists public.rate_limits (
+  bucket text not null,
+  key text not null,
+  window_start bigint not null,
+  count int not null default 0,
+  updated_at timestamptz not null default now(),
+  primary key (bucket, key, window_start)
+);
+-- 지난 창을 치우는 용도. 창이 지나면 이 행들은 아무 의미가 없다.
+create index if not exists rate_limits_window_idx
+  on public.rate_limits (window_start);
+alter table public.rate_limits enable row level security;
+-- 🔴 정책을 **하나도 두지 않는다** — 읽기조차. 자기 시도 횟수를 읽을 수 있으면
+-- "몇 번 남았나" 를 보며 정확히 한도 직전까지 긁을 수 있고, 쓸 수 있으면 스스로
+-- 0 으로 되돌린다. 오직 아래 SECURITY DEFINER 함수만 이 표를 만진다.
+
+-- 🔴 검사와 증가를 한 문장으로. 읽고 나서 올리면 그 사이에 다른 요청이 끼어드는데,
+-- 막으려는 대상이 바로 그 '동시에 쏟아지는 요청' 이라 틈이 벌어지면 제한이 무의미해진다.
+-- 한도 안이면 true, 넘었으면 false. 넘은 요청은 세지 않는다(계속 두드려도 창은 안 늘어난다).
+create or replace function public.consume_rate_limit(
+  p_bucket text, p_key text, p_window_start bigint, p_limit int)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_count int;
+begin
+  insert into public.rate_limits (bucket, key, window_start, count, updated_at)
+  values (p_bucket, p_key, p_window_start, 1, now())
+  on conflict (bucket, key, window_start) do update
+    set count = public.rate_limits.count + 1, updated_at = now()
+    where public.rate_limits.count < p_limit
+  returning count into v_count;
+
+  -- 지난 창 청소. 쓰는 김에 조금씩 지운다 — 크론에 맡기면 크론이 하루 안 돌 때
+  -- 조용히 쌓인다. 한 번에 다 지우지 않는 건 이 함수가 요청 경로 위에 있어서다.
+  if random() < 0.01 then
+    delete from public.rate_limits
+      where window_start < extract(epoch from now()) - 86400;
+  end if;
+
+  return v_count is not null;
+end;
+$$;
+
+-- 🔴 anon 에게도 실행 권한이 필요하다 — 아이디 찾기·비밀번호 찾기는 **로그인 전** 호출이다.
+-- (표 자체는 정책이 없어 못 만진다. 이 함수만이 유일한 통로다.)
+revoke all on function public.consume_rate_limit(text, text, bigint, int) from public;
+grant execute on function public.consume_rate_limit(text, text, bigint, int)
+  to anon, authenticated;
+
+notify pgrst, 'reload schema';
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 익명(anon) 실행 권한 정리 — 2026-09-09.
+--
+-- 🔴 Supabase 는 public 스키마 함수에 **anon 실행권한을 기본으로 준다**(default
+--    privileges). 그래서 아무것도 안 적으면 로그인도 안 한 사람이 SECURITY DEFINER
+--    함수를 그대로 부를 수 있다. 아래는 **로그인해야만 쓰는 기능**이라 회수한다.
+--
+-- ⚠ 반대로 **회수하면 안 되는 것들**이 있다. 이유가 두 가지라 헷갈리기 쉽다:
+--    1) 로그인 **전** 흐름이 쓴다 — `find_login_email` · `request_password_otp` ·
+--       `verify_otp_and_reset`(아이디/비번 찾기) · `group_name_by_token`(초대 미리보기) ·
+--       `consume_rate_limit`(그 흐름들을 보호하는 폭주 제한이 로그인 전에 돈다).
+--    2) **RLS 정책 안에서 불린다** — 정책 식은 조회하는 사람의 권한으로 평가되므로,
+--       회수하면 anon 조회가 통째로 오류가 난다:
+--       `is_admin` · `is_group_member` · `is_post_moderator` · `shares_group_with` ·
+--       `can_see_community_post`.
+--    3) `/community` · `/groups` 는 보호 경로가 아니라 비로그인도 닿는다 →
+--       `community_post_counts` · `teaching_post_counts` · `group_mode` 도 남긴다.
+--
+-- (자매앱 함수 `iq_*` 는 이 저장소가 안 쓴다 — 그쪽 저장소에서 판단할 일이라 안 건드린다.)
+-- 🔴 `from anon` 만으로는 **안 빠진다.** 기본 권한은 `PUBLIC` 에 붙어 있어서
+--    anon 은 PUBLIC 을 통해 계속 부를 수 있다(실측으로 확인). PUBLIC 에서 회수한 뒤
+--    로그인 사용자에게 **명시적으로** 다시 줘야 한다 — 안 그러면 로그인 사용자까지 막힌다.
+revoke execute on function public.bump_routine_share_saves(uuid) from public, anon;
+grant execute on function public.bump_routine_share_saves(uuid) to authenticated;
+revoke execute on function public.consume_ai_quota(text, text, int) from public, anon;
+grant execute on function public.consume_ai_quota(text, text, int) to authenticated;
+revoke execute on function public.join_group_by_token(text) from public, anon;
+grant execute on function public.join_group_by_token(text) to authenticated;
+revoke execute on function public.debug_feature_enabled(text) from public, anon;
+grant execute on function public.debug_feature_enabled(text) to authenticated;
+revoke execute on function public.is_debug_account() from public, anon;
+grant execute on function public.is_debug_account() to authenticated;
+
+-- ─── 슈퍼세트 ──────────────────────────────────────────────────────────
+-- 같은 값이면 한 묶음(쉬지 않고 번갈아 한다). null = 단독 운동.
+-- 🔴 묶음은 **붙어 있는 줄끼리만** 성립한다 — 사이에 다른 운동이 끼면 그건 순환이지
+-- 슈퍼세트가 아니다. 붙어 있는지는 앱이 판정한다(position 은 부위 안에서만 유일).
+alter table public.routine_exercises
+  add column if not exists superset_group smallint
+  check (superset_group is null or (superset_group >= 1 and superset_group <= 99));
+alter table public.daily_plan
+  add column if not exists superset_group smallint
+  check (superset_group is null or (superset_group >= 1 and superset_group <= 99));
+
+-- ─── 수분 섭취 ─────────────────────────────────────────────────────────
+-- 하루 한 행의 **누적 ml**. "몇 시에 얼마 마셨나" 는 아무도 안 보고, 행을 쌓으면
+-- 되돌리기·합계가 전부 왕복 여러 번이 된다. 컵 하나는 upsert 한 번이면 끝난다.
+create table if not exists public.water_logs (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  for_date date not null,
+  ml int not null default 0 check (ml >= 0 and ml <= 10000),
+  updated_at timestamptz not null default now(),
+  primary key (user_id, for_date)
+);
+alter table public.water_logs enable row level security;
+drop policy if exists "own water logs" on public.water_logs;
+create policy "own water logs" on public.water_logs
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+-- 🔴 더하기·빼기를 **한 문장으로**. 읽고 나서 쓰면 컵을 연타할 때 사이에 다른
+-- 요청이 끼어들어 한 잔이 사라진다(같은 하루·같은 행을 두 요청이 동시에 만진다).
+-- 0 아래·하루 최대 위로는 안 나가게 여기서 자른다 — 클라이언트를 믿지 않는다.
+create or replace function public.add_water_ml(p_date date, p_delta int)
+returns int
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_ml int;
+begin
+  if auth.uid() is null then
+    raise exception 'auth required';
+  end if;
+  insert into public.water_logs (user_id, for_date, ml, updated_at)
+  values (auth.uid(), p_date, greatest(0, least(10000, p_delta)), now())
+  on conflict (user_id, for_date) do update
+    set ml = greatest(0, least(10000, public.water_logs.ml + p_delta)),
+        updated_at = now()
+  returning ml into v_ml;
+  return v_ml;
+end;
+$$;
+revoke execute on function public.add_water_ml(date, int) from public, anon;
+grant execute on function public.add_water_ml(date, int) to authenticated;
+
+-- `rls_auto_enable` 은 **유지보수용**이다 — 로그인 사용자도 부를 이유가 없다.
+-- 소유자(service_role)만 남긴다.
+do $optional$ begin
+  if to_regprocedure('public.rls_auto_enable()') is not null then
+    revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
+  end if;
+end $optional$;
+notify pgrst, 'reload schema';
+
+-- Trainer member reports and permanent routine prescriptions.
+-- Apply after schema.sql. No broad cross-member RLS grants.
+create or replace function public.trainer_member_report(
+  p_group_id uuid, p_member uuid, p_from date, p_to date)
+returns jsonb language plpgsql security definer stable set search_path = public as $$
+begin
+  if auth.uid() is null or p_member = auth.uid() or not exists (
+    select 1 from public.groups where id = p_group_id and owner_id = auth.uid()
+  ) or not exists (
+    select 1 from public.group_members where group_id = p_group_id and user_id = p_member
+  ) then return null; end if;
+  if p_from is null or p_to is null or p_to < p_from or p_to - p_from > 365 then
+    raise exception 'Invalid report period';
+  end if;
+  return jsonb_build_object(
+    'name', coalesce((select coalesce(nullif(trim(p.nickname), ''), nullif(trim(p.name), '')) from public.profiles p where p.user_id = p_member),
+      (select nullif(trim(m.display_name), '') from public.group_members m where m.group_id = p_group_id and m.user_id = p_member), '회원'),
+    'exercises', coalesce((select jsonb_agg(jsonb_build_object(
+      'id', r.id, 'day_index', r.day_index, 'focus', r.focus, 'exercise_id', r.exercise_id,
+      'equipment', r.equipment, 'sets', r.sets, 'reps', r.reps, 'weight_kg', r.weight_kg,
+      'set_details', r.set_details, 'updated_at', r.updated_at) order by r.day_index, r.position, r.id)
+      from public.routine_exercises r where r.user_id = p_member), '[]'::jsonb),
+    'completions', coalesce((select jsonb_agg(jsonb_build_object(
+      'for_date', e.for_date, 'exercise_id', e.exercise_id, 'sets', e.sets, 'reps', e.reps,
+      'weight_kg', e.weight_kg, 'set_details', e.set_details))
+      from public.exercise_completions e where e.user_id = p_member and e.status = 'done'
+      and e.for_date between p_from and p_to), '[]'::jsonb),
+    'conditioning', coalesce((select jsonb_agg(jsonb_build_object('for_date', c.for_date))
+      from (select distinct for_date from public.conditioning_completions where user_id = p_member
+      and status = 'done' and for_date between p_from and p_to) c), '[]'::jsonb),
+    'sessions', coalesce((select jsonb_agg(jsonb_build_object('for_date', s.for_date, 'duration_sec', s.duration_sec))
+      from public.workout_sessions s where s.user_id = p_member and s.for_date between p_from and p_to), '[]'::jsonb),
+    'diet', coalesce((select jsonb_agg(jsonb_build_object('for_date', f.for_date))
+      from (select distinct for_date from public.food_logs where user_id = p_member and for_date between p_from and p_to) f), '[]'::jsonb),
+    'weights', coalesce((select jsonb_agg(jsonb_build_object('date', (w.created_at at time zone 'Asia/Seoul')::date, 'weight_kg', w.weight_kg) order by w.created_at)
+      from public.weight_logs w where w.user_id = p_member and w.weight_kg is not null
+      and w.created_at >= (p_from::timestamp at time zone 'Asia/Seoul')
+      and w.created_at < ((p_to + 1)::timestamp at time zone 'Asia/Seoul')), '[]'::jsonb)
+  );
+end $$;
+revoke all on function public.trainer_member_report(uuid, uuid, date, date) from public, anon;
+grant execute on function public.trainer_member_report(uuid, uuid, date, date) to authenticated;
+
+create or replace function public.trainer_prescribe_exercise(
+  p_group_id uuid, p_member uuid, p_row uuid, p_expected_updated_at timestamptz,
+  p_patch jsonb, p_note text)
+returns boolean language plpgsql security definer set search_path = public as $$
+declare
+  current_row public.routine_exercises%rowtype;
+  next_id uuid;
+begin
+  if auth.uid() is null or p_member = auth.uid() then return false; end if;
+  -- Hold the relationship while changing the prescription; removal/ownership transfer waits.
+  perform 1 from public.groups where id = p_group_id and owner_id = auth.uid() for share;
+  if not found then return false; end if;
+  perform 1 from public.group_members where group_id = p_group_id and user_id = p_member for share;
+  if not found then return false; end if;
+  select * into current_row from public.routine_exercises
+    where id = p_row and user_id = p_member for update;
+  if not found or p_expected_updated_at is null or current_row.updated_at <> p_expected_updated_at then return false; end if;
+  if p_note is null or length(trim(p_note)) = 0 or length(p_note) > 500 then raise exception 'Invalid note'; end if;
+  if p_patch is null then
+    delete from public.routine_exercises where id = p_row and user_id = p_member;
+  else
+    if jsonb_typeof(p_patch) <> 'object'
+      or not (p_patch ?& array['exerciseId','equipment','sets','reps','weightKg'])
+      or jsonb_typeof(p_patch->'exerciseId') <> 'string'
+      or length(trim(p_patch->>'exerciseId')) not between 1 and 200
+      or (p_patch->>'equipment') not in ('barbell','dumbbell','machine','cable','bodyweight','smith','kettlebell','band','trx','medicineball','landmine','sled','battlerope','bosu','ball','plate','other')
+      or jsonb_typeof(p_patch->'equipment') <> 'string'
+      or jsonb_typeof(p_patch->'sets') <> 'number' or jsonb_typeof(p_patch->'reps') <> 'number'
+      or (p_patch->>'sets')::numeric not between 1 and 20 or (p_patch->>'sets')::numeric <> trunc((p_patch->>'sets')::numeric)
+      or (p_patch->>'reps')::numeric not between 1 and 100 or (p_patch->>'reps')::numeric <> trunc((p_patch->>'reps')::numeric)
+      or (jsonb_typeof(p_patch->'weightKg') not in ('null','number'))
+      or (jsonb_typeof(p_patch->'weightKg') = 'number' and (
+        (p_patch->>'weightKg')::numeric not between 0 and 9999.9
+        or (p_patch->>'weightKg')::numeric <> round((p_patch->>'weightKg')::numeric, 1)))
+    then raise exception 'Invalid prescription'; end if;
+    -- A replaced exercise must not inherit the previous exercise's completion for today.
+    next_id := case when current_row.exercise_id <> p_patch->>'exerciseId'
+      or current_row.equipment <> p_patch->>'equipment' then gen_random_uuid() else current_row.id end;
+    update public.routine_exercises set id = next_id,
+      exercise_id = p_patch->>'exerciseId', equipment = p_patch->>'equipment',
+      sets = (p_patch->>'sets')::int, reps = (p_patch->>'reps')::int,
+      weight_kg = (p_patch->>'weightKg')::numeric, set_details = null, updated_at = clock_timestamp()
+      where id = p_row and user_id = p_member;
+  end if;
+  -- An in-app record visible to both parties, committed together with the prescription.
+  insert into public.trainer_comments (group_id, trainer_id, member_id, body)
+    values (p_group_id, auth.uid(), p_member, p_note);
+  -- Never edit daily_plan, daily_conditioning or completion snapshots here.
+  return true;
+end $$;
+revoke all on function public.trainer_prescribe_exercise(uuid, uuid, uuid, timestamptz, jsonb, text) from public, anon;
+grant execute on function public.trainer_prescribe_exercise(uuid, uuid, uuid, timestamptz, jsonb, text) to authenticated;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- 회원의 정보 제공 동의(member_share_prefs) — 2026-09-20.
+-- 트레이너(그룹장)에게 **무엇을 보여줄지 회원이 정한다.** 항목별 on/off + 처방 허용.
+--
+-- 🔴 **왜 그룹별인가.** 한 사람이 헬스장 그룹과 친구 그룹에 동시에 있을 수 있다.
+--    "식단은 헬스장 트레이너에게만" 같은 선택이 되어야 하므로 (user_id, group_id) 단위다.
+--
+-- 🔴 **기본값은 전부 true(= 지금까지의 동작).** 행이 없으면 켜진 것으로 본다.
+--    기존 회원 수만큼 행을 미리 만들지 않아도 되고, 끄는 사람만 행이 생긴다.
+--
+-- 🔴 **이건 트레이너 전용 화면에만 적용한다.** 그룹 랭킹(운동 kcal·일수)은 그룹원
+--    전체가 서로 보는 기능이라 여기서 끄지 않는다 — 끄고 싶으면 그룹을 나가면 된다
+--    (그게 아래 '트레이너 제거' 다). 랭킹까지 이 스위치로 막으면 남들 화면에서 이 사람만
+--    사라져 "버그" 로 읽힌다.
+create table if not exists public.member_share_prefs (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  group_id uuid not null references public.groups(id) on delete cascade,
+  -- 운동 기록(완료 종목·세트·시간). 끄면 트레이너 화면에서 '비공개' 로 보인다.
+  share_workout boolean not null default true,
+  -- 식단 기록(먹은 것·사진).
+  share_diet boolean not null default true,
+  -- 체중·체성분.
+  share_body boolean not null default true,
+  -- 트레이너가 내 루틴(운동 처방)을 바꿀 수 있는가.
+  allow_prescription boolean not null default true,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, group_id)
+);
+
+create index if not exists member_share_prefs_group_idx
+  on public.member_share_prefs (group_id, user_id);
+
+drop trigger if exists member_share_prefs_set_updated_at on public.member_share_prefs;
+create trigger member_share_prefs_set_updated_at
+  before update on public.member_share_prefs
+  for each row execute function public.set_updated_at();
+
+alter table public.member_share_prefs enable row level security;
+
+-- 본인은 읽고 쓴다.
+drop policy if exists "member reads own share prefs" on public.member_share_prefs;
+create policy "member reads own share prefs" on public.member_share_prefs for select
+  using (user_id = (select auth.uid()));
+drop policy if exists "member writes own share prefs" on public.member_share_prefs;
+create policy "member writes own share prefs" on public.member_share_prefs for insert
+  with check (user_id = (select auth.uid()));
+drop policy if exists "member updates own share prefs" on public.member_share_prefs;
+create policy "member updates own share prefs" on public.member_share_prefs for update
+  using (user_id = (select auth.uid())) with check (user_id = (select auth.uid()));
+drop policy if exists "member deletes own share prefs" on public.member_share_prefs;
+create policy "member deletes own share prefs" on public.member_share_prefs for delete
+  using (user_id = (select auth.uid()));
+
+-- 그룹장(트레이너)은 **읽기만** — 화면에 '회원이 식단을 비공개로 했어요' 를 띄우려면
+-- 필요하다. 쓰기는 못 한다(트레이너가 남의 동의를 대신 켜면 동의가 아니다).
+drop policy if exists "trainer reads member share prefs" on public.member_share_prefs;
+create policy "trainer reads member share prefs" on public.member_share_prefs for select
+  using (exists (
+    select 1 from public.groups g
+     where g.id = member_share_prefs.group_id
+       and g.owner_id = (select auth.uid())));
+
+/**
+ * 이 회원이 이 그룹의 트레이너에게 해당 항목을 제공하는가. **행이 없으면 true.**
+ *
+ * 트레이너 화면·처방 함수는 남의 표를 대신 읽는 SECURITY DEFINER 라 RLS 가 안 걸린다 —
+ * 그래서 동의 확인은 **부르는 쪽이 이 함수로 직접** 해야 한다. 한 곳에 모아 두면
+ * 새 트레이너 기능이 늘어도 같은 판정을 쓴다.
+ */
+create or replace function public.member_shares(
+  p_member uuid, p_group uuid, p_kind text)
+returns boolean language sql security definer stable set search_path = public as $$
+  select coalesce((
+    select case p_kind
+             when 'workout' then s.share_workout
+             when 'diet' then s.share_diet
+             when 'body' then s.share_body
+             when 'prescription' then s.allow_prescription
+           end
+      from public.member_share_prefs s
+     where s.user_id = p_member and s.group_id = p_group
+  ), true);
+$$;
+revoke all on function public.member_shares(uuid, uuid, text) from public;
+revoke all on function public.member_shares(uuid, uuid, text) from anon;
+grant execute on function public.member_shares(uuid, uuid, text) to authenticated;
+
+/**
+ * 트레이너 연결 끊기(= 그룹 탈퇴) — 회원이 자기 손으로 트레이너를 제거한다.
+ *
+ * `group_members` 의 "leave self" 정책으로도 지울 수 있지만, 여기로 모으는 이유는
+ * **같이 지워야 할 것**이 있기 때문이다: 그 그룹에서 받은 트레이너 코멘트와 동의 설정.
+ * 나간 뒤에도 코멘트가 남으면 "연결을 끊었는데 그 사람 글이 내 화면에 있다" 가 된다.
+ *
+ * ⚠ 그룹장 자신은 못 나간다(그룹이 주인 없이 남는다). 그룹을 지우는 건 그룹 관리 화면.
+ * 루틴은 건드리지 않는다 — 트레이너가 짜 준 운동이라도 **이미 내 루틴**이다.
+ */
+create or replace function public.leave_trainer_group(p_group_id uuid)
+returns boolean language plpgsql security definer set search_path = public as $$
+declare
+  me uuid := (select auth.uid());
+begin
+  if me is null then return false; end if;
+  if exists (select 1 from public.groups where id = p_group_id and owner_id = me) then
+    return false; -- 그룹장은 탈퇴가 아니라 그룹 삭제다.
+  end if;
+  if not exists (
+    select 1 from public.group_members
+     where group_id = p_group_id and user_id = me) then
+    return false;
+  end if;
+
+  delete from public.trainer_comments
+   where group_id = p_group_id and member_id = me;
+  delete from public.member_share_prefs
+   where group_id = p_group_id and user_id = me;
+  delete from public.group_members
+   where group_id = p_group_id and user_id = me;
+  return true;
+end $$;
+revoke all on function public.leave_trainer_group(uuid) from public;
+revoke all on function public.leave_trainer_group(uuid) from anon;
+grant execute on function public.leave_trainer_group(uuid) to authenticated;
+
+notify pgrst, 'reload schema';
+
+$schema$;
+end
+$bootstrap$;

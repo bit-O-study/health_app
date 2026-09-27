@@ -3,8 +3,8 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CATEGORIES, STATUSES, type Ticket } from "./model";
-import { retrySupportNotification, createTicket, replyTicket, manageTicket, readTicket, supportNotificationAction } from "./actions";
+import { CATEGORIES } from "./model";
+import { retrySupportNotification, createTicket, replyTicket, readTicket, supportNotificationAction } from "./actions";
 
 const field = "mt-2 block w-full rounded-xl border border-zinc-300 bg-transparent p-3 dark:border-zinc-700";
 const button = "rounded-xl bg-brand px-4 py-3 font-semibold text-white dark:text-zinc-950 disabled:opacity-50";
@@ -36,19 +36,11 @@ export function NewTicket() {
     <button disabled={pending} className={`${button} w-full`}>{pending?"접수 중…":"문의 접수"}</button>
   </form>;
 }
-export function ReplyForm({id,admin=false}:{id:string;admin?:boolean}) {
-  const router=useRouter();const [body,setBody]=useState("");const [internal,setInternal]=useState(false);const [message,setMessage]=useState("");const [pending,start]=useTransition();const request=useRef("");
-  return <form className="space-y-3" onSubmit={e=>{e.preventDefault();start(async()=>{request.current ||= crypto.randomUUID();try{const r=await replyTicket(id,request.current,body,internal);setMessage(r.error??"저장했어요.");if(!r.error){setBody("");request.current="";router.refresh();}}catch{setMessage("저장 결과를 확인하지 못했어요. 다시 시도해 주세요.");}});}}>
-    <label className="block font-semibold">{admin?"답변 작성":"추가 문의"}<textarea className={field} rows={4} required maxLength={5000} value={body} onChange={e=>{setBody(e.target.value);request.current="";}}/></label>
-    {admin&&<label className="flex gap-2 text-sm"><input type="checkbox" checked={internal} onChange={e=>setInternal(e.target.checked)}/>관리자 전용 메모 (회원에게 보이지 않음)</label>}
-    <p role="status" className="text-sm">{message}</p><button className={button} disabled={pending}>{pending?"저장 중…":internal?"내부 메모 저장":"답변 보내기"}</button>
-  </form>;
-}
-export function ManageForm({ticket}:{ticket:Ticket}) {
-  const router=useRouter();const [pending,start]=useTransition();const [message,setMessage]=useState("");
-  return <form className="space-y-3" action={form=>start(async()=>{try{const r=await manageTicket(ticket.id,String(form.get("status")),String(form.get("priority")),form.has("assign"));setMessage(r.error??"변경했어요.");router.refresh();}catch{setMessage("변경하지 못했어요.");}})}>
-    <div className="grid grid-cols-2 gap-3"><label>처리 상태<select name="status" defaultValue={ticket.status} className={field}>{Object.entries(STATUSES).map(([k,v])=><option key={k} value={k}>{v}</option>)}</select></label><label>우선순위<select className={field} name="priority" defaultValue={ticket.priority}><option value="normal">일반</option><option value="high">높음</option><option value="urgent">긴급</option></select></label></div>
-    <label className="flex gap-2 text-sm"><input type="checkbox" name="assign"/>내가 담당하기</label><button disabled={pending} className={button}>처리 정보 저장</button><p role="status">{message}</p>
+export function ReplyForm({id}:{id:string}) {
+  const router=useRouter();const [body,setBody]=useState("");const [message,setMessage]=useState("");const [pending,start]=useTransition();const request=useRef("");
+  return <form className="space-y-3" onSubmit={e=>{e.preventDefault();start(async()=>{request.current ||= crypto.randomUUID();try{const r=await replyTicket(id,request.current,body);setMessage(r.error??"저장했어요.");if(!r.error){setBody("");request.current="";router.refresh();}}catch{setMessage("저장 결과를 확인하지 못했어요. 다시 시도해 주세요.");}});}}>
+    <label className="block font-semibold">추가 문의<textarea className={field} rows={4} required maxLength={5000} value={body} onChange={e=>{setBody(e.target.value);request.current="";}}/></label>
+    <p role="status" className="text-sm">{message}</p><button className={button} disabled={pending}>{pending?"저장 중…":"답변 보내기"}</button>
   </form>;
 }
 export function AttachmentForm({id}:{id:string}) {

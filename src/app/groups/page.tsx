@@ -27,7 +27,7 @@ export default async function GroupsPage({
   if (groups.length === 0) {
     return (
       <div className="app-page">
-        <PageHeader title="그룹" />
+        <PageHeader branded title="그룹" />
         {/* 설명 문장은 뺐다 — 아래 '새 그룹 만들기'가 할 일을 이미 말해 준다(2026-09-15). */}
         <main className="app-container">
           <GroupsClient groups={groups} mode={mode} />

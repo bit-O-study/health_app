@@ -131,9 +131,9 @@ export default async function CalendarPage({
   return (
     <div className="app-page">
     {/* 달 이동은 큰 제목 줄 오른쪽으로 — 따로 한 줄을 쓰지 않는다(2026-09-16 촘촘하게). */}
-    <PageHeader title="캘린더">
+    <PageHeader branded title="캘린더">
       <Link
-        href={isWeek ? `/calendar?view=week&d=${week.previous}` : `/calendar?m=${monthParam(prev)}${view === "stats" ? "&view=stats" : ""}`}
+        href={isWeek ? `/calendar/week?d=${week.previous}` : `/calendar?m=${monthParam(prev)}${view === "stats" ? "&view=stats" : ""}`}
         aria-label={isWeek ? "이전 주" : "이전 달"}
         className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
@@ -143,7 +143,7 @@ export default async function CalendarPage({
         {isWeek ? `${week.from} ~ ${week.to}` : `${year}년 ${month0 + 1}월`}
       </h2>
       <Link
-        href={isWeek ? `/calendar?view=week&d=${week.next}` : `/calendar?m=${monthParam(next)}${view === "stats" ? "&view=stats" : ""}`}
+        href={isWeek ? `/calendar/week?d=${week.next}` : `/calendar?m=${monthParam(next)}${view === "stats" ? "&view=stats" : ""}`}
         aria-label={isWeek ? "다음 주" : "다음 달"}
         className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >

@@ -4,6 +4,7 @@ import { useMemo, useRef, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Logo } from "@/features/brand/logo";
 import {
   Camera,
   Heart,
@@ -104,9 +105,7 @@ export function CommunityBoard({
     >
       <div className="app-header shrink-0 px-4 pb-0 pt-5 sm:px-6">
         {/* 제목은 다른 탭 머리글(PageHeader)과 같은 큰 제목(.app-title) — 2026-09-16 촘촘하게. */}
-        <h1 className="app-title mb-4">
-          커뮤니티
-        </h1>
+        <Link href="/home" aria-label="헬쑤 홈" className="mb-4 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
         <div className="flex items-center gap-5 overflow-x-auto [scrollbar-width:none]">
@@ -117,7 +116,7 @@ export function CommunityBoard({
               // 탭 데이터는 이미 다 받아 왔다 — 주소만 바꾼다(서버 왕복 없음).
               // router.replace 는 서버 렌더를 다시 받고, 페이지가 key={view} 로 게시판을 새로 붙여
               // 그 사이 열어 둔 창(루틴 소개 '올렸어요' 등)이 닫혔다(2026-09-25 routine-share E2E).
-              onClick={() => { setTab(value); window.history.replaceState(null, "", value === "workout" ? "/community" : "/community?view=" + value); }}
+              onClick={() => { setTab(value); window.history.replaceState(null, "", value === "teaching" ? "/community/teaching" : value === "routine" ? "/community/routines" : value === "mine" ? "/community/mine" : value === "workout" ? "/community" : "/community?view=" + value); }}
               aria-pressed={tab === value}
               className={`relative min-h-11 shrink-0 pb-3 text-sm font-semibold transition-colors ${
                 tab === value

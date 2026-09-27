@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>런닝 기록 검수보고서</title>
+<meta name="description" content="런닝 기록 화면(/routine/running-records)을 코드·실측 화면으로 진단하고, 변경 시안·공통 규칙·적용 순서·결정 사항을 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb; --on-brand:#ffffff;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --stray-a:#d97706; --stray-v:#7c3aed; --stray-s:#0284c7; --stray-r:#dc2626;
+  --phone:#fafafa; --phone-2:#f1f2f1; --phone-ink:#18181b; --phone-mute:#71717a; --phone-line:#e4e4e7;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --stray-a:#f59e0b; --stray-v:#a78bfa; --stray-s:#38bdf8; --stray-r:#f87171;
+    --phone:#0b0b0c; --phone-2:#18181b; --phone-ink:#f4f4f5; --phone-mute:#a1a1aa; --phone-line:#27272a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --stray-a:#f59e0b; --stray-v:#a78bfa; --stray-s:#38bdf8; --stray-r:#f87171;
+  --phone:#0b0b0c; --phone-2:#18181b; --phone-ink:#f4f4f5; --phone-mute:#a1a1aa; --phone-line:#27272a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.84em}
+code{color:var(--ink-2);background:var(--line-2);padding:1px 5px;border-radius:4px;word-break:break-all}
+
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-block:28px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.top b{color:var(--ink);font-weight:600}
+.lede{padding-block:40px 32px;display:grid;gap:18px;max-width:740px}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--brand);font-weight:600}
+.lede h1{font-size:clamp(25px,4vw,33px);font-weight:700;letter-spacing:-.01em}
+.lede p{color:var(--ink-2);max-width:62ch}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.crit{background:var(--crit-soft);color:var(--crit)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.ok{background:var(--brand-soft);color:var(--brand)}
+
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.num{padding:18px 20px;display:grid;gap:2px;align-content:start}
+.num+.num{border-left:1px solid var(--line)}
+.num strong{font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
+.num strong small{font-size:15px;color:var(--muted);font-weight:500}
+.num span{font-size:13px;color:var(--muted)}
+@media (max-width:720px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}.num:nth-child(3){border-left:0}.num:nth-child(n+3){border-top:1px solid var(--line)}}
+
+section{padding-block:52px 0}
+.sec-head{display:grid;gap:6px;margin-bottom:22px;max-width:680px}
+.sec-head h2{font-size:22px;font-weight:700}
+.sec-head p{color:var(--muted);font-size:14px}
+
+.findings{border-top:1px solid var(--line)}
+.f{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,300px);gap:8px 24px;padding-block:22px;border-bottom:1px solid var(--line)}
+.f .code{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:2px}
+.f h3{font-size:17px;font-weight:600;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.f .body{display:grid;gap:8px}
+.f .body p{color:var(--ink-2);font-size:14.5px;max-width:62ch}
+.f ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px;display:grid;gap:3px}
+.f .ev{font-size:13px;color:var(--muted);display:grid;gap:6px;align-content:start;border-left:1px solid var(--line-2);padding-left:18px}
+.f .ev b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:820px){.f{grid-template-columns:40px minmax(0,1fr)}.f .ev{grid-column:2;border-left:0;padding-left:0}}
+
+.bars{display:grid;gap:5px;margin-top:2px}
+.bar{display:grid;grid-template-columns:56px minmax(0,1fr) 30px;align-items:center;gap:8px;font-size:12px}
+.bar i{display:block;height:8px;border-radius:2px}
+.bar span:first-child{font-family:var(--mono);color:var(--muted)}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+
+.keep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px;border-top:1px solid var(--line);padding-top:18px}
+.keep div{display:grid;gap:2px;font-size:14px;color:var(--ink-2)}
+.keep b{color:var(--ink);font-weight:600;font-size:14.5px}
+@media (max-width:720px){.keep{grid-template-columns:1fr}}
+
+/* 비교 */
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+@media (max-width:760px){.compare{grid-template-columns:1fr}}
+.col-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.col-head h3{font-size:16px;font-weight:600}
+.col-head span{font-size:13px;color:var(--muted)}
+.stage{background:var(--line-2);border-radius:14px;padding:22px 14px;display:flex;justify-content:center}
+.notes{margin:14px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink-2);display:grid;gap:4px}
+
+/* 폰 목업 */
+.phone{width:100%;max-width:330px;background:var(--phone);color:var(--phone-ink);border:1px solid var(--phone-line);border-radius:26px;overflow:hidden;display:flex;flex-direction:column;font-size:12px;line-height:1.35}
+.p-top{display:flex;align-items:center;gap:8px;padding:12px 12px 6px}
+.p-x{width:26px;height:26px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-size:13px;flex:none;color:var(--phone-mute)}
+.p-track{flex:1;height:4px;border-radius:99px;background:var(--phone-line);overflow:hidden}
+.p-track i{display:block;height:100%;width:37%;background:var(--brand)}
+.p-seg{flex:1;display:flex;gap:3px}
+.p-seg i{flex:1;height:5px;border-radius:99px;background:var(--phone-line)}
+.p-seg i.d{background:var(--brand)}
+.p-seg i.s{background:var(--phone-mute);opacity:.5}
+.p-seg i.c{background:var(--brand);opacity:.45}
+.p-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--brand) 40%,transparent);background:var(--brand-soft);color:var(--brand);border-radius:99px;padding:2px 8px;font-family:var(--mono);font-weight:600;font-size:11px;white-space:nowrap}
+.p-row{display:flex;justify-content:center;gap:6px;padding:0 12px 6px}
+.p-ghost{border:1px solid var(--phone-line);background:var(--phone);border-radius:99px;padding:2px 9px;font-weight:600;font-size:11px;white-space:nowrap}
+.p-body{padding:4px 14px 10px;display:grid;gap:8px;justify-items:center}
+.p-tags{width:100%;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.t{border-radius:99px;padding:2px 8px;font-weight:700;font-size:10.5px;white-space:nowrap}
+.t.brand{background:var(--brand-soft);color:var(--brand)}
+.t.amber{color:var(--stray-a);border:1px solid var(--stray-a)}
+.t.violet{color:var(--stray-v);border:1px solid var(--stray-v)}
+.t.neutral{background:var(--phone-2);color:var(--phone-mute)}
+.p-media{width:100%;aspect-ratio:4/3;border-radius:14px;background:linear-gradient(160deg,var(--phone-2),var(--phone-line));position:relative;display:grid;place-items:center;color:var(--phone-mute);font-size:11px}
+.p-media .arrow{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;font-size:13px}
+.p-media .arrow.l{left:6px}.p-media .arrow.r{right:6px}
+.p-media .arrow.big{width:32px;height:32px}
+.p-media .inset{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.55);color:#fff;border-radius:8px;padding:2px 6px;font-size:9.5px;font-weight:700}
+.p-name{font-size:17px;font-weight:700;text-align:center}
+.p-card{width:100%;border:1px solid var(--phone-line);border-radius:12px;padding:2px 10px}
+.p-scrub{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+.p-scrub+.p-scrub{border-top:1px solid var(--phone-line)}
+.p-scrub>span{font-size:10px;font-weight:700;color:var(--phone-mute)}
+.p-scrub .ctl{display:flex;align-items:center;gap:4px}
+.p-scrub .pm{width:22px;height:22px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-weight:700;color:var(--phone-mute)}
+.p-scrub .v{min-width:52px;text-align:center;background:var(--brand-soft);color:var(--brand);border-radius:6px;padding:2px 4px;font-weight:700;font-size:13px}
+.p-hint{font-size:9.5px;color:var(--phone-mute);text-align:center;padding:3px 0 4px}
+.p-note{width:100%;border-radius:8px;padding:5px 8px;font-size:10.5px;display:flex;gap:6px;align-items:center;justify-content:space-between}
+.p-note.plate{background:var(--phone-2)}
+.p-note.amber{border:1px solid var(--stray-a);color:var(--stray-a)}
+.p-note.amber b{border:1px solid currentColor;border-radius:99px;padding:0 6px;font-size:9.5px}
+.p-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
+.p-actions .p-ghost.brand{color:var(--brand);background:var(--brand-soft);border-color:transparent}
+.p-bottom{margin-top:auto;border-top:1px solid var(--phone-line);padding:8px 10px 12px;display:grid;gap:6px;background:var(--phone)}
+.p-rest{display:flex;gap:4px;align-items:center;font-size:10px;color:var(--phone-mute);overflow:hidden}
+.p-rest i{font-style:normal;background:var(--phone-2);border-radius:99px;padding:1px 6px;font-weight:700}
+.p-rest i.on{background:var(--phone-ink);color:var(--phone)}
+.p-2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.btn{border-radius:10px;display:grid;place-items:center;font-weight:700;height:30px;font-size:11.5px;border:1px solid var(--phone-line);background:var(--phone)}
+.btn.solid{background:var(--brand);color:var(--on-brand);border-color:transparent}
+.btn.soft{background:var(--brand-soft);color:var(--brand);border-color:color-mix(in srgb,var(--brand) 40%,transparent)}
+.p-3{display:grid;grid-template-columns:auto auto 1fr;gap:5px}
+.p-3 .btn{height:38px;padding:0 8px}
+.lbl{display:grid;place-items:center;background:var(--brand-soft);color:var(--brand);border-radius:8px;padding:0 7px;font-weight:700;font-size:11px}
+/* 시안 전용 */
+.p-sets{width:100%;display:grid;gap:6px;justify-items:center}
+.p-sets .big{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.p-sets .big small{font-size:14px;color:var(--phone-mute);font-weight:600}
+.dots{display:flex;gap:6px;align-items:center}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--brand)}
+.dots i.d{background:var(--brand)}
+.dots em{font-style:normal;font-size:10px;color:var(--phone-mute);margin-left:4px;border:1px solid var(--phone-line);border-radius:99px;padding:0 6px}
+.p-vals{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.p-val{border:1px solid var(--phone-line);border-radius:12px;padding:6px 6px 7px;display:grid;gap:3px;justify-items:center}
+.p-val>span{font-size:10px;color:var(--phone-mute);font-weight:600}
+.p-val .n{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.p-val .n small{font-size:12px;color:var(--phone-mute);font-weight:600}
+.p-val .pm2{display:flex;gap:6px}
+.p-val .pm2 i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-weight:700;font-size:15px}
+.p-line{width:100%;font-size:10.5px;color:var(--phone-mute);display:flex;justify-content:space-between;gap:6px}
+.p-line b{color:var(--brand)}
+.p-more{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--phone-line);border-radius:10px;padding:6px 9px;font-size:11px;font-weight:600}
+.p-more span{color:var(--phone-mute);font-weight:500}
+.btn.hero{height:48px;font-size:14px}
+.p-under{display:flex;justify-content:space-between;font-size:10.5px;color:var(--phone-mute);padding:0 2px}
+.p-under u{text-decoration:none;font-weight:600}
+
+/* 규칙 */
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:720px){.rules{grid-template-columns:1fr}}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.rule h3{font-size:15.5px;font-weight:600}
+.rule p{font-size:14px;color:var(--ink-2)}
+.rule .mono{color:var(--muted);font-size:12.5px}
+
+/* 단계 */
+.steps{border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,280px);gap:8px 24px;padding-block:20px;border-bottom:1px solid var(--line)}
+.step .k{font-family:var(--mono);font-size:13px;color:var(--brand);font-weight:500;padding-top:2px}
+.step h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.step ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2);display:grid;gap:3px}
+.step .t2{font-size:13px;color:var(--muted);display:grid;gap:4px;align-content:start;border-left:1px solid var(--line-2);padding-left:18px}
+@media (max-width:820px){.step{grid-template-columns:40px minmax(0,1fr)}.step .t2{grid-column:2;border-left:0;padding-left:0}}
+
+.qs{display:grid;gap:12px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:10px}
+.q h3{font-size:15.5px;font-weight:600}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.opts{grid-template-columns:1fr}}
+.opt{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--ink-2);display:grid;gap:2px}
+.opt b{color:var(--ink);font-weight:600;font-size:14px}
+.opt.rec{border-color:var(--brand);background:var(--brand-soft)}
+.opt.rec b::after{content:" · 추천";color:var(--brand);font-size:12px}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+.compare4{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px 22px;align-items:start}
+.dir .phone{max-width:300px}
+.verdict2{margin-top:10px;font-size:13px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.p-scrub .pm.lg{width:28px;height:28px}
+.p-scrub .v.lg{font-size:15px;min-width:60px;padding:3px 4px}
+.p-note.brand{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);color:var(--brand)}
+.p-note.brand b{border:1px solid currentColor;border-radius:99px;padding:0 6px;font-size:9.5px}
+.p-media.wide{aspect-ratio:16/9}
+.log{width:100%;border:1px solid var(--phone-line);border-radius:12px;overflow:hidden;font-variant-numeric:tabular-nums}
+.lh,.lr{display:grid;grid-template-columns:34px 1fr 1fr 44px;align-items:center;text-align:center}
+.lh{font-size:10px;color:var(--phone-mute);font-weight:600;padding:4px 0;background:var(--phone-2)}
+.lr{font-size:13px;font-weight:600;padding:5px 0;border-top:1px solid var(--phone-line)}
+.lr.done{color:var(--phone-mute)}
+.lr.now{background:var(--brand-soft);font-size:16px;font-weight:700}
+.lr .cell{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);border-radius:6px;margin:0 6px;background:var(--phone)}
+.ck{font-style:normal;justify-self:center;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--phone-line);display:grid;place-items:center;font-size:12px;color:var(--phone-mute)}
+.ck.on{background:var(--phone-mute);color:var(--phone);border-color:transparent}
+.ck.big{width:32px;height:32px;background:var(--brand);color:var(--on-brand);border-color:transparent;font-size:15px}
+.ladd{font-size:11px;color:var(--brand);font-weight:600;text-align:center;padding:6px 0;border-top:1px solid var(--phone-line)}
+.dark-stage{background:#0b0b0c;color:#f4f4f5;border-color:#27272a}
+.vid{position:relative;height:300px;background:linear-gradient(170deg,#2a2d2b,#121413);display:grid;place-items:center}
+.vtop{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:8px;align-items:center}
+.vtop .p-seg i{background:rgba(255,255,255,.25)}
+.vtop .p-seg i.d{background:#3cc394}.vtop .p-seg i.c{background:#3cc394;opacity:.5}
+.vx{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center;font-size:12px}
+.vchip{background:rgba(0,0,0,.45);border-radius:99px;padding:2px 8px;font-family:var(--mono);font-size:11px;font-weight:600}
+.varrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
+.varrow.l{left:8px}.varrow.r{right:8px}
+.vlabel{font-size:11px;color:rgba(255,255,255,.55)}
+.vfoot{position:absolute;left:0;right:0;bottom:0;padding:24px 12px 10px;background:linear-gradient(transparent,rgba(0,0,0,.7));display:grid;gap:1px}
+.vfoot b{font-size:18px}
+.vtag{font-size:10px;color:rgba(255,255,255,.75)}
+.sheet{background:#18181b;border-radius:16px 16px 0 0;margin-top:-12px;position:relative;padding:8px 10px 12px;display:grid;gap:7px}
+.sheet .btn{background:#18181b;border-color:#3f3f46;color:#f4f4f5}
+.sheet .btn.solid{background:#3cc394;color:#06140e;border-color:transparent}
+.grab{justify-self:center;width:36px;height:4px;border-radius:99px;background:#3f3f46}
+.sline{display:flex;align-items:baseline;gap:8px}
+.sset{font-size:18px;font-weight:700;color:#3cc394}
+.sval{font-size:14px;font-weight:600;flex:1}
+.sedit{font-size:10.5px;color:#a1a1aa}
+.shint{font-size:9.5px;color:#a1a1aa;text-align:center}
+.table-wrap{overflow-x:auto;margin-top:30px}
+.cmp{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;background:var(--surface)}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.cmp thead th{font-size:12.5px;color:var(--muted);font-weight:600}
+.cmp tbody th{font-weight:600;color:var(--ink);white-space:nowrap}
+.cmp td{color:var(--ink-2)}
+
+/* 런닝 기록 시안 전용 */
+.compare4{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px 22px;align-items:start}
+.dir .phone{max-width:300px}
+.verdict2{margin-top:10px;font-size:13px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.phone.tall{min-height:560px}
+.r-hd{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 14px 4px}
+.r-brand{display:flex;align-items:center;gap:6px;font-weight:800;font-size:14px}
+.r-brand i{width:22px;height:22px;border-radius:7px;background:var(--brand);display:block}
+.r-title{font-size:15px;font-weight:700}
+.r-back{color:var(--phone-mute);font-size:12px}
+.r-sm{font-size:10px;color:var(--phone-mute)}
+.r-body{padding:6px 12px 10px;display:grid;gap:9px}
+.r-headline{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.r-h2{font-size:18px;font-weight:800;line-height:1.15}
+.r-go{border-radius:9px;background:var(--brand);color:var(--on-brand);font-weight:700;font-size:11px;padding:6px 9px;white-space:nowrap}
+.r-go.sm{padding:4px 8px;font-size:10.5px}
+.r-month{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:12.5px;padding:0 2px}
+.r-month span{color:var(--phone-mute);font-size:14px;width:22px;text-align:center}
+.r-month span.off{opacity:.25}
+.r-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px 10px;border:1px solid var(--phone-line);border-radius:12px;padding:10px 11px}
+.r-stats div{display:grid;gap:1px}
+.r-stats b{font-size:16px;font-variant-numeric:tabular-nums;font-weight:700}
+.r-label{font-size:10.5px;font-weight:700;color:var(--phone-mute);padding:2px 2px 0}
+.r-list{border:1px solid var(--phone-line);border-radius:12px;overflow:hidden}
+.r-row{padding:7px 9px;display:grid;gap:2px}
+.r-row+.r-row{border-top:1px solid var(--phone-line)}
+.r-row .l1{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.r-row .l1 b{font-size:12px}
+.r-row .km{color:var(--brand);font-weight:700;font-variant-numeric:tabular-nums;font-size:13px}
+.r-row .l2{font-size:10px;color:var(--phone-mute);font-variant-numeric:tabular-nums}
+.r-row .l3{font-size:9.5px;color:var(--phone-mute);display:flex;flex-wrap:wrap;gap:2px 7px;font-variant-numeric:tabular-nums}
+.r-row .l3 .dev{color:var(--stray-r);font-weight:700}
+.r-row.go{grid-template-columns:1fr auto;align-items:center}
+.r-row.go .chev{color:var(--phone-mute);font-size:14px}
+.r-empty2{font-size:10px;color:var(--phone-mute)}
+.r-hero{border:1px solid var(--phone-line);border-radius:14px;padding:11px 12px;display:grid;gap:6px}
+.r-hero .big{font-size:30px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.r-hero .big small{font-size:13px;color:var(--phone-mute);font-weight:600;margin-left:2px}
+.r-delta{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:700;color:var(--brand);background:var(--brand-soft);border-radius:99px;padding:1px 7px;justify-self:start}
+.r-kv{display:flex;flex-wrap:wrap;gap:3px 10px;font-size:10.5px;color:var(--phone-mute);font-variant-numeric:tabular-nums}
+.r-kv b{color:var(--phone-ink);font-weight:700}
+.r-weeks{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;align-items:end;height:62px;padding-top:4px}
+.r-weeks div{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:2px;height:100%}
+.r-weeks i{display:block;width:100%;border-radius:4px 4px 1px 1px;background:color-mix(in srgb,var(--brand) 38%,var(--phone-2))}
+.r-weeks .now i{background:var(--brand)}
+.r-weeks span{font-size:8.5px;color:var(--phone-mute);font-variant-numeric:tabular-nums}
+.r-weeks em{font-style:normal;font-size:8.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.r-group{display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--phone-mute);padding:2px 2px 0}
+.r-group b{color:var(--phone-ink);font-variant-numeric:tabular-nums}
+.r-map{border-radius:12px;background:var(--phone-2);aspect-ratio:16/10;display:block;width:100%}
+.r-bigkm{font-size:34px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1}
+.r-bigkm small{font-size:14px;color:var(--phone-mute);font-weight:600;margin-left:2px}
+.r-grid3{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--phone-line);border-radius:12px}
+.r-grid3 div{padding:7px 8px;display:grid;gap:1px}
+.r-grid3 div+div{border-left:1px solid var(--phone-line)}
+.r-grid3 b{font-size:14px;font-variant-numeric:tabular-nums}
+.r-splits{border:1px solid var(--phone-line);border-radius:12px;padding:6px 9px;display:grid;gap:4px}
+.r-split{display:grid;grid-template-columns:30px 1fr 40px;gap:6px;align-items:center;font-size:10px;font-variant-numeric:tabular-nums}
+.r-split i{height:7px;border-radius:99px;background:color-mix(in srgb,var(--brand) 40%,var(--phone-2))}
+.r-split i.best{background:var(--brand)}
+.r-split span:last-child{text-align:right;font-weight:700}
+.r-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;font-size:9.5px;font-variant-numeric:tabular-nums}
+.r-cal .w{color:var(--phone-mute);font-weight:700}
+.r-cal .d{aspect-ratio:1;border-radius:7px;display:grid;place-items:center;align-content:center;gap:1px;color:var(--phone-mute)}
+.r-cal .d.run{background:var(--brand-soft);color:var(--brand);font-weight:700}
+.r-cal .d.run small{font-size:7.5px;font-weight:600}
+.r-cal .d.sel{outline:2px solid var(--brand);outline-offset:-2px}
+.r-cal .d.fut{opacity:.35}
+.r-tab{margin-top:auto;border-top:1px solid var(--phone-line);display:grid;grid-template-columns:repeat(5,1fr);text-align:center;font-size:9px;color:var(--phone-mute);padding:7px 2px 10px}
+.r-tab b{color:var(--brand)}
+.shot{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;align-items:start}
+@media (max-width:760px){.shot{grid-template-columns:1fr}}
+.shot img{width:100%;border-radius:22px;border:1px solid var(--line);display:block}
+.shot ol{margin:0;padding-left:20px;display:grid;gap:10px;font-size:14px;color:var(--ink-2)}
+.shot ol b{color:var(--ink)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px;color:var(--ink-2);margin-top:4px}
+.flow code{white-space:nowrap}
+.flow .arr{color:var(--muted)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span><b>헬쑤</b> · 런닝 기록 화면 검수보고서</span>
+    <span>2026-09-27 · 대상 <code>src/app/routine/running-records/page.tsx</code> · <code>run-history-list.tsx</code></span>
+  </header>
+
+  <div class="lede">
+    <span class="eyebrow">만들기 전 현황 검수 · 구현은 결정 후 시작</span>
+    <h1>방금 달린 기록을 눌러도, 그 런닝을 볼 수 있는 화면이 없습니다.</h1>
+    <p>런닝 종료 화면의 요약은 사용자 요청으로 뺐습니다(<code>outdoor-run.tsx</code> 422행 주석). 그래서 달리기를 마친 뒤 결과를 보는 곳은 <b>런닝 기록 탭 하나</b>입니다. 그런데 이 탭의 기록 줄을 누르면 <b>설정 → 기록의 날짜 화면</b>으로 나가고, 그곳에는 방금 누른 것과 <b>똑같은 줄</b>이 다시 나옵니다. 야외 런닝 경로는 최대 2,000점까지 저장하지만 화면에는 “경로 1,284점”이라는 숫자로만 나옵니다. 저장·월 이동·요약 지표는 제대로 동작하니 그대로 두고, <b>기록 상세 화면</b>을 새로 만드는 것을 중심으로 세 가지 방향을 비교합니다.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill crit">심각 2</span><span class="pill warn">주의 4</span><span class="pill ok">유지 6</span></div>
+  </div>
+
+  <div class="nums">
+    <div class="num"><strong>0<small>개</small></strong><span>런닝 한 건을 보는 상세 화면<br>(줄을 누르면 날짜 기록으로 이동)</span></div>
+    <div class="num"><strong>3<small>곳</small></strong><span>같은 목록 컴포넌트를 쓰는 화면<br>(런닝 기록·기록·날짜 기록)</span></div>
+    <div class="num"><strong>2,000<small>점</small></strong><span>한 런닝당 목록 조회로 받아오는 경로 점<br>(화면에는 개수만 표시)</span></div>
+    <div class="num"><strong>3<small>겹</small></strong><span>화면 맨 위 제목<br>(헬쑤 · 나의 달리기 · 런닝 기록)</span></div>
+  </div>
+
+  <!-- 실측 -->
+  <section>
+    <div class="sec-head">
+      <h2>지금 화면</h2>
+      <p>E2E <code>tab-brand-meal-running.spec.ts</code>가 야외 런닝 1건(5km·30분)을 넣고 찍은 실제 화면입니다(다크 모드, 430px).</p>
+    </div>
+    <div class="shot">
+      <div class="phone tall" aria-label="현재 런닝 기록 화면 모형">
+        <div class="r-hd"><span class="r-brand"><i></i>헬쑤</span></div>
+        <div class="r-body">
+          <div class="r-headline"><div><div class="r-sm">나의 달리기</div><div class="r-h2">런닝 기록</div></div><span class="r-go">👟 런닝 시작</span></div>
+          <div class="r-month"><span>‹</span>2026년 9월<span>›</span></div>
+          <div class="r-stats"><div><span class="r-sm">총 거리</span><b>5.00 km</b></div><div><span class="r-sm">달린 횟수</span><b>1회</b></div><div><span class="r-sm">총 시간</span><b>30분</b></div><div><span class="r-sm">평균 페이스</span><b>6'00"/km</b></div></div>
+          <div class="r-label">날짜별 기록 · 실내 / 야외</div>
+          <div class="r-list"><div class="r-row"><div class="l1"><b>야외 런닝</b><span class="km">5.00km</span></div><div class="l2">2026-09-27 · 21:23</div><div class="l3"><span>⏱ 30분</span><span>6'00"/km</span><span>⚡ 0kcal</span></div></div></div>
+        </div>
+        <div class="r-tab"><span>오늘</span><span>루틴</span><span>홈</span><span>운동찾기</span><b>런닝 기록</b></div>
+      </div>
+      <ol>
+        <li><b>제목이 세 번.</b> 브랜드 머리글 “헬쑤” 아래에 작은 “나의 달리기”, 큰 “런닝 기록”이 또 있고, 하단 탭 이름도 “런닝 기록”입니다. 첫 화면 높이의 약 15%가 제목입니다.</li>
+        <li><b>요약은 이번 달 숫자 네 개뿐.</b> 지난달과 비교하거나 주별 흐름을 볼 수 없어서, 기록이 쌓여도 “늘었는지”를 알 수 없습니다.</li>
+        <li><b>줄 안의 값이 제각각.</b> 날짜는 <code>2026-09-27</code>(ISO), 심박은 “평균 142 · 최대 171bpm”, 경로는 “경로 1,284점”처럼 개발용 표현입니다. 값이 0이면 “0kcal”로 그대로 나옵니다(시드 데이터. 실제 저장은 체중 없으면 65kg로 추정).</li>
+        <li><b>줄을 누르면</b> <code>/settings/history/2026-09-27#running</code> — 하단 탭 선택이 풀리고, 같은 줄이 한 번 더 나옵니다.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 진단 -->
+  <section>
+    <div class="sec-head">
+      <h2>진단</h2>
+      <p>코드에서 직접 확인한 내용입니다. 줄 번호는 각 파일 기준.</p>
+    </div>
+    <div class="findings">
+
+      <div class="f">
+        <span class="code">R1</span>
+        <div class="body">
+          <h3>기록 하나를 볼 곳이 없고, 누르면 같은 줄로 되돌아옴 <span class="pill crit">심각</span></h3>
+          <p>기록 줄의 링크는 <code>/settings/history/{날짜}#running</code>입니다. 그 화면의 “런닝 세션” 칸은 <b>같은 <code>RunHistoryList</code></b>로 그려져서, 방금 누른 줄이 다시 나오고 그 줄은 다시 자기 자신을 가리킵니다.</p>
+          <ul>
+            <li>종료 화면 요약을 뺐으니(사용자 요청) 방금 달린 결과를 볼 곳은 사실상 이 목록 한 줄입니다.</li>
+            <li>런닝 기록 탭 → 설정 쪽 화면으로 넘어가서 하단 탭의 “런닝 기록” 선택이 풀립니다.</li>
+          </ul>
+        </div>
+        <div class="ev">
+          <span>링크 <code>run-history-list.tsx</code> 39행</span>
+          <span>날짜 화면 <code>settings/history/[date]/page.tsx</code> 282–287행</span>
+          <span>종료 요약 제거 <code>outdoor-run.tsx</code> 422행</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">R2</span>
+        <div class="body">
+          <h3>경로를 저장하지만 보여주지 않음 <span class="pill crit">심각</span></h3>
+          <p>야외 런닝은 위도·경도·시각을 <b>최대 2,000점</b>까지 <code>run_sessions.route_points</code>에 저장합니다. 화면에서는 “경로 N점”이라는 개수만 보입니다. 사용자에게 의미 있는 것은 점의 개수가 아니라 <b>어디를 달렸는지</b>와 <b>구간별로 얼마나 빨랐는지</b>입니다. 둘 다 이미 저장된 데이터로 계산할 수 있습니다.</p>
+        </div>
+        <div class="ev">
+          <span>상한 <code>run-session.ts</code> 40행 <b>2,000점</b></span>
+          <span>표시 <code>run-history-list.tsx</code> 62–64행</span>
+          <span>실내는 경로 0점(DB check)</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">R3</span>
+        <div class="body">
+          <h3>개수를 세려고 경로 전체를 받아옴 <span class="pill warn">주의</span></h3>
+          <p>목록 조회가 <code>route_points</code>(jsonb 배열 전체)를 선택하고, 서버에서 <code>.length</code>만 씁니다. 한 점이 약 70바이트라 긴 야외 런닝 1건이 최대 약 140KB이고, 한 달에 20번 달리면 목록 한 번 여는 데 수 MB를 읽습니다. <code>/settings/history</code>는 같은 조회를 세 번(월·최근 5·이번 주) 부릅니다.</p>
+        </div>
+        <div class="ev">
+          <span>조회 <code>run-history-data.ts</code> 26–27행 · 44행</span>
+          <span>기록 화면 호출 <code>settings/history/page.tsx</code> 124–126행 <b>3회</b></span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">R4</span>
+        <div class="body">
+          <h3>요약이 “이번 달 합계”에서 끝남 <span class="pill warn">주의</span></h3>
+          <p>총 거리·횟수·시간·평균 페이스 네 칸이 같은 크기로 나란히 있어서 무엇이 핵심인지 드러나지 않습니다. 지난달 대비나 주별 흐름이 없어 기록을 쌓는 동기가 약합니다. 총 시간은 “312분”처럼 분으로만 나오는데, 설정 → 기록의 같은 값은 <code>shortDuration</code>(“5시간 12분”)이라 형식이 서로 다릅니다.</p>
+        </div>
+        <div class="ev">
+          <span>요약 <code>running-records/page.tsx</code> 36–38행</span>
+          <span>다른 형식 <code>settings/history/page.tsx</code> 293행</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">R5</span>
+        <div class="body">
+          <h3>한 줄에 값 최대 6개, 표기가 제각각 <span class="pill warn">주의</span></h3>
+          <ul>
+            <li>제목(실내/야외) · ISO 날짜와 시각 · 거리 · 시간 · 페이스 · kcal · 심박 두 값 · 경로 점 수까지 한 줄에 나옵니다.</li>
+            <li>날짜가 <code>2026-09-27</code>인데, 앱의 다른 곳은 “9월 27일 (일)”처럼 씁니다.</li>
+            <li>값이 없을 때 페이스는 “—”인데 kcal은 “0kcal”로 나옵니다.</li>
+          </ul>
+        </div>
+        <div class="ev">
+          <span><code>run-history-list.tsx</code> 44–66행</span>
+          <span>페이스 없음 처리 <code>formatRunPace</code> “—”</span>
+        </div>
+      </div>
+
+      <div class="f">
+        <span class="code">R6</span>
+        <div class="body">
+          <h3>제목 3겹 · 빈 상태 문구 2개 · 미래 달로 이동 <span class="pill warn">주의</span></h3>
+          <ul>
+            <li>브랜드 머리글 아래에 “나의 달리기 / 런닝 기록”을 또 씁니다. 하단 탭 이름과도 겹칩니다.</li>
+            <li>기록이 없으면 카드 안의 “저장된 런닝 기록이 없습니다.”와 카드 밖 안내문 두 개가 같이 나옵니다.</li>
+            <li>“다음 달”이 막혀 있지 않아 2026년 10월, 11월… 빈 달로 계속 넘어갑니다.</li>
+            <li>“날짜별 기록 · 실내 / 야외” 제목에 필터가 있는 것처럼 보이지만 실제로는 필터가 없습니다.</li>
+          </ul>
+        </div>
+        <div class="ev">
+          <span>제목 <code>running-records/page.tsx</code> 25–28행</span>
+          <span>빈 문구 <code>run-history-list.tsx</code> 25–31행 + 페이지 42행</span>
+          <span>다음 달 34행 (상한 없음)</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>유지할 것</h2>
+      <p>새로 짜더라도 이건 그대로 둡니다.</p>
+    </div>
+    <div class="keep">
+      <div><b>월 단위 이동 + 주소 <code>?m=2026-09</code></b>뒤로가기·공유가 그대로 동작합니다.</div>
+      <div><b>런닝 시작까지 한 번 탭</b>기록을 보다가 바로 달리러 갈 수 있습니다.</div>
+      <div><b>실내 / 야외 구분</b>저장 단계에서 이미 나뉘어 있고, 실내는 경로가 없다는 DB 제약도 있습니다.</div>
+      <div><b>숫자는 고정폭(tabular-nums)</b>거리·페이스 비교가 쉽습니다.</div>
+      <div><b>서버에서 한 번에 그리기</b>로딩 없이 바로 뜹니다(<code>loading.tsx</code> 규칙 유지).</div>
+      <div><b>저장 로직</b><code>client_session_id</code> 중복 방지, 칼로리 추정, 컨디셔닝 완료 연동은 건드리지 않습니다.</div>
+    </div>
+  </section>
+
+  <!-- 비교 -->
+  <section id="directions">
+    <div class="sec-head">
+      <h2>세 가지 방향 — 현재 화면을 기준으로</h2>
+      <p>상태는 모두 같습니다. 2026년 9월, 9회·42.6km(지난달 34.5km), 마지막 기록은 9월 27일 야외 5.00km. B안은 목록과 상세 두 화면입니다.</p>
+    </div>
+    <div class="compare4">
+
+      <div class="dir">
+        <div class="col-head"><h3>A · 손질</h3><span>반나절 · DB 변경 없음</span></div>
+        <div class="stage">
+          <div class="phone" aria-label="A안 손질 모형">
+            <div class="r-hd"><span class="r-title">런닝 기록</span><span class="r-go sm">👟 런닝 시작</span></div>
+            <div class="r-body">
+              <div class="r-month"><span>‹</span>2026년 9월<span class="off">›</span></div>
+              <div class="r-stats"><div><span class="r-sm">총 거리</span><b>42.6 km</b></div><div><span class="r-sm">달린 횟수</span><b>9회</b></div><div><span class="r-sm">총 시간</span><b>4시간 18분</b></div><div><span class="r-sm">평균 페이스</span><b>6'04"</b></div></div>
+              <div class="r-list">
+                <div class="r-row"><div class="l1"><b>9월 27일 (일) · 야외</b><span class="km">5.00km</span></div><div class="l3"><span>30분</span><span>6'00"</span><span>312kcal</span></div></div>
+                <div class="r-row"><div class="l1"><b>9월 25일 (금) · 실내</b><span class="km">4.20km</span></div><div class="l3"><span>27분</span><span>6'26"</span><span>268kcal</span></div></div>
+                <div class="r-row"><div class="l1"><b>9월 23일 (수) · 야외</b><span class="km">3.20km</span></div><div class="l3"><span>19분</span><span>5'56"</span><span>—</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>R4 형식 통일, R5·R6 해결. 제목은 머리글 하나.</li>
+          <li>줄 이동은 그대로 날짜 기록 → <b>R1·R2는 남음.</b></li>
+        </ul>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>B · 기록 중심 (목록)</h3><span>추천</span></div>
+        <div class="stage">
+          <div class="phone" aria-label="B안 목록 모형">
+            <div class="r-hd"><span class="r-title">런닝 기록</span><span class="r-go sm">👟 런닝 시작</span></div>
+            <div class="r-body">
+              <div class="r-month"><span>‹</span>2026년 9월<span class="off">›</span></div>
+              <div class="r-hero">
+                <span class="r-sm">9월 달린 거리</span>
+                <div class="big">42.6<small>km</small></div>
+                <span class="r-delta">▲ 지난달보다 8.1km</span>
+                <div class="r-kv"><span><b>9</b>회</span><span><b>4시간 18분</b></span><span>평균 <b>6'04"</b></span></div>
+                <div class="r-weeks" aria-label="주별 거리">
+                  <div><em>6.2</em><i style="height:17px"></i><span>1주</span></div>
+                  <div><em>9.8</em><i style="height:28px"></i><span>2주</span></div>
+                  <div><em>14.2</em><i style="height:40px"></i><span>3주</span></div>
+                  <div class="now"><em>12.4</em><i style="height:35px"></i><span>이번 주</span></div>
+                  <div><em>–</em><i style="height:2px"></i><span>5주</span></div>
+                </div>
+              </div>
+              <div class="r-group"><span>이번 주 · 9/21–9/27</span><b>12.4km</b></div>
+              <div class="r-list">
+                <div class="r-row go"><div><div class="l1"><b>9월 27일 (일) · 야외</b><span class="km">5.00km</span></div><div class="l3"><span>30분</span><span>6'00"</span></div></div><span class="chev">›</span></div>
+                <div class="r-row go"><div><div class="l1"><b>9월 25일 (금) · 실내</b><span class="km">4.20km</span></div><div class="l3"><span>27분</span><span>6'26"</span></div></div><span class="chev">›</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>핵심 숫자 하나(거리) + 지난달 대비 + 주별 막대.</li>
+          <li>목록은 주 단위로 묶고 줄에는 거리·시간·페이스만. 줄을 누르면 → 상세.</li>
+        </ul>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>B · 기록 상세 (새 화면)</h3><span><code>/routine/running-records/[id]</code></span></div>
+        <div class="stage">
+          <div class="phone" aria-label="B안 상세 모형">
+            <div class="r-hd"><span class="r-back">‹ 런닝 기록</span><span class="r-sm">야외 런닝</span></div>
+            <div class="r-body">
+              <div><div class="r-sm">9월 27일 (일) 21:23 – 21:53</div><div class="r-bigkm">5.00<small>km</small></div></div>
+              <svg class="r-map" viewBox="0 0 160 100" role="img" aria-label="달린 경로">
+                <path d="M22 78 C 30 50, 44 30, 70 26 S 118 18, 134 34 S 140 70, 116 78 S 70 86, 52 72 S 30 70, 22 78" fill="none" stroke="var(--brand)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="22" cy="78" r="4.5" fill="var(--phone)" stroke="var(--brand)" stroke-width="2.5"/>
+                <circle cx="52" cy="72" r="4" fill="var(--brand)"/>
+              </svg>
+              <div class="r-grid3"><div><span class="r-sm">시간</span><b>30:02</b></div><div><span class="r-sm">평균 페이스</span><b>6'00"</b></div><div><span class="r-sm">칼로리</span><b>312</b></div></div>
+              <div class="r-splits">
+                <span class="r-sm">1km 구간</span>
+                <div class="r-split"><span>1km</span><i style="width:84%"></i><span>6'12"</span></div>
+                <div class="r-split"><span>2km</span><i style="width:80%"></i><span>6'04"</span></div>
+                <div class="r-split"><span>3km</span><i class="best" style="width:74%"></i><span>5'48"</span></div>
+                <div class="r-split"><span>4km</span><i style="width:78%"></i><span>5'58"</span></div>
+                <div class="r-split"><span>5km</span><i style="width:77%"></i><span>5'56"</span></div>
+              </div>
+              <div class="r-kv"><span>심박 평균 <b>142</b> · 최대 <b>171</b></span></div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>경로는 저장된 점으로 그린 <b>선(SVG)</b>. 지도 타일 없음 → 무료·오프라인·위치 노출 없음.</li>
+          <li>구간 페이스는 야외만(경로 시각으로 계산). 실내는 경로·구간 칸 없이 경사도 표시.</li>
+        </ul>
+      </div>
+
+      <div class="dir">
+        <div class="col-head"><h3>C · 달력 중심</h3><span>꾸준함 강조</span></div>
+        <div class="stage">
+          <div class="phone" aria-label="C안 달력 모형">
+            <div class="r-hd"><span class="r-title">런닝 기록</span><span class="r-go sm">👟 런닝 시작</span></div>
+            <div class="r-body">
+              <div class="r-month"><span>‹</span>9월 · 9회 42.6km<span class="off">›</span></div>
+              <div class="r-cal">
+                <span class="w">월</span><span class="w">화</span><span class="w">수</span><span class="w">목</span><span class="w">금</span><span class="w">토</span><span class="w">일</span>
+                <span></span><span class="d">1</span><span class="d run">2<small>3.0</small></span><span class="d">3</span><span class="d">4</span><span class="d run">5<small>3.2</small></span><span class="d">6</span>
+                <span class="d">7</span><span class="d run">8<small>3.8</small></span><span class="d">9</span><span class="d">10</span><span class="d">11</span><span class="d run">12<small>6.0</small></span><span class="d">13</span>
+                <span class="d">14</span><span class="d">15</span><span class="d run">16<small>6.8</small></span><span class="d">17</span><span class="d">18</span><span class="d run">19<small>7.4</small></span><span class="d">20</span>
+                <span class="d">21</span><span class="d">22</span><span class="d run">23<small>3.2</small></span><span class="d">24</span><span class="d run">25<small>4.2</small></span><span class="d">26</span><span class="d run sel">27<small>5.0</small></span>
+                <span class="d fut">28</span><span class="d fut">29</span><span class="d fut">30</span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="r-list"><div class="r-row go"><div><div class="l1"><b>9월 27일 (일) · 야외</b><span class="km">5.00km</span></div><div class="l3"><span>30분</span><span>6'00"</span></div></div><span class="chev">›</span></div></div>
+            </div>
+          </div>
+        </div>
+        <ul class="notes">
+          <li>달린 날이 한눈에 보입니다. 날을 누르면 아래에 그날 기록 → 상세(B와 같은 상세).</li>
+          <li>하단 탭 “캘린더” 화면과 역할이 겹칩니다.</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th></th><th>A 손질</th><th>B 기록 중심</th><th>C 달력 중심</th></tr></thead>
+        <tbody>
+          <tr><th>해결하는 진단</th><td>R4 · R5 · R6</td><td>R1–R6 전부</td><td>R1–R6 전부 (R4는 달력으로 대체)</td></tr>
+          <tr><th>새 화면</th><td>없음</td><td>기록 상세 1개</td><td>기록 상세 1개</td></tr>
+          <tr><th>DB 변경</th><td>없음</td><td>경로 점 수 열 1개(R3) — 라이브 적용 + <code>test:schema</code></td><td>B와 같음</td></tr>
+          <tr><th>작업량</th><td>반나절</td><td>1.5–2일</td><td>2일 이상</td></tr>
+          <tr><th>위험</th><td>낮음</td><td>경로가 튀는 점(GPS 오차) 처리</td><td>캘린더 탭과 중복, 기록 적은 달은 빈칸이 대부분</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>어느 안이든 같이 할 것</h2>
+      <p>방향과 상관없이 해결해야 하는 R3·R5·R6와, 같은 목록을 쓰는 세 화면을 한 번에 맞추는 규칙입니다.</p>
+    </div>
+    <div class="rules">
+      <div class="rule"><h3>목록은 거리·시간·페이스만</h3><p>kcal·심박·경사도는 상세로. 값이 없으면 0이 아니라 “—”.</p><span class="mono">가드: RunHistoryList 줄 값 ≤ 3</span></div>
+      <div class="rule"><h3>날짜는 “9월 27일 (일)”</h3><p>ISO 날짜를 화면에 쓰지 않습니다. 시간은 “4시간 18분”으로 통일.</p><span class="mono">가드: 목록 렌더에 YYYY-MM-DD 문자열 0</span></div>
+      <div class="rule"><h3>경로는 개수만 세서 받기</h3><p>목록 조회에서 <code>route_points</code>를 빼고, 점 수는 DB가 계산한 열로. 전체 경로는 상세에서 한 건만.</p><span class="mono">가드: 목록 COLUMNS 에 route_points 없음</span></div>
+      <div class="rule"><h3>세 화면이 같은 규칙</h3><p>런닝 기록 · 설정 → 기록 · 날짜 기록 모두 <code>RunHistoryList</code> 하나를 고치면 같이 바뀝니다. 줄을 누르면 모두 같은 상세로.</p><span class="mono">grep: RunHistoryList 호출부 3곳 확인</span></div>
+      <div class="rule"><h3>제목 하나, 빈 문구 하나</h3><p>머리글 “런닝 기록” 하나에 “런닝 시작”은 머리글 오른쪽. 빈 달 문구는 한 곳.</p><span class="mono">E2E: 빈 달 문구 1개</span></div>
+      <div class="rule"><h3>이번 달보다 뒤로 못 감</h3><p>“다음 달”은 이번 달에서 비활성. 주소로 미래 달을 넣으면 이번 달로.</p><span class="mono">단위: 월 이동 순수 함수 테스트</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>B안으로 가면 — 적용 순서</h2>
+      <p>한 단계씩 커밋하고, 단계마다 테스트를 같이 넣습니다.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="k">1</span><div><h3>기록 상세 화면 + 링크 교체</h3><ul><li><code>/routine/running-records/[id]</code> — 본인 기록만(RLS 그대로), 없으면 404. <code>loading.tsx</code> 포함.</li><li><code>RunHistoryList</code> 링크를 상세로 → 세 화면이 한 번에 바뀜. 날짜 기록의 “런닝 세션” 칸도 상세로 연결.</li></ul></div><div class="t2"><span>E2E: 줄 탭 → 상세, 다른 계정 id 는 404</span><span>원칙 1·2(오늘만 ↔ 루틴)와 무관</span></div></div>
+      <div class="step"><span class="k">2</span><div><h3>경로 그리기 · 1km 구간 (순수 함수)</h3><ul><li>위경도 → SVG 좌표 변환, 정확도 나쁜 점·튀는 점 제거.</li><li>경로 시각으로 1km 구간 페이스 계산. 1km 미만 마지막 구간은 “0.4km”로 표시.</li></ul></div><div class="t2"><span>Vitest <code>tests/be/logic/run-route-view.test.ts</code></span><span>빈 경로·점 1개·되돌아온 경로</span></div></div>
+      <div class="step"><span class="k">3</span><div><h3>경로 점 수 열 (R3)</h3><ul><li><code>run_sessions.route_point_count</code> — <code>jsonb_array_length(route_points)</code> 생성 열.</li><li><code>schema.sql</code> + 마이그레이션 → <b>라이브 DB 적용</b> → <code>pnpm test:schema</code>. 목록 COLUMNS 에서 <code>route_points</code> 제거.</li></ul></div><div class="t2"><span>스키마 가드 + 목록 조회 단위 테스트</span></div></div>
+      <div class="step"><span class="k">4</span><div><h3>월 요약 · 지난달 대비 · 주별 막대</h3><ul><li>지난달 합계는 같은 조회 1번 더(가벼운 열만).</li><li>주 경계는 월요일 시작(<code>runWeekBounds</code> 재사용).</li></ul></div><div class="t2"><span>Vitest: 달 경계에 걸친 주, 지난달 0일 때 문구</span></div></div>
+      <div class="step"><span class="k">5</span><div><h3>목록 손질 · 기존 E2E 갱신</h3><ul><li>주 단위 묶음, 날짜 형식, “—”, 미래 달 막기, 제목 정리.</li><li><code>tab-brand-meal-running.spec.ts</code>의 “5.00 km”·빈 문구 단언을 새 화면에 맞게 고침.</li></ul></div><div class="t2"><span>E2E + 스크린샷(라이트/다크)</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>진행 전에 정해 주실 것</h2>
+      <p>추천을 표시해 두었습니다.</p>
+    </div>
+    <div class="qs">
+      <div class="q"><h3>1. 방향</h3><div class="opts">
+        <div class="opt rec"><b>B 기록 중심</b>상세 화면이 생겨 R1·R2가 풀림. 종료 화면 요약을 뺀 자리를 여기서 채움.</div>
+        <div class="opt"><b>A 손질만</b>반나절. 다만 기록 한 건을 볼 곳은 계속 없음.</div>
+        <div class="opt"><b>C 달력 중심</b>꾸준함이 잘 보이지만 캘린더 탭과 겹침.</div></div></div>
+      <div class="q"><h3>2. 경로 표시</h3><div class="opts">
+        <div class="opt rec"><b>선만 그리기 (SVG)</b>외부 지도 없음 → 비용·키·도메인 등록 없음, 집 위치 같은 배경이 안 보임.</div>
+        <div class="opt"><b>지도 위에 그리기 (카카오맵)</b>어디인지 알아보기 쉬움. JS 키·도메인 등록, 앱 WebView 확인 필요.</div></div></div>
+      <div class="q"><h3>3. 설정 → 기록의 런닝 칸</h3><div class="opts">
+        <div class="opt rec"><b>“이번 주 요약”만 남기고 목록은 런닝 기록으로 연결</b>같은 목록이 두 탭에 있는 중복을 없앰.</div>
+        <div class="opt"><b>그대로 두기</b>목록 링크만 상세로 바뀜.</div></div></div>
+      <div class="q"><h3>4. 1km 구간 페이스</h3><div class="opts">
+        <div class="opt rec"><b>야외만 표시</b>저장된 경로 시각으로 계산, DB 변경 없음.</div>
+        <div class="opt"><b>표시 안 함</b>상세는 합계만.</div></div></div>
+    </div>
+  </section>
+
+  <p class="foot">근거: <code>src/app/routine/running-records/page.tsx</code>(46줄), <code>src/features/running/components/run-history-list.tsx</code>(71줄), <code>run-history-data.ts</code> · <code>run-history-summary.ts</code> · <code>run-session.ts</code>(경로 상한 2,000점), <code>settings/history/page.tsx</code> · <code>settings/history/[date]/page.tsx</code>(같은 목록 사용), <code>supabase/schema.sql</code> <code>run_sessions</code>. 실측 화면은 E2E <code>tab-brand-meal-running.spec.ts</code> 실행 결과(2026-09-27). 시안의 9월 수치(9회·42.6km 등)는 설명용 예시입니다. 런닝 거리는 그룹 순위용 <code>daily_run_distance</code>에도 따로 쌓이며, 이 보고서는 <code>run_sessions</code> 화면만 다룹니다. 원칙 1·2(오늘만 변경 ↔ 영구 루틴)와는 무관합니다.</p>
+</div>
+</html>

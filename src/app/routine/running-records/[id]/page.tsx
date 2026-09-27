@@ -38,7 +38,6 @@ export default async function RunningRecordDetailPage({ params }: { params: Prom
   const outdoor = run.mode === "outdoor";
   const drawing = outdoor ? runRouteSvg(run.route, 320, 200, 18) : null;
   const splits = outdoor ? runSplits(run.route) : [];
-  const slowest = Math.max(...splits.map((s) => s.paceSecPerKm), 1);
   const fastest = Math.min(...splits.map((s) => s.paceSecPerKm));
 
   return (
@@ -93,7 +92,8 @@ export default async function RunningRecordDetailPage({ params }: { params: Prom
                   <span className="h-2 rounded-full bg-[var(--line)]">
                     <span
                       className={`block h-2 rounded-full ${s.paceSecPerKm === fastest && splits.length > 1 ? "bg-brand" : "bg-brand/40"}`}
-                      style={{ width: `${Math.max(12, Math.round((s.paceSecPerKm / slowest) * 100))}%` }}
+                      // 빠를수록 길게 — 막대 길이는 속도(1/페이스)에 비례, 가장 빠른 구간이 100%.
+                      style={{ width: `${Math.max(12, Math.round((fastest / s.paceSecPerKm) * 100))}%` }}
                     />
                   </span>
                   <span className="text-right font-semibold">{formatRunPaceShort(s.paceSecPerKm)}</span>

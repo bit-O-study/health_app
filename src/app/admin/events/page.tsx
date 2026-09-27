@@ -143,7 +143,7 @@ function GroupCard({
                 </span>
               </div>
               {showSample && g.sample ? (
-                <p className="truncate text-[11px] text-zinc-500 dark:text-zinc-500">
+                <p className="truncate text-xs text-zinc-500 dark:text-zinc-500">
                   {g.sample}
                 </p>
               ) : null}
@@ -162,7 +162,7 @@ function KindChip({ row }: { row: AppEventRow }) {
       ? "bg-rose-100 text-rose-700 dark:bg-rose-950/50 dark:text-rose-300"
       : "bg-amber-100 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300";
   return (
-    <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${tone}`}>
+    <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${tone}`}>
       {label}
     </span>
   );

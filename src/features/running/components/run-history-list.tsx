@@ -1,67 +1,59 @@
 import Link from "next/link";
-import { HeartPulse, MapPin, Timer, Zap } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
+import type { RunHistoryRow } from "@/features/running/run-history-summary";
 import {
-  formatRunPace,
-  type RunHistoryRow,
-} from "@/features/running/run-history-summary";
+  formatRunDate,
+  formatRunDuration,
+  formatRunKm,
+  formatRunPaceShort,
+} from "@/features/running/run-records-view";
 
-function duration(sec: number): string {
-  const min = Math.floor(sec / 60);
-  const rem = sec % 60;
-  return rem === 0 ? `${min}분` : `${min}분 ${rem}초`;
+/** 런닝 기록 상세 주소 — 목록 3곳(런닝 기록·설정→기록·날짜 기록)이 모두 여기로 간다. */
+export function runRecordHref(id: string): string {
+  return `/routine/running-records/${id}`;
 }
 
-function timeLabel(iso: string): string {
-  return new Intl.DateTimeFormat("ko-KR", {
-    timeZone: "Asia/Seoul",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date(iso));
-}
-
-export function RunHistoryList({ rows }: { rows: RunHistoryRow[] }) {
+/**
+ * 런닝 기록 줄 목록. 줄에는 거리·시간·페이스만 — kcal·심박·경사도·경로는 상세 화면에서.
+ * (2026-09-27 B안: 예전엔 줄을 누르면 같은 줄이 다시 나오는 날짜 기록으로 갔다.)
+ */
+export function RunHistoryList({
+  rows,
+  emptyText = "저장된 런닝 기록이 없습니다.",
+}: {
+  rows: RunHistoryRow[];
+  emptyText?: string;
+}) {
   if (rows.length === 0) {
-    return (
-      <p className="rounded-xl bg-zinc-50 p-4 text-sm text-zinc-500 dark:bg-zinc-900/50 dark:text-zinc-400">
-        저장된 런닝 기록이 없습니다.
-      </p>
-    );
+    return <p className="px-3 py-2.5 text-sm text-zinc-500 dark:text-zinc-400">{emptyText}</p>;
   }
 
   return (
-    <ul className="space-y-2">
+    // 카드 안 줄 목록 — 바깥 .app-card 가 테두리를 맡고, 줄마다 선으로만 나눈다.
+    <ul className="divide-y divide-[var(--line)]">
       {rows.map((row) => (
         <li key={row.id}>
           <Link
-            href={`/settings/history/${row.forDate}#running`}
-            className="block rounded-xl border border-zinc-200 p-4 transition hover:border-emerald-300 hover:bg-emerald-50/50 dark:border-zinc-700 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/20"
+            href={runRecordHref(row.id)}
+            aria-label={`${formatRunDate(row.forDate)} ${row.mode === "outdoor" ? "야외" : "실내"} 런닝 ${formatRunKm(row.distanceM)}km 상세 보기`}
+            className="flex min-h-14 items-center gap-2 px-3 py-2.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
           >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="font-bold text-zinc-950 dark:text-zinc-100">
-                  {row.mode === "outdoor" ? "야외 런닝" : "실내 런닝"}
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">
+                  {formatRunDate(row.forDate)} · {row.mode === "outdoor" ? "야외" : "실내"}
                 </p>
-                <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
-                  {row.forDate} · {timeLabel(row.startedAt)}
-                </p>
+                <span className="shrink-0 text-base font-semibold tabular-nums text-brand">
+                  {formatRunKm(row.distanceM)}km
+                </span>
               </div>
-              <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
-                {(row.distanceM / 1_000).toFixed(2)}km
-              </span>
+              <p className="mt-0.5 flex gap-3 text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                <span>{formatRunDuration(row.durationSec)}</span>
+                <span>{formatRunPaceShort(row.paceSecPerKm)}</span>
+              </p>
             </div>
-            <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium text-zinc-600 dark:text-zinc-300">
-              <span className="inline-flex items-center gap-1"><Timer size={13} />{duration(row.durationSec)}</span>
-              <span>{formatRunPace(row.paceSecPerKm)}</span>
-              <span className="inline-flex items-center gap-1"><Zap size={13} />{row.caloriesKcal}kcal</span>
-              {row.averageHeartRate ? (
-                <span className="inline-flex items-center gap-1"><HeartPulse size={13} />평균 {row.averageHeartRate} · 최대 {row.maxHeartRate}bpm</span>
-              ) : null}
-              {row.routePointCount > 0 ? (
-                <span className="inline-flex items-center gap-1"><MapPin size={13} />경로 {row.routePointCount}점</span>
-              ) : null}
-            </div>
+            <ChevronRight size={16} aria-hidden="true" className="shrink-0 text-zinc-400" />
           </Link>
         </li>
       ))}

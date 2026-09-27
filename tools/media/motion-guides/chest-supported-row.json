@@ -1,0 +1,12 @@
+{
+  "prompt": "8-frame 4x2 chest-supported row machine on white background, seated grey mannequin teal shorts with chest against pad, feet planted, pulling machine handles to lower ribs without torso movement.",
+  "equipment": "machine",
+  "sources": [
+    "https://www.strengthlog.com/seated-machine-row/",
+    "https://www.strengthlog.com/back-exercises/"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "chest-supported-row",
+  "registeredAt": "2026-09-14T22:05:15.641Z"
+}

@@ -26,7 +26,7 @@ export default function MetricChart({
   color: string;
 }) {
   return (
-    <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-800">
+    <div className="app-card p-4">
       <h2 className="mb-3 text-sm font-bold text-zinc-950 dark:text-zinc-100">
         {title}
       </h2>

@@ -7,6 +7,8 @@
  * 정작 챙겨야 할 사람이 스크롤 아래로 밀린다.
  */
 
+import type { ShareKind } from "@/features/groups/share-prefs";
+
 export type TrainerMember = {
   userId: string;
   name: string;
@@ -29,6 +31,14 @@ export type TrainerMember = {
    * 보려면 회원마다 상세로 들어가야 했다 — 10명이면 10번.
    */
   untouchedRegions: string[];
+  /**
+   * 회원이 **제공을 끈** 항목(설정 → 트레이너 연결). 없으면 전부 제공.
+   *
+   * 🔴 끈 항목은 **판정에서 빼야지 0 으로 세면 안 된다.** 식단을 비공개로 한 회원을
+   *    "이번 주 식단 기록 없음" 으로 띄우면, 트레이너가 하지 않아도 될 연락을 하고
+   *    회원은 자기가 끈 것이 무시당했다고 느낀다.
+   */
+  hidden?: ShareKind[];
 };
 
 /**
@@ -74,7 +84,14 @@ export type Attention = {
    * 섞어서 같은 빨강으로 칠하면 "안 나온 회원"과 "하체를 빼먹는 회원"이 같아 보인다 —
    * 트레이너가 할 일이 전혀 다른데.
    */
-  kind: "absence" | "program" | "diet" | "weight";
+  kind: "absence" | "program" | "diet" | "weight" | "private";
+};
+
+/** 비공개 칩에 쓰는 짧은 이름(처방 허용은 열람이 아니라 여기 안 나온다). */
+const HIDDEN_LABEL: Partial<Record<ShareKind, string>> = {
+  workout: "운동",
+  diet: "식단",
+  body: "체중",
 };
 
 /** 며칠을 쉬면 '연락할 때'로 볼 것인가. 주 3회 회원도 이틀은 정상이라 3일부터 본다. */
@@ -88,9 +105,28 @@ export const STALE_DAYS = 3;
  */
 export function attentionOf(m: TrainerMember, todayYmd: string): Attention[] {
   const out: Attention[] = [];
-  const since = daysSinceWorkout(m, todayYmd);
+  const hidden = new Set<ShareKind>(m.hidden ?? []);
 
-  if (since === null) {
+  // 🔴 비공개 항목은 **맨 먼저 한 줄로** 알린다. 숫자가 0 인 이유가 '안 했다' 가 아니라
+  //    '안 보여준다' 라는 걸 모르면 트레이너는 없는 문제를 쫓는다.
+  //    weight 0 — 급한 일이 아니다(정렬을 흔들면 안 된다).
+  if (hidden.size > 0) {
+    out.push({
+      label: `${[...hidden]
+        .map((k) => HIDDEN_LABEL[k])
+        .filter(Boolean)
+        .join("·")} 비공개`,
+      weight: 0,
+      kind: "private",
+    });
+  }
+
+  const since = hidden.has("workout") ? null : daysSinceWorkout(m, todayYmd);
+
+  // 운동 기록을 안 보여주는 회원에게는 결석·프로그램 판정을 하지 않는다(근거가 없다).
+  if (hidden.has("workout")) {
+    // 아무 판정도 하지 않는다 — 위의 '비공개' 한 줄이 전부다.
+  } else if (since === null) {
     out.push({ label: "아직 운동 기록이 없어요", weight: 100, kind: "absence" });
   } else if (since >= STALE_DAYS) {
     out.push({
@@ -100,7 +136,7 @@ export function attentionOf(m: TrainerMember, todayYmd: string): Attention[] {
     });
   }
 
-  const pct = adherencePct(m);
+  const pct = hidden.has("workout") ? null : adherencePct(m);
   if (pct !== null && pct < 50 && since !== null) {
     out.push({
       label: `이번 주 목표의 ${pct}%`,
@@ -123,11 +159,11 @@ export function attentionOf(m: TrainerMember, todayYmd: string): Attention[] {
     });
   }
 
-  if (m.dietDays === 0) {
+  if (!hidden.has("diet") && m.dietDays === 0) {
     out.push({ label: "이번 주 식단 기록 없음", weight: 10, kind: "diet" });
   }
 
-  const delta = weightDelta(m);
+  const delta = hidden.has("body") ? null : weightDelta(m);
   // 체중은 방향을 우리가 판단하지 않는다(증량이 목표인 회원도 있다). 눈에 띄는 변화만 알린다.
   if (delta !== null && Math.abs(delta) >= 2) {
     out.push({
@@ -159,9 +195,16 @@ export function sortForTrainer(
   );
 }
 
-/** 화면 맨 위 요약 — 담당 인원 중 몇 명을 챙겨야 하나. */
+/**
+ * 화면 맨 위 요약 — 담당 인원 중 몇 명을 챙겨야 하나.
+ *
+ * 🔴 '비공개' 는 챙길 일이 아니다. 회원이 정보 제공을 끈 것을 '챙길 회원' 으로 세면
+ *    할 일이 없는데도 숫자가 올라가 화면 맨 위가 거짓말을 한다.
+ */
 export function trainerSummary(members: TrainerMember[], todayYmd: string) {
-  const needs = members.filter((m) => attentionOf(m, todayYmd).length > 0).length;
+  const needs = members.filter((m) =>
+    attentionOf(m, todayYmd).some((a) => a.kind !== "private"),
+  ).length;
   const workedToday = members.filter((m) => m.lastWorkout === todayYmd).length;
   return { total: members.length, needsAttention: needs, workedToday };
 }

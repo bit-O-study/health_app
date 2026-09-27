@@ -1,5 +1,8 @@
 "use server";
 
+import { getRecommendationContext } from "./recommendation-data";
+import { personalizeExercises } from "./recommend-personalization";
+
 import { revalidatePath } from "next/cache";
 
 import {
@@ -15,6 +18,7 @@ import {
   seoulYmd,
 } from "@/features/routine/data";
 import { getUserProfile } from "@/features/profile/data-access";
+import { getRecommendSignals } from "@/features/routine/recommend-signals";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import {
@@ -29,7 +33,9 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import {
+  allExercisesForSlot,
   focusExercisesForSlot,
+  focusVariantIndex,
   recommendedExercisesForFocus,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
@@ -147,10 +153,12 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
-  const [profile, gym, routine] = await Promise.all([
+  const [profile, gym, routine, recommendationContext, signals] = await Promise.all([
     getUserProfile(),
     getCurrentGym(),
     getUserRoutine(),
+    getRecommendationContext(),
+    getRecommendSignals(),
   ]);
   if (!profile) return { ok: false, error: "프로필이 필요합니다." };
   if (!routine) return { ok: false, error: "루틴을 찾을 수 없습니다." };
@@ -188,20 +196,27 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   }
 
   const groups = slots.map((slot) => {
-    const list = slot.isSide
+    const base = slot.isSide
       ? sideExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet);
+      : focusExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet, {
+          experience: profile.experience,
+          // 같은 주에 같은 부위가 또 나오면 A/B 로 번갈아(전신×3 이 3일 모두 같지 않게).
+          variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
+          ...signals,
+        });
+    const list = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, recommendationContext, slot.isSide, slot.focus);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
       rows: list.map((ex, index) => {
-        const p = prescribe(ex.id, opts);
+        const equipment = pickAvailableEquipment(ex, gymSet);
+        const p = prescribe(ex.id, {...opts,equipment});
         const id = oldIdByKey.get(`${slot.dayIndex}:${slot.focus}:${ex.id}`);
         return {
           ...(id ? { id } : {}),
           position: index,
           exerciseId: ex.id,
-          equipment: pickAvailableEquipment(ex, gymSet),
+          equipment,
           sets: p.sets,
           reps: p.reps,
           weightKg: p.weightKg,
@@ -211,6 +226,7 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
       }),
     };
   });
+  if (groups.some(group => group.rows.length === 0)) return {ok:false,error:"보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 운동을 직접 선택해 주세요."};
   const replacement = await replaceRoutineExerciseGroups(
     supabase,
     routine.updatedAt,
@@ -782,10 +798,11 @@ export async function applyTodayRecommendedAction(
   const user = await getCurrentUser();
   if (!user) return;
 
-  const [profile, gym, routine] = await Promise.all([
+  const [profile, gym, routine, signals] = await Promise.all([
     getUserProfile(),
     getCurrentGym(),
     getUserRoutine(),
+    getRecommendSignals(),
   ]);
   if (!profile || !routine) return;
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
@@ -818,11 +835,10 @@ export async function applyTodayRecommendedAction(
     bodyType: profile.bodyType ?? ("average" as const),
     weightKg: profile.weightKg ?? 65,
   };
-  const rows = recommendedExercisesForFocus(
-    target,
-    profile.gender,
-    gymSet,
-  ).map((ex, index) => {
+  const rows = recommendedExercisesForFocus(target, profile.gender, gymSet, {
+    experience: profile.experience,
+    ...signals,
+  }).map((ex, index) => {
     const p = prescribe(ex.id, opts);
     return {
       position: index,

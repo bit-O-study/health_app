@@ -22,6 +22,11 @@ export type TimerState = {
   /** 세션이 속한 날짜 YYYY-MM-DD (서울). 자정 넘으면 변경됨. */
   forDate: string;
   /**
+   * 같은 날 이미 끝낸 세션에서 이어받은 초. 화면·그날 누적엔 포함되지만 이번
+   * 세션 자체의 길이(Health Connect 기록)에서는 뺀다. 없으면 0.
+   */
+  baseSec?: number;
+  /**
    * 앱이 '실제로 떠 있던' 마지막 시각 (ms epoch). 실행 중 매 틱마다 갱신.
    * 앱을 닫거나 백그라운드로 둔 동안은 갱신이 멈춘다. 재접속 시 이 값과 now 의
    * 간격이 크면 그 시간만큼은 운동을 안 한 것으로 보고 경과에서 제외한다.
@@ -204,6 +209,70 @@ export function takeUnsavedDelta(
 /** 세션 시작·종료·리셋 시 저장 마크 제거(다음 세션은 0 부터). */
 export function clearSavedMark() {
   writeSaved(null);
+}
+
+// ── 오늘 끝낸 세션 기록 ─────────────────────────────────────────────────────
+// 전체 완료로 세션이 끝난 뒤 완료를 취소하고 다시 시작하면, 예전엔 타이머가
+// 00:00 부터 새로 흘렀다(DB 누적은 맞지만 화면에선 "운동시간 초기화"로 보임).
+// 끝낼 때 그날 누적 초를 남겨 두고, 같은 날 다시 시작하면 거기서 이어 간다.
+const FINISHED_KEY = "heltch.workout.finished";
+export type FinishedMark = { forDate: string; totalSec: number };
+
+export function readFinished(): FinishedMark | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = localStorage.getItem(FINISHED_KEY);
+    if (!raw) return null;
+    const v = JSON.parse(raw) as Partial<FinishedMark>;
+    if (typeof v?.forDate === "string" && typeof v?.totalSec === "number") {
+      return v as FinishedMark;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export function writeFinished(m: FinishedMark | null) {
+  if (typeof window === "undefined") return;
+  try {
+    if (m === null) localStorage.removeItem(FINISHED_KEY);
+    else localStorage.setItem(FINISHED_KEY, JSON.stringify(m));
+  } catch {
+    /* noop */
+  }
+}
+
+/**
+ * 새 세션의 시작 상태. 같은 날 끝낸 세션이 있으면 그 누적 초에서 이어 가고,
+ * 저장 마크도 그 초로 맞춰 **이미 DB 에 올린 시간을 다시 더하지 않게** 한다.
+ * 날짜가 다르면 0 부터. 순수 함수 — now·today 주입으로 테스트 가능.
+ */
+export function startSessionState(
+  finished: FinishedMark | null,
+  today: string,
+  now: number,
+  sessionId: string,
+): { state: TimerState; savedMark: { forDate: string; savedSec: number } | null } {
+  const baseSec =
+    finished && finished.forDate === today ? Math.max(0, finished.totalSec) : 0;
+  return {
+    state: {
+      sessionId,
+      startedAt: now,
+      pausedAt: null,
+      accumulated: baseSec * 1000,
+      forDate: today,
+      lastSeenAt: now,
+      baseSec,
+    },
+    savedMark: baseSec > 0 ? { forDate: today, savedSec: baseSec } : null,
+  };
+}
+
+/** 저장 마크를 직접 맞춘다(같은 날 이어 시작할 때 이미 올린 초). */
+export function setSavedMark(m: { forDate: string; savedSec: number }) {
+  writeSaved(m);
 }
 
 /** 사람이 읽는 mm:ss 또는 hh:mm:ss */

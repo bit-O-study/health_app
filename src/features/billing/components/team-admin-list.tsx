@@ -84,25 +84,25 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
     <li
       data-testid="team-admin-row"
       data-group={row.groupId}
-      className="rounded-2xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-800"
+      className="app-card p-4"
     >
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <p className="truncate text-sm font-bold text-zinc-950 dark:text-zinc-100">
             {row.groupName}
           </p>
-          <p className="mt-0.5 text-[11px] text-zinc-500">
+          <p className="mt-0.5 text-xs text-zinc-500">
             {TEAM_PLAN_META[row.plan].label} · {TEAM_STATUS_LABEL[row.status]}
             {row.periodEnd ? ` · ~${row.periodEnd}` : ""}
           </p>
           {row.bizName ? (
-            <p className="mt-0.5 text-[11px] text-zinc-400">
+            <p className="mt-0.5 text-xs text-zinc-400">
               {row.bizName}
               {row.bizNumber ? ` · ${formatBizNumber(row.bizNumber)}` : ""}
               {row.bizEmail ? ` · ${row.bizEmail}` : ""}
             </p>
           ) : (
-            <p className="mt-0.5 text-[11px] text-zinc-400">사업자 정보 없음</p>
+            <p className="mt-0.5 text-xs text-zinc-400">사업자 정보 없음</p>
           )}
         </div>
       </div>
@@ -115,7 +115,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
           { label: "인원", value: seats, set: setSeats, type: "number" },
         ].map((f) => (
           <label key={f.label} className="block">
-            <span className="mb-1 block text-[11px] font-bold text-zinc-500">
+            <span className="mb-1 block text-xs font-bold text-zinc-500">
               {f.label}
             </span>
             <input
@@ -123,7 +123,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
               type={f.type}
               value={f.value}
               onChange={(e) => f.set(e.target.value)}
-              className="h-10 w-full rounded-xl border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+              className="h-10 w-full rounded-xl border border-zinc-300 bg-white px-2 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             />
           </label>
         ))}
@@ -133,7 +133,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
         value={memo}
         onChange={(e) => setMemo(e.target.value)}
         placeholder="입금 확인 메모(입금자명·계좌 등)"
-        className="mt-2 h-10 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+        className="mt-2 h-10 w-full rounded-xl border border-zinc-300 bg-white px-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
       />
 
       <div className="mt-3 flex gap-2">
@@ -142,7 +142,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
           data-testid="team-approve"
           disabled={pending}
           onClick={approve}
-          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           {pending ? <Loader2 aria-hidden="true" size={14} className="animate-spin" /> : null}
           {row.status === "active" ? "기간 연장·수정" : "입금 확인 · 이용 시작"}

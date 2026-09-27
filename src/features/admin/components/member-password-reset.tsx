@@ -72,7 +72,7 @@ export function MemberPasswordReset({
       </button>
 
       {error ? (
-        <span className="text-[11px] font-semibold text-red-600 dark:text-red-400">
+        <span className="text-xs font-semibold text-red-600 dark:text-red-400">
           {error}
         </span>
       ) : null}
@@ -83,7 +83,7 @@ export function MemberPasswordReset({
           className="rounded-md border border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/40 px-2 py-1.5"
         >
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-zinc-500">임시 비밀번호</span>
+            <span className="text-xs text-zinc-500">임시 비밀번호</span>
             <code
               data-testid="temp-password"
               className="select-all font-mono text-xs font-bold tracking-wider text-sky-800 dark:text-sky-300"
@@ -93,13 +93,13 @@ export function MemberPasswordReset({
             <button
               type="button"
               onClick={copy}
-              className="ml-auto inline-flex items-center gap-0.5 text-[11px] font-semibold text-sky-700 dark:text-sky-400"
+              className="ml-auto inline-flex items-center gap-0.5 text-xs font-semibold text-sky-700 dark:text-sky-400"
             >
               {copied ? <Check size={12} /> : <Copy size={12} />}
               {copied ? "복사됨" : "복사"}
             </button>
           </div>
-          <p className="mt-1 text-[11px] text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
             {emailed
               ? `${email} 로 메일을 보냈습니다.`
               : (note ?? "메일을 보내지 못했습니다.")}

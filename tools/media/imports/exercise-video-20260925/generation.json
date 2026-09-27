@@ -1,0 +1,19 @@
+{
+  "createdAt": "2026-09-24T16:34:18.185Z",
+  "tool": "built-in image_gen",
+  "status": "candidate-only",
+  "woodchopper": {
+    "input": "tools/media/motion-guides/cable-woodchopper.jpg",
+    "generated": "C:/Users/admin/.codex/generated_images/01a0d430-1ae9-79d0-b08f-1dca8bdd4373/exec-8d56641f-c5ce-4be5-9df2-e7b071147f79.png",
+    "prompt": "Edit the reference exercise animation sheet. Scientific educational 3D illustration, 2048x2048 PNG, exactly 4 columns by 4 rows of equal square cells. Keep the same gray muscular mannequin teal shorts, left cable tower, fixed camera, full body margins, floor and opaque gray background. Fix ONLY the temporal continuity: 16 consecutive evenly spaced phases of one LOW TO HIGH CABLE WOODCHOP ascent. Row-major order, never reset at a row boundary. Cell1 hands just outside the machine-side hip (left), chest/head turned gently left. Cell16 hands above opposite shoulder right, chest/head turned gently right. Interpolate hands, head and torso in FIFTEEN EQUAL SMALL steps across the entire sheet; no abrupt head turn from cell1 to2, no duplicated last four poses. Cell4 hands at lower abdomen, cell8 mid chest, cell12 shoulder height, cell16 above opposite shoulder. Knees softly bent, spine neutral, both hands grip rope, elbows soft and nearly straight. Cable taut and visibly continuous from low pulley to rope connector in every cell, preserve tower and all equipment. Feet remain planted with gentle pivot, shoulders and hips turn together. Same scale and placement every cell. No text arrows motion blur double limbs or decorative borders.",
+    "sources": [
+      "https://www.strengthlog.com/cable-machine-wood-chop-low-to-high/"
+    ]
+  },
+  "lowBar": {
+    "input": "tools/media/motion-guides/low-bar-squat.jpg",
+    "generated": "C:/Users/admin/.codex/generated_images/01a0d430-1ae9-79d0-b08f-1dca8bdd4373/exec-20da0531-84c3-470c-b086-5c1c78c5286d.png",
+    "prompt": "Use case: background-extraction. Edit target: attached 4x4 low-bar squat pose sheet. Remove ONLY all gray studio backgrounds and floor shadows from all 16 cells. Output PNG with genuinely transparent alpha background, NOT white, black or checkerboard pixels. Preserve exactly every original figure, anatomical pose, barbell, both complete bar ends, black plates, hands, feet, gray skin, teal shorts, edge details and each cell placement. Do not redraw or move or resize subjects, do not change any squat pose, camera or lighting. Keep exact square 4x4 grid layout and original dimensions; all interstitial background including between arms and torso and between legs becomes transparent. No text, no borders, no added glow. This is a cutout, not a new pose sheet.",
+    "refinementPrompt": "Background-extraction refinement of this transparent 4x4 squat sprite sheet. Remove the remaining WHITE/LIGHT GRAY background patches trapped behind the neck and underneath/around the barbell, inside the spaces between each upper arm and head/torso, and the turquoise edge artifacts outside the shorts. These are background remnants, not equipment. Make those patches fully transparent alpha. Preserve all gray skin, steel barbell shafts, black plates, hands and shoes and teal shorts exactly. Do NOT erase or thin the actual steel barbell. Preserve every pose, 4x4 layout, all subject positions and image dimensions exactly. PNG real alpha transparency. No checkerboard, no opaque background, no added outlines."
+  }
+}

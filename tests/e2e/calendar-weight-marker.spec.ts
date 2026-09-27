@@ -37,8 +37,15 @@ test("웨이트 완료한 날은 캘린더에 덤벨 마커가 뜬다", async ({
   await page.waitForTimeout(800);
   const row = page.locator("li").filter({ hasText: "스쿼트" }).first();
   await expect(row).toBeVisible({ timeout: 8000 });
-  await page.getByRole("button", { name: /오늘 전부 완료/ }).click();
-  await expect(row.getByText("완료", { exact: true })).toBeVisible({ timeout: 8000 });
+  const markAll = page.getByRole("button", { name: /오늘 전부 완료/ });
+  await markAll.click();
+  // ⚠ 성공하면 버튼이 **다시 활성화되지 않는다.** 액션이 끝나면 화면을 통째로
+  //   새로고침하고(`window.location.reload`), 그 시점엔 완료 처리할 운동이 남아
+  //   있지 않아 버튼이 영구 비활성이 된다. 예전엔 여기서 `toBeEnabled` 를 기다렸는데
+  //   그 상태는 이제 오지 않는다 — 끝났다는 신호는 **버튼에 달린 안내 문구**다.
+  await expect(markAll).toHaveAttribute("title", "완료 처리할 운동이 없습니다", {
+    timeout: 30_000,
+  });
 
   // 완료 후: 캘린더에 덤벨 마커가 최소 1개(오늘) 뜬다.
   await page.goto("/calendar", { waitUntil: "networkidle" });

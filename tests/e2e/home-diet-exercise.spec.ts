@@ -3,18 +3,21 @@ import { expect, test } from "@playwright/test";
 import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
-// 홈: 오늘 식단 기준 필요 운동량(원형 그래프) + 탄단지 기준 더 먹어야 하는 양.
+// 오늘 식단 기준 필요 운동량(원형 그래프) + 탄단지 기준 더 먹어야 하는 양.
+//
+// 🔴 이 카드는 런처 개편 때 홈에서 **식단 탭의 '영양 현황' 보기**로 옮겼다.
+//    테스트가 옛 자리(/home)를 계속 보고 있어서 기능은 멀쩡한데 빨갛게 떴다 — 자리를 맞춘다.
 
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
 const today = `(now() at time zone 'Asia/Seoul')::date`;
 
-test("식단 기록이 없으면 홈에 '기록 없음' 안내가 나오고, 누르면 식단탭으로 이동한다", async ({
+test("식단 기록이 없으면 '기록 없음' 안내가 나오고, 누르면 식단탭으로 이동한다", async ({
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/home", { waitUntil: "networkidle" });
+  await page.goto("/diet?view=nutrition", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
 
   const card = page.getByRole("link", { name: /오늘 식단 기록이 없어요/ });
@@ -38,7 +41,7 @@ test("식단 기록이 있으면 필요 운동량과 탄단지 남은 양을 보
     [email],
   );
 
-  await page.goto("/home", { waitUntil: "networkidle" });
+  await page.goto("/diet?view=nutrition", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
 
   await expect(page.getByText("목표 이내")).toBeVisible({ timeout: 8000 });

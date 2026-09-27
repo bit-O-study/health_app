@@ -31,18 +31,25 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
   await title.fill("   ");
   await expect(submit).toBeDisabled();
 
-  await title.fill("E2E 소개 루틴");
+  // 실행마다 다른 제목 — 같은 실행의 앞선 계정 글(teardown 전)과 카드가 겹치지 않게.
+  const shareTitle = `E2E 소개 루틴 ${Date.now().toString(36)}`;
+  await title.fill(shareTitle);
   await expect(submit).toBeEnabled();
   await submit.click();
 
   await expect(page.getByText("소개글을 올렸어요")).toBeVisible({ timeout: 15_000 });
   await page.getByRole("button", { name: "확인" }).click();
+  // 모달을 닫으면 쌓아 둔 히스토리 항목을 다음 틱에 history.back() 으로 뺀다(useBackClose).
+  // 곧바로 page.goto 하면 늦게 도착한 back 이 그 이동을 끊는다(ERR_ABORTED) — 닫힘이 끝난 뒤 이동.
+  await expect(page.getByText("소개글을 올렸어요")).toBeHidden();
+  await page.waitForLoadState("networkidle");
+  await page.waitForTimeout(300);
 
   // ── 2) 커뮤니티 '루틴' 탭에 뜬다 ────────────────────────────────────
   await page.goto("/community", { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "루틴", exact: true }).click();
 
-  const card = page.getByRole("button").filter({ hasText: "E2E 소개 루틴" });
+  const card = page.getByRole("button").filter({ hasText: shareTitle });
   await expect(card).toBeVisible({ timeout: 15_000 });
   // 카드에 운동 개수와 순서 미리보기가 보인다(목록에서 성격이 읽혀야 한다).
   await expect(card.getByText(/운동 \d+개/)).toBeVisible();
@@ -73,6 +80,9 @@ test("내 일차를 소개하고, 커뮤니티 루틴 탭에서 다시 내 루�
   await expect(page.getByText("어느 일차에 담을까요?")).toBeHidden({
     timeout: 15_000,
   });
+  // 시트를 닫으면 쌓아 둔 히스토리 항목을 다음 틱에 back() 으로 뺀다 — 끝난 뒤 이동.
+  await page.waitForLoadState("networkidle");
+  await page.waitForTimeout(300);
   await page.goto("/plan", { waitUntil: "networkidle" });
   await expect(
     page.locator("[data-plan-day-index='0']").locator("select").first(),

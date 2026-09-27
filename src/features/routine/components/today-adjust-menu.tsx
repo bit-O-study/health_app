@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Loader2,
@@ -65,8 +64,8 @@ function FocusToggle({
         "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition",
         whole ? "font-bold" : "font-semibold",
         active
-          ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
-          : "border-zinc-200 bg-white text-zinc-700 hover:border-emerald-300 hover:bg-emerald-50 dark:text-zinc-300 dark:hover:border-emerald-700 dark:hover:bg-emerald-950/30",
+          ? "border-brand/40 bg-brand-soft text-brand"
+          : "border-zinc-200 bg-white text-zinc-700 hover:border-brand/40 hover:bg-brand-soft dark:text-zinc-300",
       )}
     >
       <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", style.dot)} />
@@ -87,7 +86,6 @@ export function TodayAdjustMenu({
   open?: boolean;
   onClose?: () => void;
 }) {
-  const router = useRouter();
   const [openState, setOpenState] = useState(false);
   const open = embedded ? Boolean(openProp) : openState;
   const [picked, setPicked] = useState<Set<DayBlockId>>(new Set());
@@ -133,11 +131,8 @@ export function TodayAdjustMenu({
       // '변경된 날'로 마킹(선택 부위 기억)해 원래 운동을 숨긴다. 오늘 plan/conditioning 비움.
       await deferRoutineOneDayAction(focuses);
       await clearDailyPlanForDateAction(seoulYmd());
-      // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
-      setPicked(new Set());
-      // push 뒤 refresh 는 넣지 않는다 — /plan/today 이동 시 서버 컴포넌트가 새로 렌더되고,
-      // push 직후 refresh 는 (현재 /routine 을 리페치해) push 를 취소하는 레이스가 있다.
-      router.push(`/plan/today?focus=${focuses}`);
+      // 서버 액션의 revalidate 와 클라이언트 push 가 경합하면 /routine 에 남을 수 있다.
+      window.location.assign(`/plan/today?focus=${focuses}`);
     });
   }
 
@@ -153,9 +148,8 @@ export function TodayAdjustMenu({
       // 화면 이동 전에는 닫지 않는다. 모달의 history.back()이 이동을 취소할 수 있다.
       setPicked(new Set());
       // add=1 → 편집기가 '현재 오늘 운동 + 추가한 부위'를 함께 보여준다.
-      // push 직후 refresh 는 push 를 취소하는 레이스가 있어 넣지 않는다(부위 추가가
-      // /plan/today 로 이동 안 하고 /routine 에 머물던 원인). 이동 시 새로 렌더됨.
-      router.push(`/plan/today?focus=${focuses}&add=1`);
+      // 서버 액션의 revalidate 와 경합하지 않도록 저장 후 새 문서로 이동한다.
+      window.location.assign(`/plan/today?focus=${focuses}&add=1`);
     });
   }
 
@@ -166,7 +160,7 @@ export function TodayAdjustMenu({
           <button
             type="button"
             onClick={() => setOpenState(true)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft"
           >
             <SlidersHorizontal aria-hidden="true" size={14} />
             오늘만 운동 바꾸기
@@ -175,7 +169,7 @@ export function TodayAdjustMenu({
             type="button"
             disabled={pending}
             onClick={() => run(restartRoutineFromTodayAction)}
-            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 disabled:opacity-60"
+            className="inline-flex h-9 items-center gap-1.5 rounded-md border app-field px-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -221,9 +215,9 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => run(undoTodayRestAction)}
-                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-emerald-200 dark:border-emerald-800 bg-emerald-50 dark:bg-emerald-950/40 px-4 py-3 text-left transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
+                className="mt-5 flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-200 text-emerald-700 dark:text-emerald-400">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
                   <Play aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
@@ -257,14 +251,14 @@ export function TodayAdjustMenu({
             )}
 
             {/* ① 운동 직접 담기 — 전체 운동 검색·다중선택(오늘만) */}
-            <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               운동 직접 담기
             </p>
             <TodayAddExercises />
 
             {/* ② 오늘만 부위 바꾸기 — 부위 선택 후 대체/추가.
                 루틴 빌더와 동일하게 기본 부위 + 세부근육 블록까지 고를 수 있다(원칙 #1). */}
-            <p className="mt-5 mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="mt-5 mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
               오늘만 부위 바꾸기 — 부위 선택 (세부근육까지, 여러 개)
             </p>
             <div className="space-y-2.5">
@@ -313,7 +307,7 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending || picked.size === 0}
                 onClick={replaceAndGo}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 px-4 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-300"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-300"
               >
                 운동 전체 바꾸기
                 <ArrowRight aria-hidden="true" size={15} />
@@ -322,14 +316,14 @@ export function TodayAdjustMenu({
                 type="button"
                 disabled={pending || picked.size === 0}
                 onClick={addAndGo}
-                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-emerald-500 bg-white px-4 text-sm font-semibold text-emerald-700 transition hover:bg-emerald-50 disabled:cursor-not-allowed disabled:border-zinc-200 disabled:text-zinc-300 dark:bg-zinc-800 dark:text-emerald-400 dark:hover:bg-emerald-950/30"
+                className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md border border-brand/40 bg-white px-4 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:cursor-not-allowed disabled:border-zinc-200 disabled:text-zinc-300 dark:bg-zinc-800"
               >
                 <Plus aria-hidden="true" size={15} />
                 오늘만 부위 추가
               </button>
             </div>
 
-            <p className="mt-3 text-[11px] leading-5 text-zinc-500 dark:text-zinc-400">
+            <p className="mt-3 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
               <strong>전체 바꾸기</strong>는 오늘 부위를 선택 부위로 바꿉니다(이미
               완료한 운동은 그대로 남아요). <strong>부위 추가</strong>는 오늘
               운동에 선택 부위를 더합니다. 둘 다 <strong>오늘 하루만</strong>{" "}

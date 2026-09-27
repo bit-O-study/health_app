@@ -17,6 +17,8 @@ import {
 import { getCatalogExercise } from "@/features/routine/exercise-catalog";
 import { seoulYmd } from "@/features/routine/data";
 import { resolveMemberName } from "@/features/groups/member-name";
+import { type ShareKind } from "@/features/groups/share-prefs";
+
 import { parseSetDetails } from "@/features/routine/set-details";
 import {
   buildWeeklyTrainingView,
@@ -506,6 +508,11 @@ export async function getGroupDetail(groupId: string): Promise<GroupDetail | nul
 
 export type MemberDay = {
   name: string;
+  /**
+   * 회원이 **이 트레이너에게 제공을 끈** 항목(설정 → 트레이너 연결).
+   * 그룹원끼리 서로 볼 때는 항상 빈 배열 — 이 스위치는 트레이너 대상이다.
+   */
+  hidden: ShareKind[];
   date: string;
   intake: number;
   burned: number;
@@ -578,6 +585,8 @@ export async function getGroupMemberDay(
       .eq("for_date", date),
   ]);
 
+  // 그룹 공개 기록은 그룹의 공유 정책을 따르며 트레이너 연결과 독립적이다.
+
   const weight = num((profile as { weight_kg?: number | string | null } | null)?.weight_kg) || 65;
   const prof = profile as { name?: string | null; nickname?: string | null } | null;
   const displayName = resolveMemberName(
@@ -648,8 +657,11 @@ export async function getGroupMemberDay(
     .sort((a, b) => MEAL_ORDER.indexOf(a.meal) - MEAL_ORDER.indexOf(b.meal))
     .map((r) => ({ meal: MEAL_LABEL[r.meal] ?? r.meal, photoUrl: r.photo_url }));
 
+  // 끈 항목은 **값을 아예 안 내려보낸다**(0 으로 두면 '안 했다' 로 읽힌다 — 그 해석은
+  // `hidden` 이 한다). 화면이 '비공개' 라고 말해 준다.
   return {
     name: displayName,
+    hidden: [],
     date,
     intake: foods.reduce((s, f) => s + f.kcal, 0),
     burned: Math.round(burnedRaw),
@@ -684,6 +696,7 @@ export async function getGroupMemberWeeklyTraining(
     .eq("group_id", groupId);
   const ids = ((members ?? []) as { user_id: string }[]).map((r) => r.user_id);
   if (!ids.includes(user.id) || !ids.includes(memberId)) return null;
+
 
   const today = seoulYmd();
   const from = addDaysYmd(today, -60);

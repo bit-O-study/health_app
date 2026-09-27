@@ -1,0 +1,19 @@
+[
+  {
+    "id": "behind-the-back-wrist-curl",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "00a730e7515c0c4b82f62e3d1b8cf46e0d77c99cb7451f105a6e6961bcf848dd",
+    "videoSha256": "7bb7451616f172a2da9e3fd361cf6989fdd4a1df94748a4a227f508056dc441e",
+    "darkVideoSha256": "48079bbaeed6cb92eee2093213767fa98ade8fcb7449e09fe3abd3f1ae15e3f6",
+    "darkBytes": 171181,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 170238,
+    "decode": "passed",
+    "verifiedAt": "2026-09-25T13:26:12.747Z"
+  }
+]

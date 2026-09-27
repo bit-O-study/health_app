@@ -15,7 +15,7 @@ export function AiDisclaimer({ className = "" }: { className?: string }) {
   return (
     <p
       data-testid="ai-disclaimer"
-      className={`text-[11px] leading-5 text-zinc-500 dark:text-zinc-400 ${className}`}
+      className={`text-xs leading-5 text-zinc-500 dark:text-zinc-400 ${className}`}
     >
       AI 가 기록을 보고 만든 <strong>참고용 조언</strong>이에요. 진단·치료가 아니며,
       통증이나 지병이 있으면 의사·전문가와 상의해 주세요.

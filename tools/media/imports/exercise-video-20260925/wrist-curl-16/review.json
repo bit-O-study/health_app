@@ -1,0 +1,27 @@
+{
+  "reviewedAt": "2026-09-25T13:29:10.728Z",
+  "status": "pending",
+  "publicApproved": false,
+  "sourceSha256": "00a730e7515c0c4b82f62e3d1b8cf46e0d77c99cb7451f105a6e6961bcf848dd",
+  "videoSha256": "7bb7451616f172a2da9e3fd361cf6989fdd4a1df94748a4a227f508056dc441e",
+  "darkVideoSha256": "48079bbaeed6cb92eee2093213767fa98ade8fcb7449e09fe3abd3f1ae15e3f6",
+  "sources": [
+    "https://www.strengthlog.com/barbell-wrist-curl-behind-the-back/"
+  ],
+  "observations": [
+    "Both source and light/dark contact sheets reviewed; four 480px video frames inspected",
+    "Bar behind thighs, elbow extension mostly retained, grip closes and bar rises",
+    "Bar and both plates survive background removal",
+    "First pose fingers appear open below bar; cannot verify curled fingertips supporting bar",
+    "Head/shoulder silhouette varies slightly and final row shoe baseline rises 4px; horizontal movement not measured"
+  ],
+  "validation": {
+    "format": "480x480 H264 8 seconds 24fps",
+    "decode": "passed both",
+    "mobile": "Pixel 7 Chromium loopback play/seek passed both",
+    "gallery": "68 options / 136 videos metadata; front raise and both candidates play/seek passed both themes",
+    "tests": "guide-review 3, exercise-media-equipment 6, targeted ESLint and tsc passed"
+  },
+  "next": "Correct supporting curled fingertips in initial poses and preserve body/foot coordinates; rerender and review before replacing existing approved 8-panel video",
+  "device": "App screen and physical Android not verified"
+}

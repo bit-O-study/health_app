@@ -1,0 +1,11 @@
+{
+  "prompt": "Educational3D sprite sheet of SEATED CALF RAISE on a real mechanically plausible gym machine. Image2:1 with8 square frames4columns2rows. Gray athletic bald man, teal shorts, barefoot, fixed side three-quarter view facing right. Full person and machine comfortably fit each cell. A plate-loaded seated calf machine: fixed seat; fixed narrow toe ledge; LONG lever pivots at the REAR of machine BEHIND the seated hips on the LEFT. Lever extends forward from that rear pivot to padded thigh restraints above knees and a round weight plate at its FRONT RIGHT end. This is a single lever so knee pads AND plate rise together when lever rotates upward. DO NOT put pivot between knees and weight plate. Foot ledge NEVER moves. Hips stay on seat, torso vertical, knees bent90degrees, hands on handles atop thigh pad. Balls of both feet fixed on ledge, heels visibly free behind it. Across8 consecutive poses, ankle plantarflexion gradually raises heels from BELOW ledge to ABOVE ledge; knee pad and front plate rise only a few centimeters, not entire machine. Every cell same body, machine, perspective, size and floor height. Start bottom stretch and end top calf contraction, one ascent only, no reset between rows. Back and seat remain still, no leg extension, no lifting feet entirely. Gray uniform opaque background, diffuse light, crisp anatomy and machine engineering, NO labels, no borders, no arrows. Keep exact rear lever pivot mechanics throughout.",
+  "equipment": "machine",
+  "sources": [
+    "https://www.muscleandstrength.com/exercises/seated-calf-raise.html"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "seated-calf-raise",
+  "registeredAt": "2026-09-16T08:23:56.186Z"
+}

@@ -1,0 +1,383 @@
+{
+    "copiedAt":  "2026-09-15T13:38:13.1720318Z",
+    "exerciseIds":  [
+                        "standing-cable-curl",
+                        "low-row-machine",
+                        "sumo-squat",
+                        "belt-squat",
+                        "cossack-squat",
+                        "sissy-squat",
+                        "pistol-squat",
+                        "triceps-kickback",
+                        "drag-curl",
+                        "cable-front-raise",
+                        "machine-rear-delt-fly",
+                        "inverted-row",
+                        "dumbbell-pullover",
+                        "ab-rollout",
+                        "side-plank"
+                    ],
+    "files":  [
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\standing-cable-curl.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\standing-cable-curl.mp4",
+                      "sha256":  "7bdcf1bfacbd62b11fce697fbc46a99a3445060f34a6f72176f67e34a6410fde",
+                      "bytes":  82854
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\standing-cable-curl.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\standing-cable-curl.jpg",
+                      "sha256":  "7f4ff7ea3f58ad4a6e37abf5be551e3b63e5a96e663d22d4f80f343cda66fc75",
+                      "bytes":  251199
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\standing-cable-curl.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\standing-cable-curl.json",
+                      "sha256":  "96c28b75dbbba321e05d9e3f12333242264e743c03e588cf74eae38c4f4ea0c4",
+                      "bytes":  507
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\standing-cable-curl\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\standing-cable-curl.contact-sheet.jpg",
+                      "sha256":  "33c5d6cba3bc2699c21a0bf59c1e8ee066351209d02abfe63d66ab733077979a",
+                      "bytes":  118767
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\low-row-machine.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\low-row-machine.mp4",
+                      "sha256":  "970d066bfc78e5f796696d4c245fb20cf4ed84dfbf2d9b49cc35128fff6de164",
+                      "bytes":  70350
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\low-row-machine.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\low-row-machine.jpg",
+                      "sha256":  "febe2bd2d8fe311e80c53cc9b5c3695fea6bd3ab81e31e7a176dd61210195fce",
+                      "bytes":  229203
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\low-row-machine.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\low-row-machine.json",
+                      "sha256":  "c39efb837bda91d76c1cca0dd3953f99599d8b7fd63144c0281fb6b8585280cf",
+                      "bytes":  382
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\low-row-machine\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\low-row-machine.contact-sheet.jpg",
+                      "sha256":  "2ca9a21e01969bb983559c8726058f15b05f87f75442242a1d98184f1b329780",
+                      "bytes":  109770
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\sumo-squat.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\sumo-squat.mp4",
+                      "sha256":  "1b3deeca1e87e137edb47cf69dd212ab65888337a689cde5d86029214cb1595b",
+                      "bytes":  289112
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\sumo-squat.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\sumo-squat.jpg",
+                      "sha256":  "c6bbf09d36f6a61b8984a36626e22ee4fafc4a2d39861a8f4bef31d2c55e46b2",
+                      "bytes":  276017
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\sumo-squat.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\sumo-squat.json",
+                      "sha256":  "e1ef7a115cb6c66d6cd952179fc79ea13e03ed4384884d4bd549b367d87135d8",
+                      "bytes":  494
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\sumo-squat\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\sumo-squat.contact-sheet.jpg",
+                      "sha256":  "81a148d4a19184851a2fd7086225c1386856df0008607e5f54ab5af033482819",
+                      "bytes":  115220
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\belt-squat.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\belt-squat.mp4",
+                      "sha256":  "2452ebb8e809279088d8814ea3b0ef032dabdfa72711ccc3a50e68b9008512fa",
+                      "bytes":  109874
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\belt-squat.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\belt-squat.jpg",
+                      "sha256":  "df65fb52bdb6939c01f37a8a4ad848d8ed3ce122886821a400815cfdf17071bd",
+                      "bytes":  285536
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\belt-squat.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\belt-squat.json",
+                      "sha256":  "d9b8dc9f65a602e6846dc2c0eedd62146714ed338f0b48021001b6bb3e1b440b",
+                      "bytes":  440
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\belt-squat\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\belt-squat.contact-sheet.jpg",
+                      "sha256":  "622a01f9fdf0673caf478c4ad9fed7f18b851542b41c33cf2b6dc7b818a9c317",
+                      "bytes":  114712
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\cossack-squat.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\cossack-squat.mp4",
+                      "sha256":  "38cba3e73da8b183bdeeeb6f42d9be88aa351e0421f95a0ce900b323c4755f6a",
+                      "bytes":  79354
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\cossack-squat.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\cossack-squat.jpg",
+                      "sha256":  "4c050348345c1d6f7fa26d17dd39f38fa46bbf6dc3f16a657be8364ea37356c6",
+                      "bytes":  208697
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\cossack-squat.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\cossack-squat.json",
+                      "sha256":  "9046ca643eeed2e24d2d929c9bbca140767be0d818c37481aa61426764286baf",
+                      "bytes":  440
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\cossack-squat\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\cossack-squat.contact-sheet.jpg",
+                      "sha256":  "47984fa07ba2e00ce8dfbba1bffba13b3af2d7e76f0abb78940ade4f37a5c47b",
+                      "bytes":  83549
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\sissy-squat.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\sissy-squat.mp4",
+                      "sha256":  "2d283a6851a587ee3e6ff7a2da81f86a83862a44e13fcd87b4c273fd89a69f02",
+                      "bytes":  85333
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\sissy-squat.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\sissy-squat.jpg",
+                      "sha256":  "d5832aa12cea1fc6389de47a9ea1a7a2658b412511f3b193ed2df06f07aa71d3",
+                      "bytes":  224995
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\sissy-squat.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\sissy-squat.json",
+                      "sha256":  "1f9db114a8e950cdb3423ca2ba25e67575bfc888a353d4f630c447cea76cc765",
+                      "bytes":  469
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\sissy-squat\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\sissy-squat.contact-sheet.jpg",
+                      "sha256":  "2a592e71628029725c7dd66ba08bc56109c0905907d1de51b5d1e8be7123766c",
+                      "bytes":  99475
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\pistol-squat.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\pistol-squat.mp4",
+                      "sha256":  "6bd13fdad6fe6fd3b898f8fa505d543e240c6baf4ede713fced4947b21512d0a",
+                      "bytes":  65118
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\pistol-squat.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\pistol-squat.jpg",
+                      "sha256":  "b1d53a9b0551a950535dc19c8ce56e7d35d09e2e3a47a6583cb1000d0f32213c",
+                      "bytes":  195396
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\pistol-squat.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\pistol-squat.json",
+                      "sha256":  "8b741fe4c4486d75c948d96b32da2aabdd8d49953b9cf80530ba6311197fa5a9",
+                      "bytes":  458
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\pistol-squat\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\pistol-squat.contact-sheet.jpg",
+                      "sha256":  "0eb48855f53801d882ecc636227861afe8fc271b41cc80f374032bfc2daf4c8e",
+                      "bytes":  75792
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\triceps-kickback.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\triceps-kickback.mp4",
+                      "sha256":  "d612d0fc38883d2a92a36370b0fadaf91b755d3501964e26281afbb0a775ff46",
+                      "bytes":  62358
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\triceps-kickback.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\triceps-kickback.jpg",
+                      "sha256":  "56b4457fe4b7e3837f16e91c86a962221715b2b919de8bd38eaa4d32c71a79e0",
+                      "bytes":  244360
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\triceps-kickback.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\triceps-kickback.json",
+                      "sha256":  "398a3784eabfa5949eba4b42a23e9e80865768787ac5fc359a8798f6d0e12b42",
+                      "bytes":  482
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\triceps-kickback\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\triceps-kickback.contact-sheet.jpg",
+                      "sha256":  "d2632217a4f0f46bdd192a902bcb7302574dd8d3ca540462f6b1c6ef8807ed6a",
+                      "bytes":  104175
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\drag-curl.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\drag-curl.mp4",
+                      "sha256":  "56f7dabc75902ad8a4ad5b3d52d91328577b412dfc559402c654b31578665aea",
+                      "bytes":  84402
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\drag-curl.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\drag-curl.jpg",
+                      "sha256":  "3b7376ab5b5ca43ca4af236c9931b2d3b33983ead727a8cfc0f42c03b584bb92",
+                      "bytes":  224701
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\drag-curl.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\drag-curl.json",
+                      "sha256":  "a0e091afc301b16fdb0916773e52cbc9ffc197a00d66c26a2371a6ca8801d254",
+                      "bytes":  369
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\drag-curl\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\drag-curl.contact-sheet.jpg",
+                      "sha256":  "3c83870c8c15dee285330a5435d7b45c62d61854dd3b31d4c698d80d0ac7b0bd",
+                      "bytes":  106064
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\cable-front-raise.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\cable-front-raise.mp4",
+                      "sha256":  "fc0a16c9de269bb28dd5439ece3de2a44f5a43aab02d37dffacb0aed17d43750",
+                      "bytes":  86448
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\cable-front-raise.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\cable-front-raise.jpg",
+                      "sha256":  "239b4583cff39116b1756f98faa02f5bff32031802df5d9fd9c0cf305ec04660",
+                      "bytes":  247235
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\cable-front-raise.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\cable-front-raise.json",
+                      "sha256":  "6d46649eae6225d66cc9cae835fdf6b4dabbcbb816f077b31ff7c87212cac791",
+                      "bytes":  428
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\cable-front-raise\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\cable-front-raise.contact-sheet.jpg",
+                      "sha256":  "f20c75773b1fba087d3ddf758875e397d3e5d4a4143781c4d7682962ff92687e",
+                      "bytes":  117175
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\machine-rear-delt-fly.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\machine-rear-delt-fly.mp4",
+                      "sha256":  "31ec92f3eac66f6292da0db0cd74b41e38c69b72723312cb58180b46e33f608d",
+                      "bytes":  89718
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\machine-rear-delt-fly.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\machine-rear-delt-fly.jpg",
+                      "sha256":  "4751926b2fffd1d256d68fcffb02429087cb747870bb3324e63442b16bec0076",
+                      "bytes":  275229
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\machine-rear-delt-fly.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\machine-rear-delt-fly.json",
+                      "sha256":  "30ff8439f07424c986fafaf7a065dc932e21bfdd545362aa716cfc65be2f7f35",
+                      "bytes":  420
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\machine-rear-delt-fly\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\machine-rear-delt-fly.contact-sheet.jpg",
+                      "sha256":  "9ede20ed032e1b3aa8f744f5b273cb8c55827f0a78eac48a6fce9646388ed50a",
+                      "bytes":  128588
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\inverted-row.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\inverted-row.mp4",
+                      "sha256":  "ae38107b97a02dcbf06d96b54701fac00a722deb00086a6b954a4642db2ced50",
+                      "bytes":  73538
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\inverted-row.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\inverted-row.jpg",
+                      "sha256":  "6f2be15318064c862f12f717dda4756254869e712d5101574a57288ae7bdf628",
+                      "bytes":  196939
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\inverted-row.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\inverted-row.json",
+                      "sha256":  "668d5a58318280cb4d5109c7bfb0fc9449aa32b1b48d243c6df6403e10f10336",
+                      "bytes":  463
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\inverted-row\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\inverted-row.contact-sheet.jpg",
+                      "sha256":  "3aeb57959db99847f9a4f0fcda91b5b89e3d75dea73b2d57094feb25c680c9e5",
+                      "bytes":  92468
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\dumbbell-pullover.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\dumbbell-pullover.mp4",
+                      "sha256":  "7e711a5ba32bbd71c2e751900ccefc5ac8e0a76caa2722d63bdeafb3e1e1c26d",
+                      "bytes":  68825
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\dumbbell-pullover.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\dumbbell-pullover.jpg",
+                      "sha256":  "0f4d6e7c65630b12c9e7ca1fd404057bbbd4ef855e6fc9ad9158ea7393785c72",
+                      "bytes":  173753
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\dumbbell-pullover.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\dumbbell-pullover.json",
+                      "sha256":  "6be896e1f4525e5baa5db58d6f29cf655e906a240a961e64c8ead5a558de988c",
+                      "bytes":  465
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\dumbbell-pullover\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\dumbbell-pullover.contact-sheet.jpg",
+                      "sha256":  "756bc8c975fb972bb08d50aca5ede621437c4a0a341cc5fc10431b0138eb46a2",
+                      "bytes":  84479
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\ab-rollout.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\ab-rollout.mp4",
+                      "sha256":  "82ce3cf2da88c366217ffe2f02c02ff3dc017a15529b2e56a504f704066b8f97",
+                      "bytes":  72584
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\ab-rollout.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\ab-rollout.jpg",
+                      "sha256":  "a3cbf26badd56a0a51130fc673cab7a545bf7d622e7e720991c83cbbbb48b077",
+                      "bytes":  230249
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\ab-rollout.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\ab-rollout.json",
+                      "sha256":  "3daba946ef0b40c300cd00df3c7b1d74ca1dfcd3814cfb6fcb4a97f376ddeb95",
+                      "bytes":  335
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\ab-rollout\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\ab-rollout.contact-sheet.jpg",
+                      "sha256":  "0a5ab2d380908c1c9d38795b05b7d41cb0d37837ffbb397432651a0e309098f7",
+                      "bytes":  81615
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\public\\exercise-guides\\ai-v3\\side-plank.mp4",
+                      "target":  "D:\\git\\heltch\\health_app\\public\\exercise-guides\\ai-v3\\side-plank.mp4",
+                      "sha256":  "29fd52f0ab4b1a1c4a6c3338c23aab68ca08926d865e5e20f975a83172758de6",
+                      "bytes":  33357
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\side-plank.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\side-plank.jpg",
+                      "sha256":  "506f301e93e99b9b968de9c1b4ff91245c8438eb6df712b93dc15fa1f3d7eb2d",
+                      "bytes":  174812
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\side-plank.json",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\side-plank.json",
+                      "sha256":  "3fe3b8dfc4f49e19e453b9a6163184932ec557214a891a004c36ffc5aff4b37f",
+                      "bytes":  383
+                  },
+                  {
+                      "source":  "D:\\git\\health_app_ui\\tools\\media\\motion-guides\\side-plank\\contact-sheet.jpg",
+                      "target":  "D:\\git\\heltch\\health_app\\tools\\media\\imports\\health-app-ui-2026-09-15\\side-plank.contact-sheet.jpg",
+                      "sha256":  "3e88f9bb91bbcaeaa6a77e88fcfe3bbaf35b9b650468363a80de8b4919466a9e",
+                      "bytes":  80886
+                  }
+              ],
+    "targetManifestUpdated":  false
+}

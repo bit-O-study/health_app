@@ -1,0 +1,12 @@
+{
+  "prompt": "One-arm dumbbell triceps kickback in split stance, torso hinged, upper arm fixed, forearm extends backward around elbow",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/55/triceps-kickback/",
+    "https://contentcdn.eacefitness.com/certifiednews/images/article/pdfs/ACETricepsStudy.pdf"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "triceps-kickback",
+  "registeredAt": "2026-09-15T00:50:45.897Z"
+}

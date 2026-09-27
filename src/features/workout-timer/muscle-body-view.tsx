@@ -113,7 +113,7 @@ export function MuscleBodyInset({
       onClick={onOpen}
       className="absolute bottom-2 left-2 z-10 flex flex-col items-center rounded-xl bg-black/55 px-2 pb-1 pt-0.5 backdrop-blur-sm transition hover:bg-black/70"
     >
-      <span className="text-[9px] font-bold text-white/90">자극 부위</span>
+      <span className="text-xs font-bold text-white/90">자극 부위</span>
       <Model
         data={data}
         type="anterior"

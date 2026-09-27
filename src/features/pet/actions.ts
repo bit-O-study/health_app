@@ -1,5 +1,6 @@
 "use server";
 
+import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { revalidatePath } from "next/cache";
 
 import {
@@ -65,6 +66,7 @@ async function save(
 export async function setPetNameAction(name: string): Promise<PetActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!(await isDebugFeatureEnabled("pet"))) return { ok: false, error: "펫 기능은 아직 공개되지 않았어요." };
   const supabase = await createSupabaseServerClient();
   return save(supabase, user.id, { name: name.trim().slice(0, 12) } as never);
 }
@@ -75,6 +77,7 @@ export async function buyItemAction(itemId: string): Promise<PetActionResult> {
   if (!item) return { ok: false, error: "없는 아이템입니다." };
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!(await isDebugFeatureEnabled("pet"))) return { ok: false, error: "펫 기능은 아직 공개되지 않았어요." };
   const supabase = await createSupabaseServerClient();
   const st = await loadState(supabase, user.id);
 
@@ -103,6 +106,7 @@ export async function equipRoomAction(
   }
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!(await isDebugFeatureEnabled("pet"))) return { ok: false, error: "펫 기능은 아직 공개되지 않았어요." };
   const supabase = await createSupabaseServerClient();
   const st = await loadState(supabase, user.id);
 
@@ -127,6 +131,7 @@ export async function toggleDecorAction(
   }
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!(await isDebugFeatureEnabled("pet"))) return { ok: false, error: "펫 기능은 아직 공개되지 않았어요." };
   const supabase = await createSupabaseServerClient();
   const st = await loadState(supabase, user.id);
   if (!canUse(st, itemId)) return { ok: false, error: "먼저 구매해야 해요." };

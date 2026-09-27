@@ -39,7 +39,7 @@ export function GroupSwitcher({
             type="button"
             onClick={() => go(g.id)}
             aria-current={active ? "true" : undefined}
-            className={`inline-flex max-w-full items-center gap-1 rounded-full px-2.5 py-0.5 text-[13px] font-medium transition-colors ${
+            className={`inline-flex max-w-full items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium transition-colors ${
               active
                 ? "bg-white/70 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300"
                 : "text-amber-950/55 hover:bg-black/5 hover:text-amber-950/80 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-zinc-200"
@@ -49,7 +49,7 @@ export function GroupSwitcher({
               <Loader2 aria-hidden="true" size={13} className="shrink-0 animate-spin" />
             ) : null}
             <span className="max-w-[45vw] truncate">{g.name}</span>
-            <span className="shrink-0 text-[10px] font-semibold text-amber-950/40 dark:text-zinc-500">
+            <span className="shrink-0 text-xs font-semibold text-amber-950/40 dark:text-zinc-500">
               {g.memberCount}
             </span>
           </button>

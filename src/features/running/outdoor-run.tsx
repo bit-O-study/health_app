@@ -313,7 +313,7 @@ export function OutdoorRun({
 
           {/* 나이키런 스타일 HUD */}
           <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center gap-1 bg-gradient-to-b from-black/45 to-transparent px-4 pt-[max(env(safe-area-inset-top),1rem)] pb-6 text-center">
-            <span className="font-mono text-6xl font-black tabular-nums drop-shadow-lg">
+            <span className="font-mono text-6xl font-bold tabular-nums drop-shadow-lg">
               {formatDistanceKm(m.meters)}
             </span>
             <span className="text-xs font-semibold tracking-widest text-white/80">
@@ -351,7 +351,7 @@ export function OutdoorRun({
               ← 나가기
             </button>
           ) : null}
-          <h1 className="text-3xl font-extrabold drop-shadow-sm">야외 런닝 📍</h1>
+          <h1 className="text-3xl font-bold drop-shadow-sm">야외 런닝 📍</h1>
           <p className="max-w-xs text-sm font-medium leading-6">
             밖에서 <b>실제로 달리면</b> GPS로 거리·시속·페이스가 기록되고, 속도에
             맞춰 캐릭터가 함께 달려요. 끝나면 오늘 마무리 운동으로 기록됩니다.
@@ -416,7 +416,7 @@ export function OutdoorRun({
 
       {phase === "done" ? (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
-          <h2 className="text-2xl font-extrabold">
+          <h2 className="text-2xl font-bold">
             {recorded ? "런닝 완료 🏁" : "런닝 종료"}
           </h2>
           {/* 종료 화면의 '기록 요약'(거리·시간·페이스, 기록됨 안내)은 표시하지 않는다 — 런닝
@@ -451,11 +451,11 @@ function Metric({
 }) {
   return (
     <div className="flex flex-col items-center">
-      <span className="font-mono text-2xl font-black tabular-nums drop-shadow">
+      <span className="font-mono text-2xl font-bold tabular-nums drop-shadow">
         {value}
         {unit ? <span className="ml-0.5 text-xs font-semibold">{unit}</span> : null}
       </span>
-      <span className="text-[11px] font-semibold tracking-wide text-white/75">
+      <span className="text-xs font-semibold tracking-wide text-white/75">
         {label}
       </span>
     </div>

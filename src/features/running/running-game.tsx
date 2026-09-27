@@ -381,7 +381,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         <div className="pointer-events-none absolute left-4 top-[calc(env(safe-area-inset-top,0px)+0.75rem)] z-20 flex flex-col items-start gap-1">
           <span
             ref={distRef}
-            className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-black text-emerald-700 shadow"
+            className="rounded-full bg-white/70 px-3 py-1 font-mono text-lg font-bold text-emerald-700 shadow"
           >
             0 m
           </span>
@@ -440,7 +440,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               ← 나가기
             </button>
           ) : null}
-          <h1 className="text-3xl font-extrabold drop-shadow-sm">실내 런닝 🏠</h1>
+          <h1 className="text-3xl font-bold drop-shadow-sm">실내 런닝 🏠</h1>
           <p className="max-w-xs text-sm font-medium leading-6">
             카메라가 <b>제자리 달리기</b>를 감지하면 풍경 속 캐릭터가 함께 달려요.
             멈추면 같이 쉬어요. 하단에서 속도·경사를 설정하고, 끝나면 오늘 마무리
@@ -499,7 +499,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
       {phase === "done" ? (
         <div className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 px-6 text-center">
-          <h2 className="text-2xl font-extrabold">
+          <h2 className="text-2xl font-bold">
             {recorded ? "런닝 완료 🏁" : "런닝 종료"}
           </h2>
           {/* 종료 화면의 '기록 요약'(기록됨 안내)은 표시하지 않는다 — 런닝 기록은 헬스탭
@@ -540,18 +540,18 @@ function Stepper({
         type="button"
         aria-label={`${label} 줄이기`}
         onClick={onMinus}
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xl font-black text-white active:scale-90"
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xl font-bold text-white active:scale-90"
       >
         −
       </button>
       <div className="min-w-14 text-center leading-tight">
-        <span className="block font-mono text-lg font-black tabular-nums text-white">
+        <span className="block font-mono text-lg font-bold tabular-nums text-white">
           {value}
-          <span className="ml-0.5 text-[10px] font-semibold text-white/70">
+          <span className="ml-0.5 text-xs font-semibold text-white/70">
             {unit}
           </span>
         </span>
-        <span className="block text-[10px] font-semibold text-white/60">
+        <span className="block text-xs font-semibold text-white/60">
           {label}
         </span>
       </div>
@@ -559,7 +559,7 @@ function Stepper({
         type="button"
         aria-label={`${label} 늘리기`}
         onClick={onPlus}
-        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xl font-black text-white active:scale-90"
+        className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xl font-bold text-white active:scale-90"
       >
         +
       </button>

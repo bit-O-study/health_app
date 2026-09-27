@@ -1,30 +1,33 @@
 import { expect, test } from "@playwright/test";
 
 import { createOnboardedAccount } from "./helpers/auth";
+import { silenceDevOverlay } from "./helpers/dev-overlay";
 import { hasDb } from "./helpers/db";
 
-// #12: 운동탭 왼쪽에 '홈' 탭 신설 — 홈에 체형목표·내다짐·설정. 운동탭에선 설정 제거.
+// #12: 운동탭 왼쪽에 '홈' 탭 신설 — 홈에 설정 진입점, 운동탭에선 설정 제거.
+// 2026-09-20 런처 전환 — 홈 탭은 왼쪽 끝이 아니라 **하단바 한가운데 고정석**이 됐다.
+// 다짐·잔디는 홈에서 각 앱(펫·캘린더) 안으로 옮겨 갔으므로 여기서 더 보지 않는다.
 
-test("홈 탭: 체형목표·내다짐·설정이 홈에 있고, 운동탭엔 설정이 없다(#12)", async ({
-  page,
-}) => {
+test("홈: 가운데 홈 칸과 설정이 있고, 운동탭엔 설정이 없다(#12)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
+  await silenceDevOverlay(page);
   await createOnboardedAccount(page);
 
-  // 홈으로 이동 — 하단탭 '홈' 이 존재해야 한다.
   await page.goto("/home", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
-  await expect(
-    page.getByRole("link", { name: "홈" }).first(),
-  ).toBeVisible();
 
-  // 홈에 '오늘의 다짐' 체크리스트(내다짐 연결) + 설정 진입점이 있어야 한다.
-  await expect(page.getByRole("link", { name: /오늘의 다짐/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: /설정/ })).toBeVisible();
-  // 히어로(누적 운동횟수·인사말·바로가기)는 제거됨 — 잔디 그래프가 누적 운동일수를 대신 보여준다.
-  // 잔디는 **가입일부터**만 그리므로(53주 미만이면 "가입일부터") 갓 가입한 E2E 계정은
-  // "최근 1년" 이 아니다 — 두 라벨 모두 허용해야 한다.
-  await expect(page.getByText(/일 운동 · (최근 1년|가입일부터)/)).toBeVisible();
+  const nav = page.getByRole("navigation", { name: "주요 메뉴" });
+  // 홈 칸은 3번째(가운데) — 앱이 바뀌어도 이 자리는 안 움직인다.
+  await expect(nav.getByRole("link")).toHaveCount(5);
+  await expect(nav.getByRole("link").nth(2)).toHaveText("홈");
+  // 홈에 있을 땐 그 칸이 현재 위치로 표시된다.
+  await expect(nav.getByRole("link").nth(2)).toHaveAttribute("aria-current", "page");
+
+  // 설정 진입점은 하단바 '나' 칸 하나다(2026-09-21) — 예전엔 머리글 설정 아이콘과
+  // 겹쳐 한 화면에 같은 곳으로 가는 버튼이 둘이었다.
+  const me = nav.getByRole("link", { name: "나", exact: true });
+  await expect(me).toHaveAttribute("href", "/settings");
+  await expect(page.getByRole("link", { name: "설정", exact: true })).toHaveCount(0);
 
   // 운동탭(/routine) 으로 이동 — 실제 운동탭에 도달했는지 확인.
   await page.goto("/routine", { waitUntil: "networkidle" });
@@ -37,7 +40,14 @@ test("홈 탭: 체형목표·내다짐·설정이 홈에 있고, 운동탭엔 �
     page.getByRole("link", { name: "설정", exact: true }),
   ).toHaveCount(0);
 
-  // 하단탭에 홈·운동이 모두 있어야 한다.
-  await expect(page.getByRole("link", { name: "홈" }).first()).toBeVisible();
-  await expect(page.getByRole("link", { name: "운동" }).first()).toBeVisible();
+  // 운동 앱 하단바 — 양옆 4칸이 운동 메뉴로 갈리고, 가운데는 여전히 홈.
+  await expect(nav.getByRole("link").nth(0)).toHaveText("오늘");
+  await expect(nav.getByRole("link").nth(1)).toHaveText("루틴");
+  await expect(nav.getByRole("link").nth(2)).toHaveText("홈");
+  await expect(nav.getByRole("link").nth(3)).toHaveText("운동찾기");
+  await expect(nav.getByRole("link").nth(4)).toHaveText("기록");
+
+  // 가운데 홈 1탭으로 런처 복귀.
+  await nav.getByRole("link").nth(2).click();
+  await expect(page).toHaveURL(/\/home$/);
 });

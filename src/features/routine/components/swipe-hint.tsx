@@ -1,7 +1,7 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
-import { ArrowLeft, ArrowRight, GripVertical, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, X } from "lucide-react";
 
 const KEY = "heltch.swipeHintDismissed";
 
@@ -48,38 +48,22 @@ export function SwipeHint() {
 
   if (hidden) return null;
 
+  // 칩 3개 대신 회색 글자 한 줄(2026-09-15 "글씨가 너무 많아") — 닫으면 이 기기에선 다시 안 뜬다.
   return (
-    <div className="mb-2 flex flex-wrap items-center gap-1.5">
-      <Chip
-        icon={<ArrowRight aria-hidden="true" size={12} />}
-        text="오른쪽으로 끌면 완료"
-      />
-      <Chip
-        icon={<ArrowLeft aria-hidden="true" size={12} />}
-        text="왼쪽으로 끌면 오늘 안 함"
-      />
-      <Chip
-        icon={<GripVertical aria-hidden="true" size={12} />}
-        text="순서 변경은 ‘편집하기’"
-      />
+    <div className="mb-2 flex items-center gap-1.5 px-1 text-xs text-zinc-400 dark:text-zinc-500">
+      <ArrowRight aria-hidden="true" size={12} className="shrink-0" />
+      완료
+      <ArrowLeft aria-hidden="true" size={12} className="ml-1.5 shrink-0" />
+      오늘 안 함
       <button
         type="button"
         aria-label="안내 그만 보기"
         title="안내 그만 보기"
         onClick={dismiss}
-        className="flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-200/70 hover:text-zinc-600 dark:text-zinc-500 dark:hover:bg-zinc-700/70 dark:hover:text-zinc-300"
+        className="ml-auto flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-200/70 dark:active:bg-white/[0.08]"
       >
         <X aria-hidden="true" size={13} />
       </button>
     </div>
-  );
-}
-
-function Chip({ icon, text }: { icon: React.ReactNode; text: string }) {
-  return (
-    <span className="app-field inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
-      <span className="shrink-0 text-zinc-400 dark:text-zinc-500">{icon}</span>
-      {text}
-    </span>
   );
 }

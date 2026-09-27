@@ -1,6 +1,7 @@
 {
   "id": "close-grip-lat-pulldown",
   "equipment": "cable",
+  "cutout": false,
   "panels": 16,
   "sources": [
     "https://www.puregym.com/exercises/back/lat-exercises/close-grip-lat-pulldown/"

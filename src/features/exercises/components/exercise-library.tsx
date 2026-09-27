@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 // ⚠ 라벨 계층만 import 한다 — exercise-catalog 를 쓰면 확장 카탈로그 315 KiB 가 딸려온다.
@@ -31,11 +31,13 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
   const visibleSections =
     filter === "all" ? sections : sections.filter((s) => s.part === filter);
 
+  // 부위 칩(가로 스크롤) + 부위별 그룹 목록 한 줄씩(2026-09-16 8단계 촘촘하게).
+  // 옛 3열 큰 카드(아이콘·자극 부위 문장·'운동법 보기')는 한 줄 행(아이콘 · 이름/기구 · ›)으로.
   return (
     <>
       {/* 부위 필터 — 클릭한 부위 운동만 보임."전체" 로 해제 */}
-      <div className="sticky top-[env(safe-area-inset-top)] z-10 -mx-6 border-b border-zinc-200 dark:border-zinc-700 bg-zinc-50/90 dark:bg-zinc-900/90 px-6 py-3 backdrop-blur sm:-mx-10 sm:px-10">
-        <nav className="-mb-1 flex flex-wrap items-center gap-1.5">
+      <div className="sticky top-[env(safe-area-inset-top)] z-10 -mx-4 bg-background/90 px-4 py-2 backdrop-blur sm:-mx-6 sm:px-6">
+        <nav className="flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none]">
           <FilterChip
             label="전체"
             count={totalCount}
@@ -55,57 +57,37 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
       </div>
 
       {/* 부위별 섹션 */}
-      <div className="space-y-10">
+      <div className="space-y-4">
         {visibleSections.map(({ part, items }) => (
           <section key={part}>
-            <div className="mb-3 flex items-baseline justify-between gap-3 border-b border-zinc-200 dark:border-zinc-700 pb-2">
-              <h2 className="text-xl font-bold text-zinc-950 dark:text-zinc-100">
-                {BODY_PART_LABEL[part]}
-              </h2>
-              <span className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
-                {items.length}개
-              </span>
+            <div className="flex items-baseline justify-between">
+              <h2 className="app-section-label">{BODY_PART_LABEL[part]}</h2>
+              <span className="mb-1.5 px-1 text-xs text-zinc-400">{items.length}개</span>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <ul className="app-list">
               {items.map((ex) => (
-                <Link
-                  key={ex.id}
-                  href={`/exercises/${ex.id}`}
-                  className="group rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-emerald-300 dark:hover:border-emerald-700 hover:shadow-md"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-md bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400">
-                    <ExerciseIcon id={ex.id} size={28} />
-                  </div>
-                  <div className="mt-5 space-y-3">
-                    <h3 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
-                      {ex.name}
-                    </h3>
-                    <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-                      {ex.target}
-                    </p>
-                    <div className="flex flex-wrap items-center gap-1">
-                      {ex.equipments.map((e) => (
-                        <span
-                          key={e.equipment}
-                          className="rounded-full bg-zinc-100 dark:bg-zinc-700/50 px-2 py-0.5 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300"
-                        >
-                          {EQUIPMENT_LABELS[e.equipment]}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
-                      운동법 보기
-                      <ArrowRight
-                        aria-hidden="true"
-                        className="transition group-hover:translate-x-1"
-                        size={14}
-                      />
-                    </div>
-                  </div>
-                </Link>
+                <li key={ex.id}>
+                  <Link
+                    href={`/exercises/${ex.id}`}
+                    className="app-row transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+                  >
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
+                      <ExerciseIcon id={ex.id} size={20} />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block truncate text-base leading-5 text-zinc-900 dark:text-zinc-100">
+                        {ex.name}
+                      </span>
+                      <span className="block truncate text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+                        {ex.equipments.map((e) => EQUIPMENT_LABELS[e.equipment]).join(" · ")}
+                      </span>
+                    </span>
+                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                  </Link>
+                </li>
               ))}
-            </div>
+            </ul>
           </section>
         ))}
       </div>
@@ -129,17 +111,17 @@ function FilterChip({
       type="button"
       onClick={onClick}
       className={cn(
-        "inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full border px-3 text-xs font-semibold transition",
+        "inline-flex h-8 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-3 text-sm font-semibold transition",
         active
-          ? "border-emerald-600 bg-emerald-600 text-white"
-          : "border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 hover:text-emerald-700 dark:hover:text-emerald-400",
+          ? "bg-brand text-white dark:text-zinc-950"
+          : "bg-zinc-100 text-zinc-700 active:bg-zinc-200 dark:bg-white/[0.08] dark:text-zinc-300",
       )}
     >
       {label}
       <span
         className={cn(
-          "text-[10px] font-bold",
-          active ? "text-emerald-100" : "text-zinc-400 dark:text-zinc-500",
+          "text-xs font-medium tabular-nums",
+          active ? "text-white/80 dark:text-zinc-950/70" : "text-zinc-400 dark:text-zinc-500",
         )}
       >
         {count}

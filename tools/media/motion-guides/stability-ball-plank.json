@@ -1,0 +1,12 @@
+{
+  "prompt": "Use case: scientific-educational. Asset type: exercise demonstration video pose sheet. Create a wide 4-column by 2-row grid of EIGHT equal SQUARE panels, thin white gutters. EXACT SAME image of a stability ball forearm plank isometric hold in all eight panels; do NOT create a dynamic exercise, breathing motion, stir-the-pot, pushup, or pose changes. Clean realistic educational 3D grey athletic male mannequin, teal shorts and grey athletic shoes, neutral grey plain studio backdrop. Fixed side three-quarter camera sees both forearms and both feet. Entire body and entire grey ribbed gym ball visible inside each square with generous margins. Man in straight plank: both forearms supported flat on upper/front surface of a 55cm stability ball, elbows under shoulders, elbows bent 90 degrees, hands close together loosely clasped, straight line through head-neck-shoulders-hips-knees-ankles, abdomen braced, no low-back sag or hips piked. Legs extended behind, both toes firmly contacting floor shoulder width apart, heels raised. Ball sits firmly on floor under forearms and never changes diameter or position. Identical person, scale, feet locations, ball ribs, lighting and composition in every panel, no logos, text, annotations or watermarks. High clarity, clean edges, no extra limbs, no floating feet, no penetration of forearms into ball.",
+  "equipment": "ball",
+  "sources": [
+    "https://www.nasm.org/resource-center/blog/training/the-plank-coaching-progressions-and-variations-for-every-client",
+    "https://www.nasm.org/resource-center/exercise-library/plank"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "stability-ball-plank",
+  "registeredAt": "2026-09-15T13:36:11.815Z"
+}

@@ -53,7 +53,7 @@ export function GroupLeaderboard({
           >
             <div className="flex items-center gap-2">
               {/* 순위 */}
-              <span className="w-5 shrink-0 text-center text-sm font-black tabular-nums text-zinc-400">
+              <span className="w-5 shrink-0 text-center text-sm font-bold tabular-nums text-zinc-400">
                 {MEDAL[m.rank] ?? m.rank}
               </span>
 
@@ -70,7 +70,7 @@ export function GroupLeaderboard({
                 {isTop3 ? (
                   <span
                     aria-hidden="true"
-                    className="g-sparkle absolute -right-0.5 -top-0.5 text-[9px]"
+                    className="g-sparkle absolute -right-0.5 -top-0.5 text-xs"
                   >
                     ✨
                   </span>
@@ -91,31 +91,31 @@ export function GroupLeaderboard({
 
               {/* 이름 + 스트릭 */}
               <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-1 truncate text-xs font-extrabold text-zinc-900 dark:text-zinc-100">
+                <p className="flex items-center gap-1 truncate text-xs font-bold text-zinc-900 dark:text-zinc-100">
                   {m.name}
                   {m.isMe ? (
-                    <span className="rounded-full bg-emerald-100 px-1 text-[9px] font-bold text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300">
+                    <span className="rounded-full bg-emerald-100 px-1 text-xs font-bold text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300">
                       나
                     </span>
                   ) : null}
                   {m.streak > 0 ? (
-                    <span className="text-[10px] font-bold text-orange-500 dark:text-orange-400">
+                    <span className="text-xs font-bold text-orange-500 dark:text-orange-400">
                       {badge?.emoji ?? "🔥"}
                       {m.streak}
                     </span>
                   ) : null}
                 </p>
-                <span className="text-[9px] text-zinc-400">
+                <span className="text-xs text-zinc-400">
                   운동 {m.workouts}회 · {m.days}일
                 </span>
               </div>
 
               {/* 점수 pill */}
               <span className="shrink-0 rounded-xl bg-emerald-500 px-2 py-0.5 text-center text-white shadow-sm">
-                <span className="block text-xs font-black tabular-nums leading-tight">
+                <span className="block text-xs font-bold tabular-nums leading-tight">
                   {m.kcal.toLocaleString()}
                 </span>
-                <span className="text-[7px] font-bold opacity-80">kcal</span>
+                <span className="text-xs font-bold opacity-80">kcal</span>
               </span>
             </div>
 

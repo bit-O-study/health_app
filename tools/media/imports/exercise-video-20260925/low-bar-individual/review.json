@@ -1,0 +1,21 @@
+{
+  "reviewedAt": "2026-09-25T13:09:17.306Z",
+  "status": "pending",
+  "publicApproved": false,
+  "sourceSha256": "8985aec629318c4a4ce44f9ab3f7792c9a85ba4a13d96ecf7658bdaaf880355e",
+  "lightSha256": "5a61e7160f9d13022bbd1a1ea03fd29f5244d4802e412ca21dc4719aa6112291",
+  "darkSha256": "abe18b05c365beb0b831c3292164bc90a4225b34d5e736d3f6aeb956ba80b4c4",
+  "evidence": [
+    "16 distinct generated poses assembled into equal 512px cells",
+    "Both themes: 480x480, 8 seconds, 24fps, full decode passed",
+    "Foot bottom vertical span: left 0px, right 1px; horizontal motion not measured",
+    "Both mobile Chromium playback and seek passed",
+    "Both contact sheets and eight full-size dark frames inspected",
+    "Updated HTTP gallery: 67 options / 134 videos metadata passed; candidate and front raise both themes play/seek passed"
+  ],
+  "remaining": [
+    "Confirm low-bar placement on rear shoulder and exercise-specific posture before public approval",
+    "Some soft silhouette edges remain visible",
+    "App screen and physical Android verification pending"
+  ]
+}

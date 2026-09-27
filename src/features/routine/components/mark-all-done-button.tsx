@@ -63,18 +63,16 @@ export function MarkAllDoneButton({
         disabled={busy || total === 0}
         onClick={run}
         title={total === 0 ? "완료 처리할 운동이 없습니다" : undefined}
-        className="inline-flex h-10 items-center gap-1.5 whitespace-nowrap rounded-md border border-emerald-300 dark:border-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-3 text-xs font-semibold text-emerald-800 dark:text-emerald-300 transition hover:bg-emerald-100 dark:hover:bg-emerald-900/30 disabled:opacity-60"
+        className="app-press inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-200"
       >
         {busy ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={14} />
         ) : (
-          <CheckCheck aria-hidden="true" size={14} />
+          <CheckCheck aria-hidden="true" size={14} className="text-brand" />
         )}
         오늘 전부 완료
         {total > 0 ? (
-          <span className="rounded-full bg-emerald-600 px-1.5 py-0.5 text-[11px] font-bold text-white">
-            {total}
-          </span>
+          <span className="tabular-nums text-zinc-500 dark:text-zinc-400">{total}</span>
         ) : null}
       </button>
       {failed ? (
@@ -87,14 +85,14 @@ export function MarkAllDoneButton({
         <span className="flex max-w-[240px] flex-col items-end gap-1 text-right">
           <span
             data-testid="mark-all-unconfirmed"
-            className="text-[11px] leading-tight text-amber-600 dark:text-amber-400"
+            className="text-xs leading-tight text-amber-600 dark:text-amber-400"
           >
             저장 결과를 확인하지 못했어요. 새로고침해서 확인해 주세요.
           </span>
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="rounded-md border border-amber-300 px-2 py-0.5 text-[11px] font-bold text-amber-700 transition hover:bg-amber-50 dark:border-amber-800 dark:text-amber-300 dark:hover:bg-amber-950/40"
+            className="rounded-md border border-amber-300 px-2 py-0.5 text-xs font-bold text-amber-700 transition hover:bg-amber-50 dark:border-amber-800 dark:text-amber-300 dark:hover:bg-amber-950/40"
           >
             새로고침
           </button>

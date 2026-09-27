@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>루틴 추천 고도화</title>
+<meta name="description" content="루틴 추천 운동 선택 로직의 현재 결과를 진단하고, 단계별 고도화 방향을 제안하는 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:16px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+code{font-family:var(--mono);font-size:.84em;color:var(--ink-2);background:var(--line-2);padding:1px 5px;border-radius:4px;word-break:break-all}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-block:28px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.top b{color:var(--ink);font-weight:600}
+.lede{padding-block:36px 28px;display:grid;gap:16px;max-width:740px}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--brand);font-weight:600}
+.lede h1{font-size:clamp(25px,4vw,32px);font-weight:700;letter-spacing:-.01em}
+.lede p{color:var(--ink-2);max-width:62ch}
+.pill{display:inline-flex;align-items:center;font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px;white-space:nowrap}
+.pill.crit{background:var(--crit-soft);color:var(--crit)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.ok{background:var(--brand-soft);color:var(--brand)}
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.num{padding:16px 18px;display:grid;gap:2px;align-content:start}
+.num+.num{border-left:1px solid var(--line)}
+.num strong{font-size:28px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
+.num strong small{font-size:14px;color:var(--muted);font-weight:500}
+.num span{font-size:13px;color:var(--muted)}
+@media (max-width:720px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}.num:nth-child(3){border-left:0}.num:nth-child(n+3){border-top:1px solid var(--line)}}
+section{padding-block:40px 8px}
+section>h2{font-size:21px;font-weight:700;margin-bottom:6px}
+section>.sub{color:var(--muted);font-size:14px;margin-bottom:20px;max-width:68ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.grid2{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+td.k{white-space:nowrap;font-weight:600}
+.tbl{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow-x:auto}
+.tbl table{min-width:620px}
+.ex{display:flex;flex-wrap:wrap;gap:6px}
+.ex span{font-size:13px;padding:2px 8px;border-radius:6px;background:var(--line-2);color:var(--ink-2)}
+.ex span.bad{background:var(--crit-soft);color:var(--crit)}
+.ex span.meh{background:var(--warn-soft);color:var(--warn)}
+.ex span.new{background:var(--brand-soft);color:var(--brand)}
+.diag{display:grid;gap:12px}
+.d{display:grid;grid-template-columns:52px 1fr;gap:4px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.d .id{font-family:var(--mono);font-weight:600;color:var(--muted);font-size:14px;padding-top:2px}
+.d h3{font-size:16px;font-weight:600;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.d p{color:var(--ink-2);font-size:14px;grid-column:2}
+.stage{border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden;margin-bottom:16px}
+.stage-h{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);background:var(--line-2)}
+.stage-h h3{font-size:17px;font-weight:700}
+.stage-h .meta{font-size:13px;color:var(--muted)}
+.stage-b{padding:6px 20px 16px}
+.item{display:grid;grid-template-columns:44px 1fr;gap:2px 12px;padding-block:14px;border-bottom:1px solid var(--line-2)}
+.item:last-child{border-bottom:0}
+.item .id{font-family:var(--mono);font-weight:600;color:var(--brand);font-size:14px;padding-top:1px}
+.item b{font-weight:600}
+.item p{color:var(--ink-2);font-size:14px;grid-column:2}
+.item .how{font-size:13px;color:var(--muted);grid-column:2}
+.ba{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:760px){.ba{grid-template-columns:1fr}}
+.ba .card h3{font-size:14px;font-weight:600;color:var(--muted);margin-bottom:10px}
+.ba .row{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line-2);font-size:14px}
+.ba .row:last-child{border-bottom:0}
+.ba .row em{font-style:normal;font-size:12px;color:var(--muted);text-align:right}
+.ba .row em.why{color:var(--brand)}
+ol.q{margin:0;padding-left:20px;display:grid;gap:10px;color:var(--ink-2)}
+ol.q b{color:var(--ink)}
+.note{font-size:13px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="top"><span><b>루틴 추천 고도화</b> · 검수보고서</span><span>2026-09-25 · 대상 <code>src/features/routine/recommend.ts</code></span></div>
+
+<div class="lede">
+  <p class="eyebrow">진단 → 방향안 → 결정</p>
+  <h1>추천은 지금 “부위별 고정 목록”이다. 사람도, 기록도 안 본다.</h1>
+  <p>추천 함수에 실제 입력을 넣어 부위·성별별 결과를 뽑아 봤어요. 초보자도 고급자도 같은 운동(데드리프트·바벨 스쿼트)을 받아요. 남자 등 운동에는 랫풀다운·풀업이 빠져 있어요. 전신 3일 루틴은 3일 모두 같은 4개 운동이에요. 무게·세트·횟수는 경력에 맞춰 이미 바뀌지만, <b>어떤 운동을 고를지</b>는 경력·기록을 전혀 쓰지 않아요.</p>
+</div>
+
+<div class="nums">
+  <div class="num"><strong>3<small>/7</small></strong><span>추천이 쓰는 정보 (부위·성별·헬스장 기구)</span></div>
+  <div class="num"><strong>114</strong><span>추천 후보 운동 수 (카탈로그 1,351개 중)</span></div>
+  <div class="num"><strong>3</strong><span>추천을 쓰는 곳 — 한 번에 같이 바뀐다</span></div>
+  <div class="num"><strong>0</strong><span>DB 변경 (1·2단계 기준)</span></div>
+</div>
+
+<section>
+  <h2>지금 추천 결과 (실측)</h2>
+  <p class="sub">추천 함수(<code>focusExercisesForSlot</code>)에 부위·성별만 바꿔 넣은 결과예요. 경력은 결과에 영향이 없어서 초급·고급이 똑같아요. 빨강은 문제, 노랑은 아쉬운 선택이에요.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>부위</th><th>남</th><th>여</th></tr></thead>
+    <tbody>
+      <tr><td class="k">등</td>
+        <td><div class="ex"><span>데드리프트</span><span class="meh">슈러그</span><span>바벨 로우</span><span class="bad">하이퍼익스텐션</span></div><p class="note">랫풀다운·풀업(수직 당기기) 없음. 척추기립근만 두 번.</p></td>
+        <td><div class="ex"><span>랫풀다운</span><span class="meh">페이스풀</span><span>바벨 로우</span><span>데드리프트</span></div></td></tr>
+      <tr><td class="k">팔</td>
+        <td><div class="ex"><span>바이셉스 컬</span><span>이지바 컬</span><span>라잉 트라이셉스 익스텐션</span><span>푸시다운</span></div></td>
+        <td><div class="ex"><span>바이셉스 컬</span><span>프리처 컬</span><span>푸시다운</span><span class="bad">해머컬</span></div><p class="note">이두 3 : 삼두 1 로 쏠림.</p></td></tr>
+      <tr><td class="k">하체</td>
+        <td><div class="ex"><span>스쿼트</span><span>루마니안 데드리프트</span><span>레그프레스</span><span class="meh">힙 어덕션</span></div><p class="note">4번째 칸이 레그컬·종아리 대신 이너타이.</p></td>
+        <td><div class="ex"><span>스쿼트</span><span>레그컬</span><span>힙 스러스트</span><span class="meh">힙 어덕션</span></div></td></tr>
+      <tr><td class="k">가슴</td>
+        <td><div class="ex"><span>인클라인 프레스</span><span>벤치프레스</span><span>딥스</span><span>체스트 플라이</span></div></td>
+        <td><div class="ex"><span>인클라인 프레스</span><span>체스트 플라이</span><span>딥스</span><span>펙덱</span></div></td></tr>
+      <tr><td class="k">전신 (초보자 기본 루틴)</td>
+        <td><div class="ex"><span class="bad">바벨 스쿼트</span><span class="bad">벤치프레스</span><span>바벨 로우</span><span class="bad">오버헤드프레스</span></div><p class="note">초보 첫 루틴이 전부 바벨 프리웨이트. 3일 모두 이 4개.</p></td>
+        <td><div class="ex"><span class="bad">바벨 스쿼트</span><span>힙 스러스트</span><span>바벨 로우</span><span class="bad">오버헤드프레스</span></div></td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">참고: 무게·세트·횟수(<code>prescribe</code>)는 이미 경력별로 달라요. 스쿼트 기준 초급 3×12 30kg · 중급 4×10 40kg · 고급 4×6 55kg.</p>
+</section>
+
+<section>
+  <h2>진단</h2>
+  <p class="sub">원인은 한 곳이에요. 세부근육을 “하나씩 공평하게” 채우는 규칙이 동작 패턴(당기기 방향·무릎/엉덩이 주도)을 몰라요. 그리고 사람에 대한 정보는 성별만 받아요.</p>
+  <div class="diag">
+    <div class="d"><span class="id">R1</span><h3>핵심 동작이 빠진다 <span class="pill crit">결함</span></h3><p>등의 세부근육 4개(광배·승모·능형·기립근)에 한 칸씩 주다 보니, 슈러그와 하이퍼익스텐션이 랫풀다운·풀업 자리를 차지해요. 광배근은 데드리프트에 “딸려 있는” 것으로 처리돼 수직 당기기가 아예 없어요.</p></div>
+    <div class="d"><span class="id">R2</span><h3>경력이 운동 선택에 안 쓰인다 <span class="pill crit">결함</span></h3><p>입문자 기본 루틴(전신×3)이 바벨 스쿼트·벤치·오버헤드프레스예요. 앱이 “입문엔 동작 습득·부상 예방”이라고 설명해 놓고, 정작 가장 기술이 필요한 운동을 줘요.</p></div>
+    <div class="d"><span class="id">R3</span><h3>같은 부위 날은 매번 같은 운동 <span class="pill warn">아쉬움</span></h3><p>추천 함수가 요일을 몰라서 전신×3이면 월·수·금이 모두 같은 4개예요. 같은 자극만 반복되고, 5일 분할의 “가슴 두 번” 같은 날도 똑같아요.</p></div>
+    <div class="d"><span class="id">R4</span><h3>내 운동 기록을 안 본다 <span class="pill warn">아쉬움</span></h3><p>운동 점수 화면은 “이번 주 안 한 세부근육”을 이미 계산하고 있어요(<code>weekly-training-view</code>). 그런데 추천은 이 결과를 쓰지 않아요. 부족하다고 알려 주고는 채워 주지 않는 셈이에요.</p></div>
+    <div class="d"><span class="id">R5</span><h3>자꾸 건너뛰는 운동을 또 추천한다 <span class="pill warn">아쉬움</span></h3><p>건너뛰기(<code>skipped</code>)와 “오늘만 대체” 기록이 남아 있지만 추천에 쓰지 않아요. 매번 빼는 운동이 다음 추천에 또 들어가요.</p></div>
+    <div class="d"><span class="id">R6</span><h3>왜 이 운동인지 말하지 않는다 <span class="pill warn">아쉬움</span></h3><p>추천 목록에 이유가 없어서, 사용자는 운동을 갈아 끼울지 판단할 근거가 없어요.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>방향안 — 3단계</h2>
+  <p class="sub">1단계만 해도 위 표의 빨강은 다 없어져요. 2단계부터 “내 기록”을 써요. 3단계는 DB에 칸이 하나 늘어나는 일이라 따로 떼었어요. 모든 단계는 <b>새로 추천할 때만</b> 적용되고, 이미 짜 둔 루틴은 건드리지 않아요.</p>
+
+  <div class="stage">
+    <div class="stage-h"><h3>1단계 · 추천 규칙 다듬기</h3><span class="meta">DB 변경 없음 · 추천 쓰는 3곳 동시 반영 · 추천 ①</span></div>
+    <div class="stage-b">
+      <div class="item"><span class="id">A1</span><b>부위별 필수 동작 보장</b><p>세부근육 균형보다 먼저 “이 부위라면 꼭 있어야 할 동작”을 채워요. 등은 수직 당기기와 수평 당기기, 하체는 무릎 주도와 엉덩이 주도, 가슴은 프레스와 플라이, 팔은 이두와 삼두를 같은 수로 넣어요. 남은 칸만 지금처럼 세부근육 균형으로 채워요.</p><p class="how">등(남): 데드리프트 · 랫풀다운 · 바벨 로우 · 페이스풀 / 팔(여): 이두 2 · 삼두 2</p></div>
+      <div class="item"><span class="id">A2</span><b>경력별 운동 선택</b><p>같은 동작이라도 입문은 머신·안정적인 변형, 중급은 섞어서, 고급은 지금처럼 프리웨이트 위주로 골라요. 부상 위험이 큰 운동(데드리프트·바벨 스쿼트 등)은 입문 추천의 첫 칸에서 빼요. 운동 목록에서 직접 고르는 건 지금처럼 자유예요.</p><p class="how">입문 전신: 레그프레스 · 머신 체스트 프레스 · 랫풀다운 · 시티드 케이블 로우</p></div>
+      <div class="item"><span class="id">A3</span><b>같은 부위 날은 A/B로 번갈아</b><p>같은 주에 같은 부위가 두 번 이상 나오면, 필수 동작은 유지하고 운동만 바꿔요. 예를 들어 월요일 스쿼트, 수요일 레그프레스처럼요. 전신×3은 A·B·A가 돼요.</p></div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-h"><h3>2단계 · 내 기록 반영</h3><span class="meta">DB 변경 없음 · 기존 기록만 읽음 · 추천 ②</span></div>
+    <div class="stage-b">
+      <div class="item"><span class="id">H1</span><b>이번 주 부족한 세부근육을 먼저 채우기</b><p>“추천 운동 채우기”와 “오늘만 부위 추천”을 할 때, 운동 점수가 “이번 주 0세트”로 판정한 세부근육 운동을 같은 부위 안에서 앞 순서로 올려요. 점수 화면과 추천이 같은 판정을 써요.</p></div>
+      <div class="item"><span class="id">H2</span><b>자주 건너뛴·바꾼 운동은 뒤로</b><p>최근 4주 동안 2번 이상 건너뛰었거나 “오늘만 대체”로 바꾼 운동은 같은 동작의 다른 운동으로 대신 추천해요. 아예 빼지는 않고 뒤로 미뤄요.</p></div>
+      <div class="item"><span class="id">H3</span><b>추천 이유 한 줄</b><p>추천 운동마다 짧은 이유를 붙여요. 예: “수직 당기기”, “광배근 · 이번 주 0세트”, “입문 추천 머신”. 편집 화면의 추천 목록에 작게 보여요.</p></div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-h"><h3>3단계 · 목표 반영 (선택)</h3><span class="meta">프로필에 칸 1개 추가 · 라이브 DB 적용 필요</span></div>
+    <div class="stage-b">
+      <div class="item"><span class="id">G1</span><b>운동 목표 선택: 근비대 · 근력 · 체지방 감량</b><p>가입과 설정에 목표를 하나 고르게 해요. 근력은 무거운 복합운동을 앞에 두고 횟수를 낮춰요(4–6회). 근비대는 지금 기본값이에요. 체지방 감량은 슈퍼세트와 휴식 단축을 기본으로 켜요. 지금은 목표를 저장하는 칸이 없어서 스키마 변경이 필요해요.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>바뀌는 모습 — 예시 두 개</h2>
+  <p class="sub">1+2단계를 적용했을 때 예상되는 결과예요. 실제 운동은 카탈로그와 헬스장 기구에 따라 달라질 수 있어요.</p>
+  <div class="ba">
+    <div class="card"><h3>입문 · 남 · 전신 ×3 (월요일)</h3>
+      <div class="row"><span>바벨 스쿼트</span><em>지금</em></div>
+      <div class="row"><span>벤치프레스</span><em>지금</em></div>
+      <div class="row"><span>바벨 로우</span><em>지금</em></div>
+      <div class="row"><span>오버헤드프레스</span><em>지금 · 3일 모두 같음</em></div>
+    </div>
+    <div class="card"><h3>→ 바뀐 뒤 (A일 / B일)</h3>
+      <div class="row"><span>레그프레스 / 고블릿 스쿼트</span><em class="why">무릎 주도 · 입문 추천</em></div>
+      <div class="row"><span>머신 체스트 프레스 / 푸시업</span><em class="why">밀기 · 입문 추천</em></div>
+      <div class="row"><span>랫풀다운 / 시티드 케이블 로우</span><em class="why">당기기 · 수직·수평 번갈아</em></div>
+      <div class="row"><span>머신 숄더 프레스 / 힙 스러스트</span><em class="why">A 어깨 · B 엉덩이 주도</em></div>
+    </div>
+    <div class="card"><h3>중급 · 남 · 등 (이번 주 광배근 0세트)</h3>
+      <div class="row"><span>데드리프트</span><em>지금</em></div>
+      <div class="row"><span>슈러그</span><em>지금</em></div>
+      <div class="row"><span>바벨 로우</span><em>지금</em></div>
+      <div class="row"><span>하이퍼익스텐션</span><em>지금</em></div>
+    </div>
+    <div class="card"><h3>→ 바뀐 뒤</h3>
+      <div class="row"><span>풀업 (어려우면 랫풀다운)</span><em class="why">수직 당기기 · 광배 0세트</em></div>
+      <div class="row"><span>바벨 로우</span><em class="why">수평 당기기</em></div>
+      <div class="row"><span>데드리프트</span><em class="why">기립근·후면 사슬</em></div>
+      <div class="row"><span>페이스풀</span><em class="why">능형·후면 어깨</em></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>적용 범위 · 테스트</h2>
+  <div class="grid2">
+    <div class="card">
+      <p><b>같이 바뀌는 곳 (3곳)</b></p>
+      <p class="note" style="margin-top:6px">추천 운동 채우기 <code>fillMissingFocusesAction</code> · 추천 루틴 등록 <code>registerRecommendedPlanAction</code> · 부위 추천 <code>doRecommendFocus</code> → <code>recommendExercisesAction</code>. 모두 <code>recommend.ts</code> 하나를 거치니까 규칙은 한 곳에서 바꾸고, 호출부에는 경력·요일·기록만 추가로 넘겨요.</p>
+    </div>
+    <div class="card">
+      <p><b>테스트</b></p>
+      <p class="note" style="margin-top:6px">단위: 부위×성별×경력마다 “필수 동작이 들어 있다”, “입문 첫 칸에 고위험 운동이 없다”, “A/B 날이 다르다”, “0세트 세부근육이 앞에 온다”. 기존 추천 테스트 중 바뀐 결과를 단언하던 건 새 규칙에 맞게 갱신해요. E2E: 추천 채우기 1건.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>정해 주실 것</h2>
+  <ol class="q">
+    <li><b>어디까지 할까요?</b> 추천은 1+2단계예요. 3단계(목표)는 DB 칸이 늘어서 따로 결정해 주세요.</li>
+    <li><b>입문 추천에서 바벨 운동을 빼는 정도.</b> 첫 칸에서만 뺄까요(추천), 아니면 입문 추천에서 아예 뺄까요?</li>
+    <li><b>A/B 번갈아(A3).</b> 같은 부위 날마다 운동이 달라지는 게 좋을까요, 아니면 매번 같은 게 익히기 쉬워서 나을까요?</li>
+    <li><b>이미 쓰고 있는 사용자.</b> 새로 추천할 때만 적용(추천)할까요, 아니면 “추천 다시 받기” 버튼을 따로 둘까요?</li>
+  </ol>
+</section>
+
+</div>
+</body>
+</html>

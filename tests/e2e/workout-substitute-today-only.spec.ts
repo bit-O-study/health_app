@@ -63,13 +63,22 @@ test("장기 정체 대체운동은 오늘 계획만 바꾸고 영구 루틴은 
   // 이미 시작한 세션을 대체 적용으로 닫았으므로 새 세션의 '운동 시작'이 아니라
   // 기존 세션을 이어가는 '다시 운동하기'가 정상 상태다.
   await expect(page.getByRole("button", { name: "다시 운동하기" })).toBeVisible();
-  const daily = await dbQuery<{ exercise_id: string }>(
-    `select exercise_id from public.daily_plan
-      where user_id=${uid} and for_date=${today} order by position`,
-    [email],
-  );
-  expect(daily.map((row) => row.exercise_id)).toContain(replacementId!);
-  expect(daily.map((row) => row.exercise_id)).not.toContain("squat");
+
+  // 화면이 먼저 바뀌고 DB 가 조금 늦게 따라온다 — 한 번만 읽으면 빈 배열을 보고
+  // 엉뚱하게 실패한다(2026-09-21). 조건이 될 때까지 다시 읽는다.
+  const readDaily = async () =>
+    (
+      await dbQuery<{ exercise_id: string }>(
+        `select exercise_id from public.daily_plan
+          where user_id=${uid} and for_date=${today} order by position`,
+        [email],
+      )
+    ).map((row) => row.exercise_id);
+
+  await expect
+    .poll(readDaily, { timeout: 15_000 })
+    .toContain(replacementId!);
+  expect(await readDaily()).not.toContain("squat");
 
   const permanent = await dbQuery<{ exercise_id: string }>(
     `select exercise_id from public.routine_exercises

@@ -89,7 +89,7 @@ export function ReportButton({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-2 flex items-center justify-between">
-              <h3 className="text-base font-extrabold">신고하기</h3>
+              <h3 className="text-base font-bold">신고하기</h3>
               <button
                 type="button"
                 aria-label="닫기"
@@ -101,7 +101,7 @@ export function ReportButton({
             </div>
 
             {done ? (
-              <p className="py-8 text-center text-sm font-bold text-emerald-600 dark:text-emerald-400">
+              <p className="py-8 text-center text-sm font-bold text-brand">
                 신고가 접수되었어요. 감사합니다 🙏
               </p>
             ) : (

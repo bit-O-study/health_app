@@ -1,0 +1,11 @@
+{
+  "prompt": "Use case: scientific-educational. Create a precise animation sprite sheet for a BODYWEIGHT ABDOMINAL CRUNCH: 8 square panels in exactly 4 columns and 2 rows, image aspect 2:1, no gaps, borders or text. Each cell has the exact same fixed side camera, ground height, scale and position. Plain uniform light gray background. A bald neutral gray athletic adult male mannequin with teal shorts, barefoot, lying on his back, head on left, feet on right. Knees bent, both feet flat and fixed, hips and low back stay on the ground. Hands lightly behind the head, elbows stay open, do not pull neck. Show eight consecutive tiny increments of ONLY the upward half of a crunch, reading left to right then next row: first shoulders resting on ground, then progressively curling ribcage toward pelvis until shoulder blades just clear the floor, upper torso no more than 25 degrees above floor. No sit-up. Head follows spine, space below chin. Critical: frames 1 through 8 are a single monotonic gradual lift, DO NOT reset at second row. Both legs, pelvis and feet remain identically placed in ALL frames. Entire body inside each panel with generous margin; consistent proportions; clean crisp anatomy; soft ambient lighting, minimal contact shadow, no dark background blobs. Designed for interpolation and reverse playback to return to rest. Do not add arrows, numbers, equipment, labels or watermark.",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.acefitness.org/resources/everyone/exercise-library/52/crunch/"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "crunch",
+  "registeredAt": "2026-09-16T07:38:46.565Z"
+}

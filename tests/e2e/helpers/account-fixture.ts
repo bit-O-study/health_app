@@ -7,12 +7,33 @@ import type { BrowserContext } from "@playwright/test";
 
 import { freshEmail, TEST_PASSWORD } from "./run-scope";
 
+/**
+ * Supabase keys for the test harness, read the way Next.js does: `.env.local`
+ * overrides `.env`, and a real process env wins over both.
+ *
+ * 🔴 `.env.local` alone is not enough — this project keeps
+ * NEXT_PUBLIC_SUPABASE_URL/PUBLISHABLE_KEY in `.env` (2026-09-15). Reading only
+ * `.env.local` made every account-creating spec die with "supabaseUrl is
+ * required" even though `pnpm dev` ran fine.
+ */
+function supabaseEnv(): Record<string, string | undefined> {
+  const fromFile = (name: string) => {
+    const path = resolve(process.cwd(), name);
+    return existsSync(path)
+      ? (parseEnv(readFileSync(path, "utf8")) as Record<string, string | undefined>)
+      : {};
+  };
+  const env = { ...fromFile(".env"), ...fromFile(".env.local"), ...process.env };
+  for (const key of ["NEXT_PUBLIC_SUPABASE_URL", "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY"]) {
+    if (!env[key]) throw new Error(`E2E: ${key} 가 없다 — .env / .env.local 을 확인하세요.`);
+  }
+  return env;
+}
+
 /** Fresh Auth account and UI-equivalent profile; never shares server state between tests. */
 export async function createTestAccount(context: BrowserContext, baseURL: string, lockWeightReps = false) {
   const email = freshEmail();
-  const env = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
-    ? process.env
-    : { ...parseEnv(readFileSync(resolve(process.cwd(), ".env.local"), "utf8")), ...process.env };
+  const env = supabaseEnv();
   const supabase = createServerClient(
     env.NEXT_PUBLIC_SUPABASE_URL!, env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
       cookies: {

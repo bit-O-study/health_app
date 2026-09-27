@@ -45,7 +45,7 @@ export const BODY_METRICS: {
   unit: string;
   color: string;
 }[] = [
-  { key: "weightKg", label: "몸무게", unit: "kg", color: "#059669" },
+  { key: "weightKg", label: "몸무게", unit: "kg", color: "#087f5b" },
   { key: "bodyFatPct", label: "체지방률", unit: "%", color: "#e11d48" },
   { key: "muscleMassKg", label: "근육량", unit: "kg", color: "#6366f1" },
   { key: "heightCm", label: "키", unit: "cm", color: "#d97706" },

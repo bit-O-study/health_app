@@ -48,7 +48,7 @@ export function DepositInfoManager({ initial }: { initial: DepositInfo }) {
         ]
       ).map((f) => (
         <label key={f.k} className="block">
-          <span className="mb-1 block text-[11px] font-bold text-zinc-500">
+          <span className="mb-1 block text-xs font-bold text-zinc-500">
             {f.label}
           </span>
           <input
@@ -64,7 +64,7 @@ export function DepositInfoManager({ initial }: { initial: DepositInfo }) {
       <p
         data-testid="deposit-ready"
         data-ready={ready ? "1" : "0"}
-        className={`text-[11px] leading-5 ${
+        className={`text-xs leading-5 ${
           ready
             ? "text-emerald-700 dark:text-emerald-400"
             : "text-amber-700 dark:text-amber-400"

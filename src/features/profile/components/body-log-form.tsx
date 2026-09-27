@@ -81,7 +81,7 @@ export function BodyLogForm({
               onChange={(e) =>
                 setVals((p) => ({ ...p, [f.key]: e.target.value }))
               }
-              className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+              className="h-10 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-brand/40 focus:ring-2 focus:ring-brand/40"
             />
           </label>
         ))}
@@ -103,7 +103,7 @@ export function BodyLogForm({
                   className={cn(
                     "rounded-lg border-2 px-3 py-2 text-sm font-semibold transition",
                     active
-                      ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300"
+                      ? "border-brand/40 bg-brand-soft text-brand"
                       : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-500",
                   )}
                 >
@@ -123,7 +123,7 @@ export function BodyLogForm({
           type="button"
           disabled={pending}
           onClick={submit}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-emerald-600 px-5 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:opacity-60"
+          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -134,7 +134,7 @@ export function BodyLogForm({
           <span
             className={`text-sm font-medium ${
               msg.ok
-                ? "text-emerald-700 dark:text-emerald-400"
+                ? "text-brand"
                 : "text-red-600 dark:text-red-400"
             }`}
           >

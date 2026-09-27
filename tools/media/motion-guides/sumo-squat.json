@@ -1,0 +1,12 @@
+{
+  "prompt": "Dumbbell sumo squat, wide stance with toes turned out, dumbbell held vertically between legs, upright chest, knees tracking toes, controlled descent and return",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.strengthlog.com/sumo-squat/",
+    "https://www.acefitness.org/resources/everyone/blog/5564/squat-variations-6-effective-squat-variations-to-try/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "sumo-squat",
+  "registeredAt": "2026-09-15T00:08:29.003Z"
+}

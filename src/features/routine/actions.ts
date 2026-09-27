@@ -1,5 +1,8 @@
 "use server";
 
+import { getRecommendationContext } from "./recommendation-data";
+import { personalizeExercises } from "./recommend-personalization";
+
 import { revalidatePath } from "next/cache";
 
 import {
@@ -20,7 +23,9 @@ import {
 } from "@/features/routine/data";
 import { prescribe } from "@/features/routine/exercise-catalog";
 import {
+  allExercisesForSlot,
   focusExercisesForSlot,
+  focusVariantIndex,
   sideExercisesForSlot,
 } from "@/features/routine/recommend";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
@@ -29,6 +34,7 @@ import {
   toGymEquipmentSet,
 } from "@/features/gym/gym-equipment-mapping";
 import { getUserProfile } from "@/features/profile/data-access";
+import { getRecommendSignals } from "@/features/routine/recommend-signals";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { registerRecommendedConditioningAction } from "@/features/routine/conditioning-actions";
 import {
@@ -188,7 +194,7 @@ async function fillMissingFocusesAction(
   variantId: string,
   customWeek: DayBlockId[][] | null,
 ): Promise<SaveRoutineResult> {
-  const [profile, gym] = await Promise.all([getUserProfile(), getCurrentGym()]);
+  const [profile, gym, recommendationContext, signals] = await Promise.all([getUserProfile(), getCurrentGym(), getRecommendationContext(), getRecommendSignals()]);
   if (!profile) return { ok: true };
   // 추천 운동도, 그 운동에 붙일 기구도 내 헬스장 보유 기구를 본다.
   const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
@@ -222,9 +228,15 @@ async function fillMissingFocusesAction(
     weightKg: profile.weightKg ?? 65,
   };
   const groups = missing.map((slot) => {
-    const list = slot.isSide
+    const base = slot.isSide
       ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet);
+      : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet, {
+          experience: profile.experience,
+          // 같은 주에 같은 부위가 또 나오면 A/B 로 번갈아 — 전체 주(slots) 기준으로 센다.
+          variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
+          ...signals,
+        });
+    const list = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, recommendationContext, slot.isSide, slot.focus);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
@@ -244,6 +256,7 @@ async function fillMissingFocusesAction(
       }),
     };
   });
+  if (groups.some(group => group.rows.length === 0)) return {ok:false,error:"보유 기구로 추천할 수 없는 부위가 있어요. 기구 설정을 확인하거나 운동을 직접 선택해 주세요."};
   const replacement = await replaceRoutineExerciseGroups(
     supabase,
     expectedRoutineUpdatedAt,

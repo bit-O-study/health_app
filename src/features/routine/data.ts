@@ -65,74 +65,33 @@ export type SplitPreset = {
 /**
  * 부위별 시각 토큰.
  *
- * `card` 는 **중립 표면**(`app-surface`)이다 — 예전엔 부위마다 파스텔 바탕이라
- * 초록 브랜드 화면 위에서 히어로 색이 날마다 바뀌었다. 부위 구분은 `badge`·`dot`
- * (배지 글자색/점)이 맡는다. 그래서 어떤 부위든 카드 바탕은 같고, 색은 라벨에만 붙는다.
+ * `card` 는 **중립 표면**(`app-surface`)이다. 2026-09-15 화면 간결화("아이폰같이, 색 줄이기")로
+ * 부위 배지도 **한 모양**(회색 알약 + 브랜드색 점)으로 통일했다 — 부위는 배지 글자가 이미
+ * 말해 주므로, 부위마다 보라·하늘·주황·분홍… 색을 따로 칠할 이유가 없다. 휴식만 점을 흐리게.
+ * 키(FocusTone)는 그대로 둬서 호출부(루틴 편집·오늘만 메뉴·7일 그리드)는 바꿀 필요가 없다.
  */
+const NEUTRAL_BADGE =
+  "bg-zinc-100 dark:bg-white/[0.08] text-zinc-700 dark:text-zinc-300";
+const PART_STYLE = { card: "app-surface", badge: NEUTRAL_BADGE, dot: "bg-brand" };
+
 export const TONE_STYLES: Record<
   FocusTone,
   { card: string; badge: string; dot: string }
 > = {
-  fullbody: {
-    card: "app-surface",
-    badge:
-      "bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300",
-    dot: "bg-violet-500",
-  },
-  upper: {
-    card: "app-surface",
-    badge: "bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300",
-    dot: "bg-sky-500",
-  },
-  lower: {
-    card: "app-surface",
-    badge:
-      "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300",
-    dot: "bg-amber-500",
-  },
-  chest: {
-    card: "app-surface",
-    badge: "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300",
-    dot: "bg-rose-500",
-  },
-  back: {
-    card: "app-surface",
-    badge:
-      "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300",
-    dot: "bg-emerald-500",
-  },
-  shoulder: {
-    card: "app-surface",
-    badge: "bg-cyan-100 dark:bg-cyan-900/40 text-cyan-700 dark:text-cyan-300",
-    dot: "bg-cyan-500",
-  },
-  arm: {
-    card: "app-surface",
-    badge:
-      "bg-fuchsia-100 dark:bg-fuchsia-900/40 text-fuchsia-700 dark:text-fuchsia-300",
-    dot: "bg-fuchsia-500",
-  },
-  push: {
-    card: "app-surface",
-    badge: "bg-rose-100 dark:bg-rose-900/40 text-rose-700 dark:text-rose-300",
-    dot: "bg-rose-500",
-  },
-  pull: {
-    card: "app-surface",
-    badge:
-      "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300",
-    dot: "bg-emerald-500",
-  },
-  core: {
-    card: "app-surface",
-    badge:
-      "bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300",
-    dot: "bg-indigo-500",
-  },
+  fullbody: PART_STYLE,
+  upper: PART_STYLE,
+  lower: PART_STYLE,
+  chest: PART_STYLE,
+  back: PART_STYLE,
+  shoulder: PART_STYLE,
+  arm: PART_STYLE,
+  push: PART_STYLE,
+  pull: PART_STYLE,
+  core: PART_STYLE,
   rest: {
     card: "app-surface",
-    badge: "bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400",
-    dot: "bg-zinc-300",
+    badge: "bg-zinc-100 dark:bg-white/[0.06] text-zinc-500 dark:text-zinc-400",
+    dot: "bg-zinc-300 dark:bg-zinc-600",
   },
 };
 

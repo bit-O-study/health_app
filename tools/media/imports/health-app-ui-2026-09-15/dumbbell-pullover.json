@@ -1,0 +1,12 @@
+{
+  "prompt": "Flat-bench dumbbell pullover, one dumbbell held with both hands above chest lowered behind head in fixed-elbow shoulder arc",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.healthline.com/health/fitness/dumbbell-pullover",
+    "https://s1.thcdn.com/design-assets/documents/myprotein/myprotein-build-muscle-guide-US.pdf"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "dumbbell-pullover",
+  "registeredAt": "2026-09-15T02:04:02.784Z"
+}

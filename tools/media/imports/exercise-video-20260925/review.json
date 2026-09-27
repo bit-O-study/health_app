@@ -1,0 +1,16 @@
+{
+  "reviewedAt": "2026-09-25",
+  "published": false,
+  "cable-woodchopper-original": {
+    "status": "pending",
+    "videoSha256": "81936de1f76894e7eedad183b485625aa271a58c0253ca8afb859fb412e13b6c",
+    "observations": "Generated source and 32-frame contact sheet inspected. Cable/tower retained. Uneven hand progression, abrupt early head rotation, hand/head interpolation ghosts remain. Not approved for app use."
+  },
+  "low-bar-squat": {
+    "status": "rejected",
+    "lightVideoSha256": "35bf9eb8b1100b81be26b99d0a0602a4f0685ffc2d34ed536aa2e2af99e2054b",
+    "darkVideoSha256": "448829adee857d7ac2394ffcca1f655cc64daff92f4f0fc44c95425165283d19",
+    "observations": "Generated alpha sheet and both 32-frame contact sheets inspected. Actual transparency present (69.66% fully transparent, 74.35% alpha <= 8). Generation moved subjects outside equal 4x4 cell boundaries: feet/bar ends clip, neighboring-cell fragments appear, row transitions ghost. White remnants near bar/neck and colored edge artifacts also remain. Cannot substitute for the original or publish."
+  },
+  "next": "Preserve exact panel geometry during per-panel background extraction or resume the existing default cutout pipeline with a measured memory bound. Woodchopper needs evenly spaced poses including smooth head rotation."
+}

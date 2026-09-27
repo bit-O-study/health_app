@@ -1,0 +1,19 @@
+[
+  {
+    "id": "low-bar-squat",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "0e7da2b0ae4719558dacfe0abfe7f57bb78ba74a53f3b1f8a7652b54c584038b",
+    "videoSha256": "9118f7914a855ea15c7e02ee3b0722fe5c4569ccd4845c4e851c94e88787f5cc",
+    "darkVideoSha256": "263b2b856cf40ebe40c85af31e75a888624fb2d1a789ee0e6643ebe41bc16708",
+    "darkBytes": 230052,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 194480,
+    "decode": "passed",
+    "verifiedAt": "2026-09-18T03:21:37.619Z"
+  }
+]

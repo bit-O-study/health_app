@@ -48,22 +48,22 @@ export function BodyLogButton({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex h-10 flex-1 items-center gap-2 whitespace-nowrap rounded-full border border-emerald-300 bg-white pl-1.5 pr-3.5 text-sm font-bold text-emerald-800 transition hover:bg-emerald-50 dark:border-emerald-700 dark:bg-zinc-800 dark:text-emerald-200 dark:hover:bg-emerald-950/30 sm:flex-initial"
+          className="inline-flex h-10 flex-1 items-center gap-2 whitespace-nowrap rounded-full border border-brand/40 bg-white pl-1.5 pr-3.5 text-sm font-bold text-brand transition hover:bg-brand-soft dark:bg-zinc-800 sm:flex-initial"
           title={goal.targetText}
         >
-          <span className="inline-flex h-7 items-center rounded-full bg-emerald-600 px-2.5 text-xs font-bold text-white">
+          <span className="inline-flex h-7 items-center rounded-full bg-brand px-2.5 text-xs font-bold text-white dark:text-zinc-950">
             {goal.metricLabel}
           </span>
           {goal.reached ? (
-            <span className="text-emerald-600 dark:text-emerald-400">
+            <span className="text-brand">
               목표 달성 🎉
             </span>
           ) : (
             <span>
-              <span className="text-base font-black tabular-nums">
+              <span className="text-base font-bold tabular-nums">
                 {goal.remainingText}
               </span>
-              <span className="ml-0.5 text-xs font-semibold text-emerald-600/80 dark:text-emerald-400/80">
+              <span className="ml-0.5 text-xs font-semibold text-brand">
                 남음
               </span>
             </span>
@@ -73,7 +73,7 @@ export function BodyLogButton({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 sm:flex-initial sm:px-4"
+          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft sm:flex-initial sm:px-4"
         >
           <Scale aria-hidden="true" size={15} />
           체형 기록
@@ -113,7 +113,7 @@ export function BodyLogButton({
             {showGraphLink ? (
               <Link
                 href="/settings/profile"
-                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-emerald-700 dark:text-emerald-400 transition hover:text-emerald-600 dark:hover:text-emerald-300"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition hover:text-brand"
               >
                 <LineChart aria-hidden="true" size={15} />
                 체형 그래프 보기

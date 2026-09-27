@@ -8,6 +8,7 @@
  *    디버그 계정(관리자)에게만, 켜진 기능만 보인다. 자세한 규칙은 docs/DEBUG-FEATURES.md.
  */
 export const DEBUG_FEATURES = [
+  { id: "pet", label: "펫(늑대 키우기 — 관리자 공개 후 이용)" },
   {
     id: "steps",
     label: "걸음수 진단칩(🩺 앱UA·브릿지·플러그인·권한·레코드…)",

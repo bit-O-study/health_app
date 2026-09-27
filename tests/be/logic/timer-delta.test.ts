@@ -82,3 +82,49 @@ describe("takeUnsavedDelta", () => {
     expect(mod.takeUnsavedDelta(null)).toBeNull();
   });
 });
+
+// 회귀: 전체 완료로 세션이 끝난 뒤 완료를 취소하고 다시 시작하면 타이머가 00:00 부터
+// 다시 흘러 "운동시간이 초기화"된 것처럼 보였다. 같은 날이면 끝낸 누적에서 이어 간다.
+describe("startSessionState (같은 날 이어 시작)", () => {
+  it("같은 날 끝낸 기록이 있으면 그 초에서 이어 간다", () => {
+    const { state, savedMark } = mod.startSessionState(
+      { forDate: "2026-09-25", totalSec: 2400 },
+      "2026-09-25",
+      1_000,
+      "sid",
+    );
+    expect(state.accumulated).toBe(2_400_000);
+    expect(state.baseSec).toBe(2400);
+    expect(state.pausedAt).toBeNull();
+    expect(savedMark).toEqual({ forDate: "2026-09-25", savedSec: 2400 });
+  });
+
+  it("날짜가 다르거나 기록이 없으면 0 부터", () => {
+    for (const f of [null, { forDate: "2026-09-24", totalSec: 2400 }]) {
+      const { state, savedMark } = mod.startSessionState(f, "2026-09-25", 1_000, "sid");
+      expect(state.accumulated).toBe(0);
+      expect(state.baseSec).toBe(0);
+      expect(savedMark).toBeNull();
+    }
+  });
+
+  it("이어 시작해도 이미 DB 에 올린 시간은 다시 더하지 않는다", () => {
+    const { savedMark } = mod.startSessionState(
+      { forDate: "2026-09-25", totalSec: 2400 },
+      "2026-09-25",
+      1_000,
+      "sid",
+    );
+    mod.setSavedMark(savedMark!);
+    // 40분에서 이어 5분 더 → 5분(300초)만 새로 올린다.
+    expect(mod.takeUnsavedDelta(pausedState("2026-09-25", 2_700_000))).toEqual({
+      forDate: "2026-09-25",
+      deltaSec: 300,
+    });
+  });
+
+  it("끝낸 기록은 저장소에 남았다가 다시 읽힌다", () => {
+    mod.writeFinished({ forDate: "2026-09-25", totalSec: 90 });
+    expect(mod.readFinished()).toEqual({ forDate: "2026-09-25", totalSec: 90 });
+  });
+});

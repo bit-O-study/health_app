@@ -23,6 +23,8 @@ import {
   type SurveyGoal,
 } from "@/features/commitments/missions";
 import type { CommitmentView } from "@/features/commitments/data-access";
+import { SurveySteps } from "@/features/commitments/components/survey-steps";
+import type { KnownProfile } from "@/features/commitments/survey";
 
 function ymd(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
@@ -36,8 +38,14 @@ function addDays(base: string, n: number): string {
 
 export function CommitmentManager({
   commitments,
+  me,
+  defaultPerWeek = 5,
 }: {
   commitments: CommitmentView[];
+  /** 온보딩·프로필에서 온 값 — 새 설문이 숫자를 계산할 때 쓴다. 없으면 옛 설문. */
+  me?: KnownProfile;
+  /** 주 며칠의 기본값(루틴의 주당 운동일). */
+  defaultPerWeek?: number;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -109,10 +117,10 @@ export function CommitmentManager({
               setMode(k);
               setError(null);
             }}
-            className={`h-10 flex-1 rounded-xl text-sm font-bold transition ${
+            className={`h-9 flex-1 rounded-full text-sm font-semibold transition ${
               mode === k
-                ? "bg-emerald-600 text-white"
-                : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                ? "bg-brand text-white dark:text-zinc-950"
+                : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
             }`}
           >
             {label}
@@ -121,10 +129,17 @@ export function CommitmentManager({
       </div>
 
       {mode === "survey" ? (
-        <SurveyForm
-          today={today}
-          onDone={() => router.refresh()}
-        />
+        me ? (
+          <SurveySteps
+            me={me}
+            defaultPerWeek={defaultPerWeek}
+            today={today}
+            onDone={() => router.refresh()}
+          />
+        ) : (
+          // 프로필이 없으면 숫자를 계산할 수 없다 — 옛 설문으로 받는다.
+          <SurveyForm today={today} onDone={() => router.refresh()} />
+        )
       ) : (
       <>
       {/* 태그 체크식 빠른 추가 */}
@@ -136,7 +151,7 @@ export function CommitmentManager({
               key={p.tag}
               type="button"
               onClick={() => applyPreset(p)}
-              className="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-emerald-300 hover:text-emerald-700 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+              className="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
             >
               <Plus aria-hidden="true" size={12} /> {p.title}
             </button>
@@ -147,7 +162,7 @@ export function CommitmentManager({
               setOpen((v) => !v);
               setError(null);
             }}
-            className="inline-flex items-center gap-1 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
+            className="inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
           >
             직접 입력
           </button>
@@ -214,7 +229,7 @@ export function CommitmentManager({
             </label>
           </div>
           {error ? (
-            <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+            <p className="text-xs font-semibold text-danger">
               {error}
             </p>
           ) : null}
@@ -223,7 +238,7 @@ export function CommitmentManager({
               type="button"
               onClick={save}
               disabled={pending || title.trim() === ""}
-              className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-md bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+              className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -248,34 +263,34 @@ export function CommitmentManager({
 
       {/* 목록 */}
       {commitments.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-zinc-300 p-6 text-center text-sm text-zinc-500 dark:border-zinc-700">
-          아직 다짐이 없어요. 위에서 하나 추가해보세요.
+        <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          아직 다짐이 없어요
         </p>
       ) : (
-        <ul className="space-y-3">
+        <ul className="space-y-2">
           {commitments.map((c) => {
             const p = c.progress;
             const barColor = p.done
-              ? "bg-emerald-500"
+              ? "bg-brand"
               : p.expired
-                ? "bg-red-400"
-                : "bg-emerald-400";
+                ? "bg-danger"
+                : "bg-brand/60";
             return (
               <li
                 key={c.id}
-                className="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900"
+                className="app-card p-3"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                    <p className="flex items-center gap-1.5 text-base font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
                       {c.kind === "diet" ? (
-                        <Salad aria-hidden="true" size={14} className="text-emerald-600" />
+                        <Salad aria-hidden="true" size={14} className="text-brand" />
                       ) : (
-                        <Dumbbell aria-hidden="true" size={14} className="text-emerald-600" />
+                        <Dumbbell aria-hidden="true" size={14} className="text-brand" />
                       )}
                       {c.title}
                     </p>
-                    <p className="mt-0.5 flex items-center gap-1 text-[11px] text-zinc-500">
+                    <p className="mt-0.5 flex items-center gap-1 text-xs text-zinc-500">
                       <CalendarClock aria-hidden="true" size={11} />
                       {c.startDate} ~ {c.deadline}
                     </p>
@@ -285,7 +300,7 @@ export function CommitmentManager({
                     aria-label="다짐 삭제"
                     onClick={() => remove(c.id)}
                     disabled={pending}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-40 dark:hover:bg-red-950/40"
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                   >
                     <Trash2 aria-hidden="true" size={14} />
                   </button>
@@ -296,13 +311,13 @@ export function CommitmentManager({
                     <span className="font-semibold text-zinc-600 dark:text-zinc-400">
                       {c.metricLabel}
                       {p.done ? (
-                        <span className="ml-1 font-bold text-emerald-600 dark:text-emerald-400">
+                        <span className="ml-1 font-semibold text-brand">
                           달성 ✓
                         </span>
                       ) : p.upcoming ? (
                         <span className="ml-1 text-zinc-400">시작 전</span>
                       ) : p.expired ? (
-                        <span className="ml-1 font-bold text-red-500">기간 종료</span>
+                        <span className="ml-1 font-semibold text-danger">기간 종료</span>
                       ) : (
                         <span className="ml-1 text-zinc-400">D-{p.daysLeft}</span>
                       )}
@@ -311,7 +326,7 @@ export function CommitmentManager({
                       {p.current.toLocaleString()} / {p.target.toLocaleString()} {c.unit}
                     </span>
                   </div>
-                  <div className="h-2.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
                     <div
                       className={`h-full rounded-full transition-all ${barColor}`}
                       style={{ width: `${p.pct}%` }}
@@ -375,7 +390,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
     <div className="space-y-4 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-700 dark:bg-zinc-900">
       {/* 목표 */}
       <div>
-        <p className="mb-1.5 text-xs font-bold text-zinc-500">1. 목표가 뭐예요?</p>
+        <p className="mb-1.5 text-xs font-semibold text-zinc-500">1. 목표가 뭐예요?</p>
         <div className="grid grid-cols-2 gap-2">
           {GOALS.map((g) => (
             <button
@@ -384,7 +399,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
               onClick={() => pickGoal(g.id)}
               className={`rounded-lg border px-3 py-2.5 text-left text-sm font-semibold transition ${
                 a.goal === g.id
-                  ? "border-emerald-500 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300"
+                  ? "border-brand/40 bg-brand-soft text-brand"
                   : "border-zinc-200 text-zinc-700 dark:border-zinc-700 dark:text-zinc-200"
               }`}
             >
@@ -396,7 +411,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
 
       {/* 항목 */}
       <div>
-        <p className="mb-1.5 text-xs font-bold text-zinc-500">2. 하루 미션 (켤 것만)</p>
+        <p className="mb-1.5 text-xs font-semibold text-zinc-500">2. 하루 미션 (켤 것만)</p>
         <div className="space-y-1.5">
           <SwitchRow label="매일 운동하기" on={a.workoutDaily} onToggle={(v) => set("workoutDaily", v)} />
           <SwitchRow label="근력 운동하기" on={a.strengthDaily} onToggle={(v) => set("strengthDaily", v)} />
@@ -407,12 +422,12 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
           <NumRow label="섭취 상한 (kcal 이하)" value={a.intakeMax} onChange={(v) => set("intakeMax", v)} field={numField} />
           <NumRow label="단백질 (g)" value={a.proteinMin} onChange={(v) => set("proteinMin", v)} field={numField} />
         </div>
-        <p className="mt-1 text-[11px] text-zinc-400">숫자 항목은 0으로 두면 미션에서 빠져요.</p>
+        <p className="mt-1 text-xs text-zinc-400">숫자 항목은 0으로 두면 미션에서 빠져요.</p>
       </div>
 
       {/* 미션 미리보기 */}
       <div>
-        <p className="mb-1.5 text-xs font-bold text-zinc-500">
+        <p className="mb-1.5 text-xs font-semibold text-zinc-500">
           3. 생성될 하루 미션 ({missions.length}개)
         </p>
         {missions.length === 0 ? (
@@ -422,7 +437,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
             {missions.map((m) => (
               <li
                 key={m.type}
-                className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
+                className="rounded-full bg-brand-soft px-2.5 py-1 text-xs font-semibold text-brand"
               >
                 {missionLabel(m)}
               </li>
@@ -457,14 +472,14 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
       </div>
 
       {error ? (
-        <p className="text-xs font-semibold text-red-600 dark:text-red-400">{error}</p>
+        <p className="text-xs font-semibold text-danger">{error}</p>
       ) : null}
 
       <button
         type="button"
         onClick={save}
         disabled={pending || missions.length === 0}
-        className="inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-md bg-emerald-600 text-sm font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+        className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -473,9 +488,9 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
         )}
         이 설문으로 다짐 만들기
       </button>
-      <p className="text-[11px] leading-4 text-zinc-400">
+      <p className="text-xs leading-4 text-zinc-400">
         만든 미션은 매일 운동·식단 기록으로 자동 판정돼요. 달성률에 따라 캘린더에{" "}
-        <span className="font-bold text-emerald-500">○</span>{" "}
+        <span className="font-bold text-brand">○</span>{" "}
         <span className="font-bold text-amber-500">△</span>{" "}
         <span className="font-bold text-rose-400">✕</span> 로 표시됩니다.
       </p>
@@ -501,7 +516,7 @@ function SwitchRow({
       <span className="font-semibold text-zinc-700 dark:text-zinc-200">{label}</span>
       <span
         className={`flex h-5 w-9 items-center rounded-full p-0.5 transition ${
-          on ? "justify-end bg-emerald-500" : "justify-start bg-zinc-300 dark:bg-zinc-600"
+          on ? "justify-end bg-brand" : "justify-start bg-zinc-300 dark:bg-zinc-600"
         }`}
       >
         <span className="h-4 w-4 rounded-full bg-white" />

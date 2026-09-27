@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 import { securityHeaders } from "./src/lib/security/headers";
+import { supportConsoleRedirects } from "./src/features/support/console-redirects";
 
 /**
  * 배포본 식별자 — 실사용 오류 관측(1.3)에서 "어느 배포에서 난 오류인가"를 보려면
@@ -16,6 +17,10 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60 * 60 * 24 * 7, // 일주일
   },
+  // 개발 서버 전용 — Next 16 은 localhost 가 아닌 주소(127.0.0.1·같은 와이파이의 폰)에서 온
+  // 개발 리소스 요청(HMR 등)을 막아, 화면은 떠도 JS 가 붙지 않아 버튼이 안 눌린다.
+  // E2E·실기기 확인에 쓰는 주소를 허용한다(프로덕션 빌드에는 영향 없음).
+  allowedDevOrigins: ["127.0.0.1", "192.168.*.*", "10.*.*.*"],
   // 압축은 기본 활성화이지만 명시
   compress: true,
   // X-Powered-By 헤더 제거 — 보안·바이트 절감
@@ -23,6 +28,9 @@ const nextConfig: NextConfig = {
   // 배럴 import 트리셰이킹 — 아이콘 등에서 쓰는 만큼만 번들(동작 동일, JS만 축소).
   experimental: {
     optimizePackageImports: ["lucide-react"],
+  },
+  async redirects() {
+    return supportConsoleRedirects();
   },
   async headers() {
     return [

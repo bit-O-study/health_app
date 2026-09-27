@@ -74,7 +74,7 @@ export function MuscleBalance3D({
             className={cn(
               "flex-1 rounded-full px-3 py-1 transition",
               !detail
-                ? "bg-emerald-600 text-white"
+                ? "bg-brand text-white dark:text-zinc-950"
                 : "text-zinc-600 dark:text-zinc-300",
             )}
           >
@@ -88,7 +88,7 @@ export function MuscleBalance3D({
             className={cn(
               "flex-1 rounded-full px-3 py-1 transition",
               detail
-                ? "bg-emerald-600 text-white"
+                ? "bg-brand text-white dark:text-zinc-950"
                 : "text-zinc-600 dark:text-zinc-300",
             )}
           >

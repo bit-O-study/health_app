@@ -71,7 +71,7 @@ export function RunLeaderboard({
       className="pointer-events-none absolute right-3 z-20 w-40"
       style={{ top: top ?? "calc(env(safe-area-inset-top, 0px) + 0.75rem)" }}
     >
-      <p className="mb-1 text-right text-[10px] font-bold uppercase tracking-wide text-white/80 drop-shadow">
+      <p className="mb-1 text-right text-xs font-bold uppercase tracking-wide text-white/80 drop-shadow">
         🏃 {board.groupName} 오늘 순위
       </p>
       <div className="relative" style={{ height: rows.length * ROW_H }}>
@@ -86,7 +86,7 @@ export function RunLeaderboard({
             style={{ top: i * ROW_H }}
           >
             <span
-              className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+              className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
                 r.rank === 1
                   ? "bg-yellow-400 text-black"
                   : r.rank === 2

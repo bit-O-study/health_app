@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getLatestBodyComposition } from "@/features/body-composition/data-access";
 import { BodyCompForm } from "@/features/body-composition/components/body-comp-form";
@@ -14,35 +13,19 @@ export default async function BodyCompositionPage() {
 
   const latest = await getLatestBodyComposition();
 
+  // 공통 머리글 + 한 줄 안내(2026-09-16 8단계) — 긴 설명은 뺐다. 진단이 아니라는 고지는 한 줄로 남긴다.
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        설정
-      </BackLink>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          체성분 결과 등록
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          체성분 분석지(체중·골격근량·체지방률·부위별 근육량·지방 등)를 입력하면
-          마네킹의 부위별 밸런스가 측정값 기반으로 표시되고, 추천 루틴도 약한
-          부위를 보강하는 방향으로 제안됩니다. 측정은 의학적 진단이 아니며
-          피트니스 가이드 목적입니다.
+    <div className="app-page">
+      <PageHeader title="체성분 결과 등록" back="설정" />
+      <main className="app-container space-y-4">
+        <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">
+          {latest ? (
+            <span className="text-brand">최근 측정 {latest.measuredAt} · </span>
+          ) : null}
+          의학적 진단이 아닌 운동 가이드용이에요.
         </p>
-        {latest ? (
-          <p className="text-xs text-emerald-700 dark:text-emerald-400">
-            가장 최근 측정: {latest.measuredAt}
-          </p>
-        ) : (
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            아직 등록된 체성분이 없습니다. 첫 등록을 진행하세요.
-          </p>
-        )}
-      </div>
-
-      <BodyCompForm hasExistingImage={Boolean(latest?.imagePath)} />
-    </main>
+        <BodyCompForm hasExistingImage={Boolean(latest?.imagePath)} />
+      </main>
+    </div>
   );
 }

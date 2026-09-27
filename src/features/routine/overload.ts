@@ -100,6 +100,8 @@ export function overloadPlan(
   experience: ExperienceLevel,
   todayTargetReps?: number,
   equipment?: EquipmentId | string | null,
+  /** 사용자가 정한 그 종목의 증량 단위(kg). 없으면 기구·종목 크기로 정한 기본값. */
+  stepOverrideKg?: number | null,
 ): OverloadPlan {
   const target =
     todayTargetReps && todayTargetReps > 0
@@ -124,7 +126,7 @@ export function overloadPlan(
   // 🔴 기구를 안 받았으면 **마지막 기록의 기구**를 쓴다. 예전엔 그냥 기본값(2kg)으로
   //    떨어져서, 같은 바벨 스쿼트인데 운동모드는 +5kg(바벨)를, 성장 그래프는 +2kg를
   //    권했다 — 화면마다 다른 증량을 말하는 셈이었다.
-  const step = weightStepKg(exerciseId, equipment ?? last.equipment);
+  const step = weightStepKg(exerciseId, equipment ?? last.equipment, stepOverrideKg);
   const timed = isTimedExercise(exerciseId);
   if (timed || step === null || (last.weightKg ?? 0) <= 0) {
     return {

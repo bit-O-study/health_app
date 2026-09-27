@@ -243,10 +243,12 @@ export async function setDebugFeatureAction(
     { onConflict: "key" },
   );
   if (error) return { ok: false, error: error.message };
-  // 노출 범위 변경은 여러 화면 게이트에 영향 → 관련 경로 재검증.
+  // 공개 범위는 홈 격자와 루트 하단 앱 목록에도 적용한다.
   revalidatePath("/admin/settings");
   revalidatePath("/calendar");
-  revalidatePath("/");
+  revalidatePath("/home");
+  revalidatePath("/pet");
+  revalidatePath("/", "layout");
   revalidatePath("/diet");
   return { ok: true };
 }

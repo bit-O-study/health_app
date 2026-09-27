@@ -48,7 +48,7 @@ export function TeachingReels({
   if (posts.length === 0) {
     return (
       <div className="flex flex-col items-center gap-3 px-6 py-24 text-center">
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-fuchsia-50 text-fuchsia-500 dark:bg-fuchsia-950/40">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-soft text-brand">
           <Search size={28} />
         </div>
         <p className="text-sm font-bold text-zinc-500 dark:text-zinc-300">
@@ -226,10 +226,10 @@ function ReelSlide({
             {characterEmoji(post.authorName)}
           </span>
           <span className="truncate text-sm font-bold">{post.authorName}</span>
-          <span className="text-[11px] text-white/70">{when}</span>
+          <span className="text-xs text-white/70">{when}</span>
         </div>
         {post.exerciseTag ? (
-          <span className="mt-2 inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-[12px] font-bold backdrop-blur">
+          <span className="mt-2 inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-bold backdrop-blur">
             #{post.exerciseTag}
           </span>
         ) : null}
@@ -380,7 +380,7 @@ function CommentSheet({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
-          <span className="text-sm font-extrabold">
+          <span className="text-sm font-bold">
             댓글 {list?.length ?? 0}
           </span>
           <button
@@ -462,14 +462,14 @@ function CommentSheet({
               if (e.key === "Enter" && !e.nativeEvent.isComposing) submit();
             }}
             placeholder="댓글 달기…"
-            className="h-10 flex-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="h-10 flex-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
           />
           <button
             type="button"
             onClick={submit}
             disabled={pending || !text.trim()}
             aria-label="댓글 등록"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 text-white disabled:opacity-40"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white disabled:opacity-40 dark:text-zinc-950"
           >
             {pending ? (
               <Loader2 size={16} className="animate-spin" />

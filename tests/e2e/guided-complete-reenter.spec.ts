@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 재현/회귀: 운동 모드(가이드)에서 운동을 '완료'한 뒤 다시 운동 시작하면, 완료한
@@ -15,7 +15,7 @@ test("가이드 전체 완료 후 운동 화면 유지: " + scenario, async ({ p
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const pageErrors: string[] = [];
   page.on("pageerror", (error) => pageErrors.push(error.message));
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines
@@ -53,10 +53,12 @@ test("가이드 전체 완료 후 운동 화면 유지: " + scenario, async ({ p
     timeout: 8000,
   });
   if (scenario === "normal") {
+    // 펙덱은 **작은 핀 스택**이라 증량 단위가 2.5kg 다(큰 기구·바벨 큰 종목은 5kg).
+    // 예전엔 기구만 보고 머신을 전부 5kg 으로 올렸는데 실제 헬스장과 맞지 않았다.
     const weight = page.getByRole("slider", { name: "무게", exact: true });
     await expect(weight).toHaveAttribute("aria-valuenow", "20");
     await page.getByRole("button", { name: "무게 늘리기" }).click();
-    await expect(weight).toHaveAttribute("aria-valuenow", "25");
+    await expect(weight).toHaveAttribute("aria-valuenow", "22.5");
     await page.getByRole("button", { name: "무게 줄이기" }).click();
     await expect(weight).toHaveAttribute("aria-valuenow", "20");
   }

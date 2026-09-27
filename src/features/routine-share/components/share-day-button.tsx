@@ -31,7 +31,7 @@ export function ShareDayButton({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full border border-emerald-300 bg-emerald-50 px-2.5 text-[11px] font-bold text-emerald-700 transition hover:bg-emerald-100 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 dark:hover:bg-emerald-900/30"
+        className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full border border-brand/40 bg-brand-soft px-2.5 text-xs font-bold text-brand transition hover:bg-brand-soft"
       >
         <Share2 aria-hidden="true" size={12} />
         {label}
@@ -100,7 +100,7 @@ function ShareDaySheet({
       >
         {done ? (
           <div className="flex flex-col items-center gap-3 py-4 text-center">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-soft text-brand">
               <Check aria-hidden="true" size={24} />
             </span>
             <p className="text-base font-bold text-zinc-950 dark:text-zinc-50">
@@ -112,7 +112,7 @@ function ShareDaySheet({
             <button
               type="button"
               onClick={onClose}
-              className="mt-1 h-11 w-full rounded-xl bg-emerald-600 text-sm font-bold text-white"
+              className="mt-1 h-11 w-full rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950"
             >
               확인
             </button>
@@ -165,7 +165,7 @@ function ShareDaySheet({
                 checked={includeWeight}
                 onChange={(e) => setIncludeWeight(e.target.checked)}
                 disabled={pending}
-                className="mt-0.5 h-4 w-4 shrink-0 accent-emerald-600"
+                className="mt-0.5 h-4 w-4 shrink-0 accent-brand"
               />
               <span>
                 <strong>내 무게도 같이 올리기</strong>
@@ -230,7 +230,7 @@ function ShareDaySheet({
                 type="button"
                 onClick={submit}
                 disabled={pending || titleMissing}
-                className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-emerald-600 text-sm font-bold text-white disabled:opacity-60"
+                className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 disabled:opacity-60"
               >
                 {pending ? (
                   <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -265,7 +265,7 @@ function Seg({
       onClick={onClick}
       className={`h-9 rounded-full border px-3 text-xs font-bold transition disabled:opacity-40 ${
         active
-          ? "border-emerald-600 bg-emerald-600 text-white"
+          ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
           : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
       }`}
     >

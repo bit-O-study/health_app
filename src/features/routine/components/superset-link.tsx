@@ -29,7 +29,7 @@ export function SupersetLink({
         disabled={disabled}
         aria-pressed={linked}
         aria-label={linked ? "슈퍼세트 풀기" : "다음 운동과 슈퍼세트로 묶기"}
-        className={`inline-flex h-6 items-center gap-1 rounded-full border px-2 text-[10px] font-bold transition disabled:opacity-40 ${
+        className={`inline-flex h-6 items-center gap-1 rounded-full border px-2 text-xs font-bold transition disabled:opacity-40 ${
           linked
             ? "border-violet-300 bg-violet-50 text-violet-700 hover:bg-violet-100 dark:border-violet-800 dark:bg-violet-950/40 dark:text-violet-300"
             : "border-dashed border-zinc-300 bg-transparent text-zinc-400 hover:border-violet-400 hover:text-violet-600 dark:border-zinc-700 dark:text-zinc-500"
@@ -56,7 +56,7 @@ export function SupersetBadge({ label }: { label: string }) {
   return (
     <span
       data-testid="superset-badge"
-      className="inline-flex h-5 shrink-0 items-center gap-0.5 rounded-md bg-violet-100 px-1.5 text-[10px] font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
+      className="inline-flex h-5 shrink-0 items-center gap-0.5 rounded-md bg-violet-100 px-1.5 text-xs font-bold text-violet-700 dark:bg-violet-950/50 dark:text-violet-300"
     >
       <Link2 aria-hidden="true" size={9} />
       {label}

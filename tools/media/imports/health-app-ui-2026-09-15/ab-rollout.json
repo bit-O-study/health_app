@@ -1,0 +1,11 @@
+{
+  "prompt": "Kneeling ab wheel rollout sixteen incremental poses with fixed knees single wheel and neutral trunk",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.strengthlog.com/kneeling-ab-wheel-roll-out/"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "ab-rollout",
+  "registeredAt": "2026-09-15T10:45:10.123Z"
+}

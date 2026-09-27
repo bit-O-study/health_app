@@ -14,6 +14,10 @@ import {
 } from "@/features/profile/data";
 import { goalTargetKind, isGoal, type Goal } from "@/features/profile/goal";
 import { socialProfilePatch } from "@/features/auth/social-name";
+import {
+  parseWeightSteps,
+  withWeightStep,
+} from "@/features/routine/weight-steps";
 
 export type SaveProfileResult = { ok: true } | { ok: false; error: string };
 
@@ -210,6 +214,10 @@ export async function setPersonalPrefAction(
   revalidatePath("/routine");
   revalidatePath("/settings");
   revalidatePath("/settings/personal");
+  // 무게·횟수 고정은 계획 편집 화면의 입력칸 유무를 바꾼다 — 계획 화면에서 켠 직후
+  // 그대로 이어서 편집할 수 있어야 하므로 같이 무효화한다(안 하면 캐시된 옛 화면이 남는다).
+  revalidatePath("/plan");
+  revalidatePath("/plan/today");
   return { ok: true };
 }
 
@@ -292,5 +300,49 @@ export async function logBodyAction(
 
   revalidatePath("/routine");
   revalidatePath("/settings/profile");
+  return { ok: true };
+}
+
+/**
+ * 종목별 증량 단위 저장 — `null` 이면 그 종목 설정을 지우고 기본 규칙으로 되돌린다.
+ *
+ * 기본 단위는 기구·종목 크기로 정하지만 헬스장마다 스택이 다르다(1kg 씩 올라가는
+ * 머신, 1.25kg 원판이 없는 헬스장 등). 값은 **읽어서 합친 뒤 통째로 쓴다** —
+ * jsonb 부분 갱신을 쓰면 잘못된 키가 그대로 남을 수 있어 여기서 한 번 거른다.
+ */
+export async function setWeightStepAction(
+  exerciseId: string,
+  stepKg: number | null,
+): Promise<SaveProfileResult> {
+  const supabase = await createSupabaseServerClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+
+  const { data, error: readErr } = await supabase
+    .from("profiles")
+    .select("weight_steps")
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (readErr) return { ok: false, error: readErr.message };
+
+  const next = withWeightStep(
+    parseWeightSteps(data?.weight_steps),
+    exerciseId,
+    stepKg,
+  );
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ weight_steps: next })
+    .eq("user_id", user.id);
+  if (error) return { ok: false, error: error.message };
+
+  // 증량 단위는 운동모드·계획·추천이 모두 쓴다.
+  revalidatePath("/routine");
+  revalidatePath("/plan");
+  revalidatePath("/plan/today");
+  revalidatePath("/settings/personal");
   return { ok: true };
 }

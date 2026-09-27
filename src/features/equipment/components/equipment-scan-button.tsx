@@ -20,7 +20,7 @@ export function EquipmentScanButton() {
         onClick={() => setOpen(true)}
         aria-label="기구 사진으로 운동 찾기"
         title="기구 사진으로 운동 찾기"
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 bg-white text-zinc-600 transition hover:border-emerald-400 hover:text-emerald-600 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:text-emerald-400"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 bg-white text-zinc-600 transition hover:border-brand/40 hover:text-brand dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
       >
         <ScanSearch aria-hidden="true" size={18} />
       </button>

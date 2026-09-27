@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 루틴을 바꿔 행의 day_index 가 현재 루틴과 어긋나면(드리프트), 다음 진입 시
@@ -10,7 +10,7 @@ test("day_index 드리프트는 다음 진입 시 현재 루틴 일차로 재정
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   // 시드(아무 루틴)

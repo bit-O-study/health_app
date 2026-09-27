@@ -43,7 +43,7 @@ export async function overloadAdviceAction(
       equipment: equipmentById?.[id] ?? null,
       targetReps: targetRepsById?.[id] ?? null,
     }));
-    return buildAdviceMap(records, targets, profile.experience);
+    return buildAdviceMap(records, targets, profile.experience, profile.weightSteps);
   } catch {
     return {};
   }

@@ -42,7 +42,7 @@ export function RunningMobileGate({
     return (
       <div className="flex h-[100dvh] w-full flex-col items-center justify-center gap-4 bg-zinc-950 px-6 text-center text-white">
         <span className="text-5xl">📱</span>
-        <h1 className="text-2xl font-extrabold">런닝 모드는 휴대폰 전용입니다</h1>
+        <h1 className="text-2xl font-bold">런닝 모드는 휴대폰 전용입니다</h1>
         <p className="max-w-xs text-sm leading-6 text-zinc-400">
           움직임을 인식해 달리는 게임이라, 휴대폰에서
           <br />
@@ -71,7 +71,7 @@ export function RunningMobileGate({
         나가기
       </button>
       <div>
-        <h1 className="text-3xl font-extrabold">런닝 모드</h1>
+        <h1 className="text-3xl font-bold">런닝 모드</h1>
         <p className="mt-2 text-sm text-zinc-400">원하는 모드를 골라주세요</p>
       </div>
 
@@ -83,7 +83,7 @@ export function RunningMobileGate({
         >
           <span className="text-4xl">🏠</span>
           <span className="min-w-0">
-            <span className="block text-lg font-extrabold">실내 런닝</span>
+            <span className="block text-lg font-bold">실내 런닝</span>
             <span className="block text-xs text-zinc-400">
               카메라로 제자리 달리기를 인식해 캐릭터가 달려요
             </span>
@@ -97,7 +97,7 @@ export function RunningMobileGate({
         >
           <span className="text-4xl">📍</span>
           <span className="min-w-0">
-            <span className="block text-lg font-extrabold">야외 런닝</span>
+            <span className="block text-lg font-bold">야외 런닝</span>
             <span className="block text-xs text-zinc-400">
               GPS로 거리·시속·페이스를 기록하며 캐릭터가 함께 달려요
             </span>
@@ -105,7 +105,7 @@ export function RunningMobileGate({
         </button>
       </div>
 
-      <p className="max-w-xs text-[11px] leading-5 text-zinc-500">
+      <p className="max-w-xs text-xs leading-5 text-zinc-500">
         실내는 전면 카메라(얼굴 인식), 야외는 위치(GPS)를 사용합니다. 끝나면 오늘
         마무리 운동에 자동 기록돼요.
       </p>

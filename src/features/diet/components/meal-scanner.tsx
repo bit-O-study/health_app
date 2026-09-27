@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useRef, useState, useTransition } from "react";
 import { Camera, Check, Loader2, Sparkles } from "lucide-react";
 
 import { resizeImageForAI } from "@/lib/image/resize-for-ai";
-import { isNativeApp } from "@/lib/platform/is-native-app";
+import { useNativeApp } from "@/lib/platform/use-native-app";
 import { scanMealPhotoAction } from "@/features/diet/meal-scan-actions";
 import { uploadFoodPhoto } from "@/features/diet/upload-photo";
 import type { ScannedFood } from "@/features/diet/meal-scan-parse";
@@ -35,8 +35,7 @@ export function MealScanForm({
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   // 앱(APK)에선 사진앱/카메라를 열고, 웹에선 파일 업로드만.
-  const [isApp, setIsApp] = useState(false);
-  useEffect(() => setIsApp(isNativeApp()), []);
+  const isApp = useNativeApp();
 
   async function onPick(e: React.ChangeEvent<HTMLInputElement>) {
     const picked = e.target.files?.[0];
@@ -153,14 +152,14 @@ export function MealScanForm({
                   aria-pressed={!!checked[i]}
                   className={`flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition ${
                     checked[i]
-                      ? "border-emerald-400 bg-emerald-50 dark:border-emerald-600 dark:bg-emerald-950/30"
+                      ? "border-brand/40 bg-brand-soft"
                       : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
                   }`}
                 >
                   <span
                     className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
                       checked[i]
-                        ? "border-emerald-500 bg-emerald-500 text-white"
+                        ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                         : "border-zinc-300 dark:border-zinc-600"
                     }`}
                   >
@@ -175,7 +174,7 @@ export function MealScanForm({
                         </span>
                       ) : null}
                     </p>
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
                       {Math.round(it.kcal)}kcal
                       {it.protein != null ? ` · 단 ${it.protein}` : ""}
                       {it.carbs != null ? ` · 탄 ${it.carbs}` : ""}
@@ -190,11 +189,11 @@ export function MealScanForm({
             type="button"
             disabled={!anyChecked}
             onClick={addSelected}
-            className="h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
+            className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             선택한 음식 담기
           </button>
-          <p className="text-center text-[11px] text-zinc-400">
+          <p className="text-center text-xs text-zinc-400">
             AI 추정값이라 정확하지 않을 수 있어요. 담은 뒤 수정할 수 있습니다.
           </p>
         </div>

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 건강 연동 설정(로드맵 6.1).
@@ -13,7 +13,7 @@ import { hasDb } from "./helpers/db";
 
 test("설정에서 건강 연동으로 들어가 항목과 이유를 볼 수 있다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings", { waitUntil: "networkidle" });
   await page.getByRole("link", { name: /건강 연동/ }).click();
@@ -32,7 +32,7 @@ test("설정에서 건강 연동으로 들어가 항목과 이유를 볼 수 있
 
 test("수면 항목은 구현 상태이며 웹에서는 연결 버튼이 잠긴다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/health", { waitUntil: "networkidle" });
   const sleep = page.getByTestId("health-feature-sleep");
@@ -43,7 +43,7 @@ test("수면 항목은 구현 상태이며 웹에서는 연결 버튼이 잠긴�
 
 test("웹에서는 앱에서만 된다고 알리고 연결 버튼이 잠긴다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/health", { waitUntil: "networkidle" });
   await expect(page.getByTestId("health-web-notice")).toBeVisible({

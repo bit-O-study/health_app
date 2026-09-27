@@ -38,12 +38,12 @@ export default async function AdminBillingPage() {
         ].map((s) => (
           <div
             key={s.label}
-            className="rounded-2xl border border-zinc-200 bg-white p-3 text-center dark:border-zinc-700 dark:bg-zinc-800"
+            className="app-card p-3 text-center"
           >
             <p className="text-lg font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
               {s.value}
             </p>
-            <p className="mt-0.5 text-[11px] font-bold text-zinc-500">{s.label}</p>
+            <p className="mt-0.5 text-xs font-bold text-zinc-500">{s.label}</p>
           </div>
         ))}
       </div>

@@ -7,5 +7,6 @@
   "panels": 16,
   "cycle": "reverse",
   "id": "pallof-press-2",
-  "registeredAt": "2026-09-11T15:39:21.627Z"
+  "registeredAt": "2026-09-11T15:39:21.627Z",
+  "cutout": false
 }

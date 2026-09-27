@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 
 test("경량 모드 설정이 유지되고 근육 선택 3D를 기능 폴백으로 바꾼다", async ({
   page,
 }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/settings/personal", { waitUntil: "networkidle" });
 
   const lightMode = page.getByRole("switch", { name: "경량 모드" });

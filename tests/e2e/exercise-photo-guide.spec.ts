@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 운동하기(가이드)에서 본운동 차례가 되면, 등록 영상이 없어도 free-exercise-db 실사 사진
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 하체, 본운동은 스쿼트 1개만(가이드에서 워밍업 뒤 바로 스쿼트).
   await dbQuery(
@@ -32,9 +32,8 @@ test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async (
   );
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1200);
+  await expect(page.getByTestId("guided-scroll")).toBeVisible();
 
   // 가이드는 워밍업부터 — 본운동(스쿼트)에 닿을 때까지 '넘기기'.
   const squatImg = page.locator('img[src*="Barbell_Squat"]');
@@ -73,7 +72,7 @@ test("가이드 본운동에 실사 시연 사진(스쿼트)이 뜬다", async (
 
 test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤벨 사진이 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 가슴, 본운동은 인클라인 프레스 1개(덤벨). (bench-press 는 관리자 영상이 있어
   // 사진이 아니라 영상이 뜨므로, 영상 없는 incline-press 로 기구별 사진 라우팅을 가드.)
@@ -96,9 +95,8 @@ test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤
   );
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1200);
+  await expect(page.getByTestId("guided-scroll")).toBeVisible();
 
   // 인클라인 프레스(덤벨)에 닿을 때까지 넘기기.
   const dbIncline = page.locator('img[src*="Hammer_Grip_Incline_DB_Bench_Press"]');
@@ -117,7 +115,7 @@ test("기구별로 다른 시연 사진 — 덤벨 인클라인 프레스는 덤
 
 test("워밍업도 실사 시연 사진 + 설정값(세트·횟수) 칩이 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 하체. 워밍업으로 보디웨이트 스쿼트(bw-squat) 1개 + 본운동 스쿼트.
   // 가이드는 워밍업부터 → 첫 화면에 bw-squat 실사 사진(Bodyweight_Squat)이 떠야 한다.
@@ -152,9 +150,8 @@ test("워밍업도 실사 시연 사진 + 설정값(세트·횟수) 칩이 뜬�
   );
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1200);
+  await expect(page.getByTestId("guided-scroll")).toBeVisible();
 
   // 첫 화면이 워밍업(보디웨이트 스쿼트) — 실사 사진 + 방법 문구 대신 설정값 칩.
   await expect(page.locator('img[src*="Bodyweight_Squat"]').first()).toBeVisible({
@@ -169,7 +166,7 @@ test("워밍업도 실사 시연 사진 + 설정값(세트·횟수) 칩이 뜬�
 
 test("워밍업 런닝은 시간·속도·경사 설정값이 모두 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines
@@ -202,9 +199,8 @@ test("워밍업 런닝은 시간·속도·경사 설정값이 모두 뜬다", as
   );
 
   await page.goto("/routine", { waitUntil: "networkidle" });
-  await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
-  await page.waitForTimeout(1200);
+  await expect(page.getByTestId("guided-scroll")).toBeVisible();
 
   const settings = page.getByTestId("cond-settings");
   await expect(settings).toBeVisible({ timeout: 8000 });

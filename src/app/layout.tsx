@@ -3,6 +3,9 @@ import { Suspense } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+// 한글 본문 폰트. 글자 범위별로 잘린 woff2 라 화면에 나온 글자 조각만 받는다.
+// (예전엔 globals.css 에 이름만 적고 불러오는 코드가 없어 기기 기본 폰트로 나왔다.)
+import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "@/styles/globals.css";
 
 import { PWARegister } from "@/app/_pwa-register";
@@ -11,6 +14,7 @@ import { AppEventReporter } from "@/features/observability/components/app-event-
 import { BottomNav } from "@/components/bottom-nav";
 import { OfflineBanner } from "@/components/offline-banner";
 import { getCurrentUser } from "@/lib/supabase/server";
+import { hasTrainerPass } from "@/features/trainer/data";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { getGroupMode } from "@/features/groups/group-mode.server";
 import { NotificationCenterProvider } from "@/features/notifications/notification-center";
@@ -70,7 +74,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#059669",
+  themeColor: "#087f5b",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -113,17 +117,16 @@ export default async function RootLayout({
           {isLoggedIn ? <AppEventReporter /> : null}
         </NotificationCenterProvider>
         <PWARegister />
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL === "1" ? <Analytics /> : null}
+        {process.env.VERCEL === "1" ? <SpeedInsights /> : null}
       </body>
     </html>
   );
 }
 
 async function ConfiguredBottomNav() {
-  const [showCoach, groupMode] = await Promise.all([
-    isDebugFeatureEnabled("helssu-coach"),
-    getGroupMode(),
+  const [user, groupMode, coach, pet, trainer] = await Promise.all([
+    getCurrentUser(), getGroupMode(), isDebugFeatureEnabled("helssu-coach"), isDebugFeatureEnabled("pet"), hasTrainerPass(),
   ]);
-  return <BottomNav showCoach={showCoach} groupTheme={groupMode === "gym"} />;
+  return <BottomNav userId={user?.id} groupTheme={groupMode === "gym"} enabledFlags={[...(coach ? ["helssu-coach"] : []), ...(pet ? ["pet"] : []), ...(trainer ? ["trainer-pass"] : [])]} />;
 }

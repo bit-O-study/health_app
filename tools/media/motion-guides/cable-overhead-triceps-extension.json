@@ -7,5 +7,6 @@
   "panels": 16,
   "cycle": "reverse",
   "id": "cable-overhead-triceps-extension",
-  "registeredAt": "2026-09-13T01:41:34.626Z"
+  "registeredAt": "2026-09-13T01:41:34.626Z",
+  "cutout": false
 }

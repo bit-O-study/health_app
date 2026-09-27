@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount, signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 구독(구글 플레이 인앱결제) — 로드맵 7.1.
@@ -30,7 +30,7 @@ async function seedSubscription(
 
 test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings", { waitUntil: "networkidle" });
   await page.getByRole("link", { name: /구독/ }).first().click();
@@ -40,7 +40,7 @@ test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", asyn
 
   // 낼 만한지 판단하려면 숫자가 보여야 한다.
   await expect(page.getByText("한 달에 쓸 수 있는 횟수")).toBeVisible();
-  await expect(page.getByText("식단 사진 분석")).toBeVisible();
+  await expect(page.getByRole("cell", { name: "식단 사진 분석", exact: true })).toBeVisible();
   await expect(page.getByText("100", { exact: true }).first()).toBeVisible();
 
   // 아직 아무것도 안 샀으면 무료.
@@ -53,7 +53,7 @@ test("결제 설정이 안 됐으면 오류가 아니라 '준비 중'으로 안�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/subscription", { waitUntil: "networkidle" });
   // 설정이 안 된 걸 오류로 보여주면 사용자가 자기 잘못인 줄 안다.

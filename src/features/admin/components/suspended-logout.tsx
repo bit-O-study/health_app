@@ -24,7 +24,7 @@ export function SuspendedLogout() {
       type="button"
       onClick={logout}
       disabled={pending}
-      className="inline-flex h-11 items-center gap-2 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 disabled:opacity-60"
+      className="app-press inline-flex h-11 w-full items-center justify-center gap-2 rounded-full bg-zinc-100 px-5 text-base font-semibold text-zinc-800 transition disabled:opacity-60 dark:bg-white/[0.08] dark:text-zinc-100"
     >
       <LogOut aria-hidden="true" size={16} />
       로그아웃

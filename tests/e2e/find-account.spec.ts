@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 로그인 화면의 아이디 찾기 / 비밀번호 찾기.
@@ -12,7 +12,7 @@ test.skip(!hasDb, "needs .env.test.local DB creds");
 const uidByEmail = `(select id from auth.users where lower(email) = lower($1))`;
 
 test("아이디 찾기: 이름 + 휴대폰 → 가입 이메일 표시", async ({ page }) => {
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 더미 이름/휴대폰(검증유저/010-1234-5678)은 여러 e2e 계정이 공유하므로
   // 이 계정만의 고유 이름·휴대폰으로 갱신해 (이름,휴대폰) 쌍을 유일하게 만든다.
@@ -51,7 +51,7 @@ test("비밀번호 찾기: 이메일 인증번호 → 새 비번 설정 → 새 
   page,
   browser,
 }) => {
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   // 가입 시 휴대폰은 +821012345678(010-1234-5678). 이메일은 고유하므로 매칭 충돌 없음.
   const NEWPW = "resetpw99887";
 

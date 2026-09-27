@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // #11: 커뮤니티에서 '그룹' 게시판(탭)을 없앤다. 오운완/운동/내 글만. 그룹원 공개 글은
@@ -10,7 +10,7 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
 test("커뮤니티에 그룹 탭이 없다 — 오운완/운동/내 글만(#11)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/community", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
@@ -24,7 +24,7 @@ test("커뮤니티에 그룹 탭이 없다 — 오운완/운동/내 글만(#11)"
 
 test("그룹원 공개 글은 오운완에 그룹명 태그로 뜬다(#11)", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 그룹 만들고 가입 + 그룹전용 오운완 글 하나 삽입.
   await dbQuery(

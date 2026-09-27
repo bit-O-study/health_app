@@ -639,7 +639,7 @@ export function MuscleMannequin3D({
         />
       </Canvas>
 
-      <p className="pointer-events-none absolute left-3 top-3 rounded-md bg-white/70 px-2 py-1 text-[11px] font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
+      <p className="pointer-events-none absolute left-3 top-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
         손가락으로 돌려 앞·뒤 보기 · 핀치로 확대/축소 · 근육 탭
       </p>
     </div>
@@ -765,7 +765,7 @@ export function MuscleBalanceMannequin3D({
         />
       </Canvas>
 
-      <p className="pointer-events-none absolute left-3 top-3 rounded-md bg-white/70 px-2 py-1 text-[11px] font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
+      <p className="pointer-events-none absolute left-3 top-3 rounded-md bg-white/70 px-2 py-1 text-xs font-medium text-zinc-600 backdrop-blur dark:bg-zinc-900/70 dark:text-zinc-300">
         손가락으로 돌려 앞·뒤 · 핀치로 확대/축소
       </p>
     </div>

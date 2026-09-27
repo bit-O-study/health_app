@@ -28,3 +28,26 @@ export function pickSetsDone(
   }
   return 0;
 }
+
+/**
+ * 편집 화면(오늘 할 운동 연필·오늘만 운동 변경)에서 고를 수 있는 총 세트 수의 하한.
+ * 운동모드와 같은 규칙 — 이미 완료한 세트 아래로는 못 줄인다(세트 완료를 취소해야 줄일 수 있음).
+ * 운동 자체를 '완료' 처리했으면(목록에서 밀어서 완료 포함) 지금 세트 수 아래로 못 줄인다
+ * — 완료를 취소하기 전까지. 항상 최소 1.
+ */
+export function minEditableSets(
+  setsDone: number,
+  exerciseDone: boolean,
+  currentSets: number,
+): number {
+  const done = Math.floor(Number.isFinite(setsDone) ? setsDone : 0);
+  const current = Math.floor(Number.isFinite(currentSets) ? currentSets : 0);
+  return Math.max(1, exerciseDone ? Math.max(current, done) : done);
+}
+
+/** 하한 아래로 줄이려 할 때 보여 줄 안내 문구. */
+export function setsBelowDoneMessage(minSets: number, exerciseDone: boolean): string {
+  return exerciseDone
+    ? `완료한 운동이라 ${minSets}세트 아래로 줄일 수 없어요. 완료를 취소한 뒤 줄여 주세요.`
+    : `이미 ${minSets}세트를 완료했어요. 세트 완료를 취소해야 줄일 수 있어요.`;
+}

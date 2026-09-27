@@ -1,13 +1,13 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 관리자 콘솔의 "테스트" 탭 — 숨은 런닝 모드 진입점.
 
 test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `insert into public.admins(email) values($1) on conflict (email) do nothing`,
     [email.toLowerCase()],
@@ -41,7 +41,7 @@ test("관리자 세션에서도 /jog 가 /admin 으로 리다이렉트되지 않
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `insert into public.admins(email) values($1) on conflict (email) do nothing`,
     [email.toLowerCase()],
@@ -56,7 +56,7 @@ test("관리자 세션에서도 런닝모드 3D 모델(.glb)이 /admin 으로 �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   await dbQuery(
     `insert into public.admins(email) values($1) on conflict (email) do nothing`,
     [email.toLowerCase()],
@@ -75,7 +75,7 @@ test("관리자가 아니면 /admin/test 의 런닝 모드 진입점이 보이�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page); // 일반 회원(관리자 아님)
+  await createOnboardedAccount(page); // 일반 회원(관리자 아님)
   await page.goto("/admin/test", { waitUntil: "networkidle" });
 
   // 관리자 테스트 카드(런닝 모드/힐링 러닝)는 노출되지 않아야 한다.

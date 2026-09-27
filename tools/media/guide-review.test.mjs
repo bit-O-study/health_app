@@ -1,26 +1,35 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { selectReviewedGuides } from './guide-review.mjs';
+import { selectReviewedDarkGuides, selectReviewedGuides } from './guide-review.mjs';
 
 const artifact = { id: 'lat-pulldown', sourceSha256: 'a'.repeat(64), videoSha256: 'b'.repeat(64) };
 const review = {
-  ...artifact, status: 'passed', equipmentIds: ['machine'],
-  sources: ['https://www.acefitness.org/resources/everyone/exercise-library/158/seated-lat-pulldown/'],
-  checks: { exercise: 'Lat pulldown', equipment: 'High cable', setup: 'Thigh restraint',
-    hands: 'Overhand closed grip', feet: 'Planted', movement: 'Bar to chest in front' },
+  id: artifact.id, status: 'passed', equipmentIds: ['lat-pulldown'],
+  sourceSha256: artifact.sourceSha256, videoSha256: artifact.videoSha256,
+  sources: ['https://example.com/reference'],
+  checks: { exercise: 'ok', equipment: 'ok', setup: 'ok', hands: 'ok', feet: 'ok', movement: 'ok' },
 };
-test('unreviewed, rejected, incomplete, and unreferenced videos cannot be linked', () => {
-  for (const reviews of [[], [{ ...review, status: 'rejected' }],
-    [{ ...review, checks: { ...review.checks, movement: '' } }],
-    [{ ...review, sources: [] }], [{ ...review, equipmentIds: [] }]]) {
-    assert.deepEqual(selectReviewedGuides(reviews, [artifact]), []);
-  }
-});
-test('a correct review links only its own exercise and exact source/video version', () => {
+
+test('only an exact passed light artifact is publishable', () => {
   assert.deepEqual(selectReviewedGuides([review], [artifact]), ['lat-pulldown']);
-  for (const changed of [{ ...artifact, id: 'wide-grip-lat-pulldown' },
-    { ...artifact, sourceSha256: 'c'.repeat(64) },
-    { ...artifact, videoSha256: 'c'.repeat(64) }]) {
-    assert.deepEqual(selectReviewedGuides([review], [changed]), []);
-  }
+  assert.deepEqual(selectReviewedGuides([{ ...review, status: 'rejected' }], [artifact]), []);
+  assert.deepEqual(selectReviewedGuides([review], [{ ...artifact, id: 'wide-grip-lat-pulldown' }]), []);
+  assert.deepEqual(selectReviewedGuides([review], [{ ...artifact, sourceSha256: 'c'.repeat(64) }]), []);
+  assert.deepEqual(selectReviewedGuides([review], [{ ...artifact, videoSha256: 'c'.repeat(64) }]), []);
+});
+
+test('all review evidence is required', () => {
+  assert.deepEqual(selectReviewedGuides([{ ...review, sources: [] }], [artifact]), []);
+  assert.deepEqual(selectReviewedGuides([{ ...review, equipmentIds: [] }], [artifact]), []);
+  assert.deepEqual(selectReviewedGuides([{ ...review, checks: { ...review.checks, hands: '' } }], [artifact]), []);
+});
+
+test('cutout generation keeps light published and gates dark by its exact review', () => {
+  const dark = { ...artifact, darkVideoSha256: 'd'.repeat(64) };
+  const darkReview = { ...review, darkVideoSha256: dark.darkVideoSha256 };
+  assert.deepEqual(selectReviewedGuides([review], [dark]), ['lat-pulldown']);
+  assert.deepEqual(selectReviewedDarkGuides([review], [dark]), []);
+  assert.deepEqual(selectReviewedDarkGuides([darkReview], [dark]), ['lat-pulldown']);
+  assert.deepEqual(selectReviewedDarkGuides([darkReview], [artifact]), []);
+  assert.deepEqual(selectReviewedDarkGuides([darkReview], [{ ...dark, darkVideoSha256: 'e'.repeat(64) }]), []);
 });

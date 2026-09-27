@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createWorkoutSessionId } from "./session-id";
 import dynamic from "next/dynamic";
 import { CheckCircle2, Pause, Play, Plus, Save, Timer } from "lucide-react";
 
@@ -21,9 +22,13 @@ import {
   formatElapsed,
   freezeOnColdStart,
   readTimer,
+  readFinished,
   reconcileResume,
   seoulTodayYmd,
+  setSavedMark,
+  startSessionState,
   takeUnsavedDelta,
+  writeFinished,
   writeTimer,
   type TimerState,
 } from "@/features/workout-timer/timer-store";
@@ -128,6 +133,7 @@ export function WorkoutSessionTimer({
   showGuide = true,
   lockWeightReps = false,
   postureEnabled = false,
+  weightSteps = {},
 }: {
   /** 워밍업·본운동·마무리 '모든' 항목(완료/스킵 포함). 필터는 아래에서. */
   queueItems?: GuidedItem[];
@@ -141,6 +147,8 @@ export function WorkoutSessionTimer({
   lockWeightReps?: boolean;
   /** 운동 모드 안 'AI 자세 분석' 노출(디버그 계정). */
   postureEnabled?: boolean;
+  /** 종목별 증량 단위(kg). 운동모드의 ± 폭과 '증량 단위' 바꾸기에 쓴다. */
+  weightSteps?: Record<string, number>;
 }) {
   const router = useRouter();
   const { showPrompt, clearPrompt } = useNotificationCenter();
@@ -274,7 +282,7 @@ export function WorkoutSessionTimer({
         clearSavedMark();
         // 새 세션 시작 (계속 운동 중이라고 가정 — 일시정지 상태였으면 유지)
         const fresh: TimerState = {
-          sessionId: crypto.randomUUID(),
+          sessionId: createWorkoutSessionId(),
           startedAt: Date.now(),
           pausedAt: restored.pausedAt !== null ? Date.now() : null,
           accumulated: 0,
@@ -308,7 +316,7 @@ export function WorkoutSessionTimer({
           if (d) void saveDuration(d.forDate, d.deltaSec);
           clearSavedMark();
           const fresh: TimerState = {
-            sessionId: crypto.randomUUID(),
+            sessionId: createWorkoutSessionId(),
             startedAt: Date.now(),
             pausedAt: null,
             accumulated: 0,
@@ -349,15 +357,17 @@ export function WorkoutSessionTimer({
     setSessionFinished(false);
     endingRef.current = false;
     pendingDurationRef.current = null;
-    const s: TimerState = {
-      sessionId: crypto.randomUUID(),
-      startedAt: Date.now(),
-      pausedAt: null,
-      accumulated: 0,
-      forDate: seoulTodayYmd(),
-      lastSeenAt: Date.now(),
-    };
-    clearSavedMark(); // 새 세션은 0 부터 누적
+    // 같은 날 전체 완료 후 완료를 취소하고 다시 시작하면, 끝낸 시간에서 이어 간다
+    // (예전엔 00:00 부터 다시 흘러 "운동시간이 초기화"된 것처럼 보였다).
+    // 이미 DB 에 올린 초는 저장 마크로 맞춰 두어 두 번 더하지 않는다.
+    const { state: s, savedMark } = startSessionState(
+      readFinished(),
+      seoulTodayYmd(),
+      Date.now(),
+      createWorkoutSessionId(),
+    );
+    clearSavedMark();
+    if (savedMark) setSavedMark(savedMark);
     writeTimer(s);
     setState(s);
     lastActivityRef.current = Date.now();
@@ -388,6 +398,7 @@ export function WorkoutSessionTimer({
       pausedAt: now,
       accumulated: state.accumulated + (now - state.startedAt),
       forDate: state.forDate,
+      baseSec: state.baseSec,
     };
     writeTimer(s);
     setState(s);
@@ -401,6 +412,7 @@ export function WorkoutSessionTimer({
       accumulated: state.accumulated,
       forDate: state.forDate,
       lastSeenAt: Date.now(),
+      baseSec: state.baseSec,
     };
     writeTimer(s);
     setState(s);
@@ -429,7 +441,9 @@ export function WorkoutSessionTimer({
     if (!s) return true;
     if (endingRef.current) return false;
     endingRef.current = true;
-    const durationSec = Math.floor(elapsedMs(s) / 1_000);
+    const totalSec = Math.floor(elapsedMs(s) / 1_000);
+    // Health Connect 에는 이번 세션 길이만 — 같은 날 이어받은 초는 이미 앞 세션으로 기록됐다.
+    const durationSec = Math.max(0, totalSec - (s.baseSec ?? 0));
     const endedAtMs = Date.now();
     // 운동 완료마다 이미 누적했을 수 있으니 '아직 안 올린 만큼'만 더한다(이중 가산 방지).
     const d = pendingDurationRef.current ?? takeUnsavedDelta(s);
@@ -443,6 +457,8 @@ export function WorkoutSessionTimer({
     }
     pendingDurationRef.current = null;
     clearSavedMark();
+    // 같은 날 다시 시작하면 여기서 이어 가도록 그날 누적 초를 남긴다.
+    writeFinished({ forDate: s.forDate, totalSec });
     writeTimer(null);
     stateRef.current = null;
     setState(null);
@@ -603,7 +619,7 @@ export function WorkoutSessionTimer({
     );
     if (allDone) {
       return (
-        <span className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-100 px-4 text-base font-bold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+        <span className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-brand-soft px-4 text-base font-bold text-brand">
           <CheckCircle2 aria-hidden="true" size={16} />
           수고하셨습니다
         </span>
@@ -622,7 +638,7 @@ export function WorkoutSessionTimer({
       <button
         type="button"
         onClick={start}
-        className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-500 active:scale-[0.99]"
+        className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
       >
         <Play aria-hidden="true" size={18} />
         운동 시작
@@ -648,6 +664,7 @@ export function WorkoutSessionTimer({
         showGuide={showGuide}
         lockWeightReps={lockWeightReps}
         postureEnabled={postureEnabled}
+        weightSteps={weightSteps}
       />
     ) : null;
 
@@ -655,15 +672,15 @@ export function WorkoutSessionTimer({
     <>
       {hideVideos ? (
         /* 영상 끄기 모드: 운동모드(가이드)가 없으니 시간 + 중지/시작/저장을 밖에 표시. */
-        <div className="flex w-full items-center gap-2 rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3 shadow-sm dark:border-emerald-800 dark:bg-emerald-950/40">
+        <div className="flex w-full items-center gap-2 rounded-2xl border border-brand/40 bg-brand-soft px-4 py-3 shadow-sm">
           <Timer
             aria-hidden="true"
             size={16}
-            className={`text-emerald-700 dark:text-emerald-300 ${running ? "animate-pulse" : ""}`}
+            className={`text-brand ${running ? "animate-pulse" : ""}`}
           />
           <LiveElapsed
             state={state}
-            className="flex-1 font-mono text-base font-bold tabular-nums text-emerald-900 dark:text-emerald-100"
+            className="flex-1 font-mono text-base font-bold tabular-nums text-brand"
           />
           {running ? (
             <button
@@ -671,7 +688,7 @@ export function WorkoutSessionTimer({
               aria-label="일시정지"
               title="일시정지"
               onClick={pause}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Pause aria-hidden="true" size={14} />
             </button>
@@ -681,7 +698,7 @@ export function WorkoutSessionTimer({
               aria-label="재개"
               title="재개"
               onClick={resume}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Play aria-hidden="true" size={14} />
             </button>
@@ -691,7 +708,7 @@ export function WorkoutSessionTimer({
             aria-label="정지하고 시간 저장"
             title="정지하고 시간 저장"
             onClick={requestSave}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-emerald-700 transition hover:bg-emerald-100 dark:text-emerald-300 dark:hover:bg-emerald-900/40"
+            className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
           >
             <Save aria-hidden="true" size={13} />
           </button>
@@ -705,7 +722,7 @@ export function WorkoutSessionTimer({
             resume();
             setGuided(true);
           }}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-emerald-600 px-4 text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition hover:bg-emerald-500 active:scale-[0.99]"
+          className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
         >
           <Play aria-hidden="true" size={18} />
           다시 운동하기
@@ -715,7 +732,7 @@ export function WorkoutSessionTimer({
       <ConfirmDialog
         open={saveAsk}
         title="운동 정지 + 저장"
-        message={`${formatElapsed(elapsedMs(state))} 만큼 ${state.forDate} 에 누적합니다.`}
+        message={`운동 시간을 캘린더에 저장합니다 (${state.forDate} · ${formatElapsed(elapsedMs(state))}).`}
         confirmLabel="저장"
         tone="default"
         onConfirm={confirmSave}

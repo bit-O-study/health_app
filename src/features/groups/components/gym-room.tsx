@@ -77,7 +77,7 @@ export function GymRoom({
 
       {/* ── 상단: 코인 / 인원 ── */}
       <div className="absolute inset-x-0 top-0 z-30 flex items-center justify-between p-2">
-        <span className="flex items-center gap-1 rounded-full bg-amber-400 px-3 py-1 text-sm font-black text-amber-950 shadow">
+        <span className="flex items-center gap-1 rounded-full bg-amber-400 px-3 py-1 text-sm font-bold text-amber-950 shadow">
           <Coins size={15} /> {pet.coins.toLocaleString()}
         </span>
         <button
@@ -98,7 +98,7 @@ export function GymRoom({
               setName(pet.name);
               setEditing((v) => !v);
             }}
-            className="inline-flex items-center gap-0.5 rounded-full bg-white/90 px-1.5 py-0.5 text-[11px] font-bold text-zinc-700 shadow dark:bg-zinc-800/90 dark:text-zinc-200"
+            className="inline-flex items-center gap-0.5 rounded-full bg-white/90 px-1.5 py-0.5 text-xs font-bold text-zinc-700 shadow dark:bg-zinc-800/90 dark:text-zinc-200"
           >
             <Pencil size={10} /> 이름
           </button>
@@ -126,15 +126,15 @@ export function GymRoom({
         ) : null}
 
         <div className="max-h-[40vh] space-y-0.5 overflow-y-auto rounded-lg bg-white/40 p-1.5 backdrop-blur-sm dark:bg-zinc-900/40">
-          <p className="mb-0.5 text-center text-[11px] font-bold text-zinc-500">
+          <p className="mb-0.5 text-center text-xs font-bold text-zinc-500">
             이번주 소모 kcal
           </p>
           {members.map((m, i) => (
             <div
               key={m.userId}
-              className="flex items-center gap-1 text-[13px] leading-tight"
+              className="flex items-center gap-1 text-sm leading-tight"
             >
-              <span className="w-3.5 shrink-0 text-center font-black text-zinc-500">
+              <span className="w-3.5 shrink-0 text-center font-bold text-zinc-500">
                 {i + 1}
               </span>
               <span
@@ -156,9 +156,9 @@ export function GymRoom({
 
       {/* ── 중앙(살짝 아래): 이름 + 진화 단계 캐릭터 — 하단 카드 바로 위에 접지 ── */}
       <div className="absolute inset-0 z-20 flex flex-col items-center justify-end gap-2 pb-[150px]">
-        <span className="flex items-center gap-1 rounded-full bg-black/45 px-3 py-1 text-base font-extrabold text-white backdrop-blur">
+        <span className="flex items-center gap-1 rounded-full bg-black/45 px-3 py-1 text-base font-bold text-white backdrop-blur">
           {pet.name || "우리 강아지"}
-          <span className="rounded-full bg-violet-500 px-1.5 text-[11px] font-bold">
+          <span className="rounded-full bg-violet-500 px-1.5 text-xs font-bold">
             Lv.{pet.level}
           </span>
         </span>
@@ -214,7 +214,7 @@ export function GymRoom({
                 type="button"
                 onClick={() => deposit(Number(amount))}
                 disabled={pending || !amount}
-                className="inline-flex h-10 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-black text-white shadow disabled:opacity-60"
+                className="inline-flex h-10 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-bold text-white shadow disabled:opacity-60"
               >
                 {pending ? <Loader2 size={15} className="animate-spin" /> : null}
                 넣기
@@ -247,7 +247,7 @@ export function GymRoom({
                 setDepositOpen(true);
               }}
               disabled={pet.coins <= 0}
-              className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-black text-white shadow transition hover:brightness-110 disabled:opacity-60"
+              className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-bold text-white shadow transition hover:brightness-110 disabled:opacity-60"
             >
               🪙 코인 넣기 (보유 {pet.coins.toLocaleString()})
             </button>
@@ -285,13 +285,13 @@ export function GymRoom({
                     href={`/groups/${groupId}/member/${m.userId}`}
                     className="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-2.5 transition hover:border-emerald-300 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-emerald-700"
                   >
-                    <span className="w-4 text-center text-sm font-black text-zinc-400">
+                    <span className="w-4 text-center text-sm font-bold text-zinc-400">
                       {i + 1}
                     </span>
                     <span className="min-w-0 flex-1 truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
                       {m.name}
                       {m.isMe ? (
-                        <span className="ml-1 text-[10px] font-bold text-emerald-600">나</span>
+                        <span className="ml-1 text-xs font-bold text-emerald-600">나</span>
                       ) : null}
                     </span>
                     <span className="shrink-0 text-xs font-bold text-orange-600 dark:text-orange-400">

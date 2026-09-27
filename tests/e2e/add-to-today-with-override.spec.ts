@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 재현: 오늘 등(back)에 daily_plan 오버라이드(오늘만 변경)가 있는 상태에서 운동을
@@ -14,7 +14,7 @@ test("오늘 등이 오늘만 변경(오버라이드) 상태여도 추가한 운
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

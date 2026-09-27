@@ -89,6 +89,11 @@ type RoutineRow = {
  * 인증·실행기록(`cron_runs`)은 `handleCron` 이 담당한다.
  */
 export async function GET(req: Request) {
+  // Support recovery must not depend on workout push configuration.
+  if (process.env.CRON_SECRET && req.headers.get("authorization") === `Bearer ${process.env.CRON_SECRET}`) {
+    const { supportMaintenance } = await import("@/features/support/messaging.server");
+    await supportMaintenance().catch(() => undefined);
+  }
   return handleCron(req, "daily-reminders", async (admin) => {
     const todayYmd = seoulYmd();
 

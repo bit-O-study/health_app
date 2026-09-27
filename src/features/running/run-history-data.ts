@@ -5,6 +5,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import type { RunHistoryRow } from "@/features/running/run-history-summary";
+import type { RunRoutePoint } from "@/features/running/run-session";
 
 type DbRunRow = {
   id: string;
@@ -20,11 +21,12 @@ type DbRunRow = {
   max_heart_rate: number | null;
   heart_rate_sample_count: number;
   incline: number | null;
-  route_points: unknown;
+  route_point_count: number | null;
 };
 
 const COLUMNS =
-  "id, for_date, mode, started_at, duration_sec, distance_m, avg_kmh, pace_sec_per_km, calories_kcal, average_heart_rate, max_heart_rate, heart_rate_sample_count, incline, route_points";
+  "id, for_date, mode, started_at, duration_sec, distance_m, avg_kmh, pace_sec_per_km, calories_kcal, average_heart_rate, max_heart_rate, heart_rate_sample_count, incline, route_point_count";
+// ⚠ 목록에는 route_points(최대 2,000점)를 싣지 않는다 — 개수는 DB 생성 열 route_point_count. 경로는 상세(getRunSession)에서만.
 
 function mapRow(row: DbRunRow): RunHistoryRow {
   return {
@@ -41,7 +43,7 @@ function mapRow(row: DbRunRow): RunHistoryRow {
     maxHeartRate: row.max_heart_rate,
     heartRateSampleCount: row.heart_rate_sample_count,
     incline: row.incline,
-    routePointCount: Array.isArray(row.route_points) ? row.route_points.length : 0,
+    routePointCount: row.route_point_count ?? 0,
   };
 }
 
@@ -62,15 +64,24 @@ export async function getRunSessionsRange(
   return ((data ?? []) as DbRunRow[]).map(mapRow);
 }
 
-export async function getRecentRunSessions(limit = 5): Promise<RunHistoryRow[]> {
+export type RunSessionDetail = RunHistoryRow & { endedAt: string; route: RunRoutePoint[] };
+
+/** 런닝 한 건 + 전체 경로(상세 화면). 본인 기록이 아니거나 없으면 null(RLS 도 본인만 허용). */
+export async function getRunSession(id: string): Promise<RunSessionDetail | null> {
   const user = await getCurrentUser();
-  if (!user) return [];
+  if (!user) return null;
   const supabase = await createSupabaseServerClient();
   const { data } = await supabase
     .from("run_sessions")
-    .select(COLUMNS)
+    .select(`${COLUMNS}, ended_at, route_points`)
+    .eq("id", id)
     .eq("user_id", user.id)
-    .order("started_at", { ascending: false })
-    .limit(limit);
-  return ((data ?? []) as DbRunRow[]).map(mapRow);
+    .maybeSingle();
+  if (!data) return null;
+  const row = data as DbRunRow & { ended_at: string; route_points: unknown };
+  return {
+    ...mapRow(row),
+    endedAt: row.ended_at,
+    route: Array.isArray(row.route_points) ? (row.route_points as RunRoutePoint[]) : [],
+  };
 }

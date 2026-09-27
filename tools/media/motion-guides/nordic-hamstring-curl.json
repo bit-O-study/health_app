@@ -7,5 +7,6 @@
   "panels": 16,
   "cycle": "reverse",
   "id": "nordic-hamstring-curl",
-  "registeredAt": "2026-09-11T16:21:24.409Z"
+  "registeredAt": "2026-09-11T16:21:24.409Z",
+  "cutout": false
 }

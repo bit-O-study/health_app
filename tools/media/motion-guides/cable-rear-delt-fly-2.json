@@ -7,5 +7,6 @@
   "panels": 16,
   "cycle": "reverse",
   "id": "cable-rear-delt-fly-2",
-  "registeredAt": "2026-09-13T01:23:46.134Z"
+  "registeredAt": "2026-09-13T01:23:46.134Z",
+  "cutout": false
 }

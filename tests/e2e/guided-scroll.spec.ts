@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀 가드: 운동 모드 본문이 내용이 길어도(영상+사진+애니메이션+가이드) 맨 위까지
@@ -12,7 +12,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("운동 모드 본문이 맨 위(본운동 배지)까지 스크롤된다 — 영상 안 잘림", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

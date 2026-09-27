@@ -1,11 +1,11 @@
 {
-  "prompt": "Eight-pose hollow body hold, supine setup then shoulders and straight legs rise low, lower back on mat, arms by ears, static hold, reverse",
+  "prompt": "Use case scientific-educational. Exercise teaching sprite sheet of an ISOMETRIC HOLLOW BODY HOLD. Exactly EIGHT equally sized square tiles in a 4-column 2-row grid, canvas aspect ratio 2:1, no borders or text. Each tile repeats SAME stable static hold, NOT a sit-up or rocking sequence. Smooth realistic grey athletic anatomical mannequin wearing teal shorts and grey trainers. Low three-quarter side camera from slightly toward feet so both legs and arms visible, full fingertips to toes. Person lies SUPINE, lower back and pelvis firmly contacting flat floor, pelvis posteriorly tilted, ribs pulled down. Head and shoulder blades lifted a little, chin gently tucked, long neutral neck. Both legs STRAIGHT and together, heels hovering 15cm above floor. Both arms STRAIGHT reaching overhead beside ears and hovering above floor. A shallow gently curved hollow shape, not a deep V, no arch in lumbar back. Frame CLOSE: full body occupies 90 percent of each tile width with safe margins, camera foreshortens long body enough to clearly see torso, shoulders and back contact. Uniform light grey opaque studio background. Every tile IDENTICAL pose/camera/body position/scale/floor contact and body proportions. Only imperceptible natural breathing is allowed. No bent knees, no limbs touching floor except pelvis/lower back, no equipment, no shadows that obscure contact, no motion blur, no ghost limbs, no text/watermarks.",
   "equipment": "bodyweight",
   "sources": [
-    "https://assets.crossfit.com/pdfs/seminars/SMERefs/Gymnastics/GymnasticsCourse_SeminarGuide.pdf"
+    "https://www.acefitness.org/resources/pros/expert-articles/8989/crunch-time-an-evidence-based-approach-to-training-the-abs/"
   ],
   "panels": 8,
   "cycle": "reverse",
   "id": "hollow-body-hold",
-  "registeredAt": "2026-09-13T13:04:03.516Z"
+  "registeredAt": "2026-09-16T08:29:49.873Z"
 }

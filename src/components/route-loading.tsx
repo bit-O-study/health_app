@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
 export function RouteLoading({ label }: { label?: string }) {
   return (
     <div className="flex min-h-[70vh] w-full flex-col items-center justify-center gap-3 text-zinc-400 dark:text-zinc-500">
-      <Loader2 aria-hidden="true" size={30} className="animate-spin text-emerald-500" />
+      <Loader2 aria-hidden="true" size={30} className="animate-spin text-brand" />
       <span className="text-sm font-semibold">{label ?? "불러오는 중…"}</span>
     </div>
   );

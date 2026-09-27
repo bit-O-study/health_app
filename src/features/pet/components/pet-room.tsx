@@ -44,7 +44,7 @@ export function PetRoom({
       {/* 벽 */}
       <div className={`absolute inset-x-0 top-0 h-[58%] ${wall}`}>
         {night ? (
-          <span className="absolute right-1.5 top-1 text-[10px]">✨🌙⭐</span>
+          <span className="absolute right-1.5 top-1 text-xs">✨🌙⭐</span>
         ) : null}
       </div>
       {/* 바닥 */}

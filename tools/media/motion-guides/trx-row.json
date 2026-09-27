@@ -7,5 +7,6 @@
   "panels": 8,
   "cycle": "reverse",
   "id": "trx-row",
-  "registeredAt": "2026-09-13T12:56:49.525Z"
+  "registeredAt": "2026-09-13T12:56:49.525Z",
+  "cutout": false
 }

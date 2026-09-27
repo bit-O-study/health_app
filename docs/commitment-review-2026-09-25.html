@@ -1,0 +1,677 @@
+<title>다짐 — 하루 약속과 주간 리듬</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@600;700&display=swap">
+<style>
+  :root {
+    --ground: #f5f8f6; --surface: #ffffff; --surface-2: #eef3f0;
+    --ink: #16211d; --ink-2: #4a5b54; --ink-3: #78897f;
+    --line: #dde6e1; --line-2: #c7d5cd;
+    --brand: #087f5b; --brand-soft: #dff3ea;
+    --warn: #9a5b06; --warn-soft: #fbf0dd;
+    --danger: #a8203c; --danger-soft: #fbe6ea;
+    --mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0b110f; --surface: #121a17; --surface-2: #18231e;
+      --ink: #e8efeb; --ink-2: #a7b8b0; --ink-3: #7d8f87;
+      --line: #23312b; --line-2: #31433a;
+      --brand: #45d6a0; --brand-soft: #103024;
+      --warn: #e0a758; --warn-soft: #2e2415;
+      --danger: #f2879e; --danger-soft: #331821;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0b110f; --surface: #121a17; --surface-2: #18231e;
+    --ink: #e8efeb; --ink-2: #a7b8b0; --ink-3: #7d8f87;
+    --line: #23312b; --line-2: #31433a;
+    --brand: #45d6a0; --brand-soft: #103024;
+    --warn: #e0a758; --warn-soft: #2e2415;
+    --danger: #f2879e; --danger-soft: #331821;
+  }
+
+  body { margin: 0; background: var(--ground); color: var(--ink);
+    font-family: "Noto Sans KR", system-ui, sans-serif; font-size: 15px; line-height: 1.75; word-break: keep-all; }
+  .wrap { max-width: 780px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; }
+
+  h1, h2, h3 { font-family: "Noto Serif KR", "Noto Sans KR", serif; text-wrap: balance; line-height: 1.4; }
+  h1 { font-size: 31px; margin: 0 0 6px; letter-spacing: -0.01em; }
+  h2 { font-size: 21px; margin: 48px 0 4px; }
+  h3 { font-size: 16px; margin: 28px 0 4px; }
+  p { margin: 10px 0; }
+  ul, ol { margin: 10px 0; padding-left: 20px; }
+  li { margin: 5px 0; }
+  code { font-family: var(--mono); font-size: 0.87em; background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brand); font-weight: 700; }
+  .lede { color: var(--ink-2); font-size: 16px; margin-top: 12px; }
+  .sub { color: var(--ink-2); margin-top: 2px; }
+  .meta { color: var(--ink-3); font-size: 13px; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 22px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .meta b { color: var(--ink-2); font-weight: 500; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 14px 0; }
+  .scroll { overflow-x: auto; }
+  th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; white-space: nowrap; }
+  td.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  td.mark { font-size: 17px; text-align: center; width: 44px; }
+
+  .chip { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+  .chip.ok { background: var(--brand-soft); color: var(--brand); }
+  .chip.no { background: var(--danger-soft); color: var(--danger); }
+  .chip.part { background: var(--warn-soft); color: var(--warn); }
+
+  .finding { border-left: 3px solid var(--line-2); padding: 2px 0 2px 16px; margin: 18px 0; }
+  .finding.high { border-left-color: var(--danger); }
+  .finding.mid { border-left-color: var(--warn); }
+  .finding h3 { margin-top: 0; }
+  .finding .tag { font-size: 12px; font-weight: 700; color: var(--ink-3); letter-spacing: 0.08em; margin: 0; }
+
+  pre { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px;
+    overflow-x: auto; font-family: var(--mono); font-size: 12.5px; line-height: 1.65; margin: 14px 0; }
+
+  .mock { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; margin: 16px 0; }
+  .mock-title { font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; margin-bottom: 12px; }
+  .card { border: 1px solid var(--line); border-radius: 12px; padding: 14px; background: var(--ground); }
+  .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+  .card-head .t { font-weight: 700; font-size: 14px; }
+  .card-head .n { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--brand); font-size: 13px; }
+  .row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  .row:first-of-type { border-top: 0; }
+  .box { width: 19px; height: 19px; border-radius: 6px; border: 1.5px solid var(--line-2); flex: 0 0 auto;
+    display: grid; place-items: center; font-size: 11px; margin-top: 2px; }
+  .box.on { background: var(--brand); border-color: var(--brand); color: var(--surface); font-weight: 700; }
+  .box.auto { border-style: dashed; }
+  :root[data-theme="dark"] .box.on, :root:not([data-theme="light"]) .box.on { color: #0b110f; }
+  .row .label { flex: 1; min-width: 0; }
+  .row .side { color: var(--ink-3); font-size: 12px; display: block; }
+  .row .amt { color: var(--ink-3); font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; margin-top: 2px; }
+  .foot { margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--line); font-size: 12.5px;
+    color: var(--ink-2); display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+
+  .week { display: flex; gap: 5px; margin: 10px 0 2px; }
+  .day { flex: 1; text-align: center; border: 1px solid var(--line); border-radius: 8px; padding: 6px 2px; background: var(--ground); }
+  .day .d { font-size: 10.5px; color: var(--ink-3); }
+  .day .m { font-size: 15px; line-height: 1.3; }
+  .day.hit { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+  .day.part { border-color: var(--warn); color: var(--warn); }
+  .day.miss { border-color: var(--danger); color: var(--danger); }
+  .day.pass { border-style: dashed; color: var(--ink-3); }
+
+  .screens { display: grid; grid-template-columns: repeat(auto-fit, minmax(206px, 1fr)); gap: 14px; margin: 16px 0; }
+  .phone { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px 13px 13px;
+    display: flex; flex-direction: column; gap: 9px; }
+  .phone .bar { height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; }
+  .phone .bar i { display: block; height: 100%; background: var(--brand); }
+  .phone .step-no { font-size: 11px; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 700; margin: 0; }
+  .phone .ask { font-family: "Noto Serif KR", serif; font-size: 15px; font-weight: 700; line-height: 1.45; margin: 0; }
+  .phone .hint { font-size: 11.5px; color: var(--ink-3); margin: -3px 0 0; }
+  .opts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .opt { font-size: 12.5px; border: 1px solid var(--line-2); border-radius: 999px; padding: 5px 11px; color: var(--ink-2); background: var(--ground); }
+  .opt.on { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); font-weight: 700; }
+  .stack { display: flex; flex-direction: column; gap: 6px; }
+  .opt.wide { border-radius: 10px; padding: 9px 11px; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .opt .why { font-size: 11px; font-weight: 400; color: var(--ink-3); }
+  .opt.on .why { color: var(--brand); }
+  .phone .cta { margin-top: auto; text-align: center; font-size: 12.5px; font-weight: 700; color: var(--surface);
+    background: var(--brand); border-radius: 999px; padding: 8px; }
+  :root[data-theme="dark"] .phone .cta, :root:not([data-theme="light"]) .phone .cta { color: #0b110f; }
+  .phone .skip { text-align: center; font-size: 11.5px; color: var(--ink-3); }
+
+  .q { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 15px 17px; margin: 12px 0; }
+  .q h3 { margin: 0 0 2px; font-size: 15px; }
+  .q p { margin: 4px 0 0; color: var(--ink-2); font-size: 14px; }
+  .q .rec { color: var(--brand); font-weight: 700; }
+
+  .steps { list-style: none; padding: 0; margin: 14px 0; counter-reset: step; }
+  .steps li { counter-increment: step; display: grid; grid-template-columns: 28px 1fr; gap: 12px;
+    padding: 12px 0; border-top: 1px solid var(--line); margin: 0; }
+  .steps li::before { content: counter(step); font-family: var(--mono); font-size: 13px; color: var(--brand); font-weight: 700; padding-top: 2px; }
+  .steps b { display: block; }
+  .steps span { color: var(--ink-2); font-size: 14px; }
+  .steps code { font-size: 12px; }
+
+  @media (max-width: 460px) { h1 { font-size: 25px; } .wrap { padding-block: 28px 56px; } }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">설계 검수보고서 · 전면 재설계</p>
+  <h1>다짐 — 하루 약속과 주간 리듬</h1>
+  <p class="lede">
+    지금 다짐은 <strong>“4주 동안 12일 운동하기” 같은 기간 목표</strong>입니다. 그런데 사람이 실제로 지키는 단위는
+    하루이고, 무너지는 단위는 주입니다. 이 보고서는 다짐을
+    <strong>“오늘 지킬 세 가지” + “이번 주 며칠”</strong> 두 층으로 다시 짭니다.
+    설문·판정·알림·종료까지 한 번에 새로 설계했습니다.
+  </p>
+  <div class="meta">
+    <span><b>범위</b> 다짐 기능 전면</span>
+    <span><b>작성</b> 2026-09-25</span>
+    <span><b>예시 계정</b> 여성 · 고급 · 96.7kg · 감량(68kg) · 권장 2,650kcal · 주 5일 루틴</span>
+  </div>
+
+  <h2>1. 무엇을 만드는가</h2>
+  <p>다짐 하나는 이 세 가지로 이루어집니다. 그 외에는 아무것도 없습니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>층</th><th>내용</th><th>사용자가 보는 곳</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><b>하루</b></td>
+          <td><b>오늘 지킬 미션 최대 3개.</b> 자동 판정 + 수동 체크</td>
+          <td>홈 카드 · 다짐 화면</td>
+        </tr>
+        <tr>
+          <td><b>주</b></td>
+          <td><b>이번 주 N일 달성</b>이 목표. 매일 100%가 아니라 <b>주 5일</b>처럼</td>
+          <td>다짐 화면 상단 주간 줄</td>
+        </tr>
+        <tr>
+          <td><b>기간</b></td>
+          <td>2·4·8주. 끝나면 <b>성적표</b>와 다음 다짐 제안</td>
+          <td>종료 화면 · 캘린더</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    <strong>왜 3개인가.</strong> 지금 설문은 미션을 8개까지 켤 수 있습니다. 그러면 “5개 중 3개 했으니 60%”
+    같은 숫자가 나오는데, 이 숫자는 <b>무엇을 안 했는지</b>를 감춥니다. 3개면 “하나 남았다”가 바로 읽힙니다.
+  </p>
+  <p>
+    <strong>왜 주 단위인가.</strong> 하루 놓친 게 곧 실패로 보이면 사람은 그날로 그만둡니다.
+    주 5일이 목표면 <b>이틀은 놓쳐도 되는 날</b>이 되고, 놓친 다음 날 복귀할 이유가 남습니다.
+  </p>
+
+  <h2>2. 지금 것의 문제</h2>
+  <p class="sub">코드를 읽고 확인한 것만 적습니다. 1·2번이 “오늘 쓸 수 없다”의 직접 원인입니다.</p>
+
+  <div class="finding high">
+    <p class="tag">1 · 높음</p>
+    <h3>홈 카드에서 체크할 수 없다</h3>
+    <p>카드 전체가 <code>/commitments</code> 링크입니다. 오늘 할 일을 보여주면서 그 자리에서 끝낼 수 없습니다.</p>
+  </div>
+  <div class="finding high">
+    <p class="tag">2 · 높음</p>
+    <h3>앱이 기록하지 못하는 다짐은 만들 수 없다</h3>
+    <p>미션 10종이 전부 운동·식단 기록 기반입니다. <b>물·술·수면·스트레칭</b> 같은 가장 흔한 다짐이 빠집니다.</p>
+  </div>
+  <div class="finding high">
+    <p class="tag">3 · 높음</p>
+    <h3>하루 실패가 곧 전체 실패로 보인다</h3>
+    <p>캘린더가 매일 ○△✕ 만 찍습니다. 놓친 날을 만회할 <b>주간 개념도, 유예도</b> 없습니다.</p>
+  </div>
+  <div class="finding mid">
+    <p class="tag">4 · 중간</p>
+    <h3>설문이 사용자가 모르는 숫자를 묻는다</h3>
+    <p>“유산소 몇 분”, “단백질 몇 g”, “섭취 상한 몇 kcal”. 게다가 목표는 <b>온보딩에서 이미 받은 값</b>입니다.</p>
+  </div>
+  <div class="finding mid">
+    <p class="tag">5 · 중간</p>
+    <h3>휴식일에도 ✕ 가 찍힌다</h3>
+    <p>계획대로 쉰 날이 실패로 보이면 마커 자체를 믿지 않게 됩니다.</p>
+  </div>
+  <div class="finding">
+    <p class="tag">6 · 낮음</p>
+    <h3>부분 진행이 보이지 않는다</h3>
+    <p>판정이 <code>boolean</code> 이라 “운동 3개” 미션이 1개 했을 때와 0개일 때가 화면에서 같습니다.</p>
+  </div>
+  <div class="finding">
+    <p class="tag">7 · 낮음</p>
+    <h3>리마인더도, 끝맺음도 없다</h3>
+    <p>하루 단위 약속인데 그날이 가기 전 알려주지 않고, <code>deadline</code> 이 지나도 결과를 말해 주지 않습니다.</p>
+  </div>
+
+  <h2>3. 설계 원칙</h2>
+  <ol>
+    <li><b>이미 아는 건 묻지 않는다.</b> 성별·경력·체중·목표·주당 운동일은 온보딩과 루틴에 있습니다.</li>
+    <li><b>숫자는 묻지 않고 제안한다.</b> 사용자는 생활을 답하고, 앱이 kcal·g·분으로 옮깁니다.</li>
+    <li><b>하루에 세 개까지.</b> 많아지면 달성률이 희석되고 무엇을 안 했는지가 가려집니다.</li>
+    <li><b>놓친 날을 설계에 포함한다.</b> 주간 목표와 유예권 — 완벽을 요구하지 않습니다.</li>
+    <li><b>모든 숫자에 이유를 붙인다.</b> 근거 없는 목표는 지켜지지 않습니다.</li>
+  </ol>
+
+  <h2>4. 다짐 한 개의 구조</h2>
+  <p>
+    기존 <code>commitments</code> 행을 그대로 쓰되 <b>네 칸을 더합니다</b>(주간 목표·유예·알림 시각·강도).
+    미션에는 <b>id 를 붙입니다</b> — 순번으로 가리키면 사용자가 미션을 지웠을 때 과거 체크가 다른 미션에 붙습니다.
+  </p>
+<pre>{
+  "title": "4주 감량 다짐",
+  "start_date": "2026-09-26",  "deadline": "2026-10-23",
+  "weekly_target": 5,          // 이번 주 5일 달성이 목표
+  "rest_pass_per_week": 1,     // 주 1회 '오늘 쉼'
+  "remind_at": "20:00",
+  "intensity": "normal",       // light · normal · hard
+  "missions": [
+    { "id": "m1", "type": "burn_kcal",     "target": 390,
+      "why": "체중 96.7kg · 하루 30분 · 보통" },
+    { "id": "m2", "type": "no_late_snack", "target": 0,
+      "why": "자주 무너진다고 고른 항목" },
+    { "id": "m3", "type": "manual_check",  "label": "물 2L 마시기",
+      "why": "앱이 판정할 수 없어요 — 직접 체크" }
+  ]
+}</pre>
+  <p>
+    <code>why</code> 를 <b>데이터로 저장하는 게 핵심</b>입니다. 화면에서 그때그때 문구를 만들면
+    홈·다짐·종료 화면이 서로 다른 설명을 하게 됩니다. 만들 때 한 번 쓰고, 모든 화면이 그걸 읽습니다.
+  </p>
+
+  <h2>5. 설문 — 다섯 문항</h2>
+  <p class="sub">한 화면에 하나만 묻고, 문항마다 정확히 하나의 결정을 담당합니다. 전부 건너뛸 수 있고 기본값이 들어갑니다.</p>
+
+  <div class="screens">
+    <div class="phone">
+      <div class="bar"><i style="width:20%"></i></div>
+      <p class="step-no">1 / 5</p>
+      <p class="ask">얼마 동안 해볼까요?</p>
+      <p class="hint">끝나는 날이 있어야 지켜져요</p>
+      <div class="stack">
+        <span class="opt wide">2주 <span class="why">10/9까지</span></span>
+        <span class="opt wide on">4주 <span class="why">10/23까지 · 추천</span></span>
+        <span class="opt wide">8주 <span class="why">11/20까지</span></span>
+      </div>
+      <div class="cta">다음</div>
+      <div class="skip">그만두기</div>
+    </div>
+
+    <div class="phone">
+      <div class="bar"><i style="width:40%"></i></div>
+      <p class="step-no">2 / 5</p>
+      <p class="ask">뭐가 제일 자주 무너지나요?</p>
+      <p class="hint">최대 3개 · 이게 그대로 다짐이 돼요</p>
+      <div class="opts">
+        <span class="opt on">🌙 야식</span>
+        <span class="opt">🍺 술</span>
+        <span class="opt">🍽️ 식사 거르기</span>
+        <span class="opt on">🏃 운동 빼먹기</span>
+        <span class="opt on">💧 물 안 마심</span>
+        <span class="opt">😴 늦게 자기</span>
+        <span class="opt">🍚 폭식</span>
+        <span class="opt">🪑 종일 앉아있기</span>
+      </div>
+      <div class="cta">다음 · 3개 선택함</div>
+      <div class="skip">특별히 없어요</div>
+    </div>
+
+    <div class="phone">
+      <div class="bar"><i style="width:60%"></i></div>
+      <p class="step-no">3 / 5</p>
+      <p class="ask">하루에 운동으로 쓸 수 있는 시간은요?</p>
+      <p class="hint">루틴은 주 5일로 잡혀 있어요</p>
+      <div class="stack">
+        <span class="opt wide">15분 <span class="why">짧고 굵게</span></span>
+        <span class="opt wide on">30분 <span class="why">가장 흔해요</span></span>
+        <span class="opt wide">1시간 이상 <span class="why">여유 있음</span></span>
+      </div>
+      <div class="cta">다음</div>
+      <div class="skip">건너뛰기</div>
+    </div>
+
+    <div class="phone">
+      <div class="bar"><i style="width:80%"></i></div>
+      <p class="step-no">4 / 5</p>
+      <p class="ask">언제 확인해 드릴까요?</p>
+      <p class="hint">그 시각에 <b>아직 못 한 것만</b> 알려드려요</p>
+      <div class="stack">
+        <span class="opt wide">아침 <span class="why">7시</span></span>
+        <span class="opt wide">점심 <span class="why">12시</span></span>
+        <span class="opt wide on">저녁 <span class="why">8시 · 추천</span></span>
+        <span class="opt wide">자기 전 <span class="why">10시</span></span>
+      </div>
+      <div class="cta">다음</div>
+      <div class="skip">알림 안 받을래요</div>
+    </div>
+
+    <div class="phone">
+      <div class="bar"><i style="width:100%"></i></div>
+      <p class="step-no">5 / 5</p>
+      <p class="ask">일주일에 며칠 지킬까요?</p>
+      <p class="hint">매일은 아무도 못 해요</p>
+      <div class="stack">
+        <span class="opt wide">주 3일 <span class="why">가볍게</span></span>
+        <span class="opt wide on">주 5일 <span class="why">루틴과 같음 · 추천</span></span>
+        <span class="opt wide">주 7일 <span class="why">매일</span></span>
+      </div>
+      <div class="cta">다짐 만들기</div>
+      <div class="skip">건너뛰기</div>
+    </div>
+  </div>
+  <p>
+    <strong>강도(가볍게·보통·빡세게)는 문항에서 뺐습니다.</strong> Q5 의 주 N일이 사실상 같은 역할을 하고,
+    같은 걸 두 번 묻는 셈이기 때문입니다. 숫자 자체의 세기는 <b>경력</b>(초·중·고급)에서 가져옵니다 —
+    이미 온보딩에 있습니다.
+  </p>
+
+  <h3>5.1 Q2 → 미션 매핑</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>고른 항목</th><th>미션</th><th>판정</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>🌙 야식</td><td><code>no_late_snack</code></td><td><span class="chip ok">자동</span></td><td>이미 있는 미션</td></tr>
+        <tr><td>🍽️ 식사 거르기</td><td><code>meal_count</code> 3끼</td><td><span class="chip ok">자동</span></td><td>증량이면 4끼</td></tr>
+        <tr><td>🏃 운동 빼먹기</td><td><code>workout_today</code></td><td><span class="chip ok">자동</span></td><td><b>휴식일 면제</b></td></tr>
+        <tr><td>🍚 폭식</td><td><code>intake_max</code></td><td><span class="chip ok">자동</span></td><td>증량이면 끼니 수로 대체</td></tr>
+        <tr><td>🪑 종일 앉아있기</td><td><code>cardio_min</code></td><td><span class="chip ok">자동</span></td><td>시간 예산에서</td></tr>
+        <tr><td>🍺 술</td><td><code>manual_check</code> “술 안 마시기”</td><td><span class="chip part">수동</span></td><td rowspan="3">앱이 알 방법이 없습니다</td></tr>
+        <tr><td>💧 물 안 마심</td><td><code>manual_check</code> “물 2L 마시기”</td><td><span class="chip part">수동</span></td></tr>
+        <tr><td>😴 늦게 자기</td><td><code>manual_check</code> “12시 전에 자기”</td><td><span class="chip part">수동</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    3개를 넘겨 고르면 <b>먼저 고른 3개</b>만 남고 나머지는 “다음 다짐에서”로 안내합니다.
+    아무것도 안 고르면 목표에 맞는 기본 미션 하나가 들어갑니다(감량 <code>burn_kcal</code>,
+    증량 <code>protein_min</code>, 유지 <code>workout_today</code>, 체력 <code>cardio_min</code>).
+  </p>
+
+  <h3>5.2 숫자 계산식 — 실제 값으로 검산</h3>
+  <p>새로 물을 게 없습니다. 아래는 예시 계정에 <b>30분 · 주 5일 · 고급</b>을 넣은 결과입니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>미션</th><th>식</th><th>예시 계정</th></tr></thead>
+      <tbody>
+        <tr><td>소비 kcal</td>
+          <td>체중 × 시간계수(15분 2.5 · 30분 4 · 60분 6) × 경력(초 0.8 · 중 1.0 · 고 1.15)<br><span class="side">10 단위 반올림</span></td>
+          <td class="num">96.7 × 4 × 1.15 = 444.8 → <b>440kcal</b></td></tr>
+        <tr><td>섭취 상한</td>
+          <td>권장 섭취 × (1 − 적자) · 적자 = 주3일 10% · 주5일 15% · 주7일 20%<br><span class="side">50 단위 · 감량 목표일 때만</span></td>
+          <td class="num">2,650 × 0.85 = 2,252 → <b>2,250kcal</b></td></tr>
+        <tr><td>단백질</td>
+          <td>체중 × (감량 1.5 · 증량 1.6 · 유지 1.2)<br><span class="side">5 단위</span></td>
+          <td class="num">96.7 × 1.5 = 145 → <b>145g</b></td></tr>
+        <tr><td>유산소</td><td>시간 예산(15 · 25 · 40분) × 경력</td><td class="num">25 × 1.15 = <b>30분</b></td></tr>
+        <tr><td>운동 개수</td><td>루틴의 그날 운동 수 이하 · 최대 4</td><td class="num">그날 6개 → <b>4개</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>5.3 안전장치</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>위험</th><th>장치</th></tr></thead>
+      <tbody>
+        <tr><td>지킬 수 없는 섭취 상한</td><td><b>하한</b> — 여성 1,200 · 남성 1,500kcal. 계산값이 그 밑이면 하한을 씁니다</td></tr>
+        <tr><td>초보자에게 과한 목표</td><td>경력 <b>초급</b>이면 계수 0.8 + 주 7일 선택 시 “주 3일부터 어때요?” 한 번 되묻기</td></tr>
+        <tr><td>미션 과다</td><td>총 <b>3개</b> · Q2 선택도 3개까지</td></tr>
+        <tr><td>목표와 다짐 충돌</td><td>증량 목표에 ‘폭식’을 고르면 섭취 상한 대신 <b>끼니 수</b>로 — 증량 중 상한은 역효과</td></tr>
+        <tr><td>운동 미션만 3개</td><td>휴식일에 전부 면제돼 빈 날이 됩니다 → <b>식단·수동 미션을 최소 1개</b> 섞도록 제안</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>5.4 결과 화면 — 만들기 전에 보여주고 고치게</h3>
+  <div class="mock">
+    <p class="mock-title">설문 결과 — 이렇게 만들까요?</p>
+    <div class="card">
+      <div class="card-head"><span class="t">4주 감량 다짐 · 주 5일</span><span class="n">미션 3</span></div>
+      <div class="row">
+        <span class="box on">✓</span>
+        <span class="label">하루 440kcal 소비
+          <span class="side">체중 96.7kg · 30분 · 고급</span></span>
+        <span class="amt">− +</span>
+      </div>
+      <div class="row">
+        <span class="box on">✓</span>
+        <span class="label">야식 안 먹기
+          <span class="side">자주 무너진다고 고른 항목</span></span>
+        <span class="amt">자동</span>
+      </div>
+      <div class="row">
+        <span class="box on">✓</span>
+        <span class="label">물 2L 마시기
+          <span class="side">앱이 판정할 수 없어요 — 직접 체크</span></span>
+        <span class="amt">수동</span>
+      </div>
+      <div class="foot">
+        <span>저녁 8시 알림 · 주 1회 쉬어도 괜찮아요</span>
+        <span>만들기 →</span>
+      </div>
+    </div>
+  </div>
+  <p>
+    줄마다 <b>끄기 · 숫자 조절</b>이 되고, 숫자를 바꾸면 아래 근거 문구도 함께 바뀝니다
+    (“체중 96.7kg · 30분 · 고급” → “직접 정한 값”).
+  </p>
+
+  <h2>6. 하루 — 오늘의 다짐</h2>
+  <div class="mock">
+    <p class="mock-title">홈 카드</p>
+    <div class="card">
+      <div class="card-head"><span class="t">◎ 오늘의 다짐</span><span class="n">2/3</span></div>
+      <div class="row">
+        <span class="box auto on">✓</span>
+        <span class="label">440kcal 소비 <span class="side">오늘 520kcal · 달성</span></span>
+        <span class="amt">자동</span>
+      </div>
+      <div class="row">
+        <span class="box on">✓</span>
+        <span class="label">물 2L 마시기 <span class="side">오후 3시에 체크함</span></span>
+        <span class="amt">수동</span>
+      </div>
+      <div class="row">
+        <span class="box auto"></span>
+        <span class="label">야식 안 먹기 <span class="side">밤 9시까지 기록 없으면 달성</span></span>
+        <span class="amt">자동</span>
+      </div>
+      <div class="foot">
+        <span>이번 주 <b>3/5일</b> · 오늘 쉼 1회 남음</span>
+        <span>다짐 →</span>
+      </div>
+    </div>
+  </div>
+  <ul>
+    <li><b>수동</b>은 실선 네모 — 그 자리에서 탭해 체크합니다.</li>
+    <li><b>자동</b>은 점선 네모 + “자동” — 눌러도 안 되는 이유를 화면이 먼저 말합니다.</li>
+    <li>줄마다 <b>지금 상태</b>를 한 줄로: “오늘 520kcal · 달성”, “밤 9시까지 기록 없으면 달성”.</li>
+    <li>맨 아래는 <b>주간 진행</b>과 남은 유예권. 하루만 보고 판단하지 않게 합니다.</li>
+  </ul>
+
+  <h3>6.1 하루 판정 규칙</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>상황</th><th>마커</th><th>주간 집계</th></tr></thead>
+      <tbody>
+        <tr><td>미션 3개 전부 달성</td><td class="mark">○</td><td>달성 1일</td></tr>
+        <tr><td>1~2개 달성</td><td class="mark">△</td><td>미달성(주간 일수에 안 들어감)</td></tr>
+        <tr><td>0개</td><td class="mark">✕</td><td>미달성</td></tr>
+        <tr><td>‘오늘 쉼’ 사용</td><td class="mark">⏸</td><td><b>분모에서 제외</b> — 주 5일 목표가 주 4일 중 5일이 되지 않게 <b>목표도 1 줄임</b></td></tr>
+        <tr><td>휴식일 + 운동 미션만 남음</td><td class="mark">–</td><td>분모에서 제외</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    △ 를 <b>주간 달성으로 세지 않는 것</b>이 중요합니다. 부분 달성을 인정하면 “하나만 하고 넘기기”가 굳습니다.
+    대신 화면에서는 △ 를 <b>실패가 아니라 진행</b>으로 씁니다(색은 경고색, ✕ 와 다르게).
+  </p>
+
+  <h2>7. 주 — 리듬과 유예</h2>
+  <div class="mock">
+    <p class="mock-title">다짐 화면 상단 — 이번 주</p>
+    <div class="card">
+      <div class="card-head"><span class="t">이번 주 3 / 5일</span><span class="n">2주 연속 달성</span></div>
+      <div class="week">
+        <div class="day hit"><div class="d">월</div><div class="m">○</div></div>
+        <div class="day hit"><div class="d">화</div><div class="m">○</div></div>
+        <div class="day part"><div class="d">수</div><div class="m">△</div></div>
+        <div class="day pass"><div class="d">목</div><div class="m">⏸</div></div>
+        <div class="day hit"><div class="d">금</div><div class="m">○</div></div>
+        <div class="day"><div class="d">토</div><div class="m">·</div></div>
+        <div class="day"><div class="d">일</div><div class="m">·</div></div>
+      </div>
+      <div class="foot"><span>이틀 남았고 <b>2일</b> 더 채우면 이번 주 성공</span><span>오늘 쉼 쓰기</span></div>
+    </div>
+  </div>
+  <ul>
+    <li><b>스트릭은 주 단위</b>입니다 — “2주 연속 달성”. 일 단위 스트릭은 하루 놓치면 0이 되어 복귀 의욕을 꺾습니다.</li>
+    <li><b>오늘 쉼(유예권)</b>은 주 1회. 아픈 날·회식·출장을 실패로 기록하지 않기 위한 장치입니다.</li>
+    <li>주가 끝나면 <b>한 줄 요약</b>만 남깁니다: “지난주 5/5 — 이번 주도 갈까요?”</li>
+  </ul>
+
+  <h2>8. 끝 — 성적표와 다음 다짐</h2>
+  <div class="mock">
+    <p class="mock-title">4주 종료</p>
+    <div class="card">
+      <div class="card-head"><span class="t">4주 감량 다짐 · 끝!</span><span class="n">19/20일</span></div>
+      <div class="row"><span class="label">주간 목표 달성 <span class="side">4주 중 4주</span></span><span class="amt">100%</span></div>
+      <div class="row"><span class="label">440kcal 소비 <span class="side">가장 잘 지킨 미션</span></span><span class="amt">23/28일</span></div>
+      <div class="row"><span class="label">야식 안 먹기 <span class="side">주말에 자주 놓쳤어요</span></span><span class="amt">17/28일</span></div>
+      <div class="row"><span class="label">물 2L 마시기</span><span class="amt">25/28일</span></div>
+      <div class="foot"><span>체중 96.7 → 94.2kg <b>−2.5kg</b></span><span>다음 4주 만들기 →</span></div>
+    </div>
+  </div>
+  <p><b>다음 다짐 제안 규칙</b> — 사용자가 다시 설문을 다 하지 않아도 되게, 지난 결과로 초안을 만듭니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>지난 달성률</th><th>다음 제안</th></tr></thead>
+      <tbody>
+        <tr><td class="num">85% 이상</td><td>같은 미션 + 목표치 <b>10% 상향</b> (“440 → 480kcal”)</td></tr>
+        <tr><td class="num">60 ~ 85%</td><td><b>그대로</b> 한 번 더 — 습관이 자리 잡는 구간</td></tr>
+        <tr><td class="num">60% 미만</td><td>가장 못 지킨 미션 <b>1개를 빼고</b> 주 N일도 1 낮춤</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>9. 흔들릴 때</h2>
+  <h3>9.1 리마인더 문구</h3>
+  <p>그 시각에 <b>아직 못 한 것만</b>, 하나만 말합니다. 다 했으면 <b>보내지 않습니다</b>.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>상황</th><th>문구</th></tr></thead>
+      <tbody>
+        <tr><td>1개 남음</td><td>“오늘 <b>물 2L</b>만 남았어요”</td></tr>
+        <tr><td>2개 이상 남음</td><td>“오늘 다짐 2개 남았어요 — 야식 참기 · 물 2L”</td></tr>
+        <tr><td>전부 달성</td><td><b>보내지 않음</b></td></tr>
+        <tr><td>‘오늘 쉼’ 쓴 날</td><td><b>보내지 않음</b></td></tr>
+        <tr><td>이번 주 목표를 이미 채움</td><td>“이번 주 5일 다 채웠어요. 오늘은 보너스!”</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>9.2 연속으로 놓쳤을 때</h3>
+  <p>
+    <b>이틀 연속 ✕</b> 면 다음 날 홈 카드 위에 한 줄이 뜹니다 —
+    “이번 주 이틀 놓쳤어요. 목표를 조금 낮출까요?”<br>
+    <strong>자동으로 낮추지 않습니다.</strong> 사용자가 고릅니다: <b>미션 하나 빼기</b> · <b>주 4일로</b> · <b>그대로 간다</b>.
+    말없이 목표가 내려가면, 지켜도 지킨 것 같지 않습니다.
+  </p>
+
+  <h2>10. 화면 목록</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>화면</th><th>새로 만드나</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td>설문 5문항 + 결과</td><td><span class="chip part">고침</span></td><td>기존 설문 화면 교체</td></tr>
+        <tr><td>다짐 화면 — 이번 주 + 오늘 체크리스트</td><td><span class="chip ok">신규</span></td><td><code>/commitments</code> 상단</td></tr>
+        <tr><td>홈 카드(체크 가능)</td><td><span class="chip part">고침</span></td><td>홈 개편 끝난 뒤</td></tr>
+        <tr><td>종료 성적표 + 다음 제안</td><td><span class="chip ok">신규</span></td><td>마감 다음 날 1회</td></tr>
+        <tr><td>캘린더 마커</td><td><span class="chip part">고침</span></td><td>⏸ · – 추가</td></tr>
+        <tr><td>리마인더 알림</td><td><span class="chip ok">신규</span></td><td>기존 일일 크론에 얹음</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>11. 데이터베이스</h2>
+  <p>테이블 하나 추가 + 기존 테이블에 칸 네 개. 전부 추가형입니다.</p>
+<pre>-- 1) 다짐에 리듬을 붙인다
+alter table public.commitments
+  add column if not exists weekly_target int not null default 5
+    check (weekly_target between 1 and 7),
+  add column if not exists rest_pass_per_week int not null default 1
+    check (rest_pass_per_week between 0 and 3),
+  add column if not exists remind_at time,            -- null = 알림 없음
+  add column if not exists intensity text not null default 'normal'
+    check (intensity in ('light','normal','hard'));
+
+-- 2) 수동 체크와 '오늘 쉼'
+create table if not exists public.commitment_days (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  commitment_id uuid not null references public.commitments(id) on delete cascade,
+  for_date date not null,
+  -- 체크한 수동 미션 id 목록. 자동 미션은 여기 넣지 않는다.
+  checked_ids text[] not null default '{}',
+  rest_pass boolean not null default false,   -- '오늘 쉼'
+  created_at timestamptz not null default now(),
+  unique (user_id, commitment_id, for_date)
+);
+create index if not exists commitment_days_lookup
+  on public.commitment_days (user_id, commitment_id, for_date desc);</pre>
+  <p>
+    <b>하루 한 행</b>으로 잡은 이유: 수동 체크와 ‘오늘 쉼’은 같은 하루에 대한 사용자의 선언이라 함께 읽히고,
+    캘린더가 한 달치를 한 번에 가져갑니다. 자동 판정은 <b>저장하지 않습니다</b> — 기록이 수정되면
+    결과도 바뀌어야 하므로 매번 계산합니다.
+  </p>
+
+  <h2>12. 구현 순서</h2>
+  <ol class="steps">
+    <li><b>미션 확장</b><span><code>missions.ts</code> — <code>manual_check</code> 타입 · 미션 <code>id</code>/<code>why</code> 필드 · <code>progress()</code>. 순수 로직이라 화면 없이 테스트됩니다.</span></li>
+    <li><b>하루 저장</b><span><code>commitment_days</code> 테이블 + 체크/쉼 서버 액션. 라이브 DB 적용 후 <code>pnpm test:schema</code>.</span></li>
+    <li><b>다짐 화면</b><span>이번 주 줄 + 오늘 체크리스트. 여기서 먼저 완성합니다(홈은 나중).</span></li>
+    <li><b>판정 규칙</b><span>○△✕⏸– · 휴식일 면제 · 주간 집계 · 주 단위 스트릭.</span></li>
+    <li><b>설문 교체</b><span>5문항 + 계산식 + 결과 편집 화면.</span></li>
+    <li><b>홈 카드</b><span>체크 가능한 카드. <b>홈 개편이 끝난 뒤</b>.</span></li>
+    <li><b>리마인더</b><span>기존 일일 크론에 다짐 한 줄 추가.</span></li>
+    <li><b>종료 성적표</b><span>자동 아카이브 + 다음 다짐 제안.</span></li>
+  </ol>
+
+  <h2>13. 테스트 계획</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>층</th><th>테스트</th></tr></thead>
+      <tbody>
+        <tr><td>단위</td><td>
+          수동 미션은 체크가 있어야 달성 ·
+          자동 미션은 체크와 무관 ·
+          3개 전부여야 ○, 1~2개는 △ ·
+          ‘오늘 쉼’은 분모와 <b>목표를 함께</b> 줄인다 ·
+          휴식일에 운동 미션만 남으면 – ·
+          주 스트릭은 이번 주가 아직 안 끝났으면 안 끊긴다 ·
+          섭취 상한 하한(여 1,200 / 남 1,500) ·
+          미션은 3개를 넘지 않는다 ·
+          증량 목표에 폭식을 고르면 끼니 수로 바뀐다
+        </td></tr>
+        <tr><td>E2E</td><td>
+          설문 5문항 → 결과에서 숫자 조절 → 다짐 생성(DB 확인) ·
+          오늘 수동 미션 체크 → 새로고침 유지 ·
+          자동 미션은 눌러도 안 바뀜 ·
+          ‘오늘 쉼’ 쓰면 주간 분모가 줄고 캘린더가 ⏸ ·
+          마감 다음 날 성적표가 뜨고 목록에서 빠짐
+        </td></tr>
+        <tr><td>스키마</td><td><code>pnpm test:schema</code> — 새 컬럼·테이블 드리프트 0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>14. 리스크</h2>
+  <ul>
+    <li><b>홈은 지금 다른 세션이 재작성 중입니다.</b> 그래서 홈 카드를 6번째로 미뤘습니다.</li>
+    <li><b>판정 규칙이 바뀌면 과거 캘린더의 모양이 바뀝니다.</b> 이미 찍힌 ○△✕ 가 새 규칙(3개 기준)으로 다시 계산됩니다.</li>
+    <li><b>수동 체크는 거짓말이 가능합니다.</b> 그래서 화면에서 자동/수동을 구분해 두고, 성적표에서도 나눠 보여줍니다.</li>
+    <li><b>기존 다짐 데이터</b>는 미션에 <code>id</code> 가 없습니다 — 읽을 때 순번으로 <code>m{n}</code> 을 부여해 채웁니다.</li>
+  </ul>
+
+  <h2>15. 결정이 필요한 것</h2>
+  <div class="q">
+    <h3>Q1. 과거 날짜도 체크할 수 있게 할까요?</h3>
+    <p>어제 한 걸 오늘 체크하는 건 흔한 요구지만 무제한이면 기록이 의미를 잃습니다.
+      <span class="rec">권장: 어제까지만</span> — 캘린더에서 그날을 눌러 체크.</p>
+  </div>
+  <div class="q">
+    <h3>Q2. ‘오늘 쉼’은 주 몇 회까지?</h3>
+    <p>많으면 다짐이 헐거워지고, 없으면 아픈 날이 곧 실패입니다.
+      <span class="rec">권장: 주 1회 · 설문에서 바꾸지 않고 고정</span></p>
+  </div>
+  <div class="q">
+    <h3>Q3. 과거 캘린더를 새 규칙으로 다시 그릴까요?</h3>
+    <p>일관성은 얻지만 “어제까지 ○ 였던 날이 △ 가 되는” 일이 생깁니다.
+      <span class="rec">권장: 새 다짐부터 적용 · 지난 다짐은 그대로</span></p>
+  </div>
+  <div class="q">
+    <h3>Q4. 미션 3개 제한을 강제할까요?</h3>
+    <p>4~5개를 원하는 사용자도 있습니다.
+      <span class="rec">권장: 설문은 3개로 만들되, 다짐 화면에서 직접 5개까지 추가 허용</span></p>
+  </div>
+
+  <div class="meta">
+    <span><b>다음</b> Q1~Q4 결정 후 1·2단계(미션 확장 · 하루 저장)부터</span>
+    <span><b>DB</b> 컬럼 4개 + 테이블 1개 — 적용 후 <code>pnpm test:schema</code></span>
+  </div>
+</div>

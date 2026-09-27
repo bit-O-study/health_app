@@ -117,7 +117,7 @@ export function TodayEditBar() {
       <button
         type="button"
         onClick={() => ctx.setEditMode(true)}
-        className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400 transition hover:text-emerald-600 dark:hover:text-emerald-300"
+        className="inline-flex items-center gap-1 text-xs font-semibold text-brand transition hover:text-brand"
       >
         <Pencil aria-hidden="true" size={13} />
         편집하기

@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 
 // 순서 변경 후 운동 시작 시, 가이드 큐가 세 종류(워밍업/본운동/마무리) 모두에서
 // 바뀐 순서를 따라야 한다. (이전엔 본운동만 반영되고 워밍업·마무리는 누락됐었다.)
@@ -34,16 +34,16 @@ async function dragFirstToLast(page: Page, ul: Locator) {
 }
 
 test("순서 변경 후 운동 시작 시 워밍업·본운동·마무리 모두 바뀐 순서를 따른다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   // 순서 변경은 '편집하기' 모드에서만 가능 — 그립 핸들도 편집모드에서만 보인다.
   await page.getByRole("button", { name: "편집하기" }).click();
 
-  // ul.space-y-2 순서: [워밍업, 본운동, 마무리]
-  const warmUl = page.locator("ul.space-y-2").nth(0);
-  const mainUl = page.locator("ul.space-y-2").nth(1);
-  const coolUl = page.locator("ul.space-y-2").nth(2);
+  // 목록은 모양(여백 클래스)이 아니라 이름으로 잡는다(2026-09-19).
+  const warmUl = page.locator('[data-testid="today-warmup-list"]');
+  const mainUl = page.locator('[data-testid="today-main-list"]');
+  const coolUl = page.locator('[data-testid="today-cooldown-list"]');
   // 워밍업/마무리 추천은 부위당 4개. 본운동은 부위별로 다를 수 있어 개수 비의존.
   await expect(warmUl.locator(GRIP)).toHaveCount(4);
   await expect(coolUl.locator(GRIP)).toHaveCount(4);

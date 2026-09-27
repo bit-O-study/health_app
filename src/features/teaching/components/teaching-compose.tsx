@@ -102,7 +102,7 @@ export function TeachingComposeModal({
     <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50 sm:items-center">
       <div role="dialog" aria-modal="true" aria-labelledby="teaching-upload-title" className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 id="teaching-upload-title" className="text-base font-extrabold">내 운동 영상 올리고 티칭받기 🎬</h2>
+          <h2 id="teaching-upload-title" className="text-base font-bold">내 운동 영상 올리고 티칭받기 🎬</h2>
           <button
             type="button"
             onClick={onClose}
@@ -157,7 +157,7 @@ export function TeachingComposeModal({
           value={tag}
           onChange={(e) => setTag(e.target.value.slice(0, MAX_TAG))}
           placeholder="예: 스쿼트, 벤치프레스"
-          className="mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
         />
 
         {/* 한마디 */}
@@ -166,7 +166,7 @@ export function TeachingComposeModal({
           onChange={(e) => setCaption(e.target.value.slice(0, MAX_TEACHING_CAPTION))}
           rows={2}
           placeholder="자세 팁 한마디 (선택)"
-          className="mt-3 w-full resize-none rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="mt-3 w-full resize-none rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
         />
 
         {error ? (
@@ -174,7 +174,7 @@ export function TeachingComposeModal({
         ) : null}
 
         {/* 게시판 규칙 */}
-        <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-[11px] leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
+        <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-xs leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
           {TEACHING_RULES}
         </p>
 
@@ -182,7 +182,7 @@ export function TeachingComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-emerald-500 py-3 text-sm font-extrabold text-white active:scale-[0.99] disabled:opacity-60"
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-[0.99] disabled:opacity-60"
         >
           {pending ? (
             <>

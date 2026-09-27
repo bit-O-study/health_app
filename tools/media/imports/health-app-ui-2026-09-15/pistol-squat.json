@@ -1,0 +1,12 @@
+{
+  "prompt": "Bodyweight pistol squat on left leg, right leg straight forward, arms forward, planted heel, full controlled single-leg descent",
+  "equipment": "bodyweight",
+  "sources": [
+    "https://www.strengthlog.com/pistol-squat/",
+    "https://activelaunceston.com.au/Portals/0/Active%20Tasmania%20Meeting%20Activites%20%28FINAL%29.pdf"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "pistol-squat",
+  "registeredAt": "2026-09-15T00:37:54.870Z"
+}

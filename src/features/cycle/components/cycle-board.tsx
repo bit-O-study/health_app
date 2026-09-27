@@ -5,6 +5,7 @@ import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import { ChevronLeft, ChevronRight, Heart, X } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { addDaysYmd } from "@/features/routine/data";
 import {
   FLOWS,
@@ -105,24 +106,20 @@ export function CycleBoard({
 
   const dday = prediction.daysUntilNext;
 
+  // 공통 큰 제목 머리글 — 달 이동은 제목 줄 오른쪽(캘린더 탭과 같은 자리, 2026-09-16 8단계).
   return (
-    <section className="space-y-5">
-      <div className="flex items-center justify-between">
-        <h1 className="flex items-center gap-2 text-xl font-bold text-zinc-950 dark:text-zinc-50">
-          <Heart aria-hidden="true" size={20} className="fill-rose-500 text-rose-500" />
-          생리 기록
-        </h1>
-        <div className="flex items-center gap-1">
+    <>
+    <PageHeader title="생리 기록" back>
           <button
             type="button"
             aria-label="이전 달"
             onClick={() => goMonth(-1)}
             disabled={pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
           >
-            <ChevronLeft size={18} />
+            <ChevronLeft aria-hidden="true" size={18} />
           </button>
-          <span className="min-w-[5.5rem] text-center text-sm font-bold text-zinc-700 dark:text-zinc-200">
+          <span className="min-w-[4.5rem] text-center text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
             {year}.{pad(month0 + 1)}
           </span>
           <button
@@ -130,23 +127,23 @@ export function CycleBoard({
             aria-label="다음 달"
             onClick={() => goMonth(1)}
             disabled={pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 hover:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
           >
-            <ChevronRight size={18} />
+            <ChevronRight aria-hidden="true" size={18} />
           </button>
-        </div>
-      </div>
+    </PageHeader>
+    <main className="app-container space-y-3">
 
       {err ? (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-600 dark:bg-red-950/40 dark:text-red-300">
+        <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm text-danger">
           {err}
         </p>
       ) : null}
 
-      {/* 예측 요약 */}
-      <div className="rounded-2xl border border-rose-200 bg-rose-50/60 p-4 dark:border-rose-500/30 dark:bg-rose-950/20">
+      {/* 예측 요약 — 한 장 세 칸(캘린더 월 요약과 같은 모양) */}
+      <div className="app-list">
         {prediction.nextStart ? (
-          <div className="grid grid-cols-3 gap-2 text-center">
+          <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5 text-center">
             <Stat
               label="다음 생리"
               value={dday === 0 ? "오늘" : dday && dday > 0 ? `D-${dday}` : "-"}
@@ -160,29 +157,27 @@ export function CycleBoard({
             />
           </div>
         ) : (
-          <p className="text-center text-sm leading-6 text-rose-700 dark:text-rose-300">
-            생리한 날을 달력에서 눌러 기록하면
-            <br />
-            다음 생리·배란 예정일을 알려드려요.
+          <p className="px-3 py-2.5 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            생리한 날을 눌러 기록하면 예정일을 알려드려요
           </p>
         )}
       </div>
 
       {/* 달력 */}
-      <div className="rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm dark:border-zinc-800 dark:bg-zinc-900 sm:p-3">
+      <div className="app-card px-1.5 py-2">
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div
               key={w}
-              className={`pb-1 text-center text-[11px] font-bold ${
-                i === 5 ? "text-sky-600" : i === 6 ? "text-rose-500" : "text-zinc-400"
+              className={`pb-1 text-center text-xs font-semibold ${
+                i === 6 ? "text-danger" : "text-zinc-400"
               }`}
             >
               {w}
             </div>
           ))}
         </div>
-        <div className="grid grid-cols-7 gap-0.5">
+        <div className="grid grid-cols-7">
           {cells.map((day, idx) => {
             if (day === null) return <div key={`e${idx}`} />;
             const date = ymd(year, month0 + 1, day);
@@ -196,13 +191,13 @@ export function CycleBoard({
                 key={date}
                 type="button"
                 onClick={() => setEditing(date)}
-                className={`flex min-h-[52px] flex-col items-center gap-0.5 rounded-lg border p-1 transition hover:border-rose-300 ${
+                className={`flex min-h-[3.25rem] flex-col items-center gap-0.5 rounded-lg border p-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06] ${
                   isToday
-                    ? "border-emerald-400 dark:border-emerald-600"
+                    ? "border-brand/40"
                     : "border-transparent"
                 }`}
               >
-                <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
+                <span className="text-xs font-semibold tabular-nums text-zinc-700 dark:text-zinc-300">
                   {day}
                 </span>
                 {isPeriod ? (
@@ -210,15 +205,15 @@ export function CycleBoard({
                 ) : isPredicted ? (
                   <Heart aria-label="생리 예정" size={16} className="text-rose-300 dark:text-rose-500/60" />
                 ) : isOvul ? (
-                  <span className="text-[9px] font-bold text-violet-500">배란</span>
+                  <span className="text-xs font-semibold text-violet-500">배란</span>
                 ) : log?.symptoms.length || log?.note ? (
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-warn" />
                 ) : null}
               </button>
             );
           })}
         </div>
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-3 border-t border-zinc-100 pt-2 text-[10px] text-zinc-400 dark:border-zinc-800">
+        <div className="mt-1.5 flex flex-wrap items-center justify-center gap-3 border-t border-[var(--line)] pt-1.5 text-xs text-zinc-400">
           <span className="flex items-center gap-1">
             <Heart size={11} className="fill-rose-500 text-rose-500" /> 생리
           </span>
@@ -226,7 +221,7 @@ export function CycleBoard({
             <Heart size={11} className="text-rose-300" /> 예정
           </span>
           <span className="flex items-center gap-1">
-            <span className="font-bold text-violet-500">배란</span> 배란 예정
+            <span className="font-semibold text-violet-500">배란</span> 배란 예정
           </span>
         </div>
       </div>
@@ -239,16 +234,17 @@ export function CycleBoard({
           onSave={(patch) => saveDay(editing, patch)}
         />
       ) : null}
-    </section>
+    </main>
+    </>
   );
 }
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div>
-      <p className="text-[11px] font-semibold text-rose-700/70 dark:text-rose-300/70">{label}</p>
-      <p className="text-lg font-extrabold text-rose-700 dark:text-rose-300">{value}</p>
-      {sub ? <p className="text-[10px] text-rose-700/60 dark:text-rose-300/50">{sub}</p> : null}
+    <div className="min-w-0 px-1">
+      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-rose-600 dark:text-rose-400">{value}</p>
+      {sub ? <p className="truncate text-xs tabular-nums text-zinc-400">{sub}</p> : null}
     </div>
   );
 }
@@ -275,12 +271,12 @@ function DayEditor({
   return (
     <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center">
       <button type="button" aria-label="닫기" onClick={onClose} className="absolute inset-0 cursor-default bg-black/40" />
-      <div className="relative max-h-[88vh] w-full overflow-y-auto rounded-t-2xl border border-zinc-200 bg-white p-5 pb-[max(env(safe-area-inset-bottom),1.25rem)] shadow-2xl dark:border-zinc-700 dark:bg-zinc-900 sm:m-3 sm:max-w-md sm:rounded-2xl">
+      <div className="relative max-h-[88vh] w-full overflow-y-auto rounded-t-2xl border border-[var(--line)] bg-white p-4 pb-[max(env(safe-area-inset-bottom),1rem)] shadow-2xl dark:bg-zinc-900 sm:m-3 sm:max-w-md sm:rounded-2xl">
         <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
+          <h3 className="text-base font-semibold text-zinc-950 dark:text-zinc-50">
             {date.slice(5).replace("-", "월 ")}일
           </h3>
-          <button type="button" aria-label="닫기" onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300">
+          <button type="button" aria-label="닫기" onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
             <X size={16} />
           </button>
         </div>
@@ -288,10 +284,10 @@ function DayEditor({
         <button
           type="button"
           onClick={() => setIsPeriod((v) => !v)}
-          className={`flex h-12 w-full items-center justify-center gap-2 rounded-xl text-base font-bold transition ${
+          className={`flex h-11 w-full items-center justify-center gap-2 rounded-xl text-base font-semibold transition ${
             isPeriod
               ? "bg-rose-500 text-white"
-              : "border border-zinc-300 bg-white text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-300"
+              : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
           }`}
         >
           <Heart size={18} className={isPeriod ? "fill-white" : ""} />
@@ -300,17 +296,17 @@ function DayEditor({
 
         {isPeriod ? (
           <div className="mt-3">
-            <p className="mb-1 text-xs font-bold text-zinc-500">출혈량</p>
+            <p className="mb-1 text-xs font-semibold text-zinc-500">출혈량</p>
             <div className="flex gap-1.5">
               {FLOWS.map((f) => (
                 <button
                   key={f}
                   type="button"
                   onClick={() => setFlow(flow === f ? null : f)}
-                  className={`h-9 flex-1 rounded-lg text-xs font-bold transition ${
+                  className={`h-9 flex-1 rounded-lg text-xs font-semibold transition ${
                     flow === f
                       ? "bg-rose-500 text-white"
-                      : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                      : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
                   }`}
                 >
                   {FLOW_LABEL[f]}
@@ -321,7 +317,7 @@ function DayEditor({
         ) : null}
 
         <div className="mt-3">
-          <p className="mb-1 text-xs font-bold text-zinc-500">증상</p>
+          <p className="mb-1 text-xs font-semibold text-zinc-500">증상</p>
           <div className="flex flex-wrap gap-1.5">
             {SYMPTOMS.map((s) => (
               <button
@@ -330,8 +326,8 @@ function DayEditor({
                 onClick={() => toggle(s)}
                 className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   symptoms.includes(s)
-                    ? "bg-emerald-600 text-white"
-                    : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                    ? "bg-brand text-white dark:text-zinc-950"
+                    : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
                 }`}
               >
                 {s}
@@ -346,7 +342,7 @@ function DayEditor({
           rows={2}
           maxLength={500}
           placeholder="메모 (선택)"
-          className="mt-3 w-full resize-none rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-rose-400 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+          className="mt-3 w-full resize-none rounded-[10px] bg-zinc-100 px-3 py-2 text-base outline-none focus:ring-2 focus:ring-rose-400/40 dark:bg-white/[0.08] dark:text-zinc-100"
         />
 
         <button
@@ -354,7 +350,7 @@ function DayEditor({
           onClick={() =>
             onSave({ forDate: date, isPeriod, flow: isPeriod ? flow : null, symptoms, note: note.trim() || null })
           }
-          className="mt-4 h-12 w-full rounded-xl bg-rose-500 text-base font-bold text-white transition hover:bg-rose-600"
+          className="app-press mt-3 h-11 w-full rounded-xl bg-rose-500 text-base font-semibold text-white"
         >
           저장
         </button>

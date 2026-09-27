@@ -1,5 +1,40 @@
 import type { ReactNode, SVGProps } from "react";
 
+import {
+  BicepsDoorStretchIcon,
+  CalfStretchIcon,
+  CatCowIcon,
+  ChestDoorStretchIcon,
+  ChildPoseIcon,
+  CobraStretchIcon,
+  CyclingIcon,
+  DeadBugIcon,
+  DeadHangIcon,
+  EllipticalIcon,
+  HamstringStretchIcon,
+  HipCircleIcon,
+  JumpingJackIcon,
+  JumpRopeIcon,
+  LatStretchIcon,
+  NeckStretchIcon,
+  PigeonPoseIcon,
+  RowingIcon,
+  RunningIcon,
+  ShoulderCircleIcon,
+  ShoulderCrossStretchIcon,
+  StairMasterIcon,
+  TricepsOverheadStretchIcon,
+  WalkingIcon,
+  WallSlideIcon,
+  WristCircleIcon,
+  WristStretchIcon,
+} from "@/features/exercises/components/conditioning-icon";
+import {
+  baseExerciseId,
+  iconKeyFor,
+  type IconKey,
+} from "@/features/exercises/exercise-icon-rules";
+
 /**
  * 운동별 SVG 아이콘.
  *
@@ -1777,11 +1812,78 @@ export function hasDedicatedIcon(id: string): boolean {
   return id in ICONS;
 }
 
-/** 운동 id 로 매핑된 SVG 아이콘. 매핑 없으면 일반 덤벨 아이콘. */
+type IconComponent = (p: ExerciseIconProps) => ReactNode;
+
+/**
+ * 규칙 키 → 아이콘 컴포넌트. **처음 쓸 때 만든다** — conditioning-icon 이 이 파일을
+ * import 하므로(순환), 모듈 로드 시점에 맵을 만들면 한쪽 함수가 아직 undefined 일 수 있다.
+ */
+let byKey: Record<IconKey, IconComponent> | null = null;
+function iconForKey(key: IconKey): IconComponent {
+  if (!byKey) {
+    byKey = {
+      BenchPress: BenchPressIcon, InclinePress: InclinePressIcon, DeclinePress: DeclinePressIcon,
+      ChestFly: ChestFlyIcon, PecDeck: PecDeckIcon, CableCrossover: CableCrossoverIcon,
+      PushUp: PushUpIcon, DiamondPushup: DiamondPushupIcon, Dips: DipsIcon,
+      CloseGripBench: CloseGripBenchIcon, DumbbellPullover: DumbbellPulloverIcon,
+      Deadlift: DeadliftIcon, BarbellRow: BarbellRowIcon, TBarRow: TBarRowIcon,
+      SeatedCableRow: SeatedCableRowIcon, OneArmDumbbellRow: OneArmDumbbellRowIcon,
+      InvertedRow: InvertedRowIcon, LatPulldown: LatPulldownIcon, PullUp: PullUpIcon,
+      ChinUp: ChinUpIcon, StraightArmPulldown: StraightArmPulldownIcon, Shrug: ShrugIcon,
+      Hyperextension: HyperextensionIcon, Ohp: OhpIcon, ArnoldPress: ArnoldPressIcon,
+      LateralRaise: LateralRaiseIcon, FrontRaise: FrontRaiseIcon, RearDeltFly: RearDeltFlyIcon,
+      UprightRow: UprightRowIcon, FacePull: FacePullIcon, BicepsCurl: BicepsCurlIcon,
+      HammerCurl: HammerCurlIcon, PreacherCurl: PreacherCurlIcon, EzBarCurl: EzBarCurlIcon,
+      InclineCurl: InclineCurlIcon, ConcentrationCurl: ConcentrationCurlIcon,
+      ReverseCurl: ReverseCurlIcon, WristCurl: WristCurlIcon, TricepsPushdown: TricepsPushdownIcon,
+      SkullCrusher: SkullCrusherIcon, OverheadTricepsExtension: OverheadTricepsExtensionIcon,
+      BenchDip: BenchDipIcon, TricepsKickback: TricepsKickbackIcon, Squat: SquatIcon,
+      FrontSquat: FrontSquatIcon, GobletSquat: GobletSquatIcon, HackSquat: HackSquatIcon,
+      SmithSquat: SmithSquatIcon, SumoSquat: SumoSquatIcon, PistolSquat: PistolSquatIcon,
+      LegPress: LegPressIcon, LegExtension: LegExtensionIcon, LegCurl: LegCurlIcon,
+      SeatedLegCurl: SeatedLegCurlIcon, HipThrust: HipThrustIcon, GluteBridge: GluteBridgeIcon,
+      HipAbduction: HipAbductionIcon, HipAdduction: HipAdductionIcon, CableKickback: CableKickbackIcon,
+      Lunge: LungeIcon, BulgarianSplitSquat: BulgarianSplitSquatIcon, WalkingLunge: WalkingLungeIcon,
+      StepUp: StepUpIcon, Rdl: RdlIcon, SumoDeadlift: SumoDeadliftIcon, GoodMorning: GoodMorningIcon,
+      StandingCalfRaise: StandingCalfRaiseIcon, SeatedCalfRaise: SeatedCalfRaiseIcon,
+      CablePullThrough: CablePullThroughIcon, Plank: PlankIcon, SidePlank: SidePlankIcon,
+      SitUp: SitUpIcon, Crunch: CrunchIcon, BicycleCrunch: BicycleCrunchIcon,
+      CableCrunch: CableCrunchIcon, RussianTwist: RussianTwistIcon, AbRollout: AbRolloutIcon,
+      MountainClimber: MountainClimberIcon, HangingLegRaise: HangingLegRaiseIcon,
+      WoodChopper: WoodChopperIcon, PallofPress: PallofPressIcon, VUp: VUpIcon,
+      HollowHold: HollowHoldIcon,
+      Running: RunningIcon, StairMaster: StairMasterIcon, Cycling: CyclingIcon, Rowing: RowingIcon,
+      Elliptical: EllipticalIcon, JumpRope: JumpRopeIcon, Walking: WalkingIcon,
+      ShoulderCircle: ShoulderCircleIcon, CatCow: CatCowIcon, DeadHang: DeadHangIcon,
+      WallSlide: WallSlideIcon, HipCircle: HipCircleIcon, DeadBug: DeadBugIcon,
+      JumpingJack: JumpingJackIcon, WristCircle: WristCircleIcon,
+      ChestDoorStretch: ChestDoorStretchIcon, ShoulderCrossStretch: ShoulderCrossStretchIcon,
+      ChildPose: ChildPoseIcon, CobraStretch: CobraStretchIcon, LatStretch: LatStretchIcon,
+      TricepsOverheadStretch: TricepsOverheadStretchIcon, BicepsDoorStretch: BicepsDoorStretchIcon,
+      WristStretch: WristStretchIcon, HamstringStretch: HamstringStretchIcon,
+      PigeonPose: PigeonPoseIcon, CalfStretch: CalfStretchIcon, NeckStretch: NeckStretchIcon,
+    };
+  }
+  return byKey[key];
+}
+
+/**
+ * 운동 id 로 쓸 아이콘. ① 큐레이션 전용 매핑(중복 슬러그 `-2` 도 원본으로) →
+ * ② 단어 규칙(exercise-icon-rules)으로 가장 가까운 동작 → ③ 둘 다 없으면 일반 덤벨.
+ */
+export function resolveExerciseIcon(id: string): IconComponent {
+  const curated = ICONS[id] ?? ICONS[baseExerciseId(id)];
+  if (curated) return curated;
+  const key = iconKeyFor(id);
+  return key ? iconForKey(key) : GenericDumbbellIcon;
+}
+
+/** 운동 id 로 매핑된 SVG 아이콘. 매핑·규칙 모두 없으면 일반 덤벨 아이콘. */
 export function ExerciseIcon({
   id,
   ...props
 }: { id: string } & ExerciseIconProps) {
-  const C = ICONS[id] ?? GenericDumbbellIcon;
-  return <C {...props} />;
+  // 아이콘 함수는 상태·훅이 없는 순수 SVG 라, 컴포넌트로 감싸지 않고 바로 호출한다
+  // (렌더 중에 고른 함수를 <C/> 로 쓰면 react-hooks/static-components 에 걸린다).
+  return resolveExerciseIcon(id)(props);
 }

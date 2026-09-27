@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 회귀: "운동 순서 변경 → 오늘만 운동 바꾸기 → 오늘만 부위 추가" 후에도 바꾼 순서가
@@ -37,10 +37,7 @@ async function dismissNudge(page: Page) {
 
 /** 오늘 본운동 목록(부위 배지가 붙어 이름이 이어져 나오므로 startsWith 로 비교). */
 async function mainOrder(page: Page): Promise<string[]> {
-  const ul = page
-    .locator("ul.space-y-2")
-    .filter({ hasText: "벤치프레스" })
-    .first();
+  const ul = page.locator('[data-testid="today-main-list"]').first();
   return names(ul);
 }
 
@@ -52,7 +49,7 @@ test("운동 순서를 바꾼 뒤 '오늘만 부위 추가'를 해도 순서가 
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = 가슴 + 팔(멀티 부위) 루틴. 부위 경계를 넘는 재정렬이라야 재현된다.
   await dbQuery(

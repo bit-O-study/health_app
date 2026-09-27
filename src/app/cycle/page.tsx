@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
@@ -37,19 +36,14 @@ export default async function CyclePage({
 
   if (profile.gender !== "female") {
     return (
-      <main className="mx-auto w-full max-w-md px-4 py-16 text-center">
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          생리 기록은 현재 <b>여성</b> 프로필에서 제공돼요.
-          <br />
-          설정 &gt; 체형 정보에서 성별을 바꿀 수 있어요.
-        </p>
-        <Link
-          href="/calendar"
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-emerald-600"
-        >
-          <ChevronLeft size={16} /> 캘린더로
-        </Link>
-      </main>
+      <div className="app-page">
+        <PageHeader title="생리 기록" back="캘린더" backHref="/calendar" />
+        <main className="app-container">
+          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+            여성 프로필에서 쓸 수 있어요 (설정 &gt; 체형 정보)
+          </p>
+        </main>
+      </div>
     );
   }
 
@@ -67,8 +61,9 @@ export default async function CyclePage({
   const prediction = predictCycle(startDates, today);
   const predicted = predictedPeriodDatesInRange(prediction, from, to);
 
+  // 머리글(제목 + 달 이동)과 본문은 CycleBoard 가 그린다 — 달 이동이 보드 상태(저장 중)를 봐서.
   return (
-    <main className="mx-auto w-full max-w-2xl px-4 py-6 sm:px-6 sm:py-10">
+    <div className="app-page">
       <CycleBoard
         year={year}
         month0={month0}
@@ -77,6 +72,6 @@ export default async function CyclePage({
         prediction={prediction}
         predicted={predicted}
       />
-    </main>
+    </div>
   );
 }

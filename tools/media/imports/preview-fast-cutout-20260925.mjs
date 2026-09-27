@@ -1,0 +1,23 @@
+import { copyFileSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+const project = resolve('.');
+const id = 'dumbbell-front-raise';
+const out = join(project, 'tools/media/imports/exercise-video-20260925/fast-cutout');
+const guides = join(out, 'tools/media/motion-guides');
+mkdirSync(guides, { recursive: true });
+mkdirSync(join(out, 'tools/media/ai-guides'), { recursive: true });
+const catalog = JSON.parse(readFileSync('tools/media/ai-guides/catalog.json', 'utf8'));
+writeFileSync(join(out, 'tools/media/ai-guides/catalog.json'), JSON.stringify(catalog.filter(entry => entry.id === id)));
+for (const extension of ['jpg', 'json']) copyFileSync(`tools/media/motion-guides/${id}.${extension}`, join(guides, `${id}.${extension}`));
+process.env.MOTION_CUTOUT_MODEL = 'u2netp';
+process.env.U2NET_HOME = join(project, 'tools/media/imports/cutout-models');
+process.env.OMP_NUM_THREADS = '2';
+const started = performance.now();
+process.chdir(out);
+const { manageMotionGuides } = await import(pathToFileURL(join(project, 'tools/media/manage-motion-guides.mjs')));
+await manageMotionGuides('motion-build', id);
+const result = { id, model: 'u2netp', published: false, scope: 'Isolated speed and quality comparison; original app media unchanged', totalSeconds: (performance.now() - started) / 1000, measuredAt: new Date().toISOString() };
+writeFileSync(join(out, 'benchmark.json'), JSON.stringify(result, null, 2) + '\n');
+console.log(JSON.stringify(result));

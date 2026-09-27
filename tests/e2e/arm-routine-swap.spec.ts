@@ -340,9 +340,14 @@ test("운동 등록에서 팔 루틴만 교환하고 관련 없는 데이터를 
     "1일차 팔 루틴과 2일차 팔 루틴을 교환할까요?",
   );
   await Promise.all([
-    page.waitForEvent("framenavigated", {
-      predicate: (frame) => frame === page.mainFrame(),
-    }),
+    // 모달 history.back()의 동일 문서 이동이 아니라 저장 후 실제 reload를 기다린다.
+    page.waitForResponse((response) =>
+      response.request().isNavigationRequest() &&
+      response.request().frame() === page.mainFrame() &&
+      response.request().method() === "GET" &&
+      new URL(response.url()).pathname === "/plan" &&
+      response.status() === 200,
+    ),
     page.getByRole("button", { name: "교환하기" }).click(),
   ]);
   await page.waitForLoadState("networkidle");
@@ -421,9 +426,14 @@ test("같은 팔 블록을 가진 두 탭의 오래된 교환은 운동 행을 �
 
   await chooseDayOneAsSwapTarget(page);
   await Promise.all([
-    page.waitForEvent("framenavigated", {
-      predicate: (frame) => frame === page.mainFrame(),
-    }),
+    // 모달 history.back()의 동일 문서 이동이 아니라 저장 후 실제 reload를 기다린다.
+    page.waitForResponse((response) =>
+      response.request().isNavigationRequest() &&
+      response.request().frame() === page.mainFrame() &&
+      response.request().method() === "GET" &&
+      new URL(response.url()).pathname === "/plan" &&
+      response.status() === 200,
+    ),
     page.getByRole("button", { name: "교환하기" }).click(),
   ]);
   const afterFirstSwap = await loadExerciseSnapshot(email);
@@ -626,12 +636,15 @@ test("팔 교환 요청 중에는 운동 편집을 잠그고 오류 후 다시 �
       resolveAborted();
     }
   };
-  await page.route("**/*", holdServerAction);
-
   const day0 = page.locator('[data-plan-day-index="0"]');
   const addButton = day0.getByRole("button", { name: "운동 추가" });
   try {
+    // 🔴 붙잡기는 **교환을 누르기 직전에만** 건다(2026-09-21).
+    //    페이지가 살아 있는 동안 다른 서버액션(예: 앱 이벤트 보고)이 먼저 날아가는데,
+    //    처음부터 걸어 두면 그 엉뚱한 요청을 붙잡고 화면이 멈춰 확인 모달조차 안 뜬다.
     await chooseDayOneAsSwapTarget(page);
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page.route("**/*", holdServerAction);
     await page.getByRole("button", { name: "교환하기" }).click();
     await requestHeld;
 
@@ -1045,9 +1058,14 @@ test("레거시 문자열 주간은 선택한 사용자만 정규화해 팔 행 
   await page.goto("/plan", { waitUntil: "networkidle" });
   await chooseDayOneAsSwapTarget(page, "2일차 · 팔");
   await Promise.all([
-    page.waitForEvent("framenavigated", {
-      predicate: (frame) => frame === page.mainFrame(),
-    }),
+    // 모달 history.back()의 동일 문서 이동이 아니라 저장 후 실제 reload를 기다린다.
+    page.waitForResponse((response) =>
+      response.request().isNavigationRequest() &&
+      response.request().frame() === page.mainFrame() &&
+      response.request().method() === "GET" &&
+      new URL(response.url()).pathname === "/plan" &&
+      response.status() === 200,
+    ),
     page.getByRole("button", { name: "교환하기" }).click(),
   ]);
   await page.waitForLoadState("networkidle");

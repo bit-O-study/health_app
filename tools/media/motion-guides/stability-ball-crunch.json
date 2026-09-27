@@ -1,0 +1,11 @@
+{
+  "prompt": "Use case: scientific-educational. Exercise demonstration pose sheet for stability ball crunch. Wide 4-column by 4-row grid of SIXTEEN equal SQUARE panels, thin white gutters, no text. Same realistic educational 3D grey athletic male mannequin, teal shorts, grey athletic shoes. Fixed orthographic SIDE camera, full head/body/both feet/whole 55cm grey ribbed stability ball inside every panel with ample margins. Neutral light grey studio background. Start: lower and mid back supported by upper curved surface of ball; pelvis stays supported, knees bent 90 degrees, thighs approximately horizontal, both feet flat planted wide on floor. Torso and thighs approximately parallel to floor at start. Arms CROSSED OVER CHEST, hands touching opposite shoulders and remaining attached to chest throughout. Chin gently tucked, neck in line with chest. Sixteen sequential tiny increments ONLY of controlled spinal curl: panel1 torso horizontal; panels2-16 smoothly raise upper shoulders and chest by small equal increments, ending at about 30 degrees above horizontal, never a full sit-up. Lower back/pelvis stays supported by ball. Ball centre, ball diameter, surface ribs, pelvis, knees, feet and camera EXACTLY stationary in every panel. ONLY upper trunk/chest/head/attached crossed arms curl up together. Anatomically consistent identical person, uniform lighting and scale. Each adjacent pose changes by only 2 degrees, no sudden jump. No duplicate arms or legs, no floating feet, no extra equipment, no captions, no logos. High clarity, precise consistent outlines for motion interpolation.",
+  "equipment": "ball",
+  "sources": [
+    "https://www.acefitness.org/getfit/studies/bestworstabexercises.pdf"
+  ],
+  "panels": 16,
+  "cycle": "reverse",
+  "id": "stability-ball-crunch",
+  "registeredAt": "2026-09-15T13:54:25.180Z"
+}

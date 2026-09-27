@@ -1,6 +1,6 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 멀티 부위(가슴 + 팔) 일자에서 부위 경계를 넘어 순서를 바꿔도(예: 팔 해머컬을
@@ -45,7 +45,7 @@ test("부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   // 컨디셔닝(워밍업/마무리) 기본값 + 전 부위 본운동 등록
   await seedRecommendedExercises(page);
 
@@ -74,10 +74,10 @@ test("부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드�
   // 순서 변경은 '편집하기' 모드에서만 가능 — 그립 핸들도 편집모드에서만 보인다.
   await page.getByRole("button", { name: "편집하기" }).click();
 
-  // ul.space-y-2 순서: [워밍업, 본운동, 마무리]
-  const warmUl = page.locator("ul.space-y-2").nth(0);
-  const mainUl = page.locator("ul.space-y-2").nth(1);
-  const coolUl = page.locator("ul.space-y-2").nth(2);
+  // 목록은 모양(여백 클래스)이 아니라 이름으로 잡는다(2026-09-19).
+  const warmUl = page.locator('[data-testid="today-warmup-list"]');
+  const mainUl = page.locator('[data-testid="today-main-list"]');
+  const coolUl = page.locator('[data-testid="today-cooldown-list"]');
 
   // 본운동은 2개(해머컬, 벤치프레스) — 부위가 다름
   await expect(mainUl.locator(GRIP)).toHaveCount(2);

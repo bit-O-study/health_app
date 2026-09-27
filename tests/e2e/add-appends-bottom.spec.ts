@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 멀티 부위(가슴 + 팔) 일자에서 "오늘 운동 추가"로 넣은 운동은 부위 그룹 중간이
@@ -10,7 +10,7 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 커스텀: 0일차 = 가슴 + 팔, 나머지 휴식. 기준일=오늘.
   const week = [
@@ -61,7 +61,7 @@ test("편집에서 추가한 운동은 멀티 부위 일자에서도 맨 아래�
   // 화면에서도 본운동 리스트의 마지막 항목이 펙덱 플라이여야 한다.
   // 서버 액션 직후 RSC 갱신이 끝났는지 명시적으로 다시 읽어 확인한다.
   await page.reload({ waitUntil: "networkidle" });
-  const mainUl = page.locator("ul.space-y-2").nth(1);
+  const mainUl = page.locator('[data-testid="today-main-list"]');
   await expect(mainUl.locator("li h3").last()).toContainText("펙덱 플라이", {
     timeout: 10000,
   });

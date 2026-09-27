@@ -1,10 +1,10 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 
 // "현재 루틴 저장" (루틴 설정 페이지의 루틴 프리셋 저장) — 저장 + 목록 반영.
 test('"현재 루틴 저장" 프리셋이 저장되고 목록에 나타난다', async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
   await page.goto("/settings/routine", { waitUntil: "networkidle" });

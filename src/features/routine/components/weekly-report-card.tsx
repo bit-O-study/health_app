@@ -24,18 +24,18 @@ import {
 function DeltaBadge({ delta, unit = "" }: { delta: Delta; unit?: string }) {
   if (delta.diff === 0) {
     return (
-      <span className="text-[11px] font-medium text-zinc-400 dark:text-zinc-500">
+      <span className="text-xs font-medium text-zinc-400 dark:text-zinc-500">
         지난주와 같음
       </span>
     );
   }
   const up = delta.diff > 0;
   const tone = up
-    ? "text-emerald-600 dark:text-emerald-400"
+    ? "text-brand"
     : "text-zinc-500 dark:text-zinc-400";
   const amount = `${up ? "+" : "−"}${Math.abs(delta.diff).toLocaleString()}${unit}`;
   return (
-    <span className={`text-[11px] font-semibold ${tone}`}>
+    <span className={`text-xs font-semibold ${tone}`}>
       {amount}
       {delta.pct === null ? (
         <span className="ml-1 font-medium opacity-70">신규</span>
@@ -62,7 +62,7 @@ function Stat({
 }) {
   return (
     <div className="min-w-0">
-      <p className="truncate text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+      <p className="truncate text-xs font-medium text-zinc-500 dark:text-zinc-400">
         {label}
       </p>
       <p className="truncate text-base font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
@@ -100,7 +100,7 @@ export function WeeklyReportCard({
               <CalendarRange aria-hidden="true" size={15} />
             </span>
             이번 주
-            <span className="font-medium text-[11px] text-zinc-500 dark:text-zinc-400">
+            <span className="font-medium text-xs text-zinc-500 dark:text-zinc-400">
               {partial ? `${current.days}일째` : "한 주 전체"}
             </span>
           </h2>
@@ -153,7 +153,7 @@ export function WeeklyReportCard({
           <ArrowUpRight aria-hidden="true" size={13} />
         </Link>
       </div>
-      <p className="mb-4 text-[11px] text-zinc-500 dark:text-zinc-400">
+      <p className="mb-4 text-xs text-zinc-500 dark:text-zinc-400">
         {partial
           ? `이번 주 ${current.days}일째 · 지난주 같은 요일까지와 비교`
           : "한 주 전체 · 지난주와 비교"}
@@ -204,7 +204,7 @@ export function WeeklyReportCard({
 
       {topParts.length > 0 ? (
         <div className="mt-4 border-t border-[var(--line)] pt-3">
-          <p className="mb-2 text-[11px] font-medium text-zinc-500 dark:text-zinc-400">
+          <p className="mb-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
             부위 분포 (볼륨 기준)
           </p>
           <div className="flex h-2 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-700">
@@ -220,7 +220,7 @@ export function WeeklyReportCard({
             {topParts.map((p) => (
               <li
                 key={p.part}
-                className="flex items-center gap-1 text-[11px] text-zinc-600 dark:text-zinc-300"
+                className="flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-300"
               >
                 <span
                   className={`h-2 w-2 rounded-full ${PART_BAR[p.part]}`}
@@ -242,6 +242,6 @@ const PART_BAR: Record<string, string> = {
   back: "bg-sky-400",
   shoulder: "bg-amber-400",
   arm: "bg-violet-400",
-  lower: "bg-emerald-400",
+  lower: "bg-brand",
   core: "bg-teal-400",
 };

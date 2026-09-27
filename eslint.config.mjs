@@ -36,6 +36,11 @@ const eslintConfig = defineConfig([
     // Playwright 실행 산출물.
     "test-results/**",
     "playwright-report/**",
+    ".verify-shots/**",
+    // Local dependency cache and independent checkouts are not this source tree.
+    ".pnpm-store/**",
+    ".worktrees/**",
+    ".omx/**",
   ]),
 ]);
 

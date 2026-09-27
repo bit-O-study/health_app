@@ -1,7 +1,7 @@
 import motionGuideIds from "../../public/exercise-guides/ai-v3/manifest.json";
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 /**
@@ -16,7 +16,7 @@ for (let offset = 0; offset < guideIds.length; offset += 12) {
   test.setTimeout(180_000);
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await page.setViewportSize({ width: 390, height: 780 });
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   for (const id of batchIds) {
     await page.goto(`/exercises/${id}`, { waitUntil: "networkidle" });
@@ -54,7 +54,10 @@ for (let offset = 0; offset < guideIds.length; offset += 12) {
     await video.evaluate(async (v: HTMLVideoElement) => { v.muted = true; await v.play(); });
     await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.currentTime)).toBeGreaterThan(0);
     await video.evaluate((v: HTMLVideoElement) => { v.pause(); v.currentTime = 7.5; });
-    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => v.readyState)).toBeGreaterThanOrEqual(2);
+    await expect.poll(() => video.evaluate((v: HTMLVideoElement) => ({
+      ready: v.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA,
+      error: v.error?.message ?? null,
+    }))).toEqual({ ready: true, error: null });
     const box = (await video.boundingBox())!;
     const vh = page.viewportSize()!.height;
     expect(box.height).toBeGreaterThan(0);

@@ -64,7 +64,7 @@ describe("stalledSessionCount — 정체 세션 수", () => {
 });
 
 describe("overloadPlan — 규칙 기반 추천", () => {
-  it("최초 처방 중량도 2kg 단위 정수다", () => {
+  it("최초 처방 중량도 증량 단위 격자(기구 미지정 2.5kg)에 맞는다", () => {
     const p = prescribe("bench-press", {
       gender: "male",
       experience: "intermediate",
@@ -72,11 +72,10 @@ describe("overloadPlan — 규칙 기반 추천", () => {
       weightKg: 75,
     });
     expect(p.weightKg).not.toBeNull();
-    expect((p.weightKg ?? 0) % 2).toBe(0);
-    expect(Number.isInteger(p.weightKg)).toBe(true);
+    expect((p.weightKg ?? 0) % 2.5).toBe(0);
   });
 
-  it("최초 처방은 바벨·머신 5kg, 덤벨 1kg 단위이며 소수를 만들지 않는다", () => {
+  it("최초 처방은 기구별 단위를 따른다 — 큰 종목 바벨·머신 5kg, 덤벨 2kg", () => {
     const opts = {
       gender: "male" as const,
       experience: "intermediate" as const,
@@ -84,14 +83,14 @@ describe("overloadPlan — 규칙 기반 추천", () => {
       weightKg: 73,
     };
     expect(prescribe("bench-press", { ...opts, equipment: "barbell" }).weightKg! % 5).toBe(0);
-    expect(prescribe("bench-press", { ...opts, equipment: "dumbbell" }).weightKg! % 1).toBe(0);
+    expect(prescribe("bench-press", { ...opts, equipment: "dumbbell" }).weightKg! % 2).toBe(0);
     expect(prescribe("bench-press", { ...opts, equipment: "machine" }).weightKg! % 5).toBe(0);
   });
 
   it("과부하 추천도 선택 기구 단위로만 증량한다", () => {
     const rows = [rec(1, "bench-press", 4, 10, 42), rec(2, "bench-press", 4, 10, 45)];
     expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "barbell").suggestedKg).toBe(50);
-    expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "dumbbell").suggestedKg).toBe(46);
+    expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "dumbbell").suggestedKg).toBe(48);
     expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "machine").suggestedKg).toBe(50);
   });
 
@@ -118,7 +117,7 @@ describe("overloadPlan — 규칙 기반 추천", () => {
       "intermediate",
     );
     expect(p.action).toBe("increase");
-    expect(p.suggestedKg).toBe(108); // 모든 중량 운동 → 2kg 단위
+    expect(p.suggestedKg).toBe(107.5); // 기구 미지정 → 2.5kg 격자
     expect(p.suggestedReps).toBe(SQUAT_TARGET);
     expect(p.reason).toContain("목표");
   });
@@ -133,7 +132,7 @@ describe("overloadPlan — 규칙 기반 추천", () => {
       "intermediate",
     );
     expect(p.action).toBe("add-reps");
-    expect(p.suggestedKg).toBe(106);
+    expect(p.suggestedKg).toBe(105);
     expect(p.suggestedReps).toBe(SQUAT_TARGET);
   });
 
@@ -201,7 +200,7 @@ describe("overloadPlan — 규칙 기반 추천", () => {
     expect(p.reason).toContain("시간");
   });
 
-  it("모든 중량 운동은 2kg 단위 정수로 증량한다", () => {
+  it("모든 중량 운동은 증량 단위 격자로만 올라간다", () => {
     const light = overloadPlan(
       [
         rec(1, "lateral-raise", 3, 15, 10),
@@ -211,7 +210,7 @@ describe("overloadPlan — 규칙 기반 추천", () => {
       "intermediate",
     );
     expect(light.action).toBe("increase");
-    expect(light.suggestedKg).toBe(14);
+    expect(light.suggestedKg).toBe(15);
     expect(loadClassLabel("lateral-raise")).toBe("고립 저중량");
     expect(loadClassLabel("squat")).toBe("복합 고중량");
   });
@@ -281,24 +280,24 @@ describe("증량 단위는 기록의 기구를 따른다 (화면마다 다른 �
     expect(plan.suggestedKg).toBe(110);
   });
 
-  it("기구를 명시하면 그쪽이 이긴다 — 오늘 덤벨로 할 거면 1kg 단위", () => {
+  it("기구를 명시하면 그쪽이 이긴다 — 오늘 덤벨로 할 거면 2kg 단위", () => {
     const records = [
       recEq(1, "goblet-squat", 20, "dumbbell"),
       recEq(8, "goblet-squat", 21, "dumbbell"),
     ];
     const plan = overloadPlan(records, "goblet-squat", "advanced", undefined, "dumbbell");
     expect(plan.action).toBe("increase");
-    expect(plan.suggestedKg).toBe(22);
+    expect(plan.suggestedKg).toBe(24);
   });
 
-  it("기록에도 인자에도 기구가 없으면 기본 단위(2kg)로 떨어진다", () => {
+  it("기록에도 인자에도 기구가 없으면 기본 단위(2.5kg)로 떨어진다", () => {
     const records = [
       recEq(1, "squat", 100, null),
       recEq(8, "squat", 105, null),
     ];
     const plan = overloadPlan(records, "squat", "advanced");
-    // 바벨(5kg)이면 110 인데, 기구를 모르면 2kg 격자로 올라간다(105 → 108).
-    expect(plan.suggestedKg).toBe(108);
+    // 바벨(5kg)이면 110 인데, 기구를 모르면 2.5kg 격자로 올라간다(105 → 107.5).
+    expect(plan.suggestedKg).toBe(107.5);
     expect(plan.suggestedKg).not.toBe(110);
   });
 

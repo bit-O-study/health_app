@@ -1,0 +1,19 @@
+[
+  {
+    "id": "dumbbell-front-raise",
+    "renderVersion": 5,
+    "panels": 16,
+    "cutout": true,
+    "sourceSha256": "673166f5115d17a4f9a4d4dcb77c29c442fe944cc7ca75b576a73439f15196ae",
+    "videoSha256": "e4797a081d644171af5fe43b48a7b93b01aa3146d593c36e6bd5d3249141718f",
+    "darkVideoSha256": "89266e08e93205fa530ed6f8e42af575e547d1d04e11e3ad405629ad107b9f6e",
+    "darkBytes": 183792,
+    "width": 480,
+    "height": 480,
+    "seconds": 8,
+    "fps": 24,
+    "bytes": 156521,
+    "decode": "passed",
+    "verifiedAt": "2026-09-25T02:45:34.857Z"
+  }
+]

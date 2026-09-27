@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercisesViaUI, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 보조(사이드) 볼륨: 한 일차에 주 부위(가슴) + 보조 부위(삼두)를 두면,
@@ -11,7 +11,7 @@ type Row = { exercise_id: string };
 
 test("사이드로 붙인 삼두는 2개만, 삼두 운동으로 채워진다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 커스텀 루틴: 0일차 = 가슴 + 삼두(보조), 나머지 휴식. 기준일=오늘.
   const week = [
@@ -32,7 +32,7 @@ test("사이드로 붙인 삼두는 2개만, 삼두 운동으로 채워진다", 
     [email, JSON.stringify(week)],
   );
 
-  await seedRecommendedExercises(page);
+  await seedRecommendedExercisesViaUI(page);
 
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
@@ -60,7 +60,7 @@ test("사이드로 붙인 삼두는 2개만, 삼두 운동으로 채워진다", 
 // 묶이며 exercisesForFocus("arm") 의 삼두 운동까지 섞여 들어왔다 — focusExercisesForSlot 로 분리)
 test("이두만 추가하면 삼두 없이 이두 운동만 등록된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   const week = [
     ["biceps"],
@@ -80,7 +80,7 @@ test("이두만 추가하면 삼두 없이 이두 운동만 등록된다", async
     [email, JSON.stringify(week)],
   );
 
-  await seedRecommendedExercises(page);
+  await seedRecommendedExercisesViaUI(page);
 
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
   const arm = await dbQuery<Row>(

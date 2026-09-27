@@ -1,13 +1,10 @@
-import { expect, type Page } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+import { prepareOnboardedAccount } from "./account-fixture";
+import { prepareRecommendedExercises } from "./recommended-fixture";
 
 import { dbQuery, hasDb } from "./db";
-
-/** Unique throwaway email. Prefix `e2e_` lets global-teardown clean it up. */
-export function freshEmail(): string {
-  return `e2e_${Date.now()}_${Math.floor(Math.random() * 1e6)}@example.com`;
-}
-
-export const TEST_PASSWORD = "test123456";
+import { freshEmail, TEST_PASSWORD } from "./run-scope";
+export { freshEmail, TEST_PASSWORD } from "./run-scope";
 
 /**
  * Sign up a brand-new account and complete onboarding, landing on the home page.
@@ -24,7 +21,15 @@ export const TEST_PASSWORD = "test123456";
  */
 let lastSignedUpEmail: string | null = null;
 
+/** API setup for tests whose subject is not the signup/onboarding UI. */
 export async function signUpAndOnboard(page: Page): Promise<string> {
+  const email = await createOnboardedAccount(page);
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  return email;
+}
+
+/** Actual signup/onboarding journey, retained for UI coverage. */
+export async function signUpAndOnboardViaUI(page: Page): Promise<string> {
   const email = freshEmail();
   lastSignedUpEmail = email;
 
@@ -65,12 +70,22 @@ export async function signUpAndOnboard(page: Page): Promise<string> {
   return email;
 }
 
+/** Prepare data directly when DB credentials are available; keep UI coverage explicit. */
+export async function seedRecommendedExercises(page: Page): Promise<void> {
+  if (!hasDb) return seedRecommendedExercisesViaUI(page);
+  if (!lastSignedUpEmail) throw new Error("Create a test account before preparing exercises");
+  await prepareRecommendedExercises(lastSignedUpEmail);
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await ensureTodayIsWorkoutDay(page);
+  await expect(page.getByRole("button", { name: "운동 시작" })).toBeVisible();
+}
+
 /**
  * Populate the user's plan with recommended exercises for all focuses via the
  * real /plan "추천으로 등록" action, then return to home. Today then shows a
  * full workout (warmup + main + cooldown).
  */
-export async function seedRecommendedExercises(page: Page): Promise<void> {
+export async function seedRecommendedExercisesViaUI(page: Page): Promise<void> {
   await page.goto("/plan", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
   await page.getByRole("button", { name: "추천으로 등록" }).click();
@@ -113,4 +128,12 @@ async function ensureTodayIsWorkoutDay(page: Page): Promise<void> {
     await page.goto("/routine", { waitUntil: "networkidle" });
     await page.waitForTimeout(600);
   }
+}
+
+/** Prepare an account without opening a page. */
+export async function createOnboardedAccount(page: Page): Promise<string> {
+  const baseURL = test.info().project.use.baseURL ?? "http://localhost:3000";
+  const email = await prepareOnboardedAccount(page.context(), baseURL);
+  lastSignedUpEmail = email;
+  return email;
 }

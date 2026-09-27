@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercisesViaUI, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 같은 날에 가슴 상부 + 가슴 하부(같은 tone=chest)를 넣으면, 오늘 운동을 chest 로
@@ -17,7 +17,7 @@ test("같은 날 가슴 상부+하부는 메인에서 운동/키가 복제되지
     }
   });
 
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const week = [
     ["pull", "chest-upper", "chest-lower"],
     ["rest"],
@@ -35,7 +35,7 @@ test("같은 날 가슴 상부+하부는 메인에서 운동/키가 복제되지
       where user_id=(select id from auth.users where lower(email)=lower($1))`,
     [email, JSON.stringify(week)],
   );
-  await seedRecommendedExercises(page);
+  await seedRecommendedExercisesViaUI(page);
 
   await page.goto("/routine", { waitUntil: "networkidle" });
   await page.waitForTimeout(1000);
@@ -45,7 +45,7 @@ test("같은 날 가슴 상부+하부는 메인에서 운동/키가 복제되지
 
   // DB: 가슴 운동이 chest focus 로 한 세트만(중복 등록 아님) — 행 id 중복 없음 가정,
   //     화면 본운동 리스트도 이름 중복이 없어야 한다.
-  const mainUl = page.locator("ul.space-y-2").nth(1);
+  const mainUl = page.locator('[data-testid="today-main-list"]');
   const names = (await mainUl.locator("li h3").allInnerTexts()).map((s) =>
     s.split("\n")[0].trim(),
   );

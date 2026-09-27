@@ -19,6 +19,7 @@ import {
   type OverloadPlan,
 } from "@/features/routine/overload";
 import type { ProgressRecord } from "@/features/routine/progress";
+import { stepOverrideFor } from "@/features/routine/weight-steps";
 
 /** 종류별 말머리 — 무엇을 하라는 건지 한 눈에. */
 export const ACTION_LABEL: Record<OverloadAction, string> = {
@@ -90,6 +91,8 @@ export function buildAdviceMap(
   records: ProgressRecord[],
   targets: readonly AdviceTarget[],
   experience: ExperienceLevel,
+  /** 사용자가 정한 종목별 증량 단위(kg). 화면마다 다른 무게를 권하지 않게 같이 넘긴다. */
+  weightSteps?: Record<string, number>,
 ): Record<string, OverloadAdvice> {
   const out: Record<string, OverloadAdvice> = {};
   for (const t of targets) {
@@ -101,6 +104,7 @@ export function buildAdviceMap(
         experience,
         t.targetReps ?? undefined,
         t.equipment,
+        stepOverrideFor(weightSteps, t.exerciseId),
       ),
     );
     if (advice) out[t.exerciseId] = advice;

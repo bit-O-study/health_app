@@ -1,0 +1,21 @@
+{
+  "date": "2026-09-25T11:45:26.220Z",
+  "status": "rejected",
+  "published": false,
+  "reason": [
+    "Foot anchor span remains 24px left and 19px right; previous candidate 22px and 21px.",
+    "Right shoe bottom reaches crop boundary in panels 1-8.",
+    "Final row reverses squat depth, so descent-only reverse cycle is invalid."
+  ],
+  "completed": [
+    "birefnet-general cutout 16 panels",
+    "light/dark 480x480 8sec 24fps H264 full decode",
+    "light/dark 32-frame contact sheets visual review",
+    "guide-review 3 tests passed",
+    "targeted ESLint passed",
+    "TypeScript passed"
+  ],
+  "next": "Do not republish this sheet. Use independently controlled poses with fixed framing and inspect feet/depth before full cutout render.",
+  "prompts": "generation.json",
+  "measurements": "foot-anchors.json"
+}

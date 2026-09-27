@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 재현/회귀: '오늘만 운동 바꾸기 → 운동 전체 바꾸기(replace)' 하면 원래 오늘 운동이
@@ -14,7 +14,7 @@ test("오늘만 전체 바꾸기 → 루틴이 하루 밀린다(start_date +1, �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `update public.user_routines

@@ -120,7 +120,7 @@ export function NotificationBell() {
                   clearPrompt();
                   setOpen(false);
                 }}
-                className="text-[11px] font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
+                className="text-xs font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
               >
                 지우기
               </button>
@@ -152,7 +152,7 @@ export function NotificationBell() {
                     prompt.onYes();
                     setOpen(false);
                   }}
-                  className="h-9 rounded-lg bg-emerald-600 px-3 text-sm font-bold text-white transition hover:bg-emerald-500"
+                  className="h-9 rounded-lg bg-brand px-3 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
                 >
                   예
                 </button>

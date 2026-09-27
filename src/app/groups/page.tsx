@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
+import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getMyGroups, getGroupDetail } from "@/features/groups/data-access";
 import { getGroupProofBoard } from "@/features/groups/proof-data";
@@ -14,7 +16,7 @@ export const metadata = { title: "그룹" };
 export default async function GroupsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ g?: string }>;
+  searchParams: Promise<{ g?: string; view?: string }>;
 }) {
   const user = await getCurrentUser();
   if (!user) redirect("/login");
@@ -24,22 +26,30 @@ export default async function GroupsPage({
   // 그룹이 없으면 만들기/참여 화면.
   if (groups.length === 0) {
     return (
-      <main className="app-page app-container">
-        <h1 className="mb-1 text-xl font-bold text-zinc-950 dark:text-zinc-50">그룹</h1>
-        <p className="mb-5 text-sm text-zinc-500 dark:text-zinc-400">
-          {mode === "proof"
-            ? "그룹을 만들어 친구와 오늘 운동 인증을 서로 남겨보세요."
-            : "그룹을 만들어 친구와 이번 주 운동 랭킹대전을 펼쳐보세요."}
-        </p>
-        <GroupsClient groups={groups} mode={mode} />
-      </main>
+      <div className="app-page">
+        <PageHeader branded title="그룹" />
+        {/* 설명 문장은 뺐다 — 아래 '새 그룹 만들기'가 할 일을 이미 말해 준다(2026-09-15). */}
+        <main className="app-container">
+          <GroupsClient groups={groups} mode={mode} />
+        </main>
+      </div>
     );
   }
 
   // 선택된 그룹(?g=) 이 내 그룹이면 그걸로, 아니면 첫 그룹으로 바로 입장.
-  const { g } = await searchParams;
+  const { g, view } = await searchParams;
   const selectedId = g && groups.some((x) => x.id === g) ? g : groups[0].id;
 
+  if (view === "ranking") {
+    const ranking = await getGroupDetail(selectedId);
+    if (!ranking) redirect("/groups");
+    return <main className="app-page app-container space-y-4">
+      <h1 className="text-2xl font-bold">이번 주 그룹 랭킹</h1>
+      <nav aria-label="랭킹 그룹 선택" className="flex flex-wrap gap-2">{groups.map(group => <Link key={group.id} href={`/groups?view=ranking&g=${group.id}`} aria-current={group.id === selectedId ? "page" : undefined} className={"rounded-full border px-3 py-2 text-sm " + (group.id === selectedId ? "border-brand bg-brand-soft text-brand" : "border-zinc-300")}>{group.name}</Link>)}</nav>
+      <p className="text-sm text-zinc-500">{ranking.weekFrom} ~ {ranking.weekTo} · 운동 소비 칼로리 순</p>
+      <ol className="space-y-2">{ranking.ranking.map(member => <li key={member.userId} className="app-card flex items-center gap-3 p-4"><span className="text-xl font-bold text-brand">{member.rank}</span><div className="min-w-0 flex-1"><p className="truncate font-semibold">{member.name}{member.isMe ? " · 나" : ""}</p><p className="text-xs text-zinc-500">운동 {member.days}일 · {member.workouts}개</p></div><span className="text-sm font-semibold">{Math.round(member.kcal).toLocaleString()} kcal</span></li>)}</ol>
+    </main>;
+  }
   // ── 오늘 운동 인증(움짤) 모드 ──────────────────────────────────────
   if (mode === "proof") {
     const board = await getGroupProofBoard(selectedId);
@@ -47,7 +57,7 @@ export default async function GroupsPage({
     return (
       // 움짤 인증 피드 — 일반 흐름(문서 스크롤)이라 헤더까지 전체가 함께 스크롤되고,
       // body 의 상단 safe-area 패딩을 그대로 물려받아 상태바와 안 겹친다.
-      <main className="app-page mx-auto w-full max-w-2xl">
+      <main className="app-page mx-auto w-full max-w-3xl">
         <GroupProofBoard board={board} groups={groups} />
       </main>
     );

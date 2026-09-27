@@ -83,17 +83,18 @@ export function forTab<T extends MinItem>(
 }
 
 /** 커뮤니티 게시판 탭 — 오운완(사진) / 그룹(사진) / 운동(티칭) / 내 글. */
-export type BoardTab = "workout" | "teaching" | "routine" | "mine";
+export type BoardTab = "workout" | "teaching" | "routine" | "mine" | "popular";
 
 export const BOARD_TABS: { value: BoardTab; label: string }[] = [
   { value: "workout", label: "오운완" },
+  { value: "popular", label: "인기" },
   { value: "teaching", label: "운동" },
   // 루틴 소개(하루치 루틴 공유) — 통합 피드가 아니라 routine_shares 를 따로 그린다.
   { value: "routine", label: "루틴" },
   { value: "mine", label: "내 글" },
 ];
 
-type BoardItem = MinItem & { isMine: boolean };
+type BoardItem = MinItem & { isMine: boolean; likeCount?: number; createdAt?: string };
 
 /**
  * 게시판 탭별 분류(+운동 탭 검색). 순수 로직.
@@ -111,6 +112,8 @@ export function forBoard<T extends BoardItem>(
   search = "",
 ): T[] {
   switch (tab) {
+    case "popular":
+      return [...items].sort((a, b) => (b.likeCount ?? 0) - (a.likeCount ?? 0) || (b.createdAt ?? "").localeCompare(a.createdAt ?? ""));
     case "workout":
       return items.filter((it) => it.kind === "photo");
     case "teaching": {

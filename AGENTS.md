@@ -94,3 +94,7 @@ Use the smallest validation that proves the claim:
 - Manual inspection only when automated checks do not exist or cannot run.
 
 If verification cannot run, state why and provide the next-best evidence.
+
+## Exercise video work continuity
+
+For exercise-video work, after the required first reads, read `docs/EXERCISE-VIDEO-RESUME.md`. Resume its next unfinished task and verify live coverage. The user has already authorized exercise-specific generation, corrections, and validation; do not ask for routine confirmation again. Update the resume document and roadmap with fresh evidence before a handoff. Required tool permissions still apply.

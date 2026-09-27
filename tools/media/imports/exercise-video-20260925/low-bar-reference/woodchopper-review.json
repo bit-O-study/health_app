@@ -1,0 +1,7 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Edit this exercise sprite sheet to correct interpolation discontinuities. Keep exact equal 4x4 cells and exactly the same gray character, teal shorts, low cable pulley tower on left, rope attachment, fixed camera, scale, feet positions and continuous taut cable. LOW TO HIGH cable woodchop: cell1 hands outside hip nearest machine, head and sternum turned slightly toward machine; cell16 hands above opposite shoulder, hips sternum and head turned away. Critical change: distribute ALL motion equally across the sixteen cells without row jumps. Hands move equal distances along a smooth diagonal arc in every consecutive frame. Head turns together with torso in 16 tiny equal angular increments from 30 degrees left toward machine to 30 degrees right away. Frame2 must NOT snap head to right. The transition cell8 to cell9 must be same small hand/head movement as other transitions. Soft extended elbows constant, torso upright, no back arch, stable feet with small natural pivot. Cable remains connected from lower pulley to rope connector for all cells. Full body, machine, hands and cable fit inside each cell with ample margins, nothing clipped. Uniform opaque light gray background. No grid lines, no text. 2048x2048.",
+  "status": "rejected",
+  "reason": "Cell 1 to 2 still changes head direction abruptly; row 2 to 3 hand displacement remains larger than intra-row changes. No registration or render.",
+  "source": "tools/media/motion-guides/cable-woodchopper.jpg"
+}

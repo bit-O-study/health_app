@@ -61,7 +61,7 @@ export default async function AdminMembersPage() {
             return (
               <li
                 key={m.userId}
-                className="rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-4 shadow-sm"
+                className="app-card p-4"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
@@ -72,12 +72,12 @@ export default async function AdminMembersPage() {
                   </div>
                   <span className="flex shrink-0 flex-wrap items-center gap-1">
                     {m.withdrawnAt ? (
-                      <span className="whitespace-nowrap rounded-full bg-zinc-200 px-2 py-0.5 text-[11px] font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
+                      <span className="whitespace-nowrap rounded-full bg-zinc-200 px-2 py-0.5 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                         탈퇴
                       </span>
                     ) : null}
                     <span
-                      className={`whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold ${badge}`}
+                      className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-bold ${badge}`}
                     >
                       {BAN_STATE_LABEL[state]}
                       {state === "suspended" && m.suspendedUntil

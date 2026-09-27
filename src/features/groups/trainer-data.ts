@@ -20,6 +20,12 @@ import { REGION_LIST, type Region } from "@/features/routine/score";
 import { setsByRegion, type SetRecord } from "@/features/routine/training-volume";
 import { REGION_LABEL_KO } from "@/features/routine/weekly-training-view";
 import type { TrainerComment } from "@/features/groups/trainer-comment";
+import { getGroupSharePrefs } from "@/features/groups/share-prefs.server";
+import {
+  DEFAULT_SHARE_PREFS,
+  hiddenKindsOf,
+  type SharePrefs,
+} from "@/features/groups/share-prefs";
 
 export type TrainerBoard = {
   groupId: string;
@@ -76,9 +82,12 @@ export async function getTrainerBoard(groupId: string): Promise<TrainerBoard | n
 
   // 집계(RPC)와 멤버 목록은 서로 의존이 없어 한 묶음으로. 프로필은 멤버 id 가 있어야
   // 물을 수 있어 그다음이다(왕복 2회 — 회원 수와 무관하게 고정이다).
-  const [{ data: stats }, { data: members }] = await Promise.all([
+  const [{ data: stats }, { data: members }, sharePrefs] = await Promise.all([
     supabase.rpc("trainer_board", { p_group_id: groupId, p_from: from, p_to: to }),
     supabase.from("group_members").select("user_id, display_name").eq("group_id", groupId),
+    // 🔴 회원이 끈 항목은 **숫자를 지워서** 내려야 한다. 집계 RPC 는 동의를 모른다 —
+    //    거기서 거르면 트레이너 화면마다 같은 규칙을 SQL 에 또 쓰게 된다.
+    getGroupSharePrefs(groupId),
   ]);
 
   const memberRows = (members ?? []) as { user_id: string; display_name: string | null }[];
@@ -113,18 +122,24 @@ export async function getTrainerBoard(groupId: string): Promise<TrainerBoard | n
   const rows = ((stats ?? []) as Row[])
     // 트레이너 자신은 담당 회원이 아니다 — 자기를 챙기라고 띄울 이유가 없다.
     .filter((r) => r.user_id !== user.id)
-    .map<TrainerMember>((r) => ({
-      userId: r.user_id,
-      name: nameOf.get(r.user_id) ?? resolveMemberName(null, null, dispOf.get(r.user_id)),
-      workoutDays: int(r.workout_days),
-      dietDays: int(r.diet_days),
-      targetDays: int(r.target_days),
-      // date 컬럼이라 'YYYY-MM-DD' 로 오지만, 드라이버가 시각을 붙여 보내는 경우가 있다.
-      lastWorkout: r.last_workout ? r.last_workout.slice(0, 10) : null,
-      weightFirst: dec(r.weight_first),
-      weightLast: dec(r.weight_last),
-      untouchedRegions: untouchedOf.get(r.user_id) ?? [],
-    }));
+    .map<TrainerMember>((r) => {
+      const prefs: SharePrefs = sharePrefs.get(r.user_id) ?? DEFAULT_SHARE_PREFS;
+      return maskMember(
+        {
+          userId: r.user_id,
+          name: nameOf.get(r.user_id) ?? resolveMemberName(null, null, dispOf.get(r.user_id)),
+          workoutDays: int(r.workout_days),
+          dietDays: int(r.diet_days),
+          targetDays: int(r.target_days),
+          // date 컬럼이라 'YYYY-MM-DD' 로 오지만, 드라이버가 시각을 붙여 보내는 경우가 있다.
+          lastWorkout: r.last_workout ? r.last_workout.slice(0, 10) : null,
+          weightFirst: dec(r.weight_first),
+          weightLast: dec(r.weight_last),
+          untouchedRegions: untouchedOf.get(r.user_id) ?? [],
+        },
+        prefs,
+      );
+    });
 
   return {
     groupId: g.id,
@@ -133,6 +148,30 @@ export async function getTrainerBoard(groupId: string): Promise<TrainerBoard | n
     weekTo: to,
     today,
     members: sortForTrainer(rows, today),
+  };
+}
+
+/**
+ * 회원이 끈 항목을 **화면에 닿기 전에** 지운다.
+ *
+ * 🔴 값을 0 으로 두고 라벨만 '비공개' 로 붙이면 안 된다 — 서버가 이미 내려보낸 숫자는
+ *    개발자도구에서 그대로 보인다. 제공하지 않기로 한 값은 **아예 안 내려간다.**
+ *    (0/ null 은 '없음' 이 아니라 '안 보여줌' 이라는 뜻이고, 그 해석은 `hidden` 이 한다.)
+ */
+function maskMember(m: TrainerMember, prefs: SharePrefs): TrainerMember {
+  const hidden = hiddenKindsOf(prefs);
+  if (hidden.length === 0) return m;
+  const off = new Set(hidden);
+  return {
+    ...m,
+    workoutDays: off.has("workout") ? 0 : m.workoutDays,
+    targetDays: off.has("workout") ? 0 : m.targetDays,
+    lastWorkout: off.has("workout") ? null : m.lastWorkout,
+    untouchedRegions: off.has("workout") ? [] : m.untouchedRegions,
+    dietDays: off.has("diet") ? 0 : m.dietDays,
+    weightFirst: off.has("body") ? null : m.weightFirst,
+    weightLast: off.has("body") ? null : m.weightLast,
+    hidden,
   };
 }
 

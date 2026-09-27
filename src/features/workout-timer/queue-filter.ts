@@ -61,6 +61,28 @@ export function shouldShowSessionFinished(
   return queueLength === 0 && (sessionFinished || queueItemsLength > 0);
 }
 
+/**
+ * 운동모드 상단 "n / m" — **남은(미처리) 항목 기준**으로 센다.
+ *
+ * 큐는 시작 스냅샷이라 완료한 운동도 배열에 남는다. 예전엔 `index+1 / 전체` 라
+ * 첫 운동을 끝내면 ‹ 로 갈 곳이 없는데도 "2 / 6" 이 떴고, 운동모드를 다시 열면
+ * 완료분이 빠져 "1 / 5" 가 됐다. 이제 세션 중에도 다시 열 때와 같은 "1 / 5" 다.
+ */
+export function activeProgress(
+  rowIds: readonly string[],
+  processed: ReadonlySet<string>,
+  current: number,
+): { position: number; count: number } {
+  let position = 0;
+  let count = 0;
+  rowIds.forEach((id, i) => {
+    if (processed.has(id)) return;
+    count += 1;
+    if (i <= current) position += 1;
+  });
+  return { position: Math.max(1, position), count: Math.max(1, count) };
+}
+
 export function adjacentActiveIndex(
   rowIds: readonly string[],
   processed: ReadonlySet<string>,

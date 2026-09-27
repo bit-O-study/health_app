@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { seedRecommendedExercises, signUpAndOnboard } from "./helpers/auth";
+import { seedRecommendedExercises, createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 스키마 드리프트로 터졌던 두 버그의 회귀 가드.
@@ -17,7 +17,7 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 test.describe("routine + plan registration", () => {
   test("7일 루틴(splits=7) 저장이 성공한다", async ({ page }) => {
     test.skip(!hasDb, "needs .env.test.local DB creds");
-    const email = await signUpAndOnboard(page);
+    const email = await createOnboardedAccount(page);
 
     await page.goto("/settings/routine", { waitUntil: "networkidle" });
     const planner = page.locator('section:has-text("나의 루틴")').last();
@@ -42,7 +42,7 @@ test.describe("routine + plan registration", () => {
 
   test("세트별 다른 kg(피라미드) 등록이 저장·영속된다", async ({ page }) => {
     test.skip(!hasDb, "needs .env.test.local DB creds");
-    const email = await signUpAndOnboard(page);
+    const email = await createOnboardedAccount(page);
     // 갓 가입한 계정의 /plan 은 비어 있다 — 고칠 줄이 있어야 한다.
     await seedRecommendedExercises(page);
     // 무게·횟수를 계획 화면에서 정하는 모드여야 세트별 입력칸이 나온다.

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 const uid = `(select id from auth.users where lower(email)=lower($1))`;
@@ -10,7 +10,7 @@ const uid = `(select id from auth.users where lower(email)=lower($1))`;
 // safe-area 만큼 여유를 준 뒤, 최소한 데스크톱에서 겹치지 않음을 지키는 가드.
 test("운동게시판 삭제 버튼이 하단 탭바에 가리지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   await dbQuery(
     `insert into public.teaching_posts (user_id, visibility, author_name, exercise_tag, video_url, caption)

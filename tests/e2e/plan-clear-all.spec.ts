@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // "전체 운동 초기화" 는 저장을 누르지 않아도 본운동 + 워밍업/마무리를 즉시 비운다.
@@ -9,7 +9,7 @@ test("전체 운동 초기화: 저장 없이 본운동·워밍업·마무리 즉
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   // 본운동 1개 + 워밍업 1개 + 마무리 1개 시드

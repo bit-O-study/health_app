@@ -305,7 +305,8 @@ self.addEventListener("notificationclick", (event) => {
 async function mediaWithRange(request) {
   const range = request.headers.get("range");
   // 캐시 키·받아올 요청 모두 Range 없는 '전체' 요청이다.
-  const key = new Request(request.url);
+  // 브라우저의 부분 다운로드 캐시와 섞지 않는다. 전체 파일은 아래 CacheStorage에 보관한다.
+  const key = new Request(request.url, { cache: "no-store" });
   const cache = await caches.open(MEDIA_CACHE);
 
   let full = await cache.match(key);

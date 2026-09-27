@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 사용자 시나리오: 마무리(쿨다운)를 완료한 뒤 루틴을 바꿔 오늘 부위(focus)가 달라지면
@@ -12,7 +12,7 @@ test("루틴변경으로 마무리 종목이 달라지면(런닝→차일드포�
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   // 1일차=가슴(마무리=런닝), 2일차=등(마무리=스트레칭). 마이그레이션 스킵.

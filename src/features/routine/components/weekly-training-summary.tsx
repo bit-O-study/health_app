@@ -48,18 +48,18 @@ export function WeeklyTrainingSummary({
       href="/settings/score"
       data-testid="weekly-training-summary"
       data-week-sets={weekSets}
-      className="block rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-emerald-300 dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-emerald-700"
+      className="block rounded-2xl border border-zinc-200 bg-white p-4 transition hover:border-brand dark:border-zinc-700 dark:bg-zinc-800 dark:hover:border-brand"
     >
       <div className="flex items-center gap-2">
         <p className="flex items-center gap-1.5 text-sm font-bold text-zinc-950 dark:text-zinc-100">
           <Dumbbell
             aria-hidden="true"
             size={14}
-            className="text-emerald-600 dark:text-emerald-400"
+            className="text-brand"
           />
           이번 주 훈련
         </p>
-        <p className="text-sm font-bold tabular-nums text-emerald-700 dark:text-emerald-400">
+        <p className="text-sm font-bold tabular-nums text-brand">
           {weekSets}세트
         </p>
         <ChevronRight
@@ -79,21 +79,21 @@ export function WeeklyTrainingSummary({
             className="min-w-0 text-center"
             title={`${r.label} ${r.sets}세트 · ${VOLUME_LABEL[r.status]} (권장 ${WEEKLY_SET_MIN}~${WEEKLY_SET_MAX})`}
           >
-            <span className="block truncate text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
+            <span className="block truncate text-xs font-semibold text-zinc-500 dark:text-zinc-400">
               {r.label}
             </span>
             <span
               className="mt-0.5 block h-1.5 w-full rounded-full"
               style={{ backgroundColor: VOLUME_COLOR[r.status] }}
             />
-            <span className="mt-0.5 block text-[10px] font-bold tabular-nums text-zinc-600 dark:text-zinc-300">
+            <span className="mt-0.5 block text-xs font-bold tabular-nums text-zinc-600 dark:text-zinc-300">
               {r.sets}
             </span>
           </li>
         ))}
       </ul>
 
-      <p className="mt-2 text-[11px] font-semibold text-zinc-600 dark:text-zinc-300">
+      <p className="mt-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300">
         {untouched.length > 0 ? (
           <span className="text-rose-600 dark:text-rose-400">
             {untouched.map((r) => r.label).join("·")} 0세트
@@ -103,7 +103,7 @@ export function WeeklyTrainingSummary({
             {low.map((r) => r.label).join("·")} 권장량 미달
           </span>
         ) : (
-          <span className="text-emerald-600 dark:text-emerald-400">
+          <span className="text-brand">
             모든 부위가 권장량 안에 있어요
           </span>
         )}

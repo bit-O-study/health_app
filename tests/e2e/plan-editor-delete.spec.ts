@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 
 // 운동 등록(/plan) 편집기:
 //  - 개별 운동 삭제 버튼이 실제로 그 행을 지워야 한다(과거엔 state 키를 잘못 써서
@@ -8,7 +8,7 @@ import { signUpAndOnboard } from "./helpers/auth";
 //  - '전체 운동 초기화' 버튼이 모든 부위의 담은 운동을 비워야 한다.
 
 test("개별 운동 삭제 버튼이 그 행을 실제로 지운다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/plan", { waitUntil: "networkidle" });
   await page.waitForTimeout(500);
 
@@ -36,7 +36,7 @@ test("개별 운동 삭제 버튼이 그 행을 실제로 지운다", async ({ p
 });
 
 test("전체 운동 초기화가 모든 부위의 담은 운동을 비운다", async ({ page }) => {
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/plan", { waitUntil: "networkidle" });
   await page.waitForTimeout(500);
 

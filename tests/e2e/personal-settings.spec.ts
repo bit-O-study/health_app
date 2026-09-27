@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 개인설정(상세 가이드)을 끄면 운동 모드에서 실제로 숨겨져야 한다.
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("개인설정 페이지가 에러 없이 뜨고 토글이 동작한다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/personal", { waitUntil: "networkidle" });
 
@@ -33,7 +33,7 @@ test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
   await page.goto("/settings/personal", { waitUntil: "networkidle" });
 
   // 알림음 피커가 뜨고, 종류 3종 + 미리듣기가 있다.
@@ -45,11 +45,18 @@ test("휴식 종료 알림음 종류를 고르면 저장된다(음성/비프/내
   await expect
     .poll(() => page.evaluate(() => localStorage.getItem("heltch.rest.sound.kind")))
     .toBe("beep");
+  await page.reload();
+  // 8단계 재설계로 선택 표시가 **초록 테두리 → aria-pressed + 흰 배경**으로 바뀌었다.
+  // 색 클래스를 단언하면 디자인이 바뀔 때마다 깨진다 — 상태로 본다.
+  await expect(page.getByRole("button", { name: /비프/ })).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
 });
 
 test("개인설정으로 상세 가이드를 끄면 운동 모드에서 숨겨진다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 상세 가이드를 끈다(기본은 켜짐).
   await dbQuery(

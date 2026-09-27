@@ -25,7 +25,7 @@ test("이전 음식 검색이 느려도 새 검색 결과를 표시하고 이전
     await route.fulfill({ json: rows });
   });
   try {
-    await page.getByRole("button", { name: "추가", exact: true }).first().click();
+    await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
     const search = page.getByLabel("음식 검색");
     await search.fill("바나나");
     await expect(page.getByRole("button").filter({ hasText: "바나나" })).toBeVisible();
@@ -42,12 +42,16 @@ test("이전 음식 검색이 느려도 새 검색 결과를 표시하고 이전
   }
 });
 
-test("실제 음식 검색 응답 시간과 결과를 확인한다", async ({ page }) => {
+test("워밍업 후 실제 음식 검색 응답 시간과 결과를 확인한다", async ({ page }) => {
   test.skip(!hasDb, "needs test DB credentials");
   await signUpAndOnboard(page);
-  // 첫 라우트 컴파일은 미리 끝내고 실제 검색 왕복을 측정한다.
-  const warmup = await page.request.get("/api/foods/search?source=local&q=");
-  expect(warmup.status()).toBe(200);
+  // 두 출처를 모두 준비한다. local만 호출하면 custom의 DB 첫 실행 비용까지 섞인다.
+  // 측정 검색어와 다른 값으로 준비하고, 실제 검색의 기존 4초 기준은 유지한다.
+  for (const source of ["local", "custom"]) {
+    const warmup = await page.request.get("/api/foods/search?" + new URLSearchParams({ source, q: "라면" }));
+    expect(warmup.status()).toBe(200);
+    expect(Array.isArray(await warmup.json())).toBe(true);
+  }
   for (const q of ["우유", "닭가슴살"]) {
     const results = await Promise.all(["local", "custom"].map(async (source) => {
       const started = Date.now();
@@ -88,7 +92,7 @@ test("결과가 있으면 식약처 실시간 조회를 안 부른다", async ({
     await route.fulfill({ json: rows });
   });
 
-  await page.getByRole("button", { name: "추가", exact: true }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page.getByLabel("음식 검색").fill("바나나");
   await expect(page.getByRole("button").filter({ hasText: "바나나" })).toBeVisible();
   // 디바운스(db 는 600ms)를 넉넉히 넘겨도 안 나가야 한다.
@@ -108,7 +112,7 @@ test("아무 데서도 못 찾으면 그때 식약처 실시간 조회를 부른
     await route.fulfill({ json: [] }); // 세 출처 모두 빈손
   });
 
-  await page.getByRole("button", { name: "추가", exact: true }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page.getByLabel("음식 검색").fill("없는음식이름asdf");
   await expect.poll(() => sources.includes("db"), { timeout: 5_000 }).toBe(true);
 });

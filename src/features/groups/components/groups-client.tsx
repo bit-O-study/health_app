@@ -60,56 +60,53 @@ export function GroupsClient({
     });
   }
 
+  // 아이폰 입력칸 느낌 — 테두리 대신 옅은 회색 바탕. 버튼과 한 줄에 놓는다(2026-09-16 촘촘하게).
   const field =
-    "h-11 w-full rounded-xl border border-zinc-300 bg-white px-3 text-base outline-none focus:border-emerald-400 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100";
+    "h-10 min-w-0 flex-1 rounded-[10px] bg-zinc-100 px-3 text-base outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100";
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
+      {groups.length === 0 ? (
+        <section className="app-card p-5">
+          <Users aria-hidden="true" size={28} className="text-brand" />
+          <h2 className="mt-3 text-xl font-bold">함께 쌓는 운동 습관</h2>
+          <p className="mt-1 text-sm text-muted">그룹을 만들거나 초대 링크로 시작하세요.</p>
+        </section>
+      ) : null}
       {err ? (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600 dark:bg-red-950/40">
+        <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm text-danger">
           {err}
         </p>
       ) : null}
 
-      {/* 내 그룹 */}
-      <section className="space-y-2">
-        <h2 className="text-sm font-bold text-zinc-500 dark:text-zinc-400">내 그룹</h2>
-        {groups.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-zinc-300 px-4 py-6 text-center text-sm text-zinc-400 dark:border-zinc-700">
-            아직 그룹이 없어요. 그룹을 만들거나 초대 링크로 참여하세요.
-          </p>
-        ) : (
-          <ul className="space-y-2">
+      {/* 내 그룹 — 없으면 섹션째 숨긴다(빈 안내 문장 대신 아래 만들기/참여가 바로 보이게). */}
+      {groups.length === 0 ? null : (
+        <section>
+          <h2 className="app-section-label">내 그룹</h2>
+          <ul className="app-list">
             {groups.map((g) => (
-              <li
-                key={g.id}
-                className="rounded-xl border border-zinc-200 bg-white p-3 shadow-sm dark:border-zinc-800 dark:bg-zinc-900"
-              >
+              <li key={g.id}>
                 <Link
                   href={`/groups?g=${g.id}`}
-                  className="group flex items-center gap-3"
+                  className="app-row transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400">
-                    <Users aria-hidden="true" size={18} />
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+                    <Users aria-hidden="true" size={16} />
                   </span>
-                  <div className="min-w-0 flex-1">
-                    <p className="flex items-center gap-1 truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <span className="min-w-0 flex-1">
+                    <span className="flex items-center gap-1 truncate text-base leading-5 text-zinc-900 dark:text-zinc-100">
                       {g.name}
                       {g.isOwner ? (
                         <Crown aria-hidden="true" size={13} className="text-amber-500" />
                       ) : null}
-                    </p>
-                    <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    </span>
+                    <span className="block text-xs leading-4 text-zinc-500 dark:text-zinc-400">
                       멤버 {g.memberCount}명
-                    </p>
-                  </div>
-                  <ChevronRight
-                    aria-hidden="true"
-                    size={16}
-                    className="shrink-0 text-zinc-400 transition group-hover:translate-x-1"
-                  />
+                    </span>
+                  </span>
+                  <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
                 </Link>
-                <div className="mt-2 border-t border-zinc-100 pt-2 dark:border-zinc-800">
+                <div className="pb-2.5 pl-[3.25rem] pr-3">
                   <GroupControls
                     groupId={g.id}
                     groupName={g.name}
@@ -122,47 +119,52 @@ export function GroupsClient({
               </li>
             ))}
           </ul>
-        )}
+        </section>
+      )}
+
+      {/* 그룹 만들기 — 입력칸 + 버튼 한 줄 */}
+      <section>
+        <h2 className="app-section-label">새 그룹 만들기</h2>
+        <div className="app-card flex items-center gap-2 p-2">
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="그룹 이름"
+            aria-label="그룹 이름"
+            className={field}
+          />
+          <button
+            type="button"
+            disabled={pending || name.trim() === ""}
+            onClick={create}
+            aria-label="그룹 만들기"
+            className="app-press inline-flex h-10 shrink-0 items-center gap-1 rounded-[10px] bg-brand px-3.5 text-sm font-semibold text-white disabled:opacity-40 dark:text-zinc-950"
+          >
+            <Plus aria-hidden="true" size={16} /> 만들기
+          </button>
+        </div>
       </section>
 
-      {/* 그룹 만들기 */}
-      <section className="space-y-2 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-sm font-bold text-zinc-700 dark:text-zinc-200">새 그룹 만들기</h2>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="그룹 이름 (예: 헬스 모임)"
-          aria-label="그룹 이름"
-          className={field}
-        />
-        <button
-          type="button"
-          disabled={pending || name.trim() === ""}
-          onClick={create}
-          className="flex h-11 w-full items-center justify-center gap-1 rounded-xl bg-emerald-600 text-base font-bold text-white transition hover:bg-emerald-500 disabled:opacity-50"
-        >
-          <Plus aria-hidden="true" size={18} /> 그룹 만들기
-        </button>
-      </section>
-
-      {/* 초대 링크로 참여 */}
-      <section className="space-y-2 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
-        <h2 className="text-sm font-bold text-zinc-700 dark:text-zinc-200">초대 링크로 참여</h2>
-        <input
-          value={invite}
-          onChange={(e) => setInvite(e.target.value)}
-          placeholder="초대 링크 붙여넣기"
-          aria-label="초대 링크"
-          className={field}
-        />
-        <button
-          type="button"
-          disabled={pending || invite.trim() === ""}
-          onClick={join}
-          className="h-11 w-full rounded-xl border border-emerald-300 bg-emerald-50 text-base font-bold text-emerald-700 transition hover:bg-emerald-100 disabled:opacity-50 dark:border-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-300"
-        >
-          참여하기
-        </button>
+      {/* 초대 링크로 참여 — 입력칸 + 버튼 한 줄 */}
+      <section>
+        <h2 className="app-section-label">초대 링크로 참여</h2>
+        <div className="app-card flex items-center gap-2 p-2">
+          <input
+            value={invite}
+            onChange={(e) => setInvite(e.target.value)}
+            placeholder="초대 링크 붙여넣기"
+            aria-label="초대 링크"
+            className={field}
+          />
+          <button
+            type="button"
+            disabled={pending || invite.trim() === ""}
+            onClick={join}
+            className="app-press inline-flex h-10 shrink-0 items-center rounded-[10px] bg-zinc-100 px-3.5 text-sm font-semibold text-brand disabled:opacity-40 dark:bg-white/[0.08]"
+          >
+            참여하기
+          </button>
+        </div>
       </section>
     </div>
   );

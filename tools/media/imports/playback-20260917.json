@@ -1,0 +1,42 @@
+{
+  "checkedAt": "2026-09-17T09:10:11.256Z",
+  "scope": "Frozen local MP4 buffers on loopback HTTP, mobile Chromium; not app layout or physical Android",
+  "results": [
+    {
+      "name": "/dumbbell-shrug.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "5d18614092c6c1c6863b12a4c24cc495a6fc3ec34eecfa74f3d02ce0c8341ee4",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/dumbbell-shrug-dark.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "3f09c6ad99ef46a6a7e824c5d9a4821af4028f540bf3811b989e8bb79539147b",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/dumbbell-front-raise.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "4bc642adb6ffdde4eaa3c8ff61a66e45f32eefb48fb79316902353c44ea22472",
+      "play": "passed",
+      "seek": "passed"
+    },
+    {
+      "name": "/dumbbell-front-raise-dark.mp4",
+      "width": 480,
+      "height": 480,
+      "seconds": 8,
+      "sha256": "24a954f08d6d778c410678a1c504f411b9f178a83eb9e486afc2327297fc3519",
+      "play": "passed",
+      "seek": "passed"
+    }
+  ]
+}

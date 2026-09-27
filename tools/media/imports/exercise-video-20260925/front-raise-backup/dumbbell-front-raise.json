@@ -1,0 +1,12 @@
+{
+  "prompt": "Create a precise 4 columns by 2 rows animation sprite sheet, eight equal square cells, landscape 2:1 canvas. Grey muscular adult male mannequin in teal shorts and grey shoes performs a bilateral DUMBBELL FRONT RAISE. Orthographic three-quarter side view facing right, full body with ample margins. Identical body position, scale, head, upright torso and planted feet in every cell. Two small black dumbbells held with closed overhand grips, elbows nearly straight and wrists neutral. EIGHT DISTINCT poses of only the ASCENDING half repetition, read left to right across top row then bottom row. Cell 1 arms hang vertically beside thighs (0 degrees from downward vertical). Cell 2 arms angle forward 13 degrees. Cell 3 forward 26 degrees, hands below hips. Cell 4 forward 39 degrees, hands at hips. Cell 5 forward 51 degrees, hands above hips but well below chest. Cell 6 forward 64 degrees, hands lower chest height. Cell 7 forward 77 degrees, hands upper chest height but below shoulders. Cell 8 exactly 90 degrees, both arms horizontal forward at shoulder height. Do not reach horizontal before the final cell. No repeated poses. Both weights remain separate and firmly in hands. Only shoulders rotate, no body lean, no elbow curling. Uniform solid light grey background, no grid lines, no numbers, no text, no shadows extending to adjacent cells. Crisp clean 3D educational illustration, no motion blur, no ghost limbs.",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/",
+    "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"
+  ],
+  "panels": 8,
+  "cycle": "reverse",
+  "id": "dumbbell-front-raise",
+  "registeredAt": "2026-09-17T08:37:25.324Z"
+}

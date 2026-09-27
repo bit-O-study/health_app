@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount, signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 운동별 성장 기록(로드맵 2.1) — 성장 그래프가 실제 기록을 **정확히** 반영하는지.
@@ -151,7 +151,7 @@ test("정체하면 디로드를 권한다", async ({ page }) => {
 
 test("기록이 없으면 빈 상태 안내만 보이고 터지지 않는다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   await page.goto("/settings/progress", { waitUntil: "networkidle" });
   await expect(

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 재현: '오늘의 운동 → 편집하기 → 추가'로 등(back)에 데드리프트를 추가하면, 오늘
@@ -11,7 +11,7 @@ const today = `(now() at time zone 'Asia/Seoul')::date`;
 
 test("오늘 등에 데드리프트를 추가하면 오늘 목록에 바로 뜬다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
 
   // 오늘 = day_index 2 = 등(back). (등은 day 2 에만.) 시작일을 2일 전으로.
   await dbQuery(

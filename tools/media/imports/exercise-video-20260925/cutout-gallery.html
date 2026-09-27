@@ -1,0 +1,72 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>운동 누끼 영상 미리보기</title>
+<style>body{margin:0;padding:28px;background:#eceeef;color:#18181b;font:16px system-ui}main{max-width:1040px;margin:auto}h1{font-size:25px}select{padding:12px;width:min(100%,480px);font:inherit}section{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px}article{padding:16px;border-radius:16px;background:#fafafa}article.dark{background:#09090b;color:white}video{width:100%;aspect-ratio:1;display:block}p{line-height:1.6}small{color:#61616b}@media(max-width:620px){section{grid-template-columns:1fr}}</style>
+<main><h1>누끼 적용 운동영상</h1><p>운동을 선택한 뒤 재생 버튼을 누르세요. 같은 동작을 밝은 배경과 어두운 배경에서 비교할 수 있습니다.</p>
+<select id="exercise"><option value="barbell-bench-press">바벨 벤치프레스</option>
+<option value="incline-barbell-bench-press">인클라인 바벨 벤치프레스</option>
+<option value="decline-barbell-bench-press">디클라인 바벨 벤치프레스</option>
+<option value="incline-dumbbell-bench-press">인클라인 덤벨 벤치프레스</option>
+<option value="decline-dumbbell-bench-press">디클라인 덤벨 벤치프레스</option>
+<option value="incline-dumbbell-fly">인클라인 덤벨 플라이</option>
+<option value="incline-push-up">인클라인 푸시업</option>
+<option value="svend-press">스벤드 프레스</option>
+<option value="floor-press">플로어 프레스</option>
+<option value="barbell-bent-over-row">바벨 벤트오버 로우</option>
+<option value="machine-row">머신 로우</option>
+<option value="hammer-strength-high-row">하이 로우 머신</option>
+<option value="rack-pull">랙풀</option>
+<option value="back-extension">백 익스텐션</option>
+<option value="barbell-shrug">바벨 슈러그</option>
+<option value="dumbbell-shrug">덤벨 슈러그</option>
+<option value="seal-row">실 로우</option>
+<option value="landmine-row">랜드마인 로우</option>
+<option value="military-press">밀리터리 프레스</option>
+<option value="dumbbell-shoulder-press">덤벨 숄더 프레스</option>
+<option value="smith-machine-shoulder-press">스미스 머신 숄더 프레스</option>
+<option value="dumbbell-lateral-raise">덤벨 사이드 레터럴 레이즈</option>
+<option value="machine-lateral-raise">머신 레터럴 레이즈</option>
+<option value="dumbbell-front-raise">덤벨 프론트 레이즈</option>
+<option value="dumbbell-rear-delt-fly">덤벨 리어 델트 플라이</option>
+<option value="barbell-upright-row">바벨 업라이트 로우</option>
+<option value="landmine-press">랜드마인 프레스</option>
+<option value="plate-front-raise">플레이트 프론트 레이즈</option>
+<option value="barbell-back-squat">바벨 백 스쿼트</option>
+<option value="high-bar-squat">하이바 스쿼트</option>
+<option value="leg-press-2">레그 프레스</option>
+<option value="lying-leg-curl">라잉 레그 컬</option>
+<option value="seated-leg-curl-2">시티드 레그 컬</option>
+<option value="dumbbell-lunge">덤벨 런지</option>
+<option value="barbell-hip-thrust">바벨 힙 쓰러스트</option>
+<option value="hip-abduction-machine">힙 어브덕션 머신</option>
+<option value="leg-press-calf-raise">레그 프레스 카프 레이즈</option>
+<option value="barbell-curl">바벨 컬</option>
+<option value="ez-bar-curl-2">EZ바 컬</option>
+<option value="dumbbell-biceps-curl">덤벨 컬</option>
+<option value="hammer-curl-2">해머 컬</option>
+<option value="spider-curl">스파이더 컬</option>
+<option value="reverse-barbell-curl">리버스 바벨 컬</option>
+<option value="close-grip-bench-press-2">클로즈 그립 벤치프레스</option>
+<option value="dumbbell-overhead-extension">덤벨 오버헤드 익스텐션</option>
+<option value="bench-dip-2">벤치 딥스</option>
+<option value="triceps-dip">트라이셉스 딥스</option>
+<option value="machine-triceps-extension">머신 트라이셉스 익스텐션</option>
+<option value="behind-the-back-wrist-curl">비하인드 백 리스트 컬</option>
+<option value="plate-pinch">플레이트 핀치</option>
+<option value="hollow-body-hold">할로우 바디 홀드</option>
+<option value="kettlebell-goblet-squat">케틀벨 고블릿 스쿼트</option>
+<option value="kettlebell-deadlift">케틀벨 데드리프트</option>
+<option value="kettlebell-row">케틀벨 로우</option>
+<option value="band-pull-apart">밴드 풀어파트</option>
+<option value="band-glute-bridge">밴드 글루트 브릿지</option>
+<option value="stability-ball-crunch">짐볼 크런치</option>
+<option value="stability-ball-plank">짐볼 플랭크</option>
+<option value="prisoner-squat">프리즈너 스쿼트</option>
+<option value="seated-dumbbell-calf-raise">시티드 덤벨 카프 레이즈</option>
+<option value="barbell-front-raise">바벨 프론트 레이즈</option>
+<option value="kneeling-push-up">닐링 푸시업</option>
+<option value="glute-bridge">글루트 브릿지</option>
+<option value="push-up">푸시업</option>
+<option value="leg-extension">레그 익스텐션</option>
+<option value="standing-calf-raise">스탠딩 카프 레이즈</option><option value="candidate">로우바 스쿼트 — 새 개별 자세 후보</option><option value="wrist-candidate">비하인드 백 리스트 컬 — 새 16자세 후보</option></select><p id="status"></p>
+<section><article><h2>밝은 배경</h2><video id="light" controls loop muted playsinline preload="metadata"></video></article><article class="dark"><h2>어두운 배경</h2><video id="dark" controls loop muted playsinline preload="metadata"></video></article></section>
+<p><small>누끼로 배경을 제거한 뒤 앱 테마 색상으로 합성한 MP4입니다. 후보로 표시한 로우바와 리스트 컬은 자세 검토 중이며 앱 반영 전입니다.</small></p></main>
+<script>const select=document.getElementById('exercise');const requested=new URLSearchParams(location.search).get('exercise');select.value=Array.from(select.options).some(o=>o.value===requested)?requested:'dumbbell-front-raise';function update(){const candidate=select.value==='candidate'||select.value==='wrist-candidate';const base=select.value==='wrist-candidate'?'wrist-curl-16/public/exercise-guides/ai-v3/behind-the-back-wrist-curl':select.value==='candidate'?'low-bar-reference/public/exercise-guides/ai-v3/low-bar-squat':'../../../../public/exercise-guides/ai-v3/'+select.value;for(const theme of ['light','dark']){const v=document.getElementById(theme);v.pause();v.src=base+(theme==='dark'?'-dark':'')+'.mp4';v.load();}document.getElementById('status').textContent=candidate?'보정 중 후보 · 공개 승인 전':'현재 검토 통과 목록의 영상';}select.addEventListener('change',update);update();</script></html>

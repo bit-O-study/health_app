@@ -31,10 +31,8 @@ export const realAccount =
     ? { email: env.E2E_REAL_EMAIL, pw: env.E2E_REAL_PW }
     : null;
 
-export async function openDbClient(applicationName?: string) {
-  const { default: pg } = await import("pg");
-  const client = new pg.Client(
-    env.SUPA_DB_URL
+function dbConfig(applicationName?: string) {
+  return env.SUPA_DB_URL
       ? {
           connectionString: env.SUPA_DB_URL,
           ssl: env.SUPA_DB_SSL === "false" ? false : { rejectUnauthorized: false },
@@ -50,8 +48,12 @@ export async function openDbClient(applicationName?: string) {
           ssl: { rejectUnauthorized: false },
           connectionTimeoutMillis: 10_000,
           application_name: applicationName,
-        },
-  );
+        };
+}
+
+export async function openDbClient(applicationName?: string) {
+  const { default: pg } = await import("pg");
+  const client = new pg.Client(dbConfig(applicationName));
   await client.connect();
   if (applicationName) {
     await client.query("select set_config('application_name', $1, false)", [
@@ -85,15 +87,26 @@ export async function openAuthenticatedDbClient(
   return client;
 }
 
+// Each Playwright worker owns one pool. Transaction/RLS helpers above always
+// open dedicated clients so their session state never enters this pool.
+let queryPool: Promise<import("pg").Pool> | undefined;
+function getQueryPool() {
+  return queryPool ??= import("pg").then(({ default: pg }) => {
+    const pool = new pg.Pool({
+      ...dbConfig(), max: 1, idleTimeoutMillis: 30_000, allowExitOnIdle: true,
+    });
+    // pg removes a lost idle client; report it without crashing the worker.
+    pool.on("error", () => console.warn("[e2e-db] idle connection lost"));
+    return pool;
+  });
+}
+
+/** Stateless queries only; use openDbClient for transactions or session settings. */
 export async function dbQuery<T = unknown>(
   sql: string,
   params: unknown[] = [],
 ): Promise<T[]> {
-  const client = await openDbClient();
-  try {
-    const res = await client.query(sql, params);
-    return res.rows as T[];
-  } finally {
-    await client.end();
-  }
+  const pool = await getQueryPool();
+  const res = await pool.query(sql, params);
+  return res.rows as T[];
 }

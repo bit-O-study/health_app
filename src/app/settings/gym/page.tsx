@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
-import { ChevronLeft } from "lucide-react";
 
-import { BackLink } from "@/components/back-link";
+import { PageHeader } from "@/components/page-header";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import { GymForm, type GymFormInitial } from "@/features/gym/gym-form";
@@ -22,24 +21,13 @@ export default async function GymSettingsPage() {
       }
     : null;
 
+  // 공통 머리글(2026-09-16 8단계) — 설명 문단은 뺐다(검색창이 곧 안내).
   return (
-    <main className="mx-auto w-full max-w-2xl px-6 py-10 sm:px-8">
-      <BackLink className="inline-flex items-center gap-1 text-sm font-semibold text-zinc-500 transition hover:text-zinc-800 dark:hover:text-zinc-200">
-        <ChevronLeft aria-hidden="true" size={16} />
-        설정
-      </BackLink>
-
-      <div className="mt-6 mb-6 space-y-1">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
-          내 헬스장
-        </h1>
-        <p className="text-sm leading-6 text-zinc-600 dark:text-zinc-400">
-          다니는 헬스장을 검색해서 고르면 주소와 보유 기구가 자동으로 채워집니다.
-          등록해두면 추후 루틴 추천에 반영됩니다.
-        </p>
-      </div>
-
-      <GymForm initial={initial} />
-    </main>
+    <div className="app-page">
+      <PageHeader title="내 헬스장" back="설정" />
+      <main className="app-container">
+        <GymForm initial={initial} />
+      </main>
+    </div>
   );
 }

@@ -1,0 +1,10 @@
+{
+  "prompt": "Scientific educational 3D exercise animation sprite sheet. Use attached image ONLY as reference for gray mannequin, teal shorts and dumbbells. Create a NEW SQUARE sheet exactly FOUR columns FOUR rows, 16 equal square cells, 2048x2048. Keep every entire figure and both dumbbells inside central 70 percent of EACH cell, with 15 percent empty margin on all sides, no body parts crossing cell edges. Fixed three-quarter side view facing right; head torso hips feet fixed identically every cell. Bilateral DUMBBELL FRONT RAISE ascending half repetition, elbows nearly straight, hands closed on two separate black dumbbells, overhand grip palms initially facing back then down at top. Read row-major: 16 shoulder-flexion angles from downward vertical = 0,6,12,18 / 24,30,36,42 / 48,54,60,66 / 72,78,84,90 degrees. Each pose progresses a small equal amount, no reset on new row, no repeated end poses. Only both shoulders rotate; feet planted, trunk upright braced, no elbow curl, no lean or shrug. Final cell only has arms horizontal at shoulder height. Same subject scale and feet coordinates in all cells. Flat opaque light gray background, crisp clean 3D educational form, NO transparency, NO gradients, no floor shadow, NO lines text labels arrows. The 4x4 geometry and margins are essential for animation cropping.",
+  "equipment": "dumbbell",
+  "sources": [
+    "https://www.catalystathletics.com/exercise/823/Dumbbell-Front-Raise/",
+    "https://www.acefitness.org/resources/everyone/exercise-library/54/front-raise/"
+  ],
+  "panels": 16,
+  "cycle": "reverse"
+}

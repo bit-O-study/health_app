@@ -1,21 +1,38 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import Link from "next/link";
+import { useHydrated } from "@/lib/use-hydrated";
 
 import { findLoginEmailAction } from "@/features/auth/recover-actions";
-import { Err, Submit, inputCls } from "@/features/auth/components/recover-ui";
+import {
+  Err,
+  Submit,
+  inputCls,
+  labelCls,
+  primaryBtnCls,
+} from "@/features/auth/components/recover-ui";
+import { withPrefilled } from "@/lib/forms/prefilled";
+import { usePrefilledInputs } from "@/lib/forms/use-prefilled-inputs";
 
 export function FindIdForm() {
+  const hydrated = useHydrated();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [foundEmail, setFoundEmail] = useState<string | null>(null);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  async function runFind() {
-    const res = await findLoginEmailAction(name, phone);
+  // 하이드레이션 전에 채워진 값(빠른 타이핑·자동완성)을 state 로 끌어올린다.
+  usePrefilledInputs(formRef, { name, phone }, (v) => {
+    if (v.name !== undefined) setName(v.name);
+    if (v.phone !== undefined) setPhone(v.phone);
+  });
+
+  async function runFind(findName: string, findPhone: string) {
+    const res = await findLoginEmailAction(findName, findPhone);
     setBusy(false);
     if (!res.ok) {
       setError(res.error);
@@ -35,46 +52,38 @@ export function FindIdForm() {
   async function handleStart(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
-    if (!name.trim() || !phone.trim()) {
+    // state 가 아직 비어 있을 수 있어 폼 DOM 의 실제 값을 쓴다(하이드레이션 경합).
+    const filled = withPrefilled(event.currentTarget, { name, phone });
+    if (!filled.name.trim() || !filled.phone.trim()) {
       setError("이름과 휴대폰 번호를 입력해 주세요.");
       return;
     }
     setBusy(true);
-    await runFind();
+    await runFind(filled.name, filled.phone);
   }
 
   if (done) {
     return (
-      <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-        <h2 className="mb-3 text-base font-bold text-zinc-950 dark:text-zinc-100">
-          아이디 찾기 결과
-        </h2>
+      <div className="w-full space-y-3">
+        <h2 className="app-section-label">아이디 찾기 결과</h2>
         {foundEmail ? (
-          <>
-            <p className="mb-2 text-sm text-zinc-600 dark:text-zinc-400">
-              입력하신 정보와 일치하는 아이디(이메일)입니다.
-            </p>
-            <div className="mb-5 rounded-md bg-zinc-100 dark:bg-zinc-900 px-3 py-3 text-center">
-              <span
-                data-testid="found-email"
-                className="select-all text-sm font-bold text-zinc-900 dark:text-zinc-100"
-              >
-                {foundEmail}
-              </span>
-            </div>
-          </>
+          <div className="app-card px-3 py-4 text-center">
+            <span
+              data-testid="found-email"
+              className="select-all text-base font-semibold text-zinc-900 dark:text-zinc-100"
+            >
+              {foundEmail}
+            </span>
+          </div>
         ) : (
           <p
             data-testid="find-id-none"
-            className="mb-5 rounded-md bg-amber-50 dark:bg-amber-950/40 px-3 py-3 text-sm text-amber-700 dark:text-amber-400"
+            className="rounded-[10px] bg-warn/10 px-3 py-3 text-sm text-warn"
           >
             입력하신 정보와 일치하는 아이디가 없습니다.
           </p>
         )}
-        <Link
-          href="/login"
-          className="inline-flex h-11 w-full items-center justify-center rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500"
-        >
+        <Link href="/login" className={primaryBtnCls}>
           로그인하기
         </Link>
       </div>
@@ -82,39 +91,39 @@ export function FindIdForm() {
   }
 
   return (
-    <div className="w-full max-w-sm rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm">
-      <form className="space-y-4" onSubmit={handleStart}>
-        <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="name">
-            이름
-          </label>
-          <input
-            id="name"
-            type="text"
-            autoComplete="name"
-            className={inputCls}
-            placeholder="홍길동"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div className="space-y-1.5">
-          <label className="text-sm font-semibold text-zinc-700 dark:text-zinc-300" htmlFor="phone">
-            전화번호
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            autoComplete="tel"
-            className={inputCls}
-            placeholder="010-1234-5678"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
-        </div>
-        {error ? <Err>{error}</Err> : null}
-        <Submit busy={busy} label="아이디 찾기" icon="search" />
-      </form>
-    </div>
+<fieldset disabled={!hydrated} className="min-w-0 w-full">
+    <form ref={formRef} className="w-full space-y-3" onSubmit={handleStart}>
+      <div>
+        <label className={labelCls} htmlFor="name">
+          이름
+        </label>
+        <input
+          id="name"
+          type="text"
+          autoComplete="name"
+          className={inputCls}
+          placeholder="홍길동"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label className={labelCls} htmlFor="phone">
+          전화번호
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          autoComplete="tel"
+          className={inputCls}
+          placeholder="010-1234-5678"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </div>
+      {error ? <Err>{error}</Err> : null}
+      <Submit busy={busy} label="아이디 찾기" icon="search" />
+    </form>
+    </fieldset>
   );
 }

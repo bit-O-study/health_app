@@ -1,10 +1,12 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useRef, useState } from "react";
 import { KeyRound, Loader2 } from "lucide-react";
 
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import { clearMustChangePasswordAction } from "@/features/auth/actions";
+import { withPrefilled } from "@/lib/forms/prefilled";
+import { usePrefilledInputs } from "@/lib/forms/use-prefilled-inputs";
 
 /**
  * 임시 비밀번호로 로그인한 사용자가 새 비밀번호로 바꾸는 폼.
@@ -15,23 +17,43 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  // 하이드레이션 전에 채워진 값(자동완성 등)을 state 로 끌어올린다.
+  usePrefilledInputs(
+    formRef,
+    { "new-password": password, "confirm-password": confirm },
+    (v) => {
+      if (v["new-password"] !== undefined) setPassword(v["new-password"]);
+      if (v["confirm-password"] !== undefined) setConfirm(v["confirm-password"]);
+    },
+  );
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
 
-    if (password.length < 6) {
+    // state 가 아직 비어 있을 수 있어 폼 DOM 의 실제 값을 쓴다(하이드레이션 경합).
+    const filled = withPrefilled(event.currentTarget, {
+      "new-password": password,
+      "confirm-password": confirm,
+    });
+    const newPassword = filled["new-password"];
+
+    if (newPassword.length < 6) {
       setError("비밀번호는 6자 이상이어야 합니다.");
       return;
     }
-    if (password !== confirm) {
+    if (newPassword !== filled["confirm-password"]) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     setIsSubmitting(true);
     const supabase = createSupabaseBrowserClient();
-    const { error: updErr } = await supabase.auth.updateUser({ password });
+    const { error: updErr } = await supabase.auth.updateUser({
+      password: newPassword,
+    });
     if (updErr) {
       setError(
         updErr.message.includes("should be different")
@@ -56,12 +78,13 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
 
   return (
     <form
-      className="w-full max-w-sm space-y-4 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-7 shadow-sm"
+      ref={formRef}
+      className="app-card w-full space-y-3 p-3"
       onSubmit={handleSubmit}
     >
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         <label
-          className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
+          className="text-xs font-medium text-zinc-500 dark:text-zinc-400"
           htmlFor="new-password"
         >
           새 비밀번호
@@ -70,15 +93,15 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
           id="new-password"
           type="password"
           autoComplete="new-password"
-          className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
           placeholder="6자 이상"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <div className="space-y-1.5">
+      <div className="space-y-1">
         <label
-          className="text-sm font-semibold text-zinc-700 dark:text-zinc-300"
+          className="text-xs font-medium text-zinc-500 dark:text-zinc-400"
           htmlFor="confirm-password"
         >
           새 비밀번호 확인
@@ -87,7 +110,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
           id="confirm-password"
           type="password"
           autoComplete="new-password"
-          className="h-11 w-full rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm outline-none transition focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100"
+          className="h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08] dark:text-zinc-100"
           placeholder="다시 입력"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
@@ -95,7 +118,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
       </div>
 
       {error ? (
-        <p className="rounded-md bg-red-50 dark:bg-red-950/40 px-3 py-2 text-sm text-red-700 dark:text-red-400">
+        <p className="rounded-[10px] bg-danger/10 px-3 py-2 text-sm text-danger">
           {error}
         </p>
       ) : null}
@@ -104,7 +127,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
         type="submit"
         disabled={isSubmitting}
         data-testid="change-password-submit"
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-emerald-600 text-sm font-semibold text-white transition hover:bg-emerald-500 disabled:cursor-not-allowed disabled:bg-zinc-400"
+        className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={17} />

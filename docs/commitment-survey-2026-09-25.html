@@ -1,0 +1,464 @@
+<title>다짐 설문</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --ground: #f5f8f6; --surface: #ffffff; --surface-2: #eef3f0;
+    --ink: #16211d; --ink-2: #4a5b54; --ink-3: #78897f;
+    --line: #dde6e1; --line-2: #c7d5cd;
+    --brand: #087f5b; --brand-soft: #dff3ea; --on-brand: #ffffff;
+    --warn: #9a5b06; --warn-soft: #fbf0dd;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0b110f; --surface: #121a17; --surface-2: #18231e;
+      --ink: #e8efeb; --ink-2: #a7b8b0; --ink-3: #7d8f87;
+      --line: #23312b; --line-2: #31433a;
+      --brand: #45d6a0; --brand-soft: #103024; --on-brand: #06120d;
+      --warn: #e0a758; --warn-soft: #2e2415;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0b110f; --surface: #121a17; --surface-2: #18231e;
+    --ink: #e8efeb; --ink-2: #a7b8b0; --ink-3: #7d8f87;
+    --line: #23312b; --line-2: #31433a;
+    --brand: #45d6a0; --brand-soft: #103024; --on-brand: #06120d;
+    --warn: #e0a758; --warn-soft: #2e2415;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--ground); color: var(--ink);
+    font-family: "Noto Sans KR", system-ui, sans-serif; font-size: 15px; line-height: 1.7;
+    word-break: keep-all; -webkit-tap-highlight-color: transparent; }
+  .app { max-width: 430px; margin: 0 auto; padding-inline: 18px; padding-block: 18px 40px;
+    min-height: 100%; display: flex; flex-direction: column; gap: 16px; }
+
+  header { display: flex; flex-direction: column; gap: 9px; }
+  .bar { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--brand); transition: width .28s ease; }
+  .top { display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    font-size: 12px; color: var(--ink-3); font-weight: 700; letter-spacing: .08em; }
+  .back { background: none; border: 0; color: var(--ink-3); font: inherit; font-size: 13px;
+    letter-spacing: 0; cursor: pointer; padding: 2px 6px 2px 0; border-radius: 6px; }
+  .back:disabled { opacity: .3; cursor: default; }
+
+  h1 { font-size: 21px; line-height: 1.45; margin: 0; text-wrap: balance; }
+  .hint { color: var(--ink-3); font-size: 13px; margin: 0; }
+  .known { background: var(--surface-2); border-radius: 10px; padding: 9px 12px; font-size: 12.5px;
+    color: var(--ink-2); display: flex; gap: 6px; align-items: flex-start; }
+  .known b { color: var(--ink); font-weight: 700; }
+
+  .opts { display: flex; flex-direction: column; gap: 8px; }
+  .opts.chips { flex-direction: row; flex-wrap: wrap; }
+  button.opt { font: inherit; text-align: left; cursor: pointer; background: var(--surface);
+    border: 1.5px solid var(--line); border-radius: 13px; padding: 13px 15px; color: var(--ink);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px; transition: border-color .12s, background .12s; }
+  button.opt:hover { border-color: var(--line-2); }
+  button.opt .why { color: var(--ink-3); font-size: 12.5px; text-align: right; flex: 0 0 auto; }
+  button.opt[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-soft); }
+  button.opt[aria-pressed="true"] .lab, button.opt[aria-pressed="true"] .why { color: var(--brand); font-weight: 700; }
+  .opts.chips button.opt { border-radius: 999px; padding: 9px 14px; font-size: 14px; }
+  button.opt:focus-visible, .cta:focus-visible, .back:focus-visible, .step:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+  .cta { font: inherit; font-weight: 700; cursor: pointer; border: 0; border-radius: 999px;
+    background: var(--brand); color: var(--on-brand); padding: 13px; width: 100%; }
+  .cta[disabled] { opacity: .35; cursor: default; }
+  .ghost { background: none; border: 0; color: var(--ink-3); font: inherit; font-size: 13px;
+    cursor: pointer; padding: 6px; width: 100%; }
+  .spacer { flex: 1; min-height: 8px; }
+
+  /* 결과 */
+  .result h1 { margin-bottom: 2px; }
+  .sum { font-size: 13px; color: var(--ink-2); }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 4px 14px; }
+  .m { display: flex; gap: 11px; align-items: flex-start; padding: 13px 0; border-top: 1px solid var(--line); }
+  .m:first-child { border-top: 0; }
+  .m .tick { width: 21px; height: 21px; border-radius: 7px; border: 1.5px solid var(--line-2);
+    background: none; cursor: pointer; flex: 0 0 auto; margin-top: 2px; display: grid; place-items: center;
+    font-size: 12px; color: transparent; padding: 0; }
+  .m.on .tick { background: var(--brand); border-color: var(--brand); color: var(--on-brand); }
+  .m.auto .tick { border-style: dashed; }
+  .m .body { flex: 1; min-width: 0; }
+  .m .name { font-weight: 700; font-size: 14.5px; }
+  .m.off .name { color: var(--ink-3); text-decoration: line-through; }
+  .m .why { font-size: 12.5px; color: var(--ink-3); }
+  .m .kind { font-size: 11px; font-weight: 700; padding: 1px 7px; border-radius: 999px; flex: 0 0 auto; margin-top: 3px; }
+  .kind.auto { background: var(--surface-2); color: var(--ink-3); }
+  .kind.manual { background: var(--warn-soft); color: var(--warn); }
+  .steps { display: flex; gap: 6px; align-items: center; margin-top: 5px; }
+  .step { width: 28px; height: 26px; border-radius: 8px; border: 1px solid var(--line-2);
+    background: var(--ground); color: var(--ink-2); font: inherit; font-size: 15px; cursor: pointer; padding: 0; line-height: 1; }
+  .step:disabled { opacity: .3; cursor: default; }
+  .val { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 13.5px; min-width: 76px; }
+  .note { font-size: 12.5px; color: var(--ink-3); }
+  .warnbox { background: var(--warn-soft); color: var(--warn); border-radius: 10px; padding: 9px 12px; font-size: 12.5px; }
+
+  details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; }
+  summary { cursor: pointer; font-size: 13px; color: var(--ink-2); font-weight: 700; }
+  pre { font-family: var(--mono); font-size: 11.5px; line-height: 1.6; overflow-x: auto; color: var(--ink-2); margin: 10px 0 2px; }
+  .done { text-align: center; padding: 30px 0 10px; }
+  .done .big { font-size: 40px; line-height: 1; }
+</style>
+
+<div class="app" id="app"></div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ── 앱이 이미 아는 값 (온보딩·루틴·프로필에서 옴) ─────────────────── */
+  var me = {
+    gender: "female",      // 온보딩 1단계
+    experience: "advanced",// 온보딩 2단계 (beginner·intermediate·advanced)
+    weightKg: 96.7,        // 온보딩 3단계 / 체형 기록
+    goal: "lose",          // 온보딩 4단계 (lose·gain·maintain·stamina)
+    targetKg: 68,
+    recommendKcal: 2650,   // 앱이 계산 중인 하루 권장 섭취
+    routineDays: 5,        // user_routines 의 주당 운동일
+    todayExercises: 6      // 오늘 루틴의 운동 개수
+  };
+  var GOAL_LABEL = { lose: "체지방 감량", gain: "근육 증가", maintain: "유지", stamina: "체력" };
+  var EXP_LABEL = { beginner: "초급", intermediate: "중급", advanced: "고급" };
+  var EXP_K = { beginner: 0.8, intermediate: 1.0, advanced: 1.15 };
+
+  /* ── 설문 상태 ───────────────────────────────────────────────────── */
+  var a = { weeks: 4, breaks: [], minutes: 30, remind: "20:00", perWeek: null };
+  var step = 0;           // 0~4 질문, 5 결과, 6 완료
+  var missions = [];      // 결과에서 편집되는 미션
+
+  var BREAKS = [
+    { id: "late",   emoji: "🌙", label: "야식" },
+    { id: "drink",  emoji: "🍺", label: "술" },
+    { id: "skip",   emoji: "🍽️", label: "식사 거르기" },
+    { id: "nogym",  emoji: "🏃", label: "운동 빼먹기" },
+    { id: "water",  emoji: "💧", label: "물 안 마심" },
+    { id: "late2",  emoji: "😴", label: "늦게 자기" },
+    { id: "binge",  emoji: "🍚", label: "폭식" },
+    { id: "sit",    emoji: "🪑", label: "종일 앉아있기" }
+  ];
+
+  /* ── 계산 ────────────────────────────────────────────────────────── */
+  function round(v, unit) { return Math.round(v / unit) * unit; }
+  function endDate() {
+    var d = new Date(2026, 8, 26); // 시작일 = 내일
+    d.setDate(d.getDate() + a.weeks * 7 - 1);
+    return (d.getMonth() + 1) + "/" + d.getDate();
+  }
+  function burnKcal() {
+    var t = a.minutes === 15 ? 2.5 : a.minutes === 60 ? 6 : 4;
+    return round(me.weightKg * t * EXP_K[me.experience], 10);
+  }
+  function intakeMax() {
+    var perWeek = a.perWeek || me.routineDays;
+    var deficit = perWeek <= 3 ? 0.10 : perWeek >= 7 ? 0.20 : 0.15;
+    var floor = me.gender === "female" ? 1200 : 1500;
+    return Math.max(floor, round(me.recommendKcal * (1 - deficit), 50));
+  }
+  function proteinG() {
+    var k = me.goal === "gain" ? 1.6 : me.goal === "lose" ? 1.5 : 1.2;
+    return round(me.weightKg * k, 5);
+  }
+  function cardioMin() {
+    var base = a.minutes === 15 ? 15 : a.minutes === 60 ? 40 : 25;
+    return round(base * EXP_K[me.experience], 5);
+  }
+
+  /* 고른 항목 → 미션. 자동 판정 여부와 '왜 이 숫자인지'를 같이 만든다. */
+  function build() {
+    var why = me.weightKg + "kg · 하루 " + a.minutes + "분 · " + EXP_LABEL[me.experience];
+    var map = {
+      late:  { id: "late",  name: "야식 안 먹기", kind: "auto", why: "자주 무너진다고 고른 항목" },
+      skip:  { id: "skip",  name: (me.goal === "gain" ? "하루 4끼 먹기" : "하루 3끼 먹기"), kind: "auto", why: "식사를 거르지 않게" },
+      nogym: { id: "nogym", name: "오늘 운동하기", kind: "auto", why: "휴식일은 면제돼요" },
+      binge: me.goal === "gain"
+        ? { id: "binge", name: "하루 4끼 먹기", kind: "auto", why: "증량 중엔 섭취 상한 대신 끼니 수로" }
+        : { id: "binge", name: "섭취 " + intakeMax().toLocaleString() + "kcal 이하", kind: "auto",
+            value: intakeMax(), unit: "kcal", stepBy: 50,
+            why: "권장 " + me.recommendKcal.toLocaleString() + "에서 감량 적자" },
+      sit:   { id: "sit",   name: "유산소 " + cardioMin() + "분", kind: "auto", value: cardioMin(), unit: "분", stepBy: 5, why: "하루 " + a.minutes + "분 예산에서" },
+      drink: { id: "drink", name: "술 안 마시기", kind: "manual", why: "앱이 판정할 수 없어요 — 직접 체크" },
+      water: { id: "water", name: "물 2L 마시기", kind: "manual", why: "앱이 판정할 수 없어요 — 직접 체크" },
+      late2: { id: "late2", name: "12시 전에 자기", kind: "manual", why: "앱이 판정할 수 없어요 — 직접 체크" }
+    };
+    var base = {
+      lose:     { id: "goal", name: burnKcal() + "kcal 소비하기", kind: "auto", value: burnKcal(), unit: "kcal", stepBy: 10, why: why },
+      gain:     { id: "goal", name: "단백질 " + proteinG() + "g", kind: "auto", value: proteinG(), unit: "g", stepBy: 5, why: "체중 × 1.6 — 증량" },
+      maintain: { id: "goal", name: "오늘 운동하기", kind: "auto", why: "유지 목표의 기본" },
+      stamina:  { id: "goal", name: "유산소 " + cardioMin() + "분", kind: "auto", value: cardioMin(), unit: "분", stepBy: 5, why: "체력 목표의 기본" }
+    }[me.goal];
+
+    var out = [base];
+    a.breaks.forEach(function (id) {
+      var m = map[id];
+      if (!m) return;
+      if (out.some(function (x) { return x.name === m.name; })) return; // 같은 미션 중복 방지
+      out.push(m);
+    });
+    out = out.slice(0, 3);
+    out.forEach(function (m) { m.on = true; });
+    return out;
+  }
+
+  /* ── 화면 ────────────────────────────────────────────────────────── */
+  var app = document.getElementById("app");
+
+  function el(tag, cls, text) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (text !== undefined) n.textContent = text;
+    return n;
+  }
+  function header(title, hint) {
+    var h = el("header");
+    var top = el("div", "top");
+    var back = el("button", "back", "‹ 이전");
+    back.disabled = step === 0;
+    back.onclick = function () { if (step > 0) { step -= 1; render(); } };
+    top.appendChild(back);
+    top.appendChild(el("span", null, step < 5 ? (step + 1) + " / 5" : "완성"));
+    var bar = el("div", "bar");
+    var i = el("i");
+    i.style.width = (step < 5 ? ((step + 1) / 5) * 100 : 100) + "%";
+    bar.appendChild(i);
+    h.appendChild(bar);
+    h.appendChild(top);
+    h.appendChild(el("h1", null, title));
+    if (hint) h.appendChild(el("p", "hint", hint));
+    return h;
+  }
+  function knownRow(text) {
+    var k = el("div", "known");
+    k.appendChild(el("span", null, "✓"));
+    var s = el("span");
+    s.innerHTML = text;
+    k.appendChild(s);
+    return k;
+  }
+  function choice(label, why, selected, onPick) {
+    var b = el("button", "opt");
+    b.type = "button";
+    b.setAttribute("aria-pressed", selected ? "true" : "false");
+    b.appendChild(el("span", "lab", label));
+    if (why) b.appendChild(el("span", "why", why));
+    b.onclick = onPick;
+    return b;
+  }
+  function next(label, enabled, onGo, skipLabel, onSkip) {
+    var wrap = el("div");
+    var c = el("button", "cta", label);
+    c.type = "button";
+    if (!enabled) c.disabled = true;
+    c.onclick = onGo;
+    wrap.appendChild(c);
+    if (skipLabel) {
+      var g = el("button", "ghost", skipLabel);
+      g.type = "button";
+      g.onclick = onSkip;
+      wrap.appendChild(g);
+    }
+    return wrap;
+  }
+
+  function render() {
+    app.innerHTML = "";
+    if (step === 0) return q1();
+    if (step === 1) return q2();
+    if (step === 2) return q3();
+    if (step === 3) return q4();
+    if (step === 4) return q5();
+    if (step === 5) return result();
+    return done();
+  }
+
+  function q1() {
+    app.appendChild(header("얼마 동안 해볼까요?", "끝나는 날이 있어야 지켜져요"));
+    var box = el("div", "opts");
+    [[2, "가볍게 시작"], [4, "추천"], [8, "길게"]].forEach(function (p) {
+      var w = a.weeks;
+      a.weeks = p[0];
+      var label = p[0] + "주";
+      var why = endDate() + "까지 · " + p[1];
+      a.weeks = w;
+      box.appendChild(choice(label, why, a.weeks === p[0], function () {
+        a.weeks = p[0]; step = 1; render();
+      }));
+    });
+    app.appendChild(box);
+    app.appendChild(el("div", "spacer"));
+    app.appendChild(next("다음", true, function () { step = 1; render(); }));
+  }
+
+  function q2() {
+    app.appendChild(header("뭐가 제일 자주 무너지나요?", "최대 3개 · 이게 그대로 다짐이 돼요"));
+    var box = el("div", "opts chips");
+    BREAKS.forEach(function (b) {
+      var on = a.breaks.indexOf(b.id) >= 0;
+      box.appendChild(choice(b.emoji + " " + b.label, null, on, function () {
+        if (on) a.breaks = a.breaks.filter(function (x) { return x !== b.id; });
+        else if (a.breaks.length < 3) a.breaks.push(b.id);
+        render();
+      }));
+    });
+    app.appendChild(box);
+    if (a.breaks.length >= 3) {
+      app.appendChild(el("p", "note", "3개까지예요. 나머지는 다음 다짐에서 해요."));
+    }
+    app.appendChild(el("div", "spacer"));
+    app.appendChild(next(
+      a.breaks.length ? "다음 · " + a.breaks.length + "개 선택함" : "다음",
+      true,
+      function () { step = 2; render(); },
+      "특별히 없어요",
+      function () { a.breaks = []; step = 2; render(); }
+    ));
+  }
+
+  function q3() {
+    app.appendChild(header("하루에 운동으로 쓸 수 있는 시간은요?"));
+    app.appendChild(knownRow("루틴은 <b>주 " + me.routineDays + "일</b>로 잡혀 있어요 — 그건 다시 안 물어봐요"));
+    var box = el("div", "opts");
+    [[15, "짧고 굵게"], [30, "가장 흔해요"], [60, "여유 있음"]].forEach(function (p) {
+      box.appendChild(choice(p[0] === 60 ? "1시간 이상" : p[0] + "분", p[1], a.minutes === p[0], function () {
+        a.minutes = p[0]; step = 3; render();
+      }));
+    });
+    app.appendChild(box);
+    app.appendChild(el("div", "spacer"));
+    app.appendChild(next("다음", true, function () { step = 3; render(); }));
+  }
+
+  function q4() {
+    app.appendChild(header("언제 확인해 드릴까요?", "그 시각에 아직 못 한 것만 알려드려요"));
+    var box = el("div", "opts");
+    [["07:00", "아침", "7시"], ["12:00", "점심", "12시"], ["20:00", "저녁", "8시 · 추천"], ["22:00", "자기 전", "10시"]]
+      .forEach(function (p) {
+        box.appendChild(choice(p[1], p[2], a.remind === p[0], function () {
+          a.remind = p[0]; step = 4; render();
+        }));
+      });
+    app.appendChild(box);
+    app.appendChild(el("div", "spacer"));
+    app.appendChild(next("다음", true, function () { step = 4; render(); },
+      "알림 안 받을래요", function () { a.remind = null; step = 4; render(); }));
+  }
+
+  function q5() {
+    app.appendChild(header("일주일에 며칠 지킬까요?", "매일은 아무도 못 해요"));
+    var box = el("div", "opts");
+    [[3, "가볍게"], [me.routineDays, "루틴과 같음 · 추천"], [7, "매일"]].forEach(function (p) {
+      var sel = (a.perWeek || me.routineDays) === p[0];
+      box.appendChild(choice("주 " + p[0] + "일", p[1], sel, function () {
+        a.perWeek = p[0];
+        if (p[0] === 7 && me.experience === "beginner") { render(); return; }
+        missions = build(); step = 5; render();
+      }));
+    });
+    app.appendChild(box);
+    if (a.perWeek === 7 && me.experience === "beginner") {
+      app.appendChild(el("div", "warnbox", "이제 막 시작하셨어요. 주 3일부터 쌓는 편이 오래 갑니다."));
+    }
+    app.appendChild(el("div", "spacer"));
+    app.appendChild(next("다짐 만들기", true, function () {
+      if (!a.perWeek) a.perWeek = me.routineDays;
+      missions = build(); step = 5; render();
+    }));
+  }
+
+  function result() {
+    app.appendChild(header("이렇게 만들까요?"));
+    var onCount = missions.filter(function (m) { return m.on; }).length;
+    var sum = el("p", "sum");
+    sum.innerHTML = a.weeks + "주 · <b>주 " + a.perWeek + "일</b> · " +
+      (a.remind ? a.remind.slice(0, 2) + "시 알림" : "알림 없음") +
+      " · 미션 " + onCount + "개";
+    app.appendChild(sum);
+
+    var card = el("div", "card");
+    missions.forEach(function (m) {
+      var row = el("div", "m " + m.kind + (m.on ? " on" : " off"));
+      var tick = el("button", "tick", "✓");
+      tick.type = "button";
+      tick.setAttribute("aria-label", m.name + (m.on ? " 빼기" : " 넣기"));
+      tick.onclick = function () { m.on = !m.on; render(); };
+      row.appendChild(tick);
+
+      var body = el("div", "body");
+      body.appendChild(el("div", "name", m.name));
+      body.appendChild(el("div", "why", m.why));
+      if (m.value !== undefined && m.on) {
+        var steps = el("div", "steps");
+        var minus = el("button", "step", "−");
+        minus.type = "button";
+        minus.setAttribute("aria-label", "줄이기");
+        minus.onclick = function () { adjust(m, -1); };
+        var val = el("span", "val", m.value.toLocaleString() + m.unit);
+        var plus = el("button", "step", "+");
+        plus.type = "button";
+        plus.setAttribute("aria-label", "늘리기");
+        plus.onclick = function () { adjust(m, 1); };
+        steps.appendChild(minus); steps.appendChild(val); steps.appendChild(plus);
+        body.appendChild(steps);
+      }
+      row.appendChild(body);
+      row.appendChild(el("span", "kind " + m.kind, m.kind === "auto" ? "자동" : "수동"));
+      card.appendChild(row);
+    });
+    app.appendChild(card);
+    app.appendChild(el("p", "note",
+      "자동은 기록에서 앱이 판정해요. 수동은 직접 체크합니다. 숫자를 바꾸면 이유도 같이 바뀌어요."));
+
+    var d = el("details");
+    d.appendChild(el("summary", null, "저장될 내용 보기 (개발용)"));
+    d.appendChild(el("pre", null, JSON.stringify({
+      title: a.weeks + "주 " + GOAL_LABEL[me.goal] + " 다짐",
+      start_date: "2026-09-26",
+      weeks: a.weeks,
+      weekly_target: a.perWeek,
+      rest_pass_per_week: 1,
+      remind_at: a.remind,
+      missions: missions.filter(function (m) { return m.on; }).map(function (m) {
+        return { id: m.id, kind: m.kind, name: m.name, target: m.value || null, why: m.why };
+      })
+    }, null, 2)));
+    app.appendChild(d);
+
+    app.appendChild(el("div", "spacer"));
+    app.appendChild(next(
+      onCount ? "다짐 시작하기" : "미션을 하나는 켜 주세요",
+      onCount > 0,
+      function () { step = 6; render(); },
+      "처음부터 다시",
+      function () { a = { weeks: 4, breaks: [], minutes: 30, remind: "20:00", perWeek: null }; step = 0; render(); }
+    ));
+  }
+
+  function adjust(m, dir) {
+    var unit = m.stepBy || 10;
+    var v = m.value + dir * unit;
+    var floor = m.unit === "kcal" && m.id === "binge" ? (me.gender === "female" ? 1200 : 1500) : unit;
+    m.value = Math.max(floor, v);
+    m.name = m.name.replace(/[\d,]+/, m.value.toLocaleString());
+    m.why = "직접 정한 값";
+    render();
+  }
+
+  function done() {
+    var wrap = el("div", "done");
+    wrap.appendChild(el("div", "big", "◎"));
+    wrap.appendChild(el("h1", null, a.weeks + "주 다짐이 시작됐어요"));
+    var p = el("p", "hint");
+    p.innerHTML = "오늘부터 <b>주 " + a.perWeek + "일</b>, 하루 " +
+      missions.filter(function (m) { return m.on; }).length + "가지.<br>" +
+      (a.remind ? a.remind.slice(0, 2) + "시에 아직 못 한 것만 알려드릴게요." : "알림은 끈 상태예요.");
+    wrap.appendChild(p);
+    app.appendChild(wrap);
+    app.appendChild(el("div", "spacer"));
+    app.appendChild(next("설문 다시 해보기", true, function () {
+      a = { weeks: 4, breaks: [], minutes: 30, remind: "20:00", perWeek: null };
+      step = 0; render();
+    }));
+  }
+
+  render();
+})();
+</script>

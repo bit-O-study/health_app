@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 백링크는 고정 경로("/routine" 등)가 아니라 "요청해 들어온 이전 화면"으로
@@ -8,7 +8,7 @@ import { hasDb } from "./helpers/db";
 // 튕겼다 — BackLink(router.back()) 로 바꾼 뒤의 회귀 방지 테스트.
 test("설정 백링크는 들어온 경로로 되돌아간다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  await signUpAndOnboard(page);
+  await createOnboardedAccount(page);
 
   // 홈 → 설정 → 마이페이지 로 들어간 뒤 뒤로 두 번.
   await page.goto("/home", { waitUntil: "networkidle" });

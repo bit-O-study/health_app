@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-import { signUpAndOnboard } from "./helpers/auth";
+import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
 
 // 메인 화면 편집 모드 삭제도 일차별 독립이어야 한다. 같은 부위(등)가 두 일차에
@@ -20,7 +20,7 @@ test("메인 편집 삭제도 일차별 독립 — 다른 날 같은 운동은 �
   page,
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
-  const email = await signUpAndOnboard(page);
+  const email = await createOnboardedAccount(page);
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
 
   await dbQuery(

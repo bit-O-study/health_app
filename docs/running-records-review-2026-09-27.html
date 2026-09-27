@@ -1,7 +1,3 @@
-<!doctype html>
-<html lang="ko">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>런닝 기록 검수보고서</title>
 <meta name="description" content="런닝 기록 화면(/routine/running-records)을 코드·실측 화면으로 진단하고, 변경 시안·공통 규칙·적용 순서·결정 사항을 정리한 검수보고서">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -679,4 +675,3 @@ section{padding-block:52px 0}
 
   <p class="foot">근거: <code>src/app/routine/running-records/page.tsx</code>(46줄), <code>src/features/running/components/run-history-list.tsx</code>(71줄), <code>run-history-data.ts</code> · <code>run-history-summary.ts</code> · <code>run-session.ts</code>(경로 상한 2,000점), <code>settings/history/page.tsx</code> · <code>settings/history/[date]/page.tsx</code>(같은 목록 사용), <code>supabase/schema.sql</code> <code>run_sessions</code>. 실측 화면은 E2E <code>tab-brand-meal-running.spec.ts</code> 실행 결과(2026-09-27). 시안의 9월 수치(9회·42.6km 등)는 설명용 예시입니다. 런닝 거리는 그룹 순위용 <code>daily_run_distance</code>에도 따로 쌓이며, 이 보고서는 <code>run_sessions</code> 화면만 다룹니다. 원칙 1·2(오늘만 변경 ↔ 영구 루틴)와는 무관합니다.</p>
 </div>
-</html>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition, type ReactNode } from "react";
+import { useLayoutEffect, useMemo, useRef, useState, useTransition, type ReactNode } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -138,7 +138,9 @@ export function DietBoard({
   const [quickError, setQuickError] = useState<string | null>(null);
   // 서버를 부르는 시점의 최신 목록 — 콜백이 가둔 옛 logs 로는 방금 확정된 id 를 못 본다.
   const logsRef = useRef<FoodLog[]>(initial);
-  logsRef.current = logs;
+  useLayoutEffect(() => {
+    logsRef.current = logs;
+  }, [logs]);
 
   /** rowKey → 서버 id. 아직 인서트 중이면 잠깐(최대 3초) 기다렸다 준다. */
   async function serverIdOf(key: string): Promise<string | null> {

@@ -14,6 +14,11 @@
 ## 1순위: 앱 안정성
 
 ### UI.1 [진행중] 앱 전체 화면 재설계 (2026-09-18)
+- [진행중] 2026-09-27 GitHub CI 식단 ref 린트 오류 수정
+  - [완료] Actions 36326835392 로그에서 diet-board react-hooks/refs 1건이 최종 판정 실패 원인임을 확인
+  - [완료] logsRef 갱신을 useLayoutEffect로 옮겨 커밋된 최신 식단을 유지하고 렌더 중 ref 변경 제거
+  - [완료] 2026-09-27 Git 추적 소스 전체 ESLint 오류 0건·동일 lint gate 통과. pnpm run build: 전체 Vitest 240파일 2729개·타입·프로덕션 빌드 통과. 식단 추가 직후 수정 E2E 1개(40.3초, mobile-chromium, http://127.0.0.1:3110) 통과, 테스트 계정 정리. 증거 scripts/ci-ref-{lint,build,e2e}.log. 전체 E2E/실기기는 미실행.
+  - [대기] 수정 푸시 후 GitHub Actions·Vercel·Supabase 상태 확인
 - [완료] 2026-09-27 Supabase Preview 초기 마이그레이션 복원
   - [완료] Preview public 테이블 0개·마이그레이션 이력 0개, 운영 routine_exercises 존재·public 79개 확인. 최초 migration의 선행 스키마 누락 및 버전 중복 2쌍 발견
   - [완료] 최초 증분 이전 1a121a7^ 스키마 baseline 복원. 모더레이터 함수 선행 생성·선택적 유지보수 함수 권한 조건 처리. 기존 DB 건너뛰기·부분 초기화 차단. 미적용 중복 버전 2개를 202609250010/011로 변경.

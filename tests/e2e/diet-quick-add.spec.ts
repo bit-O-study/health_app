@@ -121,9 +121,10 @@ test("음식 검색을 열면 '최근 먹은 것'이 맨 위에 있다", async (
   // 아침 줄의 '추가' → 검색 화면
   await page
     .getByRole("button", { name: "아침 게시물 열기" })
-    .or(page.getByRole("button", { name: /^추가$/ }).first())
+    .or(page.getByRole("button", { name: "음식 기록하기" }))
     .waitFor({ state: "attached" });
-  await page.getByRole("button", { name: /^추가$/ }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click();
+  await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
 
   const recent = page.getByTestId("recent-foods");
   await expect(recent).toBeVisible({ timeout: 8000 });

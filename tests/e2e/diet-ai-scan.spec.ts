@@ -45,7 +45,7 @@ test("AI 식단 사진: 음식은 1번만 담기고, 분석 사진이 끼니 사
     await page.waitForTimeout(500);
 
     // 점심(스텁의 meal) 추가 → AI 사진 탭
-    await page.getByRole("button", { name: "추가" }).nth(1).click();
+    await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "점심", exact: true }).click();
     await page.getByRole("button", { name: /AI 사진/ }).click();
 
     await page

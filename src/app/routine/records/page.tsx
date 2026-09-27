@@ -11,7 +11,7 @@ export default async function RecordsPage() {
   if (!await getCurrentUser()) redirect("/login");
   const dashboard = await getHomeDashboard();
   return <div className="app-page">
-    <PageHeader title="나의 운동 기록" />
+    <PageHeader branded title="나의 운동 기록" />
     <main className="app-container space-y-4">
       <div className="grid grid-cols-2 gap-3">
         <Link className="app-card p-5 font-semibold text-brand" href="/settings/progress">성장 그래프 →</Link>

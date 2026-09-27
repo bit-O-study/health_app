@@ -19,7 +19,7 @@ test("런처에서 식단 앱으로 들어가 음식 추가→칼로리 반영�
   await page.waitForTimeout(500);
 
   // 점심(두 번째 끼니) 추가 → 검색 → 항목 선택 → 양(100g) 담기
-  await page.getByRole("button", { name: "추가" }).nth(1).click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "점심", exact: true }).click();
   await page.getByLabel("음식 검색").fill("닭가슴살");
   await page.getByRole("button").filter({ hasText: "닭가슴살" }).first().click();
   await page.getByRole("button", { name: "담기" }).click();
@@ -66,7 +66,7 @@ test("게시물 상세에서 음식 수정(칼로리 변경)", async ({ page }) 
   await page.waitForTimeout(500);
 
   // 아침(첫 끼니)에 직접 입력으로 한 건 추가
-  await page.getByRole("button", { name: "추가" }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page
     .getByLabel("아침 추가")
     .getByRole("button", { name: "직접 입력" })
@@ -122,7 +122,7 @@ test("직접 입력으로 음식 종류(category) 지정해 추가", async ({ pa
   await page.waitForTimeout(500);
 
   // 아침(첫 끼니) 추가 → '직접 입력' 탭
-  await page.getByRole("button", { name: "추가" }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page
     .getByLabel("아침 추가")
     .getByRole("button", { name: "직접 입력" })
@@ -153,7 +153,7 @@ test("🔴 담자마자 바로 수정해도 저장된다 — 임시 id 로 새�
   await page.goto("/diet", { waitUntil: "networkidle" });
   await expect(page.getByTestId("quick-add")).toBeVisible({ timeout: 8000 });
 
-  await page.getByRole("button", { name: "추가" }).first().click();
+  await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
   await page
     .getByLabel("아침 추가")
     .getByRole("button", { name: "직접 입력" })

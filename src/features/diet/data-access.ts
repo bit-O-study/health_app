@@ -160,6 +160,7 @@ export const getWaterEntries = cache(
 export const getRecentFoodLogs = cache(async function getRecentFoodLogs(
   sinceYmd: string,
   beforeYmd: string,
+  all = false,
 ): Promise<
   {
     name: string;
@@ -177,15 +178,25 @@ export const getRecentFoodLogs = cache(async function getRecentFoodLogs(
   const user = await getCurrentUser();
   if (!user) return [];
   const supabase = await createSupabaseServerClient();
-  const { data, error } = await supabase
-    .from("food_logs")
-    .select("meal, name, kcal, protein_g, carbs_g, fat_g, amount, category, eaten_at, for_date")
-    .eq("user_id", user.id)
-    .gte("for_date", sinceYmd)
-    .lt("for_date", beforeYmd)
-    .order("for_date", { ascending: false })
-    .limit(300);
-  if (error || !data) return [];
+  const data: (Row & { for_date: string })[] = [];
+  const batch = all ? 500 : 300;
+  for (let offset = 0; ; offset += batch) {
+    const { data: page, error } = await supabase
+      .from("food_logs")
+      .select("meal, name, kcal, protein_g, carbs_g, fat_g, amount, category, eaten_at, for_date")
+      .eq("user_id", user.id)
+      .gte("for_date", sinceYmd)
+      .lt("for_date", beforeYmd)
+      .order("for_date", { ascending: false })
+      .order("id", { ascending: false })
+      .range(offset, offset + batch - 1);
+    if (error) {
+      if (all) throw new Error("식단 기록을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.");
+      return [];
+    }
+    data.push(...((page ?? []) as (Row & { for_date: string })[]));
+    if (!all || !page || page.length < batch) break;
+  }
   return (data as (Row & { for_date: string })[])
     .filter((r) => isMeal(r.meal))
     .map((r) => ({

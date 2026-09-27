@@ -177,13 +177,13 @@ describe("탭 활성 판정", () => {
     expect(isTabActive(plan, "/routine")).toBe(false);
 
     // 설정 속에 묻혀 있던 성장 그래프·내 운동 점수를 '기록' 칸이 데려온다.
-    expect(isTabActive(record, "/settings/progress")).toBe(true);
-    expect(isTabActive(record, "/settings/score")).toBe(true);
+    expect(isTabActive(record, "/routine/running-records")).toBe(true);
+    expect(isTabActive(record, "/settings/score")).toBe(false);
   });
 
   it("화면이 하나뿐인 앱은 런처 바를 그대로 쓴다", () => {
     // 없는 화면을 만들어 칸을 채우지 않는다(2026-09-21).
-    for (const id of ["diet", "community", "coach"]) {
+    for (const id of ["coach"]) {
       const app = LAUNCHER_APPS.find((a) => a.id === id)!;
       expect(app.tabs, `${id} 가 가짜 칸을 갖고 있다`).toHaveLength(0);
       expect(bottomTabsForPath(app.home)[0].href).toBe(LAUNCHER_TABS[0].href);
@@ -220,4 +220,22 @@ describe("런처 격자", () => {
       expect(shown, `${app.id} 가 런처에서 빠졌다`).toContain(app.id);
     }
   });
+});
+
+it("캘린더는 월간·홈·주간 메뉴를 유지하고 주간만 활성화한다", () => {
+  const tabs = bottomTabsForPath("/calendar/week");
+  expect(tabs.map(tab => tab.label)).toEqual(["월간", "홈", "주간"]);
+  expect(tabs.filter(tab => isTabActive(tab, "/calendar/week")).map(tab => tab.label)).toEqual(["주간"]);
+});
+
+it("각 앱의 전용 메뉴는 해당 경로만 활성화하고 홈 바로가기로 대체되지 않는다", () => {
+  for (const id of ["diet", "trainer", "groups", "community"]) {
+    const app = LAUNCHER_APPS.find(app => app.id === id)!;
+    expect(app.tabs).toHaveLength(4);
+    for (const target of app.tabs) {
+      const tabs = bottomTabsForPath(target.href);
+      expect(tabs.map(tab => tab.href)).toContain(target.href);
+      expect(tabs.filter(tab => isTabActive(tab, target.href)).map(tab => tab.href)).toEqual([target.href]);
+    }
+  }
 });

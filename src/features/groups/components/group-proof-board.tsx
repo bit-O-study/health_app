@@ -1,5 +1,7 @@
 "use client";
 
+import { Logo } from "@/features/brand/logo";
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Camera, Dumbbell, X } from "lucide-react";
@@ -135,6 +137,7 @@ export function GroupProofBoard({
     <div className="w-full">
       {/* 헤더 — 그룹 전환 칩 + 위쪽 빈 여백(패딩) */}
       <header className="px-4 pt-3 sm:px-6">
+        <Link href="/home" aria-label="헬쑤 홈" className="mb-2 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link>
         <GroupSwitcher groups={groups} currentId={board.id} />
         <div className="h-8" />
       </header>

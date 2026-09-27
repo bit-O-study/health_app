@@ -1,8 +1,9 @@
 import {
   Apple,
+  Bell, Star, ChartColumn, ClipboardList, MessageCircle, User, BookOpen,
   CalendarDays,
   CalendarHeart,
-  ChartColumn,
+  Footprints,
   Flame,
   GraduationCap,
   House,
@@ -87,7 +88,12 @@ export function homeSlotIndex(sideTabCount: number): number {
 }
 
 export const LAUNCHER_APPS: LauncherApp[] = [
-  { id: "trainer", label: "헬스 트레이너", icon: Users, tone: "bg-gradient-to-br from-teal-400 to-brand", home: "/trainer", owns: ["/trainer"], tabs: [], debugFlag: "trainer-pass" },
+  { id: "trainer", label: "헬스 트레이너", icon: Users, tone: "bg-gradient-to-br from-teal-400 to-brand", home: "/trainer", owns: ["/trainer"], tabs: [
+    { href: "/trainer", label: "대시보드", icon: ChartColumn, match: p => p === "/trainer" },
+    { href: "/trainer/members", label: "회원 관리", icon: Users },
+    { href: "/trainer/prescriptions", label: "운동 처방", icon: ClipboardList },
+    { href: "/trainer/notifications", label: "관리 알림", icon: Bell },
+  ], debugFlag: "trainer-pass" },
   {
     id: "workout",
     label: "운동",
@@ -111,11 +117,11 @@ export const LAUNCHER_APPS: LauncherApp[] = [
       },
       { href: "/exercises", label: "운동찾기", icon: Search },
       {
-        href: "/settings/progress",
-        label: "기록",
-        icon: ChartColumn,
+        href: "/routine/running-records",
+        label: "런닝 기록",
+        icon: Footprints,
         // 성장 그래프·내 운동 점수 — 설정 깊숙이 묻혀 있던 화면을 1탭으로 꺼낸다.
-        match: (p) => p.startsWith("/settings/progress") || p.startsWith("/settings/score"),
+        match: (p) => p.startsWith("/routine/running-records"),
       },
     ],
   },
@@ -126,9 +132,12 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tone: "bg-gradient-to-br from-green-400 to-green-600",
     home: "/diet",
     owns: ["/diet"],
-    // 화면이 `/diet` 하나뿐이다 — 음식검색·사진기록·영양은 **그 화면 안에 이미 버튼이 있다.**
-    // 하단바에 또 넣으면 같은 화면으로 가는 버튼만 넷이 된다.
-    tabs: [],
+    tabs: [
+      { href: "/diet", label: "오늘 식단", icon: Apple, match: p => p === "/diet" },
+      { href: "/diet/history", label: "식단 기록", icon: CalendarDays },
+      { href: "/diet/favorites", label: "즐겨찾기", icon: Star },
+      { href: "/diet/nutrition", label: "영양 분석", icon: ChartColumn },
+    ],
   },
   {
     id: "calendar",
@@ -138,8 +147,8 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     home: "/calendar",
     owns: ["/calendar", "/cycle"],
     tabs: [
-      { href: "/calendar", label: "달력", icon: CalendarDays, match: (p) => p.startsWith("/calendar") },
-      { href: "/cycle", label: "주기", icon: CalendarHeart },
+      { href: "/calendar", label: "월간", icon: CalendarDays, match: (p) => p.startsWith("/calendar") && !p.startsWith("/calendar/week") },
+      { href: "/calendar/week", label: "주간", icon: CalendarHeart },
     ],
   },
   {
@@ -152,7 +161,9 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     // 찾기·랭킹은 `/groups` 화면 안에 있다 — 하단바엔 실제 화면 둘만.
     tabs: [
       { href: "/groups", label: "내 그룹", icon: UsersRound, match: (p) => p === "/groups" },
-      { href: "/groups/manage", label: "관리", icon: Users },
+            { href: "/groups/find", label: "그룹 찾기", icon: Search },
+      { href: "/groups/notifications", label: "그룹 알림", icon: Bell },
+      { href: "/groups/activity", label: "내 활동", icon: User },
     ],
   },
   {
@@ -162,8 +173,12 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     tone: "bg-gradient-to-br from-violet-400 to-purple-600",
     home: "/community",
     owns: ["/community"],
-    // 오운완·운동·내 글 탭은 **화면 위쪽에 이미 있다**(community-board 상단 탭).
-    tabs: [],
+    tabs: [
+      { href: "/community", label: "피드", icon: Newspaper, match: p => p === "/community" || /^\/community\/[0-9a-f-]{36}$/.test(p) },
+      { href: "/community/teaching", label: "운동 영상", icon: MessageCircle },
+      { href: "/community/routines", label: "루틴 공유", icon: BookOpen },
+      { href: "/community/mine", label: "내 글", icon: User },
+    ],
   },
   {
     id: "coach",

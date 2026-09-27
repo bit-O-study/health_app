@@ -7,7 +7,7 @@ test("음식 검색 토글은 초록 박스 없이 키보드 포커스를 표시
   await page.goto("/diet");
   for (const scheme of ["light", "dark"]) {
     await page.evaluate((s) => document.documentElement.classList.toggle("dark", s === "dark"), scheme);
-    await page.getByRole("button", { name: "추가", exact: true }).first().click();
+    await page.getByRole("button", { name: "음식 기록하기" }).click(); await page.getByRole("group", { name: "기록할 끼니" }).getByRole("button", { name: "아침", exact: true }).click();
     const dialog = page.getByRole("dialog", { name: "아침 추가" });
     const search = dialog.getByRole("textbox", { name: "음식 검색", exact: true });
     await expect(search).toBeFocused();

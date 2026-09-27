@@ -1,3 +1,4 @@
+import { Logo } from "@/features/brand/logo";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
@@ -15,7 +16,7 @@ export default async function TrainerPage() {
     if (error) throw new Error("회원 현황을 불러오지 못했어요.");
     return { link, report: data as Report | null };
   }));
-  return <main className="app-container space-y-6 py-6"><div className="flex items-center justify-between"><h1 className="app-title">헬스 트레이너</h1><Link href="/settings/trainer-pass" className="text-sm text-brand">이용권 관리</Link></div>
+  return <main className="app-container space-y-6 py-6"><div className="flex items-center justify-between"><div><Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">헬스 트레이너</h1></div><Link href="/settings/trainer-pass" className="text-sm text-brand">이용권 관리</Link></div>
     <section className="app-card space-y-4 p-5"><h2 className="font-semibold">회원 초대</h2>
       <p className="text-sm text-muted">회원이 초대 링크에서 공유 범위를 정하고 수락하면 연결돼요.</p>
       <TrainerForm intent="invite" label="초대 보내기">

@@ -62,7 +62,7 @@ for (const { scheme, width } of [
         const summary = page.getByRole("region", { name: "섭취 영양 요약" });
         await expect(summary.getByRole("progressbar")).toHaveCount(4);
         await expect(summary.getByRole("progressbar", { name: "섭취 칼로리", exact: true })).toHaveAttribute("aria-valuenow", "0");
-        await expect(page.getByRole("button", { name: "추가", exact: true })).toHaveCount(4);
+        await expect(page.getByRole("button", { name: "음식 기록하기", exact: true })).toHaveCount(1);
       }
       await page.screenshot({ path: testInfo.outputPath(`${path.slice(1)}.png`), fullPage: true });
 

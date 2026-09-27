@@ -40,7 +40,7 @@ export default function ExercisesPage() {
   // 공통 머리글 + 부위 칩 + 부위별 그룹 목록(2026-09-16 8단계) — 영문 머리말·설명 문장은 뺐다.
   return (
     <div className="app-page">
-      <PageHeader title="운동 종목" back />
+      <PageHeader branded title="운동 종목" back />
       <main className="app-container space-y-4">
         {/* 자연어로 찾기 — 예전엔 운동탭 머리글에 있었는데, 하단 '운동찾기' 칸과
             이름이 거의 같아 헷갈렸다. 찾는 곳을 여기 하나로 모았다(2026-09-21). */}

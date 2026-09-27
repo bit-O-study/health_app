@@ -46,7 +46,7 @@ export default async function RunningRecordsPage({ searchParams }: { searchParam
   const isCurrent = month === today.slice(0, 7);
 
   return <div className="app-page">
-    <PageHeader title="런닝 기록">
+    <PageHeader branded title="런닝 기록">
       <Link href="/running" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950"><Footprints size={18} aria-hidden="true" />런닝 시작</Link>
     </PageHeader>
     <main className="app-container space-y-5">

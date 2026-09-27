@@ -14,11 +14,11 @@
 ## 1순위: 앱 안정성
 
 ### UI.1 [진행중] 앱 전체 화면 재설계 (2026-09-18)
-- [진행중] 2026-09-27 Supabase Preview 초기 마이그레이션 복원
+- [완료] 2026-09-27 Supabase Preview 초기 마이그레이션 복원
   - [완료] Preview public 테이블 0개·마이그레이션 이력 0개, 운영 routine_exercises 존재·public 79개 확인. 최초 migration의 선행 스키마 누락 및 버전 중복 2쌍 발견
   - [완료] 최초 증분 이전 1a121a7^ 스키마 baseline 복원. 모더레이터 함수 선행 생성·선택적 유지보수 함수 권한 조건 처리. 기존 DB 건너뛰기·부분 초기화 차단. 미적용 중복 버전 2개를 202609250010/011로 변경.
   - [완료] 2026-09-27 Preview(mvkohidhkekmpiywqygo)에서 18개 SQL 전체 실행·schema.sql의 모든 테이블 존재·baseline 재실행 시 함수 불변 검증 통과 후 ROLLBACK, public 테이블 0개 확인. 단위 2파일 13개·대상 ESLint·tsc --noEmit 통과. 운영 DB 변경 없음. 증거 scripts/verify-preview-migrations.cjs 및 scripts/preview-migration-types.log.
-  - [대기] 푸시 후 Supabase Preview 자동 마이그레이션 완료 확인
+  - [완료] 35dd434 푸시 후 Preview FUNCTIONS_DEPLOYED 확인. 실제 public 테이블 79개·마이그레이션 이력 18개 확인, routine_exercises 누락 오류 해결. 운영 main 상태 유지. 확인 스크립트 scripts/check-supabase-preview.cjs.
 - [완료] 2026-09-27 Vercel prebuild 실패 수정
   - [완료] 배포 로그 확인: 신규 13개 라우트 로딩 누락 1건, 변경 전 머리글을 기대하는 UI 가드 3건 실패
   - [완료] 공통 RouteLoading 13개 추가 및 브랜드 머리글·홈 링크·접근 가능한 제목을 검사하도록 UI 가드 수정

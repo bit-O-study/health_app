@@ -13,8 +13,7 @@ import {
   type FocusTone,
 } from "@/features/routine/data";
 import { getWorkoutDurationsRange } from "@/features/workout-timer/workout-sessions";
-import { RunHistoryList } from "@/features/running/components/run-history-list";
-import { getRecentRunSessions, getRunSessionsRange } from "@/features/running/run-history-data";
+import { getRunSessionsRange } from "@/features/running/run-history-data";
 import { summarizeRunWeek } from "@/features/running/run-history-summary";
 
 /** 초 → "m분" 또는 "h시간 m분" 짧은 표기 */
@@ -101,7 +100,7 @@ export default async function HistoryPage({
     date.setUTCDate(date.getUTCDate() + (day === 0 ? -6 : 1 - day));
     return date.toISOString().slice(0, 10);
   })();
-  const [exRes, condRes, durationMap, monthRuns, recentRuns, weekRuns] = await Promise.all([
+  const [exRes, condRes, durationMap, monthRuns, weekRuns] = await Promise.all([
     user
       ? supabase
           .from("exercise_completions")
@@ -122,7 +121,6 @@ export default async function HistoryPage({
       : Promise.resolve({ data: [] as CondRow[] }),
     getWorkoutDurationsRange(monthStart, monthEnd),
     getRunSessionsRange(monthStart, monthEnd),
-    getRecentRunSessions(5),
     getRunSessionsRange(weekStart, todayYmd),
   ]);
   const weekSummary = summarizeRunWeek(weekRuns, todayYmd);
@@ -296,18 +294,20 @@ export default async function HistoryPage({
             </div>
             <div>
               <p className="px-3 py-2 text-center text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
-                {weekSummary.from}~{weekSummary.to} · {weekSummary.caloriesKcal}kcal
+                {weekSummary.from.slice(5).replace("-", "/")}~{weekSummary.to.slice(5).replace("-", "/")}{weekSummary.caloriesKcal > 0 ? ` · ${weekSummary.caloriesKcal}kcal` : ""}
               </p>
             </div>
           </div>
         </section>
 
-        <section>
-          <h2 className="app-section-label">최근 런닝 기록</h2>
-          <div className="app-card overflow-hidden">
-            <RunHistoryList rows={recentRuns} />
-          </div>
-        </section>
+        {/* 런닝 목록은 런닝 기록 탭 한 곳에 — 여기엔 이번 주 요약만 두고 연결한다(2026-09-27 B안). */}
+        <Link
+          href="/routine/running-records"
+          className="app-card flex min-h-12 items-center justify-between px-4 text-sm font-semibold"
+        >
+          런닝 기록 전체 보기
+          <span aria-hidden="true" className="text-zinc-400">›</span>
+        </Link>
       </main>
     </div>
   );

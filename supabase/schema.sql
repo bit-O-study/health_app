@@ -1594,6 +1594,9 @@ alter table public.run_sessions
   add column if not exists max_heart_rate integer check (max_heart_rate between 30 and 240),
   add column if not exists heart_rate_sample_count integer not null default 0 check (heart_rate_sample_count >= 0);
 
+-- 목록용 경로 점 개수(202609270001) — 목록은 route_points 전체 대신 이 열만 읽는다.
+alter table public.run_sessions add column if not exists route_point_count integer generated always as (jsonb_array_length(route_points)) stored;
+
 create index if not exists run_sessions_user_date_idx
   on public.run_sessions (user_id, for_date desc, started_at desc);
 

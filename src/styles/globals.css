@@ -99,9 +99,9 @@ body {
     animation: app-fade-in 240ms ease-out;
   }
 
-  /* 탭과 상세 화면의 제목은 30px/700으로 통일한다. */
+  /* 탭과 상세 화면의 제목은 28px/700으로 통일한다. */
   .app-title {
-    font-size: 1.875rem;
+    font-size: 1.75rem;
     line-height: 2.25rem;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -112,7 +112,7 @@ body {
   .app-section-label {
     padding-inline: 0.25rem;
     margin-bottom: 0.625rem;
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     line-height: 1.125rem;
     font-weight: 600;
     color: var(--muted);

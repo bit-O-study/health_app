@@ -130,8 +130,8 @@ export function ConfirmDialog({
           <span
             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
               tone === "danger"
-                ? "bg-red-100 text-red-600 dark:bg-red-950/40 dark:text-red-400"
-                : "bg-amber-100 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400"
+                ? "bg-danger/10 text-danger dark:bg-red-950/40 dark:text-danger"
+                : "bg-warn/10 text-warn dark:bg-amber-950/40 dark:text-warn"
             }`}
           >
             <AlertTriangle aria-hidden="true" size={18} />
@@ -154,7 +154,7 @@ export function ConfirmDialog({
             <button
               type="button"
               onClick={onCancel}
-              className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
+              className="min-h-11 min-w-11 inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
             >
               {cancelLabel}
             </button>
@@ -163,7 +163,7 @@ export function ConfirmDialog({
             ref={confirmButtonRef}
             type="button"
             onClick={onConfirm}
-            className={`inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-semibold transition ${confirmBtn}`}
+            className={"min-h-11 min-w-11 " + (`inline-flex h-10 items-center justify-center rounded-md px-4 text-sm font-semibold transition ${confirmBtn}`)}
           >
             {confirmLabel}
           </button>

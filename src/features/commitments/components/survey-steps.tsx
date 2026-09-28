@@ -132,7 +132,7 @@ export function SurveySteps({
           type="button"
           onClick={() => setStep((s) => Math.max(0, s - 1))}
           disabled={step === 0 || pending}
-          className="rounded px-1 py-0.5 disabled:opacity-30"
+          className="min-h-11 min-w-11 rounded px-1 py-0.5 disabled:opacity-30"
         >
           ‹ 이전
         </button>
@@ -179,11 +179,11 @@ export function SurveySteps({
                           : answers.breaks,
                     )
                   }
-                  className={`h-9 rounded-full px-3.5 text-sm font-semibold transition ${
+                  className={"min-h-11 min-w-11 " + (`h-9 rounded-full px-3.5 text-sm font-semibold transition ${
                     on
                       ? "bg-brand-soft text-brand"
                       : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
-                  }`}
+                  }`)}
                 >
                   {b.emoji} {b.label}
                 </button>
@@ -271,8 +271,8 @@ export function SurveySteps({
 
       {step >= STEPS ? (
         <div className="space-y-3">
-          <h2 className="text-lg font-bold">이렇게 만들까요?</h2>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <h2 className="text-base font-bold">이렇게 만들까요?</h2>
+          <p className="text-sm text-muted">
             {answers.weeks}주 · <b>주 {answers.perWeek}일</b> ·{" "}
             {answers.remindAt ? `${answers.remindAt.slice(0, 2)}시 알림` : "알림 없음"}
           </p>
@@ -288,11 +288,11 @@ export function SurveySteps({
                       rows.map((r) => (r.id === m.id ? { ...r, on: !r.on } : r)),
                     )
                   }
-                  className={`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border text-xs ${
+                  className={"min-h-11 min-w-11 " + (`mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-md border text-xs ${
                     m.on
                       ? "border-brand bg-brand text-white dark:text-zinc-950"
                       : "border-zinc-300 text-transparent dark:border-zinc-600"
-                  } ${m.type === "manual_check" ? "" : "border-dashed"}`}
+                  } ${m.type === "manual_check" ? "" : "border-dashed"}`)}
                 >
                   ✓
                 </button>
@@ -303,7 +303,7 @@ export function SurveySteps({
                     {missionLabel(m)}
                   </span>
                   {m.why ? (
-                    <span className="block text-xs text-zinc-500 dark:text-zinc-400">{m.why}</span>
+                    <span className="block text-xs text-muted">{m.why}</span>
                   ) : null}
                   {m.on && m.target > 0 ? (
                     <span className="mt-1 flex items-center gap-1.5">
@@ -311,7 +311,7 @@ export function SurveySteps({
                         type="button"
                         aria-label={`${missionLabel(m)} 줄이기`}
                         onClick={() => adjust(m.id!, -1)}
-                        className="h-7 w-7 rounded-lg border app-field text-sm"
+                        className="min-h-11 min-w-11 h-7 w-7 rounded-lg border app-field text-sm"
                       >
                         −
                       </button>
@@ -322,7 +322,7 @@ export function SurveySteps({
                         type="button"
                         aria-label={`${missionLabel(m)} 늘리기`}
                         onClick={() => adjust(m.id!, 1)}
-                        className="h-7 w-7 rounded-lg border app-field text-sm"
+                        className="min-h-11 min-w-11 h-7 w-7 rounded-lg border app-field text-sm"
                       >
                         +
                       </button>
@@ -341,7 +341,7 @@ export function SurveySteps({
               </li>
             ))}
           </ul>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs text-muted">
             자동은 기록에서 앱이 판정해요. 수동은 직접 체크합니다.
           </p>
           {error ? <p className="text-sm text-danger">{error}</p> : null}
@@ -350,14 +350,14 @@ export function SurveySteps({
             onClick={submit}
             disabled={pending}
             data-testid="survey-submit"
-            className="app-press h-11 w-full rounded-full bg-brand text-sm font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
+            className="min-h-11 min-w-11 app-press h-11 w-full rounded-full bg-brand text-sm font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
           >
             {pending ? "만드는 중…" : "다짐 시작하기"}
           </button>
           <button
             type="button"
             onClick={() => setStep(0)}
-            className="w-full text-xs font-semibold text-zinc-500 dark:text-zinc-400"
+            className="min-h-11 min-w-11 w-full text-xs font-semibold text-muted"
           >
             처음부터 다시
           </button>
@@ -379,9 +379,9 @@ function Question({
   return (
     <div className="space-y-3">
       <div>
-        <h2 className="text-lg font-bold leading-snug">{ask}</h2>
+        <h2 className="text-base font-bold leading-snug">{ask}</h2>
         {hint ? (
-          <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">{hint}</p>
+          <p className="mt-0.5 text-xs text-muted">{hint}</p>
         ) : null}
       </div>
       {children}
@@ -405,14 +405,14 @@ function Choice({
       type="button"
       aria-pressed={on}
       onClick={onPick}
-      className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm transition ${
+      className={"min-h-11 min-w-11 " + (`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left text-sm transition ${
         on
           ? "border-brand bg-brand-soft font-bold text-brand"
           : "border-[var(--line)] bg-[var(--surface-strong)]"
-      }`}
+      }`)}
     >
       <span>{label}</span>
-      {why ? <span className="shrink-0 text-xs text-zinc-500 dark:text-zinc-400">{why}</span> : null}
+      {why ? <span className="shrink-0 text-xs text-muted">{why}</span> : null}
     </button>
   );
 }
@@ -433,14 +433,14 @@ function Next({
       <button
         type="button"
         onClick={onGo}
-        className="app-press h-11 w-full rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950"
+        className="min-h-11 min-w-11 app-press h-11 w-full rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950"
       >
         {label}
       </button>
       <button
         type="button"
         onClick={onSkip}
-        className="w-full text-xs font-semibold text-zinc-500 dark:text-zinc-400"
+        className="min-h-11 min-w-11 w-full text-xs font-semibold text-muted"
       >
         {skip}
       </button>

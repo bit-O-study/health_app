@@ -121,10 +121,10 @@ export function PostureAnalyzer({
           <Video aria-hidden="true" size={18} />
         </span>
         <div className="min-w-0 flex-1">
-          <h2 className="text-base font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-base font-semibold leading-5 text-foreground">
             자세 분석
           </h2>
-          <p className="truncate text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+          <p className="truncate text-xs leading-4 text-muted">
             10~30초 운동 영상을 촬영/업로드하면 자세를 분석해 교정점을 알려드려요.
           </p>
         </div>
@@ -151,7 +151,7 @@ export function PostureAnalyzer({
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={busy}
-        className="app-press mt-2 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+        className="min-h-11 min-w-11 app-press mt-2 inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {busy ? (
           <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -179,7 +179,7 @@ export function PostureAnalyzer({
           <ul className="space-y-2">
             {analysis.points.map((p, i) => (
               <li key={i} className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
-                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                <p className="text-sm font-semibold text-foreground">
                   {p.title}
                 </p>
                 {p.detail ? (

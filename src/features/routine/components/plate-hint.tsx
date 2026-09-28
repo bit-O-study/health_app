@@ -108,7 +108,7 @@ export function PlateHint({
       </p>
       <p className="font-bold tabular-nums">{text}</p>
       {result.leftoverKg > 0 && !result.belowBar ? (
-        <p className="text-amber-700 dark:text-amber-400">
+        <p className="text-warn dark:text-warn">
           {result.leftoverKg}kg 는 원판으로 못 맞춰요
         </p>
       ) : null}
@@ -116,7 +116,7 @@ export function PlateHint({
         type="button"
         onClick={cycleBar}
         aria-label={`봉 무게 바꾸기 (현재 ${barLabel})`}
-        className="ml-auto rounded-md border border-zinc-300 px-1.5 py-0.5 text-xs font-semibold text-zinc-500 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:text-zinc-400"
+        className="min-h-11 min-w-11 ml-auto rounded-md border border-zinc-300 px-1.5 py-0.5 text-xs font-semibold text-zinc-500 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:text-zinc-400"
       >
         {barLabel}
       </button>

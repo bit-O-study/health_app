@@ -84,7 +84,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
     >
       <div className="space-y-1">
         <label
-          className="text-xs font-medium text-zinc-500 dark:text-zinc-400"
+          className="text-xs font-medium text-muted"
           htmlFor="new-password"
         >
           새 비밀번호
@@ -101,7 +101,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
       </div>
       <div className="space-y-1">
         <label
-          className="text-xs font-medium text-zinc-500 dark:text-zinc-400"
+          className="text-xs font-medium text-muted"
           htmlFor="confirm-password"
         >
           새 비밀번호 확인
@@ -127,7 +127,7 @@ export function ChangePasswordForm({ redirectTo }: { redirectTo: string }) {
         type="submit"
         disabled={isSubmitting}
         data-testid="change-password-submit"
-        className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50"
+        className="min-h-11 min-w-11 app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isSubmitting ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={17} />

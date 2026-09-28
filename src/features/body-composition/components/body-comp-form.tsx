@@ -111,7 +111,7 @@ export function BodyCompForm({
         .from(BUCKET)
         .upload(path, file, { contentType: file.type, upsert: false });
       if (error) {
-        setUploadErr(error.message);
+        setUploadErr("사진을 올리지 못했어요. 파일과 인터넷 연결을 확인해 주세요.");
         return;
       }
       setImagePath(path);
@@ -164,10 +164,10 @@ export function BodyCompForm({
             },
       );
     } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
+      console.error("Body composition analysis failed", err);
       setOcrMsg({
         ok: false,
-        text: `분석 실패: ${msg}. 다시 시도하거나 직접 입력해 주세요.`,
+        text: "분석하지 못했어요. 다시 시도하거나 직접 입력해 주세요.",
       });
     } finally {
       setOcrRunning(false);
@@ -225,7 +225,7 @@ export function BodyCompForm({
       <section>
         <h2 className="app-section-label">체성분 분석지 등록</h2>
         <label className="app-card block space-y-1 p-3">
-          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+          <span className="text-xs font-medium text-muted">
             측정일
           </span>
           <input
@@ -243,7 +243,7 @@ export function BodyCompForm({
           <div className="app-card grid grid-cols-2 gap-x-2 gap-y-2.5 p-3 sm:grid-cols-3">
             {sec.fields.map((f) => (
               <label key={f.key} className="min-w-0 space-y-1">
-                <span className="block truncate text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                <span className="block truncate text-xs font-medium text-muted">
                   {f.label} ({f.unit})
                 </span>
                 <input
@@ -290,7 +290,7 @@ export function BodyCompForm({
             type="button"
             disabled={ocrRunning || !imageFile}
             onClick={runOcr}
-            className="app-press inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-3.5 text-sm font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
+            className="min-h-11 min-w-11 app-press inline-flex h-9 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-3.5 text-sm font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {ocrRunning ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -324,7 +324,7 @@ export function BodyCompForm({
             업로드 완료 · {imagePath.split("/").pop()}
           </p>
         ) : hasExistingImage ? (
-          <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-2 text-xs text-muted">
             이전 분석지 사진이 등록돼 있어요.
           </p>
         ) : null}
@@ -352,7 +352,7 @@ export function BodyCompForm({
       </section>
 
       <section className="app-card p-3 text-xs leading-5 text-zinc-700 dark:text-zinc-300">
-        <p className="font-semibold text-zinc-900 dark:text-zinc-100">
+        <p className="font-semibold text-foreground">
           민감정보(건강) 수집·이용 동의
         </p>
         <ul className="mt-1 list-disc pl-5 text-xs text-zinc-600 dark:text-zinc-400">
@@ -388,7 +388,7 @@ export function BodyCompForm({
           type="button"
           disabled={pending || !consented}
           onClick={submit}
-          className="app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
+          className="min-h-11 min-w-11 app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand px-5 text-base font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />

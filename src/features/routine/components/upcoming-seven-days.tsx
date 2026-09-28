@@ -218,7 +218,7 @@ export function UpcomingSevenDaysGrid({
           ) : null}
         </h2>
         {pending ? (
-          <span className="inline-flex items-center gap-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="inline-flex items-center gap-1 text-xs text-muted">
             <Loader2 aria-hidden="true" className="animate-spin" size={13} />
             저장 중
           </span>
@@ -294,7 +294,7 @@ export function UpcomingSevenDaysGrid({
               )}
             >
               <div className="flex items-center justify-between gap-1">
-                <span className="flex min-w-0 items-center gap-1 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                <span className="flex min-w-0 items-center gap-1 text-sm font-bold text-foreground">
                   {editMode ? (
                     <GripVertical
                       aria-hidden="true"
@@ -309,7 +309,7 @@ export function UpcomingSevenDaysGrid({
                   ) : null}
                   <span className="truncate">
                     {cell.weekday}
-                    <span className="ml-1.5 text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                    <span className="ml-1.5 text-xs font-normal text-muted">
                       {cell.label}
                     </span>
                   </span>
@@ -343,7 +343,7 @@ export function UpcomingSevenDaysGrid({
       </div>
 
       {err ? (
-        <p className="mt-2 text-xs font-medium text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-medium text-danger dark:text-danger">
           {err}
         </p>
       ) : null}
@@ -360,7 +360,7 @@ export function UpcomingSevenDaysGrid({
             className="app-card w-full max-w-sm bg-[var(--surface-strong)] p-5 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+            <h3 className="text-base font-bold text-foreground">
               오늘만 운동 상태예요
             </h3>
             <p className="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
@@ -372,14 +372,14 @@ export function UpcomingSevenDaysGrid({
               <button
                 type="button"
                 onClick={cancelExit}
-                className="h-10 rounded-lg px-4 text-sm font-semibold text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                className="min-h-11 min-w-11 h-10 rounded-lg px-4 text-sm font-semibold text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
               >
                 아니오
               </button>
               <button
                 type="button"
                 onClick={acceptExit}
-                className="h-10 rounded-lg bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
+                className="min-h-11 min-w-11 h-10 rounded-lg bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
               >
                 예, 오늘만 해제
               </button>

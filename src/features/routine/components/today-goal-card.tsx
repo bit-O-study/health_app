@@ -63,11 +63,11 @@ export function TodayGoalCard({
         <button
           type="button"
           onClick={() => setLogOpen(true)}
-          className="app-card app-row w-full text-left transition active:scale-[0.99]"
+          className="min-h-11 min-w-11 app-card app-row w-full text-left transition active:scale-[0.99]"
         >
           {/* 촘촘한 한 줄 — 목표 이름 · 현재→목표 · 남은 양 · › */}
           <span className="min-w-0 flex-1">
-            <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="block truncate text-xs text-muted">
               {goal.metricLabel} {goal.directionLabel} 목표
             </span>
             {goal.reached ? (
@@ -77,7 +77,7 @@ export function TodayGoalCard({
                 <span className="text-base font-bold text-zinc-950 dark:text-zinc-50">
                   {goal.currentText}
                 </span>
-                <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="text-xs text-muted">
                   → {goal.targetText}
                 </span>
               </span>
@@ -133,7 +133,7 @@ export function TodayGoalCard({
                       style={{ width: `${Math.min(100, Math.max(0, m.pct))}%` }}
                     />
                   </div>
-                  <span className="w-24 shrink-0 text-right text-xs font-semibold tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="w-24 shrink-0 text-right text-xs font-semibold tabular-nums text-muted">
                     {m.valueText}
                   </span>
                 </div>
@@ -154,14 +154,14 @@ export function TodayGoalCard({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
+              <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                 체형 기록
               </h2>
               <button
                 type="button"
                 aria-label="닫기"
                 onClick={() => setLogOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-700"
               >
                 <X aria-hidden="true" size={18} />
               </button>

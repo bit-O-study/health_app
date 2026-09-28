@@ -139,7 +139,7 @@ export function WeeklyTrainingCard({
               className="min-w-0"
             >
               <div className="flex items-baseline gap-1.5">
-                <span className="truncate text-sm text-zinc-900 dark:text-zinc-100">{r.label}</span>
+                <span className="truncate text-sm text-foreground">{r.label}</span>
                 <span className="text-sm font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
                   {r.sets}
                 </span>
@@ -172,7 +172,7 @@ export function WeeklyTrainingCard({
                   style={{ width: `${Math.min(100, Math.round((r.sets / WEEKLY_SET_MAX) * 100))}%` }}
                 />
               </div>
-              <p className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="mt-0.5 truncate text-xs text-muted">
                 {r.daysAgo === null ? "기록 없음" : r.daysAgo === 0 ? "오늘" : `${r.daysAgo}일 전`}
                 {r.days > 0 ? ` · 주 ${r.days}회` : null}
               </p>
@@ -210,7 +210,7 @@ export function WeeklyTrainingCard({
             있으면 아무도 잇지 못한다. */}
         {stalled.length > 0 ? (
           <div className="border-t border-[var(--line)] pt-3">
-            <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+            <p className="text-sm font-semibold text-foreground">
               무게가 안 오르는 종목
               <span className="ml-1.5 text-xs font-normal text-zinc-400">{stalled.length}개</span>
             </p>
@@ -222,8 +222,8 @@ export function WeeklyTrainingCard({
                   data-sessions={st.sessions}
                   className="flex flex-wrap items-baseline gap-x-1.5 text-xs"
                 >
-                  <span className="text-zinc-500 dark:text-zinc-400">{st.regionLabel}</span>
-                  <span className="font-semibold text-zinc-900 dark:text-zinc-100">{st.name}</span>
+                  <span className="text-muted">{st.regionLabel}</span>
+                  <span className="font-semibold text-foreground">{st.name}</span>
                   <span className="text-warn">{st.reason}</span>
                 </li>
               ))}
@@ -235,7 +235,7 @@ export function WeeklyTrainingCard({
             운동마다 걸리는 세부근육 수가 크게 달라(상복부 254개 ↔ 하복부 19개) 세트 수끼리
             비교하면 내 훈련이 아니라 매핑의 치우침을 보게 된다. */}
         <div className="border-t border-[var(--line)] pt-3">
-          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+          <p className="text-sm font-semibold text-foreground">
             이번 주 안 한 세부근육
             <span className="ml-1.5 text-xs font-normal text-zinc-400">{untouchedSubs.length}개</span>
           </p>
@@ -258,7 +258,7 @@ export function WeeklyTrainingCard({
               했다고 세면, 정작 하부를 노린 적은 없는데 채워진 것처럼 보인다. */}
           {synergistOnlySubs.length > 0 ? (
             <div className="mt-2.5">
-              <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              <p className="text-xs text-muted">
                 거들기만 한 곳
                 <span className="ml-1 text-zinc-400">{synergistOnlySubs.length}개</span>
               </p>
@@ -325,7 +325,7 @@ function BalanceRow({
             {aLabel} : {bLabel}
           </span>
         </span>
-        <span className="shrink-0 font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+        <span className="shrink-0 font-semibold tabular-nums text-foreground">
           {balance.a} : {balance.b}
         </span>
       </div>

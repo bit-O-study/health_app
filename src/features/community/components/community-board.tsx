@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/empty-state";
 import { useMemo, useRef, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
@@ -107,30 +108,9 @@ export function CommunityBoard({
         {/* 제목은 다른 탭 머리글(PageHeader)과 같은 큰 제목(.app-title) — 2026-09-16 촘촘하게. */}
         <Link href="/home" aria-label="헬쑤 홈" className="mb-4 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
 
-        {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
-        <div className="flex items-center gap-5 overflow-x-auto [scrollbar-width:none]">
-          {BOARD_TABS.map(({ value, label }) => (
-            <button
-              key={value}
-              type="button"
-              // 탭 데이터는 이미 다 받아 왔다 — 주소만 바꾼다(서버 왕복 없음).
-              // router.replace 는 서버 렌더를 다시 받고, 페이지가 key={view} 로 게시판을 새로 붙여
-              // 그 사이 열어 둔 창(루틴 소개 '올렸어요' 등)이 닫혔다(2026-09-25 routine-share E2E).
-              onClick={() => { setTab(value); window.history.replaceState(null, "", value === "teaching" ? "/community/teaching" : value === "routine" ? "/community/routines" : value === "mine" ? "/community/mine" : value === "workout" ? "/community" : "/community?view=" + value); }}
-              aria-pressed={tab === value}
-              className={`relative min-h-11 shrink-0 pb-3 text-sm font-semibold transition-colors ${
-                tab === value
-                  ? "text-zinc-900 dark:text-zinc-50"
-                  : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
-              }`}
-            >
-              {label}
-              {tab === value ? (
-                <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-brand" />
-              ) : null}
-            </button>
-          ))}
-        </div>
+        {(tab === "workout" || tab === "popular") && <div className="flex gap-2 pb-3" aria-label="피드 정렬">
+          {([{ value: "workout", label: "최신순" }, { value: "popular", label: "인기순" }] as const).map(({ value, label }) => <button key={value} type="button" aria-pressed={tab === value} onClick={() => { setTab(value); window.history.replaceState(null, "", value === "popular" ? "/community?view=popular" : "/community"); }} className={`min-h-11 rounded-full px-4 text-sm font-semibold ${tab === value ? "bg-brand-soft text-brand" : "text-muted"}`}>{label}</button>)}
+        </div>}
 
         {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
         {tab === "teaching" ? (
@@ -141,6 +121,7 @@ export function CommunityBoard({
             />
             <input
               type="search"
+              aria-label="운동 검색"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="운동 검색 (예: 스쿼트, 벤치프레스)"
@@ -165,12 +146,7 @@ export function CommunityBoard({
           />
         </div>
       ) : visible.length === 0 ? (
-        <div className="flex flex-col items-center gap-2 px-6 py-20 text-center">
-          <Camera aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {tab === "mine" ? "아직 내가 쓴 글이 없어요" : "아직 글이 없어요"}
-          </p>
-        </div>
+        <div className="p-4"><EmptyState title={tab === "mine" ? "아직 내가 쓴 글이 없어요." : "아직 글이 없어요."} description="아래 글쓰기 버튼으로 오늘의 운동을 남겨 보세요." /></div>
       ) : (
         <ul className="flex flex-col gap-3 px-4 py-3 sm:px-6">
           {visible.map((p) => (
@@ -191,7 +167,7 @@ export function CommunityBoard({
           type="button"
           onClick={() => tab === "routine" ? setRoutineCompose(true) : setCompose(true)}
           aria-label={tab === "routine" ? "루틴 추천글 쓰기" : "오운완 인증하기"}
-          className="fixed right-4 z-20 inline-flex h-11 items-center justify-center gap-1 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95 dark:text-zinc-950"
+          className="min-h-11 min-w-11 fixed right-4 z-20 inline-flex h-11 items-center justify-center gap-1 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95 dark:text-zinc-950"
           style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
         >
           <Plus aria-hidden="true" size={18} />
@@ -204,10 +180,10 @@ export function CommunityBoard({
           <section role="dialog" aria-modal="true" aria-labelledby="routine-compose-title" className="w-full max-w-md rounded-t-2xl bg-white p-5 pb-[calc(env(safe-area-inset-bottom,0px)+1.25rem)] shadow-2xl dark:bg-zinc-900 sm:rounded-2xl sm:pb-5" onClick={(event) => event.stopPropagation()}>
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h2 id="routine-compose-title" className="text-lg font-bold">내 루틴 추천글 쓰기</h2>
-                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">내가 설정한 루틴에서 소개할 일차를 골라보세요.</p>
+                <h2 id="routine-compose-title" className="text-base font-bold">내 루틴 추천글 쓰기</h2>
+                <p className="mt-1 text-xs text-muted">내가 설정한 루틴에서 소개할 일차를 골라보세요.</p>
               </div>
-              <button type="button" aria-label="닫기" onClick={() => setRoutineCompose(false)} className="p-1 text-zinc-400"><X size={20} /></button>
+              <button type="button" aria-label="닫기" onClick={() => setRoutineCompose(false)} className="min-h-11 min-w-11 p-1 text-zinc-400"><X size={20} /></button>
             </div>
             <div className="mt-4 flex flex-col gap-2">
               {applyTargets.map((target) => (
@@ -253,11 +229,11 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
+      className={"min-h-11 min-w-11 " + (`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all active:scale-95 ${
         active
           ? "border-transparent bg-brand text-white dark:text-zinc-950"
           : "border-zinc-200 text-zinc-500 hover:border-brand/40 hover:text-brand dark:border-zinc-700"
-      }`}
+      }`)}
     >
       {label}
     </button>
@@ -354,7 +330,7 @@ function PostCard({
           {characterEmoji(post.authorName)}
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
+          <p className="truncate text-sm font-semibold leading-5 text-foreground">
             {post.authorName}
           </p>
           <p className="text-xs leading-4 text-zinc-400">{when}</p>
@@ -383,7 +359,7 @@ function PostCard({
               type="button"
               onClick={() => setShowVideo(true)}
               aria-label="영상 재생"
-              className="flex h-full w-full items-center justify-center"
+              className="min-h-11 min-w-11 flex h-full w-full items-center justify-center"
             >
               <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-brand shadow-lg">
                 <Play size={26} className="translate-x-0.5 fill-current" />
@@ -440,7 +416,7 @@ function PostCard({
       {/* 액션 — 버튼 클릭은 카드 이동(상세)으로 전파되지 않게 막는다. */}
       <div
         onClick={(e) => e.stopPropagation()}
-        className="flex items-center gap-4 px-3 pt-2 text-zinc-500 dark:text-zinc-400"
+        className="flex items-center gap-4 px-3 pt-2 text-muted"
       >
         {!isTeaching ? (
           <>
@@ -448,10 +424,10 @@ function PostCard({
               type="button"
               onClick={toggleLike}
               disabled={pending}
-              className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums transition-transform active:scale-125 disabled:opacity-60"
+              className="min-h-11 min-w-11 inline-flex items-center gap-1 text-sm font-semibold tabular-nums transition-transform active:scale-125 disabled:opacity-60"
               aria-label="좋아요"
             >
-              <Heart size={20} className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"} />
+              <Heart size={20} className={liked ? "fill-rose-500 text-danger" : "text-zinc-400"} />
               {likeCount}
             </button>
             <Link
@@ -468,7 +444,7 @@ function PostCard({
         )}
         {!post.isMine ? (
           <ReportButton
-            className="ml-auto inline-flex items-center gap-1 text-zinc-300 hover:text-rose-500"
+            className="ml-auto inline-flex items-center gap-1 text-zinc-300 hover:text-danger"
             targetKind={isTeaching ? "teaching_post" : "community_post"}
             targetId={post.id}
             targetUserId={post.userId}
@@ -483,7 +459,7 @@ function PostCard({
             onClick={remove}
             disabled={pending}
             aria-label="삭제"
-            className={`${post.isMine ? "ml-auto" : ""} text-zinc-300 hover:text-rose-500 disabled:opacity-50`}
+            className={"min-h-11 min-w-11 " + (`${post.isMine ? "ml-auto" : ""} text-zinc-300 hover:text-danger disabled:opacity-50`)}
           >
             <Trash2 size={16} />
           </button>
@@ -566,8 +542,8 @@ function ComposeModal({
         });
         if (r.ok) onDone();
         else setError(r.error);
-      } catch (e) {
-        setError(e instanceof Error ? e.message : "업로드에 실패했어요.");
+      } catch {
+        setError("업로드에 실패했어요. 파일과 인터넷 연결을 확인해 주세요.");
       }
     });
   }
@@ -580,7 +556,7 @@ function ComposeModal({
       <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-base font-semibold">오운완 인증</h2>
-          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
+          <button type="button" onClick={onClose} aria-label="닫기" className="min-h-11 min-w-11 rounded-full p-1 text-zinc-400">
             <X size={20} />
           </button>
         </div>
@@ -597,7 +573,7 @@ function ComposeModal({
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="min-h-11 min-w-11 flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
         >
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -616,7 +592,7 @@ function ComposeModal({
           onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
           rows={2}
           placeholder="오늘 운동 한마디 (선택)"
-          className={`${field} resize-none`}
+          className={`${field} resize-none`} aria-label="오늘 운동 한마디 (선택)"
         />
 
         {/* 공개범위 */}
@@ -638,7 +614,7 @@ function ComposeModal({
         {/* 그룹 선택(그룹만/그룹제외일 때) */}
         {needsGroup ? (
           groups.length === 0 ? (
-            <p className="mt-2 text-xs font-bold text-rose-500">
+            <p className="mt-2 text-xs font-bold text-danger">
               속한 그룹이 없어 전체 공개만 가능해요.
             </p>
           ) : (
@@ -660,7 +636,7 @@ function ComposeModal({
           )
         ) : null}
 
-        {error ? <p className="mt-2 text-xs font-bold text-rose-500">{error}</p> : null}
+        {error ? <p className="mt-2 text-xs font-bold text-danger">{error}</p> : null}
 
         <p className="mt-3 rounded-xl bg-zinc-50 px-3 py-2 text-xs leading-relaxed text-zinc-500 dark:bg-zinc-800/60 dark:text-zinc-400">
           {RULES}
@@ -670,7 +646,7 @@ function ComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-[10px] bg-brand py-3.5 text-sm font-semibold text-white transition-transform active:scale-[0.99] disabled:opacity-60 dark:text-zinc-950"
+          className="min-h-11 min-w-11 mt-3 flex w-full items-center justify-center gap-2 rounded-[10px] bg-brand py-3.5 text-sm font-semibold text-white transition-transform active:scale-[0.99] disabled:opacity-60 dark:text-zinc-950"
         >
           {pending ? (
             <>

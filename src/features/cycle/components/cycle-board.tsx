@@ -115,11 +115,11 @@ export function CycleBoard({
             aria-label="이전 달"
             onClick={() => goMonth(-1)}
             disabled={pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+            className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
           >
             <ChevronLeft aria-hidden="true" size={18} />
           </button>
-          <span className="min-w-[4.5rem] text-center text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+          <span className="min-w-[4.5rem] text-center text-sm font-semibold tabular-nums text-foreground">
             {year}.{pad(month0 + 1)}
           </span>
           <button
@@ -127,7 +127,7 @@ export function CycleBoard({
             aria-label="다음 달"
             onClick={() => goMonth(1)}
             disabled={pending}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+            className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 disabled:opacity-30 dark:text-zinc-400 dark:active:bg-white/[0.06]"
           >
             <ChevronRight aria-hidden="true" size={18} />
           </button>
@@ -157,7 +157,7 @@ export function CycleBoard({
             />
           </div>
         ) : (
-          <p className="px-3 py-2.5 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="px-3 py-2.5 text-center text-sm text-muted">
             생리한 날을 눌러 기록하면 예정일을 알려드려요
           </p>
         )}
@@ -191,21 +191,21 @@ export function CycleBoard({
                 key={date}
                 type="button"
                 onClick={() => setEditing(date)}
-                className={`flex min-h-[3.25rem] flex-col items-center gap-0.5 rounded-lg border p-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06] ${
+                className={"min-h-11 min-w-11 " + (`flex min-h-[3.25rem] flex-col items-center gap-0.5 rounded-lg border p-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06] ${
                   isToday
                     ? "border-brand/40"
                     : "border-transparent"
-                }`}
+                }`)}
               >
                 <span className="text-xs font-semibold tabular-nums text-zinc-700 dark:text-zinc-300">
                   {day}
                 </span>
                 {isPeriod ? (
-                  <Heart aria-label="생리" size={16} className="fill-rose-500 text-rose-500" />
+                  <Heart aria-label="생리" size={16} className="fill-rose-500 text-danger" />
                 ) : isPredicted ? (
-                  <Heart aria-label="생리 예정" size={16} className="text-rose-300 dark:text-rose-500/60" />
+                  <Heart aria-label="생리 예정" size={16} className="text-danger dark:text-rose-500/60" />
                 ) : isOvul ? (
-                  <span className="text-xs font-semibold text-violet-500">배란</span>
+                  <span className="text-xs font-semibold text-brand">배란</span>
                 ) : log?.symptoms.length || log?.note ? (
                   <span className="h-1.5 w-1.5 rounded-full bg-warn" />
                 ) : null}
@@ -215,13 +215,13 @@ export function CycleBoard({
         </div>
         <div className="mt-1.5 flex flex-wrap items-center justify-center gap-3 border-t border-[var(--line)] pt-1.5 text-xs text-zinc-400">
           <span className="flex items-center gap-1">
-            <Heart size={11} className="fill-rose-500 text-rose-500" /> 생리
+            <Heart size={11} className="fill-rose-500 text-danger" /> 생리
           </span>
           <span className="flex items-center gap-1">
-            <Heart size={11} className="text-rose-300" /> 예정
+            <Heart size={11} className="text-danger" /> 예정
           </span>
           <span className="flex items-center gap-1">
-            <span className="font-semibold text-violet-500">배란</span> 배란 예정
+            <span className="font-semibold text-brand">배란</span> 배란 예정
           </span>
         </div>
       </div>
@@ -242,8 +242,8 @@ export function CycleBoard({
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="min-w-0 px-1">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
-      <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-rose-600 dark:text-rose-400">{value}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
+      <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-danger dark:text-danger">{value}</p>
       {sub ? <p className="truncate text-xs tabular-nums text-zinc-400">{sub}</p> : null}
     </div>
   );
@@ -270,13 +270,13 @@ function DayEditor({
 
   return (
     <div className="fixed inset-0 z-[70] flex items-end justify-center sm:items-center">
-      <button type="button" aria-label="닫기" onClick={onClose} className="absolute inset-0 cursor-default bg-black/40" />
+      <button type="button" aria-label="닫기" onClick={onClose} className="min-h-11 min-w-11 absolute inset-0 cursor-default bg-black/40" />
       <div className="relative max-h-[88vh] w-full overflow-y-auto rounded-t-2xl border border-[var(--line)] bg-white p-4 pb-[max(env(safe-area-inset-bottom),1rem)] shadow-2xl dark:bg-zinc-900 sm:m-3 sm:max-w-md sm:rounded-2xl">
         <div className="mb-3 flex items-center justify-between">
           <h3 className="text-base font-semibold text-zinc-950 dark:text-zinc-50">
             {date.slice(5).replace("-", "월 ")}일
           </h3>
-          <button type="button" aria-label="닫기" onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
+          <button type="button" aria-label="닫기" onClick={onClose} className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-full bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
             <X size={16} />
           </button>
         </div>
@@ -284,11 +284,11 @@ function DayEditor({
         <button
           type="button"
           onClick={() => setIsPeriod((v) => !v)}
-          className={`flex h-11 w-full items-center justify-center gap-2 rounded-xl text-base font-semibold transition ${
+          className={"min-h-11 min-w-11 " + (`flex h-11 w-full items-center justify-center gap-2 rounded-xl text-base font-semibold transition ${
             isPeriod
-              ? "bg-rose-500 text-white"
+              ? "bg-danger text-white"
               : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
-          }`}
+          }`)}
         >
           <Heart size={18} className={isPeriod ? "fill-white" : ""} />
           {isPeriod ? "생리 중" : "생리 시작/기록"}
@@ -303,11 +303,11 @@ function DayEditor({
                   key={f}
                   type="button"
                   onClick={() => setFlow(flow === f ? null : f)}
-                  className={`h-9 flex-1 rounded-lg text-xs font-semibold transition ${
+                  className={"min-h-11 min-w-11 " + (`h-9 flex-1 rounded-lg text-xs font-semibold transition ${
                     flow === f
-                      ? "bg-rose-500 text-white"
+                      ? "bg-danger text-white"
                       : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
-                  }`}
+                  }`)}
                 >
                   {FLOW_LABEL[f]}
                 </button>
@@ -324,11 +324,11 @@ function DayEditor({
                 key={s}
                 type="button"
                 onClick={() => toggle(s)}
-                className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+                className={"min-h-11 min-w-11 " + (`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                   symptoms.includes(s)
                     ? "bg-brand text-white dark:text-zinc-950"
                     : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
-                }`}
+                }`)}
               >
                 {s}
               </button>
@@ -342,7 +342,7 @@ function DayEditor({
           rows={2}
           maxLength={500}
           placeholder="메모 (선택)"
-          className="mt-3 w-full resize-none rounded-[10px] bg-zinc-100 px-3 py-2 text-base outline-none focus:ring-2 focus:ring-rose-400/40 dark:bg-white/[0.08] dark:text-zinc-100"
+          className="mt-3 w-full resize-none rounded-[10px] bg-zinc-100 px-3 py-2 text-base outline-none focus:ring-2 focus:ring-rose-400/40 dark:bg-white/[0.08] dark:text-zinc-100" aria-label="메모 (선택)"
         />
 
         <button
@@ -350,7 +350,7 @@ function DayEditor({
           onClick={() =>
             onSave({ forDate: date, isPeriod, flow: isPeriod ? flow : null, symptoms, note: note.trim() || null })
           }
-          className="app-press mt-3 h-11 w-full rounded-xl bg-rose-500 text-base font-semibold text-white"
+          className="min-h-11 min-w-11 app-press mt-3 h-11 w-full rounded-xl bg-danger text-base font-semibold text-white"
         >
           저장
         </button>

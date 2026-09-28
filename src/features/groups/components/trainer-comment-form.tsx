@@ -82,7 +82,7 @@ export function TrainerCommentForm({
             data-testid="comment-submit"
             disabled={pending || body.trim().length === 0}
             onClick={submit}
-            className="inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex h-10 items-center gap-1.5 rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
           >
             {pending ? (
               <Loader2 aria-hidden="true" size={14} className="animate-spin" />
@@ -101,7 +101,7 @@ export function TrainerCommentForm({
       ) : null}
 
       {items.length === 0 ? (
-        <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-card p-3 text-sm text-muted">
           아직 남긴 코멘트가 없어요.
         </p>
       ) : (
@@ -120,7 +120,7 @@ export function TrainerCommentForm({
                   aria-label="코멘트 삭제"
                   disabled={pending}
                   onClick={() => remove(c.id)}
-                  className="shrink-0 rounded-lg p-1.5 text-zinc-400 transition hover:bg-zinc-100 hover:text-danger disabled:opacity-50 dark:hover:bg-white/[0.06]"
+                  className="min-h-11 min-w-11 shrink-0 rounded-lg p-1.5 text-zinc-400 transition hover:bg-zinc-100 hover:text-danger disabled:opacity-50 dark:hover:bg-white/[0.06]"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>

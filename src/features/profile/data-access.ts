@@ -99,9 +99,8 @@ export const getUserProfile = cache(async (): Promise<UserProfile | null> => {
     .eq("user_id", user.id)
     .maybeSingle();
 
-  if (error || !data) {
-    return null;
-  }
+  if (error) throw new Error("프로필을 불러오지 못했어요. 잠시 후 다시 시도해 주세요.");
+  if (!data) return null;
 
   const row = data as ProfileRow;
 

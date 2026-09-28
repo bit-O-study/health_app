@@ -17,7 +17,7 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
     return (
       <section>
         <h2 className="app-section-label">자세 영상</h2>
-        <p className="app-list app-row text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-list app-row text-sm text-muted">
           <MessageSquare aria-hidden="true" className="shrink-0 text-zinc-400" size={16} />
           아직 업로드된 영상이 없습니다
         </p>
@@ -45,7 +45,7 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
                 <h3 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
                   {video.title}
                 </h3>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-muted">
                   {new Intl.DateTimeFormat("ko-KR", {
                     dateStyle: "medium",
                     timeStyle: "short",
@@ -56,7 +56,7 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
               <CommentForm videoId={video.id} />
 
               <div className="space-y-2">
-                <h4 className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                <h4 className="text-xs font-semibold text-muted">
                   익명 피드백 {video.comments.length}개
                 </h4>
                 {video.comments.length ? (
@@ -66,7 +66,7 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
                         className="rounded-[10px] bg-zinc-100 p-3 dark:bg-white/[0.06]"
                         key={comment.id}
                       >
-                        <div className="flex flex-wrap items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                        <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
                           <span className="font-semibold text-zinc-800 dark:text-zinc-200">
                             {comment.nickname}
                           </span>
@@ -84,7 +84,7 @@ export function FeedbackSection({ videos }: FeedbackSectionProps) {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="text-sm text-muted">
                     아직 피드백이 없습니다.
                   </p>
                 )}
@@ -122,7 +122,7 @@ function CommentForm({ videoId }: { videoId: string }) {
     });
 
     if (error) {
-      setStatus(error.message);
+      setStatus("의견을 저장하지 못했어요. 잠시 후 다시 시도해 주세요.");
       setIsSubmitting(false);
       return;
     }
@@ -142,18 +142,18 @@ function CommentForm({ videoId }: { videoId: string }) {
           onChange={(event) => setNickname(event.target.value)}
           placeholder="닉네임(선택)"
           type="text"
-          value={nickname}
+          value={nickname} aria-label="닉네임(선택)"
         />
         <textarea
           className="min-h-20 resize-y rounded-[10px] bg-zinc-100 px-3 py-2 text-sm outline-none transition focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
           onChange={(event) => setBody(event.target.value)}
           placeholder="자세 피드백을 남겨주세요."
-          value={body}
+          value={body} aria-label="자세 피드백을 남겨주세요."
         />
       </div>
       <div className="flex items-center gap-3">
         <button
-          className="app-press inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-950"
+          className="min-h-11 min-w-11 app-press inline-flex h-9 shrink-0 items-center justify-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-950"
           disabled={isSubmitting}
           type="submit"
         >

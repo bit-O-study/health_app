@@ -45,11 +45,11 @@ export function JoinConfirm({
       <span className="mx-auto mb-2 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-soft text-brand">
         <Users aria-hidden="true" size={24} />
       </span>
-      <p className="text-xs text-zinc-500 dark:text-zinc-400">그룹 초대</p>
+      <p className="text-xs text-muted">그룹 초대</p>
       <h1 className="mt-0.5 text-xl font-semibold text-zinc-950 dark:text-zinc-50">
         {groupName}
       </h1>
-      <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="mt-1 text-sm text-muted">
         이 그룹에 가입하시겠어요?
       </p>
 
@@ -64,7 +64,7 @@ export function JoinConfirm({
           type="button"
           disabled={pending}
           onClick={() => router.push("/groups")}
-          className="app-press h-11 flex-1 rounded-xl bg-zinc-100 text-base font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
+          className="min-h-11 min-w-11 app-press h-11 flex-1 rounded-xl bg-zinc-100 text-base font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
         >
           거절
         </button>
@@ -72,7 +72,7 @@ export function JoinConfirm({
           type="button"
           disabled={pending}
           onClick={accept}
-          className="app-press h-11 flex-1 rounded-xl bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+          className="min-h-11 min-w-11 app-press h-11 flex-1 rounded-xl bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
         >
           {pending ? "가입 중…" : "확인"}
         </button>

@@ -33,7 +33,7 @@ export function LightModeToggle() {
       <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
         <Gauge aria-hidden="true" size={16} />
       </span>
-      <span className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+      <span className="min-w-0 flex-1 truncate text-base text-foreground">
         경량 모드
       </span>
       <button
@@ -42,9 +42,9 @@ export function LightModeToggle() {
         aria-checked={enabled}
         aria-label="경량 모드"
         onClick={toggle}
-        className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${
+        className={"min-h-11 min-w-11 " + (`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors ${
           enabled ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
-        }`}
+        }`)}
       >
         <span
           className={`h-5 w-5 rounded-full bg-white shadow transition-transform ${

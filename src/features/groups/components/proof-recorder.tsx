@@ -183,8 +183,8 @@ export function ProofRecorder({
       }
       router.refresh();
       onClose();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "업로드에 실패했어요.");
+    } catch {
+      setError("업로드하지 못했어요. 연결을 확인하고 다시 시도해 주세요.");
       setPhase("preview");
     }
   }
@@ -199,7 +199,7 @@ export function ProofRecorder({
           type="button"
           onClick={onClose}
           aria-label="닫기"
-          className="rounded-full bg-white/10 p-2 text-white active:scale-95"
+          className="min-h-11 min-w-11 rounded-full bg-white/10 p-2 text-white active:scale-95"
         >
           <X size={22} />
         </button>
@@ -212,7 +212,7 @@ export function ProofRecorder({
               setFacing((f) => (f === "user" ? "environment" : "user"));
             }}
             aria-label="카메라 전환"
-            className="rounded-full bg-white/10 p-2 text-white active:scale-95"
+            className="min-h-11 min-w-11 rounded-full bg-white/10 p-2 text-white active:scale-95"
           >
             <SwitchCamera size={22} />
           </button>
@@ -260,7 +260,7 @@ export function ProofRecorder({
 
         {phase === "recording" ? (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-            <span className="rounded-full bg-red-600/90 px-4 py-1.5 text-2xl font-bold tabular-nums text-white shadow-lg">
+            <span className="rounded-full bg-red-600/90 px-4 py-1.5 text-xl font-bold tabular-nums text-white shadow-lg">
               ● {count}
             </span>
           </div>
@@ -281,7 +281,7 @@ export function ProofRecorder({
               type="button"
               onClick={startRecording}
               aria-label="3초 녹화"
-              className="flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-red-600 text-white shadow-xl active:scale-95"
+              className="min-h-11 min-w-11 flex h-20 w-20 items-center justify-center rounded-full border-4 border-white bg-danger text-white shadow-xl active:scale-95"
             >
               <Camera size={30} />
             </button>
@@ -310,14 +310,14 @@ export function ProofRecorder({
             <button
               type="button"
               onClick={retake}
-              className="flex items-center gap-2 rounded-full bg-white/15 px-5 py-3 text-sm font-bold text-white active:scale-95"
+              className="min-h-11 min-w-11 flex items-center gap-2 rounded-full bg-white/15 px-5 py-3 text-sm font-bold text-white active:scale-95"
             >
               <RefreshCw size={18} /> 다시
             </button>
             <button
               type="button"
               onClick={save}
-              className="flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-95"
+              className="min-h-11 min-w-11 flex items-center gap-2 rounded-full bg-brand px-7 py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-95"
             >
               인증 올리기
             </button>

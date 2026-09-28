@@ -71,12 +71,12 @@ export function MuscleBalance3D({
             data-testid="balance-mode-region"
             aria-pressed={!detail}
             onClick={() => setDetail(false)}
-            className={cn(
+            className={"min-h-11 min-w-11 " + (cn(
               "flex-1 rounded-full px-3 py-1 transition",
               !detail
                 ? "bg-brand text-white dark:text-zinc-950"
                 : "text-zinc-600 dark:text-zinc-300",
-            )}
+            ))}
           >
             부위
           </button>
@@ -85,12 +85,12 @@ export function MuscleBalance3D({
             data-testid="balance-mode-detail"
             aria-pressed={detail}
             onClick={() => setDetail(true)}
-            className={cn(
+            className={"min-h-11 min-w-11 " + (cn(
               "flex-1 rounded-full px-3 py-1 transition",
               detail
                 ? "bg-brand text-white dark:text-zinc-950"
                 : "text-zinc-600 dark:text-zinc-300",
-            )}
+            ))}
           >
             세부근육
           </button>

@@ -31,7 +31,7 @@ export default async function TrainerPage({
       <div className="app-page">
         <PageHeader title="회원 관리" back="그룹으로" backHref={`/groups/${id}`} />
         <main className="app-container">
-          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             이 그룹의 회원 관리는 그룹장만 볼 수 있어요.
           </p>
         </main>

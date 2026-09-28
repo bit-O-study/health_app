@@ -18,7 +18,7 @@ export function MemberStatistics({ stats, sharing, period }: {
   ];
   return <div className="space-y-5">
     <section aria-labelledby="summary-title" className="space-y-3">
-      <h2 id="summary-title" className="text-lg font-bold">통계 요약</h2>
+      <h2 id="summary-title" className="text-base font-bold">통계 요약</h2>
       <div className="relative overflow-hidden rounded-2xl border border-brand/20 bg-brand/5 p-5 sm:p-6">
         <p className="text-sm text-muted">선택한 기간의 운동</p>
         <p className="text-xl font-bold leading-snug">{!sharing.workout ? "운동 기록이 비공개예요" : stats.workoutDays === 0 ? "아직 완료한 운동이 없어요" : `${stats.workoutDays}일 동안 ${n(stats.sets)}세트를 완료했어요`}</p>

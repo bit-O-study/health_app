@@ -168,7 +168,7 @@ export function HealthConnections() {
               className="flex items-center gap-3 px-3 py-2.5"
             >
               <div className="min-w-0 flex-1">
-                <p className="flex items-center gap-1.5 text-base text-zinc-900 dark:text-zinc-100">
+                <p className="flex items-center gap-1.5 text-base text-foreground">
                   {f.label}
                   {f.status === "planned" ? (
                     <span className="rounded-full bg-zinc-100 px-1.5 py-0.5 text-xs font-medium text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-300">
@@ -182,7 +182,7 @@ export function HealthConnections() {
                   ) : null}
                 </p>
                 {/* 동의를 구하려면 이유를 먼저 말해야 한다. */}
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">{f.why}</p>
+                <p className="text-xs text-muted">{f.why}</p>
                 {f.status === "ready" ? (
                   <p className="text-xs text-zinc-400 dark:text-zinc-500">
                     마지막 동기화 · {formatLastSync(sync[f.id])}
@@ -201,11 +201,11 @@ export function HealthConnections() {
                   data-testid={`health-connect-${f.id}`}
                   disabled={!canAct || busy}
                   onClick={() => (connected ? resync(f.id) : connect(f.id))}
-                  className={`app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
+                  className={"min-h-11 min-w-11 " + (`app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
                     connected
                       ? "bg-zinc-100 text-brand dark:bg-white/[0.08]"
                       : "bg-brand text-white dark:text-zinc-950"
-                  }`}
+                  }`)}
                 >
                   {busy ? (
                     <Loader2 aria-hidden="true" size={13} className="animate-spin" />

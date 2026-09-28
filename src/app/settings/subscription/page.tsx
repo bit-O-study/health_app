@@ -1,3 +1,5 @@
+import { AI_FEATURES } from "@/features/coach/ai-quota";
+import { readAiUsage } from "@/features/coach/ai-usage";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -21,13 +23,17 @@ export default async function SubscriptionPage() {
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/settings/subscription");
 
-  const status = await getBillingStatusAction();
+  const [status, usage] = await Promise.all([getBillingStatusAction(), Promise.all(AI_FEATURES.map(feature => readAiUsage(feature.id)))]);
 
   return (
     <div className="app-page">
       <PageHeader title="구독" back="설정" />
       <main className="app-container">
         <SubscriptionPanel initial={status} />
+        <section className="app-card mt-4 p-4" aria-labelledby="ai-usage-title">
+          <h2 id="ai-usage-title" className="text-base font-bold">이번 달 AI 사용량</h2>
+          <ul className="mt-3 space-y-3">{usage.map((state, index) => <li key={state.feature} className="flex justify-between gap-3 text-sm"><span>{AI_FEATURES[index].label}</span><span className="tabular-nums">{state.used} / {state.limit}회</span></li>)}</ul>
+        </section>
       </main>
     </div>
   );

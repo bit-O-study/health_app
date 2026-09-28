@@ -60,10 +60,10 @@ export function NotificationSettings({
           {NOTIFICATION_KINDS.map((kind) => (
             <li key={kind} className="app-row">
               <div className="min-w-0 flex-1">
-                <p className="truncate text-base text-zinc-900 dark:text-zinc-100">
+                <p className="truncate text-base text-foreground">
                   {NOTIFICATION_LABEL[kind].title}
                 </p>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs text-muted">
                   {NOTIFICATION_LABEL[kind].desc}
                 </p>
               </div>
@@ -85,7 +85,7 @@ export function NotificationSettings({
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
               <Moon aria-hidden="true" size={16} />
             </span>
-            <span className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+            <span className="min-w-0 flex-1 truncate text-base text-foreground">
               야간 방해 금지
             </span>
             <Toggle
@@ -116,7 +116,7 @@ export function NotificationSettings({
                   시작과 종료가 같아 방해 금지 시간이 없어요.
                 </p>
               ) : nowQuiet ? (
-                <p className="basis-full text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="basis-full text-xs text-muted">
                   지금은 방해 금지 시간이에요.
                 </p>
               ) : null}
@@ -127,7 +127,7 @@ export function NotificationSettings({
 
       <p
         aria-live="polite"
-        className="flex items-center gap-1.5 px-1 text-xs text-zinc-500 dark:text-zinc-400"
+        className="flex items-center gap-1.5 px-1 text-xs text-muted"
       >
         {pending ? (
           <>
@@ -169,9 +169,9 @@ function Toggle({
       aria-label={label}
       disabled={disabled}
       onClick={onToggle}
-      className={`relative h-7 w-12 shrink-0 rounded-full transition disabled:opacity-60 ${
+      className={"min-h-11 min-w-11 " + (`relative h-7 w-12 shrink-0 rounded-full transition disabled:opacity-60 ${
         on ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
-      }`}
+      }`)}
     >
       <span
         aria-hidden="true"

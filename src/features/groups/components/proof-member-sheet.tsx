@@ -71,7 +71,7 @@ export function ProofMemberSheet({
             type="button"
             aria-label="닫기"
             onClick={onClose}
-            className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+            className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
           >
             <X aria-hidden="true" size={18} />
           </button>
@@ -82,15 +82,15 @@ export function ProofMemberSheet({
             <Loader2 aria-hidden="true" size={24} className="animate-spin" />
           </div>
         ) : !day ? (
-          <p className="px-5 py-16 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="px-5 py-16 text-center text-sm text-muted">
             기록을 볼 수 없어요 (같은 그룹원만 열람 가능).
           </p>
         ) : (
           <div className="flex-1 overflow-y-auto px-5 py-4">
             {/* 섭취 / 소비 요약 */}
             <div className="mb-5 grid grid-cols-2 gap-2">
-              <div className="rounded-2xl border border-amber-100 bg-amber-50/60 p-3 dark:border-amber-900/40 dark:bg-amber-950/20">
-                <span className="flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400">
+              <div className="rounded-2xl border border-warn bg-amber-50/60 p-3 dark:border-amber-900/40 dark:bg-amber-950/20">
+                <span className="flex items-center gap-1 text-xs font-bold text-warn dark:text-warn">
                   <Utensils size={13} /> 오늘 섭취
                 </span>
                 <p className="mt-1 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-50">
@@ -115,7 +115,7 @@ export function ProofMemberSheet({
 
             {/* 오늘 운동 */}
             <section className="mb-5">
-              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-muted">
                 <Dumbbell size={14} /> 오늘 운동
               </h3>
               {day.workouts.length === 0 ? (
@@ -148,7 +148,7 @@ export function ProofMemberSheet({
 
             {/* 오늘 식단 */}
             <section className="pb-2">
-              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+              <h3 className="mb-2 flex items-center gap-1 text-xs font-bold uppercase tracking-wide text-muted">
                 <Utensils size={14} /> 오늘 식단
               </h3>
               {day.mealPhotos.length > 0 ? (
@@ -183,7 +183,7 @@ export function ProofMemberSheet({
                         </span>
                         {f.name}
                       </span>
-                      <span className="shrink-0 text-xs font-bold tabular-nums text-amber-600 dark:text-amber-400">
+                      <span className="shrink-0 text-xs font-bold tabular-nums text-warn dark:text-warn">
                         {f.kcal}kcal
                       </span>
                     </li>

@@ -84,7 +84,7 @@ export function WithdrawButton() {
         type="button"
         data-testid="withdraw-account"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 underline-offset-2 transition hover:text-red-500 hover:underline dark:text-zinc-500 dark:hover:text-red-400"
+        className="min-h-11 min-w-11 inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 underline-offset-2 transition hover:text-danger hover:underline dark:text-zinc-500 dark:hover:text-danger"
       >
         <UserX aria-hidden="true" size={13} />
         회원탈퇴
@@ -100,14 +100,14 @@ export function WithdrawButton() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
-              <span className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              <span className="text-sm font-bold text-foreground">
                 회원탈퇴
               </span>
               <button
                 type="button"
                 aria-label="닫기"
                 onClick={close}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -116,10 +116,10 @@ export function WithdrawButton() {
             <div className="flex-1 overflow-y-auto px-5 py-5">
               {step === "survey" ? (
                 <>
-                  <h3 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
+                  <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                     떠나시는 이유를 알려주세요
                   </h3>
-                  <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-1 text-sm text-muted">
                     더 나은 헬쑤를 만드는 데 큰 도움이 됩니다.
                   </p>
                   <div className="mt-4 space-y-2">
@@ -148,7 +148,7 @@ export function WithdrawButton() {
                         onChange={(e) => setEtc(e.target.value)}
                         rows={3}
                         placeholder="자세한 이유를 들려주세요 (선택)"
-                        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+                        className="w-full rounded-xl border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100" aria-label="자세한 이유를 들려주세요 (선택)"
                       />
                     ) : null}
                   </div>
@@ -157,7 +157,7 @@ export function WithdrawButton() {
                 <>
                   <div className="flex items-center gap-2 text-brand">
                     <CheckCircle2 aria-hidden="true" size={22} />
-                    <h3 className="text-lg font-bold">
+                    <h3 className="text-base font-bold">
                       그동안 이용해 주셔서 감사합니다 🙏
                     </h3>
                   </div>
@@ -183,8 +183,8 @@ export function WithdrawButton() {
                     </ul>
                   </div>
 
-                  <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 dark:border-red-900 dark:bg-red-950/30">
-                    <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-red-700 dark:text-red-300">
+                  <div className="mt-4 rounded-xl border border-danger bg-danger/10 p-4 dark:border-danger dark:bg-red-950/30">
+                    <p className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-danger dark:text-danger">
                       <AlertTriangle aria-hidden="true" size={14} />
                       탈퇴하면 이런 것들이 사라져요
                     </p>
@@ -192,12 +192,12 @@ export function WithdrawButton() {
                       {LOSSES.map((l) => (
                         <li
                           key={l}
-                          className="flex gap-2 text-sm text-red-900 dark:text-red-100"
+                          className="flex gap-2 text-sm text-danger dark:text-danger"
                         >
                           <X
                             aria-hidden="true"
                             size={15}
-                            className="mt-0.5 shrink-0 text-red-500"
+                            className="mt-0.5 shrink-0 text-danger"
                           />
                           {l}
                         </li>
@@ -219,7 +219,7 @@ export function WithdrawButton() {
                   </label>
 
                   {error ? (
-                    <p className="mt-3 text-xs font-semibold text-red-600 dark:text-red-400">
+                    <p className="mt-3 text-xs font-semibold text-danger dark:text-danger">
                       {error}
                     </p>
                   ) : null}
@@ -234,7 +234,7 @@ export function WithdrawButton() {
                   <button
                     type="button"
                     onClick={close}
-                    className="h-11 flex-1 rounded-xl border border-zinc-300 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                    className="min-h-11 min-w-11 h-11 flex-1 rounded-xl border border-zinc-300 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-300 dark:hover:bg-zinc-800"
                   >
                     다시 사용하기
                   </button>
@@ -242,7 +242,7 @@ export function WithdrawButton() {
                     type="button"
                     disabled={!reason}
                     onClick={() => setStep("confirm")}
-                    className="h-11 flex-1 rounded-xl bg-zinc-900 text-sm font-bold text-white transition hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+                    className="min-h-11 min-w-11 h-11 flex-1 rounded-xl bg-zinc-900 text-sm font-bold text-white transition hover:bg-zinc-700 disabled:opacity-40 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
                   >
                     다음
                   </button>
@@ -252,7 +252,7 @@ export function WithdrawButton() {
                   <button
                     type="button"
                     onClick={() => router.push("/routine")}
-                    className="h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
+                    className="min-h-11 min-w-11 h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
                   >
                     다시 사용하기
                   </button>
@@ -261,7 +261,7 @@ export function WithdrawButton() {
                     data-testid="withdraw-confirm"
                     disabled={!agree || pending}
                     onClick={doWithdraw}
-                    className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-red-300 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:opacity-40 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/40"
+                    className="min-h-11 min-w-11 inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-danger text-sm font-bold text-danger transition hover:bg-danger/10 disabled:opacity-40 dark:border-danger dark:text-danger dark:hover:bg-red-950/40"
                   >
                     {pending ? (
                       <Loader2 aria-hidden="true" size={15} className="animate-spin" />

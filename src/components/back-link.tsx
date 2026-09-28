@@ -17,7 +17,7 @@ export function BackLink({
 }) {
   const router = useRouter();
   return (
-    <button type="button" onClick={() => router.back()} className={className}>
+    <button type="button" onClick={() => router.back()} className={"min-h-11 min-w-11 " + (className)}>
       {children}
     </button>
   );

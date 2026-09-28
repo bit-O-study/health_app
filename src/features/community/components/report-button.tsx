@@ -70,10 +70,8 @@ export function ReportButton({
         type="button"
         onClick={() => setOpen(true)}
         aria-label="신고"
-        className={
-          className ??
-          "inline-flex items-center gap-1 text-xs font-semibold text-zinc-400 hover:text-rose-500"
-        }
+        className={"min-h-11 min-w-11 " + (className ??
+          "inline-flex items-center gap-1 text-xs font-semibold text-zinc-400 hover:text-danger")}
       >
         <Flag size={iconSize} />
         {label}
@@ -94,7 +92,7 @@ export function ReportButton({
                 type="button"
                 aria-label="닫기"
                 onClick={() => !pending && setOpen(false)}
-                className="rounded-full p-1 text-zinc-400"
+                className="min-h-11 min-w-11 rounded-full p-1 text-zinc-400"
               >
                 <X size={20} />
               </button>
@@ -106,7 +104,7 @@ export function ReportButton({
               </p>
             ) : (
               <>
-                <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="mb-3 text-xs text-muted">
                   신고 사유를 선택하면 관리자가 확인합니다.
                 </p>
                 <div className="flex flex-col gap-1.5">
@@ -116,7 +114,7 @@ export function ReportButton({
                       type="button"
                       disabled={pending}
                       onClick={() => submit(reason)}
-                      className="flex items-center justify-between rounded-xl border border-zinc-200 px-4 py-3 text-left text-sm font-semibold transition hover:border-rose-300 hover:bg-rose-50 disabled:opacity-60 dark:border-zinc-700 dark:hover:bg-rose-950/20"
+                      className="min-h-11 min-w-11 flex items-center justify-between rounded-xl border border-zinc-200 px-4 py-3 text-left text-sm font-semibold transition hover:border-danger hover:bg-danger/10 disabled:opacity-60 dark:border-zinc-700 dark:hover:bg-rose-950/20"
                     >
                       {reason}
                       {pending ? (

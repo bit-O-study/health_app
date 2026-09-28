@@ -9,7 +9,8 @@ import { destinationForUser } from "@/features/auth/oauth-redirect";
 /** 로그아웃 후 홈으로 이동 */
 export async function signOut() {
   const supabase = await createSupabaseServerClient();
-  await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut({ scope: "local" });
+  if (error) throw new Error("로그아웃하지 못했어요.");
   redirect("/routine");
 }
 

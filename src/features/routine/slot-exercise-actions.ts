@@ -1,6 +1,6 @@
 "use server";
 
-import { personalizeExercises } from "./recommend-personalization";
+import { recommendSlot } from "./recommend-slot";
 
 import { isFocusKey } from "@/features/routine/data";
 import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
@@ -11,10 +11,7 @@ import {
 } from "@/features/routine/exercise-catalog";
 import {
   allExercisesForSlot,
-  focusExercisesForSlot,
   focusPicksForSlot,
-  recommendedExercisesForFocus,
-  sideExercisesForSlot,
   type GymEquipmentSet,
   type RecommendContext,
 } from "@/features/routine/recommend";
@@ -188,11 +185,7 @@ export async function recommendExercisesAction(
     const blockIds = cleanBlockIds(spec.blockIds);
     const variant = Number.isInteger(spec.variant) && spec.variant! >= 0 ? spec.variant : 0;
     const ctx: RecommendContext = { ...base, variant };
-    const ranked = spec.isSide ? sideExercisesForSlot(focus, blockIds, g, gym) :
-      blockIds.length > 0
-        ? focusExercisesForSlot(focus, blockIds, g, gym, ctx)
-        : recommendedExercisesForFocus(focus, g, gym, ctx);
-    const list = personalizeExercises(ranked, allExercisesForSlot(focus, blockIds), gym, recommendationContext, spec.isSide, focus);
+    const list = recommendSlot(focus, blockIds, g, gym, ctx, recommendationContext, spec.isSide);
     // 추천 이유 — 필수 동작·세부근육 칸(앞 4개)에만 붙는다. 뒤에 붙는 나머지 큐레이션은 이유 없음.
     const reasonOf = new Map(
       focusPicksForSlot(focus, blockIds, g, gym, ctx).map((p) => [p.exercise.id, p.reason]),

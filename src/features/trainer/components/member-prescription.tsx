@@ -21,7 +21,7 @@ export function MemberPrescription({ connectionId, memberId, memberName, exercis
   const matching = exercises.filter(row => `${row.name} ${row.dayLabel} ${isDayBlockId(row.focus) ? DAY_BLOCKS[row.focus].label : row.focus}`.includes(query.trim()));
   const days = [...new Set(matching.map(row => row.day_index))].sort((a, b) => (a ?? -1) - (b ?? -1));
   return <section className="space-y-4" aria-labelledby="prescription-title">
-    <div className="flex items-start gap-3"><span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand"><Dumbbell size={20} aria-hidden="true" /></span><div className="min-w-0 space-y-1"><h2 id="prescription-title" className="text-lg font-bold">운동 처방 · 영구 루틴</h2>
+    <div className="flex items-start gap-3"><span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand"><Dumbbell size={20} aria-hidden="true" /></span><div className="min-w-0 space-y-1"><h2 id="prescription-title" className="text-base font-bold">운동 처방 · 영구 루틴</h2>
       <p className="text-sm leading-6 text-muted">반복되는 루틴을 변경해요. 오늘만 설정한 계획과 과거 기록은 유지돼요.</p>
       <p className="text-sm font-semibold">{memberName} 님 · {exercises.length}개 운동</p></div></div>
     <label className="flex min-h-12 items-center gap-3 rounded-xl border border-line bg-zinc-50 px-4 dark:bg-zinc-900"><Search size={18} className="shrink-0 text-muted" aria-hidden="true" /><input aria-label="처방 운동 찾기" placeholder="운동 이름, 부위, 일차로 찾기" value={query} onChange={event => setQuery(event.target.value)} className="min-w-0 flex-1 bg-transparent py-3 text-sm outline-none" /></label>
@@ -53,7 +53,7 @@ export function MemberTodayPrescription({ connectionId, memberId, memberName, da
 }) {
   const groups = groupTodayRowsByFocus(rows);
   return <section className="space-y-3" aria-labelledby="today-prescription-title">
-    <h2 id="today-prescription-title" className="text-lg font-bold">운동 처방 · 오늘만</h2>
+    <h2 id="today-prescription-title" className="text-base font-bold">운동 처방 · 오늘만</h2>
     <p className="text-sm text-zinc-500">{memberName} 님의 <b>{dateLabel} 하루치</b>만 바꿉니다. 영구 루틴은 그대로라 내일부터는 원래 루틴으로 돌아갑니다. 변경 내역은 회원에게 코멘트로 남습니다.</p>
     {notice ? <p className="py-4 text-sm">{notice}</p> : groups.map(group => <div key={group.focus} className="space-y-3">
       <h3 className="text-sm font-bold text-zinc-500">{group.rows[0]?.focusLabel ?? group.focus}{group.rows.some(r => r.source === "routine") ? " · 아직 루틴 그대로" : " · 오늘만 계획 적용 중"}</h3>
@@ -76,11 +76,11 @@ function PrescriptionFields({ input, setInput, name, setName, equipments, setEqu
   const [searched, setSearched] = useState(false);
   return <>
     <div className="flex gap-2"><input aria-label="변경할 운동 검색" placeholder="운동 이름 또는 부위 검색" className={field} value={query} onChange={e => { setQuery(e.target.value); setHits([]); setSearched(false); }} />
-      <button type="button" className="shrink-0 rounded-lg border px-3" onClick={() => start(async () => {
+      <button type="button" className="min-h-11 min-w-11 shrink-0 rounded-lg border px-3" onClick={() => start(async () => {
         try { setHits(await searchPrescriptionExercises(query)); setSearched(true); } catch { setMessage("검색하지 못했어요. 다시 시도해 주세요."); }
       })}>검색</button></div>
     {searched && hits.length === 0 && <p className="text-sm">검색 결과가 없어요.</p>}
-    <ul className="max-h-48 overflow-auto">{hits.map(hit => <li key={hit.id}><button type="button" className="w-full p-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800" onClick={() => {
+    <ul className="max-h-48 overflow-auto">{hits.map(hit => <li key={hit.id}><button type="button" className="min-h-11 min-w-11 w-full p-2 text-left text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800" onClick={() => {
       setInput({ ...input, exerciseId: hit.id, equipment: hit.equipments[0], weightKg: null }); setName(hit.name); setEquipments(hit.equipments as EquipmentId[]); setHits([]); setSearched(false);
     }}>{hit.name}</button></li>)}</ul>
     <p className="text-sm font-semibold">선택한 운동: {name}</p>
@@ -90,7 +90,7 @@ function PrescriptionFields({ input, setInput, name, setName, equipments, setEqu
       <label className="text-sm">횟수<input type="number" min="1" max="100" required className={field} value={input.reps || ""} onChange={e => setInput({ ...input, reps: Number(e.target.value) })} /></label>
       <label className="text-sm">중량(kg)<input type="number" min="0" max="9999.9" step="0.1" className={field} value={input.weightKg ?? ""} onChange={e => setInput({ ...input, weightKg: e.target.value === "" ? null : Number(e.target.value) })} /></label>
     </div>
-    {showSetDetailWarning && <p className="text-sm text-amber-700 dark:text-amber-400">저장하면 기존 세트별 설정은 위의 동일한 세트·횟수·중량으로 바뀝니다.</p>}
+    {showSetDetailWarning && <p className="text-sm text-warn dark:text-warn">저장하면 기존 세트별 설정은 위의 동일한 세트·횟수·중량으로 바뀝니다.</p>}
   </>;
 }
 
@@ -129,20 +129,20 @@ function PrescriptionCard({ contextLabel, rowName, summary, memberName, initial,
   }
   return <article className="self-start space-y-3 rounded-xl border border-line bg-white p-4 dark:bg-zinc-950">
     <p className="text-xs text-zinc-500">{contextLabel}</p>
-    <h3 className="text-lg font-bold">{rowName}</h3>
+    <h3 className="text-base font-bold">{rowName}</h3>
     <div className="flex flex-wrap gap-2">{summary.split(" · ").map(part => <span key={part} className="rounded-lg bg-zinc-100 px-3 py-2 text-sm font-medium tabular-nums dark:bg-zinc-800">{part}</span>)}</div>
     {editing && <fieldset disabled={pending || confirm !== null} className="space-y-3">
       <legend className="sr-only">{rowName} 처방 변경</legend>
       <PrescriptionFields input={input} setInput={setInput} name={name} setName={setName}
         equipments={equipments} setEquipments={setEquipments} setMessage={setMessage}
         showSetDetailWarning={showSetDetailWarning} start={start} />
-      <button type="button" className="rounded-lg bg-brand px-4 py-2 text-sm text-white dark:text-zinc-950" onClick={() => setConfirm("save")}>변경 내용 확인</button>
+      <button type="button" className="min-h-11 min-w-11 rounded-lg bg-brand px-4 py-2 text-sm text-white dark:text-zinc-950" onClick={() => setConfirm("save")}>변경 내용 확인</button>
     </fieldset>}
     {!confirm && <div className="flex gap-3"><button type="button" disabled={pending} className="min-h-11 flex-1 rounded-lg bg-brand/10 px-4 py-2 text-sm font-semibold text-brand" onClick={() => { setEditing(!editing); setMessage(""); }}> {editing ? "닫기" : "운동 변경"}</button><button type="button" disabled={pending} className="min-h-11 rounded-lg px-3 py-2 text-sm text-muted" onClick={() => setConfirm("delete")}>운동 삭제</button></div>}
     {confirm && <div className="space-y-2 rounded-lg bg-zinc-100 p-3 dark:bg-zinc-800">
       <p className="text-sm">{memberName} 님의 {contextLabel}에서 {confirm === "delete" ? `${rowName} 운동을 삭제할까요?` : `${name} · ${input.sets}세트 × ${input.reps}회 · ${input.weightKg === null ? "중량 미설정" : `${input.weightKg}kg`}로 변경할까요?`}</p>
-      {extraNote && <p className="text-sm text-amber-700 dark:text-amber-400">{extraNote}</p>}
-      <div className="flex gap-3"><button type="button" disabled={pending} onClick={submit} className="rounded-lg bg-brand px-3 py-2 text-sm text-white dark:text-zinc-950">{pending ? "저장 중…" : confirm === "delete" ? "삭제 확정" : "처방 저장"}</button><button type="button" disabled={pending} onClick={() => setConfirm(null)}>취소</button></div>
+      {extraNote && <p className="text-sm text-warn dark:text-warn">{extraNote}</p>}
+      <div className="flex gap-3"><button type="button" disabled={pending} onClick={submit} className="min-h-11 min-w-11 rounded-lg bg-brand px-3 py-2 text-sm text-white dark:text-zinc-950">{pending ? "저장 중…" : confirm === "delete" ? "삭제 확정" : "처방 저장"}</button><button type="button" disabled={pending} onClick={() => setConfirm(null)} className="min-h-11 min-w-11">취소</button></div>
     </div>}
     {message && <p role="status" className="text-sm">{message}</p>}
   </article>;

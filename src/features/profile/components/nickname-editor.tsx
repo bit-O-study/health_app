@@ -36,7 +36,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           setErr(null);
           setEditing(true);
         }}
-        className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-brand transition active:opacity-60"
+        className="min-h-11 min-w-11 mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-brand transition active:opacity-60"
       >
         <Pencil aria-hidden="true" size={12} />
         {initial ? "닉네임 수정" : "닉네임 설정"}
@@ -61,7 +61,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           aria-label="저장"
           onClick={save}
           disabled={pending}
-          className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-brand text-white dark:text-zinc-950 transition active:opacity-80 disabled:opacity-50"
+          className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-[10px] bg-brand text-white dark:text-zinc-950 transition active:opacity-80 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -73,7 +73,7 @@ export function NicknameEditor({ initial }: { initial: string }) {
           type="button"
           aria-label="취소"
           onClick={() => setEditing(false)}
-          className="flex h-9 w-9 items-center justify-center rounded-[10px] text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+          className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-[10px] text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
         >
           <X aria-hidden="true" size={15} />
         </button>

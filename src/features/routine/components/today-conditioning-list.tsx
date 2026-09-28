@@ -587,12 +587,12 @@ export function TodayConditioningList({
                     </h4>
                     <p className="text-xs text-zinc-600 dark:text-zinc-400">
                       {lockWeightReps ? <>{item.detail} · </> : null}
-                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="text-xs text-muted">
                         약 {item.kcal}kcal
                       </span>
                     </p>
                     {item.memo ? (
-                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-muted">
                         <StickyNote
                           aria-hidden="true"
                           size={12}
@@ -614,7 +614,7 @@ export function TodayConditioningList({
                         e.stopPropagation();
                         setEditingId(item.rowId);
                       }}
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-brand transition active:bg-zinc-100 dark:active:bg-white/[0.08]"
+                      className="min-h-11 min-w-11 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-brand transition active:bg-zinc-100 dark:active:bg-white/[0.08]"
                     >
                       <Pencil aria-hidden="true" size={16} />
                     </button>
@@ -631,11 +631,11 @@ export function TodayConditioningList({
                           e.stopPropagation();
                           setMemoTarget(item);
                         }}
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
+                        className={"min-h-11 min-w-11 " + (`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
                           item.memo
                             ? "text-zinc-700 dark:text-zinc-200"
                             : "text-zinc-300 dark:text-zinc-600"
-                        }`}
+                        }`)}
                       >
                         <StickyNote aria-hidden="true" size={16} />
                       </button>
@@ -736,7 +736,7 @@ function CondMemoDialog({
           className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
         />
         {error ? (
-          <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+          <p className="mt-2 text-xs font-semibold text-danger dark:text-danger">
             {error}
           </p>
         ) : null}
@@ -745,7 +745,7 @@ function CondMemoDialog({
             type="button"
             onClick={onClose}
             disabled={pending}
-            className="inline-flex h-10 items-center rounded-md border app-field px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
+            className="min-h-11 min-w-11 inline-flex h-10 items-center rounded-md border app-field px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
           >
             취소
           </button>
@@ -753,7 +753,7 @@ function CondMemoDialog({
             type="button"
             onClick={save}
             disabled={pending}
-            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+            className="min-h-11 min-w-11 inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -860,7 +860,7 @@ function ConditioningEditForm({
               disabled={pending}
               className="h-9 w-16 rounded-md border app-field px-2 text-center text-sm"
             />
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs text-muted">
               {PARAM_UNIT[p]}
             </span>
           </span>
@@ -869,7 +869,7 @@ function ConditioningEditForm({
           type="button"
           onClick={save}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -882,13 +882,13 @@ function ConditioningEditForm({
           type="button"
           onClick={onCancel}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>
       </div>
       {error ? (
-        <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="text-xs font-semibold text-danger dark:text-danger">
           {error}
         </p>
       ) : null}
@@ -962,7 +962,7 @@ function AddConditioningSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-4 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
+        className="min-h-11 min-w-11 app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-4 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
       >
         <Plus aria-hidden="true" size={16} />
         {label} 항목 추가
@@ -987,7 +987,7 @@ function AddConditioningSlot({
           type="button"
           onClick={submit}
           disabled={pending || !itemId}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -1003,17 +1003,17 @@ function AddConditioningSlot({
             setError(null);
           }}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>
       </div>
-      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-muted">
         시간·속도·경사는 카탈로그 기본값으로 자동 설정됩니다. 추가 후 수정에서
         조절하세요.
       </p>
       {error ? (
-        <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-semibold text-danger dark:text-danger">
           {error}
         </p>
       ) : null}

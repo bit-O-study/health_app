@@ -107,7 +107,7 @@ export async function saveBodyCompositionAction(
     image_path: input.imagePath ?? null,
   });
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: "저장하지 못했어요. 잠시 후 다시 시도해 주세요." };
 
   // 프로필의 체중/근육량/체지방률 최신값도 같이 갱신
   const patch: Record<string, number> = {};

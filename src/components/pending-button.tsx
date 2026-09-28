@@ -54,7 +54,7 @@ export function PendingButton({
           await onClick();
         });
       }}
-      className={className}
+      className={"min-h-11 min-w-11 " + (className)}
     >
       {isBusy && showSpinner ? (
         <Loader2

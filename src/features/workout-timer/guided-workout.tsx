@@ -1,4 +1,5 @@
 "use client";
+import { NumberScrubber } from "./number-scrubber";
 
 import {
   useEffect,
@@ -239,156 +240,6 @@ function framesForItem(item: GuidedItem): [string, string] | null {
 }
 
 /**
- * 무게/횟수/세트 스크러버 — 타일 한 칸: 라벨 · 값 · [− +]. (2026-09-25 몰입형: 세 칸 가로 배치)
- * 값은 좌우로 밀거나 ±로 조절하고, **더블클릭하면 직접 숫자 입력**도 된다.
- * (예전엔 3개를 가로로 나란히 둬서 모바일 폭에서 넘쳐 레이아웃이 깨졌다 → 세로 스택.)
- * 손가락을 가로로 끌면 값이 오르내린다(맨몸 허용 시 최소 아래로 더 내리면 '맨몸').
- */
-function NumberScrubber({
-  label,
-  value,
-  unit,
-  min,
-  max,
-  step,
-  allowBodyweight = false,
-  onChange,
-}: {
-  label: string;
-  value: number | null;
-  unit: string;
-  min: number;
-  max: number;
-  step: number;
-  allowBodyweight?: boolean;
-  onChange: (v: number | null) => void;
-}) {
-  const startRef = useRef<{ x: number; base: number } | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [editing, setEditing] = useState(false);
-  const PX_PER_STEP = 12;
-  const clamp = (v: number) => Math.min(max, Math.max(min, v));
-  const round = (v: number) => Math.round(v / step) * step;
-
-  function applyDelta(base: number, dxSteps: number) {
-    const nv = round(base + dxSteps * step);
-    if (allowBodyweight && nv < min) onChange(null);
-    else onChange(clamp(nv));
-  }
-  function onDown(e: PointerEvent<HTMLDivElement>) {
-    e.stopPropagation();
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {
-      /* noop */
-    }
-    startRef.current = { x: e.clientX, base: value ?? min };
-  }
-  function onMove(e: PointerEvent<HTMLDivElement>) {
-    if (!startRef.current) return;
-    e.stopPropagation();
-    const dxSteps = Math.round((e.clientX - startRef.current.x) / PX_PER_STEP);
-    applyDelta(startRef.current.base, dxSteps);
-  }
-  function onUp(e: PointerEvent<HTMLDivElement>) {
-    startRef.current = null;
-    try {
-      e.currentTarget.releasePointerCapture(e.pointerId);
-    } catch {
-      /* noop */
-    }
-  }
-  function dec() {
-    if (value === null) return onChange(min);
-    const nv = value - step;
-    if (allowBodyweight && nv < min) onChange(null);
-    else onChange(clamp(nv));
-  }
-  function inc() {
-    onChange(value === null ? min : clamp(value + step));
-  }
-  // 더블클릭 직접 입력 — 빈칸은 (맨몸 허용 시) 맨몸, 아니면 변경 없음. step 단위로 스냅.
-  function commitInput() {
-    const raw = inputRef.current?.value.trim() ?? "";
-    setEditing(false);
-    if (raw === "") {
-      if (allowBodyweight) onChange(null);
-      return;
-    }
-    const n = Number(raw);
-    if (!Number.isFinite(n)) return;
-    if (allowBodyweight && n < min) return onChange(null);
-    onChange(clamp(round(n)));
-  }
-  const display = value === null ? "맨몸" : String(value);
-
-  const btn =
-    "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg text-zinc-600 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15";
-
-  // 타일 한 칸 — 라벨 · 값(끌기/더블클릭) · ± . 세 칸을 가로로 나란히 둔다(영상 자리를 넓게).
-  return (
-    <div className="flex min-w-0 flex-col items-center gap-1.5 rounded-2xl border border-zinc-200 bg-zinc-50 px-2 pb-2.5 pt-2 dark:border-white/10 dark:bg-white/5">
-      <span className="text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
-      {editing ? (
-        <input
-          ref={inputRef}
-          type="number"
-          inputMode="decimal"
-          aria-label={`${label} 직접 입력`}
-          autoFocus
-          defaultValue={value ?? ""}
-          onFocus={(e) => e.currentTarget.select()}
-          onBlur={commitInput}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              commitInput();
-            } else if (e.key === "Escape") {
-              e.preventDefault();
-              setEditing(false);
-            }
-          }}
-          onPointerDown={(e) => e.stopPropagation()}
-          className="h-9 w-full rounded-xl border border-brand/40 bg-white px-1 text-center text-xl font-semibold tabular-nums text-brand outline-none focus:border-brand/40 dark:bg-zinc-900"
-        />
-      ) : (
-        <div
-          role="slider"
-          aria-label={label}
-          aria-valuenow={value ?? 0}
-          title="좌우로 끌거나 더블클릭해 직접 입력"
-          onPointerDown={onDown}
-          onPointerMove={onMove}
-          onPointerUp={onUp}
-          onPointerCancel={onUp}
-          onDoubleClick={(e) => {
-            e.stopPropagation();
-            setEditing(true);
-          }}
-          style={{ touchAction: "none" }}
-          className="flex h-9 w-full cursor-ew-resize select-none items-baseline justify-center gap-0.5 pt-0.5"
-        >
-          <span className="text-2xl font-semibold tabular-nums tracking-tight text-zinc-900 dark:text-zinc-50">
-            {display}
-          </span>
-          {value !== null ? (
-            <span className="text-xs text-zinc-500 dark:text-zinc-400">{unit}</span>
-          ) : null}
-        </div>
-      )}
-      <div className="flex items-center gap-2">
-        <button type="button" aria-label={`${label} 줄이기`} onClick={dec} className={btn}>
-          −
-        </button>
-        <button type="button" aria-label={`${label} 늘리기`} onClick={inc} className={btn}>
-          +
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/**
  * 가이드 운동 오버레이. `items` 큐를 처음부터 끝까지 진행하며 한 번에 한 운동을
  * 풀스크린으로 보여준다. 운동 방법 단계는 3초마다 자동 강조 순환.
  */
@@ -410,7 +261,7 @@ export function GuidedOverlay({
   onAllComplete?: () => Promise<boolean>;
   /** 세션 경과 시간(mm:ss). 운동 페이지 안에 표시. undefined 면 표시 안 함. */
   elapsedLabel?: ReactNode;
-  /** 타이머가 흐르는 중인지 — 버튼이 '중단하기'/'운동 다시 시작하기'로 토글. */
+  /** 타이머가 흐르는 중인지 — 버튼이 '일시정지'/'운동 다시 시작하기'로 토글. */
   running?: boolean;
   /** 중단/다시 시작 토글. */
   onPauseResume?: () => void;
@@ -1084,11 +935,11 @@ export function GuidedOverlay({
   if (finishing) {
     return (
       <div className="dark fixed inset-0 z-[70] flex flex-col items-center justify-center gap-4 bg-zinc-950 px-6 text-center text-zinc-100" data-testid="workout-finishing">
-        <p role={finishError ? "alert" : "status"} className="text-lg font-bold">
+        <p role={finishError ? "alert" : "status"} className="text-base font-bold">
           {finishError ?? "운동 기록 저장 중…"}
         </p>
         {finishError && (
-          <button type="button" className="rounded-xl bg-brand px-6 py-3 font-bold text-white dark:text-zinc-950" onClick={() => {
+          <button type="button" className="min-h-11 min-w-11 rounded-xl bg-brand px-6 py-3 font-bold text-white dark:text-zinc-950" onClick={() => {
             for (const failure of failedSavesRef.current.values()) {
               fireAndTrack(failure.captured, failure.status);
             }
@@ -1125,7 +976,7 @@ export function GuidedOverlay({
           type="button"
           aria-label="닫기"
           onClick={requestClose}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-zinc-200 transition hover:bg-white/15"
+          className="min-h-11 min-w-11 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/10 text-zinc-200 transition hover:bg-white/15"
         >
           <X aria-hidden="true" size={18} />
         </button>
@@ -1160,7 +1011,7 @@ export function GuidedOverlay({
         </span>
       </div>
 
-      {/* 세션 운동 시간 + 중단하기/다시 시작 — 조용한 한 줄 */}
+      {/* 세션 운동 시간 + 일시정지/다시 시작 — 조용한 한 줄 */}
       {elapsedLabel !== undefined ? (
         <div className="flex items-center justify-center gap-2 px-4 pb-2">
           <span className="inline-flex items-center gap-1.5 text-sm font-medium tabular-nums text-zinc-300">
@@ -1175,12 +1026,12 @@ export function GuidedOverlay({
             <button
               type="button"
               onClick={onPauseResume}
-              className="inline-flex h-8 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+              className="min-h-11 min-w-11 inline-flex h-11 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
             >
               {running ? (
                 <>
                   <Pause aria-hidden="true" size={13} />
-                  중단하기
+                  일시정지
                 </>
               ) : (
                 <>
@@ -1201,14 +1052,14 @@ export function GuidedOverlay({
         >
           {failures.map((f) => (
             <div key={f.key} className="flex items-center gap-2">
-              <span className="flex-1 text-red-200">
+              <span className="flex-1 text-danger">
                 <strong className="font-semibold">{f.name}</strong> 저장 실패 —{" "}
                 {f.status === "done" ? "완료" : "넘기기"}가 기록되지 않았습니다.
               </span>
               <button
                 type="button"
                 onClick={() => retryFailure(f)}
-                className="shrink-0 rounded-lg bg-red-500 px-3 py-1 text-xs font-semibold text-white transition hover:bg-red-400"
+                className="min-h-11 min-w-11 shrink-0 rounded-lg bg-danger px-3 py-1 text-xs font-semibold text-white transition hover:bg-danger"
               >
                 다시 시도
               </button>
@@ -1216,7 +1067,7 @@ export function GuidedOverlay({
                 type="button"
                 aria-label="닫기"
                 onClick={() => dismissFailure(f.key)}
-                className="shrink-0 rounded-lg p-1 text-red-300 transition hover:bg-red-500/20"
+                className="min-h-11 min-w-11 shrink-0 rounded-lg p-1 text-danger transition hover:bg-red-500/20"
               >
                 <X aria-hidden="true" size={14} />
               </button>
@@ -1263,7 +1114,7 @@ export function GuidedOverlay({
                   aria-label="이전 운동"
                   onClick={() => goTo(-1)}
                   disabled={prevIndex === null}
-                  className="absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
+                  className="min-h-11 min-w-11 absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
                 >
                   <ChevronLeft aria-hidden="true" size={22} />
                 </button>
@@ -1272,7 +1123,7 @@ export function GuidedOverlay({
                   aria-label="다음 운동"
                   onClick={() => goTo(1)}
                   disabled={nextIndex === null}
-                  className="absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
+                  className="min-h-11 min-w-11 absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
                 >
                   <ChevronRight aria-hidden="true" size={22} />
                 </button>
@@ -1308,7 +1159,7 @@ export function GuidedOverlay({
                 <button
                   type="button"
                   onClick={() => setMemoOpen(true)}
-                  className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                  className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
                 >
                   <StickyNote aria-hidden="true" size={13} />
                   {currentMemo(item) ? "메모 수정" : "메모"}
@@ -1317,7 +1168,7 @@ export function GuidedOverlay({
                   <button
                     type="button"
                     onClick={() => setPostureOpen(true)}
-                    className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                    className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
                   >
                     <ScanLine aria-hidden="true" size={13} />
                     AI 자세
@@ -1352,7 +1203,7 @@ export function GuidedOverlay({
                   <button
                     type="button"
                     onClick={() => setHoldRunning((r) => !r)}
-                    className="inline-flex h-10 items-center gap-1.5 rounded-full bg-white px-5 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-200"
+                    className="min-h-11 min-w-11 inline-flex h-10 items-center gap-1.5 rounded-full bg-white px-5 text-sm font-semibold text-zinc-950 transition hover:bg-zinc-200"
                   >
                     {holdRunning ? (
                       <>
@@ -1372,7 +1223,7 @@ export function GuidedOverlay({
                       setHoldRunning(false);
                       setHoldSec(0);
                     }}
-                    className="inline-flex h-10 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                    className="min-h-11 min-w-11 inline-flex h-10 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
                   >
                     <RotateCcw aria-hidden="true" size={15} />
                     초기화
@@ -1481,7 +1332,7 @@ export function GuidedOverlay({
                         data-testid={`substitute-apply-${substitute.exerciseId}`}
                         disabled={substituteApplying !== null}
                         onClick={() => void applySubstitute(substitute)}
-                        className="mt-2 h-10 w-full rounded-xl bg-white/10 px-3 text-sm font-medium text-zinc-100 transition hover:bg-white/15 disabled:cursor-wait disabled:opacity-60"
+                        className="min-h-11 min-w-11 mt-2 h-10 w-full rounded-xl bg-white/10 px-3 text-sm font-medium text-zinc-100 transition hover:bg-white/15 disabled:cursor-wait disabled:opacity-60"
                       >
                         {substituteApplying === substitute.exerciseId
                           ? "오늘 계획 변경 중…"
@@ -1491,7 +1342,7 @@ export function GuidedOverlay({
                   ))}
                 </div>
                 {substituteError ? (
-                  <p role="alert" className="mt-2 text-xs font-medium text-red-300">
+                  <p role="alert" className="mt-2 text-xs font-medium text-danger">
                     {substituteError}
                   </p>
                 ) : null}
@@ -1504,7 +1355,7 @@ export function GuidedOverlay({
                 <button
                   type="button"
                   onClick={viewDetail}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                  className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
                 >
                   <ListChecks aria-hidden="true" size={15} />
                   운동법·꿀팁 보기
@@ -1513,7 +1364,7 @@ export function GuidedOverlay({
                 <button
                   type="button"
                   onClick={() => setTipsOpen(true)}
-                  className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                  className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
                 >
                   <ListChecks aria-hidden="true" size={15} />
                   운동법 보기
@@ -1522,7 +1373,7 @@ export function GuidedOverlay({
               <button
                 type="button"
                 onClick={() => setTeachOpen(true)}
-                className="inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
+                className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1.5 rounded-full bg-white/10 px-4 text-sm font-medium text-zinc-200 transition hover:bg-white/15"
               >
                 <Video aria-hidden="true" size={15} />
                 영상 올리고 티칭받기
@@ -1563,11 +1414,11 @@ export function GuidedOverlay({
                   type="button"
                   onClick={() => rest.setDefaultSec(sec)}
                   aria-pressed={active}
-                  className={`h-8 flex-1 rounded-full text-xs font-medium tabular-nums transition ${
+                  className={"min-h-11 min-w-11 " + (`h-8 flex-1 rounded-full text-xs font-medium tabular-nums transition ${
                     active
                       ? "bg-white/15 text-zinc-50"
                       : "text-zinc-500 hover:text-zinc-200"
-                  }`}
+                  }`)}
                 >
                   {formatRest(sec)}
                 </button>
@@ -1582,9 +1433,9 @@ export function GuidedOverlay({
             type="button"
             onClick={skip}
             disabled={working}
-            className={`inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50 ${
+            className={"min-h-11 min-w-11 " + (`inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50 ${
               mainSets > 0 ? "" : "col-span-2"
-            }`}
+            }`)}
           >
             <ChevronRight aria-hidden="true" size={15} />
             넘기기
@@ -1594,7 +1445,7 @@ export function GuidedOverlay({
               type="button"
               onClick={complete}
               disabled={working}
-              className="inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50"
+              className="min-h-11 min-w-11 inline-flex h-10 items-center justify-center gap-1.5 rounded-full text-sm font-medium text-zinc-400 transition hover:bg-white/5 hover:text-zinc-100 disabled:opacity-50"
             >
               <Check aria-hidden="true" size={15} />
               {isLast ? "완료하고 종료" : "운동 완료"}
@@ -1614,7 +1465,7 @@ export function GuidedOverlay({
                 onClick={cancelSet}
                 disabled={working}
                 aria-label="세트 완료 취소"
-                className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/5 text-zinc-300 transition hover:bg-white/10 disabled:opacity-40"
+                className="min-h-11 min-w-11 inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white/5 text-zinc-300 transition hover:bg-white/10 disabled:opacity-40"
               >
                 <RotateCcw aria-hidden="true" size={18} />
               </button>
@@ -1647,9 +1498,9 @@ export function GuidedOverlay({
       </div>
       <ConfirmDialog
         open={closeAsk}
-        title="운동 중단"
-        message="운동을 중단할까요? 완료하지 않은 운동은 다음에 다시 보입니다."
-        confirmLabel="중단"
+        title="운동 끝내기"
+        message="운동을 끝낼까요? 완료한 기록은 저장되고, 남은 운동은 다시 시작할 수 있어요."
+        confirmLabel="끝내기"
         tone="danger"
         onConfirm={confirmClose}
         onCancel={() => setCloseAsk(false)}
@@ -1680,7 +1531,7 @@ export function GuidedOverlay({
         <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/50 sm:items-center">
           <div className="max-h-[88dvh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 pb-[max(env(safe-area-inset-bottom),1.25rem)] shadow-xl dark:bg-zinc-950 sm:max-h-[85dvh] sm:rounded-2xl sm:pb-4">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-900 dark:text-zinc-100">
+              <h3 className="flex items-center gap-1.5 text-base font-bold text-foreground">
                 <ScanLine aria-hidden="true" size={18} />
                 {item.name} 자세 분석
               </h3>
@@ -1688,7 +1539,7 @@ export function GuidedOverlay({
                 type="button"
                 aria-label="닫기"
                 onClick={() => setPostureOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+                className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -1726,10 +1577,10 @@ function TipsDialog({
         type="button"
         aria-label="닫기"
         onClick={onClose}
-        className="absolute inset-0 cursor-default bg-black/40"
+        className="min-h-11 min-w-11 absolute inset-0 cursor-default bg-black/40"
       />
       <div className="relative m-3 max-h-[80vh] w-[min(28rem,94vw)] overflow-y-auto rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
-        <h3 className="mb-3 text-lg font-bold text-zinc-950 dark:text-zinc-50">
+        <h3 className="mb-3 text-base font-bold text-zinc-950 dark:text-zinc-50">
           {name} · 운동법
         </h3>
         <ol className="space-y-2.5">
@@ -1747,7 +1598,7 @@ function TipsDialog({
         <button
           type="button"
           onClick={onClose}
-          className="mt-4 h-10 w-full rounded-xl bg-zinc-900 text-sm font-bold text-white dark:bg-zinc-100 dark:text-zinc-900"
+          className="min-h-11 min-w-11 mt-4 h-10 w-full rounded-xl bg-zinc-900 text-sm font-bold text-white dark:bg-zinc-100 dark:text-zinc-900"
         >
           닫기
         </button>
@@ -1774,10 +1625,10 @@ function MemoEditDialog({
         type="button"
         aria-label="닫기"
         onClick={onCancel}
-        className="absolute inset-0 cursor-default bg-black/40"
+        className="min-h-11 min-w-11 absolute inset-0 cursor-default bg-black/40"
       />
       <div className="relative m-3 w-[min(28rem,94vw)] rounded-2xl border border-zinc-200 bg-white p-5 shadow-2xl dark:border-zinc-700 dark:bg-zinc-900">
-        <h3 className="mb-3 flex items-center gap-1.5 text-lg font-bold text-zinc-950 dark:text-zinc-50">
+        <h3 className="mb-3 flex items-center gap-1.5 text-base font-bold text-zinc-950 dark:text-zinc-50">
           <StickyNote aria-hidden="true" size={18} />
           메모
         </h3>
@@ -1788,20 +1639,20 @@ function MemoEditDialog({
           rows={4}
           maxLength={1000}
           placeholder="예: 마지막 세트 천천히, 무릎 안쪽으로 모이지 않게"
-          className="w-full resize-none rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 outline-none focus:border-brand/40 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
+          className="w-full resize-none rounded-xl border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-800 outline-none focus:border-brand/40 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100" aria-label="예: 마지막 세트 천천히, 무릎 안쪽으로 모이지 않게"
         />
         <div className="mt-3 grid grid-cols-2 gap-2">
           <button
             type="button"
             onClick={onCancel}
-            className="h-10 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
+            className="min-h-11 min-w-11 h-10 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-200"
           >
             취소
           </button>
           <button
             type="button"
             onClick={() => onSave(text)}
-            className="h-10 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950"
+            className="min-h-11 min-w-11 h-10 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950"
           >
             저장
           </button>
@@ -1880,7 +1731,7 @@ function ConditioningSettings({
           className="inline-flex items-center gap-1.5 rounded-full border border-brand/40 bg-brand-soft px-3 py-1.5"
         >
           <span className="text-brand">{c.icon}</span>
-          <span className="text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+          <span className="text-xs font-bold uppercase tracking-wide text-muted">
             {c.label}
           </span>
           <span className="text-sm font-bold tabular-nums text-brand">

@@ -41,7 +41,7 @@ function SettingsRow({ href, title, icon: Icon }: Row) {
         <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand">
           <Icon aria-hidden="true" size={16} />
         </span>
-        <h2 className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+        <h2 className="min-w-0 flex-1 truncate text-base text-foreground">
           {title}
         </h2>
         <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
@@ -67,7 +67,6 @@ export default async function SettingsPage() {
   const [user, profile] = await Promise.all([getCurrentUser(), getUserProfile()]);
 
   const me: Row[] = [
-    { href: "/settings/me", title: "마이페이지", icon: UserRound },
     { href: "/settings/profile", title: "체형 정보", icon: Scale },
     { href: "/settings/body-composition", title: "체성분 결과 등록", icon: ClipboardList },
     ...(profile?.gender === "female"

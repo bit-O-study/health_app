@@ -1,3 +1,23 @@
+-- Existing installations may already have support from schema.sql.
+-- Skip only a complete installation. Never overwrite newer support RPCs on replay.
+do $support_bootstrap$
+declare existing_count integer;
+begin
+  select count(*) into existing_count from unnest(array['support_tickets','support_messages','support_internal_notes','support_events','support_attachments','support_kakao_connections','support_oauth_states','support_notification_outbox','support_notification_attempts']) t(name)
+    where to_regclass('public.' || name) is not null;
+  if existing_count > 0 then
+    if existing_count <> 9 then
+      raise exception 'Partial support schema: reconcile missing tables before migration';
+    end if;
+    if exists (select 1 from unnest(array['support_create','support_reply','support_manage','support_read','support_claim','support_reserve_attachment']) f(name)
+      where not exists (select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname=f.name))
+      or exists (select 1 from (values ('support_ticket_read','support_tickets'),('support_message_read','support_messages'),('support_attachment_read','support_attachments'),('support_note_read','support_internal_notes'),('support_event_read','support_events'),('support_outbox_read','support_notification_outbox')) required(name, tab)
+        where not exists(select 1 from pg_policies p where p.schemaname='public' and p.tablename=required.tab and p.policyname=required.name))
+      or exists (select 1 from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='public' and c.relname=any(array['support_tickets','support_messages','support_internal_notes','support_events','support_attachments','support_kakao_connections','support_oauth_states','support_notification_outbox','support_notification_attempts']) and not c.relrowsecurity)
+    then raise exception 'Incomplete support permissions/functions: reconcile before migration'; end if;
+    return;
+  end if;
+  execute $support_schema$
 -- Customer support: owner/admin access, atomic ticket/outbox, free Kakao memo.
 create table public.support_tickets (
  id uuid primary key default gen_random_uuid(), number bigint generated always as identity unique,
@@ -171,3 +191,7 @@ revoke all on function public.support_create(uuid,text,text,text,jsonb),public.s
 grant execute on function public.support_create(uuid,text,text,text,jsonb),public.support_reply(uuid,uuid,text,boolean),public.support_manage(uuid,text,text,boolean),public.support_read(uuid) to authenticated;
 grant execute on function public.support_claim(uuid,boolean),public.support_reserve_attachment(uuid,uuid,text,integer,bigint) to service_role;
 insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('support-private','support-private',false,512000,array['image/webp']) on conflict(id) do nothing;
+
+$support_schema$;
+end
+$support_bootstrap$;

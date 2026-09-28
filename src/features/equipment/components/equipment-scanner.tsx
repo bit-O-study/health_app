@@ -64,7 +64,7 @@ export function EquipmentScanner() {
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={pending}
-        className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+        className="min-h-11 min-w-11 app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={17} className="animate-spin" />
@@ -98,7 +98,7 @@ export function EquipmentScanner() {
                 size={18}
                 className="text-brand"
               />
-              <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">
+              <h2 className="text-base font-semibold text-foreground">
                 {analysis.equipmentName}
               </h2>
             </div>
@@ -147,7 +147,7 @@ export function EquipmentScanner() {
                             className="flex items-center gap-2 rounded-lg border border-brand/40 bg-brand-soft p-3 transition hover:bg-brand-soft"
                           >
                             <div className="min-w-0 flex-1">
-                              <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                              <p className="text-sm font-semibold text-foreground">
                                 {ex.name}
                               </p>
                               {ex.description ? (
@@ -178,7 +178,7 @@ export function EquipmentScanner() {
                           key={`etc-${ex.name}-${i}`}
                           className="rounded-lg border border-zinc-200 bg-white p-3 dark:border-zinc-700 dark:bg-zinc-800"
                         >
-                          <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                          <p className="text-sm font-semibold text-foreground">
                             {ex.name}
                           </p>
                           {ex.description ? (

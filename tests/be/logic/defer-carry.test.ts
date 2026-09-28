@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 
 import {
   conditioningUnion,
-  shouldAdvanceStartDate,
   todayFocuses,
   type CondItem,
 } from "@/features/routine/defer-carry";
@@ -86,16 +85,5 @@ describe("todayFocuses — 오늘 부위 = 루틴 ∪ daily_plan(합집합)", ()
       "chest",
       "back",
     ]);
-  });
-});
-
-describe("shouldAdvanceStartDate — 오늘만 변경 시 루틴 하루 밀기 가드", () => {
-  it("오늘 아직 안 밀렸으면 +1 한다(true)", () => {
-    expect(shouldAdvanceStartDate(null, "2026-07-13")).toBe(true);
-    expect(shouldAdvanceStartDate("2026-07-12", "2026-07-13")).toBe(true);
-  });
-
-  it("오늘 이미 밀렸으면 다시 안 민다(false) — 같은 날 재호출 이중 밀기 방지", () => {
-    expect(shouldAdvanceStartDate("2026-07-13", "2026-07-13")).toBe(false);
   });
 });

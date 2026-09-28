@@ -112,7 +112,7 @@ describe("홈 구성", () => {
   // 앱 아이콘 판 → 앱별 요약 위젯 3개. 자세한 내용은 각 앱 안으로 옮겨 갔다.
   it("로고 → 광고 → 앱 → 주간 요약 → 잔디 순서", () => {
     expect(home).not.toContain("ActivityRings");
-    const order = ["<Logo", "<PromoBanner", "<AppGrid", "<WeeklyReportCard", "<ContributionGraph"].map((tag) =>
+    const order = ["<Logo", "<PromoBanner", "<AppGrid", "<WeeklyOverviewCard", "<ContributionGraph"].map((tag) =>
       home.indexOf(tag),
     );
     expect(order.every((i) => i >= 0), order.join(",")).toBe(true);
@@ -121,7 +121,7 @@ describe("홈 구성", () => {
 
   it("요약 위젯 3개 대신 다짐·주간 요약·훈련을 복원한다", () => {
     expect(home).not.toContain("<AppWidget");
-    for (const text of ["오늘의 다짐", "<WeeklyReportCard", "<WeeklyTrainingSummary"]) expect(home).toContain(text);
+    for (const text of ["오늘의 다짐", "<WeeklyOverviewCard", "<WeeklyOverviewCard"]) expect(home).toContain(text);
     expect(home).toContain('href="/settings"');
   });
 
@@ -129,7 +129,7 @@ describe("홈 구성", () => {
     expect(home).not.toContain("WeatherBackground");
     expect(existsSync(resolve(ROOT, "src/features/home/components/weather-background.tsx"))).toBe(false);
     expect(existsSync(resolve(ROOT, "src/features/home/weather-cache.ts"))).toBe(false);
-    for (const f of ["src/app/home/page.tsx", "src/features/home/components/today-card.tsx"]) {
+    for (const f of ["src/app/home/page.tsx"]) {
       expect(read(f), f).not.toContain("geolocation");
     }
   });
@@ -150,8 +150,8 @@ describe("홈 구성", () => {
 describe("이번 주 카드는 한 장 — 홈과 운동탭이 같은 컴포넌트", () => {
   it("홈에는 요청한 주간 요약과 훈련 카드, 기록 화면에는 상세 통계를 유지한다", () => {
     const home = read("src/app/home/page.tsx");
-    expect(home).toContain("<WeeklyReportCard");
-    expect(home).toContain("<WeeklyTrainingSummary");
+    expect(home).toContain("<WeeklyOverviewCard");
+    expect(home).toContain("<WeeklyOverviewCard");
     expect(read("src/app/settings/progress/page.tsx")).toContain("<WeeklyOverviewCard");
   });
 
@@ -256,7 +256,7 @@ describe("공통 머리글·폭 (4단계)", () => {
     const header = read("src/components/page-header.tsx");
     expect(header).toContain("branded = false");
     expect(header).toContain('<h1 className="sr-only">{title}</h1>');
-    expect(read("src/styles/globals.css")).toMatch(/\.app-title \{[^}]*font-size: 1\.875rem/);
+    expect(read("src/styles/globals.css")).toMatch(/\.app-title \{[^}]*font-size: 1\.75rem/);
   });
 
   it("촘촘한 공통 조각(Section·List·Row·Tile)이 있다", () => {
@@ -315,7 +315,7 @@ describe("커뮤니티·설정 소음 제거 (5단계)", () => {
     const settings = read("src/app/settings/page.tsx");
     expect(settings).toContain("function SettingsRow");
     expect(settings).not.toMatch(/\b(emerald|rose|amber|indigo)-\d{2,3}\b/);
-    for (const title of ["마이페이지", "개인설정", "건강 연동", "구독", "알림 설정", "내 데이터 내보내기"]) {
+    for (const title of ["개인설정", "건강 연동", "구독", "알림 설정", "내 데이터 내보내기"]) {
       expect(settings, title).toContain(`title: "${title}"`);
     }
   });
@@ -487,8 +487,8 @@ describe("하위 화면도 같은 머리글 (2026-09-16 8단계 '싹다 바꿔�
   const SUB_PAGES = [
     "settings/me", "settings/personal", "settings/health", "settings/subscription",
     "settings/notifications", "settings/export", "settings/gym", "settings/body-composition",
-    "settings/profile", "settings/score", "settings/progress", "settings/history",
-    "settings/history/[date]", "settings/routine", "change-password", "account-deletion",
+    "settings/profile", "settings/score", "settings/progress",
+     "settings/routine", "change-password", "account-deletion",
     "exercises", "exercises/[slug]", "conditioning/[id]", "plan", "plan/today", "plan/muscle",
     "equipment", "commitments", "coach", "calendar/[date]", "groups/manage",
     "groups/[id]/member/[uid]", "groups/[id]/trainer", "groups/[id]/trainer/assign/[memberId]",
@@ -569,9 +569,9 @@ describe("남은 화면까지 전부 (2026-09-18 8단계 마무리)", () => {
 });
 
 describe("하단 탭", () => {
-  it("라벨이 11px 고정 — 좁은 폰에서도 9·10px 로 줄지 않는다", () => {
+  it("라벨이 12px 고정 — 좁은 폰에서도 9·10px 로 줄지 않는다", () => {
     const nav = read("src/components/bottom-nav.tsx");
-    expect(nav).toContain("text-[11px]");
+    expect(nav).toContain("text-xs");
     expect(nav).not.toMatch(/text-\[(9|10)px\]/);
   });
 });

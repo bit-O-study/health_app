@@ -1,5 +1,6 @@
 "use client";
 
+import { userErrorMessage } from "@/lib/user-error";
 import { type FormEvent, useRef, useState } from "react";
 import { Loader2, LogIn, UserPlus } from "lucide-react";
 
@@ -107,6 +108,7 @@ export function AuthForm({
     }
 
     setIsSubmitting(true);
+    try {
     const supabase = createSupabaseBrowserClient();
 
     if (mode === "signup") {
@@ -126,7 +128,7 @@ export function AuthForm({
       });
 
       if (signUpError) {
-        setError(signUpError.message);
+        setError(userErrorMessage(signUpError));
         // 아직 로그인 전이라 지금은 못 보낸다 — 기기에 담아 뒀다가 다음 로그인 때 나간다.
         reportAppEvent("auth_failure", {
           message: `가입 실패: ${signUpError.message}`,
@@ -159,11 +161,7 @@ export function AuthForm({
     });
 
     if (signInError) {
-      setError(
-        signInError.message === "Invalid login credentials"
-          ? "이메일 또는 비밀번호가 올바르지 않습니다."
-          : signInError.message,
-      );
+      setError(userErrorMessage(signInError));
       // 비밀번호 오타(Invalid login credentials)는 사용자 실수라 남기지 않는다.
       // 설정 오류·서버 장애처럼 **우리가 고쳐야 하는** 실패만 관측 대상이다.
       if (signInError.message !== "Invalid login credentials") {
@@ -178,6 +176,7 @@ export function AuthForm({
     // ⚠ SPA 전환 대신 하드 네비게이션 — 로그인 직후 미들웨어 왕복과 엉켜 전환이
     //   안 끝나는 무한 로딩을 막는다(로그인은 성공하는데 화면만 안 넘어가던 버그).
     window.location.assign(redirectTo);
+    } catch (error) { setError(userErrorMessage(error)); setIsSubmitting(false); }
   }
 
   /** 구글/카카오 로그인 — Supabase 가 provider 인증 페이지로 리다이렉트시킨다. */
@@ -185,6 +184,7 @@ export function AuthForm({
     setError(null);
     setNotice(null);
     setOauthLoading(provider);
+    try {
     const supabase = createSupabaseBrowserClient();
     const callback = new URL("/auth/callback", window.location.origin);
     callback.searchParams.set("next", redirectTo);
@@ -201,12 +201,13 @@ export function AuthForm({
       },
     });
     if (oauthError) {
-      setError(oauthError.message);
+      setError(userErrorMessage(oauthError));
       reportAppEvent("auth_failure", {
         message: `${provider} 로그인 실패: ${oauthError.message}`,
       });
       setOauthLoading(null);
     }
+    } catch (error) { setError(userErrorMessage(error)); setOauthLoading(null); }
     // 성공하면 브라우저가 provider 로그인 페이지로 이동하므로 별도 처리 불필요.
   }
 
@@ -219,12 +220,12 @@ export function AuthForm({
             key={m}
             type="button"
             onClick={() => switchMode(m)}
-            className={cn(
+            className={"min-h-11 min-w-11 " + (cn(
               "h-8 rounded-lg text-sm font-semibold transition",
               mode === m
                 ? "bg-white text-zinc-950 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
-                : "text-zinc-500 dark:text-zinc-400",
-            )}
+                : "text-muted",
+            ))}
           >
             {m === "login" ? "로그인" : "회원가입"}
           </button>
@@ -313,7 +314,7 @@ export function AuthForm({
         {error ? <Err>{error}</Err> : null}
         {notice ? <Notice>{notice}</Notice> : null}
 
-        <button type="submit" disabled={isSubmitting} className={primaryBtnCls}>
+        <button type="submit" disabled={isSubmitting} className={"min-h-11 min-w-11 " + (primaryBtnCls)}>
           {isSubmitting ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />
           ) : mode === "login" ? (
@@ -336,7 +337,7 @@ export function AuthForm({
           type="button"
           disabled={oauthLoading !== null}
           onClick={() => handleOAuth("google")}
-          className="app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-zinc-100 text-base font-semibold text-zinc-800 transition disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white/[0.08] dark:text-zinc-100"
+          className="min-h-11 min-w-11 app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-zinc-100 text-base font-semibold text-zinc-800 transition disabled:cursor-not-allowed disabled:opacity-60 dark:bg-white/[0.08] dark:text-zinc-100"
         >
           {oauthLoading === "google" ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />
@@ -350,7 +351,7 @@ export function AuthForm({
           type="button"
           disabled={oauthLoading !== null}
           onClick={() => handleOAuth("kakao")}
-          className="app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-[#FEE500] text-base font-semibold text-[#191919] transition disabled:cursor-not-allowed disabled:opacity-60"
+          className="min-h-11 min-w-11 app-press inline-flex h-11 w-full items-center justify-center gap-2.5 rounded-full bg-[#FEE500] text-base font-semibold text-[#191919] transition disabled:cursor-not-allowed disabled:opacity-60"
         >
           {oauthLoading === "kakao" ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={17} />
@@ -362,7 +363,7 @@ export function AuthForm({
       </div>
 
       {mode === "login" ? (
-        <div className="mt-3 flex items-center justify-center gap-3 text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="mt-3 flex items-center justify-center gap-3 text-sm text-muted">
           <Link href="/find-id" className="px-1 py-2 transition active:opacity-60">
             아이디 찾기
           </Link>

@@ -88,7 +88,7 @@ export async function addFoodLogAction(
     .select("id")
     .maybeSingle();
 
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: "식단을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요." };
   revalidatePath("/diet");
   return { ok: true, id: (data as { id: string } | null)?.id };
 }
@@ -119,7 +119,7 @@ export async function updateFoodLogAction(
     .update(update)
     .eq("user_id", user.id)
     .eq("id", id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: "식단을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요." };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -141,7 +141,7 @@ export async function deleteMealAction(
     .eq("user_id", user.id)
     .eq("for_date", date)
     .eq("meal", meal);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: "식단을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요." };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -158,7 +158,7 @@ export async function deleteFoodLogAction(id: string): Promise<DietActionResult>
     .delete()
     .eq("user_id", user.id)
     .eq("id", id);
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: "식단을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요." };
   revalidatePath("/diet");
   return { ok: true };
 }
@@ -229,7 +229,7 @@ export async function copyMealAction(
     .from("food_logs")
     .insert(rows)
     .select("id");
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: "식단을 저장하지 못했어요. 연결을 확인하고 다시 시도해 주세요." };
   revalidatePath("/diet");
   return { ok: true, ids: ((made ?? []) as { id: string }[]).map((r) => r.id) };
 }

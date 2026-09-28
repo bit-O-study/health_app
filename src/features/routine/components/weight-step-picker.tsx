@@ -51,7 +51,7 @@ export function WeightStepPicker({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="mx-auto mt-1 block text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
+        className="min-h-11 min-w-11 mx-auto mt-1 block text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
       >
         증량 단위 {currentStepKg}kg{isOverridden ? " (내 설정)" : ""}
       </button>
@@ -71,11 +71,11 @@ export function WeightStepPicker({
             disabled={pending}
             onClick={() => save(kg)}
             aria-pressed={kg === currentStepKg}
-            className={`inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
+            className={"min-h-11 min-w-11 " + (`inline-flex h-8 items-center rounded-full px-3 text-xs font-semibold transition disabled:opacity-50 ${
               kg === currentStepKg
                 ? "bg-brand text-white dark:text-zinc-950"
                 : "bg-white text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
-            }`}
+            }`)}
           >
             {kg}kg
           </button>
@@ -87,7 +87,7 @@ export function WeightStepPicker({
             type="button"
             disabled={pending}
             onClick={() => save(null)}
-            className="text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline disabled:opacity-50 dark:text-zinc-400"
+            className="min-h-11 min-w-11 text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline disabled:opacity-50 dark:text-zinc-400"
           >
             기본값으로
           </button>
@@ -96,7 +96,7 @@ export function WeightStepPicker({
           type="button"
           onClick={() => setOpen(false)}
           disabled={pending}
-          className="text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline disabled:opacity-50 dark:text-zinc-400"
+          className="min-h-11 min-w-11 text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline disabled:opacity-50 dark:text-zinc-400"
         >
           닫기
         </button>

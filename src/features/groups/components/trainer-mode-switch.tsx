@@ -69,11 +69,11 @@ export function TrainerModeSwitch({ groups }: { groups: TrainerSwitchGroup[] }) 
         aria-expanded={open}
         aria-label="모드 전환"
         data-testid="trainer-mode-button"
-        className={`inline-flex max-w-[48vw] items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition sm:max-w-none ${
+        className={"min-h-11 min-w-11 " + (`inline-flex max-w-[48vw] items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold transition sm:max-w-none ${
           inTrainerMode
             ? "border-brand/40 bg-brand-soft text-brand"
             : "border-zinc-300 text-zinc-600 hover:bg-zinc-100 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-white/[0.06]"
-        }`}
+        }`)}
       >
         {inTrainerMode ? (
           <Users aria-hidden="true" size={13} className="shrink-0" />

@@ -142,6 +142,7 @@ describe("추천 호출부는 전부 헬스장을 넘긴다", () => {
     "src/features/routine/actions.ts",
     "src/features/routine/plan-actions.ts",
     "src/features/routine/slot-exercise-actions.ts",
+    "src/features/routine/recommend-slot.ts",
   ];
 
   it.each(CALLERS)("%s", (file) => {
@@ -149,7 +150,7 @@ describe("추천 호출부는 전부 헬스장을 넘긴다", () => {
     // import 문은 `(` 가 없어 매치되지 않는다 — 실제 호출만 남는다.
     const calls = [
       ...text.matchAll(
-        /(focusExercisesForSlot|sideExercisesForSlot|recommendedExercisesForFocus)\(([^)]*)\)/g,
+        /(recommendSlot|focusExercisesForSlot|sideExercisesForSlot|recommendedExercisesForFocus)\(([^)]*)\)/g,
       ),
     ];
     expect(calls.length).toBeGreaterThan(0);

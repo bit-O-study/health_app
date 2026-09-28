@@ -76,10 +76,10 @@ export function ExerciseLibrary({ sections }: { sections: Section[] }) {
                       <ExerciseIcon id={ex.id} size={20} />
                     </span>
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-base leading-5 text-zinc-900 dark:text-zinc-100">
+                      <span className="block truncate text-base leading-5 text-foreground">
                         {ex.name}
                       </span>
-                      <span className="block truncate text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+                      <span className="block truncate text-xs leading-4 text-muted">
                         {ex.equipments.map((e) => EQUIPMENT_LABELS[e.equipment]).join(" · ")}
                       </span>
                     </span>
@@ -110,12 +110,12 @@ function FilterChip({
     <button
       type="button"
       onClick={onClick}
-      className={cn(
+      className={"min-h-11 min-w-11 " + (cn(
         "inline-flex h-8 shrink-0 items-center gap-1 whitespace-nowrap rounded-full px-3 text-sm font-semibold transition",
         active
           ? "bg-brand text-white dark:text-zinc-950"
           : "bg-zinc-100 text-zinc-700 active:bg-zinc-200 dark:bg-white/[0.08] dark:text-zinc-300",
-      )}
+      ))}
     >
       {label}
       <span

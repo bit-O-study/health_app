@@ -48,7 +48,7 @@ export function BodyLogButton({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex h-10 flex-1 items-center gap-2 whitespace-nowrap rounded-full border border-brand/40 bg-white pl-1.5 pr-3.5 text-sm font-bold text-brand transition hover:bg-brand-soft dark:bg-zinc-800 sm:flex-initial"
+          className="min-h-11 min-w-11 inline-flex h-10 flex-1 items-center gap-2 whitespace-nowrap rounded-full border border-brand/40 bg-white pl-1.5 pr-3.5 text-sm font-bold text-brand transition hover:bg-brand-soft dark:bg-zinc-800 sm:flex-initial"
           title={goal.targetText}
         >
           <span className="inline-flex h-7 items-center rounded-full bg-brand px-2.5 text-xs font-bold text-white dark:text-zinc-950">
@@ -73,7 +73,7 @@ export function BodyLogButton({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft sm:flex-initial sm:px-4"
+          className="min-h-11 min-w-11 inline-flex h-10 flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 px-3 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft sm:flex-initial sm:px-4"
         >
           <Scale aria-hidden="true" size={15} />
           체형 기록
@@ -90,14 +90,14 @@ export function BodyLogButton({
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-lg font-bold text-zinc-950 dark:text-zinc-100">
+              <h2 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
                 체형 기록
               </h2>
               <button
                 type="button"
                 aria-label="닫기"
                 onClick={() => setOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 dark:text-zinc-400 transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
+                className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-muted transition hover:bg-zinc-100 dark:hover:bg-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200"
               >
                 <X aria-hidden="true" size={18} />
               </button>

@@ -240,12 +240,12 @@ export function MuscleExercisePicker({
                 data-testid={`muscle-chip-${g.id}`}
                 aria-pressed={active}
                 onClick={() => selectMuscle(g.id)}
-                className={cn(
+                className={"min-h-11 min-w-11 " + (cn(
                   "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition",
                   active
                     ? "border-transparent text-white"
                     : "app-field text-zinc-700 hover:border-zinc-400 dark:text-zinc-200",
-                )}
+                ))}
                 style={active ? { backgroundColor: g.color } : undefined}
               >
                 <span
@@ -300,12 +300,12 @@ export function MuscleExercisePicker({
             data-testid="submuscle-chip-all"
             aria-pressed={selectedSub === null}
             onClick={() => setSelectedSub(null)}
-            className={cn(
+            className={"min-h-11 min-w-11 " + (cn(
               "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
               selectedSub === null
                 ? "border-transparent text-white"
                 : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
-            )}
+            ))}
             style={selectedSub === null ? { backgroundColor: regionColor } : undefined}
           >
             전체
@@ -319,12 +319,12 @@ export function MuscleExercisePicker({
                 data-testid={`submuscle-chip-${s.id}`}
                 aria-pressed={active}
                 onClick={() => setSelectedSub(active ? null : s.id)}
-                className={cn(
+                className={"min-h-11 min-w-11 " + (cn(
                   "rounded-full border px-2.5 py-1 text-xs font-semibold transition",
                   active
                     ? "border-transparent text-white"
                     : "app-field text-zinc-600 hover:border-zinc-400 dark:text-zinc-300",
-                )}
+                ))}
                 style={active ? { backgroundColor: regionColor } : undefined}
               >
                 {s.label}
@@ -352,12 +352,12 @@ export function MuscleExercisePicker({
                   data-testid={`pick-${ex.id}`}
                   aria-pressed={on}
                   onClick={() => toggle(selectedMuscle, ex.id, ex.name)}
-                  className={cn(
+                  className={"min-h-11 min-w-11 " + (cn(
                     "mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition",
                     on
                       ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                       : "app-field text-transparent hover:border-brand/40",
-                  )}
+                  ))}
                 >
                   {on ? (
                     <Check size={15} />
@@ -432,7 +432,7 @@ export function MuscleExercisePicker({
               type="button"
               data-testid="clear-all-picked"
               onClick={clearAll}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-2.5 text-xs font-semibold text-danger transition active:opacity-70"
+              className="min-h-11 min-w-11 inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-full bg-danger/10 px-2.5 text-xs font-semibold text-danger transition active:opacity-70"
             >
               <Trash2 size={13} />
               전체 초기화
@@ -462,7 +462,7 @@ export function MuscleExercisePicker({
                     type="button"
                     onClick={() => removeMuscle(g.id)}
                     aria-label={`${g.label} 전체 비우기`}
-                    className="ml-auto inline-flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
+                    className="min-h-11 min-w-11 ml-auto inline-flex h-7 w-7 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger"
                   >
                     <Trash2 size={15} />
                   </button>
@@ -488,7 +488,7 @@ export function MuscleExercisePicker({
           data-testid="save-muscle-selection"
           onClick={handleSave}
           disabled={pending || totalPicked === 0}
-          className="inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
+          className="min-h-11 min-w-11 inline-flex h-11 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:bg-zinc-400"
         >
           {pending ? (
             <Loader2 className="animate-spin" size={17} />

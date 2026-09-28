@@ -107,7 +107,7 @@ export function TeachingComposeModal({
             type="button"
             onClick={onClose}
             aria-label="닫기"
-            className="rounded-full p-1 text-zinc-400"
+            className="min-h-11 min-w-11 rounded-full p-1 text-zinc-400"
           >
             <X size={20} />
           </button>
@@ -133,7 +133,7 @@ export function TeachingComposeModal({
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+            className="min-h-11 min-w-11 flex aspect-video w-full flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-sm text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
           >
             <Video size={32} />
             30초 이내 영상 찍기 / 올리기
@@ -143,7 +143,7 @@ export function TeachingComposeModal({
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
-            className="mt-2 w-full rounded-xl border border-zinc-200 py-2 text-xs font-bold text-zinc-500 dark:border-zinc-700"
+            className="min-h-11 min-w-11 mt-2 w-full rounded-xl border border-zinc-200 py-2 text-xs font-bold text-zinc-500 dark:border-zinc-700"
           >
             다시 찍기 / 다른 영상
           </button>
@@ -157,7 +157,7 @@ export function TeachingComposeModal({
           value={tag}
           onChange={(e) => setTag(e.target.value.slice(0, MAX_TAG))}
           placeholder="예: 스쿼트, 벤치프레스"
-          className="mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
+          className="mt-1 w-full rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800" aria-label="예: 스쿼트, 벤치프레스"
         />
 
         {/* 한마디 */}
@@ -166,11 +166,11 @@ export function TeachingComposeModal({
           onChange={(e) => setCaption(e.target.value.slice(0, MAX_TEACHING_CAPTION))}
           rows={2}
           placeholder="자세 팁 한마디 (선택)"
-          className="mt-3 w-full resize-none rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
+          className="mt-3 w-full resize-none rounded-2xl border border-zinc-200 bg-white p-3 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800" aria-label="자세 팁 한마디 (선택)"
         />
 
         {error ? (
-          <p className="mt-2 text-xs font-bold text-rose-500">{error}</p>
+          <p className="mt-2 text-xs font-bold text-danger">{error}</p>
         ) : null}
 
         {/* 게시판 규칙 */}
@@ -182,7 +182,7 @@ export function TeachingComposeModal({
           type="button"
           onClick={submit}
           disabled={pending}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-[0.99] disabled:opacity-60"
+          className="min-h-11 min-w-11 mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand py-3 text-sm font-bold text-white dark:text-zinc-950 active:scale-[0.99] disabled:opacity-60"
         >
           {pending ? (
             <>

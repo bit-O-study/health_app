@@ -363,7 +363,7 @@ function RestOverlay({
                 <button
                   type="button"
                   onClick={() => onAdd(30)}
-                  className="inline-flex h-9 items-center gap-0.5 rounded-full bg-white/10 px-3 text-xs font-medium transition hover:bg-white/15"
+                  className="min-h-11 min-w-11 inline-flex h-9 items-center gap-0.5 rounded-full bg-white/10 px-3 text-xs font-medium transition hover:bg-white/15"
                 >
                   <Plus aria-hidden="true" size={13} />
                   30초
@@ -372,7 +372,7 @@ function RestOverlay({
                   type="button"
                   aria-label="휴식 건너뛰기"
                   onClick={onSkip}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/15"
+                  className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/15"
                 >
                   <X aria-hidden="true" size={15} />
                 </button>
@@ -430,7 +430,7 @@ function RestOverlay({
             <button
               type="button"
               onClick={() => onAdd(30)}
-              className="relative z-10 inline-flex h-7 items-center gap-0.5 rounded-full bg-white/10 px-2 text-xs font-semibold transition hover:bg-white/20"
+              className="min-h-11 min-w-11 relative z-10 inline-flex h-7 items-center gap-0.5 rounded-full bg-white/10 px-2 text-xs font-semibold transition hover:bg-white/20"
             >
               <Plus aria-hidden="true" size={12} />
               30s
@@ -439,7 +439,7 @@ function RestOverlay({
               type="button"
               aria-label="휴식 건너뛰기"
               onClick={onSkip}
-              className="relative z-10 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
+              className="min-h-11 min-w-11 relative z-10 flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
             >
               <X aria-hidden="true" size={13} />
             </button>

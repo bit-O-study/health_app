@@ -11,7 +11,6 @@ import {
   Film,
   FlaskConical,
   LayoutDashboard,
-  LogOut,
   ShieldCheck,
   TriangleAlert,
   Users,
@@ -19,7 +18,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { signOut } from "@/features/auth/actions";
+import { SignOutButton } from "@/features/auth/components/sign-out-button";
 import {
   ADMIN_SECTIONS,
   isAdminLinkActive,
@@ -40,7 +39,7 @@ const ICONS: Record<string, LucideIcon> = {
   "/admin/test": FlaskConical,
 };
 
-export function AdminNav() {
+export function AdminNav({ openReports = 0 }: { openReports?: number }) {
   const pathname = usePathname();
 
   return (
@@ -83,6 +82,7 @@ export function AdminNav() {
               >
                 <Icon aria-hidden="true" size={18} />
                 {link.label}
+                {link.href === "/admin/reports" && openReports > 0 && <span aria-label={`미처리 신고 ${openReports}건`} className="rounded-full bg-danger px-2 py-0.5 text-xs text-white">{openReports}</span>}
               </Link>
             );
           })}
@@ -90,15 +90,7 @@ export function AdminNav() {
       ))}
 
       {/* 로그아웃 — 모바일 가로 끝 / 데스크톱 사이드바 맨 아래 */}
-      <form action={signOut} className="shrink-0 lg:mt-auto lg:w-full lg:pt-2">
-        <button
-          type="submit"
-          className="inline-flex w-full items-center gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-semibold text-zinc-500 transition hover:bg-red-50 hover:text-red-700 dark:hover:bg-red-950/40"
-        >
-          <LogOut aria-hidden="true" size={18} />
-          로그아웃
-        </button>
-      </form>
+      <div className="shrink-0 lg:mt-auto lg:pt-2"><SignOutButton /></div>
     </nav>
   );
 }

@@ -111,14 +111,14 @@ export function GymPicker({
             type="button"
             onClick={() => onPick(manualGymCandidate(manualName, manualAddress))}
             disabled={!nameOk}
-            className="inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex h-11 items-center justify-center rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             이 헬스장으로 진행
           </button>
           <button
             type="button"
             onClick={() => setMode("search")}
-            className="inline-flex h-11 items-center justify-center rounded-md border border-zinc-300 bg-white px-5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+            className="min-h-11 min-w-11 inline-flex h-11 items-center justify-center rounded-md border border-zinc-300 bg-white px-5 text-sm font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
           >
             검색으로 돌아가기
           </button>
@@ -167,7 +167,7 @@ export function GymPicker({
               <button
                 type="button"
                 onClick={() => onPick(hit)}
-                className="flex w-full items-start gap-2 px-3 py-2.5 text-left transition hover:bg-brand-soft"
+                className="min-h-11 min-w-11 flex w-full items-start gap-2 px-3 py-2.5 text-left transition hover:bg-brand-soft"
               >
                 {hit.gymId ? (
                   <Building2
@@ -183,10 +183,10 @@ export function GymPicker({
                   />
                 )}
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  <span className="block truncate text-sm font-semibold text-foreground">
                     {hit.name}
                   </span>
-                  <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block truncate text-xs text-muted">
                     {hit.address || "주소 정보 없음"}
                   </span>
                 </span>
@@ -203,7 +203,7 @@ export function GymPicker({
       ) : null}
 
       {fresh && hits.length === 0 ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted">
           검색 결과가 없어요. 아래에서 직접 입력해주세요.
         </p>
       ) : null}
@@ -212,7 +212,7 @@ export function GymPicker({
         <button
           type="button"
           onClick={openManual}
-          className="inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+          className="min-h-11 min-w-11 inline-flex h-10 items-center justify-center rounded-md border border-zinc-300 bg-white px-4 text-xs font-semibold text-zinc-700 transition hover:bg-zinc-100 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
         >
           직접 헬스장 입력하기
         </button>
@@ -220,7 +220,7 @@ export function GymPicker({
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex h-10 items-center justify-center rounded-md px-4 text-xs font-semibold text-zinc-500 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
+            className="min-h-11 min-w-11 inline-flex h-10 items-center justify-center rounded-md px-4 text-xs font-semibold text-zinc-500 transition hover:text-zinc-800 dark:text-zinc-400 dark:hover:text-zinc-200"
           >
             {cancelLabel}
           </button>

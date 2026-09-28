@@ -70,7 +70,7 @@ export function FindIdForm() {
           <div className="app-card px-3 py-4 text-center">
             <span
               data-testid="found-email"
-              className="select-all text-base font-semibold text-zinc-900 dark:text-zinc-100"
+              className="select-all text-base font-semibold text-foreground"
             >
               {foundEmail}
             </span>

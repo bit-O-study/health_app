@@ -77,7 +77,7 @@ export default async function RunningRecordDetailPage({ params }: { params: Prom
           ].map(([label, value]) => (
             <div key={label} className="px-3 py-3">
               <dt className="text-xs text-muted">{label}</dt>
-              <dd className="mt-0.5 text-lg font-bold tabular-nums">{value}</dd>
+              <dd className="mt-0.5 text-base font-bold tabular-nums">{value}</dd>
             </div>
           ))}
         </dl>
@@ -122,7 +122,7 @@ export default async function RunningRecordDetailPage({ params }: { params: Prom
           </dl>
         ) : null}
 
-        <Link href={`/settings/history/${run.forDate}`} className="block py-2 text-center text-sm text-muted underline">
+        <Link href={`/calendar/${run.forDate}`} className="block py-2 text-center text-sm text-muted underline">
           이날 운동 기록 전체 보기
         </Link>
       </main>

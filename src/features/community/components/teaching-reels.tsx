@@ -250,7 +250,7 @@ function ReelSlide({
           type="button"
           onClick={() => setComments(true)}
           aria-label="댓글"
-          className="flex flex-col items-center gap-0.5 transition-transform active:scale-110"
+          className="min-h-11 min-w-11 flex flex-col items-center gap-0.5 transition-transform active:scale-110"
         >
           <MessageCircle size={30} className="text-white drop-shadow" />
           <span className="text-xs font-bold drop-shadow">{commentCount}</span>
@@ -261,11 +261,11 @@ function ReelSlide({
           onClick={() => setLike(!liked)}
           disabled={pending}
           aria-label="좋아요"
-          className="flex flex-col items-center gap-0.5 transition-transform active:scale-125 disabled:opacity-60"
+          className="min-h-11 min-w-11 flex flex-col items-center gap-0.5 transition-transform active:scale-125 disabled:opacity-60"
         >
           <Heart
             size={30}
-            className={liked ? "fill-rose-500 text-rose-500" : "text-white drop-shadow"}
+            className={liked ? "fill-rose-500 text-danger" : "text-white drop-shadow"}
           />
           <span className="text-xs font-bold drop-shadow">{likeCount}</span>
         </button>
@@ -274,14 +274,14 @@ function ReelSlide({
           type="button"
           onClick={onToggleMute}
           aria-label={muted ? "소리 켜기" : "소리 끄기"}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
+          className="min-h-11 min-w-11 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
         >
           {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
         </button>
 
         {!post.isMine ? (
           <ReportButton
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-rose-400"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-danger"
             targetKind="teaching_post"
             targetId={post.id}
             targetUserId={post.userId}
@@ -297,7 +297,7 @@ function ReelSlide({
             onClick={remove}
             disabled={pending}
             aria-label="삭제"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-rose-400 disabled:opacity-50"
+            className="min-h-11 min-w-11 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-danger disabled:opacity-50"
           >
             <Trash2 size={18} />
           </button>
@@ -387,7 +387,7 @@ function CommentSheet({
             type="button"
             aria-label="닫기"
             onClick={onClose}
-            className="rounded-full p-1 text-zinc-400"
+            className="min-h-11 min-w-11 rounded-full p-1 text-zinc-400"
           >
             <X size={20} />
           </button>
@@ -430,13 +430,13 @@ function CommentSheet({
                       aria-label="댓글 삭제"
                       onClick={() => remove(c.id)}
                       disabled={pending}
-                      className="text-zinc-300 hover:text-rose-500 disabled:opacity-50"
+                      className="min-h-11 min-w-11 text-zinc-300 hover:text-danger disabled:opacity-50"
                     >
                       <Trash2 size={14} />
                     </button>
                   ) : (
                     <ReportButton
-                      className="text-zinc-300 hover:text-rose-500"
+                      className="text-zinc-300 hover:text-danger"
                       targetKind="teaching_comment"
                       targetId={c.id}
                       targetUserId={c.userId}
@@ -462,14 +462,14 @@ function CommentSheet({
               if (e.key === "Enter" && !e.nativeEvent.isComposing) submit();
             }}
             placeholder="댓글 달기…"
-            className="h-10 flex-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800"
+            className="h-10 flex-1 rounded-full border border-zinc-200 bg-zinc-50 px-4 text-sm outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800" aria-label="댓글 달기…"
           />
           <button
             type="button"
             onClick={submit}
             disabled={pending || !text.trim()}
             aria-label="댓글 등록"
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white disabled:opacity-40 dark:text-zinc-950"
+            className="min-h-11 min-w-11 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white disabled:opacity-40 dark:text-zinc-950"
           >
             {pending ? (
               <Loader2 size={16} className="animate-spin" />

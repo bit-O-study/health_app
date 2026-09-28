@@ -123,7 +123,7 @@ export function PostDetail({
               onClick={() => setMenuOpen((v) => !v)}
               aria-label="더보기"
               aria-expanded={menuOpen}
-              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
+              className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:active:bg-white/[0.06]"
             >
               <MoreVertical aria-hidden="true" size={18} />
             </button>
@@ -134,7 +134,7 @@ export function PostDetail({
                   type="button"
                   aria-label="메뉴 닫기"
                   onClick={() => setMenuOpen(false)}
-                  className="fixed inset-0 z-10 cursor-default"
+                  className="min-h-11 min-w-11 fixed inset-0 z-10 cursor-default"
                 />
                 <div className="absolute right-0 top-9 z-20 w-28 overflow-hidden rounded-xl border border-[var(--line)] bg-white shadow-lg dark:bg-zinc-900">
                   {canManage ? (
@@ -145,7 +145,7 @@ export function PostDetail({
                           setMenuOpen(false);
                           setEditing(true);
                         }}
-                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm hover:bg-zinc-50 dark:hover:bg-white/[0.06]"
+                        className="min-h-11 min-w-11 flex w-full items-center gap-2 px-3 py-2.5 text-sm hover:bg-zinc-50 dark:hover:bg-white/[0.06]"
                       >
                         <Pencil size={14} /> 수정
                       </button>
@@ -156,7 +156,7 @@ export function PostDetail({
                           removePost();
                         }}
                         disabled={pending}
-                        className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-danger hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-white/[0.06]"
+                        className="min-h-11 min-w-11 flex w-full items-center gap-2 px-3 py-2.5 text-sm text-danger hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-white/[0.06]"
                       >
                         <Trash2 size={14} /> 삭제
                       </button>
@@ -211,7 +211,7 @@ export function PostDetail({
             value={caption}
             onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
             rows={2}
-            className="w-full resize-none rounded-[10px] bg-zinc-100 p-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+            className="w-full resize-none rounded-[10px] bg-zinc-100 p-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]" aria-label="게시글 내용"
           />
           <div className="mt-1 flex justify-end gap-2">
             <button
@@ -220,7 +220,7 @@ export function PostDetail({
                 setEditing(false);
                 setCaption(post.caption ?? "");
               }}
-              className="rounded-lg px-3 py-1 text-sm font-semibold text-zinc-500"
+              className="min-h-11 min-w-11 rounded-lg px-3 py-1 text-sm font-semibold text-zinc-500"
             >
               취소
             </button>
@@ -228,7 +228,7 @@ export function PostDetail({
               type="button"
               onClick={saveCaption}
               disabled={pending}
-              className="rounded-lg bg-brand px-3 py-1 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-60"
+              className="min-h-11 min-w-11 rounded-lg bg-brand px-3 py-1 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-60"
             >
               저장
             </button>
@@ -254,11 +254,11 @@ export function PostDetail({
           type="button"
           onClick={toggleLike}
           disabled={pending}
-          className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex items-center gap-1 text-sm font-semibold tabular-nums disabled:opacity-60"
         >
           <Heart
             size={20}
-            className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"}
+            className={liked ? "fill-rose-500 text-danger" : "text-zinc-400"}
           />
           {likeCount}
         </button>
@@ -301,7 +301,7 @@ export function PostDetail({
                   onClick={() => removeComment(c.id)}
                   disabled={pending}
                   aria-label="댓글 삭제"
-                  className="shrink-0 text-zinc-300 hover:text-danger disabled:opacity-50"
+                  className="min-h-11 min-w-11 shrink-0 text-zinc-300 hover:text-danger disabled:opacity-50"
                 >
                   <Trash2 size={13} />
                 </button>
@@ -330,13 +330,13 @@ export function PostDetail({
             if (e.key === "Enter" && !e.nativeEvent.isComposing) addComment();
           }}
           placeholder="댓글 달기…"
-          className="h-10 min-w-0 flex-1 rounded-full bg-zinc-100 px-4 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+          className="h-10 min-w-0 flex-1 rounded-full bg-zinc-100 px-4 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]" aria-label="댓글 달기…"
         />
         <button
           type="button"
           onClick={addComment}
           disabled={pending || !body.trim()}
-          className="inline-flex h-10 shrink-0 items-center gap-1 rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+          className="min-h-11 min-w-11 inline-flex h-10 shrink-0 items-center gap-1 rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
         >
           {pending ? <Loader2 size={14} className="animate-spin" /> : null}등록
         </button>

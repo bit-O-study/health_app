@@ -68,7 +68,7 @@ export function RoutinePresets({
       <div className="mb-2 flex items-center gap-1.5">
         <Bookmark
           aria-hidden="true"
-          className="text-zinc-500 dark:text-zinc-400"
+          className="text-muted"
           size={16}
         />
         <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
@@ -95,7 +95,7 @@ export function RoutinePresets({
           type="button"
           onClick={save}
           disabled={pending || name.trim() === ""}
-          className="app-press inline-flex h-10 shrink-0 items-center gap-1 rounded-[10px] bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+          className="min-h-11 min-w-11 app-press inline-flex h-10 shrink-0 items-center gap-1 rounded-[10px] bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -106,7 +106,7 @@ export function RoutinePresets({
         </button>
       </div>
       {error ? (
-        <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-semibold text-danger dark:text-danger">
           {error}
         </p>
       ) : null}
@@ -120,7 +120,7 @@ export function RoutinePresets({
               className="flex items-center gap-2 py-2"
             >
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                <p className="truncate text-sm font-semibold text-foreground">
                   {p.name}
                 </p>
                 <p className="text-xs text-zinc-500">운동 {p.exerciseCount}개</p>
@@ -129,7 +129,7 @@ export function RoutinePresets({
                 type="button"
                 onClick={() => setLoadTarget(p)}
                 disabled={pending}
-                className="app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand disabled:opacity-50 dark:bg-white/[0.08]"
+                className="min-h-11 min-w-11 app-press inline-flex h-8 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand disabled:opacity-50 dark:bg-white/[0.08]"
               >
                 <Download aria-hidden="true" size={14} />
                 불러오기
@@ -139,7 +139,7 @@ export function RoutinePresets({
                 aria-label="삭제"
                 onClick={() => setDeleteTarget(p)}
                 disabled={pending}
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-50"
+                className="min-h-11 min-w-11 flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-danger/10 dark:hover:bg-red-950/40 hover:text-danger disabled:opacity-50"
               >
                 <Trash2 aria-hidden="true" size={15} />
               </button>

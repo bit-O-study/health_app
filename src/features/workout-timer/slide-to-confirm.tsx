@@ -89,7 +89,7 @@ export function SlideToConfirm({
         onClick();
       }}
       style={{ touchAction: "none" }}
-      className={`relative select-none overflow-hidden rounded-full p-1 disabled:opacity-40 ${className}`}
+      className={"min-h-11 min-w-11 " + (`relative select-none overflow-hidden rounded-full p-1 disabled:opacity-40 ${className}`)}
     >
       {/* 민 만큼 채워지는 바탕 */}
       <span

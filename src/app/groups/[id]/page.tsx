@@ -36,7 +36,7 @@ export default async function GroupDetailPage({
       <div className="app-page">
         <PageHeader title="그룹" back="그룹 목록" backHref="/groups" />
         <main className="app-container">
-          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             그룹을 찾을 수 없거나 멤버가 아니에요.
           </p>
         </main>

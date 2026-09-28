@@ -96,7 +96,7 @@ export function TeamPlanForm({
               </span>
             ) : null}
           </p>
-          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1 text-xs text-muted">
             {TEAM_PLAN_META[initial.plan].label} 요금제
             {initial.priceKrw > 0
               ? ` · 월 ${initial.priceKrw.toLocaleString("ko-KR")}원`
@@ -121,17 +121,17 @@ export function TeamPlanForm({
                   className="rounded-[10px] bg-zinc-100 p-3 dark:bg-white/[0.06]"
                 >
                   <p className="text-xs font-semibold text-zinc-500">입금 계좌</p>
-                  <p className="mt-0.5 select-all text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                  <p className="mt-0.5 select-all text-sm font-semibold text-foreground">
                     {depositLine(deposit)}
                   </p>
                   {deposit.note ? (
-                    <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                    <p className="mt-1 text-xs leading-5 text-muted">
                       {deposit.note}
                     </p>
                   ) : null}
                 </div>
               ) : (
-                <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                <p className="text-xs leading-5 text-muted">
                   확인되면 연락드릴게요.
                 </p>
               )}
@@ -157,11 +157,11 @@ export function TeamPlanForm({
                   type="button"
                   data-testid={`plan-${id}`}
                   onClick={() => setPlan(id)}
-                  className={`flex w-full items-start gap-3 rounded-[14px] border p-3 text-left transition ${
+                  className={"min-h-11 min-w-11 " + (`flex w-full items-start gap-3 rounded-[14px] border p-3 text-left transition ${
                     on
                       ? "border-brand/40 bg-brand-soft"
                       : "border-[var(--line)] bg-white dark:bg-zinc-900"
-                  }`}
+                  }`)}
                 >
                   <span
                     className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
@@ -181,7 +181,7 @@ export function TeamPlanForm({
                         월 {meta.monthlyKrw.toLocaleString("ko-KR")}원
                       </span>
                     </span>
-                    <span className="mt-0.5 block text-xs text-zinc-500 dark:text-zinc-400">
+                    <span className="mt-0.5 block text-xs text-muted">
                       {meta.seatsHint} · {meta.desc}
                     </span>
                   </span>
@@ -225,7 +225,7 @@ export function TeamPlanForm({
             data-testid="team-request"
             disabled={pending}
             onClick={submit}
-            className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
           >
             {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
             {requested ? "신청 내용 수정" : "이용 신청"}
@@ -237,7 +237,7 @@ export function TeamPlanForm({
               data-testid="team-cancel"
               disabled={pending}
               onClick={cancel}
-              className="h-10 w-full rounded-xl bg-zinc-100 text-sm font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
+              className="min-h-11 min-w-11 h-10 w-full rounded-xl bg-zinc-100 text-sm font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
             >
               신청 취소
             </button>

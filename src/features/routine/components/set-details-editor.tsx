@@ -32,7 +32,7 @@ function EnableWeightsPrompt({
         type="button"
         onClick={() => setAsking(true)}
         disabled={disabled}
-        className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand disabled:opacity-50 dark:text-zinc-300"
+        className="min-h-11 min-w-11 inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand disabled:opacity-50 dark:text-zinc-300"
       >
         <Wand2 aria-hidden="true" size={12} />
         세트 방식
@@ -58,7 +58,7 @@ function EnableWeightsPrompt({
               setBusy(false);
             }
           }}
-          className="inline-flex h-8 items-center rounded-full bg-brand px-3 text-xs font-semibold text-white transition disabled:opacity-50 dark:text-zinc-950"
+          className="min-h-11 min-w-11 inline-flex h-8 items-center rounded-full bg-brand px-3 text-xs font-semibold text-white transition disabled:opacity-50 dark:text-zinc-950"
         >
           {busy ? "켜는 중…" : "켜고 계속"}
         </button>
@@ -66,7 +66,7 @@ function EnableWeightsPrompt({
           type="button"
           onClick={() => setAsking(false)}
           disabled={busy}
-          className="text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
+          className="min-h-11 min-w-11 text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
         >
           취소
         </button>
@@ -206,7 +206,7 @@ export function SetDetailsEditor({
   return (
     <div className="flex min-w-0 flex-1 flex-col gap-1.5 basis-full sm:basis-auto">
       {minSets > 1 ? (
-        <p data-testid="sets-min-hint" className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p data-testid="sets-min-hint" className="text-xs text-muted">
           {minSets}세트 완료 — 완료를 취소하기 전엔 {minSets}세트 아래로 못 줄여요.
         </p>
       ) : null}
@@ -220,7 +220,7 @@ export function SetDetailsEditor({
           ) : null}
           {rows.map((row, i) => (
             <div key={i} className="flex flex-wrap items-center gap-1.5">
-              <span className="w-9 shrink-0 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="w-9 shrink-0 text-xs font-semibold text-muted">
                 {i + 1}세트
               </span>
               <input
@@ -233,7 +233,7 @@ export function SetDetailsEditor({
                 disabled={disabled}
                 className={wCls}
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-muted">
                 kg ×
               </span>
               <input
@@ -245,7 +245,7 @@ export function SetDetailsEditor({
                 disabled={disabled}
                 className={numCls}
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-muted">
                 회
               </span>
               <button
@@ -253,7 +253,7 @@ export function SetDetailsEditor({
                 aria-label="세트 삭제"
                 onClick={() => removeRow(i)}
                 disabled={disabled || rows.length <= Math.max(1, minSets)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
+                className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-danger/10 dark:hover:bg-red-950/40 hover:text-danger disabled:opacity-40"
               >
                 <X aria-hidden="true" size={15} />
               </button>
@@ -264,7 +264,7 @@ export function SetDetailsEditor({
               type="button"
               onClick={addRow}
               disabled={disabled || rows.length >= 20}
-              className="inline-flex h-8 items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
+              className="min-h-11 min-w-11 inline-flex h-8 items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
             >
               <Plus aria-hidden="true" size={13} />
               세트 추가
@@ -284,7 +284,7 @@ export function SetDetailsEditor({
               type="button"
               onClick={disable}
               disabled={disabled}
-              className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 underline-offset-2 hover:underline"
+              className="min-h-11 min-w-11 text-xs font-semibold text-muted underline-offset-2 hover:underline"
             >
               균일하게
             </button>
@@ -306,7 +306,7 @@ export function SetDetailsEditor({
             disabled={disabled}
             className={numCls}
           />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
+          <span className="text-xs text-muted">세트</span>
           <input
             aria-label="횟수"
             type="number"
@@ -316,7 +316,7 @@ export function SetDetailsEditor({
             disabled={disabled}
             className={numCls}
           />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
+          <span className="text-xs text-muted">회</span>
           <input
             aria-label="무게(kg)"
             type="number"
@@ -331,7 +331,7 @@ export function SetDetailsEditor({
             type="button"
             onClick={enable}
             disabled={disabled}
-            className="inline-flex h-7 items-center rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand"
+            className="min-h-11 min-w-11 inline-flex h-7 items-center rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand"
           >
             세트별 다르게
           </button>

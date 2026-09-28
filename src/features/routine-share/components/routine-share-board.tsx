@@ -59,7 +59,7 @@ export function RoutineShareBoard({
 
   return (
     <div className="flex flex-col gap-3 px-4 pb-6 pt-3">
-      <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+      <p className="text-xs leading-5 text-muted">
         다른 사람의 <strong>하루치 루틴</strong>을 그대로 내 루틴에 담을 수 있어요.
         운동 순서와 메모까지 그대로 옵니다.
       </p>
@@ -95,7 +95,7 @@ export function RoutineShareBoard({
               <button
                 type="button"
                 onClick={() => setOpen(it)}
-                className="flex w-full items-center gap-3 app-card p-4 text-left transition hover:border-brand/40 hover:bg-brand-soft"
+                className="min-h-11 min-w-11 flex w-full items-center gap-3 app-card p-4 text-left transition hover:border-brand/40 hover:bg-brand-soft"
               >
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -104,7 +104,7 @@ export function RoutineShareBoard({
                       운동 {it.exerciseCount}개
                     </span>
                   </h3>
-                  <p className="mt-0.5 truncate text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="mt-0.5 truncate text-xs text-muted">
                     {it.authorName} · {it.focusNames.join(" · ")}
                   </p>
                   <p className="mt-1 truncate text-sm text-zinc-600 dark:text-zinc-300">
@@ -149,11 +149,11 @@ function Chip({
     <button
       type="button"
       onClick={onClick}
-      className={`h-8 rounded-full border px-3 text-xs font-bold transition ${
+      className={"min-h-11 min-w-11 " + (`h-8 rounded-full border px-3 text-xs font-bold transition ${
         active
           ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
           : "border-zinc-300 bg-white text-zinc-600 hover:border-brand/40 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
-      }`}
+      }`)}
     >
       {children}
     </button>
@@ -206,10 +206,10 @@ function ShareDetailSheet({
       >
         <div className="flex items-start gap-2 border-b border-zinc-200 p-4 dark:border-zinc-700">
           <div className="min-w-0 flex-1">
-            <h3 className="truncate text-lg font-bold text-zinc-950 dark:text-zinc-50">
+            <h3 className="truncate text-base font-bold text-zinc-950 dark:text-zinc-50">
               {item.title}
             </h3>
-            <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-0.5 text-xs text-muted">
               {item.authorName} · {item.focusNames.join(" · ")} · 운동{" "}
               {item.exerciseCount}개
               {item.includeWeight ? " · 무게는 작성자 기준" : ""}
@@ -219,7 +219,7 @@ function ShareDetailSheet({
             type="button"
             aria-label="닫기"
             onClick={onClose}
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            className="min-h-11 min-w-11 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             <X aria-hidden="true" size={18} />
           </button>
@@ -236,7 +236,7 @@ function ShareDetailSheet({
             <CondBlock title="워밍업" rows={warmup} tone="amber" />
           ) : null}
 
-          <h4 className="mb-1.5 mt-3 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+          <h4 className="mb-1.5 mt-3 flex items-center gap-1.5 text-sm font-bold text-foreground">
             <Dumbbell aria-hidden="true" size={14} className="text-brand" />
             본운동
           </h4>
@@ -252,12 +252,12 @@ function ShareDetailSheet({
                   </span>
                   {e.name}
                 </p>
-                <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="mt-0.5 text-xs text-muted">
                   {e.sets}세트 × {e.reps}회
                   {e.weight_kg != null ? ` · ${e.weight_kg}kg` : ""}
                 </p>
                 {e.memo ? (
-                  <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-amber-700 dark:text-amber-400">
+                  <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-warn dark:text-warn">
                     <StickyNote
                       aria-hidden="true"
                       size={12}
@@ -280,11 +280,11 @@ function ShareDetailSheet({
             type="button"
             onClick={toggleLike}
             aria-pressed={liked}
-            className={`inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl border px-3 text-sm font-bold transition ${
+            className={"min-h-11 min-w-11 " + (`inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl border px-3 text-sm font-bold transition ${
               liked
-                ? "border-rose-300 bg-rose-50 text-rose-600 dark:border-rose-800 dark:bg-rose-950/40 dark:text-rose-400"
+                ? "border-danger bg-danger/10 text-danger dark:border-danger dark:bg-rose-950/40 dark:text-danger"
                 : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
-            }`}
+            }`)}
           >
             <Heart aria-hidden="true" size={16} fill={liked ? "currentColor" : "none"} />
             {likes}
@@ -294,7 +294,7 @@ function ShareDetailSheet({
               type="button"
               onClick={remove}
               disabled={pending}
-              className="inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl border border-red-300 bg-white px-3 text-sm font-bold text-red-600 transition disabled:opacity-60 dark:border-red-800 dark:bg-zinc-800 dark:text-red-400"
+              className="min-h-11 min-w-11 inline-flex h-11 shrink-0 items-center gap-1.5 rounded-xl border border-danger bg-white px-3 text-sm font-bold text-danger transition disabled:opacity-60 dark:border-danger dark:bg-zinc-800 dark:text-danger"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -311,13 +311,13 @@ function ShareDetailSheet({
               targetAuthor={item.authorName}
               targetPreview={`${item.title} · ${item.caption ?? ""}`}
               label="신고"
-              className="inline-flex h-11 shrink-0 items-center gap-1.5 px-2 text-sm font-bold text-zinc-500 transition hover:text-rose-600 dark:text-zinc-400"
+              className="inline-flex h-11 shrink-0 items-center gap-1.5 px-2 text-sm font-bold text-zinc-500 transition hover:text-danger dark:text-zinc-400"
             />
           )}
           <button
             type="button"
             onClick={() => setPicking(true)}
-            className="inline-flex h-11 flex-1 items-center justify-center rounded-xl bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
+            className="min-h-11 min-w-11 inline-flex h-11 flex-1 items-center justify-center rounded-xl bg-brand px-4 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
           >
             내 루틴에 담기
           </button>
@@ -355,7 +355,7 @@ function CondBlock({
       : "text-sky-600 dark:text-sky-400";
   return (
     <div className="mt-3">
-      <h4 className="mb-1.5 flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+      <h4 className="mb-1.5 flex items-center gap-1.5 text-sm font-bold text-foreground">
         <Wind aria-hidden="true" size={14} className={color} />
         {title}
       </h4>
@@ -428,7 +428,7 @@ function ApplyDaySheet({
         <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-50">
           어느 일차에 담을까요?
         </h3>
-        <p className="mt-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1 text-xs leading-5 text-muted">
           누르면 바로 담깁니다. <strong>오늘만이 아니라 루틴이 바뀝니다.</strong>
         </p>
 
@@ -446,7 +446,7 @@ function ApplyDaySheet({
                     type="button"
                     disabled={pending}
                     onClick={() => pick(t)}
-                    className="flex w-full items-center justify-between gap-2 rounded-xl border border-zinc-300 bg-white px-3 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800"
+                    className="min-h-11 min-w-11 flex w-full items-center justify-between gap-2 rounded-xl border border-zinc-300 bg-white px-3 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800"
                   >
                     <span className="min-w-0">
                       <span className="block truncate text-sm font-bold text-zinc-950 dark:text-zinc-100">
@@ -455,8 +455,8 @@ function ApplyDaySheet({
                       <span
                         className={`block text-xs font-semibold ${
                           overwrites
-                            ? "text-red-600 dark:text-red-400"
-                            : "text-zinc-500 dark:text-zinc-400"
+                            ? "text-danger dark:text-danger"
+                            : "text-muted"
                         }`}
                       >
                         {note}
@@ -475,7 +475,7 @@ function ApplyDaySheet({
         )}
 
         {error ? (
-          <p className="mt-3 text-xs font-semibold text-red-600 dark:text-red-400">
+          <p className="mt-3 text-xs font-semibold text-danger dark:text-danger">
             {error}
           </p>
         ) : null}
@@ -484,7 +484,7 @@ function ApplyDaySheet({
           type="button"
           onClick={onClose}
           disabled={pending}
-          className="mt-3 h-11 w-full rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 transition disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+          className="min-h-11 min-w-11 mt-3 h-11 w-full rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 transition disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
         >
           취소
         </button>
@@ -510,7 +510,7 @@ function ApplyDaySheet({
                 type="button"
                 onClick={() => setConfirm(null)}
                 disabled={pending}
-                className="h-11 flex-1 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+                className="min-h-11 min-w-11 h-11 flex-1 rounded-xl border border-zinc-300 bg-white text-sm font-bold text-zinc-700 disabled:opacity-60 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
               >
                 취소
               </button>
@@ -522,7 +522,7 @@ function ApplyDaySheet({
                   apply(t);
                 }}
                 disabled={pending}
-                className="inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-red-600 text-sm font-bold text-white disabled:opacity-60"
+                className="min-h-11 min-w-11 inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-xl bg-danger text-sm font-bold text-white disabled:opacity-60"
               >
                 {pending ? (
                   <Loader2 aria-hidden="true" size={16} className="animate-spin" />

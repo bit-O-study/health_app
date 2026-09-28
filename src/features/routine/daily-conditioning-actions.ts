@@ -9,7 +9,6 @@ import {
 import {
   getConditioningItem,
   isConditioningKind,
-  type ConditioningKind,
 } from "@/features/routine/conditioning-catalog";
 import type {
   ConditioningInput,
@@ -72,25 +71,4 @@ export async function saveDailyConditioningAction(
   revalidatePath("/routine");
   revalidatePath("/plan/today");
   return { ok: true };
-}
-
-/** 특정 날짜·종류의 오버라이드를 제거해 기본값으로 되돌린다. */
-export async function resetDailyConditioningAction(
-  dateYmd: string,
-  kind: ConditioningKind,
-): Promise<void> {
-  if (!isValidYmd(dateYmd) || !isConditioningKind(kind)) return;
-  const supabase = await createSupabaseServerClient();
-  const user = await getCurrentUser();
-  if (!user) return;
-
-  await supabase
-    .from("daily_conditioning")
-    .delete()
-    .eq("user_id", user.id)
-    .eq("for_date", dateYmd)
-    .eq("kind", kind);
-
-  revalidatePath("/routine");
-  revalidatePath("/plan/today");
 }

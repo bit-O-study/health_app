@@ -53,9 +53,9 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
   // 운동 시작 → 운동모드. 무게/횟수/세트 스크러버 + 운동법 버튼이 뜬다.
   await page.getByRole("button", { name: "운동 시작" }).click();
   const overlay = page.getByTestId("guided-scroll");
-  await expect(overlay.getByText("무게", { exact: true }).first()).toBeVisible({ timeout: 8000 });
-  await expect(overlay.getByText("횟수", { exact: true }).first()).toBeVisible();
-  await expect(overlay.getByText("세트", { exact: true }).first()).toBeVisible();
+  await expect(overlay.getByRole("button", { name: "무게 직접 입력", exact: true }).first()).toBeVisible({ timeout: 8000 });
+  await expect(overlay.getByRole("button", { name: "횟수 직접 입력", exact: true }).first()).toBeVisible();
+  await expect(overlay.getByRole("button", { name: "세트 직접 입력", exact: true }).first()).toBeVisible();
 
   // 완료 → 운동모드에서 정한 값(계획 기본 4세트×8회×60kg)이 완료 기록에 남는다.
   await page
@@ -77,7 +77,7 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
   }).toPass({ timeout: 15_000 });
 });
 
-test("고정 끔: 운동모드 무게 더블클릭해 직접 입력한 값이 기록된다", async ({ page }) => {
+test("고정 끔: 운동모드 무게 입력 버튼으로 직접 입력한 값이 기록된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await createOnboardedAccount(page);
   await seedSquat(email, false);
@@ -87,7 +87,7 @@ test("고정 끔: 운동모드 무게 더블클릭해 직접 입력한 값이 �
 
   const overlay = page.getByTestId("guided-scroll");
   // 무게 값(슬라이더)을 더블클릭 → 직접 입력칸이 뜬다. 80 입력 후 Enter.
-  await overlay.getByRole("slider", { name: "무게" }).dblclick();
+  await overlay.getByRole("button", { name: "무게 직접 입력" }).click();
   const input = overlay.getByRole("spinbutton", { name: "무게 직접 입력" });
   await expect(input).toBeVisible({ timeout: 4000 });
   await input.fill("80");
@@ -127,7 +127,7 @@ test("고정 켬: 메인에 무게 표시, 운동모드 스크러버는 안 뜬�
   const overlay = page.getByTestId("guided-scroll");
   // 이름은 이제 링크가 아니라 제목(heading) — 상세는 '운동법·꿀팁 보기' 버튼으로만.
   await expect(overlay.getByRole("heading", { name: "스쿼트" })).toBeVisible({ timeout: 8000 });
-  await expect(overlay.getByText("세트", { exact: true })).toHaveCount(0);
+  await expect(overlay.getByRole("button", { name: "세트 직접 입력", exact: true })).toHaveCount(0);
   await expect(overlay.getByText(/60kg/)).toBeVisible();
 });
 

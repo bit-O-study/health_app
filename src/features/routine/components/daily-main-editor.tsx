@@ -18,7 +18,7 @@ import {
   EQUIPMENT_LABELS,
   type EquipmentId,
 } from "@/features/routine/exercise-catalog-labels";
-import { prescribe } from "@/features/routine/prescription";
+import { recommendedEditorRow } from "@/features/routine/prescription";
 import {
   exerciseOptionsByIdsAction,
   exercisesForSlotAction,
@@ -438,16 +438,9 @@ export function DailyMainEditor({
       for (const g of groups) {
         for (const ex of g.exercises) {
           const equipment = pickDefaultEquipment(ex);
-          const p = prescribe(ex.id, {...opts,equipment});
           next.push({
             focus: g.focus as FocusTone,
-            exerciseId: ex.id,
-            equipment,
-            sets: p.sets,
-            reps: p.reps,
-            weight: p.weightKg === null ? "" : String(p.weightKg),
-            setDetails: null,
-            supersetGroup: null,
+            ...recommendedEditorRow(ex.id, equipment, opts),
           });
         }
       }
@@ -531,7 +524,7 @@ export function DailyMainEditor({
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+              className="min-h-11 min-w-11 inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
             >
               <Sparkles aria-hidden="true" size={14} />
               추천으로 채우기
@@ -541,7 +534,7 @@ export function DailyMainEditor({
             type="button"
             onClick={addRow}
             disabled={addOptionsLoading}
-            className="inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
+            className="min-h-11 min-w-11 inline-flex h-8 items-center gap-1 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-brand transition active:opacity-70 disabled:opacity-60 dark:bg-white/[0.08]"
           >
             {addOptionsLoading ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -554,7 +547,7 @@ export function DailyMainEditor({
       </div>
 
       {rows.length === 0 ? (
-        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">운동 없음</p>
+        <p className="mt-2 text-xs text-muted">운동 없음</p>
       ) : (
         <div className="mt-2 space-y-1.5">
           {rows.map((row, idx) => {
@@ -605,7 +598,7 @@ export function DailyMainEditor({
                     onPointerMove={onGripMove}
                     onPointerUp={onGripUp}
                     onPointerCancel={onGripUp}
-                    className="flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
+                    className="min-h-11 min-w-11 flex h-9 w-6 shrink-0 cursor-grab touch-none items-center justify-center text-zinc-400 active:cursor-grabbing dark:text-zinc-500"
                   >
                     <GripVertical aria-hidden="true" size={16} />
                   </button>
@@ -642,7 +635,7 @@ export function DailyMainEditor({
                     type="button"
                     aria-label="삭제"
                     onClick={() => update(rows.filter((_, i) => i !== idx))}
-                    className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger dark:text-zinc-500"
+                    className="min-h-11 min-w-11 ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger dark:text-zinc-500"
                   >
                     <Trash2 aria-hidden="true" size={16} />
                   </button>
@@ -746,13 +739,13 @@ export function DailyMainEditor({
           type="button"
           disabled={pending}
           onClick={save}
-          className="app-press inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:opacity-60 dark:text-zinc-950"
+          className="min-h-11 min-w-11 app-press inline-flex h-9 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-4 text-sm font-semibold text-white disabled:opacity-60 dark:text-zinc-950"
         >
           {pending ? <Loader2 aria-hidden="true" className="animate-spin" size={15} /> : null}
           저장
         </button>
         {msg ? (
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">{msg}</span>
+          <span className="text-xs text-muted">{msg}</span>
         ) : null}
       </div>
 

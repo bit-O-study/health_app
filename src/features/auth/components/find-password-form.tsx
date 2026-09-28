@@ -126,7 +126,7 @@ export function FindPasswordForm() {
             </h2>
             <p
               data-testid="find-pw-done"
-              className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400"
+              className="mt-0.5 text-sm text-muted"
             >
               새 비밀번호로 변경되었습니다. 변경한 비밀번호로 로그인해 주세요.
             </p>
@@ -151,7 +151,7 @@ export function FindPasswordForm() {
             type="text"
             inputMode="numeric"
             autoComplete="one-time-code"
-            className={`${inputCls} text-center text-lg tracking-widest`}
+            className={`${inputCls} text-center text-base tracking-widest`}
             placeholder="6자리"
             value={code}
             onChange={(e) => setCode(e.target.value)}
@@ -192,7 +192,7 @@ export function FindPasswordForm() {
           type="button"
           disabled={busy}
           onClick={handleResend}
-          className="h-9 w-full text-center text-sm font-semibold text-brand transition active:opacity-60 disabled:opacity-50"
+          className="min-h-11 min-w-11 h-9 w-full text-center text-sm font-semibold text-brand transition active:opacity-60 disabled:opacity-50"
         >
           인증번호 다시 받기
         </button>

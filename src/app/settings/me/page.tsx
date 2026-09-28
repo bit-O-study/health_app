@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
-import { LogOut } from "lucide-react";
+import { } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { Section } from "@/components/ui/compact";
 import { getCurrentUser } from "@/lib/supabase/server";
-import { signOut } from "@/features/auth/actions";
+import { SignOutButton } from "@/features/auth/components/sign-out-button";
 import { WithdrawButton } from "@/features/account/components/withdraw-button";
 import { getUserProfile } from "@/features/profile/data-access";
 import {
@@ -88,7 +88,7 @@ export default async function MyPage() {
             <p className="truncate text-base font-semibold text-zinc-950 dark:text-zinc-100">
               {displayName}
             </p>
-            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{user.email}</p>
+            <p className="truncate text-xs text-muted">{user.email}</p>
             <div className="mt-1 flex flex-wrap gap-1">
               {genderLabel ? <Badge>{genderLabel}</Badge> : null}
               {expLabel ? <Badge>{expLabel}</Badge> : null}
@@ -127,7 +127,7 @@ export default async function MyPage() {
           <div className="app-card p-3">
             <div className="mb-1.5 flex items-baseline justify-between">
               <span className="text-sm text-zinc-600 dark:text-zinc-300">섭취 칼로리</span>
-              <span className="text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+              <span className="text-sm font-semibold tabular-nums text-foreground">
                 {consumed}
                 <span className="text-xs font-medium text-zinc-400"> / {target.kcal} kcal</span>
               </span>
@@ -135,7 +135,7 @@ export default async function MyPage() {
             <div className="h-2 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.08]">
               <div className="h-full rounded-full bg-brand" style={{ width: `${kcalPct}%` }} />
             </div>
-            <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1.5 text-xs text-muted">
               {logs.length > 0
                 ? `${logs.length}개 기록 · ${Math.max(0, target.kcal - consumed)} kcal 남음`
                 : "기록 없음"}
@@ -155,15 +155,7 @@ export default async function MyPage() {
 
         {/* 계정 — 하단에 조용히(로그아웃·회원탈퇴), 양옆으로 나란히 */}
         <section className="flex items-center justify-center gap-3 pt-4">
-          <form action={signOut}>
-            <button
-              type="submit"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-400 underline-offset-2 transition hover:text-zinc-600 hover:underline dark:text-zinc-500 dark:hover:text-zinc-300"
-            >
-              <LogOut aria-hidden="true" size={13} />
-              로그아웃
-            </button>
-          </form>
+          <SignOutButton />
           <span aria-hidden="true" className="text-zinc-300 dark:text-zinc-600">
             |
           </span>
@@ -186,7 +178,7 @@ function Badge({ children }: { children: React.ReactNode }) {
 function Stat({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
     <div className="min-w-0 px-2 text-center">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-100">
         {value}
         {unit ? <span className="ml-0.5 text-xs font-medium text-zinc-400">{unit}</span> : null}

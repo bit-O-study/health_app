@@ -45,7 +45,7 @@ export function RestDefaultPicker() {
         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
           <Timer aria-hidden="true" size={16} />
         </span>
-        <span className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+        <span className="min-w-0 flex-1 truncate text-base text-foreground">
           기본 휴식 시간
         </span>
       </div>
@@ -58,11 +58,11 @@ export function RestDefaultPicker() {
               type="button"
               onClick={() => pick(s)}
               aria-pressed={active}
-              className={`h-7 rounded-full px-2.5 text-xs font-semibold tabular-nums transition ${
+              className={"min-h-11 min-w-11 " + (`h-7 rounded-full px-2.5 text-xs font-semibold tabular-nums transition ${
                 active
                   ? "bg-brand text-white dark:text-zinc-950"
                   : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
-              }`}
+              }`)}
             >
               {formatRest(s)}
             </button>

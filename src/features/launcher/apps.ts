@@ -134,9 +134,9 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     owns: ["/diet"],
     tabs: [
       { href: "/diet", label: "오늘 식단", icon: Apple, match: p => p === "/diet" },
-      { href: "/diet/history", label: "식단 기록", icon: CalendarDays },
+      { href: "/diet/history", label: "기록·영양", icon: CalendarDays },
       { href: "/diet/favorites", label: "즐겨찾기", icon: Star },
-      { href: "/diet/nutrition", label: "영양 분석", icon: ChartColumn },
+      { href: "/diet/search", label: "음식 검색", icon: Search },
     ],
   },
   {

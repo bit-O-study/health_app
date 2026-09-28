@@ -74,7 +74,7 @@ export function SetSchemePicker({
         type="button"
         onClick={() => setOpen(true)}
         disabled={disabled}
-        className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand disabled:opacity-50 dark:text-zinc-300"
+        className="min-h-11 min-w-11 inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-600 transition hover:border-brand/40 hover:text-brand disabled:opacity-50 dark:text-zinc-300"
       >
         <Wand2 aria-hidden="true" size={12} />
         세트 방식
@@ -91,7 +91,7 @@ export function SetSchemePicker({
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
+          className="min-h-11 min-w-11 text-xs font-semibold text-zinc-500 underline-offset-2 hover:underline dark:text-zinc-400"
         >
           닫기
         </button>
@@ -108,7 +108,7 @@ export function SetSchemePicker({
               onClick={() => apply(scheme)}
               disabled={off}
               title={SET_SCHEME_LABELS[scheme].hint}
-              className="inline-flex h-8 items-center rounded-full bg-white px-3 text-xs font-semibold text-zinc-700 transition hover:text-brand disabled:opacity-40 dark:bg-zinc-800 dark:text-zinc-200"
+              className="min-h-11 min-w-11 inline-flex h-8 items-center rounded-full bg-white px-3 text-xs font-semibold text-zinc-700 transition hover:text-brand disabled:opacity-40 dark:bg-zinc-800 dark:text-zinc-200"
             >
               {SET_SCHEME_LABELS[scheme].name}
             </button>
@@ -116,11 +116,11 @@ export function SetSchemePicker({
         })}
       </div>
       {!hasWeight ? (
-        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1.5 text-xs text-muted">
           무게를 먼저 넣으면 드롭·피라미드처럼 무게를 조절하는 방식도 쓸 수 있어요.
         </p>
       ) : (
-        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1.5 text-xs text-muted">
           기준 {sets}세트 × {reps}회 · {weightKg}kg, {stepKg}kg 단위로 맞춥니다.
         </p>
       )}

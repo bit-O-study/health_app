@@ -26,6 +26,8 @@ import {
   DEFAULT_SPLITS,
   DEFAULT_VARIANT_ID,
   MUSCLE_BLOCK_GROUPS,
+  SESSION_GROUPS,
+  MAX_DAY_BLOCKS,
   normalizeCustomWeek,
   SPLIT_PRESETS,
   TONE_STYLES,
@@ -54,7 +56,6 @@ type RoutinePlannerProps = {
 };
 
 /** 단일 선택 시 쓸 수 있는"세션 그룹"(부위가 아니라 묶음). 주 부위 select 에서만 노출. */
-const SESSION_GROUPS: DayBlockId[] = ["fullbody", "upper", "push", "pull"];
 
 export function RoutinePlanner({
   initialSplits = DEFAULT_SPLITS,
@@ -143,7 +144,7 @@ export function RoutinePlanner({
     setCustomWeek((prev) => {
       const cur = prev[index].filter((b) => b !== "rest");
       if (cur.includes(blockId)) return prev;
-      if (cur.length >= 3) return prev; // 한 날 최대 3 부위
+      if (cur.length >= MAX_DAY_BLOCKS) return prev; // 한 날 최대 3 부위
       const out = [...prev];
       out[index] = [...cur, blockId];
       return out;
@@ -201,15 +202,15 @@ export function RoutinePlanner({
     <section className="app-card p-4">
       {/* 제목 한 줄만 — 영문 머리표·설명 문단은 뺐다(2026-09-16 촘촘하게). 버튼 이름이 스스로 설명한다. */}
       <div className="flex items-center gap-1.5">
-        <CalendarDays aria-hidden="true" size={16} className="text-zinc-500 dark:text-zinc-400" />
-        <h2 className="text-lg font-semibold text-zinc-950 dark:text-zinc-100">
+        <CalendarDays aria-hidden="true" size={16} className="text-muted" />
+        <h2 className="text-base font-semibold text-zinc-950 dark:text-zinc-100">
           나의 루틴
         </h2>
       </div>
 
       {/* 루틴 선택 */}
       <div className="mt-3">
-        <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <p className="mb-2 text-xs font-semibold text-muted">
           루틴 선택
         </p>
         <div className="flex flex-wrap gap-2">
@@ -220,12 +221,12 @@ export function RoutinePlanner({
                 key={item.splits}
                 type="button"
                 onClick={() => handleSelectSplit(item.splits)}
-                className={cn(
+                className={"min-h-11 min-w-11 " + (cn(
                   "whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-semibold transition",
                   active
                     ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                     : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
-                )}
+                ))}
               >
                 {item.label}
               </button>
@@ -234,18 +235,18 @@ export function RoutinePlanner({
           <button
             type="button"
             onClick={handleSelectCustom}
-            className={cn(
+            className={"min-h-11 min-w-11 " + (cn(
               "inline-flex items-center gap-1 whitespace-nowrap rounded-full border px-3 py-1.5 text-sm font-semibold transition",
               isCustom
                 ? "border-brand/40 bg-brand text-white dark:text-zinc-950"
                 : "app-field border-dashed text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
-            )}
+            ))}
           >
             <Pencil aria-hidden="true" size={14} />
             커스텀
           </button>
         </div>
-        <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-1.5 text-xs text-muted">
           {isCustom
             ? "7일 주기를 직접 부위별로 채우는 나만의 루틴"
             : preset.tagline}
@@ -255,7 +256,7 @@ export function RoutinePlanner({
       {isCustom ? (
         /* 커스텀 빌더 — 주기 일자별 부위 (1개 이상) 지정. 멀티 부위 = "가슴 + 팔" 같은 묶음 */
         <div className="mt-3">
-          <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <p className="mb-2 text-xs font-semibold text-muted">
             일자별 부위 (하루 최대 3개)
           </p>
           <div className="grid gap-2 sm:grid-cols-2">
@@ -274,7 +275,7 @@ export function RoutinePlanner({
       ) : (
         /* 변형 선택 */
         <div className="mt-3">
-          <p className="mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <p className="mb-2 text-xs font-semibold text-muted">
             나누는 방식
           </p>
           <div className="flex flex-wrap gap-2">
@@ -285,19 +286,19 @@ export function RoutinePlanner({
                   key={item.id}
                   type="button"
                   onClick={() => handleSelectVariant(item.id)}
-                  className={cn(
+                  className={"min-h-11 min-w-11 " + (cn(
                     "whitespace-nowrap rounded-full border px-3 py-1.5 text-left text-sm font-semibold transition",
                     active
                       ? "border-brand/40 bg-brand-soft text-brand"
                       : "app-field text-zinc-700 dark:text-zinc-300 hover:border-brand/40 hover:bg-brand-soft",
-                  )}
+                  ))}
                 >
                   {item.name}
                 </button>
               );
             })}
           </div>
-          <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+          <p className="mt-1.5 text-xs text-muted">
             {variant.description}
           </p>
         </div>
@@ -316,7 +317,7 @@ export function RoutinePlanner({
               className={cn("flex flex-col rounded-[10px] border p-2.5", style.card)}
             >
               <div className="flex items-center justify-between">
-                <span className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                <span className="text-sm font-semibold text-foreground">
                   {dayLabel}
                 </span>
                 {isRest ? (
@@ -328,7 +329,7 @@ export function RoutinePlanner({
                 ) : (
                   <Dumbbell
                     aria-hidden="true"
-                    className="text-zinc-500 dark:text-zinc-400"
+                    className="text-muted"
                     size={16}
                   />
                 )}
@@ -350,13 +351,13 @@ export function RoutinePlanner({
               </span>
 
               {isRest ? (
-                <p className="mt-2 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                <p className="mt-2 text-xs leading-5 text-muted">
                   회복일
                 </p>
               ) : (
                 <div className="mt-2 space-y-1.5">
                   <div>
-                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold text-muted">
                       자극 부위
                     </p>
                     <p className="mt-0.5 break-keep text-xs leading-5 text-zinc-700 dark:text-zinc-300">
@@ -364,7 +365,7 @@ export function RoutinePlanner({
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs font-semibold text-muted">
                       대표 운동
                     </p>
                     <ul className="mt-0.5 space-y-0.5">
@@ -388,14 +389,14 @@ export function RoutinePlanner({
       <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-600 dark:text-zinc-400">
         <span>
           주{" "}
-          <strong className="text-zinc-900 dark:text-zinc-100">
+          <strong className="text-foreground">
             {summary.trainingDays}
           </strong>
           회 운동
         </span>
         <span>
           휴식{" "}
-          <strong className="text-zinc-900 dark:text-zinc-100">
+          <strong className="text-foreground">
             {summary.restDays}
           </strong>
           일
@@ -432,7 +433,7 @@ export function RoutinePlanner({
                   className="mt-0.5 accent-brand"
                 />
                 <span className="min-w-0">
-                  <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
+                  <span className="block font-semibold text-foreground">
                     추천으로 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
@@ -458,7 +459,7 @@ export function RoutinePlanner({
                   className="mt-0.5 accent-brand"
                 />
                 <span className="min-w-0">
-                  <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
+                  <span className="block font-semibold text-foreground">
                     직접 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
@@ -484,7 +485,7 @@ export function RoutinePlanner({
                   className="mt-0.5 accent-brand"
                 />
                 <span className="min-w-0">
-                  <span className="block font-semibold text-zinc-900 dark:text-zinc-100">
+                  <span className="block font-semibold text-foreground">
                     근육별로 운동선택
                   </span>
                   <span className="mt-0.5 block text-xs leading-5 text-zinc-600 dark:text-zinc-400">
@@ -503,13 +504,13 @@ export function RoutinePlanner({
                     "font-medium",
                     saveStatus.ok
                       ? "text-brand"
-                      : "text-red-600 dark:text-red-400",
+                      : "text-danger dark:text-danger",
                   )}
                 >
                   {saveStatus.message}
                 </p>
               ) : (
-                <p className="text-zinc-500 dark:text-zinc-400">
+                <p className="text-muted">
                   {fillMode === "recommend"
                     ? "저장 후 메인 화면에서 오늘 운동을 확인하세요."
                     : fillMode === "byMuscle"
@@ -522,7 +523,7 @@ export function RoutinePlanner({
               type="button"
               onClick={handleSave}
               disabled={isSaving}
-              className="app-press inline-flex h-10 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:bg-zinc-400"
+              className="min-h-11 min-w-11 app-press inline-flex h-10 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 disabled:cursor-not-allowed disabled:bg-zinc-400"
             >
               {isSaving ? (
                 <Loader2
@@ -569,7 +570,7 @@ function DayBlockEditor({
   return (
     <div className="rounded-[10px] border border-[var(--line)] bg-zinc-50 p-2.5 dark:bg-white/[0.04]">
       <div className="flex items-center gap-2">
-        <span className="w-6 text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+        <span className="w-6 text-sm font-semibold text-foreground">
           {weekday}
         </span>
         <span className={cn("h-2 w-2 shrink-0 rounded-full", style.dot)} />
@@ -612,7 +613,7 @@ function DayBlockEditor({
                 type="button"
                 aria-label={`${DAY_BLOCKS[b].label} 제거`}
                 onClick={() => onRemove(b)}
-                className="ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+                className="min-h-11 min-w-11 ml-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
               >
                 <X aria-hidden="true" size={11} />
               </button>
@@ -652,7 +653,7 @@ function AddBlockMenu({
   }
 
   // 이미 담긴 블록은 제외. 고를 게 남은 부위 그룹만 노출.
-  const groups = MUSCLE_BLOCK_GROUPS.map((g) => ({
+  const groups = [...MUSCLE_BLOCK_GROUPS, ...SESSION_GROUPS.map(id => ({ whole: id, label: DAY_BLOCKS[id].label, subs: [] as DayBlockId[] }))].map((g) => ({
     ...g,
     options: [g.whole, ...g.subs].filter((id) => !blocks.includes(id)),
   })).filter((g) => g.options.length > 0);
@@ -668,7 +669,7 @@ function AddBlockMenu({
           setOpen((v) => !v);
           setGroupId(null);
         }}
-        className="inline-flex items-center gap-0.5 rounded-full border app-field border-dashed px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:text-brand"
+        className="min-h-11 min-w-11 inline-flex items-center gap-0.5 rounded-full border app-field border-dashed px-2 py-0.5 text-xs font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:text-brand"
       >
         <Plus aria-hidden="true" size={11} />
         부위 추가
@@ -681,7 +682,7 @@ function AddBlockMenu({
             aria-hidden
             tabIndex={-1}
             onClick={reset}
-            className="fixed inset-0 z-10 cursor-default"
+            className="min-h-11 min-w-11 fixed inset-0 z-10 cursor-default"
           />
           <div className="app-field absolute left-0 top-full z-20 mt-1 flex w-44 flex-col rounded-md border p-1 shadow-lg">
             {active === null ? (
@@ -696,7 +697,7 @@ function AddBlockMenu({
                     onClick={() =>
                       hasSubs ? setGroupId(g.whole) : pick(g.whole)
                     }
-                    className="flex items-center justify-between rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-brand-soft hover:text-brand"
+                    className="min-h-11 min-w-11 flex items-center justify-between rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-brand-soft hover:text-brand"
                   >
                     {g.label}
                     {hasSubs ? (
@@ -711,7 +712,7 @@ function AddBlockMenu({
                 <button
                   type="button"
                   onClick={() => setGroupId(null)}
-                  className="mb-0.5 flex items-center gap-1 rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                  className="min-h-11 min-w-11 mb-0.5 flex items-center gap-1 rounded px-2 py-1.5 text-left text-xs font-semibold text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
                 >
                   <ChevronLeft aria-hidden="true" size={13} />
                   {active.label}
@@ -720,7 +721,7 @@ function AddBlockMenu({
                   <button
                     type="button"
                     onClick={() => pick(active.whole)}
-                    className="rounded px-2 py-1.5 text-left text-xs font-semibold text-brand transition hover:bg-brand-soft"
+                    className="min-h-11 min-w-11 rounded px-2 py-1.5 text-left text-xs font-semibold text-brand transition hover:bg-brand-soft"
                   >
                     {active.label} 전체
                   </button>
@@ -732,7 +733,7 @@ function AddBlockMenu({
                       key={s}
                       type="button"
                       onClick={() => pick(s)}
-                      className="rounded px-2 py-1.5 text-left text-xs font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-brand-soft hover:text-brand"
+                      className="min-h-11 min-w-11 rounded px-2 py-1.5 text-left text-xs font-medium text-zinc-700 dark:text-zinc-300 transition hover:bg-brand-soft hover:text-brand"
                     >
                       {DAY_BLOCKS[s].label}
                     </button>

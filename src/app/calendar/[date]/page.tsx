@@ -1,3 +1,8 @@
+import { EmptyState } from "@/components/empty-state";
+import { RunHistoryList } from "@/features/running/components/run-history-list";
+import { getRunSessionsRange } from "@/features/running/run-history-data";
+import { formatRunDuration as shortDuration } from "@/features/running/run-format";
+import { summarizeSetDetails } from "@/features/routine/set-details";
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
 import { ChevronRight, Wind } from "lucide-react";
@@ -8,19 +13,14 @@ import { getDayDetail } from "@/features/calendar/data-access";
 import { getMyCommitments } from "@/features/commitments/data-access";
 import { isActiveOn } from "@/features/commitments/commitment";
 import { MEAL_LABEL, MEALS, type Meal } from "@/features/diet/meal";
+import { EQUIPMENT_LABELS, type EquipmentId } from "@/features/routine/exercise-catalog-labels";
+import { DAY_BLOCKS, isDayBlockId } from "@/features/routine/data";
 import { ymdDisplay } from "@/features/routine/data";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "기록 상세" };
 
-function shortDuration(sec: number): string {
-  if (sec <= 0) return "기록 없음";
-  const m = Math.floor(sec / 60);
-  if (m < 60) return `${m}분`;
-  const h = Math.floor(m / 60);
-  const r = m % 60;
-  return r === 0 ? `${h}시간` : `${h}시간 ${r}분`;
-}
+
 
 export default async function CalendarDayPage({
   params,
@@ -30,24 +30,23 @@ export default async function CalendarDayPage({
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   const { date } = await params;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) notFound();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isFinite(Date.parse(date)) || new Date(date).toISOString().slice(0, 10) !== date) notFound();
 
   const [
     { intake, burned, durationSec, steps, stepsKcal, foods, workouts, conditioning },
     allCommitments,
-  ] = await Promise.all([getDayDetail(date), getMyCommitments()]);
+    runs,
+  ] = await Promise.all([getDayDetail(date), getMyCommitments(), getRunSessionsRange(date, date)]);
   // 이 날짜에 진행 중인 다짐만.
   const dayCommitments = allCommitments.filter((c) =>
     isActiveOn({ startDate: c.startDate, deadline: c.deadline }, date),
   );
   const { weekday, label } = ymdDisplay(date);
-  const [, mm] = label.split("/");
-  void mm;
 
   const foodsByMeal = (meal: Meal) => foods.filter((f) => f.meal === meal);
 
   const empty = (text: string) => (
-    <p className="app-card p-3 text-center text-sm text-zinc-400">{text}</p>
+    <EmptyState title={text} />
   );
 
   // 공통 머리글 + 섹션 라벨 + 그룹 목록(2026-09-16 8단계). 요약 카드 4장 → 한 장 네 칸.
@@ -83,7 +82,7 @@ export default async function CalendarDayPage({
                       className="app-row py-2 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
                     >
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                        <span className="block truncate text-sm font-semibold text-foreground">
                           {c.title}
                           {p.done ? (
                             <span className="ml-1 text-xs font-semibold text-brand">달성 ✓</span>
@@ -97,7 +96,7 @@ export default async function CalendarDayPage({
                             style={{ width: `${p.pct}%` }}
                           />
                         </span>
-                        <span className="mt-0.5 block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="mt-0.5 block truncate text-xs text-muted">
                           {c.metricLabel} {p.current.toLocaleString()} / {p.target.toLocaleString()} {c.unit}
                           {!p.done && !p.expired ? ` · D-${p.daysLeft}` : ""}
                         </span>
@@ -121,12 +120,14 @@ export default async function CalendarDayPage({
               {workouts.map((w, i) => (
                 <li key={`w${i}`} className="app-row justify-between py-1.5">
                   <span className="min-w-0">
-                    <span className="block truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    <span className="block truncate text-sm font-semibold text-foreground">
                       {w.name}
                     </span>
-                    <span className="block text-xs text-zinc-500 dark:text-zinc-400">
-                      {w.sets}세트 × {w.reps}회
-                      {w.weightKg != null ? ` · ${w.weightKg}kg` : " · 맨몸"}
+                    <span className="block text-xs text-muted">
+                      {[w.focus && isDayBlockId(w.focus) ? DAY_BLOCKS[w.focus].label : null, w.equipment && EQUIPMENT_LABELS[w.equipment as EquipmentId]].filter(Boolean).join(" · ")}
+                    </span>
+                    <span className="block text-xs text-muted">
+                      {w.setDetails?.length ? summarizeSetDetails(w.setDetails) : `${w.sets}세트 × ${w.reps}회 · ${w.weightKg === null ? "맨몸" : w.weightKg + "kg"}`}
                     </span>
                   </span>
                   <span className="shrink-0 text-sm tabular-nums text-brand">-{w.kcal}</span>
@@ -135,12 +136,12 @@ export default async function CalendarDayPage({
               {conditioning.map((c, i) => (
                 <li key={`c${i}`} className="app-row justify-between py-1.5">
                   <span className="min-w-0">
-                    <span className="flex items-center gap-1 truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    <span className="flex items-center gap-1 truncate text-sm font-semibold text-foreground">
                       <Wind aria-hidden="true" size={13} className="shrink-0 text-zinc-400" />
                       {c.name}
                     </span>
                     {c.detail ? (
-                      <span className="block text-xs text-zinc-500 dark:text-zinc-400">{c.detail}</span>
+                      <span className="block text-xs text-muted">{c.detail}</span>
                     ) : null}
                   </span>
                   <span className="shrink-0 text-sm tabular-nums text-brand">-{c.kcal}</span>
@@ -148,6 +149,11 @@ export default async function CalendarDayPage({
               ))}
             </ul>
           )}
+        </section>
+
+        <section id="running" aria-label="런닝 기록">
+          <h2 className="app-section-label">런닝 세션</h2>
+          <div className="app-card"><RunHistoryList rows={runs} /></div>
         </section>
 
         {/* 식단 — 끼니마다 "식단 · 아침" 라벨 한 줄 + 목록 한 장.
@@ -165,13 +171,13 @@ export default async function CalendarDayPage({
                   <ul className="app-list">
                     {foodsByMeal(meal).map((f) => (
                       <li key={f.id} className="app-row min-h-[2.75rem] justify-between">
-                        <span className="min-w-0 truncate text-sm text-zinc-900 dark:text-zinc-100">
+                        <span className="min-w-0 truncate text-sm text-foreground">
                           {f.name}
                           {f.amount ? (
                             <span className="ml-1 text-xs text-zinc-400">{f.amount}</span>
                           ) : null}
                         </span>
-                        <span className="shrink-0 text-sm tabular-nums text-zinc-500 dark:text-zinc-400">
+                        <span className="shrink-0 text-sm tabular-nums text-muted">
                           +{Math.round(f.kcal)}
                         </span>
                       </li>
@@ -200,7 +206,7 @@ function DayStat({
 }) {
   return (
     <div className="min-w-0 px-1 text-center">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className={`mt-0.5 truncate text-sm font-semibold tabular-nums ${tone}`}>{value}</p>
       {sub ? <p className="truncate text-xs tabular-nums text-zinc-400">{sub}</p> : null}
     </div>

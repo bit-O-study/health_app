@@ -11,14 +11,14 @@ export default async function RecordsPage() {
   if (!await getCurrentUser()) redirect("/login");
   const dashboard = await getHomeDashboard();
   return <div className="app-page">
-    <PageHeader branded title="나의 운동 기록" />
+    <PageHeader title="나의 운동 기록" back="캘린더" backHref="/calendar" />
     <main className="app-container space-y-4">
       <div className="grid grid-cols-2 gap-3">
         <Link className="app-card p-5 font-semibold text-brand" href="/settings/progress">성장 그래프 →</Link>
         <Link className="app-card p-5 font-semibold text-brand" href="/settings/score">운동 점수 · 근육 밸런스 →</Link>
       </div>
       <ContributionGraph days={dashboard.contributions} totalWorkoutDays={dashboard.workoutCount} />
-      <Link href="/settings/history" className="block py-3 text-sm font-semibold text-brand">날짜별 상세 기록 →</Link>
+      <Link href="/calendar" className="block py-3 text-sm font-semibold text-brand">날짜별 상세 기록 →</Link>
     </main>
   </div>;
 }

@@ -93,7 +93,7 @@ export default function GlobalError({
                 fontWeight: 700,
                 padding: "10px 18px",
                 fontSize: 14,
-              }}
+              }} className="min-h-11 min-w-11"
             >
               다시 시도
             </button>

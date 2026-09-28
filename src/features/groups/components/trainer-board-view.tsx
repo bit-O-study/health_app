@@ -56,7 +56,7 @@ export function TrainerBoardView({
 
   return (
     <section className="space-y-3">
-      <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="-mt-1 truncate px-1 text-sm text-muted">
         {groupName} · {weekFrom.slice(5)} ~ {weekTo.slice(5)} 이번 주
       </p>
 
@@ -77,14 +77,14 @@ export function TrainerBoardView({
         ].map((s) => (
           <div key={s.label} className="min-w-0 px-1 text-center">
             <p className={`text-xl font-bold tabular-nums ${s.tone}`}>{s.value}</p>
-            <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{s.label}</p>
+            <p className="truncate text-xs text-muted">{s.label}</p>
           </div>
         ))}
       </div>
       </div>
 
       {members.length === 0 ? (
-        <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-card p-3 text-center text-sm text-muted">
           아직 담당 회원이 없어요 · 초대 링크를 보내면 나타나요
         </p>
       ) : (
@@ -113,7 +113,7 @@ export function TrainerBoardView({
                   <AdherenceBadge m={m} />
                 </div>
 
-                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500 dark:text-zinc-400">
+                <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
                   <span className="inline-flex items-center gap-1">
                     <Dumbbell aria-hidden="true" size={12} className="text-zinc-400" />
                     운동 {m.workoutDays}일

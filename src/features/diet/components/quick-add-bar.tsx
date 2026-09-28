@@ -13,6 +13,7 @@ import {
   nowSeoulHHMM,
   quickFoodInput,
   rankQuickFoods,
+  quickKey,
   type RecentFood,
 } from "@/features/diet/quick-add";
 
@@ -28,12 +29,14 @@ import {
  */
 export function QuickAddBar({
   recent,
+  favorites = [],
   today,
   date,
   onAdd,
   onCopy,
 }: {
   recent: RecentFood[];
+  favorites?: RecentFood[];
   today: string;
   /** 지금 보고 있는 날짜 — 오늘이 아니면 시간은 안 붙인다(그날 몇 시였는지 모른다). */
   date: string;
@@ -52,8 +55,12 @@ export function QuickAddBar({
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
 
   const foods = useMemo(
-    () => rankQuickFoods(recent, { meal, today: date }),
-    [recent, meal, date],
+    () => {
+      const ranked = rankQuickFoods(recent, { meal, today: date });
+      const saved = favorites.map(f => ({ ...f, key: quickKey(f), count: 0 }));
+      return [...saved, ...ranked.filter(f => !saved.some(s => s.key === f.key))].slice(0, 8);
+    },
+    [recent, favorites, meal, date],
   );
   const source = useMemo(() => lastMealOf(recent, meal), [recent, meal]);
 
@@ -81,11 +88,11 @@ export function QuickAddBar({
             aria-pressed={meal === m}
             data-testid="quick-meal"
             onClick={() => setMeal(m)}
-            className={`app-press h-8 flex-1 rounded-full text-xs font-semibold transition ${
+            className={"min-h-11 min-w-11 " + (`app-press h-8 flex-1 rounded-full text-xs font-semibold transition ${
               meal === m
                 ? "bg-brand text-white dark:text-zinc-950"
                 : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-300"
-            }`}
+            }`)}
           >
             {MEAL_LABEL[m]}
           </button>
@@ -93,7 +100,7 @@ export function QuickAddBar({
       </div>
 
       {foods.length === 0 ? (
-        <p className="mt-3 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-3 text-xs text-muted">
           며칠 기록하면 자주 먹는 음식이 여기 모여요 — 그다음부터는 한 번에 담을 수 있어요.
         </p>
       ) : (
@@ -112,11 +119,11 @@ export function QuickAddBar({
                     )
                   }
                   aria-label={`${f.name} ${MEAL_LABEL[meal]}에 담기`}
-                  className={`app-press inline-flex h-9 max-w-[16rem] items-center gap-1 rounded-full px-3 text-xs font-semibold transition ${
+                  className={"min-h-11 min-w-11 " + (`app-press inline-flex h-9 max-w-[16rem] items-center gap-1 rounded-full px-3 text-xs font-semibold transition ${
                     done
                       ? "bg-brand text-white dark:text-zinc-950"
                       : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
-                  }`}
+                  }`)}
                 >
                   {done ? (
                     <Check aria-hidden="true" size={13} />
@@ -139,7 +146,7 @@ export function QuickAddBar({
           type="button"
           data-testid="quick-copy"
           onClick={() => onCopy(meal, source.date)}
-          className="app-press mt-2.5 flex w-full items-center gap-2 rounded-xl border border-dashed border-zinc-300 px-3 py-2 text-left dark:border-zinc-600"
+          className="min-h-11 min-w-11 app-press mt-2.5 flex w-full items-center gap-2 rounded-xl border border-dashed border-zinc-300 px-3 py-2 text-left dark:border-zinc-600"
         >
           <Copy aria-hidden="true" size={14} className="shrink-0 text-zinc-400" />
           <span className="min-w-0 flex-1">

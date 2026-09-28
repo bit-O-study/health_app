@@ -170,7 +170,7 @@ function IconButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="shrink-0 rounded-lg p-1 transition hover:bg-black/5 dark:hover:bg-white/10"
+      className="min-h-11 min-w-11 shrink-0 rounded-lg p-1 transition hover:bg-black/5 dark:hover:bg-white/10"
     >
       {children}
     </button>

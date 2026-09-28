@@ -71,7 +71,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
           <span className="block text-base font-semibold text-zinc-950 dark:text-zinc-100">
             {status.premium ? "프리미엄" : "무료"}
           </span>
-          <span className="block text-xs text-zinc-500 dark:text-zinc-400">{status.label}</span>
+          <span className="block text-xs text-muted">{status.label}</span>
         </span>
       </section>
 
@@ -83,12 +83,12 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
       <section data-testid="premium-benefits">
         <div className="flex items-baseline justify-between">
           <h2 className="app-section-label">한 달에 쓸 수 있는 횟수</h2>
-          <span className="mb-1.5 px-1 text-xs text-zinc-500 dark:text-zinc-400">
+          <span className="mb-1.5 px-1 text-xs text-muted">
             월 {PREMIUM_PRICE_KRW.toLocaleString("ko-KR")}원 · 언제든 해지
           </span>
         </div>
         <ul className="app-list">
-          <li className="flex items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+          <li className="flex items-center justify-between gap-2 px-3 py-2 text-xs font-semibold text-muted">
             <span>기능</span>
             <span className="flex gap-6">
               <span className="w-10 text-right">무료</span>
@@ -127,7 +127,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             data-testid="subscribe-button"
             disabled={pending || status.premium}
             onClick={() => run(() => purchaseSubscription(PREMIUM_PRODUCT_ID))}
-            className="app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+            className="min-h-11 min-w-11 app-press inline-flex h-11 items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
           >
             {pending ? (
               <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -142,7 +142,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
             data-testid="restore-button"
             disabled={pending}
             onClick={() => run(restorePurchase)}
-            className="inline-flex h-9 items-center justify-center gap-1 text-sm font-semibold text-brand disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex h-9 items-center justify-center gap-1 text-sm font-semibold text-brand disabled:opacity-50"
           >
             <RotateCcw aria-hidden="true" size={14} />
             구매 복원

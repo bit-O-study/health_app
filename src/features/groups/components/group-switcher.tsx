@@ -39,11 +39,11 @@ export function GroupSwitcher({
             type="button"
             onClick={() => go(g.id)}
             aria-current={active ? "true" : undefined}
-            className={`inline-flex max-w-full items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium transition-colors ${
+            className={"min-h-11 min-w-11 " + (`inline-flex max-w-full items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-medium transition-colors ${
               active
-                ? "bg-white/70 text-emerald-700 dark:bg-emerald-400/15 dark:text-emerald-300"
+                ? "bg-white/70 text-brand dark:bg-emerald-400/15 dark:text-brand"
                 : "text-amber-950/55 hover:bg-black/5 hover:text-amber-950/80 dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-zinc-200"
-            }`}
+            }`)}
           >
             {loading ? (
               <Loader2 aria-hidden="true" size={13} className="shrink-0 animate-spin" />
@@ -58,7 +58,7 @@ export function GroupSwitcher({
       <Link
         href="/groups/manage"
         aria-label="그룹 만들기/참여"
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-dashed border-amber-950/25 text-amber-950/45 transition hover:border-emerald-500 hover:text-emerald-600 dark:border-zinc-600 dark:text-zinc-400 dark:hover:border-emerald-400 dark:hover:text-emerald-400"
+        className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-dashed border-amber-950/25 text-amber-950/45 transition hover:border-brand hover:text-brand dark:border-zinc-600 dark:text-zinc-400 dark:hover:border-brand dark:hover:text-brand"
       >
         <Plus aria-hidden="true" size={14} />
       </Link>

@@ -111,7 +111,7 @@ export function MuscleBodyInset({
       onPointerMove={(e) => e.stopPropagation()}
       onPointerUp={(e) => e.stopPropagation()}
       onClick={onOpen}
-      className="absolute bottom-2 left-2 z-10 flex flex-col items-center rounded-xl bg-black/55 px-2 pb-1 pt-0.5 backdrop-blur-sm transition hover:bg-black/70"
+      className="min-h-11 min-w-11 absolute bottom-2 left-2 z-10 flex flex-col items-center rounded-xl bg-black/55 px-2 pb-1 pt-0.5 backdrop-blur-sm transition hover:bg-black/70"
     >
       <span className="text-xs font-bold text-white/90">자극 부위</span>
       <Model
@@ -152,7 +152,7 @@ export function MuscleBodyModal({
           type="button"
           aria-label="닫기"
           onClick={onClose}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-800 text-zinc-200 transition hover:bg-zinc-700"
+          className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-800 text-zinc-200 transition hover:bg-zinc-700"
         >
           <X aria-hidden="true" size={18} />
         </button>

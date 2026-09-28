@@ -39,7 +39,7 @@ export function SelectedGymSummary({
       <button
         type="button"
         onClick={onChange}
-        className="shrink-0 rounded-md border border-brand/40 bg-white px-2.5 py-1 text-xs font-semibold text-brand transition hover:bg-brand-soft dark:bg-zinc-900"
+        className="min-h-11 min-w-11 shrink-0 rounded-md border border-brand/40 bg-white px-2.5 py-1 text-xs font-semibold text-brand transition hover:bg-brand-soft dark:bg-zinc-900"
       >
         {changeLabel}
       </button>
@@ -80,13 +80,13 @@ export function GymEquipmentPicker({
       <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">
         보유 기구
       </p>
-      <p className="mb-3 mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mb-3 mt-0.5 text-xs text-muted">
         {SOURCE_HINT[source]}
       </p>
       <div className="space-y-3">
         {GYM_EQUIPMENT_GROUPS.map((group) => (
           <div key={group.label}>
-            <p className="mb-1 text-xs font-bold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+            <p className="mb-1 text-xs font-bold uppercase tracking-wide text-muted">
               {group.label}
             </p>
             <div className="flex flex-wrap gap-1.5">
@@ -98,12 +98,12 @@ export function GymEquipmentPicker({
                     type="button"
                     onClick={() => onToggle(it.id)}
                     aria-pressed={on}
-                    className={cn(
+                    className={"min-h-11 min-w-11 " + (cn(
                       "inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-semibold transition",
                       on
                         ? "border-brand/40 bg-brand-soft text-brand"
                         : "border-zinc-300 bg-white text-zinc-600 dark:border-zinc-600 dark:bg-zinc-900 dark:text-zinc-400",
-                    )}
+                    ))}
                   >
                     {on ? <Check aria-hidden="true" size={12} /> : null}
                     {it.label}

@@ -22,7 +22,7 @@ export default function NotFound() {
       </span>
 
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
+        <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-100">
           페이지를 찾을 수 없어요
         </h1>
         <p className="max-w-sm text-sm leading-6 text-zinc-600 dark:text-zinc-400">

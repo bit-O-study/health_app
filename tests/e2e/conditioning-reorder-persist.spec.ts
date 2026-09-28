@@ -70,6 +70,10 @@ test("루틴변경으로 마무리 종목이 달라지면(런닝→차일드포�
   const childRow = page.locator("li").filter({ hasText: "차일드 포즈" }).first();
   await expect(childRow).toBeVisible({ timeout: 8000 });
   await expect(childRow.getByText("완료", { exact: true })).toHaveCount(0);
-  // 이전 부위의 런닝은 오늘 목록에 남지 않는다.
-  await expect(page.locator("li").filter({ hasText: "런닝" })).toHaveCount(0);
+  // 끝낸 운동은 기록으로 남고, 새 종목에 완료 상태가 번지지 않는다.
+  await expect(page.locator("main li").filter({ hasText: "런닝" })).toHaveCount(0);
+  const saved = await dbQuery(
+    `select item_id, status from public.conditioning_completions where user_id=${uid}`, [email],
+  );
+  expect(saved).toEqual([{ item_id: "running", status: "done" }]);
 });

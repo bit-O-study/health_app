@@ -117,7 +117,7 @@ export function TodayEditBar() {
       <button
         type="button"
         onClick={() => ctx.setEditMode(true)}
-        className="inline-flex items-center gap-1 text-xs font-semibold text-brand transition hover:text-brand"
+        className="min-h-11 min-w-11 inline-flex items-center gap-1 text-xs font-semibold text-brand transition hover:text-brand"
       >
         <Pencil aria-hidden="true" size={13} />
         편집하기
@@ -131,7 +131,7 @@ export function TodayEditBar() {
         type="button"
         disabled={pending || count === 0}
         onClick={onDelete}
-        className="inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/40 px-2 text-xs font-semibold text-red-700 dark:text-red-400 transition hover:bg-red-100 disabled:opacity-50"
+        className="min-h-11 min-w-11 inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border border-danger dark:border-danger bg-danger/10 dark:bg-red-950/40 px-2 text-xs font-semibold text-danger dark:text-danger transition hover:bg-danger/10 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={13} />
@@ -144,7 +144,7 @@ export function TodayEditBar() {
         type="button"
         disabled={pending}
         onClick={onCancel}
-        className="inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50"
+        className="min-h-11 min-w-11 inline-flex h-7 shrink-0 items-center gap-1 whitespace-nowrap rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-50"
       >
         <X aria-hidden="true" size={13} />
         취소

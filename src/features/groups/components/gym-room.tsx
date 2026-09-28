@@ -83,7 +83,7 @@ export function GymRoom({
         <button
           type="button"
           onClick={() => setShowMembers(true)}
-          className="flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-zinc-700 shadow transition hover:bg-white dark:bg-zinc-900/90 dark:text-zinc-200"
+          className="min-h-11 min-w-11 flex items-center gap-1 rounded-full bg-white/90 px-3 py-1 text-sm font-bold text-zinc-700 shadow transition hover:bg-white dark:bg-zinc-900/90 dark:text-zinc-200"
         >
           <Users size={14} /> {pet.memberCount}명이 함께
         </button>
@@ -98,7 +98,7 @@ export function GymRoom({
               setName(pet.name);
               setEditing((v) => !v);
             }}
-            className="inline-flex items-center gap-0.5 rounded-full bg-white/90 px-1.5 py-0.5 text-xs font-bold text-zinc-700 shadow dark:bg-zinc-800/90 dark:text-zinc-200"
+            className="min-h-11 min-w-11 inline-flex items-center gap-0.5 rounded-full bg-white/90 px-1.5 py-0.5 text-xs font-bold text-zinc-700 shadow dark:bg-zinc-800/90 dark:text-zinc-200"
           >
             <Pencil size={10} /> 이름
           </button>
@@ -118,7 +118,7 @@ export function GymRoom({
               type="button"
               onClick={saveName}
               disabled={pending}
-              className="inline-flex h-7 w-7 shrink-0 items-center justify-center rounded bg-emerald-600 text-white"
+              className="min-h-11 min-w-11 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded bg-emerald-600 text-white"
             >
               <Check size={13} />
             </button>
@@ -214,7 +214,7 @@ export function GymRoom({
                 type="button"
                 onClick={() => deposit(Number(amount))}
                 disabled={pending || !amount}
-                className="inline-flex h-10 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-bold text-white shadow disabled:opacity-60"
+                className="min-h-11 min-w-11 inline-flex h-10 shrink-0 items-center gap-1 rounded-lg bg-gradient-to-r from-violet-600 to-fuchsia-600 px-3 text-sm font-bold text-white shadow disabled:opacity-60"
               >
                 {pending ? <Loader2 size={15} className="animate-spin" /> : null}
                 넣기
@@ -227,14 +227,14 @@ export function GymRoom({
                   setMsg(null);
                 }}
                 disabled={pending}
-                className="h-10 shrink-0 rounded-lg border border-zinc-300 px-2 text-xs font-bold text-zinc-500 disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300"
+                className="min-h-11 min-w-11 h-10 shrink-0 rounded-lg border border-zinc-300 px-2 text-xs font-bold text-zinc-500 disabled:opacity-60 dark:border-zinc-600 dark:text-zinc-300"
               >
                 취소
               </button>
               <button
                 type="button"
                 onClick={() => setAmount(String(pet.coins))}
-                className="h-10 shrink-0 rounded-lg bg-zinc-200 px-2 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200"
+                className="min-h-11 min-w-11 h-10 shrink-0 rounded-lg bg-zinc-200 px-2 text-xs font-bold text-zinc-600 dark:bg-zinc-700 dark:text-zinc-200"
               >
                 전부
               </button>
@@ -247,7 +247,7 @@ export function GymRoom({
                 setDepositOpen(true);
               }}
               disabled={pet.coins <= 0}
-              className="mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-bold text-white shadow transition hover:brightness-110 disabled:opacity-60"
+              className="min-h-11 min-w-11 mt-2 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 text-sm font-bold text-white shadow transition hover:brightness-110 disabled:opacity-60"
             >
               🪙 코인 넣기 (보유 {pet.coins.toLocaleString()})
             </button>
@@ -273,7 +273,7 @@ export function GymRoom({
                 type="button"
                 onClick={() => setShowMembers(false)}
                 aria-label="닫기"
-                className="text-zinc-400"
+                className="min-h-11 min-w-11 text-zinc-400"
               >
                 <X size={18} />
               </button>

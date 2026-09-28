@@ -97,7 +97,7 @@ function HeaderBar({ isLoggedIn }: { isLoggedIn: boolean }) {
             </>
           ) : (
             <Link
-              className="inline-flex h-9 items-center gap-1.5 rounded-md bg-zinc-900 px-3.5 text-sm font-semibold text-white transition hover:bg-zinc-700"
+              className="inline-flex h-11 items-center gap-1.5 rounded-md bg-brand px-3.5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
               href="/login"
             >
               <LogIn aria-hidden="true" size={15} />
@@ -200,14 +200,14 @@ function LoggedOutHero() {
     <section className="flex flex-col items-start gap-6 py-10">
       <span className="inline-flex items-center gap-2 rounded-full border border-brand/40 bg-brand-soft px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand">
         <Sparkles aria-hidden="true" size={14} />
-        Personalized workout
+        나에게 맞는 운동
       </span>
       <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl">
         오늘 뭐 해야 하지?
         <br />
         루틴이 매일 알려줍니다.
       </h1>
-      <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400 sm:text-lg">
+      <p className="max-w-xl text-base leading-7 text-zinc-600 dark:text-zinc-400 sm:text-base">
         로그인하고 분할 루틴을 한 번만 설정하면, 메인 화면이 매일 그날 날짜에
         맞는 운동을 자동으로 안내합니다.
       </p>
@@ -237,7 +237,7 @@ function NoRoutinePrompt() {
         <CalendarDays aria-hidden="true" size={28} />
       </span>
       <div className="space-y-2">
-        <h1 className="text-2xl font-bold text-zinc-950 dark:text-zinc-100">
+        <h1 className="text-xl font-bold text-zinc-950 dark:text-zinc-100">
           아직 설정한 루틴이 없습니다
         </h1>
         <p className="max-w-md text-sm leading-6 text-zinc-600 dark:text-zinc-400">
@@ -422,7 +422,7 @@ function TodayWorkout({
     <div className="space-y-5">
       {/* 아이폰 큰 제목 — 날짜·루틴 한 줄이 위, 제목이 아래 */}
       <div className="px-1">
-        <p className="truncate text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+        <p className="truncate text-xs font-semibold text-muted">
           {dateLabel} · {routineDisplayLabel(preset.label, variant.name)}
         </p>
         <h1 className="app-title">
@@ -479,7 +479,7 @@ function TodayWorkout({
                 <div className="flex items-center gap-3">
                   <DayMuscleMap names={dayMuscles} width={30} />
                   <div className="flex min-w-0 flex-1 flex-wrap items-center gap-1">
-                    <span className="mr-0.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                    <span className="mr-0.5 text-xs font-semibold text-muted">
                       자극 부위
                     </span>
                     {dayMuscles.map((muscle) => (

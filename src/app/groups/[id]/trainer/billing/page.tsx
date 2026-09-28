@@ -26,7 +26,7 @@ export default async function TeamBillingPage({
       <div className="app-page">
         <PageHeader title="팀 요금제" back="그룹으로" backHref={`/groups/${id}`} />
         <main className="app-container">
-          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             팀 요금제는 그룹장만 볼 수 있어요.
           </p>
         </main>
@@ -48,7 +48,7 @@ export default async function TeamBillingPage({
     <div className="app-page">
       <PageHeader title="팀 요금제" back="회원 관리" backHref={`/groups/${id}/trainer`} />
       <main className="app-container space-y-3">
-      <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="-mt-1 truncate px-1 text-sm text-muted">
         {board.groupName} 회원 전원 프리미엄 · 회원 결제 없음
       </p>
 

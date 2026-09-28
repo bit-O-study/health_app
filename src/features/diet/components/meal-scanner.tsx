@@ -116,7 +116,7 @@ export function MealScanForm({
         type="button"
         onClick={() => inputRef.current?.click()}
         disabled={pending}
-        className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 text-sm font-bold text-white transition hover:brightness-110 disabled:opacity-60"
+        className="min-h-11 min-w-11 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 px-4 text-sm font-bold text-white transition hover:brightness-110 disabled:opacity-60"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={17} className="animate-spin" />
@@ -131,7 +131,7 @@ export function MealScanForm({
       </button>
 
       {error ? (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-600 dark:bg-red-950/40 dark:text-red-400">
+        <p className="rounded-lg bg-danger/10 px-3 py-2 text-sm font-semibold text-danger dark:bg-red-950/40 dark:text-danger">
           {error}
         </p>
       ) : null}
@@ -150,11 +150,11 @@ export function MealScanForm({
                     setChecked((c) => ({ ...c, [i]: !c[i] }))
                   }
                   aria-pressed={!!checked[i]}
-                  className={`flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition ${
+                  className={"min-h-11 min-w-11 " + (`flex w-full items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition ${
                     checked[i]
                       ? "border-brand/40 bg-brand-soft"
                       : "border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-900"
-                  }`}
+                  }`)}
                 >
                   <span
                     className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-md border ${
@@ -174,7 +174,7 @@ export function MealScanForm({
                         </span>
                       ) : null}
                     </p>
-                    <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                    <p className="text-xs text-muted">
                       {Math.round(it.kcal)}kcal
                       {it.protein != null ? ` · 단 ${it.protein}` : ""}
                       {it.carbs != null ? ` · 탄 ${it.carbs}` : ""}
@@ -189,7 +189,7 @@ export function MealScanForm({
             type="button"
             disabled={!anyChecked}
             onClick={addSelected}
-            className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+            className="min-h-11 min-w-11 h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             선택한 음식 담기
           </button>

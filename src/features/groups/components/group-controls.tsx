@@ -155,16 +155,9 @@ export function GroupControls({
           dialogTitle: "친구에게 초대 보내기",
         });
         return;
-      } catch (e) {
-        // 실패 원인을 그대로 노출(브리지/플러그인 진단) — 링크 복사로 폴백.
+      } catch {
         await copyLink();
-        window.alert(
-          `앱 공유 실패 → 링크 복사함.\n사유: ${
-            e instanceof Error ? e.message : String(e)
-          }\n[진단] 앱UA:${ua.includes("helssu-app") ? "O" : "X"} · 웹뷰:${
-            isAndroidWebView ? "O" : "X"
-          }`,
-        );
+        window.alert("공유 창을 열지 못해 초대 링크를 복사했어요. 메시지에 붙여 넣어 주세요.");
         return;
       }
     }
@@ -231,7 +224,7 @@ export function GroupControls({
           type="button"
           onClick={shareKakao}
           disabled={sharing}
-          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-xs font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg bg-[#FEE500] text-xs font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
         >
           {sharing ? (
             <Loader2 aria-hidden="true" size={13} className="animate-spin" />
@@ -243,7 +236,7 @@ export function GroupControls({
         <button
           type="button"
           onClick={copyLink}
-          className="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-brand/40 bg-brand-soft text-xs font-bold text-brand transition hover:bg-brand-soft"
+          className="min-h-11 min-w-11 inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-lg border border-brand/40 bg-brand-soft text-xs font-bold text-brand transition hover:bg-brand-soft"
         >
           {copied ? (
             <Check aria-hidden="true" size={13} />
@@ -257,7 +250,7 @@ export function GroupControls({
           disabled={pending}
           onClick={isOwner ? remove : leave}
           aria-label={isOwner ? "그룹 삭제" : "그룹 나가기"}
-          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 transition hover:bg-red-50 hover:text-red-600 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-red-950/40"
+          className="min-h-11 min-w-11 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-300 text-zinc-500 transition hover:bg-danger/10 hover:text-danger disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-red-950/40"
         >
           {isOwner ? (
             <Trash2 aria-hidden="true" size={14} />
@@ -275,7 +268,7 @@ export function GroupControls({
         type="button"
         onClick={shareKakao}
         disabled={sharing}
-        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#FEE500] text-base font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
+        className="min-h-11 min-w-11 flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-[#FEE500] text-base font-bold text-[#191600] transition hover:brightness-95 disabled:opacity-60"
       >
         {sharing ? (
           <Loader2 aria-hidden="true" size={18} className="animate-spin" />
@@ -288,7 +281,7 @@ export function GroupControls({
       <button
         type="button"
         onClick={copyLink}
-        className="flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-brand/40 bg-brand-soft text-base font-bold text-brand transition hover:bg-brand-soft"
+        className="min-h-11 min-w-11 flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-brand/40 bg-brand-soft text-base font-bold text-brand transition hover:bg-brand-soft"
       >
         {copied ? (
           <>
@@ -307,7 +300,7 @@ export function GroupControls({
           type="button"
           disabled={pending}
           onClick={remove}
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-red-300 text-sm font-bold text-red-600 transition hover:bg-red-50 disabled:opacity-50 dark:border-red-800 dark:hover:bg-red-950/40"
+          className="min-h-11 min-w-11 flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-danger text-sm font-bold text-danger transition hover:bg-danger/10 disabled:opacity-50 dark:border-danger dark:hover:bg-red-950/40"
         >
           <Trash2 aria-hidden="true" size={16} /> 그룹 삭제
         </button>
@@ -316,7 +309,7 @@ export function GroupControls({
           type="button"
           disabled={pending}
           onClick={leave}
-          className="flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-zinc-300 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          className="min-h-11 min-w-11 flex h-10 w-full items-center justify-center gap-2 rounded-xl border border-zinc-300 text-sm font-bold text-zinc-600 transition hover:bg-zinc-50 disabled:opacity-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
         >
           <LogOut aria-hidden="true" size={16} /> 그룹 나가기
         </button>

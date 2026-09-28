@@ -67,7 +67,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
               <Camera aria-hidden="true" size={18} />
             </span>
-            <h2 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-base font-semibold text-foreground">
               기구 검색
             </h2>
           </div>

@@ -170,9 +170,9 @@ export default async function TodayConditioningPage({
     <div className="app-page">
     <PageHeader title="오늘만 운동 바꾸기" back="운동" backHref="/routine" />
     <main className="app-container space-y-4">
-      <p className="px-1 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="px-1 text-sm text-muted">
         {dateLabel} ·{" "}
-        <span className="font-semibold text-zinc-900 dark:text-zinc-100">
+        <span className="font-semibold text-foreground">
           {direct
             ? "전체 운동에서 직접 담기"
             : mainSections.length > 0
@@ -183,7 +183,7 @@ export default async function TodayConditioningPage({
       </p>
 
       {!direct && mainSections.length === 0 ? (
-        <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-card p-3 text-center text-sm text-muted">
           편집할 부위가 없습니다. 운동탭 “오늘만 운동 바꾸기”에서 부위를 선택해 주세요.
         </p>
       ) : (
@@ -239,7 +239,7 @@ export default async function TodayConditioningPage({
         </div>
       )}
 
-      <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="px-1 text-xs text-muted">
         기본 루틴은{" "}
         <Link href="/plan" className="font-semibold text-brand">
           운동 등록

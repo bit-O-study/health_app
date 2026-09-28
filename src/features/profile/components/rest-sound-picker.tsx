@@ -93,13 +93,13 @@ export function RestSoundPicker() {
         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300">
           <Bell aria-hidden="true" size={16} />
         </span>
-        <span className="min-w-0 flex-1 truncate text-base text-zinc-900 dark:text-zinc-100">
+        <span className="min-w-0 flex-1 truncate text-base text-foreground">
           휴식 종료 알림음
         </span>
         <button
           type="button"
           onClick={() => void playRestAlert(ctxRef, kind)}
-          className="app-press inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
+          className="min-h-11 min-w-11 app-press inline-flex h-7 shrink-0 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-brand dark:bg-white/[0.08]"
         >
           <Play aria-hidden="true" size={12} />
           미리듣기
@@ -117,11 +117,11 @@ export function RestSoundPicker() {
                 type="button"
                 onClick={() => choose(o.kind)}
                 aria-pressed={active}
-                className={`h-7 rounded-lg text-xs font-semibold transition ${
+                className={"min-h-11 min-w-11 " + (`h-7 rounded-lg text-xs font-semibold transition ${
                   active
                     ? "bg-white text-zinc-900 shadow-sm dark:bg-zinc-700 dark:text-zinc-50"
-                    : "text-zinc-500 dark:text-zinc-400"
-                }`}
+                    : "text-muted"
+                }`)}
               >
                 {o.label}
               </button>
@@ -142,7 +142,7 @@ export function RestSoundPicker() {
             type="button"
             onClick={() => fileRef.current?.click()}
             disabled={busy}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-brand disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex items-center gap-1 text-xs font-semibold text-brand disabled:opacity-50"
           >
             <Upload aria-hidden="true" size={12} />
             {hasCustom ? "내 소리 변경" : "내 소리 올리기"}
@@ -151,7 +151,7 @@ export function RestSoundPicker() {
             <button
               type="button"
               onClick={removeCustom}
-              className="text-xs font-semibold text-danger"
+              className="min-h-11 min-w-11 text-xs font-semibold text-danger"
             >
               삭제
             </button>

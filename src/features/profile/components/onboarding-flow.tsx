@@ -215,7 +215,7 @@ export function OnboardingFlow({
                     key={option.id}
                     type="button"
                     onClick={() => setGender(option.id)}
-                    className={cn(OPTION_CLS, "h-16 items-center justify-center text-center", active && OPTION_ACTIVE)}
+                    className={"min-h-11 min-w-11 " + (cn(OPTION_CLS, "h-16 items-center justify-center text-center", active && OPTION_ACTIVE))}
                   >
                     <span className="text-base font-semibold text-zinc-950 dark:text-zinc-50">
                       {option.label}
@@ -370,7 +370,7 @@ export function OnboardingFlow({
         {step === "gym" ? (
           <section className="mt-6">
             <h1 className="app-title px-1">헬스장 검색</h1>
-            <p className="mt-1 px-1 text-sm text-zinc-500 dark:text-zinc-400">
+            <p className="mt-1 px-1 text-sm text-muted">
               선택 — 나중에 설정에서 입력해도 돼요.
             </p>
 
@@ -406,7 +406,7 @@ export function OnboardingFlow({
                   setGymEquipment(new Set());
                   setStep("recommend");
                 }}
-                className={cn(SECONDARY_BTN_CLS, "text-zinc-500 dark:text-zinc-400")}
+                className={"min-h-11 min-w-11 " + (cn(SECONDARY_BTN_CLS, "text-muted"))}
               >
                 건너뛰기
               </button>
@@ -425,7 +425,7 @@ export function OnboardingFlow({
               <h1 className="mt-2 text-xl font-bold text-zinc-950 dark:text-zinc-50">
                 {recommendation.headline}
               </h1>
-              <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              <p className="mt-1 text-sm text-muted">
                 {recommendation.reason}
               </p>
             </div>
@@ -441,14 +441,14 @@ export function OnboardingFlow({
               <button
                 type="button"
                 onClick={() => setStep("experience")}
-                className={cn(SECONDARY_BTN_CLS, "h-9 px-4 text-sm")}
+                className={"min-h-11 min-w-11 " + (cn(SECONDARY_BTN_CLS, "h-9 px-4 text-sm"))}
               >
                 경력 다시 선택
               </button>
               <button
                 type="button"
                 onClick={() => setStep("gym")}
-                className={cn(SECONDARY_BTN_CLS, "h-9 px-4 text-sm")}
+                className={"min-h-11 min-w-11 " + (cn(SECONDARY_BTN_CLS, "h-9 px-4 text-sm"))}
               >
                 헬스장 다시 입력
               </button>
@@ -491,9 +491,9 @@ function OptionButton({
   onClick: () => void;
 }) {
   return (
-    <button type="button" onClick={onClick} className={cn(OPTION_CLS, active && OPTION_ACTIVE)}>
+    <button type="button" onClick={onClick} className={"min-h-11 min-w-11 " + (cn(OPTION_CLS, active && OPTION_ACTIVE))}>
       <span className="text-base font-semibold text-zinc-950 dark:text-zinc-50">{label}</span>
-      <span className="text-sm text-zinc-500 dark:text-zinc-400">{description}</span>
+      <span className="text-sm text-muted">{description}</span>
     </button>
   );
 }
@@ -505,7 +505,7 @@ function StepNav({ children }: { children: ReactNode }) {
 
 function PrevButton({ onClick }: { onClick: () => void }) {
   return (
-    <button type="button" onClick={onClick} className={SECONDARY_BTN_CLS}>
+    <button type="button" onClick={onClick} className={"min-h-11 min-w-11 " + (SECONDARY_BTN_CLS)}>
       이전
     </button>
   );
@@ -518,7 +518,7 @@ function NextButton({ disabled = false, onClick }: { disabled?: boolean; onClick
       type="button"
       disabled={disabled}
       onClick={onClick}
-      className="app-press inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-full bg-brand px-6 text-base font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-950"
+      className="min-h-11 min-w-11 app-press inline-flex h-11 flex-1 items-center justify-center gap-1.5 rounded-full bg-brand px-6 text-base font-semibold text-white transition disabled:cursor-not-allowed disabled:opacity-40 dark:text-zinc-950"
     >
       다음
       <ArrowRight aria-hidden="true" size={17} />

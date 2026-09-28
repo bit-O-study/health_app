@@ -78,7 +78,7 @@ function PendingCard({ member }: { member: ProofMember }) {
   return (
     <div className="relative flex aspect-[3/4] w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-zinc-300 bg-zinc-100 dark:border-zinc-700 dark:bg-zinc-800/50">
       <Dumbbell size={26} className="text-zinc-400" />
-      <span className="text-sm font-bold text-zinc-500 dark:text-zinc-400">
+      <span className="text-sm font-bold text-muted">
         {member.name}
       </span>
       <span className="text-xs text-zinc-400">아직 인증 전</span>
@@ -152,7 +152,7 @@ export function GroupProofBoard({
                 <button
                   type="button"
                   onClick={() => setSelected(m)}
-                  className="block w-full rounded-2xl text-left transition active:scale-[0.98]"
+                  className="min-h-11 min-w-11 block w-full rounded-2xl text-left transition active:scale-[0.98]"
                 >
                   <ProofCard member={m} />
                 </button>
@@ -161,7 +161,7 @@ export function GroupProofBoard({
                   onClick={removeMine}
                   disabled={deleting}
                   aria-label="내 인증 삭제"
-                  className="absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white shadow-lg active:scale-90 disabled:opacity-50"
+                  className="min-h-11 min-w-11 absolute bottom-2 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-black/60 text-white shadow-lg active:scale-90 disabled:opacity-50"
                 >
                   <X size={16} />
                 </button>
@@ -171,7 +171,7 @@ export function GroupProofBoard({
                 key={m.userId}
                 type="button"
                 onClick={() => setSelected(m)}
-                className="block rounded-2xl text-left transition active:scale-[0.98]"
+                className="min-h-11 min-w-11 block rounded-2xl text-left transition active:scale-[0.98]"
               >
                 <ProofCard member={m} />
               </button>
@@ -184,7 +184,7 @@ export function GroupProofBoard({
                 key={m.userId}
                 type="button"
                 onClick={() => setRecording(true)}
-                className="block rounded-2xl text-left transition active:scale-[0.98]"
+                className="min-h-11 min-w-11 block rounded-2xl text-left transition active:scale-[0.98]"
               >
                 <MyRecordCard />
               </button>
@@ -193,7 +193,7 @@ export function GroupProofBoard({
                 key={m.userId}
                 type="button"
                 onClick={() => setSelected(m)}
-                className="block rounded-2xl text-left transition active:scale-[0.98]"
+                className="min-h-11 min-w-11 block rounded-2xl text-left transition active:scale-[0.98]"
               >
                 <PendingCard member={m} />
               </button>

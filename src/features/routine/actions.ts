@@ -1,7 +1,7 @@
 "use server";
 
 import { getRecommendationContext } from "./recommendation-data";
-import { personalizeExercises } from "./recommend-personalization";
+import { recommendSlot } from "./recommend-slot";
 
 import { revalidatePath } from "next/cache";
 
@@ -23,10 +23,7 @@ import {
 } from "@/features/routine/data";
 import { prescribe } from "@/features/routine/exercise-catalog";
 import {
-  allExercisesForSlot,
-  focusExercisesForSlot,
   focusVariantIndex,
-  sideExercisesForSlot,
 } from "@/features/routine/recommend";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import {
@@ -41,7 +38,6 @@ import {
   syncRoutineExerciseDays,
 } from "@/features/routine/day-index-migration";
 import { replaceRoutineExerciseGroups } from "@/features/routine/routine-exercise-writes";
-import { shouldAdvanceStartDate } from "@/features/routine/defer-carry";
 
 export type SaveRoutineResult = { ok: true } | { ok: false; error: string };
 
@@ -228,15 +224,9 @@ async function fillMissingFocusesAction(
     weightKg: profile.weightKg ?? 65,
   };
   const groups = missing.map((slot) => {
-    const base = slot.isSide
-      ? sideExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, profile.gender, gymSet, {
-          experience: profile.experience,
-          // 같은 주에 같은 부위가 또 나오면 A/B 로 번갈아 — 전체 주(slots) 기준으로 센다.
-          variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
-          ...signals,
-        });
-    const list = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, recommendationContext, slot.isSide, slot.focus);
+    const list = recommendSlot(slot.focus, slot.blockIds, profile.gender, gymSet, {
+      experience: profile.experience, variant: focusVariantIndex(slots, slot.dayIndex, slot.focus), ...signals,
+    }, recommendationContext, slot.isSide);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
@@ -379,8 +369,7 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
     | null
     | undefined;
   const activeStartDate = row?.start_date ?? today;
-  const cycleStartDate =
-    row?.rest_date === today ? addDaysYmd(activeStartDate, -1) : activeStartDate;
+  const cycleStartDate = activeStartDate;
   const todayOffset = routineDayOffset(cycleStartDate, today);
 
   const update: Record<string, unknown> = {
@@ -440,23 +429,8 @@ export async function restartRoutineFromTodayAction(): Promise<void> {
  * 오늘을 휴식으로 전환하고 루틴을 하루 미룬다.
  * 기준일 +1일 → 오늘 예정이던 운동이 내일로 이동, 오늘은 휴식 표시.
  */
-/**
- * "오늘만 변경(전체 바꾸기/직접 담기)" 용 — **오늘 원래 운동을 내일로 미룬다(전체 루틴 하루 밀기).**
- * start_date +1 로 오늘 예정이던 운동이 내일로, 그 뒤 스케줄도 하루씩 뒤로 밀린다.
- * ('오늘 휴식 전환'(convertTodayToRestAction)과 동일한 방식 — 오늘 하려던 걸 못 했으니
- * 사라지지 않고 내일로.) 사용자가 원한 동작. (예전엔 밀지 않고 오늘만 숨겼다가 원래
- * 운동이 그냥 사라지는 버그가 있었다.)
- *
- * 오늘 표시: last_deferred_date 마커로 '변경된 날'로 표시 → page 가 오늘 원래 루틴 운동을
- * 숨겨(routineTones=[]) 사용자가 담은 새 운동(daily_plan)만 보이게 한다(완료 기록은 보존).
- * deferred_target(직접/부위)을 기억해 '운동 등록하기' 링크를 그 흐름으로 보낸다. 오늘
- * 워밍업/마무리 오버라이드도 비운다(본운동 daily_plan 은 호출측 clearDailyPlanForDateAction).
- *
- * ⚠ 같은 날 이 액션이 두 번 불려도(예: 담기 → 다시 바꾸기) start_date 를 두 번 밀지 않는다
- * (last_deferred_date 가 이미 오늘이면 이미 민 상태 → 스킵). 아니면 원래 운동이 모레로
- * 더 밀려 하루가 빈다.
- */
-export async function deferRoutineOneDayAction(
+/** 오늘 한정 교체 표시. 루틴 일정과 영구 운동은 변경하지 않는다. */
+export async function replaceTodayFocusAction(
   target?: string,
 ): Promise<void> {
   const supabase = await createSupabaseServerClient();
@@ -465,18 +439,6 @@ export async function deferRoutineOneDayAction(
 
   const today = seoulYmd();
 
-  const { data } = await supabase
-    .from("user_routines")
-    .select("start_date, last_deferred_date")
-    .eq("user_id", user.id)
-    .maybeSingle();
-  if (!data) return;
-  const row = data as { start_date: string; last_deferred_date: string | null };
-  // 오늘 아직 안 밀렸을 때만 +1 (같은 날 재호출 시 이중 밀기 방지).
-  const nextStartDate = shouldAdvanceStartDate(row.last_deferred_date, today)
-    ? addDaysYmd(row.start_date, 1)
-    : row.start_date;
-
   // 오늘 워밍업/마무리 오버라이드 비우기.
   await supabase
     .from("daily_conditioning")
@@ -484,11 +446,10 @@ export async function deferRoutineOneDayAction(
     .eq("user_id", user.id)
     .eq("for_date", today);
 
-  // 오늘을 '변경된 날'로 마킹 + 루틴 하루 밀기(start_date +1).
+  // 오늘 화면만 교체 상태로 표시. 날짜가 바뀌면 원래 루틴이 다시 적용된다.
   await supabase
     .from("user_routines")
     .update({
-      start_date: nextStartDate,
       last_deferred_date: today,
       deferred_target: target ?? null,
       rest_date: null,
@@ -505,19 +466,10 @@ export async function convertTodayToRestAction(): Promise<void> {
   const user = await getCurrentUser();
   if (!user) return;
 
-  const { data } = await supabase
-    .from("user_routines")
-    .select("start_date")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  if (!data) return;
-
   const today = seoulYmd();
   await supabase
     .from("user_routines")
     .update({
-      start_date: addDaysYmd((data as { start_date: string }).start_date, 1),
       rest_date: today,
       override_date: null,
       override_block: null,
@@ -530,7 +482,7 @@ export async function convertTodayToRestAction(): Promise<void> {
 /**
  *"다시 운동하기" — convertTodayToRest 의 반대.
  * 오늘이 휴식 상태(rest_date == 오늘)인 경우에만:
- * start_date 를 -1 일 되돌리고 rest_date 를 null 로.
+ * rest_date만 해제한다. 영구 루틴 일정은 변경하지 않는다.
  * 직전에 표시되던 운동 데이터가 다시 오늘로 돌아온다.
  */
 export async function undoTodayRestAction(): Promise<void> {
@@ -541,40 +493,16 @@ export async function undoTodayRestAction(): Promise<void> {
   const today = seoulYmd();
   const { data } = await supabase
     .from("user_routines")
-    .select("start_date, rest_date")
+    .select("rest_date")
     .eq("user_id", user.id)
     .maybeSingle();
   if (!data) return;
-  const row = data as { start_date: string; rest_date: string | null };
+  const row = data as { rest_date: string | null };
   if (row.rest_date !== today) return;
 
   await supabase
     .from("user_routines")
     .update({
-      start_date: addDaysYmd(row.start_date, -1),
-      rest_date: null,
-    })
-    .eq("user_id", user.id);
-
-  revalidatePath("/routine");
-}
-
-/**
- * 오늘 하루만 다른 부위로 변경한다(루틴은 밀지 않음).
- * override_date=오늘, override_block=선택 부위. 내일부터는 원래 루틴 유지.
- */
-export async function setTodayFocusAction(blockId: DayBlockId): Promise<void> {
-  if (!isDayBlockId(blockId)) return;
-
-  const supabase = await createSupabaseServerClient();
-  const user = await getCurrentUser();
-  if (!user) return;
-
-  await supabase
-    .from("user_routines")
-    .update({
-      override_date: seoulYmd(),
-      override_block: blockId,
       rest_date: null,
     })
     .eq("user_id", user.id);

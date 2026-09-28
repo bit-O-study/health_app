@@ -38,7 +38,7 @@ export function VideoPrefToggle({ initialHide }: { initialHide: boolean }) {
         )}
       </span>
       <span className="min-w-0 flex-1">
-        <span className="block truncate text-base text-zinc-900 dark:text-zinc-100">
+        <span className="block truncate text-base text-foreground">
           운동영상 안 보기
         </span>
         {error ? (
@@ -52,9 +52,9 @@ export function VideoPrefToggle({ initialHide }: { initialHide: boolean }) {
         aria-label="운동영상 안 보기"
         disabled={pending}
         onClick={toggle}
-        className={`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-60 ${
+        className={"min-h-11 min-w-11 " + (`relative inline-flex h-7 w-12 shrink-0 items-center rounded-full transition-colors disabled:opacity-60 ${
           hide ? "bg-brand" : "bg-zinc-300 dark:bg-zinc-600"
-        }`}
+        }`)}
       >
         <span
           className={`inline-flex h-5 w-5 items-center justify-center rounded-full bg-white shadow transition-transform ${

@@ -1,6 +1,6 @@
 "use client";
 
-import { savePushSubscriptionAction } from "@/features/notifications/push-actions";
+import { deletePushSubscriptionAction, savePushSubscriptionAction } from "@/features/notifications/push-actions";
 import { reportAppEvent } from "@/lib/observability/report-client";
 
 /** VAPID 공개키(base64url) → Uint8Array (pushManager.subscribe 요구 형식). */
@@ -49,4 +49,20 @@ export async function ensurePushSubscribed(): Promise<void> {
       message: e instanceof Error ? e.message : "구독 저장 실패",
     });
   }
+}
+
+/** Detach before auth cookies are removed so the server can verify ownership. */
+export async function detachPushForLogout(): Promise<void> {
+  if (typeof window === "undefined") return;
+  if ("serviceWorker" in navigator) {
+    const registration = await navigator.serviceWorker.getRegistration();
+    const subscription = await registration?.pushManager?.getSubscription();
+    if (subscription) {
+      const result = await deletePushSubscriptionAction(subscription.endpoint);
+      if (!result.ok) throw new Error("푸시 연결을 해제하지 못했어요.");
+      await subscription.unsubscribe();
+    }
+  }
+  const { unregisterNativePush } = await import("@/features/notifications/native-push");
+  await unregisterNativePush();
 }

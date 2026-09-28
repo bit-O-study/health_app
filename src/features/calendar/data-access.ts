@@ -1,3 +1,4 @@
+import { parseSetDetails, type SetDetail } from "@/features/routine/set-details";
 import "server-only";
 
 import {
@@ -105,6 +106,8 @@ export async function getMonthlyCalendar(
   for (const r of (exRes.data ?? []) as {
     for_date: string;
     exercise_id: string | null;
+    equipment: string | null;
+    focus: string | null;
     sets: number | null;
   }[]) {
     if (!r.exercise_id) continue;
@@ -155,7 +158,7 @@ export type DayDetail = {
   steps: number;
   stepsKcal: number;
   foods: FoodLog[];
-  workouts: { name: string; sets: number; reps: number; weightKg: number | null; kcal: number }[];
+  workouts: { name: string; equipment: string | null; focus: string | null; sets: number; reps: number; weightKg: number | null; kcal: number; setDetails: SetDetail[] | null }[];
   conditioning: { name: string; detail: string; kcal: number }[];
 };
 
@@ -186,7 +189,7 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
     getStepsForDate(dateYmd),
     supabase
       .from("exercise_completions")
-      .select("exercise_id, sets, reps, weight_kg")
+      .select("exercise_id, equipment, focus, sets, reps, weight_kg, set_details")
       .eq("user_id", user.id)
       .eq("for_date", dateYmd)
       .eq("status", "done"),
@@ -213,9 +216,12 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   let burnedRaw = 0;
   const workouts = ((exRes.data ?? []) as {
     exercise_id: string | null;
+    equipment: string | null;
+    focus: string | null;
     sets: number | null;
     reps: number | null;
     weight_kg: number | string | null;
+    set_details?: unknown;
   }[])
     .filter((r) => r.exercise_id)
     .map((r) => {
@@ -224,9 +230,11 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
       const kcal = Math.round(raw);
       return {
         name: getCatalogExercise(r.exercise_id!)?.name ?? r.exercise_id!,
+        equipment: r.equipment, focus: r.focus,
         sets: num(r.sets),
         reps: num(r.reps),
         weightKg: r.weight_kg === null ? null : num(r.weight_kg),
+        setDetails: parseSetDetails(r.set_details),
         kcal,
       };
     });
@@ -255,6 +263,8 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
       if (r.duration_min != null) parts.push(`${r.duration_min}분`);
       if (r.sets != null) parts.push(`${r.sets}세트`);
       if (r.reps != null) parts.push(`${r.reps}회`);
+      if (r.speed != null) parts.push(`${num(r.speed)}km/h`);
+      if (r.incline != null) parts.push(`경사 ${num(r.incline)}%`);
       return {
         name: item?.name ?? r.item_id!,
         detail: parts.join(" · "),

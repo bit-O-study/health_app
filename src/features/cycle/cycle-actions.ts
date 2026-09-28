@@ -37,7 +37,7 @@ export async function setCycleDayAction(
       .delete()
       .eq("user_id", user.id)
       .eq("for_date", dateYmd);
-    if (error) return { ok: false, error: error.message };
+    if (error) return { ok: false, error: "저장하지 못했어요. 잠시 후 다시 시도해 주세요." };
     revalidatePath("/cycle");
     revalidatePath("/calendar");
     return { ok: true };
@@ -54,7 +54,7 @@ export async function setCycleDayAction(
     },
     { onConflict: "user_id,for_date" },
   );
-  if (error) return { ok: false, error: error.message };
+  if (error) return { ok: false, error: "저장하지 못했어요. 잠시 후 다시 시도해 주세요." };
   revalidatePath("/cycle");
   revalidatePath("/calendar");
   return { ok: true };

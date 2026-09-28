@@ -628,7 +628,7 @@ export function WorkoutSessionTimer({
     // 오늘 담긴 운동이 하나도 없으면 '운동 시작' 대신 '운동을 추가하세요' 안내.
     if (queueItems.length === 0) {
       return (
-        <span className="app-field flex h-12 w-full items-center justify-center gap-2 rounded-2xl border px-4 text-base font-bold text-zinc-500 dark:text-zinc-400">
+        <span className="app-field flex h-12 w-full items-center justify-center gap-2 rounded-2xl border px-4 text-base font-bold text-muted">
           <Plus aria-hidden="true" size={16} />
           운동을 추가하세요
         </span>
@@ -638,7 +638,7 @@ export function WorkoutSessionTimer({
       <button
         type="button"
         onClick={start}
-        className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
+        className="min-h-11 min-w-11 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
       >
         <Play aria-hidden="true" size={18} />
         운동 시작
@@ -688,7 +688,7 @@ export function WorkoutSessionTimer({
               aria-label="일시정지"
               title="일시정지"
               onClick={pause}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+              className="min-h-11 min-w-11 flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Pause aria-hidden="true" size={14} />
             </button>
@@ -698,7 +698,7 @@ export function WorkoutSessionTimer({
               aria-label="재개"
               title="재개"
               onClick={resume}
-              className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+              className="min-h-11 min-w-11 flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
             >
               <Play aria-hidden="true" size={14} />
             </button>
@@ -708,7 +708,7 @@ export function WorkoutSessionTimer({
             aria-label="정지하고 시간 저장"
             title="정지하고 시간 저장"
             onClick={requestSave}
-            className="flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
+            className="min-h-11 min-w-11 flex h-7 w-7 items-center justify-center rounded-full text-brand transition hover:bg-brand-soft"
           >
             <Save aria-hidden="true" size={13} />
           </button>
@@ -722,7 +722,7 @@ export function WorkoutSessionTimer({
             resume();
             setGuided(true);
           }}
-          className="flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
+          className="min-h-11 min-w-11 flex h-14 w-full items-center justify-center gap-2 rounded-2xl bg-brand px-4 text-base font-bold text-white dark:text-zinc-950 shadow-lg shadow-brand/20 transition hover:bg-brand/90 active:scale-[0.99]"
         >
           <Play aria-hidden="true" size={18} />
           다시 운동하기

@@ -67,8 +67,8 @@ function Stat({
 }) {
   return (
     <div className="min-w-0">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
-      <p className="mt-1 break-words text-xl font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
+      <p className="truncate text-xs text-muted">{label}</p>
+      <p className="mt-1 break-words text-xl font-bold tabular-nums text-foreground">
         {value}
       </p>
       <DeltaText delta={delta} unit={unit} />
@@ -97,7 +97,7 @@ export function WeeklyOverviewCard({
   return (
     <section data-testid="weekly-report" className="app-card p-4">
       <div className="flex items-center gap-2">
-        <h2 className="text-base font-bold text-zinc-900 dark:text-zinc-100">이번 주</h2>
+        <h2 className="text-base font-bold text-foreground">이번 주</h2>
         {active ? (
           <Link
             href="/settings/progress"
@@ -140,7 +140,7 @@ export function WeeklyOverviewCard({
           className={`block transition active:opacity-60 ${active ? "mt-2 border-t border-[var(--line)] pt-2" : "mt-1"}`}
         >
           <span className="flex items-center gap-2 text-sm">
-            <span className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+            <span className="font-semibold tabular-nums text-foreground">
               {weekSets}세트
             </span>
             {untouched.length > 0 ? (
@@ -162,7 +162,7 @@ export function WeeklyOverviewCard({
                 title={`${r.label} ${r.sets}세트 · ${VOLUME_LABEL[r.status]} (권장 ${WEEKLY_SET_MIN}~${WEEKLY_SET_MAX})`}
               >
                 <span className={`block h-1.5 w-full rounded-full ${REGION_BAR[r.status]}`} />
-                <span className="mt-1 block truncate text-xs text-zinc-500 dark:text-zinc-400">
+                <span className="mt-1 block truncate text-xs text-muted">
                   {r.label}
                 </span>
               </li>

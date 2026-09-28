@@ -11,7 +11,7 @@ const button = "rounded-xl bg-brand px-4 py-3 font-semibold text-white dark:text
 export function RefreshSupport() {
   const router = useRouter();
   useEffect(() => { const id = setInterval(() => { if (document.visibilityState === "visible") router.refresh(); },60000); return () => clearInterval(id); },[router]);
-  return <button className="text-sm underline" onClick={()=>router.refresh()}>새로고침</button>;
+  return <button className="min-h-11 min-w-11 text-sm underline" onClick={()=>router.refresh()}>새로고침</button>;
 }
 export function ReadSupport({id}:{id:string}) {
   useEffect(()=>{ void readTicket(id); },[id]); return null;
@@ -32,15 +32,15 @@ export function NewTicket() {
     <label className="block">내용<textarea name="body" required maxLength={5000} rows={7} className={field} placeholder="어느 화면에서 무엇을 했는지, 어떤 결과가 나왔는지 알려 주세요."/></label>
     <label className="flex items-start gap-3 text-sm"><input className="mt-1" type="checkbox" name="diagnostic"/>기기 종류·앱 버전·화면 크기를 함께 보내기 (선택)</label>
     <p className="text-sm text-muted">사진은 접수 후 문의 화면에서 최대 3장 첨부할 수 있어요. 비밀번호나 인증번호는 적지 마세요.</p>
-    {error&&<p role="alert" className="text-sm text-red-600">{error}</p>}
-    <button disabled={pending} className={`${button} w-full`}>{pending?"접수 중…":"문의 접수"}</button>
+    {error&&<p role="alert" className="text-sm text-danger">{error}</p>}
+    <button disabled={pending} className={"min-h-11 min-w-11 " + (`${button} w-full`)}>{pending?"접수 중…":"문의 접수"}</button>
   </form>;
 }
 export function ReplyForm({id}:{id:string}) {
   const router=useRouter();const [body,setBody]=useState("");const [message,setMessage]=useState("");const [pending,start]=useTransition();const request=useRef("");
   return <form className="space-y-3" onSubmit={e=>{e.preventDefault();start(async()=>{request.current ||= crypto.randomUUID();try{const r=await replyTicket(id,request.current,body);setMessage(r.error??"저장했어요.");if(!r.error){setBody("");request.current="";router.refresh();}}catch{setMessage("저장 결과를 확인하지 못했어요. 다시 시도해 주세요.");}});}}>
     <label className="block font-semibold">추가 문의<textarea className={field} rows={4} required maxLength={5000} value={body} onChange={e=>{setBody(e.target.value);request.current="";}}/></label>
-    <p role="status" className="text-sm">{message}</p><button className={button} disabled={pending}>{pending?"저장 중…":"답변 보내기"}</button>
+    <p role="status" className="text-sm">{message}</p><button className={"min-h-11 min-w-11 " + (button)} disabled={pending}>{pending?"저장 중…":"답변 보내기"}</button>
   </form>;
 }
 export function AttachmentForm({id}:{id:string}) {
@@ -48,8 +48,8 @@ export function AttachmentForm({id}:{id:string}) {
   useEffect(()=>()=>{if(preview)URL.revokeObjectURL(preview);},[preview]);
   return <form className="space-y-3" onSubmit={e=>{e.preventDefault();if(!file)return;start(async()=>{try{const form=new FormData();form.set("ticket",id);form.set("file",file);const response=await fetch("/api/support/attachments",{method:"POST",body:form});const result=await response.json();setMessage(result.error??"사진을 첨부했어요.");if(result.ok){setFile(null);setPreview("");router.refresh();}}catch{setMessage("사진 전송에 실패했어요. 문의 내용은 저장돼 있어요.");}});}}>
     <label className="block">스크린샷 첨부<input className={field} type="file" accept="image/jpeg,image/png,image/webp" onChange={e=>{const next=e.target.files?.[0]??null;setFile(next);setPreview(next?URL.createObjectURL(next):"");}}/></label>
-    {file&&<div>{preview&&/* User-selected local preview. */ <Image unoptimized width={320} height={240} src={preview} alt="첨부할 사진 미리보기" className="max-h-48 rounded-xl"/>}<button type="button" className="p-3 underline" onClick={()=>{setFile(null);setPreview("");}}>선택 취소</button></div>}
-    <p className="text-sm text-muted">JPG·PNG·WebP · 5MB 이하 · 문의당 최대 3장</p><button className={button} disabled={!file||pending}>사진 첨부</button><p role="status" className="text-sm">{message}</p>
+    {file&&<div>{preview&&/* User-selected local preview. */ <Image unoptimized width={320} height={240} src={preview} alt="첨부할 사진 미리보기" className="max-h-48 rounded-xl"/>}<button type="button" className="min-h-11 min-w-11 p-3 underline" onClick={()=>{setFile(null);setPreview("");}}>선택 취소</button></div>}
+    <p className="text-sm text-muted">JPG·PNG·WebP · 5MB 이하 · 문의당 최대 3장</p><button className={"min-h-11 min-w-11 " + (button)} disabled={!file||pending}>사진 첨부</button><p role="status" className="text-sm">{message}</p>
   </form>;
 }
 export function NotificationSettings({configured,connection}:{configured:boolean;connection:{state:string;enabled:boolean;push_enabled:boolean;kakao_id:string|null}|null}) {
@@ -62,17 +62,17 @@ export function NotificationSettings({configured,connection}:{configured:boolean
     <label className="flex gap-2"><input type="checkbox" checked={enabled} onChange={e=>setEnabled(e.target.checked)}/>카카오 문의 알림 받기</label>
     <label className="flex gap-2"><input type="checkbox" checked={push} onChange={e=>setPush(e.target.checked)}/>등록된 브라우저 기기로 새 문의 푸시 받기</label>
     <Link className="block text-sm underline" href="/settings/notifications">기기 푸시 등록·권한 설정</Link>
-    <div className="flex flex-wrap gap-2">{([['save','설정 저장'],['test','테스트 보내기'],['dispatch','대기 알림 처리'],['disconnect','카카오 연결 해제']] as const).map(([kind,label])=><button type="button" className="rounded-xl border px-3 py-3 text-sm" key={kind} disabled={pending||((kind==="test")&&!configured)} onClick={()=>run(kind)}>{label}</button>)}</div>
+    <div className="flex flex-wrap gap-2">{([['save','설정 저장'],['test','테스트 보내기'],['dispatch','대기 알림 처리'],['disconnect','카카오 연결 해제']] as const).map(([kind,label])=><button type="button" className="min-h-11 min-w-11 rounded-xl border px-3 py-3 text-sm" key={kind} disabled={pending||((kind==="test")&&!configured)} onClick={()=>run(kind)}>{label}</button>)}</div>
     <p role="status" className="text-sm">{message}</p>
   </section>;
 }
 
 export function DeleteAttachment({id}:{id:string}) {
  const router=useRouter();const [pending,start]=useTransition();const [message,setMessage]=useState("");
- return <div><button type="button" disabled={pending} className="w-full p-3 text-sm underline" onClick={()=>start(async()=>{try{const r=await fetch('/api/support/attachments',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});const body=await r.json();if(body.ok)router.refresh();else setMessage(body.error);}catch{setMessage('사진을 삭제하지 못했어요.');}})}>사진 삭제</button><p role="status" className="text-sm">{message}</p></div>;
+ return <div><button type="button" disabled={pending} className="min-h-11 min-w-11 w-full p-3 text-sm underline" onClick={()=>start(async()=>{try{const r=await fetch('/api/support/attachments',{method:'DELETE',headers:{'Content-Type':'application/json'},body:JSON.stringify({id})});const body=await r.json();if(body.ok)router.refresh();else setMessage(body.error);}catch{setMessage('사진을 삭제하지 못했어요.');}})}>사진 삭제</button><p role="status" className="text-sm">{message}</p></div>;
 }
 
 export function RetryNotification({id}:{id:string}) {
  const [confirmed,setConfirmed]=useState(false);const [pending,start]=useTransition();const [message,setMessage]=useState("");const router=useRouter();
- return <div className="mt-2 space-y-2"><label className="flex gap-2"><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/>이미 전송된 경우 중복 수신할 수 있음을 확인했어요.</label><button type="button" disabled={!confirmed||pending} className="rounded border p-2 disabled:opacity-50" onClick={()=>start(async()=>{try{const result=await retrySupportNotification(id,confirmed);setMessage(result.error??'재전송 요청을 저장했어요.');router.refresh();}catch{setMessage('재전송 요청에 실패했어요.');}})}>이 알림 재전송</button><p role="status">{message}</p></div>;
+ return <div className="mt-2 space-y-2"><label className="flex gap-2"><input type="checkbox" checked={confirmed} onChange={e=>setConfirmed(e.target.checked)}/>이미 전송된 경우 중복 수신할 수 있음을 확인했어요.</label><button type="button" disabled={!confirmed||pending} className="min-h-11 min-w-11 rounded border p-2 disabled:opacity-50" onClick={()=>start(async()=>{try{const result=await retrySupportNotification(id,confirmed);setMessage(result.error??'재전송 요청을 저장했어요.');router.refresh();}catch{setMessage('재전송 요청에 실패했어요.');}})}>이 알림 재전송</button><p role="status">{message}</p></div>;
 }

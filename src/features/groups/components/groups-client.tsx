@@ -94,13 +94,13 @@ export function GroupsClient({
                     <Users aria-hidden="true" size={16} />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="flex items-center gap-1 truncate text-base leading-5 text-zinc-900 dark:text-zinc-100">
+                    <span className="flex items-center gap-1 truncate text-base leading-5 text-foreground">
                       {g.name}
                       {g.isOwner ? (
-                        <Crown aria-hidden="true" size={13} className="text-amber-500" />
+                        <Crown aria-hidden="true" size={13} className="text-warn" />
                       ) : null}
                     </span>
-                    <span className="block text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+                    <span className="block text-xs leading-4 text-muted">
                       멤버 {g.memberCount}명
                     </span>
                   </span>
@@ -138,7 +138,7 @@ export function GroupsClient({
             disabled={pending || name.trim() === ""}
             onClick={create}
             aria-label="그룹 만들기"
-            className="app-press inline-flex h-10 shrink-0 items-center gap-1 rounded-[10px] bg-brand px-3.5 text-sm font-semibold text-white disabled:opacity-40 dark:text-zinc-950"
+            className="min-h-11 min-w-11 app-press inline-flex h-10 shrink-0 items-center gap-1 rounded-[10px] bg-brand px-3.5 text-sm font-semibold text-white disabled:opacity-40 dark:text-zinc-950"
           >
             <Plus aria-hidden="true" size={16} /> 만들기
           </button>
@@ -160,7 +160,7 @@ export function GroupsClient({
             type="button"
             disabled={pending || invite.trim() === ""}
             onClick={join}
-            className="app-press inline-flex h-10 shrink-0 items-center rounded-[10px] bg-zinc-100 px-3.5 text-sm font-semibold text-brand disabled:opacity-40 dark:bg-white/[0.08]"
+            className="min-h-11 min-w-11 app-press inline-flex h-10 shrink-0 items-center rounded-[10px] bg-zinc-100 px-3.5 text-sm font-semibold text-brand disabled:opacity-40 dark:bg-white/[0.08]"
           >
             참여하기
           </button>

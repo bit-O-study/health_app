@@ -43,7 +43,7 @@ export function Submit({
   icon?: "shield" | "search";
 }) {
   return (
-    <button type="submit" disabled={busy} className={primaryBtnCls}>
+    <button type="submit" disabled={busy} className={"min-h-11 min-w-11 " + (primaryBtnCls)}>
       {busy ? (
         <Loader2 aria-hidden="true" className="animate-spin" size={17} />
       ) : icon === "search" ? (

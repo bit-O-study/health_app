@@ -941,7 +941,7 @@ export function firstDayIndexForFocus(
 /* ─── 기준일 기반 날짜 매핑 ──────────────────────────────────────────────────
  * 루틴은 요일 고정이 아니라 startDate(기준일)부터 7일 주기로 순환한다.
  * "오늘부터 다시 시작"은 현재 일차를 유지한 채 기준 루틴으로 복원하고,
- * "오늘 휴식 전환" = 기준일 +1일.
+ * "오늘 휴식 전환"은 오늘만 표시하며 기준일을 바꾸지 않는다.
  */
 
 /** 한국(Asia/Seoul) 기준 오늘 날짜를 YYYY-MM-DD 로 반환 */
@@ -982,3 +982,7 @@ export function ymdDisplay(ymd: string): { weekday: Weekday; label: string } {
   const index = jsDay === 0 ? 6 : jsDay - 1; // 0=월
   return { weekday: WEEKDAYS[index], label: `${m}/${d}` };
 }
+
+/** 오늘만 변경과 영구 루틴 편집의 공용 세션/선택 한도. */
+export const SESSION_GROUPS: DayBlockId[] = ["fullbody", "upper", "push", "pull"];
+export const MAX_DAY_BLOCKS = 3;

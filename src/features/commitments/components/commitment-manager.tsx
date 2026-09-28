@@ -117,11 +117,11 @@ export function CommitmentManager({
               setMode(k);
               setError(null);
             }}
-            className={`h-9 flex-1 rounded-full text-sm font-semibold transition ${
+            className={"min-h-11 min-w-11 " + (`h-9 flex-1 rounded-full text-sm font-semibold transition ${
               mode === k
                 ? "bg-brand text-white dark:text-zinc-950"
                 : "bg-zinc-100 text-zinc-600 dark:bg-white/[0.08] dark:text-zinc-300"
-            }`}
+            }`)}
           >
             {label}
           </button>
@@ -151,7 +151,7 @@ export function CommitmentManager({
               key={p.tag}
               type="button"
               onClick={() => applyPreset(p)}
-              className="inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
+              className="min-h-11 min-w-11 inline-flex items-center gap-1 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 transition hover:border-brand/40 hover:text-brand dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-300"
             >
               <Plus aria-hidden="true" size={12} /> {p.title}
             </button>
@@ -162,7 +162,7 @@ export function CommitmentManager({
               setOpen((v) => !v);
               setError(null);
             }}
-            className="inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
+            className="min-h-11 min-w-11 inline-flex items-center gap-1 rounded-full bg-brand px-3 py-1.5 text-xs font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90"
           >
             직접 입력
           </button>
@@ -238,7 +238,7 @@ export function CommitmentManager({
               type="button"
               onClick={save}
               disabled={pending || title.trim() === ""}
-              className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+              className="min-h-11 min-w-11 app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -251,7 +251,7 @@ export function CommitmentManager({
               type="button"
               onClick={() => setOpen(false)}
               disabled={pending}
-              className="h-10 rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-600 dark:border-zinc-600 dark:text-zinc-300"
+              className="min-h-11 min-w-11 h-10 rounded-md border border-zinc-300 px-4 text-sm font-semibold text-zinc-600 dark:border-zinc-600 dark:text-zinc-300"
             >
               취소
             </button>
@@ -263,7 +263,7 @@ export function CommitmentManager({
 
       {/* 목록 */}
       {commitments.length === 0 ? (
-        <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+        <p className="app-card p-3 text-center text-sm text-muted">
           아직 다짐이 없어요
         </p>
       ) : (
@@ -282,7 +282,7 @@ export function CommitmentManager({
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
-                    <p className="flex items-center gap-1.5 text-base font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
+                    <p className="flex items-center gap-1.5 text-base font-semibold leading-5 text-foreground">
                       {c.kind === "diet" ? (
                         <Salad aria-hidden="true" size={14} className="text-brand" />
                       ) : (
@@ -300,7 +300,7 @@ export function CommitmentManager({
                     aria-label="다짐 삭제"
                     onClick={() => remove(c.id)}
                     disabled={pending}
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
+                    className="min-h-11 min-w-11 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-danger/10 hover:text-danger disabled:opacity-40"
                   >
                     <Trash2 aria-hidden="true" size={14} />
                   </button>
@@ -322,7 +322,7 @@ export function CommitmentManager({
                         <span className="ml-1 text-zinc-400">D-{p.daysLeft}</span>
                       )}
                     </span>
-                    <span className="font-bold tabular-nums text-zinc-900 dark:text-zinc-100">
+                    <span className="font-bold tabular-nums text-foreground">
                       {p.current.toLocaleString()} / {p.target.toLocaleString()} {c.unit}
                     </span>
                   </div>
@@ -397,11 +397,11 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
               key={g.id}
               type="button"
               onClick={() => pickGoal(g.id)}
-              className={`rounded-lg border px-3 py-2.5 text-left text-sm font-semibold transition ${
+              className={"min-h-11 min-w-11 " + (`rounded-lg border px-3 py-2.5 text-left text-sm font-semibold transition ${
                 a.goal === g.id
                   ? "border-brand/40 bg-brand-soft text-brand"
                   : "border-zinc-200 text-zinc-700 dark:border-zinc-700 dark:text-zinc-200"
-              }`}
+              }`)}
             >
               {g.emoji} {g.label}
             </button>
@@ -479,7 +479,7 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
         type="button"
         onClick={save}
         disabled={pending || missions.length === 0}
-        className="app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+        className="min-h-11 min-w-11 app-press inline-flex h-10 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
       >
         {pending ? (
           <Loader2 aria-hidden="true" size={15} className="animate-spin" />
@@ -491,8 +491,8 @@ function SurveyForm({ today, onDone }: { today: string; onDone: () => void }) {
       <p className="text-xs leading-4 text-zinc-400">
         만든 미션은 매일 운동·식단 기록으로 자동 판정돼요. 달성률에 따라 캘린더에{" "}
         <span className="font-bold text-brand">○</span>{" "}
-        <span className="font-bold text-amber-500">△</span>{" "}
-        <span className="font-bold text-rose-400">✕</span> 로 표시됩니다.
+        <span className="font-bold text-warn">△</span>{" "}
+        <span className="font-bold text-danger">✕</span> 로 표시됩니다.
       </p>
     </div>
   );
@@ -511,7 +511,7 @@ function SwitchRow({
     <button
       type="button"
       onClick={() => onToggle(!on)}
-      className="flex w-full items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700"
+      className="min-h-11 min-w-11 flex w-full items-center justify-between rounded-lg border border-zinc-200 px-3 py-2 text-sm dark:border-zinc-700"
     >
       <span className="font-semibold text-zinc-700 dark:text-zinc-200">{label}</span>
       <span
@@ -545,7 +545,7 @@ function NumRow({
         inputMode="numeric"
         value={value}
         onChange={(e) => onChange(Math.max(0, Math.floor(Number(e.target.value) || 0)))}
-        className={field}
+        className={field} aria-label={label}
       />
     </div>
   );

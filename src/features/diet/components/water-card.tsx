@@ -151,7 +151,7 @@ export function WaterCard({
       </div>
 
       {/* 남은 양을 '무엇을 더 하면 되는지' 로 바꿔 말한다. */}
-      <p className="mt-1.5 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-1.5 text-xs text-muted">
         {reached
           ? "오늘 목표를 채웠어요 👏"
           : `${formatWater(left.ml)} 남음 · ${WATER_CUPS[0].label} ${left.cups}잔`}
@@ -163,7 +163,7 @@ export function WaterCard({
             key={cup.ml}
             type="button"
             onClick={() => void add(cup.ml)}
-            className="app-press inline-flex h-9 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+            className="min-h-11 min-w-11 app-press inline-flex h-9 items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
           >
             +{cup.ml}ml
             <span className="text-zinc-400">{cup.label}</span>
@@ -176,7 +176,7 @@ export function WaterCard({
           aria-expanded={custom}
           aria-label="마신 양 직접 입력"
           data-testid="water-custom-open"
-          className="app-press inline-flex h-9 items-center gap-1 rounded-full border border-dashed border-zinc-300 px-3 text-xs font-semibold text-zinc-600 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-300"
+          className="min-h-11 min-w-11 app-press inline-flex h-9 items-center gap-1 rounded-full border border-dashed border-zinc-300 px-3 text-xs font-semibold text-zinc-600 disabled:opacity-50 dark:border-zinc-600 dark:text-zinc-300"
         >
           <Plus aria-hidden="true" size={12} />
           직접 입력
@@ -205,7 +205,7 @@ export function WaterCard({
             onClick={submitCustom}
             disabled={busy}
             data-testid="water-custom-add"
-            className="app-press h-9 rounded-full bg-brand px-3.5 text-xs font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
+            className="min-h-11 min-w-11 app-press h-9 rounded-full bg-brand px-3.5 text-xs font-semibold text-white disabled:opacity-50 dark:text-zinc-950"
           >
             담기
           </button>
@@ -218,7 +218,7 @@ export function WaterCard({
         <ul className="mt-3 border-t border-[var(--line)] pt-2" data-testid="water-entries">
           {entries.slice(0, 8).map((e) => (
             <li key={e.id} className="flex items-center gap-2 py-1 text-xs">
-              <span className="w-16 shrink-0 tabular-nums text-zinc-500 dark:text-zinc-400">
+              <span className="w-16 shrink-0 tabular-nums text-muted">
                 {timeLabel(e.at)}
               </span>
               <span className="font-semibold tabular-nums">{e.ml}ml</span>
@@ -227,7 +227,7 @@ export function WaterCard({
                 onClick={() => void remove(e.id)}
                 disabled={busy}
                 aria-label={`${timeLabel(e.at)} ${e.ml}ml 기록 지우기`}
-                className="ml-auto grid h-7 w-7 place-items-center rounded-md text-zinc-400 transition hover:text-danger disabled:opacity-40"
+                className="min-h-11 min-w-11 ml-auto grid h-7 w-7 place-items-center rounded-md text-zinc-400 transition hover:text-danger disabled:opacity-40"
               >
                 <X aria-hidden="true" size={13} />
               </button>

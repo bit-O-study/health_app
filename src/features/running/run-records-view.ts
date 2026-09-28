@@ -1,3 +1,4 @@
+import { formatRunKm } from "@/features/running/run-format";
 /**
  * 런닝 기록 화면(B안) — 순수 표시 로직. 날짜·시간 표기, 월 요약·지난달 대비, 주 단위 묶음.
  * 서버/클라이언트 어디서든 쓰고 단위테스트한다(tests/be/logic/run-records-view.test.ts).
@@ -22,42 +23,6 @@ export function formatRunDate(ymd: string): string {
   const [y, m, d] = ymdParts(ymd);
   const weekday = WEEKDAY[new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
   return `${m}월 ${d}일 (${weekday})`;
-}
-
-/** 목록·요약용 시간 — "30분", "4시간 18분", 1분 미만은 "45초". */
-export function formatRunDuration(sec: number): string {
-  const s = Math.max(0, Math.round(sec));
-  if (s < 60) return `${s}초`;
-  const min = Math.floor(s / 60);
-  if (min < 60) return `${min}분`;
-  const h = Math.floor(min / 60);
-  const rem = min % 60;
-  return rem === 0 ? `${h}시간` : `${h}시간 ${rem}분`;
-}
-
-/** 상세용 시간 — "30:02", "1:02:03". */
-export function formatRunClock(sec: number): string {
-  const s = Math.max(0, Math.round(sec));
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const ss = String(s % 60).padStart(2, "0");
-  return h > 0 ? `${h}:${String(m).padStart(2, "0")}:${ss}` : `${m}:${ss}`;
-}
-
-/** 페이스 — 초/km → "6'04\"". 값이 없으면 "—". */
-export function formatRunPaceShort(secPerKm: number | null | undefined): string {
-  if (!secPerKm || !Number.isFinite(secPerKm) || secPerKm <= 0) return "—";
-  const total = Math.round(secPerKm);
-  return `${Math.floor(total / 60)}'${String(total % 60).padStart(2, "0")}"`;
-}
-
-/** 0 이하 값은 "—" — 0kcal 처럼 없는 값을 0 으로 보여주지 않는다. */
-export function formatRunKcal(kcal: number | null | undefined): string {
-  return kcal && kcal > 0 ? `${kcal}kcal` : "—";
-}
-
-export function formatRunKm(meters: number): string {
-  return (meters / 1_000).toFixed(meters >= 100_000 ? 0 : meters >= 10_000 ? 1 : 2);
 }
 
 export function monthOf(ymd: string): string {
@@ -174,3 +139,5 @@ export function groupRunsByWeek<T extends Pick<RunHistoryRow, "forDate" | "dista
   }
   return [...groups.values()];
 }
+
+export { formatRunDuration, formatRunClock, formatRunPaceShort, formatRunKcal, formatRunKm } from "@/features/running/run-format";

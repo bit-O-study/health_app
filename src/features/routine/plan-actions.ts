@@ -1,7 +1,7 @@
 "use server";
 
 import { getRecommendationContext } from "./recommendation-data";
-import { personalizeExercises } from "./recommend-personalization";
+import { recommendSlot } from "./recommend-slot";
 
 import { revalidatePath } from "next/cache";
 
@@ -11,9 +11,7 @@ import {
 } from "@/lib/supabase/server";
 import {
   CUSTOM_VARIANT_ID,
-  firstDayIndexForFocus,
   focusToDaysMap,
-  routineDayOffset,
   routineDaySlots,
   seoulYmd,
 } from "@/features/routine/data";
@@ -33,11 +31,7 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import {
-  allExercisesForSlot,
-  focusExercisesForSlot,
   focusVariantIndex,
-  recommendedExercisesForFocus,
-  sideExercisesForSlot,
 } from "@/features/routine/recommend";
 import {
   isValidSetDetails,
@@ -196,15 +190,9 @@ export async function registerRecommendedPlanAction(): Promise<SavePlanResult> {
   }
 
   const groups = slots.map((slot) => {
-    const base = slot.isSide
-      ? sideExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet)
-      : focusExercisesForSlot(slot.focus, slot.blockIds, gender, gymSet, {
-          experience: profile.experience,
-          // 같은 주에 같은 부위가 또 나오면 A/B 로 번갈아(전신×3 이 3일 모두 같지 않게).
-          variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
-          ...signals,
-        });
-    const list = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, recommendationContext, slot.isSide, slot.focus);
+    const list = recommendSlot(slot.focus, slot.blockIds, profile.gender, gymSet, {
+      experience: profile.experience, variant: focusVariantIndex(slots, slot.dayIndex, slot.focus), ...signals,
+    }, recommendationContext, slot.isSide);
     return {
       dayIndex: slot.dayIndex,
       focus: slot.focus,
@@ -782,82 +770,4 @@ export async function addExerciseToTodayAction(
       weightKg: p.weightKg,
     },
   };
-}
-
-/**
- *"오늘만 루틴 변경 → 추천 운동으로": 오늘을 해당 부위로 바꾸고(override),
- * 그 부위의 등록 운동을 체형 맞춤 추천으로 채워 넣는다.
- */
-export async function applyTodayRecommendedAction(
-  focus: string,
-): Promise<void> {
-  const target = ALL_FOCUSES.find((f) => f === focus);
-  if (!target) return;
-
-  const supabase = await createSupabaseServerClient();
-  const user = await getCurrentUser();
-  if (!user) return;
-
-  const [profile, gym, routine, signals] = await Promise.all([
-    getUserProfile(),
-    getCurrentGym(),
-    getUserRoutine(),
-    getRecommendSignals(),
-  ]);
-  if (!profile || !routine) return;
-  const gymSet = toGymEquipmentSet(gym?.equipmentIds ?? null);
-
-  const { data: updatedRoutine, error: routineError } = await supabase
-    .from("user_routines")
-    .update({
-      override_date: seoulYmd(),
-      override_block: target,
-      rest_date: null,
-    })
-    .eq("user_id", user.id)
-    .select("updated_at")
-    .maybeSingle();
-  if (routineError || !updatedRoutine) return;
-
-  // 오늘 화면이 이 부위를 읽을 일차와 같은 곳에 써야 한다 — 그 부위가 루틴에
-  // 있으면 첫 등장 일차, 없으면 오늘 일차.
-  const slots = routineDaySlots(
-    routine.splits,
-    routine.variantId,
-    routine.customWeek,
-  );
-  const offsetToday = routineDayOffset(routine.startDate, seoulYmd());
-  const dayIndex = firstDayIndexForFocus(slots, target) ?? offsetToday;
-
-  const opts = {
-    gender: profile.gender,
-    experience: profile.experience,
-    bodyType: profile.bodyType ?? ("average" as const),
-    weightKg: profile.weightKg ?? 65,
-  };
-  const rows = recommendedExercisesForFocus(target, profile.gender, gymSet, {
-    experience: profile.experience,
-    ...signals,
-  }).map((ex, index) => {
-    const p = prescribe(ex.id, opts);
-    return {
-      position: index,
-      exerciseId: ex.id,
-      equipment: pickAvailableEquipment(ex, gymSet),
-      sets: p.sets,
-      reps: p.reps,
-      weightKg: p.weightKg,
-      setDetails: null,
-      memo: null,
-    };
-  });
-
-  await replaceRoutineExerciseGroups(
-    supabase,
-    (updatedRoutine as { updated_at: string }).updated_at,
-    false,
-    [{ dayIndex, focus: target, rows }],
-  );
-
-  revalidatePath("/routine");
 }

@@ -18,7 +18,7 @@ export default async function BodyCompositionPage() {
     <div className="app-page">
       <PageHeader title="체성분 결과 등록" back="설정" />
       <main className="app-container space-y-4">
-        <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="px-1 text-xs text-muted">
           {latest ? (
             <span className="text-brand">최근 측정 {latest.measuredAt} · </span>
           ) : null}

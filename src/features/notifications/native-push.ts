@@ -1,6 +1,6 @@
 import { Capacitor } from "@capacitor/core";
 
-import { saveFcmTokenAction } from "@/features/notifications/push-actions";
+import { deleteFcmTokenAction, saveFcmTokenAction } from "@/features/notifications/push-actions";
 
 /**
  * 네이티브(안드로이드) 앱에서 FCM 푸시 등록 — 상태표시줄 알림용.
@@ -8,6 +8,7 @@ import { saveFcmTokenAction } from "@/features/notifications/push-actions";
  * 토큰을 받으면 서버(fcm_tokens)에 저장한다.
  */
 let started = false;
+const TOKEN_KEY = "helssu:device-push-token";
 
 export async function hasNativePushPermission(): Promise<boolean> {
   if (typeof window === "undefined" || !Capacitor?.isNativePlatform?.()) {
@@ -46,6 +47,7 @@ export async function registerNativePush(): Promise<void> {
 
     await PushNotifications.removeAllListeners();
     await PushNotifications.addListener("registration", (token) => {
+      try { localStorage.setItem(TOKEN_KEY, token.value); } catch { /* Native unregister still invalidates the token. */ }
       void saveFcmTokenAction(token.value);
     });
     await PushNotifications.addListener("registrationError", () => {
@@ -56,4 +58,16 @@ export async function registerNativePush(): Promise<void> {
   } catch {
     started = false;
   }
+}
+
+export async function unregisterNativePush(): Promise<void> {
+  if (typeof window === "undefined" || !Capacitor.isNativePlatform()) return;
+  const { PushNotifications } = await import("@capacitor/push-notifications");
+  let token: string | null = null;
+  try { token = localStorage.getItem(TOKEN_KEY); } catch { /* Storage may be unavailable. */ }
+  if (token && !(await deleteFcmTokenAction(token)).ok) throw new Error("푸시 연결을 해제하지 못했어요.");
+  await PushNotifications.removeAllListeners();
+  await PushNotifications.unregister();
+  started = false;
+  try { localStorage.removeItem(TOKEN_KEY); } catch { /* Token already invalidated. */ }
 }

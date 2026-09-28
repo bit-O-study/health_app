@@ -1,3 +1,4 @@
+import { getFoodFavorites } from "@/features/diet/favorite-actions";
 import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -51,6 +52,7 @@ export default async function DietPage({
     waterEntries,
     recent,
     aiScanEnabled,
+    favorites,
   ] = await Promise.all([
     getUserProfile(),
     getFoodLogsForDate(date),
@@ -60,6 +62,7 @@ export default async function DietPage({
     // 보고 있는 날 **이전** 2주 — 그날 이미 담은 걸 다시 추천하지 않으려고 date 미만.
     getRecentFoodLogs(addDaysYmd(date, -QUICK_FOOD_DAYS), date),
     isDebugFeatureEnabled("diet-photo-ai"),
+    getFoodFavorites(),
   ]);
   if (!profile) redirect("/onboarding");
   const target = dailyTarget({
@@ -80,6 +83,7 @@ export default async function DietPage({
         target={target}
         mealPhotos={mealPhotos}
         recent={recent}
+        favorites={favorites}
         aiScanEnabled={aiScanEnabled}
         footer={
           // 수분은 `DietBoard` 상태 밖에서 만든다 — 그쪽 낙관적 상태(수정 중인 음식 줄)와 섞이면

@@ -440,7 +440,8 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               ← 나가기
             </button>
           ) : null}
-          <h1 className="text-3xl font-bold drop-shadow-sm">실내 런닝 🏠</h1>
+          <h1 className="text-3xl font-bold drop-shadow-sm">실내 런닝</h1>
+          <a href="/jog" className="inline-flex min-h-11 items-center rounded-full bg-white/80 px-4 text-sm font-semibold">카메라 없이 센서로 달리기 →</a>
           <p className="max-w-xs text-sm font-medium leading-6">
             카메라가 <b>제자리 달리기</b>를 감지하면 풍경 속 캐릭터가 함께 달려요.
             멈추면 같이 쉬어요. 하단에서 속도·경사를 설정하고, 끝나면 오늘 마무리

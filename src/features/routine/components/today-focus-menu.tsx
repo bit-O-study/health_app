@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 
 import {
-  deferRoutineOneDayAction,
+  replaceTodayFocusAction,
   restartRoutineFromTodayAction,
 } from "@/features/routine/actions";
 import { TodayAdjustMenu } from "@/features/routine/components/today-adjust-menu";
@@ -66,10 +66,10 @@ export function TodayFocusMenu({
     setConfirmRun(true);
   }
 
-  // 예 — 오늘 운동을 내일로 미루고(런닝으로 대체) 런닝 모드로.
+  // 예 — 오늘 운동만 바꾸고(런닝으로 대체) 런닝 모드로.
   function replaceAndRun() {
     start(async () => {
-      await deferRoutineOneDayAction();
+      await replaceTodayFocusAction();
       router.push(`/running?mode=${runMode}`);
     });
   }
@@ -86,7 +86,7 @@ export function TodayFocusMenu({
         onClick={() => setMenuOpen(true)}
         aria-haspopup="dialog"
         data-today-focus-badge
-        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold transition active:scale-95 ${badgeClass}`}
+        className={"min-h-11 min-w-11 " + (`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold transition active:scale-95 ${badgeClass}`)}
       >
         <span className={`h-1.5 w-1.5 rounded-full ${dotClass}`} />
         {focusLabel}
@@ -110,7 +110,7 @@ export function TodayFocusMenu({
                 type="button"
                 aria-label="닫기"
                 onClick={() => !pending && setMenuOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
+                className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:hover:bg-zinc-700"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -125,7 +125,7 @@ export function TodayFocusMenu({
                   // 이동이 완료되어 메뉴가 unmount될 때 히스토리를 정리한다.
                   router.push("/plan");
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
+                className="min-h-11 min-w-11 flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   <SlidersHorizontal aria-hidden="true" size={18} />
@@ -134,7 +134,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     운동 편집
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     루틴·부위·운동을 직접 편집합니다
                   </span>
                 </span>
@@ -147,7 +147,7 @@ export function TodayFocusMenu({
                   setMenuOpen(false);
                   setAdjustOpen(true);
                 }}
-                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
+                className="min-h-11 min-w-11 flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-soft text-brand">
                   <Shuffle aria-hidden="true" size={18} />
@@ -156,7 +156,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     오늘만 운동 바꾸기
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     오늘 하루만 부위·운동을 바꾸거나 휴식 전환
                   </span>
                 </span>
@@ -166,7 +166,7 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={restart}
-                className="flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
+                className="min-h-11 min-w-11 flex w-full items-center gap-3 rounded-xl border app-field px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-zinc-100 text-zinc-600 dark:bg-zinc-700 dark:text-zinc-300">
                   {pending ? (
@@ -179,7 +179,7 @@ export function TodayFocusMenu({
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     오늘부터 다시 시작하기
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     변경사항을 초기화하고 오늘을 루틴 1일차로
                   </span>
                 </span>
@@ -189,16 +189,16 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => runToday("indoor")}
-                className="flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
+                className="min-h-11 min-w-11 flex w-full items-center gap-3 rounded-xl border border-brand/40 bg-brand-soft px-4 py-3 text-left transition hover:border-brand/40 hover:bg-brand-soft disabled:opacity-60"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950 dark:text-zinc-950">
                   <House aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     실내 런닝
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     카메라로 제자리 달리기 (마무리운동에 자동 기록)
                   </span>
                 </span>
@@ -208,16 +208,16 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={() => runToday("outdoor")}
-                className="flex w-full items-center gap-3 rounded-xl border border-sky-300 bg-sky-50 px-4 py-3 text-left transition hover:border-sky-400 hover:bg-sky-100 disabled:opacity-60 dark:border-sky-800 dark:bg-sky-950/30 dark:hover:border-sky-700 dark:hover:bg-sky-950/50"
+                className="min-h-11 min-w-11 flex w-full items-center gap-3 rounded-xl border border-brand bg-brand/10 px-4 py-3 text-left transition hover:border-brand hover:bg-brand/10 disabled:opacity-60 dark:border-brand dark:bg-sky-950/30 dark:hover:border-brand dark:hover:bg-sky-950/50"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-sky-600 text-white">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand text-white dark:text-zinc-950">
                   <MapPin aria-hidden="true" size={18} />
                 </span>
                 <span className="min-w-0">
                   <span className="block text-sm font-bold text-zinc-950 dark:text-zinc-100">
                     야외 런닝
                   </span>
-                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                  <span className="block text-xs text-muted">
                     GPS로 거리와 페이스 기록 (마무리운동에 자동 기록)
                   </span>
                 </span>
@@ -256,18 +256,18 @@ export function TodayFocusMenu({
                 type="button"
                 disabled={pending}
                 onClick={replaceAndRun}
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+                className="min-h-11 min-w-11 flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
               >
                 {pending ? (
                   <Loader2 aria-hidden="true" size={16} className="animate-spin" />
                 ) : null}
-                예 — 오늘 운동을 런닝으로 대체 (운동은 내일로)
+                예 — 오늘만 런닝으로 대체
               </button>
               <button
                 type="button"
                 disabled={pending}
                 onClick={keepAndRun}
-                className="flex w-full items-center justify-center rounded-xl border app-field px-4 py-3 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-60 dark:text-zinc-200 dark:hover:bg-zinc-700"
+                className="min-h-11 min-w-11 flex w-full items-center justify-center rounded-xl border app-field px-4 py-3 text-sm font-bold text-zinc-700 transition hover:bg-zinc-50 disabled:opacity-60 dark:text-zinc-200 dark:hover:bg-zinc-700"
               >
                 아니요 — 기존 운동은 그대로 두고 런닝
               </button>

@@ -220,7 +220,7 @@ export function ConditioningEditor({
               type="button"
               disabled={pending}
               onClick={recommend}
-              className="inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-brand/40 bg-brand-soft px-2 text-xs font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-60"
+              className="min-h-11 min-w-11 inline-flex h-7 items-center gap-1 whitespace-nowrap rounded-md border border-brand/40 bg-brand-soft px-2 text-xs font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-60"
             >
               <Sparkles aria-hidden="true" size={13} />
               추천으로 채우기
@@ -229,7 +229,7 @@ export function ConditioningEditor({
           <button
             type="button"
             onClick={addRow}
-            className="inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft"
+            className="min-h-11 min-w-11 inline-flex h-7 items-center gap-1 rounded-md border app-field px-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 transition hover:border-brand/40 hover:bg-brand-soft"
           >
             <Plus aria-hidden="true" size={13} />
             추가
@@ -238,7 +238,7 @@ export function ConditioningEditor({
       </div>
 
       {rows.length === 0 ? (
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-xs text-muted">
           등록된 항목이 없습니다.
         </p>
       ) : (
@@ -281,7 +281,7 @@ export function ConditioningEditor({
                           placeholder={PARAM_LABEL[p]}
                           className="h-8 w-16 rounded border app-field px-2 text-center text-sm"
                         />
-                        <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                        <span className="text-xs text-muted">
                           {PARAM_UNIT[p]}
                         </span>
                       </span>
@@ -292,7 +292,7 @@ export function ConditioningEditor({
                   type="button"
                   aria-label="삭제"
                   onClick={() => update(rows.filter((_, i) => i !== idx))}
-                  className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600"
+                  className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-danger/10 dark:hover:bg-red-950/40 hover:text-danger"
                 >
                   <Trash2 aria-hidden="true" size={14} />
                 </button>
@@ -303,7 +303,7 @@ export function ConditioningEditor({
       )}
 
       {!lockWeightReps && rows.length > 0 ? (
-        <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mt-2 text-xs text-muted">
           시간·속도·경사는 <b>운동 모드</b>에서 그때그때 설정해요. (설정 ▸ 무게·횟수
           고정을 켜면 여기서 직접 입력)
         </p>
@@ -314,7 +314,7 @@ export function ConditioningEditor({
           type="button"
           disabled={pending}
           onClick={save}
-          className="inline-flex h-8 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-3 text-xs font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-8 shrink-0 items-center justify-center gap-1.5 whitespace-nowrap rounded-md bg-zinc-900 dark:bg-zinc-100 px-3 text-xs font-semibold text-white dark:text-zinc-900 transition hover:bg-zinc-700 dark:hover:bg-white disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={13} />

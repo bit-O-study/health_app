@@ -99,3 +99,10 @@ export function prescribe(
   const weightKg = Math.max(step, Math.round(raw / step) * step);
   return { sets, reps, weightKg };
 }
+
+/** Editor row format shared by today's plan and the permanent routine editor. */
+export function recommendedEditorRow(exerciseId: string, equipment: EquipmentId, opts: Parameters<typeof prescribe>[1]) {
+  const p = prescribe(exerciseId, { ...opts, equipment });
+  return { exerciseId, equipment, sets: p.sets, reps: p.reps,
+    weight: p.weightKg === null ? "" : String(p.weightKg), setDetails: null, supersetGroup: null };
+}

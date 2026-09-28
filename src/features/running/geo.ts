@@ -88,32 +88,17 @@ export function avgPaceSecPerKm(
   return (elapsedSec / totalMeters) * 1000;
 }
 
-export function formatDistanceKm(meters: number): string {
-  return (meters / 1000).toFixed(2);
-}
 
-export function formatDuration(sec: number): string {
-  const s = Math.max(0, Math.floor(sec));
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const ss = s % 60;
-  const mm = String(m).padStart(2, "0");
-  const sss = String(ss).padStart(2, "0");
-  return h > 0 ? `${h}:${mm}:${sss}` : `${mm}:${sss}`;
-}
+
+
 
 /** 페이스 표기 — 초/km → "5'30\"". null 이면 "--'--". */
-export function formatPace(secPerKm: number | null): string {
-  if (secPerKm == null || !Number.isFinite(secPerKm) || secPerKm <= 0) {
-    return "--'--\"";
-  }
-  const m = Math.floor(secPerKm / 60);
-  const s = Math.round(secPerKm % 60);
-  return `${m}'${String(s).padStart(2, "0")}"`;
-}
+
 
 /** GPS 속도(km/h)를 캐릭터 달리기 강도 0..1 로. 걷기(~4km/h)부터 빠른 달리기(~16km/h). */
 export function runIntensityFromSpeed(kmh: number): number {
   const x = (kmh - 3) / 13; // 3km/h 이하=0, 16km/h≈1
   return Math.max(0, Math.min(1, x));
 }
+
+export { formatRunKm as formatDistanceKm, formatRunClock as formatDuration, formatRunPaceShort as formatPace } from "@/features/running/run-format";

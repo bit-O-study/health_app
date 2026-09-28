@@ -54,10 +54,3 @@ export function summarizeRunWeek(
     caloriesKcal: inWeek.reduce((sum, row) => sum + row.caloriesKcal, 0),
   };
 }
-
-export function formatRunPace(paceSecPerKm: number | null): string {
-  if (!paceSecPerKm || paceSecPerKm <= 0) return "—";
-  const min = Math.floor(paceSecPerKm / 60);
-  const sec = Math.round(paceSecPerKm % 60);
-  return `${min}'${String(sec).padStart(2, "0")}\"/km`;
-}

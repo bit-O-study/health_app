@@ -665,7 +665,7 @@ export function TodayPlanList({
                       {(() => {
                         const major = majorMuscleTag(item.exerciseId);
                         return (
-                          <span className="ml-1.5 whitespace-nowrap text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                          <span className="ml-1.5 whitespace-nowrap text-xs font-normal text-muted">
                             {major.label}
                           </span>
                         );
@@ -678,7 +678,7 @@ export function TodayPlanList({
                         )[0];
                         if (!sub) return null;
                         return (
-                          <span className="ml-1 whitespace-nowrap text-xs font-normal text-zinc-500 dark:text-zinc-400">
+                          <span className="ml-1 whitespace-nowrap text-xs font-normal text-muted">
                             · {sub.label}
                           </span>
                         );
@@ -711,12 +711,12 @@ export function TodayPlanList({
                                 : " · 맨몸"
                             }`
                         : null}
-                      <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <span className="text-xs text-muted">
                         {lockWeightReps ? " · " : ""}약 {kcal}kcal
                       </span>
                     </p>
                     {item.memo ? (
-                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+                      <p className="mt-1 flex items-start gap-1 text-xs leading-5 text-muted">
                         <StickyNote
                           aria-hidden="true"
                           size={12}
@@ -738,7 +738,7 @@ export function TodayPlanList({
                         e.stopPropagation();
                         setEditingId(item.id);
                       }}
-                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-brand transition active:bg-zinc-100 dark:active:bg-white/[0.08]"
+                      className="min-h-11 min-w-11 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-brand transition active:bg-zinc-100 dark:active:bg-white/[0.08]"
                     >
                       <Pencil aria-hidden="true" size={16} />
                     </button>
@@ -757,11 +757,11 @@ export function TodayPlanList({
                           e.stopPropagation();
                           setMemoTarget(item);
                         }}
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
+                        className={"min-h-11 min-w-11 " + (`flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition active:bg-zinc-100 dark:active:bg-white/[0.08] ${
                           item.memo
                             ? "text-zinc-700 dark:text-zinc-200"
                             : "text-zinc-300 dark:text-zinc-600"
-                        }`}
+                        }`)}
                       >
                         <StickyNote aria-hidden="true" size={16} />
                       </button>
@@ -847,7 +847,7 @@ function MemoDialog({
         <div className="mb-3 flex items-center gap-2">
           <StickyNote
             aria-hidden="true"
-            className="text-amber-500"
+            className="text-warn"
             size={18}
           />
           <h3 className="text-base font-bold text-zinc-950 dark:text-zinc-100">
@@ -869,7 +869,7 @@ function MemoDialog({
           className="w-full resize-y rounded-md border app-field px-3 py-2 text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-zinc-400"
         />
         {error ? (
-          <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+          <p className="mt-2 text-xs font-semibold text-danger dark:text-danger">
             {error}
           </p>
         ) : null}
@@ -878,7 +878,7 @@ function MemoDialog({
             type="button"
             onClick={onClose}
             disabled={pending}
-            className="inline-flex h-10 items-center rounded-md border app-field px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
+            className="min-h-11 min-w-11 inline-flex h-10 items-center rounded-md border app-field px-4 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-700 disabled:opacity-60"
           >
             취소
           </button>
@@ -886,7 +886,7 @@ function MemoDialog({
             type="button"
             onClick={save}
             disabled={pending}
-            className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+            className="min-h-11 min-w-11 inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
           >
             {pending ? (
               <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -1078,7 +1078,7 @@ function ExerciseEditForm({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
           {item.name}
-          <span className="ml-2 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+          <span className="ml-2 text-xs font-medium text-muted">
             {item.equipmentLabel}
           </span>
         </div>
@@ -1087,11 +1087,11 @@ function ExerciseEditForm({
             type="button"
             onClick={perSet ? disablePerSet : enablePerSet}
             disabled={pending}
-            className={`inline-flex h-7 items-center rounded-md border px-2 text-xs font-semibold transition ${
+            className={"min-h-11 min-w-11 " + (`inline-flex h-7 items-center rounded-md border px-2 text-xs font-semibold transition ${
               perSet
                 ? "border-brand/40 bg-brand-soft text-brand"
                 : "app-field text-zinc-600 dark:text-zinc-300"
-            }`}
+            }`)}
           >
             세트별 다르게
           </button>
@@ -1102,7 +1102,7 @@ function ExerciseEditForm({
         <div className="flex flex-col gap-1.5">
           {detailRows.map((row, i) => (
             <div key={i} className="flex flex-wrap items-center gap-1.5">
-              <span className="w-9 shrink-0 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+              <span className="w-9 shrink-0 text-xs font-semibold text-muted">
                 {i + 1}세트
               </span>
               <input
@@ -1115,7 +1115,7 @@ function ExerciseEditForm({
                 disabled={pending}
                 className={inputCls}
               />
-              <span className="whitespace-nowrap text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="whitespace-nowrap text-xs text-muted">
                 kg ×
               </span>
               <input
@@ -1127,7 +1127,7 @@ function ExerciseEditForm({
                 disabled={pending}
                 className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-muted">
                 회
               </span>
               <button
@@ -1135,7 +1135,7 @@ function ExerciseEditForm({
                 aria-label="세트 삭제"
                 onClick={() => removeDetail(i)}
                 disabled={pending || detailRows.length <= minSets}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-40"
+                className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 dark:text-zinc-500 transition hover:bg-danger/10 dark:hover:bg-red-950/40 hover:text-danger disabled:opacity-40"
               >
                 <X aria-hidden="true" size={15} />
               </button>
@@ -1145,7 +1145,7 @@ function ExerciseEditForm({
             type="button"
             onClick={addDetail}
             disabled={pending || detailRows.length >= 20}
-            className="inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex h-8 w-fit items-center gap-1 rounded-md border border-dashed border-zinc-300 dark:border-zinc-600 px-2.5 text-xs font-semibold text-zinc-600 dark:text-zinc-300 transition hover:border-brand/40 hover:text-brand disabled:opacity-50"
           >
             <Plus aria-hidden="true" size={13} />
             세트 추가
@@ -1166,7 +1166,7 @@ function ExerciseEditForm({
             disabled={pending}
             className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
           />
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">세트</span>
+          <span className="text-xs text-muted">세트</span>
           {/* 고정 끔이면 무게·횟수 입력 숨김 — 운동모드에서 그때그때 설정 */}
           {lockWeightReps ? (
             <>
@@ -1182,7 +1182,7 @@ function ExerciseEditForm({
                 disabled={pending}
                 className="h-9 w-14 rounded-md border app-field px-2 text-center text-sm"
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">회</span>
+              <span className="text-xs text-muted">회</span>
               <input
                 aria-label="무게(kg)"
                 type="number"
@@ -1196,7 +1196,7 @@ function ExerciseEditForm({
                 disabled={pending}
                 className="h-9 w-16 rounded-md border app-field px-2 text-center text-sm"
               />
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <span className="text-xs text-muted">
                 kg (빈칸=맨몸)
               </span>
             </>
@@ -1213,7 +1213,7 @@ function ExerciseEditForm({
           type="button"
           onClick={save}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -1226,17 +1226,17 @@ function ExerciseEditForm({
           type="button"
           onClick={onCancel}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>
       </div>
       {error ? (
-        <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="text-xs font-semibold text-danger dark:text-danger">
           {error}
         </p>
       ) : minSets > 1 && (exerciseDone || setsDone > 0) ? (
-        <p data-testid="sets-min-hint" className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p data-testid="sets-min-hint" className="text-xs text-muted">
           {exerciseDone ? "완료한 운동" : `${minSets}세트 완료`} — 완료를 취소하기 전엔 {minSets}세트 아래로 못 줄여요.
         </p>
       ) : null}
@@ -1367,7 +1367,7 @@ function AddExerciseSlot({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
+        className="min-h-11 min-w-11 app-card flex w-full items-center justify-center gap-2 border-2 border-dashed px-4 py-5 text-sm font-semibold text-zinc-600 dark:text-zinc-400 transition hover:border-brand/40 hover:bg-brand-soft hover:text-brand"
       >
         <Plus aria-hidden="true" size={18} />
         오늘 루틴에 운동 추가
@@ -1429,7 +1429,7 @@ function AddExerciseSlot({
           type="button"
           onClick={submit}
           disabled={pending || loading || !exerciseId}
-          className="inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 whitespace-nowrap rounded-md bg-brand px-3 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -1445,17 +1445,17 @@ function AddExerciseSlot({
             setError(null);
           }}
           disabled={pending}
-          className="inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1 rounded-md border app-field px-2.5 text-sm font-semibold text-zinc-700 dark:text-zinc-300 transition hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-60"
         >
           취소
         </button>
       </div>
-      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-muted">
         세트·횟수·무게는 프로필 추천값으로 자동 설정됩니다. 추가 후 운동을 눌러
         상세에서 조절할 수 있어요.
       </p>
       {error ? (
-        <p className="mt-2 text-xs font-semibold text-red-600 dark:text-red-400">
+        <p className="mt-2 text-xs font-semibold text-danger dark:text-danger">
           {error}
         </p>
       ) : null}

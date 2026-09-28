@@ -1,5 +1,6 @@
 "use client";
 
+import { shortDateLabel } from "@/features/profile/body-chart-data";
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 
 import type { ContributionDay } from "@/features/home/dashboard-metrics";
@@ -124,11 +125,11 @@ export function ContributionGraph({
                   <button
                     type="button"
                     key={`${wi}-${di}`}
-                    aria-label={`${day.date} · ${day.minutes}분`}
+                    aria-label={`${shortDateLabel(day.date)} · ${day.minutes}분`}
                     aria-pressed={selected?.date === day.date}
                     onPointerDown={event => event.stopPropagation()}
                     onClick={() => setSelected(day)}
-                    title={`${day.date} · ${day.minutes}분`}
+                    title={`${shortDateLabel(day.date)} · ${day.minutes}분`}
                     className={`h-[13px] w-[13px] rounded-[3px] ring-inset ring-black/5 transition hover:scale-125 focus-visible:outline-2 focus-visible:outline-brand ${LEVEL_CLASS[day.level]}`}
                   />
                 ),
@@ -137,8 +138,9 @@ export function ContributionGraph({
           </div>
         </div>
       </div>
+      <label className="flex min-h-11 items-center gap-3 text-sm">날짜로 조회<input type="date" aria-label="운동 잔디 날짜 조회" value={selected?.date ?? ""} min={days.find(day => day.level >= 0)?.date} max={days.filter(day => day.level >= 0).at(-1)?.date} onChange={event => setSelected(days.find(day => day.date === event.target.value && day.level >= 0) ?? null)} className="min-h-11 min-w-0 rounded-lg border border-line bg-transparent px-2" /></label>
       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-        <p role="status">{selected ? `${selected.date} · ${selected.minutes}분 운동` : "날짜를 누르면 운동 시간을 볼 수 있어요"}</p>
+        <p role="status">{selected ? `${shortDateLabel(selected.date)} · ${selected.minutes}분 운동` : "날짜를 누르면 운동 시간을 볼 수 있어요"}</p>
         <div className="flex items-center gap-1.5" aria-label="운동 시간이 많을수록 진한 색"><span>적음</span>{([0, 1, 2, 3, 4] as const).map(level => <span key={level} className={`h-3 w-3 rounded-[3px] ${LEVEL_CLASS[level]}`} />)}<span>많음</span></div>
       </div>
     </section>

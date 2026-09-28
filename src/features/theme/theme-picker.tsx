@@ -54,7 +54,7 @@ export function ThemePicker() {
 
   return (
     <div className="flex items-center justify-between gap-3 px-4 py-2.5">
-      <span className="text-base text-zinc-900 dark:text-zinc-100">화면</span>
+      <span className="text-base text-foreground">화면</span>
       <div
         role="radiogroup"
         aria-label="화면 밝기"
@@ -69,11 +69,11 @@ export function ThemePicker() {
               role="radio"
               aria-checked={selected}
               onClick={() => select(opt.value)}
-              className={`min-w-14 rounded-[8px] px-3 py-1 text-sm transition ${
+              className={"min-h-11 min-w-11 " + (`min-w-14 rounded-[8px] px-3 py-1 text-sm transition ${
                 selected
                   ? "bg-white font-semibold text-zinc-900 shadow-sm dark:bg-zinc-600 dark:text-white"
                   : "text-zinc-600 dark:text-zinc-400"
-              }`}
+              }`)}
             >
               {opt.label}
             </button>

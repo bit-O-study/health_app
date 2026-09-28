@@ -154,7 +154,7 @@ export function PermissionNudge() {
         type="button"
         onClick={isPush ? allowPush : allowSteps}
         disabled={busy !== null}
-        className="inline-flex h-8 shrink-0 items-center gap-1 rounded-[10px] px-2.5 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-50"
+        className="min-h-11 min-w-11 inline-flex h-8 shrink-0 items-center gap-1 rounded-[10px] px-2.5 text-sm font-semibold text-brand transition hover:bg-brand-soft disabled:opacity-50"
       >
         {busy ? (
           <Loader2 aria-hidden="true" size={14} className="animate-spin" />
@@ -167,7 +167,7 @@ export function PermissionNudge() {
         disabled={busy !== null}
         aria-label={dismissLabel}
         title={dismissLabel}
-        className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 disabled:opacity-50 dark:hover:bg-white/[0.06] dark:hover:text-zinc-200"
+        className="min-h-11 min-w-11 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700 disabled:opacity-50 dark:hover:bg-white/[0.06] dark:hover:text-zinc-200"
       >
         <X aria-hidden="true" size={16} />
       </button>

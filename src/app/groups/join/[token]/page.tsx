@@ -87,7 +87,7 @@ export default async function JoinGroupPage({
         <JoinConfirm token={token} groupName={name} />
       ) : (
         <div className="text-center">
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="text-sm text-muted">
             유효하지 않거나 만료된 초대 링크예요.
           </p>
           <Link

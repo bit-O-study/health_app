@@ -94,11 +94,11 @@ export function NotificationBell() {
         type="button"
         aria-label={has ? "알림 있음" : "알림"}
         onClick={() => setOpen((o) => !o)}
-        className="relative inline-flex h-9 w-9 items-center justify-center rounded-md text-zinc-600 transition hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-zinc-100"
+        className="min-h-11 min-w-11 relative inline-flex h-9 w-9 items-center justify-center rounded-md text-zinc-600 transition hover:text-zinc-950 dark:text-zinc-400 dark:hover:text-zinc-100"
       >
         <Bell aria-hidden="true" size={18} />
         {has ? (
-          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-zinc-950" />
+          <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-danger ring-2 ring-white dark:ring-zinc-950" />
         ) : null}
       </button>
 
@@ -120,7 +120,7 @@ export function NotificationBell() {
                   clearPrompt();
                   setOpen(false);
                 }}
-                className="text-xs font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
+                className="min-h-11 min-w-11 text-xs font-semibold text-zinc-400 transition hover:text-zinc-600 dark:hover:text-zinc-200"
               >
                 지우기
               </button>
@@ -129,7 +129,7 @@ export function NotificationBell() {
 
           {prompt ? (
             <div className="p-3">
-              <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              <p className="text-sm font-bold text-foreground">
                 {prompt.title}
               </p>
               <p className="mt-1 text-xs leading-5 text-zinc-600 dark:text-zinc-300">
@@ -142,7 +142,7 @@ export function NotificationBell() {
                     prompt.onNo();
                     setOpen(false);
                   }}
-                  className="h-9 rounded-lg px-3 text-sm font-semibold text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                  className="min-h-11 min-w-11 h-9 rounded-lg px-3 text-sm font-semibold text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
                 >
                   아니오
                 </button>
@@ -152,7 +152,7 @@ export function NotificationBell() {
                     prompt.onYes();
                     setOpen(false);
                   }}
-                  className="h-9 rounded-lg bg-brand px-3 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
+                  className="min-h-11 min-w-11 h-9 rounded-lg bg-brand px-3 text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90"
                 >
                   예
                 </button>

@@ -24,7 +24,7 @@ export default async function AssignRoutinePage({
       <div className="app-page">
         <PageHeader title="루틴 배정" back="회원 관리" backHref={`/groups/${id}/trainer`} />
         <main className="app-container">
-          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             이 회원에게는 루틴을 배정할 수 없어요.
           </p>
         </main>
@@ -36,7 +36,7 @@ export default async function AssignRoutinePage({
     <div className="app-page">
       <PageHeader title="루틴 배정" back="회원 관리" backHref={`/groups/${id}/trainer`} />
       <main className="app-container space-y-3">
-      <p className="-mt-1 truncate px-1 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="-mt-1 truncate px-1 text-sm text-muted">
         {options.memberName} 님
       </p>
 

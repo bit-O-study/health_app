@@ -17,7 +17,8 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
 import { getMonthlyCalendar } from "@/features/calendar/data-access";
-import { getMissionCalendar } from "@/features/commitments/data-access";
+import { getTodaySteps } from "@/features/health/steps-data";
+import { getCommitmentBands, getMissionCalendar } from "@/features/commitments/data-access";
 import { MARKER_SYMBOL } from "@/features/commitments/missions";
 import { getBodyLogs } from "@/features/profile/body-logs";
 import {
@@ -69,7 +70,7 @@ export default async function CalendarPage({
   const today = seoulYmd();
   if (view === "goals") {
     const dashboard = await getHomeDashboard();
-    return <main className="app-page app-container space-y-4"><h1 className="text-2xl font-bold">나의 목표</h1>
+    return <main className="app-page app-container space-y-4"><h1 className="text-xl font-bold">나의 목표</h1>
       <TodayGoalCard goal={dashboard.goalCard} missions={[]} totalMissions={0} current={dashboard.current} />
       <Link href="/settings/profile" className="app-card block p-4 font-semibold">체형 목표 설정·기록 →</Link>
       <Link href="/commitments" className="app-card block p-4"><h2 className="font-bold">오늘의 다짐</h2><p className="mt-2 text-sm text-zinc-500">{dashboard.todayCommitments.filter(item => item.done).length} / {dashboard.todayCommitments.length}개 달성 · 다짐 관리 →</p></Link>
@@ -93,6 +94,8 @@ export default async function CalendarPage({
     debug,
     coachEnabled,
     missionMarks,
+    bands,
+    todaySteps,
   ] = await Promise.all([
     getMonthlyCalendar(from, to),
     getBodyLogs(),
@@ -100,6 +103,8 @@ export default async function CalendarPage({
     isDebugFeatureEnabled("steps"),
     isDebugFeatureEnabled("helssu-coach"),
     getMissionCalendar(from, to),
+    getCommitmentBands(),
+    getTodaySteps(),
   ]);
   const spent = workoutBurnedTotal - intakeTotal;
 
@@ -135,11 +140,11 @@ export default async function CalendarPage({
       <Link
         href={isWeek ? `/calendar/week?d=${week.previous}` : `/calendar?m=${monthParam(prev)}${view === "stats" ? "&view=stats" : ""}`}
         aria-label={isWeek ? "이전 주" : "이전 달"}
-        className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        className="flex h-11 w-11 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
         <ChevronLeft aria-hidden="true" size={18} />
       </Link>
-      <h2 className="min-w-[5.5rem] text-center text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+      <h2 className="min-w-[5.5rem] text-center text-sm font-semibold tabular-nums text-foreground">
         {isWeek ? `${week.from} ~ ${week.to}` : `${year}년 ${month0 + 1}월`}
       </h2>
       <Link
@@ -151,6 +156,7 @@ export default async function CalendarPage({
       </Link>
     </PageHeader>
     <main className="app-container space-y-5">
+      <Link href="/routine/records" className="app-card flex min-h-11 items-center justify-between px-4 py-3 text-sm font-semibold">운동 기록 · 성장 그래프 · 운동 점수<ChevronRight aria-hidden="true" size={18} /></Link>
       {/* 걸음수 동기화(네이티브) + 생리 기록(여성). 둘 다 없으면 줄째 숨긴다. */}
       <div className="flex items-center justify-end gap-2 empty:hidden">
         {profile?.gender === "female" ? (
@@ -208,8 +214,8 @@ export default async function CalendarPage({
                     aria-label="생리"
                     className={`absolute right-0.5 top-0.5 ${
                       isPeriod
-                        ? "fill-rose-500 text-rose-500"
-                        : "text-rose-300 dark:text-rose-700"
+                        ? "fill-rose-500 text-danger"
+                        : "text-danger dark:text-danger"
                     }`}
                     size={9}
                   />
@@ -228,8 +234,8 @@ export default async function CalendarPage({
                       mMark.marker === "circle"
                         ? "text-brand"
                         : mMark.marker === "triangle"
-                          ? "text-amber-500"
-                          : "text-rose-400"
+                          ? "text-warn"
+                          : "text-danger"
                     }`}
                   >
                     {MARKER_SYMBOL[mMark.marker]}
@@ -248,12 +254,12 @@ export default async function CalendarPage({
                     {holiday.name}
                   </span>
                 ) : bok ? (
-                  <span className="w-full truncate text-center text-xs leading-4 text-zinc-500 dark:text-zinc-400">
+                  <span className="w-full truncate text-center text-xs leading-4 text-muted">
                     {bok.name}
                   </span>
                 ) : null}
                 {s && s.intake > 0 ? (
-                  <span className="text-xs leading-4 tabular-nums text-zinc-500 dark:text-zinc-400">
+                  <span className="text-xs leading-4 tabular-nums text-muted">
                     +{s.intake}
                   </span>
                 ) : null}
@@ -268,6 +274,11 @@ export default async function CalendarPage({
         </div>
       </div>
 
+      {debug && todaySteps !== null && <p className="text-sm text-muted">오늘 {todaySteps.toLocaleString()}걸음</p>}
+      {bands.some(b => b.startDate <= to && b.deadline >= from) && <section aria-label="진행 중인 다짐" className="app-card space-y-2 p-4">
+        <h2 className="text-base font-bold">다짐 일정</h2>
+        {bands.filter(b => b.startDate <= to && b.deadline >= from).map(b => <Link key={b.id} href="/commitments" className="flex min-h-11 items-center justify-between gap-3 rounded-lg border-l-4 border-brand bg-brand-soft px-3 text-sm"><span className="truncate">{b.title}</span><span className="shrink-0 text-xs text-muted">{shortDateLabel(b.startDate)} ~ {shortDateLabel(b.deadline)}</span></Link>)}
+      </section>}
       {/* 월 요약 — 카드 4장을 한 장으로: 섭취·소비·수지 세 칸 + 체중 한 줄 */}
       <section>
         <h2 className="app-section-label">{isWeek ? "이번 주 요약" : "이번 달 요약"}</h2>
@@ -308,7 +319,7 @@ function WeightRow({
         href="/settings/profile"
         className="app-row text-sm transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
       >
-        <span className="flex-1 text-zinc-500 dark:text-zinc-400">체중 기록이 없어요</span>
+        <span className="flex-1 text-muted">체중 기록이 없어요</span>
         <span className="whitespace-nowrap font-semibold text-brand">기록하기</span>
         <ChevronRight aria-hidden="true" size={16} className="-ml-2 shrink-0 text-zinc-400" />
       </Link>
@@ -325,7 +336,7 @@ function WeightRow({
       : "text-zinc-500 dark:text-zinc-400";
   return (
     <div className="app-row justify-between">
-      <span className="flex items-baseline gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
+      <span className="flex items-baseline gap-1.5 text-sm text-muted">
         현재 체중
         {measuredAt ? (
           <span className="whitespace-nowrap text-xs text-zinc-400 dark:text-zinc-500">
@@ -367,7 +378,7 @@ function SummaryStat({
 }) {
   return (
     <div className="min-w-0 px-2 text-center">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
         {value.toLocaleString()}
         <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>

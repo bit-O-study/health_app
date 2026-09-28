@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight, Check, Settings, Target } from "lucide-react";
-import { WeeklyReportCard } from "@/features/routine/components/weekly-report-card";
-import { WeeklyTrainingSummary } from "@/features/routine/components/weekly-training-summary";
+import { WeeklyOverviewCard } from "@/features/routine/components/weekly-overview-card";
 import { redirect } from "next/navigation";
 
 import { PromoBanner } from "@/features/cross-promo/promo-banner";
@@ -75,7 +74,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
               <div className="mb-3 flex items-center justify-between gap-3">
                 <div className="flex min-w-0 items-center gap-2">
                   <Target aria-hidden="true" size={15} className="shrink-0 text-brand" />
-                  <span className="truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">오늘의 다짐</span>
+                  <span className="truncate text-sm font-bold text-foreground">오늘의 다짐</span>
                   {todayCommitments.length > 0 ? (
                     <span className="shrink-0 text-xs font-bold tabular-nums text-brand">
                       {doneCount}/{todayCommitments.length}
@@ -86,7 +85,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
               </div>
 
               {todayCommitments.length === 0 ? (
-                <p className="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+                <p className="text-sm leading-6 text-muted">
                   오늘 진행 중인 다짐이 없어요. 작은 목표부터 만들어 보세요.
                 </p>
               ) : (
@@ -106,8 +105,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
               )}
             </Link>
 
-        <WeeklyReportCard report={weekly} />
-        {training && <WeeklyTrainingSummary regions={training.regions} weekSets={training.weekSets} />}
+        <WeeklyOverviewCard report={weekly} regions={training?.regions ?? []} weekSets={training?.weekSets ?? 0} />
         <ContributionGraph days={dashboard.contributions} totalWorkoutDays={dashboard.workoutCount} />
       </main>
     </div>

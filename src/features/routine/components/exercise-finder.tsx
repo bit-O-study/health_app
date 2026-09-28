@@ -70,7 +70,7 @@ export function ExerciseFinder() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex h-9 items-center gap-1.5 rounded-md border border-brand/40 bg-brand-soft px-3 text-sm font-semibold text-brand transition hover:bg-brand-soft"
+        className="min-h-11 min-w-11 inline-flex h-9 items-center gap-1.5 rounded-md border border-brand/40 bg-brand-soft px-3 text-sm font-semibold text-brand transition hover:bg-brand-soft"
       >
         <Search aria-hidden="true" size={15} />
         운동 찾기
@@ -90,7 +90,7 @@ export function ExerciseFinder() {
           >
             {/* 헤더 */}
             <div className="flex items-center justify-between border-b border-zinc-100 px-4 py-3 dark:border-zinc-800">
-              <span className="flex items-center gap-1.5 text-sm font-bold text-zinc-900 dark:text-zinc-100">
+              <span className="flex items-center gap-1.5 text-sm font-bold text-foreground">
                 <Sparkles aria-hidden="true" size={16} className="text-brand" />
                 운동 찾기
               </span>
@@ -98,7 +98,7 @@ export function ExerciseFinder() {
                 type="button"
                 aria-label="닫기"
                 onClick={() => setOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+                className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
               >
                 <X aria-hidden="true" size={18} />
               </button>
@@ -125,7 +125,7 @@ export function ExerciseFinder() {
                   <div className="flex justify-start">
                     <div className="max-w-[88%] rounded-2xl rounded-bl-sm bg-zinc-100 px-3 py-2 text-sm text-zinc-800 dark:bg-zinc-800 dark:text-zinc-100">
                       {t.hits === null ? (
-                        <span className="flex items-center gap-1.5 text-zinc-500 dark:text-zinc-400">
+                        <span className="flex items-center gap-1.5 text-muted">
                           <Loader2
                             aria-hidden="true"
                             size={14}
@@ -179,13 +179,13 @@ export function ExerciseFinder() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="메시지를 입력하세요"
-                className="h-10 flex-1 rounded-full border border-zinc-300 bg-zinc-50 px-4 text-sm text-zinc-900 outline-none transition focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+                className="h-10 flex-1 rounded-full border border-zinc-300 bg-zinc-50 px-4 text-sm text-zinc-900 outline-none transition focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100" aria-label="메시지를 입력하세요"
               />
               <button
                 type="submit"
                 aria-label="검색"
                 disabled={!input.trim() || searching}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-40"
+                className="min-h-11 min-w-11 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-40"
               >
                 <Send aria-hidden="true" size={17} />
               </button>

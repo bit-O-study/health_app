@@ -67,10 +67,10 @@ export function CommitmentSuggestions() {
           <Target aria-hidden="true" size={20} />
         </span>
         <div className="min-w-0 flex-1">
-          <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+          <h2 className="text-sm font-bold text-foreground">
             AI 다짐 짜주기
           </h2>
-          <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
+          <p className="text-xs leading-5 text-muted">
             내 운동·식단 데이터로 실천 가능한 다짐을 제안받고, 바로 추가하세요.
           </p>
         </div>
@@ -80,7 +80,7 @@ export function CommitmentSuggestions() {
         type="button"
         onClick={suggest}
         disabled={pending && addingIdx === null}
-        className="mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+        className="min-h-11 min-w-11 mt-3 inline-flex h-10 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         {pending && addingIdx === null ? (
           <Loader2 aria-hidden="true" size={16} className="animate-spin" />
@@ -91,7 +91,7 @@ export function CommitmentSuggestions() {
       </button>
 
       {error ? (
-        <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 dark:bg-red-950/40 dark:text-red-400">
+        <p className="mt-3 rounded-lg bg-danger/10 px-3 py-2 text-xs font-semibold text-danger dark:bg-red-950/40 dark:text-danger">
           {error}
         </p>
       ) : null}
@@ -107,10 +107,10 @@ export function CommitmentSuggestions() {
                 className="flex items-center gap-2 rounded-xl border border-zinc-200 p-3 dark:border-zinc-800"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <p className="truncate text-sm font-bold text-foreground">
                     {s.title}
                   </p>
-                  <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                  <p className="text-xs text-muted">
                     {meta.label} {s.target.toLocaleString()}
                     {meta.unit} · {s.days}일
                   </p>
@@ -119,11 +119,11 @@ export function CommitmentSuggestions() {
                   type="button"
                   onClick={() => add(s, i)}
                   disabled={pending || done}
-                  className={`inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-3 text-xs font-bold transition disabled:opacity-60 ${
+                  className={"min-h-11 min-w-11 " + (`inline-flex h-8 shrink-0 items-center gap-1 rounded-lg px-3 text-xs font-bold transition disabled:opacity-60 ${
                     done
                       ? "bg-brand-soft text-brand"
                       : "bg-brand text-white dark:text-zinc-950 hover:bg-brand/90"
-                  }`}
+                  }`)}
                 >
                   {addingIdx === i ? (
                     <Loader2 aria-hidden="true" size={13} className="animate-spin" />

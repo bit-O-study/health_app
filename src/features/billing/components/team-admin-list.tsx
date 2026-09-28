@@ -142,7 +142,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
           data-testid="team-approve"
           disabled={pending}
           onClick={approve}
-          className="inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+          className="min-h-11 min-w-11 inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           {pending ? <Loader2 aria-hidden="true" size={14} className="animate-spin" /> : null}
           {row.status === "active" ? "기간 연장·수정" : "입금 확인 · 이용 시작"}
@@ -152,7 +152,7 @@ function TeamRow({ row, today }: { row: Row; today: string }) {
             type="button"
             disabled={pending}
             onClick={cancel}
-            className="h-10 rounded-xl border border-red-300 px-3 text-xs font-bold text-red-600 disabled:opacity-50 dark:border-red-800"
+            className="min-h-11 min-w-11 h-10 rounded-xl border border-danger px-3 text-xs font-bold text-danger disabled:opacity-50 dark:border-danger"
           >
             해지
           </button>

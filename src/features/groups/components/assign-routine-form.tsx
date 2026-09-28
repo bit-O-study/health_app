@@ -40,14 +40,14 @@ export function AssignRoutineForm({
 
   if (mine.length === 0) {
     return (
-      <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="app-card p-3 text-sm text-muted">
         먼저 내 루틴을 만들어야 회원에게 배정할 수 있어요.
       </p>
     );
   }
   if (theirs.length === 0) {
     return (
-      <p className="app-card p-3 text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="app-card p-3 text-sm text-muted">
         {memberName} 님이 아직 루틴을 만들지 않았어요. 회원이 루틴을 만든 뒤에 배정할 수
         있어요.
       </p>
@@ -118,7 +118,7 @@ export function AssignRoutineForm({
             data-testid="assign-confirm"
             disabled={pending}
             onClick={submit}
-            className="inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
           >
             {pending ? <Loader2 aria-hidden="true" size={15} className="animate-spin" /> : null}
             네, 배정할게요
@@ -127,7 +127,7 @@ export function AssignRoutineForm({
             type="button"
             disabled={pending}
             onClick={() => setConfirming(false)}
-            className="h-11 rounded-xl bg-zinc-100 px-4 text-sm font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
+            className="min-h-11 min-w-11 h-11 rounded-xl bg-zinc-100 px-4 text-sm font-semibold text-zinc-600 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-300"
           >
             취소
           </button>
@@ -138,7 +138,7 @@ export function AssignRoutineForm({
           data-testid="assign-start"
           disabled={!ready || pending}
           onClick={() => setConfirming(true)}
-          className="h-11 w-full rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
+          className="min-h-11 min-w-11 h-11 w-full rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950 app-press disabled:opacity-50"
         >
           루틴 배정하기
         </button>

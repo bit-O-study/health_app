@@ -107,7 +107,7 @@ export default async function ExerciseDetailPage({
                 </span>
               ))}
             </div>
-            <p className="mt-0.5 text-sm leading-5 text-zinc-500 dark:text-zinc-400">
+            <p className="mt-0.5 text-sm leading-5 text-muted">
               {exercise.target}
             </p>
           </div>
@@ -134,7 +134,7 @@ export default async function ExerciseDetailPage({
             className="app-list app-row app-press"
           >
             <PlayCircle aria-hidden="true" className="shrink-0 text-danger" size={20} />
-            <span className="min-w-0 flex-1 truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+            <span className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">
               유튜브에서 ‘{exercise.name}’ 운동법 보기
             </span>
             <span aria-hidden="true" className="shrink-0 text-xs text-zinc-400">↗</span>

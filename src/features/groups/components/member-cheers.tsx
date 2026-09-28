@@ -79,7 +79,7 @@ export function MemberCheers({
             onClick={submit}
             disabled={pending}
             aria-label="응원 남기기"
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+            className="min-h-11 min-w-11 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-brand text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
           >
             {pending ? (
               <Loader2 aria-hidden="true" size={14} className="animate-spin" />
@@ -92,7 +92,7 @@ export function MemberCheers({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
+          className="min-h-11 min-w-11 inline-flex items-center gap-1 text-xs font-semibold text-brand hover:underline"
         >
           <MessageCircleHeart aria-hidden="true" size={12} />
           {mine ? "응원 수정" : "응원 남기기"}

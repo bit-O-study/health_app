@@ -1,3 +1,5 @@
+import { PageHeader } from "@/components/page-header";
+import { shortDateLabel } from "@/features/profile/body-chart-data";
 import Link from "next/link";
 import { MemberStatistics } from "@/features/trainer/components/member-statistics";
 import { notFound, redirect } from "next/navigation";
@@ -62,8 +64,7 @@ export default async function MemberManagementPage({ params, searchParams }: {
     focusLabel: isDayBlockId(row.focus) ? DAY_BLOCKS[row.focus].label : row.focus,
   }));
   return <main className="app-page app-container space-y-6">
-    <Link href={`/trainer`} className="text-sm text-brand">← 회원 관리</Link>
-    <header><h1 className="text-xl font-bold">{data.name} 님 관리</h1><p className="mt-1 text-sm text-zinc-500">운동 통계와 운동 처방을 한곳에서 확인하세요.</p></header>
+    <PageHeader title={`${data.name} 님 관리`} back="회원 관리" backHref="/trainer/members" />
     <nav aria-label="회원 관리 화면" className="grid grid-cols-2 gap-1 rounded-2xl bg-zinc-100 p-1 dark:bg-zinc-800">{[{id:"prescription",label:"운동 처방"},{id:"stats",label:"운동 통계"}].map(item => <Link key={item.id} scroll={false} href={`${url}?view=${item.id}`} aria-current={view === item.id ? "page" : undefined} className={`rounded-xl px-4 py-3 text-center text-sm font-semibold ${view === item.id ? "bg-white text-foreground shadow-sm dark:bg-zinc-950" : "text-muted"}`}>{item.label}</Link>)}</nav>
     {view === "stats" ? <div className="space-y-5">
     <nav aria-label="통계 기간" className="flex gap-2">{periods.map(p => <Link key={p.id} href={`${url}?view=stats&period=${p.id}&date=${date}`} aria-current={period === p.id ? "page" : undefined} className={`rounded-lg px-4 py-2 text-sm font-semibold ${period === p.id ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 dark:bg-zinc-800"}`}>{p.label}</Link>)}</nav>
@@ -71,11 +72,11 @@ export default async function MemberManagementPage({ params, searchParams }: {
       <input type="hidden" name="view" value="stats" />
       <input type="hidden" name="period" value={period} />
       <label className="text-sm">기준 날짜<input type="date" name="date" defaultValue={date} key={date} required className="ml-2 rounded-lg border border-zinc-300 bg-transparent p-2 dark:border-zinc-700" /></label>
-      <button type="submit" className="rounded-lg border px-3 py-2 text-sm">조회</button>
+      <button type="submit" className="min-h-11 min-w-11 rounded-lg border px-3 py-2 text-sm">조회</button>
     </form>
     <div className="flex items-center justify-between gap-2 text-sm">
       <Link aria-label="이전 기간" href={`${url}?view=stats&period=${period}&date=${shift(range.from, -1)}`}>← 이전</Link>
-      <p>{range.from} ~ {range.to}</p>
+      <p>{shortDateLabel(range.from)} ~ {shortDateLabel(range.to)}</p>
       <Link aria-label="다음 기간" href={`${url}?view=stats&period=${period}&date=${shift(range.to, 1)}`}>다음 →</Link>
     </div>
     <MemberStatistics stats={stats} sharing={sharing} period={period} />

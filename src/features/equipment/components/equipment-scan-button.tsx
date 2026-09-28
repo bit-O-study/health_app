@@ -20,7 +20,7 @@ export function EquipmentScanButton() {
         onClick={() => setOpen(true)}
         aria-label="기구 사진으로 운동 찾기"
         title="기구 사진으로 운동 찾기"
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 bg-white text-zinc-600 transition hover:border-brand/40 hover:text-brand dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+        className="min-h-11 min-w-11 inline-flex h-10 w-10 items-center justify-center rounded-full border border-zinc-300 bg-white text-zinc-600 transition hover:border-brand/40 hover:text-brand dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
       >
         <ScanSearch aria-hidden="true" size={18} />
       </button>
@@ -32,7 +32,7 @@ export function EquipmentScanButton() {
               기본 여백을 항상 더한다. */}
           <div className="max-h-[85dvh] w-full max-w-md overflow-y-auto rounded-t-2xl bg-zinc-50 p-4 pb-[calc(env(safe-area-inset-bottom,0px)+2rem)] shadow-xl dark:bg-zinc-950 sm:max-h-[85dvh] sm:rounded-2xl sm:pb-4">
             <div className="mb-3 flex items-center justify-between">
-              <h3 className="flex items-center gap-1.5 text-base font-bold text-zinc-900 dark:text-zinc-100">
+              <h3 className="flex items-center gap-1.5 text-base font-bold text-foreground">
                 <ScanSearch aria-hidden="true" size={18} />
                 기구 사진으로 운동 찾기
               </h3>
@@ -40,7 +40,7 @@ export function EquipmentScanButton() {
                 type="button"
                 aria-label="닫기"
                 onClick={() => setOpen(false)}
-                className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+                className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
               >
                 <X aria-hidden="true" size={18} />
               </button>

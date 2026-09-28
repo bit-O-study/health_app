@@ -44,7 +44,7 @@ function MetricChart({ s }: { s: BodySeries }) {
         <span className="flex items-baseline gap-1.5">
           <span className="text-base font-bold text-zinc-950 dark:text-zinc-50">
             {s.latest}
-            <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            <span className="text-xs font-medium text-muted">
               {s.unit}
             </span>
           </span>
@@ -131,7 +131,7 @@ export function BodyChart({ logs }: { logs: BodyLog[] }) {
   const series = buildBodySeries(logs);
   if (series.length === 0) {
     return (
-      <p className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 p-6 text-center text-sm text-zinc-500 dark:text-zinc-400">
+      <p className="rounded-lg border border-dashed border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-900 p-6 text-center text-sm text-muted">
         아직 기록이 없습니다. 체형을 등록하면 추이가 그려집니다.
       </p>
     );

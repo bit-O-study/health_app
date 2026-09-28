@@ -63,7 +63,7 @@ export function MarkAllDoneButton({
         disabled={busy || total === 0}
         onClick={run}
         title={total === 0 ? "완료 처리할 운동이 없습니다" : undefined}
-        className="app-press inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-200"
+        className="min-h-11 min-w-11 app-press inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-800 disabled:opacity-50 dark:bg-white/[0.08] dark:text-zinc-200"
       >
         {busy ? (
           <Loader2 aria-hidden="true" className="animate-spin" size={14} />
@@ -72,7 +72,7 @@ export function MarkAllDoneButton({
         )}
         오늘 전부 완료
         {total > 0 ? (
-          <span className="tabular-nums text-zinc-500 dark:text-zinc-400">{total}</span>
+          <span className="tabular-nums text-muted">{total}</span>
         ) : null}
       </button>
       {failed ? (
@@ -85,14 +85,14 @@ export function MarkAllDoneButton({
         <span className="flex max-w-[240px] flex-col items-end gap-1 text-right">
           <span
             data-testid="mark-all-unconfirmed"
-            className="text-xs leading-tight text-amber-600 dark:text-amber-400"
+            className="text-xs leading-tight text-warn dark:text-warn"
           >
             저장 결과를 확인하지 못했어요. 새로고침해서 확인해 주세요.
           </span>
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="rounded-md border border-amber-300 px-2 py-0.5 text-xs font-bold text-amber-700 transition hover:bg-amber-50 dark:border-amber-800 dark:text-amber-300 dark:hover:bg-amber-950/40"
+            className="min-h-11 min-w-11 rounded-md border border-warn px-2 py-0.5 text-xs font-bold text-warn transition hover:bg-warn/10 dark:border-warn dark:text-warn dark:hover:bg-amber-950/40"
           >
             새로고침
           </button>

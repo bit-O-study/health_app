@@ -282,9 +282,9 @@ describe("누락·부분 기록", () => {
 
 describe("표기", () => {
   it("거리는 1km 를 기준으로 단위가 바뀐다", () => {
-    expect(formatDistance(0)).toBe("0m");
-    expect(formatDistance(940)).toBe("940m");
-    expect(formatDistance(3200)).toBe("3.2km");
+    expect(formatDistance(0)).toBe("0.00km");
+    expect(formatDistance(940)).toBe("0.94km");
+    expect(formatDistance(3200)).toBe("3.20km");
   });
 
   it("시간은 60분을 기준으로", () => {

@@ -82,10 +82,10 @@ export default async function PlanPage() {
   // 공통 머리글 + '루틴 변경'은 큰 제목 줄 오른쪽 작은 알약(2026-09-16 8단계) — 설명 문장은 뺐다.
   return (
     <div className="app-page">
-    <PageHeader branded title="운동 등록" back="운동" backHref="/routine">
+    <PageHeader title="운동 편집" back="운동" backHref="/routine">
       {/* '루틴 변경' — 메인 헤더에서 이 화면(운동 편집) 안으로 이동. */}
       <Link
-        className="app-press inline-flex h-8 items-center gap-0.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
+        className="app-press inline-flex min-h-11 items-center gap-0.5 whitespace-nowrap rounded-full bg-zinc-100 px-3 text-sm font-semibold text-brand dark:bg-white/[0.08]"
         href="/settings/routine"
       >
         루틴 변경
@@ -94,9 +94,8 @@ export default async function PlanPage() {
     </PageHeader>
     <main className="app-container">
       <nav aria-label="루틴 도구" className="mb-5 flex flex-wrap gap-2 text-sm font-semibold">
-        <Link href="/plan/muscle" className="rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">근육별 운동 선택</Link>
-        <Link href="/plan/today" className="rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">오늘만 운동 변경</Link>
-        <Link href="/settings/routine" className="rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">루틴 설정 · 프리셋</Link>
+        <Link href="/plan/muscle" className="inline-flex min-h-11 items-center rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">근육별 운동 선택</Link>
+        <Link href="/settings/routine" className="inline-flex min-h-11 items-center rounded-xl border border-zinc-200 px-3 py-2 dark:border-zinc-700">루틴 설정 · 프리셋</Link>
       </nav>
 
       <PlanEditor

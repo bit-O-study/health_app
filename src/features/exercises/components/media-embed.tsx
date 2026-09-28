@@ -193,7 +193,7 @@ export function MediaEmbed({
                 setVideoError(false);
                 setVideoRetry((value) => value + 1);
               }}
-              className="rounded-full bg-white px-4 py-2 text-sm font-bold text-zinc-900"
+              className="min-h-11 min-w-11 rounded-full bg-white px-4 py-2 text-sm font-bold text-zinc-900"
             >
               다시 불러오기
             </button>

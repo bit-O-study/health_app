@@ -60,7 +60,7 @@ export function SwipeHint() {
         aria-label="안내 그만 보기"
         title="안내 그만 보기"
         onClick={dismiss}
-        className="ml-auto flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-200/70 dark:active:bg-white/[0.08]"
+        className="min-h-11 min-w-11 ml-auto flex h-6 w-6 items-center justify-center rounded-full text-zinc-400 transition active:bg-zinc-200/70 dark:active:bg-white/[0.08]"
       >
         <X aria-hidden="true" size={13} />
       </button>

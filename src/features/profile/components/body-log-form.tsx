@@ -100,12 +100,12 @@ export function BodyLogForm({
                   key={o.id}
                   type="button"
                   onClick={() => setType(o.id)}
-                  className={cn(
+                  className={"min-h-11 min-w-11 " + (cn(
                     "rounded-lg border-2 px-3 py-2 text-sm font-semibold transition",
                     active
                       ? "border-brand/40 bg-brand-soft text-brand"
                       : "border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-500",
-                  )}
+                  ))}
                 >
                   {o.label}
                 </button>
@@ -115,7 +115,7 @@ export function BodyLogForm({
         </div>
       ) : null}
 
-      <p className="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="mt-2 text-xs text-muted">
         입력한 항목만 기록됩니다. 체형 정보와 추천에 바로 반영돼요.
       </p>
       <div className="mt-3 flex items-center gap-3">
@@ -123,7 +123,7 @@ export function BodyLogForm({
           type="button"
           disabled={pending}
           onClick={submit}
-          className="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
+          className="min-h-11 min-w-11 inline-flex h-10 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-60"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -135,7 +135,7 @@ export function BodyLogForm({
             className={`text-sm font-medium ${
               msg.ok
                 ? "text-brand"
-                : "text-red-600 dark:text-red-400"
+                : "text-danger dark:text-danger"
             }`}
           >
             {msg.text}

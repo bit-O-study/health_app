@@ -56,12 +56,22 @@ export async function deletePushSubscriptionAction(
   endpoint: string,
 ): Promise<{ ok: boolean }> {
   const user = await getCurrentUser();
-  if (!user) return { ok: false };
+  if (!user) return { ok: true };
   const supabase = await createSupabaseServerClient();
   const { error } = await supabase
     .from("push_subscriptions")
     .delete()
     .eq("user_id", user.id)
     .eq("endpoint", endpoint);
+  return { ok: !error };
+}
+
+/** Only detach this device's token, never another signed-in device. */
+export async function deleteFcmTokenAction(token: string): Promise<{ ok: boolean }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: true };
+  if (!token || token.length > 4096) return { ok: false };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("fcm_tokens").delete().eq("user_id", user.id).eq("token", token);
   return { ok: !error };
 }

@@ -87,9 +87,10 @@ describe("파생 지표·포맷", () => {
     expect(avgPaceSecPerKm(1000, 300)).toBeCloseTo(300, 5);
   });
   it("formatPace", () => {
+    expect(formatPace(359.6)).toBe("6'00\"");
     expect(formatPace(330)).toBe("5'30\"");
-    expect(formatPace(null)).toBe("--'--\"");
-    expect(formatPace(0)).toBe("--'--\"");
+    expect(formatPace(null)).toBe("—");
+    expect(formatPace(0)).toBe("—");
   });
   it("formatDistanceKm", () => {
     expect(formatDistanceKm(1234)).toBe("1.23");

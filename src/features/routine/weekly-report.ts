@@ -1,3 +1,4 @@
+import { formatRunDuration, formatRunKm } from "@/features/running/run-format";
 /**
  * 주간 통합 리포트 — 로드맵 2.3. **순수 로직**(DB/React 의존 없음, 테스트 공용).
  *
@@ -226,16 +227,12 @@ export function hasWeeklyActivity(t: WeeklyTotals): boolean {
   );
 }
 
-/** 거리 표기 — 1km 미만은 m, 그 이상은 소수 한 자리 km. */
+/** 거리 표기 — 런닝 기록과 같은 자릿수. */
 export function formatDistance(meters: number): string {
-  if (meters < 1000) return `${Math.round(meters)}m`;
-  return `${(meters / 1000).toFixed(1)}km`;
+  return `${formatRunKm(meters)}km`;
 }
 
 /** 시간 표기 — 60분 미만은 분, 그 이상은 '1시간 20분'. */
 export function formatMinutes(minutes: number): string {
-  if (minutes < 60) return `${minutes}분`;
-  const h = Math.floor(minutes / 60);
-  const m = minutes % 60;
-  return m === 0 ? `${h}시간` : `${h}시간 ${m}분`;
+  return formatRunDuration(minutes * 60);
 }

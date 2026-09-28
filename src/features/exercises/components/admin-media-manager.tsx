@@ -66,7 +66,7 @@ export function AdminMediaManager({
     <div className="space-y-8">
       {/* 등록 폼 */}
       <section className="space-y-3 app-card p-5">
-        <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-sm font-bold text-foreground">
           미디어 등록 / 수정
         </h2>
         <div className="flex flex-col gap-2">
@@ -109,7 +109,7 @@ export function AdminMediaManager({
               type="button"
               onClick={save}
               disabled={pending || !exerciseId || url.trim() === ""}
-              className="inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+              className="min-h-11 min-w-11 inline-flex h-10 items-center gap-1.5 rounded-md bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
             >
               {pending ? (
                 <Loader2 aria-hidden="true" className="animate-spin" size={15} />
@@ -127,7 +127,7 @@ export function AdminMediaManager({
           </div>
         ) : null}
         {error ? (
-          <p className="text-xs font-semibold text-red-600 dark:text-red-400">
+          <p className="text-xs font-semibold text-danger dark:text-danger">
             {error}
           </p>
         ) : null}
@@ -140,7 +140,7 @@ export function AdminMediaManager({
 
       {/* 등록 목록 */}
       <section className="space-y-2">
-        <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+        <h2 className="text-sm font-bold text-foreground">
           등록된 미디어 ({media.length})
         </h2>
         {media.length === 0 ? (
@@ -163,7 +163,7 @@ export function AdminMediaManager({
                   className="flex items-center gap-3 rounded-lg border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 p-3"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                    <p className="truncate text-sm font-semibold text-foreground">
                       {nameById.get(m.exerciseId)?.name ?? m.exerciseId}
                       <span className="ml-2 text-xs font-normal text-zinc-500">
                         {m.kind}
@@ -183,7 +183,7 @@ export function AdminMediaManager({
                     aria-label="삭제"
                     onClick={() => remove(m.exerciseId)}
                     disabled={pending}
-                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-red-50 dark:hover:bg-red-950/40 hover:text-red-600 disabled:opacity-50"
+                    className="min-h-11 min-w-11 flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-zinc-400 transition hover:bg-danger/10 dark:hover:bg-red-950/40 hover:text-danger disabled:opacity-50"
                   >
                     <Trash2 aria-hidden="true" size={16} />
                   </button>

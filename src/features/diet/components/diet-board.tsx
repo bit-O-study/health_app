@@ -112,6 +112,7 @@ export function DietBoard({
   target,
   mealPhotos,
   recent,
+  favorites = [],
   aiScanEnabled = false,
   view,
   footer,
@@ -124,6 +125,7 @@ export function DietBoard({
   mealPhotos: Record<Meal, string[]>;
   /** 최근 2주 식단 — '자주 먹는 것' 칩과 '그대로 담기' 의 재료. */
   recent: RecentFood[];
+  favorites?: RecentFood[];
   aiScanEnabled?: boolean;
   /** 끼니 목록 아래 카드(수분) — 상태를 나누지 않게 밖에서 만든 요소를 그대로 끼운다. */
   footer?: ReactNode;
@@ -428,7 +430,7 @@ export function DietBoard({
             onClick={() => setDatePicker(true)}
             onDoubleClick={() => setDatePicker(true)}
             aria-label="날짜 선택 — 과거 식단 등록·수정"
-            className="flex min-w-[4.5rem] items-center justify-center gap-1 rounded-full px-2 py-1 text-sm font-bold text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
+            className="min-h-11 min-w-11 flex min-w-[4.5rem] items-center justify-center gap-1 rounded-full px-2 py-1 text-sm font-bold text-zinc-700 transition hover:bg-zinc-100 dark:text-zinc-200 dark:hover:bg-zinc-800"
           >
             <Calendar aria-hidden="true" size={13} className="text-zinc-400" />
             {isToday ? "오늘" : label}
@@ -439,7 +441,7 @@ export function DietBoard({
               type="button"
               aria-label="다음 날"
               disabled
-              className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 opacity-30 dark:text-zinc-400"
+              className="min-h-11 min-w-11 flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 opacity-30 dark:text-zinc-400"
             >
               <ChevronRight aria-hidden="true" size={18} />
             </button>
@@ -466,9 +468,9 @@ export function DietBoard({
       {(view === "search" || view === "photos") && <section className="app-card space-y-3 p-4" aria-label={view === "search" ? "음식검색" : "사진기록"}>
         <h2 className="font-bold">{view === "search" ? "어느 끼니에 추가할까요?" : "끼니별 사진 기록"}</h2>
         <p className="text-sm text-zinc-500">{view === "search" ? "끼니를 선택하면 음식 검색과 직접 입력을 할 수 있어요." : "사진을 올릴 끼니를 선택하세요. 기존 식단과 함께 저장됩니다."}</p>
-        {MEALS.map(meal => view === "search" ? <button key={meal} type="button" onClick={() => setAdding(meal)} className="mr-2 rounded-xl border border-brand/40 px-4 py-3 text-sm font-semibold text-brand">{MEAL_LABEL[meal]} 음식 찾기</button> : <MultiPhotoPicker key={meal} photos={photos[meal]} isToday={isToday} label={MEAL_LABEL[meal] + " 사진"} onAdd={url => addPhoto(meal, url)} onRemove={url => removePhoto(meal, url)} />)}
+        {MEALS.map(meal => view === "search" ? <button key={meal} type="button" onClick={() => setAdding(meal)} className="min-h-11 min-w-11 mr-2 rounded-xl border border-brand/40 px-4 py-3 text-sm font-semibold text-brand">{MEAL_LABEL[meal]} 음식 찾기</button> : <MultiPhotoPicker key={meal} photos={photos[meal]} isToday={isToday} label={MEAL_LABEL[meal] + " 사진"} onAdd={url => addPhoto(meal, url)} onRemove={url => removePhoto(meal, url)} />)}
       </section>}
-      {view === "nutrition" && <h2 className="text-lg font-bold">하루 영양 현황</h2>}
+      {view === "nutrition" && <h2 className="text-base font-bold">하루 영양 현황</h2>}
       <section aria-label="섭취 영양 요약" className="app-card p-5">
         <EnergySummary consumed={totals.kcal} target={target.kcal} />
         <div className="mt-5 grid grid-cols-3 gap-4 border-t border-line pt-4">
@@ -481,6 +483,7 @@ export function DietBoard({
           가장 먼저 만나야 하는 건 '어제와 같은 걸 또 먹었다' 를 한 번에 남기는 길이다.
           과거 날짜에서도 쓸 수 있다(그날 먹은 걸 나중에 채워 넣는 게 흔한 사용법). */}
       <QuickAddBar
+        favorites={favorites}
         recent={recent}
         today={today}
         date={date}
@@ -500,8 +503,8 @@ export function DietBoard({
         </button>
       </div>
       {choosingMeal ? <div id="meal-record-picker" role="group" aria-label="기록할 끼니" className="app-card grid grid-cols-4 gap-2 p-3">
-        {MEALS.map(meal => <button key={meal} type="button" onClick={() => { setChoosingMeal(false); setAdding(meal); }} className="flex min-h-16 flex-col items-center justify-center gap-2 rounded-xl bg-brand-soft p-2 text-sm font-semibold text-brand">
-          <span className="text-2xl">{MEAL_ICON[meal]}</span>{MEAL_LABEL[meal]}
+        {MEALS.map(meal => <button key={meal} type="button" onClick={() => { setChoosingMeal(false); setAdding(meal); }} className="min-h-11 min-w-11 flex min-h-16 flex-col items-center justify-center gap-2 rounded-xl bg-brand-soft p-2 text-sm font-semibold text-brand">
+          <span className="text-xl">{MEAL_ICON[meal]}</span>{MEAL_LABEL[meal]}
         </button>)}
       </div> : null}
 
@@ -598,11 +601,11 @@ function DatePickerDialog({
           <h2 className="flex items-center gap-1.5 text-base font-bold">
             <Calendar size={18} className="text-brand" /> 날짜 선택
           </h2>
-          <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
+          <button type="button" onClick={onClose} aria-label="닫기" className="min-h-11 min-w-11 rounded-full p-1 text-zinc-400">
             <X size={20} />
           </button>
         </div>
-        <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="mb-3 text-xs text-muted">
           과거 날짜를 골라 그날의 식단을 등록·수정할 수 있어요.
         </p>
 
@@ -615,7 +618,7 @@ function DatePickerDialog({
           onChange={(e) => {
             if (e.target.value) onPick(e.target.value);
           }}
-          className="mt-1 h-12 w-full rounded-2xl border border-zinc-200 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+          className="mt-1 h-12 w-full rounded-2xl border border-zinc-200 bg-white px-3 text-base outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100" aria-label="식단 날짜"
         />
 
         {/* 빠른 선택 */}
@@ -625,11 +628,11 @@ function DatePickerDialog({
               key={q.ymd}
               type="button"
               onClick={() => onPick(q.ymd)}
-              className={`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${
+              className={"min-h-11 min-w-11 " + (`rounded-full border px-3 py-1.5 text-xs font-bold transition-colors ${
                 date === q.ymd
                   ? "border-brand/40 bg-brand-soft text-brand"
                   : "border-zinc-200 text-zinc-500 dark:border-zinc-700"
-              }`}
+              }`)}
             >
               {q.label}
             </button>
@@ -772,15 +775,15 @@ function MealSection({
       </span>
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline gap-2">
-          <h2 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{MEAL_LABEL[meal]}</h2>
-          {time ? <span className="text-xs text-zinc-500 dark:text-zinc-400">{fmtClock(time)}</span> : null}
+          <h2 className="text-sm font-semibold text-foreground">{MEAL_LABEL[meal]}</h2>
+          {time ? <span className="text-xs text-muted">{fmtClock(time)}</span> : null}
         </span>
         {summary ? (
-          <span className="block truncate text-xs text-zinc-500 dark:text-zinc-400">{summary}</span>
+          <span className="block truncate text-xs text-muted">{summary}</span>
         ) : null}
       </span>
       {sub > 0 ? (
-        <span className="shrink-0 text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+        <span className="shrink-0 text-sm font-semibold tabular-nums text-foreground">
           {`${sub} kcal`}
         </span>
       ) : null}
@@ -795,7 +798,7 @@ function MealSection({
           type="button"
           onClick={onOpen}
           aria-label={`${MEAL_LABEL[meal]} 게시물 열기`}
-          className="flex min-w-0 flex-1 items-center gap-3 text-left transition active:opacity-70"
+          className="min-h-11 min-w-11 flex min-w-0 flex-1 items-center gap-3 text-left transition active:opacity-70"
         >
           {body}
         </button>
@@ -859,11 +862,11 @@ function MealDetailDialog({
           type="button"
           aria-label="닫기"
           onClick={onClose}
-          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+          className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-full text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
         >
           <ChevronLeft aria-hidden="true" size={20} />
         </button>
-        <span className="flex items-center gap-1.5 text-base font-bold text-zinc-900 dark:text-zinc-100">
+        <span className="flex items-center gap-1.5 text-base font-bold text-foreground">
           <span aria-hidden="true">{MEAL_ICON[meal]}</span>
           {MEAL_LABEL[meal]}
           {sub > 0 ? (
@@ -877,7 +880,7 @@ function MealDetailDialog({
             type="button"
             aria-label="더보기"
             onClick={() => setMenuOpen((v) => !v)}
-            className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-full text-zinc-600 transition hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800"
           >
             <MoreHorizontal aria-hidden="true" size={20} />
           </button>
@@ -889,7 +892,7 @@ function MealDetailDialog({
                   setMenuOpen(false);
                   setEditing(true);
                 }}
-                className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 dark:text-zinc-200 dark:hover:bg-zinc-800"
+                className="min-h-11 min-w-11 flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm font-semibold text-zinc-700 transition hover:bg-zinc-50 dark:text-zinc-200 dark:hover:bg-zinc-800"
               >
                 <Pencil aria-hidden="true" size={15} />
                 수정
@@ -900,7 +903,7 @@ function MealDetailDialog({
                   setMenuOpen(false);
                   setConfirmDel(true);
                 }}
-                className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm font-semibold text-red-600 transition hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/40"
+                className="min-h-11 min-w-11 flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm font-semibold text-danger transition hover:bg-danger/10 dark:text-danger dark:hover:bg-red-950/40"
               >
                 <Trash2 aria-hidden="true" size={15} />
                 삭제
@@ -911,15 +914,15 @@ function MealDetailDialog({
       </div>
 
       {confirmDel ? (
-        <div className="flex items-center justify-between gap-3 border-b border-red-200 bg-red-50 px-4 py-2.5 dark:border-red-900/50 dark:bg-red-950/30">
-          <span className="text-sm font-semibold text-red-700 dark:text-red-300">
+        <div className="flex items-center justify-between gap-3 border-b border-danger bg-danger/10 px-4 py-2.5 dark:border-red-900/50 dark:bg-red-950/30">
+          <span className="text-sm font-semibold text-danger dark:text-danger">
             이 {MEAL_LABEL[meal]} 기록을 삭제할까요?
           </span>
           <div className="flex shrink-0 gap-2">
             <button
               type="button"
               onClick={() => setConfirmDel(false)}
-              className="h-8 rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
+              className="min-h-11 min-w-11 h-8 rounded-md px-3 text-sm font-semibold text-zinc-600 dark:text-zinc-300"
             >
               취소
             </button>
@@ -927,7 +930,7 @@ function MealDetailDialog({
               type="button"
               aria-label="삭제 확인"
               onClick={onDeleteMeal}
-              className="h-8 rounded-md bg-red-600 px-3 text-sm font-bold text-white transition hover:bg-red-500"
+              className="min-h-11 min-w-11 h-8 rounded-md bg-danger px-3 text-sm font-bold text-white transition hover:bg-danger"
             >
               삭제
             </button>
@@ -979,7 +982,7 @@ function MealDetailDialog({
                     type="button"
                     aria-label="이전 사진"
                     onClick={() => setPhotoIdx((i) => i - 1)}
-                    className="absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65"
+                    className="min-h-11 min-w-11 absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65"
                   >
                     <ChevronLeft aria-hidden="true" size={20} />
                   </button>
@@ -987,7 +990,7 @@ function MealDetailDialog({
                     type="button"
                     aria-label="다음 사진"
                     onClick={() => setPhotoIdx((i) => i + 1)}
-                    className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65"
+                    className="min-h-11 min-w-11 absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/45 text-white transition hover:bg-black/65"
                   >
                     <ChevronRight aria-hidden="true" size={20} />
                   </button>
@@ -1011,11 +1014,11 @@ function MealDetailDialog({
             </div>
             <div className="flex items-center justify-between app-card px-4 py-3">
               <div className="flex items-center gap-2.5">
-                <span className="text-2xl" aria-hidden="true">
+                <span className="text-xl" aria-hidden="true">
                   {MEAL_ICON[meal]}
                 </span>
                 <div>
-                  <p className="text-sm font-bold text-zinc-900 dark:text-zinc-100">
+                  <p className="text-sm font-bold text-foreground">
                     {MEAL_LABEL[meal]}
                   </p>
                   <p className="text-xs text-zinc-400">
@@ -1067,7 +1070,7 @@ function MealDetailDialog({
                     disabled={!editing}
                     aria-label={editing ? `${it.name} 수정` : undefined}
                     onClick={editing ? () => setEditKey(it.rowKey ?? it.id) : undefined}
-                    className="flex w-full items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-left dark:border-zinc-800 dark:bg-zinc-900"
+                    className="min-h-11 min-w-11 flex w-full items-center gap-2 rounded-xl border border-zinc-200 bg-white px-3 py-2.5 text-left dark:border-zinc-800 dark:bg-zinc-900"
                   >
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-zinc-800 dark:text-zinc-100">
@@ -1083,7 +1086,7 @@ function MealDetailDialog({
                           </span>
                         ) : null}
                       </p>
-                      <p className="text-xs text-zinc-500 dark:text-zinc-400">
+                      <p className="text-xs text-muted">
                         {Math.round(it.kcal)}kcal
                         {it.protein != null ? ` · 단 ${Math.round(it.protein)}` : ""}
                         {it.carbs != null ? ` · 탄 ${Math.round(it.carbs)}` : ""}
@@ -1109,7 +1112,7 @@ function MealDetailDialog({
             <button
               type="button"
               onClick={onAdd}
-              className="flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-brand/40 bg-brand-soft text-sm font-bold text-brand transition hover:bg-brand-soft"
+              className="min-h-11 min-w-11 flex h-12 w-full items-center justify-center gap-1.5 rounded-xl border border-brand/40 bg-brand-soft text-sm font-bold text-brand transition hover:bg-brand-soft"
             >
               <Plus aria-hidden="true" size={16} />
               음식 추가
@@ -1120,7 +1123,7 @@ function MealDetailDialog({
                 setEditing(false);
                 setEditKey(null);
               }}
-              className="h-11 w-full rounded-xl bg-zinc-900 text-sm font-bold text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900"
+              className="min-h-11 min-w-11 h-11 w-full rounded-xl bg-zinc-900 text-sm font-bold text-white transition hover:bg-zinc-700 dark:bg-zinc-100 dark:text-zinc-900"
             >
               완료
             </button>
@@ -1202,7 +1205,7 @@ function EditFoodForm({
           type="button"
           aria-label="이 음식 삭제"
           onClick={onDelete}
-          className="flex h-11 items-center justify-center gap-1 rounded-xl border border-red-300 px-3 text-sm font-bold text-red-600 transition hover:bg-red-50 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950/40"
+          className="min-h-11 min-w-11 flex h-11 items-center justify-center gap-1 rounded-xl border border-danger px-3 text-sm font-bold text-danger transition hover:bg-danger/10 dark:border-danger dark:text-danger dark:hover:bg-red-950/40"
         >
           <Trash2 aria-hidden="true" size={15} />
           삭제
@@ -1210,7 +1213,7 @@ function EditFoodForm({
         <button
           type="button"
           onClick={onCancel}
-          className="h-11 flex-1 rounded-xl bg-zinc-100 text-sm font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+          className="min-h-11 min-w-11 h-11 flex-1 rounded-xl bg-zinc-100 text-sm font-bold text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
         >
           취소
         </button>
@@ -1228,7 +1231,7 @@ function EditFoodForm({
               category: category || null,
             })
           }
-          className="h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+          className="min-h-11 min-w-11 h-11 flex-1 rounded-xl bg-brand text-sm font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           저장
         </button>
@@ -1296,7 +1299,7 @@ function MultiPhotoPicker({
               type="button"
               aria-label="사진 삭제"
               onClick={() => onRemove(url)}
-              className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-800/80 text-white"
+              className="min-h-11 min-w-11 absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-zinc-800/80 text-white"
             >
               <X aria-hidden="true" size={13} />
             </button>
@@ -1342,7 +1345,7 @@ function MultiPhotoPicker({
           />
         </label>
       </div>
-      {err ? <p className="mt-1 text-xs text-red-500">{err}</p> : null}
+      {err ? <p className="mt-1 text-xs text-danger">{err}</p> : null}
     </div>
   );
 }
@@ -1409,13 +1412,13 @@ function QuantityEditor({
       <button
         type="button"
         onClick={onBack}
-        className="text-sm font-semibold text-zinc-500 dark:text-zinc-400"
+        className="min-h-11 min-w-11 text-sm font-semibold text-muted"
       >
         ← 목록으로
       </button>
       <div>
-        <p className="text-lg font-bold text-zinc-950 dark:text-zinc-50">{food.name}</p>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400">
+        <p className="text-base font-bold text-zinc-950 dark:text-zinc-50">{food.name}</p>
+        <p className="text-xs text-muted">
           {eggServing
             ? eggUnit
               ? `기준 ${eggUnit.amount} · ${Math.round(food.kcal * eggUnit.factor)}kcal`
@@ -1436,7 +1439,7 @@ function QuantityEditor({
               step={1}
               value={qty || ""}
               onChange={(e) => setQty(Number(e.target.value))}
-              className="app-field mt-2 h-12 w-full rounded-xl border px-3 text-lg"
+              className="app-field mt-2 h-12 w-full rounded-xl border px-3 text-base"
             />
           </label>
           <div className="flex flex-wrap gap-2">
@@ -1483,7 +1486,7 @@ function QuantityEditor({
               inputMode="numeric"
               value={grams}
               onChange={(e) => setGrams(e.target.value)}
-              className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-lg font-bold outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
+              className="h-12 w-32 rounded-xl border border-zinc-300 bg-white px-3 text-center text-base font-bold outline-none focus:border-brand/40 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
             />
             <span className="text-sm font-semibold text-zinc-500">g</span>
           </div>
@@ -1493,7 +1496,7 @@ function QuantityEditor({
                 key={g}
                 type="button"
                 onClick={() => setGrams(String(g))}
-                className="rounded-full border border-zinc-300 px-2.5 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-600 dark:text-zinc-300"
+                className="min-h-11 min-w-11 rounded-full border border-zinc-300 px-2.5 py-1 text-xs font-semibold text-zinc-600 dark:border-zinc-600 dark:text-zinc-300"
               >
                 {g}g
               </button>
@@ -1509,11 +1512,11 @@ function QuantityEditor({
                 key={n}
                 type="button"
                 onClick={() => setQty(n)}
-                className={`h-10 min-w-[3rem] rounded-xl px-3 text-sm font-bold transition ${
+                className={"min-h-11 min-w-11 " + (`h-10 min-w-[3rem] rounded-xl px-3 text-sm font-bold transition ${
                   qty === n
                     ? "bg-brand text-white dark:text-zinc-950"
                     : "bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
-                }`}
+                }`)}
               >
                 ×{n}
               </button>
@@ -1526,7 +1529,7 @@ function QuantityEditor({
         <span className="text-xs font-semibold text-brand">
           {amountLabel} · 단 {r1(food.protein * factor)} · 탄 {r1(food.carbs * factor)} · 지 {r1(food.fat * factor)}
         </span>
-        <p className="text-2xl font-bold tabular-nums text-brand">
+        <p className="text-xl font-bold tabular-nums text-brand">
           {kcal} kcal
         </p>
       </div>
@@ -1535,7 +1538,7 @@ function QuantityEditor({
         type="button"
         onClick={confirm}
         disabled={Boolean(eggServing && !eggPortion)}
-        className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+        className="min-h-11 min-w-11 h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
       >
         담기
       </button>
@@ -1616,14 +1619,14 @@ function AddFoodDialog({
   return (
     <div role="dialog" aria-modal="true" aria-label={`${MEAL_LABEL[meal]} 추가`} className="fixed inset-0 z-[70] m-0 flex flex-col bg-zinc-50 dark:bg-zinc-950">
       <div className="flex items-center justify-between border-b border-zinc-200 px-4 pb-2 pt-[max(env(safe-area-inset-top),0.75rem)] dark:border-zinc-800">
-        <span className="text-base font-bold text-zinc-900 dark:text-zinc-100">
+        <span className="text-base font-bold text-foreground">
           {MEAL_LABEL[meal]} 추가
         </span>
         <button
           type="button"
           aria-label="닫기"
           onClick={onClose}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+          className="min-h-11 min-w-11 flex h-9 w-9 items-center justify-center rounded-full bg-zinc-200 text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
         >
           <X aria-hidden="true" size={18} />
         </button>
@@ -1749,7 +1752,7 @@ function AddFoodDialog({
                         onClose();
                       }}
                       aria-label={`${f.name} 담기`}
-                      className="app-press inline-flex h-9 max-w-[15rem] items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                      className="min-h-11 min-w-11 app-press inline-flex h-9 max-w-[15rem] items-center gap-1 rounded-full bg-zinc-100 px-3 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
                     >
                       <Plus aria-hidden="true" size={13} className="text-zinc-400" />
                       <span className="truncate">{f.name}</span>
@@ -1786,16 +1789,16 @@ function AddFoodDialog({
                     <button
                       type="button"
                       onClick={() => setPicked(f)}
-                      className="flex min-h-16 w-full items-center gap-3 py-3 text-left"
+                      className="min-h-11 min-w-11 flex min-h-16 w-full items-center gap-3 py-3 text-left"
                     >
                       <div className="min-w-0 flex-1">
                         <p className="break-words text-sm font-semibold text-zinc-800 dark:text-zinc-100">
                           {f.name}
                         </p>
-                        <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                        <p className="mt-1 text-xs text-muted">
                           {shown.amount} · <span className="font-semibold text-foreground">{shown.kcal}kcal</span>
                         </p>
-                        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+                        <p className="mt-0.5 text-xs text-muted">
                           단 {shown.protein}g · 탄 {shown.carbs}g · 지 {shown.fat}g
                         </p>
                       </div>
@@ -1892,7 +1895,7 @@ function ManualForm({
               category: category || null,
             })
           }
-          className="h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
+          className="min-h-11 min-w-11 h-12 w-full rounded-xl bg-brand text-base font-bold text-white dark:text-zinc-950 transition hover:bg-brand/90 disabled:opacity-50"
         >
           추가하기
         </button>

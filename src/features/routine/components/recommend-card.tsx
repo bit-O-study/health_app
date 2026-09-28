@@ -58,7 +58,7 @@ export function RecommendRoutineCard({
           type="button"
           disabled={pending}
           onClick={apply}
-          className="app-press inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-60 sm:w-auto"
+          className="min-h-11 min-w-11 app-press inline-flex h-10 w-full shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-full bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950 disabled:opacity-60 sm:w-auto"
         >
           {pending ? (
             <Loader2 aria-hidden="true" className="animate-spin" size={15} />

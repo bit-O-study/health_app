@@ -246,7 +246,7 @@ export default async function ScorePage() {
               </text>
             </svg>
 
-            <div className="min-w-0 flex-1 space-y-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+            <div className="min-w-0 flex-1 space-y-0.5 text-xs text-muted">
               <p className="truncate">마지막 완료 {s.lastCompletedYmd ?? "—"}</p>
               <p className="truncate">
                 체중 기준 {userWeight}kg{profile.weightKg === null ? " (65kg 가정)" : ""}
@@ -261,7 +261,7 @@ export default async function ScorePage() {
             <Stat label="총 완료" value={`${s.totalCount}건`} />
           </div>
 
-          <p className="mb-1.5 mt-3 text-xs font-semibold text-zinc-500 dark:text-zinc-400">최근 21일 활동</p>
+          <p className="mb-1.5 mt-3 text-xs font-semibold text-muted">최근 21일 활동</p>
           <div className="grid grid-cols-7 gap-1">
             {grid.map((cell) => (
               <div
@@ -307,7 +307,7 @@ export default async function ScorePage() {
             </span>
           </div>
           <div className="app-card p-3">
-            <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
+            <p className="mb-3 text-xs text-muted">
               {balanceSource === "training"
                 ? `이번 주 직접 세트 ${WEEKLY_SET_MIN}~${WEEKLY_SET_MAX} = ${VOLUME_LABEL.optimal}`
                 : "가장 강한 부위 대비 비율"}
@@ -348,7 +348,7 @@ export default async function ScorePage() {
                   (90일 누적, 반감기 14일)을 짧게 곁들인다. 체성분 기반일 때만 예전 표를 쓴다. */}
               {balanceSource === "training" ? (
                 <div className="flex-1 self-start">
-                  <p className="mb-1.5 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                  <p className="mb-1.5 text-xs font-semibold text-muted">
                     90일 누적 점수
                   </p>
                   <ul className="space-y-1.5">
@@ -369,7 +369,7 @@ export default async function ScorePage() {
                         <span className="w-14 shrink-0 text-right text-xs font-semibold tabular-nums text-zinc-700 dark:text-zinc-200">
                           {Math.round(regionPoints[r])}점
                         </span>
-                        <span className="w-12 shrink-0 text-right text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                        <span className="w-12 shrink-0 text-right text-xs tabular-nums text-muted">
                           {weeklyByRegion[r]?.sets ?? 0}세트
                         </span>
                       </li>
@@ -381,7 +381,7 @@ export default async function ScorePage() {
                   {REGIONS.map((r) => (
                     <div key={r} className="rounded-[10px] bg-zinc-50 p-2.5 dark:bg-white/[0.04]">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400">
+                        <p className="text-xs font-semibold text-muted">
                           {REGION_LABEL[r]}
                         </p>
                         <span
@@ -393,7 +393,7 @@ export default async function ScorePage() {
                       </div>
                       <p className="mt-0.5 text-xl font-bold tabular-nums text-zinc-950 dark:text-zinc-100">
                         {Math.round(regionPoints[r])}
-                        <span className="ml-1 text-xs font-medium text-zinc-500 dark:text-zinc-400">
+                        <span className="ml-1 text-xs font-medium text-muted">
                           점
                         </span>
                       </p>
@@ -433,10 +433,10 @@ export default async function ScorePage() {
                 벤치프레스처럼 여러 갈래에 걸리는 운동은 주동근이 아닌 쪽을 거들기만으로 센다. */}
             {hasSub ? (
               <div className="mt-3 border-t border-[var(--line)] pt-3">
-                <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
+                <p className="text-sm font-semibold text-foreground">
                   세부근육 분포
                 </p>
-                <p className="mb-2 text-xs text-zinc-500 dark:text-zinc-400">
+                <p className="mb-2 text-xs text-muted">
                   이번 주 직접 노렸는지 · 주동근이 아니면 거들기만
                 </p>
                 <div className="space-y-2">
@@ -483,7 +483,7 @@ export default async function ScorePage() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="min-w-0 px-1">
-      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">{label}</p>
+      <p className="truncate text-xs text-muted">{label}</p>
       <p className="mt-0.5 truncate text-base font-semibold tabular-nums text-zinc-950 dark:text-zinc-50">
         {value}
       </p>

@@ -39,7 +39,7 @@ export default async function CyclePage({
       <div className="app-page">
         <PageHeader title="생리 기록" back="캘린더" backHref="/calendar" />
         <main className="app-container">
-          <p className="app-card p-3 text-center text-sm text-zinc-500 dark:text-zinc-400">
+          <p className="app-card p-3 text-center text-sm text-muted">
             여성 프로필에서 쓸 수 있어요 (설정 &gt; 체형 정보)
           </p>
         </main>

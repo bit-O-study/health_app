@@ -49,7 +49,7 @@ function TabInner({
   return (
     <span
       // 라벨은 11px 고정 — 앱 전체 최소 글자(12px)의 유일한 예외. 예전엔 좁은 폰에서 9px 까지 줄었다.
-      className={`relative flex h-[3.75rem] min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 text-[11px] leading-none transition-colors ${
+      className={`relative flex h-[3.75rem] min-w-0 flex-col items-center justify-center gap-0.5 px-0.5 text-xs leading-none transition-colors ${
         highlight ? "font-semibold text-brand" : `font-medium ${inactive}`
       }`}
     >
@@ -78,8 +78,8 @@ function HomeTabInner({ active }: { active: boolean }) {
   const { pending } = useLinkStatus();
   const Icon = HOME_TAB.icon;
   return (
-    <span className="relative flex h-[3.75rem] min-w-0 flex-col items-center justify-end gap-0.5 pb-[0.4rem] text-[11px] font-semibold leading-none text-brand">
-      <span className="absolute -top-3.5 flex h-11 w-11 items-center justify-center rounded-full border-[3px] border-white bg-brand text-white shadow-lg shadow-brand/40 dark:border-zinc-900">
+    <span className="relative flex h-[3.75rem] min-w-0 flex-col items-center justify-end gap-0.5 pb-[0.4rem] text-xs font-semibold leading-none text-brand">
+      <span className="absolute -top-3.5 flex h-11 w-11 items-center justify-center rounded-full border-[3px] border-white bg-brand text-white dark:text-zinc-950 shadow-lg shadow-brand/40 dark:border-zinc-900">
         {pending ? (
           <Loader2 aria-hidden="true" size={21} className="animate-spin" />
         ) : (

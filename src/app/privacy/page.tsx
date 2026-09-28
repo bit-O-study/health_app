@@ -25,7 +25,7 @@ export default function PrivacyPage() {
     <PageHeader title="개인정보처리방침" />
     {/* 공통 머리글 + 읽기 좋은 본문(2026-09-16 8단계) — 방침 문구는 한 글자도 줄이지 않는다. */}
     <main className="app-container text-sm leading-6 text-zinc-800 dark:text-zinc-200">
-      <p className="px-1 text-xs text-zinc-500 dark:text-zinc-400">
+      <p className="px-1 text-xs text-muted">
         시행일: {EFFECTIVE_DATE} · 서비스명: {siteConfig.name}
       </p>
 

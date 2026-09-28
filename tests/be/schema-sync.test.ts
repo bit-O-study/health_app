@@ -61,6 +61,53 @@ const expectedDaySyncBody = schemaSql.match(
   /create or replace function public\.apply_routine_exercise_day_sync\([\s\S]*?\) returns timestamp with time zone[\s\S]*?as \$\$([\s\S]*?)\$\$;/i,
 )?.[1];
 
+/**
+ * schema.sql 을 위에서 아래로 읽어 **마지막** 실행 권한 상태를 구한다.
+ * grant 뒤에 revoke(직접 문장 또는 `proname in (...) loop ... revoke ... authenticated` 반복문)가
+ * 오면 막힌 것으로 본다.
+ */
+export function finalFunctionGrants(sql: string): { granted: string[]; revoked: string[] } {
+  const last = new Map<string, { at: number; open: boolean }>();
+  const mark = (name: string, at: number, open: boolean) => {
+    const prev = last.get(name);
+    if (!prev || prev.at <= at) last.set(name, { at, open });
+  };
+  for (const m of sql.matchAll(/grant execute on function public\.(\w+)\([^)]*\) to [^;]*\bauthenticated\b/gi)) {
+    mark(m[1], m.index ?? 0, true);
+  }
+  for (const m of sql.matchAll(/revoke [^;]*? on function public\.(\w+)\([^)]*\) from [^;]*\bauthenticated\b/gi)) {
+    mark(m[1], m.index ?? 0, false);
+  }
+  for (const m of sql.matchAll(/proname in\s*\(([^)]*)\)\s*loop\s*execute format\('revoke all on function %s from [^']*\bauthenticated\b/gi)) {
+    for (const n of m[1].matchAll(/'(\w+)'/g)) mark(n[1], m.index ?? 0, false);
+  }
+  const entries = [...last.entries()];
+  return {
+    granted: entries.filter(([, v]) => v.open).map(([k]) => k),
+    revoked: entries.filter(([, v]) => !v.open).map(([k]) => k),
+  };
+}
+
+/** create policy 뒤에 같은 이름의 drop policy 가 오면 없는 것으로 본다. */
+export function finalPolicies(sql: string): {
+  declared: { name: string; table: string }[];
+  dropped: { name: string; table: string }[];
+} {
+  const last = new Map<string, { at: number; open: boolean; name: string; table: string }>();
+  const mark = (name: string, table: string, at: number, open: boolean) => {
+    const key = `${table}:${name}`;
+    const prev = last.get(key);
+    if (!prev || prev.at <= at) last.set(key, { at, open, name, table });
+  };
+  for (const m of sql.matchAll(/create policy "([^"]+)"\s+on\s+public\.(\w+)/gi)) mark(m[1], m[2], m.index ?? 0, true);
+  for (const m of sql.matchAll(/drop policy if exists "([^"]+)"\s+on\s+public\.(\w+)/gi)) mark(m[1], m[2], m.index ?? 0, false);
+  const all = [...last.values()];
+  return {
+    declared: all.filter((v) => v.open).map(({ name, table }) => ({ name, table })),
+    dropped: all.filter((v) => !v.open).map(({ name, table }) => ({ name, table })),
+  };
+}
+
 function normalizeSql(value: string): string {
   return value.replace(/\s+/g, " ").trim();
 }
@@ -234,14 +281,11 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
 
   // 함수는 있는데 실행 권한이 빠지면 앱은 조용히 빈 결과를 받는다(에러를 삼키는 호출부가 많다).
   // 2026-09-25: 트레이너 함수 8개가 authenticated 실행 권한 없이 올라가 회원 관리 목록이 늘 비어 있었다.
+  // ⚠ schema.sql 은 위에서 아래로 쌓인 기록이라, 앞에서 grant 한 함수를 뒤에서 revoke 하기도 한다
+  //   (202609220002 독립 트레이너 전환이 옛 그룹장-트레이너 RPC 8개를 일부러 막음). 마지막 상태만 본다 —
+  //   2026-09-28 에 이걸 안 봐서 막아 둔 권한을 운영 DB 에 다시 여는 사고가 났다.
   it("functions granted to authenticated in schema.sql are executable by authenticated on live DB", async () => {
-    const granted = [
-      ...new Set(
-        [...schemaSql.matchAll(/grant execute on function public\.(\w+)\([^)]*\) to [^;]*\bauthenticated\b/gi)].map(
-          (m) => m[1],
-        ),
-      ),
-    ];
+    const { granted } = finalFunctionGrants(schemaSql);
     expect(granted.length).toBeGreaterThan(0);
     const r = await client.query<{ proname: string; ok: boolean }>(
       `select p.proname, bool_and(has_function_privilege('authenticated', p.oid, 'EXECUTE')) ok
@@ -257,9 +301,7 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
   // RLS 정책이 빠지면 쓰기가 조용히 막힌다(호출부는 '권한 없음' 을 일반 오류로 보여 준다).
   // 2026-09-25: trainer_comments 의 INSERT 정책이 라이브에 없어 트레이너 코멘트가 안 남았다.
   it("policies declared on public tables in schema.sql exist on live DB", async () => {
-    const declared = [
-      ...schemaSql.matchAll(/create policy "([^"]+)"\s+on\s+public\.(\w+)/gi),
-    ].map((m) => ({ name: m[1], table: m[2] }));
+    const { declared } = finalPolicies(schemaSql);
     expect(declared.length).toBeGreaterThan(0);
     const r = await client.query<{ policyname: string; tablename: string }>(
       `select policyname, tablename from pg_policies where schemaname = 'public'`,
@@ -268,6 +310,27 @@ describe.skipIf(!hasDbCreds)("schema-sync: supabase/schema.sql ↔ live DB", () 
       .filter((d) => !r.rows.some((l) => l.policyname === d.name && l.tablename === d.table))
       .map((d) => `${d.table}: ${d.name}`);
     expect(missing, `missing policies: ${missing.join(", ")}`).toEqual([]);
+  });
+
+  // 반대 방향 가드 — schema.sql 이 마지막에 막은 권한·지운 정책은 운영 DB 에서도 막혀 있어야 한다.
+  // (202609220002: 동의 없이 그룹장이 회원 데이터에 접근하던 옛 트레이너 RPC 8개와 코멘트 INSERT 정책)
+  it("functions/policies revoked at the end of schema.sql stay revoked on live DB", async () => {
+    const { revoked } = finalFunctionGrants(schemaSql);
+    expect(revoked).toEqual(expect.arrayContaining(["trainer_board", "trainer_member_routine", "leave_trainer_group"]));
+    const r = await client.query<{ proname: string }>(
+      `select p.proname from pg_proc p join pg_namespace n on n.oid = p.pronamespace
+        where n.nspname = 'public' and p.proname = any($1) and has_function_privilege('authenticated', p.oid, 'EXECUTE')`,
+      [revoked],
+    );
+    expect(r.rows.map((x) => x.proname), "authenticated can execute a revoked function").toEqual([]);
+    const { dropped } = finalPolicies(schemaSql);
+    const live = await client.query<{ policyname: string; tablename: string }>(
+      `select policyname, tablename from pg_policies where schemaname = 'public'`,
+    );
+    const reopened = dropped
+      .filter((d) => live.rows.some((l) => l.policyname === d.name && l.tablename === d.table))
+      .map((d) => `${d.table}: ${d.name}`);
+    expect(reopened, `dropped policies exist on live DB: ${reopened.join(", ")}`).toEqual([]);
   });
 
   for (const [name, def] of Object.entries(expected.checks)) {

@@ -37,23 +37,19 @@ test("런처: 앱을 누르면 하단바가 그 앱 메뉴로 갈린다", async 
   await expect(nav.getByRole("link").nth(0)).toHaveText("오늘");
   await expect(nav.getByRole("link").nth(3)).toHaveText("운동찾기");
 
-  // 캘린더로 갈아타면 또 다른 칸 구성(3칸 — 달력·[홈]·주기).
+  // 캘린더로 갈아타면 또 다른 칸 구성(3칸 — 월간·[홈]·주간).
   await nav.getByRole("link").nth(2).click();
   await expect(page).toHaveURL(/\/home$/);
   await grid.getByRole("link", { name: "캘린더", exact: true }).click();
   await expect(page).toHaveURL(/\/calendar$/);
-  await expect(nav.getByRole("link")).toHaveCount(3);
-  await expect(nav.getByRole("link").nth(0)).toHaveText("달력");
-  await expect(nav.getByRole("link").nth(1)).toHaveText("홈");
-  await expect(nav.getByRole("link").nth(2)).toHaveText("주기");
+  await expect(nav.getByRole("link")).toHaveText(["월간", "홈", "주간"]);
 
-  // 🔴 화면이 하나뿐인 앱(식단)은 없는 칸을 만들지 않고 런처 바를 그대로 쓴다.
+  // 식단도 이제 자기 메뉴 4칸(2026-09-27 — 오늘 식단·식단 기록·[홈]·즐겨찾기·영양 분석).
   await nav.getByRole("link", { name: "홈", exact: true }).click();
   await expect(page).toHaveURL(/\/home$/);
-  const launcherBar = await nav.getByRole("link").allInnerTexts();
   await grid.getByRole("link", { name: "식단", exact: true }).click();
   await expect(page).toHaveURL(/\/diet$/);
-  expect(await nav.getByRole("link").allInnerTexts()).toEqual(launcherBar);
+  await expect(nav.getByRole("link")).toHaveText(["오늘 식단", "식단 기록", "홈", "즐겨찾기", "영양 분석"]);
 });
 
 test("가운데 홈은 어느 앱에서도 같은 자리·같은 모양이다", async ({ page }) => {
@@ -105,13 +101,15 @@ test("운동 기능이 새 구조에서 하나도 사라지지 않는다", async
   await expect(page).toHaveURL(/\/exercises$/, { timeout: 60_000 });
   await expect(page.getByRole("heading", { name: "운동 종목" })).toBeVisible();
 
-  await nav.getByRole("link", { name: "기록", exact: true }).click();
-  await expect(page).toHaveURL(/\/settings\/progress$/);
-  await expect(page.getByRole("heading", { name: "성장 그래프" })).toBeVisible();
+  // 네 번째 칸은 '기록'(성장 그래프)에서 '런닝 기록'으로 바뀌었다(2026-09-27).
+  await nav.getByRole("link", { name: "런닝 기록", exact: true }).click();
+  await expect(page).toHaveURL(/\/routine\/running-records$/);
+  await expect(page.getByRole("region", { name: "이달 요약" })).toBeVisible();
 
   // 하단바에 없는 기능들 — 예전처럼 직접 들어갈 수 있어야 한다.
   // (이 화면들은 지금도 하단바에 없었다. 런처로 바뀌었다고 사라지면 안 된다.)
   for (const [path, heading] of [
+    ["/settings/progress", "성장 그래프"],
     ["/plan/muscle", "근육별로 운동선택"],
     ["/plan/today", "오늘만 운동 바꾸기"],
     ["/settings/score", "내 운동 점수"],

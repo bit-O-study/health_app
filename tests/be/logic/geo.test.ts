@@ -88,6 +88,9 @@ describe("파생 지표·포맷", () => {
   });
   it("formatPace", () => {
     expect(formatPace(330)).toBe("5'30\"");
+    // 반올림이 60초로 넘어가면 분이 올라간다 — 5'60" 가 아니다.
+    expect(formatPace(359.6)).toBe("6'00\"");
+    expect(formatPace(419.5)).toBe("7'00\"");
     expect(formatPace(null)).toBe("--'--\"");
     expect(formatPace(0)).toBe("--'--\"");
   });

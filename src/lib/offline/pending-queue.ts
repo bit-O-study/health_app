@@ -16,6 +16,7 @@
 
 import { setExerciseStatusAction } from "@/features/routine/exercise-completion-actions";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
+import { recordRunSessionAction } from "@/features/running/run-record-actions";
 import { callIdempotentAction } from "@/lib/actions/resilient-action";
 import {
   prunePending,
@@ -118,7 +119,20 @@ export function clearDropped(): void {
   setState({ dropped: 0 });
 }
 
+/** 바로 저장에 성공한 항목을 큐에서 뺀다(담아 두고 → 보내고 → 성공하면 빼기). */
+export function dequeuePending(key: string): void {
+  const next = removePending(readPending(), [key]);
+  writePending(next);
+  setState({ pending: next });
+}
+
+/** 이 항목이 기기 저장소에 실제로 적혔나 — 적혔으면 원본(런닝 체크포인트)을 지워도 안전하다. */
+export function isPendingStored(key: string): boolean {
+  return readPending().some((w) => w.key === key);
+}
+
 function send(w: PendingWrite) {
+  if (w.kind === "run") return recordRunSessionAction(w.session);
   return w.kind === "main"
     ? setExerciseStatusAction(w.rowId, w.status, w.snapshot, w.forDate)
     : setConditioningStatusAction(

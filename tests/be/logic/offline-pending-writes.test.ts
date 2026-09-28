@@ -14,6 +14,10 @@ import { resolveForDate } from "@/lib/offline/queued-date";
 
 const HOUR = 60 * 60 * 1000;
 
+/** 큐 항목의 행 식별자 — 런닝(run)은 rowId 대신 key. (2026-09-28 run 종류 추가로 union 이 넓어짐) */
+const rid = (w: PendingWrite) => (w.kind === "run" ? w.key : w.rowId);
+const statusOf = (w: PendingWrite) => (w.kind === "run" ? undefined : w.status);
+
 function main(
   rowId: string,
   overrides: Partial<Extract<PendingWrite, { kind: "main" }>> = {},
@@ -70,20 +74,20 @@ describe("담기 — 같은 항목은 덮어쓴다", () => {
     const one = upsertPending([], main("r1", { status: "skipped" }));
     const two = upsertPending(one, main("r1", { status: "done", queuedAt: 2000 }));
     expect(two).toHaveLength(1);
-    expect(two[0].status).toBe("done");
+    expect(statusOf(two[0])).toBe("done");
     expect(two[0].queuedAt).toBe(2000);
   });
 
   it("다른 행은 따로 쌓이고 순서(최근이 뒤)가 유지된다", () => {
     const list = upsertPending(upsertPending([], main("r1")), main("r2"));
-    expect(list.map((w) => w.rowId)).toEqual(["r1", "r2"]);
+    expect(list.map(rid)).toEqual(["r1", "r2"]);
   });
 
   it("덮어쓰면 그 항목이 맨 뒤로 간다 — 방금 친 게 가장 최근이다", () => {
     let list = upsertPending([], main("r1"));
     list = upsertPending(list, main("r2"));
     list = upsertPending(list, main("r1", { queuedAt: 3000 }));
-    expect(list.map((w) => w.rowId)).toEqual(["r2", "r1"]);
+    expect(list.map(rid)).toEqual(["r2", "r1"]);
   });
 
   it("한도를 넘으면 오래된 쪽을 버린다 — 방금 친 세트는 절대 안 밀린다", () => {
@@ -92,8 +96,8 @@ describe("담기 — 같은 항목은 덮어쓴다", () => {
       list = upsertPending(list, main(`r${i}`));
     }
     expect(list).toHaveLength(PENDING_MAX_ITEMS);
-    expect(list[list.length - 1].rowId).toBe(`r${PENDING_MAX_ITEMS + 4}`);
-    expect(list[0].rowId).toBe("r5");
+    expect(rid(list[list.length - 1])).toBe(`r${PENDING_MAX_ITEMS + 4}`);
+    expect(rid(list[0])).toBe("r5");
   });
 });
 
@@ -101,7 +105,7 @@ describe("빼기", () => {
   it("올린 것만 빠지고 나머지는 남는다", () => {
     const list = [main("r1"), main("r2"), main("r3")];
     const left = removePending(list, ["main:r2"]);
-    expect(left.map((w) => w.rowId)).toEqual(["r1", "r3"]);
+    expect(left.map(rid)).toEqual(["r1", "r3"]);
   });
 
   it("빈 목록을 주면 아무것도 안 지운다", () => {
@@ -116,8 +120,8 @@ describe("만료", () => {
     const fresh = main("r1", { queuedAt: now - HOUR });
     const old = main("r2", { queuedAt: now - PENDING_MAX_AGE_MS - 1 });
     const split = splitExpired([fresh, old], now);
-    expect(split.fresh.map((w) => w.rowId)).toEqual(["r1"]);
-    expect(split.expired.map((w) => w.rowId)).toEqual(["r2"]);
+    expect(split.fresh.map(rid)).toEqual(["r1"]);
+    expect(split.expired.map(rid)).toEqual(["r2"]);
   });
 
   it("정확히 48시간은 아직 안 버린다(경계)", () => {
@@ -188,5 +192,32 @@ describe("올릴 때의 날짜 — 서버 판정", () => {
     expect(resolveForDate("2026-09-13T00:00:00Z", "2026-09-13")).toBe(
       "2026-09-13",
     );
+  });
+});
+
+describe("끝난 런닝(run) — 2026-09-28 런닝 1단계", () => {
+  const run = (id: string, queuedAt = 5_000): PendingWrite => ({
+    kind: "run",
+    key: pendingKey({ kind: "run", clientSessionId: id }),
+    name: "야외 런닝 3.21km",
+    session: { clientSessionId: id, mode: "outdoor", startedAt: "2026-09-28T07:00:00.000Z", endedAt: "2026-09-28T07:20:00.000Z", distanceM: 3210, route: [] },
+    forDate: "2026-09-28",
+    queuedAt,
+  });
+
+  it("키는 세션 id — 같은 런닝을 두 번 담아도 한 건", () => {
+    expect(pendingKey({ kind: "run", clientSessionId: "s1" })).toBe("run:s1");
+    const list = upsertPending(upsertPending([], run("s1")), run("s1", 6_000));
+    expect(list).toHaveLength(1);
+    expect(list[0].queuedAt).toBe(6_000);
+  });
+
+  it("세트 기록과 섞여도 따로 빠진다", () => {
+    const list = [main("r1"), run("s1"), main("r2")];
+    expect(removePending(list, ["run:s1"]).map(rid)).toEqual(["r1", "r2"]);
+  });
+
+  it("배너 이름에 런닝도 나온다", () => {
+    expect(pendingLabel([main("r1"), run("s1")])).toBe("벤치프레스, 야외 런닝 3.21km");
   });
 });

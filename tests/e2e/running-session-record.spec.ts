@@ -73,7 +73,10 @@ test("중단된 야외 러닝 체크포인트를 안내하고 폐기한다", asy
   await expect(page.getByText("중단된 야외 런닝이 있어요")).toBeVisible();
   await expect(page.getByText("02:05 · 0.64km")).toBeVisible();
   await page.getByRole("button", { name: "이어하기" }).click();
-  await expect(page.getByText(/위치 정보\(GPS\)가 꺼져 있어요/)).toBeVisible();
+  // 2026-09-28 런닝 1단계: 달리는 중 위치 오류(신호 없음)는 달리기를 끝내지 않는다 —
+  // '신호 찾는 중' 안내만 뜨고 이어 달린다. 체크포인트도 그대로 남는다.
+  await expect(page.getByTestId("gps-signal-lost")).toBeVisible();
+  await expect(page.getByRole("button", { name: "종료" })).toBeVisible();
   await expect(page.evaluate(() => localStorage.getItem("heltch.running.checkpoint"))).resolves.not.toBeNull();
 
   await page.reload();

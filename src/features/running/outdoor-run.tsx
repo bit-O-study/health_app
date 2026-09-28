@@ -16,16 +16,10 @@ import {
   type RunTrack,
 } from "@/features/running/geo";
 import {
-  recordRunAsCooldownAction,
-  recordRunHeartRateAction,
-  recordRunSessionAction,
-} from "@/features/running/run-record-actions";
-import {
   startGeoWatch,
   type GeoFix,
   type GeoWatch,
 } from "@/features/running/background-geo";
-import { addRunDistanceAction } from "@/features/running/run-distance-actions";
 import { openLocationSettings } from "@/features/running/native";
 import { RunLeaderboard } from "@/features/running/components/run-leaderboard";
 import { MIN_OUTDOOR_DISTANCE_M } from "@/features/running/run-session";
@@ -35,8 +29,7 @@ import {
   writeRunCheckpoint,
   type RunCheckpoint,
 } from "@/features/running/run-checkpoint";
-import { writeRunHealthRecords } from "@/features/health/run-write";
-import { readRunHeartRate } from "@/features/health/heart-rate";
+import { runSaveMessage, saveFinishedRun, type RunSaveResult } from "@/features/running/run-save";
 
 // 무거운 3D 씬은 '시작' 이후에만 지연 로드(첫 진입 번들 가볍게 — PWA 안전).
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -74,6 +67,10 @@ export function OutdoorRun({
   const [recorded, setRecorded] = useState(true);
   const [m, setM] = useState<Metrics>({ meters: 0, kmh: 0, elapsedSec: 0 });
   const [checkpoint, setCheckpoint] = useState<RunCheckpoint | null>(null);
+  // 달리는 중 GPS 가 잠깐 끊긴 상태(터널·고가 밑) — 종료하지 않고 신호를 기다린다(2026-09-28).
+  const [signalLost, setSignalLost] = useState<string | null>(null);
+  // 종료 뒤 저장 상태 — 저장됨 / 기기에 보관(연결되면 자동 저장).
+  const [saveState, setSaveState] = useState<RunSaveResult | "saving" | null>(null);
 
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
   const targetRef = useRef(0);
@@ -151,6 +148,7 @@ export function OutdoorRun({
   }
 
   function onFix(fix: GeoFix) {
+    setSignalLost(null);
     const p = {
       lat: fix.lat,
       lng: fix.lng,
@@ -214,16 +212,24 @@ export function OutdoorRun({
 
     // 네이티브: 백그라운드에서도 유지되는 위치 추적. 웹: 포그라운드 watchPosition.
     void startGeoWatch(onFix, (kind, msg) => {
+      // 🔴 달리는 중엔 **권한 거부만** 종료한다. timeout·위치 없음(터널·고가 밑)은 잠깐 끊긴
+      //    것이라 신호를 기다리며 계속 감시한다 — 예전엔 15초 끊기면 달리기가 통째로 끝났다.
+      //    (진입 전 GPS 꺼짐·권한은 checkLocation 이 따로 막는다.)
+      if (kind !== "denied") {
+        setSignalLost(
+          kind === "gps-off"
+            ? "위치(GPS) 신호가 없어요. 꺼져 있다면 켜 주세요 — 잡히면 이어서 기록해요."
+            : "GPS 신호를 찾는 중이에요. 잡히면 이어서 기록해요.",
+        );
+        return;
+      }
+      // 권한 거부 — 계속 기록할 수 없다. 지금까지 달린 건 체크포인트에 남아 '이어하기'로 살린다.
       setErrKind(kind);
-      setError(
-        kind === "gps-off"
-          ? "위치 정보(GPS)가 꺼져 있어요. 휴대폰 설정에서 위치를 켜주세요."
-          : kind === "denied"
-            ? "위치 권한이 필요해요. 권한을 허용해 주세요."
-            : msg,
-      );
+      setError(msg && /권한/.test(msg) ? msg : "위치 권한이 필요해요. 권한을 허용해 주세요.");
       setPhase("error");
       stopAll();
+      // 오류 화면에서도 바로 '이어하기' — 예전엔 시작 때 비운 상태라 다시 들어와야 보였다.
+      setCheckpoint(readRunCheckpoint("outdoor"));
     }).then((handle) => {
       // 종료(stopAll)가 먼저 호출됐으면 바로 정리.
       if (watchWantedRef.current) watchRef.current = handle;
@@ -241,7 +247,7 @@ export function OutdoorRun({
 
   function finish() {
     stopAll();
-    writeRunCheckpoint(null);
+    setSignalLost(null);
     const endedAt = Date.now();
     const meters = trackRef.current.totalMeters;
     const elapsedSec = (endedAt - startTsRef.current) / 1000;
@@ -251,47 +257,34 @@ export function OutdoorRun({
     setM((prev) => ({ ...prev, elapsedSec }));
     // 실제로 달리지 않아 이동이 거의 없으면 기록하지 않는다(들어왔다 나간 경우 오기록 방지).
     if (meters < MIN_OUTDOOR_DISTANCE_M) {
+      writeRunCheckpoint(null);
       setRecorded(false);
+      setSaveState(null);
       setPhase("done");
       return;
     }
     setRecorded(true);
     setPhase("done");
     onFinish?.({ durationMin, distanceKm, avgKmh });
-    // 오늘 마무리 운동에 자동 기록(실패해도 화면엔 영향 없음).
-    void recordRunAsCooldownAction({
-      durationMin,
-      durationSec: elapsedSec,
-      distanceKm,
-      avgKmh,
-    }).catch(() => {});
-    void recordRunSessionAction({
-      clientSessionId: sessionIdRef.current,
-      mode: "outdoor",
-      startedAt: new Date(startTsRef.current).toISOString(),
-      endedAt: new Date(endedAt).toISOString(),
-      distanceM: meters,
-      route: trackRef.current.points.map((point) => ({
-        lat: point.lat,
-        lng: point.lng,
-        timestamp: point.t,
-        accuracyM: point.acc,
-      })),
-    }).then(async (result) => {
-      if (!result.ok || !result.health) return;
-      void writeRunHealthRecords(result.health);
-      const heartRate = await readRunHeartRate(result.health.startedAt, result.health.endedAt);
-      if (heartRate.ok && heartRate.summary) {
-        await recordRunHeartRateAction({
-          clientSessionId: sessionIdRef.current,
-          averageBpm: heartRate.summary.averageBpm,
-          maxBpm: heartRate.summary.maxBpm,
-          sampleCount: heartRate.summary.sampleCount,
-        });
-      }
-    }).catch(() => {});
-    // 오늘 달린 거리 누적(그룹 순위용) — 야외는 실제 GPS 거리.
-    void addRunDistanceAction(Math.round(meters)).catch(() => {});
+    // 저장은 한 곳(run_sessions) — 서버가 운동 시간·마무리 완료·순위 거리까지 맞춘다.
+    // 기기 대기 큐에 먼저 적고 보내므로, 신호가 없어도 기록이 사라지지 않는다.
+    setSaveState("saving");
+    void saveFinishedRun(
+      {
+        clientSessionId: sessionIdRef.current,
+        mode: "outdoor",
+        startedAt: new Date(startTsRef.current).toISOString(),
+        endedAt: new Date(endedAt).toISOString(),
+        distanceM: meters,
+        route: trackRef.current.points.map((point) => ({
+          lat: point.lat,
+          lng: point.lng,
+          timestamp: point.t,
+          accuracyM: point.acc,
+        })),
+      },
+      `야외 런닝 ${formatDistanceKm(meters)}km`,
+    ).then(setSaveState);
   }
 
   const pace = avgPaceSecPerKm(m.meters, m.elapsedSec);
@@ -326,6 +319,16 @@ export function OutdoorRun({
             </div>
           </div>
         </>
+      ) : null}
+
+      {phase === "playing" && signalLost ? (
+        <div
+          role="status"
+          data-testid="gps-signal-lost"
+          className="absolute inset-x-4 bottom-[calc(env(safe-area-inset-bottom,0px)+6.5rem)] z-20 rounded-2xl bg-black/70 px-4 py-3 text-center text-sm font-semibold text-white"
+        >
+          {signalLost}
+        </div>
       ) : null}
 
       {phase === "playing" ? (
@@ -425,6 +428,12 @@ export function OutdoorRun({
           {!recorded ? (
             <p className="text-sm text-zinc-300">
               이동이 거의 없어 기록하지 않았어요.
+            </p>
+          ) : null}
+          {/* 저장 상태 한 줄 — 요약은 넣지 않는다(사용자 요청). 기록이 사라지지 않았다는 확인만. */}
+          {recorded && runSaveMessage(saveState) ? (
+            <p role="status" data-testid="run-save-state" data-state={saveState ?? ""} className="text-sm text-zinc-200">
+              {runSaveMessage(saveState)}
             </p>
           ) : null}
           <button

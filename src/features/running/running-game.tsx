@@ -8,12 +8,6 @@ import {
   runMetersPerSecond,
 } from "@/features/running/controls";
 import { formatDuration } from "@/features/running/geo";
-import {
-  recordRunAsCooldownAction,
-  recordRunHeartRateAction,
-  recordRunSessionAction,
-} from "@/features/running/run-record-actions";
-import { addRunDistanceAction } from "@/features/running/run-distance-actions";
 import { openAppSettings } from "@/features/running/native";
 import { RunLeaderboard } from "@/features/running/components/run-leaderboard";
 import { MIN_RUN_DURATION_SEC } from "@/features/running/run-session";
@@ -23,8 +17,7 @@ import {
   writeRunCheckpoint,
   type RunCheckpoint,
 } from "@/features/running/run-checkpoint";
-import { writeRunHealthRecords } from "@/features/health/run-write";
-import { readRunHeartRate } from "@/features/health/heart-rate";
+import { runSaveMessage, saveFinishedRun, type RunSaveResult } from "@/features/running/run-save";
 
 /* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -71,6 +64,8 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   const [elapsedSec, setElapsedSec] = useState(0);
   // 종료 시 실제로 기록했는지(너무 짧으면 기록 안 함) — 완료 문구 분기용.
   const [recorded, setRecorded] = useState(true);
+  // 종료 뒤 저장 상태 — 저장됨 / 기기에 보관(연결되면 자동 저장). (2026-09-28 런닝 1단계)
+  const [saveState, setSaveState] = useState<RunSaveResult | "saving" | null>(null);
   const [checkpoint, setCheckpoint] = useState<RunCheckpoint | null>(null);
   const speedRef = useRef(8);
   const inclineRef = useRef(1);
@@ -307,48 +302,34 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
 
   function finish() {
     stopCamera();
-    writeRunCheckpoint(null);
     const endedAt = Date.now();
     const sec = (endedAt - playStartRef.current) / 1000;
     // 실제로 뛰지 않고 잠깐 들어왔다 나간 경우(짧은 세션)엔 기록하지 않는다.
     // (예전엔 최소 1분으로 강제 기록돼 안 뛰어도 ~14kcal 가 잡혔다.)
     if (sec < MIN_RUN_DURATION_SEC) {
+      writeRunCheckpoint(null);
       setRecorded(false);
+      setSaveState(null);
       setPhase("done");
       return;
     }
     setRecorded(true);
     setPhase("done");
-    const durationMin = Math.max(1, Math.round(sec / 60));
-    void recordRunAsCooldownAction({
-      durationMin,
-      durationSec: sec,
-      avgKmh: speedRef.current,
-      incline: inclineRef.current,
-    }).catch(() => {});
-    void recordRunSessionAction({
-      clientSessionId: sessionIdRef.current,
-      mode: "indoor",
-      startedAt: new Date(playStartRef.current).toISOString(),
-      endedAt: new Date(endedAt).toISOString(),
-      distanceM: sessionMetersRef.current,
-      avgKmh: speedRef.current,
-      incline: inclineRef.current,
-    }).then(async (result) => {
-      if (!result.ok || !result.health) return;
-      void writeRunHealthRecords(result.health);
-      const heartRate = await readRunHeartRate(result.health.startedAt, result.health.endedAt);
-      if (heartRate.ok && heartRate.summary) {
-        await recordRunHeartRateAction({
-          clientSessionId: sessionIdRef.current,
-          averageBpm: heartRate.summary.averageBpm,
-          maxBpm: heartRate.summary.maxBpm,
-          sampleCount: heartRate.summary.sampleCount,
-        });
-      }
-    }).catch(() => {});
-    // 오늘 달린 거리 누적(그룹 순위용).
-    void addRunDistanceAction(Math.round(sessionMetersRef.current)).catch(() => {});
+    // 저장은 한 곳(run_sessions) — 서버가 운동 시간·마무리 완료·순위 거리까지 맞춘다.
+    // 기기 대기 큐에 먼저 적고 보내므로, 신호가 없어도 기록이 사라지지 않는다.
+    setSaveState("saving");
+    void saveFinishedRun(
+      {
+        clientSessionId: sessionIdRef.current,
+        mode: "indoor",
+        startedAt: new Date(playStartRef.current).toISOString(),
+        endedAt: new Date(endedAt).toISOString(),
+        distanceM: sessionMetersRef.current,
+        avgKmh: speedRef.current,
+        incline: inclineRef.current,
+      },
+      `실내 런닝 ${(sessionMetersRef.current / 1000).toFixed(2)}km`,
+    ).then(setSaveState);
   }
 
   return (
@@ -506,6 +487,11 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               운동목록·캘린더·기록에서 확인. '기록 안 됨' 경고만 남긴다. */}
           {!recorded ? (
             <p className="text-sm text-zinc-300">너무 짧아 기록하지 않았어요.</p>
+          ) : null}
+          {recorded && runSaveMessage(saveState) ? (
+            <p role="status" data-testid="run-save-state" data-state={saveState ?? ""} className="text-sm text-zinc-200">
+              {runSaveMessage(saveState)}
+            </p>
           ) : null}
           <button
             type="button"

@@ -107,8 +107,10 @@ export function formatPace(secPerKm: number | null): string {
   if (secPerKm == null || !Number.isFinite(secPerKm) || secPerKm <= 0) {
     return "--'--\"";
   }
-  const m = Math.floor(secPerKm / 60);
-  const s = Math.round(secPerKm % 60);
+  // 전체 초를 먼저 반올림 — 분·초를 따로 반올림하면 359.6초가 5'60" 가 됐다(2026-09-28).
+  const total = Math.round(secPerKm);
+  const m = Math.floor(total / 60);
+  const s = total % 60;
   return `${m}'${String(s).padStart(2, "0")}"`;
 }
 

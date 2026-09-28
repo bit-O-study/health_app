@@ -64,6 +64,23 @@ export function prunePending(
 function isPendingWrite(v: unknown): v is PendingWrite {
   if (typeof v !== "object" || v === null) return false;
   const w = v as Record<string, unknown>;
+  // 끝난 런닝(2026-09-28) — rowId·status 가 없는 대신 session 을 통째로 든다.
+  // ⚠ 여기서 빠뜨리면 저장소에서 읽을 때 조용히 버려져 오프라인 런닝이 사라진다.
+  if (w.kind === "run") {
+    const s = w.session as Record<string, unknown> | null;
+    return (
+      typeof w.key === "string" &&
+      typeof w.name === "string" &&
+      typeof w.forDate === "string" &&
+      typeof w.queuedAt === "number" &&
+      typeof s === "object" && s !== null &&
+      typeof s.clientSessionId === "string" &&
+      (s.mode === "indoor" || s.mode === "outdoor") &&
+      typeof s.startedAt === "string" &&
+      typeof s.endedAt === "string" &&
+      typeof s.distanceM === "number"
+    );
+  }
   const common =
     typeof w.key === "string" &&
     typeof w.name === "string" &&

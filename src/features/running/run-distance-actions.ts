@@ -8,39 +8,9 @@ import { seoulYmd } from "@/features/routine/data";
 import { resolveMemberName } from "@/features/groups/member-name";
 import type { RunRankMember } from "@/features/running/leaderboard";
 
-/**
- * 오늘 달린 거리(m)를 누적한다(러닝 종료 시). 반환: 오늘 누적 총 m.
- * 너무 짧은(안 뛴) 세션은 호출측에서 거른다.
- */
-export async function addRunDistanceAction(
-  meters: number,
-): Promise<{ ok: boolean; total?: number }> {
-  const add = Math.max(0, Math.round(meters));
-  const user = await getCurrentUser();
-  if (!user) return { ok: false };
-  const supabase = await createSupabaseServerClient();
-  const today = seoulYmd();
-
-  const { data } = await supabase
-    .from("daily_run_distance")
-    .select("meters")
-    .eq("user_id", user.id)
-    .eq("for_date", today)
-    .maybeSingle();
-  const total = Number((data as { meters?: number } | null)?.meters ?? 0) + add;
-
-  const { error } = await supabase.from("daily_run_distance").upsert(
-    {
-      user_id: user.id,
-      for_date: today,
-      meters: total,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: "user_id,for_date" },
-  );
-  if (error) return { ok: false };
-  return { ok: true, total };
-}
+// 그날 달린 거리(daily_run_distance)는 이제 recordRunSessionAction 이 run_sessions 합계로 맞춘다
+// (2026-09-28 런닝 1단계). 예전 addRunDistanceAction(읽고-더해-덮어쓰기)은 세션 id 가 없어 재시도에
+// 중복으로 쌓이고 기록과 어긋나 지웠다.
 
 export type GroupRunLeaderboard = {
   groupId: string;

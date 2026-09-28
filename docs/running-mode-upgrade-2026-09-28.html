@@ -1,0 +1,463 @@
+<title>런닝 모드 고도화 검수보고서</title>
+<meta name="description" content="런닝 모드의 달리는 중·종료 순간을 코드로 진단하고, 데이터 안전부터 목표·음성 안내·일시정지·종료 요약까지 단계별 고도화 설계를 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb; --on-brand:#ffffff;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --stray-a:#d97706; --stray-v:#7c3aed; --stray-s:#0284c7; --stray-r:#dc2626;
+  --phone:#fafafa; --phone-2:#f1f2f1; --phone-ink:#18181b; --phone-mute:#71717a; --phone-line:#e4e4e7;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --stray-a:#f59e0b; --stray-v:#a78bfa; --stray-s:#38bdf8; --stray-r:#f87171;
+    --phone:#0b0b0c; --phone-2:#18181b; --phone-ink:#f4f4f5; --phone-mute:#a1a1aa; --phone-line:#27272a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --stray-a:#f59e0b; --stray-v:#a78bfa; --stray-s:#38bdf8; --stray-r:#f87171;
+  --phone:#0b0b0c; --phone-2:#18181b; --phone-ink:#f4f4f5; --phone-mute:#a1a1aa; --phone-line:#27272a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto}
+h1,h2,h3{text-wrap:balance;margin:0;line-height:1.3}
+p{margin:0}
+code,.mono{font-family:var(--mono);font-size:.84em}
+code{color:var(--ink-2);background:var(--line-2);padding:1px 5px;border-radius:4px;word-break:break-all}
+
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;padding-block:28px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.top b{color:var(--ink);font-weight:600}
+.lede{padding-block:40px 32px;display:grid;gap:18px;max-width:740px}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--brand);font-weight:600}
+.lede h1{font-size:clamp(25px,4vw,33px);font-weight:700;letter-spacing:-.01em}
+.lede p{color:var(--ink-2);max-width:62ch}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.pill.crit{background:var(--crit-soft);color:var(--crit)}
+.pill.warn{background:var(--warn-soft);color:var(--warn)}
+.pill.ok{background:var(--brand-soft);color:var(--brand)}
+
+.nums{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.num{padding:18px 20px;display:grid;gap:2px;align-content:start}
+.num+.num{border-left:1px solid var(--line)}
+.num strong{font-size:30px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:-.02em;line-height:1.2}
+.num strong small{font-size:15px;color:var(--muted);font-weight:500}
+.num span{font-size:13px;color:var(--muted)}
+@media (max-width:720px){.nums{grid-template-columns:repeat(2,minmax(0,1fr))}.num:nth-child(3){border-left:0}.num:nth-child(n+3){border-top:1px solid var(--line)}}
+
+section{padding-block:52px 0}
+.sec-head{display:grid;gap:6px;margin-bottom:22px;max-width:680px}
+.sec-head h2{font-size:22px;font-weight:700}
+.sec-head p{color:var(--muted);font-size:14px}
+
+.findings{border-top:1px solid var(--line)}
+.f{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,300px);gap:8px 24px;padding-block:22px;border-bottom:1px solid var(--line)}
+.f .code{font-family:var(--mono);font-size:13px;color:var(--muted);padding-top:2px}
+.f h3{font-size:17px;font-weight:600;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.f .body{display:grid;gap:8px}
+.f .body p{color:var(--ink-2);font-size:14.5px;max-width:62ch}
+.f ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px;display:grid;gap:3px}
+.f .ev{font-size:13px;color:var(--muted);display:grid;gap:6px;align-content:start;border-left:1px solid var(--line-2);padding-left:18px}
+.f .ev b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+@media (max-width:820px){.f{grid-template-columns:40px minmax(0,1fr)}.f .ev{grid-column:2;border-left:0;padding-left:0}}
+
+.bars{display:grid;gap:5px;margin-top:2px}
+.bar{display:grid;grid-template-columns:56px minmax(0,1fr) 30px;align-items:center;gap:8px;font-size:12px}
+.bar i{display:block;height:8px;border-radius:2px}
+.bar span:first-child{font-family:var(--mono);color:var(--muted)}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-2)}
+
+.keep{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px;border-top:1px solid var(--line);padding-top:18px}
+.keep div{display:grid;gap:2px;font-size:14px;color:var(--ink-2)}
+.keep b{color:var(--ink);font-weight:600;font-size:14.5px}
+@media (max-width:720px){.keep{grid-template-columns:1fr}}
+
+/* 비교 */
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+@media (max-width:760px){.compare{grid-template-columns:1fr}}
+.col-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.col-head h3{font-size:16px;font-weight:600}
+.col-head span{font-size:13px;color:var(--muted)}
+.stage{background:var(--line-2);border-radius:14px;padding:22px 14px;display:flex;justify-content:center}
+.notes{margin:14px 0 0;padding-left:18px;font-size:13.5px;color:var(--ink-2);display:grid;gap:4px}
+
+/* 폰 목업 */
+.phone{width:100%;max-width:330px;background:var(--phone);color:var(--phone-ink);border:1px solid var(--phone-line);border-radius:26px;overflow:hidden;display:flex;flex-direction:column;font-size:12px;line-height:1.35}
+.p-top{display:flex;align-items:center;gap:8px;padding:12px 12px 6px}
+.p-x{width:26px;height:26px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-size:13px;flex:none;color:var(--phone-mute)}
+.p-track{flex:1;height:4px;border-radius:99px;background:var(--phone-line);overflow:hidden}
+.p-track i{display:block;height:100%;width:37%;background:var(--brand)}
+.p-seg{flex:1;display:flex;gap:3px}
+.p-seg i{flex:1;height:5px;border-radius:99px;background:var(--phone-line)}
+.p-seg i.d{background:var(--brand)}
+.p-seg i.s{background:var(--phone-mute);opacity:.5}
+.p-seg i.c{background:var(--brand);opacity:.45}
+.p-chip{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--brand) 40%,transparent);background:var(--brand-soft);color:var(--brand);border-radius:99px;padding:2px 8px;font-family:var(--mono);font-weight:600;font-size:11px;white-space:nowrap}
+.p-row{display:flex;justify-content:center;gap:6px;padding:0 12px 6px}
+.p-ghost{border:1px solid var(--phone-line);background:var(--phone);border-radius:99px;padding:2px 9px;font-weight:600;font-size:11px;white-space:nowrap}
+.p-body{padding:4px 14px 10px;display:grid;gap:8px;justify-items:center}
+.p-tags{width:100%;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.t{border-radius:99px;padding:2px 8px;font-weight:700;font-size:10.5px;white-space:nowrap}
+.t.brand{background:var(--brand-soft);color:var(--brand)}
+.t.amber{color:var(--stray-a);border:1px solid var(--stray-a)}
+.t.violet{color:var(--stray-v);border:1px solid var(--stray-v)}
+.t.neutral{background:var(--phone-2);color:var(--phone-mute)}
+.p-media{width:100%;aspect-ratio:4/3;border-radius:14px;background:linear-gradient(160deg,var(--phone-2),var(--phone-line));position:relative;display:grid;place-items:center;color:var(--phone-mute);font-size:11px}
+.p-media .arrow{position:absolute;top:50%;transform:translateY(-50%);width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;display:grid;place-items:center;font-size:13px}
+.p-media .arrow.l{left:6px}.p-media .arrow.r{right:6px}
+.p-media .arrow.big{width:32px;height:32px}
+.p-media .inset{position:absolute;left:6px;bottom:6px;background:rgba(0,0,0,.55);color:#fff;border-radius:8px;padding:2px 6px;font-size:9.5px;font-weight:700}
+.p-name{font-size:17px;font-weight:700;text-align:center}
+.p-card{width:100%;border:1px solid var(--phone-line);border-radius:12px;padding:2px 10px}
+.p-scrub{display:flex;justify-content:space-between;align-items:center;padding:5px 0}
+.p-scrub+.p-scrub{border-top:1px solid var(--phone-line)}
+.p-scrub>span{font-size:10px;font-weight:700;color:var(--phone-mute)}
+.p-scrub .ctl{display:flex;align-items:center;gap:4px}
+.p-scrub .pm{width:22px;height:22px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-weight:700;color:var(--phone-mute)}
+.p-scrub .v{min-width:52px;text-align:center;background:var(--brand-soft);color:var(--brand);border-radius:6px;padding:2px 4px;font-weight:700;font-size:13px}
+.p-hint{font-size:9.5px;color:var(--phone-mute);text-align:center;padding:3px 0 4px}
+.p-note{width:100%;border-radius:8px;padding:5px 8px;font-size:10.5px;display:flex;gap:6px;align-items:center;justify-content:space-between}
+.p-note.plate{background:var(--phone-2)}
+.p-note.amber{border:1px solid var(--stray-a);color:var(--stray-a)}
+.p-note.amber b{border:1px solid currentColor;border-radius:99px;padding:0 6px;font-size:9.5px}
+.p-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
+.p-actions .p-ghost.brand{color:var(--brand);background:var(--brand-soft);border-color:transparent}
+.p-bottom{margin-top:auto;border-top:1px solid var(--phone-line);padding:8px 10px 12px;display:grid;gap:6px;background:var(--phone)}
+.p-rest{display:flex;gap:4px;align-items:center;font-size:10px;color:var(--phone-mute);overflow:hidden}
+.p-rest i{font-style:normal;background:var(--phone-2);border-radius:99px;padding:1px 6px;font-weight:700}
+.p-rest i.on{background:var(--phone-ink);color:var(--phone)}
+.p-2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.btn{border-radius:10px;display:grid;place-items:center;font-weight:700;height:30px;font-size:11.5px;border:1px solid var(--phone-line);background:var(--phone)}
+.btn.solid{background:var(--brand);color:var(--on-brand);border-color:transparent}
+.btn.soft{background:var(--brand-soft);color:var(--brand);border-color:color-mix(in srgb,var(--brand) 40%,transparent)}
+.p-3{display:grid;grid-template-columns:auto auto 1fr;gap:5px}
+.p-3 .btn{height:38px;padding:0 8px}
+.lbl{display:grid;place-items:center;background:var(--brand-soft);color:var(--brand);border-radius:8px;padding:0 7px;font-weight:700;font-size:11px}
+/* 시안 전용 */
+.p-sets{width:100%;display:grid;gap:6px;justify-items:center}
+.p-sets .big{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.p-sets .big small{font-size:14px;color:var(--phone-mute);font-weight:600}
+.dots{display:flex;gap:6px;align-items:center}
+.dots i{width:12px;height:12px;border-radius:50%;border:2px solid var(--brand)}
+.dots i.d{background:var(--brand)}
+.dots em{font-style:normal;font-size:10px;color:var(--phone-mute);margin-left:4px;border:1px solid var(--phone-line);border-radius:99px;padding:0 6px}
+.p-vals{width:100%;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.p-val{border:1px solid var(--phone-line);border-radius:12px;padding:6px 6px 7px;display:grid;gap:3px;justify-items:center}
+.p-val>span{font-size:10px;color:var(--phone-mute);font-weight:600}
+.p-val .n{font-size:24px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.p-val .n small{font-size:12px;color:var(--phone-mute);font-weight:600}
+.p-val .pm2{display:flex;gap:6px}
+.p-val .pm2 i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--phone-2);display:grid;place-items:center;font-weight:700;font-size:15px}
+.p-line{width:100%;font-size:10.5px;color:var(--phone-mute);display:flex;justify-content:space-between;gap:6px}
+.p-line b{color:var(--brand)}
+.p-more{width:100%;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--phone-line);border-radius:10px;padding:6px 9px;font-size:11px;font-weight:600}
+.p-more span{color:var(--phone-mute);font-weight:500}
+.btn.hero{height:48px;font-size:14px}
+.p-under{display:flex;justify-content:space-between;font-size:10.5px;color:var(--phone-mute);padding:0 2px}
+.p-under u{text-decoration:none;font-weight:600}
+
+/* 규칙 */
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+@media (max-width:720px){.rules{grid-template-columns:1fr}}
+.rule{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.rule h3{font-size:15.5px;font-weight:600}
+.rule p{font-size:14px;color:var(--ink-2)}
+.rule .mono{color:var(--muted);font-size:12.5px}
+
+/* 단계 */
+.steps{border-top:1px solid var(--line)}
+.step{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,280px);gap:8px 24px;padding-block:20px;border-bottom:1px solid var(--line)}
+.step .k{font-family:var(--mono);font-size:13px;color:var(--brand);font-weight:500;padding-top:2px}
+.step h3{font-size:16px;font-weight:600;margin-bottom:6px}
+.step ul{margin:0;padding-left:18px;font-size:14px;color:var(--ink-2);display:grid;gap:3px}
+.step .t2{font-size:13px;color:var(--muted);display:grid;gap:4px;align-content:start;border-left:1px solid var(--line-2);padding-left:18px}
+@media (max-width:820px){.step{grid-template-columns:40px minmax(0,1fr)}.step .t2{grid-column:2;border-left:0;padding-left:0}}
+
+.qs{display:grid;gap:12px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;gap:10px}
+.q h3{font-size:15.5px;font-weight:600}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:640px){.opts{grid-template-columns:1fr}}
+.opt{border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;color:var(--ink-2);display:grid;gap:2px}
+.opt b{color:var(--ink);font-weight:600;font-size:14px}
+.opt.rec{border-color:var(--brand);background:var(--brand-soft)}
+.opt.rec b::after{content:" · 추천";color:var(--brand);font-size:12px}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+.compare4{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:28px 22px;align-items:start}
+.dir .phone{max-width:300px}
+.verdict2{margin-top:10px;font-size:13px;color:var(--ink-2);display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+.p-scrub .pm.lg{width:28px;height:28px}
+.p-scrub .v.lg{font-size:15px;min-width:60px;padding:3px 4px}
+.p-note.brand{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);color:var(--brand)}
+.p-note.brand b{border:1px solid currentColor;border-radius:99px;padding:0 6px;font-size:9.5px}
+.p-media.wide{aspect-ratio:16/9}
+.log{width:100%;border:1px solid var(--phone-line);border-radius:12px;overflow:hidden;font-variant-numeric:tabular-nums}
+.lh,.lr{display:grid;grid-template-columns:34px 1fr 1fr 44px;align-items:center;text-align:center}
+.lh{font-size:10px;color:var(--phone-mute);font-weight:600;padding:4px 0;background:var(--phone-2)}
+.lr{font-size:13px;font-weight:600;padding:5px 0;border-top:1px solid var(--phone-line)}
+.lr.done{color:var(--phone-mute)}
+.lr.now{background:var(--brand-soft);font-size:16px;font-weight:700}
+.lr .cell{border:1px solid color-mix(in srgb,var(--brand) 45%,transparent);border-radius:6px;margin:0 6px;background:var(--phone)}
+.ck{font-style:normal;justify-self:center;width:24px;height:24px;border-radius:7px;border:1.5px solid var(--phone-line);display:grid;place-items:center;font-size:12px;color:var(--phone-mute)}
+.ck.on{background:var(--phone-mute);color:var(--phone);border-color:transparent}
+.ck.big{width:32px;height:32px;background:var(--brand);color:var(--on-brand);border-color:transparent;font-size:15px}
+.ladd{font-size:11px;color:var(--brand);font-weight:600;text-align:center;padding:6px 0;border-top:1px solid var(--phone-line)}
+.dark-stage{background:#0b0b0c;color:#f4f4f5;border-color:#27272a}
+.vid{position:relative;height:300px;background:linear-gradient(170deg,#2a2d2b,#121413);display:grid;place-items:center}
+.vtop{position:absolute;top:10px;left:10px;right:10px;display:flex;gap:8px;align-items:center}
+.vtop .p-seg i{background:rgba(255,255,255,.25)}
+.vtop .p-seg i.d{background:#3cc394}.vtop .p-seg i.c{background:#3cc394;opacity:.5}
+.vx{width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center;font-size:12px}
+.vchip{background:rgba(0,0,0,.45);border-radius:99px;padding:2px 8px;font-family:var(--mono);font-size:11px;font-weight:600}
+.varrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
+.varrow.l{left:8px}.varrow.r{right:8px}
+.vlabel{font-size:11px;color:rgba(255,255,255,.55)}
+.vfoot{position:absolute;left:0;right:0;bottom:0;padding:24px 12px 10px;background:linear-gradient(transparent,rgba(0,0,0,.7));display:grid;gap:1px}
+.vfoot b{font-size:18px}
+.vtag{font-size:10px;color:rgba(255,255,255,.75)}
+.sheet{background:#18181b;border-radius:16px 16px 0 0;margin-top:-12px;position:relative;padding:8px 10px 12px;display:grid;gap:7px}
+.sheet .btn{background:#18181b;border-color:#3f3f46;color:#f4f4f5}
+.sheet .btn.solid{background:#3cc394;color:#06140e;border-color:transparent}
+.grab{justify-self:center;width:36px;height:4px;border-radius:99px;background:#3f3f46}
+.sline{display:flex;align-items:baseline;gap:8px}
+.sset{font-size:18px;font-weight:700;color:#3cc394}
+.sval{font-size:14px;font-weight:600;flex:1}
+.sedit{font-size:10.5px;color:#a1a1aa}
+.shint{font-size:9.5px;color:#a1a1aa;text-align:center}
+.table-wrap{overflow-x:auto;margin-top:30px}
+.cmp{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;background:var(--surface)}
+.cmp th,.cmp td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.cmp thead th{font-size:12.5px;color:var(--muted);font-weight:600}
+.cmp tbody th{font-weight:600;color:var(--ink);white-space:nowrap}
+.cmp td{color:var(--ink-2)}
+
+/* 런닝 모드 고도화 전용 */
+.phone.dark-stage{background:#0b0b0c;color:#f4f4f5;border-color:#27272a;min-height:540px}
+.r-top{display:flex;align-items:center;gap:8px;padding:10px 12px 4px;font-size:10px;color:#a1a1aa}
+.r-top .x{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.08);display:grid;place-items:center;color:#d4d4d8;font-size:12px}
+.r-gps{margin-left:auto;display:flex;gap:2px;align-items:end}
+.r-gps i{width:3px;background:#3cc394;border-radius:1px}
+.r-body{padding:8px 14px;display:grid;gap:10px}
+.r-lbl{font-size:10px;color:#a1a1aa}
+.r-huge{font-size:56px;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1;text-align:center}
+.r-huge small{font-size:16px;color:#a1a1aa;font-weight:600;margin-left:2px}
+.r-3{display:grid;grid-template-columns:repeat(3,1fr);text-align:center;gap:4px}
+.r-3 b{display:block;font-size:17px;font-variant-numeric:tabular-nums}
+.r-3 span{font-size:9.5px;color:#a1a1aa}
+.r-goal{border-radius:12px;background:rgba(60,195,148,.12);color:#3cc394;padding:8px 10px;display:grid;gap:5px;font-size:11px;font-weight:600}
+.r-goal .gbar{height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.r-goal .gbar i{display:block;height:100%;background:#3cc394}
+.r-voice{font-size:10px;color:#d4d4d8;border:1px dashed rgba(255,255,255,.18);border-radius:10px;padding:6px 8px}
+.r-ctl{margin-top:auto;padding:10px 14px 14px;display:flex;justify-content:center;gap:18px;align-items:center}
+.r-ctl .c{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px;background:rgba(255,255,255,.1)}
+.r-ctl .c.main{width:72px;height:72px;background:#3cc394;color:#06140e;font-size:20px}
+.r-ctl .c.hold{background:rgba(239,125,105,.18);color:#ef7d69;font-size:10.5px;text-align:center;line-height:1.1}
+.r-chips{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.r-chips i{font-style:normal;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:9px 8px;font-size:11.5px;font-weight:600;display:grid;gap:2px}
+.r-chips i small{font-size:9.5px;color:#a1a1aa;font-weight:500}
+.r-chips i.on{border-color:#3cc394;background:rgba(60,195,148,.12)}
+.r-start{height:52px;border-radius:16px;background:#3cc394;color:#06140e;display:grid;place-items:center;font-weight:800;font-size:15px}
+.r-sum{border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:10px;display:grid;gap:6px}
+.r-sum .row{display:flex;justify-content:space-between;font-size:11px}
+.r-sum .row b{font-variant-numeric:tabular-nums}
+.r-pr{display:inline-flex;gap:4px;align-items:center;border-radius:99px;background:rgba(60,195,148,.14);color:#3cc394;font-size:10px;font-weight:700;padding:2px 8px;justify-self:start}
+.r-map{height:92px;border-radius:12px;background:#141417;display:block;width:100%}
+.r-pause{position:absolute;inset:0;background:rgba(11,11,12,.82);display:grid;place-items:center;align-content:center;gap:10px;text-align:center}
+.flow{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;margin-top:4px}
+.flow span{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:5px 10px}
+.flow span.bad{border-color:color-mix(in srgb,var(--crit) 55%,var(--line));color:var(--crit)}
+.flow em{font-style:normal;color:var(--muted)}
+.layers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:820px){.layers{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.layers{grid-template-columns:1fr}}
+.layer{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;align-content:start}
+.layer h3{font-size:15px;font-weight:600}
+.layer ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--ink-2);display:grid;gap:3px}
+.layer .k{font-family:var(--mono);font-size:12px;color:var(--brand)}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span><b>헬쑤</b> · 런닝 모드 고도화 검수보고서</span>
+    <span>2026-09-28 · 대상 <code>src/features/running/*</code> (야외 <code>outdoor-run.tsx</code> · 실내 <code>running-game.tsx</code>) · 기록 화면은 9/27 B안 적용 후</span>
+  </header>
+
+  <div class="lede">
+    <span class="eyebrow">고도화 설계 · 구현은 결정 후</span>
+    <h1>기록 화면은 갖췄는데, 달리는 동안과 끝나는 순간이 비어 있습니다.</h1>
+    <p>런닝 기록(월 요약·상세·경로·1km 구간)은 9/27에 갖춰졌습니다. 그런데 그 기록이 <b>만들어지는 과정</b> — 달리는 중과 종료 순간 — 은 초기 상태 그대로입니다. 일시정지·카운트다운·음성 안내가 없고, 종료는 확인 없이 한 번에 끝나며, <b>저장이 실패하면 기록이 영구히 사라지고</b>, 터널에서 GPS가 15초 끊기면 <b>달리기 자체가 끝납니다</b>. 이 보고서는 먼저 데이터를 잃지 않게 하고, 그 위에 달리는 경험(목표·안내·일시정지)과 끝난 뒤(요약·기록·개인 최고)를 얹는 순서로 설계합니다.</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="pill crit">데이터 유실 위험 3</span><span class="pill warn">경험 공백 6</span><span class="pill ok">유지 5</span></div>
+  </div>
+
+  <div class="nums">
+    <div class="num"><strong>0<small>개</small></strong><span>일시정지 · 카운트다운 · 음성/진동 안내<br>· 화면 꺼짐 방지</span></div>
+    <div class="num"><strong>15<small>초</small></strong><span>GPS 응답이 없으면<br>달리기가 그대로 끝남</span></div>
+    <div class="num"><strong>3<small>곳</small></strong><span>같은 런닝을 따로 저장하는 표<br>(서로 값이 어긋날 수 있음)</span></div>
+    <div class="num"><strong>1<small>번</small></strong><span>종료 버튼 탭으로 즉시 종료<br>(확인 없음)</span></div>
+  </div>
+
+  <section>
+    <div class="sec-head"><h2>지금 흐름</h2><p>빨간 칸이 끊기거나 비는 곳입니다.</p></div>
+    <div class="flow">
+      <span>운동 탭 “런닝” / 런닝 기록 “런닝 시작”</span><em>→</em><span>실내 · 야외 선택</span><em>→</em><span>권한 확인</span><em>→</em><span class="bad">바로 시작 (카운트다운 없음)</span><em>→</em><span class="bad">달리는 중 (일시정지·안내 없음)</span><em>→</em><span class="bad">종료 한 번 = 즉시 종료</span><em>→</em><span class="bad">“런닝 완료 🏁 · 확인”</span><em>→</em><span class="bad">인트로로 되돌아감 (기록 링크 없음)</span>
+    </div>
+    <p class="group-note" style="margin-top:14px">별도로 <code>/jog</code>(힐링 러닝, 모션센서)는 관리자 테스트 화면에서만 들어가고 기록을 남기지 않습니다. <code>game.ts</code>(3레인 러너)는 테스트에서만 쓰입니다.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>진단</h2><p>줄 번호는 각 파일 기준. 데이터 안전 → 달리는 중 → 끝난 뒤 → 실내 순.</p></div>
+    <div class="findings">
+      <div class="f"><span class="code">R1</span><div class="body"><h3>저장이 실패하면 기록이 영구히 사라진다 <span class="pill crit">심각</span></h3><p><code>finish()</code>가 <b>이어하기용 체크포인트를 먼저 지운 뒤</b> 서버 저장 3개를 동시에 보냅니다. 셋 다 실패를 삼키고 재시도가 없어, 종료 순간 신호가 약하면(지하·산) 그 런닝은 어디에도 남지 않습니다.</p></div><div class="ev"><span><code>outdoor-run.tsx</code> 242–244행 · 실내 <code>running-game.tsx</code> 310행</span><span>저장 호출 <code>.catch(() =&gt; {})</code></span></div></div>
+      <div class="f"><span class="code">R2</span><div class="body"><h3>GPS가 15초 끊기면 달리기가 끝난다 <span class="pill crit">심각</span></h3><p>위치 오류 콜백이 종류와 상관없이 <code>setPhase("error")</code> + <code>stopAll()</code> 입니다. 터널·고가 밑의 일시적 끊김(timeout)도 똑같이 종료되고, 체크포인트 상태를 비워 둬서 오류 화면엔 “이어하기”도 없습니다.</p></div><div class="ev"><span><code>outdoor-run.tsx</code> 216–227행</span><span><code>background-geo.ts</code> 122–127행 timeout 15000</span></div></div>
+      <div class="f"><span class="code">R3</span><div class="body"><h3>같은 런닝을 세 표에 따로 저장 — 값이 어긋남 <span class="pill crit">심각</span></h3><ul><li><code>run_sessions</code>(기록 화면) · <code>daily_run_distance</code>(그룹 순위) · <code>conditioning_completions</code>(오늘 마무리 운동)</li><li>60초 미만 야외 런은 순위·마무리엔 남고 기록엔 없음. 자정을 넘기면 기록은 시작일, 나머지는 종료일.</li><li>완료 취소는 마무리 운동만 지워 기록·순위엔 남음. 순위 거리는 세션 id 없이 더해 중복 방지가 없음.</li></ul></div><div class="ev"><span><code>run-record-actions.ts</code> 168 · 276–284</span><span><code>run-distance-actions.ts</code> 24–40</span><span><code>run-session.ts</code> 232</span></div></div>
+      <div class="f"><span class="code">R4</span><div class="body"><h3>달리는 중 기본기 없음 <span class="pill warn">주의</span></h3><p>일시정지(신호 대기·물 마시기)가 없어 멈춘 시간까지 페이스에 섞입니다. 카운트다운 없이 “시작하기”와 동시에 시계가 돕니다. 1km마다의 음성·진동 안내, 화면 꺼짐 방지(Wake Lock), GPS 신호 표시가 없습니다.</p></div><div class="ev"><span><code>src/features/running</code> 에 <code>wakeLock</code>·<code>speechSynthesis</code>·<code>vibrate</code> 0건</span></div></div>
+      <div class="f"><span class="code">R5</span><div class="body"><h3>“페이스”가 지금 페이스가 아님 · <code>5'60"</code> 표시 <span class="pill warn">주의</span></h3><p>야외 화면의 페이스는 시작부터의 누적 평균(멈춘 시간 포함)이라 지금 속도(시속)와 어긋납니다. 표기 함수가 초를 반올림만 해 359.6초 → <b>5'60"</b>가 나옵니다(기록 화면 표기는 정상).</p></div><div class="ev"><span><code>geo.ts</code> 106–113행 <code>formatPace</code></span><span><code>outdoor-run.tsx</code> 297 · 323행</span></div></div>
+      <div class="f"><span class="code">R6</span><div class="body"><h3>종료가 한 번 탭, 끝난 뒤는 막다른 길 <span class="pill warn">주의</span></h3><p>빨간 “종료”를 스치면 확인 없이 끝납니다. 종료 화면은 “런닝 완료 🏁 · 확인”뿐(요약은 사용자 요청으로 뺌)이고, 확인을 누르면 인트로로 돌아가 <b>방금 한 런닝 기록으로 가는 길이 없습니다</b>.</p></div><div class="ev"><span><code>outdoor-run.tsx</code> 333–339 · 417–437행</span></div></div>
+      <div class="f"><span class="code">R7</span><div class="body"><h3>배터리 — 3D 장면이 종료 화면에서도 돈다 <span class="pill warn">주의</span></h3><p>야외 달리는 내내 캐릭터 3D 장면이 돌고, 종료 화면에서도 렌더가 계속됩니다(실내엔 같은 버그를 고친 흔적). 1초마다 경로 전체를 JSON으로 저장소에 다시 씁니다.</p></div><div class="ev"><span><code>outdoor-run.tsx</code> 309 · 178–188행</span><span>실내 수정 주석 <code>running-game.tsx</code> 356–360</span></div></div>
+      <div class="f"><span class="code">R8</span><div class="body"><h3>목표·기록 동기 없음 <span class="pill warn">주의</span></h3><p>거리·시간·페이스 목표, 런데이식 단계 프로그램, 개인 최고(가장 긴 거리·가장 빠른 5km), 주간 목표·연속 기록이 없습니다. 기록 화면의 월 요약과 지난달 대비가 유일한 동기 장치입니다.</p></div><div class="ev"><span>NRC · Strava · 런데이 기본 기능 대비</span></div></div>
+      <div class="f"><span class="code">R9</span><div class="body"><h3>실내 수치가 서로 안 맞음 <span class="pill warn">주의</span></h3><p>평균 속도에 <b>종료 시점의 속도 설정값</b>이 저장되고, 칼로리는 설정 속도 × 전체 시간이라 멈춰 서 있어도 오릅니다. 실내 화면엔 페이스·칼로리 표시가 없습니다.</p></div><div class="ev"><span><code>running-game.tsx</code> 326 · 335행</span></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>유지할 것</h2><p>고도화하면서 그대로 둡니다.</p></div>
+    <div class="keep">
+      <div><b>중단된 런 이어하기</b>체크포인트 저장·복원·폐기 흐름(24시간·검증) — R1은 “지우는 시점”만 바꿈.</div>
+      <div><b>GPS 잡음 필터</b>정확도 30m·1.5m 흔들림·초속 12m 튐 기준.</div>
+      <div><b>기록 화면 B안</b>월 요약·상세·경로 선·1km 구간 — 끝난 뒤 흐름의 도착점.</div>
+      <div><b>종료 화면에 긴 요약을 넣지 않은 결정</b>대신 “기록 보기” 한 줄로 이어줌(아래 결정 1).</div>
+      <div><b>그룹 순위</b>달리는 중 경쟁 표시 — 저장만 한 곳에서 파생.</div>
+    </div>
+  </section>
+
+  <section id="design">
+    <div class="sec-head">
+      <h2>고도화 설계 — 달리기 전 · 중 · 멈춤 · 끝</h2>
+      <p>야외 런닝 기준 네 화면. 어두운 무대·브랜드 초록 하나는 운동 모드(몰입형)와 같게 맞춥니다. 상태: 5km 목표, 3.21km 지점.</p>
+    </div>
+    <div class="compare4">
+      <div class="dir">
+        <div class="col-head"><h3>① 시작 — 목표 고르기</h3><span>새로</span></div>
+        <div class="stage"><div class="phone dark-stage" aria-label="시작 화면 모형">
+          <div class="r-top"><span class="x">✕</span><span>야외 런닝</span><span class="r-gps" aria-label="GPS 좋음"><i style="height:4px"></i><i style="height:7px"></i><i style="height:10px"></i></span></div>
+          <div class="r-body">
+            <span class="r-lbl">오늘은 어떻게 달릴까요?</span>
+            <div class="r-chips"><i>자유 달리기<small>목표 없이</small></i><i class="on">거리 5km<small>지난번 4.2km</small></i><i>시간 30분<small></small></i><i>프로그램<small>걷기+달리기 3주차</small></i></div>
+            <div class="r-voice">🔊 1km마다 음성 안내 켜짐 · 진동 켜짐</div>
+          </div>
+          <div style="margin-top:auto;padding:0 14px 14px;display:grid;gap:6px"><div class="r-start">시작 · 3초 뒤 출발</div></div>
+        </div></div>
+      </div>
+      <div class="dir">
+        <div class="col-head"><h3>② 달리는 중</h3><span>R4·R5</span></div>
+        <div class="stage"><div class="phone dark-stage" aria-label="달리는 중 모형">
+          <div class="r-top"><span>🔒 화면 켜짐 유지</span><span class="r-gps"><i style="height:4px"></i><i style="height:7px"></i><i style="height:10px"></i></span></div>
+          <div class="r-body">
+            <span class="r-lbl" style="text-align:center">거리</span>
+            <div class="r-huge">3.21<small>km</small></div>
+            <div class="r-3"><div><b>5'48"</b><span>지금 페이스</span></div><div><b>18:42</b><span>시간</span></div><div><b>5'49"</b><span>평균</span></div></div>
+            <div class="r-goal"><span>목표 5km까지 1.79km</span><div class="gbar"><i style="width:64%"></i></div></div>
+            <div class="r-voice">🔊 “3킬로미터. 구간 5분 41초. 목표까지 1.8킬로미터.”</div>
+          </div>
+          <div class="r-ctl"><span class="c">🔒</span><span class="c main">❚❚</span><span class="c">🔊</span></div>
+        </div></div>
+      </div>
+      <div class="dir">
+        <div class="col-head"><h3>③ 멈춤 · GPS 끊김</h3><span>R2·R6</span></div>
+        <div class="stage"><div class="phone dark-stage" aria-label="일시정지 모형" style="position:relative">
+          <div class="r-top"><span>자동 일시정지</span><span class="r-gps" style="opacity:.4"><i style="height:4px"></i><i style="height:7px;background:#52525b"></i><i style="height:10px;background:#52525b"></i></span></div>
+          <div class="r-body"><div class="r-huge" style="opacity:.35">3.21<small>km</small></div></div>
+          <div class="r-pause">
+            <span class="r-lbl">멈췄어요 · 시간도 멈춤</span>
+            <b style="font-size:18px">GPS 신호 찾는 중…</b>
+            <span class="r-lbl">끊긴 구간은 거리에서 빼고 이어서 기록해요</span>
+            <div class="r-ctl" style="padding:6px 0 0"><span class="c main">▶</span><span class="c hold">꾹 눌러<br>끝내기</span></div>
+          </div>
+        </div></div>
+      </div>
+      <div class="dir">
+        <div class="col-head"><h3>④ 끝 — 한 줄 요약 + 기록</h3><span>R1·R6·R8</span></div>
+        <div class="stage"><div class="phone dark-stage" aria-label="종료 화면 모형">
+          <div class="r-top"><span class="x">✕</span><span>저장됨 ✓</span></div>
+          <div class="r-body">
+            <b style="font-size:20px">런닝 완료 🏁</b>
+            <span class="r-pr">🏅 가장 긴 거리 · 5.02km</span>
+            <svg class="r-map" viewBox="0 0 160 92" role="img" aria-label="달린 경로"><path d="M20 70 C 30 40, 60 20, 90 26 S 140 40, 130 62 S 70 84, 20 70" fill="none" stroke="#3cc394" stroke-width="3" stroke-linecap="round"/></svg>
+            <div class="r-sum"><div class="row"><span>거리</span><b>5.02km</b></div><div class="row"><span>시간 · 평균</span><b>29:11 · 5'49"</b></div></div>
+          </div>
+          <div style="margin-top:auto;padding:0 14px 14px;display:grid;gap:6px"><div class="r-start">기록 자세히 보기</div><div class="n-small" style="text-align:center;font-size:10px;color:#a1a1aa">운동 탭으로</div></div>
+        </div></div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="cmp">
+        <thead><tr><th>화면</th><th>바뀌는 것</th><th>진단</th></tr></thead>
+        <tbody>
+          <tr><th>① 시작</th><td>목표(자유·거리·시간·프로그램) 고르기, 지난 기록 힌트, 음성·진동 설정, <b>3초 카운트다운</b>, GPS 신호 막대(약하면 “잡히면 시작”)</td><td>R4 · R8</td></tr>
+          <tr><th>② 달리는 중</th><td>거리 초대형 + <b>지금 페이스</b>(최근 30초)·시간·평균, 목표 진행 막대, 1km마다 음성·진동(구간 페이스·남은 거리), Wake Lock, 3D 장면은 켬/끔 선택(기본 끔 — 배터리)</td><td>R4 · R5 · R7</td></tr>
+          <tr><th>③ 멈춤</th><td>수동 일시정지 + <b>자동 일시정지</b>(10초 이상 정지), GPS 끊김은 <b>종료가 아니라 멈춤 상태</b>로 — 신호가 돌아오면 이어 기록(끊긴 구간 거리 제외). 종료는 꾹 누르기</td><td>R2 · R6</td></tr>
+          <tr><th>④ 끝</th><td>“저장됨 ✓” 확인 뒤 한 줄 요약(거리·시간·평균) + 개인 최고 배지 + <b>기록 상세로 바로 가기</b>. 저장 실패면 “기기에 보관 · 연결되면 자동 저장”</td><td>R1 · R6 · R8</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>화면 뒤에서 바꿀 것 — 데이터가 먼저</h2><p>화면을 바꾸기 전에 R1–R3부터. 이게 안 되면 목표·안내를 얹어도 기록이 틀리거나 사라집니다.</p></div>
+    <div class="rules">
+      <div class="rule"><h3>저장이 끝난 뒤에 체크포인트 삭제</h3><p>종료 → 기기에 “보낼 런” 큐로 보관 → 서버 저장 성공 응답을 받으면 삭제. 실패는 다음 실행·연결 복구 때 자동 재시도(운동 모드 오프라인 큐와 같은 방식).</p><span class="mono">E2E: 오프라인에서 종료 → 재연결 후 run_sessions 1행</span></div>
+      <div class="rule"><h3>저장은 run_sessions 한 곳</h3><p>순위 거리·오늘 마무리 운동은 run_sessions에서 <b>파생</b>(뷰 또는 같은 트랜잭션). 날짜는 시작일로 통일, 완료 취소는 세 곳 모두 되돌림, <code>client_session_id</code>로 중복 방지.</p><span class="mono">단위: 자정·60초 미만·취소 뒤 세 값 일치</span></div>
+      <div class="rule"><h3>GPS 오류는 권한만 종료</h3><p>권한 거부·GPS 꺼짐만 종료. timeout·일시 오류는 “신호 찾는 중” 멈춤 상태로 두고 계속 감시.</p><span class="mono">E2E: 20초 위치 없음 → 멈춤, 재개 → 이어 기록</span></div>
+      <div class="rule"><h3>표기 함수 하나</h3><p><code>formatPace</code>·<code>formatRunPace</code> 를 기록 화면의 <code>formatRunPaceShort</code>로 통일(5'60" 제거).</p><span class="mono">단위: 359.6 → 6'00"</span></div>
+      <div class="rule"><h3>실내 수치 정직하게</h3><p>평균 속도 = 거리 ÷ 시간, 칼로리는 실제 움직인 구간만. 실내 화면에도 페이스·칼로리.</p><span class="mono">단위: 정지 구간 칼로리 0</span></div>
+      <div class="rule"><h3>/jog 정리</h3><p>실내 런닝과 겹치는 힐링 러닝은 기록 연결 또는 제거 — 결정 5.</p><span class="mono">—</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>단계</h2><p>한 단계씩 커밋·테스트. 단계 1은 화면 변화가 거의 없습니다.</p></div>
+    <div class="layers">
+      <div class="layer"><span class="k">1 · 데이터 안전 (2일)</span><h3>잃지 않게</h3><ul><li>저장 후 삭제 + 재시도 큐</li><li>GPS 오류 = 멈춤</li><li>저장 한 곳 + 파생</li><li>표기 함수 통일</li></ul></div>
+      <div class="layer"><span class="k">2 · 달리는 중 (2일)</span><h3>기본기</h3><ul><li>카운트다운 · 일시정지 · 자동 일시정지</li><li>꾹 눌러 종료</li><li>Wake Lock · GPS 신호</li><li>지금 페이스 · 3D 켬/끔</li></ul></div>
+      <div class="layer"><span class="k">3 · 목표·안내 (2–3일)</span><h3>같이 달리는 느낌</h3><ul><li>거리·시간 목표 + 진행 막대</li><li>1km 음성·진동 안내</li><li>종료 요약 한 줄 + 기록 바로 가기</li><li>개인 최고 배지</li></ul></div>
+      <div class="layer"><span class="k">4 · 프로그램 (3일+)</span><h3>꾸준히</h3><ul><li>걷기+달리기 단계 프로그램(런데이식)</li><li>주간 목표 · 연속 주</li><li>Health Connect 운동 세션 기록</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><h2>진행 전에 정해 주실 것</h2><p>추천을 표시해 두었습니다.</p></div>
+    <div class="qs">
+      <div class="q"><h3>1. 종료 화면</h3><div class="opts">
+        <div class="opt rec"><b>한 줄 요약 + “기록 자세히 보기”</b>예전에 뺀 긴 요약은 그대로 빼고, 저장 확인·개인 최고·기록 링크만.</div>
+        <div class="opt"><b>지금처럼 “완료 · 확인”만</b>대신 확인 뒤 기록 화면으로 이동.</div></div></div>
+      <div class="q"><h3>2. 음성 안내 기본값</h3><div class="opts">
+        <div class="opt rec"><b>켜짐 (1km마다, 짧게)</b>이어폰 없이 스피커로 나가는 걸 싫어하면 시작 화면에서 바로 끌 수 있게.</div>
+        <div class="opt"><b>꺼짐</b>진동만.</div></div></div>
+      <div class="q"><h3>3. 야외 3D 캐릭터</h3><div class="opts">
+        <div class="opt rec"><b>기본 끔, 켤 수 있음</b>배터리·발열. 켜면 지금처럼.</div>
+        <div class="opt"><b>지금처럼 항상 켬</b></div></div></div>
+      <div class="q"><h3>4. 단계 프로그램(런데이식)</h3><div class="opts">
+        <div class="opt rec"><b>4단계로 나중에</b>1–3단계 뒤. 프로그램 내용(주차·구간) 정의가 필요.</div>
+        <div class="opt"><b>이번에 같이</b>작업량이 두 배 가까이.</div></div></div>
+      <div class="q"><h3>5. 힐링 러닝(/jog)</h3><div class="opts">
+        <div class="opt rec"><b>실내 런닝에 합치고 /jog 제거</b>입구도 기록도 없는 화면.</div>
+        <div class="opt"><b>살려서 입구·기록 연결</b></div></div></div>
+    </div>
+  </section>
+
+  <p class="foot">근거: <code>outdoor-run.tsx</code>(종료 242–244행, 오류 216–227행, 종료 버튼 333–339행, 종료 화면 417–437행, 3D 309행), <code>background-geo.ts</code> 122–127행(timeout 15초), <code>geo.ts</code> 106–113행(formatPace), <code>running-game.tsx</code>(310·326·335·356–360행), <code>run-record-actions.ts</code>(168·276–284), <code>run-distance-actions.ts</code>(24–40), <code>run-session.ts</code>(232). 코드 감사 결과 중 핵심(체크포인트 선삭제, 오류 시 종료, 음성·진동·Wake Lock 0건)은 직접 재확인했습니다. 실기기(백그라운드 GPS·배터리)는 확인하지 않았습니다 — Android 확인이 필요합니다. 원칙 1·2와 무관합니다.</p>
+</div>

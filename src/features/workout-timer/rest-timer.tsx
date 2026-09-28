@@ -35,6 +35,8 @@ type RestState = {
 type Ctx = {
   /** seconds 만큼 휴식 타이머 시작. 생략하면 사용자 기본 휴식 시간 사용. (이미 진행 중이면 덮어쓰기) */
   trigger: (seconds?: number) => void;
+  /** 휴식을 바로 끝낸다(타이머·예약 알림 취소). 쉬는 중인지는 useRestActive(). */
+  skip: () => void;
   /** 사용자가 설정한 기본 휴식 시간(초). */
   defaultSec: number;
   /** 기본 휴식 시간 변경(보정 + localStorage 저장). */
@@ -46,8 +48,15 @@ type Ctx = {
   setLifted: (lifted: boolean) => void;
 };
 
+/**
+ * 쉬는 중인지 — **별도 컨텍스트**. 주 컨텍스트(RestCtx) 값은 안정적이어야 한다(바뀌면 구독하는
+ * 운동모드의 effect 가 다시 돌아 저장 흐름이 꼬인다 — 2026-09-28 E2E 로 확인). 휴식 시작·끝에만 바뀐다.
+ */
+const RestActiveCtx = createContext(false);
+
 const RestCtx = createContext<Ctx>({
   trigger: () => {},
+  skip: () => {},
   defaultSec: DEFAULT_REST_SEC,
   setDefaultSec: () => {},
   setLifted: () => {},
@@ -134,13 +143,15 @@ export function RestTimerProvider({
   // ⚠ context value 는 반드시 useMemo — 인라인 객체면 매 렌더 새 ref 가 되어
   // 이를 구독하는 자식(예: 가이드 오버레이)의 effect 가 불필요하게 재실행된다.
   const value = useMemo(
-    () => ({ trigger, defaultSec, setDefaultSec, setLifted }),
-    [trigger, defaultSec, setDefaultSec, setLifted],
+    () => ({ trigger, skip, defaultSec, setDefaultSec, setLifted }),
+    [trigger, skip, defaultSec, setDefaultSec, setLifted],
   );
 
   return (
     <RestCtx.Provider value={value}>
+      <RestActiveCtx.Provider value={state !== null}>
       {children}
+      </RestActiveCtx.Provider>
       {/* 카운트다운 틱(250ms)은 RestOverlay 내부에 격리 — provider/children(워크아웃
           섹션 전체)을 매 틱 리렌더하지 않도록. 알약만 자체 리렌더된다. */}
       {state ? (
@@ -162,6 +173,11 @@ export function RestTimerProvider({
 
 export function useRestTimer(): Ctx {
   return useContext(RestCtx);
+}
+
+/** 휴식 타이머가 떠 있는 동안 true — 운동모드는 이때 '세트 완료' 대신 '휴식 끝내기'를 보인다. */
+export function useRestActive(): boolean {
+  return useContext(RestActiveCtx);
 }
 
 function RestOverlay({

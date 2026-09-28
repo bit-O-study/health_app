@@ -97,3 +97,42 @@ describe("운동모드 몰입형 2차 — 타일·휴식 카드", () => {
     }
   });
 });
+
+/**
+ * 2026-09-28 몰입형 유지 + 공통 규칙(운동 모드 재설계 검수보고서 "어느 안이든 같이 할 것").
+ * 소스 가드 — 화면은 E2E(guided-workout-rules.spec.ts)가 본다.
+ */
+describe("운동모드 공통 규칙", () => {
+  const restSrc2 = readFileSync(resolve(SRC, "features/workout-timer/rest-timer.tsx"), "utf8");
+
+  it("'중단' 문구가 없다 — 가벼운 쪽은 '일시정지', 닫기는 '운동 끝내기'", () => {
+    expect(src).not.toContain("중단");
+    expect(src).toContain("일시정지");
+    expect(src).toContain('title="운동 끝내기"');
+  });
+
+  it("쉬는 동안엔 세트 완료 대신 '휴식 끝내기', 휴식 프리셋도 숨긴다", () => {
+    // 쉬는 중 여부는 별도 컨텍스트 — 주 컨텍스트 값이 바뀌면 운동모드 effect 가 다시 돌아 저장이 꼬인다.
+    expect(restSrc2).toContain("const RestActiveCtx = createContext(false)");
+    expect(restSrc2).not.toMatch(/useMemo\(\s*\(\) => \(\{[^}]*\bactive\b/);
+    expect(src).toMatch(/resting \? \(\s*\/\/[^\n]*\n[^\n]*\n\s*<button[\s\S]{0,200}onClick=\{rest\.skip\}/);
+    expect(src).toContain("휴식 끝내기");
+    expect(src).toContain("{resting ? null : (");
+  });
+
+  it("지금 세트는 이름 아래 크게(current-set, 20px) 하나뿐", () => {
+    expect(src).toContain('data-testid="current-set" className="mt-1 text-xl');
+    expect(src.match(/setProgressLabel\(setsDone, mainSets\)/g)).toHaveLength(1);
+    expect(src).toContain('label="총 세트"');
+  });
+
+  it("진행 칸은 끝낸 운동을 빼고 그린다 — 옆 숫자(n / m)와 같은 것을 센다", () => {
+    expect(src).toContain("processed.has(it.rowId) ? null : (");
+    expect(src).toContain("progress.count <= 24");
+  });
+
+  it("숫자는 탭하면 직접 입력(더블클릭 아님)", () => {
+    expect(src).not.toContain("onDoubleClick");
+    expect(src).toContain("if (movedRef.current) return;");
+  });
+});

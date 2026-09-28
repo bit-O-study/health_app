@@ -71,8 +71,8 @@ test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({
 
   // 운동모드 닫고 "오늘만 부위 추가"(가슴) — 하체 행이 daily_plan 으로 새로 생긴다.
   await page.getByRole("button", { name: "닫기" }).first().click();
-  // "운동 중단할까요?" 확인 → 중단
-  await page.getByRole("button", { name: "중단", exact: true }).click();
+  // "운동을 끝낼까요?" 확인 → 끝내기
+  await page.getByRole("button", { name: "끝내기", exact: true }).click();
   await page.waitForTimeout(800);
   await dismissNudges(page);
   await page.locator("[data-today-focus-badge]").first().click();

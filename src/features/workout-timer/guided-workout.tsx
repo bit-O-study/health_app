@@ -47,7 +47,7 @@ import {
   supersetLabel,
 } from "@/features/workout-timer/superset";
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
-import { useRestTimer } from "@/features/workout-timer/rest-timer";
+import { useRestActive, useRestTimer } from "@/features/workout-timer/rest-timer";
 import {
   REST_PRESETS,
   formatRest,
@@ -240,7 +240,7 @@ function framesForItem(item: GuidedItem): [string, string] | null {
 
 /**
  * 무게/횟수/세트 스크러버 — 타일 한 칸: 라벨 · 값 · [− +]. (2026-09-25 몰입형: 세 칸 가로 배치)
- * 값은 좌우로 밀거나 ±로 조절하고, **더블클릭하면 직접 숫자 입력**도 된다.
+ * 값은 좌우로 밀거나 ±로 조절하고, **탭하면 직접 숫자 입력**도 된다(2026-09-28 더블클릭 → 탭 — 운동 중엔 더블클릭을 몰라서 못 썼다).
  * (예전엔 3개를 가로로 나란히 둬서 모바일 폭에서 넘쳐 레이아웃이 깨졌다 → 세로 스택.)
  * 손가락을 가로로 끌면 값이 오르내린다(맨몸 허용 시 최소 아래로 더 내리면 '맨몸').
  */
@@ -264,6 +264,8 @@ function NumberScrubber({
   onChange: (v: number | null) => void;
 }) {
   const startRef = useRef<{ x: number; base: number } | null>(null);
+  // 끌어서 값이 바뀐 손짓이면 true — 그 뒤의 click 은 '탭'이 아니므로 입력창을 열지 않는다.
+  const movedRef = useRef(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [editing, setEditing] = useState(false);
   const PX_PER_STEP = 12;
@@ -283,11 +285,13 @@ function NumberScrubber({
       /* noop */
     }
     startRef.current = { x: e.clientX, base: value ?? min };
+    movedRef.current = false;
   }
   function onMove(e: PointerEvent<HTMLDivElement>) {
     if (!startRef.current) return;
     e.stopPropagation();
     const dxSteps = Math.round((e.clientX - startRef.current.x) / PX_PER_STEP);
+    if (dxSteps !== 0) movedRef.current = true;
     applyDelta(startRef.current.base, dxSteps);
   }
   function onUp(e: PointerEvent<HTMLDivElement>) {
@@ -307,7 +311,7 @@ function NumberScrubber({
   function inc() {
     onChange(value === null ? min : clamp(value + step));
   }
-  // 더블클릭 직접 입력 — 빈칸은 (맨몸 허용 시) 맨몸, 아니면 변경 없음. step 단위로 스냅.
+  // 탭 직접 입력 — 빈칸은 (맨몸 허용 시) 맨몸, 아니면 변경 없음. step 단위로 스냅.
   function commitInput() {
     const raw = inputRef.current?.value.trim() ?? "";
     setEditing(false);
@@ -325,7 +329,7 @@ function NumberScrubber({
   const btn =
     "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-zinc-100 text-lg text-zinc-600 transition hover:bg-zinc-200 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15";
 
-  // 타일 한 칸 — 라벨 · 값(끌기/더블클릭) · ± . 세 칸을 가로로 나란히 둔다(영상 자리를 넓게).
+  // 타일 한 칸 — 라벨 · 값(끌기/탭) · ± . 세 칸을 가로로 나란히 둔다(영상 자리를 넓게).
   return (
     <div className="flex min-w-0 flex-col items-center gap-1.5 rounded-2xl border border-zinc-200 bg-zinc-50 px-2 pb-2.5 pt-2 dark:border-white/10 dark:bg-white/5">
       <span className="text-xs text-zinc-500 dark:text-zinc-400">{label}</span>
@@ -344,7 +348,9 @@ function NumberScrubber({
               e.preventDefault();
               commitInput();
             } else if (e.key === "Escape") {
+              // 입력만 취소 — 운동모드의 Esc(닫기 → '운동 끝내기' 확인)까지 올라가지 않게 막는다.
               e.preventDefault();
+              e.stopPropagation();
               setEditing(false);
             }
           }}
@@ -356,13 +362,14 @@ function NumberScrubber({
           role="slider"
           aria-label={label}
           aria-valuenow={value ?? 0}
-          title="좌우로 끌거나 더블클릭해 직접 입력"
+          title="좌우로 끌거나 탭해서 직접 입력"
           onPointerDown={onDown}
           onPointerMove={onMove}
           onPointerUp={onUp}
           onPointerCancel={onUp}
-          onDoubleClick={(e) => {
+          onClick={(e) => {
             e.stopPropagation();
+            if (movedRef.current) return;
             setEditing(true);
           }}
           style={{ touchAction: "none" }}
@@ -410,9 +417,9 @@ export function GuidedOverlay({
   onAllComplete?: () => Promise<boolean>;
   /** 세션 경과 시간(mm:ss). 운동 페이지 안에 표시. undefined 면 표시 안 함. */
   elapsedLabel?: ReactNode;
-  /** 타이머가 흐르는 중인지 — 버튼이 '중단하기'/'운동 다시 시작하기'로 토글. */
+  /** 타이머가 흐르는 중인지 — 버튼이 '일시정지'/'다시 시작'으로 토글. */
   running?: boolean;
-  /** 중단/다시 시작 토글. */
+  /** 일시정지/다시 시작 토글. */
   onPauseResume?: () => void;
   /** 개인설정: 상세 가이드 카드 표시. 기본 true. */
   showGuide?: boolean;
@@ -428,6 +435,7 @@ export function GuidedOverlay({
 }) {
   const router = useRouter();
   const rest = useRestTimer();
+  const resting = useRestActive();
   const orderScope = useTodayOrder();
   // 마지막으로 보던 항목(rowId) 복원 — '운동법 보기'로 route 를 나갔다 오거나(오버레이
   // 재마운트) 앱이 백그라운드에서 리로드돼도 그 운동에서 이어보게. 없거나 매칭 안 되면 0.
@@ -1129,20 +1137,20 @@ export function GuidedOverlay({
         >
           <X aria-hidden="true" size={18} />
         </button>
+        {/* 진행 칸은 옆 숫자(n / m, 남은 운동 기준)와 같은 것을 센다 — 끝낸 운동은 칸에서도 빠진다.
+            (2026-09-28: 예전엔 칸은 오늘 전체 11칸, 숫자는 남은 7개라 서로 다른 걸 셌다.) */}
         <div aria-hidden="true" className="flex h-1.5 flex-1 gap-1">
-          {total <= 24 ? (
-            sessionItems.map((it, i) => (
-              <span
-                key={it.rowId}
-                className={`min-w-0 flex-1 rounded-full transition-colors duration-300 ${
-                  processed.has(it.rowId)
-                    ? "bg-brand"
-                    : i === index
-                      ? "bg-brand/50"
-                      : "bg-white/15"
-                }`}
-              />
-            ))
+          {progress.count <= 24 ? (
+            sessionItems.map((it, i) =>
+              processed.has(it.rowId) ? null : (
+                <span
+                  key={it.rowId}
+                  className={`min-w-0 flex-1 rounded-full transition-colors duration-300 ${
+                    i === index ? "bg-brand" : i < index ? "bg-brand/40" : "bg-white/15"
+                  }`}
+                />
+              ),
+            )
           ) : (
             <span className="relative flex-1 overflow-hidden rounded-full bg-white/15">
               <span
@@ -1160,7 +1168,7 @@ export function GuidedOverlay({
         </span>
       </div>
 
-      {/* 세션 운동 시간 + 중단하기/다시 시작 — 조용한 한 줄 */}
+      {/* 세션 운동 시간 + 일시정지/다시 시작 — 조용한 한 줄 */}
       {elapsedLabel !== undefined ? (
         <div className="flex items-center justify-center gap-2 px-4 pb-2">
           <span className="inline-flex items-center gap-1.5 text-sm font-medium tabular-nums text-zinc-300">
@@ -1175,17 +1183,18 @@ export function GuidedOverlay({
             <button
               type="button"
               onClick={onPauseResume}
-              className="inline-flex h-8 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+              className="inline-flex min-h-11 items-center gap-1 rounded-full bg-white/10 px-4 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
             >
+              {/* 되돌릴 수 없는 '운동 끝내기'와 헷갈리지 않게 가벼운 쪽은 '일시정지'(2026-09-28). */}
               {running ? (
                 <>
                   <Pause aria-hidden="true" size={13} />
-                  중단하기
+                  일시정지
                 </>
               ) : (
                 <>
                   <Play aria-hidden="true" size={13} />
-                  운동 다시 시작하기
+                  다시 시작
                 </>
               )}
             </button>
@@ -1303,6 +1312,13 @@ export function GuidedOverlay({
                 <h2 className="mt-1.5 truncate text-xl font-semibold tracking-tight text-zinc-50">
                   {item.name}
                 </h2>
+                {/* 지금 몇 세트째 — 운동 중 가장 자주 보는 값이라 이름 바로 아래 크게(20px).
+                    예전엔 하단 구석 14px 알약이었고, 더 큰 '세트 3' 타일을 지금 세트로 잘못 읽었다. */}
+                {mainSets > 0 ? (
+                  <p data-testid="current-set" className="mt-1 text-xl font-semibold tabular-nums text-brand">
+                    {setProgressLabel(setsDone, mainSets)}
+                  </p>
+                ) : null}
               </div>
               <div className="flex shrink-0 items-center gap-1.5 pt-0.5">
                 <button
@@ -1394,7 +1410,7 @@ export function GuidedOverlay({
               />
             ) : null}
 
-            {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 좌우로 밀거나 ±, 더블클릭하면 직접 입력. */}
+            {/* 무게·횟수·세트 스크러버 (고정 끔, 본운동) — 좌우로 밀거나 ±, 탭하면 직접 입력. */}
             {editable ? (
               <div className="mt-4 w-full">
                 <div className="grid grid-cols-3 gap-2">
@@ -1419,7 +1435,7 @@ export function GuidedOverlay({
                     onChange={(v) => putEdit({ reps: v ?? (timed ? 30 : 1) })}
                   />
                   <NumberScrubber
-                    label="세트"
+                    label="총 세트"
                     value={editSets}
                     unit="세트"
                     min={minSelectableSets(setsDone)}
@@ -1546,9 +1562,10 @@ export function GuidedOverlay({
         </div>
       </div>
 
-      {/* 하단 유리 패널 — 휴식 · 넘기기/운동 완료 · 세트(밀어서 완료) */}
+      {/* 하단 유리 패널 — 휴식 · 넘기기/운동 완료 · 세트(밀어서 완료) / 쉬는 중엔 '휴식 끝내기' */}
       <div className="space-y-2.5 rounded-t-3xl border-t border-white/10 bg-zinc-900/80 p-4 pb-[max(env(safe-area-inset-bottom),1rem)] backdrop-blur-xl">
-        {/* 휴식 시간 — 운동 화면에서 바로 조절 */}
+        {/* 휴식 시간 — 운동 화면에서 바로 조절. 쉬는 동안엔 숨긴다(지금 휴식은 위 카드의 +30초로). */}
+        {resting ? null : (
         <div className="flex items-center gap-2">
           <span className="flex shrink-0 items-center gap-1 text-xs text-zinc-500">
             <Timer aria-hidden="true" size={13} />
@@ -1575,6 +1592,7 @@ export function GuidedOverlay({
             })}
           </div>
         </div>
+        )}
 
         {/* 넘기기 / 운동 완료 — 작게. 세트가 없는 운동(워밍업 등)은 아래 밀어서 '완료'. */}
         <div className="grid grid-cols-2 gap-2">
@@ -1603,11 +1621,9 @@ export function GuidedOverlay({
         </div>
 
         {/* 본운동 세트 진행 + 밀어서 세트 완료(휴식) — 세트가 여러 개일 때만 */}
+        {/* 지금 세트 표시는 이름 아래(current-set)로 옮겼다 — 여기엔 되돌리기와 주 버튼만. */}
         {mainSets > 0 ? (
           <div className="flex items-center gap-2">
-            <span className="inline-flex h-14 shrink-0 items-center rounded-full bg-white/5 px-3.5 text-sm font-medium tabular-nums text-zinc-200">
-              {setProgressLabel(setsDone, mainSets)}
-            </span>
             {setsDone > 0 ? (
               <button
                 type="button"
@@ -1619,6 +1635,17 @@ export function GuidedOverlay({
                 <RotateCcw aria-hidden="true" size={18} />
               </button>
             ) : null}
+            {resting ? (
+              // 쉬는 동안엔 세트 완료가 없다(2026-09-28) — 쉬다 밀어서 다음 세트가 기록되던 문제.
+              // 주 버튼은 '휴식 끝내기' 하나. 휴식이 끝나면(자동·버튼) 다시 세트 완료로 돌아온다.
+              <button
+                type="button"
+                onClick={rest.skip}
+                className="inline-flex h-14 flex-1 items-center justify-center rounded-full bg-brand text-base font-semibold text-zinc-950 transition active:scale-[0.99]"
+              >
+                휴식 끝내기
+              </button>
+            ) : (
             <SlideToConfirm
               onClick={completeSet}
               disabled={working}
@@ -1634,6 +1661,7 @@ export function GuidedOverlay({
                 "세트 완료"
               )}
             </SlideToConfirm>
+            )}
           </div>
         ) : (
           <SlideToConfirm
@@ -1647,9 +1675,9 @@ export function GuidedOverlay({
       </div>
       <ConfirmDialog
         open={closeAsk}
-        title="운동 중단"
-        message="운동을 중단할까요? 완료하지 않은 운동은 다음에 다시 보입니다."
-        confirmLabel="중단"
+        title="운동 끝내기"
+        message="운동을 끝낼까요? 완료하지 않은 운동은 다음에 다시 보입니다."
+        confirmLabel="끝내기"
         tone="danger"
         onConfirm={confirmClose}
         onCancel={() => setCloseAsk(false)}
@@ -1894,7 +1922,7 @@ function ConditioningSettings({
 
 /**
  * 컨디셔닝 시간/속도/경사 스크러버 (고정 끔) — 그 항목이 가진 파라미터만 보여준다.
- * 본운동 스크러버와 동일 UX(좌우 드래그·± ·더블클릭 입력). 완료 시 값이 기록된다.
+ * 본운동 스크러버와 동일 UX(좌우 드래그·± ·탭 입력). 완료 시 값이 기록된다.
  */
 function CondScrubbers({
   itemId,

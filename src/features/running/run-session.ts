@@ -12,6 +12,8 @@ export type RunSessionInput = {
   startedAt: string;
   endedAt: string;
   distanceM: number;
+  /** Active exercise time, excluding pauses; cannot exceed wall-clock duration. */
+  activeDurationSec?: number;
   avgKmh?: number | null;
   incline?: number | null;
   route?: RunRoutePoint[];
@@ -90,7 +92,9 @@ export function normalizeRunSession(input: RunSessionInput): RunSessionResult {
     return { ok: false, reason: "invalid_time" };
   }
 
-  const durationSec = Math.round((endedMs - startedMs) / 1_000);
+  const wallDurationSec = Math.round((endedMs - startedMs) / 1_000);
+  if (input.activeDurationSec !== undefined && (!finite(input.activeDurationSec) || input.activeDurationSec < 0 || input.activeDurationSec > wallDurationSec)) return { ok: false, reason: "invalid_time" };
+  const durationSec = Math.round(input.activeDurationSec ?? wallDurationSec);
   if (durationSec < MIN_RUN_DURATION_SEC || durationSec > MAX_RUN_DURATION_SEC) {
     return { ok: false, reason: "too_short" };
   }

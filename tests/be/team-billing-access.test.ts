@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { hasDbCreds, makeClient } from "./db";
@@ -22,38 +23,26 @@ describe.skipIf(!hasDbCreds)("팀 요금제 권한(라이브 DB)", () => {
   beforeAll(async () => {
     client = makeClient();
     await client.connect();
-    const users = await client.query(
-      `select p.user_id, u.email from public.profiles p
-         join auth.users u on u.id = p.user_id
-        where lower(u.email) not in (select lower(email) from public.admins)
-        order by p.created_at asc limit 3`,
-    );
-    if ((users.rowCount ?? 0) >= 3) {
-      [ownerId, memberId, strangerId] = users.rows.map((r) => r.user_id);
-      for (const r of users.rows) emailOf.set(r.user_id, r.email);
-      const g = await client.query(
-        `insert into public.groups (name, owner_id) values ($1,$2) returning id`,
-        [`zzbill${Date.now().toString(36)}`, ownerId],
-      );
-      groupId = g.rows[0].id;
-      await client.query(
-        `insert into public.group_members (group_id, user_id, role)
-         values ($1,$2,'owner'), ($1,$3,'member')`,
-        [groupId, ownerId, memberId],
-      );
+    await client.query("begin");
+    await client.query("set statement_timeout='10s'");
+    [ownerId, memberId, strangerId] = [randomUUID(), randomUUID(), randomUUID()];
+    for (const id of [ownerId, memberId, strangerId]) {
+      const email = `billing-test-${id}@example.com`;
+      emailOf.set(id, email);
+      await client.query("insert into auth.users(id,email) values($1,$2)", [id,email]);
     }
+    const group = await client.query("insert into public.groups(name,owner_id) values($1,$2) returning id", ["zzbill" + ownerId.replaceAll("-",""), ownerId]);
+    groupId = group.rows[0].id;
+    await client.query("insert into public.group_members(group_id,user_id,role) values($1,$2,'owner'),($1,$3,'member')", [groupId,ownerId,memberId]);
   }, 30_000);
 
   afterAll(async () => {
     if (!client) return;
-    if (groupId) {
-      await client.query(`delete from public.groups where id = $1`, [groupId]).catch(() => {});
-    }
-    await client.end();
+    try { await client.query("rollback"); } finally { await client.end(); }
   });
 
   async function as<T>(uid: string, fn: () => Promise<T>): Promise<T> {
-    await client.query("begin");
+    await client.query("savepoint billing_case");
     try {
       await client.query(`select set_config('role','authenticated',true)`);
       await client.query(`select set_config('request.jwt.claims',$1,true)`, [
@@ -61,7 +50,7 @@ describe.skipIf(!hasDbCreds)("팀 요금제 권한(라이브 DB)", () => {
       ]);
       return await fn();
     } finally {
-      await client.query("rollback");
+      await client.query("rollback to savepoint billing_case");
     }
   }
 
@@ -108,7 +97,7 @@ describe.skipIf(!hasDbCreds)("팀 요금제 권한(라이브 DB)", () => {
   });
 
   it("🔴 신청 내역은 그룹장 말고 아무에게도 안 보인다", async () => {
-    await client.query("begin");
+    await client.query("savepoint billing_case");
     try {
       await client.query(
         `insert into public.team_subscriptions (group_id, plan, requested_by, price_krw)
@@ -132,12 +121,12 @@ describe.skipIf(!hasDbCreds)("팀 요금제 권한(라이브 DB)", () => {
       expect(await rows(memberId)).toBe(0);
       expect(await rows(strangerId)).toBe(0);
     } finally {
-      await client.query("rollback");
+      await client.query("rollback to savepoint billing_case");
     }
   });
 
   it("🔴 활성 팀 구독은 그 그룹 회원 전원에게 프리미엄을 준다", async () => {
-    await client.query("begin");
+    await client.query("savepoint billing_case");
     try {
       await client.query(
         `insert into public.team_subscriptions
@@ -158,12 +147,12 @@ describe.skipIf(!hasDbCreds)("팀 요금제 권한(라이브 DB)", () => {
       expect(await premium(memberId), "회원도 프리미엄이어야 한다").toBe(true);
       expect(await premium(strangerId), "남남에게 주면 안 된다").toBe(false);
     } finally {
-      await client.query("rollback");
+      await client.query("rollback to savepoint billing_case");
     }
   });
 
   it("🔴 기간이 지난 구독은 프리미엄이 아니다 — 아무도 안 건드려도 끊긴다", async () => {
-    await client.query("begin");
+    await client.query("savepoint billing_case");
     try {
       await client.query(
         `insert into public.team_subscriptions
@@ -178,7 +167,7 @@ describe.skipIf(!hasDbCreds)("팀 요금제 권한(라이브 DB)", () => {
       const r = await client.query(`select public.has_team_premium() as ok`);
       expect(r.rows[0].ok).toBe(false);
     } finally {
-      await client.query("rollback");
+      await client.query("rollback to savepoint billing_case");
     }
   });
 

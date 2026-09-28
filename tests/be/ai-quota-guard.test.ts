@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { hasDbCreds, makeClient } from "./db";
@@ -123,14 +124,11 @@ ${JSON.stringify(idx)}`,
   });
 
   it("한도를 넘으면 -1 을 주고 **더 올리지 않는다**(트랜잭션 안에서 검사 후 롤백)", async () => {
-    // 실제 사용자 한 명을 빌려 세어 보고 되돌린다 — 라이브 데이터를 남기지 않는다.
+    // 독립된 임시 계정으로 검증하고 트랜잭션 전체를 되돌린다.
     await client.query("begin");
     try {
-      const u = await rows<{ id: string }>(
-        `select id from auth.users order by created_at desc limit 1`,
-      );
-      if (u.length === 0) return; // 계정이 하나도 없으면 검사할 게 없다
-      const userId = u[0].id;
+      const userId = randomUUID();
+      await client.query("insert into auth.users(id,email) values($1,$2)", [userId, `quota-test-${userId}@example.com`]);
       const month = "1999-01"; // 실제 집계와 절대 안 겹치는 달
       // 함수는 auth.uid() 를 쓰므로 여기서는 같은 SQL 을 직접 흉내 내어
       // **한도에 걸리면 갱신 대상이 없다**는 핵심 동작만 확인한다.

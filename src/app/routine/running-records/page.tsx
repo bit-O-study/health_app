@@ -50,6 +50,7 @@ export default async function RunningRecordsPage({ searchParams }: { searchParam
       <Link href="/running" className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-brand px-4 text-sm font-semibold text-white dark:text-zinc-950"><Footprints size={18} aria-hidden="true" />런닝 시작</Link>
     </PageHeader>
     <main className="app-container space-y-5">
+      <Link href="/routine/running-intervals" className="app-card flex min-h-11 items-center justify-between gap-3 p-4"><span><span className="block font-semibold">걷기 · 달리기 구간 운동</span><span className="text-sm text-muted">시간·속도·경사와 반복 횟수를 정해요</span></span><ChevronRight aria-hidden="true" /></Link>
       <nav aria-label="런닝 기록 월 선택" className="flex items-center justify-between">
         <Link href={`?m=${shiftMonth(month, -1)}`} aria-label="이전 달" className="flex h-11 w-11 items-center justify-center"><ChevronLeft aria-hidden="true" /></Link>
         <h2 className="font-semibold">{year}년 {number}월</h2>

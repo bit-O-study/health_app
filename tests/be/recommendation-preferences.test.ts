@@ -1,5 +1,4 @@
 import {randomUUID} from "node:crypto";
-import {readFileSync} from "node:fs";
 import {test,expect} from "vitest";
 import {hasDbCreds,makeClient} from "./db";
 test.skipIf(!hasDbCreds)("recommendation preferences: own rows, isolation and validation",async()=>{
@@ -7,7 +6,6 @@ test.skipIf(!hasDbCreds)("recommendation preferences: own rows, isolation and va
  const owner=randomUUID(),other=randomUUID();
  try{
   await db.query("begin");
-  await db.query(readFileSync("supabase/migrations/202609250003_recommendation_preferences.sql","utf8"));
   await db.query("insert into auth.users(id,email) values($1,$2),($3,$4)",[owner,`recommend-${owner}@example.com`,other,`recommend-${other}@example.com`]);
   await db.query("select set_config('request.jwt.claims',$1,true)",[JSON.stringify({sub:owner,role:"authenticated"})]);
   await db.query("set local role authenticated");

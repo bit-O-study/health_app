@@ -1,5 +1,4 @@
 import { randomUUID, createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
 import { expect, test } from "vitest";
 import { hasDbCreds, makeClient } from "./db";
 
@@ -23,13 +22,10 @@ test.skipIf(!hasDbCreds)("independent trainer: pass, explicit consent, masking, 
   const hash = (value: string) => createHash("sha256").update(value).digest("hex");
   try {
     await db.query("begin");
-    await db.query(readFileSync("supabase/migrations/202609220002_independent_trainers.sql", "utf8"));
-    await db.query(readFileSync("supabase/migrations/202609250002_trainer_member_detail.sql", "utf8"));
     for (const id of [trainer, member, stranger, admin]) {
       await db.query("insert into auth.users(id,email,raw_user_meta_data) values($1,$2,'{}')", [id,email(id)]);
     }
     await db.query("insert into public.admins(email) values($1)", [email(admin)]);
-    await db.query(readFileSync("supabase/migrations/202609220001_pet_visibility.sql", "utf8"));
     await db.query("delete from app_settings where key='debug.pet'");
     await as(admin);
     expect((await db.query("select debug_feature_enabled('pet') enabled")).rows[0].enabled).toBe(false);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Loader2, Plus, Sparkles, Trash2 } from "lucide-react";
 
@@ -302,6 +303,7 @@ export function ConditioningEditor({
         </div>
       )}
 
+      {rows.some(row => row.itemId === "running") ? <Link href="/routine/running-intervals" className="mt-2 inline-flex min-h-11 items-center text-sm font-semibold text-brand">걷기·달리기·경사 구간 운동 만들기 →</Link> : null}
       {!lockWeightReps && rows.length > 0 ? (
         <p className="mt-2 text-xs text-muted">
           시간·속도·경사는 <b>운동 모드</b>에서 그때그때 설정해요. (설정 ▸ 무게·횟수

@@ -17,7 +17,7 @@ export const PROTECTED_PREFIXES = [
   "/change-password",
   "/exercises", // 운동 찾기(목록·상세) — 로그인 후에만 노출
   "/commitments", // 다짐 — 개인 목표(로그인 필요)
-  "/coach", // 헬쑤쌤(AI 코치) — 로그인 필요
+  "/coach", // 짐꾼쌤(AI 코치) — 로그인 필요
   "/pet", // 늑대 키우기 — 로그인 필요
 ] as const;
 

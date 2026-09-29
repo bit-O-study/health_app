@@ -22,7 +22,7 @@ export function AppSplash() {
 
   return (
     <div
-      className="app-splash fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-b from-blue-50 via-white to-cyan-50 dark:from-zinc-950 dark:via-zinc-900 dark:to-indigo-950"
+      className="app-splash fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-b from-brand-soft via-white to-brand-soft dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950"
       aria-hidden="true"
     >
       <div className="flex items-center gap-2.5">
@@ -30,7 +30,7 @@ export function AppSplash() {
           {/* 배지 뒤에서 번지는 헤일로 */}
           <span
             aria-hidden="true"
-            className="app-splash-glow absolute inset-0 rounded-[16px] bg-indigo-500/50 blur-lg"
+            className="app-splash-glow absolute inset-0 rounded-[16px] bg-brand/40 blur-lg"
           />
           <span className="app-splash-mark relative">
             <LogoMark size={52} />

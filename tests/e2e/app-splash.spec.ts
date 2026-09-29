@@ -9,7 +9,7 @@ test("앱 진입 스플래시가 떴다가 사라진다", async ({ page }) => {
   // 진입 직후: 스플래시 오버레이에 브랜드명이 보인다.
   const splash = page.locator(".app-splash");
   await expect(splash).toBeVisible();
-  await expect(splash).toContainText("헬쑤");
+  await expect(splash).toContainText("짐꾼");
 
   // 잠시 뒤(약 1.35s) DOM 에서 제거된다 → 앱 화면으로 전환.
   await expect(splash).toHaveCount(0, { timeout: 5000 });

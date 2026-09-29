@@ -283,7 +283,7 @@ export default async function CalendarPage({
         </div>
       </section>
 
-      {/* AI 다짐 짜주기 — 디버그 계정(헬쑤쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
+      {/* AI 다짐 짜주기 — 디버그 계정(짐꾼쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
       {coachEnabled ? <CommitmentSuggestions /> : null}
     </main>
     </div>

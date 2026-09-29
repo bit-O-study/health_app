@@ -10,7 +10,7 @@ test("브랜드 헤더·식단 통합 입력·런닝 기록·캘린더 전용 �
     values ((select id from auth.users where email=$1),gen_random_uuid(),(now() at time zone 'Asia/Seoul')::date,'outdoor',now()-interval '30 minutes',now(),1800,5000,10,360)`, [email]);
   for (const path of ["/routine", "/diet", "/calendar", "/groups", "/community"]) {
     await page.goto(path, { waitUntil: "networkidle" });
-    await expect(page.getByRole("link", { name: "헬쑤 홈", exact: true })).toBeVisible();
+    await expect(page.getByRole("link", { name: "짐꾼 홈", exact: true })).toBeVisible();
   }
   await page.goto("/diet", { waitUntil: "networkidle" });
   await expect(page.getByRole("button", { name: "음식 기록하기" })).toHaveCount(1);

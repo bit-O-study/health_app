@@ -20,7 +20,7 @@ test("운동게시판 삭제 버튼이 하단 탭바에 가리지 않는다", as
 
   await page.goto("/community", { waitUntil: "networkidle" });
   await page.getByRole("button", { name: "운동" }).click();
-  await page.waitForTimeout(1200);
+  await expect(page.getByRole("button", { name: "삭제", exact: true }).first()).toBeVisible();
 
   const m = await page.evaluate(() => {
     const d = document.querySelector('[aria-label="삭제"]')!.getBoundingClientRect();

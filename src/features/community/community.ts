@@ -5,14 +5,14 @@
 
 export const MAX_CAPTION = 200;
 
-export type PostInput = { photoUrl: string; caption: string };
+export type PostInput = { photoUrl: string; caption: string; hasWorkout?: boolean };
 
 export function validatePostInput(
   input: PostInput,
 ): { ok: true } | { ok: false; error: string } {
   const url = input.photoUrl?.trim() ?? "";
-  if (!url) return { ok: false, error: "사진을 먼저 올려주세요." };
-  if (!/^https?:\/\//.test(url))
+  if (!url && !input.hasWorkout) return { ok: false, error: "사진을 먼저 올려주세요." };
+  if (url && !/^https?:\/\//.test(url))
     return { ok: false, error: "사진 주소가 올바르지 않습니다." };
   if ((input.caption ?? "").length > MAX_CAPTION)
     return { ok: false, error: `한마디는 ${MAX_CAPTION}자까지 쓸 수 있어요.` };

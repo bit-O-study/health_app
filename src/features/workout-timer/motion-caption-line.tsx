@@ -33,7 +33,7 @@ export function MotionCaptionLine({
       data-slot={slot}
       data-synced={synced ? "1" : "0"}
       aria-live="off"
-      className="mt-2 flex w-full max-w-md items-start gap-2.5 rounded-2xl bg-zinc-100 px-3 py-2.5 dark:bg-white/[0.07]"
+      className="mt-2 flex w-full max-w-md items-start gap-2.5 rounded-xl bg-zinc-100 px-3 py-2.5 dark:bg-white/[0.07]"
     >
       <span className="mt-0.5 flex shrink-0 flex-col items-center gap-1">
         <span className="text-xs font-bold leading-none text-brand">{SLOT_LABEL[slot]}</span>

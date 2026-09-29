@@ -145,3 +145,84 @@ test("🔴 준비 카드는 처음 하는 운동에만 — 해 본 운동은 없
   await expect(page.getByTestId("motion-caption")).toBeVisible({ timeout: 15_000 });
   await expect(page.getByTestId("intro-card")).toHaveCount(0);
 });
+
+test("🔴 음성 코치(기본 꺼짐): 켜면 세트 요령, 휴식 10초 전 다음 세트 · 등 운동 뒷모습 · 자막 안 가림", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(180_000);
+  // 음성은 실제로 틀 수 없으니 읽으려던 문장을 기록한다.
+  await page.addInitScript(() => {
+    const spoken: string[] = [];
+    (window as unknown as { __spoken: string[] }).__spoken = spoken;
+    const fake = {
+      speak: (u: { text: string }) => spoken.push(u.text),
+      cancel: () => {},
+    };
+    Object.defineProperty(window, "speechSynthesis", { value: fake, configurable: true });
+    (window as unknown as { SpeechSynthesisUtterance: unknown }).SpeechSynthesisUtterance = class {
+      text: string;
+      lang = "";
+      rate = 1;
+      constructor(t: string) {
+        this.text = t;
+      }
+    };
+  });
+  const spoken = () => page.evaluate(() => (window as unknown as { __spoken: string[] }).__spoken.slice());
+
+  const email = await createOnboardedAccount(page);
+  await seedDay(
+    email,
+    `(${uid}, 0, 'chest', 0, 'pec-deck', 'machine', 3, 12, 20),
+     (${uid}, 0, 'chest', 1, 'barbell-row', 'barbell', 3, 10, 40)`,
+  );
+  // 둘 다 해 본 운동(준비 카드 없이).
+  await dbQuery(
+    `insert into public.exercise_completions (user_id, for_date, exercise_row_id, status, exercise_id, equipment, focus, sets, reps, weight_kg)
+     values (${uid}, ${today} - 1, gen_random_uuid(), 'done', 'pec-deck', 'machine', 'chest', 3, 12, 20),
+            (${uid}, ${today} - 1, gen_random_uuid(), 'done', 'barbell-row', 'barbell', 'chest', 3, 10, 40)`,
+    [email],
+  );
+
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: "운동 시작" }).click();
+  await expect(page.getByRole("heading", { name: "펙덱 플라이" })).toBeVisible({ timeout: 15_000 });
+
+  // 자극 부위 그림이 한 줄 자막을 가리지 않는다(그림은 미디어 안, 자막은 그 아래).
+  const inset = page.getByRole("button", { name: "자극 부위 크게 보기" });
+  const caption = page.getByTestId("motion-caption");
+  const ib = (await inset.boundingBox())!;
+  const cb = (await caption.boundingBox())!;
+  expect(ib.y + ib.height).toBeLessThanOrEqual(cb.y + 1);
+
+  // 기본 꺼짐 — 아무 말도 안 한다.
+  const toggle = page.getByTestId("voice-toggle");
+  await expect(toggle).toHaveAttribute("aria-pressed", "false");
+  await page.waitForTimeout(500);
+  expect(await spoken()).toEqual([]);
+
+  // 켜면 지금 세트 요령.
+  await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-pressed", "true");
+  await expect.poll(async () => (await spoken()).join("|")).toContain("1세트.");
+
+  // 휴식 30초 → 10초 남았을 때 다음 세트.
+  await page.getByRole("button", { name: "0:30" }).click();
+  await page.getByRole("button", { name: "세트 완료", exact: true }).click();
+  await expect(page.getByText("휴식 중")).toBeVisible();
+  await expect
+    .poll(async () => (await spoken()).join("|"), { timeout: 30_000, intervals: [1000] })
+    .toContain("2세트째, 12회, 20킬로. 10초 남았어요.");
+
+  // 등 운동(바벨 로우)은 자극 부위를 뒷모습으로.
+  await page.getByRole("button", { name: "휴식 끝내기" }).click();
+  await page.getByRole("button", { name: "다음 운동" }).click();
+  await expect(page.getByRole("heading", { name: "로우", exact: true, level: 2 })).toBeVisible();
+  await expect(inset).toHaveAttribute("data-view", "posterior");
+
+  // 켠 설정은 기억된다.
+  await page.reload({ waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: /운동 시작|다시 운동하기|이어서/ }).first().click();
+  await expect(page.getByTestId("voice-toggle")).toHaveAttribute("aria-pressed", "true", { timeout: 15_000 });
+});

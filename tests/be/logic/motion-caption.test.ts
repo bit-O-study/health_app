@@ -176,7 +176,7 @@ describe("처음 하는 운동 — 준비 카드(한 줄 코치 2단계)", () =>
   it("화면 가드 — 첫 세트 전·처음·안 넘긴 운동에만, 떠 있는 동안 자막은 숨김", () => {
     const gw = readFileSync("src/features/workout-timer/guided-workout.tsx", "utf8");
     expect(gw).toMatch(/setsDone === 0 &&\s*!introSeen\.has\(item\.exerciseId\)/);
-    expect(gw).toContain("<ItemVisual item={item} hideCaption={showIntro} />");
+    expect(gw).toMatch(/<ItemVisual\s+item=\{item\}\s+hideCaption=\{showIntro\}/);
     expect(gw).toContain("<IntroCard");
     const te = readFileSync("src/features/routine/components/today-exercises.tsx", "utf8");
     expect(te).toContain("isFirstTimeExercise(doneRecords, p.exerciseId, todayYmd)");

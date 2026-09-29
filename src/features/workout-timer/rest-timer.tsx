@@ -24,6 +24,7 @@ import {
   scheduleRestLocalNotif,
   cancelRestLocalNotif,
 } from "@/features/notifications/local-notif";
+import { speak } from "@/features/running/voice";
 
 type RestState = {
   /** 종료 예정 시각(ms epoch) */
@@ -40,7 +41,12 @@ export type RestHint = {
   next: string;
   /** "무릎을 끝까지 펴서 잠그지 마세요" */
   caution?: string | null;
+  /** 음성 코치가 켜져 있으면 휴식 끝 10초 전에 읽을 문장(한 줄 코치 3단계). */
+  voice?: string | null;
 };
+
+/** 휴식이 이만큼 남았을 때 다음 세트를 읽는다. */
+export const REST_VOICE_LEAD_SEC = 10;
 
 type Ctx = {
   /** seconds 만큼 휴식 타이머 시작. 생략하면 사용자 기본 휴식 시간 사용. (이미 진행 중이면 덮어쓰기) */
@@ -235,6 +241,17 @@ function RestOverlay({
   const remainingMs = Math.max(0, state.endsAt - Date.now());
   const remainingSec = Math.ceil(remainingMs / 1000);
   const done = forceDone || remainingMs <= 0;
+
+  // 음성 코치 — 10초 남았을 때 다음 세트를 한 번 읽는다(휴식이 10초보다 짧으면 안 읽는다).
+  const voiceText = state.hint?.voice ?? null;
+  const spokenRef = useRef(false);
+  useEffect(() => {
+    if (!voiceText || spokenRef.current || done) return;
+    if (state.totalSec > REST_VOICE_LEAD_SEC && remainingSec <= REST_VOICE_LEAD_SEC) {
+      spokenRef.current = true;
+      speak(voiceText);
+    }
+  }, [voiceText, remainingSec, done, state.totalSec]);
 
   // 휴식 동안 화면이 꺼지지 않게 Wake Lock 유지 — 화면 꺼짐으로 타이머가 멈추는 것 방지.
   useEffect(() => {

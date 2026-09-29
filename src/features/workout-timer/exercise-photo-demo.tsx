@@ -43,10 +43,10 @@ export function ExercisePhotoDemo({
         </span>
         {poseLabels ? (
           <>
-            <span data-testid="pose-label-start" className="ex-photo-a absolute bottom-2 left-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
+            <span data-testid="pose-label-start" className="ex-photo-a absolute left-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
               시작 자세
             </span>
-            <span data-testid="pose-label-end" className="ex-photo-b absolute bottom-2 left-2 rounded-full bg-brand/90 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm dark:text-zinc-950">
+            <span data-testid="pose-label-end" className="ex-photo-b absolute left-2 top-2 rounded-full bg-brand/90 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm dark:text-zinc-950">
               끝 자세
             </span>
           </>

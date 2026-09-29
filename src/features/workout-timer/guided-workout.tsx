@@ -26,6 +26,8 @@ import {
   Timer,
   TrendingUp,
   Video,
+  Volume2,
+  VolumeX,
   X,
 } from "lucide-react";
 
@@ -117,6 +119,15 @@ import {
   usePhotoSlot,
   useTimedSlot,
 } from "@/features/workout-timer/motion-caption-line";
+import {
+  cueForSet,
+  readWorkoutVoice,
+  speechForNextExercise,
+  speechForNextSet,
+  speechForSetStart,
+  writeWorkoutVoice,
+} from "@/features/workout-timer/workout-voice";
+import { speak } from "@/features/running/voice";
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";
@@ -148,6 +159,8 @@ export type GuidedItem =
       caution?: string | null;
       /** 처음 하는 운동의 '준비 3가지'(한 줄 코치 2단계). 해 본 운동이면 null. */
       intro?: string[] | null;
+      /** 음성 코치가 세트 시작 때 읽는 요령(한 줄 코치 3단계). */
+      cues?: string[];
       sets: number;
       reps: number;
       weightKg: number | null;
@@ -576,6 +589,25 @@ export function GuidedOverlay({
   const [sessionItems] = useState(items);
   // 처음 하는 운동의 준비 카드를 넘긴 운동(한 줄 코치 2단계). 기기에 기억해 다시 안 띄운다.
   const [introSeen, setIntroSeen] = useState<ReadonlySet<string>>(() => readIntroSeen());
+  // 음성 코치(한 줄 코치 3단계) — 기본 꺼짐. 켜면 세트 시작 요령·휴식 끝 10초 전 다음 세트를 읽는다.
+  const [voiceOn, setVoiceOn] = useState<boolean>(() =>
+    typeof window === "undefined" ? false : readWorkoutVoice(),
+  );
+  const toggleVoice = useCallback(() => {
+    setVoiceOn((prev) => {
+      const next = !prev;
+      writeWorkoutVoice(next);
+      // 켜면 바로 아래 효과가 지금 세트 요령을 읽는다(누른 직후라 WebView 도 음성을 허용한다).
+      if (!next) {
+        try {
+          window.speechSynthesis?.cancel();
+        } catch {
+          /* 무시 */
+        }
+      }
+      return next;
+    });
+  }, []);
   const markIntroSeen = useCallback((exerciseId: string) => {
     setIntroSeen((prev) => {
       const next = new Set(prev).add(exerciseId);
@@ -656,6 +688,26 @@ export function GuidedOverlay({
     (item.intro?.length ?? 0) > 0 &&
     setsDone === 0 &&
     !introSeen.has(item.exerciseId);
+
+  // 음성 코치 — 세트를 시작할 차례가 되면(운동에 들어오거나 휴식이 끝나면) 요령 한 줄.
+  // 같은 운동·같은 세트에서는 한 번만 말한다(화면이 다시 그려져도 반복하지 않게).
+  const spokenSetRef = useRef<string | null>(null);
+  const speakRowId = item?.kind === "main" ? item.rowId : null;
+  const speakText =
+    item?.kind === "main"
+      ? speechForSetStart({
+          setNo: setsDone + 1,
+          cue: cueForSet(item.cues ?? [], setsDone),
+          introFirst: showIntro ? (item.intro?.[0] ?? null) : null,
+        })
+      : null;
+  useEffect(() => {
+    if (!voiceOn || resting || !speakRowId || !speakText) return;
+    const key = `${speakRowId}:${setsDone}`;
+    if (spokenSetRef.current === key) return;
+    spokenSetRef.current = key;
+    speak(speakText);
+  }, [voiceOn, resting, speakRowId, setsDone, speakText]);
 
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
   // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
@@ -928,6 +980,15 @@ export function GuidedOverlay({
         weightKg: item.setDetails?.[next]?.weightKg ?? (editable ? editW : item.weightKg),
       }),
       caution: item.caution ?? null,
+      voice: voiceOn
+        ? speechForNextSet({
+            nextSet: next + 1,
+            totalSets: mainSets,
+            reps: editable ? editReps : item.reps,
+            timed: isTimedExercise(item.exerciseId),
+            weightKg: item.setDetails?.[next]?.weightKg ?? (editable ? editW : item.weightKg),
+          })
+        : null,
     });
     // 한 바퀴를 돌았으면 쉬는 동안 묶음의 첫 운동으로 되돌려 둔다 —
     // 휴식이 끝나고 눈을 들었을 때 다음에 할 운동이 떠 있어야 한다.
@@ -1180,6 +1241,7 @@ export function GuidedOverlay({
           ? {
               next: `다음 운동 · ${upcoming.name}`,
               caution: upcoming.kind === "main" ? upcoming.caution ?? null : null,
+              voice: voiceOn ? speechForNextExercise(upcoming.name) : null,
             }
           : undefined,
       );
@@ -1333,9 +1395,10 @@ export function GuidedOverlay({
         </span>
       </div>
 
-      {/* 세션 운동 시간 + 일시정지/다시 시작 — 조용한 한 줄 */}
+      {/* 세션 운동 시간 + 일시정지/다시 시작 + 음성 코치 — 조용한 한 줄 */}
       {elapsedLabel !== undefined ? (
         <div className="flex items-center justify-center gap-2 px-4 pb-2">
+          <VoiceToggle on={voiceOn} onToggle={toggleVoice} />
           <span className="inline-flex items-center gap-1.5 text-sm font-medium tabular-nums text-zinc-300">
             <Timer
               aria-hidden="true"
@@ -1420,38 +1483,46 @@ export function GuidedOverlay({
           {/* 운동 영상 — 화면 끝까지(시연 컴포넌트의 둥근 모서리·테두리는 여기서만 지운다). */}
           <div className="w-full max-w-lg sm:px-3">
           <div className="relative w-full [&_.border]:border-0 [&_.rounded-2xl]:rounded-none sm:[&_.rounded-2xl]:rounded-2xl">
-            <ItemVisual item={item} hideCaption={showIntro} />
-            {item.kind === "main" ? (
-              <MuscleBodyInset
-                exerciseId={item.exerciseId}
-                name={item.name}
-                target={item.target}
-                onOpen={() => setMuscle3dOpen(true)}
-              />
-            ) : null}
+            {/* 자극 부위·좌우 화살표는 영상·사진 위에만 얹는다 — 아래 한 줄 자막을 가리지 않게. */}
+            <ItemVisual
+              item={item}
+              hideCaption={showIntro}
+              overlay={
+                <>
+                {item.kind === "main" ? (
+                  <MuscleBodyInset
+                    exerciseId={item.exerciseId}
+                    name={item.name}
+                    target={item.target}
+                    onOpen={() => setMuscle3dOpen(true)}
+                  />
+                ) : null}
 
-            {total > 1 ? (
-              <>
-                <button
-                  type="button"
-                  aria-label="이전 운동"
-                  onClick={() => goTo(-1)}
-                  disabled={prevIndex === null}
-                  className="absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
-                >
-                  <ChevronLeft aria-hidden="true" size={22} />
-                </button>
-                <button
-                  type="button"
-                  aria-label="다음 운동"
-                  onClick={() => goTo(1)}
-                  disabled={nextIndex === null}
-                  className="absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
-                >
-                  <ChevronRight aria-hidden="true" size={22} />
-                </button>
-              </>
-            ) : null}
+                {total > 1 ? (
+                  <>
+                    <button
+                      type="button"
+                      aria-label="이전 운동"
+                      onClick={() => goTo(-1)}
+                      disabled={prevIndex === null}
+                      className="absolute left-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
+                    >
+                      <ChevronLeft aria-hidden="true" size={22} />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="다음 운동"
+                      onClick={() => goTo(1)}
+                      disabled={nextIndex === null}
+                      className="absolute right-2 top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition hover:bg-black/60 disabled:pointer-events-none disabled:opacity-0"
+                    >
+                      <ChevronRight aria-hidden="true" size={22} />
+                    </button>
+                  </>
+                ) : null}
+                </>
+              }
+            />
           </div>
           </div>
 
@@ -2199,6 +2270,25 @@ function CondScrubbers({
   );
 }
 
+/** 음성 코치 켜고 끄기 — 스피커 아이콘 하나(한 줄 코치 3단계). */
+function VoiceToggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={on}
+      aria-label={on ? "음성 코치 끄기" : "음성 코치 켜기"}
+      data-testid="voice-toggle"
+      className={`inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-xs font-medium transition ${
+        on ? "bg-brand/20 text-brand" : "bg-white/10 text-zinc-300 hover:bg-white/15"
+      }`}
+    >
+      {on ? <Volume2 aria-hidden="true" size={14} /> : <VolumeX aria-hidden="true" size={14} />}
+      음성
+    </button>
+  );
+}
+
 const INTRO_SEEN_KEY = "jimkkun:intro-seen";
 
 /** 준비 카드를 넘긴 운동 id — 기기에만(보조 편의). 못 읽으면 빈 목록(카드가 한 번 더 뜰 뿐). */
@@ -2259,9 +2349,11 @@ const PHOTO_CYCLE_MS = 2600;
 function VideoWithCaption({
   media,
   steps,
+  overlay,
 }: {
   media: NonNullable<Extract<GuidedItem, { kind: "main" }>["media"]>;
   steps: string[];
+  overlay?: ReactNode;
 }) {
   const spec = motionSpecForUrl(media.url);
   const [videoSlot, setVideoSlot] = useState<CaptionSlot>(0);
@@ -2270,24 +2362,38 @@ function VideoWithCaption({
   return (
     <div className="w-full max-w-md">
       {/* 운동 차례가 되면 자동 재생(음소거). 버튼 안 눌러도 실행됨. */}
-      <MediaEmbed
-        url={media.url}
-        darkUrl={media.darkUrl}
-        kind={media.kind}
-        autoPlay
-        onTime={spec ? (t) => setVideoSlot(slotOfPhase(motionPhaseAt(t, spec))) : undefined}
-      />
+      <div className="relative">
+        <MediaEmbed
+          url={media.url}
+          darkUrl={media.darkUrl}
+          kind={media.kind}
+          autoPlay
+          onTime={spec ? (t) => setVideoSlot(slotOfPhase(motionPhaseAt(t, spec))) : undefined}
+        />
+        {overlay}
+      </div>
       <MotionCaptionLine steps={steps} slot={slot} synced={spec !== null} />
     </div>
   );
 }
 
 /** 사진 두 장 + 한 줄 자막 — 시작 사진엔 준비, 끝 사진엔 동작·돌아오기 문구. */
-function PhotoWithCaption({ frames, steps }: { frames: [string, string]; steps: string[] }) {
+function PhotoWithCaption({
+  frames,
+  steps,
+  overlay,
+}: {
+  frames: [string, string];
+  steps: string[];
+  overlay?: ReactNode;
+}) {
   const slot = usePhotoSlot(PHOTO_CYCLE_MS);
   return (
     <div className="w-full max-w-md">
-      <ExercisePhotoDemo frames={frames} cycleMs={PHOTO_CYCLE_MS} poseLabels />
+      <div className="relative">
+        <ExercisePhotoDemo frames={frames} cycleMs={PHOTO_CYCLE_MS} poseLabels />
+        {overlay}
+      </div>
       <MotionCaptionLine steps={steps} slot={slot} synced />
     </div>
   );
@@ -2299,34 +2405,39 @@ function PhotoWithCaption({ frames, steps }: { frames: [string, string]; steps: 
  * - main: 관리자 영상 > 실사 사진
  * - warmup/cooldown: 컨디셔닝 실사 사진(없으면 그라데이션)
  */
-function ItemVisual({ item, hideCaption = false }: { item: GuidedItem; hideCaption?: boolean }) {
+function ItemVisual({
+  item,
+  hideCaption = false,
+  overlay,
+}: {
+  item: GuidedItem;
+  hideCaption?: boolean;
+  /** 미디어 위에 얹을 것(자극 부위 그림·좌우 화살표). 자막 줄 위로는 올라가지 않는다. */
+  overlay?: ReactNode;
+}) {
+  // 글 튜토리얼·빈 시각 자료 — 자막 줄이 없으니 전체를 기준으로 얹는다.
+  const tutorial = (steps: string[]) => (
+    <div className="relative w-full max-w-md">
+      <ExerciseTutorial frames={null} steps={steps} />
+      {overlay}
+    </div>
+  );
+  const bare = overlay ? <div className="relative w-full">{overlay}</div> : null;
   if (item.kind === "main") {
     const captionSteps = hideCaption ? [] : item.method;
     if (item.media) {
-      return <VideoWithCaption media={item.media} steps={captionSteps} />;
+      return <VideoWithCaption media={item.media} steps={captionSteps} overlay={overlay} />;
     }
     const frames = exercisePhotoFrames(item.exerciseId, item.equipment);
-    if (frames) return <PhotoWithCaption frames={frames} steps={captionSteps} />;
+    if (frames) return <PhotoWithCaption frames={frames} steps={captionSteps} overlay={overlay} />;
     // 실사 사진·영상이 없는 운동(예: 신규 1,200여 종)은 운동법 단계를
     // 튜토리얼(그라데이션 위 단계 자막, 자동 전환)로 보여준다 — 빈 화면 방지.
-    if (item.method.length > 0) {
-      return (
-        <div className="w-full max-w-md">
-          <ExerciseTutorial frames={null} steps={item.method} />
-        </div>
-      );
-    }
-    return null;
+    if (item.method.length > 0) return tutorial(item.method);
+    return bare;
   }
   // 워밍업·마무리: 실사 시연 2프레임 자동 교차재생. 없으면 방법 문구 튜토리얼.
   const condFrames = conditioningPhotoFrames(item.itemId);
-  if (condFrames) return <PhotoWithCaption frames={condFrames} steps={item.method} />;
-  if (item.method.length > 0) {
-    return (
-      <div className="w-full max-w-md">
-        <ExerciseTutorial frames={null} steps={item.method} />
-      </div>
-    );
-  }
-  return null;
+  if (condFrames) return <PhotoWithCaption frames={condFrames} steps={item.method} overlay={overlay} />;
+  if (item.method.length > 0) return tutorial(item.method);
+  return bare;
 }

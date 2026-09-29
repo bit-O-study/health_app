@@ -97,11 +97,29 @@ td.c{text-align:center;white-space:nowrap}
   <div class="meta">
     <span>2026-09-29</span>
     <span>대상: <code>/calendar</code> · <code>/calendar/week</code> · <code>/calendar/[날짜]</code></span>
-    <span class="pill crit">바로 고칠 오류 1</span>
+    <span class="pill ok">1단계 완료 (a34ffe26)</span>
+    <span class="pill crit">바로 고칠 오류 1 → 수정</span>
     <span class="pill warn">꼭 추가 7</span>
     <span class="pill info">추가하면 좋음 8</span>
   </div>
 </header>
+
+<section>
+  <h2>1단계 결과 (2026-09-29)</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>항목</th><th>결과</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td>칼로리 수지(오류 + 꼭 1)</td><td class="yes">완료</td><td>식단 기록한 날만 “먹은 양 − (기초대사량 + 운동 + 걷기)”. 카드 이름은 “칼로리 수지 −750kcal · 살 빠지는 쪽”, 아래에 “식단 기록한 N일 기준 · 기초대사량 N kcal/일 포함” 근거 한 줄. 운동 소비에서 걷기를 분리했습니다.</td></tr>
+        <tr><td>범례(꼭 2)</td><td class="yes">완료</td><td>달력 아래: + 먹은 kcal · − 움직인 kcal(운동+걷기) · 근력운동 · ○△✕ 다짐 달성 · 생리(여성만)</td></tr>
+        <tr><td>화면 읽기 지원(꼭 6)</td><td class="yes">완료</td><td>칸마다 “9월 25일 금요일, 오늘, 먹은 1,200kcal, 움직인 300kcal, 근력운동, 다짐 67%”, 오늘에 현재 날짜 표시</td></tr>
+        <tr><td>죽은 화면·테스트(꼭 7)</td><td class="yes">완료</td><td>링크 없던 목표·통계 보기 제거(옛 주소는 보통 달력으로). 단위테스트 13개, E2E 2개 추가</td></tr>
+        <tr><td>캘린더 전용 오류 화면</td><td class="part">안 함</td><td>앱 공통 오류 화면이 이미 캘린더 오류를 받고, 앱 복귀 시 자동 새로고침 복구까지 합니다. 캘린더 전용 화면을 두면 그 복구가 빠져서 넣지 않았습니다.</td></tr>
+        <tr><td>검증</td><td class="yes">통과</td><td>단위테스트 전체 통과(다른 세션이 작업 중인 홈 로딩 화면 테스트 1개 제외), 타입 검사·lint 오류 0, 캘린더 E2E 5개 통과</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
 <section>
   <h2>요약</h2>

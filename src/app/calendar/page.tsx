@@ -1,6 +1,4 @@
 import { calendarWeek } from "@/features/launcher/calendar-range";
-import { getHomeDashboard } from "@/features/home/home-data";
-import { TodayGoalCard } from "@/features/routine/components/today-goal-card";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import {
@@ -17,6 +15,13 @@ import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
 import { getMonthlyCalendar } from "@/features/calendar/data-access";
+import {
+  calorieBalance,
+  dayAriaLabel,
+  directionLabel,
+  signedKcal,
+  type CalorieBalance,
+} from "@/features/calendar/calorie-balance";
 import { getMissionCalendar } from "@/features/commitments/data-access";
 import { MARKER_SYMBOL } from "@/features/commitments/missions";
 import { getBodyLogs } from "@/features/profile/body-logs";
@@ -67,14 +72,7 @@ export default async function CalendarPage({
 
   const { m, view, d } = await searchParams;
   const today = seoulYmd();
-  if (view === "goals") {
-    const dashboard = await getHomeDashboard();
-    return <main className="app-page app-container space-y-4"><h1 className="text-2xl font-bold">나의 목표</h1>
-      <TodayGoalCard goal={dashboard.goalCard} missions={[]} totalMissions={0} current={dashboard.current} />
-      <Link href="/settings/profile" className="app-card block p-4 font-semibold">체형 목표 설정·기록 →</Link>
-      <Link href="/commitments" className="app-card block p-4"><h2 className="font-bold">오늘의 다짐</h2><p className="mt-2 text-sm text-zinc-500">{dashboard.todayCommitments.filter(item => item.done).length} / {dashboard.todayCommitments.length}개 달성 · 다짐 관리 →</p></Link>
-    </main>;
-  }
+  // 예전 view=goals·view=stats 는 들어가는 링크가 없는 죽은 화면이라 뺐다(2026-09-29 캘린더 1단계).
   const isWeek = view === "week";
   const week = calendarWeek(d, today);
   const { year, month0 } = parseMonth(m);
@@ -87,7 +85,7 @@ export default async function CalendarPage({
     `${mm.year}-${pad(mm.month0 + 1)}`;
   // 서로 독립인 쿼리는 한 번에(직렬 → 1파). 각 함수는 cache()된 인증을 공유.
   const [
-    { byDate, intakeTotal, workoutBurnedTotal },
+    { byDate, intakeTotal, workoutBurnedTotal, stepsBurnedTotal, bmr },
     bodyLogs,
     profile,
     debug,
@@ -101,7 +99,8 @@ export default async function CalendarPage({
     isDebugFeatureEnabled("helssu-coach"),
     getMissionCalendar(from, to),
   ]);
-  const spent = workoutBurnedTotal - intakeTotal;
+  // 칼로리 수지 — 식단 기록한 날만, 기초대사량까지 넣어서(예전엔 빠져 늘 '적자' 였다).
+  const balance = calorieBalance(byDate.values(), bmr);
 
   // 체중 증감 — 직전 기록 대비. 기록 없으면 null(→ '체형 기록하러 가기' 버튼).
   const weightDelta = computeWeightDelta(bodyLogs.map((l) => l.weightKg));
@@ -133,7 +132,7 @@ export default async function CalendarPage({
     {/* 달 이동은 큰 제목 줄 오른쪽으로 — 따로 한 줄을 쓰지 않는다(2026-09-16 촘촘하게). */}
     <PageHeader branded title="캘린더">
       <Link
-        href={isWeek ? `/calendar/week?d=${week.previous}` : `/calendar?m=${monthParam(prev)}${view === "stats" ? "&view=stats" : ""}`}
+        href={isWeek ? `/calendar/week?d=${week.previous}` : `/calendar?m=${monthParam(prev)}`}
         aria-label={isWeek ? "이전 주" : "이전 달"}
         className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
@@ -143,7 +142,7 @@ export default async function CalendarPage({
         {isWeek ? `${week.from} ~ ${week.to}` : `${year}년 ${month0 + 1}월`}
       </h2>
       <Link
-        href={isWeek ? `/calendar/week?d=${week.next}` : `/calendar?m=${monthParam(next)}${view === "stats" ? "&view=stats" : ""}`}
+        href={isWeek ? `/calendar/week?d=${week.next}` : `/calendar?m=${monthParam(next)}`}
         aria-label={isWeek ? "다음 주" : "다음 달"}
         className="flex h-8 w-8 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
       >
@@ -166,7 +165,7 @@ export default async function CalendarPage({
       </div>
 
       {/* 캘린더 — 칸 높이 52px(날짜 + 섭취/소비 두 줄이 딱 들어가는 높이) */}
-      <div className={view === "stats" ? "hidden" : "app-card px-2 py-4"}>
+      <div className="app-card px-2 py-4">
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
             <div
@@ -201,6 +200,17 @@ export default async function CalendarPage({
               <Link
                 key={date}
                 href={`/calendar/${date}`}
+                aria-label={dayAriaLabel({
+                  date,
+                  isToday,
+                  holiday: holiday?.name ?? null,
+                  intake: s?.intake ?? 0,
+                  burned: s?.burned ?? 0,
+                  didWeight: !!s?.didWeight,
+                  missionPct: mMark ? mMark.pct : null,
+                  period: isPeriod ? "period" : isPredicted ? "predicted" : null,
+                })}
+                aria-current={isToday ? "date" : undefined}
                 className="relative flex min-h-[3.25rem] flex-col items-center rounded-lg px-0.5 py-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
               >
                 {(isPeriod || isPredicted) && (
@@ -266,6 +276,7 @@ export default async function CalendarPage({
             );
           })}
         </div>
+        <CalendarLegend showCycle={profile?.gender === "female"} />
       </div>
 
       {/* 월 요약 — 카드 4장을 한 장으로: 섭취·소비·수지 세 칸 + 체중 한 줄 */}
@@ -275,8 +286,9 @@ export default async function CalendarPage({
           <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5">
             <SummaryStat label="총 섭취" value={intakeTotal} />
             <SummaryStat label="운동 소비" value={workoutBurnedTotal} />
-            <NetStat spent={spent} />
+            <BalanceStat balance={balance} />
           </div>
+          <BalanceNote balance={balance} stepsTotal={stepsBurnedTotal} bmrPerDay={bmr} />
           <div>
             <WeightRow delta={weightDelta} measuredAt={weightMeasuredAt} />
           </div>
@@ -376,16 +388,68 @@ function SummaryStat({
   );
 }
 
-/** 칼로리 흑자/적자 = 운동 소비 − 총 섭취.
- *  소비가 더 많으면 '흑자'(브랜드색, 양수), 섭취가 더 많으면 '적자'(위험색, 음수). */
-function NetStat({ spent }: { spent: number }) {
-  const surplus = spent > 0; // 소비 > 섭취 → 흑자
-  const deficit = spent < 0; // 섭취 > 소비 → 적자
-  const tone = surplus
-    ? "text-brand"
-    : deficit
-      ? "text-danger"
-      : "text-zinc-500 dark:text-zinc-400";
-  const label = surplus ? "칼로리 흑자" : deficit ? "칼로리 적자" : "칼로리 균형";
-  return <SummaryStat label={label} value={spent} tone={tone} />;
+/**
+ * 칼로리 수지 한 칸 — 먹은 양 − (기초대사량 + 운동 + 걷기), 식단 기록한 날만.
+ * 음수(빠지는 쪽)는 브랜드색, 양수(찌는 쪽)는 주황, 균형·기록 없음은 회색.
+ * "흑자/적자" 는 사람마다 반대로 읽어서 쓰지 않는다(`calorie-balance.ts`).
+ */
+function BalanceStat({ balance }: { balance: CalorieBalance }) {
+  const tone =
+    balance.loggedDays === 0 || balance.direction === "even"
+      ? "text-zinc-500 dark:text-zinc-400"
+      : balance.direction === "loss"
+        ? "text-brand"
+        : "text-warn";
+  return (
+    <div className="min-w-0 px-2 text-center" data-testid="calorie-balance">
+      <p className="truncate text-xs text-zinc-500 dark:text-zinc-400">칼로리 수지</p>
+      <p className={`mt-0.5 truncate text-base font-semibold tabular-nums ${tone}`}>
+        {balance.loggedDays === 0 ? "—" : signedKcal(balance.netKcal)}
+        {balance.loggedDays === 0 ? null : (
+          <span className="ml-0.5 text-xs font-medium text-zinc-400">kcal</span>
+        )}
+      </p>
+      <p className={`truncate text-xs font-semibold ${tone}`}>{directionLabel(balance)}</p>
+    </div>
+  );
+}
+
+/** 수지 근거 한 줄 — 무엇을 더하고 뺐는지. 숫자만 던지면 믿을지 판단을 못 한다. */
+function BalanceNote({
+  balance,
+  stepsTotal,
+  bmrPerDay,
+}: {
+  balance: CalorieBalance;
+  stepsTotal: number;
+  bmrPerDay: number;
+}) {
+  return (
+    <p className="px-4 pb-2.5 text-xs leading-5 text-zinc-500 dark:text-zinc-400" data-testid="calorie-balance-note">
+      {balance.loggedDays === 0
+        ? `식단을 기록한 날의 먹은 양 − (기초대사량 ${bmrPerDay.toLocaleString()}kcal/일 + 운동 + 걷기)로 계산해요.`
+        : `식단 기록한 ${balance.loggedDays}일 기준 · 기초대사량 ${bmrPerDay.toLocaleString()}kcal/일 포함`}
+      {stepsTotal > 0 ? ` · 걷기 ${stepsTotal.toLocaleString()}kcal 는 운동 소비와 따로` : ""}
+    </p>
+  );
+}
+
+/** 달력 표시 뜻 — 처음 쓰는 사람이 +/−·덤벨·○△✕·하트를 읽을 수 있게. */
+function CalendarLegend({ showCycle }: { showCycle: boolean }) {
+  const item = "inline-flex items-center gap-1 whitespace-nowrap";
+  return (
+    <ul
+      aria-label="달력 표시 뜻"
+      data-testid="calendar-legend"
+      className="mt-3 flex flex-wrap justify-center gap-x-3 gap-y-1 border-t border-[var(--line)] px-2 pt-2.5 text-xs text-zinc-500 dark:text-zinc-400"
+    >
+      <li className={item}><span className="tabular-nums">+</span>먹은 kcal</li>
+      <li className={item}><span className="tabular-nums text-brand">−</span>움직인 kcal(운동+걷기)</li>
+      <li className={item}><Dumbbell aria-hidden="true" size={11} className="text-brand" />근력운동</li>
+      <li className={item}><span className="font-bold"><span className="text-brand">○</span><span className="text-amber-500">△</span><span className="text-rose-400">✕</span></span>다짐 달성</li>
+      {showCycle ? (
+        <li className={item}><Heart aria-hidden="true" size={10} className="fill-rose-500 text-rose-500" />생리·예정</li>
+      ) : null}
+    </ul>
+  );
 }

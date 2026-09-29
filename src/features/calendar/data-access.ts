@@ -28,7 +28,9 @@ const num = (v: number | string | null | undefined): number => {
 
 export type DaySummary = {
   intake: number;
-  burned: number; // 활동 소비(운동 + 걸음 칼로리)
+  burned: number; // 활동 소비(운동 + 걸음 칼로리) — 달력 칸의 '−' 숫자
+  exerciseKcal: number; // 그중 운동(근력·유산소)
+  stepsKcal: number; // 그중 걷기
   durationSec: number;
   steps: number; // 그날 걸음수
   didWeight: boolean; // 실제로 웨이트(근력 운동)을 완료한 날 — 캘린더 덤벨 마커
@@ -37,7 +39,9 @@ export type DaySummary = {
 export type MonthlyCalendar = {
   byDate: Map<string, DaySummary>;
   intakeTotal: number;
+  /** 운동만(근력·유산소). 걷기는 `stepsBurnedTotal` 로 따로 — '운동 소비' 에 걷기가 섞이지 않게. */
   workoutBurnedTotal: number;
+  stepsBurnedTotal: number;
   bmr: number;
 };
 
@@ -65,13 +69,13 @@ export async function getMonthlyCalendar(
   const ensure = (d: string): DaySummary => {
     let s = byDate.get(d);
     if (!s) {
-      s = { intake: 0, burned: 0, durationSec: 0, steps: 0, didWeight: false };
+      s = { intake: 0, burned: 0, exerciseKcal: 0, stepsKcal: 0, durationSec: 0, steps: 0, didWeight: false };
       byDate.set(d, s);
     }
     return s;
   };
 
-  if (!user) return { byDate, intakeTotal: 0, workoutBurnedTotal: 0, bmr };
+  if (!user) return { byDate, intakeTotal: 0, workoutBurnedTotal: 0, stepsBurnedTotal: 0, bmr };
   const supabase = await createSupabaseServerClient();
 
   const [foodRes, exRes, condRes, durMap, stepsMap] = await Promise.all([
@@ -109,7 +113,7 @@ export async function getMonthlyCalendar(
   }[]) {
     if (!r.exercise_id) continue;
     const s = ensure(r.for_date);
-    s.burned += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
+    s.exerciseKcal += strengthKcalForCompletion(weight, r.exercise_id, num(r.sets));
     s.didWeight = true; // 근력 운동을 실제로 완료 → 그날 '웨이트한 날'
   }
   for (const r of (condRes.data ?? []) as {
@@ -121,7 +125,7 @@ export async function getMonthlyCalendar(
     if (!r.item_id) continue;
     // 스냅샷이 비면 카탈로그 기본값으로 보정 — 메인 화면 '완료 kcal' 과 일치하게.
     const d = conditioningDefaults(r.item_id);
-    ensure(r.for_date).burned += estimateConditioningKcal(
+    ensure(r.for_date).exerciseKcal += estimateConditioningKcal(
       weight,
       r.item_id,
       r.duration_min ?? d.durationMin,
@@ -133,19 +137,24 @@ export async function getMonthlyCalendar(
   for (const [date, steps] of stepsMap) {
     const s = ensure(date);
     s.steps = steps;
-    s.burned += stepsToKcal(steps, weight);
+    s.stepsKcal += stepsToKcal(steps, weight);
   }
 
   let intakeTotal = 0;
   let workoutBurnedTotal = 0;
+  let stepsBurnedTotal = 0;
   for (const s of byDate.values()) {
+    // 운동 kcal 은 raw 합산 후 한 번만 반올림 — 운동모드 '총 kcal' 과 같은 방식(kcal-parity.test).
+    s.burned = Math.round(s.exerciseKcal + s.stepsKcal);
     s.intake = Math.round(s.intake);
-    s.burned = Math.round(s.burned);
+    s.exerciseKcal = Math.round(s.exerciseKcal);
+    s.stepsKcal = Math.round(s.stepsKcal);
     intakeTotal += s.intake;
-    workoutBurnedTotal += s.burned;
+    workoutBurnedTotal += s.exerciseKcal;
+    stepsBurnedTotal += s.stepsKcal;
   }
 
-  return { byDate, intakeTotal, workoutBurnedTotal, bmr };
+  return { byDate, intakeTotal, workoutBurnedTotal, stepsBurnedTotal, bmr };
 }
 
 export type DayDetail = {

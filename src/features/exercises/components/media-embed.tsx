@@ -111,7 +111,10 @@ export function MediaEmbed({
   kind,
   className = "",
   autoPlay = false,
+  onTime,
 }: {
+  /** 직접 mp4 재생 시각(초) — 운동모드가 영상 동작에 맞춰 자막을 바꾸는 데 쓴다. */
+  onTime?: (seconds: number) => void;
   url: string;
   /** 누끼 영상의 다크 테마 버전 — 있으면 테마별로 고르고 박스 없이 화면 배경에 녹인다. */
   darkUrl?: string;
@@ -181,6 +184,7 @@ export function MediaEmbed({
             if (autoPlay) e.currentTarget.playbackRate = /^\/exercise-guides\/ai-v[23]\//.test(url) ? 1 : GUIDE_RATE;
           }}
           onError={() => setVideoError(true)}
+          onTimeUpdate={onTime ? (e) => onTime(e.currentTarget.currentTime) : undefined}
           className={`h-auto w-full object-contain ${MEDIA_CAP}`}
           style={{ maxHeight: "min(46dvh, 24rem)" }}
         />

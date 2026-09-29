@@ -30,11 +30,21 @@ type RestState = {
   endsAt: number;
   /** 총 휴식 시간(초) — 진행률 바 계산용 */
   totalSec: number;
+  /** 운동모드가 넘겨주는 '다음에 할 것'·'조심할 점'(한 줄 코치). 없으면 기본 문구. */
+  hint?: RestHint;
+};
+
+/** 휴식 카드에 한 줄씩 — 고정 문구("충분히 쉬고 다음 세트로") 대신. */
+export type RestHint = {
+  /** "세트 3/4 · 12회 · 120kg" 또는 "다음 운동 · 시티드 로우" */
+  next: string;
+  /** "무릎을 끝까지 펴서 잠그지 마세요" */
+  caution?: string | null;
 };
 
 type Ctx = {
   /** seconds 만큼 휴식 타이머 시작. 생략하면 사용자 기본 휴식 시간 사용. (이미 진행 중이면 덮어쓰기) */
-  trigger: (seconds?: number) => void;
+  trigger: (seconds?: number, hint?: RestHint) => void;
   /** 휴식을 바로 끝낸다(타이머·예약 알림 취소). 쉬는 중인지는 useRestActive(). */
   skip: () => void;
   /** 사용자가 설정한 기본 휴식 시간(초). */
@@ -110,13 +120,13 @@ export function RestTimerProvider({
   }, []);
 
   const trigger = useCallback(
-    (seconds?: number) => {
+    (seconds?: number, hint?: RestHint) => {
       const sec = clampRest(seconds ?? defaultSec);
       // 사용자 제스처(완료 버튼 탭) 직후라 알림 권한 요청이 허용됨
       requestNotifyPermission();
       const endsAt = Date.now() + sec * 1000;
       endsAtRef.current = endsAt;
-      setState({ endsAt, totalSec: sec });
+      setState({ endsAt, totalSec: sec, hint });
       // SW 에 종료시각 예약 — 페이지 JS 가 백그라운드에서 얼어도 SW 가 알림 발화.
       scheduleRestNotification(endsAt);
     },
@@ -135,7 +145,7 @@ export function RestTimerProvider({
     if (base == null) return;
     const endsAt = base + extra * 1000;
     endsAtRef.current = endsAt;
-    setState((s) => (s ? { endsAt, totalSec: s.totalSec + extra } : s));
+    setState((s) => (s ? { ...s, endsAt, totalSec: s.totalSec + extra } : s));
     // 연장 시 SW 예약도 새 종료시각으로 갱신.
     scheduleRestNotification(endsAt);
   }, []);
@@ -403,10 +413,22 @@ function RestOverlay({
             >
               {done ? "0:00" : formatRest(remainingSec)}
             </span>
-            <p className="text-xs text-zinc-400">
-              {done ? "다음 세트를 시작하세요" : "충분히 쉬고 다음 세트로"}
-            </p>
+            {state.hint ? (
+              <p className="min-w-0 truncate text-right text-sm font-semibold text-zinc-100" data-testid="rest-next">
+                <span className="mr-1.5 text-xs font-medium text-zinc-400">다음</span>
+                {state.hint.next}
+              </p>
+            ) : (
+              <p className="text-xs text-zinc-400">
+                {done ? "다음 세트를 시작하세요" : "충분히 쉬고 다음 세트로"}
+              </p>
+            )}
           </div>
+          {state.hint?.caution ? (
+            <p data-testid="rest-caution" className="mt-2 rounded-xl bg-amber-400/15 px-2.5 py-1.5 text-xs font-semibold leading-snug text-amber-200">
+              조심 · {state.hint.caution}
+            </p>
+          ) : null}
           {/* 진행 — 가는 한 줄 */}
           <div aria-hidden="true" className="mt-3 h-1 overflow-hidden rounded-full bg-white/10">
             <div

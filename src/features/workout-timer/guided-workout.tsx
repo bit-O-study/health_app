@@ -104,6 +104,18 @@ import type { PendingWrite } from "@/lib/offline/pending-writes";
 import { reportAppEvent } from "@/lib/observability/report-client";
 import { implementFor, weightGridKg, weightStepKg } from "@/features/routine/progress";
 import { implementInfo, perHandKg } from "@/features/routine/load-implement";
+import {
+  motionPhaseAt,
+  motionSpecForUrl,
+  nextSetHint,
+  slotOfPhase,
+  type CaptionSlot,
+} from "@/features/workout-timer/motion-caption";
+import {
+  MotionCaptionLine,
+  usePhotoSlot,
+  useTimedSlot,
+} from "@/features/workout-timer/motion-caption-line";
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";
@@ -131,6 +143,8 @@ export type GuidedItem =
       target: string;
       subtitle: string;
       method: string[];
+      /** 휴식 중 '조심' 한 줄(한 줄 코치). 없으면 안 보인다. */
+      caution?: string | null;
       sets: number;
       reps: number;
       weightKg: number | null;
@@ -557,6 +571,36 @@ export function GuidedOverlay({
    * 초기값(고정 배열) 만 사용. items prop 의 변화는 무시.
    */
   const [sessionItems] = useState(items);
+
+  // 운동모드 동안 화면 켜짐 유지(한 줄 코치) — 예전엔 휴식 중에만 잡아서, 세트 중 영상·자막을
+  // 보다가 화면이 꺼졌다. 다른 앱에 갔다 오면 잠금이 풀리므로 돌아올 때 다시 잡는다.
+  useEffect(() => {
+    const nav = navigator as Navigator & {
+      wakeLock?: { request: (t: "screen") => Promise<{ release: () => Promise<void> }> };
+    };
+    if (!nav.wakeLock) return;
+    let lock: { release: () => Promise<void> } | null = null;
+    let alive = true;
+    const acquire = () => {
+      if (document.visibilityState !== "visible") return;
+      nav.wakeLock
+        ?.request("screen")
+        .then((l) => {
+          if (alive) lock = l;
+          else void l.release().catch(() => {});
+        })
+        .catch(() => {
+          /* 권한·지원 안 됨 — 무시 */
+        });
+    };
+    acquire();
+    document.addEventListener("visibilitychange", acquire);
+    return () => {
+      alive = false;
+      document.removeEventListener("visibilitychange", acquire);
+      void lock?.release().catch(() => {});
+    };
+  }, []);
   const rowIds = useMemo(() => sessionItems.map((i) => i.rowId), [sessionItems]);
   // 묶음 판정 입력 — 큐 스냅샷에서 rowId·묶음번호만 뽑는다(컨디셔닝은 묶음이 없다).
   const supersetItems = useMemo(
@@ -858,7 +902,16 @@ export function GuidedOverlay({
     const restSec = restSecAfterSet(item.setDetails, next, rest.defaultSec);
     if (restSec === null) return;
 
-    rest.trigger(restSec);
+    rest.trigger(restSec, {
+      next: nextSetHint({
+        nextSet: next + 1,
+        totalSets: mainSets,
+        reps: editable ? editReps : item.reps,
+        timed: isTimedExercise(item.exerciseId),
+        weightKg: item.setDetails?.[next]?.weightKg ?? (editable ? editW : item.weightKg),
+      }),
+      caution: item.caution ?? null,
+    });
     // 한 바퀴를 돌았으면 쉬는 동안 묶음의 첫 운동으로 되돌려 둔다 —
     // 휴식이 끝나고 눈을 들었을 때 다음에 할 운동이 떠 있어야 한다.
     const back = restReturnIndex(supersetItems, processed, index);
@@ -1099,7 +1152,20 @@ export function GuidedOverlay({
 
     // 2) 완료 면 휴식 타이머 즉시(사용자 설정 휴식 시간)
     if (status === "done" && isMain && !isLast) {
-      rest.trigger();
+      // 쉬는 동안 다음 운동을 미리 알려 준다(한 줄 코치) — 이름과 그 운동의 조심 한 줄.
+      const afterSet = new Set(processed).add(captured.rowId);
+      const ni =
+        adjacentActiveIndex(rowIds, afterSet, index, 1) ?? rowIds.findIndex((id) => !afterSet.has(id));
+      const upcoming = ni >= 0 ? sessionItems[ni] : undefined;
+      rest.trigger(
+        undefined,
+        upcoming
+          ? {
+              next: `다음 운동 · ${upcoming.name}`,
+              caution: upcoming.kind === "main" ? upcoming.caution ?? null : null,
+            }
+          : undefined,
+      );
     }
 
     // 3) UI 즉시 advance — 방금 처리한 항목은 이번 세션 동안 건너뛴다(‹ 로도 안 보임).
@@ -2112,6 +2178,51 @@ function CondScrubbers({
   );
 }
 
+/** 사진 두 장(시작·끝) 교차 재생과 같은 주기 — exercise-photo-demo 기본값. */
+const PHOTO_CYCLE_MS = 2600;
+
+/**
+ * 영상 + 한 줄 자막(한 줄 코치). AI 동작 영상(ai-v3)은 재생 시각으로 지금 동작 구간을 계산해
+ * **영상 동작에 맞춰** 준비·동작·돌아오기 문구를 바꾼다. 사양을 모르는 영상(유튜브·관리자 영상)은
+ * 시간 순서로만 넘긴다.
+ */
+function VideoWithCaption({
+  media,
+  steps,
+}: {
+  media: NonNullable<Extract<GuidedItem, { kind: "main" }>["media"]>;
+  steps: string[];
+}) {
+  const spec = motionSpecForUrl(media.url);
+  const [videoSlot, setVideoSlot] = useState<CaptionSlot>(0);
+  const timedSlot = useTimedSlot();
+  const slot = spec ? videoSlot : timedSlot;
+  return (
+    <div className="w-full max-w-md">
+      {/* 운동 차례가 되면 자동 재생(음소거). 버튼 안 눌러도 실행됨. */}
+      <MediaEmbed
+        url={media.url}
+        darkUrl={media.darkUrl}
+        kind={media.kind}
+        autoPlay
+        onTime={spec ? (t) => setVideoSlot(slotOfPhase(motionPhaseAt(t, spec))) : undefined}
+      />
+      <MotionCaptionLine steps={steps} slot={slot} synced={spec !== null} />
+    </div>
+  );
+}
+
+/** 사진 두 장 + 한 줄 자막 — 시작 사진엔 준비, 끝 사진엔 동작·돌아오기 문구. */
+function PhotoWithCaption({ frames, steps }: { frames: [string, string]; steps: string[] }) {
+  const slot = usePhotoSlot(PHOTO_CYCLE_MS);
+  return (
+    <div className="w-full max-w-md">
+      <ExercisePhotoDemo frames={frames} cycleMs={PHOTO_CYCLE_MS} poseLabels />
+      <MotionCaptionLine steps={steps} slot={slot} synced />
+    </div>
+  );
+}
+
 /**
  * 방법 문구가 없는 항목(튜토리얼이 아닌 경우)의 시각 자료.
  * 막대인간(SVG) 일러스트는 쓰지 않는다 — 실사 사진이 있으면 사진, 없으면 빈 그라데이션.
@@ -2121,15 +2232,10 @@ function CondScrubbers({
 function ItemVisual({ item }: { item: GuidedItem }) {
   if (item.kind === "main") {
     if (item.media) {
-      return (
-        <div className="w-full max-w-md">
-          {/* 운동 차례가 되면 자동 재생(음소거). 버튼 안 눌러도 실행됨. */}
-          <MediaEmbed url={item.media.url} darkUrl={item.media.darkUrl} kind={item.media.kind} autoPlay />
-        </div>
-      );
+      return <VideoWithCaption media={item.media} steps={item.method} />;
     }
     const frames = exercisePhotoFrames(item.exerciseId, item.equipment);
-    if (frames) return <ExercisePhotoDemo frames={frames} />;
+    if (frames) return <PhotoWithCaption frames={frames} steps={item.method} />;
     // 실사 사진·영상이 없는 운동(예: 신규 1,200여 종)은 운동법 단계를
     // 튜토리얼(그라데이션 위 단계 자막, 자동 전환)로 보여준다 — 빈 화면 방지.
     if (item.method.length > 0) {
@@ -2143,7 +2249,7 @@ function ItemVisual({ item }: { item: GuidedItem }) {
   }
   // 워밍업·마무리: 실사 시연 2프레임 자동 교차재생. 없으면 방법 문구 튜토리얼.
   const condFrames = conditioningPhotoFrames(item.itemId);
-  if (condFrames) return <ExercisePhotoDemo frames={condFrames} />;
+  if (condFrames) return <PhotoWithCaption frames={condFrames} steps={item.method} />;
   if (item.method.length > 0) {
     return (
       <div className="w-full max-w-md">

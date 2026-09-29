@@ -10,6 +10,7 @@ import {
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
 import { methodSteps } from "@/features/routine/exercise-methods";
+import { cautionFor } from "@/features/workout-timer/exercise-caution-line";
 import { getPlanForDayTones } from "@/features/routine/plan";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -548,6 +549,8 @@ export async function TodayExercises({
       subtitle,
       // 확장 카탈로그(1,237개)의 운동법은 클라 번들에서 뺐다 — 서버에서 붙여 내려보낸다.
       method: methodSteps(p.exerciseId, p.equipment),
+      // 휴식 카드의 '조심' 한 줄(한 줄 코치) — 운동별 주의 사항, 없으면 동작 유형별 초보 팁.
+      caution: cautionFor(p.exerciseId),
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,

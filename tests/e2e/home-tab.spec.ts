@@ -23,11 +23,12 @@ test("홈: 가운데 홈 칸과 설정이 있고, 운동탭엔 설정이 없다(
   // 홈에 있을 땐 그 칸이 현재 위치로 표시된다.
   await expect(nav.getByRole("link").nth(2)).toHaveAttribute("aria-current", "page");
 
-  // 설정 진입점은 하단바 '나' 칸 하나다(2026-09-21) — 예전엔 머리글 설정 아이콘과
-  // 겹쳐 한 화면에 같은 곳으로 가는 버튼이 둘이었다.
-  const me = nav.getByRole("link", { name: "나", exact: true });
-  await expect(me).toHaveAttribute("href", "/settings");
-  await expect(page.getByRole("link", { name: "설정", exact: true })).toHaveCount(0);
+  // 설정 진입점은 홈 머리글의 '설정' 하나다(2026-09-28 — 하단바 '나' 칸은 없어졌다).
+  // 같은 곳으로 가는 버튼이 한 화면에 둘이 되지 않게 개수까지 본다.
+  const settings = page.getByRole("link", { name: "설정", exact: true });
+  await expect(settings).toHaveCount(1);
+  await expect(settings).toHaveAttribute("href", "/settings");
+  await expect(nav.getByRole("link", { name: "나", exact: true })).toHaveCount(0);
 
   // 운동탭(/routine) 으로 이동 — 실제 운동탭에 도달했는지 확인.
   await page.goto("/routine", { waitUntil: "networkidle" });
@@ -45,7 +46,7 @@ test("홈: 가운데 홈 칸과 설정이 있고, 운동탭엔 설정이 없다(
   await expect(nav.getByRole("link").nth(1)).toHaveText("루틴");
   await expect(nav.getByRole("link").nth(2)).toHaveText("홈");
   await expect(nav.getByRole("link").nth(3)).toHaveText("운동찾기");
-  await expect(nav.getByRole("link").nth(4)).toHaveText("기록");
+  await expect(nav.getByRole("link").nth(4)).toHaveText("런닝 기록");
 
   // 가운데 홈 1탭으로 런처 복귀.
   await nav.getByRole("link").nth(2).click();

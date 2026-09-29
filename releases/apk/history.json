@@ -1,5 +1,22 @@
 [
   {
+    "file": "helssu-v1.0.5-6-0b8e850-20260929-1549-dirty-jimkkun-rebrand.apk",
+    "dir": "releases/apk/2026-09-29",
+    "sha256": "e033565c5a7ba1bc6830f7a19daaa0bae98a7b29b5fc9dedf61a4e5654ffe811",
+    "versionName": "1.0.5",
+    "versionCode": 6,
+    "commit": "0b8e850",
+    "builtAt": "2026-09-29T06:49:02.742Z",
+    "buildType": "debug",
+    "sizeBytes": 9685791,
+    "verified": false,
+    "note": "jimkkun-rebrand",
+    "logcat": "",
+    "rebuiltAs": [
+      "e89710d@2026-09-29T13:09:26.930Z"
+    ]
+  },
+  {
     "file": "helssu-v1.0.3-4-9009110-20260902-1642-dirty-post-billing.apk",
     "dir": "releases/apk/2026-09-02",
     "sha256": "7dd6950e8204f0a408975880f81ea28fd71183f6b1db3607e66134633b258d07",

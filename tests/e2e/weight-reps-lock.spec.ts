@@ -77,7 +77,7 @@ test("고정 끔: 메인에 무게/횟수 숨기고 운동모드 스크러버로
   }).toPass({ timeout: 15_000 });
 });
 
-test("고정 끔: 운동모드 무게 더블클릭해 직접 입력한 값이 기록된다", async ({ page }) => {
+test("고정 끔: 운동모드 무게를 탭해 직접 입력한 값이 기록된다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await createOnboardedAccount(page);
   await seedSquat(email, false);
@@ -86,8 +86,8 @@ test("고정 끔: 운동모드 무게 더블클릭해 직접 입력한 값이 �
   await page.getByRole("button", { name: "운동 시작" }).click();
 
   const overlay = page.getByTestId("guided-scroll");
-  // 무게 값(슬라이더)을 더블클릭 → 직접 입력칸이 뜬다. 80 입력 후 Enter.
-  await overlay.getByRole("slider", { name: "무게" }).dblclick();
+  // 무게 값(슬라이더)을 탭 → 직접 입력칸이 뜬다(2026-09-28 더블클릭 → 탭). 80 입력 후 Enter.
+  await overlay.getByRole("slider", { name: "무게" }).click();
   const input = overlay.getByRole("spinbutton", { name: "무게 직접 입력" });
   await expect(input).toBeVisible({ timeout: 4000 });
   await input.fill("80");
@@ -148,8 +148,8 @@ test("고정 끔: 워밍업(런닝) 시간을 운동모드에서 바꿔 기록�
   await page.getByRole("button", { name: "운동 시작" }).click();
 
   const overlay = page.getByTestId("guided-scroll");
-  // 고정 끔 → 워밍업도 스크러버(시간/속도/경사). 시간 더블클릭 직접 입력으로 12분.
-  await overlay.getByRole("slider", { name: "시간" }).dblclick();
+  // 고정 끔 → 워밍업도 스크러버(시간/속도/경사). 시간 탭 직접 입력으로 12분.
+  await overlay.getByRole("slider", { name: "시간" }).click();
   const input = overlay.getByRole("spinbutton", { name: "시간 직접 입력" });
   await expect(input).toBeVisible({ timeout: 4000 });
   await input.fill("12");

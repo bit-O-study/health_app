@@ -15,13 +15,13 @@ import { PostureAnalyzer } from "@/features/coach/components/posture-analyzer";
 import { EquipmentScanner } from "@/features/equipment/components/equipment-scanner";
 
 export const dynamic = "force-dynamic";
-export const metadata = { title: "헬쑤쌤" };
+export const metadata = { title: "짐꾼쌤" };
 
 export default async function CoachPage({ searchParams }: { searchParams: Promise<{ view?: string }> }) {
   const { view } = await searchParams;
   const user = await getCurrentUser();
   if (!user) redirect("/login?redirect=/coach");
-  // 아직 디버그 기능 — 헬쑤쌤이 켜진 계정만.
+  // 아직 디버그 기능 — 짐꾼쌤이 켜진 계정만.
   if (!(await isDebugFeatureEnabled("helssu-coach"))) notFound();
 
   // 지난 분석을 먼저 띄운다 — 화면을 다시 여는 것만으로 AI 를 부르면 읽으려고 돈을 낸다.
@@ -34,7 +34,7 @@ export default async function CoachPage({ searchParams }: { searchParams: Promis
   // 공통 머리글(2026-09-16 8단계) — 소개 카드는 뺐다(각 분석 카드 제목이 곧 설명).
   return (
     <div className="app-page">
-    <PageHeader branded title="헬쑤쌤" back />
+    <PageHeader branded title="짐꾼쌤" back />
     <main className="app-container">
       <div className="space-y-3">
         {view !== "recommend" && <>

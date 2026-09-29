@@ -62,7 +62,7 @@ test("운동 기록 CSV — 첨부파일·BOM·세트별 볼륨", async ({ page 
   expect(disposition).toContain("attachment;");
   expect(disposition).toContain('filename="helssu-workouts-');
   expect(decodeURIComponent(disposition.split("filename*=UTF-8''")[1])).toContain(
-    "헬쑤-운동기록-",
+    "짐꾼-운동기록-",
   );
   // 내 기록이 담긴 파일 — 캐시에 남기면 안 된다.
   expect(res.headers()["cache-control"]).toContain("no-store");

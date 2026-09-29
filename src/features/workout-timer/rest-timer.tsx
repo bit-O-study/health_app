@@ -24,17 +24,35 @@ import {
   scheduleRestLocalNotif,
   cancelRestLocalNotif,
 } from "@/features/notifications/local-notif";
+import { speak } from "@/features/workout-timer/speech";
 
 type RestState = {
   /** 종료 예정 시각(ms epoch) */
   endsAt: number;
   /** 총 휴식 시간(초) — 진행률 바 계산용 */
   totalSec: number;
+  /** 운동모드가 넘겨주는 '다음에 할 것'·'조심할 점'(한 줄 코치). 없으면 기본 문구. */
+  hint?: RestHint;
 };
+
+/** 휴식 카드에 한 줄씩 — 고정 문구("충분히 쉬고 다음 세트로") 대신. */
+export type RestHint = {
+  /** "세트 3/4 · 12회 · 120kg" 또는 "다음 운동 · 시티드 로우" */
+  next: string;
+  /** "무릎을 끝까지 펴서 잠그지 마세요" */
+  caution?: string | null;
+  /** 음성 코치가 켜져 있으면 휴식 끝 10초 전에 읽을 문장(한 줄 코치 3단계). */
+  voice?: string | null;
+};
+
+/** 휴식이 이만큼 남았을 때 다음 세트를 읽는다. */
+export const REST_VOICE_LEAD_SEC = 10;
 
 type Ctx = {
   /** seconds 만큼 휴식 타이머 시작. 생략하면 사용자 기본 휴식 시간 사용. (이미 진행 중이면 덮어쓰기) */
-  trigger: (seconds?: number) => void;
+  trigger: (seconds?: number, hint?: RestHint) => void;
+  /** 휴식을 바로 끝낸다(타이머·예약 알림 취소). 쉬는 중인지는 useRestActive(). */
+  skip: () => void;
   /** 사용자가 설정한 기본 휴식 시간(초). */
   defaultSec: number;
   /** 기본 휴식 시간 변경(보정 + localStorage 저장). */
@@ -46,8 +64,15 @@ type Ctx = {
   setLifted: (lifted: boolean) => void;
 };
 
+/**
+ * 쉬는 중인지 — **별도 컨텍스트**. 주 컨텍스트(RestCtx) 값은 안정적이어야 한다(바뀌면 구독하는
+ * 운동모드의 effect 가 다시 돌아 저장 흐름이 꼬인다 — 2026-09-28 E2E 로 확인). 휴식 시작·끝에만 바뀐다.
+ */
+const RestActiveCtx = createContext(false);
+
 const RestCtx = createContext<Ctx>({
   trigger: () => {},
+  skip: () => {},
   defaultSec: DEFAULT_REST_SEC,
   setDefaultSec: () => {},
   setLifted: () => {},
@@ -101,13 +126,13 @@ export function RestTimerProvider({
   }, []);
 
   const trigger = useCallback(
-    (seconds?: number) => {
+    (seconds?: number, hint?: RestHint) => {
       const sec = clampRest(seconds ?? defaultSec);
       // 사용자 제스처(완료 버튼 탭) 직후라 알림 권한 요청이 허용됨
       requestNotifyPermission();
       const endsAt = Date.now() + sec * 1000;
       endsAtRef.current = endsAt;
-      setState({ endsAt, totalSec: sec });
+      setState({ endsAt, totalSec: sec, hint });
       // SW 에 종료시각 예약 — 페이지 JS 가 백그라운드에서 얼어도 SW 가 알림 발화.
       scheduleRestNotification(endsAt);
     },
@@ -126,7 +151,7 @@ export function RestTimerProvider({
     if (base == null) return;
     const endsAt = base + extra * 1000;
     endsAtRef.current = endsAt;
-    setState((s) => (s ? { endsAt, totalSec: s.totalSec + extra } : s));
+    setState((s) => (s ? { ...s, endsAt, totalSec: s.totalSec + extra } : s));
     // 연장 시 SW 예약도 새 종료시각으로 갱신.
     scheduleRestNotification(endsAt);
   }, []);
@@ -134,13 +159,15 @@ export function RestTimerProvider({
   // ⚠ context value 는 반드시 useMemo — 인라인 객체면 매 렌더 새 ref 가 되어
   // 이를 구독하는 자식(예: 가이드 오버레이)의 effect 가 불필요하게 재실행된다.
   const value = useMemo(
-    () => ({ trigger, defaultSec, setDefaultSec, setLifted }),
-    [trigger, defaultSec, setDefaultSec, setLifted],
+    () => ({ trigger, skip, defaultSec, setDefaultSec, setLifted }),
+    [trigger, skip, defaultSec, setDefaultSec, setLifted],
   );
 
   return (
     <RestCtx.Provider value={value}>
+      <RestActiveCtx.Provider value={state !== null}>
       {children}
+      </RestActiveCtx.Provider>
       {/* 카운트다운 틱(250ms)은 RestOverlay 내부에 격리 — provider/children(워크아웃
           섹션 전체)을 매 틱 리렌더하지 않도록. 알약만 자체 리렌더된다. */}
       {state ? (
@@ -162,6 +189,11 @@ export function RestTimerProvider({
 
 export function useRestTimer(): Ctx {
   return useContext(RestCtx);
+}
+
+/** 휴식 타이머가 떠 있는 동안 true — 운동모드는 이때 '세트 완료' 대신 '휴식 끝내기'를 보인다. */
+export function useRestActive(): boolean {
+  return useContext(RestActiveCtx);
 }
 
 function RestOverlay({
@@ -209,6 +241,17 @@ function RestOverlay({
   const remainingMs = Math.max(0, state.endsAt - Date.now());
   const remainingSec = Math.ceil(remainingMs / 1000);
   const done = forceDone || remainingMs <= 0;
+
+  // 음성 코치 — 10초 남았을 때 다음 세트를 한 번 읽는다(휴식이 10초보다 짧으면 안 읽는다).
+  const voiceText = state.hint?.voice ?? null;
+  const spokenRef = useRef(false);
+  useEffect(() => {
+    if (!voiceText || spokenRef.current || done) return;
+    if (state.totalSec > REST_VOICE_LEAD_SEC && remainingSec <= REST_VOICE_LEAD_SEC) {
+      spokenRef.current = true;
+      speak(voiceText);
+    }
+  }, [voiceText, remainingSec, done, state.totalSec]);
 
   // 휴식 동안 화면이 꺼지지 않게 Wake Lock 유지 — 화면 꺼짐으로 타이머가 멈추는 것 방지.
   useEffect(() => {
@@ -387,10 +430,22 @@ function RestOverlay({
             >
               {done ? "0:00" : formatRest(remainingSec)}
             </span>
-            <p className="text-xs text-zinc-400">
-              {done ? "다음 세트를 시작하세요" : "충분히 쉬고 다음 세트로"}
-            </p>
+            {state.hint ? (
+              <p className="min-w-0 truncate text-right text-sm font-semibold text-zinc-100" data-testid="rest-next">
+                <span className="mr-1.5 text-xs font-medium text-zinc-400">다음</span>
+                {state.hint.next}
+              </p>
+            ) : (
+              <p className="text-xs text-zinc-400">
+                {done ? "다음 세트를 시작하세요" : "충분히 쉬고 다음 세트로"}
+              </p>
+            )}
           </div>
+          {state.hint?.caution ? (
+            <p data-testid="rest-caution" className="mt-2 rounded-xl bg-amber-400/15 px-2.5 py-1.5 text-xs font-semibold leading-snug text-amber-200">
+              조심 · {state.hint.caution}
+            </p>
+          ) : null}
           {/* 진행 — 가는 한 줄 */}
           <div aria-hidden="true" className="mt-3 h-1 overflow-hidden rounded-full bg-white/10">
             <div

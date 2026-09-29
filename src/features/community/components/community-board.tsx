@@ -105,7 +105,7 @@ export function CommunityBoard({
     >
       <div className="app-header shrink-0 px-4 pb-0 pt-5 sm:px-6">
         {/* 제목은 다른 탭 머리글(PageHeader)과 같은 큰 제목(.app-title) — 2026-09-16 촘촘하게. */}
-        <Link href="/home" aria-label="헬쑤 홈" className="mb-4 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
+        <Link href="/home" aria-label="짐꾼 홈" className="mb-4 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
         <div className="flex items-center gap-5 overflow-x-auto [scrollbar-width:none]">

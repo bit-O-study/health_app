@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "192.168.*.*", "10.*.*.*"],
   // 압축은 기본 활성화이지만 명시
   compress: true,
+  // 이달 기록 이미지(캘린더 3단계)는 한글 글꼴을 파일에서 읽는다 — 배포 번들에 같이 싣는다.
+  outputFileTracingIncludes: {
+    "/api/calendar/month-image": ["./src/assets/fonts/Pretendard-Bold.otf"],
+  },
   // X-Powered-By 헤더 제거 — 보안·바이트 절감
   poweredByHeader: false,
   // 배럴 import 트리셰이킹 — 아이콘 등에서 쓰는 만큼만 번들(동작 동일, JS만 축소).

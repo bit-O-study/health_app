@@ -29,7 +29,7 @@ describe("OAuth app return", () => {
     expect(response.headers.get("referrer-policy")).toBe("no-referrer");
     const html = await response.text();
     expect(html).toContain("helssu://auth/callback?code=app-code&amp;next=%2Fplan");
-    expect(html).toContain("헬쑤 앱으로 돌아가기");
+    expect(html).toContain("짐꾼 앱으로 돌아가기");
     expect(html).toContain("window.location.replace");
     expect(mocks.exchange).not.toHaveBeenCalled();
     expect(mocks.destination).not.toHaveBeenCalled();

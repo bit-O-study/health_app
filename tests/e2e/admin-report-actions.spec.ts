@@ -1,3 +1,4 @@
+import { adminUrl } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -59,7 +60,7 @@ test("정지해도 신고가 안 닫히고 댓글 삭제까지 가능", async ({
   // prompt(정지 일수) / confirm(삭제) 자동 응답.
   apage.on("dialog", (d) => d.accept(d.type() === "prompt" ? "7" : ""));
 
-  await apage.goto("/admin/reports", { waitUntil: "networkidle" });
+  await apage.goto(adminUrl("/admin/reports"), { waitUntil: "networkidle" });
   const row = apage.locator("li", { hasText: reason });
   await expect(row).toBeVisible();
 

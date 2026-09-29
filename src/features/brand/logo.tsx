@@ -1,7 +1,11 @@
 import { cn } from "@/lib/utils";
-export const BRAND_NAME = "헬쑤";
+import { BRAND_ICON_BG, JimkkunMark } from "@/features/brand/mark";
 
-/** 둥근 배지 안 바벨과 H를 결합한 헬쑤 마크. */
+export const BRAND_NAME = "짐꾼";
+/** 이름 옆에 붙는 한 줄 소개. */
+export const BRAND_TAGLINE = "내가 쓰려고 만든 헬스앱";
+
+/** 바벨로 만든 "ㅈ" — 앱 아이콘과 같은 짐꾼 마크(`mark.tsx`). */
 export function LogoMark({
   size = 40,
   className,
@@ -12,26 +16,17 @@ export function LogoMark({
   return (
     <span
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-hidden bg-gradient-to-br from-brand via-brand to-teal-800 text-white shadow-sm ring-1 ring-inset ring-white/20",
+        "relative inline-flex shrink-0 items-center justify-center overflow-hidden shadow-sm ring-1 ring-inset ring-white/15",
         className,
       )}
-      style={{ width: size, height: size, borderRadius: size * 0.28 }}
+      style={{ width: size, height: size, borderRadius: size * 0.28, background: BRAND_ICON_BG }}
     >
-      {/* 상단 광택 */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/30 to-transparent"
-      />
-      <svg width={size * 0.64} height={size * 0.64} viewBox="0 0 32 32" aria-hidden="true" className="relative">
-        <path d="M9 9v14M23 9v14M9 16h14" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-        <path d="M4 13v6M28 13v6" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-        <circle cx="24" cy="5" r="2" fill="currentColor" opacity="0.7" />
-      </svg>
+      <JimkkunMark size={size} />
     </span>
   );
 }
 
-/** 로고 마크 + 워드마크(헬쑤). */
+/** 로고 마크 + 워드마크(짐꾼). */
 export function Logo({
   size = 36,
   className,

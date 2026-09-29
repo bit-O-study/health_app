@@ -1,17 +1,16 @@
 import { ImageResponse } from "next/og";
 
-/** PWA 512x512 PNG (any). */
+import { BRAND_ICON_BG, JimkkunMark } from "@/features/brand/mark";
+
+/** PWA 512x512 PNG (any) — 짐꾼 마크(바벨 ㅈ). */
 export const dynamic = "force-static";
 
 export const contentType = "image/png";
 
 export async function GET() {
   return new ImageResponse(
-    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: "linear-gradient(140deg, #60a5fa 0%, #4f46e5 50%, #0891b2 100%)" }}>
-      <svg width="290" height="290" viewBox="0 0 24 24">
-        <path fill="white" fillRule="evenodd" d="M5.8 3.8h5.4a8.2 8.2 0 0 1 0 16.4H5.8Zm3.1 3v10.4h2.3a5.2 5.2 0 0 0 0-10.4Z" />
-        <path d="M9.7 14.2l2-2.6 2 2.6" fill="none" stroke="white" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
+    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", background: BRAND_ICON_BG }}>
+      {JimkkunMark({ size: 512, scale: 0.82 })}
     </div>,
     { width: 512, height: 512 },
   );

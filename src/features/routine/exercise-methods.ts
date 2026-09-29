@@ -5,6 +5,7 @@ import {
   type EquipmentId,
 } from "@/features/routine/exercise-catalog";
 import { EXTRA_METHODS } from "@/features/routine/exercise-catalog-extra-methods";
+import { cleanMethodText } from "@/features/workout-timer/motion-caption";
 
 /**
  * 운동법 단계 조회 — **서버 전용**.
@@ -24,7 +25,8 @@ export function methodSteps(
     (v) => v.equipment === equipment,
   )?.method;
   if (base && base.length > 0) return base;
-  return EXTRA_METHODS[exerciseId]?.[equipment] ?? [];
+  // 확장 카탈로그는 틀 문장이라 "바벨을(를)" 같은 조사가 남아 있다 — 보여 주기 전에 다듬는다.
+  return (EXTRA_METHODS[exerciseId]?.[equipment] ?? []).map(cleanMethodText);
 }
 
 /** 이 운동에 (어느 기구로든) 운동법 단계가 있는지 — 안내 노출 판단용. */

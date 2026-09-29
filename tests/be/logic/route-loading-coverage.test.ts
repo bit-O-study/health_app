@@ -68,12 +68,12 @@ describe("route loading coverage", () => {
     }
   });
 
-  it("모든 loading.tsx 는 공통 RouteLoading 을 쓴다", () => {
+  it("홈은 로그인 진행 화면, 나머지 loading.tsx 는 공통 RouteLoading 을 쓴다", () => {
     for (const r of routes) {
       if (!hasLoading(r)) continue;
       const dir = r === ROOT ? APP : join(APP, r.slice(1).split("/").join(sep));
       const src = readFileSync(join(dir, "loading.tsx"), "utf8");
-      expect(src, `${r}/loading.tsx`).toContain("RouteLoading");
+      expect(src, `${r}/loading.tsx`).toContain(r === "/home" ? "LoginProgress" : "RouteLoading");
     }
   });
 });

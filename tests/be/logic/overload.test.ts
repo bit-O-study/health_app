@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   DELOAD_RATIO,
+  deloadKg,
   REST_SESSIONS,
   STALL_SESSIONS,
   loadClassLabel,
@@ -87,11 +88,14 @@ describe("overloadPlan — 규칙 기반 추천", () => {
     expect(prescribe("bench-press", { ...opts, equipment: "machine" }).weightKg! % 5).toBe(0);
   });
 
-  it("과부하 추천도 선택 기구 단위로만 증량한다", () => {
-    const rows = [rec(1, "bench-press", 4, 10, 42), rec(2, "bench-press", 4, 10, 45)];
+  it("과부하 추천도 선택 기구 단위로만 증량한다 — 바벨 +5 · 덤벨 2개 +4 · 머신 +5", () => {
+    const rows = [rec(1, "bench-press", 4, 10, 40), rec(2, "bench-press", 4, 10, 45)];
     expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "barbell").suggestedKg).toBe(50);
-    expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "dumbbell").suggestedKg).toBe(48);
+    // 덤벨 2개: 45 → 눈금(2kg) 46 → +4 = 50
+    expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "dumbbell").suggestedKg).toBe(50);
     expect(overloadPlan(rows, "bench-press", "intermediate", undefined, "machine").suggestedKg).toBe(50);
+    const db = [rec(1, "bench-press", 4, 10, 16), rec(2, "bench-press", 4, 10, 20)];
+    expect(overloadPlan(db, "bench-press", "intermediate", undefined, "dumbbell").suggestedKg).toBe(24);
   });
 
   it("기록이 없으면 none", () => {
@@ -280,14 +284,15 @@ describe("증량 단위는 기록의 기구를 따른다 (화면마다 다른 �
     expect(plan.suggestedKg).toBe(110);
   });
 
-  it("기구를 명시하면 그쪽이 이긴다 — 오늘 덤벨로 할 거면 2kg 단위", () => {
+  it("기구를 명시하면 그쪽이 이긴다 — 고블릿(덤벨 1개)은 2kg 단위", () => {
     const records = [
       recEq(1, "goblet-squat", 20, "dumbbell"),
-      recEq(8, "goblet-squat", 21, "dumbbell"),
+      recEq(8, "goblet-squat", 22, "dumbbell"),
     ];
     const plan = overloadPlan(records, "goblet-squat", "advanced", undefined, "dumbbell");
     expect(plan.action).toBe("increase");
     expect(plan.suggestedKg).toBe(24);
+    expect(plan.implementLabel).toBe("덤벨 1개");
   });
 
   it("기록에도 인자에도 기구가 없으면 기본 단위(2.5kg)로 떨어진다", () => {
@@ -311,5 +316,111 @@ describe("증량 단위는 기록의 기구를 따른다 (화면마다 다른 �
     const fromProgress = overloadPlan(records, "squat", "advanced");
     expect(fromProgress.suggestedKg).toBe(fromWorkout.suggestedKg);
     expect(fromProgress.action).toBe(fromWorkout.action);
+  });
+});
+
+describe("🔴 도구별 증량·디로드 — 덤벨 2개 4kg · 덤벨 1개 2kg · 바벨 5kg · 기구 5kg", () => {
+  /** 목표를 채운 기록(상급자 목표 횟수). */
+  function hit(day: number, id: string, kg: number, equipment: string): ProgressRecord {
+    return {
+      forDate: `2026-06-${String(day).padStart(2, "0")}`,
+      exerciseId: id,
+      status: "done",
+      sets: 4,
+      reps: targetReps(id, "advanced"),
+      weightKg: kg,
+      setDetails: null,
+      equipment,
+    };
+  }
+  /** 최고치 뒤로 STALL_SESSIONS 만큼 같은 무게. */
+  function stalled(id: string, kg: number, equipment: string): ProgressRecord[] {
+    const rows = [hit(1, id, kg, equipment)];
+    for (let i = 0; i < STALL_SESSIONS; i++) rows.push(hit(2 + i, id, kg, equipment));
+    return rows;
+  }
+
+  it("증량 — 도구마다 한 단위씩", () => {
+    const cases: [string, string, number, number][] = [
+      ["bench-press", "dumbbell", 20, 24], // 덤벨 2개
+      ["lateral-raise", "dumbbell", 10, 14], // 덤벨 2개 — 한 손 5 → 7
+      ["one-arm-dumbbell-row", "dumbbell", 20, 22], // 덤벨 1개
+      ["squat", "barbell", 100, 105],
+      ["biceps-curl", "barbell", 30, 35],
+      ["pec-deck", "machine", 40, 45],
+      ["triceps-pushdown", "cable", 25, 30],
+    ];
+    for (const [id, eq, from, to] of cases) {
+      const p = overloadPlan([hit(1, id, from - 2, eq), hit(2, id, from, eq)], id, "advanced", undefined, eq);
+      expect(p.action, id).toBe("increase");
+      expect(p.suggestedKg, `${id} ${eq}`).toBe(to);
+    }
+  });
+
+  it("🔴 지난 무게는 눈금에만 맞춘다 — 덤벨 10kg(한 손 5kg)을 12kg 로 바꾸지 않는다", () => {
+    const p = overloadPlan(
+      [hit(1, "lateral-raise", 8, "dumbbell"), hit(2, "lateral-raise", 10, "dumbbell")],
+      "lateral-raise",
+      "advanced",
+      undefined,
+      "dumbbell",
+    );
+    expect(p.suggestedKg).toBe(14);
+    const first = overloadPlan([hit(1, "lateral-raise", 10, "dumbbell")], "lateral-raise", "advanced", undefined, "dumbbell");
+    expect(first.suggestedKg).toBe(10);
+  });
+
+  it("디로드 — −10% 가 한 단위보다 작아도 최소 한 단위는 내린다(제자리 디로드 금지)", () => {
+    // 예전 규칙: 20 × 0.9 = 18 → 4kg 격자 반올림 = 20 (그대로) — 디로드가 안 됐다.
+    const db = overloadPlan(stalled("bench-press", 20, "dumbbell"), "bench-press", "advanced", undefined, "dumbbell");
+    expect(db.action).toBe("deload");
+    expect(db.suggestedKg).toBe(16);
+    const one = overloadPlan(stalled("one-arm-dumbbell-row", 20, "dumbbell"), "one-arm-dumbbell-row", "advanced", undefined, "dumbbell");
+    expect(one.suggestedKg).toBe(18);
+    const bar = overloadPlan(stalled("squat", 100, "barbell"), "squat", "advanced", undefined, "barbell");
+    expect(bar.suggestedKg).toBe(90);
+    const bar2 = overloadPlan(stalled("squat", 140, "barbell"), "squat", "advanced", undefined, "barbell");
+    expect(bar2.suggestedKg).toBe(125); // −14 → 단위 배수로 올려 −15
+    const mc = overloadPlan(stalled("pec-deck", 30, "machine"), "pec-deck", "advanced", undefined, "machine");
+    expect(mc.suggestedKg).toBe(25);
+  });
+
+  it("더 내릴 무게가 없으면 무게는 두고 세트를 줄이라고 한다", () => {
+    const p = overloadPlan(stalled("bench-press", 4, "dumbbell"), "bench-press", "advanced", undefined, "dumbbell");
+    expect(p.action).toBe("deload");
+    expect(p.suggestedKg).toBe(4);
+    expect(p.reason).toContain("세트");
+  });
+
+  it("근거에 도구와 단위가 들어간다", () => {
+    const p = overloadPlan(
+      [hit(1, "bench-press", 16, "dumbbell"), hit(2, "bench-press", 20, "dumbbell")],
+      "bench-press",
+      "advanced",
+      undefined,
+      "dumbbell",
+    );
+    expect(p.implementLabel).toBe("덤벨 2개(양손)");
+    expect(p.stepKg).toBe(4);
+    expect(p.reason).toContain("한 손 2kg씩");
+  });
+
+  it("사용자가 단위를 정하면 그 단위로 올리고 내린다", () => {
+    const p = overloadPlan(
+      [hit(1, "bench-press", 15, "dumbbell"), hit(2, "bench-press", 20, "dumbbell")],
+      "bench-press",
+      "advanced",
+      undefined,
+      "dumbbell",
+      5,
+    );
+    expect(p.suggestedKg).toBe(25);
+    expect(p.reason).toContain("내 설정");
+  });
+
+  it("deloadKg — 단위의 배수로만 내린다", () => {
+    expect(deloadKg(20, 4, 2)).toBe(16);
+    expect(deloadKg(100, 5, 2.5)).toBe(90);
+    expect(deloadKg(4, 4, 2)).toBeNull();
   });
 });

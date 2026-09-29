@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       canonical: absoluteUrl(`/conditioning/${item.id}`),
     },
     openGraph: {
-      title: `${item.name} ${kindLabel} | 헬쑤`,
+      title: `${item.name} ${kindLabel} | 짐꾼`,
       description,
       url: absoluteUrl(`/conditioning/${item.id}`),
     },

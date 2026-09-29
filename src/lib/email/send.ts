@@ -35,7 +35,7 @@ async function sendViaGmail(
     });
     // Gmail 은 발신주소가 인증된 계정이어야 한다 — EMAIL_FROM(도메인 주소)을 쓰면 거부됨.
     await transporter.sendMail({
-      from: `헬쑤 <${user}>`,
+      from: `짐꾼 <${user}>`,
       to: input.to,
       subject: input.subject,
       html: input.html,

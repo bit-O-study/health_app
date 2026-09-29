@@ -70,6 +70,7 @@ test("루틴변경으로 마무리 종목이 달라지면(런닝→차일드포�
   const childRow = page.locator("li").filter({ hasText: "차일드 포즈" }).first();
   await expect(childRow).toBeVisible({ timeout: 8000 });
   await expect(childRow.getByText("완료", { exact: true })).toHaveCount(0);
-  // 이전 부위의 런닝은 오늘 목록에 남지 않는다.
-  await expect(page.locator("li").filter({ hasText: "런닝" })).toHaveCount(0);
+  // 이전 부위의 런닝은 오늘 목록에 남지 않는다. (하단바에 '런닝 기록' 칸이 생겨서
+  // 화면 전체의 li 가 아니라 본문(main) 안의 목록만 본다.)
+  await expect(page.getByRole("main").locator("li").filter({ hasText: "런닝" })).toHaveCount(0);
 });

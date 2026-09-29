@@ -251,7 +251,7 @@ describe("공통 머리글·폭 (4단계)", () => {
       const src = read(f);
       expect(src, f).toMatch(/<h1 className="[^"]*app-title/);
       expect(src, f).toContain("<Logo");
-      expect(src, f).toContain('aria-label="헬쑤 홈"');
+      expect(src, f).toContain('aria-label="짐꾼 홈"');
     }
     const header = read("src/components/page-header.tsx");
     expect(header).toContain("branded = false");
@@ -371,7 +371,8 @@ describe("다른 탭도 같은 규칙 (2026-09-15 '다른 탭들도 똑같이')"
     const cal = read("src/app/calendar/page.tsx");
     expect(cal).not.toContain("text-sky-600");
     expect(cal).not.toContain('amber: "text-amber-600');
-    expect(cal).toContain("이번 달 요약");
+    // 요약 제목은 기간을 따라 바뀌어 캘린더 이름표 모듈에 있다(2026-09-29 캘린더 2단계).
+    expect(read("src/features/calendar/calendar-labels.ts")).toContain("이번 달 요약");
   });
 
   it("그룹·커뮤니티: 설명 문장·이모지 응원 문구가 없다", () => {
@@ -478,7 +479,7 @@ describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
   it("커뮤니티: 다른 탭과 같은 홈 로고와 접근 가능한 제목", () => {
     const community = read("src/features/community/components/community-board.tsx");
     expect(community).toContain("<Logo");
-    expect(community).toContain('aria-label="헬쑤 홈"');
+    expect(community).toContain('aria-label="짐꾼 홈"');
     expect(community).toMatch(/<h1 className="sr-only"/);
   });
 });
@@ -554,14 +555,14 @@ describe("남은 화면까지 전부 (2026-09-18 8단계 마무리)", () => {
     expect(studio).toContain("app-card");
   });
 
-  it("관리자 화면은 사이드바 대시보드 한 틀 — 화면마다 다른 뒤로 줄이 없다", () => {
+  it("관리자 화면은 통합 콘솔로 이동하고 앱에는 중복 관리 화면이 없다", () => {
     const ADMIN = [
       "billing", "crons", "events", "exercise-media", "members", "reports", "settings", "test",
     ].map((p) => `src/app/admin/${p}/page.tsx`);
     for (const f of ADMIN) {
       const src = read(f);
-      expect(src, f).toMatch(/<main className="mx-auto w-full max-w-\w+ px-6 py-10 sm:px-8">/);
-      expect(src, f).toMatch(/<h1 className="mb-1 text-2xl font-bold/);
+      expect(src, f).toContain("redirect(");
+      expect(src, f).toContain("${ADMIN_CONSOLE_URL}/health/");
       expect(src, f).not.toContain("ChevronLeft");
       expect(src, f).not.toContain("<BackLink");
     }

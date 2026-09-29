@@ -9,6 +9,7 @@ import { useBackClose } from "@/lib/platform/use-back-close";
 // 그러면 이 인체 그림 하나 때문에 운동모드 화면에 카탈로그가 통째로 실린다.
 import { subMusclesForExerciseData } from "@/features/routine/sub-muscles";
 import { musclesForKoreanNames } from "@/features/workout-timer/muscle-body-map";
+import { bodyViewFor } from "@/features/workout-timer/workout-voice";
 
 /** 우리 세부 근육 id → react-body-highlighter 의 근육명. */
 const SUB_TO_MUSCLE: Record<string, Muscle> = {
@@ -100,13 +101,15 @@ export function MuscleBodyInset({
   target: string;
   onOpen: () => void;
 }) {
-  const data: IExerciseData[] = [
-    { name: "x", muscles: musclesForExerciseBody(exerciseId, name, target) },
-  ];
+  const muscles = musclesForExerciseBody(exerciseId, name, target);
+  const data: IExerciseData[] = [{ name: "x", muscles }];
+  // 뒤쪽 근육(등·엉덩이·햄스트링)이 많은 운동은 뒷모습 — 앞모습만 보이면 등 운동은 그림이 비어 보였다.
+  const view = bodyViewFor(muscles);
   return (
     <button
       type="button"
       aria-label="자극 부위 크게 보기"
+      data-view={view}
       onPointerDown={(e) => e.stopPropagation()}
       onPointerMove={(e) => e.stopPropagation()}
       onPointerUp={(e) => e.stopPropagation()}
@@ -116,7 +119,7 @@ export function MuscleBodyInset({
       <span className="text-xs font-bold text-white/90">자극 부위</span>
       <Model
         data={data}
-        type="anterior"
+        type={view}
         highlightedColors={HILITE}
         bodyColor={BODY}
         style={{ width: 40 }}

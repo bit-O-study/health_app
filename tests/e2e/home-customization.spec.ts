@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page } from "@playwright/test";
 import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
+import { silenceDevOverlay } from "./helpers/dev-overlay";
 
 async function dragApp(page: Page, source: Locator, target: Locator, touch = false) {
   await source.scrollIntoViewIfNeeded();
@@ -26,10 +27,12 @@ async function dragApp(page: Page, source: Locator, target: Locator, touch = fal
 
 test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ page }) => {
   test.skip(!hasDb, "needs DB fixtures");
+  // dev 서버의 Next 개발도구 배지가 하단 1번 칸 위에 떠서 클릭을 가로챈다(운영 빌드엔 없음).
+  await silenceDevOverlay(page);
 
   await createOnboardedAccount(page);
   await page.goto("/home");
-  await expect(page.getByRole("link", { name: "헬쑤 홈", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "짐꾼 홈", exact: true })).toBeVisible();
   await expect(page.locator("main > header").getByRole("link", { name: "설정", exact: true })).toHaveAttribute("href", "/settings");
   await expect(page.getByRole("link").filter({ hasText: "오늘의 다짐" })).toBeVisible();
   const grid = page.getByRole("navigation", { name: "앱", exact: true });

@@ -15,7 +15,9 @@ const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
  */
 export async function updateSession(request: NextRequest) {
   // OAuth(구글·카카오) 콜백은 미들웨어가 세션에 손대면 안 된다(PKCE 쿠키 유실).
-  if (isOAuthCallbackPath(request.nextUrl.pathname)) {
+  if (isOAuthCallbackPath(request.nextUrl.pathname) ||
+      (request.nextUrl.pathname === "/api/support/kakao/callback" &&
+       /^console\.[0-9a-f]{64}$/.test(request.nextUrl.searchParams.get("state") ?? ""))) {
     return NextResponse.next({ request });
   }
 

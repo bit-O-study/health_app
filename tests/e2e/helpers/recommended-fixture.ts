@@ -1,16 +1,19 @@
-import { routineDaySlots, type DayBlockId } from "@/features/routine/data";
+import { routineDaySlots, seoulYmd, type DayBlockId } from "@/features/routine/data";
 import { ALL_FOCUSES, prescribe } from "@/features/routine/exercise-catalog";
-import { focusExercisesForSlot, focusVariantIndex, sideExercisesForSlot } from "@/features/routine/recommend";
+import { allExercisesForSlot, focusExercisesForSlot, focusVariantIndex, sideExercisesForSlot } from "@/features/routine/recommend";
+import { personalizeExercises } from "@/features/routine/recommend-personalization";
+import { defaultRecommendationPreferences, parseRecommendationPreferences, type RecommendationContext } from "@/features/routine/recommendation-preferences";
+import type { Goal } from "@/features/profile/goal";
 import { conditioningDefaults, defaultsFor } from "@/features/routine/conditioning-catalog";
 import { ALL_GYM_EQUIPMENT_IDS } from "@/features/gym/gym-equipment-catalog";
-import { isEquipmentAvailable, toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
+import { pickAvailableEquipment, toGymEquipmentSet } from "@/features/gym/gym-equipment-mapping";
 import { openAuthenticatedDbClient } from "./db";
 import { runEmailPrefix } from "./run-scope";
 
 type Options = Parameters<typeof prescribe>[1];
 type Setup = {
   user_id: string; gender: Options["gender"]; experience: Options["experience"];
-  body_type: Options["bodyType"] | null; weight_kg: number | null;
+  body_type: Options["bodyType"] | null; weight_kg: number | null; goal: Goal | null;
   splits: number; variant_id: string; custom_week: DayBlockId[][] | null;
   updated_at: string; equipment_ids: string[] | null;
 };
@@ -22,7 +25,7 @@ export async function prepareRecommendedExercises(email: string): Promise<void> 
   const client = await openAuthenticatedDbClient(email);
   try {
     const { rows: setups } = await client.query<Setup>(
-      "select p.user_id, p.gender, p.experience, p.body_type, p.weight_kg," +
+      "select p.user_id, p.gender, p.experience, p.body_type, p.weight_kg, p.goal," +
       " r.splits, r.variant_id, r.custom_week, r.updated_at::text, g.equipment_ids" +
       " from public.profiles p join public.user_routines r on r.user_id=p.user_id" +
       " left join public.gyms g on g.id=p.gym_id where p.user_id=auth.uid()",
@@ -38,20 +41,33 @@ export async function prepareRecommendedExercises(email: string): Promise<void> 
     const key = (day: number | null, focus: string, exercise: string) => [day ?? 0, focus, exercise].join(":");
     const oldIds = new Map(oldRows.map(r => [key(r.day_index, r.focus, r.exercise_id), r.id]));
     const slots = routineDaySlots(setup.splits, setup.variant_id, setup.custom_week);
-    // UI(registerRecommendedPlanAction)와 같은 입력 — 경력 + 같은 부위 A/B 번호.
-    // 새 테스트 계정은 기록이 없어 2단계 신호(0세트 세부근육·건너뛴 운동)가 비어 있다 — UI 도 같다.
+    // UI(registerRecommendedPlanAction, plan-actions.ts)와 같은 단계 — 보유 기구 → 경력·A/B 번호 →
+    // 개인화(추천 선호·최근 기록, 2026-09-25 4115aad) → 보유 기구 중 장비 선택 → 그 장비로 처방.
+    // 새 테스트 계정은 기록이 없어 2단계 신호(0세트 세부근육·건너뛴 운동)와 최근 기록이 비어 있다 — UI 도 같다.
+    // ⚠ plan-actions.ts 의 추천 순서가 바뀌면 여기도 같이 바꾼다(recommended-fixture.spec.ts 가 둘을 비교한다).
+    const { rows: prefRows } = await client.query(
+      "select days, minutes, priority, equipment, variety from public.recommendation_preferences where user_id=auth.uid()",
+    );
+    const today = seoulYmd();
+    const saved = parseRecommendationPreferences(prefRows[0] ?? null);
+    const context: RecommendationContext = {
+      gender: setup.gender, experience: setup.experience, goal: setup.goal, today, records: [],
+      preferences: saved ?? defaultRecommendationPreferences(setup.gender, setup.experience, [], today),
+      explicitPreferences: !!saved,
+    };
     const groups = slots.map(slot => {
-      const exercises = slot.isSide
-        ? sideExercisesForSlot(slot.focus, slot.blockIds, setup.gender)
-        : focusExercisesForSlot(slot.focus, slot.blockIds, setup.gender, null, {
+      const base = slot.isSide
+        ? sideExercisesForSlot(slot.focus, slot.blockIds, setup.gender, gymSet)
+        : focusExercisesForSlot(slot.focus, slot.blockIds, setup.gender, gymSet, {
             experience: setup.experience,
             variant: focusVariantIndex(slots, slot.dayIndex, slot.focus),
           });
+      const exercises = personalizeExercises(base, allExercisesForSlot(slot.focus, slot.blockIds), gymSet, context, slot.isSide, slot.focus);
       return { dayIndex: slot.dayIndex, focus: slot.focus, rows: exercises.map((ex, position) => {
-        const p = prescribe(ex.id, opts);
+        const equipment = pickAvailableEquipment(ex, gymSet);
+        const p = prescribe(ex.id, { ...opts, equipment });
         const id = oldIds.get(key(slot.dayIndex, slot.focus, ex.id));
-        return { ...(id ? { id } : {}), position, exerciseId: ex.id,
-          equipment: (ex.equipments.find(eq => isEquipmentAvailable(eq.equipment, gymSet)) ?? ex.equipments[0]).equipment,
+        return { ...(id ? { id } : {}), position, exerciseId: ex.id, equipment,
           sets: p.sets, reps: p.reps, weightKg: p.weightKg, setDetails: null, memo: null };
       }) };
     });

@@ -1,6 +1,7 @@
 import { Capacitor } from "@capacitor/core";
 
 import { saveFcmTokenAction } from "@/features/notifications/push-actions";
+import { notificationTarget } from "./notification-target";
 
 /**
  * 네이티브(안드로이드) 앱에서 FCM 푸시 등록 — 상태표시줄 알림용.
@@ -50,6 +51,11 @@ export async function registerNativePush(): Promise<void> {
     });
     await PushNotifications.addListener("registrationError", () => {
       started = false;
+    });
+    await PushNotifications.addListener("pushNotificationActionPerformed", (event) => {
+      const url = notificationTarget(event.notification.data?.url, window.location.origin);
+      // Honor the destination instead of leaving the user on the app home screen.
+      if (url) window.location.assign(url);
     });
 
     await PushNotifications.register();

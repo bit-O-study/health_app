@@ -12,6 +12,11 @@
  */
 
 import { loadClassOf } from "@/features/routine/exercise-load";
+import {
+  implementInfo,
+  loadImplementOf,
+  type LoadImplement,
+} from "@/features/routine/load-implement";
 import type { EquipmentId } from "@/features/routine/exercise-catalog-labels";
 import type { SetDetail } from "@/features/routine/set-details";
 import { volumeSideFactor } from "@/features/routine/unilateral-exercises";
@@ -372,15 +377,14 @@ export function shiftYmd(ymd: string, deltaDays: number): string {
 /* ─── 증량 단위 ──────────────────────────────────────────────────────── */
 
 /**
- * 중량 증감 단위(kg) — **기구와 종목 크기**로 정한다.
+ * 중량 증감 단위(kg) — **무엇을 몇 개 드는지**(`load-implement.ts`)로 정한다.
  *
- * 예전엔 "바벨·머신 5kg, 나머지 1kg" 이었는데 실제 헬스장과 안 맞았다.
- *  - 바벨은 1.25kg 원판 한 쌍 = **2.5kg** 씩 올릴 수 있다. 컬·업라이트로우 같은
- *    작은 종목에서 5kg 은 한 번에 너무 크다(자세가 먼저 무너진다).
- *  - 반대로 스쿼트·데드처럼 큰 종목은 2.5kg 씩 가면 진도가 안 나간다 → 5kg.
- *  - 머신·케이블 핀 스택은 보통 5kg 이지만 펙덱·레터럴레이즈처럼 작은 기구는
- *    2.5kg(보조추 포함) 단위가 흔하다.
- *  - 덤벨 랙은 보통 2kg 간격(한 짝 1kg 차이), 케틀벨은 4kg 간격(8·12·16·20·24)이다.
+ *  - 덤벨 2개(양손) **4kg**(한 손 2kg씩) · 덤벨 1개 **2kg**
+ *  - 바벨·스미스·랜드마인 **5kg** · 원판 하나 **5kg** · 머신·케이블 **5kg**
+ *  - 케틀벨 1개 4kg · 2개 8kg · 메디신볼 1kg · 슬레드 5kg
+ *
+ * 예전엔 종목 크기(컬 2.5kg · 스쿼트 5kg)로도 갈랐지만, 덤벨을 한 개 드는지 두 개 드는지를
+ * 안 봐서 덤벨 벤치프레스(양손 합)도 2kg — 한 손 1kg — 씩 올리라고 했다. 이제는 도구 기준이다.
  *
  * 그래도 헬스장마다 스택이 달라(1kg 짜리 머신도 있다) **종목별 사용자 지정**을
  * `overrideKg` 로 받는다 — 지정이 있으면 그 값이 이긴다.
@@ -399,39 +403,29 @@ export function weightStepKg(
   if (typeof overrideKg === "number" && overrideKg > 0 && overrideKg <= 25) {
     return Math.round(overrideKg * 100) / 100;
   }
+  return implementInfo(implementFor(exerciseId, equipment)).stepKg;
+}
 
-  const load = loadClassOf(exerciseId);
-  if (load === "bodyweight" || equipment === "bodyweight") return null;
-  // 밴드·TRX·보수·짐볼은 무게 눈금 자체가 없다 — 횟수·템포로 올린다.
-  if (
-    equipment === "band" ||
-    equipment === "trx" ||
-    equipment === "bosu" ||
-    equipment === "ball"
-  ) {
-    return null;
+/**
+ * 무게를 맞출 수 있는 가장 작은 눈금(kg). 지난 무게를 **이 눈금에만** 맞추고 거기서
+ * `weightStepKg` 만큼 움직인다 — 덤벨 10kg(한 손 5kg)을 4kg 격자라고 12kg 로 바꾸지 않게.
+ * 사용자가 단위를 정했으면 그게 곧 그 헬스장의 눈금이다.
+ */
+export function weightGridKg(
+  exerciseId: string,
+  equipment?: EquipmentId | string | null,
+  overrideKg?: number | null,
+): number | null {
+  if (typeof overrideKg === "number" && overrideKg > 0 && overrideKg <= 25) {
+    return Math.round(overrideKg * 100) / 100;
   }
+  return implementInfo(implementFor(exerciseId, equipment)).gridKg;
+}
 
-  // 원판을 직접 끼우는 기구 — 1.25kg 한 쌍이 최소 단위.
-  if (
-    equipment === "barbell" ||
-    equipment === "smith" ||
-    equipment === "landmine" ||
-    equipment === "plate"
-  ) {
-    return load === "heavy" ? 5 : 2.5;
-  }
-
-  // 핀 스택 — 큰 기구는 5kg, 작은 기구는 2.5kg 이 보통이다.
-  if (equipment === "machine" || equipment === "cable") {
-    return load === "light" ? 2.5 : 5;
-  }
-
-  if (equipment === "dumbbell") return 2;
-  if (equipment === "kettlebell") return 4;
-  if (equipment === "medicineball") return 1;
-  if (equipment === "sled") return 5;
-
-  // 기구를 모르면 원판 기준으로 안전하게.
-  return 2.5;
+/** 이 운동을 이 기구로 할 때 드는 도구. 맨몸 종목은 기구를 따로 안 골랐으면 무게 없음. */
+export function implementFor(
+  exerciseId: string,
+  equipment?: EquipmentId | string | null,
+): LoadImplement {
+  return loadImplementOf(exerciseId, equipment, loadClassOf(exerciseId) === "bodyweight");
 }

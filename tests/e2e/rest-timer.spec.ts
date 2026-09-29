@@ -43,7 +43,9 @@ test("가이드 화면에서 휴식 시간 설정 + 세트 완료 시 휴식 타
   // 세트 완료 → 휴식 타이머 카드 등장 + 세트 진행 2/N 로 증가
   await page.getByRole("button", { name: "세트 완료", exact: true }).click();
   await expect(page.getByText("휴식 중")).toBeVisible();
-  await expect(page.getByText(/세트 2\//)).toBeVisible();
+  // 지금 세트 표시와, 휴식 카드의 '다음' 한 줄(한 줄 코치 — 2026-09-29) 둘 다 2세트를 가리킨다.
+  await expect(page.getByTestId("current-set")).toHaveText(/세트 2\//);
+  await expect(page.getByTestId("rest-next")).toContainText(/세트 2\//);
 });
 
 test("성장 그래프 페이지가 열린다", async ({ page }) => {

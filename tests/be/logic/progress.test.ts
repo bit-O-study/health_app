@@ -15,6 +15,7 @@ import {
   trendPct,
   weekStartYmd,
   weeklyVolumeSeries,
+  weightGridKg,
   weightStepKg,
   type ProgressRecord,
 } from "@/features/routine/progress";
@@ -309,30 +310,42 @@ describe("progress — 개인 기록(PR)", () => {
 describe("progress — 증량 단위", () => {
   // 올릴지 말지는 overload.ts 가 정하고, 여기서는 '한 단계'가 얼마인지만 정한다.
 
-  it("원판 기구는 큰 종목 5kg, 작은 종목 2.5kg (1.25kg 한 쌍)", () => {
+  it("바벨(봉 하나)은 종목 크기와 상관없이 5kg — 스미스·랜드마인도", () => {
     expect(weightStepKg("squat", "barbell")).toBe(5);
     expect(weightStepKg("deadlift", "barbell")).toBe(5);
     expect(weightStepKg("bench-press", "barbell")).toBe(5);
-    // 작은 바벨 종목에 5kg 은 한 번에 너무 크다 — 2.5kg.
-    expect(weightStepKg("biceps-curl", "barbell")).toBe(2.5);
-    expect(weightStepKg("upright-row", "barbell")).toBe(2.5);
+    expect(weightStepKg("biceps-curl", "barbell")).toBe(5);
+    expect(weightStepKg("upright-row", "barbell")).toBe(5);
     expect(weightStepKg("squat", "smith")).toBe(5);
-    expect(weightStepKg("biceps-curl", "smith")).toBe(2.5);
+    expect(weightStepKg("biceps-curl", "smith")).toBe(5);
+    expect(weightStepKg("landmine-press", "landmine")).toBe(5);
   });
 
-  it("핀 스택은 큰 기구 5kg, 작은 기구 2.5kg", () => {
+  it("머신·케이블(기구)도 5kg — 큰 기구·작은 기구 구분 없음", () => {
     expect(weightStepKg("leg-press", "machine")).toBe(5);
     expect(weightStepKg("lat-pulldown", "machine")).toBe(5);
-    expect(weightStepKg("pec-deck", "machine")).toBe(2.5);
-    expect(weightStepKg("reverse-pec-deck", "machine")).toBe(2.5);
-    expect(weightStepKg("triceps-pushdown", "cable")).toBe(2.5);
+    expect(weightStepKg("pec-deck", "machine")).toBe(5);
+    expect(weightStepKg("reverse-pec-deck", "machine")).toBe(5);
+    expect(weightStepKg("triceps-pushdown", "cable")).toBe(5);
     expect(weightStepKg("seated-cable-row", "cable")).toBe(5);
   });
 
-  it("덤벨 2kg · 케틀벨 4kg — 랙에 있는 간격 그대로", () => {
-    expect(weightStepKg("lateral-raise", "dumbbell")).toBe(2);
+  it("🔴 덤벨은 몇 개 드는지로 — 양손 2개 4kg(한 손 2kg씩) · 1개 2kg", () => {
+    expect(weightStepKg("lateral-raise", "dumbbell")).toBe(4);
+    expect(weightStepKg("bench-press", "dumbbell")).toBe(4);
     expect(weightStepKg("one-arm-dumbbell-row", "dumbbell")).toBe(2);
+    expect(weightStepKg("goblet-squat", "dumbbell")).toBe(2);
     expect(weightStepKg("kettlebell-swing", "kettlebell")).toBe(4);
+    expect(weightStepKg("double-kettlebell-press", "kettlebell")).toBe(8);
+    expect(weightStepKg("plate-front-raise", "plate")).toBe(5);
+  });
+
+  it("눈금은 단위보다 촘촘하다 — 덤벨 2개 2kg · 바벨 2.5kg", () => {
+    expect(weightGridKg("bench-press", "dumbbell")).toBe(2);
+    expect(weightGridKg("goblet-squat", "dumbbell")).toBe(1);
+    expect(weightGridKg("squat", "barbell")).toBe(2.5);
+    expect(weightGridKg("pec-deck", "machine", 1)).toBe(1);
+    expect(weightGridKg("push-up", "bodyweight")).toBeNull();
   });
 
   it("무게 눈금이 없는 것은 null — 맨몸·밴드·TRX", () => {

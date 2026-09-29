@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useBackClose } from "@/lib/platform/use-back-close";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -19,9 +19,14 @@ import {
   X,
 } from "lucide-react";
 
+import type { FeedPage } from "../feed-page";
+import { loadFeedPage } from "../feed-page-actions";
+import { WorkoutShareCard } from "./workout-share-card";
+import { WorkoutRecordPicker } from "./workout-record-picker";
+import type { WorkoutSnapshot } from "../workout-snapshot";
+import { createWorkoutSessionId } from "@/features/workout-timer/session-id";
 import { MAX_CAPTION, relativeTime } from "../community";
 import {
-  forBoard,
   BOARD_TABS,
   resolveVisibility,
   VISIBILITY_OPTIONS,
@@ -58,9 +63,13 @@ export function CommunityBoard({
   routineShares = [],
   applyTargets = [],
   initialView,
+  initialSearch = "",
+  initialPage,
 }: {
   groups: Group[];
   initialView?: string;
+  initialSearch?: string;
+  initialPage?: FeedPage | null;
   initialPosts: FeedPost[];
   canModerate: boolean;
   /** '루틴' 탭 — 소개된 하루치 루틴(상세까지 한 번에). */
@@ -71,7 +80,61 @@ export function CommunityBoard({
   const router = useRouter();
   const [now] = useState(() => Date.now());
   const [tab, setTab] = useState<BoardTab>(BOARD_TABS.find(tab => tab.value === initialView)?.value ?? "workout");
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(initialSearch);
+  const [visible, setVisible] = useState(initialPosts);
+  const [feedAsOf, setFeedAsOf] = useState(initialPage?.asOf ?? "");
+  const [restoring, setRestoring] = useState(false);
+  const [cursor, setCursor] = useState(initialPage?.cursor ?? null);
+  const [loadingMore, startMore] = useTransition();
+  const [feedError, setFeedError] = useState<string | null>(null);
+  const [seenPosts, setSeenPosts] = useState(initialPosts);
+  if (seenPosts !== initialPosts) { setSeenPosts(initialPosts); setVisible(initialPosts); setCursor(initialPage?.cursor ?? null); setFeedAsOf(initialPage?.asOf ?? ""); }
+  function remember() {
+    window.history.replaceState({ ...window.history.state, communityFeed: { key: tab + ":" + initialSearch, count: visible.length, asOf: feedAsOf, scrollY: window.scrollY } }, "");
+  }
+  useEffect(() => {
+    const saved = window.history.state?.communityFeed;
+    if (!saved || saved.key !== tab + ":" + initialSearch || saved.count <= initialPosts.length || !saved.asOf) return;
+    let active = true;
+    async function restore() {
+      setRestoring(true);
+      let next = null;
+      const posts: FeedPost[] = [];
+      do {
+        const result = await loadFeedPage(tab, initialSearch, next, saved.asOf);
+        if (!active) return;
+        if (!result.ok) { setFeedError(result.error); setRestoring(false); return; }
+        posts.push(...result.page.posts);
+        next = result.page.cursor;
+      } while (next && posts.length < Math.min(saved.count, 2000));
+      setVisible(posts);
+      setCursor(next);
+      setFeedAsOf(saved.asOf);
+      setRestoring(false);
+      requestAnimationFrame(() => requestAnimationFrame(() => { if (active) window.scrollTo(0, saved.scrollY); }));
+    }
+    void restore().catch(() => { if (active) { setFeedError("게시물을 불러오지 못했어요. 다시 시도해주세요."); setRestoring(false); } });
+    return () => { active = false; };
+  }, [initialPosts, initialSearch, tab]);
+  function navigate(value: BoardTab, query = "") {
+    const path = value === "teaching" ? "/community/teaching" : value === "routine" ? "/community/routines" : value === "mine" ? "/community/mine" : "/community";
+    const params = new URLSearchParams();
+    if (value === "popular") params.set("view", "popular");
+    if (query.trim()) params.set("q", query.trim());
+    router.replace(path + (params.size ? "?" + params : ""));
+  }
+  function more() {
+    if (!cursor || loadingMore) return;
+    setFeedError(null);
+    startMore(async () => {
+      try {
+      const result = await loadFeedPage(tab, initialSearch, cursor, feedAsOf || new Date().toISOString());
+      if (!result.ok) { setFeedError(result.error); return; }
+      setVisible(old => { const ids = new Set(old.map(p => p.kind + ":" + p.id)); return [...old, ...result.page.posts.filter(p => !ids.has(p.kind + ":" + p.id))]; });
+      setCursor(result.page.cursor);
+      } catch { setFeedError("게시물을 불러오지 못했어요. 다시 시도해주세요."); }
+    });
+  }
   const [compose, setCompose] = useState(initialView === "compose");
   const [routineCompose, setRoutineCompose] = useState(false);
   // 밖에서 주소로 view 가 바뀌면(하단 메뉴·런처의 ?view= 링크) 그때만 탭을 맞춘다.
@@ -88,11 +151,6 @@ export function CommunityBoard({
 
   // 게시판 탭별 분류. 오운완=사진(그룹글 포함), 운동=티칭(검색), 내 글=내가 쓴 것.
   // (그룹 게시판은 없앰 — 그룹원 공개 글도 오운완/운동에 섞여 그룹명 태그로 구분.)
-  const visible = useMemo(
-    () => forBoard(initialPosts, tab, [], search),
-    [initialPosts, tab, search],
-  );
-
   const isReels = tab === "teaching";
 
   return (
@@ -109,22 +167,20 @@ export function CommunityBoard({
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
         <div className="flex items-center gap-5 overflow-x-auto [scrollbar-width:none]">
-          {BOARD_TABS.map(({ value, label }) => (
+          {BOARD_TABS.filter(t => t.value !== "popular").map(({ value, label }) => (
             <button
               key={value}
               type="button"
-              // 탭 데이터는 이미 다 받아 왔다 — 주소만 바꾼다(서버 왕복 없음).
-              // router.replace 는 서버 렌더를 다시 받고, 페이지가 key={view} 로 게시판을 새로 붙여
-              // 그 사이 열어 둔 창(루틴 소개 '올렸어요' 등)이 닫혔다(2026-09-25 routine-share E2E).
-              onClick={() => { setTab(value); window.history.replaceState(null, "", value === "teaching" ? "/community/teaching" : value === "routine" ? "/community/routines" : value === "mine" ? "/community/mine" : value === "workout" ? "/community" : "/community?view=" + value); }}
-              aria-pressed={tab === value}
+              // 탭별 서버 조회. 필터는 URL에 남아 뒤로 가기에도 복원된다.
+              onClick={() => navigate(value)}
+              aria-pressed={tab === value || (tab === "popular" && value === "workout")}
               className={`relative min-h-11 shrink-0 pb-3 text-sm font-semibold transition-colors ${
                 tab === value
                   ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
-              {label}
+              {value === "workout" ? "피드" : value === "teaching" ? "운동 영상" : label}
               {tab === value ? (
                 <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-brand" />
               ) : null}
@@ -133,8 +189,8 @@ export function CommunityBoard({
         </div>
 
         {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
-        {tab === "teaching" ? (
-          <div className="relative mb-2 mt-1.5">
+        {tab !== "routine" ? (
+          <form onSubmit={e => { e.preventDefault(); navigate(tab, search); }} className="relative mb-2 mt-1.5 flex items-center gap-2">
             <Search
               size={15}
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400"
@@ -143,14 +199,18 @@ export function CommunityBoard({
               type="search"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="운동 검색 (예: 스쿼트, 벤치프레스)"
-              className="h-9 w-full rounded-[10px] bg-zinc-100 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+              aria-label="게시물 검색"
+              placeholder={tab === "teaching" ? "운동 검색 (예: 스쿼트)" : "본문 · 운동명 검색"}
+              className="h-11 min-w-0 w-full rounded-[10px] bg-zinc-100 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
             />
-          </div>
+            <button type="submit" className="min-h-11 shrink-0 px-2 text-sm">검색</button>
+          </form>
         ) : null}
+        {tab === "workout" || tab === "popular" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "workout"} onClick={() => navigate("workout", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">최신순</button><button type="button" aria-pressed={tab === "popular"} onClick={() => navigate("popular", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">이번 주 인기</button></div> : null}
+        {tab === "mine" ? <p className="pb-2 text-sm font-semibold">내가 쓴 글</p> : null}
       </div>
 
-      {tab === "popular" && <p className="px-4 pt-3 text-xs text-zinc-500">현재 공개 범위에서 볼 수 있는 최근 게시물을 좋아요 많은 순으로 보여드려요.</p>}
+      {tab === "popular" && <p className="px-4 pt-3 text-xs text-zinc-500">최근 7일 게시물을 좋아요 많은 순으로 보여드려요.</p>}
       {/* 피드 */}
       {tab === "routine" ? (
         // 루틴 소개 — 남의 하루치 루틴을 보고 내 루틴의 한 일차로 담는다.
@@ -168,7 +228,7 @@ export function CommunityBoard({
         <div className="flex flex-col items-center gap-2 px-6 py-20 text-center">
           <Camera aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {tab === "mine" ? "아직 내가 쓴 글이 없어요" : "아직 글이 없어요"}
+            {initialSearch ? "검색 결과가 없어요" : tab === "mine" ? "아직 내가 쓴 글이 없어요" : "아직 글이 없어요"}
           </p>
         </div>
       ) : (
@@ -180,11 +240,15 @@ export function CommunityBoard({
               now={now}
               router={router}
               canModerate={canModerate}
+              onOpen={remember}
             />
           ))}
         </ul>
       )}
 
+      {feedError ? <p role="alert" className="px-4 text-sm text-rose-500">{feedError}</p> : null}
+      {restoring ? <p role="status" className="px-4 text-sm text-zinc-500">보던 게시물을 불러오는 중…</p> : null}
+      {cursor ? <button type="button" onClick={more} disabled={loadingMore || restoring} className="mx-4 mb-4 min-h-11 shrink-0 rounded-lg border border-zinc-200 text-sm disabled:opacity-50">{loadingMore ? "불러오는 중…" : "더 보기"}</button> : null}
       {/* 글쓰기 FAB — 루틴 탭에서는 내 영구 루틴의 일차를 골라 추천글을 쓴다. */}
       {tab !== "teaching" ? (
         <button
@@ -230,6 +294,7 @@ export function CommunityBoard({
           defaultGroupId={null}
           onClose={() => { setCompose(false); if (initialView === "compose") router.replace("/community", { scroll: false }); }}
           onDone={() => {
+            window.history.replaceState({ ...window.history.state, communityFeed: null }, "");
             setCompose(false);
             if (initialView === "compose") router.replace("/community", { scroll: false });
             router.refresh();
@@ -269,10 +334,12 @@ function PostCard({
   now,
   router,
   canModerate,
+  onOpen,
 }: {
   post: FeedPost;
   now: number;
   router: ReturnType<typeof useRouter>;
+  onOpen: () => void;
   canModerate: boolean;
 }) {
   const [pending, start] = useTransition();
@@ -328,6 +395,7 @@ function PostCard({
   // 이동은 transition 으로 감싸 로딩(버퍼링)을 표시하고 중복 탭을 막는다.
   function goDetail() {
     if (isTeaching || navPending) return;
+    onOpen();
     startNav(() => router.push(`/community/${post.id}`));
   }
 
@@ -357,7 +425,7 @@ function PostCard({
           <p className="truncate text-sm font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
             {post.authorName}
           </p>
-          <p className="text-xs leading-4 text-zinc-400">{when}</p>
+          <p className="text-xs leading-4 text-zinc-400">{when} · {post.visibility === "public" ? "전체 공개" : post.visibility === "group" ? "그룹만 공개" : "그룹 제외 공개"}</p>
         </div>
         {isTeaching ? (
           <span className="inline-flex items-center gap-0.5 rounded-full bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand">
@@ -366,6 +434,7 @@ function PostCard({
         ) : null}
       </div>
 
+      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} /> : null}
       {/* 미디어 */}
       {isTeaching ? (
         <div className="relative mt-2.5 aspect-square w-full bg-black">
@@ -407,7 +476,7 @@ function PostCard({
             </div>
           ) : null}
         </div>
-      ) : (
+      ) : post.photoUrl ? (
         <div
           className="relative mt-2.5 aspect-square w-full bg-zinc-100 dark:bg-zinc-800"
           onDoubleClick={doubleTapLike}
@@ -435,7 +504,7 @@ function PostCard({
             </span>
           ) : null}
         </div>
-      )}
+      ) : null}
 
       {/* 액션 — 버튼 클릭은 카드 이동(상세)으로 전파되지 않게 막는다. */}
       <div
@@ -457,6 +526,7 @@ function PostCard({
             <Link
               href={`/community/${post.id}`}
               className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums"
+              onClick={onOpen}
               aria-label="댓글"
             >
               <MessageCircle size={20} className="text-zinc-400" />
@@ -490,6 +560,7 @@ function PostCard({
         ) : null}
       </div>
 
+      {!isTeaching ? <Link href={`/community/${post.id}`} onClick={e => { e.stopPropagation(); onOpen(); }} className="mx-3 inline-flex min-h-11 items-center text-xs text-zinc-500">게시물 보기</Link> : null}
       {/* 캡션 — 카드 전체가 상세로 이동하므로 별도 링크 없이 텍스트만. */}
       {post.caption ? (
         <div className="px-3 pb-2.5 pt-1">
@@ -525,6 +596,9 @@ function ComposeModal({
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [caption, setCaption] = useState("");
+  const [workout, setWorkout] = useState<WorkoutSnapshot | null>(null);
+  const submissionId = useRef<string | null>(null);
+  const uploaded = useRef<{ file: File; url: string } | null>(null);
   useBackClose(true, onClose);
   const [visibility, setVisibility] = useState<Visibility>(
     defaultGroupId ? "group" : "public",
@@ -546,8 +620,9 @@ function ComposeModal({
 
   function submit() {
     setError(null);
-    if (!file) {
-      setError("사진을 골라주세요.");
+    if (pending) return;
+    if (!file && !workout) {
+      setError("운동 기록이나 사진을 골라주세요.");
       return;
     }
     const vis = resolveVisibility(visibility, groupId);
@@ -557,9 +632,13 @@ function ComposeModal({
     }
     start(async () => {
       try {
-        const url = await uploadCommunityPhoto(file);
+        submissionId.current ??= createWorkoutSessionId();
+        const url = file ? (uploaded.current?.file === file ? uploaded.current.url : await uploadCommunityPhoto(file)) : "";
+        if (file) uploaded.current = { file, url };
         const r = await createCommunityPostAction({
           photoUrl: url,
+          workoutDate: workout?.date,
+          submissionId: submissionId.current,
           caption,
           groupId: vis.groupId,
           visibility: vis.visibility,
@@ -577,7 +656,7 @@ function ComposeModal({
 
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
-      <div className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
+      <div role="dialog" aria-modal="true" aria-label="오운완 인증" className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-base font-semibold">오운완 인증</h2>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
@@ -585,6 +664,7 @@ function ComposeModal({
           </button>
         </div>
 
+        <WorkoutRecordPicker value={workout} onChange={setWorkout} />
         {/* 사진 */}
         <input
           ref={fileRef}
@@ -597,7 +677,7 @@ function ComposeModal({
         <button
           type="button"
           onClick={() => fileRef.current?.click()}
-          className="flex aspect-square w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
+          className="flex min-h-24 w-full items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 text-zinc-400 dark:border-zinc-700 dark:bg-zinc-800"
         >
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
@@ -605,7 +685,7 @@ function ComposeModal({
           ) : (
             <span className="flex flex-col items-center gap-1 text-sm">
               <ImagePlus size={32} />
-              사진 올리기
+              사진 올리기 (선택)
             </span>
           )}
         </button>

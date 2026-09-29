@@ -1,5 +1,6 @@
 "use client";
 
+import { WorkoutShareCard } from "./workout-share-card";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
@@ -115,7 +116,7 @@ export function PostDetail({
 
   return (
     <div className="app-page">
-      <PageHeader title="게시물" back="커뮤니티" backHref="/community">
+      <PageHeader title="게시물" back="커뮤니티">
         {canManage || !post.isMine ? (
           <div className="relative">
             <button
@@ -240,7 +241,9 @@ export function PostDetail({
         </p>
       ) : null}
 
+      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} /> : null}
       {/* 밑: 사진 */}
+      {post.photoUrl ? <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={post.photoUrl}
@@ -248,6 +251,7 @@ export function PostDetail({
         className="w-full rounded-[14px] bg-zinc-100 object-cover dark:bg-zinc-800"
       />
 
+      </> : null}
       {/* 좋아요 / 댓글 수 */}
       <div className="mt-2 flex items-center gap-4 border-b border-[var(--line)] pb-2">
         <button

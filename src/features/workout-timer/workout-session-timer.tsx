@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createWorkoutSessionId } from "./session-id";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import { CheckCircle2, Pause, Play, Plus, Save, Timer } from "lucide-react";
 
 import { useTodayOrder } from "@/features/routine/components/today-order-scope";
@@ -619,10 +620,13 @@ export function WorkoutSessionTimer({
     );
     if (allDone) {
       return (
+        <div className="w-full">
         <span className="flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-brand-soft px-4 text-base font-bold text-brand">
           <CheckCircle2 aria-hidden="true" size={16} />
           수고하셨습니다
         </span>
+        <Link href="/community?view=compose" className="mt-1 flex min-h-11 items-center justify-center text-sm font-semibold text-brand">운동 기록 공유하기</Link>
+        </div>
       );
     }
     // 오늘 담긴 운동이 하나도 없으면 '운동 시작' 대신 '운동을 추가하세요' 안내.

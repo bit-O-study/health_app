@@ -1,5 +1,6 @@
 "use server";
 
+import { getShareableWorkout } from "./workout-share-actions";
 import { revalidatePath } from "next/cache";
 
 import {
@@ -22,20 +23,30 @@ export async function createCommunityPostAction(input: {
   caption: string;
   groupId: string | null;
   visibility?: Visibility;
+  workoutDate?: string;
+  submissionId?: string;
 }): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
 
+  if (input.submissionId && !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(input.submissionId)) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  if (input.submissionId) {
+    const { data: existing } = await supabase.from("community_posts").select("id").eq("id", input.submissionId).eq("user_id", user.id).maybeSingle();
+    if (existing) { revalidatePath("/community"); return { ok: true, id: existing.id }; }
+  }
+  const snapshot = input.workoutDate ? await getShareableWorkout(input.workoutDate) : null;
+  if (input.workoutDate && !snapshot) return { ok: false, error: "공유할 완료 기록이 없어요." };
   const check = validatePostInput({
     photoUrl: input.photoUrl,
     caption: input.caption,
+    hasWorkout: !!snapshot,
   });
   if (!check.ok) return check;
 
   const vis = resolveVisibility(input.visibility, input.groupId);
   if (!vis.ok) return vis;
 
-  const supabase = await createSupabaseServerClient();
 
   // 작성자 표시 이름 스냅샷(닉네임 → 이름 → "회원").
   const { data: prof } = await supabase
@@ -53,16 +64,22 @@ export async function createCommunityPostAction(input: {
   const { data, error } = await supabase
     .from("community_posts")
     .insert({
+      ...(input.submissionId ? { id: input.submissionId } : {}),
+      workout_snapshot: snapshot,
       user_id: user.id,
       group_id: vis.groupId,
       visibility: vis.visibility,
       author_name: authorName,
-      photo_url: input.photoUrl.trim(),
+      photo_url: input.photoUrl.trim() || null,
       caption: caption.length > 0 ? caption : null,
     })
     .select("id")
     .single();
 
+  if (error?.code === "23505" && input.submissionId) {
+    const { data: existing } = await supabase.from("community_posts").select("id").eq("id", input.submissionId).eq("user_id", user.id).maybeSingle();
+    if (existing) { revalidatePath("/community"); return { ok: true, id: existing.id }; }
+  }
   if (error) return { ok: false, error: error.message };
   revalidatePath("/community");
   return { ok: true, id: (data as { id: string }).id };

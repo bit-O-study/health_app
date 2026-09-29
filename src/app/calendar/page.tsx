@@ -17,17 +17,15 @@ import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
-import { getActiveDates, getMonthlyCalendar } from "@/features/calendar/data-access";
+import { getCurrentStreak, getMonthlyCalendar } from "@/features/calendar/data-access";
 import {
   activityLevel,
-  currentStreak,
   plannedLabel,
   type RoutineCycle,
 } from "@/features/calendar/month-stats";
 import { ShareMonthImage } from "@/features/calendar/components/share-month-image";
 import { getUserRoutine } from "@/features/routine/data-access";
 import { resolveRoutine } from "@/features/routine/data";
-import { shiftYmd } from "@/features/routine/progress";
 import {
   calorieBalance,
   dayAriaLabel,
@@ -39,7 +37,7 @@ import { distanceLabel, summaryTitle, weekTitle } from "@/features/calendar/cale
 import type { DaySummary } from "@/features/calendar/data-access";
 import { getMissionCalendar } from "@/features/commitments/data-access";
 import { MARKER_SYMBOL } from "@/features/commitments/missions";
-import { getBodyLogs } from "@/features/profile/body-logs";
+import { getLatestWeights } from "@/features/profile/body-logs";
 import {
   computeWeightDelta,
   latestWeightAt,
@@ -99,6 +97,8 @@ export default async function CalendarPage({
   const monthParam = (mm: { year: number; month0: number }) =>
     `${mm.year}-${pad(mm.month0 + 1)}`;
   // 서로 독립인 쿼리는 한 번에(직렬 → 1파). 각 함수는 cache()된 인증을 공유.
+  // ⚡ 생리 기록도 첫 묶음에 — 성별(프로필)을 알고 나서 따로 조회하면 왕복이 한 번 더 쌓인다.
+  //   남성은 결과를 안 쓴다(작은 조회 두 개라 기다리는 왕복보다 싸다). (캘린더 속도 정리)
   const [
     { byDate, intakeTotal, workoutBurnedTotal, stepsBurnedTotal, bmr },
     bodyLogs,
@@ -107,19 +107,22 @@ export default async function CalendarPage({
     coachEnabled,
     missionMarks,
     routine,
-    activeDates,
+    streak,
+    cycleLogs,
+    periodStartDates,
   ] = await Promise.all([
     getMonthlyCalendar(from, to),
-    getBodyLogs(),
+    getLatestWeights(),
     getUserProfile(),
     isDebugFeatureEnabled("steps"),
     isDebugFeatureEnabled("helssu-coach"),
     getMissionCalendar(from, to),
     getUserRoutine(),
-    // 연속 운동 일수 — 달이 바뀌어도 이어지게 오늘부터 1년 거꾸로.
-    getActiveDates(shiftYmd(today, -365), today),
+    // 연속 운동 일수 — 60일씩 필요한 만큼만(1년치 한 번에 → 1,000행 잘림).
+    getCurrentStreak(today),
+    getCycleLogsRange(from, to),
+    getPeriodStartDates(),
   ]);
-  const streak = currentStreak(activeDates, today);
   // 앞으로 할 루틴(읽기 전용). 루틴이 없으면 예정 표시를 안 한다.
   const cycle: RoutineCycle | null = routine
     ? {
@@ -141,12 +144,8 @@ export default async function CalendarPage({
   const periodDays = new Set<string>();
   const predictedDays = new Set<string>();
   if (profile?.gender === "female") {
-    const [logs, startDates] = await Promise.all([
-      getCycleLogsRange(from, to),
-      getPeriodStartDates(),
-    ]);
-    for (const l of logs) if (l.isPeriod) periodDays.add(l.forDate);
-    const pred = predictCycle(startDates, today);
+    for (const l of cycleLogs) if (l.isPeriod) periodDays.add(l.forDate);
+    const pred = predictCycle(periodStartDates, today);
     for (const d of predictedPeriodDatesInRange(pred, from, to)) {
       if (!periodDays.has(d)) predictedDays.add(d);
     }

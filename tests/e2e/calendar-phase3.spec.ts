@@ -92,3 +92,19 @@ test("이달 기록 이미지는 로그인해야 받을 수 있다", async ({ re
   const res = await request.get("/api/calendar/month-image?m=2026-09", { maxRedirects: 0 });
   expect([401, 302, 307]).toContain(res.status());
 });
+
+test("🔴 매일 운동하는 사람(기록 1,000행 넘음)도 연속 일수가 정확하다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  test.setTimeout(120_000);
+  const email = await createOnboardedAccount(page);
+  // 오늘 포함 150일 연속, 하루 8종목 → 1,200행. 예전처럼 1년을 한 번에 읽으면 1,000행에서 잘린다.
+  await dbQuery(
+    `insert into public.exercise_completions (user_id, for_date, exercise_row_id, status, exercise_id, equipment, focus, sets, reps, weight_kg)
+     select ${uid}, ${today} - g, gen_random_uuid(), 'done', e, 'barbell', 'lower', 3, 8, 40
+       from generate_series(0, 149) g,
+            unnest(array['squat','deadlift','bench-press','ohp','barbell-row','lunge','leg-press','rdl']) e`,
+    [email],
+  );
+  await page.goto("/calendar", { waitUntil: "networkidle" });
+  await expect(page.getByTestId("calendar-streak")).toHaveText(/150일 연속 운동/);
+});

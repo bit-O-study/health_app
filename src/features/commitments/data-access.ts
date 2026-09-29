@@ -316,12 +316,18 @@ export async function getMissionCalendar(
   const to = toYmd < today ? toYmd : today; // 미래는 마커 없음
   if (to < fromYmd) return {};
 
-  const { data: crows } = await supabase
-    .from("commitments")
-    .select("start_date, deadline, missions")
-    .eq("user_id", user.id)
-    .eq("archived", false)
-    .eq("mode", "survey");
+  // ⚡ 다짐 목록과 그 기간 기록(작은 범위 조회 3개)을 동시에 — 예전엔 목록을 받고 나서
+  //   기록을 조회해 캘린더에서 이 줄만 왕복이 두 번이었다(캘린더 속도 정리). 설문형 다짐이
+  //   없으면 기록은 버린다(한 달 범위라 헛조회 비용이 왕복 한 번보다 작다).
+  const [{ data: crows }, stats] = await Promise.all([
+    supabase
+      .from("commitments")
+      .select("start_date, deadline, missions")
+      .eq("user_id", user.id)
+      .eq("archived", false)
+      .eq("mode", "survey"),
+    dayStatsRange(supabase, user.id, fromYmd, to),
+  ]);
 
   const surveys = ((crows ?? []) as {
     start_date: string;
@@ -335,8 +341,6 @@ export async function getMissionCalendar(
     }))
     .filter((c) => c.missions.length > 0);
   if (surveys.length === 0) return {};
-
-  const stats = await dayStatsRange(supabase, user.id, fromYmd, to);
 
   // 날짜별 마커.
   const out: Record<string, DayMarker> = {};

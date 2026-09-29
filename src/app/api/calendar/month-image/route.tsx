@@ -4,12 +4,11 @@ import { join } from "node:path";
 import { ImageResponse } from "next/og";
 
 import { getCurrentUser } from "@/lib/supabase/server";
-import { getActiveDates, getMonthlyCalendar } from "@/features/calendar/data-access";
-import { activityLevel, currentStreak, monthStats } from "@/features/calendar/month-stats";
+import { getCurrentStreak, getMonthlyCalendar } from "@/features/calendar/data-access";
+import { activityLevel, monthStats } from "@/features/calendar/month-stats";
 import { BRAND_ICON_BG, BRAND_ICON_MINT, JimkkunMark } from "@/features/brand/mark";
 import { BRAND_NAME, BRAND_TAGLINE } from "@/features/brand/logo";
 import { seoulYmd } from "@/features/routine/data";
-import { shiftYmd } from "@/features/routine/progress";
 
 /**
  * 이달 기록 이미지(1080×1350 PNG) — 캘린더 3단계 공유용.
@@ -38,13 +37,12 @@ export async function GET(req: Request) {
   const from = `${m}-01`;
   const to = `${m}-${pad(dim)}`;
 
-  const [{ byDate }, active, font] = await Promise.all([
+  const [{ byDate }, streak, font] = await Promise.all([
     getMonthlyCalendar(from, to),
-    getActiveDates(shiftYmd(today, -365), today),
+    getCurrentStreak(today),
     readFile(join(process.cwd(), "src/assets/fonts/Pretendard-Bold.otf")),
   ]);
   const stats = monthStats(byDate.entries());
-  const streak = currentStreak(active, today);
   const max = Math.max(0, ...[...byDate.values()].map((v) => v.exerciseKcal));
 
   const lead = (new Date(Date.UTC(year, month1 - 1, 1)).getUTCDay() + 6) % 7;

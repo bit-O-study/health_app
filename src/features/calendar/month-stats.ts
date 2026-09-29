@@ -4,6 +4,7 @@
  *  - 앞으로 할 루틴 이름(읽기 전용 — 원칙 2: 캘린더는 루틴을 **바꾸지 않는다**)
  */
 
+import { shiftYmd } from "@/features/routine/progress";
 import {
   CUSTOM_VARIANT_ID,
   DAY_BLOCKS,
@@ -126,4 +127,30 @@ export function currentStreak(active: ReadonlySet<string>, today: string, maxDay
     t -= dayMs;
   }
   return n;
+}
+
+/** 연속 일수를 찾을 때 한 번에 보는 날 수 — 이 안에서 끊기면 더 조회하지 않는다. */
+export const STREAK_CHUNK_DAYS = 60;
+
+/**
+ * 연속 운동 일수를 **조각 단위로** 센다 — 조회 함수를 받아 필요한 만큼만 거꾸로 부른다.
+ * 연속이 이번 조각의 첫날까지 닿지 않으면(= 조각 안에서 끊김) 거기서 멈춘다.
+ * 한 조각(60일)이 조회 한 번의 1,000행 한도를 넘지 않게 잡은 크기다.
+ */
+export async function streakByChunks(
+  today: string,
+  fetchActive: (from: string, to: string) => Promise<Iterable<string>>,
+  chunkDays = STREAK_CHUNK_DAYS,
+  maxDays = 366,
+): Promise<number> {
+  const active = new Set<string>();
+  let to = today;
+  for (let fetched = 0; fetched < maxDays; fetched += chunkDays) {
+    const from = shiftYmd(to, -(chunkDays - 1));
+    for (const d of await fetchActive(from, to)) active.add(d);
+    const streak = currentStreak(active, today, maxDays);
+    if (!active.has(from) || streak < fetched + chunkDays - 1) return streak;
+    to = shiftYmd(from, -1);
+  }
+  return currentStreak(active, today, maxDays);
 }

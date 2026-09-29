@@ -22,6 +22,7 @@ import { getWaterForDate } from "@/features/diet/data-access";
 import { getRunSessionsRange } from "@/features/running/run-history-data";
 import type { RunHistoryRow } from "@/features/running/run-history-summary";
 import { seoulDateOf, seoulDayRangeUtc } from "@/features/calendar/calendar-labels";
+import { streakByChunks } from "@/features/calendar/month-stats";
 import { stepsToKcal } from "@/features/health/steps-calories";
 
 const num = (v: number | string | null | undefined): number => {
@@ -66,15 +67,6 @@ export async function getMonthlyCalendar(
   to: string,
 ): Promise<MonthlyCalendar> {
   const user = await getCurrentUser();
-  const profile = await getUserProfile();
-  const weight = profile?.weightKg ?? 65;
-  const bmr = profile
-    ? basalMetabolicRate({
-        gender: profileGender(profile.gender),
-        weightKg: profile.weightKg,
-        heightCm: profile.heightCm,
-      })
-    : 1500;
 
   const byDate = new Map<string, DaySummary>();
   const ensure = (d: string): DaySummary => {
@@ -86,11 +78,14 @@ export async function getMonthlyCalendar(
     return s;
   };
 
-  if (!user) return { byDate, intakeTotal: 0, workoutBurnedTotal: 0, stepsBurnedTotal: 0, bmr };
+  if (!user) return { byDate, intakeTotal: 0, workoutBurnedTotal: 0, stepsBurnedTotal: 0, bmr: 1500 };
   const supabase = await createSupabaseServerClient();
 
+  // ⚡ 프로필(체중·키)은 kcal **산수**에만 쓰인다 — 기록 조회와 한 묶음으로 동시에 쏜다.
+  //   예전엔 프로필을 먼저 기다리고 나서 기록을 조회해 왕복이 두 번 직렬로 쌓였다.
   const weightRange = seoulDayRangeUtc(from, to);
-  const [foodRes, exRes, condRes, durMap, stepsMap, runs, weightRes] = await Promise.all([
+  const [profile, foodRes, exRes, condRes, durMap, stepsMap, runs, weightRes] = await Promise.all([
+    getUserProfile(),
     supabase
       .from("food_logs")
       .select("for_date, kcal")
@@ -122,6 +117,15 @@ export async function getMonthlyCalendar(
       .lt("created_at", weightRange.lt)
       .order("created_at", { ascending: true }),
   ]);
+
+  const weight = profile?.weightKg ?? 65;
+  const bmr = profile
+    ? basalMetabolicRate({
+        gender: profileGender(profile.gender),
+        weightKg: profile.weightKg,
+        heightCm: profile.heightCm,
+      })
+    : 1500;
 
   for (const r of runs) ensure(r.forDate).runM += Math.max(0, r.distanceM);
   // 오래된→최신 순이라 같은 날 여러 번 쟀으면 마지막 값이 남는다.
@@ -377,4 +381,15 @@ export async function getActiveDates(from: string, to: string): Promise<Set<stri
     for (const r of (res.data ?? []) as { for_date: string }[]) out.add(r.for_date);
   }
   return out;
+}
+
+/**
+ * 지금 연속 운동 일수 — 60일씩 거꾸로 필요한 만큼만 조회한다(캘린더 속도 정리).
+ *
+ * 🔴 예전엔 1년치 운동 기록을 한 번에 읽었다. 조회 한 번은 **최대 1,000행**까지만 오므로
+ *    매일 운동하는 사람은 기록이 잘려 연속이 틀리게 나올 수 있었고, 대부분의 사람에게는
+ *    쓰지도 않을 1년치를 매번 읽었다. 이제 최근 60일 안에서 끊기면(거의 모든 경우) 거기서 끝.
+ */
+export async function getCurrentStreak(today: string): Promise<number> {
+  return streakByChunks(today, getActiveDates);
 }

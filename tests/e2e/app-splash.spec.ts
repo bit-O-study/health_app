@@ -10,6 +10,7 @@ test("앱 진입 스플래시가 떴다가 사라진다", async ({ page }) => {
   const splash = page.locator(".app-splash");
   await expect(splash).toBeVisible();
   await expect(splash).toContainText("짐꾼");
+  await expect(splash).toContainText("내가 쓸려고 만든 헬쓰앱");
 
   // 잠시 뒤(약 1.35s) DOM 에서 제거된다 → 앱 화면으로 전환.
   await expect(splash).toHaveCount(0, { timeout: 5000 });

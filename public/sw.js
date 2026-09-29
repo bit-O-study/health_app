@@ -241,21 +241,33 @@ self.addEventListener("notificationclick", (event) => {
 
   // 일반 알림(그룹 응원 등) — 저장된 url 로 앱을 연다(있으면 기존 창 포커스).
   if (type !== "workout-end") {
-    const url = ndata.url || "/";
+    let target;
+    try {
+      target = new URL(ndata.url || "/", self.location.origin);
+      if (target.username || target.password) return;
+      if (target.origin === self.location.origin && /^\/admin(?:\/|$)/.test(target.pathname)) {
+        target = new URL(`/admin/health${target.pathname.slice(6)}${target.search}`, "https://heltch-admin.vercel.app");
+      }
+      if (target.origin !== self.location.origin && target.origin !== "https://heltch-admin.vercel.app") return;
+    } catch { return; }
+    const url = target.href;
     event.waitUntil(
       (async () => {
         const wins = await self.clients.matchAll({
           type: "window",
           includeUncontrolled: true,
         });
-        const client = wins[0];
+        // A service worker cannot navigate an app window to another origin.
+        // Open the console in the browser instead of merely focusing the health app.
+        if (target.origin !== self.location.origin) return self.clients.openWindow(url);
+        const client = wins.find(w => new URL(w.url).origin === self.location.origin);
         if (client) {
           try {
             await client.navigate(url);
+            return client.focus();
           } catch {
-            /* navigate 미지원/실패 — 포커스만 */
+            return self.clients.openWindow(url);
           }
-          return client.focus();
         }
         return self.clients.openWindow(url);
       })(),

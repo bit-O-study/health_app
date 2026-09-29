@@ -1,6 +1,7 @@
 "use client";
 
-import { type FormEvent, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
+import { LoginProgress } from "@/features/auth/components/login-progress";
 import { Loader2, LogIn, UserPlus } from "lucide-react";
 
 import Link from "next/link";
@@ -46,6 +47,15 @@ export function AuthForm({
   );
   const formRef = useRef<HTMLFormElement>(null);
 
+  useEffect(() => {
+    // A provider page can return through the browser's back/forward cache.
+    const restore = (event: PageTransitionEvent) => {
+      if (event.persisted) { setIsSubmitting(false); setOauthLoading(null); }
+    };
+    window.addEventListener("pageshow", restore);
+    return () => window.removeEventListener("pageshow", restore);
+  }, []);
+
   // 하이드레이션 전에 타이핑·자동완성된 값이 DOM 에만 남아 state 가 빈 채로 있으면
   // "이메일과 비밀번호를 입력해 주세요" 가 뜨며 로그인이 안 된다 → 마운트 때 끌어올린다.
   usePrefilledInputs(formRef, { email, password, name, nickname, phone }, (v) => {
@@ -78,6 +88,7 @@ export function AuthForm({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isSubmitting || oauthLoading) return;
     setError(null);
     setNotice(null);
 
@@ -107,6 +118,7 @@ export function AuthForm({
     }
 
     setIsSubmitting(true);
+    try {
     const supabase = createSupabaseBrowserClient();
 
     if (mode === "signup") {
@@ -178,6 +190,10 @@ export function AuthForm({
     // ⚠ SPA 전환 대신 하드 네비게이션 — 로그인 직후 미들웨어 왕복과 엉켜 전환이
     //   안 끝나는 무한 로딩을 막는다(로그인은 성공하는데 화면만 안 넘어가던 버그).
     window.location.assign(redirectTo);
+    } catch {
+      setError("로그인 연결에 실패했어요. 네트워크를 확인하고 다시 시도해 주세요.");
+      setIsSubmitting(false);
+    }
   }
 
   /** 구글/카카오 로그인 — Supabase 가 provider 인증 페이지로 리다이렉트시킨다. */
@@ -185,6 +201,7 @@ export function AuthForm({
     setError(null);
     setNotice(null);
     setOauthLoading(provider);
+    try {
     const supabase = createSupabaseBrowserClient();
     const callback = new URL("/auth/callback", window.location.origin);
     callback.searchParams.set("next", redirectTo);
@@ -208,10 +225,15 @@ export function AuthForm({
       setOauthLoading(null);
     }
     // 성공하면 브라우저가 provider 로그인 페이지로 이동하므로 별도 처리 불필요.
+    } catch {
+      setError("로그인 연결에 실패했어요. 네트워크를 확인하고 다시 시도해 주세요.");
+      setOauthLoading(null);
+    }
   }
 
   return (
-    <fieldset disabled={!hydrated} className="min-w-0 w-full">
+    <>
+    <fieldset disabled={!hydrated || isSubmitting || oauthLoading !== null} className="min-w-0 w-full">
       {/* 아이폰 세그먼트 — 로그인/회원가입 전환 */}
       <div className="mb-4 grid grid-cols-2 gap-0.5 rounded-[10px] bg-zinc-100 p-0.5 dark:bg-white/[0.08]">
         {(["login", "signup"] as const).map((m) => (
@@ -375,6 +397,8 @@ export function AuthForm({
         </div>
       ) : null}
     </fieldset>
+    {(isSubmitting && mode === "login") || oauthLoading ? <LoginProgress /> : null}
+    </>
   );
 }
 

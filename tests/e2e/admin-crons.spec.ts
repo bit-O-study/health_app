@@ -1,3 +1,4 @@
+import { adminUrl } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -20,9 +21,9 @@ test("실행 기록이 없으면 '실행 기록 없음' 으로 보인다", async
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await signUpAsAdmin(page);
 
-  await page.goto("/admin", { waitUntil: "networkidle" });
+  await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
   await page.getByRole("link", { name: "크론 실행" }).click();
-  await expect(page).toHaveURL(/\/admin\/crons$/);
+  await expect(page).toHaveURL(/\/admin\/health\/crons$/);
   await expect(page.getByRole("heading", { name: "크론 실행" })).toBeVisible();
 
   // 등록된 크론 3개가 모두 카드로 있어야 한다(안 돈 크론이 목록에서 빠지면 안 된다).
@@ -50,7 +51,7 @@ test("실행 기록이 있으면 상태·소요·발송 수와 실패 사유가 
   );
 
   try {
-    await page.goto("/admin/crons", { waitUntil: "networkidle" });
+    await page.goto(adminUrl("/admin/crons"), { waitUntil: "networkidle" });
 
     // 최근 실행 표에 방금 넣은 두 행이 뜬다.
     await expect(page.getByText("daily-reminders").first()).toBeVisible();
@@ -71,11 +72,11 @@ test("관리자가 아니면 크론 화면에 못 들어간다", async ({ page }
   await signUpAndOnboard(page); // admins 에 넣지 않는다
 
   // 미들웨어가 일반 사용자를 메인으로 돌려보낸다(관리자 경로 차단).
-  const res = await page.request.get("/admin/crons", { maxRedirects: 0 });
+  const res = await page.request.get(adminUrl("/admin/crons"), { maxRedirects: 0 });
   expect(res.status()).toBe(307);
   expect(res.headers()["location"]).toContain("/");
 
-  await page.goto("/admin/crons", { waitUntil: "networkidle" });
-  await expect(page).not.toHaveURL(/\/admin\/crons$/);
+  await page.goto(adminUrl("/admin/crons"), { waitUntil: "networkidle" });
+  await expect(page).not.toHaveURL(/\/admin\/health\/crons$/);
   await expect(page.getByRole("heading", { name: "크론 실행" })).toHaveCount(0);
 });

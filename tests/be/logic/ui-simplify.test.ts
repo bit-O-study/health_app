@@ -555,14 +555,14 @@ describe("남은 화면까지 전부 (2026-09-18 8단계 마무리)", () => {
     expect(studio).toContain("app-card");
   });
 
-  it("관리자 화면은 사이드바 대시보드 한 틀 — 화면마다 다른 뒤로 줄이 없다", () => {
+  it("관리자 화면은 통합 콘솔로 이동하고 앱에는 중복 관리 화면이 없다", () => {
     const ADMIN = [
       "billing", "crons", "events", "exercise-media", "members", "reports", "settings", "test",
     ].map((p) => `src/app/admin/${p}/page.tsx`);
     for (const f of ADMIN) {
       const src = read(f);
-      expect(src, f).toMatch(/<main className="mx-auto w-full max-w-\w+ px-6 py-10 sm:px-8">/);
-      expect(src, f).toMatch(/<h1 className="mb-1 text-2xl font-bold/);
+      expect(src, f).toContain("redirect(");
+      expect(src, f).toContain("${ADMIN_CONSOLE_URL}/health/");
       expect(src, f).not.toContain("ChevronLeft");
       expect(src, f).not.toContain("<BackLink");
     }

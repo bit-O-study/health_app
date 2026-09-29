@@ -1,3 +1,4 @@
+import { adminUrl } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -28,7 +29,7 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
   );
 
   // 관리자 → 회원정보, 대상 행에서 영구정지
-  await apage.goto("/admin/members", { waitUntil: "networkidle" });
+  await apage.goto(adminUrl("/admin/members"), { waitUntil: "networkidle" });
   await apage.screenshot({ path: "test-results/admin-members.png", fullPage: true });
   const row = apage.locator("li", { hasText: targetEmail });
   await expect(row).toBeVisible();
@@ -71,7 +72,7 @@ test("관리자 기간정지(7일) → 회원 차단 → DB 반영", async ({ br
     [adminEmail.toLowerCase()],
   );
 
-  await apage.goto("/admin/members", { waitUntil: "networkidle" });
+  await apage.goto(adminUrl("/admin/members"), { waitUntil: "networkidle" });
   const row = apage.locator("li", { hasText: targetEmail });
   await expect(row).toBeVisible();
   await row.getByPlaceholder("정지 사유 (선택)").fill("E2E 기간정지");

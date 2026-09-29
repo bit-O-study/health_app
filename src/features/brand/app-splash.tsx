@@ -25,6 +25,7 @@ export function AppSplash() {
       className="app-splash fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-b from-brand-soft via-white to-brand-soft dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950"
       aria-hidden="true"
     >
+      <div className="flex flex-col items-center gap-3">
       <div className="flex items-center gap-2.5">
         <span className="relative inline-flex">
           {/* 배지 뒤에서 번지는 헤일로 */}
@@ -39,6 +40,8 @@ export function AppSplash() {
         <span className="app-splash-word text-2xl font-bold tracking-tight text-zinc-950 dark:text-zinc-100">
           {BRAND_NAME}
         </span>
+      </div>
+      <p className="text-sm text-zinc-500 dark:text-zinc-400">내가 쓸려고 만든 헬쓰앱</p>
       </div>
     </div>
   );

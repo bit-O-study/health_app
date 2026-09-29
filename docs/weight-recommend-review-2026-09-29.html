@@ -1,0 +1,288 @@
+<title>무게 추천 재설계 검수보고서</title>
+<meta name="description" content="운동마다 덤벨 1개·2개·바벨·원판·기구 중 무엇을 드는지 분석해 증량·디로드 단위를 다시 정한 변경의 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 960px) — 요약 → 도구별 단위 → 판정 규칙 → 과부하·디로드 예시 → 검증 → 결정 대기 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb; --on-brand:#ffffff;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --plate:#3c4a43; --plate-2:#8a9a92;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --plate:#c1ccc6; --plate-2:#6b7a73;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#06140e;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --plate:#c1ccc6; --plate-2:#6b7a73;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;display:grid;gap:40px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700;letter-spacing:-.01em}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code,.mono{font-family:var(--mono);font-size:.9em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 0;display:grid;gap:12px;border-bottom:1px solid var(--line);padding-bottom:28px}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.03em;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.strike{text-decoration:line-through;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+/* 원판·덤벨 단위 그림 */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:6px;min-width:0}
+.step .kg{font-family:var(--mono);font-size:26px;font-weight:500;font-variant-numeric:tabular-nums;color:var(--brand)}
+.step .who{font-weight:600}
+.step .why{font-size:13px;color:var(--muted)}
+.ladder{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-family:var(--mono);font-size:13px}
+.ladder span{border:1px solid var(--line);border-radius:6px;padding:2px 8px;background:var(--surface)}
+.ladder span.now{border-color:var(--brand);color:var(--brand);font-weight:500}
+.ladder span.down{border-color:var(--warn);color:var(--warn)}
+.ladder i{font-style:normal;color:var(--muted)}
+.chart svg{width:100%;height:auto;display:block}
+.note{font-size:13px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">검수보고서 · 운동 · 무게 추천</p>
+  <h1>무게 추천 재설계 — 무엇을 몇 개 드는지 보고 올리고 내린다</h1>
+  <p class="lede">운동마다 덤벨 1개인지, 덤벨 2개(양손)인지, 바벨·원판·기구인지 먼저 판정하고, 그 도구의 단위로만 점진적 과부하(증량)와 디로드(감량)를 추천하도록 바꿨습니다.</p>
+  <div class="meta">
+    <span>2026-09-29</span>
+    <span>커밋 <code>c794bb1a</code> (로컬, 푸시 전)</span>
+    <span>브랜치 <code>feat/support-admin-console</code></span>
+    <span class="pill ok">단위테스트 2,618 통과</span>
+    <span class="pill warn">E2E 미실행</span>
+  </div>
+</header>
+
+<section>
+  <h2>요약</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>요청</h3>
+      <ul class="clean">
+        <li>덤벨 양손 운동은 <b>4kg</b> 단위로 늘리거나 줄인다.</li>
+        <li>바벨은 <b>5kg</b>, 기구(머신·케이블)도 <b>5kg</b>.</li>
+        <li>운동을 분석해 덤벨 1개 / 덤벨 2개 / 바벨 / 기구 / 원판 하나 중 무엇인지 판정한다.</li>
+        <li>디로딩·점진적 과부하 추천이 그 판정을 따른다.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>결과</h3>
+      <ul class="clean">
+        <li>카탈로그 덤벨 종목 <b>185개</b> 모두 1개/2개로 분류되고, 테스트가 이를 보증한다.</li>
+        <li>증량·디로드·운동모드 ± 버튼·세트 방식·첫 처방이 같은 단위를 쓴다.</li>
+        <li>디로드가 제자리였던 버그를 고쳤다(덤벨 20kg → 예전 20kg, 이제 16kg).</li>
+        <li>계획해 둔 덤벨 10kg이 4kg 단위 때문에 12kg로 바뀌지 않는다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>도구별 단위</h2>
+  <p>기록한 무게는 <b>든 무게의 합</b>입니다. 그래서 덤벨 2개는 한 손 2kg씩 올리면 합계 4kg이 됩니다. 운동모드의 “증량 단위” 버튼에 도구 이름이 함께 보입니다(예: <code>덤벨 2개(양손) · 증량 단위 4kg</code>).</p>
+  <div class="steps">
+    <div class="step"><span class="who">덤벨 2개(양손)</span><span class="kg">±4kg</span><span class="why">한 손 2kg씩 · 벤치프레스, 레터럴, 컬, 런지, 숄더프레스</span></div>
+    <div class="step"><span class="who">덤벨 1개</span><span class="kg">±2kg</span><span class="why">원암 로우, 고블릿 스쿼트, 컨센트레이션 컬, 풀오버, 킥백</span></div>
+    <div class="step"><span class="who">바벨 · 스미스 · 랜드마인</span><span class="kg">±5kg</span><span class="why">봉 하나, 양쪽 2.5kg 원판씩 · 종목 크기와 무관</span></div>
+    <div class="step"><span class="who">원판 1장</span><span class="kg">±5kg</span><span class="why">플레이트 프론트 레이즈, 위티드 크런치</span></div>
+    <div class="step"><span class="who">머신 · 케이블</span><span class="kg">±5kg</span><span class="why">핀 한 칸 · 펙덱, 푸시다운도 5kg</span></div>
+    <div class="step"><span class="who">케틀벨 1개 / 2개</span><span class="kg">±4 / ±8kg</span><span class="why">더블·렌리게이드·시소 종목이 2개</span></div>
+  </div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>도구</th><th>예전 단위</th><th>새 단위</th><th>맞출 수 있는 눈금</th></tr></thead>
+      <tbody>
+        <tr><td>덤벨 2개(양손)</td><td class="num">2</td><td class="num">4</td><td class="num">2</td></tr>
+        <tr><td>덤벨 1개</td><td class="num">2</td><td class="num">2</td><td class="num">1</td></tr>
+        <tr><td>바벨 큰 종목 (스쿼트·데드·벤치)</td><td class="num">5</td><td class="num">5</td><td class="num">2.5</td></tr>
+        <tr><td>바벨 작은 종목 (컬·업라이트 로우)</td><td class="num"><span class="strike">2.5</span></td><td class="num">5</td><td class="num">2.5</td></tr>
+        <tr><td>머신·케이블 작은 기구 (펙덱·푸시다운)</td><td class="num"><span class="strike">2.5</span></td><td class="num">5</td><td class="num">2.5</td></tr>
+        <tr><td>원판 1장</td><td class="num"><span class="strike">2.5 또는 5</span></td><td class="num">5</td><td class="num">2.5</td></tr>
+        <tr><td>케틀벨 2개</td><td class="num"><span class="strike">4</span></td><td class="num">8</td><td class="num">4</td></tr>
+        <tr><td>배틀로프</td><td class="num"><span class="strike">2.5</span></td><td class="num">무게 없음</td><td class="num">—</td></tr>
+        <tr><td>맨몸·밴드·TRX</td><td class="num">무게 없음</td><td class="num">무게 없음</td><td class="num">—</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">단위는 한 번에 움직이는 폭이고, 눈금은 실제로 맞출 수 있는 가장 작은 무게 차이입니다. 지난 무게는 눈금에만 맞추고 거기서 단위만큼 움직입니다. 사용자가 종목별로 단위를 직접 정하면(선택지에 4·8kg 추가) 그 값이 단위이자 눈금이 됩니다.</p>
+</section>
+
+<section>
+  <h2>운동 분석: 덤벨 1개인가 2개인가</h2>
+  <p>1,237개 확장 카탈로그를 화면에 싣지 않으려고, 판정은 운동 id 규칙으로 합니다. 새 모듈 <code>src/features/routine/load-implement.ts</code>가 담당합니다.</p>
+  <div class="grid2">
+    <div class="box">
+      <h3>덤벨 1개로 보는 경우</h3>
+      <ul class="clean">
+        <li>이름에 <code>single-arm</code> <code>one-arm</code> <code>goblet</code> <code>pullover</code> <code>suitcase</code> <code>concentration</code> <code>kickback</code></li>
+        <li>운동법에 “덤벨 한 개”라고 적힌 종목 21개를 명단으로: 오버헤드 트라이셉스 익스텐션, 러시안 트위스트, 스모 스쿼트, 덤벨 스윙·스내치, 힙 쓰러스트, 사이드 벤드, 익스터널 로테이션 등</li>
+        <li>기본 “로우”의 덤벨 변형(벤치에 한 손 지지)</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>그 밖의 판정</h3>
+      <ul class="clean">
+        <li>나머지 덤벨 종목은 <b>2개(양손)</b></li>
+        <li>기구를 모르면 id에 박힌 기구로 짐작: <code>dumbbell-</code>, <code>barbell-</code>, <code>kettlebell-</code>, <code>cable-</code>…</li>
+        <li>그래도 모르면 “기구 미지정” 2.5kg(예전과 같음)</li>
+        <li>맨몸 종목이라도 원판·덤벨을 골랐으면 그 도구를 따른다</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>점진적 과부하와 디로드</h2>
+  <p>규칙 네 가지(목표 채우면 증량, 못 채우면 횟수부터, 3세션 정체면 디로드, 5세션 정체면 휴식)는 그대로입니다. 바뀐 것은 움직이는 폭입니다.</p>
+  <div class="box">
+    <h3>디로드: −10%를 단위의 배수로 올려서, 최소 한 단위</h3>
+    <p>예전에는 “무게 × 0.9를 단위로 반올림”이었습니다. 덤벨 2개 20kg은 18kg이 4kg 단위 반올림으로 다시 20kg이 되어, 디로드라고 하면서 무게가 그대로였습니다.</p>
+    <div class="chart" role="img" aria-label="정체 3세션 후 디로드 무게 비교: 덤벨 2개 20kg 예전 20 이번 16, 덤벨 1개 20kg 18, 바벨 100kg 90, 바벨 140kg 125, 머신 30kg 25">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg">
+        <g font-family="IBM Plex Sans KR, sans-serif" font-size="12" fill="var(--muted)">
+          <text x="0" y="16">지난 무게 대비 디로드 무게 (지난 무게 = 100%)</text>
+        </g>
+        <!-- 축: 60%~100%, x=170..620 -->
+        <g stroke="var(--line)" stroke-width="1">
+          <line x1="170" y1="30" x2="170" y2="225"/>
+          <line x1="282.5" y1="30" x2="282.5" y2="225" stroke-dasharray="3 3"/>
+          <line x1="395" y1="30" x2="395" y2="225" stroke-dasharray="3 3"/>
+          <line x1="507.5" y1="30" x2="507.5" y2="225" stroke-dasharray="3 3"/>
+          <line x1="620" y1="30" x2="620" y2="225" stroke-dasharray="3 3"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--muted)" text-anchor="middle">
+          <text x="170" y="242">60%</text><text x="282.5" y="242">70%</text><text x="395" y="242">80%</text><text x="507.5" y="242">90%</text><text x="620" y="242">100%</text>
+        </g>
+        <g font-family="IBM Plex Sans KR, sans-serif" font-size="12" fill="var(--ink-2)">
+          <text x="0" y="52">덤벨 2개 20kg (예전)</text>
+          <text x="0" y="88">덤벨 2개 20kg</text>
+          <text x="0" y="124">덤벨 1개 20kg</text>
+          <text x="0" y="160">바벨 100kg</text>
+          <text x="0" y="196">바벨 140kg</text>
+          <text x="0" y="220">머신 30kg</text>
+        </g>
+        <!-- width = (pct-60)/40*450 -->
+        <rect x="170" y="40" width="450" height="16" fill="var(--crit)" opacity=".75"/>
+        <rect x="170" y="76" width="225" height="16" fill="var(--brand)"/>
+        <rect x="170" y="112" width="337.5" height="16" fill="var(--brand)"/>
+        <rect x="170" y="148" width="337.5" height="16" fill="var(--brand)"/>
+        <rect x="170" y="184" width="329.5" height="16" fill="var(--brand)"/>
+        <rect x="170" y="208" width="262.5" height="12" fill="var(--brand)"/>
+        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--ink)">
+          <text x="560" y="52" text-anchor="end" fill="var(--on-brand)">20kg · 그대로</text>
+          <text x="387" y="88" text-anchor="end" fill="var(--on-brand)">16kg</text>
+          <text x="499" y="124" text-anchor="end" fill="var(--on-brand)">18kg</text>
+          <text x="499" y="160" text-anchor="end" fill="var(--on-brand)">90kg</text>
+          <text x="491" y="196" text-anchor="end" fill="var(--on-brand)">125kg</text>
+          <text x="424" y="218" text-anchor="end" fill="var(--on-brand)">25kg</text>
+        </g>
+      </svg>
+    </div>
+    <p class="note">가장 가벼운 무게라 더 내릴 수 없으면(예: 덤벨 2개 4kg) 무게는 그대로 두고 “세트를 절반으로 줄여 한 주 쉬어 가요”라고 안내합니다.</p>
+  </div>
+
+  <div class="box">
+    <h3>예시: 덤벨 벤치프레스(2개)</h3>
+    <div class="ladder" aria-label="덤벨 벤치프레스 무게 흐름">
+      <span>16</span><i>→</i><span class="now">20</span><i>목표 달성 → +4</i><span>24</span><i>→ … 정체 3세션 →</i><span class="down">20</span><i>(24에서 −4)</i>
+    </div>
+    <p>추천 문구: <code>지난번 20kg × 10회로 목표(10회)를 채웠어요. 덤벨 2개(양손) 기준 4kg(한 손 2kg씩) 올려 24kg 로 해요.</code></p>
+  </div>
+  <div class="box">
+    <h3>예시: 한 손 5kg 덤벨을 쓰는 사람</h3>
+    <div class="ladder" aria-label="덤벨 10kg 무게 흐름">
+      <span class="now">10</span><i>그대로 유지(12로 바꾸지 않음)</i><i>→ +4 →</i><span>14</span><i>(한 손 7kg)</i>
+    </div>
+    <p>지난 무게는 2kg 눈금에만 맞추기 때문에 10kg이 그대로 남습니다. 운동모드에서 직접 입력하거나 끌어서 바꿀 때도 같은 눈금을 씁니다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>바뀐 코드 경로</h2>
+  <p>단위를 쓰는 곳은 모두 <code>weightStepKg</code> 하나를 거치므로, 그 함수를 바꾸면 모든 경로가 함께 바뀝니다. 호출부를 모두 확인했습니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>파일</th><th>변경</th></tr></thead>
+      <tbody>
+        <tr><td><code>routine/load-implement.ts</code></td><td>새 모듈. 도구 판정, 단위·눈금·이름</td></tr>
+        <tr><td><code>routine/progress.ts</code></td><td><code>weightStepKg</code>를 도구 기준으로 바꾸고, <code>weightGridKg</code>·<code>implementFor</code> 추가</td></tr>
+        <tr><td><code>routine/overload.ts</code></td><td>증량은 눈금에 맞춘 지난 무게 + 단위, 디로드 <code>deloadKg</code>, 추천에 도구 이름·단위 포함</td></tr>
+        <tr><td><code>workout-timer/guided-workout.tsx</code></td><td>무게 입력 스냅을 눈금으로, 계획 무게 초기화·추천 적용도 눈금으로, 도구 이름 표시</td></tr>
+        <tr><td><code>components/weight-step-picker.tsx</code></td><td>“덤벨 2개(양손) · 증량 단위 4kg” 표시</td></tr>
+        <tr><td><code>routine/weight-steps.ts</code></td><td>선택지 4·8kg 추가</td></tr>
+        <tr><td><code>prescription.ts</code> · <code>set-scheme-picker.tsx</code> · <code>overload-advice.ts</code></td><td>코드 변경 없음. 새 단위를 자동으로 따름</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>검증</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>항목</th><th>결과</th><th>내용</th></tr></thead>
+      <tbody>
+        <tr><td>로직 단위테스트 전체</td><td><span class="pill ok">235 파일 · 2,618 통과</span></td><td>새 <code>load-implement.test.ts</code>, <code>overload.test.ts</code> 도구별 증량·디로드 7건 추가, 옛 단위를 단언하던 6건 갱신</td></tr>
+        <tr><td>카탈로그 전수 점검</td><td><span class="pill ok">통과</span></td><td>덤벨 종목 185개 모두 1개/2개로 분류, “덤벨 한 개·한 손” 운동법 종목은 모두 1개로</td></tr>
+        <tr><td>타입 검사 <code>tsc --noEmit</code></td><td><span class="pill ok">오류 0</span></td><td></td></tr>
+        <tr><td>ESLint (바꾼 파일)</td><td><span class="pill ok">오류 0</span></td><td>경고 9건은 원래 있던 사용 안 하는 disable 주석</td></tr>
+        <tr><td>E2E 3개</td><td><span class="pill warn">미실행</span></td><td><code>weight-step-picker</code>(덤벨 2개 10→14→10 시나리오 추가), <code>guided-complete-reenter</code>(펙덱 20→25), <code>overload-in-workout</code>(바벨 110·90kg, 변경 없음 확인). 아래 환경 문제로 dev 서버를 띄우지 못함</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box">
+    <h3><span class="pill crit">환경</span> 프로젝트 폴더 이동으로 node_modules 링크가 깨져 있음</h3>
+    <p>폴더가 <code>C:\git\health_app</code>에서 <code>C:\git\Bit-O\health_app</code>로 옮겨졌지만 node_modules 링크는 옛 경로를 가리킵니다. vitest는 옛 경로에 연결(정션)을 만들어 돌렸고, Next dev 서버(Turbopack)는 프로젝트 밖 링크를 거부해서 뜨지 않습니다. <code>corepack pnpm install</code>로 링크를 다시 만들면 풀립니다. 같은 폴더에서 다른 세션이 작업 중이라 이번에는 설치하지 않았습니다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 덤벨 2개 무게를 “양손 합계”로 보는 것이 맞나요?</h3>
+    <p>요청하신 “양손이면 4kg”은 기록이 합계라는 뜻으로 구현했습니다. 한 손 무게(10kg 덤벨 두 개를 “10kg”)로 적어 온 사용자에게는 +4kg이 한 손 +4kg, 두 덤벨 차이가 됩니다. 입력란에 “양손 합계”라고 안내하거나 “한 손 5kg” 보조 표시를 붙일지 정해 주세요.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 작은 머신·바벨 종목도 5kg이 맞나요?</h3>
+    <p>펙덱·푸시다운·바벨 컬도 5kg으로 올립니다(예전 2.5kg). 1.25kg 원판이나 보조추가 있는 헬스장이면 종목별로 2.5kg을 직접 고를 수 있습니다.</p>
+  </div>
+  <div class="decide">
+    <h3>3. node_modules 재설치 시점</h3>
+    <p>다른 세션 작업이 끝나면 <code>corepack pnpm install</code> 후 E2E 3개를 돌리겠습니다.</p>
+  </div>
+</section>
+</div>

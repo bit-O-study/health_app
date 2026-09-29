@@ -195,6 +195,13 @@ export default async function HistoryPage({
         </Link>
       </PageHeader>
       <main className="app-container space-y-4">
+        {/* 캘린더(칼로리·식단·다짐)와 서로 오간다 — 두 달력을 합치는 대신 연결(캘린더 3단계). */}
+        <Link
+          href={`/calendar?m=${year}-${pad(month0 + 1)}`}
+          className="app-press inline-flex h-7 items-center rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+        >
+          캘린더에서 보기 →
+        </Link>
         {/* 완료한 운동만 칠한다 — 날짜를 누르면 그날 상세. */}
         <section className="app-card px-1.5 py-2">
           <div className="grid grid-cols-7 gap-1">

@@ -355,3 +355,26 @@ function sumMacros(foods: FoodLog[]): { protein: number; carbs: number; fat: num
     fat: r1(foods.reduce((s, f) => s + (f.fat ?? 0), 0)),
   };
 }
+
+/**
+ * 운동한 날짜 모음(from~to) — 캘린더 연속 운동 일수용(3단계).
+ * 근력·유산소 완료, 운동 시간 기록, 런닝 중 하나라도 있으면 그날은 운동한 날이다
+ * (`month-stats.isActiveDay` 와 같은 기준 — 걷기만 한 날은 뺀다).
+ * 날짜 칸만 읽어서 가볍다. 네 조회는 서로 독립이라 한 번에 쏜다.
+ */
+export async function getActiveDates(from: string, to: string): Promise<Set<string>> {
+  const user = await getCurrentUser();
+  const out = new Set<string>();
+  if (!user) return out;
+  const supabase = await createSupabaseServerClient();
+  const [ex, cond, sess, runs] = await Promise.all([
+    supabase.from("exercise_completions").select("for_date").eq("user_id", user.id).eq("status", "done").gte("for_date", from).lte("for_date", to),
+    supabase.from("conditioning_completions").select("for_date").eq("user_id", user.id).eq("status", "done").gte("for_date", from).lte("for_date", to),
+    supabase.from("workout_sessions").select("for_date, duration_sec").eq("user_id", user.id).gt("duration_sec", 0).gte("for_date", from).lte("for_date", to),
+    supabase.from("run_sessions").select("for_date").eq("user_id", user.id).gte("for_date", from).lte("for_date", to),
+  ]);
+  for (const res of [ex, cond, sess, runs]) {
+    for (const r of (res.data ?? []) as { for_date: string }[]) out.add(r.for_date);
+  }
+  return out;
+}

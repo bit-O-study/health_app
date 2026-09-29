@@ -5,8 +5,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Dumbbell,
+  Flame,
   Footprints,
   Heart,
+  History,
   TrendingDown,
   TrendingUp,
 } from "lucide-react";
@@ -15,7 +17,17 @@ import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { seoulYmd } from "@/features/routine/data";
-import { getMonthlyCalendar } from "@/features/calendar/data-access";
+import { getActiveDates, getMonthlyCalendar } from "@/features/calendar/data-access";
+import {
+  activityLevel,
+  currentStreak,
+  plannedLabel,
+  type RoutineCycle,
+} from "@/features/calendar/month-stats";
+import { ShareMonthImage } from "@/features/calendar/components/share-month-image";
+import { getUserRoutine } from "@/features/routine/data-access";
+import { resolveRoutine } from "@/features/routine/data";
+import { shiftYmd } from "@/features/routine/progress";
 import {
   calorieBalance,
   dayAriaLabel,
@@ -94,6 +106,8 @@ export default async function CalendarPage({
     debug,
     coachEnabled,
     missionMarks,
+    routine,
+    activeDates,
   ] = await Promise.all([
     getMonthlyCalendar(from, to),
     getBodyLogs(),
@@ -101,7 +115,23 @@ export default async function CalendarPage({
     isDebugFeatureEnabled("steps"),
     isDebugFeatureEnabled("helssu-coach"),
     getMissionCalendar(from, to),
+    getUserRoutine(),
+    // 연속 운동 일수 — 달이 바뀌어도 이어지게 오늘부터 1년 거꾸로.
+    getActiveDates(shiftYmd(today, -365), today),
   ]);
+  const streak = currentStreak(activeDates, today);
+  // 앞으로 할 루틴(읽기 전용). 루틴이 없으면 예정 표시를 안 한다.
+  const cycle: RoutineCycle | null = routine
+    ? {
+        startDate: routine.startDate,
+        variantId: routine.variantId,
+        customWeek: routine.customWeek,
+        week: resolveRoutine(routine.splits, routine.variantId, routine.customWeek).variant.week,
+      }
+    : null;
+  const planFor = (date: string) => (cycle && date > today ? plannedLabel(cycle, date) : null);
+  // 칸 색 진하기 기준 — 이 기간에서 운동 kcal 이 가장 많은 날.
+  const maxExerciseKcal = Math.max(0, ...[...byDate.values()].map((v) => v.exerciseKcal));
   // 칼로리 수지 — 식단 기록한 날만, 기초대사량까지 넣어서(예전엔 빠져 늘 '적자' 였다).
   const balance = calorieBalance(byDate.values(), bmr);
 
@@ -153,8 +183,25 @@ export default async function CalendarPage({
       </Link>
     </PageHeader>
     <main className="app-container space-y-5">
-      {/* 걸음수 동기화(네이티브) + 생리 기록(여성). 둘 다 없으면 줄째 숨긴다. */}
-      <div className="flex items-center justify-end gap-2 empty:hidden">
+      {/* 연속 운동 일수(왼쪽) · 운동 기록 화면 · 생리 기록(여성) · 걸음수 동기화 */}
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        {streak > 0 ? (
+          <span
+            data-testid="calendar-streak"
+            className="mr-auto inline-flex h-7 items-center gap-1 rounded-full bg-brand-soft px-2.5 text-xs font-bold text-brand"
+          >
+            <Flame aria-hidden="true" size={13} />
+            {streak}일 연속 운동
+          </span>
+        ) : null}
+        {/* 운동 기록(부위별 달력)과 서로 오간다 — 두 달력을 합치는 대신 연결(3단계). */}
+        <Link
+          href={`/settings/history?month=${isWeek ? week.from.slice(0, 7) : monthParam({ year, month0 })}`}
+          className="app-press inline-flex h-7 items-center gap-1 rounded-full bg-zinc-100 px-2.5 text-xs font-semibold text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+        >
+          <History aria-hidden="true" size={12} />
+          운동 기록
+        </Link>
         {profile?.gender === "female" ? (
           <Link
             href="/cycle"
@@ -177,6 +224,7 @@ export default async function CalendarPage({
             missionMarks={missionMarks}
             periodDays={periodDays}
             predictedDays={predictedDays}
+            planFor={planFor}
           />
           <CalendarLegend showCycle={profile?.gender === "female"} />
         </div>
@@ -211,6 +259,8 @@ export default async function CalendarPage({
             const isPeriod = periodDays.has(date);
             const isPredicted = predictedDays.has(date);
             const mMark = missionMarks[date];
+            const plan = s ? null : planFor(date);
+            const level = activityLevel(s?.exerciseKcal ?? 0, maxExerciseKcal);
             // 일요일·공휴일만 빨강. 토요일 파랑은 뺐다(색을 줄여 날짜 기록이 먼저 보이게).
             const dayColor = isHol || col === 6
               ? "text-danger"
@@ -232,7 +282,8 @@ export default async function CalendarPage({
                   weighedKg: s?.weighedKg ?? null,
                 })}
                 aria-current={isToday ? "date" : undefined}
-                className="relative flex min-h-[3.25rem] flex-col items-center rounded-lg px-0.5 py-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+                data-level={level}
+                className={`relative flex min-h-[3.25rem] flex-col items-center rounded-lg px-0.5 py-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06] ${LEVEL_BG[level]}`}
               >
                 {(isPeriod || isPredicted) && (
                   <Heart
@@ -304,6 +355,11 @@ export default async function CalendarPage({
                     {distanceLabel(s.runM)}
                   </span>
                 ) : null}
+                {plan?.label ? (
+                  <span data-testid="planned" className="w-full truncate text-center text-xs leading-4 text-zinc-400 dark:text-zinc-500">
+                    {plan.label}
+                  </span>
+                ) : null}
               </Link>
             );
           })}
@@ -329,6 +385,9 @@ export default async function CalendarPage({
           </div>
         </div>
       </section>
+
+      {/* 이달 기록 이미지 — 운동한 날·연속·런닝을 한 장으로(3단계). 월간에서만. */}
+      {isWeek ? null : <ShareMonthImage month={monthParam({ year, month0 })} />}
 
       {/* AI 다짐 짜주기 — 디버그 계정(짐꾼쌤)에만. 내 데이터로 실천 가능한 다짐 제안. */}
       {coachEnabled ? <CommitmentSuggestions /> : null}
@@ -469,6 +528,9 @@ function BalanceNote({
   );
 }
 
+/** 운동량 농도 칸 색 — 0(안 함)~3(많이). 브랜드 토큰만(ui-simplify 규칙). */
+const LEVEL_BG = ["", "bg-brand/10", "bg-brand/20", "bg-brand/35"] as const;
+
 /** 달력 표시 뜻 — 처음 쓰는 사람이 +/−·덤벨·○△✕·하트를 읽을 수 있게. */
 function CalendarLegend({ showCycle }: { showCycle: boolean }) {
   const item = "inline-flex items-center gap-1 whitespace-nowrap";
@@ -483,6 +545,8 @@ function CalendarLegend({ showCycle }: { showCycle: boolean }) {
       <li className={item}><Dumbbell aria-hidden="true" size={11} className="text-brand" />근력운동</li>
       <li className={item}><Footprints aria-hidden="true" size={11} style={{ color: "var(--info)" }} />런닝 거리</li>
       <li className={item}><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />체중 잰 날</li>
+      <li className={item}><span aria-hidden="true" className="inline-flex gap-px"><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[1]}`} /><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[2]}`} /><span className={`h-2.5 w-2.5 rounded-sm ${LEVEL_BG[3]}`} /></span>진할수록 운동 많이</li>
+      <li className={item}><span className="text-zinc-400 dark:text-zinc-500">회색 글자</span>예정 루틴</li>
       <li className={item}><span className="font-bold"><span className="text-brand">○</span><span className="text-amber-500">△</span><span className="text-rose-400">✕</span></span>다짐 달성</li>
       {showCycle ? (
         <li className={item}><Heart aria-hidden="true" size={10} className="fill-rose-500 text-rose-500" />생리·예정</li>
@@ -502,7 +566,9 @@ function WeekList({
   missionMarks,
   periodDays,
   predictedDays,
+  planFor,
 }: {
+  planFor: (date: string) => { label: string; rest: boolean } | null;
   dates: string[];
   today: string;
   byDate: Map<string, DaySummary>;
@@ -562,6 +628,11 @@ function WeekList({
               </span>
               <span className="min-w-0 flex-1 space-y-1">
                 {holiday ? <span className="block truncate text-xs text-danger">{holiday.name}</span> : null}
+                {!s && planFor(date)?.label ? (
+                  <span data-testid="planned" className="block truncate text-xs text-zinc-400 dark:text-zinc-500">
+                    예정 · {planFor(date)!.label}
+                  </span>
+                ) : null}
                 <span className="flex items-center gap-2">
                   <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.06]">
                     <span

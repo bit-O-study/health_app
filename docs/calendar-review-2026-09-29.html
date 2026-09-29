@@ -1,0 +1,322 @@
+<title>캘린더 기능 검수보고서</title>
+<meta name="description" content="짐꾼 캘린더의 현재 기능·보이는 데이터·문제를 코드로 점검하고, 꼭 추가할 것과 추가하면 좋을 것을 우선순위로 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 960px) — 요약 → 지금 캘린더 → 보이는/안 보이는 데이터 → 문제 → 꼭 추가 → 추가하면 좋음 → 순서 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.88em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.c{text-align:center;white-space:nowrap}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+
+/* 항목 카드 */
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 3;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+
+/* 달력 칸 예시 */
+.cells{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.cellmock{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:10px;min-width:0}
+.cal{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
+.day{border:1px solid var(--line-2);border-radius:8px;min-height:68px;padding:4px 5px;display:grid;align-content:start;gap:1px;font-size:10.5px;font-variant-numeric:tabular-nums;position:relative;background:var(--ground)}
+.day .n{font-weight:600;font-size:12px}
+.day .n.today{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--brand);color:var(--surface)}
+.day .in{color:var(--ink-2)} .day .out{color:var(--brand)}
+.day .mk{position:absolute;top:4px;right:5px;font-size:10px}
+.day .run{color:var(--info);font-weight:600}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:var(--muted)}
+.legend b{color:var(--ink);font-weight:600}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">검수보고서 · 캘린더 · 짐꾼</p>
+  <h1>캘린더: 지금 보이는 것, 틀린 것, 더할 것</h1>
+  <p class="lede">캘린더 코드를 처음부터 끝까지 읽고, 지금 무엇을 보여 주는지, 어디가 틀렸는지, 무엇을 더하면 좋은지 정리했습니다. 코드는 아직 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-29</span>
+    <span>대상: <code>/calendar</code> · <code>/calendar/week</code> · <code>/calendar/[날짜]</code></span>
+    <span class="pill crit">바로 고칠 오류 1</span>
+    <span class="pill warn">꼭 추가 7</span>
+    <span class="pill info">추가하면 좋음 8</span>
+  </div>
+</header>
+
+<section>
+  <h2>요약</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>잘 되어 있는 것</h3>
+      <ul class="clean">
+        <li>월간·주간 달력, 오늘 표시, 공휴일·대체공휴일·음력 명절·삼복까지 자동 계산</li>
+        <li>날마다 섭취·소비 칼로리, 근력운동 한 날 표시, 다짐 달성(○△✕), 생리 기록·예측</li>
+        <li>날짜를 누르면 그날 운동·식단·걸음수·다짐을 한 화면에</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>가장 급한 것</h3>
+      <ul class="clean">
+        <li><b>칼로리 흑자·적자가 거의 모든 사용자에게 “적자”로 나옵니다.</b> 기초대사량을 계산해 두고도 쓰지 않습니다.</li>
+        <li>표시(○△✕, 덤벨, 하트, +/−)의 뜻을 알려 주는 범례가 없습니다.</li>
+        <li>런닝 기록이 캘린더에 안 보입니다(8/11 요청, 운동 기록 화면에만 반영).</li>
+        <li>날짜 상세 화면이 막다른 길입니다. 앞뒤 날짜로 못 가고, 거기서 기록을 추가할 수도 없습니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>지금 캘린더</h2>
+  <div class="cells">
+    <div class="cellmock">
+      <h3>지금 달력 칸</h3>
+      <div class="cal" aria-label="지금 달력 칸 예시">
+        <div class="day"><span class="n">22</span><span class="in">+1,850</span><span class="out">-320</span><span class="mk">○</span></div>
+        <div class="day"><span class="n">23</span><span class="in">+2,100</span><span class="out">-410</span><span class="mk">🏋</span></div>
+        <div class="day"><span class="n">24</span><span class="in">+1,600</span><span class="mk">△</span></div>
+        <div class="day"><span class="n today">25</span><span class="in">+900</span><span class="out">-180</span></div>
+      </div>
+      <p class="cap">숫자와 기호가 무엇인지 화면 어디에도 설명이 없습니다. 25일 저녁에 5km를 뛰었어도 칸에는 걷기 칼로리와 합쳐진 −180만 보입니다.</p>
+    </div>
+    <div class="cellmock">
+      <h3>제안: 범례 + 런닝 표시</h3>
+      <div class="cal" aria-label="제안 달력 칸 예시">
+        <div class="day"><span class="n">22</span><span class="in">+1,850</span><span class="out">-320</span><span class="mk">○</span></div>
+        <div class="day"><span class="n">23</span><span class="in">+2,100</span><span class="out">-410</span><span class="mk">🏋</span></div>
+        <div class="day"><span class="n">24</span><span class="in">+1,600</span><span class="mk">△</span></div>
+        <div class="day"><span class="n today">25</span><span class="in">+900</span><span class="out">-180</span><span class="run">5.2km</span></div>
+      </div>
+      <div class="legend"><span><b>+</b> 먹은 kcal</span><span><b>−</b> 운동 kcal</span><span><b>🏋</b> 근력운동</span><span><b>km</b> 런닝</span><span><b>○△✕</b> 다짐 달성</span></div>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>기능</th><th>어디서</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>월간 달력(월요일 시작), 앞뒤 달 이동</td><td><code>calendar/page.tsx:123</code></td><td class="yes">동작</td></tr>
+        <tr><td>주간 달력</td><td><code>/calendar/week</code></td><td class="part">동작 · 제목이 “2026-09-28 ~ 2026-10-04” 원문 날짜, 지난주도 “이번 주 요약”</td></tr>
+        <tr><td>공휴일·대체공휴일·음력·삼복</td><td><code>features/calendar/holidays.ts</code></td><td class="part">동작 · 임시공휴일은 코드에 손으로 적어야 함</td></tr>
+        <tr><td>섭취 +kcal / 소비 −kcal</td><td><code>data-access.ts:49</code></td><td class="part">동작 · 소비에 걷기가 섞임</td></tr>
+        <tr><td>근력운동 한 날(덤벨)</td><td>달력 칸</td><td class="yes">동작</td></tr>
+        <tr><td>다짐 달성 ○△✕</td><td><code>commitments/data-access.ts:308</code></td><td class="yes">동작 · 오늘까지만</td></tr>
+        <tr><td>생리 기록·예측(여성)</td><td>달력 칸</td><td class="yes">동작</td></tr>
+        <tr><td>이번 달 합계 · 칼로리 흑자/적자 · 현재 체중</td><td><code>calendar/page.tsx:271</code></td><td class="no">흑자/적자 계산 오류</td></tr>
+        <tr><td>날짜 상세(섭취·소비·걸음수·운동 시간·다짐·운동·식단)</td><td><code>/calendar/[date]</code></td><td class="part">읽기 전용 · 앞뒤 날짜 이동 없음</td></tr>
+        <tr><td>AI 다짐 짜주기</td><td><code>calendar/page.tsx:286</code></td><td class="part">디버그 계정에만</td></tr>
+        <tr><td>목표 보기 · 통계 보기</td><td><code>view=goals</code> · <code>view=stats</code></td><td class="no">들어가는 링크가 없음(죽은 화면)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>앱에는 있는데 캘린더에는 안 보이는 데이터</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>데이터</th><th class="c">달력 칸</th><th class="c">날짜 상세</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td>섭취·운동 칼로리</td><td class="c yes">보임</td><td class="c yes">보임</td><td></td></tr>
+        <tr><td>근력운동(세트·횟수·무게)</td><td class="c part">표시만</td><td class="c yes">보임</td><td></td></tr>
+        <tr><td>걸음수</td><td class="c part">칼로리에 합산</td><td class="c yes">보임</td><td>“운동 소비”에 섞여 이름과 다름</td></tr>
+        <tr><td><b>런닝</b> 거리·시간·페이스</td><td class="c no">안 보임</td><td class="c no">안 보임</td><td><code>run_sessions</code>에 이미 있음. 운동 기록 화면에만 표시</td></tr>
+        <tr><td>그날 체중·체성분</td><td class="c part">최신 체중만</td><td class="c no">안 보임</td><td>잰 날짜에 점을 찍을 수 있음</td></tr>
+        <tr><td>물 마신 양</td><td class="c no">안 보임</td><td class="c no">안 보임</td><td>기록은 저장되고 있음</td></tr>
+        <tr><td>단백질·탄수·지방</td><td class="c no">—</td><td class="c no">안 보임</td><td>식단 화면에는 있음</td></tr>
+        <tr><td>앞으로 할 루틴·쉬는 날</td><td class="c no">안 보임</td><td class="c no">안 보임</td><td>캘린더가 과거만 봄</td></tr>
+        <tr><td>연속 운동 일수(스트릭)</td><td class="c no">안 보임</td><td class="c">—</td><td>계산 코드는 이미 있음(<code>launcher/streak.ts</code>)</td></tr>
+        <tr><td>그룹 인증·트레이너 코멘트</td><td class="c no">안 보임</td><td class="c no">안 보임</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>바로 고칠 오류</h2>
+  <div class="items">
+    <div class="item">
+      <span class="pill crit tag">오류</span>
+      <h3>칼로리 흑자·적자가 사실상 항상 “적자”</h3>
+      <p class="why">지금 계산은 “운동 소비 − 먹은 양”입니다. 기초대사량(가만히 있어도 쓰는 1,400~1,800kcal)을 빼 놓았기 때문에, 하루 2,000kcal를 먹고 300kcal 운동한 사람은 −1,700 “적자”로 나옵니다. 실제로는 기초대사량을 더하면 거의 균형입니다. 기초대사량은 이미 계산해서 넘겨주는데 화면이 안 씁니다.</p>
+      <p class="where"><code>src/app/calendar/page.tsx:379</code> <code>NetStat</code> · <code>src/features/calendar/data-access.ts:56</code> <code>bmr</code> <span class="size">작음</span></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>꼭 추가할 것</h2>
+  <div class="items">
+    <div class="item">
+      <span class="pill warn tag">1</span>
+      <h3>칼로리 카드를 기초대사량 포함으로 고치고, 걷기를 운동과 나누기</h3>
+      <p class="why">“기초대사량 + 운동 + 걷기 − 먹은 양”으로 계산하고, 요약에 운동·걷기를 따로 적습니다. 지금 숫자는 사용자를 잘못 안내합니다.</p>
+      <p class="where"><code>calendar/page.tsx</code> · <code>data-access.ts:136</code> <span class="size">작음</span></p>
+    </div>
+    <div class="item">
+      <span class="pill warn tag">2</span>
+      <h3>달력 아래 범례</h3>
+      <p class="why">+ / − 숫자, 덤벨, ○△✕, 하트가 무엇인지 한 줄로 알려 줍니다. 지금은 처음 쓰는 사람이 뜻을 알 방법이 없습니다.</p>
+      <p class="where"><code>calendar/page.tsx</code> <span class="size">작음</span></p>
+    </div>
+    <div class="item">
+      <span class="pill warn tag">3</span>
+      <h3>런닝을 캘린더에 표시</h3>
+      <p class="why">달력 칸에 “5.2km”, 날짜 상세에 거리·시간·평균 페이스·경로 보기 링크. 8/11에 요청했고 운동 기록 화면에만 반영됐습니다. 데이터는 이미 <code>run_sessions</code>에 있습니다.</p>
+      <p class="where"><code>data-access.ts</code> (<code>getRunSessionsRange</code> 재사용) · <code>calendar/[date]/page.tsx</code> <span class="size">중간</span></p>
+    </div>
+    <div class="item">
+      <span class="pill warn tag">4</span>
+      <h3>날짜 상세에서 앞뒤 날짜 이동과 기록 바로가기</h3>
+      <p class="why">‹ 어제 · 내일 › 이동, “식단 추가”·“운동 기록” 버튼. 지금은 한 날을 보고 나면 달력으로 돌아가야 다른 날을 볼 수 있습니다.</p>
+      <p class="where"><code>calendar/[date]/page.tsx</code> <span class="size">작음</span></p>
+    </div>
+    <div class="item">
+      <span class="pill warn tag">5</span>
+      <h3>주간 달력 다듬기</h3>
+      <p class="why">제목을 “9월 넷째 주 (9/28–10/4)”로, 지난주는 “지난 주 요약”으로. 월간 칸을 그대로 줄여 쓰고 있어 빈 공간이 많으니 요일별 막대로 바꿉니다.</p>
+      <p class="where"><code>calendar/page.tsx:143</code> · <code>:273</code> <span class="size">중간</span></p>
+    </div>
+    <div class="item">
+      <span class="pill warn tag">6</span>
+      <h3>화면 읽기 프로그램 지원</h3>
+      <p class="why">날짜 칸마다 “9월 25일, 먹은 900kcal, 운동 180kcal, 다짐 달성”처럼 읽히게 하고, 오늘에 현재 날짜 표시를 답니다. 지금은 “25 +900 -180”으로만 읽힙니다.</p>
+      <p class="where"><code>calendar/page.tsx:183</code> <span class="size">작음</span></p>
+    </div>
+    <div class="item">
+      <span class="pill warn tag">7</span>
+      <h3>죽은 화면 정리와 테스트</h3>
+      <p class="why">링크 없는 목표·통계 보기는 지우거나 메뉴에 연결합니다. 칼로리 합산·주간 범위 계산에 단위테스트, 주간·날짜 상세에 E2E를 붙입니다(지금은 체중 표시 E2E 하나뿐). 오류 화면(<code>error.tsx</code>)도 추가합니다.</p>
+      <p class="where"><code>calendar/page.tsx:70</code> · <code>:169</code> · <code>tests/</code> <span class="size">중간</span></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>추가하면 좋을 것</h2>
+  <div class="items">
+    <div class="item"><span class="pill info tag">A</span><h3>앞으로 할 루틴·쉬는 날 미리 보기</h3><p class="why">다음 주에 무슨 부위를 하는지 달력에서 봅니다. 읽기 전용으로 두면 “오늘만 운동은 루틴을 건드리지 않는다”는 원칙 2와 충돌하지 않습니다. 달력에서 날짜를 바꾸게 하려면 그날만 바꾸는 기록(daily_plan)에 써야 합니다.</p><p class="where">원칙 <code>docs/원칙.md</code> 2번 <span class="size">큼</span></p></div>
+    <div class="item"><span class="pill info tag">B</span><h3>연속 운동 일수와 활동 농도</h3><p class="why">“12일 연속” 배지와, 운동량이 많은 날일수록 칸 색이 진해지는 표시. 계산 코드가 이미 있습니다.</p><p class="where"><code>launcher/streak.ts</code> <span class="size">작음</span></p></div>
+    <div class="item"><span class="pill info tag">C</span><h3>체중 잰 날 점, 물 마신 양</h3><p class="why">체중 변화를 달력에서 바로 보고, 저장만 되고 안 보이던 물 기록을 날짜 상세에 보여 줍니다.</p><p class="where"><code>weight_logs</code> · <code>water_logs</code> <span class="size">작음</span></p></div>
+    <div class="item"><span class="pill info tag">D</span><h3>날짜 상세에 단백질·탄수·지방</h3><p class="why">식단 화면에 있는 영양 막대를 그날 단위로 보여 줍니다.</p><p class="where"><code>calendar/[date]/page.tsx</code> <span class="size">작음</span></p></div>
+    <div class="item"><span class="pill info tag">E</span><h3>캘린더와 운동 기록 화면 합치기</h3><p class="why">지금 달력이 두 개입니다(<code>/calendar</code>, <code>/settings/history</code>). 보여 주는 데이터가 서로 달라 헷갈립니다. 하나로 합치거나 서로 연결합니다.</p><p class="where"><code>settings/history/page.tsx</code> <span class="size">중간</span></p></div>
+    <div class="item"><span class="pill info tag">F</span><h3>AI 다짐 짜주기 정식 공개</h3><p class="why">구독 결제 게이트가 준비되면 디버그 플래그에서 빼 유료 기능으로 엽니다.</p><p class="where"><code>docs/DEBUG-FEATURES.md:58</code> <span class="size">작음</span></p></div>
+    <div class="item"><span class="pill info tag">G</span><h3>이번 달 기록 이미지로 공유</h3><p class="why">한 달 운동한 날을 한 장 이미지로 만들어 카카오톡·그룹에 공유. 그룹 인증 표시도 함께.</p><p class="where">공유 기능 재사용 <span class="size">중간</span></p></div>
+    <div class="item"><span class="pill info tag">H</span><h3>불러오기 속도</h3><p class="why">생리 기록 조회가 두 번째 차례에 따로 돌고, 다짐 조회도 순서대로 돕니다. 첫 번째 병렬 묶음에 넣고, 최신 체중은 120건 대신 2건만 읽습니다.</p><p class="where"><code>calendar/page.tsx:111</code> · <code>commitments/data-access.ts:308</code> <span class="size">작음</span></p></div>
+  </div>
+</section>
+
+<section>
+  <h2>지난 요청 상태</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>요청</th><th>날짜</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>다짐 달성 ○△✕ 표시</td><td>7/07</td><td class="yes">완료</td></tr>
+        <tr><td>근력운동 한 날 덤벨 표시</td><td>7/16</td><td class="yes">완료</td></tr>
+        <tr><td>체중 잰 날짜 표시</td><td>7/31</td><td class="yes">완료</td></tr>
+        <tr><td>오늘 동그라미·토요일 파랑 제거</td><td>9/15–16</td><td class="yes">완료</td></tr>
+        <tr><td>월간·주간 메뉴</td><td>9/27</td><td class="part">완료 · 실기기 확인 대기</td></tr>
+        <tr><td>캘린더 주간 요약 카드</td><td>—</td><td class="part">넣었다가 “홈에만” 요청으로 뺌</td></tr>
+        <tr><td>런닝 거리·페이스를 캘린더 날짜 상세에</td><td>8/11</td><td class="no">운동 기록 화면에만 반영, 캘린더 미반영</td></tr>
+        <tr><td>주간 통합 리포트 캘린더 노출</td><td>9/01</td><td class="no">대기</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>추천 순서</h2>
+  <div class="phase">
+    <div class="box">
+      <h3><span class="pill crit">1단계</span> 틀린 것 바로잡기</h3>
+      <ul class="clean"><li>칼로리 카드(오류 + 꼭 1)</li><li>범례(꼭 2)</li><li>화면 읽기 지원(꼭 6)</li><li>죽은 화면·오류 화면·테스트(꼭 7)</li></ul>
+      <p class="cap">작은 변경 위주, 하루 분량</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">2단계</span> 빠진 기록 채우기</h3>
+      <ul class="clean"><li>런닝 표시(꼭 3)</li><li>날짜 상세 이동·바로가기(꼭 4)</li><li>주간 달력(꼭 5)</li><li>체중 점·물·영양소(좋음 C·D)</li></ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">3단계</span> 더 쓰고 싶게</h3>
+      <ul class="clean"><li>스트릭·활동 농도(좋음 B)</li><li>앞으로 할 루틴 미리 보기(좋음 A)</li><li>두 달력 합치기(좋음 E)</li><li>공유 이미지(좋음 G)</li></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 칼로리 카드 이름</h3>
+    <p>지금은 “소비가 더 많으면 흑자”입니다. 흔히 쓰는 말로는 이 경우를 “적자(살 빠지는 쪽)”라고 합니다. “오늘 −300kcal (살 빠지는 쪽)”처럼 부호와 설명으로 바꾸기를 추천합니다.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 1단계부터 바로 진행할까요?</h3>
+    <p>OK 하시면 1단계를 구현하고 테스트까지 한 뒤 다시 보고드리겠습니다.</p>
+  </div>
+  <div class="decide">
+    <h3>3. 두 달력(캘린더 · 운동 기록)을 합칠지</h3>
+    <p>합치면 메뉴가 줄고 데이터가 한곳에 모입니다. 대신 운동 기록 화면에 익숙한 사용자에게는 위치가 바뀝니다.</p>
+  </div>
+</section>
+</div>

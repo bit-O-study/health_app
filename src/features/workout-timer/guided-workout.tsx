@@ -102,14 +102,20 @@ import { seoulYmd } from "@/features/routine/data";
 import { enqueuePending } from "@/lib/offline/pending-queue";
 import type { PendingWrite } from "@/lib/offline/pending-writes";
 import { reportAppEvent } from "@/lib/observability/report-client";
-import { weightStepKg } from "@/features/routine/progress";
+import { implementFor, weightGridKg, weightStepKg } from "@/features/routine/progress";
+import { implementInfo } from "@/features/routine/load-implement";
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";
 
-function normalizeWeightKg(value: number | null, step: number): number | null {
+/**
+ * 무게를 **눈금**(`weightGridKg`)에 맞춘다 — 증량 단위(step)가 아니다.
+ * 덤벨 2개는 4kg 씩 오르내리지만 10kg(한 손 5kg)도 들 수 있는 무게라, 단위 격자로
+ * 맞추면 계획해 둔 무게가 조용히 12kg 로 바뀐다.
+ */
+function normalizeWeightKg(value: number | null, grid: number): number | null {
   if (value === null) return null;
-  return Math.max(step, Math.round(value / step) * step);
+  return Math.max(grid, Math.round((Math.round(value / grid) * grid) * 100) / 100);
 }
 
 /** 가이드 큐의 한 항목. 본운동·워밍업·마무리 통합 표현. */
@@ -251,6 +257,7 @@ function NumberScrubber({
   min,
   max,
   step,
+  snap,
   allowBodyweight = false,
   onChange,
 }: {
@@ -260,6 +267,8 @@ function NumberScrubber({
   min: number;
   max: number;
   step: number;
+  /** 직접 입력·끌기에서 맞출 눈금. 없으면 step. (덤벨 2개: step 4kg · 눈금 2kg) */
+  snap?: number;
   allowBodyweight?: boolean;
   onChange: (v: number | null) => void;
 }) {
@@ -270,7 +279,8 @@ function NumberScrubber({
   const [editing, setEditing] = useState(false);
   const PX_PER_STEP = 12;
   const clamp = (v: number) => Math.min(max, Math.max(min, v));
-  const round = (v: number) => Math.round(v / step) * step;
+  const grid = snap ?? step;
+  const round = (v: number) => Math.round((Math.round(v / grid) * grid) * 100) / 100;
 
   function applyDelta(base: number, dxSteps: number) {
     const nv = round(base + dxSteps * step);
@@ -537,6 +547,13 @@ export function GuidedOverlay({
     item?.kind === "main"
       ? (weightStepKg(item.exerciseId, item.equipment, weightStepOverride) ?? 1)
       : 1;
+  const weightGrid =
+    item?.kind === "main"
+      ? (weightGridKg(item.exerciseId, item.equipment, weightStepOverride) ?? weightStep)
+      : 1;
+  // 무엇을 드는지("덤벨 2개(양손)") — 단위 버튼 옆에 같이 보여 준다.
+  const implementLabel =
+    item?.kind === "main" ? implementInfo(implementFor(item.exerciseId, item.equipment)).label : "";
   const [holdSec, setHoldSec] = useState(0);
   const [holdRunning, setHoldRunning] = useState(false);
   // 운동/세트가 바뀌면 홀드 타이머를 멈추고 0으로. (완료 세트 수·현재 운동 인덱스 기준)
@@ -576,9 +593,9 @@ export function GuidedOverlay({
     if (it && it.kind === "main") {
       const saved = getMainEdit(it.rowId);
       const init = saved
-        ? { ...saved, w: normalizeWeightKg(saved.w, weightStepKg(it.exerciseId, it.equipment) ?? 1) }
+        ? { ...saved, w: normalizeWeightKg(saved.w, weightGridKg(it.exerciseId, it.equipment) ?? 1) }
         : {
-            w: normalizeWeightKg(it.weightKg, weightStepKg(it.exerciseId, it.equipment) ?? 1),
+            w: normalizeWeightKg(it.weightKg, weightGridKg(it.exerciseId, it.equipment) ?? 1),
             reps: it.reps > 0 ? it.reps : 10,
             sets: it.sets > 0 ? it.sets : 3,
           };
@@ -650,7 +667,7 @@ export function GuidedOverlay({
   function applyAdvice(v: { weightKg: number | null; reps: number | null }) {
     const patch: { w?: number | null; reps?: number } = {};
     if (v.weightKg !== null) {
-      patch.w = Math.min(500, normalizeWeightKg(v.weightKg, weightStep) ?? 0);
+      patch.w = Math.min(500, normalizeWeightKg(v.weightKg, weightGrid) ?? 0);
     }
     if (v.reps !== null) {
       patch.reps = timed
@@ -1421,6 +1438,7 @@ export function GuidedOverlay({
                     min={0}
                     max={500}
                     step={weightStep}
+                    snap={weightGrid}
                     allowBodyweight
                     onChange={(v) => putEdit({ w: v })}
                   />
@@ -1449,7 +1467,7 @@ export function GuidedOverlay({
 
             {editable && item.kind === "main" && !timed ? (
               <div className="mt-2 w-full">
-                <WeightStepPicker exerciseId={item.exerciseId} currentStepKg={weightStep} isOverridden={weightStepOverride !== null} onSaved={() => router.refresh()} />
+                <WeightStepPicker exerciseId={item.exerciseId} currentStepKg={weightStep} implementLabel={implementLabel} isOverridden={weightStepOverride !== null} onSaved={() => router.refresh()} />
               </div>
             ) : null}
 

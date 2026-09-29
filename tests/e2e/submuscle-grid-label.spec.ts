@@ -30,7 +30,7 @@ test("어깨+후면삼각근은 요일별 그리드에 '후면 삼각근'으로 
   );
 
   // 메인 '다가오는 7일' 그리드 — select 없음, 그리드 배지가 보여야 한다.
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(600);
   await expect(page.getByText("후면 삼각근").first()).toBeVisible();
   // 0일차 그리드 셀이 "어깨"가 아니라 "후면 삼각근" 이어야 한다(전체 라벨 대체 확인).

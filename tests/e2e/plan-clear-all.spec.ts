@@ -27,7 +27,7 @@ test("전체 운동 초기화: 저장 없이 본운동·워밍업·마무리 즉
     [email],
   );
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
 
   // 전체 초기화 → 확인 다이얼로그의 '전체 비우기' (저장 누르지 않음)
   await page.getByTestId("clear-all-exercises").click();

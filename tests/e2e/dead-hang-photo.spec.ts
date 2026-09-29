@@ -38,7 +38,7 @@ test("데드행 워밍업도 운동 모드에서 실사 사진이 뜬다", async
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);

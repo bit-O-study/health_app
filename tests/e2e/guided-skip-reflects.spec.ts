@@ -35,7 +35,7 @@ test("가이드에서 전부 넘기면 새로고침 없이 홈에 '오늘 휴식
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);

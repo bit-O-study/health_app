@@ -14,7 +14,7 @@ test.describe.configure({ timeout: 240_000 });
 
 async function signUpToGymStep(page: Page) {
   const email = freshEmail();
-  await page.goto("/login", { waitUntil: "networkidle" });
+  await page.goto("/login", { waitUntil: "load" });
   await page.getByRole("button", { name: "회원가입" }).click();
   await page.fill("#name", "합집합검증");
   await page.fill("#phone", "010-1234-5678");
@@ -41,7 +41,7 @@ test("검색에 없는 헬스장은 직접 입력하고 기본 보유기구로 �
   const gymName = `검색없는 헬스 ${Date.now()}`;
 
   await signUpAndOnboard(page);
-  await page.goto("/settings/gym", { waitUntil: "networkidle" });
+  await page.goto("/settings/gym", { waitUntil: "load" });
 
   // 헬스장을 고르기 전에는 기구 목록이 아예 뜨지 않는다 — 기본값이 뭔지 아직 모른다.
   await expect(page.getByRole("button", { name: "바벨", exact: true })).toHaveCount(
@@ -86,7 +86,7 @@ test("내 헬스장에 없는 기구의 운동은 추천에 안 들어온다", a
   const gymName = `프리웨이트 헬스 ${Date.now()}`;
   const email = freshEmail();
 
-  await page.goto("/login", { waitUntil: "networkidle" });
+  await page.goto("/login", { waitUntil: "load" });
   await page.getByRole("button", { name: "회원가입" }).click();
   await page.fill("#name", "기구검증");
   await page.fill("#phone", "010-1234-5678");
@@ -131,7 +131,7 @@ test("내 헬스장에 없는 기구의 운동은 추천에 안 들어온다", a
 
   // ① 루틴 저장의 '추천으로 채우기' 경로(routine actions) — 빈 슬롯 자동 채우기.
   //    (가입 마법사는 fillMode 를 넘기지 않아 운동을 안 채운다 — 설정에서 저장해야 돈다.)
-  await page.goto("/settings/routine", { waitUntil: "networkidle" });
+  await page.goto("/settings/routine", { waitUntil: "load" });
   await page.getByRole("button", { name: "저장" }).last().click();
   await page.waitForURL((url) => ["/", "/routine"].includes(new URL(url).pathname));
 
@@ -162,7 +162,7 @@ test("개인 기구는 분리하고 같은 헬스장 기본값은 회원 합집�
   const gymAddress = "서울 테스트구 10";
 
   const firstEmail = await signUpAndOnboard(page);
-  await page.goto("/settings/gym", { waitUntil: "networkidle" });
+  await page.goto("/settings/gym", { waitUntil: "load" });
 
   // 검색에 안 나오는 새 헬스장 → 직접 입력.
   await page.getByLabel("헬스장 검색").fill(gymName);
@@ -244,7 +244,7 @@ test("개인 기구는 분리하고 같은 헬스장 기본값은 회원 합집�
   expect(new Set(aggregate[0].equipment_ids)).toEqual(new Set(["barbell", "dumbbell"]));
 
   // 합집합에 덤벨이 추가돼도 첫 회원의 개인 설정은 덮어쓰지 않는다.
-  await page.goto("/settings/gym", { waitUntil: "networkidle" });
+  await page.goto("/settings/gym", { waitUntil: "load" });
   await expect(page.getByRole("button", { name: "바벨", exact: true })).toHaveAttribute(
     "aria-pressed",
     "true",

@@ -55,7 +55,7 @@ test("오늘만 부위 추가해도 방금 완료한 운동은 완료로 유지(
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudge(page);
 
@@ -95,7 +95,7 @@ test("오늘만 부위 추가해도 방금 완료한 운동은 완료로 유지(
   expect(Number(rekeyed[0].n)).toBe(1);
 
   // /routine 으로 돌아가도 벤치프레스는 여전히 완료.
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   const benchRowAfter = page.locator("li").filter({ hasText: "벤치프레스" });
   await expect(

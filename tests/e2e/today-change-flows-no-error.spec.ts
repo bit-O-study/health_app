@@ -84,7 +84,7 @@ test("② 전체 바꾸기 후 부위 추가 흐름도 에러 없다", async ({ 
   await page.waitForTimeout(1000);
 
   // 뒤로 → /routine
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 다시 오늘만 운동 바꾸기 → 하체 선택 → 오늘만 부위 추가

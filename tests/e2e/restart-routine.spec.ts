@@ -36,7 +36,7 @@ test("오늘만 변경/휴식을 지우고 현재 일차는 유지한다", async
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(600);
   await expect(page.getByText("오늘만 변경됨")).toBeVisible();
 
@@ -87,7 +87,7 @@ test("'다가오는 7일' 드래그로 루틴을 바꿔도 → 기준(설정) �
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(600);
   // 드래그된 루틴(팔)이 적용된 상태
   await expect(page.getByText("팔", { exact: true }).first()).toBeVisible();

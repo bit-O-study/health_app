@@ -68,7 +68,7 @@ test("부위가 달라도(가슴+팔) 순서 변경이 운동 시작 가이드�
   await dbQuery(insert, [email]);
 
   // "/" 는 모드 선택 랜딩이라 운동 화면은 /routine 으로 직접 이동.
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 순서 변경은 '편집하기' 모드에서만 가능 — 그립 핸들도 편집모드에서만 보인다.

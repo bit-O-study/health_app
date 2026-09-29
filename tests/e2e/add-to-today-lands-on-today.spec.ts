@@ -33,7 +33,7 @@ test("오늘 등에 데드리프트를 추가하면 오늘 목록에 바로 뜬�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 편집 모드 진입 후 운동 추가.

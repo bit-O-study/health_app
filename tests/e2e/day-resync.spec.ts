@@ -41,7 +41,7 @@ test("day_index 드리프트는 다음 진입 시 현재 루틴 일차로 재정
   );
 
   // /routine 진입 → ensureDayIndexBackfilled 가 현재 루틴 기준으로 재정렬
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(1500);
 
   // 하체 행이 day0 으로 옮겨지고(UUID 보존 이동), day2 엔 없어야 한다.

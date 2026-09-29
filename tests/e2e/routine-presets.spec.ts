@@ -7,7 +7,7 @@ test('"현재 루틴 저장" 프리셋이 저장되고 목록에 나타난다', 
   await createOnboardedAccount(page);
   await seedRecommendedExercises(page);
 
-  await page.goto("/settings/routine", { waitUntil: "networkidle" });
+  await page.goto("/settings/routine", { waitUntil: "load" });
   const presets = page.locator('section:has-text("루틴 프리셋")');
   await expect(presets).toBeVisible();
 

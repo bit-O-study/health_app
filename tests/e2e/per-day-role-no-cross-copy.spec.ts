@@ -52,7 +52,7 @@ test("본운동(2일차)만 등록된 상태로 동기화해도 보조(1일차)�
   );
   await setTwoBackDayRoutine(email);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(1500);
 
   const { d0, d1 } = await backByDay(email);
@@ -75,7 +75,7 @@ test("보조(1일차)만 등록된 상태로 동기화해도 본운동(2일차)�
   );
   await setTwoBackDayRoutine(email);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(1500);
 
   const { d0, d1 } = await backByDay(email);
@@ -98,7 +98,7 @@ test("양쪽 일차가 채워져 있으면 동기화 후에도 서로 안 섞인
   );
   await setTwoBackDayRoutine(email);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(1500);
 
   const { d0, d1 } = await backByDay(email);

@@ -1399,6 +1399,35 @@
       - 읽기 전용 코드 리뷰: 수정 필요 사항 없음. 증거 optimized-{full,comparison,recheck}.json
     - 실기기 검증: 해당 없음 — 테스트 준비·대기만 변경
 
+  - [진행중] E2E 페이지 이동 대기 추가 단축 (2026-09-23)
+    - [완료] 대기 조사: `tests/e2e`에 `networkidle` 페이지 이동 288곳, 명시적 `waitForLoadState("networkidle")` 3곳. 고정 대기는 별도 249곳·218.96초로 집계하고 실제 타이머 검증은 유지 대상으로 분리
+    - [완료] 전체 실행 시점에는 `page.goto`/`page.reload` 269곳을 `load`로 낮춤. 서비스워커 캐시, 실계정 로그인 수화, 선택 모달 확인에 필요한 19곳과 SPA 상태 대기 3곳은 보존. 실패 분리 후 현재 diff 기준 261곳이 `load`이며 27곳은 `networkidle` 유지
+    - [완료] 계정 생성 없는 mobile-chromium 회귀: 변경 전 5개/12.8초, 변경 후 13개/20.6초 통과(동일 5개 포함, social-login 8개 추가). 프로덕션 로컬 `http://127.0.0.1:3143` / `:3145`
+      - `/login` 12회씩 반복 측정: 변경 전 networkidle 중앙값 745ms·load 119ms, 변경 후 각각 655ms·96ms. 변경 후 중앙값 차이 559ms × 현재 261곳 = 약 2분 26초 예상 절감(전체 스위트 실측 아님)
+    - [완료] 변경 E2E 107파일 ESLint, 전체 TypeScript, `git diff --check` 통과
+    - [완료] 전체 E2E 재검증: 299개 / 126파일, mobile-chromium 기본 1 worker, 로컬 프로덕션 `http://127.0.0.1:3146`, 45분 7.7초 — 280 통과·13 실패·6 skip. teardown이 run-scoped 계정 264개 삭제, 실행 후 최근 run-prefix 계정 0개 확인
+      - 실패 13개: 관리자 기간정지 1(회원목록 갱신 대기), 팔 교환 편집잠금 1(120초 timeout), 운동 영상 검증 9(모두 `PIPELINE_ERROR_READ`), 저사양 GPU 측정 1(120초 timeout), 야외 러닝 세션 상세 1(상세 제목 미표시)
+      - 조건부 skip 6개: AI 식단 스텁 1, 식약처 DB 설정 2, 그룹 생성 사전조건 1, 실계정 로그인 자격증명 2
+      - 실행은 완료했으나 같은 스위트의 과거 전체 기준선과 테스트 집합이 달라 성능 개선 폭은 직접 비교하지 않음. 단독 `/login` 내비게이션 추정치만 유지
+    - [진행중] 전체 실행 실패 경로 원인 분리 및 재검증 — 안정화 전 성능 작업 부모는 완료 처리하지 않음
+      - [완료] Playwright trace 확인: 관리자 회원목록 fallback 잔류, 팔 교환 요청 대기 timeout, 9개 영상 배치의 미디어 read 오류, 야외 세션 상세 제목 미표시, 저사양 GPU 계측 timeout
+      - [완료] 관리자 기간정지·팔 교환·야외 세션 진입 대기를 `networkidle`로 복원. 영상 페이지는 `load`를 유지 — 실제 미디어 재생/seek 조건이 별도 검증되고, `networkidle` 재실행으로도 읽기 오류가 남음
+      - [완료] 대상 12개 E2E 재실행: 7 통과·5 실패, 7분 6초. 관리자·팔 교환·야외 세션 3개와 영상 배치 4개 통과. 실패 5개는 각 배치 첫 MP4의 7.5초 seek 후 Chromium `PIPELINE_ERROR_READ`
+        - `ffprobe`와 전체/seek 디코딩은 실패 파일 5개 모두 통과, trace의 전체·Range 응답도 HTTP 200/206 및 기대 길이와 일치. 대표 1–12 배치를 `load`로 재실행해 38.6초 통과 — 재현 가능한 navigation 회귀로 보지 않음
+        - 대상 실행 teardown 13개 계정, 대표 재실행 1개 계정 삭제 확인
+      - [완료] 영상 5배치와 저사양 GPU 단독 재실행: 3 통과·3 실패, 계정 5개 정리. 1–12 및 97–104 배치와 GPU 계측 통과(45.5초, 56% 감소); 49–60·61–72·73–84 배치는 seek 오류 재현
+      - [완료] 대상 4파일 ESLint, 전체 TypeScript, `git diff --check` 통과
+      - [완료] `PIPELINE_ERROR_READ` 원인 및 수정: 온라인에서 SW가 서버의 Range 응답을 다시 잘라 자체 206 응답을 만들고 있었음. 온라인 Range는 서버 응답을 그대로 전달하고, 오프라인에서만 저장된 전체 영상으로 206 응답을 생성하도록 변경. seek 테스트는 목표 프레임이 버퍼에 도착한 뒤 이동
+      - [완료] 전체 영상 E2E 재검증: 프로덕션 `http://127.0.0.1:3146`, mobile-chromium, 9배치 모두 통과(2.4분). 기존 실패 49–60·61–72·73–84 배치 포함. run-prefix 테스트 계정 9개 Admin API로 삭제 확인
+      - [완료] 오프라인 Range 회귀: 실제 `<video>` Range 요청으로 캐시한 뒤 오프라인 메타데이터 재생·Range `206`·큰 영상 미캐시를 `offline-shell.spec.ts` 9개로 확인(21.1초)
+      - [완료] `public/sw.js` 및 영상 E2E ESLint 오류 없음(기존 경고 3개), 전체 TypeScript, `git diff --check` 통과
+      - [완료] 전체 단위 테스트: `node node_modules/vitest/vitest.mjs run tests/be/logic` — 194파일·2,022개 통과. `corepack pnpm test:unit`은 패키지 레지스트리 접근 실패(`ERR_PNPM_META_FETCH_FAIL`)로 실행되지 않아 로컬 Vitest 바이너리로 검증
+      - [대기] 라이브 스키마 동기화: `schema-sync.test.ts` 69개 모두 DB 자격증명 부재로 자동 skip (`.env.test.local`의 `SUPA_DB_REF/HOST/PW` 누락)
+      - [완료] 전체 ESLint: `node node_modules/eslint/bin/eslint.js` 오류 0개·기존 경고 39개. 전체 TypeScript `node node_modules/typescript/bin/tsc --noEmit` 통과
+      - [대기] 전체 E2E 재측정 — 현재 `.env.test.local`에 `SUPA_DB_REF/HOST/PW`가 없어 전체 스위트의 DB 직접 테스트 및 기존 teardown을 사용할 수 없음. 마지막 전체 측정은 최초 269개 변경 시점의 299개/126파일, 45분 7.7초
+      - [완료] 실기기 검증 해당 없음 — E2E 대기 조건만 조정
+    - [완료] 실기기 검증 해당 없음 — 테스트 실행 설정만 변경
+
   - [대기] 기존 실패 9건 안정화: arm-swap 1, diet 1, growth/overload 3, guided-prev-next/skip 2, restart 1, routine-share 1. 이번 성능 변경 범위에서 검증 조건·제품 코드는 변경하지 않음
 
   - [완료] 일반 E2E DB 조회 연결 재사용 (2026-09-10)

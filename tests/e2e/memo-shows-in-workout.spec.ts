@@ -27,7 +27,7 @@ test("메인에서 입력한 메모가 운동모드에 보인다", async ({ page
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(700);
 
   // 메인 스쿼트 행의 메모 버튼 → 입력 → 저장

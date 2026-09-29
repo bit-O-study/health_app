@@ -8,6 +8,6 @@ test("계정 준비는 화면을 열지 않고 첫 화면에서도 인증이 유
   expect(email).toContain("@example.com");
   expect(page.url()).toBe("about:blank");
   expect(navigations).toEqual([]);
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await expect(page.getByRole("heading", { name: "오늘의 운동" })).toBeVisible();
 });

@@ -16,7 +16,7 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
   const tpage = await tctx.newPage();
   const targetEmail = await signUpAndOnboard(tpage);
   // "/" 는 모드 선택 랜딩(루틴/파워리프팅)이라 운동 화면은 /routine 으로 직접 이동.
-  await tpage.goto("/routine", { waitUntil: "networkidle" });
+  await tpage.goto("/routine", { waitUntil: "load" });
   await expect(tpage.getByRole("heading", { name: "오늘의 운동" })).toBeVisible();
 
   // ── 관리자 ──
@@ -40,7 +40,7 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
   await expect(row.getByRole("button", { name: "해제" })).toBeVisible({ timeout: 10_000 });
 
   // 대상 회원은 이제 차단 → /suspended 로 + 사유 표시
-  await tpage.goto("/", { waitUntil: "networkidle" });
+  await tpage.goto("/", { waitUntil: "load" });
   await expect(tpage).toHaveURL(/\/suspended$/);
   await expect(tpage.getByRole("heading", { name: /영구 정지/ })).toBeVisible();
   await expect(tpage.getByText("E2E 영구정지 사유")).toBeVisible();
@@ -51,7 +51,7 @@ test("관리자 영구정지 → 회원 차단 → 해제 → 복구", async ({ 
   await expect(row.getByText("정상", { exact: false })).toBeVisible({ timeout: 10_000 });
 
   // 대상 회원 다시 접근 가능 ("/" 는 모드선택 랜딩이라 운동 화면은 /routine 으로 직접)
-  await tpage.goto("/routine", { waitUntil: "networkidle" });
+  await tpage.goto("/routine", { waitUntil: "load" });
   await expect(tpage).not.toHaveURL(/\/suspended$/);
   await expect(tpage.getByRole("heading", { name: "오늘의 운동" })).toBeVisible();
 
@@ -91,7 +91,7 @@ test("관리자 기간정지(7일) → 회원 차단 → DB 반영", async ({ br
   expect(new Date(rows[0]!.suspended_until!).getTime()).toBeGreaterThan(Date.now());
 
   // 대상 회원은 차단 → /suspended (영구정지 아님)
-  await tpage.goto("/", { waitUntil: "networkidle" });
+  await tpage.goto("/", { waitUntil: "load" });
   await expect(tpage).toHaveURL(/\/suspended$/);
   await expect(tpage.getByRole("heading", { name: /이용이 정지된 계정/ })).toBeVisible();
 

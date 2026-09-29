@@ -79,7 +79,7 @@ test("운동 순서를 바꾼 뒤 '오늘만 부위 추가'를 해도 순서가 
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudge(page);
 
@@ -110,7 +110,7 @@ test("운동 순서를 바꾼 뒤 '오늘만 부위 추가'를 해도 순서가 
   expect(new Set(pinned.map((p) => Number(p.position))).size).toBe(4);
 
   // 오늘 화면 순서가 그대로여야 한다(초기화 X).
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudge(page);
   expect(
@@ -120,7 +120,7 @@ test("운동 순서를 바꾼 뒤 '오늘만 부위 추가'를 해도 순서가 
 
   // 편집기에서 '저장'까지 해도(부위별로 나눠 저장) 순서가 유지돼야 한다.
   await page.goto("/plan/today?focus=shoulder&add=1", {
-    waitUntil: "networkidle",
+    waitUntil: "load",
   });
   await page.waitForTimeout(1000);
   // 저장 버튼은 본운동/워밍업/마무리 각각 있다 — 첫 번째(본운동)만.
@@ -132,7 +132,7 @@ test("운동 순서를 바꾼 뒤 '오늘만 부위 추가'를 해도 순서가 
     timeout: 20000,
   });
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudge(page);
   expect(

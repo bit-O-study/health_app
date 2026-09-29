@@ -16,7 +16,7 @@ test("근육별로 운동선택: 마네킹 부위 선택 → 운동 담기 → �
   await createOnboardedAccount(page);
 
   // 루틴 설정에서 세 번째 옵션 "근육별로 운동선택" 선택 후 저장
-  await page.goto("/settings/routine", { waitUntil: "networkidle" });
+  await page.goto("/settings/routine", { waitUntil: "load" });
   const byMuscle = page.getByTestId("fillmode-byMuscle");
   await expect(byMuscle).toBeVisible();
   await expect(byMuscle).toContainText("근육별로 운동선택");
@@ -67,7 +67,7 @@ test("근육별로 운동선택: 마네킹 부위 선택 → 운동 담기 → �
 test("온보딩에서 근육별로 운동선택 → 3D 마네킹으로 이동", async ({ page }) => {
   const email = freshEmail();
 
-  await page.goto("/login", { waitUntil: "networkidle" });
+  await page.goto("/login", { waitUntil: "load" });
   await page.getByRole("button", { name: "회원가입" }).click();
   await page.waitForSelector("#name", { timeout: 15_000 });
   await page.fill("#name", "근육유저");
@@ -118,7 +118,7 @@ test("마네킹: 콘솔 에러 없이 3D 본체 렌더 (에러 폴백 아님)", 
   page.on("pageerror", (e) => errors.push(String(e)));
 
   await createOnboardedAccount(page);
-  await page.goto("/plan/muscle", { waitUntil: "networkidle" });
+  await page.goto("/plan/muscle", { waitUntil: "load" });
   await expect(page.getByTestId("muscle-mannequin-canvas")).toBeVisible();
   // 부위 칩 동작 (3D 상호작용 살아있는지)
   await page.getByTestId("muscle-chip-arm").click();
@@ -144,7 +144,7 @@ test("마네킹: 콘솔 에러 없이 3D 본체 렌더 (에러 폴백 아님)", 
 test("세부근육 드릴다운: 이두 장두 vs 단두 운동 필터", async ({ page }) => {
   await createOnboardedAccount(page);
 
-  await page.goto("/plan/muscle", { waitUntil: "networkidle" });
+  await page.goto("/plan/muscle", { waitUntil: "load" });
   await page.getByTestId("muscle-chip-arm").click();
 
   // 이두 장두 → 인클라인 컬 보이고 컨센트레이션 컬 안 보임
@@ -173,7 +173,7 @@ test("운동 상세: 자극 부위 배지 노출", async ({ page }) => {
   await createOnboardedAccount(page);
 
   // 벤치프레스: 가슴 + 팔 (보조) 배지
-  await page.goto("/exercises/bench-press", { waitUntil: "networkidle" });
+  await page.goto("/exercises/bench-press", { waitUntil: "load" });
   await expect(
     page.getByRole("heading", { name: "벤치프레스" }),
   ).toBeVisible();

@@ -9,7 +9,7 @@ import { createOnboardedAccount } from "./helpers/auth";
 
 test("개별 운동 삭제 버튼이 그 행을 실제로 지운다", async ({ page }) => {
   await createOnboardedAccount(page);
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(500);
 
   // '운동 추가' 버튼이 있는 첫 부위 섹션을 잡는다.
@@ -37,7 +37,7 @@ test("개별 운동 삭제 버튼이 그 행을 실제로 지운다", async ({ p
 
 test("전체 운동 초기화가 모든 부위의 담은 운동을 비운다", async ({ page }) => {
   await createOnboardedAccount(page);
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(500);
 
   const section = page

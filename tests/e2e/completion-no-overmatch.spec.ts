@@ -38,7 +38,7 @@ test("같은 운동 2개 중 1개만 완료하면 나머지는 완료 아님(과
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(1000);
 
   // 벤치프레스 행은 2개. '완료' 배지는 정확히 1개여야 한다(2개면 과매칭 버그).

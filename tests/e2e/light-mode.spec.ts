@@ -6,7 +6,7 @@ test("경량 모드 설정이 유지되고 근육 선택 3D를 기능 폴백으�
   page,
 }) => {
   await createOnboardedAccount(page);
-  await page.goto("/settings/personal", { waitUntil: "networkidle" });
+  await page.goto("/settings/personal", { waitUntil: "load" });
 
   const lightMode = page.getByRole("switch", { name: "경량 모드" });
   await expect(lightMode).toHaveAttribute("aria-checked", "false");
@@ -18,13 +18,13 @@ test("경량 모드 설정이 유지되고 근육 선택 3D를 기능 폴백으�
     )
     .toBe("light");
 
-  await page.reload({ waitUntil: "networkidle" });
+  await page.reload({ waitUntil: "load" });
   await expect(page.getByRole("switch", { name: "경량 모드" })).toHaveAttribute(
     "aria-checked",
     "true",
   );
 
-  await page.goto("/plan/muscle", { waitUntil: "networkidle" });
+  await page.goto("/plan/muscle", { waitUntil: "load" });
   await expect(page.getByTestId("light-mode-mannequin-fallback")).toBeVisible();
   await expect(page.getByTestId("muscle-mannequin-canvas")).toHaveCount(0);
   await expect(page.getByTestId("muscle-chip-chest")).toBeVisible();

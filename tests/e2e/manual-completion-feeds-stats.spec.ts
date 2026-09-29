@@ -29,7 +29,7 @@ test("수동 완료(스와이프)가 완료기록·성장그래프에 반영된�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 수동 완료: 운동모드(가이드) 안 쓰고 메인의 '오늘 전부 완료'로 완료 처리.
@@ -53,7 +53,7 @@ test("수동 완료(스와이프)가 완료기록·성장그래프에 반영된�
   expect(Number(done[0].sets)).toBe(4);
 
   // 성장그래프: 수동 완료가 반영돼 빈 상태가 아니고 스쿼트가 나온다.
-  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await page.goto("/settings/progress", { waitUntil: "load" });
   await page.waitForTimeout(600);
   await expect(page.getByText("아직 중량 운동 완료 기록이 없어요")).toHaveCount(0);
   await expect(page.getByText("스쿼트").first()).toBeVisible({ timeout: 8000 });

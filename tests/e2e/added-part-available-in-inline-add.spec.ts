@@ -50,7 +50,7 @@ test("부위 추가만 하고 안 담아도 그 부위로 운동을 추가할 �
   );
 
   // 오늘만 부위 추가 → 팔(이두) 선택 → 편집기로 갔다가 아무것도 안 담고 메인으로.
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(900);
   await dismissNudges(page);
   await page.locator("[data-today-focus-badge]").first().click();
@@ -60,7 +60,7 @@ test("부위 추가만 하고 안 담아도 그 부위로 운동을 추가할 �
   await expect(page).toHaveURL(/\/plan\/today.*add=1/, { timeout: 30_000 });
   await page.waitForTimeout(1000);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(900);
   await dismissNudges(page);
 

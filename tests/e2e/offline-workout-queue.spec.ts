@@ -43,7 +43,7 @@ test("오프라인에서 친 세트는 기기에 남고, 연결되면 알아서 
   const email = await signUpAndOnboard(page);
   await seedLowerDay(email);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);
@@ -111,7 +111,7 @@ test("오프라인에서 담은 기록은 화면을 벗어나도 살아남는다
   const email = await signUpAndOnboard(page);
   await seedLowerDay(email);
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);
@@ -123,7 +123,7 @@ test("오프라인에서 담은 기록은 화면을 벗어나도 살아남는다
   // 🔴 여기가 예전에 기록이 사라지던 자리다 — 운동모드를 벗어나면 실패 목록이
   //   그 컴포넌트와 함께 통째로 없어졌다. 이제 큐는 화면 밖에 있다.
   await context.setOffline(false);
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto("/", { waitUntil: "load" });
 
   await expect
     .poll(

@@ -10,7 +10,7 @@ test("설정에서 마이페이지로 들어가 프로필·신체 요약 확인"
   test.skip(!hasDb, "needs .env.test.local DB creds");
   const email = await createOnboardedAccount(page);
 
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/settings", { waitUntil: "load" });
   await page.getByRole("link", { name: /마이페이지/ }).click();
   await page.waitForURL("**/settings/me", { timeout: 10000 });
 

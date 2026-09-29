@@ -58,7 +58,7 @@ test("세트별 기록(드롭세트)이 볼륨·1RM 에 그대로 반영된다",
     ],
   });
 
-  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await page.goto("/settings/progress", { waitUntil: "load" });
   await expect(page.getByRole("heading", { name: "성장 그래프" })).toBeVisible();
   // 누적 볼륨이 세트별 합계와 같아야 한다 — 1,800 이면 옛 계산으로 되돌아간 것.
   await expect(page.getByText(/누적 1,580kg/)).toBeVisible({ timeout: 8000 });
@@ -81,7 +81,7 @@ test("단측 운동은 볼륨을 양쪽으로 센다", async ({ page }) => {
     weightKg: 20,
   });
 
-  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await page.goto("/settings/progress", { waitUntil: "load" });
   await expect(page.getByText(/누적 1,600kg/)).toBeVisible({ timeout: 8000 });
   await expect(page.getByText("한쪽 기준").first()).toBeVisible();
 });
@@ -112,7 +112,7 @@ test("개인 기록 갱신과 증량 추천이 근거와 함께 보인다", asyn
     weightKg: 105,
   });
 
-  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await page.goto("/settings/progress", { waitUntil: "load" });
   await expect(
     page.getByRole("heading", { name: /최근 30일 새 기록/ }),
   ).toBeVisible({ timeout: 8000 });
@@ -144,7 +144,7 @@ test("정체하면 디로드를 권한다", async ({ page }) => {
     });
   }
 
-  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await page.goto("/settings/progress", { waitUntil: "load" });
   await expect(page.getByText(/디로드 · 90kg/)).toBeVisible({ timeout: 8000 });
   await expect(page.getByText(/최고치가 안 늘었어요/)).toBeVisible();
 });
@@ -153,7 +153,7 @@ test("기록이 없으면 빈 상태 안내만 보이고 터지지 않는다", a
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings/progress", { waitUntil: "networkidle" });
+  await page.goto("/settings/progress", { waitUntil: "load" });
   await expect(
     page.getByText("아직 중량 운동 완료 기록이 없어요"),
   ).toBeVisible();

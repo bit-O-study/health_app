@@ -13,7 +13,7 @@ test("세트수 변경(4→6)이 운동모드에 반영된다", async ({ page, b
     await prepareSetsEditWorkout(page.context(), baseURL!);
   });
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 편집하기 → 수정(연필) → 세트 6 → 저장
@@ -27,7 +27,7 @@ test("세트수 변경(4→6)이 운동모드에 반영된다", async ({ page, b
 
   // 새로고침으로 서버 가이드 큐까지 6세트 반영시킨 뒤 운동 시작
   // (인세션 router.refresh 타이밍에 의존하지 않게 — 결정적 검증).
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(500);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);

@@ -47,7 +47,7 @@ test("같은 부위가 두 일차에 있어도 한 일차 편집이 다른 일�
   expect(before.get(0)).toBe(before.get(3));
 
   // /plan 에서 "4일 · 밀기"(3일차) 섹션에만 운동 1개 추가 후 저장.
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(800);
   const day4 = page.locator('[data-plan-day-index="3"]');
   await expect(day4).toHaveCount(1);
@@ -114,7 +114,7 @@ test("legacy(day_index NULL) 행이 일차별로 자동 백필된다", async ({ 
   expect(Number(legacyNulls[0].n)).toBeGreaterThan(0);
 
   // /plan 진입 → ensureDayIndexBackfilled 가 돈다.
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(1500);
 
   // NULL 이 사라지고 push 가 0일차·3일차로 복제됐는지

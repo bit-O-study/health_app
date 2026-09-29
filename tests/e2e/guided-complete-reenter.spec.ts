@@ -36,7 +36,7 @@ test("가이드 전체 완료 후 운동 화면 유지: " + scenario, async ({ p
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1000);

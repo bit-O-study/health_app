@@ -43,7 +43,7 @@ test("완료 처리한 헤머컬은 운동 모드 큐에 안 뜬다", async ({ p
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);

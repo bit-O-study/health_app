@@ -48,7 +48,7 @@ test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudges(page);
   await page.getByRole("button", { name: "운동 시작" }).click();
@@ -91,7 +91,7 @@ test("세트 진행은 오늘만 부위 추가 후에도 유지된다", async ({
   expect(Number(pinned[0].n)).toBeGreaterThan(0);
 
   // 다시 운동모드 — 세트 진행이 그대로 3/4 여야 한다(0으로 리셋되면 버그).
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await dismissNudges(page);
   // 이미 한 번 시작한 날이라 버튼 문구가 "다시 운동하기" 일 수 있다.

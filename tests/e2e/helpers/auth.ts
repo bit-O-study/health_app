@@ -24,7 +24,7 @@ let lastSignedUpEmail: string | null = null;
 /** API setup for tests whose subject is not the signup/onboarding UI. */
 export async function signUpAndOnboard(page: Page): Promise<string> {
   const email = await createOnboardedAccount(page);
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   return email;
 }
 
@@ -33,7 +33,7 @@ export async function signUpAndOnboardViaUI(page: Page): Promise<string> {
   const email = freshEmail();
   lastSignedUpEmail = email;
 
-  await page.goto("/login", { waitUntil: "networkidle" });
+  await page.goto("/login", { waitUntil: "load" });
   await page.getByRole("button", { name: "회원가입" }).click();
   await page.waitForSelector("#name", { timeout: 15_000 });
   await page.fill("#name", "검증유저");
@@ -75,7 +75,7 @@ export async function seedRecommendedExercises(page: Page): Promise<void> {
   if (!hasDb) return seedRecommendedExercisesViaUI(page);
   if (!lastSignedUpEmail) throw new Error("Create a test account before preparing exercises");
   await prepareRecommendedExercises(lastSignedUpEmail);
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await ensureTodayIsWorkoutDay(page);
   await expect(page.getByRole("button", { name: "운동 시작" })).toBeVisible();
 }
@@ -86,7 +86,7 @@ export async function seedRecommendedExercises(page: Page): Promise<void> {
  * full workout (warmup + main + cooldown).
  */
 export async function seedRecommendedExercisesViaUI(page: Page): Promise<void> {
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(600);
   await page.getByRole("button", { name: "추천으로 등록" }).click();
   await page.getByRole("button", { name: "교체하기" }).click();
@@ -95,7 +95,7 @@ export async function seedRecommendedExercisesViaUI(page: Page): Promise<void> {
     (u) => ["/", "/routine"].includes(new URL(u).pathname),
     { timeout: 30_000 },
   );
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await ensureTodayIsWorkoutDay(page);
   // sanity: 오늘의 운동(/routine)에 시작 가능한 워크아웃이 있어야 한다.
@@ -125,7 +125,7 @@ async function ensureTodayIsWorkoutDay(page: Page): Promise<void> {
         where user_id = ${uid}`,
       [lastSignedUpEmail],
     );
-    await page.goto("/routine", { waitUntil: "networkidle" });
+    await page.goto("/routine", { waitUntil: "load" });
     await page.waitForTimeout(600);
   }
 }

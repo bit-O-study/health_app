@@ -42,7 +42,7 @@ function guided(page: import("@playwright/test").Page) {
 }
 
 async function startWorkout(page: import("@playwright/test").Page) {
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
   await page.waitForTimeout(1200);
@@ -53,7 +53,7 @@ test("루틴 편집에서 두 운동을 슈퍼세트로 묶으면 DB 에 남는�
   const email = await signUpAndOnboard(page);
   await seedTwoChestExercises(email, null);
 
-  await page.goto("/plan", { waitUntil: "networkidle" });
+  await page.goto("/plan", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   const link = page.getByTestId("superset-link").first();

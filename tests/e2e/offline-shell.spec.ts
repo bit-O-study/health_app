@@ -154,12 +154,21 @@ test("한 번 본 영상은 오프라인에서도 재생된다", async ({ page, 
   await page.goto("/", { waitUntil: "networkidle" });
   await installSw(page);
 
-  // 한 번 본다(= 캐시에 담긴다).
+  // 실제 video 요소는 Range 요청으로 시작한다. 메타데이터를 읽어 첫 Range 응답이 끝날 때까지 기다린다.
   const warmed = await page.evaluate(async (url) => {
-    const res = await fetch(url);
-    return { ok: res.ok, type: res.headers.get("content-type") };
+    return await new Promise<{ ok: boolean; duration: number }>((resolve) => {
+      const video = document.createElement("video");
+      video.preload = "metadata";
+      video.muted = true;
+      video.src = url;
+      video.onloadedmetadata = () => resolve({ ok: true, duration: video.duration });
+      video.onerror = () => resolve({ ok: false, duration: 0 });
+      setTimeout(() => resolve({ ok: false, duration: -1 }), 10_000);
+      document.body.appendChild(video);
+    });
   }, SMALL_VIDEO);
   expect(warmed.ok).toBe(true);
+  expect(warmed.duration).toBeGreaterThan(0);
 
   await context.setOffline(true);
 

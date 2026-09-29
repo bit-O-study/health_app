@@ -50,7 +50,7 @@ test("부위 추가한 부위만 새 운동의 부위 선택지에 나온다", a
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(900);
   await openAdjust(page);
   await page.getByRole("button", { name: "어깨 전체", exact: true }).click();

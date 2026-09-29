@@ -32,7 +32,7 @@ test("구독 화면에 무료·프리미엄 한도가 숫자로 보인다", asyn
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings", { waitUntil: "networkidle" });
+  await page.goto("/settings", { waitUntil: "load" });
   await page.getByRole("link", { name: /구독/ }).first().click();
   await expect(page.getByRole("heading", { name: "구독", level: 1 })).toBeVisible({
     timeout: 10_000,
@@ -55,7 +55,7 @@ test("결제 설정이 안 됐으면 오류가 아니라 '준비 중'으로 안�
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/settings/subscription", { waitUntil: "networkidle" });
+  await page.goto("/settings/subscription", { waitUntil: "load" });
   // 설정이 안 된 걸 오류로 보여주면 사용자가 자기 잘못인 줄 안다.
   await expect(page.getByTestId("subscription-not-ready")).toBeVisible({
     timeout: 10_000,
@@ -68,7 +68,7 @@ test("기간이 남은 구독은 프리미엄으로 보인다", async ({ page })
   const email = await signUpAndOnboard(page);
   await seedSubscription(email, "active", "now() + interval '20 days'");
 
-  await page.goto("/settings/subscription", { waitUntil: "networkidle" });
+  await page.goto("/settings/subscription", { waitUntil: "load" });
   const status = page.getByTestId("subscription-status");
   await expect(status).toHaveAttribute("data-premium", "1", { timeout: 10_000 });
   await expect(status).toContainText("프리미엄");
@@ -82,7 +82,7 @@ test("🔴 만료가 지났으면 'active' 로 남아 있어도 프리미엄이 
   // 갱신 소식을 놓쳐 기록이 낡은 채로 남아 있는 상황.
   await seedSubscription(email, "active", "now() - interval '1 day'");
 
-  await page.goto("/settings/subscription", { waitUntil: "networkidle" });
+  await page.goto("/settings/subscription", { waitUntil: "load" });
   const status = page.getByTestId("subscription-status");
   await expect(status).toHaveAttribute("data-premium", "0", { timeout: 10_000 });
   await expect(status).toContainText("무료");
@@ -93,7 +93,7 @@ test("해지해도 남은 기간까지는 프리미엄", async ({ page }) => {
   const email = await signUpAndOnboard(page);
   await seedSubscription(email, "canceled", "now() + interval '5 days'");
 
-  await page.goto("/settings/subscription", { waitUntil: "networkidle" });
+  await page.goto("/settings/subscription", { waitUntil: "load" });
   const status = page.getByTestId("subscription-status");
   await expect(status).toHaveAttribute("data-premium", "1", { timeout: 10_000 });
   await expect(status).toContainText("해지 예정");
@@ -125,6 +125,6 @@ test("🔴 같은 구매 토큰을 다른 계정이 가져갈 수 없다", async
 });
 
 test("로그인 안 하면 로그인으로 보낸다", async ({ page }) => {
-  await page.goto("/settings/subscription", { waitUntil: "networkidle" });
+  await page.goto("/settings/subscription", { waitUntil: "load" });
   await expect(page).toHaveURL(/\/login/);
 });

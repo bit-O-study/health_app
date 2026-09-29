@@ -12,7 +12,7 @@ test("커뮤니티에 그룹 탭이 없다 — 오운완/운동/내 글만(#11)"
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page);
 
-  await page.goto("/community", { waitUntil: "networkidle" });
+  await page.goto("/community", { waitUntil: "load" });
   await page.waitForTimeout(600);
 
   await expect(page.getByRole("button", { name: "피드", exact: true })).toBeVisible();
@@ -58,7 +58,7 @@ test("그룹원 공개 글은 오운완에 그룹명 태그로 뜬다(#11)", asy
     [email],
   );
 
-  await page.goto("/community", { waitUntil: "networkidle" });
+  await page.goto("/community", { waitUntil: "load" });
   await page.waitForTimeout(700);
 
   // 오운완 탭(기본)에 그룹명 태그가 보여야 한다.

@@ -42,7 +42,7 @@ test("워밍업 하나만 완료하면 나머지 워밍업은 완료가 안 된�
     [email],
   );
 
-  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.goto("/routine", { waitUntil: "load" });
   await page.waitForTimeout(800);
 
   // 완료한 보디웨이트 스쿼트 행엔 '완료', 캣카우 행엔 '완료'가 없어야 한다.

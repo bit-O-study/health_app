@@ -6,6 +6,7 @@ import {
   implementInfo,
   isSingleDumbbellExercise,
   loadImplementOf,
+  perHandKg,
 } from "@/features/routine/load-implement";
 import { implementFor } from "@/features/routine/progress";
 
@@ -132,6 +133,31 @@ describe("카탈로그 전체 점검", () => {
       if (/덤벨 한 ?개|한 손/.test(text)) {
         expect(loadImplementOf(ex.id, "dumbbell"), ex.id).toBe("dumbbell-single");
       }
+    }
+  });
+});
+
+describe("무게는 양손 합계 · 운동모드 미세 조정", () => {
+  it("한 손 무게는 양손 도구(덤벨·케틀벨 2개)만 반으로 나눠 보여 준다", () => {
+    expect(perHandKg(20, "dumbbell-pair")).toBe(10);
+    expect(perHandKg(14, "dumbbell-pair")).toBe(7);
+    expect(perHandKg(32, "kettlebell-pair")).toBe(16);
+    expect(perHandKg(20, "dumbbell-single")).toBeNull();
+    expect(perHandKg(100, "barbell")).toBeNull();
+    expect(perHandKg(null, "dumbbell-pair")).toBeNull();
+    expect(perHandKg(0, "dumbbell-pair")).toBeNull();
+  });
+
+  it("추천은 5kg 이지만 바벨·원판·기구는 운동모드에서 2.5kg 미세 조정이 있다", () => {
+    for (const key of ["barbell", "plate", "machine", "sled"] as const) {
+      expect(implementInfo(key).stepKg, key).toBe(5);
+      expect(implementInfo(key).fineKg, key).toBe(2.5);
+    }
+  });
+
+  it("덤벨·케틀벨·맨몸은 미세 조정 버튼이 없다(단위 그대로)", () => {
+    for (const key of ["dumbbell-pair", "dumbbell-single", "kettlebell-single", "kettlebell-pair", "none", "unknown"] as const) {
+      expect(implementInfo(key).fineKg, key).toBeNull();
     }
   });
 });

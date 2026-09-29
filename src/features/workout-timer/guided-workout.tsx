@@ -103,7 +103,7 @@ import { enqueuePending } from "@/lib/offline/pending-queue";
 import type { PendingWrite } from "@/lib/offline/pending-writes";
 import { reportAppEvent } from "@/lib/observability/report-client";
 import { implementFor, weightGridKg, weightStepKg } from "@/features/routine/progress";
-import { implementInfo } from "@/features/routine/load-implement";
+import { implementInfo, perHandKg } from "@/features/routine/load-implement";
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";
@@ -406,6 +406,65 @@ function NumberScrubber({
 }
 
 /**
+ * 무게 보조 줄 — 스크러버(±단위) 밑.
+ *  - 바벨·원판·기구: 추천·± 는 5kg 이지만 2.5kg 원판·보조추로 **2.5kg 도** 올리고 내린다.
+ *  - 덤벨 2개: 기록은 **양손 합계**라 한 손 무게를 같이 보여 준다(랙에서 집을 덤벨).
+ * 보여 줄 게 없으면 아무것도 안 그린다.
+ */
+function WeightAssistRow({
+  weightKg,
+  fineKg,
+  perHandKg,
+  onFine,
+}: {
+  weightKg: number | null;
+  /** 미세 조정 폭. null 이면 버튼 없음(고정 모드·덤벨 등). */
+  fineKg: number | null;
+  /** 한 손 무게. null 이면 안내 없음(한 손 도구가 아님). */
+  perHandKg: number | null;
+  onFine: (deltaKg: number) => void;
+}) {
+  const showFine = fineKg !== null && weightKg !== null;
+  if (!showFine && perHandKg === null) return null;
+  const chip =
+    "inline-flex h-8 items-center rounded-full bg-zinc-100 px-3 text-xs font-semibold tabular-nums text-zinc-700 transition hover:bg-zinc-200 disabled:opacity-40 dark:bg-white/10 dark:text-zinc-200 dark:hover:bg-white/15";
+  return (
+    <div
+      data-testid="weight-assist"
+      className="mt-2 flex w-full flex-wrap items-center justify-center gap-x-3 gap-y-1.5 text-xs text-zinc-500 dark:text-zinc-400"
+    >
+      {perHandKg !== null ? (
+        <span data-testid="per-hand" className="font-semibold tabular-nums">
+          양손 합계 · 한 손 {perHandKg}kg
+        </span>
+      ) : null}
+      {showFine ? (
+        <span className="flex items-center gap-1.5">
+          <span>미세 조정</span>
+          <button
+            type="button"
+            aria-label={`무게 ${fineKg}kg 줄이기`}
+            disabled={(weightKg ?? 0) - fineKg < 0}
+            onClick={() => onFine(-fineKg)}
+            className={chip}
+          >
+            −{fineKg}
+          </button>
+          <button
+            type="button"
+            aria-label={`무게 ${fineKg}kg 늘리기`}
+            onClick={() => onFine(fineKg)}
+            className={chip}
+          >
+            +{fineKg}
+          </button>
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
+/**
  * 가이드 운동 오버레이. `items` 큐를 처음부터 끝까지 진행하며 한 번에 한 운동을
  * 풀스크린으로 보여준다. 운동 방법 단계는 3초마다 자동 강조 순환.
  */
@@ -552,8 +611,14 @@ export function GuidedOverlay({
       ? (weightGridKg(item.exerciseId, item.equipment, weightStepOverride) ?? weightStep)
       : 1;
   // 무엇을 드는지("덤벨 2개(양손)") — 단위 버튼 옆에 같이 보여 준다.
-  const implementLabel =
-    item?.kind === "main" ? implementInfo(implementFor(item.exerciseId, item.equipment)).label : "";
+  const implement = item?.kind === "main" ? implementFor(item.exerciseId, item.equipment) : "none";
+  const implementLabel = item?.kind === "main" ? implementInfo(implement).label : "";
+  // 바벨·원판·기구는 추천은 5kg 이지만 운동모드에선 2.5kg 도 올리고 내릴 수 있다.
+  // 사용자가 단위를 직접 정해 뒀으면 그 단위가 곧 헬스장 눈금이라 미세 조정은 따로 안 둔다.
+  const fineKg =
+    weightStepOverride === null && implementInfo(implement).fineKg !== null
+      ? implementInfo(implement).fineKg
+      : null;
   const [holdSec, setHoldSec] = useState(0);
   const [holdRunning, setHoldRunning] = useState(false);
   // 운동/세트가 바뀌면 홀드 타이머를 멈추고 0으로. (완료 세트 수·현재 운동 인덱스 기준)
@@ -1463,6 +1528,20 @@ export function GuidedOverlay({
                   />
                 </div>
               </div>
+            ) : null}
+
+            {/* 무게 보조 줄 — 바벨·원판·기구는 2.5kg 미세 조정, 덤벨 2개는 양손 합계의 한 손 무게. */}
+            {item.kind === "main" && !timed ? (
+              <WeightAssistRow
+                weightKg={editable ? editW : item.weightKg}
+                fineKg={editable ? fineKg : null}
+                perHandKg={perHandKg(editable ? editW : item.weightKg, implement)}
+                onFine={(delta) => {
+                  if (editW === null) return;
+                  const next = Math.round((editW + delta) * 100) / 100;
+                  putEdit({ w: Math.min(500, Math.max(0, next)) });
+                }}
+              />
             ) : null}
 
             {editable && item.kind === "main" && !timed ? (

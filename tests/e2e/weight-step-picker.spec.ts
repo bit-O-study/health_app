@@ -119,8 +119,54 @@ test("🔴 덤벨 2개(양손) 종목은 4kg 씩, 덤벨 1개 종목은 2kg 씩 
 
   const weight = page.getByRole("slider", { name: "무게", exact: true });
   await expect(weight).toHaveAttribute("aria-valuenow", "10");
+  // 기록은 양손 합계 — 한 손 무게를 같이 보여 준다.
+  await expect(page.getByTestId("per-hand")).toHaveText("양손 합계 · 한 손 5kg");
+  // 덤벨엔 2.5kg 미세 조정이 없다.
+  await expect(page.getByRole("button", { name: /무게 2.5kg 늘리기/ })).toHaveCount(0);
   await page.getByRole("button", { name: "무게 늘리기" }).click();
   await expect(weight).toHaveAttribute("aria-valuenow", "14");
+  await expect(page.getByTestId("per-hand")).toHaveText("양손 합계 · 한 손 7kg");
   await page.getByRole("button", { name: "무게 줄이기" }).click();
   await expect(weight).toHaveAttribute("aria-valuenow", "10");
+});
+
+test("🔴 기구(머신)는 ± 5kg, 운동모드 미세 조정으로 2.5kg 도 움직인다", async ({
+  page,
+}) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await createOnboardedAccount(page);
+
+  await dbQuery(
+    `update public.user_routines
+        set splits=0, variant_id='custom',
+            custom_week='[["chest"],["rest"],["rest"],["rest"],["rest"],["rest"],["rest"]]'::jsonb,
+            start_date=${today}, day_index_migrated=true,
+            rest_date=null, override_date=null, override_block=null
+      where user_id=${uid}`,
+    [email],
+  );
+  await dbQuery(`delete from public.routine_exercises where user_id=${uid}`, [email]);
+  await dbQuery(`delete from public.routine_conditioning where user_id=${uid}`, [email]);
+  await dbQuery(
+    `insert into public.routine_exercises
+       (user_id, day_index, focus, position, exercise_id, equipment, sets, reps, weight_kg)
+     values (${uid}, 0, 'chest', 0, 'pec-deck', 'machine', 3, 12, 20)`,
+    [email],
+  );
+
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: "운동 시작" }).click();
+  await page.waitForTimeout(1200);
+
+  const weight = page.getByRole("slider", { name: "무게", exact: true });
+  await expect(weight).toHaveAttribute("aria-valuenow", "20", { timeout: 15_000 });
+  await page.getByRole("button", { name: "무게 늘리기" }).click();
+  await expect(weight).toHaveAttribute("aria-valuenow", "25");
+  await page.getByRole("button", { name: "무게 2.5kg 늘리기" }).click();
+  await expect(weight).toHaveAttribute("aria-valuenow", "27.5");
+  await page.getByRole("button", { name: "무게 2.5kg 줄이기" }).click();
+  await expect(weight).toHaveAttribute("aria-valuenow", "25");
+  // 머신은 한 손 무게 안내가 없다.
+  await expect(page.getByTestId("per-hand")).toHaveCount(0);
 });

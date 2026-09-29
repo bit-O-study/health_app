@@ -15,6 +15,11 @@
  * 둘을 나눈 이유: 덤벨 10kg(한 손 5kg)을 기록한 사람에게 "4kg 격자가 아니니 12kg" 라고
  * 무게를 바꿔 버리면 안 된다. 지난 무게는 눈금(2kg)에만 맞추고, 거기서 단위(4kg)만큼 움직인다.
  *
+ * **추천은 단위(step)로만** 한다. 대신 운동모드에서는 바벨·원판·기구를 `fineKg`(2.5kg)
+ * 로 미세 조정할 수 있다 — 1.25kg 원판이나 보조추가 있는 헬스장에서 22.5kg 도 들 수 있게.
+ *
+ * 무게는 **든 무게의 합**이다 — 덤벨 2개면 양손 합계(`perHandKg` 로 한 손 무게를 보여 준다).
+ *
  * 순수 모듈 — 1,237개 확장 카탈로그를 끌고 오지 않게 **운동 id 규칙**으로만 판단한다.
  */
 
@@ -50,20 +55,24 @@ export type ImplementInfo = {
   label: string;
   /** 왜 이 폭인지 한 마디("한 손 2kg씩"). 없으면 빈 문자열. */
   stepNote: string;
+  /** 운동모드 미세 조정 폭(kg). 추천에는 안 쓴다. 없으면 null(미세 조정 버튼 없음). */
+  fineKg: number | null;
+  /** 양손에 하나씩 드는 도구인가 — 기록 무게는 양손 합계. */
+  pair: boolean;
 };
 
 const INFO: Record<LoadImplement, Omit<ImplementInfo, "implement">> = {
-  "dumbbell-pair": { stepKg: 4, gridKg: 2, label: "덤벨 2개(양손)", stepNote: "한 손 2kg씩" },
-  "dumbbell-single": { stepKg: 2, gridKg: 1, label: "덤벨 1개", stepNote: "" },
-  barbell: { stepKg: 5, gridKg: 2.5, label: "바벨", stepNote: "양쪽 2.5kg씩" },
-  plate: { stepKg: 5, gridKg: 2.5, label: "원판 1장", stepNote: "" },
-  machine: { stepKg: 5, gridKg: 2.5, label: "머신·케이블", stepNote: "핀 한 칸" },
-  "kettlebell-single": { stepKg: 4, gridKg: 2, label: "케틀벨 1개", stepNote: "" },
-  "kettlebell-pair": { stepKg: 8, gridKg: 4, label: "케틀벨 2개(양손)", stepNote: "한 손 4kg씩" },
-  medicineball: { stepKg: 1, gridKg: 1, label: "메디신볼", stepNote: "" },
-  sled: { stepKg: 5, gridKg: 2.5, label: "슬레드", stepNote: "" },
-  none: { stepKg: null, gridKg: null, label: "맨몸·무게 없음", stepNote: "" },
-  unknown: { stepKg: 2.5, gridKg: 2.5, label: "기구 미지정", stepNote: "" },
+  "dumbbell-pair": { stepKg: 4, gridKg: 2, label: "덤벨 2개(양손)", stepNote: "한 손 2kg씩", fineKg: null, pair: true },
+  "dumbbell-single": { stepKg: 2, gridKg: 1, label: "덤벨 1개", stepNote: "", fineKg: null, pair: false },
+  barbell: { stepKg: 5, gridKg: 2.5, label: "바벨", stepNote: "양쪽 2.5kg씩", fineKg: 2.5, pair: false },
+  plate: { stepKg: 5, gridKg: 2.5, label: "원판 1장", stepNote: "", fineKg: 2.5, pair: false },
+  machine: { stepKg: 5, gridKg: 2.5, label: "머신·케이블", stepNote: "핀 한 칸", fineKg: 2.5, pair: false },
+  "kettlebell-single": { stepKg: 4, gridKg: 2, label: "케틀벨 1개", stepNote: "", fineKg: null, pair: false },
+  "kettlebell-pair": { stepKg: 8, gridKg: 4, label: "케틀벨 2개(양손)", stepNote: "한 손 4kg씩", fineKg: null, pair: true },
+  medicineball: { stepKg: 1, gridKg: 1, label: "메디신볼", stepNote: "", fineKg: null, pair: false },
+  sled: { stepKg: 5, gridKg: 2.5, label: "슬레드", stepNote: "", fineKg: 2.5, pair: false },
+  none: { stepKg: null, gridKg: null, label: "맨몸·무게 없음", stepNote: "", fineKg: null, pair: false },
+  unknown: { stepKg: 2.5, gridKg: 2.5, label: "기구 미지정", stepNote: "", fineKg: null, pair: false },
 };
 
 /**
@@ -165,4 +174,13 @@ export function loadImplementOf(
 /** 도구 → 증량 폭·눈금·이름. */
 export function implementInfo(implement: LoadImplement): ImplementInfo {
   return { implement, ...INFO[implement] };
+}
+
+/**
+ * 한 손 무게 — 양손에 하나씩 드는 도구(덤벨·케틀벨 2개)만. 기록은 양손 합계라
+ * 랙 앞에서 "몇 kg 덤벨을 집어야 하나" 를 암산하지 않게 반으로 나눠 보여 준다.
+ */
+export function perHandKg(totalKg: number | null, implement: LoadImplement): number | null {
+  if (totalKg === null || totalKg <= 0 || !INFO[implement].pair) return null;
+  return Math.round((totalKg / 2) * 100) / 100;
 }

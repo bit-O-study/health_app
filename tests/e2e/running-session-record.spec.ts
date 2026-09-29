@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
+import { holdToEnd } from "./helpers/running";
 
 test("위치 권한이 거부되면 야외 러닝 시작을 차단한다", async ({ page }) => {
   await page.addInitScript(() => {
@@ -153,7 +154,8 @@ test("야외 러닝 종료 시 개별 세션의 시간·거리·칼로리·경�
       55_000,
     ),
   );
-  await page.getByRole("button", { name: "종료" }).click();
+  // 종료는 꾹 눌러야 끝난다(2026-09-28 런닝 2단계).
+  await holdToEnd(page);
 
   const uid = `(select id from auth.users where lower(email)=lower($1))`;
   await expect

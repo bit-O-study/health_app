@@ -2,6 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
+import { holdToEnd } from "./helpers/running";
 
 /**
  * 런닝 모드 고도화 1단계 · 데이터 안전(2026-09-28 런닝 모드 고도화 검수보고서 R1·R2·R3).
@@ -87,7 +88,7 @@ test("종료 순간 오프라인이면 기기에 보관하고, 연결되면 저�
   await startAndRun(page);
 
   await context.setOffline(true);
-  await page.getByRole("button", { name: "종료" }).click();
+  await holdToEnd(page);
   const state = page.getByTestId("run-save-state");
   await expect(state).toHaveAttribute("data-state", "queued", { timeout: 20_000 });
   await expect(state).toContainText("기기에 보관");

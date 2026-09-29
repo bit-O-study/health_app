@@ -18,6 +18,10 @@ import {
   type RunCheckpoint,
 } from "@/features/running/run-checkpoint";
 import { runSaveMessage, saveFinishedRun, type RunSaveResult } from "@/features/running/run-save";
+import { activeElapsedMs, resumedStart } from "@/features/running/run-pause";
+import { HoldToEnd } from "@/features/running/components/hold-to-end";
+import { RunCountdown } from "@/features/running/components/run-countdown";
+import { useWakeLock } from "@/features/running/use-wake-lock";
 
 /* 무거운 3D 씬(힐링과 동일)은 '시작하기' 후에만 지연 로드(PWA 안전). */
 const ZenScene = dynamic(() => import("@/features/running/zen-scene"), {
@@ -67,6 +71,11 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
   // 종료 뒤 저장 상태 — 저장됨 / 기기에 보관(연결되면 자동 저장). (2026-09-28 런닝 1단계)
   const [saveState, setSaveState] = useState<RunSaveResult | "saving" | null>(null);
   const [checkpoint, setCheckpoint] = useState<RunCheckpoint | null>(null);
+  // ── 2단계(2026-09-28): 카메라·모델 준비가 끝나면 3초 카운트다운 뒤 시작 · 일시정지 · 화면 켜짐 유지
+  const [countdown, setCountdown] = useState<{ restored?: RunCheckpoint } | null>(null);
+  const [paused, setPaused] = useState(false);
+  const pausedAtRef = useRef<number | null>(null);
+  useWakeLock(phase === "playing" || countdown !== null);
   const speedRef = useRef(8);
   const inclineRef = useRef(1);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -253,7 +262,21 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         landmarker = await make("CPU");
       }
       landmarkerRef.current = landmarker;
+      // 준비 끝 — 3초 세고 시작(카메라 앞에 설 시간). 시간은 카운트다운이 끝난 뒤부터 잰다.
+      setCountdown({ restored });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "알 수 없는 오류";
+      setError(
+        /denied|permission/i.test(msg)
+          ? "카메라 권한이 필요합니다. 권한을 허용해 주세요."
+          : `시작 실패: ${msg}`,
+      );
+      setPhase("error");
+    }
+  }
 
+  /** 카운트다운이 끝난 뒤 실제로 달리기 시작 — 시간·거리 누적과 감지 루프. */
+  function beginPlaying(restored?: RunCheckpoint) {
       headYRef.current = [];
       runRef.current = 0;
       targetRef.current = 0;
@@ -267,19 +290,25 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       setIncline(inclineRef.current);
       setElapsedSec(restored?.elapsedSec ?? 0);
       setCheckpoint(null);
+      pausedAtRef.current = null;
+      setPaused(false);
       setPhase("playing");
       cancelAnimationFrame(rafRef.current);
       rafRef.current = requestAnimationFrame(visionLoop);
       tickRef.current = setInterval(() => {
-        setElapsedSec((Date.now() - playStartRef.current) / 1000);
+        const now = Date.now();
+        // 일시정지 중엔 시간·거리 모두 멈춘다.
+        setElapsedSec(activeElapsedMs(playStartRef.current, now, pausedAtRef.current) / 1000);
         // 매초 거리 누적(단일 소스): 속도(m/s) × 달리기 강도(0..1). 가만히 있으면 안 늘어난다.
-        sessionMetersRef.current += runMetersPerSecond(
-          speedRef.current,
-          runRef.current,
-        );
+        if (pausedAtRef.current === null) {
+          sessionMetersRef.current += runMetersPerSecond(
+            speedRef.current,
+            runRef.current,
+          );
+        }
         writeRunCheckpoint({
           ...newRunCheckpoint("indoor", sessionIdRef.current),
-          elapsedSec: (Date.now() - playStartRef.current) / 1000,
+          elapsedSec: activeElapsedMs(playStartRef.current, now, pausedAtRef.current) / 1000,
           distanceM: sessionMetersRef.current,
           speedKmh: speedRef.current,
           incline: inclineRef.current,
@@ -289,21 +318,29 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
         if (distRef.current)
           distRef.current.textContent = `${Math.round(sessionMetersRef.current)} m`;
       }, 1000);
-    } catch (e) {
-      const msg = e instanceof Error ? e.message : "알 수 없는 오류";
-      setError(
-        /denied|permission/i.test(msg)
-          ? "카메라 권한이 필요합니다. 권한을 허용해 주세요."
-          : `시작 실패: ${msg}`,
-      );
-      setPhase("error");
+  }
+
+  /** 일시정지/다시 시작 — 다시 시작하면 멈춘 시간만큼 시작을 민다(저장 시간에서도 빠짐). */
+  function togglePause() {
+    if (pausedAtRef.current === null) {
+      pausedAtRef.current = Date.now();
+      targetRef.current = 0;
+      setPaused(true);
+    } else {
+      playStartRef.current = resumedStart(playStartRef.current, pausedAtRef.current, Date.now());
+      pausedAtRef.current = null;
+      setPaused(false);
     }
   }
 
   function finish() {
     stopCamera();
     const endedAt = Date.now();
-    const sec = (endedAt - playStartRef.current) / 1000;
+    // 달린 시간 — 멈춘 시간은 빼고. 서버엔 '끝 − 달린 시간'을 시작으로 보내 저장 시간에서도 빠지게.
+    const activeMs = activeElapsedMs(playStartRef.current, endedAt, pausedAtRef.current);
+    const sec = activeMs / 1000;
+    pausedAtRef.current = null;
+    setPaused(false);
     // 실제로 뛰지 않고 잠깐 들어왔다 나간 경우(짧은 세션)엔 기록하지 않는다.
     // (예전엔 최소 1분으로 강제 기록돼 안 뛰어도 ~14kcal 가 잡혔다.)
     if (sec < MIN_RUN_DURATION_SEC) {
@@ -322,7 +359,7 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
       {
         clientSessionId: sessionIdRef.current,
         mode: "indoor",
-        startedAt: new Date(playStartRef.current).toISOString(),
+        startedAt: new Date(endedAt - activeMs).toISOString(),
         endedAt: new Date(endedAt).toISOString(),
         distanceM: sessionMetersRef.current,
         avgKmh: speedRef.current,
@@ -399,14 +436,40 @@ export function RunningGame({ onExit }: { onExit?: () => void }) {
               onPlus={() => changeIncline(1)}
             />
           </div>
-          <button
-            type="button"
-            onClick={finish}
-            className="rounded-full bg-red-500 px-10 py-2.5 text-base font-bold text-white shadow-lg active:scale-95"
-          >
-            종료
-          </button>
+          {/* 일시정지 · 꾹 눌러 종료(스쳐서 끝나지 않게) — 2026-09-28 런닝 2단계 */}
+          <div className="flex items-start gap-8">
+            <button
+              type="button"
+              onClick={togglePause}
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-zinc-950 shadow-lg active:scale-95"
+            >
+              {paused ? "다시 시작" : "일시정지"}
+            </button>
+            <HoldToEnd onConfirm={finish} />
+          </div>
         </div>
+      ) : null}
+
+      {phase === "playing" && paused ? (
+        <div
+          role="status"
+          data-testid="run-paused"
+          data-kind="manual"
+          className="absolute inset-x-4 top-1/2 z-20 -translate-y-1/2 rounded-2xl bg-black/70 px-4 py-5 text-center"
+        >
+          <p className="text-xl font-bold">일시정지</p>
+          <p className="mt-1 text-sm text-zinc-300">시간·거리가 멈췄어요.</p>
+        </div>
+      ) : null}
+
+      {countdown ? (
+        <RunCountdown
+          onDone={() => {
+            const restored = countdown.restored;
+            setCountdown(null);
+            beginPlaying(restored);
+          }}
+        />
       ) : null}
 
       {/* 인트로 / 에러 */}

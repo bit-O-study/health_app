@@ -11,10 +11,24 @@ import {
   formatDistanceKm,
   formatDuration,
   formatPace,
+  haversineMeters,
+  reanchorTrack,
+  recentPaceSecPerKm,
   runIntensityFromSpeed,
   speedKmh,
+  type GeoPoint,
   type RunTrack,
 } from "@/features/running/geo";
+import {
+  activeElapsedMs,
+  gpsSignalLevel,
+  resumedStart,
+  shouldAutoPause,
+  type PauseKind,
+} from "@/features/running/run-pause";
+import { HoldToEnd } from "@/features/running/components/hold-to-end";
+import { RunCountdown } from "@/features/running/components/run-countdown";
+import { useWakeLock } from "@/features/running/use-wake-lock";
 import {
   startGeoWatch,
   type GeoFix,
@@ -71,6 +85,14 @@ export function OutdoorRun({
   const [signalLost, setSignalLost] = useState<string | null>(null);
   // 종료 뒤 저장 상태 — 저장됨 / 기기에 보관(연결되면 자동 저장).
   const [saveState, setSaveState] = useState<RunSaveResult | "saving" | null>(null);
+  // ── 2단계(2026-09-28): 카운트다운 · 일시정지 · 지금 페이스 · GPS 신호 · 캐릭터 켬/끔
+  const [countdown, setCountdown] = useState<{ restored?: RunCheckpoint } | null>(null);
+  const [paused, setPaused] = useState<PauseKind | null>(null);
+  const [livePace, setLivePace] = useState<number | null>(null);
+  const [signal, setSignal] = useState<0 | 1 | 2 | 3>(0);
+  // 3D 캐릭터 — 배터리·발열 때문에 기본 끔, 켜면 기기에 기억(보고서 결정 3).
+  const [showScene, setShowScene] = useState(false);
+  useWakeLock(phase === "playing");
 
   const runRef = useRef(0); // 0..1 — ZenScene 이 매 프레임 읽어 캐릭터/풍경 구동
   const targetRef = useRef(0);
@@ -83,11 +105,22 @@ export function OutdoorRun({
   const rafRef = useRef(0);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hiddenDistRef = useRef<HTMLSpanElement | null>(null); // ZenScene 내부 거리(안 씀)
+  const pausedAtRef = useRef<number | null>(null); // 멈춘 순간(없으면 달리는 중)
+  const pauseKindRef = useRef<PauseKind | null>(null);
+  const hasMovedRef = useRef(false); // 한 번이라도 움직였나(시작하자마자 자동 일시정지 안 되게)
+  const reanchorRef = useRef(false); // 다시 시작 뒤 첫 위치는 거리 없이 기준점만
+  const lastRawRef = useRef<GeoPoint | null>(null); // 멈춘 동안 움직임 감지용(마지막 원본 위치)
+  const lastFixRef = useRef<{ acc: number | null; at: number } | null>(null);
 
   useEffect(() => {
     // 브라우저 저장소는 마운트 뒤에만 읽을 수 있다.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCheckpoint(readRunCheckpoint("outdoor"));
+    try {
+      setShowScene(localStorage.getItem("heltch.running.scene") === "on");
+    } catch {
+      /* 저장소 막힘 — 기본(끔) */
+    }
     // 진입 시 위치 권한 AND 위치(GPS) 켜짐을 먼저 확인 — 하나라도 아니면 진입 차단.
     checkLocation();
     return () => stopAll();
@@ -155,29 +188,89 @@ export function OutdoorRun({
       t: fix.t,
       acc: fix.accuracy ?? 0,
     };
-    const { track, instMps } = addPoint(trackRef.current, p);
-    trackRef.current = track;
-    // 기기 제공 속도(m/s) 우선, 없으면 좌표로 계산한 순간속도.
-    const mps = fix.speedMps != null ? fix.speedMps : instMps;
-    const kmh = speedKmh(mps);
-    // GPS 드리프트로 가만히 있어도 캐릭터가 움직이던 문제 — 걷기 이상(≥3.5km/h)일 때만
-    // 이동으로 본다. 그 이하는 정지(target 0) → 캐릭터도 멈춤.
+    lastFixRef.current = { acc: fix.accuracy ?? null, at: Date.now() };
+    const raw = lastRawRef.current;
+    lastRawRef.current = p;
+    // GPS 드리프트로 가만히 있어도 캐릭터가 움직이던 문제 — 걷기 이상(≥3.5km/h)일 때만 이동으로 본다.
     const MOVING_KMH = 3.5;
+
+    // 멈춘 동안 — 거리는 더하지 않는다. 자동 일시정지는 다시 움직이면 스스로 이어 간다.
+    if (pausedAtRef.current !== null) {
+      const rawMps = raw ? haversineMeters(raw, p) / Math.max(0.001, (p.t - raw.t) / 1000) : 0;
+      const kmhNow = speedKmh(fix.speedMps != null ? fix.speedMps : rawMps);
+      if (pauseKindRef.current === "auto" && kmhNow >= MOVING_KMH) resume(p);
+      return;
+    }
+
+    let instMps = 0;
+    if (reanchorRef.current) {
+      // 다시 시작한 뒤 첫 위치 — 멈춘 사이 이동한 거리는 넣지 않고 기준점만 옮긴다.
+      trackRef.current = reanchorTrack(trackRef.current, p);
+      reanchorRef.current = false;
+    } else {
+      const res = addPoint(trackRef.current, p);
+      trackRef.current = res.track;
+      instMps = res.instMps;
+    }
+    const track = trackRef.current;
+    // 기기 제공 속도(m/s) 우선, 없으면 좌표로 계산한 순간속도.
+    const kmh = speedKmh(fix.speedMps != null ? fix.speedMps : instMps);
     if (kmh >= MOVING_KMH) {
       lastMoveTsRef.current = Date.now();
+      hasMovedRef.current = true;
       targetRef.current = runIntensityFromSpeed(kmh);
     } else {
       targetRef.current = 0;
     }
+    setLivePace(recentPaceSecPerKm(track.points, p.t));
     setM((prev) => ({ ...prev, meters: track.totalMeters, kmh }));
     persistCheckpoint(kmh);
+  }
+
+  /** 일시정지 — 시간·거리 둘 다 멈춘다. */
+  function pause(kind: PauseKind) {
+    if (pausedAtRef.current !== null) return;
+    const now = Date.now();
+    pausedAtRef.current = now;
+    pauseKindRef.current = kind;
+    targetRef.current = 0;
+    setPaused(kind);
+    // 멈춘 순간의 시간으로 바로 맞춘다(1초 틱을 기다리면 화면이 잠깐 뒤처져 보였다).
+    setM((prev) => ({ ...prev, elapsedSec: activeElapsedMs(startTsRef.current, now, now) / 1000 }));
+    persistCheckpoint();
+  }
+
+  /** 다시 시작 — 멈춘 시간만큼 시작을 밀고, 다음 위치부터 거리를 잰다. */
+  function resume(anchor?: GeoPoint) {
+    const pausedAt = pausedAtRef.current;
+    if (pausedAt === null) return;
+    const now = Date.now();
+    startTsRef.current = resumedStart(startTsRef.current, pausedAt, now);
+    pausedAtRef.current = null;
+    pauseKindRef.current = null;
+    lastMoveTsRef.current = now;
+    if (anchor) trackRef.current = reanchorTrack(trackRef.current, anchor);
+    else reanchorRef.current = true;
+    setPaused(null);
+  }
+
+  function toggleScene() {
+    setShowScene((on) => {
+      const next = !on;
+      try {
+        localStorage.setItem("heltch.running.scene", next ? "on" : "off");
+      } catch {
+        /* 저장 못 해도 이번엔 적용 */
+      }
+      return next;
+    });
   }
 
   function persistCheckpoint(kmh = m.kmh) {
     if (!sessionIdRef.current || !startTsRef.current) return;
     writeRunCheckpoint({
       ...newRunCheckpoint("outdoor", sessionIdRef.current),
-      elapsedSec: Math.max(0, (Date.now() - startTsRef.current) / 1000),
+      elapsedSec: activeElapsedMs(startTsRef.current, Date.now(), pausedAtRef.current) / 1000,
       distanceM: trackRef.current.totalMeters,
       speedKmh: kmh,
       route: trackRef.current.points,
@@ -200,6 +293,15 @@ export function OutdoorRun({
     startTsRef.current = Date.now() - (restored?.elapsedSec ?? 0) * 1_000;
     sessionIdRef.current = restored?.sessionId ?? crypto.randomUUID();
     lastMoveTsRef.current = Date.now();
+    pausedAtRef.current = null;
+    pauseKindRef.current = null;
+    hasMovedRef.current = false;
+    reanchorRef.current = false;
+    lastRawRef.current = null;
+    lastFixRef.current = null;
+    setPaused(null);
+    setLivePace(null);
+    setSignal(0);
     setM({
       meters: restored?.distanceM ?? 0,
       kmh: restored?.speedKmh ?? 0,
@@ -237,9 +339,14 @@ export function OutdoorRun({
     });
     rafRef.current = requestAnimationFrame(controlLoop);
     tickRef.current = setInterval(() => {
+      const now = Date.now();
+      // 10초 넘게 움직임이 없으면 자동 일시정지(신호 대기·물 마시기) — 시간이 페이스에 섞이지 않게.
+      if (shouldAutoPause(now, lastMoveTsRef.current, pausedAtRef.current, hasMovedRef.current)) pause("auto");
+      const lastFix = lastFixRef.current;
+      setSignal(gpsSignalLevel(lastFix?.acc ?? null, lastFix ? now - lastFix.at : null));
       setM((prev) => ({
         ...prev,
-        elapsedSec: (Date.now() - startTsRef.current) / 1000,
+        elapsedSec: activeElapsedMs(startTsRef.current, now, pausedAtRef.current) / 1000,
       }));
       persistCheckpoint();
     }, 1000);
@@ -250,7 +357,12 @@ export function OutdoorRun({
     setSignalLost(null);
     const endedAt = Date.now();
     const meters = trackRef.current.totalMeters;
-    const elapsedSec = (endedAt - startTsRef.current) / 1000;
+    // 달린 시간 — 멈춘 시간은 빼고. 서버엔 '끝 − 달린 시간'을 시작으로 보내 저장 시간에서도 빠지게.
+    const activeMs = activeElapsedMs(startTsRef.current, endedAt, pausedAtRef.current);
+    const elapsedSec = activeMs / 1000;
+    pausedAtRef.current = null;
+    pauseKindRef.current = null;
+    setPaused(null);
     const durationMin = Math.max(1, Math.round(elapsedSec / 60));
     const distanceKm = meters / 1000;
     const avgKmh = elapsedSec > 0 ? (meters / elapsedSec) * 3.6 : 0;
@@ -273,7 +385,7 @@ export function OutdoorRun({
       {
         clientSessionId: sessionIdRef.current,
         mode: "outdoor",
-        startedAt: new Date(startTsRef.current).toISOString(),
+        startedAt: new Date(endedAt - activeMs).toISOString(),
         endedAt: new Date(endedAt).toISOString(),
         distanceM: meters,
         route: trackRef.current.points.map((point) => ({
@@ -301,8 +413,16 @@ export function OutdoorRun({
 
       {phase === "playing" || phase === "done" ? (
         <>
-          <ZenScene runRef={runRef} hud={{ dist: hiddenDistRef }} />
-          <span ref={hiddenDistRef} className="hidden" />
+          {/* 3D 캐릭터는 켰을 때만, 그리고 **달리는 중에만** 그린다 — 종료 화면에서도 60fps 로 돌던
+              문제(실내는 예전에 고침)와 배터리·발열. 끄면 어두운 무대. */}
+          {showScene && phase === "playing" ? (
+            <>
+              <ZenScene runRef={runRef} hud={{ dist: hiddenDistRef }} />
+              <span ref={hiddenDistRef} className="hidden" />
+            </>
+          ) : (
+            <div aria-hidden="true" className="absolute inset-0 bg-zinc-950" />
+          )}
 
           {/* 나이키런 스타일 HUD */}
           <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center gap-1 bg-gradient-to-b from-black/45 to-transparent px-4 pt-[max(env(safe-area-inset-top),1rem)] pb-6 text-center">
@@ -313,12 +433,55 @@ export function OutdoorRun({
               KM
             </span>
             <div className="mt-2 flex items-end justify-center gap-8">
-              <Metric label="페이스" value={formatPace(pace)} />
+              {/* 지금 페이스(최근 30초) — 누적 평균은 멈춘 시간까지 섞여 '지금'을 못 보여 줬다. */}
+              <Metric label="지금 페이스" value={formatPace(livePace)} />
               <Metric label="시간" value={formatDuration(m.elapsedSec)} />
-              <Metric label="시속" value={`${m.kmh.toFixed(1)}`} unit="km/h" />
+              <Metric label="평균 페이스" value={formatPace(pace)} />
             </div>
           </div>
         </>
+      ) : null}
+
+      {/* 왼쪽(지표 아래, 오른쪽 순위와 같은 높이) — GPS 신호 막대 · 캐릭터 켬/끔 */}
+      {phase === "playing" ? (
+        <div className="absolute left-4 top-[calc(env(safe-area-inset-top,0px)+10rem)] z-30 flex items-center gap-2">
+          <span
+            data-testid="gps-signal"
+            data-level={signal}
+            aria-label={`GPS 신호 ${["없음", "약함", "보통", "좋음"][signal]}`}
+            className="flex h-11 items-end gap-0.5 rounded-full bg-black/40 px-3 pb-3"
+          >
+            {[1, 2, 3].map((level) => (
+              <i
+                key={level}
+                className={`block w-1 rounded-sm ${signal >= level ? "bg-emerald-400" : "bg-white/25"}`}
+                style={{ height: 4 + level * 4 }}
+              />
+            ))}
+          </span>
+          <button
+            type="button"
+            onClick={toggleScene}
+            aria-pressed={showScene}
+            className="h-11 rounded-full bg-black/40 px-3 text-xs font-semibold text-white"
+          >
+            {showScene ? "캐릭터 끄기" : "캐릭터 켜기"}
+          </button>
+        </div>
+      ) : null}
+
+      {phase === "playing" && paused ? (
+        <div
+          role="status"
+          data-testid="run-paused"
+          data-kind={paused}
+          className="absolute inset-x-4 top-1/2 z-20 -translate-y-1/2 rounded-2xl bg-black/70 px-4 py-5 text-center"
+        >
+          <p className="text-xl font-bold">{paused === "auto" ? "자동 일시정지" : "일시정지"}</p>
+          <p className="mt-1 text-sm text-zinc-300">
+            {paused === "auto" ? "움직이면 바로 이어서 기록해요." : "시간·거리가 멈췄어요."}
+          </p>
+        </div>
       ) : null}
 
       {phase === "playing" && signalLost ? (
@@ -331,15 +494,17 @@ export function OutdoorRun({
         </div>
       ) : null}
 
+      {/* 아래 — 일시정지/다시 시작 · 꾹 눌러 종료(스쳐서 끝나지 않게) */}
       {phase === "playing" ? (
-        <div className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] z-20 flex justify-center px-6">
+        <div className="absolute inset-x-0 bottom-[calc(env(safe-area-inset-bottom,0px)+1rem)] z-20 flex items-start justify-center gap-10 px-6">
           <button
             type="button"
-            onClick={finish}
-            className="rounded-full bg-red-500 px-10 py-4 text-lg font-bold text-white shadow-lg active:scale-95"
+            onClick={() => (paused ? resume() : pause("manual"))}
+            className="flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500 text-sm font-bold text-zinc-950 shadow-lg active:scale-95"
           >
-            종료
+            {paused ? "다시 시작" : "일시정지"}
           </button>
+          <HoldToEnd onConfirm={finish} />
         </div>
       ) : null}
 
@@ -376,7 +541,7 @@ export function OutdoorRun({
                 {formatDuration(checkpoint.elapsedSec)} · {formatDistanceKm(checkpoint.distanceM)}km
               </p>
               <div className="mt-3 flex gap-2">
-                <button type="button" onClick={() => start(checkpoint)} className="flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-bold text-white">이어하기</button>
+                <button type="button" onClick={() => setCountdown({ restored: checkpoint })} className="flex-1 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-bold text-white">이어하기</button>
                 <button type="button" onClick={() => { writeRunCheckpoint(null); setCheckpoint(null); }} className="rounded-lg bg-zinc-200 px-3 py-2 text-sm font-bold text-zinc-700">삭제</button>
               </div>
             </div>
@@ -401,12 +566,23 @@ export function OutdoorRun({
 
           <button
             type="button"
-            onClick={phase === "error" ? checkLocation : () => start()}
+            onClick={phase === "error" ? checkLocation : () => setCountdown({})}
             className="rounded-full bg-emerald-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition active:scale-95"
           >
             {phase === "error" ? "다시 확인" : "시작하기"}
           </button>
         </div>
+      ) : null}
+
+      {/* 시작 전 3초 — 이어하기도 같다. 끝나면 실제로 시작(시간은 그때부터). */}
+      {countdown ? (
+        <RunCountdown
+          onDone={() => {
+            const restored = countdown.restored;
+            setCountdown(null);
+            start(restored);
+          }}
+        />
       ) : null}
 
       {/* 진입 시 위치 확인 중 */}

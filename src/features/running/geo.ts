@@ -119,3 +119,36 @@ export function runIntensityFromSpeed(kmh: number): number {
   const x = (kmh - 3) / 13; // 3km/h 이하=0, 16km/h≈1
   return Math.max(0, Math.min(1, x));
 }
+
+/**
+ * 이동 거리를 더하지 않고 기준점만 옮긴다 — 일시정지 뒤 다시 시작할 때(2026-09-28 런닝 2단계).
+ * 멈춘 동안 걸어간 거리는 기록에 넣지 않는다. 경로(points)는 그대로 이어 붙인다.
+ * ⚠ lastMovingPoint 를 null 로 만들면 addPoint 가 경로를 새로 시작해 버리므로 이 함수를 쓴다.
+ */
+export function reanchorTrack(track: RunTrack, p: GeoPoint): RunTrack {
+  return { ...track, points: [...track.points, p], lastMovingPoint: p };
+}
+
+/**
+ * 지금 페이스(초/km) — 최근 windowSec 초 동안 실제로 이동한 구간만으로 계산한다.
+ * 누적 평균(avgPaceSecPerKm)은 멈춘 시간까지 섞여 '지금 얼마나 빠른지'를 못 보여 준다.
+ * 이동이 20m 미만이면 null(표시 "--'--\"").
+ */
+export function recentPaceSecPerKm(points: readonly GeoPoint[], nowT: number, windowSec = 30): number | null {
+  const from = nowT - windowSec * 1000;
+  let meters = 0;
+  let sec = 0;
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1];
+    const b = points[i];
+    if (a.t < from) continue; // 창 안에서 시작한 구간만 — 경계를 걸친 옛 구간이 지금 페이스를 흐리지 않게
+    if ((a.acc != null && a.acc > MAX_ACC_M) || (b.acc != null && b.acc > MAX_ACC_M)) continue;
+    const d = haversineMeters(a, b);
+    const dt = (b.t - a.t) / 1000;
+    if (dt <= 0 || d < MIN_SEG_M || d / dt > MAX_SPEED_MPS) continue;
+    meters += d;
+    sec += dt;
+  }
+  if (meters < 20 || sec <= 0) return null;
+  return (sec / meters) * 1000;
+}

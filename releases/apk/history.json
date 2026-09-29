@@ -12,7 +12,9 @@
     "verified": false,
     "note": "jimkkun-rebrand",
     "logcat": "",
-    "rebuiltAs": []
+    "rebuiltAs": [
+      "e89710d@2026-09-29T13:09:26.930Z"
+    ]
   },
   {
     "file": "helssu-v1.0.3-4-9009110-20260902-1642-dirty-post-billing.apk",

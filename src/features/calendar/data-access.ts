@@ -18,6 +18,10 @@ import {
 import { basalMetabolicRate } from "@/features/diet/calorie-target";
 import { getFoodLogsForDate, type FoodLog } from "@/features/diet/data-access";
 import { getStepsRange, getStepsForDate } from "@/features/health/steps-data";
+import { getWaterForDate } from "@/features/diet/data-access";
+import { getRunSessionsRange } from "@/features/running/run-history-data";
+import type { RunHistoryRow } from "@/features/running/run-history-summary";
+import { seoulDateOf, seoulDayRangeUtc } from "@/features/calendar/calendar-labels";
 import { stepsToKcal } from "@/features/health/steps-calories";
 
 const num = (v: number | string | null | undefined): number => {
@@ -34,6 +38,13 @@ export type DaySummary = {
   durationSec: number;
   steps: number; // 그날 걸음수
   didWeight: boolean; // 실제로 웨이트(근력 운동)을 완료한 날 — 캘린더 덤벨 마커
+  /**
+   * 그날 런닝 거리 합(m). 칼로리는 이미 컨디셔닝 완료 기록으로 `exerciseKcal` 에 들어가
+   * 있어서 **거리만** 보여 준다(여기서 또 더하면 두 번 센다).
+   */
+  runM: number;
+  /** 그날 마지막으로 잰 체중(kg). 안 잰 날은 null — 달력 칸의 체중 점. */
+  weighedKg: number | null;
 };
 
 export type MonthlyCalendar = {
@@ -69,7 +80,7 @@ export async function getMonthlyCalendar(
   const ensure = (d: string): DaySummary => {
     let s = byDate.get(d);
     if (!s) {
-      s = { intake: 0, burned: 0, exerciseKcal: 0, stepsKcal: 0, durationSec: 0, steps: 0, didWeight: false };
+      s = { intake: 0, burned: 0, exerciseKcal: 0, stepsKcal: 0, durationSec: 0, steps: 0, didWeight: false, runM: 0, weighedKg: null };
       byDate.set(d, s);
     }
     return s;
@@ -78,7 +89,8 @@ export async function getMonthlyCalendar(
   if (!user) return { byDate, intakeTotal: 0, workoutBurnedTotal: 0, stepsBurnedTotal: 0, bmr };
   const supabase = await createSupabaseServerClient();
 
-  const [foodRes, exRes, condRes, durMap, stepsMap] = await Promise.all([
+  const weightRange = seoulDayRangeUtc(from, to);
+  const [foodRes, exRes, condRes, durMap, stepsMap, runs, weightRes] = await Promise.all([
     supabase
       .from("food_logs")
       .select("for_date, kcal")
@@ -101,7 +113,23 @@ export async function getMonthlyCalendar(
       .lte("for_date", to),
     getWorkoutDurationsRange(from, to),
     getStepsRange(from, to),
+    getRunSessionsRange(from, to),
+    supabase
+      .from("weight_logs")
+      .select("weight_kg, created_at")
+      .eq("user_id", user.id)
+      .gte("created_at", weightRange.gte)
+      .lt("created_at", weightRange.lt)
+      .order("created_at", { ascending: true }),
   ]);
+
+  for (const r of runs) ensure(r.forDate).runM += Math.max(0, r.distanceM);
+  // 오래된→최신 순이라 같은 날 여러 번 쟀으면 마지막 값이 남는다.
+  for (const r of (weightRes.data ?? []) as { weight_kg: number | string | null; created_at: string }[]) {
+    const kg = r.weight_kg === null ? null : num(r.weight_kg);
+    const day = seoulDateOf(r.created_at);
+    if (kg && day) ensure(day).weighedKg = kg;
+  }
 
   for (const r of (foodRes.data ?? []) as { for_date: string; kcal: number | string }[]) {
     ensure(r.for_date).intake += num(r.kcal);
@@ -163,6 +191,14 @@ export type DayDetail = {
   durationSec: number;
   steps: number;
   stepsKcal: number;
+  /** 그날 런닝(최신순). 칼로리는 conditioning 쪽에 이미 들어 있다 — 거리·시간·페이스만. */
+  runs: RunHistoryRow[];
+  /** 마신 물(ml). */
+  waterMl: number;
+  /** 그날 마지막으로 잰 체중(kg). */
+  weighedKg: number | null;
+  /** 그날 먹은 단백질·탄수화물·지방(g). 적힌 음식만 합한다. */
+  macros: { protein: number; carbs: number; fat: number };
   foods: FoodLog[];
   workouts: { name: string; sets: number; reps: number; weightKg: number | null; kcal: number }[];
   conditioning: { name: string; detail: string; kcal: number }[];
@@ -179,6 +215,10 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
       durationSec: 0,
       steps: 0,
       stepsKcal: 0,
+      runs: [],
+      waterMl: 0,
+      weighedKg: null,
+      macros: sumMacros(foods),
       foods,
       workouts: [],
       conditioning: [],
@@ -189,7 +229,8 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   //   쓰인다). 예전엔 식단·걸음수를 먼저 await 하고 나서 완료기록을 쏴서, 원거리
   //   리전(싱가포르) 왕복이 두 번 직렬로 쌓였다. 한 묶음으로 동시에 시작한다.
   const supabase = await createSupabaseServerClient();
-  const [profile, foods, stepsRaw, exRes, condRes, durRes] = await Promise.all([
+  const dayRange = seoulDayRangeUtc(dateYmd, dateYmd);
+  const [profile, foods, stepsRaw, exRes, condRes, durRes, runs, waterMl, weightRes] = await Promise.all([
     getUserProfile(),
     getFoodLogsForDate(dateYmd),
     getStepsForDate(dateYmd),
@@ -210,6 +251,17 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
       .select("duration_sec")
       .eq("user_id", user.id)
       .eq("for_date", dateYmd)
+      .maybeSingle(),
+    getRunSessionsRange(dateYmd, dateYmd),
+    getWaterForDate(dateYmd),
+    supabase
+      .from("weight_logs")
+      .select("weight_kg")
+      .eq("user_id", user.id)
+      .gte("created_at", dayRange.gte)
+      .lt("created_at", dayRange.lt)
+      .order("created_at", { ascending: false })
+      .limit(1)
       .maybeSingle(),
   ]);
   const weight = profile?.weightKg ?? 65;
@@ -277,14 +329,29 @@ export async function getDayDetail(dateYmd: string): Promise<DayDetail> {
   );
 
   const burned = Math.round(burnedRaw) + stepsKcal; // 운동 + 걸음 칼로리
+  const wk = (weightRes.data as { weight_kg?: number | string | null } | null)?.weight_kg;
   return {
     intake,
     burned,
     durationSec,
     steps,
     stepsKcal,
+    runs,
+    waterMl,
+    weighedKg: wk === null || wk === undefined ? null : num(wk) || null,
+    macros: sumMacros(foods),
     foods,
     workouts,
     conditioning,
+  };
+}
+
+/** 적힌 영양소만 더한다(빈 값은 0). 소수 한 자리. */
+function sumMacros(foods: FoodLog[]): { protein: number; carbs: number; fat: number } {
+  const r1 = (n: number) => Math.round(n * 10) / 10;
+  return {
+    protein: r1(foods.reduce((s, f) => s + (f.protein ?? 0), 0)),
+    carbs: r1(foods.reduce((s, f) => s + (f.carbs ?? 0), 0)),
+    fat: r1(foods.reduce((s, f) => s + (f.fat ?? 0), 0)),
   };
 }

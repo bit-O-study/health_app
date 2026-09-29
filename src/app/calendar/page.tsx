@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Dumbbell,
+  Footprints,
   Heart,
   TrendingDown,
   TrendingUp,
@@ -22,6 +23,8 @@ import {
   signedKcal,
   type CalorieBalance,
 } from "@/features/calendar/calorie-balance";
+import { distanceLabel, summaryTitle, weekTitle } from "@/features/calendar/calendar-labels";
+import type { DaySummary } from "@/features/calendar/data-access";
 import { getMissionCalendar } from "@/features/commitments/data-access";
 import { MARKER_SYMBOL } from "@/features/commitments/missions";
 import { getBodyLogs } from "@/features/profile/body-logs";
@@ -139,7 +142,7 @@ export default async function CalendarPage({
         <ChevronLeft aria-hidden="true" size={18} />
       </Link>
       <h2 className="min-w-[5.5rem] text-center text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
-        {isWeek ? `${week.from} ~ ${week.to}` : `${year}년 ${month0 + 1}월`}
+        {isWeek ? weekTitle(week.from, week.to) : `${year}년 ${month0 + 1}월`}
       </h2>
       <Link
         href={isWeek ? `/calendar/week?d=${week.next}` : `/calendar?m=${monthParam(next)}`}
@@ -164,7 +167,23 @@ export default async function CalendarPage({
         <StepsSync debug={debug} />
       </div>
 
-      {/* 캘린더 — 칸 높이 52px(날짜 + 섭취/소비 두 줄이 딱 들어가는 높이) */}
+      {/* 주간 — 월간 칸을 줄여 쓰면 빈 공간만 커서, 요일마다 한 줄 + 막대로 그린다(2단계). */}
+      {isWeek ? (
+        <div className="app-card px-3 py-3">
+          <WeekList
+            dates={week.dates}
+            today={today}
+            byDate={byDate}
+            missionMarks={missionMarks}
+            periodDays={periodDays}
+            predictedDays={predictedDays}
+          />
+          <CalendarLegend showCycle={profile?.gender === "female"} />
+        </div>
+      ) : null}
+
+      {/* 캘린더 — 칸 높이 52px(날짜 + 섭취/소비 두 줄이 딱 들어가는 높이). 주간일 땐 위 목록이 대신한다. */}
+      {isWeek ? null : (
       <div className="app-card px-2 py-4">
         <div className="grid grid-cols-7">
           {WEEKDAYS.map((w, i) => (
@@ -209,6 +228,8 @@ export default async function CalendarPage({
                   didWeight: !!s?.didWeight,
                   missionPct: mMark ? mMark.pct : null,
                   period: isPeriod ? "period" : isPredicted ? "predicted" : null,
+                  runM: s?.runM ?? 0,
+                  weighedKg: s?.weighedKg ?? null,
                 })}
                 aria-current={isToday ? "date" : undefined}
                 className="relative flex min-h-[3.25rem] flex-col items-center rounded-lg px-0.5 py-0.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
@@ -224,6 +245,12 @@ export default async function CalendarPage({
                     size={9}
                   />
                 )}
+                {typeof s?.weighedKg === "number" ? (
+                  <span
+                    aria-label="체중 잰 날"
+                    className="absolute bottom-1 left-1 h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500"
+                  />
+                ) : null}
                 {s?.didWeight ? (
                   <Dumbbell
                     aria-label="웨이트한 날"
@@ -272,16 +299,24 @@ export default async function CalendarPage({
                     -{s.burned}
                   </span>
                 ) : null}
+                {s && s.runM > 0 ? (
+                  <span className="text-xs font-semibold leading-4 tabular-nums" style={{ color: "var(--info)" }}>
+                    {distanceLabel(s.runM)}
+                  </span>
+                ) : null}
               </Link>
             );
           })}
         </div>
         <CalendarLegend showCycle={profile?.gender === "female"} />
       </div>
+      )}
 
       {/* 월 요약 — 카드 4장을 한 장으로: 섭취·소비·수지 세 칸 + 체중 한 줄 */}
       <section>
-        <h2 className="app-section-label">{isWeek ? "이번 주 요약" : "이번 달 요약"}</h2>
+        <h2 className="app-section-label">
+          {summaryTitle(isWeek ? { kind: "week", from: week.from } : { kind: "month", year, month1: month0 + 1 }, today)}
+        </h2>
         <div className="app-list">
           <div className="grid grid-cols-3 divide-x divide-[var(--line)] py-2.5">
             <SummaryStat label="총 섭취" value={intakeTotal} />
@@ -446,10 +481,144 @@ function CalendarLegend({ showCycle }: { showCycle: boolean }) {
       <li className={item}><span className="tabular-nums">+</span>먹은 kcal</li>
       <li className={item}><span className="tabular-nums text-brand">−</span>움직인 kcal(운동+걷기)</li>
       <li className={item}><Dumbbell aria-hidden="true" size={11} className="text-brand" />근력운동</li>
+      <li className={item}><Footprints aria-hidden="true" size={11} style={{ color: "var(--info)" }} />런닝 거리</li>
+      <li className={item}><span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />체중 잰 날</li>
       <li className={item}><span className="font-bold"><span className="text-brand">○</span><span className="text-amber-500">△</span><span className="text-rose-400">✕</span></span>다짐 달성</li>
       {showCycle ? (
         <li className={item}><Heart aria-hidden="true" size={10} className="fill-rose-500 text-rose-500" />생리·예정</li>
       ) : null}
+    </ul>
+  );
+}
+
+/**
+ * 주간 — 요일마다 한 줄. 먹은 양(회색)·움직인 양(초록) 막대는 그 주 최대값에 맞춰 길이를 정한다.
+ * 한 줄을 누르면 그날 상세로. 달력 칸과 같은 읽기 문장을 단다.
+ */
+function WeekList({
+  dates,
+  today,
+  byDate,
+  missionMarks,
+  periodDays,
+  predictedDays,
+}: {
+  dates: string[];
+  today: string;
+  byDate: Map<string, DaySummary>;
+  missionMarks: Record<string, { marker: keyof typeof MARKER_SYMBOL; pct: number }>;
+  periodDays: Set<string>;
+  predictedDays: Set<string>;
+}) {
+  const max = Math.max(
+    1,
+    ...dates.map((d) => Math.max(byDate.get(d)?.intake ?? 0, byDate.get(d)?.burned ?? 0)),
+  );
+  const pct = (n: number) => `${Math.max(n > 0 ? 3 : 0, Math.round((n / max) * 100))}%`;
+  return (
+    <ul className="divide-y divide-[var(--line)]" data-testid="week-list">
+      {dates.map((date, i) => {
+        const s = byDate.get(date);
+        const isToday = date === today;
+        const holiday = getDayMarks(date).find((mk) => mk.kind === "holiday");
+        const red = isHoliday(date) || i === 6;
+        const mMark = missionMarks[date];
+        const isPeriod = periodDays.has(date);
+        const isPredicted = predictedDays.has(date);
+        return (
+          <li key={date}>
+            <Link
+              href={`/calendar/${date}`}
+              aria-label={dayAriaLabel({
+                date,
+                isToday,
+                holiday: holiday?.name ?? null,
+                intake: s?.intake ?? 0,
+                burned: s?.burned ?? 0,
+                didWeight: !!s?.didWeight,
+                missionPct: mMark ? mMark.pct : null,
+                period: isPeriod ? "period" : isPredicted ? "predicted" : null,
+                runM: s?.runM ?? 0,
+                weighedKg: s?.weighedKg ?? null,
+              })}
+              aria-current={isToday ? "date" : undefined}
+              className="flex items-center gap-3 py-2.5 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+            >
+              <span className="w-10 shrink-0 text-center">
+                <span className={`block text-xs ${red ? "text-danger" : "text-zinc-500 dark:text-zinc-400"}`}>
+                  {WEEKDAYS[i]}
+                </span>
+                <span
+                  className={`mx-auto mt-0.5 flex h-7 w-7 items-center justify-center rounded-full text-sm font-semibold tabular-nums ${
+                    isToday
+                      ? "bg-brand text-white dark:text-zinc-950"
+                      : red
+                        ? "text-danger"
+                        : "text-zinc-900 dark:text-zinc-100"
+                  }`}
+                >
+                  {Number(date.slice(8))}
+                </span>
+              </span>
+              <span className="min-w-0 flex-1 space-y-1">
+                {holiday ? <span className="block truncate text-xs text-danger">{holiday.name}</span> : null}
+                <span className="flex items-center gap-2">
+                  <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.06]">
+                    <span
+                      className="block h-full rounded-full bg-zinc-400 dark:bg-zinc-500"
+                      style={{ width: pct(s?.intake ?? 0) }}
+                    />
+                  </span>
+                  <span className="w-14 shrink-0 text-right text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                    {s && s.intake > 0 ? `+${s.intake.toLocaleString()}` : "—"}
+                  </span>
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-white/[0.06]">
+                    <span className="block h-full rounded-full bg-brand" style={{ width: pct(s?.burned ?? 0) }} />
+                  </span>
+                  <span className="w-14 shrink-0 text-right text-xs tabular-nums text-brand">
+                    {s && s.burned > 0 ? `-${s.burned.toLocaleString()}` : "—"}
+                  </span>
+                </span>
+              </span>
+              <span className="flex w-14 shrink-0 flex-col items-end gap-0.5 text-xs">
+                <span className="flex items-center gap-1">
+                  {mMark ? (
+                    <span
+                      className={`font-bold ${
+                        mMark.marker === "circle"
+                          ? "text-brand"
+                          : mMark.marker === "triangle"
+                            ? "text-amber-500"
+                            : "text-rose-400"
+                      }`}
+                    >
+                      {MARKER_SYMBOL[mMark.marker]}
+                    </span>
+                  ) : null}
+                  {s?.didWeight ? <Dumbbell aria-hidden="true" size={11} className="text-brand" /> : null}
+                  {isPeriod || isPredicted ? (
+                    <Heart
+                      aria-hidden="true"
+                      size={10}
+                      className={isPeriod ? "fill-rose-500 text-rose-500" : "text-rose-300 dark:text-rose-700"}
+                    />
+                  ) : null}
+                  {typeof s?.weighedKg === "number" ? (
+                    <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-zinc-400 dark:bg-zinc-500" />
+                  ) : null}
+                </span>
+                {s && s.runM > 0 ? (
+                  <span className="font-semibold tabular-nums" style={{ color: "var(--info)" }}>
+                    {distanceLabel(s.runM)}
+                  </span>
+                ) : null}
+              </span>
+            </Link>
+          </li>
+        );
+      })}
     </ul>
   );
 }

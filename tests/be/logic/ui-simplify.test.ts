@@ -371,7 +371,8 @@ describe("다른 탭도 같은 규칙 (2026-09-15 '다른 탭들도 똑같이')"
     const cal = read("src/app/calendar/page.tsx");
     expect(cal).not.toContain("text-sky-600");
     expect(cal).not.toContain('amber: "text-amber-600');
-    expect(cal).toContain("이번 달 요약");
+    // 요약 제목은 기간을 따라 바뀌어 캘린더 이름표 모듈에 있다(2026-09-29 캘린더 2단계).
+    expect(read("src/features/calendar/calendar-labels.ts")).toContain("이번 달 요약");
   });
 
   it("그룹·커뮤니티: 설명 문장·이모지 응원 문구가 없다", () => {

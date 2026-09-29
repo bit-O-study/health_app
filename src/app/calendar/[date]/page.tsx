@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { redirect, notFound } from "next/navigation";
-import { ChevronRight, Wind } from "lucide-react";
+import { ChevronLeft, ChevronRight, Dumbbell, Footprints, Utensils, Wind } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { getCurrentUser } from "@/lib/supabase/server";
@@ -8,7 +8,14 @@ import { getDayDetail } from "@/features/calendar/data-access";
 import { getMyCommitments } from "@/features/commitments/data-access";
 import { isActiveOn } from "@/features/commitments/commitment";
 import { MEAL_LABEL, MEALS, type Meal } from "@/features/diet/meal";
-import { ymdDisplay } from "@/features/routine/data";
+import { seoulYmd, ymdDisplay } from "@/features/routine/data";
+import { formatWater } from "@/features/diet/water";
+import {
+  adjacentDays,
+  distanceLabel,
+  durationLabel,
+  paceLabel,
+} from "@/features/calendar/calendar-labels";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "기록 상세" };
@@ -33,7 +40,20 @@ export default async function CalendarDayPage({
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) notFound();
 
   const [
-    { intake, burned, durationSec, steps, stepsKcal, foods, workouts, conditioning },
+    {
+      intake,
+      burned,
+      durationSec,
+      steps,
+      stepsKcal,
+      runs,
+      waterMl,
+      weighedKg,
+      macros,
+      foods,
+      workouts,
+      conditioning,
+    },
     allCommitments,
   ] = await Promise.all([getDayDetail(date), getMyCommitments()]);
   // 이 날짜에 진행 중인 다짐만.
@@ -41,8 +61,9 @@ export default async function CalendarDayPage({
     isActiveOn({ startDate: c.startDate, deadline: c.deadline }, date),
   );
   const { weekday, label } = ymdDisplay(date);
-  const [, mm] = label.split("/");
-  void mm;
+  const today = seoulYmd();
+  const { prev, next } = adjacentDays(date);
+  const hasMacros = macros.protein + macros.carbs + macros.fat > 0;
 
   const foodsByMeal = (meal: Meal) => foods.filter((f) => f.meal === meal);
 
@@ -53,7 +74,23 @@ export default async function CalendarDayPage({
   // 공통 머리글 + 섹션 라벨 + 그룹 목록(2026-09-16 8단계). 요약 카드 4장 → 한 장 네 칸.
   return (
     <div className="app-page">
-      <PageHeader title={`${label} (${weekday})`} back="캘린더" backHref="/calendar" />
+      <PageHeader title={`${label} (${weekday})`} back="캘린더" backHref="/calendar">
+        {/* 앞뒤 날짜 — 한 날을 보고 달력으로 돌아가지 않아도 옆 날로(2단계). */}
+        <Link
+          href={`/calendar/${prev}`}
+          aria-label="전날"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        >
+          <ChevronLeft aria-hidden="true" size={20} />
+        </Link>
+        <Link
+          href={`/calendar/${next}`}
+          aria-label="다음날"
+          className="flex h-9 w-9 items-center justify-center rounded-full text-zinc-500 transition active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+        >
+          <ChevronRight aria-hidden="true" size={20} />
+        </Link>
+      </PageHeader>
       <main className="app-container space-y-4">
         {/* 요약 — 섭취·소비·걸음수·운동 시간 네 칸 */}
         <div className="app-list">
@@ -67,7 +104,71 @@ export default async function CalendarDayPage({
           />
           <DayStat label="운동 시간" value={shortDuration(durationSec)} />
         </div>
+        {/* 물·체중·영양소 — 기록이 있을 때만 한 줄씩(없는 값으로 칸을 채우지 않는다). */}
+        {waterMl > 0 || weighedKg !== null || hasMacros ? (
+          <div className="flex flex-wrap gap-x-4 gap-y-1 border-t border-[var(--line)] px-4 py-2.5 text-xs text-zinc-500 dark:text-zinc-400" data-testid="day-extras">
+            {waterMl > 0 ? <span>물 <b className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{formatWater(waterMl)}</b></span> : null}
+            {weighedKg !== null ? <span>체중 <b className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{weighedKg}kg</b></span> : null}
+            {hasMacros ? (
+              <span>
+                단백질 <b className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{macros.protein}g</b>
+                {" · "}탄수 <b className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{macros.carbs}g</b>
+                {" · "}지방 <b className="font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">{macros.fat}g</b>
+              </span>
+            ) : null}
+          </div>
+        ) : null}
         </div>
+
+        {/* 바로가기 — 보던 날짜로 식단을 적고, 오늘이면 운동하러. 막다른 화면이 되지 않게(2단계). */}
+        <div className="flex gap-2" data-testid="day-actions">
+          <Link
+            href={`/diet?d=${date}`}
+            className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-zinc-100 text-sm font-semibold text-zinc-800 dark:bg-white/[0.08] dark:text-zinc-100"
+          >
+            <Utensils aria-hidden="true" size={15} />
+            이날 식단 기록
+          </Link>
+          {date === today ? (
+            <Link
+              href="/routine"
+              className="app-press inline-flex h-10 flex-1 items-center justify-center gap-1.5 rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950"
+            >
+              <Dumbbell aria-hidden="true" size={15} />
+              오늘 운동하기
+            </Link>
+          ) : null}
+        </div>
+
+        {/* 런닝 — 거리·시간·페이스. 칼로리는 아래 '한 운동'(컨디셔닝)에 이미 들어 있다. */}
+        {runs.length > 0 ? (
+          <section>
+            <h2 className="app-section-label">런닝</h2>
+            <ul className="app-list" data-testid="day-runs">
+              {runs.map((r) => (
+                <li key={r.id}>
+                  <Link
+                    href={`/routine/running-records/${r.id}`}
+                    className="app-row justify-between py-2 transition active:bg-zinc-100 dark:active:bg-white/[0.06]"
+                  >
+                    <span className="flex min-w-0 items-center gap-2">
+                      <Footprints aria-hidden="true" size={15} className="shrink-0" style={{ color: "var(--info)" }} />
+                      <span className="min-w-0">
+                        <span className="block text-sm font-semibold tabular-nums text-zinc-900 dark:text-zinc-100">
+                          {distanceLabel(r.distanceM)}
+                        </span>
+                        <span className="block text-xs tabular-nums text-zinc-500 dark:text-zinc-400">
+                          {durationLabel(r.durationSec)} · 평균 {paceLabel(r.paceSecPerKm)}
+                        </span>
+                      </span>
+                    </span>
+                    <ChevronRight aria-hidden="true" size={16} className="shrink-0 text-zinc-400" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         {/* 이 날짜에 진행 중인 다짐 — 누르면 다짐 관리로 이동 */}
         {dayCommitments.length > 0 ? (

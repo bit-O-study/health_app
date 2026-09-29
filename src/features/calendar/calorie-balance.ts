@@ -104,6 +104,10 @@ export function dayAriaLabel(o: {
   didWeight: boolean;
   missionPct?: number | null;
   period?: "period" | "predicted" | null;
+  /** 런닝 거리(m). */
+  runM?: number;
+  /** 그날 잰 체중(kg). */
+  weighedKg?: number | null;
 }): string {
   const [y, m, d] = o.date.split("-").map(Number);
   const weekday = ["일", "월", "화", "수", "목", "금", "토"][new Date(Date.UTC(y, m - 1, d)).getUTCDay()];
@@ -113,6 +117,10 @@ export function dayAriaLabel(o: {
   if (o.intake > 0) parts.push(`먹은 ${o.intake.toLocaleString("ko-KR")}kcal`);
   if (o.burned > 0) parts.push(`움직인 ${o.burned.toLocaleString("ko-KR")}kcal`);
   if (o.didWeight) parts.push("근력운동");
+  if (o.runM && o.runM > 0) {
+    parts.push(o.runM < 1000 ? `런닝 ${Math.round(o.runM)}m` : `런닝 ${(o.runM / 1000).toFixed(1)}km`);
+  }
+  if (typeof o.weighedKg === "number") parts.push(`체중 ${o.weighedKg}kg`);
   if (typeof o.missionPct === "number") parts.push(`다짐 ${o.missionPct}%`);
   if (o.period === "period") parts.push("생리");
   else if (o.period === "predicted") parts.push("생리 예정");

@@ -75,10 +75,20 @@ test("운동 기록 화면과 서로 오가고, 이달 기록 이미지가 PNG �
   await page.getByRole("link", { name: /캘린더에서 보기/ }).click();
   await expect(page).toHaveURL(/\/calendar\?m=\d{4}-\d{2}/);
 
-  const share = page.getByTestId("share-month-image");
-  await expect(share).toHaveAttribute("href", /\/api\/calendar\/month-image\?m=\d{4}-\d{2}/);
-  const href = (await share.getAttribute("href"))!;
-  const res = await page.request.get(href);
+  // 🔴 누르면 캘린더를 떠나지 않고 미리보기에 이미지가 뜬다(앱 WebView 에서 PNG 원본으로
+  //    넘어가 '안 만들어진다' 로 보이던 문제, 2026-09-29 제보).
+  const calendarUrl = page.url();
+  await page.getByTestId("share-month-image").click();
+  const preview = page.getByTestId("month-image-preview");
+  const img = preview.getByTestId("month-image");
+  await expect(img).toBeVisible({ timeout: 20_000 });
+  expect(await img.evaluate((el) => (el as HTMLImageElement).naturalWidth)).toBe(1080);
+  expect(page.url()).toBe(calendarUrl);
+  await preview.getByRole("button", { name: "닫기" }).click();
+  await expect(preview).toHaveCount(0);
+
+  const month = new URL(calendarUrl).searchParams.get("m")!;
+  const res = await page.request.get(`/api/calendar/month-image?m=${month}`);
   expect(res.status()).toBe(200);
   expect(res.headers()["content-type"]).toContain("image/png");
   expect(res.headers()["cache-control"]).toContain("no-store");

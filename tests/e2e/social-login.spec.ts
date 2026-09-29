@@ -82,7 +82,7 @@ test("★ 공급자 인증이 실패하면 /login 에서 이유를 보여준다"
 
 test("앱 콜백은 자동 복귀가 막혀도 수동 복귀 링크를 보여준다", async ({ page }) => {
   await page.goto("/auth/callback?native=1&code=dummy-code&next=%2Fplan", { waitUntil: "commit" });
-  const link = page.getByRole("link", { name: "헬쑤 앱으로 돌아가기" });
+  const link = page.getByRole("link", { name: "짐꾼 앱으로 돌아가기" });
   await expect(link).toBeVisible();
   const target = new URL((await link.getAttribute("href"))!);
   expect(target.protocol).toBe("helssu:");

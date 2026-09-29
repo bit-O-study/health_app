@@ -30,7 +30,7 @@ export function workoutSessionRecord(
     type: "ExerciseSession",
     startTime: startedAt,
     endTime: endedAt,
-    title: "헬쑤 근력운동",
+    title: "짐꾼 근력운동",
     // Android 플러그인은 notes를 필수로 읽는다. 생략하면 JS catch 밖에서 앱이 종료된다.
     notes: "",
     exerciseType: STRENGTH_TRAINING_EXERCISE_TYPE,

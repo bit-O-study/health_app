@@ -1,4 +1,6 @@
 import "server-only";
+import { readWorkoutSnapshot, type WorkoutSnapshot } from "./workout-snapshot";
+import type { FeedCursor } from "./feed-page";
 
 import {
   createSupabaseServerClient,
@@ -20,6 +22,7 @@ export type FeedPost = {
   groupId: string | null;
   groupName: string | null;
   visibility: Visibility;
+  workoutSnapshot?: WorkoutSnapshot | null;
   caption: string | null;
   createdAt: string;
   isMine: boolean;
@@ -40,7 +43,8 @@ export type CommunityPost = {
   authorName: string;
   groupId: string | null;
   groupName: string | null;
-  photoUrl: string;
+  photoUrl: string | null;
+  workoutSnapshot?: WorkoutSnapshot | null;
   caption: string | null;
   createdAt: string; // ISO
   isMine: boolean;
@@ -64,7 +68,8 @@ type Row = {
   user_id: string;
   group_id: string | null;
   author_name: string | null;
-  photo_url: string;
+  photo_url: string | null;
+  workout_snapshot?: unknown;
   caption: string | null;
   created_at: string;
 };
@@ -80,7 +85,7 @@ export async function getCommunityFeed(limit = 100): Promise<CommunityPost[]> {
 
   const { data } = await supabase
     .from("community_posts")
-    .select("id, user_id, group_id, author_name, photo_url, caption, created_at")
+    .select("id, user_id, group_id, author_name, photo_url, workout_snapshot, caption, created_at")
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -132,6 +137,7 @@ export async function getCommunityFeed(limit = 100): Promise<CommunityPost[]> {
     groupId: r.group_id,
     groupName: r.group_id ? (groupNameById.get(r.group_id) ?? null) : null,
     photoUrl: r.photo_url,
+    workoutSnapshot: readWorkoutSnapshot(r.workout_snapshot),
     caption: r.caption,
     createdAt: r.created_at,
     isMine: r.user_id === user.id,
@@ -163,28 +169,22 @@ const asVisibility = (v: string | null, groupId: string | null): Visibility => {
  * 통합 피드 — 사진 인증(community_posts) + 운동 티칭 영상(teaching_posts)을
  * 한 번에 가져와 작성시각순으로 병합. 가시성은 RLS가 강제(공개범위별).
  */
-export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
+export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Promise<FeedPost[]> {
   const user = await getCurrentUser();
   if (!user) return [];
   const supabase = await createSupabaseServerClient();
 
-  const [{ data: cData }, { data: tData }, { data: myProf }] = await Promise.all([
-    supabase
-      .from("community_posts")
-      .select("id, user_id, group_id, visibility, author_name, photo_url, caption, created_at")
-      .order("created_at", { ascending: false })
-      .limit(limit),
-    supabase
-      .from("teaching_posts")
-      .select("id, user_id, group_id, visibility, author_name, exercise_slug, exercise_tag, video_url, caption, created_at")
-      .order("created_at", { ascending: false })
-      .limit(limit),
-    supabase
-      .from("profiles")
-      .select("name, nickname")
-      .eq("user_id", user.id)
-      .maybeSingle(),
+  let photosQuery = supabase.from("community_posts").select("id, user_id, group_id, visibility, author_name, photo_url, workout_snapshot, caption, created_at").order("created_at", { ascending: false }).limit(limit);
+  let teachingQuery = supabase.from("teaching_posts").select("id, user_id, group_id, visibility, author_name, exercise_slug, exercise_tag, video_url, caption, created_at").order("created_at", { ascending: false }).limit(limit);
+  if (selection) {
+    photosQuery = photosQuery.in("id", selection.filter(r => r.kind === "photo").map(r => r.id));
+    teachingQuery = teachingQuery.in("id", selection.filter(r => r.kind === "teaching").map(r => r.id));
+  }
+  const [{ data: cData, error: cError }, { data: tData, error: tError }, { data: myProf }] = await Promise.all([
+    photosQuery, teachingQuery,
+    supabase.from("profiles").select("name, nickname").eq("user_id", user.id).maybeSingle(),
   ]);
+  if (cError || tError) throw new Error("게시물을 불러오지 못했어요.");
 
   // 내 글은 저장 당시 스냅샷된 author_name 대신 '현재' 닉네임으로 보여준다
   // (닉네임 바꾸면 옛 글이 옛 이름으로 남던 문제).
@@ -273,6 +273,7 @@ export async function getUnifiedFeed(limit = 120): Promise<FeedPost[]> {
     createdAt: r.created_at,
     isMine: r.user_id === user.id,
     photoUrl: r.photo_url,
+    workoutSnapshot: readWorkoutSnapshot(r.workout_snapshot),
     likeCount: likeCount.get(r.id) ?? 0,
     commentCount: commentCount.get(r.id) ?? 0,
     likedByMe: likedByMe.has(r.id),
@@ -314,7 +315,7 @@ export async function getCommunityPostDetail(
 
   const { data } = await supabase
     .from("community_posts")
-    .select("id, user_id, group_id, author_name, photo_url, caption, created_at")
+    .select("id, user_id, group_id, author_name, photo_url, workout_snapshot, caption, created_at")
     .eq("id", id)
     .maybeSingle();
   if (!data) return null;
@@ -346,6 +347,7 @@ export async function getCommunityPostDetail(
     groupId: r.group_id,
     groupName,
     photoUrl: r.photo_url,
+    workoutSnapshot: readWorkoutSnapshot(r.workout_snapshot),
     caption: r.caption,
     createdAt: r.created_at,
     isMine: r.user_id === user.id,

@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { adminUrl } from "./helpers/admin-console";
 
 import { createOnboardedAccount } from "./helpers/auth";
 import { dbQuery, hasDb } from "./helpers/db";
@@ -43,12 +44,12 @@ test("관리자 대시보드: 사이드바 메뉴 + 4지표 차트 + 일/월/연
     [email.toLowerCase()],
   );
 
-  await page.goto("/admin", { waitUntil: "networkidle" });
+  await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
 
   // 대시보드 + 사이드바 메뉴(기존 메뉴 포함)
-  await expect(page.getByRole("heading", { name: "대시보드" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "대시보드", exact: true })).toBeVisible();
   await expect(page.getByRole("link", { name: "회원정보" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "관리자 설정" })).toBeVisible();
+  await expect(page.locator('a[href="/admin/health/settings"]')).toBeVisible();
 
   // 헤드라인 카드 + 4개 지표 차트 제목
   await expect(page.getByText("전체 회원수")).toBeVisible();
@@ -57,7 +58,7 @@ test("관리자 대시보드: 사이드바 메뉴 + 4지표 차트 + 일/월/연
   await expect(page.getByRole("heading", { name: "접속유저수" })).toBeVisible();
 
   // 일/월/연 토글
-  await expect(page.getByTestId("gran-day")).toBeVisible();
-  await expect(page.getByTestId("gran-month")).toBeVisible();
-  await page.getByTestId("gran-year").click();
+  await expect(page.getByRole("button", { name: "일통계", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "월통계", exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "연통계", exact: true }).click();
 });

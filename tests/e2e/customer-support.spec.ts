@@ -27,7 +27,7 @@ test('고객센터 접수·회원 격리·콘솔 이전·관리자 답변·메�
   await page.reload();await expect(page.getByLabel('문의 대화')).toContainText('오류를 확인했습니다.');await expect(page.getByText('관리자 내부 검토 기록')).toHaveCount(0);
   await page.getByLabel('추가 문의',{exact:true}).fill('다시 확인했지만 같은 오류가 있어요.');await page.getByRole('button',{name:'답변 보내기',exact:true}).click();await expect(page.getByLabel('문의 대화')).toContainText('다시 확인했지만');
   const [row]=await dbQuery<{status:string}>('select status from support_tickets where id=$1',[ticket]);expect(row.status).toBe('in_progress');
-  await admin.goto('/admin/support/notifications');await expect(admin.getByRole('heading',{name:'내 카카오톡 연결'})).toBeVisible();await expect(admin.getByRole('link',{name:'문의 관리는 통합 관리자 콘솔에서 →'})).toHaveAttribute('href','https://heltch-admin.vercel.app/admin/health/support');
+  const moved = await admin.request.get('/admin/support/notifications', { maxRedirects: 0 }); expect(moved.status()).toBe(307); expect(moved.headers().location).toBe('https://heltch-admin.vercel.app/admin/health/support/notifications');
   const photo=await sharp({create:{width:80,height:80,channels:3,background:'#36a878'}}).png().toBuffer();
   await page.getByLabel('스크린샷 첨부',{exact:true}).setInputFiles({name:'support.png',mimeType:'image/png',buffer:photo});
   await page.getByRole('button',{name:'사진 첨부',exact:true}).click();
@@ -36,7 +36,7 @@ test('고객센터 접수·회원 격리·콘솔 이전·관리자 답변·메�
   await expect.poll(()=>page.getByRole('img',{name:'문의 첨부 사진',exact:true}).evaluate((img:HTMLImageElement)=>img.complete&&img.naturalWidth>0)).toBe(true);
   const [attachment]=await dbQuery<{id:string;bytes:number}>('select id,bytes from support_attachments where ticket_id=$1',[ticket]);expect(attachment.bytes).toBeLessThanOrEqual(512000);
   const attack=await other.request.delete('/api/support/attachments',{data:{id:attachment.id},headers:{Origin:new URL(page.url()).origin}});expect(attack.status()).toBe(403);
-  await page.screenshot({path:'scripts/.verify-shots/support-member.png',fullPage:true});await admin.screenshot({path:'scripts/.verify-shots/support-settings.png',fullPage:true});
+  await page.screenshot({path:'scripts/.verify-shots/support-member.png',fullPage:true});
   await page.getByRole('button',{name:'사진 삭제',exact:true}).click();await expect(page.getByRole('img',{name:'문의 첨부 사진',exact:true})).toHaveCount(0);
  }finally{await otherContext.close();await adminContext.close();}
 });

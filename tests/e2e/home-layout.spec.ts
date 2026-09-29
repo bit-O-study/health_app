@@ -4,8 +4,8 @@ import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb } from "./helpers/db";
 
 // 2026-09-20 런처 전환 — 홈은 카드를 세로로 쌓지 않는다.
-// 광고 배너(맨 위, 원상복구) → 앱 아이콘 판 → 앱별 요약 위젯 3개.
-// 예전에 홈에 있던 다짐·식단·목표·이번주·잔디는 각 앱 안으로 옮겨 갔다.
+// 2026-09-28 현재: 광고 배너(맨 위) → 앱 아이콘 판 → 오늘의 다짐 카드 → 운동 잔디.
+// (예전 '오늘 요약' 위젯 3개는 다짐 카드 + 잔디로 바뀜. 펫은 기본 숨김 디버그 기능이라 격자에 없다.)
 
 test("홈: 광고 배너 → 앱 격자 → 요약 위젯 순서이고, 권한 줄은 하나뿐이다", async ({ page }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
@@ -14,14 +14,14 @@ test("홈: 광고 배너 → 앱 격자 → 요약 위젯 순서이고, 권한 �
 
   const grid = page.getByRole("navigation", { name: "앱" });
   await expect(grid).toBeVisible({ timeout: 10_000 });
-  // 헬쑤쌤은 디버그 기능이 켜진 사용자에게만 — 보통 계정은 6개.
-  await expect(grid.getByRole("link")).toHaveCount(6);
-  for (const app of ["운동", "식단", "캘린더", "그룹", "커뮤니티", "펫"]) {
+  // 짐꾼쌤·펫은 디버그 기능이 켜진 사용자에게만 — 보통 계정은 5개.
+  await expect(grid.getByRole("link")).toHaveCount(5);
+  for (const app of ["운동", "식단", "캘린더", "그룹", "커뮤니티"]) {
     await expect(grid.getByRole("link", { name: app, exact: true })).toBeVisible();
   }
 
-  const widgets = page.getByRole("region", { name: "오늘 요약" });
-  await expect(widgets.getByRole("link")).toHaveCount(3);
+  await expect(page.getByRole("link", { name: /^오늘의 다짐/ })).toBeVisible();
+  await expect(page.getByRole("region", { name: "운동 잔디" })).toBeVisible();
 
   const order = await page.evaluate(() => {
     const main = document.querySelector("main");
@@ -30,7 +30,7 @@ test("홈: 광고 배너 → 앱 격자 → 요약 위젯 순서이고, 권한 �
     return {
       promo: at(document.querySelector('section[aria-label="함께하는 서비스"]')),
       grid: at(document.querySelector('nav[aria-label="앱"]')),
-      widgets: at(document.querySelector('section[aria-label="오늘 요약"]')),
+      widgets: at(document.querySelector('section[aria-label="운동 잔디"]')),
     };
   });
   expect(order.promo).toBeGreaterThanOrEqual(0);
@@ -76,7 +76,7 @@ test("하단 탭 라벨은 좁은 폰(360px)에서도 11px 이상", async ({ pag
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await page.setViewportSize({ width: 360, height: 740 });
   await createOnboardedAccount(page);
-  // 가장 긴 라벨이 있는 운동 앱에서 잰다(오늘·루틴·홈·운동찾기·기록).
+  // 가장 긴 라벨이 있는 운동 앱에서 잰다(오늘·루틴·홈·운동찾기·런닝 기록).
   await page.goto("/routine", { waitUntil: "networkidle" });
 
   const label = page

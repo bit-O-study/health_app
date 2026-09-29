@@ -9,6 +9,7 @@ import {
   getCurrentUser,
 } from "@/lib/supabase/server";
 import { seoulYmd } from "@/features/routine/data";
+import { resolveForDate } from "@/lib/offline/queued-date";
 import { setConditioningStatusAction } from "@/features/routine/conditioning-completion-actions";
 import { estimateConditioningKcal } from "@/features/routine/calories";
 import {
@@ -49,83 +50,78 @@ async function adjustWorkoutSeconds(
 }
 
 /**
- * 런닝(실내/야외) 종료 → 런닝모드 기록.
+ * 런닝 한 번을 **오늘 운동 시간·마무리 런닝 완료**에 반영한다(런닝모드 기록).
+ * recordRunSessionAction 이 run_sessions 에 **처음** 저장했을 때만 부른다 — 재시도(중복)면
+ * 안 부르므로 시간·완료가 두 번 쌓이지 않는다. 날짜는 런닝 **시작일**(run_sessions 와 같게).
  *
  * ⚠ 런닝모드 기록은 **'마무리운동 목록'에 표시하지 않는다** — 오늘 운동 시간(점수)과
- *   캘린더·기록(conditioning_completions)에만 반영한다. (사용자 규칙: 런닝모드 기록은
- *   캘린더·운동점수에만. 루틴/오늘만 편집으로 추가한 마무리 런닝만 목록에 보인다.)
- *
- * 그래서 daily_conditioning(마무리 '플랜' 행)은 만들지 않고, conditioning_completions
- * (런닝 완료)만 남긴다. 목록에 플랜 행이 없으므로 목록엔 안 뜨고, 완료취소 시 고스트로
- * 되살아나던 문제(#17)도 사라진다.
- *
- * 하루에 여러 번 달리면 완료기록 **1건**에 시간을 누적한다(같은 source_row_id 재사용).
+ *   캘린더·기록(conditioning_completions)에만 반영한다. daily_conditioning(플랜 행)은 만들지
+ *   않고 conditioning_completions 만 남긴다(#17). 하루에 여러 번 달리면 완료기록 **1건**에
+ *   시간을 누적한다(같은 source_row_id 재사용).
  */
-export async function recordRunAsCooldownAction(input: {
-  durationMin: number;
-  /** 실제 런닝 초 — 오늘 운동 시간(누적)에 더한다. 없으면 durationMin*60. */
-  durationSec?: number;
-  distanceKm?: number | null;
-  avgKmh?: number | null;
-  incline?: number | null;
-}): Promise<{ ok: boolean; error?: string }> {
-  const today = seoulYmd();
-  const durationMin = Math.max(1, Math.round(input.durationMin || 1));
-  const durationSec = Math.max(
-    0,
-    Math.round(input.durationSec ?? durationMin * 60),
-  );
-  const speed =
-    input.avgKmh != null && input.avgKmh > 0
-      ? Math.round(input.avgKmh * 10) / 10
-      : null;
-  const incline =
-    input.incline != null && input.incline >= 0 ? Math.round(input.incline) : null;
+async function recordRunCooldown(
+  supabase: SupabaseClient,
+  userId: string,
+  forDate: string,
+  input: { durationSec: number; avgKmh: number | null; incline: number | null },
+): Promise<void> {
+  const durationSec = Math.max(0, Math.round(input.durationSec));
+  const durationMin = Math.max(1, Math.round(durationSec / 60));
+  const speed = input.avgKmh != null && input.avgKmh > 0 ? Math.round(input.avgKmh * 10) / 10 : null;
+  const incline = input.incline != null && input.incline >= 0 ? Math.round(input.incline) : null;
 
-  const supabase = await createSupabaseServerClient();
-  const user = await getCurrentUser();
-  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (durationSec > 0) await adjustWorkoutSeconds(supabase, userId, forDate, durationSec);
 
-  // 오늘 운동 시간(누적)에 런닝 시간 더하기(삭제 시 removeTodayRunAction 이 뺀다).
-  if (durationSec > 0) await adjustWorkoutSeconds(supabase, user.id, today, durationSec);
-
-  // 오늘 이미 런닝 완료기록이 있으면 시간 누적(같은 source_row_id 재사용 → 1건 유지).
   const { data: existing } = await supabase
     .from("conditioning_completions")
     .select("source_row_id, duration_min")
-    .eq("user_id", user.id)
-    .eq("for_date", today)
+    .eq("user_id", userId)
+    .eq("for_date", forDate)
     .eq("item_id", "running")
     .limit(1);
   const prev = (existing ?? [])[0] as
     | { source_row_id: string | null; duration_min: number | null }
     | undefined;
-  const sourceRowId = prev?.source_row_id ?? randomUUID();
-  const newDur = (Number(prev?.duration_min) || 0) + durationMin;
-
-  const res = await setConditioningStatusAction(
+  await setConditioningStatusAction(
     "cooldown",
-    sourceRowId,
+    prev?.source_row_id ?? randomUUID(),
     "running",
     "done",
-    { durationMin: newDur, speed, incline },
+    { durationMin: (Number(prev?.duration_min) || 0) + durationMin, speed, incline },
+    forDate,
   );
-  if (!res.ok) return { ok: false, error: res.error };
-
-  revalidatePath("/routine");
-  revalidatePath("/calendar");
-  revalidatePath("/settings/score");
-  revalidatePath("/settings/history");
-  return { ok: true };
 }
 
-/** 실내·야외 러닝 한 번의 상세 원본을 중복 없이 저장한다. */
+/**
+ * 그룹 순위용 '그날 달린 거리'(daily_run_distance)를 run_sessions 합계로 다시 맞춘다.
+ * 예전엔 앱이 세션 id 없이 읽고-더해-덮어써서 재시도·60초 미만·자정 넘김에서 기록과 어긋났다.
+ */
+async function syncDailyRunDistance(supabase: SupabaseClient, userId: string, forDate: string): Promise<void> {
+  const { data } = await supabase
+    .from("run_sessions")
+    .select("distance_m")
+    .eq("user_id", userId)
+    .eq("for_date", forDate);
+  const meters = ((data ?? []) as { distance_m: number }[]).reduce((sum, r) => sum + (Number(r.distance_m) || 0), 0);
+  await supabase.from("daily_run_distance").upsert(
+    { user_id: userId, for_date: forDate, meters: Math.round(meters), updated_at: new Date().toISOString() },
+    { onConflict: "user_id,for_date" },
+  );
+}
+
+/**
+ * 실내·야외 러닝 한 번 저장 — **런닝 저장의 유일한 입구**(2026-09-28 1단계).
+ * run_sessions(원본) → 처음 저장일 때만 오늘 운동 시간·마무리 런닝 완료 → 그날 순위 거리 재계산.
+ * client_session_id 로 중복을 막으므로 기기 대기 큐가 몇 번 다시 보내도 결과가 같다.
+ */
 export async function recordRunSessionAction(input: RunSessionInput & {
   clientSessionId: string;
 }): Promise<
   | {
       ok: true;
       duplicate?: boolean;
+      /** 저장할 수 없는 기록(너무 짧음 등) — 다시 보내도 같으므로 대기 큐에서 뺀다. */
+      skipped?: string;
       health?: { startedAt: string; endedAt: string; distanceM: number; caloriesKcal: number };
     }
   | { ok: false; error: string }
@@ -134,9 +130,8 @@ export async function recordRunSessionAction(input: RunSessionInput & {
     return { ok: false, error: "잘못된 세션 식별자입니다." };
   }
   const normalized = normalizeRunSession(input);
-  if (!normalized.ok) {
-    return { ok: false, error: `저장할 수 없는 러닝 기록입니다: ${normalized.reason}` };
-  }
+  // 형식이 틀린 기록은 몇 번을 다시 보내도 같다 — 실패로 돌려주면 기기 대기 큐가 막힌다.
+  if (!normalized.ok) return { ok: true, skipped: normalized.reason };
 
   const supabase = await createSupabaseServerClient();
   const user = await getCurrentUser();
@@ -162,10 +157,11 @@ export async function recordRunSessionAction(input: RunSessionInput & {
     ),
   );
 
+  const forDate = runSessionDate(session.startedAt) ?? seoulYmd();
   const { error } = await supabase.from("run_sessions").insert({
     user_id: user.id,
     client_session_id: input.clientSessionId,
-    for_date: runSessionDate(session.startedAt),
+    for_date: forDate,
     mode: session.mode,
     started_at: session.startedAt,
     ended_at: session.endedAt,
@@ -180,6 +176,18 @@ export async function recordRunSessionAction(input: RunSessionInput & {
   if (isDuplicateRunSessionError(error)) return { ok: true, duplicate: true };
   if (error) return { ok: false, error: error.message };
 
+  // 처음 저장된 런닝만 — 운동 시간·완료(서버가 오늘/어제로 가둔 날짜)와 순위 거리에 반영.
+  // 원본은 이미 저장됐으므로 여기서 실패해도 런닝 기록 자체는 남는다.
+  await recordRunCooldown(supabase, user.id, resolveForDate(forDate, seoulYmd()), {
+    durationSec: session.durationSec,
+    avgKmh: session.avgKmh,
+    incline: session.incline,
+  }).catch(() => {});
+  await syncDailyRunDistance(supabase, user.id, forDate).catch(() => {});
+
+  revalidatePath("/routine");
+  revalidatePath("/settings/score");
+  revalidatePath("/routine/running-records");
   revalidatePath("/settings/history");
   revalidatePath("/calendar");
   return {

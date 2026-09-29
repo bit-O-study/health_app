@@ -25,6 +25,7 @@
 
 import type { CompletionSnapshot } from "@/features/routine/exercise-completion-actions";
 import type { CondSnapshot } from "@/features/routine/conditioning-completion-actions";
+import type { RunSessionInput } from "@/features/running/run-session";
 
 /** 큐에 담기는 한 건. 그대로 서버 액션 인자로 풀어 쓸 수 있어야 한다. */
 export type PendingWrite =
@@ -54,6 +55,18 @@ export type PendingWrite =
       snapshot: CondSnapshot;
       forDate: string;
       queuedAt: number;
+    }
+  | {
+      /**
+       * 끝난 런닝 한 번(2026-09-28 런닝 1단계). 종료 순간 신호가 없으면 여기 남아 있다가
+       * 연결되면 recordRunSessionAction 으로 올라간다 — client_session_id 로 서버가 중복을 막는다.
+       */
+      kind: "run";
+      key: string;
+      name: string;
+      session: RunSessionInput & { clientSessionId: string };
+      forDate: string;
+      queuedAt: number;
     };
 
 /**
@@ -80,8 +93,10 @@ export function pendingKey(
         condKind: string;
         rowId: string;
         itemId: string;
-      },
+      }
+    | { kind: "run"; clientSessionId: string },
 ): string {
+  if (w.kind === "run") return `run:${w.clientSessionId}`;
   return w.kind === "main"
     ? `main:${w.rowId}`
     : `${w.condKind}:${w.rowId}:${w.itemId}`;

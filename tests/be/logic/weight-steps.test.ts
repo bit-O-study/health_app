@@ -84,8 +84,8 @@ describe("withWeightStep — 저장할 다음 맵", () => {
 
 describe("기본 규칙 위에 덮어쓰기", () => {
   it("사용자가 정한 단위가 기구 기본값을 이긴다", () => {
-    // 펙덱(작은 핀 스택)의 기본은 2.5kg 인데, 1kg 씩 올라가는 헬스장이 있다.
-    expect(weightStepKg("pec-deck", "machine")).toBe(2.5);
+    // 펙덱(핀 스택)의 기본은 5kg 인데, 1kg 씩 올라가는 헬스장이 있다.
+    expect(weightStepKg("pec-deck", "machine")).toBe(5);
     const steps = { "pec-deck": 1 };
     expect(
       weightStepKg("pec-deck", "machine", stepOverrideFor(steps, "pec-deck")),

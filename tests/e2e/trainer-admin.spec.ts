@@ -1,3 +1,4 @@
+import { adminUrl } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 import { createOnboardedAccount } from "./helpers/auth";
 import { hasDb, dbQuery } from "./helpers/db";
@@ -7,8 +8,8 @@ test("관리자 이용권 승인·해지·재승인과 앱 접근 제어", async
   test.setTimeout(150_000);
   const trainerEmail = await createOnboardedAccount(page);
   const trainerName = `승인검증 ${trainerEmail}`;
-  await page.goto("/admin/trainers");
-  await expect(page).toHaveURL(/\/home$/);
+  await page.goto(adminUrl("/admin/trainers"));
+  await expect(page).toHaveURL(/\/login/);
   await page.goto("/settings/trainer-pass");
   await page.getByLabel("트레이너 이름", { exact: true }).fill(trainerName.slice(0, 80));
   await page.getByLabel("알림 받을 휴대폰 번호", { exact: true }).fill("01012345678");
@@ -20,7 +21,7 @@ test("관리자 이용권 승인·해지·재승인과 앱 접근 제어", async
     const adminEmail = await createOnboardedAccount(admin);
     await dbQuery("insert into public.admins(email) values($1)", [adminEmail]);
     const [dates] = await dbQuery<{ today: string; until: string }>("select (now() at time zone 'Asia/Seoul')::date::text as today, ((now() at time zone 'Asia/Seoul')::date+30)::text as until");
-    await admin.goto("/admin/trainers");
+    await admin.goto(adminUrl("/admin/trainers"));
     const card = admin.locator("section").filter({ has: admin.getByRole("heading", { name: `${trainerName.slice(0, 80)} · 01012345678`, exact: true }) });
     await card.getByLabel("시작일", { exact: true }).fill(dates.today);
     await card.getByLabel("종료일", { exact: true }).fill(dates.until);

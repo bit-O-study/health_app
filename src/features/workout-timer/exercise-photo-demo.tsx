@@ -15,7 +15,10 @@ export function ExercisePhotoDemo({
   equipment,
   frames: framesProp,
   cycleMs = 2600,
+  poseLabels = false,
 }: {
+  /** "시작 자세 / 끝 자세" 표시 — 사진과 같은 애니메이션 주기라 저절로 맞는다(운동모드 한 줄 코치). */
+  poseLabels?: boolean;
   exerciseId?: string;
   equipment?: string;
   /** 직접 프레임 2장 지정(컨디셔닝 등). 없으면 exerciseId·equipment 로 조회. */
@@ -38,6 +41,16 @@ export function ExercisePhotoDemo({
         <span className="absolute bottom-2 right-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
           실제 동작
         </span>
+        {poseLabels ? (
+          <>
+            <span data-testid="pose-label-start" className="ex-photo-a absolute left-2 top-2 rounded-full bg-black/55 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm">
+              시작 자세
+            </span>
+            <span data-testid="pose-label-end" className="ex-photo-b absolute left-2 top-2 rounded-full bg-brand/90 px-2 py-0.5 text-xs font-bold text-white backdrop-blur-sm dark:text-zinc-950">
+              끝 자세
+            </span>
+          </>
+        ) : null}
       </div>
     </div>
   );

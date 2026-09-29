@@ -22,20 +22,22 @@ for (const { scheme, width } of [
     // 2026-09-20 런처 전환 — 홈은 히어로·바로가기 대신 **앱 아이콘 판 + 요약 위젯**이다.
     const grid = page.getByRole("navigation", { name: "앱" });
     await expect(grid).toBeVisible();
-    await expect(grid.getByRole("link")).toHaveCount(6);
-    // 매일 쓰는 세 앱은 홈에서 요약 한 줄로 보이고, 눌러서 1탭에 들어간다.
-    await expect(page.getByRole("region", { name: "오늘 요약" }).getByRole("link")).toHaveCount(3);
+    // 짐꾼쌤·펫은 디버그 기능 — 보통 계정은 5개(2026-09-28).
+    await expect(grid.getByRole("link")).toHaveCount(5);
+    // 격자 아래는 오늘의 다짐 카드 + 운동 잔디(예전 '오늘 요약' 위젯 3개를 대체).
+    await expect(page.getByRole("link", { name: /^오늘의 다짐/ })).toBeVisible();
+    await expect(page.getByRole("region", { name: "운동 잔디" })).toBeVisible();
     await page.screenshot({ path: testInfo.outputPath("home.png"), fullPage: true });
 
     // 앱 타일 → 그 앱. 하단바가 그 앱 메뉴로 갈리고, **가운데 칸은 어디서나 홈**이다.
-    // 칸 수는 앱이 실제로 가진 화면 수에 따라 3칸·5칸이다. 화면이 하나뿐인
-    // 앱(식단·커뮤니티)은 없는 칸을 만들지 않고 런처 바(5칸)를 그대로 쓴다.
+    // 칸 수는 앱이 실제로 가진 화면 수에 따라 3칸·5칸이다(2026-09-27 부터 식단·그룹·
+    // 커뮤니티도 자기 메뉴 4칸 + 가운데 홈).
     for (const [app, path, firstTab, slots] of [
       ["운동", "/routine", "오늘", 5],
-      ["식단", "/diet", "체형", 5],
-      ["캘린더", "/calendar", "달력", 3],
-      ["그룹", "/groups", "내 그룹", 3],
-      ["커뮤니티", "/community", "체형", 5],
+      ["식단", "/diet", "오늘 식단", 5],
+      ["캘린더", "/calendar", "월간", 3],
+      ["그룹", "/groups", "내 그룹", 5],
+      ["커뮤니티", "/community", "피드", 5],
     ] as const) {
       const nav = page.getByRole("navigation", { name: "주요 메뉴" });
       await page.getByRole("navigation", { name: "앱" })
@@ -71,11 +73,8 @@ for (const { scheme, width } of [
       await expect(page).toHaveURL(/\/home$/);
     }
 
-    // 설정은 하단바 '나' 칸 하나로 들어간다(2026-09-21 중복 버튼 정리).
-    await page
-      .getByRole("navigation", { name: "주요 메뉴" })
-      .getByRole("link", { name: "나", exact: true })
-      .click();
+    // 설정은 홈 머리글의 '설정' 하나로 들어간다(2026-09-28 — 하단바 '나' 칸은 없어졌다).
+    await page.getByRole("link", { name: "설정", exact: true }).click();
     await expect(page.getByRole("heading", { name: "설정", exact: true })).toBeVisible();
     await page.getByRole("link", { name: "체형 정보", exact: true }).click();
     await expect(page).toHaveURL(/\/settings\/profile$/);

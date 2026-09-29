@@ -8,6 +8,13 @@ import { kakaoConfig } from "@/features/support/messaging.server";
 import { seal } from "@/features/support/crypto";
 export const runtime = "nodejs";
 export async function GET(req: Request) {
+  // Console OAuth keeps the registered provider callback, then verifies its own session/state cookie.
+  const incoming = new URL(req.url);
+  if (/^console\.[0-9a-f]{64}$/.test(incoming.searchParams.get("state") ?? "")) {
+    const target = new URL("https://heltch-admin.vercel.app/api/support/kakao/callback");
+    for (const key of ["state", "code", "error"]) { const value = incoming.searchParams.get(key); if (value) target.searchParams.set(key, value); }
+    return NextResponse.redirect(target);
+  }
   const user = await getCurrentUser();
   if (!user || !(await isAdminUser())) return new Response("Forbidden", { status: 403 });
   const config = kakaoConfig(), db = createSupabaseAdminClient();

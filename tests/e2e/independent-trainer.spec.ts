@@ -69,7 +69,8 @@ test("독립 트레이너 이용권·초대 수락·공유 설정·연결 삭제
     await expect(page.getByRole("heading", { name: "월별 운동 추이", exact: true })).toBeVisible();
     await page.getByText("날짜별 상세 기록", { exact: true }).click();
     await expect(page.getByText("01", { exact: true })).toBeVisible();
-    await page.getByRole("link", { name: "운동 처방", exact: true }).click();
+    // 화면 안 보기 전환 탭 — 트레이너 앱 하단바에도 같은 이름의 '운동 처방'(/trainer/prescriptions)이 있다.
+    await page.getByRole("navigation", { name: "회원 관리 화면" }).getByRole("link", { name: "운동 처방", exact: true }).click();
     await expect(page.getByText("회원이 운동 처방을 허용하지 않았어요.", { exact: false })).toBeVisible();
     await dbQuery("insert into routine_exercises(user_id,focus,exercise_id,equipment,day_index,sets,reps) select id,'chest','bench-press','barbell',0,3,10 from auth.users where email=$1", [memberEmail]);
     await dbQuery("insert into routine_exercises(user_id,focus,exercise_id,equipment,day_index,sets,reps) select id,'lower','squat','barbell',1,3,10 from auth.users where email=$1", [memberEmail]);
@@ -124,7 +125,7 @@ test("독립 트레이너 이용권·초대 수락·공유 설정·연결 삭제
     await page.setViewportSize({width:393,height:852});
     await page.emulateMedia({colorScheme:"dark"});
     await page.evaluate(() => document.documentElement.classList.add("dark"));
-    await page.getByRole("link", { name: "운동 처방", exact: true }).click();
+    await page.getByRole("navigation", { name: "회원 관리 화면" }).getByRole("link", { name: "운동 처방", exact: true }).click();
     await member.getByLabel("운동 처방 허용", { exact: true }).uncheck();
     await member.getByRole("button", { name: "공유 설정 저장", exact: true }).click();
     await expect(member.getByRole("status")).toHaveText("저장했어요.");

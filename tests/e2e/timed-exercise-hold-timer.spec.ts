@@ -87,7 +87,9 @@ test("시간 기반 운동(플랭크)은 운동모드에서 초 타이머가 뜨
   // '세트 완료'를 누르면 세트가 진행된다(세트 라벨이 2/3 로 — 하단 버튼바, overlay 바깥).
   await page.getByRole("button", { name: /세트 완료/ }).first().click();
   await page.waitForTimeout(500);
-  await expect(page.getByText(/세트 2\/3/)).toBeVisible({ timeout: 8000 });
+  // 휴식 카드의 '다음' 한 줄에도 "세트 2/3" 이 있어(한 줄 코치) 지금 세트 표시로 좁힌다.
+  await expect(page.getByTestId("current-set")).toHaveText(/세트 2\/3/, { timeout: 8000 });
+  await expect(page.getByTestId("rest-next")).toContainText(/세트 2\/3 · \d+초/);
   await expect(timer).toHaveText("0:00");
   await page.waitForTimeout(1200);
   await expect(timer).toHaveText("0:00");

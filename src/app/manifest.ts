@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const PWA_ICON_VERSION = "20260702b";
+const PWA_ICON_VERSION = "20260929";
 
 /**
  * PWA 매니페스트.
@@ -15,8 +15,8 @@ const PWA_ICON_VERSION = "20260702b";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     id: "/",
-    name: "헬쑤",
-    short_name: "헬쑤",
+    name: "짐꾼",
+    short_name: "짐꾼",
     description: "오늘 뭐 해야 할지 매일 알려주는 헬스 루틴 앱",
     lang: "ko",
     start_url: `/?webapk=${PWA_ICON_VERSION}`,
@@ -25,8 +25,8 @@ export default function manifest(): MetadataRoute.Manifest {
     orientation: "portrait",
     // 네이티브 스플래시(앱 켜자마자 OS가 그리는 첫 화면) 배경 — 진입 모션 화면과
     // 같은 톤이라 정적→모션 전환이 자연스럽게 이어진다.
-    background_color: "#eef3ff",
-    theme_color: "#4f46e5",
+    background_color: "#ecf6f1",
+    theme_color: "#087f5b",
     icons: [
       {
         src: `/icon-192-${PWA_ICON_VERSION}.png`,

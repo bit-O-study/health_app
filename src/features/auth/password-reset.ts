@@ -22,9 +22,9 @@ export function otpEmail(code: string): {
   html: string;
   text: string;
 } {
-  const subject = "[헬쑤] 비밀번호 찾기 인증번호";
+  const subject = "[짐꾼] 비밀번호 찾기 인증번호";
   const text = [
-    "안녕하세요, 헬쑤입니다.",
+    "안녕하세요, 짐꾼입니다.",
     "",
     `비밀번호 찾기 인증번호는 ${code} 입니다. (5분 안에 입력)`,
     "",
@@ -32,7 +32,7 @@ export function otpEmail(code: string): {
   ].join("\n");
   const html = `
   <div style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;padding:24px;color:#18181b">
-    <h2 style="margin:0 0 16px;font-size:18px">헬쑤 비밀번호 찾기 인증번호</h2>
+    <h2 style="margin:0 0 16px;font-size:18px">짐꾼 비밀번호 찾기 인증번호</h2>
     <p style="margin:0 0 12px;font-size:14px;line-height:1.6">아래 인증번호를 입력해 주세요. (5분 안에 유효)</p>
     <div style="margin:16px 0;padding:16px;border-radius:10px;background:#f4f4f5;text-align:center">
       <span style="font-size:26px;font-weight:700;letter-spacing:6px">${code}</span>
@@ -48,9 +48,9 @@ export function tempPasswordEmail(tempPassword: string): {
   html: string;
   text: string;
 } {
-  const subject = "[헬쑤] 임시 비밀번호 안내";
+  const subject = "[짐꾼] 임시 비밀번호 안내";
   const text = [
-    "안녕하세요, 헬쑤입니다.",
+    "안녕하세요, 짐꾼입니다.",
     "",
     `요청하신 임시 비밀번호는 다음과 같습니다: ${tempPassword}`,
     "",
@@ -59,8 +59,8 @@ export function tempPasswordEmail(tempPassword: string): {
   ].join("\n");
   const html = `
   <div style="font-family:system-ui,-apple-system,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;padding:24px;color:#18181b">
-    <h2 style="margin:0 0 16px;font-size:18px">헬쑤 임시 비밀번호 안내</h2>
-    <p style="margin:0 0 12px;font-size:14px;line-height:1.6">안녕하세요, 헬쑤입니다.<br/>요청하신 임시 비밀번호는 다음과 같습니다.</p>
+    <h2 style="margin:0 0 16px;font-size:18px">짐꾼 임시 비밀번호 안내</h2>
+    <p style="margin:0 0 12px;font-size:14px;line-height:1.6">안녕하세요, 짐꾼입니다.<br/>요청하신 임시 비밀번호는 다음과 같습니다.</p>
     <div style="margin:16px 0;padding:16px;border-radius:10px;background:#f4f4f5;text-align:center">
       <span style="font-size:22px;font-weight:700;letter-spacing:2px">${tempPassword}</span>
     </div>

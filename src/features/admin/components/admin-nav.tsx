@@ -52,7 +52,7 @@ export function AdminNav() {
         </span>
         <div className="leading-tight">
           <p className="text-sm font-bold text-zinc-950 dark:text-zinc-100">
-            헬쑤 관리자
+            짐꾼 관리자
           </p>
           <p className="text-xs text-zinc-500">admin console</p>
         </div>

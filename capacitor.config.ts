@@ -13,7 +13,7 @@ const SERVER_URL =
 
 const config: CapacitorConfig = {
   appId: "app.helssu.twa",
-  appName: "헬쑤",
+  appName: "짐꾼",
   // remote URL 방식이라 실제로 안 쓰이지만 Capacitor 가 webDir 를 요구한다(오프라인 폴백 셸).
   webDir: "native-shell",
   // 🔴 외부 server.url 을 안드로이드에서 로드하면 window.Capacitor(네이티브 브리지)가

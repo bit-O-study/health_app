@@ -1,3 +1,4 @@
+import { adminUrl } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { createOnboardedAccount } from "./helpers/auth";
@@ -13,19 +14,19 @@ test("관리자 테스트 탭에서 런닝 모드로 들어갈 수 있다", asyn
     [email.toLowerCase()],
   );
 
-  await page.goto("/admin", { waitUntil: "networkidle" });
+  await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
 
   // 사이드바에 "테스트" 탭이 있고, 클릭하면 런닝 모드 카드가 보인다.
   await page.getByRole("link", { name: "테스트" }).click();
   await expect(page.getByRole("heading", { name: "테스트" })).toBeVisible();
   const card = page.getByRole("link", { name: /런닝 모드/ });
   await expect(card).toBeVisible();
-  await expect(card).toHaveAttribute("href", "/running");
+  await expect(card).toHaveAttribute("href", new URL("/running", process.env.E2E_BASE_URL || "http://127.0.0.1:3000").href);
 
   // 두 번째 카드(힐링 러닝)도 있고 /jog 로 연결된다.
   const zen = page.getByRole("link", { name: /힐링 러닝/ });
   await expect(zen).toBeVisible();
-  await expect(zen).toHaveAttribute("href", "/jog");
+  await expect(zen).toHaveAttribute("href", new URL("/jog", process.env.E2E_BASE_URL || "http://127.0.0.1:3000").href);
 
   // 카드 클릭 → 실제로 /running 으로 들어가야 한다(관리자도 막히지 않음).
   // (mobile-chromium 컨텍스트라 모바일 게이트 통과 → 모드선택(실내/야외)이 떠야 한다.)
@@ -46,7 +47,7 @@ test("관리자 세션에서도 /jog 가 /admin 으로 리다이렉트되지 않
     `insert into public.admins(email) values($1) on conflict (email) do nothing`,
     [email.toLowerCase()],
   );
-  await page.goto("/admin", { waitUntil: "networkidle" });
+  await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
 
   const res = await page.request.get("/jog", { maxRedirects: 0 });
   expect(res.status()).toBe(200);
@@ -62,7 +63,7 @@ test("관리자 세션에서도 런닝모드 3D 모델(.glb)이 /admin 으로 �
     [email.toLowerCase()],
   );
   // 관리자 세션을 확립(미들웨어가 admins 를 인식하도록 한 번 방문).
-  await page.goto("/admin", { waitUntil: "networkidle" });
+  await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
 
   // 정적 모델 에셋은 미들웨어를 타지 않고 그대로 200 이어야 한다(307→/admin 금지).
   const res = await page.request.get("/models/runner.glb", { maxRedirects: 0 });
@@ -76,7 +77,7 @@ test("관리자가 아니면 /admin/test 의 런닝 모드 진입점이 보이�
 }) => {
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await createOnboardedAccount(page); // 일반 회원(관리자 아님)
-  await page.goto("/admin/test", { waitUntil: "networkidle" });
+  await page.goto(adminUrl("/admin/test"), { waitUntil: "networkidle" });
 
   // 관리자 테스트 카드(런닝 모드/힐링 러닝)는 노출되지 않아야 한다.
   // (참고: /running 은 이제 운동 탭에서 누구나 쓰는 공개 기능이라 링크 존재 자체는 정상.

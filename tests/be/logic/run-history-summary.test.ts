@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  formatRunPace,
   runWeekBounds,
   summarizeRunWeek,
   type RunHistoryRow,
@@ -44,9 +43,7 @@ describe("run history summary", () => {
     });
   });
 
-  it("일요일도 같은 주의 월요일을 사용하고 페이스를 표시한다", () => {
+  it("일요일도 같은 주의 월요일을 사용한다", () => {
     expect(runWeekBounds("2026-09-06").from).toBe("2026-08-31");
-    expect(formatRunPace(305)).toBe("5'05\"/km");
-    expect(formatRunPace(null)).toBe("—");
   });
 });

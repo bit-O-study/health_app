@@ -10,6 +10,7 @@ import {
 } from "@/features/routine/exercise-catalog";
 import { EXTRA_EXERCISES } from "@/features/routine/exercise-catalog-extra";
 import { EXTRA_METHODS } from "@/features/routine/exercise-catalog-extra-methods";
+import { cleanMethodText } from "@/features/workout-timer/motion-caption";
 import {
   hasMethodSteps,
   methodSteps,
@@ -39,7 +40,8 @@ describe("methodSteps — 기본 + 확장 카탈로그를 합쳐서 돌려준다
     const equip = EXTRA_EXERCISES[id].equipments[0].equipment;
     const steps = methodSteps(id, equip);
     expect(steps.length).toBeGreaterThan(0);
-    expect(steps).toEqual(EXTRA_METHODS[id]?.[equip]);
+    // 틀 문장 조사("바벨을(를)")는 다듬어서 준다(한 줄 코치, 2026-09-29).
+    expect(steps).toEqual((EXTRA_METHODS[id]?.[equip] ?? []).map(cleanMethodText));
   });
 
   it("확장 운동 전부가 첫 기구 기준으로 단계를 갖는다(하나도 안 빠졌다)", () => {

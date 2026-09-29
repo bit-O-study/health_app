@@ -102,21 +102,21 @@ test("영상 보기: 운동모드 안엔 시간만, 나오면 '다시 운동하�
     return m * 60 + s;
   };
   await expect(page.getByText(/^\d{1,2}:\d{2}$/).first()).toBeVisible();
-  // 운동모드 안엔 중단하기/운동 다시 시작하기 버튼이 없다(시간만).
-  await expect(page.getByRole("button", { name: "중단하기" })).toHaveCount(0);
+  // 운동모드 안엔 일시정지/다시 시작 버튼이 없다(시간만). (2026-09-28 '중단하기' → '일시정지')
+  await expect(page.getByRole("button", { name: "일시정지" })).toHaveCount(0);
   await expect(
-    page.getByRole("button", { name: "운동 다시 시작하기" }),
+    page.getByRole("button", { name: "다시 시작", exact: true }),
   ).toHaveCount(0);
   const before = toSec(await timeText());
 
-  // 운동모드에서 나오기: 닫기 → '중단' 확인 → 시간 정지.
+  // 운동모드에서 나오기: 닫기 → '끝내기' 확인 → 시간 정지.
   await page.getByRole("button", { name: "닫기" }).first().click();
-  await page.getByRole("button", { name: "중단", exact: true }).click();
+  await page.getByRole("button", { name: "끝내기", exact: true }).click();
   await page.waitForTimeout(600);
 
-  // 나오면: 넘기기/중단하기는 사라지고 '다시 운동하기' 버튼만.
+  // 나오면: 넘기기/일시정지는 사라지고 '다시 운동하기' 버튼만.
   await expect(page.getByRole("button", { name: "넘기기" })).toHaveCount(0);
-  await expect(page.getByRole("button", { name: "중단하기" })).toHaveCount(0);
+  await expect(page.getByRole("button", { name: "일시정지" })).toHaveCount(0);
   await expect(
     page.getByRole("button", { name: "다시 운동하기" }),
   ).toBeVisible();

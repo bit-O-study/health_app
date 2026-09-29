@@ -1,5 +1,5 @@
-import { RouteLoading } from "@/components/route-loading";
+import { LoginProgress } from "@/features/auth/components/login-progress";
 
 export default function Loading() {
-  return <RouteLoading label="홈 불러오는 중…" />;
+  return <LoginProgress />;
 }

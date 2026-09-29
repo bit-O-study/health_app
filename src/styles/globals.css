@@ -430,6 +430,9 @@ h1, h2 {
 /* 튜토리얼 단계 자막 — 장면 전환 시 페이드인업 */
 @keyframes ex-cap { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 .ex-cap { animation: ex-cap 420ms ease-out both; }
+/* 운동모드 한 줄 자막 — 동작 구간이 바뀔 때 짧게(동작 줄이기 설정이면 위 규칙이 끈다). */
+@keyframes motion-caption-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+.motion-caption-in { animation: motion-caption-in 220ms ease-out both; }
 
 /* ── 브랜드 진입 스플래시 — 로고가 '팝'하고 등장, 헤일로 번짐, 워드 슬라이드인 ── */
 /* 배지: 작게 시작해 살짝 오버슈트 후 안착(스프링 느낌). */

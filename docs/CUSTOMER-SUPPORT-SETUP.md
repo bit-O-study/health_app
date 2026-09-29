@@ -1,8 +1,8 @@
 ﻿# 고객센터 운영 연결
 
-구현: 회원 `/support`(헬쑤앱), 문의 관리 **통합 관리자 콘솔 `https://heltch-admin.vercel.app/admin/health/support`**(heltch-admin 저장소), 카카오 알림 연결 `/admin/support/notifications`(헬쑤앱).
+구현: 회원 `/support`(헬쑤앱), 문의 관리 **통합 관리자 콘솔 `https://heltch-admin.vercel.app/admin/health/support`**, 카카오 알림 연결은 콘솔의 `/admin/health/support/notifications`.
 
-2026-09-26 문의 관리 화면(목록·상세·답변·내부 메모·처리 상태)을 헬쑤앱 내부 `/admin/support` 에서 통합 콘솔로 이전했다. 앱의 옛 `/admin/support`, `/admin/support/{id}` 는 `next.config.ts` redirects 로 콘솔의 같은 화면에 307 이동한다. 카카오 OAuth 리다이렉트가 헬쑤앱 도메인에 등록돼 있어 카카오 연결·발송 내역·재전송은 헬쑤앱에 남는다. 카카오 메시지·기기 푸시의 링크는 콘솔 주소다.
+2026-09-29 코드에서 나머지 관리자 화면과 카카오 연결·발송 내역·재전송까지 통합 콘솔로 이관했다. 기존 관리자 경로는 콘솔로 307 이동한다. 등록된 헬쑤 OAuth 콜백은 `console.` 접두사 state를 고정된 콘솔 콜백으로 전달하고, 콘솔이 사용자 세션·쿠키·DB의 일회용 state를 검증한다. 두 앱을 함께 배포해야 하며 운영 배포·기기 클릭 검증은 아직 대기다. 자동 발송·푸시·일일 크론은 헬쑤 서버에 유지한다.
 카카오톡은 운영자가 연결한 계정의 **나와의 채팅**으로 보낸다. 유료 알림톡/문자 API는 호출하지 않는다.
 
 ## 서버 환경
@@ -27,7 +27,7 @@
 2. 동의항목 `talk_message`를 사용할 수 있게 설정한다. 운영자 본인만 동의하며 일반 회원 로그인 scope는 변경하지 않는다.
 3. Redirect URI에 `{SUPPORT_KAKAO_CALLBACK_ORIGIN 또는 NEXT_PUBLIC_SITE_URL}/api/support/kakao/callback`을 정확히 등록한다. 기존 Supabase 로그인 콜백은 유지한다.
 4. 제품 링크 웹 도메인에 같은 사이트의 origin **과 통합 관리자 콘솔 origin(`https://heltch-admin.vercel.app`)** 을 등록한다. 메시지 링크가 콘솔로 가므로 콘솔 도메인이 빠지면 버튼 링크가 동작하지 않는다. 앱 사용 제한이 있으면 운영자가 앱 팀 멤버인지도 확인한다.
-5. 헬쑤앱 관리자 → 고객센터 알림(`/admin/support/notifications`, 통합 콘솔 고객센터 화면의 "카카오톡 알림 설정" 링크) → 카카오 계정 연결 → 동의.
+5. 통합 콘솔 → 고객센터 → 카카오톡 알림 설정(`/admin/health/support/notifications`) → 카카오 계정 연결 → 동의. 콘솔 서버에 헬쑤와 동일한 카카오 키와 `SUPPORT_TOKEN_ENCRYPTION_KEY`, `HEALTH_SUPABASE_SERVICE_ROLE_KEY`를 설정한다. 콘솔의 `ADMIN_CONSOLE_ORIGIN`은 `https://heltch-admin.vercel.app`, `SUPPORT_KAKAO_CALLBACK_ORIGIN`은 기존 등록 도메인 `https://health-app-five-iota.vercel.app`으로 지정한다.
 6. 연결된 계정 끝자리를 확인하고 ‘테스트 보내기’. 카카오 나와의 채팅에 도착했는지와 휴대폰 알림음/배너 동작을 각각 확인한다.
 
 2026-09-25 헬쑤 앱 콘솔에 기존 Supabase 콜백을 유지하고 로컬(127.0.0.1:3000)·운영 고객센터 콜백을 등록했다. talk_message는 이용 중 동의로 저장했다. 운영 웹 도메인은 이미 등록되어 있다. 로컬 서버 client secret은 Git 제외 파일에 저장했다. 2026-09-26 운영자 계정의 실제 카카오 동의와 OAuth 콜백 성공을 확인했다. 관리자 화면 새로고침 후에도 연결됨과 문의 알림 활성화 상태가 유지된다. 실제 테스트 메시지·휴대폰 수신 확인은 아직 수행하지 않았다.

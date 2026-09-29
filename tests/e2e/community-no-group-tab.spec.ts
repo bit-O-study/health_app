@@ -15,9 +15,20 @@ test("커뮤니티에 그룹 탭이 없다 — 오운완/운동/내 글만(#11)"
   await page.goto("/community", { waitUntil: "networkidle" });
   await page.waitForTimeout(600);
 
-  await expect(page.getByRole("button", { name: "오운완", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "운동", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "피드", exact: true })).toBeVisible();
+  await expect(page.getByRole("button", { name: "운동 영상", exact: true })).toBeVisible();
   await expect(page.getByRole("button", { name: "내 글", exact: true })).toBeVisible();
+  for (const width of [320, 390, 430]) {
+    await page.setViewportSize({ width, height: 844 });
+    const logo = await page.getByRole("button", { name: "피드", exact: true }).boundingBox();
+    const mine = await page.getByRole("button", { name: "내 글", exact: true }).boundingBox();
+    expect(logo).not.toBeNull();
+    expect(mine).not.toBeNull();
+    expect(Math.abs(logo!.y + logo!.height / 2 - mine!.y - mine!.height / 2)).toBeLessThan(2);
+    expect(mine!.x).toBeGreaterThan(logo!.x + logo!.width);
+    expect(mine!.x + mine!.width).toBeLessThanOrEqual(width);
+  }
+  await page.screenshot({ path: "test-results/community-header-aligned.png" });
   // '그룹' 탭은 없어야 한다.
   await expect(page.getByRole("button", { name: "그룹", exact: true })).toHaveCount(0);
 });

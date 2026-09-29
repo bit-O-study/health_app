@@ -1,3 +1,4 @@
+import { adminUrl } from "./helpers/admin-console";
 import { expect, test } from "@playwright/test";
 
 import { signUpAndOnboard } from "./helpers/auth";
@@ -22,9 +23,9 @@ test("관리자 네비에서 들어가지고 수집 안내가 보인다", async 
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await signUpAsAdmin(page);
 
-  await page.goto("/admin", { waitUntil: "networkidle" });
+  await page.goto(adminUrl("/admin"), { waitUntil: "networkidle" });
   await page.getByRole("link", { name: "실사용 오류" }).click();
-  await expect(page).toHaveURL(/\/admin\/events$/);
+  await expect(page).toHaveURL(/\/admin\/health\/events$/);
   await expect(page.getByRole("heading", { name: "실사용 오류" })).toBeVisible();
   // 무엇을 수집하지 '않는지' 를 화면에 명시한다 — 관측이 사찰이 되면 안 된다.
   await expect(page.getByText(/이메일·토큰·식별자가 남지 않습니다/)).toBeVisible();
@@ -50,7 +51,7 @@ test("기록이 있으면 종류·화면·버전·기기별 집계와 최근 발
   );
 
   try {
-    await page.goto("/admin/events", { waitUntil: "networkidle" });
+    await page.goto(adminUrl("/admin/events"), { waitUntil: "networkidle" });
 
     // count 를 합산해 센다 — 반복(count=3)을 1건으로 세면 심각도를 놓친다.
     // (전체 수는 E2E 가 도는 동안 쌓이는 '느린 화면' 경고가 섞이므로, 이 사건의
@@ -85,12 +86,12 @@ test("관리자가 아니면 실사용 오류 화면에 못 들어간다", async
   test.skip(!hasDb, "needs .env.test.local DB creds");
   await signUpAndOnboard(page); // admins 에 넣지 않는다
 
-  const res = await page.request.get("/admin/events", { maxRedirects: 0 });
+  const res = await page.request.get(adminUrl("/admin/events"), { maxRedirects: 0 });
   expect(res.status()).toBe(307);
   expect(res.headers()["location"]).toContain("/");
 
-  await page.goto("/admin/events", { waitUntil: "networkidle" });
-  await expect(page).not.toHaveURL(/\/admin\/events$/);
+  await page.goto(adminUrl("/admin/events"), { waitUntil: "networkidle" });
+  await expect(page).not.toHaveURL(/\/admin\/health\/events$/);
   await expect(page.getByRole("heading", { name: "실사용 오류" })).toHaveCount(0);
 });
 

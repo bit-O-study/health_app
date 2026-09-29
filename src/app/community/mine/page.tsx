@@ -1,3 +1,3 @@
 import CommunityPage from "../page";
 export const dynamic = "force-dynamic";
-export default function Page() { return CommunityPage({ searchParams: Promise.resolve({ view: "mine" }) }); }
+export default async function Page({ searchParams }: { searchParams: Promise<{ q?: string }> }) { return CommunityPage({ searchParams: Promise.resolve({ ...await searchParams, view: "mine" }) }); }

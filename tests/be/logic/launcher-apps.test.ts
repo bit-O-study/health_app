@@ -208,7 +208,7 @@ describe("런처 격자", () => {
     expect(visibleApps(["pet"]).some((a) => a.id === "pet")).toBe(true);
     expect(appForPath("/commitments")).toBeNull();
   });
-  it("헬쑤쌤은 디버그 기능이 켜진 사용자에게만 보인다", () => {
+  it("짐꾼쌤은 디버그 기능이 켜진 사용자에게만 보인다", () => {
     expect(visibleApps().some((a) => a.id === "coach")).toBe(false);
     expect(visibleApps(["helssu-coach"]).some((a) => a.id === "coach")).toBe(true);
   });

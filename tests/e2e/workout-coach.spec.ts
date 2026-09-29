@@ -44,6 +44,15 @@ test("🔴 사진 운동: 시작/끝 자세 표시와 자막이 사진에 맞춰
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
 
+  // 새 계정 = 처음 하는 운동 → 첫 세트 전 준비 카드가 먼저, 그동안 한 줄 자막은 숨는다(2단계).
+  const intro = page.getByTestId("intro-card");
+  await expect(intro).toBeVisible({ timeout: 15_000 });
+  await expect(intro).toContainText("처음 해 보는 운동이에요");
+  expect(await intro.locator("li").count()).toBeGreaterThanOrEqual(1);
+  await expect(page.getByTestId("motion-caption")).toHaveCount(0);
+  await intro.getByRole("button", { name: "준비됐어요" }).click();
+  await expect(intro).toHaveCount(0);
+
   const caption = page.getByTestId("motion-caption");
   await expect(caption).toBeVisible({ timeout: 15_000 });
   await expect(caption).toHaveAttribute("data-synced", "1");
@@ -76,6 +85,7 @@ test("AI 영상 운동: 자막이 영상 동작 맞춤으로 붙는다 · 다음
   await page.waitForTimeout(800);
   await page.getByRole("button", { name: "운동 시작" }).click();
 
+  await page.getByTestId("intro-card").getByRole("button", { name: "준비됐어요" }).click();
   const video = page.locator("video").first();
   await expect(video).toHaveAttribute("src", /\/exercise-guides\/ai-v3\/barbell-back-squat(-dark)?\.mp4/, { timeout: 15_000 });
   const caption = page.getByTestId("motion-caption");
@@ -90,4 +100,48 @@ test("AI 영상 운동: 자막이 영상 동작 맞춤으로 붙는다 · 다음
   await page.getByRole("button", { name: "휴식 끝내기" }).click();
   await page.getByRole("button", { name: "마지막 세트 완료" }).click();
   await expect(page.getByTestId("rest-next")).toContainText("다음 운동 · 펙덱", { timeout: 10_000 });
+});
+
+test("🔴 준비 카드는 처음 하는 운동에만 — 해 본 운동은 없고, 넘긴 운동은 다시 안 뜬다", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await createOnboardedAccount(page);
+  await seedDay(
+    email,
+    `(${uid}, 0, 'chest', 0, 'pec-deck', 'machine', 3, 12, 20),
+     (${uid}, 0, 'chest', 1, 'barbell-back-squat', 'barbell', 3, 5, 60)`,
+  );
+  // 펙덱은 어제 해 봤다.
+  await dbQuery(
+    `insert into public.exercise_completions (user_id, for_date, exercise_row_id, status, exercise_id, equipment, focus, sets, reps, weight_kg)
+     values (${uid}, ${today} - 1, gen_random_uuid(), 'done', 'pec-deck', 'machine', 'chest', 3, 12, 20)`,
+    [email],
+  );
+
+  await page.goto("/routine", { waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: "운동 시작" }).click();
+
+  // 펙덱(해 봄) — 준비 카드 없이 바로 한 줄 자막.
+  await expect(page.getByRole("heading", { name: "펙덱 플라이" })).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByTestId("motion-caption")).toBeVisible();
+  await expect(page.getByTestId("intro-card")).toHaveCount(0);
+
+  // 스쿼트(처음) — 준비 카드.
+  await page.getByRole("button", { name: "다음 운동" }).click();
+  const intro = page.getByTestId("intro-card");
+  await expect(intro).toBeVisible();
+  await intro.getByRole("button", { name: "준비됐어요" }).click();
+  await expect(intro).toHaveCount(0);
+
+  // 운동모드를 닫았다가 다시 열어도, 넘긴 운동의 카드는 다시 안 뜬다(기기 기억).
+  await page.reload({ waitUntil: "networkidle" });
+  await page.waitForTimeout(800);
+  await page.getByRole("button", { name: /운동 시작|다시 운동하기|이어서/ }).first().click();
+  // 운동모드는 보던 운동을 기억한다 — 스쿼트가 아니면 그리로 옮긴다.
+  const squat = page.getByRole("heading", { name: "바벨 백 스쿼트", exact: true });
+  await page.waitForTimeout(800);
+  if (!(await squat.isVisible())) await page.getByRole("button", { name: "다음 운동" }).click();
+  await expect(squat).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByTestId("motion-caption")).toBeVisible({ timeout: 15_000 });
+  await expect(page.getByTestId("intro-card")).toHaveCount(0);
 });

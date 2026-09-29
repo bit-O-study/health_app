@@ -10,7 +10,11 @@ import {
   type FocusKey,
 } from "@/features/routine/exercise-catalog";
 import { methodSteps } from "@/features/routine/exercise-methods";
-import { cautionFor } from "@/features/workout-timer/exercise-caution-line";
+import {
+  cautionFor,
+  introStepsFor,
+  isFirstTimeExercise,
+} from "@/features/workout-timer/exercise-caution-line";
 import { getPlanForDayTones } from "@/features/routine/plan";
 import type { DailyPlanRow } from "@/features/routine/daily-plan";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
@@ -551,6 +555,10 @@ export async function TodayExercises({
       method: methodSteps(p.exerciseId, p.equipment),
       // 휴식 카드의 '조심' 한 줄(한 줄 코치) — 운동별 주의 사항, 없으면 동작 유형별 초보 팁.
       caution: cautionFor(p.exerciseId),
+      // 처음 하는 운동이면 첫 세트 전 '준비 3가지' 카드(한 줄 코치 2단계). 해 본 운동은 null.
+      intro: isFirstTimeExercise(doneRecords, p.exerciseId, todayYmd)
+        ? introStepsFor(p.exerciseId, methodSteps(p.exerciseId, p.equipment))
+        : null,
       sets: p.sets,
       reps: p.reps,
       weightKg: p.weightKg,

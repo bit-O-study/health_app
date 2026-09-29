@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -145,6 +146,8 @@ export type GuidedItem =
       method: string[];
       /** 휴식 중 '조심' 한 줄(한 줄 코치). 없으면 안 보인다. */
       caution?: string | null;
+      /** 처음 하는 운동의 '준비 3가지'(한 줄 코치 2단계). 해 본 운동이면 null. */
+      intro?: string[] | null;
       sets: number;
       reps: number;
       weightKg: number | null;
@@ -571,6 +574,15 @@ export function GuidedOverlay({
    * 초기값(고정 배열) 만 사용. items prop 의 변화는 무시.
    */
   const [sessionItems] = useState(items);
+  // 처음 하는 운동의 준비 카드를 넘긴 운동(한 줄 코치 2단계). 기기에 기억해 다시 안 띄운다.
+  const [introSeen, setIntroSeen] = useState<ReadonlySet<string>>(() => readIntroSeen());
+  const markIntroSeen = useCallback((exerciseId: string) => {
+    setIntroSeen((prev) => {
+      const next = new Set(prev).add(exerciseId);
+      writeIntroSeen(next);
+      return next;
+    });
+  }, []);
 
   // 운동모드 동안 화면 켜짐 유지(한 줄 코치) — 예전엔 휴식 중에만 잡아서, 세트 중 영상·자막을
   // 보다가 화면이 꺼졌다. 다른 앱에 갔다 오면 잠금이 풀리므로 돌아올 때 다시 잡는다.
@@ -639,6 +651,11 @@ export function GuidedOverlay({
 
   // 현재 본운동에서 완료한 세트 수(0-base). 항목이 바뀌면 0으로 리셋.
   const [setsDone, setSetsDone] = useState(0);
+  const showIntro =
+    item?.kind === "main" &&
+    (item.intro?.length ?? 0) > 0 &&
+    setsDone === 0 &&
+    !introSeen.has(item.exerciseId);
 
   // 시간(초) 기반 운동(플랭크 등) — 현재 세트의 경과 홀드 시간(초, 카운트업).
   // 진입 즉시 자동시작하지 않고 사용자가 '시작' 버튼을 눌러야 흐른다(요청 #29).
@@ -1403,7 +1420,7 @@ export function GuidedOverlay({
           {/* 운동 영상 — 화면 끝까지(시연 컴포넌트의 둥근 모서리·테두리는 여기서만 지운다). */}
           <div className="w-full max-w-lg sm:px-3">
           <div className="relative w-full [&_.border]:border-0 [&_.rounded-2xl]:rounded-none sm:[&_.rounded-2xl]:rounded-2xl">
-            <ItemVisual item={item} />
+            <ItemVisual item={item} hideCaption={showIntro} />
             {item.kind === "main" ? (
               <MuscleBodyInset
                 exerciseId={item.exerciseId}
@@ -1439,6 +1456,10 @@ export function GuidedOverlay({
           </div>
 
           <div className="flex w-full max-w-lg flex-col items-center px-5">
+            {/* 처음 하는 운동 — 첫 세트 전에만 '준비 3가지'(한 줄 코치 2단계). 해 본 운동은 한 줄 자막만. */}
+            {showIntro && item.kind === "main" && item.intro ? (
+              <IntroCard steps={item.intro} onReady={() => markIntroSeen(item.exerciseId)} />
+            ) : null}
             {/* 이름 줄 — 왼쪽: 종류·슈퍼세트 + 이름, 오른쪽: 메모·AI 자세 */}
             <div className="mt-4 flex w-full items-start justify-between gap-3">
               <div className="min-w-0">
@@ -2178,6 +2199,55 @@ function CondScrubbers({
   );
 }
 
+const INTRO_SEEN_KEY = "jimkkun:intro-seen";
+
+/** 준비 카드를 넘긴 운동 id — 기기에만(보조 편의). 못 읽으면 빈 목록(카드가 한 번 더 뜰 뿐). */
+function readIntroSeen(): ReadonlySet<string> {
+  if (typeof window === "undefined") return new Set();
+  try {
+    const raw = window.localStorage.getItem(INTRO_SEEN_KEY);
+    const arr = raw ? (JSON.parse(raw) as unknown) : [];
+    return new Set(Array.isArray(arr) ? arr.filter((x): x is string => typeof x === "string").slice(-500) : []);
+  } catch {
+    return new Set();
+  }
+}
+function writeIntroSeen(ids: ReadonlySet<string>) {
+  try {
+    window.localStorage.setItem(INTRO_SEEN_KEY, JSON.stringify([...ids].slice(-500)));
+  } catch {
+    /* 저장 못 해도 이번 화면에서는 닫힌다 */
+  }
+}
+
+/**
+ * 처음 하는 운동 — 첫 세트 전 '준비 3가지'(한 줄 코치 2단계).
+ * 목록 한 번, 버튼 하나. 첫 세트를 끝내거나 '준비됐어요' 를 누르면 사라지고 한 줄 자막으로 돌아간다.
+ */
+function IntroCard({ steps, onReady }: { steps: string[]; onReady: () => void }) {
+  return (
+    <section
+      data-testid="intro-card"
+      aria-label="처음 해 보는 운동 준비"
+      className="mt-3 w-full rounded-2xl border border-brand/30 bg-brand-soft px-4 py-3"
+    >
+      <p className="text-sm font-bold text-brand">처음 해 보는 운동이에요 · 준비 {steps.length}가지</p>
+      <ol className="mt-2 list-decimal space-y-1 pl-5 text-sm leading-snug text-zinc-900 dark:text-zinc-100">
+        {steps.map((s) => (
+          <li key={s}>{s}</li>
+        ))}
+      </ol>
+      <button
+        type="button"
+        onClick={onReady}
+        className="app-press mt-3 flex h-10 w-full items-center justify-center rounded-xl bg-brand text-sm font-semibold text-white dark:text-zinc-950"
+      >
+        준비됐어요
+      </button>
+    </section>
+  );
+}
+
 /** 사진 두 장(시작·끝) 교차 재생과 같은 주기 — exercise-photo-demo 기본값. */
 const PHOTO_CYCLE_MS = 2600;
 
@@ -2229,13 +2299,14 @@ function PhotoWithCaption({ frames, steps }: { frames: [string, string]; steps: 
  * - main: 관리자 영상 > 실사 사진
  * - warmup/cooldown: 컨디셔닝 실사 사진(없으면 그라데이션)
  */
-function ItemVisual({ item }: { item: GuidedItem }) {
+function ItemVisual({ item, hideCaption = false }: { item: GuidedItem; hideCaption?: boolean }) {
   if (item.kind === "main") {
+    const captionSteps = hideCaption ? [] : item.method;
     if (item.media) {
-      return <VideoWithCaption media={item.media} steps={item.method} />;
+      return <VideoWithCaption media={item.media} steps={captionSteps} />;
     }
     const frames = exercisePhotoFrames(item.exerciseId, item.equipment);
-    if (frames) return <PhotoWithCaption frames={frames} steps={item.method} />;
+    if (frames) return <PhotoWithCaption frames={frames} steps={captionSteps} />;
     // 실사 사진·영상이 없는 운동(예: 신규 1,200여 종)은 운동법 단계를
     // 튜토리얼(그라데이션 위 단계 자막, 자동 전환)로 보여준다 — 빈 화면 방지.
     if (item.method.length > 0) {

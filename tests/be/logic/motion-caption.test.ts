@@ -15,7 +15,11 @@ import {
   slotOfPhase,
   type MotionSpec,
 } from "@/features/workout-timer/motion-caption";
-import { cautionFor } from "@/features/workout-timer/exercise-caution-line";
+import {
+  cautionFor,
+  introStepsFor,
+  isFirstTimeExercise,
+} from "@/features/workout-timer/exercise-caution-line";
 import { EXTRA_METHODS } from "@/features/routine/exercise-catalog-extra-methods";
 import { EXERCISES } from "@/features/routine/exercise-catalog";
 import { EXTRA_EXERCISES } from "@/features/routine/exercise-catalog-extra";
@@ -140,5 +144,41 @@ describe("운동모드 화면 가드", () => {
     expect(gw).toMatch(/rest\.trigger\(restSec, \{\s*next: nextSetHint/);
     expect(gw).toContain("다음 운동 · ${upcoming.name}");
     expect(gw).toContain('request("screen")');
+  });
+});
+
+describe("처음 하는 운동 — 준비 카드(한 줄 코치 2단계)", () => {
+  const rec = (exerciseId: string, forDate: string) => ({ exerciseId, forDate });
+
+  it("오늘 전 기록이 없으면 처음, 있으면 해 본 운동", () => {
+    expect(isFirstTimeExercise([], "squat", "2026-09-29")).toBe(true);
+    expect(isFirstTimeExercise([rec("squat", "2026-09-10")], "squat", "2026-09-29")).toBe(false);
+    // 오늘 한 기록만 있으면 여전히 처음(방금 첫 세트를 한 날)
+    expect(isFirstTimeExercise([rec("squat", "2026-09-29")], "squat", "2026-09-29")).toBe(true);
+    expect(isFirstTimeExercise([rec("bench-press", "2026-09-10")], "squat", "2026-09-29")).toBe(true);
+  });
+
+  it("준비 단계: 운동별 준비 단계가 있으면 그것(최대 3개)", () => {
+    const steps = introStepsFor("barbell-row", []);
+    expect(steps).toHaveLength(3);
+    expect(steps[0]).toContain("발 어깨너비");
+  });
+
+  it("🔴 모든 운동이 준비 1~3가지를 갖는다(빈 카드 금지)", () => {
+    for (const id of [...Object.keys(EXERCISES), ...Object.keys(EXTRA_EXERCISES)]) {
+      const steps = introStepsFor(id, ["운동법 첫 줄"]);
+      expect(steps.length, id).toBeGreaterThanOrEqual(1);
+      expect(steps.length, id).toBeLessThanOrEqual(3);
+      for (const s of steps) expect(s.trim().length, id).toBeGreaterThan(2);
+    }
+  });
+
+  it("화면 가드 — 첫 세트 전·처음·안 넘긴 운동에만, 떠 있는 동안 자막은 숨김", () => {
+    const gw = readFileSync("src/features/workout-timer/guided-workout.tsx", "utf8");
+    expect(gw).toMatch(/setsDone === 0 &&\s*!introSeen\.has\(item\.exerciseId\)/);
+    expect(gw).toContain("<ItemVisual item={item} hideCaption={showIntro} />");
+    expect(gw).toContain("<IntroCard");
+    const te = readFileSync("src/features/routine/components/today-exercises.tsx", "utf8");
+    expect(te).toContain("isFirstTimeExercise(doneRecords, p.exerciseId, todayYmd)");
   });
 });

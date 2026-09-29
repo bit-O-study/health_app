@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- Node CommonJS 검증 스크립트(.cjs)라 require 가 맞다. */
 const fs = require('node:fs');
 const { parseEnv } = require('node:util');
 const { randomUUID } = require('node:crypto');

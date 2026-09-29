@@ -24,7 +24,7 @@ import {
   scheduleRestLocalNotif,
   cancelRestLocalNotif,
 } from "@/features/notifications/local-notif";
-import { speak } from "@/features/running/voice";
+import { speak } from "@/features/workout-timer/speech";
 
 type RestState = {
   /** 종료 예정 시각(ms epoch) */

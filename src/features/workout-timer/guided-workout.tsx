@@ -127,7 +127,7 @@ import {
   speechForSetStart,
   writeWorkoutVoice,
 } from "@/features/workout-timer/workout-voice";
-import { speak } from "@/features/running/voice";
+import { speak } from "@/features/workout-timer/speech";
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";

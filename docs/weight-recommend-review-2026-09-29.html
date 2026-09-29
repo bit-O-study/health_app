@@ -80,9 +80,9 @@ ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
   <p class="lede">운동마다 덤벨 1개인지, 덤벨 2개(양손)인지, 바벨·원판·기구인지 먼저 판정하고, 그 도구의 단위로만 점진적 과부하(증량)와 디로드(감량)를 추천하도록 바꿨습니다.</p>
   <div class="meta">
     <span>2026-09-29</span>
-    <span>커밋 <code>c794bb1a</code> (로컬, 푸시 전)</span>
+    <span>커밋 <code>c794bb1a</code> · <code>c79aa2b7</code> (로컬, 푸시 전)</span>
     <span>브랜치 <code>feat/support-admin-console</code></span>
-    <span class="pill ok">단위테스트 2,618 통과</span>
+    <span class="pill ok">단위테스트 통과</span>
     <span class="pill warn">E2E 미실행</span>
   </div>
 </header>
@@ -271,18 +271,24 @@ ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
 </section>
 
 <section>
-  <h2>결정이 필요한 것</h2>
-  <div class="decide">
-    <h3>1. 덤벨 2개 무게를 “양손 합계”로 보는 것이 맞나요?</h3>
-    <p>요청하신 “양손이면 4kg”은 기록이 합계라는 뜻으로 구현했습니다. 한 손 무게(10kg 덤벨 두 개를 “10kg”)로 적어 온 사용자에게는 +4kg이 한 손 +4kg, 두 덤벨 차이가 됩니다. 입력란에 “양손 합계”라고 안내하거나 “한 손 5kg” 보조 표시를 붙일지 정해 주세요.</p>
+  <h2>결정 반영 (2026-09-29 추가)</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3><span class="pill ok">결정</span> 무게는 양손 합계</h3>
+      <p>덤벨·케틀벨 2개 종목은 운동모드 무게 입력 아래에 <code>양손 합계 · 한 손 5kg</code>처럼 한 손 무게를 보여 줍니다. 무게를 바꾸면 한 손 무게도 따라 바뀝니다(10 → 14kg이면 한 손 5 → 7kg).</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill ok">결정</span> 추천은 5kg, 운동모드에서는 2.5kg도</h3>
+      <p>작은 머신·바벨 종목도 추천과 ± 버튼은 5kg입니다. 바벨·원판·기구는 무게 입력 아래에 <code>미세 조정 −2.5 +2.5</code> 버튼이 있어 22.5kg, 27.5kg 같은 무게도 맞출 수 있습니다. 덤벨·케틀벨에는 이 버튼이 없고, 종목 단위를 직접 정해 둔 경우에도 숨깁니다.</p>
+    </div>
   </div>
+</section>
+
+<section>
+  <h2>남은 일</h2>
   <div class="decide">
-    <h3>2. 작은 머신·바벨 종목도 5kg이 맞나요?</h3>
-    <p>펙덱·푸시다운·바벨 컬도 5kg으로 올립니다(예전 2.5kg). 1.25kg 원판이나 보조추가 있는 헬스장이면 종목별로 2.5kg을 직접 고를 수 있습니다.</p>
-  </div>
-  <div class="decide">
-    <h3>3. node_modules 재설치 시점</h3>
-    <p>다른 세션 작업이 끝나면 <code>corepack pnpm install</code> 후 E2E 3개를 돌리겠습니다.</p>
+    <h3>node_modules 재설치 후 E2E</h3>
+    <p>다른 세션 작업이 끝나면 <code>corepack pnpm install</code> 후 E2E를 돌리겠습니다. <code>weight-step-picker</code>에 “머신 ±5, 미세 조정 2.5” 시나리오와 덤벨 한 손 무게 확인을 추가해 두었습니다.</p>
   </div>
 </section>
 </div>

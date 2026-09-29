@@ -83,7 +83,7 @@ ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
     <span>커밋 <code>c794bb1a</code> · <code>c79aa2b7</code> (로컬, 푸시 전)</span>
     <span>브랜치 <code>feat/support-admin-console</code></span>
     <span class="pill ok">단위테스트 통과</span>
-    <span class="pill warn">E2E 미실행</span>
+    <span class="pill ok">E2E 11 통과</span>
   </div>
 </header>
 
@@ -260,13 +260,13 @@ ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
         <tr><td>카탈로그 전수 점검</td><td><span class="pill ok">통과</span></td><td>덤벨 종목 185개 모두 1개/2개로 분류, “덤벨 한 개·한 손” 운동법 종목은 모두 1개로</td></tr>
         <tr><td>타입 검사 <code>tsc --noEmit</code></td><td><span class="pill ok">오류 0</span></td><td></td></tr>
         <tr><td>ESLint (바꾼 파일)</td><td><span class="pill ok">오류 0</span></td><td>경고 9건은 원래 있던 사용 안 하는 disable 주석</td></tr>
-        <tr><td>E2E 3개</td><td><span class="pill warn">미실행</span></td><td><code>weight-step-picker</code>(덤벨 2개 10→14→10 시나리오 추가), <code>guided-complete-reenter</code>(펙덱 20→25), <code>overload-in-workout</code>(바벨 110·90kg, 변경 없음 확인). 아래 환경 문제로 dev 서버를 띄우지 못함</td></tr>
+        <tr><td>E2E 3개 파일 (11개 시나리오)</td><td><span class="pill ok">11 통과 · 2.3분</span></td><td><code>weight-step-picker</code>: 덤벨 2개 10→14→10과 한 손 5→7kg, 머신 20→25(±5)→27.5→25(미세 조정 2.5), 단위 직접 지정 1kg. <code>guided-complete-reenter</code>: 펙덱 20→25. <code>overload-in-workout</code>: 바벨 증량 110kg, 디로드 90kg</td></tr>
       </tbody>
     </table>
   </div>
   <div class="box">
-    <h3><span class="pill crit">환경</span> 프로젝트 폴더 이동으로 node_modules 링크가 깨져 있음</h3>
-    <p>폴더가 <code>C:\git\health_app</code>에서 <code>C:\git\Bit-O\health_app</code>로 옮겨졌지만 node_modules 링크는 옛 경로를 가리킵니다. vitest는 옛 경로에 연결(정션)을 만들어 돌렸고, Next dev 서버(Turbopack)는 프로젝트 밖 링크를 거부해서 뜨지 않습니다. <code>corepack pnpm install</code>로 링크를 다시 만들면 풀립니다. 같은 폴더에서 다른 세션이 작업 중이라 이번에는 설치하지 않았습니다.</p>
+    <h3><span class="pill ok">환경 복구</span> 프로젝트 폴더 이동으로 깨졌던 node_modules 링크</h3>
+    <p>폴더가 <code>C:githealth_app</code>에서 <code>C:gitBit-Ohealth_app</code>로 옮겨지며 링크가 옛 경로를 가리키던 문제를 <code>pnpm install --frozen-lockfile</code>(pnpm 11.1.2, Node 24)로 다시 연결했습니다. lockfile은 바뀌지 않았고, 임시로 만든 옛 경로 연결(정션)은 지웠습니다. 이제 이 폴더에서 dev 서버와 테스트가 바로 뜹니다.</p>
   </div>
 </section>
 
@@ -284,11 +284,4 @@ ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
   </div>
 </section>
 
-<section>
-  <h2>남은 일</h2>
-  <div class="decide">
-    <h3>node_modules 재설치 후 E2E</h3>
-    <p>다른 세션 작업이 끝나면 <code>corepack pnpm install</code> 후 E2E를 돌리겠습니다. <code>weight-step-picker</code>에 “머신 ±5, 미세 조정 2.5” 시나리오와 덤벨 한 손 무게 확인을 추가해 두었습니다.</p>
-  </div>
-</section>
 </div>

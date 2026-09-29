@@ -101,10 +101,56 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
   <p class="lede">운동모드 화면에 요소를 더 늘리지 않고, 세트 중·휴식 중·처음 하는 운동처럼 <b>그 순간에 필요한 말 한 줄</b>만 보여 주는 기능을 제안합니다. 알려 줄 내용은 이미 앱 안에 있는데 운동모드가 쓰지 않고 있었습니다.</p>
   <div class="meta">
     <span>2026-09-29</span>
-    <span>상태: 제안, 구현 전</span>
-    <span class="pill warn">결정 대기 3</span>
+    <span>상태: 1단계 구현 (커밋 a0f5eda5)</span>
+    <span class="pill ok">1단계 완료 · 영상 동작 맞춤</span>
+    <span class="pill warn">결정 대기 2</span>
   </div>
 </header>
+
+<section>
+  <h2>1단계 결과: 영상 동작에 맞춘 한 줄 (2026-09-29)</h2>
+  <p>“헬스 영상에 맞춰서 문구 보여 주기”를 반영했습니다. AI 동작 영상은 모두 <b>정확히 8초, 포즈 패널을 정해진 순서로</b> 이어 만든 영상이라, 재생 시각만 알면 지금 화면의 동작이 시작 자세인지, 올라가는 중인지, 정점인지, 돌아오는 중인지가 계산됩니다. 한 줄 자막이 그 구간을 따라 “준비 → 동작 → 돌아오기”로 바뀝니다.</p>
+  <div class="box" aria-label="16장 되감기 영상의 8초 타임라인">
+    <h3>예: 16장 되감기 영상(스쿼트·벤치프레스 등 대부분)의 8초</h3>
+    <svg viewBox="0 0 640 96" role="img" aria-label="0~0.4초 준비, 0.4~3.6초 동작, 3.6~7.2초 돌아오기, 7.2~8초 준비">
+      <g font-family="IBM Plex Sans KR, sans-serif" font-size="12">
+        <rect x="20" y="20" width="24" height="28" fill="var(--muted)" opacity=".45"/>
+        <rect x="44" y="20" width="256" height="28" fill="var(--brand)"/>
+        <rect x="300" y="20" width="288" height="28" fill="var(--brand)" opacity=".55"/>
+        <rect x="588" y="20" width="32" height="28" fill="var(--muted)" opacity=".45"/>
+        <text x="172" y="39" text-anchor="middle" fill="var(--surface)">동작 (가는 중)</text>
+        <text x="444" y="39" text-anchor="middle" fill="var(--surface)">돌아오기 (정점 포함)</text>
+        <g fill="var(--muted)" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="middle">
+          <text x="20" y="66">0</text><text x="44" y="66">0.4</text><text x="300" y="66">3.6</text><text x="588" y="66">7.2</text><text x="620" y="66">8초</text>
+        </g>
+        <text x="20" y="88" fill="var(--ink-2)">회색 = 준비(시작 자세). 8장 영상·반복형(full) 영상도 각자 순서대로 계산합니다.</text>
+      </g>
+    </svg>
+  </div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>화면</th><th>무엇이 바뀌었나</th><th>대상</th></tr></thead>
+      <tbody>
+        <tr><td>AI 동작 영상</td><td>영상 아래 한 줄이 <b>영상 동작에 맞춰</b> 준비·동작·돌아오기로 바뀜(말머리 + 점 세 개)</td><td class="num">103개 영상</td></tr>
+        <tr><td>사진 두 장</td><td>사진에 “시작 자세 / 끝 자세” 표시, 보이는 사진에 맞춰 자막 전환</td><td class="num">사진 운동 전부</td></tr>
+        <tr><td>그 밖의 영상</td><td>동작 정보가 없어 3.2초마다 순서대로(동작과 맞추지는 않음)</td><td class="num">AI v2 16 · 관리자 영상</td></tr>
+        <tr><td>휴식 카드</td><td>“충분히 쉬고 다음 세트로” 대신 “다음 · 세트 3/4 · 12회 · 120kg” 또는 “다음 운동 · 펙덱” + “조심 · …” 한 줄</td><td class="num">모든 본운동</td></tr>
+        <tr><td>조심 한 줄</td><td>운동별 주의 사항(33개, 그동안 미사용) 우선, 없으면 동작 유형별 초보 팁</td><td class="num">1,351개 전부</td></tr>
+        <tr><td>운동법 문장</td><td>틀 문장 조사 수정: “바벨을(를)” → “바벨을”, “TRX을(를)” → “TRX를”, “이두근로” → “이두근으로” (상세 화면에도 반영)</td><td class="num">확장 1,237개</td></tr>
+        <tr><td>화면 켜짐</td><td>휴식 중에만 → 운동모드 전체</td><td class="num"></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box">
+    <h3>검증</h3>
+    <ul class="clean">
+      <li>단위테스트 전체 2,708개 통과. 앱의 구간 계산이 <b>영상을 만든 스크립트의 순서식과 같은지</b> 스크립트를 직접 실행해 비교합니다(한쪽만 바뀌면 자막이 어긋나므로).</li>
+      <li>공개된 AI 영상 103개 모두 사양이 있는지 확인합니다(새 영상을 넣고 사양 추출을 안 돌리면 테스트 실패).</li>
+      <li>E2E: 사진 운동에서 자막이 사진 전환에 맞춰 바뀌는지, 휴식 카드 다음 세트·조심, AI 영상 운동의 “동작 맞춤” 자막과 다음 운동 미리보기. 기존 운동모드 E2E 26개 통과(문구가 겹쳐 좁혀야 했던 기존 테스트 2개 수정).</li>
+      <li>한계: 테스트용 브라우저가 mp4(H.264)를 재생하지 못해, 실제 영상 재생 중 자막 전환은 단위테스트 계산으로만 확인했습니다. 폰에서 한번 봐 주세요.</li>
+    </ul>
+  </div>
+</section>
 
 <section>
   <h2>지금 운동모드가 알려 주는 것</h2>
@@ -254,8 +300,8 @@ td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:now
 <section>
   <h2>결정이 필요한 것</h2>
   <div class="decide">
-    <h3>1. 1단계부터 진행할까요?</h3>
-    <p>추천: 1단계 → 2단계 → 3단계 순서. 1단계만으로도 “나가서 운동법 보기”가 거의 필요 없어집니다.</p>
+    <h3>1. 2단계(처음 하는 운동 준비 카드)로 이어갈까요?</h3>
+    <p>1단계는 완료했습니다. 다음은 처음 하는 운동의 첫 세트 전에만 “준비 3가지” 카드입니다.</p>
   </div>
   <div class="decide">
     <h3>2. 음성 코치 기본값</h3>

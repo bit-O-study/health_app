@@ -33,7 +33,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   if (!user) redirect("/login");
 
   // ⚡ 프로필과 대시보드·주간 집계를 **동시에** 시작한다(원거리 리전 왕복 줄이기).
-  const [profile, dashboard, weekly, training, showCoach, showPet, showTrainer] = await Promise.all([
+  const [profile, dashboard, weekly, training, showCoach, showPet, showTrainer, showAiTrainer] = await Promise.all([
     getUserProfile(),
     getHomeDashboard(),
     getWeeklyReport(),
@@ -42,6 +42,8 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     isDebugFeatureEnabled("helssu-coach"),
     isDebugFeatureEnabled("pet"),
     hasTrainerPass(),
+    // AI 트레이너 탭(2026-09-30) — 공개 전, 자기 스위치.
+    isDebugFeatureEnabled("ai-trainer"),
   ]);
   if (!profile) redirect("/onboarding");
 
@@ -66,7 +68,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         <PermissionNudge />
 
         {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
-        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={[...(showCoach ? ["helssu-coach"] : []), ...(showPet ? ["pet"] : []), ...(showTrainer ? ["trainer-pass"] : [])]} />
+        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={[...(showCoach ? ["helssu-coach"] : []), ...(showPet ? ["pet"] : []), ...(showTrainer ? ["trainer-pass"] : []), ...(showAiTrainer ? ["ai-trainer"] : [])]} />
 
             <Link
               href="/commitments"

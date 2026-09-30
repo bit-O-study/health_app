@@ -17,6 +17,8 @@ import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime, MAX_CAPTION } from "../community";
 import type { CommunityComment, CommunityPost } from "../data-access";
 import { ReportButton } from "./report-button";
+import { Notice, useNotice } from "./notice";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import {
   addCommentAction,
   deleteCommentAction,
@@ -33,10 +35,13 @@ import {
 export function PostDetail({
   post,
   initialComments,
+  initialHasMore = false,
   canManage,
 }: {
   post: CommunityPost;
   initialComments: CommunityComment[];
+  /** 이전 댓글이 더 있는지(댓글은 최신 50개부터 — 커뮤니티 2단계). */
+  initialHasMore?: boolean;
   canManage: boolean;
 }) {
   const router = useRouter();
@@ -46,7 +51,13 @@ export function PostDetail({
   const [liked, setLiked] = useState(post.likedByMe);
   const [likeCount, setLikeCount] = useState(post.likeCount);
   const [comments, setComments] = useState<CommunityComment[]>(initialComments);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  // 댓글 수는 서버 집계 + 이 화면에서 달고 지운 만큼(댓글을 다 읽지 않으므로 목록 길이로 셀 수 없다).
+  const [commentCount, setCommentCount] = useState(post.commentCount);
   const [body, setBody] = useState("");
+  // 오류·확인은 앱 안에서(브라우저 alert/confirm 대신 — 커뮤니티 2단계).
+  const [notice, showNotice] = useNotice();
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const [editing, setEditing] = useState(false);
   const [caption, setCaption] = useState(post.caption ?? "");
@@ -67,20 +78,35 @@ export function PostDetail({
     });
   }
 
+  /** 최신 한 페이지로 다시(댓글을 달거나 지운 뒤). */
   async function reloadComments() {
-    setComments(await listCommentsAction(post.id));
+    const page = await listCommentsAction(post.id);
+    setComments(page.comments);
+    setHasMore(page.hasMore);
+  }
+
+  function loadOlder() {
+    const oldest = comments[0]?.createdAt;
+    if (!oldest) return;
+    start(async () => {
+      const page = await listCommentsAction(post.id, oldest);
+      setComments((cur) => [...page.comments, ...cur]);
+      setHasMore(page.hasMore);
+    });
   }
 
   function addComment() {
     const text = body.trim();
-    if (!text) return;
+    // 🔴 보내는 중엔 다시 안 보낸다 — 엔터를 빨리 두 번 누르면 두 번 올라가던 문제.
+    if (!text || pending) return;
     start(async () => {
       const r = await addCommentAction(post.id, text);
       if (r.ok) {
         setBody("");
+        setCommentCount((c) => c + 1);
         await reloadComments();
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
@@ -88,8 +114,10 @@ export function PostDetail({
   function removeComment(id: string) {
     start(async () => {
       const r = await deleteCommentAction(id);
-      if (r.ok) await reloadComments();
-      else alert(r.error);
+      if (r.ok) {
+        setCommentCount((c) => Math.max(0, c - 1));
+        await reloadComments();
+      } else showNotice(r.error);
     });
   }
 
@@ -100,17 +128,17 @@ export function PostDetail({
         setEditing(false);
         router.refresh();
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
 
   function removePost() {
-    if (!confirm("이 게시물을 삭제할까요?")) return;
+    setConfirmDelete(false);
     start(async () => {
       const r = await deleteCommunityPostAction(post.id);
       if (r.ok) router.push("/community");
-      else alert(r.error);
+      else showNotice(r.error);
     });
   }
 
@@ -154,7 +182,7 @@ export function PostDetail({
                         type="button"
                         onClick={() => {
                           setMenuOpen(false);
-                          removePost();
+                          setConfirmDelete(true);
                         }}
                         disabled={pending}
                         className="flex w-full items-center gap-2 px-3 py-2.5 text-sm text-danger hover:bg-zinc-50 disabled:opacity-50 dark:hover:bg-white/[0.06]"
@@ -261,6 +289,8 @@ export function PostDetail({
           type="button"
           onClick={toggleLike}
           disabled={pending}
+          aria-label="좋아요"
+          aria-pressed={liked}
           className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums disabled:opacity-60"
         >
           <Heart
@@ -271,12 +301,23 @@ export function PostDetail({
         </button>
         <span className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums text-zinc-500">
           <MessageCircle size={20} className="text-zinc-400" />
-          {comments.length}
+          {commentCount}
         </span>
       </div>
 
-      {/* 댓글 */}
+      {/* 댓글 — 최신 50개부터, 위에 '이전 댓글 더 보기'. */}
       <div className="space-y-2.5 py-2.5">
+        {hasMore ? (
+          <button
+            type="button"
+            onClick={loadOlder}
+            disabled={pending}
+            data-testid="load-older-comments"
+            className="w-full py-1 text-center text-sm font-semibold text-zinc-500 disabled:opacity-50 dark:text-zinc-400"
+          >
+            이전 댓글 더 보기
+          </button>
+        ) : null}
         {comments.length === 0 ? (
           <p className="py-3 text-center text-sm text-zinc-400">
             아직 댓글이 없어요
@@ -349,6 +390,16 @@ export function PostDetail({
         </button>
       </div>
       </main>
+      <ConfirmDialog
+        open={confirmDelete}
+        title="게시물 삭제"
+        message="이 게시물을 삭제할까요?"
+        confirmLabel="삭제"
+        tone="danger"
+        onConfirm={removePost}
+        onCancel={() => setConfirmDelete(false)}
+      />
+      <Notice text={notice} />
     </div>
   );
 }

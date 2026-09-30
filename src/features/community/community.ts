@@ -19,25 +19,6 @@ export function validatePostInput(
   return { ok: true };
 }
 
-/** 상단 '전체' 탭 — 공개글(groupId=null)만. 그룹글은 그룹 탭에서만 보인다. */
-export function publicOnly<T extends { groupId: string | null }>(
-  posts: T[],
-): T[] {
-  return posts.filter((p) => p.groupId === null);
-}
-
-/**
- * 선택된 그룹들의 글만(여러 개 선택 시 합집합). 공개글(groupId=null)은 제외.
- * 선택이 비어 있으면 아무것도 안 보인다. (그룹 탭의 '전체'는 모든 그룹 선택 = 그룹글 전부.)
- */
-export function postsForFilter<T extends { groupId: string | null }>(
-  posts: T[],
-  selectedGroupIds: string[],
-): T[] {
-  const set = new Set(selectedGroupIds);
-  return posts.filter((p) => p.groupId !== null && set.has(p.groupId));
-}
-
 /** 작성 시각 → "방금 전 / N분 전 / N시간 전 / N일 전 / N주 전". now 주입(테스트 가능). */
 export function relativeTime(createdAtMs: number, nowMs: number): string {
   const diff = Math.max(0, nowMs - createdAtMs);
@@ -50,4 +31,25 @@ export function relativeTime(createdAtMs: number, nowMs: number): string {
   if (day < 7) return `${day}일 전`;
   const wk = Math.floor(day / 7);
   return `${wk}주 전`;
+}
+
+/**
+ * 글 쓰기 속도 한도 — DB 트리거(community_rate_guard: 10분에 5개)와 같은 값.
+ * 운동 기록 카드 글은 서비스 롤로 저장해 트리거를 건너뛰므로 서버 코드가 이 값으로 먼저 확인한다.
+ */
+export const POST_RATE_LIMIT = 5;
+export const POST_RATE_WINDOW_MS = 10 * 60 * 1000;
+
+/**
+ * 인증 사진 공개 주소 → 저장소 경로("<작성자 id>/<파일>"). 글을 지울 때 파일도 지우려고.
+ * 🔴 작성자 폴더 밖 경로는 돌려주지 않는다 — 엉뚱한 파일을 지우지 않게.
+ */
+export function communityPhotoPath(url: string | null | undefined, ownerId: string | null | undefined): string | null {
+  if (!url || !ownerId) return null;
+  const marker = "/community-photos/";
+  const i = url.indexOf(marker);
+  if (i < 0) return null;
+  const path = decodeURIComponent(url.slice(i + marker.length).split("?")[0]);
+  if (!path.startsWith(`${ownerId}/`) || path.includes("..")) return null;
+  return path;
 }

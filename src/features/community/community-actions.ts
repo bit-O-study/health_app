@@ -9,9 +9,15 @@ import {
 } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { resolveMemberName } from "@/features/groups/member-name";
-import { MAX_CAPTION, validatePostInput } from "./community";
+import {
+  MAX_CAPTION,
+  POST_RATE_LIMIT,
+  POST_RATE_WINDOW_MS,
+  communityPhotoPath,
+  validatePostInput,
+} from "./community";
 import { resolveVisibility, type Visibility } from "./feed";
-import { getPostComments, type CommunityComment } from "./data-access";
+import { getPostComments, type CommentPage } from "./data-access";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -72,6 +78,16 @@ export async function createCommunityPostAction(input: {
     if (!writer) return { ok: false, error: "운동 기록 공유를 지금 쓸 수 없어요. 잠시 후 다시 시도해 주세요." };
     const { data: active } = await supabase.rpc("is_active_member");
     if (active === false) return { ok: false, error: "지금은 글을 쓸 수 없는 상태예요." };
+    // 서비스 롤은 DB 쓰기 속도 제한(10분에 5개)도 건너뛰므로 같은 한도를 여기서.
+    const since = new Date(Date.now() - POST_RATE_WINDOW_MS).toISOString();
+    const { count: recent } = await supabase
+      .from("community_posts")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", user.id)
+      .gt("created_at", since);
+    if ((recent ?? 0) >= POST_RATE_LIMIT) {
+      return { ok: false, error: "너무 자주 올리고 있어요. 잠시 후 다시 시도해 주세요." };
+    }
     if (vis.visibility !== "public" && vis.groupId) {
       const { data: member } = await supabase
         .from("group_members")
@@ -113,9 +129,26 @@ export async function deleteCommunityPostAction(id: string): Promise<ActionResul
   if (!id) return { ok: false, error: "잘못된 요청입니다." };
 
   const supabase = await createSupabaseServerClient();
+  // 지우기 전에 사진 주소를 읽어 둔다 — 글만 지우면 사진 파일이 저장소에 계속 쌓였다(커뮤니티 2단계).
+  const { data: before } = await supabase
+    .from("community_posts")
+    .select("user_id, photo_url")
+    .eq("id", id)
+    .maybeSingle();
   const { error } = await supabase.from("community_posts").delete().eq("id", id);
 
   if (error) return { ok: false, error: error.message };
+  const photoPath = communityPhotoPath(
+    (before as { photo_url?: string | null } | null)?.photo_url,
+    (before as { user_id?: string } | null)?.user_id,
+  );
+  if (photoPath) {
+    // 관리자가 남의 글을 지울 때도 지워지게 서비스 롤로. 실패해도 글 삭제는 이미 끝났다(파일만 남음).
+    await createSupabaseAdminClient()
+      ?.storage.from("community-photos")
+      .remove([photoPath])
+      .catch(() => undefined);
+  }
   revalidatePath("/community");
   return { ok: true };
 }
@@ -213,11 +246,12 @@ export async function addCommentAction(
   return { ok: true };
 }
 
-/** 한 글의 댓글 목록(모달용). */
+/** 한 글의 댓글 한 페이지 — before 가 있으면 그보다 오래된 것(‘이전 댓글 더 보기’). */
 export async function listCommentsAction(
   postId: string,
-): Promise<CommunityComment[]> {
-  return getPostComments(postId);
+  before?: string | null,
+): Promise<CommentPage> {
+  return getPostComments(postId, before);
 }
 
 /** 내 댓글 삭제(RLS로 본인만). */

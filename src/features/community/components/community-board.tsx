@@ -36,6 +36,8 @@ import {
 import type { FeedPost } from "../data-access";
 import { TeachingReels } from "./teaching-reels";
 import { ReportButton } from "./report-button";
+import { Notice, useNotice } from "./notice";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { uploadCommunityPhoto } from "../upload-photo";
 import {
   createCommunityPostAction,
@@ -350,6 +352,9 @@ function PostCard({
   const [showVideo, setShowVideo] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [burst, setBurst] = useState(false); // 더블탭 좋아요 하트
+  // 삭제 확인·오류 안내는 앱 안에서(브라우저 confirm/alert 대신 — 커뮤니티 2단계).
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [notice, showNotice] = useNotice();
   if (gone) return null;
 
   const isTeaching = post.kind === "teaching";
@@ -377,7 +382,7 @@ function PostCard({
   }
 
   function remove() {
-    if (!confirm("이 게시물을 삭제할까요?")) return;
+    setConfirmDelete(false);
     start(async () => {
       const r = isTeaching
         ? await deleteTeachingPostAction(post.id)
@@ -386,7 +391,7 @@ function PostCard({
         setGone(true);
         router.refresh();
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
@@ -519,6 +524,7 @@ function PostCard({
               disabled={pending}
               className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums transition-transform active:scale-125 disabled:opacity-60"
               aria-label="좋아요"
+              aria-pressed={liked}
             >
               <Heart size={20} className={liked ? "fill-rose-500 text-rose-500" : "text-zinc-400"} />
               {likeCount}
@@ -527,7 +533,7 @@ function PostCard({
               href={`/community/${post.id}`}
               className="inline-flex items-center gap-1 text-sm font-semibold tabular-nums"
               onClick={onOpen}
-              aria-label="댓글"
+              aria-label={`게시물 보기 (댓글 ${post.commentCount}개)`}
             >
               <MessageCircle size={20} className="text-zinc-400" />
               {post.commentCount}
@@ -550,7 +556,7 @@ function PostCard({
         {canModerate || post.isMine ? (
           <button
             type="button"
-            onClick={remove}
+            onClick={() => setConfirmDelete(true)}
             disabled={pending}
             aria-label="삭제"
             className={`${post.isMine ? "ml-auto" : ""} text-zinc-300 hover:text-rose-500 disabled:opacity-50`}
@@ -560,7 +566,7 @@ function PostCard({
         ) : null}
       </div>
 
-      {!isTeaching ? <Link href={`/community/${post.id}`} onClick={e => { e.stopPropagation(); onOpen(); }} className="mx-3 inline-flex min-h-11 items-center text-xs text-zinc-500">게시물 보기</Link> : null}
+      {/* 상세로 가는 길은 카드 탭 + 댓글 링크 둘 — 따로 있던 '게시물 보기' 글자 링크는 뺐다(같은 곳으로 가는 길 셋). */}
       {/* 캡션 — 카드 전체가 상세로 이동하므로 별도 링크 없이 텍스트만. */}
       {post.caption ? (
         <div className="px-3 pb-2.5 pt-1">
@@ -576,6 +582,19 @@ function PostCard({
       ) : (
         <div className="pb-2.5" />
       )}
+      {/* 포털 안 클릭도 React 트리로는 카드까지 올라와 상세로 가 버린다 — 여기서 멈춘다. */}
+      <span onClick={(e) => e.stopPropagation()}>
+        <ConfirmDialog
+          open={confirmDelete}
+          title="게시물 삭제"
+          message={isTeaching ? "이 영상을 삭제할까요?" : "이 게시물을 삭제할까요?"}
+          confirmLabel="삭제"
+          tone="danger"
+          onConfirm={remove}
+          onCancel={() => setConfirmDelete(false)}
+        />
+        <Notice text={notice} />
+      </span>
     </li>
   );
 }

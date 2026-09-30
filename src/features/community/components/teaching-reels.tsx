@@ -18,6 +18,8 @@ import { characterEmoji, pastelClass } from "@/features/groups/avatar";
 import { relativeTime } from "../community";
 import type { FeedPost } from "../data-access";
 import { ReportButton } from "./report-button";
+import { Notice, useNotice } from "./notice";
+import { ConfirmDialog } from "@/components/confirm-dialog";
 import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
 import {
   addTeachingCommentAction,
@@ -168,15 +170,18 @@ function ReelSlide({
     window.setTimeout(() => setBurst(false), 650);
   }
 
+  // 삭제 확인·오류 안내는 앱 안에서(브라우저 confirm/alert 대신 — 커뮤니티 2단계).
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [notice, showNotice] = useNotice();
   function remove() {
-    if (!confirm("이 영상을 삭제할까요?")) return;
+    setConfirmDelete(false);
     start(async () => {
       const r = await deleteTeachingPostAction(post.id);
       if (r.ok) {
         setGone(true);
         onChanged();
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
@@ -294,7 +299,7 @@ function ReelSlide({
         {canModerate || post.isMine ? (
           <button
             type="button"
-            onClick={remove}
+            onClick={() => setConfirmDelete(true)}
             disabled={pending}
             aria-label="삭제"
             className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white/90 backdrop-blur hover:text-rose-400 disabled:opacity-50"
@@ -311,6 +316,16 @@ function ReelSlide({
           onCountChange={setCommentCount}
         />
       ) : null}
+      <ConfirmDialog
+        open={confirmDelete}
+        title="영상 삭제"
+        message="이 영상을 삭제할까요?"
+        confirmLabel="삭제"
+        tone="danger"
+        onConfirm={remove}
+        onCancel={() => setConfirmDelete(false)}
+      />
+      <Notice text={notice} />
     </div>
   );
 }
@@ -328,6 +343,7 @@ function CommentSheet({
   const [now] = useState(() => Date.now());
   const [list, setList] = useState<TeachingComment[] | null>(null);
   const [text, setText] = useState("");
+  const [notice, showNotice] = useNotice();
   const [pending, start] = useTransition();
 
   useEffect(() => {
@@ -342,7 +358,7 @@ function CommentSheet({
 
   function submit() {
     const body = text.trim();
-    if (!body) return;
+    if (!body || pending) return;
     start(async () => {
       const r = await addTeachingCommentAction(postId, body);
       if (r.ok) {
@@ -351,7 +367,7 @@ function CommentSheet({
         setList(rows);
         onCountChange(rows.length);
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
@@ -364,7 +380,7 @@ function CommentSheet({
         setList(rows);
         onCountChange(rows.length);
       } else {
-        alert(r.error);
+        showNotice(r.error);
       }
     });
   }
@@ -479,6 +495,7 @@ function CommentSheet({
           </button>
         </div>
       </div>
+      <Notice text={notice} />
     </div>
   );
 }

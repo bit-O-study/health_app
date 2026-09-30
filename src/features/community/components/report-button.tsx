@@ -39,6 +39,8 @@ export function ReportButton({
 }) {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
+  // 오류는 시트 안에 한 줄로(브라우저 alert 대신 — 커뮤니티 2단계).
+  const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
   // 시트를 닫는 곳은 전부 이걸로 — 부모(메뉴)에게 닫혔다고 알린다.
   const closeSheet = () => {
@@ -50,6 +52,7 @@ export function ReportButton({
   });
 
   function submit(reason: string) {
+    setError(null);
     start(async () => {
       const r = await reportContentAction({
         targetKind,
@@ -66,8 +69,7 @@ export function ReportButton({
           setDone(false);
         }, 1200);
       } else {
-        alert(r.error);
-        closeSheet();
+        setError(r.error);
       }
     });
   }
@@ -117,6 +119,11 @@ export function ReportButton({
                 <p className="mb-3 text-xs text-zinc-500 dark:text-zinc-400">
                   신고 사유를 선택하면 관리자가 확인합니다.
                 </p>
+                {error ? (
+                  <p role="alert" data-testid="report-error" className="mb-3 rounded-xl bg-rose-50 px-3 py-2 text-sm font-semibold text-danger dark:bg-rose-950/30">
+                    {error}
+                  </p>
+                ) : null}
                 <div className="flex flex-col gap-1.5">
                   {REPORT_REASONS.map((reason) => (
                     <button

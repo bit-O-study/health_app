@@ -50,12 +50,15 @@ test("🔴 신고하면 대상 사용자·작성자·미리보기가 원본 글�
   // 상세 화면의 신고는 오른쪽 위 ‘⋮’(더보기) 안에 있다.
   await page.getByRole("button", { name: "더보기" }).click();
   await page.getByRole("button", { name: "신고" }).first().click();
-  // 오류는 지금 브라우저 알림창(alert)으로 뜬다(앱 안 안내로 바꾸는 건 2단계) — 알림 문구를 받는다.
-  const dialog = page.waitForEvent("dialog", { timeout: 15_000 });
+  // 오류는 브라우저 알림창이 아니라 신고 시트 안에 뜬다(커뮤니티 2단계).
+  let sawDialog = false;
+  page.on("dialog", (d) => {
+    sawDialog = true;
+    void d.dismiss();
+  });
   await page.getByRole("button", { name: "스팸/광고" }).click();
-  const d = await dialog;
-  expect(d.message()).toContain("이미 신고한 게시물이에요");
-  await d.dismiss();
+  await expect(page.getByTestId("report-error")).toContainText("이미 신고한 게시물이에요", { timeout: 15_000 });
+  expect(sawDialog).toBe(false);
   const again = await dbQuery<{ n: number }>(`select count(*)::int n from public.post_reports where target_id = $1`, [postId]);
   expect(again[0].n).toBe(1);
 

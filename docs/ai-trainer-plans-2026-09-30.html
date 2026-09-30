@@ -1,0 +1,329 @@
+<title>짐꾼 AI 트레이너 요금제</title>
+<meta name="description" content="3,900·6,900·9,900원 AI 트레이너 요금제(오늘만 운동·식단 / 루틴 점검 / 자세 코칭)를 위해 개발할 것과 운동·루틴 추가 기능을 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 요금제 4칸 → 쓰는 정보 → 개발할 것(공통·베이직·플러스·프로·운영) → 원가 → 추가 제안 → 순서 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px}
+.flow span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--surface)}
+.flow .bad{border-color:var(--crit);color:var(--crit)}
+.flow i{font-style:normal;color:var(--muted)}
+</style>
+
+<style>
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:grid;gap:8px;align-content:start;min-width:0}
+.tier.hi{border-color:var(--brand)}
+.tier .price{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.tier .price small{font-size:13px;font-weight:500;color:var(--muted)}
+.tier .who{font-size:13px;color:var(--muted)}
+.tier ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:14px}
+</style>
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 요금제 · 검수보고서</p>
+  <h1>짐꾼 AI 트레이너 요금제</h1>
+  <p class="lede">사용자가 정한 방향입니다. <b>3,900원</b>은 AI 트레이너가 식단과 매일의 운동을 정해 주되 "오늘만 운동 변경"으로만 바꾸고, <b>6,900원</b>은 루틴 자체까지 손보며, 더 높은 요금제는 <b>AI 자세 코칭</b>을 글과 음성으로 자세히 해 줍니다. 추천은 모두 앱에 쌓인 정보(수분, 몸무게, 운동 기록, 체성분, 식단 등)를 바탕으로 합니다. 이 보고서는 그걸 만들기 위해 지금 개발할 것과, 운동·루틴 쪽에서 더 넣을 만한 것을 정리합니다. 코드는 아직 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-30</span>
+    <span>기준: 커밋 4f2acd28 + 라이브 DB 컬럼</span>
+    <span class="pill ok">개발 항목 10</span>
+    <span class="pill info">추가 제안 7</span>
+    <span class="pill warn">결정 5</span>
+  </div>
+</header>
+
+<section>
+  <h2>요금제</h2>
+  <div class="tiers">
+    <div class="tier">
+      <h3>무료</h3>
+      <div class="price">0원</div>
+      <p class="who">기록하고 규칙으로 추천받기</p>
+      <ul>
+        <li>운동·식단·수분·몸무게 기록</li>
+        <li>규칙 기반 루틴 추천(지금 있는 것)</li>
+        <li>카메라로 횟수 세기</li>
+        <li>AI 트레이너 맛보기 월 1회</li>
+      </ul>
+    </div>
+    <div class="tier">
+      <h3>베이직</h3>
+      <div class="price">3,900원 <small>/월</small></div>
+      <p class="who">매일 정해 주는 AI 트레이너 (오늘만)</p>
+      <ul>
+        <li><b>매일 오늘 운동</b>을 정해 줌. 적용은 "오늘만 운동 변경"으로만, 루틴은 그대로</li>
+        <li><b>식단 관리</b>: 하루 목표 kcal·단백질·수분, 저녁에 오늘 식단 피드백과 내일 제안</li>
+        <li>다짐 추천</li>
+        <li>지금 있는 AI 기능 한도(식단 사진 등)</li>
+      </ul>
+    </div>
+    <div class="tier hi">
+      <h3>플러스</h3>
+      <div class="price">6,900원 <small>/월</small></div>
+      <p class="who">루틴까지 손보는 AI 트레이너</p>
+      <ul>
+        <li>베이직 전부</li>
+        <li><b>주 1회 루틴 점검</b>: 뺄 운동, 넣을 운동, 세트·횟수 조정을 제안하고, 사용자가 확인하면 루틴에 반영</li>
+        <li>4주마다 목표 대비 리포트</li>
+      </ul>
+    </div>
+    <div class="tier">
+      <h3>프로</h3>
+      <div class="price">9,900원 <small>/월 (제안)</small></div>
+      <p class="who">자세까지 봐 주는 AI 트레이너</p>
+      <ul>
+        <li>플러스 전부</li>
+        <li><b>AI 자세 코칭 상세</b>: 구간별(내려갈 때·바닥·올라올 때) 고칠 점 1~3개, 관절 각도 숫자 근거</li>
+        <li>결과를 <b>글과 음성</b>으로, 다음 세트 전에 한 줄 큐</li>
+      </ul>
+    </div>
+  </div>
+  <p class="cap">세 요금제 모두 같은 정보를 보고 추천합니다. 차이는 바꿀 수 있는 범위(오늘만 → 루틴)와 자세 코칭입니다. 9,900원은 사용자가 정하지 않아 제안한 값입니다.</p>
+</section>
+
+<section>
+  <h2>추천에 쓰는 정보 (이미 앱에 있음)</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>정보</th><th>저장 위치</th><th>쓰는 곳</th></tr></thead>
+      <tbody>
+        <tr><td>수분 (하루 누적 ml, 목표)</td><td><code>water_logs</code> · <code>diet/water.ts</code></td><td>식단 관리, 오늘 컨디션</td></tr>
+        <tr><td>몸무게 추이</td><td><code>weight_logs</code> · <code>profiles.weight_kg</code></td><td>식단 목표 kcal, 4주 리포트</td></tr>
+        <tr><td>운동 기록 (세트·횟수·무게)</td><td><code>exercise_completions</code></td><td>부위별 세트, 무게 정체, 예상 1RM</td></tr>
+        <tr><td>체성분 (골격근·체지방·부위별 근육)</td><td><code>body_compositions</code></td><td>좌우 차이, 목표까지 남은 양</td></tr>
+        <tr><td>식단 (kcal·단백질·탄수·지방)</td><td><code>food_logs</code></td><td>식단 피드백</td></tr>
+        <tr><td>목표·경력·헬스장 기구</td><td><code>profiles</code></td><td>운동 고르기(내 헬스장에 있는 기구만)</td></tr>
+        <tr><td>걸음 수·수면</td><td><code>daily_steps</code> · 헬스 커넥트(<code>sleep-recovery.ts</code>)</td><td>오늘 강도</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>지금 개발할 것</h2>
+  <h3>공통 기반</h3>
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">1</span>
+      <h3>요금제 등급 4단계 <span class="size">중간</span></h3>
+      <p class="why">지금 등급은 무료·프리미엄 둘뿐이고, 플레이 상품도 3,900원 하나(<code>helssu_premium_monthly</code>)입니다.</p>
+      <p class="how">등급을 무료·베이직·플러스·프로로 나누고, 구독한 상품 id로 등급을 정합니다. 구독 화면은 네 요금제를 나란히 비교합니다. 가격이 최악 원가보다 높은지는 기존 가격 테스트(<code>pricing.test.ts</code>)를 등급마다 확장해 지킵니다.</p>
+      <p class="where">위치: <code>billing/products.ts</code> · <code>subscription.ts</code> · <code>coach/ai-usage.ts</code> (<code>resolveTier</code>) · <code>coach/ai-quota.ts</code></p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">2</span>
+      <h3>내 상태 계산 <span class="size">중간</span></h3>
+      <p class="why">AI에 날 기록을 통째로 주면 비싸고 틀립니다. 서버가 숫자로 정리해서 줍니다.</p>
+      <p class="how">부위별 주간 세트(적정 10~20), 무게 정체 종목, 4주 체중·근육 변화, 좌우 근육 차이, 수분·단백질 목표 달성률, 걸음·수면을 한 묶음으로 계산합니다. 규칙 코드라 단위 테스트로 지킵니다. 이미 있는 <code>training-volume.ts</code>와 <code>overload.ts</code>를 그대로 씁니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill warn tag">3</span>
+      <h3>처리방침·동의 <span class="size">작음</span></h3>
+      <p class="why">건강 정보를 외부 AI(Gemini)로 보내는데, 처리방침에 Gemini가 빠져 있습니다.</p>
+      <p class="how">처리방침을 고치고, 처음 쓸 때 한 번 동의를 받습니다. 이름·연락처는 보내지 않습니다. AI 기능 공개는 이 뒤에 합니다.</p>
+    </div>
+  </div>
+
+  <h3>베이직 3,900원</h3>
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">4</span>
+      <h3>매일 오늘 운동 (오늘만) <span class="size">중간</span></h3>
+      <p class="why">앱을 열면 "오늘은 등이 부족하고 어제 하체를 했으니 등·어깨로 가요" 같은 오늘 운동 카드가 뜹니다.</p>
+      <p class="how">AI는 <b>오늘만 운동 변경에서 고를 수 있는 부위·운동 안에서만</b> 고릅니다(원칙 1). 적용은 이미 있는 오늘만 경로(<code>addExercisesTodayOnlyAction</code> · <code>replaceExerciseTodayOnlyAction</code>)로만 하고, 영구 루틴은 바꾸지 않습니다(원칙 2). 무게는 AI가 정하지 않고 기존 무게 추천 규칙으로 채웁니다. 하루 한 번 만들고 저장해서 다시 열 때 AI를 또 부르지 않습니다.</p>
+      <p class="where">위치: <code>routine/daily-plan-actions.ts</code> · <code>coach/analysis-store.ts</code></p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">5</span>
+      <h3>AI 식단 관리 <span class="size">중간</span></h3>
+      <p class="why">목표(감량·증량)와 몸무게로 하루 kcal·단백질·수분 목표를 정해 주고, 저녁에 오늘 먹은 것을 보고 한 줄 피드백과 내일 제안을 줍니다.</p>
+      <p class="how">목표 숫자는 규칙으로 계산하고, AI는 피드백 문장과 메뉴 제안만 만듭니다. 식단 사진 AI로 담은 기록도 그대로 씁니다.</p>
+      <p class="where">위치: <code>features/diet/*</code> · <code>diet/water.ts</code> · <code>coach/summary.ts</code></p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">6</span>
+      <h3>다짐 추천 <span class="size">작음</span></h3>
+      <p class="why">이미 있는 AI 다짐 제안에 내 상태 숫자를 넣어 더 구체적으로 만듭니다.</p>
+      <p class="how">기존 다짐 지표 안에서만 만들고, 기존 <code>addCommitmentAction</code>으로 추가합니다.</p>
+    </div>
+  </div>
+
+  <h3>플러스 6,900원</h3>
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">7</span>
+      <h3>주 1회 루틴 점검 <span class="size">중간</span></h3>
+      <p class="why">4주 기록을 보고 "등 운동 1개 추가, 레그프레스 3세트→4세트, 사이드 레터럴 빼기"처럼 루틴에서 바꿀 점을 제안합니다.</p>
+      <p class="how">바뀌는 부분을 전후 비교로 보여 주고, 사용자가 <b>확인해야</b> 영구 루틴에 반영합니다. 몰래 바꾸지 않습니다. 반영은 이미 있는 루틴 저장 경로를 씁니다(추천 채우기 경로가 세 곳이므로 같은 규칙을 지킵니다).</p>
+      <p class="where">위치: <code>routine/plan-actions.ts</code> · <code>recommendation-actions.ts</code></p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">8</span>
+      <h3>4주 목표 리포트 <span class="size">작음</span></h3>
+      <p class="why">"4주 동안 골격근 +0.4kg, 체중 −1.2kg, 스쿼트 예상 1RM +7.5kg"처럼 목표에 얼마나 가까워졌는지 보여 줍니다.</p>
+      <p class="how">숫자는 서버 계산이고, AI는 총평과 다음 4주 방향만 씁니다. 이미 있는 주간 리포트(<code>weekly-report.ts</code>) 옆에 둡니다.</p>
+    </div>
+  </div>
+
+  <h3>프로 9,900원 (제안)</h3>
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">9</span>
+      <h3>AI 자세 코칭 상세 <span class="size">중간~큼</span></h3>
+      <p class="why">지금 자세 분석은 영상에서 4장면을 뽑아 격자 한 장으로 AI에 보내고, 총평과 조언 몇 줄을 줍니다. 구간별로 무엇을 어떻게 고칠지까지는 말하지 못합니다.</p>
+      <p class="how">오늘 만든 기기 안 자세 인식(MediaPipe)으로 영상에서 <b>관절 각도를 먼저 잽니다</b>("가장 낮은 무릎 각도 105°, 평행까지 약 10°"). 그 숫자와 장면 이미지를 함께 AI에 보내 구간별 고칠 점 1~3개를 받습니다. 결과는 글로 보여 주고, <b>음성으로 읽어 줍니다</b>(기존 <code>speech.ts</code>). 다음 세트 시작 전에 한 줄 큐("엉덩이를 조금 더 뒤로")를 말해 줍니다.</p>
+      <p class="where">위치: <code>coach/components/posture-analyzer.tsx</code> · <code>coach-actions.ts</code> (<code>analyzePostureAction</code>) · <code>workout-timer/rep-counter.ts</code></p>
+    </div>
+  </div>
+
+  <h3>운영</h3>
+  <div class="items">
+    <div class="item">
+      <span class="pill warn tag">10</span>
+      <h3>한도·원가·상품 <span class="size">작음</span></h3>
+      <p class="why">요금제마다 AI 호출 한도를 정하고 원가 안에 들어오는지 확인합니다.</p>
+      <p class="how">플레이 콘솔에 상품 두 개(6,900원·9,900원)를 추가 등록해야 합니다(사용자 몫). 트레이너 요금제에 연결된 회원은 플러스 등급으로 봅니다.</p>
+    </div>
+  </div>
+
+  <div class="scroll">
+    <table>
+      <thead><tr><th>요금제</th><th class="num">실수령</th><th>새 AI 호출(월 최대)</th><th class="num">최악 원가</th><th class="num">남는 돈(최악)</th></tr></thead>
+      <tbody>
+        <tr><td>베이직 3,900원</td><td class="num">3,013원</td><td>오늘 운동 30 · 식단 피드백 30</td><td class="num">2,300원</td><td class="num">713원</td></tr>
+        <tr><td>플러스 6,900원</td><td class="num">5,331원</td><td>+ 루틴 점검 4 · 4주 리포트 1</td><td class="num">2,350원</td><td class="num">2,981원</td></tr>
+        <tr><td>프로 9,900원</td><td class="num">7,650원</td><td>+ 자세 코칭 상세 30</td><td class="num">2,800원</td><td class="num">4,850원</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">최악 원가는 기존 AI 한도(1,940원)를 다 쓰고, 무료 AI가 막혀 유료(Claude Haiku)로 넘어갔을 때입니다. 회당 원가: 오늘 운동 7원, 식단 피드백 5원, 루틴 점검 10원, 4주 리포트 10원, 자세 상세 15원(추정). 지금은 무료 등급이라 실제 AI 비용은 0원입니다. 베이직은 여유가 작아 식단 사진 한도를 줄일지 검토가 필요합니다.</p>
+</section>
+
+<section>
+  <h2>운동·루틴에 더 넣을 만한 것</h2>
+  <p>이미 있는 것: 무게 추천·점진적 과부하·디로드 판단, 예상 1RM, 대체 운동, 슈퍼세트, 원판 계산, 휴식 타이머, 주간 리포트, 카메라로 횟수 세기(오늘 추가). 아래는 아직 <b>없는</b> 것입니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>기능</th><th>무엇</th><th>요금제</th><th>작업</th></tr></thead>
+      <tbody>
+        <tr><td><b>오늘 컨디션 체크인</b></td><td>운동 시작 전에 수면·근육통·피로를 3번 탭으로 받아, 안 좋으면 오늘만 세트·무게를 줄임. 헬스 커넥트 수면이 있으면 미리 채움</td><td>무료(규칙) · 베이직(AI가 반영)</td><td>작음</td></tr>
+        <tr><td><b>통증·부상 부위 빼기</b></td><td>"어깨가 아파요"를 설정하면 그 부위에 부담 가는 운동을 추천에서 빼고 대체 운동으로</td><td>무료</td><td>작음</td></tr>
+        <tr><td><b>시간 맞춤</b></td><td>"오늘 30분만"을 고르면 오늘만 운동 수·세트를 줄이거나 슈퍼세트로 묶음</td><td>무료(규칙) · 베이직(AI)</td><td>작음</td></tr>
+        <tr><td><b>개인 신기록 알림</b></td><td>세트 완료 때 최고 무게·예상 1RM 신기록이면 바로 축하, 기록 화면에 추이 그래프</td><td>무료</td><td>작음</td></tr>
+        <tr><td><b>휴식일 추천</b></td><td>쉬는 날에 걸음 목표·스트레칭·가벼운 유산소를 제안</td><td>베이직</td><td>작음</td></tr>
+        <tr><td><b>4~8주 프로그램</b></td><td>목표(근비대·근력·감량)에 맞춘 주차별 계획. 주차마다 세트·강도가 바뀌고 마지막 주는 디로드</td><td>플러스</td><td>중간</td></tr>
+        <tr><td><b>카메라 세기 넓히기</b></td><td>런지·크런치·점핑잭 추가, 내려가는 속도(템포) 안내</td><td>무료</td><td>작음~중간</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>순서</h2>
+  <div class="phase">
+    <div class="box"><h3><span class="pill ok">1단계</span> 기반</h3><p>처리방침·동의 → 내 상태 계산 → 요금제 등급 4단계. 무료 추가 기능(컨디션 체크인·통증 부위 빼기·신기록 알림)도 여기서 같이 합니다. 규칙만이라 AI 비용이 없습니다.</p></div>
+    <div class="box"><h3><span class="pill ok">2단계</span> 베이직</h3><p>매일 오늘 운동(오늘만) → AI 식단 관리 → 다짐 추천 → 시간 맞춤.</p></div>
+    <div class="box"><h3><span class="pill ok">3단계</span> 플러스</h3><p>주 1회 루틴 점검 → 4주 리포트 → 4~8주 프로그램.</p></div>
+    <div class="box"><h3><span class="pill ok">4단계</span> 프로</h3><p>AI 자세 코칭 상세(각도 측정 + 글·음성).</p></div>
+    <div class="box"><h3><span class="pill warn">사용자</span> 결제</h3><p>플레이 콘솔에 상품 3개 등록(3,900·6,900·9,900원), 서비스 계정 연결.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 프로 요금제 가격은 9,900원으로 할까요?</h3>
+    <p>추천: <b>9,900원</b>. 자세 코칭 원가를 넣어도 넉넉하고, 플러스와 3,000원 차이로 단계가 고릅니다.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 앞 보고서의 "AI 맞춤 코칭(3,900원 하나)" 안은 이 요금제로 바꿀까요?</h3>
+    <p>추천: <b>예</b>. 맞춤 코칭은 베이직의 "매일 오늘 운동"과 다짐 추천으로 들어갑니다.</p>
+  </div>
+  <div class="decide">
+    <h3>3. 트레이너에 연결된 회원은 어느 등급으로 볼까요?</h3>
+    <p>추천: <b>플러스</b>. 루틴은 트레이너도 손보지만, 회원이 앱 안에서 루틴 제안을 받아도 겹치지 않게 "트레이너가 정한 루틴은 제안만, 반영은 트레이너가"로 둡니다.</p>
+  </div>
+  <div class="decide">
+    <h3>4. 무료로 남길 운동 기능은요?</h3>
+    <p>추천: 컨디션 체크인(규칙), 통증 부위 빼기, 신기록 알림, 카메라 횟수 세기. 쓰는 사람을 늘리는 기능이고 AI 비용이 없습니다.</p>
+  </div>
+  <div class="decide">
+    <h3>5. 1단계(기반)부터 진행할까요?</h3>
+    <p>추천: <b>1 → 2 → 3 → 4단계</b>. 1단계는 AI 비용 없이 바로 쓸모가 있습니다.</p>
+  </div>
+</section>
+</div>

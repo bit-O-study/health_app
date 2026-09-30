@@ -6,7 +6,10 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/features/brand/logo";
 import {
+  Bell,
+  Bookmark,
   Camera,
+  EyeOff,
   Heart,
   ImagePlus,
   Loader2,
@@ -25,14 +28,18 @@ import { WorkoutShareCard } from "./workout-share-card";
 import { WorkoutRecordPicker } from "./workout-record-picker";
 import type { WorkoutSnapshot } from "../workout-snapshot";
 import { createWorkoutSessionId } from "@/features/workout-timer/session-id";
-import { MAX_CAPTION, relativeTime } from "../community";
+import { MAX_CAPTION, MAX_QUESTION_BODY, MAX_QUESTION_TITLE, relativeTime } from "../community";
 import {
   BOARD_TABS,
+  MAIN_TABS,
+  boardHref,
+  mainTabOf,
   resolveVisibility,
   VISIBILITY_OPTIONS,
   type BoardTab,
   type Visibility,
 } from "../feed";
+import { unreadBadge } from "../community-notifications";
 import type { FeedPost } from "../data-access";
 import { TeachingReels } from "./teaching-reels";
 import { ReportButton } from "./report-button";
@@ -43,6 +50,7 @@ import {
   createCommunityPostAction,
   deleteCommunityPostAction,
   toggleLikeAction,
+  toggleSaveAction,
 } from "../community-actions";
 import { deleteTeachingPostAction } from "@/features/teaching/teaching-actions";
 import { RoutineShareBoard } from "@/features/routine-share/components/routine-share-board";
@@ -67,8 +75,11 @@ export function CommunityBoard({
   initialView,
   initialSearch = "",
   initialPage,
+  unreadNotifications = 0,
 }: {
   groups: Group[];
+  /** 안 읽은 커뮤니티 알림 수(머리글 종 뱃지 — 커뮤니티 3단계). */
+  unreadNotifications?: number;
   initialView?: string;
   initialSearch?: string;
   initialPage?: FeedPage | null;
@@ -119,11 +130,7 @@ export function CommunityBoard({
     return () => { active = false; };
   }, [initialPosts, initialSearch, tab]);
   function navigate(value: BoardTab, query = "") {
-    const path = value === "teaching" ? "/community/teaching" : value === "routine" ? "/community/routines" : value === "mine" ? "/community/mine" : "/community";
-    const params = new URLSearchParams();
-    if (value === "popular") params.set("view", "popular");
-    if (query.trim()) params.set("q", query.trim());
-    router.replace(path + (params.size ? "?" + params : ""));
+    router.replace(boardHref(value, query));
   }
   function more() {
     if (!cursor || loadingMore) return;
@@ -137,7 +144,8 @@ export function CommunityBoard({
       } catch { setFeedError("게시물을 불러오지 못했어요. 다시 시도해주세요."); }
     });
   }
-  const [compose, setCompose] = useState(initialView === "compose");
+  // 글쓰기 창 — 사진 인증 / 질문(커뮤니티 3단계). null = 닫힘.
+  const [compose, setCompose] = useState<null | "photo" | "question">(initialView === "compose" ? "photo" : null);
   const [routineCompose, setRoutineCompose] = useState(false);
   // 밖에서 주소로 view 가 바뀌면(하단 메뉴·런처의 ?view= 링크) 그때만 탭을 맞춘다.
   // 예전엔 페이지가 key={view} 로 게시판을 통째로 새로 붙였는데, 탭 전환으로 바뀐 주소가
@@ -147,7 +155,7 @@ export function CommunityBoard({
     setSeenView(initialView);
     const next = BOARD_TABS.find((t) => t.value === initialView)?.value;
     if (next && next !== tab) setTab(next);
-    if (initialView === "compose") setCompose(true);
+    if (initialView === "compose") setCompose("photo");
   }
   useBackClose(routineCompose, () => setRoutineCompose(false));
 
@@ -165,25 +173,41 @@ export function CommunityBoard({
     >
       <div className="app-header shrink-0 px-4 pb-0 pt-5 sm:px-6">
         {/* 제목은 다른 탭 머리글(PageHeader)과 같은 큰 제목(.app-title) — 2026-09-16 촘촘하게. */}
-        <Link href="/home" aria-label="짐꾼 홈" className="mb-4 inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
+        <div className="mb-4 flex items-center justify-between">
+          <Link href="/home" aria-label="짐꾼 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">커뮤니티</h1>
+          {/* 커뮤니티 알림(댓글·좋아요 묶음) — 커뮤니티 3단계. */}
+          <Link
+            href="/community/notifications"
+            aria-label={unreadBadge(unreadNotifications) ? `알림 (안 읽은 알림 ${unreadBadge(unreadNotifications)}개)` : "알림"}
+            data-testid="community-bell"
+            className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-zinc-500 active:bg-zinc-100 dark:text-zinc-400 dark:active:bg-white/[0.06]"
+          >
+            <Bell aria-hidden="true" size={22} />
+            {unreadBadge(unreadNotifications) ? (
+              <span className="absolute right-0.5 top-0.5 min-w-4 rounded-full bg-rose-500 px-1 text-center text-xs font-bold leading-4 text-white">
+                {unreadBadge(unreadNotifications)}
+              </span>
+            ) : null}
+          </Link>
+        </div>
 
         {/* 상단 탭 — 오운완 / 그룹 / 운동 / 내 글 (활성 언더라인) */}
         <div className="flex items-center gap-5 overflow-x-auto [scrollbar-width:none]">
-          {BOARD_TABS.filter(t => t.value !== "popular").map(({ value, label }) => (
+          {MAIN_TABS.map(({ value, label }) => (
             <button
               key={value}
               type="button"
               // 탭별 서버 조회. 필터는 URL에 남아 뒤로 가기에도 복원된다.
               onClick={() => navigate(value)}
-              aria-pressed={tab === value || (tab === "popular" && value === "workout")}
+              aria-pressed={mainTabOf(tab) === value}
               className={`relative min-h-11 shrink-0 pb-3 text-sm font-semibold transition-colors ${
-                tab === value
+                mainTabOf(tab) === value
                   ? "text-zinc-900 dark:text-zinc-50"
                   : "text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-300"
               }`}
             >
-              {value === "workout" ? "피드" : value === "teaching" ? "운동 영상" : label}
-              {tab === value ? (
+              {label}
+              {mainTabOf(tab) === value ? (
                 <span className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-brand" />
               ) : null}
             </button>
@@ -202,14 +226,15 @@ export function CommunityBoard({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               aria-label="게시물 검색"
-              placeholder={tab === "teaching" ? "운동 검색 (예: 스쿼트)" : "본문 · 운동명 검색"}
+              placeholder={tab === "teaching" ? "운동 검색 (예: 스쿼트)" : mainTabOf(tab) === "question" ? "질문 검색" : "본문 · 운동명 검색"}
               className="h-11 min-w-0 w-full rounded-[10px] bg-zinc-100 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
             />
             <button type="submit" className="min-h-11 shrink-0 px-2 text-sm">검색</button>
           </form>
         ) : null}
         {tab === "workout" || tab === "popular" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "workout"} onClick={() => navigate("workout", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">최신순</button><button type="button" aria-pressed={tab === "popular"} onClick={() => navigate("popular", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">이번 주 인기</button></div> : null}
-        {tab === "mine" ? <p className="pb-2 text-sm font-semibold">내가 쓴 글</p> : null}
+        {mainTabOf(tab) === "question" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "question"} onClick={() => navigate("question", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">전체</button><button type="button" aria-pressed={tab === "question_open"} onClick={() => navigate("question_open", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">답변 기다리는</button></div> : null}
+        {mainTabOf(tab) === "mine" ? <div className="flex items-center gap-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "saved"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-zinc-400">차단한 사용자</Link></div> : null}
       </div>
 
       {tab === "popular" && <p className="px-4 pt-3 text-xs text-zinc-500">최근 7일 게시물을 좋아요 많은 순으로 보여드려요.</p>}
@@ -230,7 +255,17 @@ export function CommunityBoard({
         <div className="flex flex-col items-center gap-2 px-6 py-20 text-center">
           <Camera aria-hidden="true" size={28} className="text-zinc-300 dark:text-zinc-600" />
           <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            {initialSearch ? "검색 결과가 없어요" : tab === "mine" ? "아직 내가 쓴 글이 없어요" : "아직 글이 없어요"}
+            {initialSearch
+              ? "검색 결과가 없어요"
+              : tab === "mine"
+                ? "아직 내가 쓴 글이 없어요"
+                : tab === "saved"
+                  ? "저장한 글이 없어요. 글의 책갈피를 누르면 여기 모여요."
+                  : tab === "question_open"
+                    ? "답변을 기다리는 질문이 없어요"
+                    : tab === "question"
+                      ? "아직 질문이 없어요. 궁금한 걸 물어보세요."
+                      : "아직 글이 없어요"}
           </p>
         </div>
       ) : (
@@ -255,8 +290,8 @@ export function CommunityBoard({
       {tab !== "teaching" ? (
         <button
           type="button"
-          onClick={() => tab === "routine" ? setRoutineCompose(true) : setCompose(true)}
-          aria-label={tab === "routine" ? "루틴 추천글 쓰기" : "오운완 인증하기"}
+          onClick={() => tab === "routine" ? setRoutineCompose(true) : setCompose(mainTabOf(tab) === "question" ? "question" : "photo")}
+          aria-label={tab === "routine" ? "루틴 추천글 쓰기" : mainTabOf(tab) === "question" ? "질문하기" : "오운완 인증하기"}
           className="fixed right-4 z-20 inline-flex h-11 items-center justify-center gap-1 rounded-full bg-brand px-4 text-sm font-semibold text-white shadow-lg transition-transform active:scale-95 dark:text-zinc-950"
           style={{ bottom: "calc(5rem + env(safe-area-inset-bottom, 0px))" }}
         >
@@ -294,10 +329,11 @@ export function CommunityBoard({
         <ComposeModal
           groups={groups}
           defaultGroupId={null}
-          onClose={() => { setCompose(false); if (initialView === "compose") router.replace("/community", { scroll: false }); }}
+          initialMode={compose}
+          onClose={() => { setCompose(null); if (initialView === "compose") router.replace("/community", { scroll: false }); }}
           onDone={() => {
             window.history.replaceState({ ...window.history.state, communityFeed: null }, "");
-            setCompose(false);
+            setCompose(null);
             if (initialView === "compose") router.replace("/community", { scroll: false });
             router.refresh();
           }}
@@ -352,6 +388,7 @@ function PostCard({
   const [showVideo, setShowVideo] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [burst, setBurst] = useState(false); // 더블탭 좋아요 하트
+  const [saved, setSaved] = useState(post.savedByMe);
   // 삭제 확인·오류 안내는 앱 안에서(브라우저 confirm/alert 대신 — 커뮤니티 2단계).
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [notice, showNotice] = useNotice();
@@ -375,6 +412,22 @@ function PostCard({
   function toggleLike() {
     setLike(!liked);
   }
+  // 저장(북마크) — 누르는 즉시 바꾸고, 실패하면 되돌린다(커뮤니티 3단계).
+  function toggleSave() {
+    const next = !saved;
+    setSaved(next);
+    start(async () => {
+      const r = await toggleSaveAction(post.id);
+      if (!r.ok) {
+        setSaved(!next);
+        showNotice(r.error);
+      } else {
+        setSaved(r.saved);
+        if (next) showNotice("저장했어요. 내 글 › 저장한 글에서 볼 수 있어요.");
+      }
+    });
+  }
+  const isQuestion = post.postType === "question";
   function doubleTapLike() {
     setLike(true);
     setBurst(true);
@@ -437,7 +490,26 @@ function PostCard({
             <Video size={11} /> 티칭
           </span>
         ) : null}
+        {isQuestion ? (
+          <span
+            data-testid="question-status"
+            className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+              post.resolved ? "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400" : "bg-brand-soft text-brand"
+            }`}
+          >
+            {post.resolved ? "해결됨" : "답변 기다리는 중"}
+          </span>
+        ) : null}
       </div>
+      {post.hidden && post.isMine ? (
+        <p className="mx-3 mt-2 flex items-start gap-1.5 rounded-lg bg-amber-50 px-2.5 py-2 text-xs leading-relaxed text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+          <EyeOff aria-hidden="true" size={14} className="mt-0.5 shrink-0" />
+          신고가 여러 건 들어와 다른 사람에게는 잠시 숨겨졌어요. 관리자가 확인하고 있어요.
+        </p>
+      ) : null}
+      {isQuestion && post.title ? (
+        <p className="px-3 pt-2 text-base font-bold leading-snug text-zinc-900 dark:text-zinc-50">{post.title}</p>
+      ) : null}
 
       {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} /> : null}
       {/* 미디어 */}
@@ -489,7 +561,7 @@ function PostCard({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={post.photoUrl ?? undefined}
-            alt="오운완 인증"
+            alt={isQuestion ? "질문 사진" : "오운완 인증"}
             loading="lazy"
             onLoad={() => setImgLoaded(true)}
             className={`h-full w-full object-cover transition-opacity duration-300 ${
@@ -538,6 +610,16 @@ function PostCard({
               <MessageCircle size={20} className="text-zinc-400" />
               {post.commentCount}
             </Link>
+            <button
+              type="button"
+              onClick={toggleSave}
+              disabled={pending}
+              aria-label="저장"
+              aria-pressed={saved}
+              className="inline-flex items-center disabled:opacity-60"
+            >
+              <Bookmark size={20} className={saved ? "fill-brand text-brand" : "text-zinc-400"} />
+            </button>
           </>
         ) : (
           <span className="text-xs font-bold text-zinc-400">자세 티칭 영상</span>
@@ -575,7 +657,7 @@ function PostCard({
               isTeaching ? "" : "line-clamp-3"
             }`}
           >
-            <span className="mr-1.5 font-semibold">{post.authorName}</span>
+            {isQuestion ? null : <span className="mr-1.5 font-semibold">{post.authorName}</span>}
             {post.caption}
           </p>
         </div>
@@ -603,14 +685,20 @@ function PostCard({
 function ComposeModal({
   groups,
   defaultGroupId,
+  initialMode = "photo",
   onClose,
   onDone,
 }: {
   groups: Group[];
   defaultGroupId: string | null;
+  /** 사진 인증 / 질문(커뮤니티 3단계). 창 안에서도 바꿀 수 있다. */
+  initialMode?: "photo" | "question";
   onClose: () => void;
   onDone: () => void;
 }) {
+  const [mode, setMode] = useState<"photo" | "question">(initialMode);
+  const [title, setTitle] = useState("");
+  const isQuestion = mode === "question";
   const fileRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -640,7 +728,12 @@ function ComposeModal({
   function submit() {
     setError(null);
     if (pending) return;
-    if (!file && !workout) {
+    if (isQuestion) {
+      if (!title.trim()) {
+        setError("질문 제목을 써 주세요.");
+        return;
+      }
+    } else if (!file && !workout) {
       setError("운동 기록이나 사진을 골라주세요.");
       return;
     }
@@ -656,11 +749,12 @@ function ComposeModal({
         if (file) uploaded.current = { file, url };
         const r = await createCommunityPostAction({
           photoUrl: url,
-          workoutDate: workout?.date,
+          workoutDate: isQuestion ? undefined : workout?.date,
           submissionId: submissionId.current,
           caption,
           groupId: vis.groupId,
           visibility: vis.visibility,
+          ...(isQuestion ? { postType: "question" as const, title } : {}),
         });
         if (r.ok) onDone();
         else setError(r.error);
@@ -675,15 +769,42 @@ function ComposeModal({
 
   return (
     <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/50 sm:items-center">
-      <div role="dialog" aria-modal="true" aria-label="오운완 인증" className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
+      <div role="dialog" aria-modal="true" aria-label={isQuestion ? "질문하기" : "오운완 인증"} className="max-h-[92dvh] w-full max-w-md overflow-y-auto rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] dark:bg-zinc-900 sm:rounded-3xl sm:pb-4">
         <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-base font-semibold">오운완 인증</h2>
+          <div className="flex gap-1 rounded-full bg-zinc-100 p-1 dark:bg-white/[0.08]">
+            {(["photo", "question"] as const).map((m) => (
+              <button
+                key={m}
+                type="button"
+                aria-pressed={mode === m}
+                onClick={() => {
+                  setMode(m);
+                  setError(null);
+                  // 종류가 바뀌면 다른 글이다 — 같은 제출 번호를 다시 쓰지 않는다.
+                  submissionId.current = null;
+                }}
+                className="min-h-9 rounded-full px-3 text-sm font-semibold text-zinc-500 aria-pressed:bg-white aria-pressed:text-zinc-900 dark:aria-pressed:bg-zinc-700 dark:aria-pressed:text-zinc-50"
+              >
+                {m === "photo" ? "오운완 인증" : "질문"}
+              </button>
+            ))}
+          </div>
           <button type="button" onClick={onClose} aria-label="닫기" className="rounded-full p-1 text-zinc-400">
             <X size={20} />
           </button>
         </div>
 
-        <WorkoutRecordPicker value={workout} onChange={setWorkout} />
+        {isQuestion ? (
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value.slice(0, MAX_QUESTION_TITLE))}
+            aria-label="질문 제목"
+            placeholder="질문 제목 (예: 스쿼트할 때 무릎이 아파요)"
+            className={`${field} mb-2 mt-0 font-semibold`}
+          />
+        ) : (
+          <WorkoutRecordPicker value={workout} onChange={setWorkout} />
+        )}
         {/* 사진 */}
         <input
           ref={fileRef}
@@ -712,9 +833,10 @@ function ComposeModal({
         {/* 한마디 */}
         <textarea
           value={caption}
-          onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
-          rows={2}
-          placeholder="오늘 운동 한마디 (선택)"
+          onChange={(e) => setCaption(e.target.value.slice(0, isQuestion ? MAX_QUESTION_BODY : MAX_CAPTION))}
+          rows={isQuestion ? 5 : 2}
+          aria-label={isQuestion ? "질문 내용" : "한마디"}
+          placeholder={isQuestion ? "자세한 상황을 적어 주세요 (선택)" : "오늘 운동 한마디 (선택)"}
           className={`${field} resize-none`}
         />
 
@@ -775,6 +897,8 @@ function ComposeModal({
             <>
               <Loader2 size={18} className="animate-spin" /> 올리는 중…
             </>
+          ) : isQuestion ? (
+            "질문 올리기"
           ) : (
             "인증 올리기"
           )}

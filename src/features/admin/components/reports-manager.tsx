@@ -72,6 +72,14 @@ export function ReportsManager({ reports }: { reports: ReportRow[] }) {
               <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs font-bold text-white dark:bg-zinc-200 dark:text-zinc-900">
                 {reportKindLabel(r.targetKind)}
               </span>
+              {r.autoHidden ? (
+                <span
+                  title="서로 다른 3명이 신고해 다른 사람에게 숨겨졌어요. 처리완료하면 다시 보입니다."
+                  className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800 dark:bg-amber-950/40 dark:text-amber-300"
+                >
+                  자동 숨김
+                </span>
+              ) : null}
               {r.targetAuthor ? (
                 <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">
                   작성자: {r.targetAuthor}

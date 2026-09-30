@@ -35,6 +35,7 @@ import {
   purgeOldSends,
 } from "@/features/notifications/sent-log";
 import { purgeOldAppEvents } from "@/features/observability/purge";
+import { runLikeDigest } from "@/features/community/community-notify.server";
 import {
   filterByPreference,
   seoulHour,
@@ -216,6 +217,19 @@ export async function GET(req: Request) {
       ...balance.targets.filter((_, i) => balanceResults[i]),
     ];
     await markSent(admin, delivered);
+
+    // 커뮤니티 좋아요 하루 묶음(커뮤니티 3단계) — 앱 안 알림은 모두에게, 푸시는 오늘 리마인더를
+    // 안 받는 사람만. 실패해도 리마인더 결과는 그대로 남긴다.
+    let likeDigest: { created: number; pushed: number } | { error: string };
+    try {
+      likeDigest = await runLikeDigest(
+        admin,
+        new Set([...targets, ...balance.targets].map((t) => t.userId)),
+        hour,
+      );
+    } catch (err) {
+      likeDigest = { error: failureReason(err) };
+    }
     await purgeOldSends(admin);
     // 실사용 오류 기록도 같은 자리에서 보존기간을 넘긴 것만 정리한다(로드맵 1.3).
     await purgeOldAppEvents(admin);
@@ -238,6 +252,7 @@ export async function GET(req: Request) {
         failed,
         reason: firstFailure ?? undefined,
         skipped: rows.length - delivered.length,
+        likeDigest,
       },
     };
   });

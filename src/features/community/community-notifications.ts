@@ -1,0 +1,48 @@
+/**
+ * 커뮤니티 앱 안 알림 — 순수 로직(커뮤니티 3단계, 2026-09-30).
+ * 알림 행(community_notifications) → 한 줄 문구 + 누르면 갈 곳. 푸시 문구도 여기서 만든다(앱 안과 같은 말).
+ */
+
+export type CommunityNotificationKind = "comment" | "teaching_comment" | "likes";
+
+export type CommunityNotification = {
+  id: string;
+  kind: CommunityNotificationKind;
+  actorName: string | null;
+  postId: string | null;
+  teachingPostId: string | null;
+  preview: string | null;
+  likeCount: number | null;
+  createdAt: string;
+  read: boolean;
+};
+
+/** 누르면 갈 곳 — 피드 글은 상세, 운동 영상은 영상 한 편 화면. */
+export function notificationHref(n: Pick<CommunityNotification, "postId" | "teachingPostId">): string {
+  if (n.postId) return `/community/${n.postId}`;
+  if (n.teachingPostId) return `/community/reel/${n.teachingPostId}`;
+  return "/community";
+}
+
+/** 한 줄 문구. 이름이 없으면 '누군가'. */
+export function notificationText(
+  n: Pick<CommunityNotification, "kind" | "actorName" | "preview" | "likeCount">,
+): { title: string; body: string } {
+  const who = n.actorName?.trim() || "누군가";
+  switch (n.kind) {
+    case "comment":
+      return { title: `${who}님이 내 글에 댓글을 남겼어요`, body: n.preview ?? "" };
+    case "teaching_comment":
+      return { title: `${who}님이 내 운동 영상에 댓글을 남겼어요`, body: n.preview ?? "" };
+    case "likes": {
+      const c = Math.max(0, n.likeCount ?? 0);
+      return { title: `오늘 좋아요 ${c}개를 받았어요`, body: "어떤 글인지 확인해 보세요." };
+    }
+  }
+}
+
+/** 알림 목록 뱃지 — 99 넘으면 '99+'. 0 이면 안 보인다(null). */
+export function unreadBadge(count: number): string | null {
+  if (!Number.isFinite(count) || count <= 0) return null;
+  return count > 99 ? "99+" : String(Math.floor(count));
+}

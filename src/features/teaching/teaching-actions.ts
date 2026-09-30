@@ -1,6 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
+import { pushCommentNotification } from "@/features/community/community-notify.server";
 
 import {
   createSupabaseServerClient,
@@ -186,13 +188,20 @@ export async function addTeachingCommentAction(
     null,
   );
 
-  const { error } = await supabase.from("teaching_comments").insert({
-    post_id: postId,
-    user_id: user.id,
-    author_name: authorName,
-    body: text,
-  });
+  const { data: created, error } = await supabase
+    .from("teaching_comments")
+    .insert({
+      post_id: postId,
+      user_id: user.id,
+      author_name: authorName,
+      body: text,
+    })
+    .select("id")
+    .single();
   if (error) return { ok: false, error: error.message };
+  // 영상 올린 사람에게 푸시(커뮤니티 3단계) — 응답은 기다리지 않는다.
+  const commentId = (created as { id: string }).id;
+  after(() => pushCommentNotification("teaching_comment", commentId));
   revalidatePath("/community");
   return { ok: true };
 }

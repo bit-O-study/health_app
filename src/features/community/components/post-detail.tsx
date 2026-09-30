@@ -4,6 +4,9 @@ import { WorkoutShareCard } from "./workout-share-card";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
+  Bookmark,
+  CheckCircle2,
+  EyeOff,
   Heart,
   Loader2,
   MessageCircle,
@@ -14,7 +17,7 @@ import {
 
 import { PageHeader } from "@/components/page-header";
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
-import { relativeTime, MAX_CAPTION } from "../community";
+import { relativeTime, captionLimit, MAX_QUESTION_TITLE } from "../community";
 import type { CommunityComment, CommunityPost } from "../data-access";
 import { ReportButton } from "./report-button";
 import { Notice, useNotice } from "./notice";
@@ -25,7 +28,9 @@ import {
   deleteCommunityPostAction,
   editCommunityPostAction,
   listCommentsAction,
+  setQuestionResolvedAction,
   toggleLikeAction,
+  toggleSaveAction,
 } from "../community-actions";
 
 /**
@@ -62,6 +67,32 @@ export function PostDetail({
   const [editing, setEditing] = useState(false);
   const [caption, setCaption] = useState(post.caption ?? "");
   const [menuOpen, setMenuOpen] = useState(false);
+  // 커뮤니티 3단계 — 질문 글(제목·해결됨)과 저장.
+  const isQuestion = post.postType === "question";
+  const [editTitle, setEditTitle] = useState(post.title ?? "");
+  const [resolved, setResolved] = useState(post.resolved);
+  const [saved, setSaved] = useState(post.savedByMe);
+
+  function toggleSave() {
+    const next = !saved;
+    setSaved(next);
+    start(async () => {
+      const r = await toggleSaveAction(post.id);
+      if (!r.ok) {
+        setSaved(!next);
+        showNotice(r.error);
+      } else setSaved(r.saved);
+    });
+  }
+
+  function toggleResolved() {
+    const next = !resolved;
+    start(async () => {
+      const r = await setQuestionResolvedAction(post.id, next);
+      if (r.ok) setResolved(next);
+      else showNotice(r.error);
+    });
+  }
 
   const when = relativeTime(new Date(post.createdAt).getTime(), now);
 
@@ -123,7 +154,7 @@ export function PostDetail({
 
   function saveCaption() {
     start(async () => {
-      const r = await editCommunityPostAction(post.id, caption);
+      const r = await editCommunityPostAction(post.id, caption, isQuestion ? editTitle : undefined);
       if (r.ok) {
         setEditing(false);
         router.refresh();
@@ -144,7 +175,7 @@ export function PostDetail({
 
   return (
     <div className="app-page">
-      <PageHeader title="게시물" back="커뮤니티">
+      <PageHeader title={isQuestion ? "질문" : "게시물"} back="커뮤니티">
         {canManage || !post.isMine ? (
           <div className="relative">
             <button
@@ -197,6 +228,7 @@ export function PostDetail({
                     <div>
                       <ReportButton
                         onClose={() => setMenuOpen(false)}
+                        leaveOnBlock={() => router.replace("/community")}
                         targetKind="community_post"
                         targetId={post.id}
                         targetUserId={post.userId}
@@ -236,13 +268,56 @@ export function PostDetail({
         ) : null}
       </div>
 
+      {post.hidden && post.isMine ? (
+        <p className="mb-3 flex items-start gap-1.5 rounded-lg bg-amber-50 px-2.5 py-2 text-xs leading-relaxed text-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
+          <EyeOff aria-hidden="true" size={14} className="mt-0.5 shrink-0" />
+          신고가 여러 건 들어와 다른 사람에게는 잠시 숨겨졌어요. 관리자가 확인하고 있어요.
+        </p>
+      ) : null}
+
+      {/* 질문: 제목 + 해결 상태(작성자는 여기서 해결됨 표시) */}
+      {isQuestion && !editing ? (
+        <div className="mb-2">
+          <h2 className="text-lg font-bold leading-snug">{post.title}</h2>
+          <div className="mt-1 flex items-center gap-2">
+            <span
+              data-testid="question-status"
+              className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                resolved ? "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400" : "bg-brand-soft text-brand"
+              }`}
+            >
+              {resolved ? "해결됨" : "답변 기다리는 중"}
+            </span>
+            {post.isMine ? (
+              <button
+                type="button"
+                onClick={toggleResolved}
+                disabled={pending}
+                className="inline-flex min-h-9 items-center gap-1 text-xs font-semibold text-brand disabled:opacity-60"
+              >
+                <CheckCircle2 aria-hidden="true" size={14} />
+                {resolved ? "해결 취소" : "해결됨으로 표시"}
+              </button>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+
       {/* 바로 밑: 글 내용 */}
       {editing ? (
         <div className="mb-3">
+          {isQuestion ? (
+            <input
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value.slice(0, MAX_QUESTION_TITLE))}
+              aria-label="질문 제목"
+              className="mb-2 h-11 w-full rounded-[10px] bg-zinc-100 px-3 text-base font-semibold outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
+            />
+          ) : null}
           <textarea
             value={caption}
-            onChange={(e) => setCaption(e.target.value.slice(0, MAX_CAPTION))}
-            rows={2}
+            onChange={(e) => setCaption(e.target.value.slice(0, captionLimit(post.postType)))}
+            rows={isQuestion ? 5 : 2}
             className="w-full resize-none rounded-[10px] bg-zinc-100 p-3 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
           />
           <div className="mt-1 flex justify-end gap-2">
@@ -251,6 +326,7 @@ export function PostDetail({
               onClick={() => {
                 setEditing(false);
                 setCaption(post.caption ?? "");
+                setEditTitle(post.title ?? "");
               }}
               className="rounded-lg px-3 py-1 text-sm font-semibold text-zinc-500"
             >
@@ -278,7 +354,7 @@ export function PostDetail({
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={post.photoUrl}
-        alt="오운완 인증"
+        alt={isQuestion ? "질문 사진" : "오운완 인증"}
         className="w-full rounded-[14px] bg-zinc-100 object-cover dark:bg-zinc-800"
       />
 
@@ -303,6 +379,16 @@ export function PostDetail({
           <MessageCircle size={20} className="text-zinc-400" />
           {commentCount}
         </span>
+        <button
+          type="button"
+          onClick={toggleSave}
+          disabled={pending}
+          aria-label="저장"
+          aria-pressed={saved}
+          className="ml-auto inline-flex items-center disabled:opacity-60"
+        >
+          <Bookmark size={20} className={saved ? "fill-brand text-brand" : "text-zinc-400"} />
+        </button>
       </div>
 
       {/* 댓글 — 최신 50개부터, 위에 '이전 댓글 더 보기'. */}
@@ -320,7 +406,7 @@ export function PostDetail({
         ) : null}
         {comments.length === 0 ? (
           <p className="py-3 text-center text-sm text-zinc-400">
-            아직 댓글이 없어요
+            {isQuestion ? "아직 답변이 없어요. 아는 걸 알려 주세요." : "아직 댓글이 없어요"}
           </p>
         ) : (
           comments.map((c) => (
@@ -356,6 +442,8 @@ export function PostDetail({
               ) : (
                 <ReportButton
                   className="shrink-0 text-zinc-300 hover:text-danger"
+                  // 댓글 쓴 사람을 막으면 그 사람 댓글이 빠진 목록으로 다시 읽는다.
+                  onBlocked={() => start(async () => { await reloadComments(); })}
                   targetKind="community_comment"
                   targetId={c.id}
                   targetUserId={c.userId}
@@ -377,7 +465,7 @@ export function PostDetail({
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.nativeEvent.isComposing) addComment();
           }}
-          placeholder="댓글 달기…"
+          placeholder={isQuestion ? "답변 달기…" : "댓글 달기…"}
           className="h-10 min-w-0 flex-1 rounded-full bg-zinc-100 px-4 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
         />
         <button

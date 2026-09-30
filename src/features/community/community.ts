@@ -53,3 +53,28 @@ export function communityPhotoPath(url: string | null | undefined, ownerId: stri
   if (!path.startsWith(`${ownerId}/`) || path.includes("..")) return null;
   return path;
 }
+
+/**
+ * 질문 글(커뮤니티 3단계) — 사진 없이 제목 + 본문. DB 제약(community_posts_title_check·caption_check)과 같은 한도.
+ */
+export const MAX_QUESTION_TITLE = 60;
+export const MAX_QUESTION_BODY = 1000;
+
+export function validateQuestionInput(input: {
+  title: string;
+  body: string;
+}): { ok: true; title: string; body: string | null } | { ok: false; error: string } {
+  const title = (input.title ?? "").trim();
+  const body = (input.body ?? "").trim();
+  if (!title) return { ok: false, error: "질문 제목을 써 주세요." };
+  if (title.length > MAX_QUESTION_TITLE)
+    return { ok: false, error: `제목은 ${MAX_QUESTION_TITLE}자까지 쓸 수 있어요.` };
+  if (body.length > MAX_QUESTION_BODY)
+    return { ok: false, error: `본문은 ${MAX_QUESTION_BODY}자까지 쓸 수 있어요.` };
+  return { ok: true, title, body: body || null };
+}
+
+/** 글 종류별 본문 한도 — 수정 화면·수정 액션이 같이 쓴다. */
+export function captionLimit(postType: "photo" | "question"): number {
+  return postType === "question" ? MAX_QUESTION_BODY : MAX_CAPTION;
+}

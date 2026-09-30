@@ -7,6 +7,7 @@ import {
   MessageCircle,
   Search,
   Send,
+  Share2,
   Trash2,
   Video,
   Volume2,
@@ -20,6 +21,7 @@ import type { FeedPost } from "../data-access";
 import { ReportButton } from "./report-button";
 import { Notice, useNotice } from "./notice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
+import { absoluteUrl, shareLink } from "../share-link";
 import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
 import {
   addTeachingCommentAction,
@@ -186,6 +188,17 @@ function ReelSlide({
     });
   }
 
+  // 한 편 공유(커뮤니티 3단계) — 링크를 받은 사람은 /community/reel/<id> 에서 이 영상만 본다.
+  async function share() {
+    const r = await shareLink({
+      title: "짐꾼 운동 영상",
+      text: post.exerciseTag ? `#${post.exerciseTag} 운동 영상` : "운동 영상",
+      url: absoluteUrl(`/community/reel/${post.id}`),
+    });
+    if (r === "copied") showNotice("링크를 복사했어요.");
+    else if (r === "failed") showNotice("링크를 복사하지 못했어요.");
+  }
+
   if (gone) return null;
   const when = relativeTime(new Date(post.createdAt).getTime(), now);
 
@@ -282,6 +295,15 @@ function ReelSlide({
           className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
         >
           {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+
+        <button
+          type="button"
+          onClick={share}
+          aria-label="공유"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
+        >
+          <Share2 size={18} />
         </button>
 
         {!post.isMine ? (
@@ -453,6 +475,13 @@ function CommentSheet({
                   ) : (
                     <ReportButton
                       className="text-zinc-300 hover:text-rose-500"
+                      onBlocked={() =>
+                        start(async () => {
+                          const rows = await listTeachingCommentsAction(postId);
+                          setList(rows);
+                          onCountChange(rows.length);
+                        })
+                      }
                       targetKind="teaching_comment"
                       targetId={c.id}
                       targetUserId={c.userId}

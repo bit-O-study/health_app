@@ -36,7 +36,19 @@ export type FeedPost = {
   videoUrl: string | null;
   exerciseTag: string | null;
   exerciseSlug: string | null;
+  /** 사진 인증 / 질문 글(커뮤니티 3단계). 티칭 영상은 "photo" 로 둔다. */
+  postType: PostType;
+  /** 질문 제목. */
+  title: string | null;
+  /** 질문 해결됨. */
+  resolved: boolean;
+  /** 내가 저장했나(피드 글만). */
+  savedByMe: boolean;
+  /** 신고가 쌓여 다른 사람에게 숨겨짐(내 글·관리자에게만 이 상태로 보인다). */
+  hidden: boolean;
 };
+
+export type PostType = "photo" | "question";
 
 export type CommunityPost = {
   id: string;
@@ -52,6 +64,11 @@ export type CommunityPost = {
   likeCount: number;
   commentCount: number;
   likedByMe: boolean;
+  postType: PostType;
+  title: string | null;
+  resolved: boolean;
+  savedByMe: boolean;
+  hidden: boolean;
 };
 
 /** 댓글 한 페이지 — 최신 것부터 이만큼(화면은 오래된 순). */
@@ -78,7 +95,13 @@ type Row = {
   workout_snapshot?: unknown;
   caption: string | null;
   created_at: string;
+  post_type?: string | null;
+  title?: string | null;
+  resolved_at?: string | null;
+  hidden_at?: string | null;
 };
+
+const asPostType = (v: string | null | undefined): PostType => (v === "question" ? "question" : "photo");
 
 type TeachingRow = {
   id: string;
@@ -91,6 +114,7 @@ type TeachingRow = {
   video_url: string;
   caption: string | null;
   created_at: string;
+  hidden_at?: string | null;
 };
 
 const asVisibility = (v: string | null, groupId: string | null): Visibility => {
@@ -107,8 +131,8 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
   if (!user) return [];
   const supabase = await createSupabaseServerClient();
 
-  let photosQuery = supabase.from("community_posts").select("id, user_id, group_id, visibility, author_name, photo_url, workout_snapshot, caption, created_at").order("created_at", { ascending: false }).limit(limit);
-  let teachingQuery = supabase.from("teaching_posts").select("id, user_id, group_id, visibility, author_name, exercise_slug, exercise_tag, video_url, caption, created_at").order("created_at", { ascending: false }).limit(limit);
+  let photosQuery = supabase.from("community_posts").select("id, user_id, group_id, visibility, author_name, photo_url, workout_snapshot, caption, created_at, post_type, title, resolved_at, hidden_at").order("created_at", { ascending: false }).limit(limit);
+  let teachingQuery = supabase.from("teaching_posts").select("id, user_id, group_id, visibility, author_name, exercise_slug, exercise_tag, video_url, caption, created_at, hidden_at").order("created_at", { ascending: false }).limit(limit);
   if (selection) {
     photosQuery = photosQuery.in("id", selection.filter(r => r.kind === "photo").map(r => r.id));
     teachingQuery = teachingQuery.in("id", selection.filter(r => r.kind === "teaching").map(r => r.id));
@@ -144,7 +168,7 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
   const photoIds = cRows.map((r) => r.id);
   const teachIds = tRows.map((r) => r.id);
 
-  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }] =
+  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }, { data: mySaves }] =
     await Promise.all([
       groupIds.length > 0
         ? supabase.from("groups").select("id, name").in("id", groupIds)
@@ -165,7 +189,11 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
               liked_by_me: boolean;
             }[],
           }),
+      photoIds.length > 0
+        ? supabase.from("community_saves").select("post_id").eq("user_id", user.id).in("post_id", photoIds)
+        : Promise.resolve({ data: [] as { post_id: string }[] }),
     ]);
+  const savedByMe = new Set<string>(((mySaves ?? []) as { post_id: string }[]).map((s) => s.post_id));
 
   const groupNameById = new Map<string, string>();
   for (const g of (grps ?? []) as { id: string; name: string }[]) groupNameById.set(g.id, g.name);
@@ -213,6 +241,11 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
     videoUrl: null,
     exerciseTag: null,
     exerciseSlug: null,
+    postType: asPostType(r.post_type),
+    title: r.title ?? null,
+    resolved: !!r.resolved_at,
+    savedByMe: savedByMe.has(r.id),
+    hidden: !!r.hidden_at,
   }));
 
   const teachings: FeedPost[] = tRows.map((r) => ({
@@ -233,6 +266,11 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
     videoUrl: r.video_url,
     exerciseTag: r.exercise_tag,
     exerciseSlug: r.exercise_slug,
+    postType: "photo",
+    title: null,
+    resolved: false,
+    savedByMe: false,
+    hidden: !!r.hidden_at,
   }));
 
   return mergeByCreatedAt(photos, teachings).slice(0, limit);
@@ -248,7 +286,7 @@ export async function getCommunityPostDetail(
 
   const { data } = await supabase
     .from("community_posts")
-    .select("id, user_id, group_id, author_name, photo_url, workout_snapshot, caption, created_at")
+    .select("id, user_id, group_id, author_name, photo_url, workout_snapshot, caption, created_at, post_type, title, resolved_at, hidden_at")
     .eq("id", id)
     .maybeSingle();
   if (!data) return null;
@@ -267,12 +305,13 @@ export async function getCommunityPostDetail(
   // ⚡ 좋아요는 **개수만** — 예전엔 개수를 세려고 좋아요 행을 전부 읽었다(인기 글일수록 느려짐).
   //   피드와 같은 집계 RPC + '내가 눌렀나' 한 행.
   const isMine = r.user_id === user.id;
-  const [{ data: counts }, { data: myLike }, { data: myProf }] = await Promise.all([
+  const [{ data: counts }, { data: myLike }, { data: myProf }, { data: mySave }] = await Promise.all([
     supabase.rpc("community_post_counts", { pids: [id] }),
     supabase.from("community_likes").select("post_id").eq("post_id", id).eq("user_id", user.id).maybeSingle(),
     isMine
       ? supabase.from("profiles").select("name, nickname").eq("user_id", user.id).maybeSingle()
       : Promise.resolve({ data: null }),
+    supabase.from("community_saves").select("post_id").eq("post_id", id).eq("user_id", user.id).maybeSingle(),
   ]);
   const count = ((counts ?? []) as { like_count: number; comment_count: number }[])[0];
 
@@ -297,6 +336,11 @@ export async function getCommunityPostDetail(
     likeCount: count?.like_count ?? 0,
     commentCount: count?.comment_count ?? 0,
     likedByMe: !!myLike,
+    postType: asPostType(r.post_type),
+    title: r.title ?? null,
+    resolved: !!r.resolved_at,
+    savedByMe: !!mySave,
+    hidden: !!r.hidden_at,
   };
 }
 
@@ -333,4 +377,32 @@ export async function getPostComments(
     isMine: c.user_id === user.id,
   }));
   return pageComments(rows, COMMENT_PAGE);
+}
+
+const UUID_RE = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
+
+/** 운동 영상 한 편(공유 링크 화면). 볼 수 없으면(범위·숨김·차단·삭제) null. */
+export async function getTeachingPost(id: string): Promise<FeedPost | null> {
+  if (!UUID_RE.test(id)) return null;
+  const posts = await getUnifiedFeed(1, [{ id, kind: "teaching", created_at: "", score: 0 }]);
+  return posts[0] ?? null;
+}
+
+export type BlockedUser = { userId: string; name: string; blockedAt: string };
+
+/** 내가 차단한 사람들(최근 순). */
+export async function getMyBlockedUsers(): Promise<BlockedUser[]> {
+  const user = await getCurrentUser();
+  if (!user) return [];
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase
+    .from("user_blocks")
+    .select("blocked_id, blocked_name, created_at")
+    .eq("blocker_id", user.id)
+    .order("created_at", { ascending: false });
+  return ((data ?? []) as { blocked_id: string; blocked_name: string | null; created_at: string }[]).map((r) => ({
+    userId: r.blocked_id,
+    name: r.blocked_name?.trim() || "회원",
+    blockedAt: r.created_at,
+  }));
 }

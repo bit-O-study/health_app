@@ -98,3 +98,39 @@ export async function reportContentAction(input: {
   revalidatePath("/admin/reports");
   return { ok: true };
 }
+
+/**
+ * 신고 창의 '이 사람 차단' — 대상(글·댓글·영상·루틴)의 작성자를 서버가 원본에서 찾아 막는다(커뮤니티 3단계).
+ * 앱이 보낸 사용자 id 를 믿지 않는 건 신고와 같은 이유.
+ */
+export async function blockAuthorAction(input: {
+  targetKind: ReportTargetKind;
+  targetId: string;
+}): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const source = TARGET_SOURCE[input.targetKind];
+  if (!source || !input.targetId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { data: row } = await supabase.from(source.table).select("user_id").eq("id", input.targetId).maybeSingle();
+  const authorId = (row as { user_id?: string } | null)?.user_id;
+  if (!authorId) return { ok: false, error: "삭제되었거나 볼 수 없는 게시물이에요." };
+  if (authorId === user.id) return { ok: false, error: "나를 차단할 수는 없어요." };
+  const { error } = await supabase.from("user_blocks").insert({ blocker_id: user.id, blocked_id: authorId });
+  if (error && error.code !== "23505") return { ok: false, error: error.message };
+  // ⚠ 여기서 화면을 다시 그리게(revalidate) 하지 않는다 — 상세 화면에서 막으면 그 글이 바로
+  //   '찾을 수 없음' 으로 바뀌어 "차단했어요" 안내도 못 보고 막다른 화면에 선다. 화면 쪽이 안내 뒤 이동·새로고침한다.
+  return { ok: true };
+}
+
+/** 차단 풀기. */
+export async function unblockUserAction(blockedId: string): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!blockedId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.from("user_blocks").delete().eq("blocker_id", user.id).eq("blocked_id", blockedId);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/community");
+  return { ok: true };
+}

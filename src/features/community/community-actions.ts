@@ -2,6 +2,7 @@
 
 import { getShareableWorkout } from "./workout-share-actions";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 
 import {
   createSupabaseServerClient,
@@ -13,9 +14,12 @@ import {
   MAX_CAPTION,
   POST_RATE_LIMIT,
   POST_RATE_WINDOW_MS,
+  captionLimit,
   communityPhotoPath,
   validatePostInput,
+  validateQuestionInput,
 } from "./community";
+import { pushCommentNotification } from "./community-notify.server";
 import { resolveVisibility, type Visibility } from "./feed";
 import { getPostComments, type CommentPage } from "./data-access";
 
@@ -32,6 +36,9 @@ export async function createCommunityPostAction(input: {
   visibility?: Visibility;
   workoutDate?: string;
   submissionId?: string;
+  /** 질문 글(커뮤니티 3단계) — 제목 + 본문(caption), 사진은 선택, 운동 기록 카드는 없음. */
+  postType?: "photo" | "question";
+  title?: string;
 }): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
@@ -42,14 +49,24 @@ export async function createCommunityPostAction(input: {
     const { data: existing } = await supabase.from("community_posts").select("id").eq("id", input.submissionId).eq("user_id", user.id).maybeSingle();
     if (existing) { revalidatePath("/community"); return { ok: true, id: existing.id }; }
   }
-  const snapshot = input.workoutDate ? await getShareableWorkout(input.workoutDate) : null;
-  if (input.workoutDate && !snapshot) return { ok: false, error: "공유할 완료 기록이 없어요." };
-  const check = validatePostInput({
-    photoUrl: input.photoUrl,
-    caption: input.caption,
-    hasWorkout: !!snapshot,
-  });
-  if (!check.ok) return check;
+  const isQuestion = input.postType === "question";
+  const snapshot = !isQuestion && input.workoutDate ? await getShareableWorkout(input.workoutDate) : null;
+  if (!isQuestion && input.workoutDate && !snapshot) return { ok: false, error: "공유할 완료 기록이 없어요." };
+  let question: { title: string; body: string | null } | null = null;
+  if (isQuestion) {
+    const q = validateQuestionInput({ title: input.title ?? "", body: input.caption });
+    if (!q.ok) return q;
+    question = q;
+    const url = input.photoUrl?.trim() ?? "";
+    if (url && !/^https?:\/\//.test(url)) return { ok: false, error: "사진 주소가 올바르지 않습니다." };
+  } else {
+    const check = validatePostInput({
+      photoUrl: input.photoUrl,
+      caption: input.caption,
+      hasWorkout: !!snapshot,
+    });
+    if (!check.ok) return check;
+  }
 
   const vis = resolveVisibility(input.visibility, input.groupId);
   if (!vis.ok) return vis;
@@ -67,7 +84,7 @@ export async function createCommunityPostAction(input: {
     null,
   );
 
-  const caption = input.caption.trim();
+  const caption = question ? (question.body ?? "") : input.caption.trim();
 
   // 🔴 운동 기록 카드는 서버(서비스 롤)만 붙일 수 있다 — DB 지킴이(community_post_guard)가
   //    사용자 권한으로 온 카드를 거절한다. 그래야 앱을 거치지 않고 '하지도 않은 운동 완료' 카드를
@@ -109,6 +126,7 @@ export async function createCommunityPostAction(input: {
       author_name: authorName,
       photo_url: input.photoUrl.trim() || null,
       caption: caption.length > 0 ? caption : null,
+      ...(question ? { post_type: "question", title: question.title } : {}),
     })
     .select("id")
     .single();
@@ -157,18 +175,33 @@ export async function deleteCommunityPostAction(id: string): Promise<ActionResul
 export async function editCommunityPostAction(
   id: string,
   caption: string,
+  /** 질문 글이면 제목도 고칠 수 있다. */
+  title?: string,
 ): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   if (!id) return { ok: false, error: "잘못된 요청입니다." };
   const text = (caption ?? "").trim();
-  if (text.length > MAX_CAPTION)
-    return { ok: false, error: `한마디는 ${MAX_CAPTION}자까지 쓸 수 있어요.` };
 
   const supabase = await createSupabaseServerClient();
+  const { data: cur } = await supabase.from("community_posts").select("post_type").eq("id", id).maybeSingle();
+  const isQuestion = (cur as { post_type?: string } | null)?.post_type === "question";
+  let patch: { caption: string | null; title?: string } = { caption: text.length > 0 ? text : null };
+  if (isQuestion) {
+    if (text.length > captionLimit("question")) {
+      return { ok: false, error: `본문은 ${captionLimit("question")}자까지 쓸 수 있어요.` };
+    }
+    if (title !== undefined) {
+      const q = validateQuestionInput({ title, body: text });
+      if (!q.ok) return q;
+      patch = { caption: q.body, title: q.title };
+    }
+  } else if (text.length > MAX_CAPTION) {
+    return { ok: false, error: `한마디는 ${MAX_CAPTION}자까지 쓸 수 있어요.` };
+  }
   const { error } = await supabase
     .from("community_posts")
-    .update({ caption: text.length > 0 ? text : null })
+    .update(patch)
     .eq("id", id);
 
   if (error) return { ok: false, error: error.message };
@@ -235,13 +268,20 @@ export async function addCommentAction(
     null,
   );
 
-  const { error } = await supabase.from("community_comments").insert({
-    post_id: postId,
-    user_id: user.id,
-    author_name: authorName,
-    body: text,
-  });
+  const { data: created, error } = await supabase
+    .from("community_comments")
+    .insert({
+      post_id: postId,
+      user_id: user.id,
+      author_name: authorName,
+      body: text,
+    })
+    .select("id")
+    .single();
   if (error) return { ok: false, error: error.message };
+  // 글쓴이에게 푸시 — 응답을 기다리게 하지 않는다(앱 안 알림은 DB 트리거가 이미 만들었다).
+  const commentId = (created as { id: string }).id;
+  after(() => pushCommentNotification("comment", commentId));
   revalidatePath("/community");
   return { ok: true };
 }
@@ -267,5 +307,59 @@ export async function deleteCommentAction(id: string): Promise<ActionResult> {
     .eq("user_id", user.id);
   if (error) return { ok: false, error: error.message };
   revalidatePath("/community");
+  return { ok: true };
+}
+
+/** 저장(북마크) 토글 — 피드 글만. 남의 저장 목록은 RLS 로 막힌다. */
+export async function toggleSaveAction(
+  postId: string,
+): Promise<{ ok: true; saved: boolean } | { ok: false; error: string }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!postId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { data: existing } = await supabase
+    .from("community_saves")
+    .select("post_id")
+    .eq("post_id", postId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (existing) {
+    const { error } = await supabase.from("community_saves").delete().eq("post_id", postId).eq("user_id", user.id);
+    if (error) return { ok: false, error: error.message };
+    return { ok: true, saved: false };
+  }
+  const { error } = await supabase.from("community_saves").insert({ post_id: postId, user_id: user.id });
+  if (error?.code === "23505") return { ok: true, saved: true };
+  if (error) return { ok: false, error: "저장할 수 없는 글이에요." };
+  return { ok: true, saved: true };
+}
+
+/** 질문 해결됨 표시/취소 — 작성자만(RLS: 본인 글 수정). */
+export async function setQuestionResolvedAction(postId: string, resolved: boolean): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!postId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("community_posts")
+    .update({ resolved_at: resolved ? new Date().toISOString() : null })
+    .eq("id", postId)
+    .eq("user_id", user.id)
+    .eq("post_type", "question")
+    .select("id");
+  if (error) return { ok: false, error: error.message };
+  if (!data || data.length === 0) return { ok: false, error: "내 질문만 바꿀 수 있어요." };
+  revalidatePath("/community");
+  return { ok: true };
+}
+
+/** 알림 읽음 표시 — ids 가 없으면 전부. */
+export async function markCommunityNotificationsReadAction(ids?: string[]): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  const supabase = await createSupabaseServerClient();
+  const { error } = await supabase.rpc("mark_community_notifications_read", { ids: ids && ids.length ? ids : null });
+  if (error) return { ok: false, error: error.message };
   return { ok: true };
 }

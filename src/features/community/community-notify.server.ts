@@ -39,13 +39,14 @@ type Row = {
   actor_name: string | null;
   post_id: string | null;
   teaching_post_id: string | null;
+  source_id?: string | null;
   preview: string | null;
   like_count: number | null;
   created_at: string;
   read_at: string | null;
 };
 
-const COLUMNS = "id, user_id, kind, actor_name, post_id, teaching_post_id, preview, like_count, created_at, read_at";
+const COLUMNS = "id, user_id, kind, actor_name, post_id, teaching_post_id, source_id, preview, like_count, created_at, read_at";
 
 function toNotification(r: Row): CommunityNotification {
   return {
@@ -54,6 +55,7 @@ function toNotification(r: Row): CommunityNotification {
     actorName: r.actor_name,
     postId: r.post_id,
     teachingPostId: r.teaching_post_id,
+    sourceId: r.source_id ?? null,
     preview: r.preview,
     likeCount: r.like_count,
     createdAt: r.created_at,

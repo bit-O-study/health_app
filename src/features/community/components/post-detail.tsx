@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkoutShareCard } from "./workout-share-card";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   Bookmark,
@@ -21,6 +21,7 @@ import { relativeTime, captionLimit, MAX_QUESTION_TITLE } from "../community";
 import type { CommunityComment, CommunityPost } from "../data-access";
 import { ReportButton } from "./report-button";
 import { Notice, useNotice } from "./notice";
+import { commentAnchor, commentIdFromHash } from "../community-notifications";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import {
   addCommentAction,
@@ -67,6 +68,40 @@ export function PostDetail({
   const [editing, setEditing] = useState(false);
   const [caption, setCaption] = useState(post.caption ?? "");
   const [menuOpen, setMenuOpen] = useState(false);
+  // 알림에서 온 댓글(#c-<id>) — 그 댓글까지 가서 잠깐 노랗게(커뮤니티 4-1).
+  const [highlight, setHighlight] = useState<string | null>(null);
+  useEffect(() => {
+    const target = commentIdFromHash(window.location.hash);
+    if (!target) return;
+    let alive = true;
+    (async () => {
+      // 댓글은 최신 50개부터라 오래된 댓글이면 찾을 때까지 이전 페이지를 이어 읽는다(최대 5번).
+      let list = initialComments;
+      let more = initialHasMore;
+      for (let i = 0; i < 5 && more && !list.some((c) => c.id === target); i++) {
+        const page = await listCommentsAction(post.id, list[0]?.createdAt);
+        list = [...page.comments, ...list];
+        more = page.hasMore;
+      }
+      if (!alive) return;
+      setComments(list);
+      setHasMore(more);
+      if (list.some((c) => c.id === target)) setHighlight(target);
+      else showNotice("댓글이 지워졌어요.");
+    })();
+    return () => {
+      alive = false;
+    };
+    // 처음 들어올 때 한 번만.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    if (!highlight) return;
+    document.getElementById(commentAnchor(highlight))?.scrollIntoView({ block: "center" });
+    const t = window.setTimeout(() => setHighlight(null), 2500);
+    return () => window.clearTimeout(t);
+  }, [highlight]);
+
   // 커뮤니티 3단계 — 질문 글(제목·해결됨)과 저장.
   const isQuestion = post.postType === "question";
   const [editTitle, setEditTitle] = useState(post.title ?? "");
@@ -348,7 +383,7 @@ export function PostDetail({
         </p>
       ) : null}
 
-      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} /> : null}
+      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} postId={post.id} /> : null}
       {/* 밑: 사진 */}
       {post.photoUrl ? <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -410,7 +445,14 @@ export function PostDetail({
           </p>
         ) : (
           comments.map((c) => (
-            <div key={c.id} className="flex items-start gap-2">
+            <div
+              key={c.id}
+              id={commentAnchor(c.id)}
+              data-highlight={highlight === c.id ? "true" : undefined}
+              className={`flex items-start gap-2 rounded-lg transition-colors duration-700 ${
+                highlight === c.id ? "bg-amber-100 dark:bg-amber-900/30" : ""
+              }`}
+            >
               <span
                 className={`mt-0.5 flex h-7 w-7 items-center justify-center rounded-full text-sm ${pastelClass(
                   c.authorName,

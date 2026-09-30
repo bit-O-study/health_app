@@ -57,6 +57,7 @@ export type BoardTab =
   | "teaching"
   | "routine"
   | "mine"
+  | "commented"
   | "saved";
 
 export const BOARD_TABS: { value: BoardTab; label: string }[] = [
@@ -68,6 +69,7 @@ export const BOARD_TABS: { value: BoardTab; label: string }[] = [
   // 루틴 소개(하루치 루틴 공유) — 통합 피드가 아니라 routine_shares 를 따로 그린다.
   { value: "routine", label: "루틴" },
   { value: "mine", label: "내 글" },
+  { value: "commented", label: "댓글 단 글" },
   { value: "saved", label: "저장한 글" },
 ];
 
@@ -75,7 +77,7 @@ export const BOARD_TABS: { value: BoardTab; label: string }[] = [
 export function mainTabOf(tab: BoardTab): BoardTab {
   if (tab === "popular") return "workout";
   if (tab === "question_open") return "question";
-  if (tab === "saved") return "mine";
+  if (tab === "saved" || tab === "commented") return "mine";
   return tab;
 }
 
@@ -92,11 +94,13 @@ export function boardHref(tab: BoardTab, query = ""): string {
     teaching: "/community/teaching",
     routine: "/community/routines",
     mine: "/community/mine",
+    commented: "/community/mine",
     saved: "/community/saved",
   };
   const params = new URLSearchParams();
   if (tab === "popular") params.set("view", "popular");
   if (tab === "question_open") params.set("open", "1");
+  if (tab === "commented") params.set("view", "commented");
   if (query.trim()) params.set("q", query.trim());
   return path[tab] + (params.size ? `?${params}` : "");
 }

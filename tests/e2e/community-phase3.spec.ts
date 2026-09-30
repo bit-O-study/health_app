@@ -56,7 +56,8 @@ test("🔴 질문을 올리고, 답변이 달리면 알림 → 눌러서 이동 
   const item = a.page.getByRole("link", { name: /E2E답변자님이 내 글에 댓글을 남겼어요/ });
   await expect(item).toBeVisible();
   await item.click();
-  await expect(a.page).toHaveURL(new RegExp(`/community/${postId}$`));
+  // 댓글 알림은 그 댓글 위치(#c-<id>)까지 간다(커뮤니티 4-1).
+  await expect(a.page).toHaveURL(new RegExp(`/community/${postId}#c-[0-9a-f-]{36}$`));
   // 다시 오면 읽음 — 뱃지 없음.
   await a.page.goto("/community", { waitUntil: "networkidle" });
   await expect(a.page.getByTestId("community-bell")).toHaveAccessibleName("알림");

@@ -40,6 +40,7 @@ import {
   type Visibility,
 } from "../feed";
 import { unreadBadge } from "../community-notifications";
+import { DRAFT_KEY, hasDraftContent, parseDraft, type ComposeDraft } from "../compose-draft";
 import type { FeedPost } from "../data-access";
 import { TeachingReels } from "./teaching-reels";
 import { ReportButton } from "./report-button";
@@ -234,7 +235,7 @@ export function CommunityBoard({
         ) : null}
         {tab === "workout" || tab === "popular" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "workout"} onClick={() => navigate("workout", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">최신순</button><button type="button" aria-pressed={tab === "popular"} onClick={() => navigate("popular", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">이번 주 인기</button></div> : null}
         {mainTabOf(tab) === "question" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "question"} onClick={() => navigate("question", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">전체</button><button type="button" aria-pressed={tab === "question_open"} onClick={() => navigate("question_open", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">답변 기다리는</button></div> : null}
-        {mainTabOf(tab) === "mine" ? <div className="flex items-center gap-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "saved"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-zinc-400">차단한 사용자</Link></div> : null}
+        {mainTabOf(tab) === "mine" ? <div className="flex flex-wrap items-center gap-x-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "commented"} onClick={() => navigate("commented", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">댓글 단 글</button><button type="button" aria-pressed={tab === "saved"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-zinc-400">차단한 사용자</Link></div> : null}
       </div>
 
       {tab === "popular" && <p className="px-4 pt-3 text-xs text-zinc-500">최근 7일 게시물을 좋아요 많은 순으로 보여드려요.</p>}
@@ -259,7 +260,9 @@ export function CommunityBoard({
               ? "검색 결과가 없어요"
               : tab === "mine"
                 ? "아직 내가 쓴 글이 없어요"
-                : tab === "saved"
+                : tab === "commented"
+                  ? "아직 댓글 단 글이 없어요"
+                  : tab === "saved"
                   ? "저장한 글이 없어요. 글의 책갈피를 누르면 여기 모여요."
                   : tab === "question_open"
                     ? "답변을 기다리는 질문이 없어요"
@@ -511,7 +514,7 @@ function PostCard({
         <p className="px-3 pt-2 text-base font-bold leading-snug text-zinc-900 dark:text-zinc-50">{post.title}</p>
       ) : null}
 
-      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} /> : null}
+      {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} postId={post.id} /> : null}
       {/* 미디어 */}
       {isTeaching ? (
         <div className="relative mt-2.5 aspect-square w-full bg-black">
@@ -716,6 +719,53 @@ function ComposeModal({
 
   const needsGroup = visibility !== "public";
 
+  // 임시 저장(커뮤니티 4-1) — 쓰던 글을 이 기기에 남겨 두고, 다시 열면 이어 쓰기를 먼저 묻는다.
+  // 기기 저장소는 막혀 있을 수 있다(사생활 모드 등) — 실패해도 글쓰기는 그대로 된다.
+  const [savedDraft, setSavedDraft] = useState<ComposeDraft | null>(null);
+  const [draftChecked, setDraftChecked] = useState(false);
+  useEffect(() => {
+    let found: ComposeDraft | null = null;
+    try {
+      found = parseDraft(window.localStorage.getItem(DRAFT_KEY), Date.now());
+    } catch {
+      /* 저장소 못 씀 */
+    }
+    // 창이 열릴 때 한 번 읽는다. 의도된 setState.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setSavedDraft(found);
+    setDraftChecked(true);
+  }, []);
+  useEffect(() => {
+    // 이어 쓸지 묻는 동안에는 덮어쓰지 않는다(아직 빈 창이라 초안이 지워진다).
+    if (!draftChecked || savedDraft) return;
+    try {
+      const d: ComposeDraft = { mode, title, caption, visibility, groupId, savedAt: Date.now() };
+      if (hasDraftContent(d)) window.localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+      else window.localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* 저장소 못 씀 */
+    }
+  }, [draftChecked, savedDraft, mode, title, caption, visibility, groupId]);
+  function resumeDraft() {
+    if (!savedDraft) return;
+    setMode(savedDraft.mode);
+    setTitle(savedDraft.title);
+    setCaption(savedDraft.caption);
+    // 그 사이 그룹을 나갔으면 전체 공개로.
+    const groupOk = !!savedDraft.groupId && groups.some((g) => g.id === savedDraft.groupId);
+    setVisibility(savedDraft.visibility !== "public" && groupOk ? savedDraft.visibility : "public");
+    setGroupId(groupOk ? savedDraft.groupId : null);
+    setSavedDraft(null);
+  }
+  function discardDraft() {
+    try {
+      window.localStorage.removeItem(DRAFT_KEY);
+    } catch {
+      /* 저장소 못 씀 */
+    }
+    setSavedDraft(null);
+  }
+
   function pick(f: File | null) {
     setError(null);
     setFile(f);
@@ -756,8 +806,10 @@ function ComposeModal({
           visibility: vis.visibility,
           ...(isQuestion ? { postType: "question" as const, title } : {}),
         });
-        if (r.ok) onDone();
-        else setError(r.error);
+        if (r.ok) {
+          discardDraft();
+          onDone();
+        } else setError(r.error);
       } catch (e) {
         setError(e instanceof Error ? e.message : "업로드에 실패했어요.");
       }
@@ -793,6 +845,20 @@ function ComposeModal({
             <X size={20} />
           </button>
         </div>
+
+        {savedDraft ? (
+          <div data-testid="compose-draft" className="mb-3 flex items-center gap-2 rounded-xl bg-brand-soft px-3 py-2 text-sm">
+            <span className="min-w-0 flex-1 truncate">
+              쓰던 {savedDraft.mode === "question" ? "질문" : "글"}이 있어요{savedDraft.title ? ` · ${savedDraft.title}` : ""}
+            </span>
+            <button type="button" onClick={discardDraft} className="min-h-9 shrink-0 px-1 text-xs text-zinc-500">
+              새로 쓰기
+            </button>
+            <button type="button" onClick={resumeDraft} className="min-h-9 shrink-0 px-1 font-semibold text-brand">
+              이어 쓰기
+            </button>
+          </div>
+        ) : null}
 
         {isQuestion ? (
           <input

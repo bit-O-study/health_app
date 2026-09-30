@@ -2,12 +2,19 @@
 
 import { revalidatePath } from "next/cache";
 
-import { getCurrentUser } from "@/lib/supabase/server";
+import { createSupabaseServerClient, getCurrentUser } from "@/lib/supabase/server";
 import {
   acknowledgePurchase,
   billingSetup,
+  playPackageName,
   verifyPurchase,
 } from "@/features/billing/play-verify";
+import {
+  membershipView,
+  playManageUrl,
+  type MembershipView,
+} from "@/features/billing/membership";
+import { usageMonth } from "@/features/coach/ai-quota";
 import {
   getMySubscription,
   saveSubscription,
@@ -36,18 +43,49 @@ export type BillingStatus = {
   /** 검증이 가능한 환경인가(설정이 다 됐는가). */
   ready: boolean;
   expiresAt: string | null;
+  /** 멤버십 카드(배민클럽식) — 다음 결제일·끝나는 날·해지 가능 여부. */
+  membership: MembershipView;
+  /** 구글 플레이 구독 관리(해지·결제 수단) 주소. */
+  manageUrl: string;
+  /** 이번 달 AI 이용 횟수(받은 혜택 표시용). */
+  aiUsesThisMonth: number;
 };
 
+/** 이번 달 AI 이용 합계. 실패하면 0 — 숫자를 못 읽었다고 구독 화면이 죽으면 안 된다. */
+async function aiUsesThisMonth(): Promise<number> {
+  try {
+    const user = await getCurrentUser();
+    if (!user) return 0;
+    const supabase = await createSupabaseServerClient();
+    const { data } = await supabase
+      .from("ai_usage")
+      .select("used")
+      .eq("user_id", user.id)
+      .eq("month", usageMonth());
+    return ((data ?? []) as { used: number | null }[]).reduce((s, r) => s + (Number(r.used) || 0), 0);
+  } catch {
+    return 0;
+  }
+}
+
 export async function getBillingStatusAction(): Promise<BillingStatus> {
-  const [sub, detail] = await Promise.all([getMySubscription(), resolvePlanDetail()]);
+  const [sub, detail, uses] = await Promise.all([
+    getMySubscription(),
+    resolvePlanDetail(),
+    aiUsesThisMonth(),
+  ]);
+  const personalPlan = isEntitled(sub) ? detail.personal : "free";
   return {
     premium: detail.plan !== "free",
     plan: detail.plan,
-    personalPlan: isEntitled(sub) ? detail.personal : "free",
+    personalPlan,
     sponsored: detail.sponsored,
     label: statusLabel(sub),
     ready: billingSetup().ready,
     expiresAt: sub?.expiresAt ?? null,
+    membership: membershipView(sub, personalPlan),
+    manageUrl: playManageUrl(playPackageName(), sub?.productId ?? null),
+    aiUsesThisMonth: uses,
   };
 }
 

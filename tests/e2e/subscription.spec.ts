@@ -146,7 +146,34 @@ test("해지해도 남은 기간까지는 프리미엄", async ({ page }) => {
   await page.goto("/settings/subscription", { waitUntil: "networkidle" });
   const status = page.getByTestId("subscription-status");
   await expect(status).toHaveAttribute("data-premium", "1", { timeout: 10_000 });
-  await expect(status).toContainText("해지 예정");
+  await expect(status).toHaveAttribute("data-membership", "ending");
+  await expect(status).toContainText("이용하고 끝나요");
+  // 이미 해지했으면 해지 버튼은 다시 안 보인다.
+  await expect(page.getByTestId("membership-cancel")).toHaveCount(0);
+});
+
+test("배민클럽처럼: 멤버십 카드에 다음 결제일, 해지는 안내 후 구글 플레이로", async ({ page }) => {
+  test.skip(!hasDb, "needs .env.test.local DB creds");
+  const email = await signUpAndOnboard(page);
+  await seedSubscription(email, "active", "now() + interval '20 days'", "helssu_plus_monthly");
+
+  await page.goto("/settings/subscription", { waitUntil: "networkidle" });
+  const status = page.getByTestId("subscription-status");
+  await expect(status).toHaveAttribute("data-membership", "renewing", { timeout: 10_000 });
+  await expect(status).toContainText("플러스 멤버십");
+  await expect(status).toContainText("다음 결제");
+  await expect(status).toContainText("월 6,900원");
+  await expect(page.getByTestId("membership-manage")).toHaveAttribute("href", /play\.google\.com\/store\/account\/subscriptions/);
+
+  // 해지하기 → 바로 끊지 않고 안내: 언제까지 쓰는지 + 한 단계 낮은 요금제 제안.
+  await page.getByTestId("membership-cancel").click();
+  const sheet = page.getByTestId("cancel-sheet");
+  await expect(sheet).toBeVisible();
+  await expect(sheet).toContainText("까지는 지금처럼 쓸 수 있고");
+  await expect(page.getByTestId("cancel-downgrade")).toContainText("베이직");
+  await expect(page.getByTestId("cancel-go-play")).toHaveAttribute("href", /play\.google\.com/);
+  await sheet.getByRole("button", { name: "계속 이용할게요" }).click();
+  await expect(sheet).toHaveCount(0);
 });
 
 test("🔴 같은 구매 토큰을 다른 계정이 가져갈 수 없다", async ({ page }) => {

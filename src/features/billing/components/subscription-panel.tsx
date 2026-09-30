@@ -2,7 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Check, Crown, Loader2, RotateCcw } from "lucide-react";
+import { Check, Loader2, RotateCcw } from "lucide-react";
 
 import {
   verifyPurchaseAction,
@@ -14,6 +14,7 @@ import {
 } from "@/features/billing/play-billing-native";
 import { PAID_PLANS, PLANS, type PlanId } from "@/features/billing/plans";
 import { AI_FEATURES, MONTHLY_LIMITS } from "@/features/coach/ai-quota";
+import { MembershipCard } from "@/features/billing/components/membership-card";
 
 /**
  * 구독 화면 — 로드맵 7.1 · 2026-09-30 요금제 4단계(무료·베이직·플러스·프로).
@@ -26,7 +27,6 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
   const [status, setStatus] = useState(initial);
   const [msg, setMsg] = useState<string | null>(null);
   const [pending, start] = useTransition();
-  const current = PLANS[status.plan];
 
   function run(get: () => Promise<
     | { ok: true; purchaseToken: string }
@@ -50,32 +50,8 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
 
   return (
     <div className="space-y-4">
-      <section
-        data-testid="subscription-status"
-        data-premium={status.premium ? "1" : "0"}
-        data-plan={status.plan}
-        className="app-card flex items-center gap-3 p-3"
-      >
-        <span
-          className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${
-            status.premium
-              ? "bg-brand-soft text-brand"
-              : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-300"
-          }`}
-        >
-          <Crown aria-hidden="true" size={16} />
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className="block text-base font-semibold text-zinc-950 dark:text-zinc-100">
-            {current.label}
-          </span>
-          <span className="block text-xs text-zinc-500 dark:text-zinc-400">
-            {status.sponsored && status.personalPlan === "free"
-              ? "트레이너·팀 이용권으로 받은 요금제예요"
-              : status.label}
-          </span>
-        </span>
-      </section>
+      {/* 배민클럽처럼 — 가입 전엔 무료·첫 달 무료, 가입 후엔 멤버십 카드(다음 결제·받은 혜택·해지). */}
+      <MembershipCard status={status} />
 
       {/*
         🔴 무엇을 사는지 **여기서** 보여 준다. 값을 모르는 걸 누가 결제하지 않는다.

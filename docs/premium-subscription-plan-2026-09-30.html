@@ -1,0 +1,249 @@
+<title>짐꾼 프리미엄 간단 구독안</title>
+<meta name="description" content="이미 만든 월 3,900원 프리미엄 구독에 광고 없음·색 테마·한정 꾸미기·배지 혜택을 붙이는 간단 구독안 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 있는 것 → 혜택 → 시안 → 안 함 → 순서 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px}
+.flow span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--surface)}
+.flow .bad{border-color:var(--crit);color:var(--crit)}
+.flow i{font-style:normal;color:var(--muted)}
+</style>
+
+<style>
+.phone{width:300px;max-width:100%;background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:18px 16px 22px;display:grid;gap:12px;justify-self:center}
+.phone .bar{display:flex;align-items:center;gap:10px;font-weight:600}
+.phone .crown{width:28px;height:28px;border-radius:8px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-size:14px}
+.phone .lbl{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
+.phone ul{list-style:none;margin:0;padding:0;border:1px solid var(--line-2);border-radius:12px}
+.phone li{display:flex;justify-content:space-between;gap:8px;padding:8px 10px;font-size:13px;border-bottom:1px solid var(--line-2)}
+.phone li:last-child{border-bottom:0}
+.phone li b{color:var(--brand);font-weight:600;white-space:nowrap}
+.phone li s{color:var(--muted);text-decoration:none;white-space:nowrap}
+.phone li.new{background:var(--brand-soft)}
+.phone .cta{background:var(--brand);color:var(--surface);border-radius:999px;text-align:center;padding:10px;font-weight:600}
+.mock{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--surface);outline:1px solid var(--line)}
+</style>
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 구독 · 검수보고서 3</p>
+  <h1>짐꾼 프리미엄 간단 구독안</h1>
+  <p class="lede">새 결제를 만들지 않고, <b>이미 만들어 둔 월 3,900원 프리미엄 구독에 살 이유를 붙입니다.</b> 지금 프리미엄 혜택은 AI 횟수 하나뿐인데 AI 기능 대부분이 라이브에서 숨겨져 있어, 결제를 열어도 살 이유가 없습니다. 원가 0원이고 작업이 작은 혜택 4개를 제안합니다. 코드는 아직 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-30</span>
+    <span>기준: 커밋 ed51c203</span>
+    <span class="pill ok">혜택 4</span>
+    <span class="pill warn">사용자 몫 1</span>
+  </div>
+</header>
+
+<section>
+  <h2>이미 있는 것</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3><span class="pill ok">있음</span> 결제·구독 관리</h3>
+      <p>플레이 구독 결제, 결제 검증, 만료 시각으로 등급 판단, 해지·환불 자동 반영, 구독 화면(<code>/settings/subscription</code>)까지 만들어져 있습니다.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill crit">빈틈</span> 프리미엄이 AI에만 쓰임</h3>
+      <p>앱 전체에서 프리미엄 여부를 보는 곳은 AI 사용 한도(<code>ai-usage.ts</code>)뿐입니다. 다른 혜택은 "프리미엄이면 이렇게 보여 줘" 조건만 더하면 됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>붙일 혜택</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>혜택</th><th>무료</th><th>프리미엄</th><th>원가</th><th>작업</th></tr></thead>
+      <tbody>
+        <tr><td><b>홈 배너 광고 없음</b></td><td>홈 맨 위 자매 서비스 배너</td><td class="yes">안 보임</td><td>0원</td><td>아주 작음</td></tr>
+        <tr><td><b>앱 색 테마</b></td><td>기본 초록</td><td class="yes">5가지 중 선택</td><td>0원</td><td>작음</td></tr>
+        <tr><td><b>한정 꾸미기</b></td><td>운동 코인으로 사는 아이템</td><td class="yes">+ 매달 한정 아이템 1개</td><td>0원</td><td>작음</td></tr>
+        <tr><td><b>프리미엄 배지</b></td><td>없음</td><td class="yes">커뮤니티·그룹 이름 옆 왕관</td><td>0원</td><td>작음</td></tr>
+        <tr><td>AI 사용 횟수</td><td>지금과 같음</td><td>지금과 같음</td><td>최대 1,940원</td><td>그대로</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">혜택 1</span>
+      <h3>홈 배너 광고 없음 <span class="size">아주 작음</span></h3>
+      <p class="why">가장 알아듣기 쉬운 혜택입니다. "광고 없이 쓰기"는 설명이 필요 없습니다.</p>
+      <p class="how">홈 화면이 등급을 한 번 읽고, 프리미엄이면 배너를 그리지 않습니다. 이 자리를 무료 사용자에게 구독 권유 카드로 쓸 수도 있습니다(3번 참고).</p>
+      <p class="where">위치: <code>src/app/home/page.tsx</code> · <code>cross-promo/promo-banner.tsx</code></p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">혜택 2</span>
+      <h3>앱 색 테마 <span class="size">작음</span></h3>
+      <p class="why">매일 여는 앱의 색을 바꾸는 건 작지만 늘 보이는 혜택입니다.</p>
+      <p class="how">앱 색이 이미 한 곳(<code>--brand</code> 토큰)에 모여 있어서, 색 이름을 하나 저장하고 그 토큰만 바꾸면 전체가 바뀝니다. 설정의 화면 모드(다크/라이트) 옆에 둡니다. 구독이 끝나면 기본 초록으로 돌아갑니다.</p>
+      <div class="swatches" aria-label="테마 색 예시">
+        <span class="sw" style="background:#087f5b" title="초록(기본)"></span>
+        <span class="sw" style="background:#2563eb" title="파랑"></span>
+        <span class="sw" style="background:#7c3aed" title="보라"></span>
+        <span class="sw" style="background:#e11d48" title="빨강"></span>
+        <span class="sw" style="background:#ea580c" title="주황"></span>
+      </div>
+      <p class="where">위치: <code>src/styles/globals.css</code> · <code>features/theme/*</code> · <code>app/settings/page.tsx</code></p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">혜택 3</span>
+      <h3>한정 꾸미기 (그룹 늑대) <span class="size">작음</span></h3>
+      <p class="why">그룹 늑대 옷은 이미 공개돼 있습니다(펫 방 꾸미기는 아직 숨김이라 뒤로 미룹니다).</p>
+      <p class="how">아이템 표에 "프리미엄 전용"과 "판매 달"을 붙입니다. 그룹 늑대는 그룹이 함께 키우므로, <b>그룹에 프리미엄 멤버가 한 명이라도 있으면 그 달 한정 아이템을 코인으로 살 수 있습니다.</b> 한 명의 구독이 그룹 전체에 보이니 자연스럽게 알려집니다. 산 아이템은 구독이 끝나도 남습니다. 랭킹이나 코인에는 영향이 없습니다.</p>
+      <p class="where">위치: <code>src/features/groups/cosmetics.ts</code> · <code>group-actions.ts</code> (<code>buyPetItemAction</code>)</p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">혜택 4</span>
+      <h3>프리미엄 배지 <span class="size">작음</span></h3>
+      <p class="why">구독했다는 걸 남에게 보여 주고 싶은 사람이 있습니다. 보는 사람에게는 프리미엄이 있다는 걸 알리는 광고가 됩니다.</p>
+      <p class="how">커뮤니티 글·댓글과 그룹 멤버 이름 옆에 작은 왕관을 붙입니다. 설정에서 끌 수 있게 합니다. 남의 구독 여부는 이 배지 하나만 읽게 하고, 결제 정보는 다른 사람에게 보이지 않게 합니다.</p>
+      <p class="where">위치: <code>src/features/community/data-access.ts</code> · <code>components/*</code> · 그룹 멤버 목록</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>화면 시안</h2>
+  <div class="mock">
+    <div class="phone" aria-label="구독 화면 시안">
+      <div class="bar"><span class="crown">♛</span>무료<span style="margin-left:auto;font-size:12px;color:var(--muted)">월 3,900원 · 언제든 해지</span></div>
+      <div class="lbl"><span>프리미엄 혜택</span><span>무료 → 프리미엄</span></div>
+      <ul>
+        <li class="new"><span>홈 배너 광고</span><span><s>있음</s> → <b>없음</b></span></li>
+        <li class="new"><span>앱 색 테마</span><span><s>1가지</s> → <b>5가지</b></span></li>
+        <li class="new"><span>한정 늑대 꾸미기</span><span><s>—</s> → <b>매달 1개</b></span></li>
+        <li class="new"><span>프리미엄 배지</span><span><s>—</s> → <b>♛</b></span></li>
+        <li><span>AI 코치 분석</span><span><s>3회</s> → <b>60회</b></span></li>
+        <li><span>식단 사진 분석</span><span><s>100회</s> → <b>200회</b></span></li>
+      </ul>
+      <div class="cta">프리미엄 시작하기</div>
+    </div>
+    <div class="box">
+      <h3>무료 사용자에게 알리는 곳</h3>
+      <ul class="clean">
+        <li><b>홈 배너 자리:</b> 배너 사이에 "광고 없이 쓰기 · 월 3,900원" 카드 한 장을 넣습니다.</li>
+        <li><b>설정 테마 고르기:</b> 잠긴 색을 누르면 구독 화면으로 갑니다.</li>
+        <li><b>그룹 늑대 상점:</b> 한정 아이템에 "그룹에 프리미엄 멤버가 있으면 살 수 있어요"를 표시합니다.</li>
+      </ul>
+      <p class="cap">알림이나 팝업으로 권하지는 않습니다. 쓰다가 자연스럽게 보이는 곳에만 둡니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>일부러 넣지 않는 것</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3><span class="pill crit">안 함</span> 기록 보기·루틴 개수 제한</h3>
+      <p>지금까지 무료로 쓰던 걸 막으면 결제보다 이탈이 먼저 납니다.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill crit">안 함</span> 데이터 내보내기 유료화</h3>
+      <p>내 기록을 가져가는 건 이용자의 기본 권리라 무료로 둡니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>순서</h2>
+  <div class="phase">
+    <div class="box"><h3><span class="pill ok">1</span> 혜택 4개 + 혜택표</h3><p>혜택을 만들고 구독 화면 표에 추가합니다. 단위 테스트(등급별로 보이는지)와 E2E(무료·프리미엄 화면)를 같이 씁니다.</p></div>
+    <div class="box"><h3><span class="pill ok">2</span> 권유 자리 3곳</h3><p>홈 카드, 잠긴 테마 색, 늑대 상점 표시를 넣습니다.</p></div>
+    <div class="box"><h3><span class="pill warn">사용자</span> 플레이 콘솔</h3><p>구독 상품 <code>helssu_premium_monthly</code>를 등록하고 서비스 계정을 연결합니다. 이게 없으면 결제 버튼이 "준비 중"으로 나옵니다.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 혜택은 이 4개면 될까요?</h3>
+    <p>추천: <b>4개 모두</b>. 광고 없음이 가장 알아듣기 쉬운 혜택입니다.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 가격은 월 3,900원 그대로 할까요?</h3>
+    <p>추천: <b>그대로</b>. AI를 한도까지 다 써도 적자가 나지 않는 가격으로 계산해 둔 값입니다.</p>
+  </div>
+  <div class="decide">
+    <h3>3. 한정 꾸미기는 그룹 늑대부터 할까요?</h3>
+    <p>추천: <b>예</b>. 펫 방 꾸미기는 펫 기능을 공개할 때 같이 합니다.</p>
+  </div>
+</section>
+</div>

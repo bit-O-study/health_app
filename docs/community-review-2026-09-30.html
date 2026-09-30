@@ -1,0 +1,282 @@
+<title>커뮤니티 탭 검수보고서</title>
+<meta name="description" content="짐꾼 커뮤니티 탭(피드·운동 영상·루틴)의 기능·데이터·보안을 코드로 점검하고, 바로 고칠 것과 추가하면 좋을 것을 우선순위로 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 960px) — 요약 → 지금 커뮤니티 → 보안(바로 고칠 것) → 버그 → 추가하면 좋을 것 → 지난 요청 → 순서 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.88em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px}
+.flow span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--surface)}
+.flow .bad{border-color:var(--crit);color:var(--crit)}
+.flow i{font-style:normal;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">검수보고서 · 커뮤니티 · 짐꾼</p>
+  <h1>커뮤니티 탭: 지금 되는 것, 바로 막아야 할 것, 더할 것</h1>
+  <p class="lede">커뮤니티 탭(피드 · 운동 영상 · 루틴)의 화면 코드, 서버 동작, 데이터베이스 권한 규칙을 점검했습니다. 기능은 꽤 갖춰져 있지만, <b>신고와 글쓴이 정보가 조작될 수 있는 구멍</b>이 먼저 막혀야 합니다. 코드는 아직 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-30</span>
+    <span>기준: 커밋 9fd5485f (최근 커뮤니티 작업 2a1c8fa2 “기록 공유와 피드 탐색 개선” 포함)</span>
+    <span class="pill crit">바로 고칠 것 6</span>
+    <span class="pill warn">버그 5</span>
+    <span class="pill info">추가하면 좋을 것 9</span>
+  </div>
+</header>
+
+<section>
+  <h2>요약</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3>잘 되어 있는 것</h3>
+      <ul class="clean">
+        <li>피드: 최신순 / 이번 주 인기, 검색, 20개씩 더 보기, 상세에서 돌아오면 보던 자리로</li>
+        <li>글쓰기: 운동 기록 카드 붙이기(무게·메모는 일부러 빼서 공유), 사진, 공개 범위 3가지, 두 번 눌러도 한 번만 올라감</li>
+        <li>좋아요(두 번 탭), 댓글, 신고, 관리자 신고 처리·정지</li>
+        <li>운동 영상 탭(릴스), 루틴 탭(남의 하루를 내 루틴에 저장)</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>가장 급한 것</h3>
+      <ul class="clean">
+        <li><b>신고로 엉뚱한 사람을 정지시킬 수 있습니다.</b> 신고 대상 사용자·작성자·내용을 앱이 보낸 그대로 저장합니다.</li>
+        <li><b>이름과 운동 완료 카드를 꾸며 올릴 수 있습니다.</b> 데이터베이스가 작성자 이름·운동 기록 칸을 확인하지 않습니다.</li>
+        <li><b>그룹 전용 운동 영상의 댓글이 아무에게나 보입니다.</b></li>
+        <li><b>루틴 신고는 저장이 안 됩니다.</b> 허용된 신고 종류 목록에 루틴이 빠져 있습니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>지금 커뮤니티</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>기능</th><th>상태</th><th>메모</th></tr></thead>
+      <tbody>
+        <tr><td>피드 · 인기 · 검색 · 더 보기</td><td class="yes">있음</td><td>인기 = 최근 7일 사진 글을 좋아요 순. 무한 스크롤 대신 ‘더 보기’ 버튼</td></tr>
+        <tr><td>운동 기록 공유</td><td class="yes">있음</td><td>최근 30일 중 날짜 선택, 서버가 카드를 만든다(무게·메모 제외)</td></tr>
+        <tr><td>사진</td><td class="part">한 장</td><td>줄이기·압축 없이 원본 업로드(최대 10MB), 글을 지워도 사진 파일은 남음</td></tr>
+        <tr><td>좋아요 · 댓글 · 신고</td><td class="yes">있음</td><td>댓글은 한 단계(대댓글 없음), 페이지 나눔 없음</td></tr>
+        <tr><td>글 수정 · 삭제</td><td class="part">상세에서만</td><td>피드 카드에서는 삭제만</td></tr>
+        <tr><td>알림</td><td class="no">거의 없음</td><td>댓글·좋아요 알림 없음. 있는 건 “누가 내 루틴을 저장함” 하나</td></tr>
+        <tr><td>차단 · 숨기기</td><td class="no">없음</td><td>신고 후 관리자가 처리할 때까지 그대로 보임</td></tr>
+        <tr><td>프로필 · 팔로우 · 저장(북마크)</td><td class="no">없음</td><td>작성자는 이름과 이모지 얼굴만</td></tr>
+        <tr><td>운동 영상 상세 · 공유 링크</td><td class="no">없음</td><td>릴스 화면에서만 볼 수 있음</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>바로 고칠 것: 보안</h2>
+  <div class="box">
+    <h3>신고 조작으로 엉뚱한 사람이 정지되는 흐름</h3>
+    <div class="flow" aria-label="신고 조작 흐름">
+      <span>누군가 A 의 글을 신고</span><i>→</i><span class="bad">신고 요청에 ‘대상 사용자 = B’ 로 바꿔 보냄</span><i>→</i><span>그대로 저장</span><i>→</i><span>관리자가 ‘정지’ 누름</span><i>→</i><span class="bad">B 가 정지됨</span>
+    </div>
+    <p class="cap">관리자 화면의 정지 버튼은 신고에 저장된 대상 사용자를 씁니다. 루틴 신고만 서버가 직접 찾아 넣고, 글·댓글·영상 신고는 앱이 보낸 값을 믿습니다.</p>
+  </div>
+  <div class="items">
+    <div class="item">
+      <span class="pill crit tag">1</span>
+      <h3>신고 대상을 서버가 직접 찾아 넣기</h3>
+      <p class="why">지금은 글·댓글 신고의 대상 사용자·작성자·미리보기를 앱이 보낸 그대로 저장합니다. 조작된 신고 하나로 관리자가 엉뚱한 사람을 정지시킬 수 있습니다.</p>
+      <p class="how">고칠 것: 신고 종류별로 원래 글·댓글을 서버에서 조회해 채운다(루틴 신고에 이미 있는 방식 그대로).</p>
+      <p class="where"><code>src/features/community/report-actions.ts:37-52</code> <span class="size">작음</span></p>
+    </div>
+    <div class="item">
+      <span class="pill crit tag">2</span>
+      <h3>작성자 이름·운동 기록 카드를 데이터베이스가 정하기</h3>
+      <p class="why">글·댓글 저장 규칙이 사용자 id 만 확인합니다. 앱을 거치지 않고 데이터베이스에 직접 쓰면 이름을 “관리자”로 하거나 하지도 않은 “운동 완료” 카드를 붙일 수 있고, 글 수정으로 내가 속하지 않은 그룹으로 옮길 수도 있습니다.</p>
+      <p class="how">고칠 것: 저장할 때 이름은 프로필에서, 운동 카드는 서버 동작으로만 넣도록 트리거 추가. 수정은 글 내용만 바꾸게 제한.</p>
+      <p class="where"><code>supabase/schema.sql:3435</code> 글쓰기·수정 정책, 댓글 정책 <span class="size">중간 · DB 변경</span></p>
+    </div>
+    <div class="item">
+      <span class="pill crit tag">3</span>
+      <h3>운동 영상 좋아요·댓글에 공개 범위 적용</h3>
+      <p class="why">운동 영상의 좋아요·댓글 읽기 규칙이 “누구나”(<code>using (true)</code>)라, 그룹 전용 영상의 댓글도 그룹 밖 사람이 읽고 쓸 수 있습니다. 피드 글은 이미 공개 범위를 확인합니다.</p>
+      <p class="how">고칠 것: 피드와 같은 “이 글을 볼 수 있는가” 확인을 운동 영상에도.</p>
+      <p class="where"><code>supabase/schema.sql:3637</code> · <code>:3657</code> <span class="size">작음 · DB 변경</span></p>
+    </div>
+    <div class="item">
+      <span class="pill crit tag">4</span>
+      <h3>루틴 신고가 저장되게</h3>
+      <p class="why">신고 표의 허용 종류가 글·댓글·영상·영상 댓글 네 가지뿐이라, 앱이 보내는 “루틴” 신고는 데이터베이스가 거절합니다. 사용자는 신고했는데 관리자에게는 안 옵니다. 저장소 스키마는 라이브 DB와 동기화 검사를 통과하고 있어 라이브도 같은 상태일 가능성이 큽니다.</p>
+      <p class="how">고칠 것: 허용 종류에 <code>routine_share</code> 추가(라이브 DB에도 적용) + 루틴 신고 E2E.</p>
+      <p class="where"><code>supabase/schema.sql:3683</code> <span class="size">작음 · DB 변경</span></p>
+    </div>
+    <div class="item">
+      <span class="pill crit tag">5</span>
+      <h3>같은 신고를 두 번 못 하게</h3>
+      <p class="why">중복 신고를 코드로만 막아서, 거의 동시에 두 번 누르면 두 건이 생길 수 있습니다.</p>
+      <p class="how">고칠 것: (신고한 사람, 대상) 유일 인덱스.</p>
+      <p class="where"><code>post_reports</code> <span class="size">작음 · DB 변경</span></p>
+    </div>
+    <div class="item">
+      <span class="pill crit tag">6</span>
+      <h3>정지된 사용자의 쓰기를 데이터베이스에서도 막기</h3>
+      <p class="why">정지는 화면 이동(미들웨어)에서만 막고, 데이터베이스 규칙은 정지 여부를 보지 않습니다. 앱 밖에서 직접 쓰면 정지 중에도 글·댓글을 쓸 수 있을 수 있습니다(확인 필요).</p>
+      <p class="how">고칠 것: 글·댓글·좋아요·신고 쓰기 규칙에 “정지 중 아님” 조건.</p>
+      <p class="where">미들웨어 · 쓰기 정책들 <span class="size">중간 · DB 변경</span></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>버그</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>증상</th><th>원인</th><th>어디</th></tr></thead>
+      <tbody>
+        <tr><td>검색에 “name”, “sets” 를 치면 운동 기록 글이 전부 나온다</td><td>운동 기록 카드의 JSON 글자 전체(키 이름 포함)를 검색</td><td><code>migrations/202609290001_community_feed.sql:29</code></td></tr>
+        <tr><td>내 글의 이름이 피드와 상세에서 다르게 보일 수 있다</td><td>피드는 지금 닉네임, 상세는 쓸 때 저장한 이름</td><td><code>community/data-access.ts:196</code> · <code>:346</code></td></tr>
+        <tr><td>좋아요 많은 글의 상세가 느려진다</td><td>개수를 세려고 좋아요를 전부 읽음, 댓글도 한 번에 전부</td><td><code>community/data-access.ts:335</code></td></tr>
+        <tr><td>댓글 입력 중 엔터를 빨리 두 번 누르면 두 번 올라갈 수 있다</td><td>보내는 중에도 엔터 제출이 막히지 않음</td><td><code>post-detail.tsx:334</code></td></tr>
+        <tr><td>한참 내려 본 뒤 돌아오면 복원이 오래 걸린다</td><td>보던 자리까지 20개씩 차례로 다시 불러옴(최대 2,000개)</td><td><code>community-board.tsx:103-109</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">그 밖에: 아이폰 사진(HEIC)은 안드로이드·크롬에서 안 보일 수 있음(확인 필요), 삭제 확인에 브라우저 기본 창(confirm/alert) 사용, 좋아요 버튼에 눌림 상태(aria-pressed) 없음, 카드 한 장에 상세로 가는 길이 세 개(카드·댓글 수·“게시물 보기”), 쓰이지 않는 옛 코드(필터·탭 함수 10여 개).</p>
+</section>
+
+<section>
+  <h2>추가하면 좋을 것</h2>
+  <div class="items">
+    <div class="item"><span class="pill info tag">A</span><h3>차단과 신고 누적 자동 숨김</h3><p class="why">지금은 불쾌한 글이 관리자가 처리할 때까지 그대로 보입니다. “이 사람 글 안 보기”와 “신고 N건이면 일단 숨김”이 있으면 관리 부담이 줄어듭니다(설계 문서 2단계 항목).</p><p class="where">새 표 1개 + 피드 조회 조건 <span class="size">중간</span></p></div>
+    <div class="item"><span class="pill info tag">B</span><h3>댓글·좋아요 알림</h3><p class="why">글을 올려도 반응을 알 방법이 없어 다시 들어올 이유가 약합니다. 앱에 이미 알림 센터와 푸시가 있습니다(설계 문서 2단계).</p><p class="where">알림 센터 재사용 <span class="size">중간</span></p></div>
+    <div class="item"><span class="pill info tag">C</span><h3>저장(북마크)</h3><p class="why">남의 운동 기록·루틴을 나중에 따라 하려고 저장하는 용도. 로드맵 P1.C 남은 항목.</p><p class="where"><span class="size">작음</span></p></div>
+    <div class="item"><span class="pill info tag">D</span><h3>사진 줄이기·HEIC 변환, 글 삭제 시 사진도 삭제</h3><p class="why">원본 10MB 사진은 피드를 느리게 하고 저장 공간이 계속 쌓입니다.</p><p class="where"><code>upload-photo.ts</code> <span class="size">중간</span></p></div>
+    <div class="item"><span class="pill info tag">E</span><h3>글·댓글 쓰기 속도 제한</h3><p class="why">도배를 막는 장치가 없습니다. 1분에 N개 같은 간단한 제한이면 충분합니다.</p><p class="where"><span class="size">작음</span></p></div>
+    <div class="item"><span class="pill info tag">F</span><h3>상세 화면: 좋아요 수만 세기, 댓글 더 보기</h3><p class="why">버그 표의 느려짐을 해결하고, 댓글 많은 글도 가볍게.</p><p class="where"><span class="size">작음</span></p></div>
+    <div class="item"><span class="pill info tag">G</span><h3>질문 글</h3><p class="why">“이 자세 맞나요?” 같은 질문을 따로 모아 답을 달 수 있게. 로드맵 P1.C 2단계.</p><p class="where"><span class="size">중간</span></p></div>
+    <div class="item"><span class="pill info tag">H</span><h3>운동 영상 상세·공유 링크</h3><p class="why">영상은 릴스 화면에서만 볼 수 있어 친구에게 한 편을 보낼 수 없습니다.</p><p class="where"><span class="size">중간</span></p></div>
+    <div class="item"><span class="pill info tag">I</span><h3>정리: 상세로 가는 길 하나로, 옛 코드 삭제, 테스트 보강</h3><p class="why">화면 간결화 원칙과 맞추고, 위 보안 항목마다 “앱 밖에서 직접 써도 막히는지” 테스트를 붙입니다(지금은 없음).</p><p class="where"><span class="size">작음</span></p></div>
+  </div>
+</section>
+
+<section>
+  <h2>지난 요청 상태</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>요청</th><th>날짜</th><th>상태</th></tr></thead>
+      <tbody>
+        <tr><td>운동 영상 통합, 공개 범위 3가지, 인스타형 카드</td><td>7/06</td><td class="yes">완료</td></tr>
+        <tr><td>릴스·좋아요·댓글, 신고·관리자 처리</td><td>7/07</td><td class="yes">완료</td></tr>
+        <tr><td>그룹 탭 제거</td><td>7/19</td><td class="yes">완료</td></tr>
+        <tr><td>정지해도 신고가 닫히지 않게</td><td>7/28</td><td class="yes">완료</td></tr>
+        <tr><td>루틴 탭</td><td>8/11</td><td class="yes">완료</td></tr>
+        <tr><td>P1.C 1단계: 피드 페이지 나눔·검색·인기·기록 공유</td><td>9/29</td><td class="yes">완료</td></tr>
+        <tr><td>P1.C 저장(북마크) · 2단계(질문 글·댓글 알림)</td><td>—</td><td class="no">대기</td></tr>
+        <tr><td>차단(설계 문서 2단계)</td><td>—</td><td class="no">대기</td></tr>
+        <tr><td>루틴 공유 페이지 나눔(지금 30개 고정), 루틴 댓글·여러 날 공유</td><td>—</td><td class="no">대기</td></tr>
+        <tr><td>피드·릴스 최적화 한 번</td><td>7/07</td><td class="no">미완</td></tr>
+        <tr><td>안드로이드 실기기 확인 · 커뮤니티 E2E 전체</td><td>—</td><td class="part">대기</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>추천 순서</h2>
+  <div class="phase">
+    <div class="box">
+      <h3><span class="pill crit">1단계</span> 구멍 막기</h3>
+      <ul class="clean"><li>신고 대상 서버 조회(1)</li><li>이름·운동 카드·그룹 이동 막기(2)</li><li>운동 영상 공개 범위(3)</li><li>루틴 신고 허용(4) · 중복 신고(5) · 정지 사용자 쓰기(6)</li><li>“앱 밖에서 써도 막히는지” 테스트</li></ul>
+      <p class="cap">데이터베이스 변경이 들어갑니다. 라이브 DB 적용이 필요해 확인을 받고 진행합니다.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">2단계</span> 버그·가볍게</h3>
+      <ul class="clean"><li>검색 JSON 버그, 이름 불일치, 댓글 중복 제출</li><li>상세 좋아요 수·댓글 더 보기(F)</li><li>사진 줄이기·삭제 정리(D), 쓰기 속도 제한(E)</li><li>정리(I)</li></ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">3단계</span> 다시 오게</h3>
+      <ul class="clean"><li>댓글·좋아요 알림(B)</li><li>차단·자동 숨김(A)</li><li>저장(C), 질문 글(G), 영상 공유(H)</li></ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 1단계(보안)부터 진행할까요?</h3>
+    <p>데이터베이스 규칙을 바꾸고 라이브 DB에도 적용해야 합니다. 예전에 이런 변경을 권한 확인에서 막은 적이 있어, 진행하시면 적용 순간에 한 번 더 확인을 받습니다.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 신고 누적 자동 숨김 기준</h3>
+    <p>추천: 서로 다른 사람 <b>3명</b>이 신고하면 관리자가 볼 때까지 글을 숨김(작성자 본인에게는 보임).</p>
+  </div>
+  <div class="decide">
+    <h3>3. 알림 범위</h3>
+    <p>추천: 댓글은 매번, 좋아요는 “하루에 한 번 묶어서”(좋아요마다 울리면 피곤합니다).</p>
+  </div>
+</section>
+</div>

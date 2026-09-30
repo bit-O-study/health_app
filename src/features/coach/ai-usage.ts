@@ -4,9 +4,8 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
-import { isEntitled } from "@/features/billing/subscription";
-import { getMySubscription } from "@/features/billing/subscription-store";
-import { hasTeamPremium } from "@/features/billing/team-store";
+import { aiTierForPlan } from "@/features/billing/plans";
+import { resolvePlan } from "@/features/billing/plan-store";
 import { consumeRate } from "@/lib/rate-limit/consume";
 import { limitMessage } from "@/lib/rate-limit/policy";
 import {
@@ -34,18 +33,10 @@ import {
  * 한도 안내를 보고 다시 시도할 수 있다(권한을 영영 잃는 게 아니다).
  */
 export async function resolveTier(): Promise<AiTier> {
-  try {
-    // 🔴 개인 구독(플레이) **또는** 팀 구독(트레이너·헬스장) 둘 중 하나면 프리미엄이다.
-    //    헬스장이 회원 몫을 내는데 회원 화면에서 또 결제하라고 하면 그 계약은 깨진다.
-    //    둘은 서로 모르는 값이라 **한 묶음으로** 물어 왕복을 하나로 유지한다.
-    const [personal, team] = await Promise.all([
-      getMySubscription(),
-      hasTeamPremium(),
-    ]);
-    return isEntitled(personal) || team ? "premium" : "free";
-  } catch {
-    return "free";
-  }
+  // 🔴 개인 구독(플레이) · 팀 구독(트레이너·헬스장) · 트레이너 정액권 연결 중 하나라도
+  //    유료 요금제면 프리미엄 칸이다(2026-09-30 요금제 4단계 — 판정은 `plan-store.ts` 한 곳).
+  //    헬스장이 회원 몫을 내는데 회원 화면에서 또 결제하라고 하면 그 계약은 깨진다.
+  return aiTierForPlan(await resolvePlan());
 }
 
 export type ConsumeResult =

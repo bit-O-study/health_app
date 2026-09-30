@@ -13,6 +13,8 @@ import {
   saveSubscription,
 } from "@/features/billing/subscription-store";
 import { isEntitled, statusLabel } from "@/features/billing/subscription";
+import { resolvePlanDetail } from "@/features/billing/plan-store";
+import type { PlanId } from "@/features/billing/plans";
 
 /**
  * 구매 확인·복원 — 로드맵 7.1.
@@ -22,7 +24,14 @@ import { isEntitled, statusLabel } from "@/features/billing/subscription";
  */
 
 export type BillingStatus = {
+  /** 유료 요금제인가(개인·팀·트레이너 어느 쪽이든). */
   premium: boolean;
+  /** 지금 쓰는 요금제(개인 구독·팀·트레이너 중 높은 것). */
+  plan: PlanId;
+  /** 내가 직접 구독한 요금제(없으면 free). 결제 버튼은 이걸 기준으로 막는다. */
+  personalPlan: PlanId;
+  /** 트레이너·팀이 준 요금제인가. */
+  sponsored: boolean;
   label: string;
   /** 검증이 가능한 환경인가(설정이 다 됐는가). */
   ready: boolean;
@@ -30,9 +39,12 @@ export type BillingStatus = {
 };
 
 export async function getBillingStatusAction(): Promise<BillingStatus> {
-  const sub = await getMySubscription();
+  const [sub, detail] = await Promise.all([getMySubscription(), resolvePlanDetail()]);
   return {
-    premium: isEntitled(sub),
+    premium: detail.plan !== "free",
+    plan: detail.plan,
+    personalPlan: isEntitled(sub) ? detail.personal : "free",
+    sponsored: detail.sponsored,
     label: statusLabel(sub),
     ready: billingSetup().ready,
     expiresAt: sub?.expiresAt ?? null,

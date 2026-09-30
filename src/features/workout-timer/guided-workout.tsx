@@ -130,6 +130,8 @@ import {
 } from "@/features/workout-timer/workout-voice";
 import { speak } from "@/features/workout-timer/speech";
 import { RepCameraSheet } from "@/features/workout-timer/rep-camera-sheet";
+import { checkNewRecord, newRecordMessage } from "@/features/routine/personal-record";
+import { getPersonalBestsAction } from "@/features/routine/personal-record-actions";
 import { repKindFor } from "@/features/workout-timer/rep-counter";
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
@@ -592,6 +594,26 @@ export function GuidedOverlay({
    * 초기값(고정 배열) 만 사용. items prop 의 변화는 무시.
    */
   const [sessionItems] = useState(items);
+  // 개인 신기록(무료, 2026-09-30) — 오늘 전까지 운동별 최고 예상 1RM. 세트를 끝낼 때 넘으면 축하.
+  const [bests, setBests] = useState<Record<string, number>>({});
+  const [prToast, setPrToast] = useState<string | null>(null);
+  useEffect(() => {
+    const ids = sessionItems.flatMap((i) => (i.kind === "main" ? [i.exerciseId] : []));
+    let alive = true;
+    getPersonalBestsAction(ids)
+      .then((b) => {
+        if (alive) setBests(b);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [sessionItems]);
+  useEffect(() => {
+    if (!prToast) return;
+    const t = setTimeout(() => setPrToast(null), 4000);
+    return () => clearTimeout(t);
+  }, [prToast]);
   // 처음 하는 운동의 준비 카드를 넘긴 운동(한 줄 코치 2단계). 기기에 기억해 다시 안 띄운다.
   const [introSeen, setIntroSeen] = useState<ReadonlySet<string>>(() => readIntroSeen());
   // 음성 코치(한 줄 코치 3단계) — 기본 꺼짐. 켜면 세트 시작 요령·휴식 끝 10초 전 다음 세트를 읽는다.
@@ -951,6 +973,20 @@ export function GuidedOverlay({
   function completeSet() {
     if (mainSets <= 0 || !item || item.kind !== "main") return;
     const next = setsDone + 1;
+    // 방금 끝낸 세트가 신기록인가 — 세트별 무게가 있으면 그 세트, 없으면 지금 칸의 값.
+    if (!isTimedExercise(item.exerciseId)) {
+      const doneSet = item.setDetails?.[setsDone];
+      const pr = checkNewRecord(
+        bests[item.exerciseId],
+        doneSet?.weightKg ?? (editable ? editW : item.weightKg),
+        doneSet?.reps ?? (editable ? editReps : item.reps),
+      );
+      if (pr) {
+        setPrToast(newRecordMessage(item.name, pr));
+        // 다음 세트는 방금 세운 기록을 넘어야 또 축하한다.
+        setBests((b) => ({ ...b, [item.exerciseId]: pr.oneRmKg }));
+      }
+    }
     saveSetsDone(
       item.rowId,
       next,
@@ -1975,6 +2011,17 @@ export function GuidedOverlay({
           target={item.target}
           onClose={() => setMuscle3dOpen(false)}
         />
+      ) : null}
+      {prToast ? (
+        <div className="pointer-events-none fixed inset-x-0 top-[max(env(safe-area-inset-top),0.75rem)] z-[75] flex justify-center px-4">
+          <p
+            role="status"
+            data-testid="pr-toast"
+            className="rounded-full bg-brand px-4 py-2 text-sm font-bold text-zinc-950 shadow-lg"
+          >
+            {prToast}
+          </p>
+        </div>
       ) : null}
       {repCamOpen && item.kind === "main" && repKindFor(item.exerciseId) ? (
         <RepCameraSheet

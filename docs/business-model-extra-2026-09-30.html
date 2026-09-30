@@ -1,0 +1,218 @@
+<title>짐꾼 추가 수익 모델</title>
+<meta name="description" content="AI 구독·트레이너 정액권 말고, 짐꾼에 이미 있는 기능으로 만들 수 있는 수익 모델을 우선순위로 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 재료 → 추천(단체) → 나중 → 안 함 → 손익 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px}
+.flow span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--surface)}
+.flow .bad{border-color:var(--crit);color:var(--crit)}
+.flow i{font-style:normal;color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 수익 모델 · 검수보고서 2</p>
+  <h1>짐꾼 추가 수익 모델</h1>
+  <p class="lede">AI 구독과 트레이너 정액권 말고도 돈이 될 수 있는 것을, 앱에 <b>이미 있는 기능</b>에서 찾아 정리했습니다. 지금 사용자가 20명(최근 30일 운동 3명)이라 사용자 수에 기대는 모델은 당장 수익이 0에 가깝습니다. 그래서 <b>한 곳과 계약하면 바로 매출이 나는 단체 대상 모델</b>을 먼저 권합니다. 코드는 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-30</span>
+    <span>기준: 커밋 eb33f5d5 + 라이브 DB 집계</span>
+    <span class="pill ok">추천 3</span>
+    <span class="pill info">나중에 3</span>
+    <span class="pill crit">하지 않기 3</span>
+  </div>
+</header>
+
+<section>
+  <h2>지금 가진 재료</h2>
+  <p>수익 모델은 새로 만들기보다 이미 있는 기능에 값을 붙이는 쪽이 빠릅니다. 라이브 숫자는 이렇습니다.</p>
+  <div class="stats">
+    <div class="stat"><b>20</b><span>가입자 (30일 활동 3)</span></div>
+    <div class="stat"><b>3</b><span>그룹 (멤버 8명, 인증 모드)</span></div>
+    <div class="stat"><b>38</b><span>등록된 헬스장 (기구 목록 포함)</span></div>
+    <div class="stat"><b>1</b><span>키우는 펫 (기능 숨김 상태)</span></div>
+    <div class="stat"><b>0</b><span>러닝 기록</span></div>
+    <div class="stat"><b>0원</b><span>현재 월 수익</span></div>
+  </div>
+  <p class="cap">그룹 인증·챌린지·응원, 헬스장 검색(카카오)·기구 매핑, 펫 방 꾸미기(포인트)·그룹 늑대 옷(코인), 러닝 리더보드, 팀 플랜 계약 코드(트레이너·헬스장)가 이미 있습니다.</p>
+</section>
+
+<section>
+  <h2>추천: 단체 대상 (사용자 수와 상관없이 매출)</h2>
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">1순위</span>
+      <h3>회사·동호회 운동 챌린지 <span class="size">중간</span></h3>
+      <p class="why">회사 복지팀이나 동호회가 "한 달 동안 주 3회 운동 인증" 같은 챌린지를 사서 구성원에게 돌립니다. 한 곳이 수십 명을 한 번에 데려오고, 돈은 단체가 냅니다.</p>
+      <p class="how">이미 있는 <b>그룹 인증 모드</b>(사진 인증·응원·랭킹)에 운영자용 참여율 리포트와 기간을 붙이면 됩니다. 계약·세금계산서는 이미 있는 팀 플랜 흐름을 그대로 씁니다. 가격 예: 30명 한 달 99,000원.</p>
+      <p class="where">재료: <code>src/features/groups/proof*.ts</code> · <code>challenge.ts</code> · <code>billing/team-*.ts</code></p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">2순위</span>
+      <h3>헬스장 입점(회원 모집 광고) <span class="size">중간</span></h3>
+      <p class="why">헬스장은 새 회원이 필요합니다. 우리는 이미 헬스장 38곳과 기구 목록을 갖고 있습니다. 헬스장 페이지에 "이 헬스장 기구로 짠 루틴"과 "상담 신청" 버튼을 두고, 입점한 헬스장은 내 주변 검색 위쪽에 보여 줍니다.</p>
+      <p class="how">월 입점비(예: 30,000원) 또는 상담 신청 1건당 수수료. 상담 신청은 사용자가 직접 연락처를 보낼 때만 전달합니다. 기존 팀 플랜(헬스장 149,000원, 회원 프리미엄)과는 다른 상품입니다. 그건 이미 다니는 회원용이고, 이건 새 회원 모집용입니다.</p>
+      <p class="where">재료: <code>src/features/gym/*</code> (카카오 장소 검색, 기구 매핑)</p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">3순위</span>
+      <h3>꾸미기 아이템 판매 <span class="size">작음</span></h3>
+      <p class="why">펫 방 꾸미기와 그룹 늑대 옷은 지금 운동해서 모은 포인트·코인으로만 삽니다. 여기에 <b>돈으로만 살 수 있는 한정·시즌 아이템</b>을 더합니다. 원가가 0원이라 팔리는 만큼 남습니다.</p>
+      <p class="how">운동으로 버는 포인트와 기존 아이템은 그대로 둡니다. 유료 아이템은 모양만 바꾸고 랭킹·포인트에는 영향이 없어야 합니다(돈으로 이기는 느낌이 나면 운동 동기가 깨집니다). 앱 안 디지털 상품이라 <b>구글 플레이 결제</b>로 팝니다(1,100~3,300원 소모성 상품). 전제: 펫 기능이 아직 라이브에서 숨김이라 먼저 공개해야 합니다.</p>
+      <p class="where">재료: <code>src/features/pet/catalog.ts</code> · <code>groups/cosmetics.ts</code> · <code>billing/play-*.ts</code></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>나중에: 사용자가 수백 명이 된 뒤</h2>
+  <div class="items">
+    <div class="item">
+      <span class="pill info tag">나중</span>
+      <h3>브랜드 후원 챌린지 <span class="size">작음</span></h3>
+      <p class="why">보충제·운동복 브랜드가 챌린지 경품을 대고 후원비를 냅니다. 브랜드에는 참가자 수·완주율 같은 합계만 보고하고 개인 정보는 넘기지 않습니다.</p>
+      <p class="how">1순위 챌린지 기능을 그대로 씁니다. 참가자가 적으면 브랜드가 오지 않으니 사용자가 늘어난 뒤에 합니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill info tag">나중</span>
+      <h3>제휴 링크(추천 상품 수수료) <span class="size">작음</span></h3>
+      <p class="why">식단·홈트 화면에서 단백질 보충제나 덤벨 같은 상품을 추천하고, 쿠팡 파트너스 같은 제휴 링크로 구매 수수료(약 3%)를 받습니다.</p>
+      <p class="how">링크 옆에 "광고·수수료를 받습니다"를 반드시 표시해야 합니다(공정위 추천·보증 지침). 건강 기록으로 상품을 골라 주는 맞춤 추천은 하지 않습니다. 3만 원짜리 한 건에 약 900원이라 규모가 없으면 의미가 없습니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill info tag">나중</span>
+      <h3>온라인 러닝 대회 + 완주 메달 <span class="size">중간</span></h3>
+      <p class="why">"10월 한 달 50km" 같은 대회를 열고, 참가비를 받아 완주하면 실물 메달을 보내 줍니다. 러닝 기록·리더보드가 이미 있습니다.</p>
+      <p class="how">실물 상품이라 앱 밖 결제(카드·계좌)가 가능합니다. 메달 제작·배송 운영이 필요하고, 지금 러닝 기록이 0건이라 수요부터 확인해야 합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>하지 않기를 권하는 것</h2>
+  <div class="grid2">
+    <div class="box">
+      <h3><span class="pill crit">안 함</span> 배너 광고 · 건강 데이터 판매</h3>
+      <p>지금 규모로는 광고 수익이 거의 없고, 처리방침의 약속과도 부딪힙니다. 건강 기록을 팔거나 맞춤 광고에 쓰는 것은 신뢰를 잃는 가장 빠른 길입니다.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill crit">안 함</span> 돈 거는 챌린지</h3>
+      <p>참가비를 걸고 성공하면 돌려받거나 실패한 사람 돈을 나눠 갖는 방식입니다. 사행성·전자금융 규제 부담이 커서 작은 팀이 감당하기 어렵습니다. 경품은 브랜드 후원으로 대신합니다.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">확인</span> 홈 배너의 위스키 광고</h3>
+      <p>홈 맨 위 배너(<code>promo-banner.tsx</code>)에 자매 서비스 "위스키다모아"가 나옵니다(9/15 요청으로 되돌린 배너). 운동·건강 앱에서 술을 홍보하면 브랜드와 어긋나고, 미성년 사용자에게도 보입니다. 운동 앱에서는 IQ 테스트만 남기기를 권합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>손익 한눈에</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>모델</th><th>매출 단위</th><th class="num">한 단위 순수익</th><th class="num">고정비 6만 원을 덮으려면</th><th>결제 방법</th></tr></thead>
+      <tbody>
+        <tr><td>회사·동호회 챌린지</td><td>한 곳·한 달</td><td class="num">약 90,000원</td><td class="num">1곳</td><td>계약·세금계산서</td></tr>
+        <tr><td>헬스장 입점</td><td>한 곳·한 달</td><td class="num">약 27,000원</td><td class="num">3곳</td><td>계약·세금계산서</td></tr>
+        <tr><td>꾸미기 아이템</td><td>1,100원 아이템 1개</td><td class="num">약 850원</td><td class="num">월 71개</td><td>구글 플레이</td></tr>
+        <tr><td>제휴 링크</td><td>3만 원 구매 1건</td><td class="num">약 900원</td><td class="num">월 67건</td><td>제휴사 정산</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">가정: 부가세 10% 제외, 플레이 수수료 15%, 고정비 월 6만 원(9/9 문서 추정). 가격은 예시이며 사용자가 정합니다.</p>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 어떤 것부터 할까요?</h3>
+    <p>추천: <b>회사·동호회 챌린지 → 헬스장 입점 → 꾸미기 아이템</b>. 앞의 둘은 계약 한 건으로 고정비를 넘길 수 있습니다.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 홈 배너에서 위스키 광고를 뺄까요?</h3>
+    <p>추천: <b>예</b>. 운동 앱에서는 IQ 테스트만 남깁니다.</p>
+  </div>
+  <div class="decide">
+    <h3>3. 펫 기능을 공개할까요?</h3>
+    <p>꾸미기 판매의 전제입니다. 추천: 꾸미기 판매를 시작할 때 같이 공개합니다.</p>
+  </div>
+  <div class="decide">
+    <h3>4. 앞 보고서의 1단계(AI 한도 안내·구독 권유)는요?</h3>
+    <p>작업하다 멈춰 두었습니다. 코드는 되돌려 두었고, 다시 하라고 하시면 이어서 합니다.</p>
+  </div>
+</section>
+</div>

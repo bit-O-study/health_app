@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { callAI } from "@/features/coach/ai";
-import { consumeAiQuota } from "@/features/coach/ai-usage";
+import { consumeAiQuota, refundAiQuota } from "@/features/coach/ai-usage";
 import { hasAiConsent, setAiConsent } from "@/features/coach/ai-consent";
 import { loadMyState } from "@/features/coach/my-state-data";
 import { myStateLines } from "@/features/coach/my-state";
@@ -101,7 +101,11 @@ export async function generateTodayPlanAction(minutesInput?: unknown): Promise<G
 
   const lines = myStateLines(state, (id) => EXERCISES[id]?.name ?? id);
   const res = await callAI(TRAINER_SYSTEM, buildTrainerUserText(lines, candidates, minutes), { maxTokens: 700 });
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("trainer");
+    return { ok: false, error: res.error };
+  }
   const plan = parseTodayPlan(res.text, candidates, maxItemsFor(minutes));
   if (!plan) return { ok: false, error: "추천을 만들지 못했어요. 다시 시도해 주세요." };
   return { ok: true, plan };
@@ -196,7 +200,11 @@ export async function reviewTodayDietAction(): Promise<DietReviewResult> {
   const res = await callAI(DIET_SYSTEM, buildDietUserText(ctx.goal, ctx.targets, ctx.today, hour % 24), {
     maxTokens: 600,
   });
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("diet-coach");
+    return { ok: false, error: res.error };
+  }
   const feedback = parseDietFeedback(res.text);
   if (!feedback) return { ok: false, error: "피드백을 만들지 못했어요. 다시 시도해 주세요." };
   return { ok: true, feedback };
@@ -216,7 +224,11 @@ export async function suggestTrainerCommitmentsAction(): Promise<CommitmentSugge
   if (!quota.ok) return { ok: false, error: quota.message };
   const lines = myStateLines(state, (id) => EXERCISES[id]?.name ?? id);
   const res = await callAI(COMMITMENT_SYSTEM, `회원 상태:\n${lines.join("\n") || "기록이 거의 없음"}`);
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("coach");
+    return { ok: false, error: res.error };
+  }
   const suggestions = parseCommitmentSuggestions(res.text);
   if (suggestions.length === 0) return { ok: false, error: "다짐 제안을 만들지 못했어요. 다시 시도해 주세요." };
   return { ok: true, suggestions };

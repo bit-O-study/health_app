@@ -1,7 +1,7 @@
 "use server";
 
 import { callAI } from "@/features/coach/ai";
-import { consumeAiQuota } from "@/features/coach/ai-usage";
+import { consumeAiQuota, refundAiQuota } from "@/features/coach/ai-usage";
 import {
   parseBodyCompScan,
   type OcrField,
@@ -36,7 +36,11 @@ export async function scanBodyCompPhotoAction(input: {
     images: [{ base64: input.imageBase64, mediaType: input.mediaType }],
     maxTokens: 700,
   });
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("body-scan");
+    return { ok: false, error: res.error };
+  }
 
   return { ok: true, values: parseBodyCompScan(res.text) };
 }

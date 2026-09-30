@@ -7,6 +7,7 @@ import {
 import { aiTierForPlan } from "@/features/billing/plans";
 import { resolvePlan } from "@/features/billing/plan-store";
 import { consumeRate } from "@/lib/rate-limit/consume";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { limitMessage } from "@/lib/rate-limit/policy";
 import {
   limitFor,
@@ -130,5 +131,38 @@ export async function readAiUsage(
     return quotaState(feature, tier, Number.isFinite(used) ? used : 0);
   } catch {
     return quotaState(feature, tier, 0);
+  }
+}
+
+/**
+ * AI 가 **실패했을 때** 센 한 번을 돌려준다(2026-09-30). 무료는 기능당 월 1~3회라, 서버 과부하
+ * 한 번에 맛보기 기회를 잃으면 안 된다.
+ *
+ * 🔴 서비스 롤로만 한다 — 사용자 권한으로 되돌릴 수 있게 하면 앱을 고친 사람이 한도를 무한히
+ *    되돌린다. 실패 판정은 서버 액션이 AI 응답을 보고 한다. 되돌리기에 실패해도 조용히 넘어간다.
+ */
+export async function refundAiQuota(feature: AiFeatureId, now: Date = new Date()): Promise<void> {
+  try {
+    const user = await getCurrentUser();
+    const admin = createSupabaseAdminClient();
+    if (!user || !admin) return;
+    const month = usageMonth(now);
+    const { data } = await admin
+      .from("ai_usage")
+      .select("used")
+      .eq("user_id", user.id)
+      .eq("month", month)
+      .eq("feature", feature)
+      .maybeSingle();
+    const used = Number((data as { used?: number } | null)?.used ?? 0);
+    if (!Number.isFinite(used) || used <= 0) return;
+    await admin
+      .from("ai_usage")
+      .update({ used: used - 1, updated_at: new Date().toISOString() })
+      .eq("user_id", user.id)
+      .eq("month", month)
+      .eq("feature", feature);
+  } catch {
+    /* 되돌리기 실패는 넘어간다 */
   }
 }

@@ -2,7 +2,7 @@
 
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { callAI } from "@/features/coach/ai";
-import { consumeAiQuota } from "@/features/coach/ai-usage";
+import { consumeAiQuota, refundAiQuota } from "@/features/coach/ai-usage";
 import { parseMealScan, type ScannedFood } from "@/features/diet/meal-scan-parse";
 import { persistScannedFoods } from "@/features/diet/custom-foods";
 import type { Meal } from "@/features/diet/meal";
@@ -60,7 +60,11 @@ export async function scanMealPhotoAction(input: {
     images: [{ base64: input.imageBase64, mediaType: input.mediaType }],
     maxTokens: 1000,
   });
-  if (!res.ok) return { ok: false, error: res.error };
+  if (!res.ok) {
+    // 서버 쪽 실패는 횟수를 돌려준다(무료 맛보기를 과부하에 잃지 않게).
+    await refundAiQuota("meal-scan");
+    return { ok: false, error: res.error };
+  }
 
   const scan = parseMealScan(res.text);
   if (scan.items.length === 0) {

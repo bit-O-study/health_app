@@ -1,10 +1,10 @@
 <title>짐꾼 프리미엄 간단 구독안</title>
-<meta name="description" content="이미 만든 월 3,900원 프리미엄 구독에 광고 없음·색 테마·한정 꾸미기·배지 혜택을 붙이는 간단 구독안 검수보고서">
+<meta name="description" content="월 3,900원 프리미엄의 핵심을 AI 맞춤 코칭(내 상태 종합 → 운동·다짐 추천)으로 정하고 헬스트레이너 요금제를 더한 구독안">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
 <style>
-/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 있는 것 → 혜택 → 시안 → 안 함 → 순서 → 결정 */
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 무엇을 파나 → 데이터 → 코칭 설계 → 트레이너 요금제 → 시안 → 순서 → 결정 */
 :root{
   --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
   --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
@@ -84,7 +84,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 </style>
 
 <style>
-.phone{width:300px;max-width:100%;background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:18px 16px 22px;display:grid;gap:12px;justify-self:center}
+.phone{width:310px;max-width:100%;background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:18px 16px 22px;display:grid;gap:12px;justify-self:center}
 .phone .bar{display:flex;align-items:center;gap:10px;font-weight:600}
 .phone .crown{width:28px;height:28px;border-radius:8px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-size:14px}
 .phone .lbl{font-size:12px;color:var(--muted);display:flex;justify-content:space-between}
@@ -94,93 +94,121 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 .phone li b{color:var(--brand);font-weight:600;white-space:nowrap}
 .phone li s{color:var(--muted);text-decoration:none;white-space:nowrap}
 .phone li.new{background:var(--brand-soft)}
+.phone li.low b{color:var(--warn)}
+.phone .note{font-size:12.5px;color:var(--ink-2);line-height:1.55}
 .phone .cta{background:var(--brand);color:var(--surface);border-radius:999px;text-align:center;padding:10px;font-weight:600}
-.mock{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
-.swatches{display:flex;gap:8px;flex-wrap:wrap}
-.sw{width:26px;height:26px;border-radius:50%;border:2px solid var(--surface);outline:1px solid var(--line)}
+.phone .cta2{border:1px solid var(--brand);color:var(--brand);border-radius:999px;text-align:center;padding:8px;font-weight:600;font-size:13px}
+.mock{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:18px;align-items:start}
+.pipe{display:flex;flex-wrap:wrap;align-items:stretch;gap:8px}
+.pipe div{flex:1 1 170px;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px;display:grid;gap:4px}
+.pipe div b{font-size:12px;font-family:var(--mono);color:var(--muted);font-weight:500}
+.pipe .ai{border-color:var(--brand)}
 </style>
 <div class="wrap">
 <header>
   <p class="eyebrow">짐꾼 · 구독 · 검수보고서 3</p>
   <h1>짐꾼 프리미엄 간단 구독안</h1>
-  <p class="lede">새 결제를 만들지 않고, <b>이미 만들어 둔 월 3,900원 프리미엄 구독에 살 이유를 붙입니다.</b> 지금 프리미엄 혜택은 AI 횟수 하나뿐인데 AI 기능 대부분이 라이브에서 숨겨져 있어, 결제를 열어도 살 이유가 없습니다. 원가 0원이고 작업이 작은 혜택 4개를 제안합니다. 여기에 <b>헬스트레이너 요금제</b>(체험·트레이너·프로)를 더해, 트레이너가 돈을 내면 연결된 회원이 프리미엄을 받는 구조로 개인 구독과 이어 붙입니다. 코드는 아직 바꾸지 않았습니다.</p>
+  <p class="lede">새 결제를 만들지 않고, 이미 만들어 둔 <b>월 3,900원 프리미엄</b>에 살 이유를 붙입니다. 꾸미기 혜택(늑대 꾸미기·색 테마·배지)은 빼고, 핵심 혜택을 <b>AI 맞춤 코칭</b> 하나로 정했습니다. AI가 내 상태(부위별 운동량, 몸무게, 근육량, 목표 등)를 종합해서 이번 주 운동과 다짐을 추천하는 기능입니다. 트레이너가 요금제에 가입하면 연결된 회원도 이 기능을 씁니다. 코드는 아직 바꾸지 않았습니다.</p>
   <div class="meta">
-    <span>2026-09-30</span>
-    <span>기준: 커밋 ed51c203 + 라이브 DB(pt_passes)</span>
-    <span class="pill ok">혜택 4</span>
+    <span>2026-09-30 (v3)</span>
+    <span>기준: 커밋 66474ecd + 라이브 DB 컬럼</span>
+    <span class="pill ok">핵심 혜택 1</span>
     <span class="pill ok">트레이너 요금제 3</span>
     <span class="pill warn">사용자 몫 2</span>
   </div>
 </header>
 
 <section>
-  <h2>이미 있는 것</h2>
-  <div class="grid2">
-    <div class="box">
-      <h3><span class="pill ok">있음</span> 결제·구독 관리</h3>
-      <p>플레이 구독 결제, 결제 검증, 만료 시각으로 등급 판단, 해지·환불 자동 반영, 구독 화면(<code>/settings/subscription</code>)까지 만들어져 있습니다.</p>
-    </div>
-    <div class="box">
-      <h3><span class="pill crit">빈틈</span> 프리미엄이 AI에만 쓰임</h3>
-      <p>앱 전체에서 프리미엄 여부를 보는 곳은 AI 사용 한도(<code>ai-usage.ts</code>)뿐입니다. 다른 혜택은 "프리미엄이면 이렇게 보여 줘" 조건만 더하면 됩니다.</p>
-    </div>
+  <h2>무엇을 파나</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>혜택</th><th>무료</th><th>프리미엄</th><th>원가(최악)</th></tr></thead>
+      <tbody>
+        <tr><td><b>AI 맞춤 코칭</b> (운동 추천 + 다짐 추천)</td><td>월 1회</td><td class="yes">월 8회 (주 2회)</td><td>회당 약 7원</td></tr>
+        <tr><td>다른 AI 기능 횟수 (식단 사진·자세·체성분 등)</td><td>지금과 같음</td><td class="yes">지금과 같음</td><td>기존 표대로</td></tr>
+        <tr><td>홈 배너 광고</td><td>보임</td><td class="yes">안 보임</td><td>0원</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">뺀 것: 그룹 늑대 한정 꾸미기, 앱 색 테마, 프리미엄 배지. 프리미엄 최악 원가는 1,940원에서 1,996원으로 조금 오르고, 실수령 3,013원 안에 들어갑니다.</p>
+</section>
+
+<section>
+  <h2>지금 AI 코치가 보는 것과 앞으로 볼 것</h2>
+  <p>지금 AI 코치(<code>coach/summary.ts</code>)가 받는 정보는 <b>최근 30일 부위별 운동 횟수와 식단 요약</b>뿐입니다. 무게와 세트 수, 몸 상태, 목표는 넘기지 않습니다. 그래서 답이 "하체를 더 하세요" 수준에 머뭅니다. 앱에는 이미 아래 데이터가 쌓여 있고, 일부는 계산 코드도 있습니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>항목</th><th>저장 위치</th><th>지금 AI에</th><th>이미 있는 계산</th></tr></thead>
+      <tbody>
+        <tr><td><b>부위별 주간 세트 수</b> (가슴·등·어깨·팔·하체·코어)</td><td><code>exercise_completions</code> (세트·횟수·무게)</td><td class="part">횟수만</td><td><code>training-volume.ts</code> — 적정 10~20세트, 주 2회 이상, 몰아서 한 날, 지난주 대비</td></tr>
+        <tr><td><b>종목별 무게 변화</b> (정체·증가)</td><td><code>exercise_completions.set_details</code></td><td class="no">없음</td><td><code>overload.ts</code> — 점진적 과부하 판단</td></tr>
+        <tr><td><b>몸무게 추이</b></td><td><code>weight_logs</code> · <code>profiles</code></td><td class="no">없음</td><td>—</td></tr>
+        <tr><td><b>체성분</b> (골격근·체지방, 팔·몸통·다리 좌우 근육량)</td><td><code>body_compositions</code></td><td class="no">없음</td><td>—</td></tr>
+        <tr><td><b>목표</b> (감량·증량·유지, 목표 체중·체지방·근육량)</td><td><code>profiles.goal</code> · <code>target_*</code></td><td class="no">없음</td><td>—</td></tr>
+        <tr><td><b>경력·성별·키</b></td><td><code>profiles</code></td><td class="no">없음</td><td>—</td></tr>
+        <tr><td><b>다니는 헬스장 기구</b></td><td><code>profiles.gym_equipment_ids</code></td><td class="no">없음</td><td>기구 매핑</td></tr>
+        <tr><td><b>식단</b> (하루 kcal·단백질)</td><td><code>food_logs</code></td><td class="part">kcal만</td><td>—</td></tr>
+        <tr><td><b>걸음 수</b></td><td><code>daily_steps</code></td><td class="no">없음</td><td>—</td></tr>
+      </tbody>
+    </table>
   </div>
 </section>
 
 <section>
-  <h2>붙일 혜택</h2>
-  <div class="scroll">
-    <table>
-      <thead><tr><th>혜택</th><th>무료</th><th>프리미엄</th><th>원가</th><th>작업</th></tr></thead>
-      <tbody>
-        <tr><td><b>홈 배너 광고 없음</b></td><td>홈 맨 위 자매 서비스 배너</td><td class="yes">안 보임</td><td>0원</td><td>아주 작음</td></tr>
-        <tr><td><b>앱 색 테마</b></td><td>기본 초록</td><td class="yes">5가지 중 선택</td><td>0원</td><td>작음</td></tr>
-        <tr><td><b>한정 꾸미기</b></td><td>운동 코인으로 사는 아이템</td><td class="yes">+ 매달 한정 아이템 1개</td><td>0원</td><td>작음</td></tr>
-        <tr><td><b>프리미엄 배지</b></td><td>없음</td><td class="yes">커뮤니티·그룹 이름 옆 왕관</td><td>0원</td><td>작음</td></tr>
-        <tr><td>AI 사용 횟수</td><td>지금과 같음</td><td>지금과 같음</td><td>최대 1,940원</td><td>그대로</td></tr>
-      </tbody>
-    </table>
+  <h2>AI 맞춤 코칭 설계</h2>
+  <div class="pipe">
+    <div><b>1 · 서버 계산</b>위 데이터를 숫자로 정리합니다. 부위별 세트 대 적정 범위, 무게 정체 종목, 4주 체중·근육량 변화, 좌우 근육 차이, 목표까지 남은 양. 규칙 코드라 테스트할 수 있습니다.</div>
+    <div class="ai"><b>2 · AI 해석</b>정리된 숫자와 <b>고를 수 있는 운동 목록</b>(앱 카탈로그 중 내 헬스장 기구로 되는 것)만 넘깁니다. AI는 상태를 해석하고 목록에서 운동을 고르고, 다짐 후보를 만듭니다.</div>
+    <div><b>3 · 서버 검증</b>목록에 없는 운동, 헬스장에 없는 기구, 모르는 다짐 지표는 버립니다. 무게는 AI가 정하지 않고 기존 무게 추천 규칙으로 채웁니다.</div>
+    <div><b>4 · 화면</b>내 상태 요약, 추천 운동 3~5개와 이유, 다짐 2~3개를 보여 줍니다. 버튼으로 바로 적용합니다.</div>
   </div>
 
   <div class="items">
     <div class="item">
-      <span class="pill ok tag">혜택 1</span>
-      <h3>홈 배너 광고 없음 <span class="size">아주 작음</span></h3>
-      <p class="why">가장 알아듣기 쉬운 혜택입니다. "광고 없이 쓰기"는 설명이 필요 없습니다.</p>
-      <p class="how">홈 화면이 등급을 한 번 읽고, 프리미엄이면 배너를 그리지 않습니다. 이 자리를 무료 사용자에게 구독 권유 카드로 쓸 수도 있습니다(3번 참고).</p>
-      <p class="where">위치: <code>src/app/home/page.tsx</code> · <code>cross-promo/promo-banner.tsx</code></p>
+      <span class="pill ok tag">출력 1</span>
+      <h3>내 상태 요약</h3>
+      <p class="why">"최근 4주 등 운동이 주 6세트로 적정(10~20)보다 적어요. 골격근은 0.4kg 늘었고 체지방은 그대로예요. 오른팔 근육이 왼팔보다 0.3kg 많아요."처럼 숫자로 말합니다.</p>
+      <p class="how">숫자는 서버가 계산한 값을 그대로 쓰고, AI는 문장만 만듭니다. 인바디 기록이 없으면 그 줄을 빼고 "인바디를 올리면 더 정확해져요"라고 안내합니다.</p>
     </div>
     <div class="item">
-      <span class="pill ok tag">혜택 2</span>
-      <h3>앱 색 테마 <span class="size">작음</span></h3>
-      <p class="why">매일 여는 앱의 색을 바꾸는 건 작지만 늘 보이는 혜택입니다.</p>
-      <p class="how">앱 색이 이미 한 곳(<code>--brand</code> 토큰)에 모여 있어서, 색 이름을 하나 저장하고 그 토큰만 바꾸면 전체가 바뀝니다. 설정의 화면 모드(다크/라이트) 옆에 둡니다. 구독이 끝나면 기본 초록으로 돌아갑니다.</p>
-      <div class="swatches" aria-label="테마 색 예시">
-        <span class="sw" style="background:#087f5b" title="초록(기본)"></span>
-        <span class="sw" style="background:#2563eb" title="파랑"></span>
-        <span class="sw" style="background:#7c3aed" title="보라"></span>
-        <span class="sw" style="background:#e11d48" title="빨강"></span>
-        <span class="sw" style="background:#ea580c" title="주황"></span>
-      </div>
-      <p class="where">위치: <code>src/styles/globals.css</code> · <code>features/theme/*</code> · <code>app/settings/page.tsx</code></p>
+      <span class="pill ok tag">출력 2</span>
+      <h3>이번 주 추천 운동 3~5개</h3>
+      <p class="why">부족한 부위와 목표에 맞춰 고르고, 종목마다 이유("등 세트가 부족해서", "스쿼트 무게가 3주째 그대로라서")를 붙입니다.</p>
+      <p class="how">버튼은 <b>오늘 운동에 담기</b>입니다. 커뮤니티 "오늘 이 운동 해보기"와 같은 경로(<code>try-workout-actions.ts</code>)를 써서 오늘 하루에만 들어가고 <b>영구 루틴은 바꾸지 않습니다</b>(원칙 2). 루틴에 계속 넣고 싶으면 사용자가 운동탭에서 직접 넣습니다.</p>
     </div>
     <div class="item">
-      <span class="pill ok tag">혜택 3</span>
-      <h3>한정 꾸미기 (그룹 늑대) <span class="size">작음</span></h3>
-      <p class="why">그룹 늑대 옷은 이미 공개돼 있습니다(펫 방 꾸미기는 아직 숨김이라 뒤로 미룹니다).</p>
-      <p class="how">아이템 표에 "프리미엄 전용"과 "판매 달"을 붙입니다. 그룹 늑대는 그룹이 함께 키우므로, <b>그룹에 프리미엄 멤버가 한 명이라도 있으면 그 달 한정 아이템을 코인으로 살 수 있습니다.</b> 한 명의 구독이 그룹 전체에 보이니 자연스럽게 알려집니다. 산 아이템은 구독이 끝나도 남습니다. 랭킹이나 코인에는 영향이 없습니다.</p>
-      <p class="where">위치: <code>src/features/groups/cosmetics.ts</code> · <code>group-actions.ts</code> (<code>buyPetItemAction</code>)</p>
+      <span class="pill ok tag">출력 3</span>
+      <h3>다짐 추천 2~3개</h3>
+      <p class="why">"2주 동안 등 운동 4번", "하루 단백질 기록 10일" 같은 다짐을 목표에 맞춰 제안합니다.</p>
+      <p class="how">기존 다짐 지표(운동한 날·운동 횟수·소비 kcal·식단 기록한 날·하루 평균 섭취) 안에서만 만들고, <b>다짐으로 추가</b> 버튼은 기존 <code>addCommitmentAction</code>을 씁니다.</p>
     </div>
     <div class="item">
-      <span class="pill ok tag">혜택 4</span>
-      <h3>프리미엄 배지 <span class="size">작음</span></h3>
-      <p class="why">구독했다는 걸 남에게 보여 주고 싶은 사람이 있습니다. 보는 사람에게는 프리미엄이 있다는 걸 알리는 광고가 됩니다.</p>
-      <p class="how">커뮤니티 글·댓글과 그룹 멤버 이름 옆에 작은 왕관을 붙입니다. 설정에서 끌 수 있게 합니다. 남의 구독 여부는 이 배지 하나만 읽게 하고, 결제 정보는 다른 사람에게 보이지 않게 합니다.</p>
-      <p class="where">위치: <code>src/features/community/data-access.ts</code> · <code>components/*</code> · 그룹 멤버 목록</p>
+      <span class="pill info tag">정리</span>
+      <h3>기존 AI 기능 두 개를 하나로</h3>
+      <p class="why">지금 AI 코치 화면에는 "운동 분석"과 "다짐 제안"이 따로 있고, 둘 다 적은 정보로 동작합니다.</p>
+      <p class="how">둘을 AI 맞춤 코칭 하나로 합칩니다. 식단 분석과 자세 분석은 그대로 둡니다. 결과는 보관해서 다시 열 때 AI를 또 부르지 않습니다(기존 <code>analysis-store.ts</code>).</p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="box">
+      <h3><span class="pill warn">안전</span> 지키는 선</h3>
+      <ul class="clean">
+        <li>무게·횟수는 AI가 정하지 않습니다. 기존 규칙으로 채웁니다.</li>
+        <li>의료 조언이 아니라고 표시하고, 통증·부상이 있으면 쉬라고 안내합니다.</li>
+        <li>AI가 막히면 규칙만으로 부족한 부위 추천을 보여 줍니다(빈 화면 없음).</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">개인정보</span> 먼저 할 것</h3>
+      <ul class="clean">
+        <li>이름·연락처는 보내지 않고, 몸 상태 숫자만 보냅니다.</li>
+        <li><b>처리방침에 Gemini를 추가</b>해야 합니다(지금 빠져 있음). 체성분 같은 건강 정보를 외부 AI로 보내므로 첫 사용 때 동의를 받습니다.</li>
+        <li>AI 코치는 라이브에서 숨김이라, 처리방침을 고친 뒤에 공개합니다.</li>
+      </ul>
     </div>
   </div>
 </section>
-
 <section>
   <h2>헬스트레이너 요금제</h2>
   <p>트레이너 정액권은 신청 → 관리자 승인 → 기간·회원 수 부여까지 만들어져 있지만, <b>가격과 요금제가 없습니다.</b> 따로 있는 팀 플랜의 트레이너 안(월 39,000원·회원 15명)은 신청 화면으로 들어갈 수 없는 죽은 경로입니다. 둘을 정액권 하나로 합치고 요금제 3개를 둡니다.</p>
@@ -202,7 +230,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
       <span class="pill ok tag">핵심</span>
       <h3>연결 회원은 프리미엄 <span class="size">작음</span></h3>
       <p class="why">트레이너가 회원에게 "제 회원이면 짐꾼 프리미엄이 공짜예요"라고 말할 수 있어야 정액권을 살 이유가 생깁니다. 회원은 트레이너 앱에 연결될 이유가 생깁니다.</p>
-      <p class="how">등급 판단(<code>resolveTier</code>)에 "내가 연결된 트레이너의 정액권이 오늘 살아 있음"을 더합니다. 위의 광고 없음·테마·한정 꾸미기·배지와 AI 횟수가 모두 따라옵니다. 트레이너 정액권이 끝나면 회원도 다음 날 무료로 돌아갑니다.</p>
+      <p class="how">등급 판단(<code>resolveTier</code>)에 "내가 연결된 트레이너의 정액권이 오늘 살아 있음"을 더합니다. 위의 AI 맞춤 코칭(월 8회)과 광고 없음, AI 횟수가 모두 따라옵니다. 트레이너 정액권이 끝나면 회원도 다음 날 무료로 돌아갑니다.</p>
       <p class="where">위치: <code>src/features/coach/ai-usage.ts</code> · <code>pt_links</code> · <code>pt_has_pass</code></p>
     </div>
     <div class="item">
@@ -244,59 +272,44 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
   </div>
 </section>
 
+
 <section>
   <h2>화면 시안</h2>
   <div class="mock">
-    <div class="phone" aria-label="구독 화면 시안">
-      <div class="bar"><span class="crown">♛</span>무료<span style="margin-left:auto;font-size:12px;color:var(--muted)">월 3,900원 · 언제든 해지</span></div>
-      <div class="lbl"><span>프리미엄 혜택</span><span>무료 → 프리미엄</span></div>
+    <div class="phone" aria-label="AI 맞춤 코칭 결과 화면 시안">
+      <div class="bar"><span class="crown">AI</span>이번 주 맞춤 코칭<span style="margin-left:auto;font-size:12px;color:var(--muted)">이번 달 5회 남음</span></div>
+      <div class="lbl"><span>내 상태 · 최근 4주</span><span>목표: 근육 늘리기</span></div>
       <ul>
-        <li class="new"><span>홈 배너 광고</span><span><s>있음</s> → <b>없음</b></span></li>
-        <li class="new"><span>앱 색 테마</span><span><s>1가지</s> → <b>5가지</b></span></li>
-        <li class="new"><span>한정 늑대 꾸미기</span><span><s>—</s> → <b>매달 1개</b></span></li>
-        <li class="new"><span>프리미엄 배지</span><span><s>—</s> → <b>♛</b></span></li>
-        <li><span>AI 코치 분석</span><span><s>3회</s> → <b>60회</b></span></li>
-        <li><span>식단 사진 분석</span><span><s>100회</s> → <b>200회</b></span></li>
+        <li class="low"><span>등 주간 세트</span><span><s>적정 10~20</s> <b>6</b></span></li>
+        <li><span>가슴 주간 세트</span><span><s>적정 10~20</s> <b>14</b></span></li>
+        <li><span>골격근량</span><span><s>4주</s> <b>+0.4kg</b></span></li>
+        <li><span>체중</span><span><s>4주</s> <b>+0.6kg</b></span></li>
+        <li class="low"><span>스쿼트 무게</span><span><s>3주째</s> <b>60kg 그대로</b></span></li>
       </ul>
-      <div class="cta">프리미엄 시작하기</div>
-    </div>
-    <div class="phone" aria-label="트레이너 정액권 화면 시안">
-      <div class="bar"><span class="crown">🏋</span>트레이너 정액권</div>
-      <div class="lbl"><span>요금제 고르기</span><span>부가세 별도</span></div>
+      <p class="note">가슴은 충분해요. 등이 적정보다 적어서 이번 주는 당기기 운동을 늘려 보세요. 스쿼트는 한 단계 올릴 때예요.</p>
+      <div class="lbl"><span>추천 운동</span><span>무게는 내 기록 기준</span></div>
       <ul>
-        <li><span>체험 · 14일</span><span><s>회원 3명</s> · <b>0원</b></span></li>
-        <li class="new"><span>트레이너 ✓</span><span><s>회원 15명</s> · <b>39,000원</b></span></li>
-        <li><span>트레이너 프로</span><span><s>회원 30명</s> · <b>69,000원</b></span></li>
+        <li class="new"><span>랫풀다운 · 4세트</span><span><b>45kg</b></span></li>
+        <li class="new"><span>시티드 로우 · 3세트</span><span><b>40kg</b></span></li>
+        <li class="new"><span>스쿼트 · 4세트</span><span><b>62.5kg</b></span></li>
       </ul>
-      <div class="lbl"><span>연결 회원 전원 프리미엄 포함</span></div>
+      <div class="cta">오늘 운동에 담기</div>
+      <div class="lbl"><span>추천 다짐</span></div>
       <ul>
-        <li><span>입금 계좌</span><span><s>관리자 설정 계좌</s></span></li>
-        <li><span>입금자명</span><span><b>트레이너 이름</b></span></li>
+        <li><span>2주 동안 운동 6번</span><span><s>운동 횟수</s></span></li>
+        <li><span>14일 중 식단 10일 기록</span><span><s>식단 기록</s></span></li>
       </ul>
-      <div class="cta">신청하기</div>
+      <div class="cta2">다짐으로 추가</div>
+      <p class="cap">예시 화면이며 숫자는 가상의 값입니다.</p>
     </div>
     <div class="box">
-      <h3>무료 사용자에게 알리는 곳</h3>
+      <h3>무료 사용자에게 보이는 방식</h3>
       <ul class="clean">
-        <li><b>홈 배너 자리:</b> 배너 사이에 "광고 없이 쓰기 · 월 3,900원" 카드 한 장을 넣습니다.</li>
-        <li><b>설정 테마 고르기:</b> 잠긴 색을 누르면 구독 화면으로 갑니다.</li>
-        <li><b>그룹 늑대 상점:</b> 한정 아이템에 "그룹에 프리미엄 멤버가 있으면 살 수 있어요"를 표시합니다.</li>
+        <li>무료는 월 1회 써 볼 수 있습니다. 결과 화면 아래에 "프리미엄이면 매주 2번 새로 받아요 · 월 3,900원"을 표시합니다.</li>
+        <li>다 쓰면 "이번 달 맞춤 코칭을 다 쓰셨어요. 다음 달 1일에 다시 채워져요. 프리미엄은 월 8회"로 안내하고 구독 화면 링크를 붙입니다.</li>
+        <li>트레이너에 연결된 회원은 자동으로 프리미엄입니다.</li>
       </ul>
-      <p class="cap">알림이나 팝업으로 권하지는 않습니다. 쓰다가 자연스럽게 보이는 곳에만 둡니다.</p>
-    </div>
-  </div>
-</section>
-
-<section>
-  <h2>일부러 넣지 않는 것</h2>
-  <div class="grid2">
-    <div class="box">
-      <h3><span class="pill crit">안 함</span> 기록 보기·루틴 개수 제한</h3>
-      <p>지금까지 무료로 쓰던 걸 막으면 결제보다 이탈이 먼저 납니다.</p>
-    </div>
-    <div class="box">
-      <h3><span class="pill crit">안 함</span> 데이터 내보내기 유료화</h3>
-      <p>내 기록을 가져가는 건 이용자의 기본 권리라 무료로 둡니다.</p>
+      <p class="cap">알림이나 팝업으로 권하지는 않습니다.</p>
     </div>
   </div>
 </section>
@@ -304,35 +317,31 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 <section>
   <h2>순서</h2>
   <div class="phase">
-    <div class="box"><h3><span class="pill ok">1</span> 혜택 4개 + 혜택표</h3><p>혜택을 만들고 구독 화면 표에 추가합니다. 단위 테스트(등급별로 보이는지)와 E2E(무료·프리미엄 화면)를 같이 씁니다.</p></div>
-    <div class="box"><h3><span class="pill ok">2</span> 권유 자리 3곳</h3><p>홈 카드, 잠긴 테마 색, 늑대 상점 표시를 넣습니다.</p></div>
-    <div class="box"><h3><span class="pill ok">3</span> 트레이너 요금제</h3><p>연결 회원 프리미엄 → 요금제 고르기·입금 안내·승인 자동 채움 → 14일 체험 → 알림톡 한도 순서로 합니다. 죽은 팀 플랜 트레이너 경로는 정액권으로 합칩니다.</p></div>
-    <div class="box"><h3><span class="pill warn">사용자</span> 입금 계좌·정책 확인</h3><p>관리자 화면에 입금 계좌를 넣고, 앱 밖 결제가 플레이 정책에 맞는지 확인합니다.</p></div>
-    <div class="box"><h3><span class="pill warn">사용자</span> 플레이 콘솔</h3><p>구독 상품 <code>helssu_premium_monthly</code>를 등록하고 서비스 계정을 연결합니다. 이게 없으면 결제 버튼이 "준비 중"으로 나옵니다.</p></div>
+    <div class="box"><h3><span class="pill ok">1</span> 처리방침·동의</h3><p>처리방침에 Gemini를 넣고, 건강 정보를 AI로 보내기 전에 한 번 동의를 받습니다.</p></div>
+    <div class="box"><h3><span class="pill ok">2</span> 내 상태 계산</h3><p>부위별 세트, 무게 정체, 체중·근육 변화, 좌우 차이, 목표까지 남은 양을 계산하는 규칙 모듈을 만들고 단위 테스트합니다.</p></div>
+    <div class="box"><h3><span class="pill ok">3</span> AI 맞춤 코칭</h3><p>AI 호출, 운동·다짐 검증, 결과 화면, 오늘 운동에 담기·다짐 추가, 한도(무료 1·프리미엄 8)를 만들고 E2E로 확인합니다. 기존 운동 분석·다짐 제안을 합칩니다.</p></div>
+    <div class="box"><h3><span class="pill ok">4</span> 트레이너 요금제</h3><p>연결 회원 프리미엄 → 요금제 고르기·입금 안내 → 14일 체험 → 알림톡 한도 순서로 합니다.</p></div>
+    <div class="box"><h3><span class="pill warn">사용자</span> 플레이 콘솔·계좌</h3><p>구독 상품 <code>helssu_premium_monthly</code> 등록, 서비스 계정 연결, 입금 계좌 설정, 앱 밖 결제 정책 확인.</p></div>
   </div>
 </section>
 
 <section>
   <h2>결정이 필요한 것</h2>
   <div class="decide">
-    <h3>1. 혜택은 이 4개면 될까요?</h3>
-    <p>추천: <b>4개 모두</b>. 광고 없음이 가장 알아듣기 쉬운 혜택입니다.</p>
+    <h3>1. 프리미엄 핵심을 AI 맞춤 코칭 하나로 할까요?</h3>
+    <p>추천: <b>예</b>. 꾸미기 혜택은 뺍니다. 홈 배너 광고 없음은 작업이 거의 없어서 덤으로 둡니다.</p>
   </div>
   <div class="decide">
-    <h3>2. 가격은 월 3,900원 그대로 할까요?</h3>
-    <p>추천: <b>그대로</b>. AI를 한도까지 다 써도 적자가 나지 않는 가격으로 계산해 둔 값입니다.</p>
+    <h3>2. 횟수는 무료 월 1회, 프리미엄 월 8회로 할까요?</h3>
+    <p>추천: <b>예</b>. 몸 상태는 매일 바뀌지 않아서 주 2회면 충분하고, 무료 1회로 어떤 건지 볼 수 있습니다.</p>
   </div>
   <div class="decide">
-    <h3>3. 한정 꾸미기는 그룹 늑대부터 할까요?</h3>
-    <p>추천: <b>예</b>. 펫 방 꾸미기는 펫 기능을 공개할 때 같이 합니다.</p>
+    <h3>3. 추천 운동은 "오늘 운동에 담기"만 할까요?</h3>
+    <p>추천: <b>예</b>. 영구 루틴은 사용자가 운동탭에서 직접 바꿉니다(원칙 2).</p>
   </div>
   <div class="decide">
-    <h3>4. 트레이너 요금제는 체험·39,000원·69,000원 세 개로 할까요?</h3>
-    <p>추천: <b>예</b>. 69,000원(회원 30명)만 새 값이고, 나머지는 이미 정해 둔 가격입니다.</p>
-  </div>
-  <div class="decide">
-    <h3>5. 트레이너에 연결된 회원에게 프리미엄을 줄까요?</h3>
-    <p>추천: <b>예</b>. 정액권을 살 이유의 핵심입니다. 최악의 AI 비용을 계산해도 요금 안에 들어옵니다.</p>
+    <h3>4. 트레이너 요금제는 체험·39,000원·69,000원, 연결 회원 프리미엄으로 할까요?</h3>
+    <p>추천: <b>예</b>. 69,000원(회원 30명)만 새 값입니다.</p>
   </div>
 </section>
 </div>

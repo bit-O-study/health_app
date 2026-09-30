@@ -15,6 +15,7 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
+  Camera,
   Gauge,
   Link2,
   ListChecks,
@@ -128,6 +129,8 @@ import {
   writeWorkoutVoice,
 } from "@/features/workout-timer/workout-voice";
 import { speak } from "@/features/workout-timer/speech";
+import { RepCameraSheet } from "@/features/workout-timer/rep-camera-sheet";
+import { repKindFor } from "@/features/workout-timer/rep-counter";
 import { PlateHint } from "@/features/routine/components/plate-hint";
 import { replaceExerciseTodayOnlyAction } from "@/features/routine/daily-plan-actions";
 import type { ExerciseSubstitute } from "@/features/routine/exercise-substitutes";
@@ -570,6 +573,8 @@ export function GuidedOverlay({
   /** AI 자세 분석 다이얼로그(현재 운동 영상 → 자세 코칭). */
   const [postureOpen, setPostureOpen] = useState(false);
   useBackClose(postureOpen, () => setPostureOpen(false));
+  // 카메라로 횟수 세기(스쿼트·푸시업) — 뒤로가기 닫기는 시트 안에서 건다.
+  const [repCamOpen, setRepCamOpen] = useState(false);
   /** 운동 티칭 영상 올리기 다이얼로그(현재 운동으로 태그). */
   const [teachOpen, setTeachOpen] = useState(false);
   /** 메모 작성 다이얼로그. */
@@ -1579,6 +1584,18 @@ export function GuidedOverlay({
                     AI 자세
                   </button>
                 ) : null}
+                {/* 센 횟수는 횟수 칸에 넣는다 — 칸이 없는 '고정 켬'에선 넣을 곳이 없어 숨긴다. */}
+                {editable && item.kind === "main" && !timed && repKindFor(item.exerciseId) ? (
+                  <button
+                    type="button"
+                    data-testid="rep-camera-open"
+                    onClick={() => setRepCamOpen(true)}
+                    className="inline-flex h-9 items-center gap-1 rounded-full bg-white/10 px-3 text-xs font-medium text-zinc-200 transition hover:bg-white/15"
+                  >
+                    <Camera aria-hidden="true" size={13} />
+                    카메라로 세기
+                  </button>
+                ) : null}
               </div>
             </div>
             {/* 무게/횟수 표기: 고정 끔(스크러버)이면 숨김. 워밍업·마무리는 고정 켬이면
@@ -1957,6 +1974,19 @@ export function GuidedOverlay({
           name={item.name}
           target={item.target}
           onClose={() => setMuscle3dOpen(false)}
+        />
+      ) : null}
+      {repCamOpen && item.kind === "main" && repKindFor(item.exerciseId) ? (
+        <RepCameraSheet
+          key={item.rowId}
+          kind={repKindFor(item.exerciseId)!}
+          exerciseName={item.name}
+          voiceOn={voiceOn}
+          onApply={(reps) => {
+            putEdit({ reps });
+            setRepCamOpen(false);
+          }}
+          onClose={() => setRepCamOpen(false)}
         />
       ) : null}
       {postureOpen && item.kind === "main" ? (

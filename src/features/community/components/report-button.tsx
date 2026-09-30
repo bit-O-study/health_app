@@ -24,6 +24,7 @@ export function ReportButton({
   className,
   label,
   iconSize = 15,
+  onClose,
 }: {
   targetKind: ReportTargetKind;
   targetId: string;
@@ -33,12 +34,19 @@ export function ReportButton({
   className?: string;
   label?: string;
   iconSize?: number;
+  /** 신고 시트가 닫힐 때(접수·취소 모두) — 메뉴 안에 둔 버튼이 메뉴를 닫는 데 쓴다. */
+  onClose?: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const [done, setDone] = useState(false);
   const [pending, start] = useTransition();
+  // 시트를 닫는 곳은 전부 이걸로 — 부모(메뉴)에게 닫혔다고 알린다.
+  const closeSheet = () => {
+    setOpen(false);
+    onClose?.();
+  };
   useBackClose(open, () => {
-    if (!pending) setOpen(false);
+    if (!pending) closeSheet();
   });
 
   function submit(reason: string) {
@@ -54,12 +62,12 @@ export function ReportButton({
       if (r.ok) {
         setDone(true);
         setTimeout(() => {
-          setOpen(false);
+          closeSheet();
           setDone(false);
         }, 1200);
       } else {
         alert(r.error);
-        setOpen(false);
+        closeSheet();
       }
     });
   }
@@ -82,7 +90,7 @@ export function ReportButton({
       {open ? (
         <div
           className="fixed inset-0 z-[60] flex items-end justify-center bg-black/50 sm:items-center"
-          onClick={() => !pending && setOpen(false)}
+          onClick={() => !pending && closeSheet()}
         >
           <div
             className="w-full max-w-sm rounded-t-3xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] text-zinc-900 dark:bg-zinc-900 dark:text-zinc-100 sm:rounded-3xl sm:pb-4"
@@ -93,7 +101,7 @@ export function ReportButton({
               <button
                 type="button"
                 aria-label="닫기"
-                onClick={() => !pending && setOpen(false)}
+                onClick={() => !pending && closeSheet()}
                 className="rounded-full p-1 text-zinc-400"
               >
                 <X size={20} />

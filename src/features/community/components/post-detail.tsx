@@ -164,8 +164,11 @@ export function PostDetail({
                     </>
                   ) : null}
                   {!post.isMine ? (
-                    <div onClick={() => setMenuOpen(false)}>
+                    // 🔴 예전엔 감싼 div 가 누르는 즉시 메뉴를 닫아, 신고 시트가 메뉴와 함께 사라졌다
+                    //    (상세 화면에서 글 신고가 한 번도 안 됐다 — 2026-09-30 E2E 로 발견). 시트가 닫힐 때 메뉴를 닫는다.
+                    <div>
                       <ReportButton
+                        onClose={() => setMenuOpen(false)}
                         targetKind="community_post"
                         targetId={post.id}
                         targetUserId={post.userId}

@@ -7,6 +7,7 @@ import {
   createSupabaseServerClient,
   getCurrentUser,
 } from "@/lib/supabase/server";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { resolveMemberName } from "@/features/groups/member-name";
 import { MAX_CAPTION, validatePostInput } from "./community";
 import { resolveVisibility, type Visibility } from "./feed";
@@ -61,7 +62,27 @@ export async function createCommunityPostAction(input: {
   );
 
   const caption = input.caption.trim();
-  const { data, error } = await supabase
+
+  // 🔴 운동 기록 카드는 서버(서비스 롤)만 붙일 수 있다 — DB 지킴이(community_post_guard)가
+  //    사용자 권한으로 온 카드를 거절한다. 그래야 앱을 거치지 않고 '하지도 않은 운동 완료' 카드를
+  //    만들 수 없다. 서비스 롤은 RLS 를 건너뛰므로, RLS 가 하던 확인(정지 여부·그룹 멤버)을 여기서 한다.
+  //    (2026-09-30 커뮤니티 보안 1단계)
+  const writer = snapshot ? createSupabaseAdminClient() : supabase;
+  if (snapshot) {
+    if (!writer) return { ok: false, error: "운동 기록 공유를 지금 쓸 수 없어요. 잠시 후 다시 시도해 주세요." };
+    const { data: active } = await supabase.rpc("is_active_member");
+    if (active === false) return { ok: false, error: "지금은 글을 쓸 수 없는 상태예요." };
+    if (vis.visibility !== "public" && vis.groupId) {
+      const { data: member } = await supabase
+        .from("group_members")
+        .select("group_id")
+        .eq("group_id", vis.groupId)
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (!member) return { ok: false, error: "그 그룹 멤버만 이 범위로 올릴 수 있어요." };
+    }
+  }
+  const { data, error } = await writer!
     .from("community_posts")
     .insert({
       ...(input.submissionId ? { id: input.submissionId } : {}),

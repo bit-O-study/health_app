@@ -1,0 +1,234 @@
+[
+  {
+    "id": "zottman-curl",
+    "inputs": [
+      {
+        "file": "studio-batch-4.mjs",
+        "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+      },
+      {
+        "file": "exercise-motion-4.mjs",
+        "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+      },
+      {
+        "file": "human.json",
+        "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+      }
+    ],
+    "themes": [
+      {
+        "suffix": "",
+        "file": "public/exercise-guides/skinned-pilot/zottman-curl.mp4",
+        "sha256": "2bb334807612cd196649c11cae3951d11751657cc23de8adaded2a45a92958b1",
+        "bytes": 416876,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 494,
+          "dropped": 3
+        }
+      },
+      {
+        "suffix": "-dark",
+        "file": "public/exercise-guides/skinned-pilot/zottman-curl-dark.mp4",
+        "sha256": "10e636462813bd383c9d53737f39f1c1affbdd03de84385cd5f1a2fa4e6bfdce",
+        "bytes": 348449,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 495,
+          "dropped": 3
+        }
+      }
+    ],
+    "status": "reviewed-preview",
+    "reviewedAt": "2026-09-30T07:33:30.046Z",
+    "notes": "Supinated lift, top pronation, pronated lowering, bottom grip reset; continuous forearm rotation across every frame.",
+    "visualEvidence": ".verify-shots/skinned-3d/zottman-curl/",
+    "limitations": "3D mannequin preview; app integration and Android device review pending."
+  },
+  {
+    "id": "wide-dumbbell-curl",
+    "inputs": [
+      {
+        "file": "studio-batch-4.mjs",
+        "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+      },
+      {
+        "file": "exercise-motion-4.mjs",
+        "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+      },
+      {
+        "file": "human.json",
+        "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+      }
+    ],
+    "themes": [
+      {
+        "suffix": "",
+        "file": "public/exercise-guides/skinned-pilot/wide-dumbbell-curl.mp4",
+        "sha256": "880aa5f00d87b8b0d67716a8666238ffdcdd665023f966aba559c536e2c63ee7",
+        "bytes": 370031,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 494,
+          "dropped": 3
+        }
+      },
+      {
+        "suffix": "-dark",
+        "file": "public/exercise-guides/skinned-pilot/wide-dumbbell-curl-dark.mp4",
+        "sha256": "593ce38784395ac150048a5bce12040e4bb2cf2bf0b54ddb7340810f337a8abb",
+        "bytes": 296441,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 495,
+          "dropped": 4
+        }
+      }
+    ],
+    "status": "reviewed-preview",
+    "reviewedAt": "2026-09-30T07:33:30.048Z",
+    "notes": "Outward curl path with fixed elbows and external shoulder rotation.",
+    "visualEvidence": ".verify-shots/skinned-3d/wide-dumbbell-curl/",
+    "limitations": "3D mannequin preview; app integration and Android device review pending."
+  },
+  {
+    "id": "scaption",
+    "inputs": [
+      {
+        "file": "studio-batch-4.mjs",
+        "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+      },
+      {
+        "file": "exercise-motion-4.mjs",
+        "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+      },
+      {
+        "file": "human.json",
+        "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+      }
+    ],
+    "themes": [
+      {
+        "suffix": "",
+        "file": "public/exercise-guides/skinned-pilot/scaption.mp4",
+        "sha256": "b92471f9486f4b30c23e3af6b5f47567793c89ce97636945902e67daa3113ef4",
+        "bytes": 462784,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 496,
+          "dropped": 3
+        }
+      },
+      {
+        "suffix": "-dark",
+        "file": "public/exercise-guides/skinned-pilot/scaption-dark.mp4",
+        "sha256": "3f6ce47a799f78d5c0d277d16e3be1f7a81812e2738edf3ed00167f870c28ab8",
+        "bytes": 394214,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 494,
+          "dropped": 3
+        }
+      }
+    ],
+    "status": "reviewed-preview",
+    "reviewedAt": "2026-09-30T07:33:30.048Z",
+    "notes": "Bilateral thumbs-up raise in a 35-degree forward diagonal plane below shoulder height.",
+    "visualEvidence": ".verify-shots/skinned-3d/scaption/",
+    "limitations": "3D mannequin preview; app integration and Android device review pending."
+  },
+  {
+    "id": "alternating-dumbbell-front-raise",
+    "inputs": [
+      {
+        "file": "studio-batch-4.mjs",
+        "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+      },
+      {
+        "file": "exercise-motion-4.mjs",
+        "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+      },
+      {
+        "file": "human.json",
+        "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+      }
+    ],
+    "themes": [
+      {
+        "suffix": "",
+        "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-front-raise.mp4",
+        "sha256": "317e998a49c4f81dec31777f1522e27abc3669f7436e07266149d92ba3bcdec1",
+        "bytes": 301903,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 495,
+          "dropped": 3
+        }
+      },
+      {
+        "suffix": "-dark",
+        "file": "public/exercise-guides/skinned-pilot/alternating-dumbbell-front-raise-dark.mp4",
+        "sha256": "cbc153a44dd3410d238b75354ba7f59d90f1dce75e023897f0673221785b7168",
+        "bytes": 280550,
+        "decodedFrames": 480,
+        "playback": {
+          "width": 1080,
+          "height": 1080,
+          "duration": 8,
+          "looped": true,
+          "error": null,
+          "overflow": false,
+          "frames": 495,
+          "dropped": 4
+        }
+      }
+    ],
+    "status": "reviewed-preview",
+    "reviewedAt": "2026-09-30T07:33:30.048Z",
+    "notes": "Left/right front raises alternate, opposite arm stays still and raised wrist stays below shoulder.",
+    "visualEvidence": ".verify-shots/skinned-3d/alternating-dumbbell-front-raise/",
+    "limitations": "3D mannequin preview; app integration and Android device review pending."
+  }
+]

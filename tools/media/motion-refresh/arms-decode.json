@@ -1,0 +1,70 @@
+[
+  {
+    "id": "dumbbell-biceps-curl",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "71c6333b54308c69661a649984e69394095255b7839eb179efe62acebbeadf6e",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "98fdb30df7ac1eda89221e3862cd73ff5bc231283bd99ec555bbd01d7bed3464",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  },
+  {
+    "id": "hammer-curl-2",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "94faffcb102295b587f4a4a534a5e7bc365cad91daa2e1fffe29d83007db48f5",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "1a2dd4ecd473b8939020efadbc191c274a1b0d19abb84fc51ec73e9a5a47ecdc",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  },
+  {
+    "id": "dumbbell-front-raise",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "bdbf9e539279cc89857164d602011ef9ec4dd1e28cf95c1c6f304f7f190291ec",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "4f573a934d0a62f0402f6cab78a56cb48428cb021748972aa303a1229919b81b",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  },
+  {
+    "id": "triceps-kickback",
+    "themes": [
+      {
+        "suffix": "",
+        "sha256": "f7324ec799e8ea1524fe84f88b5c889389df5bf3c43f32a6afa0717640933b48",
+        "frames": 480,
+        "decode": "passed"
+      },
+      {
+        "suffix": "-dark",
+        "sha256": "fc24cf73d178d0925c88592bd58b8689f8045aa87c5992183965ce251db1b13f",
+        "frames": 480,
+        "decode": "passed"
+      }
+    ]
+  }
+]

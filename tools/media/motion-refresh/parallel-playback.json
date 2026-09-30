@@ -1,0 +1,82 @@
+[
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.308542,
+    "error": null,
+    "dropped": 1,
+    "total": 1227,
+    "id": "dumbbell-shoulder-press",
+    "sha256": "4e638aab1c01ff0c0bf55a6ab4e375b92d15a0ac2d42ef25af651214a8236fe1"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.297498,
+    "error": null,
+    "dropped": 1,
+    "total": 1222,
+    "id": "dumbbell-shoulder-press-dark",
+    "sha256": "532d8ab0ee1e369c0c4684e7f220c7e3c6d11c1d00a2d8ebe7b4248b683c2879"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.301837,
+    "error": null,
+    "dropped": 1,
+    "total": 1227,
+    "id": "barbell-shrug",
+    "sha256": "743e94fd208753f18a1f309b78b2b8a251e3760bc649ff971282470084c28791"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.299432,
+    "error": null,
+    "dropped": 0,
+    "total": 1226,
+    "id": "barbell-shrug-dark",
+    "sha256": "3390fe4cc5e6a9a1d5a584e9076e9057a50126b848aadf97d3c535ff96d6641c"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.299032,
+    "error": null,
+    "dropped": 1,
+    "total": 1227,
+    "id": "side-plank",
+    "sha256": "517b1cfe3071fdfe1c8f9def83d9ac417a0945a2d3b6dd722cd033b3177a692d"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.293429,
+    "error": null,
+    "dropped": 1,
+    "total": 1222,
+    "id": "side-plank-dark",
+    "sha256": "160c44ffe3fc81bbbd944087f69b0c0b67290bbc2f10338b576852582ef5e31b"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.293503,
+    "error": null,
+    "dropped": 2,
+    "total": 1222,
+    "id": "hollow-hold",
+    "sha256": "5bf8025c503927621b6b6844c1043abbe4301c586e5874ef7f355e3410849098"
+  },
+  {
+    "duration": 8,
+    "width": 720,
+    "time": 0.296659,
+    "error": null,
+    "dropped": 2,
+    "total": 1223,
+    "id": "hollow-hold-dark",
+    "sha256": "68674734b736f67b832df091fe4e1b0c90eb1850cddf4d873020d442b7482907"
+  }
+]

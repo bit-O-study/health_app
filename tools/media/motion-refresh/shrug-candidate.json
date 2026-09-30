@@ -1,0 +1,22 @@
+{
+  "id": "dumbbell-shrug",
+  "renderer": "constrained-shrug-v1",
+  "timing": "smooth",
+  "width": 720,
+  "height": 720,
+  "seconds": 8,
+  "fps": 60,
+  "status": "pending-visual-review",
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "69a7622b02fd1415a65430fbdae14c891266a1384bb8459d31f780fe8917ae4d",
+      "bytes": 114518
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "c6699b4e8683e6571d227b7d5420a934ab4fe0942570ec9d337572f19b2cd538",
+      "bytes": 98702
+    }
+  ]
+}

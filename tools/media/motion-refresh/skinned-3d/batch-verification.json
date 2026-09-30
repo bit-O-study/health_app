@@ -1,0 +1,217 @@
+{
+  "verifiedAt": "2026-09-30T06:17:19.494Z",
+  "results": [
+    {
+      "id": "dumbbell-biceps-curl",
+      "inputs": [
+        {
+          "file": "studio-batch.mjs",
+          "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+        },
+        {
+          "file": "exercise-motion.mjs",
+          "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-biceps-curl.mp4",
+          "sha256": "5fe7c24a9f0786c6485e1bcc7d56c4f77467961b840da26126dca2bd6ba49aa7",
+          "bytes": 372778,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-biceps-curl-dark.mp4",
+          "sha256": "b218c258db7fc4a611bf83cdbda9421728e030f518c344d01913f9ded9808f1c",
+          "bytes": 316555,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "hammer-curl-2",
+      "inputs": [
+        {
+          "file": "studio-batch.mjs",
+          "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+        },
+        {
+          "file": "exercise-motion.mjs",
+          "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/hammer-curl-2.mp4",
+          "sha256": "937b78517e07638f41f8b005c8ecdb61f2f136227597a4b7434478cdc4cfc851",
+          "bytes": 353467,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 4
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/hammer-curl-2-dark.mp4",
+          "sha256": "036e73c54af2b14a7082918962d725d1273e25ab0789ce0474ee1858a3244816",
+          "bytes": 305358,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "dumbbell-front-raise",
+      "inputs": [
+        {
+          "file": "studio-batch.mjs",
+          "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+        },
+        {
+          "file": "exercise-motion.mjs",
+          "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-front-raise.mp4",
+          "sha256": "b32fe1ff68d80593fed4dac3efde5d331677a3ff05973d5fb08ed66be4813668",
+          "bytes": 428002,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-front-raise-dark.mp4",
+          "sha256": "a5ed5a3c8c648416b0c113c59256adfd4048be5e3d4ca92684af20e4e9f2ffd9",
+          "bytes": 387212,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 496,
+            "dropped": 4
+          }
+        }
+      ]
+    },
+    {
+      "id": "dumbbell-shrug",
+      "inputs": [
+        {
+          "file": "studio-batch.mjs",
+          "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+        },
+        {
+          "file": "exercise-motion.mjs",
+          "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+        },
+        {
+          "file": "human.json",
+          "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+        }
+      ],
+      "themes": [
+        {
+          "suffix": "",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-shrug.mp4",
+          "sha256": "d0572e5a5b27d7dbfb88f575236527dbb30d8729565a2caa488b7ccf56503f2c",
+          "bytes": 226339,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 494,
+            "dropped": 3
+          }
+        },
+        {
+          "suffix": "-dark",
+          "file": "public/exercise-guides/skinned-pilot/dumbbell-shrug-dark.mp4",
+          "sha256": "d8933f4b530d04acbe83ae911ca2b2097f0dcf5cf441b6b52143997da67c9fef",
+          "bytes": 211337,
+          "decodedFrames": 480,
+          "playback": {
+            "width": 1080,
+            "height": 1080,
+            "duration": 8,
+            "looped": true,
+            "error": null,
+            "overflow": false,
+            "frames": 495,
+            "dropped": 5
+          }
+        }
+      ]
+    }
+  ]
+}

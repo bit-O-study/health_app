@@ -1,0 +1,36 @@
+{
+  "id": "dumbbell-biceps-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-biceps-curl.mp4",
+      "sha256": "5fe7c24a9f0786c6485e1bcc7d56c4f77467961b840da26126dca2bd6ba49aa7",
+      "bytes": 372778
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/dumbbell-biceps-curl-dark.mp4",
+      "sha256": "b218c258db7fc4a611bf83cdbda9421728e030f518c344d01913f9ded9808f1c",
+      "bytes": 316555
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch.mjs",
+      "sha256": "57855d0d67b15423233d04e621db70e224737ffb712c227d488c241d581ed10b"
+    },
+    {
+      "file": "exercise-motion.mjs",
+      "sha256": "dc4010a4b7da0851ba8f1c8e82cef5f80c47c83aa720dba19875937a83702867"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

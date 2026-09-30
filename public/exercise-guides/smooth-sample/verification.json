@@ -1,0 +1,66 @@
+{
+  "date": "2026-09-30",
+  "branch": "feat/exercise-video-smooth",
+  "method": "Fixed torso and fixed-length 2D arm rotation; no optical flow",
+  "decode": {
+    "width": 720,
+    "height": 720,
+    "fps": 60,
+    "frames": 480,
+    "seconds": 8,
+    "passed": true
+  },
+  "browser": [
+    [
+      {
+        "src": "http://127.0.0.1:3189/exercise-guides/ai-v3/dumbbell-lateral-raise.mp4",
+        "time": 0.500031,
+        "duration": 8,
+        "frames": 208,
+        "dropped": 1,
+        "error": null
+      },
+      {
+        "src": "http://127.0.0.1:3189/exercise-guides/smooth-sample/dumbbell-lateral-raise.mp4?v=rigid2",
+        "time": 0.500534,
+        "duration": 8,
+        "frames": 515,
+        "dropped": 10,
+        "error": null
+      }
+    ],
+    [
+      {
+        "src": "http://127.0.0.1:3189/exercise-guides/ai-v3/dumbbell-lateral-raise-dark.mp4?v=rigid2",
+        "time": 0.495526,
+        "duration": 8,
+        "frames": 208,
+        "dropped": 0,
+        "error": null
+      },
+      {
+        "src": "http://127.0.0.1:3189/exercise-guides/smooth-sample/dumbbell-lateral-raise-dark.mp4?v=rigid2",
+        "time": 0.494832,
+        "duration": 8,
+        "frames": 515,
+        "dropped": 3,
+        "error": null
+      }
+    ]
+  ],
+  "limitations": [
+    "Upscaled 480px source; no recovered image detail",
+    "2D shoulder rotation, not full anatomical rig",
+    "Actual device review pending"
+  ],
+  "files": [
+    {
+      "name": "dumbbell-lateral-raise.mp4",
+      "sha256": "c6833f3fee2f9e390d02c3e5fdc78bda05151ba79d53067ba8a55886b1c58d6b"
+    },
+    {
+      "name": "dumbbell-lateral-raise-dark.mp4",
+      "sha256": "554004459f0cad007d02ec88c13cb1142ca5dbe39d103d2bfffe97413068d816"
+    }
+  ]
+}

@@ -15,13 +15,17 @@ import { join } from "node:path";
 
 const manifest = JSON.parse(readFileSync("public/exercise-guides/ai-v3/manifest.json", "utf8"));
 const out = {};
+const revisions = {};
 for (const id of manifest) {
   const specPath = join("tools/media/motion-guides", `${id}.json`);
   if (!existsSync(specPath)) throw new Error(`사양 파일 없음: ${specPath}`);
   const spec = JSON.parse(readFileSync(specPath, "utf8"));
   const panels = spec.panels ?? 8;
   if (panels !== 8 && panels !== 16) throw new Error(`패널 수 이상: ${id} ${panels}`);
-  out[id] = { panels, cycle: spec.cycle === "full" ? "full" : "reverse" };
+  out[id] = { panels, cycle: spec.cycle === "full" ? "full" : "reverse", ...(["smooth", "hold"].includes(spec.timing) ? { timing: spec.timing } : {}) };
+  if (spec.renderer) revisions[id] = spec.renderer;
 }
 writeFileSync("src/features/workout-timer/motion-specs.json", JSON.stringify(out, null, 0) + "\n");
 console.log(`✓ ${Object.keys(out).length}개 → src/features/workout-timer/motion-specs.json`);
+
+writeFileSync("src/features/exercises/motion-revisions.json", JSON.stringify(revisions, null, 2) + "\n");

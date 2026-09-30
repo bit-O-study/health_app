@@ -7,5 +7,8 @@
   "panels": 8,
   "cycle": "reverse",
   "id": "hollow-hold",
-  "registeredAt": "2026-09-14T23:34:38.943Z"
+  "registeredAt": "2026-09-14T23:34:38.943Z",
+  "rigSource": "hollow-hold-rig.png",
+  "renderer": "generated-isometric-v1",
+  "timing": "hold"
 }

@@ -1,0 +1,31 @@
+{
+  "startedAt": "2026-09-30T06:39:51.736Z",
+  "finishedAt": "2026-09-30T06:49:44.061Z",
+  "concurrency": 4,
+  "results": [
+    {
+      "id": "alternating-dumbbell-curl",
+      "pid": 30600,
+      "code": 0,
+      "elapsedMs": 517241
+    },
+    {
+      "id": "cross-body-hammer-curl",
+      "pid": 23240,
+      "code": 0,
+      "elapsedMs": 524152
+    },
+    {
+      "id": "dumbbell-reverse-curl",
+      "pid": 14852,
+      "code": 0,
+      "elapsedMs": 590885
+    },
+    {
+      "id": "single-arm-dumbbell-shoulder-press",
+      "pid": 9776,
+      "code": 0,
+      "elapsedMs": 496258
+    }
+  ]
+}

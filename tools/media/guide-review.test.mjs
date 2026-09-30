@@ -33,3 +33,13 @@ test('cutout generation keeps light published and gates dark by its exact review
   assert.deepEqual(selectReviewedDarkGuides([darkReview], [artifact]), []);
   assert.deepEqual(selectReviewedDarkGuides([darkReview], [{ ...dark, darkVideoSha256: 'e'.repeat(64) }]), []);
 });
+
+test('new rig sources must match the visually reviewed hash in both themes', () => {
+  const rig = { ...artifact, rigSourceSha256: 'f'.repeat(64), darkVideoSha256: 'd'.repeat(64) };
+  const accepted = { ...review, rigSourceSha256: rig.rigSourceSha256, darkVideoSha256: rig.darkVideoSha256 };
+  assert.deepEqual(selectReviewedGuides([accepted], [rig]), [artifact.id]);
+  assert.deepEqual(selectReviewedDarkGuides([accepted], [rig]), [artifact.id]);
+  assert.deepEqual(selectReviewedGuides([review], [rig]), []);
+  assert.deepEqual(selectReviewedGuides([accepted], [artifact]), []);
+  assert.deepEqual(selectReviewedDarkGuides([accepted], [{...rig, rigSourceSha256: 'e'.repeat(64)}]), []);
+});

@@ -1,0 +1,36 @@
+{
+  "id": "single-arm-dumbbell-shoulder-press",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-shoulder-press.mp4",
+      "sha256": "6faceaa434fe5c0b50f2d387f9982e7f0841fbb55e990f050124e5f3e72003ea",
+      "bytes": 235219
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-shoulder-press-dark.mp4",
+      "sha256": "06790a7140850eba03e9b936ff3ba0562d6630aca06af3ddbe806704be625c54",
+      "bytes": 210146
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-2.mjs",
+      "sha256": "abd15777a87fed1519d4853ebf7950bdaf268814b828003475ac368aaf8ef99b"
+    },
+    {
+      "file": "exercise-motion-2.mjs",
+      "sha256": "843d901f57b27f26953a158df2ce475121b1cee562fcd997946edafd6bc7a259"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

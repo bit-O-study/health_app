@@ -1,0 +1,36 @@
+{
+  "id": "zottman-curl",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/zottman-curl.mp4",
+      "sha256": "2bb334807612cd196649c11cae3951d11751657cc23de8adaded2a45a92958b1",
+      "bytes": 416876
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/zottman-curl-dark.mp4",
+      "sha256": "10e636462813bd383c9d53737f39f1c1affbdd03de84385cd5f1a2fa4e6bfdce",
+      "bytes": 348449
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-4.mjs",
+      "sha256": "42d939f5f5e71dd55b60af88fa6f214c8fafd5c661a66ffb262929776f62f42d"
+    },
+    {
+      "file": "exercise-motion-4.mjs",
+      "sha256": "41687c25bc03ba960cff6e00fd40e65ab3de36e5e948e30f25f000a78a7171fe"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

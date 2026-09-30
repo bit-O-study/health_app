@@ -1,0 +1,24 @@
+{
+  "id": "hollow-hold",
+  "renderer": "generated-isometric-v1",
+  "timing": "hold",
+  "rigSource": "hollow-hold-pose.png",
+  "sourceAtlasSha256": "6abe1ea3523b92e6fc6078afc3313f74cda3d6faa331050777331dd3d80e9ac4",
+  "width": 720,
+  "height": 720,
+  "fps": 60,
+  "seconds": 8,
+  "status": "pending-visual-review",
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "5bf8025c503927621b6b6844c1043abbe4301c586e5874ef7f355e3410849098",
+      "bytes": 44675
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "68674734b736f67b832df091fe4e1b0c90eb1850cddf4d873020d442b7482907",
+      "bytes": 43412
+    }
+  ]
+}

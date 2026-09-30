@@ -1,0 +1,125 @@
+{
+  "existing": 152,
+  "refreshed": 13,
+  "decodedFiles": 242,
+  "unrendered": 1199,
+  "items": [
+    {
+      "id": "dumbbell-lateral-raise",
+      "name": "덤벨 레터럴 레이즈",
+      "before": "../smooth-sample/before",
+      "after": "../smooth-sample/dumbbell-lateral-raise",
+      "version": "refresh-20260930",
+      "status": "시각·재생 검토 후 브랜치 반영",
+      "note": "종목별로 고정 자세 또는 제한된 관절 움직임을 적용했습니다."
+    },
+    {
+      "id": "hollow-body-hold",
+      "name": "홀로우 바디 홀드",
+      "before": "hollow-body-hold-before",
+      "after": "hollow-body-hold",
+      "version": "refresh-20260930",
+      "status": "시각·재생 검토 후 브랜치 반영",
+      "note": "종목별로 고정 자세 또는 제한된 관절 움직임을 적용했습니다."
+    },
+    {
+      "id": "plate-pinch",
+      "name": "플레이트 핀치",
+      "before": "plate-pinch-before",
+      "after": "plate-pinch",
+      "version": "refresh-20260930",
+      "status": "시각·재생 검토 후 브랜치 반영",
+      "note": "종목별로 고정 자세 또는 제한된 관절 움직임을 적용했습니다."
+    },
+    {
+      "id": "stability-ball-plank",
+      "name": "짐볼 플랭크",
+      "before": "stability-ball-plank-before",
+      "after": "stability-ball-plank",
+      "version": "refresh-20260930",
+      "status": "시각·재생 검토 후 브랜치 반영",
+      "note": "종목별로 고정 자세 또는 제한된 관절 움직임을 적용했습니다."
+    },
+    {
+      "id": "dumbbell-shrug",
+      "name": "덤벨 슈러그",
+      "before": "dumbbell-shrug-before",
+      "after": "dumbbell-shrug",
+      "version": "refresh-20260930",
+      "status": "시각·재생 검토 후 브랜치 반영",
+      "note": "종목별로 고정 자세 또는 제한된 관절 움직임을 적용했습니다."
+    },
+    {
+      "id": "dumbbell-shoulder-press",
+      "name": "덤벨 숌더프레스",
+      "before": "dumbbell-shoulder-press-before",
+      "after": "dumbbell-shoulder-press",
+      "version": "atlas-batch-20260930",
+      "status": "검토 후 브랜치 반영",
+      "note": "실기기 검증과 배포는 아직 진행하지 않았습니다."
+    },
+    {
+      "id": "barbell-shrug",
+      "name": "바벨 슈러그",
+      "before": "barbell-shrug-before",
+      "after": "barbell-shrug",
+      "version": "atlas-batch-20260930",
+      "status": "검토 후 브랜치 반영",
+      "note": "실기기 검증과 배포는 아직 진행하지 않았습니다."
+    },
+    {
+      "id": "side-plank",
+      "name": "사이드 플랭크",
+      "before": "side-plank-before",
+      "after": "side-plank",
+      "version": "atlas-batch-20260930",
+      "status": "검토 후 브랜치 반영",
+      "note": "기존 다크 영상이 없어 비교용 원본은 라이트로 표시합니다. 실기기 검증과 배포는 아직 진행하지 않았습니다."
+    },
+    {
+      "id": "hollow-hold",
+      "name": "할로우 홀드",
+      "before": "hollow-hold-before",
+      "after": "hollow-hold",
+      "version": "atlas-batch-20260930",
+      "status": "검토 후 브랜치 반영",
+      "note": "기존 다크 영상이 없어 비교용 원본은 라이트로 표시합니다. 실기기 검증과 배포는 아직 진행하지 않았습니다."
+    },
+    {
+      "id": "dumbbell-biceps-curl",
+      "name": "덤벨 컬",
+      "before": "dumbbell-biceps-curl-before",
+      "after": "dumbbell-biceps-curl",
+      "version": "fixed-arm-rig-v1",
+      "status": "검토 후 브랜치 반영",
+      "note": "실기기 검증과 배포는 아직 진행하지 않았습니다."
+    },
+    {
+      "id": "hammer-curl-2",
+      "name": "해머 컬",
+      "before": "hammer-curl-2-before",
+      "after": "hammer-curl-2",
+      "version": "fixed-arm-rig-v1",
+      "status": "검토 후 브랜치 반영",
+      "note": "실기기 검증과 배포는 아직 진행하지 않았습니다."
+    },
+    {
+      "id": "dumbbell-front-raise",
+      "name": "덤벨 프론트 레이즈",
+      "before": "dumbbell-front-raise-before",
+      "after": "dumbbell-front-raise",
+      "version": "fixed-arm-rig-v1",
+      "status": "검토 후 브랜치 반영",
+      "note": "실기기 검증과 배포는 아직 진행하지 않았습니다."
+    },
+    {
+      "id": "triceps-kickback",
+      "name": "트라이셉스 킥백",
+      "before": "triceps-kickback-before",
+      "after": "triceps-kickback",
+      "version": "fixed-arm-rig-v1",
+      "status": "검토 후 브랜치 반영",
+      "note": "기존 다크 영상이 없어 비교용 원본은 라이트로 표시합니다. 실기기 검증과 배포는 아직 진행하지 않았습니다."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "single-arm-dumbbell-lateral-raise",
+  "status": "pending-visual-review",
+  "frames": 480,
+  "fps": 60,
+  "width": 1080,
+  "height": 1080,
+  "themes": [
+    {
+      "suffix": "",
+      "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-lateral-raise.mp4",
+      "sha256": "f1110d87635bda4309309d5066574d304da8f13b3aa732920c47f0d738d88f38",
+      "bytes": 254875
+    },
+    {
+      "suffix": "-dark",
+      "file": "public/exercise-guides/skinned-pilot/single-arm-dumbbell-lateral-raise-dark.mp4",
+      "sha256": "b7757615ce157cf623bfd8dd1f5fff1af586f33ec47fb7f83396bf7e12207e1c",
+      "bytes": 226664
+    }
+  ],
+  "inputs": [
+    {
+      "file": "studio-batch-3.mjs",
+      "sha256": "fb70126addac3bb26d6e09079c9e773c543c37c4974b80088291a8601a0f54fc"
+    },
+    {
+      "file": "exercise-motion-3.mjs",
+      "sha256": "b938bbbc7674de8474f755632bc3eaf62549b9dd2e32cc7bbd91e81d6bc5c955"
+    },
+    {
+      "file": "human.json",
+      "sha256": "4505773f971126091214325591e3554481aa967e5fac8ddfcaf3db863d4045dd"
+    }
+  ]
+}

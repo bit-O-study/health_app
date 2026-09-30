@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { motionDarkUrl, pickMotionSource } from "@/features/exercises/motion-variant";
+import { motionDarkUrl, motionMediaVersion, pickMotionSource } from "@/features/exercises/motion-variant";
 
 describe("pickMotionSource", () => {
   const light = "/exercise-guides/ai-v3/meadows-row-2.mp4";
@@ -24,4 +24,13 @@ describe("pickMotionSource", () => {
       expect(pickMotionSource("/bench.mp4", undefined, isDark)).toBe("/bench.mp4");
     }
   });
+});
+
+it("uses the same refreshed revision for both theme cache keys", () => {
+  for (const id of ["hollow-body-hold", "plate-pinch", "stability-ball-plank", "dumbbell-shrug", "dumbbell-biceps-curl", "hammer-curl-2", "dumbbell-front-raise", "triceps-kickback"]) {
+    const version = motionMediaVersion(id);
+    expect(version).not.toBe("");
+    expect(motionDarkUrl(id)).toBe(`/exercise-guides/ai-v3/${id}-dark.mp4${version}`);
+  }
+  expect(motionMediaVersion("unreviewed-guide")).toBe("");
 });

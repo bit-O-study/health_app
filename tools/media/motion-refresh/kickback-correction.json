@@ -1,0 +1,5 @@
+{
+  "mode": "built-in image_gen edit",
+  "prompt": "Edit this transparent exercise-part atlas with ONE anatomical correction only. Preserve exact canvas size, all component positions, head, torso, legs, shoes, right-column detached forearm/dumbbell and transparency. Correct the LEFT mannequin working upper arm: it is currently lifted too far behind/above the torso. Bring this upper arm DOWN, close against the side of the ribs, PARALLEL to the inclined torso. Keep shoulder at same position. Move only the elbow cap from its current high leftward position to beside the WAIST, near the top back corner of teal shorts. The upper arm should slope down-left approximately 50 degrees below horizontal, matching the shoulder-to-hip line, instead of nearly horizontal. Natural fixed humerus length, elbow around waist height. Do not add a forearm to the body. Keep the elbow end round for rig connection. No other changes, no extra limbs, no text, no background.",
+  "output": "tools/media/motion-refresh/triceps-kickback-atlas.png"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "side-plank",
+  "renderer": "generated-isometric-v1",
+  "timing": "hold",
+  "rigSource": "side-plank-pose.png",
+  "sourceAtlasSha256": "826e8983e2d4cc39a3eea3eab3159c4ede11fba8e819afb54653682dddf8e168",
+  "width": 720,
+  "height": 720,
+  "fps": 60,
+  "seconds": 8,
+  "status": "pending-visual-review",
+  "themes": [
+    {
+      "suffix": "",
+      "sha256": "517b1cfe3071fdfe1c8f9def83d9ac417a0945a2d3b6dd722cd033b3177a692d",
+      "bytes": 73245
+    },
+    {
+      "suffix": "-dark",
+      "sha256": "160c44ffe3fc81bbbd944087f69b0c0b67290bbc2f10338b576852582ef5e31b",
+      "bytes": 72363
+    }
+  ]
+}

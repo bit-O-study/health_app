@@ -33,6 +33,7 @@ import {
   BOARD_TABS,
   MAIN_TABS,
   boardHref,
+  isRoutineList,
   mainTabOf,
   resolveVisibility,
   VISIBILITY_OPTIONS,
@@ -220,7 +221,7 @@ export function CommunityBoard({
         </div>
 
         {/* 운동(티칭) 탭: 운동 검색 → 해당 운동 영상만 */}
-        {tab !== "routine" ? (
+        {!isRoutineList(tab) ? (
           <form onSubmit={e => { e.preventDefault(); navigate(tab, search); }} className="relative mb-2 mt-1.5 flex items-center gap-2">
             <Search
               size={15}
@@ -260,14 +261,31 @@ export function CommunityBoard({
             })}
           </div>
         ) : null}
-        {mainTabOf(tab) === "mine" ? <div className="flex flex-wrap items-center gap-x-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "commented"} onClick={() => navigate("commented", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">댓글 단 글</button><button type="button" aria-pressed={tab === "saved"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-zinc-400">차단한 사용자</Link></div> : null}
+        {mainTabOf(tab) === "mine" ? <div className="flex flex-wrap items-center gap-x-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "commented"} onClick={() => navigate("commented", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">댓글 단 글</button><button type="button" aria-pressed={tab === "saved" || tab === "saved_routines"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-zinc-400">차단한 사용자</Link></div> : null}
+        {tab === "saved" || tab === "saved_routines" ? (
+          <div className="flex gap-1.5 pb-2" data-testid="saved-kinds">
+            {([["saved", "글·영상"], ["saved_routines", "루틴"]] as const).map(([v, label]) => (
+              <button
+                key={v}
+                type="button"
+                aria-pressed={tab === v}
+                onClick={() => navigate(v)}
+                className={`min-h-9 rounded-full px-3 text-xs font-semibold ${
+                  tab === v ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        ) : null}
       </div>
 
       {tab === "popular" && <p className="px-4 pt-3 text-xs text-zinc-500">최근 7일 게시물을 좋아요 많은 순으로 보여드려요.</p>}
       {/* 피드 */}
-      {tab === "routine" ? (
+      {isRoutineList(tab) ? (
         // 루틴 소개 — 남의 하루치 루틴을 보고 내 루틴의 한 일차로 담는다.
-        <RoutineShareBoard items={routineShares} targets={applyTargets} />
+        <RoutineShareBoard items={routineShares} targets={applyTargets} savedView={tab === "saved_routines"} />
       ) : isReels ? (
         // 운동 탭 — 숏츠/릴스 스타일 세로 풀스크린 피드(이 영역만 스냅 스크롤)
         <div className="min-h-0 flex-1">

@@ -12,12 +12,13 @@ import {
   MessageCircle,
   MoreVertical,
   Pencil,
+  ThumbsUp,
   Trash2,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
-import { relativeTime, captionLimit, MAX_QUESTION_TITLE, threadComments } from "../community";
+import { relativeTime, captionLimit, MAX_QUESTION_TITLE, answerOrder, threadComments } from "../community";
 import { AuthorName } from "./author-sheet";
 import type { CommunityComment, CommunityPost } from "../data-access";
 import { ReportButton } from "./report-button";
@@ -32,6 +33,7 @@ import {
   acceptAnswerAction,
   listCommentsAction,
   setQuestionResolvedAction,
+  toggleCommentLikeAction,
   toggleLikeAction,
   toggleSaveAction,
 } from "../community-actions";
@@ -182,6 +184,26 @@ export function PostDetail({
         showNotice(r.error);
       }
     });
+  }
+
+  /** 댓글 공감 — 누르는 즉시 바꾸고 실패하면 되돌린다(커뮤니티 4-3). 알림은 없다. */
+  function toggleCommentLike(c: CommunityComment) {
+    const next = !c.likedByMe;
+    const apply = (liked: boolean) =>
+      setComments((cur) =>
+        cur.map((x) =>
+          x.id === c.id ? { ...x, likedByMe: liked, likeCount: Math.max(0, x.likeCount + (liked === x.likedByMe ? 0 : liked ? 1 : -1)) } : x,
+        ),
+      );
+    apply(next);
+    void toggleCommentLikeAction(c.id)
+      .then((r) => {
+        if (!r.ok) {
+          apply(!next);
+          showNotice(r.error);
+        }
+      })
+      .catch(() => apply(!next));
   }
 
   function startReply(c: CommunityComment) {
@@ -489,7 +511,8 @@ export function PostDetail({
             {isQuestion ? "아직 답변이 없어요. 아는 걸 알려 주세요." : "아직 댓글이 없어요"}
           </p>
         ) : (
-          threadComments(comments).map(({ item: c, reply }) => (
+          // 질문은 공감 많은 답변이 위로(채택 답변은 위 칸에 고정). 일반 글은 대화 순서 그대로.
+          threadComments(comments, isQuestion ? answerOrder : undefined).map(({ item: c, reply }) => (
             <div
               key={c.id}
               id={commentAnchor(c.id)}
@@ -530,6 +553,16 @@ export function PostDetail({
                 <div className="flex gap-3 text-xs text-zinc-400">
                   <button type="button" onClick={() => startReply(c)} className="min-h-8 font-semibold hover:text-brand">
                     답글
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => toggleCommentLike(c)}
+                    aria-label="공감"
+                    aria-pressed={c.likedByMe}
+                    className={`inline-flex min-h-8 items-center gap-1 font-semibold tabular-nums ${c.likedByMe ? "text-brand" : "hover:text-brand"}`}
+                  >
+                    <ThumbsUp aria-hidden="true" size={12} className={c.likedByMe ? "fill-current" : ""} />
+                    {c.likeCount > 0 ? c.likeCount : null}
                   </button>
                   {isQuestion && post.isMine && !c.isMine ? (
                     <button

@@ -20,6 +20,7 @@ import {
   validateQuestionInput,
 } from "./community";
 import { pushCommentNotification } from "./community-notify.server";
+import { checkCommunityText } from "./banned-words.server";
 import { resolveVisibility, type Visibility } from "./feed";
 import { getAuthorProfile, getPostComments, type AuthorProfile, type CommentPage } from "./data-access";
 import { normalizeQuestionTag } from "./community";
@@ -74,6 +75,9 @@ export async function createCommunityPostAction(input: {
   const vis = resolveVisibility(input.visibility, input.groupId);
   if (!vis.ok) return vis;
 
+  // 금칙어 — 올리기 전에 막고 이유를 알려 준다(커뮤니티 4-3). 직접 쓰기는 DB 트리거가 막는다.
+  const banned = await checkCommunityText(input.caption, input.title, input.exerciseTag);
+  if (!banned.ok) return banned;
 
   // 작성자 표시 이름 스냅샷(닉네임 → 이름 → "회원").
   const { data: prof } = await supabase
@@ -187,6 +191,8 @@ export async function editCommunityPostAction(
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   if (!id) return { ok: false, error: "잘못된 요청입니다." };
   const text = (caption ?? "").trim();
+  const banned = await checkCommunityText(text, title);
+  if (!banned.ok) return banned;
 
   const supabase = await createSupabaseServerClient();
   const { data: cur } = await supabase.from("community_posts").select("post_type").eq("id", id).maybeSingle();
@@ -261,6 +267,8 @@ export async function addCommentAction(
   if (!postId || !text) return { ok: false, error: "댓글을 입력해주세요." };
   if (text.length > 300)
     return { ok: false, error: "댓글은 300자까지 쓸 수 있어요." };
+  const banned = await checkCommunityText(text);
+  if (!banned.ok) return banned;
 
   const supabase = await createSupabaseServerClient();
   const { data: prof } = await supabase
@@ -317,26 +325,28 @@ export async function deleteCommentAction(id: string): Promise<ActionResult> {
   return { ok: true };
 }
 
-/** 저장(북마크) 토글 — 피드 글만. 남의 저장 목록은 RLS 로 막힌다. */
+/** 저장(북마크) 토글 — 피드 글·운동 영상(커뮤니티 4-3). 남의 저장 목록은 RLS 로 막힌다. */
 export async function toggleSaveAction(
   postId: string,
+  kind: "photo" | "teaching" = "photo",
 ): Promise<{ ok: true; saved: boolean } | { ok: false; error: string }> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
   if (!postId) return { ok: false, error: "잘못된 요청입니다." };
+  const table = kind === "teaching" ? "teaching_saves" : "community_saves";
   const supabase = await createSupabaseServerClient();
   const { data: existing } = await supabase
-    .from("community_saves")
+    .from(table)
     .select("post_id")
     .eq("post_id", postId)
     .eq("user_id", user.id)
     .maybeSingle();
   if (existing) {
-    const { error } = await supabase.from("community_saves").delete().eq("post_id", postId).eq("user_id", user.id);
+    const { error } = await supabase.from(table).delete().eq("post_id", postId).eq("user_id", user.id);
     if (error) return { ok: false, error: error.message };
     return { ok: true, saved: false };
   }
-  const { error } = await supabase.from("community_saves").insert({ post_id: postId, user_id: user.id });
+  const { error } = await supabase.from(table).insert({ post_id: postId, user_id: user.id });
   if (error?.code === "23505") return { ok: true, saved: true };
   if (error) return { ok: false, error: "저장할 수 없는 글이에요." };
   return { ok: true, saved: true };
@@ -397,4 +407,29 @@ export async function acceptAnswerAction(postId: string, commentId: string | nul
 /** 작성자 프로필 시트(커뮤니티 4-2). */
 export async function getAuthorProfileAction(authorId: string): Promise<AuthorProfile | null> {
   return getAuthorProfile(authorId);
+}
+
+/** 댓글 공감 토글(커뮤니티 4-3) — 볼 수 있는 댓글만(RLS). 알림은 보내지 않는다(알림 피로). */
+export async function toggleCommentLikeAction(
+  commentId: string,
+): Promise<{ ok: true; liked: boolean } | { ok: false; error: string }> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!commentId) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { data: existing } = await supabase
+    .from("comment_likes")
+    .select("comment_id")
+    .eq("comment_id", commentId)
+    .eq("user_id", user.id)
+    .maybeSingle();
+  if (existing) {
+    const { error } = await supabase.from("comment_likes").delete().eq("comment_id", commentId).eq("user_id", user.id);
+    if (error) return { ok: false, error: error.message };
+    return { ok: true, liked: false };
+  }
+  const { error } = await supabase.from("comment_likes").insert({ comment_id: commentId, user_id: user.id });
+  if (error?.code === "23505") return { ok: true, liked: true };
+  if (error) return { ok: false, error: "공감할 수 없는 댓글이에요." };
+  return { ok: true, liked: true };
 }

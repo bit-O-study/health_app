@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
 import { pushCommentNotification } from "@/features/community/community-notify.server";
+import { checkCommunityText } from "@/features/community/banned-words.server";
 
 import {
   createSupabaseServerClient,
@@ -35,6 +36,9 @@ export async function createTeachingPostAction(input: {
     caption: input.caption,
   });
   if (!check.ok) return check;
+  // 금칙어(커뮤니티 4-3).
+  const banned = await checkCommunityText(input.caption, input.exerciseTag);
+  if (!banned.ok) return banned;
 
   const vis = resolveVisibility(input.visibility, input.groupId ?? null);
   if (!vis.ok) return vis;
@@ -175,6 +179,8 @@ export async function addTeachingCommentAction(
   if (!postId || !text) return { ok: false, error: "댓글을 입력해주세요." };
   if (text.length > 300)
     return { ok: false, error: "댓글은 300자까지 쓸 수 있어요." };
+  const banned = await checkCommunityText(text);
+  if (!banned.ok) return banned;
 
   const supabase = await createSupabaseServerClient();
   const { data: prof } = await supabase

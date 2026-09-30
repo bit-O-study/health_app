@@ -58,7 +58,8 @@ export type BoardTab =
   | "routine"
   | "mine"
   | "commented"
-  | "saved";
+  | "saved"
+  | "saved_routines";
 
 export const BOARD_TABS: { value: BoardTab; label: string }[] = [
   { value: "workout", label: "피드" },
@@ -71,13 +72,15 @@ export const BOARD_TABS: { value: BoardTab; label: string }[] = [
   { value: "mine", label: "내 글" },
   { value: "commented", label: "댓글 단 글" },
   { value: "saved", label: "저장한 글" },
+  // 저장한 루틴 소개(커뮤니티 4-3) — 통합 피드가 아니라 루틴 카드로 그린다.
+  { value: "saved_routines", label: "저장한 루틴" },
 ];
 
 /** 이 보기가 속한 큰 탭(탭 줄의 밑줄 위치). */
 export function mainTabOf(tab: BoardTab): BoardTab {
   if (tab === "popular") return "workout";
   if (tab === "question_open") return "question";
-  if (tab === "saved" || tab === "commented") return "mine";
+  if (tab === "saved" || tab === "saved_routines" || tab === "commented") return "mine";
   return tab;
 }
 
@@ -96,11 +99,13 @@ export function boardHref(tab: BoardTab, query = ""): string {
     mine: "/community/mine",
     commented: "/community/mine",
     saved: "/community/saved",
+    saved_routines: "/community/saved",
   };
   const params = new URLSearchParams();
   if (tab === "popular") params.set("view", "popular");
   if (tab === "question_open") params.set("open", "1");
   if (tab === "commented") params.set("view", "commented");
+  if (tab === "saved_routines") params.set("kind", "routine");
   if (query.trim()) params.set("q", query.trim());
   return path[tab] + (params.size ? `?${params}` : "");
 }
@@ -108,4 +113,9 @@ export function boardHref(tab: BoardTab, query = ""): string {
 /** 두 종류 글을 작성시각 내림차순으로 병합. */
 export function mergeByCreatedAt<T extends { createdAt: string }>(...lists: T[][]): T[] {
   return lists.flat().sort((a, b) => (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0));
+}
+
+/** 루틴 카드로 그리는 보기(루틴 탭 · 저장한 루틴). */
+export function isRoutineList(tab: BoardTab): boolean {
+  return tab === "routine" || tab === "saved_routines";
 }

@@ -92,6 +92,9 @@ export type CommunityComment = {
   isMine: boolean;
   /** 답글이면 부모 댓글 id(한 단계 — 커뮤니티 4-2). */
   parentId: string | null;
+  /** 공감 수 · 내가 눌렀나(커뮤니티 4-3). */
+  likeCount: number;
+  likedByMe: boolean;
 };
 
 type CommentRow = {
@@ -111,7 +114,25 @@ const toComment = (c: CommentRow, meId: string): CommunityComment => ({
   createdAt: c.created_at,
   isMine: c.user_id === meId,
   parentId: c.parent_id ?? null,
+  likeCount: 0,
+  likedByMe: false,
 });
+
+/** 공감 수 · 내가 눌렀나를 한 번에 채운다(댓글마다 왕복하지 않게). */
+async function withCommentLikes(
+  supabase: Awaited<ReturnType<typeof createSupabaseServerClient>>,
+  list: CommunityComment[],
+): Promise<CommunityComment[]> {
+  if (list.length === 0) return list;
+  const { data } = await supabase.rpc("comment_like_counts", { cids: list.map((c) => c.id) });
+  const byId = new Map(
+    ((data ?? []) as { comment_id: string; like_count: number; liked_by_me: boolean }[]).map((r) => [r.comment_id, r]),
+  );
+  return list.map((c) => {
+    const r = byId.get(c.id);
+    return r ? { ...c, likeCount: r.like_count, likedByMe: r.liked_by_me } : c;
+  });
+}
 
 type Row = {
   id: string;
@@ -197,7 +218,7 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
   const photoIds = cRows.map((r) => r.id);
   const teachIds = tRows.map((r) => r.id);
 
-  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }, { data: mySaves }] =
+  const [{ data: grps }, { data: counts }, { data: myLikes }, { data: tCounts }, { data: mySaves }, { data: myTSaves }] =
     await Promise.all([
       groupIds.length > 0
         ? supabase.from("groups").select("id, name").in("id", groupIds)
@@ -221,7 +242,11 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
       photoIds.length > 0
         ? supabase.from("community_saves").select("post_id").eq("user_id", user.id).in("post_id", photoIds)
         : Promise.resolve({ data: [] as { post_id: string }[] }),
+      teachIds.length > 0
+        ? supabase.from("teaching_saves").select("post_id").eq("user_id", user.id).in("post_id", teachIds)
+        : Promise.resolve({ data: [] as { post_id: string }[] }),
     ]);
+  const tSavedByMe = new Set<string>(((myTSaves ?? []) as { post_id: string }[]).map((s) => s.post_id));
   const savedByMe = new Set<string>(((mySaves ?? []) as { post_id: string }[]).map((s) => s.post_id));
 
   const groupNameById = new Map<string, string>();
@@ -299,7 +324,7 @@ export async function getUnifiedFeed(limit = 120, selection?: FeedCursor[]): Pro
     postType: "photo",
     title: null,
     resolved: false,
-    savedByMe: false,
+    savedByMe: tSavedByMe.has(r.id),
     hidden: !!r.hidden_at,
   }));
 
@@ -400,7 +425,8 @@ export async function getPostComments(
   if (before) q = q.lt("created_at", before);
   const { data } = await q;
   const rows = ((data ?? []) as CommentRow[]).map((c) => toComment(c, user.id));
-  return pageComments(rows, COMMENT_PAGE);
+  const page = pageComments(rows, COMMENT_PAGE);
+  return { ...page, comments: await withCommentLikes(supabase, page.comments) };
 }
 
 const UUID_RE = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;

@@ -89,7 +89,11 @@ export function normalizeQuestionTag(tag: string | null | undefined): string | n
  * 댓글 목록 → 화면 순서(커뮤니티 4-2). 답글은 부모 바로 아래(오래된 순), 부모가 이 페이지에 없으면
  * 그냥 제자리에(오래된 댓글을 더 불러오면 부모 아래로 간다).
  */
-export function threadComments<T extends { id: string; parentId: string | null }>(list: readonly T[]): { item: T; reply: boolean }[] {
+export function threadComments<T extends { id: string; parentId: string | null }>(
+  list: readonly T[],
+  /** 부모(맨 윗줄) 댓글 순서 — 질문 글은 공감 많은 순(커뮤니티 4-3). 없으면 받은 순서 그대로. */
+  compareTop?: (a: T, b: T) => number,
+): { item: T; reply: boolean }[] {
   const ids = new Set(list.map((c) => c.id));
   const repliesOf = new Map<string, T[]>();
   for (const c of list) {
@@ -100,10 +104,19 @@ export function threadComments<T extends { id: string; parentId: string | null }
     }
   }
   const out: { item: T; reply: boolean }[] = [];
-  for (const c of list) {
-    if (c.parentId && ids.has(c.parentId)) continue;
+  const tops = list.filter((c) => !(c.parentId && ids.has(c.parentId)));
+  if (compareTop) tops.sort(compareTop);
+  for (const c of tops) {
     out.push({ item: c, reply: !!c.parentId });
     for (const r of repliesOf.get(c.id) ?? []) out.push({ item: r, reply: true });
   }
   return out;
+}
+
+/** 질문 답변 순서(커뮤니티 4-3) — 공감 많은 순 → 최신. (채택 답변은 따로 위에 고정된다.) */
+export function answerOrder(
+  a: { likeCount: number; createdAt: string },
+  b: { likeCount: number; createdAt: string },
+): number {
+  return b.likeCount - a.likeCount || (a.createdAt < b.createdAt ? 1 : a.createdAt > b.createdAt ? -1 : 0);
 }

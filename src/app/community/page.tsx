@@ -22,11 +22,13 @@ export default async function CommunityPage({ searchParams }: { searchParams: Pr
 
   // 현재 탭에서 필요한 데이터만 조회한다.
   const isQuestionView = view === "question" || view === "question_open";
+  // 루틴 카드로 그리는 보기 — 피드 조회 대신 루틴 소개를 읽는다(저장한 루틴은 커뮤니티 4-3).
+  const routineView = view === "routine" || view === "saved_routines";
   const [posts, canModerate, routineShares, applyTargets, unread, questionTags] = await Promise.all([
-    view === "routine" ? Promise.resolve(null) : getFeedPage(view ?? "workout", q),
+    routineView ? Promise.resolve(null) : getFeedPage(view ?? "workout", q),
     isPostModerator(),
-    view === "routine" ? getRoutineShares() : Promise.resolve([]),
-    view === "routine" ? getApplyTargets() : Promise.resolve([]),
+    routineView ? getRoutineShares(30, { savedOnly: view === "saved_routines" }) : Promise.resolve([]),
+    routineView ? getApplyTargets() : Promise.resolve([]),
     createSupabaseServerClient().then((db) => countUnreadCommunityNotifications(db)).catch(() => 0),
     isQuestionView ? getQuestionTags().catch(() => []) : Promise.resolve([]),
   ]);

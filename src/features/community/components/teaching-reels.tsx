@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import {
+  Bookmark,
   Heart,
   Loader2,
   MessageCircle,
@@ -22,6 +23,7 @@ import { ReportButton } from "./report-button";
 import { Notice, useNotice } from "./notice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import { absoluteUrl, shareLink } from "../share-link";
+import { toggleSaveAction } from "../community-actions";
 import { useReleaseVideoOnUnmount } from "@/lib/media/video-resource";
 import {
   addTeachingCommentAction,
@@ -188,6 +190,23 @@ function ReelSlide({
     });
   }
 
+  // 영상 저장(커뮤니티 4-3) — 누르는 즉시 바꾸고 실패하면 되돌린다.
+  const [saved, setSaved] = useState(post.savedByMe);
+  function toggleSave() {
+    const next = !saved;
+    setSaved(next);
+    start(async () => {
+      const r = await toggleSaveAction(post.id, "teaching");
+      if (!r.ok) {
+        setSaved(!next);
+        showNotice(r.error);
+      } else {
+        setSaved(r.saved);
+        if (r.saved) showNotice("저장했어요. 내 글 › 저장한 글에서 볼 수 있어요.");
+      }
+    });
+  }
+
   // 한 편 공유(커뮤니티 3단계) — 링크를 받은 사람은 /community/reel/<id> 에서 이 영상만 본다.
   async function share() {
     const r = await shareLink({
@@ -295,6 +314,16 @@ function ReelSlide({
           className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
         >
           {muted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+        </button>
+
+        <button
+          type="button"
+          onClick={toggleSave}
+          aria-label="저장"
+          aria-pressed={saved}
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 backdrop-blur"
+        >
+          <Bookmark size={18} className={saved ? "fill-white" : ""} />
         </button>
 
         <button

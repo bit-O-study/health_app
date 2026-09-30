@@ -1,0 +1,511 @@
+<title>커뮤니티 4단계 설계</title>
+<meta name="description" content="짐꾼 커뮤니티 1~3단계 이후 추가하면 좋을 기능을 코드 근거로 설계하고, 새 화면을 폰 화면 시안으로 함께 정리한 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 1040px) — 요약 → 추천 순서 → 기능별 설계(설명 + 폰 시안) → 데이터 변경 → 테스트 → 결정. 폰 시안은 앱 토큰(초록 브랜드)을 흉내 낸 정적 화면. */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb; --on-brand:#ffffff;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --app-bg:#f7f8f7; --app-card:#ffffff; --app-field:#eef1ef; --app-ink:#18181b; --app-sub:#71717a; --app-faint:#a1a1aa;
+  --heart:#f43f5e; --hl:#fff6d6; --frame:#1d2622;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#08140f;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+    --app-bg:#0b0d0c; --app-card:#17191a; --app-field:#23262a; --app-ink:#f4f4f5; --app-sub:#a1a1aa; --app-faint:#71717a;
+    --heart:#fb7185; --hl:#3a3212; --frame:#2c3834;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a; --on-brand:#08140f;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+  --app-bg:#0b0d0c; --app-card:#17191a; --app-field:#23262a; --app-ink:#f4f4f5; --app-sub:#a1a1aa; --app-faint:#71717a;
+  --heart:#fb7185; --hl:#3a3212; --frame:#2c3834;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:48px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);white-space:nowrap}
+.law{background:var(--brand-soft);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--ink-2)}
+.law b{color:var(--brand)}
+
+/* 기능 한 개 = 설명 칸 + 폰 시안 */
+.feature{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px}
+.feature .text{display:grid;gap:12px;min-width:0}
+.feature .head{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.feature .key{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--brand)}
+.feature dl{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;font-size:14px}
+.feature dt{color:var(--muted);font-size:12.5px;padding-top:2px;white-space:nowrap}
+.feature dd{margin:0;min-width:0}
+.phones{display:grid;gap:14px;justify-items:center}
+@media (max-width:760px){.feature{grid-template-columns:minmax(0,1fr)}}
+
+/* 폰 시안 */
+.phone{width:100%;max-width:300px;background:var(--frame);border-radius:30px;padding:9px}
+.screen{background:var(--app-bg);border-radius:22px;overflow:hidden;color:var(--app-ink);font-size:12.5px;line-height:1.5;display:flex;flex-direction:column;min-height:420px;position:relative}
+.screen .bar{display:flex;align-items:center;gap:6px;padding:12px 14px 6px;font-weight:700;font-size:15px}
+.screen .bar .back{color:var(--brand);font-weight:500;font-size:12.5px}
+.screen .bar .sp{flex:1}
+.screen .body{padding:4px 12px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+.m-card{background:var(--app-card);border-radius:14px;padding:10px 11px;display:flex;flex-direction:column;gap:6px}
+.m-row{display:flex;align-items:center;gap:7px}
+.m-av{width:24px;height:24px;border-radius:50%;background:var(--brand-soft);display:grid;place-items:center;font-size:12px;flex:none}
+.m-name{font-weight:600;font-size:12.5px}
+.m-sub{color:var(--app-sub);font-size:11px}
+.m-faint{color:var(--app-faint);font-size:11px}
+.m-chip{display:inline-flex;border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:600;background:var(--brand-soft);color:var(--brand)}
+.m-chip.gray{background:var(--app-field);color:var(--app-sub)}
+.m-workout{background:var(--app-field);border-radius:10px;padding:8px 9px;display:grid;gap:3px}
+.m-workout .t{font-weight:700;font-size:11.5px}
+.m-workout .l{display:flex;justify-content:space-between;font-size:11.5px}
+.m-btn{border-radius:10px;padding:8px;text-align:center;font-weight:600;font-size:12px;background:var(--brand);color:var(--on-brand)}
+.m-btn.line{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+.m-btn.ghost{background:var(--app-field);color:var(--app-ink)}
+.m-actions{display:flex;gap:12px;color:var(--app-sub);font-size:11.5px;align-items:center}
+.m-actions .r{margin-left:auto}
+.m-heart{color:var(--heart)}
+.m-tabs{display:flex;gap:14px;padding:0 14px;font-size:12px;font-weight:600;color:var(--app-faint);border-bottom:1px solid var(--app-field)}
+.m-tabs span{padding-bottom:6px}
+.m-tabs .on{color:var(--app-ink);border-bottom:2px solid var(--brand)}
+.m-seg{display:flex;gap:10px;font-size:11.5px;color:var(--app-sub);padding:2px 2px}
+.m-seg .on{color:var(--brand);font-weight:700}
+.m-sheet{position:absolute;inset:auto 0 0 0;background:var(--app-card);border-radius:18px 18px 0 0;padding:12px 13px 14px;display:flex;flex-direction:column;gap:8px;box-shadow:0 -8px 24px rgba(0,0,0,.18)}
+.m-dim{position:absolute;inset:0;background:rgba(0,0,0,.38)}
+.m-grip{width:34px;height:4px;border-radius:4px;background:var(--app-field);align-self:center}
+.m-check{display:flex;align-items:center;gap:8px;font-size:12px;padding:5px 2px;border-bottom:1px solid var(--app-field)}
+.m-box{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--app-faint);flex:none}
+.m-box.on{background:var(--brand);border-color:var(--brand)}
+.m-note{font-size:11px;color:var(--app-sub);background:var(--app-field);border-radius:8px;padding:6px 8px}
+.m-comment{display:flex;gap:7px;align-items:flex-start;padding:4px 2px;border-radius:8px}
+.m-comment.hl{background:var(--hl)}
+.m-comment.reply{margin-left:26px}
+.m-comment .c{display:grid;gap:1px;min-width:0}
+.m-accept{display:inline-flex;align-items:center;gap:3px;font-size:10.5px;font-weight:700;color:var(--brand)}
+.m-input{background:var(--app-field);border-radius:999px;padding:7px 11px;color:var(--app-faint);font-size:11.5px}
+.m-err{background:var(--crit-soft);color:var(--crit);border-radius:8px;padding:6px 8px;font-size:11px;font-weight:600}
+.m-banner{background:var(--info-soft);color:var(--info);border-radius:10px;padding:8px 9px;font-size:11.5px;display:flex;gap:8px;align-items:center}
+.m-banner .a{margin-left:auto;font-weight:700;white-space:nowrap}
+.m-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px}
+.m-grid div{aspect-ratio:1;background:var(--app-field);border-radius:4px;display:grid;place-items:center;font-size:10px;color:var(--app-sub)}
+.m-stat{display:flex;gap:14px;font-size:11.5px;color:var(--app-sub)}
+.m-stat b{color:var(--app-ink);font-size:13px}
+.m-toast{align-self:center;background:var(--app-ink);color:var(--app-bg);border-radius:999px;padding:5px 12px;font-size:11px;font-weight:600}
+.m-field{background:var(--app-field);border-radius:10px;padding:8px 9px;font-size:12px}
+.m-field.title{font-weight:700}
+.cap-phone{font-size:12px;color:var(--muted);text-align:center;max-width:300px}
+</style>
+
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 커뮤니티 · 설계 검수보고서</p>
+  <h1>커뮤니티 4단계 설계</h1>
+  <p class="lede">1~3단계(보안 · 버그 · 알림·차단·저장·질문·공유)를 끝낸 뒤, <b>다른 사람의 운동을 보고 따라 하고, 대화가 이어지게</b> 만드는 기능을 골라 설계했습니다. 기능마다 코드 근거와 폰 화면 시안을 붙였습니다. 아직 코드는 바꾸지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-09-30</span>
+    <span>기준: 커밋 252ccbab (커뮤니티 3단계 포함)</span>
+    <span class="pill ok">4-1 따라 하게 · 4개</span>
+    <span class="pill info">4-2 대화가 이어지게 · 3개</span>
+    <span class="pill warn">4-3 운영·넓히기 · 3개</span>
+  </div>
+</header>
+
+<section>
+  <h2>요약</h2>
+  <div class="phase">
+    <div class="box">
+      <h3><span class="pill ok">4-1</span> 따라 하게 <span class="size">작음~중간</span></h3>
+      <ul class="clean">
+        <li><b>오늘 이 운동 해보기</b> — 남의 운동 기록 카드를 오늘만 내 운동에 담기</li>
+        <li><b>알림 → 그 댓글로 바로</b> — 도착하면 댓글을 노랗게 표시</li>
+        <li><b>글쓰기 임시 저장</b> — 창을 닫아도 쓰던 글이 남음</li>
+        <li><b>댓글 단 글</b> — 내 글 안에 세 번째 보기</li>
+      </ul>
+      <p class="cap">DB 변경은 ‘댓글 단 글’ 조회 함수 하나. 나머지는 화면·서버 코드.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill info">4-2</span> 대화가 이어지게 <span class="size">중간</span></h3>
+      <ul class="clean">
+        <li><b>답글 + 답변 채택</b> — 댓글에 한 단계 답글, 질문 작성자가 답변 채택</li>
+        <li><b>질문에 운동 태그</b> — “스쿼트” 질문끼리 모아 보기</li>
+        <li><b>작성자 프로필 시트</b> — 이름을 누르면 그 사람의 공개 글</li>
+      </ul>
+      <p class="cap">DB 변경: 댓글 부모, 채택 댓글, 질문 태그, 답글 알림.</p>
+    </div>
+    <div class="box">
+      <h3><span class="pill warn">4-3</span> 운영·넓히기 <span class="size">중간</span></h3>
+      <ul class="clean">
+        <li><b>금칙어 걸러내기</b> — 욕설·광고 문구는 올릴 때 막음</li>
+        <li><b>영상·루틴도 저장</b> — 저장 대상을 넓힘</li>
+        <li><b>댓글 공감</b> — 좋은 답변을 위로</li>
+      </ul>
+      <p class="cap">팔로우·DM·챌린지·개인화 추천은 이용량 확인 뒤(설계 문서 방침 그대로).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── 4-1 ───────────── -->
+<section id="a">
+  <h2>4-1 따라 하게</h2>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">A</span><h3>오늘 이 운동 해보기</h3><span class="pill ok">추천 1순위</span><span class="size">중간</span></div>
+      <p>피드의 운동 기록 카드(운동명·세트·운동 시간)는 보기만 할 수 있습니다. 카드 아래 <b>오늘 이 운동 해보기</b>를 누르면 운동 목록 시트가 뜨고, 고른 운동을 <b>오늘 하루만</b> 내 운동에 담습니다.</p>
+      <div class="law">📜 원칙 2 — <b>오늘만 운동은 영구 루틴에 영향을 주면 안 된다.</b> 이미 있는 <code>addExercisesTodayOnlyAction</code>(오늘 루틴을 daily_plan 으로 고정 → 그 아래 추가)을 그대로 씁니다. <code>routine_exercises</code>·<code>user_routines</code>는 건드리지 않습니다.</div>
+      <dl>
+        <dt>데이터</dt><dd>카드 스냅샷에 지금은 운동 <b>이름</b>만 있습니다(<code>workout-snapshot.ts</code>). 새 글부터 <code>exerciseId</code>·<code>equipment</code>를 같이 저장합니다(원본 <code>exercise_completions</code>에 이미 있음). 예전 글은 이름으로 운동 목록에서 찾고, 못 찾은 운동은 “담을 수 없어요”로 흐리게 둡니다.</dd>
+        <dt>세트·무게</dt><dd>남의 무게를 그대로 담지 않습니다. 담는 순간 <b>내 프로필 기준 추천값</b>(기존 prescribe)으로 채웁니다. 시트에 그렇게 적어 둡니다.</dd>
+        <dt>담은 뒤</dt><dd>“오늘 운동에 3개 담았어요 · 보러 가기” 안내 → <code>/routine</code>. 이미 오늘 목록에 있는 운동은 체크 불가(“이미 있어요”).</dd>
+        <dt>테스트</dt><dd>E2E: 카드 → 담기 → 오늘 목록에 보임, <b>내일은 원래 루틴</b>(영구 루틴 불변). 단위: 이름 → 운동 찾기, 이미 있는 운동 제외.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="bar"><span class="back">‹ 커뮤니티</span><span class="sp"></span></div>
+        <div class="body">
+          <div class="m-card">
+            <div class="m-row"><span class="m-av">🐻</span><div><div class="m-name">헬린이곰</div><div class="m-sub">2시간 전 · 전체 공개</div></div></div>
+            <div class="m-workout"><span class="t">하체 · 52분</span><span class="l"><span>바벨 스쿼트</span><span>5세트</span></span><span class="l"><span>루마니안 데드리프트</span><span>4세트</span></span><span class="l"><span>레그 프레스</span><span>4세트</span></span></div>
+            <div class="m-btn line">오늘 이 운동 해보기</div>
+            <div class="m-actions"><span class="m-heart">♥ 12</span><span>💬 3</span><span class="r">🔖</span></div>
+          </div>
+        </div>
+        <div class="m-dim"></div>
+        <div class="m-sheet">
+          <span class="m-grip"></span>
+          <b style="font-size:13.5px">오늘 운동에 담기</b>
+          <div class="m-check"><span class="m-box on"></span>바벨 스쿼트</div>
+          <div class="m-check"><span class="m-box on"></span>루마니안 데드리프트</div>
+          <div class="m-check" style="color:var(--app-faint)"><span class="m-box"></span>레그 프레스 · 이미 있어요</div>
+          <div class="m-note">세트·무게는 내 기록에 맞춰 추천해요. <b>오늘만</b> 담기고 내 루틴은 그대로예요.</div>
+          <div class="m-btn">2개 오늘만 담기</div>
+        </div>
+      </div></div>
+      <p class="cap-phone">카드 아래 버튼 → 시트에서 골라 오늘만 담기</p>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">B</span><h3>알림 → 그 댓글로 바로</h3><span class="size">작음</span></div>
+      <p>지금 댓글 알림은 글 상세 맨 위로 갑니다. 댓글이 많으면 어떤 댓글인지 찾아야 합니다. 알림 주소에 댓글 표시(<code>#c-&lt;댓글 id&gt;</code>)를 붙이고, 상세에 도착하면 그 댓글까지 스크롤해 2초간 노랗게 표시합니다.</p>
+      <dl>
+        <dt>50개 밖</dt><dd>댓글은 최신 50개부터 보입니다(2단계). 찾는 댓글이 없으면 ‘이전 댓글 더 보기’를 찾을 때까지 자동으로 이어 읽습니다(최대 5번).</dd>
+        <dt>지워진 댓글</dt><dd>댓글이 지워지면 알림도 지워지므로(3단계 트리거) 빈 곳으로 가지 않습니다. 그래도 못 찾으면 “댓글이 지워졌어요” 안내.</dd>
+        <dt>근거</dt><dd><code>community-notifications.ts</code> <code>notificationHref</code>, <code>post-detail.tsx</code> <code>loadOlder</code>.</dd>
+        <dt>테스트</dt><dd>E2E: 댓글 60개 중 가장 오래된 댓글 알림 → 눌러서 그 댓글이 화면 안에 보임.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="bar"><span class="back">‹ 커뮤니티</span><span class="sp"></span>게시물<span class="sp"></span></div>
+        <div class="body">
+          <div class="m-comment"><span class="m-av">🐰</span><div class="c"><span class="m-name">토끼</span><span>폼 좋네요</span></div></div>
+          <div class="m-comment hl"><span class="m-av">🦊</span><div class="c"><span class="m-name">여우 <span class="m-faint">방금 전</span></span><span>무릎이 안쪽으로 모여요. 발끝 방향으로 밀어 보세요</span></div></div>
+          <div class="m-comment"><span class="m-av">🐯</span><div class="c"><span class="m-name">호랑이</span><span>저도 궁금했어요</span></div></div>
+          <span class="sp" style="flex:1"></span>
+          <div class="m-input">댓글 달기…</div>
+        </div>
+      </div></div>
+      <p class="cap-phone">알림에서 온 댓글이 노랗게 잠깐 표시</p>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">C</span><h3>글쓰기 임시 저장</h3><span class="size">작음</span></div>
+      <p>질문은 길게 씁니다(최대 1000자). 창을 실수로 닫거나 뒤로 가면 다 사라집니다. 글쓰기 창의 내용(종류·제목·본문·공개 범위)을 이 기기에 저장해 두고, 다시 열면 이어 쓰기를 묻습니다.</p>
+      <dl>
+        <dt>저장 위치</dt><dd>기기 안(localStorage). 서버에 올리지 않습니다. 사진·운동 기록 선택은 저장하지 않고 글자만.</dd>
+        <dt>지우는 때</dt><dd>올리기 성공, ‘새로 쓰기’, 7일 지남.</dd>
+        <dt>근거</dt><dd><code>community-board.tsx</code> <code>ComposeModal</code>.</dd>
+        <dt>테스트</dt><dd>E2E: 제목 입력 → 닫기 → 다시 열기 → “이어 쓰기” → 내용 복원. 올린 뒤에는 안 뜸.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="bar"><span class="m-chip gray" style="font-size:11.5px">오운완 인증</span><span class="m-chip" style="font-size:11.5px">질문</span><span class="sp"></span>✕</div>
+        <div class="body">
+          <div class="m-banner">어제 쓰던 질문이 있어요<span class="a">이어 쓰기</span></div>
+          <div class="m-field title">데드리프트 할 때 허리가 뻐근해요</div>
+          <div class="m-field" style="min-height:92px">3세트째부터 허리 아래쪽이 뻐근한데 자세 문제일까요? 무게는 60kg이고…</div>
+          <span class="m-faint">새로 쓰기</span>
+          <span class="sp" style="flex:1"></span>
+          <div class="m-btn">질문 올리기</div>
+        </div>
+      </div></div>
+      <p class="cap-phone">다시 열면 이어 쓰기를 먼저 묻는다</p>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">D</span><h3>댓글 단 글</h3><span class="size">작음</span></div>
+      <p>설계 문서의 ‘내 활동: 내 글·댓글 단 글·저장한 글’ 중 마지막 하나가 남았습니다. 내 글 탭의 선택지에 <b>댓글 단 글</b>을 더합니다. 내가 답한 질문이 해결됐는지 다시 볼 수 있습니다.</p>
+      <dl>
+        <dt>DB</dt><dd>피드 조회 함수 <code>community_feed_page</code>에 보기 <code>commented</code> 추가: 내가 댓글 단 글, 마지막 댓글 시각 순. 보기 권한·숨김·차단은 기존 규칙 그대로.</dd>
+        <dt>주소</dt><dd><code>/community/mine?view=commented</code> (<code>boardHref</code>에 추가).</dd>
+        <dt>테스트</dt><dd>라이브 DB(롤백): 내가 댓글 단 글만, 남의 것 안 섞임, 글이 숨겨지면 빠짐. E2E: 댓글 달기 → 댓글 단 글에 보임.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="m-tabs" style="padding-top:14px"><span>피드</span><span>질문</span><span>운동 영상</span><span>루틴</span><span class="on">내 글</span></div>
+        <div class="body">
+          <div class="m-seg"><span>내가 쓴 글</span><span class="on">댓글 단 글</span><span>저장한 글</span><span class="sp" style="flex:1"></span><span class="m-faint">차단한 사용자</span></div>
+          <div class="m-card"><div class="m-row"><span class="m-chip">해결됨</span><span class="m-sub">여우 · 어제</span></div><b>스쿼트할 때 무릎이 아파요</b><span class="m-sub">내 댓글: 발끝 방향으로 밀어 보세요</span></div>
+          <div class="m-card"><div class="m-row"><span class="m-sub">헬린이곰 · 3일 전</span></div><div class="m-workout"><span class="t">하체 · 52분</span></div><span class="m-sub">내 댓글: 폼 미쳤다</span></div>
+        </div>
+      </div></div>
+      <p class="cap-phone">내 글 안의 세 번째 보기</p>
+    </div>
+  </article>
+</section>
+
+<!-- ───────────── 4-2 ───────────── -->
+<section id="b">
+  <h2>4-2 대화가 이어지게</h2>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">E</span><h3>답글 + 답변 채택</h3><span class="size">중간</span></div>
+      <p>지금은 댓글이 한 줄로만 쌓여 누가 누구에게 답했는지 모릅니다. 댓글에 <b>답글 한 단계</b>를 두고, 질문 글에서는 작성자가 도움이 된 답변을 <b>채택</b>합니다. 채택하면 자동으로 ‘해결됨’이 되고 답변 쓴 사람에게 알림이 갑니다.</p>
+      <dl>
+        <dt>DB</dt><dd><code>community_comments.parent_id</code>(한 단계만 — 답글의 답글은 같은 부모로). <code>community_posts.accepted_comment_id</code>(질문만, 그 글의 댓글만, 작성자만 — 지킴이 트리거). 알림 종류 <code>reply</code>·<code>accepted</code> 추가(3단계 알림 트리거 확장, 자기 자신·차단 제외 그대로).</dd>
+        <dt>화면</dt><dd>댓글마다 ‘답글’ → 입력칸에 “@이름에게 답글” 표시. 답글은 들여 쓰고 3개 넘으면 접기. 질문 작성자에게만 ‘채택’ 버튼, 채택된 답변은 맨 위에 고정 + ‘채택됨’.</dd>
+        <dt>지워지면</dt><dd>부모 댓글이 지워지면 답글은 “삭제된 댓글에 단 답글”로 남김. 채택 댓글이 지워지면 채택만 풀림(해결됨은 유지).</dd>
+        <dt>테스트</dt><dd>라이브 DB: 남의 질문 채택 불가, 다른 글 댓글 채택 불가, 답글 알림 1건. E2E: 답글 → 알림 → 채택 → 해결됨 + 채택 알림.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="bar"><span class="back">‹ 커뮤니티</span><span class="sp"></span>질문<span class="sp"></span></div>
+        <div class="body">
+          <b style="font-size:14px">스쿼트할 때 무릎이 아파요</b>
+          <div><span class="m-chip">해결됨</span></div>
+          <div class="m-comment" style="background:var(--brand-soft)"><span class="m-av">🦊</span><div class="c"><span class="m-name">여우 <span class="m-accept">✓ 채택됨</span></span><span>무릎이 안쪽으로 모여요. 발끝 방향으로 밀어 보세요</span><span class="m-faint">답글 달기</span></div></div>
+          <div class="m-comment reply"><span class="m-av">🐻</span><div class="c"><span class="m-name">나</span><span>@여우 해보니까 훨씬 편해요!</span></div></div>
+          <div class="m-comment"><span class="m-av">🐯</span><div class="c"><span class="m-name">호랑이</span><span>박스 스쿼트로 연습해 보세요</span><span class="m-faint">답글 달기 · <b style="color:var(--brand)">채택</b></span></div></div>
+          <span class="sp" style="flex:1"></span>
+          <div class="m-input">@여우에게 답글…</div>
+        </div>
+      </div></div>
+      <p class="cap-phone">채택 답변은 위에 고정, 답글은 한 단계 들여쓰기</p>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">F</span><h3>질문에 운동 태그</h3><span class="size">작음</span></div>
+      <p>설계 문서는 질문을 “제목·본문·<b>운동 태그</b>”로 정했는데 3단계에서는 태그를 뺐습니다. 질문 쓰기에 운동 고르기(선택)를 더하고, 질문 탭에 최근 많이 나온 태그 칩을 보여 줍니다. 운동 영상의 태그 검색과 같은 방식입니다.</p>
+      <dl>
+        <dt>DB</dt><dd><code>community_posts.exercise_tag</code>(질문만). 검색 함수가 태그도 찾음.</dd>
+        <dt>새 질문 묻힘 막기</dt><dd>‘답변 기다리는’은 <b>답변 0개 먼저</b>, 그 안에서 최신순(설계 문서의 “새 질문이 묻히지 않게”).</dd>
+        <dt>근거</dt><dd><code>normalizeTag</code>(teaching.ts) 재사용.</dd>
+        <dt>테스트</dt><dd>단위: 태그 정규화. 라이브 DB: 답변 0개 질문이 앞에.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="m-tabs" style="padding-top:14px"><span>피드</span><span class="on">질문</span><span>운동 영상</span><span>루틴</span><span>내 글</span></div>
+        <div class="body">
+          <div class="m-seg"><span>전체</span><span class="on">답변 기다리는</span></div>
+          <div class="m-row" style="flex-wrap:wrap;gap:5px"><span class="m-chip">#스쿼트</span><span class="m-chip gray">#데드리프트</span><span class="m-chip gray">#벤치프레스</span></div>
+          <div class="m-card"><div class="m-row"><span class="m-chip">답변 기다리는 중</span><span class="m-sub">방금 전</span></div><b>하이바 로우바 뭐가 달라요?</b><span class="m-sub">#스쿼트 · 답변 0</span></div>
+          <div class="m-card"><div class="m-row"><span class="m-chip">답변 기다리는 중</span><span class="m-sub">1시간 전</span></div><b>스쿼트 깊이는 어디까지?</b><span class="m-sub">#스쿼트 · 답변 0</span></div>
+        </div>
+      </div></div>
+      <p class="cap-phone">태그 칩 + 답변 0개 질문이 먼저</p>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">G</span><h3>작성자 프로필 시트</h3><span class="size">중간</span></div>
+      <p>좋은 운동 기록을 올린 사람의 다른 글을 볼 길이 없습니다. 글·댓글의 이름을 누르면 아래에서 시트가 올라와 그 사람의 <b>내가 볼 수 있는 글</b>만 모아 보여 줍니다. 차단도 여기서 할 수 있습니다.</p>
+      <dl>
+        <dt>보여 줄 것</dt><dd>이름(닉네임), 이번 달 공개 글 수, 최근 글 9개(사진·기록 카드 썸네일). 체중·신체 정보·그룹 목록은 <b>보이지 않습니다</b>.</dd>
+        <dt>DB</dt><dd>새 표 없음. 피드 조회 함수에 보기 <code>author</code>(작성자 id 인자) 추가 — 공개 범위·숨김·차단은 기존 규칙이 거름.</dd>
+        <dt>팔로우</dt><dd>이번엔 넣지 않습니다(설계 문서 방침). 시트가 나중에 팔로우 버튼 자리가 됩니다.</dd>
+        <dt>테스트</dt><dd>라이브 DB: 그룹 전용 글은 그룹 밖 사람의 시트에 안 보임, 차단 사이면 시트가 비어 있음.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="body" style="padding-top:12px">
+          <div class="m-card" style="opacity:.55"><div class="m-row"><span class="m-av">🐻</span><div class="m-name">헬린이곰</div></div><div class="m-workout"><span class="t">하체 · 52분</span></div></div>
+        </div>
+        <div class="m-dim"></div>
+        <div class="m-sheet">
+          <span class="m-grip"></span>
+          <div class="m-row"><span class="m-av" style="width:36px;height:36px;font-size:18px">🐻</span><div><b style="font-size:14px">헬린이곰</b><div class="m-stat"><span>이번 달 <b>14</b>개</span><span>질문 답변 <b>6</b></span></div></div></div>
+          <div class="m-grid"><div>하체</div><div>📷</div><div>등</div><div>📷</div><div>가슴</div><div>질문</div></div>
+          <div class="m-row"><div class="m-btn ghost" style="flex:1">글 모두 보기</div><div class="m-btn ghost" style="flex:none;color:var(--crit)">차단</div></div>
+        </div>
+      </div></div>
+      <p class="cap-phone">이름을 누르면 공개 글만 모인 시트</p>
+    </div>
+  </article>
+</section>
+
+<!-- ───────────── 4-3 ───────────── -->
+<section id="c">
+  <h2>4-3 운영·넓히기</h2>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">H</span><h3>금칙어 걸러내기</h3><span class="size">작음</span></div>
+      <p>지금은 욕설·광고가 올라온 뒤 신고로만 막습니다(3명이면 자동 숨김). 글·댓글·질문을 <b>올릴 때</b> 서버가 금칙어 목록과 비교해 막고, 어떤 말 때문인지 알려 줍니다.</p>
+      <dl>
+        <dt>목록</dt><dd>욕설·성적 표현·연락처 유도(오픈채팅 링크, 전화번호 패턴)·도박 광고. 코드 안 순수 모듈 + 관리자가 늘릴 수 있는 표(<code>community_banned_words</code>).</dd>
+        <dt>우회</dt><dd>띄어쓰기·특수문자 끼워 넣기(“ㅅ.ㅂ”)는 정규화 후 비교. 운동 용어 오탐(“데드”, “사정거리” 등)은 예외 목록으로.</dd>
+        <dt>어디서</dt><dd>글·댓글·질문·영상 설명·루틴 소개 다섯 곳 모두(한 곳만 고치지 않게 가드 테스트).</dd>
+        <dt>테스트</dt><dd>단위: 정규화·예외 단어. 가드: 쓰기 액션 다섯 곳이 모두 검사 함수를 부름.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="bar">오운완 인증<span class="sp"></span>✕</div>
+        <div class="body">
+          <div class="m-field" style="min-height:70px">운동 같이 하실 분 오픈채팅 open.kakao…</div>
+          <div class="m-err">연락처나 채팅방 링크는 올릴 수 없어요. 그 부분을 지우고 다시 올려 주세요.</div>
+          <span class="sp" style="flex:1"></span>
+          <div class="m-btn">인증 올리기</div>
+        </div>
+      </div></div>
+      <p class="cap-phone">올릴 때 이유와 함께 막는다</p>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">I</span><h3>영상·루틴도 저장</h3><span class="size">중간</span></div>
+      <p>3단계 저장은 피드 글만 됩니다. 운동 영상과 루틴 소개에도 책갈피를 달고, ‘저장한 글’에 종류 칩(전체·글·영상·루틴)을 둡니다.</p>
+      <dl>
+        <dt>DB</dt><dd><code>community_saves</code>에 대상 종류를 더하는 대신 표를 둘 더(<code>teaching_saves</code>·<code>routine_share_saves</code>) — 외래키로 글이 지워지면 저장도 지워지게. 보기 권한 규칙은 각 글의 규칙 재사용.</dd>
+        <dt>테스트</dt><dd>라이브 DB: 볼 수 없게 된 영상은 저장 목록에서 빠짐.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="m-tabs" style="padding-top:14px"><span>피드</span><span>질문</span><span>운동 영상</span><span>루틴</span><span class="on">내 글</span></div>
+        <div class="body">
+          <div class="m-seg"><span>내가 쓴 글</span><span>댓글 단 글</span><span class="on">저장한 글</span></div>
+          <div class="m-row" style="gap:5px"><span class="m-chip gray">전체</span><span class="m-chip gray">글</span><span class="m-chip">영상</span><span class="m-chip gray">루틴</span></div>
+          <div class="m-grid"><div>▶ 스쿼트</div><div>▶ 벤치</div><div>▶ 풀업</div></div>
+        </div>
+      </div></div>
+      <p class="cap-phone">저장한 글 안에서 종류로 나눠 보기</p>
+    </div>
+  </article>
+
+  <article class="feature">
+    <div class="text">
+      <div class="head"><span class="key">J</span><h3>댓글 공감</h3><span class="size">작음</span></div>
+      <p>질문에 답변이 여러 개면 어떤 게 좋은 답인지 알기 어렵습니다. 댓글에 공감(👍)을 두고, 질문 글에서는 <b>채택 → 공감 많은 순 → 최신</b>으로 정렬합니다. 공감 알림은 보내지 않습니다(알림 피로).</p>
+      <dl>
+        <dt>DB</dt><dd><code>comment_likes(user_id, comment_id)</code>, 보기 권한은 그 댓글의 글 규칙.</dd>
+        <dt>테스트</dt><dd>라이브 DB: 중복 공감 불가, 볼 수 없는 댓글 공감 불가.</dd>
+      </dl>
+    </div>
+    <div class="phones">
+      <div class="phone"><div class="screen">
+        <div class="bar"><span class="back">‹ 커뮤니티</span><span class="sp"></span>질문<span class="sp"></span></div>
+        <div class="body">
+          <div class="m-comment"><span class="m-av">🐯</span><div class="c"><span class="m-name">호랑이</span><span>박스 스쿼트로 깊이를 먼저 익혀 보세요</span><span class="m-faint">👍 8 · 답글 달기</span></div></div>
+          <div class="m-comment"><span class="m-av">🐰</span><div class="c"><span class="m-name">토끼</span><span>발목 가동성도 확인해 보세요</span><span class="m-faint">👍 3 · 답글 달기</span></div></div>
+          <span class="m-toast">공감했어요</span>
+        </div>
+      </div></div>
+      <p class="cap-phone">공감 수로 좋은 답변이 위로</p>
+    </div>
+  </article>
+</section>
+
+<section>
+  <h2>데이터 변경 한눈에</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>단계</th><th>변경</th><th>지키는 규칙</th><th>라이브 DB 확인</th></tr></thead>
+      <tbody>
+        <tr><td>4-1</td><td><code>community_feed_page</code> 보기 <code>commented</code> · 운동 카드 스냅샷에 <code>exerciseId</code>·<code>equipment</code>(JSON, 표 변경 없음)</td><td>보기 권한·숨김·차단은 기존 RLS 그대로 · 오늘만 담기는 daily_plan 만</td><td>댓글 단 글 목록 · 내일 루틴 불변</td></tr>
+        <tr><td>4-2</td><td><code>community_comments.parent_id</code> · <code>community_posts.accepted_comment_id</code>·<code>exercise_tag</code> · 알림 종류 <code>reply</code>·<code>accepted</code> · 보기 <code>author</code></td><td>채택은 질문 작성자만 · 그 글의 댓글만 · 자기·차단 사이 알림 없음</td><td>남의 질문 채택 불가 · 답글 알림 1건 · 그룹 전용 글 프로필 비노출</td></tr>
+        <tr><td>4-3</td><td><code>community_banned_words</code> · <code>teaching_saves</code>·<code>routine_share_saves</code> · <code>comment_likes</code></td><td>저장·공감은 본인 것만 읽기 · 볼 수 없는 대상엔 못 씀</td><td>남의 저장 못 봄 · 중복 공감 불가</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">모든 DB 변경은 1~3단계처럼 마이그레이션 → 시험 적용(롤백) → 라이브 적용 → <code>schema.sql</code> 동기화 → 라이브 롤백 테스트 순서로 합니다.</p>
+</section>
+
+<section>
+  <h2>하지 않는 것</h2>
+  <div class="box">
+    <ul class="clean">
+      <li><b>팔로우·DM·주간 챌린지·개인화 추천</b> — 설계 문서 방침대로 이용량(글 수·재방문)을 본 뒤. 지금은 참여자가 적다고 가정합니다.</li>
+      <li><b>남의 무게 그대로 담기</b> — 오늘 이 운동 해보기는 운동만 담고 무게는 내 추천값. 남의 무게로 다치는 걸 막습니다.</li>
+      <li><b>답글의 답글(여러 단계)</b> — 폰 화면에서 들여쓰기가 깊어지면 읽기 어렵습니다. 한 단계만.</li>
+      <li><b>공감·저장 알림</b> — 알림을 꺼 버리게 만드는 종류라 보내지 않습니다.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide">
+    <h3>1. 4-1(따라 하게)부터 진행할까요?</h3>
+    <p>추천: <b>4-1 → 4-2 → 4-3</b> 순서. 4-1은 DB 변경이 작고 “보고 따라 하기”가 운동 앱 커뮤니티의 핵심이라 효과가 가장 큽니다.</p>
+  </div>
+  <div class="decide">
+    <h3>2. 오늘 이 운동 해보기 — 무게</h3>
+    <p>추천: <b>내 추천값</b>으로 담기. 다른 방법은 “작성자 세트 수만 가져오고 무게는 내 추천값”.</p>
+  </div>
+  <div class="decide">
+    <h3>3. 채택하면 자동 ‘해결됨’</h3>
+    <p>추천: <b>예</b>. 채택을 풀어도 해결됨은 작성자가 따로 풀 때까지 유지.</p>
+  </div>
+  <div class="decide">
+    <h3>4. 금칙어에 걸리면</h3>
+    <p>추천: <b>올리기 막고 이유 안내</b>. 다른 방법은 “올리되 다른 사람에게 가리고 관리자 확인 대기”(오탐 부담은 적지만 관리 일이 늘어남).</p>
+  </div>
+</section>
+</div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Bell, Heart, MessageCircle, Video } from "lucide-react";
+import { Bell, CheckCircle2, CornerDownRight, Heart, MessageCircle, Video } from "lucide-react";
 
 import { PageHeader } from "@/components/page-header";
 import { relativeTime } from "../community";
@@ -33,7 +33,16 @@ export function CommunityNotificationList({ items }: { items: CommunityNotificat
           <ul className="flex flex-col divide-y divide-zinc-100 dark:divide-white/[0.06]" data-testid="community-notifications">
             {items.map((n) => {
               const text = notificationText(n);
-              const Icon = n.kind === "likes" ? Heart : n.kind === "teaching_comment" ? Video : MessageCircle;
+              const Icon =
+                n.kind === "likes"
+                  ? Heart
+                  : n.kind === "teaching_comment"
+                    ? Video
+                    : n.kind === "reply"
+                      ? CornerDownRight
+                      : n.kind === "accepted"
+                        ? CheckCircle2
+                        : MessageCircle;
               return (
                 <li key={n.id}>
                   <Link href={notificationHref(n)} className="flex items-start gap-3 py-3">

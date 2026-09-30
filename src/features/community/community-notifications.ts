@@ -3,7 +3,8 @@
  * 알림 행(community_notifications) → 한 줄 문구 + 누르면 갈 곳. 푸시 문구도 여기서 만든다(앱 안과 같은 말).
  */
 
-export type CommunityNotificationKind = "comment" | "teaching_comment" | "likes";
+/** reply·accepted 는 커뮤니티 4-2(답글·답변 채택). */
+export type CommunityNotificationKind = "comment" | "teaching_comment" | "likes" | "reply" | "accepted";
 
 export type CommunityNotification = {
   id: string;
@@ -24,7 +25,8 @@ export function notificationHref(
   n: Pick<CommunityNotification, "postId" | "teachingPostId"> & { sourceId?: string | null; kind?: CommunityNotificationKind },
 ): string {
   if (n.postId) {
-    return n.kind === "comment" && n.sourceId ? `/community/${n.postId}#${commentAnchor(n.sourceId)}` : `/community/${n.postId}`;
+    const toComment = n.kind === "comment" || n.kind === "reply" || n.kind === "accepted";
+    return toComment && n.sourceId ? `/community/${n.postId}#${commentAnchor(n.sourceId)}` : `/community/${n.postId}`;
   }
   if (n.teachingPostId) return `/community/reel/${n.teachingPostId}`;
   return "/community";
@@ -40,6 +42,10 @@ export function notificationText(
       return { title: `${who}님이 내 글에 댓글을 남겼어요`, body: n.preview ?? "" };
     case "teaching_comment":
       return { title: `${who}님이 내 운동 영상에 댓글을 남겼어요`, body: n.preview ?? "" };
+    case "reply":
+      return { title: `${who}님이 내 댓글에 답글을 남겼어요`, body: n.preview ?? "" };
+    case "accepted":
+      return { title: `${who}님이 내 답변을 채택했어요`, body: n.preview ?? "" };
     case "likes": {
       const c = Math.max(0, n.likeCount ?? 0);
       return { title: `오늘 좋아요 ${c}개를 받았어요`, body: "어떤 글인지 확인해 보세요." };

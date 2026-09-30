@@ -86,35 +86,39 @@ export async function countUnreadCommunityNotifications(supabase: SupabaseClient
 }
 
 /**
- * 댓글 푸시 — 댓글 저장 직후 부른다. 트리거가 만든 알림 행이 있을 때만 보낸다.
+ * 댓글 푸시 — 댓글 저장(또는 답변 채택) 직후 부른다. 트리거가 만든 알림 행이 있을 때만 보낸다.
+ * "comment" 는 그 댓글로 생긴 글쓴이 알림 + 답글 알림(부모 댓글 쓴 사람)을 모두 보낸다(커뮤니티 4-2).
  * 실패는 삼킨다(댓글은 이미 남았다).
  */
 export async function pushCommentNotification(
-  kind: "comment" | "teaching_comment",
+  kind: "comment" | "teaching_comment" | "accepted",
   commentId: string,
 ): Promise<void> {
   try {
     if (!notifyEnabled()) return;
     const admin = createSupabaseAdminClient();
     if (!admin) return;
+    const kinds: CommunityNotificationKind[] = kind === "comment" ? ["comment", "reply"] : [kind];
     const { data } = await admin
       .from("community_notifications")
       .select(COLUMNS)
-      .eq("kind", kind)
-      .eq("source_id", commentId)
-      .maybeSingle();
-    const row = data as Row | null;
-    if (!row) return;
-    const prefs = (await loadPreferences(admin, [row.user_id])).get(row.user_id) ?? DEFAULT_PREFERENCES;
-    if (!decideSend(prefs, "community-activity", seoulHour()).allowed) return;
-    const n = toNotification(row);
-    const text = notificationText(n);
-    await notifyUser(admin, row.user_id, {
-      type: "community-comment",
-      title: text.title,
-      body: text.body.length > 60 ? `${text.body.slice(0, 60)}…` : text.body,
-      url: notificationHref(n),
-    });
+      .in("kind", kinds)
+      .eq("source_id", commentId);
+    const rows = (data ?? []) as Row[];
+    if (rows.length === 0) return;
+    const prefsByUser = await loadPreferences(admin, rows.map((r) => r.user_id));
+    for (const row of rows) {
+      const prefs = prefsByUser.get(row.user_id) ?? DEFAULT_PREFERENCES;
+      if (!decideSend(prefs, "community-activity", seoulHour()).allowed) continue;
+      const n = toNotification(row);
+      const text = notificationText(n);
+      await notifyUser(admin, row.user_id, {
+        type: "community-comment",
+        title: text.title,
+        body: text.body.length > 60 ? `${text.body.slice(0, 60)}…` : text.body,
+        url: notificationHref(n),
+      });
+    }
   } catch {
     /* 알림 실패는 무시 */
   }

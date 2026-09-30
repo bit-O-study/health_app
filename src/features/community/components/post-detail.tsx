@@ -1,7 +1,7 @@
 "use client";
 
 import { WorkoutShareCard } from "./workout-share-card";
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import {
   Bookmark,
@@ -17,7 +17,8 @@ import {
 
 import { PageHeader } from "@/components/page-header";
 import { characterEmoji, pastelClass } from "@/features/groups/avatar";
-import { relativeTime, captionLimit, MAX_QUESTION_TITLE } from "../community";
+import { relativeTime, captionLimit, MAX_QUESTION_TITLE, threadComments } from "../community";
+import { AuthorName } from "./author-sheet";
 import type { CommunityComment, CommunityPost } from "../data-access";
 import { ReportButton } from "./report-button";
 import { Notice, useNotice } from "./notice";
@@ -28,6 +29,7 @@ import {
   deleteCommentAction,
   deleteCommunityPostAction,
   editCommunityPostAction,
+  acceptAnswerAction,
   listCommentsAction,
   setQuestionResolvedAction,
   toggleLikeAction,
@@ -61,6 +63,10 @@ export function PostDetail({
   // 댓글 수는 서버 집계 + 이 화면에서 달고 지운 만큼(댓글을 다 읽지 않으므로 목록 길이로 셀 수 없다).
   const [commentCount, setCommentCount] = useState(post.commentCount);
   const [body, setBody] = useState("");
+  // 답글(한 단계)과 답변 채택(커뮤니티 4-2).
+  const [replyTo, setReplyTo] = useState<{ id: string; name: string } | null>(null);
+  const [acceptedId, setAcceptedId] = useState<string | null>(post.acceptedCommentId);
+  const inputRef = useRef<HTMLInputElement>(null);
   // 오류·확인은 앱 안에서(브라우저 alert/confirm 대신 — 커뮤니티 2단계).
   const [notice, showNotice] = useNotice();
   const [confirmDelete, setConfirmDelete] = useState(false);
@@ -166,14 +172,31 @@ export function PostDetail({
     // 🔴 보내는 중엔 다시 안 보낸다 — 엔터를 빨리 두 번 누르면 두 번 올라가던 문제.
     if (!text || pending) return;
     start(async () => {
-      const r = await addCommentAction(post.id, text);
+      const r = await addCommentAction(post.id, text, replyTo?.id ?? null);
       if (r.ok) {
         setBody("");
+        setReplyTo(null);
         setCommentCount((c) => c + 1);
         await reloadComments();
       } else {
         showNotice(r.error);
       }
+    });
+  }
+
+  function startReply(c: CommunityComment) {
+    setReplyTo({ id: c.id, name: c.authorName });
+    inputRef.current?.focus();
+  }
+
+  /** 채택 / 채택 취소 — 채택하면 DB 가 '해결됨' 으로 바꾼다(채택을 풀어도 해결됨은 그대로). */
+  function accept(commentId: string | null) {
+    start(async () => {
+      const r = await acceptAnswerAction(post.id, commentId);
+      if (r.ok) {
+        setAcceptedId(commentId);
+        if (commentId) setResolved(true);
+      } else showNotice(r.error);
     });
   }
 
@@ -293,7 +316,15 @@ export function PostDetail({
           {characterEmoji(post.authorName)}
         </span>
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold leading-5">{post.authorName}</p>
+          <p className="truncate text-sm font-semibold leading-5">
+            <AuthorName
+              userId={post.userId}
+              name={post.authorName}
+              isMine={post.isMine}
+              blockTarget={{ kind: "community_post", id: post.id }}
+              leaveOnBlock={() => router.replace("/community")}
+            />
+          </p>
           <p className="text-xs leading-4 text-zinc-400">{when}</p>
         </div>
         {post.groupName ? (
@@ -439,17 +470,32 @@ export function PostDetail({
             이전 댓글 더 보기
           </button>
         ) : null}
+        {(() => {
+          // 채택한 답변은 맨 위에 고정(최신 50개 밖이어도 — 상세 로더가 따로 읽어 온다).
+          const pinned = acceptedId
+            ? (comments.find((c) => c.id === acceptedId) ?? (post.acceptedComment?.id === acceptedId ? post.acceptedComment : null))
+            : null;
+          return isQuestion && pinned ? (
+            <div data-testid="accepted-answer" className="rounded-xl bg-brand-soft px-3 py-2.5">
+              <p className="flex items-center gap-1 text-xs font-bold text-brand">
+                <CheckCircle2 aria-hidden="true" size={13} /> 채택된 답변 · {pinned.authorName}
+              </p>
+              <p className="mt-1 whitespace-pre-wrap break-words text-sm">{pinned.body}</p>
+            </div>
+          ) : null;
+        })()}
         {comments.length === 0 ? (
           <p className="py-3 text-center text-sm text-zinc-400">
             {isQuestion ? "아직 답변이 없어요. 아는 걸 알려 주세요." : "아직 댓글이 없어요"}
           </p>
         ) : (
-          comments.map((c) => (
+          threadComments(comments).map(({ item: c, reply }) => (
             <div
               key={c.id}
               id={commentAnchor(c.id)}
               data-highlight={highlight === c.id ? "true" : undefined}
-              className={`flex items-start gap-2 rounded-lg transition-colors duration-700 ${
+              data-reply={reply ? "true" : undefined}
+              className={`flex items-start gap-2 rounded-lg transition-colors duration-700 ${reply ? "ml-9" : ""} ${
                 highlight === c.id ? "bg-amber-100 dark:bg-amber-900/30" : ""
               }`}
             >
@@ -462,7 +508,18 @@ export function PostDetail({
               </span>
               <div className="min-w-0 flex-1">
                 <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">
-                  {c.authorName}
+                  <AuthorName
+                    userId={c.userId}
+                    name={c.authorName}
+                    isMine={c.isMine}
+                    blockTarget={{ kind: "community_comment", id: c.id }}
+                    onBlocked={() => start(async () => { await reloadComments(); })}
+                  />
+                  {acceptedId === c.id ? (
+                    <span className="ml-1.5 inline-flex items-center gap-0.5 font-bold text-brand">
+                      <CheckCircle2 aria-hidden="true" size={12} /> 채택됨
+                    </span>
+                  ) : null}
                   <span className="ml-1.5 font-normal text-zinc-400">
                     {relativeTime(new Date(c.createdAt).getTime(), now)}
                   </span>
@@ -470,6 +527,21 @@ export function PostDetail({
                 <p className="whitespace-pre-wrap break-words text-sm">
                   {c.body}
                 </p>
+                <div className="flex gap-3 text-xs text-zinc-400">
+                  <button type="button" onClick={() => startReply(c)} className="min-h-8 font-semibold hover:text-brand">
+                    답글
+                  </button>
+                  {isQuestion && post.isMine && !c.isMine ? (
+                    <button
+                      type="button"
+                      disabled={pending}
+                      onClick={() => accept(acceptedId === c.id ? null : c.id)}
+                      className="min-h-8 font-semibold text-brand disabled:opacity-50"
+                    >
+                      {acceptedId === c.id ? "채택 취소" : "채택"}
+                    </button>
+                  ) : null}
+                </div>
               </div>
               {c.isMine || canManage ? (
                 <button
@@ -500,14 +572,24 @@ export function PostDetail({
       </div>
 
       {/* 댓글 입력 — 하단 고정탭(4rem) + 제스처바(safe-area) 위에 붙게 오프셋. */}
-      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] flex items-center gap-2 bg-background py-2">
+      <div className="sticky bottom-[calc(3.75rem+env(safe-area-inset-bottom))] bg-background py-2">
+      {replyTo ? (
+        <p className="mb-1.5 flex items-center gap-2 px-1 text-xs text-zinc-500" data-testid="reply-to">
+          <span className="min-w-0 flex-1 truncate">@{replyTo.name}에게 답글</span>
+          <button type="button" onClick={() => setReplyTo(null)} className="min-h-8 font-semibold">
+            취소
+          </button>
+        </p>
+      ) : null}
+      <div className="flex items-center gap-2">
         <input
+          ref={inputRef}
           value={body}
           onChange={(e) => setBody(e.target.value.slice(0, 300))}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.nativeEvent.isComposing) addComment();
           }}
-          placeholder={isQuestion ? "답변 달기…" : "댓글 달기…"}
+          placeholder={replyTo ? `@${replyTo.name}에게 답글…` : isQuestion ? "답변 달기…" : "댓글 달기…"}
           className="h-10 min-w-0 flex-1 rounded-full bg-zinc-100 px-4 text-base outline-none focus:ring-2 focus:ring-brand/40 dark:bg-white/[0.08]"
         />
         <button
@@ -518,6 +600,7 @@ export function PostDetail({
         >
           {pending ? <Loader2 size={14} className="animate-spin" /> : null}등록
         </button>
+      </div>
       </div>
       </main>
       <ConfirmDialog

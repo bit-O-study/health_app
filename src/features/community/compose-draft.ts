@@ -11,6 +11,8 @@ export const DRAFT_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 export type ComposeDraft = {
   mode: "photo" | "question";
   title: string;
+  /** 질문 운동 태그(커뮤니티 4-2). */
+  tag?: string;
   caption: string;
   visibility: "public" | "group" | "public_except_group";
   groupId: string | null;
@@ -41,6 +43,7 @@ export function parseDraft(raw: string | null, now: number): ComposeDraft | null
   const draft: ComposeDraft = {
     mode,
     title: typeof o.title === "string" ? o.title.slice(0, 60) : "",
+    tag: typeof o.tag === "string" ? o.tag.slice(0, 40) : "",
     caption: typeof o.caption === "string" ? o.caption.slice(0, 1000) : "",
     visibility,
     groupId: typeof o.groupId === "string" ? o.groupId : null,

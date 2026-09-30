@@ -43,6 +43,7 @@ import { unreadBadge } from "../community-notifications";
 import { DRAFT_KEY, hasDraftContent, parseDraft, type ComposeDraft } from "../compose-draft";
 import type { FeedPost } from "../data-access";
 import { TeachingReels } from "./teaching-reels";
+import { AuthorName } from "./author-sheet";
 import { ReportButton } from "./report-button";
 import { Notice, useNotice } from "./notice";
 import { ConfirmDialog } from "@/components/confirm-dialog";
@@ -77,7 +78,10 @@ export function CommunityBoard({
   initialSearch = "",
   initialPage,
   unreadNotifications = 0,
+  questionTags = [],
 }: {
+  /** 질문 탭 태그 칩 — 최근 많이 쓴 운동 태그(커뮤니티 4-2). */
+  questionTags?: string[];
   groups: Group[];
   /** 안 읽은 커뮤니티 알림 수(머리글 종 뱃지 — 커뮤니티 3단계). */
   unreadNotifications?: number;
@@ -235,6 +239,27 @@ export function CommunityBoard({
         ) : null}
         {tab === "workout" || tab === "popular" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "workout"} onClick={() => navigate("workout", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">최신순</button><button type="button" aria-pressed={tab === "popular"} onClick={() => navigate("popular", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">이번 주 인기</button></div> : null}
         {mainTabOf(tab) === "question" ? <div className="flex gap-3 pb-2"><button type="button" aria-pressed={tab === "question"} onClick={() => navigate("question", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">전체</button><button type="button" aria-pressed={tab === "question_open"} onClick={() => navigate("question_open", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">답변 기다리는</button></div> : null}
+        {mainTabOf(tab) === "question" && questionTags.length > 0 ? (
+          <div className="flex gap-1.5 overflow-x-auto pb-2 [scrollbar-width:none]" data-testid="question-tags">
+            {questionTags.map((t) => {
+              const on = initialSearch.trim() === t;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  aria-pressed={on}
+                  // 다시 누르면 태그 해제(전체).
+                  onClick={() => navigate(tab, on ? "" : t)}
+                  className={`min-h-9 shrink-0 rounded-full px-3 text-xs font-semibold ${
+                    on ? "bg-brand text-white dark:text-zinc-950" : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400"
+                  }`}
+                >
+                  #{t}
+                </button>
+              );
+            })}
+          </div>
+        ) : null}
         {mainTabOf(tab) === "mine" ? <div className="flex flex-wrap items-center gap-x-3 pb-2"><button type="button" aria-pressed={tab === "mine"} onClick={() => navigate("mine", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">내가 쓴 글</button><button type="button" aria-pressed={tab === "commented"} onClick={() => navigate("commented", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">댓글 단 글</button><button type="button" aria-pressed={tab === "saved"} onClick={() => navigate("saved", search)} className="min-h-11 text-sm text-zinc-500 aria-pressed:font-semibold aria-pressed:text-brand">저장한 글</button><Link href="/community/blocked" className="ml-auto inline-flex min-h-11 items-center text-xs text-zinc-400">차단한 사용자</Link></div> : null}
       </div>
 
@@ -484,7 +509,12 @@ function PostCard({
         </span>
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-semibold leading-5 text-zinc-900 dark:text-zinc-100">
-            {post.authorName}
+            <AuthorName
+              userId={post.userId}
+              name={post.authorName}
+              isMine={post.isMine}
+              blockTarget={{ kind: isTeaching ? "teaching_post" : "community_post", id: post.id }}
+            />
           </p>
           <p className="text-xs leading-4 text-zinc-400">{when} · {post.visibility === "public" ? "전체 공개" : post.visibility === "group" ? "그룹만 공개" : "그룹 제외 공개"}</p>
         </div>
@@ -512,6 +542,13 @@ function PostCard({
       ) : null}
       {isQuestion && post.title ? (
         <p className="px-3 pt-2 text-base font-bold leading-snug text-zinc-900 dark:text-zinc-50">{post.title}</p>
+      ) : null}
+      {isQuestion && post.exerciseTag ? (
+        <p className="px-3 pt-1">
+          <span className="rounded-full bg-zinc-100 px-2 py-0.5 text-xs font-semibold text-zinc-500 dark:bg-white/[0.08] dark:text-zinc-400">
+            #{post.exerciseTag}
+          </span>
+        </p>
       ) : null}
 
       {post.workoutSnapshot ? <WorkoutShareCard snapshot={post.workoutSnapshot} postId={post.id} /> : null}
@@ -701,6 +738,8 @@ function ComposeModal({
 }) {
   const [mode, setMode] = useState<"photo" | "question">(initialMode);
   const [title, setTitle] = useState("");
+  // 질문 운동 태그(선택 — 커뮤니티 4-2).
+  const [tag, setTag] = useState("");
   const isQuestion = mode === "question";
   const fileRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -739,17 +778,18 @@ function ComposeModal({
     // 이어 쓸지 묻는 동안에는 덮어쓰지 않는다(아직 빈 창이라 초안이 지워진다).
     if (!draftChecked || savedDraft) return;
     try {
-      const d: ComposeDraft = { mode, title, caption, visibility, groupId, savedAt: Date.now() };
+      const d: ComposeDraft = { mode, title, tag, caption, visibility, groupId, savedAt: Date.now() };
       if (hasDraftContent(d)) window.localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
       else window.localStorage.removeItem(DRAFT_KEY);
     } catch {
       /* 저장소 못 씀 */
     }
-  }, [draftChecked, savedDraft, mode, title, caption, visibility, groupId]);
+  }, [draftChecked, savedDraft, mode, title, tag, caption, visibility, groupId]);
   function resumeDraft() {
     if (!savedDraft) return;
     setMode(savedDraft.mode);
     setTitle(savedDraft.title);
+    setTag(savedDraft.tag ?? "");
     setCaption(savedDraft.caption);
     // 그 사이 그룹을 나갔으면 전체 공개로.
     const groupOk = !!savedDraft.groupId && groups.some((g) => g.id === savedDraft.groupId);
@@ -804,7 +844,7 @@ function ComposeModal({
           caption,
           groupId: vis.groupId,
           visibility: vis.visibility,
-          ...(isQuestion ? { postType: "question" as const, title } : {}),
+          ...(isQuestion ? { postType: "question" as const, title, exerciseTag: tag } : {}),
         });
         if (r.ok) {
           discardDraft();
@@ -867,6 +907,15 @@ function ComposeModal({
             aria-label="질문 제목"
             placeholder="질문 제목 (예: 스쿼트할 때 무릎이 아파요)"
             className={`${field} mb-2 mt-0 font-semibold`}
+          />
+        ) : null}
+        {isQuestion ? (
+          <input
+            value={tag}
+            onChange={(e) => setTag(e.target.value.slice(0, 40))}
+            aria-label="운동 태그"
+            placeholder="운동 태그 (선택, 예: 스쿼트)"
+            className={`${field} mb-2 mt-0`}
           />
         ) : (
           <WorkoutRecordPicker value={workout} onChange={setWorkout} />

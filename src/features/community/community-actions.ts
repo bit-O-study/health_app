@@ -21,7 +21,8 @@ import {
 } from "./community";
 import { pushCommentNotification } from "./community-notify.server";
 import { resolveVisibility, type Visibility } from "./feed";
-import { getPostComments, type CommentPage } from "./data-access";
+import { getAuthorProfile, getPostComments, type AuthorProfile, type CommentPage } from "./data-access";
+import { normalizeQuestionTag } from "./community";
 
 type ActionResult = { ok: true; id?: string } | { ok: false; error: string };
 
@@ -39,6 +40,8 @@ export async function createCommunityPostAction(input: {
   /** 질문 글(커뮤니티 3단계) — 제목 + 본문(caption), 사진은 선택, 운동 기록 카드는 없음. */
   postType?: "photo" | "question";
   title?: string;
+  /** 질문의 운동 태그(선택 — 커뮤니티 4-2). */
+  exerciseTag?: string;
 }): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
@@ -126,7 +129,9 @@ export async function createCommunityPostAction(input: {
       author_name: authorName,
       photo_url: input.photoUrl.trim() || null,
       caption: caption.length > 0 ? caption : null,
-      ...(question ? { post_type: "question", title: question.title } : {}),
+      ...(question
+        ? { post_type: "question", title: question.title, exercise_tag: normalizeQuestionTag(input.exerciseTag) }
+        : {}),
     })
     .select("id")
     .single();
@@ -244,10 +249,11 @@ export async function toggleLikeAction(
   return { ok: true, liked: true };
 }
 
-/** 댓글 작성. */
+/** 댓글 작성. parentId 가 있으면 그 댓글에 답글(한 단계 — DB 가 부모를 맞춘다, 커뮤니티 4-2). */
 export async function addCommentAction(
   postId: string,
   body: string,
+  parentId?: string | null,
 ): Promise<ActionResult> {
   const user = await getCurrentUser();
   if (!user) return { ok: false, error: "로그인이 필요합니다." };
@@ -275,11 +281,12 @@ export async function addCommentAction(
       user_id: user.id,
       author_name: authorName,
       body: text,
+      parent_id: parentId && /^[a-f0-9-]{36}$/i.test(parentId) ? parentId : null,
     })
     .select("id")
     .single();
   if (error) return { ok: false, error: error.message };
-  // 글쓴이에게 푸시 — 응답을 기다리게 하지 않는다(앱 안 알림은 DB 트리거가 이미 만들었다).
+  // 글쓴이(·답글이면 부모 댓글 쓴 사람)에게 푸시 — 응답을 기다리게 하지 않는다(앱 안 알림은 DB 트리거가 이미 만들었다).
   const commentId = (created as { id: string }).id;
   after(() => pushCommentNotification("comment", commentId));
   revalidatePath("/community");
@@ -362,4 +369,32 @@ export async function markCommunityNotificationsReadAction(ids?: string[]): Prom
   const { error } = await supabase.rpc("mark_community_notifications_read", { ids: ids && ids.length ? ids : null });
   if (error) return { ok: false, error: error.message };
   return { ok: true };
+}
+
+/**
+ * 답변 채택 / 채택 취소(커뮤니티 4-2) — 질문 작성자만. 채택하면 DB 가 자동으로 '해결됨' 으로 바꾸고
+ * 답변 쓴 사람에게 알림을 만든다(community_post_guard · community_accept_notify). 채택을 풀어도 해결됨은 그대로.
+ */
+export async function acceptAnswerAction(postId: string, commentId: string | null): Promise<ActionResult> {
+  const user = await getCurrentUser();
+  if (!user) return { ok: false, error: "로그인이 필요합니다." };
+  if (!postId || (commentId !== null && !/^[a-f0-9-]{36}$/i.test(commentId))) return { ok: false, error: "잘못된 요청입니다." };
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase
+    .from("community_posts")
+    .update({ accepted_comment_id: commentId })
+    .eq("id", postId)
+    .eq("user_id", user.id)
+    .eq("post_type", "question")
+    .select("id");
+  if (error) return { ok: false, error: error.message.includes("채택") ? error.message : "채택하지 못했어요." };
+  if (!data || data.length === 0) return { ok: false, error: "내 질문에서만 채택할 수 있어요." };
+  if (commentId) after(() => pushCommentNotification("accepted", commentId));
+  revalidatePath("/community");
+  return { ok: true };
+}
+
+/** 작성자 프로필 시트(커뮤니티 4-2). */
+export async function getAuthorProfileAction(authorId: string): Promise<AuthorProfile | null> {
+  return getAuthorProfile(authorId);
 }

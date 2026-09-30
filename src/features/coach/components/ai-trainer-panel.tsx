@@ -11,10 +11,13 @@ import {
   setAiConsentAction,
 } from "@/features/coach/ai-trainer-actions";
 import {
+  TIME_OPTIONS,
   readStoredPlan,
   todayPlanStorageKey,
+  type TimeBudget,
   type TodayPlan,
 } from "@/features/coach/ai-trainer";
+import type { ApplyMode } from "@/features/coach/ai-trainer-actions";
 import { AiDisclaimer } from "@/features/coach/components/ai-disclaimer";
 import { BODY_PART_LABEL } from "@/features/routine/exercise-catalog-labels";
 import type { AiTier } from "@/features/coach/ai-quota";
@@ -66,6 +69,8 @@ export function AiTrainerPanel({
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [pending, start] = useTransition();
+  // 시간 맞춤(2026-09-30) — "오늘 30분만". null = 제한 없음.
+  const [minutes, setMinutes] = useState<TimeBudget>(null);
 
   const show = (p: TodayPlan) => {
     setPlan(p);
@@ -89,6 +94,8 @@ export function AiTrainerPanel({
       const r = await setAiConsentAction(true);
       if (!r.ok) return setError(r.error ?? "동의를 저장하지 못했어요.");
       setConsent(true);
+      // 아래 식단·다짐 칸도 동의 상태를 다시 읽게.
+      router.refresh();
     });
   }
 
@@ -96,7 +103,7 @@ export function AiTrainerPanel({
     setError(null);
     setNotice(null);
     start(async () => {
-      const r = await generateTodayPlanAction();
+      const r = await generateTodayPlanAction(minutes);
       if (!r.ok) {
         if (r.needsConsent) setConsent(false);
         return setError(r.error);
@@ -107,14 +114,14 @@ export function AiTrainerPanel({
     });
   }
 
-  function apply() {
+  function apply(mode: ApplyMode) {
     if (!plan) return;
     setError(null);
     const items = plan.items
       .filter((i) => picked.has(i.exerciseId))
       .map((i) => ({ exerciseId: i.exerciseId, equipment: i.equipment }));
     start(async () => {
-      const r = await applyTodayPlanAction(items);
+      const r = await applyTodayPlanAction(items, mode);
       if (!r.ok) return setError(r.error);
       if (r.added === 0) return setNotice("고른 운동은 오늘 이미 하게 돼 있어요.");
       // '오늘만 운동 변경'으로 넘겼다 — 오늘 운동 화면에서 바로 확인하게 보낸다.
@@ -163,6 +170,23 @@ export function AiTrainerPanel({
         </section>
       ) : (
         <section className="app-card space-y-2 p-3">
+          <div role="group" aria-label="오늘 운동 시간" className="flex gap-1.5" data-testid="ai-trainer-time">
+            {TIME_OPTIONS.map((m) => (
+              <button
+                key={String(m)}
+                type="button"
+                aria-pressed={minutes === m}
+                onClick={() => setMinutes(m)}
+                className={`h-9 flex-1 rounded-full text-sm font-semibold ${
+                  minutes === m
+                    ? "bg-brand text-white dark:text-zinc-950"
+                    : "bg-zinc-100 text-zinc-700 dark:bg-white/[0.08] dark:text-zinc-200"
+                }`}
+              >
+                {m === null ? "제한 없음" : `${m}분`}
+              </button>
+            ))}
+          </div>
           <button
             type="button"
             data-testid="ai-trainer-generate"
@@ -239,18 +263,30 @@ export function AiTrainerPanel({
             })}
           </ul>
           {plan.tip ? <p className="text-xs text-zinc-600 dark:text-zinc-300">팁: {plan.tip}</p> : null}
-          <button
-            type="button"
-            data-testid="ai-trainer-apply"
-            onClick={apply}
-            disabled={pending || picked.size === 0}
-            className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
-          >
-            {pending ? <Loader2 aria-hidden="true" size={16} className="animate-spin" /> : null}
-            {picked.size}개 오늘 운동에 적용
-          </button>
+          <div className="flex flex-col gap-2">
+            <button
+              type="button"
+              data-testid="ai-trainer-replace"
+              onClick={() => apply("replace")}
+              disabled={pending || picked.size === 0}
+              className="app-press inline-flex h-11 w-full items-center justify-center gap-1.5 rounded-full bg-brand text-base font-semibold text-white dark:text-zinc-950 disabled:opacity-50"
+            >
+              {pending ? <Loader2 aria-hidden="true" size={16} className="animate-spin" /> : null}
+              오늘 운동을 이 {picked.size}개로 바꾸기
+            </button>
+            <button
+              type="button"
+              data-testid="ai-trainer-apply"
+              onClick={() => apply("add")}
+              disabled={pending || picked.size === 0}
+              className="app-press inline-flex h-10 w-full items-center justify-center rounded-full border border-brand text-sm font-semibold text-brand disabled:opacity-50"
+            >
+              오늘 운동에 {picked.size}개 더하기
+            </button>
+          </div>
           <p className="text-xs text-zinc-500 dark:text-zinc-400">
-            적용하면 <b>오늘만</b> 운동에 더해져요. 내 루틴은 바뀌지 않아요. 무게·세트는 내 기록에 맞춰 정해져요.
+            <b>오늘만</b> 바뀌고 내 루틴은 그대로예요. 바꾸기를 고르면 오늘 원래 운동은 내일로 미뤄져요.
+            무게·세트는 내 기록에 맞춰 정해져요.
           </p>
           {notice ? <p className="text-xs font-semibold text-zinc-700 dark:text-zinc-200">{notice}</p> : null}
           <AiDisclaimer />

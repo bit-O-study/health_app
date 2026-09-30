@@ -19,6 +19,24 @@ export const TRAINER_PARTS: readonly BodyPart[] = ["chest", "back", "shoulder", 
 export const CANDIDATES_PER_PART = 8;
 export const PLAN_MIN = 2;
 export const PLAN_MAX = 6;
+
+/**
+ * 시간 맞춤(2026-09-30 2단계) — "오늘 30분만". 세트·무게는 처방이 정하므로 시간은 **운동 개수**로
+ * 맞춘다(운동 하나에 워밍업·세트·휴식 포함 대략 10분). null = 제한 없음.
+ */
+export const TIME_OPTIONS = [30, 45, 60, null] as const;
+export type TimeBudget = (typeof TIME_OPTIONS)[number];
+export const MINUTES_PER_EXERCISE = 10;
+
+export function isTimeBudget(v: unknown): v is TimeBudget {
+  return (TIME_OPTIONS as readonly unknown[]).includes(v);
+}
+
+/** 그 시간에 담을 최대 운동 수. 30분→3, 45분→4, 60분·제한 없음→5(최소 PLAN_MIN). */
+export function maxItemsFor(minutes: TimeBudget): number {
+  if (minutes === null) return PLAN_MAX - 1;
+  return Math.max(PLAN_MIN, Math.min(PLAN_MAX - 1, Math.floor(minutes / MINUTES_PER_EXERCISE)));
+}
 export const REASON_MAX = 60;
 
 export type Candidate = {
@@ -80,14 +98,22 @@ export const TRAINER_SYSTEM = [
   '반드시 JSON 객체 하나만 출력(설명·코드펜스 없이): {"summary":"2~3문장","items":[{"id":"운동 id","reason":"한 줄"}],"tip":"한 줄 팁"}',
 ].join("\n");
 
-export function buildTrainerUserText(stateLines: readonly string[], candidates: readonly Candidate[]): string {
+export function buildTrainerUserText(
+  stateLines: readonly string[],
+  candidates: readonly Candidate[],
+  minutes: TimeBudget = null,
+): string {
   const list = TRAINER_PARTS.map((part) => {
     const xs = candidates.filter((c) => c.part === part);
     return xs.length ? `${BODY_PART_LABEL[part]}: ${xs.map((c) => `${c.exerciseId}(${c.name})`).join(", ")}` : null;
   })
     .filter(Boolean)
     .join("\n");
-  return `회원 상태:\n${stateLines.length ? stateLines.join("\n") : "기록이 거의 없음"}\n\n고를 수 있는 운동:\n${list}`;
+  const time =
+    minutes === null
+      ? ""
+      : `\n\n오늘 운동 시간: ${minutes}분 — 운동은 최대 ${maxItemsFor(minutes)}개. 큰 근육 복합 운동을 먼저.`;
+  return `회원 상태:\n${stateLines.length ? stateLines.join("\n") : "기록이 거의 없음"}\n\n고를 수 있는 운동:\n${list}${time}`;
 }
 
 function extractJson(text: string): unknown {
@@ -107,7 +133,11 @@ const clip = (v: unknown, max: number) => (typeof v === "string" ? v.replace(/\s
  * AI 답 → 오늘의 운동. 후보에 없는 id·중복은 버리고, 남은 게 PLAN_MIN 개보다 적으면 null
  * (그 정도면 AI 가 규칙을 안 지킨 것이라 믿지 않는다). 최대 PLAN_MAX 개.
  */
-export function parseTodayPlan(text: string, candidates: readonly Candidate[]): TodayPlan | null {
+export function parseTodayPlan(
+  text: string,
+  candidates: readonly Candidate[],
+  max: number = PLAN_MAX,
+): TodayPlan | null {
   const raw = extractJson(text) as { summary?: unknown; items?: unknown; tip?: unknown } | null;
   if (!raw || !Array.isArray(raw.items)) return null;
   const byId = new Map(candidates.map((c) => [c.exerciseId, c]));
@@ -119,7 +149,7 @@ export function parseTodayPlan(text: string, candidates: readonly Candidate[]): 
     if (!c || seen.has(id)) continue;
     seen.add(id);
     items.push({ ...c, reason: clip(it.reason, REASON_MAX) });
-    if (items.length >= PLAN_MAX) break;
+    if (items.length >= Math.min(max, PLAN_MAX)) break;
   }
   if (items.length < PLAN_MIN) return null;
   return { summary: clip(raw.summary, 300), items, tip: clip(raw.tip, 100) };

@@ -21,7 +21,9 @@ export type AiFeatureId =
   | "equipment-scan"
   | "posture"
   /** AI 트레이너 탭 — 오늘의 운동 제안(2026-09-30 2단계). */
-  | "trainer";
+  | "trainer"
+  /** AI 트레이너 탭 — 오늘 식단 피드백(2026-09-30 2단계). */
+  | "diet-coach";
 
 export type AiTier = "free" | "premium";
 
@@ -39,6 +41,7 @@ export const AI_FEATURES: readonly AiFeatureMeta[] = [
   { id: "equipment-scan", label: "기구 스캔", vision: true },
   { id: "posture", label: "자세 분석", vision: true },
   { id: "trainer", label: "AI 트레이너 오늘의 운동", vision: false },
+  { id: "diet-coach", label: "AI 트레이너 식단 피드백", vision: false },
 ] as const;
 
 export function isAiFeatureId(v: unknown): v is AiFeatureId {
@@ -68,6 +71,8 @@ export const COST_PER_CALL_KRW: Record<AiFeatureId, number> = {
   posture: 5,
   // 내 상태 요약 + 후보 운동 목록이 입력이라 코치와 비슷하다.
   trainer: 7,
+  // 오늘 먹은 것 목록 + 목표 숫자라 입력이 짧다.
+  "diet-coach": 5,
 };
 
 /**
@@ -80,8 +85,8 @@ export const COST_PER_CALL_KRW: Record<AiFeatureId, number> = {
  * **상품의 경계**다 — 무료는 맛보기, 프리미엄은 매일 써도 남는 선.
  *
  * 프리미엄 숫자의 근거 — **다 써도 적자가 안 나야 한다.**
- * 위 원가표로 최악을 계산하면 60×7 + 160×5 + 20×6 + 40×5 + 40×5 + 30×7 = **1,950원**이고,
- * (2026-09-30 AI 트레이너 30회를 넣으며 식단 사진 프리미엄을 200→160 으로 — 70% 선 유지)
+ * 위 원가표로 최악을 계산하면 60×7 + 160×5 + 20×6 + 40×5 + 40×5 + 30×7 + 30×5 = **2,100원**이고,
+ * (2026-09-30 AI 트레이너 운동 30·식단 30회를 넣으며 식단 사진 프리미엄을 200→160 으로 — 70% 선 유지)
  * 3,900원 구독의 실수령은 3,013원이다(부가세 10% 빼고 플레이 수수료 15% 뗀 값).
  * 예전 한도(합계 2,200회)로는 최악 13,200원이라 **얼마를 받아도 적자가 날 수 있었다.**
  * 이 관계는 `tests/be/logic/pricing.test.ts` 가 지킨다 — 한도만 올리면 실패한다.
@@ -100,6 +105,7 @@ export const MONTHLY_LIMITS: Record<AiTier, Record<AiFeatureId, number>> = {
     posture: 3,
     // 맛보기 한 번 — 어떤 건지 보고 판단할 만큼.
     trainer: 1,
+    "diet-coach": 1,
   },
   premium: {
     coach: 60, // 하루 2회
@@ -108,6 +114,7 @@ export const MONTHLY_LIMITS: Record<AiTier, Record<AiFeatureId, number>> = {
     "equipment-scan": 40,
     posture: 40,
     trainer: 30, // 매일 한 번
+    "diet-coach": 30, // 매일 저녁 한 번
   },
 };
 

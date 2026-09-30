@@ -16,7 +16,7 @@ export const PREMIUM_PRODUCT_ID = "helssu_premium_monthly";
  * 결제창 값이 달라진다 — 사용자는 이걸 사기로 받아들인다).
  *
  * 3,900원으로 잡은 근거는 원가다. `ai-quota.ts` 의 한도를 다 써도 최악 원가가
- * 1,950원(2026-09-30 AI 트레이너 포함)이고, 아래 `netRevenueKrw` 로 계산한 실수령이 3,013원이다 —
+ * 2,100원(2026-09-30 AI 트레이너 운동·식단 포함)이고, 아래 `netRevenueKrw` 로 계산한 실수령이 3,013원이다 —
  * **어떤 사용자도 적자가 나지 않는 선**에서 가장 낮은 가격대를 골랐다.
  * (이 관계는 `tests/be/logic/pricing.test.ts` 가 지킨다.)
  */

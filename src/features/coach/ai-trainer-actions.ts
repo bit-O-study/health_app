@@ -14,10 +14,22 @@ import {
   TRAINER_SYSTEM,
   buildCandidates,
   buildTrainerUserText,
+  isTimeBudget,
+  maxItemsFor,
   parseTodayPlan,
   type Candidate,
+  type TimeBudget,
   type TodayPlan,
 } from "@/features/coach/ai-trainer";
+import {
+  DIET_SYSTEM,
+  buildDietUserText,
+  parseDietFeedback,
+  type DietFeedback,
+} from "@/features/coach/diet-coach";
+import { loadDietContext } from "@/features/coach/diet-coach-data";
+import { parseCommitmentSuggestions } from "@/features/coach/parse";
+import { COMMITMENT_SYSTEM, type CommitmentSuggestResult } from "@/features/coach/commitment-prompt";
 import {
   EXERCISES,
   FOCUS_EXERCISES,
@@ -31,7 +43,12 @@ import {
   pickAvailableEquipment,
   toGymEquipmentSet,
 } from "@/features/gym/gym-equipment-mapping";
-import { addExercisesTodayOnlyAction } from "@/features/routine/daily-plan-actions";
+import {
+  addExercisesTodayOnlyAction,
+  clearDailyPlanForDateAction,
+} from "@/features/routine/daily-plan-actions";
+import { deferRoutineOneDayAction } from "@/features/routine/actions";
+import { seoulYmd } from "@/features/routine/data";
 import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
 
 export type GenerateTodayPlanResult =
@@ -67,7 +84,9 @@ async function loadCandidates(): Promise<Candidate[]> {
  * 순서가 중요하다: 동의 → 한도(= 한 번 쓴 것으로 센다) → AI. 동의가 없으면 한도를 먹지 않는다.
  * 결과는 여기서 저장하지 않는다 — 화면이 기기에 하루 보관하고, 적용할 때 서버가 다시 검사한다.
  */
-export async function generateTodayPlanAction(): Promise<GenerateTodayPlanResult> {
+export async function generateTodayPlanAction(minutesInput?: unknown): Promise<GenerateTodayPlanResult> {
+  // 시간 맞춤 — 모르는 값은 '제한 없음'.
+  const minutes: TimeBudget = isTimeBudget(minutesInput) ? minutesInput : null;
   if (!(await getCurrentUser())) return { ok: false, error: "로그인이 필요해요." };
   if (!(await trainerEnabled())) return { ok: false, error: "AI 트레이너는 아직 사용할 수 없어요." };
   if (!(await hasAiConsent())) {
@@ -81,9 +100,9 @@ export async function generateTodayPlanAction(): Promise<GenerateTodayPlanResult
   if (!quota.ok) return { ok: false, error: quota.message };
 
   const lines = myStateLines(state, (id) => EXERCISES[id]?.name ?? id);
-  const res = await callAI(TRAINER_SYSTEM, buildTrainerUserText(lines, candidates), { maxTokens: 700 });
+  const res = await callAI(TRAINER_SYSTEM, buildTrainerUserText(lines, candidates, minutes), { maxTokens: 700 });
   if (!res.ok) return { ok: false, error: res.error };
-  const plan = parseTodayPlan(res.text, candidates);
+  const plan = parseTodayPlan(res.text, candidates, maxItemsFor(minutes));
   if (!plan) return { ok: false, error: "추천을 만들지 못했어요. 다시 시도해 주세요." };
   return { ok: true, plan };
 }
@@ -92,14 +111,21 @@ export type ApplyTodayPlanResult =
   | { ok: true; added: number; skipped: number }
   | { ok: false; error: string };
 
+export type ApplyMode = "add" | "replace";
+
 /**
  * [적용] — 고른 운동을 **오늘만** 담는다(사용자 결정: AI 가 직접 바꾸지 않고 적용 버튼으로 넘긴다).
  *
+ * - `add`: 오늘 운동에 더한다(오늘 이미 할 운동은 빼고).
+ * - `replace`: 오늘 운동을 이걸로 바꾼다 — 기존 '운동 직접 담기'와 같은 방식: 오늘 원래 운동은
+ *   **내일로 미루고**(사라지지 않는다) 오늘 계획을 비운 뒤 담는다. 원래 쉬는 날이면 미룰 게 없어 그냥 담는다.
+ *
  * 앱이 보낸 목록은 믿지 않고 카탈로그·기구를 다시 검사한다(`addExercisesTodayOnlyAction` 도 검사한다).
- * 오늘 이미 할 운동은 빼고 담는다. 세트·횟수·무게는 내 기록 기준 처방.
+ * 세트·횟수·무게는 내 기록 기준 처방. 영구 루틴은 건드리지 않는다(원칙 2).
  */
 export async function applyTodayPlanAction(
   items: { exerciseId: string; equipment: string }[],
+  mode: ApplyMode = "add",
 ): Promise<ApplyTodayPlanResult> {
   if (!(await getCurrentUser())) return { ok: false, error: "로그인이 필요해요." };
   if (!(await trainerEnabled())) return { ok: false, error: "AI 트레이너는 아직 사용할 수 없어요." };
@@ -113,6 +139,15 @@ export async function applyTodayPlanAction(
     clean.push({ exerciseId: ex.id, equipment: it.equipment });
   }
   if (clean.length === 0) return { ok: false, error: "담을 운동을 골라 주세요." };
+
+  if (mode === "replace") {
+    // 오늘 할 운동이 있을 때만 미룬다 — 쉬는 날에 밀면 내일 운동까지 하루씩 밀린다.
+    if ((await todayExerciseIds()).size > 0) {
+      await deferRoutineOneDayAction("direct");
+      const cleared = await clearDailyPlanForDateAction(seoulYmd());
+      if (!cleared.ok) return cleared;
+    }
+  }
 
   const already = await todayExerciseIds();
   const add = clean.filter((c) => !already.has(c.exerciseId));
@@ -131,4 +166,58 @@ export async function setAiConsentAction(agree: boolean): Promise<{ ok: boolean;
   revalidatePath("/ai-trainer");
   revalidatePath("/settings/ai");
   return { ok: true };
+}
+
+export type DietReviewResult =
+  | { ok: true; feedback: DietFeedback }
+  | { ok: false; error: string; needsConsent?: true };
+
+/**
+ * [오늘 식단 봐 줘] — 오늘 먹은 것을 목표(규칙)와 비교해 잘한 점·고칠 점·내일 메뉴를 받는다.
+ * 동의 → 기록 확인 → 한도(diet-coach) → AI. 기록이 없으면 한도를 먹지 않는다.
+ */
+export async function reviewTodayDietAction(): Promise<DietReviewResult> {
+  if (!(await getCurrentUser())) return { ok: false, error: "로그인이 필요해요." };
+  if (!(await trainerEnabled())) return { ok: false, error: "AI 트레이너는 아직 사용할 수 없어요." };
+  if (!(await hasAiConsent())) {
+    return { ok: false, error: "AI 맞춤 추천 동의가 필요해요.", needsConsent: true };
+  }
+  const ctx = await loadDietContext();
+  if (!ctx) return { ok: false, error: "식단 기록을 읽지 못했어요. 잠시 뒤 다시 시도해 주세요." };
+  if (ctx.today.meals.length === 0) {
+    return { ok: false, error: "오늘 먹은 걸 한 끼 이상 기록하면 봐 드릴게요." };
+  }
+  const quota = await consumeAiQuota("diet-coach");
+  if (!quota.ok) return { ok: false, error: quota.message };
+
+  const hour = Number(
+    new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Seoul", hour: "numeric", hour12: false }).format(new Date()),
+  );
+  const res = await callAI(DIET_SYSTEM, buildDietUserText(ctx.goal, ctx.targets, ctx.today, hour % 24), {
+    maxTokens: 600,
+  });
+  if (!res.ok) return { ok: false, error: res.error };
+  const feedback = parseDietFeedback(res.text);
+  if (!feedback) return { ok: false, error: "피드백을 만들지 못했어요. 다시 시도해 주세요." };
+  return { ok: true, feedback };
+}
+
+/**
+ * AI 다짐 추천 — 내 상태 숫자로 실천할 다짐 2~3개(기존 다짐 지표 안에서만).
+ * 짐꾼쌤의 다짐 제안과 같은 형식이라 화면·추가(addCommitmentAction)를 그대로 쓴다. 한도는 코치 칸.
+ */
+export async function suggestTrainerCommitmentsAction(): Promise<CommitmentSuggestResult> {
+  if (!(await getCurrentUser())) return { ok: false, error: "로그인이 필요해요." };
+  if (!(await trainerEnabled())) return { ok: false, error: "AI 트레이너는 아직 사용할 수 없어요." };
+  if (!(await hasAiConsent())) return { ok: false, error: "AI 맞춤 추천 동의가 필요해요." };
+  const state = await loadMyState();
+  if (!state) return { ok: false, error: "추천에 필요한 정보를 읽지 못했어요." };
+  const quota = await consumeAiQuota("coach");
+  if (!quota.ok) return { ok: false, error: quota.message };
+  const lines = myStateLines(state, (id) => EXERCISES[id]?.name ?? id);
+  const res = await callAI(COMMITMENT_SYSTEM, `회원 상태:\n${lines.join("\n") || "기록이 거의 없음"}`);
+  if (!res.ok) return { ok: false, error: res.error };
+  const suggestions = parseCommitmentSuggestions(res.text);
+  if (suggestions.length === 0) return { ok: false, error: "다짐 제안을 만들지 못했어요. 다시 시도해 주세요." };
+  return { ok: true, suggestions };
 }

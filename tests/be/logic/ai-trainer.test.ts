@@ -89,3 +89,32 @@ describe("기기 보관", () => {
     expect(ok?.items).toHaveLength(1);
   });
 });
+
+describe("시간 맞춤(오늘 30분만)", () => {
+  it("30분→3개 · 45분→4개 · 60분·제한 없음→5개", async () => {
+    const { maxItemsFor } = await import("@/features/coach/ai-trainer");
+    expect(maxItemsFor(30)).toBe(3);
+    expect(maxItemsFor(45)).toBe(4);
+    expect(maxItemsFor(60)).toBe(5);
+    expect(maxItemsFor(null)).toBe(5);
+  });
+
+  it("시간을 고르면 AI 에 시간과 최대 개수를 알리고, 답도 그 개수로 자른다", async () => {
+    const { isTimeBudget } = await import("@/features/coach/ai-trainer");
+    expect(buildTrainerUserText([], CANDS, 30)).toContain("오늘 운동 시간: 30분 — 운동은 최대 3개");
+    expect(buildTrainerUserText([], CANDS, null)).not.toContain("오늘 운동 시간");
+    const p = parseTodayPlan('{"items":[{"id":"squat"},{"id":"lat-pulldown"},{"id":"seated-cable-row"}]}', CANDS, 2);
+    expect(p?.items).toHaveLength(2);
+    expect(isTimeBudget(30)).toBe(true);
+    expect(isTimeBudget(20)).toBe(false);
+  });
+});
+
+describe("AI 호출 시간 제한", () => {
+  it("🔴 60초 제한 — 무료 AI 서버가 답을 안 주면 버튼이 영원히 '처리 중'이 된다(실측 120초+)", async () => {
+    const { AI_TIMEOUT_MS, aiFetchError } = await import("@/features/coach/ai-timeout");
+    expect(AI_TIMEOUT_MS).toBe(60_000);
+    expect(aiFetchError(Object.assign(new Error("x"), { name: "TimeoutError" }))).toContain("늦어요");
+    expect(aiFetchError(new Error("ECONNRESET"))).toBe("요청 실패: ECONNRESET");
+  });
+});

@@ -1,5 +1,7 @@
 import "server-only";
 
+import { AI_TIMEOUT_MS, aiFetchError } from "@/features/coach/ai-timeout";
+
 import { callClaude, type ClaudeResult, type ImageInput } from "@/features/coach/claude";
 import { buildNvidiaBody } from "@/features/coach/nvidia-format";
 import { buildGeminiBody, parseGeminiText } from "@/features/coach/gemini-format";
@@ -58,6 +60,7 @@ async function callNvidia(
   try {
     res = await fetch(NVIDIA_URL, {
       method: "POST",
+      signal: AbortSignal.timeout(AI_TIMEOUT_MS),
       headers: {
         "content-type": "application/json",
         accept: "application/json",
@@ -66,7 +69,7 @@ async function callNvidia(
       body: JSON.stringify(body),
     });
   } catch (e) {
-    return { ok: false, error: `요청 실패: ${(e as Error).message}` };
+    return { ok: false, error: aiFetchError(e) };
   }
   if (!res.ok) {
     const t = await res.text().catch(() => "");
@@ -105,6 +108,7 @@ async function callGemini(
     // 🔴 키는 쿼리스트링이 아니라 헤더로. URL 은 로그·프록시에 그대로 남는다.
     res = await fetch(`${GEMINI_URL}/${model}:generateContent`, {
       method: "POST",
+      signal: AbortSignal.timeout(AI_TIMEOUT_MS),
       headers: {
         "content-type": "application/json",
         "x-goog-api-key": apiKey,
@@ -112,7 +116,7 @@ async function callGemini(
       body: JSON.stringify(body),
     });
   } catch (e) {
-    return { ok: false, error: `요청 실패: ${(e as Error).message}` };
+    return { ok: false, error: aiFetchError(e) };
   }
   if (!res.ok) {
     const t = await res.text().catch(() => "");

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Check, Loader2, Sparkles, Target } from "lucide-react";
 
 import { suggestCommitmentsAction } from "@/features/coach/coach-actions";
+import type { CommitmentSuggestResult } from "@/features/coach/commitment-prompt";
 import { addCommitmentAction } from "@/features/commitments/actions";
 import {
   metricMeta,
@@ -18,7 +19,17 @@ function ymd(d: Date): string {
   ).padStart(2, "0")}`;
 }
 
-export function CommitmentSuggestions() {
+/**
+ * AI 다짐 제안 카드. `suggest` 로 어느 서버 액션을 쓸지 고른다 — 짐꾼쌤(기본)과
+ * AI 트레이너 탭(내 상태 숫자 기반, 2026-09-30)이 같은 화면을 쓴다.
+ */
+export function CommitmentSuggestions({
+  suggest: suggestAction = suggestCommitmentsAction,
+  description = "내 운동·식단 데이터로 실천 가능한 다짐을 제안받고, 바로 추가하세요.",
+}: {
+  suggest?: () => Promise<CommitmentSuggestResult>;
+  description?: string;
+} = {}) {
   const router = useRouter();
   const [pending, start] = useTransition();
   const [items, setItems] = useState<SuggestedCommitment[] | null>(null);
@@ -30,7 +41,7 @@ export function CommitmentSuggestions() {
     setError(null);
     setAdded(new Set());
     start(async () => {
-      const r = await suggestCommitmentsAction();
+      const r = await suggestAction();
       if (r.ok) setItems(r.suggestions);
       else setError(r.error);
     });
@@ -61,7 +72,7 @@ export function CommitmentSuggestions() {
   }
 
   return (
-    <section className="app-card p-4">
+    <section className="app-card p-4" data-testid="commitment-suggestions">
       <div className="flex items-start gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand">
           <Target aria-hidden="true" size={20} />
@@ -71,7 +82,7 @@ export function CommitmentSuggestions() {
             AI 다짐 짜주기
           </h2>
           <p className="text-xs leading-5 text-zinc-500 dark:text-zinc-400">
-            내 운동·식단 데이터로 실천 가능한 다짐을 제안받고, 바로 추가하세요.
+            {description}
           </p>
         </div>
       </div>

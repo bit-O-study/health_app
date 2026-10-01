@@ -1,0 +1,342 @@
+<title>짐꾼 맞춤 운동 앱</title>
+<meta name="description" content="홈 앱 목록의 새 맞춤 운동 앱(세부 부위 추천·부위·균형·성장·리포트, 990원 라이트) 화면 시안과 기능 검수보고서">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* 레이아웃: 한 줄 기둥(최대 980px) — 결론 → 앱 구조 → 화면 시안 6 → 기능 → 설문 추가 → 순서 → 결정 */
+:root{
+  --ground:#f3f6f4; --surface:#ffffff; --ink:#14201a; --ink-2:#3c4a43; --muted:#66746d;
+  --line:#dce4df; --line-2:#e9efeb; --brand:#087f5b; --brand-soft:#e3f1eb;
+  --warn:#a8650a; --warn-soft:#fbf0dc; --crit:#b4321f; --crit-soft:#f9e5e1;
+  --info:#2f5f8a; --info-soft:#e4edf6;
+  --sans:"IBM Plex Sans KR","Pretendard Variable","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+    --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+    --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+    --info:#8fb8e0; --info-soft:#18283a;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0d1310; --surface:#141c18; --ink:#e4ece8; --ink-2:#c1ccc6; --muted:#8e9c95;
+  --line:#26312c; --line-2:#1d2622; --brand:#3cc394; --brand-soft:#12362a;
+  --warn:#e0a24a; --warn-soft:#3a2a12; --crit:#ef7d69; --crit-soft:#3d1c16;
+  --info:#8fb8e0; --info-soft:#18283a;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;padding-inline:20px;padding-block:0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:980px;margin:0 auto;display:grid;gap:44px}
+h1,h2,h3{text-wrap:balance;line-height:1.3;margin:0}
+h1{font-size:30px;font-weight:700}
+h2{font-size:21px;font-weight:700}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+code{font-family:var(--mono);font-size:.86em}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+header{padding-block:40px 28px;display:grid;gap:12px;border-bottom:1px solid var(--line)}
+header .meta{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+section{display:grid;gap:16px}
+.lede{font-size:17px;color:var(--ink-2)}
+.pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:var(--brand-soft);color:var(--brand)}
+.warn{background:var(--warn-soft);color:var(--warn)}
+.crit{background:var(--crit-soft);color:var(--crit)}
+.info{background:var(--info-soft);color:var(--info)}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+ul.clean{margin:0;padding-left:18px;display:grid;gap:6px}
+.scroll{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:680px;font-size:14px}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{font-size:12px;color:var(--muted);font-weight:600;background:var(--ground)}
+tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.yes{color:var(--brand);font-weight:600}
+.no{color:var(--crit);font-weight:600}
+.part{color:var(--warn);font-weight:600}
+.items{display:grid;gap:12px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.item .tag{grid-row:span 4;align-self:start}
+.item h3{font-size:15.5px}
+.item .why{color:var(--ink-2);font-size:14px}
+.item .how{font-size:14px}
+.item .where{font-size:12.5px;color:var(--muted)}
+.item .where code{font-size:12px}
+.size{font-family:var(--mono);font-size:11px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--muted);margin-left:6px;white-space:nowrap}
+.cap{font-size:12.5px;color:var(--muted)}
+.decide{border-left:3px solid var(--warn);padding-left:14px;display:grid;gap:6px}
+.phase{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px}
+.phase .box h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:grid;gap:2px}
+.stat b{font-size:24px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat span{font-size:12.5px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:13px}
+.flow span{border:1px solid var(--line);border-radius:8px;padding:4px 10px;background:var(--surface)}
+.flow .bad{border-color:var(--crit);color:var(--crit)}
+.flow i{font-style:normal;color:var(--muted)}
+</style>
+
+<style>
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;align-items:start}
+.ph{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:14px 14px 18px;display:grid;gap:10px;max-width:340px;width:100%;justify-self:center}
+.ph .cap2{font-size:12px;color:var(--muted);text-align:center}
+.ph .top{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:15px}
+.ph .tabs{display:flex;gap:4px;font-size:12px}
+.ph .tabs span{flex:1;text-align:center;padding:6px 0;border-radius:999px;background:var(--ground);color:var(--muted);font-weight:600}
+.ph .tabs span.on{background:var(--brand);color:var(--surface)}
+.ph .card{border:1px solid var(--line-2);border-radius:14px;padding:10px 12px;display:grid;gap:6px}
+.ph .card h4{margin:0;font-size:13px}
+.ph .row{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;align-items:center}
+.ph .bar{height:7px;border-radius:999px;background:var(--line-2);overflow:hidden}
+.ph .bar i{display:block;height:100%;background:var(--brand);border-radius:999px}
+.ph .bar.low i{background:var(--warn)}
+.ph .chip{display:inline-block;font-size:11.5px;border-radius:999px;padding:2px 8px;background:var(--brand-soft);color:var(--brand);font-weight:600}
+.ph .chip.warn{background:var(--warn-soft);color:var(--warn)}
+.ph .btn{background:var(--brand);color:var(--surface);border-radius:999px;text-align:center;padding:8px;font-weight:700;font-size:13px}
+.ph .btn2{border:1px solid var(--brand);color:var(--brand);border-radius:999px;text-align:center;padding:6px;font-weight:600;font-size:12.5px}
+.ph .muted{font-size:12px;color:var(--muted)}
+.body{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
+.body b{height:22px;border-radius:5px;display:block}
+.c0{background:var(--line-2)}.c1{background:color-mix(in srgb,var(--warn) 45%,transparent)}.c2{background:color-mix(in srgb,var(--brand) 30%,transparent)}.c3{background:color-mix(in srgb,var(--brand) 65%,transparent)}.c4{background:color-mix(in srgb,var(--info) 55%,transparent)}
+.spark{width:100%;height:36px;display:block}
+.spark polyline{fill:none;stroke:var(--brand);stroke-width:2}
+.spark circle{fill:var(--brand)}
+.lock{position:relative}
+.lock .blur{filter:blur(3px);opacity:.6}
+.lock .over{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:13px;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:6px 10px;font-size:11px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:4px}
+.legend b{width:10px;height:10px;border-radius:3px;display:inline-block}
+</style>
+<div class="wrap">
+<header>
+  <p class="eyebrow">짐꾼 · 새 앱 · UI·기능 검수보고서</p>
+  <h1>짐꾼 맞춤 운동 앱</h1>
+  <p class="lede">홈 앱 목록에 <b>"맞춤 운동"</b> 앱을 새로 둡니다. 누르면 <b>내 세부 부위 지도 → 모자란 곳을 채우는 오늘의 추천 → 균형 → 성장 → 월간 리포트</b>가 나옵니다. 모두 AI 없이 내 기록과 가입 설문으로 계산하고(원가 0원), <b>990원 라이트 요금제</b>의 혜택입니다. 무료 회원에게는 맛보기와 잠금 화면을 보여 줍니다. 아래는 화면 시안과 기능 목록입니다. 코드는 아직 만들지 않았습니다.</p>
+  <div class="meta">
+    <span>2026-10-01</span>
+    <span>기준: 커밋 4ce0c9ae(라이트 요금제 추가) + 세부 부위 보고서</span>
+    <span class="pill ok">화면 6</span>
+    <span class="pill info">기능 9</span>
+    <span class="pill warn">결정 5</span>
+  </div>
+</header>
+
+<section>
+  <h2>앱 구조</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>탭</th><th>무엇</th><th>무료</th><th>라이트 990</th></tr></thead>
+      <tbody>
+        <tr><td><b>추천</b> (첫 화면)</td><td>이번 주 모자란 세부 부위 TOP 3 + 그걸 채우는 운동 → [오늘 운동에 더하기]</td><td class="part">TOP 1만</td><td class="yes">전부</td></tr>
+        <tr><td><b>부위</b></td><td>세부 근육 27개 지도·목표 대비 %·4주 추이</td><td class="part">부위 6개 수준</td><td class="yes">세부 27개</td></tr>
+        <tr><td><b>균형</b></td><td>밀기:당기기 · 앞:뒤 · 가슴 상:중:하 · 삼두 3갈래 · 하체 앞:뒤</td><td class="no">잠금</td><td class="yes">전부</td></tr>
+        <tr><td><b>성장</b></td><td>종목별 예상 1RM 추이·정체 알림·신기록</td><td class="part">신기록만</td><td class="yes">전부</td></tr>
+        <tr><td><b>리포트</b></td><td>월간 리포트(운동한 날·볼륨·많이 큰 부위·다음 달 목표)</td><td class="no">잠금</td><td class="yes">전부</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">가입 직후(운동 6번 전)에는 기록 대신 가입 설문으로 같은 화면을 채웁니다 — 아래 '가입 직후' 화면. 이 화면은 무료로 다 보여 줍니다(첫인상).</p>
+</section>
+
+<section>
+  <h2>화면 시안</h2>
+  <div class="phones">
+
+    <div class="ph" aria-label="추천 탭 시안">
+      <div class="top"><span>맞춤 운동</span><span class="chip">라이트</span></div>
+      <div class="tabs"><span class="on">추천</span><span>부위</span><span>균형</span><span>성장</span><span>리포트</span></div>
+      <div class="card">
+        <h4>이번 주 모자란 곳</h4>
+        <div class="row"><span>측면 어깨</span><span class="chip warn">목표의 30%</span></div>
+        <div class="bar low"><i style="width:30%"></i></div>
+        <div class="row"><span>삼두 장두</span><span class="chip warn">40%</span></div>
+        <div class="bar low"><i style="width:40%"></i></div>
+        <div class="row"><span>후면 어깨</span><span class="chip warn">45%</span></div>
+        <div class="bar low"><i style="width:45%"></i></div>
+      </div>
+      <div class="card">
+        <h4>오늘 이걸 더하면</h4>
+        <div class="row"><span><b>사이드 레터럴</b> 3세트</span><span class="chip">측면 어깨 +3.0</span></div>
+        <div class="row"><span><b>오버헤드 익스텐션</b> 3세트</span><span class="chip">삼두 장두 +3.0</span></div>
+        <div class="row"><span><b>페이스 풀</b> 3세트</span><span class="chip">후면 어깨 +2.4</span></div>
+        <div class="btn">3개 오늘 운동에 더하기</div>
+        <div class="muted">오늘만 더해져요. 루틴은 그대로예요. 무게는 내 기록 기준.</div>
+      </div>
+      <div class="cap2">① 추천 — 첫 화면</div>
+    </div>
+
+    <div class="ph" aria-label="부위 탭 시안">
+      <div class="top"><span>맞춤 운동</span><span class="chip">남성 · V자</span></div>
+      <div class="tabs"><span>추천</span><span class="on">부위</span><span>균형</span><span>성장</span><span>리포트</span></div>
+      <div class="card">
+        <h4>세부 부위 지도 (이번 주)</h4>
+        <div class="body" aria-label="세부 부위 27칸 예시">
+          <b class="c3" title="가슴 상"></b><b class="c3" title="가슴 중"></b><b class="c2" title="가슴 하"></b><b class="c2" title="가슴 내측"></b><b class="c3" title="광배"></b><b class="c2" title="능형"></b>
+          <b class="c2" title="승모"></b><b class="c2" title="기립"></b><b class="c4" title="전면 어깨"></b><b class="c1" title="측면 어깨"></b><b class="c1" title="후면 어깨"></b><b class="c2" title="이두 장"></b>
+          <b class="c2" title="이두 단"></b><b class="c1" title="삼두 장"></b><b class="c3" title="삼두 외"></b><b class="c3" title="삼두 내"></b><b class="c2" title="전완"></b><b class="c3" title="대퇴사두"></b>
+          <b class="c2" title="햄스트링"></b><b class="c2" title="둔근"></b><b class="c0" title="내전근"></b><b class="c0" title="종아리"></b><b class="c2" title="상복부"></b><b class="c0" title="하복부"></b>
+          <b class="c0" title="복사근"></b><b class="c0"></b><b class="c0"></b><b class="c0"></b><b class="c0"></b><b class="c0"></b>
+        </div>
+        <div class="legend"><span><b class="c0"></b>안 함</span><span><b class="c1"></b>부족</span><span><b class="c2"></b>조금</span><span><b class="c3"></b>적정</span><span><b class="c4"></b>많음</span></div>
+        <div class="muted">실제 화면은 몸 그림(앞·뒤)에 같은 색을 칠합니다.</div>
+      </div>
+      <div class="card">
+        <h4>삼두</h4>
+        <div class="row"><span>장두</span><span>1.6 / 4 세트</span></div><div class="bar low"><i style="width:40%"></i></div>
+        <div class="row"><span>외측두</span><span>2.4 / 2.5</span></div><div class="bar"><i style="width:96%"></i></div>
+        <div class="row"><span>내측두</span><span>2.0 / 1.5</span></div><div class="bar"><i style="width:100%"></i></div>
+        <div class="muted">푸시다운만 해서 장두가 비었어요 → 머리 위로 미는 운동.</div>
+      </div>
+      <div class="cap2">② 부위 — 세부 27개</div>
+    </div>
+
+    <div class="ph" aria-label="균형 탭 시안">
+      <div class="top"><span>맞춤 운동</span></div>
+      <div class="tabs"><span>추천</span><span>부위</span><span class="on">균형</span><span>성장</span><span>리포트</span></div>
+      <div class="card">
+        <h4>밀기 : 당기기</h4>
+        <div class="row"><span>밀기 62%</span><span>당기기 38%</span></div>
+        <div class="bar low"><i style="width:62%"></i></div>
+        <div class="muted">목표 50:50 — 등·후면 어깨를 더 하면 어깨가 펴져요.</div>
+      </div>
+      <div class="card">
+        <h4>어깨 앞 : 옆 : 뒤</h4>
+        <div class="row"><span>목표 2 : 6 : 4</span><span><b>지금 6 : 2 : 1</b></span></div>
+        <div class="muted">앞만 많아요 — 프레스가 앞을 이미 채워요.</div>
+      </div>
+      <div class="card">
+        <h4>하체 앞 : 뒤</h4>
+        <div class="row"><span>대퇴사두 : 햄스트링·둔근</span><span><b>7 : 3</b></span></div>
+        <div class="muted">목표 6 : 8 — 루마니안 데드리프트·힙 쓰러스트.</div>
+      </div>
+      <div class="cap2">③ 균형 — 비율 5개</div>
+    </div>
+
+    <div class="ph" aria-label="성장 탭 시안">
+      <div class="top"><span>맞춤 운동</span></div>
+      <div class="tabs"><span>추천</span><span>부위</span><span>균형</span><span class="on">성장</span><span>리포트</span></div>
+      <div class="card">
+        <div class="row"><b>벤치프레스</b><span class="chip">예상 1RM 82.5kg</span></div>
+        <svg class="spark" viewBox="0 0 200 36" aria-label="8주 추이 예시"><polyline points="0,30 28,28 57,26 85,22 114,20 142,16 171,12 200,8"/><circle cx="200" cy="8" r="3"/></svg>
+        <div class="muted">8주 +9.5kg · 주당 +1.2kg</div>
+      </div>
+      <div class="card">
+        <div class="row"><b>스쿼트</b><span class="chip warn">3주째 그대로</span></div>
+        <svg class="spark" viewBox="0 0 200 36" aria-label="정체 예시"><polyline points="0,28 28,22 57,18 85,16 114,16 142,16 171,16 200,16"/><circle cx="200" cy="16" r="3"/></svg>
+        <div class="muted">한 단계 올리거나 세트를 바꿔 볼 때예요.</div>
+      </div>
+      <div class="card"><h4>신기록</h4><div class="row"><span>9/30 데드리프트</span><span>예상 1RM 120kg</span></div></div>
+      <div class="cap2">④ 성장 — 종목별 추이</div>
+    </div>
+
+    <div class="ph" aria-label="가입 직후 시안">
+      <div class="top"><span>맞춤 운동</span><span class="chip">시작 가이드</span></div>
+      <div class="card">
+        <h4>설문으로 만든 내 목표</h4>
+        <div class="row"><span>남성 · 초급 · 표준형</span><span class="chip">V자 몸</span></div>
+        <div class="muted">측면 어깨·광배·가슴 상부를 키우면 위가 넓어 보여요.</div>
+      </div>
+      <div class="card">
+        <h4>하루 목표</h4>
+        <div class="row"><span>칼로리</span><span>2,400kcal</span></div>
+        <div class="row"><span>단백질</span><span>112g</span></div>
+        <div class="row"><span>물</span><span>2.3L</span></div>
+      </div>
+      <div class="card">
+        <h4>첫 주 · 주 3회 전신</h4>
+        <div class="row"><span>레그프레스 · 랫풀다운 · 인클라인 머신 프레스</span></div>
+        <div class="row"><span>사이드 레터럴 · 케이블 푸시다운 · 플랭크</span></div>
+        <div class="btn">오늘 이걸로 시작하기</div>
+      </div>
+      <div class="card"><div class="row"><span>목표가 아직 없어요</span><span class="btn2">한 번에 고르기</span></div></div>
+      <div class="cap2">⑤ 가입 직후 — 기록 없음(무료)</div>
+    </div>
+
+    <div class="ph" aria-label="무료 회원 잠금 시안">
+      <div class="top"><span>맞춤 운동</span><span class="chip warn">무료</span></div>
+      <div class="tabs"><span>추천</span><span>부위</span><span class="on">균형</span><span>성장</span><span>리포트</span></div>
+      <div class="card lock">
+        <div class="blur">
+          <div class="row"><span>밀기 62%</span><span>당기기 38%</span></div>
+          <div class="bar"><i style="width:62%"></i></div>
+          <div class="row"><span>어깨 앞 : 옆 : 뒤</span><span>6 : 2 : 1</span></div>
+        </div>
+        <div class="over">내 몸 균형은<br>라이트에서 볼 수 있어요</div>
+      </div>
+      <div class="card">
+        <h4>라이트 · 월 990원</h4>
+        <div class="muted">세부 부위 27개 · 맞춤 추천 전부 · 균형 · 성장 · 월간 리포트</div>
+        <div class="btn">라이트 시작하기</div>
+      </div>
+      <div class="cap2">⑥ 무료 회원 — 맛보기 + 잠금</div>
+    </div>
+  </div>
+  <p class="cap">숫자는 화면 모양을 보여 주기 위한 예시입니다.</p>
+</section>
+
+<section>
+  <h2>기능</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>#</th><th>기능</th><th>쓰는 데이터·코드</th><th>작업</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><b>운동별 세부 점수표</b>(0~100, 상위 60개 손 + 나머지 규칙)</td><td>새 <code>exercise-stimulus.ts</code>, 기존 <code>sub-muscles.ts</code></td><td>중간</td></tr>
+        <tr><td>2</td><td><b>목표 비율표</b>(남성 V자 · 여성 하체·둔근 · 스타일 3종, 경력 배율)</td><td>새 <code>body-targets.ts</code>, <code>profiles.gender/experience</code></td><td>작음</td></tr>
+        <tr><td>3</td><td><b>세부 부위 주간 자극·모자람</b></td><td>운동 기록(1,243건) · 1·2번</td><td>중간</td></tr>
+        <tr><td>4</td><td><b>오늘 더할 운동 추천</b>(Σ 모자람 × 점수, 헬스장 기구·아픈 부위·48시간 회복)</td><td>3번 · <code>addExercisesTodayOnlyAction</code>(오늘만)</td><td>중간</td></tr>
+        <tr><td>5</td><td><b>균형 지표 5개</b></td><td>3번</td><td>작음</td></tr>
+        <tr><td>6</td><td><b>종목별 성장</b>(예상 1RM 추이·정체·신기록)</td><td>이미 있는 <code>progress.ts</code> · <code>my-state.ts</code> · <code>personal-record.ts</code></td><td>작음</td></tr>
+        <tr><td>7</td><td><b>월간 리포트</b></td><td>운동 기록·걸음</td><td>작음</td></tr>
+        <tr><td>8</td><td><b>가입 직후 화면</b>(설문 → 목표·하루 목표·첫 주 계획, 6회 전까지 섞기)</td><td>가입 설문 · <code>dailyTarget</code></td><td>중간</td></tr>
+        <tr><td>9</td><td><b>앱 등록·요금제 잠금</b>(홈 앱 목록, 무료 맛보기, 라이트 열림)</td><td><code>launcher/apps.ts</code> · <code>plans.ts</code>(라이트 추가됨)</td><td>작음</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>가입 설문에 더할 것</h2>
+  <p>지금 설문(성별·경력·키·몸무게·체형·목표·헬스장)으로도 시작은 됩니다. 추천을 더 맞추려면 아래를 더합니다. 하나씩 탭으로 고르게 해 설문이 길어지지 않게 합니다.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>질문</th><th>선택지</th><th>왜</th><th>저장</th></tr></thead>
+      <tbody>
+        <tr><td><b>나이대</b></td><td>10대·20대·30대·40대·50대 이상</td><td>지금은 30세로 가정 — 칼로리·체지방 추정·회복 속도가 달라진다</td><td>새 칸</td></tr>
+        <tr><td><b>몸 목표 스타일</b></td><td>상체 위주 · 하체 위주 · 고르게(기본: 성별)</td><td>목표 비율표를 고른다 — 성별로 정해 버리지 않게</td><td>새 칸</td></tr>
+        <tr><td><b>주당 운동 가능 일수</b></td><td>2·3·4·5일 이상</td><td>주간 목표를 몇 번에 나눌지(지금은 루틴 분할로 추정)</td><td>이미 있는 추천 선호 표 재사용</td></tr>
+        <tr><td><b>1회 운동 시간</b></td><td>30·45·60분 이상</td><td>운동 개수(시간 맞춤과 같은 기준)</td><td>새 칸</td></tr>
+        <tr><td><b>아픈 곳</b></td><td>없음·어깨·허리·무릎·팔꿈치/손목</td><td>처음부터 그 부위 운동 빼기</td><td>이미 있음(<code>pain_areas</code>)</td></tr>
+        <tr><td><b>목표</b>(필수로)</td><td>지금 그대로</td><td>19명 중 5명만 답함 — 건너뛰면 체형으로 추정하고 첫 운동 뒤 다시 묻기</td><td>이미 있음</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cap">새 칸 3개(나이대·스타일·1회 시간)는 DB 변경이 필요합니다(profiles 에 칸 추가 — 기존 데이터는 그대로).</p>
+</section>
+
+<section>
+  <h2>순서</h2>
+  <div class="phase">
+    <div class="box"><h3><span class="pill ok">1</span> 바탕</h3><p>점수표·목표 비율표·세부 자극 계산(기능 1~3) + 단위 테스트.</p></div>
+    <div class="box"><h3><span class="pill ok">2</span> 앱 화면</h3><p>홈 앱 등록, 추천·부위·균형 탭(4·5), 무료 맛보기·잠금(9).</p></div>
+    <div class="box"><h3><span class="pill ok">3</span> 성장·리포트</h3><p>성장·월간 리포트 탭(6·7).</p></div>
+    <div class="box"><h3><span class="pill ok">4</span> 가입 직후·설문</h3><p>가입 직후 화면(8) + 설문 3문항 추가(DB 칸 3개).</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>결정이 필요한 것</h2>
+  <div class="decide"><h3>1. 앱 이름은 "맞춤 운동"으로 할까요?</h3><p>추천: <b>맞춤 운동</b>. 다른 후보: "내 몸 리포트", "부위 분석".</p></div>
+  <div class="decide"><h3>2. 탭 5개(추천·부위·균형·성장·리포트)로 할까요?</h3><p>추천: <b>예</b>. 첫 화면은 바로 행동할 수 있는 '추천'.</p></div>
+  <div class="decide"><h3>3. 무료 맛보기는 추천 TOP 1 · 부위 6개 · 신기록까지로 할까요?</h3><p>추천: <b>예</b>. 균형·리포트는 흐리게 보여 주고 잠금.</p></div>
+  <div class="decide"><h3>4. 가입 설문에 3문항(나이대·몸 목표 스타일·1회 운동 시간)을 더할까요?</h3><p>추천: <b>예</b>. 모두 탭 한 번, DB 칸 3개 추가.</p></div>
+  <div class="decide"><h3>5. 1단계(바탕)부터 진행할까요?</h3><p>추천: <b>1 → 2 → 3 → 4</b>.</p></div>
+</section>
+</div>

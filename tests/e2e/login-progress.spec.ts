@@ -32,7 +32,7 @@ test("로그인 대기 중에는 로고만 보이고 실패하면 입력 화면�
   await expect(page.getByText("이메일 또는 비밀번호가 올바르지 않습니다.")).toBeVisible();
 });
 
-test("로그인 성공 후 짐꾼 화면이 사라지고 홈과 탭으로 진입한다", async ({ page }) => {
+test("로그인 성공 후 헬쑤 화면이 사라지고 홈과 탭으로 진입한다", async ({ page }) => {
   test.skip(!hasDb, "needs test DB");
   const email = await createOnboardedAccount(page);
   await page.context().clearCookies();
@@ -41,7 +41,7 @@ test("로그인 성공 후 짐꾼 화면이 사라지고 홈과 탭으로 진입
   await page.fill("#password", TEST_PASSWORD);
   await page.getByRole("button", { name: "로그인", exact: true }).last().click({ noWaitAfter: true });
   await expect(page).toHaveURL(/\/home$/);
-  await expect(page.getByRole("link", { name: "짐꾼 홈", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "헬쑤 홈", exact: true })).toBeVisible();
   await expect(page.getByTestId("login-progress")).toHaveCount(0);
   await expect(page.locator("nav").last()).toBeVisible();
 });

@@ -32,7 +32,7 @@ test("홈 앱 추가 팝업·하단 드래그·새로고침 유지", async ({ pa
 
   await createOnboardedAccount(page);
   await page.goto("/home");
-  await expect(page.getByRole("link", { name: "짐꾼 홈", exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "헬쑤 홈", exact: true })).toBeVisible();
   await expect(page.locator("main > header").getByRole("link", { name: "설정", exact: true })).toHaveAttribute("href", "/settings");
   await expect(page.getByRole("link").filter({ hasText: "오늘의 다짐" })).toBeVisible();
   const grid = page.getByRole("navigation", { name: "앱", exact: true });

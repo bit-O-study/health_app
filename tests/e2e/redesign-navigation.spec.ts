@@ -22,7 +22,7 @@ for (const { scheme, width } of [
     // 2026-09-20 런처 전환 — 홈은 히어로·바로가기 대신 **앱 아이콘 판 + 요약 위젯**이다.
     const grid = page.getByRole("navigation", { name: "앱" });
     await expect(grid).toBeVisible();
-    // 짐꾼쌤·펫은 디버그 기능 — 보통 계정은 5개(2026-09-28).
+    // 헬쑤쌤·펫은 디버그 기능 — 보통 계정은 5개(2026-09-28).
     await expect(grid.getByRole("link")).toHaveCount(5);
     // 격자 아래는 오늘의 다짐 카드 + 운동 잔디(예전 '오늘 요약' 위젯 3개를 대체).
     await expect(page.getByRole("link", { name: /^오늘의 다짐/ })).toBeVisible();

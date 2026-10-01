@@ -33,9 +33,9 @@ export async function GET(request: Request) {
     const href = appCallback.toString().replaceAll("&", "&amp;");
     const nonce = crypto.randomUUID();
     return new NextResponse(`<!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>짐꾼 앱으로 돌아가기</title>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>헬쑤 앱으로 돌아가기</title>
 <style nonce="${nonce}">body{font-family:system-ui,sans-serif;margin:0;padding:48px 24px;text-align:center;background:#fafafa;color:#18181b}main{max-width:400px;margin:auto}a{display:block;margin-top:24px;padding:16px;border-radius:12px;background:#18181b;color:white;text-decoration:none;font-weight:700}p{line-height:1.6}</style></head>
-<body><main><h1>짐꾼 앱으로 돌아가기</h1><p>앱에서 로그인을 마무리해 주세요.<br>자동으로 열리지 않으면 아래 버튼을 눌러 주세요.</p><a id="open-app" href="${href}">짐꾼 앱으로 돌아가기</a></main>
+<body><main><h1>헬쑤 앱으로 돌아가기</h1><p>앱에서 로그인을 마무리해 주세요.<br>자동으로 열리지 않으면 아래 버튼을 눌러 주세요.</p><a id="open-app" href="${href}">헬쑤 앱으로 돌아가기</a></main>
 <script nonce="${nonce}">window.location.replace(document.getElementById("open-app").href);</script></body></html>`, {
       headers: {
         "Content-Type": "text/html; charset=utf-8",

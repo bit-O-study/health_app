@@ -71,7 +71,7 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         </span>
         <span className="min-w-0 flex-1">
           <span className="block text-base font-semibold text-zinc-950 dark:text-zinc-100">
-            {status.premium ? "프리미엄" : status.coaching ? "짐꾼 코칭" : "무료"}
+            {status.premium ? "프리미엄" : status.coaching ? "헬쑤 코칭" : "무료"}
           </span>
           <span className="block text-xs text-zinc-500 dark:text-zinc-400">{status.label}</span>
         </span>
@@ -83,8 +83,8 @@ export function SubscriptionPanel({ initial }: { initial: BillingStatus }) {
         한도는 `ai-quota.ts` 한 곳에서 읽는다(화면에 숫자를 다시 적으면 조용히 갈린다).
       */}
       <section data-testid="coaching-benefits" className="app-card space-y-3 p-4">
-        <div className="flex justify-between gap-2"><h2 className="font-semibold">짐꾼 코칭</h2><strong>월 {COACH_PRICE_KRW.toLocaleString("ko-KR")}원</strong></div>
-        <ul className="space-y-1 text-sm"><li>오늘 운동 추천</li><li>주간 운동 습관 리포트</li><li>운영자가 답변하는 헬스 상담</li></ul>
+        <div className="flex justify-between gap-2"><h2 className="font-semibold">헬쑤 코칭</h2><strong>월 {COACH_PRICE_KRW.toLocaleString("ko-KR")}원</strong></div>
+        <ul className="space-y-1 text-sm"><li>시간·기구에 맞춘 오늘 운동 추천</li><li>대체 운동·정체 구간 상담</li><li>최근 기록 점검과 다음 중량·횟수 안내</li><li>주간 운동 습관 리포트</li><li>운영자가 답변하는 헬스 상담</li></ul>
         <p className="text-xs text-zinc-500">요청을 남기면 운영자가 확인 후 전달해요. 즉시 응답하는 실시간 AI 상담은 아니에요. AI 사진 분석 추가 한도는 포함되지 않아요.</p>
         <Link href="/coach/manual" className="block text-sm font-semibold text-brand">추천·리포트·상담함 열기</Link>
         {!status.coachingReady && !status.coaching && <p className="text-sm text-zinc-500">결제 연결 준비 중</p>}

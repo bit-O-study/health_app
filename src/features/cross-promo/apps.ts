@@ -14,7 +14,7 @@ export const PROMO_APPS: PromoApp[] = [
   {
     key: "health",
     emoji: "💪",
-    name: "짐꾼",
+    name: "헬쑤",
     desc: "운동 루틴·식단·펫 키우기",
     url: "https://health-app-five-iota.vercel.app",
   },

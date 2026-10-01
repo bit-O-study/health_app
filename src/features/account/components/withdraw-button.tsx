@@ -23,7 +23,7 @@ const REASONS = [
   "기타",
 ] as const;
 
-/** 짐꾼를 계속 쓰면 좋은 점. */
+/** 헬쑤를 계속 쓰면 좋은 점. */
 const BENEFITS = [
   "체형·경력에 맞춘 루틴 자동 추천과 운동 가이드",
   "식단·체형·걸음수까지 한곳에서 기록·관리",
@@ -120,7 +120,7 @@ export function WithdrawButton() {
                     떠나시는 이유를 알려주세요
                   </h3>
                   <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                    더 나은 짐꾼를 만드는 데 큰 도움이 됩니다.
+                    더 나은 헬쑤를 만드는 데 큰 도움이 됩니다.
                   </p>
                   <div className="mt-4 space-y-2">
                     {REASONS.map((r) => (
@@ -164,7 +164,7 @@ export function WithdrawButton() {
 
                   <div className="mt-4 rounded-xl border border-brand/40 bg-brand-soft p-4">
                     <p className="text-xs font-bold uppercase tracking-wide text-brand">
-                      짐꾼와 함께라면
+                      헬쑤와 함께라면
                     </p>
                     <ul className="mt-2 space-y-1.5">
                       {BENEFITS.map((b) => (

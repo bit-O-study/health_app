@@ -9,7 +9,7 @@ describe("manual coaching subscription", () => {
   it("separates 990 coaching from unopened 3990 premium", () => {
     expect(COACH_PRICE_KRW).toBe(990); expect(PREMIUM_PRICE_KRW).toBe(3990); expect(PREMIUM_OPEN).toBe(false);
     expect(isCoachEntitled(sub, now)).toBe(true); expect(isPremiumEntitled(sub, now)).toBe(false);
-    expect(statusLabel(sub, now)).toContain("짐꾼 코칭");
+    expect(statusLabel(sub, now)).toContain("헬쑤 코칭");
   });
   it("preserves existing premium rights", () => {
     const premium = { ...sub, productId: PREMIUM_PRODUCT_ID };

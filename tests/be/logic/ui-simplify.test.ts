@@ -251,7 +251,7 @@ describe("공통 머리글·폭 (4단계)", () => {
       const src = read(f);
       expect(src, f).toMatch(/<h1 className="[^"]*app-title/);
       expect(src, f).toContain("<Logo");
-      expect(src, f).toContain('aria-label="짐꾼 홈"');
+      expect(src, f).toContain('aria-label="헬쑤 홈"');
     }
     const header = read("src/components/page-header.tsx");
     expect(header).toContain("branded = false");
@@ -479,7 +479,7 @@ describe("나머지 탭 촘촘하게 (2026-09-16 '전체적 변경')", () => {
   it("커뮤니티: 다른 탭과 같은 홈 로고와 접근 가능한 제목", () => {
     const community = read("src/features/community/components/community-board.tsx");
     expect(community).toContain("<Logo");
-    expect(community).toContain('aria-label="짐꾼 홈"');
+    expect(community).toContain('aria-label="헬쑤 홈"');
     expect(community).toMatch(/<h1 className="sr-only"/);
   });
 });

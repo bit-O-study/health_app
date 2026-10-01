@@ -109,7 +109,7 @@ export function statusLabel(
       case "canceled":
         return `해지 예정 — ${formatUntil(rec.expiresAt)}까지 이용할 수 있어요.`;
       default:
-        return `${rec.productId === COACH_PRODUCT_ID ? "짐꾼 코칭" : "프리미엄"} 이용 중 — ${formatUntil(rec.expiresAt)}까지`;
+        return `${rec.productId === COACH_PRODUCT_ID ? "헬쑤 코칭" : "프리미엄"} 이용 중 — ${formatUntil(rec.expiresAt)}까지`;
     }
   }
   switch (rec.state) {

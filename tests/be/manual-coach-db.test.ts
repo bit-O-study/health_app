@@ -13,6 +13,7 @@ describe.skipIf(!hasDbCreds || process.env.MANUAL_COACH_DB_TEST !== "true")("man
     await db.query("begin");
     await db.query("set local lock_timeout='3s'; set local statement_timeout='15s'");
     await db.query(readFileSync(new URL("../../supabase/migrations/202610010001_manual_coach.sql", import.meta.url), "utf8"));
+    await db.query(readFileSync(new URL("../../supabase/migrations/202610010002_manual_coach_context.sql", import.meta.url), "utf8"));
     for (const id of [owner, other, admin]) await db.query("insert into auth.users(id,email,raw_user_meta_data) values($1,$2,'{}')", [id, id === admin ? email : `verify_coach_${id}@example.invalid`]);
     await db.query("insert into public.admins(email) values($1)", [email]);
     await db.query("insert into subscriptions(user_id,product_id,purchase_token,state,expires_at) values($1,'helssu_coach_monthly',$2,'active',now()+interval '1 day')", [owner, randomUUID()]);
@@ -29,10 +30,15 @@ describe.skipIf(!hasDbCreds || process.env.MANUAL_COACH_DB_TEST !== "true")("man
     finally { await db.query("rollback to savepoint denied_call"); }
   }
   it("isolates users and drafts, enforces subscription, and makes retries idempotent", async () => {
+    await db.query("insert into exercise_completions(user_id,exercise_row_id,for_date,status,exercise_id,equipment,sets,reps,weight_kg) values($1,$2,(now() at time zone 'Asia/Seoul')::date,'done','bench-press','barbell',3,8,40)", [owner, randomUUID()]);
+    await db.query("insert into routine_exercises(user_id,focus,exercise_id,equipment,sets,reps,weight_kg) values($1,'chest','bench-press','barbell',3,12,40)", [owner]);
     await asUser(owner);
     const id = randomUUID();
     const request = "select manual_coach_request('recommendation','',$1) as id";
     expect((await db.query(request, [id])).rows[0].id).toBe(id);
+    const snapshot = (await db.query("select context from manual_coach_requests where id=$1", [id])).rows[0].context;
+    expect(snapshot.version).toBe(2); expect(snapshot.exercise_records[0]).toMatchObject({ equipment: "barbell", sets: 3, reps: 8, weight_kg: 40 });
+    expect(snapshot.routine_plan[0].reps).toBe(12); expect(snapshot.records_truncated).toBe(false);
     expect((await db.query(request, [randomUUID()])).rows[0].id).toBe(id);
     await denied("select manual_coach_save($1,'forged',true)", [id]);
     await denied("update manual_coach_requests set answer='forged' where id=$1", [id]);
@@ -56,5 +62,5 @@ describe.skipIf(!hasDbCreds || process.env.MANUAL_COACH_DB_TEST !== "true")("man
     await asUser(owner);
     expect((await db.query("select answer from manual_coach_requests where id=$1", [id])).rows[0].answer).toBe("reviewed answer");
     await denied("select manual_coach_request('consultation','질문입니다',$1)", [randomUUID()]);
-  });
+  }, 60_000);
 });

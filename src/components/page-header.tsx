@@ -60,7 +60,7 @@ export function PageHeader({
           </div>
         ) : null}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          {branded ? <div className="min-w-0 flex-1"><Link href="/home" aria-label="짐꾼 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">{title}</h1></div> : <h1 className="app-title min-w-0 flex-1 basis-auto break-words">
+          {branded ? <div className="min-w-0 flex-1"><Link href="/home" aria-label="헬쑤 홈" className="inline-flex min-h-11 items-center"><Logo size={40} wordClassName="text-2xl" /></Link><h1 className="sr-only">{title}</h1></div> : <h1 className="app-title min-w-0 flex-1 basis-auto break-words">
             {title}
           </h1>}
           {children ? (

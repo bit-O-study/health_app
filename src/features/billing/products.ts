@@ -9,7 +9,7 @@
 export const PREMIUM_PRODUCT_ID = "helssu_premium_monthly";
 export const COACH_PRODUCT_ID = "helssu_coach_monthly";
 export const COACH_PRICE_KRW = 990;
-export const COACH_PLAN_LABEL = "짐꾼 코칭";
+export const COACH_PLAN_LABEL = "헬쑤 코칭";
 export const PREMIUM_OPEN = false;
 
 /**

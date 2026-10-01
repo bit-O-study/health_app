@@ -29,3 +29,13 @@ describe("coaching and coming-soon UI", () => {
     expect(html).toContain("&lt;script&gt;");
   });
 });
+
+it("shows practical recommendation selectors only to active coaching members", () => {
+  const html = renderToStaticMarkup(createElement(ManualCoachPanel, { active: true, rows: [] }));
+  expect(html).toContain('aria-label="가능한 시간"');
+  expect(html).toContain('aria-label="사용할 기구"');
+  expect(html).toContain("대체 운동 찾기");
+  expect(html).toContain("정체 점검");
+  const expired = renderToStaticMarkup(createElement(ManualCoachPanel, { active: false, rows: [] }));
+  expect(expired).not.toContain('aria-label="가능한 시간"');
+});

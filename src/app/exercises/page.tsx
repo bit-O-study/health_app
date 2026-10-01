@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     canonical: absoluteUrl("/exercises"),
   },
   openGraph: {
-    title: "운동 종목 리스트 | 짐꾼",
+    title: "운동 종목 리스트 | 헬쑤",
     description:
       "부위별 헬스 운동 카탈로그와 기구별 운동 방법을 확인하세요.",
     url: absoluteUrl("/exercises"),

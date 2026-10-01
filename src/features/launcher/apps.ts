@@ -20,7 +20,7 @@ import type { LucideIcon } from "lucide-react";
 /**
  * 런처형 홈 — 앱 레지스트리 (2026-09-20).
  *
- * 짐꾼를 "앱 하나"가 아니라 **작은 앱 여러 개를 담은 런처**로 본다.
+ * 헬쑤를 "앱 하나"가 아니라 **작은 앱 여러 개를 담은 런처**로 본다.
  * 홈은 앱 아이콘 판이고, 앱에 들어가면 화면도 하단 메뉴바도 그 앱 것으로 통째로 바뀐다.
  *
  * 🔴 **가운데(3번째) 칸은 언제나 홈**이다(사용자 결정 2026-09-20).
@@ -182,7 +182,7 @@ export const LAUNCHER_APPS: LauncherApp[] = [
   },
   {
     id: "coach",
-    label: "짐꾼쌤",
+    label: "헬쑤쌤",
     icon: GraduationCap,
     tone: "bg-gradient-to-br from-teal-400 to-cyan-600",
     home: "/coach",

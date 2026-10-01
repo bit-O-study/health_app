@@ -1198,6 +1198,12 @@
 ## 7순위: 수익화 준비
 
 ### 7.1 [진행중] AI 코치 구독 기반
+- [진행중] 2026-10-01 코칭 실용 기능: 시간·기구·대체/정체 목적을 담은 추천 요청, 최근 기록 기반 주간 점검·다음 운동 중량 안내. 기존 무료 기능 유지, 영구 루틴 변경 없음.
+  - [완료] 요청 조건·기록 기간·동일 기구·저장 목표·누락/정체 회귀 검사: 전체 로직 251파일 2,773개 통과, 앱/어드민 타입 및 대상 lint 통과. DB 권한·상세 스냅샷 롤백 검사 통과.
+  - [완료] 사용자 요청으로 헬쑤 이름 복원: 화면·메일/알림·내보내기·PWA·Android 표시명·통합 어드민 반영. ㅎ+바벨 로고, 웹 아이콘 버전 20261001, Android 밀도별 아이콘/시작 화면 재생성. 앱 ID·결제 SKU·기존 저장 키 유지.
+  - [완료] 최종 검증: 전체 로직 251파일 2,773개 통과(브라우저 선택 검사 1개 기본 제외), 별도 Chromium 360px 밝은/어두운 화면 1개 통과(.verify-shots/coaching-light.png, coaching-dark.png). 앱 webpack 프로덕션 빌드·타입 및 변경 파일 lint 통과, 어드민 타입/lint 통과. 인증/결제 E2E를 대체하는 검사는 아님.
+  - [대기] Android APK 빌드: gradlew --version 단계에서 JAVA_HOME 미설정/java 없음. 실기기 앱명·아이콘·스플래시 확인 및 스토어 표시명 변경은 미실시. 어드민 로컬 커밋 b6a701d, 푸시/배포 안 함.
+  - [대기] 코칭 migration 001/002 운영 적용, 결제 상품 설정·실기기·배포 검증. 현재 결제 개방 안 함.
 - [진행중] 2026-10-01 월990원 수동 코칭 요금제: 오늘 운동 추천·습관 리포트·비동기 상담. 운영자가 접속해 초안을 작성하고 전송. 기존 개인 프리미엄3990원 오픈 준비 중.
   - [완료] 상품/권한 분리, 사용자 요청·답변 보관, 통합 어드민 `/admin/health/coaching` 작성·초안·전송 구현. 990원은 프리미엄 AI 한도를 열지 않으며 기존 프리미엄 권한은 유지.
   - [완료] 대상 단위·렌더링 5파일 66개 통과. 관리자 기존 176개 및 새 액션 4개 통과. 양쪽 변경 파일 ESLint 및 어드민 TypeScript 통과. DB 트랜잭션 검증: 회원 간 격리, 초안 비공개, 직접 쓰기·비관리자 전송 차단, 요청/전송 중복 방지, 만료 후 기존 답변 보존. 테스트 DDL·계정·데이터 전부 롤백.
@@ -1738,3 +1744,10 @@
   - E2E_BASE_URL=http://127.0.0.1:3010 corepack pnpm test:e2e --max-failures=1: 302개 중 6개 통과·1개 실패·295개 미실행. added-part-available-in-inline-add.spec.ts의 /plan/today?add=1 이동 기대 실패(실제 /routine). 정리 단계 DB 연결 timeout으로 해당 실행 테스트 계정 정리는 확인하지 못함.
   - 신규 런처 E2E: 개발 서버에서는 Next.js 개발 도구 버튼이 첫 홈 클릭을 가로챔. 이동 완료 URL 확인 보완 후 E2E_BASE_URL=http://127.0.0.1:3011 corepack pnpm test:e2e tests/e2e/launcher.spec.ts: mobile-chromium 2개 통과(41.7초), 테스트 계정 2개 정리 완료.
   - Android 실기기 미검증. 전체 게이트 실패를 보고한 뒤 사용자가 "너작업만 커밋해"로 예외 커밋 승인(2026-09-21, RULE.md 3절).
+
+### 2026-10-01 커밋·푸시 요청 검증 기록
+- 사용자에게 운영 DB·결제·Android 미검증 상태를 알린 후 명시적으로 커밋·푸시 요청받아 현재 변경을 저장함.
+- Node 24 직접 실행: vitest run tests/be/logic --maxWorkers=4 → 251파일 2,773개 통과, 선택 브라우저 검사 1개 제외.
+- vitest run tests/be/schema-sync.test.ts → 81개 통과/3개 실패. 운영 DB에 manual_coach_requests/manual_coach_drafts 및 코칭 RPC가 아직 없음. 마이그레이션은 커밋에 포함하며 이번 작업에서 운영 적용하지 않음.
+- eslint 전체 → 오류 0/경고 42, tsc --noEmit → 통과. webpack 프로덕션 빌드는 직전 변경 검증에서 통과.
+- Playwright app-splash.spec.ts, mobile-chromium, http://localhost:3000 → 1개 통과. 전체 E2E는 미실행. Android는 JAVA_HOME/java 부재로 빌드 및 실기기 미검증.

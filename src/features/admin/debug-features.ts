@@ -19,7 +19,7 @@ export const DEBUG_FEATURES = [
   },
   {
     id: "helssu-coach",
-    label: "짐꾼쌤 탭(🧑‍🏫 AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
+    label: "헬쑤쌤 탭(🧑‍🏫 AI 코치 — 기구검색·운동/식단 분석·AI 다짐·자세분석)",
   },
   {
     id: "diet-photo-ai",

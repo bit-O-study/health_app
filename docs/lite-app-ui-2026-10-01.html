@@ -135,7 +135,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
     <table>
       <thead><tr><th>탭</th><th>무엇</th><th>무료</th><th>라이트 990</th></tr></thead>
       <tbody>
-        <tr><td><b>추천</b> (첫 화면)</td><td>이번 주 모자란 세부 부위 TOP 3 + 그걸 채우는 운동 → [오늘 운동에 더하기]</td><td class="part">TOP 1만</td><td class="yes">전부</td></tr>
+        <tr><td><b>추천</b> (첫 화면)</td><td>이번 주 모자란 세부 부위 TOP 3 + 그걸 채우는 운동 → [오늘 운동을 이걸로 바꾸기] / [더하기] — <b>오늘만 운동 변경으로만</b></td><td class="part">TOP 1만</td><td class="yes">전부</td></tr>
         <tr><td><b>부위</b></td><td>세부 근육 27개 지도·목표 대비 %·4주 추이</td><td class="part">부위 6개 수준</td><td class="yes">세부 27개</td></tr>
         <tr><td><b>균형</b></td><td>밀기:당기기 · 앞:뒤 · 가슴 상:중:하 · 삼두 3갈래 · 하체 앞:뒤</td><td class="no">잠금</td><td class="yes">전부</td></tr>
         <tr><td><b>성장</b></td><td>종목별 예상 1RM 추이·정체 알림·신기록</td><td class="part">신기록만</td><td class="yes">전부</td></tr>
@@ -143,6 +143,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
       </tbody>
     </table>
   </div>
+  <div class="box"><h3><span class="pill ok">결정</span> 라이트는 오늘만 운동 변경으로만 (2026-10-01)</h3><p>라이트의 추천은 <b>오늘만 운동 변경</b>(바꾸기·더하기)으로만 적용합니다. 영구 루틴은 바꾸지 않습니다(원칙 2). AI 트레이너 탭과 같은 경로(<code>addExercisesTodayOnlyAction</code>, 바꾸기는 오늘 원래 운동을 내일로 미룸)를 그대로 씁니다. 루틴을 손보는 건 플러스(6,900원)부터이고, 나중에 높은 요금제에서는 <b>전체 운동 루틴까지</b> 바꿀 수 있게 합니다(사용자 방향, 2026-10-01).</p></div>
   <p class="cap">가입 직후(운동 6번 전)에는 기록 대신 가입 설문으로 같은 화면을 채웁니다 — 아래 '가입 직후' 화면. 이 화면은 무료로 다 보여 줍니다(첫인상).</p>
 </section>
 
@@ -167,8 +168,9 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
         <div class="row"><span><b>사이드 레터럴</b> 3세트</span><span class="chip">측면 어깨 +3.0</span></div>
         <div class="row"><span><b>오버헤드 익스텐션</b> 3세트</span><span class="chip">삼두 장두 +3.0</span></div>
         <div class="row"><span><b>페이스 풀</b> 3세트</span><span class="chip">후면 어깨 +2.4</span></div>
-        <div class="btn">3개 오늘 운동에 더하기</div>
-        <div class="muted">오늘만 더해져요. 루틴은 그대로예요. 무게는 내 기록 기준.</div>
+        <div class="btn">오늘 운동을 이 3개로 바꾸기</div>
+        <div class="btn2">오늘 운동에 3개 더하기</div>
+        <div class="muted">오늘만 바뀌어요. 루틴은 그대로예요. 무게는 내 기록 기준.</div>
       </div>
       <div class="cap2">① 추천 — 첫 화면</div>
     </div>
@@ -291,7 +293,7 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
         <tr><td>1</td><td><b>운동별 세부 점수표</b>(0~100, 상위 60개 손 + 나머지 규칙)</td><td>새 <code>exercise-stimulus.ts</code>, 기존 <code>sub-muscles.ts</code></td><td>중간</td></tr>
         <tr><td>2</td><td><b>목표 비율표</b>(남성 V자 · 여성 하체·둔근 · 스타일 3종, 경력 배율)</td><td>새 <code>body-targets.ts</code>, <code>profiles.gender/experience</code></td><td>작음</td></tr>
         <tr><td>3</td><td><b>세부 부위 주간 자극·모자람</b></td><td>운동 기록(1,243건) · 1·2번</td><td>중간</td></tr>
-        <tr><td>4</td><td><b>오늘 더할 운동 추천</b>(Σ 모자람 × 점수, 헬스장 기구·아픈 부위·48시간 회복)</td><td>3번 · <code>addExercisesTodayOnlyAction</code>(오늘만)</td><td>중간</td></tr>
+        <tr><td>4</td><td><b>오늘 운동 추천</b>(Σ 모자람 × 점수, 헬스장 기구·아픈 부위·48시간 회복) — <b>오늘만 운동 변경으로만 적용</b>(바꾸기·더하기)</td><td>3번 · AI 트레이너와 같은 <code>applyTodayPlanAction</code> 경로(오늘만)</td><td>중간</td></tr>
         <tr><td>5</td><td><b>균형 지표 5개</b></td><td>3번</td><td>작음</td></tr>
         <tr><td>6</td><td><b>종목별 성장</b>(예상 1RM 추이·정체·신기록)</td><td>이미 있는 <code>progress.ts</code> · <code>my-state.ts</code> · <code>personal-record.ts</code></td><td>작음</td></tr>
         <tr><td>7</td><td><b>월간 리포트</b></td><td>운동 기록·걸음</td><td>작음</td></tr>

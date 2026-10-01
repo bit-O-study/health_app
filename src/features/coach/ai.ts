@@ -17,6 +17,7 @@ import { buildGeminiBody, parseGeminiText } from "@/features/coach/gemini-format
  * 공용 AI 호출 계층 — provider 교체 가능. 반환 형태({ok,text})가 같아 호출부는 그대로다.
  *
  * ## 고르는 순서 — 키가 있는 것 중 위에서부터, **실패하면 다음으로 넘어간다**(2026-09-30)
+ * 운영은 `AI_PROVIDER_ORDER=gemini,claude,nvidia` 로 유료 Gemini 를 앞에 둔다(2026-10-01).
  * 1. **NVIDIA NIM**(`NVIDIA_API_KEY`) — 무료(사용자 결정: AI 기능 전체를 NVIDIA 로).
  *    글은 Nemotron 3 Super, 사진은 Nemotron 3 Nano Omni(`nvidia-format.ts` 실측 참고).
  * 2. **Gemini**(`GEMINI_API_KEY`) — 무료 티어. NVIDIA 가 늦거나(60초) 한도(분당 40)에 걸리면.
@@ -164,7 +165,7 @@ export async function callAI(
     nvidia: Boolean(process.env.NVIDIA_API_KEY),
     gemini: Boolean(process.env.GEMINI_API_KEY),
     claude: Boolean(process.env.ANTHROPIC_API_KEY),
-  });
+  }, process.env.AI_PROVIDER_ORDER);
   const call = { nvidia: callNvidia, gemini: callGemini, claude: callClaude } as const;
   // 키가 하나도 없으면 Claude 가 '키 없음' 안내를 돌려준다(예전과 같은 문구).
   if (order.length === 0) return callClaude(system, userText, opts);

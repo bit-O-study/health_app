@@ -92,12 +92,26 @@ export function buildNvidiaBody(
 
 export type AiProvider = "nvidia" | "gemini" | "claude";
 
+export const DEFAULT_PROVIDER_ORDER: readonly AiProvider[] = ["nvidia", "gemini", "claude"];
+
 /**
- * 부를 순서 — 키가 있는 것만, NVIDIA → Gemini → Claude(2026-09-30 사용자 결정: NVIDIA 우선).
- * 앞이 실패하면 `callAI` 가 다음으로 넘어간다. 유료(Claude)는 무료 둘이 다 실패할 때만.
+ * 부를 순서 — 키가 있는 것만. 앞이 실패하면 `callAI` 가 다음으로 넘어간다.
+ *
+ * 기본은 NVIDIA → Gemini → Claude(2026-09-30 사용자 결정: 개발은 무료 NVIDIA 우선).
+ * 운영은 환경변수 `AI_PROVIDER_ORDER`(예: `gemini,claude,nvidia`)로 바꾼다 — NVIDIA 무료는
+ * 개발·시험용이라 과부하(503)가 잦아서, 운영은 유료 Gemini 를 앞에 두기로 했다(2026-10-01).
+ * 모르는 이름은 버리고, 적지 않은 제공자는 맨 뒤에 기본 순서대로 붙인다(키만 있으면 마지막 안전망).
  */
-export function aiProviderOrder(keys: { nvidia: boolean; gemini: boolean; claude: boolean }): AiProvider[] {
-  return (["nvidia", "gemini", "claude"] as const).filter((p) => keys[p]);
+export function aiProviderOrder(
+  keys: { nvidia: boolean; gemini: boolean; claude: boolean },
+  raw?: string | null,
+): AiProvider[] {
+  const wanted = (raw ?? "")
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter((s): s is AiProvider => (DEFAULT_PROVIDER_ORDER as readonly string[]).includes(s));
+  const order = [...new Set([...wanted, ...DEFAULT_PROVIDER_ORDER])];
+  return order.filter((p) => keys[p]);
 }
 
 /** 사진 모델이 막혔을 때 쓸 두 번째 사진 모델 — 품질은 낮지만(위스키를 소주로 읽음) 빈손보다 낫다. */

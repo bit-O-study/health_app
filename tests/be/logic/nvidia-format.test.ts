@@ -109,3 +109,15 @@ describe("NVIDIA 과부하 대응", () => {
     expect(isRetryableStatus(400)).toBe(false);
   });
 });
+
+describe("AI_PROVIDER_ORDER (2026-10-01 운영은 유료 Gemini 우선)", () => {
+  it("환경변수 순서대로, 적지 않은 건 뒤에 기본 순서로, 키 없는 건 뺀다", async () => {
+    const { aiProviderOrder } = await import("@/features/coach/nvidia-format");
+    const all = { nvidia: true, gemini: true, claude: true };
+    expect(aiProviderOrder(all, "gemini,claude,nvidia")).toEqual(["gemini", "claude", "nvidia"]);
+    expect(aiProviderOrder(all, "gemini")).toEqual(["gemini", "nvidia", "claude"]);
+    expect(aiProviderOrder(all, " Gemini , bogus ")).toEqual(["gemini", "nvidia", "claude"]);
+    expect(aiProviderOrder({ nvidia: true, gemini: false, claude: true }, "gemini,claude")).toEqual(["claude", "nvidia"]);
+    expect(aiProviderOrder(all, undefined)).toEqual(["nvidia", "gemini", "claude"]);
+  });
+});

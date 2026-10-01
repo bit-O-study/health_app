@@ -99,13 +99,13 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 <header>
   <p class="eyebrow">짐꾼 · 추천 · 요금제 · 검수보고서</p>
   <h1>짐꾼 세부 부위 점수와 990원 요금제</h1>
-  <p class="lede">운동마다 <b>세부 근육별 자극 점수(0~100)</b>를 매기고, 회원이 한 세트에 그 점수를 곱해 <b>세부 부위별 주간 자극</b>을 계산합니다. 부족한 세부 부위를 채우는 운동을 추천에 씁니다. 예를 들어 벤치프레스는 가슴 중부 100, 전면 어깨 55, 삼두 외측두 45처럼 갈래마다 다르게 셉니다. 이 계산은 AI 없이 규칙으로 돌아 원가가 0원이라, <b>990원 라이트 요금제</b>의 핵심 혜택으로 씁니다. 코드는 아직 바꾸지 않았습니다.</p>
+  <p class="lede">운동마다 <b>세부 근육별 자극 점수(0~100)</b>를 매기고, 회원이 한 세트에 그 점수를 곱해 <b>세부 부위별 주간 자극</b>을 계산합니다. <b>보기 좋은 몸의 목표 비율</b>(남성 V자: 삼두 8 : 이두 4.5 · 여성 하체·둔근 중심: 둔근 8, 하체 22)에 모자란 세부 부위를 채우는 운동을 추천에 씁니다. 예를 들어 벤치프레스는 가슴 중부 100, 전면 어깨 55, 삼두 외측두 45처럼 갈래마다 다르게 셉니다. 이 계산은 AI 없이 규칙으로 돌아 원가가 0원이라, <b>990원 라이트 요금제</b>의 핵심 혜택으로 씁니다. 코드는 아직 바꾸지 않았습니다.</p>
   <div class="meta">
     <span>2026-10-01</span>
     <span>기준: 커밋 37d42b38 + 라이브 DB 집계(e2e 계정 제외)</span>
     <span class="pill ok">설계 5</span>
     <span class="pill info">990원 혜택 6</span>
-    <span class="pill warn">결정 4</span>
+    <span class="pill warn">결정 6</span>
   </div>
 </header>
 
@@ -194,6 +194,77 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
 </section>
 
 <section>
+  <h2>2-1. 목표 비율 — 보기 좋은 몸을 위한 세부 부위별 주간 목표</h2>
+  <p>모든 근육을 똑같이 채우지 않습니다. <b>보기 좋은 몸의 비율</b>을 목표로 두고, 이번 주 자극이 목표에 모자란 곳을 채우는 운동을 먼저 추천합니다. 숫자는 <b>주간 유효 세트</b>(세트 × 점수 ÷ 100, 보조 자극 포함)입니다. 제가 판단한 기본값이며, 표 하나(<code>body-targets.ts</code>)라 언제든 고칠 수 있습니다.</p>
+  <div class="grid2">
+    <div class="box">
+      <h3>남성 — V자 몸</h3>
+      <p>어깨 옆·광배를 넓게, 가슴 위쪽을 채워 위가 넓고 허리가 좁아 보이게 합니다. 팔은 삼두가 팔 둘레의 약 3분의 2라 <b>삼두 8 : 이두 4.5</b>로 둡니다.</p>
+    </div>
+    <div class="box">
+      <h3>여성 — 하체·둔근 중심 + 자세 라인</h3>
+      <p>둔근·햄스트링으로 하체 라인을, 등·어깨 옆·뒤로 곧은 자세와 어깨 라인을 만듭니다. 가슴·이두는 적게, 팔 뒤쪽 탄력을 위해 <b>삼두 6 : 이두 3</b>.</p>
+    </div>
+  </div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>부위</th><th>세부 근육</th><th class="num">남성</th><th class="num">여성</th><th>왜</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4">가슴</td><td>상부</td><td class="num">5</td><td class="num">2</td><td>쇄골 아래가 비면 가슴이 처져 보인다 — 남성 1순위</td></tr>
+        <tr><td>중부</td><td class="num">4</td><td class="num">2</td><td>프레스로 자연히 채워진다</td></tr>
+        <tr><td>하부</td><td class="num">2</td><td class="num">1</td><td>많으면 처져 보인다</td></tr>
+        <tr><td>내측</td><td class="num">1</td><td class="num">0.5</td><td>플라이로 마무리 정도</td></tr>
+        <tr><td colspan="2"><b>가슴 합계</b></td><td class="num"><b>12</b></td><td class="num"><b>5.5</b></td><td></td></tr>
+        <tr><td rowspan="4">등</td><td>광배</td><td class="num">7</td><td class="num">5</td><td>넓이 — V자의 핵심</td></tr>
+        <tr><td>능형</td><td class="num">4</td><td class="num">4</td><td>두께·말린 어깨 교정(여성은 자세 1순위)</td></tr>
+        <tr><td>승모</td><td class="num">2</td><td class="num">1</td><td>많으면 목이 짧아 보인다</td></tr>
+        <tr><td>기립근</td><td class="num">2</td><td class="num">2</td><td>허리 건강</td></tr>
+        <tr><td colspan="2"><b>등 합계</b></td><td class="num"><b>15</b></td><td class="num"><b>12</b></td><td></td></tr>
+        <tr><td rowspan="3">어깨</td><td>전면</td><td class="num">2</td><td class="num">1.5</td><td>프레스로 이미 많이 자극된다 — 따로는 적게</td></tr>
+        <tr><td>측면</td><td class="num">6</td><td class="num">5</td><td>어깨 폭 — 남녀 모두 라인을 만든다</td></tr>
+        <tr><td>후면</td><td class="num">4</td><td class="num">4</td><td>앞뒤 균형·자세</td></tr>
+        <tr><td colspan="2"><b>어깨 합계</b></td><td class="num"><b>12</b></td><td class="num"><b>10.5</b></td><td></td></tr>
+        <tr><td rowspan="3">삼두</td><td>장두</td><td class="num">4</td><td class="num">3</td><td>팔 뒤쪽 볼륨·탄력의 대부분</td></tr>
+        <tr><td>외측두</td><td class="num">2.5</td><td class="num">1.5</td><td>옆에서 보이는 말굽 모양</td></tr>
+        <tr><td>내측두</td><td class="num">1.5</td><td class="num">1.5</td><td>프레스로 함께 채워진다</td></tr>
+        <tr><td colspan="2"><b>삼두 합계</b></td><td class="num"><b>8</b></td><td class="num"><b>6</b></td><td></td></tr>
+        <tr><td rowspan="3">이두·전완</td><td>이두 장두</td><td class="num">2.5</td><td class="num">1.5</td><td>팔 바깥쪽 높이</td></tr>
+        <tr><td>이두 단두</td><td class="num">2</td><td class="num">1.5</td><td>당기기로 함께 채워진다</td></tr>
+        <tr><td>전완</td><td class="num">1.5</td><td class="num">0.5</td><td>당기기·악력으로 대부분</td></tr>
+        <tr><td colspan="2"><b>이두 합계</b></td><td class="num"><b>4.5</b></td><td class="num"><b>3</b></td><td></td></tr>
+        <tr><td rowspan="5">하체</td><td>대퇴사두</td><td class="num">6</td><td class="num">5</td><td>허벅지 앞</td></tr>
+        <tr><td>햄스트링</td><td class="num">4</td><td class="num">5</td><td>허벅지 뒤 라인·무릎 보호</td></tr>
+        <tr><td>둔근</td><td class="num">4</td><td class="num"><b>8</b></td><td>여성 1순위 — 힙 라인(중둔근 포함)</td></tr>
+        <tr><td>내전근</td><td class="num">1.5</td><td class="num">2</td><td>안쪽 허벅지 탄력</td></tr>
+        <tr><td>종아리</td><td class="num">3</td><td class="num">2</td><td>다리 균형</td></tr>
+        <tr><td colspan="2"><b>하체 합계</b></td><td class="num"><b>18.5</b></td><td class="num"><b>22</b></td><td></td></tr>
+        <tr><td rowspan="3">코어</td><td>상복부</td><td class="num">2</td><td class="num">2</td><td></td></tr>
+        <tr><td>하복부</td><td class="num">2</td><td class="num">2.5</td><td>아랫배 라인</td></tr>
+        <tr><td>복사근</td><td class="num">1.5</td><td class="num">2</td><td>허리 라인(무거운 옆구리 운동은 피함)</td></tr>
+        <tr><td colspan="2"><b>전체 합계</b></td><td class="num"><b>77</b></td><td class="num"><b>66</b></td><td>중급 기준</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="items">
+    <div class="item">
+      <span class="pill ok tag">경력</span>
+      <h3>경력에 따라 전체를 늘리고 줄인다</h3>
+      <p class="how">입문 × 0.6 · 중급 × 1.0 · 상급 × 1.25. 비율은 그대로, 양만 바꿉니다(입문 남성 삼두 4.8, 이두 2.7). 경력은 이미 있는 프로필 값(<code>profiles.experience</code>)을 씁니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill ok tag">추천</span>
+      <h3>모자란 만큼 × 운동 점수로 고른다</h3>
+      <p class="how">세부 근육마다 <b>모자람 = 목표 − 이번 주 자극</b>. 후보 운동의 우선순위 = Σ(모자람 × 그 운동 점수 ÷ 100). 목표의 150%를 넘긴 세부 근육을 주로 쓰는 운동은 뒤로 미룹니다(회복). 예: 남성이 벤치만 많이 하고 측면 어깨가 비면 사이드 레터럴, 삼두 장두가 비면 오버헤드 익스텐션이 먼저 나옵니다.</p>
+    </div>
+    <div class="item">
+      <span class="pill info tag">선택</span>
+      <h3>몸 목표 스타일 바꾸기</h3>
+      <p class="how">기본은 성별 표를 쓰고, 원하면 설정에서 <b>상체 위주 · 하체 위주 · 고르게</b>로 바꿉니다(예: 상체를 키우고 싶은 여성). 성별로 정해 버리지 않게 사용자가 고를 수 있어야 합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section>
   <h2>3. 추천에 쓰는 법</h2>
   <div class="scroll">
     <table>
@@ -262,6 +333,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums;white-space:now
   <div class="decide"><h3>1. 점수는 0~100, 상위 60개는 손으로 할까요?</h3><p>추천: <b>예</b>. 나머지는 규칙으로 채우고, 손 점수는 트레이너 검수를 받습니다.</p></div>
   <div class="decide"><h3>2. 990원 라이트를 무료와 베이직 사이에 둘까요?</h3><p>추천: <b>예</b>. AI 없이 데이터 리포트와 규칙 추천만 — 원가 0원.</p></div>
   <div class="decide"><h3>3. 세부 부위 점수는 어디까지 무료로 보여 줄까요?</h3><p>추천: 무료는 부위 6개 수준과 운동 상세의 "자극하는 곳" 막대까지, 세부 27개 리포트·맞춤 추천은 라이트부터.</p></div>
+  <div class="decide"><h3>5. 목표 비율은 이 표(남성 V자 · 여성 하체·둔근 중심)로 시작할까요?</h3><p>추천: <b>예</b>. 남성 삼두 8 : 이두 4.5, 여성 둔근 8 · 하체 22. 실제 회원 반응을 보고 표 하나만 고치면 됩니다.</p></div>
+  <div class="decide"><h3>6. 몸 목표 스타일(상체 위주·하체 위주·고르게)을 설정에서 고르게 할까요?</h3><p>추천: <b>예</b>. 기본은 성별 표, 원하는 사람은 바꿀 수 있게.</p></div>
   <div class="decide"><h3>4. 1단계(점수표)부터 진행할까요?</h3><p>추천: <b>1 → 2 → 3 → 4</b>. 점수표가 나머지 전부의 바탕입니다.</p></div>
 </section>
 </div>

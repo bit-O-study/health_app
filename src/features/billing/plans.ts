@@ -66,7 +66,7 @@ export const PLANS: Record<PlanId, PlanMeta> = {
     tagline: "내 기록으로 보는 세부 부위 리포트",
     onSale: true,
     benefits: [
-      { text: "세부 부위 27개 점수 리포트·4주 추이", ready: false },
+      { text: "세부 부위 25개 점수 리포트·4주 추이", ready: false },
       // 사용자 결정(2026-10-01): 라이트 추천은 **오늘만 운동 변경으로만** 적용 — 루틴은 안 바꾼다.
       { text: "모자란 세부 부위를 채우는 맞춤 운동 추천(오늘만 운동 변경으로 적용)", ready: false },
       { text: "균형 리포트(밀기:당기기·앞:뒤)·월간 리포트", ready: false },

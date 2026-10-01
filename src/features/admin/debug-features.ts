@@ -26,6 +26,10 @@ export const DEBUG_FEATURES = [
     label: "AI 트레이너 탭(✨ 내 상태로 오늘의 운동 제안 → 적용하면 오늘만 변경)",
   },
   {
+    id: "fit",
+    label: "맞춤 운동 앱(💪 세부 부위 추천·부위·균형 — 라이트 이상은 스위치와 상관없이 보임)",
+  },
+  {
     id: "diet-photo-ai",
     label: "AI 식단 사진 인식(🍱 사진 → 음식·칼로리 자동 추정, NVIDIA 무료 비전)",
   },

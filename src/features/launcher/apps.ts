@@ -1,4 +1,5 @@
 import {
+  Activity,
   Apple,
   Bell, Star, ChartColumn, ClipboardList, MessageCircle, User, BookOpen,
   CalendarDays,
@@ -190,6 +191,17 @@ export const LAUNCHER_APPS: LauncherApp[] = [
     owns: ["/coach"],
     debugFlag: "helssu-coach",
     // 화면이 `/coach` 하나뿐이다.
+    tabs: [],
+  },
+  {
+    // 맞춤 운동(라이트 990원, 2026-10-01) — 세부 부위 추천·부위·균형. 라이트 이상이거나 `fit` 스위치가 켜졌을 때.
+    id: "fit",
+    label: "맞춤 운동",
+    icon: Activity,
+    tone: "bg-gradient-to-br from-brand to-sky-600",
+    home: "/fit",
+    owns: ["/fit"],
+    debugFlag: "fit",
     tabs: [],
   },
   {

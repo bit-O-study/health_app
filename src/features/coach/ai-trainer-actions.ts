@@ -34,22 +34,14 @@ import {
   EXERCISES,
   FOCUS_EXERCISES,
   allExercisesForFocus,
-  getCatalogExercise,
 } from "@/features/routine/exercise-catalog";
-import { isEquipmentId, type EquipmentId } from "@/features/routine/exercise-catalog-labels";
 import { getCurrentGym } from "@/features/gym/gym-data-access";
 import {
   keepAvailableExercises,
   pickAvailableEquipment,
   toGymEquipmentSet,
 } from "@/features/gym/gym-equipment-mapping";
-import {
-  addExercisesTodayOnlyAction,
-  clearDailyPlanForDateAction,
-} from "@/features/routine/daily-plan-actions";
-import { deferRoutineOneDayAction } from "@/features/routine/actions";
-import { seoulYmd } from "@/features/routine/data";
-import { todayExerciseIds } from "@/features/routine/today-exercise-ids";
+import { applyItemsTodayOnly, type ApplyMode } from "@/features/routine/today-apply";
 import { getPainAreas, getTodayCheckin } from "@/features/routine/checkin-data";
 import { trainerStateLines } from "@/features/routine/checkin";
 import type { BodyPart } from "@/features/routine/exercise-catalog-labels";
@@ -120,7 +112,7 @@ export type ApplyTodayPlanResult =
   | { ok: true; added: number; skipped: number }
   | { ok: false; error: string };
 
-export type ApplyMode = "add" | "replace";
+export type { ApplyMode } from "@/features/routine/today-apply";
 
 /**
  * [적용] — 고른 운동을 **오늘만** 담는다(사용자 결정: AI 가 직접 바꾸지 않고 적용 버튼으로 넘긴다).
@@ -138,33 +130,9 @@ export async function applyTodayPlanAction(
 ): Promise<ApplyTodayPlanResult> {
   if (!(await getCurrentUser())) return { ok: false, error: "로그인이 필요해요." };
   if (!(await trainerEnabled())) return { ok: false, error: "AI 트레이너는 아직 사용할 수 없어요." };
-  const clean: { exerciseId: string; equipment: EquipmentId }[] = [];
-  const seen = new Set<string>();
-  for (const it of (Array.isArray(items) ? items : []).slice(0, 10)) {
-    const ex = typeof it?.exerciseId === "string" ? getCatalogExercise(it.exerciseId) : undefined;
-    if (!ex || seen.has(ex.id) || !isEquipmentId(it.equipment)) continue;
-    if (!ex.equipments.some((e) => e.equipment === it.equipment)) continue;
-    seen.add(ex.id);
-    clean.push({ exerciseId: ex.id, equipment: it.equipment });
-  }
-  if (clean.length === 0) return { ok: false, error: "담을 운동을 골라 주세요." };
-
-  if (mode === "replace") {
-    // 오늘 할 운동이 있을 때만 미룬다 — 쉬는 날에 밀면 내일 운동까지 하루씩 밀린다.
-    if ((await todayExerciseIds()).size > 0) {
-      await deferRoutineOneDayAction("direct");
-      const cleared = await clearDailyPlanForDateAction(seoulYmd());
-      if (!cleared.ok) return cleared;
-    }
-  }
-
-  const already = await todayExerciseIds();
-  const add = clean.filter((c) => !already.has(c.exerciseId));
-  if (add.length === 0) return { ok: true, added: 0, skipped: clean.length };
-  const r = await addExercisesTodayOnlyAction(add);
-  if (!r.ok) return r;
-  revalidatePath("/ai-trainer");
-  return { ok: true, added: add.length, skipped: clean.length - add.length };
+  const r = await applyItemsTodayOnly(items, mode);
+  if (r.ok) revalidatePath("/ai-trainer");
+  return r;
 }
 
 /** AI 맞춤 추천 동의·철회. */

@@ -11,6 +11,7 @@ import { PermissionNudge } from "@/features/notifications/components/permission-
 import { getCurrentUser } from "@/lib/supabase/server";
 import { getUserProfile } from "@/features/profile/data-access";
 import { getHomeDashboard } from "@/features/home/home-data";
+import { getFitAccess } from "@/features/routine/fit-access";
 import { isDebugFeatureEnabled } from "@/features/admin/debug-features.server";
 import { AppGrid } from "@/features/launcher/components/app-grid";
 import { getWeeklyReport } from "@/features/routine/weekly-report-data";
@@ -33,7 +34,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   if (!user) redirect("/login");
 
   // ⚡ 프로필과 대시보드·주간 집계를 **동시에** 시작한다(원거리 리전 왕복 줄이기).
-  const [profile, dashboard, weekly, training, showCoach, showPet, showTrainer, showAiTrainer] = await Promise.all([
+  const [profile, dashboard, weekly, training, showCoach, showPet, showTrainer, showAiTrainer, fitAccess] = await Promise.all([
     getUserProfile(),
     getHomeDashboard(),
     getWeeklyReport(),
@@ -44,6 +45,8 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
     hasTrainerPass(),
     // AI 트레이너 탭(2026-09-30) — 공개 전, 자기 스위치.
     isDebugFeatureEnabled("ai-trainer"),
+    // 맞춤 운동(라이트) — 라이트 이상이면 스위치와 상관없이 보인다.
+    getFitAccess(),
   ]);
   if (!profile) redirect("/onboarding");
 
@@ -68,7 +71,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
         <PermissionNudge />
 
         {/* 앱 아이콘 판 — 여기서 각 앱으로 들어간다. */}
-        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={[...(showCoach ? ["helssu-coach"] : []), ...(showPet ? ["pet"] : []), ...(showTrainer ? ["trainer-pass"] : []), ...(showAiTrainer ? ["ai-trainer"] : [])]} />
+        <AppGrid initialEditing={editing} key={`${user.id}:${editing}`} userId={user.id} enabledFlags={[...(showCoach ? ["helssu-coach"] : []), ...(showPet ? ["pet"] : []), ...(showTrainer ? ["trainer-pass"] : []), ...(showAiTrainer ? ["ai-trainer"] : []), ...(fitAccess.visible ? ["fit"] : [])]} />
 
             <Link
               href="/commitments"
